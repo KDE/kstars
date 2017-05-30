@@ -94,7 +94,7 @@ class KSPlanet : public KSPlanetBase
         	*@param Earth pointer to the planet Earth (needed to calculate geocentric coords)
         	*@return true if position was successfully calculated.
         	*/
-        virtual bool findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * Earth=NULL );
+        virtual bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr);
 
         /** @class OrbitData
         	*This class contains doubles A,B,C which represent a single term in a planet's

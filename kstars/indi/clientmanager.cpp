@@ -31,14 +31,11 @@
 
 ClientManager::ClientManager()
 {
-
-    sManager = NULL;
-
+    sManager = nullptr;
 }
 
 ClientManager::~ClientManager()
 {
-
 }
 
 bool ClientManager::isDriverManaged(DriverInfo * di)
@@ -56,7 +53,7 @@ void ClientManager::newDevice(INDI::BaseDevice * dp)
 {
     setBLOBMode(B_ALSO, dp->getDeviceName());
 
-    DriverInfo * deviceDriver=NULL;
+    DriverInfo * deviceDriver = nullptr;
 
     if (QString(dp->getDeviceName()).isEmpty())
     {
@@ -79,7 +76,7 @@ void ClientManager::newDevice(INDI::BaseDevice * dp)
     }
 
     // Second iteration find partial matches
-    if (deviceDriver == NULL)
+    if (deviceDriver == nullptr)
     {
         foreach(DriverInfo * dv, managedDrivers)
         {
@@ -97,7 +94,7 @@ void ClientManager::newDevice(INDI::BaseDevice * dp)
         }
     }
 
-    if (deviceDriver == NULL)
+    if (deviceDriver == nullptr)
         return;
 
     deviceDriver->setUniqueLabel(dp->getDeviceName());
@@ -247,8 +244,7 @@ DriverInfo * ClientManager::findDriverInfoByName(const QString &name)
             return dv;
     }
 
-    return NULL;
-
+    return nullptr;
 }
 
 DriverInfo * ClientManager::findDriverInfoByLabel(const QString &label)
@@ -259,8 +255,7 @@ DriverInfo * ClientManager::findDriverInfoByLabel(const QString &label)
             return dv;
     }
 
-    return NULL;
-
+    return nullptr;
 }
 
 

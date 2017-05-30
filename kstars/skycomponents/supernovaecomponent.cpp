@@ -147,7 +147,7 @@ SkyObject * SupernovaeComponent::findByName(const QString &name)
             return o;
     }
     //if no object is found then..
-    return NULL;
+    return nullptr;
 }
 
 SkyObject * SupernovaeComponent::objectNearest(SkyPoint * p, double &maxrad)

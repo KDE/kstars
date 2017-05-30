@@ -61,13 +61,13 @@ class FileDownloader : public QObject
         QFile m_DownloadedFile;
 
         // Network reply
-        QNetworkReply * m_Reply = NULL;
+        QNetworkReply * m_Reply = nullptr;
 
         // Optional Progress dialog
         bool m_ShowProgressDialog = false;
 
 #ifndef KSTARS_LITE
-        QProgressDialog * progressDialog = NULL;
+        QProgressDialog * progressDialog = nullptr;
 #endif
         bool isCancelled = false;
         QString label, title;

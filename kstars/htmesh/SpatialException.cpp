@@ -42,7 +42,8 @@ SpatialException::defaultstr[] =
 
 SpatialException::~SpatialException() throw()
 {
-    if(str_ != NULL)delete[] str_;
+    if (str_ != nullptr)
+        delete[] str_;
 }
 
 SpatialException::SpatialException( const char * cstr, int defIndex ) throw()

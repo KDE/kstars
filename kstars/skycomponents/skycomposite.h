@@ -65,7 +65,7 @@ class SkyComposite : public SkyComponent
          * @p num Pointer to the KSNumbers object
          * @sa updatePlanets()
          * @sa updateMoons()
-         * @note By default, the num parameter is NULL, indicating that
+         * @note By default, the num parameter is nullptr, indicating that
          * Precession/Nutation computation should be skipped; this computation
          * is only occasionally required.
          */
@@ -89,7 +89,7 @@ class SkyComposite : public SkyComponent
          * all be checked for a match.
          * @p name the name to be matched
          * @return a pointer to the SkyObject whose name matches
-         * the argument, or a NULL pointer if no match was found.
+         * the argument, or a nullptr pointer if no match was found.
          */
         virtual SkyObject * findByName( const QString &name );
 

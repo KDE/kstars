@@ -29,7 +29,7 @@
 
 ArtificialHorizonEntity::ArtificialHorizonEntity()
 {
-    m_List = NULL;
+    m_List = nullptr;
 }
 
 ArtificialHorizonEntity::~ArtificialHorizonEntity()
@@ -72,17 +72,18 @@ void ArtificialHorizonEntity::clearList()
     if (m_List)
     {
         while (m_List->points()->size() > 0)
+        {
             delete m_List->points()->takeAt(0);
+        }
         delete (m_List);
-
-        m_List = NULL;
+        m_List = nullptr;
     }
 }
 
 ArtificialHorizonComponent::ArtificialHorizonComponent(SkyComposite * parent ) :
     NoPrecessIndex( parent, i18n("Artificial Horizon") )
 {
-    livePreview=NULL;
+    livePreview = nullptr;
     load();
 }
 
@@ -152,7 +153,7 @@ void ArtificialHorizonComponent::draw( SkyPainter * skyp )
 
 void ArtificialHorizonComponent::removeRegion(const QString &regionName, bool lineOnly)
 {
-    ArtificialHorizonEntity * regionHorizon = NULL;
+    ArtificialHorizonEntity * regionHorizon = nullptr;
 
     foreach(ArtificialHorizonEntity * horizon, m_HorizonList)
     {
@@ -163,7 +164,7 @@ void ArtificialHorizonComponent::removeRegion(const QString &regionName, bool li
         }
     }
 
-    if (regionHorizon == NULL)
+    if (regionHorizon == nullptr)
         return;
 
     if (regionHorizon->list())

@@ -83,8 +83,8 @@ Scheduler::Scheduler()
 
     parkWaitState= PARKWAIT_IDLE;
 
-    currentJob   = NULL;
-    geo          = NULL;
+    currentJob = nullptr;
+    geo = nullptr;
     captureBatch = 0;
     jobUnderEdit = -1;
     mDirty       = false;
@@ -307,7 +307,7 @@ void Scheduler::selectObject()
 
 void Scheduler::addObject(SkyObject * object)
 {
-    if( object != NULL )
+    if( object != nullptr )
     {
         QString finalObjectName(object->name());
 
@@ -436,7 +436,7 @@ void Scheduler::saveJob()
     }
 
     // Create or Update a scheduler job
-    SchedulerJob * job = NULL;
+    SchedulerJob * job = nullptr;
 
     if (jobUnderEdit >= 0)
         job = jobs.at(queueTable->currentRow());
@@ -628,7 +628,8 @@ void Scheduler::resetJobState(QModelIndex i)
     }
 
     SchedulerJob * job = jobs.at(i.row());
-    if (job == NULL)
+
+    if (job == nullptr)
         return;
 
     job->setState(SchedulerJob::JOB_IDLE);
@@ -656,7 +657,7 @@ void Scheduler::loadJob(QModelIndex i)
 
     SchedulerJob * job = jobs.at(i.row());
 
-    if (job == NULL)
+    if (job == nullptr)
         return;
 
     watchJobChanges(false);
@@ -918,7 +919,7 @@ void Scheduler::stop()
 
     shutdownState   = SHUTDOWN_IDLE;
 
-    currentJob = NULL;
+    currentJob = nullptr;
     captureBatch =0;
     indiConnectFailureCount=0;
     focusFailureCount=0;
@@ -1008,7 +1009,7 @@ void Scheduler::start()
 
     state = SCHEDULER_RUNNIG;
 
-    currentJob = NULL;
+    currentJob = nullptr;
     jobEvaluationOnly=false;
 
     // Reset all aborted jobs
@@ -1290,7 +1291,7 @@ void Scheduler::evaluateJobs()
         return;
     }
 
-    SchedulerJob * bestCandidate = NULL;
+    SchedulerJob * bestCandidate = nullptr;
 
     updatePreDawn();
 
@@ -1395,7 +1396,7 @@ void Scheduler::evaluateJobs()
 
     }
 
-    if (bestCandidate != NULL)
+    if (bestCandidate != nullptr)
     {
         // If mount was previously parked awaiting job activation, we unpark it.
         if (parkWaitState == PARKWAIT_PARKED)
@@ -1413,8 +1414,9 @@ void Scheduler::evaluateJobs()
     // and we unpark when it is due to start.
     else// if (startupState == STARTUP_COMPLETE)
     {
-        int nextObservationTime= 1e6;
-        SchedulerJob * nextObservationJob = NULL;
+        int nextObservationTime = 1e6;
+        SchedulerJob * nextObservationJob = nullptr;
+
         foreach(SchedulerJob * job, jobs)
         {
             if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getStartupCondition() != SchedulerJob::START_AT)
@@ -2188,7 +2190,7 @@ bool Scheduler::checkStartupState()
             // If there is no job in case of manual startup procedure,
             // or if the job requires light frames, let's proceed with
             // unparking the dome, otherwise startup process is complete.
-            if (currentJob == NULL || currentJob->getLightFramesRequired())
+            if (currentJob == nullptr || currentJob->getLightFramesRequired())
             {
                 if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
                     unParkDome();
@@ -2264,7 +2266,7 @@ bool Scheduler::checkShutdownState()
 
             jobTimer.stop();
 
-            currentJob = NULL;
+            currentJob = nullptr;
 
             if(state == SCHEDULER_RUNNIG)
                 schedulerTimer.start();
@@ -2471,7 +2473,7 @@ void Scheduler::checkStatus()
         return;
 
     // #1 If no current job selected, let's check if we need to shutdown or evaluate jobs
-    if (currentJob == NULL)
+    if (currentJob == nullptr)
     {
         // #2.1 If shutdown is already complete or in error, we need to stop
         if (shutdownState == SHUTDOWN_COMPLETE || shutdownState == SHUTDOWN_ERROR)
@@ -2541,7 +2543,7 @@ void Scheduler::checkJobStage()
     if (state == SCHEDULER_PAUSED)
         return;
 
-    Q_ASSERT(currentJob != NULL);
+    Q_ASSERT(currentJob != nullptr);
 
     // #1 Check if we need to stop at some point
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT && currentJob->getState() == SchedulerJob::JOB_BUSY)
@@ -3229,8 +3231,8 @@ bool Scheduler::loadScheduler(const QString &fileURL)
 
     LilXML * xmlParser = newLilXML();
     char errmsg[MAXRBUF];
-    XMLEle * root = NULL;
-    XMLEle * ep;
+    XMLEle * root = nullptr;
+    XMLEle * ep = nullptr;
     char c;
 
     while ( sFile.getChar(&c))
@@ -3239,7 +3241,7 @@ bool Scheduler::loadScheduler(const QString &fileURL)
 
         if (root)
         {
-            for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+            for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
             {
                 const char * tag = tagXMLEle(ep);
                 if (!strcmp(tag, "Job"))
@@ -3252,7 +3254,7 @@ bool Scheduler::loadScheduler(const QString &fileURL)
                     unparkMountCheck->setChecked(false);
                     uncapCheck->setChecked(false);
 
-                    for (procedure = nextXMLEle(ep, 1) ; procedure != NULL ; procedure = nextXMLEle(ep, 0))
+                    for (procedure = nextXMLEle(ep, 1) ; procedure != nullptr ; procedure = nextXMLEle(ep, 0))
                     {
                         const char * proc = pcdataXMLEle(procedure);
 
@@ -3278,7 +3280,7 @@ bool Scheduler::loadScheduler(const QString &fileURL)
                     parkMountCheck->setChecked(false);
                     capCheck->setChecked(false);
 
-                    for (procedure = nextXMLEle(ep, 1) ; procedure != NULL ; procedure = nextXMLEle(ep, 0))
+                    for (procedure = nextXMLEle(ep, 1) ; procedure != nullptr ; procedure = nextXMLEle(ep, 0))
                     {
                         const char * proc = pcdataXMLEle(procedure);
 
@@ -3332,7 +3334,7 @@ bool Scheduler::processJobInfo(XMLEle * root)
     minAltitude->setValue(minAltitude->minimum());
     minMoonSeparation->setValue(minMoonSeparation->minimum());
 
-    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
     {
         if (!strcmp(tagXMLEle(ep), "Name"))
             nameEdit->setText(pcdataXMLEle(ep));
@@ -3359,7 +3361,7 @@ bool Scheduler::processJobInfo(XMLEle * root)
         }
         else if (!strcmp(tagXMLEle(ep), "StartupCondition"))
         {
-            for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
+            for (subEP = nextXMLEle(ep, 1) ; subEP != nullptr ; subEP = nextXMLEle(ep, 0))
             {
                 if (!strcmp("ASAP", pcdataXMLEle(subEP)))
                     asapConditionR->setChecked(true);
@@ -3377,7 +3379,7 @@ bool Scheduler::processJobInfo(XMLEle * root)
         }
         else if (!strcmp(tagXMLEle(ep), "Constraints"))
         {
-            for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
+            for (subEP = nextXMLEle(ep, 1) ; subEP != nullptr ; subEP = nextXMLEle(ep, 0))
             {
                 if (!strcmp("MinimumAltitude", pcdataXMLEle(subEP)))
                 {
@@ -3397,7 +3399,7 @@ bool Scheduler::processJobInfo(XMLEle * root)
         }
         else if (!strcmp(tagXMLEle(ep), "CompletionCondition"))
         {
-            for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
+            for (subEP = nextXMLEle(ep, 1) ; subEP != nullptr ; subEP = nextXMLEle(ep, 0))
             {
                 if (!strcmp("Sequence", pcdataXMLEle(subEP)))
                     sequenceCompletionR->setChecked(true);
@@ -3427,7 +3429,7 @@ bool Scheduler::processJobInfo(XMLEle * root)
             alignStepCheck->setChecked(false);
             guideStepCheck->setChecked(false);
 
-            for (module = nextXMLEle(ep, 1) ; module != NULL ; module = nextXMLEle(ep, 0))
+            for (module = nextXMLEle(ep, 1) ; module != nullptr ; module = nextXMLEle(ep, 0))
             {
                 const char * proc = pcdataXMLEle(module);
 
@@ -3624,7 +3626,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
 void Scheduler::startSlew()
 {
-    Q_ASSERT(currentJob != NULL);
+    Q_ASSERT(currentJob != nullptr);
 
     SkyPoint target = currentJob->getTargetCoords();
     //target.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
@@ -3717,14 +3719,14 @@ void Scheduler::findNextJob()
         // Stop Guiding if it was used
         stopGuiding();
 
-        currentJob = NULL;
+        currentJob = nullptr;
         schedulerTimer.start();
         return;
     }
 
     if (currentJob->getState() == SchedulerJob::JOB_ABORTED)
     {
-        currentJob = NULL;
+        currentJob = nullptr;
         schedulerTimer.start();
         return;
     }
@@ -3740,7 +3742,7 @@ void Scheduler::findNextJob()
         // Stop Guiding if it was used
         stopGuiding();
 
-        currentJob = NULL;
+        currentJob = nullptr;
         schedulerTimer.start();
         return;
     }
@@ -3758,7 +3760,7 @@ void Scheduler::findNextJob()
             stopCurrentJobAction();
             stopGuiding();
 
-            currentJob = NULL;
+            currentJob = nullptr;
             schedulerTimer.start();
             return;
         }
@@ -3795,7 +3797,7 @@ void Scheduler::findNextJob()
             stopGuiding();
 
             captureBatch=0;
-            currentJob = NULL;
+            currentJob = nullptr;
             schedulerTimer.start();
             return;
         }
@@ -4561,7 +4563,7 @@ void Scheduler::startMosaicTool()
         QString targetName = nameEdit->text().simplified().remove(" ");
 
         XMLEle * root = getSequenceJobRoot();
-        if (root == NULL)
+        if (root == nullptr)
             return;
 
         int currentJobsCount = jobs.count();
@@ -4616,12 +4618,12 @@ XMLEle * Scheduler::getSequenceJobRoot()
     if ( !sFile.open( QIODevice::ReadOnly))
     {
         KMessageBox::sorry(KStars::Instance(), i18n( "Unable to open file %1",  sFile.fileName()), i18n( "Could Not Open File" ) );
-        return NULL;
+        return nullptr;
     }
 
     LilXML * xmlParser = newLilXML();
     char errmsg[MAXRBUF];
-    XMLEle * root = NULL;
+    XMLEle * root = nullptr;
     char c;
 
     while ( sFile.getChar(&c))
@@ -4649,14 +4651,15 @@ bool Scheduler::createJobSequence(XMLEle * root, const QString &prefix, const QS
     }
 
 
-    XMLEle * ep=NULL, *subEP=NULL;
+    XMLEle * ep = nullptr;
+    XMLEle * subEP = nullptr;
 
-    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
     {
         if (!strcmp(tagXMLEle(ep), "Job"))
         {
 
-            for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
+            for (subEP = nextXMLEle(ep, 1) ; subEP != nullptr ; subEP = nextXMLEle(ep, 0))
             {
 
                 if (!strcmp(tagXMLEle(subEP), "Prefix"))
@@ -4680,10 +4683,9 @@ bool Scheduler::createJobSequence(XMLEle * root, const QString &prefix, const QS
     QDir().mkpath(outputDir);
 
     QString filename = QString("%1/%2.esq").arg(outputDir).arg(prefix);
-
     FILE * outputFile = fopen(filename.toLatin1().constData(), "w");
 
-    if ( outputFile == NULL)
+    if (outputFile == nullptr)
     {
         QString message = i18n( "Unable to write to file %1",  filename);
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
@@ -4714,10 +4716,14 @@ void Scheduler::resetAllJobs()
 
 void Scheduler::checkTwilightWarning(bool enabled)
 {
-    if (enabled == false)
+    if (enabled)
+        return;
+
+    if (KMessageBox::warningContinueCancel(NULL, i18n("Warning! Turning off astronomial twilight check may cause the observatory "
+                                                      "to run during daylight. This can cause irreversible damage to your equipment!"),
+                                           i18n("Astronomial Twilight Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                                           "astronomical_twilight_warning") == KMessageBox::Cancel)
     {
-        if (KMessageBox::warningContinueCancel(NULL, i18n("Warning! Turning off astronomial twilight check may cause the observatory to run during daylight. This can cause irreversible damage to your equipment!"),
-                                               i18n("Astronomial Twilight Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "astronomical_twilight_warning") == KMessageBox::Cancel)
             twilightCheck->setChecked(true);
     }
 }
@@ -4747,7 +4753,7 @@ void Scheduler::runStartupProcedure()
             return;
         }
 
-        if (KMessageBox::questionYesNo(NULL, i18n("Are you sure you want to execute the startup procedure manually?")) == KMessageBox::Yes)
+        if (KMessageBox::questionYesNo(nullptr, i18n("Are you sure you want to execute the startup procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning! Executing startup procedure manually..."));
             startupB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
@@ -4829,7 +4835,7 @@ void Scheduler::runShutdownProcedure()
 {
     if (shutdownState == SHUTDOWN_IDLE || shutdownState == SHUTDOWN_ERROR || shutdownState == SHUTDOWN_COMPLETE)
     {
-        if (KMessageBox::questionYesNo(NULL, i18n("Are you sure you want to execute the shutdown procedure manually?")) == KMessageBox::Yes)
+        if (KMessageBox::questionYesNo(nullptr, i18n("Are you sure you want to execute the shutdown procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning! Executing shutdown procedure manually..."));
             shutdownB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
@@ -4917,8 +4923,8 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob * schedJo
 
     LilXML * xmlParser = newLilXML();
     char errmsg[MAXRBUF];
-    XMLEle * root = NULL;
-    XMLEle * ep;
+    XMLEle * root = nullptr;
+    XMLEle * ep = nullptr;
     char c;
 
     while ( sFile.getChar(&c))
@@ -4927,7 +4933,7 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob * schedJo
 
         if (root)
         {
-            for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+            for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
             {
                 if (!strcmp(tagXMLEle(ep), "Autofocus"))
                     hasAutoFocus = (!strcmp(findXMLAttValu(ep, "enabled"), "true"));
@@ -4961,7 +4967,7 @@ SequenceJob * Scheduler::processJobInfo(XMLEle * root, SchedulerJob * schedJob)
     double exposure=0;
     bool filterEnabled=false, expEnabled=false, tsEnabled=false;
 
-    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
     {
         if (!strcmp(tagXMLEle(ep), "Exposure"))
         {

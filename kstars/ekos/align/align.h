@@ -540,7 +540,7 @@ class Align : public QWidget, public Ui::Align
         OfflineAstrometryParser * offlineParser;
 
         RemoteAstrometryParser * remoteParser;
-        ISD::GDInterface * remoteParserDevice = NULL;
+        ISD::GDInterface * remoteParserDevice = nullptr;
 
         // Pointers to our devices
         ISD::Telescope * currentTelescope;
@@ -622,10 +622,10 @@ class Align : public QWidget, public Ui::Align
         OpsAstrometryIndexFiles * opsAstrometryIndexFiles;
 
         void resizeEvent(QResizeEvent * event);
-        QCPCurve * centralTarget = NULL;
-        QCPCurve * yellowTarget = NULL;
-        QCPCurve * redTarget = NULL;
-        QCPCurve * concentricRings = NULL;
+        QCPCurve * centralTarget = nullptr;
+        QCPCurve * yellowTarget = nullptr;
+        QCPCurve * redTarget = nullptr;
+        QCPCurve * concentricRings = nullptr;
         QDialog mountModelDialog;
         Ui_mountModel mountModel;
         int currentAlignmentPoint=0;

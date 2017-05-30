@@ -109,8 +109,9 @@ QList<OneTile *> MosaicTile::getTiles() const
 OneTile * MosaicTile::getTile(int row, int col)
 {
     int offset = row * w + col;
+
     if (offset < 0 || offset > tiles.size())
-        return NULL;
+        return nullptr;
 
     return tiles[offset];
 }
@@ -186,10 +187,11 @@ QPointF MosaicTile::rotatePoint(QPointF pointToRotate, QPointF centerPoint)
 QPointF MosaicTile::getTileCenter(int row, int col)
 {
     OneTile * tile = getTile(row, col);
-    if (tile == NULL)
-        return QPointF();
-    else
+
+    if (tile != nullptr)
         return tile->center_rot;
+
+    return QPointF();
 }
 
 Mosaic::Mosaic(Scheduler * scheduler)
@@ -313,7 +315,7 @@ void Mosaic::updateTargetFOV()
 
     center.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-    map->setFocusObject(NULL);
+    map->setFocusObject(nullptr);
     map->setClickedPoint(&center);
     map->slotCenter();
     qApp->processEvents();
@@ -387,7 +389,7 @@ void Mosaic::updateTargetFOV()
 
 void Mosaic::render()
 {
-    if (m_skyChart == NULL)
+    if (m_skyChart == nullptr)
         return;
 
     // targetPix = QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio );
@@ -411,7 +413,7 @@ void Mosaic::render()
 
     mosaicView->show();
 
-    //resizeEvent(NULL);
+    //resizeEvent(nullptr);
 
 
 
@@ -465,7 +467,7 @@ void Mosaic::constructMosaic()
     //if (cameraWFOVSpin->value() == 0)
     //{
     calculateFOV();
-    showEvent(NULL);
+    showEvent(nullptr);
     //}
 
     if (mosaicWSpin->value() > 1 || mosaicHSpin->value() > 1)
@@ -516,7 +518,7 @@ void Mosaic::createJobs()
 
     SkyMap * map = SkyMap::Instance();
 
-    map->setFocusObject(NULL);
+    map->setFocusObject(nullptr);
     map->setClickedPoint(&center);
     map->slotCenter();
     qApp->processEvents();

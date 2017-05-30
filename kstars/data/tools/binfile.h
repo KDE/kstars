@@ -58,7 +58,7 @@ enum dataType
     DT_INT32,             /* 32-bit Integer */
     DT_UINT32,            /* 32-bit Unsigned Integer */
     DT_CHARV,             /* Fixed-length array of characters */
-    DT_STR,               /* Variable length array of characters, either terminated by NULL or by the limit on field size */
+    DT_STR,               /* Variable length array of characters, either terminated by nullptr or by the limit on field size */
     DT_SPCL = 128         /* Flag indicating that the field requires special treatment (eg: Different bits may mean different things) */
 };
 
@@ -173,10 +173,9 @@ char * number2trixel(char * trixel, u_int16_t number)
 
 int str2int32(int32_t * i, const char * str, int ndec)
 {
-
     double dbl;
 
-    if(i == NULL)
+    if (i == nullptr)
         return 0;
 
     dbl = atof(str);
@@ -184,7 +183,6 @@ int str2int32(int32_t * i, const char * str, int ndec)
     *i = (int32_t)(round(dbl * pow(10, ndec)));
 
     return 1;
-
 }
 
 /*
@@ -196,10 +194,9 @@ int str2int32(int32_t * i, const char * str, int ndec)
 
 int str2int16(int16_t * i, const char * str, int ndec)
 {
-
     double dbl;
 
-    if(i == NULL || str == NULL)
+    if (i == nullptr || str == nullptr)
         return 0;
 
     dbl = atof(str);
@@ -218,21 +215,17 @@ int str2int16(int16_t * i, const char * str, int ndec)
 
 int str2charv(char * a, const char * str, int n)
 {
-
-    int i, ret;
-
-    if(a == NULL || str == NULL)
+    if (a == nullptr || str == nullptr)
         return 0;
 
-    ret = 1;
+    int ret = 1;
 
-    for(i = 0; i < n; ++i)
+    for (int i = 0; i < n; ++i)
     {
         a[i] = ((ret < 0)? '\0' : str[i]);
-        if(str[i] == '\0')                /* We can do this safely because we aren't storing binary data in the DB */
+        if (str[i] == '\0')                /* We can do this safely because we aren't storing binary data in the DB */
             ret = -1;
     }
-
     return ret;
 }
 
@@ -244,17 +237,15 @@ int str2charv(char * a, const char * str, int n)
 
 int isblank(char * str)
 {
-
-    if(str == NULL)
+    if (str == nullptr)
         return 1;
 
-    while(*str != '\0')
+    while (*str != '\0')
     {
         if(*str != ' ' && *str != '\n' && *str != '\r' && *str != '\t')
             return 0;
         ++str;
     }
-
     return 1;
 }
 
@@ -271,8 +262,10 @@ int isblank(char * str)
 int writeDataElementDescription(FILE * f, char * name, int8_t size, enum dataType type, int32_t scale)
 {
     struct dataElement de;
-    if(f == NULL || name == NULL)
+
+    if (f == nullptr || name == nullptr)
         return 0;
+
     str2charv(de.name, name, 10);
     de.size = size;
     de.type = type;
@@ -283,8 +276,7 @@ int writeDataElementDescription(FILE * f, char * name, int8_t size, enum dataTyp
 
 int writeIndexEntry(FILE * hf, u_int32_t trixel_id, u_int32_t offset, u_int32_t nrec)
 {
-
-    if(hf == NULL)
+    if (hf == nullptr)
         return 0;
 
     fwrite(&trixel_id, 4, 1, hf);
@@ -292,7 +284,7 @@ int writeIndexEntry(FILE * hf, u_int32_t trixel_id, u_int32_t offset, u_int32_t 
     fwrite(&nrec, 4, 1, hf);
 
     /* Put this just for safety, in case we change our mind - we should avoid screwing things up */
-    if(4 + 4 + 4 != INDEX_ENTRY_SIZE)
+    if (4 + 4 + 4 != INDEX_ENTRY_SIZE)
     {
         fprintf(stderr, "CODE ERROR: 4 + 4 + 4 != INDEX_ENTRY_SIZE\n");
     }

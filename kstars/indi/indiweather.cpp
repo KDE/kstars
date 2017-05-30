@@ -14,7 +14,6 @@
 namespace ISD
 {
 
-
 void Weather::processLight(ILightVectorProperty * lvp)
 {
     DeviceDecorator::processLight(lvp);
@@ -22,14 +21,12 @@ void Weather::processLight(ILightVectorProperty * lvp)
 
 void Weather::processNumber(INumberVectorProperty * nvp)
 {
-
     DeviceDecorator::processNumber(nvp);
 }
 
 void Weather::processSwitch(ISwitchVectorProperty * svp)
 {
     DeviceDecorator::processSwitch(svp);
-
 }
 
 void Weather::processText(ITextVectorProperty * tvp)
@@ -40,7 +37,8 @@ void Weather::processText(ITextVectorProperty * tvp)
 IPState Weather::getWeatherStatus()
 {
     ILightVectorProperty * weatherLP = baseDevice->getLight("WEATHER_STATUS");
-    if (weatherLP == NULL)
+
+    if (weatherLP == nullptr)
         return IPS_ALERT;
 
     return weatherLP->s;
@@ -49,10 +47,11 @@ IPState Weather::getWeatherStatus()
 uint16_t Weather::getUpdatePeriod()
 {
     INumberVectorProperty * updateNP = baseDevice->getNumber("WEATHER_UPDATE");
-    if (updateNP == NULL)
+
+    if (updateNP == nullptr)
         return 0;
 
-    return ( (uint16_t) updateNP->np[0].value);
+    return (uint16_t)updateNP->np[0].value;
 }
 
 }

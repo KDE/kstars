@@ -63,7 +63,8 @@ void StarBlock::reset()
 {
     if( parent )
         parent->releaseBlock( this );
-    parent = NULL;
+
+    parent = nullptr;
     faintMag = -5.0;
     brightMag = 35.0;
     nStars = 0;

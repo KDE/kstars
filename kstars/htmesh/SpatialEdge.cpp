@@ -41,9 +41,9 @@ SpatialEdge::SpatialEdge(SpatialIndex &tree, size_t layerindex) :
     edges_ = new Edge  [LAYER.nEdge_ + 1];
     lTab_  = new Edge* [LAYER.nVert_ * 6];
 
-    // initialize lookup table, we depend on that NULL
-    for(size_t i = 0; i < LAYER.nVert_ * 6; i++)
-        lTab_[i] = NULL;
+    // initialize lookup table, we depend on that nullptr
+    for (size_t i = 0; i < LAYER.nVert_ * 6; i++)
+        lTab_[i] = nullptr;
 
     // first vertex index for the vertices to be generated
     index_ = LAYER.nVert_;
@@ -121,7 +121,7 @@ SpatialEdge::newEdge(size_t emindex, size_t index, int k)
     // check all previous edges for a match, return pointer if
     // already present, log the midpoint with the new face as well
 
-    if( (en=edgeMatch(em)) != NULL)
+    if( (en = edgeMatch(em)) != nullptr)
     {
         IW(k) = en->mid_;
         return emindex;
@@ -145,17 +145,19 @@ SpatialEdge::newEdge(size_t emindex, size_t index, int k)
 void
 SpatialEdge::insertLookup(Edge * em)
 {
-    int j = 6 * em->start_;
+    int j = 6*em->start_;
     int i;
 
 // do not loop beyond 6
 
     for(i=0; i<6; i++, j++)
-        if ( lTab_[j] == NULL )
+    {
+        if (lTab_[j] == nullptr)
         {
             lTab_[j] = em;
             return;
         }
+    }
 }
 
 /////////////EDGEMATCH////////////////////////////////////
@@ -164,14 +166,16 @@ SpatialEdge::insertLookup(Edge * em)
 SpatialEdge::Edge *
 SpatialEdge::edgeMatch(Edge * em)
 {
-    int i = 6 * em->start_;
+    int i = 6*em->start_;
 
-    while ( lTab_[i] != NULL )
+    while (lTab_[i] != nullptr)
     {
-        if(em->end_ == lTab_[i]->end_ ) return lTab_[i];
+        if (em->end_ == lTab_[i]->end_)
+            return lTab_[i];
+
         i++;
     }
-    return NULL;
+    return nullptr;
 }
 
 /////////////GETMIDPOINT//////////////////////////////////

@@ -99,7 +99,7 @@ class SatellitesComponent : public SkyComponent
         /**
          * Return object given name
          * @param name object name
-         * @return object if found, otherwise NULL
+         * @return object if found, otherwise nullptr
          */
         SkyObject * findByName( const QString &name );
 

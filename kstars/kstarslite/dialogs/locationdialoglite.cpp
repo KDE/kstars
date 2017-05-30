@@ -197,7 +197,7 @@ bool LocationDialogLite::addCity(QString city, QString province, QString country
         city = city.trimmed();
         province = province.trimmed();
         country = country.trimmed();
-        GeoLocation * g = NULL;
+        GeoLocation * g = nullptr;
 
         QSqlQuery add_query(mycitydb);
         add_query.prepare("INSERT INTO city(Name, Province, Country, Latitude, Longitude, TZ, TZRule) VALUES(:Name, :Province, :Country, :Latitude, :Longitude, :TZ, :TZRule)");

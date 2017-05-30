@@ -160,7 +160,7 @@ class SkyComponent
             return true;
         }
 
-        /** @return Parent of component. If there is no parent returns NULL. */
+        /** @return Parent of component. If there is no parent returns nullptr. */
         SkyComposite * parent()
         {
             return m_parent;
@@ -171,8 +171,8 @@ class SkyComponent
          * a SkyObject whose name matches the argument
          * @p name the name to be matched
          * @return a pointer to the SkyObject whose name matches
-         * the argument, or a NULL pointer if no match was found.
-         * @note This function simply returns the NULL pointer; it
+         * the argument, or a nullptr pointer if no match was found.
+         * @note This function simply returns the nullptr pointer; it
          * is reimplemented in various sub-classes
          */
         virtual SkyObject * findByName( const QString &name );
@@ -198,7 +198,7 @@ class SkyComponent
          * @p p pointer to the SkyPoint to search around
          * @p maxrad reference to current search radius in degrees
          * @return a pointer to the nearest SkyObject
-         * @note This function simply returns a NULL pointer; it is
+         * @note This function simply returns a nullptr pointer; it is
          * reimplemented in various sub-classes.
          */
         virtual SkyObject * objectNearest( SkyPoint * p, double &maxrad );

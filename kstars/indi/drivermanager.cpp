@@ -81,11 +81,11 @@ void DriverManagerUI::makePortEditable(QTreeWidgetItem * selectedItem, int colum
     localTreeWidget->editItem(selectedItem, ::DriverManager::LOCAL_PORT_COLUMN);
 }
 
-DriverManager * DriverManager::_DriverManager = NULL;
+DriverManager * DriverManager::_DriverManager = nullptr;
 
 DriverManager * DriverManager::Instance()
 {
-    if (_DriverManager == NULL)
+    if (_DriverManager == nullptr)
         _DriverManager = new DriverManager(KStars::Instance());
 
     return _DriverManager;
@@ -99,8 +99,8 @@ DriverManager::DriverManager(QWidget * parent)
 #endif
 
     currentPort = Options::serverPortStart().toInt()-1;
-    lastGroup = NULL;
-    lastDevice = NULL;
+    lastGroup = nullptr;
+    lastDevice = nullptr;
 
     connectionMode = SERVER_CLIENT;
 
@@ -115,7 +115,7 @@ DriverManager::DriverManager(QWidget * parent)
 
     QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 
-    lastGroup = NULL;
+    lastGroup = nullptr;
 
     QObject::connect(ui->addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
     QObject::connect(ui->modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
@@ -152,7 +152,7 @@ DriverManager::~DriverManager()
 
 void DriverManager::processDeviceStatus(DriverInfo * dv)
 {
-    if (dv == NULL)
+    if (dv == nullptr)
         return;
 
     if (dv->getDriverSource() == GENERATED_SOURCE)
@@ -327,9 +327,9 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList < QList<Dri
 
 bool DriverManager::startDevices(QList<DriverInfo *> &dList)
 {
-    ServerManager * serverManager=NULL;
-    ClientManager * clientManager=NULL;
-    int port=-1;
+    ServerManager * serverManager = nullptr;
+    ClientManager * clientManager = nullptr;
+    int port = -1;
 
     QList < QList<DriverInfo *> > uHosts;
 
@@ -360,7 +360,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
 
         serverManager = new ServerManager(qdv.at(0)->getHost(), ((uint) port));
 
-        if (serverManager == NULL)
+        if (serverManager == nullptr)
         {
             qWarning() << "Warning: device manager has not been established properly";
             return false;
@@ -477,7 +477,7 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
     {
         ClientManager * cm = dv->getClientManager();
 
-        if (cm == NULL)
+        if (cm == nullptr)
             continue;
 
         cm->removeManagedDriver(dv);
@@ -497,7 +497,7 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
     {
         ServerManager * sm = dv->getServerManager();
 
-        if (sm != NULL)
+        if (sm != nullptr)
         {
             sm->stopDriver(dv);
 
@@ -553,7 +553,7 @@ ClientManager * DriverManager::getClientManager(DriverInfo * dv)
 
 void DriverManager::updateLocalTab()
 {
-    if (ui->localTreeWidget->currentItem() == NULL)
+    if (ui->localTreeWidget->currentItem() == nullptr)
         return;
 
     QString currentDriver = ui->localTreeWidget->currentItem()->text(LOCAL_NAME_COLUMN);
@@ -570,9 +570,9 @@ void DriverManager::updateLocalTab()
 
 void DriverManager::updateClientTab()
 {
-
     QTreeWidgetItem * item = ui->clientTreeWidget->currentItem();
-    if (item == NULL)
+
+    if (item == nullptr)
         return;
 
     QString hostname = item->text(HOST_NAME_COLUMN);
@@ -586,7 +586,6 @@ void DriverManager::updateClientTab()
             break;
         }
     }
-
 }
 
 void DriverManager::processLocalTree(bool dState)
@@ -640,7 +639,7 @@ void DriverManager::processLocalTree(bool dState)
 
 void DriverManager::processClientTermination(ClientManager * client)
 {
-    if (client == NULL)
+    if (client == nullptr)
         return;
 
     ServerManager * manager = client->getServerManager();
@@ -667,7 +666,7 @@ void DriverManager::processClientTermination(ClientManager * client)
 
 void DriverManager::processServerTermination(ServerManager * server)
 {
-    if (server == NULL)
+    if (server == nullptr)
         return;
 
     foreach(DriverInfo * dv, driversList)
@@ -724,8 +723,8 @@ void DriverManager::processRemoteTree(bool dState)
 bool DriverManager::connectRemoteHost(DriverInfo * dv)
 {
     bool hostPortOk = false;
-    bool connectionToServer=false;
-    ClientManager * clientManager = NULL;
+    bool connectionToServer = false;
+    ClientManager * clientManager = nullptr;
 
     dv->getPort().toInt(&hostPortOk);
 
@@ -785,7 +784,7 @@ bool DriverManager::connectRemoteHost(DriverInfo * dv)
 
 bool DriverManager::disconnectRemoteHost(DriverInfo * dv)
 {
-    ClientManager * clientManager = NULL;
+    ClientManager * clientManager = nullptr;
     clientManager = dv->getClientManager();
 
     if (clientManager)
@@ -815,14 +814,14 @@ void DriverManager::updateMenuActions()
     // We iterate over devices, we enable INDI Control Panel if we have any active device
     // We enable capture image sequence if we have any imaging device
 
-    QAction * tmpAction = NULL;
+    QAction * tmpAction = nullptr;
     bool activeDevice = false;
 
     if (clients.size() > 0)
         activeDevice = true;
 
     tmpAction = KStars::Instance()->actionCollection()->action("indi_cpl");
-    if (tmpAction != NULL)
+    if (tmpAction != nullptr)
     {
         //qDebug() << "indi_cpl action set to active" << endl;
         tmpAction->setEnabled(activeDevice);
@@ -878,11 +877,11 @@ bool DriverManager::readINDIHosts()
     char errmsg[1024];
     char c;
     LilXML * xmlParser = newLilXML();
-    XMLEle * root = NULL;
-    XMLAtt * ap;
+    XMLEle * root = nullptr;
+    XMLAtt * ap = nullptr;
     QString hName, hHost, hPort;
-    lastGroup = NULL;
 
+    lastGroup = nullptr;
     file.setFileName( KSPaths::locate(QStandardPaths::GenericDataLocation, indiFile ) );
     if ( file.fileName().isEmpty() || !file.open( QIODevice::ReadOnly ) )
         return false;
@@ -952,10 +951,6 @@ bool DriverManager::readINDIHosts()
     delLilXML(xmlParser);
 
     return true;
-
-
-
-
 }
 
 
@@ -1025,7 +1020,8 @@ void DriverManager::processXMLDriver(QString &driverName)
     char errmsg[ERRMSG_SIZE];
     char c;
     LilXML * xmlParser = newLilXML();
-    XMLEle * root = NULL, *ep=NULL;
+    XMLEle * root = nullptr;
+    XMLEle * ep = nullptr;
 
     if (driverName.endsWith("drivers.xml"))
         driverSource = PRIMARY_XML;
@@ -1041,7 +1037,7 @@ void DriverManager::processXMLDriver(QString &driverName)
             // If the XML file is using the INDI Library v1.3+ format
             if (!strcmp(tagXMLEle(root), "driversList"))
             {
-                for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+                for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
                 {
                     if (!buildDeviceGroup(ep, errmsg))
                         prXMLEle(stderr, ep, 0);
@@ -1133,9 +1129,11 @@ bool DriverManager::buildDeviceGroup(XMLEle * root, char errmsg[])
     group->setText(0, groupName);
     lastGroup = group;
 
-    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
+    {
         if (!buildDriverElement(ep, group, groupType, errmsg))
             return false;
+    }
 
     return true;
 }
@@ -1165,7 +1163,7 @@ bool DriverManager::buildDriverElement(XMLEle * root, QTreeWidgetItem * DGroup, 
     label = valuXMLAtt(ap);
 
     // Label is unique, so if we have the same label, we simply ignore
-    if (findDriverByLabel(label) != NULL)
+    if (findDriverByLabel(label) != nullptr)
         return true;
 
     // Search for optional port attribute
@@ -1289,9 +1287,10 @@ void DriverManager::updateCustomDrivers()
     QString driver;
     QString version;
     QString name;
-    QTreeWidgetItem * group, *widgetDev;
+    QTreeWidgetItem * group = nullptr;
+    QTreeWidgetItem * widgetDev = nullptr;
     QVariantMap vMap;
-    DriverInfo * drv=NULL;
+    DriverInfo * drv = nullptr;
 
     // Find if the group already exists
     QList<QTreeWidgetItem *> treeList = ui->localTreeWidget->findItems("Telescopes", Qt::MatchExactly);
@@ -1435,7 +1434,7 @@ void DriverManager::modifyINDIHost()
 
     QTreeWidgetItem * currentItem = ui->clientTreeWidget->currentItem();
 
-    if (currentItem == NULL)
+    if (currentItem == nullptr)
         return;
 
     foreach (DriverInfo * host, driversList)
@@ -1467,9 +1466,7 @@ void DriverManager::modifyINDIHost()
 
 void DriverManager::removeINDIHost()
 {
-
-
-    if (ui->clientTreeWidget->currentItem() == NULL)
+    if (ui->clientTreeWidget->currentItem() == nullptr)
         return;
 
     foreach (DriverInfo * host, driversList)
@@ -1539,7 +1536,7 @@ DriverInfo * DriverManager::findDriverByName(const QString &name)
             return dv;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 DriverInfo * DriverManager::findDriverByLabel(const QString &label)
@@ -1550,7 +1547,7 @@ DriverInfo * DriverManager::findDriverByLabel(const QString &label)
             return dv;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 DriverInfo * DriverManager::findDriverByExec(const QString &exec)
@@ -1561,7 +1558,7 @@ DriverInfo * DriverManager::findDriverByExec(const QString &exec)
             return dv;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 QString DriverManager::getUniqueDeviceLabel(const QString &label)

@@ -60,7 +60,7 @@ bool AlignView::createWCSFile(const QString &newWCSFile, double orientation, dou
 
 void AlignView::setCorrectionParams(QLineF line)
 {
-    if (imageData == NULL)
+    if (imageData == nullptr)
         return;
 
     bool RAAxisInside = imageData->contains(line.p1());
@@ -83,7 +83,7 @@ void AlignView::setCorrectionParams(QLineF line)
 
 void AlignView::setCorrectionOffset(QPointF newOffset)
 {
-    if (imageData == NULL)
+    if (imageData == nullptr)
         return;
 
     if (newOffset.isNull() == false)

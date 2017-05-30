@@ -12,9 +12,8 @@ MeshBuffer::MeshBuffer(HTMesh * mesh)
     maxSize = mesh->size();
     m_buffer = (Trixel *) malloc( sizeof(Trixel) * maxSize );
 
-    if (m_buffer == NULL)
+    if (m_buffer == nullptr)
     {
-
         fprintf(stderr, "MeshBuffer: Could not allocate buffer sized %d\n",
                 maxSize * (int) sizeof(Trixel) );
         exit(1);

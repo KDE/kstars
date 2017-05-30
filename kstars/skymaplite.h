@@ -236,7 +236,7 @@ class SkyMapLite : public QQuickItem
          *
          *If the user clicks on the sky map, a pointer to the nearest SkyObject is stored in
          *the private member ClickedObject.  This function returns the ClickedObject pointer,
-         *or NULL if there is no CLickedObject.
+         *or nullptr if there is no CLickedObject.
          *@return a pointer to the object nearest to a user mouse click.
          */
         SkyObject * clickedObject() const
@@ -254,7 +254,7 @@ class SkyMapLite : public QQuickItem
          *If the user centers the sky map on an object (by double-clicking or using the
          *Find Object dialog), a pointer to the "focused" object is stored in
          *the private member FocusObject.  This function returns a pointer to the
-         *FocusObject, or NULL if there is not FocusObject.
+         *FocusObject, or nullptr if there is not FocusObject.
          *@return a pointer to the object at the center of the sky map.
          */
         SkyObject * focusObject() const

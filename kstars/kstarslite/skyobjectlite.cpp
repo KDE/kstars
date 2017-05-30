@@ -15,10 +15,8 @@
  ***************************************************************************/
 #include "skyobjectlite.h"
 
-SkyObjectLite::SkyObjectLite()
-    :SkyPointLite(), object(NULL)
+SkyObjectLite::SkyObjectLite() : SkyPointLite(), object(nullptr)
 {
-
 }
 
 void SkyObjectLite::setObject(SkyObject * obj)

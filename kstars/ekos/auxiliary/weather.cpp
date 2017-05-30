@@ -23,7 +23,7 @@ Weather::Weather()
     new WeatherAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Weather",  this);
 
-    currentWeather = NULL;
+    currentWeather = nullptr;
 }
 
 Weather::~Weather()
@@ -38,7 +38,7 @@ void Weather::setWeather(ISD::GDInterface * newWeather)
 
 IPState Weather::getWeatherStatus()
 {
-    if (currentWeather == NULL)
+    if (currentWeather == nullptr)
         return IPS_ALERT;
 
     return currentWeather->getWeatherStatus();
@@ -46,7 +46,7 @@ IPState Weather::getWeatherStatus()
 
 uint16_t Weather::getUpdatePeriod()
 {
-    if (currentWeather == NULL)
+    if (currentWeather == nullptr)
         return 0;
 
     return currentWeather->getUpdatePeriod();

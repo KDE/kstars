@@ -268,13 +268,11 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const
     qDebug() << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " <<
     	epret.longitude.toDMSString() << " Dist = " << epret.radius << endl;
     */
-
 }
 
 bool KSPlanet::findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * Earth )
 {
-
-    if ( Earth != NULL )
+    if (Earth != nullptr)
     {
         double sinL, sinL0, sinB, sinB0;
         double cosL, cosL0, cosB, cosB0;

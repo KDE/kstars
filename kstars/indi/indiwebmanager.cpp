@@ -30,7 +30,7 @@ namespace WebManager
 bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUrl &url, QJsonDocument * reply, QByteArray * data)
 {
     QNetworkAccessManager manager;
-    QNetworkReply * response = NULL;
+    QNetworkReply * response = nullptr;
     QNetworkRequest request;
 
     request.setUrl(url);
@@ -130,7 +130,8 @@ bool areDriversRunning(ProfileInfo * pi)
         {
             QString name = i.next().value();
             DriverInfo * driver = DriverManager::Instance()->findDriverByName(name);
-            if (driver == NULL)
+
+            if (driver == nullptr)
                 driver = DriverManager::Instance()->findDriverByLabel(name);
             if (driver)
                 piExecDrivers << driver->getDriver();
@@ -166,14 +167,14 @@ bool syncProfile(ProfileInfo * pi)
 
     //Add Profile
     url = QUrl(QString("http://%1:%2/api/profiles/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
-    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, NULL);
+    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 
     // Update profile info
     url = QUrl(QString("http://%1:%2/api/profiles/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
     QJsonObject profileObject { {"port", pi->port } };
     jsonDoc = QJsonDocument(profileObject);
     data = jsonDoc.toJson();
-    getWebManagerResponse(QNetworkAccessManager::PutOperation, url, NULL, &data);
+    getWebManagerResponse(QNetworkAccessManager::PutOperation, url, nullptr, &data);
 
     // Add drivers
     url = QUrl(QString("http://%1:%2/api/profiles/%3/drivers").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
@@ -191,7 +192,7 @@ bool syncProfile(ProfileInfo * pi)
     }
     jsonDoc = QJsonDocument(driverArray);
     data = jsonDoc.toJson();
-    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, NULL, &data);
+    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data);
 
     return true;
 }
@@ -203,7 +204,7 @@ bool startProfile(ProfileInfo * pi)
 
     // Start profile
     QUrl url(QString("http://%1:%2/api/server/start/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
-    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, NULL);
+    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 
     // Make sure drivers are running
     return areDriversRunning(pi);
@@ -213,8 +214,7 @@ bool stopProfile(ProfileInfo * pi)
 {
     // Stop profile
     QUrl url(QString("http://%1:%2/api/server/stop").arg(pi->host).arg(pi->INDIWebManagerPort));
-    return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, NULL);
-
+    return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 }
 }
 

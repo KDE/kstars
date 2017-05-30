@@ -138,7 +138,7 @@ void DeepStarItem::update()
 //            while( region.hasNext() ) {
 //                Trixel currentRegion = region.next();
 //                for( int i = 0; i < m_starBlockList->at( currentRegion )->getBlockCount(); ++i ) {
-//                    StarBlock *prevBlock = ( ( i >= 1 ) ? m_starBlockList->at( currentRegion )->block( i - 1 ) : NULL );
+//                    StarBlock *prevBlock = ( ( i >= 1 ) ? m_starBlockList->at( currentRegion )->block( i - 1 ) : nullptr );
 //                    StarBlock *block = m_starBlockList->at( currentRegion )->block( i );
 
 //                    if( i == 0  &&  !m_StarBlockFactory->markFirst( block ) )

@@ -180,15 +180,15 @@ class KSPlanetBase : public TrailObject
         /**Update position of the planet (reimplemented from SkyPoint)
          * @param num current KSNumbers object
          * @param includePlanets this function does nothing if includePlanets=false
-         * @param lat pointer to the geographic latitude; if NULL, we skip localizeCoords()
-         * @param LST pointer to the local sidereal time; if NULL, we skip localizeCoords()
+         * @param lat pointer to the geographic latitude; if nullptr, we skip localizeCoords()
+         * @param LST pointer to the local sidereal time; if nullptr, we skip localizeCoords()
          */
         virtual void updateCoords( const KSNumbers * num, bool includePlanets=true, const CachingDms * lat=0, const CachingDms * LST=0, bool forceRecompute = false );
 
         /** @short Find position, including correction for Figure-of-the-Earth.
          * @param num KSNumbers pointer for the target date/time
-         * @param lat pointer to the geographic latitude; if NULL, we skip localizeCoords()
-         * @param LST pointer to the local sidereal time; if NULL, we skip localizeCoords()
+         * @param lat pointer to the geographic latitude; if nullptr, we skip localizeCoords()
+         * @param LST pointer to the local sidereal time; if nullptr, we skip localizeCoords()
          * @param Earth pointer to the Earth (not used for the Moon)
          */
         void findPosition( const KSNumbers * num, const CachingDms * lat=0, const CachingDms * LST=0, const KSPlanetBase * Earth = 0 );
@@ -281,7 +281,7 @@ class KSPlanetBase : public TrailObject
          * @param Earth pointer to planet Earth (needed to calculate geocentric coords)
          * @return true if position was successfully calculated.
          */
-        virtual bool findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * Earth=NULL ) = 0;
+        virtual bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr) = 0;
 
         /**
          * @short Computes the visual magnitude for the major planets.

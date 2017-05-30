@@ -41,10 +41,10 @@ SequenceJob::SequenceJob()
     preview=false;
     filterReady=temperatureReady=filterPostFocusReady=prepareReady=true;
     enforceTemperature=false;
-    activeChip=NULL;
-    activeCCD=NULL;
-    activeFilter= NULL;
-    statusCell = NULL;
+    activeChip = nullptr;
+    activeCCD = nullptr;
+    activeFilter = nullptr;
+    statusCell = nullptr;
     completed=0;
     captureRetires=0;
 
@@ -129,8 +129,10 @@ void SequenceJob::prepareCapture()
     }
 
     if (frameType == FRAME_DARK || frameType == FRAME_BIAS)
+    {
         filterReady = true;
-    else if (targetFilter != -1 && activeFilter != NULL)
+    }
+    else if (targetFilter != -1 && activeFilter != nullptr)
     {
         if (targetFilter == currentFilter)
             filterReady = true;
@@ -168,7 +170,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
 
     activeChip->setBatchMode(!preview);
 
-    if (targetFilter != -1 && activeFilter != NULL)
+    if (targetFilter != -1 && activeFilter != nullptr)
     {
         if (targetFilter != currentFilter)
         {

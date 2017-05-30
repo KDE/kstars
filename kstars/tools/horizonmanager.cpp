@@ -70,7 +70,7 @@ HorizonManager::HorizonManager( QWidget * w )
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotSaveChanges()));
 
-    livePreview = NULL;
+    livePreview = nullptr;
 
     selectPoints = false;
 
@@ -184,7 +184,7 @@ bool HorizonManager::validatePolygon(int regionID)
 
     const Projector * proj = SkyMap::Instance()->projector();
 
-    if (regionItem == NULL)
+    if (regionItem == nullptr)
         return false;
 
     QPolygonF poly;
@@ -331,9 +331,9 @@ void HorizonManager::processSkyPoint(QStandardItem * item, int row)
         connect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(verifyItemValue(QStandardItem *)));
     }
 
-    SkyPoint * point = NULL;
+    SkyPoint * point = nullptr;
 
-    if (livePreview == NULL)
+    if (livePreview == nullptr)
     {
         livePreview = new LineList();
 
@@ -449,7 +449,7 @@ void HorizonManager::slotAddPoint()
 {
     QStandardItem * regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
 
-    if (regionItem == NULL)
+    if (regionItem == nullptr)
         return;
 
     QList<QStandardItem *> pointsList;
@@ -563,10 +563,9 @@ void HorizonManager::terminateLivePreview()
             delete livePreview->points()->takeAt(0);
 
         delete(livePreview);
+        livePreview = nullptr;
 
-        livePreview = NULL;
-
-        horizonComponent->setLivePreview(NULL);
+        horizonComponent->setLivePreview(nullptr);
     }
 }
 

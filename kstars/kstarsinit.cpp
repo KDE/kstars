@@ -792,8 +792,8 @@ void KStars::initFocus()
         if ( KMessageBox::warningYesNo( this, message, caption,
                                         KGuiItem(i18n("Reset Position")), KGuiItem(i18n("Do Not Reset")), "dag_start_below_horiz" ) == KMessageBox::Yes )
         {
-            map()->setClickedObject( NULL );
-            map()->setFocusObject( NULL );
+            map()->setClickedObject( nullptr );
+            map()->setFocusObject( nullptr );
             Options::setIsTracking( false );
 
             data()->setSnapNextFocus(true);

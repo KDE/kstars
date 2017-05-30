@@ -295,8 +295,9 @@ void WIView::onCenterButtonClicked()
 void WIView::onSlewTelescopeButtonClicked()
 {
 
-    if(KMessageBox::Continue==KMessageBox::warningContinueCancel(NULL, "Are you sure you want your telescope to slew to this object?",
-            i18n("Continue Slew"),  KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "continue_wi_slew_warning"))
+    if (KMessageBox::Continue == KMessageBox::warningContinueCancel(nullptr, "Are you sure you want your telescope to slew to this object?",
+                                                                    i18n("Continue Slew"),  KStandardGuiItem::cont(),
+                                                                    KStandardGuiItem::cancel(), "continue_wi_slew_warning"))
     {
 
 #ifdef HAVE_INDI
@@ -314,7 +315,7 @@ void WIView::onSlewTelescopeButtonClicked()
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;
 
-        if (bd == NULL)
+        if (bd == nullptr)
             continue;
 
         if (bd->isConnected() == false)

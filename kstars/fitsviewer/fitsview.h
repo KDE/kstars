@@ -269,8 +269,8 @@ protected:
         QPixmap scopePixmap;
 
         // Floating toolbar
-        QToolBar * floatingToolBar = NULL;
-        QAction * centerTelescopeAction = NULL;
+        QToolBar * floatingToolBar = nullptr;
+        QAction * centerTelescopeAction = nullptr;
 
     signals:
         void newStatus(const QString &msg, FITSBar id);

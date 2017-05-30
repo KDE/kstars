@@ -46,12 +46,12 @@ WUTDialogUI::WUTDialogUI( QWidget * p ) : QFrame( p )
 }
 
 WUTDialog::WUTDialog( QWidget * parent, bool _session, GeoLocation * _geo, KStarsDateTime _lt ) :
-    QDialog( parent ),
+    QDialog(parent),
     session(_session),
     T0(_lt),
     geo(_geo),
     EveningFlag(0),
-    timer(NULL)
+    timer(nullptr)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);

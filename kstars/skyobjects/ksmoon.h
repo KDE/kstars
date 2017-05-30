@@ -95,7 +95,7 @@ class KSMoon : public KSPlanetBase
          */
         void updateMag()
         {
-            findMagnitude(NULL);
+            findMagnitude(nullptr);
         }
 
         virtual void initPopupMenu( KSPopupMenu * pmenu );

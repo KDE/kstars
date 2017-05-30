@@ -37,24 +37,25 @@ int SkyMesh::defaultLevel = -1;
 
 SkyMesh * SkyMesh::Create( int level )
 {
-    SkyMesh * newInstance;
-    newInstance = pinstances.value( level, NULL );
+    SkyMesh * newInstance = pinstances.value( level, nullptr );
+
     delete newInstance;
     newInstance = new SkyMesh( level );
     pinstances.insert( level, newInstance );
     if( defaultLevel < 0 )
         defaultLevel = newInstance->level();
+
     return newInstance;
 }
 
 SkyMesh * SkyMesh::Instance( )
 {
-    return pinstances.value( defaultLevel, NULL );
+    return pinstances.value( defaultLevel, nullptr );
 }
 
 SkyMesh * SkyMesh::Instance( int level )
 {
-    return pinstances.value( level, NULL );
+    return pinstances.value( level, nullptr );
 }
 
 SkyMesh::SkyMesh( int level) :
@@ -165,7 +166,7 @@ void SkyMesh::index( const QPointF &p1, const QPointF &p2, const QPointF &p3, co
 
 const IndexHash &SkyMesh::indexLine( SkyList * points )
 {
-    return indexLine( points, NULL );
+    return indexLine( points, nullptr );
 }
 
 const IndexHash &SkyMesh::indexStarLine( SkyList * points )
@@ -209,7 +210,7 @@ const IndexHash &SkyMesh::indexLine( SkyList * points, IndexHash * skip )
     {
         pThis = points->at( i );
 
-        if (skip != NULL && skip->contains( i ) )
+        if (skip != nullptr && skip->contains( i ) )
         {
             pLast = pThis;
             continue;

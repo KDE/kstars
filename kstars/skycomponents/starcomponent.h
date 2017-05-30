@@ -78,7 +78,7 @@ class StarComponent: public ListComponent
         /** @short Create an instance of StarComponent */
         static StarComponent * Create( SkyComposite * );
 
-        /** @return the instance of StarComponent if already created, NULL otherwise */
+        /** @return the instance of StarComponent if already created, nullptr otherwise */
         static StarComponent * Instance()
         {
             return pinstance;
@@ -109,7 +109,7 @@ class StarComponent: public ListComponent
          * as well.
          *
          *@param name  Name to search for. Could be trivial name or genetive name
-         *@return  Pointer to the star with the given name as a SkyObject, NULL if
+         *@return  Pointer to the star with the given name as a SkyObject, nullptr if
          *         no match was found
          */
         virtual SkyObject * findByName( const QString &name );
@@ -130,7 +130,7 @@ class StarComponent: public ListComponent
          *@param HDnum HD Catalog Number of the star to find
          *@return If the star is a static star, a pointer to the star will be returned
          *        If it is a dynamic star, a fake copy will be created that survives till
-         *        the next findByHDIndex() call. If no match was found, returns NULL.
+         *        the next findByHDIndex() call. If no match was found, returns nullptr.
          */
         StarObject * findByHDIndex( int HDnum );
 

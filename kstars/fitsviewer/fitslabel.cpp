@@ -99,7 +99,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent * e)
 
     uint8_t * buffer = view_data->getImageBuffer();
 
-    if (buffer == NULL)
+    if (buffer == nullptr)
         return;
 
     x = round(e->x() / scale);
@@ -231,7 +231,7 @@ void FITSLabel::mousePressEvent(QMouseEvent * e)
             x = KSUtils::clamp(x, 1.0, width);
             y = KSUtils::clamp(y, 1.0, height);
             int index = x + y * width;
-            if(KMessageBox::Continue==KMessageBox::warningContinueCancel(NULL, "Slewing to Coordinates: \nRA: " + dms(wcs_coord[index].ra).toHMSString() + "\nDec: " + dms(wcs_coord[index].dec).toDMSString(),
+            if(KMessageBox::Continue==KMessageBox::warningContinueCancel(nullptr, "Slewing to Coordinates: \nRA: " + dms(wcs_coord[index].ra).toHMSString() + "\nDec: " + dms(wcs_coord[index].dec).toDMSString(),
                     i18n("Continue Slew"),  KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "continue_slew_warning"))
             {
                 centerTelescope(wcs_coord[index].ra/15.0, wcs_coord[index].dec);
@@ -329,7 +329,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;
 
-        if (bd == NULL)
+        if (bd == nullptr)
             continue;
 
         if (bd->isConnected() == false)

@@ -809,7 +809,8 @@ void DetailDialog::viewLink()
 {
     QString URL;
 
-    if (m_CurrentLink == NULL) return;
+    if (m_CurrentLink == nullptr)
+        return;
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
@@ -853,10 +854,11 @@ void DetailDialog::updateButtons()
 
 void DetailDialog::editLinkDialog()
 {
-    int type=0, row=0;
+    int type = 0, row = 0;
     QString search_line, replace_line, currentItemTitle, currentItemURL;
 
-    if (m_CurrentLink == NULL) return;
+    if (m_CurrentLink == nullptr)
+        return;
 
     QDialog editDialog( this );
     editDialog.setWindowTitle( i18n("Edit Link") );
@@ -968,7 +970,8 @@ void DetailDialog::removeLinkDialog()
     TempFile.open();
     TempFileName = TempFile.fileName();
 
-    if (m_CurrentLink == NULL) return;
+    if (m_CurrentLink == nullptr)
+        return;
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
@@ -1028,7 +1031,8 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
     QTemporaryFile TempFile;
     TempFile.setAutoRemove(false);
     TempFile.open();
-    QTextStream * temp_stream=NULL, *out_stream=NULL;
+    QTextStream * temp_stream = nullptr;
+    QTextStream * out_stream = nullptr;
     bool replace = !replace_line.isEmpty();
 
     if (search_line.isEmpty())
@@ -1091,7 +1095,8 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 
 void DetailDialog::populateADVTree()
 {
-    QTreeWidgetItem * parent = NULL, *temp = NULL;
+    QTreeWidgetItem * parent = nullptr;
+    QTreeWidgetItem * temp = nullptr;
 
     // We populate the tree iterativley, keeping track of parents as we go
     // This solution is more efficient than the previous recursion algorithm.
@@ -1103,7 +1108,7 @@ void DetailDialog::populateADVTree()
             // Top Level
             case 0:
                 temp = new QTreeWidgetItem(parent, QStringList(item->Name));
-                if (parent == NULL)
+                if (parent == nullptr)
                     Adv->ADVTree->addTopLevelItem(temp);
                 parent = temp;
 
@@ -1111,7 +1116,8 @@ void DetailDialog::populateADVTree()
 
             // End of top level
             case 1:
-                if (parent != NULL) parent = parent->parent();
+                if (parent != nullptr)
+                    parent = parent->parent();
                 break;
 
             // Leaf
@@ -1219,7 +1225,7 @@ void DetailDialog::centerTelescope()
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;
 
-        if (bd == NULL)
+        if (bd == nullptr)
             continue;
 
         if (bd->isConnected() == false)

@@ -49,7 +49,7 @@ class PointListComponent : public SkyComponent
          * and nutation must also be recomputed periodically.  Requests to do
          * so are sent through the doPrecess parameter.
          * @p num Pointer to the KSNumbers object
-         * @note By default, the num parameter is NULL, indicating that
+         * @note By default, the num parameter is nullptr, indicating that
          * Precession/Nutation computation should be skipped; this computation
          * is only occasionally required.
          */

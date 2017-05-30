@@ -329,12 +329,12 @@ bool SkyPoint::checkBendLight()
     {
         SkyComposite * skycomopsite = KStarsData::Instance()->skyComposite();
 
-        if (skycomopsite == NULL)
+        if (skycomopsite == nullptr)
             return false;
 
         m_Sun = (KSSun *) skycomopsite->findByName( "Sun" );
 
-        if (m_Sun == NULL)
+        if (m_Sun == nullptr)
             return false;
     }
 

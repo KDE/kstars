@@ -52,7 +52,7 @@ class RemoteAstrometryParser: public AstrometryParser
         void checkResults(INumberVectorProperty * nvp);
 
     private:
-        ISD::GDInterface * remoteAstrometry=NULL;
+        ISD::GDInterface * remoteAstrometry = nullptr;
         bool solverRunning;
         bool captureRunning;
         Align * align;

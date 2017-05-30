@@ -128,7 +128,7 @@ void KStars::lookTowards ( const QString &direction )
     else
     {
         SkyObject * target = data()->objectNamed( direction );
-        if ( target != NULL )
+        if ( target != nullptr )
         {
             map()->setClickedObject( target );
             map()->setClickedPoint( target );
@@ -140,7 +140,7 @@ void KStars::lookTowards ( const QString &direction )
 void KStars::addLabel( const QString &name )
 {
     SkyObject * target = data()->objectNamed( name );
-    if ( target != NULL )
+    if ( target != nullptr )
     {
         data()->skyComposite()->addNameLabel( target );
         map()->forceUpdate();
@@ -150,7 +150,7 @@ void KStars::addLabel( const QString &name )
 void KStars::removeLabel( const QString &name )
 {
     SkyObject * target = data()->objectNamed( name );
-    if ( target != NULL )
+    if ( target != nullptr )
     {
         data()->skyComposite()->removeNameLabel( target );
         map()->forceUpdate();
@@ -895,12 +895,12 @@ bool KStars::openFITS(const QUrl &imageURL)
     qWarning() << "KStars does not support loading FITS. Please recompile KStars with FITS support.";
     return false;
 #else
-    FITSViewer * fv = NULL;
+    FITSViewer * fv = nullptr;
     if (Options::singleWindowOpenedFITS())
         fv = genericFITSViewer();
     else
     {
-        fv = new FITSViewer((Options::independentWindowFITS()) ? NULL : this);
+        fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
         KStars::Instance()->getFITSViewersList().append(fv);
     }
     // Error opening file

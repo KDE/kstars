@@ -68,8 +68,9 @@ QList<const StarObject *> StarHopper::computePath_const( const SkyPoint &src, co
     {
         qDebug() << "Next step";
         // Find the node with the lowest f_score value
-        SkyPoint const * curr_node = NULL;
+        SkyPoint const * curr_node = nullptr;
         double lowfscore = 1.0e8;
+
         foreach( const SkyPoint * sp, oSet )
         {
             if( f_score[ sp ] < lowfscore )

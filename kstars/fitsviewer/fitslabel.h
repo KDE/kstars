@@ -32,7 +32,7 @@ class FITSLabel : public QLabel
 {
         Q_OBJECT
     public:
-        explicit FITSLabel(FITSView * img, QWidget * parent=NULL);
+        explicit FITSLabel(FITSView * img, QWidget * parent = nullptr);
         virtual ~FITSLabel();
         void setSize(double w, double h);
         void centerTelescope(double raJ2000, double decJ2000);

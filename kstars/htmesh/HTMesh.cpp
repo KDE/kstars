@@ -49,7 +49,7 @@ HTMesh::HTMesh(int level, int buildLevel, int numBuffers) :
 
     // Allocate MeshBuffers
     m_meshBuffer = (MeshBuffer **) malloc( sizeof(MeshBuffer *) * numBuffers);
-    if (m_meshBuffer == NULL)
+    if (m_meshBuffer == nullptr)
     {
         fprintf(stderr, "Out of memory allocating %d MeshBuffers.\n", numBuffers);
         exit(0);

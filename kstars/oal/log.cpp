@@ -588,7 +588,7 @@ void OAL::Log::readFilters()
 
 void OAL::Log::readTarget()
 {
-    SkyObject * o = NULL;
+    SkyObject * o = nullptr;
     SkyPoint pos;
     bool posOK=false;
     QString name, time, notes;
@@ -872,7 +872,7 @@ void OAL::Log::readGeoDate()
         }
     }
     geo = KStarsData::Instance()->locationNamed( name, province, country );
-    if (geo == NULL)
+    if (geo == nullptr)
     {
         qDebug() << "Warning! Location " << name << ", " << province << ", " << country << " not found in KStars. Using current location." << endl;
         geo = KStarsData::Instance()->geo();
@@ -883,113 +883,141 @@ void OAL::Log::readGeoDate()
 OAL::Observer * OAL::Log::findObserverByName( QString name )
 {
     foreach( OAL::Observer * obs, *observerList() )
+    {
         if( QString(obs->name() + ' ' + obs->surname()) == name )
             return obs;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Observer * OAL::Log::findObserverById( QString id )
 {
     foreach( OAL::Observer * obs, *observerList() )
+    {
         if( obs->id() == id )
             return obs;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Session * OAL::Log::findSessionByName( QString id )
 {
     foreach( OAL::Session * s, *sessionList() )
+    {
         if( s->id()  == id )
             return s;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Site * OAL::Log::findSiteById( QString id )
 {
     foreach( OAL::Site * s, *siteList() )
+    {
         if( s->id()  == id )
             return s;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Site * OAL::Log::findSiteByName( QString name )
 {
     foreach( OAL::Site * s, *siteList() )
+    {
         if( s->name()  == name )
             return s;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Scope * OAL::Log::findScopeById( QString id )
 {
     foreach( OAL::Scope * s, *scopeList() )
+    {
         if( s->id()  == id )
             return s;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Eyepiece * OAL::Log::findEyepieceById( QString id )
 {
     foreach( OAL::Eyepiece * e, *eyepieceList() )
+    {
         if( e->id()  == id )
             return e;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Lens * OAL::Log::findLensById( QString id )
 {
     foreach( OAL::Lens * l, *lensList() )
+    {
         if( l->id()  == id )
             return l;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Filter * OAL::Log::findFilterById( QString id )
 {
     foreach( OAL::Filter * f, *filterList() )
+    {
         if( f->id()  == id )
             return f;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Scope * OAL::Log::findScopeByName( QString name )
 {
     foreach( OAL::Scope * s, *scopeList() )
+    {
         if( s->name()  == name )
             return s;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Eyepiece * OAL::Log::findEyepieceByName( QString name )
 {
     foreach( OAL::Eyepiece * e, *eyepieceList() )
+    {
         if( e->name()  == name )
             return e;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Filter * OAL::Log::findFilterByName( QString name )
 {
     foreach( OAL::Filter * f, *filterList() )
+    {
         if( f->name()  == name )
             return f;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Lens * OAL::Log::findLensByName( QString name )
 {
     foreach( OAL::Lens * l, *lensList() )
+    {
         if( l->name()  == name )
             return l;
-    return NULL;
+    }
+    return nullptr;
 }
 
 OAL::Observation * OAL::Log::findObservationByName( QString id )
 {
     foreach( OAL::Observation * o, *observationList() )
+    {
         if( o->id()  == id )
             return o;
-    return NULL;
+    }
+    return nullptr;
 }
 
 void OAL::Log::readAll()

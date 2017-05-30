@@ -96,7 +96,7 @@ class GDInterface : public QObject
     public slots:
         virtual bool Connect()=0;
         virtual bool Disconnect()=0;
-        virtual bool runCommand(int command, void * ptr=NULL)=0;
+        virtual bool runCommand(int command, void * ptr = nullptr) = 0;
         virtual bool setProperty(QObject *)=0;
 
     signals:
@@ -178,7 +178,7 @@ class GenericDevice : public GDInterface
     public slots:
         virtual bool Connect();
         virtual bool Disconnect();
-        virtual bool runCommand(int command, void * ptr=NULL);
+        virtual bool runCommand(int command, void * ptr = nullptr);
         virtual bool setProperty(QObject *);
 
     protected slots:
@@ -243,7 +243,7 @@ class DeviceDecorator : public GDInterface
     public slots:
         virtual bool Connect();
         virtual bool Disconnect();
-        virtual bool runCommand(int command, void * ptr=NULL);
+        virtual bool runCommand(int command, void * ptr = nullptr);
         virtual bool setProperty(QObject *);
 
     protected:

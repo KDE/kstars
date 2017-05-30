@@ -422,20 +422,20 @@ int main(int argc, char * argv[])
 
     f = fopen(argv[1], "r");
 
-    if(f == NULL)
+    if(f == nullptr)
     {
         fprintf(stderr, "ERROR: Could not open file %s for binary read.\n", argv[1]);
         return 1;
     }
 
     /* Open the Database */
-    if(mysql_init( &link ) == NULL)
+    if(mysql_init( &link ) == nullptr)
     {
         fprintf(stderr, "ERROR: Failed to initialize MySQL connection!\n");
         return 1;
     }
     MYSQL * ret;
-    ret = mysql_real_connect(&link, "localhost", argv[2], argv[3], db_name, 0, NULL, 0);
+    ret = mysql_real_connect(&link, "localhost", argv[2], argv[3], db_name, 0, nullptr, 0);
 
     if(!ret)
     {

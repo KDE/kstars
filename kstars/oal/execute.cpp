@@ -63,13 +63,13 @@ Execute::Execute()
 
     setWindowTitle( i18n( "Execute Session" ) );
 
-    currentTarget = NULL;
-    currentObserver = NULL;
-    currentScope = NULL;
-    currentEyepiece = NULL;
-    currentLens = NULL;
-    currentFilter = NULL;
-    currentSession = NULL;
+    currentTarget = nullptr;
+    currentObserver = nullptr;
+    currentScope = nullptr;
+    currentEyepiece = nullptr;
+    currentLens = nullptr;
+    currentFilter = nullptr;
+    currentSession = nullptr;
     nextSession = 0;
     nextObservation = 0;
     nextSite = 0;
@@ -361,8 +361,8 @@ void Execute::slotEndSession()
     logObject->observationList()->clear();
     logObject->sessionList()->clear();
     delete currentSession;
-    currentTarget = NULL;
-    currentSession = NULL;
+    currentTarget = nullptr;
+    currentSession = nullptr;
 }
 void Execute::slotObserverAdd()
 {
@@ -466,14 +466,16 @@ void Execute::slotAddObject()
 void Execute::slotRemoveObject()
 {
     QModelIndex i = ui.Target->currentIndex();
-    SkyObject * obj = 0;
-    if( i.isValid() )
+    SkyObject * obj = nullptr;
+
+    if (i.isValid())
     {
         QString ObjName = i.data().toString();
+
         obj = KStarsData::Instance()->skyComposite()->findByName( ObjName );
     }
 
-    if( obj!=0 )
+    if (obj != nullptr)
     {
         KStarsData::Instance()->observingList()->slotRemoveObject( obj, true );
         loadTargets();
@@ -483,6 +485,7 @@ void Execute::slotRemoveObject()
 QString Execute::getObjectName(const SkyObject * o, bool translated)
 {
     QString finalObjectName;
+
     if( o->name() == "star" )
     {
         StarObject * s = (StarObject *)o;
@@ -495,8 +498,4 @@ QString Execute::getObjectName(const SkyObject * o, bool translated)
         finalObjectName = translated ? o->translatedName() : o->name();
 
     return finalObjectName;
-
 }
-
-
-

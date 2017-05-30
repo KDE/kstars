@@ -261,7 +261,8 @@ bool InternalGuider::calibrate()
 
     if (ccdInfo == false || scopeInfo == false)
     {
-        KMessageBox::error(NULL, i18n("%1 info are missing. Please set the values in INDI Control Panel.", errMsg), i18n("Missing Information"));
+        KMessageBox::error(nullptr, i18n("%1 info are missing. Please set the values in INDI Control Panel.", errMsg),
+                           i18n("Missing Information"));
         return false;
     }
 
@@ -372,7 +373,7 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
 
             emit newLog(i18n("RA drifting forward..."));
 
-            pmath->getReticleParameters(&start_x1, &start_y1, NULL);
+            pmath->getReticleParameters(&start_x1, &start_y1, nullptr);
 
             if (Options::guideLogging())
                 qDebug() << "Guide: Start X1 " << start_x1 << " Start Y1 " << start_y1;

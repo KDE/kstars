@@ -17,7 +17,7 @@
 #include "skyobject.h"
 
 SkyPointLite::SkyPointLite()
-    :point(NULL)
+    :point(nullptr)
 {
 
 }

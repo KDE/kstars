@@ -40,12 +40,13 @@ void Focuser::processText(ITextVectorProperty * tvp)
 bool Focuser::focusIn()
 {
     ISwitchVectorProperty * focusProp = baseDevice->getSwitch("FOCUS_MOTION");
-    if (focusProp == NULL)
+
+    if (focusProp == nullptr)
         return false;
 
-
     ISwitch * inFocus = IUFindSwitch(focusProp, "FOCUS_INWARD");
-    if (inFocus == NULL)
+
+    if (inFocus == nullptr)
         return false;
 
     if (inFocus->s == ISS_ON)
@@ -57,18 +58,18 @@ bool Focuser::focusIn()
     clientManager->sendNewSwitch(focusProp);
 
     return true;
-
 }
 
 bool Focuser::focusOut()
 {
     ISwitchVectorProperty * focusProp = baseDevice->getSwitch("FOCUS_MOTION");
-    if (focusProp == NULL)
+
+    if (focusProp == nullptr)
         return false;
 
-
     ISwitch * outFocus = IUFindSwitch(focusProp, "FOCUS_OUTWARD");
-    if (outFocus == NULL)
+
+    if (outFocus == nullptr)
         return false;
 
     if (outFocus->s == ISS_ON)
@@ -85,11 +86,13 @@ bool Focuser::focusOut()
 bool Focuser::getFocusDirection(ISD::Focuser::FocusDirection * dir)
 {
     ISwitchVectorProperty * focusProp = baseDevice->getSwitch("FOCUS_MOTION");
-    if (focusProp == NULL)
+
+    if (focusProp == nullptr)
         return false;
 
     ISwitch * inFocus = IUFindSwitch(focusProp, "FOCUS_INWARD");
-    if (inFocus == NULL)
+
+    if (inFocus == nullptr)
         return false;
 
     if (inFocus->s == ISS_ON)
@@ -103,7 +106,8 @@ bool Focuser::getFocusDirection(ISD::Focuser::FocusDirection * dir)
 bool Focuser::moveByTimer(int msecs)
 {
     INumberVectorProperty * focusProp = baseDevice->getNumber("FOCUS_TIMER");
-    if (focusProp == NULL)
+
+    if (focusProp == nullptr)
         return false;
 
     focusProp->np[0].value = msecs;
@@ -116,7 +120,8 @@ bool Focuser::moveByTimer(int msecs)
 bool Focuser::moveAbs(int steps)
 {
     INumberVectorProperty * focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
-    if (focusProp == NULL)
+
+    if (focusProp == nullptr)
         return false;
 
     focusProp->np[0].value = steps;
@@ -129,7 +134,8 @@ bool Focuser::moveAbs(int steps)
 bool Focuser::canAbsMove()
 {
     INumberVectorProperty * focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
-    if (focusProp == NULL)
+
+    if (focusProp == nullptr)
         return false;
     else
         return true;
@@ -138,7 +144,8 @@ bool Focuser::canAbsMove()
 bool Focuser::moveRel(int steps)
 {
     INumberVectorProperty * focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
-    if (focusProp == NULL)
+
+    if (focusProp == nullptr)
         return false;
 
     focusProp->np[0].value = steps;
@@ -151,7 +158,8 @@ bool Focuser::moveRel(int steps)
 bool Focuser::canRelMove()
 {
     INumberVectorProperty * focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
-    if (focusProp == NULL)
+
+    if (focusProp == nullptr)
         return false;
     else
         return true;
@@ -160,7 +168,8 @@ bool Focuser::canRelMove()
 bool Focuser::canTimerMove()
 {
     INumberVectorProperty * focusProp = baseDevice->getNumber("FOCUS_TIMER");
-    if (focusProp == NULL)
+
+    if (focusProp == nullptr)
         return false;
     else
         return true;

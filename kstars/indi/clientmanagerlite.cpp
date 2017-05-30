@@ -176,7 +176,7 @@ void ClientManagerLite::buildTextGUI(Property * property)
 {
     {
         ITextVectorProperty * tvp = property->getText();
-        if (tvp == NULL)
+        if (tvp == nullptr)
             return;
 
         for (int i=0; i < tvp->ntp; i++)
@@ -231,7 +231,7 @@ void ClientManagerLite::buildNumberGUI(Property * property)
 {
     {
         INumberVectorProperty * nvp = property->getNumber();
-        if (nvp == NULL)
+        if (nvp == nullptr)
             return;
 
         for (int i=0; i < nvp->nnp; i++)
@@ -299,7 +299,7 @@ void ClientManagerLite::buildMenuGUI(INDI::Property * property)
     int onItem=-1;*/
     ISwitchVectorProperty * svp = property->getSwitch();
 
-    if (svp == NULL)
+    if (svp == nullptr)
         return;
 
     for (int i=0; i < svp->nsp; i++)
@@ -331,7 +331,7 @@ void ClientManagerLite::buildSwitchGUI(INDI::Property * property, PGui guiType)
     ISwitchVectorProperty * svp = property->getSwitch();
     bool exclusive = false;
 
-    if (svp == NULL)
+    if (svp == nullptr)
         return;
 
     if (guiType == PG_BUTTONS)
@@ -414,7 +414,7 @@ void ClientManagerLite::buildLightGUI(INDI::Property * property)
 {
     ILightVectorProperty * lvp = property->getLight();
 
-    if (lvp == NULL)
+    if (lvp == nullptr)
         return;
 
     for (int i=0; i < lvp->nlp; i++)
@@ -487,12 +487,12 @@ void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, 
             {
                 ISwitchVectorProperty * svp = property->getSwitch();
 
-                if (svp == NULL)
+                if (svp == nullptr)
                     return;
 
                 ISwitch * sp = IUFindSwitch(svp, name.toLatin1().constData());
 
-                if (sp == NULL)
+                if (sp == nullptr)
                     return;
 
                 if (svp->r == ISR_1OFMANY)
@@ -588,7 +588,7 @@ void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, 
 
                     ISwitchVectorProperty * svp = property->getSwitch();
 
-                    if (svp == NULL)
+                    if (svp == nullptr)
                         return;
 
                     if (index >= svp->nsp)
@@ -639,7 +639,8 @@ bool ClientManagerLite::saveDisplayImage()
 bool ClientManagerLite::isDeviceConnected(QString deviceName)
 {
     INDI::BaseDevice * device = getDevice(deviceName.toStdString().c_str());
-    if(device != NULL)
+
+    if(device != nullptr)
     {
         return device->isConnected();
     }
@@ -681,8 +682,7 @@ void ClientManagerLite::newProperty(INDI::Property * property)
     QString groupName = property->getGroupName();
     QString type = QString(property->getType());
     QString label = property->getLabel();
-
-    DeviceInfoLite * devInfo = NULL;
+    DeviceInfoLite * devInfo = nullptr;
 
     foreach(DeviceInfoLite * di, m_devices)
     {
@@ -817,7 +817,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
         if (!tmpFile.open())
         {
             qDebug() << "ISD:CCD Error: Unable to open " << filename << endl;
-            //emit BLOBUpdated(NULL);
+            //emit BLOBUpdated(nullptr);
             return false;
         }
 
@@ -932,7 +932,7 @@ void ClientManagerLite::newSwitch(ISwitchVectorProperty * svp)
         {
             emit deviceConnected(svp->device, sw->s == ISS_ON);
         }
-        if(sw != NULL)
+        if(sw != nullptr)
         {
             emit newINDISwitch(svp->device, svp->name, sw->name, sw->s == ISS_ON);
             emit newLEDState(svp->device, svp->name);

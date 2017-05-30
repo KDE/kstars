@@ -60,11 +60,11 @@ Focus::Focus()
     new FocusAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Focus",  this);
 
-    currentFocuser = NULL;
-    currentCCD     = NULL;
-    currentFilter  = NULL;
-    filterName     = NULL;
-    filterSlot     = NULL;
+    currentFocuser = nullptr;
+    currentCCD = nullptr;
+    currentFilter = nullptr;
+    filterName = nullptr;
+    filterSlot = nullptr;
 
     canAbsMove        = false;
     canRelMove        = false;
@@ -198,7 +198,7 @@ Focus::Focus()
 
     connect(relativeProfileB, SIGNAL(clicked()), profileDialog, SLOT(show()));
 
-    firstGaus   = NULL;
+    firstGaus = nullptr;
 
     currentGaus = profilePlot->addGraph();
     currentGaus->setLineStyle(QCPGraph::lsLine);
@@ -298,7 +298,7 @@ Focus::~Focus()
 {
     //qDeleteAll(HFRAbsolutePoints);
     // HFRAbsolutePoints.clear();
-    if (focusingWidget->parent() == NULL)
+    if (focusingWidget->parent() == nullptr)
         toggleFocusingWidgetFullScreen();
 }
 
@@ -427,7 +427,7 @@ void Focus::checkCCD(int ccdNum)
 
 void Focus::syncCCDInfo()
 {
-    if (currentCCD == NULL)
+    if (currentCCD == nullptr)
         return;
 
     ISD::CCDChip * targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
@@ -528,7 +528,7 @@ void Focus::checkFilter(int filterNum)
     filterName   = currentFilter->getBaseDevice()->getText("FILTER_NAME");
     filterSlot = currentFilter->getBaseDevice()->getNumber("FILTER_SLOT");
 
-    if (filterSlot == NULL)
+    if (filterSlot == nullptr)
     {
         KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1", currentFilter->getBaseDevice()->getDeviceName()));
         return;
@@ -540,7 +540,7 @@ void Focus::checkFilter(int filterNum)
     {
         QString item;
 
-        if (filterName != NULL && (i < filterName->ntp))
+        if (filterName != nullptr && (i < filterName->ntp))
             item = filterName->tp[i].text;
         else if (i < filterAlias.count() && filterAlias[i].isEmpty() == false)
             item = filterAlias.at(i);
@@ -588,10 +588,10 @@ void Focus::filterLockToggled(bool enable)
             Options::setLockFocusFilterIndex(lockedFilterIndex);
         emit filterLockUpdated(currentFilter, lockedFilterIndex);
     }
-    else if (filterSlot != NULL)
+    else if (filterSlot != nullptr)
     {
         FilterPosCombo->setCurrentIndex(filterSlot->np[0].value-1);
-        emit filterLockUpdated(NULL, 0);
+        emit filterLockUpdated(nullptr, 0);
     }
 }
 
@@ -709,31 +709,29 @@ void Focus::addCCD(ISD::GDInterface * newCCD)
 
 void Focus::getAbsFocusPosition()
 {
-    INumberVectorProperty * absMove = NULL;
-    if (canAbsMove)
+    if (!canAbsMove)
+        return;
+
+    INumberVectorProperty * absMove = currentFocuser->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
+
+    if (absMove)
     {
-        absMove = currentFocuser->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
+        currentPosition = absMove->np[0].value;
+        absMotionMax  = absMove->np[0].max;
+        absMotionMin  = absMove->np[0].min;
 
-        if (absMove)
-        {
-            currentPosition = absMove->np[0].value;
-            absMotionMax  = absMove->np[0].max;
-            absMotionMin  = absMove->np[0].min;
+        absTicksSpin->setMinimum(absMove->np[0].min);
+        absTicksSpin->setMaximum(absMove->np[0].max);
+        absTicksSpin->setSingleStep(absMove->np[0].step);
 
-            absTicksSpin->setMinimum(absMove->np[0].min);
-            absTicksSpin->setMaximum(absMove->np[0].max);
-            absTicksSpin->setSingleStep(absMove->np[0].step);
-
-            absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
-            //absTicksSpin->setValue(currentPosition);
-        }
+        absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+        //absTicksSpin->setValue(currentPosition);
     }
-
 }
 
 void Focus::start()
 {
-    if (currentCCD == NULL)
+    if (currentCCD == nullptr)
     {
         appendLogText(i18n("No CCD connected."));
         return;
@@ -792,7 +790,7 @@ void Focus::start()
     if (firstGaus)
     {
         profilePlot->removeGraph(firstGaus);
-        firstGaus = NULL;
+        firstGaus = nullptr;
     }
 
     Options::setFocusTicks(stepIN->value());
@@ -896,7 +894,7 @@ void Focus::stop(bool aborted)
 
 void Focus::capture()
 {
-    if (currentCCD == NULL)
+    if (currentCCD == nullptr)
     {
         appendLogText(i18n("No CCD connected."));
         return;
@@ -914,7 +912,7 @@ void Focus::capture()
         return;
     }
 
-    if (currentFilter != NULL && lockFilterCheck->isChecked())
+    if (currentFilter != nullptr && lockFilterCheck->isChecked())
     {
         if (currentFilter->isConnected() == false)
         {
@@ -989,7 +987,7 @@ void Focus::capture()
 
 bool Focus::focusIn(int ms)
 {
-    if (currentFocuser == NULL)
+    if (currentFocuser == nullptr)
         return false;
 
     if (currentFocuser->isConnected() == false)
@@ -1029,7 +1027,7 @@ bool Focus::focusIn(int ms)
 
 bool Focus::focusOut(int ms)
 {
-    if (currentFocuser == NULL)
+    if (currentFocuser == nullptr)
         return false;
 
     if (currentFocuser->isConnected() == false)
@@ -1069,7 +1067,7 @@ bool Focus::focusOut(int ms)
 
 void Focus::newFITS(IBLOB * bp)
 {
-    if (bp == NULL)
+    if (bp == nullptr)
     {
         capture();
         return;
@@ -1084,7 +1082,7 @@ void Focus::newFITS(IBLOB * bp)
 
     if (darkFrameCheck->isChecked())
     {
-        FITSData * darkData       = NULL;
+        FITSData * darkData = nullptr;
         QVariantMap settings = frameSettings[targetChip];
         uint16_t offsetX = settings["x"].toInt() / settings["binx"].toInt();
         uint16_t offsetY = settings["y"].toInt() / settings["biny"].toInt();
@@ -1263,10 +1261,11 @@ void Focus::setCaptureComplete()
                 setAutoFocusResult(true);
                 return;
             }
-            Edge * maxStarHFR = NULL;
+            Edge * maxStarHFR = nullptr;
+
             // Center tracking box around selected star
             //if (starSelected && inAutoFocus)
-            if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0) && (maxStarHFR = image_data->getMaxHFRStar()) != NULL)
+            if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0) && (maxStarHFR = image_data->getMaxHFRStar()) != nullptr)
             {
                 starSelected=true;
                 starCenter.setX(qMax(0, static_cast<int>(maxStarHFR->x)));
@@ -1362,7 +1361,8 @@ void Focus::setCaptureComplete()
         if (autoStarCheck->isChecked())
         {
             Edge * maxStar = image_data->getMaxHFRStar();
-            if (maxStar == NULL)
+
+            if (maxStar == nullptr)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
 
@@ -1588,7 +1588,7 @@ void Focus::drawProfilePlot()
     if (lastGausIndexes.count() > 0)
         lastGaus->setData(lastGausIndexes, lastGausFrequencies);
 
-    if (focusType == FOCUS_AUTO && firstGaus == NULL)
+    if (focusType == FOCUS_AUTO && firstGaus == nullptr)
     {
         firstGaus = profilePlot->addGraph();
         QPen pen;
@@ -1602,7 +1602,7 @@ void Focus::drawProfilePlot()
     else if (firstGaus)
     {
         profilePlot->removeGraph(firstGaus);
-        firstGaus=NULL;
+        firstGaus = nullptr;
     }
 
     profilePlot->rescaleAxes();
@@ -2260,7 +2260,7 @@ void Focus::clearLog()
 
 void Focus::startFraming()
 {
-    if (currentCCD == NULL)
+    if (currentCCD == nullptr)
     {
         appendLogText(i18n("No CCD connected."));
         return;
@@ -2334,11 +2334,12 @@ void Focus::resetButtons()
 
 void Focus::updateBoxSize(int value)
 {
-    if (currentCCD == NULL)
+    if (currentCCD == nullptr)
         return;
 
     ISD::CCDChip * targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    if (targetChip == NULL)
+
+    if (targetChip == nullptr)
         return;
 
     int subBinX, subBinY;
@@ -2590,7 +2591,7 @@ void Focus::checkAutoStarTimeout()
 
 void Focus::setAbsoluteFocusTicks()
 {
-    if (currentFocuser == NULL)
+    if (currentFocuser == nullptr)
         return;
 
     if (currentFocuser->isConnected() == false)
@@ -2673,7 +2674,7 @@ void Focus::showFITSViewer()
                 fv = KStars::Instance()->genericFITSViewer();
             else
             {
-                fv = new FITSViewer(Options::independentWindowFITS() ? NULL : KStars::Instance());
+                fv = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
                 KStars::Instance()->getFITSViewersList().append(fv);
             }
 
@@ -2701,7 +2702,7 @@ void Focus::adjustRelativeFocus(int16_t offset)
 
 void Focus::toggleFocusingWidgetFullScreen()
 {
-    if (focusingWidget->parent() == NULL)
+    if (focusingWidget->parent() == nullptr)
     {
         focusingWidget->setParent(this);
         rightLayout->insertWidget(0, focusingWidget);
@@ -2797,7 +2798,8 @@ bool Focus::findMinimum(double expected, double * position, double * hfr)
 void Focus::saveFilterExposure()
 {
     // Find matching filter if any and save its exposure
-    OAL::Filter * matchedFilter=NULL;
+    OAL::Filter * matchedFilter = nullptr;
+
     foreach( OAL::Filter * o, m_filterList )
     {
         if (o->vendor() == FilterCaptureCombo->currentText() && o->color() == FilterPosCombo->currentText())
@@ -2808,7 +2810,7 @@ void Focus::saveFilterExposure()
     }
 
     // If doesn't exist, create one
-    if (matchedFilter == NULL)
+    if (matchedFilter == nullptr)
         KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", "0", FilterPosCombo->currentText(), QString::number(exposureIN->value()));
     // Or update existing
     else
@@ -2820,7 +2822,8 @@ void Focus::saveFilterExposure()
 void Focus::refreshFilterExposure()
 {
     KStarsData::Instance()->userdb()->GetAllFilters(m_filterList);
-    OAL::Filter * matchedFilter=NULL;
+    OAL::Filter * matchedFilter = nullptr;
+
     foreach( OAL::Filter * o, m_filterList )
     {
         if (o->vendor() == FilterCaptureCombo->currentText() && o->color() == FilterPosCombo->currentText())

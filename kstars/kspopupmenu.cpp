@@ -540,14 +540,14 @@ void KSPopupMenu::addINDI()
     {
         INDI::BaseDevice * bd = gd->getBaseDevice();
 
-        if (bd == NULL)
+        if (bd == nullptr)
             continue;
 
         //if (bd->isConnected() == false)
         //    continue;
 
-        QMenu * menuDevice = NULL;
-        ISD::GDInterface * telescope = NULL;
+        QMenu * menuDevice = nullptr;
+        ISD::GDInterface * telescope = nullptr;
 
         foreach(INDI::Property * pp, gd->getProperties())
         {
@@ -560,7 +560,7 @@ void KSPopupMenu::addINDI()
 
             for (int i=0; i < svp->nsp; i++)
             {
-                if (menuDevice == NULL)
+                if (menuDevice == nullptr)
                 {
                     menuDevice = new QMenu(gd->getDeviceName());
                     addMenu(menuDevice);

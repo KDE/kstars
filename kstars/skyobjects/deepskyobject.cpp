@@ -50,7 +50,7 @@ DeepSkyObject::DeepSkyObject( const DeepSkyObject &o )
     , MinorAxis( o.MinorAxis )
     , Catalog( o.Catalog )
 {
-    customCat = NULL;
+    customCat = nullptr;
     Flux = o.flux();
     setMag( o.mag() );
     updateID = updateNumID = 0;
@@ -69,7 +69,7 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
     UGC = ugc;
     setCatalog( cat );
     updateID = updateNumID = 0;
-    customCat = NULL;
+    customCat = nullptr;
     Flux = 0;
 
     // Disable image loading on init

@@ -387,7 +387,7 @@ void ConjunctionsTool::slotCompute (void)
     }
 
     delete Object2;
-    Object2 = NULL;
+    Object2 = nullptr;
 }
 
 void ConjunctionsTool::showProgress(int n)

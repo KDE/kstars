@@ -10,7 +10,7 @@ class DeviceOrientation : public QObject
 //    Q_PROPERTY(int pitch MEMBER m_Pitch NOTIFY pitchChanged)
 //    Q_PROPERTY(int roll MEMBER m_Roll NOTIFY rollChanged)
     public:
-        DeviceOrientation(QObject * parent = NULL);
+        DeviceOrientation(QObject * parent = nullptr);
         void getOrientation();
 
         float getAzimuth()

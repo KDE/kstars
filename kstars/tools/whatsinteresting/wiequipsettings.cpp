@@ -84,7 +84,8 @@ void WIEquipSettings::slotScopeSelected(int row)
         return;
 
     QListWidgetItem * item = ScopeListWidget->item(row);
-    if (item == NULL)
+
+    if (item == nullptr)
         return;
 
     vendorText->setText(item->data(Vendor).toString());

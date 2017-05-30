@@ -147,7 +147,7 @@ class SkyMapComposite : public QObject, public SkyComposite
         	*the most likely object classes first to be more efficient.
         	*@p name the name to be matched
         	*@return a pointer to the SkyObject whose name matches
-        	*the argument, or a NULL pointer if no match was found.
+        	*the argument, or a nullptr pointer if no match was found.
         	*/
         virtual SkyObject * findByName( const QString &name );
 

@@ -76,7 +76,7 @@ class BinFileHelper
          *WARNING: This function may not be compatible in other locales, because it calls QString::toAscii
          *@short Open a Binary data file and set the handle
          *@param fileName  Reference to QString containing the name of the file
-         *@return Handle to the file if successful, NULL if an error occurred, sets the error.
+         *@return Handle to the file if successful, nullptr if an error occurred, sets the error.
          */
 
         FILE * openFile(const QString &fileName);
@@ -132,7 +132,7 @@ class BinFileHelper
 
         /**
          *@short  Get the file handle corresponding to the currently open file
-         *@return The filehandle if a file is open, NULL if no file is open
+         *@return The filehandle if a file is open, nullptr if no file is open
          */
         inline FILE * getFileHandle() const
         {
@@ -284,7 +284,7 @@ class BinFileHelper
             DT_INT32,             /* 32-bit Integer */
             DT_UINT32,            /* 32-bit Unsigned Integer */
             DT_CHARV,             /* Fixed-length array of characters */
-            DT_STR,               /* Variable length array of characters, either terminated by NULL or by the limit on field size */
+            DT_STR,               /* Variable length array of characters, either terminated by nullptr or by the limit on field size */
             DT_SPCL = 128         /* Flag indicating that the field requires special treatment (eg: Different bits may mean different things) */
         };
 

@@ -38,7 +38,7 @@ RemoteAstrometryParser::~RemoteAstrometryParser()
 
 bool RemoteAstrometryParser::init()
 {
-    return (remoteAstrometry != NULL);
+    return remoteAstrometry != nullptr;
 }
 
 void RemoteAstrometryParser::verifyIndexFiles(double, double)
@@ -60,7 +60,7 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
     ISwitchVectorProperty * solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
     IBLOBVectorProperty * solverBLOB = remoteAstrometry->getBaseDevice()->getBLOB("ASTROMETRY_DATA");
 
-    if (solverSwitch == NULL || solverBLOB == NULL)
+    if (solverSwitch == nullptr || solverBLOB == nullptr)
     {
         align->appendLogText(i18n("Failed to find solver properties."));
         fp.close();
@@ -83,7 +83,7 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
     bp->bloblen = bp->size = fp.size();
 
     bp->blob = (uint8_t *) realloc (bp->blob, bp->size);
-    if (bp->blob == NULL)
+    if (bp->blob == nullptr)
     {
         align->appendLogText(i18n("Not enough memory for file %1", filename));
         fp.close();
@@ -115,7 +115,7 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
 {
     ITextVectorProperty * solverSettings = remoteAstrometry->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
 
-    if (solverSettings == NULL)
+    if (solverSettings == nullptr)
     {
         align->appendLogText(i18n("Failed to find solver settings."));
         emit solverFailed();
@@ -151,13 +151,14 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
 void RemoteAstrometryParser::setEnabled(bool enable)
 {
     ISwitchVectorProperty * solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
-    if (solverSwitch == NULL)
+
+    if (solverSwitch == nullptr)
         return;
 
     ISwitch * enableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_ENABLE");
     ISwitch * disableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_DISABLE");
 
-    if (enableSW == NULL || disableSW == NULL)
+    if (enableSW == nullptr || disableSW == nullptr)
         return;
 
     if (enable && enableSW->s == ISS_OFF)

@@ -90,20 +90,15 @@ bool INDI_G::removeProperty(const QString &probName)
             return true;
         }
     }
-
-
     return false;
 }
 
 INDI_P * INDI_G::getProperty(const QString &propName)
 {
-
     foreach(INDI_P * pp, propList)
     {
         if (pp->getName() == propName )
             return pp;
     }
-
-    return NULL;
-
+    return nullptr;
 }

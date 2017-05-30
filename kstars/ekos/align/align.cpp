@@ -77,9 +77,9 @@ Align::Align()
     focusState = FOCUS_IDLE;
     pahStage = PAH_IDLE;
 
-    currentCCD     = NULL;
-    currentTelescope = NULL;
-    currentFilter = NULL;
+    currentCCD = nullptr;
+    currentTelescope = nullptr;
+    currentFilter = nullptr;
     useGuideHead = false;
     canSync = false;
     //loadSlewMode = false;
@@ -93,7 +93,7 @@ Align::Align()
     decDeviation = azDeviation = altDeviation = 0;
 
     rememberUploadMode = ISD::CCD::UPLOAD_CLIENT;
-    currentFilter = NULL;
+    currentFilter = nullptr;
     filterPositionPending = false;
     lockedFilterIndex = currentFilterIndex = -1;
     retries = 0;
@@ -101,12 +101,12 @@ Align::Align()
     solverIterations = 0;
     fov_x = fov_y = fov_pixscale = 0;
 
-    parser = NULL;
+    parser = nullptr;
     solverFOV = new FOV();
     solverFOV->setColor(KStars::Instance()->data()->colorScheme()->colorNamed( "SolverFOVColor" ).name());
-    onlineParser = NULL;
-    offlineParser = NULL;
-    remoteParser = NULL;
+    onlineParser = nullptr;
+    offlineParser = nullptr;
+    remoteParser = nullptr;
 
     showFITSViewerB->setIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
     showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -450,7 +450,7 @@ Align::~Align()
     delete(solverFOV);
     delete(parser);
 
-    if (alignWidget->parent() == NULL)
+    if (alignWidget->parent() == nullptr)
         toggleAlignWidgetFullScreen();
 
     // Remove temporary FITS files left before by the solver
@@ -864,7 +864,7 @@ const SkyObject * Align::getWizardAlignObject(double ra, double dec)
     if(mountModel.alignTypeBox->currentText() == "Any Object")
         return KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch );
     else if(mountModel.alignTypeBox->currentText() == "Fixed DEC" || mountModel.alignTypeBox->currentText() == "Fixed Grid")
-        return NULL;
+        return nullptr;
     else if(mountModel.alignTypeBox->currentText() == "Any Stars")
         return KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch );
 
@@ -1120,7 +1120,7 @@ bool Align::loadAlignmentPoints(const QString &fileURL)
     LilXML * xmlParser = newLilXML();
 
     char errmsg[MAXRBUF];
-    XMLEle * root = NULL;
+    XMLEle * root = nullptr;
     char c;
 
     while ( sFile.getChar(&c))
@@ -1136,12 +1136,12 @@ bool Align::loadAlignmentPoints(const QString &fileURL)
                 return false;
             }
 
-            XMLEle * ep = NULL;
-            XMLEle * subEP = NULL;
+            XMLEle * ep = nullptr;
+            XMLEle * subEP = nullptr;
 
             int currentRow = 0;
 
-            for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+            for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
             {
                 if (!strcmp(tagXMLEle(ep), "AlignmentPoint"))
                 {
@@ -1789,7 +1789,7 @@ void Align::setSolverType(int type)
     {
     case SOLVER_ONLINE:
         loadSlewB->setEnabled(true);
-        if (onlineParser != NULL)
+        if (onlineParser != nullptr)
         {
             parser = onlineParser;
             return;
@@ -1801,10 +1801,9 @@ void Align::setSolverType(int type)
 
     case SOLVER_OFFLINE:
         loadSlewB->setEnabled(true);
-        if (offlineParser != NULL)
+        if (offlineParser != nullptr)
         {
             parser = offlineParser;
-
             return;
         }
 
@@ -1814,7 +1813,7 @@ void Align::setSolverType(int type)
 
     case SOLVER_REMOTE:
         loadSlewB->setEnabled(true);
-        if (remoteParser != NULL)
+        if (remoteParser != nullptr)
         {
             parser = remoteParser;
             (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
@@ -1906,7 +1905,7 @@ void Align::setTelescope(ISD::GDInterface * newTelescope)
 
 void Align::syncTelescopeInfo()
 {
-    if (currentTelescope == NULL)
+    if (currentTelescope == nullptr)
         return;
 
     canSync = currentTelescope->canSync();
@@ -1925,9 +1924,8 @@ void Align::syncTelescopeInfo()
 
     if (nvp)
     {
-        INumber * np = NULL;
+        INumber * np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
 
-        np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
         if (np && np->value > 0)
             primaryAperture = np->value;
 
@@ -1976,9 +1974,9 @@ void Align::syncTelescopeInfo()
 
 void Align::syncCCDInfo()
 {
-    INumberVectorProperty * nvp = NULL;
+    INumberVectorProperty * nvp = nullptr;
 
-    if (currentCCD == NULL)
+    if (currentCCD == nullptr)
         return;
 
     if (useGuideHead)
@@ -2009,7 +2007,7 @@ void Align::syncCCDInfo()
 
     targetChip->setImageView(alignView, FITS_ALIGN);
 
-    targetChip->getFrameMinMax(NULL, NULL, NULL, NULL, NULL, &ccd_width, NULL, &ccd_height);
+    targetChip->getFrameMinMax(nullptr, nullptr, nullptr, nullptr, nullptr, &ccd_width, nullptr, &ccd_height);
     //targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
     binningCombo->setEnabled(targetChip->canBin());
     if (targetChip->canBin())
@@ -2283,7 +2281,7 @@ bool Align::captureAndSolve()
 {
     //m_isSolverComplete = false;
 
-    if (currentCCD == NULL)
+    if (currentCCD == nullptr)
         return false;
 
     if (currentCCD->isConnected() == false)
@@ -2308,7 +2306,7 @@ bool Align::captureAndSolve()
         return false;
     }
 
-    if (currentFilter != NULL && lockedFilterIndex != -1)
+    if (currentFilter != nullptr && lockedFilterIndex != -1)
     {
         if (lockedFilterIndex != currentFilterIndex)
         {
@@ -2506,7 +2504,7 @@ void Align::newFITS(IBLOB * bp)
                 targetChip->getFrame(&x, &y, &w, &h);
                 targetChip->getBinning(&binx, &biny);
 
-                FITSData * darkData       = NULL;
+                FITSData * darkData = nullptr;
 
                 uint16_t offsetX = x / binx;
                 uint16_t offsetY = y / biny;
@@ -3892,10 +3890,9 @@ void Align::setFOVTelescopeType(int index)
 FOV * Align::fov()
 {
     if (sOrientation == -1)
-        return NULL;
+        return nullptr;
     else
         return solverFOV;
-
 }
 
 void Align::setLockedFilter(ISD::GDInterface * filter, int lockedPosition)
@@ -3932,7 +3929,7 @@ void Align::processFilterNumber(INumberVectorProperty * nvp)
 
 void Align::setWCSEnabled(bool enable)
 {
-    if (currentCCD == NULL)
+    if (currentCCD == nullptr)
         return;
 
     ISwitchVectorProperty * wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
@@ -3993,7 +3990,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 {
     int status = 0, fits_ccd_width, fits_ccd_height, fits_focal_length = -1, fits_binx = 1, fits_biny = 1;
     char comment[128], error_status[512];
-    fitsfile * fptr = NULL;
+    fitsfile * fptr = nullptr;
     double ra = 0, dec = 0, fits_fov_x, fits_fov_y, fov_lower, fov_upper, fits_ccd_hor_pixel = -1, fits_ccd_ver_pixel = -1;
     QString fov_low, fov_high;
     QStringList solver_args;
@@ -4169,7 +4166,7 @@ void Align::showFITSViewer()
                 fv = KStars::Instance()->genericFITSViewer();
             else
             {
-                fv = new FITSViewer(Options::independentWindowFITS() ? NULL : KStars::Instance());
+                fv = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
                 KStars::Instance()->getFITSViewersList().append(fv);
             }
 
@@ -4187,7 +4184,7 @@ void Align::showFITSViewer()
 
 void Align::toggleAlignWidgetFullScreen()
 {
-    if (alignWidget->parent() == NULL)
+    if (alignWidget->parent() == nullptr)
     {
         alignWidget->setParent(this);
         rightLayout->insertWidget(0, alignWidget);
@@ -4610,7 +4607,7 @@ void Align::processCCDSwitch(ISwitchVectorProperty * svp)
 
 void Align::updateTelescopeType(int index)
 {
-    if (currentCCD == NULL)
+    if (currentCCD == nullptr)
         return;
 
     currentCCD->setTelescopeType(static_cast<ISD::CCD::TelescopeType>(index));

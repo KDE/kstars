@@ -169,15 +169,15 @@ void KStarsLite::slotTrack()
             data()->temporaryTrail = false;
         }*/ // No trail support yet
 
-        map()->setClickedObject( NULL );
-        map()->setFocusObject( NULL );//no longer tracking focusObject
-        map()->setFocusPoint( NULL );
+        map()->setClickedObject( nullptr );
+        map()->setFocusObject( nullptr );//no longer tracking focusObject
+        map()->setFocusPoint( nullptr );
     }
     else
     {
         map()->setClickedPoint( map()->focus() );
-        map()->setClickedObject( NULL );
-        map()->setFocusObject( NULL );//no longer tracking focusObject
+        map()->setClickedObject( nullptr );
+        map()->setFocusObject( nullptr );//no longer tracking focusObject
         map()->setFocusPoint( map()->clickedPoint() );
         Options::setIsTracking( true );
         /*actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );

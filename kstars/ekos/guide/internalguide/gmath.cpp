@@ -561,10 +561,10 @@ float * cgmath::createFloatImage() const
     // We only process 1st plane if it is a color image
     uint32_t imgSize = imageData->getSize();
     float *imgFloat = new float[imgSize];
-    if (imgFloat == NULL)
+    if (imgFloat == nullptr)
     {
         qCritical() << "Not enough memory for float image array!";
-        return NULL;
+        return nullptr;
     }
 
     switch (imageData->getDataType())
@@ -634,7 +634,7 @@ float * cgmath::createFloatImage() const
     break;
 
     default:
-        return NULL;
+        return nullptr;
     }
 
     return imgFloat;
@@ -646,9 +646,9 @@ QVector<float*> cgmath::partitionImage() const
 
     FITSData * imageData = guideView->getImageData();
 
-    float *imgFloat = createFloatImage();
+    float * imgFloat = createFloatImage();
 
-    if (imgFloat == NULL)
+    if (imgFloat == nullptr)
         return regions;
 
     const uint32_t width      = imageData->getWidth();
@@ -814,7 +814,8 @@ template<typename T> Vector cgmath::findLocalStarPosition( void ) const
     Vector ret;
     int i, j;
     double resx, resy, mass, threshold, pval;
-    T * psrc = NULL, *porigin = NULL;
+    T * psrc = nullptr;
+    T * porigin = nullptr;
     T * pptr;
 
     QRect trackingBox = guideView->getTrackingBox();
@@ -824,10 +825,10 @@ template<typename T> Vector cgmath::findLocalStarPosition( void ) const
 
     FITSData * imageData = guideView->getImageData();
 
-    if (imageData == NULL)
+    if (imageData == nullptr)
     {
         if (Options::guideLogging())
-            qDebug() << "Guide: Cannot process a NULL image.";
+            qDebug() << "Guide: Cannot process a nullptr image.";
         return Vector(-1,-1,-1);
     }
 

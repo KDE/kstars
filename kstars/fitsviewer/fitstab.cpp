@@ -33,11 +33,11 @@
 
 FITSTab::FITSTab(FITSViewer * parent) : QWidget()
 {
-    view      = NULL;
-    histogram  = NULL;
-    viewer     = parent;
+    view = nullptr;
+    histogram = nullptr;
+    viewer = parent;
 
-    mDirty     = false;
+    mDirty = false;
     undoStack = new QUndoStack(this);
     undoStack->setUndoLimit(10);
     undoStack->clear();
@@ -91,7 +91,7 @@ void FITSTab::setPreviewText(const QString &value)
 
 bool FITSTab::loadFITS(const QUrl * imageURL, FITSMode mode, FITSScale filter, bool silent)
 {
-    if (view == NULL)
+    if (view == nullptr)
     {
         view = new FITSView(this, mode, filter);
         view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -112,7 +112,7 @@ bool FITSTab::loadFITS(const QUrl * imageURL, FITSMode mode, FITSScale filter, b
 
     if (imageLoad)
     {
-        if (histogram == NULL)
+        if (histogram == nullptr)
             histogram = new FITSHistogram(this);
         else
             histogram->constructHistogram();

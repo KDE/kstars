@@ -141,7 +141,7 @@ void SkyMapDrawAbstract::drawObjectLabels( QList<SkyObject *> &labelObjects )
     bool hideFaintStars = checkSlewing && Options::hideStars();
 
     //Attach a label to the centered object
-    if ( m_SkyMap->focusObject() != NULL && Options::useAutoLabel() )
+    if ( m_SkyMap->focusObject() != nullptr && Options::useAutoLabel() )
     {
         QPointF o = m_SkyMap->m_proj->toScreen( m_SkyMap->focusObject() ); // FIXME: Same thing. m_proj should be accessible here.
         skyLabeler->drawNameLabel( m_SkyMap->focusObject(), o );
@@ -205,7 +205,7 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
     {
         bool isVisible = false;
         FOV * fov = align->fov();
-        if (fov == NULL)
+        if (fov == nullptr)
             return;
 
         SkyPoint p = fov->center();
@@ -247,7 +247,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 
         INDI::BaseDevice * bd = gd->getBaseDevice();
 
-        if (bd == NULL)
+        if (bd == nullptr)
             continue;
 
         if (bd->isConnected() == false)
@@ -255,20 +255,20 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 
         INumberVectorProperty * coordNP = bd->getNumber("EQUATORIAL_EOD_COORD");
 
-        if (coordNP == NULL)
+        if (coordNP == nullptr)
         {
             coordNP = bd->getNumber("HORIZONTAL_COORD");
-            if (coordNP == NULL)
+            if (coordNP == nullptr)
                 continue;
             else
             {
                 INumber * np = IUFindNumber(coordNP, "AZ");
-                if (np == NULL)
+                if (np == nullptr)
                     continue;
                 indi_sp.setAz(np->value);
 
                 np = IUFindNumber(coordNP, "ALT");
-                if (np == NULL)
+                if (np == nullptr)
                     continue;
                 indi_sp.setAlt(np->value);
                 indi_sp.HorizontalToEquatorial( m_KStarsData->lst(), m_KStarsData->geo()->lat() );
@@ -277,12 +277,12 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
         else
         {
             INumber * np = IUFindNumber(coordNP, "RA");
-            if (np == NULL)
+            if (np == nullptr)
                 continue;
             indi_sp.setRA(np->value);
 
             np = IUFindNumber(coordNP, "DEC");
-            if (np == NULL)
+            if (np == nullptr)
                 continue;
             indi_sp.setDec(np->value);
         }

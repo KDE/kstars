@@ -386,8 +386,8 @@ FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram * inH
     tab         = (FITSTab *) parent;
     type        = newType;
     histogram   = inHisto;
-    delta  = NULL;
-    original_buffer = NULL;
+    delta  = nullptr;
+    original_buffer = nullptr;
 
     min = lmin;
     max = lmax;
@@ -407,7 +407,8 @@ bool FITSHistogramCommand::calculateDelta(uint8_t * buffer)
     unsigned long totalBytes = totalPixels * image_data->getBytesPerPixel();
 
     uint8_t * raw_delta = new uint8_t[totalBytes];
-    if (raw_delta == NULL)
+
+    if (raw_delta == nullptr)
     {
         qWarning() << "Error! not enough memory to create image delta" << endl;
         return false;
@@ -420,7 +421,7 @@ bool FITSHistogramCommand::calculateDelta(uint8_t * buffer)
     delete [] delta;
     delta = new uint8_t[compressedBytes];
 
-    if (delta == NULL)
+    if (delta == nullptr)
     {
         delete [] raw_delta;
         qDebug() << "FITSHistogram Error: Ran out of memory compressing delta" << endl;
@@ -455,14 +456,16 @@ bool FITSHistogramCommand::reverseDelta()
     unsigned long totalBytes = totalPixels * image_data->getBytesPerPixel();
 
     uint8_t * output_image = new uint8_t[totalBytes];
-    if (output_image == NULL)
+
+    if (output_image == nullptr)
     {
         qWarning() << "Error! not enough memory to create output image" << endl;
         return false;
     }
 
     uint8_t * raw_delta = new uint8_t[totalBytes];
-    if (raw_delta == NULL)
+
+    if (raw_delta == nullptr)
     {
         delete [] output_image;
         qWarning() << "Error! not enough memory to create image delta" << endl;
@@ -500,7 +503,7 @@ void FITSHistogramCommand::redo()
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    if (delta != NULL)
+    if (delta != nullptr)
     {
         double min,max,stddev,average,median,snr;
         min      = image_data->getMin();
@@ -528,7 +531,8 @@ void FITSHistogramCommand::redo()
         else
         {
             uint8_t * buffer = new uint8_t[size * channels * BBP];
-            if (buffer == NULL)
+
+            if (buffer == nullptr)
             {
                 qWarning() << "Error! not enough memory to create image buffer in redo()" << endl;
                 QApplication::restoreOverrideCursor();
@@ -542,15 +546,15 @@ void FITSHistogramCommand::redo()
             {
                 case FITS_AUTO:
                 case FITS_LINEAR:
-                    image_data->applyFilter(FITS_LINEAR, NULL, &dataMin, &dataMax);
+                    image_data->applyFilter(FITS_LINEAR, nullptr, &dataMin, &dataMax);
                     break;
 
                 case FITS_LOG:
-                    image_data->applyFilter(FITS_LOG, NULL, &dataMin, &dataMax);
+                    image_data->applyFilter(FITS_LOG, nullptr, &dataMin, &dataMax);
                     break;
 
                 case FITS_SQRT:
-                    image_data->applyFilter(FITS_SQRT, NULL, &dataMin, &dataMax);
+                    image_data->applyFilter(FITS_SQRT, nullptr, &dataMin, &dataMax);
                     break;
 
                 default:
@@ -563,7 +567,7 @@ void FITSHistogramCommand::redo()
         }
     }
 
-    if (histogram != NULL)
+    if (histogram != nullptr)
     {
         histogram->constructHistogram();
 
@@ -585,7 +589,7 @@ void FITSHistogramCommand::undo()
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    if (delta != NULL)
+    if (delta != nullptr)
     {
         double min,max,stddev,average,median,snr;
         min      = image_data->getMin();
@@ -621,7 +625,7 @@ void FITSHistogramCommand::undo()
 
     }
 
-    if (histogram != NULL)
+    if (histogram != nullptr)
     {
         histogram->constructHistogram();
 

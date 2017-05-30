@@ -96,10 +96,9 @@ void DeviceManagerUI::makePortEditable(QTreeWidgetItem * selectedItem, int colum
 INDIDriver::INDIDriver( KStars * _ks )
     : QDialog( _ks ),  ksw( _ks )
 {
-
     currentPort = Options::serverPortStart().toInt()-1;
-    lastGroup = NULL;
-    lastDevice = NULL;
+    lastGroup = nullptr;
+    lastDevice = nullptr;
 
     ui = new DeviceManagerUI( this );
     setMainWidget( ui );
@@ -115,7 +114,7 @@ INDIDriver::INDIDriver( KStars * _ks )
         item->setText(HOST_PORT_COLUMN, host->portnumber);
     }
 
-    lastGroup = NULL;
+    lastGroup = nullptr;
 
     QObject::connect(ui->addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
     QObject::connect(ui->modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
@@ -137,7 +136,7 @@ INDIDriver::INDIDriver( KStars * _ks )
 /*
 void INDIDriver::enableDevice(INDI_D *indi_device)
 {
-   if (indi_device == NULL)
+   if (indi_device == nullptr)
 	return;
 
    if (indi_device->deviceManager->mode == DeviceManager::M_CLIENT)
@@ -182,7 +181,7 @@ void INDIDriver::enableDevice(INDI_D *indi_device)
 
 void INDIDriver::disableDevice(INDI_D *indi_device)
 {
-    if (indi_device == NULL)
+    if (indi_device == nullptr)
 	return;
 
    if (indi_device->deviceManager->mode == DeviceManager::M_CLIENT)
@@ -194,7 +193,7 @@ void INDIDriver::disableDevice(INDI_D *indi_device)
 	    		foreach (QTreeWidgetItem *item, ui->clientTreeWidget->findItems(host->name, Qt::MatchExactly,1))
                                 item->setIcon(HOST_STATUS_COLUMN, ui->disconnected);
 
-			host->deviceManager = NULL;
+			host->deviceManager = nullptr;
 		        host->isConnected = false;
 
           		updateClientTab();
@@ -246,8 +245,7 @@ void INDIDriver::activateHostDisconnection()
 
 void INDIDriver::updateLocalTab()
 {
-
-    if (ui->localTreeWidget->currentItem() == NULL)
+    if (ui->localTreeWidget->currentItem() == nullptr)
         return;
 
     foreach (IDevice * device, devices)
@@ -268,7 +266,7 @@ void INDIDriver::updateLocalTab()
 
 void INDIDriver::updateClientTab()
 {
-    if (ui->clientTreeWidget->currentItem() == NULL)
+    if (ui->clientTreeWidget->currentItem() == nullptr)
         return;
 
     foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
@@ -286,10 +284,9 @@ void INDIDriver::updateClientTab()
 void INDIDriver::processLocalTree(IDevice::DeviceStatus dev_request)
 {
     QList<IDevice *> processed_devices;
-    DeviceManager * deviceManager=NULL;
-
-    int port=0;
-    bool portOK=false;
+    DeviceManager * deviceManager = nullptr;
+    int port = 0;
+    bool portOK = false;
 
     foreach(QTreeWidgetItem * item, ui->localTreeWidget->selectedItems())
     {
@@ -334,7 +331,7 @@ void INDIDriver::processLocalTree(IDevice::DeviceStatus dev_request)
         //deviceManager = ksw->indiMenu()->startDeviceManager(processed_devices, ui->localR->isChecked() ? DeviceManager::M_LOCAL : DeviceManager::M_SERVER, ((uint) port));
         deviceManager = ksw->indiMenu()->initDeviceManager("localhost", ((uint) port), ui->localR->isChecked() ? DeviceManager::M_LOCAL : DeviceManager::M_SERVER);
 
-        if (deviceManager == NULL)
+        if (deviceManager == nullptr)
         {
             kWarning() << "Warning: device manager has not been established properly";
             return;
@@ -351,7 +348,7 @@ void INDIDriver::processLocalTree(IDevice::DeviceStatus dev_request)
 
 void INDIDriver::processRemoteTree(IDevice::DeviceStatus dev_request)
 {
-    DeviceManager * deviceManager=NULL;
+    DeviceManager * deviceManager = nullptr;
     QTreeWidgetItem * currentItem = ui->clientTreeWidget->currentItem();
     if (!currentItem) return;
     bool toConnect = (dev_request == IDevice::DEV_START);
@@ -369,7 +366,7 @@ void INDIDriver::processRemoteTree(IDevice::DeviceStatus dev_request)
             {
                 deviceManager = ksw->indiMenu()->initDeviceManager(host->hostname, host->portnumber.toUInt(), DeviceManager::M_CLIENT);
 
-                if (deviceManager == NULL)
+                if (deviceManager == nullptr)
                 {
                     // msgbox after freeze
                     kWarning() << "Warning: device manager has not been established properly";
@@ -410,13 +407,13 @@ void INDIDriver::updateMenuActions()
     // We iterate over devices, we enable INDI Control Panel if we have any active device
     // We enable capture image sequence if we have any imaging device
 
-    QAction * tmpAction = NULL;
+    QAction * tmpAction = nullptr;
     INDIMenu * devMenu = ksw->indiMenu();
     bool activeDevice = false;
     bool activeImaging = false;
-    INDI_P * imgProp = NULL;
+    INDI_P * imgProp = nullptr;
 
-    if (devMenu == NULL)
+    if (devMenu == nullptr)
         return;
 
     if (devMenu->managers.count() > 0)
@@ -438,11 +435,11 @@ void INDIDriver::updateMenuActions()
 
     tmpAction = ksw->actionCollection()->action("capture_sequence");
 
-    if (tmpAction != NULL)
+    if (tmpAction != nullptr)
         tmpAction->setEnabled(activeImaging);
 
     tmpAction = ksw->actionCollection()->action("indi_cpl");
-    if (tmpAction != NULL)
+    if (tmpAction != nullptr)
         tmpAction->setEnabled(activeDevice);
 
 }
@@ -554,7 +551,7 @@ void INDIDriver::processXMLDriver(QString &driverName)
     char errmsg[ERRMSG_SIZE];
     char c;
     LilXML * xmlParser = newLilXML();
-    XMLEle * root = NULL;
+    XMLEle * root = nullptr;
 
     if (driverName.endsWith("drivers.xml"))
         xmlSource = IDevice::PRIMARY_XML;
@@ -641,7 +638,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle * root, char errmsg[])
     group->setText(0, groupName);
     lastGroup = group;
 
-    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
         if (!buildDriverElement(ep, group, groupType, errmsg))
             return false;
 
@@ -828,7 +825,7 @@ void INDIDriver::addINDIHost()
         hostItem->hostname    	= hostConf.hostname->text();
         hostItem->portnumber  	= hostConf.portnumber->text();
         hostItem->isConnected 	= false;
-        hostItem->deviceManager	= NULL;
+        hostItem->deviceManager	= nullptr;
 
         hostItem->portnumber.toInt(&portOk);
 
@@ -873,7 +870,7 @@ void INDIDriver::modifyINDIHost()
 
     QTreeWidgetItem * currentItem = ui->clientTreeWidget->currentItem();
 
-    if (currentItem == NULL)
+    if (currentItem == nullptr)
         return;
 
     foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
@@ -906,11 +903,11 @@ void INDIDriver::modifyINDIHost()
 
 void INDIDriver::removeINDIHost()
 {
-
-    if (ui->clientTreeWidget->currentItem() == NULL)
+    if (ui->clientTreeWidget->currentItem() == nullptr)
         return;
 
     for (int i=0; i < ksw->data()->INDIHostsList.count(); i++)
+    {
         if (ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN) == ksw->data()->INDIHostsList[i]->name &&
                 ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN) == ksw->data()->INDIHostsList[i]->portnumber)
         {
@@ -927,15 +924,12 @@ void INDIDriver::removeINDIHost()
             delete (ui->clientTreeWidget->currentItem());
             break;
         }
-
-
-
+    }
     saveHosts();
 }
 
 void INDIDriver::saveHosts()
 {
-
     QFile file;
     QString hostData;
 
@@ -967,16 +961,16 @@ void INDIDriver::saveHosts()
     }
 
     file.close();
-
 }
 
 IDevice * INDIDriver::findDeviceByLabel(const QString &label)
 {
     foreach(IDevice * dev, devices)
+    {
         if (dev->tree_label == label)
             return dev;
-
-    return NULL;
+    }
+    return nullptr;
 }
 
 INDIDriver::~INDIDriver()
@@ -1008,12 +1002,12 @@ IDevice::IDevice(const QString &inName, const QString &inLabel, const QString &i
     // not yet managed by DeviceManager
     //managed = false;
 
-    deviceManager = NULL;
+    deviceManager = nullptr;
 
     focal_length = -1;
     aperture = -1;
 
-    //proc = NULL;
+    //proc = nullptr;
 
 }
 
@@ -1026,14 +1020,14 @@ void IDevice::clear()
 {
     //managed = false;
     state = IDevice::DEV_TERMINATE;
-    deviceManager = NULL;
+    deviceManager = nullptr;
 
     unique_label.clear();
 }
 
 QString IDevice::getServerBuffer()
 {
-    if (deviceManager != NULL)
+    if (deviceManager != nullptr)
         return deviceManager->getServerBuffer();
 
     return QString();

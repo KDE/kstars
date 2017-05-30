@@ -98,7 +98,7 @@ class Telescope : public DeviceDecorator
         bool sendCoords(SkyPoint * ScopeTarget);
 
     public slots:
-        virtual bool runCommand(int command, void * ptr=NULL);
+        virtual bool runCommand(int command, void * ptr = nullptr);
         bool Abort();
         bool Park();
         bool UnPark();
@@ -112,10 +112,11 @@ class Telescope : public DeviceDecorator
         double minAlt,maxAlt;
         ParkStatus parkStatus = PARK_UNKNOWN;
         IPState EqCoordPreviousState;
-        QTimer * centerLockTimer=NULL;
-        SkyObject * currentObject=NULL;
-        bool inManualMotion=false;
-        IPState NSPreviousState=IPS_IDLE, WEPreviousState=IPS_IDLE;
+        QTimer * centerLockTimer = nullptr;
+        SkyObject * currentObject = nullptr;
+        bool inManualMotion = false;
+        IPState NSPreviousState = IPS_IDLE;
+        IPState WEPreviousState = IPS_IDLE;
 };
 
 }

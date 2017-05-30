@@ -80,20 +80,21 @@ void CrosshairNode::update()
 
     INumberVectorProperty * coordNP = bd->getNumber("EQUATORIAL_EOD_COORD");
 
-    if (coordNP == NULL)
+    if (coordNP == nullptr)
     {
         coordNP = bd->getNumber("HORIZONTAL_COORD");
         if (coordNP == NULL)
-            hide();
-        else
         {
+            hide();
+        } else {
             INumber * np = IUFindNumber(coordNP, "AZ");
-            if (np == NULL)
+
+            if (np == nullptr)
                 hide();
             indi_sp.setAz(np->value);
 
             np = IUFindNumber(coordNP, "ALT");
-            if (np == NULL)
+            if (np == nullptr)
                 hide();
             indi_sp.setAlt(np->value);
             indi_sp.HorizontalToEquatorial( m_KStarsData->lst(), m_KStarsData->geo()->lat() );
@@ -102,13 +103,16 @@ void CrosshairNode::update()
     else
     {
         INumber * np = IUFindNumber(coordNP, "RA");
-        if (np == NULL)
+
+        if (np == nullptr)
             hide();
         indi_sp.setRA(np->value);
 
         np = IUFindNumber(coordNP, "DEC");
-        if (np == NULL)
+        if (np == nullptr)
+        {
             hide();
+        }
         indi_sp.setDec(np->value);
     }
 

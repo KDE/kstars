@@ -316,7 +316,7 @@ void KStars::slotINDIToolBar()
             return;
         }
 
-        ISD::GDInterface * oneScope=NULL;
+        ISD::GDInterface * oneScope = nullptr;
 
         foreach(ISD::GDInterface * gd, INDIListener::Instance()->getDevices())
         {
@@ -325,7 +325,7 @@ void KStars::slotINDIToolBar()
             if (gd->getType() != KSTARS_TELESCOPE)
                 continue;
 
-            if (bd == NULL)
+            if (bd == nullptr)
                 continue;
 
             if (bd->isConnected() == false)
@@ -339,7 +339,7 @@ void KStars::slotINDIToolBar()
             break;
         }
 
-        if (oneScope == NULL)
+        if (oneScope == nullptr)
         {
             KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
             return;
@@ -622,7 +622,7 @@ void KStars::slotTelescopeWizard()
     {
         if(QStandardPaths::findExecutable("indiserver",paths).isEmpty())
         {
-            KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+            KMessageBox::error(nullptr, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
             return;
         }
     }
@@ -655,7 +655,7 @@ void KStars::slotINDIPanel()
     {
         if(QStandardPaths::findExecutable("indiserver",paths).isEmpty())
         {
-            KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+            KMessageBox::error(nullptr, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
             return;
         }
     }
@@ -685,7 +685,7 @@ void KStars::slotINDIDriver()
     {
         if(QStandardPaths::findExecutable("indiserver",paths).isEmpty())
         {
-            KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+            KMessageBox::error(nullptr, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
             return;
         }
     }
@@ -721,7 +721,7 @@ void KStars::slotEkos()
     {
         if(QStandardPaths::findExecutable("indiserver",paths).isEmpty())
         {
-            KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+            KMessageBox::error(nullptr, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
             return;
         }
     }
@@ -965,7 +965,7 @@ void KStars::slotOpenFITS()
     // Remember last directory
     path.setUrl(fileURL.url(QUrl::RemoveFilename));
 
-    FITSViewer * fv = new FITSViewer((Options::independentWindowFITS()) ? NULL : this);
+    FITSViewer * fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
     // Error opening file
     if (fv->addFITS(&fileURL, FITS_NORMAL, FITS_NONE, QString(), false) == -2)
         delete (fv);
@@ -1282,15 +1282,15 @@ void KStars::slotTrack()
             data()->temporaryTrail = false;
         }
 
-        map()->setClickedObject( NULL );
-        map()->setFocusObject( NULL );//no longer tracking focusObject
-        map()->setFocusPoint( NULL );
+        map()->setClickedObject( nullptr );
+        map()->setFocusObject( nullptr );//no longer tracking focusObject
+        map()->setFocusPoint( nullptr );
     }
     else
     {
         map()->setClickedPoint( map()->focus() );
-        map()->setClickedObject( NULL );
-        map()->setFocusObject( NULL );//no longer tracking focusObject
+        map()->setClickedObject( nullptr );
+        map()->setFocusObject( nullptr );//no longer tracking focusObject
         map()->setFocusPoint( map()->clickedPoint() );
         Options::setIsTracking( true );
         actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
@@ -1581,7 +1581,7 @@ void KStars::slotFullScreen()
 void KStars::slotClearAllTrails()
 {
     //Exclude object with temporary trail
-    SkyObject * exOb( NULL );
+    SkyObject * exOb( nullptr );
     if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail )
     {
         exOb = map()->focusObject();

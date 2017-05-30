@@ -39,7 +39,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget * parent, const char * /
 {
     currentPort  = -1;
     timeOutCount = 0;
-    progressScan = NULL;
+    progressScan = nullptr;
     linkRejected = false;
     ui = new Ui::telescopeWizard();
     ui->setupUi(this);
@@ -222,7 +222,7 @@ void telescopeWizardProcess::establishLink()
 
     DriverInfo * dv = driversList.value(ui->telescopeCombo->currentText());
 
-    if (dv == NULL)
+    if (dv == nullptr)
         return;
 
     managedDevice.append(dv);
@@ -257,13 +257,11 @@ void telescopeWizardProcess::establishLink()
     }
     else
         processTelescope(INDIListener::Instance()->getDevice(dv->getName()));
-
-
 }
 
 void telescopeWizardProcess::processTelescope(ISD::GDInterface * telescope)
 {
-    if (telescope == NULL)
+    if (telescope == nullptr)
         return;
 
     scopeDevice = telescope;
@@ -315,14 +313,11 @@ void telescopeWizardProcess::processTelescope(ISD::GDInterface * telescope)
     Reset();
 
     indimenu->show();*/
-
-
-
 }
 
 void telescopeWizardProcess::scanPorts()
 {
-    if (progressScan == NULL)
+    if (progressScan == nullptr)
     {
         close();
         return;
@@ -367,7 +362,6 @@ void telescopeWizardProcess::scanPorts()
     scopeDevice->runCommand(INDI_SET_PORT, &scopePort);
 
     scopeDevice->runCommand(INDI_CONNECT);
-
 }
 
 void telescopeWizardProcess::linkSuccess()
@@ -379,7 +373,6 @@ void telescopeWizardProcess::linkSuccess()
     close();
 
     GUIManager::Instance()->show();
-
 }
 
 void telescopeWizardProcess::Reset()
@@ -389,8 +382,7 @@ void telescopeWizardProcess::Reset()
     linkRejected = false;
 
     delete (progressScan);
-    progressScan = NULL;
-
+    progressScan = nullptr;
 }
 
 
