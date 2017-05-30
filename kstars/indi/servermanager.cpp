@@ -38,8 +38,8 @@
 
 ServerManager::ServerManager(QString inHost, uint inPort)
 {
-    serverProcess	= NULL;
-    XMLParser		= NULL;
+    serverProcess	= nullptr;
+    XMLParser		= nullptr;
     host		= inHost;
     port		= QString::number(inPort);
 
@@ -65,10 +65,10 @@ bool ServerManager::start()
     qWarning() << "INDI server is currently not supported on Windows.";
     return false;
 #else
-    bool connected=false;
-    int fd=0;
+    bool connected = false;
+    int fd = 0;
 
-    if (serverProcess == NULL)
+    if (serverProcess == nullptr)
     {
         serverProcess = new QProcess(this);
 #ifdef Q_OS_OSX
@@ -106,7 +106,7 @@ bool ServerManager::start()
 
     if ( (fd = mkfifo (fifoFile.toLatin1(), S_IRUSR| S_IWUSR) < 0))
     {
-        KMessageBox::error(NULL, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
+        KMessageBox::error(nullptr, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
         return false;
     }
 
@@ -199,7 +199,7 @@ bool ServerManager::startDriver(DriverInfo * dv)
     {
         if(QStandardPaths::findExecutable(dv->getDriver(),paths).isEmpty())
         {
-            KMessageBox::error(NULL, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
+            KMessageBox::error(nullptr, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
             return false;
         }
     }
@@ -250,7 +250,7 @@ bool ServerManager::isDriverManaged(DriverInfo * di)
 
 void ServerManager::stop()
 {
-    if (serverProcess == NULL)
+    if (serverProcess == nullptr)
         return;
 
     foreach(DriverInfo * device, managedDrivers)
@@ -267,13 +267,12 @@ void ServerManager::stop()
 
     delete serverProcess;
 
-    serverProcess = NULL;
-
+    serverProcess = nullptr;
 }
 
 void ServerManager::terminate()
 {
-    if (serverProcess == NULL)
+    if (serverProcess == nullptr)
         return;
 
     serverProcess->terminate();
@@ -338,7 +337,7 @@ QString ServerManager::errorString()
     if (serverProcess)
         return serverProcess->errorString();
 
-    return NULL;
+    return nullptr;
 }
 
 

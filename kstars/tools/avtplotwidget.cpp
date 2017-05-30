@@ -31,7 +31,7 @@
 #include <QDebug>
 
 AVTPlotWidget::AVTPlotWidget( QWidget * parent )
-    : KPlotWidget( parent ), geo(NULL)
+    : KPlotWidget(parent), geo(nullptr)
 {
     setAntialiasing(true);
 

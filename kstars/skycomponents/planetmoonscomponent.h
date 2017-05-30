@@ -65,7 +65,7 @@ class PlanetMoonsComponent : public SkyComponent
          *
          * @p name the name to be matched
          * @return a SkyObject pointer to the moon whose name matches
-         * the argument, or a NULL pointer if no match was found.
+         * the argument, or a nullptr pointer if no match was found.
          */
         SkyObject * findByName( const QString &name );
 

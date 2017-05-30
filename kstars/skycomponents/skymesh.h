@@ -116,7 +116,7 @@ class SkyMesh : public HTMesh
 
         /**
          *@short returns the instance of SkyMesh corresponding to the given level
-         *@return the instance of SkyMesh at the given level, or NULL if it has not
+         *@return the instance of SkyMesh at the given level, or nullptr if it has not
          *yet been created.
          */
         static SkyMesh * Instance( int level );

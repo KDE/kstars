@@ -55,7 +55,7 @@ class GeoLocation
                     const QString &name="Nowhere",
                     const QString &province="Nowhere",
                     const QString &country="Nowhere",
-                    double TZ=0, TimeZoneRule * TZrule=NULL, bool readOnly=false, int iEllips=4, double hght=-10 );
+                    double TZ=0, TimeZoneRule * TZrule=nullptr, bool readOnly=false, int iEllips=4, double hght=-10 );
 
         /** Constructor using doubles to specify X, Y and Z referred to the center of the Earth.
          * @param x the x-position, in m
@@ -73,7 +73,7 @@ class GeoLocation
                     const QString &name="Nowhere",
                     const QString &province="Nowhere",
                     const QString &country="Nowhere",
-                    double TZ=0, TimeZoneRule * TZrule=NULL, bool readOnly=false, int iEllips=4 );
+                    double TZ=0, TimeZoneRule * TZrule=nullptr, bool readOnly=false, int iEllips=4 );
 
         /** @return pointer to the longitude dms object */
         const CachingDms * lng() const

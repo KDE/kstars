@@ -350,12 +350,12 @@ class SkyPoint
         virtual void updateCoords( const KSNumbers * num, bool includePlanets=true, const CachingDms * lat=0, const CachingDms * LST=0, bool forceRecompute = false );
 
         /**
-         * @brief updateCoordsNow Shortcut for updateCoords( const KSNumbers *num, false, NULL, NULL, true)
+         * @brief updateCoordsNow Shortcut for updateCoords( const KSNumbers *num, false, nullptr, nullptr, true)
          * @param num pointer to KSNumbers object containing current values of time-dependent variables.
          */
         void updateCoordsNow(const KSNumbers * num)
         {
-            updateCoords(num, false, NULL, NULL, true);
+            updateCoords(num, false, nullptr, nullptr, true);
         }
 
         /** Computes the apparent coordinates for this SkyPoint for any epoch,

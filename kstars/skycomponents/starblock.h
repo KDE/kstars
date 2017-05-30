@@ -80,7 +80,7 @@ class StarBlock
          *  have names.
          *
          *@param  data    data to initialize star with.
-         *@return pointer to star initialized with data. NULL if block is full.
+         *@return pointer to star initialized with data. nullptr if block is full.
          */
         StarBlockEntry * addStar(const starData &data);
         StarBlockEntry * addStar(const deepStarData &data);

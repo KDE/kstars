@@ -47,15 +47,15 @@ class VideoWG : public QLabel
         void newSelection(QRect);
 
     private:
-        uint16_t         streamW=-1, streamH=-1;
-        uint32_t         totalBaseCount=0;
-        QVector<QRgb>    grayTable;
-        QImage      *     streamImage;
-        QPixmap          kPix;
+        uint16_t streamW = -1;
+        uint16_t streamH = -1;
+        uint32_t totalBaseCount = 0;
+        QVector<QRgb> grayTable;
+        QImage * streamImage;
+        QPixmap kPix;
 
-        QRubberBand   *   rubberBand=NULL;
-        QPoint           origin;
-
+        QRubberBand * rubberBand = nullptr;
+        QPoint origin;
 };
 
 #endif

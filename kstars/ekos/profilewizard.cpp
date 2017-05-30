@@ -171,7 +171,8 @@ void ProfileWizard::processLocalWindows()
 void ProfileWizard::processLocalMac()
 {
     QPushButton * button = qobject_cast<QPushButton *>(sender());
-    if (button == NULL)
+
+    if (button == nullptr)
         return;
 
     host = "localhost";

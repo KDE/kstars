@@ -67,7 +67,7 @@ class SupernovaeComponent : public QObject, public ListComponent
     private:
         void loadData();
 
-        FileDownloader * downloadJob = NULL;
+        FileDownloader * downloadJob = nullptr;
 };
 
 #endif

@@ -112,8 +112,8 @@ void OpsGuides::slotApply()
         if( data->skyComposite()->currentCulture() != data->skyComposite()->getCultureName(kcfg_SkyCulture->currentIndex()) ||
                 data->skyComposite()->isLocalCNames() != Options::useLocalConstellNames() )
         {
-            map->setClickedObject( NULL );
-            map->setFocusObject( NULL );
+            map->setClickedObject( nullptr );
+            map->setFocusObject( nullptr );
         }
     }
 

@@ -144,7 +144,6 @@ ScriptFunction::~ScriptFunction()
 
 QString ScriptFunction::DBusType(const QString &type)
 {
-
     if (type == QString("int"))
         return QString("int32");
     else if (type == QString("uint"))
@@ -156,7 +155,7 @@ QString ScriptFunction::DBusType(const QString &type)
     else if (type == QString("bool"))
         return QString("boolean");
 
-    return NULL;
+    return nullptr;
 }
 
 QString ScriptFunction::prototype() const

@@ -41,7 +41,7 @@ class OpsEkos : public QTabWidget, public Ui::OpsEkos
 
     private:
         KConfigDialog * m_ConfigDialog;
-        QSqlTableModel * darkFramesModel=NULL;
+        QSqlTableModel * darkFramesModel = nullptr;
 };
 
 #endif

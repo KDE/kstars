@@ -33,7 +33,7 @@ KSConjunct::KSConjunct()
 
 void KSConjunct::setGeoLocation( GeoLocation * geo )
 {
-    if( geo != NULL )
+    if (geo != nullptr)
         geoPlace = geo;
     else
         geoPlace = KStarsData::Instance()->geo();
@@ -172,9 +172,9 @@ bool KSConjunct::findPrecise(QPair<long double, dms> * out, SkyObject * Object1,
     int Sign;
     dms Dist;
 
-    if( out == NULL )
+    if (out == nullptr)
     {
-        qDebug() << "ERROR: Argument out to KSConjunct::findPrecise(...) was NULL!";
+        qDebug() << "ERROR: Argument out to KSConjunct::findPrecise(...) was nullptr!";
         return false;
     }
 
@@ -183,13 +183,13 @@ bool KSConjunct::findPrecise(QPair<long double, dms> * out, SkyObject * Object1,
     step = -step / 2.0;
     prevSign = -prevSign;
 
-    while(true)
+    while (true)
     {
         jd += step;
         Dist = findDistance(jd, Object1, Object2);
         //    qDebug() << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "step=" << step;
 
-        if(fabs(step) < 1.0 / (24.0*60.0) )
+        if (fabs(step) < 1.0 / (24.0*60.0) )
         {
             out -> first = jd - step / 2.0;
             out -> second = findDistance(jd - step/2.0, Object1, Object2);
@@ -199,7 +199,7 @@ bool KSConjunct::findPrecise(QPair<long double, dms> * out, SkyObject * Object1,
                 return false;
         }
         Sign = sgn(Dist - prevDist);
-        if(Sign != prevSign)
+        if (Sign != prevSign)
         {
             step = -step / 2.0;
             Sign = -Sign;
@@ -211,11 +211,9 @@ bool KSConjunct::findPrecise(QPair<long double, dms> * out, SkyObject * Object1,
 
 int KSConjunct::sgn(dms a)
 {
-
     // Auxiliary function used by the KSConjunct::findClosestApproach(...)
     // method and the KSConjunct::findPrecise(...) method
 
     return ((a.radians() > 0)?1:((a.radians() < 0)?-1:0));
-
 }
 

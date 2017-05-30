@@ -80,10 +80,10 @@ class DeepSkyComponent: public SkyComponent
          *
          * This function usually just updates the Horizontal (Azimuth/Altitude)
          * coordinates of the objects in this component.  If the KSNumbers*
-         * argument is not NULL, this function also recomputes precession and
+         * argument is not nullptr, this function also recomputes precession and
          * nutation for the date in KSNumbers.
          * @p num Pointer to the KSNumbers object
-         * @note By default, the num parameter is NULL, indicating that
+         * @note By default, the num parameter is nullptr, indicating that
          * Precession/Nutation computation should be skipped; this computation
          * is only occasionally required.
          */
@@ -94,7 +94,7 @@ class DeepSkyComponent: public SkyComponent
          * a SkyObject whose name matches the argument
          * @p name the name to be matched
          * @return a pointer to the SkyObject whose name matches
-         * the argument, or a NULL pointer if no match was found.
+         * the argument, or a nullptr pointer if no match was found.
          */
         virtual SkyObject * findByName( const QString &name );
 

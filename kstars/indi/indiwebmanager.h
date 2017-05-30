@@ -17,7 +17,7 @@ namespace INDI
 
 namespace WebManager
 {
-bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUrl &url, QJsonDocument * reply, QByteArray * data=NULL);
+bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUrl &url, QJsonDocument * reply, QByteArray * data = nullptr);
 bool isOnline(ProfileInfo * pi);
 bool areDriversRunning(ProfileInfo * pi);
 bool startProfile(ProfileInfo * pi);

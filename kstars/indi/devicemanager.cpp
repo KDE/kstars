@@ -52,8 +52,8 @@ const int INDI_MAX_TRIES=3;
 DeviceManager::DeviceManager(INDIMenu * INDIparent, QString inHost, uint inPort, ManagerMode inMode)
 {
     parent		= INDIparent;
-    serverProcess	= NULL;
-    XMLParser		= NULL;
+    serverProcess	= nullptr;
+    XMLParser		= nullptr;
     host		= inHost;
     port		= inPort;
     mode		= inMode;
@@ -71,7 +71,7 @@ DeviceManager::~DeviceManager()
     if (XMLParser)
         delLilXML(XMLParser);
 
-    XMLParser = NULL;
+    XMLParser = nullptr;
 
     while ( ! indi_dev.isEmpty() ) delete indi_dev.takeFirst();
 }
@@ -188,7 +188,7 @@ void DeviceManager::connectionSuccess()
 void DeviceManager::connectionError()
 {
     QString errMsg = QString("Connection to INDI host at %1 on port %2 encountered an error: %3.").arg(host).arg(port).arg(serverSocket.errorString());
-    KMessageBox::error(NULL, errMsg);
+    KMessageBox::error(nullptr, errMsg);
 
     emit deviceManagerError(this);
 }
@@ -207,7 +207,7 @@ void DeviceManager::appendManagedDevices(QList<IDevice *> &processed_devices)
 
 void DeviceManager::processStandardError()
 {
-    if (serverProcess == NULL)
+    if (serverProcess == nullptr)
         return;
 
     serverBuffer.append(serverProcess->readAllStandardError());
@@ -255,7 +255,6 @@ void DeviceManager::dataReceived()
 
 int DeviceManager::dispatchCommand(XMLEle * root, QString &errmsg)
 {
-
     if  (!strcmp (tagXMLEle(root), "message"))
         return messageCmd(root, errmsg);
     else if  (!strcmp (tagXMLEle(root), "delProperty"))
@@ -263,7 +262,8 @@ int DeviceManager::dispatchCommand(XMLEle * root, QString &errmsg)
 
     /* Get the device, if not available, create it */
     INDI_D * dp = findDev (root, 1, errmsg);
-    if (dp == NULL)
+
+    if (dp == nullptr)
     {
         errmsg = "No device available and none was created";
         return INDI_DEVICE_NOT_FOUND;
@@ -329,8 +329,8 @@ int DeviceManager::delPropertyCmd (XMLEle * root, QString &errmsg)
 
 int DeviceManager::removeDevice( const QString &devName, QString &errmsg )
 {
-    // remove all devices if devName == NULL
-    if (devName == NULL)
+    // remove all devices if devName == nullptr
+    if (devName == nullptr)
     {
         while ( ! indi_dev.isEmpty() ) delete indi_dev.takeFirst();
         return (0);
@@ -360,27 +360,26 @@ INDI_D * DeviceManager::findDev( const QString &devName, QString &errmsg )
 
     errmsg = QString("INDI: no such device %1").arg(devName);
 
-    return NULL;
+    return nullptr;
 }
 
 /* add new device to mainrc_w using info in dep.
-- * if trouble return NULL with reason in errmsg[]
+- * if trouble return nullptr with reason in errmsg[]
 - */
 INDI_D * DeviceManager::addDevice (XMLEle * dep, QString &errmsg)
 {
-
     INDI_D * dp;
     XMLAtt * ap;
     QString device_name, unique_label;
-    IDevice * targetDevice=NULL;
+    IDevice * targetDevice = nullptr;
 
     /* allocate new INDI_D on indi_dev */
-    ap = findAtt (dep, "device", errmsg);
+    ap = findAtt(dep, "device", errmsg);
     if (!ap)
     {
         errmsg = QString("Unable to find device attribute in XML tree. Cannot add device.");
         kDebug() << errmsg << endl;
-        return NULL;
+        return nullptr;
     }
 
     device_name = QString(valuXMLAtt(ap));
@@ -421,15 +420,14 @@ INDI_D * DeviceManager::addDevice (XMLEle * dep, QString &errmsg)
 
 INDI_D * DeviceManager::findDev (XMLEle * root, int create, QString &errmsg)
 {
-    XMLAtt * ap;
-    char * dn;
+    XMLAtt * ap = findAtt (root, "device", errmsg);
+    char * dn = nullptr;
 
     /* get device name */
-    ap = findAtt (root, "device", errmsg);
     if (!ap)
     {
         errmsg = QString("No device attribute found in element %1").arg(tagXMLEle(root));
-        return (NULL);
+        return nullptr;
     }
     dn = valuXMLAtt(ap);
 
@@ -445,7 +443,7 @@ INDI_D * DeviceManager::findDev (XMLEle * root, int create, QString &errmsg)
         return (addDevice (root, errmsg));
 
     errmsg = QString("INDI: <%1> no such device %2").arg(tagXMLEle(root)).arg(dn);
-    return NULL;
+    return nullptr;
 }
 
 /* a general message command received from the device.
@@ -479,7 +477,7 @@ void DeviceManager::doMsg (XMLEle * msg, INDI_D * dp)
     XMLAtt * message;
     XMLAtt * timestamp;
 
-    if (dp == NULL)
+    if (dp == nullptr)
     {
         kDebug() << "Warning: dp is null.";
         return;
@@ -508,7 +506,6 @@ void DeviceManager::doMsg (XMLEle * msg, INDI_D * dp)
 
     if ( Options::showINDIMessages() )
         parent->ksw->statusBar()->changeItem( QString(valuXMLAtt(message)), 0);
-
 }
 
 void DeviceManager::sendNewText (INDI_P * pp)
@@ -521,7 +518,7 @@ void DeviceManager::sendNewText (INDI_P * pp)
     serverFP << QString("  device='%1'\n").arg(qPrintable( pp->pg->dp->name));
     serverFP << QString("  name='%1'\n>").arg(qPrintable( pp->name));
 
-    //for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
+    //for (lp = pp->el.first(); lp != nullptr; lp = pp->el.next())
     foreach(lp, pp->el)
     {
         serverFP << QString("  <oneText\n");
@@ -569,7 +566,6 @@ void DeviceManager::sendNewSwitch (INDI_P * pp, INDI_E * lp)
     serverFP << QString("  </oneSwitch>\n");
 
     serverFP <<  QString("</newSwitchVector>\n");
-
 }
 
 void DeviceManager::startBlob( const QString &devName, const QString &propName, const QString &timestamp)
@@ -580,7 +576,6 @@ void DeviceManager::startBlob( const QString &devName, const QString &propName, 
     serverFP <<  QString("  device='%1'\n").arg(qPrintable( devName));
     serverFP <<  QString("  name='%1'\n").arg(qPrintable( propName));
     serverFP <<  QString("  timestamp='%1'>\n").arg(qPrintable( timestamp));
-
 }
 
 void DeviceManager::sendOneBlob( const QString &blobName, unsigned int blobSize, const QString &blobFormat, unsigned char * blobBuffer)
@@ -596,7 +591,6 @@ void DeviceManager::sendOneBlob( const QString &blobName, unsigned int blobSize,
         serverFP <<  QString().sprintf("    %.72s\n", blobBuffer+i);
 
     serverFP << QString("   </oneBLOB>\n");
-
 }
 
 void DeviceManager::finishBlob()

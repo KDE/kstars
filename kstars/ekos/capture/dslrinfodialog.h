@@ -30,7 +30,7 @@ class DSLRInfo : public QDialog, public Ui::DSLRInfo
         void save();
 
     private:
-        ISD::CCD * currentCCD=NULL;
+        ISD::CCD * currentCCD = nullptr;
 
 };
 

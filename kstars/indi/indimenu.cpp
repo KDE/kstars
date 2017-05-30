@@ -123,14 +123,14 @@ void INDIMenu::stopDeviceManager(QList<IDevice *> &processed_devices)
 
     foreach(IDevice * device, processed_devices)
     {
-        if (device->deviceManager != NULL)
+        if (device->deviceManager != nullptr)
             removeDeviceManager(device->deviceManager);
     }
 }
 
 void INDIMenu::removeDeviceManager(DeviceManager * deviceManager)
 {
-    if (deviceManager == NULL)
+    if (deviceManager == nullptr)
     {
         kWarning() << "Warning: trying to remove a null device manager detected.";
         return;
@@ -157,21 +157,27 @@ void INDIMenu::removeDeviceManager(DeviceManager * deviceManager)
 INDI_D * INDIMenu::findDevice(const QString &deviceName)
 {
     for (int i=0; i < managers.size(); i++)
+    {
         for (int j=0; j < managers[i]->indi_dev.size(); j++)
+        {
             if (managers[i]->indi_dev[j]->name == deviceName)
                 return managers[i]->indi_dev[j];
-
-    return NULL;
+        }
+    }
+    return nullptr;
 }
 
 INDI_D * INDIMenu::findDeviceByLabel(const QString &label)
 {
     for (int i=0; i < managers.size(); i++)
+    {
         for (int j=0; j < managers[i]->indi_dev.size(); j++)
+        {
             if (managers[i]->indi_dev[j]->label == label)
                 return managers[i]->indi_dev[j];
-
-    return NULL;
+        }
+    }
+    return nullptr;
 }
 
 
@@ -190,7 +196,6 @@ QString INDIMenu::getUniqueDeviceLabel(const QString &deviceName)
         return (deviceName + QString(" %1").arg(nset+1));
     else
         return (deviceName);
-
 }
 
 void INDIMenu::clearLog()
@@ -199,7 +204,6 @@ void INDIMenu::clearLog()
 
     if (dev)
         dev->msgST_w->clear();
-
 }
 
 

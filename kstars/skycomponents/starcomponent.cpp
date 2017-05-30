@@ -55,7 +55,7 @@ StarComponent * StarComponent::pinstance = 0;
 
 StarComponent::StarComponent(SkyComposite * parent )
     : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0),
-      starsLoaded(false), focusStar(NULL)
+      starsLoaded(false), focusStar(nullptr)
 {
     m_skyMesh = SkyMesh::Instance();
     m_StarBlockFactory = StarBlockFactory::Instance();
@@ -412,7 +412,7 @@ bool StarComponent::loadStaticData()
 
     /* Open the data files */
     // TODO: Maybe we don't want to hardcode the filename?
-    if((dataFile = dataReader.openFile("namedstars.dat")) == NULL)
+    if((dataFile = dataReader.openFile("namedstars.dat")) == nullptr)
     {
         qDebug() << "Could not open data file namedstars.dat" << endl;
         return false;
@@ -612,7 +612,7 @@ StarObject * StarComponent::findByHDIndex( int HDnum )
     StarObject * o;
     BinFileHelper hdidxReader;
     // First check the hash to see if we have a corresponding StarObject already
-    if( ( o = m_HDHash.value( HDnum, NULL ) ) )
+    if( ( o = m_HDHash.value( HDnum, nullptr ) ) )
         return o;
     // If we don't have the StarObject here, try it in the DeepStarComponents' hashes
     if( m_DeepStarComponents.size() >= 1 )

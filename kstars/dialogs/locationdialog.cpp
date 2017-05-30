@@ -46,7 +46,7 @@ LocationDialog::LocationDialog( QWidget * parent ) :
 #endif
     KStarsData * data = KStarsData::Instance();
 
-    SelectedCity = NULL;
+    SelectedCity = nullptr;
     ld = new LocationDialogUI(this);
 
     QVBoxLayout * mainLayout = new QVBoxLayout;
@@ -259,16 +259,15 @@ bool LocationDialog::addCity()
 
 bool LocationDialog::updateCity()
 {
-    if (SelectedCity == NULL)
+    if (SelectedCity == nullptr)
         return false;
 
     return updateCity(CITY_UPDATE);
-
 }
 
 bool LocationDialog::removeCity()
 {
-    if (SelectedCity == NULL)
+    if (SelectedCity == nullptr)
         return false;
 
     return updateCity(CITY_REMOVE);
@@ -362,7 +361,7 @@ bool LocationDialog::updateCity(CityOperation operation)
     QString province = ld->NewProvinceName->text().trimmed();
     QString country = ld->NewCountryName->text().trimmed();
     QString TZrule = ld->DSTRuleBox->currentText();
-    GeoLocation * g = NULL;
+    GeoLocation * g = nullptr;
 
     switch (operation)
     {
@@ -440,8 +439,8 @@ bool LocationDialog::updateCity(CityOperation operation)
 
             filteredCityList.removeOne(g);
             KStarsData::Instance()->getGeoList().removeOne(g);
-            delete(g);
-            g=NULL;
+            delete g;
+            g = nullptr;
         }
         break;
     }

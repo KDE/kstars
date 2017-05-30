@@ -119,8 +119,8 @@ void KStarsLite::initFocus()
     {
         QString caption = i18n( "Initial Position is Below Horizon" );
         QString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );
-        map()->setClickedObject( NULL );
-        map()->setFocusObject( NULL );
+        map()->setClickedObject( nullptr );
+        map()->setFocusObject( nullptr );
         Options::setIsTracking( false );
 
         data()->setSnapNextFocus(true);

@@ -22,11 +22,11 @@
 namespace Ekos
 {
 
-DarkLibrary * DarkLibrary::_DarkLibrary = NULL;
+DarkLibrary * DarkLibrary::_DarkLibrary = nullptr;
 
 DarkLibrary * DarkLibrary::Instance()
 {
-    if (_DarkLibrary == NULL)
+    if (_DarkLibrary == nullptr)
         _DarkLibrary = new DarkLibrary(KStars::Instance());
 
     return _DarkLibrary;
@@ -108,14 +108,14 @@ FITSData * DarkLibrary::getDarkFrame(ISD::CCDChip * targetChip, double duration)
                         darkFiles.remove(filename);
                         QFile::remove(filename);
                         KStarsData::Instance()->userdb()->DeleteDarkFrame(filename);
-                        return NULL;
+                        return nullptr;
                     }
                 }
             }
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 bool DarkLibrary::loadDarkFile(const QString &filename)
@@ -273,7 +273,7 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip * targetChip, FITSView * targe
     // If no information is available either way, then ask the user
     if (hasShutter == false && hasNoShutter == false)
     {
-        if (KMessageBox::questionYesNo(NULL, i18n("Does %1 have mechanical or electronic shutter?", deviceName), i18n("Dark Exposure")) == KMessageBox::Yes)
+        if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have mechanical or electronic shutter?", deviceName), i18n("Dark Exposure")) == KMessageBox::Yes)
         {
             hasShutter   = true;
             hasNoShutter = false;
@@ -291,8 +291,9 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip * targetChip, FITSView * targe
 
     if (hasNoShutter)
     {
-        if ( KMessageBox::warningContinueCancel(NULL, i18n("Cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"),
-                                                KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "dark_exposure_dialog_notification") == KMessageBox::Cancel)
+        if ( KMessageBox::warningContinueCancel(nullptr, i18n("Cover the telescope or camera in order to take a dark exposure."),
+                                                i18n("Dark Exposure"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                                                "dark_exposure_dialog_notification") == KMessageBox::Cancel)
         {
             emit newLog(i18n("Dark frame capture cancelled."));
             disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));

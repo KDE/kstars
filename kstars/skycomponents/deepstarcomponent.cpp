@@ -321,7 +321,7 @@ void DeepStarComponent::draw( SkyPainter * skyp )
             Trixel currentRegion = region.next();
             for( int i = 0; i < m_starBlockList.at( currentRegion )->getBlockCount(); ++i )
             {
-                StarBlock * prevBlock = ( ( i >= 1 ) ? m_starBlockList.at( currentRegion )->block( i - 1 ) : NULL );
+                StarBlock * prevBlock = ( ( i >= 1 ) ? m_starBlockList.at( currentRegion )->block( i - 1 ) : nullptr );
                 StarBlock * block = m_starBlockList.at( currentRegion )->block( i );
 
                 if( i == 0  &&  !m_StarBlockFactory->markFirst( block ) )
@@ -467,7 +467,7 @@ bool DeepStarComponent::openDataFile()
             StarBlockList * sbl = new StarBlockList( i, this );
             if( !sbl )
             {
-                qDebug() << "NULL starBlockList. Expect trouble!";
+                qDebug() << "nullptr starBlockList. Expect trouble!";
             }
             m_starBlockList.append( sbl );
         }
@@ -481,7 +481,7 @@ bool DeepStarComponent::openDataFile()
 StarObject * DeepStarComponent::findByHDIndex( int HDnum )
 {
     // Currently, we only handle HD catalog indexes
-    return m_CatalogNumber.value( HDnum, NULL ); // TODO: Maybe, make this more general.
+    return m_CatalogNumber.value( HDnum, nullptr ); // TODO: Maybe, make this more general.
 }
 
 // This uses the main star index for looking up nearby stars but then
@@ -499,7 +499,7 @@ SkyObject * DeepStarComponent::objectNearest( SkyPoint * p, double &maxrad )
     m_zoomMagLimit = StarComponent::zoomMagnitudeLimit();
 #endif
     if( !fileOpened )
-        return NULL;
+        return nullptr;
 
     m_skyMesh->index( p, maxrad + 1.0, OBJ_NEAREST_BUF);
 

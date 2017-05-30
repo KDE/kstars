@@ -35,14 +35,12 @@
 internalGuider::internalGuider(cgmath * mathObject, Ekos::Guide * parent)
     : QWidget(parent)
 {
-    int i;
-
     ui.setupUi(this);
 
     guideModule = parent;
 
-    phd2 = NULL;
-    targetChip = NULL;
+    phd2 = nullptr;
+    targetChip = nullptr;
 
     m_useRapidGuide = false;
     first_frame = false;
@@ -52,20 +50,15 @@ internalGuider::internalGuider(cgmath * mathObject, Ekos::Guide * parent)
     m_lostStarTries=0;
 
     ui.comboBox_ThresholdAlg->clear();
-    for( i = 0; guide_square_alg[i].idx != -1; ++i )
+    for (int i = 0; guide_square_alg[i].idx != -1; ++i)
         ui.comboBox_ThresholdAlg->addItem( QString( guide_square_alg[i].name ) );
 
     // connect ui
-    connect( ui.rapidGuideCheck,        SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
-
-    connect( ui.connectPHD2B,           SIGNAL(clicked()), this, SLOT(connectPHD2()));
-
+    connect(ui.rapidGuideCheck, SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
+    connect(ui.connectPHD2B, SIGNAL(clicked()), this, SLOT(connectPHD2()));
     connect(ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
-
-    connect( ui.pushButton_StartStop, SIGNAL(clicked()), this, SLOT(onStartStopButtonClick()) );
-
-    connect( ui.ditherCheck, SIGNAL(toggled(bool)), this, SIGNAL(ditherToggled(bool)));
-
+    connect(ui.pushButton_StartStop, SIGNAL(clicked()), this, SLOT(onStartStopButtonClick()));
+    connect(ui.ditherCheck, SIGNAL(toggled(bool)), this, SIGNAL(ditherToggled(bool)));
 
     pmath = mathObject;
 
@@ -75,10 +68,7 @@ internalGuider::internalGuider(cgmath * mathObject, Ekos::Guide * parent)
     pDriftOut->setAttribute( Qt::WA_NoSystemBackground, true );
     ui.frame_Graph->setAttribute( Qt::WA_NoSystemBackground, true );
 
-
-
-    pDriftOut->set_source( drift_graph->get_buffer(), NULL );
-
+    pDriftOut->set_source( drift_graph->get_buffer(), nullptr );
 
     drift_graph = new ScrollGraph( this, DRIFT_GRAPH_WIDTH, DRIFT_GRAPH_HEIGHT );
     drift_graph->set_visible_ranges( DRIFT_GRAPH_WIDTH, 60 );
@@ -201,7 +191,7 @@ void internalGuider::setTargetChip(ISD::CCDChip * chip)
 {
     targetChip = chip;
     targetChip->getFrame(&fx, &fy, &fw, &fh);
-    if (phd2 == NULL)
+    if (phd2 == nullptr)
         ui.subFrameCheck->setEnabled(targetChip->canSubframe());
 }
 
@@ -317,7 +307,7 @@ bool internalGuider::stop()
 
 void internalGuider::toggleExternalGuideStateGUI(Ekos::GuideState state)
 {
-    if (phd2 == NULL)
+    if (phd2 == nullptr)
         return;
 
     // If not started already
@@ -653,13 +643,14 @@ bool internalGuider::useRapidGuide()
 void internalGuider::setGuideOptions(const QString &algorithm, bool useSubFrame, bool useRapidGuide)
 {
     for (int i=0; i < ui.comboBox_ThresholdAlg->count(); i++)
+    {
         if (ui.comboBox_ThresholdAlg->itemText(i) == algorithm)
         {
             ui.comboBox_ThresholdAlg->setCurrentIndex(i);
             break;
         }
-
-    if (phd2 == NULL)
+    }
+    if (phd2 == nullptr)
         ui.subFrameCheck->setChecked(useSubFrame);
     ui.rapidGuideCheck->setChecked(useRapidGuide);
 }
@@ -675,11 +666,12 @@ void internalGuider::setDither(bool enable, double value)
 void internalGuider::setPHD2(Ekos::PHD2 * phd)
 {
     // If we already have PHD2 set but we are asked to unset it then we shall disconnect all signals first
-    if (phd2 && phd == NULL)
+    if (phd2 && phd == nullptr)
         phd2->disconnect();
 
     phd2 = phd;
-    bool enable = (phd2 == NULL) ? true : false;
+
+    bool enable = (phd2 == nullptr) ? true : false;
 
     if (phd2)
     {

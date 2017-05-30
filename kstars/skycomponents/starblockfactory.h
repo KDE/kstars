@@ -38,7 +38,7 @@ class StarBlockFactory
 
         /**
          * Destructor
-         * Deletes the linked list that maintains the Cache, sets the pointer to NULL
+         * Deletes the linked list that maintains the Cache, sets the pointer to nullptr
          */
         ~StarBlockFactory();
 
@@ -109,7 +109,7 @@ class StarBlockFactory
 
         /**
          * Constructor
-         * Initializes first and last StarBlock pointers to NULL
+         * Initializes first and last StarBlock pointers to nullptr
          */
         StarBlockFactory();
 

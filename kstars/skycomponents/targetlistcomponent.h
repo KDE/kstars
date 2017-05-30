@@ -37,7 +37,7 @@
  * so when called from the SkyMapComposite. The class may be supplied
  * with pointers to two methods that tell it whether to draw symbols /
  * labels or not. Disabling symbol drawing is equivalent to disabling
- * the list. If the pointers are NULL, the symbols are always drawn,
+ * the list. If the pointers are nullptr, the symbols are always drawn,
  * but the labels are not drawn.
  *
  *@note This does not inherit from ListComponent because it is not
@@ -78,13 +78,13 @@ class TargetListComponent : public SkyComponent
 
         /**
          *@short Pointer to static method that tells us whether to draw this list or not
-         *@note If the pointer is NULL, the list is drawn nevertheless
+         *@note If the pointer is nullptr, the list is drawn nevertheless
          */
         bool (*drawSymbols)( void );
 
         /**
          *@short Pointer to static method that tells us whether to draw labels for this list or not
-         *@note If the pointer is NULL, labels are not drawn
+         *@note If the pointer is nullptr, labels are not drawn
          */
         bool (*drawLabels)( void );
 

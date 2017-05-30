@@ -116,11 +116,11 @@ KSPlanetBase * PlanetMoonsComponent::getPlanet() const
 
 SkyObject * PlanetMoonsComponent::objectNearest( SkyPoint * p, double &maxrad )
 {
-    SkyObject * oBest = 0;
+    SkyObject * oBest = nullptr;
     int nmoons = pmoons->nMoons();
 
     if (Options::zoomFactor() < 3000)
-        return NULL;
+        return nullptr;
 
     for ( int i=0; i<nmoons; ++i )
     {

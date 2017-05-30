@@ -599,14 +599,15 @@ void DetailDialogLite::updateLocalDatabase(int type, const QString &search_line,
     QString TempFileName, file_line;
     QFile URLFile;
     QTemporaryFile TempFile;
-    TempFile.setAutoRemove(false);
-    TempFile.open();
-    QTextStream * temp_stream=NULL, *out_stream=NULL;
+    QTextStream * temp_stream = nullptr;
+    QTextStream * out_stream = nullptr;
     bool replace = !replace_line.isEmpty();
 
     if (search_line.isEmpty())
         return;
 
+    TempFile.setAutoRemove(false);
+    TempFile.open();
     TempFileName = TempFile.fileName();
 
     switch (type)
@@ -658,8 +659,8 @@ void DetailDialogLite::updateLocalDatabase(int type, const QString &search_line,
     }
 
     URLFile.close();
-    delete(temp_stream);
-    delete(out_stream);
+    delete temp_stream;
+    delete out_stream;
 }
 
 void DetailDialogLite::addLink(QString url, QString desc, bool isImageLink)

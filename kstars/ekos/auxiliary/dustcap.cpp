@@ -23,7 +23,7 @@ DustCap::DustCap()
     new DustCapAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/DustCap",  this);
 
-    currentDustCap = NULL;
+    currentDustCap = nullptr;
 }
 
 DustCap::~DustCap()
@@ -38,12 +38,12 @@ void DustCap::setDustCap(ISD::GDInterface * newDustCap)
 
 DustCap::ParkingStatus DustCap::getParkingStatus()
 {
-    if (currentDustCap == NULL)
+    if (currentDustCap == nullptr)
         return PARKING_ERROR;
 
     ISwitchVectorProperty * parkSP = currentDustCap->getBaseDevice()->getSwitch("CAP_PARK");
 
-    if (parkSP == NULL)
+    if (parkSP == nullptr)
         return PARKING_ERROR;
 
     switch (parkSP->s)
@@ -73,7 +73,7 @@ DustCap::ParkingStatus DustCap::getParkingStatus()
 
 bool DustCap::park()
 {
-    if (currentDustCap == NULL)
+    if (currentDustCap == nullptr)
         return false;
 
     return currentDustCap->Park();
@@ -81,7 +81,7 @@ bool DustCap::park()
 
 bool DustCap::unpark()
 {
-    if (currentDustCap == NULL)
+    if (currentDustCap == nullptr)
         return false;
 
     return currentDustCap->UnPark();
@@ -89,7 +89,7 @@ bool DustCap::unpark()
 
 bool DustCap::canPark()
 {
-    if (currentDustCap == NULL)
+    if (currentDustCap == nullptr)
         return false;
 
     return currentDustCap->canPark();
@@ -97,7 +97,7 @@ bool DustCap::canPark()
 
 bool DustCap::hasLight()
 {
-    if (currentDustCap == NULL)
+    if (currentDustCap == nullptr)
         return false;
 
     return currentDustCap->hasLight();
@@ -105,7 +105,7 @@ bool DustCap::hasLight()
 
 bool DustCap::setLightEnabled(bool enable)
 {
-    if (currentDustCap == NULL)
+    if (currentDustCap == nullptr)
         return false;
 
     return currentDustCap->SetLightEnabled(enable);
@@ -113,7 +113,7 @@ bool DustCap::setLightEnabled(bool enable)
 
 bool DustCap::setBrightness(uint16_t val)
 {
-    if (currentDustCap == NULL)
+    if (currentDustCap == nullptr)
         return false;
 
     return currentDustCap->SetBrightness(val);

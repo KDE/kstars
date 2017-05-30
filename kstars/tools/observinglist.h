@@ -219,7 +219,7 @@ class ObservingList : public QDialog
             *@p session flag toggle adding the object to the session list
             *@p update flag to toggle the call of slotSaveList
             */
-        void slotAddObject( const SkyObject * o=NULL, bool session=false, bool update=false );
+        void slotAddObject( const SkyObject * o = nullptr, bool session=false, bool update=false );
 
         /** @short Remove skyobjects which are highlighted in the
             *observing list tool from the observing list.
@@ -231,9 +231,9 @@ class ObservingList : public QDialog
             *@p session flag to tell it whether to remove the object
             *from the sessionlist or from the wishlist
             *@p update flag to toggle the call of slotSaveList
-            *Use SkyMap::clickedObject() if o is NULL (default)
+            *Use SkyMap::clickedObject() if o is nullptr (default)
             */
-        void slotRemoveObject( const SkyObject * o=NULL, bool session=false, bool update=false );
+        void slotRemoveObject( const SkyObject * o = nullptr, bool session=false, bool update=false );
 
         /** @short center the selected object in the display
             */
@@ -304,7 +304,7 @@ class ObservingList : public QDialog
         void slotToggleSize();
 
         /** @short toggle the setEnabled flags according to current view
-            *set the m_currentItem to NULL and clear selections
+            *set the m_currentItem to nullptr and clear selections
             *@p index captures the integer value sent by the signal
             *which is the currentIndex of the table
             */

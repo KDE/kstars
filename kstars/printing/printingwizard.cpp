@@ -79,7 +79,7 @@ void PrintingWizard::updateStepButtons()
     {
         case PW_OBJECT_SELECTION: // object selection
         {
-            nextB->setEnabled(m_SkyObject != NULL);
+            nextB->setEnabled(m_SkyObject != nullptr);
             break;
         }
     }

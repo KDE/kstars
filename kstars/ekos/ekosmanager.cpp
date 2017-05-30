@@ -85,21 +85,21 @@ EkosManager::EkosManager(QWidget * parent) : QDialog(parent)
     profileModel = new QStandardItemModel(0, 4);
     profileModel->setHorizontalHeaderLabels(QStringList() << "id" << "name" << "host" << "port");
 
-    captureProcess = NULL;
-    focusProcess   = NULL;
-    guideProcess   = NULL;
-    alignProcess   = NULL;
-    mountProcess   = NULL;
-    domeProcess    = NULL;
-    schedulerProcess = NULL;
-    weatherProcess = NULL;
-    dustCapProcess = NULL;
+    captureProcess = nullptr;
+    focusProcess = nullptr;
+    guideProcess = nullptr;
+    alignProcess = nullptr;
+    mountProcess = nullptr;
+    domeProcess = nullptr;
+    schedulerProcess = nullptr;
+    weatherProcess = nullptr;
+    dustCapProcess = nullptr;
 
-    ekosOptionsWidget     = NULL;
+    ekosOptionsWidget = nullptr;
 
-    focusStarPixmap=guideStarPixmap=NULL;
+    focusStarPixmap = guideStarPixmap = nullptr;
 
-    mountPI=capturePI=focusPI=guidePI=NULL;
+    mountPI = capturePI = focusPI = guidePI = nullptr;
 
     captureProgress->setValue(0);
     sequenceProgress->setValue(0);
@@ -349,17 +349,17 @@ void EkosManager::reset()
     genericDevices.clear();
     managedDevices.clear();
 
-    captureProcess = NULL;
-    focusProcess   = NULL;
-    guideProcess   = NULL;
-    domeProcess    = NULL;
-    alignProcess   = NULL;
-    mountProcess   = NULL;
-    weatherProcess = NULL;
-    dustCapProcess = NULL;
+    captureProcess = nullptr;
+    focusProcess = nullptr;
+    guideProcess = nullptr;
+    domeProcess = nullptr;
+    alignProcess = nullptr;
+    mountProcess = nullptr;
+    weatherProcess = nullptr;
+    dustCapProcess = nullptr;
 
     ekosStartingStatus  = EKOS_STATUS_IDLE;
-    indiConnectionStatus= EKOS_STATUS_IDLE;
+    indiConnectionStatus = EKOS_STATUS_IDLE;
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
@@ -435,14 +435,14 @@ bool EkosManager::start()
 
     if (localMode)
     {
-        DriverInfo * drv = NULL;
+        DriverInfo * drv = nullptr;
 
         drv = driversList.value(currentProfile->mount());
-        if (drv != NULL)
+        if (drv != nullptr)
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->ccd());
-        if (drv != NULL)
+        if (drv != nullptr)
         {
             managedDrivers.append(drv->clone());
             haveCCD = true;
@@ -457,7 +457,7 @@ bool EkosManager::start()
             Options::setGuiderType(Ekos::Guide::GUIDE_INTERNAL);
 
             drv = driversList.value(currentProfile->guider());
-            if (drv != NULL)
+            if (drv != nullptr)
             {
                 haveGuider = true;
 
@@ -465,14 +465,14 @@ bool EkosManager::start()
                 // #1 Drivers that only support ONE device per driver (such as sbig)
                 // #2 Drivers that supports multiples devices per driver (such as sx)
                 // For #1, we modify guider_di to make a unique label for the other device with postfix "Guide"
-                // For #2, we set guider_di to NULL and we prompt the user to select which device is primary ccd and which is guider
+                // For #2, we set guider_di to nullptr and we prompt the user to select which device is primary ccd and which is guider
                 // since this is the only way to find out in real time.
                 if (haveCCD && currentProfile->guider() == currentProfile->ccd())
                 {
                     if (drv->getAuxInfo().value("mdpd", false).toBool() == true)
-                        drv = NULL;
-                    else
                     {
+                        drv = nullptr;
+                    } else {
                         drv->setUniqueLabel(drv->getTreeLabel() + " Guide");
                     }
                 }
@@ -483,39 +483,39 @@ bool EkosManager::start()
         }
 
         drv = driversList.value(currentProfile->ao());
-        if (drv != NULL)
+        if (drv != nullptr)
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->filter());
-        if (drv != NULL)
+        if (drv != nullptr)
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->focuser());
-        if (drv != NULL)
+        if (drv != nullptr)
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->dome());
-        if (drv != NULL)
+        if (drv != nullptr)
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->weather());
-        if (drv != NULL)
+        if (drv != nullptr)
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->aux1());
-        if (drv != NULL)
+        if (drv != nullptr)
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->aux2());
-        if (drv != NULL)
+        if (drv != nullptr)
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->aux3());
-        if (drv != NULL)
+        if (drv != nullptr)
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->aux4());
-        if (drv != NULL)
+        if (drv != nullptr)
             managedDrivers.append(drv->clone());
 
         if (haveCCD == false && haveGuider == false)
@@ -1174,8 +1174,8 @@ void EkosManager::removeDevice(ISD::GDInterface * devInterface)
         case KSTARS_TELESCOPE:
             if (mountProcess)
             {
-                delete (mountProcess);
-                mountProcess=NULL;
+                delete mountProcess;
+                mountProcess = nullptr;
             }
         break;
 
@@ -1774,7 +1774,7 @@ void EkosManager::initMount()
 
 void EkosManager::initGuide()
 {
-    if (guideProcess == NULL)
+    if (guideProcess == nullptr)
         guideProcess = new Ekos::Guide();
 
     //if ( (haveGuider || ccdCount > 1 || useGuideHead) && useST4 && toolsWidget->indexOf(guideProcess) == -1)
@@ -1900,45 +1900,44 @@ void EkosManager::removeTabs()
     for (int i=2; i < toolsWidget->count(); i++)
         toolsWidget->removeTab(i);
 
-    delete (alignProcess);
-    alignProcess = NULL;
+    delete alignProcess;
+    alignProcess = nullptr;
 
-    //ccd = NULL;
-    delete (captureProcess);
-    captureProcess = NULL;
+    //ccd = nullptr;
+    delete captureProcess;
+    captureProcess = nullptr;
 
+    //guider = nullptr;
+    delete guideProcess;
+    guideProcess = nullptr;
 
-    //guider = NULL;
-    delete (guideProcess);
-    guideProcess = NULL;
+    delete mountProcess;
+    mountProcess = nullptr;
 
-    delete (mountProcess);
-    mountProcess = NULL;
+    //ao = nullptr;
 
-    //ao = NULL;
+    //focuser = nullptr;
+    delete focusProcess;
+    focusProcess = nullptr;
 
-    //focuser = NULL;
-    delete (focusProcess);
-    focusProcess = NULL;
+    //dome = nullptr;
+    delete domeProcess;
+    domeProcess = nullptr;
 
-    //dome = NULL;
-    delete (domeProcess);
-    domeProcess = NULL;
+    //weather = nullptr;
+    delete weatherProcess;
+    weatherProcess = nullptr;
 
-    //weather = NULL;
-    delete (weatherProcess);
-    weatherProcess = NULL;
+    //dustCap = nullptr;
+    delete dustCapProcess;
+    dustCapProcess = nullptr;
 
-    //dustCap = NULL;
-    delete (dustCapProcess);
-    dustCapProcess = NULL;
+    //lightBox = nullptr;
 
-    //lightBox = NULL;
-
-    //aux1 = NULL;
-    //aux2 = NULL;
-    //aux3 = NULL;
-    //aux4 = NULL;
+    //aux1 = nullptr;
+    //aux2 = nullptr;
+    //aux3 = nullptr;
+    //aux4 = nullptr;
 
     managedDevices.clear();
 
@@ -2071,7 +2070,7 @@ void EkosManager::wizardProfile()
 
 ProfileInfo * EkosManager::getCurrentProfile()
 {
-    ProfileInfo * currProfile = NULL;
+    ProfileInfo * currProfile = nullptr;
 
     // Get current profile
     foreach(ProfileInfo * pi, profiles)
@@ -2194,12 +2193,12 @@ void EkosManager::updateCaptureProgress(QImage * image, Ekos::SequenceJob * job)
 {
     if (job->isPreview() == false)
     {
-        // Image is set to NULL only on initial capture start up
+        // Image is set to nullptr only on initial capture start up
         int completed   = 0;
         if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
             completed = job->getCompleted()+1;
         else
-            completed = (image == NULL) ? job->getCompleted() : job->getCompleted()+1;
+            completed = (image == nullptr) ? job->getCompleted() : job->getCompleted()+1;
 
         sequenceLabel->setText(QString("Job # %1/%2 %3 (%4/%5)").arg(captureProcess->getActiveJobID()+1).arg(captureProcess->getJobCount()).arg(job->getFullPrefix()).arg(completed).arg(job->getCount()));
         sequenceProgress->setRange(0, job->getCount());
@@ -2360,8 +2359,10 @@ void EkosManager::showEkosOptions()
         return;
     }
 
-    if (ekosOptionsWidget == NULL)
+    if (ekosOptionsWidget == nullptr)
+    {
         optionsB->click();
+    }
     else if (KConfigDialog::showDialog( "settings" ))
     {
         KConfigDialog * cDialog = KConfigDialog::exists("settings");

@@ -37,7 +37,7 @@ bool INDIDBus::start(const QString &port, const QStringList &drivers)
     {
         DriverInfo * drv = DriverManager::Instance()->findDriverByExec(driver);
 
-        if (drv == NULL)
+        if (drv == nullptr)
             continue;
 
         DriverInfo * di = new DriverInfo(QString("%1").arg(driver));

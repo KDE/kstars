@@ -93,7 +93,7 @@ class DeepStarComponent: public ListComponent
         StarObject * findByHDIndex( int HDnum );
 
         /**
-         *@return Nearest star within maxrad of SkyPoint p, or NULL if not found
+         *@return Nearest star within maxrad of SkyPoint p, or nullptr if not found
          */
         SkyObject * objectNearest(SkyPoint * p, double &maxrad );
 

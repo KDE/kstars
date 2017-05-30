@@ -68,7 +68,7 @@ bool OfflineAstrometryParser::init()
     if (astrometryNetOK() == false)
     {
         if (align && align->isEnabled())
-            KMessageBox::information(NULL, i18n("Failed to find astrometry.net binaries. Please ensure astrometry.net is installed and try again."),
+            KMessageBox::information(nullptr, i18n("Failed to find astrometry.net binaries. Please ensure astrometry.net is installed and try again."),
                                      i18n("Missing astrometry files"), "missing_astrometry_binaries_warning");
 
         return false;

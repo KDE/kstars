@@ -35,7 +35,7 @@ ProfileEditor::ProfileEditor(QWidget * w )  : QDialog( w )
 #endif
     ui = new ProfileEditorUI( this );
 
-    pi = NULL;
+    pi = nullptr;
 
     QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
@@ -68,7 +68,7 @@ ProfileEditor::~ProfileEditor()
 
 void ProfileEditor::saveProfile()
 {
-    bool newProfile = (pi == NULL);
+    bool newProfile = (pi == nullptr);
 
     if (ui->profileIN->text().isEmpty())
     {

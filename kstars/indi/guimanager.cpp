@@ -43,12 +43,12 @@
 
 extern const char * libindi_strings_context;
 
-GUIManager * GUIManager::_GUIManager = NULL;
+GUIManager * GUIManager::_GUIManager = nullptr;
 
 GUIManager * GUIManager::Instance()
 {
-    if (_GUIManager == NULL)
-        _GUIManager = new GUIManager(Options::independentWindowINDI() ? NULL : KStars::Instance());
+    if (_GUIManager == nullptr)
+        _GUIManager = new GUIManager(Options::independentWindowINDI() ? nullptr : KStars::Instance());
 
     return _GUIManager;
 }
@@ -181,7 +181,7 @@ INDI_D * GUIManager::findGUIDevice(const QString &deviceName)
             return gdv;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -241,7 +241,7 @@ void GUIManager::removeDevice(DeviceInfo * di)
     QString deviceName = di->getBaseDevice()->getDeviceName();
     INDI_D * dp = findGUIDevice(deviceName);
 
-    if (dp == NULL)
+    if (dp == nullptr)
         return;
 
     ClientManager * cm = di->getDriverInfo()->getClientManager();
@@ -281,7 +281,7 @@ void GUIManager::buildDevice(DeviceInfo * di)
     //qDebug() << "In build Device for device with tree label " << di->getTreeLabel() << endl;
     ClientManager * cm = di->getDriverInfo()->getClientManager();
 
-    if (cm == NULL)
+    if (cm == nullptr)
     {
         qCritical() << "ClientManager is null in build device!" << endl;
         return;

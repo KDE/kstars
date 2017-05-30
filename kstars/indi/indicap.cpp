@@ -41,7 +41,8 @@ void DustCap::processText(ITextVectorProperty * tvp)
 bool DustCap::canPark()
 {
     ISwitchVectorProperty * parkSP = baseDevice->getSwitch("CAP_PARK");
-    if (parkSP == NULL)
+
+    if (parkSP == nullptr)
         return false;
     else
         return true;
@@ -50,7 +51,8 @@ bool DustCap::canPark()
 bool DustCap::isParked()
 {
     ISwitchVectorProperty * parkSP = baseDevice->getSwitch("CAP_PARK");
-    if (parkSP == NULL)
+
+    if (parkSP == nullptr)
         return false;
 
     return (parkSP->s == IPS_OK && parkSP->sp[0].s == ISS_ON);
@@ -59,11 +61,13 @@ bool DustCap::isParked()
 bool DustCap::Park()
 {
     ISwitchVectorProperty * parkSP = baseDevice->getSwitch("CAP_PARK");
-    if (parkSP == NULL)
+
+    if (parkSP == nullptr)
         return false;
 
     ISwitch * parkSW = IUFindSwitch(parkSP, "PARK");
-    if (parkSW == NULL)
+
+    if (parkSW == nullptr)
         return false;
 
     IUResetSwitch(parkSP);
@@ -76,11 +80,13 @@ bool DustCap::Park()
 bool DustCap::UnPark()
 {
     ISwitchVectorProperty * parkSP = baseDevice->getSwitch("CAP_PARK");
-    if (parkSP == NULL)
+
+    if (parkSP == nullptr)
         return false;
 
     ISwitch * parkSW = IUFindSwitch(parkSP, "UNPARK");
-    if (parkSW == NULL)
+
+    if (parkSW == nullptr)
         return false;
 
     IUResetSwitch(parkSP);
@@ -93,7 +99,8 @@ bool DustCap::UnPark()
 bool DustCap::hasLight()
 {
     ISwitchVectorProperty * lightSP = baseDevice->getSwitch("FLAT_LIGHT_CONTROL");
-    if (lightSP == NULL)
+
+    if (lightSP == nullptr)
         return false;
     else
         return true;
@@ -102,11 +109,13 @@ bool DustCap::hasLight()
 bool DustCap::isLightOn()
 {
     ISwitchVectorProperty * lightSP = baseDevice->getSwitch("FLAT_LIGHT_CONTROL");
-    if (lightSP == NULL)
+
+    if (lightSP == nullptr)
         return false;
 
     ISwitch * lightON  = IUFindSwitch(lightSP, "FLAT_LIGHT_ON");
-    if (lightON == NULL)
+
+    if (lightON == nullptr)
         return false;
 
     return (lightON->s == ISS_ON);
@@ -115,12 +124,14 @@ bool DustCap::isLightOn()
 bool DustCap::SetLightEnabled(bool enable)
 {
     ISwitchVectorProperty * lightSP = baseDevice->getSwitch("FLAT_LIGHT_CONTROL");
-    if (lightSP == NULL)
+
+    if (lightSP == nullptr)
         return false;
 
     ISwitch * lightON  = IUFindSwitch(lightSP, "FLAT_LIGHT_ON");
     ISwitch * lightOFF = IUFindSwitch(lightSP, "FLAT_LIGHT_OFF");
-    if (lightON == NULL || lightOFF == NULL)
+
+    if (lightON == nullptr || lightOFF == nullptr)
         return false;
 
     IUResetSwitch(lightSP);

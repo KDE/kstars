@@ -172,8 +172,8 @@ SkyMap::SkyMap() :
     slewing = false;
     clockSlewing = false;
 
-    ClickedObject = NULL;
-    FocusObject = NULL;
+    ClickedObject = nullptr;
+    FocusObject = nullptr;
 
     m_SkyMapDraw = 0;
 
@@ -388,8 +388,8 @@ void SkyMap::slotCenter()
         if ( KMessageBox::warningYesNo( this, message, caption,
                                         KGuiItem(i18n("Go Anyway")), KGuiItem(i18n("Keep Position")), "dag_focus_below_horiz" )==KMessageBox::No )
         {
-            setClickedObject( NULL );
-            setFocusObject( NULL );
+            setClickedObject( nullptr );
+            setFocusObject( nullptr );
             Options::setIsTracking( false );
 
             return;
@@ -945,7 +945,7 @@ void SkyMap::updateFocus()
         return;
 
     //Tracking on an object
-    if ( Options::isTracking() && focusObject() != NULL )
+    if ( Options::isTracking() && focusObject() != nullptr )
     {
         if ( Options::useAltAz() )
         {
@@ -965,7 +965,7 @@ void SkyMap::updateFocus()
 
         //Tracking on empty sky
     }
-    else if ( Options::isTracking() && focusPoint() != NULL )
+    else if ( Options::isTracking() && focusPoint() != nullptr )
     {
         if ( Options::useAltAz() )
         {

@@ -1269,28 +1269,33 @@ void ScriptBuilder::slotRemoveFunction()
 
 void ScriptBuilder::slotAddFunction()
 {
-
-    ScriptFunction * sc = NULL, *found = NULL;
+    ScriptFunction * sc = nullptr;
+    ScriptFunction * found = nullptr;
     QTreeWidgetItem * currentItem = sb->FunctionTree->currentItem();
 
-    if ( currentItem == NULL || currentItem->parent() == 0)
+    if (currentItem == nullptr || currentItem->parent() == nullptr)
         return;
 
     foreach ( sc, KStarsFunctionList )
+    {
         if (sc->prototype() == currentItem->text(0))
         {
             found = sc;
             break;
         }
+    }
 
     foreach ( sc, SimClockFunctionList )
+    {
         if (sc->prototype() == currentItem->text(0))
         {
             found = sc;
             break;
         }
+    }
 
-    if (found == NULL) return;
+    if (found == nullptr)
+        return;
 
     setUnsavedChanges( true );
 
@@ -1619,27 +1624,32 @@ void ScriptBuilder::slotArgWidget()
 
 void ScriptBuilder::slotShowDoc()
 {
-    ScriptFunction * sc = NULL, *found= NULL;
+    ScriptFunction * sc = nullptr;
+    ScriptFunction * found = nullptr;
     QTreeWidgetItem * currentItem = sb->FunctionTree->currentItem();
 
-    if ( currentItem == NULL || currentItem->parent() == 0)
+    if ( currentItem == nullptr || currentItem->parent() == nullptr)
         return;
 
     foreach ( sc, KStarsFunctionList )
+    {
         if (sc->prototype() == currentItem->text(0))
         {
             found = sc;
             break;
         }
+    }
 
     foreach ( sc, SimClockFunctionList )
+    {
         if (sc->prototype() == currentItem->text(0))
         {
             found = sc;
             break;
         }
+    }
 
-    if (found == NULL)
+    if (found == nullptr)
     {
         sb->AddButton->setEnabled( false );
         qWarning() << i18n( "Function index out of bounds." ) ;

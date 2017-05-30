@@ -50,19 +50,19 @@ INDI_E::INDI_E(INDI_P * gProp, INDI::Property * dProp)
     EHBox     = new QHBoxLayout;
     EHBox->setMargin(0);
 
-    tp        = NULL;
-    sp        = NULL;
-    np        = NULL;
-    label_w   = NULL;
-    read_w    = NULL;
-    write_w   = NULL;
-    spin_w    = NULL;
-    slider_w  = NULL;
-    push_w    = NULL;
-    browse_w  = NULL;
-    check_w   = NULL;
-    led_w     = NULL;
-    hSpacer   = NULL;
+    tp        = nullptr;
+    sp        = nullptr;
+    np        = nullptr;
+    label_w   = nullptr;
+    read_w    = nullptr;
+    write_w   = nullptr;
+    spin_w    = nullptr;
+    slider_w  = nullptr;
+    push_w    = nullptr;
+    browse_w  = nullptr;
+    check_w   = nullptr;
+    led_w     = nullptr;
+    hSpacer   = nullptr;
 
 }
 
@@ -97,7 +97,7 @@ void INDI_E::buildSwitch(QButtonGroup * groupB, ISwitch * sw)
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = sw->name;
 
-    if (groupB == NULL)
+    if (groupB == nullptr)
         return;
 
     switch (guiProp->getGUIType())
@@ -142,7 +142,7 @@ void INDI_E::buildSwitch(QButtonGroup * groupB, ISwitch * sw)
 
 void INDI_E::buildMenuItem(ISwitch * sw)
 {
-    buildSwitch(NULL, sw);
+    buildSwitch(nullptr, sw);
 }
 
 void INDI_E::buildText(IText * itp)
@@ -270,7 +270,7 @@ void INDI_E::syncSwitch()
 
 void INDI_E::syncText()
 {
-    if (tp == NULL)
+    if (tp == nullptr)
         return;
 
     if (tp->tvp->p != IP_WO)
@@ -291,7 +291,7 @@ void INDI_E::syncNumber()
 {
 
     char iNumber[MAXINDIFORMAT];
-    if (np == NULL || read_w == NULL)
+    if (np == nullptr || read_w == nullptr)
         return;
 
     numberFormat(iNumber, np->format, np->value);
@@ -312,8 +312,7 @@ void INDI_E::syncNumber()
 
 void INDI_E::updateTP()
 {
-
-    if (tp == NULL)
+    if (tp == nullptr)
         return;
 
     IUSaveText(tp, write_w->text().toLatin1().constData());
@@ -321,10 +320,10 @@ void INDI_E::updateTP()
 
 void INDI_E::updateNP()
 {
-    if (np == NULL)
+    if (np == nullptr)
         return;
 
-    if (write_w != NULL)
+    if (write_w != nullptr)
     {
         if (write_w->text().isEmpty())
             return;
@@ -333,14 +332,14 @@ void INDI_E::updateNP()
         return;
     }
 
-    if (spin_w != NULL)
+    if (spin_w != nullptr)
         np->value = spin_w->value();
 
 }
 
 void INDI_E::setText(const QString &newText)
 {
-    if (tp == NULL)
+    if (tp == nullptr)
         return;
 
     switch(dataProp->getPermission())
@@ -491,7 +490,7 @@ void INDI_E::buildLight(ILight * ilp)
 
 void INDI_E::syncLight()
 {
-    if (lp == NULL)
+    if (lp == nullptr)
         return;
 
     switch (lp->s)
@@ -520,8 +519,7 @@ void INDI_E::syncLight()
 
 void INDI_E::setupElementScale(int length)
 {
-
-    if (np == NULL)
+    if (np == nullptr)
         return;
 
     int steps = (int) ((np->max - np->min) / np->step);
@@ -684,7 +682,7 @@ void INDI_E::browseBlob()
     bp->bloblen = bp->size = fp.size();
 
     bp->blob = (uint8_t *) realloc (bp->blob, bp->size);
-    if (bp->blob == NULL)
+    if (bp->blob == nullptr)
     {
         KMessageBox::error(0, i18n("Not enough memory for file %1", filename));
         fp.close();
@@ -701,7 +699,7 @@ QString INDI_E::getWriteField()
     if (write_w)
         return write_w->text();
     else
-        return NULL;
+        return nullptr;
 }
 
 QString INDI_E::getReadField()
@@ -709,7 +707,7 @@ QString INDI_E::getReadField()
     if (read_w)
         return read_w->text();
     else
-        return NULL;
+        return nullptr;
 }
 
 

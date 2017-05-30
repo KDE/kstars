@@ -284,7 +284,7 @@ void FlagManager::slotCenterTelescope()
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;
 
-        if (bd == NULL)
+        if (bd == nullptr)
             continue;
 
         if (bd->isConnected() == false)

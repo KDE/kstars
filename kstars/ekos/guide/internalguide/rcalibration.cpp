@@ -334,7 +334,7 @@ void internalCalibration::processCalibration()
         emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
         ui.startCalibrationLED->setColor(alertColor);
-        KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
+        KMessageBox::error(nullptr, i18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
         reset();
         return;
     }

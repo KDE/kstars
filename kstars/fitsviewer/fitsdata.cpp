@@ -71,19 +71,19 @@ bool greaterThan(Edge * s1, Edge * s2)
 FITSData::FITSData(FITSMode fitsMode)
 {
     channels = 0;
-    wcs_coord    = NULL;
-    fptr = NULL;
-    maxHFRStar = NULL;
-    tempFile  = false;
+    wcs_coord = nullptr;
+    fptr = nullptr;
+    maxHFRStar = nullptr;
+    tempFile = false;
     starsSearched = false;
     HasWCS = false;
-    HasDebayer=false;
+    HasDebayer = false;
     mode = fitsMode;
-    channels=1;
+    channels = 1;
 
-    stats.bitpix=8;
+    stats.bitpix = 8;
     stats.ndim = 2;
-    stats.bytesPerPixel=1;
+    stats.bytesPerPixel = 1;
 
     debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
     debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
@@ -244,8 +244,8 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
 
     //image_buffer = new float[stats.samples_per_channel * channels];
     imageBuffer = new uint8_t[stats.samples_per_channel * channels * stats.bytesPerPixel];
-    //if (image_buffer == NULL)
-    if (imageBuffer == NULL)
+    //if (image_buffer == nullptr)
+    if (imageBuffer == nullptr)
     {
         qDebug() << "FITSData: Not enough memory for image_buffer channel. Requested: " << stats.samples_per_channel * channels * stats.bytesPerPixel << " bytes.";
         clearImageBuffers();
@@ -313,7 +313,7 @@ int FITSData::saveFITS( const QString &newFilename )
         if (QFile::copy(filename, finalFileName) == false)
         {
             qCritical() << "FITS: Failed to copy " << filename << " to " << finalFileName;
-            fptr = NULL;
+            fptr = nullptr;
             return -1;
         }
 
@@ -455,8 +455,8 @@ int FITSData::saveFITS( const QString &newFilename )
 void FITSData::clearImageBuffers()
 {
     delete[] imageBuffer;
-    imageBuffer=NULL;
-    bayerBuffer=NULL;
+    imageBuffer = nullptr;
+    bayerBuffer = nullptr;
 }
 
 void FITSData::calculateStats(bool refresh)
@@ -518,10 +518,10 @@ int FITSData::calculateMinMax(bool refresh)
 
     if (fptr && refresh == false)
     {
-        if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min[0]), NULL, &status) ==0)
+        if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min[0]), nullptr, &status) ==0)
             nfound++;
 
-        if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max[0]), NULL, &status) == 0)
+        if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max[0]), nullptr, &status) == 0)
             nfound++;
 
         // If we found both keywords, no need to calculate them, unless they are both zeros
@@ -653,7 +653,7 @@ int FITSData::getFITSRecord(QString &recordList, int &nkeys)
     char * header;
     int status=0;
 
-    if (fits_hdr2str(fptr, 0, NULL, 0, &header, &nkeys, &status))
+    if (fits_hdr2str(fptr, 0, nullptr, 0, &header, &nkeys, &status))
     {
         fits_report_error(stderr, status);
         free(header);
@@ -1572,7 +1572,7 @@ double FITSData::getHFR(HFRType type)
 
     if (type == HFR_MAX)
     {
-        maxHFRStar = NULL;
+        maxHFRStar = nullptr;
         int maxVal=0;
         int maxIndex=0;
         for (int i=0; i < starCenters.count() ; i++)
@@ -1759,7 +1759,7 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t * target
     // Intermediate value
     double ival= 0;
 
-    T * image = NULL;
+    T * image = nullptr;
 
     if (targetImage)
         image = reinterpret_cast<T *>(targetImage);
@@ -1888,8 +1888,9 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t * target
         case FITS_EQUALIZE:
         {
 #ifndef KSTARS_LITE
-            if (histogram == NULL)
+            if (histogram == nullptr)
                 return;
+
             QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
             coeff = 255.0 / (height * width);
 
@@ -2040,7 +2041,7 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t * target
 
 int FITSData::findStars(const QRectF &boundary, bool force)
 {
-    //if (histogram == NULL)
+    //if (histogram == nullptr)
     //return -1;
 
     if (starsSearched == false || force)
@@ -2090,7 +2091,7 @@ bool FITSData::loadWCS()
     int width=getWidth();
     int height=getHeight();
 
-    if (fits_hdr2str(fptr, 1, NULL, 0, &header, &nkeyrec, &status))
+    if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
     {
         char errmsg[512];
         fits_get_errstatus(status, errmsg);
@@ -2131,7 +2132,7 @@ bool FITSData::loadWCS()
 
     wcs_coord = new wcs_point[width*height];
 
-    if (wcs_coord == NULL)
+    if (wcs_coord == nullptr)
     {
         lastError = "Not enough memory for WCS data!";
         return false;
@@ -2249,14 +2250,13 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 #ifdef HAVE_WCSLIB
 void FITSData::findObjectsInImage(double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[])
 {
-    int width=getWidth();
-    int height=getHeight();
-    int status=0;
-
+    int width = getWidth();
+    int height = getHeight();
+    int status = 0;
     char date[64];
-    KSNumbers * num = NULL;
+    KSNumbers * num = nullptr;
 
-    if (fits_read_keyword(fptr, "DATE-OBS", date, NULL, &status) == 0)
+    if (fits_read_keyword(fptr, "DATE-OBS", date, nullptr, &status) == 0)
     {
         QString tsString(date);
         tsString = tsString.remove("'").trimmed();
@@ -2266,7 +2266,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
         if (ts.isValid())
             num = new KSNumbers(KStarsDateTime(ts).djd());
     }
-    if (num == NULL)
+    if (num == nullptr)
         num=new KSNumbers(KStarsData::Instance()->ut().djd());//Set to current time if the above does not work.
 
     SkyMapComposite * map=KStarsData::Instance()->skyComposite();
@@ -2395,13 +2395,13 @@ void FITSData::setRotCounter(int value)
 /* Rotate an image by 90, 180, or 270 degrees, with an optional
  * reflection across the vertical or horizontal axis.
  * verbose generates extra info on stdout.
- * return NULL if successful or rotated image.
+ * return nullptr if successful or rotated image.
  */
 template<typename T>  bool FITSData::rotFITS (int rotate, int mirror)
 {
     int ny, nx;
     int x1, y1, x2, y2;
-    uint8_t * rotimage = NULL;
+    uint8_t * rotimage = nullptr;
     int offset=0;
 
     if (rotate == 1)
@@ -2421,7 +2421,7 @@ template<typename T>  bool FITSData::rotFITS (int rotate, int mirror)
     /* Allocate buffer for rotated image */
     rotimage = new uint8_t[stats.samples_per_channel*channels*BBP];
 
-    if (rotimage == NULL)
+    if (rotimage == nullptr)
     {
         qWarning() << "Unable to allocate memory for rotated image buffer!";
         return false;
@@ -2962,7 +2962,7 @@ bool FITSData::checkDebayer()
     char bayerPattern[64];
 
     // Let's search for BAYERPAT keyword, if it's not found we return as there is no bayer pattern in this image
-    if (fits_read_keyword(fptr, "BAYERPAT", bayerPattern, NULL, &status))
+    if (fits_read_keyword(fptr, "BAYERPAT", bayerPattern, nullptr, &status))
         return false;
 
     if (stats.bitpix != 16 && stats.bitpix != 8)
@@ -2988,8 +2988,8 @@ bool FITSData::checkDebayer()
         return false;
     }
 
-    fits_read_key(fptr, TINT, "XBAYROFF", &debayerParams.offsetX, NULL, &status);
-    fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, NULL, &status);
+    fits_read_key(fptr, TINT, "XBAYROFF", &debayerParams.offsetX, nullptr, &status);
+    fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, nullptr, &status);
 
     HasDebayer = true;
 
@@ -3014,7 +3014,7 @@ void FITSData::setBayerParams(BayerParams * param)
 
 bool FITSData::debayer()
 {
-    if (bayerBuffer == NULL)
+    if (bayerBuffer == nullptr)
     {
         int anynull=0, status=0;
 
@@ -3051,7 +3051,7 @@ bool FITSData::debayer_8bit()
     int rgb_size = stats.samples_per_channel*3*stats.bytesPerPixel;
     uint8_t * destinationBuffer = new uint8_t[rgb_size];
 
-    if (destinationBuffer == NULL)
+    if (destinationBuffer == nullptr)
     {
         KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
         return false;
@@ -3086,7 +3086,7 @@ bool FITSData::debayer_8bit()
         delete[] imageBuffer;
         imageBuffer = new uint8_t[rgb_size];
 
-        if (imageBuffer == NULL)
+        if (imageBuffer == nullptr)
         {
             delete[] destinationBuffer;
             KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
@@ -3110,7 +3110,7 @@ bool FITSData::debayer_8bit()
 
     channels=3;
     delete[] destinationBuffer;
-    bayerBuffer = NULL;
+    bayerBuffer = nullptr;
     return true;
 }
 
@@ -3124,7 +3124,7 @@ bool FITSData::debayer_16bit()
     uint16_t * buffer    = reinterpret_cast<uint16_t *>(bayerBuffer);
     uint16_t * dstBuffer = reinterpret_cast<uint16_t *>(destinationBuffer);
 
-    if (destinationBuffer == NULL)
+    if (destinationBuffer == nullptr)
     {
         KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
         return false;
@@ -3159,7 +3159,7 @@ bool FITSData::debayer_16bit()
         delete[] imageBuffer;
         imageBuffer = new uint8_t[rgb_size];
 
-        if (imageBuffer == NULL)
+        if (imageBuffer == nullptr)
         {
             delete[] destinationBuffer;
             KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
@@ -3183,9 +3183,9 @@ bool FITSData::debayer_16bit()
         *bBuff++ = dstBuffer[i+2];
     }
 
-    channels=3;
+    channels = 3;
     delete[] destinationBuffer;
-    bayerBuffer = NULL;
+    bayerBuffer = nullptr;
     return true;
 }
 

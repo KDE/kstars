@@ -28,7 +28,7 @@ DriverInfo::DriverInfo(const QString &inName)
     serverState = false;
     clientState = false;
 
-    serverManager = NULL;
+    serverManager = nullptr;
 
     hostname      = "localhost";
     port          = "-1";
@@ -74,13 +74,13 @@ void DriverInfo::clear()
 {
     serverState = false;
     clientState = false;
-    serverManager = NULL;
+    serverManager = nullptr;
     //uniqueLabel.clear();
 }
 
 QString DriverInfo::getServerBuffer()
 {
-    if (serverManager != NULL)
+    if (serverManager != nullptr)
         return serverManager->getLogBuffer();
 
     return QString();
@@ -94,7 +94,7 @@ void DriverInfo::setServerState(bool inState)
     serverState = inState;
 
     if (serverState == false)
-        serverManager = NULL;
+        serverManager = nullptr;
 
     emit deviceStateChanged(this);
 }
@@ -110,7 +110,7 @@ void DriverInfo::setClientState(bool inState)
     clientState = inState;
 
     if (clientState == false)
-        clientManager = NULL;
+        clientManager = nullptr;
 
     //qDebug() << "Client state for this device changed, calling device state changed signal " << endl;
 
@@ -144,8 +144,7 @@ DeviceInfo * DriverInfo::getDevice(const QString &deviceName)
             return idv;
     }
 
-    return NULL;
-
+    return nullptr;
 }
 QVariantMap DriverInfo::getAuxInfo() const
 {

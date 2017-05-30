@@ -557,7 +557,7 @@ FITSViewer * KStars::genericFITSViewer()
 {
     if (m_GenericFITSViewer.isNull())
     {
-        m_GenericFITSViewer = new FITSViewer(Options::independentWindowFITS() ? NULL : this);
+        m_GenericFITSViewer = new FITSViewer(Options::independentWindowFITS() ? nullptr : this);
         m_GenericFITSViewer->setAttribute(Qt::WA_DeleteOnClose);
 
         m_FITSViewers.append(m_GenericFITSViewer);
@@ -571,7 +571,7 @@ FITSViewer * KStars::genericFITSViewer()
 EkosManager * KStars::ekosManager()
 {
     if (m_EkosManager.isNull())
-        m_EkosManager   = new EkosManager(Options::independentWindowEkos() ? NULL : this);
+        m_EkosManager   = new EkosManager(Options::independentWindowEkos() ? nullptr : this);
 
     return m_EkosManager;
 }

@@ -58,7 +58,7 @@ class KSSun : public KSPlanet
         	*@p Epoch current Julian Date
         	*@p Earth pointer to earth object
         	*/
-        virtual bool findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * Earth=NULL );
+        virtual bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr);
     private:
         virtual void findMagnitude(const KSNumbers *);
 };

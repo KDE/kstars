@@ -29,7 +29,6 @@ void Dome::processNumber(INumberVectorProperty * nvp)
 void Dome::processSwitch(ISwitchVectorProperty * svp)
 {
     DeviceDecorator::processSwitch(svp);
-
 }
 
 void Dome::processText(ITextVectorProperty * tvp)
@@ -40,23 +39,25 @@ void Dome::processText(ITextVectorProperty * tvp)
 bool Dome::canPark()
 {
     ISwitchVectorProperty * parkSP = baseDevice->getSwitch("DOME_PARK");
-    if (parkSP == NULL)
+
+    if (parkSP == nullptr)
         return false;
 
     ISwitch * parkSW = IUFindSwitch(parkSP, "PARK");
 
-    return (parkSW != NULL);
+    return (parkSW != nullptr);
 }
 
 bool Dome::isParked()
 {
     ISwitchVectorProperty * parkSP = baseDevice->getSwitch("DOME_PARK");
-    if (parkSP == NULL)
+
+    if (parkSP == nullptr)
         return false;
 
     ISwitch * parkSW = IUFindSwitch(parkSP, "PARK");
 
-    if (parkSW == NULL)
+    if (parkSW == nullptr)
         return false;
 
     return ( (parkSW->s == ISS_ON) && parkSP->s == IPS_OK);
@@ -65,11 +66,13 @@ bool Dome::isParked()
 bool Dome::Abort()
 {
     ISwitchVectorProperty * motionSP = baseDevice->getSwitch("TELESCOPE_ABORT_MOTION");
-    if (motionSP == NULL)
+
+    if (motionSP == nullptr)
         return false;
 
     ISwitch * abortSW = IUFindSwitch(motionSP, "ABORT");
-    if (abortSW == NULL)
+
+    if (abortSW == nullptr)
         return false;
 
     abortSW->s = ISS_ON;
@@ -82,11 +85,13 @@ bool Dome::Abort()
 bool Dome::Park()
 {
     ISwitchVectorProperty * parkSP = baseDevice->getSwitch("DOME_PARK");
-    if (parkSP == NULL)
+
+    if (parkSP == nullptr)
         return false;
 
     ISwitch * parkSW = IUFindSwitch(parkSP, "PARK");
-    if (parkSW == NULL)
+
+    if (parkSW == nullptr)
         return false;
 
     IUResetSwitch(parkSP);
@@ -99,11 +104,13 @@ bool Dome::Park()
 bool Dome::UnPark()
 {
     ISwitchVectorProperty * parkSP = baseDevice->getSwitch("DOME_PARK");
-    if (parkSP == NULL)
+
+    if (parkSP == nullptr)
         return false;
 
     ISwitch * parkSW = IUFindSwitch(parkSP, "UNPARK");
-    if (parkSW == NULL)
+
+    if (parkSW == nullptr)
         return false;
 
     IUResetSwitch(parkSP);

@@ -46,11 +46,11 @@ const char * indi_std[NINDI_STD] =
     "RAW_STREAM", "IMAGE_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT",  "WATCHDOG_HEARTBEAT", "CAP_PARK", "FLAT_LIGHT_CONTROL", "FLAT_LIGHT_INTENSITY"
 };
 
-INDIListener * INDIListener::_INDIListener = NULL;
+INDIListener * INDIListener::_INDIListener = nullptr;
 
 INDIListener * INDIListener::Instance()
 {
-    if (_INDIListener == NULL)
+    if (_INDIListener == nullptr)
         _INDIListener = new INDIListener(KStars::Instance());
 
     return _INDIListener;
@@ -70,19 +70,21 @@ INDIListener::~INDIListener()
 bool INDIListener::isStandardProperty(const QString &name)
 {
     for (int i=0; i < NINDI_STD; i++)
+    {
         if (!strcmp(name.toLatin1().constData(), indi_std[i]))
             return true;
-
+    }
     return false;
 }
 
 ISD::GDInterface * INDIListener::getDevice(const QString &name)
 {
     foreach(ISD::GDInterface * gi, devices)
+    {
         if (!strcmp(gi->getDeviceName(), name.toLatin1().constData()))
             return gi;
-
-    return NULL;
+    }
+    return nullptr;
 }
 
 void INDIListener::addClient(ClientManager * cm)
@@ -301,7 +303,7 @@ void INDIListener::registerProperty(INDI::Property * prop)
 
 void INDIListener::removeProperty(INDI::Property * prop)
 {
-    if (prop == NULL)
+    if (prop == nullptr)
         return;
 
     foreach(ISD::GDInterface * gd, devices)
@@ -316,7 +318,6 @@ void INDIListener::removeProperty(INDI::Property * prop)
 
 void INDIListener::processSwitch(ISwitchVectorProperty * svp)
 {
-
     foreach(ISD::GDInterface * gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), svp->device))
@@ -325,7 +326,6 @@ void INDIListener::processSwitch(ISwitchVectorProperty * svp)
             break;
         }
     }
-
 }
 
 void INDIListener::processNumber(INumberVectorProperty * nvp)
@@ -354,7 +354,6 @@ void INDIListener::processText(ITextVectorProperty * tvp)
 
 void INDIListener::processLight(ILightVectorProperty * lvp)
 {
-
     foreach(ISD::GDInterface * gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), lvp->device))

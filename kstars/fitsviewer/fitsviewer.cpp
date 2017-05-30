@@ -87,7 +87,7 @@ FITSViewer::FITSViewer (QWidget * parent)
     undoGroup = new QUndoGroup(this);
 
     fitsID = 0;
-    debayerDialog= NULL;
+    debayerDialog = nullptr;
     markStars = false;
 
     lastURL = QUrl(QDir::homePath());
@@ -432,7 +432,7 @@ bool FITSViewer::removeFITS(int fitsUID)
 {
     FITSTab * tab = fitsMap.value(fitsUID);
 
-    if (tab == NULL)
+    if (tab == nullptr)
     {
         qDebug() << "Cannot find tab with UID " << fitsUID << " in the FITS Viewer";
         return false;
@@ -454,7 +454,7 @@ bool FITSViewer::updateFITS(const QUrl * imageName, int fitsUID, FITSScale filte
 {
     FITSTab * tab = fitsMap.value(fitsUID);
 
-    if (tab == NULL)
+    if (tab == nullptr)
     {
         qDebug() << "Cannot find tab with UID " << fitsUID << " in the FITS Viewer";
         return false;
@@ -675,14 +675,14 @@ void FITSViewer::headerFITS()
 
 void FITSViewer::debayerFITS()
 {
-    if (debayerDialog == NULL)
+    if (debayerDialog == nullptr)
     {
         debayerDialog = new FITSDebayer(this);
     }
 
     FITSView * view = getCurrentView();
 
-    if (view == NULL)
+    if (view == nullptr)
         return;
 
     BayerParams param;
@@ -695,7 +695,7 @@ void FITSViewer::debayerFITS()
 
 int FITSViewer::saveUnsaved(int index)
 {
-    FITSTab * targetTab = NULL;
+    FITSTab * targetTab = nullptr;
 
     if (index < 0 || index >= fitsTabs.size())
         return -1;
@@ -793,10 +793,10 @@ void FITSViewer::ZoomToFit()
 
 void FITSViewer::updateAction(const QString &name, bool enable)
 {
-    QAction * toolAction = NULL;
+    QAction * toolAction = nullptr;
 
     toolAction = actionCollection()->action(name);
-    if (toolAction != NULL)
+    if (toolAction != nullptr)
         toolAction->setEnabled (enable);
 }
 
@@ -872,7 +872,7 @@ This is a method that either enables or disables the WCS based features in the C
 
 void FITSViewer::updateWCSFunctions()
 {
-    if (getCurrentView() == NULL)
+    if (getCurrentView() == nullptr)
         return;
 
     if(getCurrentView()->imageHasWCS())
@@ -1005,14 +1005,14 @@ FITSView * FITSViewer::getView(int fitsUID)
 
     if (tab)
         return tab->getView();
-    else
-        return NULL;
+
+    return nullptr;
 }
 
 FITSView * FITSViewer::getCurrentView()
 {
     if (fitsTabs.empty() || fitsTab->currentIndex() >= fitsTabs.count() )
-        return NULL;
+        return nullptr;
 
     return fitsTabs[fitsTab->currentIndex()]->getView();
 }

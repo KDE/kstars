@@ -35,8 +35,8 @@ StarBlockFactory * StarBlockFactory::Instance()
 
 StarBlockFactory::StarBlockFactory()
 {
-    first = NULL;
-    last = NULL;
+    first = nullptr;
+    last = nullptr;
     nBlocks = 0;
     drawID = 0;
     nCache = DEFAULT_NCACHE;
@@ -51,7 +51,8 @@ StarBlockFactory::~StarBlockFactory()
 
 StarBlock * StarBlockFactory::getBlock()
 {
-    StarBlock * freeBlock = NULL;
+    StarBlock * freeBlock = nullptr;
+
     if( nBlocks < nCache )
     {
         freeBlock = new StarBlock;
@@ -69,12 +70,16 @@ StarBlock * StarBlockFactory::getBlock()
         freeBlock = last;
         last = last->prev;
         if( last )
-            last->next = NULL;
+        {
+            last->next = nullptr;
+        }
         if( freeBlock == first )
-            first = NULL;
+        {
+            first = nullptr;
+        }
         freeBlock->reset();
-        freeBlock->prev = NULL;
-        freeBlock->next = NULL;
+        freeBlock->prev = nullptr;
+        freeBlock->next = nullptr;
         return freeBlock;
     }
     freeBlock = new StarBlock;
@@ -94,7 +99,7 @@ bool StarBlockFactory::markFirst( StarBlock * block )
     {
         //        qDebug() << "INFO: Linking in first block" << endl;
         last = first = block;
-        first->prev = first->next = NULL;
+        first->prev = first->next = nullptr;
         first->drawID = drawID;
         return true;
     }
@@ -116,7 +121,7 @@ bool StarBlockFactory::markFirst( StarBlock * block )
 
     first->prev = block;
     block->next = first;
-    block->prev = NULL;
+    block->prev = nullptr;
     first = block;
 
     block->drawID = drawID;
@@ -130,7 +135,7 @@ bool StarBlockFactory::markNext( StarBlock * after, StarBlock * block )
     //    fprintf(stderr, "markNext()!\n");
     if( !block || !after )
     {
-        qDebug() << "WARNING: markNext called with NULL argument" << endl;
+        qDebug() << "WARNING: markNext called with nullptr argument" << endl;
         return false;
     }
 
@@ -154,7 +159,7 @@ bool StarBlockFactory::markNext( StarBlock * after, StarBlock * block )
 
     if( block == first )
     {
-        if( block->next == NULL )
+        if( block->next == nullptr )
         {
             qDebug() << "ERROR: Trying to mark only block after some other block";
             return false;
@@ -193,7 +198,7 @@ bool StarBlockFactory::markNext( StarBlock * after, StarBlock * block )
 /*
 bool StarBlockFactory::groupMove( StarBlock *start, const int nblocks ) {
 
-    StarBlock *end;
+    StarBlock * end = nullptr;
 
     // Check for trivial cases
     if( !start || nblocks < 0 )
@@ -208,11 +213,11 @@ bool StarBlockFactory::groupMove( StarBlock *start, const int nblocks ) {
     // Check for premature end
     end = start;
     for( int i = 1; i < nblocks; ++i ) {
-        if( end  == NULL )
+        if( end == nullptr )
             return false;
         end = end->next;
     }
-    if( end == NULL )
+    if( end == nullptr )
         return false;
 
     // Update drawIDs
@@ -232,18 +237,17 @@ bool StarBlockFactory::groupMove( StarBlock *start, const int nblocks ) {
 
     first->prev = end;
     end->next = first;
-    start->prev = NULL;
+    start->prev = nullptr;
     first = start;
 }
 */
 
 int StarBlockFactory::deleteBlocks( int nblocks )
 {
-    int i;
-    StarBlock * temp;
+    int i = 0;
+    StarBlock * temp = nullptr;
 
-    i = 0;
-    while( last != NULL && i != nblocks )
+    while( last != nullptr && i != nblocks )
     {
         temp = last->prev;
         delete last;
@@ -251,9 +255,9 @@ int StarBlockFactory::deleteBlocks( int nblocks )
         i++;
     }
     if( last )
-        last->next = NULL;
+        last->next = nullptr;
     else
-        first = NULL;
+        first = nullptr;
 
     qDebug() << nblocks << "StarBlocks freed from StarBlockFactory" << endl;
 
@@ -263,13 +267,12 @@ int StarBlockFactory::deleteBlocks( int nblocks )
 
 void StarBlockFactory::printStructure() const
 {
-
-    StarBlock * cur;
+    StarBlock * cur = nullptr;
     Trixel curTrixel = 513; // TODO: Change if we change HTMesh level
-    int index;
+    int index = 0;
     bool draw = false;
+
     cur = first;
-    index = 0;
     do
     {
         if( curTrixel != cur->parent->getTrixel() )
@@ -295,11 +298,10 @@ void StarBlockFactory::printStructure() const
 
 int StarBlockFactory::freeUnused()
 {
-    int i;
-    StarBlock * temp;
+    int i = 0;
+    StarBlock * temp = nullptr;
 
-    i = 0;
-    while( last != NULL && last->drawID < drawID && i != nBlocks )
+    while( last != nullptr && last->drawID < drawID && i != nBlocks )
     {
         temp = last->prev;
         delete last;
@@ -307,9 +309,9 @@ int StarBlockFactory::freeUnused()
         i++;
     }
     if( last )
-        last->next = NULL;
+        last->next = nullptr;
     else
-        first = NULL;
+        first = nullptr;
 
     qDebug() << i << "StarBlocks freed from StarBlockFactory" << endl;
 

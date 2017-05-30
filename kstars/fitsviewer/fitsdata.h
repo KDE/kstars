@@ -331,7 +331,7 @@ class FITSData
 #endif
 
         // Filter
-        void applyFilter(FITSScale type, uint8_t * image=NULL, float * min= NULL, float * max= NULL);
+        void applyFilter(FITSScale type, uint8_t * image = nullptr, float * min = nullptr, float * max = nullptr);
 
         // Rotation counter. We keep count to rotate WCS keywords on save
         int getRotCounter() const;
@@ -407,13 +407,13 @@ class FITSData
 #endif
 
 #ifndef KSTARS_LITE
-        FITSHistogram * histogram = NULL;   // Pointer to the FITS data histogram
+        FITSHistogram * histogram = nullptr;   // Pointer to the FITS data histogram
 #endif
         fitsfile * fptr;                    // Pointer to CFITSIO FITS file struct
 
         int data_type;                      // FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
         int channels;                       // Number of channels
-        uint8_t * imageBuffer = NULL;       // Generic data image buffer
+        uint8_t * imageBuffer = nullptr;       // Generic data image buffer
 
 
         bool tempFile;                      // Is this a tempoprary file or one loaded from disk?
@@ -434,7 +434,7 @@ class FITSData
         QList<Edge *> starCenters;          // All the stars we detected, if any.
         Edge * maxHFRStar;                  // The biggest fattest star in the image.
 
-        uint8_t * bayerBuffer = NULL;
+        uint8_t * bayerBuffer = nullptr;
         BayerParams debayerParams;          // Bayer parameters
 
         /* stats struct to hold statisical data about the FITS data */

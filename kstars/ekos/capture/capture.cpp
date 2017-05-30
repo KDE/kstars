@@ -74,19 +74,19 @@ Capture::Capture()
     guideState = GUIDE_IDLE;
     alignState = ALIGN_IDLE;
 
-    currentCCD = NULL;
-    currentTelescope = NULL;
-    currentFilter = NULL;
-    dustCap = NULL;
-    lightBox= NULL;
-    dome    = NULL;
+    currentCCD = nullptr;
+    currentTelescope = nullptr;
+    currentFilter = nullptr;
+    dustCap = nullptr;
+    lightBox= nullptr;
+    dome = nullptr;
 
-    filterSlot = NULL;
-    filterName = NULL;
-    activeJob  = NULL;
+    filterSlot = nullptr;
+    filterName = nullptr;
+    activeJob = nullptr;
 
-    targetChip = NULL;
-    guideChip  = NULL;
+    targetChip = nullptr;
+    guideChip = nullptr;
 
     targetADU  = 0;
     targetADUTolerance = 1000;
@@ -305,7 +305,7 @@ void Capture::addFilter(ISD::GDInterface * newFilter)
 
 void Capture::pause()
 {
-    pauseFunction=NULL;
+    pauseFunction = nullptr;
     state = CAPTURE_PAUSED;
     emit newStatus(Ekos::CAPTURE_PAUSED);
     appendLogText(i18n("Sequence shall be paused after current exposure is complete."));
@@ -360,7 +360,7 @@ void Capture::start()
     if (queueTable->rowCount() ==0)
         addJob();
 
-    SequenceJob * first_job = NULL;
+    SequenceJob * first_job = nullptr;
 
     foreach(SequenceJob * job, jobs)
     {
@@ -371,7 +371,7 @@ void Capture::start()
         }
     }
 
-    if (first_job == NULL)
+    if (first_job == nullptr)
     {
         foreach(SequenceJob * job, jobs)
         {
@@ -382,7 +382,7 @@ void Capture::start()
             }
         }
 
-        if (KMessageBox::warningContinueCancel(NULL, i18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
+        if (KMessageBox::warningContinueCancel(nullptr, i18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
                                                i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                                                "reset_job_complete_status_warning") !=KMessageBox::Continue)
             return;
@@ -933,7 +933,7 @@ void Capture::updateFrameProperties(int reset)
 
 void Capture::processCCDNumber(INumberVectorProperty * nvp)
 {
-    if (currentCCD == NULL)
+    if (currentCCD == nullptr)
         return;
 
     if ((!strcmp(nvp->name, "CCD_FRAME") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_FRAME") && useGuideHead))
@@ -954,8 +954,7 @@ void Capture::syncFrameType(ISD::GDInterface * ccd)
     if (strcmp(ccd->getDeviceName(), CCDCaptureCombo->currentText().toLatin1()))
         return;
 
-    ISD::CCDChip * tChip = NULL;
-    tChip = (static_cast<ISD::CCD *> (ccd) )->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * tChip = (static_cast<ISD::CCD *> (ccd) )->getChip(ISD::CCDChip::PRIMARY_CCD);
 
     QStringList frameTypes = tChip->getFrameTypes();
 
@@ -1014,10 +1013,10 @@ void Capture::checkFilter(int filterNum)
 
     FilterPosCombo->clear();
 
-    filterName   = currentFilter->getBaseDevice()->getText("FILTER_NAME");
+    filterName = currentFilter->getBaseDevice()->getText("FILTER_NAME");
     filterSlot = currentFilter->getBaseDevice()->getNumber("FILTER_SLOT");
 
-    if (filterSlot == NULL)
+    if (filterSlot == nullptr)
     {
         KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1", currentFilter->getBaseDevice()->getDeviceName()));
         return;
@@ -1027,7 +1026,7 @@ void Capture::checkFilter(int filterNum)
     {
         QString item;
 
-        if (filterName != NULL && (i < filterName->ntp))
+        if (filterName != nullptr && (i < filterName->ntp))
             item = filterName->tp[i].text;
         else if (i < filterAlias.count() && filterAlias[i].isEmpty() == false)
             item = filterAlias.at(i);
@@ -1088,15 +1087,15 @@ bool Capture::startNextExposure()
 
 void Capture::newFITS(IBLOB * bp)
 {
-    ISD::CCDChip * tChip = NULL;
+    ISD::CCDChip * tChip = nullptr;
 
     // If there is no active job, ignore
-    if (activeJob == NULL || meridianFlipStage >= MF_ALIGNING)
+    if (activeJob == nullptr || meridianFlipStage >= MF_ALIGNING)
         return;
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
-        if (bp == NULL)
+        if (bp == nullptr)
         {
             abort();
             return;
@@ -1128,8 +1127,8 @@ void Capture::newFITS(IBLOB * bp)
 
         if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
         {
-            FITSView * currentImage   = targetChip->getImageView(FITS_NORMAL);
-            FITSData * darkData       = NULL;
+            FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
+            FITSData * darkData = nullptr;
             uint16_t offsetX = activeJob->getSubX() / activeJob->getXBin();
             uint16_t offsetY = activeJob->getSubY() / activeJob->getYBin();
 
@@ -1147,7 +1146,7 @@ void Capture::newFITS(IBLOB * bp)
         }
     }
     else
-        sendNewImage(NULL, activeJob->getActiveChip());
+        sendNewImage(nullptr, activeJob->getActiveChip());
 
     setCaptureComplete();
 
@@ -1165,7 +1164,7 @@ bool Capture::setCaptureComplete()
         jobs.removeOne(activeJob);
         delete(activeJob);
         // Reset active job pointer
-        activeJob = NULL;
+        activeJob = nullptr;
         abort();
         return true;
     }
@@ -1263,7 +1262,7 @@ bool Capture::resumeSequence()
     // If seqTotalCount is zero, we have to find if there are more pending jobs in the queue
     if (seqTotalCount == 0)
     {
-        SequenceJob * next_job = NULL;
+        SequenceJob * next_job = nullptr;
 
         foreach(SequenceJob * job, jobs)
         {
@@ -1354,7 +1353,7 @@ void Capture::captureOne()
 
 void Capture::captureImage()
 {
-    if (activeJob == NULL)
+    if (activeJob == nullptr)
         return;
 
     seqTimer->stop();
@@ -1374,7 +1373,7 @@ void Capture::captureImage()
         return;
     }
 
-    if (filterSlot != NULL)
+    if (filterSlot != nullptr)
     {
         currentFilterPosition = (int) filterSlot->np[0].value;
         activeJob->setCurrentFilter(currentFilterPosition);
@@ -1661,7 +1660,7 @@ void Capture::updateCCDTemperature(double value)
 
 void Capture::addJob(bool preview)
 {
-    SequenceJob * job = NULL;
+    SequenceJob * job = nullptr;
     QString imagePrefix;
 
     if (preview == false && darkSubCheck->isChecked())
@@ -1681,9 +1680,9 @@ void Capture::addJob(bool preview)
     else
         job = new SequenceJob();
 
-    if (job == NULL)
+    if (job == nullptr)
     {
-        qWarning() << "Job is NULL!" << endl;
+        qWarning() << "Job is nullptr!" << endl;
         return;
     }
 
@@ -1727,7 +1726,7 @@ void Capture::addJob(bool preview)
     job->setFrameType(static_cast<CCDFrameType>(frameTypeCombo->currentIndex()));
     job->setFullPrefix(imagePrefix);
 
-    if (filterSlot != NULL && currentFilter != NULL)
+    if (filterSlot != nullptr && currentFilter != nullptr)
         job->setTargetFilter(FilterPosCombo->currentIndex()+1, FilterPosCombo->currentText());
 
     job->setExposure(exposureIN->value());
@@ -1880,8 +1879,9 @@ void Capture::removeJob()
     SequenceJob * job = jobs.at(currentRow);
     jobs.removeOne(job);
     if (job == activeJob)
-        activeJob = NULL;
-    delete (job);
+        activeJob = nullptr;
+
+    delete job;
 
     if (queueTable->rowCount() == 0)
         removeFromQueueB->setEnabled(false);
@@ -2013,7 +2013,7 @@ void Capture::prepareJob(SequenceJob * job)
     }
 
     // Just notification of active job stating up
-    emit newImage(NULL, activeJob);
+    emit newImage(nullptr, activeJob);
 
     connect(job, SIGNAL(checkFocus()), this, SLOT(startPostFilterAutoFocus()));
 
@@ -2169,7 +2169,7 @@ void Capture::executeJob()
             imgProgress->setValue(seqCurrentCount);
 
             // Emit progress update
-            emit newImage(NULL, activeJob);
+            emit newImage(nullptr, activeJob);
         }
 
         currentCCD->setNextSequenceID(nextSequenceID);
@@ -2236,7 +2236,7 @@ void Capture::updatePreCaptureCalibrationStatus()
 
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
-    if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
+    if (guideDeviationCheck->isChecked() == false || activeJob == nullptr)
         return;
 
     // If guiding is started after a meridian flip we will start getting guide deviations again
@@ -2294,7 +2294,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             else
                 appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure in %3 seconds.", deviationText, guideDeviation->value(), seqDelay/1000.0));
 
-            activeJob = NULL;
+            activeJob = nullptr;
 
             QTimer::singleShot(seqDelay, this, SLOT(start()));
             return;
@@ -2438,8 +2438,8 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
     LilXML * xmlParser = newLilXML();
 
     char errmsg[MAXRBUF];
-    XMLEle * root = NULL;
-    XMLEle * ep;
+    XMLEle * root = nullptr;
+    XMLEle * ep = nullptr;
     char c;
 
     while ( sFile.getChar(&c))
@@ -2455,7 +2455,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 return false;
             }
 
-            for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+            for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
             {
                 if (!strcmp(tagXMLEle(ep), "Observer"))
                 {
@@ -2533,7 +2533,7 @@ bool Capture::processJobInfo(XMLEle * root)
     XMLEle * ep;
     XMLEle * subEP;
 
-    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
     {
         if (!strcmp(tagXMLEle(ep), "Exposure"))
             exposureIN->setValue(atof(pcdataXMLEle(ep)));
@@ -2651,9 +2651,9 @@ bool Capture::processJobInfo(XMLEle * root)
                         flatFieldSource = SOURCE_DARKCAP;
                     else if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
                     {
-                        XMLEle * azEP=NULL, *altEP=NULL;
-                        azEP  = findXMLEle(subEP, "Az");
-                        altEP = findXMLEle(subEP, "Alt");
+                        XMLEle * azEP = findXMLEle(subEP, "Az");
+                        XMLEle * altEP = findXMLEle(subEP, "Alt");
+
                         if (azEP && altEP)
                         {
                             flatFieldSource =SOURCE_WALL;
@@ -2894,16 +2894,18 @@ bool Capture::saveSequenceQueue(const QString &path)
 
 void Capture::resetJobs()
 {
-    if (KMessageBox::warningContinueCancel(NULL, i18n("Are you sure you want to reset status of all jobs?"),
+    if (KMessageBox::warningContinueCancel(nullptr, i18n("Are you sure you want to reset status of all jobs?"),
                                            i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                                            "reset_job_status_warning") !=KMessageBox::Continue)
+    {
         return;
+    }
 
     foreach(SequenceJob * job, jobs)
         job->resetStatus();
 
     // Reset active job pointer
-    activeJob = NULL;
+    activeJob = nullptr;
 
     stop();
 
@@ -2969,9 +2971,9 @@ void Capture::syncGUIToJob(SequenceJob * job)
 void Capture::editJob(QModelIndex i)
 {
     SequenceJob * job = jobs.at(i.row());
-    if (job == NULL)
-        return;
 
+    if (job == nullptr)
+        return;
 
     syncGUIToJob(job);
 
@@ -3052,7 +3054,7 @@ double Capture::getProgressPercentage()
 
 int Capture::getActiveJobID()
 {
-    if (activeJob == NULL)
+    if (activeJob == nullptr)
         return -1;
 
     for (int i=0; i < jobs.count(); i++)
@@ -3143,7 +3145,7 @@ int Capture::getOverallRemainingTime()
 
 int Capture::getActiveJobRemainingTime()
 {
-    if (activeJob == NULL)
+    if (activeJob == nullptr)
         return -1;
 
     return getJobRemainingTime(activeJob);
@@ -3178,7 +3180,7 @@ void Capture::setTemperature()
 
 void Capture::clearSequenceQueue()
 {
-    activeJob=NULL;
+    activeJob = nullptr;
     targetName.clear();
     stop();
     while (queueTable->rowCount() > 0)
@@ -3344,7 +3346,7 @@ double Capture::getCurrentHA()
 {
     double currentRA, currentDEC;
 
-    if (currentTelescope == NULL)
+    if (currentTelescope == nullptr)
         return INVALID_HA;
 
     if (currentTelescope->getEqCoords(&currentRA, &currentDEC) == false)
@@ -4109,8 +4111,9 @@ bool Capture::processPostCaptureCalibrationStage()
     // Check if we need to do flat field slope calculation if the user specified a desired ADU value
     if (activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldDuration() == DURATION_ADU && activeJob->getTargetADU() > 0)
     {
-        FITSData * image_data = NULL;
-        FITSView * currentImage   = targetChip->getImageView(FITS_NORMAL);
+        FITSData * image_data = nullptr;
+        FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
+
         if (currentImage)
         {
             image_data = currentImage->getImageData();
@@ -4307,7 +4310,8 @@ void Capture::showFilterOffsetDialog()
             oneOffset->offset = static_cast<QSpinBox *>(grid->itemAtPosition(i, 1)->widget())->value();
 
             // Find matching filter if any and save its offset
-            OAL::Filter * matchedFilter=NULL;
+            OAL::Filter * matchedFilter = nullptr;
+
             foreach( OAL::Filter * o, m_filterList )
             {
                 if (o->vendor() == FilterCaptureCombo->currentText() && o->color() == oneOffset->filter)
@@ -4319,7 +4323,7 @@ void Capture::showFilterOffsetDialog()
             }
 
             // If no filter exists, let's create one
-            if (matchedFilter == NULL)
+            if (matchedFilter == nullptr)
             {
                 KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", QString::number(oneOffset->offset), oneOffset->filter, "1");
             }
@@ -4334,7 +4338,7 @@ void Capture::showFilterOffsetDialog()
 
 void Capture::toggleVideoStream(bool enable)
 {
-    if (currentCCD == NULL)
+    if (currentCCD == nullptr)
         return;
 
     currentCCD->setVideoStreamEnabled(enable);

@@ -84,11 +84,11 @@ class StarBlockList
          *@short  Returns the i-th block in this StarBlockList
          *
          *@param  Index of the required block
-         *@return The StarBlock requested for, NULL if index out of bounds
+         *@return The StarBlock requested for, nullptr if index out of bounds
          */
         inline StarBlock * block( unsigned int i )
         {
-            return ( ( i < nBlocks ) ? blocks[ i ] : NULL );
+            return ( ( i < nBlocks ) ? blocks[ i ] : nullptr );
         }
 
         /**

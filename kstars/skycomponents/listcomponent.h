@@ -44,10 +44,10 @@ class ListComponent : public SkyComponent
          *
          * This function usually just updates the Horizontal (Azimuth/Altitude)
          * coordinates of the objects in this component.  If the KSNumbers*
-         * argument is not NULL, this function also recomputes precession and
+         * argument is not nullptr, this function also recomputes precession and
          * nutation for the date in KSNumbers.
          * @p num Pointer to the KSNumbers object
-         * @note By default, the num parameter is NULL, indicating that
+         * @note By default, the num parameter is nullptr, indicating that
          * Precession/Nutation computation should be skipped; this computation
          * is only occasionally required.
          */

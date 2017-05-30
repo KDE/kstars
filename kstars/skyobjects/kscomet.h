@@ -295,7 +295,7 @@ class KSComet : public KSPlanetBase
             *@param Earth planet Earth (needed to calculate geocentric coords)
             *@return true if position was successfully calculated.
             */
-        virtual bool findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * Earth = NULL );
+        virtual bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr);
 
         /**
          *@short Estimate physical parameters of the comet such as coma size, tail length and size of the nucleus

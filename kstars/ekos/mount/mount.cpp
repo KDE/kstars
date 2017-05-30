@@ -47,7 +47,7 @@ Mount::Mount()
     new MountAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount",  this);
 
-    currentTelescope = NULL;
+    currentTelescope = nullptr;
 
     stopB->setIcon(QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg")));
     northB->setIcon(QIcon::fromTheme("go-up", QIcon(":/icons/breeze/default/go-up.svg")));
@@ -194,13 +194,11 @@ void Mount::syncTelescopeInfo()
 
     if (nvp)
     {
-
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
         guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
-        INumber * np = NULL;
+        INumber * np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
 
-        np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
         if (np && np->value > 0)
             primaryScopeApertureIN->setValue(np->value);
 
@@ -215,7 +213,6 @@ void Mount::syncTelescopeInfo()
         np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
         if (np && np->value > 0)
             guideScopeFocalIN->setValue(np->value);
-
     }
 
     ISwitchVectorProperty * svp = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_SLEW_RATE");
@@ -565,21 +562,22 @@ void Mount::save()
 
     if (nvp)
     {
-
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
         guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
-        INumber * np = NULL;
+        INumber * np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
 
-        np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
         if (np)
             np->value = primaryScopeApertureIN->value();
+
         np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
         if (np)
             np->value = primaryScopeFocalIN->value();
+
         np = IUFindNumber(nvp, "GUIDER_APERTURE");
         if (np)
             np->value = guideScopeApertureIN->value() == 1 ? primaryScopeApertureIN->value() : guideScopeApertureIN->value();
+
         np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
         if (np)
             np->value = guideScopeFocalIN->value() == 1 ? primaryScopeFocalIN->value() : guideScopeFocalIN->value();
@@ -591,7 +589,6 @@ void Mount::save()
         currentTelescope->setConfig(SAVE_CONFIG);
 
         //appendLogText(i18n("Saving telescope information..."));
-
     }
     else
         appendLogText(i18n("Failed to save telescope information."));
@@ -683,7 +680,7 @@ bool Mount::slew(const QString &RA, const QString &DEC)
 
 bool Mount::slew(double RA, double DEC)
 {
-    if (currentTelescope == NULL || currentTelescope->isConnected() == false)
+    if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
         return false;
 
     return currentTelescope->Slew(RA, DEC);
@@ -701,7 +698,7 @@ bool Mount::sync(const QString &RA, const QString &DEC)
 
 bool Mount::sync(double RA, double DEC)
 {
-    if (currentTelescope == NULL || currentTelescope->isConnected() == false)
+    if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
         return false;
 
     return currentTelescope->Sync(RA, DEC);
@@ -714,7 +711,7 @@ bool Mount::abort()
 
 IPState Mount::getSlewStatus()
 {
-    if (currentTelescope == NULL)
+    if (currentTelescope == nullptr)
         return IPS_ALERT;
 
     return currentTelescope->getState("EQUATORIAL_EOD_COORD");
@@ -776,7 +773,7 @@ void Mount::setTelescopeInfo(double primaryFocalLength, double primaryAperture, 
 
 bool Mount::canPark()
 {
-    if (currentTelescope == NULL)
+    if (currentTelescope == nullptr)
         return false;
 
     return currentTelescope->canPark();
@@ -784,7 +781,7 @@ bool Mount::canPark()
 
 bool Mount::park()
 {
-    if (currentTelescope == NULL || currentTelescope->canPark() == false)
+    if (currentTelescope == nullptr || currentTelescope->canPark() == false)
         return false;
 
     return currentTelescope->Park();
@@ -792,7 +789,7 @@ bool Mount::park()
 
 bool Mount::unpark()
 {
-    if (currentTelescope == NULL || currentTelescope->canPark() == false)
+    if (currentTelescope == nullptr || currentTelescope->canPark() == false)
         return false;
 
     return currentTelescope->UnPark();
@@ -800,12 +797,12 @@ bool Mount::unpark()
 
 Mount::ParkingStatus Mount::getParkingStatus()
 {
-    if (currentTelescope == NULL || currentTelescope->canPark() == false)
+    if (currentTelescope == nullptr || currentTelescope->canPark() == false)
         return PARKING_ERROR;
 
     ISwitchVectorProperty * parkSP = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_PARK");
 
-    if (parkSP == NULL)
+    if (parkSP == nullptr)
         return PARKING_ERROR;
 
     switch (parkSP->s)

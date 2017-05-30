@@ -64,11 +64,11 @@ INDI_P::INDI_P(INDI_G * ipg, INDI::Property * prop)
     PVBox           = new QVBoxLayout();
     PVBox->setMargin(0);
 
-    ledStatus      = NULL;
-    labelW         = NULL;
-    setB           = NULL;
-    menuC          = NULL;
-    groupB         = NULL;
+    ledStatus      = nullptr;
+    labelW         = nullptr;
+    setB           = nullptr;
+    menuC          = nullptr;
+    groupB         = nullptr;
     initGUI();
 }
 
@@ -105,7 +105,6 @@ void INDI_P::updateStateLED()
  */
 void INDI_P::initGUI ()
 {
-
     QString label = i18nc(libindi_strings_context, dataProp->getLabel());
 
     if (label == "(I18N_EMPTY_MESSAGE)")
@@ -187,10 +186,10 @@ void INDI_P::initGUI ()
 
 void INDI_P::buildSwitchGUI()
 {
-    INDI_E * lp;
+    INDI_E * lp = nullptr;
     ISwitchVectorProperty * svp = dataProp->getSwitch();
 
-    if (svp == NULL)
+    if (svp == nullptr)
         return;
 
     groupB = new QButtonGroup(0);
@@ -221,15 +220,14 @@ void INDI_P::buildSwitchGUI()
     horSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
 
     PHBox->addItem(horSpacer);
-
 }
 
 void INDI_P::buildTextGUI()
 {
-    INDI_E * lp;
+    INDI_E * lp = nullptr;
     ITextVectorProperty * tvp = dataProp->getText();
 
-    if (tvp == NULL)
+    if (tvp == nullptr)
         return;
 
     for (int i=0; i < tvp->ntp; i++)
@@ -247,7 +245,6 @@ void INDI_P::buildTextGUI()
 
     PHBox->addItem(horSpacer);
 
-
     if (tvp->p == IP_RO)
         return;
 
@@ -256,16 +253,14 @@ void INDI_P::buildTextGUI()
         setupSetButton(i18n("Time"));
     else
         setupSetButton(i18n("Set"));
-
 }
 
 void INDI_P::buildNumberGUI()
 {
-
-    INDI_E * lp;
+    INDI_E * lp = nullptr;
     INumberVectorProperty * nvp = dataProp->getNumber();
 
-    if (nvp == NULL)
+    if (nvp == nullptr)
         return;
 
     for (int i=0; i < nvp->nnp; i++)
@@ -288,16 +283,14 @@ void INDI_P::buildNumberGUI()
         return;
 
     setupSetButton(i18n("Set"));
-
 }
 
 void INDI_P::buildLightGUI()
 {
-
-    INDI_E * ep;
+    INDI_E * ep = nullptr;
     ILightVectorProperty * lvp = dataProp->getLight();
 
-    if (lvp == NULL)
+    if (lvp == nullptr)
         return;
 
     for (int i=0; i < lvp->nlp; i++)
@@ -315,13 +308,13 @@ void INDI_P::buildLightGUI()
 
     PHBox->addItem(horSpacer);
 }
+
 void INDI_P::buildBLOBGUI()
 {
-
-    INDI_E * lp;
+    INDI_E * lp = nullptr;
     IBLOBVectorProperty * bvp = dataProp->getBLOB();
 
-    if (bvp == NULL)
+    if (bvp == nullptr)
         return;
 
     for (int i=0; i < bvp->nbp; i++)
@@ -350,7 +343,6 @@ void INDI_P::buildBLOBGUI()
 
     if (dataProp->getPermission() != IP_RO)
         setupSetButton(i18n("Upload"));
-
 }
 
 void INDI_P::setBLOBOption(int state)
@@ -367,25 +359,26 @@ void INDI_P::newSwitch(QAbstractButton * button)
     ISwitchVectorProperty * svp = dataProp->getSwitch();
     QString buttonText = button->text();
 
-    if (svp == NULL)
+    if (svp == nullptr)
         return;
 
     buttonText.remove("&");
 
     foreach(INDI_E * el, elementList)
+    {
         if (el->getLabel() == buttonText)
         {
             newSwitch(el->getName());
             return;
         }
-
+    }
 }
 
 void INDI_P::resetSwitch()
 {
     ISwitchVectorProperty * svp = dataProp->getSwitch();
 
-    if (svp == NULL)
+    if (svp == nullptr)
         return;
 
     if (menuC)
@@ -398,7 +391,7 @@ void INDI_P::newSwitch(int index)
 {
     ISwitchVectorProperty * svp = dataProp->getSwitch();
 
-    if (svp == NULL)
+    if (svp == nullptr)
         return;
 
     if (index >= svp->nsp)
@@ -414,15 +407,14 @@ void INDI_P::newSwitch(int index)
 
 void INDI_P::newSwitch(const QString &name)
 {
-
     ISwitchVectorProperty * svp = dataProp->getSwitch();
 
-    if (svp == NULL)
+    if (svp == nullptr)
         return;
 
     ISwitch * sp = IUFindSwitch(svp, name.toLatin1().constData());
 
-    if (sp == NULL)
+    if (sp == nullptr)
         return;
 
     if (svp->r == ISR_1OFMANY)
@@ -443,14 +435,14 @@ void INDI_P::newSwitch(const QString &name)
     }
 
     sendSwitch();
-
 }
 
 
 void INDI_P::sendSwitch()
 {
     ISwitchVectorProperty * svp = dataProp->getSwitch();
-    if (svp == NULL)
+
+    if (svp == nullptr)
         return;
 
     svp->s = IPS_BUSY;
@@ -467,14 +459,14 @@ void INDI_P::sendSwitch()
 
 void INDI_P::sendText()
 {
-    ITextVectorProperty  * tvp = NULL;
-    INumberVectorProperty * nvp = NULL;
+    ITextVectorProperty * tvp = nullptr;
+    INumberVectorProperty * nvp = nullptr;
 
     switch (dataProp->getType())
     {
         case INDI_TEXT:
             tvp = dataProp->getText();
-            if (tvp == NULL)
+            if (tvp == nullptr)
                 return;
 
             tvp->s = IPS_BUSY;
@@ -488,7 +480,7 @@ void INDI_P::sendText()
 
         case INDI_NUMBER:
             nvp = dataProp->getNumber();
-            if (nvp == NULL)
+            if (nvp == nullptr)
                 return;
 
             nvp->s = IPS_BUSY;
@@ -513,10 +505,10 @@ void INDI_P::buildMenuGUI()
     QStringList menuOptions;
     QString oneOption;
     int onItem=-1;
-    INDI_E * lp;
+    INDI_E * lp = nullptr;
     ISwitchVectorProperty * svp = dataProp->getSwitch();
 
-    if (svp == NULL)
+    if (svp == nullptr)
         return;
 
     menuC = new QComboBox(pg->getContainer());
@@ -584,7 +576,8 @@ void INDI_P::addLayout(QHBoxLayout * layout)
 void INDI_P::updateMenuGUI()
 {
     ISwitchVectorProperty * svp = dataProp->getSwitch();
-    if (svp == NULL)
+
+    if (svp == nullptr)
         return;
 
     int currentIndex = IUFindOnSwitchIndex(svp);
@@ -623,7 +616,7 @@ void INDI_P::sendBlob()
     //bool openingTag=false;
     IBLOBVectorProperty * bvp = dataProp->getBLOB();
 
-    if (bvp == NULL)
+    if (bvp == nullptr)
         return;
 
     bvp->s = IPS_BUSY;
@@ -710,7 +703,7 @@ INDI_E * INDI_P::getElement(const QString &elementName)
             return ep;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /* INDI property desstructor, makes sure everything is "gone" right */

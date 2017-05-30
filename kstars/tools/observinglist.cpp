@@ -754,7 +754,7 @@ void ObservingList::slotSlewToObject()
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;
 
-        if (bd == NULL)
+        if (bd == nullptr)
             continue;
 
         if (bd->isConnected() == false)
@@ -883,7 +883,7 @@ void ObservingList::saveCurrentUserLog()
         LogObject->saveUserLog( ui->NotesEdit->toPlainText() );
         ui->NotesEdit->clear();
         ui->NotesLabel->setText( i18n( "Observing notes for object:" ) );
-        LogObject = NULL;
+        LogObject = nullptr;
     }
 }
 
@@ -1708,21 +1708,25 @@ void ObservingList::slotAddVisibleObj()
     QModelIndexList selectedItems;
     selectedItems = m_WishListSortModel->mapSelectionToSource( ui->WishListView->selectionModel()->selection() ).indexes();
     if ( selectedItems.size() )
+    {
         foreach ( const QModelIndex &i, selectedItems )
         {
             foreach ( QSharedPointer<SkyObject> o, obsList() )
                 if ( getObjectName( o.data() ) == i.data().toString() && w->checkVisibility( o.data() ) )
                     slotAddObject( o.data(), true ); // FIXME: Better if there is a QSharedPointer override for this, although the check will ensure that we don't duplicate.
         }
+    }
     delete w;
 }
 
 SkyObject * ObservingList::findObjectByName( QString name )
 {
     foreach( QSharedPointer<SkyObject> o, sessionList() )
-        if( getObjectName(o.data(), false) == name )
+    {
+        if (getObjectName(o.data(), false) == name)
             return o.data();
-    return NULL;
+    }
+    return nullptr;
 }
 
 void ObservingList::selectObject( const SkyObject * o )

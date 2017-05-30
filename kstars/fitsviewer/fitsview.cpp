@@ -65,16 +65,15 @@
 
 FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent) , zoomFactor(1.2)
 {
-
     grabGesture(Qt::PinchGesture);
 
     image_frame = new FITSLabel(this);
-    floatingToolBar = NULL;
-    imageData  = NULL;
-    display_image = NULL;
+    floatingToolBar = nullptr;
+    imageData  = nullptr;
+    display_image = nullptr;
     firstLoad = true;
-    trackingBoxEnabled=false;
-    trackingBoxUpdated=false;
+    trackingBoxEnabled = false;
+    trackingBoxUpdated = false;
     filter = filterType;
     mode = fitsMode;
 
@@ -198,8 +197,8 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
         imageData->getBayerParams(&param);
     }
 
-    delete (imageData);
-    imageData = NULL;
+    delete imageData;
+    imageData = nullptr;
 
     filterStack.clear();
     filterStack.push(FITS_NONE);
@@ -393,7 +392,7 @@ template<typename T>  int FITSView::rescale(FITSZoom type)
     double min, max;
     bool displayBuffer = false;
 
-    if(display_image==NULL)
+    if (display_image == nullptr)
         return -1;
 
     uint8_t * image_buffer = imageData->getImageBuffer();
@@ -616,9 +615,9 @@ void FITSView::ZoomToFit()
 void FITSView::updateFrame()
 {
     QPixmap displayPixmap;
-    bool ok=false;
+    bool ok = false;
 
-    if (display_image == NULL)
+    if (display_image == nullptr)
         return;
 
     if (currentZoom != ZOOM_DEFAULT)
@@ -1317,8 +1316,10 @@ Image Coordinate System.
 QPoint FITSView::getImagePoint(QPoint viewPortPoint)
 {
     QWidget * w = widget();
-    if (w == NULL)
+
+    if (w == nullptr)
         return QPoint(0,0);
+
     double scale = (currentZoom / ZOOM_DEFAULT);
     QPoint widgetPoint = w->mapFromParent(viewPortPoint);
     QPoint imagePoint = QPoint(widgetPoint.x() / scale , widgetPoint.y() / scale);
@@ -1327,8 +1328,8 @@ QPoint FITSView::getImagePoint(QPoint viewPortPoint)
 
 void FITSView::initDisplayImage()
 {
-    delete (display_image);
-    display_image = NULL;
+    delete display_image;
+    display_image = nullptr;
 
     if (imageData->getNumOfChannels() == 1)
     {
@@ -1423,8 +1424,7 @@ void FITSView::createFloatingToolBar()
     floatingToolBar->setIconSize(QSize(25,25));
     //floatingToolBar->setMovable(true);
 
-    QAction * action=NULL;
-
+    QAction * action = nullptr;
 
     floatingToolBar->addAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.svg")), i18n("Zoom In"), this, SLOT(ZoomIn()));
 
@@ -1523,7 +1523,7 @@ bool FITSView::isTelescopeActive()
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;
 
-        if (bd == NULL)
+        if (bd == nullptr)
             continue;
 
         return bd->isConnected();
@@ -1536,7 +1536,7 @@ bool FITSView::isTelescopeActive()
 
 void FITSView::setStarsEnabled(bool enable)
 {
-    markStars  = enable;
+    markStars = enable;
     if (floatingToolBar)
     {
         foreach(QAction *action, floatingToolBar->actions())

@@ -331,8 +331,8 @@ class EkosManager : public QDialog, public Ui::EkosManager
         //QTemporaryFile guideStarFile;
         //QTemporaryFile guideProfileFile;
 
-        ProfileInfo * currentProfile = NULL;
-        bool profileWizardLaunched=false;
+        ProfileInfo * currentProfile = nullptr;
+        bool profileWizardLaunched = false;
 };
 
 #endif // EKOS_H

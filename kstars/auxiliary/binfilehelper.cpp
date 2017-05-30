@@ -26,7 +26,7 @@ class BinFileHelper;
 
 BinFileHelper::BinFileHelper()
 {
-    fileHandle = NULL;
+    fileHandle = nullptr;
     init();
 }
 
@@ -41,7 +41,8 @@ void BinFileHelper::init()
 {
     if(fileHandle)
         fclose(fileHandle);
-    fileHandle = NULL;
+
+    fileHandle = nullptr;
     indexUpdated = false;
     FDUpdated = false;
     RSUpdated = false;
@@ -84,7 +85,7 @@ FILE * BinFileHelper::openFile(const QString &fileName)
     if(!fileHandle)
     {
         errnum = ERR_FILEOPEN;
-        return NULL;
+        return nullptr;
     }
     return fileHandle;
 }
@@ -269,7 +270,7 @@ bool BinFileHelper::readHeader()
 void BinFileHelper::closeFile()
 {
     fclose(fileHandle);
-    fileHandle = NULL;
+    fileHandle = nullptr;
 }
 
 int BinFileHelper::getErrorNumber()

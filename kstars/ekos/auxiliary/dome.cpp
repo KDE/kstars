@@ -23,7 +23,7 @@ Dome::Dome()
     new DomeAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Dome",  this);
 
-    currentDome = NULL;
+    currentDome = nullptr;
 }
 
 Dome::~Dome()
@@ -38,7 +38,7 @@ void Dome::setDome(ISD::GDInterface * newDome)
 
 bool Dome::canPark()
 {
-    if (currentDome == NULL)
+    if (currentDome == nullptr)
         return false;
 
     return currentDome->canPark();
@@ -46,7 +46,7 @@ bool Dome::canPark()
 
 bool Dome::park()
 {
-    if (currentDome == NULL || currentDome->canPark() == false)
+    if (currentDome == nullptr || currentDome->canPark() == false)
         return false;
 
     return currentDome->Park();
@@ -54,7 +54,7 @@ bool Dome::park()
 
 bool Dome::unpark()
 {
-    if (currentDome == NULL || currentDome->canPark() == false)
+    if (currentDome == nullptr || currentDome->canPark() == false)
         return false;
 
     return currentDome->UnPark();
@@ -62,7 +62,7 @@ bool Dome::unpark()
 
 bool Dome::abort()
 {
-    if (currentDome == NULL)
+    if (currentDome == nullptr)
         return false;
 
     return currentDome->Abort();
@@ -70,7 +70,7 @@ bool Dome::abort()
 
 bool Dome::isMoving()
 {
-    if (currentDome == NULL)
+    if (currentDome == nullptr)
         return false;
 
     return currentDome->isMoving();
@@ -78,12 +78,12 @@ bool Dome::isMoving()
 
 Dome::ParkingStatus Dome::getParkingStatus()
 {
-    if (currentDome == NULL || currentDome->canPark() == false)
+    if (currentDome == nullptr || currentDome->canPark() == false)
         return PARKING_ERROR;
 
     ISwitchVectorProperty * parkSP = currentDome->getBaseDevice()->getSwitch("DOME_PARK");
 
-    if (parkSP == NULL)
+    if (parkSP == nullptr)
         return PARKING_ERROR;
 
     switch (parkSP->s)
