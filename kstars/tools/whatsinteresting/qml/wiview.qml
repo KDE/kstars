@@ -1694,6 +1694,7 @@ Rectangle {
 				State {
 					name: "helpDisplayed"
 					PropertyChanges {target: helpMessage; visible: true }
+					PropertyChanges {target: backButton; x: container.width - 105}
 				}
 			]
 		}
@@ -1753,7 +1754,9 @@ Rectangle {
             onEntered: goBackForeground.opacity = buttonOpacity
             onExited: goBackForeground.opacity = 0.0
             onClicked: {
-                if (container.state == "objectFromListSelected") {
+            	if(helpMessage.state == "helpDisplayed"){
+            		helpMessage.state = ""
+            	} else if (container.state == "objectFromListSelected") {
                     if (!skyObjView.flipped||container.width>=900) {
                         container.state = "base"
                         catTitle.text = ""
