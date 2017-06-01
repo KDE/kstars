@@ -250,6 +250,14 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
             && (args.contains("parity") == false)
             && (args.contains("-3") || args.contains("-L")) )
         solverArgs << "--parity" << parity;
+
+    QString confPath;
+    if(Options::astrometryConfFileIsInternal())
+        confPath = QCoreApplication::applicationDirPath()+"/astrometry/bin/astrometry.cfg";
+    else
+        confPath = Options::astrometryConfFile();
+    solverArgs << "--config" << confPath;
+
     QString solutionFile = QDir::tempPath() + "/solution.wcs";
     solverArgs << "-W" <<  solutionFile << filename;
 
