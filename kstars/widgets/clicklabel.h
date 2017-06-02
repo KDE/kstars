@@ -36,7 +36,7 @@ class ClickLabel : public QLabel
         void clicked();
 
     protected:
-        void mousePressEvent( QMouseEvent * e )
+        void mousePressEvent( QMouseEvent * e ) Q_DECL_OVERRIDE
         {
             if ( e->button() == Qt::LeftButton ) emit clicked();
         }

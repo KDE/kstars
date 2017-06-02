@@ -54,8 +54,8 @@ class ArtificialHorizonComponent : public NoPrecessIndex
          */
         explicit ArtificialHorizonComponent( SkyComposite * parent );
 
-        virtual bool selected();
-        virtual void draw( SkyPainter * skyp );
+        bool selected() Q_DECL_OVERRIDE;
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
         void setLivePreview(LineList * preview)
         {
@@ -72,7 +72,7 @@ class ArtificialHorizonComponent : public NoPrecessIndex
         void save();
 
     protected:
-        virtual void preDraw( SkyPainter * skyp );
+        void preDraw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
     private:
         QList<ArtificialHorizonEntity *> m_HorizonList;

@@ -42,7 +42,7 @@ class AstroCalc : public QDialog
         ~AstroCalc();
 
         /** @returns suggested size of calculator window. */
-        QSize sizeHint() const;
+        QSize sizeHint() const Q_DECL_OVERRIDE;
     public slots:
         /** Display calculator module or help text based on item selected.
          */

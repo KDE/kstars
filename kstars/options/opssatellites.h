@@ -31,7 +31,7 @@ class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
 {
     public:
         explicit SatelliteSortFilterProxyModel( QObject * parent );
-        bool filterAcceptsRow( int sourceRow, const QModelIndex &sourceParent ) const;
+        bool filterAcceptsRow( int sourceRow, const QModelIndex &sourceParent ) const Q_DECL_OVERRIDE;
 };
 
 /** @class OpsSatellites

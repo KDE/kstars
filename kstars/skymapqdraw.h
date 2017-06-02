@@ -47,9 +47,9 @@ class SkyMapQDraw : public QWidget, public SkyMapDrawAbstract
 
     protected:
 
-        virtual void paintEvent( QPaintEvent * e );
+        void paintEvent( QPaintEvent * e ) Q_DECL_OVERRIDE;
 
-        virtual void resizeEvent( QResizeEvent * e );
+        void resizeEvent( QResizeEvent * e ) Q_DECL_OVERRIDE;
 
         QPixmap * m_SkyPixmap;
 

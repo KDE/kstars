@@ -44,7 +44,7 @@ class Satellite : public SkyObject
          *@return a clone of this object
          *@note See SkyObject::clone()
          */
-        virtual Satellite * clone() const;
+        Satellite * clone() const Q_DECL_OVERRIDE;
 
         /**
          *@short Destructor
@@ -98,7 +98,7 @@ class Satellite : public SkyObject
          */
         QString sgp4ErrorString(int code);
 
-        virtual void initPopupMenu( KSPopupMenu * pmenu );
+        void initPopupMenu( KSPopupMenu * pmenu ) Q_DECL_OVERRIDE;
 
     private:
         /**

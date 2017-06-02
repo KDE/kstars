@@ -70,7 +70,7 @@ class TargetListComponent : public SkyComponent
          * the objects on the list. So this must be called only after the
          * objects are drawn in a given draw cycle.
          */
-        virtual void draw( SkyPainter * skyp );
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
         // FIXME: Maybe we should make these member objects private / protected?
         SkyObjectList * list; // Pointer to list of objects to draw

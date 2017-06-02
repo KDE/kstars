@@ -43,14 +43,14 @@ class TimeSpinBox : public QSpinBox
         	*@p value the internal value to convert to a display string
         	*@return the display string
         	*/
-        virtual QString textFromValue( int value ) const;
+        QString textFromValue( int value ) const Q_DECL_OVERRIDE;
 
         /**Convert the displayed string to an internal value.
         	*@note reimplemented from QSpinBox
         	*@p ok bool pointer set to true if conversion was successful
         	*@return internal value converted from displayed text
         	*/
-        virtual int valueFromText( const QString &text ) const;
+        int valueFromText( const QString &text ) const Q_DECL_OVERRIDE;
 
         /** @return the current TimeStep setting */
         float timeScale() const;

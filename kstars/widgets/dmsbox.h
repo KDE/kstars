@@ -144,8 +144,8 @@ class dmsBox : public QLineEdit
         }
 
     protected:
-        void focusInEvent( QFocusEvent * e );
-        void focusOutEvent( QFocusEvent * e );
+        void focusInEvent( QFocusEvent * e ) Q_DECL_OVERRIDE;
+        void focusOutEvent( QFocusEvent * e ) Q_DECL_OVERRIDE;
 
     private slots:
         void slotTextChanged( const QString &t );

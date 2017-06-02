@@ -59,7 +59,7 @@ class LineListIndex : public SkyComponent
          * MilkyWay draw() routine calls all of the more specific draw()
          * routines below.
          */
-        virtual void draw( SkyPainter * skyp );
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
 #ifdef KSTARS_LITE
         /**

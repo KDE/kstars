@@ -58,8 +58,8 @@ class KSPlanet : public KSPlanetBase
          */
         explicit KSPlanet( int n );
 
-        virtual KSPlanet * clone() const;
-        virtual SkyObject::UID getUID() const;
+        KSPlanet * clone() const Q_DECL_OVERRIDE;
+        SkyObject::UID getUID() const Q_DECL_OVERRIDE;
 
         /**
          * Destructor (empty)
@@ -74,7 +74,7 @@ class KSPlanet : public KSPlanetBase
 
         /** @short Preload the data used by findPosition.
         	*/
-        virtual bool loadData();
+        bool loadData() Q_DECL_OVERRIDE;
 
         /** Calculate the ecliptic longitude and latitude of the planet for
         	*the given date (expressed in Julian Millenia since J2000).  A reference
@@ -94,7 +94,7 @@ class KSPlanet : public KSPlanetBase
         	*@param Earth pointer to the planet Earth (needed to calculate geocentric coords)
         	*@return true if position was successfully calculated.
         	*/
-        virtual bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr);
+        bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr) Q_DECL_OVERRIDE;
 
         /** @class OrbitData
         	*This class contains doubles A,B,C which represent a single term in a planet's
@@ -186,7 +186,7 @@ class KSPlanet : public KSPlanetBase
         static OrbitDataManager odm;
 
     private:
-        virtual void findMagnitude(const KSNumbers *);
+        void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
 };
 
 #endif

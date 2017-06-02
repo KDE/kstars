@@ -60,7 +60,7 @@ class SyncedCatalogComponent : public CatalogComponent
         // bool editObject( SkyObject *object );
 
 
-        virtual void loadData()
+        void loadData() Q_DECL_OVERRIDE
         {
             _loadData( false );
         }

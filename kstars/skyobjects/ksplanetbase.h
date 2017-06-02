@@ -183,7 +183,7 @@ class KSPlanetBase : public TrailObject
          * @param lat pointer to the geographic latitude; if nullptr, we skip localizeCoords()
          * @param LST pointer to the local sidereal time; if nullptr, we skip localizeCoords()
          */
-        virtual void updateCoords( const KSNumbers * num, bool includePlanets=true, const CachingDms * lat=0, const CachingDms * LST=0, bool forceRecompute = false );
+        void updateCoords( const KSNumbers * num, bool includePlanets=true, const CachingDms * lat=0, const CachingDms * LST=0, bool forceRecompute = false ) Q_DECL_OVERRIDE;
 
         /** @short Find position, including correction for Figure-of-the-Earth.
          * @param num KSNumbers pointer for the target date/time
@@ -194,7 +194,7 @@ class KSPlanetBase : public TrailObject
         void findPosition( const KSNumbers * num, const CachingDms * lat=0, const CachingDms * LST=0, const KSPlanetBase * Earth = 0 );
 
         /** @return the Planet's position angle. */
-        virtual double pa() const
+        double pa() const Q_DECL_OVERRIDE
         {
             return PositionAngle;
         }
@@ -257,7 +257,7 @@ class KSPlanetBase : public TrailObject
         bool isMajorPlanet() const;
 
         /** @return the pixel distance for offseting the object's name label */
-        virtual double labelOffset() const;
+        double labelOffset() const Q_DECL_OVERRIDE;
 
     protected:
         /** Big object. Planet, Moon, Sun. */

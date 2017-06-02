@@ -96,7 +96,7 @@ class ConstellationsArt: public SkyObject
         }
 
         /** @return an object's position angle */
-        inline double pa() const
+        inline double pa() const Q_DECL_OVERRIDE
         {
             return positionAngle;
         }

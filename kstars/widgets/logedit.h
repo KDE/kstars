@@ -37,7 +37,7 @@ class LogEdit : public QTextEdit
         void focusOut();
 
     protected:
-        void focusOutEvent( QFocusEvent * e );
+        void focusOutEvent( QFocusEvent * e ) Q_DECL_OVERRIDE;
 };
 
 

@@ -43,8 +43,8 @@ class KSMoon : public KSPlanetBase
         /** Copy constructor */
         KSMoon(const KSMoon &o);
 
-        virtual KSMoon * clone() const;
-        virtual SkyObject::UID getUID() const;
+        KSMoon * clone() const Q_DECL_OVERRIDE;
+        SkyObject::UID getUID() const Q_DECL_OVERRIDE;
 
         /** Destructor (empty). */
         ~KSMoon();
@@ -67,7 +67,7 @@ class KSMoon : public KSPlanetBase
         QString phaseName() const;
 
         /** reimplemented from KSPlanetBase */
-        virtual bool loadData();
+        bool loadData() Q_DECL_OVERRIDE;
 
         /** @return iPhase, which is used as a key to find the right image file */
         inline short int getIPhase() const
@@ -87,7 +87,7 @@ class KSMoon : public KSPlanetBase
          * @param num KSNumbers pointer for the target date/time
          * @note we don't use the Earth pointer here
          */
-        virtual bool findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * );
+        bool findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * ) Q_DECL_OVERRIDE;
 
         /**
          * @brief updateMag calls findMagnitude() to calculate current magnitude of moon
@@ -98,11 +98,11 @@ class KSMoon : public KSPlanetBase
             findMagnitude(nullptr);
         }
 
-        virtual void initPopupMenu( KSPopupMenu * pmenu );
+        void initPopupMenu( KSPopupMenu * pmenu ) Q_DECL_OVERRIDE;
 
     private:
 
-        virtual void findMagnitude(const KSNumbers *);
+        void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
 
         static bool data_loaded;
         static int instance_count;

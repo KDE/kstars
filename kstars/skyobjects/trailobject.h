@@ -41,7 +41,7 @@ class TrailObject : public SkyObject
 
         virtual ~TrailObject();
 
-        virtual TrailObject * clone() const;
+        TrailObject * clone() const Q_DECL_OVERRIDE;
 
         /** @return whether the planet has a trail */
         inline bool hasTrail() const
@@ -76,7 +76,7 @@ class TrailObject : public SkyObject
         /** Maximum trail size */
         static const int MaxTrail = 400;
 
-        virtual void initPopupMenu( KSPopupMenu * pmenu );
+        void initPopupMenu( KSPopupMenu * pmenu ) Q_DECL_OVERRIDE;
 
     protected:
         QList<SkyPoint> Trail;

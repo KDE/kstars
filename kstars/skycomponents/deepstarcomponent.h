@@ -60,11 +60,11 @@ class DeepStarComponent: public ListComponent
 
         //This function is empty; we need that so that the JiT update
         //is the only one beiong used.
-        void update( KSNumbers * num );
+        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
 
-        bool selected();
+        bool selected() Q_DECL_OVERRIDE;
 
-        void draw( SkyPainter * skyp );
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
         bool loadStaticStars();
 
@@ -95,7 +95,7 @@ class DeepStarComponent: public ListComponent
         /**
          *@return Nearest star within maxrad of SkyPoint p, or nullptr if not found
          */
-        SkyObject * objectNearest(SkyPoint * p, double &maxrad );
+        SkyObject * objectNearest(SkyPoint * p, double &maxrad ) Q_DECL_OVERRIDE;
 
         inline bool fileOpen() const
         {

@@ -51,11 +51,11 @@ class HorizonComponent: public PointListComponent
          *@p map Pointer to the SkyMap object
          *@p psky Reference to the QPainter on which to paint
          */
-        virtual void draw( SkyPainter * skyp );
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
-        virtual void update( KSNumbers * );
+        void update( KSNumbers * ) Q_DECL_OVERRIDE;
 
-        bool selected();
+        bool selected() Q_DECL_OVERRIDE;
 
     private:
         void drawCompassLabels();

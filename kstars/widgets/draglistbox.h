@@ -51,12 +51,12 @@ class DragListBox : public QListWidget
         }
         bool contains( const QString &s ) const;
 
-        void dragEnterEvent( QDragEnterEvent * evt );
-        void dragMoveEvent( QDragMoveEvent * evt );
-        void dropEvent( QDropEvent * evt );
-        void mousePressEvent( QMouseEvent * evt );
-        void mouseMoveEvent( QMouseEvent * );
-        void mouseReleaseEvent( QMouseEvent * );
+        void dragEnterEvent( QDragEnterEvent * evt ) Q_DECL_OVERRIDE;
+        void dragMoveEvent( QDragMoveEvent * evt ) Q_DECL_OVERRIDE;
+        void dropEvent( QDropEvent * evt ) Q_DECL_OVERRIDE;
+        void mousePressEvent( QMouseEvent * evt ) Q_DECL_OVERRIDE;
+        void mouseMoveEvent( QMouseEvent * ) Q_DECL_OVERRIDE;
+        void mouseReleaseEvent( QMouseEvent * ) Q_DECL_OVERRIDE;
     private:
         bool leftButtonDown;
         int IgnoreIndex;

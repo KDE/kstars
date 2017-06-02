@@ -37,8 +37,8 @@ class KSSun : public KSPlanet
         	*/
         KSSun();
 
-        virtual KSSun * clone() const;
-        virtual SkyObject::UID getUID() const;
+        KSSun * clone() const Q_DECL_OVERRIDE;
+        SkyObject::UID getUID() const Q_DECL_OVERRIDE;
 
         /** Destructor (empty)
         	*/
@@ -50,7 +50,7 @@ class KSSun : public KSPlanet
         	*ecliptic coordinates are by definition exactly the opposite of the
         	*Earth's heliocentric ecliptic coordinates.
         	*/
-        virtual bool loadData();
+        bool loadData() Q_DECL_OVERRIDE;
 
 
     protected:
@@ -58,9 +58,9 @@ class KSSun : public KSPlanet
         	*@p Epoch current Julian Date
         	*@p Earth pointer to earth object
         	*/
-        virtual bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr);
+        bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr) Q_DECL_OVERRIDE;
     private:
-        virtual void findMagnitude(const KSNumbers *);
+        void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
 };
 long double equinox(int year, int d, int m, int angle);
 

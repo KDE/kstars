@@ -51,11 +51,11 @@ class FlagComponent: public QObject, public PointListComponent
         /** @short Destructor. */
         virtual ~FlagComponent();
 
-        virtual void draw( SkyPainter * skyp );
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
-        virtual bool selected();
+        bool selected() Q_DECL_OVERRIDE;
 
-        virtual void update( KSNumbers * num=0 );
+        void update( KSNumbers * num=0 ) Q_DECL_OVERRIDE;
 
         /** @short Add a flag.
          * @param SkyPoint Sky point in epoch coordinates

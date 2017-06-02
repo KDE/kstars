@@ -566,11 +566,11 @@ class SkyMap : public QGraphicsView
          * @li ,/<  Step backward one time step
          * @li ./>  Step forward one time step
          */
-        virtual void keyPressEvent( QKeyEvent * e );
+        void keyPressEvent( QKeyEvent * e ) Q_DECL_OVERRIDE;
 
         /** When keyRelease is triggered, just set the "slewing" flag to false,
          * and update the display (to draw objects that are hidden when slewing==true). */
-        virtual void keyReleaseEvent( QKeyEvent * e );
+        void keyReleaseEvent( QKeyEvent * e ) Q_DECL_OVERRIDE;
 
         /** Determine RA, Dec coordinates of clicked location.  Find the SkyObject
          * which is nearest to the clicked location.
@@ -579,13 +579,13 @@ class SkyMap : public QGraphicsView
          * nearest object name in status bar.
          * If right-clicked: display popup menu appropriate for nearest object.
          */
-        virtual void mousePressEvent( QMouseEvent * e );
+        void mousePressEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
 
         /** set mouseButtonDown==false, slewing==false */
-        virtual void mouseReleaseEvent( QMouseEvent * e );
+        void mouseReleaseEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
 
         /** Center SkyMap at double-clicked location  */
-        virtual void mouseDoubleClickEvent( QMouseEvent * e );
+        void mouseDoubleClickEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
 
         /** This function does several different things depending on the state of the program:
          * @li If Angle-measurement mode is active, update the end-ruler point to the mouse cursor,
@@ -596,15 +596,15 @@ class SkyMap : public QGraphicsView
          *     cursor remains constant.
          * @li If just moving the mouse, simply update the curso coordinates in the status bar.
          */
-        virtual void mouseMoveEvent( QMouseEvent * e );
+        void mouseMoveEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
 
         /** Zoom in and out with the mouse wheel. */
-        virtual void wheelEvent( QWheelEvent * e );
+        void wheelEvent( QWheelEvent * e ) Q_DECL_OVERRIDE;
 
         /** If the skymap will be resized, the sky must be new computed. So this
          * function calls explicitly new computing of the skymap.
          */
-        virtual void resizeEvent( QResizeEvent * );
+        void resizeEvent( QResizeEvent * ) Q_DECL_OVERRIDE;
 
     private slots:
         /** @short display tooltip for object under cursor. It's called by m_HoverTimer.

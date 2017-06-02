@@ -104,7 +104,7 @@ class FindDialog : public QDialog
          * the window with no selection, using reject().
          * @param e The QKeyEvent pointer
          */
-        void keyPressEvent( QKeyEvent * e );
+        void keyPressEvent( QKeyEvent * e ) Q_DECL_OVERRIDE;
 
         /** @return the currently-selected item from the listbox of named objects */
         SkyObject * selectedObject() const;

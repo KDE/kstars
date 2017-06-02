@@ -65,8 +65,8 @@ class KSAsteroid : public KSPlanetBase
         KSAsteroid( int catN, const QString &s, const QString &image_file,
                     long double JD, double a, double e, dms i, dms w, dms N, dms M, double H, double G );
 
-        virtual KSAsteroid * clone() const;
-        virtual SkyObject::UID getUID() const;
+        KSAsteroid * clone() const Q_DECL_OVERRIDE;
+        SkyObject::UID getUID() const Q_DECL_OVERRIDE;
 
         /** Destructor (empty)*/
         virtual ~KSAsteroid() {}
@@ -74,7 +74,7 @@ class KSAsteroid : public KSPlanetBase
         /** This is inherited from KSPlanetBase.  We don't use it in this class,
         	*so it is empty.
         	*/
-        virtual bool loadData();
+        bool loadData() Q_DECL_OVERRIDE;
 
         /** This lets other classes like KSPlanetBase access H and G values
         *Used by KSPlanetBase::FindMagnitude
@@ -225,7 +225,7 @@ class KSAsteroid : public KSPlanetBase
         	*@param Earth planet Earth (needed to calculate geocentric coords)
         	*@return true if position was successfully calculated.
         	*/
-        virtual bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr);
+        bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr) Q_DECL_OVERRIDE;
 
         //these set functions are needed for the new KSPluto subclass
         void set_a( double newa )
@@ -262,7 +262,7 @@ class KSAsteroid : public KSPlanetBase
         }
 
     private:
-        virtual void findMagnitude(const KSNumbers *);
+        void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
 
         int catN;
         long double JD;

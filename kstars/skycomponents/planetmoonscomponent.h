@@ -52,14 +52,14 @@ class PlanetMoonsComponent : public SkyComponent
          */
         ~PlanetMoonsComponent();
 
-        virtual bool selected();
-        virtual void draw( SkyPainter * skyp );
+        bool selected() Q_DECL_OVERRIDE;
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 #ifndef KSTARS_LITE
-        virtual void update( KSNumbers * num );
+        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
 #endif
-        virtual void updateMoons( KSNumbers * num );
+        void updateMoons( KSNumbers * num ) Q_DECL_OVERRIDE;
 
-        SkyObject * objectNearest( SkyPoint * p, double &maxrad );
+        SkyObject * objectNearest( SkyPoint * p, double &maxrad ) Q_DECL_OVERRIDE;
 
         /** @return a pointer to a moon if its name matches the argument
          *
@@ -67,7 +67,7 @@ class PlanetMoonsComponent : public SkyComponent
          * @return a SkyObject pointer to the moon whose name matches
          * the argument, or a nullptr pointer if no match was found.
          */
-        SkyObject * findByName( const QString &name );
+        SkyObject * findByName( const QString &name ) Q_DECL_OVERRIDE;
 
         /** Return pointer to stored planet object. */
         KSPlanetBase * getPlanet() const;
@@ -79,7 +79,7 @@ class PlanetMoonsComponent : public SkyComponent
         }
 
     protected:
-        virtual void drawTrails( SkyPainter * skyp );
+        void drawTrails( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
     private:
         KSPlanetBase::Planets planet;

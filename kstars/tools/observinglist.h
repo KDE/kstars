@@ -162,7 +162,7 @@ class ObservingList : public QDialog
         /** @short This is the declaration of the event filter function
          * which is installed on the KImageFilePreview and the TabeView
          */
-        bool eventFilter( QObject * obj, QEvent * event );
+        bool eventFilter( QObject * obj, QEvent * event ) Q_DECL_OVERRIDE;
 
         /** @short saves a thumbnail image for the details dialog
          * from the downloaded image
@@ -395,7 +395,7 @@ class ObservingList : public QDialog
         void downloadReady( bool success );
 
     protected:
-        void showEvent(QShowEvent *);
+        void showEvent(QShowEvent *) Q_DECL_OVERRIDE;
 
     private:
 

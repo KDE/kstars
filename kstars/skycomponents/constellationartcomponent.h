@@ -65,7 +65,7 @@ class ConstellationArtComponent : public SkyComponent
          */
         void showList();
 
-        virtual void draw( SkyPainter * skyp );
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
         QList<ConstellationsArt *> m_ConstList;
 

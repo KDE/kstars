@@ -59,15 +59,15 @@ class SolarSystemComposite : public SkyComposite
         const QList<SkyObject *> &planetObjects() const;
         const QList<SkyObject *> &moons() const;
 
-        bool selected();
+        bool selected() Q_DECL_OVERRIDE;
 
-        virtual void update( KSNumbers * num );
+        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
 
-        virtual void updateSolarSystemBodies( KSNumbers * num );
+        void updateSolarSystemBodies( KSNumbers * num ) Q_DECL_OVERRIDE;
 
-        virtual void updateMoons( KSNumbers * num );
+        void updateMoons( KSNumbers * num ) Q_DECL_OVERRIDE;
 
-        void drawTrails( SkyPainter * skyp );
+        void drawTrails( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
         CometsComponent * cometsComponent();
 

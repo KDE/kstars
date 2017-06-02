@@ -80,7 +80,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 
         ~SkyMapComposite();
 
-        virtual void update( KSNumbers * num=0 );
+        void update( KSNumbers * num=0 ) Q_DECL_OVERRIDE;
 
         /**
         	*@short Delegate planet position updates to the SolarSystemComposite
@@ -95,7 +95,7 @@ class SkyMapComposite : public QObject, public SkyComposite
         	*@sa updateMoons()
         	*@sa SolarSystemComposite::updatePlanets()
         	*/
-        virtual void updateSolarSystemBodies( KSNumbers * num );
+        void updateSolarSystemBodies( KSNumbers * num ) Q_DECL_OVERRIDE;
 
         /**
         	*@short Delegate moon position updates to the SolarSystemComposite
@@ -117,7 +117,7 @@ class SkyMapComposite : public QObject, public SkyComposite
         	*@short Delegate draw requests to all sub components
         	*@p psky Reference to the QPainter on which to paint
         	*/
-        virtual void draw( SkyPainter * skyp );
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
         /**
           *@return the object nearest a given point in the sky.
@@ -126,7 +126,7 @@ class SkyMapComposite : public QObject, public SkyComposite
         		*@note the angular separation to the matched object is returned
         		*through the maxrad variable.
           */
-        virtual SkyObject * objectNearest( SkyPoint * p, double &maxrad );
+        SkyObject * objectNearest( SkyPoint * p, double &maxrad ) Q_DECL_OVERRIDE;
 
         /**
          *@return the star nearest a given point in the sky.
@@ -149,7 +149,7 @@ class SkyMapComposite : public QObject, public SkyComposite
         	*@return a pointer to the SkyObject whose name matches
         	*the argument, or a nullptr pointer if no match was found.
         	*/
-        virtual SkyObject * findByName( const QString &name );
+        SkyObject * findByName( const QString &name ) Q_DECL_OVERRIDE;
 
         /**
           *@return the list of objects in the region defined by skypoints
@@ -246,7 +246,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 
         //Accessors for StarComponent
         SkyObject * findStarByGenetiveName( const QString name );
-        virtual void emitProgressText( const QString &message );
+        void emitProgressText( const QString &message ) Q_DECL_OVERRIDE;
         QList<SkyObject *> &labelObjects()
         {
             return m_LabeledObjects;
@@ -281,8 +281,8 @@ class SkyMapComposite : public QObject, public SkyComposite
         void progressText( const QString &message );
 
     private:
-        virtual QHash<int, QStringList> &getObjectNames();
-        virtual QHash<int, QVector<QPair<QString, const SkyObject *>>> &getObjectLists();
+        QHash<int, QStringList> &getObjectNames() Q_DECL_OVERRIDE;
+        QHash<int, QVector<QPair<QString, const SkyObject *>>> &getObjectLists() Q_DECL_OVERRIDE;
 
         CultureList         *        m_Cultures;
         ConstellationBoundaryLines * m_CBoundLines;

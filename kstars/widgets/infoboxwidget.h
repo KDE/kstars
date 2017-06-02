@@ -45,7 +45,7 @@ class InfoBoxes : public QWidget
             return m_boxes;
         }
     protected:
-        virtual void resizeEvent(QResizeEvent * event);
+        void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
     private:
         QList<InfoBoxWidget *> m_boxes;
 };
@@ -98,12 +98,12 @@ class InfoBoxWidget : public QWidget
         /** Emitted when widget is clicked */
         void clicked();
     protected:
-        virtual void paintEvent(QPaintEvent * event);
-        virtual void mouseDoubleClickEvent(QMouseEvent * event );
-        virtual void mousePressEvent(QMouseEvent * event);
-        virtual void mouseMoveEvent(QMouseEvent * event );
-        virtual void mouseReleaseEvent(QMouseEvent * event);
-        virtual void showEvent(QShowEvent * event);
+        void paintEvent(QPaintEvent * event) Q_DECL_OVERRIDE;
+        void mouseDoubleClickEvent(QMouseEvent * event ) Q_DECL_OVERRIDE;
+        void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+        void mouseMoveEvent(QMouseEvent * event ) Q_DECL_OVERRIDE;
+        void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+        void showEvent(QShowEvent * event) Q_DECL_OVERRIDE;
     private:
         /** Uset to set information about object. */
         void setPoint(QString name, SkyPoint * p);

@@ -37,16 +37,16 @@ class SupernovaeComponent : public QObject, public ListComponent
     public:
         explicit SupernovaeComponent(SkyComposite * parent);
         virtual ~SupernovaeComponent();
-        virtual bool selected();
-        virtual void update(KSNumbers * num = 0);
-        virtual SkyObject * findByName(const QString &name);
-        virtual SkyObject * objectNearest(SkyPoint * p, double &maxrad);
+        bool selected() Q_DECL_OVERRIDE;
+        void update(KSNumbers * num = 0) Q_DECL_OVERRIDE;
+        SkyObject * findByName(const QString &name) Q_DECL_OVERRIDE;
+        SkyObject * objectNearest(SkyPoint * p, double &maxrad) Q_DECL_OVERRIDE;
 
         /**
          * @note This should actually be implemented in a better manner.
          * Possibly by checking if the host galaxy for the supernova is drawn.
          */
-        virtual void draw(SkyPainter * skyp);
+        void draw(SkyPainter * skyp) Q_DECL_OVERRIDE;
 
         //virtual void notifyNewSupernovae();
         /**

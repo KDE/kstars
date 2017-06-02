@@ -69,8 +69,8 @@ class PlanetViewer : public QDialog
         QString planetName(uint i) const;
 
     protected:
-        virtual void keyPressEvent( QKeyEvent * e );
-        virtual void paintEvent( QPaintEvent * );
+        void keyPressEvent( QKeyEvent * e ) Q_DECL_OVERRIDE;
+        void paintEvent( QPaintEvent * ) Q_DECL_OVERRIDE;
 
     private slots:
         void initPlotObjects();

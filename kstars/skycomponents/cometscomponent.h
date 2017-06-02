@@ -43,8 +43,8 @@ class CometsComponent : public QObject, public SolarSystemListComponent
         explicit CometsComponent(SolarSystemComposite * parent);
 
         virtual ~CometsComponent();
-        virtual bool selected();
-        virtual void draw( SkyPainter * skyp );
+        bool selected() Q_DECL_OVERRIDE;
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
         void updateDataFile();
 
     protected slots:
