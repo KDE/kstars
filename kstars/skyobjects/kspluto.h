@@ -51,7 +51,7 @@ class KSPluto : public KSAsteroid
         	*/
         explicit KSPluto(const QString &fn=QString(), double pSize=0);
 
-        virtual KSPluto * clone() const;
+        KSPluto * clone() const Q_DECL_OVERRIDE;
 
         /**Destructor (empty) */
         virtual ~KSPluto();
@@ -64,10 +64,10 @@ class KSPluto : public KSAsteroid
         	*@param Earth planet Earth (needed to calculate geocentric coords)
         	*@return true if position was successfully calculated.
         	*/
-        virtual bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr);
+        bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr) Q_DECL_OVERRIDE;
 
     private:
-        virtual void findMagnitude(const KSNumbers *);
+        void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
 
         //The base orbital elements for J2000 (these don't change with time)
         double a0, e0;

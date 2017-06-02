@@ -54,7 +54,7 @@ class SkyComposite : public SkyComponent
         /** @short Delegate draw requests to all sub components
          * @p psky Reference to the QPainter on which to paint
          */
-        virtual void draw( SkyPainter * skyp );
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
         /** @short Delegate update-position requests to all sub components
          *
@@ -69,7 +69,7 @@ class SkyComposite : public SkyComponent
          * Precession/Nutation computation should be skipped; this computation
          * is only occasionally required.
          */
-        virtual void update( KSNumbers * num=0 );
+        void update( KSNumbers * num=0 ) Q_DECL_OVERRIDE;
 
         /** @short Add a new sub component to the composite
          * @p comp Pointer to the SkyComponent to be added
@@ -91,7 +91,7 @@ class SkyComposite : public SkyComponent
          * @return a pointer to the SkyObject whose name matches
          * the argument, or a nullptr pointer if no match was found.
          */
-        virtual SkyObject * findByName( const QString &name );
+        SkyObject * findByName( const QString &name ) Q_DECL_OVERRIDE;
 
         /** @short Identify the nearest SkyObject to the given SkyPoint,
          * among the children of this SkyComposite
@@ -99,7 +99,7 @@ class SkyComposite : public SkyComponent
          * @p maxrad reference to current search radius
          * @return a pointer to the nearest SkyObject
          */
-        virtual SkyObject * objectNearest( SkyPoint * p, double &maxrad );
+        SkyObject * objectNearest( SkyPoint * p, double &maxrad ) Q_DECL_OVERRIDE;
 
         QList<SkyComponent *> components()
         {

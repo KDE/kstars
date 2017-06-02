@@ -32,7 +32,7 @@ class FOVWidget : public QFrame
         void setFOV( FOV * f );
 
     protected:
-        void paintEvent( QPaintEvent * e );
+        void paintEvent( QPaintEvent * e ) Q_DECL_OVERRIDE;
 
     private:
         FOV * m_FOV;

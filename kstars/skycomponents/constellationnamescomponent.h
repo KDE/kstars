@@ -57,12 +57,12 @@ class ConstellationNamesComponent : public ListComponent
         /** @short Draw constellation names on the sky map.
          * @p psky Reference to the QPainter on which to paint
          */
-        virtual void draw( SkyPainter * skyp );
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
         /** @short we need a custom routine (for now) so we don't
          * precess the locations of the names.
          */
-        virtual void update( KSNumbers * num );
+        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
 
         /** @short Return true if we are using localized constellation names */
         inline bool isLocalCNames()
@@ -70,7 +70,7 @@ class ConstellationNamesComponent : public ListComponent
             return localCNames;
         }
 
-        virtual bool selected();
+        bool selected() Q_DECL_OVERRIDE;
 
         void loadData(CultureList * cultures);
 

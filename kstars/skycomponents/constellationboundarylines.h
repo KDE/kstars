@@ -56,9 +56,9 @@ class ConstellationBoundaryLines : public NoPrecessIndex
 
         QString constellationName( SkyPoint * p );
 
-        virtual bool selected();
+        bool selected() Q_DECL_OVERRIDE;
 
-        virtual void preDraw( SkyPainter * skyp );
+        void preDraw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
     private:
         void appendPoly( PolyList * polyList, int debug=0);
 

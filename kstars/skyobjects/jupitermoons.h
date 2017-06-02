@@ -70,7 +70,7 @@ class JupiterMoons: public PlanetMoons
           *@param jup pointer to the jupiter object
           *@param sunptr pointer to the Sun object
           */
-        virtual void findPosition( const KSNumbers * num, const KSPlanetBase * jup, const KSSun * sunptr );
+        void findPosition( const KSNumbers * num, const KSPlanetBase * jup, const KSSun * sunptr ) Q_DECL_OVERRIDE;
 };
 
 #endif

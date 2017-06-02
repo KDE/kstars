@@ -39,16 +39,16 @@ class Equator : public NoPrecessIndex
          */
         explicit Equator( SkyComposite * parent );
 
-        virtual bool selected();
-        virtual void draw( SkyPainter * skyp );
+        bool selected() Q_DECL_OVERRIDE;
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
         virtual void drawCompassLabels();
-        virtual LineListLabel * label()
+        LineListLabel * label() Q_DECL_OVERRIDE
         {
             return &m_label;
         }
 
     protected:
-        virtual void preDraw( SkyPainter * skyp );
+        void preDraw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
     private:
         LineListLabel m_label;

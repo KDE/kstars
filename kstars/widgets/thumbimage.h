@@ -53,10 +53,10 @@ class ThumbImage : public QLabel
 
     protected:
         //	void resizeEvent( QResizeEvent *e);
-        void paintEvent( QPaintEvent *);
-        void mousePressEvent( QMouseEvent * e );
-        void mouseReleaseEvent( QMouseEvent * e );
-        void mouseMoveEvent( QMouseEvent * e );
+        void paintEvent( QPaintEvent *) Q_DECL_OVERRIDE;
+        void mousePressEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
+        void mouseReleaseEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
+        void mouseMoveEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
 
     private:
         QRect * CropRect;

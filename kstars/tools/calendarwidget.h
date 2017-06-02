@@ -40,11 +40,11 @@ class CalendarWidget : public KPlotWidget
         }
 
     protected:
-        void paintEvent( QPaintEvent * e );
+        void paintEvent( QPaintEvent * e ) Q_DECL_OVERRIDE;
 
     private:
         void drawHorizon( QPainter * p );
-        void drawAxes( QPainter * p );
+        void drawAxes( QPainter * p ) Q_DECL_OVERRIDE;
 
         QList<QDate> dateList;
         QList<float> riseTimeList;

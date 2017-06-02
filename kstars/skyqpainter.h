@@ -55,8 +55,8 @@ class SkyQPainter : public SkyPainter, public QPainter
         explicit SkyQPainter( QWidget * widget, QPaintDevice * pd = 0 );
 
         virtual ~SkyQPainter();
-        virtual void setPen(const QPen &pen);
-        virtual void setBrush(const QBrush &brush);
+        void setPen(const QPen &pen) Q_DECL_OVERRIDE;
+        void setBrush(const QBrush &brush) Q_DECL_OVERRIDE;
 
         /**
          * @param vectorStars Draw stars as vector graphics whenever possible.
@@ -71,32 +71,32 @@ class SkyQPainter : public SkyPainter, public QPainter
             return m_vectorStars;
         }
 
-        virtual void begin();
-        virtual void end();
+        void begin() Q_DECL_OVERRIDE;
+        void end() Q_DECL_OVERRIDE;
 
         /** Recalculates the star pixmaps. */
         static void initStarImages();
 
         // Sky drawing functions
-        virtual void drawSkyBackground();
-        virtual void drawSkyLine(SkyPoint * a, SkyPoint * b);
-        virtual void drawSkyPolyline(LineList * list, SkipList * skipList = 0,
-                                     LineListLabel * label = 0);
-        virtual void drawSkyPolygon(LineList * list, bool forceClip=true);
-        virtual bool drawPointSource(SkyPoint * loc, float mag, char sp = 'A');
-        virtual bool drawDeepSkyObject(DeepSkyObject * obj, bool drawImage = false);
-        virtual bool drawPlanet(KSPlanetBase * planet);
-        virtual void drawObservingList(const QList<SkyObject *> &obs);
-        virtual void drawFlags();
-        virtual void drawHorizon( bool filled, SkyPoint * labelPoint = 0, bool * drawLabel = 0);
-        virtual bool drawSatellite( Satellite * sat );
+        void drawSkyBackground() Q_DECL_OVERRIDE;
+        void drawSkyLine(SkyPoint * a, SkyPoint * b) Q_DECL_OVERRIDE;
+        void drawSkyPolyline(LineList * list, SkipList * skipList = 0,
+                                     LineListLabel * label = 0) Q_DECL_OVERRIDE;
+        void drawSkyPolygon(LineList * list, bool forceClip=true) Q_DECL_OVERRIDE;
+        bool drawPointSource(SkyPoint * loc, float mag, char sp = 'A') Q_DECL_OVERRIDE;
+        bool drawDeepSkyObject(DeepSkyObject * obj, bool drawImage = false) Q_DECL_OVERRIDE;
+        bool drawPlanet(KSPlanetBase * planet) Q_DECL_OVERRIDE;
+        void drawObservingList(const QList<SkyObject *> &obs) Q_DECL_OVERRIDE;
+        void drawFlags() Q_DECL_OVERRIDE;
+        void drawHorizon( bool filled, SkyPoint * labelPoint = 0, bool * drawLabel = 0) Q_DECL_OVERRIDE;
+        bool drawSatellite( Satellite * sat ) Q_DECL_OVERRIDE;
         virtual void drawDeepSkySymbol(const QPointF &pos, int type, float size, float e,
                                        float positionAngle);
-        virtual bool drawSupernova(Supernova * sup);
-        virtual bool drawComet(KSComet * com);
+        bool drawSupernova(Supernova * sup) Q_DECL_OVERRIDE;
+        bool drawComet(KSComet * com) Q_DECL_OVERRIDE;
         ///This function exists so that we can draw other objects (e.g., planets) as point sources.
         virtual void drawPointSource(const QPointF &pos, float size, char sp = 'A');
-        virtual bool drawConstellationArtImage(ConstellationsArt * obj);
+        bool drawConstellationArtImage(ConstellationsArt * obj) Q_DECL_OVERRIDE;
 
     private:
         virtual bool drawDeepSkyImage (const QPointF &pos, DeepSkyObject * obj,

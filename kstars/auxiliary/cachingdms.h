@@ -72,7 +72,7 @@ class CachingDms : public dms
          * @short Sets the angle in degrees supplied as a double
          * @note Re-implements dms::setD() with sine/cosine caching
          */
-        inline void setD( const double &x )
+        inline void setD( const double &x ) Q_DECL_OVERRIDE
         {
             dms::setD( x );
             dms::SinCos( m_sin, m_cos );
@@ -87,7 +87,7 @@ class CachingDms : public dms
         /**
          * @short Overrides dms::setD()
          */
-        inline void setD( const int &d, const int &m, const int &s, const int &ms=0 )
+        inline void setD( const int &d, const int &m, const int &s, const int &ms=0 ) Q_DECL_OVERRIDE
         {
             dms::setD( d, m, s, ms );
             dms::SinCos( m_sin, m_cos );
@@ -104,7 +104,7 @@ class CachingDms : public dms
          * @note Re-implements dms::setH() with sine/cosine caching
          * @note While this and other methods internally call setD, we want to avoid unnecessary vtable lookups. We'd rather have inline than virtual when speed matters in general.
          */
-        inline void setH( const double &x )
+        inline void setH( const double &x ) Q_DECL_OVERRIDE
         {
             dms::setH( x );
             dms::SinCos( m_sin, m_cos );
@@ -120,7 +120,7 @@ class CachingDms : public dms
          * @short Sets the angle in HMS form
          * @note Re-implements dms::setH() with sine/cosine caching
          */
-        inline void setH( const int &h, const int &m, const int &s, const int &ms=0 )
+        inline void setH( const int &h, const int &m, const int &s, const int &ms=0 ) Q_DECL_OVERRIDE
         {
             dms::setH( h, m, s, ms );
             dms::SinCos( m_sin, m_cos );
@@ -133,7 +133,7 @@ class CachingDms : public dms
          * @short Sets the angle from string
          * @note Re-implements dms::setFromString()
          */
-        inline bool setFromString( const QString &s, bool isDeg = true )
+        inline bool setFromString( const QString &s, bool isDeg = true ) Q_DECL_OVERRIDE
         {
             bool retval = dms::setFromString( s, isDeg );
             dms::SinCos( m_sin, m_cos );
@@ -149,7 +149,7 @@ class CachingDms : public dms
         /**
          * @short Sets the angle in radians
          */
-        inline void setRadians( const double &a )
+        inline void setRadians( const double &a ) Q_DECL_OVERRIDE
         {
             dms::setRadians( a );
             dms::SinCos( m_sin, m_cos );

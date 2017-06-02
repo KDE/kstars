@@ -27,7 +27,7 @@ class eqPlotWidget : public KPlotWidget
         eqPlotWidget( QWidget * parent=0 );
 
     protected:
-        virtual void paintEvent( QPaintEvent * );
+        void paintEvent( QPaintEvent * ) Q_DECL_OVERRIDE;
 };
 
 #endif

@@ -80,7 +80,7 @@ class TimeDialog : public QDialog
         void setNow( void );
 
     protected:
-        void keyReleaseEvent( QKeyEvent * );
+        void keyReleaseEvent( QKeyEvent * ) Q_DECL_OVERRIDE;
 
     private:
         bool UTCNow;

@@ -38,12 +38,12 @@ class PVPlotWidget : public KPlotWidget
         void doubleClicked( double, double );
 
     protected:
-        virtual void keyPressEvent( QKeyEvent * e );
-        virtual void mousePressEvent( QMouseEvent * e );
-        virtual void mouseMoveEvent( QMouseEvent * e );
-        virtual void mouseReleaseEvent( QMouseEvent * );
-        virtual void mouseDoubleClickEvent( QMouseEvent * e );
-        virtual void wheelEvent( QWheelEvent * e );
+        void keyPressEvent( QKeyEvent * e ) Q_DECL_OVERRIDE;
+        void mousePressEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
+        void mouseMoveEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
+        void mouseReleaseEvent( QMouseEvent * ) Q_DECL_OVERRIDE;
+        void mouseDoubleClickEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
+        void wheelEvent( QWheelEvent * e ) Q_DECL_OVERRIDE;
 
     private:
         bool mouseButtonDown;

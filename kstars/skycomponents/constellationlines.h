@@ -50,18 +50,18 @@ class ConstellationLines : public LineListIndex
 
         void reindex( KSNumbers * num );
 
-        virtual bool selected();
+        bool selected() Q_DECL_OVERRIDE;
 
     protected:
-        const IndexHash &getIndexHash(LineList * lineList );
+        const IndexHash &getIndexHash(LineList * lineList ) Q_DECL_OVERRIDE;
 
         /** @short we need to override the update routine because stars are
          * updated differently from mere SkyPoints.
          */
-        virtual void JITupdate( LineList * lineList );
+        void JITupdate( LineList * lineList ) Q_DECL_OVERRIDE;
 
         /** @short Set the QColor and QPen for drawing. */
-        virtual void preDraw( SkyPainter * skyp );
+        void preDraw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
     private:
 

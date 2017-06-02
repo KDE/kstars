@@ -88,21 +88,21 @@ class AVTPlotWidget : public KPlotWidget
             *draw crosshair lines centered at the cursor position.  This
             *allows the user to pinpoint specific position sin the plot.
             */
-        void mouseMoveEvent( QMouseEvent * e );
+        void mouseMoveEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
 
         /**
             *Simply calls mouseMoveEvent().
             */
-        void mousePressEvent( QMouseEvent * e );
+        void mousePressEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
 
         /**
             *Reset the MousePoint to a null value, to erase the crosshairs
             */
-        void mouseDoubleClickEvent( QMouseEvent * e );
+        void mouseDoubleClickEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
 
         /**Redraw the plot.
             */
-        void paintEvent( QPaintEvent * e );
+        void paintEvent( QPaintEvent * e ) Q_DECL_OVERRIDE;
 
     private:
         double SunRise, SunSet, Dawn, Dusk, SunMinAlt, SunMaxAlt;

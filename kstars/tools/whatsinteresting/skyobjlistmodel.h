@@ -46,19 +46,19 @@ class SkyObjListModel : public QAbstractListModel
          * \brief Create and return a QHash<int, QByteArray> of rolenames for the SkyObjItem.
          * \return QHash<int, QByteArray> of rolenames for the SkyObjItem.
          */
-        QHash<int, QByteArray> roleNames() const;
+        QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
         /**
          * \brief Overridden method from QAbstractItemModel.
          * \return The number of items in the sky-object list model.
          */
-        int rowCount(const QModelIndex &parent = QModelIndex()) const;
+        int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
         /**
          * \brief Overridden method from QAbstractItemModel.
          * \return Data stored under the given role for the sky-object item referred to by the index.
          */
-        QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+        QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
         /**
          * \brief Get the list of sky-object items in the model.

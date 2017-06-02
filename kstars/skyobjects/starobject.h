@@ -88,8 +88,8 @@ class StarObject : public SkyObject
                     const QString &n2=QString(), const QString &sptype="--", double pmra=0.0, double pmdec=0.0,
                     double par=0.0, bool mult=false, bool var=false, int hd=0 );
 
-        virtual StarObject * clone() const;
-        virtual UID getUID() const;
+        StarObject * clone() const Q_DECL_OVERRIDE;
+        UID getUID() const Q_DECL_OVERRIDE;
 
         /** Copy constructor */
         StarObject(const StarObject &o);
@@ -138,13 +138,13 @@ class StarObject : public SkyObject
         }
 
         /** If star is unnamed return "star" otherwise return the name */
-        inline virtual QString name( void ) const
+        inline virtual QString name( void ) const Q_DECL_OVERRIDE
         {
             return hasName() ? Name : starString;
         }
 
         /** If star is unnamed return "star" otherwise return the longname */
-        inline virtual QString longname( void ) const
+        inline virtual QString longname( void ) const Q_DECL_OVERRIDE
         {
             return hasLongName() ? LongName : starString;
         }
@@ -179,7 +179,7 @@ class StarObject : public SkyObject
          * @param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
          * @param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
          */
-        virtual void updateCoords( const KSNumbers * num, bool includePlanets=true, const CachingDms * lat=0, const CachingDms * LST=0, bool forceRecompute = false );
+        void updateCoords( const KSNumbers * num, bool includePlanets=true, const CachingDms * lat=0, const CachingDms * LST=0, bool forceRecompute = false ) Q_DECL_OVERRIDE;
 
         /** @short fills ra and dec with the coordinates of the star with the proper
          * motion correction but without precesion and its friends.  It is used
@@ -290,13 +290,13 @@ class StarObject : public SkyObject
          */
         QString nameLabel( bool drawName, bool drawMag ) const;
 
-        virtual QString labelString() const;
+        QString labelString() const Q_DECL_OVERRIDE;
 
         /**
          *@return the pixel distance for offseting the star's name label
          *This takes the zoom level and the star's brightness into account.
          */
-        virtual double labelOffset() const;
+        double labelOffset() const Q_DECL_OVERRIDE;
 
         /**
          *@return the Visual magnitude of the star
@@ -331,7 +331,7 @@ class StarObject : public SkyObject
         static unsigned int starsUpdated;
 #endif
 
-        virtual void initPopupMenu( KSPopupMenu * pmenu);
+        void initPopupMenu( KSPopupMenu * pmenu) Q_DECL_OVERRIDE;
 
     protected:
         // DEBUG EDIT. For testing proper motion, uncomment this, and related blocks

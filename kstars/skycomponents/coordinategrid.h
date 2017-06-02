@@ -38,9 +38,9 @@ class CoordinateGrid : public NoPrecessIndex
         	*/
         CoordinateGrid( SkyComposite * parent, const QString &name );
 
-        virtual void preDraw( SkyPainter * skyp ) = 0;
+        void preDraw( SkyPainter * skyp ) Q_DECL_OVERRIDE = 0;
 
-        virtual bool selected() = 0;
+        bool selected() Q_DECL_OVERRIDE = 0;
 };
 
 

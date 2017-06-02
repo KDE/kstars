@@ -55,7 +55,7 @@ class FocusDialog : public QDialog
         }
 
         /** @return suggested size of focus window. */
-        QSize sizeHint() const;
+        QSize sizeHint() const Q_DECL_OVERRIDE;
 
         /** @return whether user set the AltAz coords */
         inline bool usedAltAz() const

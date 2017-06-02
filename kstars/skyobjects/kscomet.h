@@ -69,8 +69,8 @@ class KSComet : public KSPlanetBase
                  long double JD, double q, double e, dms i, dms w, dms N, double Tp,
                  float M1, float M2, float K1, float K2 );
 
-        virtual KSComet * clone() const;
-        virtual SkyObject::UID getUID() const;
+        KSComet * clone() const Q_DECL_OVERRIDE;
+        SkyObject::UID getUID() const Q_DECL_OVERRIDE;
 
         /** Destructor (empty)*/
         virtual ~KSComet() {}
@@ -78,7 +78,7 @@ class KSComet : public KSPlanetBase
         /** Unused virtual function inherited from KSPlanetBase,
             *so it's simply empty here.
             */
-        virtual bool loadData();
+        bool loadData() Q_DECL_OVERRIDE;
 
         /**
          *@short Returns the Julian Day of Perihelion passage
@@ -295,7 +295,7 @@ class KSComet : public KSPlanetBase
             *@param Earth planet Earth (needed to calculate geocentric coords)
             *@return true if position was successfully calculated.
             */
-        virtual bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr);
+        bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr) Q_DECL_OVERRIDE;
 
         /**
          *@short Estimate physical parameters of the comet such as coma size, tail length and size of the nucleus
@@ -305,7 +305,7 @@ class KSComet : public KSPlanetBase
 
 
     private:
-        virtual void findMagnitude( const KSNumbers * );
+        void findMagnitude( const KSNumbers * ) Q_DECL_OVERRIDE;
 
         long double JD, JDp;
         double q, e, a, P, EarthMOID;

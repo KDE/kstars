@@ -84,13 +84,13 @@ class MapCanvas : public QFrame
          * currently-selected city.
          * @see LocationDialog
          */
-        virtual void paintEvent( QPaintEvent * e );
+        void paintEvent( QPaintEvent * e ) Q_DECL_OVERRIDE;
 
         /**Trim the list of cities so that only those within 2 degrees
          * of the mouse click are shown in the list.
          * @see LocationDialog
          */
-        virtual void mousePressEvent( QMouseEvent * e );
+        void mousePressEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
 
     private:
         LocationDialog * ld;

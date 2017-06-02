@@ -42,8 +42,8 @@ class ImageLabel : public QFrame
 
         QImage m_Image; // ImageViewer needs access to the image in order to modify it
     protected:
-        void paintEvent( QPaintEvent * e);
-        void resizeEvent(QResizeEvent *);
+        void paintEvent( QPaintEvent * e) Q_DECL_OVERRIDE;
+        void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
 
     private:
         QPixmap pix;

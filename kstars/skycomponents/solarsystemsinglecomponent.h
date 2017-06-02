@@ -51,26 +51,26 @@ class SolarSystemSingleComponent : public SkyComponent
             return m_Planet;
         }
 
-        virtual bool selected();
+        bool selected() Q_DECL_OVERRIDE;
 
         /**
          * @brief update Only convert Equatorial to Horizontal coordinates given current time.
          * @param num pointer to KSNumbers instance for target time
          */
-        virtual void update( KSNumbers * num );
+        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
 
         /**
          * @brief updateSolarSystemBodies Update Equtorial & Horizontal coordinates.
          * @param num pointer to KSNumbers instance for target time
          */
-        virtual void updateSolarSystemBodies( KSNumbers * num );
+        void updateSolarSystemBodies( KSNumbers * num ) Q_DECL_OVERRIDE;
 
-        virtual SkyObject * findByName( const QString &name );
-        virtual SkyObject * objectNearest( SkyPoint * p, double &maxrad );
-        virtual void draw( SkyPainter * skyp );
+        SkyObject * findByName( const QString &name ) Q_DECL_OVERRIDE;
+        SkyObject * objectNearest( SkyPoint * p, double &maxrad ) Q_DECL_OVERRIDE;
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
     protected:
-        virtual void drawTrails( SkyPainter * skyp );
+        void drawTrails( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
     private:
         bool (*visible)();

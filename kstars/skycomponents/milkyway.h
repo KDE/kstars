@@ -45,8 +45,8 @@ class MilkyWay : public LineListIndex
         /** Load skiplists from file */
         void loadContours(QString fname, QString greeting);
 
-        virtual void draw( SkyPainter * skyp );
-        virtual bool selected();
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+        bool selected() Q_DECL_OVERRIDE;
 
     protected:
         /** @short Returns an IndexHash from the SkyMesh that contains the set
@@ -55,7 +55,7 @@ class MilkyWay : public LineListIndex
          * LineList.
          * FIXME: Implementation is broken!!
          */
-        const IndexHash &getIndexHash( LineList * skipList );
+        const IndexHash &getIndexHash( LineList * skipList ) Q_DECL_OVERRIDE;
 
         /** @short Returns a boolean indicating whether to skip the i-th line
          * segment in the _SkipList_ skipList.  Note that SkipList is a
@@ -63,7 +63,7 @@ class MilkyWay : public LineListIndex
          * code in LineListIndex instead of repeating it all here.
          * FIXME: Implementation is broken!!
          */
-        virtual SkipList * skipList(LineList * lineList);
+        SkipList * skipList(LineList * lineList) Q_DECL_OVERRIDE;
 
 };
 #endif

@@ -38,11 +38,11 @@ class HorizontalCoordinateGrid : public CoordinateGrid
         	*/
         explicit HorizontalCoordinateGrid( SkyComposite * parent );
 
-        void preDraw( SkyPainter * skyp );
+        void preDraw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
-        void update( KSNumbers * );
+        void update( KSNumbers * ) Q_DECL_OVERRIDE;
 
-        bool selected();
+        bool selected() Q_DECL_OVERRIDE;
 };
 
 

@@ -54,9 +54,9 @@ class CatalogComponent: public ListComponent
          *@short Draw custom catalog objects on the sky map.
          *@p psky Reference to the QPainter on which to paint
          */
-        virtual void draw( SkyPainter * skyp );
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
-        virtual void update( KSNumbers * num );
+        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
 
         /** @return the name of the catalog */
         inline QString name() const
@@ -107,7 +107,7 @@ class CatalogComponent: public ListComponent
          * Overridden from SkyComponent::selected
          * @return bool
          **/
-        virtual bool selected();
+        bool selected() Q_DECL_OVERRIDE;
 
     protected:
 

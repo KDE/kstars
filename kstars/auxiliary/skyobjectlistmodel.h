@@ -41,13 +41,13 @@ class SkyObjectListModel : public QAbstractListModel
 
         explicit SkyObjectListModel(QObject * parent = 0);
 
-        virtual int rowCount(const QModelIndex &) const
+        int rowCount(const QModelIndex &) const Q_DECL_OVERRIDE
         {
             return skyObjects.size();
         }
-        virtual QVariant data(const QModelIndex &index, int role) const;
+        QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
 
-        virtual QHash<int, QByteArray> roleNames() const;
+        QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
         /**
          * @return index of object from skyObjects with name objectName. -1 if object with such

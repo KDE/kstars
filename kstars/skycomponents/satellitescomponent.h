@@ -51,19 +51,19 @@ class SatellitesComponent : public SkyComponent
         /**
          *@return true if satellites must be draw.
          */
-        virtual bool selected();
+        bool selected() Q_DECL_OVERRIDE;
 
         /**
          *Draw all satellites.
          *@param skyp SkyPainter to use
          */
-        virtual void draw( SkyPainter * skyp );
+        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
         /**
          *Update satellites position.
          *@param num
          */
-        virtual void update( KSNumbers * num );
+        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
 
         /**
          *Download new TLE files
@@ -94,19 +94,19 @@ class SatellitesComponent : public SkyComponent
          *@param p
          *@param maxrad
          */
-        SkyObject * objectNearest( SkyPoint * p, double &maxrad );
+        SkyObject * objectNearest( SkyPoint * p, double &maxrad ) Q_DECL_OVERRIDE;
 
         /**
          * Return object given name
          * @param name object name
          * @return object if found, otherwise nullptr
          */
-        SkyObject * findByName( const QString &name );
+        SkyObject * findByName( const QString &name ) Q_DECL_OVERRIDE;
 
         void loadData();
 
     protected:
-        virtual void drawTrails( SkyPainter * skyp );
+        void drawTrails( SkyPainter * skyp ) Q_DECL_OVERRIDE;
 
 
     private:
