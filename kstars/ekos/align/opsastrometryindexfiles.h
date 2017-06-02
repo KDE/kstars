@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "ui_opsastrometryindexfiles.h"
+#include "QNetworkAccessManager"
 
 
 class KConfigDialog;
@@ -26,12 +27,17 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
     public slots:
         void slotUpdate();
         void slotOpenIndexFileDirectory();
+        void downloadOrDeleteIndexFiles(bool checked);
 
     private:
         KConfigDialog * m_ConfigDialog;
         Align * alignModule;
+        QNetworkAccessManager * manager;
         bool getAstrometryDataDir(QString &dataDir);
+        void downloadIndexFile(QString URL, QString fileN, QCheckBox *checkBox, int currentIndex, int maxIndex);
         QMap<float, QString> astrometryIndex;
+        bool astrometryIndicesAreAvailable();
+
 };
 
 }

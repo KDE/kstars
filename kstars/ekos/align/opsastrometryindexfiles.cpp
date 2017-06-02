@@ -1,11 +1,13 @@
 #include "opsastrometryindexfiles.h"
 #include "ui_opsastrometryindexfiles.h"
 
+#include <QProgressBar>
 #include <KConfigDialog>
+#include <KMessageBox>
+
 #include "kstars.h"
 #include "align.h"
 #include "Options.h"
-#include <KMessageBox>
 
 namespace Ekos
 {
@@ -15,6 +17,7 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align * parent)  : QDialog( KSt
     setupUi(this);
 
     alignModule = parent;
+    manager = new QNetworkAccessManager();
 
     //Get a pointer to the KConfigDialog
     // m_ConfigDialog = KConfigDialog::exists( "alignsettings" );
@@ -40,6 +43,25 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align * parent)  : QDialog( KSt
     astrometryIndex[1000] = "17";
     astrometryIndex[1400] = "18";
     astrometryIndex[2000] = "19";
+
+    QList<QCheckBox *> checkboxes = findChildren<QCheckBox *>();
+
+    foreach(QCheckBox * checkBox, checkboxes)
+    {
+        //This disables the downloader on Linux until a solution can be found to the read only astrometry folder
+        #ifdef Q_OS_OSX
+            connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(downloadOrDeleteIndexFiles(bool)));
+        #else
+            checkBox->setEnabled(false);
+        #endif
+    }
+
+    QList<QProgressBar *> progressBars = findChildren<QProgressBar *>();
+
+    foreach(QProgressBar * bar, progressBars)
+    {
+        bar->setVisible(false);
+    }
 }
 
 OpsAstrometryIndexFiles::~OpsAstrometryIndexFiles() {}
@@ -85,7 +107,6 @@ void OpsAstrometryIndexFiles::slotUpdate()
     {
         checkBox->setIcon(QIcon(":/icons/breeze/default/security-low.svg"));
         checkBox->setToolTip(i18n("Optional"));
-        checkBox->setEnabled(false); //This is for now, until we get a downloader set up.
     }
 
     float last_skymarksize = 2;
@@ -178,6 +199,135 @@ bool OpsAstrometryIndexFiles::getAstrometryDataDir(QString &dataDir)
     KMessageBox::error(0, i18n("Unable to find data dir in astrometry configuration file."));
     return false;
 }
+
+bool OpsAstrometryIndexFiles::astrometryIndicesAreAvailable(){
+    QNetworkReply * response = manager->get(QNetworkRequest(QUrl("http://broiler.astrometry.net")));
+    QTimer timeout(this);
+    timeout.setInterval(5000);
+    timeout.setSingleShot(true);
+    timeout.start();
+    while(!response->isFinished()){
+        if(!timeout.isActive()){
+            response->deleteLater();
+            return false;
+        }
+        qApp->processEvents();
+    }
+    timeout.stop();
+    bool wasSuccessful = (response->error() == QNetworkReply::NoError);
+    response->deleteLater();
+    return wasSuccessful;
+}
+
+void OpsAstrometryIndexFiles::downloadIndexFile(QString URL, QString fileN, QCheckBox *checkBox, int currentIndex, int maxIndex){
+    QString indexString = QString::number(currentIndex);
+    if(currentIndex<10)
+        indexString = "0" + indexString;
+
+    QString indexSeriesName=checkBox->text().remove("&");
+    QProgressBar * indexDownloadProgress=findChild<QProgressBar *>(indexSeriesName.replace("-","_").left(10)+"_progress");
+    if(indexDownloadProgress)
+        indexDownloadProgress->setValue((int)(currentIndex*100/maxIndex));
+
+    QString indexURL=URL;
+    indexURL.replace("*", indexString);
+
+    QNetworkReply * response = manager->get(QNetworkRequest(QUrl(indexURL)));
+
+    QTimer::singleShot(60000, response, [response, checkBox, indexDownloadProgress]
+    { //Shut it down after 60 sec.
+        qDebug()<<"Index File Download Timed out.";
+        response->abort();
+        response->deleteLater();
+        if(checkBox)
+            checkBox->setEnabled(true);
+        if(indexDownloadProgress)
+            indexDownloadProgress->setVisible(false);
+    });
+    connect(response, &QNetworkReply::finished, this, [URL, fileN, checkBox, currentIndex, maxIndex, this, response, indexString, indexDownloadProgress]{
+      response->deleteLater();
+      if (response->error() != QNetworkReply::NoError) return;
+        QByteArray responseData=response->readAll();
+        QString indexFileN=fileN;
+        indexFileN.replace("*" , indexString);
+
+        QFile file(indexFileN);
+        if (file.open(QIODevice::WriteOnly) == false)
+        {
+            qDebug()<<"Index file save error";
+            return;
+        }
+        else
+        {
+            file.write(responseData.data(),responseData.size());
+            file.close();
+
+            if(currentIndex==maxIndex){
+                checkBox->setEnabled(true);
+                if(indexDownloadProgress)
+                    indexDownloadProgress->setVisible(false);
+                slotUpdate();
+            }
+            else
+                downloadIndexFile(URL, fileN, checkBox, currentIndex + 1, maxIndex);
+        }
+    });
+}
+
+void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked){
+    QCheckBox *checkBox =  (QCheckBox*) QObject::sender();
+
+    QString astrometryDataDir;
+    if (getAstrometryDataDir(astrometryDataDir) == false)
+        return;
+
+    if(checkBox){
+        QString indexSetName=checkBox->text().remove("&");
+        QString progressBarName=indexSetName;
+        progressBarName=progressBarName.replace("-","_").left(10)+"_progress";
+        QProgressBar * indexDownloadProgress=findChild<QProgressBar *>(progressBarName);
+        QString fileN = astrometryDataDir + "/" + indexSetName;
+        int indexFileNum=indexSetName.mid(8,2).toInt();
+        if(checked){
+            checkBox->setChecked(!checked);
+            if(astrometryIndicesAreAvailable()){
+                if(indexDownloadProgress)
+                    indexDownloadProgress->setVisible(true);
+                checkBox->setEnabled(false);
+                QString URL;
+                if(indexSetName.startsWith("index-41"))
+                    URL = "http://broiler.astrometry.net/~dstn/4100/" + indexSetName;
+                else if(indexSetName.startsWith("index-42"))
+                    URL = "http://broiler.astrometry.net/~dstn/4200/" + indexSetName;
+                int maxIndex=0;
+                if(indexFileNum<8 && URL.contains("*")){
+                    maxIndex=11;
+                    if(indexFileNum<5)
+                        maxIndex=47;
+                }
+                downloadIndexFile(URL, fileN, checkBox,0,maxIndex);
+            } else{
+                KMessageBox::sorry( 0, i18n( "Could not contact Astrometry Index Server: broiler.astrometry.net" ) );
+            }
+        } else{
+            if(KMessageBox::Continue==KMessageBox::warningContinueCancel(NULL, "Are you sure you want to delete these index files? " + indexSetName,
+                    i18n("Delete File(s)"),  KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "delete_index_files_warning"))
+            {
+                QStringList nameFilter("*.fits");
+                QDir directory(astrometryDataDir);
+                QStringList indexList = directory.entryList(nameFilter);
+                foreach(QString indexName, indexList)
+                {
+                    if(indexName.contains(indexSetName.left(10)))
+                        directory.remove(indexName);
+                }
+            }
+
+        }
+    }
+}
+
+
 
 
 }
