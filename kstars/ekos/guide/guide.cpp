@@ -43,7 +43,7 @@
 
 #define driftGraph_WIDTH	200
 #define driftGraph_HEIGHT	200
-#define CAPTURE_TIMEOUT_THRESHOLD 5000
+#define CAPTURE_TIMEOUT_THRESHOLD 10000
 #define MAX_GUIDE_STARS 10
 
 namespace Ekos
