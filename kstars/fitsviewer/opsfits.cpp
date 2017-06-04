@@ -24,6 +24,7 @@ OpsFITS::OpsFITS() : QFrame(KStars::Instance())
         {
             kcfg_Auto3DCube->setChecked(false);
             kcfg_AutoDebayer->setChecked(false);
+            kcfg_AutoWCS->setChecked(false);
         }
     });
     connect(kcfg_Auto3DCube, &QCheckBox::toggled, this, [this](bool toggled)
@@ -31,6 +32,10 @@ OpsFITS::OpsFITS() : QFrame(KStars::Instance())
         if (toggled) kcfg_LimitedResourcesMode->setChecked(false);
     });
     connect(kcfg_AutoDebayer, &QCheckBox::toggled, this, [this](bool toggled)
+    {
+        if (toggled) kcfg_LimitedResourcesMode->setChecked(false);
+    });
+    connect(kcfg_AutoWCS, &QCheckBox::toggled, this, [this](bool toggled)
     {
         if (toggled) kcfg_LimitedResourcesMode->setChecked(false);
     });
