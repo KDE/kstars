@@ -246,20 +246,6 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
     maxPixel = imageData->getMax();
     minPixel = imageData->getMin();
 
-    if (Options::autoWCS() && (mode == FITS_NORMAL || mode == FITS_ALIGN))
-    {
-        if (fitsProg.wasCanceled())
-            return false;
-        // Only invoke loadWCS when we are not restricted by CPU/Memory
-        else if (Options::limitedResourcesMode() == false)
-        {
-            QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
-            wcsWatcher.setFuture(future);
-            fitsProg.setValue(75);
-            qApp->processEvents();
-        }
-    }
-
     initDisplayImage();
 
     // Rescale to fits window
@@ -293,7 +279,13 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
 
     setAlignment(Qt::AlignCenter);
 
-    if (Options::autoWCS() == false)
+    // Load WCS data now if selected and image contains valid WCS header
+    if (imageData->hasWCS() && Options::autoWCS() && (mode == FITS_NORMAL || mode == FITS_ALIGN))
+    {
+        QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
+        wcsWatcher.setFuture(future);
+    }
+    else
         syncWCSState();
 
     if (isVisible())
@@ -1500,9 +1492,6 @@ void FITSView::createFloatingToolBar()
         centerTelescopeAction->setEnabled(false);
     }
 }
-
-
-
 
 /**
  This methood either enables or disables the scope mouse mode so you can slew your scope to coordinates
