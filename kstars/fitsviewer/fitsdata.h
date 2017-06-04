@@ -267,11 +267,21 @@ class FITSData
         }
 
         // WCS
-        bool loadWCS();
+        // Check if image has valid WCS header information and set HasWCS accordingly. Call in loadFITS()
+        bool checkForWCS();
+        // Does image have valid WCS?
         bool hasWCS()
         {
             return HasWCS;
         }
+        // Load WCS data
+        bool loadWCS();
+        // Is WCS Image loaded?
+        bool isWCSLoaded()
+        {
+            return WCSLoaded;
+        }
+
         wcs_point * getWCSCoord()
         {
             return wcs_coord;
@@ -418,7 +428,8 @@ class FITSData
 
         bool tempFile;                      // Is this a tempoprary file or one loaded from disk?
         bool starsSearched;                 // Did we search for stars yet?
-        bool HasWCS;                        // Do we have WCS keywords in this FITS data?
+        bool HasWCS=false;                  // Do we have WCS keywords in this FITS data?
+        bool WCSLoaded=false;               // Is WCS data loaded?
         bool markStars;                     // Do we need to mark stars for the user?
         bool HasDebayer;                    // Is the image debayarable?
 

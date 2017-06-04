@@ -147,6 +147,16 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="kcfg_AutoWCS">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically load World-Coordinate-System (WCS) data when opening a FITS file.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Warning: Only enable this option on very fast machines as it can lead to unpredictable behavior resulting in crashes on slower machines.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Auto WCS</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QCheckBox" name="kcfg_Auto3DCube">
           <property name="toolTip">
            <string>Process 3D (RGB) FITS images. If unchecked, only first channel is processed.</string>

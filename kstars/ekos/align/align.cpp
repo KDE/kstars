@@ -248,21 +248,21 @@ Align::Align()
     connect(PAHFirstCaptureB, &QPushButton::clicked, this, [this]()
     {
         // Do not load WCS unless requested
-        alignView->setLoadWCSEnabled(false);
+        //alignView->setLoadWCSEnabled(false);
         PAHFirstCaptureB->setEnabled(false);
         captureAndSolve();
     });
     connect(PAHSecondCaptureB, &QPushButton::clicked, this, [this]()
     {
         // Do not load WCS unless requested
-        alignView->setLoadWCSEnabled(false);
+        //alignView->setLoadWCSEnabled(false);
         PAHSecondCaptureB->setEnabled(false);
         captureAndSolve();
     });
     connect(PAHThirdCaptureB, &QPushButton::clicked, this, [this]()
     {
         // Do not load WCS unless requested
-        alignView->setLoadWCSEnabled(false);
+        //alignView->setLoadWCSEnabled(false);
         PAHThirdCaptureB->setEnabled(false);
         captureAndSolve();
     });
@@ -4403,7 +4403,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     QString newWCSFile = tmpFile.fileName();
     tmpFile.close();
 
-    alignView->setLoadWCSEnabled(true);
+    //alignView->setLoadWCSEnabled(true);
 
     if (pahStage == PAH_FIND_CP)
     {

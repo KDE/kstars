@@ -278,6 +278,11 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         debayer();
     }
 
+    WCSLoaded = false;
+
+    if (mode == FITS_NORMAL || mode == FITS_ALIGN)
+        checkForWCS();
+
     starsSearched = false;
 
     return true;
@@ -2079,10 +2084,70 @@ void FITSData::getCenterSelection(int * x, int * y)
     delete (pEdge);
 }
 
+bool FITSData::checkForWCS()
+{
+#ifndef KSTARS_LITE
+#ifdef HAVE_WCSLIB
+
+    int status=0;
+    char * header;
+    int nkeyrec, nreject, nwcs;
+
+    if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
+    {
+        char errmsg[512];
+        fits_get_errstatus(status, errmsg);
+        lastError = errmsg;
+        return false;
+    }
+
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
+    {
+        free(header);
+        lastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
+        return false;
+    }
+
+    free(header);
+
+    if (wcs == 0)
+    {
+        //fprintf(stderr, "No world coordinate systems found.\n");
+        lastError = i18n("No world coordinate systems found.");
+        return false;
+    }
+
+    // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
+    if (wcs->crpix[0] == 0)
+    {
+        lastError = i18n("No world coordinate systems found.");
+        return false;
+    }
+
+    if ((status = wcsset(wcs)))
+    {
+        lastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
+        return false;
+    }
+
+    HasWCS = true;
+    return HasWCS;
+#endif
+#endif
+
+return false;
+}
+
 bool FITSData::loadWCS()
 {
 #ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
+
+    if (WCSLoaded)
+    {
+        qWarning() << "WCS data already loaded";
+        return true;
+    }
 
     int status=0;
     char * header;
@@ -2163,8 +2228,9 @@ bool FITSData::loadWCS()
 
     findObjectsInImage(&world[0], phi, theta, &imgcrd[0], &pixcrd[0], &stat[0]);
 
-    HasWCS = true;
-    return HasWCS;
+    WCSLoaded = true;
+
+    return true;
 #endif
 #endif
 
@@ -3894,6 +3960,8 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
     }
 
     fits_flush_file(fptr, &status);
+
+    WCSLoaded = false;
 
     return true;
 }

@@ -90,7 +90,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
     connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
     connect(image_frame, SIGNAL(markerSelected(int,int)), this, SLOT(processMarkerSelection(int,int)));
-    connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(handleWCSCompletion()));
+    connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(syncWCSState()));
 
     image_frame->setMouseTracking(true);
     setMouseMode(selectMouse);//This is the default mode because the Focus and Align FitsViews should not be in dragMouse mode
@@ -176,10 +176,10 @@ void FITSView::resizeEvent(QResizeEvent * event)
 
 }
 
-void FITSView::setLoadWCSEnabled(bool value)
+/*void FITSView::setLoadWCSEnabled(bool value)
 {
     loadWCSEnabled = value;
-}
+}*/
 
 bool FITSView::loadFITS (const QString &inFilename , bool silent)
 {
@@ -246,7 +246,7 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
     maxPixel = imageData->getMax();
     minPixel = imageData->getMin();
 
-    if (loadWCSEnabled && (mode == FITS_NORMAL || mode == FITS_ALIGN))
+    if (Options::autoWCS() && (mode == FITS_NORMAL || mode == FITS_ALIGN))
     {
         if (fitsProg.wasCanceled())
             return false;
@@ -292,6 +292,9 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
     starsSearched = false;
 
     setAlignment(Qt::AlignCenter);
+
+    if (Options::autoWCS() == false)
+        syncWCSState();
 
     if (isVisible())
         emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
@@ -1147,6 +1150,14 @@ void FITSView::toggleCrosshair()
 void FITSView::toggleEQGrid()
 {
     showEQGrid=!showEQGrid;
+
+    if (imageData->isWCSLoaded() == false)
+    {
+        QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
+        wcsWatcher.setFuture(future);
+        return;
+    }
+
     if(image_frame)
         updateFrame();
 }
@@ -1154,6 +1165,14 @@ void FITSView::toggleEQGrid()
 void FITSView::toggleObjects()
 {
     showObjects=!showObjects;
+
+    if (imageData->isWCSLoaded() == false)
+    {
+        QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
+        wcsWatcher.setFuture(future);
+        return;
+    }
+
     if(image_frame)
         updateFrame();
 
@@ -1397,12 +1416,30 @@ void FITSView::pinchTriggered(QPinchGesture * gesture)
 
 }
 
-void FITSView::handleWCSCompletion()
+/*void FITSView::handleWCSCompletion()
 {
     //bool hasWCS = wcsWatcher.result();
     if(imageData->hasWCS())
         this->updateFrame();
     emit wcsToggled(imageData->hasWCS());
+}*/
+
+void FITSView::syncWCSState()
+{
+    bool hasWCS   = imageData->hasWCS();
+    bool wcsLoaded= imageData->isWCSLoaded();
+
+    if (hasWCS && wcsLoaded)
+        this->updateFrame();
+
+    emit wcsToggled(hasWCS);
+
+    if (toggleEQGridAction)
+        toggleEQGridAction->setEnabled(hasWCS);
+    if (toggleObjectsAction)
+        toggleObjectsAction->setEnabled(hasWCS);
+    if (centerTelescopeAction)
+        centerTelescopeAction->setEnabled(hasWCS);
 }
 
 void FITSView::createFloatingToolBar()
@@ -1443,22 +1480,24 @@ void FITSView::createFloatingToolBar()
     action = floatingToolBar->addAction(QIcon::fromTheme("map-flat", QIcon(":/icons/breeze/default/map-flat.svg")), i18n("Show Pixel Gridlines"), this, SLOT(togglePixelGrid()));
     action->setCheckable(true);
 
-    if (mode != FITS_GUIDE)
+    toggleStarsAction = floatingToolBar->addAction(QIcon::fromTheme("kstars_stars", QIcon(":/icons/breeze/default/kstars_stars.svg")), i18n("Detect Stars in Image"), this, SLOT(toggleStars()));
+    toggleStarsAction->setCheckable(true);
+
+    if (mode == FITS_NORMAL || mode == FITS_ALIGN)
     {
         floatingToolBar->addSeparator();
 
-        action = floatingToolBar->addAction(QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg")), i18n("Show Equatorial Gridlines"), this, SLOT(toggleEQGrid()));
-        action->setCheckable(true);
+        toggleEQGridAction = floatingToolBar->addAction(QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg")), i18n("Show Equatorial Gridlines"), this, SLOT(toggleEQGrid()));
+        toggleEQGridAction->setCheckable(true);
+        toggleEQGridAction->setEnabled(false);
 
-        action = floatingToolBar->addAction(QIcon::fromTheme("kstars_stars", QIcon(":/icons/breeze/default/kstars_stars.svg")), i18n("Detect Stars in Image"), this, SLOT(toggleStars()));
-        action->setCheckable(true);
-
-        action = floatingToolBar->addAction(QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")), i18n("Show Objects in Image"), this, SLOT(toggleObjects()));
-        action->setCheckable(true);
+        toggleObjectsAction = floatingToolBar->addAction(QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")), i18n("Show Objects in Image"), this, SLOT(toggleObjects()));
+        toggleObjectsAction->setCheckable(true);
+        toggleEQGridAction->setEnabled(false);
 
         centerTelescopeAction = floatingToolBar->addAction(QIcon::fromTheme("center_telescope", QIcon(":/icons/center_telescope.svg")), i18n("Center Telescope"), this, SLOT(centerTelescope()));
         centerTelescopeAction->setCheckable(true);
-
+        centerTelescopeAction->setEnabled(false);
     }
 }
 
