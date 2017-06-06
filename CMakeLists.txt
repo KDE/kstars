@@ -235,17 +235,33 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 if (UNIX)
-add_definitions(-Dfexceptions)
+  add_definitions(-Dfexceptions)
 
-# TEMPORARY: To disable QCustomPlot warning until 2.0.0 is released which fixes these warnings
-add_definitions(-Wno-non-virtual-dtor)
+  # TEMPORARY: To disable QCustomPlot warning until 2.0.0 is released which fixes these warnings
+  add_definitions(-Wno-non-virtual-dtor)
 
-# Optimize binary size by dropping unneeded symbols at linking stage
-if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdata-sections -ffunction-sections")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections")
-endif()
+  # Optimize binary size by dropping unneeded symbols at linking stage
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdata-sections -ffunction-sections")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections")
+  endif()
 endif(UNIX)
+
+# Add security (hardening flags)
+IF (UNIX OR APPLE OR ANDROID)
+    SET(SEC_COMP_FLAGS "-D_FORTIFY_SOURCE=2 -fstack-protector-all -Wcast-align -fPIE")
+    IF (NOT ANDROID AND NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        SET(SEC_COMP_FLAGS "${SEC_COMP_FLAGS} -Wa,--noexecstack")
+    ENDIF ()
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${SEC_COMP_FLAGS}")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SEC_COMP_FLAGS}")
+    SET(SEC_LINK_FLAGS "-Wl,-z,nodump -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now")
+    IF (NOT ANDROID)
+        SET(SEC_LINK_FLAGS "${SEC_LINK_FLAGS} -pie")
+    ENDIF ()
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${SEC_LINK_FLAGS}")
+    SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${SEC_LINK_FLAGS}")
+ENDIF ()
 
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake
