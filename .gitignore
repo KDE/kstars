@@ -26,14 +26,14 @@ build_kstarslite/android_libs_src/libnova/build/*
 
 CMakeLists.txt.user
 
-kstars/moc_*.cpp
+moc_*.cpp
+kstars/ui_*.h
 kstars/version.h
 config-kstars.h
 nova-prefix/
 raw-prefix/
 cfitsio-prefix/
 indi-prefix/
-src/
 Makefile
 CMakeFiles
 cmake_install.cmake
@@ -59,3 +59,18 @@ android/3rdparty/libraw/libraw_r.pc
 kstars/Options.cpp
 kstars/Options.h
 kstars/htmesh/config-htmesh.h
+kstars/kstars
+kstars/*.moc_parameters
+kstars/*.moc
+kstars/qrc_kstars.cpp
+kstars/data/kstars.qrc.depends
+Tests/auxiliary/testcachingdms
+Tests/auxiliary/testcsvparser
+Tests/auxiliary/testdms
+Tests/auxiliary/testfwparser
+Tests/skyobjects/test_skypoint
+doc/index.cache.bz2
+
+# Generated source/header files
+kstars/*adaptor.cpp
+kstars/*adaptor.h
