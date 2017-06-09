@@ -9,6 +9,9 @@
 #include "align.h"
 #include "Options.h"
 
+#include <kauthaction.h>
+#include <kauthexecutejob.h>
+
 namespace Ekos
 {
 
@@ -48,12 +51,7 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align * parent)  : QDialog( KSt
 
     foreach(QCheckBox * checkBox, checkboxes)
     {
-        //This disables the downloader on Linux until a solution can be found to the read only astrometry folder
-        #ifdef Q_OS_OSX
-            connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(downloadOrDeleteIndexFiles(bool)));
-        #else
-            checkBox->setEnabled(false);
-        #endif
+        connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(downloadOrDeleteIndexFiles(bool)));
     }
 
     QList<QProgressBar *> progressBars = findChildren<QProgressBar *>();
@@ -252,25 +250,46 @@ void OpsAstrometryIndexFiles::downloadIndexFile(QString URL, QString fileN, QChe
         indexFileN.replace("*" , indexString);
 
         QFile file(indexFileN);
-        if (file.open(QIODevice::WriteOnly) == false)
+        if(QFileInfo(QFileInfo(file).path()).isWritable())
         {
-            qDebug()<<"Index file save error";
-            return;
+            if (!file.open(QIODevice::WriteOnly))
+            {
+                KMessageBox::error(0, i18n("File Write Error"));
+                slotUpdate();
+                return;
+            }
+            else
+            {
+                file.write(responseData.data(),responseData.size());
+                file.close();
+            }
         }
         else
         {
-            file.write(responseData.data(),responseData.size());
-            file.close();
-
-            if(currentIndex==maxIndex){
-                checkBox->setEnabled(true);
-                if(indexDownloadProgress)
-                    indexDownloadProgress->setVisible(false);
-                slotUpdate();
-            }
-            else
-                downloadIndexFile(URL, fileN, checkBox, currentIndex + 1, maxIndex);
+            #ifdef Q_OS_OSX
+                KMessageBox::error(0, i18n("Astrometry Folder Permissions Error"));
+            #else
+                KAuth::Action action(QStringLiteral("org.kde.kf5auth.kstars.saveindexfile"));
+                action.setHelperId(QStringLiteral("org.kde.kf5auth.kstars"));
+                action.setArguments(QVariantMap({{"filename",indexFileN},{"contents", responseData}}));
+                KAuth::ExecuteJob *job = action.execute();
+                if (!job->exec())
+                {
+                    QMessageBox::information(this, "Error", QString("KAuth returned an error code: %1 %2").arg(job->error()).arg(job->errorString()));
+                    slotUpdate();
+                    return;
+                }
+            #endif
         }
+
+        if(currentIndex==maxIndex){
+            checkBox->setEnabled(true);
+            if(indexDownloadProgress)
+                indexDownloadProgress->setVisible(false);
+            slotUpdate();
+        }
+        else
+            downloadIndexFile(URL, fileN, checkBox, currentIndex + 1, maxIndex);
     });
 }
 
@@ -281,16 +300,18 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked){
     if (getAstrometryDataDir(astrometryDataDir) == false)
         return;
 
-    if(checkBox){
+    if(checkBox)
+    {
         QString indexSetName=checkBox->text().remove("&");
         QString progressBarName=indexSetName;
         progressBarName=progressBarName.replace("-","_").left(10)+"_progress";
         QProgressBar * indexDownloadProgress=findChild<QProgressBar *>(progressBarName);
-        QString fileN = astrometryDataDir + "/" + indexSetName;
+        QString filePath = astrometryDataDir + "/" + indexSetName;
         int indexFileNum=indexSetName.mid(8,2).toInt();
         if(checked){
             checkBox->setChecked(!checked);
-            if(astrometryIndicesAreAvailable()){
+            if(astrometryIndicesAreAvailable())
+            {
                 if(indexDownloadProgress)
                     indexDownloadProgress->setVisible(true);
                 checkBox->setEnabled(false);
@@ -300,12 +321,13 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked){
                 else if(indexSetName.startsWith("index-42"))
                     URL = "http://broiler.astrometry.net/~dstn/4200/" + indexSetName;
                 int maxIndex=0;
-                if(indexFileNum<8 && URL.contains("*")){
+                if(indexFileNum<8 && URL.contains("*"))
+                {
                     maxIndex=11;
                     if(indexFileNum<5)
                         maxIndex=47;
                 }
-                downloadIndexFile(URL, fileN, checkBox,0,maxIndex);
+                downloadIndexFile(URL, filePath, checkBox,0,maxIndex);
             } else{
                 KMessageBox::sorry( 0, i18n( "Could not contact Astrometry Index Server: broiler.astrometry.net" ) );
             }
@@ -313,13 +335,36 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked){
             if(KMessageBox::Continue==KMessageBox::warningContinueCancel(NULL, "Are you sure you want to delete these index files? " + indexSetName,
                     i18n("Delete File(s)"),  KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "delete_index_files_warning"))
             {
-                QStringList nameFilter("*.fits");
-                QDir directory(astrometryDataDir);
-                QStringList indexList = directory.entryList(nameFilter);
-                foreach(QString indexName, indexList)
+                if(QFileInfo(astrometryDataDir).isWritable())
                 {
-                    if(indexName.contains(indexSetName.left(10)))
-                        directory.remove(indexName);
+                    QStringList nameFilter("*.fits");
+                    QDir directory(astrometryDataDir);
+                    QStringList indexList = directory.entryList(nameFilter);
+                    foreach(QString fileName, indexList)
+                    {
+                        if(fileName.contains(indexSetName.left(10))){
+                            if(!directory.remove(fileName))
+                            {
+                                KMessageBox::error(0, i18n("File Delete Error"));
+                                slotUpdate();
+                                return;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    #ifdef Q_OS_OSX
+                        KMessageBox::error(0, i18n("Astrometry Folder Permissions Error"));
+                        slotUpdate();
+                    #else
+                        KAuth::Action action(QStringLiteral("org.kde.kf5auth.kstars.removeindexfileset"));
+                        action.setHelperId(QStringLiteral("org.kde.kf5auth.kstars"));
+                        action.setArguments(QVariantMap({{"indexSetName",indexSetName},{"astrometryDataDir", astrometryDataDir}}));
+                        KAuth::ExecuteJob *job = action.execute();
+                        if (!job->exec())
+                            QMessageBox::information(this, "Error", QString("KAuth returned an error code: %1 %2").arg(job->error()).arg(job->errorString()));
+                    #endif
                 }
             }
 

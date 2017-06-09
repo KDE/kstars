@@ -1,0 +1,11 @@
+[org.kde.kf5auth.kstars.saveindexfile]
+Name=Save Astrometry Index File to a write protected directory
+Description=KStars is attempting to save an Astrometry Index File to a directory owned by root
+Policy=auth_admin
+Persistence=session
+
+[org.kde.kf5auth.kstars.removeindexfileset]
+Name=Remove an Astrometry Index File Set
+Description=KStars is attempting to remove Astrometry Index Files owned by root
+Policy=auth_admin
+Persistence=session

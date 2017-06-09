@@ -5,6 +5,8 @@
 #include "ui_opsastrometryindexfiles.h"
 #include "QNetworkAccessManager"
 
+#include "kauth.h"
+
 
 class KConfigDialog;
 
