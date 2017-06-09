@@ -290,6 +290,15 @@ install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
+#This generates the helper file for astrometry index file downloads.
+add_executable(kauth_kstars_helper kstars/auxiliary/downloadhelper.cpp  ${helper_mocs})
+target_link_libraries(kauth_kstars_helper Qt5::Core)
+target_link_libraries(kauth_kstars_helper Qt5::Widgets)
+target_link_libraries(kauth_kstars_helper KF5::Auth)
+install(TARGETS kauth_kstars_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
+kauth_install_helper_files(kauth_kstars_helper org.kde.kf5auth.kstars root)
+kauth_install_actions(org.kde.kf5auth.kstars org.kde.kf5auth.kstars.actions)
+
 # Final package generation
 if (ANDROID)
     set(EXPORT_DIR "${CMAKE_BINARY_DIR}/android/kstars_build_apk/")
