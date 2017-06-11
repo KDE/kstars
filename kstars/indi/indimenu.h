@@ -22,7 +22,6 @@
 
 class INDI_D;
 
-
 class QLabel;
 class QHBoxLayout;
 class QVBoxLayout;
@@ -36,51 +35,44 @@ class KStars;
 
 class INDIMenu : public QWidget
 {
-        Q_OBJECT
-    public:
-        INDIMenu(QWidget * parent = 0);
-        ~INDIMenu();
+    Q_OBJECT
+  public:
+    INDIMenu(QWidget *parent = 0);
+    ~INDIMenu();
 
-        KStars * ksw;
+    KStars *ksw;
 
-        QList<DeviceManager *> managers;
+    QList<DeviceManager *> managers;
 
-        /*****************************************************************
+    /*****************************************************************
         * GUI stuff
         ******************************************************************/
-        QVBoxLayout	* mainLayout;
-        QTabWidget	* mainTabWidget;
-        QTextEdit *	msgST_w;
+    QVBoxLayout *mainLayout;
+    QTabWidget *mainTabWidget;
+    QTextEdit *msgST_w;
 
-        void updateStatus();
-        QString getUniqueDeviceLabel(const QString &deviceName);
+    void updateStatus();
+    QString getUniqueDeviceLabel(const QString &deviceName);
 
-        INDI_D * findDevice(const QString &deviceName);
-        INDI_D * findDeviceByLabel(const QString &label);
+    INDI_D *findDevice(const QString &deviceName);
+    INDI_D *findDeviceByLabel(const QString &label);
 
-        void setCurrentDevice(const QString &device)
-        {
-            currentDevice = device;
-        }
-        QString getCurrentDevice()
-        {
-            return currentDevice;
-        }
+    void setCurrentDevice(const QString &device) { currentDevice = device; }
+    QString getCurrentDevice() { return currentDevice; }
 
-        DeviceManager * startDeviceManager(QList<IDevice *> &processed_devices, DeviceManager::ManagerMode inMode, uint inPort);
-        DeviceManager * initDeviceManager(QString inHost, uint inPort, DeviceManager::ManagerMode inMode);
-        void stopDeviceManager(QList<IDevice *> &processed_devices);
+    DeviceManager *startDeviceManager(QList<IDevice *> &processed_devices, DeviceManager::ManagerMode inMode,
+                                      uint inPort);
+    DeviceManager *initDeviceManager(QString inHost, uint inPort, DeviceManager::ManagerMode inMode);
+    void stopDeviceManager(QList<IDevice *> &processed_devices);
 
-    private:
-        QPushButton * clearB;
-        QPushButton * closeB;
-        QString currentDevice;
+  private:
+    QPushButton *clearB;
+    QPushButton *closeB;
+    QString currentDevice;
 
-    public slots:
-        void removeDeviceManager(DeviceManager * deviceManager);
-        void clearLog();
-
-
+  public slots:
+    void removeDeviceManager(DeviceManager *deviceManager);
+    void clearLog();
 };
 
 #endif

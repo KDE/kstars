@@ -8,34 +8,34 @@
 
 namespace Ekos
 {
-
-OpsAstrometryCfg::OpsAstrometryCfg(Align * parent)  : QDialog( KStars::Instance() )
+OpsAstrometryCfg::OpsAstrometryCfg(Align *parent) : QDialog(KStars::Instance())
 {
     setupUi(this);
 
     alignModule = parent;
 
     //Get a pointer to the KConfigDialog
-    m_ConfigDialog = KConfigDialog::exists( "alignsettings" );
+    m_ConfigDialog = KConfigDialog::exists("alignsettings");
 
-    connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( astrometryCFGDisplay, SIGNAL( textChanged() ), SLOT( slotCFGEditorUpdated()));
-
+    connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
+    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
+    connect(astrometryCFGDisplay, SIGNAL(textChanged()), SLOT(slotCFGEditorUpdated()));
 
     connect(loadCFG, SIGNAL(clicked()), this, SLOT(slotLoadCFG()));
 
     slotLoadCFG();
 }
 
-OpsAstrometryCfg::~OpsAstrometryCfg() {}
+OpsAstrometryCfg::~OpsAstrometryCfg()
+{
+}
 
 void OpsAstrometryCfg::slotLoadCFG()
 {
     QString confPath;
 
-    if(Options::astrometryConfFileIsInternal())
-        confPath = QCoreApplication::applicationDirPath()+"/astrometry/bin/astrometry.cfg";
+    if (Options::astrometryConfFileIsInternal())
+        confPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
     else
         confPath = Options::astrometryConfFile();
 
@@ -45,7 +45,9 @@ void OpsAstrometryCfg::slotLoadCFG()
 
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KMessageBox::error(0, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the configuration file full path in INDI options.", Options::astrometryConfFile()));
+        KMessageBox::error(0, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
+                                   "configuration file full path in INDI options.",
+                                   Options::astrometryConfFile()));
         return;
     }
 
@@ -60,12 +62,12 @@ void OpsAstrometryCfg::slotLoadCFG()
 
 void OpsAstrometryCfg::slotApply()
 {
-    if(currentCFGText!=astrometryCFGDisplay->toPlainText())
+    if (currentCFGText != astrometryCFGDisplay->toPlainText())
     {
         QString confPath;
 
-        if(Options::astrometryConfFileIsInternal())
-            confPath = QCoreApplication::applicationDirPath()+"/astrometry/bin/astrometry.cfg";
+        if (Options::astrometryConfFileIsInternal())
+            confPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
         else
             confPath = Options::astrometryConfFile();
 
@@ -78,16 +80,13 @@ void OpsAstrometryCfg::slotApply()
             out << astrometryCFGDisplay->toPlainText();
             confFile.close();
             KMessageBox::error(0, i18n("Astrometry.cfg successfully saved!"));
-            currentCFGText=astrometryCFGDisplay->toPlainText();
+            currentCFGText = astrometryCFGDisplay->toPlainText();
         }
     }
-
 }
 void OpsAstrometryCfg::slotCFGEditorUpdated()
 {
-    if(currentCFGText!=astrometryCFGDisplay->toPlainText())
+    if (currentCFGText != astrometryCFGDisplay->toPlainText())
         m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
-
-
 }

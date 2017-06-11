@@ -25,32 +25,32 @@ class PlanetViewer;
 
 class PVPlotWidget : public KPlotWidget
 {
-        Q_OBJECT
-    public:
-        PVPlotWidget( QWidget * parent=0 );
-        ~PVPlotWidget();
+    Q_OBJECT
+  public:
+    PVPlotWidget(QWidget *parent = 0);
+    ~PVPlotWidget();
 
-    public slots:
-        void slotZoomIn();
-        void slotZoomOut();
+  public slots:
+    void slotZoomIn();
+    void slotZoomOut();
 
-    signals:
-        void doubleClicked( double, double );
+  signals:
+    void doubleClicked(double, double);
 
-    protected:
-        void keyPressEvent( QKeyEvent * e ) Q_DECL_OVERRIDE;
-        void mousePressEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
-        void mouseMoveEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
-        void mouseReleaseEvent( QMouseEvent * ) Q_DECL_OVERRIDE;
-        void mouseDoubleClickEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
-        void wheelEvent( QWheelEvent * e ) Q_DECL_OVERRIDE;
+  protected:
+    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 
-    private:
-        bool mouseButtonDown;
-        int oldx, oldy;
-        double factor;
-        PlanetViewer * pv;
-        void updateFactor( const int modifier );
+  private:
+    bool mouseButtonDown;
+    int oldx, oldy;
+    double factor;
+    PlanetViewer *pv;
+    void updateFactor(const int modifier);
 };
 
 #endif

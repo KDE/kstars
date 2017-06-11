@@ -19,7 +19,6 @@ class QNetworkReply;
 
 namespace Ekos
 {
-
 class Align;
 
 /**
@@ -28,61 +27,63 @@ class Align;
  *
  * @authro Jasem Mutlaq
  */
-class OnlineAstrometryParser: public AstrometryParser
+class OnlineAstrometryParser : public AstrometryParser
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        OnlineAstrometryParser();
-        virtual ~OnlineAstrometryParser();
+  public:
+    OnlineAstrometryParser();
+    virtual ~OnlineAstrometryParser();
 
-        virtual void setAlign(Align * _align)
-        {
-            align = _align;
-        }
-        virtual bool init();
-        virtual void verifyIndexFiles(double fov_x, double fov_y);
-        virtual bool startSovler(const QString &filename, const QStringList &args, bool generated=true);
-        virtual bool stopSolver();
+    virtual void setAlign(Align *_align) { align = _align; }
+    virtual bool init();
+    virtual void verifyIndexFiles(double fov_x, double fov_y);
+    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true);
+    virtual bool stopSolver();
 
-        typedef enum { NO_STAGE, AUTH_STAGE, UPLOAD_STAGE, JOB_ID_STAGE, JOB_STATUS_STAGE, JOB_CALIBRATION_STAGE } WorkflowStage;
+    typedef enum {
+        NO_STAGE,
+        AUTH_STAGE,
+        UPLOAD_STAGE,
+        JOB_ID_STAGE,
+        JOB_STATUS_STAGE,
+        JOB_CALIBRATION_STAGE
+    } WorkflowStage;
 
-    public slots:
-        void onResult(QNetworkReply * reply);
-        void uploadFile();
-        void getJobID();
-        void checkJobs();
-        void checkJobCalibration();
-        void resetSolver();
-    signals:
-        void authenticateFinished();
-        void uploadFinished();
-        void jobIDFinished();
-        void jobFinished();
-    private:
+  public slots:
+    void onResult(QNetworkReply *reply);
+    void uploadFile();
+    void getJobID();
+    void checkJobs();
+    void checkJobCalibration();
+    void resetSolver();
+  signals:
+    void authenticateFinished();
+    void uploadFinished();
+    void jobIDFinished();
+    void jobFinished();
 
-        void authenticate();
+  private:
+    void authenticate();
 
-        WorkflowStage workflowStage;
-        QNetworkAccessManager * networkManager;
+    WorkflowStage workflowStage;
+    QNetworkAccessManager *networkManager;
 
-        QString sessionKey;
-        int subID;
-        int jobID;
-        int job_retries, solver_retries;
+    QString sessionKey;
+    int subID;
+    int jobID;
+    int job_retries, solver_retries;
 
-        QTime solverTimer;
-        QString filename, units;
-        double lowerScale, upperScale, center_ra, center_dec, radius, pixscale;
-        bool useWCSCenter=false;
-        int parity;
-        double ra,dec,orientation;
-        int downsample_factor;
-        bool isGenerated;
-        Align * align;
-
+    QTime solverTimer;
+    QString filename, units;
+    double lowerScale, upperScale, center_ra, center_dec, radius, pixscale;
+    bool useWCSCenter = false;
+    int parity;
+    double ra, dec, orientation;
+    int downsample_factor;
+    bool isGenerated;
+    Align *align;
 };
-
 }
 
 #endif // ONLINEASTROMETRYPARSER_H

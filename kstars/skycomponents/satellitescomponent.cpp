@@ -37,15 +37,13 @@
 #include "skymap.h"
 #include "ksnotification.h"
 
-SatellitesComponent::SatellitesComponent( SkyComposite * parent ) :
-    SkyComponent( parent )
+SatellitesComponent::SatellitesComponent(SkyComposite *parent) : SkyComponent(parent)
 {
     QtConcurrent::run(this, &SatellitesComponent::loadData);
 }
 
 SatellitesComponent::~SatellitesComponent()
 {
-
 }
 
 void SatellitesComponent::loadData()
@@ -54,28 +52,29 @@ void SatellitesComponent::loadData()
     QString line;
     QStringList group_infos;
 
-    if ( ! fileReader.open( "satellites.dat" ) ) return;
+    if (!fileReader.open("satellites.dat"))
+        return;
 
-    emitProgressText( i18n("Loading satellites" ) );
+    emitProgressText(i18n("Loading satellites"));
 
-    while ( fileReader.hasMoreLines() )
+    while (fileReader.hasMoreLines())
     {
         line = fileReader.readLine();
-        if ( line.trimmed().isEmpty() || line.at( 0 ) == '#' )
+        if (line.trimmed().isEmpty() || line.at(0) == '#')
             continue;
-        group_infos = line.split( ';' );
-        m_groups.append( new SatelliteGroup( group_infos.at( 0 ), group_infos.at( 1 ), QUrl( group_infos.at( 2 ) ) ) );
+        group_infos = line.split(';');
+        m_groups.append(new SatelliteGroup(group_infos.at(0), group_infos.at(1), QUrl(group_infos.at(2))));
     }
 
     objectNames(SkyObject::SATELLITE).clear();
     objectLists(SkyObject::SATELLITE).clear();
 
-    foreach( SatelliteGroup * group, m_groups )
+    foreach (SatelliteGroup *group, m_groups)
     {
-        for ( int i=0; i<group->size(); i++ )
+        for (int i = 0; i < group->size(); i++)
         {
-            Satellite * sat = group->at( i );
-            if ( sat->selected() && nameHash.contains(sat->name().toLower()) == false)
+            Satellite *sat = group->at(i);
+            if (sat->selected() && nameHash.contains(sat->name().toLower()) == false)
             {
                 objectNames(SkyObject::SATELLITE).append(sat->name());
                 objectLists(SkyObject::SATELLITE).append(QPair<QString, const SkyObject *>(sat->name(), sat));
@@ -90,61 +89,61 @@ bool SatellitesComponent::selected()
     return Options::showSatellites();
 }
 
-void SatellitesComponent::update( KSNumbers * )
+void SatellitesComponent::update(KSNumbers *)
 {
     // Return if satellites must not be draw
-    if( ! selected() )
+    if (!selected())
         return;
 
-    foreach( SatelliteGroup * group, m_groups )
+    foreach (SatelliteGroup *group, m_groups)
     {
         group->updateSatellitesPos();
     }
 }
 
-void SatellitesComponent::draw( SkyPainter * skyp )
+void SatellitesComponent::draw(SkyPainter *skyp)
 {
 #ifndef KSTARS_LITE
     // Return if satellites must not be draw
-    if( ! selected() )
+    if (!selected())
         return;
 
-    bool hideLabels =  (!Options::showSatellitesLabels() || ( SkyMap::Instance()->isSlewing() && Options::hideLabels() ));
+    bool hideLabels = (!Options::showSatellitesLabels() || (SkyMap::Instance()->isSlewing() && Options::hideLabels()));
 
-    foreach( SatelliteGroup * group, m_groups )
+    foreach (SatelliteGroup *group, m_groups)
     {
-        for ( int i=0; i<group->size(); i++ )
+        for (int i = 0; i < group->size(); i++)
         {
-            Satellite * sat = group->at( i );
-            if ( sat->selected() )
+            Satellite *sat = group->at(i);
+            if (sat->selected())
             {
                 bool drawn = false;
-                if ( Options::showVisibleSatellites() )
+                if (Options::showVisibleSatellites())
                 {
-                    if ( sat->isVisible() )
-                        drawn = skyp->drawSatellite( sat );
+                    if (sat->isVisible())
+                        drawn = skyp->drawSatellite(sat);
                 }
                 else
                 {
-                    drawn = skyp->drawSatellite( sat );
+                    drawn = skyp->drawSatellite(sat);
                 }
 
                 if (drawn && !hideLabels)
-                    SkyLabeler::AddLabel( sat, SkyLabeler::SATELLITE_LABEL );
+                    SkyLabeler::AddLabel(sat, SkyLabeler::SATELLITE_LABEL);
             }
         }
     }
 #endif
 }
 
-void SatellitesComponent::drawLabel( Satellite * sat, QPointF pos )
+void SatellitesComponent::drawLabel(Satellite *sat, QPointF pos)
 {
-    SkyLabeler * labeler = SkyLabeler::Instance();
-    labeler->setPen( KStarsData::Instance()->colorScheme()->colorNamed( "SatLabelColor" ) );
-    labeler->drawNameLabel( sat, pos );
+    SkyLabeler *labeler = SkyLabeler::Instance();
+    labeler->setPen(KStarsData::Instance()->colorScheme()->colorNamed("SatLabelColor"));
+    labeler->drawNameLabel(sat, pos);
 }
 
-void SatellitesComponent::drawTrails( SkyPainter * skyp )
+void SatellitesComponent::drawTrails(SkyPainter *skyp)
 {
     Q_UNUSED(skyp);
 }
@@ -152,27 +151,27 @@ void SatellitesComponent::drawTrails( SkyPainter * skyp )
 void SatellitesComponent::updateTLEs()
 {
     int i = 0;
-    QProgressDialog progressDlg( i18n( "Update TLEs..." ), i18n( "Abort" ), 0, m_groups.count() );
-    progressDlg.setWindowModality( Qt::WindowModal );
-    progressDlg.setValue( 0 );
+    QProgressDialog progressDlg(i18n("Update TLEs..."), i18n("Abort"), 0, m_groups.count());
+    progressDlg.setWindowModality(Qt::WindowModal);
+    progressDlg.setValue(0);
 
-    foreach ( SatelliteGroup * group, m_groups )
+    foreach (SatelliteGroup *group, m_groups)
     {
-        if ( progressDlg.wasCanceled() )
+        if (progressDlg.wasCanceled())
             return;
 
-        if( group->tleUrl().isEmpty() )
+        if (group->tleUrl().isEmpty())
             continue;
 
-        progressDlg.setLabelText( i18n( "Update %1 satellites", group->name() ) );
+        progressDlg.setLabelText(i18n("Update %1 satellites", group->name()));
         progressDlg.setWindowTitle(i18n("Satellite Orbital Elements Update"));
 
         QNetworkAccessManager manager;
-        QNetworkReply * response = manager.get(QNetworkRequest(group->tleUrl()));
+        QNetworkReply *response = manager.get(QNetworkRequest(group->tleUrl()));
 
         // Wait synchronously
         QEventLoop event;
-        QObject::connect(response,SIGNAL(finished()),&event,SLOT(quit()));
+        QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
         event.exec();
 
         if (response->error() == QNetworkReply::NoError)
@@ -184,7 +183,7 @@ void SatellitesComponent::updateTLEs()
                 file.close();
                 group->readTLE();
                 group->updateSatellitesPos();
-                progressDlg.setValue( ++i );
+                progressDlg.setValue(++i);
             }
             else
             {
@@ -205,14 +204,14 @@ QList<SatelliteGroup *> SatellitesComponent::groups()
     return m_groups;
 }
 
-Satellite * SatellitesComponent::findSatellite( QString name )
+Satellite *SatellitesComponent::findSatellite(QString name)
 {
-    foreach ( SatelliteGroup * group, m_groups )
+    foreach (SatelliteGroup *group, m_groups)
     {
-        for ( int i=0; i<group->size(); i++ )
+        for (int i = 0; i < group->size(); i++)
         {
-            Satellite * sat = group->at( i );
-            if ( sat->name() == name )
+            Satellite *sat = group->at(i);
+            if (sat->name() == name)
                 return sat;
         }
     }
@@ -220,30 +219,30 @@ Satellite * SatellitesComponent::findSatellite( QString name )
     return 0;
 }
 
-SkyObject * SatellitesComponent::objectNearest( SkyPoint * p, double &maxrad )
+SkyObject *SatellitesComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
-    if ( ! selected() )
+    if (!selected())
         return 0;
 
     //KStarsData* data = KStarsData::Instance();
 
-    SkyObject * oBest = 0;
-    double rBest = maxrad;
+    SkyObject *oBest = 0;
+    double rBest     = maxrad;
     double r;
 
-    foreach ( SatelliteGroup * group, m_groups )
+    foreach (SatelliteGroup *group, m_groups)
     {
-        for ( int i=0; i<group->size(); i++ )
+        for (int i = 0; i < group->size(); i++)
         {
-            Satellite * sat = group->at( i );
-            if ( ! sat->selected() )
+            Satellite *sat = group->at(i);
+            if (!sat->selected())
                 continue;
 
-            r = sat->angularDistanceTo( p ).Degrees();
+            r = sat->angularDistanceTo(p).Degrees();
             //qDebug() << sat->name();
             //qDebug() << "r = " << r << " - max = " << rBest;
             //qDebug() << "ra2=" << sat->ra().Degrees() << " - dec2=" << sat->dec().Degrees();
-            if ( r < rBest )
+            if (r < rBest)
             {
                 rBest = r;
                 oBest = sat;
@@ -255,7 +254,7 @@ SkyObject * SatellitesComponent::objectNearest( SkyPoint * p, double &maxrad )
     return oBest;
 }
 
-SkyObject * SatellitesComponent::findByName( const QString &name )
+SkyObject *SatellitesComponent::findByName(const QString &name)
 {
-    return nameHash[ name.toLower() ];
+    return nameHash[name.toLower()];
 }

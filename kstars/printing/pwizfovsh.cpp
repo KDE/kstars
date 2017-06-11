@@ -25,8 +25,7 @@
 #include "kstarsdata.h"
 #include "dialogs/detaildialog.h"
 
-PWizFovShUI::PWizFovShUI(PrintingWizard * wizard, QWidget * parent) : QFrame(parent),
-    m_ParentWizard(wizard)
+PWizFovShUI::PWizFovShUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent), m_ParentWizard(wizard)
 {
     setupUi(this);
 
@@ -34,7 +33,7 @@ PWizFovShUI::PWizFovShUI(PrintingWizard * wizard, QWidget * parent) : QFrame(par
     setupConnections();
 }
 
-void PWizFovShUI::setBeginObject(SkyObject * obj)
+void PWizFovShUI::setBeginObject(SkyObject *obj)
 {
     m_ParentWizard->setShBeginObject(obj);
     objInfoLabel->setText(PWizObjectSelectionUI::objectInfoString(obj));
@@ -45,11 +44,11 @@ void PWizFovShUI::setBeginObject(SkyObject * obj)
 
 void PWizFovShUI::slotSelectFromList()
 {
-    QPointer<FindDialog> findDlg( new FindDialog( this ) );
-    if(findDlg->exec() == QDialog::Accepted && findDlg)
+    QPointer<FindDialog> findDlg(new FindDialog(this));
+    if (findDlg->exec() == QDialog::Accepted && findDlg)
     {
-        SkyObject * obj = findDlg->targetObject();
-        if(obj)
+        SkyObject *obj = findDlg->targetObject();
+        if (obj)
         {
             setBeginObject(obj);
         }
@@ -64,10 +63,11 @@ void PWizFovShUI::slotPointObject()
 
 void PWizFovShUI::slotDetails()
 {
-    if(m_ParentWizard->getShBeginObject())
+    if (m_ParentWizard->getShBeginObject())
     {
-        QPointer<DetailDialog> detailDlg( new DetailDialog( m_ParentWizard->getShBeginObject(), KStars::Instance()->data()->ut(),
-                                          KStars::Instance()->data()->geo(), this ) );
+        QPointer<DetailDialog> detailDlg(new DetailDialog(m_ParentWizard->getShBeginObject(),
+                                                          KStars::Instance()->data()->ut(),
+                                                          KStars::Instance()->data()->geo(), this));
         detailDlg->exec();
         delete detailDlg;
     }
@@ -81,7 +81,7 @@ void PWizFovShUI::slotBeginCapture()
 void PWizFovShUI::setupWidgets()
 {
     QStringList fovNames;
-    foreach(FOV * fov, KStarsData::Instance()->getAvailableFOVs())
+    foreach (FOV *fov, KStarsData::Instance()->getAvailableFOVs())
     {
         fovNames.append(fov->name());
     }
@@ -99,5 +99,3 @@ void PWizFovShUI::setupConnections()
     connect(captureButton, SIGNAL(clicked()), this, SLOT(slotBeginCapture()));
     connect(detailsButton, SIGNAL(clicked()), this, SLOT(slotDetails()));
 }
-
-

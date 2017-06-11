@@ -29,32 +29,27 @@ class PolyNode;
 
 class SkyPolygonNode : public SkyNode
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor.
          * @param list - Used of lines that comprise polygon
          */
-        SkyPolygonNode(LineList * list);
+    SkyPolygonNode(LineList *list);
 
-        /**
+    /**
          * @short Update position and visibility of this polygon.
          * @note This is not an overridden function because it requires a parameter
          * @param forceClip - true if a polygon should be clipped
          */
-        void update(bool forceClip = true);
-        virtual void hide() override;
-        LineList * lineList()
-        {
-            return m_list;
-        }
+    void update(bool forceClip = true);
+    virtual void hide() override;
+    LineList *lineList() { return m_list; }
 
-        void setColor(QColor color);
-    private:
-        LineList * m_list;
-        PolyNode * m_polygonNode;
+    void setColor(QColor color);
+
+  private:
+    LineList *m_list;
+    PolyNode *m_polygonNode;
 };
 
-
 #endif
-
-

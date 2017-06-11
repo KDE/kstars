@@ -26,28 +26,28 @@
 
 namespace
 {
-const int symbolSize = 15;
-const int bRectWidth = 100;
-const int bRectHeight = 45;
+const int symbolSize      = 15;
+const int bRectWidth      = 100;
+const int bRectHeight     = 45;
 const int maxHScalePixels = 200;
 const int maxVScalePixels = 100;
-const int xSymbolSpacing = 100;
-const int ySymbolSpacing = 70;
+const int xSymbolSpacing  = 100;
+const int ySymbolSpacing  = 70;
 }
 
 Legend::Legend(LEGEND_ORIENTATION orientation, LEGEND_POSITION pos)
-    : m_Painter(0), m_SkyMap(SkyMap::Instance()), m_DeletePainter(false), m_Type(LT_FULL),
-      m_Orientation(orientation), m_Position(pos), m_PositionFloating(QPoint(0, 0)),
-      m_cScheme(KStarsData::Instance()->colorScheme()), m_DrawFrame(false), m_SymbolSize(symbolSize),
-      m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels),
-      m_MaxVScalePixels(maxVScalePixels), m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
+    : m_Painter(0), m_SkyMap(SkyMap::Instance()), m_DeletePainter(false), m_Type(LT_FULL), m_Orientation(orientation),
+      m_Position(pos), m_PositionFloating(QPoint(0, 0)), m_cScheme(KStarsData::Instance()->colorScheme()),
+      m_DrawFrame(false), m_SymbolSize(symbolSize), m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight),
+      m_MaxHScalePixels(maxHScalePixels), m_MaxVScalePixels(maxVScalePixels), m_XSymbolSpacing(xSymbolSpacing),
+      m_YSymbolSpacing(ySymbolSpacing)
 {
     m_BgColor = m_cScheme->colorNamed("SkyColor");
 }
 
 Legend::~Legend()
 {
-    if(m_Painter && m_DeletePainter)
+    if (m_Painter && m_DeletePainter)
     {
         delete m_Painter;
     }
@@ -55,46 +55,46 @@ Legend::~Legend()
 
 QSize Legend::calculateSize()
 {
-    int width = 0;
+    int width  = 0;
     int height = 0;
 
-    switch(m_Orientation)
+    switch (m_Orientation)
     {
         case LO_HORIZONTAL:
         {
-            switch(m_Type)
+            switch (m_Type)
             {
                 case LT_SCALE_ONLY:
                 {
-                    width = 40 + m_MaxHScalePixels;
+                    width  = 40 + m_MaxHScalePixels;
                     height = 60;
                     break;
                 }
 
                 case LT_MAGNITUDES_ONLY:
                 {
-                    width = 140;
+                    width  = 140;
                     height = 70;
                     break;
                 }
 
                 case LT_SYMBOLS_ONLY:
                 {
-                    width = 7 * m_XSymbolSpacing;
+                    width  = 7 * m_XSymbolSpacing;
                     height = 20 + m_SymbolSize + m_BRectHeight;
                     break;
                 }
 
                 case LT_SCALE_MAGNITUDES:
                 {
-                    width = 160 + m_MaxHScalePixels;
+                    width  = 160 + m_MaxHScalePixels;
                     height = 70;
                     break;
                 }
 
                 case LT_FULL:
                 {
-                    width = 7 * m_XSymbolSpacing;
+                    width  = 7 * m_XSymbolSpacing;
                     height = 20 + m_SymbolSize + m_BRectHeight + 70;
                     break;
                 }
@@ -108,39 +108,39 @@ QSize Legend::calculateSize()
 
         case LO_VERTICAL:
         {
-            switch(m_Type)
+            switch (m_Type)
             {
                 case LT_SCALE_ONLY:
                 {
-                    width = 120;
+                    width  = 120;
                     height = 40 + m_MaxVScalePixels;
                     break;
                 }
 
                 case LT_MAGNITUDES_ONLY:
                 {
-                    width = 140;
+                    width  = 140;
                     height = 70;
                     break;
                 }
 
                 case LT_SYMBOLS_ONLY:
                 {
-                    width = 120;
+                    width  = 120;
                     height = 7 * m_YSymbolSpacing;
                     break;
                 }
 
                 case LT_SCALE_MAGNITUDES:
                 {
-                    width = 120;
+                    width  = 120;
                     height = 100 + m_MaxVScalePixels;
                     break;
                 }
 
                 case LT_FULL:
                 {
-                    width = 120;
+                    width  = 120;
                     height = 100 + 7 * m_YSymbolSpacing + m_MaxVScalePixels;
                     break;
                 }
@@ -161,14 +161,14 @@ QSize Legend::calculateSize()
     return QSize(width, height);
 }
 
-void Legend::paintLegend(QPaintDevice * pd)
+void Legend::paintLegend(QPaintDevice *pd)
 {
-    if(m_Painter)
+    if (m_Painter)
     {
         delete m_Painter;
     }
 
-    m_Painter = new SkyQPainter(m_SkyMap, pd);
+    m_Painter       = new SkyQPainter(m_SkyMap, pd);
     m_DeletePainter = true;
     m_Painter->begin();
 
@@ -177,14 +177,14 @@ void Legend::paintLegend(QPaintDevice * pd)
     m_Painter->end();
 }
 
-void Legend::paintLegend(SkyQPainter * painter)
+void Legend::paintLegend(SkyQPainter *painter)
 {
-    if(!m_DeletePainter)
+    if (!m_DeletePainter)
     {
         m_Painter = painter;
     }
 
-    if(m_Position != LP_FLOATING)
+    if (m_Position != LP_FLOATING)
     {
         m_PositionFloating = positionToDeviceCoord(painter->device());
     }
@@ -202,7 +202,7 @@ void Legend::paintLegend(SkyQPainter * painter)
     m_Painter->setPen(backgroundPen);
 
     QSize size = calculateSize();
-    if(m_DrawFrame)
+    if (m_DrawFrame)
     {
         m_Painter->drawRect(1, 1, size.width(), size.height());
     }
@@ -218,11 +218,11 @@ void Legend::paintLegend(SkyQPainter * painter)
         m_Painter->setPen(backgroundPen);
     }
 
-    switch(m_Orientation)
+    switch (m_Orientation)
     {
         case LO_HORIZONTAL:
         {
-            switch(m_Type)
+            switch (m_Type)
             {
                 case LT_SCALE_ONLY:
                 {
@@ -266,7 +266,7 @@ void Legend::paintLegend(SkyQPainter * painter)
 
         case LO_VERTICAL:
         {
-            switch(m_Type)
+            switch (m_Type)
             {
                 case LT_SCALE_ONLY:
                 {
@@ -313,31 +313,31 @@ void Legend::paintLegend(SkyQPainter * painter)
     }
 }
 
-void Legend::paintLegend(QPaintDevice * pd, LEGEND_TYPE type, LEGEND_POSITION pos)
+void Legend::paintLegend(QPaintDevice *pd, LEGEND_TYPE type, LEGEND_POSITION pos)
 {
-    LEGEND_TYPE prevType = m_Type;
+    LEGEND_TYPE prevType    = m_Type;
     LEGEND_POSITION prevPos = m_Position;
 
-    m_Type = type;
+    m_Type     = type;
     m_Position = pos;
 
     paintLegend(pd);
 
-    m_Type = prevType;
+    m_Type     = prevType;
     m_Position = prevPos;
 }
 
-void Legend::paintLegend(SkyQPainter * painter, LEGEND_TYPE type, LEGEND_POSITION pos)
+void Legend::paintLegend(SkyQPainter *painter, LEGEND_TYPE type, LEGEND_POSITION pos)
 {
-    LEGEND_TYPE prevType = m_Type;
+    LEGEND_TYPE prevType    = m_Type;
     LEGEND_POSITION prevPos = m_Position;
 
-    m_Type = type;
+    m_Type     = type;
     m_Position = pos;
 
     paintLegend(painter);
 
-    m_Type = prevType;
+    m_Type     = prevType;
     m_Position = prevPos;
 }
 
@@ -348,9 +348,9 @@ void Legend::paintSymbols(QPointF pos)
 
     x += 30;
 
-    switch(m_Orientation)
+    switch (m_Orientation)
     {
-        case Legend::LO_HORIZONTAL :
+        case Legend::LO_HORIZONTAL:
         {
             // paint Open Cluster/Asterism symbol
             QString label1 = i18n("Open Cluster") + "\n" + i18n("Asterism");
@@ -385,7 +385,7 @@ void Legend::paintSymbols(QPointF pos)
             break;
         }
 
-        case Legend::LO_VERTICAL :
+        case Legend::LO_VERTICAL:
         {
             // paint Open Cluster/Asterism symbol
             QString label1 = i18n("Open Cluster") + "\n" + i18n("Asterism");
@@ -419,20 +419,21 @@ void Legend::paintSymbols(QPointF pos)
 
             break;
         }
-        default :
+        default:
             return; // should never happen
     }
 }
 
 void Legend::paintSymbol(QPointF pos, int type, float e, float angle, QString label)
 {
-    qreal x = pos.x();
-    qreal y = pos.y();
+    qreal x              = pos.x();
+    qreal y              = pos.y();
     qreal bRectHalfWidth = m_BRectWidth / 2;
 
     // paint symbol
     m_Painter->drawDeepSkySymbol(pos, type, m_SymbolSize, e, angle);
-    QRectF bRect(QPoint(x - bRectHalfWidth, y + m_SymbolSize), QPoint(x + bRectHalfWidth, y + m_SymbolSize + m_BRectHeight));
+    QRectF bRect(QPoint(x - bRectHalfWidth, y + m_SymbolSize),
+                 QPoint(x + bRectHalfWidth, y + m_SymbolSize + m_BRectHeight));
     //m_Painter->drawRect(bRect);
     // paint label
     m_Painter->drawText(bRect, label, QTextOption(Qt::AlignHCenter));
@@ -446,7 +447,7 @@ void Legend::paintMagnitudes(QPointF pos)
     m_Painter->drawText(x, y, i18n("Star Magnitudes:"));
     y += 15;
 
-    for(int i = 1; i <= 9; i += 2)
+    for (int i = 1; i <= 9; i += 2)
     {
         m_Painter->drawPointSource(QPointF(x + i * 10, y), m_Painter->starWidth(i));
         m_Painter->drawText(x + i * 10 - 4, y + 20, QString::number(i));
@@ -457,7 +458,7 @@ void Legend::paintScale(QPointF pos)
 {
     qreal maxScalePixels;
 
-    switch(m_Orientation)
+    switch (m_Orientation)
     {
         case LO_HORIZONTAL:
         {
@@ -477,27 +478,27 @@ void Legend::paintScale(QPointF pos)
 
     qreal maxArcsec = maxScalePixels * 57.3 * 3600 / Options::zoomFactor();
 
-    int deg = 0;
+    int deg    = 0;
     int arcmin = 0;
     int arcsec = 0;
 
     QString lab;
-    if(maxArcsec >= 3600)
+    if (maxArcsec >= 3600)
     {
         deg = maxArcsec / 3600;
         lab = QString::number(deg) + QString::fromWCharArray(L"\u00B0");
     }
 
-    else if(maxArcsec >= 60)
+    else if (maxArcsec >= 60)
     {
         arcmin = maxArcsec / 60;
-        lab = QString::number(arcmin) + '\'';
+        lab    = QString::number(arcmin) + '\'';
     }
 
     else
     {
         arcsec = maxArcsec;
-        lab = QString::number(arcsec) + "\"";
+        lab    = QString::number(arcsec) + "\"";
     }
 
     int actualArcsec = 3600 * deg + 60 * arcmin + arcsec;
@@ -507,7 +508,7 @@ void Legend::paintScale(QPointF pos)
     qreal x = pos.x();
     qreal y = pos.y();
 
-    switch(m_Orientation)
+    switch (m_Orientation)
     {
         case LO_HORIZONTAL:
         {
@@ -550,11 +551,11 @@ void Legend::paintScale(QPointF pos)
     }
 }
 
-QPoint Legend::positionToDeviceCoord(QPaintDevice * pd)
+QPoint Legend::positionToDeviceCoord(QPaintDevice *pd)
 {
     QSize legendSize = calculateSize();
 
-    switch(m_Position)
+    switch (m_Position)
     {
         case LP_UPPER_LEFT: // position: upper left corner
         {
@@ -583,15 +584,12 @@ QPoint Legend::positionToDeviceCoord(QPaintDevice * pd)
     }
 }
 
-Legend::Legend( const Legend &o ) :
-    m_Painter( 0 ), m_SkyMap( o.m_SkyMap ), m_DeletePainter( o.m_DeletePainter ),
-    m_Type( o.m_Type ),m_Orientation( o.m_Orientation ),m_Position( o.m_Position ),
-    m_PositionFloating( o.m_PositionFloating ), m_cScheme( o.m_cScheme ),m_Font( o.m_Font ),
-    m_BgColor( o.m_BgColor ),m_DrawFrame( o.m_DrawFrame ), m_SymbolSize( o.m_SymbolSize ),
-    m_BRectWidth( o.m_BRectWidth ),m_BRectHeight( o.m_BRectHeight ),
-    m_MaxHScalePixels( o.m_MaxHScalePixels ),m_MaxVScalePixels( o.m_MaxVScalePixels ),
-    m_XSymbolSpacing( o.m_XSymbolSpacing ),m_YSymbolSpacing( o.m_YSymbolSpacing )
+Legend::Legend(const Legend &o)
+    : m_Painter(0), m_SkyMap(o.m_SkyMap), m_DeletePainter(o.m_DeletePainter), m_Type(o.m_Type),
+      m_Orientation(o.m_Orientation), m_Position(o.m_Position), m_PositionFloating(o.m_PositionFloating),
+      m_cScheme(o.m_cScheme), m_Font(o.m_Font), m_BgColor(o.m_BgColor), m_DrawFrame(o.m_DrawFrame),
+      m_SymbolSize(o.m_SymbolSize), m_BRectWidth(o.m_BRectWidth), m_BRectHeight(o.m_BRectHeight),
+      m_MaxHScalePixels(o.m_MaxHScalePixels), m_MaxVScalePixels(o.m_MaxVScalePixels),
+      m_XSymbolSpacing(o.m_XSymbolSpacing), m_YSymbolSpacing(o.m_YSymbolSpacing)
 {
-
 }
-

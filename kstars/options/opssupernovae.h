@@ -23,7 +23,6 @@
 
 class KStars;
 
-
 /** @class OpsSupernovae
  *The Supernovae Tab of the Options window.  In this Tab the user can configure
  *supernovae options and select if supernovae should be drawn on the skymap.
@@ -34,18 +33,18 @@ class KStars;
  */
 class OpsSupernovae : public QFrame, public Ui::OpsSupernovae
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        /**
+  public:
+    /**
          * Constructor
          */
-        explicit OpsSupernovae();
+    explicit OpsSupernovae();
 
-        /**
+    /**
          * Destructor
          */
-        ~OpsSupernovae() {}
+    ~OpsSupernovae() {}
 };
 
-#endif  //OPSSUPERNOVAE_H_
+#endif //OPSSUPERNOVAE_H_

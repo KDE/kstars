@@ -17,20 +17,20 @@
 
 #include "pwizfovtypeselection.h"
 
-PWizFovTypeSelectionUI::PWizFovTypeSelectionUI(PrintingWizard * wizard, QWidget * parent) : QFrame(parent),
-    m_ParentWizard(wizard)
+PWizFovTypeSelectionUI::PWizFovTypeSelectionUI(PrintingWizard *wizard, QWidget *parent)
+    : QFrame(parent), m_ParentWizard(wizard)
 {
     setupUi(this);
 }
 
 PrintingWizard::FOV_TYPE PWizFovTypeSelectionUI::getFovExportType()
 {
-    if(manualRadio->isChecked())
+    if (manualRadio->isChecked())
     {
         return PrintingWizard::FT_MANUAL;
     }
 
-    else if(hopperRadio->isChecked())
+    else if (hopperRadio->isChecked())
     {
         return PrintingWizard::FT_STARHOPPER;
     }

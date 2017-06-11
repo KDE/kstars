@@ -41,13 +41,13 @@ DetailsTable::DetailsTable()
 
 DetailsTable::~DetailsTable()
 {
-    if(m_Document)
+    if (m_Document)
     {
         delete m_Document;
     }
 }
 
-void DetailsTable::createGeneralTable(SkyObject * obj)
+void DetailsTable::createGeneralTable(SkyObject *obj)
 {
     clearContents();
 
@@ -55,15 +55,15 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
 
     //Fill in the data fields
     //Contents depend on type of object
-    StarObject * s = 0;
-    DeepSkyObject * dso = 0;
-    KSPlanetBase * ps = 0;
+    StarObject *s      = 0;
+    DeepSkyObject *dso = 0;
+    KSPlanetBase *ps   = 0;
     QString pname, oname;
 
     QString objNamesVal, objTypeVal, objDistVal, objSizeVal, objMagVal, objBvVal, objIllumVal;
     QString objSizeLabel, objMagLabel;
 
-    switch(obj->type())
+    switch (obj->type())
     {
         case SkyObject::STAR:
         {
@@ -71,11 +71,11 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
 
             objNamesVal = s->longname();
 
-            if(s->getHDIndex() != 0)
+            if (s->getHDIndex() != 0)
             {
-                if(!s->longname().isEmpty())
+                if (!s->longname().isEmpty())
                 {
-                    objNamesVal = s->longname() + QString(", HD%1").arg(QString::number(s->getHDIndex())) ;
+                    objNamesVal = s->longname() + QString(", HD%1").arg(QString::number(s->getHDIndex()));
                 }
 
                 else
@@ -87,23 +87,23 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
             objTypeVal = s->sptype() + ' ' + i18n("star");
             objMagVal = i18nc("number in magnitudes", "%1 mag", QLocale().toString(s->mag(), 1)); //show to tenths place
 
-            if(s->getBVIndex() < 30.0)
+            if (s->getBVIndex() < 30.0)
             {
                 objBvVal = QString::number(s->getBVIndex(), 'g', 2);
             }
 
             //distance
-            if(s->distance() > 2000. || s->distance() < 0.)  // parallax < 0.5 mas
+            if (s->distance() > 2000. || s->distance() < 0.) // parallax < 0.5 mas
             {
                 objDistVal = i18nc("larger than 2000 parsecs", "> 2000 pc");
             }
 
-            else if(s->distance() > 50.0) //show to nearest integer
+            else if (s->distance() > 50.0) //show to nearest integer
             {
                 objDistVal = i18nc("number in parsecs", "%1 pc", QLocale().toString(s->distance(), 0));
             }
 
-            else if(s->distance() > 10.0) //show to tenths place
+            else if (s->distance() > 10.0) //show to tenths place
             {
                 objDistVal = i18nc("number in parsecs", "%1 pc", QLocale().toString(s->distance(), 1));
             }
@@ -114,18 +114,18 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
             }
 
             //Note multiplicity/variablility in angular size label
-            if(s->isMultiple() && s->isVariable())
+            if (s->isMultiple() && s->isVariable())
             {
                 objSizeLabel = i18nc("the star is a multiple star", "multiple") + ',';
-                objSizeVal = i18nc("the star is a variable star", "variable");
+                objSizeVal   = i18nc("the star is a variable star", "variable");
             }
 
-            else if(s->isMultiple())
+            else if (s->isMultiple())
             {
                 objSizeLabel = i18nc("the star is a multiple star", "multiple");
             }
 
-            else if(s->isVariable())
+            else if (s->isVariable())
             {
                 objSizeLabel = i18nc("the star is a variable star", "variable");
             }
@@ -135,11 +135,11 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
             break; //End of stars case
         }
 
-        case SkyObject::ASTEROID:  //[fall through to planets]
+        case SkyObject::ASTEROID: //[fall through to planets]
 
-        case SkyObject::COMET:     //[fall through to planets]
+        case SkyObject::COMET: //[fall through to planets]
 
-        case SkyObject::MOON:      //[fall through to planets]
+        case SkyObject::MOON: //[fall through to planets]
 
         case SkyObject::PLANET:
         {
@@ -147,17 +147,18 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
 
             objNamesVal = ps->longname();
             //Type is "G5 star" for Sun
-            if(ps->name() == "Sun")
+            if (ps->name() == "Sun")
             {
                 objTypeVal = i18n("G5 star");
             }
 
-            else if(ps->name() == "Moon")
+            else if (ps->name() == "Moon")
             {
                 objTypeVal = ps->translatedName();
             }
 
-            else if(ps->name() == i18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris") // TODO: Check if Ceres / Eris have translations and i18n() them
+            else if (ps->name() == i18n("Pluto") || ps->name() == "Ceres" ||
+                     ps->name() == "Eris") // TODO: Check if Ceres / Eris have translations and i18n() them
             {
                 objTypeVal = i18n("Dwarf planet");
             }
@@ -168,17 +169,18 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
             }
 
             //Magnitude: The moon displays illumination fraction instead
-            if(obj->name() == "Moon")
+            if (obj->name() == "Moon")
             {
-                objIllumVal = QString("%1 %").arg(QLocale().toString(((KSMoon *)obj)->illum()*100., 0));
+                objIllumVal = QString("%1 %").arg(QLocale().toString(((KSMoon *)obj)->illum() * 100., 0));
             }
 
-            objMagVal = i18nc("number in magnitudes", "%1 mag", QLocale().toString(ps->mag(), 1)); //show to tenths place
+            objMagVal =
+                i18nc("number in magnitudes", "%1 mag", QLocale().toString(ps->mag(), 1)); //show to tenths place
 
             //Distance from Earth.  The moon requires a unit conversion
-            if(ps->name() == "Moon")
+            if (ps->name() == "Moon")
             {
-                objDistVal = i18nc("distance in kilometers", "%1 km", QLocale().toString(ps->rearth() * AU_KM ));
+                objDistVal = i18nc("distance in kilometers", "%1 km", QLocale().toString(ps->rearth() * AU_KM));
             }
 
             else
@@ -187,9 +189,9 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
             }
 
             //Angular size; moon and sun in arcmin, others in arcsec
-            if(ps->angSize())
+            if (ps->angSize())
             {
-                if(ps->name() == "Sun" || ps->name() == "Moon")
+                if (ps->name() == "Sun" || ps->name() == "Moon")
                 {
                     // Needn't be a plural form because sun / moon will never contract to 1 arcminute
                     objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", QLocale().toString(ps->angSize()));
@@ -197,7 +199,8 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
 
                 else
                 {
-                    objSizeVal = i18nc("angular size in arcseconds","%1 arcsec", QLocale().toString(ps->angSize() * 60.0));
+                    objSizeVal =
+                        i18nc("angular size in arcseconds", "%1 arcsec", QLocale().toString(ps->angSize() * 60.0));
                 }
             }
 
@@ -214,7 +217,7 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
             dso = (DeepSkyObject *)obj;
 
             //Show all names recorded for the object
-            if(!dso->longname().isEmpty() && dso->longname() != dso->name())
+            if (!dso->longname().isEmpty() && dso->longname() != dso->name())
             {
                 pname = dso->translatedLongName();
                 oname = dso->translatedName();
@@ -225,9 +228,9 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
                 pname = dso->translatedName();
             }
 
-            if(!dso->translatedName2().isEmpty())
+            if (!dso->translatedName2().isEmpty())
             {
-                if(oname.isEmpty())
+                if (oname.isEmpty())
                 {
                     oname = dso->translatedName2();
                 }
@@ -238,18 +241,18 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
                 }
             }
 
-            if(dso->ugc() != 0)
+            if (dso->ugc() != 0)
             {
-                if(!oname.isEmpty())
+                if (!oname.isEmpty())
                 {
                     oname += ", ";
                 }
 
                 oname += "UGC " + QString::number(dso->ugc());
             }
-            if(dso->pgc() != 0)
+            if (dso->pgc() != 0)
             {
-                if(!oname.isEmpty())
+                if (!oname.isEmpty())
                 {
                     oname += ", ";
                 }
@@ -257,7 +260,7 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
                 oname += "PGC " + QString::number(dso->pgc());
             }
 
-            if(!oname.isEmpty())
+            if (!oname.isEmpty())
             {
                 pname += ", " + oname;
             }
@@ -266,34 +269,36 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
 
             objTypeVal = dso->typeName();
 
-            if(dso->type() == SkyObject::RADIO_SOURCE)
+            if (dso->type() == SkyObject::RADIO_SOURCE)
             {
-                Q_ASSERT( dso->customCatalog() );
-                objMagLabel = i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency());
+                Q_ASSERT(dso->customCatalog());
+                objMagLabel =
+                    i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency());
                 objMagVal = i18nc("integrated flux value", "%1 %2", QLocale().toString(dso->flux(), 1),
                                   dso->customCatalog()->fluxUnit()); //show to tenths place
             }
 
-            else if(dso->mag() > 90.0)
+            else if (dso->mag() > 90.0)
             {
                 objMagVal = "--";
             }
 
             else
             {
-                objMagVal = i18nc("number in magnitudes", "%1 mag", QLocale().toString(dso->mag(), 1)); //show to tenths place
+                objMagVal =
+                    i18nc("number in magnitudes", "%1 mag", QLocale().toString(dso->mag(), 1)); //show to tenths place
             }
 
             //No distances at this point...
             objDistVal = "--";
 
             //Only show decimal place for small angular sizes
-            if(dso->a() > 10.0)
+            if (dso->a() > 10.0)
             {
                 objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", QLocale().toString(dso->a(), 0));
             }
 
-            else if(dso->a())
+            else if (dso->a())
             {
                 objSizeVal = i18nc("angular size in arcminutes", "%1 arcmin", QLocale().toString(dso->a(), 1));
             }
@@ -308,25 +313,24 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
     }
 
     //Common to all types:
-    if(obj->type() == SkyObject::CONSTELLATION )
+    if (obj->type() == SkyObject::CONSTELLATION)
     {
         objTypeVal = KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName(obj);
     }
 
     else
     {
-        objTypeVal = i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objTypeVal,
-                           KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName(obj));
+        objTypeVal =
+            i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objTypeVal,
+                  KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName(obj));
     }
 
     QVector<QTextLength> constraints;
-    constraints << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25);
+    constraints << QTextLength(QTextLength::PercentageLength, 25) << QTextLength(QTextLength::PercentageLength, 25)
+                << QTextLength(QTextLength::PercentageLength, 25) << QTextLength(QTextLength::PercentageLength, 25);
     m_TableFormat.setColumnWidthConstraints(constraints);
 
-    QTextTable * table = cursor.insertTable(5, 4, m_TableFormat);
+    QTextTable *table = cursor.insertTable(5, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);
@@ -363,7 +367,7 @@ void DetailsTable::createGeneralTable(SkyObject * obj)
     table->cellAt(4, 3).firstCursorPosition().insertText(objIllumVal, m_ItemValueCharFormat);
 }
 
-void DetailsTable::createAsteroidCometTable(SkyObject * obj)
+void DetailsTable::createAsteroidCometTable(SkyObject *obj)
 {
     clearContents();
 
@@ -373,11 +377,11 @@ void DetailsTable::createAsteroidCometTable(SkyObject * obj)
     QString orbitClassVal, albedoVal, dimVal, periodVal;
 
     // Add specifics data
-    switch(obj->type())
+    switch (obj->type())
     {
         case SkyObject::ASTEROID:
         {
-            KSAsteroid * ast = (KSAsteroid *)obj;
+            KSAsteroid *ast = (KSAsteroid *)obj;
 
             // Perihelion
             perihelionVal = QString::number(ast->getPerihelion()) + " AU";
@@ -404,7 +408,8 @@ void DetailsTable::createAsteroidCometTable(SkyObject * obj)
             dimVal = ast->getDimensions().isEmpty() ? QString("--") : ast->getDimensions() + QString(" km");
 
             // Rotation period
-            rotPeriodVal = ast->getRotationPeriod() == 0 ? QString("--") : QString::number(ast->getRotationPeriod()) + QString(" h");
+            rotPeriodVal = ast->getRotationPeriod() == 0 ? QString("--") :
+                                                           QString::number(ast->getRotationPeriod()) + QString(" h");
 
             // Period
             periodVal = ast->getPeriod() == 0 ? QString("--") : QString::number(ast->getPeriod()) + QString(" y");
@@ -414,7 +419,7 @@ void DetailsTable::createAsteroidCometTable(SkyObject * obj)
 
         case SkyObject::COMET:
         {
-            KSComet * com = (KSComet *)obj;
+            KSComet *com = (KSComet *)obj;
 
             // Perihelion
             perihelionVal = QString::number(com->getPerihelion()) + " AU";
@@ -441,7 +446,8 @@ void DetailsTable::createAsteroidCometTable(SkyObject * obj)
             dimVal = com->getDimensions().isEmpty() ? QString("--") : com->getDimensions() + QString(" km");
 
             // Rotation period
-            rotPeriodVal = com->getRotationPeriod() == 0 ? QString("--") : QString::number(com->getRotationPeriod()) + QString(" h");
+            rotPeriodVal = com->getRotationPeriod() == 0 ? QString("--") :
+                                                           QString::number(com->getRotationPeriod()) + QString(" h");
 
             // Period
             periodVal = com->getPeriod() == 0 ? QString("--") : QString::number(com->getPeriod()) + QString(" y");
@@ -457,13 +463,11 @@ void DetailsTable::createAsteroidCometTable(SkyObject * obj)
 
     // Set column width constraints
     QVector<QTextLength> constraints;
-    constraints << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25);
+    constraints << QTextLength(QTextLength::PercentageLength, 25) << QTextLength(QTextLength::PercentageLength, 25)
+                << QTextLength(QTextLength::PercentageLength, 25) << QTextLength(QTextLength::PercentageLength, 25);
     m_TableFormat.setColumnWidthConstraints(constraints);
 
-    QTextTable * table = cursor.insertTable(6, 4, m_TableFormat);
+    QTextTable *table = cursor.insertTable(6, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);
@@ -511,7 +515,7 @@ void DetailsTable::createAsteroidCometTable(SkyObject * obj)
     table->cellAt(5, 3).firstCursorPosition().insertText(periodVal, m_ItemValueCharFormat);
 }
 
-void DetailsTable::createCoordinatesTable(SkyObject * obj, const KStarsDateTime &ut, GeoLocation * geo)
+void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &ut, GeoLocation *geo)
 {
     clearContents();
 
@@ -519,14 +523,12 @@ void DetailsTable::createCoordinatesTable(SkyObject * obj, const KStarsDateTime 
 
     // Set column width constraints
     QVector<QTextLength> constraints;
-    constraints << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25);
+    constraints << QTextLength(QTextLength::PercentageLength, 25) << QTextLength(QTextLength::PercentageLength, 25)
+                << QTextLength(QTextLength::PercentageLength, 25) << QTextLength(QTextLength::PercentageLength, 25);
     m_TableFormat.setColumnWidthConstraints(constraints);
 
     // Insert table & row containing table name
-    QTextTable * table = cursor.insertTable(4, 4, m_TableFormat);
+    QTextTable *table = cursor.insertTable(4, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);
@@ -555,12 +557,13 @@ void DetailsTable::createCoordinatesTable(SkyObject * obj, const KStarsDateTime 
     dms lst = geo->GSTtoLST(ut.gst());
     dms ha(lst.Degrees() - obj->ra().Degrees());
     QChar sgn('+');
-    if(ha.Hours() > 12.0)
+    if (ha.Hours() > 12.0)
     {
         ha.setH(24.0 - ha.Hours());
         sgn = '-';
     }
-    table->cellAt(3, 1).firstCursorPosition().insertText(QString("%1%2").arg(sgn).arg(ha.toHMSString()), m_ItemValueCharFormat);
+    table->cellAt(3, 1).firstCursorPosition().insertText(QString("%1%2").arg(sgn).arg(ha.toHMSString()),
+                                                         m_ItemValueCharFormat);
 
     table->cellAt(1, 2).firstCursorPosition().insertText(i18n("Azimuth:"), m_ItemNameCharFormat);
     table->cellAt(1, 2).firstCursorPosition().setBlockFormat(centered);
@@ -569,7 +572,7 @@ void DetailsTable::createCoordinatesTable(SkyObject * obj, const KStarsDateTime 
     table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Altitude:"), m_ItemNameCharFormat);
     table->cellAt(2, 2).firstCursorPosition().setBlockFormat(centered);
     dms a;
-    if(Options::useAltAz())
+    if (Options::useAltAz())
     {
         a = obj->alt();
     }
@@ -585,9 +588,9 @@ void DetailsTable::createCoordinatesTable(SkyObject * obj, const KStarsDateTime 
     //Airmass is approximated as the secant of the zenith distance,
     //equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
     QString aMassStr;
-    if(obj->alt().Degrees() > 0.0)
+    if (obj->alt().Degrees() > 0.0)
     {
-        aMassStr = QLocale().toString(1./sin(obj->alt().radians() ), 2);
+        aMassStr = QLocale().toString(1. / sin(obj->alt().radians()), 2);
     }
 
     else
@@ -600,48 +603,48 @@ void DetailsTable::createCoordinatesTable(SkyObject * obj, const KStarsDateTime 
     obj->recomputeCoords(ut, geo);
 }
 
-void DetailsTable::createRSTTAble(SkyObject * obj, const KStarsDateTime &ut, GeoLocation * geo)
+void DetailsTable::createRSTTAble(SkyObject *obj, const KStarsDateTime &ut, GeoLocation *geo)
 {
     clearContents();
 
     QTextCursor cursor = m_Document->rootFrame()->firstCursorPosition();
 
-    QString rtValue, stValue; // Rise/Set time values
+    QString rtValue, stValue;   // Rise/Set time values
     QString azRValue, azSValue; // Rise/Set azimuth values
 
     //Prepare time/position variables
-    QTime rt = obj->riseSetTime(ut, geo, true); //true = use rise time
-    dms raz = obj->riseSetTimeAz(ut, geo, true); //true = use rise time
+    QTime rt = obj->riseSetTime(ut, geo, true);   //true = use rise time
+    dms raz  = obj->riseSetTimeAz(ut, geo, true); //true = use rise time
 
     //If transit time is before rise time, use transit time for tomorrow
     QTime tt = obj->transitTime(ut, geo);
     dms talt = obj->transitAltitude(ut, geo);
-    if(tt < rt)
+    if (tt < rt)
     {
-        tt = obj->transitTime(ut.addDays(1), geo);
+        tt   = obj->transitTime(ut.addDays(1), geo);
         talt = obj->transitAltitude(ut.addDays(1), geo);
     }
 
     //If set time is before rise time, use set time for tomorrow
-    QTime st = obj->riseSetTime(ut, geo, false); //false = use set time
-    dms saz = obj->riseSetTimeAz(ut, geo, false); //false = use set time
-    if(st < rt)
+    QTime st = obj->riseSetTime(ut, geo, false);   //false = use set time
+    dms saz  = obj->riseSetTimeAz(ut, geo, false); //false = use set time
+    if (st < rt)
     {
-        st = obj->riseSetTime(ut.addDays(1), geo, false); //false = use set time
-        saz = obj->riseSetTimeAz(ut.addDays( 1 ), geo, false); //false = use set time
+        st  = obj->riseSetTime(ut.addDays(1), geo, false);   //false = use set time
+        saz = obj->riseSetTimeAz(ut.addDays(1), geo, false); //false = use set time
     }
 
-    if(rt.isValid())
+    if (rt.isValid())
     {
-        rtValue = QString().sprintf("%02d:%02d", rt.hour(), rt.minute());
-        stValue = QString().sprintf("%02d:%02d", st.hour(), st.minute());
+        rtValue  = QString().sprintf("%02d:%02d", rt.hour(), rt.minute());
+        stValue  = QString().sprintf("%02d:%02d", st.hour(), st.minute());
         azRValue = raz.toDMSString();
         azSValue = saz.toDMSString();
     }
 
     else
     {
-        if(obj->alt().Degrees() > 0.0)
+        if (obj->alt().Degrees() > 0.0)
         {
             rtValue = i18n("Circumpolar");
             stValue = i18n("Circumpolar");
@@ -659,14 +662,12 @@ void DetailsTable::createRSTTAble(SkyObject * obj, const KStarsDateTime &ut, Geo
 
     // Set column width constraints
     QVector<QTextLength> constraints;
-    constraints << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25);
+    constraints << QTextLength(QTextLength::PercentageLength, 25) << QTextLength(QTextLength::PercentageLength, 25)
+                << QTextLength(QTextLength::PercentageLength, 25) << QTextLength(QTextLength::PercentageLength, 25);
     m_TableFormat.setColumnWidthConstraints(constraints);
 
     // Insert table & row containing table name
-    QTextTable * table = cursor.insertTable(4, 4, m_TableFormat);
+    QTextTable *table = cursor.insertTable(4, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);
@@ -680,7 +681,8 @@ void DetailsTable::createRSTTAble(SkyObject * obj, const KStarsDateTime &ut, Geo
 
     table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Transit time:"), m_ItemNameCharFormat);
     table->cellAt(2, 0).firstCursorPosition().setBlockFormat(centered);
-    table->cellAt(2, 1).firstCursorPosition().insertText(QString().sprintf("%02d:%02d", tt.hour(), tt.minute()), m_ItemValueCharFormat);
+    table->cellAt(2, 1).firstCursorPosition().insertText(QString().sprintf("%02d:%02d", tt.hour(), tt.minute()),
+                                                         m_ItemValueCharFormat);
 
     table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Set time:"), m_ItemNameCharFormat);
     table->cellAt(3, 0).firstCursorPosition().setBlockFormat(centered);
@@ -699,7 +701,7 @@ void DetailsTable::createRSTTAble(SkyObject * obj, const KStarsDateTime &ut, Geo
     table->cellAt(3, 3).firstCursorPosition().insertText(azSValue, m_ItemValueCharFormat);
 
     // Restore the position and other time-dependent parameters
-    obj->recomputeCoords( ut, geo );
+    obj->recomputeCoords(ut, geo);
 }
 
 void DetailsTable::clearContents()

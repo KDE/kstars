@@ -34,16 +34,14 @@
 #include "kspaths.h"
 #include <QApplication>
 
-const char * libindi_strings_context = "string from libindi, used in the config dialog";
+const char *libindi_strings_context = "string from libindi, used in the config dialog";
 
 #ifdef Q_OS_ANDROID
 #include "libraw/libraw.h"
 #endif
 
-DeviceInfoLite::DeviceInfoLite(INDI::BaseDevice * dev)
-    :device(dev), telescope(nullptr)
+DeviceInfoLite::DeviceInfoLite(INDI::BaseDevice *dev) : device(dev), telescope(nullptr)
 {
-
 }
 
 DeviceInfoLite::~DeviceInfoLite()
@@ -51,11 +49,10 @@ DeviceInfoLite::~DeviceInfoLite()
     delete telescope;
 }
 
-ClientManagerLite::ClientManagerLite()
-    :m_connected(false)
+ClientManagerLite::ClientManagerLite() : m_connected(false)
 {
 #ifdef ANDROID
-    defaultImageType = ".jpeg";
+    defaultImageType      = ".jpeg";
     defaultImagesLocation = KSPaths::writableLocation(QStandardPaths::PicturesLocation);
 #endif
     qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeNS");
@@ -65,16 +62,15 @@ ClientManagerLite::ClientManagerLite()
 
 ClientManagerLite::~ClientManagerLite()
 {
-
 }
 
 bool ClientManagerLite::setHost(QString ip, unsigned int port)
 {
-    if(!isConnected())
+    if (!isConnected())
     {
         setServer(ip.toStdString().c_str(), port);
         qDebug() << ip << port;
-        if(connectServer())
+        if (connectServer())
         {
             setConnectedHost(ip + ":" + QString::number(port));
             //Update last used server and port
@@ -94,11 +90,11 @@ void ClientManagerLite::disconnectHost()
     setConnectedHost("");
 }
 
-TelescopeLite * ClientManagerLite::getTelescope(QString deviceName)
+TelescopeLite *ClientManagerLite::getTelescope(QString deviceName)
 {
-    foreach(DeviceInfoLite * devInfo, m_devices)
+    foreach (DeviceInfoLite *devInfo, m_devices)
     {
-        if(devInfo->device->getDeviceName() == deviceName)
+        if (devInfo->device->getDeviceName() == deviceName)
         {
             return devInfo->telescope;
         }
@@ -122,27 +118,27 @@ void ClientManagerLite::setConnected(bool connected)
 
 QString ClientManagerLite::syncLED(QString device, QString property, QString name)
 {
-    foreach(DeviceInfoLite * devInfo, m_devices)
+    foreach (DeviceInfoLite *devInfo, m_devices)
     {
-        if(devInfo->device->getDeviceName() == device)
+        if (devInfo->device->getDeviceName() == device)
         {
-            INDI::Property * prop = devInfo->device->getProperty(property.toLatin1());
-            if(prop)
+            INDI::Property *prop = devInfo->device->getProperty(property.toLatin1());
+            if (prop)
             {
                 IPState state = prop->getState();
-                if(!name.isEmpty())
+                if (!name.isEmpty())
                 {
-                    ILight * lights = prop->getLight()->lp;
-                    for (int i=0; i < prop->getLight()->nlp; i++)
+                    ILight *lights = prop->getLight()->lp;
+                    for (int i = 0; i < prop->getLight()->nlp; i++)
                     {
-                        if(lights[i].name == name)
+                        if (lights[i].name == name)
                         {
                             state = lights[i].s;
                             break;
                         }
-                        if(i == prop->getLight()->nlp - 1) return ""; // no Light with name "name" found so return empty string
+                        if (i == prop->getLight()->nlp - 1)
+                            return ""; // no Light with name "name" found so return empty string
                     }
-
                 }
                 switch (state)
                 {
@@ -172,21 +168,21 @@ QString ClientManagerLite::syncLED(QString device, QString property, QString nam
     return "grey";
 }
 
-void ClientManagerLite::buildTextGUI(Property * property)
+void ClientManagerLite::buildTextGUI(Property *property)
 {
     {
-        ITextVectorProperty * tvp = property->getText();
+        ITextVectorProperty *tvp = property->getText();
         if (tvp == nullptr)
             return;
 
-        for (int i=0; i < tvp->ntp; i++)
+        for (int i = 0; i < tvp->ntp; i++)
         {
-            IText * tp = &(tvp->tp[i]);
+            IText *tp     = &(tvp->tp[i]);
             QString name  = tp->name;
             QString label = tp->label;
-            QString text = tp->text;
-            bool read = false;
-            bool write = false;
+            QString text  = tp->text;
+            bool read     = false;
+            bool write    = false;
             /*if (tp->label[0])
                     label = i18nc(libindi_strings_context, itp->label);
 
@@ -207,18 +203,18 @@ void ClientManagerLite::buildTextGUI(Property * property)
             switch (property->getPermission())
             {
                 case IP_RW:
-                    read = true;
+                    read  = true;
                     write = true;
 
                     break;
 
                 case IP_RO:
-                    read = true;
+                    read  = true;
                     write = false;
                     break;
 
                 case IP_WO:
-                    read = false;
+                    read  = false;
                     write = true;
                     break;
             }
@@ -227,23 +223,23 @@ void ClientManagerLite::buildTextGUI(Property * property)
     }
 }
 
-void ClientManagerLite::buildNumberGUI(Property * property)
+void ClientManagerLite::buildNumberGUI(Property *property)
 {
     {
-        INumberVectorProperty * nvp = property->getNumber();
+        INumberVectorProperty *nvp = property->getNumber();
         if (nvp == nullptr)
             return;
 
-        for (int i=0; i < nvp->nnp; i++)
+        for (int i = 0; i < nvp->nnp; i++)
         {
             bool scale = false;
             char iNumber[MAXINDIFORMAT];
 
-            INumber * np = &(nvp->np[i]);
+            INumber *np   = &(nvp->np[i]);
             QString name  = np->name;
             QString label = np->label;
             QString text;
-            bool read = false;
+            bool read  = false;
             bool write = false;
             /*if (tp->label[0])
                     label = i18nc(libindi_strings_context, itp->label);
@@ -266,47 +262,48 @@ void ClientManagerLite::buildNumberGUI(Property * property)
             /*if (tp->text[0])
                     text = i18nc(libindi_strings_context, tp->text);*/
 
-            if (np->step != 0 && (np->max - np->min)/np->step <= 100)
+            if (np->step != 0 && (np->max - np->min) / np->step <= 100)
                 scale = true;
 
             switch (property->getPermission())
             {
                 case IP_RW:
-                    read = true;
+                    read  = true;
                     write = true;
 
                     break;
 
                 case IP_RO:
-                    read = true;
+                    read  = true;
                     write = false;
                     break;
 
                 case IP_WO:
-                    read = false;
+                    read  = false;
                     write = true;
                     break;
             }
-            emit createINDINumber(property->getDeviceName(), property->getName(), label, name, text, read, write, scale);
+            emit createINDINumber(property->getDeviceName(), property->getName(), label, name, text, read, write,
+                                  scale);
         }
     }
 }
 
-void ClientManagerLite::buildMenuGUI(INDI::Property * property)
+void ClientManagerLite::buildMenuGUI(INDI::Property *property)
 {
     /*QStringList menuOptions;
     QString oneOption;
     int onItem=-1;*/
-    ISwitchVectorProperty * svp = property->getSwitch();
+    ISwitchVectorProperty *svp = property->getSwitch();
 
     if (svp == nullptr)
         return;
 
-    for (int i=0; i < svp->nsp; i++)
+    for (int i = 0; i < svp->nsp; i++)
     {
-        ISwitch * tp = &(svp->sp[i]);
+        ISwitch *tp = &(svp->sp[i]);
 
-        buildSwitch(false,tp,property);
+        buildSwitch(false, tp, property);
 
         /*if (tp->s == ISS_ON)
             onItem = i;
@@ -326,10 +323,10 @@ void ClientManagerLite::buildMenuGUI(INDI::Property * property)
     }
 }
 
-void ClientManagerLite::buildSwitchGUI(INDI::Property * property, PGui guiType)
+void ClientManagerLite::buildSwitchGUI(INDI::Property *property, PGui guiType)
 {
-    ISwitchVectorProperty * svp = property->getSwitch();
-    bool exclusive = false;
+    ISwitchVectorProperty *svp = property->getSwitch();
+    bool exclusive             = false;
 
     if (svp == nullptr)
         return;
@@ -347,17 +344,18 @@ void ClientManagerLite::buildSwitchGUI(INDI::Property * property, PGui guiType)
     /*if (svp->p != IP_RO)
         QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(newSwitch(QAbstractButton *)));*/
 
-    for (int i=0; i < svp->nsp; i++)
+    for (int i = 0; i < svp->nsp; i++)
     {
-        ISwitch * sp = &(svp->sp[i]);
+        ISwitch *sp = &(svp->sp[i]);
         buildSwitch(true, sp, property, exclusive, guiType);
     }
 }
 
-void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch * sw, INDI::Property * property, bool exclusive, PGui guiType)
+void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch *sw, INDI::Property *property, bool exclusive,
+                                    PGui guiType)
 {
     QString name  = sw->name;
-    QString label = sw->label;//i18nc(libindi_strings_context, sw->label);
+    QString label = sw->label; //i18nc(libindi_strings_context, sw->label);
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = sw->label;
@@ -372,8 +370,9 @@ void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch * sw, INDI::Proper
     if (!buttonGroup)
     {
         bool isSelected = false;
-        if(sw->s == ISS_ON) isSelected = true;
-        emit createINDIMenu(property->getDeviceName(),property->getName(), label, sw->name, isSelected);
+        if (sw->s == ISS_ON)
+            isSelected = true;
+        emit createINDIMenu(property->getDeviceName(), property->getName(), label, sw->name, isSelected);
         return;
     }
 
@@ -385,11 +384,13 @@ void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch * sw, INDI::Proper
     switch (guiType)
     {
         case PG_BUTTONS:
-            emit createINDIButton(property->getDeviceName(),property->getName(),label,name,true,true,exclusive,sw->s == ISS_ON, enabled);
+            emit createINDIButton(property->getDeviceName(), property->getName(), label, name, true, true, exclusive,
+                                  sw->s == ISS_ON, enabled);
             break;
 
         case PG_RADIO:
-            emit createINDIRadio(property->getDeviceName(),property->getName(),label,name,true,true,exclusive, sw->s == ISS_ON, enabled);
+            emit createINDIRadio(property->getDeviceName(), property->getName(), label, name, true, true, exclusive,
+                                 sw->s == ISS_ON, enabled);
         /*check_w = new QCheckBox(label, guiProp->getGroup()->getContainer());
         groupB->addButton(check_w);
 
@@ -406,20 +407,19 @@ void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch * sw, INDI::Proper
 
         default:
             break;
-
     }
 }
 
-void ClientManagerLite::buildLightGUI(INDI::Property * property)
+void ClientManagerLite::buildLightGUI(INDI::Property *property)
 {
-    ILightVectorProperty * lvp = property->getLight();
+    ILightVectorProperty *lvp = property->getLight();
 
     if (lvp == nullptr)
         return;
 
-    for (int i=0; i < lvp->nlp; i++)
+    for (int i = 0; i < lvp->nlp; i++)
     {
-        ILight * ilp = &(lvp->lp[i]);
+        ILight *ilp = &(lvp->lp[i]);
 
         QString name  = ilp->name;
         QString label = i18nc(libindi_strings_context, ilp->label);
@@ -477,20 +477,20 @@ void ClientManagerLite::buildLightGUI(INDI::Property * property)
 
 void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, QString name)
 {
-    foreach(DeviceInfoLite * devInfo, m_devices)
+    foreach (DeviceInfoLite *devInfo, m_devices)
     {
-        INDI::BaseDevice * device = devInfo->device;
-        if(device->getDeviceName() == deviceName)
+        INDI::BaseDevice *device = devInfo->device;
+        if (device->getDeviceName() == deviceName)
         {
-            INDI::Property * property = device->getProperty(propName.toLatin1());
-            if(property)
+            INDI::Property *property = device->getProperty(propName.toLatin1());
+            if (property)
             {
-                ISwitchVectorProperty * svp = property->getSwitch();
+                ISwitchVectorProperty *svp = property->getSwitch();
 
                 if (svp == nullptr)
                     return;
 
-                ISwitch * sp = IUFindSwitch(svp, name.toLatin1().constData());
+                ISwitch *sp = IUFindSwitch(svp, name.toLatin1().constData());
 
                 if (sp == nullptr)
                     return;
@@ -498,7 +498,7 @@ void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, 
                 if (svp->r == ISR_1OFMANY)
                 {
                     IUResetSwitch(svp);
-                    sp->s  = ISS_ON;
+                    sp->s = ISS_ON;
                 }
                 else
                 {
@@ -517,17 +517,18 @@ void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, 
     }
 }
 
-void ClientManagerLite::sendNewINDINumber(const QString &deviceName, const QString &propName, const QString &numberName, double value)
+void ClientManagerLite::sendNewINDINumber(const QString &deviceName, const QString &propName, const QString &numberName,
+                                          double value)
 {
-    foreach(DeviceInfoLite * devInfo, m_devices)
+    foreach (DeviceInfoLite *devInfo, m_devices)
     {
-        INDI::BaseDevice * device = devInfo->device;
-        if(device->getDeviceName() == deviceName)
+        INDI::BaseDevice *device = devInfo->device;
+        if (device->getDeviceName() == deviceName)
         {
-            INumberVectorProperty * np = device->getNumber(propName.toLatin1());
+            INumberVectorProperty *np = device->getNumber(propName.toLatin1());
             if (np)
             {
-                INumber * n = IUFindNumber(np, numberName.toLatin1());
+                INumber *n = IUFindNumber(np, numberName.toLatin1());
                 if (n)
                 {
                     n->value = value;
@@ -545,17 +546,18 @@ void ClientManagerLite::sendNewINDINumber(const QString &deviceName, const QStri
     }
 }
 
-void ClientManagerLite::sendNewINDIText(const QString &deviceName, const QString &propName, const QString &fieldName, const QString &text)
+void ClientManagerLite::sendNewINDIText(const QString &deviceName, const QString &propName, const QString &fieldName,
+                                        const QString &text)
 {
-    foreach(DeviceInfoLite * devInfo, m_devices)
+    foreach (DeviceInfoLite *devInfo, m_devices)
     {
-        INDI::BaseDevice * device = devInfo->device;
-        if(device->getDeviceName() == deviceName)
+        INDI::BaseDevice *device = devInfo->device;
+        if (device->getDeviceName() == deviceName)
         {
-            ITextVectorProperty * tp = device->getText(propName.toLatin1());
+            ITextVectorProperty *tp = device->getText(propName.toLatin1());
             if (tp)
             {
-                IText * t = IUFindText(tp, fieldName.toLatin1());
+                IText *t = IUFindText(tp, fieldName.toLatin1());
                 if (t)
                 {
                     IUSaveText(t, text.toLatin1().data());
@@ -575,18 +577,17 @@ void ClientManagerLite::sendNewINDIText(const QString &deviceName, const QString
 
 void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, int index)
 {
-    if(index >= 0)
+    if (index >= 0)
     {
-        foreach(DeviceInfoLite * devInfo, m_devices)
+        foreach (DeviceInfoLite *devInfo, m_devices)
         {
-            INDI::BaseDevice * device = devInfo->device;
-            if(device->getDeviceName() == deviceName)
+            INDI::BaseDevice *device = devInfo->device;
+            if (device->getDeviceName() == deviceName)
             {
-                INDI::Property * property = device->getProperty(propName.toStdString().c_str());
-                if(property)
+                INDI::Property *property = device->getProperty(propName.toStdString().c_str());
+                if (property)
                 {
-
-                    ISwitchVectorProperty * svp = property->getSwitch();
+                    ISwitchVectorProperty *svp = property->getSwitch();
 
                     if (svp == nullptr)
                         return;
@@ -594,7 +595,7 @@ void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, 
                     if (index >= svp->nsp)
                         return;
 
-                    ISwitch * sp = &(svp->sp[index]);
+                    ISwitch *sp = &(svp->sp[index]);
 
                     IUResetSwitch(svp);
                     sp->s = ISS_ON;
@@ -608,13 +609,14 @@ void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, 
 
 bool ClientManagerLite::saveDisplayImage()
 {
-    QString dateTime = QDateTime::currentDateTime().toString("dd-MM-yyyy-hh-mm-ss");
+    QString dateTime   = QDateTime::currentDateTime().toString("dd-MM-yyyy-hh-mm-ss");
     QString fileEnding = "kstars-lite-" + dateTime;
     //QString filename = KSPaths::writableLocation(QStandardPaths::PicturesLocation);
     //#ifndef ANDROID
     QString filename = QFileDialog::getSaveFileName(QApplication::activeWindow(), i18n("Save Image"),
-                       KSPaths::writableLocation(QStandardPaths::PicturesLocation) + "/" + fileEnding + ".jpeg",
-                       i18n("JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)" ));
+                                                    KSPaths::writableLocation(QStandardPaths::PicturesLocation) + "/" +
+                                                        fileEnding + ".jpeg",
+                                                    i18n("JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)"));
     //#else
     /*if(imageType.isEmpty() || !(imageType != ".jpeg" || imageType != ".jpg" || imageType != ".png" || imageType != ".bmp")) {
             QString warning = imageType + " is a wrong image type. Switching to \"" + defaultImageType + "\"";
@@ -624,9 +626,9 @@ bool ClientManagerLite::saveDisplayImage()
     }*/
     //  QString filename(defaultImagesLocation + "/" + fileEnding + defaultImageType);
     //#endif
-    if(!filename.isEmpty())
+    if (!filename.isEmpty())
     {
-        if(displayImage.save(filename))
+        if (displayImage.save(filename))
         {
             emit newINDIMessage("File " + filename + " was successfully saved");
             return true;
@@ -638,16 +640,16 @@ bool ClientManagerLite::saveDisplayImage()
 
 bool ClientManagerLite::isDeviceConnected(QString deviceName)
 {
-    INDI::BaseDevice * device = getDevice(deviceName.toStdString().c_str());
+    INDI::BaseDevice *device = getDevice(deviceName.toStdString().c_str());
 
-    if(device != nullptr)
+    if (device != nullptr)
     {
         return device->isConnected();
     }
     return false;
 }
 
-void ClientManagerLite::newDevice(INDI::BaseDevice * dp)
+void ClientManagerLite::newDevice(INDI::BaseDevice *dp)
 {
     setBLOBMode(B_ALSO, dp->getDeviceName());
 
@@ -663,39 +665,37 @@ void ClientManagerLite::newDevice(INDI::BaseDevice * dp)
         qDebug() << "Received new device " << deviceName;
     emit newINDIDevice(deviceName);
 
-
-    DeviceInfoLite * devInfo = new DeviceInfoLite(dp);
+    DeviceInfoLite *devInfo = new DeviceInfoLite(dp);
     //Think about it!
     //devInfo->telescope = new TelescopeLite(dp);
     m_devices.append(devInfo);
 }
 
-void ClientManagerLite::removeDevice(BaseDevice * dp)
+void ClientManagerLite::removeDevice(BaseDevice *dp)
 {
     emit removeINDIDevice(QString(dp->getDeviceName()));
 }
 
-void ClientManagerLite::newProperty(INDI::Property * property)
+void ClientManagerLite::newProperty(INDI::Property *property)
 {
-    QString deviceName = property->getDeviceName();
-    QString name = property->getName();
-    QString groupName = property->getGroupName();
-    QString type = QString(property->getType());
-    QString label = property->getLabel();
-    DeviceInfoLite * devInfo = nullptr;
+    QString deviceName      = property->getDeviceName();
+    QString name            = property->getName();
+    QString groupName       = property->getGroupName();
+    QString type            = QString(property->getType());
+    QString label           = property->getLabel();
+    DeviceInfoLite *devInfo = nullptr;
 
-    foreach(DeviceInfoLite * di, m_devices)
+    foreach (DeviceInfoLite *di, m_devices)
     {
-        if(di->device->getDeviceName() == deviceName)
+        if (di->device->getDeviceName() == deviceName)
         {
             devInfo = di;
         }
     }
 
-    if(devInfo)
+    if (devInfo)
     {
-        if ((!strcmp(property->getName(), "EQUATORIAL_EOD_COORD") ||
-                !strcmp(property->getName(), "HORIZONTAL_COORD")) )
+        if ((!strcmp(property->getName(), "EQUATORIAL_EOD_COORD") || !strcmp(property->getName(), "HORIZONTAL_COORD")))
         {
             devInfo->telescope = new TelescopeLite(devInfo->device);
             emit telescopeAdded(devInfo->telescope);
@@ -740,25 +740,24 @@ void ClientManagerLite::newProperty(INDI::Property * property)
     }
 }
 
-void ClientManagerLite::removeProperty(INDI::Property * property)
+void ClientManagerLite::removeProperty(INDI::Property *property)
 {
-    emit removeINDIProperty(property->getDeviceName(), property->getGroupName(),property->getName());
+    emit removeINDIProperty(property->getDeviceName(), property->getGroupName(), property->getName());
 
-    DeviceInfoLite * devInfo = nullptr;
-    foreach(DeviceInfoLite * di, m_devices)
+    DeviceInfoLite *devInfo = nullptr;
+    foreach (DeviceInfoLite *di, m_devices)
     {
-        if(di->device == property->getBaseDevice())
+        if (di->device == property->getBaseDevice())
         {
             devInfo = di;
         }
     }
 
-    if(devInfo)
+    if (devInfo)
     {
-        if ((!strcmp(property->getName(), "EQUATORIAL_EOD_COORD") ||
-                !strcmp(property->getName(), "HORIZONTAL_COORD")) )
+        if ((!strcmp(property->getName(), "EQUATORIAL_EOD_COORD") || !strcmp(property->getName(), "HORIZONTAL_COORD")))
         {
-            if(devInfo->telescope)
+            if (devInfo->telescope)
             {
                 emit telescopeRemoved(devInfo->telescope);
             }
@@ -767,15 +766,21 @@ void ClientManagerLite::removeProperty(INDI::Property * property)
     }
 }
 
-void ClientManagerLite::newBLOB(IBLOB * bp)
+void ClientManagerLite::newBLOB(IBLOB *bp)
 {
     processBLOBasCCD(bp);
-    emit newLEDState(bp->bvp->device , bp->name);
+    emit newLEDState(bp->bvp->device, bp->name);
 }
 
-bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
+bool ClientManagerLite::processBLOBasCCD(IBLOB *bp)
 {
-    enum blobType { BLOB_IMAGE, BLOB_FITS, BLOB_CR2, BLOB_OTHER} BType;
+    enum blobType
+    {
+        BLOB_IMAGE,
+        BLOB_FITS,
+        BLOB_CR2,
+        BLOB_OTHER
+    } BType;
 
     BType = BLOB_OTHER;
 
@@ -785,7 +790,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
     QByteArray fmt = QString(bp->format).toLower().remove(".").toUtf8();
 
     // If it's not FITS or an image, don't process it.
-    if ( (QImageReader::supportedImageFormats().contains(fmt)))
+    if ((QImageReader::supportedImageFormats().contains(fmt)))
         BType = BLOB_IMAGE;
     else if (format.contains("fits"))
         BType = BLOB_FITS;
@@ -799,7 +804,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
 
     QString currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation);
 
-    int nr, n=0;
+    int nr, n = 0;
     QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");
 
     if (currentDir.endsWith('/'))
@@ -810,7 +815,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
 
     QString filename(currentDir + '/');
 
-    if(true)
+    if (true)
     {
         tmpFile.setAutoRemove(false);
 
@@ -823,8 +828,8 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
 
         QDataStream out(&tmpFile);
 
-        for (nr=0; nr < (int) bp->size; nr += n)
-            n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
+        for (nr = 0; nr < (int)bp->size; nr += n)
+            n = out.writeRawData(static_cast<char *>(bp->blob) + nr, bp->size - nr);
 
         tmpFile.close();
 
@@ -855,14 +860,14 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
 #ifdef Q_OS_ANDROID
             LibRaw RawProcessor;
 #define OUT RawProcessor.imgdata.params
-            OUT.user_qual = 0; // -q
+            OUT.user_qual     = 0; // -q
             OUT.use_camera_wb = 1; // -w
-            OUT.highlight = 5; // -H
-            OUT.bright = 8; // -b
+            OUT.highlight     = 5; // -H
+            OUT.bright        = 8; // -b
 #undef OUT
 
-            QString rawFileName = filename;
-            rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
+            QString rawFileName  = filename;
+            rawFileName          = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
             QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
             QTemporaryFile jpgPreview(templateName);
             jpgPreview.setAutoRemove(false);
@@ -877,11 +882,12 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
             QFile::remove(filename);
             filename = jpeg_filename;
 #else
-            if (QStandardPaths::findExecutable("dcraw").isEmpty() == false && QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
+            if (QStandardPaths::findExecutable("dcraw").isEmpty() == false &&
+                QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
             {
                 QProcess dcraw;
-                QString rawFileName = filename;
-                rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
+                QString rawFileName  = filename;
+                rawFileName          = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
                 QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
                 QTemporaryFile jpgPreview(templateName);
                 jpgPreview.setAutoRemove(false);
@@ -889,7 +895,9 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
                 jpgPreview.close();
                 QString jpeg_filename = jpgPreview.fileName();
 
-                QString cmd = QString("/bin/sh -c \"dcraw -c -q 0 -w -H 5 -b 8 %1 | cjpeg -quality 80 > %2\"").arg(filename).arg(jpeg_filename);
+                QString cmd = QString("/bin/sh -c \"dcraw -c -q 0 -w -H 5 -b 8 %1 | cjpeg -quality 80 > %2\"")
+                                  .arg(filename)
+                                  .arg(jpeg_filename);
                 dcraw.start(cmd);
                 dcraw.waitForFinished();
                 QFile::remove(filename); //Delete raw
@@ -897,7 +905,8 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
             }
             else
             {
-                emit newINDIMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
+                emit newINDIMessage(
+                    i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
                 emit newINDIBLOBImage(deviceName, false);
                 return false;
             }
@@ -909,7 +918,6 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
         KStarsLite::Instance()->imageProvider()->addImage("ccdPreview", displayImage);
         emit newINDIBLOBImage(deviceName, true);
         return true;
-
     }
     else if (BType == BLOB_FITS)
     {
@@ -923,16 +931,16 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
     return false;
 }
 
-void ClientManagerLite::newSwitch(ISwitchVectorProperty * svp)
+void ClientManagerLite::newSwitch(ISwitchVectorProperty *svp)
 {
-    for(int i = 0; i < svp->nsp; ++i)
+    for (int i = 0; i < svp->nsp; ++i)
     {
-        ISwitch * sw = &(svp->sp[i]);
-        if(QString(sw->name) == QString("CONNECT"))
+        ISwitch *sw = &(svp->sp[i]);
+        if (QString(sw->name) == QString("CONNECT"))
         {
             emit deviceConnected(svp->device, sw->s == ISS_ON);
         }
-        if(sw != nullptr)
+        if (sw != nullptr)
         {
             emit newINDISwitch(svp->device, svp->name, sw->name, sw->s == ISS_ON);
             emit newLEDState(svp->device, svp->name);
@@ -940,16 +948,15 @@ void ClientManagerLite::newSwitch(ISwitchVectorProperty * svp)
     }
 }
 
-void ClientManagerLite::newNumber(INumberVectorProperty * nvp)
+void ClientManagerLite::newNumber(INumberVectorProperty *nvp)
 {
-    if ((!strcmp(nvp->name, "EQUATORIAL_EOD_COORD") ||
-            !strcmp(nvp->name, "HORIZONTAL_COORD")) )
+    if ((!strcmp(nvp->name, "EQUATORIAL_EOD_COORD") || !strcmp(nvp->name, "HORIZONTAL_COORD")))
     {
         KStarsLite::Instance()->map()->update(); // Update SkyMap if position of telescope is changed
     }
 
     QString deviceName = nvp->device;
-    QString propName = nvp->name;
+    QString propName   = nvp->name;
     for (int i = 0; i < nvp->nnp; ++i)
     {
         INumber num = nvp->np[i];
@@ -962,13 +969,13 @@ void ClientManagerLite::newNumber(INumberVectorProperty * nvp)
     }
 }
 
-void ClientManagerLite::newText(ITextVectorProperty * tvp)
+void ClientManagerLite::newText(ITextVectorProperty *tvp)
 {
     QString deviceName = tvp->device;
-    QString propName = tvp->name;
+    QString propName   = tvp->name;
     for (int i = 0; i < tvp->ntp; ++i)
     {
-        IText text = tvp->tp[i];
+        IText text        = tvp->tp[i];
         QString fieldName = text.name;
 
         emit newINDIText(deviceName, propName, fieldName, text.text);
@@ -976,13 +983,13 @@ void ClientManagerLite::newText(ITextVectorProperty * tvp)
     }
 }
 
-void ClientManagerLite::newLight(ILightVectorProperty * lvp)
+void ClientManagerLite::newLight(ILightVectorProperty *lvp)
 {
     emit newINDILight(lvp->device, lvp->name);
     emit newLEDState(lvp->device, lvp->name);
 }
 
-void ClientManagerLite::newMessage(INDI::BaseDevice * dp, int messageID)
+void ClientManagerLite::newMessage(INDI::BaseDevice *dp, int messageID)
 {
     emit newINDIMessage(QString::fromStdString(dp->messageQueue(messageID)));
 }
@@ -997,9 +1004,9 @@ void ClientManagerLite::serverDisconnected(int exit_code)
 void ClientManagerLite::clearDevices()
 {
     //Delete all created devices
-    foreach(DeviceInfoLite * devInfo, m_devices)
+    foreach (DeviceInfoLite *devInfo, m_devices)
     {
-        if(devInfo->telescope)
+        if (devInfo->telescope)
         {
             emit telescopeRemoved(devInfo->telescope);
         }
@@ -1015,7 +1022,7 @@ QString ClientManagerLite::getLastUsedServer()
 
 void ClientManagerLite::setLastUsedServer(QString server)
 {
-    if(getLastUsedServer() != server)
+    if (getLastUsedServer() != server)
     {
         Options::setLastServer(server);
         lastUsedServerChanged();
@@ -1029,7 +1036,7 @@ int ClientManagerLite::getLastUsedPort()
 
 void ClientManagerLite::setLastUsedPort(int port)
 {
-    if(getLastUsedPort() != port)
+    if (getLastUsedPort() != port)
     {
         Options::setLastServerPort(port);
         lastUsedPortChanged();

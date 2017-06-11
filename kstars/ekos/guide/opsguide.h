@@ -17,7 +17,6 @@ class KConfigDialog;
 
 namespace Ekos
 {
-
 /**
  * @class OpsGuide
  *
@@ -27,28 +26,26 @@ namespace Ekos
  */
 class OpsGuide : public QFrame, public Ui::OpsGuide
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        explicit OpsGuide();
-        ~OpsGuide();
+  public:
+    explicit OpsGuide();
+    ~OpsGuide();
 
-    protected:
-        void showEvent(QShowEvent *);
+  protected:
+    void showEvent(QShowEvent *);
 
-    private slots:
+  private slots:
 
-        void slotApply();
-        void slotLoadSettings(int guiderType);
+    void slotApply();
+    void slotLoadSettings(int guiderType);
 
-    signals:
-        void guiderTypeChanged(int guiderType);
+  signals:
+    void guiderTypeChanged(int guiderType);
 
-    private:
-        KConfigDialog * m_ConfigDialog;
+  private:
+    KConfigDialog *m_ConfigDialog;
 };
-
 }
 
 #endif
-

@@ -62,146 +62,137 @@ typedef SkyOpacityNode LabelTypeNode;
 
 class LabelsItem : public SkyOpacityNode
 {
-
-    public:
-
-        /**
+  public:
+    /**
          * @brief Constructor
          * @param rootNode parent RootNode that instantiates this object
          */
-        LabelsItem();
+    LabelsItem();
 
-        /**
+    /**
          * @short The label_t enum. Holds types of labels
          */
-        enum label_t
-        {
-            STAR_LABEL,
-            ASTEROID_LABEL,
-            COMET_LABEL,
-            PLANET_LABEL,
-            JUPITER_MOON_LABEL,
-            SATURN_MOON_LABEL,
-            DEEP_SKY_LABEL,
-            DSO_MESSIER_LABEL,
-            DSO_NGC_LABEL,
-            DSO_IC_LABEL,
-            DSO_OTHER_LABEL,
-            CONSTEL_NAME_LABEL,
-            SATELLITE_LABEL,
-            RUDE_LABEL, ///Rude labels block other labels FIXME: find a better solution
-            NUM_LABEL_TYPES,
-            HORIZON_LABEL,
-            EQUATOR_LABEL,
-            ECLIPTIC_LABEL,
-            TELESCOPE_SYMBOL,
-            CATALOG_STAR_LABEL,
-            CATALOG_DSO_LABEL,
-            NO_LABEL //used in LinesItem
-        };
+    enum label_t
+    {
+        STAR_LABEL,
+        ASTEROID_LABEL,
+        COMET_LABEL,
+        PLANET_LABEL,
+        JUPITER_MOON_LABEL,
+        SATURN_MOON_LABEL,
+        DEEP_SKY_LABEL,
+        DSO_MESSIER_LABEL,
+        DSO_NGC_LABEL,
+        DSO_IC_LABEL,
+        DSO_OTHER_LABEL,
+        CONSTEL_NAME_LABEL,
+        SATELLITE_LABEL,
+        RUDE_LABEL, ///Rude labels block other labels FIXME: find a better solution
+        NUM_LABEL_TYPES,
+        HORIZON_LABEL,
+        EQUATOR_LABEL,
+        ECLIPTIC_LABEL,
+        TELESCOPE_SYMBOL,
+        CATALOG_STAR_LABEL,
+        CATALOG_DSO_LABEL,
+        NO_LABEL //used in LinesItem
+    };
 
-        /**
+    /**
          * Create LabelNode with given skyObject and append it to LabelTypeNode that corresponds
          * to type
          * @param skyObject for which the label is created
          * @param labelType type of LabelTypeNode to which this label has to be reparented
          * @return pointer to newly created LabelNode
          */
-        LabelNode * addLabel(SkyObject * skyObject, label_t labelType);
+    LabelNode *addLabel(SkyObject *skyObject, label_t labelType);
 
-        /** Create LabelNode and append it to corresponding TrixelNode so that all labels
+    /** Create LabelNode and append it to corresponding TrixelNode so that all labels
          * can be hidden whenever Trixel is not displayed. Use for sky objects that are indexed by SkyMesh
          * @param skyObject for which the label is created
          * @param labelType type of LabelTypeNode to which this label has to be reparented
          * @param trixel id of trixel
          **/
-        LabelNode * addLabel(SkyObject * skyObject, label_t labelType, Trixel trixel);
+    LabelNode *addLabel(SkyObject *skyObject, label_t labelType, Trixel trixel);
 
-        /**
+    /**
          * @short does the same as above but with QString instead of SkyObject
          */
 
-        LabelNode * addLabel(QString name, label_t labelType);
+    LabelNode *addLabel(QString name, label_t labelType);
 
-        /**
+    /**
          * @short does the same as above but instead creates GuideLabelNode
          * @note currently GuideLabelNode is not used anywhere so it is not fully supported yet
          */
 
-        GuideLabelNode * addGuideLabel(QString name, label_t labelType);
+    GuideLabelNode *addGuideLabel(QString name, label_t labelType);
 
-        /**
+    /**
          * The order of labels update can be changed here.
          * @short updates all child labels
          */
 
-        void update();
+    void update();
 
-        /**
+    /**
          * @short updates child labels of LabelTypeNode that corresponds to type in m_labelsLists
          * Labels for stars and DSOs we update labels only if corresponding TrixelNode is visible.
          * @param labelType type of LabelTypeNode (see m_labelsLists)
          */
 
-        void updateChildLabels(label_t labelType);
+    void updateChildLabels(label_t labelType);
 
-        /**
+    /**
          * @return LabelTypeNode that holds labels of labelType
          */
 
-        LabelTypeNode * getLabelNode(label_t labelType)
-        {
-            return m_labelsLists.value(labelType);
-        }
+    LabelTypeNode *getLabelNode(label_t labelType) { return m_labelsLists.value(labelType); }
 
-        /**
+    /**
          * @short deletes all labels of type labelType
          */
 
-        void deleteLabels(label_t labelType);
+    void deleteLabels(label_t labelType);
 
-        /**
+    /**
          * @short deletes particular label
          */
-        void deleteLabel(LabelNode * label);
+    void deleteLabel(LabelNode *label);
 
-        /**
+    /**
          * @short hides all labels of type labelType
          */
 
-        void hideLabels(label_t labelType);
+    void hideLabels(label_t labelType);
 
-        /**
+    /**
          * @short shows all labels of type labelType
          */
 
-        void showLabels(label_t labelType);
+    void showLabels(label_t labelType);
 
-        /**
+    /**
          * @short adds trixel to the node corresponding to labelType
          */
-        TrixelNode * addTrixel(label_t labelType, Trixel trixel);
+    TrixelNode *addTrixel(label_t labelType, Trixel trixel);
 
-        /**
+    /**
          * @short sets m_rootNode and appends to it this node
          * @param rootNode
          */
-        void setRootNode(RootNode * rootNode);
+    void setRootNode(RootNode *rootNode);
 
-        /**
+    /**
          * @return pointer to RootNode that instantiated this object
          */
-        RootNode * rootNode()
-        {
-            return m_rootNode;
-        }
+    RootNode *rootNode() { return m_rootNode; }
 
-    private:
-        QMap<label_t, LabelTypeNode *> m_labelsLists;
+  private:
+    QMap<label_t, LabelTypeNode *> m_labelsLists;
 
-        /** @short because this class is not derived from SkyItem it has to store pointer to RootNode */
-        RootNode * m_rootNode;
-        SkyLabeler * skyLabeler;
+    /** @short because this class is not derived from SkyItem it has to store pointer to RootNode */
+    RootNode *m_rootNode;
+    SkyLabeler *skyLabeler;
 };
 #endif
-

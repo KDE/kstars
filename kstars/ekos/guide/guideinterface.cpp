@@ -38,37 +38,38 @@
 
 namespace Ekos
 {
-
 GuideInterface::GuideInterface()
 {
-    subX=subY=subW=subH=0;
-    subBinX=subBinY=1;
-    ccdPixelSizeX=ccdPixelSizeY=mountAperture=mountFocalLength=0;
+    subX = subY = subW = subH = 0;
+    subBinX = subBinY = 1;
+    ccdPixelSizeX = ccdPixelSizeY = mountAperture = mountFocalLength = 0;
 }
 
-bool GuideInterface::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength)
+bool GuideInterface::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture,
+                                     double mountFocalLength)
 {
-    this->ccdPixelSizeX     = ccdPixelSizeX;
-    this->ccdPixelSizeY     = ccdPixelSizeY;
-    this->mountAperture     = mountAperture;
-    this->mountFocalLength  = mountFocalLength;
+    this->ccdPixelSizeX    = ccdPixelSizeX;
+    this->ccdPixelSizeY    = ccdPixelSizeY;
+    this->mountAperture    = mountAperture;
+    this->mountFocalLength = mountFocalLength;
 
     return true;
 }
 
-bool GuideInterface::getGuiderParams(double * ccdPixelSizeX, double * ccdPixelSizeY, double * mountAperture, double * mountFocalLength)
+bool GuideInterface::getGuiderParams(double *ccdPixelSizeX, double *ccdPixelSizeY, double *mountAperture,
+                                     double *mountFocalLength)
 {
-    *ccdPixelSizeX           = this->ccdPixelSizeX;
-    *ccdPixelSizeY           = this->ccdPixelSizeY;
-    *mountAperture           = this->mountAperture;
-    *mountFocalLength        = this->mountFocalLength;
+    *ccdPixelSizeX    = this->ccdPixelSizeX;
+    *ccdPixelSizeY    = this->ccdPixelSizeY;
+    *mountAperture    = this->mountAperture;
+    *mountFocalLength = this->mountFocalLength;
 
     return true;
 }
 
 bool GuideInterface::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY)
 {
-    if( w <= 0 || h <= 0 )
+    if (w <= 0 || h <= 0)
         return false;
 
     subX = x;
@@ -82,7 +83,7 @@ bool GuideInterface::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t
     return true;
 }
 
-bool GuideInterface::getFrameParams(uint16_t * x, uint16_t * y, uint16_t * w, uint16_t * h, uint16_t * binX, uint16_t * binY)
+bool GuideInterface::getFrameParams(uint16_t *x, uint16_t *y, uint16_t *w, uint16_t *h, uint16_t *binX, uint16_t *binY)
 {
     *x = subX;
     *y = subY;
@@ -99,7 +100,4 @@ void GuideInterface::setStarPosition(QVector3D starCenter)
 {
     INDI_UNUSED(starCenter);
 }
-
 }
-
-

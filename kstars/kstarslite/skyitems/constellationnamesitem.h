@@ -29,11 +29,11 @@ class ConstellationNamesComponent;
 
 struct ConstellationName
 {
-    ConstellationName(SkyObject * skyObj);
+    ConstellationName(SkyObject *skyObj);
 
-    SkyObject * obj;
-    LabelNode * latin;
-    LabelNode * secondary;
+    SkyObject *obj;
+    LabelNode *latin;
+    LabelNode *secondary;
 
     /**
      * @short hides both latin and secondary labels
@@ -50,31 +50,32 @@ struct ConstellationName
 
 class ConstellationNamesItem : public SkyItem
 {
-    public:
-        /**
+  public:
+    /**
          * Constructor.
          * @param constComp a pointer to ConstellationNamesComponent that this object has to represent in
          * SkyMapLite
          * @param parent a pointer to SkyItem's parent node
          */
-        explicit ConstellationNamesItem(ConstellationNamesComponent * constComp, RootNode * rootNode = 0);
+    explicit ConstellationNamesItem(ConstellationNamesComponent *constComp, RootNode *rootNode = 0);
 
-        /**
+    /**
          * Update positions ConstellationName labels based on user settings and labels visibility.
          * If the user chose latin names then label with secondary name won't be created until
          * settings are not changed.
          *
          * @short updates positions of labels based on their visibility and user settings.
          */
-        virtual void update();
+    virtual void update();
 
-        /**
+    /**
          * @short Delete all labels and recreate m_names according to object list of m_constelNamesComp
          */
-        void recreateList();
-    private:
-        ConstellationNamesComponent * m_constelNamesComp;
-        QVector<ConstellationName *> m_names;
+    void recreateList();
+
+  private:
+    ConstellationNamesComponent *m_constelNamesComp;
+    QVector<ConstellationName *> m_names;
 };
 
 #endif

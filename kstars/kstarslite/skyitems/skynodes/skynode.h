@@ -39,97 +39,75 @@ class SkyMapLite;
 
 class SkyNode : public QSGTransformNode
 {
-    public:
-        /**
+  public:
+    /**
          * @brief Constructor
          * @param skyObject that is represented on the SkyMapLIte
          */
-        SkyNode(SkyObject * skyObject);
-        SkyNode();
-        /** @short short function that returns pointer to the current projector
+    SkyNode(SkyObject *skyObject);
+    SkyNode();
+    /** @short short function that returns pointer to the current projector
          *  @return pointer to current projector of SkyMapLite
          */
 
-        // All children nodes allocated on heap are deleted when parent is destroyed
-        virtual ~SkyNode() { }
+    // All children nodes allocated on heap are deleted when parent is destroyed
+    virtual ~SkyNode() {}
 
-        inline const Projector * projector()
-        {
-            return SkyMapLite::Instance()->projector();
-        }
+    inline const Projector *projector() { return SkyMapLite::Instance()->projector(); }
 
-        /** @short short function to access SkyMapLite
+    /** @short short function to access SkyMapLite
          *  @return pointer to instance of SkyMapLite class
          */
-        inline SkyMapLite * map() const
-        {
-            return SkyMapLite::Instance();
-        }
+    inline SkyMapLite *map() const { return SkyMapLite::Instance(); }
 
-        /**
+    /**
          * @short updates coordinate of the object on SkyMapLite
          */
-        virtual void update() { }
+    virtual void update() {}
 
-        /**
+    /**
          * @short sets m_drawLabel to true if it is needed to be drawn and calls update()
          * @param drawLabel true of label has to be drawn
          */
-        void update(bool drawLabel);
+    void update(bool drawLabel);
 
-        inline void addChildNode(QSGNode * node)
-        {
-            m_opacity->appendChildNode(node);
-        }
+    inline void addChildNode(QSGNode *node) { m_opacity->appendChildNode(node); }
 
-        /**
+    /**
          * @short hides all child nodes (sets opacity of m_opacity to 0)
          */
-        virtual void hide();
+    virtual void hide();
 
-        /**
+    /**
          * @short shows all child nodes (sets opacity of m_opacity to 1)
          */
-        virtual void show();
+    virtual void show();
 
-        inline int hideCount()
-        {
-            return m_hideCount;
-        }
+    inline int hideCount() { return m_hideCount; }
 
-        /**
+    /**
          * @short changes the position of SkyNode on SkyMapLite. Has to be overridden by the classes
          * that support moving
          * @param pos new position
          */
-        virtual void changePos(QPointF pos)
-        {
-            Q_UNUSED(pos);
-        }
+    virtual void changePos(QPointF pos) { Q_UNUSED(pos); }
 
-        /**
+    /**
          * @return true if object is visible (m_opacity->opacity() != 0) else returns false
          */
-        inline bool visible()
-        {
-            return m_opacity->visible();
-        }
+    inline bool visible() { return m_opacity->visible(); }
 
-        /**
+    /**
          * @short returns SkyObject associated with this SkyNode
          * @return pointer to the object of type SkyObject
          */
-        SkyObject * skyObject() const
-        {
-            return m_skyObject;
-        }
-        SkyOpacityNode * m_opacity;
+    SkyObject *skyObject() const { return m_skyObject; }
+    SkyOpacityNode *m_opacity;
 
-    protected:
-        SkyObject * m_skyObject;
-        bool m_drawLabel;
-        int m_hideCount;
+  protected:
+    SkyObject *m_skyObject;
+    bool m_drawLabel;
+    int m_hideCount;
 };
-
 
 #endif

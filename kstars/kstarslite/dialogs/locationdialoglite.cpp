@@ -32,27 +32,25 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-LocationDialogLite::LocationDialogLite()
-    :SelectedCity(nullptr), currentGeo(nullptr)
+LocationDialogLite::LocationDialogLite() : SelectedCity(nullptr), currentGeo(nullptr)
 {
-    KStarsLite * kstars = KStarsLite::Instance();
+    KStarsLite *kstars = KStarsLite::Instance();
     kstars->qmlEngine()->rootContext()->setContextProperty("CitiesModel", &m_cityList);
 
     //initialize cities once KStarsData finishes loading everything
     connect(kstars, SIGNAL(dataLoadFinished()), this, SLOT(initCityList()));
-    KStarsData * data = KStarsData::Instance();
+    KStarsData *data = KStarsData::Instance();
     connect(data, SIGNAL(geoChanged()), this, SLOT(updateCurrentLocation()));
 
     nam = new QNetworkAccessManager(this);
-    connect(nam, SIGNAL(finished(QNetworkReply *)),
-            this, SLOT(processLocationNameData(QNetworkReply *)));
+    connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(processLocationNameData(QNetworkReply *)));
 }
 
 void LocationDialogLite::getNameFromCoordinates(double latitude, double longitude)
 {
     QString lat = QString::number(latitude);
     QString lon = QString::number(longitude);
-    QString latlng (lat + ", " + lon);
+    QString latlng(lat + ", " + lon);
 
     QUrl url("http://maps.googleapis.com/maps/api/geocode/json");
     QUrlQuery query;
@@ -61,11 +59,10 @@ void LocationDialogLite::getNameFromCoordinates(double latitude, double longitud
     qDebug() << "submitting request";
 
     nam->get(QNetworkRequest(url));
-    connect(nam, SIGNAL(finished(QNetworkReply *)),
-            this, SLOT(processLocationNameData(QNetworkReply *)));
+    connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(processLocationNameData(QNetworkReply *)));
 }
 
-void LocationDialogLite::processLocationNameData(QNetworkReply * networkReply)
+void LocationDialogLite::processLocationNameData(QNetworkReply *networkReply)
 {
     if (!networkReply)
         return;
@@ -83,15 +80,17 @@ void LocationDialogLite::processLocationNameData(QNetworkReply * networkReply)
             {
                 val = obj["results"];
 
-                QString city = val.toArray()[0].toObject()["address_components"].toArray()[2].toObject()["long_name"].toString();
-                QString region = val.toArray()[0].toObject()["address_components"].toArray()[3].toObject()["long_name"].toString();
-                QString country = val.toArray()[0].toObject()["address_components"].toArray()[4].toObject()["long_name"].toString();
+                QString city =
+                    val.toArray()[0].toObject()["address_components"].toArray()[2].toObject()["long_name"].toString();
+                QString region =
+                    val.toArray()[0].toObject()["address_components"].toArray()[3].toObject()["long_name"].toString();
+                QString country =
+                    val.toArray()[0].toObject()["address_components"].toArray()[4].toObject()["long_name"].toString();
 
                 emit newNameFromCoordinates(city, region, country);
             }
             else
             {
-
             }
         }
     }
@@ -100,13 +99,13 @@ void LocationDialogLite::processLocationNameData(QNetworkReply * networkReply)
 
 void LocationDialogLite::initCityList()
 {
-    KStarsData * data = KStarsData::Instance();
+    KStarsData *data = KStarsData::Instance();
     QStringList cities;
-    foreach ( GeoLocation * loc, data->getGeoList() )
+    foreach (GeoLocation *loc, data->getGeoList())
     {
         QString name = loc->fullName();
-        cities.append( name );
-        filteredCityList.insert( name, loc );
+        cities.append(name);
+        filteredCityList.insert(name, loc);
     }
 
     //Sort the list of Cities alphabetically...note that filteredCityList may now have a different ordering!
@@ -115,41 +114,40 @@ void LocationDialogLite::initCityList()
 
     QStringList TZ;
 
-    for ( int i=0; i<25; ++i )
-        TZ.append( QLocale().toString( (double)(i-12) ) );
-    setProperty("TZList",TZ);
+    for (int i = 0; i < 25; ++i)
+        TZ.append(QLocale().toString((double)(i - 12)));
+    setProperty("TZList", TZ);
 
     QStringList DST;
 
-    foreach( const QString &key, data->getRulebook().keys() )
+    foreach (const QString &key, data->getRulebook().keys())
     {
-        if( !key.isEmpty() )
-            DST.append( key );
+        if (!key.isEmpty())
+            DST.append(key);
     }
-    setProperty("DSTRules",DST);
+    setProperty("DSTRules", DST);
 }
 
 void LocationDialogLite::filterCity(QString city, QString province, QString country)
 {
-    KStarsData * data = KStarsData::Instance();
+    KStarsData *data = KStarsData::Instance();
     QStringList cities;
     filteredCityList.clear();
 
-    foreach ( GeoLocation * loc, data->getGeoList() )
+    foreach (GeoLocation *loc, data->getGeoList())
     {
-        QString sc( loc->translatedName() );
-        QString ss( loc->translatedCountry() );
+        QString sc(loc->translatedName());
+        QString ss(loc->translatedCountry());
         QString sp = "";
-        if ( !loc->province().isEmpty() )
+        if (!loc->province().isEmpty())
             sp = loc->translatedProvince();
 
-        if ( sc.toLower().startsWith( city.toLower() ) &&
-                sp.toLower().startsWith( province.toLower() ) &&
-                ss.toLower().startsWith( country.toLower() ) )
+        if (sc.toLower().startsWith(city.toLower()) && sp.toLower().startsWith(province.toLower()) &&
+            ss.toLower().startsWith(country.toLower()))
         {
             QString name = loc->fullName();
-            cities.append( name );
-            filteredCityList.insert( name, loc );
+            cities.append(name);
+            filteredCityList.insert(name, loc);
         }
     }
     m_cityList.setStringList(cities);
@@ -158,49 +156,52 @@ void LocationDialogLite::filterCity(QString city, QString province, QString coun
     setProperty("currLocIndex", m_cityList.stringList().indexOf(m_currentLocation));
 }
 
-bool LocationDialogLite::addCity(QString city, QString province, QString country, QString latitude, QString longitude, QString TimeZoneString, QString TZRule)
+bool LocationDialogLite::addCity(QString city, QString province, QString country, QString latitude, QString longitude,
+                                 QString TimeZoneString, QString TZRule)
 {
     QSqlDatabase mycitydb = getDB();
 
-    if( mycitydb.isValid() )
+    if (mycitydb.isValid())
     {
         QString fullName;
-        if(!city.isEmpty())
+        if (!city.isEmpty())
         {
             fullName += city;
         }
 
-        if(!province.isEmpty())
+        if (!province.isEmpty())
         {
             fullName += ", " + province;
         }
 
-        if(!country.isEmpty())
+        if (!country.isEmpty())
         {
             fullName += ", " + country;
         }
 
-        if(m_cityList.stringList().contains(fullName))
+        if (m_cityList.stringList().contains(fullName))
         {
             return editCity(fullName, city, province, country, latitude, longitude, TimeZoneString, TZRule);
         }
 
         bool latOk(false), lngOk(false), tzOk(false);
-        dms lat = createDms( latitude, true, &latOk );
-        dms lng = createDms( longitude, true, &lngOk );
+        dms lat = createDms(latitude, true, &latOk);
+        dms lng = createDms(longitude, true, &lngOk);
         //TimeZoneString.replace( QLocale().decimalPoint(), "." );
-        double TZ = TimeZoneString.toDouble( &tzOk );
+        double TZ = TimeZoneString.toDouble(&tzOk);
 
-        if ( ! latOk || ! lngOk  || !tzOk) return false;
+        if (!latOk || !lngOk || !tzOk)
+            return false;
 
         //Strip off white space
-        city = city.trimmed();
-        province = province.trimmed();
-        country = country.trimmed();
-        GeoLocation * g = nullptr;
+        city           = city.trimmed();
+        province       = province.trimmed();
+        country        = country.trimmed();
+        GeoLocation *g = nullptr;
 
         QSqlQuery add_query(mycitydb);
-        add_query.prepare("INSERT INTO city(Name, Province, Country, Latitude, Longitude, TZ, TZRule) VALUES(:Name, :Province, :Country, :Latitude, :Longitude, :TZ, :TZRule)");
+        add_query.prepare("INSERT INTO city(Name, Province, Country, Latitude, Longitude, TZ, TZRule) VALUES(:Name, "
+                          ":Province, :Country, :Latitude, :Longitude, :TZ, :TZRule)");
         add_query.bindValue(":Name", city);
         add_query.bindValue(":Province", province);
         add_query.bindValue(":Country", country);
@@ -215,7 +216,7 @@ bool LocationDialogLite::addCity(QString city, QString province, QString country
         }
 
         //Add city to geoList
-        g = new GeoLocation( lng, lat, city, province, country, TZ, & KStarsData::Instance()->Rulebook[ TZRule ] );
+        g = new GeoLocation(lng, lat, city, province, country, TZ, &KStarsData::Instance()->Rulebook[TZRule]);
         KStarsData::Instance()->getGeoList().append(g);
 
         mycitydb.commit();
@@ -229,9 +230,9 @@ bool LocationDialogLite::addCity(QString city, QString province, QString country
 bool LocationDialogLite::deleteCity(QString fullName)
 {
     QSqlDatabase mycitydb = getDB();
-    GeoLocation * geo = filteredCityList.value(fullName);
+    GeoLocation *geo      = filteredCityList.value(fullName);
 
-    if( mycitydb.isValid() && geo && !geo->isReadOnly())
+    if (mycitydb.isValid() && geo && !geo->isReadOnly())
     {
         QSqlQuery delete_query(mycitydb);
         delete_query.prepare("DELETE FROM city WHERE Name = :Name AND Province = :Province AND Country = :Country");
@@ -246,7 +247,7 @@ bool LocationDialogLite::deleteCity(QString fullName)
 
         filteredCityList.remove(geo->fullName());
         KStarsData::Instance()->getGeoList().removeOne(geo);
-        delete(geo);
+        delete (geo);
         mycitydb.commit();
         mycitydb.close();
         return true;
@@ -254,20 +255,22 @@ bool LocationDialogLite::deleteCity(QString fullName)
     return false;
 }
 
-bool LocationDialogLite::editCity(QString fullName, QString city, QString province, QString country, QString latitude, QString longitude, QString TimeZoneString, QString TZRule)
+bool LocationDialogLite::editCity(QString fullName, QString city, QString province, QString country, QString latitude,
+                                  QString longitude, QString TimeZoneString, QString TZRule)
 {
     QSqlDatabase mycitydb = getDB();
-    GeoLocation * geo = filteredCityList.value(fullName);
+    GeoLocation *geo      = filteredCityList.value(fullName);
 
     bool latOk(false), lngOk(false), tzOk(false);
-    dms lat = createDms( latitude, true, &latOk );
-    dms lng = createDms( longitude, true, &lngOk );
-    double TZ = TimeZoneString.toDouble( &tzOk );
+    dms lat   = createDms(latitude, true, &latOk);
+    dms lng   = createDms(longitude, true, &lngOk);
+    double TZ = TimeZoneString.toDouble(&tzOk);
 
-    if( mycitydb.isValid() && geo && !geo->isReadOnly() && latOk && lngOk && tzOk)
+    if (mycitydb.isValid() && geo && !geo->isReadOnly() && latOk && lngOk && tzOk)
     {
         QSqlQuery update_query(mycitydb);
-        update_query.prepare("UPDATE city SET Name = :newName, Province = :newProvince, Country = :newCountry, Latitude = :Latitude, Longitude = :Longitude, TZ = :TZ, TZRule = :TZRule WHERE "
+        update_query.prepare("UPDATE city SET Name = :newName, Province = :newProvince, Country = :newCountry, "
+                             "Latitude = :Latitude, Longitude = :Longitude, TZ = :TZ, TZRule = :TZRule WHERE "
                              "Name = :Name AND Province = :Province AND Country = :Country");
         update_query.bindValue(":newName", city);
         update_query.bindValue(":newProvince", province);
@@ -291,10 +294,10 @@ bool LocationDialogLite::editCity(QString fullName, QString city, QString provin
         geo->setLat(lat);
         geo->setLong(lng);
         geo->setTZ(TZ);
-        geo->setTZRule(& KStarsData::Instance()->Rulebook[ TZRule ]);
+        geo->setTZRule(&KStarsData::Instance()->Rulebook[TZRule]);
 
         //If we are changing current location update it
-        if(m_currentLocation == fullName)
+        if (m_currentLocation == fullName)
         {
             setLocation(geo->fullName());
         }
@@ -308,8 +311,8 @@ bool LocationDialogLite::editCity(QString fullName, QString city, QString provin
 
 QString LocationDialogLite::getCity(QString fullName)
 {
-    GeoLocation * geo = filteredCityList.value(fullName);
-    if(geo)
+    GeoLocation *geo = filteredCityList.value(fullName);
+    if (geo)
     {
         return geo->name();
     }
@@ -318,8 +321,8 @@ QString LocationDialogLite::getCity(QString fullName)
 
 QString LocationDialogLite::getProvince(QString fullName)
 {
-    GeoLocation * geo = filteredCityList.value(fullName);
-    if(geo)
+    GeoLocation *geo = filteredCityList.value(fullName);
+    if (geo)
     {
         return geo->province();
     }
@@ -328,8 +331,8 @@ QString LocationDialogLite::getProvince(QString fullName)
 
 QString LocationDialogLite::getCountry(QString fullName)
 {
-    GeoLocation * geo = filteredCityList.value(fullName);
-    if(geo)
+    GeoLocation *geo = filteredCityList.value(fullName);
+    if (geo)
     {
         return geo->country();
     }
@@ -338,8 +341,8 @@ QString LocationDialogLite::getCountry(QString fullName)
 
 double LocationDialogLite::getLatitude(QString fullName)
 {
-    GeoLocation * geo = filteredCityList.value(fullName);
-    if(geo)
+    GeoLocation *geo = filteredCityList.value(fullName);
+    if (geo)
     {
         return geo->lat()->Degrees();
     }
@@ -348,8 +351,8 @@ double LocationDialogLite::getLatitude(QString fullName)
 
 double LocationDialogLite::getLongitude(QString fullName)
 {
-    GeoLocation * geo = filteredCityList.value(fullName);
-    if(geo)
+    GeoLocation *geo = filteredCityList.value(fullName);
+    if (geo)
     {
         return geo->lng()->Degrees();
     }
@@ -358,8 +361,8 @@ double LocationDialogLite::getLongitude(QString fullName)
 
 int LocationDialogLite::getTZ(QString fullName)
 {
-    GeoLocation * geo = filteredCityList.value(fullName);
-    if(geo)
+    GeoLocation *geo = filteredCityList.value(fullName);
+    if (geo)
     {
         return m_TZList.indexOf(QString::number(geo->TZ0()));
     }
@@ -368,13 +371,13 @@ int LocationDialogLite::getTZ(QString fullName)
 
 int LocationDialogLite::getDST(QString fullName)
 {
-    GeoLocation * geo = filteredCityList.value(fullName);
+    GeoLocation *geo                      = filteredCityList.value(fullName);
     QMap<QString, TimeZoneRule> &Rulebook = KStarsData::Instance()->Rulebook;
-    if(geo)
+    if (geo)
     {
-        foreach( const QString &key, Rulebook.keys() )
+        foreach (const QString &key, Rulebook.keys())
         {
-            if( !key.isEmpty() && geo->tzrule()->equals(&Rulebook[key]) )
+            if (!key.isEmpty() && geo->tzrule()->equals(&Rulebook[key]))
                 return m_DSTRules.indexOf(key);
         }
     }
@@ -383,18 +386,16 @@ int LocationDialogLite::getDST(QString fullName)
 
 bool LocationDialogLite::isDuplicate(QString city, QString province, QString country)
 {
-    KStarsData * data = KStarsData::Instance();
-    foreach ( GeoLocation * loc, data->getGeoList() )
+    KStarsData *data = KStarsData::Instance();
+    foreach (GeoLocation *loc, data->getGeoList())
     {
-        QString sc( loc->translatedName() );
-        QString ss( loc->translatedCountry() );
+        QString sc(loc->translatedName());
+        QString ss(loc->translatedCountry());
         QString sp = "";
-        if ( !loc->province().isEmpty() )
+        if (!loc->province().isEmpty())
             sp = loc->translatedProvince();
 
-        if ( sc.toLower() == city.toLower() &&
-                sp.toLower() == province.toLower() &&
-                ss.toLower() == country.toLower()  )
+        if (sc.toLower() == city.toLower() && sp.toLower() == province.toLower() && ss.toLower() == country.toLower())
         {
             return true;
         }
@@ -404,8 +405,8 @@ bool LocationDialogLite::isDuplicate(QString city, QString province, QString cou
 
 bool LocationDialogLite::isReadOnly(QString fullName)
 {
-    GeoLocation * geo = filteredCityList.value(fullName);
-    if(geo)
+    GeoLocation *geo = filteredCityList.value(fullName);
+    if (geo)
     {
         return geo->isReadOnly();
     }
@@ -418,7 +419,7 @@ bool LocationDialogLite::isReadOnly(QString fullName)
 QSqlDatabase LocationDialogLite::getDB()
 {
     QSqlDatabase mycitydb = QSqlDatabase::database("mycitydb");
-    QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "mycitydb.sqlite";
+    QString dbfile        = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "mycitydb.sqlite";
 
     // If it doesn't exist, create it
     if (QFile::exists(dbfile) == false)
@@ -452,18 +453,18 @@ QSqlDatabase LocationDialogLite::getDB()
 
 bool LocationDialogLite::checkLongLat(QString longitude, QString latitude)
 {
-    if ( longitude.isEmpty() || latitude.isEmpty() )
+    if (longitude.isEmpty() || latitude.isEmpty())
         return false;
 
     bool ok;
     double lng = createDms(longitude, true, &ok).Degrees();
-    if( !ok || std::isnan(lng))
+    if (!ok || std::isnan(lng))
         return false;
     double lat = createDms(latitude, true, &ok).Degrees();
-    if( !ok || std::isnan(lat))
+    if (!ok || std::isnan(lat))
         return false;
 
-    if( fabs(lng) > 180 || fabs(lat) > 90 )
+    if (fabs(lng) > 180 || fabs(lat) > 90)
         return false;
 
     return true;
@@ -471,14 +472,14 @@ bool LocationDialogLite::checkLongLat(QString longitude, QString latitude)
 
 bool LocationDialogLite::setLocation(QString fullName)
 {
-    KStarsData * data = KStarsData::Instance();
+    KStarsData *data = KStarsData::Instance();
 
-    GeoLocation * geo = filteredCityList.value(fullName);
-    if(!geo)
+    GeoLocation *geo = filteredCityList.value(fullName);
+    if (!geo)
     {
-        foreach ( GeoLocation * loc, data->getGeoList() )
+        foreach (GeoLocation *loc, data->getGeoList())
         {
-            if( loc->fullName() == fullName)
+            if (loc->fullName() == fullName)
             {
                 geo = loc;
                 break;
@@ -486,20 +487,20 @@ bool LocationDialogLite::setLocation(QString fullName)
         }
     }
 
-    if(geo)
+    if (geo)
     {
         // set new location in options
-        data->setLocation( *geo );
+        data->setLocation(*geo);
 
         // adjust local time to keep UT the same.
         // create new LT without DST offset
-        KStarsDateTime ltime = geo->UTtoLT( data->ut() );
+        KStarsDateTime ltime = geo->UTtoLT(data->ut());
 
         // reset timezonerule to compute next dst change
-        geo->tzrule()->reset_with_ltime( ltime, geo->TZ0(), data->isTimeRunningForward() );
+        geo->tzrule()->reset_with_ltime(ltime, geo->TZ0(), data->isTimeRunningForward());
 
         // reset next dst change time
-        data->setNextDSTChange( geo->tzrule()->nextDSTChange() );
+        data->setNextDSTChange(geo->tzrule()->nextDSTChange());
 
         // reset local sideral time
         data->syncLST();
@@ -509,9 +510,9 @@ bool LocationDialogLite::setLocation(QString fullName)
 
         // If the sky is in Horizontal mode and not tracking, reset focus such that
         // Alt/Az remain constant.
-        if ( ! Options::isTracking() && Options::useAltAz() )
+        if (!Options::isTracking() && Options::useAltAz())
         {
-            SkyMapLite::Instance()->focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+            SkyMapLite::Instance()->focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
         }
 
         // recalculate new times and objects
@@ -522,19 +523,20 @@ bool LocationDialogLite::setLocation(QString fullName)
     return false;
 }
 
-dms LocationDialogLite::createDms (QString degree, bool deg, bool * ok )
+dms LocationDialogLite::createDms(QString degree, bool deg, bool *ok)
 {
     dms dmsAngle(0.0); // FIXME: Should we change this to NaN?
     bool check;
-    check = dmsAngle.setFromString( degree, deg );
-    if (ok) *ok = check; //ok might be a null pointer!
+    check = dmsAngle.setFromString(degree, deg);
+    if (ok)
+        *ok = check; //ok might be a null pointer!
 
     return dmsAngle;
 }
 
 void LocationDialogLite::setCurrentLocation(QString loc)
 {
-    if(m_currentLocation != loc)
+    if (m_currentLocation != loc)
     {
         m_currentLocation = loc;
         emit currentLocationChanged(loc);

@@ -30,38 +30,36 @@ class QSGFlatColorMaterial;
 
 class CrosshairNode : public SkyNode
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor. Initializes lines, ellipses and labels.
          * @param baseDevice - pointer to telescope
          */
-        CrosshairNode(INDI::BaseDevice * baseDevice, RootNode * rootNode);
+    CrosshairNode(INDI::BaseDevice *baseDevice, RootNode *rootNode);
 
-        /** Destructor. **/
-        ~CrosshairNode();
+    /** Destructor. **/
+    ~CrosshairNode();
 
-        /** @short Update position and visibility of crosshair based on the Alt, Az (or Ra and Dec)
+    /** @short Update position and visibility of crosshair based on the Alt, Az (or Ra and Dec)
             of telescope **/
-        virtual void update() override;
-        virtual void hide() override;
+    virtual void update() override;
+    virtual void hide() override;
 
-        /** @short Set color of crosshair **/
-        void setColor(QColor color);
-    private:
-        EllipseNode * el1;
-        EllipseNode * el2;
+    /** @short Set color of crosshair **/
+    void setColor(QColor color);
 
-        QSGGeometryNode * lines;
-        QSGFlatColorMaterial * material;
+  private:
+    EllipseNode *el1;
+    EllipseNode *el2;
 
-        LabelNode * label;
+    QSGGeometryNode *lines;
+    QSGFlatColorMaterial *material;
 
-        LabelsItem * labelsItem;
+    LabelNode *label;
 
-        INDI::BaseDevice * bd;
+    LabelsItem *labelsItem;
+
+    INDI::BaseDevice *bd;
 };
 
-
 #endif
-
-

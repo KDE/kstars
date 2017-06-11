@@ -19,8 +19,8 @@
 #include "math.h"
 #include <QDebug>
 
-ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, TelescopeType telType):
-    m_BortleClass(bortle), m_Equip(equip), m_TelType(telType), m_Aperture(aperture)
+ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, TelescopeType telType)
+    : m_BortleClass(bortle), m_Equip(equip), m_TelType(telType), m_Aperture(aperture)
 {
     // 't' parameter
     switch (m_TelType)
@@ -37,10 +37,12 @@ ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, Teles
     }
     setLimMagnitude();
 
-    qDebug()<<"Aperture value being used:"<<m_Aperture;
+    qDebug() << "Aperture value being used:" << m_Aperture;
 }
 
-ObsConditions::~ObsConditions() {}
+ObsConditions::~ObsConditions()
+{
+}
 
 QMap<int, double> ObsConditions::setLMMap()
 {
@@ -68,16 +70,17 @@ void ObsConditions::setLimMagnitude()
 double ObsConditions::getOptimumMAG()
 {
     double power = (2.81 + 2.814 * m_LM - 0.3694 * pow(m_LM, 2)) / 5;
-    return 0.1333 * m_Aperture * sqrt(m_tParam ) * pow(power, 10);
+    return 0.1333 * m_Aperture * sqrt(m_tParam) * pow(power, 10);
 }
 
 double ObsConditions::getTrueMagLim()
 {
-//     qDebug()<< (4.12 + 2.5 * log10( pow(aperture,2)*t ));
-//     return 4.12 + 2.5 * log10( pow(aperture,2)*t ); //Taking optimum magnification into consideration
+    //     qDebug()<< (4.12 + 2.5 * log10( pow(aperture,2)*t ));
+    //     return 4.12 + 2.5 * log10( pow(aperture,2)*t ); //Taking optimum magnification into consideration
 
     ///If there is no equipment available then return limiting magnitude for naked-eye
-    if (m_Equip == None || m_Aperture == -1) return m_LM;
+    if (m_Equip == None || m_Aperture == -1)
+        return m_LM;
 
     /**
      * This is a more traditional formula which does not take the
@@ -93,13 +96,14 @@ double ObsConditions::getTrueMagLim()
     return m_LM + 5 * log10(m_Aperture / 7.5);
 }
 
-bool ObsConditions::isVisible(GeoLocation * geo, dms * lst, SkyObject * so)
+bool ObsConditions::isVisible(GeoLocation *geo, dms *lst, SkyObject *so)
 {
-    if(so->type()==SkyObject::SATELLITE){
+    if (so->type() == SkyObject::SATELLITE)
+    {
         return so->alt().Degrees() > 6.0;
     }
     KStarsDateTime ut = geo->LTtoUT(KStarsDateTime(QDateTime::currentDateTime().toLocalTime()));
-    SkyPoint sp = so->recomputeCoords(ut, geo);
+    SkyPoint sp       = so->recomputeCoords(ut, geo);
 
     //check altitude of object at this time.
     sp.EquatorialToHorizontal(lst, geo->lat());
@@ -107,13 +111,14 @@ bool ObsConditions::isVisible(GeoLocation * geo, dms * lst, SkyObject * so)
     return (sp.alt().Degrees() > 6.0 && so->mag() < getTrueMagLim());
 }
 
-void ObsConditions::setObsConditions(int bortle, double aperture, ObsConditions::Equipment equip, ObsConditions::TelescopeType telType)
+void ObsConditions::setObsConditions(int bortle, double aperture, ObsConditions::Equipment equip,
+                                     ObsConditions::TelescopeType telType)
 {
     m_BortleClass = bortle;
     setLimMagnitude();
     m_Aperture = aperture;
-    m_Equip = equip;
-    m_TelType = telType;
+    m_Equip    = equip;
+    m_TelType  = telType;
 
-    qDebug()<<"Aperture value being used:"<<m_Aperture;
+    qDebug() << "Aperture value being used:" << m_Aperture;
 }

@@ -29,9 +29,9 @@ class KStars;
 
 class AddCatDialogUI : public QFrame, public Ui::AddCatDialog
 {
-        Q_OBJECT
-    public:
-        explicit AddCatDialogUI( QWidget * parent=0 );
+    Q_OBJECT
+  public:
+    explicit AddCatDialogUI(QWidget *parent = 0);
 };
 
 /**
@@ -42,72 +42,66 @@ class AddCatDialogUI : public QFrame, public Ui::AddCatDialog
  */
 class AddCatDialog : public QDialog
 {
-        Q_OBJECT
-    public:
-        /**
+    Q_OBJECT
+  public:
+    /**
           *Default constructor
         	*/
-        explicit AddCatDialog( KStars * _ks );
+    explicit AddCatDialog(KStars *_ks);
 
-        /**
+    /**
           *Destructor (empty)
         	*/
-        ~AddCatDialog();
+    ~AddCatDialog();
 
-        /**
+    /**
           *@return the name for the custom catalog.
         	*/
-        QString name() const
-        {
-            return acd->CatalogName->text();
-        }
+    QString name() const { return acd->CatalogName->text(); }
 
-        /**
+    /**
           *@return the filename of the custom catalog.
         	*/
-        QString filename() const
-        {
-            return acd->CatalogURL->url().toLocalFile();
-        }
+    QString filename() const { return acd->CatalogURL->url().toLocalFile(); }
 
-    private slots:
-        /**
+  private slots:
+    /**
           *Display contents of the import file.
         	*/
-        void slotShowDataFile();
+    void slotShowDataFile();
 
-        /**
+    /**
           *Create the object catalog file, populate the objectList,
         	*and close the dialog.
         	*/
-        void slotCreateCatalog();
+    void slotCreateCatalog();
 
-        /**
+    /**
           *Preview the catalog file as constructed by the current parameters
         	*/
-        void slotPreviewCatalog();
+    void slotPreviewCatalog();
 
-        /**
+    /**
           *Overridden from QDialog to show short help in a dialog rather
         	*than launch KHelpCenter.
         	*/
-        void slotHelp();
+    void slotHelp();
 
-    private:
-        /**
+  private:
+    /**
           *Attempt to parse the user's data file according to the fields
         	*specified in the Catalog fields list.
         	*/
-        bool validateDataFile();
+    bool validateDataFile();
 
-        /**
+    /**
           *Write a header line describing the data fields in the catalog, and
         	*defining the catalog name, ID prefix, and coordinate epoch.
         	*/
-        QString writeCatalogHeader();
+    QString writeCatalogHeader();
 
-        AddCatDialogUI * acd;
-        QString CatalogContents;
+    AddCatDialogUI *acd;
+    QString CatalogContents;
 };
 
 #endif

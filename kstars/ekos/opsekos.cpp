@@ -29,18 +29,17 @@
 #include "auxiliary/ksnotification.h"
 #include "kspaths.h"
 
-OpsEkos::OpsEkos()
-    : QTabWidget( KStars::Instance() )
+OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
 {
     setupUi(this);
 
     //Get a pointer to the KConfigDialog
-    m_ConfigDialog = KConfigDialog::exists( "settings" );
+    m_ConfigDialog = KConfigDialog::exists("settings");
 
     // Our refresh lambda
-    connect(this, &QTabWidget::currentChanged, this, [this](int index)
-    {
-        if (index == 4) refreshDarkData();
+    connect(this, &QTabWidget::currentChanged, this, [this](int index) {
+        if (index == 4)
+            refreshDarkData();
     });
     connect(darkTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(loadDarkFITS(QModelIndex)));
 
@@ -51,25 +50,27 @@ OpsEkos::OpsEkos()
 
     refreshDarkData();
 
-    connect(kcfg_EkosTopIcons, &QRadioButton::toggled, this, [this]()
-    {
+    connect(kcfg_EkosTopIcons, &QRadioButton::toggled, this, [this]() {
         if (Options::ekosTopIcons() != kcfg_EkosTopIcons->isChecked())
             KSNotification::info(i18n("You must restart KStars for this change to take effect."));
     });
 }
 
-OpsEkos::~OpsEkos() {}
-
+OpsEkos::~OpsEkos()
+{
+}
 
 void OpsEkos::clearAll()
 {
     if (darkFramesModel->rowCount() == 0)
         return;
 
-    if (KMessageBox::questionYesNo(KStars::Instance(), i18n("Are you sure you want to delete all dark frames images and data?")) == KMessageBox::No)
+    if (KMessageBox::questionYesNo(KStars::Instance(),
+                                   i18n("Are you sure you want to delete all dark frames images and data?")) ==
+        KMessageBox::No)
         return;
 
-    QString darkFilesPath  = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks";
+    QString darkFilesPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks";
 
     QDir darkDir(darkFilesPath);
     darkDir.removeRecursively();
@@ -102,7 +103,7 @@ void OpsEkos::clearRow()
 
 void OpsEkos::openDarksFolder()
 {
-    QString darkFilesPath  = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks";
+    QString darkFilesPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks";
 
     QDesktopServices::openUrl(QUrl::fromLocalFile(darkFilesPath));
 }

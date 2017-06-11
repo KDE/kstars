@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 /* Project Includes */
 #include "imageexporter.h"
 #include "kstars.h"
@@ -30,7 +29,7 @@
 #include <QStatusBar>
 #include <QtSvg/QSvgGenerator>
 
-ImageExporter::ImageExporter( QObject * parent ) : QObject( parent ), m_includeLegend( false ), m_Size( 0 )
+ImageExporter::ImageExporter(QObject *parent) : QObject(parent), m_includeLegend(false), m_Size(0)
 {
     m_Legend = new Legend;
 
@@ -38,12 +37,12 @@ ImageExporter::ImageExporter( QObject * parent ) : QObject( parent ), m_includeL
     m_Legend->setFont(QFont("Courier New", 8));
 
     // set up the default alpha
-    setLegendAlpha( 160 );
+    setLegendAlpha(160);
 }
 
 void ImageExporter::exportSvg(const QString &fileName)
 {
-    SkyMap * map = SkyMap::Instance();
+    SkyMap *map = SkyMap::Instance();
 
     // export as SVG
     QSvgGenerator svgGenerator;
@@ -59,7 +58,7 @@ void ImageExporter::exportSvg(const QString &fileName)
 
     map->exportSkyImage(&painter);
 
-    if( m_includeLegend )
+    if (m_includeLegend)
     {
         addLegend(&painter);
     }
@@ -73,25 +72,25 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
     QString ext = fileName.mid(fileName.lastIndexOf(".") + 1);
 
     // export as raster graphics
-    const char * format = "PNG";
+    const char *format = "PNG";
 
-    if(ext.toLower() == "png")
+    if (ext.toLower() == "png")
     {
         format = "PNG";
     }
-    else if(ext.toLower() == "jpg" || ext.toLower() == "jpeg" )
+    else if (ext.toLower() == "jpg" || ext.toLower() == "jpeg")
     {
         format = "JPG";
     }
-    else if(ext.toLower() == "gif")
+    else if (ext.toLower() == "gif")
     {
         format = "GIF";
     }
-    else if(ext.toLower() == "pnm")
+    else if (ext.toLower() == "pnm")
     {
         format = "PNM";
     }
-    else if(ext.toLower() == "bmp")
+    else if (ext.toLower() == "bmp")
     {
         format = "BMP";
     }
@@ -100,17 +99,17 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
         qWarning() << i18n("Could not parse image format of %1; assuming PNG.", fileName);
     }
 
-    SkyMap * map = SkyMap::Instance();
+    SkyMap *map = SkyMap::Instance();
 
     int width, height;
-    if ( m_Size )
+    if (m_Size)
     {
-        width = m_Size->width();
+        width  = m_Size->width();
         height = m_Size->height();
     }
     else
     {
-        width = map->width();
+        width  = map->width();
         height = map->height();
     }
 
@@ -124,7 +123,7 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
     //skyImage is the size of the sky map.  The requested image size is w x h.
     //If w x h is smaller than the skymap, then we simply crop the image.
     //If w x h is larger than the skymap, pad the skymap image with a white border.
-    if(width == map->width() && height == map->height())
+    if (width == map->width() && height == map->height())
     {
         outimage = skyimage.copy();
     }
@@ -134,41 +133,41 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
         int dx(0), dy(0), sx(0), sy(0);
         int sw(map->width()), sh(map->height());
 
-        if(width > map->width())
+        if (width > map->width())
         {
-            dx = (width - map->width())/2;
+            dx = (width - map->width()) / 2;
         }
 
         else
         {
-            sx = (map->width() - width)/2;
+            sx = (map->width() - width) / 2;
             sw = width;
         }
 
-        if(height > map->height())
+        if (height > map->height())
         {
-            dy = (height - map->height())/2;
+            dy = (height - map->height()) / 2;
         }
 
         else
         {
-            sy = (map->height() - height)/2;
+            sy = (map->height() - height) / 2;
             sh = height;
         }
 
         QPainter p;
         p.begin(&outimage);
-        p.fillRect(outimage.rect(), QBrush( Qt::white));
+        p.fillRect(outimage.rect(), QBrush(Qt::white));
         p.drawImage(dx, dy, skyimage.toImage(), sx, sy, sw, sh);
         p.end();
     }
 
-    if( m_includeLegend )
+    if (m_includeLegend)
     {
         addLegend(&outimage);
     }
 
-    if(!outimage.save(fileName, format))
+    if (!outimage.save(fileName, format))
     {
         m_lastErrorMessage = i18n("Error: Unable to save image: %1 ", fileName);
         qDebug() << m_lastErrorMessage;
@@ -177,16 +176,16 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
 
     else
     {
-        KStars::Instance()->statusBar()->showMessage(i18n ("Saved image to %1", fileName));
+        KStars::Instance()->statusBar()->showMessage(i18n("Saved image to %1", fileName));
         return true;
     }
 }
-void ImageExporter::addLegend(SkyQPainter * painter)
+void ImageExporter::addLegend(SkyQPainter *painter)
 {
     m_Legend->paintLegend(painter);
 }
 
-void ImageExporter::addLegend(QPaintDevice * pd)
+void ImageExporter::addLegend(QPaintDevice *pd)
 {
     SkyQPainter painter(KStars::Instance(), pd);
     painter.begin();
@@ -196,18 +195,18 @@ void ImageExporter::addLegend(QPaintDevice * pd)
     painter.end();
 }
 
-bool ImageExporter::exportImage( QString url )
+bool ImageExporter::exportImage(QString url)
 {
     QUrl fileURL = QUrl::fromUserInput(url);
 
     m_lastErrorMessage = QString();
-    if(fileURL.isValid())
+    if (fileURL.isValid())
     {
         QTemporaryFile tmpfile;
         QString fname;
         bool isLocalFile = fileURL.isLocalFile();
 
-        if(isLocalFile)
+        if (isLocalFile)
         {
             fname = fileURL.toLocalFile();
         }
@@ -220,7 +219,7 @@ bool ImageExporter::exportImage( QString url )
 
         //Determine desired image format from filename extension
         QString ext = fname.mid(fname.lastIndexOf(".") + 1);
-        if(ext.toLower() == "svg")
+        if (ext.toLower() == "svg")
         {
             exportSvg(fname);
         }
@@ -230,30 +229,30 @@ bool ImageExporter::exportImage( QString url )
             return exportRasterGraphics(fname);
         }
 
-        if(!isLocalFile)
+        if (!isLocalFile)
         {
             //attempt to upload image to remote location
-            KIO::StoredTransferJob * put_job = KIO::storedHttpPost(&tmpfile, fileURL, -1);
+            KIO::StoredTransferJob *put_job = KIO::storedHttpPost(&tmpfile, fileURL, -1);
             //if(!KIO::NetAccess::upload(tmpfile.fileName(), fileURL, m_KStars))
             if (put_job->exec() == false)
             {
-                m_lastErrorMessage = i18n( "Could not upload image to remote location: %1", fileURL.url());
+                m_lastErrorMessage = i18n("Could not upload image to remote location: %1", fileURL.url());
                 qWarning() << m_lastErrorMessage;
                 return false;
             }
         }
         return true;
     }
-    m_lastErrorMessage = i18n( "Could not export image: URL %1 invalid", fileURL.url() );
+    m_lastErrorMessage = i18n("Could not export image: URL %1 invalid", fileURL.url());
     qWarning() << m_lastErrorMessage;
     return false;
 }
 
-
-void ImageExporter::setLegendProperties( Legend::LEGEND_TYPE type, Legend::LEGEND_ORIENTATION orientation, Legend::LEGEND_POSITION position, int alpha, bool include)
+void ImageExporter::setLegendProperties(Legend::LEGEND_TYPE type, Legend::LEGEND_ORIENTATION orientation,
+                                        Legend::LEGEND_POSITION position, int alpha, bool include)
 {
     // set background color (alpha)
-    setLegendAlpha( alpha );
+    setLegendAlpha(alpha);
     // set legend orientation
     m_Legend->setOrientation(orientation);
 
@@ -271,20 +270,19 @@ ImageExporter::~ImageExporter()
     delete m_Legend;
 }
 
-void ImageExporter::setRasterOutputSize( const QSize * size )
+void ImageExporter::setRasterOutputSize(const QSize *size)
 {
-    if ( size )
-        m_Size = new QSize( *size ); // make a copy, so it's safe if the original gets deleted
+    if (size)
+        m_Size = new QSize(*size); // make a copy, so it's safe if the original gets deleted
     else
         m_Size = 0;
 }
 
-void ImageExporter::setLegendAlpha( int alpha )
+void ImageExporter::setLegendAlpha(int alpha)
 {
-    Q_ASSERT( alpha >= 0 && alpha <= 255 );
-    Q_ASSERT( m_Legend );
+    Q_ASSERT(alpha >= 0 && alpha <= 255);
+    Q_ASSERT(m_Legend);
     QColor bgColor = m_Legend->getBgColor();
     bgColor.setAlpha(alpha);
     m_Legend->setBgColor(bgColor);
 }
-

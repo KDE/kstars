@@ -12,7 +12,6 @@
 #include <KLocalizedString>
 #include <KNotifications/KNotification>
 
-
 #include "sequencejob.h"
 #include "Options.h"
 
@@ -29,36 +28,36 @@
 
 namespace Ekos
 {
-
 SequenceJob::SequenceJob()
 {
-    statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted") << i18n("Complete");
-    status = JOB_IDLE;
-    exposure=count=delay=targetFilter=isoIndex=gain=-1;
-    frameType=FRAME_LIGHT;
-    currentTemperature=targetTemperature=INVALID_TEMPERATURE;
-    captureFilter=FITS_NONE;
-    preview=false;
-    filterReady=temperatureReady=filterPostFocusReady=prepareReady=true;
-    enforceTemperature=false;
-    activeChip = nullptr;
-    activeCCD = nullptr;
-    activeFilter = nullptr;
-    statusCell = nullptr;
-    completed=0;
-    captureRetires=0;
+    statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted")
+                                  << i18n("Complete");
+    status   = JOB_IDLE;
+    exposure = count = delay = targetFilter = isoIndex = gain = -1;
+    frameType                                                 = FRAME_LIGHT;
+    currentTemperature = targetTemperature = INVALID_TEMPERATURE;
+    captureFilter                          = FITS_NONE;
+    preview                                = false;
+    filterReady = temperatureReady = filterPostFocusReady = prepareReady = true;
+    enforceTemperature                                                   = false;
+    activeChip                                                           = nullptr;
+    activeCCD                                                            = nullptr;
+    activeFilter                                                         = nullptr;
+    statusCell                                                           = nullptr;
+    completed                                                            = 0;
+    captureRetires                                                       = 0;
 
-    calibrationSettings.flatFieldSource   = SOURCE_MANUAL;
-    calibrationSettings.flatFieldDuration = DURATION_MANUAL;
-    calibrationSettings.targetADU         = 0;
-    calibrationSettings.targetADUTolerance= 250;
-    calibrationSettings.preMountPark           = false;
-    calibrationSettings.preDomePark            = false;
+    calibrationSettings.flatFieldSource    = SOURCE_MANUAL;
+    calibrationSettings.flatFieldDuration  = DURATION_MANUAL;
+    calibrationSettings.targetADU          = 0;
+    calibrationSettings.targetADUTolerance = 250;
+    calibrationSettings.preMountPark       = false;
+    calibrationSettings.preDomePark        = false;
 
-    typePrefixEnabled     = false;
-    filterPrefixEnabled   = false;
-    expPrefixEnabled      = false;
-    timeStampPrefixEnabled= false;
+    typePrefixEnabled      = false;
+    filterPrefixEnabled    = false;
+    expPrefixEnabled       = false;
+    timeStampPrefixEnabled = false;
 }
 
 void SequenceJob::reset()
@@ -69,10 +68,10 @@ void SequenceJob::reset()
 
 void SequenceJob::resetStatus()
 {
-    status = JOB_IDLE;
-    completed=0;
-    exposeLeft=0;
-    captureRetires=0;
+    status         = JOB_IDLE;
+    completed      = 0;
+    exposeLeft     = 0;
+    captureRetires = 0;
     if (preview == false && statusCell)
         statusCell->setText(statusStrings[status]);
 }
@@ -93,12 +92,11 @@ void SequenceJob::done()
 
     if (statusCell)
         statusCell->setText(statusStrings[status]);
-
 }
 
 void SequenceJob::prepareCapture()
 {
-    prepareReady=false;
+    prepareReady = false;
 
     activeChip->setBatchMode(!preview);
 
@@ -158,7 +156,6 @@ void SequenceJob::prepareCapture()
         prepareReady = true;
         emit prepareComplete();
     }
-
 }
 
 //SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
@@ -196,7 +193,6 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
                 statusCell->setText(statusStrings[status]);
 
             return CAPTURE_FRAME_ERROR;
-
         }
 
         if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
@@ -232,13 +228,12 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
     activeChip->capture(exposure);
 
     return CAPTURE_OK;
-
 }
 
 void SequenceJob::setTargetFilter(int pos, const QString &name)
 {
     targetFilter = pos;
-    filter    = name;
+    filter       = name;
 }
 
 void SequenceJob::setFrameType(CCDFrameType type)
@@ -256,12 +251,13 @@ void SequenceJob::setExposeLeft(double value)
     exposeLeft = value;
 }
 
-void SequenceJob::setPrefixSettings(const QString &rawFilePrefix, bool filterEnabled, bool exposureEnabled, bool tsEnabled)
+void SequenceJob::setPrefixSettings(const QString &rawFilePrefix, bool filterEnabled, bool exposureEnabled,
+                                    bool tsEnabled)
 {
-    rawPrefix               = rawFilePrefix;
-    filterPrefixEnabled     = filterEnabled;
-    expPrefixEnabled        = exposureEnabled;
-    timeStampPrefixEnabled  = tsEnabled;
+    rawPrefix              = rawFilePrefix;
+    filterPrefixEnabled    = filterEnabled;
+    expPrefixEnabled       = exposureEnabled;
+    timeStampPrefixEnabled = tsEnabled;
 }
 
 void SequenceJob::getPrefixSettings(QString &rawFilePrefix, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled)
@@ -284,7 +280,8 @@ void SequenceJob::setCurrentTemperature(double value)
     if (enforceTemperature == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
         temperatureReady = true;
 
-    if (prepareReady == false && filterReady && temperatureReady && filterPostFocusReady && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && filterReady && temperatureReady && filterPostFocusReady &&
+        (status == JOB_IDLE || status == JOB_ABORTED))
     {
         prepareReady = true;
         emit prepareComplete();
@@ -410,7 +407,8 @@ void SequenceJob::setFilterPostFocusReady(bool value)
 {
     filterPostFocusReady = value;
 
-    if (prepareReady == false && filterPostFocusReady && filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && filterPostFocusReady && filterReady && temperatureReady &&
+        (status == JOB_IDLE || status == JOB_ABORTED))
     {
         prepareReady = true;
         emit prepareComplete();
@@ -489,7 +487,8 @@ void SequenceJob::setCurrentFilter(int value)
     if (currentFilter == targetFilter)
         filterReady = true;
 
-    if (prepareReady == false && filterReady && temperatureReady && filterPostFocusReady && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && filterReady && temperatureReady && filterPostFocusReady &&
+        (status == JOB_IDLE || status == JOB_ABORTED))
     {
         prepareReady = true;
         emit prepareComplete();
@@ -497,5 +496,4 @@ void SequenceJob::setCurrentFilter(int value)
     else if (filterReady && filterPostFocusReady == false)
         emit checkFocus();
 }
-
 }

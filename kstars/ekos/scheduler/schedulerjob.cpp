@@ -16,28 +16,27 @@ SchedulerJob::SchedulerJob()
 {
     startupCondition    = START_ASAP;
     completionCondition = FINISH_SEQUENCE;
-    stepPipeline         = USE_NONE;
+    stepPipeline        = USE_NONE;
     state               = JOB_IDLE;
     stage               = STAGE_IDLE;
 
-    timeSlotAllocated   = false;
-    inSequenceFocus     = false;
-    enforceWeather      = false;
+    timeSlotAllocated = false;
+    inSequenceFocus   = false;
+    enforceWeather    = false;
 
-    priority            = 10;
+    priority = 10;
 
-    statusCell          = NULL;
-    startupCell         = NULL;
-    estimatedTimeCell   = NULL;
-    minAltitude         = -1;
-    minMoonSeparation   = -1;
-    estimatedTime       = -1;
-    culminationOffset   = 0;
+    statusCell        = NULL;
+    startupCell       = NULL;
+    estimatedTimeCell = NULL;
+    minAltitude       = -1;
+    minMoonSeparation = -1;
+    estimatedTime     = -1;
+    culminationOffset = 0;
 }
 
 SchedulerJob::~SchedulerJob()
 {
-
 }
 
 QString SchedulerJob::getName() const
@@ -76,7 +75,6 @@ void SchedulerJob::setStartupTime(const QDateTime &value)
 
     if (startupCell)
         startupCell->setText(startupTime.toString(dateTimeDisplayFormat));
-
 }
 QUrl SchedulerJob::getSequenceFile() const
 {
@@ -202,8 +200,6 @@ void SchedulerJob::setState(const JOBStatus &value)
         default:
             statusCell->setText(i18n("Unknown"));
             break;
-
-
     }
 }
 
@@ -255,12 +251,12 @@ void SchedulerJob::setCulminationOffset(const int16_t &value)
     culminationOffset = value;
 }
 
-QTableWidgetItem * SchedulerJob::getStartupCell() const
+QTableWidgetItem *SchedulerJob::getStartupCell() const
 {
     return startupCell;
 }
 
-void SchedulerJob::setStartupCell(QTableWidgetItem * value)
+void SchedulerJob::setStartupCell(QTableWidgetItem *value)
 {
     startupCell = value;
 }
@@ -352,7 +348,7 @@ void SchedulerJob::setEstimatedTime(const int64_t &value)
     if (estimatedTimeCell)
     {
         // Seconds to ms
-        QTime estimatedTime = QTime::fromMSecsSinceStartOfDay(value*1000);
+        QTime estimatedTime = QTime::fromMSecsSinceStartOfDay(value * 1000);
         estimatedTimeCell->setText(estimatedTime.toString("HH:mm:ss"));
     }
 }
@@ -406,12 +402,12 @@ void SchedulerJob::setProfile(const QString &value)
     profile = value;
 }
 
-QTableWidgetItem * SchedulerJob::getEstimatedTimeCell() const
+QTableWidgetItem *SchedulerJob::getEstimatedTimeCell() const
 {
     return estimatedTimeCell;
 }
 
-void SchedulerJob::setEstimatedTimeCell(QTableWidgetItem * value)
+void SchedulerJob::setEstimatedTimeCell(QTableWidgetItem *value)
 {
     estimatedTimeCell = value;
 }
@@ -446,8 +442,6 @@ void SchedulerJob::setRepeatsRemaining(const uint16_t &value)
     repeatsRemaining = value;
 }
 
-
-
 void SchedulerJob::setTargetCoords(dms ra, dms dec)
 {
     targetCoords.setRA0(ra);
@@ -455,5 +449,3 @@ void SchedulerJob::setTargetCoords(dms ra, dms dec)
 
     targetCoords.updateCoordsNow(KStarsData::Instance()->updateNum());
 }
-
-

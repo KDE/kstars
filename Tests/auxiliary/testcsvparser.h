@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #ifndef TESTCSVPARSER_H
 #define TESTCSVPARSER_H
 
@@ -24,28 +23,27 @@
 #include "ksparser.h"
 #include "ksfilereader.h"
 
-
-class TestCSVParser: public QObject
+class TestCSVParser : public QObject
 {
-        Q_OBJECT
-    public:
-        TestCSVParser();
-        ~TestCSVParser();
-    private slots:
-        void initTestCase();
-        void cleanupTestCase();
-        void CSVMixedInputs();
-        void CSVQuotesInQuotes();
-        void CSVEmptyRow();
-        void CSVNoRow();
-        void CSVIgnoreHasNextRow();
-        void CSVReadMissingFile();
+    Q_OBJECT
+  public:
+    TestCSVParser();
+    ~TestCSVParser();
+  private slots:
+    void initTestCase();
+    void cleanupTestCase();
+    void CSVMixedInputs();
+    void CSVQuotesInQuotes();
+    void CSVEmptyRow();
+    void CSVNoRow();
+    void CSVIgnoreHasNextRow();
+    void CSVReadMissingFile();
 
-    private:
-        QStringList test_cases_;
-        QList< QPair<QString, KSParser::DataTypes> > sequence_;
-        QString test_file_name_;
-        KSParser * test_parser_;
+  private:
+    QStringList test_cases_;
+    QList<QPair<QString, KSParser::DataTypes>> sequence_;
+    QString test_file_name_;
+    KSParser *test_parser_;
 };
 
-#endif  // TESTKSPARSER_H
+#endif // TESTKSPARSER_H

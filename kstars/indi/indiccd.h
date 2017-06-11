@@ -7,7 +7,6 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-
 #ifndef INDICCD_H
 #define INDICCD_H
 
@@ -33,7 +32,6 @@ class StreamWG;
  */
 namespace ISD
 {
-
 class CCD;
 
 /**
@@ -43,119 +41,85 @@ class CCD;
  */
 class CCDChip
 {
-    public:
-        typedef enum { PRIMARY_CCD, GUIDE_CCD } ChipType;
+  public:
+    typedef enum { PRIMARY_CCD, GUIDE_CCD } ChipType;
 
-        CCDChip(ISD::CCD * ccd, ChipType cType);
+    CCDChip(ISD::CCD *ccd, ChipType cType);
 
-        FITSView * getImageView(FITSMode imageType);
-        void setImageView(FITSView * image, FITSMode imageType);
-        void setCaptureMode(FITSMode mode)
-        {
-            captureMode = mode;
-        }
-        void setCaptureFilter(FITSScale fType)
-        {
-            captureFilter = fType;
-        }
+    FITSView *getImageView(FITSMode imageType);
+    void setImageView(FITSView *image, FITSMode imageType);
+    void setCaptureMode(FITSMode mode) { captureMode = mode; }
+    void setCaptureFilter(FITSScale fType) { captureFilter = fType; }
 
-        // Common commands
-        bool getFrame(int * x, int * y, int * w, int * h);
-        bool getFrameMinMax(int * minX, int * maxX, int * minY, int * maxY, int * minW, int * maxW, int * minH, int * maxH);
-        bool setFrame(int x, int y, int w, int h);
+    // Common commands
+    bool getFrame(int *x, int *y, int *w, int *h);
+    bool getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH);
+    bool setFrame(int x, int y, int w, int h);
 
-        //bool getFocusFrame(int *x, int *y, int *w, int *h);
-        //bool setFocusFrame(int x, int y, int w, int h);
-        bool resetFrame();
-        bool capture(double exposure);
-        bool setFrameType(CCDFrameType fType);
-        bool setFrameType(const QString &name);
-        CCDFrameType getFrameType();
-        bool setBinning(int bin_x, int bin_y);
-        bool setBinning(CCDBinType binType);
-        CCDBinType getBinning();
-        bool getBinning(int * bin_x, int * bin_y);
-        bool getMaxBin(int * max_xbin, int * max_ybin);
-        ChipType getType() const
-        {
-            return type;
-        }
-        ISD::CCD * getCCD()
-        {
-            return parentCCD;
-        }
+    //bool getFocusFrame(int *x, int *y, int *w, int *h);
+    //bool setFocusFrame(int x, int y, int w, int h);
+    bool resetFrame();
+    bool capture(double exposure);
+    bool setFrameType(CCDFrameType fType);
+    bool setFrameType(const QString &name);
+    CCDFrameType getFrameType();
+    bool setBinning(int bin_x, int bin_y);
+    bool setBinning(CCDBinType binType);
+    CCDBinType getBinning();
+    bool getBinning(int *bin_x, int *bin_y);
+    bool getMaxBin(int *max_xbin, int *max_ybin);
+    ChipType getType() const { return type; }
+    ISD::CCD *getCCD() { return parentCCD; }
 
-        // Set Image Info
-        bool setImageInfo(uint16_t width, uint16_t height, double pixelX, double pixelY, uint8_t bitdepth);
-        // Get Pixel size
-        bool getPixelSize(double &x, double &y);
+    // Set Image Info
+    bool setImageInfo(uint16_t width, uint16_t height, double pixelX, double pixelY, uint8_t bitdepth);
+    // Get Pixel size
+    bool getPixelSize(double &x, double &y);
 
-        bool isCapturing();
-        bool abortExposure();
+    bool isCapturing();
+    bool abortExposure();
 
-        FITSMode getCaptureMode() const
-        {
-            return captureMode;
-        }
-        FITSScale getCaptureFilter() const
-        {
-            return captureFilter;
-        }
-        bool isBatchMode() const
-        {
-            return batchMode;
-        }
-        void setBatchMode(bool enable)
-        {
-            batchMode = enable;
-        }
-        QStringList getFrameTypes() const
-        {
-            return frameTypes;
-        }
-        void addFrameLabel(const QString &label)
-        {
-            frameTypes << label;
-        }
-        void clearFrameTypes()
-        {
-            frameTypes.clear();
-        }
+    FITSMode getCaptureMode() const { return captureMode; }
+    FITSScale getCaptureFilter() const { return captureFilter; }
+    bool isBatchMode() const { return batchMode; }
+    void setBatchMode(bool enable) { batchMode = enable; }
+    QStringList getFrameTypes() const { return frameTypes; }
+    void addFrameLabel(const QString &label) { frameTypes << label; }
+    void clearFrameTypes() { frameTypes.clear(); }
 
-        bool canBin() const;
-        void setCanBin(bool value);
+    bool canBin() const;
+    void setCanBin(bool value);
 
-        bool canSubframe() const;
-        void setCanSubframe(bool value);
+    bool canSubframe() const;
+    void setCanSubframe(bool value);
 
-        bool canAbort() const;
-        void setCanAbort(bool value);
+    bool canAbort() const;
+    void setCanAbort(bool value);
 
-        FITSData * getImageData() const;
-        void setImageData(FITSData * value);
+    FITSData *getImageData() const;
+    void setImageData(FITSData *value);
 
-        int getISOIndex() const;
-        bool setISOIndex(int value);
+    int getISOIndex() const;
+    bool setISOIndex(int value);
 
-        QStringList getISOList() const;
+    QStringList getISOList() const;
 
-    private:
-        QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage, alignImage;
-        FITSData * imageData;
-        FITSMode captureMode;
-        FITSScale captureFilter;
-        INDI::BaseDevice * baseDevice;
-        ClientManager * clientManager;
-        ChipType type;
-        bool batchMode;
-        bool displayFITS;
-        QStringList frameTypes;
-        bool CanBin;
-        bool CanSubframe;
-        bool CanAbort;
-        ISD::CCD * parentCCD;
-        //int fx,fy,fw,fh;
-
+  private:
+    QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage, alignImage;
+    FITSData *imageData;
+    FITSMode captureMode;
+    FITSScale captureFilter;
+    INDI::BaseDevice *baseDevice;
+    ClientManager *clientManager;
+    ChipType type;
+    bool batchMode;
+    bool displayFITS;
+    QStringList frameTypes;
+    bool CanBin;
+    bool CanSubframe;
+    bool CanAbort;
+    ISD::CCD *parentCCD;
+    //int fx,fy,fw,fh;
 };
 
 /**
@@ -167,159 +131,133 @@ class CCDChip
  */
 class CCD : public DeviceDecorator
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
+  public:
+    CCD(GDInterface *iPtr);
+    ~CCD();
 
-        CCD(GDInterface * iPtr);
-        ~CCD();
+    typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
+    typedef enum { FORMAT_FITS, FORMAT_NATIVE } TransferFormat;
+    enum BlobType
+    {
+        BLOB_IMAGE,
+        BLOB_FITS,
+        BLOB_RAW,
+        BLOB_OTHER
+    } BType;
+    typedef enum { TELESCOPE_PRIMARY, TELESCOPE_GUIDE } TelescopeType;
 
-        typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
-        typedef enum { FORMAT_FITS, FORMAT_NATIVE } TransferFormat;
-        enum BlobType { BLOB_IMAGE, BLOB_FITS, BLOB_RAW, BLOB_OTHER} BType;
-        typedef enum { TELESCOPE_PRIMARY, TELESCOPE_GUIDE } TelescopeType;
+    void registerProperty(INDI::Property *prop);
+    void processSwitch(ISwitchVectorProperty *svp);
+    void processText(ITextVectorProperty *tvp);
+    void processNumber(INumberVectorProperty *nvp);
+    void processLight(ILightVectorProperty *lvp);
+    void processBLOB(IBLOB *bp);
 
-        void registerProperty(INDI::Property * prop);
-        void processSwitch(ISwitchVectorProperty * svp);
-        void processText(ITextVectorProperty * tvp);
-        void processNumber(INumberVectorProperty * nvp);
-        void processLight(ILightVectorProperty * lvp);
-        void processBLOB(IBLOB * bp);
+    DeviceFamily getType() { return dType; }
+    bool hasGuideHead();
+    bool hasCooler();
+    bool hasCoolerControl();
+    bool hasVideoStream() { return HasVideoStream; }
+    bool setCoolerControl(bool enable);
 
-        DeviceFamily getType()
-        {
-            return dType;
-        }
-        bool hasGuideHead();
-        bool hasCooler();
-        bool hasCoolerControl();
-        bool hasVideoStream()
-        {
-            return HasVideoStream;
-        }
-        bool setCoolerControl(bool enable);
+    // Utitlity functions
+    bool getTemperature(double *value);
+    bool setTemperature(double value);
+    void setISOMode(bool enable) { ISOMode = enable; }
+    void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
+    void setNextSequenceID(int count) { nextSequenceID = count; }
+    void setFilter(const QString &newFilter) { filter = newFilter; }
 
-        // Utitlity functions
-        bool getTemperature(double * value);
-        bool setTemperature(double value);
-        void setISOMode(bool enable)
-        {
-            ISOMode = enable;
-        }
-        void setSeqPrefix(const QString &preFix)
-        {
-            seqPrefix = preFix;
-        }
-        void setNextSequenceID(int count)
-        {
-            nextSequenceID = count;
-        }
-        void setFilter(const QString &newFilter)
-        {
-            filter = newFilter;
-        }
+    // Gain
+    bool hasGain() { return gainN != nullptr; }
+    bool getGain(double *value);
+    bool getGainMinMaxStep(double *min, double *max, double *step);
+    bool setGain(double value);
 
-        // Gain
-        bool hasGain() { return gainN != nullptr; }
-        bool getGain(double *value);
-        bool getGainMinMaxStep(double *min, double *max, double *step);
-        bool setGain(double value);
+    // Rapid Guide
+    bool configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage = false, bool showMarker = false);
+    bool setRapidGuide(CCDChip *targetChip, bool enable);
 
-        // Rapid Guide
-        bool configureRapidGuide(CCDChip * targetChip, bool autoLoop, bool sendImage=false, bool showMarker=false);
-        bool setRapidGuide(CCDChip * targetChip, bool enable);
+    // Upload Settings
+    void updateUploadSettings(const QString &remoteDir);
+    UploadMode getUploadMode();
+    bool setUploadMode(UploadMode mode);
 
-        // Upload Settings
-        void updateUploadSettings(const QString &remoteDir);
-        UploadMode getUploadMode();
-        bool setUploadMode(UploadMode mode);
+    // Transfer Format
+    TransferFormat getTransferFormat() { return transferFormat; }
+    bool setTransformFormat(CCD::TransferFormat format);
 
-        // Transfer Format
-        TransferFormat getTransferFormat()
-        {
-            return transferFormat;
-        }
-        bool setTransformFormat(CCD::TransferFormat format);
+    // Video Stream
+    bool setVideoStreamEnabled(bool enable);
+    bool resetStreamingFrame();
+    bool setStreamingFrame(int x, int y, int w, int h);
+    bool isStreamingEnabled();
 
-        // Video Stream
-        bool setVideoStreamEnabled(bool enable);
-        bool resetStreamingFrame();
-        bool setStreamingFrame(int x, int y, int w, int h);
-        bool isStreamingEnabled();
+    // Video Recording
+    bool setSERNameDirectory(const QString &filename, const QString &directory);
+    bool getSERNameDirectory(QString &filename, QString &directory);
+    bool startRecording();
+    bool startDurationRecording(double duration);
+    bool startFramesRecording(uint32_t frames);
+    bool stopRecording();
 
-        // Video Recording
-        bool setSERNameDirectory(const QString &filename, const QString &directory);
-        bool getSERNameDirectory(QString &filename, QString &directory);
-        bool startRecording();
-        bool startDurationRecording(double duration);
-        bool startFramesRecording(uint32_t frames);
-        bool stopRecording();
+    // Telescope type
+    TelescopeType getTelescopeType() { return telescopeType; }
+    bool setTelescopeType(TelescopeType type);
 
-        // Telescope type
-        TelescopeType getTelescopeType()
-        {
-            return telescopeType;
-        }
-        bool setTelescopeType(TelescopeType type);
+    // Update FITS Header
+    bool setFITSHeader(const QMap<QString, QString> &values);
 
-        // Update FITS Header
-        bool setFITSHeader(const QMap<QString,QString> &values);
+    FITSViewer *getViewer() { return fv; }
+    CCDChip *getChip(CCDChip::ChipType cType);
+    void setFITSDir(const QString &dir) { fitsDir = dir; }
 
-        FITSViewer * getViewer()
-        {
-            return fv;
-        }
-        CCDChip * getChip(CCDChip::ChipType cType);
-        void setFITSDir(const QString &dir)
-        {
-            fitsDir = dir;
-        }
+    TransferFormat getTargetTransferFormat() const;
+    void setTargetTransferFormat(const TransferFormat &value);
 
-        TransferFormat getTargetTransferFormat() const;
-        void setTargetTransferFormat(const TransferFormat &value);
+  public slots:
+    void FITSViewerDestroyed();
+    void StreamWindowHidden();
 
-    public slots:
-        void FITSViewerDestroyed();
-        void StreamWindowHidden();
+  signals:
+    //void FITSViewerClosed();
+    void newTemperatureValue(double value);
+    void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
+    void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
+    void newRemoteFile(QString);
+    void newImage(QImage *image, ISD::CCDChip *targetChip);
+    void videoStreamToggled(bool enabled);
+    void videoRecordToggled(bool enabled);
+    void newFPS(double instantFPS, double averageFPS);
 
-    signals:
-        //void FITSViewerClosed();
-        void newTemperatureValue(double value);
-        void newExposureValue(ISD::CCDChip * chip, double value, IPState state);
-        void newGuideStarData(ISD::CCDChip * chip, double dx, double dy, double fit);
-        void newRemoteFile(QString);
-        void newImage(QImage * image, ISD::CCDChip * targetChip);
-        void videoStreamToggled(bool enabled);
-        void videoRecordToggled(bool enabled);
-        void newFPS(double instantFPS, double averageFPS);
+  private:
+    void addFITSKeywords(QString filename);
+    QString filter;
 
-    private:
-        void addFITSKeywords(QString filename);
-        QString filter;
+    bool ISOMode;
+    bool HasGuideHead;
+    bool HasCooler;
+    bool HasCoolerControl;
+    bool HasVideoStream;
+    QString seqPrefix;
+    QString fitsDir;
+    char BLOBFilename[MAXINDIFILENAME];
+    int nextSequenceID;
+    StreamWG *streamWindow;
+    int streamW, streamH;
+    ISD::ST4 *ST4Driver;
+    int normalTabID, calibrationTabID, focusTabID, guideTabID, alignTabID;
+    CCDChip *primaryChip, *guideChip;
+    TransferFormat transferFormat, targetTransferFormat;
+    TelescopeType telescopeType = TELESCOPE_PRIMARY;
 
-        bool ISOMode;
-        bool HasGuideHead;
-        bool HasCooler;
-        bool HasCoolerControl;
-        bool HasVideoStream;        
-        QString		seqPrefix;
-        QString     fitsDir;
-        char BLOBFilename[MAXINDIFILENAME];
-        int nextSequenceID;
-        StreamWG * streamWindow;
-        int streamW, streamH;
-        ISD::ST4 * ST4Driver;
-        int normalTabID, calibrationTabID, focusTabID, guideTabID, alignTabID;
-        CCDChip * primaryChip, *guideChip;
-        TransferFormat transferFormat, targetTransferFormat;
-        TelescopeType telescopeType = TELESCOPE_PRIMARY;
+    // Gain, since it is spread among different vector properties, let's try to find the property itself.
+    INumber *gainN = nullptr;
 
-        // Gain, since it is spread among different vector properties, let's try to find the property itself.
-        INumber *gainN=nullptr;
-
-        QPointer<FITSViewer> fv;
-        QPointer<ImageViewer> imageViewer;
+    QPointer<FITSViewer> fv;
+    QPointer<ImageViewer> imageViewer;
 };
-
 }
 #endif // INDICCD_H

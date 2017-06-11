@@ -17,7 +17,6 @@
 
 #include "coordinategrid.h"
 
-CoordinateGrid::CoordinateGrid( SkyComposite * parent, const QString &name )
-    : NoPrecessIndex( parent, name )
+CoordinateGrid::CoordinateGrid(SkyComposite *parent, const QString &name) : NoPrecessIndex(parent, name)
 {
 }

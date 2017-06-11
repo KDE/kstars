@@ -47,34 +47,33 @@
 #include <stdlib.h>
 #include <assert.h>
 
-extern const char * libindi_strings_context;
+extern const char *libindi_strings_context;
 
 /*******************************************************************
 ** INDI Property: contains widgets, labels, and their status
 *******************************************************************/
-INDI_P::INDI_P(INDI_G * ipg, INDI::Property * prop)
+INDI_P::INDI_P(INDI_G *ipg, INDI::Property *prop)
 {
-    pg = ipg;
+    pg       = ipg;
     dataProp = prop;
 
     name = QString(prop->getName());
 
-    PHBox           = new QHBoxLayout();
+    PHBox = new QHBoxLayout();
     PHBox->setMargin(0);
-    PVBox           = new QVBoxLayout();
+    PVBox = new QVBoxLayout();
     PVBox->setMargin(0);
 
-    ledStatus      = nullptr;
-    labelW         = nullptr;
-    setB           = nullptr;
-    menuC          = nullptr;
-    groupB         = nullptr;
+    ledStatus = nullptr;
+    labelW    = nullptr;
+    setB      = nullptr;
+    menuC     = nullptr;
+    groupB    = nullptr;
     initGUI();
 }
 
 void INDI_P::updateStateLED()
 {
-
     /* set state light */
     switch (dataProp->getState())
     {
@@ -96,24 +95,21 @@ void INDI_P::updateStateLED()
 
         default:
             break;
-
     }
-
 }
 
 /* build widgets for property pp using info in root.
  */
-void INDI_P::initGUI ()
+void INDI_P::initGUI()
 {
     QString label = i18nc(libindi_strings_context, dataProp->getLabel());
 
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = dataProp->getLabel();
 
-
     /* add to GUI group */
-    ledStatus = new KLed (pg->getContainer());
-    ledStatus->setMaximumSize(16,16);
+    ledStatus = new KLed(pg->getContainer());
+    ledStatus->setMaximumSize(16, 16);
     ledStatus->setLook(KLed::Sunken);
 
     updateStateLED();
@@ -125,7 +121,7 @@ void INDI_P::initGUI ()
     {
         label = i18nc(libindi_strings_context, name.toUtf8());
         if (label == "(I18N_EMPTY_MESSAGE)")
-            label =  name.toUtf8();
+            label = name.toUtf8();
 
         labelW = new KSqueezedTextLabel(label, pg->getContainer());
     }
@@ -133,10 +129,10 @@ void INDI_P::initGUI ()
         labelW = new KSqueezedTextLabel(label, pg->getContainer());
 
     //labelW->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    labelW->setFrameShape( QFrame::StyledPanel );
+    labelW->setFrameShape(QFrame::StyledPanel);
     labelW->setFixedWidth(PROPERTY_LABEL_WIDTH);
-    labelW->setTextFormat( Qt::RichText );
-    labelW->setAlignment(Qt::AlignVCenter | Qt::AlignLeft );
+    labelW->setTextFormat(Qt::RichText);
+    labelW->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     labelW->setWordWrap(true);
 
     PHBox->addWidget(labelW);
@@ -186,8 +182,8 @@ void INDI_P::initGUI ()
 
 void INDI_P::buildSwitchGUI()
 {
-    INDI_E * lp = nullptr;
-    ISwitchVectorProperty * svp = dataProp->getSwitch();
+    INDI_E *lp                 = nullptr;
+    ISwitchVectorProperty *svp = dataProp->getSwitch();
 
     if (svp == nullptr)
         return;
@@ -207,41 +203,40 @@ void INDI_P::buildSwitchGUI()
     if (svp->p != IP_RO)
         QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(newSwitch(QAbstractButton *)));
 
-    for (int i=0; i < svp->nsp; i++)
+    for (int i = 0; i < svp->nsp; i++)
     {
-        ISwitch * sp = &(svp->sp[i]);
-        lp = new INDI_E(this, dataProp);
+        ISwitch *sp = &(svp->sp[i]);
+        lp          = new INDI_E(this, dataProp);
 
         lp->buildSwitch(groupB, sp);
 
         elementList.append(lp);
     }
 
-    horSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    horSpacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
     PHBox->addItem(horSpacer);
 }
 
 void INDI_P::buildTextGUI()
 {
-    INDI_E * lp = nullptr;
-    ITextVectorProperty * tvp = dataProp->getText();
+    INDI_E *lp               = nullptr;
+    ITextVectorProperty *tvp = dataProp->getText();
 
     if (tvp == nullptr)
         return;
 
-    for (int i=0; i < tvp->ntp; i++)
+    for (int i = 0; i < tvp->ntp; i++)
     {
-        IText * tp = &(tvp->tp[i]);
-        lp = new INDI_E(this, dataProp);
+        IText *tp = &(tvp->tp[i]);
+        lp        = new INDI_E(this, dataProp);
 
         lp->buildText(tp);
 
         elementList.append(lp);
     }
 
-
-    horSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    horSpacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
     PHBox->addItem(horSpacer);
 
@@ -257,27 +252,25 @@ void INDI_P::buildTextGUI()
 
 void INDI_P::buildNumberGUI()
 {
-    INDI_E * lp = nullptr;
-    INumberVectorProperty * nvp = dataProp->getNumber();
+    INDI_E *lp                 = nullptr;
+    INumberVectorProperty *nvp = dataProp->getNumber();
 
     if (nvp == nullptr)
         return;
 
-    for (int i=0; i < nvp->nnp; i++)
+    for (int i = 0; i < nvp->nnp; i++)
     {
-        INumber * np = &(nvp->np[i]);
-        lp = new INDI_E(this, dataProp);
+        INumber *np = &(nvp->np[i]);
+        lp          = new INDI_E(this, dataProp);
 
         lp->buildNumber(np);
 
         elementList.append(lp);
     }
 
-
-    horSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    horSpacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
     PHBox->addItem(horSpacer);
-
 
     if (nvp->p == IP_RO)
         return;
@@ -287,48 +280,46 @@ void INDI_P::buildNumberGUI()
 
 void INDI_P::buildLightGUI()
 {
-    INDI_E * ep = nullptr;
-    ILightVectorProperty * lvp = dataProp->getLight();
+    INDI_E *ep                = nullptr;
+    ILightVectorProperty *lvp = dataProp->getLight();
 
     if (lvp == nullptr)
         return;
 
-    for (int i=0; i < lvp->nlp; i++)
+    for (int i = 0; i < lvp->nlp; i++)
     {
-        ILight * lp = &(lvp->lp[i]);
-        ep = new INDI_E(this, dataProp);
+        ILight *lp = &(lvp->lp[i]);
+        ep         = new INDI_E(this, dataProp);
 
         ep->buildLight(lp);
 
         elementList.append(ep);
     }
 
-
-    horSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    horSpacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
     PHBox->addItem(horSpacer);
 }
 
 void INDI_P::buildBLOBGUI()
 {
-    INDI_E * lp = nullptr;
-    IBLOBVectorProperty * bvp = dataProp->getBLOB();
+    INDI_E *lp               = nullptr;
+    IBLOBVectorProperty *bvp = dataProp->getBLOB();
 
     if (bvp == nullptr)
         return;
 
-    for (int i=0; i < bvp->nbp; i++)
+    for (int i = 0; i < bvp->nbp; i++)
     {
-        IBLOB * bp = &(bvp->bp[i]);
-        lp = new INDI_E(this, dataProp);
+        IBLOB *bp = &(bvp->bp[i]);
+        lp        = new INDI_E(this, dataProp);
 
         lp->buildBLOB(bp);
 
         elementList.append(lp);
     }
 
-
-    horSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    horSpacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
     PHBox->addItem(horSpacer);
 
@@ -353,18 +344,17 @@ void INDI_P::setBLOBOption(int state)
         pg->getDevice()->getClientManager()->setBLOBMode(B_NEVER, dataProp->getDeviceName(), dataProp->getName());
 }
 
-
-void INDI_P::newSwitch(QAbstractButton * button)
+void INDI_P::newSwitch(QAbstractButton *button)
 {
-    ISwitchVectorProperty * svp = dataProp->getSwitch();
-    QString buttonText = button->text();
+    ISwitchVectorProperty *svp = dataProp->getSwitch();
+    QString buttonText         = button->text();
 
     if (svp == nullptr)
         return;
 
     buttonText.remove("&");
 
-    foreach(INDI_E * el, elementList)
+    foreach (INDI_E *el, elementList)
     {
         if (el->getLabel() == buttonText)
         {
@@ -376,7 +366,7 @@ void INDI_P::newSwitch(QAbstractButton * button)
 
 void INDI_P::resetSwitch()
 {
-    ISwitchVectorProperty * svp = dataProp->getSwitch();
+    ISwitchVectorProperty *svp = dataProp->getSwitch();
 
     if (svp == nullptr)
         return;
@@ -389,7 +379,7 @@ void INDI_P::resetSwitch()
 
 void INDI_P::newSwitch(int index)
 {
-    ISwitchVectorProperty * svp = dataProp->getSwitch();
+    ISwitchVectorProperty *svp = dataProp->getSwitch();
 
     if (svp == nullptr)
         return;
@@ -397,7 +387,7 @@ void INDI_P::newSwitch(int index)
     if (index >= svp->nsp)
         return;
 
-    ISwitch * sp = &(svp->sp[index]);
+    ISwitch *sp = &(svp->sp[index]);
 
     IUResetSwitch(svp);
     sp->s = ISS_ON;
@@ -407,12 +397,12 @@ void INDI_P::newSwitch(int index)
 
 void INDI_P::newSwitch(const QString &name)
 {
-    ISwitchVectorProperty * svp = dataProp->getSwitch();
+    ISwitchVectorProperty *svp = dataProp->getSwitch();
 
     if (svp == nullptr)
         return;
 
-    ISwitch * sp = IUFindSwitch(svp, name.toLatin1().constData());
+    ISwitch *sp = IUFindSwitch(svp, name.toLatin1().constData());
 
     if (sp == nullptr)
         return;
@@ -420,7 +410,7 @@ void INDI_P::newSwitch(const QString &name)
     if (svp->r == ISR_1OFMANY)
     {
         IUResetSwitch(svp);
-        sp->s  = ISS_ON;
+        sp->s = ISS_ON;
     }
     else
     {
@@ -437,30 +427,28 @@ void INDI_P::newSwitch(const QString &name)
     sendSwitch();
 }
 
-
 void INDI_P::sendSwitch()
 {
-    ISwitchVectorProperty * svp = dataProp->getSwitch();
+    ISwitchVectorProperty *svp = dataProp->getSwitch();
 
     if (svp == nullptr)
         return;
 
     svp->s = IPS_BUSY;
 
-    foreach(INDI_E * el, elementList)
+    foreach (INDI_E *el, elementList)
         el->syncSwitch();
 
     updateStateLED();
 
     // Send it to server
     pg->getDevice()->getClientManager()->sendNewSwitch(svp);
-
 }
 
 void INDI_P::sendText()
 {
-    ITextVectorProperty * tvp = nullptr;
-    INumberVectorProperty * nvp = nullptr;
+    ITextVectorProperty *tvp   = nullptr;
+    INumberVectorProperty *nvp = nullptr;
 
     switch (dataProp->getType())
     {
@@ -471,7 +459,7 @@ void INDI_P::sendText()
 
             tvp->s = IPS_BUSY;
 
-            foreach(INDI_E * el, elementList)
+            foreach (INDI_E *el, elementList)
                 el->updateTP();
 
             pg->getDevice()->getClientManager()->sendNewText(tvp);
@@ -485,28 +473,25 @@ void INDI_P::sendText()
 
             nvp->s = IPS_BUSY;
 
-            foreach(INDI_E * el, elementList)
+            foreach (INDI_E *el, elementList)
                 el->updateNP();
 
             pg->getDevice()->getClientManager()->sendNewNumber(nvp);
 
         default:
             break;
-
     }
 
-
     updateStateLED();
-
 }
 
 void INDI_P::buildMenuGUI()
 {
     QStringList menuOptions;
     QString oneOption;
-    int onItem=-1;
-    INDI_E * lp = nullptr;
-    ISwitchVectorProperty * svp = dataProp->getSwitch();
+    int onItem                 = -1;
+    INDI_E *lp                 = nullptr;
+    ISwitchVectorProperty *svp = dataProp->getSwitch();
 
     if (svp == nullptr)
         return;
@@ -518,9 +503,9 @@ void INDI_P::buildMenuGUI()
     else
         QObject::connect(menuC, SIGNAL(activated(int)), this, SLOT(newSwitch(int)));
 
-    for (int i=0; i < svp->nsp; i++)
+    for (int i = 0; i < svp->nsp; i++)
     {
-        ISwitch * tp = &(svp->sp[i]);
+        ISwitch *tp = &(svp->sp[i]);
 
         if (tp->s == ISS_ON)
             onItem = i;
@@ -532,7 +517,7 @@ void INDI_P::buildMenuGUI()
         oneOption = i18nc(libindi_strings_context, lp->getLabel().toUtf8());
 
         if (oneOption == "(I18N_EMPTY_MESSAGE)")
-            oneOption =  lp->getLabel().toUtf8();
+            oneOption = lp->getLabel().toUtf8();
 
         menuOptions.append(oneOption);
 
@@ -542,40 +527,37 @@ void INDI_P::buildMenuGUI()
     menuC->addItems(menuOptions);
     menuC->setCurrentIndex(onItem);
 
-    horSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-
+    horSpacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
     PHBox->addWidget(menuC);
     PHBox->addItem(horSpacer);
-
 }
-
 
 void INDI_P::setupSetButton(const QString &caption)
 {
     setB = new QPushButton(caption, pg->getContainer());
     setB->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    setB->setMinimumWidth( MIN_SET_WIDTH );
-    setB->setMaximumWidth( MAX_SET_WIDTH );
+    setB->setMinimumWidth(MIN_SET_WIDTH);
+    setB->setMaximumWidth(MAX_SET_WIDTH);
 
     connect(setB, SIGNAL(clicked()), this, SLOT(processSetButton()));
 
     PHBox->addWidget(setB);
 }
 
-void INDI_P::addWidget(QWidget * w)
+void INDI_P::addWidget(QWidget *w)
 {
     PHBox->addWidget(w);
 }
 
-void INDI_P::addLayout(QHBoxLayout * layout)
+void INDI_P::addLayout(QHBoxLayout *layout)
 {
     PVBox->addLayout(layout);
 }
 
 void INDI_P::updateMenuGUI()
 {
-    ISwitchVectorProperty * svp = dataProp->getSwitch();
+    ISwitchVectorProperty *svp = dataProp->getSwitch();
 
     if (svp == nullptr)
         return;
@@ -607,14 +589,13 @@ void INDI_P::processSetButton()
         default:
             break;
     }
-
 }
 
 void INDI_P::sendBlob()
 {
     //int index=0;
     //bool openingTag=false;
-    IBLOBVectorProperty * bvp = dataProp->getBLOB();
+    IBLOBVectorProperty *bvp = dataProp->getBLOB();
 
     if (bvp == nullptr)
         return;
@@ -623,9 +604,9 @@ void INDI_P::sendBlob()
 
     pg->getDevice()->getClientManager()->startBlob(bvp->device, bvp->name, timestamp());
 
-    for (int i=0; i < elementList.count(); i++)
+    for (int i = 0; i < elementList.count(); i++)
     {
-        IBLOB * bp = &(bvp->bp[i]);
+        IBLOB *bp = &(bvp->bp[i]);
 #if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
         pg->getDevice()->getClientManager()->sendOneBlob(bp);
 #else
@@ -661,43 +642,45 @@ void INDI_P::sendBlob()
     pg->getDevice()->getClientManager()->finishBlob();
 
     updateStateLED();
-
 }
-
 
 void INDI_P::newTime()
 {
-    INDI_E * timeEle;
-    INDI_E * offsetEle;
+    INDI_E *timeEle;
+    INDI_E *offsetEle;
 
     timeEle   = getElement("UTC");
     offsetEle = getElement("OFFSET");
-    if (!timeEle || !offsetEle) return;
+    if (!timeEle || !offsetEle)
+        return;
 
-    TimeDialog timedialog ( KStars::Instance()->data()->ut(), KStars::Instance()->data()->geo(), KStars::Instance(), true );
+    TimeDialog timedialog(KStars::Instance()->data()->ut(), KStars::Instance()->data()->geo(), KStars::Instance(),
+                          true);
 
-    if ( timedialog.exec() == QDialog::Accepted )
+    if (timedialog.exec() == QDialog::Accepted)
     {
-        QTime newTime( timedialog.selectedTime() );
-        QDate newDate( timedialog.selectedDate() );
+        QTime newTime(timedialog.selectedTime());
+        QDate newDate(timedialog.selectedDate());
 
         timeEle->setText(QString("%1-%2-%3T%4:%5:%6")
-                         .arg(newDate.year()).arg(newDate.month())
-                         .arg(newDate.day()).arg(newTime.hour())
-                         .arg(newTime.minute()).arg(newTime.second()));
+                             .arg(newDate.year())
+                             .arg(newDate.month())
+                             .arg(newDate.day())
+                             .arg(newTime.hour())
+                             .arg(newTime.minute())
+                             .arg(newTime.second()));
 
         offsetEle->setText(QString().setNum(KStars::Instance()->data()->geo()->TZ(), 'g', 2));
 
         sendText();
-
     }
-    else return;
-
+    else
+        return;
 }
 
-INDI_E * INDI_P::getElement(const QString &elementName)
+INDI_E *INDI_P::getElement(const QString &elementName)
 {
-    foreach(INDI_E * ep, elementList)
+    foreach (INDI_E *ep, elementList)
     {
         if (ep->getName() == elementName)
             return ep;
@@ -709,7 +692,8 @@ INDI_E * INDI_P::getElement(const QString &elementName)
 /* INDI property desstructor, makes sure everything is "gone" right */
 INDI_P::~INDI_P()
 {
-    while ( ! elementList.isEmpty() ) delete elementList.takeFirst();
+    while (!elementList.isEmpty())
+        delete elementList.takeFirst();
     delete (ledStatus);
     delete (labelW);
     delete (setB);
@@ -717,7 +701,3 @@ INDI_P::~INDI_P()
     delete (groupB);
     delete (menuC);
 }
-
-
-
-

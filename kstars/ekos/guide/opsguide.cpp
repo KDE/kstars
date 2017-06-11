@@ -24,16 +24,15 @@
 
 namespace Ekos
 {
-
-OpsGuide::OpsGuide()  : QFrame( KStars::Instance() )
+OpsGuide::OpsGuide() : QFrame(KStars::Instance())
 {
     setupUi(this);
 
     //Get a pointer to the KConfigDialog
-    m_ConfigDialog = KConfigDialog::exists( "guidesettings" );
+    m_ConfigDialog = KConfigDialog::exists("guidesettings");
 
-    connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
+    connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
+    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 
     guiderTypeButtonGroup->setId(internalGuideR, Guide::GUIDE_INTERNAL);
     guiderTypeButtonGroup->setId(PHD2GuideR, Guide::GUIDE_PHD2);
@@ -42,7 +41,9 @@ OpsGuide::OpsGuide()  : QFrame( KStars::Instance() )
     connect(guiderTypeButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotLoadSettings(int)));
 }
 
-OpsGuide::~OpsGuide() {}
+OpsGuide::~OpsGuide()
+{
+}
 
 void OpsGuide::showEvent(QShowEvent *)
 {
@@ -102,5 +103,4 @@ void OpsGuide::slotApply()
 
     emit guiderTypeChanged(guiderTypeButtonGroup->checkedId());
 }
-
 }

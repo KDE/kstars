@@ -49,51 +49,49 @@
 
 class TargetListComponent : public SkyComponent
 {
-
-    public:
-
-        /**
+  public:
+    /**
          *@short Default constructor.
          */
-        explicit TargetListComponent( SkyComposite * parent );
+    explicit TargetListComponent(SkyComposite *parent);
 
-        /**
+    /**
          *@short Constructor that sets up this target list
          */
-        TargetListComponent( SkyComposite * parent, QList<SkyObject *> * objectList, QPen _pen,
-                             bool (*optionDrawSymbols)(void) = 0, bool (*optionDrawLabels)(void) = 0 );
+    TargetListComponent(SkyComposite *parent, QList<SkyObject *> *objectList, QPen _pen,
+                        bool (*optionDrawSymbols)(void) = 0, bool (*optionDrawLabels)(void) = 0);
 
-        /**
+    /**
          *@short Draw this component by iterating over the list.
          *
          *@note This method does not bother refreshing the coordinates of
          * the objects on the list. So this must be called only after the
          * objects are drawn in a given draw cycle.
          */
-        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-        // FIXME: Maybe we should make these member objects private / protected?
-        SkyObjectList * list; // Pointer to list of objects to draw
-        QPen pen; // Pen to use to draw
+    // FIXME: Maybe we should make these member objects private / protected?
+    SkyObjectList *list; // Pointer to list of objects to draw
+    QPen pen;            // Pen to use to draw
 
-        /**
+    /**
          *@short Pointer to static method that tells us whether to draw this list or not
          *@note If the pointer is nullptr, the list is drawn nevertheless
          */
-        bool (*drawSymbols)( void );
+    bool (*drawSymbols)(void);
 
-        /**
+    /**
          *@short Pointer to static method that tells us whether to draw labels for this list or not
          *@note If the pointer is nullptr, labels are not drawn
          */
-        bool (*drawLabels)( void );
+    bool (*drawLabels)(void);
 
-    protected:
-        /**
+  protected:
+    /**
          *@short Draws a target symbol around the object, and also draws labels if requested
          *@note Does not update the positions of the objects. See the note on draw() for details.
          */
-        /*
+    /*
 
         // This method is superseded by the definitions in SkyPainter
         // and might need to be reinstated only while generalizing the

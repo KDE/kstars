@@ -29,9 +29,9 @@ class QString;
 
 class AddLinkDialogUI : public QFrame, public Ui::AddLinkDialog
 {
-        Q_OBJECT
-    public:
-        explicit AddLinkDialogUI( QWidget * parent=0 );
+    Q_OBJECT
+  public:
+    explicit AddLinkDialogUI(QWidget *parent = 0);
 };
 
 /**
@@ -42,86 +42,68 @@ class AddLinkDialogUI : public QFrame, public Ui::AddLinkDialog
   */
 class AddLinkDialog : public QDialog
 {
-        Q_OBJECT
-    public:
-        /**
+    Q_OBJECT
+  public:
+    /**
           *Constructor.
         	*/
-        explicit AddLinkDialog( QWidget * parent = 0, const QString &oname=i18n("object") );
+    explicit AddLinkDialog(QWidget *parent = 0, const QString &oname = i18n("object"));
 
-        /**
+    /**
           *Destructor (empty)
         	*/
-        ~AddLinkDialog() {}
+    ~AddLinkDialog() {}
 
-        /**
+    /**
           *@return QString of the entered URL
         	*/
-        QString url() const
-        {
-            return ald->URLBox->text();
-        }
+    QString url() const { return ald->URLBox->text(); }
 
-        /**
+    /**
           *@short Set the URL text
         	*@param s the new URL text
         	*/
-        void setURL( const QString &s )
-        {
-            ald->URLBox->setText( s );
-        }
+    void setURL(const QString &s) { ald->URLBox->setText(s); }
 
-        /**
+    /**
           *@return QString of the entered menu entry text
         	*/
-        QString desc() const
-        {
-            return ald->DescBox->text();
-        }
+    QString desc() const { return ald->DescBox->text(); }
 
-        /**
+    /**
           *@short Set the Description text
         	*@param s the new description text
         	*/
-        void setDesc( const QString &s )
-        {
-            ald->DescBox->setText( s );
-        }
+    void setDesc(const QString &s) { ald->DescBox->setText(s); }
 
-        /**
+    /**
           *@return true if user declared the link is an image
         	*/
-        bool isImageLink() const
-        {
-            return ald->ImageRadio->isChecked();
-        }
+    bool isImageLink() const { return ald->ImageRadio->isChecked(); }
 
-        /**
+    /**
           *@short Set the link type
         	*@param b if true, link is an image link.
         	*/
-        void setImageLink( bool b )
-        {
-            ald->ImageRadio->setChecked( b );
-        }
+    void setImageLink(bool b) { ald->ImageRadio->setChecked(b); }
 
-    private slots:
-        /**
+  private slots:
+    /**
           *Open the entered URL in the web browser
         	*/
-        void checkURL( void );
+    void checkURL(void);
 
-        /**
+    /**
           *We provide a default menu text string; this function changes the
         	*default string if the link type (image/webpage) is changed.  Note
         	*that if the user has changed the menu text, this function does nothing.
             *@param imageEnabled if true, show image string; otherwise show webpage string.
         	*/
-        void changeDefaultDescription( bool imageEnabled );
+    void changeDefaultDescription(bool imageEnabled);
 
-    private:
-        QString ObjectName;
-        AddLinkDialogUI * ald;
+  private:
+    QString ObjectName;
+    AddLinkDialogUI *ald;
 };
 
 #endif

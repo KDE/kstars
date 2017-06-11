@@ -33,21 +33,19 @@ class InfoBoxWidget;
  */
 class InfoBoxes : public QWidget
 {
-        Q_OBJECT
-    public:
+    Q_OBJECT
+  public:
+    explicit InfoBoxes(QWidget *parent = 0);
+    virtual ~InfoBoxes();
 
-        explicit InfoBoxes(QWidget * parent = 0);
-        virtual ~InfoBoxes();
+    void addInfoBox(InfoBoxWidget *ibox);
+    QList<InfoBoxWidget *> getInfoBoxes() const { return m_boxes; }
 
-        void addInfoBox(InfoBoxWidget * ibox);
-        QList<InfoBoxWidget *> getInfoBoxes() const
-        {
-            return m_boxes;
-        }
-    protected:
-        void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
-    private:
-        QList<InfoBoxWidget *> m_boxes;
+  protected:
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+
+  private:
+    QList<InfoBoxWidget *> m_boxes;
 };
 
 /**
@@ -55,69 +53,66 @@ class InfoBoxes : public QWidget
 */
 class InfoBoxWidget : public QWidget
 {
-        Q_OBJECT
-    public:
-        /** Alignment of widget. */
-        enum
-        {
-            NoAnchor     = 0,
-            AnchorRight  = 1,
-            AnchorBottom = 2,
-            AnchorBoth   = 3
-        };
+    Q_OBJECT
+  public:
+    /** Alignment of widget. */
+    enum
+    {
+        NoAnchor     = 0,
+        AnchorRight  = 1,
+        AnchorBottom = 2,
+        AnchorBoth   = 3
+    };
 
-        /** Create one infobox. */
-        InfoBoxWidget(bool shade, const QPoint &pos, int anchor = 0, const QStringList &str = QStringList(), QWidget * parent = 0);
-        /** Destructor */
-        virtual ~InfoBoxWidget();
+    /** Create one infobox. */
+    InfoBoxWidget(bool shade, const QPoint &pos, int anchor = 0, const QStringList &str = QStringList(),
+                  QWidget *parent = 0);
+    /** Destructor */
+    virtual ~InfoBoxWidget();
 
-        /** Check whether box is shaded. In this case only one line is shown. */
-        bool shaded() const
-        {
-            return m_shaded;
-        }
-        /** Get stickyness status of */
-        int sticky() const
-        {
-            return m_anchor;
-        }
+    /** Check whether box is shaded. In this case only one line is shown. */
+    bool shaded() const { return m_shaded; }
+    /** Get stickyness status of */
+    int sticky() const { return m_anchor; }
 
-        /** Adjust widget's postion */
-        void adjust();
+    /** Adjust widget's postion */
+    void adjust();
 
-    public slots:
-        /** Set information about time. Data is taken from KStarsData. */
-        void slotTimeChanged();
-        /** Set information about location. Data is taken from KStarsData. */
-        void slotGeoChanged();
-        /** Set information about object. */
-        void slotObjectChanged(SkyObject * obj);
-        /** Set information about pointing. */
-        void slotPointChanged(SkyPoint * p);
-    signals:
-        /** Emitted when widget is clicked */
-        void clicked();
-    protected:
-        void paintEvent(QPaintEvent * event) Q_DECL_OVERRIDE;
-        void mouseDoubleClickEvent(QMouseEvent * event ) Q_DECL_OVERRIDE;
-        void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-        void mouseMoveEvent(QMouseEvent * event ) Q_DECL_OVERRIDE;
-        void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-        void showEvent(QShowEvent * event) Q_DECL_OVERRIDE;
-    private:
-        /** Uset to set information about object. */
-        void setPoint(QString name, SkyPoint * p);
-        /** Recalculate size of widet */
-        void updateSize();
+  public slots:
+    /** Set information about time. Data is taken from KStarsData. */
+    void slotTimeChanged();
+    /** Set information about location. Data is taken from KStarsData. */
+    void slotGeoChanged();
+    /** Set information about object. */
+    void slotObjectChanged(SkyObject *obj);
+    /** Set information about pointing. */
+    void slotPointChanged(SkyPoint *p);
+  signals:
+    /** Emitted when widget is clicked */
+    void clicked();
 
-        QStringList m_strings;  // list of string to show
-        bool m_adjusted;        // True if widget coordinates were adjusted
-        bool m_grabbed;         // True if widget is dragged around
-        bool m_shaded;          // True if widget if shaded
-        int  m_anchor;          // Vertical alignment of widget
+  protected:
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
-        static const int padX;
-        static const int padY;
+  private:
+    /** Uset to set information about object. */
+    void setPoint(QString name, SkyPoint *p);
+    /** Recalculate size of widet */
+    void updateSize();
+
+    QStringList m_strings; // list of string to show
+    bool m_adjusted;       // True if widget coordinates were adjusted
+    bool m_grabbed;        // True if widget is dragged around
+    bool m_shaded;         // True if widget if shaded
+    int m_anchor;          // Vertical alignment of widget
+
+    static const int padX;
+    static const int padY;
 };
 
 #endif /* INFOBOXWIDGET_H_ */

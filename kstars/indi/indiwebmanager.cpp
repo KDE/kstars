@@ -24,13 +24,13 @@
 
 namespace INDI
 {
-
 namespace WebManager
 {
-bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUrl &url, QJsonDocument * reply, QByteArray * data)
+bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUrl &url, QJsonDocument *reply,
+                           QByteArray *data)
 {
     QNetworkAccessManager manager;
-    QNetworkReply * response = nullptr;
+    QNetworkReply *response = nullptr;
     QNetworkRequest request;
 
     request.setUrl(url);
@@ -68,7 +68,7 @@ bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUr
 
     // Wait synchronously
     QEventLoop event;
-    QObject::connect(response,SIGNAL(finished()),&event,SLOT(quit()));
+    QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
     event.exec();
 
     if (response->error() == QNetworkReply::NoError)
@@ -94,16 +94,16 @@ bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUr
     }
 }
 
-bool isOnline(ProfileInfo * pi)
+bool isOnline(ProfileInfo *pi)
 {
     QNetworkAccessManager manager;
     QUrl url(QString("http://%1:%2/api/server/status").arg(pi->host).arg(pi->INDIWebManagerPort));
 
-    QNetworkReply * response = manager.get(QNetworkRequest(url));
+    QNetworkReply *response = manager.get(QNetworkRequest(url));
 
     // Wait synchronously
     QEventLoop event;
-    QObject::connect(response,SIGNAL(finished()),&event,SLOT(quit()));
+    QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
     event.exec();
 
     if (response->error() == QNetworkReply::NoError)
@@ -112,7 +112,7 @@ bool isOnline(ProfileInfo * pi)
         return false;
 }
 
-bool areDriversRunning(ProfileInfo * pi)
+bool areDriversRunning(ProfileInfo *pi)
 {
     QUrl url(QString("http://%1:%2/api/server/drivers").arg(pi->host).arg(pi->INDIWebManagerPort));
     QJsonDocument json;
@@ -128,8 +128,8 @@ bool areDriversRunning(ProfileInfo * pi)
         QMapIterator<QString, QString> i(pi->drivers);
         while (i.hasNext())
         {
-            QString name = i.next().value();
-            DriverInfo * driver = DriverManager::Instance()->findDriverByName(name);
+            QString name       = i.next().value();
+            DriverInfo *driver = DriverManager::Instance()->findDriverByName(name);
 
             if (driver == nullptr)
                 driver = DriverManager::Instance()->findDriverByLabel(name);
@@ -152,14 +152,12 @@ bool areDriversRunning(ProfileInfo * pi)
         }
 
         return true;
-
     }
 
     return false;
 }
 
-
-bool syncProfile(ProfileInfo * pi)
+bool syncProfile(ProfileInfo *pi)
 {
     QUrl url;
     QJsonDocument jsonDoc;
@@ -171,9 +169,9 @@ bool syncProfile(ProfileInfo * pi)
 
     // Update profile info
     url = QUrl(QString("http://%1:%2/api/profiles/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
-    QJsonObject profileObject { {"port", pi->port } };
+    QJsonObject profileObject{ { "port", pi->port } };
     jsonDoc = QJsonDocument(profileObject);
-    data = jsonDoc.toJson();
+    data    = jsonDoc.toJson();
     getWebManagerResponse(QNetworkAccessManager::PutOperation, url, nullptr, &data);
 
     // Add drivers
@@ -191,13 +189,13 @@ bool syncProfile(ProfileInfo * pi)
         driverArray.append(driver);
     }
     jsonDoc = QJsonDocument(driverArray);
-    data = jsonDoc.toJson();
+    data    = jsonDoc.toJson();
     getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data);
 
     return true;
 }
 
-bool startProfile(ProfileInfo * pi)
+bool startProfile(ProfileInfo *pi)
 {
     // First make sure profile is created and synced on web manager
     syncProfile(pi);
@@ -210,13 +208,11 @@ bool startProfile(ProfileInfo * pi)
     return areDriversRunning(pi);
 }
 
-bool stopProfile(ProfileInfo * pi)
+bool stopProfile(ProfileInfo *pi)
 {
     // Stop profile
     QUrl url(QString("http://%1:%2/api/server/stop").arg(pi->host).arg(pi->INDIWebManagerPort));
     return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 }
 }
-
 }
-

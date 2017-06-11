@@ -31,32 +31,31 @@ class QSGFlatColorMaterial;
 
 class RectNode : public QSGGeometryNode
 {
-    public:
-        RectNode(bool filled = false, QColor color = "#FFFFFF");
-        /**
+  public:
+    RectNode(bool filled = false, QColor color = "#FFFFFF");
+    /**
          * @brief setRect sets rectangle to display
          * @param x - x coordinate of left-top corner
          * @param y - y coordinate of left-top corner
          * @param w - width
          * @param h - height
          */
-        void setRect(int x, int y, int w, int h);
-        /**
+    void setRect(int x, int y, int w, int h);
+    /**
          * @brief setColor sets the color of rectangle
          */
-        void setColor(QColor color);
-        /**
+    void setColor(QColor color);
+    /**
          * @brief setFilled sets whether the rectangle should be filled or no
          * @param filled true to be filled, false otherwise
          */
-        void setFilled(bool filled);
+    void setFilled(bool filled);
 
-    private:
-        QSGGeometryNode * m_geometryNode;
-        QSGGeometry * m_geometry;
-        QSGFlatColorMaterial * m_material;
-        bool m_filled;
+  private:
+    QSGGeometryNode *m_geometryNode;
+    QSGGeometry *m_geometry;
+    QSGFlatColorMaterial *m_material;
+    bool m_filled;
 };
 
 #endif
-

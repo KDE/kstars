@@ -19,54 +19,50 @@
 #include <QDebug>
 #include <KLocalizedString>
 
-const int KSParser::EBROKEN_INT = 0;
-const double KSParser::EBROKEN_DOUBLE = 0.0;
-const float KSParser::EBROKEN_FLOAT = 0.0;
+const int KSParser::EBROKEN_INT         = 0;
+const double KSParser::EBROKEN_DOUBLE   = 0.0;
+const float KSParser::EBROKEN_FLOAT     = 0.0;
 const QString KSParser::EBROKEN_QSTRING = "Null";
 const bool KSParser::parser_debug_mode_ = false;
 
-KSParser::KSParser(const QString &filename, const char comment_char,
-                   const QList< QPair<QString, DataTypes> > &sequence,
+KSParser::KSParser(const QString &filename, const char comment_char, const QList<QPair<QString, DataTypes>> &sequence,
                    const char delimiter)
-    : filename_(filename), comment_char_(comment_char),
-      name_type_sequence_(sequence), delimiter_(delimiter)
+    : filename_(filename), comment_char_(comment_char), name_type_sequence_(sequence), delimiter_(delimiter)
 {
     if (!file_reader_.openFullPath(filename_))
     {
-        qWarning() <<"Unable to open file: "<< filename;
+        qWarning() << "Unable to open file: " << filename;
         readFunctionPtr = &KSParser::DummyRow;
     }
     else
     {
         readFunctionPtr = &KSParser::ReadCSVRow;
-        qDebug() <<"File opened: "<< filename;
+        qDebug() << "File opened: " << filename;
     }
 }
 
-KSParser::KSParser(const QString &filename, const char comment_char,
-                   const QList< QPair<QString, DataTypes> > &sequence,
+KSParser::KSParser(const QString &filename, const char comment_char, const QList<QPair<QString, DataTypes>> &sequence,
                    const QList<int> &widths)
-    : filename_(filename), comment_char_(comment_char),
-      name_type_sequence_(sequence), width_sequence_(widths)
+    : filename_(filename), comment_char_(comment_char), name_type_sequence_(sequence), width_sequence_(widths)
 {
     if (!file_reader_.openFullPath(filename_))
     {
-        qWarning() <<"Unable to open file: "<< filename;
+        qWarning() << "Unable to open file: " << filename;
         readFunctionPtr = &KSParser::DummyRow;
     }
     else
     {
         readFunctionPtr = &KSParser::ReadFixedWidthRow;
-        qDebug() <<"File opened: "<< filename;
+        qDebug() << "File opened: " << filename;
     }
 }
 
-QHash<QString, QVariant>  KSParser::ReadNextRow()
+QHash<QString, QVariant> KSParser::ReadNextRow()
 {
     return (this->*readFunctionPtr)();
 }
 
-QHash<QString, QVariant>  KSParser::ReadCSVRow()
+QHash<QString, QVariant> KSParser::ReadCSVRow()
 {
     /**
      * @brief read_success(bool) signifies if a row has been successfully read.
@@ -81,7 +77,8 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow()
     while (file_reader_.hasMoreLines() && read_success == false)
     {
         next_line = file_reader_.readLine();
-        if (next_line.mid(0,1)[0] == comment_char_) continue;
+        if (next_line.mid(0, 1)[0] == comment_char_)
+            continue;
         separated = next_line.split(delimiter_);
         /*
             * 1) split along delimiter eg. comma (,)
@@ -93,10 +90,11 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow()
             *    (CombineQuoteParts
             *
         */
-        if (separated.length() == 1) continue; // Length will be 1 if there
+        if (separated.length() == 1)
+            continue; // Length will be 1 if there
         // is no delimiter
 
-        separated = CombineQuoteParts(separated);  // At this point, the
+        separated = CombineQuoteParts(separated); // At this point, the
         // string has been split
         // taking the quote marks into account
 
@@ -108,13 +106,10 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow()
         for (int i = 0; i < name_type_sequence_.length(); i++)
         {
             bool ok;
-            newRow[name_type_sequence_[i].first] =
-                ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
+            newRow[name_type_sequence_[i].first] = ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
             if (!ok && parser_debug_mode_)
             {
-                qDebug() << name_type_sequence_[i].second
-                         <<"Failed at field: "
-                         << name_type_sequence_[i].first
+                qDebug() << name_type_sequence_[i].second << "Failed at field: " << name_type_sequence_[i].first
                          << " & next_line : " << next_line;
             }
         }
@@ -126,12 +121,12 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow()
      * OR
      * The file was truncated OR the file ends with one or more '\n'
      */
-    if (file_reader_.hasMoreLines() == false && newRow.size()<=1)
+    if (file_reader_.hasMoreLines() == false && newRow.size() <= 1)
         newRow = DummyRow();
     return newRow;
 }
 
-QHash<QString, QVariant>  KSParser::ReadFixedWidthRow()
+QHash<QString, QVariant> KSParser::ReadFixedWidthRow()
 {
     if (name_type_sequence_.length() != (width_sequence_.length() + 1))
     {
@@ -139,7 +134,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow()
         // Hence, the length of width_sequence_ is one less than
         // name_type_sequence_
         qWarning() << "Unequal fields and widths! Returning dummy row!";
-        Q_ASSERT( false ); // Make sure that in Debug mode, this condition generates an abort.
+        Q_ASSERT(false); // Make sure that in Debug mode, this condition generates an abort.
         return DummyRow();
     }
 
@@ -154,7 +149,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow()
     QHash<QString, QVariant> newRow;
     int total_min_length = 0;
 
-    foreach(const int width_value, width_sequence_)
+    foreach (const int width_value, width_sequence_)
     {
         total_min_length += width_value;
     }
@@ -171,8 +166,10 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow()
          *             conversion
         */
         next_line = file_reader_.readLine();
-        if (next_line.mid(0,1)[0] == comment_char_) continue;
-        if (next_line.length() < total_min_length) continue;
+        if (next_line.mid(0, 1)[0] == comment_char_)
+            continue;
+        if (next_line.length() < total_min_length)
+            continue;
 
         int curr_width = 0;
         for (int n_split = 0; n_split < width_sequence_.length(); n_split++)
@@ -184,19 +181,16 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow()
             curr_width += width_sequence_[n_split];
             separated.append(temp_split.trimmed());
         }
-        separated.append(next_line.mid(curr_width).trimmed());  // Append last segment
+        separated.append(next_line.mid(curr_width).trimmed()); // Append last segment
 
         // Conversions
         for (int i = 0; i < name_type_sequence_.length(); ++i)
         {
             bool ok;
-            newRow[name_type_sequence_[i].first] =
-                ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
+            newRow[name_type_sequence_[i].first] = ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
             if (!ok && parser_debug_mode_)
             {
-                qDebug() << name_type_sequence_[i].second
-                         <<"Failed at field: "
-                         << name_type_sequence_[i].first
+                qDebug() << name_type_sequence_[i].second << "Failed at field: " << name_type_sequence_[i].first
                          << " & next_line : " << next_line;
             }
         }
@@ -208,12 +202,12 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow()
      * OR
      * The file was truncated OR the file ends with one or more '\n'
      */
-    if (file_reader_.hasMoreLines() == false && newRow.size()<=1)
+    if (file_reader_.hasMoreLines() == false && newRow.size() <= 1)
         newRow = DummyRow();
     return newRow;
 }
 
-QHash<QString, QVariant>  KSParser::DummyRow()
+QHash<QString, QVariant> KSParser::DummyRow()
 {
     // qWarning() << "File named " << filename_ << " encountered an error while reading";
     QHash<QString, QVariant> newRow;
@@ -256,7 +250,7 @@ void KSParser::ShowProgress()
     file_reader_.showProgress();
 }
 
-QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated)
+QList<QString> KSParser::CombineQuoteParts(QList<QString> &separated)
 {
     QString iter_string;
     QList<QString> quoteCombined;
@@ -284,20 +278,20 @@ QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated)
 
         while (iter != separated.constEnd())
         {
-            QList <QString> queue;
+            QList<QString> queue;
             iter_string = *iter;
 
-            if (iter_string.indexOf("\"") == 0)    // if (quote mark is the first character)
+            if (iter_string.indexOf("\"") == 0) // if (quote mark is the first character)
             {
-                iter_string = (iter_string).remove(0,1);  // remove the quote at the start
-                while (iter_string.lastIndexOf('\"') != (iter_string.length()-1) &&
-                        iter != separated.constEnd())    // handle stuff between parent quotes
+                iter_string = (iter_string).remove(0, 1); // remove the quote at the start
+                while (iter_string.lastIndexOf('\"') != (iter_string.length() - 1) &&
+                       iter != separated.constEnd()) // handle stuff between parent quotes
                 {
                     queue.append((iter_string));
                     ++iter;
                     iter_string = *iter;
                 }
-                iter_string.chop(1);  // remove the quote at the end
+                iter_string.chop(1); // remove the quote at the end
                 queue.append(iter_string);
             }
             else
@@ -306,9 +300,9 @@ QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated)
             }
 
             QString col_result;
-            foreach(const QString &join, queue)
+            foreach (const QString &join, queue)
                 col_result += (join + delimiter_);
-            col_result.chop(1);  // remove extra delimiter
+            col_result.chop(1); // remove extra delimiter
             quoteCombined.append(col_result);
             ++iter;
         }
@@ -316,9 +310,7 @@ QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated)
     return quoteCombined;
 }
 
-QVariant KSParser::ConvertToQVariant(const QString &input_string,
-                                     const KSParser::DataTypes &data_type,
-                                     bool &ok)
+QVariant KSParser::ConvertToQVariant(const QString &input_string, const KSParser::DataTypes &data_type, bool &ok)
 {
     ok = true;
     QVariant converted_object;

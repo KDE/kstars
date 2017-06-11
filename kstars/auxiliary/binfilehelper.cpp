@@ -32,57 +32,57 @@ BinFileHelper::BinFileHelper()
 
 BinFileHelper::~BinFileHelper()
 {
-    qDeleteAll( fields );
-    if( fileHandle )
+    qDeleteAll(fields);
+    if (fileHandle)
         closeFile();
 }
 
 void BinFileHelper::init()
 {
-    if(fileHandle)
+    if (fileHandle)
         fclose(fileHandle);
 
-    fileHandle = nullptr;
-    indexUpdated = false;
-    FDUpdated = false;
-    RSUpdated = false;
+    fileHandle      = nullptr;
+    indexUpdated    = false;
+    FDUpdated       = false;
+    RSUpdated       = false;
     preambleUpdated = false;
-    byteswap = false;
-    errnum = ERR_NULL;
-    recordCount = 0;
+    byteswap        = false;
+    errnum          = ERR_NULL;
+    recordCount     = 0;
 }
 
 void BinFileHelper::clearFields()
 {
-    qDeleteAll( fields );
+    qDeleteAll(fields);
     fields.clear();
 }
 
-bool BinFileHelper::testFileExists( const QString &fileName )
+bool BinFileHelper::testFileExists(const QString &fileName)
 {
-    QString FilePath = KSPaths::locate(QStandardPaths::GenericDataLocation, fileName );
-    QByteArray b = FilePath.toLatin1();
-    const char * filepath = b.data();
-    FILE * f  = fopen(filepath, "rb");
-    if( f )
+    QString FilePath     = KSPaths::locate(QStandardPaths::GenericDataLocation, fileName);
+    QByteArray b         = FilePath.toLatin1();
+    const char *filepath = b.data();
+    FILE *f              = fopen(filepath, "rb");
+    if (f)
     {
-        fclose( f );
+        fclose(f);
         return true;
     }
     else
         return false;
 }
 
-FILE * BinFileHelper::openFile(const QString &fileName)
+FILE *BinFileHelper::openFile(const QString &fileName)
 {
-    QString FilePath = KSPaths::locate(QStandardPaths::GenericDataLocation, fileName );
+    QString FilePath = KSPaths::locate(QStandardPaths::GenericDataLocation, fileName);
     init();
-    QByteArray b = FilePath.toLatin1();
-    const char * filepath = b.data();
+    QByteArray b         = FilePath.toLatin1();
+    const char *filepath = b.data();
 
     fileHandle = fopen(filepath, "rb");
 
-    if(!fileHandle)
+    if (!fileHandle)
     {
         errnum = ERR_FILEOPEN;
         return nullptr;
@@ -94,10 +94,10 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
 {
     qint16 endian_id, i;
     char ASCII_text[125];
-    dataElement * de;
+    dataElement *de;
 
     // Read the preamble
-    if(!fileHandle)
+    if (!fileHandle)
         return ERR_FILEOPEN;
 
     rewind(fileHandle);
@@ -106,46 +106,48 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
     // e.g. "KStars Star Data v1.0. To be read using the 32-bit starData structure only"
     fread(ASCII_text, 124, 1, fileHandle);
     ASCII_text[124] = '\0';
-    headerText = ASCII_text;
+    headerText      = ASCII_text;
 
     // Find out endianess from reading "KS" 0x4B53 in the binary file which was encoded on a little endian machine
     // Therefore, in the binary file it is written as 53 4B (little endian as least significant byte is stored first),
     // and when read on a little endian machine then it results in 0x4B53 (least significant byte is stored first in memory),
     // whereas a big endian machine would read it as 0x534B (most significant byte is stored first in memory).
     fread(&endian_id, 2, 1, fileHandle);
-    if(endian_id != 0x4B53)
+    if (endian_id != 0x4B53)
         byteswap = 1;
     else
         byteswap = 0;
 
-    fread( &versionNumber, 1, 1, fileHandle );
+    fread(&versionNumber, 1, 1, fileHandle);
 
     preambleUpdated = true;
     // Read the field descriptor table
     fread(&nfields, 2, 1, fileHandle);
-    if( byteswap ) nfields = bswap_16( nfields );
+    if (byteswap)
+        nfields = bswap_16(nfields);
     fields.clear();
-    for(i = 0; i < nfields; ++i)
+    for (i = 0; i < nfields; ++i)
     {
         // FIXME: Valgrind shows 176 bytes lost here in 11 blocks. Why? Investigate
         de = new dataElement;
 
         // Read 16 byte dataElement that describe each field (name[8], size[1], type[1], scale[4])
-        if(!fread(de, sizeof(dataElement), 1, fileHandle))
+        if (!fread(de, sizeof(dataElement), 1, fileHandle))
         {
             delete de;
             qDeleteAll(fields);
             return ERR_FD_TRUNC;
         }
-        if( byteswap ) de->scale = bswap_32( de->scale );
-        fields.append( de );
+        if (byteswap)
+            de->scale = bswap_32(de->scale);
+        fields.append(de);
     }
 
-    if(!RSUpdated)
+    if (!RSUpdated)
     {
         recordSize = 0;
-        for(i = 0; i < fields.size(); ++i)
-            recordSize += fields[i] -> size;
+        for (i = 0; i < fields.size(); ++i)
+            recordSize += fields[i]->size;
         RSUpdated = true;
     }
 
@@ -153,7 +155,8 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
 
     // Read the index table
     fread(&indexSize, 4, 1, fileHandle);
-    if( byteswap ) indexSize = bswap_32( indexSize );
+    if (byteswap)
+        indexSize = bswap_32(indexSize);
 
     quint32 j;
     quint32 ID;
@@ -166,72 +169,76 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
     itableOffset = ftell(fileHandle);
 
     prev_offset = 0;
-    prev_nrecs = 0;
+    prev_nrecs  = 0;
     recordCount = 0;
 
     indexCount.clear();
     indexOffset.clear();
 
-    if( indexSize == 0 )
+    if (indexSize == 0)
     {
-        errorMessage.sprintf( "Zero index size!" );
+        errorMessage.sprintf("Zero index size!");
         return ERR_INDEX_TRUNC;
     }
 
     // We read each 12-byte index entry (ID[4], Offset[4] within file in bytes, nrec[4] # of Records).
     // After reading all the indexes, we are (itableOffset + indexSize * 12) bytes within the file
     // indexSize is usually the size of the HTM level (eg. HTM level 3 --> 512)
-    for(j = 0; j < indexSize; ++j)
+    for (j = 0; j < indexSize; ++j)
     {
-        if(!fread(&ID, 4, 1, fileHandle))
+        if (!fread(&ID, 4, 1, fileHandle))
         {
             errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
             return ERR_INDEX_TRUNC;
         }
 
-        if( byteswap ) ID = bswap_32( ID );
+        if (byteswap)
+            ID = bswap_32(ID);
 
-        if(ID >= indexSize)
+        if (ID >= indexSize)
         {
             errorMessage.sprintf("ID %u is greater than the expected number of expected entries (%u)", ID, indexSize);
             return ERR_INDEX_BADID;
         }
 
-        if(ID != j)
+        if (ID != j)
         {
             errorMessage.sprintf("Found ID %u, at the location where ID %u was expected", ID, j);
             return ERR_INDEX_IDMISMATCH;
         }
 
-        if(!fread(&offset, 4, 1, fileHandle))
+        if (!fread(&offset, 4, 1, fileHandle))
         {
             errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
             return ERR_BADSEEK;
         }
 
-        if( byteswap ) offset = bswap_32( offset );
+        if (byteswap)
+            offset = bswap_32(offset);
 
-        if(!fread(&nrecs, 4, 1, fileHandle))
+        if (!fread(&nrecs, 4, 1, fileHandle))
         {
             errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
             return ERR_BADSEEK;
         }
 
-        if( byteswap ) nrecs = bswap_32( nrecs );
+        if (byteswap)
+            nrecs = bswap_32(nrecs);
 
-        if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/recordSize)
+        if (prev_offset != 0 && prev_nrecs != (-prev_offset + offset) / recordSize)
         {
             errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u",
-                                 (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, j - 1);
+                                 (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs,
+                                 j - 1);
             return ERR_INDEX_BADOFFSET;
         }
 
-        indexOffset.append( offset );
-        indexCount.append( nrecs );
+        indexOffset.append(offset);
+        indexCount.append(nrecs);
 
         recordCount += nrecs;
         prev_offset = offset;
-        prev_nrecs = nrecs;
+        prev_nrecs  = nrecs;
     }
 
     dataOffset = ftell(fileHandle);
@@ -243,7 +250,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
 
 bool BinFileHelper::readHeader()
 {
-    switch( (errnum = __readHeader()) )
+    switch ((errnum = __readHeader()))
     {
         case ERR_NULL:
             return true;
@@ -276,13 +283,13 @@ void BinFileHelper::closeFile()
 int BinFileHelper::getErrorNumber()
 {
     int err = errnum;
-    errnum = ERR_NULL;
+    errnum  = ERR_NULL;
     return err;
 }
 
 QString BinFileHelper::getError()
 {
-    QString erm = errorMessage;
+    QString erm  = errorMessage;
     errorMessage = "";
     return erm;
 }
@@ -290,9 +297,9 @@ QString BinFileHelper::getError()
 struct dataElement BinFileHelper::getField(const QString &fieldName) const
 {
     dataElement de;
-    for(int i = 0; i < fields.size(); ++i)
+    for (int i = 0; i < fields.size(); ++i)
     {
-        if(fields[i] -> name == fieldName)
+        if (fields[i]->name == fieldName)
         {
             de = *fields[i];
             return de;
@@ -303,29 +310,28 @@ struct dataElement BinFileHelper::getField(const QString &fieldName) const
 
 bool BinFileHelper::isField(const QString &fieldName) const
 {
-    for(int i = 0; i < fields.size(); ++i)
+    for (int i = 0; i < fields.size(); ++i)
     {
-        if(fields[i] -> name == fieldName)
+        if (fields[i]->name == fieldName)
             return true;
     }
     return false;
 }
 
-int BinFileHelper::unsigned_KDE_fseek( FILE * stream, quint32 offset, int whence )
+int BinFileHelper::unsigned_KDE_fseek(FILE *stream, quint32 offset, int whence)
 {
-    Q_ASSERT( stream );
+    Q_ASSERT(stream);
     int ret = 0;
-    if( offset <= ((quint32)1 << 31) - 1 )
+    if (offset <= ((quint32)1 << 31) - 1)
     {
-        ret = fseek( stream, offset, whence );
+        ret = fseek(stream, offset, whence);
     }
     else
     {
         // Do the fseek in two steps
-        ret = fseek( stream, ((quint32)1 << 31) - 1, whence );
-        if( !ret )
-            ret = fseek( stream, offset - ((quint32)1 << 31) + 1, SEEK_CUR );
+        ret = fseek(stream, ((quint32)1 << 31) - 1, whence);
+        if (!ret)
+            ret = fseek(stream, offset - ((quint32)1 << 31) + 1, SEEK_CUR);
     }
     return ret;
 }
-

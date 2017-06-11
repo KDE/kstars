@@ -18,7 +18,6 @@
 #ifndef SKYCOMPONENT_H
 #define SKYCOMPONENT_H
 
-
 #include <QDebug>
 #include "typedef.h"
 
@@ -122,24 +121,24 @@ class SkyPainter;
  */
 class SkyComponent
 {
-    public:
-        /** @short Constructor
+  public:
+    /** @short Constructor
          * @p parent pointer to the parent SkyComposite
          */
-        explicit SkyComponent( SkyComposite * parent );
+    explicit SkyComponent(SkyComposite *parent);
 
-        /** @short Destructor */
-        virtual ~SkyComponent();
+    /** @short Destructor */
+    virtual ~SkyComponent();
 
-        /** @short Draw the object on the SkyMap
+    /** @short Draw the object on the SkyMap
          * @p skyp a pointer to the SkyPainter to use
          */
-        virtual void draw( SkyPainter * skyp ) = 0;
+    virtual void draw(SkyPainter *skyp) = 0;
 
-        /** @short Draw trails for objects. */
-        virtual void drawTrails( SkyPainter * skyp );
+    /** @short Draw trails for objects. */
+    virtual void drawTrails(SkyPainter *skyp);
 
-        /**
+    /**
          * @short Update the sky position(s) of this component.
          *
          * This function usually just updates the Horizontal (Azimuth/Altitude)
@@ -150,23 +149,17 @@ class SkyComponent
          * @sa ListComponent::update()
          * @sa ConstellationBoundaryComponent::update()
          */
-        virtual void update( KSNumbers * ) {}
-        virtual void updateSolarSystemBodies( KSNumbers * ) {}
-        virtual void updateMoons( KSNumbers * ) {}
+    virtual void update(KSNumbers *) {}
+    virtual void updateSolarSystemBodies(KSNumbers *) {}
+    virtual void updateMoons(KSNumbers *) {}
 
-        /** @return true if component is to be drawn on the map. */
-        virtual bool selected()
-        {
-            return true;
-        }
+    /** @return true if component is to be drawn on the map. */
+    virtual bool selected() { return true; }
 
-        /** @return Parent of component. If there is no parent returns nullptr. */
-        SkyComposite * parent()
-        {
-            return m_parent;
-        }
+    /** @return Parent of component. If there is no parent returns nullptr. */
+    SkyComposite *parent() { return m_parent; }
 
-        /**
+    /**
          * @short Search the children of this SkyComponent for
          * a SkyObject whose name matches the argument
          * @p name the name to be matched
@@ -175,9 +168,9 @@ class SkyComponent
          * @note This function simply returns the nullptr pointer; it
          * is reimplemented in various sub-classes
          */
-        virtual SkyObject * findByName( const QString &name );
+    virtual SkyObject *findByName(const QString &name);
 
-        /**
+    /**
          * @short Searches the region(s) and appends the SkyObjects found to the list of sky objects
          *
          * Look for a SkyObject that is in one of the regions
@@ -188,9 +181,9 @@ class SkyComponent
          * @note This function simply returns; it is
          * reimplemented in various sub-classes.
          */
-        virtual void objectsInArea( QList<SkyObject *> &list, const SkyRegion &region );
+    virtual void objectsInArea(QList<SkyObject *> &list, const SkyRegion &region);
 
-        /**
+    /**
          * @short Find the SkyObject nearest the given SkyPoint
          *
          * Look for a SkyObject that is nearer to point p than maxrad.
@@ -201,49 +194,37 @@ class SkyComponent
          * @note This function simply returns a nullptr pointer; it is
          * reimplemented in various sub-classes.
          */
-        virtual SkyObject * objectNearest( SkyPoint * p, double &maxrad );
+    virtual SkyObject *objectNearest(SkyPoint *p, double &maxrad);
 
-        /** @short Emit signal about progress.
+    /** @short Emit signal about progress.
          *
          * @sa SkyMapComposite::emitProgressText
          */
-        virtual void emitProgressText( const QString &message );
+    virtual void emitProgressText(const QString &message);
 
-        inline QHash<int, QStringList> &objectNames()
-        {
-            return getObjectNames();
-        }
+    inline QHash<int, QStringList> &objectNames() { return getObjectNames(); }
 
-        inline QStringList &objectNames(int type)
-        {
-            return getObjectNames()[type];
-        }
+    inline QStringList &objectNames(int type) { return getObjectNames()[type]; }
 
-        inline QHash<int, QVector<QPair<QString, const SkyObject *>>> &objectLists()
-        {
-            return getObjectLists();
-        }
+    inline QHash<int, QVector<QPair<QString, const SkyObject *>>> &objectLists() { return getObjectLists(); }
 
-        inline QVector<QPair<QString, const SkyObject *>> &objectLists(int type)
-        {
-            return getObjectLists()[type];
-        }
+    inline QVector<QPair<QString, const SkyObject *>> &objectLists(int type) { return getObjectLists()[type]; }
 
-    protected:
-        void removeFromNames(const SkyObject * obj);
-        void removeFromLists(const SkyObject * obj);
+  protected:
+    void removeFromNames(const SkyObject *obj);
+    void removeFromLists(const SkyObject *obj);
 
-    private:
-        /** */
-        virtual QHash<int, QStringList> &getObjectNames();
-        virtual QHash<int, QVector<QPair<QString, const SkyObject *>>> &getObjectLists();
+  private:
+    /** */
+    virtual QHash<int, QStringList> &getObjectNames();
+    virtual QHash<int, QVector<QPair<QString, const SkyObject *>>> &getObjectLists();
 
-        // Disallow copying and assignement
-        SkyComponent(const SkyComponent &);
-        SkyComponent &operator= (const SkyComponent &);
+    // Disallow copying and assignement
+    SkyComponent(const SkyComponent &);
+    SkyComponent &operator=(const SkyComponent &);
 
-        /** Parent of sky component. */
-        SkyComposite * m_parent;
+    /** Parent of sky component. */
+    SkyComposite *m_parent;
 };
 
 #endif

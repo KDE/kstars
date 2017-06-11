@@ -14,24 +14,21 @@
 
 #include <basedevice.h>
 
-
 namespace Ekos
 {
-
 Weather::Weather()
 {
     new WeatherAdaptor(this);
-    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Weather",  this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Weather", this);
 
     currentWeather = nullptr;
 }
 
 Weather::~Weather()
 {
-
 }
 
-void Weather::setWeather(ISD::GDInterface * newWeather)
+void Weather::setWeather(ISD::GDInterface *newWeather)
 {
     currentWeather = static_cast<ISD::Weather *>(newWeather);
 }
@@ -50,9 +47,5 @@ uint16_t Weather::getUpdatePeriod()
         return 0;
 
     return currentWeather->getUpdatePeriod();
-
 }
-
 }
-
-

@@ -38,7 +38,7 @@
 
 #ifdef PROFILE_UPDATECOORDS
 double StarObject::updateCoordsCpuTime = 0.;
-unsigned int StarObject::starsUpdated = 0;
+unsigned int StarObject::starsUpdated  = 0;
 #include <cstdlib>
 #include <ctime>
 #endif
@@ -60,9 +60,10 @@ unsigned int StarObject::starsUpdated = 0;
 
 //----- Static Methods -----
 //
-double StarObject::reindexInterval( double pm )
+double StarObject::reindexInterval(double pm)
 {
-    if ( pm < 1.0e-6) return 1.0e6;
+    if (pm < 1.0e-6)
+        return 1.0e6;
 
     // arcminutes * sec/min * milliarcsec/sec centuries/year
     // / [milliarcsec/year] = centuries
@@ -70,28 +71,26 @@ double StarObject::reindexInterval( double pm )
     return 25.0 * 60.0 * 10.0 / pm;
 }
 
-StarObject::StarObject( dms r, dms d, float m,
-                        const QString &n, const QString &n2,
-                        const QString &sptype, double pmra, double pmdec,
-                        double par, bool mult, bool var, int hd )
-    : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
-      PM_RA(pmra), PM_Dec(pmdec),
-      Parallax(par), Multiplicity(mult), Variability(var)
+StarObject::StarObject(dms r, dms d, float m, const QString &n, const QString &n2, const QString &sptype, double pmra,
+                       double pmdec, double par, bool mult, bool var, int hd)
+    : SkyObject(SkyObject::STAR, r, d, m, n, n2, QString()), PM_RA(pmra), PM_Dec(pmdec), Parallax(par),
+      Multiplicity(mult), Variability(var)
 {
     QByteArray spt = sptype.toLatin1();
-    SpType[0] = spt[0];
-    SpType[1] = spt[1];
+    SpType[0]      = spt[0];
+    SpType[1]      = spt[1];
     QString lname;
-    if ( hasName() )
+    if (hasName())
     {
         lname = n;
-        if ( hasName2() ) lname += " (" + gname() + ')';
+        if (hasName2())
+            lname += " (" + gname() + ')';
     }
-    else if ( hasName2() )
+    else if (hasName2())
     {
         lname = gname();
         //If genetive name exists, but no primary name, set primary name = genetive name.
-        setName( gname() );
+        setName(gname());
     }
 
     HD = hd;
@@ -100,29 +99,27 @@ StarObject::StarObject( dms r, dms d, float m,
     updateID = updateNumID = 0;
 }
 
-StarObject::StarObject( double r, double d, float m,
-                        const QString &n, const QString &n2,
-                        const QString &sptype, double pmra, double pmdec,
-                        double par, bool mult, bool var, int hd )
-    : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
-      PM_RA(pmra), PM_Dec(pmdec),
-      Parallax(par), Multiplicity(mult), Variability(var)
+StarObject::StarObject(double r, double d, float m, const QString &n, const QString &n2, const QString &sptype,
+                       double pmra, double pmdec, double par, bool mult, bool var, int hd)
+    : SkyObject(SkyObject::STAR, r, d, m, n, n2, QString()), PM_RA(pmra), PM_Dec(pmdec), Parallax(par),
+      Multiplicity(mult), Variability(var)
 {
     QByteArray spt = sptype.toLatin1();
-    SpType[0] = spt[0];
-    SpType[1] = spt[1];
+    SpType[0]      = spt[0];
+    SpType[1]      = spt[1];
 
     QString lname;
-    if ( hasName() )
+    if (hasName())
     {
         lname = n;
-        if ( hasName2() )lname += " (" + gname() + ')';
+        if (hasName2())
+            lname += " (" + gname() + ')';
     }
-    else if ( hasName2() )
+    else if (hasName2())
     {
         lname = gname();
         //If genetive name exists, but no primary name, set primary name = genetive name.
-        setName( gname() );
+        setName(gname());
     }
 
     HD = hd;
@@ -131,46 +128,42 @@ StarObject::StarObject( double r, double d, float m,
     updateID = updateNumID = 0;
 }
 
-StarObject::StarObject( const StarObject &o ) :
-    SkyObject (o),
-    PM_RA(o.PM_RA),
-    PM_Dec(o.PM_Dec),
-    Parallax(o.Parallax),
-    Multiplicity(o.Multiplicity),
-    Variability(o.Variability),
-    HD(o.HD)
+StarObject::StarObject(const StarObject &o)
+    : SkyObject(o), PM_RA(o.PM_RA), PM_Dec(o.PM_Dec), Parallax(o.Parallax), Multiplicity(o.Multiplicity),
+      Variability(o.Variability), HD(o.HD)
 {
     SpType[0] = o.SpType[0];
     SpType[1] = o.SpType[1];
     updateID = updateNumID = 0;
 }
 
-StarObject * StarObject::clone() const
+StarObject *StarObject::clone() const
 {
-    Q_ASSERT( typeid( this ) == typeid( static_cast<const StarObject *>( this ) ) ); // Ensure we are not slicing a derived class
+    Q_ASSERT(typeid(this) ==
+             typeid(static_cast<const StarObject *>(this))); // Ensure we are not slicing a derived class
     return new StarObject(*this);
 }
 
-void StarObject::init( const starData * stardata )
+void StarObject::init(const starData *stardata)
 {
     double ra, dec;
-    ra = stardata->RA / 1000000.0;
+    ra  = stardata->RA / 1000000.0;
     dec = stardata->Dec / 100000.0;
-    setType( SkyObject::STAR );
-    setMag( stardata->mag / 100.0 );
-    setRA0( ra );
-    setDec0( dec );
-    setRA( ra0() );
-    setDec( dec0() );
-    SpType[0] = stardata->spec_type[0];
-    SpType[1] = stardata->spec_type[1];
-    PM_RA = stardata->dRA / 10.0;
-    PM_Dec = stardata->dDec / 10.0;
-    Parallax = stardata->parallax / 10.0;
+    setType(SkyObject::STAR);
+    setMag(stardata->mag / 100.0);
+    setRA0(ra);
+    setDec0(dec);
+    setRA(ra0());
+    setDec(dec0());
+    SpType[0]    = stardata->spec_type[0];
+    SpType[1]    = stardata->spec_type[1];
+    PM_RA        = stardata->dRA / 10.0;
+    PM_Dec       = stardata->dDec / 10.0;
+    Parallax     = stardata->parallax / 10.0;
     Multiplicity = stardata->flags & 0x02;
-    Variability = stardata->flags & 0x04 ;
+    Variability  = stardata->flags & 0x04;
     updateID = updateNumID = 0;
-    HD = stardata->HD;
+    HD                     = stardata->HD;
     B = V = 99.9;
 
     // DEBUG Edit. For testing proper motion. Uncomment all related blocks to test.
@@ -198,91 +191,91 @@ void StarObject::init( const starData * stardata )
     // END DEBUG.
 
     lastPrecessJD = J2000;
-
 }
 
-void StarObject::init( const deepStarData * stardata )
+void StarObject::init(const deepStarData *stardata)
 {
     double ra, dec, BV_Index;
 
-    ra = stardata->RA / 1000000.0;
+    ra  = stardata->RA / 1000000.0;
     dec = stardata->Dec / 100000.0;
-    setType( SkyObject::STAR );
+    setType(SkyObject::STAR);
 
-    if( stardata->V == 30000 && stardata->B != 30000 )
-        setMag( ( stardata->B - 1600 ) / 1000.0 ); // FIXME: Is it okay to make up stuff like this?
+    if (stardata->V == 30000 && stardata->B != 30000)
+        setMag((stardata->B - 1600) / 1000.0); // FIXME: Is it okay to make up stuff like this?
     else
-        setMag( stardata->V / 1000.0 );
+        setMag(stardata->V / 1000.0);
 
-    setRA0( ra );
-    setDec0( dec );
-    setRA( ra );
-    setDec( dec );
+    setRA0(ra);
+    setDec0(dec);
+    setRA(ra);
+    setDec(dec);
 
     SpType[1] = '?';
     SpType[0] = 'B';
-    if( stardata->B == 30000 || stardata->V == 30000 )
+    if (stardata->B == 30000 || stardata->V == 30000)
     {
-        BV_Index = -100;
+        BV_Index  = -100;
         SpType[0] = '?';
     }
     else
     {
-        BV_Index = ( stardata->B - stardata->V ) / 1000.0;
-        ( BV_Index > 0.0 ) &&( SpType[0] = 'A' );
-        ( BV_Index > 0.325 ) &&( SpType[0] = 'F' );
-        ( BV_Index > 0.575 ) &&( SpType[0] = 'G' );
-        ( BV_Index > 0.975 ) &&( SpType[0] = 'K' );
-        ( BV_Index > 1.6 ) &&( SpType[0] = 'M' );
+        BV_Index = (stardata->B - stardata->V) / 1000.0;
+        (BV_Index > 0.0) && (SpType[0] = 'A');
+        (BV_Index > 0.325) && (SpType[0] = 'F');
+        (BV_Index > 0.575) && (SpType[0] = 'G');
+        (BV_Index > 0.975) && (SpType[0] = 'K');
+        (BV_Index > 1.6) && (SpType[0] = 'M');
     }
 
-    PM_RA = stardata->dRA / 100.0;
-    PM_Dec = stardata->dDec / 100.0;
-    Parallax = 0.0;
+    PM_RA        = stardata->dRA / 100.0;
+    PM_Dec       = stardata->dDec / 100.0;
+    Parallax     = 0.0;
     Multiplicity = 0;
-    Variability = 0;
+    Variability  = 0;
     updateID = updateNumID = 0;
-    B = stardata->B / 1000.0;
-    V = stardata->V / 1000.0;
-    lastPrecessJD = J2000;
+    B                      = stardata->B / 1000.0;
+    V                      = stardata->V / 1000.0;
+    lastPrecessJD          = J2000;
 }
 
-void StarObject::setNames( QString name, QString name2 )
+void StarObject::setNames(QString name, QString name2)
 {
     QString lname;
 
-    setName( name );
+    setName(name);
 
-    setName2( name2 );
+    setName2(name2);
 
-    if ( hasName() && name.startsWith("HD")==false)
+    if (hasName() && name.startsWith("HD") == false)
     {
         lname = name;
-        if ( hasName2() ) lname += " (" + gname() + ')';
+        if (hasName2())
+            lname += " (" + gname() + ')';
     }
-    else if ( hasName2() )
+    else if (hasName2())
         lname = gname();
     setLongName(lname);
 }
-void StarObject::initPopupMenu( KSPopupMenu * pmenu )
+void StarObject::initPopupMenu(KSPopupMenu *pmenu)
 {
 #ifdef KSTARS_LITE
     Q_UNUSED(pmenu)
 #else
-    pmenu->createStarMenu( this );
+    pmenu->createStarMenu(this);
 #endif
 }
 
-void StarObject::updateCoords( const KSNumbers * num, bool , const CachingDms *, const CachingDms *, bool )
+void StarObject::updateCoords(const KSNumbers *num, bool, const CachingDms *, const CachingDms *, bool)
 {
-    //Correct for proper motion of stars.  Determine RA and Dec offsets.
-    //Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
-    //That is numerically identical to the number of arcsec per millenium, so multiply by
-    //KSNumbers::julianMillenia() to find the offsets in arcsec.
+//Correct for proper motion of stars.  Determine RA and Dec offsets.
+//Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
+//That is numerically identical to the number of arcsec per millenium, so multiply by
+//KSNumbers::julianMillenia() to find the offsets in arcsec.
 
-    // Correction:  The method below computes the proper motion before the
-    // precession.  If we precessed first then the direction of the proper
-    // motion correction would depend on how far we've precessed.  -jbb
+// Correction:  The method below computes the proper motion before the
+// precession.  If we precessed first then the direction of the proper
+// motion correction would depend on how far we've precessed.  -jbb
 #ifdef PROFILE_UPDATECOORDS
     std::clock_t start, stop;
     start = std::clock();
@@ -290,22 +283,22 @@ void StarObject::updateCoords( const KSNumbers * num, bool , const CachingDms *,
     CachingDms saveRA = ra0(), saveDec = dec0();
     CachingDms newRA, newDec;
 
-    getIndexCoords( num, newRA, newDec );
+    getIndexCoords(num, newRA, newDec);
 
-    setRA0( newRA );
-    setDec0( newDec );
-    SkyPoint::updateCoords( num );
-    setRA0( saveRA );
-    setDec0( saveDec );
+    setRA0(newRA);
+    setDec0(newDec);
+    SkyPoint::updateCoords(num);
+    setRA0(saveRA);
+    setDec0(saveDec);
 
 #ifdef PROFILE_UPDATECOORDS
     stop = std::clock();
-    updateCoordsCpuTime += double( stop - start )/double( CLOCKS_PER_SEC );
+    updateCoordsCpuTime += double(stop - start) / double(CLOCKS_PER_SEC);
     ++starsUpdated;
 #endif
 }
 
-bool StarObject::getIndexCoords( const KSNumbers * num, CachingDms &ra, CachingDms &dec )
+bool StarObject::getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms &dec)
 {
     static double pmms;
 
@@ -342,23 +335,22 @@ bool StarObject::getIndexCoords( const KSNumbers * num, CachingDms &ra, CachingD
 
     pmms = pmMagnitudeSquared();
 
-    if( std::isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. )
+    if (std::isnan(pmms) || pmms * num->julianMillenia() * num->julianMillenia() < 1.)
     {
         // Ignore corrections
-        ra = ra0();
+        ra  = ra0();
         dec = dec0();
         return false;
     }
 
-    double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
+    double pm = pmMagnitude() * num->julianMillenia(); // Proper Motion in arcseconds
 
-    double dir0 = ( ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() ) );  // Bearing, in radian
+    double dir0 = ((pm > 0) ? atan2(pmRA(), pmDec()) : atan2(-pmRA(), -pmDec())); // Bearing, in radian
 
-    ( pm < 0 ) &&( pm = -pm );
+    (pm < 0) && (pm = -pm);
 
-    double dst = (  pm * M_PI / ( 180.0 * 3600.0 ) );
+    double dst = (pm * M_PI / (180.0 * 3600.0));
     //    double phi = M_PI / 2.0 - dec0().radians();
-
 
     // Note: According to callgrind, dms::dms() + dms::setRadians()
     // takes ~ 40 CPU cycles, whereas, the advantage afforded by using
@@ -370,21 +362,19 @@ bool StarObject::getIndexCoords( const KSNumbers * num, CachingDms &ra, CachingD
     // and cos if we are going to reuse them avoids expensive (~120
     // CPU cycle) recomputation!
     CachingDms lat1, dtheta;
-    double sinDst = sin( dst ), cosDst = cos( dst );
-    lat1.setUsing_asin( dec0().sin() * cosDst + dec0().cos() * sinDst * cos( dir0 ) );
-    dtheta.setUsing_atan2( sin( dir0 ) * sinDst * dec0().cos(),
-                           cosDst - dec0().sin() * lat1.sin() );
+    double sinDst = sin(dst), cosDst = cos(dst);
+    lat1.setUsing_asin(dec0().sin() * cosDst + dec0().cos() * sinDst * cos(dir0));
+    dtheta.setUsing_atan2(sin(dir0) * sinDst * dec0().cos(), cosDst - dec0().sin() * lat1.sin());
 
-    ra = ra0() + dtheta; // Use operator + to avoid trigonometry
-    dec = lat1; // Need variable lat1 because dec may refer to dec0, so cannot construct result in-place
+    ra  = ra0() + dtheta; // Use operator + to avoid trigonometry
+    dec = lat1;           // Need variable lat1 because dec may refer to dec0, so cannot construct result in-place
 
     //    *ra = ra0().Degrees() + dra;
     //    *dec = dec0().Degrees() + ddec;
     return true;
 }
 
-
-bool StarObject::getIndexCoords( const KSNumbers * num, double * ra, double * dec )
+bool StarObject::getIndexCoords(const KSNumbers *num, double *ra, double *dec)
 {
     static double pmms;
 
@@ -420,23 +410,22 @@ bool StarObject::getIndexCoords( const KSNumbers * num, double * ra, double * de
 
     pmms = pmMagnitudeSquared();
 
-    if( std::isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. )
+    if (std::isnan(pmms) || pmms * num->julianMillenia() * num->julianMillenia() < 1.)
     {
         // Ignore corrections
-        *ra = ra0().Degrees();
+        *ra  = ra0().Degrees();
         *dec = dec0().Degrees();
         return false;
     }
 
-    double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
+    double pm = pmMagnitude() * num->julianMillenia(); // Proper Motion in arcseconds
 
-    double dir0 = ( ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() ) );  // Bearing, in radian
+    double dir0 = ((pm > 0) ? atan2(pmRA(), pmDec()) : atan2(-pmRA(), -pmDec())); // Bearing, in radian
 
-    ( pm < 0 ) &&( pm = -pm );
+    (pm < 0) && (pm = -pm);
 
-    double dst = (  pm * M_PI / ( 180.0 * 3600.0 ) );
+    double dst = (pm * M_PI / (180.0 * 3600.0));
     //    double phi = M_PI / 2.0 - dec0().radians();
-
 
     // Note: According to callgrind, dms::dms() + dms::setRadians()
     // takes ~ 40 CPU cycles, whereas, the advantage afforded by using
@@ -448,16 +437,15 @@ bool StarObject::getIndexCoords( const KSNumbers * num, double * ra, double * de
     // and cos if we are going to reuse them avoids expensive (~120
     // CPU cycle) recomputation!
     dms lat1, dtheta;
-    double sinDst = sin( dst ), cosDst = cos( dst );
-    double sinLat1 = dec0().sin() * cosDst + dec0().cos() * sinDst * cos( dir0 );
-    lat1.setRadians( asin( sinLat1 ) );
-    dtheta.setRadians( atan2( sin( dir0 ) * sinDst * dec0().cos(),
-                              cosDst - dec0().sin() * sinLat1 ) );
+    double sinDst = sin(dst), cosDst = cos(dst);
+    double sinLat1 = dec0().sin() * cosDst + dec0().cos() * sinDst * cos(dir0);
+    lat1.setRadians(asin(sinLat1));
+    dtheta.setRadians(atan2(sin(dir0) * sinDst * dec0().cos(), cosDst - dec0().sin() * sinLat1));
 
     // Using dms instead, to ensure that the numbers are in the right range.
-    dms finalRA( ra0().Degrees() + dtheta.Degrees() );
+    dms finalRA(ra0().Degrees() + dtheta.Degrees());
 
-    *ra = finalRA.Degrees();
+    *ra  = finalRA.Degrees();
     *dec = lat1.Degrees();
 
     //    *ra = ra0().Degrees() + dra;
@@ -467,31 +455,30 @@ bool StarObject::getIndexCoords( const KSNumbers * num, double * ra, double * de
 
 void StarObject::JITupdate()
 {
-    static KStarsData * data = KStarsData::Instance();
+    static KStarsData *data = KStarsData::Instance();
 
-    if ( updateNumID != data->updateNumID() )
+    if (updateNumID != data->updateNumID())
     {
         // TODO: This can be optimized and reorganized further in a better manner.
         // Maybe we should do this only for stars, since this is really a slow step only for stars
-        Q_ASSERT( std::isfinite( lastPrecessJD ) );
+        Q_ASSERT(std::isfinite(lastPrecessJD));
 
-        if  ( Options::alwaysRecomputeCoordinates() ||
-                ( Options::useRelativistic() && checkBendLight() ) ||
-                std::abs(lastPrecessJD - data->updateNum()->getJD() ) >= 0.00069444) // Update is once per solar minute
+        if (Options::alwaysRecomputeCoordinates() || (Options::useRelativistic() && checkBendLight()) ||
+            std::abs(lastPrecessJD - data->updateNum()->getJD()) >= 0.00069444) // Update is once per solar minute
         {
             // Short circuit right here, if recomputing coordinates is not required. NOTE: POTENTIALLY DANGEROUS
-            updateCoords( data->updateNum() );
+            updateCoords(data->updateNum());
         }
 
         updateNumID = data->updateNumID();
     }
-    EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    EquatorialToHorizontal(data->lst(), data->geo()->lat());
     updateID = data->updateID();
 }
 
-QString StarObject::sptype( void ) const
+QString StarObject::sptype(void) const
 {
-    return QString( QByteArray(SpType, 2) );
+    return QString(QByteArray(SpType, 2));
 }
 
 char StarObject::spchar() const
@@ -499,63 +486,65 @@ char StarObject::spchar() const
     return SpType[0];
 }
 
-QString StarObject::gname( bool useGreekChars ) const
+QString StarObject::gname(bool useGreekChars) const
 {
-    if(!name2().isEmpty())
-        return greekLetter( useGreekChars ) + ' ' + constell();
+    if (!name2().isEmpty())
+        return greekLetter(useGreekChars) + ' ' + constell();
     else
         return QString();
 }
 
-QString StarObject::greekLetter( bool gchar ) const
+QString StarObject::greekLetter(bool gchar) const
 {
-    QString code = name2().left(3);
-    QString letter = code;  //in case genitive name is *not* a Greek letter
-    int alpha = 0x03B1;
+    QString code   = name2().left(3);
+    QString letter = code; //in case genitive name is *not* a Greek letter
+    int alpha      = 0x03B1;
 
-    auto checkAndGreekify = [&code, gchar, alpha, &letter]( const QString &abbrev, int unicodeOffset, const QString &expansion )
-    {
-        if ( code == abbrev ) gchar ? letter = QString( QChar( alpha + unicodeOffset ) ) : letter = expansion;
+    auto checkAndGreekify = [&code, gchar, alpha, &letter](const QString &abbrev, int unicodeOffset,
+                                                           const QString &expansion) {
+        if (code == abbrev)
+            gchar ? letter = QString(QChar(alpha + unicodeOffset)) : letter = expansion;
     };
 
-    checkAndGreekify( "alp", 0, i18n("alpha") );
-    checkAndGreekify( "bet", 1, i18n("beta") );
-    checkAndGreekify( "gam", 2, i18n("gamma") );
-    checkAndGreekify( "del", 3, i18n("delta") );
-    checkAndGreekify( "eps", 4, i18n("epsilon") );
-    checkAndGreekify( "zet", 5, i18n("zeta") );
-    checkAndGreekify( "eta", 6, i18n("eta") );
-    checkAndGreekify( "the", 7, i18n("theta") );
-    checkAndGreekify( "iot", 8, i18n("iota") );
-    checkAndGreekify( "kap", 9, i18n("kappa") );
-    checkAndGreekify( "lam",10, i18n("lambda") );
-    checkAndGreekify( "mu ",11, i18n("mu") );
-    checkAndGreekify( "nu ",12, i18n("nu") );
-    checkAndGreekify( "xi ",13, i18n("xi") );
-    checkAndGreekify( "omi",14, i18n("omicron") );
-    checkAndGreekify( "pi ",15, i18n("pi") );
-    checkAndGreekify( "rho",16, i18n("rho") );
+    checkAndGreekify("alp", 0, i18n("alpha"));
+    checkAndGreekify("bet", 1, i18n("beta"));
+    checkAndGreekify("gam", 2, i18n("gamma"));
+    checkAndGreekify("del", 3, i18n("delta"));
+    checkAndGreekify("eps", 4, i18n("epsilon"));
+    checkAndGreekify("zet", 5, i18n("zeta"));
+    checkAndGreekify("eta", 6, i18n("eta"));
+    checkAndGreekify("the", 7, i18n("theta"));
+    checkAndGreekify("iot", 8, i18n("iota"));
+    checkAndGreekify("kap", 9, i18n("kappa"));
+    checkAndGreekify("lam", 10, i18n("lambda"));
+    checkAndGreekify("mu ", 11, i18n("mu"));
+    checkAndGreekify("nu ", 12, i18n("nu"));
+    checkAndGreekify("xi ", 13, i18n("xi"));
+    checkAndGreekify("omi", 14, i18n("omicron"));
+    checkAndGreekify("pi ", 15, i18n("pi"));
+    checkAndGreekify("rho", 16, i18n("rho"));
     //there are two unicode symbols for sigma;
     //skip the first one, the second is more widely used
-    checkAndGreekify( "sig",18, i18n("sigma") );
-    checkAndGreekify( "tau",19, i18n("tau") );
-    checkAndGreekify( "ups",20, i18n("upsilon") );
-    checkAndGreekify( "phi",21, i18n("phi") );
-    checkAndGreekify( "chi",22, i18n("chi") );
-    checkAndGreekify( "psi",23, i18n("psi") );
-    checkAndGreekify( "ome",24, i18n("omega") );
+    checkAndGreekify("sig", 18, i18n("sigma"));
+    checkAndGreekify("tau", 19, i18n("tau"));
+    checkAndGreekify("ups", 20, i18n("upsilon"));
+    checkAndGreekify("phi", 21, i18n("phi"));
+    checkAndGreekify("chi", 22, i18n("chi"));
+    checkAndGreekify("psi", 23, i18n("psi"));
+    checkAndGreekify("ome", 24, i18n("omega"));
 
-    if ( name2().length() && name2().mid(3,1) != " " )
-        letter += '[' + name2().mid(3,1) + ']';
+    if (name2().length() && name2().mid(3, 1) != " ")
+        letter += '[' + name2().mid(3, 1) + ']';
 
     return letter;
 }
 
-QString StarObject::constell() const   // FIXME: Move this somewhere else, make this static, and give it a better name. Mostly for code cleanliness. Also, try to put it in a DB.
+QString StarObject::constell()
+    const // FIXME: Move this somewhere else, make this static, and give it a better name. Mostly for code cleanliness. Also, try to put it in a DB.
 {
-    QString code = name2().mid(4,3);
+    QString code = name2().mid(4, 3);
 
-    return KSUtils::constGenetiveFromAbbrev( code );
+    return KSUtils::constGenetiveFromAbbrev(code);
 }
 
 // The two routines below seem overly complicated but at least they are doing
@@ -563,52 +552,53 @@ QString StarObject::constell() const   // FIXME: Move this somewhere else, make 
 // you are prepared to ensure there is no ugly label overlap for all 8 cases
 // they deal with ( drawName x DrawMag x star-has-name).  -jbb
 
-QString StarObject::nameLabel( bool drawName, bool drawMag ) const
+QString StarObject::nameLabel(bool drawName, bool drawMag) const
 {
     QString sName;
-    if ( drawName )
+    if (drawName)
     {
-        if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
+        if (translatedName() != i18n("star") && !translatedName().isEmpty())
             sName = translatedName();
-        else if ( ! gname().trimmed().isEmpty() )
-            sName = gname( true );
+        else if (!gname().trimmed().isEmpty())
+            sName = gname(true);
         else
         {
-            if ( drawMag )
-                return ("[" + QLocale().toString( mag(), 'f', 1 ) + "m]");
+            if (drawMag)
+                return ("[" + QLocale().toString(mag(), 'f', 1) + "m]");
         }
-        if ( ! drawMag )
+        if (!drawMag)
             return sName;
         else
-            return sName + " [" + QLocale().toString( mag(), 'f', 1 ) + "m]";
+            return sName + " [" + QLocale().toString(mag(), 'f', 1) + "m]";
     }
-    return ("[" + QLocale().toString( mag(), 'f', 1 ) + "m]");
+    return ("[" + QLocale().toString(mag(), 'f', 1) + "m]");
 }
 
 //If this works, we can maybe get rid of customLabel() and nameLabel()??
 QString StarObject::labelString() const
 {
-    return nameLabel( Options::showStarNames(), Options::showStarMagnitudes() );
+    return nameLabel(Options::showStarNames(), Options::showStarMagnitudes());
 }
 
 double StarObject::labelOffset() const
 {
-    return (6. + 0.5*( 5.0 - mag() ) + 0.01*( Options::zoomFactor()/500. ) );
+    return (6. + 0.5 * (5.0 - mag()) + 0.01 * (Options::zoomFactor() / 500.));
 }
 
 SkyObject::UID StarObject::getUID() const
 {
     // mag takes 10 bit
-    SkyObject::UID m = mag()*10;
-    if( m < 0 ) m = 0;
+    SkyObject::UID m = mag() * 10;
+    if (m < 0)
+        m = 0;
 
     // Both RA & dec fits in 24-bits
     SkyObject::UID ra  = ra0().Degrees() * 36000;
-    SkyObject::UID dec = (ra0().Degrees()+91) * 36000;
+    SkyObject::UID dec = (ra0().Degrees() + 91) * 36000;
 
-    Q_ASSERT("Magnitude is expected to fit into 10bits" && m>=0 && m<(1<<10));
-    Q_ASSERT("RA should fit into 24bits"  && ra>=0  && ra <(1<<24));
-    Q_ASSERT("Dec should fit into 24bits" && dec>=0 && dec<(1<<24));
+    Q_ASSERT("Magnitude is expected to fit into 10bits" && m >= 0 && m < (1 << 10));
+    Q_ASSERT("RA should fit into 24bits" && ra >= 0 && ra < (1 << 24));
+    Q_ASSERT("Dec should fit into 24bits" && dec >= 0 && dec < (1 << 24));
 
     return (SkyObject::UID_STAR << 60) | (m << 48) | (ra << 24) | dec;
 }

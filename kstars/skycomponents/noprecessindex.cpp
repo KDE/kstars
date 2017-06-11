@@ -21,18 +21,18 @@
 #include "kstarsdata.h"
 #include "linelist.h"
 
-NoPrecessIndex::NoPrecessIndex( SkyComposite * parent, const QString &name ) :
-    LineListIndex( parent, name )
-{}
+NoPrecessIndex::NoPrecessIndex(SkyComposite *parent, const QString &name) : LineListIndex(parent, name)
+{
+}
 
 // Don't precess the points, just account for the Earth's rotation
-void NoPrecessIndex::JITupdate( LineList * lineList )
+void NoPrecessIndex::JITupdate(LineList *lineList)
 {
-    KStarsData * data = KStarsData::Instance();
+    KStarsData *data   = KStarsData::Instance();
     lineList->updateID = data->updateID();
-    SkyList * points = lineList->points();
-    for (int i = 0; i < points->size(); i++ )
+    SkyList *points    = lineList->points();
+    for (int i = 0; i < points->size(); i++)
     {
-        points->at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        points->at(i)->EquatorialToHorizontal(data->lst(), data->geo()->lat());
     }
 }

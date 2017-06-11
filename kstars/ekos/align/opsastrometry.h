@@ -19,33 +19,35 @@ class KConfigDialog;
 
 namespace Ekos
 {
-
 class Align;
 
 class OpsAstrometry : public QWidget, public Ui::OpsAstrometry
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
+  public:
+    enum
+    {
+        SCALE_DEGREES,
+        SCALE_ARCMINUTES,
+        SCALE_ARCSECPERPIX
+    };
 
-        enum { SCALE_DEGREES, SCALE_ARCMINUTES, SCALE_ARCSECPERPIX };
+    explicit OpsAstrometry(Align *parent);
+    ~OpsAstrometry();
 
-        explicit OpsAstrometry(Align * parent);
-        ~OpsAstrometry();
+  protected:
+    void showEvent(QShowEvent *);
 
-    protected:
-        void showEvent(QShowEvent *);
+  private slots:
+    void slotUpdatePosition();
+    void slotUpdateScale();
+    void slotApply();
 
-    private slots:
-        void slotUpdatePosition();
-        void slotUpdateScale();
-        void slotApply();
-
-    private:
-        KConfigDialog * m_ConfigDialog;
-        Align * alignModule;
+  private:
+    KConfigDialog *m_ConfigDialog;
+    Align *alignModule;
 };
-
 }
 
 #endif // OPSASTROMETRY_H

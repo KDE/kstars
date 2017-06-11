@@ -31,30 +31,27 @@ class GuideLabelNode;
 
 class HorizonItem : public SkyItem
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor.
          * @param hComp pointer to HorizonComponent which HorizonItem represents in SkyMapLite
          * @param rootNode parent RootNode that instantiated this object
          */
-        HorizonItem(HorizonComponent * hComp, RootNode * rootNode);
+    HorizonItem(HorizonComponent *hComp, RootNode *rootNode);
 
-        /**
+    /**
          * @short setter for m_horizonComp
          * @param hComp pointer to HorizonComponent
          */
-        inline void setHorizonComp(HorizonComponent * hComp)
-        {
-            m_horizonComp = hComp;
-        }
+    inline void setHorizonComp(HorizonComponent *hComp) { m_horizonComp = hComp; }
 
-        /**
+    /**
          * @short Call update() of HorizonNode and update/hide compass labels based on their visibility
          */
-        virtual void update();
-    private:
-        HorizonComponent * m_horizonComp;
-        QMap<SkyPoint *, LabelNode *> m_compassLabels;
+    virtual void update();
+
+  private:
+    HorizonComponent *m_horizonComp;
+    QMap<SkyPoint *, LabelNode *> m_compassLabels;
 };
 #endif
-

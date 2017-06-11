@@ -14,7 +14,6 @@
 
 namespace Ekos
 {
-
 class Align;
 
 /**
@@ -26,23 +25,22 @@ class Align;
 
 class AstrometryParser : public QObject
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        AstrometryParser();
-        virtual ~AstrometryParser();
+  public:
+    AstrometryParser();
+    virtual ~AstrometryParser();
 
-        virtual void setAlign(Align * align) = 0;
-        virtual bool init() = 0;
-        virtual void verifyIndexFiles(double fov_x, double fov_y) =0;
-        virtual bool startSovler(const QString &filename, const QStringList &args, bool generated=true) =0;
-        virtual bool stopSolver() = 0;
+    virtual void setAlign(Align *align)                                                               = 0;
+    virtual bool init()                                                                               = 0;
+    virtual void verifyIndexFiles(double fov_x, double fov_y)                                         = 0;
+    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true) = 0;
+    virtual bool stopSolver()                                                                         = 0;
 
-    signals:
-        void solverFinished(double orientation, double ra, double dec, double pixscale);
-        void solverFailed();
+  signals:
+    void solverFinished(double orientation, double ra, double dec, double pixscale);
+    void solverFailed();
 };
-
 }
 
 #endif // ASTROMETRYPARSER_H

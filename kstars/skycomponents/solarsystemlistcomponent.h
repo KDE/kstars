@@ -31,26 +31,26 @@ class SolarSystemComposite;
  */
 class SolarSystemListComponent : public ListComponent
 {
-    public:
-        explicit SolarSystemListComponent( SolarSystemComposite * parent );
+  public:
+    explicit SolarSystemListComponent(SolarSystemComposite *parent);
 
-        virtual ~SolarSystemListComponent();
+    virtual ~SolarSystemListComponent();
 
-        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) Q_DECL_OVERRIDE;
 
-        /** @short Update the coordinates of the solar system bodies in this component.
+    /** @short Update the coordinates of the solar system bodies in this component.
          *
          * This function updates the position of the moving solar system bodies.
          * @p data Pointer to the KStarsData object
          * @p num Pointer to the KSNumbers object
          */
-        void updateSolarSystemBodies( KSNumbers * num ) Q_DECL_OVERRIDE;
+    void updateSolarSystemBodies(KSNumbers *num) Q_DECL_OVERRIDE;
 
-    protected:
-        void drawTrails( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+  protected:
+    void drawTrails(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-    private:
-        KSPlanet * m_Earth;
+  private:
+    KSPlanet *m_Earth;
 };
 
 #endif

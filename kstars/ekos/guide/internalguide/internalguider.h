@@ -25,31 +25,36 @@ class cgmath;
 
 namespace Ekos
 {
-
 class InternalGuider : public GuideInterface
 {
     Q_OBJECT
 
-public:
-
-    enum CalibrationStage { CAL_IDLE, CAL_ERROR, CAL_CAPTURE_IMAGE, CAL_SELECT_STAR, CAL_START, CAL_RA_INC, CAL_RA_DEC, CAL_DEC_INC, CAL_DEC_DEC };
-    enum CalibrationType { CAL_NONE, CAL_RA_AUTO, CAL_RA_DEC_AUTO };
+  public:
+    enum CalibrationStage
+    {
+        CAL_IDLE,
+        CAL_ERROR,
+        CAL_CAPTURE_IMAGE,
+        CAL_SELECT_STAR,
+        CAL_START,
+        CAL_RA_INC,
+        CAL_RA_DEC,
+        CAL_DEC_INC,
+        CAL_DEC_DEC
+    };
+    enum CalibrationType
+    {
+        CAL_NONE,
+        CAL_RA_AUTO,
+        CAL_RA_DEC_AUTO
+    };
 
     InternalGuider();
     ~InternalGuider();
 
-    bool Connect() override
-    {
-        return true;
-    }
-    bool Disconnect() override
-    {
-        return true;
-    }
-    bool isConnected() override
-    {
-        return true;
-    }
+    bool Connect() override { return true; }
+    bool Disconnect() override { return true; }
+    bool isConnected() override { return true; }
 
     bool calibrate() override;
     bool guide() override;
@@ -59,43 +64,35 @@ public:
     bool dither(double pixels) override;
 
     bool setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY) override;
-    bool setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength) override;
+    bool setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture,
+                         double mountFocalLength) override;
 
     // Set Star Position
     void setStarPosition(QVector3D starCenter) override;
 
     // Select algorithm
-    void setSquareAlgorithm( int index );
+    void setSquareAlgorithm(int index);
 
     // Reticle Parameters
     void setReticleParameters(double x, double y, double angle);
-    bool getReticleParameters(double * x, double * y, double * angle);
+    bool getReticleParameters(double *x, double *y, double *angle);
 
     // Guide View
-    void setGuideView(FITSView * guideView);
+    void setGuideView(FITSView *guideView);
 
     // Region Axis
     void setRegionAxis(uint32_t value);
 
     bool start();
 
-    bool isGuiding( void ) const;
+    bool isGuiding(void) const;
     void setAO(bool enable);
-    void setInterface( void );
-    void setReady(bool enable)
-    {
-        m_isReady = enable;
-    }
-    bool isRapidGuide()
-    {
-        return m_useRapidGuide;
-    }
+    void setInterface(void);
+    void setReady(bool enable) { m_isReady = enable; }
+    bool isRapidGuide() { return m_useRapidGuide; }
 
     double getAOLimit();
-    void setSubFramed(bool enable)
-    {
-        m_isSubFramed = enable;
-    }
+    void setSubFramed(bool enable) { m_isSubFramed = enable; }
     void setGuideOptions(const QString &algorithm, bool useSubFrame, bool useRapidGuide);
 
     QString getAlgorithm();
@@ -105,22 +102,20 @@ public:
     bool isImageGuideEnabled() const;
     void setImageGuideEnabled(bool value);
 
-public slots:
+  public slots:
     void setDECSwap(bool enable);
 
-protected slots:
+  protected slots:
     void trackingStarSelected(int x, int y);
 
-
-signals:
-    void newPulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
-    void newPulse( GuideDirection dir, int msecs );
+  signals:
+    void newPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
+    void newPulse(GuideDirection dir, int msecs);
     void DESwapChanged(bool enable);
 
-private:
-
+  private:
     // Calibration
-    void calibrateRADECRecticle( bool ra_only ); // 1 or 2-axis calibration
+    void calibrateRADECRecticle(bool ra_only); // 1 or 2-axis calibration
     void processCalibration();
 
     // Guiding
@@ -129,13 +124,13 @@ private:
     // Image Guiding
     bool processImageGuiding();
 
-    cgmath * pmath;
+    cgmath *pmath;
     QPointer<FITSView> guideFrame;
     bool m_isStarted;
     bool m_isReady;
     bool m_isSubFramed;
     bool isFirstFrame, first_subframe;
-    bool imageGuideEnabled=false;
+    bool imageGuideEnabled = false;
     int m_lostStarTries;
     bool m_useRapidGuide;
     bool m_isDithering;
@@ -145,7 +140,7 @@ private:
     void reset();
 
     int auto_drift_time;
-    int turn_back_time;    
+    int turn_back_time;
     double start_x1, start_y1;
     double end_x1, end_y1;
     double start_x2, start_y2;
@@ -155,10 +150,8 @@ private:
     Matrix ROT_Z;
 
     CalibrationStage calibrationStage;
-    CalibrationType  calibrationType;
-
+    CalibrationType calibrationType;
 };
-
 }
 
 #endif // INTERNALGUIDER_H

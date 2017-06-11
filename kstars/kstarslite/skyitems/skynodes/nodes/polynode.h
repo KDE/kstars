@@ -31,30 +31,30 @@ class QSGFlatColorMaterial;
 
 class PolyNode : public SkyOpacityNode
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor. Initialize geometry and material
          */
-        PolyNode();
+    PolyNode();
 
-        void setColor(QColor color);
+    void setColor(QColor color);
 
-        /**
+    /**
          * @short Set thickness of border line
          */
-        void setLineWidth(int width);
+    void setLineWidth(int width);
 
-        /**
+    /**
          * @short Update the geometry of polygon
          * @param polygon - polygon that needs to be drawn
          * @param filled - true if it should be filled
          */
-        void updateGeometry(const QPolygonF &polygon, bool filled);
-    private:
-        QSGGeometryNode * m_geometryNode;
-        QSGGeometry * m_geometry;
-        QSGFlatColorMaterial * m_material;
+    void updateGeometry(const QPolygonF &polygon, bool filled);
+
+  private:
+    QSGGeometryNode *m_geometryNode;
+    QSGGeometry *m_geometry;
+    QSGFlatColorMaterial *m_material;
 };
 
 #endif
-

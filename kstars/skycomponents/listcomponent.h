@@ -35,12 +35,12 @@ class SkyMap;
  */
 class ListComponent : public SkyComponent
 {
-    public:
-        explicit ListComponent( SkyComposite * parent );
+  public:
+    explicit ListComponent(SkyComposite *parent);
 
-        virtual ~ListComponent();
+    virtual ~ListComponent();
 
-        /** @short Update the sky positions of this component.
+    /** @short Update the sky positions of this component.
          *
          * This function usually just updates the Horizontal (Azimuth/Altitude)
          * coordinates of the objects in this component.  If the KSNumbers*
@@ -51,21 +51,17 @@ class ListComponent : public SkyComponent
          * Precession/Nutation computation should be skipped; this computation
          * is only occasionally required.
          */
-        void update( KSNumbers * num=0 ) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num = 0) Q_DECL_OVERRIDE;
 
-        SkyObject * findByName( const QString &name ) Q_DECL_OVERRIDE;
-        SkyObject * objectNearest( SkyPoint * p, double &maxrad ) Q_DECL_OVERRIDE;
+    SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
 
-        void clear();
+    void clear();
 
-        const QList<SkyObject *> &objectList() const
-        {
-            return m_ObjectList;
-        }
+    const QList<SkyObject *> &objectList() const { return m_ObjectList; }
 
-    protected:
-        QList<SkyObject *> m_ObjectList;
+  protected:
+    QList<SkyObject *> m_ObjectList;
 };
-
 
 #endif

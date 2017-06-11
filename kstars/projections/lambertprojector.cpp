@@ -36,10 +36,10 @@ double LambertProjector::radius() const
 
 double LambertProjector::projectionK(double x) const
 {
-    return sqrt( 2.0/( 1.0 + x ) );
+    return sqrt(2.0 / (1.0 + x));
 }
 
 double LambertProjector::projectionL(double x) const
 {
-    return 2.0*asin(0.5*x);
+    return 2.0 * asin(0.5 * x);
 }

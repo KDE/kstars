@@ -23,26 +23,25 @@
 #include "skymapcomposite.h"
 #include "kstars/Options.h"
 
-SimpleFovExporter::SimpleFovExporter() :
-    m_KSData(KStarsData::Instance()), m_Map(KStars::Instance()->map()),
-    m_StopClock(false), m_OverrideFovShape(false), m_DrawFovSymbol(false),
-    m_PrevClockState(false), m_PrevSlewing(false), m_PrevPoint(0),
-    m_PrevZoom(0)
-{}
+SimpleFovExporter::SimpleFovExporter()
+    : m_KSData(KStarsData::Instance()), m_Map(KStars::Instance()->map()), m_StopClock(false), m_OverrideFovShape(false),
+      m_DrawFovSymbol(false), m_PrevClockState(false), m_PrevSlewing(false), m_PrevPoint(0), m_PrevZoom(0)
+{
+}
 
-void SimpleFovExporter::exportFov(SkyPoint * point, FOV * fov, QPaintDevice * pd)
+void SimpleFovExporter::exportFov(SkyPoint *point, FOV *fov, QPaintDevice *pd)
 {
     saveState(true);
     pExportFov(point, fov, pd);
     restoreState(true);
 }
 
-void SimpleFovExporter::exportFov(FOV * fov, QPaintDevice * pd)
+void SimpleFovExporter::exportFov(FOV *fov, QPaintDevice *pd)
 {
     pExportFov(0, fov, pd);
 }
 
-void SimpleFovExporter::exportFov(QPaintDevice * pd)
+void SimpleFovExporter::exportFov(QPaintDevice *pd)
 {
     SkyQPainter painter(m_Map, pd);
     painter.begin();
@@ -58,13 +57,14 @@ void SimpleFovExporter::exportFov(QPaintDevice * pd)
     m_Map->getSkyMapDrawAbstract()->drawOverlays(painter, false);
 }
 
-void SimpleFovExporter::exportFov(const QList<SkyPoint *> &points, const QList<FOV *> &fovs, const QList<QPaintDevice *> &pds)
+void SimpleFovExporter::exportFov(const QList<SkyPoint *> &points, const QList<FOV *> &fovs,
+                                  const QList<QPaintDevice *> &pds)
 {
     Q_ASSERT(points.size() == fovs.size() && fovs.size() == pds.size());
 
     saveState(true);
 
-    for(int i = 0; i < points.size(); i++)
+    for (int i = 0; i < points.size(); i++)
     {
         exportFov(points.value(i), fovs.at(i), pds.value(i));
     }
@@ -72,13 +72,13 @@ void SimpleFovExporter::exportFov(const QList<SkyPoint *> &points, const QList<F
     restoreState(true);
 }
 
-void SimpleFovExporter::exportFov(const QList<SkyPoint *> &points, FOV * fov, const QList<QPaintDevice *> &pds)
+void SimpleFovExporter::exportFov(const QList<SkyPoint *> &points, FOV *fov, const QList<QPaintDevice *> &pds)
 {
     Q_ASSERT(points.size() == pds.size());
 
     saveState(true);
 
-    for(int i = 0; i < points.size(); i++)
+    for (int i = 0; i < points.size(); i++)
     {
         exportFov(points.at(i), fov, pds.at(i));
     }
@@ -86,9 +86,9 @@ void SimpleFovExporter::exportFov(const QList<SkyPoint *> &points, FOV * fov, co
     restoreState(true);
 }
 
-void SimpleFovExporter::pExportFov(SkyPoint * point, FOV * fov, QPaintDevice * pd)
+void SimpleFovExporter::pExportFov(SkyPoint *point, FOV *fov, QPaintDevice *pd)
 {
-    if(point)
+    if (point)
     {
         // center sky map on selected point
         m_Map->setClickedPoint(point);
@@ -98,7 +98,7 @@ void SimpleFovExporter::pExportFov(SkyPoint * point, FOV * fov, QPaintDevice * p
     // this is temporary 'solution' that will be changed during the implementation of printing
     // on large paper sizes (>A4), in which case it'll be desirable to export high-res FOV
     // representations
-    if(pd->height() > m_Map->height() || pd->width() > m_Map->width())
+    if (pd->height() > m_Map->height() || pd->width() > m_Map->width())
     {
         return;
     }
@@ -108,15 +108,15 @@ void SimpleFovExporter::pExportFov(SkyPoint * point, FOV * fov, QPaintDevice * p
     QRegion region;
     int regionX(0), regionY(0);
     double fovSizeX(0), fovSizeY(0);
-    if(fov->sizeX() > fov->sizeY())
+    if (fov->sizeX() > fov->sizeY())
     {
         zoom = calculateZoomLevel(pd->width(), fov->sizeX());
 
         // calculate clipping region size
         fovSizeX = calculatePixelSize(fov->sizeX(), zoom);
         fovSizeY = calculatePixelSize(fov->sizeY(), zoom);
-        regionX = 0;
-        regionY = 0.5 * (pd->height() - fovSizeY);
+        regionX  = 0;
+        regionY  = 0.5 * (pd->height() - fovSizeY);
     }
 
     else
@@ -126,11 +126,11 @@ void SimpleFovExporter::pExportFov(SkyPoint * point, FOV * fov, QPaintDevice * p
         // calculate clipping region size
         fovSizeX = calculatePixelSize(fov->sizeX(), zoom);
         fovSizeY = calculatePixelSize(fov->sizeY(), zoom);
-        regionX = 0.5 * (pd->width() - fovSizeX);
-        regionY = 0;
+        regionX  = 0.5 * (pd->width() - fovSizeX);
+        regionY  = 0;
     }
 
-    if(fov->shape() == FOV::SQUARE)
+    if (fov->shape() == FOV::SQUARE)
     {
         region = QRegion(regionX, regionY, fovSizeX, fovSizeY, QRegion::Rectangle);
     }
@@ -147,7 +147,7 @@ void SimpleFovExporter::pExportFov(SkyPoint * point, FOV * fov, QPaintDevice * p
 
     painter.drawSkyBackground();
 
-    if(!m_OverrideFovShape)
+    if (!m_OverrideFovShape)
     {
         painter.setClipRegion(region);
     }
@@ -162,7 +162,7 @@ void SimpleFovExporter::pExportFov(SkyPoint * point, FOV * fov, QPaintDevice * p
     // reset painter coordinate transform to paint FOV symbol in the center
     painter.resetTransform();
 
-    if(m_DrawFovSymbol)
+    if (m_DrawFovSymbol)
     {
         fov->draw(painter, zoom);
     }
@@ -172,32 +172,32 @@ void SimpleFovExporter::saveState(bool savePos)
 {
     // stop simulation if it's not already stopped
     m_PrevClockState = m_KSData->clock()->isActive();
-    if(m_StopClock && m_PrevClockState)
+    if (m_StopClock && m_PrevClockState)
     {
         m_KSData->clock()->stop();
     }
 
     // disable useAnimatedSlewing option
     m_PrevSlewing = Options::useAnimatedSlewing();
-    if(m_PrevSlewing)
+    if (m_PrevSlewing)
     {
         Options::setUseAnimatedSlewing(false);
     }
 
     // save current central point and zoom level
     m_PrevPoint = savePos ? m_Map->focusPoint() : 0;
-    m_PrevZoom = Options::zoomFactor();
+    m_PrevZoom  = Options::zoomFactor();
 }
 
 void SimpleFovExporter::restoreState(bool restorePos)
 {
     // restore previous useAnimatedSlewing option
-    if(m_PrevSlewing)
+    if (m_PrevSlewing)
     {
         Options::setUseAnimatedSlewing(true);
     }
 
-    if(restorePos)
+    if (restorePos)
     {
         // restore previous central point
         m_Map->setClickedPoint(m_PrevPoint);
@@ -207,7 +207,7 @@ void SimpleFovExporter::restoreState(bool restorePos)
     m_Map->setZoomFactor(m_PrevZoom);
 
     // restore clock state (if it was stopped)
-    if(m_StopClock && m_PrevClockState)
+    if (m_StopClock && m_PrevClockState)
     {
         m_KSData->clock()->start();
     }

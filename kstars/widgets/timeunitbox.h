@@ -44,81 +44,60 @@ class QToolButton;
 
 class TimeUnitBox : public QWidget
 {
-        Q_OBJECT
-    public:
-        /**Constructor*/
-        explicit TimeUnitBox(QWidget * parent=0, bool daysonly = false);
-        /**Destructor (empty)*/
-        ~TimeUnitBox();
-        /** @return the value of UnitStep for the current spinbox value() */
-        int unitValue();
+    Q_OBJECT
+  public:
+    /**Constructor*/
+    explicit TimeUnitBox(QWidget *parent = 0, bool daysonly = false);
+    /**Destructor (empty)*/
+    ~TimeUnitBox();
+    /** @return the value of UnitStep for the current spinbox value() */
+    int unitValue();
 
-        /** @short the same as unitValue, except you can get the UnitStep for any value, not just the current one.
+    /** @short the same as unitValue, except you can get the UnitStep for any value, not just the current one.
         	*@return the value of UnitStep for the index value given as an argument.
         	*/
-        int getUnitValue( int );
+    int getUnitValue(int);
 
-        /**Set the value which describes which time-unit is displayed in the TimeSpinBox.
+    /**Set the value which describes which time-unit is displayed in the TimeSpinBox.
         	*@p value the new value
         	*/
-        void setValue( int value )
-        {
-            Value = value;
-        }
-        /** @return the internal value describing the time-unit of the TimeSpinBox.
+    void setValue(int value) { Value = value; }
+    /** @return the internal value describing the time-unit of the TimeSpinBox.
         	*/
-        int value() const
-        {
-            return Value;
-        }
+    int value() const { return Value; }
 
-        /**Set the minimum value for the internal time-unit value
+    /**Set the minimum value for the internal time-unit value
         	*/
-        void setMinimum( int minValue )
-        {
-            MinimumValue = minValue;
-        }
-        /**Set the maximum value for the internal time-unit value
+    void setMinimum(int minValue) { MinimumValue = minValue; }
+    /**Set the maximum value for the internal time-unit value
         	*/
-        void setMaximum( int maxValue )
-        {
-            MaximumValue = maxValue;
-        }
+    void setMaximum(int maxValue) { MaximumValue = maxValue; }
 
-        /** @return the minimum value for the internal time-unit value
+    /** @return the minimum value for the internal time-unit value
         	*/
-        int minValue() const
-        {
-            return MinimumValue;
-        }
-        /** @return the maximum value for the internal time-unit value
+    int minValue() const { return MinimumValue; }
+    /** @return the maximum value for the internal time-unit value
         	*/
-        int maxValue() const
-        {
-            return MaximumValue;
-        }
+    int maxValue() const { return MaximumValue; }
 
-        bool daysOnly() const
-        {
-            return DaysOnly;
-        }
-        void setDaysOnly( bool daysonly );
+    bool daysOnly() const { return DaysOnly; }
+    void setDaysOnly(bool daysonly);
 
-    signals:
-        void valueChanged(int);
+  signals:
+    void valueChanged(int);
 
-    private slots:
-        /**Increment the internal time-unit value
+  private slots:
+    /**Increment the internal time-unit value
         	*/
-        void increase();
-        /**Decrement the internal time-unit value
+    void increase();
+    /**Decrement the internal time-unit value
         	*/
-        void decrease();
+    void decrease();
 
-    private:
-        bool DaysOnly;
-        QToolButton * UpButton, *DownButton;
-        int MinimumValue, MaximumValue, Value, UnitStep[ ALLUNITS ];
+  private:
+    bool DaysOnly;
+    QToolButton *UpButton, *DownButton;
+    int MinimumValue, MaximumValue, Value, UnitStep[ALLUNITS];
 };
 
 #endif

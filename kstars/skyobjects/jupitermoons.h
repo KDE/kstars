@@ -36,21 +36,21 @@ class KSSun;
   *@author Jason Harris
   *@version 1.0
   */
-class JupiterMoons: public PlanetMoons
+class JupiterMoons : public PlanetMoons
 {
-    public:
-        /**
+  public:
+    /**
           *Constructor.  Assign the name of each moon,
           *and initialize their XYZ positions to zero.
           */
-        JupiterMoons();
+    JupiterMoons();
 
-        /**
+    /**
           *Destructor.  Delete moon objects.
           */
-        virtual ~JupiterMoons();
+    virtual ~JupiterMoons();
 
-        /**
+    /**
           *@short Find the positions of each Moon, relative to Jupiter.
           *We use an XYZ coordinate system, centered on Jupiter,
           *where the X-axis corresponds to Jupiter's Equator,
@@ -70,7 +70,7 @@ class JupiterMoons: public PlanetMoons
           *@param jup pointer to the jupiter object
           *@param sunptr pointer to the Sun object
           */
-        void findPosition( const KSNumbers * num, const KSPlanetBase * jup, const KSSun * sunptr ) Q_DECL_OVERRIDE;
+    void findPosition(const KSNumbers *num, const KSPlanetBase *jup, const KSSun *sunptr) Q_DECL_OVERRIDE;
 };
 
 #endif

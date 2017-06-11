@@ -30,37 +30,37 @@
 
 class KSSun : public KSPlanet
 {
-    public:
-        /** Constructor.  Defines constants needed by findPosition().
+  public:
+    /** Constructor.  Defines constants needed by findPosition().
         	*Sets Ecliptic coordinates appropriate for J2000.
         	*@param kd pointer to KStarsData object
         	*/
-        KSSun();
+    KSSun();
 
-        KSSun * clone() const Q_DECL_OVERRIDE;
-        SkyObject::UID getUID() const Q_DECL_OVERRIDE;
+    KSSun *clone() const Q_DECL_OVERRIDE;
+    SkyObject::UID getUID() const Q_DECL_OVERRIDE;
 
-        /** Destructor (empty)
+    /** Destructor (empty)
         	*/
-        virtual ~KSSun() {}
+    virtual ~KSSun() {}
 
-        /** Read orbital data from disk
+    /** Read orbital data from disk
         	*@note reimplemented from KSPlanet
         	*@note we actually read Earth's orbital data.  The Sun's geocentric
         	*ecliptic coordinates are by definition exactly the opposite of the
         	*Earth's heliocentric ecliptic coordinates.
         	*/
-        bool loadData() Q_DECL_OVERRIDE;
+    bool loadData() Q_DECL_OVERRIDE;
 
-
-    protected:
-        /** Determine geocentric RA, Dec coordinates for the Epoch given in the argument.
+  protected:
+    /** Determine geocentric RA, Dec coordinates for the Epoch given in the argument.
         	*@p Epoch current Julian Date
         	*@p Earth pointer to earth object
         	*/
-        bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr) Q_DECL_OVERRIDE;
-    private:
-        void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
+    bool findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Earth = nullptr) Q_DECL_OVERRIDE;
+
+  private:
+    void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
 };
 long double equinox(int year, int d, int m, int angle);
 

@@ -29,19 +29,18 @@
 	*/
 class CoordinateGrid : public NoPrecessIndex
 {
-    public:
-        /**
+  public:
+    /**
         	*@short Constructor
         	*Simply adds all of the coordinate grid circles
         	*(meridians and parallels)
         	*@p parent Pointer to the parent SkyComposite object
         	*/
-        CoordinateGrid( SkyComposite * parent, const QString &name );
+    CoordinateGrid(SkyComposite *parent, const QString &name);
 
-        void preDraw( SkyPainter * skyp ) Q_DECL_OVERRIDE = 0;
+    void preDraw(SkyPainter *skyp) Q_DECL_OVERRIDE = 0;
 
-        bool selected() Q_DECL_OVERRIDE = 0;
+    bool selected() Q_DECL_OVERRIDE = 0;
 };
-
 
 #endif

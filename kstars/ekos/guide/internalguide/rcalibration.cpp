@@ -34,14 +34,13 @@
 #undef MIN
 #undef MAX
 
-#define MIN(a, b)  (((a) < (b)) ? (a) : (b))
-#define MAX(a, b)  (((a) > (b)) ? (a) : (b))
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
-internalCalibration::internalCalibration(cgmath * mathObject, Ekos::Guide * parent)
-    : QWidget(parent)
+internalCalibration::internalCalibration(cgmath *mathObject, Ekos::Guide *parent) : QWidget(parent)
 {
 #ifdef Q_OS_OSX
-    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     ui.setupUi(this);
 
@@ -53,8 +52,8 @@ internalCalibration::internalCalibration(cgmath * mathObject, Ekos::Guide * pare
 
     guideModule = parent;
 
-    is_started = false;
-    axis = GUIDE_RA;
+    is_started      = false;
+    axis            = GUIDE_RA;
     auto_drift_time = 5;
 
     start_x1 = start_y1 = 0;
@@ -62,24 +61,24 @@ internalCalibration::internalCalibration(cgmath * mathObject, Ekos::Guide * pare
     start_x2 = start_y2 = 0;
     end_x2 = end_y2 = 0;
 
-    ui.spinBox_DriftTime->setVisible( true );
-    ui.progressBar->setVisible( false );
-    ui.spinBox_ReticleAngle->setMaximum( 360 );
+    ui.spinBox_DriftTime->setVisible(true);
+    ui.progressBar->setVisible(false);
+    ui.spinBox_ReticleAngle->setMaximum(360);
 
     // connect ui
-    connect( ui.spinBox_ReticleX, 		SIGNAL(valueChanged(double)),	this, SLOT(onReticleXChanged(double)) );
-    connect( ui.spinBox_ReticleY, 		SIGNAL(valueChanged(double)),	this, SLOT(onReticleYChanged(double)) );
-    connect( ui.spinBox_ReticleAngle,	SIGNAL(valueChanged(double)),	this, SLOT(onReticleAngChanged(double)) );
-    connect( ui.pushButton_StartCalibration, SIGNAL(clicked()), 		this, SLOT(onStartReticleCalibrationButtonClick()) );
-    connect( ui.autoModeCheck, 		SIGNAL(stateChanged(int)), 		this, SLOT(onEnableAutoMode(int)) );
-    connect( ui.autoStarCheck, SIGNAL(toggled(bool)), this, SLOT(toggleAutoSquareSize(bool)));
-    connect( ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
+    connect(ui.spinBox_ReticleX, SIGNAL(valueChanged(double)), this, SLOT(onReticleXChanged(double)));
+    connect(ui.spinBox_ReticleY, SIGNAL(valueChanged(double)), this, SLOT(onReticleYChanged(double)));
+    connect(ui.spinBox_ReticleAngle, SIGNAL(valueChanged(double)), this, SLOT(onReticleAngChanged(double)));
+    connect(ui.pushButton_StartCalibration, SIGNAL(clicked()), this, SLOT(onStartReticleCalibrationButtonClick()));
+    connect(ui.autoModeCheck, SIGNAL(stateChanged(int)), this, SLOT(onEnableAutoMode(int)));
+    connect(ui.autoStarCheck, SIGNAL(toggled(bool)), this, SLOT(toggleAutoSquareSize(bool)));
+    connect(ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
 
-    ui.autoModeCheck->setChecked( Options::useAutoMode() );
-    ui.spinBox_Pulse->setValue( Options::calibrationPulseDuration());
+    ui.autoModeCheck->setChecked(Options::useAutoMode());
+    ui.spinBox_Pulse->setValue(Options::calibrationPulseDuration());
 
-    ui.twoAxisCheck->setChecked( Options::useTwoAxis());
-    ui.spinBox_DriftTime->setValue( Options::autoModeIterations() );
+    ui.twoAxisCheck->setChecked(Options::useTwoAxis());
+    ui.spinBox_DriftTime->setValue(Options::autoModeIterations());
     ui.autoStarCheck->setChecked(Options::autoStar());
     if (ui.autoStarCheck->isChecked())
     {
@@ -87,124 +86,109 @@ internalCalibration::internalCalibration(cgmath * mathObject, Ekos::Guide * pare
         ui.autoSquareSizeCheck->setChecked(Options::autoSquareSize());
     }
 
-
-    idleColor.setRgb(200,200,200);
-    okColor = Qt::green;
-    busyColor = Qt::yellow;
+    idleColor.setRgb(200, 200, 200);
+    okColor    = Qt::green;
+    busyColor  = Qt::yellow;
     alertColor = Qt::red;
 
     fillInterface();
 }
 
-
 internalCalibration::~internalCalibration()
 {
-
 }
 
-void internalCalibration::fillInterface( void )
+void internalCalibration::fillInterface(void)
 {
     double rx, ry, rang;
 
-    if( !pmath )
+    if (!pmath)
         return;
 
-    pmath->getReticleParameters( &rx, &ry, &rang );
+    pmath->getReticleParameters(&rx, &ry, &rang);
 
-    ui.spinBox_ReticleX->setValue( rx );
-    ui.spinBox_ReticleY->setValue( ry );
-    ui.spinBox_ReticleAngle->setValue( rang );
-    ui.progressBar->setValue( 0 );
+    ui.spinBox_ReticleX->setValue(rx);
+    ui.spinBox_ReticleY->setValue(ry);
+    ui.spinBox_ReticleAngle->setValue(rang);
+    ui.progressBar->setValue(0);
 
     if (isCalibrating() && ui.autoModeCheck->isChecked())
         ui.progressBar->setVisible(true);
     else
         ui.progressBar->setVisible(false);
-
 }
 
-
-bool internalCalibration::setVideoParams( int vid_wd, int vid_ht )
+bool internalCalibration::setVideoParams(int vid_wd, int vid_ht)
 {
-    if( vid_wd <= 0 || vid_ht <= 0 )
+    if (vid_wd <= 0 || vid_ht <= 0)
         return false;
 
-    ui.spinBox_ReticleX->setMaximum( (double)vid_wd );
-    ui.spinBox_ReticleY->setMaximum( (double)vid_ht );
+    ui.spinBox_ReticleX->setMaximum((double)vid_wd);
+    ui.spinBox_ReticleY->setMaximum((double)vid_ht);
 
     return true;
 }
 
-
-void internalCalibration::update_reticle_pos( double x, double y )
+void internalCalibration::update_reticle_pos(double x, double y)
 {
-    if( ui.spinBox_ReticleX->value() == x && ui.spinBox_ReticleY->value() == y )
+    if (ui.spinBox_ReticleX->value() == x && ui.spinBox_ReticleY->value() == y)
         return;
 
-    ui.spinBox_ReticleX->setValue( x );
-    ui.spinBox_ReticleY->setValue( y );
+    ui.spinBox_ReticleX->setValue(x);
+    ui.spinBox_ReticleY->setValue(y);
 }
 
-void internalCalibration::setMathObject( cgmath * math )
+void internalCalibration::setMathObject(cgmath *math)
 {
-    assert( math );
+    assert(math);
     pmath = math;
 
     //pmath->calc_and_set_reticle2( 100, 100, 200, 90,   100, 100, 60, 200);
 }
 
-
-void internalCalibration::onEnableAutoMode( int state )
+void internalCalibration::onEnableAutoMode(int state)
 {
-    ui.spinBox_DriftTime->setVisible( state == Qt::Checked );
-    ui.progressBar->setVisible( state == Qt::Checked );
+    ui.spinBox_DriftTime->setVisible(state == Qt::Checked);
+    ui.progressBar->setVisible(state == Qt::Checked);
 
-    ui.autoStarCheck->setEnabled( state == Qt::Checked);
+    ui.autoStarCheck->setEnabled(state == Qt::Checked);
 }
 
-
-void internalCalibration::onReticleXChanged( double val )
+void internalCalibration::onReticleXChanged(double val)
 {
     double x, y, ang;
 
-    if( !pmath )
+    if (!pmath)
         return;
 
-    pmath->getReticleParameters( &x, &y, &ang );
-    pmath->setReticleParameters( val, y, ang );
-
-
-
+    pmath->getReticleParameters(&x, &y, &ang);
+    pmath->setReticleParameters(val, y, ang);
 }
 
-
-void internalCalibration::onReticleYChanged( double val )
+void internalCalibration::onReticleYChanged(double val)
 {
     double x, y, ang;
 
-    if( !pmath )
+    if (!pmath)
         return;
 
-    pmath->getReticleParameters( &x, &y, &ang );
-    pmath->setReticleParameters( x, val, ang );
+    pmath->getReticleParameters(&x, &y, &ang);
+    pmath->setReticleParameters(x, val, ang);
 }
 
-
-void internalCalibration::onReticleAngChanged( double val )
+void internalCalibration::onReticleAngChanged(double val)
 {
     double x, y, ang;
 
-    if( !pmath )
+    if (!pmath)
         return;
 
-    pmath->getReticleParameters( &x, &y, &ang );
-    pmath->setReticleParameters( x, y, val );
+    pmath->getReticleParameters(&x, &y, &ang);
+    pmath->setReticleParameters(x, y, val);
 }
-
 
 void internalCalibration::onStartReticleCalibrationButtonClick()
 {
-
     // Capture final image
     if (calibrationType == CAL_MANUAL && calibrationStage == CAL_START)
     {
@@ -219,7 +203,6 @@ void internalCalibration::onStartReticleCalibrationButtonClick()
     }
 
     startCalibration();
-
 }
 
 bool internalCalibration::stopCalibration()
@@ -253,7 +236,7 @@ bool internalCalibration::startCalibration()
         return true;
     }
 
-    bool ccdInfo=true, scopeInfo=true;
+    bool ccdInfo = true, scopeInfo = true;
     QString errMsg;
     double ccd_w, ccd_h, g_aperture, g_focal;
 
@@ -261,7 +244,7 @@ bool internalCalibration::startCalibration()
 
     if (ccd_w == 0 || ccd_h == 0)
     {
-        errMsg = "CCD";
+        errMsg  = "CCD";
         ccdInfo = false;
     }
 
@@ -281,7 +264,8 @@ bool internalCalibration::startCalibration()
     }
 
     if (pmath->getImageView())
-        disconnect(pmath->getImageView(), SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
+        disconnect(pmath->getImageView(), SIGNAL(trackingStarSelected(int, int)), this,
+                   SLOT(trackingStarSelected(int, int)));
 
     ui.captureLED->setColor(okColor);
     ui.selectStarLED->setColor(okColor);
@@ -305,7 +289,7 @@ bool internalCalibration::startCalibration()
         Options::setAutoSquareSize(ui.autoSquareSizeCheck->isChecked());
 
     // manual
-    if( ui.autoModeCheck->checkState() != Qt::Checked )
+    if (ui.autoModeCheck->checkState() != Qt::Checked)
     {
         calibrateManualReticle();
         return true;
@@ -314,7 +298,7 @@ bool internalCalibration::startCalibration()
     ui.progressBar->setVisible(true);
 
     // automatic
-    if( ui.twoAxisCheck->checkState() == Qt::Checked )
+    if (ui.twoAxisCheck->checkState() == Qt::Checked)
         calibrateRADECRecticle(false);
     else
         calibrateRADECRecticle(true);
@@ -334,7 +318,8 @@ void internalCalibration::processCalibration()
         emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
         ui.startCalibrationLED->setColor(alertColor);
-        KMessageBox::error(nullptr, i18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
+        KMessageBox::error(
+            nullptr, i18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
         reset();
         return;
     }
@@ -369,60 +354,62 @@ bool internalCalibration::isCalibrating()
 void internalCalibration::reset()
 {
     is_started = false;
-    ui.pushButton_StartCalibration->setText( i18n("Start") );
+    ui.pushButton_StartCalibration->setText(i18n("Start"));
     ui.startCalibrationLED->setColor(idleColor);
     ui.progressBar->setVisible(false);
-    connect(pmath->getImageView(), SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
+    connect(pmath->getImageView(), SIGNAL(trackingStarSelected(int, int)), this, SLOT(trackingStarSelected(int, int)),
+            Qt::UniqueConnection);
 }
 
-void internalCalibration::calibrateManualReticle( void )
+void internalCalibration::calibrateManualReticle(void)
 {
     //----- manual mode ----
     // get start point
 
     calibrationType = CAL_MANUAL;
 
-    if( !is_started )
+    if (!is_started)
     {
-        if( ui.twoAxisCheck->checkState() == Qt::Checked )
+        if (ui.twoAxisCheck->checkState() == Qt::Checked)
         {
-            ui.pushButton_StartCalibration->setText( i18n("Stop GUIDE_RA") );
+            ui.pushButton_StartCalibration->setText(i18n("Stop GUIDE_RA"));
         }
         else
         {
-            ui.pushButton_StartCalibration->setText( i18n("Stop") );
+            ui.pushButton_StartCalibration->setText(i18n("Stop"));
         }
         guideModule->appendLogText(i18n("Drift scope in RA. Press stop when done."));
 
         calibrationStage = CAL_START;
-        pmath->getStarScreenPosition( &start_x1, &start_y1 );
+        pmath->getStarScreenPosition(&start_x1, &start_y1);
 
-        axis = GUIDE_RA;
+        axis       = GUIDE_RA;
         is_started = true;
     }
-    else	// get end point and calc orientation
+    else // get end point and calc orientation
     {
-        if( ui.twoAxisCheck->checkState() == Qt::Checked )
+        if (ui.twoAxisCheck->checkState() == Qt::Checked)
         {
-            if( axis == GUIDE_RA )
+            if (axis == GUIDE_RA)
             {
-                pmath->getStarScreenPosition( &end_x1, &end_y1 );
+                pmath->getStarScreenPosition(&end_x1, &end_y1);
 
                 start_x2 = end_x1;
                 start_y2 = end_y1;
 
                 axis = GUIDE_DEC;
 
-                ui.pushButton_StartCalibration->setText( i18n("Stop GUIDE_DEC") );
+                ui.pushButton_StartCalibration->setText(i18n("Stop GUIDE_DEC"));
                 guideModule->appendLogText(i18n("Drift scope in DEC. Press Stop when done."));
                 return;
             }
             else
             {
-                pmath->getStarScreenPosition( &end_x2, &end_y2 );
-                bool dec_swap=false;
+                pmath->getStarScreenPosition(&end_x2, &end_y2);
+                bool dec_swap = false;
                 // calc orientation
-                if( pmath->calculateAndSetReticle2D( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &dec_swap ) )
+                if (pmath->calculateAndSetReticle2D(start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2,
+                                                    end_y2, &dec_swap))
                 {
                     fillInterface();
                     if (dec_swap)
@@ -432,7 +419,8 @@ void internalCalibration::calibrateManualReticle( void )
 
                     guideModule->appendLogText(i18n("Calibration completed."));
 
-                    KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
+                    KNotification::event(QLatin1String("CalibrationSuccessful"),
+                                         i18n("Guiding calibration completed successfully"));
                     calibrationStage = CAL_FINISH;
 
                     emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
@@ -441,8 +429,9 @@ void internalCalibration::calibrateManualReticle( void )
                 }
                 else
                 {
-                    QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
-                    is_started = false;
+                    QMessageBox::warning(this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."),
+                                         QMessageBox::Ok);
+                    is_started       = false;
                     calibrationStage = CAL_ERROR;
                     emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
                 }
@@ -450,9 +439,9 @@ void internalCalibration::calibrateManualReticle( void )
         }
         else
         {
-            pmath->getStarScreenPosition( &end_x1, &end_y1 );
+            pmath->getStarScreenPosition(&end_x1, &end_y1);
 
-            if( pmath->calculateAndSetReticle1D( start_x1, start_y1, end_x1, end_y1 ) )
+            if (pmath->calculateAndSetReticle1D(start_x1, start_y1, end_x1, end_y1))
             {
                 calibrationStage = CAL_FINISH;
                 fillInterface();
@@ -460,7 +449,8 @@ void internalCalibration::calibrateManualReticle( void )
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
 
-                KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
+                KNotification::event(QLatin1String("CalibrationSuccessful"),
+                                     i18n("Guiding calibration completed successfully"));
             }
             else
             {
@@ -468,23 +458,23 @@ void internalCalibration::calibrateManualReticle( void )
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
-                QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
+                QMessageBox::warning(this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."),
+                                     QMessageBox::Ok);
                 is_started = false;
-                KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
+                KNotification::event(QLatin1String("CalibrationFailed"),
+                                     i18n("Guiding calibration failed with errors"));
             }
         }
 
         reset();
-
     }
 }
 
-void internalCalibration::calibrateRADECRecticle( bool ra_only )
+void internalCalibration::calibrateRADECRecticle(bool ra_only)
 {
     bool auto_term_ok = false;
 
-
-    if( !pmath )
+    if (!pmath)
         return;
 
     int pulseDuration = ui.spinBox_Pulse->value();
@@ -495,22 +485,21 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
     else
         calibrationType = CAL_RA_DEC_AUTO;
 
-    switch(calibrationStage)
+    switch (calibrationStage)
     {
-
         case CAL_START:
             //----- automatic mode -----
             auto_drift_time = ui.spinBox_DriftTime->value();
 
             if (ra_only)
-                turn_back_time = auto_drift_time*2 + auto_drift_time/2;
+                turn_back_time = auto_drift_time * 2 + auto_drift_time / 2;
             else
-                turn_back_time = auto_drift_time*6;
+                turn_back_time = auto_drift_time * 6;
             iterations = 0;
 
-            ui.progressBar->setMaximum( turn_back_time );
+            ui.progressBar->setMaximum(turn_back_time);
 
-            ui.progressBar->setValue( 0 );
+            ui.progressBar->setValue(0);
 
             ui.pushButton_StartCalibration->setText(i18n("Abort"));
 
@@ -525,13 +514,14 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
             if (Options::guideLogging())
                 qDebug() << "Guide: Start X1 " << start_x1 << " Start Y1 " << start_y1;
 
-            guideModule->sendPulse( RA_INC_DIR, pulseDuration );
+            guideModule->sendPulse(RA_INC_DIR, pulseDuration);
             if (Options::guideLogging())
-                qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR
+                         << " Duration: " << pulseDuration << " ms.";
 
             iterations++;
 
-            ui.progressBar->setValue( iterations );
+            ui.progressBar->setValue(iterations);
 
             calibrationStage = CAL_RA_INC;
 
@@ -540,20 +530,21 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
             break;
 
         case CAL_RA_INC:
-            guideModule->sendPulse( RA_INC_DIR, pulseDuration );
+            guideModule->sendPulse(RA_INC_DIR, pulseDuration);
 
             if (Options::guideLogging())
             {
                 // Star position resulting from LAST guiding pulse to mount
                 double cur_x, cur_y;
-                pmath->getStarScreenPosition( &cur_x, &cur_y );
-                qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
+                pmath->getStarScreenPosition(&cur_x, &cur_y);
+                qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
 
-                qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR
+                         << " Duration: " << pulseDuration << " ms.";
             }
 
             iterations++;
-            ui.progressBar->setValue( iterations );
+            ui.progressBar->setValue(iterations);
 
             if (iterations == auto_drift_time)
                 calibrationStage = CAL_RA_DEC;
@@ -564,30 +555,29 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
         {
             if (iterations == auto_drift_time)
             {
-                pmath->getStarScreenPosition( &end_x1, &end_y1 );
+                pmath->getStarScreenPosition(&end_x1, &end_y1);
                 if (Options::guideLogging())
                     qDebug() << "Guide: End X1 " << end_x1 << " End Y1 " << end_y1;
 
-                phi = pmath->calculatePhi( start_x1, start_y1, end_x1, end_y1 );
-                ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
+                phi   = pmath->calculatePhi(start_x1, start_y1, end_x1, end_y1);
+                ROT_Z = RotateZ(-M_PI * phi / 180.0); // derotates...
 
                 guideModule->appendLogText(i18n("GUIDE_RA drifting reverse..."));
-
             }
 
             //----- Z-check (new!) -----
             double cur_x, cur_y;
-            pmath->getStarScreenPosition( &cur_x, &cur_y );
+            pmath->getStarScreenPosition(&cur_x, &cur_y);
 
-            Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( start_x1, start_y1, 0 );
-            star_pos.y = -star_pos.y;
-            star_pos = star_pos * ROT_Z;
+            Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(start_x1, start_y1, 0);
+            star_pos.y      = -star_pos.y;
+            star_pos        = star_pos * ROT_Z;
 
             if (Options::guideLogging())
                 qDebug() << "Guide: Star x pos is " << star_pos.x << " from original point.";
 
             // start point reached... so exit
-            if( star_pos.x < 1.5 )
+            if (star_pos.x < 1.5)
             {
                 pmath->performProcessing();
                 auto_term_ok = true;
@@ -595,25 +585,26 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
 
             //----- Z-check end -----
 
-            if( !auto_term_ok )
+            if (!auto_term_ok)
             {
                 if (iterations < turn_back_time)
                 {
-                    guideModule->sendPulse( RA_DEC_DIR, pulseDuration );
+                    guideModule->sendPulse(RA_DEC_DIR, pulseDuration);
 
                     if (Options::guideLogging())
                     {
                         // Star position resulting from LAST guiding pulse to mount
                         double cur_x, cur_y;
-                        pmath->getStarScreenPosition( &cur_x, &cur_y );
-                        qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
+                        pmath->getStarScreenPosition(&cur_x, &cur_y);
+                        qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
 
-                        qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                        qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR
+                                 << " Duration: " << pulseDuration << " ms.";
                     }
 
                     iterations++;
 
-                    ui.progressBar->setValue( iterations );
+                    ui.progressBar->setValue(iterations);
                     break;
                 }
 
@@ -622,11 +613,22 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
                 if (ui.autoStarCheck->isChecked())
-                    guideModule->appendLogText(i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration. Possible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible mount or drive problems...", turn_back_time));
+                    guideModule->appendLogText(i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration. "
+                                                     "Possible mount or drive problems...",
+                                                     "GUIDE_RA: Scope cannot reach the start point after %1 "
+                                                     "iterations. Possible mount or drive problems...",
+                                                     turn_back_time));
                 else
-                    QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration. Possible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible mount or drive problems...", turn_back_time), QMessageBox::Ok );
+                    QMessageBox::warning(this, i18n("Warning"),
+                                         i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration. "
+                                               "Possible mount or drive problems...",
+                                               "GUIDE_RA: Scope cannot reach the start point after %1 iterations. "
+                                               "Possible mount or drive problems...",
+                                               turn_back_time),
+                                         QMessageBox::Ok);
 
-                KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
+                KNotification::event(QLatin1String("CalibrationFailed"),
+                                     i18n("Guiding calibration failed with errors"));
                 reset();
                 break;
             }
@@ -634,32 +636,33 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
             if (ra_only == false)
             {
                 calibrationStage = CAL_DEC_INC;
-                start_x2 = cur_x;
-                start_y2 = cur_y;
+                start_x2         = cur_x;
+                start_y2         = cur_y;
 
                 if (Options::guideLogging())
                     qDebug() << "Guide: Start X2 " << start_x2 << " start Y2 " << start_y2;
 
-                guideModule->sendPulse( DEC_INC_DIR, pulseDuration );
+                guideModule->sendPulse(DEC_INC_DIR, pulseDuration);
 
                 if (Options::guideLogging())
                 {
                     // Star position resulting from LAST guiding pulse to mount
                     double cur_x, cur_y;
-                    pmath->getStarScreenPosition( &cur_x, &cur_y );
-                    qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
+                    pmath->getStarScreenPosition(&cur_x, &cur_y);
+                    qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
 
-                    qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                    qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR
+                             << " Duration: " << pulseDuration << " ms.";
                 }
 
                 iterations++;
                 dec_iterations = 1;
-                ui.progressBar->setValue( iterations );
+                ui.progressBar->setValue(iterations);
                 guideModule->appendLogText(i18n("GUIDE_DEC drifting forward..."));
                 break;
             }
             // calc orientation
-            if( pmath->calculateAndSetReticle1D( start_x1, start_y1, end_x1, end_y1, totalPulse) )
+            if (pmath->calculateAndSetReticle1D(start_x1, start_y1, end_x1, end_y1, totalPulse))
             {
                 calibrationStage = CAL_FINISH;
                 fillInterface();
@@ -668,7 +671,8 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
                 emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
 
                 ui.startCalibrationLED->setColor(okColor);
-                KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
+                KNotification::event(QLatin1String("CalibrationSuccessful"),
+                                     i18n("Guiding calibration completed successfully"));
                 //if (ui.autoStarCheck->isChecked())
                 //guideModule->selectAutoStar();
             }
@@ -677,13 +681,15 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
                 if (ui.autoStarCheck->isChecked())
                     guideModule->appendLogText(i18n("Calibration rejected. Star drift is too short."));
                 else
-                    QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
+                    QMessageBox::warning(this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."),
+                                         QMessageBox::Ok);
                 ui.startCalibrationLED->setColor(alertColor);
                 calibrationStage = CAL_ERROR;
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
-                KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
+                KNotification::event(QLatin1String("CalibrationFailed"),
+                                     i18n("Guiding calibration failed with errors"));
             }
 
             reset();
@@ -691,21 +697,22 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
         }
 
         case CAL_DEC_INC:
-            guideModule->sendPulse( DEC_INC_DIR, pulseDuration );
+            guideModule->sendPulse(DEC_INC_DIR, pulseDuration);
 
             if (Options::guideLogging())
             {
                 // Star position resulting from LAST guiding pulse to mount
                 double cur_x, cur_y;
-                pmath->getStarScreenPosition( &cur_x, &cur_y );
-                qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
+                pmath->getStarScreenPosition(&cur_x, &cur_y);
+                qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
 
-                qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR
+                         << " Duration: " << pulseDuration << " ms.";
             }
 
             iterations++;
             dec_iterations++;
-            ui.progressBar->setValue( iterations );
+            ui.progressBar->setValue(iterations);
 
             if (dec_iterations == auto_drift_time)
                 calibrationStage = CAL_DEC_DEC;
@@ -716,34 +723,34 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
         {
             if (dec_iterations == auto_drift_time)
             {
-                pmath->getStarScreenPosition( &end_x2, &end_y2 );
+                pmath->getStarScreenPosition(&end_x2, &end_y2);
                 if (Options::guideLogging())
                     qDebug() << "Guide: End X2 " << end_x2 << " End Y2 " << end_y2;
 
-                phi = pmath->calculatePhi( start_x2, start_y2, end_x2, end_y2 );
-                ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
+                phi   = pmath->calculatePhi(start_x2, start_y2, end_x2, end_y2);
+                ROT_Z = RotateZ(-M_PI * phi / 180.0); // derotates...
 
                 guideModule->appendLogText(i18n("GUIDE_DEC drifting reverse..."));
             }
 
             //----- Z-check (new!) -----
             double cur_x, cur_y;
-            pmath->getStarScreenPosition( &cur_x, &cur_y );
+            pmath->getStarScreenPosition(&cur_x, &cur_y);
 
             //pmain_wnd->appendLogText(i18n("GUIDE_DEC running back...");
 
             if (Options::guideLogging())
                 qDebug() << "Guide: Cur X2 " << cur_x << " Cur Y2 " << cur_y;
 
-            Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( start_x2, start_y2, 0 );
-            star_pos.y = -star_pos.y;
-            star_pos = star_pos * ROT_Z;
+            Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(start_x2, start_y2, 0);
+            star_pos.y      = -star_pos.y;
+            star_pos        = star_pos * ROT_Z;
 
             if (Options::guideLogging())
                 qDebug() << "Guide: start Pos X " << star_pos.x << " from original point.";
 
             // start point reached... so exit
-            if( star_pos.x < 1.5 )
+            if (star_pos.x < 1.5)
             {
                 pmath->performProcessing();
                 auto_term_ok = true;
@@ -751,26 +758,27 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
 
             //----- Z-check end -----
 
-            if( !auto_term_ok )
+            if (!auto_term_ok)
             {
                 if (iterations < turn_back_time)
                 {
-                    guideModule->sendPulse( DEC_DEC_DIR, pulseDuration );
+                    guideModule->sendPulse(DEC_DEC_DIR, pulseDuration);
 
                     if (Options::guideLogging())
                     {
                         // Star position resulting from LAST guiding pulse to mount
                         double cur_x, cur_y;
-                        pmath->getStarScreenPosition( &cur_x, &cur_y );
-                        qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
+                        pmath->getStarScreenPosition(&cur_x, &cur_y);
+                        qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
 
-                        qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                        qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR
+                                 << " Duration: " << pulseDuration << " ms.";
                     }
 
                     iterations++;
                     dec_iterations++;
 
-                    ui.progressBar->setValue( iterations );
+                    ui.progressBar->setValue(iterations);
                     break;
                 }
 
@@ -779,18 +787,30 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
                 if (ui.autoStarCheck->isChecked())
-                    guideModule->appendLogText(i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time));
+                    guideModule->appendLogText(i18np("GUIDE_DEC: Scope cannot reach the start point after %1 "
+                                                     "iteration.\nPossible mount or drive problems...",
+                                                     "GUIDE_DEC: Scope cannot reach the start point after %1 "
+                                                     "iterations.\nPossible mount or drive problems...",
+                                                     turn_back_time));
                 else
-                    QMessageBox::warning( this, i18n("Warning"), i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time), QMessageBox::Ok );
+                    QMessageBox::warning(this, i18n("Warning"),
+                                         i18np("GUIDE_DEC: Scope cannot reach the start point after %1 "
+                                               "iteration.\nPossible mount or drive problems...",
+                                               "GUIDE_DEC: Scope cannot reach the start point after %1 "
+                                               "iterations.\nPossible mount or drive problems...",
+                                               turn_back_time),
+                                         QMessageBox::Ok);
 
-                KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
+                KNotification::event(QLatin1String("CalibrationFailed"),
+                                     i18n("Guiding calibration failed with errors"));
                 reset();
                 break;
             }
 
-            bool swap_dec=false;
+            bool swap_dec = false;
             // calc orientation
-            if( pmath->calculateAndSetReticle2D( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &swap_dec, totalPulse ) )
+            if (pmath->calculateAndSetReticle2D(start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2,
+                                                &swap_dec, totalPulse))
             {
                 calibrationStage = CAL_FINISH;
                 fillInterface();
@@ -805,24 +825,26 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
                 ui.startCalibrationLED->setColor(okColor);
                 guideModule->setDECSwap(swap_dec);
 
-                KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
+                KNotification::event(QLatin1String("CalibrationSuccessful"),
+                                     i18n("Guiding calibration completed successfully"));
 
                 //if (ui.autoStarCheck->isChecked())
                 //guideModule->selectAutoStar();
-
             }
             else
             {
                 if (ui.autoStarCheck->isChecked())
                     guideModule->appendLogText(i18n("Calibration rejected. Star drift is too short."));
                 else
-                    QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
+                    QMessageBox::warning(this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."),
+                                         QMessageBox::Ok);
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
                 ui.startCalibrationLED->setColor(alertColor);
                 calibrationStage = CAL_ERROR;
-                KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
+                KNotification::event(QLatin1String("CalibrationFailed"),
+                                     i18n("Guiding calibration failed with errors"));
             }
 
             reset();
@@ -830,12 +852,9 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
             break;
         }
 
-
         default:
             break;
-
     }
-
 }
 
 void internalCalibration::trackingStarSelected(int x, int y)
@@ -883,7 +902,7 @@ void internalCalibration::capture()
     }
 }
 
-bool internalCalibration::setImageView(FITSView * image)
+bool internalCalibration::setImageView(FITSView *image)
 {
     guideFrame = image;
 
@@ -898,7 +917,7 @@ bool internalCalibration::setImageView(FITSView * image)
             calibrationStage = CAL_SELECT_STAR;
             ui.selectStarLED->setColor(busyColor);
 
-            FITSData * image_data = guideFrame->getImageData();
+            FITSData *image_data = guideFrame->getImageData();
 
             setVideoParams(image_data->getWidth(), image_data->getHeight());
 
@@ -908,8 +927,10 @@ bool internalCalibration::setImageView(FITSView * image)
 
                 if (rc == false)
                 {
-                    guideModule->appendLogText(i18n("Failed to automatically select a guide star. Please select a guide star..."));
-                    connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
+                    guideModule->appendLogText(
+                        i18n("Failed to automatically select a guide star. Please select a guide star..."));
+                    connect(guideFrame, SIGNAL(trackingStarSelected(int, int)), this,
+                            SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
                     return true;
                 }
                 else
@@ -918,7 +939,8 @@ bool internalCalibration::setImageView(FITSView * image)
             }
             else
             {
-                connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
+                connect(guideFrame, SIGNAL(trackingStarSelected(int, int)), this, SLOT(trackingStarSelected(int, int)),
+                        Qt::UniqueConnection);
             }
         }
         break;

@@ -33,59 +33,57 @@
  *
  * General rule: 0 is success, negative denotes a problem.
  */
-typedef enum
-{
-    DC1394_SUCCESS                     =  0,
-    DC1394_FAILURE                     = -1,
-    DC1394_NOT_A_CAMERA                = -2,
-    DC1394_FUNCTION_NOT_SUPPORTED      = -3,
-    DC1394_CAMERA_NOT_INITIALIZED      = -4,
-    DC1394_MEMORY_ALLOCATION_FAILURE   = -5,
-    DC1394_TAGGED_REGISTER_NOT_FOUND   = -6,
-    DC1394_NO_ISO_CHANNEL              = -7,
-    DC1394_NO_BANDWIDTH                = -8,
-    DC1394_IOCTL_FAILURE               = -9,
-    DC1394_CAPTURE_IS_NOT_SET          = -10,
-    DC1394_CAPTURE_IS_RUNNING          = -11,
-    DC1394_RAW1394_FAILURE             = -12,
-    DC1394_FORMAT7_ERROR_FLAG_1        = -13,
-    DC1394_FORMAT7_ERROR_FLAG_2        = -14,
-    DC1394_INVALID_ARGUMENT_VALUE      = -15,
-    DC1394_REQ_VALUE_OUTSIDE_RANGE     = -16,
-    DC1394_INVALID_FEATURE             = -17,
-    DC1394_INVALID_VIDEO_FORMAT        = -18,
-    DC1394_INVALID_VIDEO_MODE          = -19,
-    DC1394_INVALID_FRAMERATE           = -20,
-    DC1394_INVALID_TRIGGER_MODE        = -21,
-    DC1394_INVALID_TRIGGER_SOURCE      = -22,
-    DC1394_INVALID_ISO_SPEED           = -23,
-    DC1394_INVALID_IIDC_VERSION        = -24,
-    DC1394_INVALID_COLOR_CODING        = -25,
-    DC1394_INVALID_COLOR_FILTER        = -26,
-    DC1394_INVALID_CAPTURE_POLICY      = -27,
-    DC1394_INVALID_ERROR_CODE          = -28,
-    DC1394_INVALID_BAYER_METHOD        = -29,
-    DC1394_INVALID_VIDEO1394_DEVICE    = -30,
-    DC1394_INVALID_OPERATION_MODE      = -31,
-    DC1394_INVALID_TRIGGER_POLARITY    = -32,
-    DC1394_INVALID_FEATURE_MODE        = -33,
-    DC1394_INVALID_LOG_TYPE            = -34,
-    DC1394_INVALID_BYTE_ORDER          = -35,
-    DC1394_INVALID_STEREO_METHOD       = -36,
-    DC1394_BASLER_NO_MORE_SFF_CHUNKS   = -37,
-    DC1394_BASLER_CORRUPTED_SFF_CHUNK  = -38,
-    DC1394_BASLER_UNKNOWN_SFF_CHUNK    = -39
+typedef enum {
+    DC1394_SUCCESS                    = 0,
+    DC1394_FAILURE                    = -1,
+    DC1394_NOT_A_CAMERA               = -2,
+    DC1394_FUNCTION_NOT_SUPPORTED     = -3,
+    DC1394_CAMERA_NOT_INITIALIZED     = -4,
+    DC1394_MEMORY_ALLOCATION_FAILURE  = -5,
+    DC1394_TAGGED_REGISTER_NOT_FOUND  = -6,
+    DC1394_NO_ISO_CHANNEL             = -7,
+    DC1394_NO_BANDWIDTH               = -8,
+    DC1394_IOCTL_FAILURE              = -9,
+    DC1394_CAPTURE_IS_NOT_SET         = -10,
+    DC1394_CAPTURE_IS_RUNNING         = -11,
+    DC1394_RAW1394_FAILURE            = -12,
+    DC1394_FORMAT7_ERROR_FLAG_1       = -13,
+    DC1394_FORMAT7_ERROR_FLAG_2       = -14,
+    DC1394_INVALID_ARGUMENT_VALUE     = -15,
+    DC1394_REQ_VALUE_OUTSIDE_RANGE    = -16,
+    DC1394_INVALID_FEATURE            = -17,
+    DC1394_INVALID_VIDEO_FORMAT       = -18,
+    DC1394_INVALID_VIDEO_MODE         = -19,
+    DC1394_INVALID_FRAMERATE          = -20,
+    DC1394_INVALID_TRIGGER_MODE       = -21,
+    DC1394_INVALID_TRIGGER_SOURCE     = -22,
+    DC1394_INVALID_ISO_SPEED          = -23,
+    DC1394_INVALID_IIDC_VERSION       = -24,
+    DC1394_INVALID_COLOR_CODING       = -25,
+    DC1394_INVALID_COLOR_FILTER       = -26,
+    DC1394_INVALID_CAPTURE_POLICY     = -27,
+    DC1394_INVALID_ERROR_CODE         = -28,
+    DC1394_INVALID_BAYER_METHOD       = -29,
+    DC1394_INVALID_VIDEO1394_DEVICE   = -30,
+    DC1394_INVALID_OPERATION_MODE     = -31,
+    DC1394_INVALID_TRIGGER_POLARITY   = -32,
+    DC1394_INVALID_FEATURE_MODE       = -33,
+    DC1394_INVALID_LOG_TYPE           = -34,
+    DC1394_INVALID_BYTE_ORDER         = -35,
+    DC1394_INVALID_STEREO_METHOD      = -36,
+    DC1394_BASLER_NO_MORE_SFF_CHUNKS  = -37,
+    DC1394_BASLER_CORRUPTED_SFF_CHUNK = -38,
+    DC1394_BASLER_UNKNOWN_SFF_CHUNK   = -39
 } dc1394error_t;
-#define DC1394_ERROR_MIN  DC1394_BASLER_UNKNOWN_SFF_CHUNK
-#define DC1394_ERROR_MAX  DC1394_SUCCESS
-#define DC1394_ERROR_NUM (DC1394_ERROR_MAX-DC1394_ERROR_MIN+1)
+#define DC1394_ERROR_MIN DC1394_BASLER_UNKNOWN_SFF_CHUNK
+#define DC1394_ERROR_MAX DC1394_SUCCESS
+#define DC1394_ERROR_NUM (DC1394_ERROR_MAX - DC1394_ERROR_MIN + 1)
 
 /**
  * Enumeration of video modes. Note that the notion of IIDC "format" is not present here, except in the format_7 name.
  */
-typedef enum
-{
-    DC1394_VIDEO_MODE_160x120_YUV444= 64,
+typedef enum {
+    DC1394_VIDEO_MODE_160x120_YUV444 = 64,
     DC1394_VIDEO_MODE_320x240_YUV422,
     DC1394_VIDEO_MODE_640x480_YUV411,
     DC1394_VIDEO_MODE_640x480_YUV422,
@@ -118,21 +116,20 @@ typedef enum
     DC1394_VIDEO_MODE_FORMAT7_6,
     DC1394_VIDEO_MODE_FORMAT7_7
 } dc1394video_mode_t;
-#define DC1394_VIDEO_MODE_MIN            DC1394_VIDEO_MODE_160x120_YUV444
-#define DC1394_VIDEO_MODE_MAX       DC1394_VIDEO_MODE_FORMAT7_7
-#define DC1394_VIDEO_MODE_NUM      (DC1394_VIDEO_MODE_MAX - DC1394_VIDEO_MODE_MIN + 1)
+#define DC1394_VIDEO_MODE_MIN DC1394_VIDEO_MODE_160x120_YUV444
+#define DC1394_VIDEO_MODE_MAX DC1394_VIDEO_MODE_FORMAT7_7
+#define DC1394_VIDEO_MODE_NUM (DC1394_VIDEO_MODE_MAX - DC1394_VIDEO_MODE_MIN + 1)
 
 /* Special min/max are defined for Format_7 */
-#define DC1394_VIDEO_MODE_FORMAT7_MIN       DC1394_VIDEO_MODE_FORMAT7_0
-#define DC1394_VIDEO_MODE_FORMAT7_MAX       DC1394_VIDEO_MODE_FORMAT7_7
-#define DC1394_VIDEO_MODE_FORMAT7_NUM      (DC1394_VIDEO_MODE_FORMAT7_MAX - DC1394_VIDEO_MODE_FORMAT7_MIN + 1)
+#define DC1394_VIDEO_MODE_FORMAT7_MIN DC1394_VIDEO_MODE_FORMAT7_0
+#define DC1394_VIDEO_MODE_FORMAT7_MAX DC1394_VIDEO_MODE_FORMAT7_7
+#define DC1394_VIDEO_MODE_FORMAT7_NUM (DC1394_VIDEO_MODE_FORMAT7_MAX - DC1394_VIDEO_MODE_FORMAT7_MIN + 1)
 
 /**
  * Enumeration of colour codings. For details on the data format please read the IIDC specifications.
  */
-typedef enum
-{
-    DC1394_COLOR_CODING_MONO8= 352,
+typedef enum {
+    DC1394_COLOR_CODING_MONO8 = 352,
     DC1394_COLOR_CODING_YUV411,
     DC1394_COLOR_CODING_YUV422,
     DC1394_COLOR_CODING_YUV444,
@@ -144,9 +141,9 @@ typedef enum
     DC1394_COLOR_CODING_RAW8,
     DC1394_COLOR_CODING_RAW16
 } dc1394color_coding_t;
-#define DC1394_COLOR_CODING_MIN     DC1394_COLOR_CODING_MONO8
-#define DC1394_COLOR_CODING_MAX     DC1394_COLOR_CODING_RAW16
-#define DC1394_COLOR_CODING_NUM    (DC1394_COLOR_CODING_MAX - DC1394_COLOR_CODING_MIN + 1)
+#define DC1394_COLOR_CODING_MIN DC1394_COLOR_CODING_MONO8
+#define DC1394_COLOR_CODING_MAX DC1394_COLOR_CODING_RAW16
+#define DC1394_COLOR_CODING_NUM (DC1394_COLOR_CODING_MAX - DC1394_COLOR_CODING_MIN + 1)
 
 /**
  * RAW sensor filters. These elementary tiles tesselate the image plane in RAW modes. RGGB should be interpreted in 2D as
@@ -156,38 +153,33 @@ typedef enum
  *
  * and similarly for other filters.
  */
-typedef enum
-{
+typedef enum {
     DC1394_COLOR_FILTER_RGGB = 512,
     DC1394_COLOR_FILTER_GBRG,
     DC1394_COLOR_FILTER_GRBG,
     DC1394_COLOR_FILTER_BGGR
 } dc1394color_filter_t;
-#define DC1394_COLOR_FILTER_MIN        DC1394_COLOR_FILTER_RGGB
-#define DC1394_COLOR_FILTER_MAX        DC1394_COLOR_FILTER_BGGR
-#define DC1394_COLOR_FILTER_NUM       (DC1394_COLOR_FILTER_MAX - DC1394_COLOR_FILTER_MIN + 1)
+#define DC1394_COLOR_FILTER_MIN DC1394_COLOR_FILTER_RGGB
+#define DC1394_COLOR_FILTER_MAX DC1394_COLOR_FILTER_BGGR
+#define DC1394_COLOR_FILTER_NUM (DC1394_COLOR_FILTER_MAX - DC1394_COLOR_FILTER_MIN + 1)
 
 /**
  * Byte order for YUV formats (may be expanded to RGB in the future)
  *
  * IIDC cameras always return data in UYVY order, but conversion functions can change this if requested.
  */
-typedef enum
-{
-    DC1394_BYTE_ORDER_UYVY=800,
-    DC1394_BYTE_ORDER_YUYV
-} dc1394byte_order_t;
-#define DC1394_BYTE_ORDER_MIN        DC1394_BYTE_ORDER_UYVY
-#define DC1394_BYTE_ORDER_MAX        DC1394_BYTE_ORDER_YUYV
-#define DC1394_BYTE_ORDER_NUM       (DC1394_BYTE_ORDER_MAX - DC1394_BYTE_ORDER_MIN + 1)
+typedef enum { DC1394_BYTE_ORDER_UYVY = 800, DC1394_BYTE_ORDER_YUYV } dc1394byte_order_t;
+#define DC1394_BYTE_ORDER_MIN DC1394_BYTE_ORDER_UYVY
+#define DC1394_BYTE_ORDER_MAX DC1394_BYTE_ORDER_YUYV
+#define DC1394_BYTE_ORDER_NUM (DC1394_BYTE_ORDER_MAX - DC1394_BYTE_ORDER_MIN + 1)
 
 /**
  * A struct containing a list of color codings
  */
 typedef struct
 {
-    uint32_t                num;
-    dc1394color_coding_t    codings[DC1394_COLOR_CODING_NUM];
+    uint32_t num;
+    dc1394color_coding_t codings[DC1394_COLOR_CODING_NUM];
 } dc1394color_codings_t;
 
 /**
@@ -195,36 +187,27 @@ typedef struct
  */
 typedef struct
 {
-    uint32_t                num;
-    dc1394video_mode_t      modes[DC1394_VIDEO_MODE_NUM];
+    uint32_t num;
+    dc1394video_mode_t modes[DC1394_VIDEO_MODE_NUM];
 } dc1394video_modes_t;
 
 /**
  * Yet another boolean data type
  */
-typedef enum
-{
-    DC1394_FALSE= 0,
-    DC1394_TRUE
-} dc1394bool_t;
+typedef enum { DC1394_FALSE = 0, DC1394_TRUE } dc1394bool_t;
 
 /**
  * Yet another boolean data type, a bit more oriented towards electrical-engineers
  */
-typedef enum
-{
-    DC1394_OFF= 0,
-    DC1394_ON
-} dc1394switch_t;
+typedef enum { DC1394_OFF = 0, DC1394_ON } dc1394switch_t;
 
 /**
  * A list of de-mosaicing techniques for Bayer-patterns.
  *
  * The speed of the techniques can vary greatly, as well as their quality.
  */
-typedef enum
-{
-    DC1394_BAYER_METHOD_NEAREST=0,
+typedef enum {
+    DC1394_BAYER_METHOD_NEAREST = 0,
     DC1394_BAYER_METHOD_SIMPLE,
     DC1394_BAYER_METHOD_BILINEAR,
     DC1394_BAYER_METHOD_HQLINEAR,
@@ -233,15 +216,15 @@ typedef enum
     DC1394_BAYER_METHOD_VNG,
     DC1394_BAYER_METHOD_AHD
 } dc1394bayer_method_t;
-#define DC1394_BAYER_METHOD_MIN      DC1394_BAYER_METHOD_NEAREST
-#define DC1394_BAYER_METHOD_MAX      DC1394_BAYER_METHOD_AHD
-#define DC1394_BAYER_METHOD_NUM     (DC1394_BAYER_METHOD_MAX-DC1394_BAYER_METHOD_MIN+1)
+#define DC1394_BAYER_METHOD_MIN DC1394_BAYER_METHOD_NEAREST
+#define DC1394_BAYER_METHOD_MAX DC1394_BAYER_METHOD_AHD
+#define DC1394_BAYER_METHOD_NUM (DC1394_BAYER_METHOD_MAX - DC1394_BAYER_METHOD_MIN + 1)
 
 typedef struct
 {
-    dc1394bayer_method_t method;    /* Debayer method */
-    dc1394color_filter_t filter;    /* Debayer pattern */
-    int offsetX, offsetY;           /* Debayer offset */
+    dc1394bayer_method_t method; /* Debayer method */
+    dc1394color_filter_t filter; /* Debayer pattern */
+    int offsetX, offsetY;        /* Debayer offset */
 } BayerParams;
 
 /************************************************************************************************
@@ -281,21 +264,17 @@ extern "C" {
 /**
  * Perform de-mosaicing on an 8-bit image buffer
  */
-dc1394error_t
-dc1394_bayer_decoding_8bit(const uint8_t * bayer, uint8_t * rgb,
-                           uint32_t width, uint32_t height, dc1394color_filter_t tile,
-                           dc1394bayer_method_t method);
+dc1394error_t dc1394_bayer_decoding_8bit(const uint8_t *bayer, uint8_t *rgb, uint32_t width, uint32_t height,
+                                         dc1394color_filter_t tile, dc1394bayer_method_t method);
 
 /**
  * Perform de-mosaicing on an 16-bit image buffer
  */
-dc1394error_t
-dc1394_bayer_decoding_16bit(const uint16_t * bayer, uint16_t * rgb,
-                            uint32_t width, uint32_t height, dc1394color_filter_t tile,
-                            dc1394bayer_method_t method, uint32_t bits);
+dc1394error_t dc1394_bayer_decoding_16bit(const uint16_t *bayer, uint16_t *rgb, uint32_t width, uint32_t height,
+                                          dc1394color_filter_t tile, dc1394bayer_method_t method, uint32_t bits);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif      /* BAYER_H */
+#endif /* BAYER_H */

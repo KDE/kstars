@@ -28,43 +28,33 @@ class SkyNode;
  */
 class TrixelNode : public SkyOpacityNode
 {
-    public:
-        /** Constructor. **/
-        TrixelNode(Trixel trixel);
+  public:
+    /** Constructor. **/
+    TrixelNode(Trixel trixel);
 
-        /** m_hideCount is a counter of how much updates of SkyMapLite this trixel remained
+    /** m_hideCount is a counter of how much updates of SkyMapLite this trixel remained
             hidden. Used to reduce memory consumption**/
-        inline int hideCount()
-        {
-            return m_hideCount;
-        }
+    inline int hideCount() { return m_hideCount; }
 
-        /** Whenever the corresponding trixel is visible, m_hideCount is reset */
-        inline void resetHideCount()
-        {
-            m_hideCount = 0;
-        }
+    /** Whenever the corresponding trixel is visible, m_hideCount is reset */
+    inline void resetHideCount() { m_hideCount = 0; }
 
-        void virtual hide() override;
-        void virtual show() override;
+    void virtual hide() override;
+    void virtual show() override;
 
-        inline Trixel trixelID()
-        {
-            return m_trixel;
-        }
+    inline Trixel trixelID() { return m_trixel; }
 
-        /**
+    /**
          * @short m_nodes - holds SkyNodes with corresponding SkyObjects
          */
-        QLinkedList<QPair<SkyObject *, SkyNode *>> m_nodes;
+    QLinkedList<QPair<SkyObject *, SkyNode *>> m_nodes;
 
-        /** @short Delete all childNodes and remove nodes from pairs in m_nodes **/
-        virtual void deleteAllChildNodes();
+    /** @short Delete all childNodes and remove nodes from pairs in m_nodes **/
+    virtual void deleteAllChildNodes();
 
-    private:
-        Trixel m_trixel;
-        int m_hideCount;
+  private:
+    Trixel m_trixel;
+    int m_hideCount;
 };
-
 
 #endif

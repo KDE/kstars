@@ -24,7 +24,7 @@
 #include "kstarsdata.h"
 #include "Options.h"
 
-WIEquipSettings::WIEquipSettings(): QFrame(KStars::Instance())
+WIEquipSettings::WIEquipSettings() : QFrame(KStars::Instance())
 {
     setupUi(this);
 
@@ -45,9 +45,9 @@ void WIEquipSettings::populateScopeListWidget()
     ScopeListWidget->clear();
     ///Get telescope list from KStars user database.
     KStars::Instance()->data()->userdb()->GetAllScopes(m_ScopeList);
-    foreach(OAL::Scope * scope, m_ScopeList)
+    foreach (OAL::Scope *scope, m_ScopeList)
     {
-        QListWidgetItem * scopeItem = new QListWidgetItem;
+        QListWidgetItem *scopeItem = new QListWidgetItem;
         scopeItem->setText(scope->vendor());
         scopeItem->setData(Vendor, scope->vendor());
         scopeItem->setData(Model, scope->model());
@@ -57,7 +57,8 @@ void WIEquipSettings::populateScopeListWidget()
 
         ScopeListWidget->addItem(scopeItem);
     }
-    if (ScopeListWidget->count() == 0) return;
+    if (ScopeListWidget->count() == 0)
+        return;
 
     vendorText->setText(ScopeListWidget->item(0)->data(Vendor).toString());
     modelText->setText(ScopeListWidget->item(0)->data(Model).toString());
@@ -83,7 +84,7 @@ void WIEquipSettings::slotScopeSelected(int row)
     if (row == -1)
         return;
 
-    QListWidgetItem * item = ScopeListWidget->item(row);
+    QListWidgetItem *item = ScopeListWidget->item(row);
 
     if (item == nullptr)
         return;
@@ -106,12 +107,12 @@ void WIEquipSettings::slotAddNewScope()
     equipmentdlg.loadEquipment();
     equipmentdlg.exec();
 
-    populateScopeListWidget();       //Reload scope list widget
+    populateScopeListWidget(); //Reload scope list widget
 }
 
 void WIEquipSettings::setAperture()
 {
-    double telAperture = INVALID_APERTURE;
+    double telAperture  = INVALID_APERTURE;
     double binoAperture = INVALID_APERTURE;
 
     if (kcfg_TelescopeCheck->isChecked() && ScopeListWidget->selectedItems().isEmpty() == false)
@@ -166,5 +167,4 @@ void WIEquipSettings::setAperture()
         double binoAperture = kcfg_BinocularsAperture->value();
         m_Aperture = telAperture > binoAperture ? telAperture : binoAperture;
     }*/
-
 }

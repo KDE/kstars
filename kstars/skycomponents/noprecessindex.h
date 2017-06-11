@@ -27,25 +27,21 @@
  */
 class NoPrecessIndex : public LineListIndex
 {
-    public:
-        /** @short Constructor */
-        NoPrecessIndex( SkyComposite * parent, const QString &name );
+  public:
+    /** @short Constructor */
+    NoPrecessIndex(SkyComposite *parent, const QString &name);
 
-        //Moved to public because KStars Lite uses it
-        /** @ short override JITupdate so we don't perform the precession
+    //Moved to public because KStars Lite uses it
+    /** @ short override JITupdate so we don't perform the precession
          * correction, only rotation.
          */
-        void JITupdate( LineList * lineList ) Q_DECL_OVERRIDE;
-    protected:
+    void JITupdate(LineList *lineList) Q_DECL_OVERRIDE;
 
-        /** @short we need to use the buffer that does not have the
+  protected:
+    /** @short we need to use the buffer that does not have the
          * reverse-precession correction.
          */
-        MeshBufNum_t drawBuffer() Q_DECL_OVERRIDE
-        {
-            return NO_PRECESS_BUF;
-        }
+    MeshBufNum_t drawBuffer() Q_DECL_OVERRIDE { return NO_PRECESS_BUF; }
 };
-
 
 #endif

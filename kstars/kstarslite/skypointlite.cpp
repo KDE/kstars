@@ -16,13 +16,11 @@
 #include "skypointlite.h"
 #include "skyobject.h"
 
-SkyPointLite::SkyPointLite()
-    :point(nullptr)
+SkyPointLite::SkyPointLite() : point(nullptr)
 {
-
 }
 
-void SkyPointLite::setPoint(SkyPoint * p)
+void SkyPointLite::setPoint(SkyPoint *p)
 {
     point = p;
 }

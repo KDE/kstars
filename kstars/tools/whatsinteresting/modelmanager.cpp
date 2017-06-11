@@ -22,20 +22,21 @@
 #include "skyobject.h"
 #include <QtConcurrent>
 
-ModelManager::ModelManager(ObsConditions * obs)
+ModelManager::ModelManager(ObsConditions *obs)
 {
     m_ObsConditions = obs;
 
     tempModel = new SkyObjListModel();
 
-    m_ModelList = QList < SkyObjListModel *>();
-    m_ObjectList = QList< QList <SkyObjItem *> >();
+    m_ModelList  = QList<SkyObjListModel *>();
+    m_ObjectList = QList<QList<SkyObjItem *>>();
 
-    favoriteClusters = QList <SkyObjItem *>();
-    favoriteNebulas = QList <SkyObjItem *>();
-    favoriteGalaxies = QList <SkyObjItem *>();
+    favoriteClusters = QList<SkyObjItem *>();
+    favoriteNebulas  = QList<SkyObjItem *>();
+    favoriteGalaxies = QList<SkyObjItem *>();
 
-    for(int i=0;i<NumberOfLists;i++){
+    for (int i = 0; i < NumberOfLists; i++)
+    {
         m_ModelList.append(new SkyObjListModel());
         m_ObjectList.append(QList<SkyObjItem *>());
     }
@@ -46,29 +47,30 @@ ModelManager::ModelManager(ObsConditions * obs)
 ModelManager::~ModelManager()
 {
     qDeleteAll(m_ModelList);
-    foreach(QList<SkyObjItem *> list, m_ObjectList)
-       qDeleteAll(list);
+    foreach (QList<SkyObjItem *> list, m_ObjectList)
+        qDeleteAll(list);
     delete tempModel;
 }
 
 void ModelManager::loadLists()
 {
     emit loadProgressUpdated(0);
-    KStarsData * data = KStarsData::Instance();
+    KStarsData *data = KStarsData::Instance();
     QVector<QPair<QString, const SkyObject *>> listStars;
     listStars.append(data->skyComposite()->objectLists(SkyObject::STAR));
-    for(int i = 0; i < listStars.size(); i++)
+    for (int i = 0; i < listStars.size(); i++)
     {
         QPair<QString, const SkyObject *> pair = listStars.value(i);
-        const StarObject * star = dynamic_cast<const StarObject *>(pair.second);
-        if(star->hasLatinName())
+        const StarObject *star                 = dynamic_cast<const StarObject *>(pair.second);
+        if (star->hasLatinName())
             m_ObjectList[Stars].append(new SkyObjItem((SkyObject *)(star)));
     }
     QString prevName;
-    for(int i = 0; i < m_ObjectList[Stars].size(); i++)
+    for (int i = 0; i < m_ObjectList[Stars].size(); i++)
     {
-        SkyObjItem *star=m_ObjectList[Stars].at(i);
-        if(prevName==star->getName()){
+        SkyObjItem *star = m_ObjectList[Stars].at(i);
+        if (prevName == star->getName())
+        {
             m_ObjectList[Stars].removeAt(i);
             i--;
         }
@@ -76,7 +78,8 @@ void ModelManager::loadLists()
     }
 
     KSFileReader fileReader;
-    if (!fileReader.open("Interesting.dat")) return;
+    if (!fileReader.open("Interesting.dat"))
+        return;
 
     while (fileReader.hasMoreLines())
     {
@@ -85,11 +88,11 @@ void ModelManager::loadLists()
         if (line.length() == 0 || line[0] == '#')
             continue;
 
-        SkyObject * o;
+        SkyObject *o;
         if ((o = data->skyComposite()->findByName(line)))
         {
             //qDebug()<<o->longname()<<o->typeName();
-            switch(o->type())
+            switch (o->type())
             {
                 case SkyObject::OPEN_CLUSTER:
                 case SkyObject::GLOBULAR_CLUSTER:
@@ -137,87 +140,94 @@ void ModelManager::loadLists()
 
     emit loadProgressUpdated(0.90);
 
-
-    for(int i=1;i<=110;i++)
+    for (int i = 1; i <= 110; i++)
     {
-           SkyObject * o;
-           if ((o = data->skyComposite()->findByName("M " + QString::number(i))))
-               m_ObjectList[Messier].append(new SkyObjItem(o));
+        SkyObject *o;
+        if ((o = data->skyComposite()->findByName("M " + QString::number(i))))
+            m_ObjectList[Messier].append(new SkyObjItem(o));
     }
 
     emit loadProgressUpdated(1);
 }
 
-void ModelManager::loadNGCCatalog(){
-    KStarsData * data = KStarsData::Instance();
-    if(!ngcLoaded){
-        for(int i=1;i<=7840;i++)
+void ModelManager::loadNGCCatalog()
+{
+    KStarsData *data = KStarsData::Instance();
+    if (!ngcLoaded)
+    {
+        for (int i = 1; i <= 7840; i++)
         {
-            if(i%100==0)
-                emit loadProgressUpdated((double)i/7840.0);
-            SkyObject * o;
+            if (i % 100 == 0)
+                emit loadProgressUpdated((double)i / 7840.0);
+            SkyObject *o;
             if ((o = data->skyComposite()->findByName("NGC " + QString::number(i))))
                 m_ObjectList[NGC].append(new SkyObjItem(o));
         }
-        updateModel(m_ObsConditions,"ngc");
+        updateModel(m_ObsConditions, "ngc");
         emit loadProgressUpdated(1);
     }
     ngcLoaded = true;
 }
 
-void ModelManager::loadICCatalog(){
-    KStarsData * data = KStarsData::Instance();
-    if(!icLoaded){
-        for(int i=1;i<=3866;i++)
+void ModelManager::loadICCatalog()
+{
+    KStarsData *data = KStarsData::Instance();
+    if (!icLoaded)
+    {
+        for (int i = 1; i <= 3866; i++)
         {
-            if(i%100==0)
-                emit loadProgressUpdated((double)i/3866.0);
-            SkyObject * o;
+            if (i % 100 == 0)
+                emit loadProgressUpdated((double)i / 3866.0);
+            SkyObject *o;
             if ((o = data->skyComposite()->findByName("IC " + QString::number(i))))
                 m_ObjectList[IC].append(new SkyObjItem(o));
         }
-        updateModel(m_ObsConditions,"ic");
+        updateModel(m_ObsConditions, "ic");
         emit loadProgressUpdated(1);
     }
     icLoaded = true;
 }
 
-void ModelManager::loadSharplessCatalog(){
-    KStarsData * data = KStarsData::Instance();
-    if(!sharplessLoaded){
-        for(int i=1;i<=320;i++)
+void ModelManager::loadSharplessCatalog()
+{
+    KStarsData *data = KStarsData::Instance();
+    if (!sharplessLoaded)
+    {
+        for (int i = 1; i <= 320; i++)
         {
-            if(i%100==0)
-                emit loadProgressUpdated((double)i/320.0);
-            SkyObject * o;
+            if (i % 100 == 0)
+                emit loadProgressUpdated((double)i / 320.0);
+            SkyObject *o;
             if ((o = data->skyComposite()->findByName("Sh2 " + QString::number(i))))
                 m_ObjectList[Sharpless].append(new SkyObjItem(o));
         }
-        updateModel(m_ObsConditions,"sharpless");
+        updateModel(m_ObsConditions, "sharpless");
         emit loadProgressUpdated(1);
     }
     sharplessLoaded = true;
 }
 
-void ModelManager::updateAllModels(ObsConditions * obs)
+void ModelManager::updateAllModels(ObsConditions *obs)
 {
     m_ObsConditions = obs;
     resetAllModels();
 
-    for(int i=0;i<NumberOfLists;i++)
+    for (int i = 0; i < NumberOfLists; i++)
         loadObjectsIntoModel(*m_ModelList[i], m_ObjectList[i]);
 }
 
-void ModelManager::updateModel(ObsConditions * obs, QString modelName){
-    m_ObsConditions = obs;
-    SkyObjListModel * model = returnModel(modelName);
-    if(model){
+void ModelManager::updateModel(ObsConditions *obs, QString modelName)
+{
+    m_ObsConditions        = obs;
+    SkyObjListModel *model = returnModel(modelName);
+    if (model)
+    {
         model->resetModel();
-        if(showOnlyFavorites && modelName=="galaxies")
+        if (showOnlyFavorites && modelName == "galaxies")
             loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], favoriteGalaxies);
-        else if(showOnlyFavorites && modelName=="nebulas")
+        else if (showOnlyFavorites && modelName == "nebulas")
             loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], favoriteNebulas);
-        else if(showOnlyFavorites && modelName=="clusters")
+        else if (showOnlyFavorites && modelName == "clusters")
             loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], favoriteClusters);
         else
             loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], m_ObjectList[getModelNumber(modelName)]);
@@ -225,22 +235,24 @@ void ModelManager::updateModel(ObsConditions * obs, QString modelName){
     }
 }
 
-void ModelManager::loadObjectList(QList<SkyObjItem *> & skyObjectList, int type){
-    KStarsData * data = KStarsData::Instance();
-    QVector<QPair<QString, const SkyObject *>> objects = data->skyComposite()->objectLists( type );
+void ModelManager::loadObjectList(QList<SkyObjItem *> &skyObjectList, int type)
+{
+    KStarsData *data                                   = KStarsData::Instance();
+    QVector<QPair<QString, const SkyObject *>> objects = data->skyComposite()->objectLists(type);
 
-    for(int i = 0; i < objects.size(); i++)
+    for (int i = 0; i < objects.size(); i++)
     {
         QPair<QString, const SkyObject *> pair = objects.value(i);
-        const SkyObject * listObject = dynamic_cast<const SkyObject *>(pair.second);
-        if(listObject->name() != "Sun")
+        const SkyObject *listObject            = dynamic_cast<const SkyObject *>(pair.second);
+        if (listObject->name() != "Sun")
             skyObjectList.append(new SkyObjItem((SkyObject *)(listObject)));
     }
     QString prevName;
-    for(int i = 0; i < skyObjectList.size(); i++)
+    for (int i = 0; i < skyObjectList.size(); i++)
     {
-        SkyObjItem *obj=skyObjectList.at(i);
-        if(prevName==obj->getName()){
+        SkyObjItem *obj = skyObjectList.at(i);
+        if (prevName == obj->getName())
+        {
             skyObjectList.removeAt(i);
             i--;
         }
@@ -248,60 +260,64 @@ void ModelManager::loadObjectList(QList<SkyObjItem *> & skyObjectList, int type)
     }
 }
 
-void ModelManager::loadObjectsIntoModel(SkyObjListModel & model, QList<SkyObjItem *> &skyObjectList){
-    KStarsData * data = KStarsData::Instance();
+void ModelManager::loadObjectsIntoModel(SkyObjListModel &model, QList<SkyObjItem *> &skyObjectList)
+{
+    KStarsData *data = KStarsData::Instance();
 
-    foreach (SkyObjItem * soitem, skyObjectList)
+    foreach (SkyObjItem *soitem, skyObjectList)
     {
-        bool isVisible = (showOnlyVisible) ? (m_ObsConditions->isVisible(data->geo(), data->lst(), soitem->getSkyObject())) : true;
-        if(isVisible)
+        bool isVisible =
+            (showOnlyVisible) ? (m_ObsConditions->isVisible(data->geo(), data->lst(), soitem->getSkyObject())) : true;
+        if (isVisible)
             model.addSkyObject(soitem);
     }
 }
 
 void ModelManager::resetAllModels()
 {
-    foreach(SkyObjListModel * model, m_ModelList)
+    foreach (SkyObjListModel *model, m_ModelList)
         model->resetModel();
 }
 
-int ModelManager::getModelNumber(QString modelName){
-    if(modelName=="planets")
+int ModelManager::getModelNumber(QString modelName)
+{
+    if (modelName == "planets")
         return Planets;
-    if(modelName=="stars")
+    if (modelName == "stars")
         return Stars;
-    if(modelName=="constellations")
+    if (modelName == "constellations")
         return Constellations;
-    if(modelName=="galaxies")
+    if (modelName == "galaxies")
         return Galaxies;
-    if(modelName=="clusters")
+    if (modelName == "clusters")
         return Clusters;
-    if(modelName=="nebulas")
+    if (modelName == "nebulas")
         return Nebulas;
-    if(modelName=="asteroids")
+    if (modelName == "asteroids")
         return Asteroids;
-    if(modelName=="comets")
+    if (modelName == "comets")
         return Comets;
-    if(modelName=="supernovas")
+    if (modelName == "supernovas")
         return Supernovas;
-    if(modelName=="satellites")
+    if (modelName == "satellites")
         return Satellites;
-    if(modelName=="messier")
+    if (modelName == "messier")
         return Messier;
-    if(modelName=="ngc")
+    if (modelName == "ngc")
         return NGC;
-    if(modelName=="ic")
+    if (modelName == "ic")
         return IC;
-    if(modelName=="sharpless")
+    if (modelName == "sharpless")
         return Sharpless;
-    else return -1;
+    else
+        return -1;
 }
 
-SkyObjListModel * ModelManager::returnModel(QString modelName)
+SkyObjListModel *ModelManager::returnModel(QString modelName)
 {
-        int modelNumber = getModelNumber(modelName);
-        if(modelNumber > -1 && modelNumber < NumberOfLists)
-            return m_ModelList[modelNumber];
-        else
-            return tempModel;
+    int modelNumber = getModelNumber(modelName);
+    if (modelNumber > -1 && modelNumber < NumberOfLists)
+        return m_ModelList[modelNumber];
+    else
+        return tempModel;
 }

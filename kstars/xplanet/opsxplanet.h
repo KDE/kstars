@@ -23,26 +23,26 @@ class KStars;
 
 class OpsXplanet : public QFrame, public Ui::OpsXplanet
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        explicit OpsXplanet( KStars * _ks );
-        ~OpsXplanet();
+  public:
+    explicit OpsXplanet(KStars *_ks);
+    ~OpsXplanet();
 
-    private:
-        KStars * ksw;
+  private:
+    KStars *ksw;
 
-    private slots:
-        void slotUpdateWidgets( bool on );
-        void slotConfigFileWidgets( bool on );
-        void slotStarmapFileWidgets( bool on );
-        void slotArcFileWidgets( bool on );
-        void slotLabelWidgets( bool on );
-        void slotMarkerFileWidgets( bool on );
-        void slotMarkerBoundsWidgets( bool on );
-        void slotProjectionWidgets( int index );
-        void slotBackgroundWidgets( bool on );
-        void toggleXPlanetInternal();
+  private slots:
+    void slotUpdateWidgets(bool on);
+    void slotConfigFileWidgets(bool on);
+    void slotStarmapFileWidgets(bool on);
+    void slotArcFileWidgets(bool on);
+    void slotLabelWidgets(bool on);
+    void slotMarkerFileWidgets(bool on);
+    void slotMarkerBoundsWidgets(bool on);
+    void slotProjectionWidgets(int index);
+    void slotBackgroundWidgets(bool on);
+    void toggleXPlanetInternal();
 };
 
 #endif // OPSGUIDES_H_

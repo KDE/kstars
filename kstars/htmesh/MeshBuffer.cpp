@@ -4,18 +4,16 @@
 #include "HTMesh.h"
 #include "MeshBuffer.h"
 
-MeshBuffer::MeshBuffer(HTMesh * mesh)
+MeshBuffer::MeshBuffer(HTMesh *mesh)
 {
-
-    m_size= 0;
-    m_error = 0;
-    maxSize = mesh->size();
-    m_buffer = (Trixel *) malloc( sizeof(Trixel) * maxSize );
+    m_size   = 0;
+    m_error  = 0;
+    maxSize  = mesh->size();
+    m_buffer = (Trixel *)malloc(sizeof(Trixel) * maxSize);
 
     if (m_buffer == nullptr)
     {
-        fprintf(stderr, "MeshBuffer: Could not allocate buffer sized %d\n",
-                maxSize * (int) sizeof(Trixel) );
+        fprintf(stderr, "MeshBuffer: Could not allocate buffer sized %d\n", maxSize * (int)sizeof(Trixel));
         exit(1);
     }
 }

@@ -40,83 +40,76 @@ class ClientManager : public INDI::BaseClientQt
 class ClientManager : public QObject, public INDI::BaseClient
 #endif
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        ClientManager();
-        virtual ~ClientManager();
+  public:
+    ClientManager();
+    virtual ~ClientManager();
 
-        /**
+    /**
          * @brief appendManagedDriver Add driver to pool of managed drivers by this client manager.
          * @param dv pointer to driver info instance.
          * @note This function is ALWAYS called from the main KStars thread.
          */
-        void appendManagedDriver(DriverInfo * dv);
+    void appendManagedDriver(DriverInfo *dv);
 
-        /**
+    /**
          * @brief removeManagedDriver Remove managed driver from pool of drivers managed by this client manager.
          * @param dv pointer to driver info instance.
          * @note This function is ALWAYS called from the main KStars thread.
          */
-        void removeManagedDriver(DriverInfo * dv);
+    void removeManagedDriver(DriverInfo *dv);
 
-        int count()
-        {
-            return managedDrivers.count();
-        }
+    int count() { return managedDrivers.count(); }
 
-        ServerManager * getServerManager()
-        {
-            return sManager;
-        }
+    ServerManager *getServerManager() { return sManager; }
 
-        DriverInfo * findDriverInfoByName(const QString &name);
-        DriverInfo * findDriverInfoByLabel(const QString &label);
+    DriverInfo *findDriverInfoByName(const QString &name);
+    DriverInfo *findDriverInfoByLabel(const QString &label);
 
-        bool isDriverManaged(DriverInfo *);
+    bool isDriverManaged(DriverInfo *);
 
-        QList<DriverInfo *> getManagedDrivers() const;
+    QList<DriverInfo *> getManagedDrivers() const;
 
-    protected:
-        virtual void newDevice(INDI::BaseDevice * dp);
-        virtual void newProperty(INDI::Property * prop);
-        virtual void removeProperty(INDI::Property * prop);
-        virtual void removeDevice(INDI::BaseDevice * dp);
-        virtual void newBLOB(IBLOB * bp);
-        virtual void newSwitch(ISwitchVectorProperty * svp);
-        virtual void newNumber(INumberVectorProperty *);
-        virtual void newText(ITextVectorProperty *);
-        virtual void newLight(ILightVectorProperty *);
-        virtual void newMessage(INDI::BaseDevice * dp, int messageID);
+  protected:
+    virtual void newDevice(INDI::BaseDevice *dp);
+    virtual void newProperty(INDI::Property *prop);
+    virtual void removeProperty(INDI::Property *prop);
+    virtual void removeDevice(INDI::BaseDevice *dp);
+    virtual void newBLOB(IBLOB *bp);
+    virtual void newSwitch(ISwitchVectorProperty *svp);
+    virtual void newNumber(INumberVectorProperty *);
+    virtual void newText(ITextVectorProperty *);
+    virtual void newLight(ILightVectorProperty *);
+    virtual void newMessage(INDI::BaseDevice *dp, int messageID);
 
-        virtual void serverConnected();
-        virtual void serverDisconnected(int exit_code);
+    virtual void serverConnected();
+    virtual void serverDisconnected(int exit_code);
 
-    private:
+  private:
+    QList<DriverInfo *> managedDrivers;
+    ServerManager *sManager;
 
-        QList<DriverInfo *> managedDrivers;
-        ServerManager * sManager;
+  signals:
+    void connectionSuccessful();
+    void connectionFailure(ClientManager *);
 
-    signals:
-        void connectionSuccessful();
-        void connectionFailure(ClientManager *);
+    // @note If using INDI Posix client, the following newINDIDevice/Property and removeINDIDevice/Property signals
+    // must be connected to slots using Qt::BlockingQueuedConnection to ensure operation is fully completed before
+    // resuming the INDI client thread. For Qt Based INDI client, Qt::DirectConnection should be used.
 
-        // @note If using INDI Posix client, the following newINDIDevice/Property and removeINDIDevice/Property signals
-        // must be connected to slots using Qt::BlockingQueuedConnection to ensure operation is fully completed before
-        // resuming the INDI client thread. For Qt Based INDI client, Qt::DirectConnection should be used.
+    void newINDIDevice(DeviceInfo *dv);
+    void removeINDIDevice(DeviceInfo *dv);
 
-        void newINDIDevice(DeviceInfo * dv);
-        void removeINDIDevice(DeviceInfo * dv);
+    void newINDIProperty(INDI::Property *prop);
+    void removeINDIProperty(INDI::Property *prop);
 
-        void newINDIProperty(INDI::Property * prop);
-        void removeINDIProperty(INDI::Property * prop);
-
-        void newINDIBLOB(IBLOB * bp);
-        void newINDISwitch(ISwitchVectorProperty * svp);
-        void newINDINumber(INumberVectorProperty * nvp);
-        void newINDIText(ITextVectorProperty * tvp);
-        void newINDILight(ILightVectorProperty * lvp);
-        void newINDIMessage(INDI::BaseDevice * dp, int messageID);
+    void newINDIBLOB(IBLOB *bp);
+    void newINDISwitch(ISwitchVectorProperty *svp);
+    void newINDINumber(INumberVectorProperty *nvp);
+    void newINDIText(ITextVectorProperty *tvp);
+    void newINDILight(ILightVectorProperty *lvp);
+    void newINDIMessage(INDI::BaseDevice *dp, int messageID);
 };
 
 #endif // CLIENTMANAGER_H

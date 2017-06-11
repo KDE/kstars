@@ -21,9 +21,9 @@
 #include "projections/projector.h"
 #include "printing/legend.h"
 
-SkyMapQDraw::SkyMapQDraw( SkyMap * sm ) : QWidget( sm ), SkyMapDrawAbstract( sm )
+SkyMapQDraw::SkyMapQDraw(SkyMap *sm) : QWidget(sm), SkyMapDrawAbstract(sm)
 {
-    m_SkyPixmap = new QPixmap( width(), height() );
+    m_SkyPixmap = new QPixmap(width(), height());
 }
 
 SkyMapQDraw::~SkyMapQDraw()
@@ -31,16 +31,16 @@ SkyMapQDraw::~SkyMapQDraw()
     delete m_SkyPixmap;
 }
 
-void SkyMapQDraw::paintEvent( QPaintEvent * event )
+void SkyMapQDraw::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     // This is machinery to prevent multiple concurrent paint events / recursive paint events
-    if( m_DrawLock )
+    if (m_DrawLock)
     {
         qDebug() << "I just prevented a recursive / concurrent draw!";
         return;
     }
-    setDrawLock( true );
+    setDrawLock(true);
 
     // JM 2016-05-03: Not needed since we're not using OpenGL for now
     //calculateFPS();
@@ -54,14 +54,14 @@ void SkyMapQDraw::paintEvent( QPaintEvent * event )
     if (!m_SkyMap->computeSkymap)
     {
         QPainter p;
-        p.begin( this );
-        p.drawLine(0,0,1,1); // Dummy operation to circumvent bug. TODO: Add details
-        p.drawPixmap( 0, 0, *m_SkyPixmap );
+        p.begin(this);
+        p.drawLine(0, 0, 1, 1); // Dummy operation to circumvent bug. TODO: Add details
+        p.drawPixmap(0, 0, *m_SkyPixmap);
         drawOverlays(p);
         p.end();
 
-        setDrawLock( false );
-        return ; // exit because the pixmap is repainted and that's all what we want
+        setDrawLock(false);
+        return; // exit because the pixmap is repainted and that's all what we want
     }
 
     // FIXME: used to notify infobox about possible change of object coordinates
@@ -82,31 +82,30 @@ void SkyMapQDraw::paintEvent( QPaintEvent * event )
     psky.setClipPath(path);
     psky.setClipping(true);
 
-    m_KStarsData->skyComposite()->draw( &psky );
+    m_KStarsData->skyComposite()->draw(&psky);
     //Finish up
     psky.end();
 
     QPainter psky2;
-    psky2.begin( this );
-    psky2.drawLine(0,0,1,1); // Dummy op.
-    psky2.drawPixmap( 0, 0, *m_SkyPixmap );
+    psky2.begin(this);
+    psky2.drawLine(0, 0, 1, 1); // Dummy op.
+    psky2.drawPixmap(0, 0, *m_SkyPixmap);
     drawOverlays(psky2);
     psky2.end();
 
-    if(m_SkyMap->m_previewLegend)
+    if (m_SkyMap->m_previewLegend)
     {
         m_SkyMap->m_legend.paintLegend(m_SkyPixmap);
     }
 
-    m_SkyMap->computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
+    m_SkyMap->computeSkymap = false; // use forceUpdate() to compute new skymap else old pixmap will be shown
 
-    setDrawLock( false );
-
+    setDrawLock(false);
 }
 
-void SkyMapQDraw::resizeEvent( QResizeEvent * e )
+void SkyMapQDraw::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
     delete m_SkyPixmap;
-    m_SkyPixmap = new QPixmap( width(), height() );
+    m_SkyPixmap = new QPixmap(width(), height());
 }

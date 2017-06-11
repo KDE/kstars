@@ -19,8 +19,8 @@
 #include "constellationartcomponent.h"
 #include "skynodes/constellationartnode.h"
 
-ConstellationArtItem::ConstellationArtItem(ConstellationArtComponent * artComp, RootNode * rootNode)
-    :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode), m_artComp(artComp)
+ConstellationArtItem::ConstellationArtItem(ConstellationArtComponent *artComp, RootNode *rootNode)
+    : SkyItem(LabelsItem::label_t::NO_LABEL, rootNode), m_artComp(artComp)
 {
     loadNodes();
 }
@@ -28,11 +28,11 @@ ConstellationArtItem::ConstellationArtItem(ConstellationArtComponent * artComp, 
 void ConstellationArtItem::deleteNodes()
 {
     m_artComp->deleteData();
-    QSGNode * n = firstChild();
-    while(n != 0)
+    QSGNode *n = firstChild();
+    while (n != 0)
     {
-        QSGNode * d = n;
-        n = n->nextSibling();
+        QSGNode *d = n;
+        n          = n->nextSibling();
         removeChildNode(d);
         delete d;
     }
@@ -41,12 +41,12 @@ void ConstellationArtItem::deleteNodes()
 void ConstellationArtItem::loadNodes()
 {
     m_artComp->loadData();
-    if(!childCount())
+    if (!childCount())
     {
-        QList<ConstellationsArt *>list = m_artComp->m_ConstList;
-        foreach(ConstellationsArt * art, list)
+        QList<ConstellationsArt *> list = m_artComp->m_ConstList;
+        foreach (ConstellationsArt *art, list)
         {
-            ConstellationArtNode * constArt = new ConstellationArtNode(art);
+            ConstellationArtNode *constArt = new ConstellationArtNode(art);
             appendChildNode(constArt);
         }
     }
@@ -54,17 +54,17 @@ void ConstellationArtItem::loadNodes()
 
 void ConstellationArtItem::update()
 {
-    if(Options::showConstellationArt())
+    if (Options::showConstellationArt())
     {
         loadNodes();
         if (SkyMapLite::IsSlewing() == false)
         {
             show();
             //Traverse all children nodes of RootNode
-            QSGNode * n = firstChild();
-            while(n != 0)
+            QSGNode *n = firstChild();
+            while (n != 0)
             {
-                ConstellationArtNode * artNode = static_cast<ConstellationArtNode *>(n);
+                ConstellationArtNode *artNode = static_cast<ConstellationArtNode *>(n);
                 artNode->update();
                 n = n->nextSibling();
             }

@@ -29,53 +29,26 @@
  */
 class OAL::Filter
 {
-    public:
-        Filter( const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &offset, const QString &color, const QString &exposure )
-        {
-            setFilter( id, model, vendor, type, offset, color, exposure );
-        }
-        QString id() const
-        {
-            return m_Id;
-        }
-        QString name() const
-        {
-            return m_Name;
-        }
-        QString model() const
-        {
-            return m_Model;
-        }
-        QString vendor() const
-        {
-            return m_Vendor;
-        }
-        QString type() const
-        {
-            return m_Type;
-        }
-        QString color() const
-        {
-            return m_Color;
-        }
-        QString offset() const
-        {
-            return m_Offset;
-        }
-        void setOffset(const QString &_offset)
-        {
-            m_Offset = _offset;
-        }
-        QString exposure() const
-        {
-            return m_Exposure;
-        }
-        void setExposure(const QString &_exposure)
-        {
-            m_Exposure = _exposure;
-        }
-        void setFilter( const QString &_id, const QString &_model, const QString &_vendor, const QString &_type, const QString &_offset, const QString &_color, const QString &_exposure );
-    private:
-        QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name, m_Offset, m_Exposure;
+  public:
+    Filter(const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &offset,
+           const QString &color, const QString &exposure)
+    {
+        setFilter(id, model, vendor, type, offset, color, exposure);
+    }
+    QString id() const { return m_Id; }
+    QString name() const { return m_Name; }
+    QString model() const { return m_Model; }
+    QString vendor() const { return m_Vendor; }
+    QString type() const { return m_Type; }
+    QString color() const { return m_Color; }
+    QString offset() const { return m_Offset; }
+    void setOffset(const QString &_offset) { m_Offset = _offset; }
+    QString exposure() const { return m_Exposure; }
+    void setExposure(const QString &_exposure) { m_Exposure = _exposure; }
+    void setFilter(const QString &_id, const QString &_model, const QString &_vendor, const QString &_type,
+                   const QString &_offset, const QString &_color, const QString &_exposure);
+
+  private:
+    QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name, m_Offset, m_Exposure;
 };
 #endif

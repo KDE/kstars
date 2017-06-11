@@ -26,17 +26,18 @@
 
 #include "kstars.h"
 
-OpsINDI::OpsINDI()
-    : QFrame(KStars::Instance())
+OpsINDI::OpsINDI() : QFrame(KStars::Instance())
 {
     setupUi(this);
 
     //Get a pointer to the KConfigDialog
-    m_ConfigDialog = KConfigDialog::exists( "settings" );
+    m_ConfigDialog = KConfigDialog::exists("settings");
 
-    selectFITSDirB->setIcon( QIcon::fromTheme( "document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")) );
+    selectFITSDirB->setIcon(
+        QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")));
     selectFITSDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    selectDriversDirB->setIcon( QIcon::fromTheme( "document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")) );
+    selectDriversDirB->setIcon(
+        QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")));
     selectDriversDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
 #ifdef Q_OS_OSX
@@ -45,9 +46,9 @@ OpsINDI::OpsINDI()
     connect(kcfg_indiDriversAreInternal, SIGNAL(clicked()), this, SLOT(toggleDriversInternal()));
     kcfg_indiDriversAreInternal->setToolTip(i18n("Internal or External INDI Drivers?"));
 
-    if(Options::indiServerIsInternal())
+    if (Options::indiServerIsInternal())
         kcfg_indiServer->setEnabled(false);
-    if(Options::indiDriversAreInternal())
+    if (Options::indiDriversAreInternal())
         kcfg_indiDriversDir->setEnabled(false);
 
 #else
@@ -65,13 +66,14 @@ OpsINDI::OpsINDI()
 #endif
 }
 
-
-OpsINDI::~OpsINDI() {}
+OpsINDI::~OpsINDI()
+{
+}
 
 void OpsINDI::toggleINDIInternal()
 {
     kcfg_indiServer->setEnabled(!kcfg_indiServerIsInternal->isChecked());
-    if(kcfg_indiServerIsInternal->isChecked())
+    if (kcfg_indiServerIsInternal->isChecked())
         kcfg_indiServer->setText("*Internal INDI Server*");
     else
         kcfg_indiServer->setText(KSUtils::getDefaultPath("indiServer"));
@@ -80,7 +82,7 @@ void OpsINDI::toggleINDIInternal()
 void OpsINDI::toggleDriversInternal()
 {
     kcfg_indiDriversDir->setEnabled(!kcfg_indiDriversAreInternal->isChecked());
-    if(kcfg_indiDriversAreInternal->isChecked())
+    if (kcfg_indiDriversAreInternal->isChecked())
         kcfg_indiDriversDir->setText("*Internal INDI Drivers*");
     else
         kcfg_indiDriversDir->setText(KSUtils::getDefaultPath("indiDriversDir"));
@@ -90,7 +92,8 @@ void OpsINDI::toggleDriversInternal()
 
 void OpsINDI::saveFITSDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Default Directory"), kcfg_fitsDir->text());
+    QString dir =
+        QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Default Directory"), kcfg_fitsDir->text());
 
     if (!dir.isEmpty())
         kcfg_fitsDir->setText(dir);
@@ -98,7 +101,8 @@ void OpsINDI::saveFITSDirectory()
 
 void OpsINDI::saveDriversDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("INDI Drivers Directory"), kcfg_indiDriversDir->text());
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("INDI Drivers Directory"),
+                                                    kcfg_indiDriversDir->text());
 
     if (!dir.isEmpty())
     {
@@ -127,4 +131,3 @@ void OpsINDI::verifyINDIServer()
 
     KSNotification::error(i18n("%1 is not a valid INDI server binary!", kcfg_indiServer->text()));
 }
-

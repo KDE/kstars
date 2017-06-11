@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #ifndef KSCONJUNCT_H_
 #define KSCONJUNCT_H_
 
@@ -44,31 +43,31 @@ class dms;
   *@version 1.0
   */
 
-class KSConjunct :public QObject
+class KSConjunct : public QObject
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        /**
+  public:
+    /**
           *Constructor.  Instantiates a KSNumbers for internal computations.
           */
 
-        KSConjunct();
+    KSConjunct();
 
-        /**
+    /**
          *Destructor.  (Empty)
          */
 
-        ~KSConjunct() { }
+    ~KSConjunct() {}
 
-        /**
+    /**
          *@short Sets the geographic location to compute conjunctions at
          *
          *@param geo  Pointer to the GeoLocation object
          */
-        void setGeoLocation( GeoLocation * geo );
+    void setGeoLocation(GeoLocation *geo);
 
-        /**
+    /**
          *@short Compute the closest approach of two planets in the given range
          *
          *@param Object1  A copy of the class corresponding to one of the two bodies
@@ -81,14 +80,14 @@ class KSConjunct :public QObject
          *@return Hash containing julian days of close conjunctions against separation
          */
 
-        QMap<long double, dms> findClosestApproach(SkyObject &Object1, KSPlanetBase &Object2, long double startJD, long double stopJD, dms maxSeparation, bool _opposition=false);
+    QMap<long double, dms> findClosestApproach(SkyObject &Object1, KSPlanetBase &Object2, long double startJD,
+                                               long double stopJD, dms maxSeparation, bool _opposition = false);
 
-    signals:
-        void madeProgress( int progress );
+  signals:
+    void madeProgress(int progress);
 
-    private:
-
-        /**
+  private:
+    /**
           *@short Finds the angular distance between two solar system objects.
           *
           *@param jd  Julian Day corresponding to the time of computation
@@ -98,12 +97,12 @@ class KSConjunct :public QObject
           *@return The angular distance between the two bodies.
           */
 
-        // TODO: Make pointers to Object1 and Object2 private objects instead of passing them to the methods again and again.
-        //       Should improve performance, at least marginally.
+    // TODO: Make pointers to Object1 and Object2 private objects instead of passing them to the methods again and again.
+    //       Should improve performance, at least marginally.
 
-        dms findDistance(long double jd, SkyObject * Object1, KSPlanetBase * Object2);
+    dms findDistance(long double jd, SkyObject *Object1, KSPlanetBase *Object2);
 
-        /**
+    /**
           *@short Compute the precise value of the extremum once the extremum has been detected.
           *
           *@param out  A pointer to a QPair that stores the Julian Day and Separation corresponding to the extremum
@@ -116,9 +115,10 @@ class KSConjunct :public QObject
           *@return true if the extremum is a minimum
           */
 
-        bool findPrecise(QPair<long double, dms> * out, SkyObject * Object1, KSPlanetBase * Object2, long double jd, double step, int prevSign);
+    bool findPrecise(QPair<long double, dms> *out, SkyObject *Object1, KSPlanetBase *Object2, long double jd,
+                     double step, int prevSign);
 
-        /**
+    /**
           *@short Return the sign of an angle
           *
           *@param a  The angle whose sign has to be returned
@@ -126,11 +126,10 @@ class KSConjunct :public QObject
           *@return (-1, 0, 1) if a.radians() is (-ve, zero, +ve)
           */
 
-        int sgn(dms a);
+    int sgn(dms a);
 
-        bool opposition;
-        GeoLocation * geoPlace;
+    bool opposition;
+    GeoLocation *geoPlace;
 };
 
 #endif
-

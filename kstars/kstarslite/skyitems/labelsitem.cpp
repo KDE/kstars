@@ -27,100 +27,99 @@
 #include "skymesh.h"
 #include "skynodes/trixelnode.h"
 
-LabelsItem::LabelsItem()
-    :m_rootNode(0)
+LabelsItem::LabelsItem() : m_rootNode(0)
 {
-    LabelTypeNode * stars = new LabelTypeNode;
+    LabelTypeNode *stars = new LabelTypeNode;
     appendChildNode(stars);
 
     //Add trixels to hold star labels
     int trixelNum = SkyMesh::Instance()->size();
 
-    for(int i = 0; i < trixelNum; ++i)
+    for (int i = 0; i < trixelNum; ++i)
     {
-        TrixelNode * trixel = new TrixelNode(i);
+        TrixelNode *trixel = new TrixelNode(i);
         stars->appendChildNode(trixel);
     }
 
     m_labelsLists.insert(label_t::STAR_LABEL, stars);
 
-    LabelTypeNode * catalog_stars = new LabelTypeNode;
+    LabelTypeNode *catalog_stars = new LabelTypeNode;
     appendChildNode(catalog_stars);
     m_labelsLists.insert(label_t::CATALOG_STAR_LABEL, catalog_stars);
 
-    LabelTypeNode * asteroids = new LabelTypeNode;
+    LabelTypeNode *asteroids = new LabelTypeNode;
     appendChildNode(asteroids);
     m_labelsLists.insert(label_t::ASTEROID_LABEL, asteroids);
 
-    LabelTypeNode * comets = new LabelTypeNode;
+    LabelTypeNode *comets = new LabelTypeNode;
     appendChildNode(comets);
     m_labelsLists.insert(label_t::COMET_LABEL, comets);
 
-    LabelTypeNode * planets = new LabelTypeNode;
+    LabelTypeNode *planets = new LabelTypeNode;
     appendChildNode(planets);
     m_labelsLists.insert(label_t::PLANET_LABEL, planets);
 
-    LabelTypeNode * jupiter_moons = new LabelTypeNode;
+    LabelTypeNode *jupiter_moons = new LabelTypeNode;
     appendChildNode(jupiter_moons);
     m_labelsLists.insert(label_t::JUPITER_MOON_LABEL, jupiter_moons);
 
-    LabelTypeNode * saturn_moons = new LabelTypeNode;
+    LabelTypeNode *saturn_moons = new LabelTypeNode;
     appendChildNode(saturn_moons);
     m_labelsLists.insert(label_t::SATURN_MOON_LABEL, saturn_moons);
 
-    LabelTypeNode * deep_sky = new LabelTypeNode;
+    LabelTypeNode *deep_sky = new LabelTypeNode;
     appendChildNode(deep_sky);
     m_labelsLists.insert(label_t::DEEP_SKY_LABEL, deep_sky);
 
-    LabelTypeNode * dso_messier = new LabelTypeNode;
+    LabelTypeNode *dso_messier = new LabelTypeNode;
     deep_sky->appendChildNode(dso_messier);
     m_labelsLists.insert(label_t::DSO_MESSIER_LABEL, dso_messier);
 
-    LabelTypeNode * dso_ngc = new LabelTypeNode;
+    LabelTypeNode *dso_ngc = new LabelTypeNode;
     deep_sky->appendChildNode(dso_ngc);
     m_labelsLists.insert(label_t::DSO_NGC_LABEL, dso_ngc);
 
-    LabelTypeNode * dso_ic = new LabelTypeNode;
+    LabelTypeNode *dso_ic = new LabelTypeNode;
     deep_sky->appendChildNode(dso_ic);
     m_labelsLists.insert(label_t::DSO_IC_LABEL, dso_ic);
 
-    LabelTypeNode * dso_other = new LabelTypeNode;
+    LabelTypeNode *dso_other = new LabelTypeNode;
     deep_sky->appendChildNode(dso_other);
     m_labelsLists.insert(label_t::DSO_OTHER_LABEL, dso_other);
 
-    LabelTypeNode * catalog_dso = new LabelTypeNode;
+    LabelTypeNode *catalog_dso = new LabelTypeNode;
     appendChildNode(catalog_dso);
     m_labelsLists.insert(label_t::CATALOG_DSO_LABEL, catalog_dso);
 
-    LabelTypeNode * constellation = new LabelTypeNode;
+    LabelTypeNode *constellation = new LabelTypeNode;
     appendChildNode(constellation);
     m_labelsLists.insert(label_t::CONSTEL_NAME_LABEL, constellation);
 
-    LabelTypeNode * satellite = new LabelTypeNode;
+    LabelTypeNode *satellite = new LabelTypeNode;
     appendChildNode(satellite);
     m_labelsLists.insert(label_t::SATELLITE_LABEL, satellite);
 
-    LabelTypeNode * rude = new LabelTypeNode;
+    LabelTypeNode *rude = new LabelTypeNode;
     appendChildNode(rude);
     m_labelsLists.insert(label_t::RUDE_LABEL, rude);
 
-    LabelTypeNode * num_label = new LabelTypeNode;
+    LabelTypeNode *num_label = new LabelTypeNode;
     appendChildNode(num_label);
     m_labelsLists.insert(label_t::NUM_LABEL_TYPES, num_label);
 
-    LabelTypeNode * horizon_label = new LabelTypeNode;
+    LabelTypeNode *horizon_label = new LabelTypeNode;
     appendChildNode(horizon_label);
     m_labelsLists.insert(label_t::HORIZON_LABEL, horizon_label);
 
-    LabelTypeNode * equator = new LabelTypeNode;
+    LabelTypeNode *equator = new LabelTypeNode;
     appendChildNode(equator);
     m_labelsLists.insert(label_t::EQUATOR_LABEL, equator);
 
-    LabelTypeNode * ecliptic = new LabelTypeNode;
+    LabelTypeNode *ecliptic = new LabelTypeNode;
     appendChildNode(ecliptic);
     m_labelsLists.insert(label_t::ECLIPTIC_LABEL, ecliptic);
 
-    LabelTypeNode * telescopeSymbol = new LabelTypeNode;
+    LabelTypeNode *telescopeSymbol = new LabelTypeNode;
     appendChildNode(telescopeSymbol);
     m_labelsLists.insert(label_t::TELESCOPE_SYMBOL, telescopeSymbol);
 
@@ -128,23 +127,23 @@ LabelsItem::LabelsItem()
     skyLabeler->reset();
 }
 
-LabelNode * LabelsItem::addLabel(SkyObject * skyObject, label_t labelType)
+LabelNode *LabelsItem::addLabel(SkyObject *skyObject, label_t labelType)
 {
-    LabelNode * label = new LabelNode(skyObject, labelType);
+    LabelNode *label = new LabelNode(skyObject, labelType);
     m_labelsLists.value(labelType)->appendChildNode(label);
     return label;
 }
 
-LabelNode * LabelsItem::addLabel(SkyObject * skyObject, label_t labelType, Trixel trixel)
+LabelNode *LabelsItem::addLabel(SkyObject *skyObject, label_t labelType, Trixel trixel)
 {
-    Q_ASSERT(labelType == STAR_LABEL || labelType == DSO_MESSIER_LABEL || labelType == DSO_NGC_LABEL
-             || labelType == DSO_IC_LABEL || labelType == DSO_OTHER_LABEL);
-    TrixelNode * triNode = static_cast<TrixelNode *>(m_labelsLists.value(labelType)->firstChild());
-    LabelNode * label = 0;
+    Q_ASSERT(labelType == STAR_LABEL || labelType == DSO_MESSIER_LABEL || labelType == DSO_NGC_LABEL ||
+             labelType == DSO_IC_LABEL || labelType == DSO_OTHER_LABEL);
+    TrixelNode *triNode = static_cast<TrixelNode *>(m_labelsLists.value(labelType)->firstChild());
+    LabelNode *label    = 0;
 
-    while(triNode != 0)
+    while (triNode != 0)
     {
-        if(triNode->trixelID() == trixel)
+        if (triNode->trixelID() == trixel)
         {
             label = new LabelNode(skyObject, labelType);
             triNode->appendChildNode(label);
@@ -155,30 +154,30 @@ LabelNode * LabelsItem::addLabel(SkyObject * skyObject, label_t labelType, Trixe
     return label;
 }
 
-LabelNode * LabelsItem::addLabel(QString name, label_t labelType)
+LabelNode *LabelsItem::addLabel(QString name, label_t labelType)
 {
-    LabelNode * label = new LabelNode(name, labelType);
+    LabelNode *label = new LabelNode(name, labelType);
     m_labelsLists.value(labelType)->appendChildNode(label);
     return label;
 }
 
-GuideLabelNode * LabelsItem::addGuideLabel(QString name, label_t labelType)
+GuideLabelNode *LabelsItem::addGuideLabel(QString name, label_t labelType)
 {
-    GuideLabelNode * label = new GuideLabelNode(name, labelType);
+    GuideLabelNode *label = new GuideLabelNode(name, labelType);
     m_labelsLists.value(labelType)->appendChildNode(label);
     return label;
 }
 
-TrixelNode * LabelsItem::addTrixel(label_t labelType, Trixel trixel)
+TrixelNode *LabelsItem::addTrixel(label_t labelType, Trixel trixel)
 {
-    TrixelNode * triNode = new TrixelNode(trixel);
+    TrixelNode *triNode = new TrixelNode(trixel);
     getLabelNode(labelType)->appendChildNode(triNode);
     return triNode;
 }
 
 void LabelsItem::update()
 {
-    SkyLabeler * skyLabeler = SkyLabeler::Instance();
+    SkyLabeler *skyLabeler = SkyLabeler::Instance();
     skyLabeler->reset();
 
     updateChildLabels(label_t::TELESCOPE_SYMBOL);
@@ -211,33 +210,37 @@ void LabelsItem::update()
 
 void LabelsItem::hideLabels(label_t labelType)
 {
-    if (labelType != NO_LABEL) m_labelsLists[labelType]->hide();
+    if (labelType != NO_LABEL)
+        m_labelsLists[labelType]->hide();
 }
 
 void LabelsItem::showLabels(label_t labelType)
 {
-    if (labelType != NO_LABEL) m_labelsLists[labelType]->show();
+    if (labelType != NO_LABEL)
+        m_labelsLists[labelType]->show();
 }
 
-void LabelsItem::setRootNode(RootNode * rootNode)
+void LabelsItem::setRootNode(RootNode *rootNode)
 {
     //Remove from previous parent if had any
-    if(m_rootNode && parent() == m_rootNode) m_rootNode->removeChildNode(this);
+    if (m_rootNode && parent() == m_rootNode)
+        m_rootNode->removeChildNode(this);
 
     //Append to new parent if haven't already
     m_rootNode = rootNode;
-    if(parent() != m_rootNode) m_rootNode->appendChildNode(this);
+    if (parent() != m_rootNode)
+        m_rootNode->appendChildNode(this);
 }
 
 void LabelsItem::deleteLabels(label_t labelType)
 {
-    if(labelType == STAR_LABEL)
+    if (labelType == STAR_LABEL)
     {
-        LabelTypeNode * node = m_labelsLists[labelType];
-        QSGNode * trixel = node->firstChild();
-        while(trixel != 0)
+        LabelTypeNode *node = m_labelsLists[labelType];
+        QSGNode *trixel     = node->firstChild();
+        while (trixel != 0)
         {
-            while(QSGNode * label = trixel->firstChild())
+            while (QSGNode *label = trixel->firstChild())
             {
                 trixel->removeChildNode(label);
                 delete label;
@@ -245,10 +248,10 @@ void LabelsItem::deleteLabels(label_t labelType)
             trixel = trixel->nextSibling();
         }
     }
-    else if(labelType != NO_LABEL)
+    else if (labelType != NO_LABEL)
     {
-        LabelTypeNode * node = m_labelsLists[labelType];
-        while(QSGNode * n = node->firstChild())
+        LabelTypeNode *node = m_labelsLists[labelType];
+        while (QSGNode *n = node->firstChild())
         {
             node->removeChildNode(n);
             delete n;
@@ -256,25 +259,25 @@ void LabelsItem::deleteLabels(label_t labelType)
     }
 }
 
-void LabelsItem::deleteLabel(LabelNode * label)
+void LabelsItem::deleteLabel(LabelNode *label)
 {
-    if(label)
+    if (label)
     {
-        label_t type = label->labelType();
-        LabelTypeNode * node = m_labelsLists[type];
+        label_t type        = label->labelType();
+        LabelTypeNode *node = m_labelsLists[type];
 
-        if(type == STAR_LABEL || type == DSO_IC_LABEL || type == DSO_NGC_LABEL || type == DSO_MESSIER_LABEL ||
-                type == DSO_OTHER_LABEL)
+        if (type == STAR_LABEL || type == DSO_IC_LABEL || type == DSO_NGC_LABEL || type == DSO_MESSIER_LABEL ||
+            type == DSO_OTHER_LABEL)
         {
-            QSGNode * trixel = node->firstChild();
-            bool found = false;
+            QSGNode *trixel = node->firstChild();
+            bool found      = false;
 
-            while(trixel != 0 && !found)
+            while (trixel != 0 && !found)
             {
-                QSGNode * l = trixel->firstChild();
-                while(l != 0)
+                QSGNode *l = trixel->firstChild();
+                while (l != 0)
                 {
-                    if(l == label)
+                    if (l == label)
                     {
                         trixel->removeChildNode(label);
                         delete label;
@@ -289,10 +292,10 @@ void LabelsItem::deleteLabel(LabelNode * label)
         }
         else
         {
-            QSGNode * n = node->firstChild();
-            while(n != 0)
+            QSGNode *n = node->firstChild();
+            while (n != 0)
             {
-                if(n == label)
+                if (n == label)
                 {
                     node->removeChildNode(label);
                     delete label;
@@ -306,25 +309,25 @@ void LabelsItem::deleteLabel(LabelNode * label)
 
 void LabelsItem::updateChildLabels(label_t labelType)
 {
-    LabelTypeNode * node = m_labelsLists[labelType];
-    if(node->visible())
+    LabelTypeNode *node = m_labelsLists[labelType];
+    if (node->visible())
     {
-        QSGNode * n = node->firstChild();
-        while( n != 0)
+        QSGNode *n = node->firstChild();
+        while (n != 0)
         {
-            if(labelType == STAR_LABEL || labelType == DSO_NGC_LABEL || labelType == DSO_MESSIER_LABEL
-                    || labelType == DSO_IC_LABEL || labelType == DSO_OTHER_LABEL)
+            if (labelType == STAR_LABEL || labelType == DSO_NGC_LABEL || labelType == DSO_MESSIER_LABEL ||
+                labelType == DSO_IC_LABEL || labelType == DSO_OTHER_LABEL)
             {
-                TrixelNode * trixel = static_cast<TrixelNode *>(n);
-                if(trixel->visible())
+                TrixelNode *trixel = static_cast<TrixelNode *>(n);
+                if (trixel->visible())
                 {
-                    QSGNode * l = trixel->firstChild();
-                    while(l != 0)
+                    QSGNode *l = trixel->firstChild();
+                    while (l != 0)
                     {
-                        LabelNode * label = static_cast<LabelNode *>(l);
-                        l = l->nextSibling();
+                        LabelNode *label = static_cast<LabelNode *>(l);
+                        l                = l->nextSibling();
 
-                        if(skyLabeler->markText(label->labelPos, label->name()))
+                        if (skyLabeler->markText(label->labelPos, label->name()))
                         {
                             label->update();
                         }
@@ -337,12 +340,13 @@ void LabelsItem::updateChildLabels(label_t labelType)
             }
             else
             {
-                LabelNode * label = static_cast<LabelNode *>(n);
+                LabelNode *label = static_cast<LabelNode *>(n);
 
-                if(label->visible())
+                if (label->visible())
                 {
-                    if(label->zoomFont()) skyLabeler->resetFont();
-                    if(skyLabeler->markText(label->labelPos, label->name()))
+                    if (label->zoomFont())
+                        skyLabeler->resetFont();
+                    if (skyLabeler->markText(label->labelPos, label->name()))
                     {
                         label->update();
                     }

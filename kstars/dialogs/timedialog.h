@@ -45,51 +45,51 @@ class GeoLocation;
 
 class TimeDialog : public QDialog
 {
-        Q_OBJECT
-    public:
-        /**
+    Q_OBJECT
+  public:
+    /**
         	*Constructor.  Creates widgets and packs them into QLayouts.
         	*Connects	Signals and Slots.
         	*/
-        TimeDialog( const KStarsDateTime &now, GeoLocation * _geo, QWidget * parent, bool UTCFrame=false );
+    TimeDialog(const KStarsDateTime &now, GeoLocation *_geo, QWidget *parent, bool UTCFrame = false);
 
-        /**
+    /**
         	*Destructor (empty)
         	*/
-        ~TimeDialog() {}
+    ~TimeDialog() {}
 
-        /** @returns a QTime object with the selected time
+    /** @returns a QTime object with the selected time
         	*/
-        QTime selectedTime( void );
+    QTime selectedTime(void);
 
-        /** @returns a QDate object with the selected date
+    /** @returns a QDate object with the selected date
         	*/
-        QDate selectedDate( void );
+    QDate selectedDate(void);
 
-        /** @returns a KStarsDateTime object with the selected date and time
+    /** @returns a KStarsDateTime object with the selected date and time
         	*/
-        KStarsDateTime selectedDateTime( void );
+    KStarsDateTime selectedDateTime(void);
 
-    public slots:
-        /**
+  public slots:
+    /**
         	*When the "Now" button is pressed, read the time and date
         	*from the system clock.  Change the selected date in the KDatePicker
         	*to the system's date, and the displayed time
         	*to the system time.
         	*/
-        void setNow( void );
+    void setNow(void);
 
-    protected:
-        void keyReleaseEvent( QKeyEvent * ) Q_DECL_OVERRIDE;
+  protected:
+    void keyReleaseEvent(QKeyEvent *) Q_DECL_OVERRIDE;
 
-    private:
-        bool UTCNow;
-        QHBoxLayout * hlay;
-        QVBoxLayout * vlay;
-        KDatePicker * dPicker;
-        QTimeEdit * tEdit;
-        QPushButton * NowButton;
-        GeoLocation * geo;
+  private:
+    bool UTCNow;
+    QHBoxLayout *hlay;
+    QVBoxLayout *vlay;
+    KDatePicker *dPicker;
+    QTimeEdit *tEdit;
+    QPushButton *NowButton;
+    GeoLocation *geo;
 };
 
 #endif

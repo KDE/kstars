@@ -15,16 +15,14 @@
 #include "scheduler.h"
 #include "ekos/ekosmanager.h"
 
-
 #include "Options.h"
 
 namespace Ekos
 {
-
 MosaicTile::MosaicTile()
 {
-    w=h=1;
-    fovW=fovH=pa=0;
+    w = h = 1;
+    fovW = fovH = pa = 0;
 
     brush.setStyle(Qt::NoBrush);
     pen.setColor(Qt::red);
@@ -44,12 +42,11 @@ MosaicTile::~MosaicTile()
 
 QRectF MosaicTile::boundingRect() const
 {
-    return QRectF(0, 0, w*fovW, h*fovH);
+    return QRectF(0, 0, w * fovW, h * fovH);
 }
 
-void MosaicTile::paint(QPainter * painter, const QStyleOptionGraphicsItem *, QWidget *)
+void MosaicTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-
     if (w == 1 && h == 1)
         return;
 
@@ -63,50 +60,41 @@ void MosaicTile::paint(QPainter * painter, const QStyleOptionGraphicsItem *, QWi
     //double center_x = parentItem()->boundingRect().center().x();
     // double center_y = parentItem()->boundingRect().center().y();
 
-
-//    painter->save();
+    //    painter->save();
     // QTransform transform;
     //transform.translate(center_x, center_y);
     //transform.rotate(pa);
     //transform.translate(-center_x, -center_y);
-//    transform.translate(0, 0);
-
-
+    //    transform.translate(0, 0);
 
     //painter->setTransform(transform);
 
-
-
-    for (int row=0; row < h; row++)
+    for (int row = 0; row < h; row++)
     {
-        for (int col=0; col < w; col++)
+        for (int col = 0; col < w; col++)
         {
-            OneTile * tile = getTile(row, col);
+            OneTile *tile = getTile(row, col);
             QRect oneRect(tile->pos.x(), tile->pos.y(), fovW, fovH);
 
             painter->setPen(pen);
             painter->setBrush(brush);
 
-
-
             painter->drawRect(oneRect);
             painter->setBrush(textBrush);
-            painter->drawText(oneRect, Qt::AlignHCenter | Qt::AlignVCenter, QString("%1").arg(row*w+col+1));
+            painter->drawText(oneRect, Qt::AlignHCenter | Qt::AlignVCenter, QString("%1").arg(row * w + col + 1));
 
             //painter->restore();
         }
     }
 
     //setRotation(pa);
-
 }
 QList<OneTile *> MosaicTile::getTiles() const
 {
     return tiles;
 }
 
-
-OneTile * MosaicTile::getTile(int row, int col)
+OneTile *MosaicTile::getTile(int row, int col)
 {
     int offset = row * w + col;
 
@@ -120,73 +108,74 @@ void MosaicTile::updateTiles()
 {
     qDeleteAll(tiles);
     tiles.clear();
-    double xOffset=fovW - fovW*overlap/100.0;
-    double yOffset=fovH - fovH*overlap/100.0;
+    double xOffset = fovW - fovW * overlap / 100.0;
+    double yOffset = fovH - fovH * overlap / 100.0;
 
-    double initX=fovW*overlap/100.0*(w-1) / 2.0;
-    double initY=fovH*overlap/100.0*(h-1) / 2.0;
+    double initX = fovW * overlap / 100.0 * (w - 1) / 2.0;
+    double initY = fovH * overlap / 100.0 * (h - 1) / 2.0;
 
-    double x= initX, y= initY;
+    double x = initX, y = initY;
 
     qDebug() << "FovW " << fovW << " FovH " << fovH;
-    qDebug() << "initX" << "initX " << initX << " initY " << initY;
+    qDebug() << "initX"
+             << "initX " << initX << " initY " << initY;
     qDebug() << "Offset X " << xOffset << " Y " << yOffset;
 
-    for (int row=0; row < h; row++)
+    for (int row = 0; row < h; row++)
     {
         x = initX;
 
-        for (int col=0; col < w; col++)
+        for (int col = 0; col < w; col++)
         {
-            OneTile * tile = new OneTile();
+            OneTile *tile = new OneTile();
             tile->pos.setX(x);
             tile->pos.setY(y);
 
-            tile->center.setX(tile->pos.x() + (fovW/2.0));
-            tile->center.setY(tile->pos.y() + (fovH/2.0));
+            tile->center.setX(tile->pos.x() + (fovW / 2.0));
+            tile->center.setY(tile->pos.y() + (fovH / 2.0));
 
             tiles.append(tile);
 
             x += xOffset;
-
         }
 
         y += yOffset;
     }
 
-    double width  = (w*fovW - ( (w-1) * fovW*overlap/100.0)) + initX*2;
-    double height = (h*fovH - ( (h-1) * fovH*overlap/100.0)) + initY*2;
+    double width  = (w * fovW - ((w - 1) * fovW * overlap / 100.0)) + initX * 2;
+    double height = (h * fovH - ((h - 1) * fovH * overlap / 100.0)) + initY * 2;
 
-    QPointF centerPoint(width/2.0, height/2.0);
+    QPointF centerPoint(width / 2.0, height / 2.0);
 
-    for (int row=0; row < h; row++)
+    for (int row = 0; row < h; row++)
     {
-        for (int col=0; col < w; col++)
+        for (int col = 0; col < w; col++)
         {
-            OneTile * tile = getTile(row, col);
+            OneTile *tile    = getTile(row, col);
             tile->center_rot = rotatePoint(tile->center, centerPoint);
         }
     }
-
 }
 
 QPointF MosaicTile::rotatePoint(QPointF pointToRotate, QPointF centerPoint)
 {
     double angleInRadians = pa * dms::DegToRad;
-    double cosTheta = cos(angleInRadians);
-    double sinTheta = sin(angleInRadians);
+    double cosTheta       = cos(angleInRadians);
+    double sinTheta       = sin(angleInRadians);
 
     QPointF rotation_point;
 
-    rotation_point.setX((cosTheta * (pointToRotate.x() - centerPoint.x()) - sinTheta * (pointToRotate.y() - centerPoint.y()) + centerPoint.x()));
-    rotation_point.setY((sinTheta * (pointToRotate.x() - centerPoint.x()) + cosTheta * (pointToRotate.y() - centerPoint.y()) + centerPoint.y()));
+    rotation_point.setX((cosTheta * (pointToRotate.x() - centerPoint.x()) -
+                         sinTheta * (pointToRotate.y() - centerPoint.y()) + centerPoint.x()));
+    rotation_point.setY((sinTheta * (pointToRotate.x() - centerPoint.x()) +
+                         cosTheta * (pointToRotate.y() - centerPoint.y()) + centerPoint.y()));
 
     return rotation_point;
 }
 
 QPointF MosaicTile::getTileCenter(int row, int col)
 {
-    OneTile * tile = getTile(row, col);
+    OneTile *tile = getTile(row, col);
 
     if (tile != nullptr)
         return tile->center_rot;
@@ -194,7 +183,7 @@ QPointF MosaicTile::getTileCenter(int row, int col)
     return QPointF();
 }
 
-Mosaic::Mosaic(Scheduler * scheduler)
+Mosaic::Mosaic(Scheduler *scheduler)
 {
     setupUi(this);
 
@@ -222,18 +211,16 @@ Mosaic::Mosaic(Scheduler * scheduler)
     scene.addItem(mosaicTile);
     mosaicView->setScene(&scene);
 
-    selectJobsDirB->setIcon(QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")));
+    selectJobsDirB->setIcon(
+        QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")));
 
     //mosaicView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
 
-
     // scene.addItem(mosaicTile);
-
 }
 
 Mosaic::~Mosaic()
 {
-
 }
 
 void Mosaic::saveJobsDirectory()
@@ -247,7 +234,7 @@ void Mosaic::saveJobsDirectory()
 void Mosaic::setCenter(const SkyPoint &value)
 {
     center = value;
-    center.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
+    center.apparentCoord((long double)J2000, KStars::Instance()->data()->ut().djd());
 }
 
 void Mosaic::setCameraSize(uint16_t width, uint16_t height)
@@ -256,20 +243,21 @@ void Mosaic::setCameraSize(uint16_t width, uint16_t height)
     cameraHSpin->setValue(height);
 }
 
-void  Mosaic::setPixelSize(double pixelWSize, double pixelHSize)
+void Mosaic::setPixelSize(double pixelWSize, double pixelHSize)
 {
     pixelWSizeSpin->setValue(pixelWSize);
     pixelHSizeSpin->setValue(pixelHSize);
 }
 
-void  Mosaic::setFocalLength(double focalLength)
+void Mosaic::setFocalLength(double focalLength)
 {
     focalLenSpin->setValue(focalLength);
 }
 
 void Mosaic::calculateFOV()
 {
-    if (cameraWSpin->value() == 0 || cameraHSpin->value() == 0 || pixelWSizeSpin->value() == 0 || pixelHSizeSpin->value() == 0 || focalLenSpin->value() == 0)
+    if (cameraWSpin->value() == 0 || cameraHSpin->value() == 0 || pixelWSizeSpin->value() == 0 ||
+        pixelHSizeSpin->value() == 0 || focalLenSpin->value() == 0)
         return;
 
     fovGroup->setEnabled(true);
@@ -284,8 +272,10 @@ void Mosaic::calculateFOV()
     Options::setCameraHeight(cameraHSpin->value());
 
     // Calculate FOV in arcmins
-    double fov_x = 206264.8062470963552 * cameraWSpin->value() * pixelWSizeSpin->value() / 60000.0 / focalLenSpin->value();
-    double fov_y = 206264.8062470963552 * cameraHSpin->value() * pixelHSizeSpin->value() / 60000.0 / focalLenSpin->value();
+    double fov_x =
+        206264.8062470963552 * cameraWSpin->value() * pixelWSizeSpin->value() / 60000.0 / focalLenSpin->value();
+    double fov_y =
+        206264.8062470963552 * cameraHSpin->value() * pixelHSizeSpin->value() / 60000.0 / focalLenSpin->value();
 
     cameraWFOVSpin->setValue(fov_x);
     cameraHFOVSpin->setValue(fov_y);
@@ -301,16 +291,15 @@ void Mosaic::calculateFOV()
 
 void Mosaic::updateTargetFOV()
 {
-    KStars * ks = KStars::Instance();
-    SkyMap * map = SkyMap::Instance();
+    KStars *ks  = KStars::Instance();
+    SkyMap *map = SkyMap::Instance();
 
     // Save the current state of the sky map
     //SkyPoint *oldFocus = map->focus();
     double oldZoomFactor = Options::zoomFactor();
 
-
     // Get double the target FOV
-    ks->setApproxFOV( targetWFOVSpin->value()*2 / 60.0 );
+    ks->setApproxFOV(targetWFOVSpin->value() * 2 / 60.0);
     //    map->setFocus( sp ); // FIXME: Why does setFocus() need a non-const SkyPoint pointer?
 
     center.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -328,7 +317,7 @@ void Mosaic::updateTargetFOV()
 
     pixelPerArcmin = Options::zoomFactor() * dms::DegToRad / 60.0;
 
-    double fov_w = map->width()  / pixelPerArcmin;
+    double fov_w = map->width() / pixelPerArcmin;
     double fov_h = map->height() / pixelPerArcmin;
 
     double x = (fov_w - targetWFOVSpin->value()) / 2 * pixelPerArcmin;
@@ -337,13 +326,14 @@ void Mosaic::updateTargetFOV()
     double h = targetHFOVSpin->value() * pixelPerArcmin;
 
     // Get the sky map image
-    if( m_skyChart )
+    if (m_skyChart)
         delete m_skyChart;
-    QImage * fullSkyChart = new QImage( QSize( map->width(), map->height() ), QImage::Format_RGB32 );
-    map->exportSkyImage( fullSkyChart, false ); // FIXME: This might make everything too small, should really use a mask and clip it down!
+    QImage *fullSkyChart = new QImage(QSize(map->width(), map->height()), QImage::Format_RGB32);
+    map->exportSkyImage(
+        fullSkyChart, false); // FIXME: This might make everything too small, should really use a mask and clip it down!
     qApp->processEvents();
     //m_skyChart = new QImage( fullSkyChart->copy( map->width()/2.0 - map->width()/8.0, map->height()/2.0 - map->height()/8.0, map->width()/4.0, map->height()/4.0 ) );
-    m_skyChart = new QImage( fullSkyChart->copy(x,y,w,h));
+    m_skyChart = new QImage(fullSkyChart->copy(x, y, w, h));
     delete fullSkyChart;
 
     // See if we were supplied a sky image; if so, show it.
@@ -356,9 +346,8 @@ void Mosaic::updateTargetFOV()
     else
         m_skyImageDisplay->setVisible( false );*/
 
-
     // Reset the sky-map
-    map->setZoomFactor( oldZoomFactor );
+    map->setZoomFactor(oldZoomFactor);
     /*map->setClickedPoint( oldFocus );
     map->slotCenter();
     map->forceUpdate();
@@ -368,8 +357,6 @@ void Mosaic::updateTargetFOV()
     map->setClickedPoint( oldFocus );
     map->slotCenter();
     qApp->processEvents();*/
-
-
 
     // Render the display
     //render();
@@ -382,9 +369,6 @@ void Mosaic::updateTargetFOV()
     scene.setSceneRect(targetItem->boundingRect());
     // mosaicView->fitInView(targetItem, Qt::KeepAspectRatio);
     // mosaicView->resize(targetItem->boundingRect().width(), targetItem->boundingRect().height());
-
-
-
 }
 
 void Mosaic::render()
@@ -408,42 +392,36 @@ void Mosaic::render()
     mosaicTile->setRotation(mosaicTile->getPA());
 
     //QPointF tile1Center2 = mosaicTile->scenePos();
-//    mosaicView->scale(scale_x, scale_y);
-
+    //    mosaicView->scale(scale_x, scale_y);
 
     mosaicView->show();
 
     //resizeEvent(nullptr);
 
-
-
     /*scene.addPixmap(QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio ) );
     mosaicView->setScene(&scene);
     mosaicView->show();*/
     //mosaicDisplay->setPixmap( QPixmap::fromImage( *m_skyChart ).scaled( mosaicDisplay->width(), mosaicDisplay->height(), Qt::KeepAspectRatio ) );
-
-
 }
 
 void Mosaic::resizeEvent(QResizeEvent *)
 {
     //QRectF bounds = scene.itemsBoundingRect();
     QRectF bounds = targetItem->boundingRect();
-    bounds.setWidth(bounds.width()*1.1);
-    bounds.setHeight(bounds.height()*1.1);
+    bounds.setWidth(bounds.width() * 1.1);
+    bounds.setHeight(bounds.height() * 1.1);
     bounds.setWidth(bounds.width());
     bounds.setHeight(bounds.height());
     mosaicView->fitInView(bounds, Qt::KeepAspectRatio);
     mosaicView->centerOn(0, 0);
-
 }
 
 void Mosaic::showEvent(QShowEvent *)
 {
     //QRectF bounds = scene.itemsBoundingRect();
     QRectF bounds = targetItem->boundingRect();
-    bounds.setWidth(bounds.width()*1.1);
-    bounds.setHeight(bounds.height()*1.1);
+    bounds.setWidth(bounds.width() * 1.1);
+    bounds.setHeight(bounds.height() * 1.1);
     bounds.setWidth(bounds.width());
     bounds.setHeight(bounds.height());
     mosaicView->fitInView(bounds, Qt::KeepAspectRatio);
@@ -457,7 +435,6 @@ void Mosaic::resetFOV()
 
     updateTargetFOV();
 }
-
 
 void Mosaic::constructMosaic()
 {
@@ -473,7 +450,8 @@ void Mosaic::constructMosaic()
     if (mosaicWSpin->value() > 1 || mosaicHSpin->value() > 1)
         createJobsB->setEnabled(true);
 
-    if (mosaicTile->getWidth() != mosaicWSpin->value() || mosaicTile->getHeight() != mosaicHSpin->value() || mosaicTile->getOverlap() != overlapSpin->value() || mosaicTile->getPA() != rotationSpin->value())
+    if (mosaicTile->getWidth() != mosaicWSpin->value() || mosaicTile->getHeight() != mosaicHSpin->value() ||
+        mosaicTile->getOverlap() != overlapSpin->value() || mosaicTile->getPA() != rotationSpin->value())
     {
         if (mosaicTile->getPA() != rotationSpin->value())
             Options::setCameraRotation(rotationSpin->value());
@@ -484,11 +462,12 @@ void Mosaic::constructMosaic()
 
         updateTargetFOV();
 
-        qDebug() << "Tile FOV in pixels is WIDTH " << cameraWFOVSpin->value()*pixelPerArcmin << " HEIGHT " << cameraHFOVSpin->value()*pixelPerArcmin;
+        qDebug() << "Tile FOV in pixels is WIDTH " << cameraWFOVSpin->value() * pixelPerArcmin << " HEIGHT "
+                 << cameraHFOVSpin->value() * pixelPerArcmin;
 
         mosaicTile->setDimension(mosaicWSpin->value(), mosaicHSpin->value());
         mosaicTile->setPA(rotationSpin->value());
-        mosaicTile->setFOV(cameraWFOVSpin->value()*pixelPerArcmin, cameraHFOVSpin->value()*pixelPerArcmin);
+        mosaicTile->setFOV(cameraWFOVSpin->value() * pixelPerArcmin, cameraHFOVSpin->value() * pixelPerArcmin);
         mosaicTile->setOverlap(overlapSpin->value());
         mosaicTile->updateTiles();
 
@@ -496,59 +475,64 @@ void Mosaic::constructMosaic()
         mosaicTile->setTransformOriginPoint(mosaicTile->boundingRect().center());
         mosaicTile->setRotation(mosaicTile->getPA());
 
-        jobCountSpin->setValue(mosaicTile->getWidth()*mosaicTile->getHeight());
+        jobCountSpin->setValue(mosaicTile->getWidth() * mosaicTile->getHeight());
     }
 }
 
 void Mosaic::createJobs()
 {
-    qDebug() << "Target Item X " << targetItem->x() << " Y " << targetItem->y() << " Width " << targetItem->boundingRect().width() << " height " << targetItem->boundingRect().height();
+    qDebug() << "Target Item X " << targetItem->x() << " Y " << targetItem->y() << " Width "
+             << targetItem->boundingRect().width() << " height " << targetItem->boundingRect().height();
 
-    qDebug() << "Target SCENE Item X " << targetItem->mapToScene(targetItem->x(), targetItem->y()).x() << " Y " << targetItem->mapToScene(targetItem->x(), targetItem->y()).y();
+    qDebug() << "Target SCENE Item X " << targetItem->mapToScene(targetItem->x(), targetItem->y()).x() << " Y "
+             << targetItem->mapToScene(targetItem->x(), targetItem->y()).y();
 
-    qDebug() << "Mosaic Item X " << mosaicTile->x() << " Y " << mosaicTile->y() << " Width " << mosaicTile->boundingRect().width() << " height " << mosaicTile->boundingRect().height();
+    qDebug() << "Mosaic Item X " << mosaicTile->x() << " Y " << mosaicTile->y() << " Width "
+             << mosaicTile->boundingRect().width() << " height " << mosaicTile->boundingRect().height();
 
-    qDebug() << "Mosaic SCENE Item X " << mosaicTile->mapToScene(0,0).x() << " Y " << mosaicTile->mapToScene(0,0).y();
+    qDebug() << "Mosaic SCENE Item X " << mosaicTile->mapToScene(0, 0).x() << " Y " << mosaicTile->mapToScene(0, 0).y();
 
     qDebug() << "Center RA" << center.ra().toHMSString() << " DEC " << center.dec().toDMSString();
 
-    KStars::Instance()->setApproxFOV( targetWFOVSpin->value()*2 / 60.0 );
+    KStars::Instance()->setApproxFOV(targetWFOVSpin->value() * 2 / 60.0);
 
     center.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-    SkyMap * map = SkyMap::Instance();
+    SkyMap *map = SkyMap::Instance();
 
     map->setFocusObject(nullptr);
     map->setClickedPoint(&center);
     map->slotCenter();
     qApp->processEvents();
 
-    screenPoint = map->projector()->toScreen(&center);
+    screenPoint    = map->projector()->toScreen(&center);
     double northPA = map->projector()->findNorthPA(&center, screenPoint.x(), screenPoint.y());
 
     qDebug() << "North PA " << northPA;
     qDebug() << "Target Screen X " << screenPoint.x() << " Y " << screenPoint.y();
 
-    for (int i=0; i < mosaicTile->getHeight(); i++)
+    for (int i = 0; i < mosaicTile->getHeight(); i++)
     {
-
-        for (int j=0; j < mosaicTile->getWidth(); j++)
+        for (int j = 0; j < mosaicTile->getWidth(); j++)
         {
-            OneTile * tile = mosaicTile->getTile(i, j);
-            qDebug() << "Tile # " << i * mosaicTile->getWidth() + j << " X " << tile->center.x() << " Y " << tile->center.y() << endl;
+            OneTile *tile = mosaicTile->getTile(i, j);
+            qDebug() << "Tile # " << i * mosaicTile->getWidth() + j << " X " << tile->center.x() << " Y "
+                     << tile->center.y() << endl;
             qDebug() << "Scene coords" << mosaicTile->mapToScene(tile->center);
             qDebug() << "Rotated coords" << tile->center_rot;
 
-            QPointF tileScreenPoint(screenPoint.x()-targetItem->boundingRect().width()/2.0 + tile->center_rot.x(), screenPoint.y()-targetItem->boundingRect().height()/2.0 + tile->center_rot.y());
+            QPointF tileScreenPoint(screenPoint.x() - targetItem->boundingRect().width() / 2.0 + tile->center_rot.x(),
+                                    screenPoint.y() - targetItem->boundingRect().height() / 2.0 + tile->center_rot.y());
 
-            tile->skyCenter = map->projector()->fromScreen(tileScreenPoint, KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+            tile->skyCenter = map->projector()->fromScreen(tileScreenPoint, KStarsData::Instance()->lst(),
+                                                           KStarsData::Instance()->geo()->lat());
             tile->skyCenter.deprecess(KStarsData::Instance()->updateNum());
 
             // TODO Check if J2000 are VALID. If they are use them to generate the jobs
             // Add directory to save job file along with sequence files
             // Add target name + part # as the prefix, and also the directory
-            qDebug() << "Coords are J2000 RA " <<  tile->skyCenter.ra0().toHMSString() << " DEC " <<  tile->skyCenter.dec0().toDMSString();
-
+            qDebug() << "Coords are J2000 RA " << tile->skyCenter.ra0().toHMSString() << " DEC "
+                     << tile->skyCenter.dec0().toDMSString();
         }
     }
 
@@ -558,16 +542,16 @@ void Mosaic::createJobs()
 QPointF Mosaic::rotatePoint(QPointF pointToRotate, QPointF centerPoint)
 {
     double angleInRadians = rotationSpin->value() * dms::DegToRad;
-    double cosTheta = cos(angleInRadians);
-    double sinTheta = sin(angleInRadians);
+    double cosTheta       = cos(angleInRadians);
+    double sinTheta       = sin(angleInRadians);
 
     QPointF rotation_point;
 
-    rotation_point.setX((cosTheta * (pointToRotate.x() - centerPoint.x()) - sinTheta * (pointToRotate.y() - centerPoint.y()) + centerPoint.x()));
-    rotation_point.setY((sinTheta * (pointToRotate.x() - centerPoint.x()) + cosTheta * (pointToRotate.y() - centerPoint.y()) + centerPoint.y()));
+    rotation_point.setX((cosTheta * (pointToRotate.x() - centerPoint.x()) -
+                         sinTheta * (pointToRotate.y() - centerPoint.y()) + centerPoint.x()));
+    rotation_point.setY((sinTheta * (pointToRotate.x() - centerPoint.x()) +
+                         cosTheta * (pointToRotate.y() - centerPoint.y()) + centerPoint.y()));
 
     return rotation_point;
 }
-
 }
-

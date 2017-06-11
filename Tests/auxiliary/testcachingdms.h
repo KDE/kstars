@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
 #ifndef TESTCACHINGDMS_H
 #define TESTCACHINGDMS_H
 
@@ -33,33 +31,31 @@
 
 class TestCachingDms : public QObject
 {
+    Q_OBJECT
 
-        Q_OBJECT
-
-    public:
-
-        /**
+  public:
+    /**
          * @short Constructor
          */
-        TestCachingDms();
+    TestCachingDms();
 
-        /**
+    /**
          * @short Destructor
          */
-        ~TestCachingDms();
+    ~TestCachingDms();
 
-    private slots:
-        void defaultCtor();
-        void explicitSexigesimalCtor();
-        void angleCtor();
-        void stringCtor();
-        void setUsing_atan2();
-        void setUsing_asin();
-        void setUsing_acos();
-        void additionOperator();
-        void subtractionOperator();
-        void unaryMinusOperator();
-        void testFailsafeUseOfBaseClassPtr();
+  private slots:
+    void defaultCtor();
+    void explicitSexigesimalCtor();
+    void angleCtor();
+    void stringCtor();
+    void setUsing_atan2();
+    void setUsing_asin();
+    void setUsing_acos();
+    void additionOperator();
+    void subtractionOperator();
+    void unaryMinusOperator();
+    void testFailsafeUseOfBaseClassPtr();
 };
 
 #endif

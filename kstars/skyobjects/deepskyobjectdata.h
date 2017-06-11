@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
 #ifndef DEEPSKYOBJECTDATA_H
 #define DEEPSKYOBJECTDATA_H
 /**
@@ -27,12 +25,12 @@
 
 struct DeepSkyObjectData
 {
-
     /**
      * @short Constructor
      */
-    inline DeepSkyObjectData(): catalogIDNumber(-1), B( NaN::f ), V( NaN::f ), type( SkyObject::TYPE::TYPE_UNKNOWN ),
-        majorAxis( NaN::f ), minorAxis( NaN::f ), positionAngle( NaN::f )
+    inline DeepSkyObjectData()
+        : catalogIDNumber(-1), B(NaN::f), V(NaN::f), type(SkyObject::TYPE::TYPE_UNKNOWN), majorAxis(NaN::f),
+          minorAxis(NaN::f), positionAngle(NaN::f)
     {
     }
 
@@ -41,11 +39,11 @@ struct DeepSkyObjectData
      */
 
     /* Designation */
-    QString name; // Primary designation
-    QString altName; // Alternate designation
-    QString longName; // Trivial name
-    QString catalog; // Catalog corresponding to primary designation
-    QString catalogID; // Catalog ID corresponding to primary designation
+    QString name;        // Primary designation
+    QString altName;     // Alternate designation
+    QString longName;    // Trivial name
+    QString catalog;     // Catalog corresponding to primary designation
+    QString catalogID;   // Catalog ID corresponding to primary designation
     int catalogIDNumber; // approximation to catalogID, by stripping suffixes and the like (eg: NGC6027B = 6027)
 
     /* Positional -- J2000.0 */
@@ -57,15 +55,14 @@ struct DeepSkyObjectData
     float V;
 
     /* Type */
-    QString typeString; // detailed type
+    QString typeString;        // detailed type
     enum SkyObject::TYPE type; // type "rounded-off" to one of KStars' types
-    QString classification; // morphology etc.
+    QString classification;    // morphology etc.
 
     /* Dimension */
     float majorAxis; // Major axis in arcmin
     float minorAxis; // Minor axis in arcmin
     float positionAngle;
-
 };
 
 #endif

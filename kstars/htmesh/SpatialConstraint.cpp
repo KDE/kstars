@@ -26,14 +26,13 @@
 
 /////////////CONSTRUCTOR//////////////////////////////////
 //
-SpatialConstraint::SpatialConstraint(SpatialVector a, float64 d) :
-    a_(a), d_(d)
+SpatialConstraint::SpatialConstraint(SpatialVector a, float64 d) : a_(a), d_(d)
 {
     a_.normalize();
     s_ = acos(d_);
-    if(d_ <= -gEpsilon)
+    if (d_ <= -gEpsilon)
         sign_ = nEG;
-    if(d_ >=  gEpsilon)
+    if (d_ >= gEpsilon)
         sign_ = pOS;
 }
 

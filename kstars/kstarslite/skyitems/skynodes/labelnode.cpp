@@ -22,15 +22,15 @@
 #include "skymaplite.h"
 #include "labelnode.h"
 
-LabelNode::LabelNode(SkyObject * skyObject, LabelsItem::label_t type)
-    :SkyNode(skyObject), m_name(skyObject->labelString()), m_textTexture(new QSGSimpleTextureNode),
-     m_labelType(type), m_fontSize(0), m_zoomFont(false)
+LabelNode::LabelNode(SkyObject *skyObject, LabelsItem::label_t type)
+    : SkyNode(skyObject), m_name(skyObject->labelString()), m_textTexture(new QSGSimpleTextureNode), m_labelType(type),
+      m_fontSize(0), m_zoomFont(false)
 {
     initialize();
 }
 
 LabelNode::LabelNode(QString name, LabelsItem::label_t type)
-    :m_name(name), m_textTexture(new QSGSimpleTextureNode), m_labelType(type), m_fontSize(0), m_zoomFont(false)
+    : m_name(name), m_textTexture(new QSGSimpleTextureNode), m_labelType(type), m_fontSize(0), m_zoomFont(false)
 {
     initialize();
 }
@@ -44,7 +44,7 @@ LabelNode::~LabelNode()
 
 void LabelNode::initialize()
 {
-    switch(m_labelType)
+    switch (m_labelType)
     {
         case LabelsItem::label_t::PLANET_LABEL:
         case LabelsItem::label_t::SATURN_MOON_LABEL:
@@ -53,7 +53,7 @@ void LabelNode::initialize()
         case LabelsItem::label_t::RUDE_LABEL:
         case LabelsItem::label_t::ASTEROID_LABEL:
             m_schemeColor = "PNameColor";
-            m_zoomFont = true;
+            m_zoomFont    = true;
             break;
         case LabelsItem::label_t::DEEP_SKY_LABEL:
         case LabelsItem::label_t::DSO_MESSIER_LABEL:
@@ -62,11 +62,11 @@ void LabelNode::initialize()
         case LabelsItem::label_t::DSO_OTHER_LABEL:
         case LabelsItem::label_t::CATALOG_DSO_LABEL:
             m_schemeColor = "DSNameColor";
-            m_zoomFont = true;
+            m_zoomFont    = true;
             break;
         case LabelsItem::label_t::TELESCOPE_SYMBOL:
             m_schemeColor = "TargetColor";
-            m_zoomFont = true;
+            m_zoomFont    = true;
             break;
         case LabelsItem::label_t::CONSTEL_NAME_LABEL:
             m_schemeColor = "CNameColor";
@@ -86,8 +86,7 @@ void LabelNode::initialize()
 
 void LabelNode::createTexture(QColor color)
 {
-
-    switch(m_labelType)
+    switch (m_labelType)
     {
         case LabelsItem::label_t::SATURN_MOON_LABEL:
         case LabelsItem::label_t::JUPITER_MOON_LABEL:
@@ -97,14 +96,15 @@ void LabelNode::createTexture(QColor color)
             break;
     }
 
-    QSGTexture * oldTexture = m_textTexture->texture();
+    QSGTexture *oldTexture = m_textTexture->texture();
 
     m_textTexture->setTexture(SkyMapLite::Instance()->textToTexture(m_name, color, m_zoomFont));
     m_color = color;
 
-    if(m_zoomFont) m_fontSize = SkyLabeler::Instance()->drawFont().pointSize();
+    if (m_zoomFont)
+        m_fontSize = SkyLabeler::Instance()->drawFont().pointSize();
 
-    switch(m_labelType)
+    switch (m_labelType)
     {
         case LabelsItem::label_t::SATURN_MOON_LABEL:
         case LabelsItem::label_t::JUPITER_MOON_LABEL:
@@ -114,21 +114,19 @@ void LabelNode::createTexture(QColor color)
             break;
     }
 
-    if(oldTexture) delete oldTexture;
+    if (oldTexture)
+        delete oldTexture;
 
-    m_textSize = m_textTexture->texture()->textureSize();
+    m_textSize     = m_textTexture->texture()->textureSize();
     QRectF oldRect = m_textTexture->rect();
-    qreal ratio = SkyMapLite::Instance()->window()->effectiveDevicePixelRatio();
+    qreal ratio    = SkyMapLite::Instance()->window()->effectiveDevicePixelRatio();
 
-    m_textTexture->setRect(QRect(oldRect.x(),oldRect.y(),m_textSize.width()/ratio,m_textSize.height()/ratio));
+    m_textTexture->setRect(QRect(oldRect.x(), oldRect.y(), m_textSize.width() / ratio, m_textSize.height() / ratio));
 }
 
 void LabelNode::changePos(QPointF pos)
 {
-    QMatrix4x4 m (1,0,0,pos.x(),
-                  0,1,0,pos.y(),
-                  0,0,1,0,
-                  0,0,0,1);
+    QMatrix4x4 m(1, 0, 0, pos.x(), 0, 1, 0, pos.y(), 0, 0, 1, 0, 0, 0, 0, 1);
     //m.translate(-0.5*size.width(), -0.5*size.height());
 
     setMatrix(m);
@@ -140,14 +138,17 @@ void LabelNode::setLabelPos(QPointF pos)
     show();
     qreal ratio = SkyMapLite::Instance()->window()->effectiveDevicePixelRatio();
     //We need to subtract the height of texture from final y to follow the way QPainter draws the text
-    if(m_skyObject) labelPos = QPointF(pos.x() + m_skyObject->labelOffset(), pos.y() + m_skyObject->labelOffset() - m_textSize.height()/ratio);
-    else labelPos = QPointF(pos.x(), pos.y());
+    if (m_skyObject)
+        labelPos = QPointF(pos.x() + m_skyObject->labelOffset(),
+                           pos.y() + m_skyObject->labelOffset() - m_textSize.height() / ratio);
+    else
+        labelPos = QPointF(pos.x(), pos.y());
 }
 
 void LabelNode::update()
 {
     QColor newColor = KStarsData::Instance()->colorScheme()->colorNamed(m_schemeColor);
-    if((m_zoomFont && m_fontSize != SkyLabeler::Instance()->skyFont().pointSize()) || m_color != newColor)
+    if ((m_zoomFont && m_fontSize != SkyLabeler::Instance()->skyFont().pointSize()) || m_color != newColor)
     {
         createTexture(newColor);
     }

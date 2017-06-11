@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #ifndef CATALOGDATA_H
 #define CATALOGDATA_H
 
@@ -34,19 +33,18 @@
  * license = License for the catalog. Defaults to "None".
  **/
 
-
 class CatalogData
 {
-    public:
-        CatalogData();
-        QString catalog_name;
-        QString prefix;
-        QString color;
-        float epoch;
-        QString fluxfreq;
-        QString fluxunit;
-        QString author;
-        QString license;
+  public:
+    CatalogData();
+    QString catalog_name;
+    QString prefix;
+    QString color;
+    float epoch;
+    QString fluxfreq;
+    QString fluxunit;
+    QString author;
+    QString license;
 };
 
 #endif // CATALOGDATA_H

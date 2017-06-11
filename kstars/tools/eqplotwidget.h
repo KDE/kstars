@@ -22,12 +22,12 @@
 
 class eqPlotWidget : public KPlotWidget
 {
-        Q_OBJECT
-    public:
-        eqPlotWidget( QWidget * parent=0 );
+    Q_OBJECT
+  public:
+    eqPlotWidget(QWidget *parent = 0);
 
-    protected:
-        void paintEvent( QPaintEvent * ) Q_DECL_OVERRIDE;
+  protected:
+    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
 };
 
 #endif

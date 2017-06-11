@@ -36,36 +36,42 @@
 //#include "skyobjects/kspluto.h"
 #include "planetmoonscomponent.h"
 
-SolarSystemComposite::SolarSystemComposite(SkyComposite * parent ) :
-    SkyComposite(parent)
+SolarSystemComposite::SolarSystemComposite(SkyComposite *parent) : SkyComposite(parent)
 {
-    emitProgressText( i18n("Loading solar system" ) );
-    m_Earth = new KSPlanet( I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
+    emitProgressText(i18n("Loading solar system"));
+    m_Earth = new KSPlanet(I18N_NOOP("Earth"), QString(), QColor("white"), 12756.28 /*diameter in km*/);
 
-    m_Sun = new KSSun();
-    SolarSystemSingleComponent * sun = new SolarSystemSingleComponent( this, m_Sun, Options::showSun );
-    addComponent( sun, 2 );
-    m_Moon = new KSMoon();
-    SolarSystemSingleComponent * moon = new SolarSystemSingleComponent( this, m_Moon, Options::showMoon );
-    addComponent( moon, 3 );
-    SolarSystemSingleComponent * mercury = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::MERCURY ), Options::showMercury );
-    addComponent( mercury, 4 );
-    SolarSystemSingleComponent * venus = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::VENUS ), Options::showVenus );
-    addComponent( venus, 4 );
-    SolarSystemSingleComponent * mars = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::MARS ), Options::showMars );
-    addComponent( mars, 4 );
-    SolarSystemSingleComponent * jup = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::JUPITER ), Options::showJupiter );
-    addComponent( jup, 4 );
+    m_Sun                           = new KSSun();
+    SolarSystemSingleComponent *sun = new SolarSystemSingleComponent(this, m_Sun, Options::showSun);
+    addComponent(sun, 2);
+    m_Moon                           = new KSMoon();
+    SolarSystemSingleComponent *moon = new SolarSystemSingleComponent(this, m_Moon, Options::showMoon);
+    addComponent(moon, 3);
+    SolarSystemSingleComponent *mercury =
+        new SolarSystemSingleComponent(this, new KSPlanet(KSPlanetBase::MERCURY), Options::showMercury);
+    addComponent(mercury, 4);
+    SolarSystemSingleComponent *venus =
+        new SolarSystemSingleComponent(this, new KSPlanet(KSPlanetBase::VENUS), Options::showVenus);
+    addComponent(venus, 4);
+    SolarSystemSingleComponent *mars =
+        new SolarSystemSingleComponent(this, new KSPlanet(KSPlanetBase::MARS), Options::showMars);
+    addComponent(mars, 4);
+    SolarSystemSingleComponent *jup =
+        new SolarSystemSingleComponent(this, new KSPlanet(KSPlanetBase::JUPITER), Options::showJupiter);
+    addComponent(jup, 4);
     /*
     m_JupiterMoons = new PlanetMoonsComponent( this, jup, KSPlanetBase::JUPITER);
     addComponent( m_JupiterMoons, 5 );
     */
-    SolarSystemSingleComponent * sat = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::SATURN ), Options::showSaturn );
-    addComponent( sat, 4 );
-    SolarSystemSingleComponent * uranus = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::URANUS ), Options::showUranus );
-    addComponent( uranus, 4 );
-    SolarSystemSingleComponent * nep = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::NEPTUNE ), Options::showNeptune );
-    addComponent( nep, 4 );
+    SolarSystemSingleComponent *sat =
+        new SolarSystemSingleComponent(this, new KSPlanet(KSPlanetBase::SATURN), Options::showSaturn);
+    addComponent(sat, 4);
+    SolarSystemSingleComponent *uranus =
+        new SolarSystemSingleComponent(this, new KSPlanet(KSPlanetBase::URANUS), Options::showUranus);
+    addComponent(uranus, 4);
+    SolarSystemSingleComponent *nep =
+        new SolarSystemSingleComponent(this, new KSPlanet(KSPlanetBase::NEPTUNE), Options::showNeptune);
+    addComponent(nep, 4);
     //addComponent( new SolarSystemSingleComponent( this, new KSPluto(), Options::showPluto ) );
 
     m_planets.append(sun);
@@ -96,8 +102,8 @@ SolarSystemComposite::SolarSystemComposite(SkyComposite * parent ) :
         }
     }*/
 
-    addComponent( m_AsteroidsComponent = new AsteroidsComponent( this ), 7);
-    addComponent( m_CometsComponent    = new CometsComponent( this ), 7);
+    addComponent(m_AsteroidsComponent = new AsteroidsComponent(this), 7);
+    addComponent(m_CometsComponent = new CometsComponent(this), 7);
 }
 
 SolarSystemComposite::~SolarSystemComposite()
@@ -108,53 +114,51 @@ SolarSystemComposite::~SolarSystemComposite()
 bool SolarSystemComposite::selected()
 {
 #ifndef KSTARS_LITE
-    return Options::showSolarSystem() &&
-           !( Options::hideOnSlew() && Options::hidePlanets() && SkyMap::IsSlewing() );
+    return Options::showSolarSystem() && !(Options::hideOnSlew() && Options::hidePlanets() && SkyMap::IsSlewing());
 #else
-    return Options::showSolarSystem() &&
-           !( Options::hideOnSlew() && Options::hidePlanets() );
+    return Options::showSolarSystem() && !(Options::hideOnSlew() && Options::hidePlanets());
 #endif
 }
 
-void SolarSystemComposite::update( KSNumbers * num )
+void SolarSystemComposite::update(KSNumbers *num)
 {
     //    if ( ! selected() ) return;
 
-    KStarsData * data = KStarsData::Instance();
-    m_Sun->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    m_Moon->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-//    m_JupiterMoons->update( num );
+    KStarsData *data = KStarsData::Instance();
+    m_Sun->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+    m_Moon->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+    //    m_JupiterMoons->update( num );
 
-    foreach ( SkyComponent * comp, components() )
+    foreach (SkyComponent *comp, components())
     {
-        comp->update( num );
+        comp->update(num);
     }
 }
 
-void SolarSystemComposite::updateSolarSystemBodies( KSNumbers * num )
+void SolarSystemComposite::updateSolarSystemBodies(KSNumbers *num)
 {
-    m_Earth->findPosition( num );
-    foreach ( SkyComponent * comp, components() )
+    m_Earth->findPosition(num);
+    foreach (SkyComponent *comp, components())
     {
-        comp->updateSolarSystemBodies( num );
+        comp->updateSolarSystemBodies(num);
     }
 }
 
-void SolarSystemComposite::updateMoons( KSNumbers * num )
+void SolarSystemComposite::updateMoons(KSNumbers *num)
 {
     //    if ( ! selected() ) return;
-    KStarsData * data = KStarsData::Instance();
-    m_Sun->findPosition( num );
-    m_Moon->findPosition( num, data->geo()->lat(), data->lst() );
+    KStarsData *data = KStarsData::Instance();
+    m_Sun->findPosition(num);
+    m_Moon->findPosition(num, data->geo()->lat(), data->lst());
     m_Moon->findPhase(0);
-//    m_JupiterMoons->updateMoons( num );
+    //    m_JupiterMoons->updateMoons( num );
 }
 
-void SolarSystemComposite::drawTrails( SkyPainter * skyp )
+void SolarSystemComposite::drawTrails(SkyPainter *skyp)
 {
-    if( selected() )
-        foreach( SkyComponent * comp, components() )
-            comp->drawTrails( skyp );
+    if (selected())
+        foreach (SkyComponent *comp, components())
+            comp->drawTrails(skyp);
 }
 
 const QList<SkyObject *> &SolarSystemComposite::asteroids() const
@@ -177,13 +181,12 @@ const QList<SkyObject *> &SolarSystemComposite::moons() const
     return m_moons;
 }
 
-
-CometsComponent * SolarSystemComposite::cometsComponent()
+CometsComponent *SolarSystemComposite::cometsComponent()
 {
     return m_CometsComponent;
 }
 
-AsteroidsComponent * SolarSystemComposite::asteroidsComponent()
+AsteroidsComponent *SolarSystemComposite::asteroidsComponent()
 {
     return m_AsteroidsComponent;
 }

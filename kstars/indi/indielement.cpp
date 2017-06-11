@@ -37,33 +37,32 @@
 #include <QFileDialog>
 #include <KMessageBox>
 
-extern const char * libindi_strings_context;
+extern const char *libindi_strings_context;
 
 /*******************************************************************
 ** INDI Element
 *******************************************************************/
-INDI_E::INDI_E(INDI_P * gProp, INDI::Property * dProp)
+INDI_E::INDI_E(INDI_P *gProp, INDI::Property *dProp)
 {
     guiProp  = gProp;
     dataProp = dProp;
 
-    EHBox     = new QHBoxLayout;
+    EHBox = new QHBoxLayout;
     EHBox->setMargin(0);
 
-    tp        = nullptr;
-    sp        = nullptr;
-    np        = nullptr;
-    label_w   = nullptr;
-    read_w    = nullptr;
-    write_w   = nullptr;
-    spin_w    = nullptr;
-    slider_w  = nullptr;
-    push_w    = nullptr;
-    browse_w  = nullptr;
-    check_w   = nullptr;
-    led_w     = nullptr;
-    hSpacer   = nullptr;
-
+    tp       = nullptr;
+    sp       = nullptr;
+    np       = nullptr;
+    label_w  = nullptr;
+    read_w   = nullptr;
+    write_w  = nullptr;
+    spin_w   = nullptr;
+    slider_w = nullptr;
+    push_w   = nullptr;
+    browse_w = nullptr;
+    check_w  = nullptr;
+    led_w    = nullptr;
+    hSpacer  = nullptr;
 }
 
 INDI_E::~INDI_E()
@@ -81,7 +80,7 @@ INDI_E::~INDI_E()
     delete (hSpacer);
 }
 
-void INDI_E::buildSwitch(QButtonGroup * groupB, ISwitch * sw)
+void INDI_E::buildSwitch(QButtonGroup *groupB, ISwitch *sw)
 {
     name  = sw->name;
     label = i18nc(libindi_strings_context, sw->label);
@@ -135,19 +134,17 @@ void INDI_E::buildSwitch(QButtonGroup * groupB, ISwitch * sw)
 
         default:
             break;
-
     }
-
 }
 
-void INDI_E::buildMenuItem(ISwitch * sw)
+void INDI_E::buildMenuItem(ISwitch *sw)
 {
     buildSwitch(nullptr, sw);
 }
 
-void INDI_E::buildText(IText * itp)
+void INDI_E::buildText(IText *itp)
 {
-    name  = itp->name;
+    name = itp->name;
     if (itp->label[0])
         label = i18nc(libindi_strings_context, itp->label);
 
@@ -184,7 +181,6 @@ void INDI_E::buildText(IText * itp)
             break;
     }
 
-
     guiProp->addLayout(EHBox);
     //pp->PVBox->addLayout(EHBox);
 }
@@ -196,19 +192,19 @@ void INDI_E::setupElementLabel()
     label_w = new KSqueezedTextLabel(guiProp->getGroup()->getContainer());
     label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH);
     label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
-    label_w->setFrameShape( KSqueezedTextLabel::Box );
+    label_w->setFrameShape(KSqueezedTextLabel::Box);
 
-    palette.setColor(label_w->backgroundRole(),  QColor( 224, 232, 238 ));
+    palette.setColor(label_w->backgroundRole(), QColor(224, 232, 238));
     label_w->setPalette(palette);
-    label_w->setTextFormat( Qt::RichText );
-    label_w->setAlignment( Qt::AlignCenter );
+    label_w->setTextFormat(Qt::RichText);
+    label_w->setAlignment(Qt::AlignCenter);
     label_w->setWordWrap(true);
 
     if (label.length() > MAX_LABEL_LENGTH)
     {
-        QFont tempFont(  label_w->font() );
-        tempFont.setPointSize( tempFont.pointSize() - MED_INDI_FONT );
-        label_w->setFont( tempFont );
+        QFont tempFont(label_w->font());
+        tempFont.setPointSize(tempFont.pointSize() - MED_INDI_FONT);
+        label_w->setFont(tempFont);
     }
 
     label_w->setText(label);
@@ -264,7 +260,6 @@ void INDI_E::syncSwitch()
 
         default:
             break;
-
     }
 }
 
@@ -289,7 +284,6 @@ void INDI_E::syncText()
 
 void INDI_E::syncNumber()
 {
-
     char iNumber[MAXINDIFORMAT];
     if (np == nullptr || read_w == nullptr)
         return;
@@ -307,7 +301,6 @@ void INDI_E::syncNumber()
         if (np->max != spin_w->maximum())
             setMax();
     }
-
 }
 
 void INDI_E::updateTP()
@@ -334,7 +327,6 @@ void INDI_E::updateNP()
 
     if (spin_w != nullptr)
         np->value = spin_w->value();
-
 }
 
 void INDI_E::setText(const QString &newText)
@@ -342,7 +334,7 @@ void INDI_E::setText(const QString &newText)
     if (tp == nullptr)
         return;
 
-    switch(dataProp->getPermission())
+    switch (dataProp->getPermission())
     {
         case IP_RO:
             read_w->setText(newText);
@@ -356,10 +348,9 @@ void INDI_E::setText(const QString &newText)
             write_w->setText(newText);
             break;
     }
-
 }
 
-void INDI_E::buildBLOB(IBLOB * ibp)
+void INDI_E::buildBLOB(IBLOB *ibp)
 {
     name  = ibp->name;
     label = i18nc(libindi_strings_context, ibp->label);
@@ -398,10 +389,9 @@ void INDI_E::buildBLOB(IBLOB * ibp)
     }
 
     guiProp->addLayout(EHBox);
-
 }
 
-void INDI_E::buildNumber  (INumber * inp)
+void INDI_E::buildNumber(INumber *inp)
 {
     bool scale = false;
     char iNumber[MAXINDIFORMAT];
@@ -425,7 +415,7 @@ void INDI_E::buildNumber  (INumber * inp)
 
     setupElementLabel();
 
-    if (np->step != 0 && (np->max - np->min)/np->step <= 100)
+    if (np->step != 0 && (np->max - np->min) / np->step <= 100)
         scale = true;
 
     switch (dataProp->getPermission())
@@ -455,10 +445,9 @@ void INDI_E::buildNumber  (INumber * inp)
 
             break;
     }
-
 }
 
-void INDI_E::buildLight(ILight * ilp)
+void INDI_E::buildLight(ILight *ilp)
 {
     name  = ilp->name;
     label = i18nc(libindi_strings_context, ilp->label);
@@ -474,9 +463,9 @@ void INDI_E::buildLight(ILight * ilp)
     if (label == "(I18N_EMPTY_MESSAGE)")
         label = ilp->name;
 
-    led_w = new KLed (guiProp->getGroup()->getContainer());
-    led_w->setMaximumSize(16,16);
-    led_w->setLook( KLed::Sunken );
+    led_w = new KLed(guiProp->getGroup()->getContainer());
+    led_w->setMaximumSize(16, 16);
+    led_w->setLook(KLed::Sunken);
 
     syncLight();
 
@@ -485,7 +474,6 @@ void INDI_E::buildLight(ILight * ilp)
     setupElementLabel();
 
     guiProp->addLayout(EHBox);
-
 }
 
 void INDI_E::syncLight()
@@ -513,7 +501,6 @@ void INDI_E::syncLight()
 
         default:
             break;
-
     }
 }
 
@@ -522,55 +509,47 @@ void INDI_E::setupElementScale(int length)
     if (np == nullptr)
         return;
 
-    int steps = (int) ((np->max - np->min) / np->step);
+    int steps = (int)((np->max - np->min) / np->step);
     spin_w    = new QDoubleSpinBox(guiProp->getGroup()->getContainer());
     spin_w->setRange(np->min, np->max);
     spin_w->setSingleStep(np->step);
     spin_w->setValue(np->value);
     spin_w->setDecimals(3);
 
-    slider_w  = new QSlider( Qt::Horizontal, guiProp->getGroup()->getContainer() );
+    slider_w = new QSlider(Qt::Horizontal, guiProp->getGroup()->getContainer());
     slider_w->setRange(0, steps);
     slider_w->setPageStep(1);
-    slider_w->setValue((int) ((np->value - np->min) / np->step));
+    slider_w->setValue((int)((np->value - np->min) / np->step));
 
-    connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double )));
-    connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int )));
-
+    connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double)));
+    connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
 
     if (length == ELEMENT_FULL_WIDTH)
         spin_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     else
         spin_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    spin_w->setMinimumWidth( (int) (length * 0.45) );
-    slider_w->setMinimumWidth( (int) (length * 0.55) );
+    spin_w->setMinimumWidth((int)(length * 0.45));
+    slider_w->setMinimumWidth((int)(length * 0.55));
 
     EHBox->addWidget(slider_w);
     EHBox->addWidget(spin_w);
-
 }
 
 void INDI_E::spinChanged(double value)
 {
-
-    int slider_value = (int) ((value - np->min) / np->step);
+    int slider_value = (int)((value - np->min) / np->step);
     slider_w->setValue(slider_value);
-
 }
 
 void INDI_E::sliderChanged(int value)
 {
-
     double spin_value = (value * np->step) + np->min;
     spin_w->setValue(spin_value);
-
-
 }
 
-void INDI_E::setMin ()
+void INDI_E::setMin()
 {
-
     if (spin_w)
     {
         spin_w->setMinimum(np->min);
@@ -578,15 +557,14 @@ void INDI_E::setMin ()
     }
     if (slider_w)
     {
-        slider_w->setMaximum((int) ((np->max - np->min) / np->step));
+        slider_w->setMaximum((int)((np->max - np->min) / np->step));
         slider_w->setMinimum(0);
         slider_w->setPageStep(1);
-        slider_w->setValue( (int) ((np->value - np->min) / np->step ));
+        slider_w->setValue((int)((np->value - np->min) / np->step));
     }
-
 }
 
-void INDI_E::setMax ()
+void INDI_E::setMax()
 {
     if (spin_w)
     {
@@ -595,45 +573,38 @@ void INDI_E::setMax ()
     }
     if (slider_w)
     {
-        slider_w->setMaximum((int) ((np->max - np->min) / np->step));
+        slider_w->setMaximum((int)((np->max - np->min) / np->step));
         slider_w->setMinimum(0);
         slider_w->setPageStep(1);
-        slider_w->setValue( (int) ((np->value - np->min) / np->step ));
+        slider_w->setValue((int)((np->value - np->min) / np->step));
     }
 }
 
 void INDI_E::setupElementWrite(int length)
 {
-
-    write_w = new QLineEdit( guiProp->getGroup()->getContainer());
-    write_w->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred);
-    write_w->setMinimumWidth( length );
-    write_w->setMaximumWidth( length);
+    write_w = new QLineEdit(guiProp->getGroup()->getContainer());
+    write_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    write_w->setMinimumWidth(length);
+    write_w->setMaximumWidth(length);
 
     write_w->setText(text);
 
     //QObject::connect(write_w, SIGNAL(returnPressed(QString)), this, SLOT(updateTP()));
     QObject::connect(write_w, SIGNAL(returnPressed()), guiProp, SLOT(sendText()));
     EHBox->addWidget(write_w);
-
 }
-
 
 void INDI_E::setupElementRead(int length)
 {
-
-
-    read_w = new QLineEdit( guiProp->getGroup()->getContainer() );
-    read_w->setMinimumWidth( length );
-    read_w->setFocusPolicy( Qt::NoFocus );
-    read_w->setCursorPosition( 0 );
-    read_w->setAlignment( Qt::AlignCenter );
-    read_w->setReadOnly( true );
+    read_w = new QLineEdit(guiProp->getGroup()->getContainer());
+    read_w->setMinimumWidth(length);
+    read_w->setFocusPolicy(Qt::NoFocus);
+    read_w->setCursorPosition(0);
+    read_w->setAlignment(Qt::AlignCenter);
+    read_w->setReadOnly(true);
     read_w->setText(text);
 
     EHBox->addWidget(read_w);
-
-
 }
 
 void INDI_E::setupBrowseButton()
@@ -641,20 +612,19 @@ void INDI_E::setupBrowseButton()
     browse_w = new QPushButton(guiProp->getGroup()->getContainer());
     browse_w->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
     browse_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    browse_w->setMinimumWidth( MIN_SET_WIDTH );
-    browse_w->setMaximumWidth( MAX_SET_WIDTH );
+    browse_w->setMinimumWidth(MIN_SET_WIDTH);
+    browse_w->setMaximumWidth(MAX_SET_WIDTH);
 
     EHBox->addWidget(browse_w);
     QObject::connect(browse_w, SIGNAL(clicked()), this, SLOT(browseBlob()));
 }
-
 
 void INDI_E::browseBlob()
 {
     QFile fp;
     QString filename;
     QString format;
-    int pos=0;
+    int pos = 0;
     QUrl currentURL;
 
     currentURL = QFileDialog::getOpenFileUrl();
@@ -663,13 +633,13 @@ void INDI_E::browseBlob()
     if (currentURL.isEmpty())
         return;
 
-    if ( currentURL.isValid() )
+    if (currentURL.isValid())
         write_w->setText(currentURL.toLocalFile());
 
     fp.setFileName(currentURL.toLocalFile());
 
-    if ( (pos = filename.lastIndexOf(".")) != -1)
-        format = filename.mid (pos, filename.length());
+    if ((pos = filename.lastIndexOf(".")) != -1)
+        format = filename.mid(pos, filename.length());
 
     //qDebug() << "Filename is " << fp.fileName() << endl;
 
@@ -681,7 +651,7 @@ void INDI_E::browseBlob()
 
     bp->bloblen = bp->size = fp.size();
 
-    bp->blob = (uint8_t *) realloc (bp->blob, bp->size);
+    bp->blob = (uint8_t *)realloc(bp->blob, bp->size);
     if (bp->blob == nullptr)
     {
         KMessageBox::error(0, i18n("Not enough memory for file %1", filename));
@@ -691,7 +661,6 @@ void INDI_E::browseBlob()
     memcpy(bp->blob, fp.readAll().constData(), bp->size);
 
     blobDirty = true;
-
 }
 
 QString INDI_E::getWriteField()
@@ -709,5 +678,3 @@ QString INDI_E::getReadField()
     else
         return nullptr;
 }
-
-

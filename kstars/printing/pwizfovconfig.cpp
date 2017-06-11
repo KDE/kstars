@@ -18,7 +18,7 @@
 #include "pwizfovconfig.h"
 #include <KLocalizedString>
 
-PWizFovConfigUI::PWizFovConfigUI(QWidget * parent) : QFrame(parent)
+PWizFovConfigUI::PWizFovConfigUI(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
     setupWidgets();
@@ -28,7 +28,7 @@ PWizFovConfigUI::PWizFovConfigUI(QWidget * parent) : QFrame(parent)
 
 Legend::LEGEND_TYPE PWizFovConfigUI::getLegendType()
 {
-    switch(typeCombo->currentIndex())
+    switch (typeCombo->currentIndex())
     {
         case 0: // Scale with magnitudes chart
         {
@@ -79,5 +79,3 @@ void PWizFovConfigUI::setupWidgets()
     orientationCombo->setEnabled(false);
     positionCombo->setEnabled(false);
 }
-
-

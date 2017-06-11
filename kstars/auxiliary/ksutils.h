@@ -50,19 +50,19 @@ namespace KSUtils
  *@returns bool Returns true if data file was opened successfully.
  *@returns a reference to the opened file.
  */
-bool openDataFile( QFile &file, const QString &filename );
+bool openDataFile(QFile &file, const QString &filename);
 
 /** Clamp value into range.
  *  @p x  value to clamp.
  *  @p min  minimal allowed value.
  *  @p max  maximum allowed value.
  */
-template<typename T>
+template <typename T>
 inline T clamp(T x, T min, T max)
 {
-    if( x < min )
+    if (x < min)
         return min;
-    if( x > max )
+    if (x > max)
         return max;
     return x;
 }
@@ -73,11 +73,11 @@ inline T clamp(T x, T min, T max)
  *  @p min minimal angle
  *  @p max maximal angle
  */
-template<typename T>
+template <typename T>
 inline T reduceAngle(T x, T min, T max)
 {
     T delta = max - min;
-    return x - delta*floor( (x-min)/delta );
+    return x - delta * floor((x - min) / delta);
 }
 
 /** Convert from spherical to cartesian coordiate system.
@@ -87,21 +87,21 @@ inline Eigen::Vector3d fromSperical(dms longitude, dms latitude)
 {
     double sinL, sinB;
     double cosL, cosB;
-    longitude.SinCos( sinL, cosL );
-    latitude.SinCos(  sinB, cosB );
-    return Eigen::Vector3d(cosB*cosL, cosB*sinL, sinB);
+    longitude.SinCos(sinL, cosL);
+    latitude.SinCos(sinB, cosB);
+    return Eigen::Vector3d(cosB * cosL, cosB * sinL, sinB);
 }
 
 /** Convert a vector to a point */
 inline QPointF vecToPoint(const Eigen::Vector2f &vec)
 {
-    return QPointF( vec[0], vec[1] );
+    return QPointF(vec[0], vec[1]);
 }
 
 /** Convert a point to a vector */
 inline Eigen::Vector2f pointToVec(const QPointF &p)
 {
-    return Eigen::Vector2f(p.x(),p.y());
+    return Eigen::Vector2f(p.x(), p.y());
 }
 
 /**
@@ -109,7 +109,7 @@ inline Eigen::Vector2f pointToVec(const QPointF &p)
  *@note If SkyPoint is a DeepSkyObject, this method automatically
  *decides the image size required to fit the object.
  */
-QString getDSSURL( const SkyPoint * const p );
+QString getDSSURL(const SkyPoint *const p);
 
 /**
  *@short Create a URL to obtain a DSS image for a given RA, Dec
@@ -120,7 +120,7 @@ QString getDSSURL( const SkyPoint * const p );
  *@param type The image type, either gif or fits.
  *@note This method resets height and width to fall within the range accepted by DSS
  */
-QString getDSSURL( const dms &ra, const dms &dec, float width = 0, float height = 0, const QString &type = "gif");
+QString getDSSURL(const dms &ra, const dms &dec, float width = 0, float height = 0, const QString &type = "gif");
 
 /**
  *@short Return a string corresponding to an angle specifying direction
@@ -133,24 +133,24 @@ QString getDSSURL( const dms &ra, const dms &dec, float width = 0, float height 
  *@param angle angle as dms (measured from North, towards East)
  *@return A localized string corresponding to the approximate direction (eg: NNW)
  */
-QString toDirectionString( dms angle );
+QString toDirectionString(dms angle);
 /**
  *@short Converts StarObject list into SkyObject list
  *@param starObjList QList of StarObject pointers
  *@return Returns a pointer to QList of SkyObject pointers
  *@note Used for Star-Hopper
  */
-QList<SkyObject *> * castStarObjListToSkyObjList( QList<StarObject *> * starObjList );
-
+QList<SkyObject *> *castStarObjListToSkyObjList(QList<StarObject *> *starObjList);
 
 /**
  *@note Avoid using this method for the same reasons as QSharedPointer::data()
  */
-template <typename T> QList<T *> makeVanillaPointerList( const QList<QSharedPointer<T>> &spList )
+template <typename T>
+QList<T *> makeVanillaPointerList(const QList<QSharedPointer<T>> &spList)
 {
     QList<T *> vpList;
-    foreach( QSharedPointer<T> sp, spList )
-        vpList.append( sp.data() );
+    foreach (QSharedPointer<T> sp, spList)
+        vpList.append(sp.data());
     return vpList;
 }
 
@@ -159,29 +159,28 @@ template <typename T> QList<T *> makeVanillaPointerList( const QList<QSharedPoin
  *@param code Three-letter IAU abbreviation of the constellation
  *@return the genetive form of the constellation name
  */
-QString constGenetiveFromAbbrev( const QString &code );
+QString constGenetiveFromAbbrev(const QString &code);
 
 /**
  *@short Return the name of the constellation, given the abbreviation
  *@param code Three-letter IAU abbreviation of the constellation
  *@return the nominative form of the constellation name
  */
-QString constNameFromAbbrev( const QString &code );
+QString constNameFromAbbrev(const QString &code);
 
 /**
  *@short Return the abbreviation of the constellation, given the full name
  *@param fullName_ Full name of the constellation
  *@return the three-letter IAU standard abbreviation of the constellation
  */
-QString constNameToAbbrev( const QString &fullName_ );
+QString constNameToAbbrev(const QString &fullName_);
 
 /**
  *@short Return the abbreviation of the constellation, given the genetive form
  *@param genetive_ the genetive form of the constellation's name
  *@return the three-letter IAU standard abbreviation of the constellation
  */
-QString constGenetiveToAbbrev( const QString &genetive_ );
-
+QString constGenetiveToAbbrev(const QString &genetive_);
 
 /**
 * Interface into Qt's logging system
@@ -190,52 +189,47 @@ QString constGenetiveToAbbrev( const QString &genetive_ );
 */
 class Logging
 {
-    public:
-        /**
+  public:
+    /**
          * Store all logs into the specified file
          * @param filename the file in which to store logs
          */
-        static void UseFile();
+    static void UseFile();
 
-        /**
+    /**
          * Output logs to stdout
          */
-        static void UseStdout();
+    static void UseStdout();
 
-        /**
+    /**
          * Output logs to stderr
          */
-        static void UseStderr();
+    static void UseStderr();
 
-        /**
+    /**
          * Use the default logging mechanism
          */
-        static void UseDefault();
+    static void UseDefault();
 
-        /**
+    /**
          * Disable logging
          */
-        static void Disable();
+    static void Disable();
 
-    private:
-        static QString _filename;
+  private:
+    static QString _filename;
 
-        static void Disabled(QtMsgType type, const QMessageLogContext &context,
-                             const QString &msg);
-        static void File(QtMsgType type, const QMessageLogContext &context,
-                         const QString &msg);
-        static void Stdout(QtMsgType type, const QMessageLogContext &context,
-                           const QString &msg);
-        static void Stderr(QtMsgType type, const QMessageLogContext &context,
-                           const QString &msg);
-        static void Write(QTextStream &stream, QtMsgType type, const QString &msg);
-
+    static void Disabled(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+    static void File(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+    static void Stdout(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+    static void Stderr(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+    static void Write(QTextStream &stream, QtMsgType type, const QString &msg);
 };
 
 QString getDefaultPath(QString option);
 
 #ifdef Q_OS_OSX
-bool copyDataFolderFromAppBundleIfNeeded();//The boolean returns true if the data folders are good to go.
+bool copyDataFolderFromAppBundleIfNeeded(); //The boolean returns true if the data folders are good to go.
 void configureDefaultAstrometry();
 bool copyRecursively(QString sourceFolder, QString destFolder);
 #endif

@@ -28,17 +28,16 @@
 	*/
 class LogEdit : public QTextEdit
 {
-        Q_OBJECT
-    public:
-        explicit LogEdit( QWidget * parent=0 );
-        ~LogEdit() {}
+    Q_OBJECT
+  public:
+    explicit LogEdit(QWidget *parent = 0);
+    ~LogEdit() {}
 
-    signals:
-        void focusOut();
+  signals:
+    void focusOut();
 
-    protected:
-        void focusOutEvent( QFocusEvent * e ) Q_DECL_OVERRIDE;
+  protected:
+    void focusOutEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
 };
-
 
 #endif

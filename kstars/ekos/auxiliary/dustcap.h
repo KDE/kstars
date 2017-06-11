@@ -17,7 +17,6 @@
 
 namespace Ekos
 {
-
 /**
  *@class DustCap
  *@short Supports basic DustCap functions (open/close) and optionally control flat light
@@ -26,80 +25,75 @@ namespace Ekos
  */
 class DustCap : public QObject
 {
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.DustCap")
 
-        Q_OBJECT
-        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.DustCap")
+  public:
+    typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
 
-    public:
+    DustCap();
+    ~DustCap();
 
-        typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
-
-        DustCap();
-        ~DustCap();
-
-        /** @defgroup DustCapDBusInterface Ekos DBus Interface - DustCap Interface
+    /** @defgroup DustCapDBusInterface Ekos DBus Interface - DustCap Interface
          * Ekos::DustCap interface provides basic DustCap operations.
         */
 
-        /*@{*/
+    /*@{*/
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * If dust cap can park/unpark or is it just a light source?
          * @return True if park is supported, false otherwise
          */
-        Q_SCRIPTABLE bool canPark();
+    Q_SCRIPTABLE bool canPark();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Park / Close dust cap
          * @return True if operation started/successful, false otherwise
          */
-        Q_SCRIPTABLE bool park();
+    Q_SCRIPTABLE bool park();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * UnPark / Open dust cap
          * @return True if operation started/successful, false otherwise
          */
-        Q_SCRIPTABLE bool unpark();
+    Q_SCRIPTABLE bool unpark();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * hasLight: Does the dust cap have a flat light source?
          * @return True if there if flat light, false othereise
          */
-        Q_SCRIPTABLE bool hasLight();
+    Q_SCRIPTABLE bool hasLight();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * setLightEnabled: Turn on/off light box
          * @param enable If true, turn light on, otherwise turn light off
          * @return True if operation started/successful, false otherwise
          */
-        Q_SCRIPTABLE bool setLightEnabled(bool enable);
+    Q_SCRIPTABLE bool setLightEnabled(bool enable);
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * SetLight: Set light source brightness level
          * @return True if operation started/successful, false otherwise
          */
-        Q_SCRIPTABLE bool setBrightness(uint16_t val);
+    Q_SCRIPTABLE bool setBrightness(uint16_t val);
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Get the dome park status
          */
-        Q_SCRIPTABLE ParkingStatus getParkingStatus();
+    Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
-        /** @}*/
+    /** @}*/
 
-        /**
+    /**
          * @brief setDustCap set the DustCap device
          * @param newDustCap pointer to DustCap device.
          */
-        void setDustCap(ISD::GDInterface * newDustCap);
+    void setDustCap(ISD::GDInterface *newDustCap);
 
-    private:
-
-        // Devices needed for DustCap operation
-        ISD::DustCap * currentDustCap;
-
+  private:
+    // Devices needed for DustCap operation
+    ISD::DustCap *currentDustCap;
 };
-
 }
 
-#endif  // DustCap_H
+#endif // DustCap_H

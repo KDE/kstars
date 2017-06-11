@@ -19,8 +19,7 @@
 
 #include "orthographicprojector.h"
 
-OrthographicProjector::OrthographicProjector(const ViewParams &p)
-    : Projector(p)
+OrthographicProjector::OrthographicProjector(const ViewParams &p) : Projector(p)
 {
     updateClipPoly();
 }
@@ -45,4 +44,3 @@ double OrthographicProjector::projectionL(double x) const
 {
     return asin(x);
 }
-

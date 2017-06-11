@@ -86,185 +86,180 @@ struct ADVTreeData
 	*/
 class DetailDialog : public KPageDialog
 {
-        Q_OBJECT
-    public:
-        /**Constructor
+    Q_OBJECT
+  public:
+    /**Constructor
         	*/
-        DetailDialog( SkyObject * o, const KStarsDateTime &ut, GeoLocation * geo, QWidget * parent=0 );
+    DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent = 0);
 
-        /**Destructor
+    /**Destructor
         	*/
-        ~DetailDialog();
+    ~DetailDialog();
 
-        /**
+    /**
           *@return pointer to the QPixmap of the object's thumbnail image
         	*/
-        inline QPixmap * thumbnail()
-        {
-            return Thumbnail;
-        }
+    inline QPixmap *thumbnail() { return Thumbnail; }
 
-    public slots:
-        /** @short Slot to add this object to the observing list.
+  public slots:
+    /** @short Slot to add this object to the observing list.
         	*/
-        void addToObservingList();
+    void addToObservingList();
 
-        /** @short Slot to center this object in the display.
+    /** @short Slot to center this object in the display.
         	*/
-        void centerMap();
+    void centerMap();
 
-        /** @short Slot to center this object in the telescope.
+    /** @short Slot to center this object in the telescope.
         	*/
-        void centerTelescope();
+    void centerTelescope();
 
-        //TODO: showThumbnail() is only called in the ctor; make it private and not a slot.
-        /** @short Slot to display the thumbnail image for the object
+    //TODO: showThumbnail() is only called in the ctor; make it private and not a slot.
+    /** @short Slot to display the thumbnail image for the object
         	*/
-        void showThumbnail();
+    void showThumbnail();
 
-        /** @short Slot to update thumbnail image for the object, using the Thumbnail
+    /** @short Slot to update thumbnail image for the object, using the Thumbnail
           *Picker tool.
         	*@sa ThumbnailPicker
         	*/
-        void updateThumbnail();
+    void updateThumbnail();
 
-        /** @short Slot for viewing the selected image or info URL in the web browser.
+    /** @short Slot for viewing the selected image or info URL in the web browser.
         	*/
-        void viewLink();
+    void viewLink();
 
-        /**Popup menu function: Add a custom Image or Information URL.
+    /**Popup menu function: Add a custom Image or Information URL.
          * Opens the AddLinkDialog window.
          */
-        void addLink();
+    void addLink();
 
-        /**
+    /**
          *@short Set the currently-selected URL resource.
          *
          *This function is needed because there are two QListWidgets,
          *each with its own selection.  We need to know which the user selected
          *most recently.
          */
-        void setCurrentLink(QListWidgetItem * it);
+    void setCurrentLink(QListWidgetItem *it);
 
-        /** @short Rebuild the Image and Info URL lists for this object.
+    /** @short Rebuild the Image and Info URL lists for this object.
         	*@note used when an item is added to either list.
         	*/
-        void updateLists();
+    void updateLists();
 
-        /** @short Open a dialog to edit a URL in either the Images or Info lists,
+    /** @short Open a dialog to edit a URL in either the Images or Info lists,
         	*and update the user's *url.dat file.
         	*/
-        void editLinkDialog();
+    void editLinkDialog();
 
-        /** @short remove a URL entry from either the Images or Info lists, and
+    /** @short remove a URL entry from either the Images or Info lists, and
         	*update the user's *url.dat file.
         	*/
-        void removeLinkDialog();
+    void removeLinkDialog();
 
-        /**Open the web browser to the selected online astronomy database,
+    /**Open the web browser to the selected online astronomy database,
         	*with a query to the object of this Detail Dialog.
         	*/
-        void viewADVData();
+    void viewADVData();
 
-        /**Save the User's text in the Log Tab to the userlog.dat file.
+    /**Save the User's text in the Log Tab to the userlog.dat file.
         	*/
-        void saveLogData();
+    void saveLogData();
 
-        /**Update View/Edit/Remove buttons
+    /**Update View/Edit/Remove buttons
         	*/
-        void updateButtons();
+    void updateButtons();
 
-    private:
-
-        /**Build the General Data Tab for the current object.
+  private:
+    /**Build the General Data Tab for the current object.
         	*/
-        void createGeneralTab();
+    void createGeneralTab();
 
-        /**Build the Position Tab for the current object.
+    /**Build the Position Tab for the current object.
         	*/
-        void createPositionTab( const KStarsDateTime &ut, GeoLocation * geo );
+    void createPositionTab(const KStarsDateTime &ut, GeoLocation *geo);
 
-        /**Build the Links Tab, populating the image and info lists with the
+    /**Build the Links Tab, populating the image and info lists with the
         	*known URLs for the current Object.
         	*/
-        void createLinksTab();
+    void createLinksTab();
 
-        /**Build the Advanced Tab
+    /**Build the Advanced Tab
         	*/
-        void createAdvancedTab();
+    void createAdvancedTab();
 
-        /**Build the Log Tab
+    /**Build the Log Tab
         	*/
-        void createLogTab();
+    void createLogTab();
 
-        /**Populate the TreeView of known astronomical databases in the Advanced Tab
+    /**Populate the TreeView of known astronomical databases in the Advanced Tab
         	*/
-        void populateADVTree();
+    void populateADVTree();
 
-        /**Data for the Advanced Tab TreeView is stored in the file advinterface.dat.
+    /**Data for the Advanced Tab TreeView is stored in the file advinterface.dat.
         	*This function parses advinterface.dat.
         	*/
-        QString parseADVData( const QString &link );
+    QString parseADVData(const QString &link);
 
-        /** Update the local info_url and image_url files
+    /** Update the local info_url and image_url files
         	@param type The URL type. 0 for Info Links, 1 for Images.
         	@param search_line The line to be search for in the local URL files
         	@param replace_line The replacement line once search_line is found.
         	@note If replace_line is empty, the function will remove search_line from the file
         */
-        void updateLocalDatabase(int type, const QString &search_line, const QString &replace_line = QString());
+    void updateLocalDatabase(int type, const QString &search_line, const QString &replace_line = QString());
 
-        SkyObject * selectedObject;
-        QPalette titlePalette;
+    SkyObject *selectedObject;
+    QPalette titlePalette;
 
-        QListWidgetItem * m_CurrentLink;
+    QListWidgetItem *m_CurrentLink;
 
-        QPixmap * Thumbnail;
-        QStringList dataList;
+    QPixmap *Thumbnail;
+    QStringList dataList;
 
-        DataWidget * Data;
-        DataCometWidget * DataComet;
-        PositionWidget * Pos;
-        LinksWidget * Links;
-        DatabaseWidget * Adv;
-        LogWidget * Log;
-
+    DataWidget *Data;
+    DataCometWidget *DataComet;
+    PositionWidget *Pos;
+    LinksWidget *Links;
+    DatabaseWidget *Adv;
+    LogWidget *Log;
 };
 
 class DataWidget : public QFrame, public Ui::DetailsData
 {
-    public:
-        explicit DataWidget( QWidget * parent=0 );
+  public:
+    explicit DataWidget(QWidget *parent = 0);
 };
 
 class DataCometWidget : public QFrame, public Ui::DetailsDataComet
 {
-    public:
-        explicit DataCometWidget( QWidget * parent=0 );
+  public:
+    explicit DataCometWidget(QWidget *parent = 0);
 };
 
 class PositionWidget : public QFrame, public Ui::DetailsPosition
 {
-    public:
-        explicit PositionWidget( QWidget * parent=0 );
+  public:
+    explicit PositionWidget(QWidget *parent = 0);
 };
 
 class LinksWidget : public QFrame, public Ui::DetailsLinks
 {
-    public:
-        explicit LinksWidget( QWidget * parent=0 );
+  public:
+    explicit LinksWidget(QWidget *parent = 0);
 };
 
 class DatabaseWidget : public QFrame, public Ui::DetailsDatabase
 {
-    public:
-        explicit DatabaseWidget( QWidget * parent=0 );
+  public:
+    explicit DatabaseWidget(QWidget *parent = 0);
 };
 
 class LogWidget : public QFrame, public Ui::DetailsLog
 {
-    public:
-        explicit LogWidget( QWidget * parent=0 );
+  public:
+    explicit LogWidget(QWidget *parent = 0);
 };
 
 #endif

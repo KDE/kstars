@@ -28,7 +28,7 @@
 #include <QDir>
 #include <QTemporaryFile>
 
-TestCSVParser::TestCSVParser(): QObject()
+TestCSVParser::TestCSVParser() : QObject()
 {
 }
 
@@ -72,7 +72,7 @@ void TestCSVParser::initTestCase()
                                "3,"
                                "\"isn't, pi\","
                                "and,"
-                               "\"\","));  // less than required fields
+                               "\"\",")); // less than required fields
     test_cases_.append(QString(","
                                "isn't,"
                                "it,"
@@ -81,7 +81,7 @@ void TestCSVParser::initTestCase()
                                "3,"
                                "\"isn't, pi\","
                                "and,"
-                               "\","  // no matching "
+                               "\"," // no matching "
                                "-3.141,"
                                "isn't,"
                                "either\n"));
@@ -94,7 +94,7 @@ void TestCSVParser::initTestCase()
     QVERIFY(temp_file.open());
     test_file_name_ = temp_file.fileName();
     QTextStream out_stream(&temp_file);
-    foreach(const QString &test_case, test_cases_)
+    foreach (const QString &test_case, test_cases_)
         out_stream << test_case;
     temp_file.close();
 
@@ -125,7 +125,6 @@ void TestCSVParser::cleanupTestCase()
     delete test_parser_;
 }
 
-
 /*
  * The following tests checks for the following cases for CSV files
  *  1. Mixed inputs (See test case for description)
@@ -137,7 +136,6 @@ void TestCSVParser::cleanupTestCase()
  *  6. Attempt to read missing file
  *
 */
-
 
 void TestCSVParser::CSVMixedInputs()
 {
@@ -193,7 +191,6 @@ void TestCSVParser::CSVQuotesInQuotes()
     QCOMPARE(row_content["field11"].toString(), QString("isn't"));
     QCOMPARE(row_content["field12"].toString(), QString("either"));
 }
-
 
 void TestCSVParser::CSVEmptyRow()
 {
@@ -269,7 +266,6 @@ void TestCSVParser::CSVIgnoreHasNextRow()
     }
 }
 
-
 void TestCSVParser::CSVReadMissingFile()
 {
     /*
@@ -297,6 +293,5 @@ void TestCSVParser::CSVReadMissingFile()
         QCOMPARE(row_content["field12"].toString(), QString("Null"));
     }
 }
-
 
 QTEST_GUILESS_MAIN(TestCSVParser)

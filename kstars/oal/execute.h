@@ -22,7 +22,7 @@
 #include "ui_execute.h"
 
 #include <QWidget>
-#include<QDialog>
+#include <QDialog>
 
 #include "kstars.h"
 #include "geolocation.h"
@@ -39,111 +39,111 @@ class KStars;
  */
 class Execute : public QDialog
 {
-        Q_OBJECT
-    public:
-        /** @short Default constructor
+    Q_OBJECT
+  public:
+    /** @short Default constructor
          */
-        Execute();
+    Execute();
 
-        /** @short This initializes the combo boxes, and sets up the
+    /** @short This initializes the combo boxes, and sets up the
          * dateTime and geolocation from the OL
          */
-        void init();
+    void init();
 
-    public slots:
-        /** @short Function to handle the UI when the 'next' button is pressed
+  public slots:
+    /** @short Function to handle the UI when the 'next' button is pressed
          * This calls the corresponding functions based on the currentIndex
          */
-        void slotNext();
+    void slotNext();
 
-        /*Function to Save the session details*/
-        bool saveSession();
+    /*Function to Save the session details*/
+    bool saveSession();
 
-        /** @short Function to save the user notes set for
+    /** @short Function to save the user notes set for
          * the current object in the target combo box
          */
-        void addTargetNotes();
+    void addTargetNotes();
 
-        //
-        void slotObserverAdd();
-        //
+    //
+    void slotObserverAdd();
+    //
 
-        /** @short Function to add the current observation to the observation list
+    /** @short Function to add the current observation to the observation list
          */
-        bool addObservation();
+    bool addObservation();
 
-        /** @short Function to handle the state of current observation,
+    /** @short Function to handle the state of current observation,
          * and hiding the execute window
          */
-        void slotEndSession();
+    void slotEndSession();
 
-        /** @short Opens the location dialog for setting the current location
+    /** @short Opens the location dialog for setting the current location
          */
-        void slotLocation();
+    void slotLocation();
 
-        /** @short Loads the sessionlist from the OL
+    /** @short Loads the sessionlist from the OL
          * into the target combo box
          */
-        void loadTargets();
+    void loadTargets();
 
-        /** @short Sorts the target list using the scheduled time
+    /** @short Sorts the target list using the scheduled time
          */
-        void sortTargetList();
+    void sortTargetList();
 
-        /** @short set the currentTarget when the user selection
+    /** @short set the currentTarget when the user selection
          * is changed in the target combo box
          */
-        void slotSetTarget( QString name );
+    void slotSetTarget(QString name);
 
-        /** @short loads the equipment list from
+    /** @short loads the equipment list from
          * the global logObject into the comboBoxes
          */
-        void loadEquipment();
+    void loadEquipment();
 
-        /** @short loads the observer list from
+    /** @short loads the observer list from
          * the global logObject into the comboBoxes
          */
-        void loadObservers();
+    void loadObservers();
 
-        /** @short loads the observation edit page
+    /** @short loads the observation edit page
          */
-        void loadObservationTab();
+    void loadObservationTab();
 
-        /** @short get object name. If star has no name, generate a name based on catalog number.
+    /** @short get object name. If star has no name, generate a name based on catalog number.
          * @param translated set to true if the translated name is required.
          */
-        QString getObjectName(const SkyObject * o, bool translated=true);
+    QString getObjectName(const SkyObject *o, bool translated = true);
 
-        void selectNextTarget();
+    void selectNextTarget();
 
-        void loadCurrentItems();
+    void loadCurrentItems();
 
-        void slotSetCurrentObjects();
+    void slotSetCurrentObjects();
 
-        void slotSlew();
+    void slotSlew();
 
-        void slotShowSession();
+    void slotShowSession();
 
-        void slotShowTargets();
+    void slotShowTargets();
 
-        int findIndexOfTarget( QString );
+    int findIndexOfTarget(QString);
 
-        void slotAddObject();
+    void slotAddObject();
 
-        void slotRemoveObject();
+    void slotRemoveObject();
 
-    private:
-        Ui::Execute ui;
-        OAL::Session * currentSession;
-        OAL::Log * logObject;
-        OAL::Observer * currentObserver;
-        OAL::Scope * currentScope;
-        OAL::Eyepiece * currentEyepiece;
-        OAL::Lens * currentLens;
-        OAL::Filter * currentFilter;
-        GeoLocation * geo;
-        SkyObject * currentTarget;
-        int nextSession, nextObservation, nextSite;
+  private:
+    Ui::Execute ui;
+    OAL::Session *currentSession;
+    OAL::Log *logObject;
+    OAL::Observer *currentObserver;
+    OAL::Scope *currentScope;
+    OAL::Eyepiece *currentEyepiece;
+    OAL::Lens *currentLens;
+    OAL::Filter *currentFilter;
+    GeoLocation *geo;
+    SkyObject *currentTarget;
+    int nextSession, nextObservation, nextSite;
 };
 
 #endif

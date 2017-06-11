@@ -19,7 +19,6 @@
 
 class KStars;
 
-
 /** @class OpsFITS
  *The FITS Tab of the Options window.  Configure FITS options including look and feel and how FITS Viewer processes the data.
  *@author Jasem Mutlaq
@@ -27,10 +26,10 @@ class KStars;
  */
 class OpsFITS : public QFrame, public Ui::OpsFITS
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        explicit OpsFITS();
+  public:
+    explicit OpsFITS();
 };
 
 #endif

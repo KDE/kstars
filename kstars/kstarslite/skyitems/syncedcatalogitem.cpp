@@ -8,9 +8,11 @@
 #include "deepskyobject.h"
 #include "starobject.h"
 
-SyncedCatalogItem::SyncedCatalogItem(SyncedCatalogComponent * parent, RootNode * rootNode)
-    :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode), m_parent(parent), //It has NO_LABEL type because it handles two types of labels (CATALOG_STAR_LABEL and CATALOG_DSO_LABEL)
-     stars(new QSGNode), dsoSymbols(new QSGNode), dsoNodes(new QSGNode)
+SyncedCatalogItem::SyncedCatalogItem(SyncedCatalogComponent *parent, RootNode *rootNode)
+    : SkyItem(LabelsItem::label_t::NO_LABEL, rootNode),
+      m_parent(
+          parent), //It has NO_LABEL type because it handles two types of labels (CATALOG_STAR_LABEL and CATALOG_DSO_LABEL)
+      stars(new QSGNode), dsoSymbols(new QSGNode), dsoNodes(new QSGNode)
 {
     appendChildNode(stars);
     appendChildNode(dsoSymbols);
@@ -19,7 +21,7 @@ SyncedCatalogItem::SyncedCatalogItem(SyncedCatalogComponent * parent, RootNode *
 
 void SyncedCatalogItem::update()
 {
-    if ( !m_parent->selected() )
+    if (!m_parent->selected())
     {
         hide();
         return;
@@ -27,24 +29,24 @@ void SyncedCatalogItem::update()
     QColor catColor = m_parent->catColor();
 
     // If an object was added/deleted to catalog or we are initializing it recreate all nodes
-    if(m_ObjectList != m_parent->objectList())
+    if (m_ObjectList != m_parent->objectList())
     {
         //Update coordinates of newly added objects
-        m_parent->update( 0 );
+        m_parent->update(0);
 
-        QSGNode * n;
+        QSGNode *n;
         //Clear all nodes
-        while( (n = stars->firstChild()) )
+        while ((n = stars->firstChild()))
         {
             stars->removeChildNode(n);
             delete n;
         }
-        while( (n = dsoSymbols->firstChild()) )
+        while ((n = dsoSymbols->firstChild()))
         {
             dsoSymbols->removeChildNode(n);
             delete n;
         }
-        while( (n = dsoNodes->firstChild()) )
+        while ((n = dsoNodes->firstChild()))
         {
             dsoNodes->removeChildNode(n);
             delete n;
@@ -54,44 +56,45 @@ void SyncedCatalogItem::update()
 
         //Draw Custom Catalog objects
         // FIXME: Improve using HTM!
-        foreach ( SkyObject * obj, m_ObjectList )
+        foreach (SkyObject *obj, m_ObjectList)
         {
-            if ( obj->type()==0 )
+            if (obj->type() == 0)
             {
-                StarObject * starObj = static_cast<StarObject *>(obj);
-                PointSourceNode * point = new PointSourceNode(starObj, rootNode(), LabelsItem::label_t::CATALOG_STAR_LABEL, starObj->spchar(), starObj->mag());
+                StarObject *starObj    = static_cast<StarObject *>(obj);
+                PointSourceNode *point = new PointSourceNode(
+                    starObj, rootNode(), LabelsItem::label_t::CATALOG_STAR_LABEL, starObj->spchar(), starObj->mag());
                 stars->appendChildNode(point);
             }
             else
             {
-                DeepSkyObject * dsoObj = static_cast<DeepSkyObject *>(obj);
-                DSOSymbolNode * dsoSymbol = new DSOSymbolNode(dsoObj, catColor);
+                DeepSkyObject *dsoObj    = static_cast<DeepSkyObject *>(obj);
+                DSOSymbolNode *dsoSymbol = new DSOSymbolNode(dsoObj, catColor);
                 dsoSymbols->appendChildNode(dsoSymbol);
 
-                DeepSkyNode * dsoNode = new DeepSkyNode(dsoObj, dsoSymbol, LabelsItem::label_t::CATALOG_DSO_LABEL);
+                DeepSkyNode *dsoNode = new DeepSkyNode(dsoObj, dsoSymbol, LabelsItem::label_t::CATALOG_DSO_LABEL);
                 dsoNodes->appendChildNode(dsoNode);
             }
         }
     }
 
     // Check if the coordinates have been updated
-    if( m_parent->getUpdateID() != KStarsData::Instance()->updateID() )
-        m_parent->update( 0 );
+    if (m_parent->getUpdateID() != KStarsData::Instance()->updateID())
+        m_parent->update(0);
 
     //Update stars
-    QSGNode * n = stars->firstChild();
-    while(n)
+    QSGNode *n = stars->firstChild();
+    while (n)
     {
-        PointSourceNode * p = static_cast<PointSourceNode *>(n);
+        PointSourceNode *p = static_cast<PointSourceNode *>(n);
         p->update();
         n = n->nextSibling();
     }
 
     //Update DSOs
     n = dsoNodes->firstChild();
-    while(n)
+    while (n)
     {
-        DeepSkyNode * p = static_cast<DeepSkyNode *>(n);
+        DeepSkyNode *p = static_cast<DeepSkyNode *>(n);
         p->update(true, false); //We don't draw labels for DSOs
         n = n->nextSibling();
     }

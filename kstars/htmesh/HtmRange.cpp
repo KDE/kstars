@@ -3,14 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#define INSIDE     1
-#define OUTSIDE   -1
-#define INTERSECT  0
+#define INSIDE         1
+#define OUTSIDE        -1
+#define INTERSECT      0
 #define GAP_HISTO_SIZE 10000
 
-
 extern "C" {
-    int cc_ID2name(char * name, uint64 id);
+int cc_ID2name(char *name, uint64 id);
 }
 
 HtmRange::HtmRange()
@@ -47,9 +46,9 @@ InclusionType HtmRange::tinside(const Key mid) const
     else
         t2 = InclOutside;
 
-    if( t1 == t2 )
+    if (t1 == t2)
         return t1;
-    if( t1 == InclInside )
+    if (t1 == InclInside)
         return InclHi;
     else
         return InclLo;
@@ -68,7 +67,7 @@ void HtmRange::mergeRange(const Key lo, const Key hi)
     if (lo_flag == InclHi)
     {
     }
-    else if (lo_flag == InclLo || (lo_flag ==  InclOutside) )
+    else if (lo_flag == InclLo || (lo_flag == InclOutside))
     {
         my_los->insert(lo, 33);
     }
@@ -88,12 +87,12 @@ void HtmRange::reset()
     my_his->reset();
 }
 
-int HtmRange::getNext(Key * lo, Key * hi)
+int HtmRange::getNext(Key *lo, Key *hi)
 {
     *lo = my_los->getkey();
-    if (*lo <= (Key) 0)
+    if (*lo <= (Key)0)
     {
-        *hi = *lo = (Key) 0;
+        *hi = *lo = (Key)0;
         return 0;
     }
     *hi = my_his->getkey();

@@ -28,21 +28,21 @@
   */
 class PWizFovTypeSelectionUI : public QFrame, public Ui::PWizFovTypeSelection
 {
-        Q_OBJECT
-    public:
-        /**
+    Q_OBJECT
+  public:
+    /**
           * \brief Constructor.
           */
-        explicit PWizFovTypeSelectionUI(PrintingWizard * wizard, QWidget * parent = 0);
+    explicit PWizFovTypeSelectionUI(PrintingWizard *wizard, QWidget *parent = 0);
 
-        /**
+    /**
           * \brief Get selected FOV export method.
           * \return Selected FOV export method.
           */
-        PrintingWizard::FOV_TYPE getFovExportType();
+    PrintingWizard::FOV_TYPE getFovExportType();
 
-    private:
-        PrintingWizard * m_ParentWizard;
+  private:
+    PrintingWizard *m_ParentWizard;
 };
 
 #endif // PWIZFOVTYPESELECTION_H

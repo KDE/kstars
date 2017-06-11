@@ -15,14 +15,14 @@
 #include "videowg.h"
 #include "Options.h"
 
-VideoWG::VideoWG(QWidget * parent) : QLabel(parent)
+VideoWG::VideoWG(QWidget *parent) : QLabel(parent)
 {
-    streamImage    = new QImage();
+    streamImage = new QImage();
 
     grayTable.resize(256);
 
-    for (int i=0; i<256; i++)
-        grayTable[i]=qRgb(i,i,i);
+    for (int i = 0; i < 256; i++)
+        grayTable[i] = qRgb(i, i, i);
 }
 
 VideoWG::~VideoWG()
@@ -30,7 +30,7 @@ VideoWG::~VideoWG()
     delete (streamImage);
 }
 
-bool VideoWG::newFrame(IBLOB * bp)
+bool VideoWG::newFrame(IBLOB *bp)
 {
     if (bp->size <= 0)
         return false;
@@ -44,13 +44,13 @@ bool VideoWG::newFrame(IBLOB * bp)
         rc = streamImage->loadFromData(static_cast<uchar *>(bp->blob), bp->size);
     else if (static_cast<uint32_t>(bp->size) > totalBaseCount)
     {
-        delete(streamImage);
+        delete (streamImage);
         streamImage = new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_RGB888);
-        rc = !streamImage->isNull();
+        rc          = !streamImage->isNull();
     }
     else if (static_cast<uint32_t>(bp->size) == totalBaseCount)
     {
-        delete(streamImage);
+        delete (streamImage);
         streamImage = new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_Indexed8);
         streamImage->setColorTable(grayTable);
         rc = !streamImage->isNull();
@@ -65,25 +65,25 @@ bool VideoWG::newFrame(IBLOB * bp)
     return rc;
 }
 
-bool VideoWG::save(const QString &filename, const char * format)
+bool VideoWG::save(const QString &filename, const char *format)
 {
     return kPix.save(filename, format);
 }
 
 void VideoWG::setSize(uint16_t w, uint16_t h)
 {
-    streamW = w;
-    streamH = h;
-    totalBaseCount = w*h;
+    streamW        = w;
+    streamH        = h;
+    totalBaseCount = w * h;
 }
 
-void VideoWG::resizeEvent(QResizeEvent * ev)
+void VideoWG::resizeEvent(QResizeEvent *ev)
 {
     setPixmap(QPixmap::fromImage(streamImage->scaled(ev->size(), Qt::KeepAspectRatio)));
     ev->accept();
 }
 
-void VideoWG::mousePressEvent(QMouseEvent * event)
+void VideoWG::mousePressEvent(QMouseEvent *event)
 {
     origin = event->pos();
     if (!rubberBand)
@@ -92,7 +92,7 @@ void VideoWG::mousePressEvent(QMouseEvent * event)
     rubberBand->show();
 }
 
-void VideoWG::mouseMoveEvent(QMouseEvent * event)
+void VideoWG::mouseMoveEvent(QMouseEvent *event)
 {
     rubberBand->setGeometry(QRect(origin, event->pos()).normalized());
 }
@@ -102,17 +102,17 @@ void VideoWG::mouseReleaseEvent(QMouseEvent *)
     rubberBand->hide();
 
     QRect rawSelection = rubberBand->geometry();
-    int pixmapX = (width() - kPix.width())/2;
-    int pixmapY = (height() - kPix.height())/2;
+    int pixmapX        = (width() - kPix.width()) / 2;
+    int pixmapY        = (height() - kPix.height()) / 2;
 
     QRect finalSelection;
 
-    double scaleX = static_cast<double>(streamImage->width())  / kPix.width();
+    double scaleX = static_cast<double>(streamImage->width()) / kPix.width();
     double scaleY = static_cast<double>(streamImage->height()) / kPix.height();
 
-    finalSelection.setX( (rawSelection.x() - pixmapX) * scaleX);
-    finalSelection.setY( (rawSelection.y() - pixmapY) * scaleY);
-    finalSelection.setWidth(rawSelection.width()  * scaleX);
+    finalSelection.setX((rawSelection.x() - pixmapX) * scaleX);
+    finalSelection.setY((rawSelection.y() - pixmapY) * scaleY);
+    finalSelection.setWidth(rawSelection.width() * scaleX);
     finalSelection.setHeight(rawSelection.height() * scaleY);
 
     emit newSelection(finalSelection);

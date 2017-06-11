@@ -20,15 +20,14 @@
 #include <KHelpClient>
 #include <QMessageBox>
 
-KSHelpLabel::KSHelpLabel(const QString &text, const QString &anchor,
-                         QWidget * parent) : QLabel(parent), m_anchor(anchor)
+KSHelpLabel::KSHelpLabel(const QString &text, const QString &anchor, QWidget *parent) : QLabel(parent), m_anchor(anchor)
 {
     setText(text);
     updateText();
     connect(this, SIGNAL(linkActivated(QString)), SLOT(slotShowDefinition(QString)));
 }
 
-KSHelpLabel::KSHelpLabel(QWidget * parent) : QLabel(parent)
+KSHelpLabel::KSHelpLabel(QWidget *parent) : QLabel(parent)
 {
     connect(this, SIGNAL(linkActivated(QString)), SLOT(slotShowDefinition(QString)));
 }
@@ -41,7 +40,10 @@ void KSHelpLabel::setAnchor(const QString &anchor)
 
 void KSHelpLabel::updateText()
 {
-    QString linkcolor = ( Options::darkAppColors() ? "red" : "blue" ); // In night colors mode, use red links because blue links are black through a red filter.
+    QString linkcolor =
+        (Options::darkAppColors() ?
+             "red" :
+             "blue"); // In night colors mode, use red links because blue links are black through a red filter.
     QLabel::setText("<a href=\"ai-" + m_anchor + "\" style=\"color: " + linkcolor + "\" >" + text() + "</a>");
 }
 

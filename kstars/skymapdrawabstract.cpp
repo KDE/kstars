@@ -20,8 +20,6 @@
 // Harris. Essentially, skymapdraw.cpp was renamed and modified.
 // -- asimha (2011)
 
-
-
 #include <QPainter>
 #include <QPixmap>
 
@@ -59,25 +57,24 @@
 
 bool SkyMapDrawAbstract::m_DrawLock = false;
 
-SkyMapDrawAbstract::SkyMapDrawAbstract( SkyMap * sm ) :
-    m_KStarsData( KStarsData::Instance() ), m_SkyMap( sm )
+SkyMapDrawAbstract::SkyMapDrawAbstract(SkyMap *sm) : m_KStarsData(KStarsData::Instance()), m_SkyMap(sm)
 {
     //m_fpstime.start();
     //m_framecount = 0;
 }
 
-void SkyMapDrawAbstract::drawOverlays( QPainter &p, bool drawFov )
+void SkyMapDrawAbstract::drawOverlays(QPainter &p, bool drawFov)
 {
-    if( !KStars::Instance() )
+    if (!KStars::Instance())
         return;
 
     //draw labels
     SkyLabeler::Instance()->draw(p);
 
-    if( drawFov )
+    if (drawFov)
     {
         //draw FOV symbol
-        foreach( FOV * fov, m_KStarsData->getVisibleFOVs() )
+        foreach (FOV *fov, m_KStarsData->getVisibleFOVs())
         {
             fov->draw(p, Options::zoomFactor());
         }
@@ -85,112 +82,140 @@ void SkyMapDrawAbstract::drawOverlays( QPainter &p, bool drawFov )
 
     drawSolverFOV(p);
 
-    drawTelescopeSymbols( p );
+    drawTelescopeSymbols(p);
 
-    drawZoomBox( p );
+    drawZoomBox(p);
 
     // FIXME: Maybe we should take care of this differently. Maybe
     // drawOverlays should remain in SkyMap, since it just calls
     // certain drawing functions which are implemented in
     // SkyMapDrawAbstract. Really, it doesn't draw anything on its
     // own.
-    if ( m_SkyMap->rulerMode )
+    if (m_SkyMap->rulerMode)
     {
         m_SkyMap->updateAngleRuler();
-        drawAngleRuler( p );
+        drawAngleRuler(p);
     }
 }
 
-void SkyMapDrawAbstract::drawAngleRuler( QPainter &p )
+void SkyMapDrawAbstract::drawAngleRuler(QPainter &p)
 {
     //FIXME use sky painter.
-    p.setPen( QPen( m_KStarsData->colorScheme()->colorNamed( "AngularRuler" ), 3.0, Qt::DotLine ) );
+    p.setPen(QPen(m_KStarsData->colorScheme()->colorNamed("AngularRuler"), 3.0, Qt::DotLine));
     p.drawLine(
-        m_SkyMap->m_proj->toScreen( m_SkyMap->AngularRuler.point(0) ), // FIXME: More ugliness. m_proj should probably be a single-instance class, or we should have our own instance etc.
-        m_SkyMap->m_proj->toScreen( m_SkyMap->AngularRuler.point(1) ) ); // FIXME: Again, AngularRuler should be something better -- maybe a class in itself. After all it's used for more than one thing after we integrate the StarHop feature.
+        m_SkyMap->m_proj->toScreen(m_SkyMap->AngularRuler.point(
+            0)), // FIXME: More ugliness. m_proj should probably be a single-instance class, or we should have our own instance etc.
+        m_SkyMap->m_proj->toScreen(m_SkyMap->AngularRuler.point(
+            1))); // FIXME: Again, AngularRuler should be something better -- maybe a class in itself. After all it's used for more than one thing after we integrate the StarHop feature.
 }
 
-void SkyMapDrawAbstract::drawZoomBox( QPainter &p )
+void SkyMapDrawAbstract::drawZoomBox(QPainter &p)
 {
     //draw the manual zoom-box, if it exists
-    if ( m_SkyMap->ZoomRect.isValid() )
+    if (m_SkyMap->ZoomRect.isValid())
     {
-        p.setPen( QPen( Qt::white, 1.0, Qt::DotLine ) );
-        p.drawRect( m_SkyMap->ZoomRect.x(), m_SkyMap->ZoomRect.y(), m_SkyMap->ZoomRect.width(), m_SkyMap->ZoomRect.height() );
+        p.setPen(QPen(Qt::white, 1.0, Qt::DotLine));
+        p.drawRect(m_SkyMap->ZoomRect.x(), m_SkyMap->ZoomRect.y(), m_SkyMap->ZoomRect.width(),
+                   m_SkyMap->ZoomRect.height());
     }
 }
 
-void SkyMapDrawAbstract::drawObjectLabels( QList<SkyObject *> &labelObjects )
+void SkyMapDrawAbstract::drawObjectLabels(QList<SkyObject *> &labelObjects)
 {
-    bool checkSlewing = ( m_SkyMap->slewing || ( m_SkyMap->clockSlewing && m_KStarsData->clock()->isActive() ) ) && Options::hideOnSlew();
-    if ( checkSlewing && Options::hideLabels() ) return;
+    bool checkSlewing =
+        (m_SkyMap->slewing || (m_SkyMap->clockSlewing && m_KStarsData->clock()->isActive())) && Options::hideOnSlew();
+    if (checkSlewing && Options::hideLabels())
+        return;
 
-    SkyLabeler * skyLabeler = SkyLabeler::Instance();
-    skyLabeler->resetFont();      // use the zoom dependent font
+    SkyLabeler *skyLabeler = SkyLabeler::Instance();
+    skyLabeler->resetFont(); // use the zoom dependent font
 
-    skyLabeler->setPen( m_KStarsData->colorScheme()->colorNamed( "UserLabelColor" ) );
+    skyLabeler->setPen(m_KStarsData->colorScheme()->colorNamed("UserLabelColor"));
 
-    bool drawPlanets    = Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets());
-    bool drawComets     = drawPlanets && Options::showComets();
-    bool drawAsteroids  = drawPlanets && Options::showAsteroids();
-    bool drawMessier    = Options::showDeepSky() && ( Options::showMessier() || Options::showMessierImages() ) && !(checkSlewing && Options::hideMessier() );
-    bool drawNGC        = Options::showDeepSky() && Options::showNGC() && !(checkSlewing && Options::hideNGC() );
-    bool drawIC         = Options::showDeepSky() && Options::showIC() && !(checkSlewing && Options::hideIC() );
-    bool drawOther      = Options::showDeepSky() && Options::showOther() && !(checkSlewing && Options::hideOther() );
+    bool drawPlanets   = Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets());
+    bool drawComets    = drawPlanets && Options::showComets();
+    bool drawAsteroids = drawPlanets && Options::showAsteroids();
+    bool drawMessier   = Options::showDeepSky() && (Options::showMessier() || Options::showMessierImages()) &&
+                       !(checkSlewing && Options::hideMessier());
+    bool drawNGC        = Options::showDeepSky() && Options::showNGC() && !(checkSlewing && Options::hideNGC());
+    bool drawIC         = Options::showDeepSky() && Options::showIC() && !(checkSlewing && Options::hideIC());
+    bool drawOther      = Options::showDeepSky() && Options::showOther() && !(checkSlewing && Options::hideOther());
     bool drawStars      = Options::showStars();
     bool hideFaintStars = checkSlewing && Options::hideStars();
 
     //Attach a label to the centered object
-    if ( m_SkyMap->focusObject() != nullptr && Options::useAutoLabel() )
+    if (m_SkyMap->focusObject() != nullptr && Options::useAutoLabel())
     {
-        QPointF o = m_SkyMap->m_proj->toScreen( m_SkyMap->focusObject() ); // FIXME: Same thing. m_proj should be accessible here.
-        skyLabeler->drawNameLabel( m_SkyMap->focusObject(), o );
+        QPointF o =
+            m_SkyMap->m_proj->toScreen(m_SkyMap->focusObject()); // FIXME: Same thing. m_proj should be accessible here.
+        skyLabeler->drawNameLabel(m_SkyMap->focusObject(), o);
     }
 
-    foreach ( SkyObject * obj, labelObjects )
+    foreach (SkyObject *obj, labelObjects)
     {
         //Only draw an attached label if the object is being drawn to the map
         //reproducing logic from other draw funcs here...not an optimal solution
-        if ( obj->type() == SkyObject::STAR || obj->type() == SkyObject::CATALOG_STAR || obj->type() == SkyObject::MULT_STAR )
+        if (obj->type() == SkyObject::STAR || obj->type() == SkyObject::CATALOG_STAR ||
+            obj->type() == SkyObject::MULT_STAR)
         {
-            if ( ! drawStars ) continue;
+            if (!drawStars)
+                continue;
             //            if ( obj->mag() > Options::magLimitDrawStar() ) continue;
-            if ( hideFaintStars && obj->mag() > Options::magLimitHideStar() ) continue;
+            if (hideFaintStars && obj->mag() > Options::magLimitHideStar())
+                continue;
         }
-        if ( obj->type() == SkyObject::PLANET )
+        if (obj->type() == SkyObject::PLANET)
         {
-            if ( ! drawPlanets ) continue;
-            if ( obj->name() == "Sun" && ! Options::showSun() ) continue;
-            if ( obj->name() == i18n( "Mercury" ) && ! Options::showMercury() ) continue;
-            if ( obj->name() == i18n( "Venus" ) && ! Options::showVenus() ) continue;
-            if ( obj->name() == "Moon" && ! Options::showMoon() ) continue;
-            if ( obj->name() == i18n( "Mars" ) && ! Options::showMars() ) continue;
-            if ( obj->name() == i18n( "Jupiter" ) && ! Options::showJupiter() ) continue;
-            if ( obj->name() == i18n( "Saturn" ) && ! Options::showSaturn() ) continue;
-            if ( obj->name() == i18n( "Uranus" ) && ! Options::showUranus() ) continue;
-            if ( obj->name() == i18n( "Neptune" ) && ! Options::showNeptune() ) continue;
+            if (!drawPlanets)
+                continue;
+            if (obj->name() == "Sun" && !Options::showSun())
+                continue;
+            if (obj->name() == i18n("Mercury") && !Options::showMercury())
+                continue;
+            if (obj->name() == i18n("Venus") && !Options::showVenus())
+                continue;
+            if (obj->name() == "Moon" && !Options::showMoon())
+                continue;
+            if (obj->name() == i18n("Mars") && !Options::showMars())
+                continue;
+            if (obj->name() == i18n("Jupiter") && !Options::showJupiter())
+                continue;
+            if (obj->name() == i18n("Saturn") && !Options::showSaturn())
+                continue;
+            if (obj->name() == i18n("Uranus") && !Options::showUranus())
+                continue;
+            if (obj->name() == i18n("Neptune") && !Options::showNeptune())
+                continue;
             //if ( obj->name() == i18n( "Pluto" ) && ! Options::showPluto() ) continue;
         }
-        if ( (obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY) ||
-                (obj->type() >= SkyObject::ASTERISM && obj->type() <= SkyObject::QUASAR) ||
-                (obj->type() == SkyObject::RADIO_SOURCE))
+        if ((obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY) ||
+            (obj->type() >= SkyObject::ASTERISM && obj->type() <= SkyObject::QUASAR) ||
+            (obj->type() == SkyObject::RADIO_SOURCE))
         {
-            if ( ((DeepSkyObject *)obj)->isCatalogM() && ! drawMessier ) continue;
-            if ( ((DeepSkyObject *)obj)->isCatalogNGC() && ! drawNGC ) continue;
-            if ( ((DeepSkyObject *)obj)->isCatalogIC() && ! drawIC ) continue;
-            if ( ((DeepSkyObject *)obj)->isCatalogNone() && ! drawOther ) continue;
+            if (((DeepSkyObject *)obj)->isCatalogM() && !drawMessier)
+                continue;
+            if (((DeepSkyObject *)obj)->isCatalogNGC() && !drawNGC)
+                continue;
+            if (((DeepSkyObject *)obj)->isCatalogIC() && !drawIC)
+                continue;
+            if (((DeepSkyObject *)obj)->isCatalogNone() && !drawOther)
+                continue;
         }
-        if ( obj->type() == SkyObject::COMET && ! drawComets ) continue;
-        if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) continue;
+        if (obj->type() == SkyObject::COMET && !drawComets)
+            continue;
+        if (obj->type() == SkyObject::ASTEROID && !drawAsteroids)
+            continue;
 
-        if ( ! m_SkyMap->m_proj->checkVisibility( obj ) ) continue; // FIXME: m_proj should be a member of this class.
-        QPointF o = m_SkyMap->m_proj->toScreen( obj );
-        if ( ! m_SkyMap->m_proj->onScreen(o) ) continue;
+        if (!m_SkyMap->m_proj->checkVisibility(obj))
+            continue; // FIXME: m_proj should be a member of this class.
+        QPointF o = m_SkyMap->m_proj->toScreen(obj);
+        if (!m_SkyMap->m_proj->onScreen(o))
+            continue;
 
-        skyLabeler->drawNameLabel( obj, o );
+        skyLabeler->drawNameLabel(obj, o);
     }
 
-    skyLabeler->useStdFont();   // use the StdFont for the guides.
+    skyLabeler->useStdFont(); // use the StdFont for the guides.
 }
 
 void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
@@ -199,12 +224,12 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
 
 #ifdef HAVE_INDI
 
-    Ekos::Align * align = KStars::Instance()->ekosManager()->alignModule();
+    Ekos::Align *align = KStars::Instance()->ekosManager()->alignModule();
     //if (align && align->isSolverComplete())
     if (align && (align->getStatus() == Ekos::ALIGN_COMPLETE || align->getStatus() == Ekos::ALIGN_PROGRESS))
     {
         bool isVisible = false;
-        FOV * fov = align->fov();
+        FOV *fov       = align->fov();
         if (fov == nullptr)
             return;
 
@@ -213,10 +238,10 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
             return;
 
         p.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-        QPointF point = SkyMap::Instance()->projector()->toScreen(&p, true, &isVisible);
+        QPointF point        = SkyMap::Instance()->projector()->toScreen(&p, true, &isVisible);
         double northRotation = SkyMap::Instance()->projector()->findNorthPA(&p, point.x(), point.y());
         fov->setNorthPA(northRotation);
-        fov->draw(psky,  Options::zoomFactor());
+        fov->draw(psky, Options::zoomFactor());
     }
 
 #endif
@@ -234,18 +259,16 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
         return;
     SkyPoint indi_sp;
 
-    psky.setPen( QPen( QColor( m_KStarsData->colorScheme()->colorNamed("TargetColor" ) ) ) );
-    psky.setBrush( Qt::NoBrush );
-    float pxperdegree = Options::zoomFactor()/57.3;
+    psky.setPen(QPen(QColor(m_KStarsData->colorScheme()->colorNamed("TargetColor"))));
+    psky.setBrush(Qt::NoBrush);
+    float pxperdegree = Options::zoomFactor() / 57.3;
 
-    foreach(ISD::GDInterface * gd, INDIListener::Instance()->getDevices())
+    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
     {
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;
 
-
-
-        INDI::BaseDevice * bd = gd->getBaseDevice();
+        INDI::BaseDevice *bd = gd->getBaseDevice();
 
         if (bd == nullptr)
             continue;
@@ -253,7 +276,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
         if (bd->isConnected() == false)
             continue;
 
-        INumberVectorProperty * coordNP = bd->getNumber("EQUATORIAL_EOD_COORD");
+        INumberVectorProperty *coordNP = bd->getNumber("EQUATORIAL_EOD_COORD");
 
         if (coordNP == nullptr)
         {
@@ -262,7 +285,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
                 continue;
             else
             {
-                INumber * np = IUFindNumber(coordNP, "AZ");
+                INumber *np = IUFindNumber(coordNP, "AZ");
                 if (np == nullptr)
                     continue;
                 indi_sp.setAz(np->value);
@@ -271,12 +294,12 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
                 if (np == nullptr)
                     continue;
                 indi_sp.setAlt(np->value);
-                indi_sp.HorizontalToEquatorial( m_KStarsData->lst(), m_KStarsData->geo()->lat() );
+                indi_sp.HorizontalToEquatorial(m_KStarsData->lst(), m_KStarsData->geo()->lat());
             }
         }
         else
         {
-            INumber * np = IUFindNumber(coordNP, "RA");
+            INumber *np = IUFindNumber(coordNP, "RA");
             if (np == nullptr)
                 continue;
             indi_sp.setRA(np->value);
@@ -287,77 +310,72 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
             indi_sp.setDec(np->value);
         }
 
-        if ( Options::useAltAz() )
-            indi_sp.EquatorialToHorizontal( m_KStarsData->lst(), m_KStarsData->geo()->lat() );
-
+        if (Options::useAltAz())
+            indi_sp.EquatorialToHorizontal(m_KStarsData->lst(), m_KStarsData->geo()->lat());
 
         if (std::isnan(indi_sp.ra().Degrees()) || std::isnan(indi_sp.dec().Degrees()))
             continue;
 
-        QPointF P = m_SkyMap->m_proj->toScreen( &indi_sp );
-        if ( Options::useAntialias() )
+        QPointF P = m_SkyMap->m_proj->toScreen(&indi_sp);
+        if (Options::useAntialias())
         {
-            float s1 = 0.5*pxperdegree;
+            float s1 = 0.5 * pxperdegree;
             float s2 = pxperdegree;
-            float s3 = 2.0*pxperdegree;
+            float s3 = 2.0 * pxperdegree;
 
             float x0 = P.x();
             float y0 = P.y();
-            float x1 = x0 - 0.5*s1;
-            float y1 = y0 - 0.5*s1;
-            float x2 = x0 - 0.5*s2;
-            float y2 = y0 - 0.5*s2;
-            float x3 = x0 - 0.5*s3;
-            float y3 = y0 - 0.5*s3;
+            float x1 = x0 - 0.5 * s1;
+            float y1 = y0 - 0.5 * s1;
+            float x2 = x0 - 0.5 * s2;
+            float y2 = y0 - 0.5 * s2;
+            float x3 = x0 - 0.5 * s3;
+            float y3 = y0 - 0.5 * s3;
 
             //Draw radial lines
-            psky.drawLine( QPointF(x1, y0), QPointF(x3, y0) );
-            psky.drawLine( QPointF(x0+s2, y0), QPointF(x0+0.5*s1, y0) );
-            psky.drawLine( QPointF(x0, y1), QPointF(x0, y3) );
-            psky.drawLine( QPointF(x0, y0+0.5*s1), QPointF(x0, y0+s2) );
+            psky.drawLine(QPointF(x1, y0), QPointF(x3, y0));
+            psky.drawLine(QPointF(x0 + s2, y0), QPointF(x0 + 0.5 * s1, y0));
+            psky.drawLine(QPointF(x0, y1), QPointF(x0, y3));
+            psky.drawLine(QPointF(x0, y0 + 0.5 * s1), QPointF(x0, y0 + s2));
             //Draw circles at 0.5 & 1 degrees
-            psky.drawEllipse( QRectF(x1, y1, s1, s1) );
-            psky.drawEllipse( QRectF(x2, y2, s2, s2) );
+            psky.drawEllipse(QRectF(x1, y1, s1, s1));
+            psky.drawEllipse(QRectF(x2, y2, s2, s2));
 
-            psky.drawText( QPointF(x0+s2+2., y0), bd->getDeviceName() );
+            psky.drawText(QPointF(x0 + s2 + 2., y0), bd->getDeviceName());
         }
         else
         {
-            int s1 = int( 0.5*pxperdegree );
-            int s2 = int( pxperdegree );
-            int s3 = int( 2.0*pxperdegree );
+            int s1 = int(0.5 * pxperdegree);
+            int s2 = int(pxperdegree);
+            int s3 = int(2.0 * pxperdegree);
 
             int x0 = int(P.x());
             int y0 = int(P.y());
-            int x1 = x0 - s1/2;
-            int y1 = y0 - s1/2;
-            int x2 = x0 - s2/2;
-            int y2 = y0 - s2/2;
-            int x3 = x0 - s3/2;
-            int y3 = y0 - s3/2;
+            int x1 = x0 - s1 / 2;
+            int y1 = y0 - s1 / 2;
+            int x2 = x0 - s2 / 2;
+            int y2 = y0 - s2 / 2;
+            int x3 = x0 - s3 / 2;
+            int y3 = y0 - s3 / 2;
 
             //Draw radial lines
-            psky.drawLine( QPoint(x1, y0),      QPoint(x3, y0) );
-            psky.drawLine( QPoint(x0+s2, y0),   QPoint(x0+s1/2, y0) );
-            psky.drawLine( QPoint(x0, y1),      QPoint(x0, y3) );
-            psky.drawLine( QPoint(x0, y0+s1/2), QPoint(x0, y0+s2) );
+            psky.drawLine(QPoint(x1, y0), QPoint(x3, y0));
+            psky.drawLine(QPoint(x0 + s2, y0), QPoint(x0 + s1 / 2, y0));
+            psky.drawLine(QPoint(x0, y1), QPoint(x0, y3));
+            psky.drawLine(QPoint(x0, y0 + s1 / 2), QPoint(x0, y0 + s2));
             //Draw circles at 0.5 & 1 degrees
-            psky.drawEllipse( QRect(x1, y1, s1, s1) );
-            psky.drawEllipse( QRect(x2, y2, s2, s2) );
+            psky.drawEllipse(QRect(x1, y1, s1, s1));
+            psky.drawEllipse(QRect(x2, y2, s2, s2));
 
-            psky.drawText( QPoint(x0+s2+2, y0), bd->getDeviceName() );
-
+            psky.drawText(QPoint(x0 + s2 + 2, y0), bd->getDeviceName());
         }
-
     }
 #endif
 }
 
-
-
-void SkyMapDrawAbstract::exportSkyImage( QPaintDevice * pd, bool scale )
+void SkyMapDrawAbstract::exportSkyImage(QPaintDevice *pd, bool scale)
 {
-    SkyQPainter p( m_SkyMap, pd );
+    SkyQPainter p(m_SkyMap, pd);
     p.begin();
     p.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
@@ -366,20 +384,21 @@ void SkyMapDrawAbstract::exportSkyImage( QPaintDevice * pd, bool scale )
     p.end();
 }
 
-void SkyMapDrawAbstract::exportSkyImage(SkyQPainter * painter, bool scale)
+void SkyMapDrawAbstract::exportSkyImage(SkyQPainter *painter, bool scale)
 {
     bool vectorStarState;
     vectorStarState = painter->getVectorStars();
-    painter->setVectorStars( true ); // Since we are exporting an image, we may use vector stars without worrying about time
+    painter->setVectorStars(
+        true); // Since we are exporting an image, we may use vector stars without worrying about time
     painter->setRenderHint(QPainter::Antialiasing, Options::useAntialias());
 
-    if(scale)
+    if (scale)
     {
         //scale sky image to fit paint device
         qDebug() << "Scaling true while exporting Sky Image";
         double xscale = double(painter->device()->width()) / double(m_SkyMap->width());
         double yscale = double(painter->device()->height()) / double(m_SkyMap->height());
-        double scale = qMin(xscale, yscale);
+        double scale  = qMin(xscale, yscale);
         qDebug() << "xscale: " << xscale << "yscale: " << yscale << "chosen scale: " << scale;
         painter->scale(scale, scale);
     }
@@ -387,7 +406,7 @@ void SkyMapDrawAbstract::exportSkyImage(SkyQPainter * painter, bool scale)
     painter->drawSkyBackground();
     m_KStarsData->skyComposite()->draw(painter);
     drawOverlays(*painter);
-    painter->setVectorStars( vectorStarState ); // Restore the state of the painter
+    painter->setVectorStars(vectorStarState); // Restore the state of the painter
 }
 
 /* JM 2016-05-03: Not needed since we're not using OpenGL for now
@@ -402,7 +421,7 @@ void SkyMapDrawAbstract::exportSkyImage(SkyQPainter * painter, bool scale)
     ++m_framecount;
 }*/
 
-void SkyMapDrawAbstract::setDrawLock( bool state )
+void SkyMapDrawAbstract::setDrawLock(bool state)
 {
     m_DrawLock = state;
 }

@@ -34,45 +34,41 @@ class SkipList;
 
 class LineNode : public SkyOpacityNode
 {
-
-    public:
-        /**
+  public:
+    /**
          * @short Constructor
          * @param lineList - lines that have to be drawn
          * @param skipList - lines that have to be skipped
          * @param drawStyle - not used currently
          */
-        LineNode(LineList * lineList, SkipList * skipList, QColor color, int width, Qt::PenStyle drawStyle);
-        virtual ~LineNode();
+    LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle);
+    virtual ~LineNode();
 
-        void setColor(QColor color);
-        void setWidth(int width);
-        void setDrawStyle(Qt::PenStyle drawStyle);
+    void setColor(QColor color);
+    void setWidth(int width);
+    void setDrawStyle(Qt::PenStyle drawStyle);
 
-        void setStyle(QColor color, int width, Qt::PenStyle drawStyle);
+    void setStyle(QColor color, int width, Qt::PenStyle drawStyle);
 
-        /**
+    /**
          * @short Update lines based on the visibility of line segments in m_lineList
          */
-        void updateGeometry();
+    void updateGeometry();
 
-        inline LineList * lineList()
-        {
-            return m_lineList;
-        }
-    private:
-        QSGGeometryNode * m_geometryNode;
-        LineList * m_lineList;
-        SkipList * m_skipList;
+    inline LineList *lineList() { return m_lineList; }
 
-        QSGGeometry * m_geometry;
-        QSGFlatColorMaterial * m_material;
+  private:
+    QSGGeometryNode *m_geometryNode;
+    LineList *m_lineList;
+    SkipList *m_skipList;
 
-        Qt::PenStyle m_drawStyle;
-        QColor m_color;
+    QSGGeometry *m_geometry;
+    QSGFlatColorMaterial *m_material;
 
-        QSGTransformNode * debug;
+    Qt::PenStyle m_drawStyle;
+    QColor m_color;
+
+    QSGTransformNode *debug;
 };
 
 #endif
-

@@ -57,12 +57,12 @@ void ArtificialHorizonEntity::setEnabled(bool Enabled)
     m_Enabled = Enabled;
 }
 
-void ArtificialHorizonEntity::setList(LineList * List)
+void ArtificialHorizonEntity::setList(LineList *List)
 {
     m_List = List;
 }
 
-LineList * ArtificialHorizonEntity::list()
+LineList *ArtificialHorizonEntity::list()
 {
     return m_List;
 }
@@ -80,8 +80,8 @@ void ArtificialHorizonEntity::clearList()
     }
 }
 
-ArtificialHorizonComponent::ArtificialHorizonComponent(SkyComposite * parent ) :
-    NoPrecessIndex( parent, i18n("Artificial Horizon") )
+ArtificialHorizonComponent::ArtificialHorizonComponent(SkyComposite *parent)
+    : NoPrecessIndex(parent, i18n("Artificial Horizon"))
 {
     livePreview = nullptr;
     load();
@@ -91,7 +91,7 @@ bool ArtificialHorizonComponent::load()
 {
     m_HorizonList = KStarsData::Instance()->userdb()->GetAllHorizons();
 
-    foreach(ArtificialHorizonEntity * horizon, m_HorizonList)
+    foreach (ArtificialHorizonEntity *horizon, m_HorizonList)
         appendLine(horizon->list());
 
     return true;
@@ -101,7 +101,7 @@ void ArtificialHorizonComponent::save()
 {
     KStarsData::Instance()->userdb()->DeleteAllHorizons();
 
-    foreach(ArtificialHorizonEntity * horizon, m_HorizonList)
+    foreach (ArtificialHorizonEntity *horizon, m_HorizonList)
         KStarsData::Instance()->userdb()->AddHorizon(horizon);
 }
 
@@ -110,17 +110,18 @@ bool ArtificialHorizonComponent::selected()
     return Options::showGround();
 }
 
-void ArtificialHorizonComponent::preDraw( SkyPainter * skyp )
+void ArtificialHorizonComponent::preDraw(SkyPainter *skyp)
 {
-    QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "ArtificialHorizonColor" ) );
+    QColor color(KStarsData::Instance()->colorScheme()->colorNamed("ArtificialHorizonColor"));
     color.setAlpha(40);
     skyp->setBrush(QBrush(color));
     skyp->setPen(Qt::NoPen);
 }
 
-void ArtificialHorizonComponent::draw( SkyPainter * skyp )
+void ArtificialHorizonComponent::draw(SkyPainter *skyp)
 {
-    if ( ! selected() ) return;
+    if (!selected())
+        return;
 
     if (livePreview)
     {
@@ -131,15 +132,15 @@ void ArtificialHorizonComponent::draw( SkyPainter * skyp )
 
     preDraw(skyp);
 
-    DrawID   drawID   = skyMesh()->drawID();
+    DrawID drawID = skyMesh()->drawID();
     //UpdateID updateID = KStarsData::Instance()->updateID();
 
     //foreach ( LineList* lineList, listList() )
-    for (int i=0; i < listList().count(); i++)
+    for (int i = 0; i < listList().count(); i++)
     {
-        LineList * lineList = listList().at(i);
+        LineList *lineList = listList().at(i);
 
-        if ( lineList->drawID == drawID || m_HorizonList.at(i)->enabled() == false)
+        if (lineList->drawID == drawID || m_HorizonList.at(i)->enabled() == false)
             continue;
         lineList->drawID = drawID;
 
@@ -148,14 +149,13 @@ void ArtificialHorizonComponent::draw( SkyPainter * skyp )
 
         skyp->drawSkyPolygon(lineList, false);
     }
-
 }
 
 void ArtificialHorizonComponent::removeRegion(const QString &regionName, bool lineOnly)
 {
-    ArtificialHorizonEntity * regionHorizon = nullptr;
+    ArtificialHorizonEntity *regionHorizon = nullptr;
 
-    foreach(ArtificialHorizonEntity * horizon, m_HorizonList)
+    foreach (ArtificialHorizonEntity *horizon, m_HorizonList)
     {
         if (horizon->region() == regionName)
         {
@@ -179,9 +179,9 @@ void ArtificialHorizonComponent::removeRegion(const QString &regionName, bool li
     }
 }
 
-void ArtificialHorizonComponent::addRegion(const QString &regionName, bool enabled, LineList * list)
+void ArtificialHorizonComponent::addRegion(const QString &regionName, bool enabled, LineList *list)
 {
-    ArtificialHorizonEntity * horizon = new ArtificialHorizonEntity;
+    ArtificialHorizonEntity *horizon = new ArtificialHorizonEntity;
 
     horizon->setRegion(regionName);
     horizon->setEnabled(enabled);
@@ -191,4 +191,3 @@ void ArtificialHorizonComponent::addRegion(const QString &regionName, bool enabl
 
     appendLine(list);
 }
-

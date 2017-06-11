@@ -44,40 +44,41 @@ class dms;
 
 class ConjunctionsTool : public QFrame, public Ui::ConjunctionsDlg
 {
+    Q_OBJECT
 
-        Q_OBJECT
+  public:
+    explicit ConjunctionsTool(QWidget *p);
+    ~ConjunctionsTool();
 
-    public:
-        explicit ConjunctionsTool(QWidget * p);
-        ~ConjunctionsTool();
+  public slots:
 
-    public slots:
+    void slotLocation();
+    void slotCompute();
+    void showProgress(int);
+    void slotFindObject();
+    void slotGoto();
+    void slotFilterType(int);
+    void slotClear();
+    void slotExport();
+    void slotFilterReg(const QString &);
 
-        void slotLocation();
-        void slotCompute();
-        void showProgress(int);
-        void slotFindObject();
-        void slotGoto();
-        void slotFilterType( int );
-        void slotClear();
-        void slotExport();
-        void slotFilterReg( const QString & );
+  private:
+    SkyObject *Object1;
+    KSPlanetBase *Object2; // Second object is always a planet.
 
-    private:
-        SkyObject * Object1;
-        KSPlanetBase * Object2;       // Second object is always a planet.
+    QHash<int, QString> pNames; // To store the names of Planets vs. values expected by KSPlanetBase::createPlanet()
+    QMap<int, long double>
+        outputJDList; // To store Julian Days corresponding to the row index in the output list widget
 
-        QHash<int, QString> pNames;   // To store the names of Planets vs. values expected by KSPlanetBase::createPlanet()
-        QMap<int, long double> outputJDList; // To store Julian Days corresponding to the row index in the output list widget
+    void showConjunctions(const QMap<long double, dms> &conjunctionlist, const QString &object1,
+                          const QString &object2);
 
-        void showConjunctions(const QMap<long double, dms> &conjunctionlist, const QString &object1 ,const QString &object2);
+    GeoLocation *geoPlace;
 
-        GeoLocation * geoPlace;
+    QStandardItemModel *m_Model;
+    QSortFilterProxyModel *m_SortModel;
 
-        QStandardItemModel * m_Model;
-        QSortFilterProxyModel * m_SortModel;
-
-        int m_index;
+    int m_index;
 };
 
 #endif

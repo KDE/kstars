@@ -23,7 +23,6 @@
 #include "skyobjects/ksmoon.h"
 #include "kstarsdatetime.h"
 
-
 /**
  *@class KSAlmanac
  *
@@ -41,144 +40,102 @@ class GeoLocation;
 
 class KSAlmanac
 {
-    public:
-        // TODO: Add documentation
-        KSAlmanac();
+  public:
+    // TODO: Add documentation
+    KSAlmanac();
 
-        /**
+    /**
          *@short Set the date for computations to the given date.
          *@param The new date to set as a KStarsDateTime
          *@note The time must be midnight (fixme: check this)
          */
-        void setDate( const KStarsDateTime * newdt );
+    void setDate(const KStarsDateTime *newdt);
 
-        /**
+    /**
          *@short Set the location for computations to the given location
          *@param The location to set for computations
          */
-        void setLocation( const GeoLocation * geo_ );
+    void setLocation(const GeoLocation *geo_);
 
-        /**
+    /**
          *All the functions returns the fraction of the day
          *as their return value
          */
-        inline double getSunRise()
-        {
-            return SunRise;
-        }
-        inline double getSunSet()
-        {
-            return SunSet;
-        }
-        inline double getMoonRise()
-        {
-            return MoonRise;
-        }
-        inline double getMoonSet()
-        {
-            return MoonSet;
-        }
-        inline double getDuskAstronomicalTwilight()
-        {
-            return DuskAstronomicalTwilight;
-        }
-        inline double getDawnAstronomicalTwilight()
-        {
-            return DawnAstronomicalTwilight;
-        }
+    inline double getSunRise() { return SunRise; }
+    inline double getSunSet() { return SunSet; }
+    inline double getMoonRise() { return MoonRise; }
+    inline double getMoonSet() { return MoonSet; }
+    inline double getDuskAstronomicalTwilight() { return DuskAstronomicalTwilight; }
+    inline double getDawnAstronomicalTwilight() { return DawnAstronomicalTwilight; }
 
-        /**
+    /**
          *These functions return the max and min altitude of the sun during the course of the day in degrees
          */
-        inline double getSunMaxAlt()
-        {
-            return SunMaxAlt;
-        }
-        inline double getSunMinAlt()
-        {
-            return SunMinAlt;
-        }
+    inline double getSunMaxAlt() { return SunMaxAlt; }
+    inline double getSunMinAlt() { return SunMinAlt; }
 
-        /**
+    /**
          *@return the moon phase in degrees at the given date/time. Ranges is [0, 180]
          */
-        inline double getMoonPhase()
-        {
-            return MoonPhase;
-        }
+    inline double getMoonPhase() { return MoonPhase; }
 
-        /**
+    /**
          *@return get the moon illuminated fraction at the given date/time. Range is [0.,1.]
          */
-        inline double getMoonIllum()
-        {
-            return m_Moon.illum();
-        }
+    inline double getMoonIllum() { return m_Moon.illum(); }
 
-        inline QTime sunRise()
-        {
-            return SunRiseT;
-        }
-        inline QTime sunSet()
-        {
-            return SunSetT;
-        }
-        inline QTime moonRise()
-        {
-            return MoonRiseT;
-        }
-        inline QTime moonSet()
-        {
-            return MoonSetT;
-        }
-        // TODO: Implement:
-        //    inline QTime duskAstronomicalTwilight() { return DuskAstronomicalTwilightT; }
-        //    inline QTime dawnAstronomicalTwilight() { return DawnAstronomicalTwilightT; }
+    inline QTime sunRise() { return SunRiseT; }
+    inline QTime sunSet() { return SunSetT; }
+    inline QTime moonRise() { return MoonRiseT; }
+    inline QTime moonSet() { return MoonSetT; }
+    // TODO: Implement:
+    //    inline QTime duskAstronomicalTwilight() { return DuskAstronomicalTwilightT; }
+    //    inline QTime dawnAstronomicalTwilight() { return DawnAstronomicalTwilightT; }
 
-        /**
+    /**
          *@short Convert the zenithal distance of the sun to fraction of the day
          *@param z Zenithal angular distance
          *@return Time as a fraction of the day, at which the zenithal distance is attained by the sun
          *@note This is accurate only for zenithal angles close to sunset. TODO: Make this more accurate
          */
-        double sunZenithAngleToTime( double z );
+    double sunZenithAngleToTime(double z);
 
-    private:
-        void update();
+  private:
+    void update();
 
-        /**
+    /**
           * This function computes the rise and set time for the given SkyObject. This is done in order to
           * have a common function for the computation of the Sun and Moon rise and set times.
           */
-        void RiseSetTime( SkyObject * o, double * riseTime, double * setTime, QTime * RiseTime, QTime * SetTime );
+    void RiseSetTime(SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime);
 
-        /**
+    /**
          * Computes astronomical twilight for dawn and dusk
          * @note Code duplication -- copied from Alt vs Time
          */
-        void findDawnDusk();
+    void findDawnDusk();
 
-        /**
+    /**
          * Computes the moon phase at the given date/time
          */
-        void findMoonPhase();
+    void findMoonPhase();
 
-        /**
+    /**
          * FIXME: More code duplication!
          * findAltitude should really be part of KSEngine. Copying from ObservingList.
          * returns in degrees
          */
-        double findAltitude( const SkyPoint * p, double hour );
+    double findAltitude(const SkyPoint *p, double hour);
 
-        KSSun  m_Sun;
-        KSMoon m_Moon;
-        KStarsDateTime dt;
+    KSSun m_Sun;
+    KSMoon m_Moon;
+    KStarsDateTime dt;
 
-        const GeoLocation * geo;
-        double SunRise,  SunSet,  MoonRise,  MoonSet, DuskAstronomicalTwilight, DawnAstronomicalTwilight;
-        double SunMinAlt, SunMaxAlt;
-        double MoonPhase;
-        QTime  SunRiseT, SunSetT, MoonRiseT, MoonSetT, DuskAstronomicalTwilightT, DawnAstronomicalTwilightT;
+    const GeoLocation *geo;
+    double SunRise, SunSet, MoonRise, MoonSet, DuskAstronomicalTwilight, DawnAstronomicalTwilight;
+    double SunMinAlt, SunMaxAlt;
+    double MoonPhase;
+    QTime SunRiseT, SunSetT, MoonRiseT, MoonSetT, DuskAstronomicalTwilightT, DawnAstronomicalTwilightT;
 };
 
 #endif

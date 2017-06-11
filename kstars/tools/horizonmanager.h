@@ -27,14 +27,13 @@ class LineList;
 
 class HorizonManagerUI : public QFrame, public Ui::HorizonManager
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        /** @short Constructor
+  public:
+    /** @short Constructor
          */
-        explicit HorizonManagerUI( QWidget * parent );
+    explicit HorizonManagerUI(QWidget *parent);
 };
-
 
 /**
  *@class HorizonManager
@@ -46,67 +45,64 @@ class HorizonManagerUI : public QFrame, public Ui::HorizonManager
  */
 class HorizonManager : public QDialog
 {
-        Q_OBJECT
-    public:
-        /**
+    Q_OBJECT
+  public:
+    /**
          *@short Constructor.
          */
-        explicit HorizonManager( QWidget * ks );
+    explicit HorizonManager(QWidget *ks);
 
-        /**
+    /**
          *@short Destructor.
          */
-        ~HorizonManager();
+    ~HorizonManager();
 
-        void showRegion( const int regionID );
+    void showRegion(const int regionID);
 
-        bool validatePolygon(int regionID);
+    bool validatePolygon(int regionID);
 
-        void deleteRegion( int regionID );
+    void deleteRegion(int regionID);
 
-    public slots:
-        /**
+  public slots:
+    /**
          *@short Add region
          */
-        void slotAddRegion();
+    void slotAddRegion();
 
-        /**
+    /**
          *@short Delete region
          */
-        void slotRemoveRegion();
+    void slotRemoveRegion();
 
-        void addSkyPoint(SkyPoint * skypoint);
-        void slotAddPoint();
-        void slotRemovePoint();
+    void addSkyPoint(SkyPoint *skypoint);
+    void slotAddPoint();
+    void slotRemovePoint();
 
-        void clearPoints();
+    void clearPoints();
 
-        void setSelectPoints(bool);
+    void setSelectPoints(bool);
 
+  private slots:
+    void processSkyPoint(QStandardItem *item, int row);
+    void verifyItemValue(QStandardItem *item);
+    void checkRegionState(QStandardItem *item);
+    void slotSaveChanges();
+    void slotSetShownRegion(QModelIndex idx);
 
-    private slots:
-        void processSkyPoint(QStandardItem * item, int row);
-        void verifyItemValue(QStandardItem * item);
-        void checkRegionState(QStandardItem * item);
-        void slotSaveChanges();
-        void slotSetShownRegion( QModelIndex idx );
+  private:
+    void terminateLivePreview();
+    void setPointSelection(bool enable);
 
+    HorizonManagerUI *ui;
 
-    private:
+    QStandardItemModel *m_RegionsModel;
+    ArtificialHorizonComponent *horizonComponent;
 
-        void terminateLivePreview();
-        void setPointSelection(bool enable);
+    QList<ArtificialHorizonEntity *> *m_HorizonList;
 
-        HorizonManagerUI * ui;
+    LineList *livePreview;
 
-        QStandardItemModel * m_RegionsModel;
-        ArtificialHorizonComponent * horizonComponent;
-
-        QList<ArtificialHorizonEntity *> * m_HorizonList;
-
-        LineList * livePreview;
-
-        bool selectPoints;
+    bool selectPoints;
 };
 
 #endif

@@ -37,23 +37,20 @@
 #include "skyobjects/jupitermoons.h"
 #include "skycomponents/skymapcomposite.h"
 
-
-JMoonTool::JMoonTool(QWidget * parent)
-    : QDialog( parent )
+JMoonTool::JMoonTool(QWidget *parent) : QDialog(parent)
 {
+    ksw          = (KStars *)parent;
+    QFrame *page = new QFrame(this);
 
-    ksw = (KStars *)parent;
-    QFrame * page = new QFrame(this);
-
-    setWindowTitle( i18n("Jupiter Moons Tool") );
-    setModal( false );
+    setWindowTitle(i18n("Jupiter Moons Tool"));
+    setModal(false);
 #ifdef Q_OS_OSX
-    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
-    QVBoxLayout * vlay = new QVBoxLayout;
-    vlay->setMargin( 0 );
-    vlay->setSpacing( 0 );
+    QVBoxLayout *vlay = new QVBoxLayout;
+    vlay->setMargin(0);
+    vlay->setSpacing(0);
 
     setLayout(vlay);
 
@@ -63,52 +60,52 @@ JMoonTool::JMoonTool(QWidget * parent)
     colGn = QColor(Qt::cyan);
     colCa = QColor(Qt::green);
 
-    QLabel * labIo = new QLabel( i18n("Io"), page );
-    QLabel * labEu = new QLabel( i18n("Europa"), page );
-    QLabel * labGn = new QLabel( i18n("Ganymede"), page );
-    QLabel * labCa = new QLabel( i18n("Callisto"), page );
+    QLabel *labIo = new QLabel(i18n("Io"), page);
+    QLabel *labEu = new QLabel(i18n("Europa"), page);
+    QLabel *labGn = new QLabel(i18n("Ganymede"), page);
+    QLabel *labCa = new QLabel(i18n("Callisto"), page);
 
-    labIo->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
-    labEu->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
-    labGn->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
-    labCa->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
-    labIo->setAlignment( Qt::AlignHCenter );
-    labEu->setAlignment( Qt::AlignHCenter );
-    labGn->setAlignment( Qt::AlignHCenter );
-    labCa->setAlignment( Qt::AlignHCenter );
+    labIo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    labEu->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    labGn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    labCa->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    labIo->setAlignment(Qt::AlignHCenter);
+    labEu->setAlignment(Qt::AlignHCenter);
+    labGn->setAlignment(Qt::AlignHCenter);
+    labCa->setAlignment(Qt::AlignHCenter);
 
     QPalette p = palette();
-    p.setColor( QPalette::Window, Qt::black );
-    p.setColor( QPalette::WindowText, colIo );
-    labIo->setPalette( p );
-    p.setColor( QPalette::WindowText, colEu );
-    labEu->setPalette( p );
-    p.setColor( QPalette::WindowText, colGn );
-    labGn->setPalette( p );
-    p.setColor( QPalette::WindowText, colCa );
-    labCa->setPalette( p );
-    labIo->setAutoFillBackground( true );
-    labEu->setAutoFillBackground( true );
-    labGn->setAutoFillBackground( true );
-    labCa->setAutoFillBackground( true );
+    p.setColor(QPalette::Window, Qt::black);
+    p.setColor(QPalette::WindowText, colIo);
+    labIo->setPalette(p);
+    p.setColor(QPalette::WindowText, colEu);
+    labEu->setPalette(p);
+    p.setColor(QPalette::WindowText, colGn);
+    labGn->setPalette(p);
+    p.setColor(QPalette::WindowText, colCa);
+    labCa->setPalette(p);
+    labIo->setAutoFillBackground(true);
+    labEu->setAutoFillBackground(true);
+    labGn->setAutoFillBackground(true);
+    labCa->setAutoFillBackground(true);
 
-    QGridLayout * glay = new QGridLayout();
-    glay->addWidget( labIo, 0, 0 );
-    glay->addWidget( labEu, 1, 0 );
-    glay->addWidget( labGn, 0, 1 );
-    glay->addWidget( labCa, 1, 1 );
+    QGridLayout *glay = new QGridLayout();
+    glay->addWidget(labIo, 0, 0);
+    glay->addWidget(labEu, 1, 0);
+    glay->addWidget(labGn, 0, 1);
+    glay->addWidget(labCa, 1, 1);
 
-    pw = new KPlotWidget( page );
-    pw->setShowGrid( false );
-    pw->setAntialiasing( true );
-    pw->setLimits( -12.0, 12.0, -11.0, 11.0 );
-    pw->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "offset from Jupiter (arcmin)" ) );
-    pw->axis(KPlotWidget::LeftAxis)->setLabel( i18n( "time since now (days)" ) );
-    vlay->addLayout( glay );
-    vlay->addWidget( pw );
-    resize( 350, 600 );
+    pw = new KPlotWidget(page);
+    pw->setShowGrid(false);
+    pw->setAntialiasing(true);
+    pw->setLimits(-12.0, 12.0, -11.0, 11.0);
+    pw->axis(KPlotWidget::BottomAxis)->setLabel(i18n("offset from Jupiter (arcmin)"));
+    pw->axis(KPlotWidget::LeftAxis)->setLabel(i18n("time since now (days)"));
+    vlay->addLayout(glay);
+    vlay->addWidget(pw);
+    resize(350, 600);
 
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     vlay->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
@@ -122,61 +119,61 @@ JMoonTool::~JMoonTool()
 
 void JMoonTool::initPlotObjects()
 {
-    KPlotObject * orbit[4];
-    KPlotObject * jpath;
+    KPlotObject *orbit[4];
+    KPlotObject *jpath;
     long double jd0 = ksw->data()->ut().djd();
-    KSSun * ksun = (KSSun *)ksw->data()->skyComposite()->findByName( "Sun" );
-    KSPlanet * jup = (KSPlanet *)ksw->data()->skyComposite()->findByName( i18n("Jupiter") );
+    KSSun *ksun     = (KSSun *)ksw->data()->skyComposite()->findByName("Sun");
+    KSPlanet *jup   = (KSPlanet *)ksw->data()->skyComposite()->findByName(i18n("Jupiter"));
     JupiterMoons jm;
 
     pw->removeAllPlotObjects();
 
-    orbit[0] = new KPlotObject( colIo, KPlotObject::Lines, 1.0 );
-    orbit[1] = new KPlotObject( colEu, KPlotObject::Lines, 1.0 );
-    orbit[2] = new KPlotObject( colGn, KPlotObject::Lines, 1.0 );
-    orbit[3] = new KPlotObject( colCa, KPlotObject::Lines, 1.0 );
-    jpath    = new KPlotObject( colJp, KPlotObject::Lines, 1.0 );
+    orbit[0] = new KPlotObject(colIo, KPlotObject::Lines, 1.0);
+    orbit[1] = new KPlotObject(colEu, KPlotObject::Lines, 1.0);
+    orbit[2] = new KPlotObject(colGn, KPlotObject::Lines, 1.0);
+    orbit[3] = new KPlotObject(colCa, KPlotObject::Lines, 1.0);
+    jpath    = new KPlotObject(colJp, KPlotObject::Lines, 1.0);
 
     QRectF dataRect = pw->dataRect();
-    double dy = 0.01*dataRect.height();
+    double dy       = 0.01 * dataRect.height();
 
     //t is the offset from jd0, in days.
-    for ( double t=dataRect.y(); t<=dataRect.bottom(); t+=dy )
+    for (double t = dataRect.y(); t <= dataRect.bottom(); t += dy)
     {
-        KSNumbers num( jd0 + t );
-        jm.findPosition( &num, jup, ksun );
+        KSNumbers num(jd0 + t);
+        jm.findPosition(&num, jup, ksun);
 
         //jm.x(i) tells the offset from Jupiter, in units of Jupiter's angular radius.
         //multiply by 0.5*jup->angSize() to get arcminutes
-        for ( unsigned int i=0; i<4; ++i )
-            orbit[i]->addPoint( 0.5*jup->angSize()*jm.x(i), t );
+        for (unsigned int i = 0; i < 4; ++i)
+            orbit[i]->addPoint(0.5 * jup->angSize() * jm.x(i), t);
 
-        jpath->addPoint( 0.0, t );
+        jpath->addPoint(0.0, t);
     }
 
-    for ( unsigned int i=0; i<4; ++i )
-        pw->addPlotObject( orbit[i] );
+    for (unsigned int i = 0; i < 4; ++i)
+        pw->addPlotObject(orbit[i]);
 
-    pw->addPlotObject( jpath );
+    pw->addPlotObject(jpath);
 }
 
-void JMoonTool::keyPressEvent( QKeyEvent * e )
+void JMoonTool::keyPressEvent(QKeyEvent *e)
 {
     QRectF dataRect = pw->dataRect();
-    switch ( e->key() )
+    switch (e->key())
     {
         case Qt::Key_BracketRight:
         {
-            double dy = 0.02*dataRect.height();
-            pw->setLimits( dataRect.x(), dataRect.right(), dataRect.y()+dy, dataRect.bottom()+dy );
+            double dy = 0.02 * dataRect.height();
+            pw->setLimits(dataRect.x(), dataRect.right(), dataRect.y() + dy, dataRect.bottom() + dy);
             initPlotObjects();
             pw->update();
             break;
         }
         case Qt::Key_BracketLeft:
         {
-            double dy = 0.02*dataRect.height();
-            pw->setLimits( dataRect.x(), dataRect.right(), dataRect.y()-dy, dataRect.bottom()-dy );
+            double dy = 0.02 * dataRect.height();
+            pw->setLimits(dataRect.x(), dataRect.right(), dataRect.y() - dy, dataRect.bottom() - dy);
             initPlotObjects();
             pw->update();
             break;
@@ -184,11 +181,11 @@ void JMoonTool::keyPressEvent( QKeyEvent * e )
         case Qt::Key_Plus:
         case Qt::Key_Equal:
         {
-            if ( dataRect.height() > 2.0 )
+            if (dataRect.height() > 2.0)
             {
-                double dy = 0.45*dataRect.height();
-                double y0 = dataRect.y() + 0.5*dataRect.height();
-                pw->setLimits( dataRect.x(), dataRect.right(), y0-dy, y0+dy );
+                double dy = 0.45 * dataRect.height();
+                double y0 = dataRect.y() + 0.5 * dataRect.height();
+                pw->setLimits(dataRect.x(), dataRect.right(), y0 - dy, y0 + dy);
                 initPlotObjects();
                 pw->update();
             }
@@ -197,11 +194,11 @@ void JMoonTool::keyPressEvent( QKeyEvent * e )
         case Qt::Key_Minus:
         case Qt::Key_Underscore:
         {
-            if ( dataRect.height() < 40.0 )
+            if (dataRect.height() < 40.0)
             {
-                double dy = 0.55*dataRect.height();
-                double y0 = dataRect.y() + 0.5*dataRect.height();
-                pw->setLimits( dataRect.x(), dataRect.right(), y0-dy, y0+dy );
+                double dy = 0.55 * dataRect.height();
+                double y0 = dataRect.y() + 0.5 * dataRect.height();
+                pw->setLimits(dataRect.x(), dataRect.right(), y0 - dy, y0 + dy);
                 initPlotObjects();
                 pw->update();
             }
@@ -220,5 +217,3 @@ void JMoonTool::keyPressEvent( QKeyEvent * e )
         }
     }
 }
-
-

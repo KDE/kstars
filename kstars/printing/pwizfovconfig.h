@@ -28,90 +28,78 @@
   */
 class PWizFovConfigUI : public QFrame, public Ui::PWizFovConfig
 {
-        Q_OBJECT
-    public:
-        /**
+    Q_OBJECT
+  public:
+    /**
           * \brief Constructor.
           */
-        explicit PWizFovConfigUI(QWidget * parent = 0);
+    explicit PWizFovConfigUI(QWidget *parent = 0);
 
-        /**
+    /**
           * \brief Check if switching to "Sky Chart" color scheme is enabled.
           * \return True if color scheme switching is enabled.
           */
-        bool isSwitchColorsEnabled()
-        {
-            return switchColorsBox->isChecked();
-        }
+    bool isSwitchColorsEnabled() { return switchColorsBox->isChecked(); }
 
-        /**
+    /**
           * \brief Check if FOV shape is always rectangular.
           * \return True if FOV shape is always rectangular.
           */
-        bool isFovShapeOverriden()
-        {
-            return overrideShapeBox->isChecked();
-        }
+    bool isFovShapeOverriden() { return overrideShapeBox->isChecked(); }
 
-        /**
+    /**
           * \brief Check if legend will be added to FOV images.
           * \return True if legend will be added to FOV images.
           */
-        bool isLegendEnabled()
-        {
-            return addLegendBox->isChecked();
-        }
+    bool isLegendEnabled() { return addLegendBox->isChecked(); }
 
-        /**
+    /**
           * \brief Check if alpha blending is enabled.
           * \return True if alpha blending is enabled.
           */
-        bool isAlphaBlendingEnabled()
-        {
-            return useAlphaBlendBox->isChecked();
-        }
+    bool isAlphaBlendingEnabled() { return useAlphaBlendBox->isChecked(); }
 
-        /**
+    /**
           * \brief Get selected legend type.
           * \return Selected legend type.
           */
-        Legend::LEGEND_TYPE getLegendType();
+    Legend::LEGEND_TYPE getLegendType();
 
-        /**
+    /**
           * \brief Get selected legend orientation.
           * \return Selected legend orientation.
           */
-        Legend::LEGEND_ORIENTATION getLegendOrientation()
-        {
-            return static_cast<Legend::LEGEND_ORIENTATION>(orientationCombo->currentIndex());
-        }
+    Legend::LEGEND_ORIENTATION getLegendOrientation()
+    {
+        return static_cast<Legend::LEGEND_ORIENTATION>(orientationCombo->currentIndex());
+    }
 
-        /**
+    /**
           * \brief Get selected legend position.
           * \return Selected legend position.
           */
-        Legend::LEGEND_POSITION getLegendPosition()
-        {
-            return static_cast<Legend::LEGEND_POSITION>(positionCombo->currentIndex());
-        }
+    Legend::LEGEND_POSITION getLegendPosition()
+    {
+        return static_cast<Legend::LEGEND_POSITION>(positionCombo->currentIndex());
+    }
 
-    private slots:
-        /**
+  private slots:
+    /**
           * \brief Slot: enable or disable legend configuration fields.
           * \param enabled True if legend configuration fields should be enabled.
           */
-        void slotUpdateLegendFields(bool enabled);
+    void slotUpdateLegendFields(bool enabled);
 
-    private:
-        /**
+  private:
+    /**
           * \brief Configure widgets.
           */
-        void setupWidgets();
+    void setupWidgets();
 
-        /**
+    /**
           * \brief Configure signal-slot connections.
           */
-        void setupConnections();
+    void setupConnections();
 };
 
 #endif // PWIZFOVCONFIG_H

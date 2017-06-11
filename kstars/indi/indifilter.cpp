@@ -7,32 +7,27 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-
 #include "indifilter.h"
 
 namespace ISD
 {
-
-
-void Filter::processLight(ILightVectorProperty * lvp)
+void Filter::processLight(ILightVectorProperty *lvp)
 {
     DeviceDecorator::processLight(lvp);
 }
 
-void Filter::processNumber(INumberVectorProperty * nvp)
+void Filter::processNumber(INumberVectorProperty *nvp)
 {
     DeviceDecorator::processNumber(nvp);
 }
 
-void Filter::processSwitch(ISwitchVectorProperty * svp)
+void Filter::processSwitch(ISwitchVectorProperty *svp)
 {
     DeviceDecorator::processSwitch(svp);
-
 }
 
-void Filter::processText(ITextVectorProperty * tvp)
+void Filter::processText(ITextVectorProperty *tvp)
 {
     DeviceDecorator::processText(tvp);
 }
-
 }

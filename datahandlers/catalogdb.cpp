@@ -33,7 +33,7 @@
 
 bool CatalogDB::Initialize()
 {
-    skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
+    skydb_         = QSqlDatabase::addDatabase("QSQLITE", "skydb");
     QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("skycomponents.sqlite"));
     if (dbfile.isEmpty())
         dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("skycomponents.sqlite");
@@ -69,7 +69,7 @@ void CatalogDB::FirstRun()
     QVector<QString> tables;
     tables.append("CREATE TABLE Version ("
                   "Version CHAR DEFAULT NULL)");
-    tables.append("INSERT INTO Version VALUES (\""  KSTARS_VERSION "\")");
+    tables.append("INSERT INTO Version VALUES (\"" KSTARS_VERSION "\")");
     tables.append("CREATE TABLE ObjectDesignation ("
                   "id INTEGER NOT NULL  DEFAULT NULL PRIMARY KEY,"
                   "id_Catalog INTEGER DEFAULT NULL REFERENCES Catalog (id),"
@@ -119,12 +119,10 @@ void CatalogDB::FirstRun()
     return;
 }
 
-
 CatalogDB::~CatalogDB()
 {
     skydb_.close();
 }
-
 
 QSqlError CatalogDB::LastError()
 {
@@ -132,13 +130,11 @@ QSqlError CatalogDB::LastError()
     return skydb_.lastError();
 }
 
-
-QStringList * CatalogDB::Catalogs()
+QStringList *CatalogDB::Catalogs()
 {
     RefreshCatalogList();
     return &catalog_list_;
 }
-
 
 void CatalogDB::RefreshCatalogList()
 {
@@ -146,24 +142,23 @@ void CatalogDB::RefreshCatalogList()
     skydb_.open();
     QSqlTableModel catalog(0, skydb_);
     catalog.setTable("Catalog");
-    catalog.setSort( 0, Qt::AscendingOrder );
+    catalog.setSort(0, Qt::AscendingOrder);
     catalog.select();
 
     for (int i = 0; i < catalog.rowCount(); ++i)
     {
         QSqlRecord record = catalog.record(i);
-        QString name = record.value("Name").toString();
+        QString name      = record.value("Name").toString();
         catalog_list_.append(name);
-//         QString author = record.value("Author").toString();
-//         QString license = record.value("License").toString();
-//         QString compiled_by = record.value("CompiledBy").toString();
-//         QString prefix = record.value("Prefix").toString();
+        //         QString author = record.value("Author").toString();
+        //         QString license = record.value("License").toString();
+        //         QString compiled_by = record.value("CompiledBy").toString();
+        //         QString prefix = record.value("Prefix").toString();
     }
 
     catalog.clear();
     skydb_.close();
 }
-
 
 int CatalogDB::FindCatalog(const QString &catalog_name)
 {
@@ -186,7 +181,6 @@ int CatalogDB::FindCatalog(const QString &catalog_name)
 
     return returnval;
 }
-
 
 void CatalogDB::AddCatalog(const CatalogData &catalog_data)
 {
@@ -245,8 +239,7 @@ void CatalogDB::ClearDSOEntries(int catalog_id)
     //                  "ObjectDesignation WHERE id_Catalog = " +
     //                  QString::number(catalog_id) + ")");
 
-    del_query.append("DELETE FROM ObjectDesignation WHERE id_Catalog = " +
-                     QString::number(catalog_id));
+    del_query.append("DELETE FROM ObjectDesignation WHERE id_Catalog = " + QString::number(catalog_id));
 
     for (int i = 0; i < del_query.count(); ++i)
     {
@@ -260,8 +253,7 @@ void CatalogDB::ClearDSOEntries(int catalog_id)
     skydb_.close();
 }
 
-int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
-                              const double magnitude)
+int CatalogDB::FindFuzzyEntry(const double ra, const double dec, const double magnitude)
 {
     /*
      * FIXME (spacetime): Match the incoming entry with the ones from the db
@@ -271,16 +263,19 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
     //skydb_.open();
     QSqlTableModel dsoentries(0, skydb_);
 
-    QString filter =
-        "((RA - " + QString().setNum(ra) + ") between -0.0016 and 0.0016) and "
-        "((Dec - " + QString().setNum(dec) + ") between -0.0016 and 0.0016) and"
-        "((Magnitude - " + QString().setNum(magnitude) + ") between -0.1 and 0.1)";
-//   qDebug() << filter;
+    QString filter = "((RA - " + QString().setNum(ra) +
+                     ") between -0.0016 and 0.0016) and "
+                     "((Dec - " +
+                     QString().setNum(dec) +
+                     ") between -0.0016 and 0.0016) and"
+                     "((Magnitude - " +
+                     QString().setNum(magnitude) + ") between -0.1 and 0.1)";
+    //   qDebug() << filter;
     dsoentries.setTable("DSO");
     dsoentries.setFilter(filter);
     dsoentries.select();
 
-    int entry_count = dsoentries.rowCount();
+    int entry_count   = dsoentries.rowCount();
     QSqlRecord record = dsoentries.record(0);
 
     int returnval = -1;
@@ -289,19 +284,19 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
 
     dsoentries.clear();
     //skydb_.close();
-//   qDebug() << returnval;
+    //   qDebug() << returnval;
     return returnval;
 }
 
 bool CatalogDB::AddEntry(const CatalogEntryData &catalog_entry, int catid)
 {
-    if( ! skydb_.open() )
+    if (!skydb_.open())
     {
         qWarning() << "Failed to open database to add catalog entry!";
         qWarning() << LastError();
         return false;
     }
-    bool retVal = _AddEntry( catalog_entry, catid );
+    bool retVal = _AddEntry(catalog_entry, catid);
     skydb_.close();
     return retVal;
 }
@@ -310,19 +305,16 @@ bool CatalogDB::_AddEntry(const CatalogEntryData &catalog_entry, int catid)
 {
     // Verification step
     // If RA, Dec are Null, it denotes an invalid object and should not be written
-    if( catid < 0 )
+    if (catid < 0)
     {
         qWarning() << "Catalog ID " << catid << " is invalid! Cannot add object.";
         return false;
     }
-    if (catalog_entry.ra == KSParser::EBROKEN_DOUBLE ||
-            catalog_entry.ra == 0.0 || std::isnan( catalog_entry.ra ) ||
-            catalog_entry.dec == KSParser::EBROKEN_DOUBLE ||
-            catalog_entry.dec == 0.0 || std::isnan( catalog_entry.dec ) )
+    if (catalog_entry.ra == KSParser::EBROKEN_DOUBLE || catalog_entry.ra == 0.0 || std::isnan(catalog_entry.ra) ||
+        catalog_entry.dec == KSParser::EBROKEN_DOUBLE || catalog_entry.dec == 0.0 || std::isnan(catalog_entry.dec))
     {
-        qDebug() << "Attempt to add incorrect ra & dec with ID:"
-                 << catalog_entry.ID << " Long Name: "
-                 << catalog_entry.long_name;
+        qDebug() << "Attempt to add incorrect ra & dec with ID:" << catalog_entry.ID
+                 << " Long Name: " << catalog_entry.long_name;
         return false;
     }
     // Part 1: Adding in DSO table
@@ -333,7 +325,7 @@ bool CatalogDB::_AddEntry(const CatalogEntryData &catalog_entry, int catid)
     int rowuid = FindFuzzyEntry(catalog_entry.ra, catalog_entry.dec, catalog_entry.magnitude);
     //skydb_.open();
 
-    if ( rowuid == -1)   //i.e. No fuzzy match found. Proceed to add new entry
+    if (rowuid == -1) //i.e. No fuzzy match found. Proceed to add new entry
     {
         QSqlQuery add_query(skydb_);
         add_query.prepare("INSERT INTO DSO (RA, Dec, Type, Magnitude, PositionAngle,"
@@ -376,7 +368,7 @@ bool CatalogDB::_AddEntry(const CatalogEntryData &catalog_entry, int catid)
     // Part 3: Add in Object Designation
     //skydb_.open();
     QSqlQuery add_od(skydb_);
-    if( ID >= 0 )
+    if (ID >= 0)
     {
         add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
                        ", IDNumber) VALUES (:catid, :rowuid, :longname, :id)");
@@ -387,8 +379,7 @@ bool CatalogDB::_AddEntry(const CatalogEntryData &catalog_entry, int catid)
         qWarning() << "FIXME: This query has not been tested!!!!";
         add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
                        ", IDNumber) VALUES (:catid, :rowuid, :longname,"
-                       "(SELECT MAX(ISNULL(IDNumber,1))+1 FROM ObjectDesignation WHERE id_Catalog = :catid) )"
-                      );
+                       "(SELECT MAX(ISNULL(IDNumber,1))+1 FROM ObjectDesignation WHERE id_Catalog = :catid) )");
     }
     add_od.bindValue(":catid", catid);
     add_od.bindValue(":rowuid", rowuid);
@@ -409,7 +400,7 @@ bool CatalogDB::_AddEntry(const CatalogEntryData &catalog_entry, int catid)
 
 QString CatalogDB::GetCatalogName(const QString &fname)
 {
-    QDir::setCurrent(QDir::homePath());  // for files with relative path
+    QDir::setCurrent(QDir::homePath()); // for files with relative path
     QString filename = fname;
     // If the filename begins with "~", replace the "~" with the user's home
     // directory (otherwise, the file will not successfully open)
@@ -426,12 +417,12 @@ QString CatalogDB::GetCatalogName(const QString &fname)
 
         for (int times = 10; times >= 0 && !stream.atEnd(); --times)
         {
-            line = stream.readLine();
-            int iname      = line.indexOf("# Name: ");
+            line      = stream.readLine();
+            int iname = line.indexOf("# Name: ");
             if (iname == 0)
             {
                 // line contains catalog name
-                iname = line.indexOf(":")+2;
+                iname        = line.indexOf(":") + 2;
                 catalog_name = line.mid(iname);
                 return catalog_name;
             }
@@ -439,12 +430,11 @@ QString CatalogDB::GetCatalogName(const QString &fname)
     }
 
     return QString();
-
 }
 
 bool CatalogDB::AddCatalogContents(const QString &fname)
 {
-    QDir::setCurrent(QDir::homePath());  // for files with relative path
+    QDir::setCurrent(QDir::homePath()); // for files with relative path
     QString filename = fname;
     // If the filename begins with "~", replace the "~" with the user's home
     // directory (otherwise, the file will not successfully open)
@@ -455,7 +445,7 @@ bool CatalogDB::AddCatalogContents(const QString &fname)
 
     if (ccFile.open(QIODevice::ReadOnly))
     {
-        QStringList columns;  // list of data column descriptors in the header
+        QStringList columns; // list of data column descriptors in the header
         QString catalog_name;
         char delimiter;
 
@@ -469,8 +459,7 @@ bool CatalogDB::AddCatalogContents(const QString &fname)
           * Memory Hog!
           */
 
-        if (lines.size() < 1 ||
-                !ParseCatalogInfoToDB(lines, columns, catalog_name, delimiter))
+        if (lines.size() < 1 || !ParseCatalogInfoToDB(lines, columns, catalog_name, delimiter))
         {
             qWarning() << "Issue in catalog file header: " << filename;
             ccFile.close();
@@ -486,8 +475,7 @@ bool CatalogDB::AddCatalogContents(const QString &fname)
           */
 
         // Part 1) Conversion to KSParser compatible format
-        QList< QPair<QString, KSParser::DataTypes> > sequence =
-            buildParserSequence(columns);
+        QList<QPair<QString, KSParser::DataTypes>> sequence = buildParserSequence(columns);
 
         // Part 2) Read file and store into DB
         KSParser catalog_text_parser(filename, '#', sequence, delimiter);
@@ -507,17 +495,17 @@ bool CatalogDB::AddCatalogContents(const QString &fname)
             dms read_ra(row_content["RA"].toString(), false);
             dms read_dec(row_content["Dc"].toString(), true);
             //qDebug()<<row_content["Nm"].toString();
-            catalog_entry.catalog_name = catalog_name;
-            catalog_entry.ID = row_content["ID"].toInt();
-            catalog_entry.long_name = row_content["Nm"].toString();
-            catalog_entry.ra = read_ra.Degrees();
-            catalog_entry.dec = read_dec.Degrees();
-            catalog_entry.type = row_content["Tp"].toInt();
-            catalog_entry.magnitude = row_content["Mg"].toFloat();
+            catalog_entry.catalog_name   = catalog_name;
+            catalog_entry.ID             = row_content["ID"].toInt();
+            catalog_entry.long_name      = row_content["Nm"].toString();
+            catalog_entry.ra             = read_ra.Degrees();
+            catalog_entry.dec            = read_dec.Degrees();
+            catalog_entry.type           = row_content["Tp"].toInt();
+            catalog_entry.magnitude      = row_content["Mg"].toFloat();
             catalog_entry.position_angle = row_content["PA"].toFloat();
-            catalog_entry.major_axis = row_content["Mj"].toFloat();
-            catalog_entry.minor_axis = row_content["Mn"].toFloat();
-            catalog_entry.flux = row_content["Flux"].toFloat();
+            catalog_entry.major_axis     = row_content["Mj"].toFloat();
+            catalog_entry.minor_axis     = row_content["Mn"].toFloat();
+            catalog_entry.flux           = row_content["Flux"].toFloat();
 
             _AddEntry(catalog_entry, catid);
         }
@@ -528,10 +516,7 @@ bool CatalogDB::AddCatalogContents(const QString &fname)
     return true;
 }
 
-
-bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
-                                     QStringList &columns,
-                                     QString &catalog_name,
+bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &columns, QString &catalog_name,
                                      char &delimiter)
 {
     /*
@@ -541,7 +526,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
     * I have modified the already existing code into this method
     * -- Rishab Arora (spacetime)
     */
-    bool foundDataColumns = false;  // set to true if description of data
+    bool foundDataColumns = false; // set to true if description of data
     // columns found
     int ncol = 0;
 
@@ -555,14 +540,15 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
     catColor.clear();
     catFluxFreq.clear();
     catFluxUnit.clear();
-    catEpoch = 0.;
+    catEpoch  = 0.;
     delimiter = '\0';
 
     int i = 0;
     for (; i < lines.size(); ++i)
     {
-        QString d(lines.at(i));  // current data line
-        if (d.left(1) != "#") break;  // no longer in header!
+        QString d(lines.at(i)); // current data line
+        if (d.left(1) != "#")
+            break; // no longer in header!
 
         int idelimiter = d.indexOf("# Delimiter: ");
         int iname      = d.indexOf("# Name: ");
@@ -572,7 +558,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
         int ifluxfreq  = d.indexOf("# Flux Frequency: ");
         int ifluxunit  = d.indexOf("# Flux Unit: ");
 
-        if (idelimiter == 0)    // line contains delimiter
+        if (idelimiter == 0) // line contains delimiter
         {
             idelimiter = d.indexOf(":") + 2;
             qWarning() << idelimiter << d;
@@ -580,62 +566,62 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
             {
                 delimiter = d.mid(idelimiter).at(0).toLatin1();
             }
-            else      // duplicate name in header
+            else // duplicate name in header
             {
                 if (showerrs)
-                    errs.append(i18n("Parsing header: ") +
-                                i18n("Extra Delimiter field in header: %1."
-                                     "  Will be ignored", d.mid(idelimiter)));
+                    errs.append(i18n("Parsing header: ") + i18n("Extra Delimiter field in header: %1."
+                                                                "  Will be ignored",
+                                                                d.mid(idelimiter)));
             }
         }
-        else if (iname == 0)      // line contains catalog name
+        else if (iname == 0) // line contains catalog name
         {
-            iname = d.indexOf(":")+2;
+            iname = d.indexOf(":") + 2;
             if (catalog_name.isEmpty())
             {
                 catalog_name = d.mid(iname);
             }
-            else      // duplicate name in header
+            else // duplicate name in header
             {
                 if (showerrs)
-                    errs.append(i18n("Parsing header: ") +
-                                i18n("Extra Name field in header: %1."
-                                     "  Will be ignored", d.mid(iname)));
+                    errs.append(i18n("Parsing header: ") + i18n("Extra Name field in header: %1."
+                                                                "  Will be ignored",
+                                                                d.mid(iname)));
             }
         }
-        else if (iprefix == 0)      // line contains catalog prefix
+        else if (iprefix == 0) // line contains catalog prefix
         {
-            iprefix = d.indexOf(":")+2;
+            iprefix = d.indexOf(":") + 2;
             if (catPrefix.isEmpty())
             {
                 catPrefix = d.mid(iprefix);
             }
-            else      // duplicate prefix in header
+            else // duplicate prefix in header
             {
                 if (showerrs)
-                    errs.append(i18n("Parsing header: ") +
-                                i18n("Extra Prefix field in header: %1."
-                                     "  Will be ignored", d.mid(iprefix)));
+                    errs.append(i18n("Parsing header: ") + i18n("Extra Prefix field in header: %1."
+                                                                "  Will be ignored",
+                                                                d.mid(iprefix)));
             }
         }
-        else if (icolor == 0)      // line contains catalog prefix
+        else if (icolor == 0) // line contains catalog prefix
         {
-            icolor = d.indexOf(":")+2;
+            icolor = d.indexOf(":") + 2;
             if (catColor.isEmpty())
             {
                 catColor = d.mid(icolor);
             }
-            else      // duplicate prefix in header
+            else // duplicate prefix in header
             {
                 if (showerrs)
-                    errs.append(i18n("Parsing header: ") +
-                                i18n("Extra Color field in header: %1."
-                                     "  Will be ignored", d.mid(icolor)));
+                    errs.append(i18n("Parsing header: ") + i18n("Extra Color field in header: %1."
+                                                                "  Will be ignored",
+                                                                d.mid(icolor)));
             }
         }
-        else if (iepoch == 0)      // line contains catalog epoch
+        else if (iepoch == 0) // line contains catalog epoch
         {
-            iepoch = d.indexOf(":")+2;
+            iepoch = d.indexOf(":") + 2;
             if (catEpoch == 0.)
             {
                 bool ok(false);
@@ -643,28 +629,26 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
                 if (!ok)
                 {
                     if (showerrs)
-                        errs.append(i18n("Parsing header: ") +
-                                    i18n("Could not convert Epoch to float: "
-                                         "%1.  Using 2000. instead",
-                                         d.mid(iepoch)));
-                    catEpoch = 2000.;  // adopt default value
+                        errs.append(i18n("Parsing header: ") + i18n("Could not convert Epoch to float: "
+                                                                    "%1.  Using 2000. instead",
+                                                                    d.mid(iepoch)));
+                    catEpoch = 2000.; // adopt default value
                 }
             }
         }
-        else if (ifluxfreq == 0)      // line contains catalog flux frequnecy
+        else if (ifluxfreq == 0) // line contains catalog flux frequnecy
         {
-            ifluxfreq = d.indexOf(":")+2;
+            ifluxfreq = d.indexOf(":") + 2;
             if (catFluxFreq.isEmpty())
             {
                 catFluxFreq = d.mid(ifluxfreq);
             }
-            else      // duplicate prefix in header
+            else // duplicate prefix in header
             {
                 if (showerrs)
-                    errs.append(i18n("Parsing header: ") +
-                                i18n("Extra Flux Frequency field in header:"
-                                     " %1.  Will be ignored",
-                                     d.mid(ifluxfreq)));
+                    errs.append(i18n("Parsing header: ") + i18n("Extra Flux Frequency field in header:"
+                                                                " %1.  Will be ignored",
+                                                                d.mid(ifluxfreq)));
             }
         }
         else if (ifluxunit == 0)
@@ -676,16 +660,15 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
             {
                 catFluxUnit = d.mid(ifluxunit);
             }
-            else      // duplicate prefix in header
+            else // duplicate prefix in header
             {
                 if (showerrs)
-                    errs.append(i18n("Parsing header: ") +
-                                i18n("Extra Flux Unit field in "
-                                     "header: %1.  Will be ignored",
-                                     d.mid(ifluxunit)));
+                    errs.append(i18n("Parsing header: ") + i18n("Extra Flux Unit field in "
+                                                                "header: %1.  Will be ignored",
+                                                                d.mid(ifluxunit)));
             }
         }
-        else if (!foundDataColumns)      // don't try to parse data column
+        else if (!foundDataColumns) // don't try to parse data column
         {
             // descriptors if we already found them
             columns.clear();
@@ -717,25 +700,26 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
                         ncol++;
                     }
                 }
-                else if (fields.contains(s))      // duplicate field
+                else if (fields.contains(s)) // duplicate field
                 {
-                    fields.append("Ig");  // ignore the duplicate column
+                    fields.append("Ig"); // ignore the duplicate column
                     if (showerrs)
-                        errs.append(i18n("Parsing header: ") +
-                                    i18n("Duplicate data field descriptor "
-                                         "\"%1\" will be ignored", s));
+                        errs.append(i18n("Parsing header: ") + i18n("Duplicate data field descriptor "
+                                                                    "\"%1\" will be ignored",
+                                                                    s));
                 }
-                else      // Invalid field
+                else // Invalid field
                 {
-                    fields.append("Ig");  // ignore the invalid column
+                    fields.append("Ig"); // ignore the invalid column
                     if (showerrs)
-                        errs.append(i18n("Parsing header: ") +
-                                    i18n("Invalid data field descriptor "
-                                         "\"%1\" will be ignored", s));
+                        errs.append(i18n("Parsing header: ") + i18n("Invalid data field descriptor "
+                                                                    "\"%1\" will be ignored",
+                                                                    s));
                 }
             }
 
-            if (ncol) foundDataColumns = true;
+            if (ncol)
+                foundDataColumns = true;
         }
     }
 
@@ -746,16 +730,15 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
     if (!foundDataColumns)
     {
         if (showerrs)
-            errs.append(i18n("Parsing header: ") +
-                        i18n("No valid column descriptors found.  Exiting"));
+            errs.append(i18n("Parsing header: ") + i18n("No valid column descriptors found.  Exiting"));
         return false;
     }
 
     if (i == lines.size())
     {
-        if (showerrs) errs.append(i18n("Parsing header: ") +
-                                      i18n("No data lines found after"
-                                           " header.  Exiting."));
+        if (showerrs)
+            errs.append(i18n("Parsing header: ") + i18n("No data lines found after"
+                                                        " header.  Exiting."));
         return false;
     }
     else
@@ -763,30 +746,30 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
         // Make sure Name, Prefix, Color and Epoch were set
         if (catalog_name.isEmpty())
         {
-            if (showerrs) errs.append(i18n("Parsing header: ") +
-                                          i18n("No Catalog Name specified;"
-                                               " setting to \"Custom\""));
+            if (showerrs)
+                errs.append(i18n("Parsing header: ") + i18n("No Catalog Name specified;"
+                                                            " setting to \"Custom\""));
             catalog_name = i18n("Custom");
         }
         if (catPrefix.isEmpty())
         {
-            if (showerrs) errs.append(i18n("Parsing header: ") +
-                                          i18n("No Catalog Prefix specified"
-                                               "; setting to \"CC\""));
+            if (showerrs)
+                errs.append(i18n("Parsing header: ") + i18n("No Catalog Prefix specified"
+                                                            "; setting to \"CC\""));
             catPrefix = "CC";
         }
         if (catColor.isEmpty())
         {
-            if (showerrs) errs.append(i18n("Parsing header: ") +
-                                          i18n("No Catalog Color specified"
-                                               "; setting to Red"));
+            if (showerrs)
+                errs.append(i18n("Parsing header: ") + i18n("No Catalog Color specified"
+                                                            "; setting to Red"));
             catColor = "#CC0000";
         }
         if (catEpoch == 0.)
         {
-            if (showerrs) errs.append(i18n("Parsing header: ") +
-                                          i18n("No Catalog Epoch specified"
-                                               "; assuming 2000."));
+            if (showerrs)
+                errs.append(i18n("Parsing header: ") + i18n("No Catalog Epoch specified"
+                                                            "; assuming 2000."));
             catEpoch = 2000.;
         }
 #ifndef KSTARS_LITE
@@ -797,8 +780,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
                                           i18n("A catalog of the same name already exists. "
                                                "Overwrite contents? If you press yes, the"
                                                " new catalog will erase the old one!"),
-                                          i18n("Overwrite Existing Catalog"))
-                    == KMessageBox::No)
+                                          i18n("Overwrite Existing Catalog")) == KMessageBox::No)
             {
                 return false;
             }
@@ -813,11 +795,11 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
         CatalogData new_catalog;
 
         new_catalog.catalog_name = catalog_name;
-        new_catalog.prefix = catPrefix;
-        new_catalog.color = catColor;
-        new_catalog.epoch = catEpoch;
-        new_catalog.fluxfreq = catFluxFreq;
-        new_catalog.fluxunit = catFluxUnit;
+        new_catalog.prefix       = catPrefix;
+        new_catalog.color        = catColor;
+        new_catalog.epoch        = catEpoch;
+        new_catalog.fluxfreq     = catFluxFreq;
+        new_catalog.fluxunit     = catFluxUnit;
 
         AddCatalog(new_catalog);
 
@@ -825,8 +807,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
     }
 }
 
-void CatalogDB::GetCatalogData(const QString &catalog_name,
-                               CatalogData &load_catalog)
+void CatalogDB::GetCatalogData(const QString &catalog_name, CatalogData &load_catalog)
 {
     skydb_.open();
     QSqlTableModel catalog(0, skydb_);
@@ -834,23 +815,20 @@ void CatalogDB::GetCatalogData(const QString &catalog_name,
     catalog.setFilter("Name LIKE \'" + catalog_name + "\'");
     catalog.select();
 
-    QSqlRecord record = catalog.record(0);
-    load_catalog.prefix = record.value("Prefix").toString();
-    load_catalog.color = record.value("Color").toString();
+    QSqlRecord record     = catalog.record(0);
+    load_catalog.prefix   = record.value("Prefix").toString();
+    load_catalog.color    = record.value("Color").toString();
     load_catalog.fluxfreq = record.value("FluxFreq").toString();
     load_catalog.fluxunit = record.value("FluxUnit").toString();
-    load_catalog.epoch = record.value("Epoch").toFloat();
+    load_catalog.epoch    = record.value("Epoch").toFloat();
 
     catalog.clear();
     skydb_.close();
 }
 
-
-void CatalogDB::GetAllObjects(const QString &catalog,
-                              QList< SkyObject * > &sky_list,
-                              QList < QPair <int, QString> > &object_names,
-                              CatalogComponent * catalog_ptr,
-                              bool includeCatalogDesignation )
+void CatalogDB::GetAllObjects(const QString &catalog, QList<SkyObject *> &sky_list,
+                              QList<QPair<int, QString>> &object_names, CatalogComponent *catalog_ptr,
+                              bool includeCatalogDesignation)
 {
     sky_list.clear();
     QString selected_catalog = QString::number(FindCatalog(catalog));
@@ -864,9 +842,9 @@ void CatalogDB::GetAllObjects(const QString &catalog,
                       "ObjectDesignation.UID_DSO = DSO.UID");
     get_query.bindValue(":catID", selected_catalog);
 
-//     qWarning() << get_query.lastQuery();
-//     qWarning() << get_query.lastError();
-//     qWarning() << FindCatalog(catalog);
+    //     qWarning() << get_query.lastQuery();
+    //     qWarning() << get_query.lastError();
+    //     qWarning() << FindCatalog(catalog);
 
     if (!get_query.exec())
     {
@@ -876,24 +854,23 @@ void CatalogDB::GetAllObjects(const QString &catalog,
 
     while (get_query.next())
     {
-
-        int cat_epoch = get_query.value(0).toInt();
+        int cat_epoch       = get_query.value(0).toInt();
         unsigned char iType = get_query.value(1).toInt();
         dms RA(get_query.value(2).toDouble());
         dms Dec(get_query.value(3).toDouble());
-        float mag = get_query.value(4).toFloat();
-        QString catPrefix = get_query.value(5).toString();
+        float mag                = get_query.value(4).toFloat();
+        QString catPrefix        = get_query.value(5).toString();
         int id_number_in_catalog = get_query.value(6).toInt();
-        QString lname = get_query.value(7).toString();
-        float a = get_query.value(8).toFloat();
-        float b = get_query.value(9).toFloat();
-        float PA = get_query.value(10).toFloat();
-        float flux = get_query.value(11).toFloat();
+        QString lname            = get_query.value(7).toString();
+        float a                  = get_query.value(8).toFloat();
+        float b                  = get_query.value(9).toFloat();
+        float PA                 = get_query.value(10).toFloat();
+        float flux               = get_query.value(11).toFloat();
 
         QString name;
-        if( ! includeCatalogDesignation && ! lname.isEmpty() )
+        if (!includeCatalogDesignation && !lname.isEmpty())
         {
-            name = lname;
+            name  = lname;
             lname = QString();
         }
         else
@@ -905,13 +882,14 @@ void CatalogDB::GetAllObjects(const QString &catalog,
         if (cat_epoch == 1950)
         {
             // Assume B1950 epoch
-            t.B1950ToJ2000();  // t.ra() and t.dec() are now J2000.0
+            t.B1950ToJ2000(); // t.ra() and t.dec() are now J2000.0
             // coordinates
         }
         else if (cat_epoch == 2000)
         {
             // Do nothing
-            { }
+            {
+            }
         }
         else
         {
@@ -919,11 +897,11 @@ void CatalogDB::GetAllObjects(const QString &catalog,
             // FIXME: This warning will be printed for each line in the
             //        catalog rather than once for the entire catalog
             qWarning() << "Unknown epoch while dealing with custom "
-                       "catalog. Will ignore the epoch and assume"
-                       " J2000.0";
+                          "catalog. Will ignore the epoch and assume"
+                          " J2000.0";
         }
 
-        RA = t.ra();
+        RA  = t.ra();
         Dec = t.dec();
 
         // FIXME: It is a bad idea to create objects in one class
@@ -931,16 +909,14 @@ void CatalogDB::GetAllObjects(const QString &catalog,
         // here are usually deleted by CatalogComponent! See
         // CatalogComponent::loadData for more information!
 
-        if (iType == 0)    // Add a star
+        if (iType == 0) // Add a star
         {
-            StarObject * o = new StarObject(RA, Dec, mag, lname);
+            StarObject *o = new StarObject(RA, Dec, mag, lname);
             sky_list.append(o);
         }
-        else      // Add a deep-sky object
+        else // Add a deep-sky object
         {
-            DeepSkyObject * o = new DeepSkyObject(iType, RA, Dec, mag,
-                                                  name, QString(), lname,
-                                                  catPrefix, a, b, -PA);
+            DeepSkyObject *o = new DeepSkyObject(iType, RA, Dec, mag, name, QString(), lname, catPrefix, a, b, -PA);
             o->setFlux(flux);
             o->setCustomCatalog(catalog_ptr);
 
@@ -949,13 +925,13 @@ void CatalogDB::GetAllObjects(const QString &catalog,
             // Add name to the list of object names
             if (!name.isEmpty())
             {
-                object_names.append(qMakePair<int,QString>(iType, name));
+                object_names.append(qMakePair<int, QString>(iType, name));
             }
         }
 
         if (!lname.isEmpty() && lname != name)
         {
-            object_names.append(qMakePair<int,QString>(iType, lname));
+            object_names.append(qMakePair<int, QString>(iType, lname));
         }
     }
 
@@ -963,11 +939,9 @@ void CatalogDB::GetAllObjects(const QString &catalog,
     skydb_.close();
 }
 
-
-QList< QPair<QString, KSParser::DataTypes> > CatalogDB::
-buildParserSequence(const QStringList &Columns)
+QList<QPair<QString, KSParser::DataTypes>> CatalogDB::buildParserSequence(const QStringList &Columns)
 {
-    QList< QPair<QString, KSParser::DataTypes> > sequence;
+    QList<QPair<QString, KSParser::DataTypes>> sequence;
     QStringList::const_iterator iter = Columns.begin();
 
     while (iter != Columns.end())

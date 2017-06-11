@@ -14,10 +14,9 @@ class DownloadHelper : public QObject
 {
     Q_OBJECT
 
-    public Q_SLOTS:
-        ActionReply saveindexfile(const QVariantMap &args);
-        ActionReply removeindexfileset(const QVariantMap &args);
-
+  public Q_SLOTS:
+    ActionReply saveindexfile(const QVariantMap &args);
+    ActionReply removeindexfileset(const QVariantMap &args);
 };
 
 #endif // DOWNLOADHELPER_H

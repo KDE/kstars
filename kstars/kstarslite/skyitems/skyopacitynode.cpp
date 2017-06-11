@@ -18,12 +18,11 @@
 
 SkyOpacityNode::SkyOpacityNode()
 {
-
 }
 
 void SkyOpacityNode::show()
 {
-    if(opacity() == 0)
+    if (opacity() == 0)
     {
         setOpacity(1);
         markDirty(QSGNode::DirtyOpacity);
@@ -32,7 +31,7 @@ void SkyOpacityNode::show()
 
 void SkyOpacityNode::hide()
 {
-    if(opacity() != 0)
+    if (opacity() != 0)
     {
         setOpacity(0);
         markDirty(QSGNode::DirtyOpacity);
@@ -41,7 +40,7 @@ void SkyOpacityNode::hide()
 
 bool SkyOpacityNode::visible()
 {
-    if(opacity() != 0)
+    if (opacity() != 0)
     {
         return true;
     }

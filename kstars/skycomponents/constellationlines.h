@@ -35,9 +35,8 @@ class CultureList;
 
 class ConstellationLines : public LineListIndex
 {
-
-    public:
-        /** @short Constructor
+  public:
+    /** @short Constructor
          * @p parent Pointer to the parent SkyComposite object
          *
          * Constellation lines data is read from clines.dat.
@@ -46,29 +45,26 @@ class ConstellationLines : public LineListIndex
          * the previous position to this one), followed by the genetive name of
          * a star, which marks the position of the constellation node.
          */
-        ConstellationLines( SkyComposite * parent, CultureList * cultures );
+    ConstellationLines(SkyComposite *parent, CultureList *cultures);
 
-        void reindex( KSNumbers * num );
+    void reindex(KSNumbers *num);
 
-        bool selected() Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
 
-    protected:
-        const IndexHash &getIndexHash(LineList * lineList ) Q_DECL_OVERRIDE;
+  protected:
+    const IndexHash &getIndexHash(LineList *lineList) Q_DECL_OVERRIDE;
 
-        /** @short we need to override the update routine because stars are
+    /** @short we need to override the update routine because stars are
          * updated differently from mere SkyPoints.
          */
-        void JITupdate( LineList * lineList ) Q_DECL_OVERRIDE;
+    void JITupdate(LineList *lineList) Q_DECL_OVERRIDE;
 
-        /** @short Set the QColor and QPen for drawing. */
-        void preDraw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+    /** @short Set the QColor and QPen for drawing. */
+    void preDraw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-    private:
-
-        KSNumbers m_reindexNum;
-        double    m_reindexInterval;
-
+  private:
+    KSNumbers m_reindexNum;
+    double m_reindexInterval;
 };
-
 
 #endif

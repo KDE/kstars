@@ -39,44 +39,41 @@ class SkyLabeler;
 
 class SolarSystemSingleComponent : public SkyComponent
 {
-    public:
-        /** Initialize visible method, minimum size and sizeScale. */
-        SolarSystemSingleComponent(SolarSystemComposite *, KSPlanetBase * kspb, bool (*visibleMethod)());
+  public:
+    /** Initialize visible method, minimum size and sizeScale. */
+    SolarSystemSingleComponent(SolarSystemComposite *, KSPlanetBase *kspb, bool (*visibleMethod)());
 
-        virtual ~SolarSystemSingleComponent();
+    virtual ~SolarSystemSingleComponent();
 
-        /** Return pointer to stored planet object. */
-        KSPlanetBase * planet()
-        {
-            return m_Planet;
-        }
+    /** Return pointer to stored planet object. */
+    KSPlanetBase *planet() { return m_Planet; }
 
-        bool selected() Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
 
-        /**
+    /**
          * @brief update Only convert Equatorial to Horizontal coordinates given current time.
          * @param num pointer to KSNumbers instance for target time
          */
-        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) Q_DECL_OVERRIDE;
 
-        /**
+    /**
          * @brief updateSolarSystemBodies Update Equtorial & Horizontal coordinates.
          * @param num pointer to KSNumbers instance for target time
          */
-        void updateSolarSystemBodies( KSNumbers * num ) Q_DECL_OVERRIDE;
+    void updateSolarSystemBodies(KSNumbers *num) Q_DECL_OVERRIDE;
 
-        SkyObject * findByName( const QString &name ) Q_DECL_OVERRIDE;
-        SkyObject * objectNearest( SkyPoint * p, double &maxrad ) Q_DECL_OVERRIDE;
-        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+    SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-    protected:
-        void drawTrails( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+  protected:
+    void drawTrails(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-    private:
-        bool (*visible)();
-        QColor        m_Color;
-        KSPlanet   *  m_Earth;
-        KSPlanetBase * m_Planet;
+  private:
+    bool (*visible)();
+    QColor m_Color;
+    KSPlanet *m_Earth;
+    KSPlanetBase *m_Planet;
 };
 
 #endif

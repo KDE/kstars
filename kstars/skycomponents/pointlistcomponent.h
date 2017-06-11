@@ -18,7 +18,7 @@
 #ifndef POINTLISTCOMPONENT_H
 #define POINTLISTCOMPONENT_H
 
-#define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
+#define NCIRCLE 360 //number of points used to define equator, ecliptic and horizon
 
 #include <QList>
 
@@ -36,13 +36,12 @@ class SkyPoint;
  */
 class PointListComponent : public SkyComponent
 {
-    public:
+  public:
+    explicit PointListComponent(SkyComposite *parent);
 
-        explicit PointListComponent( SkyComposite * parent );
+    virtual ~PointListComponent();
 
-        virtual ~PointListComponent();
-
-        /** @short Update the sky positions of this component.
+    /** @short Update the sky positions of this component.
          *
          * This function usually just updates the Horizontal (Azimuth/Altitude)
          * coordinates of the objects in this component.  However, the precession
@@ -53,15 +52,12 @@ class PointListComponent : public SkyComponent
          * Precession/Nutation computation should be skipped; this computation
          * is only occasionally required.
          */
-        void update( KSNumbers * num=0 ) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num = 0) Q_DECL_OVERRIDE;
 
-        QList<SkyPoint *> &pointList()
-        {
-            return m_PointList;
-        }
+    QList<SkyPoint *> &pointList() { return m_PointList; }
 
-    private:
-        QList<SkyPoint *> m_PointList;
+  private:
+    QList<SkyPoint *> m_PointList;
 };
 
 #endif

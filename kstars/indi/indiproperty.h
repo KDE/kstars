@@ -41,101 +41,84 @@ class QCheckBox;
  */
 class INDI_P : public QObject
 {
-        Q_OBJECT
-    public:
-        INDI_P(INDI_G * ipg, INDI::Property * prop);
-        ~INDI_P();
+    Q_OBJECT
+  public:
+    INDI_P(INDI_G *ipg, INDI::Property *prop);
+    ~INDI_P();
 
-        /* Draw state LED */
-        void updateStateLED();
+    /* Draw state LED */
+    void updateStateLED();
 
-        /* Update menu gui */
-        void updateMenuGUI();
+    /* Update menu gui */
+    void updateMenuGUI();
 
-        void initGUI();
+    void initGUI();
 
-        /* First step in adding a new GUI element */
-        //void addGUI(XMLEle *root);
+    /* First step in adding a new GUI element */
+    //void addGUI(XMLEle *root);
 
-        /* Set Property's parent group */
-        //void setGroup(INDI_G *parentGroup) { pg = parentGroup; }
+    /* Set Property's parent group */
+    //void setGroup(INDI_G *parentGroup) { pg = parentGroup; }
 
-        void buildSwitchGUI();
-        void buildMenuGUI();
-        void buildTextGUI();
-        void buildNumberGUI();
-        void buildLightGUI();
-        void buildBLOBGUI();
+    void buildSwitchGUI();
+    void buildMenuGUI();
+    void buildTextGUI();
+    void buildNumberGUI();
+    void buildLightGUI();
+    void buildBLOBGUI();
 
-        /* Setup the 'set' button in the property */
-        void setupSetButton(const QString &caption);
+    /* Setup the 'set' button in the property */
+    void setupSetButton(const QString &caption);
 
-        void newTime();
+    void newTime();
 
-        PGui getGUIType()
-        {
-            return guiType;
-        }
+    PGui getGUIType() { return guiType; }
 
-        INDI_G * getGroup()
-        {
-            return pg;
-        }
+    INDI_G *getGroup() { return pg; }
 
-        QHBoxLayout * getContainer()
-        {
-            return PHBox;
-        }
+    QHBoxLayout *getContainer() { return PHBox; }
 
-        const QString  &getName()
-        {
-            return name;
-        }
+    const QString &getName() { return name; }
 
-        void addWidget(QWidget * w);
-        void addLayout(QHBoxLayout * layout);
+    void addWidget(QWidget *w);
+    void addLayout(QHBoxLayout *layout);
 
-        INDI_E * getElement(const QString &elementName);
+    INDI_E *getElement(const QString &elementName);
 
-        QList<INDI_E *> getElements()
-        {
-            return elementList;
-        }
-    private:
+    QList<INDI_E *> getElements() { return elementList; }
 
-        INDI::Property * dataProp;
-        INDI_G	* pg;			/* parent group */
-        QCheckBox  * enableBLOBC;
-        KSqueezedTextLabel   *   labelW;		/* Label widget */
-        QPushButton * setB;		       /* set button */
-        KLed	* ledStatus;		/* state LED */
-        PGui         guiType;		/* type of GUI, if any */
+  private:
+    INDI::Property *dataProp;
+    INDI_G *pg; /* parent group */
+    QCheckBox *enableBLOBC;
+    KSqueezedTextLabel *labelW; /* Label widget */
+    QPushButton *setB;          /* set button */
+    KLed *ledStatus;            /* state LED */
+    PGui guiType;               /* type of GUI, if any */
 
+    QSpacerItem *horSpacer; /* Horizontal spacer */
+    QHBoxLayout *PHBox;     /* Horizontal container */
+    QVBoxLayout *PVBox;     /* Vertical container */
 
-        QSpacerItem  *  horSpacer;		/* Horizontal spacer */
-        QHBoxLayout  *  PHBox;   		/* Horizontal container */
-        QVBoxLayout  *  PVBox;   		/* Vertical container */
+    QButtonGroup *groupB; /* group button for radio and check boxes (Elements) */
+    QComboBox *menuC;     /* Combo box for menu */
 
-        QButtonGroup  * groupB;		/* group button for radio and check boxes (Elements) */
-        QComboBox   *   menuC;		/* Combo box for menu */
+    QString name;
 
-        QString         name;
+    QList<INDI_E *> elementList; /* list of elements */
 
-        QList<INDI_E *> elementList;		/* list of elements */
+  public slots:
+    void processSetButton();
+    void newSwitch(QAbstractButton *button);
+    void newSwitch(int index);
+    void newSwitch(const QString &name);
+    void resetSwitch();
 
-    public slots:
-        void processSetButton();
-        void newSwitch(QAbstractButton * button);
-        void newSwitch(int index);
-        void newSwitch(const QString &name);
-        void resetSwitch();
+    void sendBlob();
+    void sendSwitch();
+    void sendText();
 
-
-        void sendBlob();
-        void sendSwitch();
-        void sendText();
-
-        void setBLOBOption(int state);
+    void setBLOBOption(int state);
 };
 
 #endif

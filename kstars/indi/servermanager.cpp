@@ -26,7 +26,6 @@
 #include <QStatusBar>
 #include <QStandardPaths>
 
-
 #include "servermanager.h"
 #include "drivermanager.h"
 #include "driverinfo.h"
@@ -38,10 +37,10 @@
 
 ServerManager::ServerManager(QString inHost, uint inPort)
 {
-    serverProcess	= nullptr;
-    XMLParser		= nullptr;
-    host		= inHost;
-    port		= QString::number(inPort);
+    serverProcess = nullptr;
+    XMLParser     = nullptr;
+    host          = inHost;
+    port          = QString::number(inPort);
 
     //qDebug() << "We got port unit with value of " << inPort << " and now as tring it is equal to #" << port << "#" << endl;
 }
@@ -66,32 +65,32 @@ bool ServerManager::start()
     return false;
 #else
     bool connected = false;
-    int fd = 0;
+    int fd         = 0;
 
     if (serverProcess == nullptr)
     {
-        serverProcess = new QProcess(this);
+        serverProcess      = new QProcess(this);
 #ifdef Q_OS_OSX
-        QString driversDir=Options::indiDriversDir();
-        if(Options::indiDriversAreInternal())
-            driversDir=QCoreApplication::applicationDirPath()+"/indi";
-        QString indiServerDir=Options::indiServer();
-        if(Options::indiServerIsInternal())
-            indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
+        QString driversDir = Options::indiDriversDir();
+        if (Options::indiDriversAreInternal())
+            driversDir = QCoreApplication::applicationDirPath() + "/indi";
+        QString indiServerDir = Options::indiServer();
+        if (Options::indiServerIsInternal())
+            indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
         else
-            indiServerDir=QFileInfo(Options::indiServer()).dir().path();
+            indiServerDir = QFileInfo(Options::indiServer()).dir().path();
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
         env.insert("PATH", driversDir + ":" + indiServerDir + ":/usr/local/bin:/usr/bin:/bin");
-        QString gscDirPath=KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "gsc";
+        QString gscDirPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "gsc";
         env.insert("GSCDAT", gscDirPath);
-        QString gphoto_iolibs=QCoreApplication::applicationDirPath() + "/../PlugIns/libgphoto2_port";
-        if(QFileInfo(gphoto_iolibs).exists()&&Options::indiDriversAreInternal())
+        QString gphoto_iolibs = QCoreApplication::applicationDirPath() + "/../PlugIns/libgphoto2_port";
+        if (QFileInfo(gphoto_iolibs).exists() && Options::indiDriversAreInternal())
             env.insert("IOLIBS", QDir(gphoto_iolibs).absolutePath());
-        QString gphoto_camlibs=QCoreApplication::applicationDirPath() + "/../PlugIns/libgphoto2";
-        if(QFileInfo(gphoto_camlibs).exists()&&Options::indiDriversAreInternal())
+        QString gphoto_camlibs = QCoreApplication::applicationDirPath() + "/../PlugIns/libgphoto2";
+        if (QFileInfo(gphoto_camlibs).exists() && Options::indiDriversAreInternal())
             env.insert("CAMLIBS", QDir(gphoto_camlibs).absolutePath());
-        QString qhyFirmwarePath=QCoreApplication::applicationDirPath() + "/../PlugIns/qhy";
-        if(QFileInfo(qhyFirmwarePath).exists()&&Options::indiDriversAreInternal())
+        QString qhyFirmwarePath = QCoreApplication::applicationDirPath() + "/../PlugIns/qhy";
+        if (QFileInfo(qhyFirmwarePath).exists() && Options::indiDriversAreInternal())
             env.insert("QHY_FIRMWARE_DIR", QDir(qhyFirmwarePath).absolutePath());
         env.insert("INDIPREFIX", indiServerDir);
         serverProcess->setProcessEnvironment(env);
@@ -100,11 +99,13 @@ bool ServerManager::start()
 
     QStringList args;
 
-    args << "-v" << "-p" << port << "-m" << "100";
+    args << "-v"
+         << "-p" << port << "-m"
+         << "100";
 
     QString fifoFile = QString("/tmp/indififo%1").arg(QUuid::createUuid().toString().mid(1, 8));
 
-    if ( (fd = mkfifo (fifoFile.toLatin1(), S_IRUSR| S_IWUSR) < 0))
+    if ((fd = mkfifo(fifoFile.toLatin1(), S_IRUSR | S_IWUSR) < 0))
     {
         KMessageBox::error(nullptr, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
         return false;
@@ -126,19 +127,19 @@ bool ServerManager::start()
     serverProcess->setReadChannel(QProcess::StandardError);
 
 #ifdef Q_OS_OSX
-    if(Options::indiServerIsInternal())
-        serverProcess->start(QCoreApplication::applicationDirPath()+"/indi/indiserver", args);
+    if (Options::indiServerIsInternal())
+        serverProcess->start(QCoreApplication::applicationDirPath() + "/indi/indiserver", args);
     else
 #endif
         serverProcess->start(Options::indiServer(), args);
-
 
     connected = serverProcess->waitForStarted();
 
     if (connected)
     {
-        connect(serverProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processServerError(QProcess::ProcessError)));
-        connect(serverProcess, SIGNAL(readyReadStandardError()),  this, SLOT(processStandardError()));
+        connect(serverProcess, SIGNAL(error(QProcess::ProcessError)), this,
+                SLOT(processServerError(QProcess::ProcessError)));
+        connect(serverProcess, SIGNAL(readyReadStandardError()), this, SLOT(processStandardError()));
 
         emit started();
     }
@@ -149,7 +150,7 @@ bool ServerManager::start()
 #endif
 }
 
-bool ServerManager::startDriver(DriverInfo * dv)
+bool ServerManager::startDriver(DriverInfo *dv)
 {
     QTextStream out(&indiFIFO);
 
@@ -160,17 +161,17 @@ bool ServerManager::startDriver(DriverInfo * dv)
     // Check for duplicates within managed drivers
     if (dv->getUniqueLabel().isEmpty() == false)
     {
-        int nset=0;
+        int nset = 0;
         QString uniqueLabel;
         QString label = dv->getUniqueLabel();
-        foreach(DriverInfo * drv, managedDrivers)
+        foreach (DriverInfo *drv, managedDrivers)
         {
             if (label == drv->getUniqueLabel())
                 nset++;
         }
         if (nset > 0)
         {
-            uniqueLabel = QString("%1 %2").arg(label).arg(nset+1);
+            uniqueLabel = QString("%1 %2").arg(label).arg(nset + 1);
             dv->setUniqueLabel(uniqueLabel);
         }
     }
@@ -178,32 +179,32 @@ bool ServerManager::startDriver(DriverInfo * dv)
     managedDrivers.append(dv);
     dv->setServerManager(this);
 
-    QString driversDir=Options::indiDriversDir();
-    QString indiServerDir=Options::indiServer();
-
+    QString driversDir    = Options::indiDriversDir();
+    QString indiServerDir = Options::indiServer();
 
 #ifdef Q_OS_OSX
-    if(Options::indiServerIsInternal())
-        driversDir=QCoreApplication::applicationDirPath()+"/indi";
-    if(Options::indiDriversAreInternal())
-        indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
+    if (Options::indiServerIsInternal())
+        driversDir = QCoreApplication::applicationDirPath() + "/indi";
+    if (Options::indiDriversAreInternal())
+        indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
     else
-        indiServerDir=QFileInfo(Options::indiServer()).dir().path();
+        indiServerDir = QFileInfo(Options::indiServer()).dir().path();
 #endif
 
     QStringList paths;
-    paths << "/usr/bin" << "/usr/local/bin" << driversDir << indiServerDir;
-
+    paths << "/usr/bin"
+          << "/usr/local/bin" << driversDir << indiServerDir;
 
     if (QStandardPaths::findExecutable(dv->getDriver()).isEmpty())
     {
-        if(QStandardPaths::findExecutable(dv->getDriver(),paths).isEmpty())
+        if (QStandardPaths::findExecutable(dv->getDriver(), paths).isEmpty())
         {
-            KMessageBox::error(nullptr, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
+            KMessageBox::error(nullptr, i18n("Driver %1 was not found on the system. Please make sure the package that "
+                                             "provides the '%1' binary is installed.",
+                                             dv->getDriver()));
             return false;
         }
     }
-
 
     out << "start " << dv->getDriver();
     if (dv->getUniqueLabel().isEmpty() == false)
@@ -221,7 +222,7 @@ bool ServerManager::startDriver(DriverInfo * dv)
     return true;
 }
 
-void ServerManager::stopDriver(DriverInfo * dv)
+void ServerManager::stopDriver(DriverInfo *dv)
 {
     QTextStream out(&indiFIFO);
 
@@ -237,9 +238,9 @@ void ServerManager::stopDriver(DriverInfo * dv)
     dv->setPort(dv->getUserPort());
 }
 
-bool ServerManager::isDriverManaged(DriverInfo * di)
+bool ServerManager::isDriverManaged(DriverInfo *di)
 {
-    foreach(DriverInfo * dv, managedDrivers)
+    foreach (DriverInfo *dv, managedDrivers)
     {
         if (dv == di)
             return true;
@@ -253,7 +254,7 @@ void ServerManager::stop()
     if (serverProcess == nullptr)
         return;
 
-    foreach(DriverInfo * device, managedDrivers)
+    foreach (DriverInfo *device, managedDrivers)
     {
         device->setServerState(false);
         device->clear();
@@ -282,11 +283,10 @@ void ServerManager::terminate()
 
 void ServerManager::connectionSuccess()
 {
-
-    foreach(DriverInfo * device, managedDrivers)
+    foreach (DriverInfo *device, managedDrivers)
         device->setServerState(true);
 
-    connect(serverProcess, SIGNAL(readyReadStandardError()),  this, SLOT(processStandardError()));
+    connect(serverProcess, SIGNAL(readyReadStandardError()), this, SLOT(processStandardError()));
 
     emit started();
 }
@@ -309,20 +309,23 @@ void ServerManager::processStandardError()
 
     if (Options::iNDILogging())
     {
-        foreach(QString msg, stderr.split("\n"))
+        foreach (QString msg, stderr.split("\n"))
             qDebug() << "INDI Server: " << msg;
     }
 
     if (driverCrashed == false && (serverBuffer.contains("stdin EOF") || serverBuffer.contains("stderr EOF")))
     {
         QStringList parts = serverBuffer.split("Driver");
-        foreach(QString driver, parts)
+        foreach (QString driver, parts)
         {
             if (driver.contains("stdin EOF") || driver.contains("stderr EOF"))
             {
-                driverCrashed=true;
+                driverCrashed      = true;
                 QString driverName = driver.left(driver.indexOf(':')).trimmed();
-                KMessageBox::information(0, i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
+                KMessageBox::information(
+                    0,
+                    i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.",
+                         driverName));
                 break;
             }
         }
@@ -339,5 +342,3 @@ QString ServerManager::errorString()
 
     return nullptr;
 }
-
-

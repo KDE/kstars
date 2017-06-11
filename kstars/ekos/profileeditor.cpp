@@ -22,29 +22,28 @@
 #include "profileeditor.h"
 #include "profileinfo.h"
 
-ProfileEditorUI::ProfileEditorUI( QWidget * p ) : QFrame( p )
+ProfileEditorUI::ProfileEditorUI(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-
-ProfileEditor::ProfileEditor(QWidget * w )  : QDialog( w )
+ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 {
 #ifdef Q_OS_OSX
-    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
-    ui = new ProfileEditorUI( this );
+    ui = new ProfileEditorUI(this);
 
     pi = nullptr;
 
-    QVBoxLayout * mainLayout = new QVBoxLayout;
+    QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
 
     setWindowTitle(i18n("Profile Editor"));
 
     // Create button box and link it to save and reject functions
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Save|QDialogButtonBox::Close);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(saveProfile()));
@@ -63,7 +62,6 @@ ProfileEditor::ProfileEditor(QWidget * w )  : QDialog( w )
 
 ProfileEditor::~ProfileEditor()
 {
-
 }
 
 void ProfileEditor::saveProfile()
@@ -79,7 +77,7 @@ void ProfileEditor::saveProfile()
     if (newProfile)
     {
         int id = KStarsData::Instance()->userdb()->AddProfile(ui->profileIN->text());
-        pi = new ProfileInfo(id, ui->profileIN->text());
+        pi     = new ProfileInfo(id, ui->profileIN->text());
     }
     else
         pi->name = ui->profileIN->text();
@@ -88,8 +86,8 @@ void ProfileEditor::saveProfile()
     if (ui->localMode->isChecked())
     {
         pi->host.clear();
-        pi->port=-1;
-        pi->INDIWebManagerPort=-1;
+        pi->port               = -1;
+        pi->INDIWebManagerPort = -1;
         //pi->customDrivers = ui->customDriversIN->text();
     }
     // Remote Mode
@@ -100,7 +98,7 @@ void ProfileEditor::saveProfile()
         if (ui->INDIWebManagerCheck->isChecked())
             pi->INDIWebManagerPort = ui->INDIWebManagerPort->text().toInt();
         else
-            pi->INDIWebManagerPort=-1;
+            pi->INDIWebManagerPort = -1;
         //pi->customDrivers.clear();
     }
 
@@ -190,14 +188,14 @@ void ProfileEditor::saveProfile()
     accept();
 }
 
-ProfileInfo * ProfileEditor::getPi() const
+ProfileInfo *ProfileEditor::getPi() const
 {
     return pi;
 }
 
 void ProfileEditor::setRemoteMode(bool enable)
 {
-    loadDrivers();//This is needed to reload the drivers because some may not be available locally
+    loadDrivers(); //This is needed to reload the drivers because some may not be available locally
 
     ui->remoteHost->setEnabled(enable);
     ui->remoteHostLabel->setEnabled(enable);
@@ -224,10 +222,9 @@ void ProfileEditor::setRemoteMode(bool enable)
 
     ui->INDIWebManagerCheck->setEnabled(enable);
     ui->INDIWebManagerPort->setEnabled(enable);
-
 }
 
-void ProfileEditor::setPi(ProfileInfo * value)
+void ProfileEditor::setPi(ProfileInfo *value)
 {
     pi = value;
 
@@ -241,7 +238,8 @@ void ProfileEditor::setPi(ProfileInfo * value)
         if (pi->province.isEmpty())
             ui->loadSiteCheck->setText(ui->loadSiteCheck->text() + QString(" (%1, %2)").arg(pi->country).arg(pi->city));
         else
-            ui->loadSiteCheck->setText(ui->loadSiteCheck->text() + QString(" (%1, %2, %3)").arg(pi->country).arg(pi->province).arg(pi->city));
+            ui->loadSiteCheck->setText(ui->loadSiteCheck->text() +
+                                       QString(" (%1, %2, %3)").arg(pi->country).arg(pi->province).arg(pi->city));
     }
 
     if (pi->host.isEmpty() == false)
@@ -264,7 +262,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
     }
 
     QMapIterator<QString, QString> i(pi->drivers);
-    int row=0;
+    int row = 0;
 
     while (i.hasNext())
     {
@@ -276,7 +274,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         if (key == "Mount")
         {
             // If driver doesn't exist, let's add it to the list
-            if ( (row = ui->mountCombo->findText(value)) == -1)
+            if ((row = ui->mountCombo->findText(value)) == -1)
             {
                 ui->mountCombo->addItem(value);
                 row = ui->mountCombo->count() - 1;
@@ -287,7 +285,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         }
         else if (key == "CCD")
         {
-            if ( (row = ui->ccdCombo->findText(value)) == -1)
+            if ((row = ui->ccdCombo->findText(value)) == -1)
             {
                 ui->ccdCombo->addItem(value);
                 row = ui->ccdCombo->count() - 1;
@@ -297,7 +295,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         }
         else if (key == "Guider")
         {
-            if ( (row = ui->guiderCombo->findText(value)) == -1)
+            if ((row = ui->guiderCombo->findText(value)) == -1)
             {
                 ui->guiderCombo->addItem(value);
                 row = ui->guiderCombo->count() - 1;
@@ -307,7 +305,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         }
         else if (key == "Focuser")
         {
-            if ( (row = ui->focuserCombo->findText(value)) == -1)
+            if ((row = ui->focuserCombo->findText(value)) == -1)
             {
                 ui->focuserCombo->addItem(value);
                 row = ui->focuserCombo->count() - 1;
@@ -317,7 +315,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         }
         else if (key == "Filter")
         {
-            if ( (row = ui->filterCombo->findText(value)) == -1)
+            if ((row = ui->filterCombo->findText(value)) == -1)
             {
                 ui->filterCombo->addItem(value);
                 row = ui->filterCombo->count() - 1;
@@ -327,7 +325,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         }
         else if (key == "AO")
         {
-            if ( (row = ui->AOCombo->findText(value)) == -1)
+            if ((row = ui->AOCombo->findText(value)) == -1)
             {
                 ui->AOCombo->addItem(value);
                 row = ui->AOCombo->count() - 1;
@@ -337,7 +335,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         }
         else if (key == "Dome")
         {
-            if ( (row = ui->domeCombo->findText(value)) == -1)
+            if ((row = ui->domeCombo->findText(value)) == -1)
             {
                 ui->domeCombo->addItem(value);
                 row = ui->domeCombo->count() - 1;
@@ -347,7 +345,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         }
         else if (key == "Weather")
         {
-            if ( (row = ui->weatherCombo->findText(value)) == -1)
+            if ((row = ui->weatherCombo->findText(value)) == -1)
             {
                 ui->weatherCombo->addItem(value);
                 row = ui->weatherCombo->count() - 1;
@@ -357,7 +355,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         }
         else if (key == "Aux1")
         {
-            if ( (row = ui->aux1Combo->findText(value)) == -1)
+            if ((row = ui->aux1Combo->findText(value)) == -1)
             {
                 ui->aux1Combo->addItem(value);
                 row = ui->aux1Combo->count() - 1;
@@ -367,7 +365,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         }
         else if (key == "Aux2")
         {
-            if ( (row = ui->aux2Combo->findText(value)) == -1)
+            if ((row = ui->aux2Combo->findText(value)) == -1)
             {
                 ui->aux2Combo->addItem(value);
                 row = ui->aux2Combo->count() - 1;
@@ -377,7 +375,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         }
         else if (key == "Aux3")
         {
-            if ( (row = ui->aux3Combo->findText(value)) == -1)
+            if ((row = ui->aux3Combo->findText(value)) == -1)
             {
                 ui->aux3Combo->addItem(value);
                 row = ui->aux3Combo->count() - 1;
@@ -387,7 +385,7 @@ void ProfileEditor::setPi(ProfileInfo * value)
         }
         else if (key == "Aux4")
         {
-            if ( (row = ui->aux4Combo->findText(value)) == -1)
+            if ((row = ui->aux4Combo->findText(value)) == -1)
             {
                 ui->aux4Combo->addItem(value);
                 row = ui->aux4Combo->count() - 1;
@@ -400,7 +398,6 @@ void ProfileEditor::setPi(ProfileInfo * value)
 
 void ProfileEditor::loadDrivers()
 {
-
     QVector<QComboBox *> boxes;
     boxes.append(ui->mountCombo);
     boxes.append(ui->ccdCombo);
@@ -417,7 +414,7 @@ void ProfileEditor::loadDrivers()
 
     QVector<QString> selectedItems;
 
-    foreach(QComboBox * box,boxes)
+    foreach (QComboBox *box, boxes)
     {
         selectedItems.append(box->currentText());
         box->clear();
@@ -425,166 +422,167 @@ void ProfileEditor::loadDrivers()
         box->setMaxVisibleItems(20);
     }
 
-    QIcon remoteIcon=QIcon::fromTheme("modem", QIcon(":/icons/breeze/default/modem.svg"));
+    QIcon remoteIcon = QIcon::fromTheme("modem", QIcon(":/icons/breeze/default/modem.svg"));
 
-    foreach(DriverInfo * dv, DriverManager::Instance()->getDrivers())
+    foreach (DriverInfo *dv, DriverManager::Instance()->getDrivers())
     {
-        bool locallyAvailable=false;
+        bool locallyAvailable = false;
         QIcon icon;
         if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
             locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
-        if(!locallyAvailable)
+        if (!locallyAvailable)
         {
-            if(ui->localMode->isChecked())
+            if (ui->localMode->isChecked())
                 continue;
             else
-                icon=remoteIcon;
+                icon = remoteIcon;
         }
 
         QString toolTipText;
-        if(!locallyAvailable)
-            toolTipText = i18n("<nobr>Available as <b>Remote</b> Driver. To use locally, install the corresponding driver.<nobr/>");
+        if (!locallyAvailable)
+            toolTipText = i18n(
+                "<nobr>Available as <b>Remote</b> Driver. To use locally, install the corresponding driver.<nobr/>");
         else
-            toolTipText = i18n("<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: %3<nobr/>", dv->getTreeLabel(), dv->getName(), dv->getDriver());
+            toolTipText = i18n("<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: %3<nobr/>",
+                               dv->getTreeLabel(), dv->getName(), dv->getDriver());
 
         switch (dv->getType())
         {
             case KSTARS_TELESCOPE:
             {
                 ui->mountCombo->addItem(icon, dv->getTreeLabel());
-                ui->mountCombo->setItemData(ui->mountCombo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->mountCombo->setItemData(ui->mountCombo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_CCD:
             {
                 ui->ccdCombo->addItem(icon, dv->getTreeLabel());
-                ui->ccdCombo->setItemData(ui->ccdCombo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->ccdCombo->setItemData(ui->ccdCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->guiderCombo->addItem(icon, dv->getTreeLabel());
-                ui->guiderCombo->setItemData(ui->guiderCombo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->guiderCombo->setItemData(ui->guiderCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux1Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux1Combo->setItemData(ui->aux1Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux2Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux2Combo->setItemData(ui->aux2Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux3Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux3Combo->setItemData(ui->aux3Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux4Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux4Combo->setItemData(ui->aux4Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_ADAPTIVE_OPTICS:
             {
                 ui->AOCombo->addItem(icon, dv->getTreeLabel());
-                ui->AOCombo->setItemData(ui->AOCombo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->AOCombo->setItemData(ui->AOCombo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_FOCUSER:
             {
                 ui->focuserCombo->addItem(icon, dv->getTreeLabel());
-                ui->focuserCombo->setItemData(ui->focuserCombo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->focuserCombo->setItemData(ui->focuserCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux1Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux1Combo->setItemData(ui->aux1Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux2Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux2Combo->setItemData(ui->aux2Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux3Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux3Combo->setItemData(ui->aux3Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux4Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux4Combo->setItemData(ui->aux4Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_FILTER:
             {
                 ui->filterCombo->addItem(icon, dv->getTreeLabel());
-                ui->filterCombo->setItemData(ui->filterCombo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->filterCombo->setItemData(ui->filterCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux1Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux1Combo->setItemData(ui->aux1Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux2Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux2Combo->setItemData(ui->aux2Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux3Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux3Combo->setItemData(ui->aux3Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux4Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux4Combo->setItemData(ui->aux4Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_DOME:
             {
                 ui->domeCombo->addItem(icon, dv->getTreeLabel());
-                ui->domeCombo->setItemData(ui->domeCombo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->domeCombo->setItemData(ui->domeCombo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_WEATHER:
             {
                 ui->weatherCombo->addItem(icon, dv->getTreeLabel());
-                ui->weatherCombo->setItemData(ui->weatherCombo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->weatherCombo->setItemData(ui->weatherCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux1Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux1Combo->setItemData(ui->aux1Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux2Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux2Combo->setItemData(ui->aux2Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux3Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux3Combo->setItemData(ui->aux3Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux4Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux4Combo->setItemData(ui->aux4Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_AUXILIARY:
             {
                 ui->aux1Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux1Combo->setItemData(ui->aux1Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux2Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux2Combo->setItemData(ui->aux2Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux3Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux3Combo->setItemData(ui->aux3Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
                 ui->aux4Combo->addItem(icon, dv->getTreeLabel());
-                ui->aux4Combo->setItemData(ui->aux4Combo->count()-1, toolTipText, Qt::ToolTipRole);
+                ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             default:
                 continue;
                 break;
-        }                
+        }
     }
 
     //ui->mountCombo->setCurrentIndex(-1);
 
-    for(int i=0; i<boxes.count(); i++)
+    for (int i = 0; i < boxes.count(); i++)
     {
-        QComboBox * box=boxes.at(i);
-        QString selectedItemText=selectedItems.at(i);
-        int index=box->findText(selectedItemText);
-        if(index==-1)
+        QComboBox *box           = boxes.at(i);
+        QString selectedItemText = selectedItems.at(i);
+        int index                = box->findText(selectedItemText);
+        if (index == -1)
         {
-            if(ui->localMode->isChecked())
+            if (ui->localMode->isChecked())
                 box->setCurrentIndex(0);
             else
-                box->addItem(remoteIcon,selectedItemText);
-
+                box->addItem(remoteIcon, selectedItemText);
         }
         else
         {
@@ -594,8 +592,9 @@ void ProfileEditor::loadDrivers()
         box->model()->sort(0);
     }
 
-    ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), "PHD2" );
-    ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), "LinGuider" );
+    ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), "PHD2");
+    ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")),
+                             "LinGuider");
 }
 
 void ProfileEditor::setProfileName(const QString &name)
@@ -607,21 +606,24 @@ void ProfileEditor::setAuxDrivers(const QStringList &aux)
 {
     QStringList auxList(aux);
 
-    if (auxList.isEmpty())  return;
+    if (auxList.isEmpty())
+        return;
     ui->aux1Combo->setCurrentText(auxList.first());
     auxList.removeFirst();
 
-    if (auxList.isEmpty())  return;
+    if (auxList.isEmpty())
+        return;
     ui->aux2Combo->setCurrentText(auxList.first());
     auxList.removeFirst();
 
-    if (auxList.isEmpty())  return;
+    if (auxList.isEmpty())
+        return;
     ui->aux3Combo->setCurrentText(auxList.first());
     auxList.removeFirst();
 
-    if (auxList.isEmpty())  return;
+    if (auxList.isEmpty())
+        return;
     ui->aux4Combo->setCurrentText(auxList.first());
-
 }
 
 void ProfileEditor::setHostPort(const QString &host, const QString &port)

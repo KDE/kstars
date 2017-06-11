@@ -40,51 +40,48 @@ class SkyLabeler;
 	*/
 class PlanetMoonsComponent : public SkyComponent
 {
-    public:
-        /**
+  public:
+    /**
          *@short Constructor
          *@p parent pointer to the parent SkyComposite
          */
-        PlanetMoonsComponent( SkyComposite * parent, SolarSystemSingleComponent * pla, KSPlanetBase::Planets planet );
+    PlanetMoonsComponent(SkyComposite *parent, SolarSystemSingleComponent *pla, KSPlanetBase::Planets planet);
 
-        /**
+    /**
          *@short Destructor
          */
-        ~PlanetMoonsComponent();
+    ~PlanetMoonsComponent();
 
-        bool selected() Q_DECL_OVERRIDE;
-        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 #ifndef KSTARS_LITE
-        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) Q_DECL_OVERRIDE;
 #endif
-        void updateMoons( KSNumbers * num ) Q_DECL_OVERRIDE;
+    void updateMoons(KSNumbers *num) Q_DECL_OVERRIDE;
 
-        SkyObject * objectNearest( SkyPoint * p, double &maxrad ) Q_DECL_OVERRIDE;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
 
-        /** @return a pointer to a moon if its name matches the argument
+    /** @return a pointer to a moon if its name matches the argument
          *
          * @p name the name to be matched
          * @return a SkyObject pointer to the moon whose name matches
          * the argument, or a nullptr pointer if no match was found.
          */
-        SkyObject * findByName( const QString &name ) Q_DECL_OVERRIDE;
+    SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
 
-        /** Return pointer to stored planet object. */
-        KSPlanetBase * getPlanet() const;
+    /** Return pointer to stored planet object. */
+    KSPlanetBase *getPlanet() const;
 
-        /** Return pointer to stored moons object. */
-        inline PlanetMoons * getMoons() const
-        {
-            return pmoons;
-        }
+    /** Return pointer to stored moons object. */
+    inline PlanetMoons *getMoons() const { return pmoons; }
 
-    protected:
-        void drawTrails( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+  protected:
+    void drawTrails(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-    private:
-        KSPlanetBase::Planets planet;
-        PlanetMoons * pmoons;
-        SolarSystemSingleComponent * m_Planet;
+  private:
+    KSPlanetBase::Planets planet;
+    PlanetMoons *pmoons;
+    SolarSystemSingleComponent *m_Planet;
 };
 
 #endif

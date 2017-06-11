@@ -19,33 +19,33 @@
 #include "ksfilereader.h"
 #include "Options.h"
 
-
 CultureList::CultureList()
 {
     KSFileReader fileReader;
-    if ( ! fileReader.open( "cnames.dat" ) )
+    if (!fileReader.open("cnames.dat"))
         return;
 
-    while ( fileReader.hasMoreLines() )
+    while (fileReader.hasMoreLines())
     {
         QString line = fileReader.readLine();
-        if ( line.size() < 1 ) continue;
+        if (line.size() < 1)
+            continue;
 
-        QChar mode = line.at( 0 );
-        if ( mode == 'C' )
-            m_CultureList << line.mid( 2 ).trimmed();
+        QChar mode = line.at(0);
+        if (mode == 'C')
+            m_CultureList << line.mid(2).trimmed();
     }
 
     m_CultureList.sort();
-    m_CurrentCulture = m_CultureList.at( Options::skyCulture() );
+    m_CurrentCulture = m_CultureList.at(Options::skyCulture());
 }
 
-void CultureList::setCurrent ( QString newName )
+void CultureList::setCurrent(QString newName)
 {
     m_CurrentCulture = newName;
 }
 
-QString CultureList::getName( int index ) const
+QString CultureList::getName(int index) const
 {
-    return m_CultureList.value( index );
+    return m_CultureList.value(index);
 }

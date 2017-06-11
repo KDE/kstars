@@ -46,29 +46,28 @@ class KSSun;
 
 class MoonPhaseTool : public QDialog
 {
+    Q_OBJECT
 
-        Q_OBJECT
+  public:
+    MoonPhaseTool(QWidget *p);
+    ~MoonPhaseTool();
 
-    public:
-        MoonPhaseTool(QWidget * p);
-        ~MoonPhaseTool();
-
-        /*
+    /*
         public slots:
 
         void slotUpdate();
         void slotSetMonth();
         */
 
-    private:
-        KSMoon * m_Moon;
-        KSSun * m_Sun;
-        KSNumbers * m_Num;
-        unsigned short month;
-        unsigned int year;
-        //GenericCalendarWidget *gcw;
-        QCalendarWidget * gcw;
-        MoonPhaseCalendar * mpc;
+  private:
+    KSMoon *m_Moon;
+    KSSun *m_Sun;
+    KSNumbers *m_Num;
+    unsigned short month;
+    unsigned int year;
+    //GenericCalendarWidget *gcw;
+    QCalendarWidget *gcw;
+    MoonPhaseCalendar *mpc;
 };
 
 #endif

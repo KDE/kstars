@@ -15,21 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #include "catalogentrydata.h"
 #include "../kstars/nan.h"
 
 CatalogEntryData::CatalogEntryData()
 {
-    catalog_name = "";
-    ID = -1;
-    long_name = "Nil";
-    ra = NaN::d;
-    dec = NaN::d;
-    type = -1;
-    magnitude = NaN::f;
+    catalog_name   = "";
+    ID             = -1;
+    long_name      = "Nil";
+    ra             = NaN::d;
+    dec            = NaN::d;
+    type           = -1;
+    magnitude      = NaN::f;
     position_angle = 0;
-    major_axis = NaN::f;
-    minor_axis = NaN::f;
-    flux = NaN::f;
+    major_axis     = NaN::f;
+    minor_axis     = NaN::f;
+    flux           = NaN::f;
 };

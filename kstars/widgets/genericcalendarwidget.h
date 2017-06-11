@@ -37,98 +37,96 @@
 
 class GenericCalendarWidget : public QWidget, public Ui::GenericCalendarWidgetUi
 {
+    Q_OBJECT
 
-        Q_OBJECT
-
-    public:
-        /**
+  public:
+    /**
          *@short Constructor. Sets up the Ui, connects signals to slots etc.
          */
-        explicit GenericCalendarWidget( KDateTable &dateTable, QWidget * parent = 0 );
+    explicit GenericCalendarWidget(KDateTable &dateTable, QWidget *parent = 0);
 
-        /**
+    /**
          *@short Empty destructor
          */
-        ~GenericCalendarWidget() { }
+    ~GenericCalendarWidget() {}
 
-        /**
+    /**
          *@short Returns the selected date
          */
-        const QDate &date() const;
+    const QDate &date() const;
 
-    public slots:
-        /**
+  public slots:
+    /**
          *@short Set the month
          *@param month  The month to choose
          */
-        bool setMonth( int month );
+    bool setMonth(int month);
 
-        /**
+    /**
          *@short Set the year
          *@param year  The year to choose
          */
-        bool setYear( int year );
+    bool setYear(int year);
 
-        /**
+    /**
          *@short Set the selected day of month
          *@param date The date of the month to choose
          */
-        bool setDate( int date_ );
+    bool setDate(int date_);
 
-        /**
+    /**
          *@short Set the selected date
          *@param date The date to set
          */
-        bool setDate( const QDate &date_ );
+    bool setDate(const QDate &date_);
 
-    signals:
-        /**
+  signals:
+    /**
          *@short Emitted when the date has been changed
          *@note Emitted by dateTableDateChanged() which subscribes to KDateTable::dateChanged()
          */
-        void dateChanged( const QDate &date_ );
+    void dateChanged(const QDate &date_);
 
-    private slots:
+  private slots:
 
-        /**
+    /**
          *@short Called when the previous / next year / month buttons are clicked
          */
-        void previousYearClicked();
-        void nextYearClicked();
-        void previousMonthClicked();
-        void nextMonthClicked();
+    void previousYearClicked();
+    void nextYearClicked();
+    void previousMonthClicked();
+    void nextMonthClicked();
 
-        /**
+    /**
          *@short Called when the year changes through the spin box
          */
-        void yearChanged( int year );
+    void yearChanged(int year);
 
-        /**
+    /**
          *@short Called when the month changes through the combo box
          */
-        void monthChanged( int month );
+    void monthChanged(int month);
 
-        /**
+    /**
          *@short Subscribes to KDateTable::dateChanged() and echoes it by emitting this widget's dateChanged signals
          *@note For details on parameters, see KDateTable::dateChanged()
          */
-        void dateChangedSlot( const QDate &date_ );
+    void dateChangedSlot(const QDate &date_);
 
-    private:
-        //KDateTable &m_DateTable;
+  private:
+    //KDateTable &m_DateTable;
 
-        /**
+    /**
          *@short Fills the month combo box with month names
          */
-        void populateMonthNames();
+    void populateMonthNames();
 
-        /**
+    /**
          *@short Returns a link to the KCalendarSystem in use
          */
-        const KCalendarSystem * calendar() const;
+    const KCalendarSystem *calendar() const;
 
-        QDate m_Date;
+    QDate m_Date;
 };
 
 #endif
-

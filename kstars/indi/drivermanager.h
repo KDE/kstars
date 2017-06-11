@@ -31,21 +31,20 @@ class DriverInfo;
 
 class DriverManagerUI : public QFrame, public Ui::DriverManager
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        DriverManagerUI(QWidget * parent=0);
+  public:
+    DriverManagerUI(QWidget *parent = 0);
 
-        QIcon runningPix;
-        QIcon stopPix;
-        QIcon connected;
-        QIcon disconnected;
-        QIcon localMode;
-        QIcon serverMode;
+    QIcon runningPix;
+    QIcon stopPix;
+    QIcon connected;
+    QIcon disconnected;
+    QIcon localMode;
+    QIcon serverMode;
 
-    public slots:
-        void makePortEditable(QTreeWidgetItem * selectedItem, int column);
-
+  public slots:
+    void makePortEditable(QTreeWidgetItem *selectedItem, int column);
 };
 
 /**
@@ -64,124 +63,121 @@ class DriverManagerUI : public QFrame, public Ui::DriverManager
  */
 class DriverManager : public QDialog
 {
+    Q_OBJECT
 
-        Q_OBJECT
+  public:
+    static DriverManager *Instance();
 
-    public:
+    enum
+    {
+        LOCAL_NAME_COLUMN = 0,
+        LOCAL_STATUS_COLUMN,
+        LOCAL_MODE_COLUMN,
+        LOCAL_VERSION_COLUMN,
+        LOCAL_PORT_COLUMN
+    };
+    enum
+    {
+        HOST_STATUS_COLUMN = 0,
+        HOST_NAME_COLUMN,
+        HOST_PORT_COLUMN
+    };
 
-        static DriverManager * Instance();
+    bool readXMLDrivers();
+    bool readINDIHosts();
+    void processXMLDriver(QString &driverName);
+    bool buildDeviceGroup(XMLEle *root, char errmsg[]);
+    bool buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, DeviceFamily groupType, char errmsg[]);
 
-        enum { LOCAL_NAME_COLUMN=0, LOCAL_STATUS_COLUMN, LOCAL_MODE_COLUMN, LOCAL_VERSION_COLUMN, LOCAL_PORT_COLUMN };
-        enum { HOST_STATUS_COLUMN=0, HOST_NAME_COLUMN, HOST_PORT_COLUMN };
+    QTreeWidgetItem *lastGroup;
+    QTreeWidgetItem *lastDevice;
 
+    int currentPort;
 
-        bool readXMLDrivers();
-        bool readINDIHosts();
-        void processXMLDriver(QString &driverName);
-        bool buildDeviceGroup  (XMLEle * root, char errmsg[]);
-        bool buildDriverElement(XMLEle * root, QTreeWidgetItem * DGroup, DeviceFamily groupType, char errmsg[]);
+    //DriverInfo::XMLSource xmlSource;
+    DriverSource driverSource;
 
-        QTreeWidgetItem * lastGroup;
-        QTreeWidgetItem * lastDevice;
+    int getINDIPort(int customPort);
+    bool isDeviceRunning(const QString &deviceLabel);
 
-        int currentPort;
+    void saveHosts();
 
-        //DriverInfo::XMLSource xmlSource;
-        DriverSource driverSource;
+    void processLocalTree(bool dState);
+    void processRemoteTree(bool dState);
 
-        int getINDIPort(int customPort);
-        bool isDeviceRunning(const QString &deviceLabel);
+    DriverInfo *findDriverByName(const QString &name);
+    DriverInfo *findDriverByLabel(const QString &label);
+    DriverInfo *findDriverByExec(const QString &exec);
 
-        void saveHosts();
+    ClientManager *getClientManager(DriverInfo *dv);
 
-        void processLocalTree(bool dState);
-        void processRemoteTree(bool dState);
+    const QList<DriverInfo *> &getDrivers() { return driversList; }
 
-        DriverInfo * findDriverByName(const QString &name);
-        DriverInfo * findDriverByLabel(const QString &label);
-        DriverInfo * findDriverByExec(const QString &exec);
+    const QStringList &getDriversStringList() { return driversStringList; }
 
-        ClientManager * getClientManager(DriverInfo * dv);
+    void getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<DriverInfo *>> &uHosts);
 
-        const QList<DriverInfo *> &getDrivers()
-        {
-            return driversList;
-        }
+    void addDriver(DriverInfo *di) { driversList.append(di); }
+    void removeDriver(DriverInfo *di) { driversList.removeOne(di); }
 
-        const QStringList &getDriversStringList()
-        {
-            return driversStringList;
-        }
+    bool startDevices(QList<DriverInfo *> &dList);
+    void stopDevices(const QList<DriverInfo *> &dList);
 
-        void getUniqueHosts(QList<DriverInfo *> &dList, QList < QList<DriverInfo *> > &uHosts);
+    bool connectRemoteHost(DriverInfo *dv);
+    bool disconnectRemoteHost(DriverInfo *dv);
 
-        void addDriver(DriverInfo * di)
-        {
-            driversList.append(di) ;
-        }
-        void removeDriver(DriverInfo * di)
-        {
-            driversList.removeOne(di) ;
-        }
+    QString getUniqueDeviceLabel(const QString &label);
 
-        bool startDevices(QList<DriverInfo *> &dList);
-        void stopDevices(const QList<DriverInfo *> &dList);
+    void clearServers();
 
-        bool connectRemoteHost(DriverInfo * dv);
-        bool disconnectRemoteHost(DriverInfo * dv);
+  private:
+    DriverManager(QWidget *parent);
+    ~DriverManager();
 
-        QString getUniqueDeviceLabel(const QString &label);
+    static DriverManager *_DriverManager;
 
-        void clearServers();
+    ServerMode connectionMode;
 
-    private:
-        DriverManager(QWidget * parent);
-        ~DriverManager();
+    DriverManagerUI *ui;
+    QList<DriverInfo *> driversList;
+    QList<ServerManager *> servers;
+    QList<ClientManager *> clients;
+    QStringList driversStringList;
 
-        static DriverManager * _DriverManager;
+    bool checkDriverAvailability(QString driver);
 
-        ServerMode connectionMode;
+    INDIDBus indiDBUS;
 
-        DriverManagerUI * ui;
-        QList<DriverInfo *> driversList;
-        QList<ServerManager *> servers;
-        QList<ClientManager *> clients;
-        QStringList driversStringList;
+  public slots:
+    //void enableDevice(INDI_D *device);
+    //void disableDevice(INDI_D *device);
 
-        bool checkDriverAvailability(QString driver);
+    void resizeDeviceColumn();
+    void updateLocalTab();
+    void updateClientTab();
 
-        INDIDBus indiDBUS;
+    void updateMenuActions();
 
-    public slots:
-        //void enableDevice(INDI_D *device);
-        //void disableDevice(INDI_D *device);
+    void addINDIHost();
+    void modifyINDIHost();
+    void removeINDIHost();
+    void activateRunService();
+    void activateStopService();
+    void activateHostConnection();
+    void activateHostDisconnection();
 
-        void resizeDeviceColumn();
-        void updateLocalTab();
-        void updateClientTab();
+    void updateCustomDrivers();
 
-        void updateMenuActions();
+    void processClientTermination(ClientManager *client);
+    void processServerTermination(ServerManager *server);
 
-        void addINDIHost();
-        void modifyINDIHost();
-        void removeINDIHost();
-        void activateRunService();
-        void activateStopService();
-        void activateHostConnection();
-        void activateHostDisconnection();
+    void processDeviceStatus(DriverInfo *dv);
 
-        void updateCustomDrivers();
+  signals:
+    void clientTerminated(ClientManager *);
+    void serverTerminated(const QString &host, const QString &port);
 
-        void processClientTermination(ClientManager * client);
-        void processServerTermination(ServerManager * server);
-
-        void processDeviceStatus(DriverInfo * dv);
-
-    signals:
-        void clientTerminated(ClientManager *);
-        void serverTerminated(const QString &host, const QString &port);
-
-        /*
+    /*
         signals:
         void newDevice();
         void newTelescope();

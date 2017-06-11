@@ -33,47 +33,39 @@
  */
 class TimeStepBox : public QWidget
 {
-        Q_OBJECT
-    public:
-        /**Constructor. */
-        explicit TimeStepBox( QWidget * parent=0, bool daysonly=false );
-        /**Destructor. (empty)*/
-        ~TimeStepBox() {}
+    Q_OBJECT
+  public:
+    /**Constructor. */
+    explicit TimeStepBox(QWidget *parent = 0, bool daysonly = false);
+    /**Destructor. (empty)*/
+    ~TimeStepBox() {}
 
-        /** @return a pointer to the child TimeSpinBox */
-        TimeSpinBox * tsbox() const
-        {
-            return timeBox;
-        }
+    /** @return a pointer to the child TimeSpinBox */
+    TimeSpinBox *tsbox() const { return timeBox; }
 
-        /** @return a pointer to the child TimeUnitBox*/
-        TimeUnitBox * unitbox() const
-        {
-            return unitBox;
-        }
+    /** @return a pointer to the child TimeUnitBox*/
+    TimeUnitBox *unitbox() const { return unitBox; }
 
-        bool daysOnly() const
-        {
-            return DaysOnly;
-        }
-        void setDaysOnly( bool daysonly );
+    bool daysOnly() const { return DaysOnly; }
+    void setDaysOnly(bool daysonly);
 
-    signals:
-        void scaleChanged( float );
+  signals:
+    void scaleChanged(float);
 
-    private slots:
-        /**Set the TimeSpinBox value according to the current UnitBox value.
+  private slots:
+    /**Set the TimeSpinBox value according to the current UnitBox value.
         	*This is connected to the UnitBox valueChanged() Signal. */
-        void changeUnits( void );
+    void changeUnits(void);
 
-        /**Make sure the current UnitBox value represents the correct units for the
+    /**Make sure the current UnitBox value represents the correct units for the
         	*current TimeBox value. This slot is connected to the TimeBox valueChanged() Slot. */
-        void syncUnits( int );
-    private:
-        bool DaysOnly;
-        QHBoxLayout * hlay;
-        TimeSpinBox * timeBox;
-        TimeUnitBox * unitBox;
+    void syncUnits(int);
+
+  private:
+    bool DaysOnly;
+    QHBoxLayout *hlay;
+    TimeSpinBox *timeBox;
+    TimeUnitBox *unitBox;
 };
 
 #endif

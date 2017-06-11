@@ -39,9 +39,8 @@ class SkyNode;
 
 class SkyItem : public SkyOpacityNode
 {
-
-    public:
-        /**
+  public:
+    /**
          * Constructor, appends SkyItem to rootNode as a child in a node tree
          *
          * @param labelType type of label that corresponds to this item
@@ -49,53 +48,47 @@ class SkyItem : public SkyOpacityNode
          * @param parent a pointer to SkyItem's parent node
          */
 
-        explicit SkyItem(LabelsItem::label_t labelType, RootNode * rootNode = 0);
-        /**
+    explicit SkyItem(LabelsItem::label_t labelType, RootNode *rootNode = 0);
+    /**
          * @see PointSourceNode::~PointSourceNode()
          */
-        virtual ~SkyItem();
+    virtual ~SkyItem();
 
-        /**
+    /**
          * @short updates the coordinates and visibility of child node. Similar to draw routine in
          * SkyComponent derived classes
          */
 
-        virtual void update() =0;
+    virtual void update() = 0;
 
-        virtual void show() override;
+    virtual void show() override;
 
-        /**
+    /**
          * @short hides this item and corresponding labels
          */
-        virtual void hide() override;
+    virtual void hide() override;
 
-        void hideLabels();
+    void hideLabels();
 
-        /**
+    /**
          * @return RootNode that is the parent of this SkyItem in a node tree
          */
 
-        inline RootNode * rootNode()
-        {
-            return m_rootNode;
-        }
+    inline RootNode *rootNode() { return m_rootNode; }
 
-        /**
+    /**
          * @return label type of this SkyItem
          */
 
-        inline LabelsItem::label_t labelType()
-        {
-            return m_labelType;
-        }
+    inline LabelsItem::label_t labelType() { return m_labelType; }
 
-    private:
-        RootNode * m_rootNode;
-        QVector<SkyNode *>m_skyNodes;
+  private:
+    RootNode *m_rootNode;
+    QVector<SkyNode *> m_skyNodes;
 
-        //This node holds all labels that belongs to this SkyItem. See LabelsItem
-        LabelTypeNode * m_labels;
-        LabelsItem::label_t m_labelType;
+    //This node holds all labels that belongs to this SkyItem. See LabelsItem
+    LabelTypeNode *m_labels;
+    LabelsItem::label_t m_labelType;
 };
 
 #endif

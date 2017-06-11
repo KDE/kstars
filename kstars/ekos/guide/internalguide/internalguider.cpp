@@ -20,17 +20,16 @@
 
 #include "Options.h"
 
-#define MAX_DITHER_RETIRES  20
+#define MAX_DITHER_RETIRES 20
 
 namespace Ekos
 {
-
 InternalGuider::InternalGuider()
 {
     // Create math object
     pmath = new cgmath();
 
-    connect(pmath, SIGNAL(newStarPosition(QVector3D,bool)), this, SIGNAL(newStarPosition(QVector3D,bool)));
+    connect(pmath, SIGNAL(newStarPosition(QVector3D, bool)), this, SIGNAL(newStarPosition(QVector3D, bool)));
 
     // Calibration
     calibrationStage = CAL_IDLE;
@@ -73,16 +72,18 @@ bool InternalGuider::guide()
     out << "Guiding rate,x15 arcsec/sec: " << Options::guidingRate() << endl;
     out << "Focal,mm: " << mountFocalLength << endl;
     out << "Aperture,mm: " << mountAperture << endl;
-    out << "F/D: " << mountFocalLength/mountAperture << endl;
-    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error (arcsec), DEC Correction (ms), DEC Correction Direction"  << endl;
+    out << "F/D: " << mountFocalLength / mountAperture << endl;
+    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error "
+           "(arcsec), DEC Correction (ms), DEC Correction Direction"
+        << endl;
 
     pmath->setLogFile(&logFile);
 
     pmath->start();
 
-    m_lostStarTries=0;
+    m_lostStarTries = 0;
 
-    // TODO re-enable rapid check later on
+// TODO re-enable rapid check later on
 #if 0
     m_isStarted = true;
     m_useRapidGuide = ui.rapidGuideCheck->isChecked();
@@ -151,27 +152,27 @@ bool InternalGuider::resume()
 bool InternalGuider::dither(double pixels)
 {
     static Vector target_pos;
-    static unsigned int retries=0;
+    static unsigned int retries = 0;
 
     //if (ui.ditherCheck->isChecked() == false)
     //return false;
 
     double cur_x, cur_y, ret_angle;
     pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
-    pmath->getStarScreenPosition( &cur_x, &cur_y );
+    pmath->getStarScreenPosition(&cur_x, &cur_y);
     Matrix ROT_Z = pmath->getROTZ();
 
     //qDebug() << "Star Pos X " << cur_x << " Y " << cur_y;
 
     if (state != GUIDE_DITHERING)
     {
-        retries =0;
+        retries = 0;
 
         // JM 2016-05-8: CCD would abort if required.
         //targetChip->abortExposure();
 
-        int polarity = (rand() %2 == 0) ? 1 : -1;
-        double angle = ((double) rand() / RAND_MAX) * M_PI/2.0;
+        int polarity  = (rand() % 2 == 0) ? 1 : -1;
+        double angle  = ((double)rand() / RAND_MAX) * M_PI / 2.0;
         double diff_x = pixels * cos(angle);
         double diff_y = pixels * sin(angle);
 
@@ -179,12 +180,13 @@ bool InternalGuider::dither(double pixels)
             diff_y *= -1;
 
         if (polarity > 0)
-            target_pos = Vector( cur_x, cur_y, 0 ) + Vector( diff_x, diff_y, 0 );
+            target_pos = Vector(cur_x, cur_y, 0) + Vector(diff_x, diff_y, 0);
         else
-            target_pos = Vector( cur_x, cur_y, 0 ) - Vector( diff_x, diff_y, 0 );
+            target_pos = Vector(cur_x, cur_y, 0) - Vector(diff_x, diff_y, 0);
 
         if (Options::guideLogging())
-            qDebug() << "Guide: Dithering process started.. Reticle Target Pos X " << target_pos.x << " Y " << target_pos.y;
+            qDebug() << "Guide: Dithering process started.. Reticle Target Pos X " << target_pos.x << " Y "
+                     << target_pos.y;
 
         pmath->setReticleParameters(target_pos.x, target_pos.y, ret_angle);
 
@@ -196,9 +198,9 @@ bool InternalGuider::dither(double pixels)
         return true;
     }
 
-    Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( target_pos.x, target_pos.y, 0 );
-    star_pos.y = -star_pos.y;
-    star_pos = star_pos * ROT_Z;
+    Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(target_pos.x, target_pos.y, 0);
+    star_pos.y      = -star_pos.y;
+    star_pos        = star_pos * ROT_Z;
 
     if (Options::guideLogging())
         qDebug() << "Guide: Dithering in progress. Diff star X:" << star_pos.x << "Y:" << star_pos.y;
@@ -227,7 +229,8 @@ bool InternalGuider::dither(double pixels)
             }
             else
             {
-                emit newLog(i18n("Warning: Dithering failed. Autoguiding shall continue as set in the options in case of dither failure."));
+                emit newLog(i18n("Warning: Dithering failed. Autoguiding shall continue as set in the options in case "
+                                 "of dither failure."));
                 emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
                 return true;
             }
@@ -241,12 +244,12 @@ bool InternalGuider::dither(double pixels)
 
 bool InternalGuider::calibrate()
 {
-    bool ccdInfo=true, scopeInfo=true;
+    bool ccdInfo = true, scopeInfo = true;
     QString errMsg;
 
     if (subW == 0 || subH == 0)
     {
-        errMsg = "CCD";
+        errMsg  = "CCD";
         ccdInfo = false;
     }
 
@@ -269,7 +272,7 @@ bool InternalGuider::calibrate()
     if (state != GUIDE_CALIBRATING)
     {
         calibrationStage = CAL_IDLE;
-        state = GUIDE_CALIBRATING;
+        state            = GUIDE_CALIBRATING;
         emit newStatus(GUIDE_CALIBRATING);
     }
 
@@ -288,10 +291,9 @@ bool InternalGuider::calibrate()
 
     calibrationStage = CAL_START;
 
-
     // automatic
     // If two axies (RA/DEC) are required
-    if( Options::twoAxisEnabled() )
+    if (Options::twoAxisEnabled())
         calibrateRADECRecticle(false);
     else
         // Just RA
@@ -330,7 +332,7 @@ void InternalGuider::processCalibration()
     }
 }
 
-void InternalGuider::setGuideView(FITSView * guideView)
+void InternalGuider::setGuideView(FITSView *guideView)
 {
     guideFrame = guideView;
 
@@ -341,10 +343,11 @@ void InternalGuider::reset()
 {
     state = GUIDE_IDLE;
     //calibrationStage = CAL_IDLE;
-    connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
+    connect(guideFrame, SIGNAL(trackingStarSelected(int, int)), this, SLOT(trackingStarSelected(int, int)),
+            Qt::UniqueConnection);
 }
 
-void InternalGuider::calibrateRADECRecticle( bool ra_only )
+void InternalGuider::calibrateRADECRecticle(bool ra_only)
 {
     bool auto_term_ok = false;
 
@@ -358,17 +361,16 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
     else
         calibrationType = CAL_RA_DEC_AUTO;
 
-    switch(calibrationStage)
+    switch (calibrationStage)
     {
-
         case CAL_START:
             //----- automatic mode -----
             auto_drift_time = Options::autoModeIterations();
 
             if (ra_only)
-                turn_back_time = auto_drift_time*2 + auto_drift_time/2;
+                turn_back_time = auto_drift_time * 2 + auto_drift_time / 2;
             else
-                turn_back_time = auto_drift_time*6;
+                turn_back_time = auto_drift_time * 6;
             iterations = 0;
 
             emit newLog(i18n("RA drifting forward..."));
@@ -378,10 +380,11 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
             if (Options::guideLogging())
                 qDebug() << "Guide: Start X1 " << start_x1 << " Start Y1 " << start_y1;
 
-            emit newPulse( RA_INC_DIR, pulseDuration );
+            emit newPulse(RA_INC_DIR, pulseDuration);
 
             if (Options::guideLogging())
-                qDebug() << "Guide: Iteration " << iterations << " Direction: RA_INC_DIR" << " Duration: " << pulseDuration << " ms.";
+                qDebug() << "Guide: Iteration " << iterations << " Direction: RA_INC_DIR"
+                         << " Duration: " << pulseDuration << " ms.";
 
             iterations++;
 
@@ -390,15 +393,16 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
             break;
 
         case CAL_RA_INC:
-            emit newPulse( RA_INC_DIR, pulseDuration );
+            emit newPulse(RA_INC_DIR, pulseDuration);
 
             if (Options::guideLogging())
             {
                 // Star position resulting from LAST guiding pulse to mount
                 double cur_x, cur_y;
-                pmath->getStarScreenPosition( &cur_x, &cur_y );
-                qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
-                qDebug() << "Guide: Iteration " << iterations << " Direction: RA_INC_DIR" << " Duration: " << pulseDuration << " ms.";
+                pmath->getStarScreenPosition(&cur_x, &cur_y);
+                qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
+                qDebug() << "Guide: Iteration " << iterations << " Direction: RA_INC_DIR"
+                         << " Duration: " << pulseDuration << " ms.";
             }
 
             iterations++;
@@ -412,30 +416,29 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
         {
             if (iterations == auto_drift_time)
             {
-                pmath->getStarScreenPosition( &end_x1, &end_y1 );
+                pmath->getStarScreenPosition(&end_x1, &end_y1);
                 if (Options::guideLogging())
                     qDebug() << "Guide: End X1 " << end_x1 << " End Y1 " << end_y1;
 
-                phi = pmath->calculatePhi( start_x1, start_y1, end_x1, end_y1 );
-                ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
+                phi   = pmath->calculatePhi(start_x1, start_y1, end_x1, end_y1);
+                ROT_Z = RotateZ(-M_PI * phi / 180.0); // derotates...
 
                 emit newLog(i18n("RA drifting reverse..."));
-
             }
 
             //----- Z-check (new!) -----
             double cur_x, cur_y;
-            pmath->getStarScreenPosition( &cur_x, &cur_y );
+            pmath->getStarScreenPosition(&cur_x, &cur_y);
 
-            Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( start_x1, start_y1, 0 );
-            star_pos.y = -star_pos.y;
-            star_pos = star_pos * ROT_Z;
+            Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(start_x1, start_y1, 0);
+            star_pos.y      = -star_pos.y;
+            star_pos        = star_pos * ROT_Z;
 
             if (Options::guideLogging())
                 qDebug() << "Guide: Star x pos is " << star_pos.x << " from original point.";
 
             // start point reached... so exit
-            if( star_pos.x < 1.5 )
+            if (star_pos.x < 1.5)
             {
                 pmath->performProcessing();
                 auto_term_ok = true;
@@ -443,19 +446,20 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
 
             //----- Z-check end -----
 
-            if( !auto_term_ok )
+            if (!auto_term_ok)
             {
                 if (iterations < turn_back_time)
                 {
-                    emit newPulse( RA_DEC_DIR, pulseDuration );
+                    emit newPulse(RA_DEC_DIR, pulseDuration);
 
                     if (Options::guideLogging())
                     {
                         // Star position resulting from LAST guiding pulse to mount
                         double cur_x, cur_y;
-                        pmath->getStarScreenPosition( &cur_x, &cur_y );
-                        qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
-                        qDebug() << "Guide: Iteration " << iterations << " Direction: RA_DEC_DIR" << " Duration: " << pulseDuration << " ms.";
+                        pmath->getStarScreenPosition(&cur_x, &cur_y);
+                        qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
+                        qDebug() << "Guide: Iteration " << iterations << " Direction: RA_DEC_DIR"
+                                 << " Duration: " << pulseDuration << " ms.";
                     }
 
                     iterations++;
@@ -466,9 +470,14 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
-                emit newLog(i18np("Guide RA: Scope cannot reach the start point after %1 iteration. Possible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible mount or drive problems...", turn_back_time));
+                emit newLog(i18np("Guide RA: Scope cannot reach the start point after %1 iteration. Possible mount or "
+                                  "drive problems...",
+                                  "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible mount or "
+                                  "drive problems...",
+                                  turn_back_time));
 
-                KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
+                KNotification::event(QLatin1String("CalibrationFailed"),
+                                     i18n("Guiding calibration failed with errors"));
                 reset();
                 break;
             }
@@ -476,21 +485,22 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
             if (ra_only == false)
             {
                 calibrationStage = CAL_DEC_INC;
-                start_x2 = cur_x;
-                start_y2 = cur_y;
+                start_x2         = cur_x;
+                start_y2         = cur_y;
 
                 if (Options::guideLogging())
                     qDebug() << "Guide: Start X2 " << start_x2 << " start Y2 " << start_y2;
 
-                emit newPulse( DEC_INC_DIR, pulseDuration );
+                emit newPulse(DEC_INC_DIR, pulseDuration);
 
                 if (Options::guideLogging())
                 {
                     // Star position resulting from LAST guiding pulse to mount
                     double cur_x, cur_y;
-                    pmath->getStarScreenPosition( &cur_x, &cur_y );
-                    qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
-                    qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_INC_DIR" << " Duration: " << pulseDuration << " ms.";
+                    pmath->getStarScreenPosition(&cur_x, &cur_y);
+                    qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
+                    qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_INC_DIR"
+                             << " Duration: " << pulseDuration << " ms.";
                 }
 
                 iterations++;
@@ -499,7 +509,7 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
                 break;
             }
             // calc orientation
-            if( pmath->calculateAndSetReticle1D( start_x1, start_y1, end_x1, end_y1, totalPulse) )
+            if (pmath->calculateAndSetReticle1D(start_x1, start_y1, end_x1, end_y1, totalPulse))
             {
                 calibrationStage = CAL_IDLE;
 
@@ -508,7 +518,8 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
 
-                KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
+                KNotification::event(QLatin1String("CalibrationSuccessful"),
+                                     i18n("Guiding calibration completed successfully"));
                 //if (ui.autoStarCheck->isChecked())
                 //guideModule->selectAutoStar();
             }
@@ -520,7 +531,8 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
-                KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
+                KNotification::event(QLatin1String("CalibrationFailed"),
+                                     i18n("Guiding calibration failed with errors"));
             }
 
             reset();
@@ -528,15 +540,16 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
         }
 
         case CAL_DEC_INC:
-            emit newPulse( DEC_INC_DIR, pulseDuration );
+            emit newPulse(DEC_INC_DIR, pulseDuration);
 
             if (Options::guideLogging())
             {
                 // Star position resulting from LAST guiding pulse to mount
                 double cur_x, cur_y;
-                pmath->getStarScreenPosition( &cur_x, &cur_y );
-                qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
-                qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_INC_DIR" << " Duration: " << pulseDuration << " ms.";
+                pmath->getStarScreenPosition(&cur_x, &cur_y);
+                qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
+                qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_INC_DIR"
+                         << " Duration: " << pulseDuration << " ms.";
             }
 
             iterations++;
@@ -551,34 +564,34 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
         {
             if (dec_iterations == auto_drift_time)
             {
-                pmath->getStarScreenPosition( &end_x2, &end_y2 );
+                pmath->getStarScreenPosition(&end_x2, &end_y2);
                 if (Options::guideLogging())
                     qDebug() << "Guide: End X2 " << end_x2 << " End Y2 " << end_y2;
 
-                phi = pmath->calculatePhi( start_x2, start_y2, end_x2, end_y2 );
-                ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
+                phi   = pmath->calculatePhi(start_x2, start_y2, end_x2, end_y2);
+                ROT_Z = RotateZ(-M_PI * phi / 180.0); // derotates...
 
                 emit newLog(i18n("DEC drifting reverse..."));
             }
 
             //----- Z-check (new!) -----
             double cur_x, cur_y;
-            pmath->getStarScreenPosition( &cur_x, &cur_y );
+            pmath->getStarScreenPosition(&cur_x, &cur_y);
 
             //pmain_wnd->appendLogText(i18n("GUIDE_DEC running back...");
 
             if (Options::guideLogging())
                 qDebug() << "Guide: Cur X2 " << cur_x << " Cur Y2 " << cur_y;
 
-            Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( start_x2, start_y2, 0 );
-            star_pos.y = -star_pos.y;
-            star_pos = star_pos * ROT_Z;
+            Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(start_x2, start_y2, 0);
+            star_pos.y      = -star_pos.y;
+            star_pos        = star_pos * ROT_Z;
 
             if (Options::guideLogging())
                 qDebug() << "Guide: start Pos X " << star_pos.x << " from original point.";
 
             // start point reached... so exit
-            if( star_pos.x < 1.5 )
+            if (star_pos.x < 1.5)
             {
                 pmath->performProcessing();
                 auto_term_ok = true;
@@ -586,19 +599,20 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
 
             //----- Z-check end -----
 
-            if( !auto_term_ok )
+            if (!auto_term_ok)
             {
                 if (iterations < turn_back_time)
                 {
-                    emit newPulse(DEC_DEC_DIR, pulseDuration );
+                    emit newPulse(DEC_DEC_DIR, pulseDuration);
 
                     if (Options::guideLogging())
                     {
                         // Star position resulting from LAST guiding pulse to mount
                         double cur_x, cur_y;
-                        pmath->getStarScreenPosition( &cur_x, &cur_y );
-                        qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
-                        qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_DEC_DIR" << " Duration: " << pulseDuration << " ms.";
+                        pmath->getStarScreenPosition(&cur_x, &cur_y);
+                        qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
+                        qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_DEC_DIR"
+                                 << " Duration: " << pulseDuration << " ms.";
                     }
 
                     iterations++;
@@ -610,16 +624,22 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
-                emit newLog(i18np("Guide DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time));
+                emit newLog(i18np("Guide DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount "
+                                  "or drive problems...",
+                                  "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount "
+                                  "or drive problems...",
+                                  turn_back_time));
 
-                KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
+                KNotification::event(QLatin1String("CalibrationFailed"),
+                                     i18n("Guiding calibration failed with errors"));
                 reset();
                 break;
             }
 
-            bool swap_dec=false;
+            bool swap_dec = false;
             // calc orientation
-            if( pmath->calculateAndSetReticle2D( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2, &swap_dec, totalPulse ) )
+            if (pmath->calculateAndSetReticle2D(start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2,
+                                                &swap_dec, totalPulse))
             {
                 calibrationStage = CAL_IDLE;
                 //fillInterface();
@@ -632,11 +652,11 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
 
                 emit DESwapChanged(swap_dec);
 
-                KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
+                KNotification::event(QLatin1String("CalibrationSuccessful"),
+                                     i18n("Guiding calibration completed successfully"));
 
                 //if (ui.autoStarCheck->isChecked())
                 //guideModule->selectAutoStar();
-
             }
             else
             {
@@ -646,7 +666,8 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
 
                 //ui.startCalibrationLED->setColor(alertColor);
                 calibrationStage = CAL_ERROR;
-                KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
+                KNotification::event(QLatin1String("CalibrationFailed"),
+                                     i18n("Guiding calibration failed with errors"));
             }
 
             reset();
@@ -654,10 +675,8 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
             break;
         }
 
-
         default:
             break;
-
     }
 }
 
@@ -677,8 +696,6 @@ void InternalGuider::trackingStarSelected(int x, int y)
     //pmath->moveSquare(x-square_size/(2*pmath->getBinX()), y-square_size/(2*pmath->getBinY()));
 
     //update_reticle_pos(x, y);
-
-
 
     //ui.selectStarLED->setColor(okColor);
 
@@ -708,26 +725,27 @@ void InternalGuider::setSquareAlgorithm(int index)
 
 void InternalGuider::setReticleParameters(double x, double y, double angle)
 {
-    pmath->setReticleParameters(x,y,angle);
+    pmath->setReticleParameters(x, y, angle);
 }
 
-bool InternalGuider::getReticleParameters(double * x, double * y, double * angle)
+bool InternalGuider::getReticleParameters(double *x, double *y, double *angle)
 {
-    return pmath->getReticleParameters(x,y,angle);
+    return pmath->getReticleParameters(x, y, angle);
 }
 
-bool InternalGuider::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength)
+bool InternalGuider::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture,
+                                     double mountFocalLength)
 {
-    this->ccdPixelSizeX     = ccdPixelSizeX;
-    this->ccdPixelSizeY     = ccdPixelSizeY;
-    this->mountAperture     = mountAperture;
-    this->mountFocalLength  = mountFocalLength;
+    this->ccdPixelSizeX    = ccdPixelSizeX;
+    this->ccdPixelSizeY    = ccdPixelSizeY;
+    this->mountAperture    = mountAperture;
+    this->mountFocalLength = mountFocalLength;
     return pmath->setGuiderParameters(ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength);
 }
 
 bool InternalGuider::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY)
 {
-    if( w <= 0 || h <= 0 )
+    if (w <= 0 || h <= 0)
         return false;
 
     subX = x;
@@ -745,8 +763,8 @@ bool InternalGuider::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t
 
 bool InternalGuider::processGuiding()
 {
-    static int maxPulseCounter=0;
-    const cproc_out_params * out;
+    static int maxPulseCounter = 0;
+    const cproc_out_params *out;
     uint32_t tick = 0;
 
     // On first frame, center the box (reticle) around the star so we do not start with an offset the results in
@@ -758,7 +776,7 @@ bool InternalGuider::processGuiding()
             Vector star_pos = pmath->findLocalStarPosition();
             pmath->setReticleParameters(star_pos.x, star_pos.y, -1);
         }
-        isFirstFrame=false;
+        isFirstFrame = false;
     }
 
     // calc math. it tracks square
@@ -777,20 +795,22 @@ bool InternalGuider::processGuiding()
     out = pmath->getOutputParameters();
 
     // If within 90% of max pulse repeatedly, let's abort
-    if (out->pulse_length[GUIDE_RA] >=  (0.9 * Options::rAMaximumPulse()) || out->pulse_length[GUIDE_DEC] >= (0.9 * Options::dECMaximumPulse()))
+    if (out->pulse_length[GUIDE_RA] >= (0.9 * Options::rAMaximumPulse()) ||
+        out->pulse_length[GUIDE_DEC] >= (0.9 * Options::dECMaximumPulse()))
         maxPulseCounter++;
     else
-        maxPulseCounter=0;
+        maxPulseCounter = 0;
 
     if (maxPulseCounter >= 3)
     {
         emit newLog(i18n("Lost track of the guide star. Aborting guiding..."));
         abort();
-        maxPulseCounter=0;
+        maxPulseCounter = 0;
         return false;
     }
 
-    emit newPulse( out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC] );
+    emit newPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC],
+                  out->pulse_length[GUIDE_DEC]);
 
     emit frameCaptureRequested();
 
@@ -799,7 +819,7 @@ bool InternalGuider::processGuiding()
 
     tick = pmath->getTicks();
 
-    if( tick & 1 )
+    if (tick & 1)
     {
         // draw some params in window
         emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
@@ -821,8 +841,8 @@ bool InternalGuider::processGuiding()
 
 bool InternalGuider::processImageGuiding()
 {
-    static int maxPulseCounter=0;
-    const cproc_out_params * out;
+    static int maxPulseCounter = 0;
+    const cproc_out_params *out;
     uint32_t tick = 0;
 
     // calc math. it tracks square
@@ -841,20 +861,22 @@ bool InternalGuider::processImageGuiding()
     out = pmath->getOutputParameters();
 
     // If within 90% of max pulse repeatedly, let's abort
-    if (out->pulse_length[GUIDE_RA] >=  (0.9 * Options::rAMaximumPulse()) || out->pulse_length[GUIDE_DEC] >= (0.9 * Options::dECMaximumPulse()))
+    if (out->pulse_length[GUIDE_RA] >= (0.9 * Options::rAMaximumPulse()) ||
+        out->pulse_length[GUIDE_DEC] >= (0.9 * Options::dECMaximumPulse()))
         maxPulseCounter++;
     else
-        maxPulseCounter=0;
+        maxPulseCounter = 0;
 
     if (maxPulseCounter >= 3)
     {
         emit newLog(i18n("Lost track of phase shift. Aborting guiding..."));
         abort();
-        maxPulseCounter=0;
+        maxPulseCounter = 0;
         return false;
     }
 
-    emit newPulse( out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC] );
+    emit newPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC],
+                  out->pulse_length[GUIDE_DEC]);
 
     emit frameCaptureRequested();
 
@@ -863,7 +885,7 @@ bool InternalGuider::processImageGuiding()
 
     tick = pmath->getTicks();
 
-    if( tick & 1 )
+    if (tick & 1)
     {
         // draw some params in window
         emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
@@ -892,5 +914,4 @@ void InternalGuider::setRegionAxis(uint32_t value)
 {
     pmath->setRegionAxis(value);
 }
-
 }

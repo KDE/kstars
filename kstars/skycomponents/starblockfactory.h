@@ -31,19 +31,16 @@
 
 class StarBlockFactory
 {
+  public:
+    static StarBlockFactory *Instance();
 
-    public:
-
-        static StarBlockFactory * Instance();
-
-        /**
+    /**
          * Destructor
          * Deletes the linked list that maintains the Cache, sets the pointer to nullptr
          */
-        ~StarBlockFactory();
+    ~StarBlockFactory();
 
-
-        /**
+    /**
          *@short  Return a StarBlock available for use
          *
          *This method first checks if there are any cached StarBlocks that are not in use.
@@ -54,16 +51,16 @@ class StarBlockFactory
          *
          *@return A StarBlock that is available for use
          */
-        StarBlock * getBlock();
+    StarBlock *getBlock();
 
-        /**
+    /**
          *@short  Mark a StarBlock as most recently used and sync its drawID with the current drawID
          *
          *@return true on success, false if the StarBlock supplied was not on our list at all
          */
-        bool markFirst( StarBlock * block );
+    bool markFirst(StarBlock *block);
 
-        /**
+    /**
          *@short  Rank a given StarBlock after another given StarBlock in the LRU list
          * and sync its drawID with the current drawID
          *
@@ -71,62 +68,54 @@ class StarBlockFactory
          *@param  block  The block to mark for use
          *@return true on success, false on failure
          */
-        bool markNext( StarBlock * after, StarBlock * block );
+    bool markNext(StarBlock *after, StarBlock *block);
 
-        /**
+    /**
          *@short  Returns the number of StarBlocks currently produced
          *
          *@return Number of StarBlocks currently allocated
          */
-        inline int getBlockCount() const
-        {
-            return nBlocks;
-        }
+    inline int getBlockCount() const { return nBlocks; }
 
-        /**
+    /**
          *@short  Frees all StarBlocks that are in the cache
          *@return The number of StarBlocks freed
          */
-        inline int freeAll()
-        {
-            return deleteBlocks( nBlocks );
-        }
+    inline int freeAll() { return deleteBlocks(nBlocks); }
 
-        /**
+    /**
          *@short  Frees all StarBlocks that are not used in this draw cycle
          *@return The number of StarBlocks freed
          */
-        int freeUnused();
+    int freeUnused();
 
-        /**
+    /**
          *@short  Prints the structure of the cache, for debugging
          */
-        void printStructure() const;
+    void printStructure() const;
 
-        quint32 drawID;            // A number identifying the current draw cycle
+    quint32 drawID; // A number identifying the current draw cycle
 
-    private:
-
-        /**
+  private:
+    /**
          * Constructor
          * Initializes first and last StarBlock pointers to nullptr
          */
-        StarBlockFactory();
+    StarBlockFactory();
 
-        /**
+    /**
          *@short  Deletes the N least recently used blocks
          *
          *@param  nblocks  Number of blocks to delete
          *@return Number of blocks successfully deleted
          */
-        int deleteBlocks( int nblocks );
+    int deleteBlocks(int nblocks);
 
-        StarBlock * first, *last;  // Pointers to the beginning and end of the linked list
-        int nBlocks;               // Number of blocks we currently have in the cache
-        int nCache;                // Number of blocks to start recycling cached blocks at
+    StarBlock *first, *last; // Pointers to the beginning and end of the linked list
+    int nBlocks;             // Number of blocks we currently have in the cache
+    int nCache;              // Number of blocks to start recycling cached blocks at
 
-        static StarBlockFactory * pInstance;
-
+    static StarBlockFactory *pInstance;
 };
 
 #endif

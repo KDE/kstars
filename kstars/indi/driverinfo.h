@@ -47,195 +47,108 @@ class DeviceInfo;
  */
 class DriverInfo : public QObject
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
+  public:
+    DriverInfo(const QString &inName);
+    DriverInfo(DriverInfo *di);
+    ~DriverInfo();
 
-        DriverInfo(const QString &inName);
-        DriverInfo(DriverInfo * di);
-        ~DriverInfo();
+    DriverInfo *clone();
 
-        DriverInfo * clone();
+    void clear();
+    QString getServerBuffer();
 
-        void clear();
-        QString getServerBuffer();
+    bool isEmpty() { return devices.isEmpty(); }
 
-        bool isEmpty()
-        {
-            return devices.isEmpty();
-        }
+    const QString &getName() { return name; }
+    void setName(const QString &newName) { name = newName; }
 
-        const QString &getName()
-        {
-            return name;
-        }
-        void setName(const QString &newName)
-        {
-            name = newName;
-        }
+    void setTreeLabel(const QString &inTreeLabel) { treeLabel = inTreeLabel; }
+    const QString &getTreeLabel() { return treeLabel; }
 
-        void setTreeLabel(const QString &inTreeLabel)
-        {
-            treeLabel = inTreeLabel;
-        }
-        const QString &getTreeLabel()
-        {
-            return treeLabel;
-        }
+    void setUniqueLabel(const QString &inUniqueLabel);
+    const QString &getUniqueLabel() { return uniqueLabel; }
 
-        void setUniqueLabel(const QString &inUniqueLabel);
-        const QString &getUniqueLabel()
-        {
-            return uniqueLabel;
-        }
+    void setDriver(const QString &newDriver) { driver = newDriver; }
+    const QString &getDriver() { return driver; }
 
-        void setDriver(const QString &newDriver)
-        {
-            driver = newDriver;
-        }
-        const QString &getDriver()
-        {
-            return driver;
-        }
+    void setVersion(const QString &newVersion) { version = newVersion; }
+    const QString &getVersion() { return version; }
 
-        void setVersion(const QString &newVersion)
-        {
-            version = newVersion;
-        }
-        const QString &getVersion()
-        {
-            return version;
-        }
+    void setType(DeviceFamily newType) { type = newType; }
+    DeviceFamily getType() { return type; }
 
-        void setType(DeviceFamily newType)
-        {
-            type = newType;
-        }
-        DeviceFamily getType()
-        {
-            return type;
-        }
+    void setDriverSource(DriverSource newDriverSource) { driverSource = newDriverSource; }
+    DriverSource getDriverSource() { return driverSource; }
 
-        void setDriverSource(DriverSource newDriverSource)
-        {
-            driverSource = newDriverSource;
-        }
-        DriverSource getDriverSource()
-        {
-            return driverSource;
-        }
+    void setServerManager(ServerManager *newServerManager) { serverManager = newServerManager; }
+    ServerManager *getServerManager() { return serverManager; }
 
-        void setServerManager(ServerManager * newServerManager)
-        {
-            serverManager = newServerManager;
-        }
-        ServerManager * getServerManager()
-        {
-            return serverManager;
-        }
+    void setClientManager(ClientManager *newClientManager) { clientManager = newClientManager; }
+    ClientManager *getClientManager() { return clientManager; }
 
-        void setClientManager(ClientManager * newClientManager)
-        {
-            clientManager = newClientManager;
-        }
-        ClientManager * getClientManager()
-        {
-            return clientManager;
-        }
+    void setUserPort(const QString &inUserPort);
+    const QString &getUserPort() { return userPort; }
 
-        void setUserPort(const QString &inUserPort);
-        const QString &getUserPort()
-        {
-            return userPort;
-        }
+    void setSkeletonFile(const QString &inSkeleton) { skelFile = inSkeleton; }
+    const QString &getSkeletonFile() { return skelFile; }
 
-        void setSkeletonFile(const QString &inSkeleton)
-        {
-            skelFile = inSkeleton;
-        }
-        const QString &getSkeletonFile()
-        {
-            return skelFile;
-        }
+    void setServerState(bool inState);
+    bool getServerState() { return serverState; }
 
-        void setServerState(bool inState);
-        bool getServerState()
-        {
-            return serverState;
-        }
+    void setClientState(bool inState);
+    bool getClientState() { return clientState; }
 
-        void setClientState(bool inState);
-        bool getClientState()
-        {
-            return clientState;
-        }
+    void setHostParameters(const QString &inHost, const QString &inPort)
+    {
+        hostname = inHost;
+        port     = inPort;
+    }
+    void setPort(const QString &inPort) { port = inPort; }
+    void setHost(const QString &inHost) { hostname = inHost; }
+    const QString &getHost() { return hostname; }
+    const QString &getPort() { return port; }
 
-        void setHostParameters(const QString &inHost, const QString &inPort)
-        {
-            hostname = inHost;
-            port = inPort;
-        }
-        void setPort(const QString &inPort)
-        {
-            port = inPort;
-        }
-        void setHost(const QString &inHost)
-        {
-            hostname = inHost;
-        }
-        const QString &getHost()
-        {
-            return hostname;
-        }
-        const QString &getPort()
-        {
-            return port;
-        }
+    //void setBaseDevice(INDI::BaseDevice *idv) { baseDevice = idv;}
+    //INDI::BaseDevice* getBaseDevice() { return baseDevice; }
 
-        //void setBaseDevice(INDI::BaseDevice *idv) { baseDevice = idv;}
-        //INDI::BaseDevice* getBaseDevice() { return baseDevice; }
+    void addDevice(DeviceInfo *idv);
+    void removeDevice(DeviceInfo *idv);
+    DeviceInfo *getDevice(const QString &deviceName);
+    QList<DeviceInfo *> getDevices() { return devices; }
 
-        void addDevice(DeviceInfo * idv);
-        void removeDevice(DeviceInfo * idv);
-        DeviceInfo * getDevice(const QString &deviceName);
-        QList<DeviceInfo *> getDevices()
-        {
-            return devices;
-        }
+    QVariantMap getAuxInfo() const;
+    void setAuxInfo(const QVariantMap &value);
+    void addAuxInfo(const QString &key, const QVariant &value);
 
-        QVariantMap getAuxInfo() const;
-        void setAuxInfo(const QVariantMap &value);
-        void addAuxInfo(const QString &key, const QVariant &value);
+  private:
+    QString name;        // Actual device name as defined by INDI server
+    QString treeLabel;   // How it appears in the GUI initially as read from source
+    QString uniqueLabel; // How it appears in INDI Menu in case tree_label above is taken by another device
 
-    private:
+    QString driver;   // Exec for the driver
+    QString version;  // Version of the driver (optional)
+    QString userPort; // INDI server port as the user wants it.
+    QString skelFile; // Skeleton file, if any;
 
-        QString name;                       // Actual device name as defined by INDI server
-        QString treeLabel;                  // How it appears in the GUI initially as read from source
-        QString uniqueLabel;                // How it appears in INDI Menu in case tree_label above is taken by another device
+    QString port;     // INDI Host port
+    QString hostname; // INDI Host hostname
 
-        QString driver;                     // Exec for the driver
-        QString version;                    // Version of the driver (optional)
-        QString userPort;                   // INDI server port as the user wants it.
-        QString skelFile;                   // Skeleton file, if any;
+    DeviceFamily type; // Device type (Telescope, CCD..etc), if known (optional)
 
-        QString port;                       // INDI Host port
-        QString hostname;                   // INDI Host hostname
+    bool serverState; // Is the driver in the server running?
+    bool clientState; // Is the client connected to the server running the desired driver?
 
-        DeviceFamily type;                  // Device type (Telescope, CCD..etc), if known (optional)
+    DriverSource driverSource;    // How did we read the driver information? From XML file? From 3rd party file? ..etc.
+    ServerManager *serverManager; // Who is managing this device?
+    ClientManager *clientManager; // Any GUI client handling this device?
 
-        bool serverState;                   // Is the driver in the server running?
-        bool clientState;                   // Is the client connected to the server running the desired driver?
+    QVariantMap auxInfo; // Any additional properties in key, value pairs
+    QList<DeviceInfo *> devices;
 
-        DriverSource driverSource;          // How did we read the driver information? From XML file? From 3rd party file? ..etc.
-        ServerManager * serverManager;      // Who is managing this device?
-        ClientManager * clientManager;      // Any GUI client handling this device?
-
-        QVariantMap auxInfo;                // Any additional properties in key, value pairs
-        QList<DeviceInfo *> devices;
-
-    signals:
-        void deviceStateChanged(DriverInfo *);
+  signals:
+    void deviceStateChanged(DriverInfo *);
 };
-
 
 #endif // DRIVERINFO_H

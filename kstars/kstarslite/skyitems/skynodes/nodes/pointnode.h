@@ -35,33 +35,31 @@ class RootNode;
 
 class PointNode : public SkyOpacityNode
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor
          * @param spType spectral type
          * @param parentNode pointer to the top parent node, which holds texture cache
          * @param size initial size of PointNode
          */
-        PointNode(RootNode * rootNode, char spType = 'A', float size = 1);
+    PointNode(RootNode *rootNode, char spType = 'A', float size = 1);
 
-        /**
+    /**
          * @short setSize update size of PointNode with the given parameter
          * @param size new size of PointNode
          */
-        void setSize(float size);
+    void setSize(float size);
 
-        inline QSizeF size() const
-        {
-            return texture->rect().size();
-        }
-    private:
-        char spType;
+    inline QSizeF size() const { return texture->rect().size(); }
 
-        QSGSimpleTextureNode * texture;
-        //parentNode holds texture cache
-        RootNode * m_rootNode;
-        float m_size;
-        uint starColorMode;
+  private:
+    char spType;
+
+    QSGSimpleTextureNode *texture;
+    //parentNode holds texture cache
+    RootNode *m_rootNode;
+    float m_size;
+    uint starColorMode;
 };
 
 #endif

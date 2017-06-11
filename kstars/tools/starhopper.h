@@ -31,8 +31,8 @@
 
 class StarHopper
 {
-    public:
-        /**
+  public:
+    /**
          *@short Computes path for Star Hop
          *@param src SkyPoint to source of the Star Hop
          *@param dest SkyPoint to destination of the Star Hop
@@ -42,20 +42,21 @@ class StarHopper
          *@return QList of StarObject pointers which are the resultant path to Star Hop
          *@note The StarObjects in the list returned are mutable and not constant
          */
-        QList<StarObject *> * computePath( const SkyPoint &src, const SkyPoint &dest, float fov__, float maglim__, QStringList * metadata_ = 0 );
+    QList<StarObject *> *computePath(const SkyPoint &src, const SkyPoint &dest, float fov__, float maglim__,
+                                     QStringList *metadata_ = 0);
 
-    private:
-        float fov;
-        float maglim;
-        QString starHopDirections;
+  private:
+    float fov;
+    float maglim;
+    QString starHopDirections;
 
-        // Useful for internal computations
-        SkyPoint const * start;
-        SkyPoint const * end;
-        QHash<const SkyPoint *, const SkyPoint *> came_from; // Used by the A* search algorithm
-        QList<StarObject const *> result_path;
+    // Useful for internal computations
+    SkyPoint const *start;
+    SkyPoint const *end;
+    QHash<const SkyPoint *, const SkyPoint *> came_from; // Used by the A* search algorithm
+    QList<StarObject const *> result_path;
 
-        /**
+    /**
          *@short The cost function for hopping from current position to the a given star, in view of the final destination
          *@param curr Source SkyPoint
          *@param next Next point in the hop.
@@ -63,21 +64,21 @@ class StarHopper
          * the ending point, it _has_ to be a StarObject. A dynamic cast
          * followed by a Q_ASSERT will ensure this.
          */
-        float cost( const SkyPoint * curr, const SkyPoint * next );
+    float cost(const SkyPoint *curr, const SkyPoint *next);
 
-        /**
+    /**
          *@short For internal use by the A* Search Algorithm. Completes
          * the star-hop path. See
          * http://en.wikipedia.org/wiki/A*_search_algorithm for details
          */
-        void reconstructPath( SkyPoint const * curr_node );
+    void reconstructPath(SkyPoint const *curr_node);
 
-        QHash< SkyPoint const *, QString > patternNames; // if patterns were identified, they are added to this hash.
+    QHash<SkyPoint const *, QString> patternNames; // if patterns were identified, they are added to this hash.
 
-    protected:
-        //Returns a list of constant StarObject pointers which form the resultant path of Star Hop
-        QList<const StarObject *> computePath_const( const SkyPoint &src, const SkyPoint &dest, float fov_, float maglim_, QStringList * metadata = 0 );
-
+  protected:
+    //Returns a list of constant StarObject pointers which form the resultant path of Star Hop
+    QList<const StarObject *> computePath_const(const SkyPoint &src, const SkyPoint &dest, float fov_, float maglim_,
+                                                QStringList *metadata = 0);
 };
 
 #endif

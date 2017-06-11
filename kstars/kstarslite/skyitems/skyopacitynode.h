@@ -29,25 +29,26 @@
 
 class SkyOpacityNode : public QSGOpacityNode
 {
-    public:
-        SkyOpacityNode();
+  public:
+    SkyOpacityNode();
 
-        /**
+    /**
          * @short makes this node visible
          */
-        virtual void show();
+    virtual void show();
 
-        /**
+    /**
          * @short hides this node
          */
-        virtual void hide();
+    virtual void hide();
 
-        /**
+    /**
          * @return true if node is visible
          */
-        bool visible();
-    private:
-        double m_opacityVal;
+    bool visible();
+
+  private:
+    double m_opacityVal;
 };
 
 #endif

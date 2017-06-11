@@ -34,24 +34,23 @@
 #include "skycomponents/catalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 
-OpsCatalog::OpsCatalog()
-    : QFrame(KStars::Instance() )
+OpsCatalog::OpsCatalog() : QFrame(KStars::Instance())
 {
     setupUi(this);
 
     //Get a pointer to the KConfigDialog
-    m_ConfigDialog = KConfigDialog::exists( "settings" );
+    m_ConfigDialog = KConfigDialog::exists("settings");
 
     //Populate CatalogList
     populateInbuiltCatalogs();
 
-    m_ShowMessier = Options::showMessier();
+    m_ShowMessier    = Options::showMessier();
     m_ShowMessImages = Options::showMessierImages();
-    m_ShowNGC = Options::showNGC();
-    m_ShowIC = Options::showIC();
+    m_ShowNGC        = Options::showNGC();
+    m_ShowIC         = Options::showIC();
 
     //    kcfg_MagLimitDrawStar->setValue( Options::magLimitDrawStar() );
-    kcfg_StarDensity->setValue( Options::starDensity() );
+    kcfg_StarDensity->setValue(Options::starDensity());
     //    kcfg_MagLimitDrawStarZoomOut->setValue( Options::magLimitDrawStarZoomOut() );
     //    m_MagLimitDrawStar = kcfg_MagLimitDrawStar->value();
     m_StarDensity = kcfg_StarDensity->value();
@@ -60,26 +59,27 @@ OpsCatalog::OpsCatalog()
     //    kcfg_MagLimitDrawStar->setMinimum( Options::magLimitDrawStarZoomOut() );
     //    kcfg_MagLimitDrawStarZoomOut->setMaximum( 12.0 );
 
-    kcfg_MagLimitDrawDeepSky->setMaximum( 16.0 );
-    kcfg_MagLimitDrawDeepSkyZoomOut->setMaximum( 16.0 );
+    kcfg_MagLimitDrawDeepSky->setMaximum(16.0);
+    kcfg_MagLimitDrawDeepSkyZoomOut->setMaximum(16.0);
 
     //disable star-related widgets if not showing stars
-    if ( ! kcfg_ShowStars->isChecked() ) slotStarWidgets(false);
+    if (!kcfg_ShowStars->isChecked())
+        slotStarWidgets(false);
 
     //Add custom catalogs, if necessary
     /*
      * 1) Get the list from DB and add it as unchecked
      * 2) If the showCatalogNames list has any of the items, check it
     */
-    m_CustomCatalogFile = KStars::Instance()->data()->catalogdb()->Catalogs();
+    m_CustomCatalogFile   = KStars::Instance()->data()->catalogdb()->Catalogs();
     m_CheckedCatalogNames = Options::showCatalogNames();
     populateCustomCatalogs();
 
-    connect( CatalogList, SIGNAL( itemClicked( QListWidgetItem * ) ), this, SLOT( updateCustomCatalogs() ) );
-    connect( CatalogList, SIGNAL( itemSelectionChanged() ), this, SLOT( selectCatalog() ) );
-    connect( AddCatalog, SIGNAL( clicked() ), this, SLOT( slotAddCatalog() ) );
-    connect( LoadCatalog, SIGNAL( clicked() ), this, SLOT( slotLoadCatalog() ) );
-    connect( RemoveCatalog, SIGNAL( clicked() ), this, SLOT( slotRemoveCatalog() ) );
+    connect(CatalogList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(updateCustomCatalogs()));
+    connect(CatalogList, SIGNAL(itemSelectionChanged()), this, SLOT(selectCatalog()));
+    connect(AddCatalog, SIGNAL(clicked()), this, SLOT(slotAddCatalog()));
+    connect(LoadCatalog, SIGNAL(clicked()), this, SLOT(slotLoadCatalog()));
+    connect(RemoveCatalog, SIGNAL(clicked()), this, SLOT(slotRemoveCatalog()));
 
     /*
     connect( kcfg_MagLimitDrawStar, SIGNAL( valueChanged(double) ),
@@ -87,42 +87,38 @@ OpsCatalog::OpsCatalog()
     connect( kcfg_MagLimitDrawStarZoomOut, SIGNAL( valueChanged(double) ),
              SLOT( slotSetDrawStarZoomOutMagnitude(double) ) );
     */
-    connect( kcfg_ShowStars, SIGNAL( toggled(bool) ), SLOT( slotStarWidgets(bool) ) );
-    connect( kcfg_ShowDeepSky, SIGNAL( toggled(bool) ), SLOT( slotDeepSkyWidgets(bool) ) );
-    connect( kcfg_ShowDeepSkyNames, SIGNAL( toggled(bool) ), kcfg_DeepSkyLongLabels, SLOT( setEnabled(bool) ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
+    connect(kcfg_ShowStars, SIGNAL(toggled(bool)), SLOT(slotStarWidgets(bool)));
+    connect(kcfg_ShowDeepSky, SIGNAL(toggled(bool)), SLOT(slotDeepSkyWidgets(bool)));
+    connect(kcfg_ShowDeepSkyNames, SIGNAL(toggled(bool)), kcfg_DeepSkyLongLabels, SLOT(setEnabled(bool)));
+    connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
+    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
+    connect(m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), SLOT(slotCancel()));
 
     // Keep track of changes
-    connect( CatalogList, &QListWidget::itemChanged, this, [&]()
-    {
-        isDirty = true;
-    });
-    connect( catalogButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&]()
-    {
-        isDirty = true;
-    });
+    connect(CatalogList, &QListWidget::itemChanged, this, [&]() { isDirty = true; });
+    connect(catalogButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this,
+            [&]() { isDirty = true; });
 
     isDirty = false;
 }
 
 //empty destructor
-OpsCatalog::~OpsCatalog() {}
-
+OpsCatalog::~OpsCatalog()
+{
+}
 
 void OpsCatalog::updateCustomCatalogs()
 {
-    m_ShowMessier = showMessier->checkState();
+    m_ShowMessier    = showMessier->checkState();
     m_ShowMessImages = showMessImages->checkState();
-    m_ShowNGC = showNGC->checkState();
-    m_ShowIC = showIC->checkState();
+    m_ShowNGC        = showNGC->checkState();
+    m_ShowIC         = showIC->checkState();
 
     int limit = m_CustomCatalogFile->size();
-    for ( int i=0; i < limit; ++i )
+    for (int i = 0; i < limit; ++i)
     {
-        QString name = m_CustomCatalogFile->at(i);
-        QList<QListWidgetItem *> l = CatalogList->findItems( name, Qt::MatchExactly );
+        QString name               = m_CustomCatalogFile->at(i);
+        QList<QListWidgetItem *> l = CatalogList->findItems(name, Qt::MatchExactly);
 
         /*
          * Options::CatalogNames contains the list of those custom catalog
@@ -132,8 +128,9 @@ void OpsCatalog::updateCustomCatalogs()
          * For every unchecked item, we check if the option CatalogNames does
          * not contain the name. If it does, we remove it.
         */
-        if (l.count() == 0) continue;  // skip the name if no match found
-        if ( l[0]->checkState()==Qt::Checked )
+        if (l.count() == 0)
+            continue; // skip the name if no match found
+        if (l[0]->checkState() == Qt::Checked)
         {
             if (!m_CheckedCatalogNames.contains(name))
             {
@@ -141,7 +138,7 @@ void OpsCatalog::updateCustomCatalogs()
                 //isDirty = true;
             }
         }
-        else if ( l[0]->checkState()==Qt::Unchecked )
+        else if (l[0]->checkState() == Qt::Unchecked)
         {
             if (m_CheckedCatalogNames.contains(name))
             {
@@ -154,46 +151,44 @@ void OpsCatalog::updateCustomCatalogs()
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(false);
 }
 
-
 void OpsCatalog::selectCatalog()
 {
     //If selected item is a custom catalog, enable the remove button (otherwise, disable it)
-    RemoveCatalog->setEnabled( false );
+    RemoveCatalog->setEnabled(false);
 
-    if ( ! CatalogList->currentItem() ) return;
+    if (!CatalogList->currentItem())
+        return;
 
     //isDirty = true;
 
-    foreach ( SkyComponent * sc, KStars::Instance()->data()->skyComposite()->customCatalogs() )
+    foreach (SkyComponent *sc, KStars::Instance()->data()->skyComposite()->customCatalogs())
     {
-        CatalogComponent * cc = (CatalogComponent *)sc;
-        if ( CatalogList->currentItem()->text() == cc->name() )
+        CatalogComponent *cc = (CatalogComponent *)sc;
+        if (CatalogList->currentItem()->text() == cc->name())
         {
-            RemoveCatalog->setEnabled( true );
+            RemoveCatalog->setEnabled(true);
             break;
         }
     }
 }
 
-
 void OpsCatalog::slotAddCatalog()
 {
-    QPointer<AddCatDialog> ac = new AddCatDialog( KStars::Instance() );
-    if ( ac->exec()==QDialog::Accepted )
+    QPointer<AddCatDialog> ac = new AddCatDialog(KStars::Instance());
+    if (ac->exec() == QDialog::Accepted)
     {
-        KStars::Instance()->data()->catalogdb()->AddCatalogContents( ac->filename() );
+        KStars::Instance()->data()->catalogdb()->AddCatalogContents(ac->filename());
         refreshCatalogList();
-        isDirty=true;
+        isDirty = true;
     }
     delete ac;
 }
 
-
 void OpsCatalog::slotLoadCatalog()
 {
     //Get the filename from the user
-    QString filename = QFileDialog::getOpenFileName(KStars::Instance(), QString(),  QDir::homePath(), "*");
-    if ( ! filename.isEmpty() )
+    QString filename = QFileDialog::getOpenFileName(KStars::Instance(), QString(), QDir::homePath(), "*");
+    if (!filename.isEmpty())
     {
         KStars::Instance()->data()->catalogdb()->AddCatalogContents(filename);
         isDirty = true;
@@ -203,17 +198,17 @@ void OpsCatalog::slotLoadCatalog()
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(false);
 }
 
-
 void OpsCatalog::refreshCatalogList()
 {
     KStars::Instance()->data()->catalogdb()->Catalogs();
     populateCustomCatalogs();
 }
 
-
 void OpsCatalog::slotRemoveCatalog()
 {
-    if (KMessageBox::warningYesNo(0,  i18n("The selected database will be removed. This action cannot be reversed! Delete Catalog?"), i18n("Delete Catalog?") ) == KMessageBox::No)
+    if (KMessageBox::warningYesNo(
+            0, i18n("The selected database will be removed. This action cannot be reversed! Delete Catalog?"),
+            i18n("Delete Catalog?")) == KMessageBox::No)
     {
         KMessageBox::information(0, "Catalog deletion cancelled.");
         return;
@@ -222,7 +217,7 @@ void OpsCatalog::slotRemoveCatalog()
     isDirty = true;
 
     //Ask DB to remove catalog
-    KStars::Instance()->data()->catalogdb()->RemoveCatalog( CatalogList->currentItem()->text() );
+    KStars::Instance()->data()->catalogdb()->RemoveCatalog(CatalogList->currentItem()->text());
 
     // Remove from Options if it exists in it (i.e. was marked as visible)
     // This does not remove it from the database or from the widget in Options
@@ -234,7 +229,7 @@ void OpsCatalog::slotRemoveCatalog()
     }
 
     //Remove entry in the QListView
-    QListWidgetItem * todelete = CatalogList->takeItem( CatalogList->row( CatalogList->currentItem() ) );
+    QListWidgetItem *todelete = CatalogList->takeItem(CatalogList->row(CatalogList->currentItem()));
     delete todelete;
     refreshCatalogList();
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(false);
@@ -264,15 +259,15 @@ void OpsCatalog::slotApply()
 
     refreshCatalogList();
 
-    Options::setStarDensity( kcfg_StarDensity->value() );
+    Options::setStarDensity(kcfg_StarDensity->value());
     //    Options::setMagLimitDrawStarZoomOut( kcfg_MagLimitDrawStarZoomOut->value() );
 
     //FIXME: need to add the ShowDeepSky meta-option to the config dialog!
     //For now, I'll set showDeepSky to true if any catalog options changed
-    if ( m_ShowMessier != Options::showMessier() || m_ShowMessImages != Options::showMessierImages()
-            || m_ShowNGC != Options::showNGC() || m_ShowIC != Options::showIC() )
+    if (m_ShowMessier != Options::showMessier() || m_ShowMessImages != Options::showMessierImages() ||
+        m_ShowNGC != Options::showNGC() || m_ShowIC != Options::showIC())
     {
-        Options::setShowDeepSky( true );
+        Options::setShowDeepSky(true);
     }
 
     updateCustomCatalogs();
@@ -287,12 +282,11 @@ void OpsCatalog::slotApply()
 
     Options::setShowCatalogNames(m_CheckedCatalogNames);
 
-    Options::setShowMessier( m_ShowMessier );
-    Options::setShowMessierImages( m_ShowMessImages );
-    Options::setShowNGC( m_ShowNGC );
-    Options::setShowIC( m_ShowIC );
+    Options::setShowMessier(m_ShowMessier);
+    Options::setShowMessierImages(m_ShowMessImages);
+    Options::setShowNGC(m_ShowNGC);
+    Options::setShowIC(m_ShowIC);
 }
-
 
 void OpsCatalog::slotCancel()
 {
@@ -301,15 +295,13 @@ void OpsCatalog::slotCancel()
     m_StarDensity = Options::starDensity();
     //    m_MagLimitDrawStarZoomOut = Options::magLimitDrawStarZoomOut();
 
-    m_ShowMessier = Options::showMessier();
+    m_ShowMessier    = Options::showMessier();
     m_ShowMessImages = Options::showMessierImages();
-    m_ShowNGC = Options::showNGC();
-    m_ShowIC = Options::showIC();
+    m_ShowNGC        = Options::showNGC();
+    m_ShowIC         = Options::showIC();
 
     m_ShowCustomCatalog = Options::showCatalog();
-
 }
-
 
 void OpsCatalog::slotStarWidgets(bool on)
 {
@@ -321,85 +313,82 @@ void OpsCatalog::slotStarWidgets(bool on)
     //    LabelMag2->setEnabled(on);
     //    kcfg_MagLimitDrawStar->setEnabled(on);
     kcfg_StarDensity->setEnabled(on);
-    LabelStarDensity->setEnabled( on );
+    LabelStarDensity->setEnabled(on);
     //    kcfg_MagLimitDrawStarZoomOut->setEnabled(on);
     kcfg_StarLabelDensity->setEnabled(on);
     kcfg_ShowStarNames->setEnabled(on);
     kcfg_ShowStarMagnitudes->setEnabled(on);
 }
 
-
 void OpsCatalog::slotDeepSkyWidgets(bool on)
 {
-    CatalogList->setEnabled( on );
-    AddCatalog->setEnabled( on );
-    LoadCatalog->setEnabled( on );
-    LabelMagDeepSky->setEnabled( on );
-    LabelMagDeepSkyZoomOut->setEnabled( on );
-    kcfg_MagLimitDrawDeepSky->setEnabled( on );
-    kcfg_MagLimitDrawDeepSkyZoomOut->setEnabled( on );
-    kcfg_ShowDeepSkyNames->setEnabled( on );
-    kcfg_ShowDeepSkyMagnitudes->setEnabled( on );
-    kcfg_DeepSkyLabelDensity->setEnabled( on );
-    kcfg_DeepSkyLongLabels->setEnabled( on );
-    LabelMag3->setEnabled( on );
-    LabelMag4->setEnabled( on );
-    if ( on )
+    CatalogList->setEnabled(on);
+    AddCatalog->setEnabled(on);
+    LoadCatalog->setEnabled(on);
+    LabelMagDeepSky->setEnabled(on);
+    LabelMagDeepSkyZoomOut->setEnabled(on);
+    kcfg_MagLimitDrawDeepSky->setEnabled(on);
+    kcfg_MagLimitDrawDeepSkyZoomOut->setEnabled(on);
+    kcfg_ShowDeepSkyNames->setEnabled(on);
+    kcfg_ShowDeepSkyMagnitudes->setEnabled(on);
+    kcfg_DeepSkyLabelDensity->setEnabled(on);
+    kcfg_DeepSkyLongLabels->setEnabled(on);
+    LabelMag3->setEnabled(on);
+    LabelMag4->setEnabled(on);
+    if (on)
     {
         //Enable RemoveCatalog if the selected catalog is custom
         selectCatalog();
     }
     else
     {
-        RemoveCatalog->setEnabled( on );
+        RemoveCatalog->setEnabled(on);
     }
 }
 
-
 void OpsCatalog::populateInbuiltCatalogs()
 {
-    showIC = new QListWidgetItem( i18n( "Index Catalog (IC)" ), CatalogList );
-    showIC->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
-    showIC->setCheckState( Options::showIC() ?  Qt::Checked : Qt::Unchecked );
+    showIC = new QListWidgetItem(i18n("Index Catalog (IC)"), CatalogList);
+    showIC->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+    showIC->setCheckState(Options::showIC() ? Qt::Checked : Qt::Unchecked);
 
-    showNGC = new QListWidgetItem( i18n( "New General Catalog (NGC)" ), CatalogList );
-    showNGC->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
-    showNGC->setCheckState( Options::showNGC() ?  Qt::Checked : Qt::Unchecked );
+    showNGC = new QListWidgetItem(i18n("New General Catalog (NGC)"), CatalogList);
+    showNGC->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+    showNGC->setCheckState(Options::showNGC() ? Qt::Checked : Qt::Unchecked);
 
-    showMessImages = new QListWidgetItem( i18n( "Messier Catalog (images)" ), CatalogList );
-    showMessImages->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
-    showMessImages->setCheckState( Options::showMessierImages()  ?  Qt::Checked : Qt::Unchecked );
+    showMessImages = new QListWidgetItem(i18n("Messier Catalog (images)"), CatalogList);
+    showMessImages->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+    showMessImages->setCheckState(Options::showMessierImages() ? Qt::Checked : Qt::Unchecked);
 
-    showMessier = new QListWidgetItem( i18n( "Messier Catalog (symbols)" ), CatalogList );
-    showMessier->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
-    showMessier->setCheckState( Options::showMessier() ?  Qt::Checked : Qt::Unchecked );
-
+    showMessier = new QListWidgetItem(i18n("Messier Catalog (symbols)"), CatalogList);
+    showMessier->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+    showMessier->setCheckState(Options::showMessier() ? Qt::Checked : Qt::Unchecked);
 }
 
 void OpsCatalog::populateCustomCatalogs()
 {
     QStringList toggleNames = Options::showCatalogNames();
-    QStringList customList = *m_CustomCatalogFile;  // Create a copy
+    QStringList customList  = *m_CustomCatalogFile; // Create a copy
     QStringListIterator catalogIter(customList);
 
-    while ( catalogIter.hasNext() )
+    while (catalogIter.hasNext())
     {
         QString catalogname = catalogIter.next();
         //Skip already existing items
-        if (CatalogList->findItems( catalogname, Qt::MatchExactly ).length() > 0)
+        if (CatalogList->findItems(catalogname, Qt::MatchExactly).length() > 0)
             continue;
 
         //Allocate new catalog list item
-        QListWidgetItem * newItem = new QListWidgetItem( catalogname, CatalogList );
-        newItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
+        QListWidgetItem *newItem = new QListWidgetItem(catalogname, CatalogList);
+        newItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
 
-        if ( toggleNames.contains( catalogname ) )
+        if (toggleNames.contains(catalogname))
         {
-            newItem->setCheckState( Qt::Checked );
+            newItem->setCheckState(Qt::Checked);
         }
         else
         {
-            newItem->setCheckState( Qt::Unchecked );
+            newItem->setCheckState(Qt::Unchecked);
         }
     }
 }

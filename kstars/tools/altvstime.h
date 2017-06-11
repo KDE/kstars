@@ -30,9 +30,9 @@ class GeoLocation;
 
 class AltVsTimeUI : public QFrame, public Ui::AltVsTime
 {
-        Q_OBJECT
-    public:
-        explicit AltVsTimeUI( QWidget * p=0 );
+    Q_OBJECT
+  public:
+    explicit AltVsTimeUI(QWidget *p = 0);
 };
 
 /** @class AltVsTime
@@ -44,56 +44,56 @@ class AltVsTimeUI : public QFrame, public Ui::AltVsTime
  */
 class AltVsTime : public QDialog
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        /**Constructor */
-        explicit AltVsTime( QWidget * parent = 0);
+  public:
+    /**Constructor */
+    explicit AltVsTime(QWidget *parent = 0);
 
-        /**Destructor */
-        ~AltVsTime();
+    /**Destructor */
+    ~AltVsTime();
 
-        /**Determine the limits for the sideral time axis, using
+    /**Determine the limits for the sideral time axis, using
          * the sidereal time at midnight for the current date
          * and location settings.
          */
-        void setLSTLimits();
+    void setLSTLimits();
 
-        /**Set the AltVsTime Date according to the current Date
+    /**Set the AltVsTime Date according to the current Date
          * in the KStars main window.  Currently, this is only
          * used in the ctor to initialize the Date.
          */
-        void showCurrentDate ();
+    void showCurrentDate();
 
-        /** @return a KStarsDateTime object constructed from the
+    /** @return a KStarsDateTime object constructed from the
          * current setting in the Date widget.
          */
-        KStarsDateTime getDate ();
+    KStarsDateTime getDate();
 
-        /**Determine the time of sunset and sunrise for the current
+    /**Determine the time of sunset and sunrise for the current
          * date and location settings.  Convert the times to doubles,
          * expressing the times as fractions of a full day.
          * Calls AVTPlotWidget::setSunRiseSetTimes() to send the
          * numbers to the plot widget.
          */
-        void computeSunRiseSetTimes();
+    void computeSunRiseSetTimes();
 
-        /**Parse a string as an epoch number.  If the string can't
+    /**Parse a string as an epoch number.  If the string can't
          * be parsed, return 2000.0.
          * @param eName the epoch string to be parsed
          * @return the epoch number
          */
-        double getEpoch( const QString &eName );
+    double getEpoch(const QString &eName);
 
-        /** @short Add a SkyObject to the display.
+    /** @short Add a SkyObject to the display.
          * Constructs a PLotObject representing the Alt-vs-time curve for the object.
          * @param o pointer to the SkyObject to be added
          * @param forceAdd if true, then the object will be added, even if there
          * is already a curve for the same coordinates.
          */
-        void processObject( SkyObject * o, bool forceAdd=false );
+    void processObject(SkyObject *o, bool forceAdd = false);
 
-        /** @short Determine the altitude coordinate of a SkyPoint,
+    /** @short Determine the altitude coordinate of a SkyPoint,
          * given an hour of the day.
          *
          * This is called for every 30-minute interval in the displayed Day,
@@ -102,97 +102,95 @@ class AltVsTime : public QDialog
          * @param hour the time in the displayed day, expressed in hours
          * @return the Altitude, expresse in degrees
          */
-        double findAltitude( SkyPoint * p, double hour );
+    double findAltitude(SkyPoint *p, double hour);
 
-
-
-        /** @short get object name. If star has no name, generate a name based on catalog number.
+    /** @short get object name. If star has no name, generate a name based on catalog number.
          * @param translated set to true if the translated name is required.
          */
-        QString getObjectName(const SkyObject * o, bool translated=true);
+    QString getObjectName(const SkyObject *o, bool translated = true);
 
-        void setSunRiseSetTimes( double sunRise, double sunSet );
-        void drawGradient();
+    void setSunRiseSetTimes(double sunRise, double sunSet);
+    void drawGradient();
 
-    public slots:
-        /** @short Update the plot to reflec new Date and Location settings. */
-        void slotUpdateDateLoc();
+  public slots:
+    /** @short Update the plot to reflec new Date and Location settings. */
+    void slotUpdateDateLoc();
 
-        /** @short Clear the list of displayed objects. */
-        void slotClear();
+    /** @short Clear the list of displayed objects. */
+    void slotClear();
 
-        /** @short Show information from the curve as a tooltip. */
-        void plotMousePress(QCPAbstractPlottable * abstractPlottable, QMouseEvent * event);
+    /** @short Show information from the curve as a tooltip. */
+    void plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEvent *event);
 
-        /** @short Update the X axis on Zoom and Drag. */
-        void onXRangeChanged(const QCPRange &range);
+    /** @short Update the X axis on Zoom and Drag. */
+    void onXRangeChanged(const QCPRange &range);
 
-        /** @short Update the Y axis on Zoom and Drag. */
-        void onYRangeChanged(const QCPRange &range);
+    /** @short Update the Y axis on Zoom and Drag. */
+    void onYRangeChanged(const QCPRange &range);
 
-        /** @short Compute the altitude for a certain time. */
-        void slotComputeAltitudeByTime();
+    /** @short Compute the altitude for a certain time. */
+    void slotComputeAltitudeByTime();
 
-        /** @short Mark the rise time on the curve. */
-        void slotMarkRiseTime();
+    /** @short Mark the rise time on the curve. */
+    void slotMarkRiseTime();
 
-        /** @short Mark the set time on the curve. */
-        void slotMarkSetTime();
+    /** @short Mark the set time on the curve. */
+    void slotMarkSetTime();
 
-        /** @short Mark the transit time on the curve. */
-        void slotMarkTransitTime();
+    /** @short Mark the transit time on the curve. */
+    void slotMarkTransitTime();
 
-        /** @short Draw the white vertical line on click. */
-        void mouseOverLine(QMouseEvent * event);
+    /** @short Draw the white vertical line on click. */
+    void mouseOverLine(QMouseEvent *event);
 
-        /** @short Clear the edit boxes for specifying a new object. */
-        void slotClearBoxes();
+    /** @short Clear the edit boxes for specifying a new object. */
+    void slotClearBoxes();
 
-        /** @short Add an object to the list of displayed objects, according
+    /** @short Add an object to the list of displayed objects, according
          * to the data entered in the edit boxes.
          */
-        void slotAddSource();
+    void slotAddSource();
 
-        /** @short Launch the Find Object window to select a new object for
+    /** @short Launch the Find Object window to select a new object for
          * the list of displayed objects.
          */
-        void slotBrowseObject();
+    void slotBrowseObject();
 
-        /** @short Launch the Location dialog to choose a new location. */
-        void slotChooseCity();
+    /** @short Launch the Location dialog to choose a new location. */
+    void slotChooseCity();
 
-        /** @short Move input keyboard focus to the next logical widget.
+    /** @short Move input keyboard focus to the next logical widget.
          * We need a separate slot for this because we are intercepting
          * Enter key events, which close the window by default, to
          * advance input focus instead (when the Enter events occur in
          * certain Edit boxes).
          */
-        void slotAdvanceFocus();
+    void slotAdvanceFocus();
 
-        /**Update the plot to highlight the altitude curve of the objects
+    /**Update the plot to highlight the altitude curve of the objects
          * which is highlighted in the listbox.
          */
-        void slotHighlight(int);
+    void slotHighlight(int);
 
-        /** @short Print plot widget
+    /** @short Print plot widget
          */
-        void slotPrint();
+    void slotPrint();
 
-    private:
-        /** @short find start of dawn, end of dusk, maximum and minimum elevation of the sun */
-        void setDawnDusk();
+  private:
+    /** @short find start of dawn, end of dusk, maximum and minimum elevation of the sun */
+    void setDawnDusk();
 
-        AltVsTimeUI * avtUI;
+    AltVsTimeUI *avtUI;
 
-        GeoLocation * geo;
-        QList<SkyObject *> pList;
-        QList<SkyObject *> deleteList;
-        int DayOffset;
-        int minAlt;
-        int maxAlt;
-        QCPItemPixmap * background;
-        QPixmap * gradient;
-        double sunRise, sunSet;
+    GeoLocation *geo;
+    QList<SkyObject *> pList;
+    QList<SkyObject *> deleteList;
+    int DayOffset;
+    int minAlt;
+    int maxAlt;
+    QCPItemPixmap *background;
+    QPixmap *gradient;
+    double sunRise, sunSet;
 };
 
 #endif // ALTVSTIME_H_

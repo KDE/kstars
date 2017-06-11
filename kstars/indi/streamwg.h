@@ -30,72 +30,63 @@
 
 class RecordOptions : public QDialog, public Ui::recordingOptions
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        explicit RecordOptions(QWidget * parent);
+  public:
+    explicit RecordOptions(QWidget *parent);
 
-    public slots:
-        void selectRecordDirectory();
+  public slots:
+    void selectRecordDirectory();
 
-    private:
-        QUrl dirPath;
+  private:
+    QUrl dirPath;
 
-        friend class StreamWG;
+    friend class StreamWG;
 };
 
 class StreamWG : public QDialog, public Ui::streamForm
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        explicit StreamWG(ISD::CCD * ccd);
-        ~StreamWG();
+  public:
+    explicit StreamWG(ISD::CCD *ccd);
+    ~StreamWG();
 
-        void setColorFrame(bool color);
-        void setSize(int wd, int ht);
+    void setColorFrame(bool color);
+    void setSize(int wd, int ht);
 
-        void enableStream(bool enable);
-        bool isStreamEnabled()
-        {
-            return processStream;
-        }
+    void enableStream(bool enable);
+    bool isStreamEnabled() { return processStream; }
 
-        void newFrame(IBLOB * bp);
+    void newFrame(IBLOB *bp);
 
-        int getStreamWidth()
-        {
-            return streamWidth;
-        }
-        int getStreamHeight()
-        {
-            return streamHeight;
-        }
+    int getStreamWidth() { return streamWidth; }
+    int getStreamHeight() { return streamHeight; }
 
-    protected:
-        void closeEvent ( QCloseEvent * ev );
-        QSize sizeHint() const;
+  protected:
+    void closeEvent(QCloseEvent *ev);
+    QSize sizeHint() const;
 
-    public slots:
-        void toggleRecord();
-        void updateRecordStatus(bool enabled);
-        void resetFrame();
+  public slots:
+    void toggleRecord();
+    void updateRecordStatus(bool enabled);
+    void resetFrame();
 
-    protected slots:
-        void setStreamingFrame(QRect newFrame);
-        void updateFPS(double instantFPS, double averageFPS);
+  protected slots:
+    void setStreamingFrame(QRect newFrame);
+    void updateFPS(double instantFPS, double averageFPS);
 
-    signals:
-        void hidden();
+  signals:
+    void hidden();
 
-    private:
-        bool	processStream;
-        int     streamWidth, streamHeight;
-        bool	colorFrame, isRecording;
-        QIcon   recordIcon, stopIcon;
-        ISD::CCD * currentCCD;
+  private:
+    bool processStream;
+    int streamWidth, streamHeight;
+    bool colorFrame, isRecording;
+    QIcon recordIcon, stopIcon;
+    ISD::CCD *currentCCD;
 
-        RecordOptions * options;
+    RecordOptions *options;
 };
 
 #endif

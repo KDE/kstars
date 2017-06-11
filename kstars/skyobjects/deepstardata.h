@@ -27,8 +27,8 @@
  */
 struct deepStarData
 {
-    qint32 RA;          /**< Raw signed 32-bit RA value. Needs to be multiplied by the scale (1e6) */
-    qint32 Dec;         /**< Raw signed 32-bit DE value. Needs to be multiplied by the scale (1e6) */
+    qint32 RA;  /**< Raw signed 32-bit RA value. Needs to be multiplied by the scale (1e6) */
+    qint32 Dec; /**< Raw signed 32-bit DE value. Needs to be multiplied by the scale (1e6) */
     qint16 dRA;
     qint16 dDec;
     qint16 B;

@@ -50,16 +50,16 @@
  **/
 class KSParser
 {
-    public:
-        /**
+  public:
+    /**
          * These are the values used in case of error in conversion
          **/
-        static const double EBROKEN_DOUBLE;
-        static const float EBROKEN_FLOAT;
-        static const int EBROKEN_INT;
-        static const QString EBROKEN_QSTRING;
+    static const double EBROKEN_DOUBLE;
+    static const float EBROKEN_FLOAT;
+    static const int EBROKEN_INT;
+    static const QString EBROKEN_QSTRING;
 
-        /**
+    /**
           * @brief DataTypes for building sequence
           * D_QSTRING QString Type
           * D_INT Integer  Type
@@ -67,16 +67,16 @@ class KSParser
           * D_DOUBLE Double PRecision Type
           * D_SKIP Unused Field. This string is not converted from QString
           **/
-        enum DataTypes
-        {
-            D_QSTRING,
-            D_INT,
-            D_FLOAT,
-            D_DOUBLE,
-            D_SKIP
-        };
+    enum DataTypes
+    {
+        D_QSTRING,
+        D_INT,
+        D_FLOAT,
+        D_DOUBLE,
+        D_SKIP
+    };
 
-        /**
+    /**
          * @brief Returns a CSV parsing instance of a KSParser type object.
          *
          * Behavior:
@@ -92,11 +92,10 @@ class KSParser
          * @param sequence QList of QPairs of the form "field name,data type"
          * @param delimiter separate on which character. default ','
          **/
-        KSParser(const QString &filename, const char comment_char,
-                 const QList< QPair<QString, DataTypes> > &sequence,
-                 const char delimiter = ',');
+    KSParser(const QString &filename, const char comment_char, const QList<QPair<QString, DataTypes>> &sequence,
+             const char delimiter = ',');
 
-        /**
+    /**
          * @brief Returns a Fixed Width parsing instance of a KSParser type object.
          *
          * Usage:
@@ -122,29 +121,28 @@ class KSParser
          * @param widths width sequence. Last value is line.length() by default
          *               Hence, sequence.length() should be (width.length()+1)
          **/
-        KSParser(const QString &filename, const char comment_char,
-                 const QList< QPair<QString, DataTypes> > &sequence,
-                 const QList<int> &widths);
+    KSParser(const QString &filename, const char comment_char, const QList<QPair<QString, DataTypes>> &sequence,
+             const QList<int> &widths);
 
-        /**
+    /**
          * @brief Generic function used to read the next row of a text file.
          * The contructor changes the function pointer to the appropriate function.
          * Returns the row as <"column name", value>
          *
          * @return QHash< QString, QVariant >
          **/
-        QHash<QString, QVariant>  ReadNextRow();
+    QHash<QString, QVariant> ReadNextRow();
 
-        /**
+    /**
          * @brief Returns True if there are more rows to be read
          *
          * @return bool
          **/
-        bool HasNextRow();
-        // Too many warnings when const: datahandlers/ksparser.h:131:27: warning:
-        // type qualifiers ignored on function return type [-Wignored-qualifiers]
+    bool HasNextRow();
+    // Too many warnings when const: datahandlers/ksparser.h:131:27: warning:
+    // type qualifiers ignored on function return type [-Wignored-qualifiers]
 
-        /**
+    /**
          * @brief Wrapper function for KSFileReader setProgress
          *
          * @param msg What message to display
@@ -152,49 +150,49 @@ class KSParser
          * @param step_size Size of step in emitting progress
          * @return void
          **/
-        void SetProgress(QString msg, int total_lines, int step_size);
+    void SetProgress(QString msg, int total_lines, int step_size);
 
-        /**
+    /**
          * @brief Wrapper function for KSFileReader showProgress
          *
          * @return void
          **/
-        void ShowProgress();
+    void ShowProgress();
 
-    private:
-        /**
+  private:
+    /**
          * @brief Function Pointer used by ReadNextRow
          * to call the appropriate function among ReadCSVRow and ReadFixedWidthRow
          *
          * @return QHash< QString, QVariant >
          **/
-        QHash<QString, QVariant> (KSParser::*readFunctionPtr)();
+    QHash<QString, QVariant> (KSParser::*readFunctionPtr)();
 
-        /**
+    /**
          * @brief Returns a single row from CSV.
          * If HasNextRow is false, returns a row with default values.
          *
          * @return QHash< QString, QVariant >
          **/
-        QHash<QString, QVariant> ReadCSVRow();
+    QHash<QString, QVariant> ReadCSVRow();
 
-        /**
+    /**
          * @brief Returns a single row from Fixed Width File.
          * If HasNextRow is false, returns a row with default values.
          *
          * @return QHash< QString, QVariant >
          **/
-        QHash<QString, QVariant> ReadFixedWidthRow();
+    QHash<QString, QVariant> ReadFixedWidthRow();
 
-        /**
+    /**
          * @brief Returns a default value row.
          * Values are according to the current assigned sequence.
          *
          * @return QHash< QString, QVariant >
          **/
-        QHash<QString, QVariant> DummyRow();
+    QHash<QString, QVariant> DummyRow();
 
-        /**
+    /**
          * @brief This function combines the separated QString in case of quotes
          * The function can not handle stray quote marks.
          * eg. hello,"",world is acceptable
@@ -203,27 +201,26 @@ class KSParser
          * @param separated a list of QStrings separated at every delimiter
          * @return QList< QString >
          **/
-        QList<QString> CombineQuoteParts(QList<QString> &separated);
+    QList<QString> CombineQuoteParts(QList<QString> &separated);
 
-        /**
+    /**
          * @brief Function to return a QVariant of selected data type
          *
          * @param input_string QString of what the object should contain
          * @param data_type Data Type of input_string
          * @return QVariant
          **/
-        QVariant ConvertToQVariant(const QString &input_string,
-                                   const DataTypes &data_type, bool &ok);
+    QVariant ConvertToQVariant(const QString &input_string, const DataTypes &data_type, bool &ok);
 
-        static const bool parser_debug_mode_;
+    static const bool parser_debug_mode_;
 
-        KSFileReader file_reader_;
-        QString filename_;
-        char comment_char_;
+    KSFileReader file_reader_;
+    QString filename_;
+    char comment_char_;
 
-        QList< QPair<QString, DataTypes> > name_type_sequence_;
-        QList<int> width_sequence_;
-        char delimiter_;
+    QList<QPair<QString, DataTypes>> name_type_sequence_;
+    QList<int> width_sequence_;
+    char delimiter_;
 };
 
-#endif  // KSTARS_KSPARSER_H
+#endif // KSTARS_KSPARSER_H

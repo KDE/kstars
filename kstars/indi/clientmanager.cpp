@@ -38,9 +38,9 @@ ClientManager::~ClientManager()
 {
 }
 
-bool ClientManager::isDriverManaged(DriverInfo * di)
+bool ClientManager::isDriverManaged(DriverInfo *di)
 {
-    foreach(DriverInfo * dv, managedDrivers)
+    foreach (DriverInfo *dv, managedDrivers)
     {
         if (dv == di)
             return true;
@@ -49,11 +49,11 @@ bool ClientManager::isDriverManaged(DriverInfo * di)
     return false;
 }
 
-void ClientManager::newDevice(INDI::BaseDevice * dp)
+void ClientManager::newDevice(INDI::BaseDevice *dp)
 {
     setBLOBMode(B_ALSO, dp->getDeviceName());
 
-    DriverInfo * deviceDriver = nullptr;
+    DriverInfo *deviceDriver = nullptr;
 
     if (QString(dp->getDeviceName()).isEmpty())
     {
@@ -65,23 +65,22 @@ void ClientManager::newDevice(INDI::BaseDevice * dp)
         qDebug() << "Received new device " << dp->getDeviceName();
 
     // First iteration find unique matches
-    foreach(DriverInfo * dv, managedDrivers)
+    foreach (DriverInfo *dv, managedDrivers)
     {
         if (dv->getUniqueLabel() == QString(dp->getDeviceName()))
         {
             deviceDriver = dv;
             break;
         }
-
     }
 
     // Second iteration find partial matches
     if (deviceDriver == nullptr)
     {
-        foreach(DriverInfo * dv, managedDrivers)
+        foreach (DriverInfo *dv, managedDrivers)
         {
             QString dvName = dv->getName();
-            dvName = dv->getName().split(" ").first();
+            dvName         = dv->getName().split(" ").first();
             if (dvName.isEmpty())
                 dvName = dv->getName();
             if (/*dv->getUniqueLabel() == dp->getDeviceName() ||*/
@@ -99,29 +98,28 @@ void ClientManager::newDevice(INDI::BaseDevice * dp)
 
     deviceDriver->setUniqueLabel(dp->getDeviceName());
 
-    DeviceInfo * devInfo = new DeviceInfo(deviceDriver, dp);
+    DeviceInfo *devInfo = new DeviceInfo(deviceDriver, dp);
     deviceDriver->addDevice(devInfo);
     emit newINDIDevice(devInfo);
     return;
-
 }
 
-void ClientManager::newProperty(INDI::Property * prop)
+void ClientManager::newProperty(INDI::Property *prop)
 {
     //IDLog("Received new property %s for device %s\n", prop->getName(), prop->getgetDeviceName());
     emit newINDIProperty(prop);
 }
 
-void ClientManager::removeProperty(INDI::Property * prop)
+void ClientManager::removeProperty(INDI::Property *prop)
 {
     emit removeINDIProperty(prop);
 }
 
-void ClientManager::removeDevice(INDI::BaseDevice * dp)
+void ClientManager::removeDevice(INDI::BaseDevice *dp)
 {
-    foreach(DriverInfo * driverInfo, managedDrivers)
+    foreach (DriverInfo *driverInfo, managedDrivers)
     {
-        foreach(DeviceInfo * deviceInfo, driverInfo->getDevices())
+        foreach (DeviceInfo *deviceInfo, driverInfo->getDevices())
         {
             if (deviceInfo->getBaseDevice() == dp)
             {
@@ -141,38 +139,37 @@ void ClientManager::removeDevice(INDI::BaseDevice * dp)
     }
 }
 
-void ClientManager::newBLOB(IBLOB * bp)
+void ClientManager::newBLOB(IBLOB *bp)
 {
     emit newINDIBLOB(bp);
 }
 
-void ClientManager::newSwitch(ISwitchVectorProperty * svp)
+void ClientManager::newSwitch(ISwitchVectorProperty *svp)
 {
     emit newINDISwitch(svp);
 }
 
-void ClientManager::newNumber(INumberVectorProperty * nvp)
+void ClientManager::newNumber(INumberVectorProperty *nvp)
 {
     emit newINDINumber(nvp);
 }
 
-void ClientManager::newText(ITextVectorProperty * tvp)
+void ClientManager::newText(ITextVectorProperty *tvp)
 {
     emit newINDIText(tvp);
 }
 
-void ClientManager::newLight(ILightVectorProperty * lvp)
+void ClientManager::newLight(ILightVectorProperty *lvp)
 {
     emit newINDILight(lvp);
 }
 
-void ClientManager::newMessage(INDI::BaseDevice * dp, int messageID)
+void ClientManager::newMessage(INDI::BaseDevice *dp, int messageID)
 {
     emit newINDIMessage(dp, messageID);
 }
 
-
-void ClientManager::appendManagedDriver(DriverInfo * dv)
+void ClientManager::appendManagedDriver(DriverInfo *dv)
 {
     managedDrivers.append(dv);
 
@@ -181,11 +178,11 @@ void ClientManager::appendManagedDriver(DriverInfo * dv)
     sManager = dv->getServerManager();
 }
 
-void ClientManager::removeManagedDriver(DriverInfo * dv)
+void ClientManager::removeManagedDriver(DriverInfo *dv)
 {
     dv->setClientState(false);
 
-    foreach(DeviceInfo * di, dv->getDevices())
+    foreach (DeviceInfo *di, dv->getDevices())
     {
         //emit removeINDIDevice(di);
         INDIListener::Instance()->removeDevice(di);
@@ -208,10 +205,9 @@ void ClientManager::removeManagedDriver(DriverInfo * dv)
         delete (dv);
 }
 
-
 void ClientManager::serverConnected()
 {
-    foreach (DriverInfo * device, managedDrivers)
+    foreach (DriverInfo *device, managedDrivers)
     {
         device->setClientState(true);
         if (sManager)
@@ -221,7 +217,7 @@ void ClientManager::serverConnected()
 
 void ClientManager::serverDisconnected(int exit_code)
 {
-    foreach (DriverInfo * device, managedDrivers)
+    foreach (DriverInfo *device, managedDrivers)
     {
         device->setClientState(false);
 
@@ -236,9 +232,9 @@ QList<DriverInfo *> ClientManager::getManagedDrivers() const
     return managedDrivers;
 }
 
-DriverInfo * ClientManager::findDriverInfoByName(const QString &name)
+DriverInfo *ClientManager::findDriverInfoByName(const QString &name)
 {
-    foreach(DriverInfo * dv, managedDrivers)
+    foreach (DriverInfo *dv, managedDrivers)
     {
         if (dv->getName() == name)
             return dv;
@@ -247,9 +243,9 @@ DriverInfo * ClientManager::findDriverInfoByName(const QString &name)
     return nullptr;
 }
 
-DriverInfo * ClientManager::findDriverInfoByLabel(const QString &label)
+DriverInfo *ClientManager::findDriverInfoByLabel(const QString &label)
 {
-    foreach(DriverInfo * dv, managedDrivers)
+    foreach (DriverInfo *dv, managedDrivers)
     {
         if (dv->getTreeLabel() == label)
             return dv;
@@ -257,5 +253,3 @@ DriverInfo * ClientManager::findDriverInfoByLabel(const QString &label)
 
     return nullptr;
 }
-
-

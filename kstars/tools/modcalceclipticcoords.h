@@ -30,21 +30,19 @@
   */
 class modCalcEclCoords : public QFrame, public Ui::modCalcEclCoordsDlg
 {
+    Q_OBJECT
 
-        Q_OBJECT
+  public:
+    modCalcEclCoords(QWidget *p);
+    ~modCalcEclCoords();
 
-    public:
+  public slots:
+    void slotNow(void);
+    void slotObject(void);
+    void slotDateTimeChanged(const QDateTime &edt);
+    void slotCompute(void);
 
-        modCalcEclCoords(QWidget * p);
-        ~modCalcEclCoords();
-
-    public slots:
-        void slotNow(void);
-        void slotObject(void);
-        void slotDateTimeChanged(const QDateTime &edt);
-        void slotCompute(void);
-    private:
-        KStarsDateTime kdt;
+  private:
+    KStarsDateTime kdt;
 };
 #endif
-

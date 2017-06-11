@@ -19,7 +19,6 @@
 #include "solarsystemcomposite.h"
 #include "skycomponent.h"
 
-
 #include "dms.h"
 #include "kstarsdata.h"
 #include "skyobjects/starobject.h"
@@ -37,29 +36,27 @@
 #include "skypainter.h"
 #include "projections/projector.h"
 
-SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite * parent, KSPlanetBase * kspb, bool (*visibleMethod)()) :
-    SkyComponent( parent ),
-    visible( visibleMethod ),
-    m_Earth( parent->earth() ),
-    m_Planet( kspb )
+SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb,
+                                                       bool (*visibleMethod)())
+    : SkyComponent(parent), visible(visibleMethod), m_Earth(parent->earth()), m_Planet(kspb)
 {
     m_Planet->loadData();
-    if ( ! m_Planet->name().isEmpty() )
+    if (!m_Planet->name().isEmpty())
     {
-        objectNames(m_Planet->type()).append( m_Planet->name() );
-        objectLists(m_Planet->type()).append( QPair<QString, const SkyObject *>(m_Planet->name(),m_Planet) );
+        objectNames(m_Planet->type()).append(m_Planet->name());
+        objectLists(m_Planet->type()).append(QPair<QString, const SkyObject *>(m_Planet->name(), m_Planet));
     }
-    if ( ! m_Planet->longname().isEmpty() && m_Planet->longname() != m_Planet->name() )
+    if (!m_Planet->longname().isEmpty() && m_Planet->longname() != m_Planet->name())
     {
-        objectNames(m_Planet->type()).append( m_Planet->longname() );
-        objectLists(m_Planet->type()).append( QPair<QString, const SkyObject *>(m_Planet->longname(),m_Planet) );
+        objectNames(m_Planet->type()).append(m_Planet->longname());
+        objectLists(m_Planet->type()).append(QPair<QString, const SkyObject *>(m_Planet->longname(), m_Planet));
     }
 }
 
 SolarSystemSingleComponent::~SolarSystemSingleComponent()
 {
-    removeFromNames( m_Planet );
-    removeFromLists( m_Planet );
+    removeFromNames(m_Planet);
+    removeFromLists(m_Planet);
     delete m_Planet;
 }
 
@@ -68,20 +65,19 @@ bool SolarSystemSingleComponent::selected()
     return visible();
 }
 
-SkyObject * SolarSystemSingleComponent::findByName( const QString &name )
+SkyObject *SolarSystemSingleComponent::findByName(const QString &name)
 {
-    if( QString::compare( m_Planet->name(),     name, Qt::CaseInsensitive ) == 0 ||
-            QString::compare( m_Planet->longname(), name, Qt::CaseInsensitive ) == 0 ||
-            QString::compare( m_Planet->name2(),    name, Qt::CaseInsensitive ) == 0
-      )
+    if (QString::compare(m_Planet->name(), name, Qt::CaseInsensitive) == 0 ||
+        QString::compare(m_Planet->longname(), name, Qt::CaseInsensitive) == 0 ||
+        QString::compare(m_Planet->name2(), name, Qt::CaseInsensitive) == 0)
         return m_Planet;
     return 0;
 }
 
-SkyObject * SolarSystemSingleComponent::objectNearest( SkyPoint * p, double &maxrad )
+SkyObject *SolarSystemSingleComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
-    double r = m_Planet->angularDistanceTo( p ).Degrees();
-    if( r < maxrad )
+    double r = m_Planet->angularDistanceTo(p).Degrees();
+    if (r < maxrad)
     {
         maxrad = r;
         return m_Planet;
@@ -91,38 +87,38 @@ SkyObject * SolarSystemSingleComponent::objectNearest( SkyPoint * p, double &max
 
 void SolarSystemSingleComponent::update(KSNumbers *)
 {
-    KStarsData * data = KStarsData::Instance();
-    if( selected() )
-        m_Planet->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    KStarsData *data = KStarsData::Instance();
+    if (selected())
+        m_Planet->EquatorialToHorizontal(data->lst(), data->geo()->lat());
 }
 
-void SolarSystemSingleComponent::updateSolarSystemBodies(KSNumbers * num)
+void SolarSystemSingleComponent::updateSolarSystemBodies(KSNumbers *num)
 {
-    if ( selected() )
+    if (selected())
     {
-        KStarsData * data = KStarsData::Instance();
-        m_Planet->findPosition( num, data->geo()->lat(), data->lst(), m_Earth );
-        m_Planet->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        if ( m_Planet->hasTrail() )
-            m_Planet->updateTrail( data->lst(), data->geo()->lat() );
+        KStarsData *data = KStarsData::Instance();
+        m_Planet->findPosition(num, data->geo()->lat(), data->lst(), m_Earth);
+        m_Planet->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+        if (m_Planet->hasTrail())
+            m_Planet->updateTrail(data->lst(), data->geo()->lat());
     }
 }
 
-void SolarSystemSingleComponent::draw( SkyPainter * skyp )
+void SolarSystemSingleComponent::draw(SkyPainter *skyp)
 {
-    if( ! selected() )
+    if (!selected())
         return;
 
-    skyp->setPen( m_Planet->color() );
-    skyp->setBrush( m_Planet->color() );
+    skyp->setPen(m_Planet->color());
+    skyp->setBrush(m_Planet->color());
 
     bool drawn = skyp->drawPlanet(m_Planet);
-    if ( drawn && Options::showPlanetNames() )
-        SkyLabeler::AddLabel( m_Planet, SkyLabeler::PLANET_LABEL );
+    if (drawn && Options::showPlanetNames())
+        SkyLabeler::AddLabel(m_Planet, SkyLabeler::PLANET_LABEL);
 }
 
-void SolarSystemSingleComponent::drawTrails( SkyPainter * skyp )
+void SolarSystemSingleComponent::drawTrails(SkyPainter *skyp)
 {
-    if( selected() )
+    if (selected())
         m_Planet->drawTrail(skyp);
 }

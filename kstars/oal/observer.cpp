@@ -18,10 +18,10 @@
 
 #include "oal/observer.h"
 
-void OAL::Observer::setObserver( QString _id, QString _name, QString _surname, QString _contact )
+void OAL::Observer::setObserver(QString _id, QString _name, QString _surname, QString _contact)
 {
-    m_Id = _id;
-    m_Name = _name;
+    m_Id      = _id;
+    m_Name    = _name;
     m_Surname = _surname;
     m_Contact = _contact;
 }

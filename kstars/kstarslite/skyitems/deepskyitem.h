@@ -28,29 +28,29 @@
  */
 class DSOIndexNode : public SkyOpacityNode
 {
-    public:
-        DSOIndexNode(DeepSkyIndex * index, LabelsItem::label_t labelType, QString colorString);
+  public:
+    DSOIndexNode(DeepSkyIndex *index, LabelsItem::label_t labelType, QString colorString);
 
-        DeepSkyIndex * m_index;
-        QSGNode * m_trixels;
+    DeepSkyIndex *m_index;
+    QSGNode *m_trixels;
 
-        /**
+    /**
          * @short m_labelType - holds label type of this catalog
          */
-        LabelsItem::label_t m_labelType;
-        /**
+    LabelsItem::label_t m_labelType;
+    /**
          * @short schemeColor - holds the color, with which nodes of this catalog should be drawn
          */
-        QString schemeColor;
+    QString schemeColor;
 
-        /**
+    /**
          * @short hides the catalog nodes and their labels
          */
-        virtual void hide();
-        /**
+    virtual void hide();
+    /**
          * @short shows the catalog nodes and their labels
          */
-        virtual void show();
+    virtual void show();
 };
 /**
  * @short The DSOTrixelNode class - represents trixel. Symbols should be appended to m_symbols, labels to
@@ -58,12 +58,12 @@ class DSOIndexNode : public SkyOpacityNode
  */
 class DSOTrixelNode : public TrixelNode
 {
-    public:
-        DSOTrixelNode(Trixel trixelID);
-        TrixelNode * m_labels;
-        QSGNode * m_symbols;
+  public:
+    DSOTrixelNode(Trixel trixelID);
+    TrixelNode *m_labels;
+    QSGNode *m_symbols;
 
-        virtual void deleteAllChildNodes();
+    virtual void deleteAllChildNodes();
 };
 
 /** @class DeepSkyItem
@@ -80,21 +80,21 @@ class MeshIterator;
 
 class DeepSkyItem : public SkyItem
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor. Instantiates DSOIndexNodes for catalogs
          * @param dsoComp pointer to DeepSkyComponent that handles data
          * @param rootNode parent RootNode that instantiated this object
          */
-        DeepSkyItem(DeepSkyComponent * dsoComp, RootNode * rootNode);
+    DeepSkyItem(DeepSkyComponent *dsoComp, RootNode *rootNode);
 
-        /**
+    /**
          * @short Call update on all DSOIndexNodes (catalogs)
          *
          */
-        virtual void update();
+    virtual void update();
 
-        /**
+    /**
          * @short update all nodes needed to represent DSO in the given DSOIndexNode
          * In this function we perform some tricks to reduce memory consumption:
          * 1. Each TrixelNode has hideCount() function that returns the number of updates, during which this TrixelNode
@@ -109,17 +109,15 @@ class DeepSkyItem : public SkyItem
          * @param region - MeshIterator that should be used to iterate over visible trixels
          * @param drawImage - true if images for objects should be drawn, false otherwise
          */
-        void updateDeepSkyNode(DSOIndexNode * node, bool drawObject, MeshIterator * region,
-                               bool drawImage = false);
+    void updateDeepSkyNode(DSOIndexNode *node, bool drawObject, MeshIterator *region, bool drawImage = false);
 
-    private:
-        DeepSkyComponent * m_dsoComp;
-        SkyMesh * m_skyMesh;
+  private:
+    DeepSkyComponent *m_dsoComp;
+    SkyMesh *m_skyMesh;
 
-        DSOIndexNode * m_Messier;
-        DSOIndexNode * m_NGC;
-        DSOIndexNode * m_IC;
-        DSOIndexNode * m_other;
+    DSOIndexNode *m_Messier;
+    DSOIndexNode *m_NGC;
+    DSOIndexNode *m_IC;
+    DSOIndexNode *m_other;
 };
 #endif
-

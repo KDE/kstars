@@ -22,7 +22,6 @@
 #include <QString>
 #include <QDialog>
 
-
 class QStackedWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
@@ -35,72 +34,74 @@ class QTextEdit;
 
 class AstroCalc : public QDialog
 {
-        Q_OBJECT
-    public:
-        AstroCalc(QWidget * parent = 0);
+    Q_OBJECT
+  public:
+    AstroCalc(QWidget *parent = 0);
 
-        ~AstroCalc();
+    ~AstroCalc();
 
-        /** @returns suggested size of calculator window. */
-        QSize sizeHint() const Q_DECL_OVERRIDE;
-    public slots:
-        /** Display calculator module or help text based on item selected.
+    /** @returns suggested size of calculator window. */
+    QSize sizeHint() const Q_DECL_OVERRIDE;
+  public slots:
+    /** Display calculator module or help text based on item selected.
          */
-        void slotItemSelection(QTreeWidgetItem * it); // Q: Why is this public when we don't have access to navigationPanel anyway? Also doesn't seem to be used from outside -- asimha
+    void slotItemSelection(
+        QTreeWidgetItem *
+            it); // Q: Why is this public when we don't have access to navigationPanel anyway? Also doesn't seem to be used from outside -- asimha
 
-    private:
-        /** Pointer to function which return QWidget*
+  private:
+    /** Pointer to function which return QWidget*
          */
-        typedef QWidget * (AstroCalc::*WidgetConstructor)();
-        /** Data structure used for lazy widget construction. This class
+    typedef QWidget *(AstroCalc::*WidgetConstructor)();
+    /** Data structure used for lazy widget construction. This class
          *  construct widget when it requested.
          */
-        class WidgetThunk
-        {
-            public:
-                /** Create thunk
+    class WidgetThunk
+    {
+      public:
+        /** Create thunk
                  *  @param acalc  pointer to class.
                  *  @param f      function which construct widget.
                  */
-                WidgetThunk(AstroCalc * acalc, WidgetConstructor f) :
-                    widget(0), calc(acalc), func(f) {}
-                /** Request widget.
+        WidgetThunk(AstroCalc *acalc, WidgetConstructor f) : widget(0), calc(acalc), func(f) {}
+        /** Request widget.
                  *  @return newly created widget or cached value. */
-                QWidget * eval();
-            private:
-                QWidget * widget;       // Cached value
-                AstroCalc * calc;       // Pointer to calculator
-                WidgetConstructor func; // Function to call to construct widget.
-        };
+        QWidget *eval();
 
-        /** Create widget of type T and put it to widget stack. Widget must
+      private:
+        QWidget *widget;        // Cached value
+        AstroCalc *calc;        // Pointer to calculator
+        WidgetConstructor func; // Function to call to construct widget.
+    };
+
+    /** Create widget of type T and put it to widget stack. Widget must
          *  have construtor of type T(QWidget*). Returns constructed widget. */
-        template<typename T>
-        inline QWidget * addToStack();
+    template <typename T>
+    inline QWidget *addToStack();
 
-        /** Add top level item to navigation panel. At the same time adds item to htmlTable
+    /** Add top level item to navigation panel. At the same time adds item to htmlTable
             @param title name of item
             @param html  string to be displayed in splash screen
          */
-        QTreeWidgetItem * addTreeTopItem(QTreeWidget * parent, QString title, QString html);
+    QTreeWidgetItem *addTreeTopItem(QTreeWidget *parent, QString title, QString html);
 
-        /** Add item to navigation panel. At the same time adds item to
+    /** Add item to navigation panel. At the same time adds item to
             dispatchTable Template parameter is type of widget to be
             constructed and added to widget stack. It must have T()
             constructor.
 
             @param title  name of item
          */
-        template<typename T>
-        QTreeWidgetItem * addTreeItem(QTreeWidgetItem * parent, QString title);
+    template <typename T>
+    QTreeWidgetItem *addTreeItem(QTreeWidgetItem *parent, QString title);
 
-        /** Lookup table for help texts. Maps navpanel item to help text. */
-        QMap<QTreeWidgetItem *, QString>  htmlTable;
-        /** Lookup table for widgets. Maps navpanel item to widget to be displayed. */
-        QMap<QTreeWidgetItem *, WidgetThunk> dispatchTable;
-        QTreeWidget * navigationPanel;
-        QStackedWidget * acStack;
-        QTextEdit * splashScreen;
+    /** Lookup table for help texts. Maps navpanel item to help text. */
+    QMap<QTreeWidgetItem *, QString> htmlTable;
+    /** Lookup table for widgets. Maps navpanel item to widget to be displayed. */
+    QMap<QTreeWidgetItem *, WidgetThunk> dispatchTable;
+    QTreeWidget *navigationPanel;
+    QStackedWidget *acStack;
+    QTextEdit *splashScreen;
 };
 
 #endif

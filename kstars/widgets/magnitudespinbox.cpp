@@ -17,8 +17,7 @@
 
 #include "magnitudespinbox.h"
 
-MagnitudeSpinBox::MagnitudeSpinBox( QWidget * parent )
-    : QDoubleSpinBox(parent)
+MagnitudeSpinBox::MagnitudeSpinBox(QWidget *parent) : QDoubleSpinBox(parent)
 {
     setRange(0, 10);
     setValue(0);
@@ -26,9 +25,7 @@ MagnitudeSpinBox::MagnitudeSpinBox( QWidget * parent )
     setSingleStep(0.1);
 }
 
-MagnitudeSpinBox::MagnitudeSpinBox( double minValue, double maxValue,
-                                    QWidget * parent )
-    : QDoubleSpinBox( parent )
+MagnitudeSpinBox::MagnitudeSpinBox(double minValue, double maxValue, QWidget *parent) : QDoubleSpinBox(parent)
 {
     setRange(minValue, maxValue);
     setValue(minValue);

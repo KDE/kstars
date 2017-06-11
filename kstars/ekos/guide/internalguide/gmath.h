@@ -31,10 +31,10 @@ typedef struct
     double square;
 } guide_square_t;
 
-#define SMART_THRESHOLD 0
+#define SMART_THRESHOLD    0
 #define CENTROID_THRESHOLD 1
-#define AUTO_THRESHOLD	2
-#define NO_THRESHOLD  	3
+#define AUTO_THRESHOLD     2
+#define NO_THRESHOLD       3
 
 typedef struct
 {
@@ -44,55 +44,52 @@ typedef struct
 
 // smart threshold algorithm param
 // width of outer frame for backgroung calculation
-#define SMART_FRAME_WIDTH	4
+#define SMART_FRAME_WIDTH 4
 // cut-factor above avarage threshold
-#define SMART_CUT_FACTOR	0.1
+#define SMART_CUT_FACTOR 0.1
 
+#define GUIDE_RA    0
+#define GUIDE_DEC   1
+#define CHANNEL_CNT 2
+#define DEFAULT_SQR 1
 
-#define GUIDE_RA	0
-#define GUIDE_DEC	1
-#define CHANNEL_CNT	2
-#define DEFAULT_SQR	1
-
-#define  MAX_ACCUM_CNT	50
+#define MAX_ACCUM_CNT 50
 extern const guide_square_t guide_squares[];
 extern const square_alg_t guide_square_alg[];
 
 // input params
 class cproc_in_params
 {
-    public:
-        cproc_in_params();
-        void reset( void );
+  public:
+    cproc_in_params();
+    void reset(void);
 
-        int       threshold_alg_idx;
-        double    guiding_rate;
-        bool      enabled[CHANNEL_CNT];
-        bool      enabled_axis1[CHANNEL_CNT];
-        bool      enabled_axis2[CHANNEL_CNT];
-        bool      average;
-        uint32_t  accum_frame_cnt[CHANNEL_CNT];
-        double    proportional_gain[CHANNEL_CNT];
-        double    integral_gain[CHANNEL_CNT];
-        double    derivative_gain[CHANNEL_CNT];
-        int       max_pulse_length[CHANNEL_CNT];
-        int       min_pulse_length[CHANNEL_CNT];
+    int threshold_alg_idx;
+    double guiding_rate;
+    bool enabled[CHANNEL_CNT];
+    bool enabled_axis1[CHANNEL_CNT];
+    bool enabled_axis2[CHANNEL_CNT];
+    bool average;
+    uint32_t accum_frame_cnt[CHANNEL_CNT];
+    double proportional_gain[CHANNEL_CNT];
+    double integral_gain[CHANNEL_CNT];
+    double derivative_gain[CHANNEL_CNT];
+    int max_pulse_length[CHANNEL_CNT];
+    int min_pulse_length[CHANNEL_CNT];
 };
-
 
 //output params
 class cproc_out_params
 {
-    public:
-        cproc_out_params();
-        void reset( void );
+  public:
+    cproc_out_params();
+    void reset(void);
 
-        double  	delta[2];
-        GuideDirection 	pulse_dir[2];
-        int	    	pulse_length[2];
-        double		sigma[2];
+    double delta[2];
+    GuideDirection pulse_dir[2];
+    int pulse_length[2];
+    double sigma[2];
 };
-
 
 typedef struct
 {
@@ -101,169 +98,148 @@ typedef struct
     double focal, aperture;
 } info_params_t;
 
-
 class cgmath : public QObject
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        cgmath();
-        virtual ~cgmath();
+  public:
+    cgmath();
+    virtual ~cgmath();
 
-        // functions
-        bool setVideoParameters( int vid_wd, int vid_ht, int binX, int binY );
-        bool setGuiderParameters( double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal );
-        void getGuiderParameters( double * ccd_pix_wd, double * ccd_pix_ht, double * guider_aperture, double * guider_focal );
-        bool setReticleParameters( double x, double y, double ang );
-        bool getReticleParameters( double * x, double * y, double * ang ) const;
-        int  getSquareIndex( void ) const;
-        int  getSquareAlgorithmIndex( void ) const;
-        int  getSquareSize()
-        {
-            return squareSize;
-        }
-        void setSquareAlgorithm( int alg_idx );
+    // functions
+    bool setVideoParameters(int vid_wd, int vid_ht, int binX, int binY);
+    bool setGuiderParameters(double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal);
+    void getGuiderParameters(double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal);
+    bool setReticleParameters(double x, double y, double ang);
+    bool getReticleParameters(double *x, double *y, double *ang) const;
+    int getSquareIndex(void) const;
+    int getSquareAlgorithmIndex(void) const;
+    int getSquareSize() { return squareSize; }
+    void setSquareAlgorithm(int alg_idx);
 
-        Matrix getROTZ()
-        {
-            return ROT_Z;
-        }
-        const cproc_out_params * getOutputParameters() const
-        {
-            return &out_params;
-        }
-        info_params_t getInfoParameters( void ) const;
-        uint32_t getTicks( void ) const;
+    Matrix getROTZ() { return ROT_Z; }
+    const cproc_out_params *getOutputParameters() const { return &out_params; }
+    info_params_t getInfoParameters(void) const;
+    uint32_t getTicks(void) const;
 
-        void setGuideView(FITSView * image);
-        bool declinationSwapEnabled()
-        {
-            return dec_swap;
-        }
-        void setDeclinationSwapEnabled(bool enable)
-        {
-            dec_swap = enable;
-        }
-        FITSView * getGuideView()
-        {
-            return guideView;
-        }
-        void setPreviewMode(bool enable)
-        {
-            preview_mode = enable;
-        }
+    void setGuideView(FITSView *image);
+    bool declinationSwapEnabled() { return dec_swap; }
+    void setDeclinationSwapEnabled(bool enable) { dec_swap = enable; }
+    FITSView *getGuideView() { return guideView; }
+    void setPreviewMode(bool enable) { preview_mode = enable; }
 
-        /*void moveSquare( double newx, double newy );
+    /*void moveSquare( double newx, double newy );
         void resizeSquare( int size_idx );
         Vector getSquarePosition() { return square_pos; }*/
 
-        // Rapid Guide
-        void setRapidGuide(bool enable);
-        void setRapidStarData(double dx, double dy);
+    // Rapid Guide
+    void setRapidGuide(bool enable);
+    void setRapidStarData(double dx, double dy);
 
-        // Operations
-        void start( void );
-        void stop( void );
-        bool reset( void );
-        void suspend( bool mode );
-        bool isSuspended( void ) const;
+    // Operations
+    void start(void);
+    void stop(void);
+    bool reset(void);
+    void suspend(bool mode);
+    bool isSuspended(void) const;
 
-        // Star tracking
-        void getStarDrift( double * dx, double * dy ) const;
-        void getStarScreenPosition( double * dx, double * dy ) const;
-        Vector findLocalStarPosition( void ) const;
-        bool isStarLost(void) const;
-        void setLostStar(bool is_lost);
+    // Star tracking
+    void getStarDrift(double *dx, double *dy) const;
+    void getStarScreenPosition(double *dx, double *dy) const;
+    Vector findLocalStarPosition(void) const;
+    bool isStarLost(void) const;
+    void setLostStar(bool is_lost);
 
-        // Main processing function
-        void performProcessing( void );
+    // Main processing function
+    void performProcessing(void);
 
-        // Math
-        bool calculateAndSetReticle1D( double start_x, double start_y, double end_x, double end_y, int totalPulse=-1);
-        bool calculateAndSetReticle2D( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool * swap_dec, int totalPulse=-1);
-        double calculatePhi( double start_x, double start_y, double end_x, double end_y ) const;
+    // Math
+    bool calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int totalPulse = -1);
+    bool calculateAndSetReticle2D(double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
+                                  double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
+                                  bool *swap_dec, int totalPulse = -1);
+    double calculatePhi(double start_x, double start_y, double end_x, double end_y) const;
 
-        // Dither
-        double getDitherRate(int axis);
+    // Dither
+    double getDitherRate(int axis);
 
-        // Logging
-        void setLogFile(QFile * file);
+    // Logging
+    void setLogFile(QFile *file);
 
-        bool isImageGuideEnabled() const;
-        void setImageGuideEnabled(bool value);
+    bool isImageGuideEnabled() const;
+    void setImageGuideEnabled(bool value);
 
-        void setRegionAxis(const uint32_t &value);
+    void setRegionAxis(const uint32_t &value);
 
-signals:
-        void newAxisDelta(double delta_ra, double delta_dec);
-        void newStarPosition(QVector3D, bool);
+  signals:
+    void newAxisDelta(double delta_ra, double delta_dec);
+    void newStarPosition(QVector3D, bool);
 
-    private:
+  private:
+    // Templated functions
+    template <typename T>
+    Vector findLocalStarPosition(void) const;
+    // sys...
+    uint32_t ticks;                // global channel ticker
+    QPointer<FITSView> guideView;  // pointer to image
+    int video_width, video_height; // video frame dimensions
+    double ccd_pixel_width, ccd_pixel_height, aperture, focal;
+    Matrix ROT_Z;
+    bool preview_mode, suspended, lost_star, dec_swap;
 
-        // Templated functions
-        template<typename T> Vector findLocalStarPosition( void ) const;
-        // sys...
-        uint32_t ticks;		// global channel ticker
-        QPointer<FITSView> guideView;   // pointer to image
-        int video_width, video_height;	// video frame dimensions
-        double ccd_pixel_width, ccd_pixel_height, aperture, focal;
-        Matrix	ROT_Z;
-        bool preview_mode, suspended, lost_star, dec_swap;
+    // square variables
+    int squareSize;     // size of analysing square
+    int square_alg_idx; // index of threshold algorithm
+    int subBinX, subBinY;
 
-        // square variables
-        int squareSize;	// size of analysing square
-        int square_alg_idx;		// index of threshold algorithm
-        int subBinX,subBinY;
+    // sky coord. system vars.
+    Vector star_pos;     // position of star in reticle coord. system
+    Vector scr_star_pos; // sctreen star position
+    Vector reticle_pos;
+    Vector reticle_orts[2];
+    double reticle_angle;
 
-        // sky coord. system vars.
-        Vector star_pos;	// position of star in reticle coord. system
-        Vector scr_star_pos; // sctreen star position
-        Vector reticle_pos;
-        Vector reticle_orts[2];
-        double reticle_angle;
+    // processing
+    uint32_t channel_ticks[2];
+    uint32_t accum_ticks[2];
+    double *drift[2];
+    double drift_integral[2];
 
-        // processing
-        uint32_t  channel_ticks[2];
-        uint32_t  accum_ticks[2];
-        double * drift[2];
-        double drift_integral[2];
+    // overlays...
+    cproc_in_params in_params;
+    cproc_out_params out_params;
 
-        // overlays...
-        cproc_in_params  in_params;
-        cproc_out_params out_params;
+    // stat math...
+    bool do_statistics;
+    double sum, sqr_sum;
+    double delta_prev, sigma_prev, sigma;
 
-        // stat math...
-        bool do_statistics;
-        double sum, sqr_sum;
-        double delta_prev, sigma_prev, sigma;
+    // proc
+    void do_ticks(void);
+    Vector point2arcsec(const Vector &p) const;
+    void process_axes(void);
+    void calc_square_err(void);
+    const char *get_direction_string(GuideDirection dir);
 
-        // proc
-        void do_ticks( void );
-        Vector point2arcsec( const Vector &p ) const;
-        void process_axes( void );
-        void calc_square_err( void );
-        const char * get_direction_string(GuideDirection dir);
+    // rapid guide
+    bool useRapidGuide = false;
+    double rapidDX, rapidDY;
 
-        // rapid guide
-        bool useRapidGuide=false;
-        double rapidDX, rapidDY;
+    // Image Guide
+    bool imageGuideEnabled = false;
+    // Creates a new float image from the guideView image data. The returned image MUST be deleted later or memory will leak.
+    float *createFloatImage() const;
+    // Partition guideView image into NxN square regions each of size axis*axis. The returned vector contains pointers to
+    // the newly allocated square images. It MUST be deleted later by delete[] or memory will leak.
+    QVector<float *> partitionImage() const;
+    uint32_t regionAxis = 64;
+    QVector<float *> referenceRegions;
 
-        // Image Guide
-        bool imageGuideEnabled=false;
-        // Creates a new float image from the guideView image data. The returned image MUST be deleted later or memory will leak.
-        float * createFloatImage() const;
-        // Partition guideView image into NxN square regions each of size axis*axis. The returned vector contains pointers to
-        // the newly allocated square images. It MUST be deleted later by delete[] or memory will leak.
-        QVector<float*> partitionImage() const;
-        uint32_t regionAxis=64;
-        QVector<float*> referenceRegions;
+    // dithering
+    double ditherRate[2];
 
-        // dithering
-        double ditherRate[2];
-
-        QFile * logFile;
-        QTime logTime;
-
+    QFile *logFile;
+    QTime logTime;
 };
 
 #endif /*GMATH_H_*/

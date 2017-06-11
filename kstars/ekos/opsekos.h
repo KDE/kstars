@@ -26,23 +26,22 @@ class QSqlTableModel;
  */
 class OpsEkos : public QTabWidget, public Ui::OpsEkos
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        explicit OpsEkos();
-        ~OpsEkos();
+  public:
+    explicit OpsEkos();
+    ~OpsEkos();
 
-    private slots:
-        void clearAll();
-        void clearRow();
-        void openDarksFolder();
-        void refreshDarkData();
-        void loadDarkFITS(QModelIndex index);
+  private slots:
+    void clearAll();
+    void clearRow();
+    void openDarksFolder();
+    void refreshDarkData();
+    void loadDarkFITS(QModelIndex index);
 
-    private:
-        KConfigDialog * m_ConfigDialog;
-        QSqlTableModel * darkFramesModel = nullptr;
+  private:
+    KConfigDialog *m_ConfigDialog;
+    QSqlTableModel *darkFramesModel = nullptr;
 };
 
 #endif
-

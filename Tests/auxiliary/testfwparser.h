@@ -24,27 +24,26 @@
 #include "ksparser.h"
 #include "auxiliary/ksfilereader.h"
 
-
-class TestFWParser: public QObject
+class TestFWParser : public QObject
 {
-        Q_OBJECT
-    public:
-        TestFWParser();
-        ~TestFWParser();
-    private slots:
-        void initTestCase();
-        void cleanupTestCase();
-        void MixedInputs();
-        void OnlySpaceRow();
-        void NoRow();
-        void FWReadMissingFile();
+    Q_OBJECT
+  public:
+    TestFWParser();
+    ~TestFWParser();
+  private slots:
+    void initTestCase();
+    void cleanupTestCase();
+    void MixedInputs();
+    void OnlySpaceRow();
+    void NoRow();
+    void FWReadMissingFile();
 
-    private:
-        QStringList test_cases_;
-        QList<int> widths_;
-        QList< QPair<QString, KSParser::DataTypes> > sequence_;
-        QString test_file_name_;
-        KSParser * test_parser_;
+  private:
+    QStringList test_cases_;
+    QList<int> widths_;
+    QList<QPair<QString, KSParser::DataTypes>> sequence_;
+    QString test_file_name_;
+    KSParser *test_parser_;
 };
 
-#endif  // TESTFWPARSER_H
+#endif // TESTFWPARSER_H

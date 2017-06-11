@@ -35,69 +35,70 @@ class KStars;
  */
 class WIEquipSettings : public QFrame, public Ui::WIEquipSettings
 {
-        Q_OBJECT
-    public:
-        /**
+    Q_OBJECT
+  public:
+    /**
          * \enum ScopeRoles User-defined roles for scope item
          */
-        enum ScopeItemRoles { Vendor = Qt::UserRole + 4, Model, Aperture, FocalLength, Type };
+    enum ScopeItemRoles
+    {
+        Vendor = Qt::UserRole + 4,
+        Model,
+        Aperture,
+        FocalLength,
+        Type
+    };
 
-        /**
+    /**
          * \brief Constructor
          */
-        WIEquipSettings();
+    WIEquipSettings();
 
-        /**
+    /**
          * \brief Inline method to return aperture
          */
-        inline double getAperture()
-        {
-            return m_Aperture;
-        }
+    inline double getAperture() { return m_Aperture; }
 
-        /**
+    /**
          * \brief Set aperture to use
          */
-        void setAperture();
+    void setAperture();
 
-        /**
+    /**
          * \brief Inline method to return telescope type
          */
-        inline ObsConditions::TelescopeType getTelType()
-        {
-            return m_TelType;
-        }
+    inline ObsConditions::TelescopeType getTelType() { return m_TelType; }
 
-        /**
+    /**
          * \brief Populates scope list widget in UI with list of telescopes from KStars userdb.
          */
-        void populateScopeListWidget();
+    void populateScopeListWidget();
 
-    private:
-        QList<OAL::Scope *> m_ScopeList;
-        double m_Aperture;                           ///Aperture of equipment to use
-        ObsConditions::TelescopeType m_TelType;      ///Type of telescope being used
+  private:
+    QList<OAL::Scope *> m_ScopeList;
+    double m_Aperture;                      ///Aperture of equipment to use
+    ObsConditions::TelescopeType m_TelType; ///Type of telescope being used
 
-    private slots:
-        /**
+  private slots:
+    /**
          * \brief private slot - Equipment type selected - Telescope
          */
-        void slotTelescopeCheck(bool on);
+    void slotTelescopeCheck(bool on);
 
-        /**
+    /**
          * \brief private slot - Equipment type selected - Binoculars
          */
-        void slotBinocularsCheck(bool on);
+    void slotBinocularsCheck(bool on);
 
-        /**
+    /**
          * \brief private slot - Telescope selected from KStars userdb
          */
-        void slotScopeSelected(int row);
+    void slotScopeSelected(int row);
 
-        /**
+    /**
          * \brief private slot - Add new telescope to KStars userdb
          */
-        void slotAddNewScope();
+    void slotAddNewScope();
 };
 
 #endif

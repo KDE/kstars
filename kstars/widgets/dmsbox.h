@@ -44,50 +44,50 @@
 
 class dmsBox : public QLineEdit
 {
-        Q_OBJECT
-        Q_PROPERTY (bool degType READ degType WRITE setDegType)
+    Q_OBJECT
+    Q_PROPERTY(bool degType READ degType WRITE setDegType)
 
-    public:
-        /**Constructor for the dmsBox object.
+  public:
+    /**Constructor for the dmsBox object.
         	*@param parent pointer to the parent QWidget
         	*@param deg if true use deg/arcmin/arcsec; otherwise
         	*           use hours/min/sec.
         	*/
-        explicit dmsBox(QWidget * parent, bool deg=true);
+    explicit dmsBox(QWidget *parent, bool deg = true);
 
-        /**Destructor (empty)*/
-        ~dmsBox();
+    /**Destructor (empty)*/
+    ~dmsBox();
 
-        /**Display an angle using Hours/Min/Sec.
+    /**Display an angle using Hours/Min/Sec.
         	*@p t the dms object which is to be displayed
         	*/
-        void showInHours(dms t);
-        /**Display an angle using Hours/Min/Sec.  This behaves just
+    void showInHours(dms t);
+    /**Display an angle using Hours/Min/Sec.  This behaves just
         	*like the above function.  It differs only in the data type of
         	*the argument.
         	*@p t pointer to the dms object which is to be displayed
         	*/
-        void showInHours(const dms * t);
+    void showInHours(const dms *t);
 
-        /**Display an angle using Deg/Arcmin/Arcsec.
+    /**Display an angle using Deg/Arcmin/Arcsec.
         	*@p t the dms object which is to be displayed
         	*/
-        void showInDegrees(dms t);
-        /**Display an angle using Deg/Arcmin/Arcsec.  This behaves just
+    void showInDegrees(dms t);
+    /**Display an angle using Deg/Arcmin/Arcsec.  This behaves just
         	*like the above function.  It differs only in the data type of
         	*the argument.
         	*@p t pointer to the dms object which is to be displayed
         	*/
-        void showInDegrees(const dms * t);
+    void showInDegrees(const dms *t);
 
-        /**Display an angle.  Simply calls showInDegrees(t) or
+    /**Display an angle.  Simply calls showInDegrees(t) or
         	*showInHours(t) depending on the value of deg.
         	*@param t the dms object which is to be displayed.
         	*@param deg if true, display Deg/Arcmin/Arcsec; otherwise
         	*display Hours/Min/Sec.
         	*/
-        void show(dms t, bool deg=true);
-        /**Display an angle.  Simply calls showInDegrees(t) or
+    void show(dms t, bool deg = true);
+    /**Display an angle.  Simply calls showInDegrees(t) or
         	*showInHours(t) depending on the value of deg.
         	*This behaves essentially like the above function.  It
         	*differs only in the data type of its argument.
@@ -95,18 +95,15 @@ class dmsBox : public QLineEdit
         	*@param deg if true, display Deg/Arcmin/Arcsec; otherwise
         	*display Hours/Min/Sec.
         	*/
-        void show(const dms * t,bool deg=true);
+    void show(const dms *t, bool deg = true);
 
-        /**Simply display a string.
+    /**Simply display a string.
         	*@note JH: Why don't we just use QLineEdit::setText() instead?
         	*@param s the string to display (it need not be a valid angle value).
         	*/
-        void setDMS(const QString &s)
-        {
-            setText(s);
-        }
+    void setDMS(const QString &s) { setText(s); }
 
-        /**Parse the text in the dmsBox as an angle.  The text may be an integer
+    /**Parse the text in the dmsBox as an angle.  The text may be an integer
         	*or double value, or it may be a triplet of integer values (separated by spaces
         	*or colons) representing deg/hrs, min, sec.  It is also possible to have two
         	*fields.  In this case, if the second field is a double, it is converted
@@ -116,45 +113,36 @@ class dmsBox : public QLineEdit
         	*@param ok set to true if a dms object was succedssfully created.
         	*@return a dms object constructed from the fields of the dmsbox
         	*/
-        dms createDms(bool deg=true, bool * ok=0);
+    dms createDms(bool deg = true, bool *ok = 0);
 
-        /** @return a boolean indicating if object contains degrees or hours
+    /** @return a boolean indicating if object contains degrees or hours
         	*/
-        bool degType(void) const
-        {
-            return deg;
-        }
+    bool degType(void) const { return deg; }
 
-        /** @short set the dmsBox to Degrees or Hours
+    /** @short set the dmsBox to Degrees or Hours
         	*@param t if true, the box expects angle values in degrees; otherwise
         	*it expects values in hours
         	*/
-        void setDegType( bool t );
+    void setDegType(bool t);
 
-        /**Clears the QLineEdit
+    /**Clears the QLineEdit
         	*/
-        void clearFields (void)
-        {
-            setDMS(QString());
-        }
+    void clearFields(void) { setDMS(QString()); }
 
-        inline bool isEmpty()
-        {
-            return EmptyFlag;
-        }
+    inline bool isEmpty() { return EmptyFlag; }
 
-    protected:
-        void focusInEvent( QFocusEvent * e ) Q_DECL_OVERRIDE;
-        void focusOutEvent( QFocusEvent * e ) Q_DECL_OVERRIDE;
+  protected:
+    void focusInEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
+    void focusOutEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
 
-    private slots:
-        void slotTextChanged( const QString &t );
+  private slots:
+    void slotTextChanged(const QString &t);
 
-    private:
-        void setEmptyText();
+  private:
+    void setEmptyText();
 
-        bool deg, EmptyFlag;
-        dms degValue;
+    bool deg, EmptyFlag;
+    dms degValue;
 };
 
 #endif

@@ -26,20 +26,18 @@
 
 #include "fitsviewer/fitsdata.h"
 
-#define JOB_RETRY_DURATION      2000 /* 2000 ms */
-#define JOB_RETRY_ATTEMPTS      90
-#define SOLVER_RETRY_DURATION   2000 /* 2000 ms */
-#define SOLVER_RETRY_ATTEMPTS   90
-#define INVALID_VALUE           -1000
+#define JOB_RETRY_DURATION    2000 /* 2000 ms */
+#define JOB_RETRY_ATTEMPTS    90
+#define SOLVER_RETRY_DURATION 2000 /* 2000 ms */
+#define SOLVER_RETRY_ATTEMPTS 90
+#define INVALID_VALUE         -1000
 
 namespace Ekos
 {
-
-
 OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
 {
-    job_retries=0;
-    solver_retries=0;
+    job_retries    = 0;
+    solver_retries = 0;
 
     networkManager = new QNetworkAccessManager(this);
 
@@ -49,18 +47,14 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     connect(this, SIGNAL(jobFinished()), this, SLOT(checkJobCalibration()));
 
     // Reset parity on solver failure
-    connect(this, &OnlineAstrometryParser::solverFailed, this, [&]()
-    {
-        parity = INVALID_VALUE;
-    });
+    connect(this, &OnlineAstrometryParser::solverFailed, this, [&]() { parity = INVALID_VALUE; });
 
     connect(this, SIGNAL(solverFailed()), this, SLOT(resetSolver()));
-    connect(this, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(resetSolver()));
+    connect(this, SIGNAL(solverFinished(double, double, double, double)), this, SLOT(resetSolver()));
 
     downsample_factor = 0;
-    parity=INVALID_VALUE;
-    isGenerated = true;
-
+    parity            = INVALID_VALUE;
+    isGenerated       = true;
 }
 
 OnlineAstrometryParser::~OnlineAstrometryParser()
@@ -84,7 +78,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
 
     isGenerated = generated;
 
-    job_retries=0;
+    job_retries = 0;
 
     if (networkManager->networkAccessible() == false)
     {
@@ -94,29 +88,29 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
     }
 
     // Reset params
-    center_ra=center_dec=downsample_factor=lowerScale=upperScale=INVALID_VALUE;
+    center_ra = center_dec = downsample_factor = lowerScale = upperScale = INVALID_VALUE;
     units.clear();
-    useWCSCenter=false;
+    useWCSCenter = false;
 
     filename = in_filename;
 
-    for (int i=0; i < args.count(); i++)
+    for (int i = 0; i < args.count(); i++)
     {
         if (args[i] == "-L")
-            lowerScale = args[i+1].toDouble(&ok);
+            lowerScale = args[i + 1].toDouble(&ok);
         else if (args[i] == "-H")
-            upperScale = args[i+1].toDouble(&ok);
+            upperScale = args[i + 1].toDouble(&ok);
         else if (args[i] == "-3")
-            center_ra = args[i+1].toDouble(&ok);
+            center_ra = args[i + 1].toDouble(&ok);
         else if (args[i] == "-4")
-            center_dec = args[i+1].toDouble(&ok);
+            center_dec = args[i + 1].toDouble(&ok);
         else if (args[i] == "-5")
-            radius = args[i+1].toDouble(&ok);
+            radius = args[i + 1].toDouble(&ok);
         else if (args[i] == "--downsample")
-            downsample_factor = args[i+1].toInt(&ok);
+            downsample_factor = args[i + 1].toInt(&ok);
         else if (args[i] == "-u")
         {
-            QString unitType = args[i+1];
+            QString unitType = args[i + 1];
             if (unitType == "aw")
                 units = "arcminwidth";
             else if (unitType == "dw")
@@ -128,7 +122,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
             useWCSCenter = true;
         else if (args[i] == "--parity")
         {
-            QString arg = args[i+1];
+            QString arg = args[i + 1];
             if (arg == "both")
                 parity = 2;
             else if (arg == "pos")
@@ -147,7 +141,6 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
     else
         uploadFile();
 
-
     return true;
 }
 
@@ -158,9 +151,8 @@ void OnlineAstrometryParser::resetSolver()
 
 bool OnlineAstrometryParser::stopSolver()
 {
-
-    workflowStage = NO_STAGE;
-    solver_retries=0;
+    workflowStage  = NO_STAGE;
+    solver_retries = 0;
 
     disconnect(networkManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onResult(QNetworkReply *)));
 
@@ -194,8 +186,8 @@ void OnlineAstrometryParser::uploadFile()
 {
     QNetworkRequest request;
 
-    QFile * fitsFile = new QFile(filename);
-    bool rc = fitsFile->open(QIODevice::ReadOnly);
+    QFile *fitsFile = new QFile(filename);
+    bool rc         = fitsFile->open(QIODevice::ReadOnly);
     if (rc == false)
     {
         align->appendLogText(i18n("Failed to open file %1. %2", filename, fitsFile->errorString()));
@@ -208,7 +200,7 @@ void OnlineAstrometryParser::uploadFile()
     url.setPath("/api/upload");
     request.setUrl(url);
 
-    QHttpMultiPart * reqEntity = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+    QHttpMultiPart *reqEntity = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
     QVariantMap uploadReq;
     uploadReq.insert("publicly_visible", "n");
@@ -241,7 +233,8 @@ void OnlineAstrometryParser::uploadFile()
 
     // If we have parity and option is valid and this is NOT a blind solve (if ra or units exist then it is not a blind solve)
     // then we send parity
-    if (Options::astrometryDetectParity() && parity != INVALID_VALUE && (center_ra != INVALID_VALUE || units.isEmpty() == false))
+    if (Options::astrometryDetectParity() && parity != INVALID_VALUE &&
+        (center_ra != INVALID_VALUE || units.isEmpty() == false))
         uploadReq.insert("parity", parity);
 
     QJsonObject json = QJsonObject::fromVariantMap(uploadReq);
@@ -255,8 +248,9 @@ void OnlineAstrometryParser::uploadFile()
 
     QHttpPart filePart;
 
-    filePart.setHeader(QNetworkRequest::ContentTypeHeader,"application/octet-stream");
-    filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QString("form-data; name=\"file\"; filename=\"%1\"").arg(filename));
+    filePart.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
+    filePart.setHeader(QNetworkRequest::ContentDispositionHeader,
+                       QString("form-data; name=\"file\"; filename=\"%1\"").arg(filename));
     filePart.setBodyDevice(fitsFile);
 
     // Re-parent so that it get deleted later
@@ -269,7 +263,7 @@ void OnlineAstrometryParser::uploadFile()
 
     align->appendLogText(i18n("Uploading file..."));
 
-    QNetworkReply * reply = networkManager->post(request, reqEntity);
+    QNetworkReply *reply = networkManager->post(request, reqEntity);
 
     // The entity should be deleted when reply is finished
     reqEntity->setParent(reply);
@@ -299,12 +293,10 @@ void OnlineAstrometryParser::checkJobs()
     workflowStage = JOB_STATUS_STAGE;
 
     networkManager->get(request);
-
 }
 
 void OnlineAstrometryParser::checkJobCalibration()
 {
-
     QNetworkRequest request;
     QUrl getCablirationResult = QUrl(QString("%1/api/jobs/%2/calibration").arg(Options::astrometryAPIURL()).arg(jobID));
 
@@ -315,7 +307,7 @@ void OnlineAstrometryParser::checkJobCalibration()
     networkManager->get(request);
 }
 
-void OnlineAstrometryParser::onResult(QNetworkReply * reply)
+void OnlineAstrometryParser::onResult(QNetworkReply *reply)
 {
     bool ok;
     QJsonParseError parseError;
@@ -336,7 +328,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply * reply)
         return;
     }
 
-    QString json = (QString) reply->readAll();
+    QString json = (QString)reply->readAll();
 
     QJsonDocument json_doc = QJsonDocument::fromJson(json.toUtf8(), &parseError);
 
@@ -348,7 +340,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply * reply)
     }
 
     QVariant json_result = json_doc.toVariant();
-    QVariantMap result = json_result.toMap();
+    QVariantMap result   = json_result.toMap();
 
     if (Options::astrometrySolverVerbose())
         align->appendLogText(json_doc.toJson(QJsonDocument::Compact));
@@ -359,7 +351,8 @@ void OnlineAstrometryParser::onResult(QNetworkReply * reply)
             status = result["status"].toString();
             if (status != "success")
             {
-                align->appendLogText(i18n("Astrometry.net authentication failed. Check the validity of the Astrometry.net API Key."));
+                align->appendLogText(
+                    i18n("Astrometry.net authentication failed. Check the validity of the Astrometry.net API Key."));
                 emit solverFailed();
                 return;
             }
@@ -419,8 +412,8 @@ void OnlineAstrometryParser::onResult(QNetworkReply * reply)
                 }
             }
 
-            job_retries=0;
-            emit  jobIDFinished();
+            job_retries = 0;
+            emit jobIDFinished();
             break;
 
         case JOB_STATUS_STAGE:
@@ -437,15 +430,16 @@ void OnlineAstrometryParser::onResult(QNetworkReply * reply)
                 else
                 {
                     align->appendLogText(i18n("Solver timed out."));
-                    solver_retries=0;
+                    solver_retries = 0;
                     emit solverFailed();
                     return;
                 }
             }
             else if (status == "failure")
             {
-                elapsed = (int) round(solverTimer.elapsed()/1000.0);
-                align->appendLogText(i18np("Solver failed after %1 second.", "Solver failed after %1 seconds.", elapsed));
+                elapsed = (int)round(solverTimer.elapsed() / 1000.0);
+                align->appendLogText(
+                    i18np("Solver failed after %1 second.", "Solver failed after %1 seconds.", elapsed));
                 emit solverFailed();
                 return;
             }
@@ -467,7 +461,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply * reply)
                 return;
             }
             orientation *= parity;
-            ra  = result["ra"].toDouble(&ok);
+            ra = result["ra"].toDouble(&ok);
             if (ok == false)
             {
                 align->appendLogText(i18n("Error parsing RA."));
@@ -490,7 +484,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply * reply)
                 return;
             }
 
-            elapsed = (int) round(solverTimer.elapsed()/1000.0);
+            elapsed = (int)round(solverTimer.elapsed() / 1000.0);
             align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
             emit solverFinished(orientation, ra, dec, pixscale);
 
@@ -499,7 +493,5 @@ void OnlineAstrometryParser::onResult(QNetworkReply * reply)
         default:
             break;
     }
-
 }
-
 }

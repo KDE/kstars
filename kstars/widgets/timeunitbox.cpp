@@ -17,7 +17,6 @@
 
 #include "timeunitbox.h"
 
-
 #include <cstdlib>
 
 #include <QToolButton>
@@ -25,44 +24,42 @@
 
 #include <QDebug>
 
-TimeUnitBox::TimeUnitBox(QWidget * parent, bool daysonly )
-    : QWidget( parent )
+TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly) : QWidget(parent)
 {
-
-    QVBoxLayout * vlay = new QVBoxLayout(this);
+    QVBoxLayout *vlay = new QVBoxLayout(this);
     vlay->setMargin(0);
     vlay->setSpacing(0);
 
-    UpButton = new QToolButton( this );
-    UpButton->setArrowType( Qt::UpArrow );
-    UpButton->setMaximumWidth( 26 );
-    UpButton->setMaximumHeight( 13 );
+    UpButton = new QToolButton(this);
+    UpButton->setArrowType(Qt::UpArrow);
+    UpButton->setMaximumWidth(26);
+    UpButton->setMaximumHeight(13);
 
-    DownButton = new QToolButton( this );
-    DownButton->setArrowType( Qt::DownArrow );
-    DownButton->setMaximumWidth( 26 );
-    DownButton->setMaximumHeight( 13 );
+    DownButton = new QToolButton(this);
+    DownButton->setArrowType(Qt::DownArrow);
+    DownButton->setMaximumWidth(26);
+    DownButton->setMaximumHeight(13);
 
-    vlay->addWidget( UpButton );
-    vlay->addWidget( DownButton );
+    vlay->addWidget(UpButton);
+    vlay->addWidget(DownButton);
 
-    setDaysOnly( daysonly );
+    setDaysOnly(daysonly);
 
-    connect( UpButton, SIGNAL( clicked() ), this, SLOT( increase() ) );
-    connect( DownButton, SIGNAL( clicked() ), this, SLOT( decrease() ) );
+    connect(UpButton, SIGNAL(clicked()), this, SLOT(increase()));
+    connect(DownButton, SIGNAL(clicked()), this, SLOT(decrease()));
 }
 
 TimeUnitBox::~TimeUnitBox()
 {
 }
 
-void TimeUnitBox::setDaysOnly( bool daysonly )
+void TimeUnitBox::setDaysOnly(bool daysonly)
 {
-    if ( daysonly )
+    if (daysonly)
     {
-        setMinimum( 1-DAYUNITS );
-        setMaximum( DAYUNITS-1 );
-        setValue( 1 ); // Start out with days units
+        setMinimum(1 - DAYUNITS);
+        setMaximum(DAYUNITS - 1);
+        setValue(1); // Start out with days units
 
         UnitStep[0] = 0;
         UnitStep[1] = 1;
@@ -72,9 +69,9 @@ void TimeUnitBox::setDaysOnly( bool daysonly )
     }
     else
     {
-        setMinimum( 1-ALLUNITS );
-        setMaximum( ALLUNITS-1 );
-        setValue( 1 ); // Start out with seconds units
+        setMinimum(1 - ALLUNITS);
+        setMaximum(ALLUNITS - 1);
+        setValue(1); // Start out with seconds units
 
         UnitStep[0] = 0;
         UnitStep[1] = 4;
@@ -89,32 +86,36 @@ void TimeUnitBox::setDaysOnly( bool daysonly )
 
 void TimeUnitBox::increase()
 {
-    if ( value() < maxValue() )
+    if (value() < maxValue())
     {
-        setValue( value()+1 );
-        emit valueChanged( value() );
+        setValue(value() + 1);
+        emit valueChanged(value());
     }
 }
 
 void TimeUnitBox::decrease()
 {
-    if ( value() > minValue() )
+    if (value() > minValue())
     {
-        setValue( value()-1 );
-        emit valueChanged( value() );
+        setValue(value() - 1);
+        emit valueChanged(value());
     }
 }
 
 int TimeUnitBox::unitValue()
 {
     int uval;
-    if ( value() >= 0 ) uval = UnitStep[ value() ];
-    else uval = -1*UnitStep[ abs( value() ) ];
+    if (value() >= 0)
+        uval = UnitStep[value()];
+    else
+        uval = -1 * UnitStep[abs(value())];
     return uval;
 }
 
-int TimeUnitBox::getUnitValue( int val )
+int TimeUnitBox::getUnitValue(int val)
 {
-    if ( val >= 0 ) return UnitStep[ val ];
-    else return -1*UnitStep[ abs( val ) ];
+    if (val >= 0)
+        return UnitStep[val];
+    else
+        return -1 * UnitStep[abs(val)];
 }
