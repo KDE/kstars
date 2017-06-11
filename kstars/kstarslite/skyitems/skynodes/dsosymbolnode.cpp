@@ -28,32 +28,31 @@
 
 void SymbolNode::updateSymbol(float x, float y, float e, float size)
 {
-    zoom = Options::zoomFactor();
-    x = 0;
-    y = 0;
+    zoom  = Options::zoomFactor();
+    x     = 0;
+    y     = 0;
     isize = int(size);
 
-    dx1 = -0.5*size;
-    dx2 =  0.5*size;
-    dy1 = -1.0*e*size/2.;
-    dy2 = e*size/2.;
-    x1 = x + dx1;
-    x2 = x + dx2;
-    y1 = y + dy1;
-    y2 = y + dy2;
+    dx1 = -0.5 * size;
+    dx2 = 0.5 * size;
+    dy1 = -1.0 * e * size / 2.;
+    dy2 = e * size / 2.;
+    x1  = x + dx1;
+    x2  = x + dx2;
+    y1  = y + dy1;
+    y2  = y + dy2;
 
-    dxa = -size/4.;
-    dxb =  size/4.;
-    dya = -1.0*e*size/4.;
-    dyb = e*size/4.;
-    xa = x + dxa;
-    xb = x + dxb;
-    ya = y + dya;
-    yb = y + dyb;
+    dxa = -size / 4.;
+    dxb = size / 4.;
+    dya = -1.0 * e * size / 4.;
+    dyb = e * size / 4.;
+    xa  = x + dxa;
+    xb  = x + dxb;
+    ya  = y + dya;
+    yb  = y + dyb;
 }
 
-StarSymbol::StarSymbol(QColor color)
-    :m_ellipse(new EllipseNode(color))
+StarSymbol::StarSymbol(QColor color) : m_ellipse(new EllipseNode(color))
 {
     appendChildNode(m_ellipse);
 }
@@ -61,11 +60,12 @@ StarSymbol::StarSymbol(QColor color)
 void StarSymbol::updateSymbol(float x, float y, float e, float size)
 {
     SymbolNode::updateSymbol(x, y, e, size);
-    if (size<2.) size = 2.;
-    if ( Options::useAntialias() )
-        m_ellipse->updateGeometry(0, 0, size, e*size, false);
+    if (size < 2.)
+        size = 2.;
+    if (Options::useAntialias())
+        m_ellipse->updateGeometry(0, 0, size, e * size, false);
     else
-        m_ellipse->updateGeometry(0, 0, int(size/2), int(size/2), false);
+        m_ellipse->updateGeometry(0, 0, int(size / 2), int(size / 2), false);
 }
 
 AsterismSymbol::AsterismSymbol(QColor color)
@@ -92,8 +92,10 @@ void AsterismSymbol::updateSymbol(float x, float y, float e, float size)
 {
     SymbolNode::updateSymbol(x, y, e, size);
     psize = 2.;
-    if ( size > 50. )  psize *= 2.;
-    if ( size > 100. ) psize *= 2.;
+    if (size > 50.)
+        psize *= 2.;
+    if (size > 100.)
+        psize *= 2.;
 
     e1->updateGeometry(xa, y1, psize, psize, true);
     e2->updateGeometry(xb, y1, psize, psize, true);
@@ -105,22 +107,21 @@ void AsterismSymbol::updateSymbol(float x, float y, float e, float size)
     e8->updateGeometry(x2, yb, psize, psize, true);
 }
 
-GlobularClusterSymbol::GlobularClusterSymbol(QColor color)
-    :e1(new EllipseNode(color))
+GlobularClusterSymbol::GlobularClusterSymbol(QColor color) : e1(new EllipseNode(color))
 {
     appendChildNode(e1);
 
     lines = new QSGGeometryNode;
     appendChildNode(lines);
 
-    QSGGeometry * geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(),0);
+    QSGGeometry *geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     geometry->setDrawingMode(GL_LINES);
     geometry->allocate(4);
 
     lines->setGeometry(geometry);
     lines->setFlag(QSGNode::OwnsGeometry);
 
-    QSGFlatColorMaterial * material = new QSGFlatColorMaterial;
+    QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
     material->setColor(color);
     lines->setOpaqueMaterial(material);
     lines->setFlag(QSGNode::OwnsMaterial);
@@ -130,10 +131,11 @@ void GlobularClusterSymbol::updateSymbol(float x, float y, float e, float size)
 {
     SymbolNode::updateSymbol(x, y, e, size);
 
-    if (size<2.) size = 2.;
-    e1->updateGeometry(0, 0, size, e*size, false);
+    if (size < 2.)
+        size = 2.;
+    e1->updateGeometry(0, 0, size, e * size, false);
 
-    QSGGeometry::Point2D * vertex = lines->geometry()->vertexDataAsPoint2D();
+    QSGGeometry::Point2D *vertex = lines->geometry()->vertexDataAsPoint2D();
     //First line
     vertex[0].set(dx1, 0);
     vertex[1].set(dx2, 0);
@@ -150,14 +152,14 @@ DarkNebulaSymbol::DarkNebulaSymbol(QColor color)
     lines = new QSGGeometryNode;
     appendChildNode(lines);
 
-    QSGGeometry * geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(),0);
+    QSGGeometry *geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     geometry->setDrawingMode(GL_LINES);
     geometry->allocate(8);
 
     lines->setGeometry(geometry);
     lines->setFlag(QSGNode::OwnsGeometry);
 
-    QSGFlatColorMaterial * material = new QSGFlatColorMaterial;
+    QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
     material->setColor(color);
     lines->setOpaqueMaterial(material);
     lines->setFlag(QSGNode::OwnsMaterial);
@@ -167,9 +169,10 @@ void DarkNebulaSymbol::updateSymbol(float x, float y, float e, float size)
 {
     SymbolNode::updateSymbol(x, y, e, size);
 
-    if (size<2.) size = 2.;
+    if (size < 2.)
+        size = 2.;
 
-    QSGGeometry::Point2D * vertex = lines->geometry()->vertexDataAsPoint2D();
+    QSGGeometry::Point2D *vertex = lines->geometry()->vertexDataAsPoint2D();
     //First line
     vertex[0].set(dx1, dy1);
     vertex[1].set(dx2, dy1);
@@ -197,14 +200,14 @@ PlanetaryNebulaSymbol::PlanetaryNebulaSymbol(QColor color)
     lines = new QSGGeometryNode;
     appendChildNode(lines);
 
-    QSGGeometry * geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(),0);
+    QSGGeometry *geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     geometry->setDrawingMode(GL_LINES);
     geometry->allocate(8);
 
     lines->setGeometry(geometry);
     lines->setFlag(QSGNode::OwnsGeometry);
 
-    QSGFlatColorMaterial * material = new QSGFlatColorMaterial;
+    QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
     material->setColor(color);
     lines->setOpaqueMaterial(material);
     lines->setFlag(QSGNode::OwnsMaterial);
@@ -214,28 +217,27 @@ void PlanetaryNebulaSymbol::updateSymbol(float x, float y, float e, float size)
 {
     SymbolNode::updateSymbol(x, y, e, size);
 
-    if (size<2.) size = 2.;
+    if (size < 2.)
+        size = 2.;
 
-    e1->updateGeometry(0, 0, size, e*size, false);
+    e1->updateGeometry(0, 0, size, e * size, false);
 
-
-
-    QSGGeometry::Point2D * vertex = lines->geometry()->vertexDataAsPoint2D();
+    QSGGeometry::Point2D *vertex = lines->geometry()->vertexDataAsPoint2D();
     //First line
     vertex[0].set(0., dy1);
-    vertex[1].set(0., dy1 - e*size/2. );
+    vertex[1].set(0., dy1 - e * size / 2.);
 
     //Second line
     vertex[2].set(0., dy2);
-    vertex[3].set(0., dy2 + e*size/2.);
+    vertex[3].set(0., dy2 + e * size / 2.);
 
     //Third line
     vertex[4].set(dx1, 0.);
-    vertex[5].set(dx1 - size/2., 0.);
+    vertex[5].set(dx1 - size / 2., 0.);
 
     //Fourth line
     vertex[6].set(dx2, 0.);
-    vertex[7].set(dx2 + size/2., 0.);
+    vertex[7].set(dx2 + size / 2., 0.);
 
     lines->markDirty(QSGNode::DirtyGeometry);
 }
@@ -245,14 +247,14 @@ SupernovaRemnantSymbol::SupernovaRemnantSymbol(QColor color)
     lines = new QSGGeometryNode;
     appendChildNode(lines);
 
-    QSGGeometry * geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(),0);
+    QSGGeometry *geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     geometry->setDrawingMode(GL_LINES);
     geometry->allocate(8);
 
     lines->setGeometry(geometry);
     lines->setFlag(QSGNode::OwnsGeometry);
 
-    QSGFlatColorMaterial * material = new QSGFlatColorMaterial;
+    QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
     material->setColor(color);
     lines->setOpaqueMaterial(material);
     lines->setFlag(QSGNode::OwnsMaterial);
@@ -261,12 +263,13 @@ SupernovaRemnantSymbol::SupernovaRemnantSymbol(QColor color)
 void SupernovaRemnantSymbol::updateSymbol(float x, float y, float e, float size)
 {
     SymbolNode::updateSymbol(x, y, e, size);
-    if (size<2.) size = 2.;
+    if (size < 2.)
+        size = 2.;
 
-    QSGGeometry::Point2D * vertex = lines->geometry()->vertexDataAsPoint2D();
+    QSGGeometry::Point2D *vertex = lines->geometry()->vertexDataAsPoint2D();
     //First line
     vertex[0].set(0., dy1);
-    vertex[1].set(dx2, 0. );
+    vertex[1].set(dx2, 0.);
 
     //Second line
     vertex[2].set(dx2, 0.);
@@ -283,8 +286,7 @@ void SupernovaRemnantSymbol::updateSymbol(float x, float y, float e, float size)
     lines->markDirty(QSGNode::DirtyGeometry);
 }
 
-GalaxySymbol::GalaxySymbol(QColor color)
-    :e1(new EllipseNode(color))
+GalaxySymbol::GalaxySymbol(QColor color) : e1(new EllipseNode(color))
 {
     appendChildNode(e1);
 }
@@ -293,29 +295,30 @@ void GalaxySymbol::updateSymbol(float x, float y, float e, float size)
 {
     SymbolNode::updateSymbol(x, y, e, size);
 
-    if ( size <1. && zoom > 20*MINZOOM ) size = 3.; //force ellipse above zoomFactor 20
-    if ( size <1. && zoom > 5*MINZOOM ) size = 1.; //force points above zoomFactor 5
-    if ( size>2. )
+    if (size < 1. && zoom > 20 * MINZOOM)
+        size = 3.; //force ellipse above zoomFactor 20
+    if (size < 1. && zoom > 5 * MINZOOM)
+        size = 1.; //force points above zoomFactor 5
+    if (size > 2.)
     {
-        e1->updateGeometry(0,0,size,e*size,false);
+        e1->updateGeometry(0, 0, size, e * size, false);
     }
-    else if ( size>0. )
+    else if (size > 0.)
     {
-        e1->updateGeometry(0,0,1,1,false);
+        e1->updateGeometry(0, 0, 1, 1, false);
     }
 }
 
-GalaxyClusterSymbol::GalaxyClusterSymbol(QColor color)
-    :lines(new QSGGeometryNode)
+GalaxyClusterSymbol::GalaxyClusterSymbol(QColor color) : lines(new QSGGeometryNode)
 {
-    QSGGeometry * geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(),0);
+    QSGGeometry *geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     geometry->setDrawingMode(GL_LINES);
     geometry->allocate(32);
 
     lines->setGeometry(geometry);
     lines->setFlag(QSGNode::OwnsGeometry);
 
-    QSGFlatColorMaterial * material = new QSGFlatColorMaterial;
+    QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
     material->setColor(color);
     lines->setOpaqueMaterial(material);
     lines->setFlag(QSGNode::OwnsMaterial);
@@ -328,12 +331,13 @@ void GalaxyClusterSymbol::updateSymbol(float x, float y, float e, float size)
     SymbolNode::updateSymbol(x, y, e, size);
 
     psize = 1.;
-    if ( size > 50. )  psize *= 2.;
+    if (size > 50.)
+        psize *= 2.;
 
-    QSGGeometry::Point2D * vertex = lines->geometry()->vertexDataAsPoint2D();
+    QSGGeometry::Point2D *vertex = lines->geometry()->vertexDataAsPoint2D();
 
     vertex[0].set(xa - psize, y1);
-    vertex[1].set(xa + psize, y1 );
+    vertex[1].set(xa + psize, y1);
     vertex[2].set(xa, y1 - psize);
     vertex[3].set(xa, y1 + psize);
     vertex[4].set(xb - psize, y1);
@@ -341,7 +345,7 @@ void GalaxyClusterSymbol::updateSymbol(float x, float y, float e, float size)
     vertex[6].set(xb, y1 - psize);
     vertex[7].set(xb, y1 + psize);
     vertex[8].set(xa - psize, y2);
-    vertex[9].set(xa + psize, y2 );
+    vertex[9].set(xa + psize, y2);
     vertex[10].set(xa, y2 - psize);
     vertex[11].set(xa, y2 + psize);
     vertex[12].set(xb - psize, y2);
@@ -366,28 +370,26 @@ void GalaxyClusterSymbol::updateSymbol(float x, float y, float e, float size)
     vertex[31].set(x2, yb + psize);
 
     lines->markDirty(QSGNode::DirtyGeometry);
-
 }
 
-DSOSymbolNode::DSOSymbolNode(DeepSkyObject * skyObject, QColor color)
-    :m_dso(skyObject), m_symbol(0), m_rotate(false), m_color(color) //We don't rotate the symbol by default
+DSOSymbolNode::DSOSymbolNode(DeepSkyObject *skyObject, QColor color)
+    : m_dso(skyObject), m_symbol(0), m_rotate(false), m_color(color) //We don't rotate the symbol by default
 {
-
 }
 
 void DSOSymbolNode::initSymbol()
 {
-    if(!m_symbol)
+    if (!m_symbol)
     {
         int type = m_dso->type();
-        switch ( type )
+        switch (type)
         {
             case 0:
             case 1:
                 //catalog star
                 m_symbol = new StarSymbol(m_color);
                 break;
-            case 3: //Open cluster; draw circle of points
+            case 3:  //Open cluster; draw circle of points
             case 13: // Asterism
                 m_symbol = new AsterismSymbol(m_color);
                 break;
@@ -395,7 +397,7 @@ void DSOSymbolNode::initSymbol()
                 m_symbol = new GlobularClusterSymbol(m_color);
                 m_rotate = true;
                 break;
-            case 5: //Gaseous Nebula
+            case 5:  //Gaseous Nebula
             case 15: // Dark Nebula
                 m_symbol = new DarkNebulaSymbol(m_color);
                 m_rotate = true;
@@ -408,7 +410,7 @@ void DSOSymbolNode::initSymbol()
                 m_symbol = new SupernovaRemnantSymbol(m_color);
                 m_rotate = true;
                 break;
-            case 8: //Galaxy
+            case 8:  //Galaxy
             case 16: // Quasar
                 m_symbol = new GalaxySymbol(m_color);
                 m_rotate = true;
@@ -420,18 +422,16 @@ void DSOSymbolNode::initSymbol()
             default:
                 break;
         }
-        if(m_symbol) addChildNode(m_symbol);
+        if (m_symbol)
+            addChildNode(m_symbol);
     }
 }
 
 void DSOSymbolNode::changePos(const QPointF &pos, float positionangle)
 {
-    QMatrix4x4 m (1,0,0,pos.x(),
-                  0,1,0,pos.y(),
-                  0,0,1,0,
-                  0,0,0,1);
+    QMatrix4x4 m(1, 0, 0, pos.x(), 0, 1, 0, pos.y(), 0, 0, 1, 0, 0, 0, 0, 1);
     //FIXME: this is probably incorrect (inherited from drawDeepSkyImage())
-    if(m_rotate)
+    if (m_rotate)
     {
         m.rotate(positionangle, 0, 0, 1);
     }
@@ -440,12 +440,11 @@ void DSOSymbolNode::changePos(const QPointF &pos, float positionangle)
     markDirty(QSGNode::DirtyMatrix);
 }
 
-
 void DSOSymbolNode::update(float size, const QPointF &pos, float positionangle)
 {
     initSymbol();
 
-    if(m_symbol)
+    if (m_symbol)
     {
         m_symbol->updateSymbol(pos.x(), pos.y(), m_dso->e(), size);
         show();

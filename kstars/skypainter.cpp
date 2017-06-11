@@ -32,15 +32,13 @@
 #include "skyobjects/trailobject.h"
 #include "skyobjects/constellationsart.h"
 
-SkyPainter::SkyPainter()
-    : m_sizeMagLim(10.)
+SkyPainter::SkyPainter() : m_sizeMagLim(10.)
 {
     m_sm = SkyMap::Instance();
 }
 
 SkyPainter::~SkyPainter()
 {
-
 }
 
 void SkyPainter::setSizeMagLimit(float sizeMagLim)
@@ -54,15 +52,16 @@ float SkyPainter::starWidth(float mag) const
     const double maxSize = 10.0;
 
     double lgmin = log10(MINZOOM);
-//    double lgmax = log10(MAXZOOM);
+    //    double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
 
     float sizeFactor = maxSize + (lgz - lgmin);
 
-    float size = ( sizeFactor*( m_sizeMagLim - mag ) / m_sizeMagLim ) + 1.;
-    if( size <= 1.0 ) size = 1.0;
-    if( size > maxSize ) size = maxSize;
+    float size = (sizeFactor * (m_sizeMagLim - mag) / m_sizeMagLim) + 1.;
+    if (size <= 1.0)
+        size = 1.0;
+    if (size > maxSize)
+        size = maxSize;
 
     return size;
 }
-

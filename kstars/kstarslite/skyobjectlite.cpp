@@ -19,10 +19,10 @@ SkyObjectLite::SkyObjectLite() : SkyPointLite(), object(nullptr)
 {
 }
 
-void SkyObjectLite::setObject(SkyObject * obj)
+void SkyObjectLite::setObject(SkyObject *obj)
 {
     object = obj;
-    if(obj)
+    if (obj)
     {
         setPoint(obj);
         emit translatedNameChanged(obj->translatedName());
@@ -31,7 +31,7 @@ void SkyObjectLite::setObject(SkyObject * obj)
 
 QString SkyObjectLite::getTranslatedName()
 {
-    if(object)
+    if (object)
     {
         return object->translatedName();
     }
@@ -40,5 +40,3 @@ QString SkyObjectLite::getTranslatedName()
         return "";
     }
 }
-
-

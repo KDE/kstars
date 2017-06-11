@@ -19,8 +19,7 @@
 
 #include "stereographicprojector.h"
 
-StereographicProjector::StereographicProjector(const ViewParams &p)
-    : Projector(p)
+StereographicProjector::StereographicProjector(const ViewParams &p) : Projector(p)
 {
     updateClipPoly();
 }
@@ -37,10 +36,10 @@ double StereographicProjector::radius() const
 
 double StereographicProjector::projectionK(double x) const
 {
-    return 2.0/(1.0 + x);
+    return 2.0 / (1.0 + x);
 }
 
 double StereographicProjector::projectionL(double x) const
 {
-    return 2.0*atan2( x, 2.0 );
+    return 2.0 * atan2(x, 2.0);
 }

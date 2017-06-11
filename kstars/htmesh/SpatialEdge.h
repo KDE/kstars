@@ -20,7 +20,6 @@
 
 #include "SpatialIndex.h"
 
-
 // Forward declarations
 class SpatialIndex;
 
@@ -42,48 +41,48 @@ class SpatialIndex;
 
 class LINKAGE SpatialEdge
 {
-    public:
-        // Constructor : give the tree and its layer
-        SpatialEdge(SpatialIndex &tree, size_t layerindex);
+  public:
+    // Constructor : give the tree and its layer
+    SpatialEdge(SpatialIndex &tree, size_t layerindex);
 
-        // Destructor
-        ~SpatialEdge();
+    // Destructor
+    ~SpatialEdge();
 
-        // Interface to class: generate midpoints.
-        void makeMidPoints();
+    // Interface to class: generate midpoints.
+    void makeMidPoints();
 
-    private:
-        struct Edge
-        {
-            size_t	start_;		// starting vertex index of edge
-            size_t	end_;		// index of end
-            size_t 	mid_;		// index of center
-        };
+  private:
+    struct Edge
+    {
+        size_t start_; // starting vertex index of edge
+        size_t end_;   // index of end
+        size_t mid_;   // index of center
+    };
 
-        // Make a new edge, in the temporary edges_ at emindex, at node_[index]
-        // using the k'th side. Since every edge belongs to two faces, we have]
-        // to check whether an edge has been already processed or not (i.e. the
-        // midpoint has been constructed or not). We have a lookup table for
-        // this purpose. Every edge is stored at lTab[start_]. There may be
-        // up to 6 edges in every vertex[start_] so if that table place is occupied,
-        // store it in the next table position (and so on). So we only have to
-        // look up 6 positions at most.
-        size_t newEdge(size_t emindex, size_t index, int k);
+    // Make a new edge, in the temporary edges_ at emindex, at node_[index]
+    // using the k'th side. Since every edge belongs to two faces, we have]
+    // to check whether an edge has been already processed or not (i.e. the
+    // midpoint has been constructed or not). We have a lookup table for
+    // this purpose. Every edge is stored at lTab[start_]. There may be
+    // up to 6 edges in every vertex[start_] so if that table place is occupied,
+    // store it in the next table position (and so on). So we only have to
+    // look up 6 positions at most.
+    size_t newEdge(size_t emindex, size_t index, int k);
 
-        // insert the edge em into the lookup table
-        void insertLookup(Edge * em);
+    // insert the edge em into the lookup table
+    void insertLookup(Edge *em);
 
-        // lookup the edge em in the lookup table
-        Edge * edgeMatch(Edge * em);
+    // lookup the edge em in the lookup table
+    Edge *edgeMatch(Edge *em);
 
-        // generate a new vertex, which is the midpoint of the current edge.
-        size_t getMidPoint(Edge * em);
+    // generate a new vertex, which is the midpoint of the current edge.
+    size_t getMidPoint(Edge *em);
 
-        SpatialIndex &tree_;		// reference to the tree class
-        size_t		layerindex_;	// index of the layer
-        Edge  **		lTab_;			// Edges lookup table
-        Edge   *		edges_;			// Edges array
-        size_t		index_;			// index of the vertex that is built
+    SpatialIndex &tree_; // reference to the tree class
+    size_t layerindex_;  // index of the layer
+    Edge **lTab_;        // Edges lookup table
+    Edge *edges_;        // Edges array
+    size_t index_;       // index of the vertex that is built
 };
 
 // </GROUP>

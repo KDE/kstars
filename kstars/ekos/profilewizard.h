@@ -15,38 +15,45 @@
 
 class ProfileWizard : public QDialog, public Ui::ProfileWizard
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
+  public:
+    enum
+    {
+        INTRO,
+        EQUIPMENT_LOCATION,
+        REMOTE_EQUIPMENT,
+        WINDOWS_LOCAL,
+        MAC_LOCAL,
+        CREATE_PROFILE
+    };
+    typedef enum { INTERNAL_GUIDER, PHD2_GUIDER, LIN_GUIDER } GuiderType;
 
-        enum { INTRO, EQUIPMENT_LOCATION, REMOTE_EQUIPMENT, WINDOWS_LOCAL, MAC_LOCAL, CREATE_PROFILE };
-        typedef enum { INTERNAL_GUIDER, PHD2_GUIDER, LIN_GUIDER } GuiderType;
+    ProfileWizard();
 
-        ProfileWizard();
+    QStringList selectedAuxDrivers();
+    QString selectedExternalGuider();
 
-        QStringList selectedAuxDrivers();
-        QString selectedExternalGuider();
+  protected slots:
+    void reset();
+    void processLocalEquipment();
+    void processRemoteEquipment();
+    void processLocalWindows();
+    void processLocalMac();
+    void createProfile();
 
-    protected slots:
-        void reset();
-        void processLocalEquipment();
-        void processRemoteEquipment();
-        void processLocalWindows();
-        void processLocalMac();
-        void createProfile();
+  private:
+    bool useInternalServer   = true;
+    bool useWebManager       = false;
+    bool useJoystick         = false;
+    bool useRemoteAstrometry = false;
+    bool useWatchDog         = false;
+    bool useSkySafari        = false;
+    GuiderType useGuiderType = INTERNAL_GUIDER;
 
-    private:
-        bool useInternalServer=true;
-        bool useWebManager=false;
-        bool useJoystick=false;
-        bool useRemoteAstrometry=false;
-        bool useWatchDog=false;
-        bool useSkySafari=false;
-        GuiderType useGuiderType = INTERNAL_GUIDER;
+    QString profileName, host, port;
 
-        QString profileName, host, port;
-
-        friend class EkosManager;
+    friend class EkosManager;
 };
 
 #endif

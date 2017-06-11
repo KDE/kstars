@@ -30,28 +30,24 @@
 
 class SkyObjectLite : public SkyPointLite
 {
-        Q_OBJECT
-        Q_PROPERTY(QString translatedName READ getTranslatedName NOTIFY translatedNameChanged)
-    public:
-        /** Constructor **/
-        SkyObjectLite();
+    Q_OBJECT
+    Q_PROPERTY(QString translatedName READ getTranslatedName NOTIFY translatedNameChanged)
+  public:
+    /** Constructor **/
+    SkyObjectLite();
 
-        /** @short sets SkyObject that is needed to be wrapped **/
-        void setObject(SkyObject * object);
+    /** @short sets SkyObject that is needed to be wrapped **/
+    void setObject(SkyObject *object);
 
-        /** @return translated name of currently wrapped SkyObject **/
-        Q_INVOKABLE QString getTranslatedName();
+    /** @return translated name of currently wrapped SkyObject **/
+    Q_INVOKABLE QString getTranslatedName();
 
-        /** @return SkyObject that is being wrapped **/
-        SkyObject * getObject() const
-        {
-            return object;
-        }
-    signals:
-        void translatedNameChanged(QString translatedName);
-    private:
-        SkyObject * object;
+    /** @return SkyObject that is being wrapped **/
+    SkyObject *getObject() const { return object; }
+  signals:
+    void translatedNameChanged(QString translatedName);
+
+  private:
+    SkyObject *object;
 };
 #endif
-
-

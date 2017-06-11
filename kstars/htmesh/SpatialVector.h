@@ -31,112 +31,93 @@
 
 class LINKAGE SpatialVector
 {
-    public:
-        /// constructs (1,0,0), ra=0, dec=0.
-        SpatialVector();
+  public:
+    /// constructs (1,0,0), ra=0, dec=0.
+    SpatialVector();
 
-        /// Constructor from three coordinates, not necessarily normed to 1
-        SpatialVector(float64 x,
-                      float64 y,
-                      float64 z);
+    /// Constructor from three coordinates, not necessarily normed to 1
+    SpatialVector(float64 x, float64 y, float64 z);
 
-        /// Constructor from ra/dec, this is always normed to 1
-        SpatialVector(float64 ra,
-                      float64 dec);
+    /// Constructor from ra/dec, this is always normed to 1
+    SpatialVector(float64 ra, float64 dec);
 
-        /// Set member function: set values - always normed to 1
-        void set(const float64 &x,
-                 const float64 &y,
-                 const float64 &z);
+    /// Set member function: set values - always normed to 1
+    void set(const float64 &x, const float64 &y, const float64 &z);
 
-        /// Set member function: set values - always normed to 1
-        void set(const float64 &ra,
-                 const float64 &dec);
+    /// Set member function: set values - always normed to 1
+    void set(const float64 &ra, const float64 &dec);
 
-        /// Get x,y,z
-        void get( float64 &x,
-                  float64 &y,
-                  float64 &z) const;
+    /// Get x,y,z
+    void get(float64 &x, float64 &y, float64 &z) const;
 
-        /// Get ra,dec - normalizes x,y,z
-        void get( float64 &ra,
-                  float64 &dec);
+    /// Get ra,dec - normalizes x,y,z
+    void get(float64 &ra, float64 &dec);
 
-        /// return length of vector
-        float64 length() const;
+    /// return length of vector
+    float64 length() const;
 
-        /// return x (only as rvalue)
-        float64 x() const
-        {
-            return x_;
-        }
+    /// return x (only as rvalue)
+    float64 x() const { return x_; }
 
-        /// return y
-        float64 y() const
-        {
-            return y_;
-        }
+    /// return y
+    float64 y() const { return y_; }
 
-        /// return z
-        float64 z() const
-        {
-            return z_;
-        }
+    /// return z
+    float64 z() const { return z_; }
 
-        /// return ra - this norms the vector to 1 if not already done so
-        float64 ra();
+    /// return ra - this norms the vector to 1 if not already done so
+    float64 ra();
 
-        /// return dec - this norms the vector to 1 if not already done so
-        float64 dec();
+    /// return dec - this norms the vector to 1 if not already done so
+    float64 dec();
 
-        /// Normalize vector length to 1
-        void normalize();
+    /// Normalize vector length to 1
+    void normalize();
 
-        /// Comparison
-        int operator ==(const SpatialVector & ) const;
+    /// Comparison
+    int operator==(const SpatialVector &) const;
 
-        /// dot product
-        float64 operator *(const SpatialVector & ) const;
+    /// dot product
+    float64 operator*(const SpatialVector &)const;
 
-        /// cross product
-        SpatialVector operator ^(const SpatialVector & ) const;
+    /// cross product
+    SpatialVector operator^(const SpatialVector &) const;
 
-        /// addition
-        SpatialVector operator +(const SpatialVector & ) const;
+    /// addition
+    SpatialVector operator+(const SpatialVector &) const;
 
-        /// subtraction
-        SpatialVector operator -(const SpatialVector & ) const;
+    /// subtraction
+    SpatialVector operator-(const SpatialVector &) const;
 
-        /** @name Scalar products with int and float */
-        //@{
-        /** @name operator *= */
-        SpatialVector &operator *=(float64);
-        SpatialVector &operator *=(int);
-        friend SpatialVector operator *(float64, const SpatialVector &);
-        friend SpatialVector operator *(int,     const SpatialVector &);
-        friend SpatialVector operator *(const SpatialVector &, float64);
-        friend SpatialVector operator *(const SpatialVector &, int);
-        //@}
+    /** @name Scalar products with int and float */
+    //@{
+    /** @name operator *= */
+    SpatialVector &operator*=(float64);
+    SpatialVector &operator*=(int);
+    friend SpatialVector operator*(float64, const SpatialVector &);
+    friend SpatialVector operator*(int, const SpatialVector &);
+    friend SpatialVector operator*(const SpatialVector &, float64);
+    friend SpatialVector operator*(const SpatialVector &, int);
+    //@}
 
-    private:
-        float64 x_;
-        float64 y_;
-        float64 z_;
-        float64 ra_;
-        float64 dec_;
-        bool okRaDec_;
+  private:
+    float64 x_;
+    float64 y_;
+    float64 z_;
+    float64 ra_;
+    float64 dec_;
+    bool okRaDec_;
 
-        void updateXYZ();
-        void updateRaDec();
+    void updateXYZ();
+    void updateRaDec();
 
-        friend class SpatialIndex;
+    friend class SpatialIndex;
 };
 
 // Friend operators
-SpatialVector operator *(float64, const SpatialVector &);
-SpatialVector operator *(int, const SpatialVector &);
-SpatialVector operator *(const SpatialVector &, float64);
-SpatialVector operator *(const SpatialVector &, int);
+SpatialVector operator*(float64, const SpatialVector &);
+SpatialVector operator*(int, const SpatialVector &);
+SpatialVector operator*(const SpatialVector &, float64);
+SpatialVector operator*(const SpatialVector &, int);
 
 #endif
-

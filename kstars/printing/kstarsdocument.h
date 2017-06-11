@@ -33,43 +33,43 @@ class QPrinter;
   */
 class KStarsDocument
 {
-    public:
-        /**
+  public:
+    /**
           * \brief Constructor.
           */
-        KStarsDocument();
+    KStarsDocument();
 
-        /**
+    /**
           * \brief Destructor.
           */
-        ~KStarsDocument();
+    ~KStarsDocument();
 
-        /**
+    /**
           * \brief Clears contents of the document.
           */
-        void clearContent();
+    void clearContent();
 
-        /**
+    /**
           * \brief Print contents of the document.
           * \param printer Printer on which document will be printed.
           */
-        void print(QPrinter * printer);
+    void print(QPrinter *printer);
 
-        /**
+    /**
           * \brief Write contents of the document to Open Document Text file.
           * \param fname File name.
           * \return Returns true if write is successful.
           */
-        bool writeOdt(const QString &fname);
+    bool writeOdt(const QString &fname);
 
-        /**
+    /**
           * \brief Write contents of the document to the Postscript/PDF file.
           * \param fname File name.
           */
-        void writePsPdf(const QString &fname);
+    void writePsPdf(const QString &fname);
 
-    protected:
-        QTextDocument * m_Document;
+  protected:
+    QTextDocument *m_Document;
 };
 
 #endif // KSTARSDOCUMENT_H

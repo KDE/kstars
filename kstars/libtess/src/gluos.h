@@ -14,9 +14,9 @@
 /* Disable *lots* of warnings to get a clean build. I can't be bothered fixing the
  * code at the moment, as it is pretty ugly.
  */
-#pragma warning 7   10
-#pragma warning 13  10
-#pragma warning 14  10
+#pragma warning 7 10
+#pragma warning 13 10
+#pragma warning 14 10
 #pragma warning 367 10
 #pragma warning 379 10
 #pragma warning 726 10
@@ -31,7 +31,7 @@
 
 #elif defined(_WIN32)
 
-#include <stdlib.h>	    /* For _MAX_PATH definition */
+#include <stdlib.h> /* For _MAX_PATH definition */
 #include <stdio.h>
 #include <malloc.h>
 

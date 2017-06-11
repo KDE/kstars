@@ -29,23 +29,20 @@ class PolyNode;
 
 class HorizonNode : public SkyNode
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor.
          * @param pointList - list of points that comprise horizon
          */
-        HorizonNode(QList<SkyPoint *> &pointList);
+    HorizonNode(QList<SkyPoint *> &pointList);
 
-        /** @short Update child nodes based on user settings (filled/non-filled ground) and their visibility **/
-        virtual void update() override;
-        virtual void hide() override;
+    /** @short Update child nodes based on user settings (filled/non-filled ground) and their visibility **/
+    virtual void update() override;
+    virtual void hide() override;
 
-    private:
-        QList<SkyPoint *> &m_pointList;
-        PolyNode * m_polygonNode;
+  private:
+    QList<SkyPoint *> &m_pointList;
+    PolyNode *m_polygonNode;
 };
 
-
 #endif
-
-

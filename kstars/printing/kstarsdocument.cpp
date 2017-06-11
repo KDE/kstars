@@ -30,7 +30,7 @@ KStarsDocument::KStarsDocument()
 
 KStarsDocument::~KStarsDocument()
 {
-    if(m_Document)
+    if (m_Document)
     {
         delete m_Document;
     }
@@ -41,7 +41,7 @@ void KStarsDocument::clearContent()
     m_Document->clear();
 }
 
-void KStarsDocument::print(QPrinter * printer)
+void KStarsDocument::print(QPrinter *printer)
 {
     m_Document->print(printer);
 }

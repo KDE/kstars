@@ -30,31 +30,31 @@ class ConstellationArtComponent;
 
 class ConstellationArtItem : public SkyItem
 {
-    public:
-        /**
+  public:
+    /**
          * @param artComp - pointer to ConstellationArtComponent instance, that handles constellation art data
          * @param rootNode - pointer to the root node
          */
-        ConstellationArtItem(ConstellationArtComponent * artComp,RootNode * rootNode = 0);
+    ConstellationArtItem(ConstellationArtComponent *artComp, RootNode *rootNode = 0);
 
-        /**
+    /**
          * @short calls update() of all child ConstellationArtNodes if constellation art is on. Otherwise calls deleteNodes()
          */
-        void update() override;
+    void update() override;
 
-        /**
+    /**
          * @short deleteNodes deletes constellation art data and ConstellationArtNodes
          * @see ConstellationArtComponent::deleteData()
          */
-        void deleteNodes();
+    void deleteNodes();
 
-        /**
+    /**
          * @short loadNodes loads constellation art data and creates ConstellationArtNodes
          * @see ConstellationArtComponent::loadData()
          */
-        void loadNodes();
+    void loadNodes();
 
-    private:
-        ConstellationArtComponent * m_artComp;
+  private:
+    ConstellationArtComponent *m_artComp;
 };
 #endif

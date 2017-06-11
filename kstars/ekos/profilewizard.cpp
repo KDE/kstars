@@ -22,51 +22,38 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
     setupUi(this);
 
 #ifdef Q_OS_OSX
-    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
     QPixmap im;
-    if( im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzekos.png")) )
-        wizardPix->setPixmap( im );
+    if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzekos.png")))
+        wizardPix->setPixmap(im);
 
-    if( im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "windi.png")) )
-        windiPix->setPixmap( im );
+    if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "windi.png")))
+        windiPix->setPixmap(im);
 
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
-    connect(buttonBox, &QDialogButtonBox::helpRequested, this, [this]()
-    {
-        KStars::Instance()->appHelpActivated();
-    });
-    connect(buttonBox, &QDialogButtonBox::clicked, this, [this](QAbstractButton *button)
-    {
-        if (button == buttonBox->button(QDialogButtonBox::Reset)) reset();
+    connect(buttonBox, &QDialogButtonBox::helpRequested, this, [this]() { KStars::Instance()->appHelpActivated(); });
+    connect(buttonBox, &QDialogButtonBox::clicked, this, [this](QAbstractButton *button) {
+        if (button == buttonBox->button(QDialogButtonBox::Reset))
+            reset();
     });
 
-    connect(discoverEkosB, &QPushButton::clicked, this, [this]()
-    {
-        QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos.html"));
-    });
-    connect(videoTutorialsB, &QPushButton::clicked, this, [this]()
-    {
-        QDesktopServices::openUrl(QUrl("https://www.youtube.com/user/QAstronomy"));
-    });
-    connect(INDIInfoB, &QPushButton::clicked, this, [this]()
-    {
-        QDesktopServices::openUrl(QUrl("http://indilib.org/about/discover-indi.html"));
-    });
+    connect(discoverEkosB, &QPushButton::clicked, this,
+            [this]() { QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos.html")); });
+    connect(videoTutorialsB, &QPushButton::clicked, this,
+            [this]() { QDesktopServices::openUrl(QUrl("https://www.youtube.com/user/QAstronomy")); });
+    connect(INDIInfoB, &QPushButton::clicked, this,
+            [this]() { QDesktopServices::openUrl(QUrl("http://indilib.org/about/discover-indi.html")); });
 
     // Intro actions
-    connect(introNextB, &QPushButton::clicked, this, [this]()
-    {
-        wizardContainer->setCurrentIndex(EQUIPMENT_LOCATION);
-    });
+    connect(introNextB, &QPushButton::clicked, this,
+            [this]() { wizardContainer->setCurrentIndex(EQUIPMENT_LOCATION); });
 
     // Equipment Location actions
     connect(localEquipmentB, SIGNAL(clicked()), this, SLOT(processLocalEquipment()));
-    connect(remoteEquipmentB, &QPushButton::clicked, this, [this]()
-    {
-        wizardContainer->setCurrentIndex(REMOTE_EQUIPMENT);
-    });
+    connect(remoteEquipmentB, &QPushButton::clicked, this,
+            [this]() { wizardContainer->setCurrentIndex(REMOTE_EQUIPMENT); });
 
     // Remote Equipment Action
     connect(remoteEquipmentNextB, SIGNAL(clicked()), this, SLOT(processRemoteEquipment()));
@@ -84,13 +71,13 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
 
 void ProfileWizard::reset()
 {
-    useInternalServer=true;
-    useWebManager=false;
-    useJoystick=false;
-    useRemoteAstrometry=false;
-    useSkySafari=false;
-    useWatchDog=false;
-    useGuiderType = INTERNAL_GUIDER;
+    useInternalServer   = true;
+    useWebManager       = false;
+    useJoystick         = false;
+    useRemoteAstrometry = false;
+    useSkySafari        = false;
+    useWatchDog         = false;
+    useGuiderType       = INTERNAL_GUIDER;
 
     host.clear();
     port = "7624";
@@ -105,7 +92,7 @@ void ProfileWizard::processLocalEquipment()
 #elif defined(Q_OS_WIN)
     wizardContainer->setCurrentIndex(WINDOWS_LOCAL);
 #else
-    useInternalServer=true;
+    useInternalServer = true;
     useJoystickCheck->setEnabled(true);
     useRemoteAstrometryCheck->setEnabled(false);
     useWatchDogCheck->setEnabled(false);
@@ -116,7 +103,7 @@ void ProfileWizard::processLocalEquipment()
 
 void ProfileWizard::processRemoteEquipment()
 {
-    bool portOK=false;
+    bool portOK = false;
     remotePortEdit->text().toInt(&portOK);
 
     if (portOK == false)
@@ -157,8 +144,8 @@ void ProfileWizard::processRemoteEquipment()
 void ProfileWizard::processLocalWindows()
 {
     useInternalServer = false;
-    host = "localhost";
-    port = "7624";
+    host              = "localhost";
+    port              = "7624";
 
     useJoystickCheck->setEnabled(false);
     useRemoteAstrometryCheck->setEnabled(false);
@@ -170,7 +157,7 @@ void ProfileWizard::processLocalWindows()
 
 void ProfileWizard::processLocalMac()
 {
-    QPushButton * button = qobject_cast<QPushButton *>(sender());
+    QPushButton *button = qobject_cast<QPushButton *>(sender());
 
     if (button == nullptr)
         return;
@@ -196,9 +183,9 @@ void ProfileWizard::createProfile()
         return;
     }
 
-    useJoystick = useJoystickCheck->isEnabled() && useJoystickCheck->isChecked();
-    useWatchDog = useWatchDogCheck->isEnabled() && useWatchDogCheck->isChecked();
-    useSkySafari= useSkySafariCheck->isEnabled() && useSkySafariCheck->isChecked();
+    useJoystick         = useJoystickCheck->isEnabled() && useJoystickCheck->isChecked();
+    useWatchDog         = useWatchDogCheck->isEnabled() && useWatchDogCheck->isChecked();
+    useSkySafari        = useSkySafariCheck->isEnabled() && useSkySafariCheck->isChecked();
     useRemoteAstrometry = useRemoteAstrometryCheck->isEnabled() && useRemoteAstrometryCheck->isChecked();
     if (useInternalGuiderR->isChecked())
         useGuiderType = INTERNAL_GUIDER;

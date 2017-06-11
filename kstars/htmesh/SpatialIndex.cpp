@@ -36,18 +36,17 @@
 //
 // ===========================================================================
 
-#define N(x) nodes_[(x)]
-#define V(x) vertices_[nodes_[index].v_[(x)]]
-#define IV(x) nodes_[index].v_[(x)]
-#define W(x) vertices_[nodes_[index].w_[(x)]]
-#define IW(x) nodes_[index].w_[(x)]
+#define N(x)      nodes_[(x)]
+#define V(x)      vertices_[nodes_[index].v_[(x)]]
+#define IV(x)     nodes_[index].v_[(x)]
+#define W(x)      vertices_[nodes_[index].w_[(x)]]
+#define IW(x)     nodes_[index].w_[(x)]
 #define ICHILD(x) nodes_[index].childID_[(x)]
 
-#define IV_(x) nodes_[index_].v_[(x)]
-#define IW_(x) nodes_[index_].w_[(x)]
+#define IV_(x)     nodes_[index_].v_[(x)]
+#define IW_(x)     nodes_[index_].w_[(x)]
 #define ICHILD_(x) nodes_[index_].childID_[(x)]
-#define IOFFSET 9
-
+#define IOFFSET    9
 
 // ===========================================================================
 //
@@ -57,56 +56,55 @@
 
 /////////////CONSTRUCTOR//////////////////////////////////
 //
-SpatialIndex::SpatialIndex(size_t maxlevel, size_t buildlevel) : maxlevel_(maxlevel),
-    buildlevel_( (buildlevel == 0 || buildlevel > maxlevel) ? maxlevel : buildlevel)
+SpatialIndex::SpatialIndex(size_t maxlevel, size_t buildlevel)
+    : maxlevel_(maxlevel), buildlevel_((buildlevel == 0 || buildlevel > maxlevel) ? maxlevel : buildlevel)
 {
-    size_t nodes,vertices;
+    size_t nodes, vertices;
 
-    vMax(&nodes,&vertices);
-    layers_.resize(buildlevel_+1);	// allocate enough space already
-    nodes_.resize(nodes+1); 			// allocate space for all nodes
-    vertices_.resize(vertices+1); 	// allocate space for all vertices
+    vMax(&nodes, &vertices);
+    layers_.resize(buildlevel_ + 1); // allocate enough space already
+    nodes_.resize(nodes + 1);        // allocate space for all nodes
+    vertices_.resize(vertices + 1);  // allocate space for all vertices
 
-    N(0).index_ = 0;					// initialize invalid node
+    N(0).index_ = 0; // initialize invalid node
 
     // initialize first layer
-    layers_[0].level_ = 0;
-    layers_[0].nVert_ = 6;
-    layers_[0].nNode_ = 8;
-    layers_[0].nEdge_ = 12;
-    layers_[0].firstIndex_ = 1;
+    layers_[0].level_       = 0;
+    layers_[0].nVert_       = 6;
+    layers_[0].nNode_       = 8;
+    layers_[0].nEdge_       = 12;
+    layers_[0].firstIndex_  = 1;
     layers_[0].firstVertex_ = 0;
 
     // set the first 6 vertices
-    float64 v[6][3] =
-    {
-        {0.0L,  0.0L,  1.0L}, // 0
-        {1.0L,  0.0L,  0.0L}, // 1
-        {0.0L,  1.0L,  0.0L}, // 2
-        {-1.0L,  0.0L,  0.0L}, // 3
-        {0.0L, -1.0L,  0.0L}, // 4
-        {0.0L,  0.0L, -1.0L}  // 5
+    float64 v[6][3] = {
+        { 0.0L, 0.0L, 1.0L },  // 0
+        { 1.0L, 0.0L, 0.0L },  // 1
+        { 0.0L, 1.0L, 0.0L },  // 2
+        { -1.0L, 0.0L, 0.0L }, // 3
+        { 0.0L, -1.0L, 0.0L }, // 4
+        { 0.0L, 0.0L, -1.0L }  // 5
     };
 
-    for(int i = 0; i < 6; i++)
-        vertices_[i].set( v[i][0], v[i][1], v[i][2]);
+    for (int i = 0; i < 6; i++)
+        vertices_[i].set(v[i][0], v[i][1], v[i][2]);
 
     // create the first 8 nodes - index 1 through 8
     index_ = 1;
-    newNode(1,5,2,8,0);  // S0
-    newNode(2,5,3,9,0);  // S1
-    newNode(3,5,4,10,0); // S2
-    newNode(4,5,1,11,0); // S3
-    newNode(1,0,4,12,0); // N0
-    newNode(4,0,3,13,0); // N1
-    newNode(3,0,2,14,0); // N2
-    newNode(2,0,1,15,0); // N3
+    newNode(1, 5, 2, 8, 0);  // S0
+    newNode(2, 5, 3, 9, 0);  // S1
+    newNode(3, 5, 4, 10, 0); // S2
+    newNode(4, 5, 1, 11, 0); // S3
+    newNode(1, 0, 4, 12, 0); // N0
+    newNode(4, 0, 3, 13, 0); // N1
+    newNode(3, 0, 2, 14, 0); // N2
+    newNode(2, 0, 1, 15, 0); // N3
 
     //  loop through buildlevel steps, and build the nodes for each layer
 
-    size_t pl=0;
+    size_t pl    = 0;
     size_t level = buildlevel_;
-    while(level-- > 0)
+    while (level-- > 0)
     {
         SpatialEdge edge(*this, pl);
         edge.makeMidPoints();
@@ -120,26 +118,21 @@ SpatialIndex::SpatialIndex(size_t maxlevel, size_t buildlevel) : maxlevel_(maxle
 /////////////NODEVERTEX///////////////////////////////////
 // nodeVertex: return the vectors of the vertices, based on the ID
 //
-void
-SpatialIndex::nodeVertex(const uint64 id,
-                         SpatialVector &v0,
-                         SpatialVector &v1,
-                         SpatialVector &v2) const
+void SpatialIndex::nodeVertex(const uint64 id, SpatialVector &v0, SpatialVector &v1, SpatialVector &v2) const
 {
-
-    if(buildlevel_ == maxlevel_)
+    if (buildlevel_ == maxlevel_)
     {
-        uint32 idx = (uint32)id  - leaves_ + IOFFSET;  // -jbb: Fix segfault.  See "idx =" below.
-        v0 = vertices_[nodes_[idx].v_[0]];
-        v1 = vertices_[nodes_[idx].v_[1]];
-        v2 = vertices_[nodes_[idx].v_[2]];
+        uint32 idx = (uint32)id - leaves_ + IOFFSET; // -jbb: Fix segfault.  See "idx =" below.
+        v0         = vertices_[nodes_[idx].v_[0]];
+        v1         = vertices_[nodes_[idx].v_[1]];
+        v2         = vertices_[nodes_[idx].v_[2]];
         return;
     }
 
     // buildlevel < maxlevel
     // get the id of the stored leaf that we are in
     // and get the vertices of the node we want
-    uint64 sid = id >> ((maxlevel_ - buildlevel_)*2);
+    uint64 sid = id >> ((maxlevel_ - buildlevel_) * 2);
     uint32 idx = (uint32)(sid - storedleaves_ + IOFFSET);
 
     v0 = vertices_[nodes_[idx].v_[0]];
@@ -149,9 +142,9 @@ SpatialIndex::nodeVertex(const uint64 id,
     // loop therough additional levels,
     // pick the correct triangle accordingly, storing the
     // vertices in v1,v2,v3
-    for(uint32 i = buildlevel_ + 1; i <= maxlevel_; i++)
+    for (uint32 i = buildlevel_ + 1; i <= maxlevel_; i++)
     {
-        uint64 j = ( id >> ((maxlevel_ - i)*2) ) & 3;
+        uint64 j         = (id >> ((maxlevel_ - i) * 2)) & 3;
         SpatialVector w0 = v1 + v2;
         w0.normalize();
         SpatialVector w1 = v0 + v2;
@@ -159,7 +152,7 @@ SpatialIndex::nodeVertex(const uint64 id,
         SpatialVector w2 = v1 + v0;
         w2.normalize();
 
-        switch(j)
+        switch (j)
         {
             case 0:
                 v1 = w2;
@@ -187,56 +180,50 @@ SpatialIndex::nodeVertex(const uint64 id,
 /////////////MAKENEWLAYER/////////////////////////////////
 // makeNewLayer: generate a new layer and the nodes in it
 //
-void
-SpatialIndex::makeNewLayer(size_t oldlayer)
+void SpatialIndex::makeNewLayer(size_t oldlayer)
 {
     uint64 index, id;
-    size_t newlayer = oldlayer + 1;
-    layers_[newlayer].level_  = layers_[oldlayer].level_+1;
-    layers_[newlayer].nVert_  = layers_[oldlayer].nVert_ +
-                                layers_[oldlayer].nEdge_;
-    layers_[newlayer].nNode_  = 4 * layers_[oldlayer].nNode_;
-    layers_[newlayer].nEdge_  = layers_[newlayer].nNode_ +
-                                layers_[newlayer].nVert_ - 2;
-    layers_[newlayer].firstIndex_ = index_;
-    layers_[newlayer].firstVertex_ = layers_[oldlayer].firstVertex_ +
-                                     layers_[oldlayer].nVert_;
+    size_t newlayer                = oldlayer + 1;
+    layers_[newlayer].level_       = layers_[oldlayer].level_ + 1;
+    layers_[newlayer].nVert_       = layers_[oldlayer].nVert_ + layers_[oldlayer].nEdge_;
+    layers_[newlayer].nNode_       = 4 * layers_[oldlayer].nNode_;
+    layers_[newlayer].nEdge_       = layers_[newlayer].nNode_ + layers_[newlayer].nVert_ - 2;
+    layers_[newlayer].firstIndex_  = index_;
+    layers_[newlayer].firstVertex_ = layers_[oldlayer].firstVertex_ + layers_[oldlayer].nVert_;
 
-    uint64 ioffset = layers_[oldlayer].firstIndex_ ;
+    uint64 ioffset = layers_[oldlayer].firstIndex_;
 
-    for(index = ioffset;
-            index < ioffset + layers_[oldlayer].nNode_; index++)
+    for (index = ioffset; index < ioffset + layers_[oldlayer].nNode_; index++)
     {
-        id = N(index).id_ << 2;
-        ICHILD(0) = newNode(IV(0),IW(2),IW(1),id++,index);
-        ICHILD(1) = newNode(IV(1),IW(0),IW(2),id++,index);
-        ICHILD(2) = newNode(IV(2),IW(1),IW(0),id++,index);
-        ICHILD(3) = newNode(IW(0),IW(1),IW(2),id,index);
+        id        = N(index).id_ << 2;
+        ICHILD(0) = newNode(IV(0), IW(2), IW(1), id++, index);
+        ICHILD(1) = newNode(IV(1), IW(0), IW(2), id++, index);
+        ICHILD(2) = newNode(IV(2), IW(1), IW(0), id++, index);
+        ICHILD(3) = newNode(IW(0), IW(1), IW(2), id, index);
     }
 }
 
 /////////////NEWNODE//////////////////////////////////////
 // newNode: make a new node
 //
-uint64
-SpatialIndex::newNode(size_t v1, size_t v2,size_t v3,uint64 id,uint64 parent)
+uint64 SpatialIndex::newNode(size_t v1, size_t v2, size_t v3, uint64 id, uint64 parent)
 {
-    IV_(0) = v1;		// vertex indices
+    IV_(0) = v1; // vertex indices
     IV_(1) = v2;
     IV_(2) = v3;
 
-    IW_(0) = 0;		// middle point indices
+    IW_(0) = 0; // middle point indices
     IW_(1) = 0;
     IW_(2) = 0;
 
-    ICHILD_(0) = 0;	// child indices
-    ICHILD_(1) = 0;	// index 0 is invalid node.
+    ICHILD_(0) = 0; // child indices
+    ICHILD_(1) = 0; // index 0 is invalid node.
     ICHILD_(2) = 0;
     ICHILD_(3) = 0;
 
-    N(index_).id_ = id;			// set the id
-    N(index_).index_ = index_;	// set the index
-    N(index_).parent_ = parent;	// set the parent
+    N(index_).id_     = id;     // set the id
+    N(index_).index_  = index_; // set the index
+    N(index_).parent_ = parent; // set the parent
 
     return index_++;
 }
@@ -247,28 +234,27 @@ SpatialIndex::newNode(size_t v1, size_t v2,size_t v3,uint64 id,uint64 parent)
 //       the total number of nodes that we store
 //       also, calculate the number of leaf nodes that we eventually have.
 //
-void
-SpatialIndex::vMax(size_t * nodes, size_t * vertices)
+void SpatialIndex::vMax(size_t *nodes, size_t *vertices)
 {
-    uint64 nv = 6;    // initial values
+    uint64 nv = 6; // initial values
     uint64 ne = 12;
     uint64 nf = 8;
-    int32 i  = buildlevel_;
-    *nodes = (size_t)nf;
+    int32 i   = buildlevel_;
+    *nodes    = (size_t)nf;
 
-    while(i-->0)
+    while (i-- > 0)
     {
         nv += ne;
         nf *= 4;
-        ne  = nf + nv -2;
+        ne = nf + nv - 2;
         *nodes += (size_t)nf;
     }
-    *vertices = (size_t)nv;
+    *vertices     = (size_t)nv;
     storedleaves_ = nf;
 
     // calculate number of leaves
     i = maxlevel_ - buildlevel_;
-    while(i-- > 0)
+    while (i-- > 0)
         nf *= 4;
     leaves_ = nf;
 }
@@ -279,8 +265,7 @@ SpatialIndex::vMax(size_t * nodes, size_t * vertices)
 //            and then we put all the leaf nodes in the following block
 //            in ascending id-order.
 //            All the rest of the nodes is at the end.
-void
-SpatialIndex::sortIndex()
+void SpatialIndex::sortIndex()
 {
     std::vector<QuadNode> oldnodes(nodes_); // create a copy of the node list
     size_t index;
@@ -290,18 +275,16 @@ SpatialIndex::sortIndex()
 #define ON(x) oldnodes[(x)]
 
     // now refill the nodes_ list according to our sorting.
-    for( index=IOFFSET, leaf=IOFFSET, nonleaf=nodes_.size()-1;
-            index < nodes_.size(); index++)
+    for (index = IOFFSET, leaf = IOFFSET, nonleaf = nodes_.size() - 1; index < nodes_.size(); index++)
     {
-
-        if( ON(index).childID_[0] == 0 )   // childnode
+        if (ON(index).childID_[0] == 0) // childnode
         {
             // set leaf into list
             N(leaf) = ON(index);
             // set parent's pointer to this leaf
             for (size_t i = 0; i < 4; i++)
             {
-                if(N(N(leaf).parent_).childID_[i] == index)
+                if (N(N(leaf).parent_).childID_[i] == index)
                 {
                     N(N(leaf).parent_).childID_[i] = leaf;
                     break;
@@ -314,7 +297,7 @@ SpatialIndex::sortIndex()
             // set nonleaf into list from the end
             // set parent of the children already to this
             // index, they come later in the list.
-            N(nonleaf) = ON(index);
+            N(nonleaf)                         = ON(index);
             ON(N(nonleaf).childID_[0]).parent_ = nonleaf;
             ON(N(nonleaf).childID_[1]).parent_ = nonleaf;
             ON(N(nonleaf).childID_[2]).parent_ = nonleaf;
@@ -322,7 +305,7 @@ SpatialIndex::sortIndex()
             // set parent's pointer to this leaf
             for (size_t i = 0; i < 4; i++)
             {
-                if(N(N(nonleaf).parent_).childID_[i] == index)
+                if (N(N(nonleaf).parent_).childID_[i] == index)
                 {
                     N(N(nonleaf).parent_).childID_[i] = nonleaf;
                     break;
@@ -355,35 +338,34 @@ SpatialIndex::sortIndex()
 //              (we probably never need more than 7)
 //
 
-uint64
-SpatialIndex::idByName(const char * name)
+uint64 SpatialIndex::idByName(const char *name)
 {
-
-    uint64 out=0, i;
+    uint64 out  = 0, i;
     uint32 size = 0;
 
-    if(name == 0)              // null pointer-name
+    if (name == 0) // null pointer-name
         throw SpatialFailure("SpatialIndex:idByName:no name given");
-    if(name[0] != 'N' && name[0] != 'S')  // invalid name
-        throw SpatialFailure("SpatialIndex:idByName:invalid name",name);
+    if (name[0] != 'N' && name[0] != 'S') // invalid name
+        throw SpatialFailure("SpatialIndex:idByName:invalid name", name);
 
-    size = strlen(name);       // determine string length
+    size = strlen(name); // determine string length
     // at least size-2 required, don't exceed max
-    if(size < 2)
-        throw SpatialFailure("SpatialIndex:idByName:invalid name - too short ",name);
-    if(size > HTMNAMEMAX)
-        throw SpatialFailure("SpatialIndex:idByName:invalid name - too long ",name);
+    if (size < 2)
+        throw SpatialFailure("SpatialIndex:idByName:invalid name - too short ", name);
+    if (size > HTMNAMEMAX)
+        throw SpatialFailure("SpatialIndex:idByName:invalid name - too long ", name);
 
-    for(i = size-1; i > 0; i--)  // set bits starting from the end
+    for (i = size - 1; i > 0; i--) // set bits starting from the end
     {
-        if(name[i] > '3' || name[i] < '0') // invalid name
-            throw SpatialFailure("SpatialIndex:idByName:invalid name digit ",name);
-        out += (uint64(name[i]-'0') << 2*(size - i -1));
+        if (name[i] > '3' || name[i] < '0') // invalid name
+            throw SpatialFailure("SpatialIndex:idByName:invalid name digit ", name);
+        out += (uint64(name[i] - '0') << 2 * (size - i - 1));
     }
 
-    i = 2;                     // set first pair of bits, first bit always set
-    if(name[0]=='N') i++;      // for north set second bit too
-    out += (i << (2*size - 2) );
+    i = 2; // set first pair of bits, first bit always set
+    if (name[0] == 'N')
+        i++; // for north set second bit too
+    out += (i << (2 * size - 2));
 
     /************************
     // This code may be used later for hashing !
@@ -401,7 +383,6 @@ SpatialIndex::idByName(const char * name)
     return out;
 }
 
-
 //////////////////NAMEBYID/////////////////////////////////////////////////
 // Translate uint32 to an ascii leaf name
 //
@@ -414,16 +395,14 @@ SpatialIndex::idByName(const char * name)
 //  * The subsequent bit-pairs give the numbers 0-3.
 //
 
-char *
-SpatialIndex::nameById(uint64 id, char * name)
+char *SpatialIndex::nameById(uint64 id, char *name)
 {
-
-    uint32 size=0, i;
+    uint32 size = 0, i;
 #ifdef _WIN32
-    uint64 IDHIGHBIT = 1;
-    uint64 IDHIGHBIT2= 1;
-    IDHIGHBIT = IDHIGHBIT << 63;
-    IDHIGHBIT2 = IDHIGHBIT2 << 62;
+    uint64 IDHIGHBIT  = 1;
+    uint64 IDHIGHBIT2 = 1;
+    IDHIGHBIT         = IDHIGHBIT << 63;
+    IDHIGHBIT2        = IDHIGHBIT2 << 62;
 #endif
 
     /*************
@@ -440,26 +419,27 @@ SpatialIndex::nameById(uint64 id, char * name)
     **************/
 
     // determine index of first set bit
-    for(i = 0; i < IDSIZE; i+=2)
+    for (i = 0; i < IDSIZE; i += 2)
     {
-        if ( (id << i) & IDHIGHBIT ) break;
-        if ( (id << i) & IDHIGHBIT2 )  // invalid id
+        if ((id << i) & IDHIGHBIT)
+            break;
+        if ((id << i) & IDHIGHBIT2) // invalid id
             throw SpatialFailure("SpatialIndex:nameById: invalid ID");
     }
-    if(id == 0)
+    if (id == 0)
         throw SpatialFailure("SpatialIndex:nameById: invalid ID");
 
-    size=(IDSIZE-i) >> 1;
+    size = (IDSIZE - i) >> 1;
     // allocate characters
-    if(!name)
-        name = new char[size+1];
+    if (!name)
+        name = new char[size + 1];
 
     // fill characters starting with the last one
-    for(i = 0; i < size-1; i++)
-        name[size-i-1] = '0' + char( (id >> i*2) & 3);
+    for (i = 0; i < size - 1; i++)
+        name[size - i - 1] = '0' + char((id >> i * 2) & 3);
 
     // put in first character
-    if( (id >> (size*2-2)) & 1 )
+    if ((id >> (size * 2 - 2)) & 1)
     {
         name[0] = 'N';
     }
@@ -474,10 +454,8 @@ SpatialIndex::nameById(uint64 id, char * name)
 //////////////////POINTBYID////////////////////////////////////////////////
 // Find a vector for the leaf node given by its ID
 //
-void
-SpatialIndex::pointById(SpatialVector &vec, uint64 ID) const
+void SpatialIndex::pointById(SpatialVector &vec, uint64 ID) const
 {
-
     //	uint64 index;
     float64 center_x, center_y, center_z, sum;
     char name[HTMNAMEMAX];
@@ -506,70 +484,75 @@ SpatialIndex::pointById(SpatialVector &vec, uint64 ID) const
     		break;
     	}
     */
-//    cerr << "---------- Point by id: " << name << endl;
-//	v0.show(); v1.show(); v2.show();
+    //    cerr << "---------- Point by id: " << name << endl;
+    //	v0.show(); v1.show(); v2.show();
     center_x = v0.x_ + v1.x_ + v2.x_;
     center_y = v0.y_ + v1.y_ + v2.y_;
     center_z = v0.z_ + v1.z_ + v2.z_;
-    sum = center_x * center_x + center_y * center_y + center_z * center_z;
-    sum = sqrt(sum);
+    sum      = center_x * center_x + center_y * center_y + center_z * center_z;
+    sum      = sqrt(sum);
     center_x /= sum;
     center_y /= sum;
     center_z /= sum;
     vec.x_ = center_x;
     vec.y_ = center_y;
     vec.z_ = center_z; // I don't want it nomralized or radec to be set,
-//	cerr << " - - - - " << endl;
-//	vec.show();
-//	cerr << "---------- Point by id Retuning" << endl;
+    //	cerr << " - - - - " << endl;
+    //	vec.show();
+    //	cerr << "---------- Point by id Retuning" << endl;
 }
 //////////////////IDBYPOINT////////////////////////////////////////////////
 // Find a leaf node where a vector points to
 //
 
-uint64
-SpatialIndex::idByPoint(const SpatialVector &v) const
+uint64 SpatialIndex::idByPoint(const SpatialVector &v) const
 {
     uint64 index;
 
     // start with the 8 root triangles, find the one which v points to
-    for(index=1; index <=8; index++)
+    for (index = 1; index <= 8; index++)
     {
-        if( (V(0) ^ V(1)) * v < -gEpsilon) continue;
-        if( (V(1) ^ V(2)) * v < -gEpsilon) continue;
-        if( (V(2) ^ V(0)) * v < -gEpsilon) continue;
+        if ((V(0) ^ V(1)) * v < -gEpsilon)
+            continue;
+        if ((V(1) ^ V(2)) * v < -gEpsilon)
+            continue;
+        if ((V(2) ^ V(0)) * v < -gEpsilon)
+            continue;
         break;
     }
     // loop through matching child until leaves are reached
-    while(ICHILD(0)!=0)
+    while (ICHILD(0) != 0)
     {
         uint64 oldindex = index;
-        for(size_t i = 0; i < 4; i++)
+        for (size_t i = 0; i < 4; i++)
         {
             index = nodes_[oldindex].childID_[i];
-            if( (V(0) ^ V(1)) * v < -gEpsilon) continue;
-            if( (V(1) ^ V(2)) * v < -gEpsilon) continue;
-            if( (V(2) ^ V(0)) * v < -gEpsilon) continue;
+            if ((V(0) ^ V(1)) * v < -gEpsilon)
+                continue;
+            if ((V(1) ^ V(2)) * v < -gEpsilon)
+                continue;
+            if ((V(2) ^ V(0)) * v < -gEpsilon)
+                continue;
             break;
         }
     }
     // return if we have reached maxlevel
-    if(maxlevel_ == buildlevel_)return N(index).id_;
+    if (maxlevel_ == buildlevel_)
+        return N(index).id_;
 
     // from now on, continue to build name dynamically.
     // until maxlevel_ levels depth, continue to append the
     // correct index, build the index on the fly.
     char name[HTMNAMEMAX];
-    nameById(N(index).id_,name);
-    size_t len = strlen(name);
+    nameById(N(index).id_, name);
+    size_t len       = strlen(name);
     SpatialVector v0 = V(0);
     SpatialVector v1 = V(1);
     SpatialVector v2 = V(2);
 
     size_t level = maxlevel_ - buildlevel_;
-    while(level--)
+    while (level--)
     {
-
         SpatialVector w0 = v1 + v2;
         w0.normalize();
         SpatialVector w1 = v0 + v2;
@@ -577,35 +560,35 @@ SpatialIndex::idByPoint(const SpatialVector &v) const
         SpatialVector w2 = v1 + v0;
         w2.normalize();
 
-        if(isInside(v, v0, w2, w1))
+        if (isInside(v, v0, w2, w1))
         {
             name[len++] = '0';
-            v1 = w2;
-            v2 = w1;
+            v1          = w2;
+            v2          = w1;
             continue;
         }
-        else if(isInside(v, v1, w0, w2))
+        else if (isInside(v, v1, w0, w2))
         {
             name[len++] = '1';
-            v0 = v1;
-            v1 = w0;
-            v2 = w2;
+            v0          = v1;
+            v1          = w0;
+            v2          = w2;
             continue;
         }
-        else if(isInside(v, v2, w1, w0))
+        else if (isInside(v, v2, w1, w0))
         {
             name[len++] = '2';
-            v0 = v2;
-            v1 = w1;
-            v2 = w0;
+            v0          = v2;
+            v1          = w1;
+            v2          = w0;
             continue;
         }
-        else if(isInside(v, w0, w1, w2))
+        else if (isInside(v, w0, w1, w2))
         {
             name[len++] = '3';
-            v0 = w0;
-            v1 = w1;
-            v2 = w2;
+            v0          = w0;
+            v1          = w1;
+            v2          = w2;
             continue;
         }
     }
@@ -617,12 +600,14 @@ SpatialIndex::idByPoint(const SpatialVector &v) const
 // Test whether a vector is inside a triangle. Input triangle has
 // to be sorted in a counter-clockwise direction.
 //
-bool
-SpatialIndex::isInside(const SpatialVector &v, const SpatialVector &v0,
-                       const SpatialVector &v1, const SpatialVector &v2) const
+bool SpatialIndex::isInside(const SpatialVector &v, const SpatialVector &v0, const SpatialVector &v1,
+                            const SpatialVector &v2) const
 {
-    if( (v0 ^ v1) * v < -gEpsilon) return false;
-    if( (v1 ^ v2) * v < -gEpsilon) return false;
-    if( (v2 ^ v0) * v < -gEpsilon) return false;
+    if ((v0 ^ v1) * v < -gEpsilon)
+        return false;
+    if ((v1 ^ v2) * v < -gEpsilon)
+        return false;
+    if ((v2 ^ v0) * v < -gEpsilon)
+        return false;
     return true;
 }

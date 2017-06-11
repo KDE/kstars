@@ -15,24 +15,21 @@
 
 #include "auxiliary/dms.h"
 
-
-class TestDMS: public QObject
+class TestDMS : public QObject
 {
-        Q_OBJECT
-    public:
+    Q_OBJECT
+  public:
+    TestDMS();
+    ~TestDMS();
 
-        TestDMS();
-        ~TestDMS();
+    void checkCtor_data();
 
-        void checkCtor_data();
-
-    private slots:
-        void defaultCtor();
-        void explicitSexigesimalCtor();
-        void angleCtor();
-        void stringCtor();
-        void testReduceToRange();
-
+  private slots:
+    void defaultCtor();
+    void explicitSexigesimalCtor();
+    void angleCtor();
+    void stringCtor();
+    void testReduceToRange();
 };
 
 #endif

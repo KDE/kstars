@@ -13,7 +13,6 @@
 
 namespace ISD
 {
-
 bool LightBox::hasLight()
 {
     return true;
@@ -23,5 +22,4 @@ bool LightBox::canPark()
 {
     return false;
 }
-
 }

@@ -32,29 +32,28 @@ class StarBlockFactory;
 
 class StarItem : public SkyItem
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor.
          * @param rootNode parent RootNode that instantiated this object
          */
-        StarItem(StarComponent * starComp, RootNode * rootNode);
+    StarItem(StarComponent *starComp, RootNode *rootNode);
 
-        /**
+    /**
          * @short Update positions of nodes that represent stars
          * In this function we perform almost the same thing as in DeepSkyItem::updateDeepSkyNode() to reduce
          * memory consumption.
          * @see DeepSkyItem::updateDeepSkyNode()
          */
-        virtual void update();
+    virtual void update();
 
-    private:
-        StarComponent * m_starComp;
-        SkyMesh * m_skyMesh;
-        StarBlockFactory * m_StarBlockFactory;
+  private:
+    StarComponent *m_starComp;
+    SkyMesh *m_skyMesh;
+    StarBlockFactory *m_StarBlockFactory;
 
-        SkyOpacityNode * m_stars;
-        SkyOpacityNode * m_deepStars;
-        SkyOpacityNode * m_starLabels;
+    SkyOpacityNode *m_stars;
+    SkyOpacityNode *m_deepStars;
+    SkyOpacityNode *m_starLabels;
 };
 #endif
-

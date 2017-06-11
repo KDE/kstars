@@ -32,26 +32,26 @@ class SatellitesComponent;
 
 class SatellitesItem : public SkyItem
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor
          * @param satComp - pointer to SatellitesComponent that handles data
          * @param rootNode parent RootNode that instantiates this object
          */
-        SatellitesItem(SatellitesComponent * satComp, RootNode * rootNode = 0);
+    SatellitesItem(SatellitesComponent *satComp, RootNode *rootNode = 0);
 
-        /**
+    /**
          * @short recreates the node tree (deletes old nodes and appends new ones according to
          * SatelliteGroups from SatellitesComponent::groups())
          */
-        void recreateList();
+    void recreateList();
 
-        /**
+    /**
          * @short Update positions and visibility of satellites
          */
-        virtual void update() override;
+    virtual void update() override;
 
-    private:
-        SatellitesComponent * m_satComp;
+  private:
+    SatellitesComponent *m_satComp;
 };
 #endif

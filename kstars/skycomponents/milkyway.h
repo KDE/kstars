@@ -34,36 +34,35 @@
  */
 class MilkyWay : public LineListIndex
 {
-        friend class MilkyWayItem;
+    friend class MilkyWayItem;
 
-    public:
-        /** @short Constructor
+  public:
+    /** @short Constructor
          * @p parent pointer to the parent SkyComposite
          */
-        explicit MilkyWay( SkyComposite * parent );
+    explicit MilkyWay(SkyComposite *parent);
 
-        /** Load skiplists from file */
-        void loadContours(QString fname, QString greeting);
+    /** Load skiplists from file */
+    void loadContours(QString fname, QString greeting);
 
-        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
-        bool selected() Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
 
-    protected:
-        /** @short Returns an IndexHash from the SkyMesh that contains the set
+  protected:
+    /** @short Returns an IndexHash from the SkyMesh that contains the set
          * of trixels that cover the _SkipList_ lineList excluding skipped
          * lines as specified in the SkipList.  SkipList is a subclass of
          * LineList.
          * FIXME: Implementation is broken!!
          */
-        const IndexHash &getIndexHash( LineList * skipList ) Q_DECL_OVERRIDE;
+    const IndexHash &getIndexHash(LineList *skipList) Q_DECL_OVERRIDE;
 
-        /** @short Returns a boolean indicating whether to skip the i-th line
+    /** @short Returns a boolean indicating whether to skip the i-th line
          * segment in the _SkipList_ skipList.  Note that SkipList is a
          * subclass of LineList.  This routine allows us to use the drawing
          * code in LineListIndex instead of repeating it all here.
          * FIXME: Implementation is broken!!
          */
-        SkipList * skipList(LineList * lineList) Q_DECL_OVERRIDE;
-
+    SkipList *skipList(LineList *lineList) Q_DECL_OVERRIDE;
 };
 #endif

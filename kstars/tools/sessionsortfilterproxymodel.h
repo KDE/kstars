@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include<QSortFilterProxyModel>
+#include <QSortFilterProxyModel>
 
 class QModelIndex;
 
@@ -36,13 +36,11 @@ class QModelIndex;
 
 class SessionSortFilterProxyModel : public QSortFilterProxyModel
 {
+    Q_OBJECT;
 
-        Q_OBJECT;
+  public:
+    SessionSortFilterProxyModel(QObject *parent = 0);
 
-    public:
-        SessionSortFilterProxyModel( QObject * parent = 0 );
-
-    protected:
-        bool lessThan( const QModelIndex &left, const QModelIndex &right ) const Q_DECL_OVERRIDE;
-
+  protected:
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;
 };

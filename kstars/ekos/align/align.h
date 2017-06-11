@@ -34,7 +34,6 @@ class QProgressIndicator;
 
 namespace Ekos
 {
-
 class AstrometryParser;
 class OnlineAstrometryParser;
 class OfflineAstrometryParser;
@@ -58,67 +57,97 @@ class OpsAstrometryIndexFiles;
  */
 class Align : public QWidget, public Ui::Align
 {
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Align")
 
-        Q_OBJECT
-        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Align")
+  public:
+    Align();
+    ~Align();
 
-    public:
-        Align();
-        ~Align();
+    typedef enum {
+        AZ_INIT,
+        AZ_FIRST_TARGET,
+        AZ_SYNCING,
+        AZ_SLEWING,
+        AZ_SECOND_TARGET,
+        AZ_CORRECTING,
+        AZ_FINISHED
+    } AZStage;
+    typedef enum {
+        ALT_INIT,
+        ALT_FIRST_TARGET,
+        ALT_SYNCING,
+        ALT_SLEWING,
+        ALT_SECOND_TARGET,
+        ALT_CORRECTING,
+        ALT_FINISHED
+    } ALTStage;
+    typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
+    typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE } SolverType;
+    typedef enum {
+        PAH_IDLE,
+        PAH_FIRST_CAPTURE,
+        PAH_FIND_CP,
+        PAH_FIRST_ROTATE,
+        PAH_SECOND_CAPTURE,
+        PAH_SECOND_ROTATE,
+        PAH_THIRD_CAPTURE,
+        PAH_STAR_SELECT,
+        PAH_PRE_REFRESH,
+        PAH_REFRESH,
+        PAH_ERROR
+    } PAHStage;
+    typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
 
-        typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
-        typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
-        typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
-        typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE} SolverType;
-        typedef enum { PAH_IDLE, PAH_FIRST_CAPTURE, PAH_FIND_CP, PAH_FIRST_ROTATE, PAH_SECOND_CAPTURE, PAH_SECOND_ROTATE, PAH_THIRD_CAPTURE, PAH_STAR_SELECT, PAH_PRE_REFRESH, PAH_REFRESH, PAH_ERROR } PAHStage;
-        typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
+    // Image Scales
+    const QStringList ImageScales = { "dw", "aw", "app" };
 
-        // Image Scales
-        const QStringList ImageScales = { "dw", "aw", "app" };
+    enum CircleSolution
+    {
+        NO_CIRCLE_SOLUTION,
+        ONE_CIRCLE_SOLUTION,
+        TWO_CIRCLE_SOLUTION,
+        INFINITE_CIRCLE_SOLUTION
+    };
 
-        enum CircleSolution { NO_CIRCLE_SOLUTION, ONE_CIRCLE_SOLUTION, TWO_CIRCLE_SOLUTION, INFINITE_CIRCLE_SOLUTION };
-
-        /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
+    /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
          * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net
         */
 
-        /*@{*/
+    /*@{*/
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Select CCD
          * @param device CCD device name
          * @return Returns true if device if found and selected, false otherwise.
          */
-        Q_SCRIPTABLE bool setCCD(QString device);
+    Q_SCRIPTABLE bool setCCD(QString device);
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Start the plate-solving process given the passed image file.
          * @param filename Name of image file to solve. FITS and JPG/JPG/TIFF formats are accepted.
          * @param isGenerated Set to true if filename is generated from a CCD capture operation. If the file is loaded from any storage or network media, pass false.
          * @return Returns true if device if found and selected, false otherwise.
          */
-        Q_SCRIPTABLE Q_NOREPLY void startSolving(const QString &filename, bool isGenerated=true);
+    Q_SCRIPTABLE Q_NOREPLY void startSolving(const QString &filename, bool isGenerated = true);
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Select Solver Action after successfully solving an image.
          * @param mode 0 for Sync, 1 for Slew To Target, 2 for Nothing (just display solution results)
          */
-        Q_SCRIPTABLE Q_NOREPLY void setSolverAction(int mode);
+    Q_SCRIPTABLE Q_NOREPLY void setSolverAction(int mode);
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Returns the solver's solution results
          * @return Returns array of doubles. First item is RA in degrees. Second item is DEC in degrees.
          */
-        Q_SCRIPTABLE QList<double> getSolutionResult();
+    Q_SCRIPTABLE QList<double> getSolutionResult();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Returns the solver's current status
          * @return Returns solver status (Ekos::AlignState)
          */
-        Q_SCRIPTABLE int getStatus()
-        {
-            return state;
-        }
+    Q_SCRIPTABLE int getStatus() { return state; }
 
 #if 0
         /** DBUS interface function.
@@ -138,306 +167,297 @@ class Align : public QWidget, public Ui::Align
         }
 #endif
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * @return Returns State of load slew procedure. Idle if not started. Busy if in progress. Ok if complete. Alert if procedure failed.
          */
-        Q_SCRIPTABLE int getLoadAndSlewStatus()
-        {
-            return loadSlewState;
-        }
+    Q_SCRIPTABLE int getLoadAndSlewStatus() { return loadSlewState; }
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Sets the exposure of the selected CCD device.
          * @param value Exposure value in seconds
          */
-        Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
+    Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Sets the arguments that gets passed to the astrometry.net offline solver.
          * @param value space-separated arguments.
          */
-        Q_SCRIPTABLE Q_NOREPLY void setSolverArguments(const QString &value);
+    Q_SCRIPTABLE Q_NOREPLY void setSolverArguments(const QString &value);
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Get existing solver options.
          * @return String containing all arguments.
          */
-        Q_SCRIPTABLE QString getSolverArguments();
+    Q_SCRIPTABLE QString getSolverArguments();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Sets the telescope type (PRIMARY or GUIDE) that should be used for FOV calculations. This value is loaded form driver settings by default.
          * @param index 0 for PRIMARY telescope, 1 for GUIDE telescope
          */
-        Q_SCRIPTABLE Q_NOREPLY void setFOVTelescopeType(int index);
+    Q_SCRIPTABLE Q_NOREPLY void setFOVTelescopeType(int index);
 
+    /** @}*/
 
-        /** @}*/
-
-        /**
+    /**
          * @brief Add CCD to the list of available CCD.
          * @param newCCD pointer to CCD device.
          */
-        void addCCD(ISD::GDInterface * newCCD);
+    void addCCD(ISD::GDInterface *newCCD);
 
-        /**
+    /**
          * @brief Set the current telescope
          * @newTelescope pointer to telescope device.
          */
-        void setTelescope(ISD::GDInterface * newTelescope);
+    void setTelescope(ISD::GDInterface *newTelescope);
 
-        /**
+    /**
          * @brief setAstrometryDevice
          * @param newAstrometry
          */
-        void setAstrometryDevice(ISD::GDInterface * newAstrometry);
+    void setAstrometryDevice(ISD::GDInterface *newAstrometry);
 
-        /**
+    /**
          * @brief CCD information is updated, sync them.
          */
-        void syncCCDInfo();
+    void syncCCDInfo();
 
-        /**
+    /**
          * @brief Generate arguments we pass to the online and offline solvers. Keep user own arguments in place.
          */
-        void generateArgs();
+    void generateArgs();
 
-        /**
+    /**
          * @brief Does our parser exist in the system?
          */
-        bool isParserOK();
+    bool isParserOK();
 
-        // Log
-        QString getLogText()
-        {
-            return logText.join("\n");
-        }
-        void clearLog();
+    // Log
+    QString getLogText() { return logText.join("\n"); }
+    void clearLog();
 
-        /**
+    /**
          * @brief Return FOV object used to represent the solved image orientation on the sky map.
          */
-        FOV * fov();
+    FOV *fov();
 
-        /**
+    /**
          * @brief getFOVScale Returns calculated FOV values
          * @param fov_w FOV width in arcmins
          * @param fov_h FOV height in arcmins
          * @param fov_scale FOV scale in arcsec per pixel
          */
-        void getFOVScale(double &fov_w, double &fov_h, double &fov_scale);
+    void getFOVScale(double &fov_w, double &fov_h, double &fov_scale);
 
-        /**
+    /**
          * @brief generateOptions Generate astrometry.net option given the supplied map
          * @param optionsMap List of key=value pairs for all astrometry.net options
          * @return String List of valid astrometry.net options
          */
-        static QStringList generateOptions(const QVariantMap &optionsMap);
-        static void generateFOVBounds(double fov_h, double fov_v, QString &fov_low, QString &fov_high);
+    static QStringList generateOptions(const QVariantMap &optionsMap);
+    static void generateFOVBounds(double fov_h, double fov_v, QString &fov_low, QString &fov_high);
 
+  public slots:
 
-    public slots:
-
-        /**
+    /**
          * @brief Process updated telescope coordinates.
          * @coord pointer to telescope coordinate property.
          */
-        void processTelescopeNumber(INumberVectorProperty * coord);
+    void processTelescopeNumber(INumberVectorProperty *coord);
 
-        /**
+    /**
          * @brief Check CCD and make sure information is updated and FOV is re-calculated.
          * @param CCDNum By default, we check the already selected CCD in the dropdown menu. If CCDNum is specified, the check is made against this specific CCD in the dropdown menu. CCDNum is the index of the CCD in the dropdown menu.
          */
-        void checkCCD(int CCDNum=-1);
+    void checkCCD(int CCDNum = -1);
 
-        /**
+    /**
          * @brief checkCCDExposureProgress Track the progress of CCD exposure
          * @param targeChip Target chip under exposure
          * @param remaining how many seconds remaining
          * @param state status of exposure
          */
-        void checkCCDExposureProgress(ISD::CCDChip * targetChip, double remaining, IPState state);
-        /**
+    void checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining, IPState state);
+    /**
          * @brief Process new FITS received from CCD.
          * @param bp pointer to blob property
          */
-        void newFITS(IBLOB * bp);
+    void newFITS(IBLOB *bp);
 
-        /** \addtogroup AlignDBusInterface
+    /** \addtogroup AlignDBusInterface
          *  @{
          */
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Aborts the solving operation.
          */
-        Q_SCRIPTABLE Q_NOREPLY void abort();
+    Q_SCRIPTABLE Q_NOREPLY void abort();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Select the solver type
          * @param type Set solver type. 0 online, 1 offline, 2 remote
          */
-        Q_SCRIPTABLE Q_NOREPLY void setSolverType(int type);
+    Q_SCRIPTABLE Q_NOREPLY void setSolverType(int type);
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Capture and solve an image using the astrometry.net engine
          * @return Returns true if the procedure started successful, false otherwise.
          */
-        Q_SCRIPTABLE bool captureAndSolve();
+    Q_SCRIPTABLE bool captureAndSolve();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
          * the telescope is pointing to the same coordinates of the image.
          * @param fileURL URL to the image to solve
          */
-        Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QString fileURL = QString());
+    Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QString fileURL = QString());
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Sets the binning of the selected CCD device.
          * @param binIndex Index of binning value. Default values range from 0 (binning 1x1) to 3 (binning 4x4)
          */
-        Q_SCRIPTABLE Q_NOREPLY void setBinningIndex(int binIndex);
+    Q_SCRIPTABLE Q_NOREPLY void setBinningIndex(int binIndex);
 
-        /** @}*/
+    /** @}*/
 
-        /**
+    /**
          * @brief Solver finished successfully, process the data and execute the required actions depending on the mode.
          * @param orientation Orientation of image in degrees (East of North)
          * @param ra Center RA in solved image, degrees.
          * @param dec Center DEC in solved image, degrees.
          * @param pixscale Image scale is arcsec/pixel
          */
-        void solverFinished(double orientation, double ra, double dec, double pixscale);
+    void solverFinished(double orientation, double ra, double dec, double pixscale);
 
-        /**
+    /**
          * @brief Process solver failure.
          */
-        void solverFailed();
+    void solverFailed();
 
-        /**
+    /**
          * @brief We received new telescope info, process them and update FOV.
          */
-        void syncTelescopeInfo();
+    void syncTelescopeInfo();
 
-        void setLockedFilter(ISD::GDInterface * filter, int lockedPosition);
+    void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
 
-        void setFocusStatus(Ekos::FocusState state);
+    void setFocusStatus(Ekos::FocusState state);
 
-        // Log
-        void appendLogText(const QString &);
+    // Log
+    void appendLogText(const QString &);
 
-        // Capture
-        void setCaptureComplete();
+    // Capture
+    void setCaptureComplete();
 
-        // Update Capture Module status
-        void setCaptureStatus(Ekos::CaptureState newState);
-        // Update Mount module status
-        void setMountStatus(ISD::Telescope::TelescopeStatus newState);
+    // Update Capture Module status
+    void setCaptureStatus(Ekos::CaptureState newState);
+    // Update Mount module status
+    void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
+  private slots:
 
-    private slots:
+    /* Polar Alignment */
+    void measureAltError();
+    void measureAzError();
+    void correctAzError();
+    void correctAltError();
 
-        /* Polar Alignment */
-        void measureAltError();
-        void measureAzError();
-        void correctAzError();
-        void correctAltError();
+    void processFilterNumber(INumberVectorProperty *nvp);
+    void processCCDSwitch(ISwitchVectorProperty *svp);
 
-        void processFilterNumber(INumberVectorProperty * nvp);
-        void processCCDSwitch(ISwitchVectorProperty * svp);
+    void setDefaultCCD(QString ccd);
 
-        void setDefaultCCD(QString ccd);
+    void saveSettleTime();
 
-        void saveSettleTime();
+    // Solver timeout
+    void checkAlignmentTimeout();
 
-        // Solver timeout
-        void checkAlignmentTimeout();
+    void updateTelescopeType(int index);
 
-        void updateTelescopeType(int index);
+    // External View
+    void showFITSViewer();
+    void toggleAlignWidgetFullScreen();
 
-        // External View
-        void showFITSViewer();
-        void toggleAlignWidgetFullScreen();
+    // Polar Alignment Helper slots
+    void startPAHProcess();
+    void restartPAHProcess();
+    void rotatePAH();
+    void setPAHCorrectionOffset(int x, int y);
+    void setPAHCorrectionSelectionComplete();
+    void startPAHRefreshProcess();
+    void setPAHRefreshComplete();
+    void setWCSToggled(bool result);
 
-        // Polar Alignment Helper slots
-        void startPAHProcess();
-        void restartPAHProcess();
-        void rotatePAH();
-        void setPAHCorrectionOffset(int x, int y);
-        void setPAHCorrectionSelectionComplete();
-        void startPAHRefreshProcess();
-        void setPAHRefreshComplete();
-        void setWCSToggled(bool result);
+    //Solutions Display slots
+    void buildTarget();
+    void handlePointTooltip(QMouseEvent *event);
+    void handleVerticalPlotSizeChange();
+    void handleHorizontalPlotSizeChange();
+    void selectSolutionTableRow(int row, int column);
+    void slotClearAllSolutionPoints();
+    void slotRemoveSolutionPoint();
+    void slotMountModel();
 
-        //Solutions Display slots
-        void buildTarget();
-        void handlePointTooltip(QMouseEvent * event);
-        void handleVerticalPlotSizeChange();
-        void handleHorizontalPlotSizeChange();
-        void selectSolutionTableRow(int row, int column);
-        void slotClearAllSolutionPoints();
-        void slotRemoveSolutionPoint();
-        void slotMountModel();
+    //Mount Model Slots
 
-        //Mount Model Slots
+    void slotWizardAlignmentPoints();
+    void slotStarSelected(const QString selectedStar);
+    void slotLoadAlignmentPoints();
+    void slotSaveAsAlignmentPoints();
+    void slotSaveAlignmentPoints();
+    void slotClearAllAlignPoints();
+    void slotRemoveAlignPoint();
+    void slotAddAlignPoint();
+    void slotFindAlignObject();
+    void resetAlignmentProcedure();
+    void startStopAlignmentProcedure();
+    void startAlignmentPoint();
+    void finishAlignmentPoint(bool solverSucceeded);
+    void moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex);
+    void exportSolutionPoints();
+    void alignTypeChanged(const QString alignType);
+    void togglePreviewAlignPoints();
+    void slotSortAlignmentPoints();
+    void slotAutoScaleGraph();
 
-        void slotWizardAlignmentPoints();
-        void slotStarSelected(const QString selectedStar);
-        void slotLoadAlignmentPoints();
-        void slotSaveAsAlignmentPoints();
-        void slotSaveAlignmentPoints();
-        void slotClearAllAlignPoints();
-        void slotRemoveAlignPoint();
-        void slotAddAlignPoint();
-        void slotFindAlignObject();
-        void resetAlignmentProcedure();
-        void startStopAlignmentProcedure();
-        void startAlignmentPoint();
-        void finishAlignmentPoint(bool solverSucceeded);
-        void moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex);
-        void exportSolutionPoints();
-        void alignTypeChanged(const QString alignType);
-        void togglePreviewAlignPoints();
-        void slotSortAlignmentPoints();
-        void slotAutoScaleGraph();
+  signals:
+    void newLog();
+    void solverComplete(bool);
+    void solverSlewComplete();
+    void newStatus(Ekos::AlignState state);
+    void newSolutionDeviation(double ra_arcsecs, double de_arcsecs);
 
-    signals:
-        void newLog();
-        void solverComplete(bool);
-        void solverSlewComplete();
-        void newStatus(Ekos::AlignState state);
-        void newSolutionDeviation(double ra_arcsecs, double de_arcsecs);
-
-    private:
-        /**
+  private:
+    /**
         * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
         */
-        void calculateFOV();
+    void calculateFOV();
 
-        /**
+    /**
          * @brief After a solver process is completed successfully, sync, slew to target, or do nothing as set by the user.
          */
-        void executeGOTO();
+    void executeGOTO();
 
-        /**
+    /**
          * @brief After a solver process is completed successfully, measure Azimuth or Altitude error as requested by the user.
          */
-        void executePolarAlign();
+    void executePolarAlign();
 
-        /**
+    /**
          * @brief Sync the telescope to the solved alignment coordinate.
          */
-        void Sync();
+    void Sync();
 
-        /**
+    /**
          * @brief Slew the telescope to the solved alignment coordinate.
          */
-        void Slew();
+    void Slew();
 
-        /**
+    /**
          * @brief Sync the telescope to the solved alignment coordinate, and then slew to the target coordinate.
          */
-        void SlewToTarget();
+    void SlewToTarget();
 
-        /**
+    /**
          * @brief Calculate polar alignment error magnitude and direction.
          * The calculation is performed by first capturing and solving a frame, then slewing 30 arcminutes and solving another frame to find the exact coordinates, then computing the error.
          * @param initRA RA of first frame.
@@ -446,213 +466,213 @@ class Align : public QWidget, public Ui::Align
          * @param finalDEC DEC of second frame
          * @param initAz Azimuth of first frame
          */
-        void calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC, double initAz);
+    void calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC, double initAz);
 
-        /**
+    /**
          * @brief Get formatted RA & DEC coordinates compatible with astrometry.net format.
          * @param ra Right ascension
          * @param dec Declination
          * @param ra_str will contain the formatted RA string
          * @param dec_str will contain the formatted DEC string
          */
-        void getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str);
+    void getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str);
 
-        /**
+    /**
          * @brief getSolverOptionsFromFITS Generates a set of solver options given the supplied FITS image. The function reads FITS keyword headers and build the argument list accordingly. In case of a missing header keyword, it falls back to
          * the Alignment module existing values.
          * @param filename FITS path
          * @return List of Solver options
          */
-        QStringList getSolverOptionsFromFITS(const QString &filename);
+    QStringList getSolverOptionsFromFITS(const QString &filename);
 
-        /**
+    /**
          * @brief setWCSEnabled enables/disables World Coordinate System settings in the CCD driver.
          * @param enable true to enable WCS, false to disable.
          */
-        void setWCSEnabled(bool enable);
+    void setWCSEnabled(bool enable);
 
-        /**
+    /**
          * @brief calculatePAHError Calculate polar alignment error in the Polar Alignment Helper (PAH) method
          */
-        void calculatePAHError();
+    void calculatePAHError();
 
-        /**
+    /**
          * @brief processPAHStage After solver is complete, handle PAH Stage processing
          */
-        void processPAHStage(double orientation, double ra, double dec, double pixscale);
+    void processPAHStage(double orientation, double ra, double dec, double pixscale);
 
-        CircleSolution findCircleSolutions(const QPointF &p1, const QPointF p2, double angle, QPair<QPointF,QPointF> &circleSolutions);
+    CircleSolution findCircleSolutions(const QPointF &p1, const QPointF p2, double angle,
+                                       QPair<QPointF, QPointF> &circleSolutions);
 
-        double distance(const QPointF &p1, const QPointF &p2);
-        bool findRACircle(QVector3D &RACircle);
-        bool isPerpendicular(const QPointF &p1, const QPointF &p2, const QPointF &p3);
-        bool calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, QVector3D &RACircle);
+    double distance(const QPointF &p1, const QPointF &p2);
+    bool findRACircle(QVector3D &RACircle);
+    bool isPerpendicular(const QPointF &p1, const QPointF &p2, const QPointF &p3);
+    bool calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, QVector3D &RACircle);
 
-        // Which chip should we invoke in the current CCD?
-        bool useGuideHead;
-        // Can the mount sync its coordinates to those set by Ekos?
-        bool canSync;
-        // LoadSlew mode is when we load an image and solve it, no capture is done.
-        //bool loadSlewMode;
-        // If load and slew is solved successfully, coordinates obtained, slewed to target, and then captured, solved, and re-slewed to target again.
-        IPState loadSlewState;
-        // Solver iterations count
-        uint8_t solverIterations;
+    // Which chip should we invoke in the current CCD?
+    bool useGuideHead;
+    // Can the mount sync its coordinates to those set by Ekos?
+    bool canSync;
+    // LoadSlew mode is when we load an image and solve it, no capture is done.
+    //bool loadSlewMode;
+    // If load and slew is solved successfully, coordinates obtained, slewed to target, and then captured, solved, and re-slewed to target again.
+    IPState loadSlewState;
+    // Solver iterations count
+    uint8_t solverIterations;
 
-        // FOV
-        double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y, fov_pixscale;
-        int ccd_width, ccd_height;
+    // FOV
+    double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y, fov_pixscale;
+    int ccd_width, ccd_height;
 
-        // Keep track of solver results
-        double sOrientation, sRA, sDEC;
+    // Keep track of solver results
+    double sOrientation, sRA, sDEC;
 
-        // Solver alignment coordinates
-        SkyPoint alignCoord;
-        // Target coordinates we need to slew to
-        SkyPoint targetCoord;
-        // Actual current telescope coordinates
-        SkyPoint telescopeCoord;
-        // Coord from Load & Slew
-        SkyPoint loadSlewCoord;
-        // Difference between solution and target coordinate
-        double targetDiff;
+    // Solver alignment coordinates
+    SkyPoint alignCoord;
+    // Target coordinates we need to slew to
+    SkyPoint targetCoord;
+    // Actual current telescope coordinates
+    SkyPoint telescopeCoord;
+    // Coord from Load & Slew
+    SkyPoint loadSlewCoord;
+    // Difference between solution and target coordinate
+    double targetDiff;
 
-        // Progress icon if the solver is running
-        QProgressIndicator * pi;
+    // Progress icon if the solver is running
+    QProgressIndicator *pi;
 
-        // Keep track of how long the solver is running
-        QTime solverTimer;
+    // Keep track of how long the solver is running
+    QTime solverTimer;
 
-        // Polar Alignment
-        AZStage azStage;
-        ALTStage altStage;
-        double azDeviation, altDeviation;
-        double decDeviation;
-        static const double RAMotion;
-        static const float SIDRATE;
+    // Polar Alignment
+    AZStage azStage;
+    ALTStage altStage;
+    double azDeviation, altDeviation;
+    double decDeviation;
+    static const double RAMotion;
+    static const float SIDRATE;
 
-        // Have we slewed?
-        bool isSlewDirty=false;
+    // Have we slewed?
+    bool isSlewDirty = false;
 
-        // Online and Offline parsers
-        AstrometryParser * parser;
-        OnlineAstrometryParser * onlineParser;
-        OfflineAstrometryParser * offlineParser;
+    // Online and Offline parsers
+    AstrometryParser *parser;
+    OnlineAstrometryParser *onlineParser;
+    OfflineAstrometryParser *offlineParser;
 
-        RemoteAstrometryParser * remoteParser;
-        ISD::GDInterface * remoteParserDevice = nullptr;
+    RemoteAstrometryParser *remoteParser;
+    ISD::GDInterface *remoteParserDevice = nullptr;
 
-        // Pointers to our devices
-        ISD::Telescope * currentTelescope;
-        ISD::CCD * currentCCD;
-        QList<ISD::CCD *> CCDs;
+    // Pointers to our devices
+    ISD::Telescope *currentTelescope;
+    ISD::CCD *currentCCD;
+    QList<ISD::CCD *> CCDs;
 
-        // Optional device filter
-        ISD::GDInterface * currentFilter;
-        int lockedFilterIndex;
-        int currentFilterIndex;
-        // True if we need to change filter position and wait for result before continuing capture
-        bool filterPositionPending;
+    // Optional device filter
+    ISD::GDInterface *currentFilter;
+    int lockedFilterIndex;
+    int currentFilterIndex;
+    // True if we need to change filter position and wait for result before continuing capture
+    bool filterPositionPending;
 
-        // Keep track of solver FOV to be plotted in the skymap after each successful solve operation
-        FOV * solverFOV;
+    // Keep track of solver FOV to be plotted in the skymap after each successful solve operation
+    FOV *solverFOV;
 
-        // WCS
-        bool m_wcsSynced;
+    // WCS
+    bool m_wcsSynced;
 
-        // Log
-        QStringList logText;
+    // Log
+    QStringList logText;
 
-        // Capture retries
-        int retries;
+    // Capture retries
+    int retries;
 
-        // State
-        AlignState state;
-        FocusState focusState;
+    // State
+    AlignState state;
+    FocusState focusState;
 
-        // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
-        ISD::CCD::UploadMode rememberUploadMode;
+    // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
+    ISD::CCD::UploadMode rememberUploadMode;
 
-        GotoMode currentGotoMode;
+    GotoMode currentGotoMode;
 
-        QString dirPath;
+    QString dirPath;
 
-        // Timer
-        QTimer alignTimer;
+    // Timer
+    QTimer alignTimer;
 
-        // BLOB Type
-        ISD::CCD::BlobType blobType;
-        QString blobFileName;
+    // BLOB Type
+    ISD::CCD::BlobType blobType;
+    QString blobFileName;
 
-        // Align Frame
-        AlignView * alignView;
+    // Align Frame
+    AlignView *alignView;
 
-        // FITS Viewer in case user want to display in it instead of internal view
-        QPointer<FITSViewer> fv;
+    // FITS Viewer in case user want to display in it instead of internal view
+    QPointer<FITSViewer> fv;
 
-        // Polar Alignment Helper
-        PAHStage pahStage;
+    // Polar Alignment Helper
+    PAHStage pahStage;
 
-        // Sky centers
-        typedef struct
-        {
-            SkyPoint skyCenter;
-            QPointF  pixelCenter;
-            double   pixelScale;
-            double   orientation;
-        } PAHImageInfo;
+    // Sky centers
+    typedef struct
+    {
+        SkyPoint skyCenter;
+        QPointF pixelCenter;
+        double pixelScale;
+        double orientation;
+    } PAHImageInfo;
 
-        QVector<PAHImageInfo *> pahImageInfos;
+    QVector<PAHImageInfo *> pahImageInfos;
 
-        // User desired offset when selecting a bright star in the image
-        QPointF celestialPolePoint, correctionOffset;
-        // Correction vector line between mount RA Axis and celestial pole
-        QLineF correctionVector;
+    // User desired offset when selecting a bright star in the image
+    QPointF celestialPolePoint, correctionOffset;
+    // Correction vector line between mount RA Axis and celestial pole
+    QLineF correctionVector;
 
-        // CCDs using Guide Scope for parameters
-        //QStringList guideScopeCCDs;
+    // CCDs using Guide Scope for parameters
+    //QStringList guideScopeCCDs;
 
-        // Which hemisphere are we located on?
-        HemisphereType hemisphere;
+    // Which hemisphere are we located on?
+    HemisphereType hemisphere;
 
-        // Astrometry Options
-        OpsAstrometry * opsAstrometry;
-        OpsAlign * opsAlign;
-        OpsAstrometryCfg * opsAstrometryCfg;
-        OpsAstrometryIndexFiles * opsAstrometryIndexFiles;
+    // Astrometry Options
+    OpsAstrometry *opsAstrometry;
+    OpsAlign *opsAlign;
+    OpsAstrometryCfg *opsAstrometryCfg;
+    OpsAstrometryIndexFiles *opsAstrometryIndexFiles;
 
-        void resizeEvent(QResizeEvent * event);
-        QCPCurve * centralTarget = nullptr;
-        QCPCurve * yellowTarget = nullptr;
-        QCPCurve * redTarget = nullptr;
-        QCPCurve * concentricRings = nullptr;
-        QDialog mountModelDialog;
-        Ui_mountModel mountModel;
-        int currentAlignmentPoint=0;
-        bool mountModelRunning=false;
-        bool targetAccuracyNotMet=false;
+    void resizeEvent(QResizeEvent *event);
+    QCPCurve *centralTarget   = nullptr;
+    QCPCurve *yellowTarget    = nullptr;
+    QCPCurve *redTarget       = nullptr;
+    QCPCurve *concentricRings = nullptr;
+    QDialog mountModelDialog;
+    Ui_mountModel mountModel;
+    int currentAlignmentPoint = 0;
+    bool mountModelRunning    = false;
+    bool targetAccuracyNotMet = false;
 
-        bool alignmentPointsAreBad();
-        bool loadAlignmentPoints(const QString &fileURL);
-        bool saveAlignmentPoints(const QString &path);
+    bool alignmentPointsAreBad();
+    bool loadAlignmentPoints(const QString &fileURL);
+    bool saveAlignmentPoints(const QString &path);
 
-        QUrl alignURL;
-        QUrl alignURLPath;
-        QVector<const StarObject *> alignStars;
-        void generateAlignStarList();
-        bool isVisible(const SkyObject * so);
-        double getAltitude(const SkyObject * so);
-        const SkyObject * getWizardAlignObject(double ra, double de);
-        void calculateAngleForRALine(double &raIncrement,double &initRA, double initDEC, double lat, double raPoints, double minAlt);
-        void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
-        bool previewShowing=false;
-        void updatePreviewAlignPoints();
-        int findNextAlignmentPointAfter(int currentSpot);
-        int findClosestAlignmentPointToTelescope();
-        void swapAlignPoints( int firstPt, int secondPt);
-
+    QUrl alignURL;
+    QUrl alignURLPath;
+    QVector<const StarObject *> alignStars;
+    void generateAlignStarList();
+    bool isVisible(const SkyObject *so);
+    double getAltitude(const SkyObject *so);
+    const SkyObject *getWizardAlignObject(double ra, double de);
+    void calculateAngleForRALine(double &raIncrement, double &initRA, double initDEC, double lat, double raPoints,
+                                 double minAlt);
+    void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
+    bool previewShowing = false;
+    void updatePreviewAlignPoints();
+    int findNextAlignmentPointAfter(int currentSpot);
+    int findClosestAlignmentPointToTelescope();
+    void swapAlignPoints(int firstPt, int secondPt);
 };
-
 }
 
-#endif  // ALIGN_H
+#endif // ALIGN_H

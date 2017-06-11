@@ -14,24 +14,21 @@
 
 #include <basedevice.h>
 
-
 namespace Ekos
 {
-
 Dome::Dome()
 {
     new DomeAdaptor(this);
-    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Dome",  this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Dome", this);
 
     currentDome = nullptr;
 }
 
 Dome::~Dome()
 {
-
 }
 
-void Dome::setDome(ISD::GDInterface * newDome)
+void Dome::setDome(ISD::GDInterface *newDome)
 {
     currentDome = static_cast<ISD::Dome *>(newDome);
 }
@@ -81,7 +78,7 @@ Dome::ParkingStatus Dome::getParkingStatus()
     if (currentDome == nullptr || currentDome->canPark() == false)
         return PARKING_ERROR;
 
-    ISwitchVectorProperty * parkSP = currentDome->getBaseDevice()->getSwitch("DOME_PARK");
+    ISwitchVectorProperty *parkSP = currentDome->getBaseDevice()->getSwitch("DOME_PARK");
 
     if (parkSP == nullptr)
         return PARKING_ERROR;
@@ -110,9 +107,4 @@ Dome::ParkingStatus Dome::getParkingStatus()
 
     return PARKING_ERROR;
 }
-
-
-
 }
-
-

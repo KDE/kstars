@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #ifndef KSPOPUPMENU_H_
 #define KSPOPUPMENU_H_
 
@@ -42,15 +41,15 @@ class Supernova;
 	*/
 class KSPopupMenu : public QMenu
 {
-        Q_OBJECT
-    public:
-        /** Default constructor*/
-        KSPopupMenu();
+    Q_OBJECT
+  public:
+    /** Default constructor*/
+    KSPopupMenu();
 
-        /** Destructor (empty)*/
-        ~KSPopupMenu();
+    /** Destructor (empty)*/
+    ~KSPopupMenu();
 
-        /** Add an item to the popup menu for each of the URL links associated with
+    /** Add an item to the popup menu for each of the URL links associated with
          * this object.  URL links appear in two categories: images and information pages.
          * For some objects, a link to Digitized Sky Survey images will automatically be added
          * in addition to the object's normal image links.  Also, for some objects, an
@@ -59,9 +58,9 @@ class KSPopupMenu : public QMenu
          * @param obj pointer to the skyobject which the menu describes
          * @param showDSS if true, include DSS Image links
          */
-        void addLinksToMenu( SkyObject * obj, bool showDSS=true );
+    void addLinksToMenu(SkyObject *obj, bool showDSS = true);
 
-        /** @short Create a popup menu for a star.
+    /** @short Create a popup menu for a star.
          *
          * Stars get the following labels: a primary name and/or a genetive name,
          * a spectral type, an object type ("star"), and rise/transit/set times.
@@ -71,9 +70,9 @@ class KSPopupMenu : public QMenu
          * image links.  Stars do not get an "Add Trail" item.
          * @param star pointer to the star which the menu describes
          */
-        void createStarMenu( StarObject * star );
+    void createStarMenu(StarObject *star);
 
-        /** @short Create a popup menu for a deep-sky object.
+    /** @short Create a popup menu for a deep-sky object.
          *
          * DSOs get the following labels:
          * a common name and/or a catalog name, an object type, and rise/transit/set
@@ -83,9 +82,9 @@ class KSPopupMenu : public QMenu
          * "Add Link..." item.  They do not get an "Add Trail" item.
          * @param obj pointer to the object which the menu describes
          */
-        void createDeepSkyObjectMenu( DeepSkyObject * obj );
+    void createDeepSkyObjectMenu(DeepSkyObject *obj);
 
-        /** @short Create a popup menu for a solar system body.
+    /** @short Create a popup menu for a solar system body.
          *
          * Solar System bodies get a name label, a type label ("solar system object"),
          * and rise/set/transit time labels. They also get Center&Track,
@@ -95,22 +94,22 @@ class KSPopupMenu : public QMenu
          * comets and asteroids as well.
          * @param p the solar system object which the menu describes.
          */
-        void createPlanetMenu( SkyObject * p );
+    void createPlanetMenu(SkyObject *p);
 
-        void createMoonMenu( KSMoon * moon );
+    void createMoonMenu(KSMoon *moon);
 
-        /** @short Create a popup menu for a satellite.
+    /** @short Create a popup menu for a satellite.
          * @param satellite the satellite which the menu describes.
          */
-        void createSatelliteMenu( Satellite * satellite );
+    void createSatelliteMenu(Satellite *satellite);
 
-        /**
+    /**
          * @short Create a popup menu for a supernova
          * @param supernova the supernova which the menu describes.
          */
-        void createSupernovaMenu(Supernova * supernova);
+    void createSupernovaMenu(Supernova *supernova);
 
-        /** @short Create a popup menu for empty sky.
+    /** @short Create a popup menu for empty sky.
          *
          * The popup menu when right-clicking on nothing is still useful.
          * Instead of a name label, it shows "Empty Sky".  The rise/set/transit
@@ -118,17 +117,17 @@ class KSPopupMenu : public QMenu
          * the Center & Track and Angular Distance items, and the DSS image links.
          * @param nullObj pointer to point on the sky
          */
-        void createEmptyMenu( SkyPoint * nullObj );
+    void createEmptyMenu(SkyPoint *nullObj);
 
-    private slots:
-        void slotEditFlag();
-        void slotDeleteFlag();
-        void slotEditFlag( QAction * action );
-        void slotDeleteFlag( QAction * action );
-        void slotViewInWI();
+  private slots:
+    void slotEditFlag();
+    void slotDeleteFlag();
+    void slotEditFlag(QAction *action);
+    void slotDeleteFlag(QAction *action);
+    void slotViewInWI();
 
-    private:
-        /** Initialize the popup menus. Adds name and type labels, and possibly
+  private:
+    /** Initialize the popup menus. Adds name and type labels, and possibly
          * Rise/Set/Transit labels, Center/Track item, and Show Details item.
          * @short initialize the right-click popup menu
          * @param obj pointer to the skyobject which the menu describes
@@ -138,27 +137,25 @@ class KSPopupMenu : public QMenu
          * @param showDetails if true, the Show-Details item is added
          * @param showObsList if true, the Add to List/Remove from List item is added.
          */
-        void initPopupMenu( SkyObject * obj, QString name, QString type, QString info,
-                            bool showDetails=true,
-                            bool showObsList=true,
-                            bool showFlags=true);
+    void initPopupMenu(SkyObject *obj, QString name, QString type, QString info, bool showDetails = true,
+                       bool showObsList = true, bool showFlags = true);
 
-        void initFlagActions( SkyObject * obj );
+    void initFlagActions(SkyObject *obj);
 
-        /** Add a submenu for INDI controls (Slew, Track, Sync, etc).
+    /** Add a submenu for INDI controls (Slew, Track, Sync, etc).
          * @return true if a valid INDI menu was added.
          */
-        void addINDI();
+    void addINDI();
 
-        /** Add fancy label to menu.
+    /** Add fancy label to menu.
          * @param name is content of the label
          * @param deltaFontSize is change in font size from default
          */
-        void addFancyLabel(QString name, int deltaFontSize = 0);
+    void addFancyLabel(QString name, int deltaFontSize = 0);
 
-        int m_CurrentFlagIdx;
-        QHash<QAction *, int> * m_EditActionMapping;
-        QHash<QAction *, int> * m_DeleteActionMapping;
+    int m_CurrentFlagIdx;
+    QHash<QAction *, int> *m_EditActionMapping;
+    QHash<QAction *, int> *m_DeleteActionMapping;
 };
 
 #endif

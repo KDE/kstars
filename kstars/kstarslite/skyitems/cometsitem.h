@@ -31,26 +31,26 @@ class SkyObject;
 
 class CometsItem : public SkyItem
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor
          * @param cometsList const reference to list of comets
          * @param rootNode parent RootNode that instantiates this object
          */
-        CometsItem(const QList<SkyObject *> &cometsList, RootNode * rootNode = 0);
+    CometsItem(const QList<SkyObject *> &cometsList, RootNode *rootNode = 0);
 
-        /**
+    /**
          * @short recreates the node tree (deletes old nodes and appends new ones according to
          * m_cometsList)
          */
-        void recreateList();
+    void recreateList();
 
-        /**
+    /**
          * @short Determines the visibility of the object and its label and hides/updates them accordingly
          */
-        virtual void update() override;
+    virtual void update() override;
 
-    private:
-        const QList<SkyObject *> &m_cometsList;
+  private:
+    const QList<SkyObject *> &m_cometsList;
 };
 #endif

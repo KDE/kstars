@@ -31,15 +31,15 @@
 ** belong to a group, whether they have one or not but how the group
 ** is displayed differs
 *******************************************************************/
-INDI_G::INDI_G(INDI_D * idv, const QString &inName)
+INDI_G::INDI_G(INDI_D *idv, const QString &inName)
 {
-    dp = idv;
+    dp   = idv;
     name = (inName.isEmpty()) ? i18n("Unknown") : inName;
 
     propertyContainer = new QFrame(idv);
     propertyLayout    = new QVBoxLayout(propertyContainer);
     propertyLayout->setMargin(20);
-    VerticalSpacer    = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
+    VerticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
     propertyLayout->addItem(VerticalSpacer);
     propertyLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
@@ -51,18 +51,19 @@ INDI_G::INDI_G(INDI_D * idv, const QString &inName)
 
 INDI_G::~INDI_G()
 {
-    while ( ! propList.isEmpty() ) delete propList.takeFirst();
+    while (!propList.isEmpty())
+        delete propList.takeFirst();
 
-    delete(propertyContainer);
+    delete (propertyContainer);
 
     delete (scrollArea);
 }
 
-bool INDI_G::addProperty(INDI::Property * prop)
+bool INDI_G::addProperty(INDI::Property *prop)
 {
     QString propName(prop->getName());
 
-    INDI_P * pp = getProperty(propName);
+    INDI_P *pp = getProperty(propName);
 
     if (pp)
         return false;
@@ -79,7 +80,7 @@ bool INDI_G::addProperty(INDI::Property * prop)
 
 bool INDI_G::removeProperty(const QString &probName)
 {
-    foreach(INDI_P * pp, propList)
+    foreach (INDI_P *pp, propList)
     {
         if (pp->getName() == probName)
         {
@@ -93,11 +94,11 @@ bool INDI_G::removeProperty(const QString &probName)
     return false;
 }
 
-INDI_P * INDI_G::getProperty(const QString &propName)
+INDI_P *INDI_G::getProperty(const QString &propName)
 {
-    foreach(INDI_P * pp, propList)
+    foreach (INDI_P *pp, propList)
     {
-        if (pp->getName() == propName )
+        if (pp->getName() == propName)
             return pp;
     }
     return nullptr;

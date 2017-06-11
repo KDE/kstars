@@ -8,29 +8,26 @@ class KConfigDialog;
 
 namespace Ekos
 {
-
 class Align;
 
 class OpsAstrometryCfg : public QDialog, public Ui::OpsAstrometryCfg
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        explicit OpsAstrometryCfg(Align * parent);
-        ~OpsAstrometryCfg();
+  public:
+    explicit OpsAstrometryCfg(Align *parent);
+    ~OpsAstrometryCfg();
 
-    private slots:
-        void slotLoadCFG();
-        void slotApply();
-        void slotCFGEditorUpdated();
+  private slots:
+    void slotLoadCFG();
+    void slotApply();
+    void slotCFGEditorUpdated();
 
-
-    private:
-        KConfigDialog * m_ConfigDialog;
-        Align * alignModule;
-        QString currentCFGText;
+  private:
+    KConfigDialog *m_ConfigDialog;
+    Align *alignModule;
+    QString currentCFGText;
 };
-
 }
 
 #endif // OPSASTROMETRYCFG_H

@@ -39,9 +39,9 @@
 #include "Options.h"
 #include "ksutils.h"
 
-KStarsLite * KStarsLite::pinstance = 0;
+KStarsLite *KStarsLite::pinstance = 0;
 
-KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDateString)
+KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateString)
 {
     // Initialize logging settings
     /*if (Options::disableLogging())
@@ -55,11 +55,11 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     // Unlike KStars class we set pinstance at the beginning because SkyMapLite needs access to ClientManagerLite
     pinstance = this;
 
-    if ( doSplash )
+    if (doSplash)
         showSplash();
 
     m_KStarsData = KStarsData::Create();
-    Q_ASSERT( m_KStarsData );
+    Q_ASSERT(m_KStarsData);
 
     //INDI Android Client
     m_clientManager = new ClientManagerLite;
@@ -72,11 +72,12 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_Engine.rootContext()->setContextProperty("SimClock", m_KStarsData->clock());
     m_Engine.rootContext()->setContextObject(new KLocalizedContext(this));
     qmlRegisterUncreatableType<Projector>("KStarsLiteEnums", 1, 0, "Projection", "Provides Projection enum");
-    qmlRegisterUncreatableType<KStarsLite>("KStarsLiteEnums", 1, 0, "ObjectsToToggle", "Enum for togglint the visibility of sky objects");
+    qmlRegisterUncreatableType<KStarsLite>("KStarsLiteEnums", 1, 0, "ObjectsToToggle",
+                                           "Enum for togglint the visibility of sky objects");
 
     //Dialogs
-    m_findDialogLite = new FindDialogLite;
-    m_detailDialogLite = new DetailDialogLite;
+    m_findDialogLite     = new FindDialogLite;
+    m_detailDialogLite   = new DetailDialogLite;
     m_locationDialogLite = new LocationDialogLite;
 
     m_Engine.rootContext()->setContextProperty("FindDialogLite", m_findDialogLite);
@@ -100,12 +101,12 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_Engine.rootContext()->setContextProperty("SkyMapLite", m_SkyMapLite);
 
     m_Engine.load(QUrl(main));
-    Q_ASSERT_X(m_Engine.rootObjects().size(),"loading root object of main.qml",
+    Q_ASSERT_X(m_Engine.rootObjects().size(), "loading root object of main.qml",
                "QML file was not loaded. Probably syntax error or failed module import.");
 
     m_RootObject = m_Engine.rootObjects()[0];
 
-    QQuickItem * skyMapLiteWrapper = m_RootObject->findChild<QQuickItem *>("skyMapLiteWrapper");
+    QQuickItem *skyMapLiteWrapper = m_RootObject->findChild<QQuickItem *>("skyMapLiteWrapper");
 
     m_SkyMapLite->initialize(skyMapLiteWrapper);
     m_detailDialogLite->initialize();
@@ -113,53 +114,54 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_imgProvider = new ImageProvider;
     m_Engine.addImageProvider(QLatin1String("images"), m_imgProvider);
 
-    QQuickWindow * mainWindow = static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
+    QQuickWindow *mainWindow = static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
 
     QSurfaceFormat format = mainWindow->format();
     format.setSamples(4);
     format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
     mainWindow->setFormat(format);
 
-
     connect(qApp, SIGNAL(applicationStateChanged(Qt::ApplicationState)), SLOT(handleStateChange(Qt::ApplicationState)));
 
     //Initialize Time and Date
     if (startDateString.isEmpty() == false)
     {
-        KStarsDateTime startDate = KStarsDateTime::fromString( startDateString );
-        if (startDate.isValid() )
-            data()->changeDateTime( data()->geo()->LTtoUT( startDate ) );
+        KStarsDateTime startDate = KStarsDateTime::fromString(startDateString);
+        if (startDate.isValid())
+            data()->changeDateTime(data()->geo()->LTtoUT(startDate));
         else
-            data()->changeDateTime( KStarsDateTime::currentDateTimeUtc() );
+            data()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
     }
-    else data()->changeDateTime( KStarsDateTime::currentDateTimeUtc() );
+    else
+        data()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
 
     // Initialize clock. If --paused is not in the comand line, look in options
-    if ( startClock ) StartClockRunning =  Options::runClock();
+    if (startClock)
+        StartClockRunning = Options::runClock();
 
     // Setup splash screen
-    connect( m_KStarsData, SIGNAL( progressText(QString) ), m_KStarsData, SLOT( slotConsoleMessage(QString) ) );
+    connect(m_KStarsData, SIGNAL(progressText(QString)), m_KStarsData, SLOT(slotConsoleMessage(QString)));
 
     //set up Dark color scheme for application windows
     DarkPalette = QPalette(QColor("darkred"), QColor("darkred"));
-    DarkPalette.setColor( QPalette::Normal, QPalette::Base, QColor( "black" ) );
-    DarkPalette.setColor( QPalette::Normal, QPalette::Text, QColor( 238, 0, 0 ) );
-    DarkPalette.setColor( QPalette::Normal, QPalette::Highlight, QColor( 238, 0, 0 ) );
-    DarkPalette.setColor( QPalette::Normal, QPalette::HighlightedText, QColor( "black" ) );
-    DarkPalette.setColor( QPalette::Inactive, QPalette::Text, QColor( 238, 0, 0 ) );
-    DarkPalette.setColor( QPalette::Inactive, QPalette::Base, QColor( 30, 10, 10 ) );
+    DarkPalette.setColor(QPalette::Normal, QPalette::Base, QColor("black"));
+    DarkPalette.setColor(QPalette::Normal, QPalette::Text, QColor(238, 0, 0));
+    DarkPalette.setColor(QPalette::Normal, QPalette::Highlight, QColor(238, 0, 0));
+    DarkPalette.setColor(QPalette::Normal, QPalette::HighlightedText, QColor("black"));
+    DarkPalette.setColor(QPalette::Inactive, QPalette::Text, QColor(238, 0, 0));
+    DarkPalette.setColor(QPalette::Inactive, QPalette::Base, QColor(30, 10, 10));
     //store original color scheme
     OriginalPalette = QGuiApplication::palette();
-    if( !m_KStarsData->initialize() ) return;
+    if (!m_KStarsData->initialize())
+        return;
     datainitFinished();
-
 }
 
 void KStarsLite::slotTrack()
 {
-    if ( Options::isTracking() )
+    if (Options::isTracking())
     {
-        Options::setIsTracking( false );
+        Options::setIsTracking(false);
         /*actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
         actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-decrypt") );
 
@@ -169,17 +171,17 @@ void KStarsLite::slotTrack()
             data()->temporaryTrail = false;
         }*/ // No trail support yet
 
-        map()->setClickedObject( nullptr );
-        map()->setFocusObject( nullptr );//no longer tracking focusObject
-        map()->setFocusPoint( nullptr );
+        map()->setClickedObject(nullptr);
+        map()->setFocusObject(nullptr); //no longer tracking focusObject
+        map()->setFocusPoint(nullptr);
     }
     else
     {
-        map()->setClickedPoint( map()->focus() );
-        map()->setClickedObject( nullptr );
-        map()->setFocusObject( nullptr );//no longer tracking focusObject
-        map()->setFocusPoint( map()->clickedPoint() );
-        Options::setIsTracking( true );
+        map()->setClickedPoint(map()->focus());
+        map()->setClickedObject(nullptr);
+        map()->setFocusObject(nullptr); //no longer tracking focusObject
+        map()->setFocusPoint(map()->clickedPoint());
+        Options::setIsTracking(true);
         /*actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
         actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );*/
     }
@@ -187,12 +189,12 @@ void KStarsLite::slotTrack()
     map()->forceUpdate();
 }
 
-KStarsLite * KStarsLite::createInstance( bool doSplash, bool clockrunning, const QString &startDateString)
+KStarsLite *KStarsLite::createInstance(bool doSplash, bool clockrunning, const QString &startDateString)
 {
     delete pinstance;
     // pinstance is set directly in constructor.
-    new KStarsLite( doSplash, clockrunning, startDateString );
-    Q_ASSERT( pinstance && "pinstance must be non NULL");
+    new KStarsLite(doSplash, clockrunning, startDateString);
+    Q_ASSERT(pinstance && "pinstance must be non NULL");
     return nullptr;
 }
 
@@ -209,15 +211,15 @@ void KStarsLite::fullUpdate()
     m_SkyMapLite->forceUpdate();
 }
 
-void KStarsLite::updateTime( const bool automaticDSTchange )
+void KStarsLite::updateTime(const bool automaticDSTchange)
 {
     // Due to frequently use of this function save data and map pointers for speedup.
     // Save options and geo() to a pointer would not speedup because most of time options
     // and geo will accessed only one time.
-    KStarsData * Data = data();
+    KStarsData *Data = data();
     // dms oldLST( Data->lst()->Degrees() );
 
-    Data->updateTime( Data->geo(), automaticDSTchange );
+    Data->updateTime(Data->geo(), automaticDSTchange);
 
     //We do this outside of kstarsdata just to get the coordinates
     //displayed in the infobox to update every second.
@@ -233,9 +235,9 @@ void KStarsLite::updateTime( const bool automaticDSTchange )
     //step exactly equal to the timeScale setting.
     //Wrap the call to manualTick() in a singleshot timer so that it doesn't get called until
     //the skymap has been completely updated.
-    if ( Data->clock()->isManualMode() && Data->clock()->isActive() )
+    if (Data->clock()->isManualMode() && Data->clock()->isActive())
     {
-        QTimer::singleShot( 0, Data->clock(), SLOT( manualTick() ) );
+        QTimer::singleShot(0, Data->clock(), SLOT(manualTick()));
     }
 }
 
@@ -272,28 +274,28 @@ void KStarsLite::handleStateChange(Qt::ApplicationState state)
     }
 }
 
-void KStarsLite::loadColorScheme( const QString &name )
+void KStarsLite::loadColorScheme(const QString &name)
 {
-    bool ok = data()->colorScheme()->load( name );
+    bool ok          = data()->colorScheme()->load(name);
     QString filename = data()->colorScheme()->fileName();
 
-    if ( ok )
+    if (ok)
     {
         //set the application colors for the Night Vision scheme
-        if ( Options::darkAppColors() == false && filename == "night.colors" )
+        if (Options::darkAppColors() == false && filename == "night.colors")
         {
-            Options::setDarkAppColors( true );
+            Options::setDarkAppColors(true);
             OriginalPalette = QGuiApplication::palette();
-            QGuiApplication::setPalette( DarkPalette );
+            QGuiApplication::setPalette(DarkPalette);
         }
 
-        if ( Options::darkAppColors() && filename != "night.colors" )
+        if (Options::darkAppColors() && filename != "night.colors")
         {
-            Options::setDarkAppColors( false );
-            QGuiApplication::setPalette( OriginalPalette );
+            Options::setDarkAppColors(false);
+            QGuiApplication::setPalette(OriginalPalette);
         }
 
-        Options::setColorSchemeFile( name );
+        Options::setColorSchemeFile(name);
 
         data()->colorScheme()->saveToConfig();
 
@@ -308,18 +310,18 @@ void KStarsLite::loadColorScheme( const QString &name )
 
 void KStarsLite::slotSetTime(QDateTime time)
 {
-    KStarsDateTime selectedDateTime( time );
-    data()->changeDateTime( data()->geo()->LTtoUT( selectedDateTime ) );
+    KStarsDateTime selectedDateTime(time);
+    data()->changeDateTime(data()->geo()->LTtoUT(selectedDateTime));
 
-    if ( Options::useAltAz() )
+    if (Options::useAltAz())
     {
-        if ( map()->focusObject() )
+        if (map()->focusObject())
         {
-            map()->focusObject()->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
-            map()->setFocus( map()->focusObject() );
+            map()->focusObject()->EquatorialToHorizontal(data()->lst(), data()->geo()->lat());
+            map()->setFocus(map()->focusObject());
         }
         else
-            map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
+            map()->focus()->HorizontalToEquatorial(data()->lst(), data()->geo()->lat());
     }
 
     map()->forceUpdateNow();
@@ -334,39 +336,39 @@ void KStarsLite::slotSetTime(QDateTime time)
 
 void KStarsLite::slotToggleTimer()
 {
-    if ( data()->clock()->isActive() )
+    if (data()->clock()->isActive())
     {
         data()->clock()->stop();
         updateTime();
     }
     else
     {
-        if ( fabs( data()->clock()->scale() ) > Options::slewTimeScale() )
-            data()->clock()->setManualMode( true );
+        if (fabs(data()->clock()->scale()) > Options::slewTimeScale())
+            data()->clock()->setManualMode(true);
         data()->clock()->start();
-        if ( data()->clock()->isManualMode() )
+        if (data()->clock()->isManualMode())
             map()->forceUpdate();
     }
 
     // Update clock state in options
-    Options::setRunClock( data()->clock()->isActive() );
+    Options::setRunClock(data()->clock()->isActive());
 }
 
 void KStarsLite::slotStepForward()
 {
-    if ( data()->clock()->isActive() )
+    if (data()->clock()->isActive())
         data()->clock()->stop();
-    data()->clock()->manualTick( true );
+    data()->clock()->manualTick(true);
     map()->forceUpdate();
 }
 
 void KStarsLite::slotStepBackward()
 {
-    if ( data()->clock()->isActive() )
+    if (data()->clock()->isActive())
         data()->clock()->stop();
-    data()->clock()->setClockScale( -1.0 * data()->clock()->scale() ); //temporarily need negative time step
-    data()->clock()->manualTick( true );
-    data()->clock()->setClockScale( -1.0 * data()->clock()->scale() ); //reset original sign of time step
+    data()->clock()->setClockScale(-1.0 * data()->clock()->scale()); //temporarily need negative time step
+    data()->clock()->manualTick(true);
+    data()->clock()->setClockScale(-1.0 * data()->clock()->scale()); //reset original sign of time step
     map()->forceUpdate();
 }
 
@@ -375,7 +377,7 @@ void KStarsLite::applyConfig(bool doApplyFocus)
     Q_UNUSED(doApplyFocus);
     //color scheme
     m_KStarsData->colorScheme()->loadFromConfig();
-    QGuiApplication::setPalette( Options::darkAppColors() ? DarkPalette : OriginalPalette );
+    QGuiApplication::setPalette(Options::darkAppColors() ? DarkPalette : OriginalPalette);
 }
 
 void KStarsLite::setProjection(uint proj)
@@ -397,7 +399,7 @@ QString KStarsLite::getConfigCScheme()
 
 void KStarsLite::toggleObjects(ObjectsToToggle toToggle, bool toggle)
 {
-    switch(toToggle)
+    switch (toToggle)
     {
         case ObjectsToToggle::Stars:
             Options::setShowStars(toggle);
@@ -453,7 +455,7 @@ void KStarsLite::toggleObjects(ObjectsToToggle toToggle, bool toggle)
 
 bool KStarsLite::isToggled(ObjectsToToggle toToggle)
 {
-    switch(toToggle)
+    switch (toToggle)
     {
         case ObjectsToToggle::Stars:
             return Options::showStars();
@@ -490,7 +492,7 @@ bool KStarsLite::isToggled(ObjectsToToggle toToggle)
 
 void KStarsLite::setRunTutorial(bool runTutorial)
 {
-    if(Options::runStartupWizard() != runTutorial)
+    if (Options::runStartupWizard() != runTutorial)
     {
         Options::setRunStartupWizard(runTutorial);
         emit runTutorialChanged();

@@ -33,8 +33,8 @@ class CultureList;
  */
 class ConstellationNamesComponent : public ListComponent
 {
-    public:
-        /** @short Constructor
+  public:
+    /** @short Constructor
          * @p parent Pointer to the parent SkyComposite object
          *
          * Reads the constellation names data from cnames.dat
@@ -49,33 +49,30 @@ class ConstellationNamesComponent : public ListComponent
          * @li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
          * @li 17-     Constellation name [string]
          */
-        ConstellationNamesComponent(SkyComposite * parent, CultureList * cultures);
+    ConstellationNamesComponent(SkyComposite *parent, CultureList *cultures);
 
-        /** @short Destructor.  Delete list members */
-        virtual ~ConstellationNamesComponent();
+    /** @short Destructor.  Delete list members */
+    virtual ~ConstellationNamesComponent();
 
-        /** @short Draw constellation names on the sky map.
+    /** @short Draw constellation names on the sky map.
          * @p psky Reference to the QPainter on which to paint
          */
-        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-        /** @short we need a custom routine (for now) so we don't
+    /** @short we need a custom routine (for now) so we don't
          * precess the locations of the names.
          */
-        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) Q_DECL_OVERRIDE;
 
-        /** @short Return true if we are using localized constellation names */
-        inline bool isLocalCNames()
-        {
-            return localCNames;
-        }
+    /** @short Return true if we are using localized constellation names */
+    inline bool isLocalCNames() { return localCNames; }
 
-        bool selected() Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
 
-        void loadData(CultureList * cultures);
+    void loadData(CultureList *cultures);
 
-    private:
-        bool localCNames;
+  private:
+    bool localCNames;
 };
 
 #endif

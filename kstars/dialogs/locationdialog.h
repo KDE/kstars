@@ -54,132 +54,114 @@
 
 class LocationDialogUI : public QFrame, public Ui::LocationDialog
 {
-        Q_OBJECT
-    public:
-        explicit LocationDialogUI( QWidget * parent=0 );
+    Q_OBJECT
+  public:
+    explicit LocationDialogUI(QWidget *parent = 0);
 };
-
 
 class LocationDialog : public QDialog
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
+  public:
+    typedef enum { CITY_ADD, CITY_UPDATE, CITY_REMOVE } CityOperation;
 
-        typedef enum { CITY_ADD, CITY_UPDATE, CITY_REMOVE } CityOperation;
-
-        /**Constructor.  Create all widgets, and pack them into QLayouts.
+    /**Constructor.  Create all widgets, and pack them into QLayouts.
          * Connect Signals to Slots.  Run initCityList().
          */
-        explicit LocationDialog( QWidget * parent );
+    explicit LocationDialog(QWidget *parent);
 
-        /**Initialize list of cities.  Note that the database is not read in here,
+    /**Initialize list of cities.  Note that the database is not read in here,
          * that is done in the KStars constructor.  This simply loads the local QListBox
          * with the names of the cities from the kstarsData object.
          */
-        void initCityList( void );
+    void initCityList(void);
 
-        /** @return pointer to the highlighted city in the List. */
-        GeoLocation * selectedCity() const
-        {
-            return SelectedCity;
-        }
+    /** @return pointer to the highlighted city in the List. */
+    GeoLocation *selectedCity() const { return SelectedCity; }
 
-        /** @return pointer to the List of filtered city pointers. */
-        QList<GeoLocation *> filteredList()
-        {
-            return filteredCityList;
-        }
+    /** @return pointer to the List of filtered city pointers. */
+    QList<GeoLocation *> filteredList() { return filteredCityList; }
 
-        /**
+    /**
          * @short Show only cities within 3 degrees of point specified by arguments
          * @param longitude the longitude of the search point (int)
          * @param latitude the latitude of the search point (int)
          */
-        void findCitiesNear( int longitude, int latitude );
+    void findCitiesNear(int longitude, int latitude);
 
-        /** @return the city name of the selected location. */
-        QString selectedCityName( void ) const
-        {
-            return SelectedCity->translatedName();
-        }
+    /** @return the city name of the selected location. */
+    QString selectedCityName(void) const { return SelectedCity->translatedName(); }
 
-        /** @return the province name of the selected location. */
-        QString selectedProvinceName( void ) const
-        {
-            return SelectedCity->translatedProvince();
-        }
+    /** @return the province name of the selected location. */
+    QString selectedProvinceName(void) const { return SelectedCity->translatedProvince(); }
 
-        /** @return the country name of the selected location. */
-        QString selectedCountryName( void ) const
-        {
-            return SelectedCity->translatedCountry();
-        }
+    /** @return the country name of the selected location. */
+    QString selectedCountryName(void) const { return SelectedCity->translatedCountry(); }
 
-        /** @return true if the AddCityBUtton is enabled */
-        bool addCityEnabled();
+    /** @return true if the AddCityBUtton is enabled */
+    bool addCityEnabled();
 
-    public slots:
-        /**
+  public slots:
+    /**
          * When text is entered in the City/Province/Country Filter
          * KLineEdits, the List of cities is trimmed to show only cities
          * beginning with the entered text.  Also, the QMemArray of ID
          * numbers is kept in sync with the filtered list.
          */
-        void filterCity();
+    void filterCity();
 
-        /**
+    /**
          * @short Filter by city / province / country only after a few milliseconds
          */
-        void enqueueFilterCity();
+    void enqueueFilterCity();
 
-        /**When the selected city in the QListBox changes, repaint the MapCanvas
+    /**When the selected city in the QListBox changes, repaint the MapCanvas
          * so that the crosshairs icon appears on the newly selected city.
          */
-        void changeCity();
+    void changeCity();
 
-        /**When the "Add new city" QPushButton is clicked, add the manually-entered
+    /**When the "Add new city" QPushButton is clicked, add the manually-entered
          * city information to the user's custom city database.
          * @return true on success
          */
-        bool addCity();
+    bool addCity();
 
-        /**When the "Update City" QPushButton is clicked, update the city
+    /**When the "Update City" QPushButton is clicked, update the city
          * information in the user's custom city database.
          * @return true on success
          */
-        bool updateCity();
+    bool updateCity();
 
-        /**When the "Remove City" QPushButton is clicked, remove the
+    /**When the "Remove City" QPushButton is clicked, remove the
          * city information from the user's custom city database.
          * @return true on success
          */
-        bool removeCity();
+    bool removeCity();
 
-        /**
+    /**
          * @brief updateCity Adds, updates, or removes a city from the user's database.
          * @param operation Add, update, or remove city
          * @return true on success
          */
-        bool updateCity(CityOperation operation);
+    bool updateCity(CityOperation operation);
 
+    void clearFields();
+    void showTZRules();
+    void nameChanged();
+    void dataChanged();
+    void slotOk();
 
-        void clearFields();
-        void showTZRules();
-        void nameChanged();
-        void dataChanged();
-        void slotOk();
+  private:
+    /** Make sure Longitude and Latitude values are valid. */
+    bool checkLongLat(void);
 
-    private:
-        /** Make sure Longitude and Latitude values are valid. */
-        bool checkLongLat( void );
+    bool dataModified, nameModified;
 
-        bool dataModified, nameModified;
-
-        LocationDialogUI * ld;
-        GeoLocation * SelectedCity;
-        QList<GeoLocation *> filteredCityList;
-        QTimer * timer;
+    LocationDialogUI *ld;
+    GeoLocation *SelectedCity;
+    QList<GeoLocation *> filteredCityList;
+    QTimer *timer;
 };
 
 #endif

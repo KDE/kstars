@@ -33,108 +33,109 @@
 
 QSet<TrailObject *> TrailObject::trailObjects;
 
-TrailObject::TrailObject( int t, dms r, dms d, float m, const QString &n )
-    : SkyObject( t, r, d, m, n )
-{}
+TrailObject::TrailObject(int t, dms r, dms d, float m, const QString &n) : SkyObject(t, r, d, m, n)
+{
+}
 
-TrailObject::TrailObject( int t, double r, double d, float m, const QString &n )
-    : SkyObject( t, r, d, m, n )
-{}
+TrailObject::TrailObject(int t, double r, double d, float m, const QString &n) : SkyObject(t, r, d, m, n)
+{
+}
 
 TrailObject::~TrailObject()
 {
     trailObjects.remove(this);
 }
 
-TrailObject * TrailObject::clone() const
+TrailObject *TrailObject::clone() const
 {
-    Q_ASSERT( typeid( this ) == typeid( static_cast<const TrailObject *>( this ) ) ); // Ensure we are not slicing a derived class
+    Q_ASSERT(typeid(this) ==
+             typeid(static_cast<const TrailObject *>(this))); // Ensure we are not slicing a derived class
     return new TrailObject(*this);
 }
 
-void TrailObject::updateTrail( dms * LST, const dms * lat )
+void TrailObject::updateTrail(dms *LST, const dms *lat)
 {
-    for( int i=0; i < Trail.size(); ++i )
-        Trail[i].EquatorialToHorizontal( LST, lat );
+    for (int i = 0; i < Trail.size(); ++i)
+        Trail[i].EquatorialToHorizontal(LST, lat);
 }
 
-void TrailObject::initPopupMenu( KSPopupMenu * pmenu )
+void TrailObject::initPopupMenu(KSPopupMenu *pmenu)
 {
 #ifndef KSTARS_LITE
-    pmenu->createPlanetMenu( this );
+    pmenu->createPlanetMenu(this);
 #endif
 }
 
-void TrailObject::addToTrail( const QString &label )
+void TrailObject::addToTrail(const QString &label)
 {
-    Trail.append( SkyPoint( *this ) );
-    m_TrailLabels.append( label );
-    trailObjects.insert( this );
+    Trail.append(SkyPoint(*this));
+    m_TrailLabels.append(label);
+    trailObjects.insert(this);
 }
 
 void TrailObject::clipTrail()
 {
-    if( Trail.size() )
+    if (Trail.size())
     {
         Trail.removeFirst();
-        Q_ASSERT( m_TrailLabels.size() );
+        Q_ASSERT(m_TrailLabels.size());
         m_TrailLabels.removeFirst();
     }
-    if( Trail.size() ) // Eh? Shouldn't this be if( !Trail.size() ) -- asimha
-        trailObjects.remove( this );
+    if (Trail.size()) // Eh? Shouldn't this be if( !Trail.size() ) -- asimha
+        trailObjects.remove(this);
 }
 
 void TrailObject::clearTrail()
 {
     Trail.clear();
     m_TrailLabels.clear();
-    trailObjects.remove( this );
+    trailObjects.remove(this);
 }
 
-void TrailObject::clearTrailsExcept(SkyObject * o)
+void TrailObject::clearTrailsExcept(SkyObject *o)
 {
-    TrailObject * keep = 0;
-    foreach(TrailObject * tr, trailObjects)
+    TrailObject *keep = 0;
+    foreach (TrailObject *tr, trailObjects)
     {
-        if( tr != o )
+        if (tr != o)
             tr->clearTrail();
         else
             keep = tr;
     }
 
     trailObjects = QSet<TrailObject *>();
-    if( keep )
-        trailObjects.insert( keep );
+    if (keep)
+        trailObjects.insert(keep);
 }
 
-void TrailObject::drawTrail(SkyPainter * skyp) const
+void TrailObject::drawTrail(SkyPainter *skyp) const
 {
     Q_UNUSED(skyp)
 #ifndef KSTARS_LITE
-    if( !Trail.size() )
+    if (!Trail.size())
         return;
 
-    KStarsData * data = KStarsData::Instance();
+    KStarsData *data = KStarsData::Instance();
 
-    QColor tcolor = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-    skyp->setPen( QPen(tcolor, 1) );
-    SkyLabeler * labeler = SkyLabeler::Instance();
-    labeler->setPen( tcolor );
+    QColor tcolor = QColor(data->colorScheme()->colorNamed("PlanetTrailColor"));
+    skyp->setPen(QPen(tcolor, 1));
+    SkyLabeler *labeler = SkyLabeler::Instance();
+    labeler->setPen(tcolor);
     int n = Trail.size();
-    for(int i = 1; i < n; ++i)
+    for (int i = 1; i < n; ++i)
     {
-        if ( Options::fadePlanetTrails() )
+        if (Options::fadePlanetTrails())
         {
-            tcolor.setAlphaF(static_cast<qreal>(i)/static_cast<qreal>(n));
-            skyp->setPen( QPen( tcolor, 1 ) );
+            tcolor.setAlphaF(static_cast<qreal>(i) / static_cast<qreal>(n));
+            skyp->setPen(QPen(tcolor, 1));
         }
-        SkyPoint a = Trail[i-1];
+        SkyPoint a = Trail[i - 1];
         SkyPoint b = Trail[i];
         skyp->drawSkyLine(&a, &b);
-        if( i % 5 == 1 )   // TODO: Make drawing of labels configurable, incl. frequency etc.
+        if (i % 5 == 1) // TODO: Make drawing of labels configurable, incl. frequency etc.
         {
-            QPointF pt = SkyMap::Instance()->projector()->toScreen( &a );
-            labeler->drawGuideLabel( pt, m_TrailLabels[i - 1], 0.0 );
+            QPointF pt = SkyMap::Instance()->projector()->toScreen(&a);
+            labeler->drawGuideLabel(pt, m_TrailLabels[i - 1], 0.0);
         }
     }
 #endif

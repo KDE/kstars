@@ -24,14 +24,11 @@
 #include "skymapgldraw.h"
 #include "skymap.h"
 
-
-SkyMapGLDraw::SkyMapGLDraw( SkyMap * sm ) :
-    QGLWidget( sm ),
-    SkyMapDrawAbstract( sm )
+SkyMapGLDraw::SkyMapGLDraw(SkyMap *sm) : QGLWidget(sm), SkyMapDrawAbstract(sm)
 {
-    if( !format().testOption( QGL::SampleBuffers ) )
+    if (!format().testOption(QGL::SampleBuffers))
         qWarning() << "No sample buffer; can't use multisampling (antialiasing)";
-    if( !format().testOption( QGL::StencilBuffer ) )
+    if (!format().testOption(QGL::StencilBuffer))
         qWarning() << "No stencil buffer; can't draw concave polygons";
 }
 
@@ -46,13 +43,13 @@ void SkyMapGLDraw::resizeGL(int width, int height)
     //do nothing since we resize in SkyGLPainter::paintGL()
 }
 
-void SkyMapGLDraw::paintEvent( QPaintEvent * event )
+void SkyMapGLDraw::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     // This is machinery to prevent multiple concurrent paint events / recursive paint events
-    if( m_DrawLock )
+    if (m_DrawLock)
         return;
-    setDrawLock( true );
+    setDrawLock(true);
 
     QPainter p;
     p.begin(this);
@@ -61,13 +58,13 @@ void SkyMapGLDraw::paintEvent( QPaintEvent * event )
     m_SkyMap->setupProjector();
     makeCurrent();
 
-    SkyGLPainter psky( this );
+    SkyGLPainter psky(this);
     //FIXME: we may want to move this into the components.
     psky.begin();
 
     //Draw all sky elements
     psky.drawSkyBackground();
-    m_KStarsData->skyComposite()->draw( &psky );
+    m_KStarsData->skyComposite()->draw(&psky);
     //Finish up
     psky.end();
 
@@ -75,5 +72,5 @@ void SkyMapGLDraw::paintEvent( QPaintEvent * event )
     drawOverlays(p);
     p.end();
 
-    setDrawLock( false );
+    setDrawLock(false);
 }

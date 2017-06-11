@@ -33,25 +33,27 @@
 #include "kstarsdata.h"
 #include "auxiliary/kspaths.h"
 
-SupernovaeComponent::SupernovaeComponent(SkyComposite * parent): ListComponent(parent)
+SupernovaeComponent::SupernovaeComponent(SkyComposite *parent) : ListComponent(parent)
 {
     QtConcurrent::run(this, &SupernovaeComponent::loadData);
     //loadData();
 }
 
-SupernovaeComponent::~SupernovaeComponent() {}
-
-void SupernovaeComponent::update(KSNumbers * num)
+SupernovaeComponent::~SupernovaeComponent()
 {
-    if ( ! selected() )
+}
+
+void SupernovaeComponent::update(KSNumbers *num)
+{
+    if (!selected())
         return;
 
-    KStarsData * data = KStarsData::Instance();
-    foreach ( SkyObject * so, m_ObjectList )
+    KStarsData *data = KStarsData::Instance();
+    foreach (SkyObject *so, m_ObjectList)
     {
-        if( num )
-            so->updateCoords( num );
-        so->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        if (num)
+            so->updateCoords(num);
+        so->EquatorialToHorizontal(data->lst(), data->geo()->lat());
     }
 }
 
@@ -84,7 +86,7 @@ void SupernovaeComponent::loadData()
     QJsonParseError pError;
     QJsonDocument sNova = QJsonDocument::fromJson(sNovaFile.readAll(), &pError);
 
-    if (pError.error !=  QJsonParseError::NoError)
+    if (pError.error != QJsonParseError::NoError)
     {
         qCritical() << "Error parsing json document" << pError.errorString();
         return;
@@ -97,13 +99,13 @@ void SupernovaeComponent::loadData()
     }
 
     QJsonArray sArray = sNova.array();
-    bool ok=false;
+    bool ok           = false;
 
     foreach (const QJsonValue &snValue, sArray)
     {
         const QJsonObject propObject = snValue.toObject();
-        mag=99.9;
-        z=0;
+        mag                          = 99.9;
+        z                            = 0;
         name.clear();
         type.clear();
         host.clear();
@@ -111,8 +113,8 @@ void SupernovaeComponent::loadData()
 
         if (propObject.contains("ra") == false || propObject.contains("dec") == false)
             continue;
-        ra   = ((propObject["ra"].toArray()[0]).toObject()["value"]).toString();
-        de   = ((propObject["dec"].toArray()[0]).toObject()["value"]).toString();
+        ra = ((propObject["ra"].toArray()[0]).toObject()["value"]).toString();
+        de = ((propObject["dec"].toArray()[0]).toObject()["value"]).toString();
 
         name = propObject["name"].toString();
         if (propObject.contains("claimedtype"))
@@ -122,53 +124,53 @@ void SupernovaeComponent::loadData()
         if (propObject.contains("discoverdate"))
             date = ((propObject["discoverdate"].toArray()[0]).toObject()["value"]).toString();
         if (propObject.contains("redshift"))
-            z    = ((propObject["redshift"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
+            z = ((propObject["redshift"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
         if (ok == false)
             z = 99.9;
         if (propObject.contains("maxappmag"))
-            mag  = ((propObject["maxappmag"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
+            mag = ((propObject["maxappmag"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
         if (ok == false)
             mag = 99.9;
 
-        Supernova * sup = new Supernova(name, dms::fromString(ra, false), dms::fromString(de, true), type, host, date, z, mag);
+        Supernova *sup =
+            new Supernova(name, dms::fromString(ra, false), dms::fromString(de, true), type, host, date, z, mag);
 
         objectNames(SkyObject::SUPERNOVA).append(name);
 
         m_ObjectList.append(sup);
-        objectLists( SkyObject::SUPERNOVA ).append(QPair<QString, const SkyObject *>(name,sup));
+        objectLists(SkyObject::SUPERNOVA).append(QPair<QString, const SkyObject *>(name, sup));
     }
 }
 
-SkyObject * SupernovaeComponent::findByName(const QString &name)
+SkyObject *SupernovaeComponent::findByName(const QString &name)
 {
-    foreach (SkyObject * o, m_ObjectList)
+    foreach (SkyObject *o, m_ObjectList)
     {
-        if( QString::compare( o->name(),name, Qt::CaseInsensitive ) == 0 )
+        if (QString::compare(o->name(), name, Qt::CaseInsensitive) == 0)
             return o;
     }
     //if no object is found then..
     return nullptr;
 }
 
-SkyObject * SupernovaeComponent::objectNearest(SkyPoint * p, double &maxrad)
+SkyObject *SupernovaeComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
-    SkyObject * oBest=0;
-    double rBest=maxrad;
+    SkyObject *oBest = 0;
+    double rBest     = maxrad;
 
-    foreach ( SkyObject * so, m_ObjectList)
+    foreach (SkyObject *so, m_ObjectList)
     {
         double r = so->angularDistanceTo(p).Degrees();
         //qDebug()<<r;
-        if( r < rBest )
+        if (r < rBest)
         {
-            oBest=so;
-            rBest=r;
+            oBest = so;
+            rBest = r;
         }
     }
     maxrad = rBest;
     return oBest;
 }
-
 
 float SupernovaeComponent::zoomMagnitudeLimit()
 {
@@ -176,27 +178,27 @@ float SupernovaeComponent::zoomMagnitudeLimit()
     double lgmin = log10(MINZOOM);
     double lgz   = log10(Options::zoomFactor());
 
-    return 14.0 + 2.222*( lgz - lgmin ) + 2.222*log10( static_cast<double>(Options::starDensity()) );
+    return 14.0 + 2.222 * (lgz - lgmin) + 2.222 * log10(static_cast<double>(Options::starDensity()));
 }
 
-
-void SupernovaeComponent::draw(SkyPainter * skyp)
+void SupernovaeComponent::draw(SkyPainter *skyp)
 {
     //qDebug()<<"selected()="<<selected();
-    if ( ! selected() )
+    if (!selected())
         return;
 
     double maglim = zoomMagnitudeLimit();
 
-    foreach ( SkyObject * so, m_ObjectList )
+    foreach (SkyObject *so, m_ObjectList)
     {
-        Supernova * sup = (Supernova *) so;
-        float mag = sup->mag();
+        Supernova *sup = (Supernova *)so;
+        float mag      = sup->mag();
 
-        if (mag > float( Options::magnitudeLimitShowSupernovae())) continue;
+        if (mag > float(Options::magnitudeLimitShowSupernovae()))
+            continue;
 
         //Do not draw if mag>maglim
-        if ( mag > maglim )
+        if (mag > maglim)
             continue;
         skyp->drawSupernova(sup);
     }
@@ -242,7 +244,7 @@ void SupernovaeComponent::slotTriggerDataFileUpdate()
     QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
-    QString output  = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "catalog.min.json";
+    QString output = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "catalog.min.json";
 
     downloadJob->setDownloadedFileURL(QUrl::fromLocalFile(output));
 

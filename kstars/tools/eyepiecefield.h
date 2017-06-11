@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
 #ifndef EYEPIECEFIELD_H
 #define EYEPIECEFIELD_H
 
@@ -45,33 +43,31 @@ class KStarsDateTime;
  * @author Akarsh Simha <akarsh.simha@kdemail.net>
  */
 
-class EyepieceField : public QDialog   // FIXME: Rename to EyepieceView
+class EyepieceField : public QDialog // FIXME: Rename to EyepieceView
 {
+    Q_OBJECT
 
-        Q_OBJECT
-
-    public:
-
-        /**
+  public:
+    /**
          * @short Constructor
          */
-        EyepieceField( QWidget * parent = 0 );
+    EyepieceField(QWidget *parent = 0);
 
-        /**
+    /**
          * @short Destructor
          */
-        ~EyepieceField();
+    ~EyepieceField();
 
-        /**
+    /**
          * @short Show the eyepiece field dialog
          * @param sp Sky point to draw the eyepiece field around.
          * @param fov Pointer to the FOV object describing the field of view. If no pointer is provided, tries to get from image. If no image is provided, assumes 1 degree.
          * @param imagePath Optional path to DSS or other image. North should be on the top of the image.
          * @note The SkyPoint must have correct Alt/Az coordinates, maybe by calling update() already before calling this method.
          */
-        void showEyepieceField( SkyPoint * sp, FOV const * const fov = 0, const QString &imagePath = QString() );
+    void showEyepieceField(SkyPoint *sp, FOV const *const fov = 0, const QString &imagePath = QString());
 
-        /**
+    /**
          * @short Show the eyepiece field dialog
          * @param sp Sky point to draw the eyepiece field around.
          * @param fovWidth width of field-of-view in arcminutes
@@ -79,9 +75,10 @@ class EyepieceField : public QDialog   // FIXME: Rename to EyepieceView
          * @param imagePath Optional path to DSS or other image. North should be on the top of the image.
          * @note The SkyPoint must have correct Alt/Az coordinates, maybe by calling update() already before calling this method.
          */
-        void showEyepieceField( SkyPoint * sp, const double fovWidth, double fovHeight = -1.0, const QString &imagePath = QString() );
+    void showEyepieceField(SkyPoint *sp, const double fovWidth, double fovHeight = -1.0,
+                           const QString &imagePath = QString());
 
-        /**
+    /**
          * @short Generate the eyepiece field view and corresponding image view
          * @param sp Sky point to draw the render the eyepiece field around
          * @param skyChart A non-null pointer to replace with the eyepiece field image
@@ -95,15 +92,16 @@ class EyepieceField : public QDialog   // FIXME: Rename to EyepieceView
          * @note fovHeight can be zero/negative. If it is, fovWidth will be used. If fovWidth is also zero, image size is used.
          */
 
-        static void generateEyepieceView( SkyPoint * sp, QImage * skyChart, QImage * skyImage = 0, double fovWidth = -1.0,
-                                          double fovHeight = -1.0, const QString &imagePath = QString() );
+    static void generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage *skyImage = 0, double fovWidth = -1.0,
+                                     double fovHeight = -1.0, const QString &imagePath = QString());
 
-        /**
+    /**
          * @short Overloaded method provided for convenience. Obtains fovWidth/fovHeight from fov if non-null, else uses image
          */
-        static void generateEyepieceView( SkyPoint * sp, QImage * skyChart, QImage * skyImage = 0, const FOV * fov = 0, const QString &imagePath = QString() );
+    static void generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage *skyImage = 0, const FOV *fov = 0,
+                                     const QString &imagePath = QString());
 
-        /**
+    /**
          * @short Orients the eyepiece view as needed, performs overlaying etc.
          * @param skyChart image which contains the sky chart, possibly generated using generateEyepieceView
          * @param skyImage optional image which contains the sky image, possibly generated using generateEyepieceView
@@ -116,76 +114,79 @@ class EyepieceField : public QDialog   // FIXME: Rename to EyepieceView
          * @param overlay optional, if true, the sky image is overlaid on the sky map
          * @param invertColors optional, if true, the sky image is color-inverted
          */
-        static void renderEyepieceView( const QImage * skyChart, QPixmap * renderChart, const double rotation = 0, const double scale = 1.0, const bool flip = false, const bool invert = false,
-                                        const QImage * skyImage = 0, QPixmap * renderImage = 0, const bool overlay = false, const bool invertColors = false );
+    static void renderEyepieceView(const QImage *skyChart, QPixmap *renderChart, const double rotation = 0,
+                                   const double scale = 1.0, const bool flip = false, const bool invert = false,
+                                   const QImage *skyImage = 0, QPixmap *renderImage = 0, const bool overlay = false,
+                                   const bool invertColors = false);
 
-
-        /**
+    /**
          * @short Convenience method that generates and the renders the eyepiece view
          * @note calls generateEyepieceView() followed by the raw form of renderEyepieceView() to render an eyepiece view
          */
-        static void renderEyepieceView( SkyPoint * sp, QPixmap * renderChart, double fovWidth = -1.0, double fovHeight = -1.0, const double rotation = 0, const double scale = 1.0,
-                                        const bool flip = false, const bool invert = false, const QString &imagePath = QString(), QPixmap * renderImage = 0,
-                                        const bool overlay = false, const bool invertColors = false );
+    static void renderEyepieceView(SkyPoint *sp, QPixmap *renderChart, double fovWidth = -1.0, double fovHeight = -1.0,
+                                   const double rotation = 0, const double scale = 1.0, const bool flip = false,
+                                   const bool invert = false, const QString &imagePath = QString(),
+                                   QPixmap *renderImage = 0, const bool overlay = false,
+                                   const bool invertColors = false);
 
-        /**
+    /**
          * @short Finds the angle between "up" (i.e. direction of increasing altitude) and "north" (i.e. direction of increasing declination) at a given point in the sky
          * @fixme Procedure does not account for precession and nutation at the moment
          * @note SkyPoint must already have Equatorial and Horizontal coordinate synced
          */
-        static dms findNorthAngle( const SkyPoint * sp, const dms * lat );
+    static dms findNorthAngle(const SkyPoint *sp, const dms *lat);
 
-    public slots:
+  public slots:
 
-        /**
+    /**
          * @short Re-renders the view
          * Takes care of things like inverting colors, inverting orientation, flipping, rotation
          * @note Calls the static method renderEyepieceView to set things up
          */
-        void render();
+    void render();
 
-        /**
+    /**
          * @short Enforces a preset setting
          */
-        void slotEnforcePreset( int index = -1 );
+    void slotEnforcePreset(int index = -1);
 
-        /**
+    /**
          * @short save image
          */
-        void slotExport();
+    void slotExport();
 
-    private slots:
-        /**
+  private slots:
+    /**
          * @short downloads a DSS image
          */
-        void slotDownloadDss();
+    void slotDownloadDss();
 
-        /**
+    /**
          * @short loads a downloaded DSS image
          */
-        void slotDssDownloaded( bool success );
+    void slotDssDownloaded(bool success);
 
-    private:
-        QLabel * m_skyChartDisplay;
-        QLabel * m_skyImageDisplay;
-        QImage * m_skyChart;
-        QImage * m_skyImage;
-        QSlider * m_rotationSlider;
-        QCheckBox * m_invertColors;
-        QCheckBox * m_overlay;
-        QCheckBox * m_invertView;
-        QCheckBox * m_flipView;
-        QComboBox * m_presetCombo;
-        QPushButton * m_getDSS;
-        const FOV * m_currentFOV;
-        double m_fovWidth, m_fovHeight;
-        KSDssDownloader * m_dler;
-        KStarsDateTime * m_dt;
-        SkyPoint * m_sp;
-        double m_lat; // latitude
-        QTemporaryFile m_tempFile;
-        QPixmap m_renderImage, m_renderChart;
-        bool m_usedAltAz;
+  private:
+    QLabel *m_skyChartDisplay;
+    QLabel *m_skyImageDisplay;
+    QImage *m_skyChart;
+    QImage *m_skyImage;
+    QSlider *m_rotationSlider;
+    QCheckBox *m_invertColors;
+    QCheckBox *m_overlay;
+    QCheckBox *m_invertView;
+    QCheckBox *m_flipView;
+    QComboBox *m_presetCombo;
+    QPushButton *m_getDSS;
+    const FOV *m_currentFOV;
+    double m_fovWidth, m_fovHeight;
+    KSDssDownloader *m_dler;
+    KStarsDateTime *m_dt;
+    SkyPoint *m_sp;
+    double m_lat; // latitude
+    QTemporaryFile m_tempFile;
+    QPixmap m_renderImage, m_renderChart;
+    bool m_usedAltAz;
 };
 
 #endif

@@ -32,43 +32,42 @@ class FileDownloader;
 
 class SupernovaeComponent : public QObject, public ListComponent
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        explicit SupernovaeComponent(SkyComposite * parent);
-        virtual ~SupernovaeComponent();
-        bool selected() Q_DECL_OVERRIDE;
-        void update(KSNumbers * num = 0) Q_DECL_OVERRIDE;
-        SkyObject * findByName(const QString &name) Q_DECL_OVERRIDE;
-        SkyObject * objectNearest(SkyPoint * p, double &maxrad) Q_DECL_OVERRIDE;
+  public:
+    explicit SupernovaeComponent(SkyComposite *parent);
+    virtual ~SupernovaeComponent();
+    bool selected() Q_DECL_OVERRIDE;
+    void update(KSNumbers *num = 0) Q_DECL_OVERRIDE;
+    SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
 
-        /**
+    /**
          * @note This should actually be implemented in a better manner.
          * Possibly by checking if the host galaxy for the supernova is drawn.
          */
-        void draw(SkyPainter * skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-        //virtual void notifyNewSupernovae();
-        /**
+    //virtual void notifyNewSupernovae();
+    /**
          * @note Basically copy pasted from StarComponent::zoomMagnitudeLimit()
          */
-        static float zoomMagnitudeLimit();
+    static float zoomMagnitudeLimit();
 
-    public slots:
-        /**
+  public slots:
+    /**
          * @short This initiates updating of the data file
          */
-        void slotTriggerDataFileUpdate();
+    void slotTriggerDataFileUpdate();
 
-    protected slots:
-        void downloadReady();
-        void downloadError(const QString &errorString);
+  protected slots:
+    void downloadReady();
+    void downloadError(const QString &errorString);
 
-    private:
-        void loadData();
+  private:
+    void loadData();
 
-        FileDownloader * downloadJob = nullptr;
+    FileDownloader *downloadJob = nullptr;
 };
 
 #endif
-

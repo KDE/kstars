@@ -32,7 +32,6 @@
 #include "oal/log.h"
 #include "oal/scope.h"
 
-
 #include "ui_indihostconf.h"
 #include "servermanager.h"
 #include "guimanager.h"
@@ -49,10 +48,10 @@
 
 #include <config-kstars.h>
 
-#define INDI_MAX_TRIES  2
-#define  ERRMSG_SIZE 1024
+#define INDI_MAX_TRIES 2
+#define ERRMSG_SIZE    1024
 
-DriverManagerUI::DriverManagerUI(QWidget * parent) : QFrame(parent)
+DriverManagerUI::DriverManagerUI(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
 
@@ -61,29 +60,30 @@ DriverManagerUI::DriverManagerUI(QWidget * parent) : QFrame(parent)
 
     clientTreeWidget->setSortingEnabled(false);
 
-    runningPix = QIcon::fromTheme( "system-run" , QIcon(":/icons/breeze/default/system-run.svg"));
-    stopPix    = QIcon::fromTheme( "dialog-cancel" , QIcon(":/icons/breeze/default/dialog-cancel.svg"));
-    localMode  = QIcon::fromTheme( "computer" , QIcon(":/icons/breeze/default/computer.svg"));
-    serverMode = QIcon::fromTheme( "network-server" , QIcon(":/icons/breeze/default/network-server.svg"));
+    runningPix = QIcon::fromTheme("system-run", QIcon(":/icons/breeze/default/system-run.svg"));
+    stopPix    = QIcon::fromTheme("dialog-cancel", QIcon(":/icons/breeze/default/dialog-cancel.svg"));
+    localMode  = QIcon::fromTheme("computer", QIcon(":/icons/breeze/default/computer.svg"));
+    serverMode = QIcon::fromTheme("network-server", QIcon(":/icons/breeze/default/network-server.svg"));
 
-    connected           = QIcon::fromTheme( "network-connect" , QIcon(":/icons/breeze/default/network-connect.svg"));
-    disconnected        = QIcon::fromTheme( "network-disconnect" , QIcon(":/icons/breeze/default/network-disconnect.svg"));
+    connected    = QIcon::fromTheme("network-connect", QIcon(":/icons/breeze/default/network-connect.svg"));
+    disconnected = QIcon::fromTheme("network-disconnect", QIcon(":/icons/breeze/default/network-disconnect.svg"));
 
-    connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *,int)), this, SLOT(makePortEditable(QTreeWidgetItem *,int)));
+    connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this,
+            SLOT(makePortEditable(QTreeWidgetItem *, int)));
 }
 
-void DriverManagerUI::makePortEditable(QTreeWidgetItem * selectedItem, int column)
+void DriverManagerUI::makePortEditable(QTreeWidgetItem *selectedItem, int column)
 {
     // If it's the port column, then make it user-editable
     if (column == ::DriverManager::LOCAL_PORT_COLUMN)
-        selectedItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEditable|Qt::ItemIsEnabled);
+        selectedItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled);
 
     localTreeWidget->editItem(selectedItem, ::DriverManager::LOCAL_PORT_COLUMN);
 }
 
-DriverManager * DriverManager::_DriverManager = nullptr;
+DriverManager *DriverManager::_DriverManager = nullptr;
 
-DriverManager * DriverManager::Instance()
+DriverManager *DriverManager::Instance()
 {
     if (_DriverManager == nullptr)
         _DriverManager = new DriverManager(KStars::Instance());
@@ -91,26 +91,25 @@ DriverManager * DriverManager::Instance()
     return _DriverManager;
 }
 
-DriverManager::DriverManager(QWidget * parent)
-    : QDialog( parent )
+DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
-    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
-    currentPort = Options::serverPortStart().toInt()-1;
-    lastGroup = nullptr;
-    lastDevice = nullptr;
+    currentPort = Options::serverPortStart().toInt() - 1;
+    lastGroup   = nullptr;
+    lastDevice  = nullptr;
 
     connectionMode = SERVER_CLIENT;
 
-    QVBoxLayout * mainLayout = new QVBoxLayout;
-    ui = new DriverManagerUI( this );
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    ui                      = new DriverManagerUI(this);
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
-    setWindowTitle( i18n( "Device Manager" ) );
+    setWindowTitle(i18n("Device Manager"));
 
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
 
     QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
@@ -131,7 +130,8 @@ DriverManager::DriverManager(QWidget * parent)
 
     // Do not use KSPaths here, this is for INDI
     if (Options::indiDriversDir().isEmpty())
-        Options::setIndiDriversDir(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory));
+        Options::setIndiDriversDir(
+            QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory));
 
     readXMLDrivers();
 
@@ -150,7 +150,7 @@ DriverManager::~DriverManager()
     qDeleteAll(driversList);
 }
 
-void DriverManager::processDeviceStatus(DriverInfo * dv)
+void DriverManager::processDeviceStatus(DriverInfo *dv)
 {
     if (dv == nullptr)
         return;
@@ -159,17 +159,18 @@ void DriverManager::processDeviceStatus(DriverInfo * dv)
         return;
 
     QString currentDriver;
-    ServerMode   mode = connectionMode;
-    ServerManager * manager = dv->getServerManager();
-    bool dState=false;
-    bool cState=false;
+    ServerMode mode        = connectionMode;
+    ServerManager *manager = dv->getServerManager();
+    bool dState            = false;
+    bool cState            = false;
 
     if (dv->getDriverSource() != HOST_SOURCE)
     {
         if (ui->localTreeWidget->currentItem())
             currentDriver = ui->localTreeWidget->currentItem()->text(LOCAL_NAME_COLUMN);
 
-        foreach (QTreeWidgetItem * item, ui->localTreeWidget->findItems(dv->getTreeLabel(), Qt::MatchExactly |  Qt::MatchRecursive))
+        foreach (QTreeWidgetItem *item,
+                 ui->localTreeWidget->findItems(dv->getTreeLabel(), Qt::MatchExactly | Qt::MatchRecursive))
         {
             item->setText(LOCAL_VERSION_COLUMN, dv->getVersion());
 
@@ -179,14 +180,14 @@ void DriverManager::processDeviceStatus(DriverInfo * dv)
             dState = dv->getServerState();
             cState = dv->getClientState() && dState;
 
-            bool locallyAvailable=false;
+            bool locallyAvailable = false;
             if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
                 locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
 
             switch (mode)
             {
-                case SERVER_ONLY:                    
-                    if(locallyAvailable)
+                case SERVER_ONLY:
+                    if (locallyAvailable)
                     {
                         ui->runServiceB->setEnabled(!dState);
                         ui->stopServiceB->setEnabled(dState);
@@ -212,8 +213,8 @@ void DriverManager::processDeviceStatus(DriverInfo * dv)
 
                     break;
 
-                case SERVER_CLIENT:                    
-                    if(locallyAvailable)
+                case SERVER_CLIENT:
+                    if (locallyAvailable)
                     {
                         ui->runServiceB->setEnabled(!cState);
                         ui->stopServiceB->setEnabled(cState);
@@ -247,12 +248,12 @@ void DriverManager::processDeviceStatus(DriverInfo * dv)
                 ui->serverLogText->clear();
                 ui->serverLogText->append(dv->getServerBuffer());
             }
-
         }
     }
     else
     {
-        foreach (QTreeWidgetItem * item, ui->clientTreeWidget->findItems(dv->getName(), Qt::MatchExactly, HOST_NAME_COLUMN))
+        foreach (QTreeWidgetItem *item,
+                 ui->clientTreeWidget->findItems(dv->getName(), Qt::MatchExactly, HOST_NAME_COLUMN))
         {
             if (dv->getClientState())
             {
@@ -267,28 +268,26 @@ void DriverManager::processDeviceStatus(DriverInfo * dv)
                 ui->disconnectHostB->setEnabled(false);
             }
         }
-
     }
-
 }
 
-void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList < QList<DriverInfo *> > &uHosts)
+void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<DriverInfo *>> &uHosts)
 {
-    bool found=false;
+    bool found = false;
 
-    foreach(DriverInfo * dv, dList)
+    foreach (DriverInfo *dv, dList)
     {
         QList<DriverInfo *> uList;
 
-        foreach(DriverInfo * idv, dList)
+        foreach (DriverInfo *idv, dList)
         {
             if (dv->getHost() == idv->getHost() && dv->getPort() == idv->getPort())
             {
-
                 // Check if running already
                 if (dv->getClientState() || dv->getServerState())
                 {
-                    int ans = KMessageBox::warningContinueCancel(0, i18n("Driver %1 is already running, do you want to restart it?", dv->getTreeLabel()));
+                    int ans = KMessageBox::warningContinueCancel(
+                        0, i18n("Driver %1 is already running, do you want to restart it?", dv->getTreeLabel()));
                     if (ans == KMessageBox::Cancel)
                         continue;
                     else
@@ -301,9 +300,9 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList < QList<Dri
 
                 found = false;
 
-                foreach(QList < DriverInfo *> qdi, uHosts)
+                foreach (QList<DriverInfo *> qdi, uHosts)
                 {
-                    foreach(DriverInfo * di, qdi)
+                    foreach (DriverInfo *di, qdi)
                     {
                         if (di == idv)
                         {
@@ -315,34 +314,31 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList < QList<Dri
 
                 if (found == false)
                     uList.append(idv);
-
             }
         }
 
         if (uList.empty() == false)
             uHosts.append(uList);
     }
-
 }
 
 bool DriverManager::startDevices(QList<DriverInfo *> &dList)
 {
-    ServerManager * serverManager = nullptr;
-    ClientManager * clientManager = nullptr;
-    int port = -1;
+    ServerManager *serverManager = nullptr;
+    ClientManager *clientManager = nullptr;
+    int port                     = -1;
 
-    QList < QList<DriverInfo *> > uHosts;
+    QList<QList<DriverInfo *>> uHosts;
 
-    bool connectionToServer=false;
+    bool connectionToServer = false;
 
     getUniqueHosts(dList, uHosts);
 
     if (Options::iNDILogging())
         qDebug() << "INDI: Starting local drivers...";
 
-    foreach(QList <DriverInfo *> qdv, uHosts)
+    foreach (QList<DriverInfo *> qdv, uHosts)
     {
-
         if (qdv.empty())
             continue;
 
@@ -358,7 +354,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
             return false;
         }
 
-        serverManager = new ServerManager(qdv.at(0)->getHost(), ((uint) port));
+        serverManager = new ServerManager(qdv.at(0)->getHost(), ((uint)port));
 
         if (serverManager == nullptr)
         {
@@ -381,7 +377,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
         if (Options::iNDILogging())
             qDebug() << "INDI: INDI Server started locally on port " << port;
 
-        foreach(DriverInfo * dv, qdv)
+        foreach (DriverInfo *dv, qdv)
         {
             if (serverManager->startDriver(dv) == false)
             {
@@ -399,22 +395,23 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
 
         clientManager = new ClientManager();
 
-        foreach(DriverInfo * dv, qdv)
+        foreach (DriverInfo *dv, qdv)
             clientManager->appendManagedDriver(dv);
 
-        connect(clientManager, SIGNAL(connectionFailure(ClientManager *)), this, SLOT(processClientTermination(ClientManager *)));
+        connect(clientManager, SIGNAL(connectionFailure(ClientManager *)), this,
+                SLOT(processClientTermination(ClientManager *)));
 
-        clientManager->setServer(qdv.at(0)->getHost().toLatin1().constData(), ((uint) port));
+        clientManager->setServer(qdv.at(0)->getHost().toLatin1().constData(), ((uint)port));
 
         GUIManager::Instance()->addClient(clientManager);
         INDIListener::Instance()->addClient(clientManager);
 
-        for (int i=0; i < INDI_MAX_TRIES; i++)
+        for (int i = 0; i < INDI_MAX_TRIES; i++)
         {
             if (Options::iNDILogging())
                 qDebug() << "INDI: Connecting to local INDI server on port " << port << " ...";
 
-            connectionToServer= clientManager->connectServer();
+            connectionToServer = clientManager->connectServer();
 
             if (connectionToServer)
                 break;
@@ -435,47 +432,41 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
         }
         else
         {
-
             if (Options::iNDILogging())
                 qDebug() << "INDI: Connection to local INDI server on port " << port << " failed!";
 
             KNotification::beep();
             QPointer<QMessageBox> msgBox = new QMessageBox();
-            msgBox->setAttribute( Qt::WA_DeleteOnClose );
-            msgBox->setStandardButtons( QMessageBox::Ok );
-            msgBox->setWindowTitle( i18n("Error") );
-            msgBox->setText( i18n("Connection to INDI server locally on port %1 failed.", port));
-            msgBox->setModal( false );
+            msgBox->setAttribute(Qt::WA_DeleteOnClose);
+            msgBox->setStandardButtons(QMessageBox::Ok);
+            msgBox->setWindowTitle(i18n("Error"));
+            msgBox->setText(i18n("Connection to INDI server locally on port %1 failed.", port));
+            msgBox->setModal(false);
             msgBox->setIcon(QMessageBox::Critical);
             msgBox->show();
 
-            foreach (DriverInfo * dv, qdv)
+            foreach (DriverInfo *dv, qdv)
                 processDeviceStatus(dv);
 
             GUIManager::Instance()->removeClient(clientManager);
             INDIListener::Instance()->removeClient(clientManager);
 
             return false;
-
         }
-
     }
 
-
     return true;
-
 }
 
 void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
 {
-
     if (Options::iNDILogging())
         qDebug() << "INDI: Stopping local drivers...";
 
     // #1 Disconnect all clients
-    foreach(DriverInfo * dv, dList)
+    foreach (DriverInfo *dv, dList)
     {
-        ClientManager * cm = dv->getClientManager();
+        ClientManager *cm = dv->getClientManager();
 
         if (cm == nullptr)
             continue;
@@ -493,9 +484,9 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
     }
 
     // #2 Disconnect all servers
-    foreach(DriverInfo * dv, dList)
+    foreach (DriverInfo *dv, dList)
     {
-        ServerManager * sm = dv->getServerManager();
+        ServerManager *sm = dv->getServerManager();
 
         if (sm != nullptr)
         {
@@ -508,19 +499,17 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
                 sm->deleteLater();
             }
         }
-
     }
 
     // Reset current port
-    currentPort = Options::serverPortStart().toInt()-1;
+    currentPort = Options::serverPortStart().toInt() - 1;
 
     updateMenuActions();
-
 }
 
 void DriverManager::clearServers()
 {
-    foreach(ServerManager * serverManager, servers)
+    foreach (ServerManager *serverManager, servers)
         serverManager->terminate();
 
     qDeleteAll(servers);
@@ -546,7 +535,7 @@ void DriverManager::activateHostDisconnection()
     processRemoteTree(false);
 }
 
-ClientManager * DriverManager::getClientManager(DriverInfo * dv)
+ClientManager *DriverManager::getClientManager(DriverInfo *dv)
 {
     return dv->getClientManager();
 }
@@ -558,7 +547,7 @@ void DriverManager::updateLocalTab()
 
     QString currentDriver = ui->localTreeWidget->currentItem()->text(LOCAL_NAME_COLUMN);
 
-    foreach (DriverInfo * device, driversList)
+    foreach (DriverInfo *device, driversList)
     {
         if (currentDriver == device->getTreeLabel())
         {
@@ -570,7 +559,7 @@ void DriverManager::updateLocalTab()
 
 void DriverManager::updateClientTab()
 {
-    QTreeWidgetItem * item = ui->clientTreeWidget->currentItem();
+    QTreeWidgetItem *item = ui->clientTreeWidget->currentItem();
 
     if (item == nullptr)
         return;
@@ -578,9 +567,9 @@ void DriverManager::updateClientTab()
     QString hostname = item->text(HOST_NAME_COLUMN);
     QString hostport = item->text(HOST_PORT_COLUMN);
 
-    foreach (DriverInfo * dv, driversList)
+    foreach (DriverInfo *dv, driversList)
     {
-        if ( hostname == dv->getName() && hostport == dv->getPort())
+        if (hostname == dv->getName() && hostport == dv->getPort())
         {
             processDeviceStatus(dv);
             break;
@@ -592,14 +581,14 @@ void DriverManager::processLocalTree(bool dState)
 {
     QList<DriverInfo *> processed_devices;
 
-    int port=-1;
-    bool portOK=false;
+    int port    = -1;
+    bool portOK = false;
 
     connectionMode = ui->localR->isChecked() ? SERVER_CLIENT : SERVER_ONLY;
 
-    foreach(QTreeWidgetItem * item, ui->localTreeWidget->selectedItems())
+    foreach (QTreeWidgetItem *item, ui->localTreeWidget->selectedItems())
     {
-        foreach (DriverInfo * device, driversList)
+        foreach (DriverInfo *device, driversList)
         {
             port = -1;
 
@@ -627,22 +616,21 @@ void DriverManager::processLocalTree(bool dState)
         }
     }
 
-    if (processed_devices.empty()) return;
+    if (processed_devices.empty())
+        return;
 
     if (dState)
         startDevices(processed_devices);
     else
         stopDevices(processed_devices);
-
-
 }
 
-void DriverManager::processClientTermination(ClientManager * client)
+void DriverManager::processClientTermination(ClientManager *client)
 {
     if (client == nullptr)
         return;
 
-    ServerManager * manager = client->getServerManager();
+    ServerManager *manager = client->getServerManager();
 
     if (manager)
     {
@@ -655,7 +643,8 @@ void DriverManager::processClientTermination(ClientManager * client)
     GUIManager::Instance()->removeClient(client);
     INDIListener::Instance()->removeClient(client);
 
-    KSNotification::error(i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected.", client->getHost(), client->getPort()));
+    KSNotification::error(i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected.", client->getHost(),
+                               client->getPort()));
 
     clients.removeOne(client);
     client->deleteLater();
@@ -664,12 +653,12 @@ void DriverManager::processClientTermination(ClientManager * client)
     updateLocalTab();
 }
 
-void DriverManager::processServerTermination(ServerManager * server)
+void DriverManager::processServerTermination(ServerManager *server)
 {
     if (server == nullptr)
         return;
 
-    foreach(DriverInfo * dv, driversList)
+    foreach (DriverInfo *dv, driversList)
         if (dv->getServerManager() == server)
         {
             dv->setServerState(false);
@@ -678,7 +667,8 @@ void DriverManager::processServerTermination(ServerManager * server)
 
     if (server->getMode() == SERVER_ONLY)
     {
-        KSNotification::error(i18n("Connection to INDI host at %1 on port %2 encountered an error: %3.", server->getHost(), server->getPort(), server->errorString()));
+        KSNotification::error(i18n("Connection to INDI host at %1 on port %2 encountered an error: %3.",
+                                   server->getHost(), server->getPort(), server->errorString()));
     }
 
     emit serverTerminated(server->getHost(), server->getPort());
@@ -688,14 +678,13 @@ void DriverManager::processServerTermination(ServerManager * server)
     updateLocalTab();
 }
 
-
 void DriverManager::processRemoteTree(bool dState)
 {
+    QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
+    if (!currentItem)
+        return;
 
-    QTreeWidgetItem * currentItem = ui->clientTreeWidget->currentItem();
-    if (!currentItem) return;
-
-    foreach (DriverInfo * dv, driversList)
+    foreach (DriverInfo *dv, driversList)
     {
         if (dv->getDriverSource() != HOST_SOURCE)
             continue;
@@ -703,7 +692,8 @@ void DriverManager::processRemoteTree(bool dState)
         //qDebug() << "Current item port " << currentItem->text(HOST_PORT_COLUMN) << " current dev " << dv->getName() << " -- port " << dv->getPort() << endl;
         //qDebug() << "dState is : " << (dState ? "True" : "False") << endl;
 
-        if (currentItem->text(HOST_NAME_COLUMN) == dv->getName() && currentItem->text(HOST_PORT_COLUMN) == dv->getPort())
+        if (currentItem->text(HOST_NAME_COLUMN) == dv->getName() &&
+            currentItem->text(HOST_PORT_COLUMN) == dv->getPort())
         {
             // Nothing changed, return
             if (dv->getClientState() == dState)
@@ -716,15 +706,14 @@ void DriverManager::processRemoteTree(bool dState)
             else
                 disconnectRemoteHost(dv);
         }
-
     }
 }
 
-bool DriverManager::connectRemoteHost(DriverInfo * dv)
+bool DriverManager::connectRemoteHost(DriverInfo *dv)
 {
-    bool hostPortOk = false;
-    bool connectionToServer = false;
-    ClientManager * clientManager = nullptr;
+    bool hostPortOk              = false;
+    bool connectionToServer      = false;
+    ClientManager *clientManager = nullptr;
 
     dv->getPort().toInt(&hostPortOk);
 
@@ -738,16 +727,17 @@ bool DriverManager::connectRemoteHost(DriverInfo * dv)
 
     clientManager->appendManagedDriver(dv);
 
-    connect(clientManager, SIGNAL(connectionFailure(ClientManager *)), this, SLOT(processClientTermination(ClientManager *)));
+    connect(clientManager, SIGNAL(connectionFailure(ClientManager *)), this,
+            SLOT(processClientTermination(ClientManager *)));
 
-    clientManager->setServer(dv->getHost().toLatin1().constData(), (uint) (dv->getPort().toInt()));
+    clientManager->setServer(dv->getHost().toLatin1().constData(), (uint)(dv->getPort().toInt()));
 
     GUIManager::Instance()->addClient(clientManager);
     INDIListener::Instance()->addClient(clientManager);
 
-    for (int i=0; i < INDI_MAX_TRIES; i++)
+    for (int i = 0; i < INDI_MAX_TRIES; i++)
     {
-        connectionToServer= clientManager->connectServer();
+        connectionToServer = clientManager->connectServer();
 
         if (connectionToServer)
             break;
@@ -766,12 +756,13 @@ bool DriverManager::connectRemoteHost(DriverInfo * dv)
         INDIListener::Instance()->removeClient(clientManager);
 
         KNotification::beep();
-        QMessageBox * msgBox = new QMessageBox();
-        msgBox->setAttribute( Qt::WA_DeleteOnClose );
-        msgBox->setStandardButtons( QMessageBox::Ok );
-        msgBox->setWindowTitle( i18n("Error") );
-        msgBox->setText( i18n("Connection to INDI server at host %1 with port %2 failed.", dv->getHost(), dv->getPort()) );
-        msgBox->setModal( false );
+        QMessageBox *msgBox = new QMessageBox();
+        msgBox->setAttribute(Qt::WA_DeleteOnClose);
+        msgBox->setStandardButtons(QMessageBox::Ok);
+        msgBox->setWindowTitle(i18n("Error"));
+        msgBox->setText(
+            i18n("Connection to INDI server at host %1 with port %2 failed.", dv->getHost(), dv->getPort()));
+        msgBox->setModal(false);
         msgBox->setIcon(QMessageBox::Critical);
         msgBox->show();
 
@@ -782,10 +773,10 @@ bool DriverManager::connectRemoteHost(DriverInfo * dv)
     return true;
 }
 
-bool DriverManager::disconnectRemoteHost(DriverInfo * dv)
+bool DriverManager::disconnectRemoteHost(DriverInfo *dv)
 {
-    ClientManager * clientManager = nullptr;
-    clientManager = dv->getClientManager();
+    ClientManager *clientManager = nullptr;
+    clientManager                = dv->getClientManager();
 
     if (clientManager)
     {
@@ -797,11 +788,9 @@ bool DriverManager::disconnectRemoteHost(DriverInfo * dv)
         delete clientManager;
         updateMenuActions();
         return true;
-
     }
 
     return false;
-
 }
 
 void DriverManager::resizeDeviceColumn()
@@ -814,8 +803,8 @@ void DriverManager::updateMenuActions()
     // We iterate over devices, we enable INDI Control Panel if we have any active device
     // We enable capture image sequence if we have any imaging device
 
-    QAction * tmpAction = nullptr;
-    bool activeDevice = false;
+    QAction *tmpAction = nullptr;
+    bool activeDevice  = false;
 
     if (clients.size() > 0)
         activeDevice = true;
@@ -834,12 +823,14 @@ int DriverManager::getINDIPort(int customPort)
     qWarning() << "INDI server is currently not supported on Windows.";
     return -1;
 #else
-    int lastPort  = Options::serverPortEnd().toInt();;
+    int lastPort = Options::serverPortEnd().toInt();
+    ;
     bool success = false;
     currentPort++;
 
     // recycle
-    if (currentPort > lastPort) currentPort = Options::serverPortStart().toInt();
+    if (currentPort > lastPort)
+        currentPort = Options::serverPortStart().toInt();
 
     QTcpServer temp_server;
 
@@ -855,10 +846,10 @@ int DriverManager::getINDIPort(int customPort)
             return -1;
     }
 
-    for(; currentPort <= lastPort; currentPort++)
+    for (; currentPort <= lastPort; currentPort++)
     {
         success = temp_server.listen(QHostAddress::LocalHost, currentPort);
-        if(success)
+        if (success)
         {
             temp_server.close();
             return currentPort;
@@ -868,7 +859,6 @@ int DriverManager::getINDIPort(int customPort)
 #endif
 }
 
-
 bool DriverManager::readINDIHosts()
 {
     QString indiFile("indihosts.xml");
@@ -876,17 +866,17 @@ bool DriverManager::readINDIHosts()
     QFile file;
     char errmsg[1024];
     char c;
-    LilXML * xmlParser = newLilXML();
-    XMLEle * root = nullptr;
-    XMLAtt * ap = nullptr;
+    LilXML *xmlParser = newLilXML();
+    XMLEle *root      = nullptr;
+    XMLAtt *ap        = nullptr;
     QString hName, hHost, hPort;
 
     lastGroup = nullptr;
-    file.setFileName( KSPaths::locate(QStandardPaths::GenericDataLocation, indiFile ) );
-    if ( file.fileName().isEmpty() || !file.open( QIODevice::ReadOnly ) )
+    file.setFileName(KSPaths::locate(QStandardPaths::GenericDataLocation, indiFile));
+    if (file.fileName().isEmpty() || !file.open(QIODevice::ReadOnly))
         return false;
 
-    while ( file.getChar( &c ) )
+    while (file.getChar(&c))
     {
         root = readXMLEle(xmlParser, c, errmsg);
 
@@ -923,7 +913,7 @@ bool DriverManager::readINDIHosts()
 
             hPort = QString(valuXMLAtt(ap));
 
-            DriverInfo * dv = new DriverInfo(hName);
+            DriverInfo *dv = new DriverInfo(hName);
             dv->setHostParameters(hHost, hPort);
             dv->setDriverSource(HOST_SOURCE);
 
@@ -931,12 +921,11 @@ bool DriverManager::readINDIHosts()
 
             driversList.append(dv);
 
-            QTreeWidgetItem * item = new QTreeWidgetItem(ui->clientTreeWidget, lastGroup);
-            lastGroup = item;
+            QTreeWidgetItem *item = new QTreeWidgetItem(ui->clientTreeWidget, lastGroup);
+            lastGroup             = item;
             item->setIcon(HOST_STATUS_COLUMN, ui->disconnected);
             item->setText(HOST_NAME_COLUMN, hName);
             item->setText(HOST_PORT_COLUMN, hPort);
-
 
             delXMLEle(root);
         }
@@ -953,7 +942,6 @@ bool DriverManager::readINDIHosts()
     return true;
 }
 
-
 bool DriverManager::readXMLDrivers()
 {
     QDir indiDir;
@@ -964,15 +952,17 @@ bool DriverManager::readXMLDrivers()
     if (indiDriversXML.isEmpty() == false)
         processXMLDriver(indiDriversXML);
 
-    QString driversDir=Options::indiDriversDir();
+    QString driversDir = Options::indiDriversDir();
 #ifdef Q_OS_OSX
-    if(Options::indiDriversAreInternal())
-        driversDir=QCoreApplication::applicationDirPath()+"/indi";
+    if (Options::indiDriversAreInternal())
+        driversDir = QCoreApplication::applicationDirPath() + "/indi";
 #endif
 
     if (indiDir.cd(driversDir) == false)
     {
-        KSNotification::error(i18n("Unable to find INDI Drivers directory: %1\nPlease make sure to set the correct path in KStars configuration", driversDir));
+        KSNotification::error(i18n("Unable to find INDI Drivers directory: %1\nPlease make sure to set the correct "
+                                   "path in KStars configuration",
+                                   driversDir));
         return false;
     }
 
@@ -1001,11 +991,9 @@ bool DriverManager::readXMLDrivers()
 
         driverName = QString("%1/%2").arg(driversDir).arg(fileInfo.fileName());
         processXMLDriver(driverName);
-
     }
 
     return true;
-
 }
 
 void DriverManager::processXMLDriver(QString &driverName)
@@ -1019,16 +1007,16 @@ void DriverManager::processXMLDriver(QString &driverName)
 
     char errmsg[ERRMSG_SIZE];
     char c;
-    LilXML * xmlParser = newLilXML();
-    XMLEle * root = nullptr;
-    XMLEle * ep = nullptr;
+    LilXML *xmlParser = newLilXML();
+    XMLEle *root      = nullptr;
+    XMLEle *ep        = nullptr;
 
     if (driverName.endsWith("drivers.xml"))
         driverSource = PRIMARY_XML;
     else
         driverSource = THIRD_PARTY_XML;
 
-    while ( file.getChar(&c))
+    while (file.getChar(&c))
     {
         root = readXMLEle(xmlParser, c, errmsg);
 
@@ -1037,7 +1025,7 @@ void DriverManager::processXMLDriver(QString &driverName)
             // If the XML file is using the INDI Library v1.3+ format
             if (!strcmp(tagXMLEle(root), "driversList"))
             {
-                for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
+                for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
                 {
                     if (!buildDeviceGroup(ep, errmsg))
                         prXMLEle(stderr, ep, 0);
@@ -1061,16 +1049,14 @@ void DriverManager::processXMLDriver(QString &driverName)
     }
 
     delLilXML(xmlParser);
-
 }
 
-bool DriverManager::buildDeviceGroup(XMLEle * root, char errmsg[])
+bool DriverManager::buildDeviceGroup(XMLEle *root, char errmsg[])
 {
-
-    XMLAtt * ap;
-    XMLEle * ep;
+    XMLAtt *ap;
+    XMLEle *ep;
     QString groupName;
-    QTreeWidgetItem * group;
+    QTreeWidgetItem *group;
     DeviceFamily groupType = KSTARS_TELESCOPE;
 
     // avoid overflow
@@ -1129,7 +1115,7 @@ bool DriverManager::buildDeviceGroup(XMLEle * root, char errmsg[])
     group->setText(0, groupName);
     lastGroup = group;
 
-    for (ep = nextXMLEle(root, 1) ; ep != nullptr ; ep = nextXMLEle(root, 0))
+    for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
     {
         if (!buildDriverElement(ep, group, groupType, errmsg))
             return false;
@@ -1138,12 +1124,11 @@ bool DriverManager::buildDeviceGroup(XMLEle * root, char errmsg[])
     return true;
 }
 
-
-bool DriverManager::buildDriverElement(XMLEle * root, QTreeWidgetItem * DGroup, DeviceFamily groupType, char errmsg[])
+bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, DeviceFamily groupType, char errmsg[])
 {
-    XMLAtt * ap;
-    XMLEle * el;
-    DriverInfo * dv;
+    XMLAtt *ap;
+    XMLEle *el;
+    DriverInfo *dv;
     QString label;
     QString driver;
     QString version;
@@ -1151,7 +1136,7 @@ bool DriverManager::buildDriverElement(XMLEle * root, QTreeWidgetItem * DGroup, 
     QString port;
     QString skel;
     QVariantMap vMap;
-    double focal_length (-1), aperture (-1);
+    double focal_length(-1), aperture(-1);
 
     ap = findXMLAtt(root, "label");
     if (!ap)
@@ -1191,7 +1176,7 @@ bool DriverManager::buildDriverElement(XMLEle * root, QTreeWidgetItem * DGroup, 
     if (ap)
     {
         bool mdpd = false;
-        mdpd = ( QString(valuXMLAtt(ap)) == QString("true") ) ? true : false;
+        mdpd      = (QString(valuXMLAtt(ap)) == QString("true")) ? true : false;
         vMap.insert("mdpd", mdpd);
     }
 
@@ -1226,15 +1211,15 @@ bool DriverManager::buildDriverElement(XMLEle * root, QTreeWidgetItem * DGroup, 
 
     version = pcdataXMLEle(el);
 
-    bool driverIsAvailable=checkDriverAvailability(driver);
+    bool driverIsAvailable = checkDriverAvailability(driver);
 
     vMap.insert("LOCALLY_AVAILABLE", driverIsAvailable);
-    QIcon remoteIcon=QIcon::fromTheme("modem", QIcon(":/icons/breeze/default/modem.svg"));
+    QIcon remoteIcon = QIcon::fromTheme("modem", QIcon(":/icons/breeze/default/modem.svg"));
 
-    QTreeWidgetItem * device = new QTreeWidgetItem(DGroup);
+    QTreeWidgetItem *device = new QTreeWidgetItem(DGroup);
 
     device->setText(LOCAL_NAME_COLUMN, label);
-    if(driverIsAvailable)
+    if (driverIsAvailable)
         device->setIcon(LOCAL_STATUS_COLUMN, ui->stopPix);
     else
         device->setIcon(LOCAL_STATUS_COLUMN, remoteIcon);
@@ -1269,11 +1254,11 @@ bool DriverManager::buildDriverElement(XMLEle * root, QTreeWidgetItem * DGroup, 
 
 bool DriverManager::checkDriverAvailability(QString driver)
 {
-    QString indiServerDir=Options::indiServer();
-    if(Options::indiServerIsInternal())
-        indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
+    QString indiServerDir = Options::indiServer();
+    if (Options::indiServerIsInternal())
+        indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
     else
-        indiServerDir=QFileInfo(Options::indiServer()).dir().path();
+        indiServerDir = QFileInfo(Options::indiServer()).dir().path();
 
     QFile driverFile(indiServerDir + "/" + driver);
 
@@ -1282,26 +1267,26 @@ bool DriverManager::checkDriverAvailability(QString driver)
 
 void DriverManager::updateCustomDrivers()
 {
-
     QString label;
     QString driver;
     QString version;
     QString name;
-    QTreeWidgetItem * group = nullptr;
-    QTreeWidgetItem * widgetDev = nullptr;
+    QTreeWidgetItem *group     = nullptr;
+    QTreeWidgetItem *widgetDev = nullptr;
     QVariantMap vMap;
-    DriverInfo * drv = nullptr;
+    DriverInfo *drv = nullptr;
 
     // Find if the group already exists
     QList<QTreeWidgetItem *> treeList = ui->localTreeWidget->findItems("Telescopes", Qt::MatchExactly);
     if (!treeList.isEmpty())
         group = treeList[0];
-    else return;
+    else
+        return;
 
     KStarsData::Instance()->logObject()->readAll();
 
     // Find custom telescope to ADD/UPDATE
-    foreach(OAL::Scope * s, *(KStarsData::Instance()->logObject()->scopeList()))
+    foreach (OAL::Scope *s, *(KStarsData::Instance()->logObject()->scopeList()))
     {
         name = label = s->name();
 
@@ -1309,7 +1294,7 @@ void DriverManager::updateCustomDrivers()
             continue;
 
         // If driver already exists, just update values
-        if ( (drv = findDriverByLabel(label)) )
+        if ((drv = findDriverByLabel(label)))
         {
             if (s->aperture() > 0 && s->focalLength() > 0)
             {
@@ -1323,15 +1308,15 @@ void DriverManager::updateCustomDrivers()
             continue;
         }
 
-        driver = s->driver();
+        driver  = s->driver();
         version = QString("1.0");
 
-        QTreeWidgetItem * device = new QTreeWidgetItem(group);
+        QTreeWidgetItem *device = new QTreeWidgetItem(group);
         device->setText(LOCAL_NAME_COLUMN, QString(label));
         device->setIcon(LOCAL_STATUS_COLUMN, ui->stopPix);
         device->setText(LOCAL_VERSION_COLUMN, QString(version));
 
-        DriverInfo * dv = new DriverInfo(name);
+        DriverInfo *dv = new DriverInfo(name);
 
         dv->setTreeLabel(label);
         dv->setDriver(driver);
@@ -1351,7 +1336,7 @@ void DriverManager::updateCustomDrivers()
     }
 
     // Find custom telescope to REMOVE
-    foreach(DriverInfo * dev, driversList)
+    foreach (DriverInfo *dev, driversList)
     {
         // If it's from primary xml file or it is in a running state, continue.
         if (dev->getDriverSource() != EM_XML || dev->getClientState())
@@ -1361,18 +1346,19 @@ void DriverManager::updateCustomDrivers()
             continue;
 
         // Find if the group already exists
-        QList<QTreeWidgetItem *> devList = ui->localTreeWidget->findItems(dev->getTreeLabel(), Qt::MatchExactly  | Qt::MatchRecursive);
+        QList<QTreeWidgetItem *> devList =
+            ui->localTreeWidget->findItems(dev->getTreeLabel(), Qt::MatchExactly | Qt::MatchRecursive);
         if (!devList.isEmpty())
         {
             widgetDev = devList[0];
             group->removeChild(widgetDev);
         }
-        else return;
+        else
+            return;
 
         driversList.removeOne(dev);
         delete (dev);
     }
-
 }
 
 void DriverManager::addINDIHost()
@@ -1385,7 +1371,7 @@ void DriverManager::addINDIHost()
 
     if (hostConfDialog.exec() == QDialog::Accepted)
     {
-        DriverInfo * hostItem      = new DriverInfo(hostConf.nameIN->text());
+        DriverInfo *hostItem = new DriverInfo(hostConf.nameIN->text());
 
         hostConf.portnumber->text().toInt(&portOk);
 
@@ -1400,10 +1386,11 @@ void DriverManager::addINDIHost()
 
         //search for duplicates
         //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-        foreach (DriverInfo * host, driversList)
-            if (hostItem->getName()   == host->getName() &&  hostItem->getPort() == host->getPort())
+        foreach (DriverInfo *host, driversList)
+            if (hostItem->getName() == host->getName() && hostItem->getPort() == host->getPort())
             {
-                KSNotification::error(i18n("Host: %1 Port: %2 already exists.", hostItem->getName(), hostItem->getPort()));
+                KSNotification::error(
+                    i18n("Host: %1 Port: %2 already exists.", hostItem->getName(), hostItem->getPort()));
                 delete hostItem;
                 return;
             }
@@ -1414,11 +1401,10 @@ void DriverManager::addINDIHost()
 
         driversList.append(hostItem);
 
-        QTreeWidgetItem * item = new QTreeWidgetItem(ui->clientTreeWidget);
+        QTreeWidgetItem *item = new QTreeWidgetItem(ui->clientTreeWidget);
         item->setIcon(HOST_STATUS_COLUMN, ui->disconnected);
         item->setText(HOST_NAME_COLUMN, hostConf.nameIN->text());
         item->setText(HOST_PORT_COLUMN, hostConf.portnumber->text());
-
     }
 
     saveHosts();
@@ -1426,20 +1412,20 @@ void DriverManager::addINDIHost()
 
 void DriverManager::modifyINDIHost()
 {
-
     QDialog hostConfDialog;
     Ui::INDIHostConf hostConf;
     hostConf.setupUi(&hostConfDialog);
     hostConfDialog.setWindowTitle(i18n("Modify Host"));
 
-    QTreeWidgetItem * currentItem = ui->clientTreeWidget->currentItem();
+    QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
 
     if (currentItem == nullptr)
         return;
 
-    foreach (DriverInfo * host, driversList)
+    foreach (DriverInfo *host, driversList)
     {
-        if (currentItem->text(HOST_NAME_COLUMN) == host->getName() && currentItem->text(HOST_PORT_COLUMN) == host->getPort())
+        if (currentItem->text(HOST_NAME_COLUMN) == host->getName() &&
+            currentItem->text(HOST_PORT_COLUMN) == host->getPort())
         {
             hostConf.nameIN->setText(host->getName());
             hostConf.hostname->setText(host->getHost());
@@ -1461,7 +1447,6 @@ void DriverManager::modifyINDIHost()
             }
         }
     }
-
 }
 
 void DriverManager::removeINDIHost()
@@ -1469,9 +1454,9 @@ void DriverManager::removeINDIHost()
     if (ui->clientTreeWidget->currentItem() == nullptr)
         return;
 
-    foreach (DriverInfo * host, driversList)
+    foreach (DriverInfo *host, driversList)
         if (ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN) == host->getName() &&
-                ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN) == host->getPort())
+            ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN) == host->getPort())
         {
             if (host->getClientState())
             {
@@ -1479,7 +1464,11 @@ void DriverManager::removeINDIHost()
                 return;
             }
 
-            if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 client?", ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN)), i18n("Delete Confirmation"),KStandardGuiItem::del())!=KMessageBox::Continue)
+            if (KMessageBox::warningContinueCancel(0,
+                                                   i18n("Are you sure you want to remove the %1 client?",
+                                                        ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN)),
+                                                   i18n("Delete Confirmation"),
+                                                   KStandardGuiItem::del()) != KMessageBox::Continue)
                 return;
 
             driversList.removeOne(host);
@@ -1496,24 +1485,27 @@ void DriverManager::saveHosts()
     QFile file;
     QString hostData;
 
-    file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "indihosts.xml" ) ; //determine filename in local user KDE directory tree.
+    file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+                     "indihosts.xml"); //determine filename in local user KDE directory tree.
 
-    if ( !file.open( QIODevice::WriteOnly))
+    if (!file.open(QIODevice::WriteOnly))
     {
-        KSNotification::sorry(i18n( "Unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." ), i18n( "Could Not Open File" ) );
+        KSNotification::sorry(
+            i18n(
+                "Unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved."),
+            i18n("Could Not Open File"));
         return;
     }
 
     QTextStream outstream(&file);
 
     //for (uint i= 0; i < ksw->data()->INDIHostsList.count(); i++)
-    foreach (DriverInfo * host, driversList)
+    foreach (DriverInfo *host, driversList)
     {
-
         if (host->getDriverSource() != HOST_SOURCE)
             continue;
 
-        hostData  = "<INDIHost name='";
+        hostData = "<INDIHost name='";
         hostData += host->getName();
         hostData += "' hostname='";
         hostData += host->getHost();
@@ -1522,15 +1514,14 @@ void DriverManager::saveHosts()
         hostData += "' />\n";
 
         outstream << hostData;
-
     }
 
     file.close();
 }
 
-DriverInfo * DriverManager::findDriverByName(const QString &name)
+DriverInfo *DriverManager::findDriverByName(const QString &name)
 {
-    foreach(DriverInfo * dv, driversList)
+    foreach (DriverInfo *dv, driversList)
     {
         if (dv->getName() == name)
             return dv;
@@ -1539,9 +1530,9 @@ DriverInfo * DriverManager::findDriverByName(const QString &name)
     return nullptr;
 }
 
-DriverInfo * DriverManager::findDriverByLabel(const QString &label)
+DriverInfo *DriverManager::findDriverByLabel(const QString &label)
 {
-    foreach(DriverInfo * dv, driversList)
+    foreach (DriverInfo *dv, driversList)
     {
         if (dv->getTreeLabel() == label)
             return dv;
@@ -1550,9 +1541,9 @@ DriverInfo * DriverManager::findDriverByLabel(const QString &label)
     return nullptr;
 }
 
-DriverInfo * DriverManager::findDriverByExec(const QString &exec)
+DriverInfo *DriverManager::findDriverByExec(const QString &exec)
 {
-    foreach(DriverInfo * dv, driversList)
+    foreach (DriverInfo *dv, driversList)
     {
         if (dv->getDriver() == exec)
             return dv;
@@ -1563,20 +1554,18 @@ DriverInfo * DriverManager::findDriverByExec(const QString &exec)
 
 QString DriverManager::getUniqueDeviceLabel(const QString &label)
 {
-    int nset=0;
+    int nset            = 0;
     QString uniqueLabel = label;
 
-    foreach(ClientManager * cm, clients)
-        foreach(INDI::BaseDevice * dv, cm->getDevices())
+    foreach (ClientManager *cm, clients)
+        foreach (INDI::BaseDevice *dv, cm->getDevices())
         {
             if (label == QString(dv->getDeviceName()))
                 nset++;
         }
 
     if (nset > 0)
-        uniqueLabel = QString("%1 %2").arg(label).arg(nset+1);
+        uniqueLabel = QString("%1 %2").arg(label).arg(nset + 1);
 
     return uniqueLabel;
 }
-
-

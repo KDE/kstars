@@ -19,17 +19,15 @@
 
 #include <QFrame>
 
-LogEdit::LogEdit( QWidget * parent ) : QTextEdit( parent )
+LogEdit::LogEdit(QWidget *parent) : QTextEdit(parent)
 {
-    setFrameStyle( QFrame::StyledPanel );
-    setFrameShadow( QFrame::Plain );
-    setLineWidth( 4 );
+    setFrameStyle(QFrame::StyledPanel);
+    setFrameShadow(QFrame::Plain);
+    setLineWidth(4);
 }
 
-void LogEdit::focusOutEvent( QFocusEvent * e )
+void LogEdit::focusOutEvent(QFocusEvent *e)
 {
     emit focusOut();
     QWidget::focusOutEvent(e);
 }
-
-

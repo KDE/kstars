@@ -30,43 +30,43 @@ class SkyObject;
   */
 class PWizObjectSelectionUI : public QFrame, public Ui::PWizObjectSelection
 {
-        Q_OBJECT
-    public:
-        /**
+    Q_OBJECT
+  public:
+    /**
           * \brief Constructor.
           */
-        explicit PWizObjectSelectionUI(PrintingWizard * wizard, QWidget * parent = 0);
+    explicit PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent = 0);
 
-        /**
+    /**
           * \brief Update UI elements for newly selected SkyObject.
           * \param obj Selected SkyObject.
           */
-        void setSkyObject(SkyObject * obj);
+    void setSkyObject(SkyObject *obj);
 
-        /**
+    /**
           * \brief Static function: get QString with basic information about SkyObject.
           * \param obj Selected SkyObject.
           */
-        static QString objectInfoString(SkyObject * obj);
+    static QString objectInfoString(SkyObject *obj);
 
-    private slots:
-        /**
+  private slots:
+    /**
           * \brief Slot: open "Find Object" dialog to select SkyObject.
           */
-        void slotSelectFromList();
+    void slotSelectFromList();
 
-        /**
+    /**
           * \brief Slot: enter object pointing mode to select SkyObject.
           */
-        void slotPointObject();
+    void slotPointObject();
 
-        /**
+    /**
           * \brief Slot: show "Details" window for selected object.
           */
-        void slotShowDetails();
+    void slotShowDetails();
 
-    private:
-        PrintingWizard * m_ParentWizard;
+  private:
+    PrintingWizard *m_ParentWizard;
 };
 
 #endif // PWIZOBJECTSELECTION_H

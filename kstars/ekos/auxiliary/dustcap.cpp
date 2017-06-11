@@ -14,24 +14,21 @@
 
 #include <basedevice.h>
 
-
 namespace Ekos
 {
-
 DustCap::DustCap()
 {
     new DustCapAdaptor(this);
-    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/DustCap",  this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/DustCap", this);
 
     currentDustCap = nullptr;
 }
 
 DustCap::~DustCap()
 {
-
 }
 
-void DustCap::setDustCap(ISD::GDInterface * newDustCap)
+void DustCap::setDustCap(ISD::GDInterface *newDustCap)
 {
     currentDustCap = static_cast<ISD::DustCap *>(newDustCap);
 }
@@ -41,7 +38,7 @@ DustCap::ParkingStatus DustCap::getParkingStatus()
     if (currentDustCap == nullptr)
         return PARKING_ERROR;
 
-    ISwitchVectorProperty * parkSP = currentDustCap->getBaseDevice()->getSwitch("CAP_PARK");
+    ISwitchVectorProperty *parkSP = currentDustCap->getBaseDevice()->getSwitch("CAP_PARK");
 
     if (parkSP == nullptr)
         return PARKING_ERROR;
@@ -118,7 +115,4 @@ bool DustCap::setBrightness(uint16_t val)
 
     return currentDustCap->SetBrightness(val);
 }
-
 }
-
-

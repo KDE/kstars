@@ -48,9 +48,9 @@ struct State
 {
     QColor color;
 
-    int compare(const State * other) const
+    int compare(const State *other) const
     {
-        uint rgb = color.rgba();
+        uint rgb      = color.rgba();
         uint otherRgb = other->color.rgba();
 
         if (rgb == otherRgb)
@@ -72,134 +72,114 @@ struct State
 //! [2]
 class Shader : public QSGSimpleMaterialShader<State>
 {
-        QSG_DECLARE_SIMPLE_COMPARABLE_SHADER(Shader, State)
-//! [2] //! [3]
-    public:
+    QSG_DECLARE_SIMPLE_COMPARABLE_SHADER(Shader, State)
+    //! [2] //! [3]
+  public:
+    const char *vertexShader() const
+    {
+        return "attribute highp vec4 aVertex;                              \n"
+               "attribute highp vec2 aTexCoord;                            \n"
+               "uniform highp mat4 qt_Matrix;                              \n"
+               "uniform highp mat4 mvp_matrix;                              \n"
+               "varying highp vec2 texCoord;                               \n"
+               "void main() {                                              \n"
+               "    gl_Position = qt_Matrix * aVertex;                     \n"
+               "    texCoord = aTexCoord;                                  \n"
+               "}";
+    }
 
-        const char * vertexShader() const
-        {
-            return
-                "attribute highp vec4 aVertex;                              \n"
-                "attribute highp vec2 aTexCoord;                            \n"
-                "uniform highp mat4 qt_Matrix;                              \n"
-                "uniform highp mat4 mvp_matrix;                              \n"
-                "varying highp vec2 texCoord;                               \n"
-                "void main() {                                              \n"
-                "    gl_Position = qt_Matrix * aVertex;                     \n"
-                "    texCoord = aTexCoord;                                  \n"
-                "}";
-        }
+    const char *fragmentShader() const
+    {
+        return "uniform lowp float qt_Opacity;                             \n"
+               "uniform lowp vec4 color;                                   \n"
+               "varying highp vec2 texCoord;                               \n"
+               "void main ()                                               \n"
+               "{                                                          \n"
+               //"if (cos(0.1*abs(distance(vec2(100.0,100.0).xy, texCoord.xy))) + 0.5 > 0.0) { \n"
+               "if(texCoord.x < 0.1 || texCoord.x > 0.2 && texCoord.x < 0.3) { \n"
+               "    gl_FragColor = vec4(0.0,0.0,0.0,0.0) * qt_Opacity;  \n"
+               " } else {\n"
+               "    gl_FragColor = texCoord.y * texCoord.x * color * qt_Opacity;  \n"
+               "    }\n"
+               "}";
+    }
+    //! [3] //! [4]
+    QList<QByteArray> attributes() const
+    {
+        return QList<QByteArray>() << "aVertex"
+                                   << "aTexCoord";
+    }
+    //! [4] //! [5]
+    void updateState(const State *state, const State *) { program()->setUniformValue(id_color, state->color); }
+    //! [5] //! [6]
+    void resolveUniforms() { id_color = program()->uniformLocation("color"); }
 
-        const char * fragmentShader() const
-        {
-            return
-                "uniform lowp float qt_Opacity;                             \n"
-                "uniform lowp vec4 color;                                   \n"
-                "varying highp vec2 texCoord;                               \n"
-                "void main ()                                               \n"
-                "{                                                          \n"
-                //"if (cos(0.1*abs(distance(vec2(100.0,100.0).xy, texCoord.xy))) + 0.5 > 0.0) { \n"
-                "if(texCoord.x < 0.1 || texCoord.x > 0.2 && texCoord.x < 0.3) { \n"
-                "    gl_FragColor = vec4(0.0,0.0,0.0,0.0) * qt_Opacity;  \n"
-                " } else {\n"
-                "    gl_FragColor = texCoord.y * texCoord.x * color * qt_Opacity;  \n"
-                "    }\n"
-                "}";
-        }
-//! [3] //! [4]
-        QList<QByteArray> attributes() const
-        {
-            return QList<QByteArray>() << "aVertex" << "aTexCoord";
-        }
-//! [4] //! [5]
-        void updateState(const State * state, const State *)
-        {
-            program()->setUniformValue(id_color, state->color);
-        }
-//! [5] //! [6]
-        void resolveUniforms()
-        {
-            id_color = program()->uniformLocation("color");
-        }
-
-    private:
-        int id_color;
-//! [6]
+  private:
+    int id_color;
+    //! [6]
 };
-
 
 //! [7]
 class ColorNode : public QSGGeometryNode
 {
-    public:
-        ColorNode()
-            : m_geometry(QSGGeometry::defaultAttributes_TexturedPoint2D(), 4)
-        {
-            setGeometry(&m_geometry);
+  public:
+    ColorNode() : m_geometry(QSGGeometry::defaultAttributes_TexturedPoint2D(), 4)
+    {
+        setGeometry(&m_geometry);
 
-            QSGSimpleMaterial<State> * material = Shader::createMaterial();
-            material->setFlag(QSGMaterial::Blending);
-            setMaterial(material);
-            setFlag(OwnsMaterial);
-        }
+        QSGSimpleMaterial<State> *material = Shader::createMaterial();
+        material->setFlag(QSGMaterial::Blending);
+        setMaterial(material);
+        setFlag(OwnsMaterial);
+    }
 
-        QSGGeometry m_geometry;
+    QSGGeometry m_geometry;
 };
 //! [7]
-
 
 //! [8]
 class Item : public QQuickItem
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
 
-    public:
+  public:
+    Item() { setFlag(ItemHasContents, true); }
 
-        Item()
+    void setColor(const QColor &color)
+    {
+        if (m_color != color)
         {
-            setFlag(ItemHasContents, true);
+            m_color = color;
+            emit colorChanged();
+            update();
         }
+    }
+    QColor color() const { return m_color; }
 
-        void setColor(const QColor &color)
-        {
-            if (m_color != color)
-            {
-                m_color = color;
-                emit colorChanged();
-                update();
-            }
-        }
-        QColor color() const
-        {
-            return m_color;
-        }
+  signals:
+    void colorChanged();
 
-    signals:
-        void colorChanged();
+  private:
+    QColor m_color;
 
-    private:
-        QColor m_color;
+    //! [8] //! [9]
+  public:
+    QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *)
+    {
+        ColorNode *n = static_cast<ColorNode *>(node);
+        if (!node)
+            n = new ColorNode();
 
-//! [8] //! [9]
-    public:
-        QSGNode * updatePaintNode(QSGNode * node, UpdatePaintNodeData *)
-        {
-            ColorNode * n = static_cast<ColorNode *>(node);
-            if (!node)
-                n = new ColorNode();
+        QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
+        static_cast<QSGSimpleMaterial<State> *>(n->material())->state()->color = m_color;
 
-            QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
-            static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
+        n->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);
 
-            n->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);
-
-            return n;
-        }
+        return n;
+    }
 };
-
 
 //#include "simplematerial.moc"
 //! [11]
-

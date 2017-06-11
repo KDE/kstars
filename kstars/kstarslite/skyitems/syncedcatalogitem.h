@@ -31,28 +31,28 @@ class SyncedCatalogComponent;
 
 class SyncedCatalogItem : public SkyItem
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor
          * @param parent - pointer to SyncedCatalogComponent that handles data
          * @param rootNode parent RootNode that instantiates this object
          */
-        SyncedCatalogItem(SyncedCatalogComponent * parent, RootNode * rootNode);
+    SyncedCatalogItem(SyncedCatalogComponent *parent, RootNode *rootNode);
 
-        /**
+    /**
          * @short Update positions and visibility of objects from this catalog.
          * To check whether we need to create or delete nodes we compare m_ObjectList and
          * SyncedCatalogComponent::objectList(). If objectList was changed we recreate the whole node tree to sync
          * it with objectList.
          */
-        virtual void update() override;
+    virtual void update() override;
 
-    private:
-        SyncedCatalogComponent * m_parent;
-        QList<SkyObject *> m_ObjectList;
+  private:
+    SyncedCatalogComponent *m_parent;
+    QList<SkyObject *> m_ObjectList;
 
-        QSGNode * stars;
-        QSGNode * dsoSymbols;
-        QSGNode * dsoNodes;
+    QSGNode *stars;
+    QSGNode *dsoSymbols;
+    QSGNode *dsoNodes;
 };
 #endif

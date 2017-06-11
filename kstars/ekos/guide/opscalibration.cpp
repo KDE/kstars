@@ -25,22 +25,22 @@
 
 namespace Ekos
 {
-
-OpsCalibration::OpsCalibration(InternalGuider * guiderObject)  : QFrame( KStars::Instance() )
+OpsCalibration::OpsCalibration(InternalGuider *guiderObject) : QFrame(KStars::Instance())
 {
     setupUi(this);
 
     guider = guiderObject;
 
     //Get a pointer to the KConfigDialog
-    m_ConfigDialog = KConfigDialog::exists( "guidesettings" );
+    m_ConfigDialog = KConfigDialog::exists("guidesettings");
 
-    connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
+    connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
+    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 }
 
-
-OpsCalibration::~OpsCalibration() {}
+OpsCalibration::~OpsCalibration()
+{
+}
 
 void OpsCalibration::showEvent(QShowEvent *)
 {
@@ -51,7 +51,7 @@ void OpsCalibration::showEvent(QShowEvent *)
     spinBox_ReticleY->setValue(y);
     spinBox_ReticleAngle->setValue(ang);
 
-    uint16_t subX,subY,subW,subH,subBinX,subBinY;
+    uint16_t subX, subY, subW, subH, subBinX, subBinY;
     guider->getFrameParams(&subX, &subY, &subW, &subH, &subBinX, &subBinY);
 
     spinBox_ReticleX->setMaximum(subW);
@@ -62,5 +62,4 @@ void OpsCalibration::slotApply()
 {
     guider->setReticleParameters(spinBox_ReticleX->value(), spinBox_ReticleY->value(), spinBox_ReticleAngle->value());
 }
-
 }

@@ -43,8 +43,8 @@ class CatalogEntryData;
 	*/
 class DeepSkyObject : public SkyObject
 {
-    public:
-        /**
+  public:
+    /**
           *Constructor.  Create DeepSkyObject with data according to arguments.
         	*@param t Type of object
         	*@param r catalog Right Ascension
@@ -60,35 +60,39 @@ class DeepSkyObject : public SkyObject
         	*@param pgc PGC catalog number
         	*@param ugc UGC catalog number
         	*/
-        explicit DeepSkyObject( int t=SkyObject::STAR,
-                                dms r=dms(0.0), dms d=dms(0.0), float m=0.0,
-                                const QString &n="unnamed", const QString &n2=QString(),
-                                const QString &lname=QString(), const QString &cat=QString(),
-                                float a=0.0, float b=0.0, double pa=0.0,
-                                int pgc=0, int ugc=0 );
+    explicit DeepSkyObject(int t = SkyObject::STAR, dms r = dms(0.0), dms d = dms(0.0), float m = 0.0,
+                           const QString &n = "unnamed", const QString &n2 = QString(),
+                           const QString &lname = QString(), const QString &cat = QString(), float a = 0.0,
+                           float b = 0.0, double pa = 0.0, int pgc = 0, int ugc = 0);
 
-        /** @short Copy constructor.
+    /** @short Copy constructor.
          *  @param o SkyObject from which to copy data
          */
-        DeepSkyObject(const DeepSkyObject &o );
+    DeepSkyObject(const DeepSkyObject &o);
 
-        DeepSkyObject( const CatalogEntryData &data, CatalogComponent * cat = 0 );
+    DeepSkyObject(const CatalogEntryData &data, CatalogComponent *cat = 0);
 
-        QString labelString() const Q_DECL_OVERRIDE;
+    QString labelString() const Q_DECL_OVERRIDE;
 
-        DeepSkyObject * clone() const Q_DECL_OVERRIDE;
-        SkyObject::UID getUID() const Q_DECL_OVERRIDE;
+    DeepSkyObject *clone() const Q_DECL_OVERRIDE;
+    SkyObject::UID getUID() const Q_DECL_OVERRIDE;
 
-        /** *Destructor */
-        virtual ~DeepSkyObject() { }
+    /** *Destructor */
+    virtual ~DeepSkyObject() {}
 
-        /**
+    /**
           *@enum CATALOG
         	*The catalog ID of the DeepSkyObject.
         	*/
-        enum CATALOG { CAT_MESSIER=0, CAT_NGC=1, CAT_IC=2, CAT_UNKNOWN };
+    enum CATALOG
+    {
+        CAT_MESSIER = 0,
+        CAT_NGC     = 1,
+        CAT_IC      = 2,
+        CAT_UNKNOWN
+    };
 
-        /**
+    /**
           *@return a QString identifying the object's primary catalog.
         	*Possible catalog values are:
         	*- "M" for Messier catalog
@@ -97,9 +101,9 @@ class DeepSkyObject : public SkyObject
         	*- empty string is presumed to be an object in a custom catalog
         	*@sa setCatalog()
         	*/
-        QString catalog( void ) const;
+    QString catalog(void) const;
 
-        /**
+    /**
           *Set the internal Catalog value according to the QString
         	*argument:
         	* "M"   : CAT_MESSIER
@@ -107,158 +111,122 @@ class DeepSkyObject : public SkyObject
         	* "IC"  : CAT_IC
         	*@sa catalog()
         	*/
-        void setCatalog( const QString &s );
+    void setCatalog(const QString &s);
 
-        /**
+    /**
           *Set the reference to the custom catalog component, if any
           *@sa customCatalog()
           */
-        inline void setCustomCatalog(CatalogComponent * s)
-        {
-            customCat = s;
-        }
+    inline void setCustomCatalog(CatalogComponent *s) { customCat = s; }
 
-        /**
+    /**
           *@return a pointer to a custom catalog component
         */
-        inline CatalogComponent * customCatalog()
-        {
-            return customCat;
-        }
+    inline CatalogComponent *customCatalog() { return customCat; }
 
-        /**
+    /**
           *Set the integrated flux value of the object
           */
-        inline void setFlux(const float &f)
-        {
-            Flux = f;
-        }
+    inline void setFlux(const float &f) { Flux = f; }
 
-        /**
+    /**
           *@return the object's integrated flux, unit value is stored in the custom catalog component.
             */
-        inline float flux() const
-        {
-            return Flux;
-        }
+    inline float flux() const { return Flux; }
 
-        /**
+    /**
           *@return the object's major axis length, in arcminutes.
         	*/
-        inline float a() const
-        {
-            return MajorAxis;
-        }
+    inline float a() const { return MajorAxis; }
 
-        /**
+    /**
           *@return the object's minor axis length, in arcminutes.
         	*/
-        inline float b() const
-        {
-            return MinorAxis;
-        }
+    inline float b() const { return MinorAxis; }
 
-        /**
+    /**
           *@return the object's aspect ratio (MinorAxis/MajorAxis).  Returns 1.0
         	*if the object's MinorAxis=0.0.
         	*/
-        float e() const;
+    float e() const;
 
-        /**
+    /**
           *@return the object's position angle in degrees, measured clockwise from North.
         	*/
-        inline virtual double pa() const Q_DECL_OVERRIDE
-        {
-            return PositionAngle;
-        }
+    inline virtual double pa() const Q_DECL_OVERRIDE { return PositionAngle; }
 
-        /**
+    /**
           *@return the object's UGC catalog number.  Return 0 if the object is not in UGC.
         	*/
-        inline int ugc() const
-        {
-            return UGC;
-        }
+    inline int ugc() const { return UGC; }
 
-        /**
+    /**
           *@return the object's PGC catalog number.  Return 0 if the object is not in PGC.
         	*/
-        inline int pgc() const
+    inline int pgc() const { return PGC; }
+
+    /** @return an object's image */
+    const QImage &image()
+    {
+        if (imageLoaded)
+            return m_image;
+        else
         {
-            return PGC;
+            loadImage();
+            return m_image;
         }
+    }
 
-        /** @return an object's image */
-        const QImage &image()
-        {
-            if (imageLoaded) return m_image;
-            else
-            {
-                loadImage();
-                return m_image;
-            }
-        }
+    /** Try to load the object's image */
+    void loadImage();
 
-        /** Try to load the object's image */
-        void loadImage();
-
-        /**
+    /**
           *@return true if the object is in the Messier catalog
         	*/
-        inline bool isCatalogM() const
-        {
-            return (Catalog == CAT_MESSIER);
-        }
+    inline bool isCatalogM() const { return (Catalog == CAT_MESSIER); }
 
-        /**
+    /**
           *@return true if the object is in the NGC catalog
         	*/
-        inline bool isCatalogNGC() const
-        {
-            return (Catalog == CAT_NGC);
-        }
+    inline bool isCatalogNGC() const { return (Catalog == CAT_NGC); }
 
-        /**
+    /**
           *@return true if the object is in the IC catalog
         	*/
-        inline bool isCatalogIC() const
-        {
-            return (Catalog == CAT_IC);
-        }
+    inline bool isCatalogIC() const { return (Catalog == CAT_IC); }
 
-        /**
+    /**
           *@return true if the object is not in a catalog
         	*/
-        inline bool isCatalogNone() const
-        {
-            return (Catalog == CAT_UNKNOWN);
-        }
+    inline bool isCatalogNone() const { return (Catalog == CAT_UNKNOWN); }
 
-        /**
+    /**
         	*@return the pixel distance for offseting the object's name label
         	*/
-        double labelOffset() const Q_DECL_OVERRIDE;
+    double labelOffset() const Q_DECL_OVERRIDE;
 
-        quint64 updateID;
-        quint64 updateNumID;
+    quint64 updateID;
+    quint64 updateNumID;
 
-        void initPopupMenu( KSPopupMenu * pmenu ) Q_DECL_OVERRIDE;
-    private:
+    void initPopupMenu(KSPopupMenu *pmenu) Q_DECL_OVERRIDE;
 
+  private:
+    double PositionAngle;
+    QImage m_image;
+    QList<const SkyObject *>
+        m_Parents; // Q: Should we use KStars UUIDs, DB UUIDs, or SkyObject * pointers? Q: Should we extend this to stars? -- asimha
+    QList<const SkyObject *>
+        m_Children; // Q: Should we use KStars UUIDs, DB UUIDs, or SkyObject * pointers? Q: Should we extend this to stars? -- asimha
+    QStringList
+        m_AlternateDesignations; // Alternate names. FIXME: These should be superseded by designation UIDs in the database
+    QString Description;         // Dreyer or other description
+    QString Classification;      // Object class. eg: SBb for galaxies
 
-        double PositionAngle;
-        QImage m_image;
-        QList<const SkyObject *> m_Parents; // Q: Should we use KStars UUIDs, DB UUIDs, or SkyObject * pointers? Q: Should we extend this to stars? -- asimha
-        QList<const SkyObject *> m_Children; // Q: Should we use KStars UUIDs, DB UUIDs, or SkyObject * pointers? Q: Should we extend this to stars? -- asimha
-        QStringList m_AlternateDesignations; // Alternate names. FIXME: These should be superseded by designation UIDs in the database
-        QString Description; // Dreyer or other description
-        QString Classification; // Object class. eg: SBb for galaxies
-
-        CatalogComponent * customCat;
-        int UGC, PGC;
-        float MajorAxis, MinorAxis, Flux;
-        unsigned char Catalog;
-        bool imageLoaded=false;
+    CatalogComponent *customCat;
+    int UGC, PGC;
+    float MajorAxis, MinorAxis, Flux;
+    unsigned char Catalog;
+    bool imageLoaded = false;
 };
 
 #endif

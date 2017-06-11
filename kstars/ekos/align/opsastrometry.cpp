@@ -17,15 +17,14 @@
 
 namespace Ekos
 {
-
-OpsAstrometry::OpsAstrometry(Align * parent)  : QWidget( KStars::Instance() )
+OpsAstrometry::OpsAstrometry(Align *parent) : QWidget(KStars::Instance())
 {
     setupUi(this);
 
     alignModule = parent;
 
     //Get a pointer to the KConfigDialog
-    m_ConfigDialog = KConfigDialog::exists( "alignsettings" );
+    m_ConfigDialog = KConfigDialog::exists("alignsettings");
 
     dms ra, de;
     ra.setD(Options::astrometryPositionRA());
@@ -40,8 +39,8 @@ OpsAstrometry::OpsAstrometry(Align * parent)  : QWidget( KStars::Instance() )
     connect(kcfg_AstrometryAutoUpdateImageScale, SIGNAL(toggled(bool)), imageWarningLabel, SLOT(setHidden(bool)));
     connect(kcfg_AstrometryAutoUpdatePosition, SIGNAL(toggled(bool)), positionWarningLabel, SLOT(setHidden(bool)));
 
-    connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
+    connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
+    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 
     connect(updateScale, SIGNAL(clicked()), this, SLOT(slotUpdateScale()));
     connect(updatePosition, SIGNAL(clicked()), this, SLOT(slotUpdatePosition()));
@@ -51,7 +50,9 @@ OpsAstrometry::OpsAstrometry(Align * parent)  : QWidget( KStars::Instance() )
     updatePosition->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 }
 
-OpsAstrometry::~OpsAstrometry() {}
+OpsAstrometry::~OpsAstrometry()
+{
+}
 
 void OpsAstrometry::showEvent(QShowEvent *)
 {
@@ -87,8 +88,8 @@ void OpsAstrometry::slotUpdateScale()
 
         case SCALE_ARCSECPERPIX:
             // 10% range
-            kcfg_AstrometryImageScaleLow->setValue(fov_pixscale*0.9);
-            kcfg_AstrometryImageScaleHigh->setValue(fov_pixscale*1.1);
+            kcfg_AstrometryImageScaleLow->setValue(fov_pixscale * 0.9);
+            kcfg_AstrometryImageScaleHigh->setValue(fov_pixscale * 1.1);
             break;
 
         default:
@@ -105,7 +106,7 @@ void OpsAstrometry::slotUpdatePosition()
 
 void OpsAstrometry::slotApply()
 {
-    bool raOK=false, deOK=false;
+    bool raOK = false, deOK = false;
     dms RA = estRA->createDms(false, &raOK);
     dms DE = estDec->createDms(true, &deOK);
 
@@ -128,15 +129,15 @@ void OpsAstrometry::slotApply()
 
     if (kcfg_AstrometryUseImageScale->isChecked())
     {
-        optionsMap["scaleL"] = kcfg_AstrometryImageScaleLow->value();
-        optionsMap["scaleH"] = kcfg_AstrometryImageScaleHigh->value();
+        optionsMap["scaleL"]     = kcfg_AstrometryImageScaleLow->value();
+        optionsMap["scaleH"]     = kcfg_AstrometryImageScaleHigh->value();
         optionsMap["scaleUnits"] = kcfg_AstrometryImageScaleUnits->currentText();
     }
 
     if (kcfg_AstrometryUsePosition->isChecked())
     {
-        optionsMap["ra"] = RA.Degrees();
-        optionsMap["de"] = DE.Degrees();
+        optionsMap["ra"]     = RA.Degrees();
+        optionsMap["de"]     = DE.Degrees();
         optionsMap["radius"] = kcfg_AstrometryRadius->value();
     }
 
@@ -146,12 +147,10 @@ void OpsAstrometry::slotApply()
     if (kcfg_AstrometryCustomOptions->text().isEmpty() == false)
         optionsMap["custom"] = kcfg_AstrometryCustomOptions->text();
 
-
     QStringList solverArgs = Align::generateOptions(optionsMap);
 
     QString options = solverArgs.join(" ");
     alignModule->solverOptions->setText(options);
     alignModule->solverOptions->setToolTip(options);
 }
-
 }

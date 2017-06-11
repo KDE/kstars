@@ -35,19 +35,18 @@ using namespace Eigen;
 #include "skymap.h"
 #endif
 
-
 class KStarsData;
 
 /** This is just a container that holds infromation needed to do projections. */
 class ViewParams
 {
-    public:
-        float width, height;
-        float zoomFactor;
-        bool useRefraction;
-        bool useAltAz;
-        bool fillGround; ///<If the ground is filled, then points below horizon are invisible
-        SkyPoint * focus;
+  public:
+    float width, height;
+    float zoomFactor;
+    bool useRefraction;
+    bool useAltAz;
+    bool fillGround; ///<If the ground is filled, then points below horizon are invisible
+    SkyPoint *focus;
 };
 
 /**
@@ -57,42 +56,44 @@ class ViewParams
  */
 class Projector
 {
-        Q_GADGET
-    public:
-        /** Constructor.
+    Q_GADGET
+  public:
+    /** Constructor.
           * @param p the ViewParams for this projection
           */
-        explicit Projector( const ViewParams &p );
+    explicit Projector(const ViewParams &p);
 
-        virtual ~Projector();
+    virtual ~Projector();
 
-        /** Update cached values for projector */
-        void setViewParams( const ViewParams &p );
+    /** Update cached values for projector */
+    void setViewParams(const ViewParams &p);
 
-        enum Projection { Lambert,
-                          AzimuthalEquidistant,
-                          Orthographic,
-                          Equirectangular,
-                          Stereographic,
-                          Gnomonic,
-                          UnknownProjection
-                        };
-        Q_ENUM(Projection)
+    enum Projection
+    {
+        Lambert,
+        AzimuthalEquidistant,
+        Orthographic,
+        Equirectangular,
+        Stereographic,
+        Gnomonic,
+        UnknownProjection
+    };
+    Q_ENUM(Projection)
 
-        /** Return the type of this projection */
-        Q_INVOKABLE virtual Projection type() const = 0;
+    /** Return the type of this projection */
+    Q_INVOKABLE virtual Projection type() const = 0;
 
-        /** Return the FOV of this projection */
-        double fov() const;
+    /** Return the FOV of this projection */
+    double fov() const;
 
-        /** Check if the current point on screen is a valid point on the sky. This is needed
+    /** Check if the current point on screen is a valid point on the sky. This is needed
             *to avoid a crash of the program if the user clicks on a point outside the sky (the
             *corners of the sky map at the lowest zoom level are the invalid points).
             *@param p the screen pixel position
             */
-        virtual bool unusablePoint( const QPointF &p ) const;
+    virtual bool unusablePoint(const QPointF &p) const;
 
-        /** Given the coordinates of the SkyPoint argument, determine the
+    /** Given the coordinates of the SkyPoint argument, determine the
          * pixel coordinates in the SkyMap.
          *
          * Since most of the projections used by KStars are very similar,
@@ -115,42 +116,37 @@ class Projector
          * @param onVisibleHemisphere pointer to a bool to indicate whether the point is
          *   on the visible part of the Celestial Sphere.
          */
-        virtual Vector2f toScreenVec( const SkyPoint * o,
-                                      bool oRefract = true,
-                                      bool * onVisibleHemisphere = 0) const;
+    virtual Vector2f toScreenVec(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = 0) const;
 
-        /** This is exactly the same as toScreenVec but it returns a QPointF.
+    /** This is exactly the same as toScreenVec but it returns a QPointF.
             It just calls toScreenVec and converts the result.
             @see toScreenVec()
           */
-        QPointF toScreen( const SkyPoint * o,
-                          bool oRefract = true,
-                          bool * onVisibleHemisphere = 0) const;
+    QPointF toScreen(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = 0) const;
 
-        /** @short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
+    /** @short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
          * screen pixel coordinate offsets from the center of the Sky pixmap.
          * @param the screen pixel position to convert
          * @param LST pointer to the local sidereal time, as a dms object.
          * @param lat pointer to the current geographic laitude, as a dms object
          */
-        virtual SkyPoint fromScreen( const QPointF &p, dms * LST, const dms * lat ) const;
+    virtual SkyPoint fromScreen(const QPointF &p, dms *LST, const dms *lat) const;
 
-
-        /** ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
+    /** ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
          * between *p1 and *p2 that just clips.
          */
-        QPointF clipLine( SkyPoint * p1, SkyPoint * p2 ) const;
+    QPointF clipLine(SkyPoint *p1, SkyPoint *p2) const;
 
-        /** ASSUMES *p1 did not clip but *p2 did.  Returns the Vector2f on the line
+    /** ASSUMES *p1 did not clip but *p2 did.  Returns the Vector2f on the line
          * between *p1 and *p2 that just clips.
          */
-        Vector2f clipLineVec( SkyPoint * p1, SkyPoint * p2 ) const;
+    Vector2f clipLineVec(SkyPoint *p1, SkyPoint *p2) const;
 
-        /** Check whether the projected point is on-screen */
-        bool onScreen( const QPointF &p ) const;
-        bool onScreen( const Vector2f &p ) const;
+    /** Check whether the projected point is on-screen */
+    bool onScreen(const QPointF &p) const;
+    bool onScreen(const Vector2f &p) const;
 
-        /** @short Determine if the skypoint p is likely to be visible in the display
+    /** @short Determine if the skypoint p is likely to be visible in the display
          * window.
          *
          * checkVisibility() is an optimization function.  It determines whether an object
@@ -196,95 +192,81 @@ class Projector
          * @note If you are creating skypoints using equatorial coordinates, then
          * YOU MUST CALL EQUATORIALTOHORIZONTAL BEFORE THIS FUNCTION!
          */
-        bool checkVisibility( SkyPoint * p ) const;
+    bool checkVisibility(SkyPoint *p) const;
 
-        /** Determine the on-screen position angle of a SkyPont with recept with NCP.
+    /** Determine the on-screen position angle of a SkyPont with recept with NCP.
          * This is the object's sky position angle (w.r.t. North).
          * of "North" at the position of the object (w.r.t. the screen Y-axis).
          * The latter is determined by constructing a test point with the same RA but
          * a slightly increased Dec as the object, and calculating the angle w.r.t. the
          * Y-axis of the line connecing the object to its test point.
          */
-        double findNorthPA( SkyPoint * o, float x, float y ) const;
+    double findNorthPA(SkyPoint *o, float x, float y) const;
 
-        /** Determine the on-screen position angle of a SkyObject.  This is the sum
+    /** Determine the on-screen position angle of a SkyObject.  This is the sum
          * of the object's sky position angle (w.r.t. North), and the position angle
          * of "North" at the position of the object (w.r.t. the screen Y-axis).
          * The latter is determined by constructing a test point with the same RA but
          * a slightly increased Dec as the object, and calculating the angle w.r.t. the
          * Y-axis of the line connecing the object to its test point.
          */
-        double findPA( SkyObject * o, float x, float y ) const;
+    double findPA(SkyObject *o, float x, float y) const;
 
-
-        /** Get the ground polygon
+    /** Get the ground polygon
             @param labelpoint This point will be set to something suitable for attaching a label
             @param drawLabel this tells whether to draw a label.
             @return the ground polygon
             */
-        virtual QVector<Vector2f> groundPoly( SkyPoint * labelpoint = 0, bool * drawLabel = 0 ) const;
+    virtual QVector<Vector2f> groundPoly(SkyPoint *labelpoint = 0, bool *drawLabel = 0) const;
 
-        /**
+    /**
          * @brief updateClipPoly calculate the clipping polygen given the current FOV.
          */
-        virtual void updateClipPoly();
+    virtual void updateClipPoly();
 
-        /**
+    /**
          * @return the clipping polygen covering the visible sky area. Anything outside this polygen is clipped by QPainter.
          */
-        virtual QPolygonF clipPoly() const;
+    virtual QPolygonF clipPoly() const;
 
-    protected:
-        /** Get the radius of this projection's sky circle.
+  protected:
+    /** Get the radius of this projection's sky circle.
             @return the radius in radians
             */
-        virtual double radius() const
-        {
-            return 2*M_PI;
-        }
+    virtual double radius() const { return 2 * M_PI; }
 
-        /** This function handles some of the projection-specific code.
+    /** This function handles some of the projection-specific code.
             @see toScreen()
             */
-        virtual double projectionK(double x) const
-        {
-            return x;
-        }
+    virtual double projectionK(double x) const { return x; }
 
-        /** This function handles some of the projection-specific code.
+    /** This function handles some of the projection-specific code.
             @see toScreen()
             */
-        virtual double projectionL(double x) const
-        {
-            return x;
-        }
+    virtual double projectionL(double x) const { return x; }
 
-        /** This function returns the cosine of the maximum field angle,
+    /** This function returns the cosine of the maximum field angle,
             i.e., the maximum angular distance from the focus for
             which a point should be projected.
             Default is 0, i.e., 90 degrees.
             */
-        virtual double cosMaxFieldAngle() const
-        {
-            return 0;
-        }
+    virtual double cosMaxFieldAngle() const { return 0; }
 
-        /** Helper function for drawing ground.
+    /** Helper function for drawing ground.
             @return the point with Alt = 0, az = @p az
             */
-        static SkyPoint pointAt(double az);
+    static SkyPoint pointAt(double az);
 
-        KStarsData * m_data;
-        ViewParams m_vp;
-        double m_sinY0, m_cosY0;
-        double m_fov;
-        QPolygonF m_clipPolygon;
+    KStarsData *m_data;
+    ViewParams m_vp;
+    double m_sinY0, m_cosY0;
+    double m_fov;
+    QPolygonF m_clipPolygon;
 
-    private:
-
-        //Used by CheckVisibility
-        double m_xrange;
-        bool m_isPoleVisible;
+  private:
+    //Used by CheckVisibility
+    double m_xrange;
+    bool m_isPoleVisible;
 };
 
 #endif // PROJECTOR_H

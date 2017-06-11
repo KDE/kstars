@@ -32,48 +32,45 @@ class GeoLocation;
   */
 class modCalcGeodCoord : public QFrame, public Ui::modCalcGeodCoordDlg
 {
+    Q_OBJECT
+  public:
+    modCalcGeodCoord(QWidget *p);
+    ~modCalcGeodCoord();
 
-        Q_OBJECT
-    public:
+    void genGeoCoords(void);
+    void getCartGeoCoords(void);
+    void getSphGeoCoords(void);
+    void showSpheGeoCoords(void);
+    void showCartGeoCoords(void);
 
-        modCalcGeodCoord(QWidget * p);
-        ~modCalcGeodCoord();
+  public slots:
 
-        void genGeoCoords(void);
-        void getCartGeoCoords (void);
-        void getSphGeoCoords (void);
-        void showSpheGeoCoords(void);
-        void showCartGeoCoords(void);
+    void slotComputeGeoCoords(void);
+    void slotClearGeoCoords(void);
+    void setEllipsoid(int i);
+    void slotLongCheckedBatch();
+    void slotLatCheckedBatch();
+    void slotElevCheckedBatch();
+    void slotXCheckedBatch();
+    void slotYCheckedBatch();
+    void slotZCheckedBatch();
+    void slotOutputFile();
+    void slotInputFile();
 
-    public slots:
+  private:
+    void geoCheck(void);
+    void xyzCheck(void);
+    void showLongLat(void);
+    void processLines(QTextStream &istream);
+    void slotRunBatch(void);
 
-        void slotComputeGeoCoords (void);
-        void slotClearGeoCoords (void);
-        void setEllipsoid(int i);
-        void slotLongCheckedBatch();
-        void slotLatCheckedBatch();
-        void slotElevCheckedBatch();
-        void slotXCheckedBatch();
-        void slotYCheckedBatch();
-        void slotZCheckedBatch();
-        void slotOutputFile();
-        void slotInputFile();
-    private:
+    //		QRadioButton *cartRadio, *spheRadio;
+    //		QVBox *vbox, *rightBox;
+    //		QLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;
+    //		dmsBox *timeBox, *dateBox, *lonGeoBox, *latGeoBox;
 
-        void geoCheck(void);
-        void xyzCheck(void);
-        void showLongLat(void);
-        void processLines( QTextStream &istream );
-        void slotRunBatch(void);
-
-        //		QRadioButton *cartRadio, *spheRadio;
-        //		QVBox *vbox, *rightBox;
-        //		QLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;
-        //		dmsBox *timeBox, *dateBox, *lonGeoBox, *latGeoBox;
-
-        GeoLocation * geoPlace;
-        bool xyzInputCoords;
-
+    GeoLocation *geoPlace;
+    bool xyzInputCoords;
 };
 
 #endif

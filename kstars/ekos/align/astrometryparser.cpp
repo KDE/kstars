@@ -11,17 +11,11 @@
 
 namespace Ekos
 {
-
-
 AstrometryParser::AstrometryParser()
 {
-
 }
 
 AstrometryParser::~AstrometryParser()
 {
 }
-
 }
-
-

@@ -6,13 +6,13 @@ QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString
                         QStandardPaths::LocateOptions options)
 {
     QString dir;
-    if( location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation )
+    if (location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation)
     {
         dir = "kstars/";
     }
 #ifdef ANDROID
-    QString file = QStandardPaths::locate(location, dir + fileName ,options);
-    if(file.isEmpty())
+    QString file = QStandardPaths::locate(location, dir + fileName, options);
+    if (file.isEmpty())
     {
         file = "/data/data/org.kde.kstars/qt-reserved-files/share/kstars/" + fileName;
         if (!QFileInfo(file).exists())
@@ -30,13 +30,13 @@ QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const 
                                QStandardPaths::LocateOptions options)
 {
     QString dir;
-    if( location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation )
+    if (location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation)
     {
         dir = "kstars/";
     }
 #ifdef ANDROID
-    QStringList file = QStandardPaths::locateAll(location, dir + fileName,options);
-    if(file.isEmpty())
+    QStringList file = QStandardPaths::locateAll(location, dir + fileName, options);
+    if (file.isEmpty())
     {
         QString f = "/data/data/org.kde.kstars/qt-reserved-files/share/kstars/" + fileName;
         if (QFileInfo(f).exists())
@@ -46,6 +46,6 @@ QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const 
     }
     return file;
 #else
-    return QStandardPaths::locateAll(location, dir + fileName,options);
+    return QStandardPaths::locateAll(location, dir + fileName, options);
 #endif
 }

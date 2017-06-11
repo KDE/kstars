@@ -53,12 +53,11 @@
 ** INDI Menu: Handles communication to server and fetching basic XML
 ** data.
 *******************************************************************/
-INDIMenu::INDIMenu(QWidget * parent) : QWidget(parent, Qt::Window)
+INDIMenu::INDIMenu(QWidget *parent) : QWidget(parent, Qt::Window)
 {
+    ksw = (KStars *)parent;
 
-    ksw = (KStars *) parent;
-
-    mainLayout    = new QVBoxLayout(this);
+    mainLayout = new QVBoxLayout(this);
     mainLayout->setMargin(10);
     mainLayout->setSpacing(10);
 
@@ -69,10 +68,10 @@ INDIMenu::INDIMenu(QWidget * parent) : QWidget(parent, Qt::Window)
     setWindowTitle(xi18n("INDI Control Panel"));
     setAttribute(Qt::WA_ShowModal, false);
 
-    clearB      = new QPushButton(xi18n("Clear"));
-    closeB      = new QPushButton(xi18n("Close"));
+    clearB = new QPushButton(xi18n("Clear"));
+    closeB = new QPushButton(xi18n("Close"));
 
-    QHBoxLayout * buttonLayout = new QHBoxLayout;
+    QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->insertStretch(0);
     buttonLayout->addWidget(clearB, 0, Qt::AlignRight);
     buttonLayout->addWidget(closeB, 0, Qt::AlignRight);
@@ -82,12 +81,13 @@ INDIMenu::INDIMenu(QWidget * parent) : QWidget(parent, Qt::Window)
     connect(closeB, SIGNAL(clicked()), this, SLOT(close()));
     connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
 
-    resize( 640, 480);
+    resize(640, 480);
 }
 
 INDIMenu::~INDIMenu()
 {
-    while ( ! managers.isEmpty() ) delete managers.takeFirst();
+    while (!managers.isEmpty())
+        delete managers.takeFirst();
 }
 
 /*********************************************************************
@@ -98,37 +98,38 @@ void INDIMenu::updateStatus()
 {
     if (managers.size() == 0)
     {
-        KMessageBox::error(0, xi18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
+        KMessageBox::error(0, xi18n("No INDI devices currently running. To run devices, please select devices from the "
+                                    "Device Manager in the devices menu."));
         return;
     }
 
     show();
 }
 
-DeviceManager * INDIMenu::initDeviceManager(QString inHost, uint inPort, DeviceManager::ManagerMode inMode)
+DeviceManager *INDIMenu::initDeviceManager(QString inHost, uint inPort, DeviceManager::ManagerMode inMode)
 {
-    DeviceManager * deviceManager;
+    DeviceManager *deviceManager;
 
     deviceManager = new DeviceManager(this, inHost, inPort, inMode);
     managers.append(deviceManager);
 
     connect(deviceManager, SIGNAL(newDevice(INDI_D *)), ksw->indiDriver(), SLOT(enableDevice(INDI_D *)));
-    connect(deviceManager, SIGNAL(deviceManagerError(DeviceManager *)), this, SLOT(removeDeviceManager(DeviceManager *)), Qt::QueuedConnection);
+    connect(deviceManager, SIGNAL(deviceManagerError(DeviceManager *)), this,
+            SLOT(removeDeviceManager(DeviceManager *)), Qt::QueuedConnection);
 
     return deviceManager;
 }
 
 void INDIMenu::stopDeviceManager(QList<IDevice *> &processed_devices)
 {
-
-    foreach(IDevice * device, processed_devices)
+    foreach (IDevice *device, processed_devices)
     {
         if (device->deviceManager != nullptr)
             removeDeviceManager(device->deviceManager);
     }
 }
 
-void INDIMenu::removeDeviceManager(DeviceManager * deviceManager)
+void INDIMenu::removeDeviceManager(DeviceManager *deviceManager)
 {
     if (deviceManager == nullptr)
     {
@@ -136,11 +137,11 @@ void INDIMenu::removeDeviceManager(DeviceManager * deviceManager)
         return;
     }
 
-    for (int i=0; i < managers.size(); i++)
+    for (int i = 0; i < managers.size(); i++)
     {
         if (deviceManager == managers.at(i))
         {
-            foreach(INDI_D * device, deviceManager->indi_dev)
+            foreach (INDI_D *device, deviceManager->indi_dev)
                 ksw->indiDriver()->disableDevice(device);
 
             delete managers.takeAt(i);
@@ -154,11 +155,11 @@ void INDIMenu::removeDeviceManager(DeviceManager * deviceManager)
         close();
 }
 
-INDI_D * INDIMenu::findDevice(const QString &deviceName)
+INDI_D *INDIMenu::findDevice(const QString &deviceName)
 {
-    for (int i=0; i < managers.size(); i++)
+    for (int i = 0; i < managers.size(); i++)
     {
-        for (int j=0; j < managers[i]->indi_dev.size(); j++)
+        for (int j = 0; j < managers[i]->indi_dev.size(); j++)
         {
             if (managers[i]->indi_dev[j]->name == deviceName)
                 return managers[i]->indi_dev[j];
@@ -167,11 +168,11 @@ INDI_D * INDIMenu::findDevice(const QString &deviceName)
     return nullptr;
 }
 
-INDI_D * INDIMenu::findDeviceByLabel(const QString &label)
+INDI_D *INDIMenu::findDeviceByLabel(const QString &label)
 {
-    for (int i=0; i < managers.size(); i++)
+    for (int i = 0; i < managers.size(); i++)
     {
-        for (int j=0; j < managers[i]->indi_dev.size(); j++)
+        for (int j = 0; j < managers[i]->indi_dev.size(); j++)
         {
             if (managers[i]->indi_dev[j]->label == label)
                 return managers[i]->indi_dev[j];
@@ -180,31 +181,29 @@ INDI_D * INDIMenu::findDeviceByLabel(const QString &label)
     return nullptr;
 }
 
-
 QString INDIMenu::getUniqueDeviceLabel(const QString &deviceName)
 {
-    int nset=0;
+    int nset = 0;
 
-    for (int i=0; i < managers.size(); i++)
+    for (int i = 0; i < managers.size(); i++)
     {
-        for (int j=0; j < managers[i]->indi_dev.size(); j++)
+        for (int j = 0; j < managers[i]->indi_dev.size(); j++)
             if (managers[i]->indi_dev[j]->label.indexOf(deviceName) >= 0)
                 nset++;
     }
 
     if (nset)
-        return (deviceName + QString(" %1").arg(nset+1));
+        return (deviceName + QString(" %1").arg(nset + 1));
     else
         return (deviceName);
 }
 
 void INDIMenu::clearLog()
 {
-    INDI_D * dev = findDeviceByLabel(mainTabWidget->tabText(mainTabWidget->currentIndex()).remove(QChar('&')));
+    INDI_D *dev = findDeviceByLabel(mainTabWidget->tabText(mainTabWidget->currentIndex()).remove(QChar('&')));
 
     if (dev)
         dev->msgST_w->clear();
 }
-
 
 #include "indimenu.moc"

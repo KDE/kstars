@@ -29,27 +29,26 @@ class ThumbnailPicker;
 
 class ThumbnailEditorUI : public QFrame, public Ui::ThumbnailEditor
 {
-        Q_OBJECT
-    public:
-        explicit ThumbnailEditorUI( QWidget * parent );
+    Q_OBJECT
+  public:
+    explicit ThumbnailEditorUI(QWidget *parent);
 };
 
 class ThumbnailEditor : public QDialog
 {
-        Q_OBJECT
-    public:
-        ThumbnailEditor( ThumbnailPicker * _tp, double _w, double _h );
-        ~ThumbnailEditor();
-        QPixmap thumbnail();
+    Q_OBJECT
+  public:
+    ThumbnailEditor(ThumbnailPicker *_tp, double _w, double _h);
+    ~ThumbnailEditor();
+    QPixmap thumbnail();
 
-    private slots:
-        void slotUpdateCropLabel();
+  private slots:
+    void slotUpdateCropLabel();
 
-    private:
-        ThumbnailEditorUI * ui;
-        ThumbnailPicker * tp;
-        double w, h;
-
+  private:
+    ThumbnailEditorUI *ui;
+    ThumbnailPicker *tp;
+    double w, h;
 };
 
 #endif

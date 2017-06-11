@@ -40,54 +40,48 @@ class QSGSimpleTextureNode;
 
 class PlanetMoonsNode : public SkyNode
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor
          * @param planet pointer to planet object
          * @param parentNode pointer to the RootNode. It is needed for PointSourceNodes that use textures,
          * which are cached in RootNode.
          */
-        PlanetMoonsNode(KSPlanetBase * planet, RootNode * parentNode);
-        ~PlanetMoonsNode();
+    PlanetMoonsNode(KSPlanetBase *planet, RootNode *parentNode);
+    ~PlanetMoonsNode();
 
-        /**
+    /**
          * @short Add object of type PlanetMoons to this node
          * @param planetMoons PlanetMoons component
          */
-        inline void addMoons(PlanetMoons * planetMoons)
-        {
-            pmoons = planetMoons;
-        }
+    inline void addMoons(PlanetMoons *planetMoons) { pmoons = planetMoons; }
 
-        /**
+    /**
          * If planet has any moons first updateMoons() is called then the planet is updated
          */
-        virtual void update() override;
+    virtual void update() override;
 
-        /**
+    /**
          * @short Hides both planet and its moons
          */
-        virtual void hide() override;
+    virtual void hide() override;
 
-        /**
+    /**
          * Update position of moons if planet has them. To allow z-ordering we need to change the structure
          * of node tree by removing all child nodes of this tree and adding them again so that moons that
          * are behind the planet are before the m_planetNode in the hierarchy and all others are appended
          * after m_planetNode.
          */
-        void updateMoons();
+    void updateMoons();
 
-    private:
-        RootNode * m_rootNode;
-        PlanetMoons * pmoons;
-        PlanetNode * m_planetNode;
+  private:
+    RootNode *m_rootNode;
+    PlanetMoons *pmoons;
+    PlanetNode *m_planetNode;
 
-        LabelsItem::label_t m_labelType;
+    LabelsItem::label_t m_labelType;
 
-        QList<PointSourceNode *> m_moonNodes;
-
+    QList<PointSourceNode *> m_moonNodes;
 };
 
-
 #endif
-

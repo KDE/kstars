@@ -23,49 +23,46 @@
 #include "phd2.h"
 #include "Options.h"
 
-
 namespace Ekos
 {
-
 PHD2::PHD2()
 {
     tcpSocket = new QTcpSocket(this);
 
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readPHD2()));
-    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this,
+            SLOT(displayError(QAbstractSocket::SocketError)));
 
-    methodID=1;
-    state = STOPPED;
+    methodID   = 1;
+    state      = STOPPED;
     connection = DISCONNECTED;
-    event = Alert;
+    event      = Alert;
 
-    events["Version"] = Version;
-    events["LockPositionSet"] = LockPositionSet;
-    events["CalibrationComplete"] = CalibrationComplete;
-    events["StarSelected"] = StarSelected;
-    events["StartGuiding"] = StartGuiding;
-    events["Paused"] = Paused;
-    events["StartCalibration"] = StartCalibration;
-    events["AppState"] = AppState;
-    events["CalibrationFailed"] = CalibrationFailed;
-    events["CalibrationDataFlipped"] = CalibrationDataFlipped;
-    events["LoopingExposures"] = LoopingExposures;
+    events["Version"]                 = Version;
+    events["LockPositionSet"]         = LockPositionSet;
+    events["CalibrationComplete"]     = CalibrationComplete;
+    events["StarSelected"]            = StarSelected;
+    events["StartGuiding"]            = StartGuiding;
+    events["Paused"]                  = Paused;
+    events["StartCalibration"]        = StartCalibration;
+    events["AppState"]                = AppState;
+    events["CalibrationFailed"]       = CalibrationFailed;
+    events["CalibrationDataFlipped"]  = CalibrationDataFlipped;
+    events["LoopingExposures"]        = LoopingExposures;
     events["LoopingExposuresStopped"] = LoopingExposuresStopped;
-    events["Settling"] = Settling;
-    events["SettleDone"] = SettleDone;
-    events["StarLost"] = StarLost;
-    events["GuidingStopped"] = GuidingStopped;
-    events["Resumed"] = Resumed;
-    events["GuideStep"] = GuideStep;
-    events["GuidingDithered"] = GuidingDithered;
-    events["LockPositionLost"] = LockPositionLost;
-    events["Alert"] = Alert;
-
+    events["Settling"]                = Settling;
+    events["SettleDone"]              = SettleDone;
+    events["StarLost"]                = StarLost;
+    events["GuidingStopped"]          = GuidingStopped;
+    events["Resumed"]                 = Resumed;
+    events["GuideStep"]               = GuideStep;
+    events["GuidingDithered"]         = GuidingDithered;
+    events["LockPositionLost"]        = LockPositionLost;
+    events["Alert"]                   = Alert;
 }
 
 PHD2::~PHD2()
 {
-
 }
 
 bool PHD2::Connect()
@@ -73,7 +70,7 @@ bool PHD2::Connect()
     if (connection == DISCONNECTED)
     {
         connection = CONNECTING;
-        tcpSocket->connectToHost(Options::pHD2Host(),  Options::pHD2Port());
+        tcpSocket->connectToHost(Options::pHD2Host(), Options::pHD2Port());
     }
     // Already connected, let's connect equipment
     else
@@ -106,7 +103,8 @@ void PHD2::displayError(QAbstractSocket::SocketError socketError)
             emit newStatus(GUIDE_DISCONNECTED);
             break;
         case QAbstractSocket::ConnectionRefusedError:
-            emit newLog(i18n("The connection was refused by the peer. Make sure the PHD2 is running, and check that the host name and port settings are correct."));
+            emit newLog(i18n("The connection was refused by the peer. Make sure the PHD2 is running, and check that "
+                             "the host name and port settings are correct."));
             emit newStatus(GUIDE_DISCONNECTED);
             break;
         default:
@@ -114,7 +112,6 @@ void PHD2::displayError(QAbstractSocket::SocketError socketError)
     }
 
     connection = DISCONNECTED;
-
 }
 
 void PHD2::readPHD2()
@@ -144,13 +141,12 @@ void PHD2::readPHD2()
 
         processJSON(jdoc.object());
     }
-
 }
 
 void PHD2::processJSON(const QJsonObject &jsonObj)
 {
     PHD2MessageType messageType = PHD2_UNKNOWN;
-    bool result = false;
+    bool result                 = false;
 
     if (jsonObj.contains("Event"))
     {
@@ -163,13 +159,13 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
     else if (jsonObj.contains("error"))
     {
         messageType = PHD2_ERROR;
-        result = false;
+        result      = false;
         processPHD2Error(jsonObj);
     }
     else if (jsonObj.contains("result"))
     {
         messageType = PHD2_RESULT;
-        result = true;
+        result      = true;
     }
 
     switch (connection)
@@ -313,7 +309,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
         case SettleDone:
         {
-            bool error=false;
+            bool error = false;
 
             if (jsonEvent["Status"].toInt() != 0)
             {
@@ -394,7 +390,6 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
         case Alert:
             emit newLog(i18n("PHD2 %1: %2", jsonEvent["Type"].toString(), jsonEvent["Msg"].toString()));
             break;
-
     }
 }
 
@@ -436,7 +431,6 @@ void PHD2::processPHD2Error(const QJsonObject &jsonError)
 
 void PHD2::sendJSONRPCRequest(const QString &method, const QJsonArray args)
 {
-
     QJsonObject jsonRPC;
 
     jsonRPC.insert("jsonrpc", "2.0");
@@ -457,7 +451,8 @@ void PHD2::sendJSONRPCRequest(const QString &method, const QJsonArray args)
 
 void PHD2::setEquipmentConnected(bool enable)
 {
-    if ( (connection == EQUIPMENT_CONNECTED && enable == true) || (connection == EQUIPMENT_DISCONNECTED && enable == false) )
+    if ((connection == EQUIPMENT_CONNECTED && enable == true) ||
+        (connection == EQUIPMENT_DISCONNECTED && enable == false))
         return;
 
     if (enable)
@@ -535,7 +530,6 @@ bool PHD2::suspend()
     sendJSONRPCRequest("set_paused", args);
 
     return true;
-
 }
 
 bool PHD2::resume()
@@ -554,7 +548,6 @@ bool PHD2::resume()
     sendJSONRPCRequest("set_paused", args);
 
     return true;
-
 }
 
 bool PHD2::dither(double pixels)
@@ -585,7 +578,4 @@ bool PHD2::dither(double pixels)
 
     return true;
 }
-
 }
-
-

@@ -37,33 +37,33 @@ class ClientManagerLite;
 
 class TelescopeSymbolsItem : public SkyItem
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor
          * @param rootNode parent RootNode that instantiates PlanetsItem
          */
-        TelescopeSymbolsItem(RootNode * rootNode);
+    TelescopeSymbolsItem(RootNode *rootNode);
 
-        /**
+    /**
          * @short Updates position and visibility of CrosshairNodes that represent telescope symbols
          * If client is no more connected to host or device CrosshairNode is deleted.
          */
-        virtual void update() override;
+    virtual void update() override;
 
-        /**
+    /**
          * @short Add telescope symbol for device bd
          */
-        void addTelescope(INDI::BaseDevice * bd);
+    void addTelescope(INDI::BaseDevice *bd);
 
-        /**
+    /**
          * @short Remove telescope symbol of device bd
          */
-        void removeTelescope(INDI::BaseDevice * bd);
+    void removeTelescope(INDI::BaseDevice *bd);
 
-    private:
-        QHash<INDI::BaseDevice *, CrosshairNode *> m_telescopes;
-        ClientManagerLite * m_clientManager;
-        QColor m_color;
-        KStarsData * m_KStarsData;
+  private:
+    QHash<INDI::BaseDevice *, CrosshairNode *> m_telescopes;
+    ClientManagerLite *m_clientManager;
+    QColor m_color;
+    KStarsData *m_KStarsData;
 };
 #endif

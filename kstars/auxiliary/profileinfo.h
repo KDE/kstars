@@ -16,47 +16,41 @@
 
 class ProfileInfo
 {
-    public:
+  public:
+    ProfileInfo(int id, const QString &name);
+    ~ProfileInfo() {}
 
-        ProfileInfo(int id, const QString &name);
-        ~ProfileInfo() {}
+    QString name;
+    QString host;
 
-        QString name;
-        QString host;
+    QString city;
+    QString province;
+    QString country;
 
-        QString city;
-        QString province;
-        QString country;
+    int id;
+    int port;
+    bool autoConnect;
+    int INDIWebManagerPort;
 
-        int id;
-        int port;
-        bool autoConnect;
-        int  INDIWebManagerPort;
+    // driver[role] = label
+    QMap<QString, QString> drivers;
+    QString customDrivers;
 
-        // driver[role] = label
-        QMap<QString,QString> drivers;
-        QString customDrivers;
+    // Is connection local or remote
+    bool isLocal() { return host.isEmpty(); }
 
-        // Is connection local or remote
-        bool isLocal()
-        {
-            return host.isEmpty();
-        }
-
-        QString mount();
-        QString ccd();
-        QString guider();
-        QString focuser();
-        QString filter();
-        QString dome();
-        QString ao();
-        QString weather();
-        QString aux1();
-        QString aux2();
-        QString aux3();
-        QString aux4();
-
+    QString mount();
+    QString ccd();
+    QString guider();
+    QString focuser();
+    QString filter();
+    QString dome();
+    QString ao();
+    QString weather();
+    QString aux1();
+    QString aux2();
+    QString aux3();
+    QString aux4();
 };
-
 
 #endif // PROFILEINFO_H

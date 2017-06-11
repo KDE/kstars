@@ -44,8 +44,8 @@ class DeepSkyItem;
 // conventions with StarComponent
 #define MAX_LINENUMBER_MAG 90
 
-typedef QVector< DeepSkyObject *>    DeepSkyList;
-typedef QHash< int, DeepSkyList *>   DeepSkyIndex;
+typedef QVector<DeepSkyObject *> DeepSkyList;
+typedef QHash<int, DeepSkyList *> DeepSkyIndex;
 
 /**
  * @class DeepSkyComponent
@@ -56,26 +56,25 @@ typedef QHash< int, DeepSkyList *>   DeepSkyIndex;
  * @author Thomas Kabelmann
  * @version 0.1
  */
-class DeepSkyComponent: public SkyComponent
+class DeepSkyComponent : public SkyComponent
 {
 #ifdef KSTARS_LITE
-        friend class DeepSkyItem;
+    friend class DeepSkyItem;
 #endif
 
-    public:
+  public:
+    explicit DeepSkyComponent(SkyComposite *);
 
-        explicit DeepSkyComponent( SkyComposite * );
+    ~DeepSkyComponent();
 
-        ~DeepSkyComponent();
+    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
-
-        /** @short draw all the labels in the prioritized LabelLists and then
+    /** @short draw all the labels in the prioritized LabelLists and then
          * clear the LabelLists.
          */
-        void drawLabels();
+    void drawLabels();
 
-        /**
+    /**
          * @short Update the sky positions of this component.  FIXME -jbb does nothing now
          *
          * This function usually just updates the Horizontal (Azimuth/Altitude)
@@ -87,18 +86,18 @@ class DeepSkyComponent: public SkyComponent
          * Precession/Nutation computation should be skipped; this computation
          * is only occasionally required.
          */
-        void update( KSNumbers * num=0 ) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num = 0) Q_DECL_OVERRIDE;
 
-        /**
+    /**
          * @short Search the children of this SkyComponent for
          * a SkyObject whose name matches the argument
          * @p name the name to be matched
          * @return a pointer to the SkyObject whose name matches
          * the argument, or a nullptr pointer if no match was found.
          */
-        SkyObject * findByName( const QString &name ) Q_DECL_OVERRIDE;
+    SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
 
-        /**
+    /**
          * @short Searches the region(s) and appends the SkyObjects found to the list of sky objects
          *
          * Look for a SkyObject that is in one of the regions
@@ -107,21 +106,18 @@ class DeepSkyComponent: public SkyComponent
          * @p region defines the regions in which the search for SkyObject should be done within
          * @return void
          */
-        void objectsInArea( QList<SkyObject *> &list, const SkyRegion &region ) Q_DECL_OVERRIDE;
+    void objectsInArea(QList<SkyObject *> &list, const SkyRegion &region) Q_DECL_OVERRIDE;
 
-        SkyObject * objectNearest( SkyPoint * p, double &maxrad ) Q_DECL_OVERRIDE;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
 
-        const QList<DeepSkyObject *> &objectList() const
-        {
-            return m_DeepSkyList;
-        }
+    const QList<DeepSkyObject *> &objectList() const { return m_DeepSkyList; }
 
-        void clear();
+    void clear();
 
-        bool selected() Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
 
-    private:
-        /**
+  private:
+    /**
          * @short Read the ngcic.dat deep-sky database.
          * Parse all lines from the deep-sky object catalog files. Construct a DeepSkyObject
          * from the data in each line, and add it to the DeepSkyComponent.
@@ -149,44 +145,42 @@ class DeepSkyComponent: public SkyComponent
          * @li 77-END   Common name [string] can be blank
          * @return true if data file is successfully read.
          */
-        void loadData();
+    void loadData();
 
-        void clearList(QList<DeepSkyObject *> &list);
+    void clearList(QList<DeepSkyObject *> &list);
 
-        void mergeSplitFiles();
+    void mergeSplitFiles();
 
-        void drawDeepSkyCatalog( SkyPainter * skyp, bool drawObject, DeepSkyIndex * dsIndex,
-                                 const QString &colorString, bool drawImage = false);
+    void drawDeepSkyCatalog(SkyPainter *skyp, bool drawObject, DeepSkyIndex *dsIndex, const QString &colorString,
+                            bool drawImage = false);
 
-        QList<DeepSkyObject *> m_DeepSkyList;
+    QList<DeepSkyObject *> m_DeepSkyList;
 
-        QList<DeepSkyObject *> m_MessierList;
-        QList<DeepSkyObject *> m_NGCList;
-        QList<DeepSkyObject *> m_ICList;
-        QList<DeepSkyObject *> m_OtherList;
+    QList<DeepSkyObject *> m_MessierList;
+    QList<DeepSkyObject *> m_NGCList;
+    QList<DeepSkyObject *> m_ICList;
+    QList<DeepSkyObject *> m_OtherList;
 
-        LabelList   *  m_labelList[  MAX_LINENUMBER_MAG + 1 ];
-        bool           m_hideLabels;
-        double         m_zoomMagLimit;
+    LabelList *m_labelList[MAX_LINENUMBER_MAG + 1];
+    bool m_hideLabels;
+    double m_zoomMagLimit;
 
+    SkyMesh *m_skyMesh;
+    DeepSkyIndex m_DeepSkyIndex;
+    DeepSkyIndex m_MessierIndex;
+    DeepSkyIndex m_NGCIndex;
+    DeepSkyIndex m_ICIndex;
+    DeepSkyIndex m_OtherIndex;
 
-        SkyMesh * m_skyMesh;
-        DeepSkyIndex m_DeepSkyIndex;
-        DeepSkyIndex m_MessierIndex;
-        DeepSkyIndex m_NGCIndex;
-        DeepSkyIndex m_ICIndex;
-        DeepSkyIndex m_OtherIndex;
+    void appendIndex(DeepSkyObject *o, DeepSkyIndex *dsIndex, Trixel trixel);
 
-        void appendIndex( DeepSkyObject * o, DeepSkyIndex * dsIndex, Trixel trixel );
+    QHash<QString, DeepSkyObject *> nameHash;
 
-        QHash<QString, DeepSkyObject *> nameHash;
-
-        /**
+    /**
          *@short adds a label to the lists of labels to be drawn prioritized
          *by magnitude.
          */
-        void addLabel( const QPointF &p, DeepSkyObject * obj );
-
+    void addLabel(const QPointF &p, DeepSkyObject *obj);
 };
 
 #endif

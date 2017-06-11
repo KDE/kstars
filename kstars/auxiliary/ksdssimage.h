@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
 #ifndef KSDSSIMAGE_H
 #define KSDSSIMAGE_H
 
@@ -33,15 +31,13 @@
 
 class KSDssImage
 {
-
-    public:
-
-        /**
+  public:
+    /**
          * @short Constructor
          */
-        KSDssImage( const QString &fileName );
+    KSDssImage(const QString &fileName);
 
-        /**
+    /**
          * @struct KSDssImage::Metadata
          * @short Structure to hold some DSS image metadata
          *
@@ -50,14 +46,19 @@ class KSDssImage
          * redundancies correctly!
          *
          */
-        struct Metadata
-        {
-            /**
+    struct Metadata
+    {
+        /**
              * @enum KSDssImage::Metadata::Source
              * @short Contains possible sources for digitized sky-survey images
              */
-            enum Source { DSS = 0, SDSS = 1, GenericInternetSource = 2 };
-            /**
+        enum Source
+        {
+            DSS                   = 0,
+            SDSS                  = 1,
+            GenericInternetSource = 2
+        };
+        /**
              * @enum KSDssImage::Metadata::FileFormat
              * @short Contains possible file formats for images
              *
@@ -66,48 +67,43 @@ class KSDssImage
              * write support for GIF. Besides, PNG compresses better.
              *
              */
-            enum FileFormat { FITS = 0, GIF = 1, PNG = 2 };
-
-            QString version; // Used for DSS -- Indicates which version of scans to pull
-            QString object; // Name / identifier of the object. Added to metadata
-            FileFormat format; // File format used.
-            Source src; // DSS / SDSS -- source of the image
-            dms ra0; // Center RA (J2000.0)
-            dms dec0; // Center Dec (J2000.0)
-            float height; // height in arcminutes
-            float width; // width in arcminutes
-            char band; // photometric band (UBVRI...) Use "?" for unknown.
-            int gen; // generation for DSS images, data release for SDSS; use -1 for unknown.
-            bool valid; // is this data valid?
-
-            Metadata(); // default constructor
-            inline bool isValid() const
-            {
-                return valid;    // convenience method
-            }
+        enum FileFormat
+        {
+            FITS = 0,
+            GIF  = 1,
+            PNG  = 2
         };
 
-        inline QImage getImage() const
-        {
-            return m_Image;
-        }
-        inline KSDssImage::Metadata getMetadata() const
-        {
-            return m_Metadata;
-        }
-        inline QString getFileName() const
-        {
-            return m_FileName;
-        }
+        QString version;   // Used for DSS -- Indicates which version of scans to pull
+        QString object;    // Name / identifier of the object. Added to metadata
+        FileFormat format; // File format used.
+        Source src;        // DSS / SDSS -- source of the image
+        dms ra0;           // Center RA (J2000.0)
+        dms dec0;          // Center Dec (J2000.0)
+        float height;      // height in arcminutes
+        float width;       // width in arcminutes
+        char band;         // photometric band (UBVRI...) Use "?" for unknown.
+        int gen;           // generation for DSS images, data release for SDSS; use -1 for unknown.
+        bool valid;        // is this data valid?
 
-        // TODO: Implement methods to load and read FITS image data and metadata
+        Metadata(); // default constructor
+        inline bool isValid() const
+        {
+            return valid; // convenience method
+        }
+    };
 
-    private:
-        // TODO: Add support for FITS
-        QString m_FileName;
-        QImage m_Image;
-        Metadata m_Metadata;
+    inline QImage getImage() const { return m_Image; }
+    inline KSDssImage::Metadata getMetadata() const { return m_Metadata; }
+    inline QString getFileName() const { return m_FileName; }
 
+    // TODO: Implement methods to load and read FITS image data and metadata
+
+  private:
+    // TODO: Add support for FITS
+    QString m_FileName;
+    QImage m_Image;
+    Metadata m_Metadata;
 };
 
 #endif

@@ -31,28 +31,28 @@ class MilkyWay;
 
 class MilkyWayItem : public SkyItem
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor.
          * @param mwComp - pointer to MilkyWay that handles data
          * @param rootNode - parent RootNode that instantiated this object
          */
-        MilkyWayItem(MilkyWay * mwComp, RootNode * rootNode);
+    MilkyWayItem(MilkyWay *mwComp, RootNode *rootNode);
 
-        /**
+    /**
          * @short If m_filled is true SkyPolygonNodes(filled) will be initialized. Otherwise MilkyWay will be
          * drawn with LineNodes(non-filled)
          */
-        void initialize();
+    void initialize();
 
-        /**
+    /**
          * @short Update position of all nodes that represent MilkyWay
          * If m_filled is not equal to Options::fillMilkyWay() we reinitialize all nodes by calling initialize()
          */
-        virtual void update();
-    private:
-        bool m_filled; //True if the polygon has to be filled
-        MilkyWay * m_MWComp;
+    virtual void update();
+
+  private:
+    bool m_filled; //True if the polygon has to be filled
+    MilkyWay *m_MWComp;
 };
 #endif
-

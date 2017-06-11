@@ -7,27 +7,28 @@ enum InclusionType
 {
     InclOutside = 0,
     InclInside,
-    InclLo,			/* number is on low end of an interval */
-    InclHi,			/* number is on high end of an interval */
+    InclLo, /* number is on low end of an interval */
+    InclHi, /* number is on high end of an interval */
     InclAdjacentXXX
 };
 
 class LINKAGE HtmRange
 {
-    public:
-        HtmRange();
-        ~HtmRange();
+  public:
+    HtmRange();
+    ~HtmRange();
 
-        int getNext(Key * lo, Key * hi);
+    int getNext(Key *lo, Key *hi);
 
-        void mergeRange(const Key lo, const Key hi);
-        void reset();
+    void mergeRange(const Key lo, const Key hi);
+    void reset();
 
-    protected:
-        InclusionType tinside(const Key mid) const;
-    private:
-        SkipList * my_los;
-        SkipList * my_his;
+  protected:
+    InclusionType tinside(const Key mid) const;
+
+  private:
+    SkipList *my_los;
+    SkipList *my_his;
 };
 
 #endif

@@ -3,24 +3,23 @@
 #include "HTMesh.h"
 #include "MeshIterator.h"
 
-
 int main()
 {
     int level = 5;
     printf("level = %d\n", level);
-    HTMesh * mesh = new HTMesh( level, level );
+    HTMesh *mesh = new HTMesh(level, level);
     mesh->setDebug(17);
 
-    double ra=6.75 * 15.;
-    double dec=-16.72;
+    double ra  = 6.75 * 15.;
+    double dec = -16.72;
 
     //Lookup the triangle containing (ra,dec)
-    long id = mesh->index( ra, dec );
-    const char * name = mesh->indexToName( id );
+    long id          = mesh->index(ra, dec);
+    const char *name = mesh->indexToName(id);
     printf("(%8.4f %8.4f): %s\n", ra, dec, name);
 
     double vr1, vd1, vr2, vd2, vr3, vd3;
-    mesh->vertices( id, &vr1, &vd1, &vr2, &vd2, &vr3, &vd3);
+    mesh->vertices(id, &vr1, &vd1, &vr2, &vd2, &vr3, &vd3);
 
     printf("\nThe three vertices of %s are:\n", name);
     printf("    (%6.2f, %6.2f)\n", vr1, vd1);
@@ -32,25 +31,22 @@ int main()
 
     double radius = 2.0;
     //printf("Leak test! ...\n");
-    for ( int ii = 0; ii < 1; ii++)
+    for (int ii = 0; ii < 1; ii++)
     {
+        mesh->intersect(ra, dec, ra - radius, dec, ra - radius, dec + radius);
+        mesh->intersect(ra, dec, ra - radius, dec, ra - radius, dec + radius, ra, dec + radius);
 
-        mesh->intersect( ra, dec, ra - radius, dec, ra - radius , dec + radius );
-        mesh->intersect( ra, dec, ra - radius, dec, ra - radius , dec + radius,
-                         ra , dec + radius);
-
-
-        mesh->intersect( ra, dec, radius );
+        mesh->intersect(ra, dec, radius);
         //continue;
 
         MeshIterator iterator(mesh);
 
-        printf("Number of trixels = %d\n\n", mesh->intersectSize() );
+        printf("Number of trixels = %d\n\n", mesh->intersectSize());
         printf("Triangles within %5.2f degrees of (%6.2f, %6.2f)\n", radius, ra, dec);
 
-        while ( iterator.hasNext() )
+        while (iterator.hasNext())
         {
-            printf("%s\n",  mesh->indexToName( iterator.next() ));
+            printf("%s\n", mesh->indexToName(iterator.next()));
         }
     }
 

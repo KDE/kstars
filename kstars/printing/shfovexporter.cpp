@@ -26,17 +26,18 @@
 #include "skypoint.h"
 #include "printingwizard.h"
 
-ShFovExporter::ShFovExporter(PrintingWizard * wizard, SkyMap * map) : m_Map(map), m_ParentWizard(wizard)
-{}
+ShFovExporter::ShFovExporter(PrintingWizard *wizard, SkyMap *map) : m_Map(map), m_ParentWizard(wizard)
+{
+}
 
 bool ShFovExporter::calculatePath(const SkyPoint &src, const SkyPoint &dest, double fov, double maglim)
 {
-    m_Src = src;
+    m_Src  = src;
     m_Dest = dest;
 
-    m_skyObjList = KSUtils::castStarObjListToSkyObjList( m_StarHopper.computePath(src, dest, fov, maglim) );
-    m_Path = *m_skyObjList;
-    if(m_Path.isEmpty())
+    m_skyObjList = KSUtils::castStarObjListToSkyObjList(m_StarHopper.computePath(src, dest, fov, maglim));
+    m_Path       = *m_skyObjList;
+    if (m_Path.isEmpty())
     {
         return false;
     }
@@ -48,13 +49,13 @@ bool ShFovExporter::exportPath()
 {
     KStarsData::Instance()->clock()->stop();
 
-    if(m_Path.isEmpty())
+    if (m_Path.isEmpty())
     {
         return false;
     }
 
     // Show path on SkyMap
-    TargetListComponent * t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
+    TargetListComponent *t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
     delete t->list;
     t->list = m_skyObjList;
 
@@ -63,9 +64,9 @@ bool ShFovExporter::exportPath()
 
     // Capture FOV snapshots
     centerBetweenAndCapture(m_Src, *m_Path.at(0));
-    for(int i = 0 ; i < m_Path.size() - 1; i++)
+    for (int i = 0; i < m_Path.size() - 1; i++)
     {
-        centerBetweenAndCapture(*m_Path.at(i), *m_Path.at(i+1));
+        centerBetweenAndCapture(*m_Path.at(i), *m_Path.at(i + 1));
     }
     centerBetweenAndCapture(*m_Path.last(), m_Dest);
 

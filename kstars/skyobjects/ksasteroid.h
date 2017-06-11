@@ -46,9 +46,8 @@ class dms;
 	*/
 class KSAsteroid : public KSPlanetBase
 {
-    public:
-
-        /** Constructor.
+  public:
+    /** Constructor.
             *@p catN number of asteroid
         	*@p s    the name of the asteroid
         	*@p image_file the filename for an image of the asteroid
@@ -62,216 +61,156 @@ class KSAsteroid : public KSPlanetBase
         	*@p H absolute magnitude
             *@p G slope parameter
         	*/
-        KSAsteroid( int catN, const QString &s, const QString &image_file,
-                    long double JD, double a, double e, dms i, dms w, dms N, dms M, double H, double G );
+    KSAsteroid(int catN, const QString &s, const QString &image_file, long double JD, double a, double e, dms i, dms w,
+               dms N, dms M, double H, double G);
 
-        KSAsteroid * clone() const Q_DECL_OVERRIDE;
-        SkyObject::UID getUID() const Q_DECL_OVERRIDE;
+    KSAsteroid *clone() const Q_DECL_OVERRIDE;
+    SkyObject::UID getUID() const Q_DECL_OVERRIDE;
 
-        /** Destructor (empty)*/
-        virtual ~KSAsteroid() {}
+    /** Destructor (empty)*/
+    virtual ~KSAsteroid() {}
 
-        /** This is inherited from KSPlanetBase.  We don't use it in this class,
+    /** This is inherited from KSPlanetBase.  We don't use it in this class,
         	*so it is empty.
         	*/
-        bool loadData() Q_DECL_OVERRIDE;
+    bool loadData() Q_DECL_OVERRIDE;
 
-        /** This lets other classes like KSPlanetBase access H and G values
+    /** This lets other classes like KSPlanetBase access H and G values
         *Used by KSPlanetBase::FindMagnitude
         */
-        double inline getAbsoluteMagnitude() const
-        {
-            return H;
-        }
-        double inline getSlopeParameter() const
-        {
-            return G;
-        }
+    double inline getAbsoluteMagnitude() const { return H; }
+    double inline getSlopeParameter() const { return G; }
 
-        /**
+    /**
          *@short Sets the asteroid's perihelion distance
          */
-        void setPerihelion( double perihelion );
+    void setPerihelion(double perihelion);
 
-        /**
+    /**
          *@return Perihelion distance
          */
-        inline double getPerihelion() const
-        {
-            return q;
-        }
+    inline double getPerihelion() const { return q; }
 
-        /**
+    /**
           *@short Sets the asteroid's earth minimum orbit intersection distance
           */
-        void setEarthMOID( double earth_moid );
+    void setEarthMOID(double earth_moid);
 
-        /**
+    /**
          *@return the asteroid's earth minimum orbit intersection distance in AU
          */
-        inline double getEarthMOID() const
-        {
-            return EarthMOID;
-        }
+    inline double getEarthMOID() const { return EarthMOID; }
 
-        /**
+    /**
          *@short Sets the asteroid's orbit solution ID
          */
-        void setOrbitID( QString orbit_id );
+    void setOrbitID(QString orbit_id);
 
-        /**
+    /**
          *@return the asteroid's orbit solution ID
          */
-        inline QString getOrbitID() const
-        {
-            return OrbitID;
-        }
+    inline QString getOrbitID() const { return OrbitID; }
 
-        /**
+    /**
          *@short Sets the asteroid's orbit class
          */
-        void setOrbitClass( QString orbit_class );
+    void setOrbitClass(QString orbit_class);
 
-        /**
+    /**
          *@return the asteroid's orbit class
          */
-        inline QString getOrbitClass() const
-        {
-            return OrbitClass;
-        }
+    inline QString getOrbitClass() const { return OrbitClass; }
 
-        /**
+    /**
          *@short Sets if the comet is a near earth object
          */
-        void setNEO( bool neo );
+    void setNEO(bool neo);
 
-        /**
+    /**
          *@return true if the asteroid is a near earth object
          */
-        inline bool isNEO() const
-        {
-            return NEO;
-        }
+    inline bool isNEO() const { return NEO; }
 
-        /**
+    /**
          *@short Sets the asteroid's albedo
          */
-        void setAlbedo( float albedo );
+    void setAlbedo(float albedo);
 
-        /**
+    /**
          *@return the asteroid's albedo
          */
-        inline float getAlbedo() const
-        {
-            return Albedo;
-        }
+    inline float getAlbedo() const { return Albedo; }
 
-        /**
+    /**
          *@short Sets the asteroid's diameter
          */
-        void setDiameter( float diam );
+    void setDiameter(float diam);
 
-        /**
+    /**
          *@return the asteroid's diameter
          */
-        inline float getDiameter() const
-        {
-            return Diameter;
-        }
+    inline float getDiameter() const { return Diameter; }
 
-        /**
+    /**
          *@short Sets the asteroid's dimensions
          */
-        void setDimensions( QString dim );
+    void setDimensions(QString dim);
 
-        /**
+    /**
          *@return the asteroid's dimensions
          */
-        inline QString getDimensions() const
-        {
-            return Dimensions;
-        }
+    inline QString getDimensions() const { return Dimensions; }
 
-        /**
+    /**
         *@short Sets the asteroid's rotation period
         */
-        void setRotationPeriod( float rot_per );
+    void setRotationPeriod(float rot_per);
 
-        /**
+    /**
          *@return the asteroid's rotation period
          */
-        inline float getRotationPeriod() const
-        {
-            return RotationPeriod;
-        }
+    inline float getRotationPeriod() const { return RotationPeriod; }
 
-        /**
+    /**
         *@short Sets the asteroid's period
         */
-        void setPeriod( float per );
+    void setPeriod(float per);
 
-        /**
+    /**
          *@return the asteroid's period
          */
-        inline float getPeriod() const
-        {
-            return Period;
-        }
+    inline float getPeriod() const { return Period; }
 
-    protected:
-        /** Calculate the geocentric RA, Dec coordinates of the Asteroid.
+  protected:
+    /** Calculate the geocentric RA, Dec coordinates of the Asteroid.
         	*@note reimplemented from KSPlanetBase
         	*@param num time-dependent values for the desired date
         	*@param Earth planet Earth (needed to calculate geocentric coords)
         	*@return true if position was successfully calculated.
         	*/
-        bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr) Q_DECL_OVERRIDE;
+    bool findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Earth = nullptr) Q_DECL_OVERRIDE;
 
-        //these set functions are needed for the new KSPluto subclass
-        void set_a( double newa )
-        {
-            a = newa;
-        }
-        void set_e( double newe )
-        {
-            e = newe;
-        }
-        void set_P( double newP )
-        {
-            P = newP;
-        }
-        void set_i( double newi )
-        {
-            i.setD( newi );
-        }
-        void set_w( double neww )
-        {
-            w.setD( neww );
-        }
-        void set_M( double newM )
-        {
-            M.setD( newM );
-        }
-        void set_N( double newN )
-        {
-            N.setD( newN );
-        }
-        void setJD( long double jd )
-        {
-            JD = jd;
-        }
+    //these set functions are needed for the new KSPluto subclass
+    void set_a(double newa) { a = newa; }
+    void set_e(double newe) { e = newe; }
+    void set_P(double newP) { P = newP; }
+    void set_i(double newi) { i.setD(newi); }
+    void set_w(double neww) { w.setD(neww); }
+    void set_M(double newM) { M.setD(newM); }
+    void set_N(double newN) { N.setD(newN); }
+    void setJD(long double jd) { JD = jd; }
 
-    private:
-        void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
+  private:
+    void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
 
-        int catN;
-        long double JD;
-        double q, a, e, P, EarthMOID;
-        float Albedo, Diameter, RotationPeriod, Period;
-        dms i, w, M, N;
-        double H, G;
-        QString OrbitID, OrbitClass, Dimensions;
-        bool NEO;
+    int catN;
+    long double JD;
+    double q, a, e, P, EarthMOID;
+    float Albedo, Diameter, RotationPeriod, Period;
+    dms i, w, M, N;
+    double H, G;
+    QString OrbitID, OrbitClass, Dimensions;
+    bool NEO;
 };
 
 #endif

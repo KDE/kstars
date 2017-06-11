@@ -41,11 +41,11 @@
 
 #include "Options.h"
 
-extern const char * libindi_strings_context;
+extern const char *libindi_strings_context;
 
-GUIManager * GUIManager::_GUIManager = nullptr;
+GUIManager *GUIManager::_GUIManager = nullptr;
 
-GUIManager * GUIManager::Instance()
+GUIManager *GUIManager::Instance()
 {
     if (_GUIManager == nullptr)
         _GUIManager = new GUIManager(Options::independentWindowINDI() ? nullptr : KStars::Instance());
@@ -53,19 +53,20 @@ GUIManager * GUIManager::Instance()
     return _GUIManager;
 }
 
-GUIManager::GUIManager(QWidget * parent) : QWidget(parent, Qt::Window)
+GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 {
 #ifdef Q_OS_OSX
-    if(Options::independentWindowINDI())
+    if (Options::independentWindowINDI())
         setWindowFlags(Qt::Window);
     else
     {
         setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
-        connect(QApplication::instance(), SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(changeAlwaysOnTop(Qt::ApplicationState)));
+        connect(QApplication::instance(), SIGNAL(applicationStateChanged(Qt::ApplicationState)), this,
+                SLOT(changeAlwaysOnTop(Qt::ApplicationState)));
     }
 #endif
 
-    mainLayout    = new QVBoxLayout(this);
+    mainLayout = new QVBoxLayout(this);
     mainLayout->setMargin(10);
     mainLayout->setSpacing(10);
 
@@ -78,10 +79,10 @@ GUIManager::GUIManager(QWidget * parent) : QWidget(parent, Qt::Window)
     setWindowTitle(i18n("INDI Control Panel"));
     setAttribute(Qt::WA_ShowModal, false);
 
-    clearB      = new QPushButton(i18n("Clear"));
-    closeB      = new QPushButton(i18n("Close"));
+    clearB = new QPushButton(i18n("Clear"));
+    closeB = new QPushButton(i18n("Close"));
 
-    QHBoxLayout * buttonLayout = new QHBoxLayout;
+    QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->insertStretch(0);
     buttonLayout->addWidget(clearB, 0, Qt::AlignRight);
     buttonLayout->addWidget(closeB, 0, Qt::AlignRight);
@@ -96,7 +97,7 @@ GUIManager::GUIManager(QWidget * parent) : QWidget(parent, Qt::Window)
 
 void GUIManager::changeAlwaysOnTop(Qt::ApplicationState state)
 {
-    if(isVisible())
+    if (isVisible())
     {
         if (state == Qt::ApplicationActive)
             setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
@@ -108,14 +109,14 @@ void GUIManager::changeAlwaysOnTop(Qt::ApplicationState state)
 
 void GUIManager::closeEvent(QCloseEvent * /*event*/)
 {
-    KStars * ks = KStars::Instance();
+    KStars *ks = KStars::Instance();
 
     if (ks)
     {
-        QAction * showINDIPanel = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+        QAction *showINDIPanel = KStars::Instance()->actionCollection()->action("show_control_panel");
         showINDIPanel->setChecked(false);
 
-        QAction * centerTelescope = KStars::Instance()->actionCollection()->action( "lock_telescope" );
+        QAction *centerTelescope = KStars::Instance()->actionCollection()->action("lock_telescope");
         centerTelescope->setChecked(false);
     }
 
@@ -125,22 +126,22 @@ void GUIManager::closeEvent(QCloseEvent * /*event*/)
 
 void GUIManager::hideEvent(QHideEvent * /*event*/)
 {
-    KStars * ks = KStars::Instance();
+    KStars *ks = KStars::Instance();
 
     if (ks)
     {
-        QAction * a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+        QAction *a = KStars::Instance()->actionCollection()->action("show_control_panel");
         a->setChecked(false);
     }
 }
 
 void GUIManager::showEvent(QShowEvent * /*event*/)
 {
-    QAction * a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+    QAction *a = KStars::Instance()->actionCollection()->action("show_control_panel");
     a->setEnabled(true);
     a->setChecked(true);
 
-    a = KStars::Instance()->actionCollection()->action( "lock_telescope" );
+    a = KStars::Instance()->actionCollection()->action("lock_telescope");
     a->setEnabled(true);
 }
 
@@ -150,15 +151,16 @@ void GUIManager::showEvent(QShowEvent * /*event*/)
 *********************************************************************/
 void GUIManager::updateStatus()
 {
-    QAction * showINDIPanel   = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+    QAction *showINDIPanel = KStars::Instance()->actionCollection()->action("show_control_panel");
 
     if (guidevices.count() == 0)
     {
-        KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
+        KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the "
+                                   "Device Manager in the devices menu."));
         showINDIPanel->setChecked(false);
         showINDIPanel->setEnabled(false);
 
-        QAction * centerTelescope = KStars::Instance()->actionCollection()->action( "lock_telescope" );
+        QAction *centerTelescope = KStars::Instance()->actionCollection()->action("lock_telescope");
         centerTelescope->setChecked(false);
         centerTelescope->setEnabled(false);
 
@@ -172,10 +174,9 @@ void GUIManager::updateStatus()
     showNormal();
 }
 
-INDI_D * GUIManager::findGUIDevice(const QString &deviceName)
+INDI_D *GUIManager::findGUIDevice(const QString &deviceName)
 {
-
-    foreach(INDI_D * gdv, guidevices)
+    foreach (INDI_D *gdv, guidevices)
     {
         if (gdv->getBaseDevice()->getDeviceName() == deviceName)
             return gdv;
@@ -184,18 +185,15 @@ INDI_D * GUIManager::findGUIDevice(const QString &deviceName)
     return nullptr;
 }
 
-
 void GUIManager::clearLog()
 {
-
-    INDI_D * dev = findGUIDevice(mainTabWidget->tabText(mainTabWidget->currentIndex()).remove(QChar('&')));
+    INDI_D *dev = findGUIDevice(mainTabWidget->tabText(mainTabWidget->currentIndex()).remove(QChar('&')));
 
     if (dev)
         dev->clearMessageLog();
-
 }
 
-void GUIManager::addClient(ClientManager * cm)
+void GUIManager::addClient(ClientManager *cm)
 {
     clients.append(cm);
 
@@ -209,15 +207,15 @@ void GUIManager::addClient(ClientManager * cm)
     connect(cm, SIGNAL(removeINDIDevice(DeviceInfo *)), this, SLOT(removeDevice(DeviceInfo *)), type);
 }
 
-void GUIManager::removeClient(ClientManager * cm)
+void GUIManager::removeClient(ClientManager *cm)
 {
     clients.removeOne(cm);
 
-    foreach(INDI_D * gdv, guidevices)
+    foreach (INDI_D *gdv, guidevices)
     {
         if (gdv->getClientManager() == cm)
         {
-            for (int i=0; i < mainTabWidget->count(); i++)
+            for (int i = 0; i < mainTabWidget->count(); i++)
             {
                 if (mainTabWidget->tabText(i).remove("&") == QString(gdv->getBaseDevice()->getDeviceName()))
                 {
@@ -236,15 +234,15 @@ void GUIManager::removeClient(ClientManager * cm)
         hide();
 }
 
-void GUIManager::removeDevice(DeviceInfo * di)
+void GUIManager::removeDevice(DeviceInfo *di)
 {
     QString deviceName = di->getBaseDevice()->getDeviceName();
-    INDI_D * dp = findGUIDevice(deviceName);
+    INDI_D *dp         = findGUIDevice(deviceName);
 
     if (dp == nullptr)
         return;
 
-    ClientManager * cm = di->getDriverInfo()->getClientManager();
+    ClientManager *cm = di->getDriverInfo()->getClientManager();
     if (cm)
         cm->disconnect(dp);
 
@@ -253,7 +251,7 @@ void GUIManager::removeDevice(DeviceInfo * di)
     if (mainTabWidget->count() != guidevices.count())
         QThread::msleep(100);
 
-    for (int i=0; i < mainTabWidget->count(); i++)
+    for (int i = 0; i < mainTabWidget->count(); i++)
     {
         if (mainTabWidget->tabText(i).remove("&") == QString(deviceName))
         {
@@ -267,19 +265,19 @@ void GUIManager::removeDevice(DeviceInfo * di)
 
     if (guidevices.isEmpty())
     {
-        QAction * showINDIPanel = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+        QAction *showINDIPanel = KStars::Instance()->actionCollection()->action("show_control_panel");
         showINDIPanel->setEnabled(false);
 
-        QAction * centerTelescope = KStars::Instance()->actionCollection()->action( "lock_telescope" );
+        QAction *centerTelescope = KStars::Instance()->actionCollection()->action("lock_telescope");
         centerTelescope->setChecked(false);
         centerTelescope->setEnabled(false);
     }
 }
 
-void GUIManager::buildDevice(DeviceInfo * di)
+void GUIManager::buildDevice(DeviceInfo *di)
 {
     //qDebug() << "In build Device for device with tree label " << di->getTreeLabel() << endl;
-    ClientManager * cm = di->getDriverInfo()->getClientManager();
+    ClientManager *cm = di->getDriverInfo()->getClientManager();
 
     if (cm == nullptr)
     {
@@ -287,7 +285,7 @@ void GUIManager::buildDevice(DeviceInfo * di)
         return;
     }
 
-    INDI_D * gdm = new INDI_D(this, di->getBaseDevice(), cm);
+    INDI_D *gdm = new INDI_D(this, di->getBaseDevice(), cm);
 
     Qt::ConnectionType type = Qt::BlockingQueuedConnection;
 

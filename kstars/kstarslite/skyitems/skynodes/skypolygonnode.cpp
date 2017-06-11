@@ -19,36 +19,35 @@
 #include "ksutils.h"
 #include "linelist.h"
 
-SkyPolygonNode::SkyPolygonNode(LineList * list)
-    :m_list(list), m_polygonNode(new PolyNode)
+SkyPolygonNode::SkyPolygonNode(LineList *list) : m_list(list), m_polygonNode(new PolyNode)
 {
     addChildNode(m_polygonNode);
 }
 
 void SkyPolygonNode::update(bool forceClip)
 {
-    if(!m_polygonNode->visible())
+    if (!m_polygonNode->visible())
     {
         m_polygonNode->show();
     }
 
     bool isVisible, isVisibleLast;
-    SkyList * points = m_list->points();
+    SkyList *points = m_list->points();
     QPolygonF polygon;
-    const Projector * m_proj = SkyMapLite::Instance()->projector();
+    const Projector *m_proj = SkyMapLite::Instance()->projector();
 
     if (forceClip == false)
     {
-        for ( int i = 0; i < points->size(); ++i )
+        for (int i = 0; i < points->size(); ++i)
         {
-            polygon << m_proj->toScreen( points->at( i ), false, &isVisibleLast);
+            polygon << m_proj->toScreen(points->at(i), false, &isVisibleLast);
             isVisible |= isVisibleLast;
         }
 
         // If 1+ points are visible, draw it
-        if ( polygon.size() && isVisible)
+        if (polygon.size() && isVisible)
         {
-            m_polygonNode->updateGeometry(polygon,true);
+            m_polygonNode->updateGeometry(polygon, true);
         }
         else
         {
@@ -58,43 +57,42 @@ void SkyPolygonNode::update(bool forceClip)
         return;
     }
 
-    SkyPoint * pLast = points->last();
-    QPointF   oLast = m_proj->toScreen( pLast, true, &isVisibleLast );
+    SkyPoint *pLast = points->last();
+    QPointF oLast   = m_proj->toScreen(pLast, true, &isVisibleLast);
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility(pLast);
 
-    for ( int i = 0; i < points->size(); ++i )
+    for (int i = 0; i < points->size(); ++i)
     {
-        SkyPoint * pThis = points->at( i );
-        QPointF oThis = m_proj->toScreen( pThis, true, &isVisible );
+        SkyPoint *pThis = points->at(i);
+        QPointF oThis   = m_proj->toScreen(pThis, true, &isVisible);
         // & with the result of checkVisibility to clip away things below horizon
         isVisible &= m_proj->checkVisibility(pThis);
 
-
-        if ( isVisible && isVisibleLast )
+        if (isVisible && isVisibleLast)
         {
             polygon << oThis;
         }
-        else if ( isVisibleLast )
+        else if (isVisibleLast)
         {
-            QPointF oMid = m_proj->clipLine( pLast, pThis );
+            QPointF oMid = m_proj->clipLine(pLast, pThis);
             polygon << oMid;
         }
-        else if ( isVisible )
+        else if (isVisible)
         {
-            QPointF oMid = m_proj->clipLine( pThis, pLast );
+            QPointF oMid = m_proj->clipLine(pThis, pLast);
             polygon << oMid;
             polygon << oThis;
         }
 
-        pLast = pThis;
-        oLast = oThis;
+        pLast         = pThis;
+        oLast         = oThis;
         isVisibleLast = isVisible;
     }
 
-    if ( polygon.size() )
+    if (polygon.size())
     {
-        m_polygonNode->updateGeometry(polygon,true);
+        m_polygonNode->updateGeometry(polygon, true);
     }
     else
     {

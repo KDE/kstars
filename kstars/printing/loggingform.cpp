@@ -24,7 +24,8 @@
 #include "kstars.h"
 
 LoggingForm::LoggingForm()
-{}
+{
+}
 
 void LoggingForm::createFinderChartLogger()
 {
@@ -42,13 +43,11 @@ void LoggingForm::createFinderChartLogger()
     fieldCharFmt.setFont(font);
 
     QVector<QTextLength> constraints;
-    constraints << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25)
-                << QTextLength(QTextLength::PercentageLength, 25);
+    constraints << QTextLength(QTextLength::PercentageLength, 25) << QTextLength(QTextLength::PercentageLength, 25)
+                << QTextLength(QTextLength::PercentageLength, 25) << QTextLength(QTextLength::PercentageLength, 25);
     tableFormat.setColumnWidthConstraints(constraints);
 
-    QTextTable * table = cursor.insertTable(5, 4, tableFormat);
+    QTextTable *table = cursor.insertTable(5, 4, tableFormat);
     table->mergeCells(0, 0, 1, 4);
     table->cellAt(0, 0).firstCursorPosition().insertText(i18n("Observer:"), fieldCharFmt);
 
@@ -70,7 +69,7 @@ void LoggingForm::createFinderChartLogger()
     table->cellAt(4, 3).firstCursorPosition().insertText(i18n("Power:"), fieldCharFmt);
 }
 
-QTextDocument * LoggingForm::getDocument()
+QTextDocument *LoggingForm::getDocument()
 {
     return m_Document;
 }

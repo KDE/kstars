@@ -21,7 +21,7 @@
 #include <math.h> /* For M_PI */
 
 /* Angle conversion macros */
-#define RADPERDEG (M_PI/180.0) /* Number of radians in a degree */
+#define RADPERDEG (M_PI / 180.0) /* Number of radians in a degree */
 
 /* Basic conversions between Degrees, Hours and Radians */
 inline double deg2rad(double x)
@@ -42,11 +42,11 @@ inline double deg2hour(double x)
 }
 inline double hour2rad(double x)
 {
-    return deg2rad( hour2deg(x) );
+    return deg2rad(hour2deg(x));
 }
 inline double rad2hour(double x)
 {
-    return deg2hour( rad2deg(x) );
+    return deg2hour(rad2deg(x));
 }
 
 /* Convert degrees to arcminutes or arcseconds and back */
@@ -88,25 +88,25 @@ inline double min2hour(double x)
 /* Convert DMS / HMS to Degrees / Hours */
 inline double dms2deg(double d, double m, double s)
 {
-    return (d + m / 60.0 + s/3600.0);
+    return (d + m / 60.0 + s / 3600.0);
 }
 inline double hms2hour(double h, double m, double s)
 {
     return (h + m / 60.0 + s / 3600.0);
 }
 
-void deg2dms(double D, int * d, int * m, float * s)
+void deg2dms(double D, int *d, int *m, float *s)
 {
     *d = (int)D;
-    *m = (int)(( D - *d ) * 60);
-    *s = (int)(( D - *d ) * 3600 - (*m * 60));
+    *m = (int)((D - *d) * 60);
+    *s = (int)((D - *d) * 3600 - (*m * 60));
 }
 
-void hour2hms(double H, int * h, int * m, float * s) /* Another redundant function */
+void hour2hms(double H, int *h, int *m, float *s) /* Another redundant function */
 {
     *h = (int)H;
-    *m = (int)(( H - *h ) * 60);
-    *s = (int)(( H - *h ) * 3600 - (*m * 60));
+    *m = (int)((H - *h) * 60);
+    *s = (int)((H - *h) * 3600 - (*m * 60));
 }
 
 #endif

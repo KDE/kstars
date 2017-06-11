@@ -29,19 +29,18 @@
 	*/
 class EquatorialCoordinateGrid : public CoordinateGrid
 {
-    public:
-        /**
+  public:
+    /**
         	*@short Constructor
         	*Simply adds all of the equatorial coordinate grid circles
         	*(meridians and parallels)
         	*@p parent Pointer to the parent SkyComposite object
         	*/
-        explicit EquatorialCoordinateGrid( SkyComposite * parent );
+    explicit EquatorialCoordinateGrid(SkyComposite *parent);
 
-        void preDraw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+    void preDraw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-        bool selected() Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
 };
-
 
 #endif

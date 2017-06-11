@@ -14,10 +14,10 @@
 #include "dslrinfodialog.h"
 #include "Options.h"
 
-DSLRInfo::DSLRInfo(QWidget * parent, ISD::CCD * ccd) : QDialog(parent)
+DSLRInfo::DSLRInfo(QWidget *parent, ISD::CCD *ccd) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
-    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
     setupUi(this);
@@ -26,13 +26,14 @@ DSLRInfo::DSLRInfo(QWidget * parent, ISD::CCD * ccd) : QDialog(parent)
 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 
-    DSLRIcon->setPixmap(QIcon::fromTheme("camera-photo", QIcon(":/icons/breeze/default/camera-photo.svg")).pixmap(48,48));
+    DSLRIcon->setPixmap(
+        QIcon::fromTheme("camera-photo", QIcon(":/icons/breeze/default/camera-photo.svg")).pixmap(48, 48));
 }
 
 void DSLRInfo::save()
 {
-    int w = maxWidth->value();
-    int h = maxHeight->value();
+    int w    = maxWidth->value();
+    int h    = maxHeight->value();
     double x = pixelX->value();
     double y = pixelY->value();
 
@@ -42,9 +43,8 @@ void DSLRInfo::save()
         return;
     }
 
-    ISD::CCDChip * primaryChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip *primaryChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     primaryChip->setImageInfo(w, h, x, y, 8);
 
     currentCCD->setConfig(SAVE_CONFIG);
 }
-

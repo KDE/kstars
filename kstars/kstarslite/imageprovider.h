@@ -27,19 +27,18 @@
  */
 class ImageProvider : public QQuickImageProvider
 {
-    public:
-        ImageProvider();
-        /** @short Get image by id
+  public:
+    ImageProvider();
+    /** @short Get image by id
          *  @return image of size requestedSize
          **/
-        virtual QImage requestImage(const QString &id, QSize * size, const QSize &requestedSize);
-        /**
+    virtual QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
+    /**
          * @short Add image to the list of images with the given id
          */
-        void addImage(const QString &id, QImage image);
-    private:
-        QHash<QString, QImage> images;
+    void addImage(const QString &id, QImage image);
+
+  private:
+    QHash<QString, QImage> images;
 };
 #endif
-
-

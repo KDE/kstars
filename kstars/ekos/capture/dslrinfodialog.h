@@ -21,17 +21,16 @@
 
 class DSLRInfo : public QDialog, public Ui::DSLRInfo
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        explicit DSLRInfo(QWidget * parent, ISD::CCD * ccd);
+  public:
+    explicit DSLRInfo(QWidget *parent, ISD::CCD *ccd);
 
-    protected slots:
-        void save();
+  protected slots:
+    void save();
 
-    private:
-        ISD::CCD * currentCCD = nullptr;
-
+  private:
+    ISD::CCD *currentCCD = nullptr;
 };
 
 #endif

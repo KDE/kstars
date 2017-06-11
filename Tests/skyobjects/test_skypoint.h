@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
 #ifndef TEST_SKYPOINT_H
 #define TEST_SKYPOINT_H
 
@@ -35,16 +33,14 @@
 
 class TestSkyPoint : public QObject
 {
+    Q_OBJECT
 
-        Q_OBJECT
+  public:
+    TestSkyPoint() : QObject(){};
+    ~TestSkyPoint(){};
 
-    public:
-
-        TestSkyPoint() : QObject() {};
-        ~TestSkyPoint() {};
-
-    private slots:
-        void testPrecession();
+  private slots:
+    void testPrecession();
 };
 
 #endif

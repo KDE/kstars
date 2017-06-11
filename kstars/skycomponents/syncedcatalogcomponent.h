@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
 #ifndef SYNCEDCATALOGCOMPONENT_H
 #define SYNCEDCATALOGCOMPONENT_H
 
@@ -36,40 +34,34 @@ class SkyComposite;
 
 class SyncedCatalogComponent : public CatalogComponent
 {
-
-    public:
-
-        /**
+  public:
+    /**
          * @short Constructor
          */
-        SyncedCatalogComponent( SkyComposite * parent, const QString &catname, bool showerrs, int index );
+    SyncedCatalogComponent(SkyComposite *parent, const QString &catname, bool showerrs, int index);
 
-        //    virtual void draw( SkyPainter *skyp );
+    //    virtual void draw( SkyPainter *skyp );
 
-        /**
+    /**
          * @short Create and insert a SkyObject from the given CatalogEntryData
          * @return 0 upon failure, a valid SkyObject pointer otherwise.
          */
-        DeepSkyObject * addObject( CatalogEntryData catalogEntry );
+    DeepSkyObject *addObject(CatalogEntryData catalogEntry);
 
-        /**
+    /**
          * @short Edit an existing skyobject
          * @note Will implement when required.
          * @note Question: How do we match the object? Probably by internal catalog id.
          */
-        // bool editObject( SkyObject *object );
+    // bool editObject( SkyObject *object );
 
+    void loadData() Q_DECL_OVERRIDE { _loadData(false); }
 
-        void loadData() Q_DECL_OVERRIDE
-        {
-            _loadData( false );
-        }
+    //    virtual bool selected();
 
-        //    virtual bool selected();
-
-    private:
-        int m_catId;
-        int m_catCount;
+  private:
+    int m_catId;
+    int m_catCount;
 };
 
 #endif

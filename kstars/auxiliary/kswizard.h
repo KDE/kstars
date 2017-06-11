@@ -18,8 +18,6 @@
 #ifndef KSWIZARD_H_
 #define KSWIZARD_H_
 
-
-
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QProcess>
@@ -38,37 +36,37 @@ class QStackedWidget;
 
 class WizWelcomeUI : public QFrame, public Ui::WizWelcome
 {
-        Q_OBJECT
-    public:
-        explicit WizWelcomeUI( QWidget * parent=0 );
+    Q_OBJECT
+  public:
+    explicit WizWelcomeUI(QWidget *parent = 0);
 };
 
 class WizLocationUI : public QFrame, public Ui::WizLocation
 {
-        Q_OBJECT
-    public:
-        explicit WizLocationUI( QWidget * parent=0 );
+    Q_OBJECT
+  public:
+    explicit WizLocationUI(QWidget *parent = 0);
 };
 
 class WizDataUI : public QFrame, public Ui::WizData
 {
-        Q_OBJECT
-    public:
-        explicit WizDataUI( QWidget * parent=0 );
+    Q_OBJECT
+  public:
+    explicit WizDataUI(QWidget *parent = 0);
 };
 
 class WizAstrometryUI : public QFrame, public Ui::WizAstrometry
 {
-        Q_OBJECT
-    public:
-        explicit WizAstrometryUI( QWidget * parent=0 );
+    Q_OBJECT
+  public:
+    explicit WizAstrometryUI(QWidget *parent = 0);
 };
 
 class WizDownloadUI : public QFrame, public Ui::WizDownload
 {
-        Q_OBJECT
-    public:
-        explicit WizDownloadUI( QWidget * parent=0 );
+    Q_OBJECT
+  public:
+    explicit WizDownloadUI(QWidget *parent = 0);
 };
 
 /** @class KSWizard
@@ -81,114 +79,108 @@ class WizDownloadUI : public QFrame, public Ui::WizDownload
  */
 class KSWizard : public QDialog
 {
-        Q_OBJECT
-    public:
-        /** Constructor
+    Q_OBJECT
+  public:
+    /** Constructor
          * @p parent pointer to the parent widget
          */
-        explicit KSWizard( QWidget * parent = 0 );
+    explicit KSWizard(QWidget *parent = 0);
 
-        /**Destructor */
-        virtual ~KSWizard();
+    /**Destructor */
+    virtual ~KSWizard();
 
-        /** @return pointer to the geographic location selected by the user */
-        const GeoLocation * geo() const
-        {
-            return Geo;
-        }
+    /** @return pointer to the geographic location selected by the user */
+    const GeoLocation *geo() const { return Geo; }
 
-    private slots:
-        void slotNextPage();
-        void slotPrevPage();
+  private slots:
+    void slotNextPage();
+    void slotPrevPage();
 
-        /** Set the geo pointer to the user's selected city, and display
+    /** Set the geo pointer to the user's selected city, and display
          * its longitude and latitude in the window.
          * @note called when the highlighted city in the list box changes
          */
-        void slotChangeCity();
+    void slotChangeCity();
 
-        /** Display only those cities which meet the user's search criteria
+    /** Display only those cities which meet the user's search criteria
          * in the city list box.
          * @note called when one of the name filters is modified
          */
-        void slotFilterCities();
+    void slotFilterCities();
 
-        void slotDownload();
+    void slotDownload();
 
-        void slotFinishWizard();
+    void slotFinishWizard();
 
-        void slotUpdateText();
+    void slotUpdateText();
 
-        void slotOpenOrCreateAstrometryFolder();
+    void slotOpenOrCreateAstrometryFolder();
 
-        void slotInstallGSC();
+    void slotInstallGSC();
 
-        void slotExtractGSC();
+    void slotExtractGSC();
 
-        void slotCheckDownloadProgress();
+    void slotCheckDownloadProgress();
 
-        void slotGSCInstallerFinished();
+    void slotGSCInstallerFinished();
 
-        void slotInstallPip();
+    void slotInstallPip();
 
-        void slotInstallPyfits();
+    void slotInstallPyfits();
 
-        void slotInstallNetpbm();
+    void slotInstallNetpbm();
 
-        void slotInstallerFinished();
+    void slotInstallerFinished();
 
-        void slotUpdateDataButtons();
+    void slotUpdateDataButtons();
 
-        void slotOpenOrCopyKStarsDataDirectory();
-    private:
-        /** @short Initialize the geographic location page.
+    void slotOpenOrCopyKStarsDataDirectory();
+
+  private:
+    /** @short Initialize the geographic location page.
          * Populate the city list box, and highlight the current location in the list.
          */
-        void initGeoPage();
+    void initGeoPage();
 
-        /** @short set enabled/disable state of Next/Prev buttins based on current page */
-        void setButtonsEnabled();
+    /** @short set enabled/disable state of Next/Prev buttins based on current page */
+    void setButtonsEnabled();
 
-        QStackedWidget * wizardStack;
-        WizWelcomeUI * welcome;
-        WizLocationUI * location;
-        WizDataUI * data;
-        WizAstrometryUI * astrometry;
-        QPushButton * nextB,*backB;
-        QDialogButtonBox * buttonBox;
+    QStackedWidget *wizardStack;
+    WizWelcomeUI *welcome;
+    WizLocationUI *location;
+    WizDataUI *data;
+    WizAstrometryUI *astrometry;
+    QPushButton *nextB, *backB;
+    QDialogButtonBox *buttonBox;
 
-
-
-
-        GeoLocation * Geo;
-        QList<GeoLocation *> filteredCityList;
+    GeoLocation *Geo;
+    QList<GeoLocation *> filteredCityList;
 
 #ifdef Q_OS_OSX
 
-        QProcess * install;
-        QProgressIndicator * installMonitor;
-        QProgressIndicator * gscMonitor;
-        QTimer * downloadMonitor;
-        QString gscZipPath;
+    QProcess *install;
+    QProgressIndicator *installMonitor;
+    QProgressIndicator *gscMonitor;
+    QTimer *downloadMonitor;
+    QString gscZipPath;
 
-        bool brewExists();
+    bool brewExists();
 
-        bool pythonExists();
+    bool pythonExists();
 
-        bool GSCExists();
+    bool GSCExists();
 
-        bool pipExists();
+    bool pipExists();
 
-        bool pyfitsExists();
+    bool pyfitsExists();
 
-        bool netpbmExists();
+    bool netpbmExists();
 
-        bool dataDirExists();
-        bool astrometryDirExists();
-        void updateAstrometryButtons();
+    bool dataDirExists();
+    bool astrometryDirExists();
+    void updateAstrometryButtons();
 
 #endif
-
 };
 
 #endif

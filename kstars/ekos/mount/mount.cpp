@@ -33,19 +33,18 @@
 
 #include <basedevice.h>
 
-extern const char * libindi_strings_context;
+extern const char *libindi_strings_context;
 
-#define UPDATE_DELAY            1000
-#define ABORT_DISPATCH_LIMIT    3
+#define UPDATE_DELAY         1000
+#define ABORT_DISPATCH_LIMIT 3
 
 namespace Ekos
 {
-
 Mount::Mount()
 {
     setupUi(this);
     new MountAdaptor(this);
-    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount",  this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount", this);
 
     currentTelescope = nullptr;
 
@@ -91,8 +90,7 @@ Mount::Mount()
 
     connect(mountToolBoxB, SIGNAL(clicked()), this, SLOT(showMountToolBox()));
 
-    connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]()
-    {
+    connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]() {
         if (currentTelescope->clearAlignmentModel())
             appendLogText(i18n("Alignment Model cleared."));
         else
@@ -109,22 +107,22 @@ Mount::Mount()
     // QML Stuff
     m_BaseView = new QQuickView();
     QString MountBox_Location;
-    #if defined(Q_OS_OSX)
-        MountBox_Location = QCoreApplication::applicationDirPath()+"/../Resources/data/ekos/mount/qml/mountbox.qml";
-        if(!QFileInfo(MountBox_Location).exists())
-            MountBox_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "ekos/mount/qml/mountbox.qml");
-    #elif defined(Q_OS_WIN)
-           MountBox_Location = KSPaths::locate(QStandardPaths::GenericDataLocation, "ekos/mount/qml/mountbox.qml");
-    #else
+#if defined(Q_OS_OSX)
+    MountBox_Location = QCoreApplication::applicationDirPath() + "/../Resources/data/ekos/mount/qml/mountbox.qml";
+    if (!QFileInfo(MountBox_Location).exists())
         MountBox_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "ekos/mount/qml/mountbox.qml");
-    #endif
+#elif defined(Q_OS_WIN)
+    MountBox_Location = KSPaths::locate(QStandardPaths::GenericDataLocation, "ekos/mount/qml/mountbox.qml");
+#else
+    MountBox_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "ekos/mount/qml/mountbox.qml");
+#endif
 
     m_BaseView->setSource(QUrl::fromLocalFile(MountBox_Location));
     m_BaseView->setTitle(i18n("Mount Control"));
 #ifdef Q_OS_OSX
-    m_BaseView->setFlags(Qt::Tool|Qt::WindowStaysOnTopHint);
+    m_BaseView->setFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #else
-m_BaseView->setFlags(Qt::WindowStaysOnTopHint|Qt::WindowCloseButtonHint);
+    m_BaseView->setFlags(Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
 #endif
 
     // Theming?
@@ -142,28 +140,27 @@ m_BaseView->setFlags(Qt::WindowStaysOnTopHint|Qt::WindowCloseButtonHint);
     m_BaseView->setMinimumSize(QSize(200, 480));
     m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
 
-    m_SpeedSlider = m_BaseObj->findChild<QQuickItem *>("speedSliderObject");
-    m_SpeedLabel = m_BaseObj->findChild<QQuickItem *>("speedLabelObject");
-    m_raValue = m_BaseObj->findChild<QQuickItem *>("raValueObject");
-    m_deValue = m_BaseObj->findChild<QQuickItem *>("deValueObject");
-    m_azValue = m_BaseObj->findChild<QQuickItem *>("azValueObject");
-    m_altValue = m_BaseObj->findChild<QQuickItem *>("altValueObject");
-    m_haValue = m_BaseObj->findChild<QQuickItem *>("haValueObject");
-    m_zaValue = m_BaseObj->findChild<QQuickItem *>("zaValueObject");
-    m_targetText = m_BaseObj->findChild<QQuickItem *>("targetTextObject");
+    m_SpeedSlider  = m_BaseObj->findChild<QQuickItem *>("speedSliderObject");
+    m_SpeedLabel   = m_BaseObj->findChild<QQuickItem *>("speedLabelObject");
+    m_raValue      = m_BaseObj->findChild<QQuickItem *>("raValueObject");
+    m_deValue      = m_BaseObj->findChild<QQuickItem *>("deValueObject");
+    m_azValue      = m_BaseObj->findChild<QQuickItem *>("azValueObject");
+    m_altValue     = m_BaseObj->findChild<QQuickItem *>("altValueObject");
+    m_haValue      = m_BaseObj->findChild<QQuickItem *>("haValueObject");
+    m_zaValue      = m_BaseObj->findChild<QQuickItem *>("zaValueObject");
+    m_targetText   = m_BaseObj->findChild<QQuickItem *>("targetTextObject");
     m_targetRAText = m_BaseObj->findChild<QQuickItem *>("targetRATextObject");
     m_targetDEText = m_BaseObj->findChild<QQuickItem *>("targetDETextObject");
-    m_Park = m_BaseObj->findChild<QQuickItem *>("parkButtonObject");
-    m_Unpark = m_BaseObj->findChild<QQuickItem *>("unparkButtonObject");
-    m_statusText = m_BaseObj->findChild<QQuickItem *>("statusTextObject");
-
+    m_Park         = m_BaseObj->findChild<QQuickItem *>("parkButtonObject");
+    m_Unpark       = m_BaseObj->findChild<QQuickItem *>("unparkButtonObject");
+    m_statusText   = m_BaseObj->findChild<QQuickItem *>("statusTextObject");
 }
 
 Mount::~Mount()
 {
 }
 
-void Mount::setTelescope(ISD::GDInterface * newTelescope)
+void Mount::setTelescope(ISD::GDInterface *newTelescope)
 {
     if (newTelescope == currentTelescope)
     {
@@ -171,10 +168,12 @@ void Mount::setTelescope(ISD::GDInterface * newTelescope)
         return;
     }
 
-    currentTelescope = static_cast<ISD::Telescope *> (newTelescope);
+    currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
 
-    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(updateNumber(INumberVectorProperty *)), Qt::UniqueConnection);
-    connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this, SLOT(updateSwitch(ISwitchVectorProperty *)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
+            SLOT(updateNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this,
+            SLOT(updateSwitch(ISwitchVectorProperty *)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(newTarget(QString)), this, SIGNAL(newTarget(QString)), Qt::UniqueConnection);
 
     //Disable this for now since ALL INDI drivers now log their messages to verbose output
@@ -190,14 +189,14 @@ void Mount::setTelescope(ISD::GDInterface * newTelescope)
 
 void Mount::syncTelescopeInfo()
 {
-    INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+    INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
     if (nvp)
     {
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
         guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
-        INumber * np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
+        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
 
         if (np && np->value > 0)
             primaryScopeApertureIN->setValue(np->value);
@@ -215,22 +214,22 @@ void Mount::syncTelescopeInfo()
             guideScopeFocalIN->setValue(np->value);
     }
 
-    ISwitchVectorProperty * svp = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_SLEW_RATE");
+    ISwitchVectorProperty *svp = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_SLEW_RATE");
 
     if (svp)
     {
         slewSpeedCombo->clear();
         slewSpeedCombo->setEnabled(true);
 
-        for (int i=0; i < svp->nsp; i++)
+        for (int i = 0; i < svp->nsp; i++)
             slewSpeedCombo->addItem(i18nc(libindi_strings_context, svp->sp[i].label));
 
         int index = IUFindOnSwitchIndex(svp);
-        slewSpeedCombo->setCurrentIndex(index);        
+        slewSpeedCombo->setCurrentIndex(index);
 
         // QtQuick
         m_SpeedSlider->setEnabled(true);
-        m_SpeedSlider->setProperty("maximumValue", svp->nsp-1);
+        m_SpeedSlider->setProperty("maximumValue", svp->nsp - 1);
         m_SpeedSlider->setProperty("value", index);
 
         m_SpeedLabel->setProperty("text", slewSpeedCombo->currentText());
@@ -266,7 +265,6 @@ void Mount::syncTelescopeInfo()
         m_Park->setEnabled(false);
         m_Unpark->setEnabled(false);
     }
-
 }
 
 void Mount::updateTelescopeCoords()
@@ -289,32 +287,34 @@ void Mount::updateTelescopeCoords()
         altOUT->setText(telescopeCoord.alt().toDMSString());
         m_altValue->setProperty("text", telescopeCoord.alt().toDMSString());
 
-        dms lst = KStarsData::Instance()->geo()->GSTtoLST( KStarsData::Instance()->clock()->utc().gst() );
-        dms ha( lst.Degrees() - telescopeCoord.ra().Degrees() );
+        dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
+        dms ha(lst.Degrees() - telescopeCoord.ra().Degrees());
         QChar sgn('+');
-        if ( ha.Hours() > 12.0 )
+        if (ha.Hours() > 12.0)
         {
-            ha.setH( 24.0 - ha.Hours() );
+            ha.setH(24.0 - ha.Hours());
             sgn = '-';
         }
-        haOUT->setText( QString("%1%2").arg(sgn).arg( ha.toHMSString() ) );
+        haOUT->setText(QString("%1%2").arg(sgn).arg(ha.toHMSString()));
 
         m_haValue->setProperty("text", haOUT->text());
         lstOUT->setText(lst.toHMSString());
 
         double currentAlt = telescopeCoord.altRefracted().Degrees();
 
-        m_zaValue->setProperty("text", dms(90-currentAlt).toDMSString());
+        m_zaValue->setProperty("text", dms(90 - currentAlt).toDMSString());
 
-        if (minAltLimit->isEnabled()
-                && ( currentAlt < minAltLimit->value() || currentAlt > maxAltLimit->value()))
+        if (minAltLimit->isEnabled() && (currentAlt < minAltLimit->value() || currentAlt > maxAltLimit->value()))
         {
             if (currentAlt < minAltLimit->value())
             {
                 // Only stop if current altitude is less than last altitude indicate worse situation
-                if (currentAlt < lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion()/* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
+                if (currentAlt < lastAlt &&
+                    (abortDispatch == -1 ||
+                     (currentTelescope->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
                 {
-                    appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...", QString::number(minAltLimit->value(), 'g', 3)));
+                    appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...",
+                                       QString::number(minAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
                     //KNotification::event( QLatin1String( "OperationFailed" ));
                     KNotification::beep();
@@ -324,9 +324,12 @@ void Mount::updateTelescopeCoords()
             else
             {
                 // Only stop if current altitude is higher than last altitude indicate worse situation
-                if (currentAlt > lastAlt && (abortDispatch == -1 || (currentTelescope->isInMotion()/* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
+                if (currentAlt > lastAlt &&
+                    (abortDispatch == -1 ||
+                     (currentTelescope->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
                 {
-                    appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...", QString::number(maxAltLimit->value(), 'g', 3)));
+                    appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...",
+                                       QString::number(maxAltLimit->value(), 'g', 3)));
                     currentTelescope->Abort();
                     //KNotification::event( QLatin1String( "OperationFailed" ));
                     KNotification::beep();
@@ -365,7 +368,7 @@ void Mount::updateTelescopeCoords()
         updateTimer.stop();
 }
 
-void Mount::updateNumber(INumberVectorProperty * nvp)
+void Mount::updateNumber(INumberVectorProperty *nvp)
 {
     if (!strcmp(nvp->name, "TELESCOPE_INFO"))
     {
@@ -391,7 +394,6 @@ void Mount::updateNumber(INumberVectorProperty * nvp)
                 appendLogText(newMessage);
                 lastNotificationMessage = newMessage;
             }
-
         }
     }
 }
@@ -401,10 +403,10 @@ bool Mount::setSlewRate(int index)
     if (currentTelescope && slewSpeedCombo->isEnabled())
         return currentTelescope->setSlewRate(index);
 
-     return false;
+    return false;
 }
 
-void Mount::updateSwitch(ISwitchVectorProperty * svp)
+void Mount::updateSwitch(ISwitchVectorProperty *svp)
 {
     if (!strcmp(svp->name, "TELESCOPE_SLEW_RATE"))
     {
@@ -416,7 +418,6 @@ void Mount::updateSwitch(ISwitchVectorProperty * svp)
 
         m_SpeedSlider->setProperty("value", index);
         m_SpeedLabel->setProperty("text", slewSpeedCombo->currentText());
-
     }
     /*else if (!strcmp(svp->name, "TELESCOPE_PARK"))
     {
@@ -431,7 +432,8 @@ void Mount::updateSwitch(ISwitchVectorProperty * svp)
 
 void Mount::appendLogText(const QString &text)
 {
-    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+                            QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     if (Options::verboseLogging())
         qDebug() << "Mount: " << text;
@@ -441,7 +443,7 @@ void Mount::appendLogText(const QString &text)
 
 void Mount::updateLog(int messageID)
 {
-    INDI::BaseDevice * dv = currentTelescope->getBaseDevice();
+    INDI::BaseDevice *dv = currentTelescope->getBaseDevice();
 
     QString message = QString::fromStdString(dv->messageQueue(messageID));
 
@@ -460,18 +462,20 @@ void Mount::motionCommand(int command, int NS, int WE)
 {
     if (NS != -1)
     {
-        currentTelescope->MoveNS(static_cast<ISD::Telescope::TelescopeMotionNS>(NS), static_cast<ISD::Telescope::TelescopeMotionCommand>(command));
+        currentTelescope->MoveNS(static_cast<ISD::Telescope::TelescopeMotionNS>(NS),
+                                 static_cast<ISD::Telescope::TelescopeMotionCommand>(command));
     }
 
     if (WE != -1)
     {
-        currentTelescope->MoveWE(static_cast<ISD::Telescope::TelescopeMotionWE>(WE), static_cast<ISD::Telescope::TelescopeMotionCommand>(command));
+        currentTelescope->MoveWE(static_cast<ISD::Telescope::TelescopeMotionWE>(WE),
+                                 static_cast<ISD::Telescope::TelescopeMotionCommand>(command));
     }
 }
 
 void Mount::move()
 {
-    QObject * obj = sender();
+    QObject *obj = sender();
 
     if (obj == northB)
     {
@@ -513,7 +517,7 @@ void Mount::move()
 
 void Mount::stop()
 {
-    QObject * obj = sender();
+    QObject *obj = sender();
 
     if (obj == stopB)
         currentTelescope->Abort();
@@ -553,19 +557,18 @@ void Mount::stop()
         currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_STOP);
         currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_STOP);
     }
-
 }
 
 void Mount::save()
 {
-    INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+    INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
     if (nvp)
     {
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
         guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
-        INumber * np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
+        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
 
         if (np)
             np->value = primaryScopeApertureIN->value();
@@ -576,13 +579,14 @@ void Mount::save()
 
         np = IUFindNumber(nvp, "GUIDER_APERTURE");
         if (np)
-            np->value = guideScopeApertureIN->value() == 1 ? primaryScopeApertureIN->value() : guideScopeApertureIN->value();
+            np->value =
+                guideScopeApertureIN->value() == 1 ? primaryScopeApertureIN->value() : guideScopeApertureIN->value();
 
         np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
         if (np)
             np->value = guideScopeFocalIN->value() == 1 ? primaryScopeFocalIN->value() : guideScopeFocalIN->value();
 
-        ClientManager * clientManager = currentTelescope->getDriverInfo()->getClientManager();
+        ClientManager *clientManager = currentTelescope->getDriverInfo()->getClientManager();
 
         clientManager->sendNewNumber(nvp);
 
@@ -641,7 +645,6 @@ void Mount::disableAltLimits()
     altLimitEnabled = enableLimitsCheck->isChecked();
 
     enableAltitudeLimits(false);
-
 }
 
 QList<double> Mount::getAltitudeLimits()
@@ -660,7 +663,6 @@ void Mount::setAltitudeLimits(double minAltitude, double maxAltitude, bool enabl
     maxAltLimit->setValue(maxAltitude);
 
     enableLimitsCheck->setChecked(enabled);
-
 }
 
 bool Mount::isLimitsEnabled()
@@ -719,7 +721,7 @@ IPState Mount::getSlewStatus()
 
 QList<double> Mount::getEquatorialCoords()
 {
-    double ra,dec;
+    double ra, dec;
     QList<double> coords;
 
     currentTelescope->getEqCoords(&ra, &dec);
@@ -741,11 +743,11 @@ QList<double> Mount::getHorizontalCoords()
 
 double Mount::getHourAngle()
 {
-    dms lst = KStarsData::Instance()->geo()->GSTtoLST( KStarsData::Instance()->clock()->utc().gst() );
-    dms ha( lst.Degrees() - telescopeCoord.ra().Degrees() );
+    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
+    dms ha(lst.Degrees() - telescopeCoord.ra().Degrees());
     double HA = ha.Hours();
 
-    if ( HA > 12.0 )
+    if (HA > 12.0)
         return (24 - HA);
     else
         return HA;
@@ -763,7 +765,8 @@ QList<double> Mount::getTelescopeInfo()
     return info;
 }
 
-void Mount::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture)
+void Mount::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength,
+                             double guideAperture)
 {
     primaryScopeFocalIN->setValue(primaryFocalLength);
     primaryScopeApertureIN->setValue(primaryAperture);
@@ -800,7 +803,7 @@ Mount::ParkingStatus Mount::getParkingStatus()
     if (currentTelescope == nullptr || currentTelescope->canPark() == false)
         return PARKING_ERROR;
 
-    ISwitchVectorProperty * parkSP = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_PARK");
+    ISwitchVectorProperty *parkSP = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_PARK");
 
     if (parkSP == nullptr)
         return PARKING_ERROR;
@@ -837,20 +840,19 @@ void Mount::showMountToolBox()
 
 void Mount::findTarget()
 {
-    KStarsData * data = KStarsData::Instance();
-    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
-    if ( fd->exec() == QDialog::Accepted )
+    KStarsData *data        = KStarsData::Instance();
+    QPointer<FindDialog> fd = new FindDialog(KStars::Instance());
+    if (fd->exec() == QDialog::Accepted)
     {
-        SkyObject * object = fd->targetObject();
-        if( object != 0 )
+        SkyObject *object = fd->targetObject();
+        if (object != 0)
         {
-            SkyObject * o = object->clone();
-            o->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+            SkyObject *o = object->clone();
+            o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
 
             m_targetText->setProperty("text", o->name());
             m_targetRAText->setProperty("text", o->ra().toHMSString());
             m_targetDEText->setProperty("text", o->dec().toDMSString());
-
         }
     }
     delete fd;
@@ -861,5 +863,4 @@ void Mount::centerMount()
     if (currentTelescope)
         currentTelescope->runCommand(INDI_ENGAGE_TRACKING);
 }
-
 }

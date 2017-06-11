@@ -35,62 +35,53 @@ class ScriptFunction;
 
 class OptionsTreeViewWidget : public QFrame, public Ui::OptionsTreeView
 {
-        Q_OBJECT
-    public:
-        explicit OptionsTreeViewWidget( QWidget * p );
+    Q_OBJECT
+  public:
+    explicit OptionsTreeViewWidget(QWidget *p);
 };
 
 class OptionsTreeView : public QDialog
 {
-        Q_OBJECT
-    public:
-        explicit OptionsTreeView( QWidget * p );
-        ~OptionsTreeView();
-        QTreeWidget * optionsList()
-        {
-            return otvw->OptionsList;
-        }
-        void resizeColumns();
+    Q_OBJECT
+  public:
+    explicit OptionsTreeView(QWidget *p);
+    ~OptionsTreeView();
+    QTreeWidget *optionsList() { return otvw->OptionsList; }
+    void resizeColumns();
 
-    private:
-        OptionsTreeViewWidget * otvw;
+  private:
+    OptionsTreeViewWidget *otvw;
 };
 
 class ScriptNameWidget : public QFrame, public Ui::ScriptNameDialog
 {
-        Q_OBJECT
-    public:
-        explicit ScriptNameWidget( QWidget * p );
+    Q_OBJECT
+  public:
+    explicit ScriptNameWidget(QWidget *p);
 };
 
 class ScriptNameDialog : public QDialog
 {
-        Q_OBJECT
-    public:
-        explicit ScriptNameDialog( QWidget * p );
-        ~ScriptNameDialog();
-        QString scriptName() const
-        {
-            return snw->ScriptName->text();
-        }
-        QString authorName() const
-        {
-            return snw->AuthorName->text();
-        }
+    Q_OBJECT
+  public:
+    explicit ScriptNameDialog(QWidget *p);
+    ~ScriptNameDialog();
+    QString scriptName() const { return snw->ScriptName->text(); }
+    QString authorName() const { return snw->AuthorName->text(); }
 
-    private slots:
-        void slotEnableOkButton();
+  private slots:
+    void slotEnableOkButton();
 
-    private:
-        ScriptNameWidget * snw;
-        QPushButton * okB;
+  private:
+    ScriptNameWidget *snw;
+    QPushButton *okB;
 };
 
 class ScriptBuilderUI : public QFrame, public Ui::ScriptBuilder
 {
-        Q_OBJECT
-    public:
-        explicit ScriptBuilderUI( QWidget * p );
+    Q_OBJECT
+  public:
+    explicit ScriptBuilderUI(QWidget *p);
 };
 
 /** @class ScriptBuilder
@@ -100,63 +91,60 @@ class ScriptBuilderUI : public QFrame, public Ui::ScriptBuilder
 	*/
 class ScriptBuilder : public QDialog
 {
-        Q_OBJECT
-    public:
-        explicit ScriptBuilder( QWidget * parent );
-        ~ScriptBuilder();
+    Q_OBJECT
+  public:
+    explicit ScriptBuilder(QWidget *parent);
+    ~ScriptBuilder();
 
-        bool unsavedChanges() const
-        {
-            return UnsavedChanges;
-        }
-        void setUnsavedChanges( bool b=true );
-        void saveWarning();
-        void readScript( QTextStream &istream );
-        void writeScript( QTextStream &ostream );
-        bool parseFunction( QString fn_name, QStringList &fn );
+    bool unsavedChanges() const { return UnsavedChanges; }
+    void setUnsavedChanges(bool b = true);
+    void saveWarning();
+    void readScript(QTextStream &istream);
+    void writeScript(QTextStream &ostream);
+    bool parseFunction(QString fn_name, QStringList &fn);
 
-    public slots:
-        void slotAddFunction();
-        void slotMoveFunctionUp();
-        void slotMoveFunctionDown();
-        void slotArgWidget();
-        void slotShowDoc();
+  public slots:
+    void slotAddFunction();
+    void slotMoveFunctionUp();
+    void slotMoveFunctionDown();
+    void slotArgWidget();
+    void slotShowDoc();
 
-        void slotNew();
-        void slotOpen();
-        void slotSave();
-        void slotSaveAs();
-        void slotRunScript();
-        void slotClose();
+    void slotNew();
+    void slotOpen();
+    void slotSave();
+    void slotSaveAs();
+    void slotRunScript();
+    void slotClose();
 
-        void slotCopyFunction();
-        void slotRemoveFunction();
+    void slotCopyFunction();
+    void slotRemoveFunction();
 
-        void slotFindCity();
-        void slotFindObject();
-        void slotShowOptions();
-        void slotLookToward();
-        void slotArgFindObject();
-        void slotRa();
-        void slotDec();
-        void slotAz();
-        void slotAlt();
-        void slotChangeDate();
-        void slotChangeTime();
-        void slotWaitFor();
-        void slotWaitForKey();
-        void slotTracking();
-        void slotViewOption();
-        void slotChangeCity();
-        void slotChangeProvince();
-        void slotChangeCountry();
-        void slotTimeScale();
-        void slotZoom();
-        void slotExportImage();
-        void slotPrintImage();
-        void slotChangeColor();
-        void slotChangeColorName();
-        void slotLoadColorScheme();
+    void slotFindCity();
+    void slotFindObject();
+    void slotShowOptions();
+    void slotLookToward();
+    void slotArgFindObject();
+    void slotRa();
+    void slotDec();
+    void slotAz();
+    void slotAlt();
+    void slotChangeDate();
+    void slotChangeTime();
+    void slotWaitFor();
+    void slotWaitForKey();
+    void slotTracking();
+    void slotViewOption();
+    void slotChangeCity();
+    void slotChangeProvince();
+    void slotChangeCountry();
+    void slotTimeScale();
+    void slotZoom();
+    void slotExportImage();
+    void slotPrintImage();
+    void slotChangeColor();
+    void slotChangeColorName();
+    void slotLoadColorScheme();
 
 #if 0
         void slotINDIWaitCheck(bool toggleState);
@@ -185,39 +173,39 @@ class ScriptBuilder : public QDialog
         void slotINDISetFilterNum();
 #endif
 
-    private:
-        void initViewOptions();
-        void warningMismatch (const QString &expected) const;
+  private:
+    void initViewOptions();
+    void warningMismatch(const QString &expected) const;
 
-        ScriptBuilderUI * sb;
+    ScriptBuilderUI *sb;
 
-        KStars * ks; //parent needed for sub-dialogs
-        QList<ScriptFunction *> KStarsFunctionList;
-        QList<ScriptFunction *> SimClockFunctionList;
+    KStars *ks; //parent needed for sub-dialogs
+    QList<ScriptFunction *> KStarsFunctionList;
+    QList<ScriptFunction *> SimClockFunctionList;
 
 #if 0
         QList<ScriptFunction *> INDIFunctionList;
 #endif
 
-        QList<ScriptFunction *> ScriptList;
+    QList<ScriptFunction *> ScriptList;
 
-        QWidget * argBlank;
-        ArgLookToward * argLookToward;
-        ArgFindObject * argFindObject;
-        ArgSetRaDec * argSetRaDec;
-        ArgSetAltAz * argSetAltAz;
-        ArgSetLocalTime * argSetLocalTime;
-        ArgWaitFor * argWaitFor;
-        ArgWaitForKey * argWaitForKey;
-        ArgSetTrack * argSetTracking;
-        ArgChangeViewOption * argChangeViewOption;
-        ArgSetGeoLocation * argSetGeoLocation;
-        ArgTimeScale * argTimeScale;
-        ArgZoom * argZoom;
-        ArgExportImage * argExportImage;
-        ArgPrintImage * argPrintImage;
-        ArgSetColor * argSetColor;
-        ArgLoadColorScheme * argLoadColorScheme;
+    QWidget *argBlank;
+    ArgLookToward *argLookToward;
+    ArgFindObject *argFindObject;
+    ArgSetRaDec *argSetRaDec;
+    ArgSetAltAz *argSetAltAz;
+    ArgSetLocalTime *argSetLocalTime;
+    ArgWaitFor *argWaitFor;
+    ArgWaitForKey *argWaitForKey;
+    ArgSetTrack *argSetTracking;
+    ArgChangeViewOption *argChangeViewOption;
+    ArgSetGeoLocation *argSetGeoLocation;
+    ArgTimeScale *argTimeScale;
+    ArgZoom *argZoom;
+    ArgExportImage *argExportImage;
+    ArgPrintImage *argPrintImage;
+    ArgSetColor *argSetColor;
+    ArgLoadColorScheme *argLoadColorScheme;
 
 #if 0
         ArgStartINDI * argStartINDI;
@@ -241,16 +229,16 @@ class ScriptBuilder : public QDialog
         ArgSetFilterNumINDI * argSetFilterNumINDI;
 #endif
 
-        ScriptNameDialog * snd;
-        OptionsTreeView * otv;
+    ScriptNameDialog *snd;
+    OptionsTreeView *otv;
 
-        QTreeWidgetItem * opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
+    QTreeWidgetItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
 
-        bool UnsavedChanges;
-        bool checkForChanges;
-        QUrl currentFileURL;
-        QString currentDir;
-        QString currentScriptName, currentAuthor;
+    bool UnsavedChanges;
+    bool checkForChanges;
+    QUrl currentFileURL;
+    QString currentDir;
+    QString currentScriptName, currentAuthor;
 };
 
 #endif

@@ -18,44 +18,43 @@
 #include <QImage>
 #include <QLabel>
 
-
 #include <indidevapi.h>
 
 class QRubberBand;
 
 class VideoWG : public QLabel
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        VideoWG(QWidget * parent =0);
-        ~VideoWG();
+  public:
+    VideoWG(QWidget *parent = 0);
+    ~VideoWG();
 
-        bool newFrame(IBLOB * bp);
+    bool newFrame(IBLOB *bp);
 
-        bool save(const QString &filename, const char * format);
+    bool save(const QString &filename, const char *format);
 
-        void setSize(uint16_t w, uint16_t h);
+    void setSize(uint16_t w, uint16_t h);
 
-    protected:
-        virtual void resizeEvent( QResizeEvent * ev );
-        void mousePressEvent(QMouseEvent * event);
-        void mouseMoveEvent(QMouseEvent * event);
-        void mouseReleaseEvent(QMouseEvent *);
+  protected:
+    virtual void resizeEvent(QResizeEvent *ev);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *);
 
-    signals:
-        void newSelection(QRect);
+  signals:
+    void newSelection(QRect);
 
-    private:
-        uint16_t streamW = -1;
-        uint16_t streamH = -1;
-        uint32_t totalBaseCount = 0;
-        QVector<QRgb> grayTable;
-        QImage * streamImage;
-        QPixmap kPix;
+  private:
+    uint16_t streamW        = -1;
+    uint16_t streamH        = -1;
+    uint32_t totalBaseCount = 0;
+    QVector<QRgb> grayTable;
+    QImage *streamImage;
+    QPixmap kPix;
 
-        QRubberBand * rubberBand = nullptr;
-        QPoint origin;
+    QRubberBand *rubberBand = nullptr;
+    QPoint origin;
 };
 
 #endif

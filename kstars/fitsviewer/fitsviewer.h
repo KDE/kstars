@@ -49,7 +49,6 @@ class FITSView;
 class FITSTab;
 class FITSDebayer;
 
-
 /**
  *@class FITSViewer
  *@short Primary window to view monochrome and color FITS images.
@@ -59,99 +58,86 @@ class FITSDebayer;
  */
 class FITSViewer : public KXmlGuiWindow
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
+  public:
+    /**Constructor. */
+    FITSViewer(QWidget *parent);
+    ~FITSViewer();
 
-        /**Constructor. */
-        FITSViewer (QWidget * parent);
-        ~FITSViewer();
+    int addFITS(const QUrl *imageName, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
+                const QString &previewText = QString(), bool silent = true);
 
-        int addFITS(const QUrl * imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE, const QString &previewText = QString(), bool silent=true);
+    bool updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter = FITS_NONE, bool silent = true);
+    bool removeFITS(int fitsUID);
 
-        bool updateFITS(const QUrl * imageName, int fitsUID, FITSScale filter=FITS_NONE, bool silent=true);
-        bool removeFITS(int fitsUID);
+    void toggleMarkStars(bool enable) { markStars = enable; }
+    bool isStarsMarked() { return markStars; }
 
-        void toggleMarkStars(bool enable)
-        {
-            markStars = enable;
-        }
-        bool isStarsMarked()
-        {
-            return markStars;
-        }
+    QList<FITSTab *> getTabs() { return fitsTabs; }
+    FITSView *getView(int fitsUID);
+    FITSView *getCurrentView();
 
-        QList<FITSTab *> getTabs()
-        {
-            return fitsTabs;
-        }
-        FITSView * getView(int fitsUID);
-        FITSView * getCurrentView();
+    static QStringList filterTypes;
 
-        static QStringList filterTypes;
+  protected:
+    void closeEvent(QCloseEvent *);
+    void hideEvent(QHideEvent *);
+    void showEvent(QShowEvent *);
 
+  public slots:
+    void changeAlwaysOnTop(Qt::ApplicationState state);
+    void openFile();
+    void saveFile();
+    void saveFileAs();
+    void copyFITS();
+    void statFITS();
+    void headerFITS();
+    void debayerFITS();
+    //void slotClose();
+    void histoFITS();
+    void stretchFITS();
+    void tabFocusUpdated(int currentIndex);
+    void updateStatusBar(const QString &msg, FITSBar id);
+    void ZoomIn();
+    void ZoomOut();
+    void ZoomDefault();
+    void ZoomToFit();
+    void updateAction(const QString &name, bool enable);
+    void updateTabStatus(bool clean);
+    int saveUnsaved(int index);
+    void closeTab(int index);
+    void toggleStars();
+    void toggleCrossHair();
+    void toggleEQGrid();
+    void toggleObjects();
+    void togglePixelGrid();
+    void centerTelescope();
+    void updateWCSFunctions();
+    void applyFilter(int ftype);
+    void rotateCW();
+    void rotateCCW();
+    void flipHorizontal();
+    void flipVertical();
+    void setDebayerAction(bool);
+    void updateScopeButton();
 
-    protected:
-        void closeEvent(QCloseEvent *);
-        void hideEvent(QHideEvent *);
-        void showEvent(QShowEvent *);
+  private:
+    QTabWidget *fitsTab;
+    QUndoGroup *undoGroup;
+    FITSDebayer *debayerDialog;
+    KLed led;
+    QLabel fitsPosition, fitsValue, fitsResolution, fitsZoom, fitsWCS, fitsMessage;
+    QAction *saveFileAction, *saveFileAsAction;
+    QList<FITSTab *> fitsTabs;
+    int fitsID;
+    bool markStars;
+    QMap<int, FITSTab *> fitsMap;
+    QUrl lastURL;
+    void updateButtonStatus(QString action, QString item, bool showing);
 
-    public slots:
-        void changeAlwaysOnTop(Qt::ApplicationState state);
-        void openFile();
-        void saveFile();
-        void saveFileAs();
-        void copyFITS();
-        void statFITS();
-        void headerFITS();
-        void debayerFITS();
-        //void slotClose();
-        void histoFITS();
-        void stretchFITS();
-        void tabFocusUpdated(int currentIndex);
-        void updateStatusBar(const QString &msg, FITSBar id);
-        void ZoomIn();
-        void ZoomOut();
-        void ZoomDefault();
-        void ZoomToFit();
-        void updateAction(const QString &name, bool enable);
-        void updateTabStatus(bool clean);
-        int saveUnsaved(int index);
-        void closeTab(int index);
-        void toggleStars();
-        void toggleCrossHair();
-        void toggleEQGrid();
-        void toggleObjects();
-        void togglePixelGrid();
-        void centerTelescope();
-        void updateWCSFunctions();
-        void applyFilter(int ftype);
-        void rotateCW();
-        void rotateCCW();
-        void flipHorizontal();
-        void flipVertical();
-        void setDebayerAction(bool);
-        void updateScopeButton();
-
-
-    private:
-
-        QTabWidget * fitsTab;
-        QUndoGroup * undoGroup;
-        FITSDebayer * debayerDialog;
-        KLed led;
-        QLabel fitsPosition, fitsValue, fitsResolution, fitsZoom, fitsWCS, fitsMessage;
-        QAction * saveFileAction, *saveFileAsAction;
-        QList<FITSTab *> fitsTabs;
-        int fitsID;
-        bool markStars;
-        QMap<int, FITSTab *> fitsMap;
-        QUrl lastURL;
-        void updateButtonStatus(QString action, QString item, bool showing);
-
-
-    signals:
-        void trackingStarSelected(int x, int y);
+  signals:
+    void trackingStarSelected(int x, int y);
 };
 
 #endif

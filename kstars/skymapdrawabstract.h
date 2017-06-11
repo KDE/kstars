@@ -39,26 +39,24 @@ class SkyQPainter;
 
 class SkyMapDrawAbstract
 {
-
-    protected:
-        /**
+  protected:
+    /**
          *@short Virtual Destructor
          */
-        virtual ~SkyMapDrawAbstract() { }
+    virtual ~SkyMapDrawAbstract() {}
 
-    public:
-
-        /**
+  public:
+    /**
          *@short Constructor that sets data and m_SkyMap, and initializes
          * the FPS counters.
          */
-        explicit SkyMapDrawAbstract( SkyMap * sm );
+    explicit SkyMapDrawAbstract(SkyMap *sm);
 
-        // *********************** "IMPURE" VIRTUAL METHODS ******************* //
-        // NOTE: The following methods are implemented using native
-        //   QPainter in both cases. So it's virtual, but not pure virtual
+    // *********************** "IMPURE" VIRTUAL METHODS ******************* //
+    // NOTE: The following methods are implemented using native
+    //   QPainter in both cases. So it's virtual, but not pure virtual
 
-        /**Draw the overlays on top of the sky map.  These include the infoboxes,
+    /**Draw the overlays on top of the sky map.  These include the infoboxes,
         	*field-of-view indicator, telescope symbols, zoom box and any other
         	*user-interaction graphics.
         	*
@@ -67,41 +65,40 @@ class SkyMapDrawAbstract
         	*drawOverlays() to refresh the overlays.
         	*@param pm pointer to the Sky pixmap
         	*/
-        void drawOverlays( QPainter &p, bool drawFov = true );
+    void drawOverlays(QPainter &p, bool drawFov = true);
 
-        /**Draw symbols at the position of each Telescope currently being controlled by KStars.
+    /**Draw symbols at the position of each Telescope currently being controlled by KStars.
         	*@note The shape of the Telescope symbol is currently a hard-coded bullseye.
         	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap).
         	*/
-        void drawTelescopeSymbols(QPainter &psky);
+    void drawTelescopeSymbols(QPainter &psky);
 
-        /**Draw FOV of solved image in Ekos Alignment Module
+    /**Draw FOV of solved image in Ekos Alignment Module
             *@param psky reference to the QPainter on which to draw (this should be the Sky pixmap).
             */
-        void drawSolverFOV(QPainter &psky);
+    void drawSolverFOV(QPainter &psky);
 
-        /**
+    /**
         	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
         	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap).
         	*/
-        void drawZoomBox( QPainter &psky );
+    void drawZoomBox(QPainter &psky);
 
-        /**Draw a dashed line from the Angular-Ruler start point to the current mouse cursor,
+    /**Draw a dashed line from the Angular-Ruler start point to the current mouse cursor,
         	*when in Angular-Ruler mode.
         	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap).
         	*/
-        void drawAngleRuler( QPainter &psky );
+    void drawAngleRuler(QPainter &psky);
 
-
-        /** @short Draw the current Sky map to a pixmap which is to be printed or exported to a file.
+    /** @short Draw the current Sky map to a pixmap which is to be printed or exported to a file.
         	*
         	*@param pd pointer to the QPaintDevice on which to draw.
         	*@see KStars::slotExportImage()
         	*@see KStars::slotPrint()
         	*/
-        void exportSkyImage( QPaintDevice * pd, bool scale = false );
+    void exportSkyImage(QPaintDevice *pd, bool scale = false);
 
-        /** @short Draw the current Sky map using passed SkyQPainter instance. Required when
+    /** @short Draw the current Sky map using passed SkyQPainter instance. Required when
           * used QPaintDevice doesn't support drawing using multiple painters (e.g. QSvgGenerator
           * which generates broken SVG output when more than one QPainter subclass is used).
           * Passed painter should already be initialized to draw on selected QPaintDevice subclass
@@ -109,43 +106,40 @@ class SkyMapDrawAbstract
           *@param painter pointer to the SkyQPainter already set up to paint on selected QPaintDevice subclass.
           *@param scale should sky image be scaled to fit used QPaintDevice?
           */
-        void exportSkyImage( SkyQPainter * painter, bool scale = false );
+    void exportSkyImage(SkyQPainter *painter, bool scale = false);
 
-        /** @short Draw "user labels".  User labels are name labels attached to objects manually with
+    /** @short Draw "user labels".  User labels are name labels attached to objects manually with
          * the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
          * is true.
          * @param labelObjects QList of pointers to the objects which need labels (excluding the centered object)
          * @param psky painter for the sky
          * @note the labelObjects list is managed by the SkyMapComponents class
          */
-        void drawObjectLabels( QList< SkyObject * > &labelObjects );
+    void drawObjectLabels(QList<SkyObject *> &labelObjects);
 
-        /**
+    /**
          *@return true if a draw is in progress or is locked, false otherwise. This is just the value of m_DrawLock
          */
-        static inline bool drawLock()
-        {
-            return m_DrawLock;
-        }
+    static inline bool drawLock() { return m_DrawLock; }
 
-        /**
+    /**
          *@short Acquire / release a draw lock. This prevents other drawing from happening
          */
-        static void setDrawLock( bool state );
+    static void setDrawLock(bool state);
 
-        // *********************** PURE VIRTUAL METHODS ******************* //
-        // NOTE: The following methods differ between GL and QPainter backends
-        //       Thus, they are pure virtual and must be implemented by the sublcass
+    // *********************** PURE VIRTUAL METHODS ******************* //
+    // NOTE: The following methods differ between GL and QPainter backends
+    //       Thus, they are pure virtual and must be implemented by the sublcass
 
-    protected:
-        /**
+  protected:
+    /**
          *@short Overridden paintEvent method. Must be implemented by
          *       subclasses to draw the SkyMap. (This method is pure
          *       virtual)
          */
-        virtual void paintEvent( QPaintEvent * e ) = 0;
+    virtual void paintEvent(QPaintEvent *e) = 0;
 
-        /*
+    /*
          *NOTE:
          *  Depending on whether the implementation of this class is a
          *  GL-backend, it may need to implement these methods:
@@ -155,15 +149,15 @@ class SkyMapDrawAbstract
          *  They must be taken care of in the subclasses
          */
 
-        KStarsData * m_KStarsData;
-        SkyMap * m_SkyMap;
-        static bool m_DrawLock;
+    KStarsData *m_KStarsData;
+    SkyMap *m_SkyMap;
+    static bool m_DrawLock;
 
-        /** Calculate FPS and dump result to stderr using qDebug */
-        //void calculateFPS();
-    private:
-        // int m_framecount;     // To count FPS
-        //QTime m_fpstime;
+    /** Calculate FPS and dump result to stderr using qDebug */
+    //void calculateFPS();
+  private:
+    // int m_framecount;     // To count FPS
+    //QTime m_fpstime;
 };
 
 #endif

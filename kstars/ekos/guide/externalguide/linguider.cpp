@@ -20,10 +20,8 @@
 #include "linguider.h"
 #include "Options.h"
 
-
 namespace Ekos
 {
-
 LinGuider::LinGuider()
 {
     tcpSocket = new QTcpSocket(this);
@@ -31,23 +29,20 @@ LinGuider::LinGuider()
     rawBuffer.clear();
 
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readLinGuider()));
-    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this,
+            SLOT(displayError(QAbstractSocket::SocketError)));
 
     connect(tcpSocket, SIGNAL(connected()), this, SLOT(onConnected()));
 
-    state = IDLE;
+    state      = IDLE;
     connection = DISCONNECTED;
 
     deviationTimer.setInterval(1000);
-    connect(&deviationTimer, &QTimer::timeout, this, [&]()
-    {
-        sendCommand(GET_RA_DEC_DRIFT);
-    });
+    connect(&deviationTimer, &QTimer::timeout, this, [&]() { sendCommand(GET_RA_DEC_DRIFT); });
 }
 
 LinGuider::~LinGuider()
 {
-
 }
 
 bool LinGuider::Connect()
@@ -56,7 +51,7 @@ bool LinGuider::Connect()
     {
         rawBuffer.clear();
         connection = CONNECTING;
-        tcpSocket->connectToHost(Options::linGuiderHost(),  Options::linGuiderPort());
+        tcpSocket->connectToHost(Options::linGuiderHost(), Options::linGuiderPort());
     }
     // Already connected, let's connect equipment
     else
@@ -87,7 +82,8 @@ void LinGuider::displayError(QAbstractSocket::SocketError socketError)
             emit newStatus(GUIDE_DISCONNECTED);
             break;
         case QAbstractSocket::ConnectionRefusedError:
-            emit newLog(i18n("The connection was refused by the peer. Make sure the LinGuider is running, and check that the host name and port settings are correct."));
+            emit newLog(i18n("The connection was refused by the peer. Make sure the LinGuider is running, and check "
+                             "that the host name and port settings are correct."));
             emit newStatus(GUIDE_DISCONNECTED);
             break;
         default:
@@ -95,16 +91,15 @@ void LinGuider::displayError(QAbstractSocket::SocketError socketError)
     }
 
     connection = DISCONNECTED;
-
 }
 
 void LinGuider::readLinGuider()
 {
-    while (tcpSocket->atEnd() == false )
+    while (tcpSocket->atEnd() == false)
     {
         rawBuffer += tcpSocket->readAll();
 
-        while(1)
+        while (1)
         {
             if (rawBuffer.count() < 8)
                 break;
@@ -120,7 +115,7 @@ void LinGuider::readLinGuider()
                 continue;
             }
 
-            qint16 command = *(reinterpret_cast<qint16 *>(rawBuffer.data()+2));
+            qint16 command = *(reinterpret_cast<qint16 *>(rawBuffer.data() + 2));
             if (command < GET_VER || command > GET_RA_DEC_DRIFT)
             {
                 emit newLog(i18n("Invalid response."));
@@ -128,13 +123,13 @@ void LinGuider::readLinGuider()
                 continue;
             }
 
-            qint16 datalen = *(reinterpret_cast<qint16 *>(rawBuffer.data()+4));
+            qint16 datalen = *(reinterpret_cast<qint16 *>(rawBuffer.data() + 4));
             if (rawBuffer.count() < datalen + 8)
                 break;
 
             QString reply = rawBuffer.mid(8, datalen);
             processResponse(static_cast<LinGuiderCommand>(command), reply);
-            rawBuffer = rawBuffer.mid(8+datalen);
+            rawBuffer = rawBuffer.mid(8 + datalen);
         }
     }
 }
@@ -155,7 +150,8 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
             emit newLog(i18n("Connected to LinGuider %1", reply));
             if (reply < "v.4.1.0")
             {
-                emit newLog(i18n("Only LinGuider v4.1.0 or higher is supported. Please upgrade LinGuider and try again."));
+                emit newLog(
+                    i18n("Only LinGuider v4.1.0 or higher is supported. Please upgrade LinGuider and try again."));
                 Disconnect();
             }
 
@@ -255,7 +251,7 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
             QStringList pos = reply.split(' ');
             if (pos.count() == 2)
             {
-                bool raOK=false, deOK=false;
+                bool raOK = false, deOK = false;
 
                 double raDev = pos[0].toDouble(&raOK);
                 double deDev = pos[1].toDouble(&deOK);
@@ -326,11 +322,11 @@ void LinGuider::sendCommand(LinGuiderCommand command, const QString &args)
 
     // Len
     qint32 len = args.size();
-    memcpy(cmd.data()+4, &len, 4);
+    memcpy(cmd.data() + 4, &len, 4);
 
     // Params
     if (args.isEmpty() == false)
-        memcpy(cmd.data()+8, args.toLatin1().data(), args.size());
+        memcpy(cmd.data() + 8, args.toLatin1().data(), args.size());
 
     tcpSocket->write(cmd);
 }
@@ -370,11 +366,10 @@ bool LinGuider::resume()
 bool LinGuider::dither(double pixels)
 {
     QString pixelsString = QString::number(pixels, 'f', 2);
-    QString args = QString("%1 %2").arg(pixelsString).arg(pixelsString);
+    QString args         = QString("%1 %2").arg(pixelsString).arg(pixelsString);
 
     sendCommand(SET_DITHERING_RANGE, args);
 
     return true;
 }
-
 }

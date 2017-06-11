@@ -20,24 +20,24 @@
 #include "skyobjects/skypoint.h"
 #include "kstarsdata.h"
 
-PointListComponent::PointListComponent( SkyComposite * parent ) :
-    SkyComponent( parent )
-{}
+PointListComponent::PointListComponent(SkyComposite *parent) : SkyComponent(parent)
+{
+}
 
 PointListComponent::~PointListComponent()
 {
-    qDeleteAll( pointList() );
+    qDeleteAll(pointList());
 }
 
-void PointListComponent::update( KSNumbers * num )
+void PointListComponent::update(KSNumbers *num)
 {
-    if ( ! selected() )
+    if (!selected())
         return;
-    KStarsData * data = KStarsData::Instance();
-    foreach( SkyPoint * p, pointList() )
+    KStarsData *data = KStarsData::Instance();
+    foreach (SkyPoint *p, pointList())
     {
-        if( num )
-            p->updateCoords( num );
-        p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        if (num)
+            p->updateCoords(num);
+        p->EquatorialToHorizontal(data->lst(), data->geo()->lat());
     }
 }

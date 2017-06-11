@@ -17,83 +17,82 @@
 
 #include "scriptargwidgets.h"
 
-ArgLookToward::ArgLookToward ( QWidget * p ) : QFrame( p )
+ArgLookToward::ArgLookToward(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgFindObject::ArgFindObject ( QWidget * p ) : QFrame( p )
+ArgFindObject::ArgFindObject(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgSetRaDec::ArgSetRaDec ( QWidget * p ) : QFrame( p )
+ArgSetRaDec::ArgSetRaDec(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgSetAltAz::ArgSetAltAz ( QWidget * p ) : QFrame( p )
+ArgSetAltAz::ArgSetAltAz(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgSetLocalTime::ArgSetLocalTime ( QWidget * p ) : QFrame( p )
+ArgSetLocalTime::ArgSetLocalTime(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgWaitFor::ArgWaitFor ( QWidget * p ) : QFrame( p )
+ArgWaitFor::ArgWaitFor(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgWaitForKey::ArgWaitForKey ( QWidget * p ) : QFrame( p )
+ArgWaitForKey::ArgWaitForKey(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgSetTrack::ArgSetTrack ( QWidget * p ) : QFrame( p )
+ArgSetTrack::ArgSetTrack(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgChangeViewOption::ArgChangeViewOption ( QWidget * p ) : QFrame( p )
+ArgChangeViewOption::ArgChangeViewOption(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgSetGeoLocation::ArgSetGeoLocation ( QWidget * p ) : QFrame( p )
+ArgSetGeoLocation::ArgSetGeoLocation(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgTimeScale::ArgTimeScale ( QWidget * p ) : QFrame( p )
+ArgTimeScale::ArgTimeScale(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgZoom::ArgZoom ( QWidget * p ) : QFrame( p )
+ArgZoom::ArgZoom(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgExportImage::ArgExportImage ( QWidget * p ) : QFrame( p )
+ArgExportImage::ArgExportImage(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgPrintImage::ArgPrintImage ( QWidget * p ) : QFrame( p )
+ArgPrintImage::ArgPrintImage(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgSetColor::ArgSetColor ( QWidget * p ) : QFrame( p )
+ArgSetColor::ArgSetColor(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
 
-ArgLoadColorScheme::ArgLoadColorScheme ( QWidget * p ) : QFrame( p )
+ArgLoadColorScheme::ArgLoadColorScheme(QWidget *p) : QFrame(p)
 {
-    setupUi( this );
+    setupUi(this);
 }
-

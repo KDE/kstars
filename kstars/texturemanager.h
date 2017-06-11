@@ -32,44 +32,43 @@ class QImage;
  */
 class TextureManager : public QObject
 {
-        Q_OBJECT
-    public:
-        /** @short Create the instance of TextureManager */
-        static TextureManager * Create();
+    Q_OBJECT
+  public:
+    /** @short Create the instance of TextureManager */
+    static TextureManager *Create();
 
-        /** Return texture image. If image is not found in cache tries to
+    /** Return texture image. If image is not found in cache tries to
          *  load it from disk if that fails too returns reference to empty
          *  image. */
-        static const QImage &getImage(const QString &name);
+    static const QImage &getImage(const QString &name);
 
 #ifdef HAVE_OPENGL
-        /** Bind OpenGL texture. Acts similarly to getImage but does
+    /** Bind OpenGL texture. Acts similarly to getImage but does
          *  nothing if image is not found in the end */
-        static void bindTexture(const QString &name, QGLWidget * cxt);
+    static void bindTexture(const QString &name, QGLWidget *cxt);
 
-        /** Bind OpenGL texture using QImage as source */
-        static void bindFromImage(const QImage &image, QGLWidget * cxt);
+    /** Bind OpenGL texture using QImage as source */
+    static void bindFromImage(const QImage &image, QGLWidget *cxt);
 #endif
 
-    private:
-        /** Shorthand for iterator to hashtable */
-        typedef QHash<QString,QImage>::const_iterator CacheIter;
+  private:
+    /** Shorthand for iterator to hashtable */
+    typedef QHash<QString, QImage>::const_iterator CacheIter;
 
-        /** Private constructor */
-        explicit TextureManager(QObject * parent = 0);
-        /** Try find image in the cache and then to load it from disk if
+    /** Private constructor */
+    explicit TextureManager(QObject *parent = 0);
+    /** Try find image in the cache and then to load it from disk if
          *  it's not found */
-        static CacheIter findTexture(const QString &name);
+    static CacheIter findTexture(const QString &name);
 
+    // Pointer to singleton instance
+    static TextureManager *m_p;
+    // List of named textures
+    QHash<QString, QImage> m_textures;
 
-        // Pointer to singleton instance
-        static TextureManager * m_p;
-        // List of named textures
-        QHash<QString,QImage> m_textures;
-
-        // Prohibit copying
-        TextureManager(const TextureManager &);
-        TextureManager &operator = (const TextureManager &);
+    // Prohibit copying
+    TextureManager(const TextureManager &);
+    TextureManager &operator=(const TextureManager &);
 };
 
 #endif // TEXTUREMANAGER_H

@@ -26,12 +26,11 @@
 
 class KStars;
 
-
 class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
 {
-    public:
-        explicit SatelliteSortFilterProxyModel( QObject * parent );
-        bool filterAcceptsRow( int sourceRow, const QModelIndex &sourceParent ) const Q_DECL_OVERRIDE;
+  public:
+    explicit SatelliteSortFilterProxyModel(QObject *parent);
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
 };
 
 /** @class OpsSatellites
@@ -42,42 +41,42 @@ class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
  */
 class OpsSatellites : public QFrame, public Ui::OpsSatellites
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        /**
+  public:
+    /**
          * Constructor
          */
-        explicit OpsSatellites();
+    explicit OpsSatellites();
 
-        /**
+    /**
          * Destructor
          */
-        ~OpsSatellites();
+    ~OpsSatellites();
 
-    private:
-        /**
+  private:
+    /**
          * Refresh satellites list
          */
-        void updateListView();
+    void updateListView();
 
-        /**
+    /**
          * @brief saveSatellitesList Saves list of checked satellites in the configuration file
          */
-        void saveSatellitesList();
+    void saveSatellitesList();
 
-        KConfigDialog * m_ConfigDialog;
-        QStandardItemModel * m_Model;
-        QSortFilterProxyModel * m_SortModel;
-        bool isDirty=false;
+    KConfigDialog *m_ConfigDialog;
+    QStandardItemModel *m_Model;
+    QSortFilterProxyModel *m_SortModel;
+    bool isDirty = false;
 
-    private slots:
-        void slotUpdateTLEs();
-        void slotShowSatellites( bool on );
-        void slotApply();
-        void slotCancel();
-        void slotFilterReg( const QString & );
-        void slotItemChanged( QStandardItem * );
+  private slots:
+    void slotUpdateTLEs();
+    void slotShowSatellites(bool on);
+    void slotApply();
+    void slotCancel();
+    void slotFilterReg(const QString &);
+    void slotItemChanged(QStandardItem *);
 };
 
-#endif  //OPSSATELLITES_H_
+#endif //OPSSATELLITES_H_

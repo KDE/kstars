@@ -14,7 +14,6 @@
 
 namespace ISD
 {
-
 /**
  * @class Weather
  * Focuser class handles control of INDI Weather devices. It reports overall state and the value of each parameter
@@ -24,30 +23,22 @@ namespace ISD
 
 class Weather : public DeviceDecorator
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        Weather(GDInterface * iPtr) : DeviceDecorator(iPtr)
-        {
-            dType = KSTARS_WEATHER;
-        }
+  public:
+    Weather(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_WEATHER; }
 
-        void processSwitch(ISwitchVectorProperty * svp);
-        void processText(ITextVectorProperty * tvp);
-        void processNumber(INumberVectorProperty * nvp);
-        void processLight(ILightVectorProperty * lvp);
+    void processSwitch(ISwitchVectorProperty *svp);
+    void processText(ITextVectorProperty *tvp);
+    void processNumber(INumberVectorProperty *nvp);
+    void processLight(ILightVectorProperty *lvp);
 
-        DeviceFamily getType()
-        {
-            return dType;
-        }
+    DeviceFamily getType() { return dType; }
 
-        IPState getWeatherStatus();
+    IPState getWeatherStatus();
 
-        uint16_t getUpdatePeriod();
-
+    uint16_t getUpdatePeriod();
 };
-
 }
 
 #endif // INDIWEATHER

@@ -1,4 +1,4 @@
-#if !defined (_SpatialGeneral_h)
+#if !defined(_SpatialGeneral_h)
 #define _SpatialGeneral_h
 //#		Filename:	SpatialGeneral.h
 //#
@@ -48,43 +48,43 @@
 #include <cstdlib>
 
 #if !defined(OO_MACHINE_H) && !defined(OO_CONFIG_H) && !defined(SXGENERAL_H)
-typedef char				int8;
-typedef unsigned char		uint8;
-typedef short int			int16;
-typedef unsigned short int	uint16;
-typedef int					int32;
-typedef unsigned int		uint32;
-typedef float				float32;
-typedef double				float64;
+typedef char int8;
+typedef unsigned char uint8;
+typedef short int int16;
+typedef unsigned short int uint16;
+typedef int int32;
+typedef unsigned int uint32;
+typedef float float32;
+typedef double float64;
 #ifdef _WIN32
 #ifdef _MSC_VER
-typedef __int64				int64;
-typedef unsigned __int64	uint64;
+typedef __int64 int64;
+typedef unsigned __int64 uint64;
 #else
-typedef long long			int64;
-typedef unsigned long long	uint64;
+typedef long long int64;
+typedef unsigned long long uint64;
 #endif
 #else
-typedef long long			int64;
-typedef unsigned long long	uint64;
+typedef long long int64;
+typedef unsigned long long uint64;
 #endif
 #endif
 
 #if defined(__sun) || defined(__sgi)
-#   define SPATIALBIGENDIAN
+#define SPATIALBIGENDIAN
 #endif
 
-#define IDSIZE             64
-#define HTMNAMEMAX         32
-#define HTMMAXDEPTH        25
-#define MAX_SQL_DEPTH      20
-#define HTMMAXKEEP		   12
-#define HTMMAXBIT		   14
+#define IDSIZE        64
+#define HTMNAMEMAX    32
+#define HTMMAXDEPTH   25
+#define MAX_SQL_DEPTH 20
+#define HTMMAXKEEP    12
+#define HTMMAXBIT     14
 
 // Global Math Constants
 
-const float64 gPi = 3.1415926535897932385E0 ;
-const float64 gPr = gPi/180.0;
+const float64 gPi      = 3.1415926535897932385E0;
+const float64 gPr      = gPi / 180.0;
 const float64 gEpsilon = 1.0E-15;
 // CVSversion = "$Name:  $";
 
@@ -101,30 +101,30 @@ const float64 gEpsilon = 1.0E-15;
 // standard explicit template instantiation, define.
 //
 
-#if defined (__APPLE__)
-#   define LINKAGE
+#if defined(__APPLE__)
+#define LINKAGE
 #endif
 
 #if defined(__unix__) || defined(__unix)
-#   define LINKAGE
+#define LINKAGE
 #elif defined(_WIN32)
-#   define SpatialWinNT 1
+#define SpatialWinNT 1
 // This warning is about template instances being exported in the dll...
-#   pragma warning(disable: 4251)
+#pragma warning(disable : 4251)
 
 // Define LINKAGE for NT VC++6 complier
 
-#   ifdef _EXPORTING
-#	define LINKAGE	__declspec(dllexport)
-#   else
-#	define	LINKAGE	__declspec(dllimport)
-#   endif
+#ifdef _EXPORTING
+#define LINKAGE __declspec(dllexport)
+#else
+#define LINKAGE __declspec(dllimport)
+#endif
 
-#endif  /* _WIN32 */
+#endif /* _WIN32 */
 
 #ifndef SpatialWinNT
-#   define IDHIGHBIT  0x8000000000000000LL
-#   define IDHIGHBIT2 0x4000000000000000LL
+#define IDHIGHBIT  0x8000000000000000LL
+#define IDHIGHBIT2 0x4000000000000000LL
 #endif
 
 #endif /* SPATIALGENERAL_H */

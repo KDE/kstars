@@ -30,13 +30,13 @@
  */
 class LambertProjector : public Projector
 {
-    public:
-        explicit LambertProjector(const ViewParams &p);
-        virtual ~LambertProjector() {}
-        Projection type() const Q_DECL_OVERRIDE;
-        double radius() const Q_DECL_OVERRIDE;
-        double projectionK(double x) const Q_DECL_OVERRIDE;
-        double projectionL(double x) const Q_DECL_OVERRIDE;
+  public:
+    explicit LambertProjector(const ViewParams &p);
+    virtual ~LambertProjector() {}
+    Projection type() const Q_DECL_OVERRIDE;
+    double radius() const Q_DECL_OVERRIDE;
+    double projectionK(double x) const Q_DECL_OVERRIDE;
+    double projectionL(double x) const Q_DECL_OVERRIDE;
 };
 
 #endif // LAMBERTPROJECTOR_H

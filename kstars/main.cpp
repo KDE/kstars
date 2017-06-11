@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #include <QDebug>
 #include <QPixmap>
 
@@ -49,13 +48,10 @@
 #include "version.h"
 #include "Options.h"
 
+static const char description[] = I18N_NOOP("Desktop Planetarium");
+static const char notice[] = I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
 
-static const char description[] =
-    I18N_NOOP("Desktop Planetarium");
-static const char notice[] =
-    I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
-
-int main(int argc, char * argv[])
+int main(int argc, char *argv[])
 {
 #ifdef KSTARS_LITE
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -64,9 +60,10 @@ int main(int argc, char * argv[])
 
 #ifdef Q_OS_OSX
     //Note, this function will return true on OS X if the data directories are good to go.  If not, quit with error code 1!
-    if(!KSUtils::copyDataFolderFromAppBundleIfNeeded())
+    if (!KSUtils::copyDataFolderFromAppBundleIfNeeded())
     {
-        KMessageBox::sorry(0, i18n("Sorry, without a KStars Data Directory, KStars cannot operate. Exiting program now."));
+        KMessageBox::sorry(0,
+                           i18n("Sorry, without a KStars Data Directory, KStars cannot operate. Exiting program now."));
         return 1;
     }
 #endif
@@ -80,21 +77,26 @@ int main(int argc, char * argv[])
 #ifndef KSTARS_LITE
     KCrash::initialize();
 
-    KAboutData aboutData( "kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
-                          "2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team"), i18nc("Build number followed by copyright notice", "Build: %1\n\n%2", KSTARS_BUILD_TS, notice), "http://edu.kde.org/kstars");
-    aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org", "http://www.30doradus.org");
-    aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"), "mutlaqja@ikarustech.com", "http://www.indilib.org");
+    KAboutData aboutData("kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
+                         "2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team"),
+                         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2", KSTARS_BUILD_TS, notice),
+                         "http://edu.kde.org/kstars");
+    aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org",
+                        "http://www.30doradus.org");
+    aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"), "mutlaqja@ikarustech.com",
+                        "http://www.indilib.org");
 
     // Active developers
     aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org", "http://www.ph.utexas.edu/~asimha");
     aboutData.addAuthor(i18n("Artem Fedoskin"), i18n("KStars Lite"), "afedoskin3@gmail.com");
-    aboutData.addAuthor(i18n("Robert Lancaster"), i18n("FITSViewer Improvements. KStars OSX Port"), "rlancaste@gmail.com");
+    aboutData.addAuthor(i18n("Robert Lancaster"), i18n("FITSViewer Improvements. KStars OSX Port"),
+                        "rlancaste@gmail.com");
 
     // Inactive developers
     aboutData.addAuthor(i18n("James Bowlin"), QString(), "bowlin@mindspring.com");
     aboutData.addAuthor(i18n("Pablo de Vicente"), QString(), "pvicentea@wanadoo.es");
     aboutData.addAuthor(i18n("Thomas Kabelmann"), QString(), "tk78@gmx.de");
-    aboutData.addAuthor(i18n("Heiko Evermann"),QString(), "heiko@evermann.de", "http://www.evermann.de");
+    aboutData.addAuthor(i18n("Heiko Evermann"), QString(), "heiko@evermann.de", "http://www.evermann.de");
     aboutData.addAuthor(i18n("Carsten Niehaus"), QString(), "cniehaus@gmx.de");
     aboutData.addAuthor(i18n("Mark Hollomon"), QString(), "mhh@mindspring.com");
     aboutData.addAuthor(i18n("Alexey Khudyakov"), QString(), "alexey.skladnoy@gmail.com");
@@ -108,15 +110,17 @@ int main(int argc, char * argv[])
     aboutData.addAuthor(i18n("Rishab Arora"), QString(), "ra.rishab@gmail.com");
 
     // Contributors
-    aboutData.addCredit(i18n("Valery Kharitonov"), i18n("Converted labels containing technical terms to links to documentation") );
-    aboutData.addCredit(i18n("Ana-Maria Constantin"), i18n("Technical documentation on Astronomy and KStars") );
-    aboutData.addCredit(i18n("Andrew Stepanenko"), i18n("Guiding code based on lin_guider") );
-    aboutData.addCredit(i18n("Nuno Pinheiro"), i18n("Artwork") );
-    aboutData.addCredit(i18n("Utkarsh Simha"), i18n("Improvements to observation plan execution, star hopper etc.") );
-    aboutData.addCredit(i18n("Daniel Holler"), i18n("Extensive testing and suggestions for Ekos/INDI.") );
-    aboutData.addCredit(i18n("Stephane Lucas"), i18n("Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port") );
-    aboutData.addCredit(i18n("Yuri Fabirovsky"), i18n("Splash screen for both regular KStars and KStars Lite.") );
-    aboutData.addCredit(i18n("Jamie Smith"), i18n("KStars OSX Port.") );
+    aboutData.addCredit(i18n("Valery Kharitonov"),
+                        i18n("Converted labels containing technical terms to links to documentation"));
+    aboutData.addCredit(i18n("Ana-Maria Constantin"), i18n("Technical documentation on Astronomy and KStars"));
+    aboutData.addCredit(i18n("Andrew Stepanenko"), i18n("Guiding code based on lin_guider"));
+    aboutData.addCredit(i18n("Nuno Pinheiro"), i18n("Artwork"));
+    aboutData.addCredit(i18n("Utkarsh Simha"), i18n("Improvements to observation plan execution, star hopper etc."));
+    aboutData.addCredit(i18n("Daniel Holler"), i18n("Extensive testing and suggestions for Ekos/INDI."));
+    aboutData.addCredit(i18n("Stephane Lucas"),
+                        i18n("Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"));
+    aboutData.addCredit(i18n("Yuri Fabirovsky"), i18n("Splash screen for both regular KStars and KStars Lite."));
+    aboutData.addCredit(i18n("Jamie Smith"), i18n("KStars OSX Port."));
 
     KAboutData::setApplicationData(aboutData);
 
@@ -127,13 +131,13 @@ int main(int argc, char * argv[])
     parser.addHelpOption();
 
     //parser.addHelpOption(INSERT_DESCRIPTION_HERE);
-    parser.addOption(QCommandLineOption(QStringList() << "dump", i18n( "Dump sky image to file" )));
-    parser.addOption(QCommandLineOption(QStringList() << "script ", i18n( "Script to execute" )));
-    parser.addOption(QCommandLineOption(QStringList() << "width ", i18n( "Width of sky image" ),  "640"));
-    parser.addOption(QCommandLineOption(QStringList() << "height ", i18n( "Height of sky image" ), "480"));
-    parser.addOption(QCommandLineOption(QStringList() << "filename ", i18n( "Filename for sky image" ), "kstars.png"));
-    parser.addOption(QCommandLineOption(QStringList() << "date", i18n( "Date and time" )));
-    parser.addOption(QCommandLineOption(QStringList() << "paused", i18n( "Start with clock paused" )));
+    parser.addOption(QCommandLineOption(QStringList() << "dump", i18n("Dump sky image to file")));
+    parser.addOption(QCommandLineOption(QStringList() << "script ", i18n("Script to execute")));
+    parser.addOption(QCommandLineOption(QStringList() << "width ", i18n("Width of sky image"), "640"));
+    parser.addOption(QCommandLineOption(QStringList() << "height ", i18n("Height of sky image"), "480"));
+    parser.addOption(QCommandLineOption(QStringList() << "filename ", i18n("Filename for sky image"), "kstars.png"));
+    parser.addOption(QCommandLineOption(QStringList() << "date", i18n("Date and time")));
+    parser.addOption(QCommandLineOption(QStringList() << "paused", i18n("Start with clock paused")));
 
     // urls to open
     parser.addPositionalArgument(QStringLiteral("urls"), i18n("FITS file(s) to open."), QStringLiteral("[urls...]"));
@@ -141,53 +145,53 @@ int main(int argc, char * argv[])
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
-    if ( parser.isSet( "dump" ) )
+    if (parser.isSet("dump"))
     {
         qDebug() << "Dumping sky image";
 
         //parse filename and image format
-        const char * format = "PNG";
-        QString fname = parser.value( "filename" );
-        QString ext = fname.mid( fname.lastIndexOf(".")+1 );
-        if ( ext.toLower() == "png" )
+        const char *format = "PNG";
+        QString fname      = parser.value("filename");
+        QString ext        = fname.mid(fname.lastIndexOf(".") + 1);
+        if (ext.toLower() == "png")
         {
             format = "PNG";
         }
-        else if ( ext.toLower() == "jpg" || ext.toLower() == "jpeg" )
+        else if (ext.toLower() == "jpg" || ext.toLower() == "jpeg")
         {
             format = "JPG";
         }
-        else if ( ext.toLower() == "gif" )
+        else if (ext.toLower() == "gif")
         {
             format = "GIF";
         }
-        else if ( ext.toLower() == "pnm" )
+        else if (ext.toLower() == "pnm")
         {
             format = "PNM";
         }
-        else if ( ext.toLower() == "bmp" )
+        else if (ext.toLower() == "bmp")
         {
             format = "BMP";
         }
         else
         {
-            qWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) ;
+            qWarning() << i18n("Could not parse image format of %1; assuming PNG.", fname);
         }
 
         //parse width and height
         bool ok(false);
         int w(0), h(0);
-        w = parser.value( "width" ).toInt( &ok );
-        if ( ok ) h =  parser.value( "height" ).toInt( &ok );
-        if ( !ok )
+        w = parser.value("width").toInt(&ok);
+        if (ok)
+            h = parser.value("height").toInt(&ok);
+        if (!ok)
         {
-            qWarning() << "Unable to parse arguments: " ;
-            qWarning() << "Width: " << parser.value( "width" )
-                       << "  Height: " << parser.value( "height" ) << endl;
+            qWarning() << "Unable to parse arguments: ";
+            qWarning() << "Width: " << parser.value("width") << "  Height: " << parser.value("height") << endl;
             return 1;
         }
-        KStarsData * dat = KStarsData::Create();
-        QObject::connect( dat, SIGNAL( progressText(QString) ), dat, SLOT( slotConsoleMessage(QString) ) );
+        KStarsData *dat = KStarsData::Create();
+        QObject::connect(dat, SIGNAL(progressText(QString)), dat, SLOT(slotConsoleMessage(QString)));
         dat->initialize();
 
         //Set Geographic Location
@@ -198,32 +202,32 @@ int main(int argc, char * argv[])
 
         //set clock now that we have a location:
         //Check to see if user provided a date/time string.  If not, use current CPU time
-        QString datestring = parser.value( "date" );
+        QString datestring = parser.value("date");
         KStarsDateTime kdt;
-        if ( ! datestring.isEmpty() )
+        if (!datestring.isEmpty())
         {
-            if ( datestring.contains( "-" ) )   //assume ISODate format
+            if (datestring.contains("-")) //assume ISODate format
             {
-                if ( datestring.contains( ":" ) )   //also includes time
+                if (datestring.contains(":")) //also includes time
                 {
                     //kdt = QDateTime::fromString( datestring, QDateTime::ISODate );
-                    kdt = QDateTime::fromString( datestring, Qt::ISODate );
+                    kdt = QDateTime::fromString(datestring, Qt::ISODate);
                 }
-                else     //string probably contains date only
+                else //string probably contains date only
                 {
                     //kdt.setDate( QDate::fromString( datestring, Qt::ISODate ) );
-                    kdt.setDate( QDate::fromString( datestring, Qt::ISODate ) );
-                    kdt.setTime( QTime( 0, 0, 0 ) );
+                    kdt.setDate(QDate::fromString(datestring, Qt::ISODate));
+                    kdt.setTime(QTime(0, 0, 0));
                 }
             }
-            else     //assume Text format for date string
+            else //assume Text format for date string
             {
-                kdt = dat->geo()->LTtoUT( QDateTime::fromString( datestring, Qt::TextDate ) );
+                kdt = dat->geo()->LTtoUT(QDateTime::fromString(datestring, Qt::TextDate));
             }
 
-            if ( ! kdt.isValid() )
+            if (!kdt.isValid())
             {
-                qWarning() << i18n( "Using CPU date/time instead." ) ;
+                qWarning() << i18n("Using CPU date/time instead.");
 
                 kdt = KStarsDateTime::currentDateTimeUtc();
             }
@@ -232,41 +236,41 @@ int main(int argc, char * argv[])
         {
             kdt = KStarsDateTime::currentDateTimeUtc();
         }
-        dat->clock()->setUTC( kdt );
+        dat->clock()->setUTC(kdt);
 
-        SkyMap * map = SkyMap::Create();
-        map->resize( w, h );
-        QPixmap sky( w, h );
+        SkyMap *map = SkyMap::Create();
+        map->resize(w, h);
+        QPixmap sky(w, h);
 
         dat->setFullTimeUpdate();
-        dat->updateTime(dat->geo(), map );
+        dat->updateTime(dat->geo(), map);
 
-        SkyPoint dest( Options::focusRA(), Options::focusDec() );
-        map->setDestination( dest );
-        map->destination()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
-        map->setFocus( map->destination() );
-        map->focus()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
+        SkyPoint dest(Options::focusRA(), Options::focusDec());
+        map->setDestination(dest);
+        map->destination()->EquatorialToHorizontal(dat->lst(), dat->geo()->lat());
+        map->setFocus(map->destination());
+        map->focus()->EquatorialToHorizontal(dat->lst(), dat->geo()->lat());
 
         //Execute the specified script
-        QString scriptfile = parser.value( "script" );
-        if ( ! scriptfile.isEmpty() )
+        QString scriptfile = parser.value("script");
+        if (!scriptfile.isEmpty())
         {
-            if ( dat->executeScript( scriptfile, map ) )
+            if (dat->executeScript(scriptfile, map))
             {
-                std::cout << i18n( "Script executed." ).toUtf8().data() << std::endl;
+                std::cout << i18n("Script executed.").toUtf8().data() << std::endl;
             }
             else
             {
-                qWarning() << i18n( "Could not execute script." ) ;
+                qWarning() << i18n("Could not execute script.");
             }
         }
 
         qApp->processEvents();
         map->setupProjector();
-        map->exportSkyImage( &sky );
+        map->exportSkyImage(&sky);
         qApp->processEvents();
 
-        if ( ! sky.save( fname, format ) )
+        if (!sky.save(fname, format))
             qWarning() << "Unable to save image: " << fname;
         else
             qDebug() << "Saved to file: %1" << fname;
@@ -277,11 +281,11 @@ int main(int argc, char * argv[])
     }
 
     //Try to parse the given date string
-    QString datestring = parser.value( "date" );
+    QString datestring = parser.value("date");
 
-    if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() )
+    if (!datestring.isEmpty() && !KStarsDateTime::fromString(datestring).isValid())
     {
-        qWarning() << i18n( "Using CPU date/time instead." ) ;
+        qWarning() << i18n("Using CPU date/time instead.");
         datestring.clear();
     }
 
@@ -291,13 +295,13 @@ int main(int argc, char * argv[])
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
 #ifndef KSTARS_LITE
 
-    KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );
+    KStars::createInstance(true, !parser.isSet("paused"), datestring);
 
     // no session.. just start up normally
     const QStringList urls = parser.positionalArguments();
 
     // take arguments
-    if( ! urls.isEmpty() )
+    if (!urls.isEmpty())
     {
         foreach (const QString &url, urls)
         {
@@ -307,8 +311,7 @@ int main(int argc, char * argv[])
     }
     QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
 #else
-    KStarsLite::createInstance( true );
+    KStarsLite::createInstance(true);
 #endif
     return app.exec();
-
 }

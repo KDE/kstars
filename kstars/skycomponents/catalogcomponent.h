@@ -18,7 +18,6 @@
 #ifndef CATALOGCOMPONENT_H
 #define CATALOGCOMPONENT_H
 
-
 #include "listcomponent.h"
 #include "Options.h"
 
@@ -35,100 +34,77 @@ by Thomas Kabelmann --spacetime
 *@version 0.2
 */
 
-class CatalogComponent: public ListComponent
+class CatalogComponent : public ListComponent
 {
-    public:
-
-        /**
+  public:
+    /**
          *@short Constructor
          *@p parent Pointer to the parent SkyComposite object
          */
-        CatalogComponent( SkyComposite *, const QString &fname, bool showerrs, int index, bool callLoadData = true );
+    CatalogComponent(SkyComposite *, const QString &fname, bool showerrs, int index, bool callLoadData = true);
 
-        /**
+    /**
          *@short Destructor.  Delete list members
          */
-        virtual ~CatalogComponent();
+    virtual ~CatalogComponent();
 
-        /**
+    /**
          *@short Draw custom catalog objects on the sky map.
          *@p psky Reference to the QPainter on which to paint
          */
-        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) Q_DECL_OVERRIDE;
 
-        /** @return the name of the catalog */
-        inline QString name() const
-        {
-            return m_catName;
-        }
+    /** @return the name of the catalog */
+    inline QString name() const { return m_catName; }
 
-        /** @return the frequency of the flux readings in the catalog, if any */
-        inline QString fluxFrequency() const
-        {
-            return m_catFluxFreq;
-        }
+    /** @return the frequency of the flux readings in the catalog, if any */
+    inline QString fluxFrequency() const { return m_catFluxFreq; }
 
-        /** @return the unit of the flux measurements in the catalog, if any */
-        inline QString fluxUnit() const
-        {
-            return m_catFluxUnit;
-        }
+    /** @return the unit of the flux measurements in the catalog, if any */
+    inline QString fluxUnit() const { return m_catFluxUnit; }
 
-        /** @return color, which should be used for drawing objects in this catalog **/
-        inline QString catColor()
-        {
-            return m_catColor;
-        }
+    /** @return color, which should be used for drawing objects in this catalog **/
+    inline QString catColor() { return m_catColor; }
 
-        /**
+    /**
          *@return true if visibility Option is set for this catalog
          *@note this is complicated for custom catalogs, because
          *Options::showCatalog() returns a QList<int>, not a bool.
          *This function extracts the correct visibility value and
          *returns the appropriate bool value
          */
-        inline bool getVisibility()
-        {
-            return (Options::showCatalog()[m_ccIndex] > 0) ? true : false;
-        }
+    inline bool getVisibility() { return (Options::showCatalog()[m_ccIndex] > 0) ? true : false; }
 
-        /**
+    /**
          * @see SyncedCatalogItem
          */
-        quint32 getUpdateID()
-        {
-            return updateID;
-        }
+    quint32 getUpdateID() { return updateID; }
 
-        /**
+    /**
          * @brief Returns true if this catalog is to be drawn
          * Overridden from SkyComponent::selected
          * @return bool
          **/
-        bool selected() Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
 
-    protected:
+  protected:
+    /** @short Load data into custom catalog */
+    virtual void loadData() { _loadData(true); }
 
-        /** @short Load data into custom catalog */
-        virtual void loadData()
-        {
-            _loadData( true );
-        }
+    /** @short Load data into custom catalog */
+    virtual void _loadData(bool includeCatalogDesignation);
 
-        /** @short Load data into custom catalog */
-        virtual void _loadData( bool includeCatalogDesignation );
+    // FIXME: There seems to be no way to remove catalogs from the program. -- asimha
 
-        // FIXME: There seems to be no way to remove catalogs from the program. -- asimha
+    QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
+    float m_catEpoch;
+    bool m_Showerrs;
+    int m_ccIndex;
+    quint32 updateID;
 
-        QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
-        float m_catEpoch;
-        bool m_Showerrs;
-        int m_ccIndex;
-        quint32 updateID;
-
-        static QStringList m_Columns;
+    static QStringList m_Columns;
 };
 
 #endif

@@ -16,9 +16,9 @@
 
 namespace KSNotification
 {
-void error(const QString &message, const QString &title = i18n("Error") );
-void sorry(const QString &message, const QString &title = i18n("Sorry") );
-void info(const QString &message, const QString &title = i18n("Info") );
+void error(const QString &message, const QString &title = i18n("Error"));
+void sorry(const QString &message, const QString &title = i18n("Sorry"));
+void info(const QString &message, const QString &title = i18n("Info"));
 }
 
 #endif // KSNotifications_H

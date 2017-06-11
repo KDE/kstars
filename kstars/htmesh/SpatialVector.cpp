@@ -26,21 +26,17 @@
 
 /////////////CONSTRUCTOR//////////////////////////////////
 //
-SpatialVector::SpatialVector() :
-    x_(1), y_(0), z_(0), ra_(0), dec_(0), okRaDec_(true)
+SpatialVector::SpatialVector() : x_(1), y_(0), z_(0), ra_(0), dec_(0), okRaDec_(true)
 {
 }
 
-
-SpatialVector::SpatialVector(float64 x, float64 y, float64 z) :
-    x_(x), y_(y), z_(z), okRaDec_(false)
+SpatialVector::SpatialVector(float64 x, float64 y, float64 z) : x_(x), y_(y), z_(z), okRaDec_(false)
 {
 }
 
 /////////////CONSTRUCTOR//////////////////////////////////
 //
-SpatialVector::SpatialVector(float64 ra, float64 dec) :
-    ra_(ra), dec_(dec), okRaDec_(true)
+SpatialVector::SpatialVector(float64 ra, float64 dec) : ra_(ra), dec_(dec), okRaDec_(true)
 {
     updateXYZ();
     updateRaDec();
@@ -48,8 +44,7 @@ SpatialVector::SpatialVector(float64 ra, float64 dec) :
 
 /////////////SET//////////////////////////////////////////
 //
-void
-SpatialVector::set(const float64 &x, const float64 &y, const float64 &z )
+void SpatialVector::set(const float64 &x, const float64 &y, const float64 &z)
 {
     x_ = x;
     y_ = y;
@@ -59,18 +54,16 @@ SpatialVector::set(const float64 &x, const float64 &y, const float64 &z )
 }
 /////////////SET//////////////////////////////////////////
 //
-void
-SpatialVector::set(const float64 &ra, const float64 &dec)
+void SpatialVector::set(const float64 &ra, const float64 &dec)
 {
-    ra_ = ra;
+    ra_  = ra;
     dec_ = dec;
     updateXYZ();
 }
 
 /////////////GET//////////////////////////////////////////
 //
-void
-SpatialVector::get(float64 &x,float64 &y,float64 &z ) const
+void SpatialVector::get(float64 &x, float64 &y, float64 &z) const
 {
     x = x_;
     y = y_;
@@ -79,21 +72,20 @@ SpatialVector::get(float64 &x,float64 &y,float64 &z ) const
 
 /////////////GET//////////////////////////////////////////
 //
-void
-SpatialVector::get(float64 &ra,float64 &dec )
+void SpatialVector::get(float64 &ra, float64 &dec)
 {
-    if(!okRaDec_)
+    if (!okRaDec_)
     {
         normalize();
         updateRaDec();
     }
-    ra = ra_;
+    ra  = ra_;
     dec = dec_;
 }
 
 float64 SpatialVector::ra()
 {
-    if(!okRaDec_)
+    if (!okRaDec_)
     {
         normalize();
         updateRaDec();
@@ -103,7 +95,7 @@ float64 SpatialVector::ra()
 
 float64 SpatialVector::dec()
 {
-    if(!okRaDec_)
+    if (!okRaDec_)
     {
         normalize();
         updateRaDec();
@@ -111,14 +103,12 @@ float64 SpatialVector::dec()
     return dec_;
 }
 
-
 /////////////NORMALIZE////////////////////////////////////
 //
-void
-SpatialVector::normalize()
+void SpatialVector::normalize()
 {
     float64 sum;
-    sum = x_*x_ + y_*y_ + z_*z_;
+    sum = x_ * x_ + y_ * y_ + z_ * z_;
     sum = sqrt(sum);
     x_ /= sum;
     y_ /= sum;
@@ -127,64 +117,59 @@ SpatialVector::normalize()
 
 /////////////LENGTH///////////////////////////////////////
 //
-float64
-SpatialVector::length() const
+float64 SpatialVector::length() const
 {
     float64 sum;
-    sum = x_*x_ + y_*y_ + z_*z_;
+    sum = x_ * x_ + y_ * y_ + z_ * z_;
     return sum > gEpsilon ? sqrt(sum) : 0.0;
 }
 
 /////////////UPDATERADEC//////////////////////////////////
 //
-void
-SpatialVector::updateRaDec()
+void SpatialVector::updateRaDec()
 {
-    dec_ = asin(z_)/gPr; // easy.
-    float64 cd = cos(dec_*gPr);
-    if(cd>gEpsilon || cd<-gEpsilon)
-        if(y_>gEpsilon || y_<-gEpsilon)
+    dec_       = asin(z_) / gPr; // easy.
+    float64 cd = cos(dec_ * gPr);
+    if (cd > gEpsilon || cd < -gEpsilon)
+        if (y_ > gEpsilon || y_ < -gEpsilon)
             if (y_ < 0.0)
-                ra_ = 360 - acos(x_/cd)/gPr;
+                ra_ = 360 - acos(x_ / cd) / gPr;
             else
-                ra_ = acos(x_/cd)/gPr;
+                ra_ = acos(x_ / cd) / gPr;
         else
             ra_ = (x_ < 0.0 ? 180.0 : 0.0);
     else
-        ra_=0.0;
+        ra_ = 0.0;
     okRaDec_ = true;
 }
 
 /////////////UPDATEXYZ////////////////////////////////////
 //
-void
-SpatialVector::updateXYZ()
+void SpatialVector::updateXYZ()
 {
-    float64 cd = cos(dec_*gPr);
-    x_ = cos(ra_*gPr) * cd;
-    y_ = sin(ra_*gPr) * cd;
-    z_ = sin(dec_*gPr);
+    float64 cd = cos(dec_ * gPr);
+    x_         = cos(ra_ * gPr) * cd;
+    y_         = sin(ra_ * gPr) * cd;
+    z_         = sin(dec_ * gPr);
 }
 /////////////OPERATOR *=//////////////////////////////////
 //
-SpatialVector &
-SpatialVector::operator *=(float64 a)
+SpatialVector &SpatialVector::operator*=(float64 a)
 {
-    x_ = a*x_;
-    y_ = a*y_;
-    z_ = a*z_;
+    x_       = a * x_;
+    y_       = a * y_;
+    z_       = a * z_;
     okRaDec_ = false;
     return *this;
 }
 
 /////////////OPERATOR *=//////////////////////////////////
 //
-SpatialVector &
-SpatialVector::operator *=(int a)
+SpatialVector &SpatialVector::operator*=(int a)
 {
-    x_ = a*x_;
-    y_ = a*y_;
-    z_ = a*z_;
+    x_       = a * x_;
+    y_       = a * y_;
+    z_       = a * z_;
     okRaDec_ = false;
     return *this;
 }
@@ -192,80 +177,68 @@ SpatialVector::operator *=(int a)
 /////////////OPERATOR *///////////////////////////////////
 // Multiply with a number
 //
-SpatialVector
-operator *(float64 a, const SpatialVector &v)
+SpatialVector operator*(float64 a, const SpatialVector &v)
 {
-    return SpatialVector(a*v.x_, a*v.y_, a*v.z_);
+    return SpatialVector(a * v.x_, a * v.y_, a * v.z_);
 }
 
 /////////////OPERATOR *///////////////////////////////////
 // Multiply with a number
 //
-SpatialVector
-operator *(const SpatialVector &v, float64 a)
+SpatialVector operator*(const SpatialVector &v, float64 a)
 {
-    return SpatialVector(a*v.x_, a*v.y_, a*v.z_);
+    return SpatialVector(a * v.x_, a * v.y_, a * v.z_);
 }
 
 /////////////OPERATOR *///////////////////////////////////
 // Multiply with a number
 //
-SpatialVector
-operator *(int a, const SpatialVector &v)
+SpatialVector operator*(int a, const SpatialVector &v)
 {
-    return SpatialVector(a*v.x_, a*v.y_, a*v.z_);
+    return SpatialVector(a * v.x_, a * v.y_, a * v.z_);
 }
 
 /////////////OPERATOR *///////////////////////////////////
 // Multiply with a number
 //
-SpatialVector
-operator *(const SpatialVector &v, int a)
+SpatialVector operator*(const SpatialVector &v, int a)
 {
-    return SpatialVector(a*v.x_, a*v.y_, a*v.z_);
+    return SpatialVector(a * v.x_, a * v.y_, a * v.z_);
 }
-
 
 /////////////OPERATOR *///////////////////////////////////
 // dot product
 //
-float64
-SpatialVector::operator *(const SpatialVector &v) const
+float64 SpatialVector::operator*(const SpatialVector &v) const
 {
-    return (x_*v.x_)+(y_*v.y_)+(z_*v.z_);
+    return (x_ * v.x_) + (y_ * v.y_) + (z_ * v.z_);
 }
 
 /////////////OPERATOR +///////////////////////////////////
 //
-SpatialVector
-SpatialVector::operator +(const SpatialVector &v) const
+SpatialVector SpatialVector::operator+(const SpatialVector &v) const
 {
-    return SpatialVector(x_+v.x_, y_+v.y_, z_+v.z_);
+    return SpatialVector(x_ + v.x_, y_ + v.y_, z_ + v.z_);
 }
 
 /////////////OPERATOR -///////////////////////////////////
 //
-SpatialVector
-SpatialVector::operator -(const SpatialVector &v) const
+SpatialVector SpatialVector::operator-(const SpatialVector &v) const
 {
-    return SpatialVector(x_-v.x_, y_-v.y_, z_-v.z_);
+    return SpatialVector(x_ - v.x_, y_ - v.y_, z_ - v.z_);
 }
 
 /////////////OPERATOR ^///////////////////////////////////
 // cross product
 //
-SpatialVector
-SpatialVector::operator ^(const SpatialVector &v) const
+SpatialVector SpatialVector::operator^(const SpatialVector &v) const
 {
-    return SpatialVector(y_ * v.z_ - v.y_ * z_,
-                         z_ * v.x_ - v.z_ * x_,
-                         x_ * v.y_ - v.x_ * y_);
+    return SpatialVector(y_ * v.z_ - v.y_ * z_, z_ * v.x_ - v.z_ * x_, x_ * v.y_ - v.x_ * y_);
 }
 
 /////////////OPERATOR ==//////////////////////////////////
 //
-int
-SpatialVector::operator ==(const SpatialVector &v) const
+int SpatialVector::operator==(const SpatialVector &v) const
 {
-    return ( (x_ == v.x_ && y_ == v.y_ && z_ == v.z_) ? 1 : 0 );
+    return ((x_ == v.x_ && y_ == v.y_ && z_ == v.z_) ? 1 : 0);
 }

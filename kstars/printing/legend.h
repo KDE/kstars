@@ -44,324 +44,239 @@ class ColorScheme;
  */
 class Legend
 {
-    public:
-
-        /**
+  public:
+    /**
           * \brief Legend type enumeration.
           */
-        enum LEGEND_TYPE
-        {
-            LT_FULL,
-            LT_SCALE_MAGNITUDES,
-            LT_SCALE_ONLY,
-            LT_MAGNITUDES_ONLY,
-            LT_SYMBOLS_ONLY,
-        };
+    enum LEGEND_TYPE
+    {
+        LT_FULL,
+        LT_SCALE_MAGNITUDES,
+        LT_SCALE_ONLY,
+        LT_MAGNITUDES_ONLY,
+        LT_SYMBOLS_ONLY,
+    };
 
-        /**
+    /**
           * \brief Legend orientation enumeration.
           */
-        enum LEGEND_ORIENTATION
-        {
-            LO_HORIZONTAL,
-            LO_VERTICAL
-        };
+    enum LEGEND_ORIENTATION
+    {
+        LO_HORIZONTAL,
+        LO_VERTICAL
+    };
 
-        /**
+    /**
           * \brief Legend position enumeration.
           */
-        enum LEGEND_POSITION
-        {
-            LP_UPPER_LEFT,
-            LP_UPPER_RIGHT,
-            LP_LOWER_LEFT,
-            LP_LOWER_RIGHT,
-            LP_FLOATING
-        };
+    enum LEGEND_POSITION
+    {
+        LP_UPPER_LEFT,
+        LP_UPPER_RIGHT,
+        LP_LOWER_LEFT,
+        LP_LOWER_RIGHT,
+        LP_FLOATING
+    };
 
-        /**
+    /**
           * \brief Constructor.
           * \param orientation Legend orientation.
           * \param pos Legend position.
          */
-        explicit Legend(LEGEND_ORIENTATION orientation = LO_HORIZONTAL, LEGEND_POSITION pos = LP_FLOATING);
+    explicit Legend(LEGEND_ORIENTATION orientation = LO_HORIZONTAL, LEGEND_POSITION pos = LP_FLOATING);
 
-        /**
+    /**
          * \brief copy constructor
          * \note This class needs to be explicitly copied because of the m_Painter pointer
          */
-        explicit Legend( const Legend &o );
+    explicit Legend(const Legend &o);
 
-        /**
+    /**
           * \brief Destructor.
           */
-        ~Legend();
+    ~Legend();
 
-        /**
+    /**
           * \brief Get legend type.
           * \return Current legend type value.
           */
-        inline LEGEND_TYPE getType() const
-        {
-            return m_Type;
-        }
+    inline LEGEND_TYPE getType() const { return m_Type; }
 
-        /**
+    /**
           * \brief Get legend orientation.
           * \return Current legend orientation value.
           */
-        inline LEGEND_ORIENTATION getOrientation() const
-        {
-            return m_Orientation;
-        }
+    inline LEGEND_ORIENTATION getOrientation() const { return m_Orientation; }
 
-        /**
+    /**
           * \brief Get legend position.
           * \return Current legend position value.
           */
-        inline LEGEND_POSITION getPosition() const
-        {
-            return m_Position;
-        }
+    inline LEGEND_POSITION getPosition() const { return m_Position; }
 
-        /**
+    /**
           * \brief Get position of the floating legend.
           * \return Current position of the floating legend.
           */
-        inline QPoint getFloatingPosition() const
-        {
-            return m_PositionFloating;
-        }
+    inline QPoint getFloatingPosition() const { return m_PositionFloating; }
 
-        /**
+    /**
           * \brief Get symbol size.
           * \return Current symbol size value.
           */
-        inline int getSymbolSize() const
-        {
-            return m_SymbolSize;
-        }
+    inline int getSymbolSize() const { return m_SymbolSize; }
 
-        /**
+    /**
           * \brief Get symbol description's bounding rectangle width.
           * \return Current bounding rectangle width.
           */
-        inline int getBRectWidth() const
-        {
-            return m_BRectWidth;
-        }
+    inline int getBRectWidth() const { return m_BRectWidth; }
 
-        /**
+    /**
           * \brief Get symbol description's bounding rectangle height.
           * \return Current bounding rectangle height.
           */
-        inline int getBRectHeight() const
-        {
-            return m_BRectHeight;
-        }
+    inline int getBRectHeight() const { return m_BRectHeight; }
 
-        /**
+    /**
           * \brief Get maximal horizontal scale size in pixels.
           * \return Current maximal horizontal scale size in pixels.
           */
-        inline int getMaxHScalePixels() const
-        {
-            return m_MaxHScalePixels;
-        }
+    inline int getMaxHScalePixels() const { return m_MaxHScalePixels; }
 
-        /**
+    /**
           * \brief Get maximal vertical scale size in pixels.
           * \brief Current maximal vertical scale size in pixels.
           */
-        inline int getMaxVScalePixels() const
-        {
-            return m_MaxVScalePixels;
-        }
+    inline int getMaxVScalePixels() const { return m_MaxVScalePixels; }
 
-        /**
+    /**
           * \brief Get symbol image X spacing.
           * \return Current symbol image X spacing.
           */
-        inline int getXSymbolSpacing() const
-        {
-            return m_XSymbolSpacing;
-        }
+    inline int getXSymbolSpacing() const { return m_XSymbolSpacing; }
 
-        /**
+    /**
           * \brief Get symbol image Y spacing.
           * \return Current symbol image Y spacing.
           */
-        inline int getYSymbolSpacing() const
-        {
-            return m_YSymbolSpacing;
-        }
+    inline int getYSymbolSpacing() const { return m_YSymbolSpacing; }
 
-        /**
+    /**
           * \brief Get font.
           * \return Current font.
           */
-        inline QFont getFont() const
-        {
-            return m_Font;
-        }
+    inline QFont getFont() const { return m_Font; }
 
-        /**
+    /**
           * \brief Get background color.
           * \return Current background color.
           */
-        inline QColor getBgColor() const
-        {
-            return m_BgColor;
-        }
+    inline QColor getBgColor() const { return m_BgColor; }
 
-        /**
+    /**
           * \brief Check if frame around legend is drawn.
           * \return True if frame is drawn.
           */
-        inline bool getDrawFrame() const
-        {
-            return m_DrawFrame;
-        }
+    inline bool getDrawFrame() const { return m_DrawFrame; }
 
-        /**
+    /**
           * \brief Set legend type.
           * \param type New legend type.
           */
-        inline void setType(LEGEND_TYPE type)
-        {
-            m_Type = type;
-        }
+    inline void setType(LEGEND_TYPE type) { m_Type = type; }
 
-        /**
+    /**
           * \brief Set legend orientation.
           * \param orientation New legend orientation.
           */
-        inline void setOrientation(LEGEND_ORIENTATION orientation)
-        {
-            m_Orientation = orientation;
-        }
+    inline void setOrientation(LEGEND_ORIENTATION orientation) { m_Orientation = orientation; }
 
-        /**
+    /**
           * \brief Set legend position.
           * \param pos New legend position enumeration value.
           */
-        inline void setPosition(LEGEND_POSITION pos)
-        {
-            m_Position = pos;
-        }
+    inline void setPosition(LEGEND_POSITION pos) { m_Position = pos; }
 
-        /**
+    /**
           * \brief Set floating legend position.
           * \param pos New floating legend position.
           */
-        inline void setFloatingPosition(QPoint pos)
-        {
-            m_PositionFloating = pos;
-        }
+    inline void setFloatingPosition(QPoint pos) { m_PositionFloating = pos; }
 
-        /**
+    /**
           * \brief Set symbol size.
           * \param size New symbol size.
           */
-        inline void setSymbolSize(int size)
-        {
-            m_SymbolSize = size;
-        }
+    inline void setSymbolSize(int size) { m_SymbolSize = size; }
 
-        /**
+    /**
           * \brief Set symbol description's bounding rectangle width.
           * \param width New bounding rectangle width.
           */
-        inline void setBRectWidth(int width)
-        {
-            m_BRectWidth = width;
-        }
+    inline void setBRectWidth(int width) { m_BRectWidth = width; }
 
-        /**
+    /**
           * \brief Set symbol description's bounding rectangle height.
           * \param height New bounding rectangle height.
           */
-        inline void setBRectHeight(int height)
-        {
-            m_BRectHeight = height;
-        }
+    inline void setBRectHeight(int height) { m_BRectHeight = height; }
 
-        /**
+    /**
           * \brief Set maximal horizontal scale size in pixels.
           * \param pixels New maximal horizontal scale size in pixels.
           */
-        inline void setMaxHScalePixels(int pixels)
-        {
-            m_MaxHScalePixels = pixels;
-        }
+    inline void setMaxHScalePixels(int pixels) { m_MaxHScalePixels = pixels; }
 
-        /**
+    /**
           * \brief Set maximal vertical scale size in pixels.
           * \param pixels New maximal vertical scale size in pixels.
           */
-        inline void setMaxVScalePixels(int pixels)
-        {
-            m_MaxVScalePixels = pixels;
-        }
+    inline void setMaxVScalePixels(int pixels) { m_MaxVScalePixels = pixels; }
 
-        /**
+    /**
           * \brief Set symbol X spacing in pixels.
           * \param spacing New symbol X spacing in pixels.
           */
-        inline void setXSymbolSpacing(int spacing)
-        {
-            m_XSymbolSpacing = spacing;
-        }
+    inline void setXSymbolSpacing(int spacing) { m_XSymbolSpacing = spacing; }
 
-        /**
+    /**
           * \brief Set symbol Y spacing in pixels.
           * \param spacing New symbol Y spacing in pixels.
           */
-        inline void setYSymbolSpacing(int spacing)
-        {
-            m_YSymbolSpacing = spacing;
-        }
+    inline void setYSymbolSpacing(int spacing) { m_YSymbolSpacing = spacing; }
 
-        /**
+    /**
           * \brief Set font.
           * \param font New font.
           */
-        inline void setFont(const QFont &font)
-        {
-            m_Font = font;
-        }
+    inline void setFont(const QFont &font) { m_Font = font; }
 
-        /**
+    /**
           * \brief Set background color.
           * \param color New background color.
           */
-        inline void setBgColor(const QColor &color)
-        {
-            m_BgColor = color;
-        }
+    inline void setBgColor(const QColor &color) { m_BgColor = color; }
 
-        /**
+    /**
           * \brief Set if frame is drawn.
           * \param draw True if frame should be drawn.
           */
-        inline void setDrawFrame(bool draw)
-        {
-            m_DrawFrame = draw;
-        }
+    inline void setDrawFrame(bool draw) { m_DrawFrame = draw; }
 
-        /**
+    /**
           * \brief Calculates size of legend that will be painted using current settings.
           * \return Size of legend.
           */
-        QSize calculateSize();
+    QSize calculateSize();
 
-        /**
+    /**
           * \brief Paint legend on passed QPaintDevice at selected position.
           * \param pd QPaintDevice on which legend will be painted.
           */
-        void paintLegend(QPaintDevice * pd);
+    void paintLegend(QPaintDevice *pd);
 
-        /**
+    /**
           * \brief Paint legend using passed SkyQPainter.
           * This method is used to enable painting on QPaintDevice subclasses that can't be
           * painted by multiple QPainter subclasses (e.g. QSvgGenerator).
@@ -370,17 +285,17 @@ class Legend
           * subclass and should be initialized by its begin() method. After legend is painted, SkyQPainter
           * instance _will not_ be finished, so it's necessary to call end() method manually.
           */
-        void paintLegend(SkyQPainter * painter);
+    void paintLegend(SkyQPainter *painter);
 
-        /**
+    /**
           * \brief Paint legend on passed QPaintDevice at selected position.
           * \param pd QPaintDevice on which legend will be painted.
           * \param pos LEGEND_POSITION enum value.
           * \param scaleOnly should legend be painted scale-only?
           */
-        void paintLegend(QPaintDevice * pd, LEGEND_TYPE type, LEGEND_POSITION pos);
+    void paintLegend(QPaintDevice *pd, LEGEND_TYPE type, LEGEND_POSITION pos);
 
-        /**
+    /**
           * \brief Paint legend using passed SkyQPainter.
           * This method is used to enable painting on QPaintDevice subclasses that can't be painted
           * by multiple QPainter subclasses (eg. QSvgGenerator).
@@ -391,17 +306,17 @@ class Legend
           * subclass and should be initialized by its begin() method. After legend is painted, SkyQPainter
           * instance _will not_ be finished, so it's necessary to call end() method manually.
           */
-        void paintLegend(SkyQPainter * painter, LEGEND_TYPE type, LEGEND_POSITION pos);
+    void paintLegend(SkyQPainter *painter, LEGEND_TYPE type, LEGEND_POSITION pos);
 
-    private:
-        /**
+  private:
+    /**
           * \brief Paint all symbols at passed position.
           * \param pos position at which symbols will be painted (upper left corner).
           * \note Orientation of the symbols group is determined by current legend orientation.
           */
-        void paintSymbols(QPointF pos);
+    void paintSymbols(QPointF pos);
 
-        /**
+    /**
           * \brief Paint single symbol with specified parameters.
           * \param pos position at which symbol will be painted (center).
           * \param type symbol type (see SkyQPainter class for symbol types list).
@@ -409,50 +324,50 @@ class Legend
           * \param angle angle of symbol (in degrees).
           * \param label symbol label.
           */
-        void paintSymbol(QPointF pos, int type, float e, float angle, QString label);
+    void paintSymbol(QPointF pos, int type, float e, float angle, QString label);
 
-        /**
+    /**
           * \brief Paint 'Star Magnitudes' group at passed position.
           * \param pos position at which 'Star Magnitudes' group will be painted (upper left corner).
           */
-        void paintMagnitudes(QPointF pos);
+    void paintMagnitudes(QPointF pos);
 
-        /**
+    /**
           * \brief Paint chart scale bar at passed position.
           * \param pos position at which chart scale bar will be painted.
           * \note Orientation of chart scale bar is determined by current legend orientation. Maximal
           * bar size is determined by current values set by setMaxHScalePixels()/setMaxVScalePixels() method.
           * Exact size is adjusted to full deg/min/sec.
           */
-        void paintScale(QPointF pos);
+    void paintScale(QPointF pos);
 
-        /**
+    /**
           * \brief Calculates legend position (upper left corner) based on LEGEND_POSITION enum value, paint device size and calculated legend size.
           * \param pos LEGEND_POSITION enum value.
           */
-        QPoint positionToDeviceCoord(QPaintDevice * pd);
+    QPoint positionToDeviceCoord(QPaintDevice *pd);
 
-        SkyQPainter * m_Painter;
-        SkyMap * m_SkyMap;
-        bool m_DeletePainter;
+    SkyQPainter *m_Painter;
+    SkyMap *m_SkyMap;
+    bool m_DeletePainter;
 
-        LEGEND_TYPE m_Type;
-        LEGEND_ORIENTATION m_Orientation;
-        LEGEND_POSITION m_Position;
-        QPoint m_PositionFloating;
+    LEGEND_TYPE m_Type;
+    LEGEND_ORIENTATION m_Orientation;
+    LEGEND_POSITION m_Position;
+    QPoint m_PositionFloating;
 
-        ColorScheme * m_cScheme;
-        QFont m_Font;
-        QColor m_BgColor;
-        bool m_DrawFrame;
+    ColorScheme *m_cScheme;
+    QFont m_Font;
+    QColor m_BgColor;
+    bool m_DrawFrame;
 
-        int m_SymbolSize;
-        int m_BRectWidth;
-        int m_BRectHeight;
-        int m_MaxHScalePixels;
-        int m_MaxVScalePixels;
-        int m_XSymbolSpacing;
-        int m_YSymbolSpacing;
+    int m_SymbolSize;
+    int m_BRectWidth;
+    int m_BRectHeight;
+    int m_MaxHScalePixels;
+    int m_MaxVScalePixels;
+    int m_XSymbolSpacing;
+    int m_YSymbolSpacing;
 };
 
 #endif // LEGEND_H

@@ -31,12 +31,12 @@ class PrintingWizard;
   */
 class FovEditorDialogUI : public QFrame, public Ui::FovEditorDialog
 {
-        Q_OBJECT
-    public:
-        /**
+    Q_OBJECT
+  public:
+    /**
           * \brief Constructor.
           */
-        explicit FovEditorDialogUI(QWidget * parent = 0);
+    explicit FovEditorDialogUI(QWidget *parent = 0);
 };
 
 /**
@@ -46,74 +46,74 @@ class FovEditorDialogUI : public QFrame, public Ui::FovEditorDialog
   */
 class FovEditorDialog : public QDialog
 {
-        Q_OBJECT
-    public:
-        /**
+    Q_OBJECT
+  public:
+    /**
           * \brief Constructor.
           */
-        explicit FovEditorDialog(PrintingWizard * wizard, QWidget * parent = 0);
+    explicit FovEditorDialog(PrintingWizard *wizard, QWidget *parent = 0);
 
-    private slots:
-        /**
+  private slots:
+    /**
           * \brief Slot: switch to next FOV snapshot.
           */
-        void slotNextFov();
+    void slotNextFov();
 
-        /**
+    /**
           * \brief Slot: switch to previous FOV snapshot.
           */
-        void slotPreviousFov();
+    void slotPreviousFov();
 
-        /**
+    /**
           * \brief Slot: recapture current FOV snapshot.
           */
-        void slotCaptureAgain();
+    void slotCaptureAgain();
 
-        /**
+    /**
           * \brief Slot: delete current FOV snapshot.
           */
-        void slotDelete();
+    void slotDelete();
 
-        /**
+    /**
           * \brief Slot: save description of the current FOV snapshot.
           */
-        void slotSaveDescription();
+    void slotSaveDescription();
 
-        /**
+    /**
           * \brief Slot: open "Save file" dialog to choose file name and format to save image.
           */
-        void slotSaveImage();
+    void slotSaveImage();
 
-    private:
-        /**
+  private:
+    /**
           * \brief Setup widget properties.
           */
-        void setupWidgets();
+    void setupWidgets();
 
-        /**
+    /**
           * \brief Setup signal-slot connections.
           */
-        void setupConnections();
+    void setupConnections();
 
-        /**
+    /**
           * \brief Update buttons.
           */
-        void updateButtons();
+    void updateButtons();
 
-        /**
+    /**
           * \brief Update image description.
           */
-        void updateDescriptions();
+    void updateDescriptions();
 
-        /**
+    /**
           * \brief Update FOV image.
           */
-        void updateFovImage();
+    void updateFovImage();
 
-        PrintingWizard * m_ParentWizard;
-        FovEditorDialogUI * m_EditorUi;
+    PrintingWizard *m_ParentWizard;
+    FovEditorDialogUI *m_EditorUi;
 
-        int m_CurrentIndex;
+    int m_CurrentIndex;
 };
 
 #endif // FOVEDITORDIALOG_H

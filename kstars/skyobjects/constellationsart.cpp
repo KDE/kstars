@@ -17,14 +17,14 @@
 #include "constellationsart.h"
 #include "texturemanager.h"
 
-
-ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, double pa, double w, double h, QString abbreviation, QString filename)
+ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, double pa, double w, double h,
+                                     QString abbreviation, QString filename)
 {
     positionAngle = pa;
-    abbrev = abbreviation;
+    abbrev        = abbreviation;
     imageFileName = filename;
 
-    width = w;
+    width  = w;
     height = h;
 
     //loadImage();
@@ -40,6 +40,6 @@ ConstellationsArt::~ConstellationsArt()
 
 void ConstellationsArt::loadImage()
 {
-    constellationArtImage = TextureManager::getImage( imageFileName );
-    imageLoaded=true;
+    constellationArtImage = TextureManager::getImage(imageFileName);
+    imageLoaded           = true;
 }

@@ -31,12 +31,12 @@
 
 namespace
 {
-void toXYZ(const SkyPoint * p, double * x, double * y, double * z)
+void toXYZ(const SkyPoint *p, double *x, double *y, double *z)
 {
     double sinRa, sinDec, cosRa, cosDec;
 
-    p->ra().SinCos(  sinRa,  cosRa );
-    p->dec().SinCos( sinDec, cosDec );
+    p->ra().SinCos(sinRa, cosRa);
+    p->dec().SinCos(sinDec, cosDec);
     *x = cosDec * cosRa;
     *y = cosDec * sinRa;
     *z = sinDec;
@@ -46,9 +46,9 @@ void toXYZ(const SkyPoint * p, double * x, double * y, double * z)
 SkyPoint Projector::pointAt(double az)
 {
     SkyPoint p;
-    p.setAz( az );
-    p.setAlt( 0.0 );
-    p.HorizontalToEquatorial( KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat() );
+    p.setAz(az);
+    p.setAlt(0.0);
+    p.HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
     return p;
 }
 
@@ -62,7 +62,6 @@ Projector::Projector(const ViewParams &p)
 
 Projector::~Projector()
 {
-
 }
 
 void Projector::setViewParams(const ViewParams &p)
@@ -73,30 +72,29 @@ void Projector::setViewParams(const ViewParams &p)
     //Find Sin/Cos for focus point
     m_sinY0 = 0;
     m_cosY0 = 0;
-    if( m_vp.useAltAz )
+    if (m_vp.useAltAz)
     {
-        m_vp.focus->alt().SinCos( m_sinY0, m_cosY0 );
+        m_vp.focus->alt().SinCos(m_sinY0, m_cosY0);
     }
     else
     {
-        m_vp.focus->dec().SinCos( m_sinY0, m_cosY0 );
+        m_vp.focus->dec().SinCos(m_sinY0, m_cosY0);
     }
 
     double currentFOV = m_fov;
     //Find FOV in radians
-    m_fov = sqrt( m_vp.width*m_vp.width + m_vp.height*m_vp.height )
-            / ( 2 * m_vp.zoomFactor * dms::DegToRad );
+    m_fov = sqrt(m_vp.width * m_vp.width + m_vp.height * m_vp.height) / (2 * m_vp.zoomFactor * dms::DegToRad);
     //Set checkVisibility variables
     double Ymax;
-    if ( m_vp.useAltAz )
+    if (m_vp.useAltAz)
     {
-        m_xrange = 1.2*m_fov/cos( m_vp.focus->alt().radians() );
-        Ymax = fabs( m_vp.focus->alt().Degrees() ) + m_fov;
+        m_xrange = 1.2 * m_fov / cos(m_vp.focus->alt().radians());
+        Ymax     = fabs(m_vp.focus->alt().Degrees()) + m_fov;
     }
     else
     {
-        m_xrange = 1.2*m_fov/cos( m_vp.focus->dec().radians() );
-        Ymax = fabs( m_vp.focus->dec().Degrees() ) + m_fov;
+        m_xrange = 1.2 * m_fov / cos(m_vp.focus->dec().radians());
+        Ymax     = fabs(m_vp.focus->dec().Degrees()) + m_fov;
     }
     m_isPoleVisible = (Ymax >= 90.0);
 
@@ -110,15 +108,14 @@ double Projector::fov() const
     return m_fov;
 }
 
-QPointF Projector::toScreen(const SkyPoint * o, bool oRefract, bool * onVisibleHemisphere) const
+QPointF Projector::toScreen(const SkyPoint *o, bool oRefract, bool *onVisibleHemisphere) const
 {
-    return KSUtils::vecToPoint( toScreenVec(o, oRefract, onVisibleHemisphere) );
+    return KSUtils::vecToPoint(toScreenVec(o, oRefract, onVisibleHemisphere));
 }
 
 bool Projector::onScreen(const QPointF &p) const
 {
-    return (0 <= p.x() && p.x() <= m_vp.width &&
-            0 <= p.y() && p.y() <= m_vp.height);
+    return (0 <= p.x() && p.x() <= m_vp.width && 0 <= p.y() && p.y() <= m_vp.height);
 }
 
 bool Projector::onScreen(const Vector2f &p) const
@@ -126,12 +123,12 @@ bool Projector::onScreen(const Vector2f &p) const
     return onScreen(QPointF(p.x(), p.y()));
 }
 
-QPointF Projector::clipLine( SkyPoint * p1, SkyPoint * p2 ) const
+QPointF Projector::clipLine(SkyPoint *p1, SkyPoint *p2) const
 {
-    return KSUtils::vecToPoint( clipLineVec(p1,p2));
+    return KSUtils::vecToPoint(clipLineVec(p1, p2));
 }
 
-Vector2f Projector::clipLineVec( SkyPoint * p1, SkyPoint * p2 ) const
+Vector2f Projector::clipLineVec(SkyPoint *p1, SkyPoint *p2) const
 {
     /* ASSUMES p1 was not clipped but p2 was.
      * Return the QPoint that barely clips in the line twixt p1 and p2.
@@ -139,37 +136,37 @@ Vector2f Projector::clipLineVec( SkyPoint * p1, SkyPoint * p2 ) const
     //TODO: iteration = ceil( 0.5*log2( w^2 + h^2) )??
     //      also possibly rewrite this
     //     --hdevalence
-    int iteration = 15;          // For "perfect" clipping:
+    int iteration = 15; // For "perfect" clipping:
     // 2^interations should be >= max pixels/line
-    bool isVisible = true;       // so we start at midpoint
+    bool isVisible = true; // so we start at midpoint
     SkyPoint mid;
     Vector2f oMid;
     double x, y, z, dx, dy, dz, ra, dec;
     int newx, newy, oldx, oldy;
-    oldx = oldy = -10000;        // any old value that is not the first omid
+    oldx = oldy = -10000; // any old value that is not the first omid
 
-    toXYZ( p1, &x, &y, &z );
+    toXYZ(p1, &x, &y, &z);
     // -jbb printf("\np1: %6.4f %6.4f %6.4f\n", x, y, z);
 
-    toXYZ( p2, &dx, &dy, &dz );
+    toXYZ(p2, &dx, &dy, &dz);
 
     // -jbb printf("p2: %6.4f %6.4f %6.4f\n", dx, dy, dz);
     dx -= x;
     dy -= y;
     dz -= z;
     // Successive approximation to point on line that just clips.
-    while(iteration-- > 0)
+    while (iteration-- > 0)
     {
         dx *= .5;
         dy *= .5;
         dz *= .5;
-        if ( ! isVisible )                // move back toward visible p1
+        if (!isVisible) // move back toward visible p1
         {
             x -= dx;
             y -= dy;
             z -= dz;
         }
-        else                          // move out toward clipped p2
+        else // move out toward clipped p2
         {
             x += dx;
             y += dy;
@@ -178,30 +175,30 @@ Vector2f Projector::clipLineVec( SkyPoint * p1, SkyPoint * p2 ) const
 
         // -jbb printf("  : %6.4f %6.4f %6.4f\n", x, y, z);
         // [x, y, z] => [ra, dec]
-        ra = atan2( y, x );
-        dec = asin( z / sqrt(x*x + y*y + z*z) );
+        ra  = atan2(y, x);
+        dec = asin(z / sqrt(x * x + y * y + z * z));
 
-        mid = SkyPoint( ra * 12. / dms::PI, dec * 180. / dms::PI );
-        mid.EquatorialToHorizontal( m_data->lst(), m_data->geo()->lat() );
+        mid = SkyPoint(ra * 12. / dms::PI, dec * 180. / dms::PI);
+        mid.EquatorialToHorizontal(m_data->lst(), m_data->geo()->lat());
 
-        oMid = toScreenVec( &mid, false, &isVisible );
+        oMid = toScreenVec(&mid, false, &isVisible);
         //AND the result with checkVisibility to clip things going below horizon
         isVisible &= checkVisibility(&mid);
-        newx = (int) oMid.x();
-        newy = (int) oMid.y();
+        newx = (int)oMid.x();
+        newy = (int)oMid.y();
 
         // -jbb printf("new x/y: %4d %4d", newx, newy);
-        if ( (oldx == newx) && (oldy == newy) )
+        if ((oldx == newx) && (oldy == newy))
         {
             break;
         }
         oldx = newx;
         oldy = newy;
     }
-    return  oMid;
+    return oMid;
 }
 
-bool Projector::checkVisibility( SkyPoint * p ) const
+bool Projector::checkVisibility(SkyPoint *p) const
 {
     //TODO deal with alternate projections
     //not clear how this depends on projection
@@ -220,59 +217,60 @@ bool Projector::checkVisibility( SkyPoint * p ) const
         if( p->alt().Degrees() < -1.0 ) return false;
     }
     */ //Here we hope that the point has already been 'synchronized'
-    if( m_vp.fillGround /*&& m_vp.useAltAz*/ && p->alt().Degrees() < -1.0 ) return false;
+    if (m_vp.fillGround /*&& m_vp.useAltAz*/ && p->alt().Degrees() < -1.0)
+        return false;
 
-    if ( m_vp.useAltAz )
+    if (m_vp.useAltAz)
     {
         /** To avoid calculating refraction, we just use the unrefracted
             altitude and add a 2-degree 'safety factor' */
-        dY = fabs( p->alt().Degrees() - m_vp.focus->alt().Degrees() ) -2.;
+        dY = fabs(p->alt().Degrees() - m_vp.focus->alt().Degrees()) - 2.;
     }
     else
     {
-        dY = fabs( p->dec().Degrees() - m_vp.focus->dec().Degrees() );
+        dY = fabs(p->dec().Degrees() - m_vp.focus->dec().Degrees());
     }
-    if( m_isPoleVisible )
+    if (m_isPoleVisible)
         dY *= 0.75; //increase effective FOV when pole visible.
-    if( dY > m_fov )
+    if (dY > m_fov)
         return false;
-    if( m_isPoleVisible )
+    if (m_isPoleVisible)
         return true;
 
-    if ( m_vp.useAltAz )
+    if (m_vp.useAltAz)
     {
-        dX = fabs( p->az().Degrees() - m_vp.focus->az().Degrees() );
+        dX = fabs(p->az().Degrees() - m_vp.focus->az().Degrees());
     }
     else
     {
-        dX = fabs( p->ra().Degrees() - m_vp.focus->ra().Degrees() );
+        dX = fabs(p->ra().Degrees() - m_vp.focus->ra().Degrees());
     }
-    if ( dX > 180.0 )
+    if (dX > 180.0)
         dX = 360.0 - dX; // take shorter distance around sky
 
     return dX < m_xrange;
 }
 
 // FIXME: There should be a MUCH more efficient way to do this (see EyepieceField for example)
-double Projector::findNorthPA( SkyPoint * o, float x, float y ) const
+double Projector::findNorthPA(SkyPoint *o, float x, float y) const
 {
     //Find position angle of North using a test point displaced to the north
     //displace by 100/zoomFactor radians (so distance is always 100 pixels)
     //this is 5730/zoomFactor degrees
-    KStarsData * data = KStarsData::Instance();
-    double newDec = o->dec().Degrees() + 5730.0/m_vp.zoomFactor;
-    if ( newDec > 90.0 )
+    KStarsData *data = KStarsData::Instance();
+    double newDec    = o->dec().Degrees() + 5730.0 / m_vp.zoomFactor;
+    if (newDec > 90.0)
         newDec = 90.0;
-    SkyPoint test( o->ra().Hours(), newDec );
-    if ( m_vp.useAltAz )
-        test.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    Vector2f t = toScreenVec( &test );
-    float dx = t.x() - x;
-    float dy = y - t.y(); //backwards because QWidget Y-axis increases to the bottom
+    SkyPoint test(o->ra().Hours(), newDec);
+    if (m_vp.useAltAz)
+        test.EquatorialToHorizontal(data->lst(), data->geo()->lat());
+    Vector2f t = toScreenVec(&test);
+    float dx   = t.x() - x;
+    float dy   = y - t.y(); //backwards because QWidget Y-axis increases to the bottom
     float north;
-    if ( dy )
+    if (dy)
     {
-        north = atan2f( dx, dy )*180.0/dms::PI;
+        north = atan2f(dx, dy) * 180.0 / dms::PI;
     }
     else
     {
@@ -282,27 +280,25 @@ double Projector::findNorthPA( SkyPoint * o, float x, float y ) const
     return north;
 }
 
-double Projector::findPA( SkyObject * o, float x, float y ) const
+double Projector::findPA(SkyObject *o, float x, float y) const
 {
-
-    return ( findNorthPA(o, x,y) + o->pa() );
+    return (findNorthPA(o, x, y) + o->pa());
 }
 
-QVector< Vector2f > Projector::groundPoly(SkyPoint * labelpoint, bool * drawLabel) const
+QVector<Vector2f> Projector::groundPoly(SkyPoint *labelpoint, bool *drawLabel) const
 {
     QVector<Vector2f> ground;
 
     static const QString horizonLabel = i18n("Horizon");
     float marginLeft, marginRight, marginTop, marginBot;
-    SkyLabeler::Instance()->getMargins( horizonLabel, &marginLeft, &marginRight,
-                                        &marginTop, &marginBot );
+    SkyLabeler::Instance()->getMargins(horizonLabel, &marginLeft, &marginRight, &marginTop, &marginBot);
 
     //daz is 1/2 the width of the sky in degrees
     double daz = 90.;
-    if ( m_vp.useAltAz )
+    if (m_vp.useAltAz)
     {
-        daz = 0.5*m_vp.width*57.3/m_vp.zoomFactor; //center to edge, in degrees
-        if ( type() == Projector::Orthographic )
+        daz = 0.5 * m_vp.width * 57.3 / m_vp.zoomFactor; //center to edge, in degrees
+        if (type() == Projector::Orthographic)
         {
             daz = daz * 1.4;
         }
@@ -310,46 +306,48 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint * labelpoint, bool * drawLabe
     }
 
     double faz = m_vp.focus->az().Degrees();
-    double az1 = faz -daz;
-    double az2 = faz +daz;
+    double az1 = faz - daz;
+    double az2 = faz + daz;
 
     bool allGround = true;
-    bool allSky = true;
+    bool allSky    = true;
 
     double inc = 1.0;
     //Add points along horizon
-    for(double az = az1; az <= az2 + inc; az += inc)
+    for (double az = az1; az <= az2 + inc; az += inc)
     {
-        SkyPoint p = pointAt(az);
+        SkyPoint p   = pointAt(az);
         bool visible = false;
-        Vector2f o = toScreenVec(&p, false, &visible);
-        if( visible )
+        Vector2f o   = toScreenVec(&p, false, &visible);
+        if (visible)
         {
-            ground.append( o );
+            ground.append(o);
             //Set the label point if this point is onscreen
-            if ( labelpoint && o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
+            if (labelpoint && o.x() < marginRight && o.y() > marginTop && o.y() < marginBot)
                 *labelpoint = p;
 
-            if ( o.y() > 0. ) allGround = false;
-            if ( o.y() < m_vp.height ) allSky = false;
+            if (o.y() > 0.)
+                allGround = false;
+            if (o.y() < m_vp.height)
+                allSky = false;
         }
     }
 
-    if( allSky )
+    if (allSky)
     {
-        if( drawLabel)
+        if (drawLabel)
             *drawLabel = false;
         return QVector<Vector2f>();
     }
 
-    if( allGround )
+    if (allGround)
     {
         ground.clear();
-        ground.append( Vector2f( -10., -10. ) );
-        ground.append( Vector2f( m_vp.width +10., -10. ) );
-        ground.append( Vector2f( m_vp.width +10., m_vp.height +10. ) );
-        ground.append( Vector2f( -10., m_vp.height +10. ) );
-        if( drawLabel)
+        ground.append(Vector2f(-10., -10.));
+        ground.append(Vector2f(m_vp.width + 10., -10.));
+        ground.append(Vector2f(m_vp.width + 10., m_vp.height + 10.));
+        ground.append(Vector2f(-10., m_vp.height + 10.));
+        if (drawLabel)
             *drawLabel = false;
         return ground;
     }
@@ -357,28 +355,29 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint * labelpoint, bool * drawLabe
     //In Gnomonic projection, or if sufficiently zoomed in, we can complete
     //the ground polygon by simply adding offscreen points
     //FIXME: not just gnomonic
-    if ( daz < 25.0 || type() == Projector::Gnomonic )
+    if (daz < 25.0 || type() == Projector::Gnomonic)
     {
-        ground.append( Vector2f( m_vp.width + 10.f, ground.last().y() ) );
-        ground.append( Vector2f( m_vp.width + 10.f, m_vp.height + 10.f ) );
-        ground.append( Vector2f( -10.f, m_vp.height + 10.f ) );
-        ground.append( Vector2f( -10.f, ground.first().y() ) );
+        ground.append(Vector2f(m_vp.width + 10.f, ground.last().y()));
+        ground.append(Vector2f(m_vp.width + 10.f, m_vp.height + 10.f));
+        ground.append(Vector2f(-10.f, m_vp.height + 10.f));
+        ground.append(Vector2f(-10.f, ground.first().y()));
     }
     else
     {
-        double r = m_vp.zoomFactor*radius();
-        double t1 = atan2( -1.*(ground.last().y() - 0.5*m_vp.height), ground.last().x() - 0.5*m_vp.width )/dms::DegToRad;
+        double r = m_vp.zoomFactor * radius();
+        double t1 =
+            atan2(-1. * (ground.last().y() - 0.5 * m_vp.height), ground.last().x() - 0.5 * m_vp.width) / dms::DegToRad;
         double t2 = t1 - 180.;
-        for ( double t=t1; t >= t2; t -= inc )    //step along circumference
+        for (double t = t1; t >= t2; t -= inc) //step along circumference
         {
-            dms a( t );
+            dms a(t);
             double sa(0.), ca(0.);
-            a.SinCos( sa, ca );
-            ground.append( Vector2f( 0.5*m_vp.width + r*ca, 0.5*m_vp.height - r*sa) );
+            a.SinCos(sa, ca);
+            ground.append(Vector2f(0.5 * m_vp.width + r * ca, 0.5 * m_vp.height - r * sa));
         }
     }
 
-    if( drawLabel)
+    if (drawLabel)
         *drawLabel = true;
     return ground;
 }
@@ -387,17 +386,17 @@ void Projector::updateClipPoly()
 {
     m_clipPolygon.clear();
 
-    double r = m_vp.zoomFactor*radius();
-    double t1 = 0 ;
-    double t2 = 360;
-    double inc=1.0;
-    for ( double t=t1; t <= t2; t += inc )
+    double r   = m_vp.zoomFactor * radius();
+    double t1  = 0;
+    double t2  = 360;
+    double inc = 1.0;
+    for (double t = t1; t <= t2; t += inc)
     {
         //step along circumference
-        dms a( t );
+        dms a(t);
         double sa(0.), ca(0.);
-        a.SinCos( sa, ca );
-        m_clipPolygon << QPointF( 0.5*m_vp.width + r*ca, 0.5*m_vp.height - r*sa);
+        a.SinCos(sa, ca);
+        m_clipPolygon << QPointF(0.5 * m_vp.width + r * ca, 0.5 * m_vp.height - r * sa);
     }
 }
 
@@ -412,16 +411,17 @@ bool Projector::unusablePoint(const QPointF &p) const
     double r0 = radius();
     //If the zoom is high enough, all points are usable
     //The center-to-corner distance, in radians
-    double r = 0.5*1.41421356*m_vp.width/m_vp.zoomFactor;
-    if( r < r0 ) return false;
+    double r = 0.5 * 1.41421356 * m_vp.width / m_vp.zoomFactor;
+    if (r < r0)
+        return false;
     //At low zoom, we have to determine whether the point is beyond the sky horizon
     //Convert pixel position to x and y offsets in radians
-    double dx = (0.5*m_vp.width  - p.x())/m_vp.zoomFactor;
-    double dy = (0.5*m_vp.height - p.y())/m_vp.zoomFactor;
-    return (dx*dx + dy*dy) > r0*r0;
+    double dx = (0.5 * m_vp.width - p.x()) / m_vp.zoomFactor;
+    double dy = (0.5 * m_vp.height - p.y()) / m_vp.zoomFactor;
+    return (dx * dx + dy * dy) > r0 * r0;
 }
 
-SkyPoint Projector::fromScreen(const QPointF &p, dms * LST, const dms * lat) const
+SkyPoint Projector::fromScreen(const QPointF &p, dms *LST, const dms *lat) const
 {
     dms c;
     double sinc, cosc;
@@ -430,62 +430,62 @@ SkyPoint Projector::fromScreen(const QPointF &p, dms * LST, const dms * lat) con
       */
     double sinY0, cosY0;
     //Convert pixel position to x and y offsets in radians
-    double dx = (0.5*m_vp.width  - p.x())/m_vp.zoomFactor;
-    double dy = (0.5*m_vp.height - p.y())/m_vp.zoomFactor;
+    double dx = (0.5 * m_vp.width - p.x()) / m_vp.zoomFactor;
+    double dy = (0.5 * m_vp.height - p.y()) / m_vp.zoomFactor;
 
-    double r = sqrt( dx*dx + dy*dy );
-    c.setRadians( projectionL(r) );
-    c.SinCos( sinc, cosc );
+    double r = sqrt(dx * dx + dy * dy);
+    c.setRadians(projectionL(r));
+    c.SinCos(sinc, cosc);
 
-    if( m_vp.useAltAz )
+    if (m_vp.useAltAz)
     {
-        dx = -1.0*dx; //Azimuth goes in opposite direction compared to RA
-        m_vp.focus->alt().SinCos( sinY0, cosY0 );
+        dx = -1.0 * dx; //Azimuth goes in opposite direction compared to RA
+        m_vp.focus->alt().SinCos(sinY0, cosY0);
     }
     else
     {
-        m_vp.focus->dec().SinCos( sinY0, cosY0 );
+        m_vp.focus->dec().SinCos(sinY0, cosY0);
     }
 
-    double Y = asin( cosc*sinY0 + ( dy*sinc*cosY0 )/r );
-    double atop = dx*sinc;
-    double abot = r*cosY0*cosc - dy*sinY0*sinc;
-    double A = atan2( atop, abot );
+    double Y    = asin(cosc * sinY0 + (dy * sinc * cosY0) / r);
+    double atop = dx * sinc;
+    double abot = r * cosY0 * cosc - dy * sinY0 * sinc;
+    double A    = atan2(atop, abot);
 
     SkyPoint result;
-    if ( m_vp.useAltAz )
+    if (m_vp.useAltAz)
     {
         dms alt, az;
-        alt.setRadians( Y );
-        az.setRadians( A + m_vp.focus->az().radians() );
-        if ( m_vp.useRefraction )
-            alt = SkyPoint::unrefract( alt );
-        result.setAlt( alt );
-        result.setAz( az );
-        result.HorizontalToEquatorial( LST, lat );
+        alt.setRadians(Y);
+        az.setRadians(A + m_vp.focus->az().radians());
+        if (m_vp.useRefraction)
+            alt = SkyPoint::unrefract(alt);
+        result.setAlt(alt);
+        result.setAz(az);
+        result.HorizontalToEquatorial(LST, lat);
     }
     else
     {
         dms ra, dec;
-        dec.setRadians( Y );
-        ra.setRadians( A + m_vp.focus->ra().radians() );
-        result.set( ra.reduce(), dec );
-        result.EquatorialToHorizontal( LST, lat );
+        dec.setRadians(Y);
+        ra.setRadians(A + m_vp.focus->ra().radians());
+        result.set(ra.reduce(), dec);
+        result.EquatorialToHorizontal(LST, lat);
     }
 
     return result;
 }
 
-Vector2f Projector::toScreenVec(const SkyPoint * o, bool oRefract, bool * onVisibleHemisphere) const
+Vector2f Projector::toScreenVec(const SkyPoint *o, bool oRefract, bool *onVisibleHemisphere) const
 {
     double Y, dX;
     double sindX, cosdX, sinY, cosY;
 
     oRefract &= m_vp.useRefraction;
-    if ( m_vp.useAltAz )
+    if (m_vp.useAltAz)
     {
-        if ( oRefract )
-            Y = SkyPoint::refract( o->alt() ).radians(); //account for atmospheric refraction
+        if (oRefract)
+            Y = SkyPoint::refract(o->alt()).radians(); //account for atmospheric refraction
         else
             Y = o->alt().radians();
         dX = m_vp.focus->az().radians() - o->az().radians();
@@ -493,12 +493,12 @@ Vector2f Projector::toScreenVec(const SkyPoint * o, bool oRefract, bool * onVisi
     else
     {
         dX = o->ra().radians() - m_vp.focus->ra().radians();
-        Y = o->dec().radians();
+        Y  = o->dec().radians();
     }
 
-    if( !( std::isfinite( Y ) && std::isfinite( dX ) ) )
+    if (!(std::isfinite(Y) && std::isfinite(dX)))
     {
-        return Vector2f(0,0);
+        return Vector2f(0, 0);
 
         // JM: Enable this again later when trying to find a solution for it
         //     As it is now creating too much noise in the log file.
@@ -519,10 +519,10 @@ Vector2f Projector::toScreenVec(const SkyPoint * o, bool oRefract, bool * onVisi
 
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
 
-    //Convert dX, Y coords to screen pixel coords, using GNU extension if available
-#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
-    sincos( dX, &sindX, &cosdX );
-    sincos( Y, &sinY, &cosY );
+//Convert dX, Y coords to screen pixel coords, using GNU extension if available
+#if (__GLIBC__ >= 2 && __GLIBC_MINOR__ >= 1)
+    sincos(dX, &sindX, &cosdX);
+    sincos(Y, &sinY, &cosY);
 #else
     sindX = sin(dX);
     cosdX = cos(dX);
@@ -531,32 +531,34 @@ Vector2f Projector::toScreenVec(const SkyPoint * o, bool oRefract, bool * onVisi
 #endif
 
     //c is the cosine of the angular distance from the center
-    double c = m_sinY0*sinY + m_cosY0*cosY*cosdX;
+    double c = m_sinY0 * sinY + m_cosY0 * cosY * cosdX;
 
     //If c is less than 0.0, then the "field angle" (angular distance from the focus)
     //is more than 90 degrees.  This is on the "back side" of the celestial sphere
     //and should not be drawn.
-    if( onVisibleHemisphere )
-        *onVisibleHemisphere = (c > cosMaxFieldAngle()); // TODO: Isn't it more efficient to bypass the final calculation below if the object is not visible?
+    if (onVisibleHemisphere)
+        *onVisibleHemisphere =
+            (c >
+             cosMaxFieldAngle()); // TODO: Isn't it more efficient to bypass the final calculation below if the object is not visible?
 
     double k = projectionK(c);
 
-    double origX = m_vp.width/2;
-    double origY  = m_vp.height/2;
+    double origX = m_vp.width / 2;
+    double origY = m_vp.height / 2;
 
-    double x = origX - m_vp.zoomFactor*k*cosY*sindX;
-    double y = origY - m_vp.zoomFactor*k*( m_cosY0*sinY - m_sinY0*cosY*cosdX );
+    double x = origX - m_vp.zoomFactor * k * cosY * sindX;
+    double y = origY - m_vp.zoomFactor * k * (m_cosY0 * sinY - m_sinY0 * cosY * cosdX);
 #ifdef KSTARS_LITE
     double skyRotation = SkyMapLite::Instance()->getSkyRotation();
-    if(skyRotation != 0)
+    if (skyRotation != 0)
     {
         dms rotation(skyRotation);
         double cosT, sinT;
 
         rotation.SinCos(sinT, cosT);
 
-        double newX = origX + (x - origX)*cosT - (y - origY)*sinT;
-        double newY = origY + (x - origX)*sinT + (y - origY)*cosT;
+        double newX = origX + (x - origX) * cosT - (y - origY) * sinT;
+        double newY = origY + (x - origX) * sinT + (y - origY) * cosT;
 
         x = newX;
         y = newY;

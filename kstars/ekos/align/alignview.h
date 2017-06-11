@@ -9,7 +9,6 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-
 #ifndef ALIGNVIEW_H
 #define ALIGNVIEW_H
 
@@ -17,31 +16,31 @@
 
 class AlignView : public FITSView
 {
-        Q_OBJECT
-    public:
-        AlignView(QWidget * parent = 0, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);
-        ~AlignView();
+    Q_OBJECT
+  public:
+    AlignView(QWidget *parent = 0, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
+    ~AlignView();
 
-        /* Calculate WCS header info and update WCS info */
-        bool createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale);
+    /* Calculate WCS header info and update WCS info */
+    bool createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale);
 
-        void drawOverlay(QPainter *) override;
+    void drawOverlay(QPainter *) override;
 
-        // Correction line
-        void setCorrectionParams(QLineF line);
-        void setCorrectionOffset(QPointF newOffset);
+    // Correction line
+    void setCorrectionParams(QLineF line);
+    void setCorrectionOffset(QPointF newOffset);
 
-        void setRACircle(const QVector3D &value);
+    void setRACircle(const QVector3D &value);
 
-    protected:
-        void drawLine(QPainter * painter);
-        void drawCircle(QPainter * painter);
+  protected:
+    void drawLine(QPainter *painter);
+    void drawCircle(QPainter *painter);
 
-    private:
-        // Correction Line
-        QLineF correctionLine;
-        QPointF correctionOffset, celestialPolePoint;
-        QVector3D RACircle;
+  private:
+    // Correction Line
+    QLineF correctionLine;
+    QPointF correctionOffset, celestialPolePoint;
+    QVector3D RACircle;
 };
 
 #endif // ALIGNVIEW_H

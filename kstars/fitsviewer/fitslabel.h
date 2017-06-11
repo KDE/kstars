@@ -30,33 +30,32 @@ class FITSView;
 
 class FITSLabel : public QLabel
 {
-        Q_OBJECT
-    public:
-        explicit FITSLabel(FITSView * img, QWidget * parent = nullptr);
-        virtual ~FITSLabel();
-        void setSize(double w, double h);
-        void centerTelescope(double raJ2000, double decJ2000);
-        bool getMouseButtonDown();
+    Q_OBJECT
+  public:
+    explicit FITSLabel(FITSView *img, QWidget *parent = nullptr);
+    virtual ~FITSLabel();
+    void setSize(double w, double h);
+    void centerTelescope(double raJ2000, double decJ2000);
+    bool getMouseButtonDown();
 
-    protected:
+  protected:
+    virtual void mouseMoveEvent(QMouseEvent *e);
+    virtual void mousePressEvent(QMouseEvent *e);
+    virtual void mouseReleaseEvent(QMouseEvent *e);
+    virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
-        virtual void mouseMoveEvent(QMouseEvent * e);
-        virtual void mousePressEvent(QMouseEvent * e);
-        virtual void mouseReleaseEvent(QMouseEvent * e);
-        virtual void mouseDoubleClickEvent(QMouseEvent * e);
+  private:
+    bool mouseButtonDown = false;
+    QPoint lastMousePoint;
+    FITSView *view;
+    dms ra;
+    dms dec;
+    double width, height, size;
 
-    private:
-        bool mouseButtonDown=false;
-        QPoint lastMousePoint;
-        FITSView * view;
-        dms ra;
-        dms dec;
-        double width,height,size;
-
-    signals:
-        void newStatus(const QString &msg, FITSBar id);
-        void pointSelected(int x, int y);
-        void markerSelected(int x, int y);
+  signals:
+    void newStatus(const QString &msg, FITSBar id);
+    void pointSelected(int x, int y);
+    void markerSelected(int x, int y);
 };
 
 #endif

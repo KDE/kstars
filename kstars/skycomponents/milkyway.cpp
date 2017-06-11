@@ -40,9 +40,7 @@
 
 #include "skypainter.h"
 
-
-MilkyWay::MilkyWay( SkyComposite * parent ) :
-    LineListIndex( parent, i18n("Milky Way") )
+MilkyWay::MilkyWay(SkyComposite *parent) : LineListIndex(parent, i18n("Milky Way"))
 {
     intro();
     // Milky way
@@ -57,41 +55,39 @@ MilkyWay::MilkyWay( SkyComposite * parent ) :
     QtConcurrent::run(this, &MilkyWay::loadContours, QString("smc.dat"), i18n("Loading Small Magellanic Clouds"));
 }
 
-const IndexHash &MilkyWay::getIndexHash(LineList * lineList )
+const IndexHash &MilkyWay::getIndexHash(LineList *lineList)
 {
     // FIXME: EVIL!
-    SkipList * skipList = (SkipList *) lineList;
-    return skyMesh()->indexLine( skipList->points(), skipList->skipHash() );
+    SkipList *skipList = (SkipList *)lineList;
+    return skyMesh()->indexLine(skipList->points(), skipList->skipHash());
 }
 
-SkipList * MilkyWay::skipList( LineList * lineList )
+SkipList *MilkyWay::skipList(LineList *lineList)
 {
     // FIXME: EVIL!
-    SkipList * skipList = (SkipList *) lineList;
+    SkipList *skipList = (SkipList *)lineList;
     return skipList;
 }
 
 bool MilkyWay::selected()
 {
 #ifndef KSTARS_LITE
-    return Options::showMilkyWay() &&
-           ! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMap::IsSlewing() );
+    return Options::showMilkyWay() && !(Options::hideOnSlew() && Options::hideMilkyWay() && SkyMap::IsSlewing());
 #else
-    return Options::showMilkyWay() &&
-           ! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMapLite::IsSlewing() );
+    return Options::showMilkyWay() && !(Options::hideOnSlew() && Options::hideMilkyWay() && SkyMapLite::IsSlewing());
 #endif
 }
 
-void MilkyWay::draw( SkyPainter * skyp )
+void MilkyWay::draw(SkyPainter *skyp)
 {
-    if ( !selected() )
+    if (!selected())
         return;
 
-    QColor color = KStarsData::Instance()->colorScheme()->colorNamed( "MWColor" );
-    skyp->setPen( QPen( color, 3, Qt::SolidLine ) );
-    skyp->setBrush( QBrush( color ) );
+    QColor color = KStarsData::Instance()->colorScheme()->colorNamed("MWColor");
+    skyp->setPen(QPen(color, 3, Qt::SolidLine));
+    skyp->setBrush(QBrush(color));
 
-    if( Options::fillMilkyWay() )
+    if (Options::fillMilkyWay())
     {
         drawFilled(skyp);
     }
@@ -103,48 +99,47 @@ void MilkyWay::draw( SkyPainter * skyp )
 
 void MilkyWay::loadContours(QString fname, QString greeting)
 {
-
     KSFileReader fileReader;
-    if ( !fileReader.open( fname ) )
+    if (!fileReader.open(fname))
         return;
-    fileReader.setProgress( greeting, 2136, 5 );
+    fileReader.setProgress(greeting, 2136, 5);
 
-    SkipList * skipList = 0;
-    int iSkip = 0;
-    while ( fileReader.hasMoreLines() )
+    SkipList *skipList = 0;
+    int iSkip          = 0;
+    while (fileReader.hasMoreLines())
     {
         QString line = fileReader.readLine();
         fileReader.showProgress();
 
-        QChar firstChar = line.at( 0 );
-        if ( firstChar == '#' )
+        QChar firstChar = line.at(0);
+        if (firstChar == '#')
             continue;
 
         bool okRA, okDec;
-        double ra  = line.mid( 2,  8 ).toDouble(&okRA);
-        double dec = line.mid( 11, 8 ).toDouble(&okDec);
-        if( !okRA || !okDec)
+        double ra  = line.mid(2, 8).toDouble(&okRA);
+        double dec = line.mid(11, 8).toDouble(&okDec);
+        if (!okRA || !okDec)
         {
             qDebug() << QString("%1: conversion error on line: %2\n").arg(fname).arg(fileReader.lineNumber());
             continue;
         }
 
-        if ( firstChar == 'M' )
+        if (firstChar == 'M')
         {
-            if( skipList )
-                appendBoth( skipList );
+            if (skipList)
+                appendBoth(skipList);
             skipList = 0;
             iSkip    = 0;
         }
 
-        if( !skipList )
+        if (!skipList)
             skipList = new SkipList();
 
-        skipList->append( new SkyPoint(ra, dec) );
-        if ( firstChar == 'S' )
-            skipList->setSkip( iSkip );
+        skipList->append(new SkyPoint(ra, dec));
+        if (firstChar == 'S')
+            skipList->setSkip(iSkip);
         iSkip++;
     }
-    if ( skipList )
-        appendBoth( skipList );
+    if (skipList)
+        appendBoth(skipList);
 }

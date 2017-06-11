@@ -29,21 +29,21 @@ class PrintingWizard;
   */
 class PWizFovManualUI : public QFrame, public Ui::PWizFovManual
 {
-        Q_OBJECT
-    public:
-        /**
+    Q_OBJECT
+  public:
+    /**
           * \brief Constructor.
           */
-        explicit PWizFovManualUI(PrintingWizard * wizard, QWidget * parent = 0);
+    explicit PWizFovManualUI(PrintingWizard *wizard, QWidget *parent = 0);
 
-    private slots:
-        /**
+  private slots:
+    /**
           * \brief Slot: enter manual FOV capture mode.
           */
-        void slotExportFov();
+    void slotExportFov();
 
-    private:
-        PrintingWizard * m_ParentWizard;
+  private:
+    PrintingWizard *m_ParentWizard;
 };
 
 #endif // PWIZFOVMANUAL_H

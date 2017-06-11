@@ -15,7 +15,7 @@ ActionReply DownloadHelper::saveindexfile(const QVariantMap &args)
 
     QByteArray array = args["contents"].toByteArray();
 
-    file.write(array.data(),array.size());
+    file.write(array.data(), array.size());
     file.close();
 
     return reply;
@@ -24,17 +24,17 @@ ActionReply DownloadHelper::saveindexfile(const QVariantMap &args)
 ActionReply DownloadHelper::removeindexfileset(const QVariantMap &args)
 {
     ActionReply reply;
-    QString indexSetName = args["indexSetName"].toString();
+    QString indexSetName      = args["indexSetName"].toString();
     QString astrometryDataDir = args["astrometryDataDir"].toString();
 
     QStringList nameFilter("*.fits");
     QDir directory(astrometryDataDir);
     QStringList indexList = directory.entryList(nameFilter);
-    foreach(QString fileName, indexList)
+    foreach (QString fileName, indexList)
     {
-        if(fileName.contains(indexSetName.left(10)))
+        if (fileName.contains(indexSetName.left(10)))
         {
-            if(!directory.remove(fileName))
+            if (!directory.remove(fileName))
             {
                 reply = ActionReply::HelperErrorReply();
                 reply.setErrorDescription("File did not delete");
@@ -46,5 +46,4 @@ ActionReply DownloadHelper::removeindexfileset(const QVariantMap &args)
     return reply;
 }
 
-
-KAUTH_HELPER_MAIN("org.kde.kf5auth.kstars" , DownloadHelper);
+KAUTH_HELPER_MAIN("org.kde.kf5auth.kstars", DownloadHelper);

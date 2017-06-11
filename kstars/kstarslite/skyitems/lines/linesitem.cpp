@@ -24,51 +24,47 @@
 #include "../skynodes/nodes/linenode.h"
 #include "../skynodes/trixelnode.h"
 
-LinesItem::LinesItem(RootNode * rootNode)
-    :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode)
+LinesItem::LinesItem(RootNode *rootNode) : SkyItem(LabelsItem::label_t::NO_LABEL, rootNode)
 {
-
 }
 
-LineIndexNode::LineIndexNode(QString color)
-    :schemeColor(color)
+LineIndexNode::LineIndexNode(QString color) : schemeColor(color)
 {
-
 }
 
-void LinesItem::addLinesComponent(LineListIndex * linesComp, QString color, int width, Qt::PenStyle style)
+void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int width, Qt::PenStyle style)
 {
-    LineIndexNode * node = new LineIndexNode(color);
+    LineIndexNode *node = new LineIndexNode(color);
     appendChildNode(node);
 
     m_lineIndexes.insert(node, linesComp);
-    LineListHash * list = linesComp->lineIndex();
+    LineListHash *list = linesComp->lineIndex();
     //Sort by trixels
     QMap<Trixel, LineListList *> trixels;
 
-    QHash<Trixel, LineListList * >::const_iterator s = list->cbegin();
-    while(s != list->cend())
+    QHash<Trixel, LineListList *>::const_iterator s = list->cbegin();
+    while (s != list->cend())
     {
         trixels.insert(s.key(), *s);
         s++;
     }
 
-    QMap<Trixel, LineListList * >::const_iterator i = trixels.cbegin();
+    QMap<Trixel, LineListList *>::const_iterator i = trixels.cbegin();
     QList<LineList *> addedLines;
-    while( i != trixels.cend())
+    while (i != trixels.cend())
     {
-        LineListList * linesList = *i;
+        LineListList *linesList = *i;
 
-        if(linesList->size())
+        if (linesList->size())
         {
-            TrixelNode * trixel = new TrixelNode(i.key());
+            TrixelNode *trixel = new TrixelNode(i.key());
             node->appendChildNode(trixel);
 
             QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed(color);
-            for(int c = 0; c < linesList->size(); ++c)
+            for (int c = 0; c < linesList->size(); ++c)
             {
-                LineList * list = linesList->at(c);
-                if(!addedLines.contains(list))
+                LineList *list = linesList->at(c);
+                if (!addedLines.contains(list))
                 {
                     trixel->appendChildNode(new LineNode(linesList->at(c), 0, schemeColor, width, style));
                     addedLines.append(list);
@@ -81,39 +77,40 @@ void LinesItem::addLinesComponent(LineListIndex * linesComp, QString color, int 
 
 void LinesItem::update()
 {
-    QMap< LineIndexNode *, LineListIndex *>::iterator i = m_lineIndexes.begin();
+    QMap<LineIndexNode *, LineListIndex *>::iterator i = m_lineIndexes.begin();
 
-    SkyMapLite * map = SkyMapLite::Instance();
+    SkyMapLite *map = SkyMapLite::Instance();
 
     double radius = map->projector()->fov();
-    if ( radius > 90.0 ) radius = 90.0;
+    if (radius > 90.0)
+        radius = 90.0;
 
     UpdateID updateID = KStarsData::Instance()->updateID();
 
-    while( i != m_lineIndexes.end())
+    while (i != m_lineIndexes.end())
     {
-        LineIndexNode * node = i.key();
-        QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed(node->getSchemeColor());
-        if(i.value()->selected())
+        LineIndexNode *node = i.key();
+        QColor schemeColor  = KStarsData::Instance()->colorScheme()->colorNamed(node->getSchemeColor());
+        if (i.value()->selected())
         {
             node->show();
 
-            QSGNode * n = node->firstChild();
-            while(n != 0)
+            QSGNode *n = node->firstChild();
+            while (n != 0)
             {
-                TrixelNode * trixel = static_cast<TrixelNode *>(n);
+                TrixelNode *trixel = static_cast<TrixelNode *>(n);
                 trixel->show();
 
-                QSGNode * l = trixel->firstChild();
-                while(l != 0)
+                QSGNode *l = trixel->firstChild();
+                while (l != 0)
                 {
-                    LineNode * lines = static_cast<LineNode *>(l);
+                    LineNode *lines = static_cast<LineNode *>(l);
                     lines->setColor(schemeColor);
                     l = l->nextSibling();
 
-                    LineList * lineList = lines->lineList();
-                    if ( lineList->updateID != updateID )
-                        i.value()->JITupdate( lineList );
+                    LineList *lineList = lines->lineList();
+                    if (lineList->updateID != updateID)
+                        i.value()->JITupdate(lineList);
 
                     lines->updateGeometry();
                 }
@@ -127,4 +124,3 @@ void LinesItem::update()
         ++i;
     }
 }
-

@@ -27,8 +27,8 @@
 #include <QPointer>
 #include <KLocalizedString>
 
-PWizObjectSelectionUI::PWizObjectSelectionUI(PrintingWizard * wizard, QWidget * parent) : QFrame(parent),
-    m_ParentWizard(wizard)
+PWizObjectSelectionUI::PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent)
+    : QFrame(parent), m_ParentWizard(wizard)
 {
     setupUi(this);
 
@@ -41,7 +41,7 @@ PWizObjectSelectionUI::PWizObjectSelectionUI(PrintingWizard * wizard, QWidget * 
     connect(detailsButton, SIGNAL(clicked()), this, SLOT(slotShowDetails()));
 }
 
-void PWizObjectSelectionUI::setSkyObject(SkyObject * obj)
+void PWizObjectSelectionUI::setSkyObject(SkyObject *obj)
 {
     m_ParentWizard->setSkyObject(obj);
     m_ParentWizard->updateStepButtons();
@@ -57,11 +57,11 @@ void PWizObjectSelectionUI::setSkyObject(SkyObject * obj)
 
 void PWizObjectSelectionUI::slotSelectFromList()
 {
-    QPointer<FindDialog> findDlg( new FindDialog( this ) );
-    if(findDlg->exec() == QDialog::Accepted && findDlg)
+    QPointer<FindDialog> findDlg(new FindDialog(this));
+    if (findDlg->exec() == QDialog::Accepted && findDlg)
     {
-        SkyObject * obj = findDlg->targetObject();
-        if(obj)
+        SkyObject *obj = findDlg->targetObject();
+        if (obj)
         {
             setSkyObject(obj);
             m_ParentWizard->updateStepButtons();
@@ -77,30 +77,30 @@ void PWizObjectSelectionUI::slotPointObject()
 
 void PWizObjectSelectionUI::slotShowDetails()
 {
-    if(m_ParentWizard->getSkyObject())
+    if (m_ParentWizard->getSkyObject())
     {
-        QPointer<DetailDialog> detailDlg( new DetailDialog( m_ParentWizard->getSkyObject(), KStars::Instance()->data()->ut(),
-                                          KStars::Instance()->data()->geo(), this ) );
+        QPointer<DetailDialog> detailDlg(new DetailDialog(
+            m_ParentWizard->getSkyObject(), KStars::Instance()->data()->ut(), KStars::Instance()->data()->geo(), this));
         detailDlg->exec();
         delete detailDlg;
     }
 }
 
-QString PWizObjectSelectionUI::objectInfoString(SkyObject * obj)
+QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
 {
     QString retVal;
 
-    switch(obj->type())
+    switch (obj->type())
     {
         case SkyObject::STAR:
         {
-            StarObject * s = (StarObject *)obj;
+            StarObject *s = (StarObject *)obj;
 
             retVal = s->longname();
 
-            if(s->getHDIndex() != 0)
+            if (s->getHDIndex() != 0)
             {
-                if(!s->longname().isEmpty())
+                if (!s->longname().isEmpty())
                 {
                     retVal += QString(", HD%1").arg(QString::number(s->getHDIndex()));
                 }
@@ -117,29 +117,29 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject * obj)
             break;
         }
 
-        case SkyObject::ASTEROID:  //[fall through to planets]
-        case SkyObject::COMET:     //[fall through to planets]
-        case SkyObject::MOON:      //[fall through to planets]
+        case SkyObject::ASTEROID: //[fall through to planets]
+        case SkyObject::COMET:    //[fall through to planets]
+        case SkyObject::MOON:     //[fall through to planets]
 
         case SkyObject::PLANET:
         {
-            KSPlanetBase * ps = (KSPlanetBase *)obj;
+            KSPlanetBase *ps = (KSPlanetBase *)obj;
 
             retVal = ps->longname();
 
             //Type is "G5 star" for Sun
             QString type;
-            if(ps->name() == "Sun")
+            if (ps->name() == "Sun")
             {
                 type = i18n("G5 star");
             }
 
-            else if(ps->name() == "Moon" )
+            else if (ps->name() == "Moon")
             {
                 type = ps->translatedName();
             }
 
-            else if( ps->name() == i18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris" )
+            else if (ps->name() == i18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris")
             {
                 type = i18n("Dwarf planet");
             }
@@ -157,11 +157,11 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject * obj)
 
         default: // deep-sky object
         {
-            DeepSkyObject * dso = (DeepSkyObject *)obj;
+            DeepSkyObject *dso = (DeepSkyObject *)obj;
 
             QString oname, pname;
             //Show all names recorded for the object
-            if(!dso->longname().isEmpty() && dso->longname() != dso->name())
+            if (!dso->longname().isEmpty() && dso->longname() != dso->name())
             {
                 pname = dso->translatedLongName();
                 oname = dso->translatedName();
@@ -172,9 +172,9 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject * obj)
                 pname = dso->translatedName();
             }
 
-            if(!dso->translatedName2().isEmpty())
+            if (!dso->translatedName2().isEmpty())
             {
-                if(oname.isEmpty())
+                if (oname.isEmpty())
                 {
                     oname = dso->translatedName2();
                 }
@@ -185,9 +185,9 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject * obj)
                 }
             }
 
-            if(dso->ugc())
+            if (dso->ugc())
             {
-                if(!oname.isEmpty())
+                if (!oname.isEmpty())
                 {
                     oname += ", ";
                 }
@@ -195,9 +195,9 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject * obj)
                 oname += "UGC " + QString::number(dso->ugc());
             }
 
-            if(dso->pgc())
+            if (dso->pgc())
             {
-                if(!oname.isEmpty())
+                if (!oname.isEmpty())
                 {
                     oname += ", ";
                 }
@@ -205,7 +205,8 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject * obj)
                 oname += "PGC " + QString::number(dso->pgc());
             }
 
-            if(!oname.isEmpty()) pname += ", " + oname;
+            if (!oname.isEmpty())
+                pname += ", " + oname;
 
             retVal = pname;
             retVal += "; " + dso->typeName();

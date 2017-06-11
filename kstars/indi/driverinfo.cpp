@@ -16,13 +16,12 @@
 
 #include "servermanager.h"
 
-
 DriverInfo::DriverInfo(const QString &inName)
 {
     uniqueLabel.clear();
     name = inName;
 
-    driverSource  = PRIMARY_XML;
+    driverSource = PRIMARY_XML;
 
     // Initially off
     serverState = false;
@@ -30,37 +29,35 @@ DriverInfo::DriverInfo(const QString &inName)
 
     serverManager = nullptr;
 
-    hostname      = "localhost";
-    port          = "-1";
-    userPort      = "-1";
+    hostname = "localhost";
+    port     = "-1";
+    userPort = "-1";
 
     type = KSTARS_UNKNOWN;
-
 }
 
-DriverInfo::DriverInfo(DriverInfo * di)
+DriverInfo::DriverInfo(DriverInfo *di)
 {
-
-    name            = di->getName();
-    treeLabel       = di->getTreeLabel();
-    uniqueLabel     = di->getUniqueLabel();
-    driver          = di->getDriver();
-    version         = di->getVersion();
-    userPort        = di->getUserPort();
-    skelFile        = di->getSkeletonFile();
-    port            = di->getPort();
-    hostname        = di->getHost();
-    type            = di->getType();
-    serverState     = di->getServerState();
-    clientState     = di->getClientState();
-    driverSource    = di->getDriverSource();
-    serverManager   = di->getServerManager();
-    clientManager   = di->getClientManager();
-    auxInfo         = di->getAuxInfo();
-    devices         = di->getDevices();
+    name          = di->getName();
+    treeLabel     = di->getTreeLabel();
+    uniqueLabel   = di->getUniqueLabel();
+    driver        = di->getDriver();
+    version       = di->getVersion();
+    userPort      = di->getUserPort();
+    skelFile      = di->getSkeletonFile();
+    port          = di->getPort();
+    hostname      = di->getHost();
+    type          = di->getType();
+    serverState   = di->getServerState();
+    clientState   = di->getClientState();
+    driverSource  = di->getDriverSource();
+    serverManager = di->getServerManager();
+    clientManager = di->getClientManager();
+    auxInfo       = di->getAuxInfo();
+    devices       = di->getDevices();
 }
 
-DriverInfo * DriverInfo::clone()
+DriverInfo *DriverInfo::clone()
 {
     return new DriverInfo(this);
 }
@@ -72,8 +69,8 @@ DriverInfo::~DriverInfo()
 
 void DriverInfo::clear()
 {
-    serverState = false;
-    clientState = false;
+    serverState   = false;
+    clientState   = false;
     serverManager = nullptr;
     //uniqueLabel.clear();
 }
@@ -106,7 +103,6 @@ void DriverInfo::setClientState(bool inState)
     if (inState == clientState)
         return;
 
-
     clientState = inState;
 
     if (clientState == false)
@@ -125,20 +121,20 @@ void DriverInfo::setUserPort(const QString &inUserPort)
         userPort = "-1";
 }
 
-void DriverInfo::addDevice(DeviceInfo * idv)
+void DriverInfo::addDevice(DeviceInfo *idv)
 {
     devices.append(idv);
 }
 
-void DriverInfo::removeDevice(DeviceInfo * idv)
+void DriverInfo::removeDevice(DeviceInfo *idv)
 {
     devices.removeOne(idv);
-    delete(idv);
+    delete (idv);
 }
 
-DeviceInfo * DriverInfo::getDevice(const QString &deviceName)
+DeviceInfo *DriverInfo::getDevice(const QString &deviceName)
 {
-    foreach(DeviceInfo * idv, devices)
+    foreach (DeviceInfo *idv, devices)
     {
         if (idv->getBaseDevice()->getDeviceName() == deviceName)
             return idv;
@@ -169,6 +165,3 @@ void DriverInfo::setUniqueLabel(const QString &inUniqueLabel)
 
     uniqueLabel = inUniqueLabel;
 }
-
-
-

@@ -32,8 +32,7 @@
 #include <QtPrintSupport/QPrintDialog>
 #include <QPointer>
 
-PWizPrintUI::PWizPrintUI(PrintingWizard * wizard, QWidget * parent) : QFrame(parent),
-    m_ParentWizard(wizard)
+PWizPrintUI::PWizPrintUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent), m_ParentWizard(wizard)
 {
     setupUi(this);
 
@@ -44,56 +43,55 @@ PWizPrintUI::PWizPrintUI(PrintingWizard * wizard, QWidget * parent) : QFrame(par
 
 void PWizPrintUI::slotPreview()
 {
-    QPointer<QPrintPreviewDialog> previewDlg( new QPrintPreviewDialog( m_ParentWizard->getPrinter()
-            , KStars::Instance() ) );
+    QPointer<QPrintPreviewDialog> previewDlg(new QPrintPreviewDialog(m_ParentWizard->getPrinter(), KStars::Instance()));
     connect(previewDlg, SIGNAL(paintRequested(QPrinter *)), SLOT(slotPrintPreview(QPrinter *)));
     previewDlg->exec();
     delete previewDlg;
 }
 
-void PWizPrintUI::slotPrintPreview(QPrinter * printer)
+void PWizPrintUI::slotPrintPreview(QPrinter *printer)
 {
     printDocument(printer);
 }
 
 void PWizPrintUI::slotPrint()
 {
-    QPointer<QPrintDialog> dialog( new QPrintDialog( m_ParentWizard->getPrinter()
-                                   , KStars::Instance() ) );
-    if(dialog->exec() == QDialog::Accepted)
+    QPointer<QPrintDialog> dialog(new QPrintDialog(m_ParentWizard->getPrinter(), KStars::Instance()));
+    if (dialog->exec() == QDialog::Accepted)
     {
         printDocument(m_ParentWizard->getPrinter());
     }
     delete dialog;
 }
 
-void PWizPrintUI::printDocument(QPrinter * printer)
+void PWizPrintUI::printDocument(QPrinter *printer)
 {
     m_ParentWizard->getFinderChart()->print(printer);
 }
 
 void PWizPrintUI::slotExport()
 {
-    QUrl url = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export"), QUrl(QDir::homePath()), "application/pdf application/postscript application/vnd.oasis.opendocument.text");
+    QUrl url =
+        QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export"), QUrl(QDir::homePath()),
+                                    "application/pdf application/postscript application/vnd.oasis.opendocument.text");
     //User cancelled file selection dialog - abort image export
-    if(url.isEmpty())
+    if (url.isEmpty())
     {
         return;
     }
 
     //Warn user if file exists!
-    if(QFile::exists(url.toLocalFile()))
+    if (QFile::exists(url.toLocalFile()))
     {
-        int r=KMessageBox::warningContinueCancel(parentWidget(),
-                i18n( "A file named \"%1\" already exists. Overwrite it?" , url.fileName()),
-                i18n( "Overwrite File?" ),
-                KStandardGuiItem::overwrite() );
-        if(r == KMessageBox::Cancel)
+        int r = KMessageBox::warningContinueCancel(
+            parentWidget(), i18n("A file named \"%1\" already exists. Overwrite it?", url.fileName()),
+            i18n("Overwrite File?"), KStandardGuiItem::overwrite());
+        if (r == KMessageBox::Cancel)
             return;
     }
 
     QString urlStr = url.url();
-    if(!urlStr.contains(QDir::separator()))
+    if (!urlStr.contains(QDir::separator()))
     {
         urlStr = QDir::homePath() + '/' + urlStr;
     }
@@ -102,9 +100,9 @@ void PWizPrintUI::slotExport()
     tmpfile.open();
     QString fname;
 
-    if(url.isValid())
+    if (url.isValid())
     {
-        if(url.isLocalFile())
+        if (url.isLocalFile())
         {
             fname = url.toLocalFile();
         }
@@ -116,11 +114,11 @@ void PWizPrintUI::slotExport()
 
         //Determine desired image format from filename extension
         QString ext = fname.mid(fname.lastIndexOf(".") + 1);
-        if(ext == "pdf" || ext == "ps")
+        if (ext == "pdf" || ext == "ps")
         {
             m_ParentWizard->getFinderChart()->writePsPdf(fname);
         }
-        else if(ext == "odt")
+        else if (ext == "odt")
         {
             m_ParentWizard->getFinderChart()->writeOdt(fname);
         }
@@ -129,14 +127,14 @@ void PWizPrintUI::slotExport()
             return;
         }
 
-        if(tmpfile.fileName() == fname)
+        if (tmpfile.fileName() == fname)
         {
             //attempt to upload image to remote location
-            if (KIO::storedHttpPost(&tmpfile, url )->exec() == false)
-                //if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
+            if (KIO::storedHttpPost(&tmpfile, url)->exec() == false)
+            //if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
             {
-                QString message = i18n( "Could not upload file to remote location: %1", url.url() );
-                KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+                QString message = i18n("Could not upload file to remote location: %1", url.url());
+                KMessageBox::sorry(0, message, i18n("Could not upload file"));
             }
         }
     }

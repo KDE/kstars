@@ -40,52 +40,47 @@ class SkyLabeler;
 
 class SolarSystemComposite : public SkyComposite
 {
-    public:
-        explicit SolarSystemComposite( SkyComposite * parent );
-        ~SolarSystemComposite();
+  public:
+    explicit SolarSystemComposite(SkyComposite *parent);
+    ~SolarSystemComposite();
 
-        KSPlanet * earth()
-        {
-            return m_Earth;
-        }
+    KSPlanet *earth() { return m_Earth; }
 
-        KSSun * sun()
-        {
-            return m_Sun;
-        }
+    KSSun *sun() { return m_Sun; }
 
-        const QList<SkyObject *> &asteroids() const;
-        const QList<SkyObject *> &comets() const;
-        const QList<SkyObject *> &planetObjects() const;
-        const QList<SkyObject *> &moons() const;
+    const QList<SkyObject *> &asteroids() const;
+    const QList<SkyObject *> &comets() const;
+    const QList<SkyObject *> &planetObjects() const;
+    const QList<SkyObject *> &moons() const;
 
-        bool selected() Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
 
-        void update( KSNumbers * num ) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) Q_DECL_OVERRIDE;
 
-        void updateSolarSystemBodies( KSNumbers * num ) Q_DECL_OVERRIDE;
+    void updateSolarSystemBodies(KSNumbers *num) Q_DECL_OVERRIDE;
 
-        void updateMoons( KSNumbers * num ) Q_DECL_OVERRIDE;
+    void updateMoons(KSNumbers *num) Q_DECL_OVERRIDE;
 
-        void drawTrails( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+    void drawTrails(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-        CometsComponent * cometsComponent();
+    CometsComponent *cometsComponent();
 
-        AsteroidsComponent * asteroidsComponent();
+    AsteroidsComponent *asteroidsComponent();
 
-        QList<PlanetMoonsComponent *> planetMoonsComponent() const;
+    QList<PlanetMoonsComponent *> planetMoonsComponent() const;
 
-        const QList<SolarSystemSingleComponent *> &planets() const;
-    private:
-        KSPlanet * m_Earth;
-        KSSun * m_Sun;
-        KSMoon * m_Moon;
-//    PlanetMoonsComponent *m_JupiterMoons;
-        AsteroidsComponent * m_AsteroidsComponent;
-        CometsComponent * m_CometsComponent;
-        QList<SolarSystemSingleComponent *> m_planets;
-        QList<SkyObject *> m_planetObjects;
-        QList<SkyObject *> m_moons;
+    const QList<SolarSystemSingleComponent *> &planets() const;
+
+  private:
+    KSPlanet *m_Earth;
+    KSSun *m_Sun;
+    KSMoon *m_Moon;
+    //    PlanetMoonsComponent *m_JupiterMoons;
+    AsteroidsComponent *m_AsteroidsComponent;
+    CometsComponent *m_CometsComponent;
+    QList<SolarSystemSingleComponent *> m_planets;
+    QList<SkyObject *> m_planetObjects;
+    QList<SkyObject *> m_moons;
 };
 
 #endif

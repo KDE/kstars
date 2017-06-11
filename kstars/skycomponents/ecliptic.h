@@ -30,25 +30,21 @@
  */
 class Ecliptic : public LineListIndex
 {
-    public:
-
-        /** @short Constructor
+  public:
+    /** @short Constructor
          * @p parent pointer to the parent SkyComposite object
          * name is the name of the subclass
          */
-        explicit Ecliptic( SkyComposite * parent );
+    explicit Ecliptic(SkyComposite *parent);
 
-        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
-        virtual void drawCompassLabels();
-        bool selected() Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    virtual void drawCompassLabels();
+    bool selected() Q_DECL_OVERRIDE;
 
-        LineListLabel * label() Q_DECL_OVERRIDE
-        {
-            return &m_label;
-        }
+    LineListLabel *label() Q_DECL_OVERRIDE { return &m_label; }
 
-    private:
-        LineListLabel m_label;
+  private:
+    LineListLabel m_label;
 };
 
 #endif

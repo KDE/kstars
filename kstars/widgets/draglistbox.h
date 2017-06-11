@@ -35,32 +35,29 @@ class QDragEnterEvent;
 
 class DragListBox : public QListWidget
 {
-        Q_OBJECT
-    public:
-        /** @short Default constructor
+    Q_OBJECT
+  public:
+    /** @short Default constructor
          */
-        explicit DragListBox( QWidget * parent = 0, const char * name = 0 );
+    explicit DragListBox(QWidget *parent = 0, const char *name = 0);
 
-        /** @short Default destructor
+    /** @short Default destructor
          */
-        ~DragListBox();
+    ~DragListBox();
 
-        int ignoreIndex() const
-        {
-            return IgnoreIndex;
-        }
-        bool contains( const QString &s ) const;
+    int ignoreIndex() const { return IgnoreIndex; }
+    bool contains(const QString &s) const;
 
-        void dragEnterEvent( QDragEnterEvent * evt ) Q_DECL_OVERRIDE;
-        void dragMoveEvent( QDragMoveEvent * evt ) Q_DECL_OVERRIDE;
-        void dropEvent( QDropEvent * evt ) Q_DECL_OVERRIDE;
-        void mousePressEvent( QMouseEvent * evt ) Q_DECL_OVERRIDE;
-        void mouseMoveEvent( QMouseEvent * ) Q_DECL_OVERRIDE;
-        void mouseReleaseEvent( QMouseEvent * ) Q_DECL_OVERRIDE;
-    private:
-        bool leftButtonDown;
-        int IgnoreIndex;
+    void dragEnterEvent(QDragEnterEvent *evt) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent *evt) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *evt) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *evt) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
 
+  private:
+    bool leftButtonDown;
+    int IgnoreIndex;
 };
 
 #endif //DRAGLISTBOX_H

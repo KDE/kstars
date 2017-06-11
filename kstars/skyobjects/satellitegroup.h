@@ -18,13 +18,11 @@
 #ifndef SATELLITEGROUP_H
 #define SATELLITEGROUP_H
 
-
 #include <QString>
 
 #include <QUrl>
 #include "skyobjects/satellite.h"
 #include "skypainter.h"
-
 
 /**
     *@class SatelliteGroup
@@ -34,46 +32,46 @@
     */
 class SatelliteGroup : public QList<Satellite *>
 {
-    public:
-        /**
+  public:
+    /**
          *@short Constructor
          */
-        SatelliteGroup( QString name, QString tle_filename, QUrl update_url );
+    SatelliteGroup(QString name, QString tle_filename, QUrl update_url);
 
-        /**
+    /**
          *@short Destructor
          */
-        ~SatelliteGroup();
+    ~SatelliteGroup();
 
-        /**
+    /**
          *Read TLE file of the group and create all satellites found in the file.
          */
-        void readTLE();
+    void readTLE();
 
-        /**
+    /**
          *Compute current position of the each satellites in the group.
          */
-        void updateSatellitesPos();
+    void updateSatellitesPos();
 
-        /**
+    /**
          *@return TLE filename
          */
-        QUrl tleFilename();
+    QUrl tleFilename();
 
-        /**
+    /**
          *@return URL from which new TLE file must be download
          */
-        QUrl tleUrl();
+    QUrl tleUrl();
 
-        /**
+    /**
          *@return Name of the group
          */
-        QString name();
+    QString name();
 
-    private:
-        QString m_name;             // Group name
-        QString m_tle_file;         // TLE filename
-        QUrl    m_tle_url;          // URL used to update TLE file
+  private:
+    QString m_name;     // Group name
+    QString m_tle_file; // TLE filename
+    QUrl m_tle_url;     // URL used to update TLE file
 };
 
 #endif

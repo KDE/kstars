@@ -21,20 +21,20 @@
 #endif
 #include "Options.h"
 
-TargetListComponent::TargetListComponent( SkyComposite * parent ) : SkyComponent( parent )
+TargetListComponent::TargetListComponent(SkyComposite *parent) : SkyComponent(parent)
 {
-    list = 0;
+    list        = 0;
     drawSymbols = 0;
-    drawLabels = 0;
+    drawLabels  = 0;
 }
 
-TargetListComponent::TargetListComponent( SkyComposite * parent, SkyObjectList * objectList, QPen _pen,
-        bool (*optionDrawSymbols)(void), bool (*optionDrawLabels)(void) )
-    : SkyComponent( parent ), pen( _pen )
+TargetListComponent::TargetListComponent(SkyComposite *parent, SkyObjectList *objectList, QPen _pen,
+                                         bool (*optionDrawSymbols)(void), bool (*optionDrawLabels)(void))
+    : SkyComponent(parent), pen(_pen)
 {
-    list = objectList;
+    list        = objectList;
     drawSymbols = optionDrawSymbols;
-    drawLabels = optionDrawLabels;
+    drawLabels  = optionDrawLabels;
 }
 
 /**
@@ -70,11 +70,11 @@ void TargetListComponent::drawTargetSymbol( SkyPainter *skyp, SkyObject *obj ) {
 }
 */
 
-void TargetListComponent::draw( SkyPainter * skyp )
+void TargetListComponent::draw(SkyPainter *skyp)
 {
-    if( drawSymbols && !(*drawSymbols)() )
+    if (drawSymbols && !(*drawSymbols)())
         return;
-    if( !list || list->count() <= 0 )
+    if (!list || list->count() <= 0)
         return;
     /*
       // Superceded by SkyPainter::drawObservingList()
@@ -82,6 +82,6 @@ void TargetListComponent::draw( SkyPainter * skyp )
         drawTargetSymbol( psky, obj );
     }
     */
-    skyp->setPen( pen );
-    skyp->drawObservingList( *list );
+    skyp->setPen(pen);
+    skyp->drawObservingList(*list);
 }

@@ -16,13 +16,11 @@
  ***************************************************************************/
 #include "unitspinboxwidget.h"
 
-UnitSpinBoxWidget::UnitSpinBoxWidget(QWidget * parent) :
-    QWidget(parent),
-    ui(new Ui::UnitSpinBoxWidget)
+UnitSpinBoxWidget::UnitSpinBoxWidget(QWidget *parent) : QWidget(parent), ui(new Ui::UnitSpinBoxWidget)
 {
     ui->setupUi(this);
     doubleSpinBox = ui->doubleSpinBox;
-    comboBox = ui->comboBox;
+    comboBox      = ui->comboBox;
     //connect(spinBox, SIGNAL(valueChanged(int)), this, SLOT(setText()));
     //connect(comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(setText()));
 }
@@ -35,16 +33,15 @@ UnitSpinBoxWidget::~UnitSpinBoxWidget()
 void UnitSpinBoxWidget::addUnit(const QString &unitName, double conversionFactor)
 {
     QVariant qv;
-    qv.setValue( conversionFactor );
-    comboBox->addItem( unitName, qv );
+    qv.setValue(conversionFactor);
+    comboBox->addItem(unitName, qv);
 }
 
 double UnitSpinBoxWidget::value() const
 {
-    int index = comboBox->currentIndex();
-    QVariant qv = comboBox->itemData(index);
+    int index               = comboBox->currentIndex();
+    QVariant qv             = comboBox->itemData(index);
     double conversionFactor = qv.value<double>();
-    double value = doubleSpinBox->value();
-    return value*conversionFactor;
+    double value            = doubleSpinBox->value();
+    return value * conversionFactor;
 }
-

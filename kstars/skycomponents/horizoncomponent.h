@@ -31,35 +31,33 @@ class KSNumbers;
 	*@author Thomas Kabelmann
 	*@version 0.1
 	*/
-class HorizonComponent: public PointListComponent
+class HorizonComponent : public PointListComponent
 {
-    public:
-
-        /**
+  public:
+    /**
          *@short Constructor
          *@p parent Pointer to the parent SkyComposite object
          */
-        explicit HorizonComponent(SkyComposite * parent );
+    explicit HorizonComponent(SkyComposite *parent);
 
-        /**
+    /**
          *@short Destructor
          */
-        virtual ~HorizonComponent();
+    virtual ~HorizonComponent();
 
-        /**
+    /**
          *@short Draw the Horizon on the Sky map
          *@p map Pointer to the SkyMap object
          *@p psky Reference to the QPainter on which to paint
          */
-        void draw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-        void update( KSNumbers * ) Q_DECL_OVERRIDE;
+    void update(KSNumbers *) Q_DECL_OVERRIDE;
 
-        bool selected() Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
 
-    private:
-        void drawCompassLabels();
-
+  private:
+    void drawCompassLabels();
 };
 
 #endif

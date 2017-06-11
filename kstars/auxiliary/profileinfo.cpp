@@ -10,10 +10,9 @@
 
 #include "profileinfo.h"
 
-
 ProfileInfo::ProfileInfo(int id, const QString &name)
 {
-    this->name =  name;
+    this->name = name;
     this->id   = id;
     port = INDIWebManagerPort = -1;
 }

@@ -35,87 +35,63 @@ class FITSViewer;
  */
 class FITSTab : public QWidget
 {
-        Q_OBJECT
-    public:
+    Q_OBJECT
+  public:
+    FITSTab(FITSViewer *parent);
+    ~FITSTab();
+    bool loadFITS(const QUrl *imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE, bool silent = true);
+    int saveFITS(const QString &filename);
 
-        FITSTab(FITSViewer * parent);
-        ~FITSTab();
-        bool loadFITS(const QUrl * imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter=FITS_NONE, bool silent=true);
-        int saveFITS(const QString &filename);
+    inline QUndoStack *getUndoStack() { return undoStack; }
+    inline QUrl *getCurrentURL() { return &currentURL; }
+    inline FITSView *getView() { return view; }
+    inline FITSHistogram *getHistogram() { return histogram; }
+    inline FITSViewer *getViewer() { return viewer; }
 
-        inline QUndoStack * getUndoStack()
-        {
-            return undoStack;
-        }
-        inline QUrl * getCurrentURL()
-        {
-            return &currentURL;
-        }
-        inline FITSView * getView()
-        {
-            return view;
-        }
-        inline FITSHistogram * getHistogram()
-        {
-            return histogram;
-        }
-        inline FITSViewer * getViewer()
-        {
-            return viewer;
-        }
+    bool saveFile();
+    bool saveFileAs();
+    void copyFITS();
+    void headerFITS();
+    void histoFITS();
+    void statFITS();
 
-        bool saveFile();
-        bool saveFileAs();
-        void copyFITS();
-        void headerFITS();
-        void histoFITS();
-        void statFITS();
+    void setUID(int newID) { uid = newID; }
+    int getUID() { return uid; }
 
-        void setUID(int newID)
-        {
-            uid = newID;
-        }
-        int getUID()
-        {
-            return uid;
-        }
+    void saveUnsaved();
+    void tabPositionUpdated();
+    void selectGuideStar();
 
-        void saveUnsaved();
-        void tabPositionUpdated();
-        void selectGuideStar();
+    QString getPreviewText() const;
+    void setPreviewText(const QString &value);
 
-        QString getPreviewText() const;
-        void setPreviewText(const QString &value);
+  public slots:
+    void modifyFITSState(bool clean = true);
+    void ZoomIn();
+    void ZoomOut();
+    void ZoomDefault();
 
-    public slots:
-        void modifyFITSState(bool clean=true);
-        void ZoomIn();
-        void ZoomOut();
-        void ZoomDefault();
+  protected:
+    virtual void closeEvent(QCloseEvent *ev);
 
-    protected:
-        virtual void closeEvent(QCloseEvent * ev);
+  private:
+    /** Ask user whether he wants to save changes and save if he do. */
 
-    private:
-        /** Ask user whether he wants to save changes and save if he do. */
+    FITSView *view;           /* FITS image object */
+    FITSHistogram *histogram; /* FITS Histogram */
+    FITSViewer *viewer;
 
+    QUndoStack *undoStack; /* History for undo/redo */
+    QUrl currentURL;       /* FITS File name and path */
 
-        FITSView * view;          /* FITS image object */
-        FITSHistogram * histogram;  /* FITS Histogram */
-        FITSViewer * viewer;
+    bool mDirty;
+    QString previewText;
+    int uid;
 
-        QUndoStack * undoStack;       /* History for undo/redo */
-        QUrl currentURL;            /* FITS File name and path */
-
-        bool mDirty;
-        QString previewText;
-        int uid;
-
-    signals:
-        void debayerToggled(bool);
-        void newStatus(const QString &msg, FITSBar id);
-        void changeStatus(bool clean);
-
+  signals:
+    void debayerToggled(bool);
+    void newStatus(const QString &msg, FITSBar id);
+    void changeStatus(bool clean);
 };
 
 #endif // FITSTAB_H

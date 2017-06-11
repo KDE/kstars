@@ -19,8 +19,7 @@
 
 #include "gnomonicprojector.h"
 
-GnomonicProjector::GnomonicProjector(const ViewParams &p)
-    : Projector(p)
+GnomonicProjector::GnomonicProjector(const ViewParams &p) : Projector(p)
 {
     updateClipPoly();
 }
@@ -32,12 +31,12 @@ Projector::Projection GnomonicProjector::type() const
 
 double GnomonicProjector::radius() const
 {
-    return 2*M_PI;
+    return 2 * M_PI;
 }
 
 double GnomonicProjector::projectionK(double x) const
 {
-    return 1.0/x;
+    return 1.0 / x;
 }
 
 double GnomonicProjector::projectionL(double x) const
@@ -50,4 +49,3 @@ double GnomonicProjector::cosMaxFieldAngle() const
     //Don't let things approach infty.
     return 0.02;
 }
-

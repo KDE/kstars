@@ -21,10 +21,9 @@
 
 namespace Ekos
 {
+DarkLibrary *DarkLibrary::_DarkLibrary = nullptr;
 
-DarkLibrary * DarkLibrary::_DarkLibrary = nullptr;
-
-DarkLibrary * DarkLibrary::Instance()
+DarkLibrary *DarkLibrary::Instance()
 {
     if (_DarkLibrary == nullptr)
         _DarkLibrary = new DarkLibrary(KStars::Instance());
@@ -32,15 +31,15 @@ DarkLibrary * DarkLibrary::Instance()
     return _DarkLibrary;
 }
 
-DarkLibrary::DarkLibrary(QObject * parent) : QObject(parent)
+DarkLibrary::DarkLibrary(QObject *parent) : QObject(parent)
 {
     KStarsData::Instance()->userdb()->GetAllDarkFrames(darkFrames);
 
-    subtractParams.duration=0;
-    subtractParams.offsetX=0;
-    subtractParams.offsetY=0;
-    subtractParams.targetChip=0;
-    subtractParams.targetImage=0;
+    subtractParams.duration    = 0;
+    subtractParams.offsetX     = 0;
+    subtractParams.offsetY     = 0;
+    subtractParams.targetChip  = 0;
+    subtractParams.targetImage = 0;
 
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks");
@@ -56,9 +55,9 @@ void DarkLibrary::refreshFromDB()
     KStarsData::Instance()->userdb()->GetAllDarkFrames(darkFrames);
 }
 
-FITSData * DarkLibrary::getDarkFrame(ISD::CCDChip * targetChip, double duration)
+FITSData *DarkLibrary::getDarkFrame(ISD::CCDChip *targetChip, double duration)
 {
-    foreach(QVariantMap map, darkFrames)
+    foreach (QVariantMap map, darkFrames)
     {
         // First check CCD name matches
         if (map["ccd"].toString() == targetChip->getCCD()->getDeviceName())
@@ -75,10 +74,10 @@ FITSData * DarkLibrary::getDarkFrame(ISD::CCDChip * targetChip, double duration)
                     // Then check for temperature
                     if (targetChip->getCCD()->hasCooler())
                     {
-                        double temperature=0;
+                        double temperature = 0;
                         targetChip->getCCD()->getTemperature(&temperature);
                         // TODO make this configurable value, the threshold
-                        if (fabs(map["temperature"].toDouble()-temperature) > Options::maxDarkTemperatureDiff())
+                        if (fabs(map["temperature"].toDouble() - temperature) > Options::maxDarkTemperatureDiff())
                             continue;
                     }
 
@@ -120,7 +119,7 @@ FITSData * DarkLibrary::getDarkFrame(ISD::CCDChip * targetChip, double duration)
 
 bool DarkLibrary::loadDarkFile(const QString &filename)
 {
-    FITSData * darkData = new FITSData();
+    FITSData *darkData = new FITSData();
 
     bool rc = darkData->loadFITS(filename);
 
@@ -135,13 +134,13 @@ bool DarkLibrary::loadDarkFile(const QString &filename)
     return rc;
 }
 
-bool DarkLibrary::saveDarkFile(FITSData * darkData)
+bool DarkLibrary::saveDarkFile(FITSData *darkData)
 {
     // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
     // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
     QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
 
-    QString path     = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks/darkframe_" + ts + ".fits";
+    QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks/darkframe_" + ts + ".fits";
 
     if (darkData->saveFITS(path) != 0)
     {
@@ -153,18 +152,18 @@ bool DarkLibrary::saveDarkFile(FITSData * darkData)
 
     QVariantMap map;
     int binX, binY;
-    double temperature=0;
+    double temperature = 0;
 
     subtractParams.targetChip->getBinning(&binX, &binY);
     subtractParams.targetChip->getCCD()->getTemperature(&temperature);
 
-    map["ccd"]  = subtractParams.targetChip->getCCD()->getDeviceName();
-    map["chip"] = static_cast<int>(subtractParams.targetChip->getType());
-    map["binX"] = binX;
-    map["binY"] = binY;
+    map["ccd"]         = subtractParams.targetChip->getCCD()->getDeviceName();
+    map["chip"]        = static_cast<int>(subtractParams.targetChip->getType());
+    map["binX"]        = binX;
+    map["binY"]        = binY;
     map["temperature"] = temperature;
-    map["duration"] = subtractParams.duration;
-    map["filename"] = path;
+    map["duration"]    = subtractParams.duration;
+    map["filename"]    = path;
 
     darkFrames.append(map);
 
@@ -175,7 +174,8 @@ bool DarkLibrary::saveDarkFile(FITSData * darkData)
     return true;
 }
 
-bool DarkLibrary::subtract(FITSData * darkData, FITSView * lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY)
+bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX,
+                           uint16_t offsetY)
 {
     Q_ASSERT(darkData);
     Q_ASSERT(lightImage);
@@ -221,32 +221,34 @@ bool DarkLibrary::subtract(FITSData * darkData, FITSView * lightImage, FITSScale
     return false;
 }
 
-template<typename T> bool DarkLibrary::subtract(FITSData * darkData, FITSView * lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY)
+template <typename T>
+bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX,
+                           uint16_t offsetY)
 {
-    FITSData * lightData = lightImage->getImageData();
+    FITSData *lightData = lightImage->getImageData();
 
-    T * darkBuffer     = reinterpret_cast<T *>(darkData->getImageBuffer());
-    T * lightBuffer    = reinterpret_cast<T *>(lightData->getImageBuffer());
+    T *darkBuffer  = reinterpret_cast<T *>(darkData->getImageBuffer());
+    T *lightBuffer = reinterpret_cast<T *>(lightData->getImageBuffer());
 
-    int darkoffset   = offsetX + offsetY * darkData->getWidth();
-    int darkW        = darkData->getWidth();
+    int darkoffset = offsetX + offsetY * darkData->getWidth();
+    int darkW      = darkData->getWidth();
 
-    int lightOffset  = 0;
-    int lightW       = lightData->getWidth();
-    int lightH       = lightData->getHeight();
+    int lightOffset = 0;
+    int lightW      = lightData->getWidth();
+    int lightH      = lightData->getHeight();
 
-    for (int i=0; i < lightH; i++)
+    for (int i = 0; i < lightH; i++)
     {
-        for (int j=0; j < lightW; j++)
+        for (int j = 0; j < lightW; j++)
         {
-            if (lightBuffer[j+lightOffset] > darkBuffer[j+darkoffset])
-                lightBuffer[j+lightOffset] -= darkBuffer[j+darkoffset];
+            if (lightBuffer[j + lightOffset] > darkBuffer[j + darkoffset])
+                lightBuffer[j + lightOffset] -= darkBuffer[j + darkoffset];
             else
-                lightBuffer[j+lightOffset] = 0;
+                lightBuffer[j + lightOffset] = 0;
         }
 
         lightOffset += lightW;
-        darkoffset  += darkW;
+        darkoffset += darkW;
     }
 
     lightData->applyFilter(filter);
@@ -258,14 +260,14 @@ template<typename T> bool DarkLibrary::subtract(FITSData * darkData, FITSView * 
     emit darkFrameCompleted(true);
 
     return true;
-
 }
 
-bool DarkLibrary::captureAndSubtract(ISD::CCDChip * targetChip, FITSView * targetImage, double duration, uint16_t offsetX, uint16_t offsetY)
+bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetImage, double duration, uint16_t offsetX,
+                                     uint16_t offsetY)
 {
     QStringList shutterfulCCDs  = Options::shutterfulCCDs();
     QStringList shutterlessCCDs = Options::shutterlessCCDs();
-    QString deviceName = targetChip->getCCD()->getDeviceName();
+    QString deviceName          = targetChip->getCCD()->getDeviceName();
 
     bool hasShutter   = shutterfulCCDs.contains(deviceName);
     bool hasNoShutter = shutterlessCCDs.contains(deviceName);
@@ -273,7 +275,8 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip * targetChip, FITSView * targe
     // If no information is available either way, then ask the user
     if (hasShutter == false && hasNoShutter == false)
     {
-        if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have mechanical or electronic shutter?", deviceName), i18n("Dark Exposure")) == KMessageBox::Yes)
+        if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have mechanical or electronic shutter?", deviceName),
+                                       i18n("Dark Exposure")) == KMessageBox::Yes)
         {
             hasShutter   = true;
             hasNoShutter = false;
@@ -291,9 +294,10 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip * targetChip, FITSView * targe
 
     if (hasNoShutter)
     {
-        if ( KMessageBox::warningContinueCancel(nullptr, i18n("Cover the telescope or camera in order to take a dark exposure."),
-                                                i18n("Dark Exposure"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                                                "dark_exposure_dialog_notification") == KMessageBox::Cancel)
+        if (KMessageBox::warningContinueCancel(
+                nullptr, i18n("Cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"),
+                KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                "dark_exposure_dialog_notification") == KMessageBox::Cancel)
         {
             emit newLog(i18n("Dark frame capture cancelled."));
             disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
@@ -306,11 +310,11 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip * targetChip, FITSView * targe
     targetChip->setCaptureMode(FITS_CALIBRATE);
     targetChip->setFrameType(FRAME_DARK);
 
-    subtractParams.targetChip = targetChip;
-    subtractParams.targetImage= targetImage;
-    subtractParams.duration   = duration;
-    subtractParams.offsetX    = offsetX;
-    subtractParams.offsetY    = offsetY;
+    subtractParams.targetChip  = targetChip;
+    subtractParams.targetImage = targetImage;
+    subtractParams.duration    = duration;
+    subtractParams.offsetX     = offsetX;
+    subtractParams.offsetY     = offsetY;
 
     connect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
 
@@ -321,7 +325,7 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip * targetChip, FITSView * targe
     return true;
 }
 
-void DarkLibrary::newFITS(IBLOB * bp)
+void DarkLibrary::newFITS(IBLOB *bp)
 {
     INDI_UNUSED(bp);
 
@@ -329,17 +333,18 @@ void DarkLibrary::newFITS(IBLOB * bp)
 
     disconnect(subtractParams.targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
 
-    FITSView * calibrationView = subtractParams.targetChip->getImageView(FITS_CALIBRATE);
+    FITSView *calibrationView = subtractParams.targetChip->getImageView(FITS_CALIBRATE);
 
     emit newLog(i18n("Dark frame received."));
 
-    FITSData * calibrationData = new FITSData();
+    FITSData *calibrationData = new FITSData();
 
     // Deep copy of the data
     if (calibrationData->loadFITS(calibrationView->getImageData()->getFilename()))
     {
         saveDarkFile(calibrationData);
-        subtract(calibrationData, subtractParams.targetImage, subtractParams.targetChip->getCaptureFilter(), subtractParams.offsetX, subtractParams.offsetY);
+        subtract(calibrationData, subtractParams.targetImage, subtractParams.targetChip->getCaptureFilter(),
+                 subtractParams.offsetX, subtractParams.offsetY);
     }
     else
     {
@@ -347,9 +352,4 @@ void DarkLibrary::newFITS(IBLOB * bp)
         emit newLog(i18n("Warning: Cannot load calibration file %1", calibrationView->getImageData()->getFilename()));
     }
 }
-
 }
-
-
-
-

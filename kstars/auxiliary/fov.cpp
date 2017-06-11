@@ -48,16 +48,13 @@ FOVManager::~FOVManager()
 QList<FOV *> FOVManager::defaults()
 {
     QList<FOV *> fovs;
-    fovs << new FOV(i18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
-                    558,  558, 0,0,0, FOV::CIRCLE,"#AAAAAA")
-         << new FOV(i18nc("use a Telrad field-of-view indicator", "Telrad" ),
-                    30,   30, 0,0,0,   FOV::BULLSEYE,"#AA0000")
-         << new FOV(i18nc("use 1-degree field-of-view indicator", "One Degree"),
-                    60,   60, 0,0,0,  FOV::CIRCLE,"#AAAAAA")
-         << new FOV(i18nc("use HST field-of-view indicator", "HST WFPC2"),
-                    2.4,  2.4, 0,0,0, FOV::SQUARE,"#AAAAAA")
-         << new FOV(i18nc("use Radiotelescope HPBW", "30m at 1.3cm" ),
-                    1.79, 1.79, 0,0,0, FOV::SQUARE,"#AAAAAA");
+    fovs << new FOV(i18nc("use field-of-view for binoculars", "7x35 Binoculars"), 558, 558, 0, 0, 0, FOV::CIRCLE,
+                    "#AAAAAA")
+         << new FOV(i18nc("use a Telrad field-of-view indicator", "Telrad"), 30, 30, 0, 0, 0, FOV::BULLSEYE, "#AA0000")
+         << new FOV(i18nc("use 1-degree field-of-view indicator", "One Degree"), 60, 60, 0, 0, 0, FOV::CIRCLE,
+                    "#AAAAAA")
+         << new FOV(i18nc("use HST field-of-view indicator", "HST WFPC2"), 2.4, 2.4, 0, 0, 0, FOV::SQUARE, "#AAAAAA")
+         << new FOV(i18nc("use Radiotelescope HPBW", "30m at 1.3cm"), 1.79, 1.79, 0, 0, 0, FOV::SQUARE, "#AAAAAA");
     return fovs;
 }
 
@@ -66,24 +63,20 @@ bool FOVManager::save()
     QFile f;
 
     // TODO: Move FOVs to user database instead of file!!
-    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "fov.dat" ) ;
+    f.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "fov.dat");
 
-    if ( ! f.open( QIODevice::WriteOnly ) )
+    if (!f.open(QIODevice::WriteOnly))
     {
         qDebug() << "Could not open fov.dat.";
         return false;
     }
 
     QTextStream ostream(&f);
-    foreach(FOV * fov, m_FOVs)
+    foreach (FOV *fov, m_FOVs)
     {
-        ostream << fov->name()  << ':'
-                << fov->sizeX() << ':'
-                << fov->sizeY() << ':'
-                << fov->offsetX() << ':'
-                << fov->offsetY() << ':'
-                << fov->rotation() << ':'
-                << QString::number( fov->shape() ) << ':' //FIXME: is this needed???
+        ostream << fov->name() << ':' << fov->sizeX() << ':' << fov->sizeY() << ':' << fov->offsetX() << ':'
+                << fov->offsetY() << ':' << fov->rotation() << ':' << QString::number(fov->shape())
+                << ':' //FIXME: is this needed???
                 << fov->color() << endl;
     }
     f.close();
@@ -97,58 +90,58 @@ const QList<FOV *> &FOVManager::readFOVs()
     m_FOVs.clear();
 
     QFile f;
-    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "fov.dat" ) ;
+    f.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "fov.dat");
 
-    if( !f.exists() )
+    if (!f.exists())
     {
         m_FOVs = defaults();
         save();
         return m_FOVs;
     }
 
-    if( f.open(QIODevice::ReadOnly) )
+    if (f.open(QIODevice::ReadOnly))
     {
         QTextStream istream(&f);
-        while( !istream.atEnd() )
+        while (!istream.atEnd())
         {
             QStringList fields = istream.readLine().split(':');
             bool ok;
             QString name, color;
-            float   sizeX, sizeY, xoffset, yoffset, rot;
-            FOV::Shape   shape;
-            if( fields.count() == 8 )
+            float sizeX, sizeY, xoffset, yoffset, rot;
+            FOV::Shape shape;
+            if (fields.count() == 8)
             {
-                name = fields[0];
+                name  = fields[0];
                 sizeX = fields[1].toFloat(&ok);
-                if( !ok )
+                if (!ok)
                 {
                     return m_FOVs;
                 }
                 sizeY = fields[2].toFloat(&ok);
-                if( !ok )
+                if (!ok)
                 {
                     return m_FOVs;
                 }
                 xoffset = fields[3].toFloat(&ok);
-                if( !ok )
+                if (!ok)
                 {
                     return m_FOVs;
                 }
 
                 yoffset = fields[4].toFloat(&ok);
-                if( !ok )
+                if (!ok)
                 {
                     return m_FOVs;
                 }
 
                 rot = fields[5].toFloat(&ok);
-                if( !ok )
+                if (!ok)
                 {
                     return m_FOVs;
                 }
 
-                shape = FOV::intToShape( fields[6].toInt(&ok) );
-                if( !ok )
+                shape = FOV::intToShape(fields[6].toInt(&ok));
+                if (!ok)
                 {
                     return m_FOVs;
                 }
@@ -160,53 +153,51 @@ const QList<FOV *> &FOVManager::readFOVs()
             }
 
             //FIXME: This still shows lost blocks in Valgrind despite the fact memory is always cleared?
-            m_FOVs.append( new FOV(name, sizeX, sizeY, xoffset, yoffset, rot, shape, color) );
+            m_FOVs.append(new FOV(name, sizeX, sizeY, xoffset, yoffset, rot, shape, color));
         }
     }
     return m_FOVs;
 }
-
 
 FOV::Shape FOV::intToShape(int s)
 {
     return (s >= FOV::UNKNOWN || s < 0) ? FOV::UNKNOWN : static_cast<FOV::Shape>(s);
 }
 
-FOV::FOV( const QString &n, float a, float b, float xoffset, float yoffset, float rot, Shape sh, const QString &col )
+FOV::FOV(const QString &n, float a, float b, float xoffset, float yoffset, float rot, Shape sh, const QString &col)
 {
-    m_name = n;
+    m_name  = n;
     m_sizeX = a;
     m_sizeY = (b < 0.0) ? a : b;
 
-    m_offsetX     = xoffset;
-    m_offsetY     = yoffset;
-    m_rotation    = rot;
-    m_shape       = sh;
-    m_color       = col;
-    m_northPA     = 0;
+    m_offsetX  = xoffset;
+    m_offsetY  = yoffset;
+    m_rotation = rot;
+    m_shape    = sh;
+    m_color    = col;
+    m_northPA  = 0;
     m_center.setRA(0);
     m_center.setDec(0);
-    m_imageDisplay=false;
+    m_imageDisplay = false;
 }
 
 FOV::FOV()
 {
-    m_name  = i18n( "No FOV" );
+    m_name  = i18n("No FOV");
     m_color = "#FFFFFF";
 
     m_sizeX = m_sizeY = 0;
-    m_shape = SQUARE;
-    m_offsetX=m_offsetY=m_rotation=0,m_northPA=0;
-    m_imageDisplay=false;
+    m_shape           = SQUARE;
+    m_offsetX = m_offsetY = m_rotation = 0, m_northPA = 0;
+    m_imageDisplay = false;
 }
 
-void FOV::draw( QPainter &p, float zoomFactor )
+void FOV::draw(QPainter &p, float zoomFactor)
 {
-    p.setPen( QColor( color() ) );
-    p.setBrush( Qt::NoBrush );
+    p.setPen(QColor(color()));
+    p.setBrush(Qt::NoBrush);
 
-    p.setRenderHint( QPainter::Antialiasing, Options::useAntialias() );
-
+    p.setRenderHint(QPainter::Antialiasing, Options::useAntialias());
 
     float pixelSizeX = sizeX() * zoomFactor / 57.3 / 60.0;
     float pixelSizeY = sizeY() * zoomFactor / 57.3 / 60.0;
@@ -225,16 +216,16 @@ void FOV::draw( QPainter &p, float zoomFactor )
     else
         p.translate(p.viewport().center());
 
-    p.translate(offsetXPixelSize,  offsetYPixelSize);
-    p.rotate(m_rotation+m_northPA);
+    p.translate(offsetXPixelSize, offsetYPixelSize);
+    p.rotate(m_rotation + m_northPA);
 
-    QPointF center(0,0);
+    QPointF center(0, 0);
 
-    switch ( shape() )
+    switch (shape())
     {
         case SQUARE:
         {
-            QRect targetRect(center.x() - pixelSizeX/2, center.y() - pixelSizeY/2, pixelSizeX, pixelSizeY);
+            QRect targetRect(center.x() - pixelSizeX / 2, center.y() - pixelSizeY / 2, pixelSizeX, pixelSizeY);
             if (m_imageDisplay)
             {
                 //QTransform imageT;
@@ -243,28 +234,27 @@ void FOV::draw( QPainter &p, float zoomFactor )
                 p.drawImage(targetRect, m_image);
             }
             p.drawRect(targetRect);
-            p.drawRect( center.x() , center.y() - (3 * pixelSizeY/5), pixelSizeX/40, pixelSizeX/10);
-            p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5));
-            p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
-            p.drawLine( center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
+            p.drawRect(center.x(), center.y() - (3 * pixelSizeY / 5), pixelSizeX / 40, pixelSizeX / 10);
+            p.drawLine(center.x() - pixelSizeX / 30, center.y() - (3 * pixelSizeY / 5), center.x() + pixelSizeX / 20,
+                       center.y() - (3 * pixelSizeY / 5));
+            p.drawLine(center.x() - pixelSizeX / 30, center.y() - (3 * pixelSizeY / 5), center.x() + pixelSizeX / 70,
+                       center.y() - (0.7 * pixelSizeY));
+            p.drawLine(center.x() + pixelSizeX / 20, center.y() - (3 * pixelSizeY / 5), center.x() + pixelSizeX / 70,
+                       center.y() - (0.7 * pixelSizeY));
         }
         break;
         case CIRCLE:
-            p.drawEllipse( center, pixelSizeX/2, pixelSizeY/2 );
+            p.drawEllipse(center, pixelSizeX / 2, pixelSizeY / 2);
             break;
         case CROSSHAIRS:
             //Draw radial lines
-            p.drawLine(center.x() + 0.5*pixelSizeX, center.y(),
-                       center.x() + 1.5*pixelSizeX, center.y());
-            p.drawLine(center.x() - 0.5*pixelSizeX, center.y(),
-                       center.x() - 1.5*pixelSizeX, center.y());
-            p.drawLine(center.x(), center.y() + 0.5*pixelSizeY,
-                       center.x(), center.y() + 1.5*pixelSizeY);
-            p.drawLine(center.x(), center.y() - 0.5*pixelSizeY,
-                       center.x(), center.y() - 1.5*pixelSizeY);
+            p.drawLine(center.x() + 0.5 * pixelSizeX, center.y(), center.x() + 1.5 * pixelSizeX, center.y());
+            p.drawLine(center.x() - 0.5 * pixelSizeX, center.y(), center.x() - 1.5 * pixelSizeX, center.y());
+            p.drawLine(center.x(), center.y() + 0.5 * pixelSizeY, center.x(), center.y() + 1.5 * pixelSizeY);
+            p.drawLine(center.x(), center.y() - 0.5 * pixelSizeY, center.x(), center.y() - 1.5 * pixelSizeY);
             //Draw circles at 0.5 & 1 degrees
-            p.drawEllipse( center, 0.5 * pixelSizeX, 0.5 * pixelSizeY);
-            p.drawEllipse( center,       pixelSizeX,       pixelSizeY);
+            p.drawEllipse(center, 0.5 * pixelSizeX, 0.5 * pixelSizeY);
+            p.drawEllipse(center, pixelSizeX, pixelSizeY);
             break;
         case BULLSEYE:
             p.drawEllipse(center, 0.5 * pixelSizeX, 0.5 * pixelSizeY);
@@ -275,13 +265,12 @@ void FOV::draw( QPainter &p, float zoomFactor )
         {
             QColor colorAlpha = color();
             colorAlpha.setAlpha(127);
-            p.setBrush( QBrush( colorAlpha ) );
-            p.drawEllipse(center, pixelSizeX/2, pixelSizeY/2 );
+            p.setBrush(QBrush(colorAlpha));
+            p.drawEllipse(center, pixelSizeX / 2, pixelSizeY / 2);
             p.setBrush(Qt::NoBrush);
             break;
         }
-        default:
-            ;
+        default:;
     }
 
     p.restore();
@@ -289,10 +278,10 @@ void FOV::draw( QPainter &p, float zoomFactor )
 
 void FOV::draw(QPainter &p, float x, float y)
 {
-    float xfactor = x / sizeX() * 57.3 * 60.0;
-    float yfactor = y / sizeY() * 57.3 * 60.0;
+    float xfactor    = x / sizeX() * 57.3 * 60.0;
+    float yfactor    = y / sizeY() * 57.3 * 60.0;
     float zoomFactor = std::min(xfactor, yfactor);
-    switch( shape() )
+    switch (shape())
     {
         case CROSSHAIRS:
             zoomFactor /= 3;
@@ -300,13 +289,12 @@ void FOV::draw(QPainter &p, float x, float y)
         case BULLSEYE:
             zoomFactor /= 8;
             break;
-        default:
-            ;
+        default:;
     }
     draw(p, zoomFactor);
 }
 
-void FOV::setShape( int s)
+void FOV::setShape(int s)
 {
     m_shape = intToShape(s);
 }
@@ -340,5 +328,3 @@ void FOV::setImageDisplay(bool value)
 {
     m_imageDisplay = value;
 }
-
-

@@ -37,52 +37,47 @@ class RootNode;
 
 class GuideLabelNode : public SkyNode
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor
          * @param skyObject pointer to SkyObject that has to be displayed on SkyMapLite
          * @param parentNode pointer to the top parent node, which holds texture cache
          * @param spType spectral class of PointNode
          * @param size initial size of PointNode
          */
-        GuideLabelNode(QString name, LabelsItem::label_t type);
+    GuideLabelNode(QString name, LabelsItem::label_t type);
 
-        /**
+    /**
          * @short changePos changes the position m_point
          * @param pos new position
          */
-        virtual void changePos(QPointF pos) override;
-        /**
+    virtual void changePos(QPointF pos) override;
+    /**
          * @short setLabelPos sets the position of label with the given offset from SkyObject's position and
          * makes the label visible if it was hidden
          * @param pos position of label
          */
-        void setLabelPos(QPointF pos, float angle);
+    void setLabelPos(QPointF pos, float angle);
 
-        void update();
+    void update();
 
-        inline const QString name() const
-        {
-            return m_name;
-        }
+    inline const QString name() const { return m_name; }
 
-        QPointF labelPos;
+    QPointF labelPos;
 
-        qreal left;
-        qreal right;
-        qreal top;
-        qreal bot;
+    qreal left;
+    qreal right;
+    qreal top;
+    qreal bot;
 
-    private:
-        QSGSimpleTextureNode * m_textTexture;
-        QSize m_textSize;
-        float m_angle;
-        QSGSimpleRectNode debugRect;
-        const QString m_name;
+  private:
+    QSGSimpleTextureNode *m_textTexture;
+    QSize m_textSize;
+    float m_angle;
+    QSGSimpleRectNode debugRect;
+    const QString m_name;
 
-        QPointF m_translatePos;
+    QPointF m_translatePos;
 };
 
 #endif
-
-

@@ -38,43 +38,43 @@ class KConfigDialog;
  */
 class OpsCatalog : public QFrame, public Ui::OpsCatalog
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        explicit OpsCatalog();
-        ~OpsCatalog();
+  public:
+    explicit OpsCatalog();
+    ~OpsCatalog();
 
-    private slots:
-        void updateCustomCatalogs();
-        void selectCatalog();
-        void slotAddCatalog();
-        void slotLoadCatalog();
-        void slotRemoveCatalog();
-        /*
+  private slots:
+    void updateCustomCatalogs();
+    void selectCatalog();
+    void slotAddCatalog();
+    void slotLoadCatalog();
+    void slotRemoveCatalog();
+    /*
         void slotSetDrawStarMagnitude(double newValue);
         void slotSetDrawStarZoomOutMagnitude(double newValue);
         */
-        void slotStarWidgets(bool on);
-        void slotDeepSkyWidgets(bool on);
-        void slotApply();
-        void slotCancel();
+    void slotStarWidgets(bool on);
+    void slotDeepSkyWidgets(bool on);
+    void slotApply();
+    void slotCancel();
 
-    private:
-        void insertCatalog( const QString &filename );
-        void refreshCatalogList();
-        void populateInbuiltCatalogs();
-        void populateCustomCatalogs();
-        QString getCatalogName( const QString &filename );
+  private:
+    void insertCatalog(const QString &filename);
+    void refreshCatalogList();
+    void populateInbuiltCatalogs();
+    void populateCustomCatalogs();
+    QString getCatalogName(const QString &filename);
 
-        QListWidgetItem * showMessier, *showMessImages, *showNGC, *showIC;
+    QListWidgetItem *showMessier, *showMessImages, *showNGC, *showIC;
 
-        KConfigDialog * m_ConfigDialog;
-        QStringList * m_CustomCatalogFile;
-        QStringList m_CheckedCatalogNames;
-        QList<int> m_ShowCustomCatalog;
-        float m_StarDensity;
-        bool m_ShowMessier, m_ShowMessImages, m_ShowNGC, m_ShowIC;
-        bool isDirty=false;
+    KConfigDialog *m_ConfigDialog;
+    QStringList *m_CustomCatalogFile;
+    QStringList m_CheckedCatalogNames;
+    QList<int> m_ShowCustomCatalog;
+    float m_StarDensity;
+    bool m_ShowMessier, m_ShowMessImages, m_ShowNGC, m_ShowIC;
+    bool isDirty = false;
 };
 
-#endif  //OPSCATALOG_H_
+#endif //OPSCATALOG_H_

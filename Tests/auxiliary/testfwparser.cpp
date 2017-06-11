@@ -20,16 +20,14 @@
 #include <QDir>
 #include <QTemporaryFile>
 
-TestFWParser::TestFWParser(): QObject()
+TestFWParser::TestFWParser() : QObject()
 {
 }
 
 void TestFWParser::initTestCase()
 {
-    test_cases_.append(
-        "this is an exam ple of 256 cases being tested -3.14       times\n");
-    test_cases_.append(
-        "                                                               \n");
+    test_cases_.append("this is an exam ple of 256 cases being tested -3.14       times\n");
+    test_cases_.append("                                                               \n");
     test_cases_.append("this is an ex\n\n");
 
     QTemporaryFile temp_file;
@@ -39,7 +37,7 @@ void TestFWParser::initTestCase()
     QVERIFY(temp_file.open());
     test_file_name_ = temp_file.fileName();
     QTextStream out_stream(&temp_file);
-    foreach(const QString &test_case, test_cases_)
+    foreach (const QString &test_case, test_cases_)
         out_stream << test_case;
     temp_file.close();
 
@@ -67,7 +65,7 @@ void TestFWParser::initTestCase()
     widths_.append(6);
     widths_.append(7);
     widths_.append(6);
-    widths_.append(6);  //'repeatedly' doesn't need a width
+    widths_.append(6); //'repeatedly' doesn't need a width
 
     test_parser_ = new KSParser(test_file_name_, '#', sequence_, widths_);
 }
@@ -185,5 +183,3 @@ void TestFWParser::FWReadMissingFile()
 }
 
 QTEST_GUILESS_MAIN(TestFWParser)
-
-

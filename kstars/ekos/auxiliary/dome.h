@@ -17,7 +17,6 @@
 
 namespace Ekos
 {
-
 /**
  *@class Dome
  *@short Supports basic dome functions
@@ -26,67 +25,63 @@ namespace Ekos
  */
 class Dome : public QObject
 {
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Dome")
 
-        Q_OBJECT
-        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Dome")
+  public:
+    Dome();
+    ~Dome();
 
-    public:
-        Dome();
-        ~Dome();
+    typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
 
-        typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
-
-        /** @defgroup DomeDBusInterface Ekos DBus Interface - Dome Interface
+    /** @defgroup DomeDBusInterface Ekos DBus Interface - Dome Interface
          * Ekos::Dome interface provides advanced basic dome operations.
         */
 
-        /*@{*/
+    /*@{*/
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Abort dome
          */
-        Q_SCRIPTABLE bool abort();
+    Q_SCRIPTABLE bool abort();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Can dome park?
          */
-        Q_SCRIPTABLE bool canPark();
+    Q_SCRIPTABLE bool canPark();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Park dome
          */
-        Q_SCRIPTABLE bool park();
+    Q_SCRIPTABLE bool park();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Park dome
          */
-        Q_SCRIPTABLE bool unpark();
+    Q_SCRIPTABLE bool unpark();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Get the dome park status
          */
-        Q_SCRIPTABLE ParkingStatus getParkingStatus();
+    Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
-        /** DBUS interface function.
+    /** DBUS interface function.
          * Check if the dome is in motion
          */
-        Q_SCRIPTABLE bool isMoving();
+    Q_SCRIPTABLE bool isMoving();
 
-        /** @}*/
+    /** @}*/
 
-        /**
+    /**
          * @brief setDome set the dome device
          * @param newDome pointer to Dome device.
          */
-        void setDome(ISD::GDInterface * newDome);
+    void setDome(ISD::GDInterface *newDome);
 
-    private:
-
-        // Devices needed for Dome operation
-        ISD::Dome * currentDome;
-
+  private:
+    // Devices needed for Dome operation
+    ISD::Dome *currentDome;
 };
-
 }
 
-#endif  // Dome_H
+#endif // Dome_H

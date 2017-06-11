@@ -41,15 +41,14 @@ class KSPopupMenu;
 
 class StarObject : public SkyObject
 {
-    public:
-
-        /** @short returns the reindex interval (in centuries!) for the given
+  public:
+    /** @short returns the reindex interval (in centuries!) for the given
          * magnitude of proper motion (in milliarcsec/year).  ASSUMING a
          * 25 arc-minute margin for proper motion.
          */
-        static double reindexInterval( double pm );
+    static double reindexInterval(double pm);
 
-        /**
+    /**
             *Constructor.  Sets sky coordinates, magnitude, latin name, genetive name, and
             *spectral type.
             *@param r Right Ascension
@@ -65,10 +64,10 @@ class StarObject : public SkyObject
             *@param var Variability flag (true if star is a known periodic variable)
             *@param hd Henry Draper Number
             */
-        explicit StarObject( dms r=dms(0.0), dms d=dms(0.0), float m=0.0, const QString &n=QString(),
-                             const QString &n2=QString(), const QString &sptype="--", double pmra=0.0, double pmdec=0.0,
-                             double par=0.0, bool mult=false, bool var=false, int hd=0 );
-        /**
+    explicit StarObject(dms r = dms(0.0), dms d = dms(0.0), float m = 0.0, const QString &n = QString(),
+                        const QString &n2 = QString(), const QString &sptype = "--", double pmra = 0.0,
+                        double pmdec = 0.0, double par = 0.0, bool mult = false, bool var = false, int hd = 0);
+    /**
             *Constructor.  Sets sky coordinates, magnitude, latin name, genetive name, and
             *spectral type.  Differs from above function only in data type of RA and Dec.
             *@param r Right Ascension
@@ -84,20 +83,20 @@ class StarObject : public SkyObject
             *@param var Variability flag (true if star is a known periodic variable)
             *@param hd Henry Draper Number
             */
-        StarObject( double r, double d, float m=0.0, const QString &n=QString(),
-                    const QString &n2=QString(), const QString &sptype="--", double pmra=0.0, double pmdec=0.0,
-                    double par=0.0, bool mult=false, bool var=false, int hd=0 );
+    StarObject(double r, double d, float m = 0.0, const QString &n = QString(), const QString &n2 = QString(),
+               const QString &sptype = "--", double pmra = 0.0, double pmdec = 0.0, double par = 0.0, bool mult = false,
+               bool var = false, int hd = 0);
 
-        StarObject * clone() const Q_DECL_OVERRIDE;
-        UID getUID() const Q_DECL_OVERRIDE;
+    StarObject *clone() const Q_DECL_OVERRIDE;
+    UID getUID() const Q_DECL_OVERRIDE;
 
-        /** Copy constructor */
-        StarObject(const StarObject &o);
+    /** Copy constructor */
+    StarObject(const StarObject &o);
 
-        /** Destructor. (Empty) */
-        ~StarObject() { }
+    /** Destructor. (Empty) */
+    ~StarObject() {}
 
-        /**
+    /**
          *@short  Initializes a StarObject to given data
          *
          * This is almost like the StarObject constructor itself, but it avoids
@@ -107,71 +106,63 @@ class StarObject : public SkyObject
          *@param  stardata  Pointer to starData object containing required data (except name and gname)
          *@return Nothing
          */
-        void init( const starData * stardata );
+    void init(const starData *stardata);
 
-        /**
+    /**
          *@short  Initializes a StarObject to given data
          *
          *@param  stardata  Pointer to deepStarData object containing the available data
          *@return Nothing
          */
-        void init( const deepStarData * stardata );
+    void init(const deepStarData *stardata);
 
-        /**
+    /**
          *@short  Sets the name, genetive name, and long name
          *
          *@param  name  Common name
          *@param  name2 Genetive name
          */
-        void setNames( QString name, QString name2 );
+    void setNames(QString name, QString name2);
 
-        /** @return true if the star has a name ("star" doesn't count) */
-        inline bool hasName() const
-        {
-            return ( !Name.isEmpty() && Name!=starString );
-        }
+    /** @return true if the star has a name ("star" doesn't count) */
+    inline bool hasName() const { return (!Name.isEmpty() && Name != starString); }
 
-        /** @return true if the star has a latin name ("star" or HD... doesn't count) */
-        inline bool hasLatinName() const
-        {
-            return ( !Name.isEmpty() && Name!=starString && Name!=gname(false) && Name!=gname(true) && !Name.startsWith("HD "));
-        }
+    /** @return true if the star has a latin name ("star" or HD... doesn't count) */
+    inline bool hasLatinName() const
+    {
+        return (!Name.isEmpty() && Name != starString && Name != gname(false) && Name != gname(true) &&
+                !Name.startsWith("HD "));
+    }
 
-        /** If star is unnamed return "star" otherwise return the name */
-        inline virtual QString name( void ) const Q_DECL_OVERRIDE
-        {
-            return hasName() ? Name : starString;
-        }
+    /** If star is unnamed return "star" otherwise return the name */
+    inline virtual QString name(void) const Q_DECL_OVERRIDE { return hasName() ? Name : starString; }
 
-        /** If star is unnamed return "star" otherwise return the longname */
-        inline virtual QString longname( void ) const Q_DECL_OVERRIDE
-        {
-            return hasLongName() ? LongName : starString;
-        }
+    /** If star is unnamed return "star" otherwise return the longname */
+    inline virtual QString longname(void) const Q_DECL_OVERRIDE { return hasLongName() ? LongName : starString; }
 
-        /** Returns entire spectral type string
+    /** Returns entire spectral type string
          * @return Spectral Type string
          */
-        QString sptype( void ) const;
+    QString sptype(void) const;
 
-        /** Returns just the first character of the spectral type string. */
-        char spchar() const;
+    /** Returns just the first character of the spectral type string. */
+    char spchar() const;
 
-        /** Returns the genetive name of the star.
+    /** Returns the genetive name of the star.
          * @return genetive name of the star
          */
-        QString gname( bool useGreekChars=true ) const;
+    QString gname(bool useGreekChars = true) const;
 
-        /** Returns the greek letter portion of the star's genetive name.
+    /** Returns the greek letter portion of the star's genetive name.
          * Returns empty string if star has no genetive name defined.
          * @return greek letter portion of genetive name
          */
-        QString greekLetter( bool useGreekChars=true ) const;
+    QString greekLetter(bool useGreekChars = true) const;
 
-        /** @return the genitive form of the star's constellation. */
-        QString constell( void ) const;
+    /** @return the genitive form of the star's constellation. */
+    QString constell(void) const;
 
-        /** Determine the current coordinates (RA, Dec) from the catalog
+    /** Determine the current coordinates (RA, Dec) from the catalog
          * coordinates (RA0, Dec0), accounting for both precession and nutation.
          * @param num pointer to KSNumbers object containing current values of
          * time-dependent variables.
@@ -179,175 +170,136 @@ class StarObject : public SkyObject
          * @param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
          * @param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
          */
-        void updateCoords( const KSNumbers * num, bool includePlanets=true, const CachingDms * lat=0, const CachingDms * LST=0, bool forceRecompute = false ) Q_DECL_OVERRIDE;
+    void updateCoords(const KSNumbers *num, bool includePlanets = true, const CachingDms *lat = 0,
+                      const CachingDms *LST = 0, bool forceRecompute = false) Q_DECL_OVERRIDE;
 
-        /** @short fills ra and dec with the coordinates of the star with the proper
+    /** @short fills ra and dec with the coordinates of the star with the proper
          * motion correction but without precesion and its friends.  It is used
          * in StarComponent to re-index all the stars.
          *
          * @return true if we changed the coordinates, false otherwise
          * NOTE: ra and dec both in degrees.
          */
-        bool getIndexCoords( const KSNumbers * num, CachingDms &ra, CachingDms &dec );
-        bool getIndexCoords( const KSNumbers * num, double * ra, double * dec );
+    bool getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms &dec);
+    bool getIndexCoords(const KSNumbers *num, double *ra, double *dec);
 
-        /** @short added for JIT updates from both StarComponent and ConstellationLines */
-        void JITupdate();
+    /** @short added for JIT updates from both StarComponent and ConstellationLines */
+    void JITupdate();
 
-        /** @short returns the magnitude of the proper motion correction in milliarcsec/year */
-        inline double pmMagnitude() const
-        {
-            double cosDec = dec0().cos();
-            return sqrt( cosDec * cosDec * pmRA() * pmRA() + pmDec() * pmDec() );
-        }
+    /** @short returns the magnitude of the proper motion correction in milliarcsec/year */
+    inline double pmMagnitude() const
+    {
+        double cosDec = dec0().cos();
+        return sqrt(cosDec * cosDec * pmRA() * pmRA() + pmDec() * pmDec());
+    }
 
-        /**
+    /**
          *@short returns the square of the magnitude of the proper motion correction in (milliarcsec/year)^2
          *@note This method is faster when the square root need not be taken
          */
-        inline double pmMagnitudeSquared() const
-        {
-            double metric_weighted_pmRA = dec0().cos() * pmRA();
-            return (metric_weighted_pmRA * metric_weighted_pmRA + pmDec() * pmDec());
-        }
+    inline double pmMagnitudeSquared() const
+    {
+        double metric_weighted_pmRA = dec0().cos() * pmRA();
+        return (metric_weighted_pmRA * metric_weighted_pmRA + pmDec() * pmDec());
+    }
 
-        /** @short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
+    /** @short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
          * Note that the RA component is multiplied by cos(dec).
          * @param pmra the new RA propoer motion
          * @param pmdec the new Dec proper motion
          */
-        inline void setProperMotion( double pmra, double pmdec )
-        {
-            PM_RA = pmra;
-            PM_Dec = pmdec;
-        }
+    inline void setProperMotion(double pmra, double pmdec)
+    {
+        PM_RA  = pmra;
+        PM_Dec = pmdec;
+    }
 
-        /** @return the RA component of the star's proper motion, in mas/yr (multiplied by cos(dec)) */
-        inline double pmRA() const
-        {
-            return PM_RA;
-        }
+    /** @return the RA component of the star's proper motion, in mas/yr (multiplied by cos(dec)) */
+    inline double pmRA() const { return PM_RA; }
 
-        /** @return the Dec component of the star's proper motion, in mas/yr */
-        inline double pmDec() const
-        {
-            return PM_Dec;
-        }
+    /** @return the Dec component of the star's proper motion, in mas/yr */
+    inline double pmDec() const { return PM_Dec; }
 
-        /** @short set the star's parallax angle, in milliarcsec */
-        inline void setParallax( double plx )
-        {
-            Parallax = plx;
-        }
+    /** @short set the star's parallax angle, in milliarcsec */
+    inline void setParallax(double plx) { Parallax = plx; }
 
-        /** @return the star's parallax angle, in milliarcsec */
-        inline double parallax() const
-        {
-            return Parallax;
-        }
+    /** @return the star's parallax angle, in milliarcsec */
+    inline double parallax() const { return Parallax; }
 
-        /** @return the star's distance from the Sun in parsecs, as computed from the parallax. */
-        inline double distance() const
-        {
-            return 1000./parallax();
-        }
+    /** @return the star's distance from the Sun in parsecs, as computed from the parallax. */
+    inline double distance() const { return 1000. / parallax(); }
 
-        /** @short set the star's multiplicity flag (i.e., is it a binary or multiple star?)
+    /** @short set the star's multiplicity flag (i.e., is it a binary or multiple star?)
          * @param m true if binary/multiple star system */
-        inline void setMultiple( bool m )
-        {
-            Multiplicity = m;
-        }
+    inline void setMultiple(bool m) { Multiplicity = m; }
 
-        /** @return whether the star is a binary or multiple starobject */
-        inline bool isMultiple() const
-        {
-            return Multiplicity;
-        }
+    /** @return whether the star is a binary or multiple starobject */
+    inline bool isMultiple() const { return Multiplicity; }
 
-        /** @return the star's HD index */
-        inline int getHDIndex() const
-        {
-            return HD;
-        }
+    /** @return the star's HD index */
+    inline int getHDIndex() const { return HD; }
 
-        /** @short set the star's variability flag
+    /** @short set the star's variability flag
             *@param v true if star is variable
             */
-        inline void setVariable( bool v )
-        {
-            Variability = v;
-        }
+    inline void setVariable(bool v) { Variability = v; }
 
-        /** @return whether the star is a binary or multiple starobject
+    /** @return whether the star is a binary or multiple starobject
             */
-        inline bool isVariable() const
-        {
-            return Variability;
-        }
+    inline bool isVariable() const { return Variability; }
 
-        /** @short returns the name, the magnitude or both.
+    /** @short returns the name, the magnitude or both.
          */
-        QString nameLabel( bool drawName, bool drawMag ) const;
+    QString nameLabel(bool drawName, bool drawMag) const;
 
-        QString labelString() const Q_DECL_OVERRIDE;
+    QString labelString() const Q_DECL_OVERRIDE;
 
-        /**
+    /**
          *@return the pixel distance for offseting the star's name label
          *This takes the zoom level and the star's brightness into account.
          */
-        double labelOffset() const Q_DECL_OVERRIDE;
+    double labelOffset() const Q_DECL_OVERRIDE;
 
-        /**
+    /**
          *@return the Visual magnitude of the star
          */
-        inline float getVMag() const
-        {
-            return V;
-        }
+    inline float getVMag() const { return V; }
 
-        /**
+    /**
          *@return the blue magnitude of the star
          */
-        inline float getBMag() const
-        {
-            return B;
-        }
+    inline float getBMag() const { return B; }
 
-        /**
+    /**
          *@return the B - V color index of the star, or a nonsense number
          *larger than 30 if it's not well defined
          */
-        inline float getBVIndex() const
-        {
-            return ( ( B < 30.0 && V < 30.0 ) ? B - V : 99.9 );
-        }
+    inline float getBVIndex() const { return ((B < 30.0 && V < 30.0) ? B - V : 99.9); }
 
-        quint64 updateID;
-        quint64 updateNumID;
+    quint64 updateID;
+    quint64 updateNumID;
 
 #ifdef PROFILE_UPDATECOORDS
-        static double updateCoordsCpuTime;
-        static unsigned int starsUpdated;
+    static double updateCoordsCpuTime;
+    static unsigned int starsUpdated;
 #endif
 
-        void initPopupMenu( KSPopupMenu * pmenu) Q_DECL_OVERRIDE;
+    void initPopupMenu(KSPopupMenu *pmenu) Q_DECL_OVERRIDE;
 
-    protected:
-        // DEBUG EDIT. For testing proper motion, uncomment this, and related blocks
-        // See starobject.cpp for further info.
-        //    static QVector<SkyPoint *> Trail;
-        //    bool testStar;
-        // END DEBUG
+  protected:
+    // DEBUG EDIT. For testing proper motion, uncomment this, and related blocks
+    // See starobject.cpp for further info.
+    //    static QVector<SkyPoint *> Trail;
+    //    bool testStar;
+    // END DEBUG
 
-    private:
-
-
-        double PM_RA, PM_Dec, Parallax;  //, VRange, VPeriod;
-        bool Multiplicity, Variability;
-        char SpType[2];
-        int HD;
-        float B, V; // B and V magnitudes, separately. NOTE 1) This is kept separate from mag for a reason. See init( const deepStarData *); 2) This applies only to deep stars at the moment
+  private:
+    double PM_RA, PM_Dec, Parallax; //, VRange, VPeriod;
+    bool Multiplicity, Variability;
+    char SpType[2];
+    int HD;
+    float B,
+        V; // B and V magnitudes, separately. NOTE 1) This is kept separate from mag for a reason. See init( const deepStarData *); 2) This applies only to deep stars at the moment
 };
 
 #endif

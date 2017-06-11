@@ -33,15 +33,14 @@
 
 class AuxInfo : public QSharedData
 {
-    public:
-        QStringList ImageList;
-        QStringList ImageTitle;
-        QStringList InfoList;
-        QStringList InfoTitle;
-        QString userLog;
-        QString notes;
-        QHash<QString, QVariant> otherData;
+  public:
+    QStringList ImageList;
+    QStringList ImageTitle;
+    QStringList InfoList;
+    QStringList InfoTitle;
+    QString userLog;
+    QString notes;
+    QHash<QString, QVariant> otherData;
 };
 
 #endif
-

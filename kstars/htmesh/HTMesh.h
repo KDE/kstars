@@ -23,7 +23,6 @@ class RangeConvex;
 class MeshIterator;
 class MeshBuffer;
 
-
 /**
  * @class HTMesh
  * HTMesh was originally intended to be a simple interface to the HTM
@@ -59,24 +58,24 @@ class MeshBuffer;
 
 class HTMesh
 {
-    public:
-        /** @short constructor.
+  public:
+    /** @short constructor.
          * @param level is passed on to the underlying SpatialIndex
          * @param buildLevvel is also passed on to the SpatialIndex
          * @param numBuffers controls how many output buffers are created. Don't
          * use more than require because they eat up mucho RAM.  The default is
          * just one output buffer.
          */
-        HTMesh(int level, int buildLevel, int numBuffers=1);
+    HTMesh(int level, int buildLevel, int numBuffers = 1);
 
-        ~HTMesh();
+    ~HTMesh();
 
-        /** @short returns the index of the trixel that contains the specified
+    /** @short returns the index of the trixel that contains the specified
          * point.
          */
-        Trixel index(double ra, double dec) const;
+    Trixel index(double ra, double dec) const;
 
-        /** NOTE: The intersect() routines below are all used to find the trixels
+    /** NOTE: The intersect() routines below are all used to find the trixels
          * needed to cover a geometric object: circle, line, triangle, and
          * quadrilateral.  Since the number of trixels needed can be large and is
          * not known a priori, you must construct a MeshIterator to iterate over
@@ -87,7 +86,7 @@ class HTMesh
          * the results by supplying an optional integer bufNum parameter.
          */
 
-        /**
+    /**
          *@short finds the trixels that cover the specified circle
          *@param ra Central ra in degrees
          *@param dec Central dec in degrees
@@ -96,99 +95,80 @@ class HTMesh
          * situations. Please see SkyMesh::aperture()'s code before
          * messing with this method.
          */
-        void intersect(double ra, double dec, double radius,
-                       BufNum bufNum=0);
+    void intersect(double ra, double dec, double radius, BufNum bufNum = 0);
 
-
-        /** @short finds the trixels that cover the specified line segment
+    /** @short finds the trixels that cover the specified line segment
          */
-        void intersect(double ra1, double dec1, double ra2, double dec2,
-                       BufNum bufNum=0);
+    void intersect(double ra1, double dec1, double ra2, double dec2, BufNum bufNum = 0);
 
-
-        /** @short find the trixels that cover the specified triangle
+    /** @short find the trixels that cover the specified triangle
          */
-        void intersect(double ra1, double dec1, double ra2, double dec2,
-                       double ra3, double dec3, BufNum bufNum=0);
+    void intersect(double ra1, double dec1, double ra2, double dec2, double ra3, double dec3, BufNum bufNum = 0);
 
-
-        /** @short finds the trixels that cover the specified quadrilateral
+    /** @short finds the trixels that cover the specified quadrilateral
          */
-        void intersect(double ra1, double dec1, double ra2, double dec2,
-                       double ra3, double dec3, double ra4, double dec4,
-                       BufNum bufNum=0);
+    void intersect(double ra1, double dec1, double ra2, double dec2, double ra3, double dec3, double ra4, double dec4,
+                   BufNum bufNum = 0);
 
-        /** @short returns the number of trixels in the result buffer bufNum.
+    /** @short returns the number of trixels in the result buffer bufNum.
          */
-        int intersectSize(BufNum bufNum=0);
+    int intersectSize(BufNum bufNum = 0);
 
-        /** @short returns the total number of trixels in the HTM.  This number
+    /** @short returns the total number of trixels in the HTM.  This number
          * is 8 * 4^level.
          */
-        int size() const
-        {
-            return numTrixels;
-        }
+    int size() const { return numTrixels; }
 
-        /** @short returns the mesh level.
+    /** @short returns the mesh level.
          */
-        int level() const
-        {
-            return m_level;
-        }
+    int level() const { return m_level; }
 
-        /** @short sets the debug level which is used to print out intermediate
+    /** @short sets the debug level which is used to print out intermediate
          * results in the line intersection routine.
          */
-        void setDebug(int debug)
-        {
-            htmDebug = debug;
-        }
+    void setDebug(int debug) { htmDebug = debug; }
 
-        /** @short returns  a pointer to the MeshBuffer specified by bufNum.
+    /** @short returns  a pointer to the MeshBuffer specified by bufNum.
          * Currently this is only used in the MeshIterator constructor.
          */
-        MeshBuffer * meshBuffer(BufNum bufNum=0);
+    MeshBuffer *meshBuffer(BufNum bufNum = 0);
 
-        void vertices(Trixel id, double * ra1, double * dec1,
-                      double * ra2, double * dec2,
-                      double * ra3, double * dec3);
-    private:
-        const char * name;
-        SpatialIndex * htm;
-        int m_level, m_buildLevel;
-        int numTrixels, magicNum;
+    void vertices(Trixel id, double *ra1, double *dec1, double *ra2, double *dec2, double *ra3, double *dec3);
 
-        // These store the result sets:
-        MeshBuffer ** m_meshBuffer;
-        BufNum m_numBuffers;
+  private:
+    const char *name;
+    SpatialIndex *htm;
+    int m_level, m_buildLevel;
+    int numTrixels, magicNum;
 
-        double degree2Rad;
-        double edge, edge10, eps;
+    // These store the result sets:
+    MeshBuffer **m_meshBuffer;
+    BufNum m_numBuffers;
 
-        int htmDebug;
+    double degree2Rad;
+    double edge, edge10, eps;
 
-        /** @short fills the specified buffer with the intersection results in the
+    int htmDebug;
+
+    /** @short fills the specified buffer with the intersection results in the
          * RangeConvex.
          */
-        bool performIntersection(RangeConvex * convex, BufNum bufNum=0);
+    bool performIntersection(RangeConvex *convex, BufNum bufNum = 0);
 
-        /** @short users can only use the allocated buffers
+    /** @short users can only use the allocated buffers
          */
-        inline bool validBufNum(BufNum bufNum)
-        {
-            if (bufNum < m_numBuffers) return true;
-            fprintf(stderr, "%s: bufNum: %d >= numBuffers: %d\n",
-                    name, bufNum, m_numBuffers);
-            return false;
-        }
+    inline bool validBufNum(BufNum bufNum)
+    {
+        if (bufNum < m_numBuffers)
+            return true;
+        fprintf(stderr, "%s: bufNum: %d >= numBuffers: %d\n", name, bufNum, m_numBuffers);
+        return false;
+    }
 
-        /** @short used by the line intersection routine.  Maybe there is a
+    /** @short used by the line intersection routine.  Maybe there is a
          * simpler and faster approach that does not require this conversion.
          */
-        void toXYZ( double ra, double dec, double * x, double * y, double * z);
-
+    void toXYZ(double ra, double dec, double *x, double *y, double *z);
 };
-
 
 #endif

@@ -39,53 +39,54 @@ class LabelNode;
 
 class PlanetNode : public SkyNode
 {
-    public:
-        /**
+  public:
+    /**
          * @brief Constructor
          * @param planet used in PlanesItem to update position of PlanetNode
          * @param parentNode used by PointNode to get textures from cache
          * @param labelType type of label. Pluto has different from planets label type
          */
-        PlanetNode(KSPlanetBase * planet, RootNode * parentNode, LabelsItem::label_t labelType = LabelsItem::label_t::PLANET_LABEL);
+    PlanetNode(KSPlanetBase *planet, RootNode *parentNode,
+               LabelsItem::label_t labelType = LabelsItem::label_t::PLANET_LABEL);
 
-        /**
+    /**
          * @short updates the size of m_point
          * @param size new size of m_point
          */
-        void setPointSize(float size);
-        /**
+    void setPointSize(float size);
+    /**
          * @short updates the size of m_planetPic
          * @param size new size of m_planetPic
          */
-        void setPlanetPicSize(float size);
-        /**
+    void setPlanetPicSize(float size);
+    /**
          * @short hides m_planetPic and shows m_point
          */
-        void showPoint();
-        /**
+    void showPoint();
+    /**
          * @short hides m_point and shows m_planetPic
          */
-        void showPlanetPic();
-        /**
+    void showPlanetPic();
+    /**
          * @short changePos changes the position m_point and m_planetPic
          * @param pos new position
          */
-        virtual void changePos(QPointF pos) override;
+    virtual void changePos(QPointF pos) override;
 
-        /**
+    /**
          * @note similar to SolarSystemSingleComponent::draw()
          */
-        virtual void update() override;
-        virtual void hide() override;
-    private:
-        PointNode * m_point;
+    virtual void update() override;
+    virtual void hide() override;
 
-        // This opacity node is used to hide m_planetPic. m_point is subclass of QSGOpacityNode so it needs
-        // no explicit opacity node here.
-        QSGSimpleTextureNode * m_planetPic;
-        SkyOpacityNode * m_planetOpacity;
-        LabelNode * m_label;
+  private:
+    PointNode *m_point;
+
+    // This opacity node is used to hide m_planetPic. m_point is subclass of QSGOpacityNode so it needs
+    // no explicit opacity node here.
+    QSGSimpleTextureNode *m_planetPic;
+    SkyOpacityNode *m_planetOpacity;
+    LabelNode *m_label;
 };
-
 
 #endif

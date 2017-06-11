@@ -29,21 +29,21 @@
  */
 class KStarsSplash : public QSplashScreen
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        /** Constructor. Create widgets.  Load KStars logo.  Start load timer.
+  public:
+    /** Constructor. Create widgets.  Load KStars logo.  Start load timer.
          * A non-empty customMessage will replace "Welcome to KStars [...]".
         */
-        explicit KStarsSplash( const QString &customMessage="" );
+    explicit KStarsSplash(const QString &customMessage = "");
 
-        /** Destructor */
-        ~KStarsSplash();
+    /** Destructor */
+    ~KStarsSplash();
 
-    public slots:
-        /** Display the text argument in the Splash Screen's status label.
+  public slots:
+    /** Display the text argument in the Splash Screen's status label.
          * This is connected to KStarsData::progressText(QString)*/
-        void setMessage(const QString &s);
+    void setMessage(const QString &s);
 };
 
 #endif

@@ -15,21 +15,19 @@
 #include "alignview.h"
 #include "kstarsdata.h"
 
-#define ZOOM_DEFAULT	100.0
-#define ZOOM_MIN        10
-#define ZOOM_MAX        400
+#define ZOOM_DEFAULT 100.0
+#define ZOOM_MIN     10
+#define ZOOM_MAX     400
 
-AlignView::AlignView(QWidget * parent, FITSMode mode, FITSScale filter) : FITSView(parent, mode, filter)
+AlignView::AlignView(QWidget *parent, FITSMode mode, FITSScale filter) : FITSView(parent, mode, filter)
 {
-
 }
 
 AlignView::~AlignView()
 {
-
 }
 
-void AlignView::drawOverlay(QPainter * painter)
+void AlignView::drawOverlay(QPainter *painter)
 {
     painter->setOpacity(0.5);
     FITSView::drawOverlay(painter);
@@ -63,20 +61,20 @@ void AlignView::setCorrectionParams(QLineF line)
     if (imageData == nullptr)
         return;
 
-    bool RAAxisInside = imageData->contains(line.p1());
-    bool CPPointInside= imageData->contains(line.p2());
+    bool RAAxisInside  = imageData->contains(line.p1());
+    bool CPPointInside = imageData->contains(line.p2());
 
     // If points are outside, let's translate the line to be within the frame
     if (RAAxisInside == false || CPPointInside == false)
     {
-        QPointF center(imageData->getWidth()/2, imageData->getHeight()/2);
-        QPointF offset (center - line.p1());
+        QPointF center(imageData->getWidth() / 2, imageData->getHeight() / 2);
+        QPointF offset(center - line.p1());
         line.translate(offset);
     }
 
-    correctionLine   = line;
-    celestialPolePoint   = line.p1();
-    markerCrosshair  = line.p2();
+    correctionLine     = line;
+    celestialPolePoint = line.p1();
+    markerCrosshair    = line.p2();
 
     updateFrame();
 }
@@ -88,9 +86,9 @@ void AlignView::setCorrectionOffset(QPointF newOffset)
 
     if (newOffset.isNull() == false)
     {
-        correctionOffset = newOffset;
-        QPointF offset = correctionOffset - correctionLine.p1();
-        QLineF  offsetLine = correctionLine;
+        correctionOffset  = newOffset;
+        QPointF offset    = correctionOffset - correctionLine.p1();
+        QLineF offsetLine = correctionLine;
         offsetLine.translate(offset);
         markerCrosshair = offsetLine.p2();
     }
@@ -104,10 +102,10 @@ void AlignView::setCorrectionOffset(QPointF newOffset)
     updateFrame();
 }
 
-void AlignView::drawLine(QPainter * painter)
+void AlignView::drawLine(QPainter *painter)
 {
-    painter->setPen(QPen( Qt::magenta , 2));
-    painter->setBrush( Qt::NoBrush );
+    painter->setPen(QPen(Qt::magenta, 2));
+    painter->setBrush(Qt::NoBrush);
     double zoomFactor = (currentZoom / ZOOM_DEFAULT);
 
     QLineF zoomedLine = correctionLine;
@@ -126,7 +124,7 @@ void AlignView::drawLine(QPainter * painter)
     double x2 = zoomedLine.p2().x() * zoomFactor;
     double y2 = zoomedLine.p2().y() * zoomFactor;
 
-    painter->drawLine(x1,y1,x2,y2);
+    painter->drawLine(x1, y1, x2, y2);
 
     // In limited memory mode, WCS data is not loaded so no Equatorial Gridlines are drawn
     // so we have to at least draw the NCP/SCP locations
@@ -136,40 +134,39 @@ void AlignView::drawLine(QPainter * painter)
         pen.setWidth(2);
         pen.setColor(Qt::darkRed);
         painter->setPen(pen);
-        double x = celestialPolePoint.x() * zoomFactor;
-        double y = celestialPolePoint.y() * zoomFactor;
-        double sr= 3*zoomFactor;
+        double x  = celestialPolePoint.x() * zoomFactor;
+        double y  = celestialPolePoint.y() * zoomFactor;
+        double sr = 3 * zoomFactor;
 
         if (KStarsData::Instance()->geo()->lat()->Degrees() > 0)
-            painter->drawText(x+sr,y+sr, i18nc("North Celestial Pole", "NCP"));
+            painter->drawText(x + sr, y + sr, i18nc("North Celestial Pole", "NCP"));
         else
-            painter->drawText(x+sr,y+sr, i18nc("South Celestial Pole", "SCP"));
+            painter->drawText(x + sr, y + sr, i18nc("South Celestial Pole", "SCP"));
     }
 }
 
-void AlignView::drawCircle(QPainter * painter)
+void AlignView::drawCircle(QPainter *painter)
 {
     QPen pen(Qt::green);
     pen.setWidth(2);
     pen.setStyle(Qt::DashLine);
     painter->setPen(pen);
-    painter->setBrush( Qt::NoBrush);
+    painter->setBrush(Qt::NoBrush);
     double zoomFactor = (currentZoom / ZOOM_DEFAULT);
 
-    QPointF center(RACircle.x()*zoomFactor, RACircle.y() * zoomFactor);
+    QPointF center(RACircle.x() * zoomFactor, RACircle.y() * zoomFactor);
 
     // Big Radius
     double r = RACircle.z() * zoomFactor;
 
     // Small radius
-    double sr= r/25.0;
+    double sr = r / 25.0;
 
     painter->drawEllipse(center, sr, sr);
     painter->drawEllipse(center, r, r);
     pen.setColor(Qt::darkGreen);
     painter->setPen(pen);
-    painter->drawText(center.x()+sr,center.y()+sr, i18n("RA Axis"));
-
+    painter->drawText(center.x() + sr, center.y() + sr, i18n("RA Axis"));
 }
 
 void AlignView::setRACircle(const QVector3D &value)
@@ -177,4 +174,3 @@ void AlignView::setRACircle(const QVector3D &value)
     RACircle = value;
     updateFrame();
 }
-

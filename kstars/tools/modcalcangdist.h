@@ -32,27 +32,25 @@ class QTextStream;
   */
 class modCalcAngDist : public QFrame, public Ui::modCalcAngDistDlg
 {
+    Q_OBJECT
+  public:
+    /**Constructor. */
+    explicit modCalcAngDist(QWidget *p);
+    /**Destructor. */
+    ~modCalcAngDist();
 
-        Q_OBJECT
-    public:
-        /**Constructor. */
-        explicit modCalcAngDist(QWidget * p);
-        /**Destructor. */
-        ~modCalcAngDist();
+  public slots:
+    void slotValidatePositions();
+    void slotObjectButton();
+    void slotResetTitle();
+    void slotRunBatch();
 
-    public slots:
-        void slotValidatePositions();
-        void slotObjectButton();
-        void slotResetTitle();
-        void slotRunBatch();
+  private:
+    /** Process Lines **/
+    void processLines(QTextStream &istream);
 
-    private:
-        /** Process Lines **/
-        void processLines( QTextStream &istream );
-
-        /** @returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
-        SkyPoint getCoords(dmsBox * rBox, dmsBox * dBox, bool * ok);
-
+    /** @returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
+    SkyPoint getCoords(dmsBox *rBox, dmsBox *dBox, bool *ok);
 };
 
 #endif

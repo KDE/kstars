@@ -38,41 +38,38 @@ class dms;
   */
 class PlanetMoons
 {
-    public:
-        /**
+  public:
+    /**
           *Constructor.  Assign the name of each moon,
           *and initialize their XYZ positions to zero.
           */
-        PlanetMoons();
+    PlanetMoons();
 
-        /**
+    /**
           *Destructor.  Delete moon objects.
           */
-        virtual ~PlanetMoons();
+    virtual ~PlanetMoons();
 
-        /**
+    /**
           *@return pointer to a moon given the ID number.
           *@param id which moon?
           */
-        inline TrailObject * moon( int id )
-        {
-            return Moon[id];
-        }
+    inline TrailObject *moon(int id) { return Moon[id]; }
 
-        /**
+    /**
           *@return the name of a moon.
           *@param id which moon?
           */
-        QString name( int id ) const;
+    QString name(int id) const;
 
-        /**
+    /**
           *Convert the RA,Dec coordinates of each moon to Az,Alt
           *@param LSTh pointer to the current local sidereal time
           *@param lat pointer to the geographic latitude
           */
-        void EquatorialToHorizontal( const dms * LSTh, const dms * lat );
+    void EquatorialToHorizontal(const dms *LSTh, const dms *lat);
 
-        /**
+    /**
           *@short Find the positions of each Moon, relative to the planet.
           *We use an XYZ coordinate system, centered on the planet,
           *where the X-axis corresponds to the planet's Equator,
@@ -90,60 +87,45 @@ class PlanetMoons
           *@param pla pointer to the planet object
           *@param sunptr pointer to the Sun object
           */
-        virtual void findPosition( const KSNumbers * num, const KSPlanetBase * pla, const KSSun * sunptr ) = 0;
+    virtual void findPosition(const KSNumbers *num, const KSPlanetBase *pla, const KSSun *sunptr) = 0;
 
-        /**
+    /**
           *@return true if the Moon is nearer to Earth than Saturn.
           *@param id which moon? 0=Mimas,1=Enceladus,2=Tethys,3=Dione,4=Rhea,5=Titan,6=Hyperion,7=Lapetus
           */
-        inline bool inFront( int id ) const
-        {
-            return InFront[id];
-        }
+    inline bool inFront(int id) const { return InFront[id]; }
 
-        /**
+    /**
           *@return the X-coordinate in the planet-centered coord. system.
           *@param i which moon?
           */
-        double x( int i ) const
-        {
-            return XP[i];
-        }
+    double x(int i) const { return XP[i]; }
 
-        /**
+    /**
           *@return the Y-coordinate in the planet-centered coord. system.
           *@param i which moon?
           */
-        double y( int i ) const
-        {
-            return YP[i];
-        }
+    double y(int i) const { return YP[i]; }
 
-        /**
+    /**
           *@return the Z-coordinate in the Planet-centered coord. system.
           *@param i which moon?
           */
-        double z( int i ) const
-        {
-            return ZP[i];
-        }
+    double z(int i) const { return ZP[i]; }
 
-        /**
+    /**
           *@return the number of moons around the planet
           */
-        int nMoons( ) const
-        {
-            return Moon.size();
-        }
+    int nMoons() const { return Moon.size(); }
 
-    protected:
-        QVector<TrailObject *> Moon;
-        QVector<bool> InFront;
-        //the rectangular position, relative to the planet. X-axis is equator of the planet; units are planet Radius
-        QVector<double> XP, YP, ZP;
+  protected:
+    QVector<TrailObject *> Moon;
+    QVector<bool> InFront;
+    //the rectangular position, relative to the planet. X-axis is equator of the planet; units are planet Radius
+    QVector<double> XP, YP, ZP;
 
-    private:
-        PlanetMoons(const PlanetMoons &);
-        PlanetMoons &operator = (const PlanetMoons &);
+  private:
+    PlanetMoons(const PlanetMoons &);
+    PlanetMoons &operator=(const PlanetMoons &);
 };
 #endif

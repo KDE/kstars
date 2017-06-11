@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
 #ifndef ADDDEEPSKYOBJECT_H
 #define ADDDEEPSKYOBJECT_H
 
@@ -33,47 +31,44 @@
 
 class AddDeepSkyObject : public QDialog, public Ui::AddDeepSkyObject
 {
+    Q_OBJECT;
 
-        Q_OBJECT;
-
-    public:
-
-        /**
+  public:
+    /**
          * @short Constructor
          */
-        AddDeepSkyObject( QWidget * parent, SyncedCatalogComponent * catalog );
+    AddDeepSkyObject(QWidget *parent, SyncedCatalogComponent *catalog);
 
-        /**
+    /**
          * @short Destructor
          */
-        ~AddDeepSkyObject();
+    ~AddDeepSkyObject();
 
-        /**
+    /**
          * @short Fills the dialog from a text by trying to guess fields
          */
-        void fillFromText( const QString &text );
+    void fillFromText(const QString &text);
 
-    public slots:
+  public slots:
 
-        /**
+    /**
          * @short Accept the dialog and add the entry to the catalog
          */
-        bool slotOk();
+    bool slotOk();
 
-        /**
+    /**
          * @short Resets the entries in the dialog
          */
-        void resetView();
+    void resetView();
 
-        /**
+    /**
          * @short Gathers the text and calls fillFromText() to parse the text
          */
-        void slotFillFromText();
+    void slotFillFromText();
 
-    private:
-
-        SyncedCatalogComponent * m_catalog;
-        Ui::AddDeepSkyObject * ui;
+  private:
+    SyncedCatalogComponent *m_catalog;
+    Ui::AddDeepSkyObject *ui;
 };
 
 #endif

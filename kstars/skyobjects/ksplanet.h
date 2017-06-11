@@ -39,129 +39,123 @@
  */
 class KSPlanet : public KSPlanetBase
 {
-    public:
-
-        /**
+  public:
+    /**
          * Constructor.
          * @param s Name of planet
          * @param image_file filename of the planet's image
          * @param c the color for the planet
          * @param pSize physical diameter of the planet, in km
          */
-        explicit KSPlanet( const QString &s="unnamed", const QString &image_file=QString(),
-                           const QColor &c=Qt::white, double pSize=0 );
+    explicit KSPlanet(const QString &s = "unnamed", const QString &image_file = QString(), const QColor &c = Qt::white,
+                      double pSize = 0);
 
-        /**
+    /**
          * Simplified constructor
          * @param n identifier of the planet to be created
          * @see PLANET enum
          */
-        explicit KSPlanet( int n );
+    explicit KSPlanet(int n);
 
-        KSPlanet * clone() const Q_DECL_OVERRIDE;
-        SkyObject::UID getUID() const Q_DECL_OVERRIDE;
+    KSPlanet *clone() const Q_DECL_OVERRIDE;
+    SkyObject::UID getUID() const Q_DECL_OVERRIDE;
 
-        /**
+    /**
          * Destructor (empty)
          */
-        virtual ~KSPlanet() {}
+    virtual ~KSPlanet() {}
 
-        /** @short return the untranslated name
+    /** @short return the untranslated name
          *This is a dirty way to solve a lot of localization-related trouble for the KDE 4.2 release
          *TODO: Change the whole architecture for names later
          */
-        QString untranslatedName( void ) const;
+    QString untranslatedName(void) const;
 
-        /** @short Preload the data used by findPosition.
+    /** @short Preload the data used by findPosition.
         	*/
-        bool loadData() Q_DECL_OVERRIDE;
+    bool loadData() Q_DECL_OVERRIDE;
 
-        /** Calculate the ecliptic longitude and latitude of the planet for
+    /** Calculate the ecliptic longitude and latitude of the planet for
         	*the given date (expressed in Julian Millenia since J2000).  A reference
         	*to the ecliptic coordinates is returned as the second object.
         	*@param jm Julian Millenia (=jd/1000)
         	*@param ret The ecliptic coordinates are returned by reference through this argument.
         	*/
-        virtual void calcEcliptic(double jm, EclipticPosition &ret) const;
+    virtual void calcEcliptic(double jm, EclipticPosition &ret) const;
 
-    protected:
+  protected:
+    bool data_loaded;
 
-        bool data_loaded;
-
-        /** Calculate the geocentric RA, Dec coordinates of the Planet.
+    /** Calculate the geocentric RA, Dec coordinates of the Planet.
         	*@note reimplemented from KSPlanetBase
         	*@param num pointer to object with time-dependent values for the desired date
         	*@param Earth pointer to the planet Earth (needed to calculate geocentric coords)
         	*@return true if position was successfully calculated.
         	*/
-        bool findGeocentricPosition(const KSNumbers * num, const KSPlanetBase * Earth = nullptr) Q_DECL_OVERRIDE;
+    bool findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Earth = nullptr) Q_DECL_OVERRIDE;
 
-        /** @class OrbitData
+    /** @class OrbitData
         	*This class contains doubles A,B,C which represent a single term in a planet's
         	*positional expansion sums (each sum-term is A*COS(B+C*T)).
         	*@author Mark Hollomon
         	*@version 1.0
         	*/
-        class OrbitData
-        {
-            public:
-                /**
+    class OrbitData
+    {
+      public:
+        /**
                 	*Default constructor
                 	*/
-                OrbitData() : A(0.), B(0.), C(0.) {}
-                /**
+        OrbitData() : A(0.), B(0.), C(0.) {}
+        /**
                 	*Constructor
                 	*@param a the A value
                 	*@param b the B value
                 	*@param c the C value
                 	*/
-                OrbitData(double a, double b, double c) : A(a), B(b), C(c) {}
+        OrbitData(double a, double b, double c) : A(a), B(b), C(c) {}
 
-                /**
+        /**
                 	*Assignment operator
                 	*/
-                OrbitData operator= ( const OrbitData o )
-                {
-                    return o;
-                }
+        OrbitData operator=(const OrbitData o) { return o; }
 
-                double A, B, C;
-        };
+        double A, B, C;
+    };
 
-        typedef QVector<OrbitData> OBArray[6];
+    typedef QVector<OrbitData> OBArray[6];
 
-        /** OrbitDataColl contains three groups of six QVectors.  Each QVector is a
+    /** OrbitDataColl contains three groups of six QVectors.  Each QVector is a
         	*list of OrbitData objects, representing a single sum used in computing
         	*the planet's position.  A set of six of these vectors comprises the large
         	*"meta-sum" which yields the planet's Longitude, Latitude, or Distance value.
         	*@author Mark Hollomon
         	*@version 1.0
         	*/
-        class OrbitDataColl
-        {
-            public:
-                /**Constructor*/
-                OrbitDataColl();
+    class OrbitDataColl
+    {
+      public:
+        /**Constructor*/
+        OrbitDataColl();
 
-                OBArray Lon;
-                OBArray Lat;
-                OBArray Dst;
-        };
+        OBArray Lon;
+        OBArray Lat;
+        OBArray Dst;
+    };
 
-
-        /** OrbitDataManager places the OrbitDataColl objects for all planets in a QDict
+    /** OrbitDataManager places the OrbitDataColl objects for all planets in a QDict
         	*indexed by the planets' names.  It also loads the positional data of each planet
         	*from disk.
         	*@author Mark Hollomon
         	*@version 1.0
         	*/
-        class OrbitDataManager
-        {
-            public:
-                /** Constructor*/
-                OrbitDataManager();
+    class OrbitDataManager
+    {
+      public:
+        /** Constructor*/
+        OrbitDataManager();
 
-                /** Load orbital data for a planet from disk.
+        /** Load orbital data for a planet from disk.
                 	*The data is stored on disk in a series of files named
                 	*"name.[LBR][0...5].vsop", where "L"=Longitude data, "B"=Latitude data,
                 	*and R=Radius data.
@@ -169,24 +163,24 @@ class KSPlanet : public KSPlanetBase
                 	*@param odc reference to the OrbitDataColl containing the planet's orbital data.
                 	*@return true if data successfully loaded
                 	*/
-                bool loadData( OrbitDataColl &odc, const QString &n);
+        bool loadData(OrbitDataColl &odc, const QString &n);
 
-            private:
-                /** Read a single orbital data file from disk into an OrbitData vector.
+      private:
+        /** Read a single orbital data file from disk into an OrbitData vector.
                 *The data files are named "name.[LBR][0...5].vsop", where
                 *"L"=Longitude data, "B"=Latitude data, and R=Radius data.
                 *@param fname the filename to be read.
                 *@param vector pointer to the OrbitData vector to be filled with these data.
                 */
-                bool readOrbitData(const QString &fname, QVector<KSPlanet::OrbitData> * vector);
+        bool readOrbitData(const QString &fname, QVector<KSPlanet::OrbitData> *vector);
 
-                QHash<QString, OrbitDataColl> hash;
-        };
+        QHash<QString, OrbitDataColl> hash;
+    };
 
-        static OrbitDataManager odm;
+    static OrbitDataManager odm;
 
-    private:
-        void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
+  private:
+    void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
 };
 
 #endif

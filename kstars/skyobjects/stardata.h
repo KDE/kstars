@@ -27,13 +27,13 @@
  */
 struct starData
 {
-    qint32 RA;          /**< Raw signed 32-bit RA value. Needs to be multiplied by the scale (1e6) */
-    qint32 Dec;         /**< Raw signed 32-bit DE value. Needs to be multiplied by the scale (1e6) */
+    qint32 RA;  /**< Raw signed 32-bit RA value. Needs to be multiplied by the scale (1e6) */
+    qint32 Dec; /**< Raw signed 32-bit DE value. Needs to be multiplied by the scale (1e6) */
     qint32 dRA;
     qint32 dDec;
     qint32 parallax;
-    qint32 HD;          /**< unsigned 32-bit Henry Draper Index. No scaling is required. */
-    qint16 mag;         /**< signed 16-bit raw magnitude. Needs to be divided by the scale (1e2) */
+    qint32 HD;  /**< unsigned 32-bit Henry Draper Index. No scaling is required. */
+    qint16 mag; /**< signed 16-bit raw magnitude. Needs to be divided by the scale (1e2) */
     qint16 bv_index;
     char spec_type[2];
     char flags;

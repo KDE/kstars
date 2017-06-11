@@ -29,21 +29,20 @@
 	*/
 class HorizontalCoordinateGrid : public CoordinateGrid
 {
-    public:
-        /**
+  public:
+    /**
         	*@short Constructor
         	*Simply adds all of the coordinate grid circles
         	*(meridians and parallels)
         	*@p parent Pointer to the parent SkyComposite object
         	*/
-        explicit HorizontalCoordinateGrid( SkyComposite * parent );
+    explicit HorizontalCoordinateGrid(SkyComposite *parent);
 
-        void preDraw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
+    void preDraw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-        void update( KSNumbers * ) Q_DECL_OVERRIDE;
+    void update(KSNumbers *) Q_DECL_OVERRIDE;
 
-        bool selected() Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
 };
-
 
 #endif

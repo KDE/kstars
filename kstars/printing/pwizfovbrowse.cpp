@@ -20,8 +20,7 @@
 #include "pwizfovbrowse.h"
 #include "foveditordialog.h"
 
-PWizFovBrowseUI::PWizFovBrowseUI(PrintingWizard * wizard, QWidget * parent) : QFrame(parent),
-    m_ParentWizard(wizard)
+PWizFovBrowseUI::PWizFovBrowseUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent), m_ParentWizard(wizard)
 {
     setupUi(this);
 
@@ -30,7 +29,7 @@ PWizFovBrowseUI::PWizFovBrowseUI(PrintingWizard * wizard, QWidget * parent) : QF
 
 void PWizFovBrowseUI::slotOpenFovEditor()
 {
-    QPointer<FovEditorDialog> dialog( new FovEditorDialog( m_ParentWizard, this ) );
+    QPointer<FovEditorDialog> dialog(new FovEditorDialog(m_ParentWizard, this));
     dialog->exec();
     delete dialog;
 }

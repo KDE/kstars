@@ -18,14 +18,15 @@
 
 #include "oal/filter.h"
 
-void OAL::Filter::setFilter(const QString &_id, const QString &_model, const QString &_vendor, const QString &_type, const QString &_offset, const QString &_color , const QString &_exposure)
+void OAL::Filter::setFilter(const QString &_id, const QString &_model, const QString &_vendor, const QString &_type,
+                            const QString &_offset, const QString &_color, const QString &_exposure)
 {
-    m_Id = _id;
-    m_Model = _model;
-    m_Vendor = _vendor;
-    m_Type = _type;
-    m_Color = _color;
-    m_Name = _vendor + ' ' + _model + " - " + _type + ' ' + _color + " (" + _id + ')';
-    m_Offset = _offset;
+    m_Id       = _id;
+    m_Model    = _model;
+    m_Vendor   = _vendor;
+    m_Type     = _type;
+    m_Color    = _color;
+    m_Name     = _vendor + ' ' + _model + " - " + _type + ' ' + _color + " (" + _id + ')';
+    m_Offset   = _offset;
     m_Exposure = _exposure;
 }

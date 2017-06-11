@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
 #ifndef EXPORTEYEPIECEVIEW_H
 #define EXPORTEYEPIECEVIEW_H
 
@@ -38,58 +36,56 @@ class QPixmap;
 
 class ExportEyepieceView : public QDialog
 {
+    Q_OBJECT;
 
-        Q_OBJECT;
-
-    public:
-
-        /**
+  public:
+    /**
          * @short Constructor
          * @note Class self-destructs (commits suicide). Invoke and forget.
          */
-        ExportEyepieceView( const SkyPoint * _sp, const KStarsDateTime &dt, const QPixmap * renderImage, const QPixmap * renderChart, QWidget * parent = 0 );
+    ExportEyepieceView(const SkyPoint *_sp, const KStarsDateTime &dt, const QPixmap *renderImage,
+                       const QPixmap *renderChart, QWidget *parent = 0);
 
-        /**
+    /**
          * @short Destructor
          */
-        ~ExportEyepieceView();
+    ~ExportEyepieceView();
 
-    public slots:
+  public slots:
 
-        /**
+    /**
          * @short Change the tick overlay scheme
          */
-        void slotOverlayTicks( int overlayType );
+    void slotOverlayTicks(int overlayType);
 
-        /**
+    /**
          * @short Save the image (export), and then close the dialog by calling slotCloseDialog()
          */
-        void slotSaveImage();
+    void slotSaveImage();
 
-        /**
+    /**
          * @short Closes the dialog, and sets up deleteLater() so that the dialog is destructed.
          */
-        void slotCloseDialog();
+    void slotCloseDialog();
 
-    private slots:
+  private slots:
 
-        /**
+    /**
          * @short render the output
          */
-        void render();
+    void render();
 
-    private:
+  private:
+    QLabel *m_outputDisplay;
+    QLabel *m_tickWarningLabel;
+    QComboBox *m_tickConfigCombo;
 
-        QLabel * m_outputDisplay;
-        QLabel * m_tickWarningLabel;
-        QComboBox * m_tickConfigCombo;
-
-        KStarsDateTime m_dt;
-        SkyPoint * m_sp;
-        QPixmap * m_renderImage;
-        QPixmap * m_renderChart;
-        QImage m_output;
-        int m_tickConfig;
+    KStarsDateTime m_dt;
+    SkyPoint *m_sp;
+    QPixmap *m_renderImage;
+    QPixmap *m_renderChart;
+    QImage m_output;
+    int m_tickConfig;
 };
 
 #endif

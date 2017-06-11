@@ -23,11 +23,11 @@
 #include "ksutils.h"
 #include "kspaths.h"
 
-SatelliteGroup::SatelliteGroup( QString name, QString tle_filename, QUrl update_url )
+SatelliteGroup::SatelliteGroup(QString name, QString tle_filename, QUrl update_url)
 {
-    m_name = name;
+    m_name     = name;
     m_tle_file = tle_filename;
-    m_tle_url = update_url;
+    m_tle_url  = update_url;
 
     // Read TLE file and create satellites
     readTLE();
@@ -35,7 +35,6 @@ SatelliteGroup::SatelliteGroup( QString name, QString tle_filename, QUrl update_
 
 SatelliteGroup::~SatelliteGroup()
 {
-
 }
 
 void SatelliteGroup::readTLE()
@@ -47,18 +46,18 @@ void SatelliteGroup::readTLE()
     clear();
 
     // Read TLE file
-    if ( KSUtils::openDataFile( file, m_tle_file ) )
+    if (KSUtils::openDataFile(file, m_tle_file))
     {
-        QTextStream stream( &file );
-        while ( !stream.atEnd() )
+        QTextStream stream(&file);
+        while (!stream.atEnd())
         {
             // Read satellite name
             QString sat_name = stream.readLine().trimmed();
-            line1 = stream.readLine();
-            line2 = stream.readLine();
+            line1            = stream.readLine();
+            line2            = stream.readLine();
             // Create a new satellite and add it to the list of satellites
             if (line1.startsWith("1") && line2.startsWith("2"))
-                append( new Satellite( sat_name, line1, line2 ) );
+                append(new Satellite(sat_name, line1, line2));
         }
         file.close();
     }
@@ -69,9 +68,9 @@ void SatelliteGroup::updateSatellitesPos()
     QMutableListIterator<Satellite *> sats(*this);
     while (sats.hasNext())
     {
-        Satellite * sat = sats.next();
+        Satellite *sat = sats.next();
 
-        if ( sat->selected() )
+        if (sat->selected())
         {
             int rc = sat->updatePos();
             // If position cannot be calculated, remove it from list
@@ -85,7 +84,7 @@ QUrl SatelliteGroup::tleFilename()
 {
     // Return absolute path with "file:" before the path
     //return QUrl( "file:" + (KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "") + m_tle_file) ;
-    return QUrl::fromLocalFile(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_tle_file) ;
+    return QUrl::fromLocalFile(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_tle_file);
 }
 
 QUrl SatelliteGroup::tleUrl()

@@ -25,9 +25,9 @@
 #endif
 #include "skyobjects/skyobject.h"
 
-ListComponent::ListComponent( SkyComposite * parent ) :
-    SkyComponent( parent )
-{}
+ListComponent::ListComponent(SkyComposite *parent) : SkyComponent(parent)
+{
+}
 
 ListComponent::~ListComponent()
 {
@@ -36,52 +36,52 @@ ListComponent::~ListComponent()
 
 void ListComponent::clear()
 {
-    while ( ! m_ObjectList.isEmpty() )
+    while (!m_ObjectList.isEmpty())
     {
-        SkyObject * o = m_ObjectList.takeFirst();
-        removeFromNames( o );
+        SkyObject *o = m_ObjectList.takeFirst();
+        removeFromNames(o);
         delete o;
     }
 }
 
-void ListComponent::update( KSNumbers * num )
+void ListComponent::update(KSNumbers *num)
 {
-    if ( ! selected() )
+    if (!selected())
         return;
-    KStarsData * data = KStarsData::Instance();
-    foreach ( SkyObject * o, m_ObjectList )
+    KStarsData *data = KStarsData::Instance();
+    foreach (SkyObject *o, m_ObjectList)
     {
-        if( num )
-            o->updateCoords( num );
-        o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        if (num)
+            o->updateCoords(num);
+        o->EquatorialToHorizontal(data->lst(), data->geo()->lat());
     }
 }
 
-SkyObject * ListComponent::findByName( const QString &name )
+SkyObject *ListComponent::findByName(const QString &name)
 {
-    foreach( SkyObject * o, m_ObjectList )
+    foreach (SkyObject *o, m_ObjectList)
     {
-        if( QString::compare( o->name(),     name, Qt::CaseInsensitive ) == 0 ||
-                QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 ||
-                QString::compare( o->name2(),    name, Qt::CaseInsensitive ) == 0 )
+        if (QString::compare(o->name(), name, Qt::CaseInsensitive) == 0 ||
+            QString::compare(o->longname(), name, Qt::CaseInsensitive) == 0 ||
+            QString::compare(o->name2(), name, Qt::CaseInsensitive) == 0)
             return o;
     }
     //No object found
     return 0;
 }
 
-SkyObject * ListComponent::objectNearest( SkyPoint * p, double &maxrad )
+SkyObject *ListComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
-    if ( ! selected() )
+    if (!selected())
         return 0;
 
-    SkyObject * oBest = 0;
-    foreach ( SkyObject * o, m_ObjectList )
+    SkyObject *oBest = 0;
+    foreach (SkyObject *o, m_ObjectList)
     {
-        double r = o->angularDistanceTo( p ).Degrees();
-        if ( r < maxrad )
+        double r = o->angularDistanceTo(p).Degrees();
+        if (r < maxrad)
         {
-            oBest = o;
+            oBest  = o;
             maxrad = r;
         }
     }

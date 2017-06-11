@@ -15,7 +15,6 @@
 
 namespace Ekos
 {
-
 class Align;
 
 /**
@@ -26,41 +25,36 @@ class Align;
  * @authro Jasem Mutlaq
  */
 
-class RemoteAstrometryParser: public AstrometryParser
+class RemoteAstrometryParser : public AstrometryParser
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        RemoteAstrometryParser();
-        virtual ~RemoteAstrometryParser();
+  public:
+    RemoteAstrometryParser();
+    virtual ~RemoteAstrometryParser();
 
-        virtual void setAlign(Align * _align)
-        {
-            align = _align;
-        }
-        virtual bool init();
-        virtual void verifyIndexFiles(double fov_x, double fov_y);
-        virtual bool startSovler(const QString &filename, const QStringList &args, bool generated=true);
-        virtual bool stopSolver();
+    virtual void setAlign(Align *_align) { align = _align; }
+    virtual bool init();
+    virtual void verifyIndexFiles(double fov_x, double fov_y);
+    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true);
+    virtual bool stopSolver();
 
-        void setAstrometryDevice(ISD::GDInterface * device);
-        void setEnabled(bool enable);
-        bool sendArgs(const QStringList &args);
+    void setAstrometryDevice(ISD::GDInterface *device);
+    void setEnabled(bool enable);
+    bool sendArgs(const QStringList &args);
 
-    public slots:
-        void checkStatus(ISwitchVectorProperty * svp);
-        void checkResults(INumberVectorProperty * nvp);
+  public slots:
+    void checkStatus(ISwitchVectorProperty *svp);
+    void checkResults(INumberVectorProperty *nvp);
 
-    private:
-        ISD::GDInterface * remoteAstrometry = nullptr;
-        bool solverRunning;
-        bool captureRunning;
-        Align * align;
-        QTime solverTimer;
-        QString parity;
-
+  private:
+    ISD::GDInterface *remoteAstrometry = nullptr;
+    bool solverRunning;
+    bool captureRunning;
+    Align *align;
+    QTime solverTimer;
+    QString parity;
 };
-
 }
 
 #endif // REMOTEASTROMETRYPARSER_H

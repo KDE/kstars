@@ -75,29 +75,26 @@
 */
 class LINKAGE SpatialConstraint
 {
-    public:
-        /// Constructor
-        SpatialConstraint() {};
+  public:
+    /// Constructor
+    SpatialConstraint(){};
 
-        /// Initialization constructor
-        SpatialConstraint(SpatialVector, float64);
+    /// Initialization constructor
+    SpatialConstraint(SpatialVector, float64);
 
-        /// check whether a vector is inside this
-        bool contains(const SpatialVector v);
+    /// check whether a vector is inside this
+    bool contains(const SpatialVector v);
 
-        /// give back vector
-        SpatialVector &v()
-        {
-            return a_;
-        }
+    /// give back vector
+    SpatialVector &v() { return a_; }
 
-    private:
-        Sign          sign_;
-        SpatialVector a_;			// normal vector
-        float64       d_;			// distance from origin
-        float64       s_;			// cone angle in radians
+  private:
+    Sign sign_;
+    SpatialVector a_; // normal vector
+    float64 d_;       // distance from origin
+    float64 s_;       // cone angle in radians
 
-        friend class RangeConvex;
+    friend class RangeConvex;
 };
 
 #endif

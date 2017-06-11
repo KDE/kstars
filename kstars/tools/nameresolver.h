@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
 #ifndef NAMERESOLVER_H
 #define NAMERESOLVER_H
 
@@ -43,16 +41,14 @@ class CatalogEntryData;
 
 namespace NameResolver
 {
-
 /**
  * @short Resolve the name of the given DSO and extract data from
  * various sources
  */
-class CatalogEntryData resolveName( const QString &name );
+class CatalogEntryData resolveName(const QString &name);
 
 namespace NameResolverInternals
 {
-
 /**
  * @short Resolve the name and obtain basic data using CDS Sesame service
  *
@@ -60,7 +56,7 @@ namespace NameResolverInternals
  * @param name the name (identifier) to resolve
  * @return Success value
  */
-bool sesameResolver( class CatalogEntryData &data, const QString &name );
+bool sesameResolver(class CatalogEntryData &data, const QString &name);
 
 /**
  * @short Retrieve additional data from SIMBAD
@@ -87,10 +83,8 @@ bool sesameResolver( class CatalogEntryData &data, const QString &name );
  *
  * @return a SkyObject::TYPE.
  */
-SkyObject::TYPE interpretObjectType( const QString &typeString, bool caseSensitive = true );
-
+SkyObject::TYPE interpretObjectType(const QString &typeString, bool caseSensitive = true);
 }
-
 };
 
 #endif

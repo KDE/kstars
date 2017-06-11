@@ -14,7 +14,6 @@
 
 namespace ISD
 {
-
 /**
  * @class Cap
  * Handles operation of a remotely controlled dust cover cap.
@@ -24,58 +23,50 @@ namespace ISD
 
 class DustCap : public DeviceDecorator
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        DustCap(GDInterface * iPtr) : DeviceDecorator(iPtr)
-        {
-            dType = KSTARS_AUXILIARY;
-        }
+  public:
+    DustCap(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_AUXILIARY; }
 
-        void processSwitch(ISwitchVectorProperty * svp);
-        void processText(ITextVectorProperty * tvp);
-        void processNumber(INumberVectorProperty * nvp);
-        void processLight(ILightVectorProperty * lvp);
+    void processSwitch(ISwitchVectorProperty *svp);
+    void processText(ITextVectorProperty *tvp);
+    void processNumber(INumberVectorProperty *nvp);
+    void processLight(ILightVectorProperty *lvp);
 
-        DeviceFamily getType()
-        {
-            return dType;
-        }
+    DeviceFamily getType() { return dType; }
 
-        virtual bool hasLight();
-        virtual bool canPark();
-        virtual bool isLightOn();
-        virtual bool isParked();
+    virtual bool hasLight();
+    virtual bool canPark();
+    virtual bool isLightOn();
+    virtual bool isParked();
 
-    public slots:
-        /**
+  public slots:
+    /**
          * @brief SetBrightness Set light box brightness levels if dimmable.
          * @param val Value of brightness level.
          * @return True if operation is successful, false otherwise.
          */
-        bool SetBrightness(uint16_t val);
+    bool SetBrightness(uint16_t val);
 
-        /**
+    /**
          * @brief SetLightEnabled Turn on/off light
          * @param enable true to turn on, false to turn off
          * @return True if operation is successful, false otherwise.
          */
-        bool SetLightEnabled(bool enable);
+    bool SetLightEnabled(bool enable);
 
-        /**
+    /**
          * @brief Park Close dust cap
          * @return True if operation is successful, false otherwise.
          */
-        bool Park();
+    bool Park();
 
-        /**
+    /**
          * @brief UnPark Open dust cap
          * @return True if operation is successful, false otherwise.
          */
-        bool UnPark();
-
+    bool UnPark();
 };
-
 }
 
 #endif // INDICAP_H

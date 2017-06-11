@@ -31,23 +31,23 @@ class KConfigDialog;
 	*/
 class OpsSolarSystem : public QFrame, public Ui::OpsSolarSystem
 {
-        Q_OBJECT
+    Q_OBJECT
 
-    public:
-        explicit OpsSolarSystem();
-        ~OpsSolarSystem();
+  public:
+    explicit OpsSolarSystem();
+    ~OpsSolarSystem();
 
-    private slots:
-        void slotChangeMagDownload( double mag );
-        void slotAllWidgets(bool on);
-        void slotAsteroidWidgets(bool on);
-        void slotCometWidgets(bool on);
-        void slotSelectPlanets();
-        void slotApply();
+  private slots:
+    void slotChangeMagDownload(double mag);
+    void slotAllWidgets(bool on);
+    void slotAsteroidWidgets(bool on);
+    void slotCometWidgets(bool on);
+    void slotSelectPlanets();
+    void slotApply();
 
-    private:
-        bool isDirty=false;
-        KConfigDialog * m_ConfigDialog;
+  private:
+    bool isDirty = false;
+    KConfigDialog *m_ConfigDialog;
 };
 
 #endif

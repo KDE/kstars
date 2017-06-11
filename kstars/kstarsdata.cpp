@@ -59,14 +59,16 @@ void fatalErrorMessage(QString fname)
 {
 #ifndef KSTARS_LITE
 
-    KMessageBox::sorry(0, i18n("The file  %1 could not be found. "
-                               "KStars cannot run properly without this file. "
-                               "KStars searches for this file in following locations:\n\n\t"
-                               "%2\n\n"
-                               "It appears that your setup is broken.", fname, QStandardPaths::standardLocations( QStandardPaths::DataLocation ).join("\n\t") ),
-                       i18n( "Critical File Not Found: %1", fname ));  // FIXME: Must list locations depending on file type
+    KMessageBox::sorry(0,
+                       i18n("The file  %1 could not be found. "
+                            "KStars cannot run properly without this file. "
+                            "KStars searches for this file in following locations:\n\n\t"
+                            "%2\n\n"
+                            "It appears that your setup is broken.",
+                            fname, QStandardPaths::standardLocations(QStandardPaths::DataLocation).join("\n\t")),
+                       i18n("Critical File Not Found: %1", fname)); // FIXME: Must list locations depending on file type
 #endif
-    qDebug() << i18n( "Critical File Not Found: %1", fname );
+    qDebug() << i18n("Critical File Not Found: %1", fname);
     qApp->exit(1);
 }
 
@@ -96,9 +98,9 @@ bool nonFatalErrorMessage(QString fname)
 #endif
 }
 
-KStarsData * KStarsData::pinstance = 0;
+KStarsData *KStarsData::pinstance = 0;
 
-KStarsData * KStarsData::Create()
+KStarsData *KStarsData::Create()
 {
     // This method should never be called twice within a run, since a
     // lot of the code assumes that KStarsData, once created, is never
@@ -107,50 +109,42 @@ KStarsData * KStarsData::Create()
     // required to delete and reinstantiate KStarsData). Thus, when we
     // call this method, pinstance MUST be zero, i.e. this must be the
     // first (and last) time we are calling it. -- asimha
-    Q_ASSERT( !pinstance );
+    Q_ASSERT(!pinstance);
 
     delete pinstance;
     pinstance = new KStarsData();
     return pinstance;
 }
 
-KStarsData::KStarsData() :
-    m_SkyComposite(0),
-    m_Geo(dms(0), dms(0)),
-    m_ksuserdb(),
-    m_catalogdb(),
+KStarsData::KStarsData()
+    : m_SkyComposite(0), m_Geo(dms(0), dms(0)), m_ksuserdb(), m_catalogdb(),
 #ifndef KSTARS_LITE
-    m_ObservingList(0),
-    m_Execute(0),
-    m_ImageExporter(0),
+      m_ObservingList(0), m_Execute(0), m_ImageExporter(0),
 #endif
-    temporaryTrail( false ),
-    //locale( new KLocale( "kstars" ) ),
-    m_preUpdateID(0),        m_updateID(0),
-    m_preUpdateNumID(0),     m_updateNumID(0),
-    m_preUpdateNum( J2000 ), m_updateNum( J2000 )
+      temporaryTrail(false),
+      //locale( new KLocale( "kstars" ) ),
+      m_preUpdateID(0), m_updateID(0), m_preUpdateNumID(0), m_updateNumID(0), m_preUpdateNum(J2000), m_updateNum(J2000)
 {
 #ifndef KSTARS_LITE
     m_LogObject = new OAL::Log;
 #endif
     // at startup times run forward
-    setTimeDirection( 0.0 );
-
+    setTimeDirection(0.0);
 }
 
 KStarsData::~KStarsData()
 {
-    Q_ASSERT( pinstance );
+    Q_ASSERT(pinstance);
 
-    //delete locale;
+//delete locale;
 #ifndef KSTARS_LITE
     delete m_LogObject;
     delete m_Execute;
     delete m_ObservingList;
     delete m_ImageExporter;
 #endif
-    qDeleteAll( geoList );
-    qDeleteAll( ADVtreeList );
+    qDeleteAll(geoList);
+    qDeleteAll(ADVtreeList);
 
     pinstance = 0;
 }
@@ -161,45 +155,45 @@ bool KStarsData::initialize()
     catalogdb()->Initialize();
 
     //Load Time Zone Rules//
-    emit progressText( i18n("Reading time zone rules") );
-    if( !readTimeZoneRulebook( ) )
+    emit progressText(i18n("Reading time zone rules"));
+    if (!readTimeZoneRulebook())
     {
-        fatalErrorMessage( "TZrules.dat" );
+        fatalErrorMessage("TZrules.dat");
         return false;
     }
 
     //Load Cities//
-    emit progressText( i18n("Loading city data") );
-    if ( !readCityData( ) )
+    emit progressText(i18n("Loading city data"));
+    if (!readCityData())
     {
-        fatalErrorMessage( "citydb.sqlite" );
+        fatalErrorMessage("citydb.sqlite");
         return false;
     }
 
     //Initialize User Database//
-    emit progressText( i18n("Loading User Information" ) );
+    emit progressText(i18n("Loading User Information"));
     m_ksuserdb.Initialize();
 
     //Initialize SkyMapComposite//
-    emit progressText(i18n("Loading sky objects" ) );
+    emit progressText(i18n("Loading sky objects"));
     m_SkyComposite = new SkyMapComposite(0);
     //Load Image URLs//
     //#ifndef Q_OS_ANDROID
     //On Android these 2 calls produce segfault. WARNING
-    emit progressText( i18n("Loading Image URLs" ) );
+    emit progressText(i18n("Loading Image URLs"));
 
     //if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
     //    return false;
     QtConcurrent::run(this, &KStarsData::readURLData, QString("image_url.dat"), 0, false);
 
     //Load Information URLs//
-    emit progressText( i18n("Loading Information URLs" ) );
+    emit progressText(i18n("Loading Information URLs"));
     //if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
     //    return false;
     QtConcurrent::run(this, &KStarsData::readURLData, QString("info_url.dat"), 1, false);
 
-    //#endif
-    //emit progressText( i18n("Loading Variable Stars" ) );
+//#endif
+//emit progressText( i18n("Loading Variable Stars" ) );
 
 #ifndef KSTARS_LITE
     //Initialize Observing List
@@ -214,71 +208,75 @@ bool KStarsData::initialize()
     return true;
 }
 
-void KStarsData::updateTime( GeoLocation * geo, const bool automaticDSTchange )
+void KStarsData::updateTime(GeoLocation *geo, const bool automaticDSTchange)
 {
     // sync LTime with the simulation clock
-    LTime = geo->UTtoLT( ut() );
+    LTime = geo->UTtoLT(ut());
     syncLST();
 
     //Only check DST if (1) TZrule is not the empty rule, and (2) if we have crossed
     //the DST change date/time.
-    if ( !geo->tzrule()->isEmptyRule() )
+    if (!geo->tzrule()->isEmptyRule())
     {
-        if ( TimeRunsForward )
+        if (TimeRunsForward)
         {
             // timedirection is forward
             // DST change happens if current date is bigger than next calculated dst change
-            if ( ut() > NextDSTChange ) resetToNewDST(geo, automaticDSTchange);
+            if (ut() > NextDSTChange)
+                resetToNewDST(geo, automaticDSTchange);
         }
         else
         {
             // timedirection is backward
             // DST change happens if current date is smaller than next calculated dst change
-            if ( ut() < NextDSTChange ) resetToNewDST(geo, automaticDSTchange);
+            if (ut() < NextDSTChange)
+                resetToNewDST(geo, automaticDSTchange);
         }
     }
 
-    KSNumbers num( ut().djd() );
+    KSNumbers num(ut().djd());
 
-    if ( std::abs( ut().djd() - LastNumUpdate.djd() ) > 1.0 )
+    if (std::abs(ut().djd() - LastNumUpdate.djd()) > 1.0)
     {
         LastNumUpdate = ut().djd();
         m_preUpdateNumID++;
-        m_preUpdateNum = KSNumbers( num );
-        skyComposite()->update( &num );
+        m_preUpdateNum = KSNumbers(num);
+        skyComposite()->update(&num);
     }
 
-    if ( std::abs( ut().djd() - LastPlanetUpdate.djd() ) > 0.01 )
+    if (std::abs(ut().djd() - LastPlanetUpdate.djd()) > 0.01)
     {
         LastPlanetUpdate = ut().djd();
-        skyComposite()->updateSolarSystemBodies( &num );
+        skyComposite()->updateSolarSystemBodies(&num);
     }
 
     // Moon moves ~30 arcmin/hr, so update its position every minute.
-    if ( std::abs( ut().djd() - LastMoonUpdate.djd() ) > 0.00069444 )
+    if (std::abs(ut().djd() - LastMoonUpdate.djd()) > 0.00069444)
     {
         LastMoonUpdate = ut();
-        skyComposite()->updateMoons( &num );
+        skyComposite()->updateMoons(&num);
     }
 
     //Update Alt/Az coordinates.  Timescale varies with zoom level
     //If Clock is in Manual Mode, always update. (?)
-    if ( std::abs( ut().djd() - LastSkyUpdate.djd() ) > 0.1/Options::zoomFactor() || clock()->isManualMode() )
+    if (std::abs(ut().djd() - LastSkyUpdate.djd()) > 0.1 / Options::zoomFactor() || clock()->isManualMode())
     {
         LastSkyUpdate = ut();
         m_preUpdateID++;
-        skyComposite()->update(); //omit KSNumbers arg == just update Alt/Az coords // <-- Eh? -- asimha. Looks like this behavior / ideology has changed drastically.
+        skyComposite()
+            ->update(); //omit KSNumbers arg == just update Alt/Az coords // <-- Eh? -- asimha. Looks like this behavior / ideology has changed drastically.
 
-        emit skyUpdate( clock()->isManualMode() );
+        emit skyUpdate(clock()->isManualMode());
     }
 }
 
 void KStarsData::syncUpdateIDs()
 {
     m_updateID = m_preUpdateID;
-    if ( m_updateNumID == m_preUpdateNumID ) return;
+    if (m_updateNumID == m_preUpdateNumID)
+        return;
     m_updateNumID = m_preUpdateNumID;
-    m_updateNum = KSNumbers( m_preUpdateNum );
+    m_updateNum   = KSNumbers(m_preUpdateNum);
 }
 
 unsigned int KStarsData::incUpdateID()
@@ -292,25 +290,25 @@ unsigned int KStarsData::incUpdateID()
 void KStarsData::setFullTimeUpdate()
 {
     //Set the update markers to invalid dates to trigger updates in each category
-    LastSkyUpdate = QDateTime();
+    LastSkyUpdate    = QDateTime();
     LastPlanetUpdate = QDateTime();
-    LastMoonUpdate = QDateTime();
-    LastNumUpdate = QDateTime();
+    LastMoonUpdate   = QDateTime();
+    LastNumUpdate    = QDateTime();
 }
 
 void KStarsData::syncLST()
 {
-    LST = geo()->GSTtoLST( ut().gst() );
+    LST = geo()->GSTtoLST(ut().gst());
 }
 
-void KStarsData::changeDateTime( const KStarsDateTime &newDate )
+void KStarsData::changeDateTime(const KStarsDateTime &newDate)
 {
     //Turn off animated slews for the next time step.
     setSnapNextFocus();
 
-    clock()->setUTC( newDate );
+    clock()->setUTC(newDate);
 
-    LTime = geo()->UTtoLT( ut() );
+    LTime = geo()->UTtoLT(ut());
     //set local sideral time
     syncLST();
 
@@ -318,35 +316,34 @@ void KStarsData::changeDateTime( const KStarsDateTime &newDate )
     setFullTimeUpdate();
 
     // reset tzrules data with new local time and time direction (forward or backward)
-    geo()->tzrule()->reset_with_ltime(LTime, geo()->TZ0(), isTimeRunningForward() );
+    geo()->tzrule()->reset_with_ltime(LTime, geo()->TZ0(), isTimeRunningForward());
 
     // reset next dst change time
-    setNextDSTChange( geo()->tzrule()->nextDSTChange() );
+    setNextDSTChange(geo()->tzrule()->nextDSTChange());
 }
 
-void KStarsData::resetToNewDST(GeoLocation * geo, const bool automaticDSTchange)
+void KStarsData::resetToNewDST(GeoLocation *geo, const bool automaticDSTchange)
 {
     // reset tzrules data with local time, timezone offset and time direction (forward or backward)
     // force a DST change with option true for 3. parameter
-    geo->tzrule()->reset_with_ltime( LTime, geo->TZ0(), TimeRunsForward, automaticDSTchange );
+    geo->tzrule()->reset_with_ltime(LTime, geo->TZ0(), TimeRunsForward, automaticDSTchange);
     // reset next DST change time
-    setNextDSTChange( geo->tzrule()->nextDSTChange() );
+    setNextDSTChange(geo->tzrule()->nextDSTChange());
     //reset LTime, because TZoffset has changed
-    LTime = geo->UTtoLT( ut() );
+    LTime = geo->UTtoLT(ut());
 }
 
-void KStarsData::setTimeDirection( float scale )
+void KStarsData::setTimeDirection(float scale)
 {
     TimeRunsForward = scale >= 0;
 }
 
-GeoLocation * KStarsData::locationNamed( const QString &city, const QString &province, const QString &country )
+GeoLocation *KStarsData::locationNamed(const QString &city, const QString &province, const QString &country)
 {
-    foreach ( GeoLocation * loc, geoList )
+    foreach (GeoLocation *loc, geoList)
     {
-        if ( loc->translatedName() == city &&
-                ( province.isEmpty() || loc->translatedProvince() == province ) &&
-                ( country.isEmpty() || loc->translatedCountry() == country ) )
+        if (loc->translatedName() == city && (province.isEmpty() || loc->translatedProvince() == province) &&
+            (country.isEmpty() || loc->translatedCountry() == country))
         {
             return loc;
         }
@@ -356,46 +353,48 @@ GeoLocation * KStarsData::locationNamed( const QString &city, const QString &pro
 
 void KStarsData::setLocationFromOptions()
 {
-    setLocation( GeoLocation ( dms(Options::longitude()), dms(Options::latitude()),
-                               Options::cityName(), Options::provinceName(), Options::countryName(),
-                               Options::timeZone(), &(Rulebook[ Options::dST() ]), false, 4, Options::elevation() ) );
+    setLocation(GeoLocation(dms(Options::longitude()), dms(Options::latitude()), Options::cityName(),
+                            Options::provinceName(), Options::countryName(), Options::timeZone(),
+                            &(Rulebook[Options::dST()]), false, 4, Options::elevation()));
 }
 
-void KStarsData::setLocation( const GeoLocation &l )
+void KStarsData::setLocation(const GeoLocation &l)
 {
     m_Geo = GeoLocation(l);
-    if ( m_Geo.lat()->Degrees() >=  90.0 ) m_Geo.setLat( dms(89.99) );
-    if ( m_Geo.lat()->Degrees() <= -90.0 ) m_Geo.setLat( dms(-89.99) );
+    if (m_Geo.lat()->Degrees() >= 90.0)
+        m_Geo.setLat(dms(89.99));
+    if (m_Geo.lat()->Degrees() <= -90.0)
+        m_Geo.setLat(dms(-89.99));
 
     //store data in the Options objects
-    Options::setCityName( m_Geo.name() );
-    Options::setProvinceName( m_Geo.province() );
-    Options::setCountryName( m_Geo.country() );
-    Options::setTimeZone( m_Geo.TZ0() );
-    Options::setElevation( m_Geo.height() );
-    Options::setLongitude( m_Geo.lng()->Degrees() );
-    Options::setLatitude( m_Geo.lat()->Degrees() );
+    Options::setCityName(m_Geo.name());
+    Options::setProvinceName(m_Geo.province());
+    Options::setCountryName(m_Geo.country());
+    Options::setTimeZone(m_Geo.TZ0());
+    Options::setElevation(m_Geo.height());
+    Options::setLongitude(m_Geo.lng()->Degrees());
+    Options::setLatitude(m_Geo.lat()->Degrees());
     // set the rule from rulebook
-    foreach( const QString &key, Rulebook.keys() )
+    foreach (const QString &key, Rulebook.keys())
     {
-        if( !key.isEmpty() && m_Geo.tzrule()->equals(&Rulebook[key]) )
+        if (!key.isEmpty() && m_Geo.tzrule()->equals(&Rulebook[key]))
             Options::setDST(key);
     }
 
     emit geoChanged();
 }
 
-SkyObject * KStarsData::objectNamed( const QString &name )
+SkyObject *KStarsData::objectNamed(const QString &name)
 {
-    if ( (name== "star") || (name== "nothing") || name.isEmpty() )
+    if ((name == "star") || (name == "nothing") || name.isEmpty())
         return 0;
-    return skyComposite()->findByName( name );
+    return skyComposite()->findByName(name);
 }
 
 bool KStarsData::readCityData()
 {
     QSqlDatabase citydb = QSqlDatabase::addDatabase("QSQLITE", "citydb");
-    QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, "citydb.sqlite");
+    QString dbfile      = KSPaths::locate(QStandardPaths::GenericDataLocation, "citydb.sqlite");
     citydb.setDatabaseName(dbfile);
     if (citydb.open() == false)
     {
@@ -423,16 +422,16 @@ bool KStarsData::readCityData()
         dms lat              = dms(get_query.value(4).toString());
         dms lng              = dms(get_query.value(5).toString());
         double TZ            = get_query.value(6).toDouble();
-        TimeZoneRule * TZrule = &( Rulebook[ get_query.value(7).toString() ] );
+        TimeZoneRule *TZrule = &(Rulebook[get_query.value(7).toString()]);
 
         // appends city names to list
-        geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule, true));
+        geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, true));
     }
     citydb.close();
 
     // Reading local database
     QSqlDatabase mycitydb = QSqlDatabase::addDatabase("QSQLITE", "mycitydb");
-    dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator()  +  "mycitydb.sqlite";
+    dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "mycitydb.sqlite";
 
     if (QFile::exists(dbfile))
     {
@@ -454,13 +453,12 @@ bool KStarsData::readCityData()
                 dms lat              = dms(get_query.value(4).toString());
                 dms lng              = dms(get_query.value(5).toString());
                 double TZ            = get_query.value(6).toDouble();
-                TimeZoneRule * TZrule = &( Rulebook[ get_query.value(7).toString() ] );
+                TimeZoneRule *TZrule = &(Rulebook[get_query.value(7).toString()]);
 
                 // appends city names to list
-                geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule, false));
+                geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, false));
             }
             mycitydb.close();
-
         }
     }
 
@@ -471,23 +469,23 @@ bool KStarsData::readTimeZoneRulebook()
 {
     QFile file;
 
-    if ( KSUtils::openDataFile( file, "TZrules.dat" ) )
+    if (KSUtils::openDataFile(file, "TZrules.dat"))
     {
-        QTextStream stream( &file );
+        QTextStream stream(&file);
 
-        while ( !stream.atEnd() )
+        while (!stream.atEnd())
         {
             QString line = stream.readLine().trimmed();
-            if ( line.length() && !line.startsWith('#') )   //ignore commented and blank lines
+            if (line.length() && !line.startsWith('#')) //ignore commented and blank lines
             {
-                QStringList fields = line.split( ' ', QString::SkipEmptyParts );
-                QString id = fields[0];
-                QTime stime = QTime( fields[3].left( fields[3].indexOf(':')).toInt() ,
-                                     fields[3].mid( fields[3].indexOf(':')+1, fields[3].length()).toInt() );
-                QTime rtime = QTime( fields[6].left( fields[6].indexOf(':')).toInt(),
-                                     fields[6].mid( fields[6].indexOf(':')+1, fields[6].length()).toInt() );
+                QStringList fields = line.split(' ', QString::SkipEmptyParts);
+                QString id         = fields[0];
+                QTime stime        = QTime(fields[3].left(fields[3].indexOf(':')).toInt(),
+                                    fields[3].mid(fields[3].indexOf(':') + 1, fields[3].length()).toInt());
+                QTime rtime        = QTime(fields[6].left(fields[6].indexOf(':')).toInt(),
+                                    fields[6].mid(fields[6].indexOf(':') + 1, fields[6].length()).toInt());
 
-                Rulebook[ id ] = TimeZoneRule( fields[1], fields[2], stime, fields[4], fields[5], rtime );
+                Rulebook[id] = TimeZoneRule(fields[1], fields[2], stime, fields[4], fields[5], rtime);
             }
         }
         return true;
@@ -506,77 +504,80 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
     QFile localeFile;
 
     //if ( locale->language() != "en_US" )
-    if ( QLocale().language() != QLocale::English )
+    if (QLocale().language() != QLocale::English)
         //localFile = locale->language() + '/' + urlfile;
         localFile = QLocale().languageToString(QLocale().language()) + '/' + urlfile;
 
-    if ( ! localFile.isEmpty() && KSUtils::openDataFile( file, localFile ) )
+    if (!localFile.isEmpty() && KSUtils::openDataFile(file, localFile))
     {
         fileFound = true;
     }
     else
     {
         // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
-        file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + urlfile ) ;
-        if ( file.open( QIODevice::ReadOnly ) )
+        file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + urlfile);
+        if (file.open(QIODevice::ReadOnly))
         {
             //local file found.  Now, if global file has newer timestamp, then merge the two files.
             //First load local file into QStringList
-            bool newDataFound( false );
+            bool newDataFound(false);
             QStringList urlData;
-            QTextStream lStream( &file );
-            while ( ! lStream.atEnd() ) urlData.append( lStream.readLine() );
+            QTextStream lStream(&file);
+            while (!lStream.atEnd())
+                urlData.append(lStream.readLine());
 
             //Find global file(s) in findAllResources() list.
-            QFileInfo fi_local( file.fileName() );
+            QFileInfo fi_local(file.fileName());
 
             QStringList flist = KSPaths::locateAll(QStandardPaths::DataLocation, urlfile);
 
-            for ( int i=0; i< flist.size(); i++ )
+            for (int i = 0; i < flist.size(); i++)
             {
-                if ( flist[i] != file.fileName() )
+                if (flist[i] != file.fileName())
                 {
-                    QFileInfo fi_global( flist[i] );
+                    QFileInfo fi_global(flist[i]);
 
                     //Is this global file newer than the local file?
-                    if ( fi_global.lastModified() > fi_local.lastModified() )
+                    if (fi_global.lastModified() > fi_local.lastModified())
                     {
                         //Global file has newer timestamp than local.  Add lines in global file that don't already exist in local file.
                         //be smart about this; in some cases the URL is updated but the image is probably the same if its
                         //label string is the same.  So only check strings up to last ":"
-                        QFile globalFile( flist[i] );
-                        if ( globalFile.open( QIODevice::ReadOnly ) )
+                        QFile globalFile(flist[i]);
+                        if (globalFile.open(QIODevice::ReadOnly))
                         {
-                            QTextStream gStream( &globalFile );
-                            while ( ! gStream.atEnd() )
+                            QTextStream gStream(&globalFile);
+                            while (!gStream.atEnd())
                             {
                                 QString line = gStream.readLine();
 
                                 //If global-file line begins with "XXX:" then this line should be removed from the local file.
-                                if ( line.startsWith(QLatin1String("XXX:"))  && urlData.contains( line.mid( 4 ) ) )
+                                if (line.startsWith(QLatin1String("XXX:")) && urlData.contains(line.mid(4)))
                                 {
-                                    urlData.removeAt( urlData.indexOf( line.mid( 4 ) ) );
+                                    urlData.removeAt(urlData.indexOf(line.mid(4)));
                                 }
                                 else
                                 {
                                     //does local file contain the current global file line, up to second ':' ?
 
-                                    bool linefound( false );
-                                    for ( int j=0; j< urlData.size(); ++j )
+                                    bool linefound(false);
+                                    for (int j = 0; j < urlData.size(); ++j)
                                     {
-                                        if ( urlData[j].contains( line.left( line.indexOf( ':', line.indexOf( ':' ) + 1 ) ) ) )
+                                        if (urlData[j].contains(line.left(line.indexOf(':', line.indexOf(':') + 1))))
                                         {
                                             //replace line in urlData with its equivalent in the newer global file.
-                                            urlData.replace( j, line );
-                                            if ( !newDataFound ) newDataFound = true;
+                                            urlData.replace(j, line);
+                                            if (!newDataFound)
+                                                newDataFound = true;
                                             linefound = true;
                                             break;
                                         }
                                     }
-                                    if ( ! linefound )
+                                    if (!linefound)
                                     {
-                                        urlData.append( line );
-                                        if ( !newDataFound ) newDataFound = true;
+                                        urlData.append(line);
+                                        if (!newDataFound)
+                                            newDataFound = true;
                                     }
                                 }
                             }
@@ -588,12 +589,12 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
             file.close();
 
             //(possibly) write appended local file
-            if ( newDataFound )
+            if (newDataFound)
             {
-                if ( file.open( QIODevice::WriteOnly ) )
+                if (file.open(QIODevice::WriteOnly))
                 {
-                    QTextStream outStream( &file );
-                    for ( int i=0; i<urlData.size(); i++ )
+                    QTextStream outStream(&file);
+                    for (int i = 0; i < urlData.size(); i++)
                     {
                         outStream << urlData[i] << endl;
                     }
@@ -601,25 +602,25 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
                 }
             }
 
-            if ( file.open( QIODevice::ReadOnly ) ) fileFound = true;
-
+            if (file.open(QIODevice::ReadOnly))
+                fileFound = true;
         }
         else
         {
-            if ( KSUtils::openDataFile( file, urlfile ) )
+            if (KSUtils::openDataFile(file, urlfile))
             {
-                if ( QLocale().language() != QLocale::English )
+                if (QLocale().language() != QLocale::English)
                     qDebug() << "No localized URL file; using default English file.";
                 // we found urlfile, we need to copy it to locale
-                localeFile.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + urlfile ) ;
+                localeFile.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + urlfile);
                 if (localeFile.open(QIODevice::WriteOnly))
                 {
                     QTextStream readStream(&file);
                     QTextStream writeStream(&localeFile);
-                    while ( ! readStream.atEnd() )
+                    while (!readStream.atEnd())
                     {
                         QString line = readStream.readLine();
-                        if ( !line.startsWith( QLatin1String( "XXX:" ) ) ) //do not write "deleted" lines
+                        if (!line.startsWith(QLatin1String("XXX:"))) //do not write "deleted" lines
                             writeStream << line << endl;
                     }
 
@@ -628,7 +629,8 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
                 }
                 else
                 {
-                    qDebug() << "Failed to copy default URL file to locale folder, modifying default object links is not possible";
+                    qDebug() << "Failed to copy default URL file to locale folder, modifying default object links is "
+                                "not possible";
                 }
                 fileFound = true;
             }
@@ -638,52 +640,54 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
 }
 
 // FIXME: This is a significant contributor to KStars start-up time
-bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly )
+bool KStarsData::readURLData(const QString &urlfile, int type, bool deepOnly)
 {
     QFile file;
-    if (!openUrlFile(urlfile, file)) return false;
+    if (!openUrlFile(urlfile, file))
+        return false;
 
     QTextStream stream(&file);
 
-    while ( !stream.atEnd() )
+    while (!stream.atEnd())
     {
         QString line = stream.readLine();
 
         //ignore comment lines
-        if ( !line.startsWith('#') )
+        if (!line.startsWith('#'))
         {
-            int idx = line.indexOf(':');
-            QString name = line.left( idx );
-            if (name == "XXX") continue;
-            QString sub = line.mid( idx + 1 );
-            idx = sub.indexOf(':');
-            QString title = sub.left( idx );
-            QString url = sub.mid( idx + 1 );
+            int idx      = line.indexOf(':');
+            QString name = line.left(idx);
+            if (name == "XXX")
+                continue;
+            QString sub   = line.mid(idx + 1);
+            idx           = sub.indexOf(':');
+            QString title = sub.left(idx);
+            QString url   = sub.mid(idx + 1);
             // Dirty hack to fix things up for planets
-            SkyObject * o;
-            if( name == "Mercury" || name == "Venus" || name == "Mars" || name == "Jupiter"
-                    || name == "Saturn" || name == "Uranus" || name == "Neptune" /* || name == "Pluto" */)
-                o = skyComposite()->findByName( i18n( name.toLocal8Bit().data() ) );
+            SkyObject *o;
+            if (name == "Mercury" || name == "Venus" || name == "Mars" || name == "Jupiter" || name == "Saturn" ||
+                name == "Uranus" || name == "Neptune" /* || name == "Pluto" */)
+                o = skyComposite()->findByName(i18n(name.toLocal8Bit().data()));
             else
-                o = skyComposite()->findByName( name );
+                o = skyComposite()->findByName(name);
 
-            if ( !o )
+            if (!o)
             {
-                qWarning() << i18n( "Object named %1 not found", name ) ;
+                qWarning() << i18n("Object named %1 not found", name);
             }
             else
             {
-                if ( ! deepOnly || ( o->type() > 2 && o->type() < 9 ) )
+                if (!deepOnly || (o->type() > 2 && o->type() < 9))
                 {
-                    if ( type==0 )   //image URL
+                    if (type == 0) //image URL
                     {
-                        o->ImageList().append( url );
-                        o->ImageTitle().append( title );
+                        o->ImageList().append(url);
+                        o->ImageTitle().append(title);
                     }
-                    else if ( type==1 )     //info URL
+                    else if (type == 1) //info URL
                     {
-                        o->InfoList().append( url );
-                        o->InfoTitle().append( title );
+                        o->InfoList().append(url);
+                        o->InfoTitle().append(title);
                     }
                 }
             }
@@ -721,18 +725,20 @@ bool KStarsData::readUserLog()
     QString buffer;
     QString sub, name, data;
 
-    if (!KSUtils::openDataFile( file, "userlog.dat" )) return false;
+    if (!KSUtils::openDataFile(file, "userlog.dat"))
+        return false;
 
     QTextStream stream(&file);
 
-    if (!stream.atEnd()) buffer = stream.readAll();
+    if (!stream.atEnd())
+        buffer = stream.readAll();
 
     while (!buffer.isEmpty())
     {
         int startIndex, endIndex;
 
         startIndex = buffer.indexOf(QLatin1String("[KSLABEL:"));
-        sub = buffer.mid(startIndex); // FIXME: This is inefficient because we are making a copy of a huge string!
+        sub      = buffer.mid(startIndex); // FIXME: This is inefficient because we are making a copy of a huge string!
         endIndex = sub.indexOf(QLatin1String("[KSLogEnd]"));
 
         // Read name after KSLABEL identifer
@@ -744,10 +750,10 @@ bool KStarsData::readUserLog()
         //Find the sky object named 'name'.
         //Note that ObjectNameList::find() looks for the ascii representation
         //of star genetive names, so stars are identified that way in the user log.
-        SkyObject * o = skyComposite()->findByName(name);
-        if ( !o )
+        SkyObject *o = skyComposite()->findByName(name);
+        if (!o)
         {
-            qWarning() << name << " not found" ;
+            qWarning() << name << " not found";
         }
         else
         {
@@ -771,7 +777,7 @@ bool KStarsData::readADVTreeData()
     QTextStream stream(&file);
     QString Line;
 
-    while  (!stream.atEnd())
+    while (!stream.atEnd())
     {
         int Type, interfaceIndex;
 
@@ -793,24 +799,23 @@ bool KStarsData::readADVTreeData()
         else
         {
             int idx = Line.indexOf(':');
-            Name = Line.left(idx);
-            Link = Line.mid(idx + 1);
+            Name    = Line.left(idx);
+            Link    = Line.mid(idx + 1);
 
             // Link is empty, using Interface instead
             if (Link.isEmpty())
             {
-                Link = Interface;
-                subName = Name;
+                Link           = Interface;
+                subName        = Name;
                 interfaceIndex = Link.indexOf(QLatin1String("KSINTERFACE"));
                 Link.remove(interfaceIndex, 11);
                 Link = Link.insert(interfaceIndex, subName.replace(' ', '+'));
-
             }
 
             Type = 2;
         }
 
-        ADVTreeData * ADVData = new ADVTreeData;
+        ADVTreeData *ADVData = new ADVTreeData;
 
         ADVData->Name = Name;
         ADVData->Link = Link;
@@ -827,569 +832,593 @@ bool KStarsData::readADVTreeData()
 //"dump" mode to produce an image from the command line.  In this mode,
 //there is no KStars object, so none of the DBus functions can be called
 //directly.
-bool KStarsData::executeScript( const QString &scriptname, SkyMap * map )
+bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
 {
 #ifndef KSTARS_LITE
     int cmdCount(0);
 
-    QFile f( scriptname );
-    if ( !f.open( QIODevice::ReadOnly) )
+    QFile f(scriptname);
+    if (!f.open(QIODevice::ReadOnly))
     {
         qDebug() << "Could not open file " << f.fileName();
         return false;
     }
 
     QTextStream istream(&f);
-    while ( ! istream.atEnd() )
+    while (!istream.atEnd())
     {
         QString line = istream.readLine();
-        line.remove( "string:" );
-        line.remove( "int:" );
-        line.remove( "double:" );
-        line.remove( "bool:" );
+        line.remove("string:");
+        line.remove("int:");
+        line.remove("double:");
+        line.remove("bool:");
 
         //find a dbus line and extract the function name and its arguments
         //The function name starts after the last occurrence of "org.kde.kstars."
         //or perhaps "org.kde.kstars.SimClock.".
-        if ( line.startsWith(QString("dbus-send")) )
+        if (line.startsWith(QString("dbus-send")))
         {
             QString funcprefix = "org.kde.kstars.SimClock.";
-            int i = line.lastIndexOf( funcprefix );
-            if ( i >= 0 )
+            int i              = line.lastIndexOf(funcprefix);
+            if (i >= 0)
             {
                 i += funcprefix.length();
             }
             else
             {
                 funcprefix = "org.kde.kstars.";
-                i = line.lastIndexOf( funcprefix );
-                if ( i >= 0 )
+                i          = line.lastIndexOf(funcprefix);
+                if (i >= 0)
                 {
                     i += funcprefix.length();
                 }
             }
-            if ( i < 0 )
+            if (i < 0)
             {
                 qWarning() << "Could not parse line: " << line;
                 return false;
             }
 
-            QStringList fn = line.mid(i).split( ' ' );
+            QStringList fn = line.mid(i).split(' ');
 
             //DEBUG
             qDebug() << fn << endl;
 
-            if ( fn[0] == "lookTowards" && fn.size() >= 2 )
+            if (fn[0] == "lookTowards" && fn.size() >= 2)
             {
                 double az(-1.0);
                 QString arg = fn[1].toLower();
-                if ( arg == "n"  || arg == "north" )     az =   0.0;
-                if ( arg == "ne" || arg == "northeast" ) az =  45.0;
-                if ( arg == "e"  || arg == "east" )      az =  90.0;
-                if ( arg == "se" || arg == "southeast" ) az = 135.0;
-                if ( arg == "s"  || arg == "south" )     az = 180.0;
-                if ( arg == "sw" || arg == "southwest" ) az = 225.0;
-                if ( arg == "w"  || arg == "west" )      az = 270.0;
-                if ( arg == "nw" || arg == "northwest" ) az = 335.0;
-                if ( az >= 0.0 )
+                if (arg == "n" || arg == "north")
+                    az = 0.0;
+                if (arg == "ne" || arg == "northeast")
+                    az = 45.0;
+                if (arg == "e" || arg == "east")
+                    az = 90.0;
+                if (arg == "se" || arg == "southeast")
+                    az = 135.0;
+                if (arg == "s" || arg == "south")
+                    az = 180.0;
+                if (arg == "sw" || arg == "southwest")
+                    az = 225.0;
+                if (arg == "w" || arg == "west")
+                    az = 270.0;
+                if (arg == "nw" || arg == "northwest")
+                    az = 335.0;
+                if (az >= 0.0)
                 {
-                    map->setFocusAltAz( dms(90.0), map->focus()->az() );
-                    map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
-                    map->setDestination( *map->focus() );
+                    map->setFocusAltAz(dms(90.0), map->focus()->az());
+                    map->focus()->HorizontalToEquatorial(&LST, geo()->lat());
+                    map->setDestination(*map->focus());
                     cmdCount++;
                 }
 
-                if ( arg == "z" || arg == "zenith" )
+                if (arg == "z" || arg == "zenith")
                 {
-                    map->setFocusAltAz( dms(90.0), map->focus()->az() );
-                    map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
-                    map->setDestination( *map->focus() );
+                    map->setFocusAltAz(dms(90.0), map->focus()->az());
+                    map->focus()->HorizontalToEquatorial(&LST, geo()->lat());
+                    map->setDestination(*map->focus());
                     cmdCount++;
                 }
 
                 //try a named object.  The name is everything after fn[0],
                 //concatenated with spaces.
-                fn.removeAll( fn.first() );
-                QString objname = fn.join( " " );
-                SkyObject * target = objectNamed( objname );
-                if ( target )
+                fn.removeAll(fn.first());
+                QString objname   = fn.join(" ");
+                SkyObject *target = objectNamed(objname);
+                if (target)
                 {
-                    map->setFocus( target );
-                    map->focus()->EquatorialToHorizontal( &LST, geo()->lat() );
-                    map->setDestination( *map->focus() );
+                    map->setFocus(target);
+                    map->focus()->EquatorialToHorizontal(&LST, geo()->lat());
+                    map->setDestination(*map->focus());
                     cmdCount++;
                 }
-
             }
-            else if ( fn[0] == "setRaDec" && fn.size() == 3 )
+            else if (fn[0] == "setRaDec" && fn.size() == 3)
             {
-                bool ok( false );
+                bool ok(false);
                 dms r(0.0), d(0.0);
 
-                ok = r.setFromString( fn[1], false ); //assume angle in hours
-                if ( ok ) ok = d.setFromString( fn[2], true );  //assume angle in degrees
-                if ( ok )
+                ok = r.setFromString(fn[1], false); //assume angle in hours
+                if (ok)
+                    ok = d.setFromString(fn[2], true); //assume angle in degrees
+                if (ok)
                 {
-                    map->setFocus( r, d );
-                    map->focus()->EquatorialToHorizontal( &LST, geo()->lat() );
+                    map->setFocus(r, d);
+                    map->focus()->EquatorialToHorizontal(&LST, geo()->lat());
                     cmdCount++;
                 }
-
             }
-            else if ( fn[0] == "setAltAz" && fn.size() == 3 )
+            else if (fn[0] == "setAltAz" && fn.size() == 3)
             {
-                bool ok( false );
+                bool ok(false);
                 dms az(0.0), alt(0.0);
 
-                ok = alt.setFromString( fn[1] );
-                if ( ok ) ok = az.setFromString( fn[2] );
-                if ( ok )
+                ok = alt.setFromString(fn[1]);
+                if (ok)
+                    ok = az.setFromString(fn[2]);
+                if (ok)
                 {
-                    map->setFocusAltAz( alt, az );
-                    map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
+                    map->setFocusAltAz(alt, az);
+                    map->focus()->HorizontalToEquatorial(&LST, geo()->lat());
                     cmdCount++;
                 }
-
             }
-            else if ( fn[0] == "loadColorScheme" )
+            else if (fn[0] == "loadColorScheme")
             {
-                fn.removeAll( fn.first() );
-                QString csName = fn.join(" ").remove( '\"' );
+                fn.removeAll(fn.first());
+                QString csName = fn.join(" ").remove('\"');
                 qDebug() << "Color scheme: " << csName << endl;
 
                 QString filename = csName.toLower().trimmed();
-                bool ok( false );
+                bool ok(false);
 
                 //Parse default names which don't follow the regular file-naming scheme
-                if ( csName == i18nc("use default color scheme", "Default Colors") ) filename = "classic.colors";
-                if ( csName == i18nc("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors";
-                if ( csName == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
+                if (csName == i18nc("use default color scheme", "Default Colors"))
+                    filename = "classic.colors";
+                if (csName == i18nc("use 'star chart' color scheme", "Star Chart"))
+                    filename = "chart.colors";
+                if (csName == i18nc("use 'night vision' color scheme", "Night Vision"))
+                    filename = "night.colors";
 
                 //Try the filename if it ends with ".colors"
-                if ( filename.endsWith( QLatin1String( ".colors" ) ) )
-                    ok = colorScheme()->load( filename );
+                if (filename.endsWith(QLatin1String(".colors")))
+                    ok = colorScheme()->load(filename);
 
                 //If that didn't work, try assuming that 'name' is the color scheme name
                 //convert it to a filename exactly as ColorScheme::save() does
-                if ( ! ok )
+                if (!ok)
                 {
-                    if ( !filename.isEmpty() )
+                    if (!filename.isEmpty())
                     {
-                        for( int i=0; i<filename.length(); ++i)
-                            if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
+                        for (int i = 0; i < filename.length(); ++i)
+                            if (filename.at(i) == ' ')
+                                filename.replace(i, 1, "-");
 
-                        filename = filename.append( ".colors" );
-                        ok = colorScheme()->load( filename );
+                        filename = filename.append(".colors");
+                        ok       = colorScheme()->load(filename);
                     }
 
-                    if ( ! ok )
-                        qDebug() << QString("Unable to load color scheme named %1. Also tried %2.").arg(csName).arg(filename);
+                    if (!ok)
+                        qDebug() << QString("Unable to load color scheme named %1. Also tried %2.")
+                                        .arg(csName)
+                                        .arg(filename);
                 }
-
             }
-            else if ( fn[0] == "zoom" && fn.size() == 2 )
+            else if (fn[0] == "zoom" && fn.size() == 2)
             {
                 bool ok(false);
                 double z = fn[1].toDouble(&ok);
-                if ( ok )
+                if (ok)
                 {
-                    if ( z > MAXZOOM ) z = MAXZOOM;
-                    if ( z < MINZOOM ) z = MINZOOM;
-                    Options::setZoomFactor( z );
-                    cmdCount++;
-                }
-
-            }
-            else if ( fn[0] == "zoomIn" )
-            {
-                if ( Options::zoomFactor() < MAXZOOM )
-                {
-                    Options::setZoomFactor( Options::zoomFactor() * DZOOM );
+                    if (z > MAXZOOM)
+                        z = MAXZOOM;
+                    if (z < MINZOOM)
+                        z = MINZOOM;
+                    Options::setZoomFactor(z);
                     cmdCount++;
                 }
             }
-            else if ( fn[0] == "zoomOut" )
+            else if (fn[0] == "zoomIn")
             {
-                if ( Options::zoomFactor() > MINZOOM )
+                if (Options::zoomFactor() < MAXZOOM)
                 {
-                    Options::setZoomFactor( Options::zoomFactor() / DZOOM );
+                    Options::setZoomFactor(Options::zoomFactor() * DZOOM);
                     cmdCount++;
                 }
             }
-            else if ( fn[0] == "defaultZoom" )
+            else if (fn[0] == "zoomOut")
             {
-                Options::setZoomFactor( DEFAULTZOOM );
+                if (Options::zoomFactor() > MINZOOM)
+                {
+                    Options::setZoomFactor(Options::zoomFactor() / DZOOM);
+                    cmdCount++;
+                }
+            }
+            else if (fn[0] == "defaultZoom")
+            {
+                Options::setZoomFactor(DEFAULTZOOM);
                 cmdCount++;
             }
-            else if ( fn[0] == "setLocalTime" && fn.size() == 7 )
+            else if (fn[0] == "setLocalTime" && fn.size() == 7)
             {
                 bool ok(false);
                 // min is a macro - use mnt
-                int yr(0), mth(0), day(0) ,hr(0), mnt(0), sec(0);
+                int yr(0), mth(0), day(0), hr(0), mnt(0), sec(0);
                 yr = fn[1].toInt(&ok);
-                if ( ok ) mth = fn[2].toInt(&ok);
-                if ( ok ) day = fn[3].toInt(&ok);
-                if ( ok ) hr  = fn[4].toInt(&ok);
-                if ( ok ) mnt = fn[5].toInt(&ok);
-                if ( ok ) sec = fn[6].toInt(&ok);
-                if ( ok )
+                if (ok)
+                    mth = fn[2].toInt(&ok);
+                if (ok)
+                    day = fn[3].toInt(&ok);
+                if (ok)
+                    hr = fn[4].toInt(&ok);
+                if (ok)
+                    mnt = fn[5].toInt(&ok);
+                if (ok)
+                    sec = fn[6].toInt(&ok);
+                if (ok)
                 {
-                    changeDateTime( geo()->LTtoUT( KStarsDateTime( QDate(yr, mth, day), QTime(hr,mnt,sec) ) ) );
+                    changeDateTime(geo()->LTtoUT(KStarsDateTime(QDate(yr, mth, day), QTime(hr, mnt, sec))));
                     cmdCount++;
                 }
                 else
                 {
-                    qWarning() << ki18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
-                               .subs( day ).subs( mth ).subs( yr )
-                               .subs( hr ).subs( mnt ).subs( sec ).toString() << endl;
+                    qWarning() << ki18n("Could not set time: %1 / %2 / %3 ; %4:%5:%6")
+                                      .subs(day)
+                                      .subs(mth)
+                                      .subs(yr)
+                                      .subs(hr)
+                                      .subs(mnt)
+                                      .subs(sec)
+                                      .toString()
+                               << endl;
                 }
             }
-            else if ( fn[0] == "changeViewOption" && fn.size() == 3 )
+            else if (fn[0] == "changeViewOption" && fn.size() == 3)
             {
                 bool bOk(false), dOk(false);
 
                 //parse bool value
                 bool bVal(false);
-                if ( fn[2].toLower() == "true" )
+                if (fn[2].toLower() == "true")
                 {
-                    bOk = true;
+                    bOk  = true;
                     bVal = true;
                 }
-                if ( fn[2].toLower() == "false" )
+                if (fn[2].toLower() == "false")
                 {
-                    bOk = true;
+                    bOk  = true;
                     bVal = false;
                 }
-                if ( fn[2] == "1" )
+                if (fn[2] == "1")
                 {
-                    bOk = true;
+                    bOk  = true;
                     bVal = true;
                 }
-                if ( fn[2] == "0" )
+                if (fn[2] == "0")
                 {
-                    bOk = true;
+                    bOk  = true;
                     bVal = false;
                 }
 
                 //parse double value
-                double dVal = fn[2].toDouble( &dOk );
+                double dVal = fn[2].toDouble(&dOk);
 
                 // FIXME: REGRESSION
-//                if ( fn[1] == "FOVName"                ) { Options::setFOVName(       fn[2] ); cmdCount++; }
-//                if ( fn[1] == "FOVSizeX"         && dOk ) { Options::setFOVSizeX( (float)dVal ); cmdCount++; }
-//                if ( fn[1] == "FOVSizeY"         && dOk ) { Options::setFOVSizeY( (float)dVal ); cmdCount++; }
-//                if ( fn[1] == "FOVShape"        && nOk ) { Options::setFOVShape(       nVal ); cmdCount++; }
-//                if ( fn[1] == "FOVColor"               ) { Options::setFOVColor(      fn[2] ); cmdCount++; }
-                if ( fn[1] == "ShowStars"         && bOk )
+                //                if ( fn[1] == "FOVName"                ) { Options::setFOVName(       fn[2] ); cmdCount++; }
+                //                if ( fn[1] == "FOVSizeX"         && dOk ) { Options::setFOVSizeX( (float)dVal ); cmdCount++; }
+                //                if ( fn[1] == "FOVSizeY"         && dOk ) { Options::setFOVSizeY( (float)dVal ); cmdCount++; }
+                //                if ( fn[1] == "FOVShape"        && nOk ) { Options::setFOVShape(       nVal ); cmdCount++; }
+                //                if ( fn[1] == "FOVColor"               ) { Options::setFOVColor(      fn[2] ); cmdCount++; }
+                if (fn[1] == "ShowStars" && bOk)
                 {
-                    Options::setShowStars(    bVal );
+                    Options::setShowStars(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowMessier"        && bOk )
+                if (fn[1] == "ShowMessier" && bOk)
                 {
-                    Options::setShowMessier( bVal );
+                    Options::setShowMessier(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowMessierImages"  && bOk )
+                if (fn[1] == "ShowMessierImages" && bOk)
                 {
-                    Options::setShowMessierImages( bVal );
+                    Options::setShowMessierImages(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowCLines"      && bOk )
+                if (fn[1] == "ShowCLines" && bOk)
                 {
-                    Options::setShowCLines(   bVal );
+                    Options::setShowCLines(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowCNames"      && bOk )
+                if (fn[1] == "ShowCNames" && bOk)
                 {
-                    Options::setShowCNames(   bVal );
+                    Options::setShowCNames(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowNGC"         && bOk )
+                if (fn[1] == "ShowNGC" && bOk)
                 {
-                    Options::setShowNGC(      bVal );
+                    Options::setShowNGC(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowIC"          && bOk )
+                if (fn[1] == "ShowIC" && bOk)
                 {
-                    Options::setShowIC(       bVal );
+                    Options::setShowIC(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowMilkyWay"    && bOk )
+                if (fn[1] == "ShowMilkyWay" && bOk)
                 {
-                    Options::setShowMilkyWay( bVal );
+                    Options::setShowMilkyWay(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowEquatorialGrid" && bOk )
+                if (fn[1] == "ShowEquatorialGrid" && bOk)
                 {
-                    Options::setShowEquatorialGrid( bVal );
+                    Options::setShowEquatorialGrid(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowHorizontalGrid" && bOk )
+                if (fn[1] == "ShowHorizontalGrid" && bOk)
                 {
-                    Options::setShowHorizontalGrid( bVal );
+                    Options::setShowHorizontalGrid(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowEquator"     && bOk )
+                if (fn[1] == "ShowEquator" && bOk)
                 {
-                    Options::setShowEquator(  bVal );
+                    Options::setShowEquator(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowEcliptic"    && bOk )
+                if (fn[1] == "ShowEcliptic" && bOk)
                 {
-                    Options::setShowEcliptic( bVal );
+                    Options::setShowEcliptic(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowHorizon"     && bOk )
+                if (fn[1] == "ShowHorizon" && bOk)
                 {
-                    Options::setShowHorizon(  bVal );
+                    Options::setShowHorizon(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowGround"      && bOk )
+                if (fn[1] == "ShowGround" && bOk)
                 {
-                    Options::setShowGround(   bVal );
+                    Options::setShowGround(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowSun"         && bOk )
+                if (fn[1] == "ShowSun" && bOk)
                 {
-                    Options::setShowSun(      bVal );
+                    Options::setShowSun(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowMoon"        && bOk )
+                if (fn[1] == "ShowMoon" && bOk)
                 {
-                    Options::setShowMoon(     bVal );
+                    Options::setShowMoon(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowMercury"     && bOk )
+                if (fn[1] == "ShowMercury" && bOk)
                 {
-                    Options::setShowMercury(  bVal );
+                    Options::setShowMercury(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowVenus"       && bOk )
+                if (fn[1] == "ShowVenus" && bOk)
                 {
-                    Options::setShowVenus(    bVal );
+                    Options::setShowVenus(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowMars"        && bOk )
+                if (fn[1] == "ShowMars" && bOk)
                 {
-                    Options::setShowMars(     bVal );
+                    Options::setShowMars(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowJupiter"     && bOk )
+                if (fn[1] == "ShowJupiter" && bOk)
                 {
-                    Options::setShowJupiter(  bVal );
+                    Options::setShowJupiter(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowSaturn"      && bOk )
+                if (fn[1] == "ShowSaturn" && bOk)
                 {
-                    Options::setShowSaturn(   bVal );
+                    Options::setShowSaturn(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowUranus"      && bOk )
+                if (fn[1] == "ShowUranus" && bOk)
                 {
-                    Options::setShowUranus(   bVal );
+                    Options::setShowUranus(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowNeptune"     && bOk )
+                if (fn[1] == "ShowNeptune" && bOk)
                 {
-                    Options::setShowNeptune(  bVal );
+                    Options::setShowNeptune(bVal);
                     cmdCount++;
                 }
                 //if ( fn[1] == "ShowPluto"       && bOk ) { Options::setShowPluto(    bVal ); cmdCount++; }
-                if ( fn[1] == "ShowAsteroids"   && bOk )
+                if (fn[1] == "ShowAsteroids" && bOk)
                 {
-                    Options::setShowAsteroids( bVal );
+                    Options::setShowAsteroids(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowComets"      && bOk )
+                if (fn[1] == "ShowComets" && bOk)
                 {
-                    Options::setShowComets(   bVal );
+                    Options::setShowComets(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowSolarSystem" && bOk )
+                if (fn[1] == "ShowSolarSystem" && bOk)
                 {
-                    Options::setShowSolarSystem( bVal );
+                    Options::setShowSolarSystem(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowDeepSky"     && bOk )
+                if (fn[1] == "ShowDeepSky" && bOk)
                 {
-                    Options::setShowDeepSky(  bVal );
+                    Options::setShowDeepSky(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowSupernovae"  && bOk )
+                if (fn[1] == "ShowSupernovae" && bOk)
                 {
-                    Options::setShowSupernovae( bVal );
+                    Options::setShowSupernovae(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowStarNames"      && bOk )
+                if (fn[1] == "ShowStarNames" && bOk)
                 {
-                    Options::setShowStarNames(      bVal );
+                    Options::setShowStarNames(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowStarMagnitudes" && bOk )
+                if (fn[1] == "ShowStarMagnitudes" && bOk)
                 {
-                    Options::setShowStarMagnitudes( bVal );
+                    Options::setShowStarMagnitudes(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowAsteroidNames"  && bOk )
+                if (fn[1] == "ShowAsteroidNames" && bOk)
                 {
-                    Options::setShowAsteroidNames(  bVal );
+                    Options::setShowAsteroidNames(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowCometNames"     && bOk )
+                if (fn[1] == "ShowCometNames" && bOk)
                 {
-                    Options::setShowCometNames(     bVal );
+                    Options::setShowCometNames(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowPlanetNames"    && bOk )
+                if (fn[1] == "ShowPlanetNames" && bOk)
                 {
-                    Options::setShowPlanetNames(    bVal );
+                    Options::setShowPlanetNames(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ShowPlanetImages"   && bOk )
+                if (fn[1] == "ShowPlanetImages" && bOk)
                 {
-                    Options::setShowPlanetImages(   bVal );
+                    Options::setShowPlanetImages(bVal);
                     cmdCount++;
                 }
 
-                if ( fn[1] == "UseAltAz"         && bOk )
+                if (fn[1] == "UseAltAz" && bOk)
                 {
-                    Options::setUseAltAz(      bVal );
+                    Options::setUseAltAz(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "UseRefraction"    && bOk )
+                if (fn[1] == "UseRefraction" && bOk)
                 {
-                    Options::setUseRefraction( bVal );
+                    Options::setUseRefraction(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "UseAutoLabel"     && bOk )
+                if (fn[1] == "UseAutoLabel" && bOk)
                 {
-                    Options::setUseAutoLabel(  bVal );
+                    Options::setUseAutoLabel(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "UseAutoTrail"     && bOk )
+                if (fn[1] == "UseAutoTrail" && bOk)
                 {
-                    Options::setUseAutoTrail(  bVal );
+                    Options::setUseAutoTrail(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "UseAnimatedSlewing"   && bOk )
+                if (fn[1] == "UseAnimatedSlewing" && bOk)
                 {
-                    Options::setUseAnimatedSlewing( bVal );
+                    Options::setUseAnimatedSlewing(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "FadePlanetTrails" && bOk )
+                if (fn[1] == "FadePlanetTrails" && bOk)
                 {
-                    Options::setFadePlanetTrails( bVal );
+                    Options::setFadePlanetTrails(bVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "SlewTimeScale"    && dOk )
+                if (fn[1] == "SlewTimeScale" && dOk)
                 {
-                    Options::setSlewTimeScale(    dVal );
+                    Options::setSlewTimeScale(dVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "ZoomFactor"       && dOk )
+                if (fn[1] == "ZoomFactor" && dOk)
                 {
-                    Options::setZoomFactor(       dVal );
+                    Options::setZoomFactor(dVal);
                     cmdCount++;
                 }
                 //                if ( fn[1] == "MagLimitDrawStar"     && dOk ) { Options::setMagLimitDrawStar( dVal ); cmdCount++; }
-                if ( fn[1] == "StarDensity"         && dOk )
+                if (fn[1] == "StarDensity" && dOk)
                 {
-                    Options::setStarDensity( dVal );
+                    Options::setStarDensity(dVal);
                     cmdCount++;
                 }
                 //                if ( fn[1] == "MagLimitDrawStarZoomOut" && dOk ) { Options::setMagLimitDrawStarZoomOut( dVal ); cmdCount++; }
-                if ( fn[1] == "MagLimitDrawDeepSky"     && dOk )
+                if (fn[1] == "MagLimitDrawDeepSky" && dOk)
                 {
-                    Options::setMagLimitDrawDeepSky( dVal );
+                    Options::setMagLimitDrawDeepSky(dVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "MagLimitDrawDeepSkyZoomOut" && dOk )
+                if (fn[1] == "MagLimitDrawDeepSkyZoomOut" && dOk)
                 {
-                    Options::setMagLimitDrawDeepSkyZoomOut( dVal );
+                    Options::setMagLimitDrawDeepSkyZoomOut(dVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "StarLabelDensity" && dOk )
+                if (fn[1] == "StarLabelDensity" && dOk)
                 {
-                    Options::setStarLabelDensity( dVal );
+                    Options::setStarLabelDensity(dVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "MagLimitHideStar"     && dOk )
+                if (fn[1] == "MagLimitHideStar" && dOk)
                 {
-                    Options::setMagLimitHideStar(     dVal );
+                    Options::setMagLimitHideStar(dVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "MagLimitAsteroid"     && dOk )
+                if (fn[1] == "MagLimitAsteroid" && dOk)
                 {
-                    Options::setMagLimitAsteroid(     dVal );
+                    Options::setMagLimitAsteroid(dVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "AsteroidLabelDensity" && dOk )
+                if (fn[1] == "AsteroidLabelDensity" && dOk)
                 {
-                    Options::setAsteroidLabelDensity( dVal );
+                    Options::setAsteroidLabelDensity(dVal);
                     cmdCount++;
                 }
-                if ( fn[1] == "MaxRadCometName"      && dOk )
+                if (fn[1] == "MaxRadCometName" && dOk)
                 {
-                    Options::setMaxRadCometName(      dVal );
+                    Options::setMaxRadCometName(dVal);
                     cmdCount++;
                 }
 
                 //these three are a "radio group"
-                if ( fn[1] == "UseLatinConstellationNames" && bOk )
+                if (fn[1] == "UseLatinConstellationNames" && bOk)
                 {
-                    Options::setUseLatinConstellNames( true );
-                    Options::setUseLocalConstellNames( false );
-                    Options::setUseAbbrevConstellNames( false );
+                    Options::setUseLatinConstellNames(true);
+                    Options::setUseLocalConstellNames(false);
+                    Options::setUseAbbrevConstellNames(false);
                     cmdCount++;
                 }
-                if ( fn[1] == "UseLocalConstellationNames" && bOk )
+                if (fn[1] == "UseLocalConstellationNames" && bOk)
                 {
-                    Options::setUseLatinConstellNames( false );
-                    Options::setUseLocalConstellNames( true );
-                    Options::setUseAbbrevConstellNames( false );
+                    Options::setUseLatinConstellNames(false);
+                    Options::setUseLocalConstellNames(true);
+                    Options::setUseAbbrevConstellNames(false);
                     cmdCount++;
                 }
-                if ( fn[1] == "UseAbbrevConstellationNames" && bOk )
+                if (fn[1] == "UseAbbrevConstellationNames" && bOk)
                 {
-                    Options::setUseLatinConstellNames( false );
-                    Options::setUseLocalConstellNames( false );
-                    Options::setUseAbbrevConstellNames( true );
+                    Options::setUseLatinConstellNames(false);
+                    Options::setUseLocalConstellNames(false);
+                    Options::setUseAbbrevConstellNames(true);
                     cmdCount++;
                 }
             }
-            else if ( fn[0] == "setGeoLocation" && ( fn.size() == 3 || fn.size() == 4 ) )
+            else if (fn[0] == "setGeoLocation" && (fn.size() == 3 || fn.size() == 4))
             {
-                QString city( fn[1] ), province, country( fn[2] );
+                QString city(fn[1]), province, country(fn[2]);
                 province.clear();
-                if ( fn.size() == 4 )
+                if (fn.size() == 4)
                 {
                     province = fn[2];
-                    country = fn[3];
+                    country  = fn[3];
                 }
 
-                bool cityFound( false );
-                foreach ( GeoLocation * loc, geoList )
+                bool cityFound(false);
+                foreach (GeoLocation *loc, geoList)
                 {
-                    if ( loc->translatedName() == city &&
-                            ( province.isEmpty() || loc->translatedProvince() == province ) &&
-                            loc->translatedCountry() == country )
+                    if (loc->translatedName() == city &&
+                        (province.isEmpty() || loc->translatedProvince() == province) &&
+                        loc->translatedCountry() == country)
                     {
-
                         cityFound = true;
-                        setLocation( *loc );
+                        setLocation(*loc);
                         cmdCount++;
                         break;
                     }
                 }
 
-                if ( !cityFound )
-                    qWarning() << i18n( "Could not set location named %1, %2, %3" , city, province, country) ;
+                if (!cityFound)
+                    qWarning() << i18n("Could not set location named %1, %2, %3", city, province, country);
             }
         }
-    }  //end while
+    } //end while
 
-    if ( cmdCount ) return true;
+    if (cmdCount)
+        return true;
 #else
     Q_UNUSED(map)
     Q_UNUSED(scriptname)
@@ -1401,32 +1430,32 @@ void KStarsData::syncFOV()
 {
     visibleFOVs.clear();
     // Add visible FOVs
-    foreach(FOV * fov, availFOVs)
+    foreach (FOV *fov, availFOVs)
     {
-        if( Options::fOVNames().contains( fov->name() ) )
-            visibleFOVs.append( fov );
+        if (Options::fOVNames().contains(fov->name()))
+            visibleFOVs.append(fov);
     }
     // Remove unavailable FOVs
-    QSet<QString> names = QSet<QString>::fromList( Options::fOVNames() );
+    QSet<QString> names = QSet<QString>::fromList(Options::fOVNames());
     QSet<QString> all;
-    foreach(FOV * fov, visibleFOVs)
+    foreach (FOV *fov, visibleFOVs)
     {
         all.insert(fov->name());
     }
-    Options::setFOVNames( all.intersect(names).toList() );
+    Options::setFOVNames(all.intersect(names).toList());
 }
 #ifndef KSTARS_LITE
 // FIXME: Why does KStarsData store the Execute instance??? -- asimha
-Execute * KStarsData::executeSession()
+Execute *KStarsData::executeSession()
 {
-    if( !m_Execute )
+    if (!m_Execute)
         m_Execute = new Execute();
 
     return m_Execute;
 }
 
 // FIXME: Why does KStarsData store the ImageExporer instance??? KStarsData is supposed to work with no reference to KStars -- asimha
-ImageExporter * KStarsData::imageExporter()
+ImageExporter *KStarsData::imageExporter()
 {
     if (!m_ImageExporter)
         m_ImageExporter = new ImageExporter(KStars::Instance());
@@ -1434,5 +1463,3 @@ ImageExporter * KStarsData::imageExporter()
     return m_ImageExporter;
 }
 #endif
-
-

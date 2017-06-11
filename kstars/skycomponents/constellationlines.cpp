@@ -39,10 +39,8 @@
 #include "ksfilereader.h"
 #include "skypainter.h"
 
-
-ConstellationLines::ConstellationLines( SkyComposite * parent, CultureList * cultures ) :
-    LineListIndex( parent, i18n("Constellation Lines") ),
-    m_reindexNum(J2000)
+ConstellationLines::ConstellationLines(SkyComposite *parent, CultureList *cultures)
+    : LineListIndex(parent, i18n("Constellation Lines")), m_reindexNum(J2000)
 {
     //Create the ConstellationLinesComponents.  Each is a series of points
     //connected by line segments.  A single constellation can be composed of
@@ -64,60 +62,60 @@ ConstellationLines::ConstellationLines( SkyComposite * parent, CultureList * cul
     intro();
 
     bool culture = false;
-    LineList * lineList(0);
+    LineList *lineList(0);
     double maxPM(0.0);
 
     KSFileReader fileReader;
-    if ( ! fileReader.open( "clines.dat" ) )
+    if (!fileReader.open("clines.dat"))
         return;
-    while ( fileReader.hasMoreLines() )
+    while (fileReader.hasMoreLines())
     {
         QString line = fileReader.readLine();
-        if( line.isEmpty() )
+        if (line.isEmpty())
             continue;
-        QChar mode = line.at( 0 );
+        QChar mode = line.at(0);
         //ignore lines beginning with "#":
-        if( mode == '#' )
+        if (mode == '#')
             continue;
         //If the first character is "M", we are starting a new series.
         //In this case, add the existing clc component to the composite,
         //then prepare a new one.
 
-        if ( mode == 'C')
+        if (mode == 'C')
         {
-            QString cultureName = line.mid( 2 ).trimmed();
-            culture = cultureName == cultures->current();
+            QString cultureName = line.mid(2).trimmed();
+            culture             = cultureName == cultures->current();
             continue;
         }
 
-        if ( culture )
+        if (culture)
         {
             //Mode == 'M' starts a new series of line segments, joined end to end
-            if ( mode == 'M' )
+            if (mode == 'M')
             {
-                if( lineList )
-                    appendLine( lineList );
+                if (lineList)
+                    appendLine(lineList);
                 lineList = new LineList();
             }
 
-            int HDnum = line.mid( 2 ).trimmed().toInt();
-            StarObject * star = static_cast<StarObject *>( StarComponent::Instance()->findByHDIndex( HDnum ) );
-            if ( star && lineList )
+            int HDnum        = line.mid(2).trimmed().toInt();
+            StarObject *star = static_cast<StarObject *>(StarComponent::Instance()->findByHDIndex(HDnum));
+            if (star && lineList)
             {
-                lineList->append( star );
+                lineList->append(star);
                 double pm = star->pmMagnitude();
-                if ( maxPM < pm )
+                if (maxPM < pm)
                     maxPM = pm;
             }
-            else if ( ! star )
-                qWarning() << i18n( "Star HD%1 not found." , HDnum);
+            else if (!star)
+                qWarning() << i18n("Star HD%1 not found.", HDnum);
         }
     }
     //Add the last clc component
-    if( lineList )
-        appendLine( lineList );
+    if (lineList)
+        appendLine(lineList);
 
-    m_reindexInterval = StarObject::reindexInterval( maxPM );
+    m_reindexInterval = StarObject::reindexInterval(maxPM);
     //printf("CLines:           maxPM = %6.1f milliarcsec/year\n", maxPM );
     //printf("CLines: Update Interval = %6.1f years\n", m_reindexInterval * 100.0 );
     summary();
@@ -126,55 +124,53 @@ ConstellationLines::ConstellationLines( SkyComposite * parent, CultureList * cul
 bool ConstellationLines::selected()
 {
 #ifndef KSTARS_LITE
-    return Options::showCLines() &&
-           ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing() );
+    return Options::showCLines() && !(Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing());
 #else
-    return Options::showCLines() &&
-           ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMapLite::IsSlewing() );
+    return Options::showCLines() && !(Options::hideOnSlew() && Options::hideCLines() && SkyMapLite::IsSlewing());
 #endif
 }
 
-void ConstellationLines::preDraw( SkyPainter * skyp )
+void ConstellationLines::preDraw(SkyPainter *skyp)
 {
-    KStarsData * data = KStarsData::Instance();
-    QColor color = data->colorScheme()->colorNamed( "CLineColor" );
-    skyp->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+    KStarsData *data = KStarsData::Instance();
+    QColor color     = data->colorScheme()->colorNamed("CLineColor");
+    skyp->setPen(QPen(QBrush(color), 1, Qt::SolidLine));
 }
 
-const IndexHash &ConstellationLines::getIndexHash(LineList * lineList )
+const IndexHash &ConstellationLines::getIndexHash(LineList *lineList)
 {
-    return skyMesh()->indexStarLine( lineList->points() );
+    return skyMesh()->indexStarLine(lineList->points());
 }
 
 // JIT updating makes this simple.  Star updates are called from within both
 // StarComponent and ConstellationLines.  If the update is redundant then
 // StarObject::JITupdate() simply returns without doing any work.
-void ConstellationLines::JITupdate( LineList * lineList )
+void ConstellationLines::JITupdate(LineList *lineList)
 {
-    KStarsData * data = KStarsData::Instance();
+    KStarsData *data   = KStarsData::Instance();
     lineList->updateID = data->updateID();
 
-    SkyList * points = lineList->points();
-    for (int i = 0; i < points->size(); i++ )
+    SkyList *points = lineList->points();
+    for (int i = 0; i < points->size(); i++)
     {
-        StarObject * star = (StarObject *) points->at( i );
+        StarObject *star = (StarObject *)points->at(i);
         star->JITupdate();
     }
 }
 
-void ConstellationLines::reindex( KSNumbers * num )
+void ConstellationLines::reindex(KSNumbers *num)
 {
-    if ( ! num ) return;
+    if (!num)
+        return;
 
-    if ( fabs( num->julianCenturies() -
-               m_reindexNum.julianCenturies() ) < m_reindexInterval ) return;
+    if (fabs(num->julianCenturies() - m_reindexNum.julianCenturies()) < m_reindexInterval)
+        return;
 
     //printf("Re-indexing CLines to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);
 
-    m_reindexNum = KSNumbers( *num );
-    skyMesh()->setKSNumbers( num );
+    m_reindexNum = KSNumbers(*num);
+    skyMesh()->setKSNumbers(num);
     LineListIndex::reindexLines();
 
     //printf("Done.\n");
 }
-

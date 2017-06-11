@@ -13,64 +13,61 @@
 
 namespace ISD
 {
-
-
-void Dome::processLight(ILightVectorProperty * lvp)
+void Dome::processLight(ILightVectorProperty *lvp)
 {
     DeviceDecorator::processLight(lvp);
 }
 
-void Dome::processNumber(INumberVectorProperty * nvp)
+void Dome::processNumber(INumberVectorProperty *nvp)
 {
-
     DeviceDecorator::processNumber(nvp);
 }
 
-void Dome::processSwitch(ISwitchVectorProperty * svp)
+void Dome::processSwitch(ISwitchVectorProperty *svp)
 {
     DeviceDecorator::processSwitch(svp);
 }
 
-void Dome::processText(ITextVectorProperty * tvp)
+void Dome::processText(ITextVectorProperty *tvp)
 {
     DeviceDecorator::processText(tvp);
 }
 
 bool Dome::canPark()
 {
-    ISwitchVectorProperty * parkSP = baseDevice->getSwitch("DOME_PARK");
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("DOME_PARK");
 
     if (parkSP == nullptr)
         return false;
 
-    ISwitch * parkSW = IUFindSwitch(parkSP, "PARK");
+    ISwitch *parkSW = IUFindSwitch(parkSP, "PARK");
 
     return (parkSW != nullptr);
 }
 
 bool Dome::isParked()
 {
-    ISwitchVectorProperty * parkSP = baseDevice->getSwitch("DOME_PARK");
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("DOME_PARK");
 
     if (parkSP == nullptr)
         return false;
 
-    ISwitch * parkSW = IUFindSwitch(parkSP, "PARK");
+    ISwitch *parkSW = IUFindSwitch(parkSP, "PARK");
 
     if (parkSW == nullptr)
         return false;
 
-    return ( (parkSW->s == ISS_ON) && parkSP->s == IPS_OK);
+    return ((parkSW->s == ISS_ON) && parkSP->s == IPS_OK);
 }
 
 bool Dome::Abort()
 {
-    ISwitchVectorProperty * motionSP = baseDevice->getSwitch("TELESCOPE_ABORT_MOTION");
+    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_ABORT_MOTION");
 
     if (motionSP == nullptr)
         return false;
 
-    ISwitch * abortSW = IUFindSwitch(motionSP, "ABORT");
+    ISwitch *abortSW = IUFindSwitch(motionSP, "ABORT");
 
     if (abortSW == nullptr)
         return false;
@@ -81,15 +78,14 @@ bool Dome::Abort()
     return true;
 }
 
-
 bool Dome::Park()
 {
-    ISwitchVectorProperty * parkSP = baseDevice->getSwitch("DOME_PARK");
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("DOME_PARK");
 
     if (parkSP == nullptr)
         return false;
 
-    ISwitch * parkSW = IUFindSwitch(parkSP, "PARK");
+    ISwitch *parkSW = IUFindSwitch(parkSP, "PARK");
 
     if (parkSW == nullptr)
         return false;
@@ -103,12 +99,12 @@ bool Dome::Park()
 
 bool Dome::UnPark()
 {
-    ISwitchVectorProperty * parkSP = baseDevice->getSwitch("DOME_PARK");
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("DOME_PARK");
 
     if (parkSP == nullptr)
         return false;
 
-    ISwitch * parkSW = IUFindSwitch(parkSP, "UNPARK");
+    ISwitch *parkSW = IUFindSwitch(parkSP, "UNPARK");
 
     if (parkSW == nullptr)
         return false;
@@ -122,12 +118,11 @@ bool Dome::UnPark()
 
 bool Dome::isMoving()
 {
-    ISwitchVectorProperty * motionSP = baseDevice->getSwitch("DOME_MOTION");
+    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("DOME_MOTION");
 
     if (motionSP && motionSP->s == IPS_BUSY)
         return true;
 
     return false;
 }
-
 }

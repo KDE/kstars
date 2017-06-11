@@ -27,11 +27,10 @@ class KStars;
 
 class FocusDialogUI : public QFrame, public Ui::FocusDialog
 {
-        Q_OBJECT
-    public:
-        explicit FocusDialogUI( QWidget * parent=0 );
+    Q_OBJECT
+  public:
+    explicit FocusDialogUI(QWidget *parent = 0);
 };
-
 
 /** @class FocusDialog
 	*@short A small dialog for setting the focus coordinates manually.
@@ -40,48 +39,42 @@ class FocusDialogUI : public QFrame, public Ui::FocusDialog
 	*/
 class FocusDialog : public QDialog
 {
-        Q_OBJECT
-    public:
-        /**Constructor. */
-        explicit FocusDialog();
+    Q_OBJECT
+  public:
+    /**Constructor. */
+    explicit FocusDialog();
 
-        /**Destructor (empty). */
-        ~FocusDialog();
+    /**Destructor (empty). */
+    ~FocusDialog();
 
-        /** @return pointer to the SkyPoint described by the entered RA, Dec */
-        inline SkyPoint * point()
-        {
-            return Point;
-        }
+    /** @return pointer to the SkyPoint described by the entered RA, Dec */
+    inline SkyPoint *point() { return Point; }
 
-        /** @return suggested size of focus window. */
-        QSize sizeHint() const Q_DECL_OVERRIDE;
+    /** @return suggested size of focus window. */
+    QSize sizeHint() const Q_DECL_OVERRIDE;
 
-        /** @return whether user set the AltAz coords */
-        inline bool usedAltAz() const
-        {
-            return UsedAltAz;
-        }
+    /** @return whether user set the AltAz coords */
+    inline bool usedAltAz() const { return UsedAltAz; }
 
-        /**
+    /**
           *@short Show the Az/Alt page instead of the RA/Dec page.
         	*/
-        void activateAzAltPage() const;
+    void activateAzAltPage() const;
 
-    public slots:
-        /**If text has been entered in both KLineEdits, enable the Ok button. */
-        void checkLineEdits();
+  public slots:
+    /**If text has been entered in both KLineEdits, enable the Ok button. */
+    void checkLineEdits();
 
-        /**Attempt to interpret the text in the KLineEdits as Ra and Dec values.
+    /**Attempt to interpret the text in the KLineEdits as Ra and Dec values.
         	*If the point is validated, close the window.
         	*/
-        void validatePoint();
+    void validatePoint();
 
-    private:
-        SkyPoint * Point;
-        FocusDialogUI * fd;
-        bool UsedAltAz;
-        QPushButton * okB;
+  private:
+    SkyPoint *Point;
+    FocusDialogUI *fd;
+    bool UsedAltAz;
+    QPushButton *okB;
 };
 
 #endif

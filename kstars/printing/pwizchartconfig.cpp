@@ -17,7 +17,7 @@
 
 #include "pwizchartconfig.h"
 
-PWizChartConfigUI::PWizChartConfigUI(QWidget * parent) : QFrame(parent)
+PWizChartConfigUI::PWizChartConfigUI(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
 }

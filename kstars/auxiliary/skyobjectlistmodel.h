@@ -32,40 +32,37 @@ class SkyObject;
  */
 class SkyObjectListModel : public QAbstractListModel
 {
-        Q_OBJECT
-    public:
-        enum DemoRoles
-        {
-            SkyObjectRole = Qt::UserRole + 1,
-        };
+    Q_OBJECT
+  public:
+    enum DemoRoles
+    {
+        SkyObjectRole = Qt::UserRole + 1,
+    };
 
-        explicit SkyObjectListModel(QObject * parent = 0);
+    explicit SkyObjectListModel(QObject *parent = 0);
 
-        int rowCount(const QModelIndex &) const Q_DECL_OVERRIDE
-        {
-            return skyObjects.size();
-        }
-        QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
+    int rowCount(const QModelIndex &) const Q_DECL_OVERRIDE { return skyObjects.size(); }
+    QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
 
-        QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
+    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
-        /**
+    /**
          * @return index of object from skyObjects with name objectName. -1 if object with such
          * name was not found
          */
-        int indexOf(QString objectName) const;
+    int indexOf(QString objectName) const;
 
-        /**
+    /**
          * @short filter
          * @param regEx
          * @return
          */
-        QStringList filter(QRegExp regEx);
+    QStringList filter(QRegExp regEx);
 
-        void setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects);
+    void setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects);
 
-    private:
-        QVector<QPair<QString, const SkyObject *>> skyObjects;
+  private:
+    QVector<QPair<QString, const SkyObject *>> skyObjects;
 };
 
 #endif

@@ -37,18 +37,18 @@ class StarObject;
 class StarBlock;
 class SkyObject;
 
-typedef quint32                        DrawID;
-typedef quint32                        UpdateID;
-typedef unsigned int                   Trixel;
-typedef unsigned short                 BufNum;
+typedef quint32 DrawID;
+typedef quint32 UpdateID;
+typedef unsigned int Trixel;
+typedef unsigned short BufNum;
 
-typedef QVector< SkyPoint *>            SkyList;
-typedef QHash< Trixel, bool>           IndexHash;
-typedef QHash< Trixel, bool>           SkyRegion;
-typedef QList< StarObject *>            StarList;
-typedef QVector< StarList *>            StarIndex;
-typedef QVector< LineList *>            LineListList;
-typedef QHash<Trixel, LineListList *>   LineListHash; // Wanted LineListIndex, but that is used by a class
-typedef QList< SkyObject *>            SkyObjectList;
+typedef QVector<SkyPoint *> SkyList;
+typedef QHash<Trixel, bool> IndexHash;
+typedef QHash<Trixel, bool> SkyRegion;
+typedef QList<StarObject *> StarList;
+typedef QVector<StarList *> StarIndex;
+typedef QVector<LineList *> LineListList;
+typedef QHash<Trixel, LineListList *> LineListHash; // Wanted LineListIndex, but that is used by a class
+typedef QList<SkyObject *> SkyObjectList;
 
 #endif

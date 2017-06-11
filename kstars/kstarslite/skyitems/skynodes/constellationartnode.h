@@ -36,26 +36,26 @@ class RootNode;
 
 class ConstellationArtNode : public SkyNode
 {
-    public:
-        /**
+  public:
+    /**
          * @short Constructor
          * @param obj - a pointer to ConstellationsArt object that is represented by this node
          */
-        ConstellationArtNode(ConstellationsArt * obj);
-        /**
+    ConstellationArtNode(ConstellationsArt *obj);
+    /**
          * @short changePos change the position of this node
          * @param pos - new position
          * @param positionangle - an angle of ConstellationsArt image rotation
          */
-        void changePos(QPointF pos, double positionangle);
+    void changePos(QPointF pos, double positionangle);
 
-        virtual void update() override;
-        virtual void hide() override;
-    private:
-        RootNode * m_rootNode;
-        ConstellationsArt * m_art;
-        QSGSimpleTextureNode * m_texture;
+    virtual void update() override;
+    virtual void hide() override;
+
+  private:
+    RootNode *m_rootNode;
+    ConstellationsArt *m_art;
+    QSGSimpleTextureNode *m_texture;
 };
 
 #endif
-

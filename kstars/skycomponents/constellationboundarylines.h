@@ -27,9 +27,8 @@ class PolyList;
 class ConstellationBoundary;
 class KSFileReader;
 
-
-typedef QVector<PolyList *>        PolyListList;
-typedef QVector<PolyListList *>    PolyIndex;
+typedef QVector<PolyList *> PolyListList;
+typedef QVector<PolyListList *> PolyIndex;
 
 /**
  * @class ConstellationBoundary
@@ -40,8 +39,8 @@ typedef QVector<PolyListList *>    PolyIndex;
  */
 class ConstellationBoundaryLines : public NoPrecessIndex
 {
-    public:
-        /** @short Constructor
+  public:
+    /** @short Constructor
          * Simply adds all of the coordinate grid circles
          * (meridians and parallels)
          * @p parent Pointer to the parent SkyComposite object
@@ -52,28 +51,28 @@ class ConstellationBoundaryLines : public NoPrecessIndex
          * "segments", such that each segment represents a continuous series
          * of boundary-line intervals that divide two particular constellations.
          */
-        explicit ConstellationBoundaryLines( SkyComposite * parent );
+    explicit ConstellationBoundaryLines(SkyComposite *parent);
 
-        QString constellationName( SkyPoint * p );
+    QString constellationName(SkyPoint *p);
 
-        bool selected() Q_DECL_OVERRIDE;
+    bool selected() Q_DECL_OVERRIDE;
 
-        void preDraw( SkyPainter * skyp ) Q_DECL_OVERRIDE;
-    private:
-        void appendPoly( PolyList * polyList, int debug=0);
+    void preDraw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-        /** @short reads the indices from the KSFileReader instead of using
+  private:
+    void appendPoly(PolyList *polyList, int debug = 0);
+
+    /** @short reads the indices from the KSFileReader instead of using
          * the SkyMesh to create them.  If the file pointer is null or if
          * debug == -1 then we fall back to using the index.
          */
-        void appendPoly( PolyList * polyList, KSFileReader * file, int debug);
+    void appendPoly(PolyList *polyList, KSFileReader *file, int debug);
 
-        PolyList * ContainingPoly( SkyPoint * p );
+    PolyList *ContainingPoly(SkyPoint *p);
 
-        SkyMesh  * m_skyMesh;
-        PolyIndex  m_polyIndex;
-        int        m_polyIndexCnt;
+    SkyMesh *m_skyMesh;
+    PolyIndex m_polyIndex;
+    int m_polyIndexCnt;
 };
-
 
 #endif
