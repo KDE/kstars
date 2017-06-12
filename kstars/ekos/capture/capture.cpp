@@ -44,16 +44,16 @@
 #include "ui_calibrationoptions.h"
 
 #include "auxiliary/QProgressIndicator.h"
+#include "rotatorsettings.h"
 
-#define INVALID_TEMPERATURE 10000
-#define INVALID_HA          10000
+#define INVALID_VALUE -1e6
 #define MF_TIMER_TIMEOUT    90000
 #define GD_TIMER_TIMEOUT    60000
 #define MF_RA_DIFF_LIMIT    4
 #define MAX_CAPTURE_RETRIES 3
 
 // Current Sequence File Format:
-#define SQ_FORMAT_VERSION 1.7
+#define SQ_FORMAT_VERSION 1.8
 // We accept file formats with version back to:
 #define SQ_COMPAT_VERSION 1.6
 
@@ -119,6 +119,8 @@ Capture::Capture()
     //ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
     //ADUSlope = 0;
 
+    rotatorSettings = new RotatorSettings(this);
+
     pi = new QProgressIndicator(this);
 
     progressLayout->addWidget(pi, 0, 4, 1, 1);
@@ -172,6 +174,7 @@ Capture::Capture()
     connect(frameTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkFrameType(int)));
     connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
     connect(calibrationB, SIGNAL(clicked()), this, SLOT(openCalibrationDialog()));
+    connect(rotatorB, SIGNAL(clicked()), rotatorSettings, SLOT(show()));
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
     addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -250,6 +253,7 @@ Capture::Capture()
 Capture::~Capture()
 {
     qDeleteAll(jobs);
+    delete (rotatorSettings);
 }
 
 void Capture::setDefaultCCD(QString ccd)
@@ -1670,6 +1674,18 @@ void Capture::updateCCDTemperature(double value)
         activeJob->setCurrentTemperature(value);
 }
 
+void Capture::updateRotatorNumber(INumberVectorProperty *nvp)
+{
+    if (!strcmp(nvp->name, "ABS_ROTATOR_POSITION"))
+    {
+        // Update widget rotator position
+        rotatorSettings->setCurrentTicks(static_cast<int32_t>(nvp->np[0].value));
+
+        if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
+            activeJob->setCurrentRotation(static_cast<int32_t>(nvp->np[0].value));
+    }
+}
+
 void Capture::addJob(bool preview)
 {
     SequenceJob *job = nullptr;
@@ -1753,6 +1769,13 @@ void Capture::addJob(bool preview)
     job->setActiveChip(targetChip);
     job->setActiveCCD(currentCCD);
     job->setActiveFilter(currentFilter);
+
+    if (currentRotator && rotatorSettings->isRotationEnforced())
+    {
+        job->setActiveRotator(currentRotator);
+        job->setTargetRotation(rotatorSettings->getTargetRotationTicks());
+        job->setCurrentRotation(rotatorSettings->getCurrentRotationTicks());
+    }
 
     job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
 
@@ -2081,10 +2104,10 @@ void Capture::prepareJob(SequenceJob *job)
         }
     }
 
-    prepareFilterTemperature();
+    preparePreCaptureActions();
 }
 
-void Capture::prepareFilterTemperature()
+void Capture::preparePreCaptureActions()
 {
     if (currentFilterPosition > 0)
     {
@@ -2107,7 +2130,7 @@ void Capture::prepareFilterTemperature()
 
     if (currentCCD->hasCooler() && activeJob->getEnforceTemperature())
     {
-        if (activeJob->getCurrentTemperature() != INVALID_TEMPERATURE &&
+        if (activeJob->getCurrentTemperature() != INVALID_VALUE &&
             fabs(activeJob->getCurrentTemperature() - activeJob->getTargetTemperature()) >
                 Options::maxTemperatureDiff())
         {
@@ -2118,6 +2141,25 @@ void Capture::prepareFilterTemperature()
             {
                 state = CAPTURE_SETTING_TEMPERATURE;
                 emit newStatus(Ekos::CAPTURE_SETTING_TEMPERATURE);
+            }
+
+            setBusy(true);
+        }
+    }
+
+    if (activeJob->getTargetRotation() != INVALID_VALUE)
+    {
+        activeJob->setCurrentRotation(rotatorSettings->getCurrentRotationTicks());
+
+        if (rotatorSettings->getCurrentRotationTicks() != activeJob->getTargetRotation())
+        {
+            appendLogText(i18n("Setting rotation to %1 ticks...", activeJob->getTargetRotation()));
+            secondsLabel->setText(i18n("Set Rotator %1...", activeJob->getTargetRotation()));
+
+            if (activeJob->isPreview() == false)
+            {
+                state = CAPTURE_SETTING_ROTATOR;
+                emit newStatus(Ekos::CAPTURE_SETTING_ROTATOR);
             }
 
             setBusy(true);
@@ -2378,7 +2420,14 @@ void Capture::setFocusStatus(FocusState state)
 void Capture::setRotator(ISD::GDInterface *newRotator)
 {
     currentRotator = newRotator;
+    connect(currentRotator, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateRotatorNumber(INumberVectorProperty*)));
     rotatorB->setEnabled(true);
+
+    rotatorSettings->setRotator(newRotator);
+
+    INumberVectorProperty *nvp = newRotator->getBaseDevice()->getNumber("ABS_ROTATOR_POSITION");
+    rotatorSettings->setTicksMinMaxStep(static_cast<int32_t>(nvp->np[0].min), static_cast<int32_t>(nvp->np[0].max), static_cast<int32_t>(nvp->np[0].step));
+    rotatorSettings->setCurrentTicks(static_cast<int32_t>(nvp->np[0].value));
 }
 
 void Capture::setTelescope(ISD::GDInterface *newTelescope)
@@ -2553,6 +2602,7 @@ bool Capture::processJobInfo(XMLEle *root)
 {
     XMLEle *ep;
     XMLEle *subEP;
+    rotatorSettings->setRotationEnforced(false);
 
     for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
     {
@@ -2654,6 +2704,11 @@ bool Capture::processJobInfo(XMLEle *root)
         else if (!strcmp(tagXMLEle(ep), "FormatIndex"))
         {
             transferFormatCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Rotation"))
+        {
+            rotatorSettings->setRotationEnforced(true);
+            rotatorSettings->setTargetRotationTicks(atoi(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
@@ -2844,7 +2899,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<W>" << job->getSubW() << "</W>" << endl;
         outstream << "<H>" << job->getSubH() << "</H>" << endl;
         outstream << "</Frame>" << endl;
-        if (job->getTargetTemperature() != INVALID_TEMPERATURE)
+        if (job->getTargetTemperature() != INVALID_VALUE)
             outstream << "<Temperature force='" << (job->getEnforceTemperature() ? "true" : "false") << "'>"
                       << job->getTargetTemperature() << "</Temperature>" << endl;
         if (job->getTargetFilter() >= 0)
@@ -2873,6 +2928,8 @@ bool Capture::saveSequenceQueue(const QString &path)
         if (job->getGain() != -1)
             outstream << "<Gain>" << (job->getGain()) << "</Gain>" << endl;
         outstream << "<FormatIndex>" << (job->getTransforFormat()) << "</FormatIndex>" << endl;
+        if (job->getTargetRotation() != INVALID_VALUE)
+            outstream << "<Rotation>" << (job->getTargetRotation()) << "</Rotation>" << endl;
 
         outstream << "<Calibration>" << endl;
         outstream << "<FlatSource>" << endl;
@@ -2991,6 +3048,14 @@ void Capture::syncGUIToJob(SequenceJob *job)
         gainIN->setValue(job->getGain());
 
     transferFormatCombo->setCurrentIndex(job->getTransforFormat());
+
+    if (job->getTargetRotation() != INVALID_VALUE)
+    {
+        rotatorSettings->setRotationEnforced(true);
+        rotatorSettings->setTargetRotationTicks(job->getTargetRotation());
+    }
+    else
+        rotatorSettings->setRotationEnforced(false);
 }
 
 void Capture::editJob(QModelIndex i)
@@ -3370,12 +3435,12 @@ double Capture::getCurrentHA()
     double currentRA, currentDEC;
 
     if (currentTelescope == nullptr)
-        return INVALID_HA;
+        return INVALID_VALUE;
 
     if (currentTelescope->getEqCoords(&currentRA, &currentDEC) == false)
     {
         appendLogText(i18n("Failed to retrieve telescope coordinates. Unable to calculate telescope's hour angle."));
-        return INVALID_HA;
+        return INVALID_VALUE;
     }
 
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
@@ -3399,7 +3464,7 @@ bool Capture::checkMeridianFlip()
 
     //appendLogText(i18n("Current hour angle %1", currentHA));
 
-    if (currentHA == INVALID_HA)
+    if (currentHA == INVALID_VALUE)
         return false;
 
     if (currentHA > meridianHours->value())

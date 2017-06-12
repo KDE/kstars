@@ -30,6 +30,7 @@
 class QProgressIndicator;
 class QTableWidgetItem;
 class KDirWatch;
+class RotatorSettings;
 
 /**
  *@namespace Ekos
@@ -391,9 +392,9 @@ class Capture : public QWidget, public Ui::Capture
     void setTemperature();
 
     /**
-         * @brief prepareFilterTemperature Check if we need to update filter position or CCD temperature before starting capture process
+         * @brief preparePreCaptureActions Check if we need to update filter position or CCD temperature before starting capture process
          */
-    void prepareFilterTemperature();
+    void preparePreCaptureActions();
 
     // Pause Sequence Queue
     void pause();
@@ -477,6 +478,9 @@ class Capture : public QWidget, public Ui::Capture
 
     // Observer
     void showObserverDialog();
+
+    // Rotator
+    void updateRotatorNumber(INumberVectorProperty *nvp);
 
   signals:
     void newLog();
@@ -613,6 +617,9 @@ class Capture : public QWidget, public Ui::Capture
 
     // Post capture script
     QProcess postCaptureScript;
+
+    // Rotator Settings
+    RotatorSettings *rotatorSettings=nullptr;
 
     // How many images to capture before dithering operation is executed?
     uint8_t ditherCounter;
