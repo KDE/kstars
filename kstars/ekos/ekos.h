@@ -58,7 +58,8 @@ static const QStringList captureStates = {
     I18N_NOOP("Idle"),     I18N_NOOP("In Progress"),  I18N_NOOP("Capturing"),       I18N_NOOP("Paused"),
     I18N_NOOP("Aborted"),  I18N_NOOP("Waiting"),      I18N_NOOP("Image Received"),  I18N_NOOP("Dithering"),
     I18N_NOOP("Focusing"), I18N_NOOP("Filter Focus"), I18N_NOOP("Changing Filter"), I18N_NOOP("Setting Temperature"),
-    I18N_NOOP("Aligning"), I18N_NOOP("Calibrating"),  I18N_NOOP("Meridian Flip"),   I18N_NOOP("Complete")
+    I18N_NOOP("Setting Rotator"), I18N_NOOP("Aligning"), I18N_NOOP("Calibrating"),  I18N_NOOP("Meridian Flip"),
+    I18N_NOOP("Complete")
 };
 
 typedef enum {
@@ -74,6 +75,7 @@ typedef enum {
     CAPTURE_FILTER_FOCUS,
     CAPTURE_CHANGING_FILTER,
     CAPTURE_SETTING_TEMPERATURE,
+    CAPTURE_SETTING_ROTATOR,
     CAPTURE_ALIGNING,
     CAPTURE_CALIBRATING,
     CAPTURE_MERIDIAN_FLIP,
