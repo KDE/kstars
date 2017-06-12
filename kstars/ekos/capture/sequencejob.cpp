@@ -20,8 +20,7 @@
 
 #include "ui_calibrationoptions.h"
 
-#define INVALID_TEMPERATURE 10000
-#define INVALID_HA          10000
+#define INVALID_VALUE       -1e6
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4
 #define MAX_CAPTURE_RETRIES 3
@@ -34,18 +33,19 @@ SequenceJob::SequenceJob()
                                   << i18n("Complete");
     status   = JOB_IDLE;
     exposure = count = delay = targetFilter = isoIndex = gain = -1;
-    frameType                                                 = FRAME_LIGHT;
-    currentTemperature = targetTemperature = INVALID_TEMPERATURE;
-    captureFilter                          = FITS_NONE;
-    preview                                = false;
-    filterReady = temperatureReady = filterPostFocusReady = prepareReady = true;
-    enforceTemperature                                                   = false;
-    activeChip                                                           = nullptr;
-    activeCCD                                                            = nullptr;
-    activeFilter                                                         = nullptr;
-    statusCell                                                           = nullptr;
-    completed                                                            = 0;
-    captureRetires                                                       = 0;
+    frameType = FRAME_LIGHT;
+    currentTemperature = targetTemperature = INVALID_VALUE;
+    captureFilter = FITS_NONE;
+    preview = false;
+    prepareReady = true;
+    enforceTemperature = false;
+    activeChip = nullptr;
+    activeCCD = nullptr;
+    activeFilter = nullptr;
+    statusCell = nullptr;
+    completed = 0;
+    captureRetires = 0;
+    targetRotation = currentRotation = INVALID_VALUE;
 
     calibrationSettings.flatFieldSource    = SOURCE_MANUAL;
     calibrationSettings.flatFieldDuration  = DURATION_MANUAL;
@@ -58,6 +58,11 @@ SequenceJob::SequenceJob()
     filterPrefixEnabled    = false;
     expPrefixEnabled       = false;
     timeStampPrefixEnabled = false;
+
+    prepareActions[ACTION_FILTER] = true;
+    prepareActions[ACTION_TEMPERATURE] = true;
+    prepareActions[ACTION_POST_FOCUS] = true;
+    prepareActions[ACTION_ROTATOR] = true;
 }
 
 void SequenceJob::reset()
@@ -68,7 +73,7 @@ void SequenceJob::reset()
 
 void SequenceJob::resetStatus()
 {
-    status         = JOB_IDLE;
+    status         = JOB_IDLE;    
     completed      = 0;
     exposeLeft     = 0;
     captureRetires = 0;
@@ -97,6 +102,8 @@ void SequenceJob::done()
 void SequenceJob::prepareCapture()
 {
     prepareReady = false;
+    // Reset all prepare actions
+    setAllActionsReady();
 
     activeChip->setBatchMode(!preview);
 
@@ -126,36 +133,62 @@ void SequenceJob::prepareCapture()
         activeCCD->setGain(gain);
     }
 
-    if (frameType == FRAME_DARK || frameType == FRAME_BIAS)
-    {
-        filterReady = true;
-    }
-    else if (targetFilter != -1 && activeFilter != nullptr)
+    // Check if we need to change filter wheel
+    if ((frameType == FRAME_LIGHT || frameType == FRAME_LIGHT) && targetFilter != -1 && activeFilter != nullptr)
     {
         if (targetFilter == currentFilter)
-            filterReady = true;
+            prepareActions[ACTION_FILTER] = true;
         else
         {
-            filterReady = false;
+            prepareActions[ACTION_FILTER] = false;
 
             // Post Focus on Filter change. If frame is NOT light, then we do not perform autofocusing on filter change
-            filterPostFocusReady = (!Options::autoFocusOnFilterChange() || frameType != FRAME_LIGHT);
+            prepareActions[ACTION_POST_FOCUS] = (!Options::autoFocusOnFilterChange() || frameType != FRAME_LIGHT);
 
             activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
         }
     }
 
+    // Check if we need to update temperature
     if (enforceTemperature && fabs(targetTemperature - currentTemperature) > Options::maxTemperatureDiff())
     {
-        temperatureReady = false;
+        prepareActions[ACTION_TEMPERATURE] = false;
         activeCCD->setTemperature(targetTemperature);
     }
 
-    if (prepareReady == false && temperatureReady && filterReady)
+    // Check if we need to update rotator
+    if (targetRotation != INVALID_VALUE && currentRotation != targetRotation)
+    {
+        prepareActions[ACTION_ROTATOR] = false;
+        activeRotator->runCommand(INDI_SET_ROTATOR, &targetRotation);
+    }
+
+    if (prepareReady == false && areActionsReady())
     {
         prepareReady = true;
         emit prepareComplete();
     }
+}
+
+void SequenceJob::setAllActionsReady()
+{
+    QMutableMapIterator<PrepareActions, bool> i(prepareActions);
+    while (i.hasNext())
+    {
+        i.next();
+        i.setValue(true);
+    }
+}
+
+bool SequenceJob::areActionsReady()
+{
+    foreach (bool ready, prepareActions)
+    {
+        if (ready == false)
+            return false;
+    }
+
+    return true;
 }
 
 //SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
@@ -278,10 +311,9 @@ void SequenceJob::setCurrentTemperature(double value)
     currentTemperature = value;
 
     if (enforceTemperature == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
-        temperatureReady = true;
+        prepareActions[ACTION_TEMPERATURE] = true;
 
-    if (prepareReady == false && filterReady && temperatureReady && filterPostFocusReady &&
-        (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
     {
         prepareReady = true;
         emit prepareComplete();
@@ -400,15 +432,14 @@ void SequenceJob::setRootFITSDir(const QString &value)
 
 bool SequenceJob::getFilterPostFocusReady() const
 {
-    return filterPostFocusReady;
+    return prepareActions[ACTION_POST_FOCUS];
 }
 
 void SequenceJob::setFilterPostFocusReady(bool value)
 {
-    filterPostFocusReady = value;
+    prepareActions[ACTION_POST_FOCUS] = value;
 
-    if (prepareReady == false && filterPostFocusReady && filterReady && temperatureReady &&
-        (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
     {
         prepareReady = true;
         emit prepareComplete();
@@ -465,6 +496,16 @@ void SequenceJob::setGain(double value)
     gain = value;
 }
 
+int32_t SequenceJob::getTargetRotation() const
+{
+    return targetRotation;
+}
+
+void SequenceJob::setTargetRotation(int32_t value)
+{
+    targetRotation = value;
+}
+
 int SequenceJob::getISOIndex() const
 {
     return isoIndex;
@@ -485,15 +526,29 @@ void SequenceJob::setCurrentFilter(int value)
     currentFilter = value;
 
     if (currentFilter == targetFilter)
-        filterReady = true;
+        prepareActions[ACTION_FILTER] = true;
 
-    if (prepareReady == false && filterReady && temperatureReady && filterPostFocusReady &&
-        (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
     {
         prepareReady = true;
         emit prepareComplete();
     }
-    else if (filterReady && filterPostFocusReady == false)
+    else if (prepareActions[ACTION_FILTER] == true && prepareActions[ACTION_POST_FOCUS] == false)
         emit checkFocus();
+}
+
+void SequenceJob::setCurrentRotation(int32_t value)
+{
+    currentRotation = value;
+
+    if (currentRotation == targetRotation)
+        prepareActions[ACTION_ROTATOR] = true;
+
+    if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
+    {
+        prepareReady = true;
+        emit prepareComplete();
+    }
+
 }
 }

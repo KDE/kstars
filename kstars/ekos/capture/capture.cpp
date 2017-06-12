@@ -196,6 +196,8 @@ Capture::Capture()
     resetFrameB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     calibrationB->setIcon(QIcon::fromTheme("run-build", QIcon(":/icons/breeze/default/run-build.svg")));
     calibrationB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    rotatorB->setIcon(QIcon::fromTheme("kstars_solarsystem", QIcon(":/icons/breeze/default/kstars_solarsystem.svg")));
+    rotatorB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
     removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
@@ -2371,6 +2373,12 @@ void Capture::setFocusStatus(FocusState state)
             abort();
         }
     }
+}
+
+void Capture::setRotator(ISD::GDInterface *newRotator)
+{
+    currentRotator = newRotator;
+    rotatorB->setEnabled(true);
 }
 
 void Capture::setTelescope(ISD::GDInterface *newTelescope)

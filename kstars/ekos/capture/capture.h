@@ -270,6 +270,7 @@ class Capture : public QWidget, public Ui::Capture
     void addGuideHead(ISD::GDInterface *newCCD);
     void syncFrameType(ISD::GDInterface *ccd);
     void setTelescope(ISD::GDInterface *newTelescope);
+    void setRotator(ISD::GDInterface *newRotator);
     void syncTelescopeInfo();
     void syncFilterInfo();
 
@@ -548,7 +549,7 @@ class Capture : public QWidget, public Ui::Capture
 
     ISD::Telescope *currentTelescope;
     ISD::CCD *currentCCD;
-    ISD::GDInterface *currentFilter;
+    ISD::GDInterface *currentFilter=nullptr, *currentRotator=nullptr;
     ISD::DustCap *dustCap;
     ISD::LightBox *lightBox;
     ISD::Dome *dome;
