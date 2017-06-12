@@ -29,13 +29,21 @@ class SequenceJob : public QObject
 
   public:
     typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
-    typedef enum {
+    typedef enum
+    {
         CAPTURE_OK,
         CAPTURE_FRAME_ERROR,
         CAPTURE_BIN_ERROR,
         CAPTURE_FILTER_BUSY,
         CAPTURE_FOCUS_ERROR
     } CAPTUREResult;
+    typedef enum
+    {
+        ACTION_FILTER,
+        ACTION_TEMPERATURE,
+        ACTION_POST_FOCUS,
+        ACTION_ROTATOR
+    } PrepareActions;
 
     SequenceJob();
     ~SequenceJob() {}
@@ -60,6 +68,9 @@ class SequenceJob : public QObject
 
     void setActiveFilter(ISD::GDInterface *filter) { activeFilter = filter; }
     ISD::GDInterface *getActiveFilter() { return activeFilter; }
+
+    void setActiveRotator(ISD::GDInterface *rotator) { activeRotator = rotator; }
+    ISD::GDInterface *getActiveRotator() { return activeRotator; }
 
     void setActiveChip(ISD::CCDChip *chip) { activeChip = chip; }
     ISD::CCDChip *getActiveChip() { return activeChip; }
@@ -177,15 +188,20 @@ class SequenceJob : public QObject
     double getGain() const;
     void setGain(double value);
 
-  signals:
+    int32_t getTargetRotation() const;
+    void setTargetRotation(int32_t value);
+
+    void setCurrentRotation(int32_t value);
+
+signals:
     void prepareComplete();
     void checkFocus();
 
-  private:
+private:
     QStringList statusStrings;
     ISD::CCDChip *activeChip;
     ISD::CCD *activeCCD;
-    ISD::GDInterface *activeFilter;
+    ISD::GDInterface *activeFilter=nullptr, *activeRotator=nullptr;
 
     double exposure;
     CCDFrameType frameType;
@@ -199,7 +215,8 @@ class SequenceJob : public QObject
     int count;
     int delay;
     bool preview;
-    bool filterReady, temperatureReady, filterPostFocusReady, prepareReady;
+    //bool filterReady, temperatureReady, filterPostFocusReady, prepareReady;
+    bool prepareReady;
     bool enforceTemperature;
     int isoIndex;
     int captureRetires;
@@ -207,6 +224,8 @@ class SequenceJob : public QObject
     double exposeLeft;
     double currentTemperature, targetTemperature;
     double gain;
+    // Rotation in absolute ticks, NOT angle
+    int32_t targetRotation, currentRotation;
     FITSScale captureFilter;
     QTableWidgetItem *statusCell;
     QString fitsDir;
@@ -238,6 +257,10 @@ class SequenceJob : public QObject
         bool preDomePark;
 
     } calibrationSettings;
+
+    QMap<PrepareActions, bool> prepareActions;
+    bool areActionsReady();
+    void setAllActionsReady();
 };
 }
 
