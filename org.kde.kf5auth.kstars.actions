@@ -1,6 +1,7 @@
 [org.kde.kf5auth.kstars.saveindexfile]
 Name=Save Astrometry Index File to a write protected directory
 Name[ca]=Desa el fitxer d'índex de l'Astrometry a un directori protegit contra escriptura
+Name[ca@valencia]=Guarda el fitxer d'índex de l'Astrometry a un directori protegit contra escriptura
 Name[nl]=Sla indexbestand Astrometry op in tegen schrijven beveiligde directory
 Name[pt]=Gravar o ficheiro de índice do Astrometry numa pasta protegida contra escritas
 Name[sv]=Spara indexfil för astrometri i en skrivskyddad katalog
@@ -8,6 +9,7 @@ Name[uk]=Збереження файла покажчика астрометрі
 Name[x-test]=xxSave Astrometry Index File to a write protected directoryxx
 Description=KStars is attempting to save an Astrometry Index File to a directory owned by root
 Description[ca]=El KStars està intentant desar un fitxer d'índex de l'Astrometry en un directori propietat de l'administrador
+Description[ca@valencia]=El KStars està intentant guardar un fitxer d'índex de l'Astrometry en un directori propietat de l'administrador
 Description[nl]=KStars probeert nu een indexbestand van Astrometry op te slaan in een directory die eigendom is van root (de beheerder)
 Description[pt]=O KStars está a tentar gravar um ficheiro de índice do Astrometry numa pasta pertencente ao 'root'
 Description[sv]=Kstars försöker spara en indexfil för astrometri i en katalog som ägs av systemadministratören
@@ -19,6 +21,7 @@ Persistence=session
 [org.kde.kf5auth.kstars.removeindexfileset]
 Name=Remove an Astrometry Index File Set
 Name[ca]=Elimina un conjunt de fitxers d'índex de l'Astrometry
+Name[ca@valencia]=Elimina un conjunt de fitxers d'índex de l'Astrometry
 Name[nl]=Verwijder een instelling van indexbestand van Astrometry
 Name[pt]=Remover um Conjunto de Ficheiros de Índice do Astrometry
 Name[sv]=Ta bort en uppsättning indexfiler för astrometri
@@ -26,6 +29,7 @@ Name[uk]=Вилучення встановлених файлів покажчи
 Name[x-test]=xxRemove an Astrometry Index File Setxx
 Description=KStars is attempting to remove Astrometry Index Files owned by root
 Description[ca]=El KStars està intentant eliminar fitxers d'índex de l'Astrometry en que el propietari és l'administrador
+Description[ca@valencia]=El KStars està intentant eliminar fitxers d'índex de l'Astrometry en que el propietari és l'administrador
 Description[nl]=Kstars probeert nu indexbestanden van Astrometry te verwijderen die eigendom zijn van root (de beheerder)
 Description[pt]=O KStars está a tentar remover ficheiros de índice do Astrometry pertencentes ao 'root'
 Description[sv]=Kstars försöker ta bort indexfiler för astrometri som ägs av systemadministratören
