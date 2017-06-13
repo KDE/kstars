@@ -238,7 +238,7 @@ if (UNIX)
   add_definitions(-Dfexceptions)
 
   # TEMPORARY: To disable QCustomPlot warning until 2.0.0 is released which fixes these warnings
-  add_definitions(-Wno-non-virtual-dtor)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-virtual-dtor")
 
   # Optimize binary size by dropping unneeded symbols at linking stage
   if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -284,6 +284,59 @@ IF (UNIX OR APPLE)
             ADD_CUSTOM_TARGET(clang-format COMMAND ${CLANGFORMAT_EXE} -style=file -i ${ALL_SOURCE_FILES})
         ENDIF ()
     ENDIF ()
+ENDIF ()
+
+SET(FIX_WARNINGS OFF CACHE BOOL "Enable strict compilation mode to turn compiler warnings to errors")
+# Warning, debug and linker flags
+IF (UNIX OR APPLE)
+    SET(COMP_FLAGS "")
+    SET(LINKER_FLAGS "")
+    # Verbose warnings and turns all to errors
+    SET(COMP_FLAGS "${COMP_FLAGS} -Wall -Wextra")
+    IF (FIX_WARNINGS)
+        SET(COMP_FLAGS "${COMP_FLAGS} -Werror")
+    ENDIF ()
+    # Omit problematic warnings
+    IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+        SET(COMP_FLAGS "${COMP_FLAGS} -Wno-unused-but-set-variable")
+    ENDIF ()
+    IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 6.9.9)
+        SET(COMP_FLAGS "${COMP_FLAGS} -Wno-format-truncation")
+    ENDIF ()
+    IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+        SET(COMP_FLAGS "${COMP_FLAGS} -Wno-nonnull -Wno-deprecated-declarations")
+    ENDIF ()
+
+    # Minimal debug info with Clang
+    IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        SET(COMP_FLAGS "${COMP_FLAGS} -gline-tables-only")
+    ELSE ()
+        SET(COMP_FLAGS "${COMP_FLAGS} -g")
+    ENDIF ()
+
+    # Note: The following flags are problematic on older systems with gcc 4.8
+    IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9.9))
+        # Compress the debug sections
+        # Note: Before valgrind 3.12.0, patch should be applied for valgrind (https://bugs.kde.org/show_bug.cgi?id=303877)
+        IF (NOT APPLE AND NOT ANDROID AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES arm AND NOT CMAKE_CXX_CLANG_TIDY)
+            SET(COMP_FLAGS "${COMP_FLAGS} -Wa,--compress-debug-sections -Wno-unused-command-line-argument")
+            SET(LINKER_FLAGS "${LINKER_FLAGS} -Wl,--compress-debug-sections=zlib")
+        ENDIF ()
+
+        # ld.gold is 2x faster than normal ld
+        IF (NOT APPLE AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES arm)
+            SET(LINKER_FLAGS "${LINKER_FLAGS} -fuse-ld=gold")
+            # Use Identical Code Folding
+            SET(COMP_FLAGS "${COMP_FLAGS} -ffunction-sections")
+            SET(LINKER_FLAGS "${LINKER_FLAGS} -Wl,--icf=safe")
+        ENDIF ()
+    ENDIF ()
+
+    # Apply the flags
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${COMP_FLAGS}")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMP_FLAGS}")
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LINKER_FLAGS}")
+    SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${LINKER_FLAGS}")
 ENDIF ()
 
 configure_file(
