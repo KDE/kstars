@@ -65,6 +65,10 @@ if(NOT BUILD_KSTARS_LITE)
             fitsviewer/opsfits.ui
             )
         include_directories(${CFITSIO_INCLUDE_DIR})
+
+        IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        ENDIF ()
     endif(CFITSIO_FOUND)
 endif(NOT BUILD_KSTARS_LITE)
 
