@@ -7,11 +7,14 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "imageautoguiding.h"
+
+#include <QtGlobal>
+
 #include <math.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "imageautoguiding.h"
 
 #define SWAP(a, b) \
     tempr = (a);   \
@@ -215,7 +218,7 @@ void rlft3NR(float ***data, float **speq, unsigned long nn1, unsigned long nn2, 
     float c1, c2, h1r, h1i, h2r, h2i;
     float wi, wr;
 
-    if (1 + &data[nn1][nn2][nn3] - &data[1][1][1] != nn1 * nn2 * nn3)
+    if ((unsigned long)(1 + &data[nn1][nn2][nn3] - &data[1][1][1]) != nn1 * nn2 * nn3)
         nrerrorNR();
     c1    = 0.5;
     c2    = -0.5 * isign;
@@ -289,7 +292,7 @@ void fournNR(float data[], unsigned long nn[], long ndim, long isign)
 {
     long idim;
     unsigned long i1, i2rev, i3rev, ip1, ip2, ip3, ifp1, ifp2;
-    register unsigned long i2, i3;
+    unsigned long i2, i3;
     unsigned long ibit, k1, k2, n, nprev, nrem, ntot;
     float wi, wr, tempi, tempr;
     double theta, wpi, wpr, wtemp;
@@ -440,6 +443,8 @@ float ***f3tensorSP(long nrl, long nrh, long ncl, long nch, long ndl, long ndh)
 void free_matrixSP(float **m, long nrl, long nrh, long ncl, long nch)
 /* free a float matrix allocated by matrix() */
 {
+    Q_UNUSED(nrh);
+    Q_UNUSED(nch);
     free((FREE_ARG)(m[nrl] + ncl - NR_END));
     free((FREE_ARG)(m + nrl - NR_END));
 }
@@ -447,6 +452,9 @@ void free_matrixSP(float **m, long nrl, long nrh, long ncl, long nch)
 void free_f3tensorSP(float ***t, long nrl, long nrh, long ncl, long nch, long ndl, long ndh)
 /* free a float f3tensor allocated by f3tensor() */
 {
+    Q_UNUSED(nrh);
+    Q_UNUSED(nch);
+    Q_UNUSED(ndh);
     free((FREE_ARG)(t[nrl][ncl] + ndl - NR_END));
     free((FREE_ARG)(t[nrl] + ncl - NR_END));
     free((FREE_ARG)(t + nrl - NR_END));

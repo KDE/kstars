@@ -15,12 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DMS_H_
-#define DMS_H_
+#pragma once
 
 #include "../nan.h"
 
-#include <QDebug>
 #include <QString>
 
 #include <cmath>
@@ -475,5 +473,3 @@ inline bool operator==(const dms &a1, const dms &a2)
 {
     return a1.Degrees() == a2.Degrees();
 }
-
-#endif

@@ -21,11 +21,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "bayer.h"
+
 #include <limits.h>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include "bayer.h"
 
 #define CLIP(in, out)          \
     in  = in < 0 ? 0 : in;     \
@@ -1764,9 +1765,9 @@ dc1394error_t dc1394_bayer_VNG(const uint8_t *restrict bayer, uint8_t *restrict 
                 weight = *cp++;
                 grads  = *cp++;
                 color  = FC(row + y1, col + x1);
-                if (FC(row + y2, col + x2) != color)
+                if ((int)FC(row + y2, col + x2) != color)
                     continue;
-                diag = (FC(row, col + 1) == color && FC(row + 1, col) == color) ? 2 : 1;
+                diag = ((int)FC(row, col + 1) == color && (int)FC(row + 1, col) == color) ? 2 : 1;
                 if (abs(y1 - y2) == diag && abs(x1 - x2) == diag)
                     continue;
                 *ip++ = (y1 * width + x1) * 3 + color; /* [FD] */
@@ -1784,7 +1785,7 @@ dc1394error_t dc1394_bayer_VNG(const uint8_t *restrict bayer, uint8_t *restrict 
                 x     = *cp++;
                 *ip++ = (y * width + x) * 3; /* [FD] */
                 color = FC(row, col);
-                if (FC(row + y, col + x) != color && FC(row + y * 2, col + x * 2) == color)
+                if ((int)FC(row + y, col + x) != color && (int)FC(row + y * 2, col + x * 2) == color)
                     *ip++ = (y * width + x) * 6 + color; /* [FD] */
                 else
                     *ip++ = 0;
@@ -1909,9 +1910,9 @@ dc1394error_t dc1394_bayer_VNG_uint16(const uint16_t *restrict bayer, uint16_t *
                 weight = *cp++;
                 grads  = *cp++;
                 color  = FC(row + y1, col + x1);
-                if (FC(row + y2, col + x2) != color)
+                if ((int)FC(row + y2, col + x2) != color)
                     continue;
-                diag = (FC(row, col + 1) == color && FC(row + 1, col) == color) ? 2 : 1;
+                diag = ((int)FC(row, col + 1) == color && (int)FC(row + 1, col) == color) ? 2 : 1;
                 if (abs(y1 - y2) == diag && abs(x1 - x2) == diag)
                     continue;
                 *ip++ = (y1 * width + x1) * 3 + color; /* [FD] */
@@ -1929,7 +1930,7 @@ dc1394error_t dc1394_bayer_VNG_uint16(const uint16_t *restrict bayer, uint16_t *
                 x     = *cp++;
                 *ip++ = (y * width + x) * 3; /* [FD] */
                 color = FC(row, col);
-                if (FC(row + y, col + x) != color && FC(row + y * 2, col + x * 2) == color)
+                if ((int)FC(row + y, col + x) != color && (int)FC(row + y * 2, col + x * 2) == color)
                     *ip++ = (y * width + x) * 6 + color; /* [FD] */
                 else
                     *ip++ = 0;

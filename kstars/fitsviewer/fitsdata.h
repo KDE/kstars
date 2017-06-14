@@ -17,43 +17,32 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
-#ifndef FITSDATA_H_
-#define FITSDATA_H_
+#pragma once
 
 #include <config-kstars.h>
 
-#include <QFrame>
-#include <QImage>
-#include <QPixmap>
-#include <QMouseEvent>
-#include <QResizeEvent>
-#include <QPaintEvent>
-#include <QScrollArea>
-#include <QLabel>
-#include <QStringList>
-
+#include "bayer.h"
+#include "dms.h"
+#include "fitscommon.h"
 #include "skyobject.h"
+#include "skypoint.h"
+
+#include <fitsio.h>
 
 #ifndef KSTARS_LITE
+#include "fitshistogram.h"
+
+#include <kxmlguiwindow.h>
+
 #ifdef HAVE_WCSLIB
 #include <wcs.h>
 #endif
-
-#include <kxmlguiwindow.h>
-#include "fitshistogram.h"
 #endif
 
 #ifdef WIN32
 // avoid compiler warning when windows.h is included after fitsio.h
 #include <windows.h>
 #endif
-
-#include <fitsio.h>
-#include "fitscommon.h"
-
-#include "skypoint.h"
-#include "dms.h"
-#include "bayer.h"
 
 #define MINIMUM_PIXEL_RANGE 5
 #define MINIMUM_STDVAR      5
@@ -380,5 +369,3 @@ class FITSData
 
     QString lastError;
 };
-
-#endif

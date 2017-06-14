@@ -19,15 +19,11 @@
 
 #include "projector.h"
 
-#include <cmath>
-
 #include "ksutils.h"
-#include "kstarsdata.h"
-#include "skycomponents/skylabeler.h"
-
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #endif
+#include "skycomponents/skylabeler.h"
 
 namespace
 {

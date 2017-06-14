@@ -24,16 +24,30 @@
 	*(it is impossible to instantiate a KSUtils object; just use the static functions).
 	*/
 
-#ifndef KSTARS_KSUTILS_H__
-#define KSTARS_KSUTILS_H__
+#pragma once
+
+#include "dms.h"
+
+#include <QPointF>
+#include <QSharedPointer>
+
+#if __GNUC__ > 5
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wignored-attributes"
+#endif
+#if __GNUC__ > 6
+#pragma GCC diagnostic ignored "-Wint-in-bool-context"
+#endif
+#include <Eigen/Core>
+#if __GNUC__ > 5
+#pragma GCC diagnostic pop
+#endif
 
 #include <cstddef>
-#include <Eigen/Core>
-#include <QPointF>
-#include "dms.h"
 
 class QFile;
 class QString;
+class QTextStream;
 class SkyPoint;
 class SkyObject;
 class StarObject;
@@ -252,5 +266,3 @@ struct JPLFilter
  */
 QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields, const QVector<JPLFilter> &filters);
 }
-
-#endif

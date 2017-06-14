@@ -15,12 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef STAROBJECT_H_
-#define STAROBJECT_H_
+#pragma once
 
-#include <QMap>
-#include <QPixmap>
-
+#include "ksnumbers.h"
 #include "skyobject.h"
 #include "stardata.h"
 #include "deepstardata.h"
@@ -301,5 +298,3 @@ class StarObject : public SkyObject
     float B,
         V; // B and V magnitudes, separately. NOTE 1) This is kept separate from mag for a reason. See init( const deepStarData *); 2) This applies only to deep stars at the moment
 };
-
-#endif

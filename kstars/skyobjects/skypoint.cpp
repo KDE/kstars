@@ -19,13 +19,13 @@
 
 #include "skypoint.h"
 
-#include "skyobject.h"
 #include "dms.h"
 #include "ksnumbers.h"
-#include "kstarsdatetime.h" //for J2000 define
+#include "kstarsdatetime.h"
 #include "kssun.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "skyobject.h"
 #include "skycomponents/skymapcomposite.h"
 
 #include <KLocalizedString>

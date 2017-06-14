@@ -17,17 +17,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYPOINT_H_
-#define SKYPOINT_H_
+#pragma once
+
+#include "cachingdms.h"
+#include "ksnumbers.h"
+#include "kstarsdatetime.h"
 
 #include <QList>
 
-#include "cachingdms.h"
-#include "kstarsdatetime.h"
-
 //#define PROFILE_COORDINATE_CONVERSION
 
-class KSNumbers;
 class KSSun;
 class GeoLocation;
 
@@ -580,5 +579,3 @@ class SkyPoint
   protected:
     double lastPrecessJD; // JD at which the last coordinate update (see updateCoords) for this SkyPoint was done
 };
-
-#endif

@@ -80,7 +80,7 @@ void CachingDms::setUsing_atan2(const double &y, const double &x)
      *
      */
     dms::setRadians(atan2(y, x));
-    register double r = sqrt(y * y + x * x);
+    double r = sqrt(y * y + x * x);
     m_cos             = x / r;
     m_sin             = y / r;
 

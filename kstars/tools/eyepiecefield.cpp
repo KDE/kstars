@@ -15,32 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-/* Project Includes */
 #include "eyepiecefield.h"
+
 #include "exporteyepieceview.h"
 #include "fov.h"
-#include "skypoint.h"
+#include "ksdssdownloader.h"
 #include "skymap.h"
 #include "skyqpainter.h"
-#include "kstars.h"
 #include "Options.h"
-#include "ksdssimage.h"
-#include "kstarsdatetime.h"
-#include "ksdssdownloader.h"
-/* KDE Includes */
 
-/* Qt Includes */
-#include <QString>
 #include <QLabel>
 #include <QSlider>
 #include <QComboBox>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QCheckBox>
-#include <QImage>
-#include <QPixmap>
 #include <QBitmap>
-#include <QTemporaryFile>
 #include <QSvgRenderer>
 #include <QSvgGenerator>
 
@@ -308,7 +297,8 @@ void EyepieceField::generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage 
         fovHeight = fovWidth;
 
     // Get DSS image width / height
-    double dssWidth, dssHeight;
+    double dssWidth = 0, dssHeight = 0;
+
     if (QFile::exists(imagePath))
     {
         KSDssImage dssImage(imagePath);
@@ -404,12 +394,14 @@ void EyepieceField::generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage 
     // Prepare the sky image
     if (QFile::exists(imagePath) && skyImage)
     {
-        QImage *mySkyImage = 0;
-        mySkyImage         = new QImage(int(arcMinToScreen * fovWidth * 2.0), int(arcMinToScreen * fovHeight * 2.0),
-                                QImage::Format_ARGB32);
+        QImage *mySkyImage = new QImage(int(arcMinToScreen * fovWidth * 2.0), int(arcMinToScreen * fovHeight * 2.0),
+                                        QImage::Format_ARGB32);
+
         mySkyImage->fill(Qt::transparent);
+
         QPainter p(mySkyImage);
         QImage rawImg(imagePath);
+
         if (rawImg.isNull())
         {
             qWarning() << "Image constructed from " << imagePath
@@ -429,6 +421,7 @@ void EyepieceField::generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage 
             qDebug() << "North angle = " << northBearing.toDMSString();
 
             QTransform transform;
+
             transform.rotate(northBearing.Degrees());
             img = img.transformed(transform, Qt::SmoothTransformation);
         }

@@ -17,14 +17,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSNUMBERS_H_
-#define KSNUMBERS_H_
-
-#define NUTTERMS 63
+#pragma once
 
 #include "cachingdms.h"
 
-#include <Eigen/Dense>
+#if __GNUC__ > 5
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wignored-attributes"
+#endif
+#if __GNUC__ > 6
+#pragma GCC diagnostic ignored "-Wint-in-bool-context"
+#endif
+#include <Eigen/Core>
+#if __GNUC__ > 5
+#pragma GCC diagnostic pop
+#endif
+
+#define NUTTERMS 63
 
 /** @class KSNumbers
 	*
@@ -147,5 +156,3 @@ class KSNumbers
     static const int amp[NUTTERMS][4];
     double vearth[3];
 };
-
-#endif

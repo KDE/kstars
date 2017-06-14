@@ -15,12 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AUXINFO_H_
-#define AUXINFO_H_
+#pragma once
 
 #include <QString>
 #include <QStringList>
 #include <QSharedData>
+#include <QVariant>
 
 /**
  *@struct AuxInfo
@@ -42,5 +42,3 @@ class AuxInfo : public QSharedData
     QString notes;
     QHash<QString, QVariant> otherData;
 };
-
-#endif

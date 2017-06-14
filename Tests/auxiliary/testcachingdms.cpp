@@ -17,6 +17,7 @@
 
 /* Project Includes */
 #include "testcachingdms.h"
+
 #include "nan.h"
 
 /* KDE Includes */
@@ -300,6 +301,7 @@ void TestCachingDms::testFailsafeUseOfBaseClassPtr()
                 dms x(b.x);
                 dms y(0.0);
                 *d = x + y;
+                break;
             }
             case 6:
             default:

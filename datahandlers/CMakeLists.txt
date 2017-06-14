@@ -1,4 +1,5 @@
 include_directories(
+    ${kstars_SOURCE_DIR}/kstars
     ${kstars_SOURCE_DIR}/kstars/tools
     ${kstars_SOURCE_DIR}/kstars/skyobjects
     ${kstars_SOURCE_DIR}/kstars/skycomponents

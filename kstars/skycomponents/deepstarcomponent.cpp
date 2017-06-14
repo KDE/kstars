@@ -15,10 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef _WIN32
-#include <windows.h>
-#endif
 #include "deepstarcomponent.h"
+
+#include "binfilehelper.h"
+#include "byteorder.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#ifndef KSTARS_LITE
+#include "skymap.h"
+#endif
+#include "skymesh.h"
+#include "skyobjects/starobject.h"
+#include "skypainter.h"
+#include "starblockfactory.h"
+#include "starcomponent.h"
+#include "projections/projector.h"
 
 #include <QPixmap>
 #include <QRectF>
@@ -28,21 +39,9 @@
 //NOTE Added this for QT_FSEEK, should we be including another file?
 #include <qplatformdefs.h>
 
-#include "Options.h"
-#include "kstarsdata.h"
-#ifndef KSTARS_LITE
-#include "skymap.h"
+#ifdef _WIN32
+#include <windows.h>
 #endif
-#include "skyobjects/starobject.h"
-#include "skymesh.h"
-#include "binfilehelper.h"
-#include "starblockfactory.h"
-#include "starcomponent.h"
-#include "projections/projector.h"
-
-#include "skypainter.h"
-
-#include "byteorder.h"
 
 DeepStarComponent::DeepStarComponent(SkyComposite *parent, QString fileName, float trigMag, bool staticstars)
     : ListComponent(parent), m_reindexNum(J2000), triggerMag(trigMag), m_FaintMagnitude(-5.0), staticStars(staticstars),
@@ -87,12 +86,13 @@ bool DeepStarComponent::loadStaticStars()
     qint16 faintmag;
     quint8 htm_level;
     quint16 t_MSpT;
+    int ret = 0;
 
-    fread(&faintmag, 2, 1, dataFile);
+    ret = fread(&faintmag, 2, 1, dataFile);
     if (starReader.getByteSwap())
         faintmag = bswap_16(faintmag);
-    fread(&htm_level, 1, 1, dataFile);
-    fread(&t_MSpT, 2, 1, dataFile); // Unused
+    ret = fread(&htm_level, 1, 1, dataFile);
+    ret = fread(&t_MSpT, 2, 1, dataFile); // Unused
     if (starReader.getByteSwap())
         faintmag = bswap_16(faintmag);
 
@@ -444,14 +444,16 @@ bool DeepStarComponent::openDataFile()
     {
         qint16 faintmag;
         quint8 htm_level;
-        fread(&faintmag, 2, 1, starReader.getFileHandle());
+        int ret = 0;
+
+        ret = fread(&faintmag, 2, 1, starReader.getFileHandle());
         if (starReader.getByteSwap())
             faintmag = bswap_16(faintmag);
         if (starReader.guessRecordSize() == 16)
             m_FaintMagnitude = faintmag / 1000.0;
         else
             m_FaintMagnitude = faintmag / 100.0;
-        fread(&htm_level, 1, 1, starReader.getFileHandle());
+        ret = fread(&htm_level, 1, 1, starReader.getFileHandle());
         qDebug() << "Processing " << dataFileName << ", HTMesh Level" << htm_level;
         m_skyMesh = SkyMesh::Instance(htm_level);
         if (!m_skyMesh)
@@ -464,7 +466,7 @@ bool DeepStarComponent::openDataFile()
             }
         }
         meshLevel = htm_level;
-        fread(&MSpT, 2, 1, starReader.getFileHandle());
+        ret = fread(&MSpT, 2, 1, starReader.getFileHandle());
         if (starReader.getByteSwap())
             MSpT = bswap_16(MSpT);
         fileOpened = true;

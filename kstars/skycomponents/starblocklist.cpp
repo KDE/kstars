@@ -1,4 +1,4 @@
-/***************************************************************************
+    /***************************************************************************
                   starblocklist.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Mon 9 Jun 2008
@@ -16,16 +16,17 @@
  ***************************************************************************/
 
 #include "starblocklist.h"
+
 #include "binfilehelper.h"
-#include "starblockfactory.h"
-#include "skyobjects/stardata.h"
-#include "skyobjects/deepstardata.h"
+#include "deepstarcomponent.h"
 #include "starcomponent.h"
 
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #include "kstarslite/skyitems/skynodes/pointsourcenode.h"
 #endif
+
+#include <QDebug>
 
 StarBlockList::StarBlockList(Trixel tr, DeepStarComponent *parent)
 {
@@ -122,6 +123,8 @@ bool StarBlockList::fillToMag(float maglim)
 
     while (maglim >= faintMag && nStars < dSReader->getRecordCount(trixelId))
     {
+        int ret = 0;
+
         if (nBlocks == 0 || blocks[nBlocks - 1]->isFull())
         {
             StarBlock *newBlock;
@@ -144,7 +147,7 @@ bool StarBlockList::fillToMag(float maglim)
         // TODO: Make this more general
         if (dSReader->guessRecordSize() == 32)
         {
-            fread(&stardata, sizeof(starData), 1, dataFile);
+            ret = fread(&stardata, sizeof(starData), 1, dataFile);
             if (dSReader->getByteSwap())
                 DeepStarComponent::byteSwap(&stardata);
             readOffset += sizeof(starData);
@@ -152,7 +155,7 @@ bool StarBlockList::fillToMag(float maglim)
         }
         else
         {
-            fread(&deepstardata, sizeof(deepStarData), 1, dataFile);
+            ret = fread(&deepstardata, sizeof(deepStarData), 1, dataFile);
             if (dSReader->getByteSwap())
                 DeepStarComponent::byteSwap(&deepstardata);
             readOffset += sizeof(deepStarData);

@@ -14,8 +14,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <QtQuick/QQuickView>
-#include <QtQuick/QQuickItem>
+
+#include <QQuickView>
+#include <QQuickItem>
+#include <QQmlContext>
 #include <QStandardPaths>
 #include <QGraphicsObject>
 #include "wiview.h"
@@ -258,7 +260,7 @@ void WIView::onCategorySelected(QString model)
         QtConcurrent::run(m_ModManager, &ModelManager::loadSharplessCatalog);
         return;
     }
-    updateModel(m_Obs);
+    updateModel(*m_Obs);
 }
 
 void WIView::onSoListItemClicked(int index)
@@ -376,7 +378,7 @@ void WIView::onReloadIconClicked()
 {
     if (m_CurrentObjectListName != "")
     {
-        updateModel(m_Obs);
+        updateModel(*m_Obs);
         m_CurIndex = m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjIndex(m_CurSoItem);
     }
     loadDetailsView(m_CurSoItem, m_CurIndex);
@@ -397,10 +399,11 @@ void WIView::onFavoriteIconClicked(bool favorites)
 void WIView::onUpdateIconClicked()
 {
     QMessageBox mbox;
-    mbox.setText("Please choose which object(s) to try to update with Wikipedia data.");
     QPushButton *currentObject = mbox.addButton("Current Object", QMessageBox::AcceptRole);
-    QPushButton *missingObjects;
-    QPushButton *allObjects;
+    QPushButton *missingObjects = nullptr;
+    QPushButton *allObjects = nullptr;
+
+    mbox.setText("Please choose which object(s) to try to update with Wikipedia data.");
     if (m_CurrentObjectListName != "")
     {
         missingObjects = mbox.addButton("Objects with no data", QMessageBox::AcceptRole);
@@ -442,20 +445,21 @@ void WIView::refreshListView()
         m_SoListObj->setProperty("currentIndex", m_CurIndex);
 }
 
-void WIView::updateModel(ObsConditions *obs)
+void WIView::updateModel(ObsConditions& obs)
 {
     if (m_CurrentObjectListName != "")
     {
-        m_Obs = obs;
+        m_Obs = &obs;
         m_ModManager->updateModel(m_Obs, m_CurrentObjectListName);
     }
 }
 
-void WIView::inspectSkyObject(QString name)
+void WIView::inspectSkyObject(const QString& name)
 {
-    if (name != "" && name != "star")
+    if (!name.isEmpty() && name != "star")
     {
         SkyObject *obj = KStarsData::Instance()->skyComposite()->findByName(name);
+
         if (obj)
             inspectSkyObject(obj);
     }
@@ -464,22 +468,20 @@ void WIView::inspectSkyObject(QString name)
 void WIView::inspectSkyObjectOnClick(SkyObject *obj)
 {
     if (inspectOnClick && KStars::Instance()->isWIVisible())
-    {
         inspectSkyObject(obj);
-    }
 }
 
 void WIView::inspectSkyObject(SkyObject *obj)
 {
-    if (obj)
+    if (!obj)
+        return;
+
+    if (obj->name() != "star")
     {
-        if (obj->name() != "star")
-        {
-            m_CurrentObjectListName = "";
-            loadDetailsView(new SkyObjItem(obj), -1);
-            m_BaseObj->setProperty("state", "singleItemSelected");
-            m_CategoryTitle->setProperty("text", "Selected Object");
-        }
+        m_CurrentObjectListName = "";
+        loadDetailsView(new SkyObjItem(obj), -1);
+        m_BaseObj->setProperty("state", "singleItemSelected");
+        m_CategoryTitle->setProperty("text", "Selected Object");
     }
 }
 
@@ -487,14 +489,14 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
 {
     if (!soitem)
         return;
-    m_CurSoItem = soitem;
-    m_CurIndex  = index;
-    int modelSize;
-    if (index == -1)
-        modelSize = -1;
-    else
+
+    int modelSize = -1;
+
+    if (index != -1)
         modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
 
+    m_CurSoItem = soitem;
+    m_CurIndex  = index;
     if (modelSize <= 1)
     {
         m_NextObj->setProperty("visible", "false");
@@ -506,11 +508,14 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
             m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjItem((m_CurIndex + 1) % modelSize);
         SkyObjItem *prevItem =
             m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjItem((m_CurIndex - 1 + modelSize) % modelSize);
+
         m_NextObj->setProperty("visible", "true");
         m_PrevObj->setProperty("visible", "true");
         QObject *nextTextObj = m_NextObj->findChild<QObject *>("nextTextObj");
+
         nextTextObj->setProperty("text", nextItem->getName());
         QObject *prevTextObj = m_PrevObj->findChild<QObject *>("prevTextObj");
+
         prevTextObj->setProperty("text", prevItem->getName());
     }
 

@@ -14,16 +14,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OPSSATELLITES_H_
-#define OPSSATELLITES_H_
+#pragma once
 
 #include "ui_opssatellites.h"
 
-#include <QStandardItemModel>
+#include <QFrame>
 #include <QSortFilterProxyModel>
 
 #include <kconfigdialog.h>
 
+class QStandardItem;
+class QStandardItemModel;
 class KStars;
 
 class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
@@ -33,11 +34,12 @@ class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
 };
 
-/** @class OpsSatellites
- *The Satellites Tab of the Options window.  In this Tab the user can configure
- *satellites options and select satellites that should be draw
- *@author Jérôme SONRIER
- *@version 1.0
+/**
+ * @class OpsSatellites
+ * The Satellites Tab of the Options window.  In this Tab the user can configure
+ * satellites options and select satellites that should be draw
+ * @author Jérôme SONRIER
+ * @version 1.0
  */
 class OpsSatellites : public QFrame, public Ui::OpsSatellites
 {
@@ -45,24 +47,24 @@ class OpsSatellites : public QFrame, public Ui::OpsSatellites
 
   public:
     /**
-         * Constructor
-         */
-    explicit OpsSatellites();
+     * Constructor
+     */
+    OpsSatellites();
 
     /**
-         * Destructor
-         */
+     * Destructor
+     */
     ~OpsSatellites();
 
   private:
     /**
-         * Refresh satellites list
-         */
+     * Refresh satellites list
+     */
     void updateListView();
 
     /**
-         * @brief saveSatellitesList Saves list of checked satellites in the configuration file
-         */
+     * @brief saveSatellitesList Saves list of checked satellites in the configuration file
+     */
     void saveSatellitesList();
 
     KConfigDialog *m_ConfigDialog;
@@ -78,5 +80,3 @@ class OpsSatellites : public QFrame, public Ui::OpsSatellites
     void slotFilterReg(const QString &);
     void slotItemChanged(QStandardItem *);
 };
-
-#endif //OPSSATELLITES_H_

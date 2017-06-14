@@ -17,8 +17,9 @@
 
 #include "starblockfactory.h"
 
-// TODO: Remove later
-#include <cstdio>
+#include "starblock.h"
+#include "starobject.h"
+
 #include <QDebug>
 
 // TODO: Implement a better way of deciding this

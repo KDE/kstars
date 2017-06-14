@@ -1334,7 +1334,7 @@ void Scheduler::evaluateJobs()
             job->getStartupCondition() != SchedulerJob::START_AT)
             continue;
 
-        double timeBetweenJobs = fabs(firstStartTime.secsTo(job->getStartupTime()));
+        double timeBetweenJobs = (double)std::abs(firstStartTime.secsTo(job->getStartupTime()));
 
         // If there are within 5 minutes of each other, try to advance scheduling time of the lower altitude one
         if (timeBetweenJobs < (Options::leadTime()) * 60)
@@ -1349,11 +1349,13 @@ void Scheduler::evaluateJobs()
             // FIXME: After changing time we are not evaluating job again when we should.
             if (otherjob_time >= preDawnDateTime.addDays(daysCount))
             {
+                QDateTime date;
+
                 daysCount++;
 
                 lastStartTime = job->getStartupTime().addDays(daysCount);
                 job->setStartupTime(lastStartTime);
-                lastStartTime.addSecs(delayJob);
+                date = lastStartTime.addSecs(delayJob);
             }
             else
             {
@@ -4999,8 +5001,8 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
 
 SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
 {
-    XMLEle *ep;
-    XMLEle *subEP;
+    XMLEle *ep = nullptr;
+    XMLEle *subEP = nullptr;
 
     const QMap<QString, CCDFrameType> frameTypes = {
         { "Light", FRAME_LIGHT }, { "Dark", FRAME_DARK }, { "Bias", FRAME_BIAS }, { "Flat", FRAME_FLAT }

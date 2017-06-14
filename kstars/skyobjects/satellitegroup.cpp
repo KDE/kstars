@@ -15,15 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QFile>
-#include <QDir>
-#include <QStandardPaths>
-
 #include "satellitegroup.h"
+
 #include "ksutils.h"
 #include "kspaths.h"
+#include "skyobjects/satellite.h"
 
-SatelliteGroup::SatelliteGroup(QString name, QString tle_filename, QUrl update_url)
+#include <QTextStream>
+
+SatelliteGroup::SatelliteGroup(const QString& name, const QString& tle_filename, const QUrl& update_url)
 {
     m_name     = name;
     m_tle_file = tle_filename;
@@ -66,6 +66,7 @@ void SatelliteGroup::readTLE()
 void SatelliteGroup::updateSatellitesPos()
 {
     QMutableListIterator<Satellite *> sats(*this);
+
     while (sats.hasNext())
     {
         Satellite *sat = sats.next();
