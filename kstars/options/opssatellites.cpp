@@ -17,15 +17,14 @@
 #include "opssatellites.h"
 
 #include <QStandardItemModel>
-#include <QSortFilterProxyModel>
 #include <QStatusBar>
 
-#include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "Options.h"
+#include "satellite.h"
 #include "skymapcomposite.h"
 #include "skycomponents/satellitescomponent.h"
-#include "satellitegroup.h"
 #include "skymap.h"
 
 static const char *satgroup_strings_context = "Satellite group name";

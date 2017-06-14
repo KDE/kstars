@@ -21,8 +21,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef BAYER_H
-#define BAYER_H
+#pragma once
 
 #include <stdint.h>
 
@@ -276,5 +275,3 @@ dc1394error_t dc1394_bayer_decoding_16bit(const uint16_t *bayer, uint16_t *rgb, 
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* BAYER_H */

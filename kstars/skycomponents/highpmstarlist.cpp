@@ -16,9 +16,11 @@
  ***************************************************************************/
 
 #include "highpmstarlist.h"
-#include "skyobjects/starobject.h"
-#include "kstarsdatetime.h"
+
 #include "skymesh.h"
+#include "skyobjects/starobject.h"
+
+#include <QDebug>
 
 typedef struct HighPMStar
 {

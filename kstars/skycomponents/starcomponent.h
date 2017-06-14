@@ -15,49 +15,42 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef STARCOMPONENT_H
-#define STARCOMPONENT_H
+#pragma once
 
 /**
- *@class StarComponent
+ * @class StarComponent
  *
- *@short Represents the stars on the sky map. For optimization reasons the
- *stars are not separate objects and are stored in a list.
+ * @short Represents the stars on the sky map. For optimization reasons the stars are not
+ * separate objects and are stored in a list.
  *
- *The StarComponent class manages all stars drawn in KStars. While it
- *handles all stars having names using its own member methods, it
- *shunts the responsibility of unnamed stars to the class
- *'DeepStarComponent', objects of which it maintains.
+ * The StarComponent class manages all stars drawn in KStars. While it handles all stars
+ * having names using its own member methods, it shunts the responsibility of unnamed stars
+ * to the class 'DeepStarComponent', objects of which it maintains.
  *
- *@author Thomas Kabelmann
- *@author Akarsh Simha
- *@version 1.0
+ * @author Thomas Kabelmann
+ * @author Akarsh Simha
+ * @version 1.0
  */
 
 #include "listcomponent.h"
-#include "kstarsdatetime.h"
+
 #include "ksnumbers.h"
-#include "starblock.h"
 #include "skylabel.h"
-#include "typedef.h"
-#include "highpmstarlist.h"
 #include "skyobjects/starobject.h"
-#include "binfilehelper.h"
-#include "starblockfactory.h"
-#include "skymesh.h"
 
 #ifdef KSTARS_LITE
 class StarItem;
-//#include "kstarslite/skyitems/staritem.h"
 #endif
 
-class SkyMesh;
-class StarObject;
-class SkyLabeler;
 class KStarsSplash;
 class BinFileHelper;
-class StarBlockFactory;
+class DeepStarComponent;
+class HighPMStarList;
 class MeshIterator;
+class SkyLabeler;
+class SkyMesh;
+class StarObject;
+class StarBlockFactory;
 
 #define MAX_LINENUMBER_MAG 90
 
@@ -81,15 +74,16 @@ class StarComponent : public ListComponent
     static StarComponent *Instance() { return pinstance; }
 
     //This function is empty; we need that so that the JiT update
-    //is the only one beiong used.
+    //is the only one being used.
     void update(KSNumbers *num) Q_DECL_OVERRIDE;
 
     bool selected() Q_DECL_OVERRIDE;
 
     void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-    /** @short draw all the labels in the prioritized LabelLists and then
-         * clear the LabelLists. */
+    /**
+     * @short draw all the labels in the prioritized LabelLists and then clear the LabelLists.
+     */
     void drawLabels();
 
     static float zoomMagnitudeLimit();
@@ -99,50 +93,45 @@ class StarComponent : public ListComponent
     virtual SkyObject *findStarByGenetiveName(const QString name);
 
     /**
-         *@short Find stars by name (including genetive name)
-         *
-         * Overrides ListComponent::findByName() to include genetive names of stars
-         * as well.
-         *
-         *@param name  Name to search for. Could be trivial name or genetive name
-         *@return  Pointer to the star with the given name as a SkyObject, nullptr if
-         *         no match was found
-         */
+     * @short Find stars by name (including genetive name)
+     *
+     * Overrides ListComponent::findByName() to include genetive names of stars as well.
+     *
+     * @param name Name to search for. Could be trivial name or genetive name
+     * @return Pointer to the star with the given name as a SkyObject, nullptr if
+     * no match was found
+     */
     SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
 
     /**
-         * @short Searches the region(s) and appends the SkyObjects found to the list of sky objects
-         *
-         * Look for a SkyObject that is in one of the regions
-         * If found, then append to the list of sky objects
-         * @p list list of SkyObject to which matching list has to be appended to
-         * @p region defines the regions in which the search for SkyObject should be done within
-         * @return void
-         */
+     * @short Searches the region(s) and appends the SkyObjects found to the list of sky objects
+     *
+     * Look for a SkyObject that is in one of the regions
+     * If found, then append to the list of sky objects
+     * @p list list of SkyObject to which matching list has to be appended to
+     * @p region defines the regions in which the search for SkyObject should be done within
+     */
     void objectsInArea(QList<SkyObject *> &list, const SkyRegion &region) Q_DECL_OVERRIDE;
 
     /**
-         *@short Find stars by HD catalog index
-         *@param HDnum HD Catalog Number of the star to find
-         *@return If the star is a static star, a pointer to the star will be returned
-         *        If it is a dynamic star, a fake copy will be created that survives till
-         *        the next findByHDIndex() call. If no match was found, returns nullptr.
-         */
+     * @short Find stars by HD catalog index
+     * @param HDnum HD Catalog Number of the star to find
+     * @return If the star is a static star, a pointer to the star will be returned
+     * If it is a dynamic star, a fake copy will be created that survives till
+     * the next findByHDIndex() call. If no match was found, returns nullptr.
+     */
     StarObject *findByHDIndex(int HDnum);
 
     /**
-         *@short Add to the given list, the stars from this component,
-         * that lie within the specified circular aperture, and that are
-         * brighter than the limiting magnitude specified.
-         *@p center The center point of the aperture
-         *@p radius The radius around the center point that defines the
-         * aperture
-         *@p maglim Optional parameter indicating the limiting magnitude.
-         * If magnitude limit is numerically < -28, the limiting magnitude
-         * is assumed to be the limiting magnitude of the catalog (i.e. no
-         * magnitude limit)
-         *@p list The list to operate on
-         */
+     * @short Add to the given list, the stars from this component, that lie within the
+     * specified circular aperture, and that are brighter than the limiting magnitude specified.
+     * @p center The center point of the aperture
+     * @p radius The radius around the center point that defines the aperture
+     * @p maglim Optional parameter indicating the limiting magnitude.
+     * If magnitude limit is numerically < -28, the limiting magnitude
+     * is assumed to be the limiting magnitude of the catalog (i.e. no magnitude limit)
+     * @p list The list to operate on
+     */
     void starsInAperture(QList<StarObject *> &list, const SkyPoint &center, float radius, float maglim = -29);
 
     // TODO: Make byteSwap a template method and put it in byteorder.h
@@ -151,15 +140,14 @@ class StarComponent : public ListComponent
     static void byteSwap(starData *stardata);
 
   private:
-    /** @short Read data for stars which will remain static in the memory
-         *
-         * This method reads data for named stars (stars having names,
-         * which are stored by default in "namedstars.dat") into
-         * memory. These stars are always kept in memory, as against 'deep'
-         * stars which are mostly loaded dynamically (KStars treats all
-         * unnamed stars as 'deep' stars) into memory when required,
-         * depending on region and magnitude limit. Once loading is
-         * successful, this method sets the starsLoaded flag to true
+    /**
+     * @short Read data for stars which will remain static in the memory
+     *
+     * This method reads data for named stars (stars having names, which are stored by
+     * default in "namedstars.dat") into memory. These stars are always kept in memory,
+     * as against 'deep' stars which are mostly loaded dynamically (KStars treats all
+     * unnamed stars as 'deep' stars) into memory when required, depending on region
+     * and magnitude limit. Once loading is successful, this method sets the starsLoaded flag to true
          */
     bool loadStaticData();
 
@@ -225,5 +213,3 @@ class StarComponent : public ListComponent
 
     static StarComponent *pinstance;
 };
-
-#endif

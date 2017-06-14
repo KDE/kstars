@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef EYEPIECEFIELD_H
-#define EYEPIECEFIELD_H
+#pragma once
 
 #include "dms.h"
 
@@ -188,5 +187,3 @@ class EyepieceField : public QDialog // FIXME: Rename to EyepieceView
     QPixmap m_renderImage, m_renderChart;
     bool m_usedAltAz;
 };
-
-#endif

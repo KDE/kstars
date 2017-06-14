@@ -17,11 +17,9 @@
 
 #include "dms.h"
 
-#include <KLocalizedString>
+#include <QLocale>
 
 #include <QRegExp>
-
-#include <cstdlib>
 
 #ifdef COUNT_DMS_SINCOS_CALLS
 long unsigned dms::dms_constructor_calls         = 0;

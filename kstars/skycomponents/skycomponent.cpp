@@ -16,12 +16,9 @@
  ***************************************************************************/
 
 #include "skycomponent.h"
-#include "skycomposite.h"
-
-#include <QList>
 
 #include "Options.h"
-#include "ksnumbers.h"
+#include "skycomposite.h"
 #include "skyobjects/skyobject.h"
 
 SkyComponent::SkyComponent(SkyComposite *parent) : m_parent(parent)

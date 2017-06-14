@@ -9,26 +9,19 @@
     Handle INDI Standard properties.
  */
 
-#include <basedevice.h>
-
-#include <QDebug>
-#include <QImageReader>
-#include <QStatusBar>
-
-#include <KMessageBox>
-
 #include "indistd.h"
-#include "indicommon.h"
+
 #include "clientmanager.h"
 #include "driverinfo.h"
 #include "deviceinfo.h"
-
 #include "imageviewer.h"
-#include "skypoint.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "skymap.h"
 #include "Options.h"
+#include "skymap.h"
+
+#include <QImageReader>
+#include <QStatusBar>
 
 namespace ISD
 {

@@ -19,6 +19,7 @@
 #define SKYOBJITEM_H
 
 #include "skyobject.h"
+
 #include "skyobjdescription.h"
 
 /**
@@ -185,7 +186,6 @@ class SkyObjItem
     QString m_Position;     ///Position of sky-object in the sky.
     Type m_Type;            ///Category of sky-object of type SkyObjItem::Type
     SkyObject *m_So;        ///Pointer to SkyObject represented by SkyObjItem
-    SkyObjDescription *skd; /// pointer to SkyObjDescription
 };
 
 #endif

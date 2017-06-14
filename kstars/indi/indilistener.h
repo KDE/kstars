@@ -9,13 +9,13 @@
     Handle INDI Standard properties.
  */
 
-#ifndef INDILISETNER_H
-#define INDILISETNER_H
-
-#include <indiproperty.h>
-#include <QObject>
+#pragma once
 
 #include "indi/indistd.h"
+
+#include <indiproperty.h>
+
+#include <QObject>
 
 class ClientManager;
 class FITSViewer;
@@ -23,11 +23,14 @@ class DeviceInfo;
 
 /**
  * @class INDIListener
- * INDIListener is responsible for creating ISD::GDInterface generic devices as new devices arrive from ClientManager. It can support multiple ClientManagers
- * and will first create a generic INDI device. Upon arrival of INDI properties, INDIListener can create specialized devices (e.g. Telescope) if it detects key Standard INDI
- * property that signifies a particular device family. The generic device functionality is extended via the Decorator design pattern.
+ * INDIListener is responsible for creating ISD::GDInterface generic devices as new devices arrive from
+ * ClientManager. It can support multiple ClientManagers and will first create a generic INDI device.
+ * Upon arrival of INDI properties, INDIListener can create specialized devices (e.g. Telescope) if it
+ * detects key Standard INDI property that signifies a particular device family. The generic device
+ * functionality is extended via the Decorator design pattern.
  *
- * INDIListener also delegates INDI properties as they are received from ClientManager to the appropriate device to be processed.
+ * INDIListener also delegates INDI properties as they are received from ClientManager to the appropriate
+ * device to be processed.
  *
  * @author Jasem Mutlaq
  */
@@ -81,5 +84,3 @@ class INDIListener : public QObject
     void newST4(ISD::ST4 *);
     void deviceRemoved(ISD::GDInterface *);
 };
-
-#endif // INDILISETNER_H

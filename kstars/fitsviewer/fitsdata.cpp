@@ -18,33 +18,21 @@
  ***************************************************************************/
 
 #include "fitsdata.h"
-#include "skymapcomposite.h"
-#include "kstarsdata.h"
 
-#include <cmath>
-#include <cstdlib>
-#include <climits>
-#include <float.h>
+#include "auxiliary/ksnotification.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
+#include "Options.h"
+#include "skymapcomposite.h"
 
 #include <QApplication>
-#include <QStringList>
-#include <QLocale>
-#include <QFile>
-#include <QTime>
-#include <QProgressDialog>
 
-#ifndef KSTARS_LITE
-#ifdef HAVE_WCSLIB
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 #include <wcshdr.h>
 #include <wcsfix.h>
 #endif
-#endif
 
-#include <KLocalizedString>
-
-#include "auxiliary/ksnotification.h"
-#include "ksutils.h"
-#include "Options.h"
+#include <float.h>
 
 #define ZOOM_DEFAULT   100.0
 #define ZOOM_MIN       10
@@ -207,6 +195,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         case DOUBLE_IMG:
             data_type           = TDOUBLE;
             stats.bytesPerPixel = sizeof(double);
+            break;
         default:
             errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
             if (silent == false)

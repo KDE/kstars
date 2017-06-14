@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef HIGHPMSTARLIST_H
-#define HIGHPMSTARLIST_H
+#pragma once
 
 #include "ksnumbers.h"
 #include "typedef.h"
@@ -87,5 +86,3 @@ class HighPMStarList
 
     SkyMesh *m_skyMesh;
 };
-
-#endif

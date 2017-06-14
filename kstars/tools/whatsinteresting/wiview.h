@@ -15,17 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef WIVIEW_H
-#define WIVIEW_H
+#pragma once
 
-class QQuickView;
-class QQuickItem;
-
-#include <QQmlContext>
 #include "skyobject.h"
 #include "modelmanager.h"
 #include "skyobjlistmodel.h"
 #include "obsconditions.h"
+
+class QQmlContext;
+class QQuickView;
+class QQuickItem;
 
 /**
   * \class WIView
@@ -44,78 +43,79 @@ class WIView : public QWidget
           * Connect signals from various QML components into public slots.
           * Displays the user interface for What's Interesting
           */
-    WIView(QWidget *parent = 0);
+    explicit WIView(QWidget *parent = nullptr);
 
     /**
-          * \brief Destructor
-          */
+     * \brief Destructor
+     */
     ~WIView();
 
     /**
-          * \brief Load details-view for selected sky-object
-          */
+     * \brief Load details-view for selected sky-object
+     */
     void loadDetailsView(SkyObjItem *soitem, int index);
 
     /**
-          * \brief Updates sky-object list models
-          */
-    void updateModel(ObsConditions *obs);
+     * \brief Updates sky-object list models
+     */
+    void updateModel(ObsConditions& obs);
 
     inline QQuickView *getWIBaseView() const { return m_BaseView; }
 
   public slots:
 
     /**
-          * \brief public slot - Act upon signal emitted when category of sky-object is selected
-          * from category selection view of the QML UI.
-          * \param type Category selected
-          */
+     * \brief public slot - Act upon signal emitted when category of sky-object is selected
+     * from category selection view of the QML UI.
+     * \param type Category selected
+     */
     void onCategorySelected(QString model);
 
     /**
-          * \brief public slot - Act upon signal emitted when an item is selected from list of sky-objects.
-          * Display details-view for the skyobject selected.
-          * \param type        Category selected.
-          * \param typename    Name of category selected.
-          * \param index       Index of item in the list of skyobjects.
-          */
+     * \brief public slot - Act upon signal emitted when an item is selected from list of sky-objects.
+     * Display details-view for the skyobject selected.
+     * \param type        Category selected.
+     * \param typename    Name of category selected.
+     * \param index       Index of item in the list of skyobjects.
+     */
     void onSoListItemClicked(int index);
 
     /**
-          * \brief public slot - Show details-view for next sky-object from list of current sky-objects's category.
-          */
+     * \brief public slot - Show details-view for next sky-object from list of current sky-objects's category.
+     */
     void onNextObjClicked();
 
     /**
-          * \brief public slot - Show details-view for previous sky-object from list of current sky-objects's category.
-          */
+     * \brief public slot - Show details-view for previous sky-object from list of current sky-objects's
+     * category.
+     */
     void onPrevObjClicked();
 
     /**
-          * \brief public slot - Slew map to current sky-object in the details view.
-          */
+     * \brief public slot - Slew map to current sky-object in the details view.
+     */
     void onCenterButtonClicked();
 
     /**
-          * \brief public slot - Slew map to current sky-object in the details view.
-          */
+     * \brief public slot - Slew map to current sky-object in the details view.
+     */
     void onSlewTelescopeButtonClicked();
 
     /**
-          * \brief public slot - Open Details Dialog to show more details for current sky-object.
-          */
+     * \brief public slot - Open Details Dialog to show more details for current sky-object.
+     */
     void onDetailsButtonClicked();
 
     /**
-         * \brief public slot - Open WI settings dialog.
-         */
+     * \brief public slot - Open WI settings dialog.
+     */
     void onSettingsIconClicked();
 
     void onInspectIconClicked(bool checked) { inspectOnClick = checked; }
 
     /**
-         * \brief public slot - Reload list of visible sky-objects.
-         */
+     * \brief public slot - Reload list of visible sky-objects.
+     */
     void onReloadIconClicked();
 
     void onVisibleIconClicked(bool checked);
@@ -132,7 +132,7 @@ class WIView : public QWidget
     void saveInfoURL(SkyObjItem *soitem, QString infoURL);
     void saveObjectInfoBoxText(SkyObjItem *soitem, QString type, QString infoText);
     void downloadWikipediaImage(SkyObjItem *soitem, QString imageURL);
-    void inspectSkyObject(QString name);
+    void inspectSkyObject(const QString& name);
     void inspectSkyObjectOnClick(SkyObject *obj);
     void inspectSkyObject(SkyObject *obj);
     bool inspectOnClickIsActive() { return inspectOnClick; }
@@ -153,12 +153,13 @@ class WIView : public QWidget
     QQuickView *m_BaseView;
     ObsConditions *m_Obs = nullptr;
     ModelManager *m_ModManager;
-    SkyObjItem *m_CurSoItem = nullptr; ///Current sky-object item.
-    int m_CurIndex;                    ///Index of current sky-object item in details-view.
-    QString m_CurrentObjectListName;   ///Currently selected category from WI QML view
+    /// Current sky-object item.
+    SkyObjItem *m_CurSoItem = nullptr;
+    /// Index of current sky-object item in Details view.
+    int m_CurIndex;
+    /// Currently selected category from WI QML view
+    QString m_CurrentObjectListName;
     QString getWikipediaName(SkyObjItem *soitem);
     QNetworkAccessManager *manager;
     bool inspectOnClick;
 };
-
-#endif

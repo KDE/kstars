@@ -15,20 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef THUMBNAILPICKER_H_
-#define THUMBNAILPICKER_H_
-
-#include <QPixmap>
-#include <QDialog>
-
-#include <KJob>
-#include <KLocalizedString>
-#include <KIO/Job>
+#pragma once
 
 #include "ui_thumbnailpicker.h"
 
-class QPixmap;
+#include <KIO/Job>
+
+#include <QDialog>
+#include <QPixmap>
+
 class QRect;
+class KJob;
 class DetailDialog;
 class SkyObject;
 
@@ -80,5 +77,3 @@ class ThumbnailPicker : public QDialog
     bool bImageFound;
     QRect *ImageRect;
 };
-
-#endif

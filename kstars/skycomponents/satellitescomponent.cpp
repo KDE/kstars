@@ -17,25 +17,19 @@
 
 #include "satellitescomponent.h"
 
-#include <QStringList>
-#include <QObject>
-#include <QProgressDialog>
+#include "ksfilereader.h"
+#include "ksnotification.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#include "skylabeler.h"
+#include "skymap.h"
+#include "skypainter.h"
+#include "skyobjects/satellite.h"
+
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QProgressDialog>
 #include <QtConcurrent>
-
-#ifndef KSTARS_LITE
-#include <KJobUiDelegate>
-#endif
-#include <KLocalizedString>
-
-#include "satellitegroup.h"
-#include "Options.h"
-#include "ksfilereader.h"
-#include "skylabeler.h"
-#include "kstarsdata.h"
-#include "skymap.h"
-#include "ksnotification.h"
 
 SatellitesComponent::SatellitesComponent(SkyComposite *parent) : SkyComponent(parent)
 {
@@ -74,6 +68,7 @@ void SatellitesComponent::loadData()
         for (int i = 0; i < group->size(); i++)
         {
             Satellite *sat = group->at(i);
+
             if (sat->selected() && nameHash.contains(sat->name().toLower()) == false)
             {
                 objectNames(SkyObject::SATELLITE).append(sat->name());
@@ -115,6 +110,7 @@ void SatellitesComponent::draw(SkyPainter *skyp)
         for (int i = 0; i < group->size(); i++)
         {
             Satellite *sat = group->at(i);
+
             if (sat->selected())
             {
                 bool drawn = false;
@@ -136,7 +132,7 @@ void SatellitesComponent::draw(SkyPainter *skyp)
 #endif
 }
 
-void SatellitesComponent::drawLabel(Satellite *sat, QPointF pos)
+void SatellitesComponent::drawLabel(Satellite *sat, const QPointF& pos)
 {
     SkyLabeler *labeler = SkyLabeler::Instance();
     labeler->setPen(KStarsData::Instance()->colorScheme()->colorNamed("SatLabelColor"));

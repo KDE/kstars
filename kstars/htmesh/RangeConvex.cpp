@@ -5,8 +5,9 @@
 //# Modification History: # # Oct 18, 2001 : Dennis C. Dinge --
 //Replaced ValVec with std::vector
 
-#include "SpatialGeneral.h"
 #include "RangeConvex.h"
+
+#include "SpatialGeneral.h"
 
 #define N(n)     index_->nodes_[(n)]
 #define NC(n, m) index_->nodes_[(n)].childID_[(m)] // the children n->m
@@ -42,7 +43,7 @@ RangeConvex::RangeConvex(const SpatialVector *v1, const SpatialVector *v2, const
     float64 s2       = a2 * (*v2);
     float64 s3       = a3 * (*v3);
 
-    if (s1 * s2 * s3) // this is nonzero if not on one line
+    if (s1 * s2 * s3 != 0) // this is nonzero if not on one line
     {
         if (s1 < 0.0L)
             a1 = (-1) * a1; // change sign if necessary

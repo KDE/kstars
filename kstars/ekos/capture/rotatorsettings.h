@@ -8,12 +8,13 @@
  */
 
 
-#ifndef ROTATORSETTINGS_H
-#define ROTATORSETTINGS_H
+#pragma once
+
+#include "ui_rotatorsettings.h"
+
+#include "indi/indistd.h"
 
 #include <QDialog>
-#include "indi/indistd.h"
-#include "ui_rotatorsettings.h"
 
 class RotatorSettings : public QDialog, public Ui::RotatorDialog
 {
@@ -45,5 +46,3 @@ private:
     ISD::GDInterface *currentRotator=nullptr;
     double ticksPerDegree=0;
 };
-
-#endif // ROTATORSETTINGS_H

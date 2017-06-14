@@ -9,17 +9,14 @@
     Handle INDI Standard properties.
  */
 
-#ifndef INDISTD_H
-#define INDISTD_H
+#pragma once
+
+#include "indicommon.h"
 
 #include <indiproperty.h>
+
 #include <QObject>
-
-#include "skypoint.h"
-#include "indicommon.h"
-#include "fitsviewer/fitscommon.h"
-
-#include "config-kstars.h"
+#include <QVariant>
 
 #define MAXINDIFILENAME 512
 
@@ -252,5 +249,3 @@ class ST4
     bool swapDEC;
 };
 }
-
-#endif // INDISTD_H

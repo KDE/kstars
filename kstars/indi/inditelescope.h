@@ -7,10 +7,10 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDITELESCOPE_H
-#define INDITELESCOPE_H
+#pragma once
 
 #include "indistd.h"
+#include "skypoint.h"
 
 class SkyObject;
 
@@ -117,5 +117,3 @@ class Telescope : public DeviceDecorator
     IPState WEPreviousState  = IPS_IDLE;
 };
 }
-
-#endif // INDITELESCOPE_H

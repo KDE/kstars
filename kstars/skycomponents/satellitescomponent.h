@@ -15,92 +15,90 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SATELLITESCOMPONENT_H
-#define SATELLITESCOMPONENT_H
+#pragma once
+
+#include "satellitegroup.h"
+#include "skycomponent.h"
 
 #include <QList>
 
-//#include <kio/job.h>
-
-#include "skycomponent.h"
-#include "satellitegroup.h"
-
+class QPointF;
 class Satellite;
 class FileDownloader;
 
 /**
-	*@class SatellitesComponent
-	*Represents artificial satellites on the sky map.
-	*@author Jérôme SONRIER
-	*@version 1.0
-	*/
+ * @class SatellitesComponent
+ * Represents artificial satellites on the sky map.
+ * @author Jérôme SONRIER
+ * @version 1.0
+ */
 class SatellitesComponent : public SkyComponent
 {
   public:
     /**
-         *@short Constructor
-         *@param parent pointer to the parent SkyComposite
-         */
-    explicit SatellitesComponent(SkyComposite *parent);
+     * @short Constructor
+     * @param parent pointer to the parent SkyComposite
+     */
+    explicit SatellitesComponent(SkyComposite *parent = nullptr);
 
     /**
-         *@short Destructor
-         */
+     * @short Destructor
+     */
     ~SatellitesComponent();
 
     /**
-         *@return true if satellites must be draw.
-         */
+     * @return true if satellites must be draw.
+     */
     bool selected() Q_DECL_OVERRIDE;
 
     /**
-         *Draw all satellites.
-         *@param skyp SkyPainter to use
-         */
+     * Draw all satellites.
+     * @param skyp SkyPainter to use
+     */
     void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
     /**
-         *Update satellites position.
-         *@param num
-         */
+     * Update satellites position.
+     * @param num
+     */
     void update(KSNumbers *num) Q_DECL_OVERRIDE;
 
     /**
-         *Download new TLE files
-         */
+     * Download new TLE files
+     */
     void updateTLEs();
 
     /**
-         *@return The list of all groups
-         */
+     * @return The list of all groups
+     */
     QList<SatelliteGroup *> groups();
 
     /**
-         *Search a satellite by name.
-         *@param name The name of the satellite
-         *@return Satellite that was find or 0
-         */
+     * Search a satellite by name.
+     * @param name The name of the satellite
+     * @return Satellite that was find or 0
+     */
     Satellite *findSatellite(QString name);
 
     /**
-         *Draw label of a satellite.
-         *@param sat The satellite
-         *@param pos The position of the satellite
-         */
-    void drawLabel(Satellite *sat, QPointF pos);
+     * Draw label of a satellite.
+     * @param sat The satellite
+     * @param pos The position of the satellite
+     */
+    void drawLabel(Satellite *sat, const QPointF& pos);
 
     /**
-         *Search the nearest satellite from point p
-         *@param p
-         *@param maxrad
-         */
+     * Search the nearest satellite from point p
+     * @param p
+     * @param maxrad
+     */
     SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
 
     /**
-         * Return object given name
-         * @param name object name
-         * @return object if found, otherwise nullptr
-         */
+     * Return object given name
+     * @param name object name
+     * @return object if found, otherwise nullptr
+     */
     SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
 
     void loadData();
@@ -112,5 +110,3 @@ class SatellitesComponent : public SkyComponent
     QList<SatelliteGroup *> m_groups; // List of all groups
     QHash<QString, Satellite *> nameHash;
 };
-
-#endif

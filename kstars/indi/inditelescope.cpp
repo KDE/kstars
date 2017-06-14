@@ -7,18 +7,17 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <KNotification>
-
-#include <indi/indidevice.h>
-
-#include "Options.h"
-
 #include "inditelescope.h"
-#include "kstars.h"
-#include "skymap.h"
-#include "skymapcomposite.h"
+
 #include "clientmanager.h"
 #include "driverinfo.h"
+#include "indidevice.h"
+#include "kstars.h"
+#include "Options.h"
+#include "skymap.h"
+#include "skymapcomposite.h"
+
+#include <KNotification>
 
 namespace ISD
 {

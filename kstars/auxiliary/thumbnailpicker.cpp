@@ -16,29 +16,23 @@
  ***************************************************************************/
 
 #include "thumbnailpicker.h"
-#include "thumbnaileditor.h"
 
-#include <QApplication>
-#include <QDesktopWidget>
-#include <QTextStream>
-#include <QPainter>
-#include <QUrlQuery>
-#include <QUrl>
-#include <QTemporaryFile>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QPointer>
+#include "ksutils.h"
+#include "thumbnaileditor.h"
+#include "dialogs/detaildialog.h"
+#include "skyobjects/skyobject.h"
 
 #include <KIO/CopyJob>
 #include <KMessageBox>
-#include <KUrlRequester>
-#include <KLocalizedString>
-#include <KIO/FileCopyJob>
 #include <KJobUiDelegate>
 
-#include "ksutils.h"
-#include "dialogs/detaildialog.h"
-#include "skyobjects/skyobject.h"
+#include <QDebug>
+#include <QDesktopWidget>
+#include <QLineEdit>
+#include <QPainter>
+#include <QPointer>
+#include <QTextStream>
+#include <QUrlQuery>
 
 ThumbnailPickerUI::ThumbnailPickerUI(QWidget *parent) : QFrame(parent)
 {

@@ -11,26 +11,19 @@
 
 #include <QDebug>
 
-#include <KMessageBox>
-#include <QStatusBar>
-
 #include <basedevice.h>
 
-#include "indilistener.h"
-#include "indicommon.h"
-#include "inditelescope.h"
-#include "indifocuser.h"
+#include "clientmanager.h"
+#include "deviceinfo.h"
+#include "indicap.h"
 #include "indiccd.h"
 #include "indidome.h"
-#include "indiweather.h"
-#include "indicap.h"
-#include "indilightbox.h"
 #include "indifilter.h"
-#include "clientmanager.h"
-#include "driverinfo.h"
-#include "deviceinfo.h"
-#include "fitsviewer/fitsviewer.h"
-
+#include "indifocuser.h"
+#include "indilightbox.h"
+#include "indilistener.h"
+#include "inditelescope.h"
+#include "indiweather.h"
 #include "kstars.h"
 #include "Options.h"
 

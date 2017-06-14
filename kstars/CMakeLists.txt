@@ -26,6 +26,7 @@ if(MSVC)
 endif()
 
 include_directories(
+    ${kstars_SOURCE_DIR}/kstars
     ${kstars_SOURCE_DIR}/kstars/skyobjects
     ${kstars_SOURCE_DIR}/kstars/skycomponents
     ${kstars_SOURCE_DIR}/kstars/auxiliary
