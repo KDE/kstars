@@ -1031,7 +1031,16 @@ endif(NOT BUILD_KSTARS_LITE)
 if (ANDROID)
     add_library(kstars SHARED ${KSTARS_APP_SRCS})
     add_dependencies(KStarsLib cfitsio indi nova raw)
-    target_link_libraries(kstars KStarsLib ${CMAKE_SOURCE_DIR}/android/hack/locale.ho -lgnustl_static)
+    set(ANDROID_NDK $ENV{ANDROID_NDK})
+    # This hack is needed by a strange NDK bug. Some symbols are missing in locale.o (libc.a) at linking stage. But
+    # if we force-link with a working libc.a from android-24, there will be duplicated symbols, some symbols will
+    # conflict with libandroid_support.a what is also needed.
+    # Workaround: Extract the needed locale.o from libc.a of android-24 and link KStars Lite with it.
+    ADD_CUSTOM_TARGET(extract_locale_o
+                          COMMAND ar -xv ${ANDROID_NDK}/platforms/android-24/arch-arm/usr/lib/libc.a locale.o
+                          WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+    ADD_DEPENDENCIES(kstars extract_locale_o)
+    target_link_libraries(kstars KStarsLib ${CMAKE_BINARY_DIR}/locale.o -lgnustl_static)
 else ()
     add_executable(kstars ${KSTARS_APP_SRCS})
     target_link_libraries(kstars KStarsLib)
