@@ -8,6 +8,7 @@
 */
 
 #include <QDialogButtonBox>
+#include <QDesktopServices>
 
 #include <KMessageBox>
 
@@ -47,6 +48,14 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(saveProfile()));
+
+    connect(ui->openWebManagerB, &QPushButton::clicked, this, [this]()
+    {
+        QUrl url(QString("http://" + ui->remoteHost->text() + ":8624"));
+        QDesktopServices::openUrl(url);
+    });
+
+    connect(ui->INDIWebManagerCheck, SIGNAL(toggled(bool)), ui->openWebManagerB, SLOT(setEnabled(bool)));
 
 #ifdef Q_OS_WIN
     ui->remoteMode->setChecked(true);
@@ -221,6 +230,8 @@ void ProfileEditor::setRemoteMode(bool enable)
     ui->loadSiteCheck->setEnabled(enable);
 
     ui->INDIWebManagerCheck->setEnabled(enable);
+    if (enable == false)
+        ui->INDIWebManagerCheck->setChecked(false);
     ui->INDIWebManagerPort->setEnabled(enable);
 }
 

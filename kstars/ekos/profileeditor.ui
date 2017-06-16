@@ -6,11 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>387</width>
-    <height>275</height>
+    <width>379</width>
+    <height>266</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <widget class="QGroupBox" name="profileGroup">
      <property name="title">
@@ -72,6 +87,19 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
+        <item row="1" column="0" colspan="3">
+         <widget class="QCheckBox" name="INDIWebManagerCheck">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Store profile on remote INDI Web Manager. Use INDI Web Manager on the remote device to start/stop INDI server.</string>
+          </property>
+          <property name="text">
+           <string>INDI Web Manager</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="modeLabel">
           <property name="text">
@@ -139,19 +167,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0" colspan="3">
-         <widget class="QCheckBox" name="INDIWebManagerCheck">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Store profile on remote INDI Web Manager. Use INDI Web Manager on the remote device to start/stop INDI server.</string>
-          </property>
-          <property name="text">
-           <string>INDI Web Manager</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="5">
          <widget class="QLabel" name="INDIWebManagerPortLabel">
           <property name="enabled">
@@ -172,6 +187,29 @@
           </property>
           <property name="text">
            <string>8624</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4">
+         <widget class="QPushButton" name="openWebManagerB">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Open Web Manager in browser</string>
+          </property>
+          <property name="text">
+           <string>Web Manager</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../data/kstars.qrc">
+            <normaloff>:/icons/breeze/default/kstars_xplanet.svg</normaloff>:/icons/breeze/default/kstars_xplanet.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
           </property>
          </widget>
         </item>
@@ -487,6 +525,8 @@
   <tabstop>aux4Combo</tabstop>
   <tabstop>loadSiteCheck</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../data/kstars.qrc"/>
+ </resources>
  <connections/>
 </ui>
