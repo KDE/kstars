@@ -15,6 +15,7 @@
   <name xml:lang="es">KStars</name>
   <name xml:lang="et">KStars</name>
   <name xml:lang="fi">KStars</name>
+  <name xml:lang="fr">KStars</name>
   <name xml:lang="gl">KStars</name>
   <name xml:lang="ko">KStars</name>
   <name xml:lang="lt">KStars</name>
@@ -43,6 +44,7 @@
   <summary xml:lang="es">Planetario para el escritorio</summary>
   <summary xml:lang="et">Töölaua planetaarium</summary>
   <summary xml:lang="fi">Työpöytäplanetaario</summary>
+  <summary xml:lang="fr">Planétarium de bureau</summary>
   <summary xml:lang="gl">Planetario de escritorio</summary>
   <summary xml:lang="ko">데스크톱 별자리판</summary>
   <summary xml:lang="lt">Darbalaukio planetariumas</summary>
@@ -163,6 +165,7 @@
       <li xml:lang="es">El catálogo por omisión contiene estrellas hasta la magnitud 8</li>
       <li xml:lang="et">Vaikimisi kataloog sisaldab tähti kuni tähesuuruseni 8</li>
       <li xml:lang="fi">Oletusluettelo sisältää tähdet suuruusluokkaan 8 saakka</li>
+      <li xml:lang="fr">Le catalogue par défaut contient des étoiles de magnitude 8</li>
       <li xml:lang="gl">Catálogo predeterminado composto de estrelas de magnitudes 8 e inferiores.</li>
       <li xml:lang="nds">Standardkataloog mit Steerns bet Magnituud 8</li>
       <li xml:lang="nl">Standaard catalogus met sterren tot magnitude 8</li>
@@ -186,6 +189,7 @@
       <li xml:lang="es">Los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
       <li xml:lang="et">Lisakataloogid sisaldavad 100 miljonit tähte kuni tähesuuruseni 16</li>
       <li xml:lang="fi">Lisäluettelo sisältää 100 miljoonaa tähteä suuruusluokkaan 16 saakka</li>
+      <li xml:lang="fr">D'autres catalogues contiennent 100 millions d'étoiles de magnitude 16</li>
       <li xml:lang="gl">Catálogos adicionais con 100 millóns de estrelas de magnitudes ata a 16.</li>
       <li xml:lang="nds">Bito-Katalogen mit 100 Millionen Steerns bet Magnituud 16</li>
       <li xml:lang="nl">Extra catalogi met 100 miljoen sterren tot magnitude 16</li>
@@ -223,6 +227,7 @@
       <li xml:lang="es">Correcciones de precesión, nutación y refracción atmosférica</li>
       <li xml:lang="et">Pretsessiooni, nutatsiooni ja atmosfääri refraktsiooni korrigeerimine</li>
       <li xml:lang="fi">Korjaukset presessiolle, nutaatiolle ja ilmakehätaittumiselle</li>
+      <li xml:lang="fr">Corrections pour la précession, la nutation et les réfractions atmosphériques.</li>
       <li xml:lang="gl">Correccións de precesión, nutación e refracción atmosférica.</li>
       <li xml:lang="nds">Richten för Küselbewegen, Eerass-Swunken un atmosfeersch Lichtbreken</li>
       <li xml:lang="nl">Correcties voor precessie, nutatie en atmosferische straalbreking</li>
