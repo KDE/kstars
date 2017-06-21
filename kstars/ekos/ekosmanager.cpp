@@ -1612,7 +1612,7 @@ void EkosManager::initCapture()
         // Adjust focus position
         connect(captureProcess, SIGNAL(newFocusOffset(int16_t)), focusProcess, SLOT(adjustRelativeFocus(int16_t)),
                 Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(focusPositionAdjusted()), captureProcess, SLOT(prepareFilterTemperature()),
+        connect(focusProcess, SIGNAL(focusPositionAdjusted()), captureProcess, SLOT(preparePreCaptureActions()),
                 Qt::UniqueConnection);
 
         // Meridian Flip
@@ -1736,7 +1736,7 @@ void EkosManager::initFocus()
         // Adjust focus position
         connect(captureProcess, SIGNAL(newFocusOffset(int16_t)), focusProcess, SLOT(adjustRelativeFocus(int16_t)),
                 Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(focusPositionAdjusted()), captureProcess, SLOT(prepareFilterTemperature()),
+        connect(focusProcess, SIGNAL(focusPositionAdjusted()), captureProcess, SLOT(preparePreCaptureActions()),
                 Qt::UniqueConnection);
 
         // Meridian Flip
