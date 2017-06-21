@@ -84,7 +84,7 @@ class PHD2 : public GuideInterface
 
     bool Connect() override;
     bool Disconnect() override;
-    bool isConnected() override { return (connection == CONNECTED); }
+    bool isConnected() override { return (connection == CONNECTED || connection == EQUIPMENT_CONNECTED); }
 
     bool calibrate() override;
     bool guide() override;
