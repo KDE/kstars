@@ -1236,8 +1236,9 @@ void Capture::processJobCompletion()
 
     stop();
 
-    // Check if meridian condition is met
-    if (checkMeridianFlip())
+    // Check if meridian condition is met IF there are more pending jobs in the queue
+    // Otherwise, no need to check meridian flip is all jobs are over.
+    if (getPendingJobCount() > 0 && checkMeridianFlip())
         return;
 
     // Check if there are more pending jobs and execute them
@@ -3153,6 +3154,19 @@ int Capture::getActiveJobID()
     }
 
     return -1;
+}
+
+int Capture::getPendingJobCount()
+{
+    int completedJobs = 0;
+
+    foreach (SequenceJob *job, jobs)
+    {
+        if (job->getStatus() == SequenceJob::JOB_DONE)
+            completedJobs++;
+    }
+
+    return (jobs.count() - completedJobs);
 }
 
 QString Capture::getJobState(int id)
