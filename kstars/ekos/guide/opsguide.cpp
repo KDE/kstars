@@ -19,6 +19,7 @@
 #include "Options.h"
 #include "opsguide.h"
 #include "kstars.h"
+#include "auxiliary/ksnotification.h"
 
 #include "internalguide/internalguider.h"
 
@@ -39,6 +40,12 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
     guiderTypeButtonGroup->setId(LinGuiderR, Guide::GUIDE_LINGUIDER);
 
     connect(guiderTypeButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotLoadSettings(int)));
+
+    connect(kcfg_GuideRemoteImagesEnabled, &QCheckBox::toggled, this, [this] ()
+    {
+        if (Options::guideRemoteImagesEnabled() != kcfg_GuideRemoteImagesEnabled->isChecked())
+            KSNotification::info(i18n("You must restart KStars for this change to take effect."));
+    });
 }
 
 OpsGuide::~OpsGuide()

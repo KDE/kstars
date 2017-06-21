@@ -425,6 +425,12 @@ class Guide : public QWidget, public Ui::Guide
          */
     void setBusy(bool enable);
 
+    /**
+     * @brief setBLOBEnabled Enable or disable BLOB reception from current CCD if using external guider
+     * @param enable True to enable BLOB reception, false to disable BLOB reception
+     */
+    void setBLOBEnabled(bool enable);
+
     // Operation stack
     void buildOperationStack(GuideState operation);
     bool executeOperationStack();
