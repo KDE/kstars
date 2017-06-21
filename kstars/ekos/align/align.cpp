@@ -4264,6 +4264,8 @@ void Align::startPAHProcess()
     currentGotoMode = GOTO_NOTHING;
     loadSlewB->setEnabled(false);
 
+    Options::setAstrometrySolverWCS(true);
+
     if (Options::limitedResourcesMode())
         appendLogText(i18n("Warning: Equatorial Grid Lines will not be drawn due to limited resources mode."));
 
@@ -4563,7 +4565,16 @@ void Align::setWCSToggled(bool result)
 
     if (pahStage == PAH_FIRST_CAPTURE)
     {
+        // We need WCS to be synced first
+        if (result == false && m_wcsSynced == true)
+        {
+            appendLogText(i18n("WCS info is now valid. Capturing next frame..."));
+            captureAndSolve();
+            return;
+        }
+
         // Not critical error
+        /*
         if (result == false)
         {
             appendLogText(
@@ -4571,7 +4582,7 @@ void Align::setWCSToggled(bool result)
             pahStage = PAH_FIRST_ROTATE;
             PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
             return;
-        }
+        }*/
 
         // Find Celestial pole location
         SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
