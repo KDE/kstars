@@ -565,6 +565,8 @@ bool EkosManager::start()
         }
 
         nDevices = currentProfile->drivers.count();
+        if (currentProfile->guider() == "PHD2" || currentProfile->guider() == "LinGuider")
+            nDevices--;
 
         nRemoteDevices = 0;
     }
