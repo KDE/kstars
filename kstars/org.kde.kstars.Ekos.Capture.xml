@@ -51,6 +51,9 @@
     <method name="getJobCount">
       <arg type="i" direction="out"/>
     </method>
+    <method name="getPendingJobCount">
+      <arg type="i" direction="out"/>
+    </method>
     <method name="getJobState">
       <arg type="s" direction="out"/>
       <arg name="id" type="i" direction="in"/>

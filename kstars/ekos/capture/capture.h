@@ -207,6 +207,11 @@ class Capture : public QWidget, public Ui::Capture
     Q_SCRIPTABLE int getJobCount() { return jobs.count(); }
 
     /** DBUS interface function.
+         * @return Returns the number of pending uncompleted jobs in the sequence queue.
+         */
+    Q_SCRIPTABLE int getPendingJobCount();
+
+    /** DBUS interface function.
          * @return Returns ID of current active job if any, or -1 if there are no active jobs.
          */
     Q_SCRIPTABLE int getActiveJobID();
