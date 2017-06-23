@@ -39,7 +39,7 @@ class ImageExporter : public QObject
     /**
          * @short Constructor
          */
-    ImageExporter(QObject *parent);
+    explicit ImageExporter(QObject *parent = nullptr);
 
     /**
          * @short Destructor

@@ -123,7 +123,13 @@ class dms
 
     /** @return integer degrees portion of the angle
          */
-    inline int degree() const { return int(D); }
+    inline int degree() const
+    {
+        if (std::isnan(D))
+            return 0;
+
+        return int(D);
+    }
 
     /** @return integer arcminutes portion of the angle.
          * @note an arcminute is 1/60 degree.

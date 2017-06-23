@@ -603,7 +603,7 @@ set(kstars_skyobjects_SRCS
     skyobjects/constellationsart.cpp
     skyobjects/deepskyobject.cpp
 #    skyobjects/jupitermoons.cpp
-#    skyobjects/planetmoons.cpp
+    skyobjects/planetmoons.cpp
     skyobjects/ksasteroid.cpp
     skyobjects/kscomet.cpp
     skyobjects/ksmoon.cpp

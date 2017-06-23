@@ -75,7 +75,11 @@ KSComet::KSComet(const QString &_s, const QString &imfile, long double _JD, doub
     JDp = KStarsDateTime(QDate(year, month, day), QTime(h, m, s)).djd();
 
     //compute the semi-major axis, a:
-    a = q / (1.0 - e);
+    if (e == 1)
+        a = 0;
+    else
+        a = q / (1.0-e);
+
 
     //Compute the orbital Period from Kepler's 3rd law:
     P = 365.2568984 * pow(a, 1.5); //period in days

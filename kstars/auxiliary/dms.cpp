@@ -187,6 +187,9 @@ bool dms::setFromString(const QString &str, bool isDeg)
 
 int dms::arcmin(void) const
 {
+    if (std::isnan(D))
+        return 0;
+
     int am = int(float(60.0 * (fabs(D) - abs(degree()))));
     if (D < 0.0 && D > -1.0) //angle less than zero, but greater than -1.0
     {
@@ -197,6 +200,9 @@ int dms::arcmin(void) const
 
 int dms::arcsec(void) const
 {
+    if (std::isnan(D))
+        return 0;
+
     int as = int(float(60.0 * (60.0 * (fabs(D) - abs(degree())) - abs(arcmin()))));
     //If the angle is slightly less than 0.0, give ArcSec a neg. sgn.
     if (degree() == 0 && arcmin() == 0 && D < 0.0)
@@ -208,6 +214,9 @@ int dms::arcsec(void) const
 
 int dms::marcsec(void) const
 {
+    if (std::isnan(D))
+        return 0;
+
     int as = int(float(1000.0 * (60.0 * (60.0 * (fabs(D) - abs(degree())) - abs(arcmin())) - abs(arcsec()))));
     //If the angle is slightly less than 0.0, give ArcSec a neg. sgn.
     if (degree() == 0 && arcmin() == 0 && arcsec() == 0 && D < 0.0)
@@ -249,6 +258,9 @@ int dms::msecond(void) const
 
 const dms dms::reduce(void) const
 {
+    if (std::isnan(D))
+        return dms(0);
+
     return dms(D - 360.0 * floor(D / 360.0));
 }
 
@@ -307,6 +319,9 @@ dms dms::fromString(const QString &st, bool deg)
 
 void dms::reduceToRange(enum dms::AngleRanges range)
 {
+    if (std::isnan(D))
+        return;
+
     switch (range)
     {
         case MINUSPI_TO_PI:

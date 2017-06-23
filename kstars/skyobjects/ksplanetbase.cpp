@@ -302,7 +302,9 @@ void KSPlanetBase::findPhase()
 {
     /* Compute the phase of the planet in degrees */
     double earthSun = KStarsData::Instance()->skyComposite()->earth()->rsun();
-    double cosPhase = (rsun() * rsun() + rearth() * rearth() - earthSun * earthSun) / (2 * rsun() * rearth());
+    double cosPhase = (rsun()*rearth() == 0 ? 0 : (rsun()*rsun() + rearth()*rearth() - earthSun*earthSun)
+                      / (2 * rsun() * rearth() ));
+
     Phase           = acos(cosPhase) * 180.0 / dms::PI;
     /* More elegant way of doing it, but requires the Sun.
        TODO: Switch to this if and when we make KSSun a singleton */
