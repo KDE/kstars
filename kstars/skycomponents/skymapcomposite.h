@@ -76,7 +76,7 @@ class SkyMapComposite : public QObject, public SkyComposite
         	*Constructor
         	*@p parent pointer to the parent SkyComponent
         	*/
-    explicit SkyMapComposite(SkyComposite *parent);
+    explicit SkyMapComposite(SkyComposite *parent = nullptr);
 
     ~SkyMapComposite();
 

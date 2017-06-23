@@ -107,9 +107,17 @@ float64 SpatialVector::dec()
 //
 void SpatialVector::normalize()
 {
-    float64 sum;
-    sum = x_ * x_ + y_ * y_ + z_ * z_;
+    float64 sum = x_ * x_ + y_ * y_ + z_ * z_;
+
     sum = sqrt(sum);
+    if (sum == 0)
+    {
+        x_ = 0;
+        y_ = 0;
+        z_ = 0;
+        return;
+    }
+
     x_ /= sum;
     y_ /= sum;
     z_ /= sum;

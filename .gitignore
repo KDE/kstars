@@ -74,3 +74,4 @@ doc/index.cache.bz2
 # Generated source/header files
 kstars/*adaptor.cpp
 kstars/*adaptor.h
+unitybuild_*.cpp
