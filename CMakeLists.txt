@@ -339,6 +339,16 @@ IF (UNIX OR APPLE)
     SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${LINKER_FLAGS}")
 ENDIF ()
 
+# Sanitizer support
+SET(CLANG_SANITIZERS OFF CACHE BOOL "Clang's sanitizer support")
+IF (CLANG_SANITIZERS AND
+    ((UNIX AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR (APPLE AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")))
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
+    SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
+ENDIF ()
+
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h
