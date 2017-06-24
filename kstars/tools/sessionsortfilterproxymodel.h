@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#pragma once
+
 #include <QSortFilterProxyModel>
 
 class QModelIndex;
 
 /**
- *@class SessionSortFilterProxyModel
- *@short Sort best observation times by reimplementing lessThan() to work on the transit times of objects
+ * @class SessionSortFilterProxyModel
+ * @short Sort best observation times by reimplementing lessThan() to work on the transit times of objects
  *
  * Any observing session starts at about sunset (~ 6 PM local time)
  * and goes on till sunrise (~ 6 AM local time). Thus, the correct

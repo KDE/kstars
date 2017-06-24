@@ -43,7 +43,6 @@
 #define J3OJ2         -2.34506972e-3    // J3 / J2
 
 // Mathematical constants
-#define PI      3.14159265358979323846
 #define TWOPI   6.2831853071795864769 // 2*PI
 #define PIO2    1.5707963267948966192 // PI/2
 #define X3PIO2  4.7123889803846898577 // 3*PI/2
@@ -558,7 +557,7 @@ void Satellite::init()
             sls  = -zns * ss3 * (sz1 + sz3 - 14.0 - 6.0 * emsq);
             sghs = ss4 * zns * (sz31 + sz33 - 6.0);
             shs  = -zns * ss2 * (sz21 + sz23);
-            if ((inclm < 5.2359877e-2) || (inclm > PI - 5.2359877e-2))
+            if ((inclm < 5.2359877e-2) || (inclm > M_PI - 5.2359877e-2))
                 shs = 0.0;
             if (sinim != 0.0)
                 shs = shs / sinim;
@@ -570,7 +569,7 @@ void Satellite::init()
             dmdt = sls - znl * s3 * (z1 + z3 - 14.0 - 6.0 * emsq);
             sghl = s4 * znl * (z31 + z33 - 6.0);
             shll = -znl * s2 * (z21 + z23);
-            if ((inclm < 5.2359877e-2) || (inclm > PI - 5.2359877e-2))
+            if ((inclm < 5.2359877e-2) || (inclm > M_PI - 5.2359877e-2))
                 shll = 0.0;
             domdt = sgs + sghl;
             dnodt = shs;
@@ -1003,7 +1002,7 @@ int Satellite::sgp4(double tsince)
             nodep = atan2(alfdp, betdp);
             if ((nodep < 0.0))
                 nodep += TWOPI;
-            if (fabs(xnoh - nodep) > PI)
+            if (fabs(xnoh - nodep) > M_PI)
             {
                 if (nodep < xnoh)
                     nodep += TWOPI;
@@ -1017,8 +1016,8 @@ int Satellite::sgp4(double tsince)
         if (xincp < 0.0)
         {
             xincp = -xincp;
-            nodep = nodep + PI;
-            argpp = argpp - PI;
+            nodep = nodep + M_PI;
+            argpp = argpp - M_PI;
         }
 
         if ((ep < 0.0) || (ep > 1.0))
@@ -1176,7 +1175,7 @@ int Satellite::sgp4(double tsince)
 
     double azimut = atan(-top_e / top_s);
     if (top_s > 0.)
-        azimut += PI;
+        azimut += M_PI;
     if (azimut < 0.)
         azimut += TWOPI;
     double elevation = arcSin(top_z / m_range);

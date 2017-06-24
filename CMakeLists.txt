@@ -349,6 +349,10 @@ IF (CLANG_SANITIZERS AND
     SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
 ENDIF ()
 
+# Unity build support
+SET(UNITY_BUILD OFF CACHE BOOL "Enable Unity Build")
+INCLUDE(UnityBuild)
+
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h
