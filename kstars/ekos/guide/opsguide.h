@@ -32,17 +32,6 @@ class OpsGuide : public QFrame, public Ui::OpsGuide
     explicit OpsGuide();
     ~OpsGuide();
 
-  protected:
-    void showEvent(QShowEvent *);
-
-  private slots:
-
-    void slotApply();
-    void slotLoadSettings(int guiderType);
-
-  signals:
-    void guiderTypeChanged(int guiderType);
-
   private:
     KConfigDialog *m_ConfigDialog;
 };

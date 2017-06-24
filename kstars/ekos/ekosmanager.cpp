@@ -454,40 +454,33 @@ bool EkosManager::start()
             haveCCD = true;
         }
 
-        if (currentProfile->guider() == "PHD2")
-            Options::setGuiderType(Ekos::Guide::GUIDE_PHD2);
-        else if (currentProfile->guider() == "LinGuider")
-            Options::setGuiderType(Ekos::Guide::GUIDE_LINGUIDER);
-        else
+        Options::setGuiderType(currentProfile->guidertype);
+
+        drv = driversList.value(currentProfile->guider());
+        if (drv != nullptr)
         {
-            Options::setGuiderType(Ekos::Guide::GUIDE_INTERNAL);
+            haveGuider = true;
 
-            drv = driversList.value(currentProfile->guider());
-            if (drv != nullptr)
+            // If the guider and ccd are the same driver, we have two cases:
+            // #1 Drivers that only support ONE device per driver (such as sbig)
+            // #2 Drivers that supports multiples devices per driver (such as sx)
+            // For #1, we modify guider_di to make a unique label for the other device with postfix "Guide"
+            // For #2, we set guider_di to nullptr and we prompt the user to select which device is primary ccd and which is guider
+            // since this is the only way to find out in real time.
+            if (haveCCD && currentProfile->guider() == currentProfile->ccd())
             {
-                haveGuider = true;
-
-                // If the guider and ccd are the same driver, we have two cases:
-                // #1 Drivers that only support ONE device per driver (such as sbig)
-                // #2 Drivers that supports multiples devices per driver (such as sx)
-                // For #1, we modify guider_di to make a unique label for the other device with postfix "Guide"
-                // For #2, we set guider_di to nullptr and we prompt the user to select which device is primary ccd and which is guider
-                // since this is the only way to find out in real time.
-                if (haveCCD && currentProfile->guider() == currentProfile->ccd())
+                if (drv->getAuxInfo().value("mdpd", false).toBool() == true)
                 {
-                    if (drv->getAuxInfo().value("mdpd", false).toBool() == true)
-                    {
-                        drv = nullptr;
-                    }
-                    else
-                    {
-                        drv->setUniqueLabel(drv->getTreeLabel() + " Guide");
-                    }
+                    drv = nullptr;
                 }
-
-                if (drv)
-                    managedDrivers.append(drv->clone());
+                else
+                {
+                    drv->setUniqueLabel(drv->getTreeLabel() + " Guide");
+                }
             }
+
+            if (drv)
+                managedDrivers.append(drv->clone());
         }
 
         drv = driversList.value(currentProfile->ao());
@@ -546,15 +539,9 @@ bool EkosManager::start()
         managedDrivers.append(remote_indi);
 
         haveCCD    = currentProfile->drivers.contains("CCD");
-        haveGuider = (currentProfile->drivers.contains("Guider") && currentProfile->drivers["Guider"] != "PHD2" &&
-                      currentProfile->drivers["Guider"] != "LinGuider");
+        haveGuider = currentProfile->drivers.contains("Guider");
 
-        if (currentProfile->guider() == "PHD2")
-            Options::setGuiderType(Ekos::Guide::GUIDE_PHD2);
-        else if (currentProfile->guider() == "LinGuider")
-            Options::setGuiderType(Ekos::Guide::GUIDE_LINGUIDER);
-        else
-            Options::setGuiderType(Ekos::Guide::GUIDE_INTERNAL);
+        Options::setGuiderType(currentProfile->guidertype);
 
         if (haveCCD == false && haveGuider == false)
         {
@@ -565,8 +552,6 @@ bool EkosManager::start()
         }
 
         nDevices = currentProfile->drivers.count();
-        if (currentProfile->guider() == "PHD2" || currentProfile->guider() == "LinGuider")
-            nDevices--;
 
         nRemoteDevices = 0;
     }
@@ -2126,7 +2111,7 @@ void EkosManager::wizardProfile()
     if (wz.useInternalServer == false)
         editor.setHostPort(wz.host, wz.port);
     editor.setWebManager(wz.useWebManager);
-    editor.setExternalGuider(wz.selectedExternalGuider());
+    editor.setGuiderType(wz.selectedExternalGuider());
     // Disable connection options
     editor.setConnectionOptionsEnabled(false);
 

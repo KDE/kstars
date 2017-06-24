@@ -171,6 +171,18 @@ bool KSUserDB::Initialize()
 
                 query.exec(columnQuery);
             }
+
+            // If prior to 2.7.9 upgrade database to add guider app selection
+            if (currentDBVersion < "2.7.9")
+            {
+                QSqlQuery query(userdb_);
+                QString columnQuery = QString("ALTER TABLE profile ADD COLUMN guidertype INTEGER DEFAULT 0");
+                query.exec(columnQuery);
+                columnQuery = QString("ALTER TABLE profile ADD COLUMN guiderhost TEXT");
+                query.exec(columnQuery);
+                columnQuery = QString("ALTER TABLE profile ADD COLUMN guiderport INTEGER");
+                query.exec(columnQuery);
+            }
         }
     }
     userdb_.close();
@@ -289,7 +301,7 @@ bool KSUserDB::RebuildDB()
 
     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host "
                   "TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT "
-                  "NULL, autoconnect INTEGER DEFAULT 1)");
+                  "NULL, autoconnect INTEGER DEFAULT 1, guidertype INTEGER DEFAULT 0, guiderhost TEXT, guiderpost INTEGER)");
     tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role "
                   "TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
 //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
@@ -1459,8 +1471,21 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     }
 
     // Update Auto Connect Info
-    if (!query.exec(QString("UPDATE profile SET autoconnect=%1 WHERE id=%4").arg(pi->autoConnect ? 1 : 0).arg(pi->id)))
+    if (!query.exec(QString("UPDATE profile SET autoconnect=%1 WHERE id=%2").arg(pi->autoConnect ? 1 : 0).arg(pi->id)))
         qDebug() << query.lastQuery() << query.lastError().text();
+
+    // Update Guide Application Info
+    if (!query.exec(QString("UPDATE profile SET guidertype=%1 WHERE id=%2").arg(pi->guidertype).arg(pi->id)))
+        qDebug() << query.lastQuery() << query.lastError().text();
+
+    // If using external guider
+    if (pi->guidertype != 0)
+    {
+        if (!query.exec(QString("UPDATE profile SET guiderhost='%1' WHERE id=%2").arg(pi->guiderhost).arg(pi->id)))
+            qDebug() << query.lastQuery() << query.lastError().text();
+        if (!query.exec(QString("UPDATE profile SET guiderport=%1 WHERE id=%2").arg(pi->guiderport).arg(pi->id)))
+            qDebug() << query.lastQuery() << query.lastError().text();
+    }
 
     QMapIterator<QString, QString> i(pi->drivers);
     while (i.hasNext())
@@ -1507,6 +1532,13 @@ void KSUserDB::GetAllProfiles(QList<ProfileInfo *> &profiles)
 
         pi->INDIWebManagerPort = record.value("indiwebmanagerport").toInt();
         pi->autoConnect        = (record.value("autoconnect").toInt() == 1);
+
+        pi->guidertype = record.value("guidertype").toInt();
+        if (pi->guidertype != 0)
+        {
+            pi->guiderhost = record.value("guiderhost").toString();
+            pi->guiderport = record.value("guiderport").toInt();
+        }
 
         GetProfileDrivers(pi);
         //GetProfileCustomDrivers(pi);

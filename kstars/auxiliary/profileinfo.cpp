@@ -14,7 +14,8 @@ ProfileInfo::ProfileInfo(int id, const QString &name)
 {
     this->name = name;
     this->id   = id;
-    port = INDIWebManagerPort = -1;
+    port = INDIWebManagerPort = guiderport = -1;
+    guidertype = 0;
 }
 
 QString ProfileInfo::mount()

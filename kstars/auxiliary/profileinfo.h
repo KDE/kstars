@@ -27,6 +27,11 @@ class ProfileInfo
     QString province;
     QString country;
 
+    int guidertype;
+    int guiderport;
+    QString guiderhost;
+
+
     int id;
     int port;
     bool autoConnect;
