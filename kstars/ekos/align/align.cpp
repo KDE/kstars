@@ -4569,6 +4569,7 @@ void Align::setWCSToggled(bool result)
         if (result == false && m_wcsSynced == true)
         {
             appendLogText(i18n("WCS info is now valid. Capturing next frame..."));
+            pahImageInfos.clear();
             captureAndSolve();
             return;
         }
