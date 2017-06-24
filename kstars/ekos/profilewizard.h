@@ -32,7 +32,7 @@ class ProfileWizard : public QDialog, public Ui::ProfileWizard
     ProfileWizard();
 
     QStringList selectedAuxDrivers();
-    QString selectedExternalGuider();
+    int selectedExternalGuider();
 
   protected slots:
     void reset();

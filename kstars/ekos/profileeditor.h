@@ -49,12 +49,15 @@ class ProfileEditor : public QDialog
     void setAuxDrivers(const QStringList &aux);
     void setHostPort(const QString &host, const QString &port);
     void setWebManager(bool enabled, const QString &port = "8624");
-    void setExternalGuider(const QString &name);
+    void setGuiderType(int type);
     void setConnectionOptionsEnabled(bool enable);
 
   public slots:
     void saveProfile();
     void setRemoteMode(bool enable);
+
+  private slots:
+    void updateGuiderSelection(int id, bool checked);
 
   private:
     ProfileEditorUI *ui;

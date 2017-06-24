@@ -221,12 +221,7 @@ QStringList ProfileWizard::selectedAuxDrivers()
     return auxList;
 }
 
-QString ProfileWizard::selectedExternalGuider()
+int ProfileWizard::selectedExternalGuider()
 {
-    if (useGuiderType == PHD2_GUIDER)
-        return "PHD2";
-    else if (useGuiderType == LIN_GUIDER)
-        return "LinGuider";
-    else
-        return QString();
+    return useGuiderType;
 }

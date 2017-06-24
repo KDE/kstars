@@ -12,14 +12,16 @@
 
 #include <KMessageBox>
 
+#include "Options.h"
+
 #include "kstarsdata.h"
 #include "geolocation.h"
 #include "auxiliary/ksuserdb.h"
+#include "guide/guide.h"
 
 #include "indi/drivermanager.h"
 #include "indi/driverinfo.h"
 
-#
 #include "profileeditor.h"
 #include "profileinfo.h"
 
@@ -56,6 +58,12 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
     });
 
     connect(ui->INDIWebManagerCheck, SIGNAL(toggled(bool)), ui->openWebManagerB, SLOT(setEnabled(bool)));
+
+    ui->guidingButtonGroup->setId(ui->InternalR, Ekos::Guide::GUIDE_INTERNAL);
+    ui->guidingButtonGroup->setId(ui->PHD2R, Ekos::Guide::GUIDE_PHD2);
+    ui->guidingButtonGroup->setId(ui->LinGuiderR, Ekos::Guide::GUIDE_LINGUIDER);
+
+    connect(ui->guidingButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(updateGuiderSelection(int,bool)));
 
 #ifdef Q_OS_WIN
     ui->remoteMode->setChecked(true);
@@ -127,6 +135,14 @@ void ProfileEditor::saveProfile()
 
     // Auto Connect
     pi->autoConnect = ui->autoConnectCheck->isChecked();
+
+    // Guider Type
+    pi->guidertype = ui->guidingButtonGroup->checkedId();
+    if (pi->guidertype != Ekos::Guide::GUIDE_INTERNAL)
+    {
+        pi->guiderhost = ui->externalGuideHost->text();
+        pi->guiderport = ui->externalGuidePort->text().toInt();
+    }
 
     if (ui->mountCombo->currentText().isEmpty() || ui->mountCombo->currentText() == "--")
         pi->drivers.remove("Mount");
@@ -270,6 +286,13 @@ void ProfileEditor::setPi(ProfileInfo *value)
             ui->INDIWebManagerCheck->setChecked(false);
             ui->INDIWebManagerPort->setText("8624");
         }
+    }
+
+    ui->guidingButtonGroup->button(pi->guidertype)->setChecked(true);
+    if (pi->guidertype != Ekos::Guide::GUIDE_INTERNAL)
+    {
+        ui->externalGuideHost->setText(pi->guiderhost);
+        ui->externalGuidePort->setText(QString::number(pi->guiderport));
     }
 
     QMapIterator<QString, QString> i(pi->drivers);
@@ -601,11 +624,7 @@ void ProfileEditor::loadDrivers()
         }
 
         box->model()->sort(0);
-    }
-
-    ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), "PHD2");
-    ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")),
-                             "LinGuider");
+    }    
 }
 
 void ProfileEditor::setProfileName(const QString &name)
@@ -650,9 +669,16 @@ void ProfileEditor::setWebManager(bool enabled, const QString &port)
     ui->INDIWebManagerPort->setText(port);
 }
 
-void ProfileEditor::setExternalGuider(const QString &name)
+void ProfileEditor::setGuiderType(int type)
 {
-    ui->guiderCombo->setCurrentText(name);
+    ui->guidingButtonGroup->button(type)->setChecked(true);
+    if (type != Ekos::Guide::GUIDE_INTERNAL)
+    {
+        ui->externalGuideHostLabel->setEnabled(true);
+        ui->externalGuideHost->setEnabled(true);
+        ui->externalGuidePortLabel->setEnabled(true);
+        ui->externalGuidePort->setEnabled(true);
+    }
 }
 
 void ProfileEditor::setConnectionOptionsEnabled(bool enable)
@@ -668,7 +694,66 @@ void ProfileEditor::setConnectionOptionsEnabled(bool enable)
     ui->INDIWebManagerCheck->setEnabled(enable);
     ui->INDIWebManagerPort->setEnabled(enable);
     ui->INDIWebManagerPortLabel->setEnabled(enable);
+    ui->guidingTypeLabel->setEnabled(enable);
+    ui->InternalR->setEnabled(enable);
+    ui->PHD2R->setEnabled(enable);
+    ui->LinGuiderR->setEnabled(enable);
+
+    ui->externalGuideHostLabel->setEnabled(!ui->InternalR->isEnabled());
+    ui->externalGuideHost->setEnabled(!ui->InternalR->isEnabled());
+    ui->externalGuidePort->setEnabled(!ui->InternalR->isEnabled());
+    ui->externalGuidePortLabel->setEnabled(!ui->InternalR->isEnabled());
 
     if (enable == false)
         ui->mountCombo->setFocus();
+}
+
+void ProfileEditor::updateGuiderSelection(int id, bool checked)
+{
+        if (checked)
+        {
+            if (id == Ekos::Guide::GUIDE_INTERNAL)
+            {
+                ui->externalGuideHost->setText("localhost");
+                ui->externalGuidePort->clear();
+
+                ui->externalGuideHost->setEnabled(false);
+                ui->externalGuideHostLabel->setEnabled(false);
+                ui->externalGuidePort->setEnabled(false);
+                ui->externalGuidePortLabel->setEnabled(false);
+                return;
+            }
+
+            QString host;
+            int port = -1;
+
+            ui->externalGuideHost->setEnabled(true);
+            ui->externalGuideHostLabel->setEnabled(true);
+            ui->externalGuidePort->setEnabled(true);
+            ui->externalGuidePortLabel->setEnabled(true);
+
+            if (pi && pi->guidertype == id)
+            {
+                host = pi->guiderhost;
+                port = pi->guiderport;
+            }
+
+            if (id == Ekos::Guide::GUIDE_PHD2)
+            {
+                if (host.isEmpty())
+                    host = Options::pHD2Host();
+                if (port < 0)
+                    port = Options::pHD2Port();
+            }
+            else if (id == Ekos::Guide::GUIDE_LINGUIDER)
+            {
+                if (host.isEmpty())
+                    host = Options::linGuiderHost();
+                if (port < 0)
+                    port = Options::linGuiderPort();
+            }
+
+            ui->externalGuideHost->setText(host);
+            ui->externalGuidePort->setText(QString::number(port));
+        }
 }
