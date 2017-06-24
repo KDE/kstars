@@ -57,7 +57,7 @@ class ProfileEditor : public QDialog
     void setRemoteMode(bool enable);
 
   private slots:
-    void updateGuiderSelection(int id, bool checked);
+    void updateGuiderSelection(int id);
 
   private:
     ProfileEditorUI *ui;
