@@ -53,8 +53,10 @@ if(NOT BUILD_KSTARS_LITE)
             fitsviewer/fitsviewer.cpp
             fitsviewer/fitstab.cpp
             fitsviewer/fitsdebayer.cpp
-            fitsviewer/bayer.c
             fitsviewer/opsfits.cpp
+            )
+        set (fits_bayer_SRCS
+            fitsviewer/bayer.c
             )
         set (fitsui_SRCS
             fitsviewer/fitsheaderdialog.ui
@@ -77,6 +79,8 @@ if (INDI_FOUND)
     if(BUILD_KSTARS_LITE)
             set (fits_SRCS
                 fitsviewer/fitsdata.cpp
+                )
+            set (fits_bayer_SRCS
                 fitsviewer/bayer.c
                 )
                 include_directories(${CFITSIO_INCLUDE_DIR})
@@ -865,6 +869,12 @@ set(kstars_SRCS
 )
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
+
+IF (UNITY_BUILD)
+    ENABLE_UNITY_BUILD(kstars kstars_SRCS 10 cpp)
+ENDIF ()
+
+set(kstars_SRCS ${kstars_SRCS} ; ${fits_bayer_SRCS})
 
 if(NOT BUILD_KSTARS_LITE)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
