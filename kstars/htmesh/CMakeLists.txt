@@ -1,10 +1,11 @@
+
 INCLUDE(CheckFunctionExists)
 check_function_exists(drand48 HAVE_DRAND48)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-htmesh.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-htmesh.h )
 
 ### HTMesh library
-set(HTMesh_LIB_SRCS
+SET(HTMesh_LIB_SRC
     ${kstars_SOURCE_DIR}/kstars/htmesh/MeshIterator.cpp
     ${kstars_SOURCE_DIR}/kstars/htmesh/HtmRange.cpp
     ${kstars_SOURCE_DIR}/kstars/htmesh/HtmRangeIterator.cpp
@@ -18,16 +19,20 @@ set(HTMesh_LIB_SRCS
     ${kstars_SOURCE_DIR}/kstars/htmesh/SpatialIndex.cpp
     ${kstars_SOURCE_DIR}/kstars/htmesh/SpatialVector.cpp
     ${kstars_SOURCE_DIR}/kstars/htmesh/HTMesh.cpp
-    ${kstars_SOURCE_DIR}/kstars/htmesh/MeshBuffer.cpp
-    ${kstars_SOURCE_DIR}/kstars/htmesh/MeshIterator.cpp
-    ${kstars_SOURCE_DIR}/kstars/htmesh/cc_aux.c
-)
+    ${kstars_SOURCE_DIR}/kstars/htmesh/MeshBuffer.cpp)
+
+IF (UNITY_BUILD)
+    ENABLE_UNITY_BUILD(HTMesh HTMesh_LIB_SRC 10 cpp)
+ENDIF ()
+
+SET(HTMesh_LIB_SRC ${HTMesh_LIB_SRC}
+    ${kstars_SOURCE_DIR}/kstars/htmesh/cc_aux.c)
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 #TODO is there KF5_ENABLE_EXCEPTIONS?
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
 
-add_library(htmesh STATIC ${HTMesh_LIB_SRCS})
+add_library(htmesh STATIC ${HTMesh_LIB_SRC})
 
 add_definitions(-D_EXPORTING)
 

@@ -6,14 +6,14 @@
     email                : bowlin@mindspring.com
 ***************************************************************************/
 
-#ifndef MESH_ITERATOR_H
-#define MESH_ITERATOR_H
+#pragma once
 
 #include "typedef.h"
 
 class HTMesh;
 
-/** @class MeshIterator
+/**
+ * @class MeshIterator
  * MeshIterator is a very lightweight class used to iterate over the
  * result set of an HTMesh intersection.  If you want to iterate over the same
  * result set multiple times in the same block of code, you don't need to create
@@ -47,5 +47,3 @@ class MeshIterator
     int m_size;
     mutable int cnt;
 };
-
-#endif

@@ -1,8 +1,10 @@
-#include <iostream>
+
+#include "MeshIterator.h"
 
 #include "HTMesh.h"
 #include "MeshBuffer.h"
-#include "MeshIterator.h"
+
+#include <iostream>
 
 MeshIterator::MeshIterator(HTMesh *mesh, BufNum bufNum)
 {
