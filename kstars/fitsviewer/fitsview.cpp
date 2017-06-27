@@ -163,6 +163,14 @@ void FITSView::setMouseMode(int mode)
         mouseMode = mode;
         updateMouseCursor();
     }
+    if (mode==FITSView::scopeMouse&&imageHasWCS())
+    {
+        if(imageData->isWCSLoaded() == false)
+        {
+            QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
+            wcsWatcher.setFuture(future);
+        }
+    }
 }
 
 void FITSView::resizeEvent(QResizeEvent *event)

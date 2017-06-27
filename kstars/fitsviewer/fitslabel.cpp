@@ -227,23 +227,26 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
         if (view_data->hasWCS())
         {
             wcs_point *wcs_coord = view_data->getWCSCoord();
-            double x, y;
-            x = round(e->x() / scale);
-            y = round(e->y() / scale);
-
-            x         = KSUtils::clamp(x, 1.0, width);
-            y         = KSUtils::clamp(y, 1.0, height);
-            int index = x + y * width;
-            if (KMessageBox::Continue == KMessageBox::warningContinueCancel(
-                                             nullptr,
-                                             "Slewing to Coordinates: \nRA: " + dms(wcs_coord[index].ra).toHMSString() +
-                                                 "\nDec: " + dms(wcs_coord[index].dec).toDMSString(),
-                                             i18n("Continue Slew"), KStandardGuiItem::cont(),
-                                             KStandardGuiItem::cancel(), "continue_slew_warning"))
+            if (wcs_coord)
             {
-                centerTelescope(wcs_coord[index].ra / 15.0, wcs_coord[index].dec);
-                view->setMouseMode(view->lastMouseMode);
-                view->updateScopeButton();
+                double x, y;
+                x = round(e->x() / scale);
+                y = round(e->y() / scale);
+
+                x         = KSUtils::clamp(x, 1.0, width);
+                y         = KSUtils::clamp(y, 1.0, height);
+                int index = x + y * width;
+                if (KMessageBox::Continue == KMessageBox::warningContinueCancel(
+                                                 nullptr,
+                                                 "Slewing to Coordinates: \nRA: " + dms(wcs_coord[index].ra).toHMSString() +
+                                                     "\nDec: " + dms(wcs_coord[index].dec).toDMSString(),
+                                                 i18n("Continue Slew"), KStandardGuiItem::cont(),
+                                                 KStandardGuiItem::cancel(), "continue_slew_warning"))
+                {
+                    centerTelescope(wcs_coord[index].ra / 15.0, wcs_coord[index].dec);
+                    view->setMouseMode(view->lastMouseMode);
+                    view->updateScopeButton();
+                }
             }
         }
 #endif
