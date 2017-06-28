@@ -211,11 +211,13 @@ bool InternalGuider::dither(double pixels)
         if (Options::guideLogging())
             qDebug() << "Guide: Dither complete.";
 
-        //emit ditherComplete();
-        emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
+        if (Options::ditherSettle() > 0)
+        {
+            state = GUIDE_DITHERING_SETTLE;
+            emit newStatus(state);
+        }
 
-        // Back to guiding
-        state = GUIDE_GUIDING;
+        QTimer::singleShot(Options::ditherSettle()* 1000, this, SLOT(setDitherSettled()));
     }
     else
     {
@@ -231,7 +233,14 @@ bool InternalGuider::dither(double pixels)
             {
                 emit newLog(i18n("Warning: Dithering failed. Autoguiding shall continue as set in the options in case "
                                  "of dither failure."));
-                emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
+
+                if (Options::ditherSettle() > 0)
+                {
+                    state = GUIDE_DITHERING_SETTLE;
+                    emit newStatus(state);
+                }
+
+                QTimer::singleShot(Options::ditherSettle()* 1000, this, SLOT(setDitherSettled()));
                 return true;
             }
         }
@@ -240,6 +249,14 @@ bool InternalGuider::dither(double pixels)
     }
 
     return true;
+}
+
+void InternalGuider::setDitherSettled()
+{
+    emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
+
+    // Back to guiding
+    state = GUIDE_GUIDING;
 }
 
 bool InternalGuider::calibrate()
