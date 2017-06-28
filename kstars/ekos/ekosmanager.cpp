@@ -575,6 +575,25 @@ bool EkosManager::start()
     connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface *)), this,
             SLOT(removeDevice(ISD::GDInterface *)), Qt::DirectConnection);
 
+    #ifdef Q_OS_OSX
+    if (localMode||currentProfile->host=="localhost")
+    {
+        if (isRunning("PTPCamera"))
+        {
+            if (KMessageBox::Yes ==
+                (KMessageBox::questionYesNo(0,
+                                            i18n("Ekos detected that PTP Camera is running and may prevent a Canon or Nikon camera from connecting to Ekos. Do you want to quit PTP Camera now?"),
+                                            i18n("PTP Camera"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
+                                            "ekos_shutdown_PTPCamera")))
+            {
+                //TODO is there a better way to do this.
+                QProcess p;
+                p.start("killall PTPCamera");
+                p.waitForFinished();
+            }
+        }
+    }
+    #endif
     if (localMode)
     {
         if (isRunning("indiserver"))
@@ -2003,17 +2022,19 @@ bool EkosManager::isRunning(const QString &process)
 {
     QProcess ps;
 #ifdef Q_OS_OSX
-    ps.start("ps", QStringList() << "-o"
-                                 << "comm");
+    ps.start("pgrep", QStringList() << process);
+    ps.waitForFinished();
+    QString output = ps.readAllStandardOutput();
+    return output.length()>0;
 #else
     ps.start("ps", QStringList() << "-o"
                                  << "comm"
                                  << "--no-headers"
                                  << "-C" << process);
-#endif
     ps.waitForFinished();
     QString output = ps.readAllStandardOutput();
     return output.contains(process);
+#endif   
 }
 
 void EkosManager::addObjectToScheduler(SkyObject *object)
