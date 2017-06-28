@@ -104,6 +104,9 @@ void Telescope::registerProperty(INDI::Property *prop)
         }
     }
 
+    if (!strcmp(prop->getName(), "ALIGNMENT_POINTSET_ACTION") || !strcmp(prop->getName(), "ALIGNLIST"))
+        m_hasAlignmentModel = true;
+
     DeviceDecorator::registerProperty(prop);
 }
 

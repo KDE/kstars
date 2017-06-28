@@ -90,7 +90,11 @@ Mount::Mount()
 
     connect(mountToolBoxB, SIGNAL(clicked()), this, SLOT(showMountToolBox()));
 
-    connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]() {
+    connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]()
+    {
+        if (currentTelescope->hasAlignmentModel() == false)
+            return;
+
         if (currentTelescope->clearAlignmentModel())
             appendLogText(i18n("Alignment Model cleared."));
         else

@@ -4269,8 +4269,12 @@ void Align::startPAHProcess()
     if (Options::limitedResourcesMode())
         appendLogText(i18n("Warning: Equatorial Grid Lines will not be drawn due to limited resources mode."));
 
-    appendLogText(i18n("Clearing mount Alignment Model..."));
-    currentTelescope->clearAlignmentModel();
+    if (currentTelescope->hasAlignmentModel())
+    {
+        appendLogText(i18n("Clearing mount Alignment Model..."));
+        currentTelescope->clearAlignmentModel();
+    }
+
 
     PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
 }

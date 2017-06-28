@@ -91,6 +91,7 @@ class Telescope : public DeviceDecorator
     // Alignment Model
     bool setAlignmentModelEnabled(bool enable);
     bool clearAlignmentModel();
+    bool hasAlignmentModel() { return m_hasAlignmentModel; }
 
   protected:
     bool sendCoords(SkyPoint *ScopeTarget);
@@ -113,6 +114,7 @@ class Telescope : public DeviceDecorator
     QTimer *centerLockTimer  = nullptr;
     SkyObject *currentObject = nullptr;
     bool inManualMotion      = false;
+    bool m_hasAlignmentModel = false;
     IPState NSPreviousState  = IPS_IDLE;
     IPState WEPreviousState  = IPS_IDLE;
 };
