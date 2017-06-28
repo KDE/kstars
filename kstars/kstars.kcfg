@@ -1813,6 +1813,10 @@
          <label>Dither after this many frames.</label>
          <default>1</default>
       </entry>
+      <entry name="DitherSettle" type="UInt">
+         <label>After dither is successful, wait for this many seconds before proceeding.</label>
+         <default>0</default>
+      </entry>
       <entry name="DitherMaxIterations" type="UInt">
          <label>How many dithering attempts to undertake before giving up.</label>
          <default>10</default>

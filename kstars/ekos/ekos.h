@@ -30,7 +30,8 @@ static const QStringList guideStates = { I18N_NOOP("Idle"),
                                          I18N_NOOP("Suspended"),
                                          I18N_NOOP("Dithering"),
                                          I18N_NOOP("Dithering error"),
-                                         I18N_NOOP("Dithering successful") };
+                                         I18N_NOOP("Dithering successful"),
+                                         I18N_NOOP("Settling")};
 
 typedef enum {
     GUIDE_IDLE,
@@ -48,7 +49,8 @@ typedef enum {
     GUIDE_SUSPENDED,
     GUIDE_DITHERING,
     GUIDE_DITHERING_ERROR,
-    GUIDE_DITHERING_SUCCESS
+    GUIDE_DITHERING_SUCCESS,
+    GUIDE_DITHERING_SETTLE
 } GuideState;
 
 const QString &getGuideStatusString(GuideState state);

@@ -837,8 +837,12 @@ void Guide::setCaptureComplete()
             guider->guide();
             break;
 
-        case GUIDE_DITHERING:
+        case GUIDE_DITHERING:        
             guider->dither(Options::ditherPixels());
+            break;
+
+        case GUIDE_DITHERING_SETTLE:
+            capture();
             break;
 
         default:
@@ -1042,7 +1046,7 @@ bool Guide::guide()
 
 bool Guide::dither()
 {
-    if (state == GUIDE_DITHERING)
+    if (state == GUIDE_DITHERING || state == GUIDE_DITHERING_SETTLE)
         return true;
 
     if (guiderType == GUIDE_INTERNAL)
@@ -1280,6 +1284,12 @@ void Guide::setStatus(Ekos::GuideState newState)
         case GUIDE_DITHERING:
             appendLogText(i18n("Dithering in progress."));
             break;
+
+        case GUIDE_DITHERING_SETTLE:
+        if (Options::ditherSettle() > 0)
+            appendLogText(i18np("Post-dither settling for %1 second...", "Post-dither settling for %1 seconds...", Options::ditherSettle()));
+        capture();
+        break;
 
         case GUIDE_DITHERING_ERROR:
             appendLogText(i18n("Dithering failed!"));

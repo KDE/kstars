@@ -107,6 +107,7 @@ class InternalGuider : public GuideInterface
 
   protected slots:
     void trackingStarSelected(int x, int y);
+    void setDitherSettled();
 
   signals:
     void newPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
