@@ -989,7 +989,9 @@ if(INDI_FOUND)
     if(NOT BUILD_KSTARS_LITE)
         find_package(GSL REQUIRED)
         include_directories(${GSL_INCLUDE_DIRS})
-        target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
+        # workaround for upstream issue: explicitly link to GSL_LIBRARIES (gsl _and_ gslcblas, which is required by gsl, but not by us directly)
+        # see also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=456898#29
+        target_link_libraries(KStarsLib -Wl,--no-as-needed ${GSL_LIBRARIES} -Wl,--as-needed ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
     endif(NOT BUILD_KSTARS_LITE)
 
     if(WIN32 OR ANDROID)
