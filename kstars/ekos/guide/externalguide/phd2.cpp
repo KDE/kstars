@@ -562,7 +562,7 @@ bool PHD2::dither(double pixels)
     QJsonObject settle;
 
     settle.insert("pixels", 1.5);
-    settle.insert("time", 8);
+    settle.insert("time", Options::ditherSettle());
     settle.insert("timeout", 45);
 
     // Pixels
