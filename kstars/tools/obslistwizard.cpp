@@ -79,13 +79,13 @@ ObsListWizard::ObsListWizard(QWidget *ksparent) : QDialog(ksparent)
     // Enable the update count button when certain elements are changed
     connect(olw->TypeList, SIGNAL(itemSelectionChanged()), this, SLOT(slotObjectCountDirty()));
     connect(olw->ConstellationList, SIGNAL(itemSelectionChanged()), this, SLOT(slotObjectCountDirty()));
-    connect(olw->RAMin, SIGNAL(lostFocus()), this, SLOT(slotParseRegion()));
-    connect(olw->RAMax, SIGNAL(lostFocus()), this, SLOT(slotParseRegion()));
-    connect(olw->DecMin, SIGNAL(lostFocus()), this, SLOT(slotParseRegion()));
-    connect(olw->DecMax, SIGNAL(lostFocus()), this, SLOT(slotParseRegion()));
-    connect(olw->RA, SIGNAL(lostFocus()), this, SLOT(slotParseRegion()));
-    connect(olw->Dec, SIGNAL(lostFocus()), this, SLOT(slotParseRegion()));
-    connect(olw->Radius, SIGNAL(lostFocus()), this, SLOT(slotObjectCountDirty()));
+    connect(olw->RAMin, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
+    connect(olw->RAMax, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
+    connect(olw->DecMin, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
+    connect(olw->DecMax, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
+    connect(olw->RA, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
+    connect(olw->Dec, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
+    connect(olw->Radius, SIGNAL(editingFinished()), this, SLOT(slotObjectCountDirty()));
     connect(olw->Date, SIGNAL(dateChanged(const QDate &)), this, SLOT(slotObjectCountDirty()));
     connect(olw->Mag, SIGNAL(valueChanged(double)), this, SLOT(slotObjectCountDirty()));
     connect(olw->IncludeNoMag, SIGNAL(clicked()), this, SLOT(slotObjectCountDirty()));
@@ -162,11 +162,24 @@ void ObsListWizard::initialize()
 
 bool ObsListWizard::isItemSelected(const QString &name, QListWidget *listWidget, bool *ok)
 {
-    QList<QListWidgetItem *> items = listWidget->findItems(name, Qt::MatchContains);
+    /*QList<QListWidgetItem *> items = listWidget->findItems(name, Qt::MatchContains);
     if (ok)
         *ok = items.size();
     return items.size() && listWidget->isItemSelected(items[0]);
-    ;
+    ;*/
+    foreach(QListWidgetItem *item, listWidget->selectedItems())
+    {
+        if (item->text().compare(name, Qt::CaseInsensitive) == 0)
+        {
+            if (ok)
+                *ok = true;
+            return true;
+        }
+    }
+
+    if (ok)
+        *ok = false;
+    return false;
 }
 
 void ObsListWizard::setItemSelected(const QString &name, QListWidget *listWidget, bool value, bool *ok)
@@ -816,6 +829,9 @@ bool ObsListWizard::applyRegionFilter(SkyObject *o, bool doBuildList, bool doAdj
     //select by constellation
     if (isItemSelected(i18n("by constellation"), olw->RegionList))
     {
+        int i=0;
+        if (o->name() == "M 66")
+            i=1;
         QString c = KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName(o);
         if (isItemSelected(c, olw->ConstellationList))
         {
