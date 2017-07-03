@@ -23,6 +23,7 @@
 
 #include "rootnode.h"
 #include "labelsitem.h"
+#include "satellite.h"
 #include "skylabeler.h"
 
 #include "skynodes/satellitenode.h"

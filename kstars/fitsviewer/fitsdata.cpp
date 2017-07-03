@@ -26,6 +26,7 @@
 #include "skymapcomposite.h"
 
 #include <QApplication>
+#include <QImage>
 
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 #include <wcshdr.h>

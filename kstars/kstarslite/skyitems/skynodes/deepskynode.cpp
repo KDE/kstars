@@ -13,20 +13,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "skyobject.h"
+
+#include "deepskynode.h"
+
+#include "deepskyobject.h"
+#include "dsosymbolnode.h"
+#include "labelnode.h"
 #include "Options.h"
+#include "skyobject.h"
+#include "trixelnode.h"
+#include "nodes/pointnode.h"
+#include "../rootnode.h"
+#include "../labelsitem.h"
 
 #include <QSGSimpleTextureNode>
 #include <QQuickWindow>
 
-#include "deepskynode.h"
-#include "nodes/pointnode.h"
-#include "dsosymbolnode.h"
-#include "trixelnode.h"
-#include "deepskyobject.h"
-#include "../rootnode.h"
-#include "../labelsitem.h"
-#include "labelnode.h"
 
 DeepSkyNode::DeepSkyNode(DeepSkyObject *skyObject, DSOSymbolNode *symbol, LabelsItem::label_t labelType, short trixel)
     : m_dso(skyObject), m_objImg(0), m_symbol(symbol), m_trixel(trixel), m_labelType(labelType), m_label(0)

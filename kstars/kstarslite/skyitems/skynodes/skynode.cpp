@@ -14,8 +14,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "skymaplite.h"
 #include "skynode.h"
+
+#include "skymaplite.h"
 
 SkyNode::SkyNode(SkyObject *skyObject)
     : m_opacity(new SkyOpacityNode), m_skyObject(skyObject), m_drawLabel(false), m_hideCount(0)

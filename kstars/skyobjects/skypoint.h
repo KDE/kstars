@@ -20,13 +20,13 @@
 #pragma once
 
 #include "cachingdms.h"
-#include "ksnumbers.h"
 #include "kstarsdatetime.h"
 
 #include <QList>
 
 //#define PROFILE_COORDINATE_CONVERSION
 
+class KSNumbers;
 class KSSun;
 class GeoLocation;
 

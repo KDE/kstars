@@ -13,13 +13,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "skyobject.h"
+
+#include "guidelabelnode.h"
+
 #include "Options.h"
+#include "skymaplite.h"
+#include "skyobject.h"
 
 #include <QSGSimpleTextureNode>
-
-#include "skymaplite.h"
-#include "guidelabelnode.h"
 
 GuideLabelNode::GuideLabelNode(QString name, LabelsItem::label_t type)
     : m_textTexture(new QSGSimpleTextureNode), m_name(name)

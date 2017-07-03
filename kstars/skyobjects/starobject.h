@@ -17,13 +17,13 @@
 
 #pragma once
 
-#include "ksnumbers.h"
+#include "deepstardata.h"
 #include "skyobject.h"
 #include "stardata.h"
-#include "deepstardata.h"
 
 //#define PROFILE_UPDATECOORDS
 
+class KSNumbers;
 class KSPopupMenu;
 
 /** @class StarObject
