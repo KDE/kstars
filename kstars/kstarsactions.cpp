@@ -435,7 +435,8 @@ void KStars::updateLocationFromWizard(GeoLocation geo)
 
 void KStars::slotDownload()
 {
-    QPointer<KNS3::DownloadDialog> dlg(new KNS3::DownloadDialog(this));
+    // 2017-07-04: Explicitly load kstars.knsrc from resources file
+    QPointer<KNS3::DownloadDialog> dlg(new KNS3::DownloadDialog(":/kconfig/kstars.knsrc", this));
     dlg->exec();
 
     // Get the list of all the installed entries.
