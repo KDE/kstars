@@ -144,7 +144,8 @@ void modCalcDayLength::updateAlmanac(const QDate &d, GeoLocation *geo)
         stTimeString = QLocale().toString(stTime);
 
         QTime daylength = lengthOfDay(ssTime, srTime);
-        daylengthString = QLocale().toString(daylength);
+        //daylengthString = QLocale().toString(daylength);
+        daylengthString = QLocale().toString(daylength, "hh:mm:ss");
 
         //...but not always!
     }
