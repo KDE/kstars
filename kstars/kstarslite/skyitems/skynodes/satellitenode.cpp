@@ -15,19 +15,21 @@
  ***************************************************************************/
 
 #include "satellitenode.h"
-#include "satellite.h"
-#include "nodes/polynode.h"
-#include "Options.h"
+
 #include "ksutils.h"
+#include "labelnode.h"
 #include "linelist.h"
+#include "Options.h"
+#include "satellite.h"
 #include "nodes/pointnode.h"
-#include <QSGFlatColorMaterial>
+#include "nodes/polynode.h"
 #include "../rootnode.h"
 #include "../labelsitem.h"
-#include "labelnode.h"
+
+#include <QSGFlatColorMaterial>
 
 SatelliteNode::SatelliteNode(Satellite *sat, RootNode *rootNode)
-    : m_sat(sat), m_rootNode(rootNode), m_lines(0), m_label(0), m_point(0)
+    : m_sat(sat), m_rootNode(rootNode)
 {
 }
 

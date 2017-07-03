@@ -13,11 +13,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef GUIDELABELNODE_H_
-#define GUIDELABELNODE_H_
+
+#pragma once
 
 #include "skynode.h"
 #include "../labelsitem.h"
+
 #include <QSGSimpleRectNode>
 
 class PlanetItemNode;
@@ -26,7 +27,8 @@ class PointNode;
 class QSGSimpleTextureNode;
 class SkyLabeler;
 
-/** @class GuideLabelNode
+/**
+ * @class GuideLabelNode
  * Currently this class is not used anywhere.
  *
  *@author Artem Fedoskin
@@ -39,27 +41,28 @@ class GuideLabelNode : public SkyNode
 {
   public:
     /**
-         * @short Constructor
-         * @param skyObject pointer to SkyObject that has to be displayed on SkyMapLite
-         * @param parentNode pointer to the top parent node, which holds texture cache
-         * @param spType spectral class of PointNode
-         * @param size initial size of PointNode
-         */
+     * @short Constructor
+     * @param skyObject pointer to SkyObject that has to be displayed on SkyMapLite
+     * @param parentNode pointer to the top parent node, which holds texture cache
+     * @param spType spectral class of PointNode
+     * @param size initial size of PointNode
+     */
     GuideLabelNode(QString name, LabelsItem::label_t type);
 
     /**
-         * @short changePos changes the position m_point
-         * @param pos new position
-         */
+     * @short changePos changes the position m_point
+     * @param pos new position
+     */
     virtual void changePos(QPointF pos) override;
+
     /**
-         * @short setLabelPos sets the position of label with the given offset from SkyObject's position and
-         * makes the label visible if it was hidden
-         * @param pos position of label
-         */
+     * @short setLabelPos sets the position of label with the given offset from SkyObject's position and
+     * makes the label visible if it was hidden
+     * @param pos position of label
+     */
     void setLabelPos(QPointF pos, float angle);
 
-    void update();
+    virtual void update() override;
 
     inline const QString name() const { return m_name; }
 
@@ -79,5 +82,3 @@ class GuideLabelNode : public SkyNode
 
     QPointF m_translatePos;
 };
-
-#endif

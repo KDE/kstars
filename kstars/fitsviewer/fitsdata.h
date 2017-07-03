@@ -29,11 +29,13 @@
 
 #include <fitsio.h>
 
+#include <QRect>
+#include <QRectF>
+
 #ifndef KSTARS_LITE
 #include "fitshistogram.h"
 
 #include <kxmlguiwindow.h>
-
 #ifdef HAVE_WCSLIB
 #include <wcs.h>
 #endif

@@ -13,8 +13,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef SUPERNOVANODE_H_
-#define SUPERNOVANODE_H_
+
+#pragma once
+
 #include "skynode.h"
 
 class PolyNode;
@@ -22,7 +23,8 @@ class Supernova;
 class PointNode;
 class QSGFlatColorMaterial;
 
-/** @class SupernovaNode
+/**
+ * @class SupernovaNode
  *
  * @short A SkyNode derived class that represents supernova
  * @author Artem Fedoskin
@@ -33,29 +35,27 @@ class SupernovaNode : public SkyNode
 {
   public:
     /**
-         * @short Constructor.
-         * @param snova - pointer to supernova that needs to be represented by this node
-         */
-    SupernovaNode(Supernova *snova);
+     * @short Constructor.
+     * @param snova - pointer to supernova that needs to be represented by this node
+     */
+    explicit SupernovaNode(Supernova *snova);
 
     /**
-         * @short Update position and visibility of supernova. Initialize m_lines if not already done
-         */
+     * @short Update position and visibility of supernova. Initialize m_lines if not already done
+     */
     virtual void update() override;
 
-    void changePos(QPointF pos);
+    virtual void changePos(QPointF pos) override;
 
     inline Supernova *snova() { return m_snova; }
 
   private:
     Supernova *m_snova;
 
-    QSGGeometryNode *m_lines;
+    QSGGeometryNode *m_lines { nullptr };
 
-    QSGFlatColorMaterial *m_material;
-    QSGGeometry *m_geometry;
+    QSGFlatColorMaterial *m_material { nullptr };
+    QSGGeometry *m_geometry { nullptr };
 
-    PointNode *m_point;
+    PointNode *m_point { nullptr };
 };
-
-#endif

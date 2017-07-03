@@ -15,15 +15,17 @@
  ***************************************************************************/
 
 #include "supernovanode.h"
-#include "supernova.h"
-#include "nodes/polynode.h"
-#include "Options.h"
+
 #include "ksutils.h"
 #include "linelist.h"
+#include "Options.h"
+#include "supernova.h"
 #include "nodes/pointnode.h"
+#include "nodes/polynode.h"
+
 #include <QSGFlatColorMaterial>
 
-SupernovaNode::SupernovaNode(Supernova *snova) : m_snova(snova), m_lines(0)
+SupernovaNode::SupernovaNode(Supernova *snova) : m_snova(snova)
 {
 }
 
