@@ -6386,6 +6386,10 @@ QString QCPAxisTickerTime::getTickLabel(double tick, const QLocale &locale, QCha
     values[tuHours]            = modf(restValues[tuHours] / 24, &restValues[tuDays]) * 24;
     // no need to set values[tuDays] because days are always a rest value (there is no higher unit so it consumes all remaining time)
 
+    // 2017-07-03: JM force wrap of hours value
+    if (restValues[tuHours] > 24)
+        restValues[tuHours] -= 24;
+
     QString result = mTimeFormat;
     for (int i = mSmallestUnit; i <= mBiggestUnit; ++i)
     {
