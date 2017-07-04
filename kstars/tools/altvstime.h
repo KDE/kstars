@@ -120,7 +120,7 @@ class AltVsTime : public QDialog
     void slotClear();
 
     /** @short Show information from the curve as a tooltip. */
-    void plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEvent *event);
+    void plotMousePress(QCPAbstractPlottable *abstractPlottable, int dataIndex, QMouseEvent *event);
 
     /** @short Update the X axis on Zoom and Drag. */
     void onXRangeChanged(const QCPRange &range);
