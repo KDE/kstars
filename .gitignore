@@ -26,6 +26,7 @@ build_kstarslite/android_libs_src/libnova/build/*
 
 CMakeLists.txt.user
 
+build
 moc_*.cpp
 kstars/ui_*.h
 kstars/version.h
