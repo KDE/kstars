@@ -300,10 +300,14 @@ double KSPlanetBase::labelOffset() const
 
 void KSPlanetBase::findPhase()
 {
+    if (2*rsun()*rearth() == 0)
+    {
+        Phase = std::numeric_limits<double>::quiet_NaN();
+        return;
+    }
     /* Compute the phase of the planet in degrees */
     double earthSun = KStarsData::Instance()->skyComposite()->earth()->rsun();
-    double cosPhase = (rsun()*rearth() == 0 ? 0 : (rsun()*rsun() + rearth()*rearth() - earthSun*earthSun)
-                      / (2 * rsun() * rearth() ));
+    double cosPhase = (rsun() * rsun() + rearth() * rearth() - earthSun * earthSun) / (2 * rsun() * rearth());
 
     Phase           = acos(cosPhase) * 180.0 / dms::PI;
     /* More elegant way of doing it, but requires the Sun.
