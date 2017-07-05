@@ -25,10 +25,6 @@
 
 #include <stdint.h>
 
-#if !defined(_MSC_VER)
-#define restrict __restrict
-#endif
-
 /**
  * Error codes returned by most libdc1394 functions.
  *
