@@ -316,15 +316,13 @@ IF (UNIX OR APPLE)
 
     # Note: The following flags are problematic on older systems with gcc 4.8
     IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9.9))
-        # Compress the debug sections
-        # Note: Before valgrind 3.12.0, patch should be applied for valgrind (https://bugs.kde.org/show_bug.cgi?id=303877)
-        IF (NOT APPLE AND NOT ANDROID AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES arm AND NOT CMAKE_CXX_CLANG_TIDY)
-            SET(COMP_FLAGS "${COMP_FLAGS} -Wa,--compress-debug-sections -Wno-unused-command-line-argument")
-            SET(LINKER_FLAGS "${LINKER_FLAGS} -Wl,--compress-debug-sections=zlib")
+        IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+            SET(COMP_FLAGS "${COMP_FLAGS} -Wno-unused-command-line-argument")
         ENDIF ()
-
-        # ld.gold is 2x faster than normal ld
-        IF (NOT APPLE AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES arm)
+        FIND_PROGRAM(LDGOLD_FOUND ld.gold)
+        SET(LDGOLD_SUPPORT OFF CACHE BOOL "Enable ld.gold support")
+        # Optional ld.gold is 2x faster than normal ld
+        IF (LDGOLD_FOUND AND LDGOLD_SUPPORT MATCHES ON AND NOT APPLE AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES arm)
             SET(LINKER_FLAGS "${LINKER_FLAGS} -fuse-ld=gold")
             # We have Gsl library what is a special case for linking:
             # The gsl library must be linked with cblas. There are two alternatives for this: libcblas or libgslcblas.
@@ -337,6 +335,12 @@ IF (UNIX OR APPLE)
             # Use Identical Code Folding
             SET(COMP_FLAGS "${COMP_FLAGS} -ffunction-sections")
             SET(LINKER_FLAGS "${LINKER_FLAGS} -Wl,--icf=safe")
+            # Compress the debug sections
+            # Note: Before valgrind 3.12.0, patch should be applied for valgrind (https://bugs.kde.org/show_bug.cgi?id=303877)
+            IF (NOT APPLE AND NOT ANDROID AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES arm AND NOT CMAKE_CXX_CLANG_TIDY)
+                SET(COMP_FLAGS "${COMP_FLAGS} -Wa,--compress-debug-sections")
+                SET(LINKER_FLAGS "${LINKER_FLAGS} -Wl,--compress-debug-sections=zlib")
+            ENDIF ()
         ENDIF ()
     ENDIF ()
 
