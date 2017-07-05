@@ -27,6 +27,11 @@
 #include "skyobject.h"
 #include "skypoint.h"
 
+#ifdef WIN32
+// This header must be included before fitsio.h to avoid compiler errors with Visual Studio
+#include <windows.h>
+#endif
+
 #include <fitsio.h>
 
 #include <QRect>
@@ -39,11 +44,6 @@
 #ifdef HAVE_WCSLIB
 #include <wcs.h>
 #endif
-#endif
-
-#ifdef WIN32
-// avoid compiler warning when windows.h is included after fitsio.h
-#include <windows.h>
 #endif
 
 #define MINIMUM_PIXEL_RANGE 5
