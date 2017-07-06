@@ -28,7 +28,7 @@ else (NOVA_INCLUDE_DIR AND NOVA_LIBRARIES)
     ${GNUWIN32_DIR}/include
   )
 
-  find_library(NOVA_LIBRARIES NAMES nova libnova
+  find_library(NOVA_LIBRARIES NAMES nova libnova libnovad
     PATHS
     if(ANDROID)
     ${BUILD_KSTARSLITE_DIR}/android_libs/${ANDROID_ARCHITECTURE}/
@@ -58,5 +58,5 @@ else (NOVA_INCLUDE_DIR AND NOVA_LIBRARIES)
   endif (NOVA_FOUND)
 
   mark_as_advanced(NOVA_INCLUDE_DIR NOVA_LIBRARIES)
-  
+
 endif (NOVA_INCLUDE_DIR AND NOVA_LIBRARIES)
