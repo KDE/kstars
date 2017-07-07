@@ -6,27 +6,30 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>776</width>
-    <height>650</height>
+    <width>654</width>
+    <height>576</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>300</width>
-    <height>650</height>
-   </size>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_1">
+    <layout class="QHBoxLayout" name="toolLayout">
      <property name="spacing">
-      <number>6</number>
+      <number>3</number>
      </property>
      <property name="leftMargin">
       <number>0</number>
@@ -190,7 +193,10 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="LocationTimeLayout">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <property name="topMargin">
       <number>0</number>
      </property>
@@ -281,7 +287,10 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="addingObjectsLayout">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <property name="topMargin">
       <number>0</number>
      </property>
@@ -384,7 +393,10 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <layout class="QHBoxLayout" name="WishSessionLayout" stretch="2,1">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <property name="sizeConstraint">
       <enum>QLayout::SetMinimumSize</enum>
      </property>
@@ -410,6 +422,21 @@
          <string>Wish List</string>
         </attribute>
         <layout class="QVBoxLayout">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>3</number>
+         </property>
+         <property name="rightMargin">
+          <number>3</number>
+         </property>
+         <property name="bottomMargin">
+          <number>3</number>
+         </property>
          <item>
           <widget class="QTableView" name="WishListView">
            <property name="sizePolicy">
@@ -442,6 +469,21 @@
          <string>Session Plan</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_5">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>3</number>
+         </property>
+         <property name="rightMargin">
+          <number>3</number>
+         </property>
+         <property name="bottomMargin">
+          <number>3</number>
+         </property>
          <item>
           <widget class="QTableView" name="SessionView">
            <property name="sizePolicy">
@@ -469,6 +511,9 @@
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <property name="spacing">
+            <number>3</number>
+           </property>
            <item>
             <widget class="QLabel" name="scheduledTimeLabel">
              <property name="text">
@@ -506,7 +551,10 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="objectInfoLayout">
+       <property name="spacing">
+        <number>3</number>
+       </property>
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
@@ -547,6 +595,9 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="spacing">
+          <number>3</number>
+         </property>
          <item>
           <widget class="QLabel" name="ImagePreview">
            <property name="minimumSize">
@@ -568,6 +619,9 @@
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="spacing">
+            <number>2</number>
+           </property>
            <item>
             <widget class="QLabel" name="dssMetadataLabel">
              <property name="sizePolicy">
@@ -595,6 +649,9 @@
            </item>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout">
+             <property name="spacing">
+              <number>3</number>
+             </property>
              <property name="rightMargin">
               <number>12</number>
              </property>
@@ -635,51 +692,9 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="NotesLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <family>Sans Serif</family>
-       <pointsize>9</pointsize>
-       <weight>50</weight>
-       <italic>true</italic>
-       <bold>false</bold>
-       <underline>false</underline>
-       <strikeout>false</strikeout>
-      </font>
-     </property>
-     <property name="text">
-      <string>Select an object to record notes on it here:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QTextEdit" name="NotesEdit">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>10</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>120</height>
-      </size>
+     <property name="placeholderText">
+      <string>Record object notes here.</string>
      </property>
     </widget>
    </item>
