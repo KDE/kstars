@@ -1817,6 +1817,14 @@
          <label>After dither is successful, wait for this many seconds before proceeding.</label>
          <default>0</default>
       </entry>
+      <entry name="DitherThreshold" type="Double">
+         <label>Maximum distance (pixels) for guiding to be considered settled.</label>
+         <default>1</default>
+      </entry>
+      <entry name="DitherTimeout" type="UInt">
+         <label>Time limit (seconds) on dithering to settle down.</label>
+         <default>45</default>
+      </entry>
       <entry name="DitherMaxIterations" type="UInt">
          <label>How many dithering attempts to undertake before giving up.</label>
          <default>10</default>
