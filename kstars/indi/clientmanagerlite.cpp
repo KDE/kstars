@@ -742,6 +742,9 @@ void ClientManagerLite::newProperty(INDI::Property *property)
 
 void ClientManagerLite::removeProperty(INDI::Property *property)
 {
+    if (property == nullptr)
+        return;
+
     emit removeINDIProperty(property->getDeviceName(), property->getGroupName(), property->getName());
 
     DeviceInfoLite *devInfo = nullptr;
