@@ -141,6 +141,13 @@ WIView::WIView(QWidget *parent) : QWidget(parent), m_CurrentObjectListName(-1)
     m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
     m_BaseView->show();
 
+    // Fix some weird issue with what's interesting panel view under Windows
+    // In Qt 5.9 it content is messed up and there is no way to close the panel
+    #ifdef Q_OS_WIN
+        m_BaseView->setFlags(Qt::WindowCloseButtonHint);
+    #endif
+
+
     connect(KStars::Instance()->map(), SIGNAL(objectClicked(SkyObject *)), this,
             SLOT(inspectSkyObjectOnClick(SkyObject *)));
 
