@@ -56,10 +56,10 @@ ApplicationWindow {
         height: stackView.currentItem != initPage ? backButton.height : 0
         visible: stackView.currentItem != initPage
 
-        background: Rectangle {
+        /*background: Rectangle {
             anchors.fill: parent
             color: num.sysPalette.dark
-        }
+        }*/
 
         Behavior on height {
             NumberAnimation {
