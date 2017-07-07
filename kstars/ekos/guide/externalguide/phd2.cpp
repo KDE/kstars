@@ -486,9 +486,9 @@ bool PHD2::guide()
     QJsonArray args;
     QJsonObject settle;
 
-    settle.insert("pixels", 1.5);
-    settle.insert("time", 8);
-    settle.insert("timeout", 45);
+    settle.insert("pixels", static_cast<double>(Options::ditherThreshold()));
+    settle.insert("time", static_cast<int>(Options::ditherSettle()));
+    settle.insert("timeout", static_cast<int>(Options::ditherTimeout()));
 
     // Settle param
     args << settle;
@@ -561,9 +561,9 @@ bool PHD2::dither(double pixels)
     QJsonArray args;
     QJsonObject settle;
 
-    settle.insert("pixels", 1.5);
+    settle.insert("pixels", static_cast<double>(Options::ditherThreshold()));
     settle.insert("time", static_cast<int>(Options::ditherSettle()));
-    settle.insert("timeout", 45);
+    settle.insert("timeout", static_cast<int>(Options::ditherTimeout()));
 
     // Pixels
     args << pixels;
