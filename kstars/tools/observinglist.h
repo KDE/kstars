@@ -95,10 +95,6 @@ class ObservingList : public QDialog
             */
     ~ObservingList();
 
-    /** @return true if the window is in its default "large" state.
-            */
-    bool isLarge() const { return bIsLarge; }
-
     /** @return reference to the current observing list
             */
     QList<QSharedPointer<SkyObject>> &obsList() { return m_WishList; }
@@ -278,10 +274,6 @@ class ObservingList : public QDialog
             */
     void slotWizard();
 
-    /** @short toggle between the large and small window states
-            */
-    void slotToggleSize();
-
     /** @short toggle the setEnabled flags according to current view
             *set the m_currentItem to nullptr and clear selections
             *@p index captures the integer value sent by the signal
@@ -410,7 +402,7 @@ class ObservingList : public QDialog
     ObservingListUI *ui;
     QList<QSharedPointer<SkyObject>> m_WishList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
-    bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
+    bool isModified, sessionView, dss, singleSelection, showScope, noSelection;
     QString m_listFileName, m_currentImageFileName, m_currentThumbImageFileName;
     KStarsDateTime dt;
     GeoLocation *geo;
