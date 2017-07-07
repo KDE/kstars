@@ -101,6 +101,7 @@ ObservingList::ObservingList()
     ui                      = new ObservingListUI(this);
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
+    mainLayout->setMargin(3);
     setWindowTitle(i18n("Observation Planner"));
 
     // Close button seems redundant since one can close the window -- occupies space
@@ -198,8 +199,7 @@ ObservingList::ObservingList()
     ui->WizardButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ui->MiniButton->setIcon(QIcon::fromTheme("view-restore", QIcon(":/icons/breeze/default/view-restore.svg")));
     noSelection = true;
-    showScope   = false;
-    ui->NotesLabel->setEnabled(false);
+    showScope   = false;    
     ui->NotesEdit->setEnabled(false);
     ui->SetTime->setEnabled(false);
     ui->TimeEdit->setEnabled(false);
@@ -584,10 +584,8 @@ void ObservingList::slotNewSelection()
                 //First, save the last object's user log to disk, if necessary
                 saveCurrentUserLog(); //uses LogObject, which is still the previous obj.
                 //set LogObject to the new selected object
-                LogObject = currentObject();
-                ui->NotesLabel->setEnabled(true);
-                ui->NotesEdit->setEnabled(true);
-                ui->NotesLabel->setText(i18n("observing notes for %1:", getObjectName(LogObject)));
+                LogObject = currentObject();                
+                ui->NotesEdit->setEnabled(true);                
                 if (LogObject->userLog().isEmpty())
                 {
                     ui->NotesEdit->setPlainText(
@@ -607,9 +605,7 @@ void ObservingList::slotNewSelection()
             else //selected object is named "star"
             {
                 //clear the log text box
-                saveCurrentUserLog();
-                ui->NotesLabel->setText(i18n("observing notes (disabled for unnamed star)"));
-                ui->NotesLabel->setEnabled(false);
+                saveCurrentUserLog();                
                 ui->NotesEdit->clear();
                 ui->NotesEdit->setEnabled(false);
                 ui->SearchImage->setEnabled(false);
@@ -674,9 +670,7 @@ void ObservingList::slotNewSelection()
         if (selectedItems.size() == 0) //Nothing selected
         {
             //Disable buttons
-            noSelection = true;
-            ui->NotesLabel->setText(i18n("Select an object to record notes on it here:"));
-            ui->NotesLabel->setEnabled(false);
+            noSelection = true;            
             ui->NotesEdit->setEnabled(false);
             m_CurrentObject = 0;
             ui->TimeEdit->setEnabled(false);
@@ -689,9 +683,7 @@ void ObservingList::slotNewSelection()
             ui->avt->removeAllPlotObjects();
         }
         else //more than one object selected.
-        {
-            ui->NotesLabel->setText(i18n("Select a single object to record notes on it here:"));
-            ui->NotesLabel->setEnabled(false);
+        {            
             ui->NotesEdit->setEnabled(false);
             ui->TimeEdit->setEnabled(false);
             ui->SetTime->setEnabled(false);
@@ -866,7 +858,6 @@ void ObservingList::saveCurrentUserLog()
     {
         LogObject->saveUserLog(ui->NotesEdit->toPlainText());
         ui->NotesEdit->clear();
-        ui->NotesLabel->setText(i18n("Observing notes for object:"));
         LogObject = nullptr;
     }
 }
@@ -1220,8 +1211,7 @@ void ObservingList::slotToggleSize()
         //Hide the headers
         ui->WishListView->horizontalHeader()->hide();
         ui->WishListView->verticalHeader()->hide();
-        //Hide Observing notes
-        ui->NotesLabel->hide();
+        //Hide Observing notes        
         ui->NotesEdit->hide();
         //ui->kseparator->hide();
         ui->avt->hide();
@@ -1268,7 +1258,6 @@ void ObservingList::slotToggleSize()
         ui->refLabel->setText(i18nc("Abbreviation for Reference Images:", "Reference Images:"));
         ui->addLabel->setText(i18nc("Add objects to a list", "Adding Objects:"));
         //Show Observing notes
-        ui->NotesLabel->show();
         ui->NotesEdit->show();
         //ui->kseparator->show();
         ui->setMinimumSize(837, 650);
@@ -1284,8 +1273,6 @@ void ObservingList::slotChangeTab(int index)
 {
     noSelection = true;
     saveCurrentUserLog();
-    ui->NotesLabel->setText(i18n("Select an object to record notes on it here:"));
-    ui->NotesLabel->setEnabled(false);
     ui->NotesEdit->setEnabled(false);
     ui->TimeEdit->setEnabled(false);
     ui->SetTime->setEnabled(false);
