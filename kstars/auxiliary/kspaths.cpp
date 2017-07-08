@@ -14,7 +14,7 @@ QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString
     QString file = QStandardPaths::locate(location, dir + fileName, options);
     if (file.isEmpty())
     {
-        file = "/data/data/org.kde.kstars/qt-reserved-files/share/kstars/" + fileName;
+        file = "/data/data/org.kde.kstars.lite/qt-reserved-files/share/kstars/" + fileName;
         if (!QFileInfo(file).exists())
         {
             return QString();
@@ -38,7 +38,7 @@ QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const 
     QStringList file = QStandardPaths::locateAll(location, dir + fileName, options);
     if (file.isEmpty())
     {
-        QString f = "/data/data/org.kde.kstars/qt-reserved-files/share/kstars/" + fileName;
+        QString f = "/data/data/org.kde.kstars.lite/qt-reserved-files/share/kstars/" + fileName;
         if (QFileInfo(f).exists())
         {
             file.append(f);
