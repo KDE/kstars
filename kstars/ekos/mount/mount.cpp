@@ -162,6 +162,7 @@ Mount::Mount()
 
 Mount::~Mount()
 {
+    delete(m_BaseView);
 }
 
 void Mount::setTelescope(ISD::GDInterface *newTelescope)
@@ -255,8 +256,8 @@ void Mount::syncTelescopeInfo()
         connect(unparkB, SIGNAL(clicked()), currentTelescope, SLOT(UnPark()), Qt::UniqueConnection);
 
         // QtQuick
-        m_Park->setEnabled(true);
-        m_Unpark->setEnabled(true);
+        m_Park->setEnabled(!currentTelescope->isParked());
+        m_Unpark->setEnabled(currentTelescope->isParked());
     }
     else
     {
