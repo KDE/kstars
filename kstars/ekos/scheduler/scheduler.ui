@@ -853,7 +853,7 @@
           <item>
            <widget class="QDateTimeEdit" name="startupTimeEdit">
             <property name="displayFormat">
-             <string>dd/MM/yy h:mm AP</string>
+             <string>dd/MM/yy hh:mm</string>
             </property>
             <property name="calendarPopup">
              <bool>true</bool>
@@ -1155,7 +1155,7 @@
           <item>
            <widget class="QDateTimeEdit" name="completionTimeEdit">
             <property name="displayFormat">
-             <string>dd/MM/yy h:mm AP</string>
+             <string>dd/MM/yy hh:mm</string>
             </property>
             <property name="calendarPopup">
              <bool>true</bool>
@@ -1591,22 +1591,22 @@
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="stepsButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="constraintButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="stepsButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="completionButtonGroup"/>
  </buttongroups>
 </ui>
