@@ -8,21 +8,21 @@
 
  */
 
-#ifndef DriverManager_H_
-#define DriverManager_H_
+#pragma once
 
-#include <QFrame>
-#include <QHash>
-#include <QStringList>
+#include "indicommon.h"
+#include "indidbus.h"
+#include "ui_drivermanager.h"
+
 #include <QDialog>
+#include <QFrame>
+#include <QIcon>
+#include <QString>
 
 #include <lilxml.h>
-#include "ui_drivermanager.h"
-#include "indidbus.h"
-#include "indicommon.h"
 
+class QStringList;
 class QTreeWidgetItem;
-class QIcon;
 
 class DriverManager;
 class ServerManager;
@@ -184,5 +184,3 @@ class DriverManager : public QDialog
         void newCCD();
         */
 };
-
-#endif

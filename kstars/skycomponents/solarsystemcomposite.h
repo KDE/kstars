@@ -15,28 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SOLARSYSTEMCOMPOSITE_H
-#define SOLARSYSTEMCOMPOSITE_H
+#pragma once
 
-#include "skycomposite.h"
 #include "planetmoonscomponent.h"
+#include "skycomposite.h"
 
-class KSPlanet;
-class KSSun;
-class KSMoon;
-//class JupiterMoonsComponent;
 class AsteroidsComponent;
 class CometsComponent;
+class KSMoon;
+class KSPlanet;
+class KSSun;
+//class JupiterMoonsComponent;
 class SkyLabeler;
 
-/** @class SolarSystemComposite
-* The solar system composite manages all planets, asteroids and comets.
-* As every sub component of solar system needs the earth , the composite
-* is managing this object by itself.
-*
-*@author Thomas Kabelmann
-*@version 0.1
-*/
+/**
+ * @class SolarSystemComposite
+ * The solar system composite manages all planets, asteroids and comets.
+ * As every sub component of solar system needs the earth , the composite
+ * is managing this object by itself.
+ *
+ * @author Thomas Kabelmann
+ * @version 0.1
+ */
 
 class SolarSystemComposite : public SkyComposite
 {
@@ -72,9 +72,9 @@ class SolarSystemComposite : public SkyComposite
     const QList<SolarSystemSingleComponent *> &planets() const;
 
   private:
-    KSPlanet *m_Earth;
-    KSSun *m_Sun;
-    KSMoon *m_Moon;
+    KSPlanet *m_Earth { nullptr };
+    KSSun *m_Sun { nullptr };
+    KSMoon *m_Moon { nullptr };
     //    PlanetMoonsComponent *m_JupiterMoons;
     AsteroidsComponent *m_AsteroidsComponent;
     CometsComponent *m_CometsComponent;
@@ -82,5 +82,3 @@ class SolarSystemComposite : public SkyComposite
     QList<SkyObject *> m_planetObjects;
     QList<SkyObject *> m_moons;
 };
-
-#endif

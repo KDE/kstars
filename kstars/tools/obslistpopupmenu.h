@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OBSLISTPOPUPMENU_H_
-#define OBSLISTPOPUPMENU_H_
+#pragma once
 
 #include <QMenu>
 
@@ -37,15 +36,13 @@ class ObsListPopupMenu : public QMenu
     /** Destructor (empty)*/
     virtual ~ObsListPopupMenu();
 
-    /** Initialize the popup menus. */
     /**
-         * @short initializes the popup menu based on the kind of selection in the observation planner
-         * @param sessionView true if we are viewing the session, false if we are viewing the wish list
-         * @param multiSelection true if multiple objects were selected, false if a single object was selected
-         * @param showScope true if we should show INDI/telescope-related options, false otherwise.
-         * @note Showing this popup-menu without a selection may lead to crashes.
-         */
+     * Initialize the popup menus.
+     * @short initializes the popup menu based on the kind of selection in the observation planner
+     * @param sessionView true if we are viewing the session, false if we are viewing the wish list
+     * @param multiSelection true if multiple objects were selected, false if a single object was selected
+     * @param showScope true if we should show INDI/telescope-related options, false otherwise.
+     * @note Showing this popup-menu without a selection may lead to crashes.
+     */
     void initPopupMenu(bool sessionView, bool multiSelection, bool showScope);
 };
-
-#endif

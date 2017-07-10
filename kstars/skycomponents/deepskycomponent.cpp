@@ -17,27 +17,18 @@
 
 #include "deepskycomponent.h"
 
-#include <QDir>
-#include <QFile>
-
-#include <KLocalizedString>
-#include <QStandardPaths>
-
-#include "skyobjects/deepskyobject.h"
-#include "dms.h"
 #include "ksfilereader.h"
+#include "kspaths.h"
 #include "kstarsdata.h"
-#include "auxiliary/kspaths.h"
+#include "Options.h"
+#include "skylabeler.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
-#include "skylabel.h"
-#include "skylabeler.h"
-#include "Options.h"
 #include "skymesh.h"
 #include "skypainter.h"
 #include "projections/projector.h"
-#include "kspaths.h"
+#include "skyobjects/deepskyobject.h"
 
 DeepSkyComponent::DeepSkyComponent(SkyComposite *parent) : SkyComponent(parent)
 {
@@ -50,7 +41,22 @@ DeepSkyComponent::DeepSkyComponent(SkyComposite *parent) : SkyComponent(parent)
 
 DeepSkyComponent::~DeepSkyComponent()
 {
-    clear();
+    clearList(m_MessierList);
+    clearList(m_NGCList);
+    clearList(m_ICList);
+    clearList(m_OtherList);
+    qDeleteAll(m_DeepSkyIndex);
+    m_DeepSkyIndex.clear();
+    qDeleteAll(m_MessierIndex);
+    m_MessierIndex.clear();
+    qDeleteAll(m_NGCIndex);
+    m_NGCIndex.clear();
+    qDeleteAll(m_ICIndex);
+    m_ICIndex.clear();
+    qDeleteAll(m_OtherIndex);
+    m_OtherIndex.clear();
+    for (int i = 0; i <= MAX_LINENUMBER_MAG; i++)
+        delete m_labelList[i];
 }
 
 bool DeepSkyComponent::selected()
@@ -745,12 +751,4 @@ void DeepSkyComponent::clearList(QList<DeepSkyObject *> &list)
         removeFromNames(o);
         delete o;
     }
-}
-
-void DeepSkyComponent::clear()
-{
-    clearList(m_MessierList);
-    clearList(m_NGCList);
-    clearList(m_ICList);
-    clearList(m_OtherList);
 }

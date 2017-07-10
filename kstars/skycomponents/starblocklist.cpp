@@ -19,6 +19,7 @@
 
 #include "binfilehelper.h"
 #include "deepstarcomponent.h"
+#include "starblock.h"
 #include "starcomponent.h"
 
 #ifdef KSTARS_LITE

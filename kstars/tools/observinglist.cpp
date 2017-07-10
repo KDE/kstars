@@ -18,36 +18,33 @@
  ***************************************************************************/
 
 #include "observinglist.h"
-#include "sessionsortfilterproxymodel.h"
 
+#include "config-kstars.h"
+
+#include "constellationboundarylines.h"
+#include "fov.h"
+#include "imageviewer.h"
 #include "ksalmanac.h"
-#include "obslistwizard.h"
+#include "ksdssdownloader.h"
+#include "kspaths.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
-#include "ksdssimage.h"
-#include "ksdssdownloader.h"
-#include "dialogs/locationdialog.h"
-#include "skyobjects/skyobject.h"
-#include "skyobjects/starobject.h"
-#include "skycomponents/skymapcomposite.h"
+#include "obslistpopupmenu.h"
+#include "obslistwizard.h"
+#include "Options.h"
+#include "sessionsortfilterproxymodel.h"
 #include "skymap.h"
+#include "thumbnailpicker.h"
 #include "dialogs/detaildialog.h"
 #include "dialogs/finddialog.h"
-#include "tools/altvstime.h"
-#include "tools/wutdialog.h"
-#include "Options.h"
-#include "imageviewer.h"
-#include "thumbnailpicker.h"
-#include "obslistpopupmenu.h"
-#include "oal/log.h"
-#include "oal/oal.h"
+#include "dialogs/locationdialog.h"
 #include "oal/execute.h"
+#include "skycomponents/skymapcomposite.h"
+#include "skyobjects/starobject.h"
+#include "tools/altvstime.h"
 #include "tools/eyepiecefield.h"
-#include "fov.h"
-#include "constellationboundarylines.h"
-
-#include <config-kstars.h>
+#include "tools/wutdialog.h"
 
 #ifdef HAVE_INDI
 #include <basedevice.h>
@@ -56,29 +53,9 @@
 #include "indi/driverinfo.h"
 #include "ekos/ekosmanager.h"
 #endif
-#include "kspaths.h"
+
 #include <KPlotting/KPlotAxis>
 #include <KPlotting/KPlotObject>
-#include <KMessageBox>
-
-#include <QFile>
-#include <QDir>
-#include <QFrame>
-#include <QTextStream>
-#include <QStandardItem>
-#include <QStandardItemModel>
-#include <QSortFilterProxyModel>
-#include <QHeaderView>
-#include <QDirIterator>
-#include <QPushButton>
-#include <QStatusBar>
-#include <QFileDialog>
-#include <QStandardPaths>
-#include <QTextEdit>
-#include <QLineEdit>
-#include <QInputDialog>
-
-#include <cstdio>
 
 //
 // ObservingListUI
@@ -109,7 +86,7 @@ ObservingList::ObservingList()
     geo            = KStarsData::Instance()->geo();
     sessionView    = false;
     m_listFileName = QString();
-    pmenu          = new ObsListPopupMenu();
+    pmenu.reset(new ObsListPopupMenu());
     //Set up the Table Views
     m_WishListModel = new QStandardItemModel(0, 5, this);
     m_SessionModel  = new QStandardItemModel(0, 5);

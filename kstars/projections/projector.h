@@ -282,14 +282,15 @@ class Projector
      */
     static SkyPoint pointAt(double az);
 
-    KStarsData *m_data;
+    KStarsData *m_data { nullptr };
     ViewParams m_vp;
-    double m_sinY0, m_cosY0;
-    double m_fov;
+    double m_sinY0 { 0 };
+    double m_cosY0 { 0 };
+    double m_fov { 0 };
     QPolygonF m_clipPolygon;
 
   private:
     //Used by CheckVisibility
-    double m_xrange;
-    bool m_isPoleVisible;
+    double m_xrange { 0 };
+    bool m_isPoleVisible { false };
 };

@@ -15,33 +15,34 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OBSERVINGLIST_H_
-#define OBSERVINGLIST_H_
+#pragma once
 
 #include "kstarsdatetime.h"
-
-#include <QList>
-#include <QAbstractTableModel>
-
-#include <QDialog>
-#include <QTimer>
-//#include <KIO/CopyJob>
-
 #include "ui_observinglist.h"
 
-#include <functional>
+#include <QAbstractTableModel>
+#include <QDialog>
+#include <QFrame>
+#include <QList>
+#include <QPixmap>
+#include <QTime>
 
-class KSAlmanac;
+#include <functional>
+#include <memory>
+
 class QSortFilterProxyModel;
+class QStandardItem;
 class QStandardItemModel;
+class QTimer;
+
+class GeoLocation;
+class KSAlmanac;
+class KSDssDownloader;
 class KStars;
 class KStarsDateTime;
-class GeoLocation;
 class ObsListPopupMenu;
-class SkyPoint;
 class SkyObject;
-class KSDssDownloader;
-class QStandardItem;
+class SkyPoint;
 
 class ObservingListUI : public QFrame, public Ui::ObservingList
 {
@@ -409,7 +410,7 @@ class ObservingList : public QDialog
     QStandardItemModel *m_WishListModel, *m_SessionModel;
     QSortFilterProxyModel *m_WishListSortModel, *m_SessionSortModel;
     QHash<QString, QTime> TimeHash;
-    ObsListPopupMenu *pmenu;
+    std::unique_ptr<ObsListPopupMenu> pmenu;
     KSDssDownloader *m_dl;
     QHash<SkyObject *, QPixmap> ImagePreviewHash;
     QPixmap m_NoImagePixmap;
@@ -417,5 +418,3 @@ class ObservingList : public QDialog
     std::function<QStandardItem *(const SkyPoint &)> m_altCostHelper;
     bool m_initialWishlistLoad = false;
 };
-
-#endif // OBSERVINGLIST_H_

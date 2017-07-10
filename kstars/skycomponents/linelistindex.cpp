@@ -1,4 +1,4 @@
-/***************************************************************************
+    /***************************************************************************
                  linelistindex.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 2007-07-04
@@ -33,35 +33,27 @@
 
 #include "linelistindex.h"
 
-#include <QBrush>
-#include <QMutexLocker>
-#include <QDebug>
-
-#include <KLocalizedString>
-
 #include "Options.h"
 #include "kstarsdata.h"
-#include "skyobjects/skyobject.h"
+#include "linelist.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
-
-#include "skymesh.h"
-#include "linelist.h"
-
 #include "skypainter.h"
 
 LineListIndex::LineListIndex(SkyComposite *parent, const QString &name) : SkyComponent(parent), m_name(name)
 {
     m_skyMesh   = SkyMesh::Instance();
-    m_lineIndex = new LineListHash();
-    m_polyIndex = new LineListHash();
+    m_lineIndex.reset(new LineListHash());
+    m_polyIndex.reset(new LineListHash());
 }
 
 LineListIndex::~LineListIndex()
 {
-    delete m_lineIndex;
-    delete m_polyIndex;
+    qDeleteAll(m_lineIndex->values());
+    m_lineIndex->clear();
+    qDeleteAll(m_polyIndex->values());
+    m_polyIndex->clear();
 }
 
 // This is a callback for the indexLines() function below
@@ -74,6 +66,7 @@ void LineListIndex::removeLine(LineList *lineList)
 {
     const IndexHash &indexHash     = getIndexHash(lineList);
     IndexHash::const_iterator iter = indexHash.constBegin();
+
     while (iter != indexHash.constEnd())
     {
         Trixel trixel = iter.key();
@@ -93,18 +86,18 @@ void LineListIndex::appendLine(LineList *lineList, int debug)
 
     const IndexHash &indexHash     = getIndexHash(lineList);
     IndexHash::const_iterator iter = indexHash.constBegin();
+
     while (iter != indexHash.constEnd())
     {
         Trixel trixel = iter.key();
-        iter++;
 
+        iter++;
         if (!m_lineIndex->contains(trixel))
         {
             m_lineIndex->insert(trixel, new LineListList());
         }
         m_lineIndex->value(trixel)->append(lineList);
     }
-
     m_listList.append(lineList);
 }
 
@@ -115,6 +108,7 @@ void LineListIndex::appendPoly(LineList *lineList, int debug)
 
     const IndexHash &indexHash     = skyMesh()->indexPoly(lineList->points());
     IndexHash::const_iterator iter = indexHash.constBegin();
+
     while (iter != indexHash.constEnd())
     {
         Trixel trixel = iter.key();
@@ -131,14 +125,15 @@ void LineListIndex::appendPoly(LineList *lineList, int debug)
 void LineListIndex::appendBoth(LineList *lineList, int debug)
 {
     QMutexLocker m1(&mutex);
+
     appendLine(lineList, debug);
     appendPoly(lineList, debug);
 }
 
 void LineListIndex::reindexLines()
 {
-    LineListHash *oldIndex = m_lineIndex;
-    m_lineIndex            = new LineListHash();
+    LineListHash *oldIndex = m_lineIndex.get();
+    m_lineIndex.reset(new LineListHash());
 
     DrawID drawID = skyMesh()->incDrawID();
 
@@ -192,6 +187,7 @@ void LineListIndex::draw(SkyPainter *skyp)
     preDraw(skyp);
     drawLines(skyp);
 }
+
 #ifdef KSTARS_LITE
 MeshIterator LineListIndex::visibleTrixels()
 {

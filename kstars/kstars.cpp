@@ -17,62 +17,43 @@
 
 #include "kstars.h"
 
-#include <QApplication>
-#include <QDockWidget>
-#include <QDebug>
-#include <QStatusBar>
-#include <QIcon>
-#include <QMenu>
+#include "config-kstars.h"
+#include "version.h"
 
-#ifdef Q_OS_WIN
-#include <QProcess>
-#endif
-
-#include <KLocalizedString>
-#include <KActionCollection>
-#include <KToolBar>
-#include <KSharedConfig>
-
-#include "Options.h"
+#include "fov.h"
+#include "kactionmenu.h"
+#include "kstarsadaptor.h"
 #include "kstarsdata.h"
 #include "kstarssplash.h"
-#include "kactionmenu.h"
+#include "observinglist.h"
+#include "Options.h"
 #include "skymap.h"
-#include "ksutils.h"
-#include "simclock.h"
-#include "fov.h"
+#include "skyqpainter.h"
+#include "texturemanager.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/exportimagedialog.h"
-#include "observinglist.h"
-//#include "whatsinteresting/wiview.h"
-
-// For profiling only
-#include "auxiliary/dms.h"
-#include "skyobjects/skypoint.h"
-
-#include "kstarsadaptor.h"
-
-#include <config-kstars.h>
-#include <version.h>
-
+#include "skycomponents/starblockfactory.h"
 #ifdef HAVE_INDI
+#include "ekos/ekosmanager.h"
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
-#include "ekos/ekosmanager.h"
 #endif
 
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
 #endif
 
-KStars *KStars::pinstance = 0;
+#include <KActionCollection>
+#include <KToolBar>
+
+#ifdef Q_OS_WIN
+#include <QProcess>
+#endif
+
+KStars *KStars::pinstance = nullptr;
 
 KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
-    : KXmlGuiWindow(), colorActionMenu(0), fovActionMenu(0), m_KStarsData(0), m_SkyMap(0), m_TimeStepBox(0),
-      m_ExportImageDialog(0), m_PrintingWizard(0), m_FindDialog(0), m_AstroCalc(0), m_AltVsTime(0), m_SkyCalendar(0),
-      m_ScriptBuilder(0), m_PlanetViewer(0), m_WUTDialog(0), /*m_JMoonTool(0),*/ m_MoonPhaseTool(0), m_FlagManager(0),
-      m_HorizonManager(0), m_EyepieceView(0), m_addDSODialog(0), m_WIView(0), m_ObsConditions(0), m_wiDock(0),
-      DialogIsObsolete(false), StartClockRunning(clockrun), StartDateString(startdate)
+    : KXmlGuiWindow(), StartClockRunning(clockrun), StartDateString(startdate)
 {
     setWindowTitle(i18n("KStars"));
 
@@ -250,19 +231,9 @@ KStars *KStars::createInstance(bool doSplash, bool clockrun, const QString &star
 
 KStars::~KStars()
 {
+    releaseResources();
     Q_ASSERT(pinstance);
-
-    delete m_KStarsData;
-    pinstance = 0;
-
-#ifdef HAVE_INDI
-    delete m_EkosManager;
-    GUIManager::Instance()->close();
-#endif
-
-    QSqlDatabase::removeDatabase("userdb");
-    QSqlDatabase::removeDatabase("skydb");
-
+    pinstance = nullptr;
 #ifdef PROFILE_COORDINATE_CONVERSION
     qDebug() << "Spent " << SkyPoint::cpuTime_EqToHz << " seconds in " << SkyPoint::eqToHzCalls
              << " calls to SkyPoint::EquatorialToHorizontal, for an average of "
@@ -290,6 +261,25 @@ KStars::~KStars()
 #ifdef Q_OS_WIN
     QProcess::execute("taskkill /im kstars.exe /f");
 #endif
+}
+
+void KStars::releaseResources()
+{
+    delete m_KStarsData;
+    m_KStarsData = nullptr;
+    delete StarBlockFactory::Instance();
+    TextureManager::Release();
+    SkyQPainter::releaseImageCache();
+    FOVManager::releaseCache();
+
+#ifdef HAVE_INDI
+    delete m_EkosManager;
+    m_EkosManager = nullptr;
+//    GUIManager::Instance()->close();
+#endif
+
+    QSqlDatabase::removeDatabase("userdb");
+    QSqlDatabase::removeDatabase("skydb");
 }
 
 void KStars::clearCachedFindDialog()

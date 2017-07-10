@@ -17,26 +17,18 @@
 
 #include "ksplanetbase.h"
 
-#include <cmath>
-
-#include <QFile>
-#include <QPoint>
-#include <QMatrix>
-
-#include "nan.h"
+#include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
-#include "ksnumbers.h"
 #include "Options.h"
 #include "skymap.h"
 #include "ksasteroid.h"
 #include "kscomet.h"
-#include "kspluto.h"
+#include "ksmoon.h"
 #include "ksplanet.h"
 #include "kssun.h"
-#include "ksmoon.h"
-#include "skycomponents/skymapcomposite.h"
 #include "texturemanager.h"
+#include "skycomponents/skymapcomposite.h"
 
 QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() << QColor("slateblue") << //Mercury
                                             QColor("lightgreen") <<                     //Venus

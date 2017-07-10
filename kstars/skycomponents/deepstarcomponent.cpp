@@ -17,27 +17,20 @@
 
 #include "deepstarcomponent.h"
 
-#include "binfilehelper.h"
 #include "byteorder.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "projections/projector.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
 #include "skymesh.h"
-#include "skyobjects/starobject.h"
 #include "skypainter.h"
-#include "starblockfactory.h"
+#include "starblock.h"
 #include "starcomponent.h"
-#include "projections/projector.h"
 
-#include <QPixmap>
-#include <QRectF>
-#include <QFontMetricsF>
-#include <QtConcurrent>
-
-//NOTE Added this for QT_FSEEK, should we be including another file?
 #include <qplatformdefs.h>
+#include <QtConcurrent>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -52,6 +45,15 @@ DeepStarComponent::DeepStarComponent(SkyComposite *parent, QString fileName, flo
     if (staticStars)
         loadStaticStars();
     qDebug() << "Loaded DSO catalog file: " << dataFileName;
+}
+
+DeepStarComponent::~DeepStarComponent()
+{
+    qDeleteAll(m_starBlockList);
+    m_starBlockList.clear();
+    if (fileOpened)
+        starReader.closeFile();
+    fileOpened = false;
 }
 
 bool DeepStarComponent::loadStaticStars()
@@ -74,6 +76,7 @@ bool DeepStarComponent::loadStaticStars()
     }
 
     quint8 recordSize = starReader.guessRecordSize();
+
     if (recordSize != 16 && recordSize != 32)
     {
         qDebug() << "Cannot understand catalog file " << dataFileName << endl;
@@ -113,7 +116,7 @@ bool DeepStarComponent::loadStaticStars()
         {
             Trixel trixel   = i;
             quint64 records = starReader.getRecordCount(i);
-            StarBlock *SB   = new StarBlock(records);
+            StarBlock* SB = new StarBlock(records);
 
             if (!SB)
                 qDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel "
@@ -123,8 +126,7 @@ bool DeepStarComponent::loadStaticStars()
 
             for (quint64 j = 0; j < records; ++j)
             {
-                bool fread_success = false;
-                fread_success      = fread(&stardata, sizeof(starData), 1, dataFile);
+                bool fread_success = fread(&stardata, sizeof(starData), 1, dataFile);
 
                 if (!fread_success)
                 {
@@ -215,13 +217,6 @@ bool DeepStarComponent::loadStaticStars()
     return true;
 }
 
-DeepStarComponent::~DeepStarComponent()
-{
-    if (fileOpened)
-        starReader.closeFile();
-    fileOpened = false;
-}
-
 bool DeepStarComponent::selected()
 {
     return Options::showStars() && fileOpened;
@@ -299,8 +294,6 @@ void DeepStarComponent::draw(SkyPainter *skyp)
     m_skyMesh->aperture(focus, radius + 1.0, DRAW_BUF); // divide by 2 for testing
 
     MeshIterator region(m_skyMesh, DRAW_BUF);
-
-    magLim = maglim;
 
     // If we are to hide the fainter stars (eg: while slewing), we set the magnitude limit to hideStarsMag.
     if (hideFaintStars && maglim > hideStarsMag)
@@ -465,7 +458,6 @@ bool DeepStarComponent::openDataFile()
                 return false;
             }
         }
-        meshLevel = htm_level;
         ret = fread(&MSpT, 2, 1, starReader.getFileHandle());
         if (starReader.getByteSwap())
             MSpT = bswap_16(MSpT);

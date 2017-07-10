@@ -13,11 +13,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef DEEPSTARITEM_H_
-#define DEEPSTARITEM_H_
+
+#pragma once
 
 #include "skyitem.h"
-#include "skyopacitynode.h"
 
 /** @class DeepStarItem
  *
@@ -35,29 +34,22 @@ class DeepStarItem : public SkyItem
 {
   public:
     /**
-         * @short Constructor. Instantiates nodes for static stars
-         * @param deepStarComp - pointer to DeepStarComponent that handles data
-         * @param rootNode - parent RootNode that instantiated this object
-         */
+     * @short Constructor. Instantiates nodes for static stars
+     * @param deepStarComp - pointer to DeepStarComponent that handles data
+     * @param rootNode - parent RootNode that instantiated this object
+     */
     DeepStarItem(DeepStarComponent *deepStarComp, RootNode *rootNode);
 
     /**
-         * @short Update positions of deep stars in SkyMapLite
-         * In this function we perform almost the same thing as in DeepSkyItem::updateDeepSkyNode() to reduce
-         * memory consumption.
-         * @see DeepSkyItem::updateDeepSkyNode()
-         */
-    /**
-         * @short updates all trixels that contain stars
-         */
+     * @short updates all trixels that contain stars
+     */
     virtual void update();
 
   private:
-    SkyMesh *m_skyMesh;
-    StarBlockFactory *m_StarBlockFactory;
+    SkyMesh *m_skyMesh { nullptr };
+    StarBlockFactory *m_StarBlockFactory { nullptr };
 
-    DeepStarComponent *m_deepStarComp;
+    DeepStarComponent *m_deepStarComp { nullptr };
     QVector<StarBlockList *> *m_starBlockList;
-    bool m_staticStars;
+    bool m_staticStars { false };
 };
-#endif

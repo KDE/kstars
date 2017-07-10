@@ -17,16 +17,10 @@
 
 #include "kscomet.h"
 
-#include <typeinfo>
-
-#include <QRegExp>
-#include <QDebug>
-#include <QMap>
-
-#include "kstarsdata.h"
-#include "kstarsdatetime.h"
 #include "ksnumbers.h"
-#include "dms.h"
+#include "kstarsdata.h"
+
+#include <QDir>
 
 namespace
 {

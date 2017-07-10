@@ -17,14 +17,11 @@
 
 #include "obslistpopupmenu.h"
 
-#include <KLocalizedString>
+#include "config-kstars.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "skyobjects/skyobject.h"
 #include "observinglist.h"
-
-#include <config-kstars.h>
 
 ObsListPopupMenu::ObsListPopupMenu() : QMenu(0)
 {

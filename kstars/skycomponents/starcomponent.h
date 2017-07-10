@@ -32,11 +32,12 @@
  * @version 1.0
  */
 
-#include "listcomponent.h"
-
 #include "ksnumbers.h"
+#include "listcomponent.h"
 #include "skylabel.h"
 #include "skyobjects/starobject.h"
+
+#include <memory>
 
 #ifdef KSTARS_LITE
 class StarItem;
@@ -157,27 +158,27 @@ class StarComponent : public ListComponent
     /** true if all stars(not only high PM ones) were reindexed else false**/
     bool reindex(KSNumbers *num);
 
-    SkyMesh *m_skyMesh;
-    StarIndex *m_starIndex;
+    SkyMesh *m_skyMesh { nullptr };
+    std::unique_ptr<StarIndex> m_starIndex;
 
     KSNumbers m_reindexNum;
     double m_reindexInterval;
 
     LabelList *m_labelList[MAX_LINENUMBER_MAG + 1];
-    bool m_hideLabels;
+    bool m_hideLabels = false;
 
     float m_zoomMagLimit;
 
     float m_FaintMagnitude; // Limiting magnitude of the catalog currently loaded
-    bool starsLoaded;
+    bool starsLoaded = false;
     float magLim; // Current limiting magnitude for visible stars
 
     StarObject m_starObject;
-    StarObject *focusStar; // This object is always drawn
+    StarObject *focusStar { nullptr }; // This object is always drawn
 
-    KStarsSplash *m_reindexSplash;
+    KStarsSplash *m_reindexSplash { nullptr };
 
-    StarBlockFactory *m_StarBlockFactory;
+    StarBlockFactory *m_StarBlockFactory { nullptr };
 
     QVector<HighPMStarList *> m_highPMStars;
     QHash<QString, SkyObject *> m_genName;

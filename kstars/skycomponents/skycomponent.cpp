@@ -55,11 +55,25 @@ void SkyComponent::objectsInArea(QList<SkyObject *> &, const SkyRegion &)
 
 QHash<int, QStringList> &SkyComponent::getObjectNames()
 {
+    if (!parent())
+    {
+        // Use a fake list if there is no parent object
+        static QHash<int, QStringList> temp;
+
+        return temp;
+    }
     return parent()->objectNames();
 }
 
 QHash<int, QVector<QPair<QString, const SkyObject *>>> &SkyComponent::getObjectLists()
 {
+    if (!parent())
+    {
+        // Use a fake list if there is no parent object
+        static QHash<int, QVector<QPair<QString, const SkyObject *>>> temp;
+
+        return temp;
+    }
     return parent()->objectLists();
 }
 

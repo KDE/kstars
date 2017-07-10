@@ -15,17 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TARGETLISTCOMPONENT_H
-#define TARGETLISTCOMPONENT_H
+#pragma once
 
-#include "skypainter.h"
 #include "skycomponent.h"
-#include "typedef.h"
-#include "skyobject.h"
+
+#include <QPen>
 
 /**
- *@class TargetListComponent
- *@short Highlights objects present in certain lists by drawing "target" symbols around them.
+ * @class TargetListComponent
+ * @short Highlights objects present in certain lists by drawing "target" symbols around them.
  *
  * To represent lists of specific objects on the skymap (eg: A star
  * hopping route, or a list of planned observation targets), one would
@@ -40,7 +38,7 @@
  * the list. If the pointers are nullptr, the symbols are always drawn,
  * but the labels are not drawn.
  *
- *@note This does not inherit from ListComponent because it is not
+ * @note This does not inherit from ListComponent because it is not
  * necessary. ListComponent has extra methods like objectNearest(),
  * which we don't want. Also, ListComponent maintains its own list,
  * whereas this class merely holds a pointer to a list that's
@@ -51,54 +49,40 @@ class TargetListComponent : public SkyComponent
 {
   public:
     /**
-         *@short Default constructor.
-         */
+     * @short Default constructor.
+     */
     explicit TargetListComponent(SkyComposite *parent);
 
     /**
-         *@short Constructor that sets up this target list
-         */
+     * @short Constructor that sets up this target list
+     */
     TargetListComponent(SkyComposite *parent, QList<SkyObject *> *objectList, QPen _pen,
                         bool (*optionDrawSymbols)(void) = 0, bool (*optionDrawLabels)(void) = 0);
 
+    virtual ~TargetListComponent();
+
     /**
-         *@short Draw this component by iterating over the list.
-         *
-         *@note This method does not bother refreshing the coordinates of
-         * the objects on the list. So this must be called only after the
-         * objects are drawn in a given draw cycle.
-         */
+     * @short Draw this component by iterating over the list.
+     *
+     * @note This method does not bother refreshing the coordinates of
+     * the objects on the list. So this must be called only after the
+     * objects are drawn in a given draw cycle.
+     */
     void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
     // FIXME: Maybe we should make these member objects private / protected?
-    SkyObjectList *list; // Pointer to list of objects to draw
+    SkyObjectList *list { nullptr }; // Pointer to list of objects to draw
     QPen pen;            // Pen to use to draw
 
     /**
-         *@short Pointer to static method that tells us whether to draw this list or not
-         *@note If the pointer is nullptr, the list is drawn nevertheless
-         */
+     * @short Pointer to static method that tells us whether to draw this list or not
+     * @note If the pointer is nullptr, the list is drawn nevertheless
+     */
     bool (*drawSymbols)(void);
 
     /**
-         *@short Pointer to static method that tells us whether to draw labels for this list or not
-         *@note If the pointer is nullptr, labels are not drawn
-         */
+     * @short Pointer to static method that tells us whether to draw labels for this list or not
+     * @note If the pointer is nullptr, labels are not drawn
+     */
     bool (*drawLabels)(void);
-
-  protected:
-    /**
-         *@short Draws a target symbol around the object, and also draws labels if requested
-         *@note Does not update the positions of the objects. See the note on draw() for details.
-         */
-    /*
-
-        // This method is superseded by the definitions in SkyPainter
-        // and might need to be reinstated only while generalizing the
-        // class to draw other textures.
-
-        virtual void drawTargetSymbol( SkyPainter *skyp, SkyObject *obj );
-        */
 };
-
-#endif

@@ -7,39 +7,21 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <stdlib.h>
+#include "guimanager.h"
 
-#include <QLineEdit>
-#include <QTextEdit>
-#include <QFrame>
-#include <QCheckBox>
-#include <QLabel>
-#include <QPushButton>
-#include <QLayout>
-#include <QSocketNotifier>
-#include <QDateTime>
-#include <QSplitter>
-#include <QLocale>
-#include <KMessageBox>
-#include <QDebug>
-#include <QComboBox>
-#include <QDialog>
-#include <QTabWidget>
-
-#include <KLed>
-#include <KActionCollection>
-
-#include <basedevice.h>
-
+#include "clientmanager.h"
+#include "deviceinfo.h"
+#include "indidevice.h"
+#include "kstars.h"
+#include "Options.h"
 #include "fitsviewer/fitsviewer.h"
 
-#include "kstars.h"
-#include "indidevice.h"
-#include "guimanager.h"
-#include "driverinfo.h"
-#include "deviceinfo.h"
+#include <KActionCollection>
+#include <KMessageBox>
 
-#include "Options.h"
+#include <QSplitter>
+#include <QTextEdit>
+#include <QThread>
 
 extern const char *libindi_strings_context;
 

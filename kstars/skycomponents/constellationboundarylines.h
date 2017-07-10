@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONSTELLATION_BOUNDARY_LINES_H
-#define CONSTELLATION_BOUNDARY_LINES_H
+#pragma once
 
 #include "noprecessindex.h"
 
@@ -40,18 +39,18 @@ typedef QVector<PolyListList *> PolyIndex;
 class ConstellationBoundaryLines : public NoPrecessIndex
 {
   public:
-    /** @short Constructor
-         * Simply adds all of the coordinate grid circles
-         * (meridians and parallels)
-         * @p parent Pointer to the parent SkyComposite object
-         *
-         * Reads the constellation boundary data from cbounds.dat.
-         * The boundary data is defined by a series of RA,Dec coordinate pairs
-         * defining the "nodes" of the boundaries.  The nodes are organized into
-         * "segments", such that each segment represents a continuous series
-         * of boundary-line intervals that divide two particular constellations.
-         */
+    /**
+     * @short Constructor
+     * Simply adds all of the coordinate grid circles (meridians and parallels)
+     * @p parent Pointer to the parent SkyComposite object
+     *
+     * Reads the constellation boundary data from cbounds.dat. The boundary data is defined by
+     * a series of RA,Dec coordinate pairs defining the "nodes" of the boundaries. The nodes are
+     * organized into "segments", such that each segment represents a continuous series
+     * of boundary-line intervals that divide two particular constellations.
+     */
     explicit ConstellationBoundaryLines(SkyComposite *parent);
+    virtual ~ConstellationBoundaryLines();
 
     QString constellationName(SkyPoint *p);
 
@@ -62,17 +61,16 @@ class ConstellationBoundaryLines : public NoPrecessIndex
   private:
     void appendPoly(PolyList *polyList, int debug = 0);
 
-    /** @short reads the indices from the KSFileReader instead of using
-         * the SkyMesh to create them.  If the file pointer is null or if
-         * debug == -1 then we fall back to using the index.
-         */
+    /**
+     * @short reads the indices from the KSFileReader instead of using
+     * the SkyMesh to create them.  If the file pointer is null or if
+     * debug == -1 then we fall back to using the index.
+     */
     void appendPoly(PolyList *polyList, KSFileReader *file, int debug);
 
     PolyList *ContainingPoly(SkyPoint *p);
 
-    SkyMesh *m_skyMesh;
+    SkyMesh *m_skyMesh { nullptr };
     PolyIndex m_polyIndex;
-    int m_polyIndexCnt;
+    int m_polyIndexCnt { 0 };
 };
-
-#endif

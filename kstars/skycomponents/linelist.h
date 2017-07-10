@@ -15,12 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LINELIST_H
-#define LINELIST_H
-
-#include <QList>
+#pragma once
 
 #include "typedef.h"
+
+#include <QList>
 
 class SkyPoint;
 class KSNumbers;
@@ -36,6 +35,7 @@ class LineList
 {
   public:
     LineList() : drawID(0), updateID(0), updateNumID(0) {}
+    ~LineList() { }
 
     /* A global drawID (in SkyMesh) is updated at the start of each draw
          * cycle.  Since an extended object is often covered by more than one
@@ -57,5 +57,3 @@ class LineList
   private:
     SkyList pointList;
 };
-
-#endif

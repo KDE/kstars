@@ -17,39 +17,25 @@
 
 #include "kstarsdata.h"
 
-#include <QApplication>
-#include <QFileInfo>
-#include <QSet>
-#include <QTextStream>
-#include <QDebug>
-#include <QStandardPaths>
-#include <QtConcurrent>
+#include "fov.h"
+#include "ksutils.h"
+#include "Options.h"
+#include "auxiliary/kspaths.h"
+#include "skycomponents/supernovaecomponent.h"
+#include "skycomponents/skymapcomposite.h"
+#ifndef KSTARS_LITE
+#include "imageexporter.h"
+#include "observinglist.h"
+#include "skymap.h"
+#include "dialogs/detaildialog.h"
+#include "oal/execute.h"
+#endif
+
 #ifndef KSTARS_LITE
 #include <KMessageBox>
 #endif
-#include <KLocalizedString>
 
-#include "Options.h"
-#include "dms.h"
-#include "fov.h"
-#include "ksutils.h"
-#include "ksfilereader.h"
-#include "ksnumbers.h"
-#include "auxiliary/kspaths.h"
-#include "skyobjects/skyobject.h"
-#include "skycomponents/supernovaecomponent.h"
-#include "skycomponents/skymapcomposite.h"
-#include "simclock.h"
-#include "timezonerule.h"
-#ifndef KSTARS_LITE
-#include "skymap.h"
-#include "oal/execute.h"
-#include "imageexporter.h"
-#include "observinglist.h"
-#include "dialogs/detaildialog.h"
-#endif
-
-#include <config-kstars.h>
+#include <QtConcurrent>
 
 namespace
 {
@@ -117,16 +103,13 @@ KStarsData *KStarsData::Create()
 }
 
 KStarsData::KStarsData()
-    : m_SkyComposite(0), m_Geo(dms(0), dms(0)), m_ksuserdb(), m_catalogdb(),
-#ifndef KSTARS_LITE
-      m_ObservingList(0), m_Execute(0), m_ImageExporter(0),
-#endif
+    : m_Geo(dms(0), dms(0)), m_ksuserdb(), m_catalogdb(),
       temporaryTrail(false),
       //locale( new KLocale( "kstars" ) ),
       m_preUpdateID(0), m_updateID(0), m_preUpdateNumID(0), m_updateNumID(0), m_preUpdateNum(J2000), m_updateNum(J2000)
 {
 #ifndef KSTARS_LITE
-    m_LogObject = new OAL::Log;
+    m_LogObject.reset(new OAL::Log);
 #endif
     // at startup times run forward
     setTimeDirection(0.0);
@@ -137,16 +120,12 @@ KStarsData::~KStarsData()
     Q_ASSERT(pinstance);
 
 //delete locale;
-#ifndef KSTARS_LITE
-    delete m_LogObject;
-    delete m_Execute;
-    delete m_ObservingList;
-    delete m_ImageExporter;
-#endif
     qDeleteAll(geoList);
+    geoList.clear();
     qDeleteAll(ADVtreeList);
+    ADVtreeList.clear();
 
-    pinstance = 0;
+    pinstance = nullptr;
 }
 
 bool KStarsData::initialize()
@@ -176,7 +155,7 @@ bool KStarsData::initialize()
 
     //Initialize SkyMapComposite//
     emit progressText(i18n("Loading sky objects"));
-    m_SkyComposite = new SkyMapComposite(0);
+    m_SkyComposite.reset(new SkyMapComposite());
     //Load Image URLs//
     //#ifndef Q_OS_ANDROID
     //On Android these 2 calls produce segfault. WARNING
@@ -1448,18 +1427,18 @@ void KStarsData::syncFOV()
 // FIXME: Why does KStarsData store the Execute instance??? -- asimha
 Execute *KStarsData::executeSession()
 {
-    if (!m_Execute)
-        m_Execute = new Execute();
+    if (!m_Execute.get())
+        m_Execute.reset(new Execute());
 
-    return m_Execute;
+    return m_Execute.get();
 }
 
 // FIXME: Why does KStarsData store the ImageExporer instance??? KStarsData is supposed to work with no reference to KStars -- asimha
 ImageExporter *KStarsData::imageExporter()
 {
-    if (!m_ImageExporter)
-        m_ImageExporter = new ImageExporter(KStars::Instance());
+    if (!m_ImageExporter.get())
+        m_ImageExporter.reset(new ImageExporter(KStars::Instance()));
 
-    return m_ImageExporter;
+    return m_ImageExporter.get();
 }
 #endif

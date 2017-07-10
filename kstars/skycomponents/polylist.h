@@ -34,7 +34,7 @@ class PolyList
     /* @short trivial constructor that also sets the name.   It was
          * convenient to specify the name at construction time.
          */
-    explicit PolyList(QString name) : m_wrapRA(false) { m_name = name; };
+    explicit PolyList(const QString& name) : m_wrapRA(false) { m_name = name; };
 
     /* @short returns the QPolygonF that holds the points. */
     const QPolygonF *poly() { return &m_poly; }

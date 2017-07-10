@@ -13,47 +13,47 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef STARITEM_H_
-#define STARITEM_H_
+
+#pragma once
 
 #include "skyitem.h"
-#include "skyopacitynode.h"
 
-/** @class StarItem
+/**
+ * @class StarItem
  *
- *@short Class that handles Stars
- *@author Artem Fedoskin
- *@version 1.0
+ * @short Class that handles Stars
+ * @author Artem Fedoskin
+ * @version 1.0
  */
 
-class StarComponent;
 class SkyMesh;
+class SkyOpacityNode;
 class StarBlockFactory;
+class StarComponent;
 
 class StarItem : public SkyItem
 {
   public:
     /**
-         * @short Constructor.
-         * @param rootNode parent RootNode that instantiated this object
-         */
+     * @short Constructor.
+     * @param rootNode parent RootNode that instantiated this object
+     */
     StarItem(StarComponent *starComp, RootNode *rootNode);
 
     /**
-         * @short Update positions of nodes that represent stars
-         * In this function we perform almost the same thing as in DeepSkyItem::updateDeepSkyNode() to reduce
-         * memory consumption.
-         * @see DeepSkyItem::updateDeepSkyNode()
-         */
+     * @short Update positions of nodes that represent stars
+     * In this function we perform almost the same thing as in DeepSkyItem::updateDeepSkyNode() to reduce
+     * memory consumption.
+     * @see DeepSkyItem::updateDeepSkyNode()
+     */
     virtual void update();
 
   private:
-    StarComponent *m_starComp;
-    SkyMesh *m_skyMesh;
-    StarBlockFactory *m_StarBlockFactory;
+    StarComponent *m_starComp { nullptr };
+    SkyMesh *m_skyMesh { nullptr };
+    StarBlockFactory *m_StarBlockFactory { nullptr };
 
-    SkyOpacityNode *m_stars;
-    SkyOpacityNode *m_deepStars;
-    SkyOpacityNode *m_starLabels;
+    SkyOpacityNode *m_stars { nullptr };
+    SkyOpacityNode *m_deepStars { nullptr };
+    SkyOpacityNode *m_starLabels { nullptr };
 };
-#endif

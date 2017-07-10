@@ -15,12 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef NO_PRECESS_INDEX_H
-#define NO_PRECESS_INDEX_H
+#pragma once
 
 #include "linelistindex.h"
 
-/** @class NoPrecessIndex
+/**
+ * @class NoPrecessIndex
  *
  * @author James B. Bowlin
  * @version 0.1
@@ -32,16 +32,16 @@ class NoPrecessIndex : public LineListIndex
     NoPrecessIndex(SkyComposite *parent, const QString &name);
 
     //Moved to public because KStars Lite uses it
-    /** @ short override JITupdate so we don't perform the precession
-         * correction, only rotation.
-         */
+    /**
+     * @ short override JITupdate so we don't perform the precession
+     * correction, only rotation.
+     */
     void JITupdate(LineList *lineList) Q_DECL_OVERRIDE;
 
   protected:
-    /** @short we need to use the buffer that does not have the
-         * reverse-precession correction.
-         */
+    /**
+     * @short we need to use the buffer that does not have the
+     * reverse-precession correction.
+     */
     MeshBufNum_t drawBuffer() Q_DECL_OVERRIDE { return NO_PRECESS_BUF; }
 };
-
-#endif

@@ -16,21 +16,21 @@
  *																		 *
  ***************************************************************************/
 
-#ifndef LINE_LIST_LABEL_H
-#define LINE_LIST_LABEL_H
+#pragma once
 
 #include <QPointF>
+#include <QString>
 
-class SkyLabeler;
-class Projector;
 class LineList;
+class Projector;
+class SkyLabeler;
 
 /**
-	*@class LabelListIndex
-	*An abstract parent class to be inherited by Ecliptic and Equator.
+	* @class LabelListIndex
+	* An abstract parent class to be inherited by Ecliptic and Equator.
 	*
-	*@author James B. Bowlin
-	*@version 0.1
+	* @author James B. Bowlin
+	* @version 0.1
 	*/
 class LineListLabel
 {
@@ -45,15 +45,14 @@ class LineListLabel
         RightCandidate
     };
 
-    /** @short prepare the context for selecting label position candidates.
-         */
+    /** @short prepare the context for selecting label position candidates. */
     void reset();
 
-    /** @short draw the label if any.  Is currently called at the bottom of
-         * draw() but that call could be removed and it could be called
-         * externally AFTER draw() has been called so draw() can set up the label
-         * position candidates.
-         */
+    /**
+     * @short draw the label if any.  Is currently called at the bottom of draw() but that call could
+     * be removed and it could be called externally AFTER draw() has been called so draw() can set
+     * up the label position candidates.
+     */
     void draw();
 
     void updateLabelCandidates(qreal x, qreal y, LineList *lineList, int i);
@@ -69,13 +68,12 @@ class LineListLabel
     float m_marginLeft, m_marginRight, m_marginTop, m_marginBot;
     float m_farLeft, m_farRight, m_farTop, m_farBot;
 
-    /** @short This routine does two things at once.  It returns the QPointF
-         * corresponding to pointList[i] and also computes the angle using
-         * pointList[i] and pointList[i-1] therefore you MUST ensure that:
-         *
-         *	   1 <= i < pointList.size().
-         */
+    /**
+     * @short This routine does two things at once.  It returns the QPointF
+     * corresponding to pointList[i] and also computes the angle using
+     * pointList[i] and pointList[i-1] therefore you MUST ensure that:
+     *
+     *	   1 <= i < pointList.size().
+     */
     QPointF angleAt(const Projector *proj, LineList *list, int i, double *angle);
 };
-
-#endif

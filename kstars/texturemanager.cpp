@@ -19,6 +19,10 @@
 */
 
 #include "texturemanager.h"
+
+#include "kspaths.h"
+#include "auxiliary/kspaths.h"
+
 #ifdef KSTARS_LITE
 #include <QStandardPaths>
 #include <QImage>
@@ -26,9 +30,6 @@
 #include "skymap.h"
 #include "kstars.h"
 #endif
-
-#include "auxiliary/kspaths.h"
-#include "kspaths.h"
 
 #ifdef HAVE_OPENGL
 #include <QGLWidget>
@@ -38,13 +39,19 @@
 // for image fails
 const static QImage emptyImage;
 
-TextureManager *TextureManager::m_p;
+TextureManager *TextureManager::m_p = nullptr;
 
 TextureManager *TextureManager::Create()
 {
     if (!m_p)
         m_p = new TextureManager();
     return m_p;
+}
+
+void TextureManager::Release()
+{
+    delete m_p;
+    m_p = nullptr;
 }
 
 const QImage &TextureManager::getImage(const QString &name)
