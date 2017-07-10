@@ -2030,14 +2030,13 @@ void Capture::prepareJob(SequenceJob *job)
         setCCD(activeJob->getActiveCCD()->getDeviceName());
     }
 
-    if (currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName(), "CCD1") == B_NEVER)
+    if (currentCCD->isBLOBEnabled() == false)
     {
-        if (KMessageBox::questionYesNo(
-                0, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
+
+        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(0, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
             KMessageBox::Yes)
         {
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
+            currentCCD->setBLOBEnabled(true);
         }
         else
         {
