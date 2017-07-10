@@ -33,6 +33,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QStatusBar>
+#include <QTemporaryFile>
 
 #ifndef KSTARS_LITE
 #include <KMessageBox>

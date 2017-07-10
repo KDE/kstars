@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ECLIPTIC_H
-#define ECLIPTIC_H
+#pragma once
 
 #include "linelistindex.h"
 #include "linelistlabel.h"
@@ -31,10 +30,10 @@
 class Ecliptic : public LineListIndex
 {
   public:
-    /** @short Constructor
-         * @p parent pointer to the parent SkyComposite object
-         * name is the name of the subclass
-         */
+    /**
+     * @short Constructor
+     * @p parent pointer to the parent SkyComposite object name is the name of the subclass
+     */
     explicit Ecliptic(SkyComposite *parent);
 
     void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
@@ -46,5 +45,3 @@ class Ecliptic : public LineListIndex
   private:
     LineListLabel m_label;
 };
-
-#endif

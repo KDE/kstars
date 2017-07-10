@@ -15,24 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FOV_H_
-#define FOV_H_
-
-#include <QList>
-
-#include <QImage>
-#include <QString>
-#include <KLocalizedString>
+#pragma once
 
 #include "skypoint.h"
 
+#include <QImage>
+#include <QList>
+#include <QString>
+
 class QPainter;
 
-/** @class FOV
- *  A simple class encapsulating a Field-of-View symbol
- *@author Jason Harris
- *@version 1.0
-*/
+/**
+ * @class FOV
+ * A simple class encapsulating a Field-of-View symbol
+ * @author Jason Harris
+ * @version 1.0
+ */
 class FOV
 {
   public:
@@ -47,7 +45,7 @@ class FOV
     };
     static FOV::Shape intToShape(int);
 
-    /**Default constructor*/
+    /** Default constructor */
     FOV();
     FOV(const QString &name, float a, float b = -1, float xoffset = 0, float yoffset = 0, float rot = 0,
         Shape shape = SQUARE, const QString &color = "#FFFFFF");
@@ -82,16 +80,19 @@ class FOV
     inline QString color() const { return m_color; }
     void setColor(const QString &c) { m_color = c; }
 
-    /** @short draw the FOV symbol on a QPainter
-         * @param p reference to the target QPainter. The painter should already be started.
-         * @param zoomFactor is zoom factor as in SkyMap.
-         */
+    /**
+     * @short draw the FOV symbol on a QPainter
+     * @param p reference to the target QPainter. The painter should already be started.
+     * @param zoomFactor is zoom factor as in SkyMap.
+     */
     void draw(QPainter &p, float zoomFactor);
-    /** @short draw FOV symbol so it will be inside a rectangle
-         * @param p reference to the target QPainter. The painter should already be started.
-         * @param x is X size of rectangle
-         * @param y is Y size of rectangle
-         */
+
+    /**
+     * @short draw FOV symbol so it will be inside a rectangle
+     * @param p reference to the target QPainter. The painter should already be started.
+     * @param x is X size of rectangle
+     * @param y is Y size of rectangle
+     */
     void draw(QPainter &p, float x, float y);
 
     SkyPoint center() const;
@@ -107,26 +108,29 @@ class FOV
   private:
     QString m_name, m_color;
     Shape m_shape;
-    float m_sizeX, m_sizeY;
-    float m_offsetX, m_offsetY;
-    float m_rotation;
-    float m_northPA;
+    float m_sizeX { 0 }, m_sizeY { 0 };
+    float m_offsetX { 0 }, m_offsetY { 0 };
+    float m_rotation { 0 };
+    float m_northPA { 0 };
     SkyPoint m_center;
     QImage m_image;
-    bool m_imageDisplay;
+    bool m_imageDisplay { false };
 };
 
-/** @class FOVManager
- *  A simple class handling FOVs.
+/**
+ * @class FOVManager
+ * A simple class handling FOVs.
  * @note Should migrate this from file (fov.dat) to using the user sqlite database
- *@author Jasem Mutlaq
- *@version 1.0
-*/
+ * @author Jasem Mutlaq
+ * @version 1.0
+ */
 class FOVManager
 {
   public:
     /** @short Read list of FOVs from "fov.dat" */
     static const QList<FOV *> &readFOVs();
+    /** @short Release the FOV cache */
+    static void releaseCache();
     static void addFOV(FOV *newFOV)
     {
         Q_ASSERT(newFOV);
@@ -151,5 +155,3 @@ class FOVManager
 
     static QList<FOV *> m_FOVs;
 };
-
-#endif

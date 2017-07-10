@@ -28,6 +28,19 @@
 #include "kstarsdatetime.h"
 #include "observinglist.h"
 
+OAL::Log::~Log()
+{
+    qDeleteAll(m_targetList);
+    qDeleteAll(m_observerList);
+    qDeleteAll(m_eyepieceList);
+    qDeleteAll(m_lensList);
+    qDeleteAll(m_filterList);
+    qDeleteAll(m_siteList);
+    qDeleteAll(m_sessionList);
+    qDeleteAll(m_scopeList);
+    qDeleteAll(m_observationList);
+}
+
 void OAL::Log::writeBegin()
 {
     output       = "";

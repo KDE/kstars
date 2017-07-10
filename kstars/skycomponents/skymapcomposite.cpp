@@ -17,61 +17,50 @@
 
 #include "skymapcomposite.h"
 
-#include <QPolygonF>
-#include <QApplication>
-
-#include "Options.h"
+#include "artificialhorizoncomponent.h"
+#include "catalogcomponent.h"
+#include "constellationartcomponent.h"
+#include "constellationboundarylines.h"
+#include "constellationlines.h"
+#include "constellationnamescomponent.h"
+#include "culturelist.h"
+#include "deepskycomponent.h"
+#include "deepstarcomponent.h"
+#include "ecliptic.h"
+#include "equator.h"
+#include "equatorialcoordinategrid.h"
+#include "horizoncomponent.h"
+#include "horizontalcoordinategrid.h"
+#include "ksasteroid.h"
+#include "kscomet.h"
 #include "kstarsdata.h"
-#ifndef KSTARS_LITE
-#include "skymap.h"
-#include "ksutils.h"
-#endif
-#include "skyobjects/starobject.h"
+#include "milkyway.h"
+#include "satellitescomponent.h"
+#include "skylabeler.h"
+#include "skypainter.h"
+#include "solarsystemcomposite.h"
+#include "starcomponent.h"
+#include "supernovaecomponent.h"
+#include "syncedcatalogcomponent.h"
+#include "targetlistcomponent.h"
+#include "projections/projector.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanet.h"
 #include "skyobjects/constellationsart.h"
 
-#include "targetlistcomponent.h"
-#include "constellationboundarylines.h"
-#include "constellationlines.h"
-#include "culturelist.h"
-#include "constellationnamescomponent.h"
-#include "equatorialcoordinategrid.h"
-#include "horizontalcoordinategrid.h"
-#include "catalogcomponent.h"
-#include "syncedcatalogcomponent.h"
-#include "deepskycomponent.h"
-#include "equator.h"
-#include "artificialhorizoncomponent.h"
-#include "ecliptic.h"
-#include "horizoncomponent.h"
-#include "milkyway.h"
-#include "solarsystemcomposite.h"
-#include "starcomponent.h"
-#include "deepstarcomponent.h"
-#include "satellitescomponent.h"
-#include "supernovaecomponent.h"
-#include "constellationartcomponent.h"
-#include "kscomet.h"
-#include "ksasteroid.h"
-
 #ifndef KSTARS_LITE
-#include "observinglist.h"
-
 #include "flagcomponent.h"
+#include "ksutils.h"
+#include "observinglist.h"
+#include "skymap.h"
 #endif
 
-#include "skymesh.h"
-#include "skylabeler.h"
-#include "skypainter.h"
-#include "projections/projector.h"
-
-#include "typedef.h"
+#include <QApplication>
 
 SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m_reindexNum(J2000)
 {
-    m_skyLabeler = SkyLabeler::Instance();
-    m_skyMesh    = SkyMesh::Create(3); // level 5 mesh = 8192 trixels
+    m_skyLabeler.reset(SkyLabeler::Instance());
+    m_skyMesh.reset(SkyMesh::Create(3)); // level 5 mesh = 8192 trixels
     m_skyMesh->debug(0);
 //  1 => print "indexing ..."
 //  2 => prints totals too
@@ -89,14 +78,14 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
 
     // Do add to components.
     addComponent(m_CBoundLines = new ConstellationBoundaryLines(this), 80);
-    m_Cultures = new CultureList();
-    addComponent(m_CLines = new ConstellationLines(this, m_Cultures), 85);
-    addComponent(m_CNames = new ConstellationNamesComponent(this, m_Cultures), 90);
+    m_Cultures.reset(new CultureList());
+    addComponent(m_CLines = new ConstellationLines(this, m_Cultures.get()), 85);
+    addComponent(m_CNames = new ConstellationNamesComponent(this, m_Cultures.get()), 90);
     addComponent(m_Equator = new Equator(this), 95);
     addComponent(m_Ecliptic = new Ecliptic(this), 95);
     addComponent(m_Horizon = new HorizonComponent(this), 100);
     addComponent(m_DeepSky = new DeepSkyComponent(this), 5);
-    addComponent(m_ConstellationArt = new ConstellationArtComponent(this, m_Cultures), 100);
+    addComponent(m_ConstellationArt = new ConstellationArtComponent(this, m_Cultures.get()), 100);
 
     addComponent(m_ArtificialHorizon = new ArtificialHorizonComponent(this), 110);
 
@@ -104,7 +93,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
     m_manualAdditionsCat  = "_Manual_Additions";
     addComponent(m_internetResolvedComponent = new SyncedCatalogComponent(this, m_internetResolvedCat, true, 0), 6);
     addComponent(m_manualAdditionsComponent = new SyncedCatalogComponent(this, m_manualAdditionsCat, true, 0), 6);
-    m_CustomCatalogs        = new SkyComposite(this);
+    m_CustomCatalogs.reset(new SkyComposite(this));
     QStringList allcatalogs = Options::showCatalogNames();
 
     if (!allcatalogs.contains(m_internetResolvedCat))
@@ -142,14 +131,14 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
 
     // Do add to components.
     addComponent(m_CBoundLines = new ConstellationBoundaryLines(this), 80);
-    m_Cultures = new CultureList();
-    addComponent(m_CLines = new ConstellationLines(this, m_Cultures), 85);
-    addComponent(m_CNames = new ConstellationNamesComponent(this, m_Cultures), 90);
+    m_Cultures.reset(new CultureList());
+    addComponent(m_CLines = new ConstellationLines(this, m_Cultures.get()), 85);
+    addComponent(m_CNames = new ConstellationNamesComponent(this, m_Cultures.get()), 90);
     addComponent(m_Equator = new Equator(this), 95);
     addComponent(m_Ecliptic = new Ecliptic(this), 95);
     addComponent(m_Horizon = new HorizonComponent(this), 100);
     addComponent(m_DeepSky = new DeepSkyComponent(this), 5);
-    addComponent(m_ConstellationArt = new ConstellationArtComponent(this, m_Cultures), 100);
+    addComponent(m_ConstellationArt = new ConstellationArtComponent(this, m_Cultures.get()), 100);
 
     addComponent(m_ArtificialHorizon = new ArtificialHorizonComponent(this), 110);
 
@@ -157,7 +146,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
     m_manualAdditionsCat  = "_Manual_Additions";
     addComponent(m_internetResolvedComponent = new SyncedCatalogComponent(this, m_internetResolvedCat, true, 0), 6);
     addComponent(m_manualAdditionsComponent = new SyncedCatalogComponent(this, m_manualAdditionsCat, true, 0), 6);
-    m_CustomCatalogs        = new SkyComposite(this);
+    m_CustomCatalogs.reset(new SkyComposite(this));
     QStringList allcatalogs = Options::showCatalogNames();
     for (int i = 0; i < allcatalogs.size(); ++i)
     {
@@ -185,12 +174,6 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
 
 SkyMapComposite::~SkyMapComposite()
 {
-    delete m_skyLabeler; // These are on the heap to avoid header file hell.
-    delete m_skyMesh;
-    delete m_Cultures;
-#ifndef KSTARS_LITE
-    delete m_Flags;
-#endif
 }
 
 void SkyMapComposite::update(KSNumbers *num)
@@ -693,7 +676,7 @@ void SkyMapComposite::reloadCLines()
         true); // This is not (yet) multithreaded, so I think we don't have to worry about overwriting the state of an existing lock --asimha
     delete m_CLines;
     m_CLines = 0;
-    m_CLines = new ConstellationLines(this, m_Cultures);
+    m_CLines = new ConstellationLines(this, m_Cultures.get());
     SkyMapDrawAbstract::setDrawLock(false);
 #endif
 }
@@ -705,11 +688,11 @@ void SkyMapComposite::reloadCNames()
     //     objectNames(SkyObject::CONSTELLATION).clear();
     //     delete m_CNames;
     //     m_CNames = 0;
-    //     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
+    //     m_CNames = new ConstellationNamesComponent( this, m_Cultures.get() );
     //     SkyMapDrawAbstract::setDrawLock( false );
     objectNames(SkyObject::CONSTELLATION).clear();
     delete m_CNames;
-    m_CNames = new ConstellationNamesComponent(this, m_Cultures);
+    m_CNames = new ConstellationNamesComponent(this, m_Cultures.get());
 }
 
 void SkyMapComposite::reloadConstellationArt()
@@ -719,7 +702,7 @@ void SkyMapComposite::reloadConstellationArt()
     SkyMapDrawAbstract::setDrawLock(true);
     delete m_ConstellationArt;
     m_ConstellationArt = 0;
-    m_ConstellationArt = new ConstellationArtComponent(this, m_Cultures);
+    m_ConstellationArt = new ConstellationArtComponent(this, m_Cultures.get());
     SkyMapDrawAbstract::setDrawLock(false);
 #endif
 }
@@ -747,8 +730,7 @@ void SkyMapComposite::reloadDeepSky()
     // list really bad to delete and regenerate SkyObjects.
 
     SkyMapDrawAbstract::setDrawLock(true);
-    delete m_CustomCatalogs;
-    m_CustomCatalogs = new SkyComposite(this);
+    m_CustomCatalogs.reset(new SkyComposite(this));
     delete m_internetResolvedComponent;
     addComponent(m_internetResolvedComponent = new SyncedCatalogComponent(this, m_internetResolvedCat, true, 0), 6);
     delete m_manualAdditionsComponent;

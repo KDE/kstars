@@ -15,16 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kstars.h"
 #include "foveditordialog.h"
+
+#include "kstars.h"
 #include "printingwizard.h"
 
-#include <QTemporaryFile>
-#include <QFileDialog>
-
+#include <KJob>
 #include <KMessageBox>
 #include <KIO/StoredTransferJob>
-#include <KJob>
+
+#include <QDebug>
+#include <QFileDialog>
+#include <QTemporaryFile>
 
 FovEditorDialogUI::FovEditorDialogUI(QWidget *parent) : QFrame(parent)
 {

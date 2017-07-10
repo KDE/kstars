@@ -15,67 +15,67 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYMAPCOMPOSITE_H
-#define SKYMAPCOMPOSITE_H
-
-#include <QList>
+#pragma once
 
 #include "skycomposite.h"
 #include "ksnumbers.h"
 #include "skyobject.h"
 
-class SkyMesh;
-class SkyLabeler;
-class SkyMap;
+#include <QList>
+
+#include <memory>
 
 class QPolygonF;
 
-class CultureList;
+class ArtificialHorizonComponent;
+class ConstellationArtComponent;
 class ConstellationBoundaryLines;
 class ConstellationLines;
 class ConstellationNamesComponent;
-class EquatorialCoordinateGrid;
-class HorizontalCoordinateGrid;
+class ConstellationsArt;
+class CultureList;
 class DeepSkyComponent;
+class DeepSkyObject;
+class DeepStarComponent;
 class Ecliptic;
 class Equator;
-class ArtificialHorizonComponent;
+class EquatorialCoordinateGrid;
 class FlagComponent;
+class HorizontalCoordinateGrid;
 class HorizonComponent;
+class KSPlanet;
+class KSPlanetBase;
 class MilkyWay;
+class SatellitesComponent;
+class SkyLabeler;
+class SkyMap;
+class SkyMesh;
+class SkyObject;
 class SolarSystemComposite;
 class StarComponent;
-class DeepStarComponent;
-class TargetListComponent;
-class TargetListComponent;
-class SatellitesComponent;
 class SupernovaeComponent;
-class ConstellationArtComponent;
-
-class DeepSkyObject;
-class KSPlanetBase;
-class KSPlanet;
-class ConstellationsArt;
 class SyncedCatalogComponent;
+class TargetListComponent;
 
-/** @class SkyMapComposite
-*SkyMapComposite is the root object in the object hierarchy of the sky map.
-*All requests to update, init, draw etc. will be done with this class.
-*The requests will be delegated to it's children.
-*The object hierarchy will created by adding new objects via addComponent().
-*
-*@author Thomas Kabelmann
-*@version 0.1
-*/
+/**
+ * @class SkyMapComposite
+ * SkyMapComposite is the root object in the object hierarchy of the sky map.
+ * All requests to update, init, draw etc. will be done with this class.
+ * The requests will be delegated to it's children.
+ * The object hierarchy will created by adding new objects via addComponent().
+ *
+ * @author Thomas Kabelmann
+ * @version 0.1
+ */
 class SkyMapComposite : public QObject, public SkyComposite
 {
     Q_OBJECT
 
   public:
     /**
-        	*Constructor
-        	*@p parent pointer to the parent SkyComponent
-        	*/
+     * Constructor
+     * @p parent pointer to the parent SkyComponent
+     */
     explicit SkyMapComposite(SkyComposite *parent = nullptr);
 
     ~SkyMapComposite();
@@ -83,79 +83,79 @@ class SkyMapComposite : public QObject, public SkyComposite
     void update(KSNumbers *num = 0) Q_DECL_OVERRIDE;
 
     /**
-        	*@short Delegate planet position updates to the SolarSystemComposite
-        	*
-        	*Planet positions change over time, so they need to be recomputed
-        	*periodically, but not on every call to update().  This function
-        	*will recompute the positions of all solar system bodies except the
-        	*Earth's Moon, Jupiter's Moons AND Saturn Moons (because these objects' positions
-        	*change on a much more rapid timescale).
-        	*@p num Pointer to the KSNumbers object
-        	*@sa update()
-        	*@sa updateMoons()
-        	*@sa SolarSystemComposite::updatePlanets()
-        	*/
+     * @short Delegate planet position updates to the SolarSystemComposite
+     *
+     * Planet positions change over time, so they need to be recomputed
+     * periodically, but not on every call to update().  This function
+     * will recompute the positions of all solar system bodies except the
+     * Earth's Moon, Jupiter's Moons AND Saturn Moons (because these objects' positions
+     * change on a much more rapid timescale).
+     * @p num Pointer to the KSNumbers object
+     * @sa update()
+     * @sa updateMoons()
+     * @sa SolarSystemComposite::updatePlanets()
+     */
     void updateSolarSystemBodies(KSNumbers *num) Q_DECL_OVERRIDE;
 
     /**
-        	*@short Delegate moon position updates to the SolarSystemComposite
-        	*
-        	*Planet positions change over time, so they need to be recomputed
-        	*periodically, but not on every call to update().  This function
-        	*will recompute the positions of the Earth's Moon and Jupiter's four
-        	*Galilean moons.  These objects are done separately from the other
-        	*solar system bodies, because their positions change more rapidly,
-        	*and so updateMoons() must be called more often than updatePlanets().
-        	*@p num Pointer to the KSNumbers object
-        	*@sa update()
-        	*@sa updatePlanets()
-        	*@sa SolarSystemComposite::updateMoons()
-        	*/
+     * @short Delegate moon position updates to the SolarSystemComposite
+     *
+     * Planet positions change over time, so they need to be recomputed
+     * periodically, but not on every call to update().  This function
+     * will recompute the positions of the Earth's Moon and Jupiter's four
+     * Galilean moons.  These objects are done separately from the other
+     * solar system bodies, because their positions change more rapidly,
+     * and so updateMoons() must be called more often than updatePlanets().
+     * @p num Pointer to the KSNumbers object
+     * @sa update()
+     * @sa updatePlanets()
+     * @sa SolarSystemComposite::updateMoons()
+     */
     //    virtual void updateMoons( KSNumbers *num );
 
     /**
-        	*@short Delegate draw requests to all sub components
-        	*@p psky Reference to the QPainter on which to paint
-        	*/
+     * @short Delegate draw requests to all sub components
+     * @p psky Reference to the QPainter on which to paint
+     */
     void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
     /**
-          *@return the object nearest a given point in the sky.
-          *@param p The point to find an object near
-          *@param maxrad The maximum search radius, in Degrees
-        		*@note the angular separation to the matched object is returned
-        		*through the maxrad variable.
-          */
+     * @return the object nearest a given point in the sky.
+     * @param p The point to find an object near
+     * @param maxrad The maximum search radius, in Degrees
+     * @note the angular separation to the matched object is returned
+     * through the maxrad variable.
+     */
     SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
 
     /**
-         *@return the star nearest a given point in the sky.
-          *@param p The point to find a star near
-          *@param maxrad The maximum search radius, in Degrees
-        		*@note the angular separation to the matched star is returned
-        		*through the maxrad variable.
-          */
+     * @return the star nearest a given point in the sky.
+     * @param p The point to find a star near
+     * @param maxrad The maximum search radius, in Degrees
+     * @note the angular separation to the matched star is returned
+     * through the maxrad variable.
+     */
     SkyObject *starNearest(SkyPoint *p, double &maxrad);
 
     /**
-        	*@short Search the children of this SkyMapComposite for
-        	*a SkyObject whose name matches the argument.
-        	*
-        	*The objects' primary, secondary and long-form names will
-        	*all be checked for a match.
-        	*@note Overloaded from SkyComposite.  In this version, we search
-        	*the most likely object classes first to be more efficient.
-        	*@p name the name to be matched
-        	*@return a pointer to the SkyObject whose name matches
-        	*the argument, or a nullptr pointer if no match was found.
-        	*/
+     * @short Search the children of this SkyMapComposite for
+     * a SkyObject whose name matches the argument.
+     *
+     * The objects' primary, secondary and long-form names will
+     * all be checked for a match.
+     * @note Overloaded from SkyComposite.  In this version, we search
+     * the most likely object classes first to be more efficient.
+     * @p name the name to be matched
+     * @return a pointer to the SkyObject whose name matches
+     * the argument, or a nullptr pointer if no match was found.
+     */
     SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
 
     /**
-          *@return the list of objects in the region defined by skypoints
-          *@param p1 first sky point (top-left vertex of rectangular region)
-          *@param p2 second sky point (bottom-right vertex of rectangular region)
-          */
+     * @return the list of objects in the region defined by skypoints
+     * @param p1 first sky point (top-left vertex of rectangular region)
+     * @param p2 second sky point (bottom-right vertex of rectangular region)
+     */
     QList<SkyObject *> findObjectsInArea(const SkyPoint &p1, const SkyPoint &p2);
 
     void addCustomCatalog(const QString &filename, int index);
@@ -236,34 +236,34 @@ class SkyMapComposite : public QObject, public SkyComposite
     QHash<int, QStringList> &getObjectNames() Q_DECL_OVERRIDE;
     QHash<int, QVector<QPair<QString, const SkyObject *>>> &getObjectLists() Q_DECL_OVERRIDE;
 
-    CultureList *m_Cultures;
-    ConstellationBoundaryLines *m_CBoundLines;
-    ConstellationNamesComponent *m_CNames;
-    ConstellationLines *m_CLines;
-    ConstellationArtComponent *m_ConstellationArt;
-    EquatorialCoordinateGrid *m_EquatorialCoordinateGrid;
-    HorizontalCoordinateGrid *m_HorizontalCoordinateGrid;
-    DeepSkyComponent *m_DeepSky;
-    Equator *m_Equator;
-    ArtificialHorizonComponent *m_ArtificialHorizon;
-    Ecliptic *m_Ecliptic;
-    HorizonComponent *m_Horizon;
-    MilkyWay *m_MilkyWay;
-    SolarSystemComposite *m_SolarSystem;
-    SkyComposite *m_CustomCatalogs;
-    StarComponent *m_Stars;
+    std::unique_ptr<CultureList> m_Cultures;
+    ConstellationBoundaryLines *m_CBoundLines { nullptr };
+    ConstellationNamesComponent *m_CNames { nullptr };
+    ConstellationLines *m_CLines { nullptr };
+    ConstellationArtComponent *m_ConstellationArt { nullptr };
+    EquatorialCoordinateGrid *m_EquatorialCoordinateGrid { nullptr };
+    HorizontalCoordinateGrid *m_HorizontalCoordinateGrid { nullptr };
+    DeepSkyComponent *m_DeepSky { nullptr };
+    Equator *m_Equator { nullptr };
+    ArtificialHorizonComponent *m_ArtificialHorizon { nullptr };
+    Ecliptic *m_Ecliptic { nullptr };
+    HorizonComponent *m_Horizon { nullptr };
+    MilkyWay *m_MilkyWay { nullptr };
+    SolarSystemComposite *m_SolarSystem { nullptr };
+    std::unique_ptr<SkyComposite> m_CustomCatalogs;
+    StarComponent *m_Stars { nullptr };
 #ifndef KSTARS_LITE
-    FlagComponent *m_Flags;
+    FlagComponent *m_Flags { nullptr };
 #endif
-    TargetListComponent *m_ObservingList;
-    TargetListComponent *m_StarHopRouteList;
-    SatellitesComponent *m_Satellites;
-    SupernovaeComponent *m_Supernovae;
-    SyncedCatalogComponent *m_internetResolvedComponent;
-    SyncedCatalogComponent *m_manualAdditionsComponent;
+    TargetListComponent *m_ObservingList { nullptr };
+    TargetListComponent *m_StarHopRouteList { nullptr };
+    SatellitesComponent *m_Satellites { nullptr };
+    SupernovaeComponent *m_Supernovae { nullptr };
+    SyncedCatalogComponent *m_internetResolvedComponent { nullptr };
+    SyncedCatalogComponent *m_manualAdditionsComponent { nullptr };
 
-    SkyMesh *m_skyMesh;
-    SkyLabeler *m_skyLabeler;
+    std::unique_ptr<SkyMesh> m_skyMesh;
+    std::unique_ptr<SkyLabeler> m_skyLabeler;
 
     KSNumbers m_reindexNum;
 
@@ -276,5 +276,3 @@ class SkyMapComposite : public QObject, public SkyComposite
     QString m_internetResolvedCat; // Holds the name of the internet resolved catalog
     QString m_manualAdditionsCat;
 };
-
-#endif

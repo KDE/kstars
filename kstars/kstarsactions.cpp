@@ -402,7 +402,7 @@ void KStars::slotWizard()
     delete wizard;
 }
 
-void KStars::updateLocationFromWizard(GeoLocation geo)
+void KStars::updateLocationFromWizard(const GeoLocation& geo)
 {
     data()->setLocation(geo);
     // adjust local time to keep UT the same.

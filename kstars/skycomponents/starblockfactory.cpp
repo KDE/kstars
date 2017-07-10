@@ -47,7 +47,7 @@ StarBlockFactory::~StarBlockFactory()
 {
     deleteBlocks(nBlocks);
     if (pInstance)
-        pInstance = 0;
+        pInstance = nullptr;
 }
 
 StarBlock *StarBlockFactory::getBlock()

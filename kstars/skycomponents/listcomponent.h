@@ -15,23 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LISTCOMPONENT_H
-#define LISTCOMPONENT_H
-
-#include <QList>
+#pragma once
 
 #include "skycomponent.h"
+
+#include <QList>
 
 class SkyComposite;
 class SkyMap;
 
 /**
- *@class ListComponent
- *An abstract parent class, to be inherited by SkyComponents that store a QList
- *of SkyObjects.
+ * @class ListComponent
+ * An abstract parent class, to be inherited by SkyComponents that store a QList of SkyObjects.
  *
- *@author Jason Harris
- *@version 0.1
+ * @author Jason Harris
+ * @version 0.1
  */
 class ListComponent : public SkyComponent
 {
@@ -40,17 +38,18 @@ class ListComponent : public SkyComponent
 
     virtual ~ListComponent();
 
-    /** @short Update the sky positions of this component.
-         *
-         * This function usually just updates the Horizontal (Azimuth/Altitude)
-         * coordinates of the objects in this component.  If the KSNumbers*
-         * argument is not nullptr, this function also recomputes precession and
-         * nutation for the date in KSNumbers.
-         * @p num Pointer to the KSNumbers object
-         * @note By default, the num parameter is nullptr, indicating that
-         * Precession/Nutation computation should be skipped; this computation
-         * is only occasionally required.
-         */
+    /**
+     * @short Update the sky positions of this component.
+     *
+     * This function usually just updates the Horizontal (Azimuth/Altitude)
+     * coordinates of the objects in this component.  If the KSNumbers*
+     * argument is not nullptr, this function also recomputes precession and
+     * nutation for the date in KSNumbers.
+     * @p num Pointer to the KSNumbers object
+     * @note By default, the num parameter is nullptr, indicating that
+     * Precession/Nutation computation should be skipped; this computation
+     * is only occasionally required.
+     */
     void update(KSNumbers *num = 0) Q_DECL_OVERRIDE;
 
     SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
@@ -63,5 +62,3 @@ class ListComponent : public SkyComponent
   protected:
     QList<SkyObject *> m_ObjectList;
 };
-
-#endif

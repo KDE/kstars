@@ -17,40 +17,47 @@
 
 */
 
-#ifndef SKYQPAINTER_H
-#define SKYQPAINTER_H
+#pragma once
 
 #include "skypainter.h"
+
+#include <QColor>
+#include <QMap>
 
 class Projector;
 class QWidget;
 class QSize;
 class QMessageBox;
 
-/** @short The QPainter-based painting backend.
-    This class implements the SkyPainter interface using a QPainter.
-    For documentation, @see SkyPainter. */
+/**
+ * @short The QPainter-based painting backend.
+ * This class implements the SkyPainter interface using a QPainter.
+ * For documentation, @see SkyPainter.
+ */
 class SkyQPainter : public SkyPainter, public QPainter
 {
   public:
+    /** Release the image cache */
+    static void releaseImageCache();
+
     /**
-         * @short Creates a SkyQPainter with the given QPaintDevice and uses the dimensions of the paint device as canvas dimensions
-         * @param pd the painting device. Cannot be 0
-         * @param canvasSize the size of the canvas
-         */
+     * @short Creates a SkyQPainter with the given QPaintDevice and uses the dimensions of the paint device as canvas dimensions
+     * @param pd the painting device. Cannot be 0
+     * @param canvasSize the size of the canvas
+     */
     SkyQPainter(QPaintDevice *pd, const QSize &canvasSize);
 
     /**
-         * @short Creates a SkyQPainter with the given QPaintDevice and given canvas size
-         * @param pd the painting device. Cannot be 0
-         */
+     * @short Creates a SkyQPainter with the given QPaintDevice and given canvas size
+     * @param pd the painting device. Cannot be 0
+     */
     SkyQPainter(QPaintDevice *pd);
 
     /**
-         * @short Creates a SkyQPainter given a QWidget and an optional QPaintDevice.
-         * @param widget the QWidget that provides the canvas size, and also the paint device unless @p pd is specified
-         * @param pd the painting device. If 0, then @p widget will be used.
-         */
+     * @short Creates a SkyQPainter given a QWidget and an optional QPaintDevice.
+     * @param widget the QWidget that provides the canvas size, and also the paint device unless @p pd is specified
+     * @param pd the painting device. If 0, then @p widget will be used.
+     */
     explicit SkyQPainter(QWidget *widget, QPaintDevice *pd = 0);
 
     virtual ~SkyQPainter();
@@ -58,9 +65,9 @@ class SkyQPainter : public SkyPainter, public QPainter
     void setBrush(const QBrush &brush) Q_DECL_OVERRIDE;
 
     /**
-         * @param vectorStars Draw stars as vector graphics whenever possible.
-         * @note Drawing stars as vectors is slower, but is better when saving .svg files. Set to true only when you are drawing on a canvas where speed doesn't matter. Definitely not when drawing on the SkyMap.
-         */
+     * @param vectorStars Draw stars as vector graphics whenever possible.
+     * @note Drawing stars as vectors is slower, but is better when saving .svg files. Set to true only when you are drawing on a canvas where speed doesn't matter. Definitely not when drawing on the SkyMap.
+     */
     inline void setVectorStars(bool vectorStars) { m_vectorStars = vectorStars; }
     inline bool getVectorStars() const { return m_vectorStars; }
 
@@ -85,7 +92,7 @@ class SkyQPainter : public SkyPainter, public QPainter
     virtual void drawDeepSkySymbol(const QPointF &pos, int type, float size, float e, float positionAngle);
     bool drawSupernova(Supernova *sup) Q_DECL_OVERRIDE;
     bool drawComet(KSComet *com) Q_DECL_OVERRIDE;
-    ///This function exists so that we can draw other objects (e.g., planets) as point sources.
+    /// This function exists so that we can draw other objects (e.g., planets) as point sources.
     virtual void drawPointSource(const QPointF &pos, float size, char sp = 'A');
     bool drawConstellationArtImage(ConstellationsArt *obj) Q_DECL_OVERRIDE;
 
@@ -99,5 +106,3 @@ class SkyQPainter : public SkyPainter, public QPainter
     static QColor m_starColor;
     static QMap<char, QColor> ColorMap;
 };
-
-#endif

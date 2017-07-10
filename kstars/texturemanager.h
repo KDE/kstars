@@ -17,8 +17,7 @@
 
 */
 
-#ifndef TEXTUREMANAGER_H
-#define TEXTUREMANAGER_H
+#pragma once
 
 #include <QObject>
 #include <QHash>
@@ -28,7 +27,8 @@
 class QGLWidget;
 class QImage;
 
-/** @brief a singleton class to manage texture loading/retrieval
+/**
+ * @brief a singleton class to manage texture loading/retrieval
  */
 class TextureManager : public QObject
 {
@@ -36,15 +36,20 @@ class TextureManager : public QObject
   public:
     /** @short Create the instance of TextureManager */
     static TextureManager *Create();
+    /** @short Release the instance of TextureManager */
+    static void Release();
 
-    /** Return texture image. If image is not found in cache tries to
-         *  load it from disk if that fails too returns reference to empty
-         *  image. */
+    /**
+     * Return texture image. If image is not found in cache tries to
+     * load it from disk if that fails too returns reference to empty image.
+     */
     static const QImage &getImage(const QString &name);
 
 #ifdef HAVE_OPENGL
-    /** Bind OpenGL texture. Acts similarly to getImage but does
-         *  nothing if image is not found in the end */
+    /**
+     *  Bind OpenGL texture. Acts similarly to getImage but does
+     *  nothing if image is not found in the end
+     */
     static void bindTexture(const QString &name, QGLWidget *cxt);
 
     /** Bind OpenGL texture using QImage as source */
@@ -57,8 +62,7 @@ class TextureManager : public QObject
 
     /** Private constructor */
     explicit TextureManager(QObject *parent = 0);
-    /** Try find image in the cache and then to load it from disk if
-         *  it's not found */
+    /** Try find image in the cache and then to load it from disk if it's not found */
     static CacheIter findTexture(const QString &name);
 
     // Pointer to singleton instance
@@ -70,5 +74,3 @@ class TextureManager : public QObject
     TextureManager(const TextureManager &);
     TextureManager &operator=(const TextureManager &);
 };
-
-#endif // TEXTUREMANAGER_H

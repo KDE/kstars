@@ -17,22 +17,14 @@
 
 #include "horizontalcoordinategrid.h"
 
-#include <QPen>
-#include <QBrush>
-#include <QColor>
-
-#include "Options.h"
 #include "kstarsdata.h"
-
+#include "Options.h"
+#include "linelist.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #else
 #include "skymap.h"
 #endif
-
-#include "linelist.h"
-#include "dms.h"
-
 #include "skypainter.h"
 
 HorizontalCoordinateGrid::HorizontalCoordinateGrid(SkyComposite *parent)
@@ -54,7 +46,7 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid(SkyComposite *parent)
 
     double max, alt, alt2, az, az2;
 
-    LineList *lineList;
+    LineList *lineList = nullptr;
 
     for (az = minAz; az < maxAz; az += dAz)
     {

@@ -15,32 +15,33 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COORDINATEGRID_H
-#define COORDINATEGRID_H
+#pragma once
 
 #include "noprecessindex.h"
 
-/**
-	*@class CoordinateGrid
-	*Collection of all the circles in the coordinate grid
+class QString;
 
-	*@author Jason Harris
-	*@version 0.1
-	*/
+class SkyComposite;
+class SkyPainter;
+
+/**
+ * @class CoordinateGrid
+ * Collection of all the circles in the coordinate grid
+ *
+ * @author Jason Harris
+ * @version 0.1
+ */
 class CoordinateGrid : public NoPrecessIndex
 {
   public:
     /**
-        	*@short Constructor
-        	*Simply adds all of the coordinate grid circles
-        	*(meridians and parallels)
-        	*@p parent Pointer to the parent SkyComposite object
-        	*/
+     * @short Constructor
+     * Simply adds all of the coordinate grid circles (meridians and parallels)
+     * @p parent Pointer to the parent SkyComposite object
+     */
     CoordinateGrid(SkyComposite *parent, const QString &name);
 
     void preDraw(SkyPainter *skyp) Q_DECL_OVERRIDE = 0;
 
     bool selected() Q_DECL_OVERRIDE = 0;
 };
-
-#endif

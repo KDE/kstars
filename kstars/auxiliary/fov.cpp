@@ -152,11 +152,16 @@ const QList<FOV *> &FOVManager::readFOVs()
                 continue;
             }
 
-            //FIXME: This still shows lost blocks in Valgrind despite the fact memory is always cleared?
             m_FOVs.append(new FOV(name, sizeX, sizeY, xoffset, yoffset, rot, shape, color));
         }
     }
     return m_FOVs;
+}
+
+void FOVManager::releaseCache()
+{
+    qDeleteAll(m_FOVs);
+    m_FOVs.clear();
 }
 
 FOV::Shape FOV::intToShape(int s)

@@ -294,7 +294,6 @@ int main(int argc, char *argv[])
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
 #ifndef KSTARS_LITE
-
     KStars::createInstance(true, !parser.isSet("paused"), datestring);
 
     // no session.. just start up normally
@@ -306,12 +305,17 @@ int main(int argc, char *argv[])
         foreach (const QString &url, urls)
         {
             const QUrl u = QUrl::fromUserInput(url, QDir::currentPath());
+
             KStars::Instance()->openFITS(u);
         }
     }
     QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
+
+    app.exec();
 #else
     KStarsLite::createInstance(true);
+
+    app.exec();
 #endif
-    return app.exec();
+    return 0;
 }

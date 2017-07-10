@@ -17,22 +17,14 @@
 
 #include "equatorialcoordinategrid.h"
 
-#include <QPen>
-#include <QBrush>
-#include <QColor>
-
-#include "Options.h"
 #include "kstarsdata.h"
-
+#include "linelist.h"
+#include "Options.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #else
 #include "skymap.h"
 #endif
-
-#include "linelist.h"
-#include "dms.h"
-
 #include "skypainter.h"
 
 EquatorialCoordinateGrid::EquatorialCoordinateGrid(SkyComposite *parent)

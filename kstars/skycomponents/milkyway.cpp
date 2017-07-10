@@ -17,28 +17,18 @@
 
 #include "milkyway.h"
 
-#include <QList>
-#include <QPointF>
-#include <QPolygonF>
-#include <QtConcurrent>
-
-#include <KLocalizedString>
-
+#include "ksfilereader.h"
 #include "kstarsdata.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #else
 #include "skymap.h"
 #endif
-#include "skyobjects/skypoint.h"
-#include "dms.h"
 #include "Options.h"
-#include "ksfilereader.h"
+#include "skypainter.h"
 #include "skycomponents/skiplist.h"
 
-#include "skymesh.h"
-
-#include "skypainter.h"
+#include <QtConcurrent>
 
 MilkyWay::MilkyWay(SkyComposite *parent) : LineListIndex(parent, i18n("Milky Way"))
 {
@@ -100,12 +90,13 @@ void MilkyWay::draw(SkyPainter *skyp)
 void MilkyWay::loadContours(QString fname, QString greeting)
 {
     KSFileReader fileReader;
+    SkipList *skipList = nullptr;
+    int iSkip          = 0;
+
     if (!fileReader.open(fname))
         return;
-    fileReader.setProgress(greeting, 2136, 5);
 
-    SkipList *skipList = 0;
-    int iSkip          = 0;
+    fileReader.setProgress(greeting, 2136, 5);
     while (fileReader.hasMoreLines())
     {
         QString line = fileReader.readLine();
@@ -115,7 +106,7 @@ void MilkyWay::loadContours(QString fname, QString greeting)
         if (firstChar == '#')
             continue;
 
-        bool okRA, okDec;
+        bool okRA = false, okDec = false;
         double ra  = line.mid(2, 8).toDouble(&okRA);
         double dec = line.mid(11, 8).toDouble(&okDec);
         if (!okRA || !okDec)
@@ -128,7 +119,7 @@ void MilkyWay::loadContours(QString fname, QString greeting)
         {
             if (skipList)
                 appendBoth(skipList);
-            skipList = 0;
+            skipList = nullptr;
             iSkip    = 0;
         }
 

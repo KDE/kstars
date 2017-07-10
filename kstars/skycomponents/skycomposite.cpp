@@ -26,6 +26,7 @@ SkyComposite::SkyComposite(SkyComposite *parent) : SkyComponent(parent)
 SkyComposite::~SkyComposite()
 {
     qDeleteAll(components());
+    m_Components.clear();
 }
 
 void SkyComposite::addComponent(SkyComponent *component, int priority)

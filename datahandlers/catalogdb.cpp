@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "catalogdb.h"
+
 #include "catalogdata.h"
 #include "catalogentrydata.h"
 #include "kstars/version.h"
@@ -23,10 +24,7 @@
 #include "starobject.h"
 #include "deepskyobject.h"
 #include "skycomponent.h"
-#include "skyobject.h"
 
-#include <QVariant>
-#include <QHash>
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include <QSqlQuery>
@@ -830,8 +828,10 @@ void CatalogDB::GetAllObjects(const QString &catalog, QList<SkyObject *> &sky_li
                               QList<QPair<int, QString>> &object_names, CatalogComponent *catalog_ptr,
                               bool includeCatalogDesignation)
 {
+    qDeleteAll(sky_list);
     sky_list.clear();
     QString selected_catalog = QString::number(FindCatalog(catalog));
+
     skydb_.open();
     QSqlQuery get_query(skydb_);
     get_query.prepare("SELECT Epoch, Type, RA, Dec, Magnitude, Prefix, "
@@ -866,8 +866,8 @@ void CatalogDB::GetAllObjects(const QString &catalog, QList<SkyObject *> &sky_li
         float b                  = get_query.value(9).toFloat();
         float PA                 = get_query.value(10).toFloat();
         float flux               = get_query.value(11).toFloat();
-
         QString name;
+
         if (!includeCatalogDesignation && !lname.isEmpty())
         {
             name  = lname;
@@ -912,11 +912,13 @@ void CatalogDB::GetAllObjects(const QString &catalog, QList<SkyObject *> &sky_li
         if (iType == 0) // Add a star
         {
             StarObject *o = new StarObject(RA, Dec, mag, lname);
+
             sky_list.append(o);
         }
         else // Add a deep-sky object
         {
             DeepSkyObject *o = new DeepSkyObject(iType, RA, Dec, mag, name, QString(), lname, catPrefix, a, b, -PA);
+
             o->setFlux(flux);
             o->setCustomCatalog(catalog_ptr);
 

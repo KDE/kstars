@@ -46,6 +46,7 @@ class KStars;
 class OAL::Log
 {
   public:
+    ~Log();
     QString writeLog(bool native = true);
     void writeBegin();
     void writeGeoDate();

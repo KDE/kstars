@@ -8,20 +8,22 @@
 
  */
 
-#include <basedevice.h>
+#include "drivermanager.h"
 
-#include <QRadioButton>
-#include <QFile>
-#include <QDir>
-#include <QTextStream>
-#include <QTreeWidget>
-#include <QIcon>
-#include <QDialog>
-#include <QStandardPaths>
-#include <QAction>
-#include <QMenu>
-#include <QPushButton>
-#include <QTcpServer>
+#include "config-kstars.h"
+
+#include "clientmanager.h"
+#include "driverinfo.h"
+#include "guimanager.h"
+#include "indilistener.h"
+#include "kspaths.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#include "servermanager.h"
+#include "ui_indihostconf.h"
+#include "auxiliary/ksnotification.h"
+
+#include <basedevice.h>
 
 #ifndef KSTARS_LITE
 #include <KMessageBox>
@@ -29,24 +31,7 @@
 #include <KNotifications/KNotification>
 #endif
 
-#include "oal/log.h"
-#include "oal/scope.h"
-
-#include "ui_indihostconf.h"
-#include "servermanager.h"
-#include "guimanager.h"
-#include "Options.h"
-#include "drivermanager.h"
-#include "driverinfo.h"
-
-#include "auxiliary/ksnotification.h"
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "ksutils.h"
-#include "indilistener.h"
-#include "kspaths.h"
-
-#include <config-kstars.h>
+#include <QTcpServer>
 
 #define INDI_MAX_TRIES 2
 #define ERRMSG_SIZE    1024

@@ -25,9 +25,9 @@
  * -- James B. Bowlin
  */
 
-#ifndef TYPEDEF_H_
-#define TYPEDEF_H_
+#pragma once
 
+#include <qglobal.h>
 #include <QHash>
 #include <QVector>
 
@@ -50,5 +50,3 @@ typedef QVector<StarList *> StarIndex;
 typedef QVector<LineList *> LineListList;
 typedef QHash<Trixel, LineListList *> LineListHash; // Wanted LineListIndex, but that is used by a class
 typedef QList<SkyObject *> SkyObjectList;
-
-#endif

@@ -14,27 +14,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "Options.h"
-#include "projections/projector.h"
-
-#include "skynodes/pointsourcenode.h"
-#include "labelsitem.h"
 #include "staritem.h"
-#include "deepstaritem.h"
 
-#include "starcomponent.h"
-#include "starblockfactory.h"
-#include "skymesh.h"
+#include "deepstaritem.h"
+#include "labelsitem.h"
+#include "Options.h"
 #include "rootnode.h"
-#include <QLinkedList>
+#include "skymesh.h"
+#include "skyopacitynode.h"
+#include "starblockfactory.h"
+#include "starcomponent.h"
+#include "projections/projector.h"
+#include "skynodes/pointsourcenode.h"
 #include "skynodes/trixelnode.h"
+
+#include <QLinkedList>
 
 StarItem::StarItem(StarComponent *starComp, RootNode *rootNode)
     : SkyItem(LabelsItem::label_t::STAR_LABEL, rootNode), m_starComp(starComp), m_stars(new SkyOpacityNode),
       m_deepStars(new SkyOpacityNode), m_starLabels(rootNode->labelsItem()->getLabelNode(labelType()))
 
 {
-    StarIndex *trixels = m_starComp->m_starIndex;
+    StarIndex *trixels = m_starComp->m_starIndex.get();
+
     appendChildNode(m_stars);
 
     //Test
@@ -61,6 +63,7 @@ StarItem::StarItem(StarComponent *starComp, RootNode *rootNode)
 
     QVector<DeepStarComponent *> deepStars = m_starComp->m_DeepStarComponents;
     int deepSize                           = deepStars.size();
+
     for (int i = 0; i < deepSize; ++i)
     {
         DeepStarItem *deepStar = new DeepStarItem(deepStars[i], rootNode);
@@ -157,7 +160,7 @@ void StarItem::update()
     QSGNode *firstLabel = m_starLabels->firstChild();
     TrixelNode *label   = static_cast<TrixelNode *>(firstLabel);
 
-    StarIndex *index = m_starComp->m_starIndex;
+    StarIndex *index = m_starComp->m_starIndex.get();
 
     if (reIndex)
         rootNode()->labelsItem()->deleteLabels(labelType());

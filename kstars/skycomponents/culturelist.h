@@ -15,12 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CULTURELIST_H
-#define CULTURELIST_H
+#pragma once
 
 #include <QStringList>
 
-/** @class CultureList
+/**
+ * @class CultureList
  * A list of all cultures
  * FIXME: Why not use a QStringList?
  */
@@ -39,8 +39,10 @@ class CultureList
     /** @short Return a sorted list of cultures */
     QStringList getNames() const { return m_CultureList; }
 
-    /** @short Return the name of the culture at index.
-         *  @return null string if is index is out of range */
+    /**
+     * @short Return the name of the culture at index.
+     * @return null string if is index is out of range
+     * */
     QString getName(int index) const;
 
   private:
@@ -48,5 +50,3 @@ class CultureList
     // List of all available cultures. It's assumed that list is sorted.
     QStringList m_CultureList;
 };
-
-#endif

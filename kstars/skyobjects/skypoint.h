@@ -74,7 +74,6 @@ class SkyPoint
          */
     SkyPoint();
 
-    /** Empty destructor. */
     virtual ~SkyPoint();
 
     ////

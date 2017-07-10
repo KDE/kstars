@@ -17,24 +17,16 @@
 
 #include "solarsystemcomposite.h"
 
-#include <KLocalizedString>
-
-#include "solarsystemsinglecomponent.h"
 #include "asteroidscomponent.h"
 #include "cometscomponent.h"
-#include "skycomponent.h"
-
 #include "Options.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
-#include "kstarsdata.h"
-#include "ksnumbers.h"
+#include "solarsystemsinglecomponent.h"
+#include "skyobjects/ksmoon.h"
 #include "skyobjects/ksplanet.h"
 #include "skyobjects/kssun.h"
-#include "skyobjects/ksmoon.h"
-//#include "skyobjects/kspluto.h"
-#include "planetmoonscomponent.h"
 
 SolarSystemComposite::SolarSystemComposite(SkyComposite *parent) : SkyComposite(parent)
 {

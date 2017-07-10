@@ -7,32 +7,23 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef GUIMANAGER_H
-#define GUIMANAGER_H
+#pragma once
 
-#include <QGridLayout>
-#include <QFrame>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QTabWidget>
-#include <QPointer>
+#include <QList>
+#include <QWidget>
 
-#include <indibase.h>
-
-#include "clientmanager.h"
-
-class QLabel;
-class QHBoxLayout;
-class QVBoxLayout;
-class QFrame;
+class QCloseEvent;
+class QHideEvent;
+class QPushButton;
+class QShowEvent;
 class QString;
 class QTabWidget;
-class QGridLayout;
-class QPushButton;
-class FITSViewer;
+class QVBoxLayout;
 
 class INDI_D;
+
+class ClientManager;
+class DeviceInfo;
 
 /**
  * @class GUIManager
@@ -66,8 +57,8 @@ class GUIManager : public QWidget
 
   private:
     /*****************************************************************
-        * GUI stuff
-        ******************************************************************/
+     * GUI stuff
+     ******************************************************************/
     QVBoxLayout *mainLayout;
     QTabWidget *mainTabWidget;
     QPushButton *clearB;
@@ -84,5 +75,3 @@ class GUIManager : public QWidget
     void buildDevice(DeviceInfo *di);
     void removeDevice(DeviceInfo *di);
 };
-
-#endif // GUIMANAGER_H

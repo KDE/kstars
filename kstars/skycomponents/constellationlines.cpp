@@ -16,28 +16,18 @@
  ***************************************************************************/
 
 #include "constellationlines.h"
-#include "linelist.h"
-#include <QPen>
 
-#include <QDebug>
-#include <KLocalizedString>
-
-#include "Options.h"
 #include "kstarsdata.h"
-#include "skyobjects/skyobject.h"
-#include "skyobjects/starobject.h"
-#include "skycomponents/starcomponent.h"
-#include "skycomponents/culturelist.h"
-
+#include "linelist.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #else
 #include "skymap.h"
 #endif
-
-#include "skymesh.h"
-#include "ksfilereader.h"
+#include "Options.h"
 #include "skypainter.h"
+#include "skycomponents/culturelist.h"
+#include "skycomponents/starcomponent.h"
 
 ConstellationLines::ConstellationLines(SkyComposite *parent, CultureList *cultures)
     : LineListIndex(parent, i18n("Constellation Lines")), m_reindexNum(J2000)
@@ -62,7 +52,7 @@ ConstellationLines::ConstellationLines(SkyComposite *parent, CultureList *cultur
     intro();
 
     bool culture = false;
-    LineList *lineList(0);
+    LineList *lineList = nullptr;
     double maxPM(0.0);
 
     KSFileReader fileReader;

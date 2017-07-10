@@ -18,9 +18,10 @@
 
 #include "binfilehelper.h"
 
-#include <QStandardPaths>
 #include "byteorder.h"
 #include "auxiliary/kspaths.h"
+
+#include <QStandardPaths>
 
 class BinFileHelper;
 
@@ -33,6 +34,7 @@ BinFileHelper::BinFileHelper()
 BinFileHelper::~BinFileHelper()
 {
     qDeleteAll(fields);
+    fields.clear();
     if (fileHandle)
         closeFile();
 }

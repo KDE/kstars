@@ -14,19 +14,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARS_H_
-#define KSTARS_H_
+#pragma once
 
-#include <QtDBus/QtDBus>
-#include <kxmlguiwindow.h>
-
-#include <config-kstars.h>
-#include <QDockWidget>
+#include "config-kstars.h"
 
 #include "oal/equipmentwriter.h"
 #include "oal/observeradd.h"
 
+#include <kxmlguiwindow.h>
+
+#include <QDockWidget>
+#include <QtDBus/qdbusmacros.h>
+#ifdef HAVE_CFITSIO
+#include <QPointer>
+#endif
+
 // forward declaration is enough. We only need pointers
+class QDockWidget;
 class QPalette;
 class KActionMenu;
 
@@ -123,8 +127,11 @@ class KStars : public KXmlGuiWindow
     /** @return a pointer to the instance of this class */
     inline static KStars *Instance() { return pinstance; }
 
-    /** Destructor.  Synchs config file.  Deletes objects. */
+    /** Destructor. */
     virtual ~KStars();
+
+    /** Syncs config file. Deletes objects. */
+    void releaseResources();
 
     /** @return pointer to KStarsData object which contains application data. */
     inline KStarsData *data() const { return m_KStarsData; }
@@ -485,7 +492,7 @@ class KStars : public KXmlGuiWindow
     /** action slot: open KStars setup wizard */
     void slotWizard();
 
-    void updateLocationFromWizard(GeoLocation geo);
+    void updateLocationFromWizard(const GeoLocation& geo);
 
     WIView *wiView() { return m_WIView; }
 
@@ -674,35 +681,35 @@ class KStars : public KXmlGuiWindow
     /** Build the KStars main window */
     void buildGUI();
 
-    KActionMenu *colorActionMenu, *fovActionMenu;
+    KActionMenu *colorActionMenu { nullptr };
+    KActionMenu *fovActionMenu { nullptr };
 
-    KStarsData *m_KStarsData;
-    SkyMap *m_SkyMap;
+    KStarsData *m_KStarsData { nullptr };
+    SkyMap *m_SkyMap { nullptr };
 
     // Widgets
-    TimeStepBox *m_TimeStepBox;
+    TimeStepBox *m_TimeStepBox { nullptr };
 
     // Dialogs & Tools
 
     // File Menu
-    ExportImageDialog *m_ExportImageDialog;
-    PrintingWizard *m_PrintingWizard;
+    ExportImageDialog *m_ExportImageDialog { nullptr };
+    PrintingWizard *m_PrintingWizard { nullptr };
 
     // Pointing Menu
-    FindDialog *m_FindDialog;
+    FindDialog *m_FindDialog { nullptr };
 
     // Tool Menu
-    AstroCalc *m_AstroCalc;
-    AltVsTime *m_AltVsTime;
-    SkyCalendar *m_SkyCalendar;
-    ScriptBuilder *m_ScriptBuilder;
-    PlanetViewer *m_PlanetViewer;
-    WUTDialog *m_WUTDialog;
-    //    JMoonTool *m_JMoonTool;
-    MoonPhaseTool *m_MoonPhaseTool;
-    FlagManager *m_FlagManager;
-    HorizonManager *m_HorizonManager;
-    EyepieceField *m_EyepieceView;
+    AstroCalc *m_AstroCalc { nullptr };
+    AltVsTime *m_AltVsTime { nullptr };
+    SkyCalendar *m_SkyCalendar { nullptr };
+    ScriptBuilder *m_ScriptBuilder { nullptr };
+    PlanetViewer *m_PlanetViewer { nullptr };
+    WUTDialog *m_WUTDialog { nullptr };
+    //    JMoonTool *m_JMoonTool { nullptr };
+    FlagManager *m_FlagManager { nullptr };
+    HorizonManager *m_HorizonManager { nullptr };
+    EyepieceField *m_EyepieceView { nullptr };
 #ifdef HAVE_CFITSIO
     QPointer<FITSViewer> m_GenericFITSViewer;
     QList<FITSViewer *> m_FITSViewers;
@@ -712,38 +719,37 @@ class KStars : public KXmlGuiWindow
     QPointer<EkosManager> m_EkosManager;
 #endif
 
-    AddDeepSkyObject *m_addDSODialog;
+    AddDeepSkyObject *m_addDSODialog { nullptr };
 
     // FIXME Port to QML2
     //#if 0
-    WIView *m_WIView = nullptr;
-    WILPSettings *m_WISettings;
-    WIEquipSettings *m_WIEquipmentSettings;
-    ObsConditions *m_ObsConditions;
-    QDockWidget *m_wiDock;
+    WIView *m_WIView { nullptr };
+    WILPSettings *m_WISettings { nullptr };
+    WIEquipSettings *m_WIEquipmentSettings { nullptr };
+    ObsConditions *m_ObsConditions { nullptr };
+    QDockWidget *m_wiDock { nullptr };
     //#endif
 
-    QActionGroup *projectionGroup, *cschemeGroup;
+    QActionGroup *projectionGroup { nullptr };
+    QActionGroup *cschemeGroup { nullptr };
 
-    bool DialogIsObsolete;
-    bool StartClockRunning;
+    bool DialogIsObsolete { false };
+    bool StartClockRunning { false };
     QString StartDateString;
     QLabel AltAzField, RADecField, J2000RADecField;
     QPalette OriginalPalette, DarkPalette;
 
-    OpsCatalog *opcatalog;
-    OpsGuides *opguides;
-    OpsSolarSystem *opsolsys;
-    OpsSatellites *opssatellites;
-    OpsSupernovae *opssupernovae;
-    OpsColors *opcolors;
-    OpsAdvanced *opadvanced;
-    OpsINDI *opsindi;
-    OpsEkos *opsekos;
-    OpsFITS *opsfits;
+    OpsCatalog *opcatalog { nullptr };
+    OpsGuides *opguides { nullptr };
+    OpsSolarSystem *opsolsys { nullptr };
+    OpsSatellites *opssatellites { nullptr };
+    OpsSupernovae *opssupernovae { nullptr };
+    OpsColors *opcolors { nullptr };
+    OpsAdvanced *opadvanced { nullptr };
+    OpsINDI *opsindi { nullptr };
+    OpsEkos *opsekos { nullptr };
+    OpsFITS *opsfits { nullptr };
 #ifdef HAVE_XPLANET
-    OpsXplanet *opsxplanet;
+    OpsXplanet *opsxplanet { nullptr };
 #endif
 };
-
-#endif

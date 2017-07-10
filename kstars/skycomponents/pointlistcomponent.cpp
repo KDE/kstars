@@ -26,7 +26,6 @@ PointListComponent::PointListComponent(SkyComposite *parent) : SkyComponent(pare
 
 PointListComponent::~PointListComponent()
 {
-    qDeleteAll(pointList());
 }
 
 void PointListComponent::update(KSNumbers *num)

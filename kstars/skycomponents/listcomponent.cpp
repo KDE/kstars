@@ -17,13 +17,10 @@
 
 #include "listcomponent.h"
 
-#include <QList>
-
 #include "kstarsdata.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
-#include "skyobjects/skyobject.h"
 
 ListComponent::ListComponent(SkyComposite *parent) : SkyComponent(parent)
 {
@@ -31,6 +28,8 @@ ListComponent::ListComponent(SkyComposite *parent) : SkyComponent(parent)
 
 ListComponent::~ListComponent()
 {
+    qDeleteAll(m_ObjectList);
+    m_ObjectList.clear();
     clear();
 }
 

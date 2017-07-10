@@ -37,10 +37,8 @@ HighPMStarList::HighPMStarList(double threshold) : m_reindexNum(J2000), m_thresh
 
 HighPMStarList::~HighPMStarList()
 {
-    for (int i = 0; i < size(); i++)
-    {
-        delete m_stars[i];
-    }
+    qDeleteAll(m_stars);
+    m_stars.clear();
 }
 
 bool HighPMStarList::append(Trixel trixel, StarObject *star, double pm)

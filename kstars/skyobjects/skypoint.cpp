@@ -53,15 +53,15 @@ SkyPoint::SkyPoint()
     lastPrecessJD = J2000; // By convention, we use J2000 coordinates
 }
 
+SkyPoint::~SkyPoint()
+{
+}
+
 void SkyPoint::set(const dms &r, const dms &d)
 {
     RA0 = RA = r;
     Dec0 = Dec    = d;
     lastPrecessJD = J2000; // By convention, we use J2000 coordinates
-}
-
-SkyPoint::~SkyPoint()
-{
 }
 
 void SkyPoint::EquatorialToHorizontal(const dms *LST, const dms *lat)

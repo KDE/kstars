@@ -17,32 +17,18 @@
 
 #include "constellationboundarylines.h"
 
-#include <cstdio>
-
-#include <QPen>
-
-#include <QDebug>
-#include <KLocalizedString>
-
-#include "Options.h"
+#include "ksfilereader.h"
 #include "kstarsdata.h"
+#include "linelist.h"
+#include "Options.h"
+#include "polylist.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #else
 #include "skymap.h"
 #endif
-#include "skyobjects/skyobject.h"
-#include "ksfilereader.h"
-
-#include "typedef.h"
-#include "linelist.h"
-#include "polylist.h"
-#include "linelistindex.h"
-#include "skycomponents/skymapcomposite.h"
-
-#include "skymesh.h"
-
 #include "skypainter.h"
+#include "skycomponents/skymapcomposite.h"
 
 ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
     : NoPrecessIndex(parent, i18n("Constellation Boundaries"))
@@ -158,6 +144,10 @@ ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
         appendLine(lineList);
     if (polyList)
         appendPoly(polyList, idxFile, verbose);
+}
+
+ConstellationBoundaryLines::~ConstellationBoundaryLines()
+{
 }
 
 bool ConstellationBoundaryLines::selected()

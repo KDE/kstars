@@ -15,11 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef EQUATOR_H
-#define EQUATOR_H
+#pragma once
 
-#include "noprecessindex.h"
 #include "linelistlabel.h"
+#include "noprecessindex.h"
 
 /**
  * @class Equator
@@ -31,10 +30,10 @@
 class Equator : public NoPrecessIndex
 {
   public:
-    /** @short Constructor
-         * @p parent pointer to the parent SkyComposite object
-         * name is the name of the subclass
-         */
+    /**
+     * @short Constructor
+     * @p parent pointer to the parent SkyComposite object name is the name of the subclass
+     */
     explicit Equator(SkyComposite *parent);
 
     bool selected() Q_DECL_OVERRIDE;
@@ -48,5 +47,3 @@ class Equator : public NoPrecessIndex
   private:
     LineListLabel m_label;
 };
-
-#endif

@@ -38,6 +38,8 @@ SatellitesComponent::SatellitesComponent(SkyComposite *parent) : SkyComponent(pa
 
 SatellitesComponent::~SatellitesComponent()
 {
+    qDeleteAll(m_groups);
+    m_groups.clear();
 }
 
 void SatellitesComponent::loadData()

@@ -17,19 +17,15 @@
 
 #include "equator.h"
 
-#include "ksnumbers.h"
 #include "kstarsdata.h"
+#include "linelist.h"
+#include "Options.h"
+#include "skylabeler.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #else
 #include "skymap.h"
 #endif
-#include "skyobjects/skypoint.h"
-#include "dms.h"
-#include "Options.h"
-#include "linelist.h"
-#include "skylabeler.h"
-
 #include "skypainter.h"
 #include "projections/projector.h"
 

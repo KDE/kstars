@@ -1,0 +1,361 @@
+{
+   Glib1
+   Memcheck:Leak
+   ...
+   fun:call_init.part.0
+   fun:call_init
+   fun:_dl_init
+   ...
+}
+{
+   Glib2
+   Memcheck:Leak
+   ...
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   ...
+}
+{
+   Glib3
+   Memcheck:Leak
+   ...
+   fun:_dl_close_worker.part.0
+   fun:_dl_close_worker
+   fun:_dl_close
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlclose
+   ...
+}
+{
+   Whattheheck
+   Memcheck:Leak
+   ...
+   fun:malloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   Dbus1
+   Memcheck:Leak
+   ...
+   fun:_dbus_auth_client_new
+   ...
+}
+{
+   Dbus2
+   Memcheck:Leak
+   ...
+   obj:*libdbus*
+   ...
+   obj:*libQt5DBus*
+   ...
+}
+{
+   Dbus3
+   Memcheck:Leak
+   ...
+   fun:_dbus_message_loader_queue_messages
+   ...
+}
+{
+   Dbus4
+   Memcheck:Leak
+   ...
+   fun:_dbus_message_loader_new
+   ...
+}
+{
+   Dbus5
+   Memcheck:Leak
+   ...
+   fun:_dbus_auth_do_work
+   ...
+}
+{
+   Dbus6
+   Memcheck:Leak
+   ...
+   fun:dbus_message_append_args_valist
+   fun:dbus_message_append_args
+   fun:dbus_bus_add_match
+   ...
+}
+{
+   Dbus7
+   Memcheck:Leak
+   ...
+   fun:dbus_bus_register
+   ...
+}
+{
+   Xorg1
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   ...
+}
+{
+   xml1
+   Memcheck:Leak
+   ...
+   fun:XML_ParseBuffer
+   ...
+}
+{
+   Qt1a
+   Memcheck:Param
+   writev(vector[...])
+   ...
+   fun:_ZN7QWidget10setVisibleEb
+   ...
+}
+{
+   Qt1b
+   Memcheck:Leak
+   ...
+   fun:_ZN7QWidget10setVisibleEb
+   ...
+}
+{
+   Qt2
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   ...
+   fun:_XmbTextListToTextProperty
+   ...
+   fun:_ZN7QWindow8setTitleERK7QString
+   fun:_ZN14QWidgetPrivate21setWindowTitle_helperERK7QString
+   fun:_ZN14QWidgetPrivate24setWindowModified_helperEv
+   fun:_ZN14QWidgetPrivate10create_sysEybb
+   fun:_ZN7QWidget6createEybb
+   fun:_ZN7QWidget10setVisibleEb
+   fun:_ZN8QToolTip8showTextERK6QPointRK7QStringP7QWidgetRK5QRecti
+   fun:_ZN8QToolTip8showTextERK6QPointRK7QStringP7QWidget
+}
+{
+   Qt3
+   Memcheck:Leak
+   ...
+   fun:_ZN13QFontDatabase8findFontERK8QFontDefi
+   fun:_ZN13QFontDatabase4loadEPK12QFontPrivatei
+   ...
+}
+{
+   Qt4
+   Memcheck:Leak
+   ...
+   fun:_ZN27QEventDispatcherGlibPrivateC1EP13_GMainContext
+   ...
+}
+{
+   Qt5
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   fun:g_private_get
+   ...
+   fun:g_main_context_dispatch
+   ...
+   fun:g_main_context_iteration
+   fun:_ZN20QEventDispatcherGlib13processEventsE6QFlagsIN10QEventLoop17ProcessEventsFlagEE
+   fun:_ZN10QEventLoop4execE6QFlagsINS_17ProcessEventsFlagEE
+   fun:_ZN7QThread4execEv
+   ...
+}
+{
+   Qt6a
+   Memcheck:Leak
+   ...
+   fun:_ZN22QGuiApplicationPrivate4initEv
+   ...
+}
+{
+   Qt6b
+   Memcheck:Leak
+   ...
+   fun:_ZN23QCoreApplicationPrivate4initEv
+   ...
+}
+{
+   Qt6c
+   Memcheck:Leak
+   ...
+   fun:_ZN19QApplicationPrivate4initEv
+   ...
+}
+{
+   Qt7
+   Memcheck:Leak
+   ...
+   fun:_ZN7QObject5eventEP6QEvent
+   fun:_ZN16QCoreApplication15notifyInternal2EP7QObjectP6QEvent
+   ...
+}
+{
+   Qt8
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:_ZN15QGuiApplication16saveStateRequestER15QSessionManager
+   ...
+}
+{
+   Qt9
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XmbTextListToTextProperty
+   ...
+   fun:_ZN14QWindowPrivate6createEb
+   fun:_ZN14QWidgetPrivate10create_sysEybb
+   fun:_ZN7QWidget6createEybb
+}
+{
+   Qt10
+   Memcheck:Leak
+   ...
+   fun:_ZNK7QWidget14ensurePolishedEv
+   ...
+}
+{
+   Qt11
+   Memcheck:Leak
+   ...
+   fun:_ZN7QWindow8setTitleERK7QString
+   fun:_ZN14QWidgetPrivate21setWindowTitle_helperERK7QString
+   fun:_ZN7QWidget6createEybb
+   fun:_ZNK7QWidget5winIdEv
+   ...
+}
+{
+   Qt12
+   Memcheck:Leak
+   ...
+   fun:_ZN19QApplicationPrivate13notify_helperEP7QObjectP6QEvent
+   ...
+}
+{
+   Qt13
+   Memcheck:Leak
+   ...
+   fun:_ZN15QGuiApplication16saveStateRequestER15QSessionManager
+   ...
+}
+{
+   Qt14
+   Memcheck:Leak
+   ...
+   fun:_ZN7QString20fromLocal8Bit_helperEPKci
+   ...
+}
+{
+   Qt15
+   Memcheck:Leak
+   ...
+   fun:_ZN14QWindowPrivate9setCursorEPK7QCursor
+   ...
+}
+{
+   Qt16
+   Memcheck:Leak
+   ...
+   fun:_ZN10QArrayData8allocateEmmm6QFlagsINS_16AllocationOptionEE
+   ...
+}
+{
+   Qt17
+   Memcheck:Leak
+   ...
+   fun:_ZN9QHashData6rehashEi
+   fun:willGrow
+   fun:_ZN5QHashIjbEixERKj
+   ...
+}
+{
+   Qt18
+   Memcheck:Leak
+   ...
+   fun:_ZNK20QPlatformIntegration20createPlatformPixmapEN15QPlatformPixmap9PixelTypeE
+   fun:_ZN7QPixmap16fromImageInPlaceER6QImage6QFlagsIN2Qt19ImageConversionFlagEE
+   fun:_ZNK15QPlatformPixmap11transformedERK10QTransformN2Qt18TransformationModeE
+   fun:_ZNK7QPixmap11transformedERK10QTransformN2Qt18TransformationModeE
+   fun:_ZNK7QPixmap6scaledERK5QSizeN2Qt15AspectRatioModeENS3_18TransformationModeE
+   ...
+}
+{
+   Qt19
+   Memcheck:Leak
+   ...
+   fun:_ZN8QPaletteC1Ev
+   ...
+}
+{
+   Qt20
+   Memcheck:Leak
+   ...
+   fun:_ZN12QApplication5styleEv
+   ...
+}
+{
+   KDE1
+   Memcheck:Leak
+   ...
+   fun:_ZN6KCrash10initializeEv
+   ...
+}
+{
+   KDE2
+   Memcheck:Leak
+   ...
+   fun:_ZN13KSelectActionC1ERK7QStringP7QObject
+   ...
+}
+{
+   KDE3
+   Memcheck:Leak
+   ...
+   fun:_ZN9KuitSetupC1ERK10QByteArray
+   ...
+}
+{
+   KDE4
+   Memcheck:Leak
+   ...
+   fun:_ZNK16KLocalizedString8toStringEv
+   ...
+}
+{
+   KDE5
+   Memcheck:Leak
+   ...
+   fun:_ZN12KConfigGroupC1EP11KConfigBasePKc
+   ...
+}
+{
+   KDE6
+   Memcheck:Leak
+   ...
+   fun:_ZN16KLocalizedString20setApplicationDomainEPKc
+   ...
+}
