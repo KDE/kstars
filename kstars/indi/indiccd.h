@@ -189,6 +189,10 @@ class CCD : public DeviceDecorator
     TransferFormat getTransferFormat() { return transferFormat; }
     bool setTransformFormat(CCD::TransferFormat format);
 
+    // BLOB control
+    bool isBLOBEnabled();
+    bool setBLOBEnabled(bool enable);
+
     // Video Stream
     bool setVideoStreamEnabled(bool enable);
     bool resetStreamingFrame();

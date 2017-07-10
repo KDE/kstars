@@ -913,6 +913,11 @@ void Focus::capture()
         return;
     }
 
+    if (currentCCD->isBLOBEnabled() == false)
+    {
+        currentCCD->setBLOBEnabled(true);
+    }
+
     if (currentFilter != nullptr && lockFilterCheck->isChecked())
     {
         if (currentFilter->isConnected() == false)

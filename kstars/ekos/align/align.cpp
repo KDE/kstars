@@ -2303,6 +2303,11 @@ bool Align::captureAndSolve()
         return false;
     }
 
+    if (currentCCD->isBLOBEnabled() == false)
+    {
+        currentCCD->setBLOBEnabled(true);
+    }
+
     if (parser->init() == false)
         return false;
 
