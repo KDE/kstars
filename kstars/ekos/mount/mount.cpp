@@ -180,6 +180,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this,
             SLOT(updateSwitch(ISwitchVectorProperty *)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(newTarget(QString)), this, SIGNAL(newTarget(QString)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(Disconnected()), m_BaseView, SLOT(hide()), Qt::UniqueConnection);
 
     //Disable this for now since ALL INDI drivers now log their messages to verbose output
     //connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
