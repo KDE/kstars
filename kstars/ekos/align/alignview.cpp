@@ -50,9 +50,13 @@ bool AlignView::createWCSFile(const QString &newWCSFile, double orientation, dou
         return false;
     }
 
-    // Load WCS async
-    QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
-    wcsWatcher.setFuture(future);
+    if (wcsWatcher.isRunning() == false)
+    {
+        // Load WCS async
+        QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
+        wcsWatcher.setFuture(future);
+    }
+
     return true;
 }
 
