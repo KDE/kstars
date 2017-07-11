@@ -269,7 +269,6 @@ Guide::Guide() : QWidget()
     opsGuide = new OpsGuide();
     dialog->addPage(opsGuide, i18n("Guide Settings"));
     connect(guideOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
-    connect(opsGuide, SIGNAL(guiderInfoUpdated(int)), this, SLOT(setGuiderType(int)));
 
     internalGuider->setGuideView(guideView);
 
