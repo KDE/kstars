@@ -1264,9 +1264,7 @@ void KStars::slotStepBackward()
 {
     if (data()->clock()->isActive())
         data()->clock()->stop();
-    data()->clock()->setClockScale(-1.0 * data()->clock()->scale()); //temporarily need negative time step
-    data()->clock()->manualTick(true);
-    data()->clock()->setClockScale(-1.0 * data()->clock()->scale()); //reset original sign of time step
+    data()->clock()->manualTick(true, true);
     map()->forceUpdate();
 }
 
