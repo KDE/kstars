@@ -1,6 +1,6 @@
 
       *****************************************************
-      **   KStars 2.7.2: A Desktop Planetarium for KDE   **
+      **   KStars 2.7.9: A Desktop Planetarium for KDE   **
       *****************************************************
 
 Copyright (c) 2001 - 2017 by The KStars Team:
@@ -87,6 +87,10 @@ B. Data Sources:
  Most of the catalog data came from the Astronomical Data Center, run by
  NASA.  The website is:
  http://adc.gsfc.nasa.gov/
+
+ NGC/IC data is compiled by Christian Dersch from OpenNGC database.
+ https://github.com/mattiaverga/OpenNGC
+ Check LICENSE_OpenNGC for license details (CC-BY-SA-4.0)
 
  Supernovae data is from the Open Supernova Catalog project at https://sne.space
  Please refer to the published paper here: http://adsabs.harvard.edu/abs/2016arXiv160501054G
