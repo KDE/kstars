@@ -4453,6 +4453,8 @@ void Align::startPAHRefreshProcess()
     if (alignView->isEQGridShown())
         alignView->toggleEQGrid();
 
+    Options::setAstrometrySolverWCS(false);
+
     // We for refresh, just capture really
     captureAndSolve();
 }
@@ -4462,6 +4464,8 @@ void Align::setPAHRefreshComplete()
     pahStage = PAH_REFRESH;
 
     abort();
+
+    Options::setAstrometrySolverWCS(true);
 
     restartPAHProcess();
 }
