@@ -2144,6 +2144,9 @@ bool FITSData::loadWCS()
         return true;
     }
 
+    if (Options::fITSLogging())
+        qDebug() << "Started WCS Data Processing...";
+
     int status = 0;
     char *header;
     int nkeyrec, nreject, nwcs, stat[2];
@@ -2224,6 +2227,9 @@ bool FITSData::loadWCS()
     findObjectsInImage(&world[0], phi, theta, &imgcrd[0], &pixcrd[0], &stat[0]);
 
     WCSLoaded = true;
+
+    if (Options::fITSLogging())
+        qDebug() << "Finished WCS Data processing...";
 
     return true;
 #endif
@@ -3818,6 +3824,8 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
     {
         QFile::remove(filename);
         tempFile = false;
+        if (Options::fITSLogging())
+            qDebug() << "Removing FITS File: " << filename;
     }
 
     filename = newWCSFile;
@@ -3947,6 +3955,9 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
     fits_flush_file(fptr, &status);
 
     WCSLoaded = false;
+
+    if (Options::fITSLogging())
+        qDebug() << "Finished creating WCS file: " << newWCSFile;
 
     return true;
 }
