@@ -188,6 +188,9 @@ Align::Align()
     altStage = ALT_INIT;
     azStage  = AZ_INIT;
 
+    rememberSolverWCS = Options::astrometrySolverWCS();
+    rememberAutoWCS   = Options::autoWCS();
+
     // Online/Offline/Remote solver check
     solverTypeGroup->setId(onlineSolverR, SOLVER_ONLINE);
     solverTypeGroup->setId(offlineSolverR, SOLVER_OFFLINE);
@@ -4269,6 +4272,10 @@ void Align::startPAHProcess()
     currentGotoMode = GOTO_NOTHING;
     loadSlewB->setEnabled(false);
 
+    rememberSolverWCS = Options::astrometrySolverWCS();
+    rememberAutoWCS   = Options::autoWCS();
+
+    Options::setAutoWCS(false);
     Options::setAstrometrySolverWCS(true);
 
     if (Options::limitedResourcesMode())
@@ -4440,6 +4447,12 @@ void Align::setPAHCorrectionSelectionComplete()
 {
     pahStage = PAH_PRE_REFRESH;
 
+    // If user stops here, we restore the settings, if not we
+    // disable again in the refresh process
+    // and restore when refresh is complete
+    Options::setAstrometrySolverWCS(rememberSolverWCS);
+    Options::setAutoWCS(rememberAutoWCS);
+
     PAHWidgets->setCurrentWidget(PAHRefreshPage);
 }
 
@@ -4454,6 +4467,7 @@ void Align::startPAHRefreshProcess()
         alignView->toggleEQGrid();
 
     Options::setAstrometrySolverWCS(false);
+    Options::setAutoWCS(false);
 
     // We for refresh, just capture really
     captureAndSolve();
@@ -4465,7 +4479,8 @@ void Align::setPAHRefreshComplete()
 
     abort();
 
-    Options::setAstrometrySolverWCS(true);
+    Options::setAstrometrySolverWCS(rememberSolverWCS);
+    Options::setAutoWCS(rememberAutoWCS);
 
     restartPAHProcess();
 }
