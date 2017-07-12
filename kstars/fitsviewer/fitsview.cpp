@@ -206,6 +206,9 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
         imageData->getBayerParams(&param);
     }
 
+    // In case loadWCS is still running for previous image data, let's wait until it's over
+    wcsWatcher.waitForFinished();
+
     delete imageData;
     imageData = nullptr;
 
