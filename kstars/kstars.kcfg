@@ -1443,6 +1443,15 @@
          <label>Enforce Autofocus HFR limit.</label>
          <default>false</default>
       </entry>
+      <entry name="EnforceRefocusEveryN" type="Bool">
+         <label>Enforce Refocus Every N Minutes.</label>
+         <default>false</default>
+      </entry>
+      <entry name="RefocusEveryN" type="UInt">
+         <label>Number of minute between forced refocus attempts</label>
+         <whatsthis>Sets the time interval before forced autofocus attempts during a capture sequence.</whatsthis>
+         <default>0</default>
+      </entry>
       <entry name="AutoMeridianHours" type="Double">
          <label>Default hour angle to perform meridian flip</label>
          <whatsthis>If the target hour angle exceeds this value, Ekos will command a meridian flip and if successful it will resume guiding and capture operations.</whatsthis>

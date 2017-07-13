@@ -53,7 +53,7 @@
 #define MAX_CAPTURE_RETRIES 3
 
 // Current Sequence File Format:
-#define SQ_FORMAT_VERSION 1.8
+#define SQ_FORMAT_VERSION 1.9
 // We accept file formats with version back to:
 #define SQ_COMPAT_VERSION 1.6
 
@@ -107,6 +107,8 @@ Capture::Capture()
     isAutoFocus              = false;
     autoFocusStatus          = false;
     resumeAlignmentAfterFlip = false;
+
+    isRefocus             = false;
 
     mDirty                = false;
     jobUnderEdit          = false;
@@ -221,11 +223,13 @@ Capture::Capture()
     guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
     guideDeviation->setValue(Options::guideDeviation());
     autofocusCheck->setChecked(Options::enforceAutofocus());
+    refocusEveryNCheck->setChecked(Options::enforceRefocusEveryN());
     meridianCheck->setChecked(Options::autoMeridianFlip());
     meridianHours->setValue(Options::autoMeridianHours());
     useFITSViewerInCapture->setChecked(Options::useFITSViewerInCapture());
 
     connect(autofocusCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
+    connect(refocusEveryNCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(HFRPixels, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
     connect(guideDeviationCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(guideDeviation, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
@@ -357,6 +361,8 @@ void Capture::start()
     Options::setGuideDeviation(guideDeviation->value());
     Options::setEnforceGuideDeviation(guideDeviationCheck->isChecked());
     Options::setEnforceAutofocus(autofocusCheck->isChecked());
+    Options::setEnforceRefocusEveryN(refocusEveryNCheck->isChecked());
+
     Options::setAutoMeridianFlip(meridianCheck->isChecked());
     Options::setAutoMeridianHours(meridianHours->value());
     Options::setUseFITSViewerInCapture(useFITSViewerInCapture->isChecked());
@@ -421,6 +427,10 @@ void Capture::start()
     ditherCounter     = Options::ditherFrames();
     initialHA         = getCurrentHA();
     meridianFlipStage = MF_NONE;
+
+
+    // start timer to measure time until next forced refocus
+    startRefocusEveryNTimer();
 
     // Check if we need to update the sequence directory numbers before starting
     /*for (int i=0; i < jobs.count(); i++)
@@ -1313,6 +1323,14 @@ bool Capture::resumeSequence()
             HFRPixels->setValue(fileHFR);
         }
 
+        // check if time for forced refocus
+
+        qDebug() << "Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
+        if (refocusEveryNCheck->isEnabled() && getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60)
+            isRefocus = true;
+        else
+            isRefocus = false;
+
         // If we suspended guiding due to primary chip download, resume guide chip guiding now
         if (guideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
             emit resumeGuiding();
@@ -1326,6 +1344,18 @@ bool Capture::resumeSequence()
 
             state = CAPTURE_DITHERING;
             emit newStatus(Ekos::CAPTURE_DITHERING);
+        }
+        else if (isRefocus && activeJob->getFrameType() == FRAME_LIGHT)
+        {
+            appendLogText(i18n("Scheduled refocus started..."));
+
+            secondsLabel->setText(i18n("Focusing..."));
+
+            // force refocus
+            emit checkFocus(0.1);
+
+            state = CAPTURE_FOCUSING;
+            emit newStatus(Ekos::CAPTURE_FOCUSING);
         }
         else if (isAutoFocus && activeJob->getFrameType() == FRAME_LIGHT)
         {
@@ -1499,10 +1529,20 @@ bool Capture::resumeCapture()
 
     appendLogText(i18n("Dither complete."));
 
+    // FIXME ought to be able to combine these - only different is value passed
+    //       to checkFocus()
     if (isAutoFocus && autoFocusStatus == false)
     {
         secondsLabel->setText(i18n("Focusing..."));
         emit checkFocus(HFRPixels->value());
+        state = CAPTURE_FOCUSING;
+        emit newStatus(Ekos::CAPTURE_FOCUSING);
+        return true;
+    }
+    else if (isRefocus)
+    {
+        secondsLabel->setText(i18n("Focusing..."));
+        emit checkFocus(0.1);
         state = CAPTURE_FOCUSING;
         emit newStatus(Ekos::CAPTURE_FOCUSING);
         return true;
@@ -2060,6 +2100,15 @@ void Capture::prepareJob(SequenceJob *job)
             calibrationStage = CAL_NONE;
     }
 
+    // If we haven't performed a single autofocus yet, we stop
+    if (Options::refocusEveryN() && (isAutoFocus == false && firstAutoFocus == true))
+    {
+        appendLogText(i18n(
+            "Manual scheduled focusing is not supported. Run Autofocus process before trying again."));
+        abort();
+        return;
+    }
+
     if (currentFilterPosition > 0)
     {
         // If we haven't performed a single autofocus yet, we stop
@@ -2381,6 +2430,9 @@ void Capture::setFocusStatus(FocusState state)
             // in case in-sequence-focusing is used.
             HFRPixels->setValue(focusHFR + (focusHFR * (Options::hFRThresholdPercentage() / 100.0)));
         }
+
+        // successful focus so reset elapsed time
+        restartRefocusEveryNTimer();
     }
 
     if (activeJob &&
@@ -2402,7 +2454,7 @@ void Capture::setFocusStatus(FocusState state)
         return;
     }
 
-    if (isAutoFocus && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
+    if ((isRefocus || isAutoFocus) && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
         if (focusState == FOCUS_COMPLETE)
         {
@@ -2564,6 +2616,26 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                     }
                     else
                         autofocusCheck->setChecked(false);
+                }
+                else if (!strcmp(tagXMLEle(ep), "RefocusEveryN"))
+                {
+                    if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
+                    {
+                        refocusEveryNCheck->setChecked(true);
+                        int minutesValue = atof(pcdataXMLEle(ep));
+                        if (minutesValue > 0)
+                        {
+                            refocusEveryNMinutesValue = minutesValue;
+                            refocusEveryN->setValue(refocusEveryNMinutesValue);
+                        }
+                        else
+                            refocusEveryNMinutesValue = 0;
+                    }
+                    else
+                        refocusEveryNCheck->setChecked(false);
+
+                    qDebug() << "Read Requested Interval (min): " << refocusEveryNMinutesValue;
+
                 }
                 else if (!strcmp(tagXMLEle(ep), "MeridianFlip"))
                 {
@@ -2881,6 +2953,8 @@ bool Capture::saveSequenceQueue(const QString &path)
               << guideDeviation->value() << "</GuideDeviation>" << endl;
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>"
               << HFRPixels->value() << "</Autofocus>" << endl;
+    outstream << "<RefocusEveryN enabled='" << (refocusEveryNCheck->isChecked() ? "true" : "false") << "'>"
+              << refocusEveryN->value() << "</RefocusEveryN>" << endl;
     outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>"
               << meridianHours->value() << "</MeridianFlip>" << endl;
     foreach (SequenceJob *job, jobs)
@@ -4547,5 +4621,21 @@ void Capture::showObserverDialog()
     observerName = observerCombo.currentText();
 
     Options::setDefaultObserver(observerName);
+}
+
+
+void Capture::startRefocusEveryNTimer()
+{
+    refocusEveryNTimer.restart();
+}
+
+void Capture::restartRefocusEveryNTimer()
+{
+    refocusEveryNTimer.restart();
+}
+
+int Capture::getRefocusEveryNTimerElapsedSec()
+{
+    return refocusEveryNTimer.elapsed()/1000;
 }
 }

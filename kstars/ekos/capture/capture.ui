@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>662</width>
-    <height>517</height>
+    <width>707</width>
+    <height>554</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,2">
@@ -970,7 +970,7 @@
         <property name="spacing">
          <number>3</number>
         </property>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="QDoubleSpinBox" name="meridianHours">
           <property name="enabled">
            <bool>false</bool>
@@ -992,7 +992,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <widget class="QCheckBox" name="meridianCheck">
           <property name="enabled">
            <bool>false</bool>
@@ -1056,6 +1056,19 @@
           </property>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="autofocusCheck">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Perform autofocusing once Half-Flux-Radius (HFR) value exceeds this limit</string>
+          </property>
+          <property name="text">
+           <string>Autofocus if HFR &gt;</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QCheckBox" name="guideDeviationCheck">
           <property name="enabled">
@@ -1072,19 +1085,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QCheckBox" name="autofocusCheck">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Perform autofocusing once Half-Flux-Radius (HFR) value exceeds this limit</string>
-          </property>
-          <property name="text">
-           <string>Autofocus if HFR &gt;</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="3">
          <widget class="QLabel" name="textLabel1_2_4">
           <property name="toolTip">
@@ -1098,7 +1098,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="3">
+        <item row="3" column="3">
          <widget class="QLabel" name="textLabel1_2_6">
           <property name="toolTip">
            <string>Number of images to capture</string>
@@ -1108,6 +1108,33 @@
           </property>
           <property name="text">
            <string>hours</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="refocusEveryNCheck">
+          <property name="text">
+           <string>Refocus every</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="refocusEveryN">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>999</number>
+          </property>
+          <property name="value">
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="textLabel_1_2_7">
+          <property name="text">
+           <string>minutes</string>
           </property>
          </widget>
         </item>
