@@ -1541,6 +1541,8 @@ bool Capture::resumeCapture()
     }
     else if (isRefocus)
     {
+        appendLogText(i18n("Scheduled refocus started..."));
+
         secondsLabel->setText(i18n("Focusing..."));
         emit checkFocus(0.1);
         state = CAPTURE_FOCUSING;
