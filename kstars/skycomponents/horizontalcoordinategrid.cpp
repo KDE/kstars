@@ -46,23 +46,24 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid(SkyComposite *parent)
 
     double max, alt, alt2, az, az2;
 
-    LineList *lineList = nullptr;
+    std::shared_ptr<LineList> lineList;
 
     for (az = minAz; az < maxAz; az += dAz)
     {
         for (alt = -90.0; alt < maxAlt - eps; alt += dAlt)
         {
-            lineList = new LineList();
+            lineList.reset(new LineList());
             max      = alt + dAlt;
             if (max > 90.0)
                 max = 90.0;
             for (alt2 = alt; alt2 <= max + eps; alt2 += dAlt2)
             {
-                SkyPoint *p = new SkyPoint();
+                std::shared_ptr<SkyPoint> p(new SkyPoint());
+
                 p->setAz(az);
                 p->setAlt(alt2);
                 //p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-                lineList->append(p);
+                lineList->append(std::move(p));
             }
             appendLine(lineList);
         }
@@ -82,14 +83,15 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid(SkyComposite *parent)
 
         for (az = minAz; az < maxAz + eps; az += dAz)
         {
-            lineList = new LineList();
+            lineList.reset(new LineList());
             for (az2 = az; az2 <= az + dAz + eps; az2 += dAz3)
             {
-                SkyPoint *p = new SkyPoint();
+                std::shared_ptr<SkyPoint> p(new SkyPoint());
+
                 p->setAz(az2);
                 p->setAlt(alt);
                 //p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-                lineList->append(p);
+                lineList->append(std::move(p));
             }
             appendLine(lineList);
         }
@@ -115,6 +117,7 @@ void HorizontalCoordinateGrid::preDraw(SkyPainter *skyp)
 {
     KStarsData *data = KStarsData::Instance();
     QColor color     = data->colorScheme()->colorNamed("HorizontalGridColor");
+
     skyp->setPen(QPen(QBrush(color), 2, Qt::DotLine));
 }
 

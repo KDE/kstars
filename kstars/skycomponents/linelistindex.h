@@ -23,6 +23,7 @@
 #include <QMutex>
 
 #include <memory>
+#include <set>
 
 class LineList;
 class LineListLabel;
@@ -117,9 +118,9 @@ class LineListIndex : public SkyComponent
      * @param debug if greater than zero causes the number of trixels found
      * to be printed.
      */
-    void appendLine(LineList *lineList, int debug = 0);
+    void appendLine(const std::shared_ptr<LineList> &lineList, int debug = 0);
 
-    void removeLine(LineList *lineList);
+    void removeLine(const std::shared_ptr<LineList> &lineList);
 
     /**
      * @short Typically called from within a subclasses constructors.
@@ -128,12 +129,12 @@ class LineListIndex : public SkyComponent
      * @param debug if greater than zero causes the number of trixels found
      * to be printed.
      */
-    void appendPoly(LineList *lineList, int debug = 0);
+    void appendPoly(const std::shared_ptr<LineList> &lineList, int debug = 0);
 
     /**
      * @short a convenience method that adds a lineList to both the lineIndex and the polyIndex.
      */
-    void appendBoth(LineList *lineList, int debug = 0);
+    void appendBoth(const std::shared_ptr<LineList> &lineList, int debug = 0);
 
     /**
      * @short Draws all the lines in m_listList as simple lines in float mode.

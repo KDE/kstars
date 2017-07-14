@@ -13,11 +13,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #include "skypolygonnode.h"
-#include "nodes/polynode.h"
-#include "Options.h"
+
 #include "ksutils.h"
 #include "linelist.h"
+#include "nodes/polynode.h"
 
 SkyPolygonNode::SkyPolygonNode(LineList *list) : m_list(list), m_polygonNode(new PolyNode)
 {
@@ -40,7 +41,7 @@ void SkyPolygonNode::update(bool forceClip)
     {
         for (int i = 0; i < points->size(); ++i)
         {
-            polygon << m_proj->toScreen(points->at(i), false, &isVisibleLast);
+            polygon << m_proj->toScreen(points->at(i).get(), false, &isVisibleLast);
             isVisible |= isVisibleLast;
         }
 
@@ -57,15 +58,16 @@ void SkyPolygonNode::update(bool forceClip)
         return;
     }
 
-    SkyPoint *pLast = points->last();
+    SkyPoint *pLast = points->last().get();
     QPointF oLast   = m_proj->toScreen(pLast, true, &isVisibleLast);
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility(pLast);
 
     for (int i = 0; i < points->size(); ++i)
     {
-        SkyPoint *pThis = points->at(i);
+        SkyPoint *pThis = points->at(i).get();
         QPointF oThis   = m_proj->toScreen(pThis, true, &isVisible);
+
         // & with the result of checkVisibility to clip away things below horizon
         isVisible &= m_proj->checkVisibility(pThis);
 

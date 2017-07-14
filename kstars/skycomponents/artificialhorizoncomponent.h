@@ -7,10 +7,11 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef ARTFICIALHORIZONCOMPONENT_H
-#define ARTFICIALHORIZONCOMPONENT_H
+#pragma once
 
 #include "noprecessindex.h"
+
+#include <memory>
 
 class ArtificialHorizonEntity
 {
@@ -25,13 +26,13 @@ class ArtificialHorizonEntity
     void setEnabled(bool Enabled);
 
     void clearList();
-    void setList(LineList *List);
-    LineList *list();
+    void setList(const std::shared_ptr<LineList> &list);
+    std::shared_ptr<LineList> list();
 
   private:
     QString m_Region;
-    bool m_Enabled;
-    LineList *m_List;
+    bool m_Enabled { false };
+    std::shared_ptr<LineList> m_List;
 };
 
 /**
@@ -46,17 +47,20 @@ class ArtificialHorizonEntity
 class ArtificialHorizonComponent : public NoPrecessIndex
 {
   public:
-    /** @short Constructor
-         * @p parent pointer to the parent SkyComposite object
-         * name is the name of the subclass
-         */
+    /**
+     * @short Constructor
+     * @p parent pointer to the parent SkyComposite object
+     * name is the name of the subclass
+     */
     explicit ArtificialHorizonComponent(SkyComposite *parent);
+
+    virtual ~ArtificialHorizonComponent();
 
     bool selected() Q_DECL_OVERRIDE;
     void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-    void setLivePreview(LineList *preview) { livePreview = preview; }
-    void addRegion(const QString &regionName, bool enabled, LineList *list);
+    void setLivePreview(const std::shared_ptr<LineList> &preview) { livePreview = preview; }
+    void addRegion(const QString &regionName, bool enabled, const std::shared_ptr<LineList> &list);
     void removeRegion(const QString &regionName, bool lineOnly = false);
     inline QList<ArtificialHorizonEntity *> *horizonList() { return &m_HorizonList; }
 
@@ -68,7 +72,5 @@ class ArtificialHorizonComponent : public NoPrecessIndex
 
   private:
     QList<ArtificialHorizonEntity *> m_HorizonList;
-    LineList *livePreview;
+    std::shared_ptr<LineList> livePreview;
 };
-
-#endif

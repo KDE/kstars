@@ -15,27 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARS_KSUSERDB_H
-#define KSTARS_KSUSERDB_H
-#define KSTARS_USERDB "data/userdb.sqlite"
+#pragma once
 
-#include <KLocalizedString>
-#include <QSqlDatabase>
-#include <QDebug>
-#include <QSqlQuery>
-#include <QSqlRecord>
-#include <QSqlTableModel>
-#include <QString>
-#include <QHash>
-#include <QSqlError>
-#include <QVariant>
-#include <QFile>
-#include <QXmlStreamReader>
-#include "skyobjects/skyobject.h"
+#include "auxiliary/profileinfo.h"
 #ifndef KSTARS_LITE
 #include "oal/oal.h"
 #endif
-#include "auxiliary/profileinfo.h"
+#include "skyobjects/skyobject.h"
+
+#include <QStringList>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QVariantMap>
+#include <QFile>
+#include <QXmlStreamReader>
 
 class LineList;
 class ArtificialHorizonEntity;
@@ -354,5 +347,3 @@ class KSUserDB
          **/
     inline QSqlError LastError();
 };
-
-#endif // KSTARS_KSUSERDB_H

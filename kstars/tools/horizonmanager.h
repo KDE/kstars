@@ -7,54 +7,47 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef HORIZONMANAGER_H
-#define HORIZONMANAGER_H
-
-#include <QAbstractTableModel>
-
-#include <QDialog>
+#pragma once
 
 #include "ui_horizonmanager.h"
 
-class QSortFilterProxyModel;
-class QStandardItemModel;
+#include <QDialog>
+
+#include <memory>
+
 class QStandardItem;
-class KStars;
+class QStandardItemModel;
+
 class ArtificialHorizonComponent;
 class ArtificialHorizonEntity;
-class SkyPoint;
 class LineList;
+class SkyPoint;
 
 class HorizonManagerUI : public QFrame, public Ui::HorizonManager
 {
     Q_OBJECT
 
   public:
-    /** @short Constructor
-         */
+    /** @short Constructor */
     explicit HorizonManagerUI(QWidget *parent);
 };
 
 /**
- *@class HorizonManager
- *@short Manages adding/removing and editing regions and points associated with
+ * @class HorizonManager
+ * @short Manages adding/removing and editing regions and points associated with
  * user-customized artificial horizons.
  *
- *@version 1.0
- *@author Jasem Mutlaq
+ * @version 1.0
+ * @author Jasem Mutlaq
  */
 class HorizonManager : public QDialog
 {
     Q_OBJECT
   public:
-    /**
-         *@short Constructor.
-         */
+    /** @short Constructor */
     explicit HorizonManager(QWidget *ks);
 
-    /**
-         *@short Destructor.
-         */
+    /** @short Destructor */
     ~HorizonManager();
 
     void showRegion(const int regionID);
@@ -64,14 +57,10 @@ class HorizonManager : public QDialog
     void deleteRegion(int regionID);
 
   public slots:
-    /**
-         *@short Add region
-         */
+    /** @short Add region */
     void slotAddRegion();
 
-    /**
-         *@short Delete region
-         */
+    /** @short Delete region */
     void slotRemoveRegion();
 
     void addSkyPoint(SkyPoint *skypoint);
@@ -93,16 +82,13 @@ class HorizonManager : public QDialog
     void terminateLivePreview();
     void setPointSelection(bool enable);
 
-    HorizonManagerUI *ui;
+    HorizonManagerUI *ui { nullptr };
 
-    QStandardItemModel *m_RegionsModel;
-    ArtificialHorizonComponent *horizonComponent;
+    QStandardItemModel *m_RegionsModel { nullptr };
+    ArtificialHorizonComponent *horizonComponent { nullptr };
 
-    QList<ArtificialHorizonEntity *> *m_HorizonList;
+    QList<ArtificialHorizonEntity *> *m_HorizonList { nullptr };
 
-    LineList *livePreview;
-
-    bool selectPoints;
+    std::shared_ptr<LineList> livePreview;
+    bool selectPoints { false };
 };
-
-#endif

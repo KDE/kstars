@@ -14,20 +14,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "Options.h"
-#include "projections/projector.h"
-
-#include "skynodes/deepskynode.h"
-#include "labelsitem.h"
 #include "deepskyitem.h"
-#include "deepstaritem.h"
-#include "skynodes/dsosymbolnode.h"
 
 #include "deepskyobject.h"
-#include "starcomponent.h"
-#include "starblockfactory.h"
-#include "skymesh.h"
+#include "deepstaritem.h"
+#include "labelsitem.h"
+#include "Options.h"
 #include "rootnode.h"
+#include "skymesh.h"
+#include "starblockfactory.h"
+#include "starcomponent.h"
+#include "htmesh/MeshIterator.h"
+#include "projections/projector.h"
+#include "skynodes/deepskynode.h"
+#include "skynodes/dsosymbolnode.h"
 
 DSOIndexNode::DSOIndexNode(DeepSkyIndex *index, LabelsItem::label_t labelType, QString color)
     : m_index(index), m_trixels(new QSGNode), m_labelType(labelType), schemeColor(color)

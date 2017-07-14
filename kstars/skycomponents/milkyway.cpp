@@ -90,8 +90,8 @@ void MilkyWay::draw(SkyPainter *skyp)
 void MilkyWay::loadContours(QString fname, QString greeting)
 {
     KSFileReader fileReader;
-    SkipList *skipList = nullptr;
-    int iSkip          = 0;
+    std::shared_ptr<LineList> skipList;
+    int iSkip = 0;
 
     if (!fileReader.open(fname))
         return;
@@ -100,15 +100,16 @@ void MilkyWay::loadContours(QString fname, QString greeting)
     while (fileReader.hasMoreLines())
     {
         QString line = fileReader.readLine();
-        fileReader.showProgress();
-
         QChar firstChar = line.at(0);
+
+        fileReader.showProgress();
         if (firstChar == '#')
             continue;
 
         bool okRA = false, okDec = false;
         double ra  = line.mid(2, 8).toDouble(&okRA);
         double dec = line.mid(11, 8).toDouble(&okDec);
+
         if (!okRA || !okDec)
         {
             qDebug() << QString("%1: conversion error on line: %2\n").arg(fname).arg(fileReader.lineNumber());
@@ -117,20 +118,23 @@ void MilkyWay::loadContours(QString fname, QString greeting)
 
         if (firstChar == 'M')
         {
-            if (skipList)
+            if (skipList.get())
                 appendBoth(skipList);
-            skipList = nullptr;
+            skipList.reset();
             iSkip    = 0;
         }
 
-        if (!skipList)
-            skipList = new SkipList();
+        if (!skipList.get())
+            skipList.reset(new SkipList());
 
-        skipList->append(new SkyPoint(ra, dec));
+        std::shared_ptr<SkyPoint> point(new SkyPoint(ra, dec));
+
+        skipList->append(std::move(point));
         if (firstChar == 'S')
-            skipList->setSkip(iSkip);
+            static_cast<SkipList*>(skipList.get())->setSkip(iSkip);
+
         iSkip++;
     }
-    if (skipList)
+    if (skipList.get())
         appendBoth(skipList);
 }

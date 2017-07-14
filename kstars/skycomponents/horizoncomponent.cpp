@@ -17,25 +17,19 @@
 
 #include "horizoncomponent.h"
 
-#include <QList>
-#include <QPointF>
-
-#include "Options.h"
+#include "dms.h"
 #include "kstarsdata.h"
-#include "ksnumbers.h"
-
+#include "Options.h"
+#include "skylabeler.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #else
 #include "skymap.h"
 #endif
-
-#include "skyobjects/skypoint.h"
-#include "dms.h"
-#include "skylabeler.h"
 #include "skypainter.h"
-
 #include "projections/projector.h"
+
+#include <QPointF>
 
 #define NCIRCLE 360 //number of points used to define equator, ecliptic and horizon
 
@@ -47,7 +41,8 @@ HorizonComponent::HorizonComponent(SkyComposite *parent) : PointListComponent(pa
     //Define Horizon
     for (unsigned int i = 0; i < NCIRCLE; ++i)
     {
-        SkyPoint *o = new SkyPoint();
+        std::shared_ptr<SkyPoint> o(new SkyPoint());
+
         o->setAz(i * 360. / NCIRCLE);
         o->setAlt(0.0);
 
@@ -69,8 +64,10 @@ void HorizonComponent::update(KSNumbers *)
 {
     if (!selected())
         return;
+
     KStarsData *data = KStarsData::Instance();
-    foreach (SkyPoint *p, pointList())
+
+    foreach (std::shared_ptr<SkyPoint> p, pointList())
     {
         p->HorizontalToEquatorial(data->lst(), data->geo()->lat());
     }

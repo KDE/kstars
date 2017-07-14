@@ -15,6 +15,8 @@
  ***************************************************************************/
 
 #include "constellationartitem.h"
+
+#include "Options.h"
 #include "projections/projector.h"
 #include "constellationartcomponent.h"
 #include "skynodes/constellationartnode.h"

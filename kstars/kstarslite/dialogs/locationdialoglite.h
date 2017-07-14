@@ -14,16 +14,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LOCATIONDIALOGLITE_H_
-#define LOCATIONDIALOGLITE_H_
+#pragma once
 
 #include <QStringListModel>
 #include <QSqlDatabase>
-#include <QGeoPositionInfo>
 
 #include "skyobjects/skyobject.h"
 
-/** @class LocationDialogLite
+/**
+ * @class LocationDialogLite
  * A backend of location dialog declared in QML.
  *
  * @short Backend for location dialog in QML
@@ -74,23 +73,24 @@ class LocationDialogLite : public QObject
     Q_INVOKABLE bool isDuplicate(QString city, QString province, QString country);
 
     /**
-         * @brief checkLongLat checks whether given longitude and latitude are valid
-         */
+     * @brief checkLongLat checks whether given longitude and latitude are valid
+     */
     Q_INVOKABLE bool checkLongLat(QString longitude, QString latitude);
 
     /**
-         * TODO - port dmsBox to QML
-         * @brief createDms creates dms from string
-         * @param degree string that should be converted to degree
-         * @param deg if true, the value is in degrees.  Otherwise, it is in hours.
-         * @param ok
-         * @return angle in dms
-         */
+     * TODO - port dmsBox to QML
+     * @brief createDms creates dms from string
+     * @param degree string that should be converted to degree
+     * @param deg if true, the value is in degrees.  Otherwise, it is in hours.
+     * @param ok
+     * @return angle in dms
+     */
     dms createDms(QString degree, bool deg, bool *ok);
 
     /**
-         * @short retrieve name of location by latitude and longitude. Name will be sent with sendNameFromCoordinates signal
-         */
+     * @short Retrieve name of location by latitude and longitude. Name will be sent with
+     * sendNameFromCoordinates signal
+     */
     Q_INVOKABLE void getNameFromCoordinates(double latitude, double longitude);
 
   public slots:
@@ -108,23 +108,21 @@ class LocationDialogLite : public QObject
 
   private:
     /**
-         * @short checks whether database with cities is already created. Creates a new otherwise
-         * @return city database
-         */
+     * @short checks whether database with cities is already created. Creates a new otherwise
+     * @return city database
+     */
     QSqlDatabase getDB();
 
     QStringListModel m_cityList;
     QHash<QString, GeoLocation *> filteredCityList;
-    GeoLocation *SelectedCity;
-    GeoLocation *currentGeo;
+    GeoLocation *SelectedCity { nullptr };
+    GeoLocation *currentGeo { nullptr };
     QString m_currentLocation;
-    int m_currLocIndex;
+    int m_currLocIndex { 0 };
 
     QStringList m_TZList;
     QStringList m_DSTRules;
 
     //Retrieve the name of city
-    QNetworkAccessManager *nam;
+    QNetworkAccessManager *nam { nullptr };
 };
-
-#endif

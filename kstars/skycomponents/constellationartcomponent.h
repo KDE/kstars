@@ -15,13 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ConstellationArtComponent_H
-#define ConstellationArtComponent_H
-
-#include <QImage>
-#include <QSqlDatabase>
-
-#include "Options.h"
+#pragma once
 
 #include "skycomponent.h"
 
@@ -38,30 +32,27 @@ class CultureList;
 class ConstellationArtComponent : public SkyComponent
 {
   public:
-    /** Constructor*/
+    /** Constructor */
     explicit ConstellationArtComponent(SkyComposite *, CultureList *cultures);
 
-    /** Destructor*/
+    /** Destructor */
     ~ConstellationArtComponent();
 
     /**
-         * @short Read the skycultures.sqlite database file.
-         * Parse all the data from the skycultures database.Construct a ConstellationsArt object
-         * from the data, and add it to a QList.
-         * @return true if data file is successfully read.
-         */
+     * @short Read the skycultures.sqlite database file.
+     * Parse all the data from the skycultures database.Construct a ConstellationsArt object
+     * from the data, and add it to a QList.
+     * @return true if data file is successfully read.
+     */
     void loadData();
 
     /**
-         * @short deletes all created ConstellationsArt objects.
-         * Used in KStars Lite to reduce memory consumption if Constellation Art is switched off
-         */
+     * @short deletes all created ConstellationsArt objects.
+     * Used in KStars Lite to reduce memory consumption if Constellation Art is switched off
+     */
     void deleteData();
 
-    /**
-         * @short Shows the details of the constellations
-         * selected skyculture
-         */
+    /** @short Shows the details of the constellations selected skyculture */
     void showList();
 
     void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
@@ -72,5 +63,3 @@ class ConstellationArtComponent : public SkyComponent
     QString cultureName;
     int records;
 };
-
-#endif // ConstellationArtComponent_H

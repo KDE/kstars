@@ -17,24 +17,24 @@
 
 #include "flagcomponent.h"
 
-#include <QtMath>
-#include <QDir>
-#include <QStandardPaths>
-
-#include <KLocalizedString>
-
-#include "Options.h"
+#include "ksfilereader.h"
 #include "kstarsdata.h"
+#include "Options.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #else
 #include "skymap.h"
 #endif
-#include "skyobjects/skypoint.h"
-#include "ksfilereader.h"
 #include "skypainter.h"
-#include "projections/projector.h"
 #include "auxiliary/kspaths.h"
+#include "projections/projector.h"
+#include "skyobjects/skypoint.h"
+
+#include <KLocalizedString>
+
+#include <QDir>
+#include <QtMath>
+#include <QStandardPaths>
 
 FlagComponent::FlagComponent(SkyComposite *parent) : PointListComponent(parent)
 {
@@ -51,6 +51,7 @@ FlagComponent::FlagComponent(SkyComposite *parent) : PointListComponent(parent)
     {
         QString fileName =
             item.replace(QRegExp("\\.[^.]*$"), QString()).replace(QRegExp("^flag"), QString()).replace('_', ' ');
+
         m_Names.append(fileName);
 
         // FIXME need to append path??!
@@ -99,14 +100,14 @@ void FlagComponent::loadFromFile()
 
         m_EpochCoords.append(qMakePair(r.Degrees(), d.Degrees()));
 
-        SkyPoint *flagPoint = new SkyPoint(r, d);
+        std::shared_ptr<SkyPoint> flagPoint(new SkyPoint(r, d));
 
         // Convert to JNow
-        toJ2000(flagPoint, flagEntry.at(2));
+        toJ2000(flagPoint.get(), flagEntry.at(2));
 
         flagPoint->updateCoordsNow(KStarsData::Instance()->updateNum());
 
-        pointList().append(flagPoint);
+        pointList().append(std::move(flagPoint));
 
         // Read epoch
         m_Epoch.append(flagEntry.at(2));
@@ -170,13 +171,13 @@ void FlagComponent::add(const SkyPoint &flagPoint, QString epoch, QString image,
     // If not J2000, we convert to J2000
     m_EpochCoords.append(qMakePair(flagPoint.ra().Degrees(), flagPoint.dec().Degrees()));
 
-    SkyPoint *newFlagPoint = new SkyPoint(flagPoint.ra(), flagPoint.dec());
+    std::shared_ptr<SkyPoint> newFlagPoint(new SkyPoint(flagPoint.ra(), flagPoint.dec()));
 
-    toJ2000(newFlagPoint, epoch);
+    toJ2000(newFlagPoint.get(), epoch);
 
     newFlagPoint->updateCoordsNow(KStarsData::Instance()->updateNum());
 
-    pointList().append(newFlagPoint);
+    pointList().append(std::move(newFlagPoint));
     m_Epoch.append(epoch);
 
     for (int i = 0; i < m_Names.size(); i++)
@@ -216,13 +217,13 @@ void FlagComponent::updateFlag(int index, const SkyPoint &flagPoint, QString epo
     if (index > pointList().size() - 1)
         return;
 
-    SkyPoint *existingFlag = pointList().at(index);
+    std::shared_ptr<SkyPoint> existingFlag = pointList().at(index);
 
     existingFlag->setRA0(flagPoint.ra());
     existingFlag->setDec0(flagPoint.dec());
 
     // If epoch not J2000, to convert to J2000
-    toJ2000(existingFlag, epoch);
+    toJ2000(existingFlag.get(), epoch);
 
     existingFlag->updateCoordsNow(KStarsData::Instance()->updateNum());
 
@@ -326,12 +327,12 @@ QList<int> FlagComponent::getFlagsNearPix(SkyPoint *point, int pixelRadius)
     QList<int> retVal;
 
     int ptr = 0;
-    foreach (SkyPoint *cp, pointList())
+    foreach (std::shared_ptr<SkyPoint> cp, pointList())
     {
         if (std::isnan(cp->ra().Degrees()) || std::isnan(cp->dec().Degrees()))
             continue;
         cp->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-        QPointF pos2 = proj->toScreen(cp);
+        QPointF pos2 = proj->toScreen(cp.get());
         int dx       = (pos2 - pos).x();
         int dy       = (pos2 - pos).y();
 
@@ -388,10 +389,11 @@ void FlagComponent::update(KSNumbers *num)
     if (!selected())
         return;
     KStarsData *data = KStarsData::Instance();
-    foreach (SkyPoint *p, pointList())
+    foreach (std::shared_ptr<SkyPoint> p, pointList())
     {
         if (num)
             p->updateCoordsNow(num);
+
         p->EquatorialToHorizontal(data->lst(), data->geo()->lat());
     }
 }

@@ -46,19 +46,20 @@ EquatorialCoordinateGrid::EquatorialCoordinateGrid(SkyComposite *parent)
 
     double max, dec, dec2, ra, ra2;
 
-    LineList *lineList;
+    std::shared_ptr<LineList> lineList;
 
     for (ra = minRa; ra < maxRa; ra += dRa)
     {
         for (dec = -90.0; dec < maxDec - eps; dec += dDec)
         {
-            lineList = new LineList();
+            lineList.reset(new LineList());
             max      = dec + dDec;
             if (max > 90.0)
                 max = 90.0;
             for (dec2 = dec; dec2 <= max + eps; dec2 += dDec2)
             {
-                SkyPoint *p = new SkyPoint(ra, dec2);
+                std::shared_ptr<SkyPoint> p(new SkyPoint(ra, dec2));
+
                 p->EquatorialToHorizontal(data->lst(), data->geo()->lat());
                 lineList->append(p);
             }
@@ -80,10 +81,11 @@ EquatorialCoordinateGrid::EquatorialCoordinateGrid(SkyComposite *parent)
 
         for (ra = minRa; ra < maxRa + eps; ra += dRa)
         {
-            lineList = new LineList();
+            lineList.reset(new LineList());
             for (ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa3)
             {
-                SkyPoint *p = new SkyPoint(ra2, dec);
+                std::shared_ptr<SkyPoint> p(new SkyPoint(ra2, dec));
+
                 p->EquatorialToHorizontal(data->lst(), data->geo()->lat());
                 lineList->append(p);
             }

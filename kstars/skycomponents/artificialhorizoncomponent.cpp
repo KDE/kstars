@@ -9,27 +9,16 @@
 
 #include "artificialhorizoncomponent.h"
 
-#include "ksnumbers.h"
 #include "kstarsdata.h"
+#include "linelist.h"
+#include "Options.h"
 #include "skymap.h"
 #include "skymapcomposite.h"
-#include "skyobjects/skypoint.h"
-#include "dms.h"
-#include "Options.h"
-#include "linelist.h"
-#include "polylist.h"
-
-#include "skymesh.h"
-#ifndef KSTARS_LITE
-#include "skymap.h"
-#endif
 #include "skypainter.h"
-
 #include "projections/projector.h"
 
 ArtificialHorizonEntity::ArtificialHorizonEntity()
 {
-    m_List = nullptr;
 }
 
 ArtificialHorizonEntity::~ArtificialHorizonEntity()
@@ -57,34 +46,31 @@ void ArtificialHorizonEntity::setEnabled(bool Enabled)
     m_Enabled = Enabled;
 }
 
-void ArtificialHorizonEntity::setList(LineList *List)
+void ArtificialHorizonEntity::setList(const std::shared_ptr<LineList> &list)
 {
-    m_List = List;
+    m_List = list;
 }
 
-LineList *ArtificialHorizonEntity::list()
+std::shared_ptr<LineList> ArtificialHorizonEntity::list()
 {
     return m_List;
 }
 
 void ArtificialHorizonEntity::clearList()
 {
-    if (m_List)
-    {
-        while (m_List->points()->size() > 0)
-        {
-            delete m_List->points()->takeAt(0);
-        }
-        delete (m_List);
-        m_List = nullptr;
-    }
+    m_List.reset();
 }
 
 ArtificialHorizonComponent::ArtificialHorizonComponent(SkyComposite *parent)
     : NoPrecessIndex(parent, i18n("Artificial Horizon"))
 {
-    livePreview = nullptr;
     load();
+}
+
+ArtificialHorizonComponent::~ArtificialHorizonComponent()
+{
+    qDeleteAll(m_HorizonList);
+    m_HorizonList.clear();
 }
 
 bool ArtificialHorizonComponent::load()
@@ -123,10 +109,10 @@ void ArtificialHorizonComponent::draw(SkyPainter *skyp)
     if (!selected())
         return;
 
-    if (livePreview)
+    if (livePreview.get())
     {
         skyp->setPen(QPen(Qt::white, 3));
-        skyp->drawSkyPolyline(livePreview);
+        skyp->drawSkyPolyline(livePreview.get());
         return;
     }
 
@@ -138,7 +124,7 @@ void ArtificialHorizonComponent::draw(SkyPainter *skyp)
     //foreach ( LineList* lineList, listList() )
     for (int i = 0; i < listList().count(); i++)
     {
-        LineList *lineList = listList().at(i);
+        std::shared_ptr<LineList> lineList = listList().at(i);
 
         if (lineList->drawID == drawID || m_HorizonList.at(i)->enabled() == false)
             continue;
@@ -147,7 +133,7 @@ void ArtificialHorizonComponent::draw(SkyPainter *skyp)
         /*if ( lineList->updateID != updateID )
             JITupdate( lineList );*/
 
-        skyp->drawSkyPolygon(lineList, false);
+        skyp->drawSkyPolygon(lineList.get(), false);
     }
 }
 
@@ -179,7 +165,7 @@ void ArtificialHorizonComponent::removeRegion(const QString &regionName, bool li
     }
 }
 
-void ArtificialHorizonComponent::addRegion(const QString &regionName, bool enabled, LineList *list)
+void ArtificialHorizonComponent::addRegion(const QString &regionName, bool enabled, const std::shared_ptr<LineList> &list)
 {
     ArtificialHorizonEntity *horizon = new ArtificialHorizonEntity;
 

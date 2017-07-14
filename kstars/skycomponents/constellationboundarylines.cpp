@@ -28,7 +28,10 @@
 #include "skymap.h"
 #endif
 #include "skypainter.h"
+#include "htmesh/MeshIterator.h"
 #include "skycomponents/skymapcomposite.h"
+
+#include <QHash>
 
 ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
     : NoPrecessIndex(parent, i18n("Constellation Boundaries"))
@@ -37,7 +40,7 @@ ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
     m_polyIndexCnt = 0;
     for (int i = 0; i < m_skyMesh->size(); i++)
     {
-        m_polyIndex.append(new PolyListList());
+        m_polyIndex.append(std::shared_ptr<PolyListList>(new PolyListList()));
     }
 
     KStarsData *data = KStarsData::Instance();
@@ -46,9 +49,9 @@ ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
     const char *fname = "cbounds.dat";
     int flag;
     double ra, dec, lastRa, lastDec;
-    LineList *lineList = 0;
-    PolyList *polyList = 0;
-    bool ok;
+    std::shared_ptr<LineList> lineList;
+    std::shared_ptr<PolyList> polyList;
+    bool ok = false;
 
     intro();
 
@@ -79,14 +82,14 @@ ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
             continue;          // ignore comments
         if (line.at(0) == ':') // :constellation line
         {
-            if (lineList)
+            if (lineList.get())
                 appendLine(lineList);
-            lineList = 0;
+            lineList.reset();
 
-            if (polyList)
+            if (polyList.get())
                 appendPoly(polyList, idxFile, verbose);
             QString cName = line.mid(1);
-            polyList      = new PolyList(cName);
+            polyList.reset(new PolyList(cName));
             if (verbose == -1)
                 printf(":\n");
             lastRa = lastDec = -1000.0;
@@ -122,27 +125,28 @@ ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
 
         if (flag)
         {
-            if (!lineList)
-                lineList = new LineList();
+            if (!lineList.get())
+                lineList.reset(new LineList());
 
-            SkyPoint *point = new SkyPoint(ra, dec);
+            std::shared_ptr<SkyPoint> point(new SkyPoint(ra, dec));
+
             point->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-            lineList->append(point);
+            lineList->append(std::move(point));
             lastRa  = ra;
             lastDec = dec;
         }
         else
         {
-            if (lineList)
+            if (lineList.get())
                 appendLine(lineList);
-            lineList = 0;
+            lineList.reset();
             lastRa = lastDec = -1000.0;
         }
     }
 
-    if (lineList)
+    if (lineList.get())
         appendLine(lineList);
-    if (polyList)
+    if (polyList.get())
         appendPoly(polyList, idxFile, verbose);
 }
 
@@ -165,7 +169,7 @@ void ConstellationBoundaryLines::preDraw(SkyPainter *skyp)
     skyp->setPen(QPen(QBrush(color), 1, Qt::SolidLine));
 }
 
-void ConstellationBoundaryLines::appendPoly(PolyList *polyList, KSFileReader *file, int debug)
+void ConstellationBoundaryLines::appendPoly(std::shared_ptr<PolyList> &polyList, KSFileReader *file, int debug)
 {
     if (!file || debug == -1)
         return appendPoly(polyList, debug);
@@ -176,11 +180,12 @@ void ConstellationBoundaryLines::appendPoly(PolyList *polyList, KSFileReader *fi
         if (line.at(0) == ':')
             return;
         Trixel trixel = line.toInt();
+
         m_polyIndex[trixel]->append(polyList);
     }
 }
 
-void ConstellationBoundaryLines::appendPoly(PolyList *polyList, int debug)
+void ConstellationBoundaryLines::appendPoly(const std::shared_ptr<PolyList> &polyList, int debug)
 {
     if (debug >= 0 && debug < m_skyMesh->debug())
         debug = m_skyMesh->debug();
@@ -225,14 +230,13 @@ PolyList *ConstellationBoundaryLines::ContainingPoly(SkyPoint *p)
         Trixel trixel = region.next();
         //printf("Trixel: %4d %s\n", trixel, m_skyMesh->indexToName( trixel ) );
 
-        PolyListList *polyListList = m_polyIndex[trixel];
+        std::shared_ptr<PolyListList> polyListList = m_polyIndex[trixel];
 
         //printf("    size: %d\n", polyListList->size() );
 
         for (int i = 0; i < polyListList->size(); i++)
         {
-            PolyList *polyList = polyListList->at(i);
-            polyHash.insert(polyList, true);
+            polyHash.insert(polyListList->at(i).get(), true);
         }
     }
 

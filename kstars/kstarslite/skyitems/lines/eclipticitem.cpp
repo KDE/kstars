@@ -16,9 +16,9 @@
 
 #include "eclipticitem.h"
 
-#include "../rootnode.h"
-#include "../labelsitem.h"
 #include "ecliptic.h"
+#include "../labelsitem.h"
+#include "../rootnode.h"
 #include "../skynodes/labelnode.h"
 #include "../skynodes/nodes/linenode.h"
 #include "../skynodes/trixelnode.h"
@@ -28,22 +28,26 @@ EclipticItem::EclipticItem(Ecliptic *eclipticComp, RootNode *rootNode)
 {
     LineListHash *trixels = eclipticComp->lineIndex();
 
-    QHash<Trixel, LineListList *>::const_iterator i = trixels->cbegin();
+    auto i = trixels->cbegin();
+
     while (i != trixels->cend())
     {
-        LineListList *linesList = *i;
+        std::shared_ptr<LineListList> linesList = *i;
 
-        QList<LineList *> addedLines;
+        QList<std::shared_ptr<LineList>> addedLines;
 
         if (linesList->size())
         {
             QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed("EclColor");
+
             for (int c = 0; c < linesList->size(); ++c)
             {
-                LineList *lines = linesList->at(c);
+                std::shared_ptr<LineList> lines = linesList->at(c);
+
                 if (!addedLines.contains(lines))
                 {
-                    LineNode *ln = new LineNode(lines, 0, schemeColor, 1, Qt::SolidLine);
+                    LineNode *ln = new LineNode(lines.get(), 0, schemeColor, 1, Qt::SolidLine);
+
                     appendChildNode(ln);
                     addedLines.append(lines);
                 }
@@ -53,10 +57,10 @@ EclipticItem::EclipticItem(Ecliptic *eclipticComp, RootNode *rootNode)
     }
 
     KStarsData *data = KStarsData::Instance();
-
     KSNumbers num(data->ut().djd());
     dms elat(0.0), elng(0.0);
     QString label;
+
     for (int ra = 0; ra < 23; ra += 6)
     {
         elng.setH(ra);

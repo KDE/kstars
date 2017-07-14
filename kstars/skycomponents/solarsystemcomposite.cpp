@@ -19,6 +19,7 @@
 
 #include "asteroidscomponent.h"
 #include "cometscomponent.h"
+#include "kstarsdata.h"
 #include "Options.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"

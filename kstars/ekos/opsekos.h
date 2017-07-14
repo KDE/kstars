@@ -7,14 +7,13 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef OpsEkos_H_
-#define OpsEkos_H_
+#pragma once
 
-#include <QSqlDatabase>
 #include "ui_opsekos.h"
 
-class KConfigDialog;
 class QSqlTableModel;
+
+class KConfigDialog;
 
 /**
  * @class OpsEkos
@@ -43,5 +42,3 @@ class OpsEkos : public QTabWidget, public Ui::OpsEkos
     KConfigDialog *m_ConfigDialog;
     QSqlTableModel *darkFramesModel = nullptr;
 };
-
-#endif

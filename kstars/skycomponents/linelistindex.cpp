@@ -40,6 +40,7 @@
 #include "skymap.h"
 #endif
 #include "skypainter.h"
+#include "htmesh/MeshIterator.h"
 
 LineListIndex::LineListIndex(SkyComposite *parent, const QString &name) : SkyComponent(parent), m_name(name)
 {
@@ -50,10 +51,6 @@ LineListIndex::LineListIndex(SkyComposite *parent, const QString &name) : SkyCom
 
 LineListIndex::~LineListIndex()
 {
-    qDeleteAll(m_lineIndex->values());
-    m_lineIndex->clear();
-    qDeleteAll(m_polyIndex->values());
-    m_polyIndex->clear();
 }
 
 // This is a callback for the indexLines() function below
@@ -62,9 +59,9 @@ const IndexHash &LineListIndex::getIndexHash(LineList *lineList)
     return skyMesh()->indexLine(lineList->points());
 }
 
-void LineListIndex::removeLine(LineList *lineList)
+void LineListIndex::removeLine(const std::shared_ptr<LineList> &lineList)
 {
-    const IndexHash &indexHash     = getIndexHash(lineList);
+    const IndexHash &indexHash     = getIndexHash(lineList.get());
     IndexHash::const_iterator iter = indexHash.constBegin();
 
     while (iter != indexHash.constEnd())
@@ -75,16 +72,15 @@ void LineListIndex::removeLine(LineList *lineList)
         if (m_lineIndex->contains(trixel))
             m_lineIndex->value(trixel)->removeOne(lineList);
     }
-
     m_listList.removeOne(lineList);
 }
 
-void LineListIndex::appendLine(LineList *lineList, int debug)
+void LineListIndex::appendLine(const std::shared_ptr<LineList> &lineList, int debug)
 {
     if (debug < skyMesh()->debug())
         debug = skyMesh()->debug();
 
-    const IndexHash &indexHash     = getIndexHash(lineList);
+    const IndexHash &indexHash     = getIndexHash(lineList.get());
     IndexHash::const_iterator iter = indexHash.constBegin();
 
     while (iter != indexHash.constEnd())
@@ -94,14 +90,14 @@ void LineListIndex::appendLine(LineList *lineList, int debug)
         iter++;
         if (!m_lineIndex->contains(trixel))
         {
-            m_lineIndex->insert(trixel, new LineListList());
+            m_lineIndex->insert(trixel, std::shared_ptr<LineListList>(new LineListList()));
         }
         m_lineIndex->value(trixel)->append(lineList);
     }
     m_listList.append(lineList);
 }
 
-void LineListIndex::appendPoly(LineList *lineList, int debug)
+void LineListIndex::appendPoly(const std::shared_ptr<LineList> &lineList, int debug)
 {
     if (debug < skyMesh()->debug())
         debug = skyMesh()->debug();
@@ -116,13 +112,13 @@ void LineListIndex::appendPoly(LineList *lineList, int debug)
 
         if (!m_polyIndex->contains(trixel))
         {
-            m_polyIndex->insert(trixel, new LineListList());
+            m_polyIndex->insert(trixel, std::shared_ptr<LineListList>(new LineListList()));
         }
         m_polyIndex->value(trixel)->append(lineList);
     }
 }
 
-void LineListIndex::appendBoth(LineList *lineList, int debug)
+void LineListIndex::appendBoth(const std::shared_ptr<LineList> &lineList, int debug)
 {
     QMutexLocker m1(&mutex);
 
@@ -132,22 +128,22 @@ void LineListIndex::appendBoth(LineList *lineList, int debug)
 
 void LineListIndex::reindexLines()
 {
-    LineListHash *oldIndex = m_lineIndex.get();
-    m_lineIndex.reset(new LineListHash());
-
+    LineListHash *oldIndex = m_lineIndex.release();
     DrawID drawID = skyMesh()->incDrawID();
 
-    foreach (LineListList *listList, *oldIndex)
+    m_lineIndex.reset(new LineListHash());
+    foreach (std::shared_ptr<LineListList> listList, *oldIndex)
     {
         for (int i = 0; i < listList->size(); i++)
         {
-            LineList *lineList = listList->at(i);
+            const std::shared_ptr<LineList>& lineList = listList->at(i);
+
             if (lineList->drawID == drawID)
                 continue;
             lineList->drawID = drawID;
             appendLine(lineList);
         }
-        delete listList;
+        listList.reset();
     }
     delete oldIndex;
 }
@@ -207,20 +203,20 @@ void LineListIndex::drawLines(SkyPainter *skyp)
     DrawID drawID     = skyMesh()->drawID();
     UpdateID updateID = KStarsData::Instance()->updateID();
 
-    foreach (LineListList *lineListList, m_lineIndex->values())
+    foreach (std::shared_ptr<LineListList> lineListList, m_lineIndex->values())
     {
         for (int i = 0; i < lineListList->size(); i++)
         {
-            LineList *lineList = lineListList->at(i);
+            std::shared_ptr<LineList> lineList = lineListList->at(i);
 
             if (lineList->drawID == drawID)
                 continue;
             lineList->drawID = drawID;
 
             if (lineList->updateID != updateID)
-                JITupdate(lineList);
+                JITupdate(lineList.get());
 
-            skyp->drawSkyPolyline(lineList, skipList(lineList), label());
+            skyp->drawSkyPolyline(lineList.get(), skipList(lineList.get()), label());
         }
     }
 }
@@ -231,15 +227,17 @@ void LineListIndex::drawFilled(SkyPainter *skyp)
     UpdateID updateID = KStarsData::Instance()->updateID();
 
     MeshIterator region(skyMesh(), drawBuffer());
+
     while (region.hasNext())
     {
-        LineListList *lineListList = m_polyIndex->value(region.next());
+        std::shared_ptr<LineListList> lineListList = m_polyIndex->value(region.next());
+
         if (lineListList == 0)
             continue;
 
         for (int i = 0; i < lineListList->size(); i++)
         {
-            LineList *lineList = lineListList->at(i);
+            std::shared_ptr<LineList> lineList = lineListList->at(i);
 
             // draw each Linelist at most once
             if (lineList->drawID == drawID)
@@ -247,9 +245,9 @@ void LineListIndex::drawFilled(SkyPainter *skyp)
             lineList->drawID = drawID;
 
             if (lineList->updateID != updateID)
-                JITupdate(lineList);
+                JITupdate(lineList.get());
 
-            skyp->drawSkyPolygon(lineList);
+            skyp->drawSkyPolygon(lineList.get());
         }
     }
 }

@@ -25,6 +25,7 @@
 #include "starblockfactory.h"
 #include "starblocklist.h"
 #include "starcomponent.h"
+#include "htmesh/MeshIterator.h"
 #include "projections/projector.h"
 #include "skynodes/pointsourcenode.h"
 #include "skynodes/trixelnode.h"

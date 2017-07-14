@@ -24,7 +24,8 @@
 class SkyPoint;
 class KSNumbers;
 
-/* @class LineList
+/**
+ * @class LineList
  * A simple data container used by LineListIndex.  It contains a list of
  * SkyPoints and integer drawID, updateID and updateNumID.
  *
@@ -37,22 +38,23 @@ class LineList
     LineList() : drawID(0), updateID(0), updateNumID(0) {}
     ~LineList() { }
 
-    /* A global drawID (in SkyMesh) is updated at the start of each draw
-         * cycle.  Since an extended object is often covered by more than one
-         * trixel, the drawID is used to make sure each object gets drawn at
-         * most once per draw cycle.  It is public because it is both set and
-         * read by the LineListIndex class.
-         */
+    /**
+     * @short return the list of points for iterating or appending (or whatever).
+     */
+    SkyList *points() { return &pointList; }
+    std::shared_ptr<SkyPoint> at(int i) { return pointList.at(i); }
+    void append(std::shared_ptr<SkyPoint> p) { pointList.append(p); }
+
+    /**
+     * A global drawID (in SkyMesh) is updated at the start of each draw
+     * cycle.  Since an extended object is often covered by more than one
+     * trixel, the drawID is used to make sure each object gets drawn at
+     * most once per draw cycle.  It is public because it is both set and
+     * read by the LineListIndex class.
+     */
     DrawID drawID;
     UpdateID updateID;
     UpdateID updateNumID;
-
-    /* @short return the list of points for iterating or appending
-         * (or whatever).
-         */
-    SkyList *points() { return &pointList; }
-    SkyPoint *at(int i) { return pointList.at(i); }
-    void append(SkyPoint *p) { pointList.append(p); }
 
   private:
     SkyList pointList;

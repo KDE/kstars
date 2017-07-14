@@ -16,15 +16,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OBSERVERADD_H_
-#define OBSERVERADD_H_
+#pragma once
 
 #include "ui_observeradd.h"
 
-#include <QWidget>
 #include <QDialog>
-
-#include "kstars.h"
 
 /**
  * @class ObserverAdd
@@ -35,18 +31,17 @@ class ObserverAdd : public QDialog
 {
     Q_OBJECT
   public:
-    //The default constructor
+    /** The default constructor */
     ObserverAdd();
 
-    /*@short function to load the list of
-         * observers from the file
-         */
+    /** @short function to load the list of observers from the file */
     void loadObservers();
 
   public slots:
-    /*@short function to add the new observer
-         * to the observerList of the global logObject
-         */
+    /**
+     * @short function to add the new observer
+     * to the observerList of the global logObject
+     */
     void auxSlot();
     void checkObserverInfo();
     void slotAddObserver();
@@ -55,6 +50,4 @@ class ObserverAdd : public QDialog
 
   private:
     Ui::ObserverAdd ui;
-    int nextObserver;
 };
-#endif

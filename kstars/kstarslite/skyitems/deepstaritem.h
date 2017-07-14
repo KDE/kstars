@@ -18,11 +18,13 @@
 
 #include "skyitem.h"
 
-/** @class DeepStarItem
+/**
+ * @class DeepStarItem
  *
- *@short This class handles representation of unnamed stars in SkyMapLite
- *@author Artem Fedoskin
- *@version 1.0
+ * @short This class handles representation of unnamed stars in SkyMapLite
+ *
+ * @author Artem Fedoskin
+ * @version 1.0
  */
 
 class DeepStarComponent;
@@ -50,6 +52,6 @@ class DeepStarItem : public SkyItem
     StarBlockFactory *m_StarBlockFactory { nullptr };
 
     DeepStarComponent *m_deepStarComp { nullptr };
-    QVector<StarBlockList *> *m_starBlockList;
+    QVector<StarBlockList *> *m_starBlockList { nullptr };
     bool m_staticStars { false };
 };
