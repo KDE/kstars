@@ -15,14 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QStandardPaths>
-
 #include "ksuserdb.h"
-#include "kstarsdata.h"
+
 #include "artificialhorizoncomponent.h"
-#include "version.h"
-#include "linelist.h"
 #include "kspaths.h"
+#include "kstarsdata.h"
+#include "linelist.h"
+#include "version.h"
+
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include <QSqlTableModel>
 
 /*
  * TODO (spacetime):
@@ -1294,7 +1297,7 @@ QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
         points.setTable(regionTable);
         points.select();
 
-        LineList *skyList = new LineList();
+        std::shared_ptr<LineList> skyList(new LineList());
 
         ArtificialHorizonEntity *horizon = new ArtificialHorizonEntity;
 
@@ -1306,13 +1309,13 @@ QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
 
         for (int j = 0; j < points.rowCount(); j++)
         {
-            record = points.record(j);
+            std::shared_ptr<SkyPoint> p(new SkyPoint());
 
-            SkyPoint *p = new SkyPoint();
+            record = points.record(j);
             p->setAz(record.value(0).toDouble());
             p->setAlt(record.value(1).toDouble());
             p->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-            skyList->append(p);
+            skyList->append(std::move(p));
         }
 
         points.clear();

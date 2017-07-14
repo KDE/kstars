@@ -13,34 +13,36 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef LINENODE_H_
-#define LINENODE_H_
-#include <QSGGeometryNode>
+#pragma once
+
 #include "linelist.h"
-#include <QColor>
 #include "../../skyopacitynode.h"
 
+#include <QColor>
+#include <QSGGeometryNode>
+
 class QSGFlatColorMaterial;
+
 class SkyMapLite;
 class SkipList;
 
-/** @class LineNode
+/**
+ * @class LineNode
  *
+ * @short SkyOpacityNode derived class that draws lines from LineList
  *
- *@short SkyOpacityNode derived class that draws lines from LineList
- *@author Artem Fedoskin
- *@version 1.0
+ * @author Artem Fedoskin
+ * @version 1.0
  */
-
 class LineNode : public SkyOpacityNode
 {
   public:
     /**
-         * @short Constructor
-         * @param lineList - lines that have to be drawn
-         * @param skipList - lines that have to be skipped
-         * @param drawStyle - not used currently
-         */
+     * @short Constructor
+     * @param lineList - lines that have to be drawn
+     * @param skipList - lines that have to be skipped
+     * @param drawStyle - not used currently
+     */
     LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle);
     virtual ~LineNode();
 
@@ -51,24 +53,22 @@ class LineNode : public SkyOpacityNode
     void setStyle(QColor color, int width, Qt::PenStyle drawStyle);
 
     /**
-         * @short Update lines based on the visibility of line segments in m_lineList
-         */
+     * @short Update lines based on the visibility of line segments in m_lineList
+     */
     void updateGeometry();
 
     inline LineList *lineList() { return m_lineList; }
 
   private:
-    QSGGeometryNode *m_geometryNode;
-    LineList *m_lineList;
-    SkipList *m_skipList;
+    QSGGeometryNode *m_geometryNode { nullptr };
+    LineList *m_lineList { nullptr };
+    SkipList *m_skipList { nullptr };
 
-    QSGGeometry *m_geometry;
-    QSGFlatColorMaterial *m_material;
+    QSGGeometry *m_geometry { nullptr };
+    QSGFlatColorMaterial *m_material { nullptr };
 
     Qt::PenStyle m_drawStyle;
     QColor m_color;
 
-    QSGTransformNode *debug;
+    QSGTransformNode *debug { nullptr };
 };
-
-#endif

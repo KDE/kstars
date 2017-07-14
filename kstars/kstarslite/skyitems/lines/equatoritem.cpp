@@ -14,40 +14,41 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "Options.h"
-#include "projections/projector.h"
-#include <QSGNode>
-
 #include "equatoritem.h"
 
+#include "projections/projector.h"
 #include "../rootnode.h"
 #include "../labelsitem.h"
-#include "../skynodes/nodes/linenode.h"
-
 #include "../skynodes/labelnode.h"
 #include "../skynodes/trixelnode.h"
+#include "../skynodes/nodes/linenode.h"
+
+#include <QSGNode>
 
 EquatorItem::EquatorItem(Equator *equatorComp, RootNode *rootNode)
     : SkyItem(LabelsItem::label_t::EQUATOR_LABEL, rootNode), m_equatorComp(equatorComp)
 {
     LineListHash *trixels = equatorComp->lineIndex();
 
-    QHash<Trixel, LineListList *>::const_iterator i = trixels->cbegin();
+    auto i = trixels->cbegin();
+
     while (i != trixels->cend())
     {
-        LineListList *linesList = *i;
-
-        QList<LineList *> addedLines;
+        std::shared_ptr<LineListList> linesList = *i;
+        QList<std::shared_ptr<LineList>> addedLines;
 
         if (linesList->size())
         {
             QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed("EqColor");
+
             for (int c = 0; c < linesList->size(); ++c)
             {
-                LineList *lines = linesList->at(c);
+                std::shared_ptr<LineList> lines = linesList->at(c);
+
                 if (!addedLines.contains(lines))
                 {
-                    LineNode *ln = new LineNode(linesList->at(c), 0, schemeColor, 1, Qt::SolidLine);
+                    LineNode *ln = new LineNode(linesList->at(c).get(), 0, schemeColor, 1, Qt::SolidLine);
+
                     appendChildNode(ln);
                     addedLines.append(lines);
                 }

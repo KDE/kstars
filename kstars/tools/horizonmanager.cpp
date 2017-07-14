@@ -9,23 +9,15 @@
 
 #include "horizonmanager.h"
 
-#include <QStandardItemModel>
-#include <QSortFilterProxyModel>
-#include <QHeaderView>
-
-#include <KMessageBox>
-
-#include <config-kstars.h>
-
-#include "Options.h"
-#include "kstars.h"
 #include "kstarsdata.h"
-#include "nan.h"
+#include "linelist.h"
+#include "Options.h"
 #include "skymap.h"
 #include "projections/projector.h"
-#include "linelist.h"
 #include "skycomponents/artificialhorizoncomponent.h"
 #include "skycomponents/skymapcomposite.h"
+
+#include <QStandardItemModel>
 
 HorizonManagerUI::HorizonManagerUI(QWidget *p) : QFrame(p)
 {
@@ -69,8 +61,6 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotSaveChanges()));
 
-    livePreview = nullptr;
-
     selectPoints = false;
 
     // Set up List view
@@ -100,7 +90,7 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
         m_RegionsModel->appendRow(regionItem);
 
         SkyList *points = horizon->list()->points();
-        foreach (SkyPoint *p, *points)
+        foreach (auto& p, *points)
         {
             QList<QStandardItem *> pointsList;
             pointsList << new QStandardItem("") << new QStandardItem(p->az().toDMSString())
@@ -285,16 +275,16 @@ void HorizonManager::slotSaveChanges()
 
         horizonComponent->removeRegion(regionName);
 
-        LineList *list = new LineList();
+        std::shared_ptr<LineList> list(new LineList());
         dms az, alt;
-        SkyPoint *p;
+        std::shared_ptr<SkyPoint> p;
 
         for (int j = 0; j < regionItem->rowCount(); j++)
         {
             az  = dms::fromString(regionItem->child(j, 1)->data(Qt::DisplayRole).toString(), true);
             alt = dms::fromString(regionItem->child(j, 2)->data(Qt::DisplayRole).toString(), true);
 
-            p = new SkyPoint();
+            p.reset(new SkyPoint());
             p->setAz(az);
             p->setAlt(alt);
             p->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -332,12 +322,11 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
         connect(m_RegionsModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(verifyItemValue(QStandardItem *)));
     }
 
-    SkyPoint *point = nullptr;
+    std::shared_ptr<SkyPoint> point;
 
-    if (livePreview == nullptr)
+    if (livePreview.get())
     {
-        livePreview = new LineList();
-
+        livePreview.reset(new LineList());
         if (row > 0)
         {
             for (int i = 0; i < row; i++)
@@ -348,7 +337,7 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
                 dms az  = dms::fromString(azItem->data(Qt::DisplayRole).toString(), true);
                 dms alt = dms::fromString(altItem->data(Qt::DisplayRole).toString(), true);
 
-                SkyPoint *point = new SkyPoint();
+                std::shared_ptr<SkyPoint> point(new SkyPoint());
                 point->setAz(az);
                 point->setAlt(alt);
                 point->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -369,7 +358,7 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
 
     if (item->rowCount() >= livePreview->points()->count())
     {
-        point = new SkyPoint();
+        point.reset(new SkyPoint());
         livePreview->append(point);
     }
     else
@@ -498,9 +487,9 @@ void HorizonManager::slotRemovePoint()
             }
         }
 
-        if (livePreview && row < livePreview->points()->count())
+        if (livePreview.get() && row < livePreview->points()->count())
         {
-            delete livePreview->points()->takeAt(row);
+            livePreview->points()->takeAt(row);
 
             if (livePreview->points()->count() == 0)
                 terminateLivePreview();
@@ -565,16 +554,11 @@ void HorizonManager::verifyItemValue(QStandardItem *item)
 
 void HorizonManager::terminateLivePreview()
 {
-    if (livePreview)
-    {
-        while (livePreview->points()->size() > 0)
-            delete livePreview->points()->takeAt(0);
+    if (!livePreview.get())
+        return;
 
-        delete (livePreview);
-        livePreview = nullptr;
-
-        horizonComponent->setLivePreview(nullptr);
-    }
+    livePreview.reset();
+    horizonComponent->setLivePreview(livePreview);
 }
 
 void HorizonManager::setPointSelection(bool enable)

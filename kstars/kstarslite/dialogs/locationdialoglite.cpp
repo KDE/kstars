@@ -15,22 +15,25 @@
  ***************************************************************************/
 
 #include "locationdialoglite.h"
+
+#include "kspaths.h"
 #include "kstarsdata.h"
 #include "kstarslite.h"
-#include <QQmlContext>
-#include "kspaths.h"
-#include <QGeoPositionInfoSource>
 #include "Options.h"
-#include <QNetworkAccessManager>
-#include <QNetworkSession>
-#include <QNetworkConfigurationManager>
-#include <QUrlQuery>
-#include <QNetworkReply>
 
-#include <QJsonDocument>
-#include <QJsonValue>
-#include <QJsonObject>
+#include <QGeoPositionInfo>
+#include <QGeoPositionInfoSource>
 #include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QNetworkAccessManager>
+#include <QNetworkConfigurationManager>
+#include <QNetworkReply>
+#include <QNetworkSession>
+#include <QQmlContext>
+#include <QSqlQuery>
+#include <QUrlQuery>
 
 LocationDialogLite::LocationDialogLite() : SelectedCity(nullptr), currentGeo(nullptr)
 {

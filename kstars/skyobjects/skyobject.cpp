@@ -17,30 +17,16 @@
 
 #include "skyobject.h"
 
-#include <typeinfo>
-
-#include <iostream>
-
-#include <QPainter>
-#include <QTextStream>
-#include <QFile>
-#include <QFontMetricsF>
-#include <QStandardPaths>
-
-#include "starobject.h" //needed in saveUserLog()
+#include "geolocation.h"
 #include "ksnumbers.h"
-
+#include "kspaths.h"
 #ifndef KSTARS_LITE
 #include "kspopupmenu.h"
 #endif
-
-#include "dms.h"
-#include "geolocation.h"
-#include "kstarsdatetime.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "starobject.h"
 #include "skycomponents/skylabeler.h"
-#include "kspaths.h"
 
 QString SkyObject::emptyString;
 QString SkyObject::unnamedString       = QString(I18N_NOOP("unnamed"));

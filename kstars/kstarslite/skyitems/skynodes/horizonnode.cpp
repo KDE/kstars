@@ -1,9 +1,11 @@
-#include "horizonnode.h"
-#include "nodes/polynode.h"
-#include "Options.h"
-#include "ksutils.h"
 
-HorizonNode::HorizonNode(QList<SkyPoint *> &pointList) : m_pointList(pointList), m_polygonNode(new PolyNode)
+#include "horizonnode.h"
+
+#include "ksutils.h"
+#include "Options.h"
+#include "nodes/polynode.h"
+
+HorizonNode::HorizonNode(QList<std::shared_ptr<SkyPoint>> &pointList) : m_pointList(pointList), m_polygonNode(new PolyNode)
 {
     appendChildNode(m_polygonNode);
 }
@@ -21,6 +23,7 @@ void HorizonNode::update()
     m_polygonNode->setLineWidth(2);
 
     QVector<Vector2f> ground = SkyMapLite::Instance()->projector()->groundPoly();
+
     if (ground.size())
     {
         QPolygonF groundPoly(ground.size());

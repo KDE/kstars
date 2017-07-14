@@ -35,6 +35,7 @@
 #include <KMessageBox>
 #endif
 
+#include <QSqlQuery>
 #include <QtConcurrent>
 
 namespace

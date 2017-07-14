@@ -43,16 +43,18 @@ Ecliptic::Ecliptic(SkyComposite *parent) : LineListIndex(parent, i18n("Ecliptic"
 
     for (double ra = minRa; ra < maxRa; ra += dRa)
     {
-        LineList *lineList = new LineList();
+        std::shared_ptr<LineList> lineList(new LineList());
+
         for (double ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2)
         {
+            std::shared_ptr<SkyPoint> o(new SkyPoint());
+
             elng.setH(ra2);
-            SkyPoint *o = new SkyPoint();
             o->setFromEcliptic(num.obliquity(), elng, elat);
             o->setRA0(o->ra().Hours());
             o->setDec0(o->dec().Degrees());
             o->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-            lineList->append(o);
+            lineList->append(std::move(o));
         }
         appendLine(lineList);
     }

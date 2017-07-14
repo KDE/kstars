@@ -16,19 +16,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QFile>
-
-#include <KMessageBox>
+#include "observeradd.h"
 
 #include "kstarsdata.h"
-#include "observeradd.h"
-#include "ui_observeradd.h"
-#include "observer.h"
+
+#include <QSqlTableModel>
 
 ObserverAdd::ObserverAdd()
 {
     // Setting up the widget from the .ui file and adding it to the QDialog
     QWidget *widget = new QWidget;
+
     ui.setupUi(widget);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -43,8 +41,6 @@ ObserverAdd::ObserverAdd()
 
     ui.AddObserverB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
     ui.RemoveObserverB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
-
-    nextObserver = 0;
 
     // Load the observers list from the file
     loadObservers();

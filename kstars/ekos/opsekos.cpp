@@ -8,26 +8,19 @@
 
 */
 
-#include <QPushButton>
-#include <QFileDialog>
-#include <QCheckBox>
-#include <QStringList>
-#include <QComboBox>
+#include "opsekos.h"
+
+#include "ekosmanager.h"
+#include "kspaths.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#include "auxiliary/ksnotification.h"
+#include "ekos/auxiliary/darklibrary.h"
 
 #include <KConfigDialog>
-#include <QSqlTableModel>
-#include <QSqlDatabase>
-#include <QDesktopServices>
 
-#include "opsekos.h"
-#include "Options.h"
-#include "kstarsdata.h"
-#include "ekosmanager.h"
-#include "guide/guide.h"
-#include "ksuserdb.h"
-#include "ekos/auxiliary/darklibrary.h"
-#include "auxiliary/ksnotification.h"
-#include "kspaths.h"
+#include <QSqlRecord>
+#include <QSqlTableModel>
 
 OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
 {

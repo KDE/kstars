@@ -209,7 +209,7 @@ class Projector
      * @note If you are creating skypoints using equatorial coordinates, then
      * YOU MUST CALL EQUATORIALTOHORIZONTAL BEFORE THIS FUNCTION!
      */
-    bool checkVisibility(SkyPoint *p) const;
+    bool checkVisibility(const SkyPoint *p) const;
 
     /**
      * Determine the on-screen position angle of a SkyPont with recept with NCP.

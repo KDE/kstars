@@ -31,6 +31,8 @@
 #include <QHash>
 #include <QVector>
 
+#include <memory>
+
 class SkyPoint;
 class LineList;
 class StarObject;
@@ -42,11 +44,11 @@ typedef quint32 UpdateID;
 typedef unsigned int Trixel;
 typedef unsigned short BufNum;
 
-typedef QVector<SkyPoint *> SkyList;
+typedef QVector<std::shared_ptr<SkyPoint>> SkyList;
 typedef QHash<Trixel, bool> IndexHash;
 typedef QHash<Trixel, bool> SkyRegion;
 typedef QList<StarObject *> StarList;
 typedef QVector<StarList *> StarIndex;
-typedef QVector<LineList *> LineListList;
-typedef QHash<Trixel, LineListList *> LineListHash; // Wanted LineListIndex, but that is used by a class
+typedef QVector<std::shared_ptr<LineList>> LineListList;
+typedef QHash<Trixel, std::shared_ptr<LineListList>> LineListHash;
 typedef QList<SkyObject *> SkyObjectList;

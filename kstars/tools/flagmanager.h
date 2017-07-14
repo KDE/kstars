@@ -14,14 +14,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FLAGMANAGER_H_
-#define FLAGMANAGER_H_
-
-#include <QAbstractTableModel>
-
-#include <QDialog>
+#pragma once
 
 #include "ui_flagmanager.h"
+
+#include <QAbstractTableModel>
+#include <QDialog>
 
 class QSortFilterProxyModel;
 class QStandardItemModel;
@@ -32,31 +30,26 @@ class FlagManagerUI : public QFrame, public Ui::FlagManager
     Q_OBJECT
 
   public:
-    /** @short Constructor
-         */
+    /** @short Constructor */
     explicit FlagManagerUI(QWidget *parent);
 };
 
 /**
- *@class FlagManager
- *@short Flag manager
- *Dialog box to add and remove flags
+ * @class FlagManager
+ * @short Flag manager
+ * Dialog box to add and remove flags
  *
- *@version 1.1
- *@author Jerome SONRIER
+ * @version 1.1
+ * @author Jerome SONRIER
  */
 class FlagManager : public QDialog
 {
     Q_OBJECT
   public:
-    /**
-         *@short Constructor.
-         */
+    /** @short Constructor */
     explicit FlagManager(QWidget *ks);
 
-    /**
-         *@short Destructor.
-         */
+    /** @short Destructor */
     ~FlagManager();
 
     void setRaDec(const dms &ra, const dms &dec);
@@ -68,24 +61,16 @@ class FlagManager : public QDialog
     void deleteFlagItem(int flagIdx);
 
   public slots:
-    /**
-         *@short Verify coordinates and add a flag
-         */
+    /** @short Verify coordinates and add a flag */
     void slotAddFlag();
 
-    /**
-         *@short Delete a flag
-         */
+    /** @short Delete a flag */
     void slotDeleteFlag();
 
-    /**
-         *@short Center the selected flag in the display
-         */
+    /** @short Center the selected flag in the display */
     void slotCenterFlag();
 
-    /**
-         * @brief Center the selected flag in the telescope.
-         */
+    /** @brief Center the selected flag in the telescope. */
     void slotCenterTelescope();
 
   private slots:
@@ -95,10 +80,8 @@ class FlagManager : public QDialog
   private:
     void insertFlag(bool isNew, int row = 0);
 
-    KStars *m_Ks;
-    FlagManagerUI *ui;
-    QStandardItemModel *m_Model;
-    QSortFilterProxyModel *m_SortModel;
+    KStars *m_Ks { nullptr };
+    FlagManagerUI *ui { nullptr };
+    QStandardItemModel *m_Model { nullptr };
+    QSortFilterProxyModel *m_SortModel { nullptr };
 };
-
-#endif

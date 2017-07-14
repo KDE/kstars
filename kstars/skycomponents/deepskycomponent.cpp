@@ -27,6 +27,7 @@
 #endif
 #include "skymesh.h"
 #include "skypainter.h"
+#include "htmesh/MeshIterator.h"
 #include "projections/projector.h"
 #include "skyobjects/deepskyobject.h"
 

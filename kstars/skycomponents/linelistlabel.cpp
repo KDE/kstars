@@ -15,16 +15,14 @@
  *																		 *
  ***************************************************************************/
 
-#include <QString>
-
 #include "linelistlabel.h"
+
+#include "linelist.h"
 #include "Options.h"
-#include "skyobjects/skypoint.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
 #include "skylabeler.h"
-#include "linelist.h"
 #include "projections/projector.h"
 
 LineListLabel::LineListLabel(const QString &text) : m_text(text)
@@ -143,7 +141,7 @@ void LineListLabel::draw()
     {
         o[j] = angleAt(proj, list[j], idx[j], &a[j]);
 
-        if (!idx[j] || !proj->checkVisibility(list[j]->at(idx[j])))
+        if (!idx[j] || !proj->checkVisibility(list[j]->at(idx[j]).get()))
         {
             okay[j] = false;
             continue;
@@ -187,8 +185,8 @@ void LineListLabel::draw()
 
 QPointF LineListLabel::angleAt(const Projector *proj, LineList *list, int i, double *angle)
 {
-    SkyPoint *pThis = list->at(i);
-    SkyPoint *pLast = list->at(i - 1);
+    const SkyPoint *pThis = list->at(i).get();
+    const SkyPoint *pLast = list->at(i-1).get();
 
     QPointF oThis = proj->toScreen(pThis);
     QPointF oLast = proj->toScreen(pLast);

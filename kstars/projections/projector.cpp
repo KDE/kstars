@@ -194,7 +194,7 @@ Vector2f Projector::clipLineVec(SkyPoint *p1, SkyPoint *p2) const
     return oMid;
 }
 
-bool Projector::checkVisibility(SkyPoint *p) const
+bool Projector::checkVisibility(const SkyPoint *p) const
 {
     //TODO deal with alternate projections
     //not clear how this depends on projection

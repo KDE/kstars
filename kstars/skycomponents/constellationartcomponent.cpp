@@ -16,15 +16,16 @@
  ***************************************************************************/
 
 #include "constellationartcomponent.h"
+
 #include "constellationsart.h"
-#include "auxiliary/ksfilereader.h"
-#include "auxiliary/kspaths.h"
+#include "kspaths.h"
+#include "Options.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
-#include "culturelist.h"
-#include "projections/projector.h"
-#include "kspaths.h"
+
+#include <QSqlError>
+#include <QSqlQuery>
 
 ConstellationArtComponent::ConstellationArtComponent(SkyComposite *parent, CultureList *cultures) : SkyComponent(parent)
 {

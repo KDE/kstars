@@ -33,12 +33,11 @@
 #include "skyobjects/deepstardata.h"
 #include "skyobjects/stardata.h"
 
-class SkyMesh;
-class StarObject;
 class SkyLabeler;
-class BinFileHelper;
+class SkyMesh;
 class StarBlockFactory;
 class StarBlockList;
+class StarObject;
 
 class DeepStarComponent : public ListComponent
 {

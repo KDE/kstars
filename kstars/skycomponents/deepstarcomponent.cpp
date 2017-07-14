@@ -20,7 +20,6 @@
 #include "byteorder.h"
 #include "kstarsdata.h"
 #include "Options.h"
-#include "projections/projector.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
@@ -28,6 +27,8 @@
 #include "skypainter.h"
 #include "starblock.h"
 #include "starcomponent.h"
+#include "htmesh/MeshIterator.h"
+#include "projections/projector.h"
 
 #include <qplatformdefs.h>
 #include <QtConcurrent>

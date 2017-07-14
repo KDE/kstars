@@ -14,15 +14,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "Options.h"
-#include "projections/projector.h"
-#include <QSGNode>
-
 #include "linesitem.h"
+
 #include "linelist.h"
 #include "linelistindex.h"
+#include "projections/projector.h"
 #include "../skynodes/nodes/linenode.h"
 #include "../skynodes/trixelnode.h"
+
+#include <QSGNode>
 
 LinesItem::LinesItem(RootNode *rootNode) : SkyItem(LabelsItem::label_t::NO_LABEL, rootNode)
 {
@@ -40,33 +40,38 @@ void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int w
     m_lineIndexes.insert(node, linesComp);
     LineListHash *list = linesComp->lineIndex();
     //Sort by trixels
-    QMap<Trixel, LineListList *> trixels;
+    QMap<Trixel, std::shared_ptr<LineListList>> trixels;
 
-    QHash<Trixel, LineListList *>::const_iterator s = list->cbegin();
+    auto s = list->cbegin();
+
     while (s != list->cend())
     {
         trixels.insert(s.key(), *s);
         s++;
     }
 
-    QMap<Trixel, LineListList *>::const_iterator i = trixels.cbegin();
-    QList<LineList *> addedLines;
+    auto i = trixels.cbegin();
+    QList<std::shared_ptr<LineList>> addedLines;
+
     while (i != trixels.cend())
     {
-        LineListList *linesList = *i;
+        std::shared_ptr<LineListList> linesList = *i;
 
         if (linesList->size())
         {
             TrixelNode *trixel = new TrixelNode(i.key());
+
             node->appendChildNode(trixel);
 
             QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed(color);
+
             for (int c = 0; c < linesList->size(); ++c)
             {
-                LineList *list = linesList->at(c);
+                std::shared_ptr<LineList> list = linesList->at(c);
+
                 if (!addedLines.contains(list))
                 {
-                    trixel->appendChildNode(new LineNode(linesList->at(c), 0, schemeColor, width, style));
+                    trixel->appendChildNode(new LineNode(linesList->at(c).get(), 0, schemeColor, width, style));
                     addedLines.append(list);
                 }
             }

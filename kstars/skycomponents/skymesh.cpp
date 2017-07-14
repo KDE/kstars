@@ -16,21 +16,19 @@
  ***************************************************************************/
 
 #include "skymesh.h"
-#include "skyobjects/skypoint.h"
-#include "skyobjects/starobject.h"
-#include "projections/projector.h"
-#include "ksnumbers.h"
 
-#include <QHash>
-#include <QPolygonF>
-#include <QPointF>
-
-// these are just for the draw routine:
-#include <QPainter>
 #include "kstarsdata.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
+#include "htmesh/MeshIterator.h"
+#include "htmesh/MeshBuffer.h"
+#include "projections/projector.h"
+#include "skyobjects/starobject.h"
+
+#include <QPainter>
+#include <QPolygonF>
+#include <QPointF>
 
 QMap<int, SkyMesh *> SkyMesh::pinstances;
 int SkyMesh::defaultLevel = -1;
@@ -166,10 +164,10 @@ const IndexHash &SkyMesh::indexStarLine(SkyList *points)
     if (points->size() == 0)
         return indexHash;
 
-    pLast = points->at(0);
+    pLast = points->at(0).get();
     for (int i = 1; i < points->size(); i++)
     {
-        pThis = points->at(i);
+        pThis = points->at(i).get();
 
         indexStar((StarObject *)pThis, (StarObject *)pLast);
         MeshIterator region(this);
@@ -194,10 +192,10 @@ const IndexHash &SkyMesh::indexLine(SkyList *points, IndexHash *skip)
     if (points->size() == 0)
         return indexHash;
 
-    pLast = points->at(0);
+    pLast = points->at(0).get();
     for (int i = 1; i < points->size(); i++)
     {
-        pThis = points->at(i);
+        pThis = points->at(i).get();
 
         if (skip != nullptr && skip->contains(i))
         {
@@ -248,7 +246,7 @@ const IndexHash &SkyMesh::indexPoly(SkyList *points)
     if (points->size() < 3)
         return indexHash;
 
-    SkyPoint *startP = points->first();
+    SkyPoint *startP = points->first().get();
 
     int end = points->size() - 2; // 1) size - 1  -> last index,
     // 2) minimum of 2 points
@@ -257,11 +255,11 @@ const IndexHash &SkyMesh::indexPoly(SkyList *points)
     {
         if (p == end)
         {
-            index(startP, points->at(p), points->at(p + 1));
+            index(startP, points->at(p).get(), points->at(p + 1).get());
         }
         else
         {
-            index(startP, points->at(p), points->at(p + 1), points->at(p + 2));
+            index(startP, points->at(p).get(), points->at(p + 1).get(), points->at(p + 2).get());
         }
 
         MeshIterator region(this);
@@ -385,9 +383,15 @@ void SkyMesh::draw(QPainter &psky, MeshBufNum_t bufNum)
 
 const SkyRegion &SkyMesh::skyRegion(const SkyPoint &_p1, const SkyPoint &_p2)
 {
-    SkyPoint p1(_p1), p2(_p2);
-    SkyPoint p3(p1.ra(), p2.dec()), p4(p2.ra(), p1.dec());
+    std::shared_ptr<SkyPoint> p1(new SkyPoint(_p1));
+    std::shared_ptr<SkyPoint> p2(new SkyPoint(_p2));
+    std::shared_ptr<SkyPoint> p3(new SkyPoint(p1->ra(), p2->dec()));
+    std::shared_ptr<SkyPoint> p4(new SkyPoint(p2->ra(), p1->dec()));
     SkyList skylist;
-    skylist << &p1 << &p2 << &p3 << &p4;
+
+    skylist.push_back(p1);
+    skylist.push_back(p2);
+    skylist.push_back(p3);
+    skylist.push_back(p4);
     return indexPoly(&skylist);
 }

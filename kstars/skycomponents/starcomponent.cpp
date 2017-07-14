@@ -29,6 +29,7 @@
 #ifndef KSTARS_LITE
 #include "skyqpainter.h"
 #endif
+#include "htmesh/MeshIterator.h"
 #include "projections/projector.h"
 
 #include <qplatformdefs.h>
@@ -609,8 +610,9 @@ void StarComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion &reg
 StarObject *StarComponent::findByHDIndex(int HDnum)
 {
     KStarsData *data = KStarsData::Instance();
-    StarObject *o;
+    StarObject *o = nullptr;
     BinFileHelper hdidxReader;
+
     // First check the hash to see if we have a corresponding StarObject already
     if ((o = m_HDHash.value(HDnum, nullptr)))
         return o;

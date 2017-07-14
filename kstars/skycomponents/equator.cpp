@@ -42,12 +42,14 @@ Equator::Equator(SkyComposite *parent) : NoPrecessIndex(parent, i18n("Equator"))
 
     for (double ra = minRa; ra < maxRa; ra += dRa)
     {
-        LineList *lineList = new LineList();
+        std::shared_ptr<LineList> lineList(new LineList());
+
         for (double ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2)
         {
-            SkyPoint *o = new SkyPoint(ra2, 0.0);
+            std::shared_ptr<SkyPoint> o(new SkyPoint(ra2, 0.0));
+
             o->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-            lineList->append(o);
+            lineList->append(std::move(o));
         }
         appendLine(lineList);
     }

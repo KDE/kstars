@@ -15,30 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYMESH_H
-#define SKYMESH_H
-
-#include <QHash>
-#include <QList>
-#include <QObject>
-
-#include <QPainter>
+#pragma once
 
 #include "ksnumbers.h"
-
-#include "htmesh/HTMesh.h"
-#include "htmesh/MeshIterator.h"
-#include "htmesh/MeshBuffer.h"
-
 #include "typedef.h"
+#include "htmesh/HTMesh.h"
 
-class KSNumbers;
-class StarObject;
-
-class SkyPoint;
-class QPolygonF;
+#include <QMap>
 
 class QPainter;
+class QPointF;
+class QPolygonF;
+
+class KSNumbers;
+class SkyPoint;
+class StarObject;
 
 // These enums control the trixel storage.  Separate buffers are available for
 // indexing and intersecting.  Currently only one buffer is required.  Multiple
@@ -306,15 +297,13 @@ class SkyMesh : public HTMesh
 
   private:
     DrawID m_drawID;
-    int errLimit;
-    int m_debug;
+    int errLimit { 0 };
+    int m_debug { 0 };
 
     IndexHash indexHash;
     KSNumbers m_KSNumbers;
 
-    bool m_inDraw;
+    bool m_inDraw { false };
     static int defaultLevel;
     static QMap<int, SkyMesh *> pinstances;
 };
-
-#endif

@@ -13,36 +13,36 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef HORIZONNODE_H_
-#define HORIZONNODE_H_
+
+#pragma once
+
 #include "skynode.h"
 
 class PolyNode;
 
-/** @class HorizonNode
- *  @short This node acts as a parent of nodes that comprise horizon and both filled and non-filled
- *  ground
+/**
+ * @class HorizonNode
+ * @short This node acts as a parent of nodes that comprise horizon and both filled and non-filled
+ * ground
  *
- *  @version 1.0
- *  @author Artem Fedoskin
+ * @version 1.0
+ * @author Artem Fedoskin
  */
 
 class HorizonNode : public SkyNode
 {
   public:
     /**
-         * @short Constructor.
-         * @param pointList - list of points that comprise horizon
-         */
-    HorizonNode(QList<SkyPoint *> &pointList);
+     * @short Constructor.
+     * @param pointList - list of points that comprise horizon
+     */
+    HorizonNode(QList<std::shared_ptr<SkyPoint>> &pointList);
 
-    /** @short Update child nodes based on user settings (filled/non-filled ground) and their visibility **/
+    /** @short Update child nodes based on user settings (filled/non-filled ground) and their visibility */
     virtual void update() override;
     virtual void hide() override;
 
   private:
-    QList<SkyPoint *> &m_pointList;
-    PolyNode *m_polygonNode;
+    QList<std::shared_ptr<SkyPoint>> &m_pointList;
+    PolyNode *m_polygonNode { nullptr };
 };
-
-#endif

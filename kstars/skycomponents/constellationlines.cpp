@@ -52,18 +52,22 @@ ConstellationLines::ConstellationLines(SkyComposite *parent, CultureList *cultur
     intro();
 
     bool culture = false;
-    LineList *lineList = nullptr;
+    std::shared_ptr<LineList> lineList;
     double maxPM(0.0);
-
     KSFileReader fileReader;
+
     if (!fileReader.open("clines.dat"))
         return;
+
     while (fileReader.hasMoreLines())
     {
         QString line = fileReader.readLine();
+
         if (line.isEmpty())
             continue;
+
         QChar mode = line.at(0);
+
         //ignore lines beginning with "#":
         if (mode == '#')
             continue;
@@ -83,26 +87,31 @@ ConstellationLines::ConstellationLines(SkyComposite *parent, CultureList *cultur
             //Mode == 'M' starts a new series of line segments, joined end to end
             if (mode == 'M')
             {
-                if (lineList)
+                if (lineList.get())
                     appendLine(lineList);
-                lineList = new LineList();
+                lineList.reset(new LineList());
             }
 
             int HDnum        = line.mid(2).trimmed().toInt();
-            StarObject *star = static_cast<StarObject *>(StarComponent::Instance()->findByHDIndex(HDnum));
-            if (star && lineList)
+            std::shared_ptr<SkyPoint> star;
+            StarObject* tempStar = StarComponent::Instance()->findByHDIndex(HDnum);
+
+            if (tempStar && lineList)
             {
-                lineList->append(star);
-                double pm = star->pmMagnitude();
+                double pm = tempStar->pmMagnitude();
+
+                star.reset(new StarObject(*tempStar));
                 if (maxPM < pm)
                     maxPM = pm;
+
+                lineList->append(std::move(star));
             }
-            else if (!star)
+            else if (!star.get())
                 qWarning() << i18n("Star HD%1 not found.", HDnum);
         }
     }
     //Add the last clc component
-    if (lineList)
+    if (lineList.get())
         appendLine(lineList);
 
     m_reindexInterval = StarObject::reindexInterval(maxPM);
@@ -143,7 +152,7 @@ void ConstellationLines::JITupdate(LineList *lineList)
     SkyList *points = lineList->points();
     for (int i = 0; i < points->size(); i++)
     {
-        StarObject *star = (StarObject *)points->at(i);
+        StarObject *star = (StarObject *)points->at(i).get();
         star->JITupdate();
     }
 }

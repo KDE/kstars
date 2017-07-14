@@ -16,22 +16,11 @@
  ***************************************************************************/
 
 #include "locationdialog.h"
-#include "ui_locationdialog.h"
 
-#include <cstdlib>
-#include <cstdio>
-
-#include <QFile>
-#include <QTextStream>
-#include <QListWidget>
-
-#include <KMessageBox>
-
-#include <KLocalizedString>
-#include <QStandardPaths>
-
-#include "kstarsdata.h"
 #include "kspaths.h"
+#include "kstarsdata.h"
+
+#include <QSqlQuery>
 
 LocationDialogUI::LocationDialogUI(QWidget *parent) : QFrame(parent)
 {

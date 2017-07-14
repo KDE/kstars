@@ -16,13 +16,15 @@
 
 #include "flagmanager.h"
 
-#include <QStandardItemModel>
-#include <QSortFilterProxyModel>
-#include <QHeaderView>
+#include "config-kstars.h"
 
-#include <KMessageBox>
-
-#include <config-kstars.h>
+#include "kspaths.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#include "skymap.h"
+#include "skycomponents/flagcomponent.h"
+#include "skycomponents/skymapcomposite.h"
 
 #ifdef HAVE_INDI
 #include <basedevice.h>
@@ -31,13 +33,10 @@
 #include "indi/driverinfo.h"
 #endif
 
-#include "Options.h"
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "skymap.h"
-#include "skycomponents/flagcomponent.h"
-#include "skycomponents/skymapcomposite.h"
-#include "kspaths.h"
+#include <KMessageBox>
+
+#include <QStandardItemModel>
+#include <QSortFilterProxyModel>
 
 FlagManagerUI::FlagManagerUI(QWidget *p) : QFrame(p)
 {
@@ -259,7 +258,7 @@ void FlagManager::slotCenterFlag()
     {
         m_Ks->map()->setClickedObject(0);
         m_Ks->map()->setClickedPoint(
-            m_Ks->data()->skyComposite()->flags()->pointList().at(ui->flagList->currentIndex().row()));
+            m_Ks->data()->skyComposite()->flags()->pointList().at(ui->flagList->currentIndex().row()).get());
         m_Ks->map()->slotCenter();
     }
 }
@@ -295,7 +294,7 @@ void FlagManager::slotCenterTelescope()
 
         gd->setProperty(&SlewCMD);
         gd->runCommand(INDI_SEND_COORDS,
-                       m_Ks->data()->skyComposite()->flags()->pointList().at(ui->flagList->currentIndex().row()));
+                       m_Ks->data()->skyComposite()->flags()->pointList().at(ui->flagList->currentIndex().row()).get());
 
         return;
     }

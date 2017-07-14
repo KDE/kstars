@@ -15,12 +15,13 @@
  ***************************************************************************/
 
 #include "linenode.h"
-#include <QSGFlatColorMaterial>
-#include "skymaplite.h"
 
-#include "projections/projector.h"
 #include "skiplist.h"
+#include "skymaplite.h"
+#include "projections/projector.h"
+
 #include <QLinkedList>
+#include <QSGFlatColorMaterial>
 
 LineNode::LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle)
     : m_geometryNode(new QSGGeometryNode), m_lineList(lineList), m_skipList(skipList),
@@ -82,16 +83,18 @@ void LineNode::updateGeometry()
 
     bool isVisible, isVisibleLast;
 
-    QPointF oLast = m_proj->toScreen(points->first(), true, &isVisibleLast);
+    QPointF oLast = m_proj->toScreen(points->first().get(), true, &isVisibleLast);
+
     // & with the result of checkVisibility to clip away things below horizon
-    isVisibleLast &= m_proj->checkVisibility(points->first());
+    isVisibleLast &= m_proj->checkVisibility(points->first().get());
     QPointF oThis;
 
     QLinkedList<QPointF> newPoints;
 
     for (int j = 1; j < points->size(); j++)
     {
-        SkyPoint *pThis = points->at(j);
+        SkyPoint *pThis = points->at(j).get();
+
         /*In regular KStars we first call checkVisibility and then toScreen
         Here we minimize the number of calls to toScreen by proceeding only if
         checkVisibility is true*/
