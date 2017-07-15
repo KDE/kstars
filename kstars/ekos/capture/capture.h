@@ -458,6 +458,11 @@ class Capture : public QWidget, public Ui::Capture
     //void updateAutofocusStatus(bool status, double HFR);
     void startPostFilterAutoFocus();
 
+    // Timed refocus
+    void startRefocusEveryNTimer();
+    void restartRefocusEveryNTimer();
+    int getRefocusEveryNTimerElapsedSec();
+
     // Flat field
     void openCalibrationDialog();
     IPState processPreCaptureCalibrationStage();
@@ -584,6 +589,11 @@ class Capture : public QWidget, public Ui::Capture
     bool firstAutoFocus;
     double focusHFR; // HFR value as received from the Ekos focus module
     double fileHFR;  // HFR value as loaded from the sequence file
+
+    // Refocus every N minutes
+    bool isRefocus;
+    int refocusEveryNMinutesValue;  // number of minutes between forced refocus
+    QElapsedTimer refocusEveryNTimer; // used to determine when next force refocus should occur
 
     //Meridan flip
     double initialHA;
