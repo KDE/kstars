@@ -1325,7 +1325,9 @@ bool Capture::resumeSequence()
 
         // check if time for forced refocus
 
-        qDebug() << "Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
+	if (Options::captureLogging())
+	  qDebug() << "Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
+	
         if (refocusEveryNCheck->isEnabled() && getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60)
             isRefocus = true;
         else
@@ -2634,9 +2636,6 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                     }
                     else
                         refocusEveryNCheck->setChecked(false);
-
-                    qDebug() << "Read Requested Interval (min): " << refocusEveryNMinutesValue;
-
                 }
                 else if (!strcmp(tagXMLEle(ep), "MeridianFlip"))
                 {
