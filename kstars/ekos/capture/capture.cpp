@@ -2101,7 +2101,7 @@ void Capture::prepareJob(SequenceJob *job)
     }
 
     // If we haven't performed a single autofocus yet, we stop
-    if (Options::refocusEveryN() && (isAutoFocus == false && firstAutoFocus == true))
+    if (Options::enforceRefocusEveryN() && (isAutoFocus == false && firstAutoFocus == true))
     {
         appendLogText(i18n(
             "Manual scheduled focusing is not supported. Run Autofocus process before trying again."));
