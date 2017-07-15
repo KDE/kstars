@@ -1450,7 +1450,7 @@
       <entry name="RefocusEveryN" type="UInt">
          <label>Number of minute between forced refocus attempts</label>
          <whatsthis>Sets the time interval before forced autofocus attempts during a capture sequence.</whatsthis>
-         <default>0</default>
+         <default>60</default>
       </entry>
       <entry name="AutoMeridianHours" type="Double">
          <label>Default hour angle to perform meridian flip</label>
