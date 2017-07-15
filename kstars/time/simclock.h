@@ -110,8 +110,11 @@ class SimClock : public QObject
          * If ManualActive is true, add Scale seconds to the SimClock time.
          * (we may want to modify this slightly...e.g., the number of seconds in a
          * year is not constant (leap years), so it is better to increment the
-         * year, instead of adding 31 million seconds. */
-    void manualTick(bool force = false);
+         * year, instead of adding 31 million seconds.
+         * set backward to true to reverse sign of Scale value
+   */
+
+    void manualTick(bool force = false, bool backward = false);
 
   signals:
     /** The time has changed (emitted by setUTC() ) */

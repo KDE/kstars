@@ -614,6 +614,10 @@ class Align : public QWidget, public Ui::Align
     // Polar Alignment Helper
     PAHStage pahStage;
 
+    // keep track of autoWSC
+    bool rememberAutoWCS;
+    bool rememberSolverWCS;
+
     // Sky centers
     typedef struct
     {

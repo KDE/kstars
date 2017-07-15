@@ -165,7 +165,7 @@ void FITSView::setMouseMode(int mode)
     }
     if (mode==FITSView::scopeMouse&&imageHasWCS())
     {
-        if(imageData->isWCSLoaded() == false)
+        if(imageData->isWCSLoaded() == false && wcsWatcher.isRunning() == false)
         {
             QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
             wcsWatcher.setFuture(future);
@@ -205,6 +205,9 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
         setBayerParams = true;
         imageData->getBayerParams(&param);
     }
+
+    // In case loadWCS is still running for previous image data, let's wait until it's over
+    wcsWatcher.waitForFinished();
 
     delete imageData;
     imageData = nullptr;
@@ -288,7 +291,7 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
     setAlignment(Qt::AlignCenter);
 
     // Load WCS data now if selected and image contains valid WCS header
-    if (imageData->hasWCS() && Options::autoWCS() && (mode == FITS_NORMAL || mode == FITS_ALIGN))
+    if (imageData->hasWCS() && Options::autoWCS() && (mode == FITS_NORMAL || mode == FITS_ALIGN) && wcsWatcher.isRunning() == false)
     {
         QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
@@ -1166,7 +1169,7 @@ void FITSView::toggleEQGrid()
 {
     showEQGrid = !showEQGrid;
 
-    if (imageData->isWCSLoaded() == false)
+    if (imageData->isWCSLoaded() == false && wcsWatcher.isRunning() == false)
     {
         QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
         wcsWatcher.setFuture(future);
@@ -1181,7 +1184,7 @@ void FITSView::toggleObjects()
 {
     showObjects = !showObjects;
 
-    if (imageData->isWCSLoaded() == false)
+    if (imageData->isWCSLoaded() == false && wcsWatcher.isRunning() == false)
     {
         QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
         wcsWatcher.setFuture(future);

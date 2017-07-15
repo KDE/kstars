@@ -269,7 +269,6 @@ Guide::Guide() : QWidget()
     opsGuide = new OpsGuide();
     dialog->addPage(opsGuide, i18n("Guide Settings"));
     connect(guideOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
-    connect(opsGuide, SIGNAL(guiderInfoUpdated(int)), this, SLOT(setGuiderType(int)));
 
     internalGuider->setGuideView(guideView);
 
@@ -2334,25 +2333,24 @@ void Guide::showFITSViewer()
 void Guide::setBLOBEnabled(bool enable)
 {
     // Nothing to do if guider is international or remote images are enabled
-    if (guiderType == GUIDE_INTERNAL || Options::guideRemoteImagesEnabled() || currentCCD == nullptr)
+    if (guiderType == GUIDE_INTERNAL || Options::guideRemoteImagesEnabled())
         return;
 
     // If guider is external and remote images option is disabled AND BLOB is enabled, then we disabled it
 
-    if (enable == false && currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName(), "CCD1") != B_NEVER)
+    foreach(ISD::CCD *oneCCD, CCDs)
     {
-        appendLogText(i18n("Disabling remote image reception from %1", currentCCD->getDeviceName()));
-
-        currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), "CCD1");
-        currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), "CCD2");
-    }
-    // Re-enable BLOB reception if it was disabled before when using external guiders
-    else if (enable && currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName(), "CCD1") == B_NEVER)
-    {
-        appendLogText(i18n("Enabling remote image reception from %1", currentCCD->getDeviceName()));
-
-        currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
-        currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
+        if (enable == false && oneCCD->isBLOBEnabled())
+        {
+            appendLogText(i18n("Disabling remote image reception from %1", oneCCD->getDeviceName()));
+            oneCCD->setBLOBEnabled(enable);
+        }
+        // Re-enable BLOB reception if it was disabled before when using external guiders
+        else if (enable && oneCCD->isBLOBEnabled() == false)
+        {
+            appendLogText(i18n("Enabling remote image reception from %1", oneCCD->getDeviceName()));
+            oneCCD->setBLOBEnabled(enable);
+        }
     }
 }
 }

@@ -56,7 +56,7 @@
             <item row="0" column="0">
              <widget class="QLabel" name="label_3">
               <property name="text">
-               <string>Aperture (mm):</string>
+               <string>Aperture (mm)</string>
               </property>
              </widget>
             </item>
@@ -159,7 +159,7 @@
             <item row="0" column="0">
              <widget class="QLabel" name="label">
               <property name="text">
-               <string>Aperture (mm):</string>
+               <string>Aperture (mm)</string>
               </property>
              </widget>
             </item>
@@ -251,8 +251,11 @@
           </property>
           <item row="0" column="0">
            <widget class="QLabel" name="label_5">
+            <property name="toolTip">
+             <string>Right Ascension</string>
+            </property>
             <property name="text">
-             <string>RA:</string>
+             <string>RA</string>
             </property>
            </widget>
           </item>
@@ -265,8 +268,11 @@
           </item>
           <item row="0" column="2">
            <widget class="QLabel" name="label_7">
+            <property name="toolTip">
+             <string>Declination</string>
+            </property>
             <property name="text">
-             <string>DEC:</string>
+             <string>DEC</string>
             </property>
            </widget>
           </item>
@@ -282,8 +288,11 @@
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_6">
+            <property name="toolTip">
+             <string>Azimuth</string>
+            </property>
             <property name="text">
-             <string>Az:</string>
+             <string>AZ</string>
             </property>
            </widget>
           </item>
@@ -296,8 +305,11 @@
           </item>
           <item row="1" column="2">
            <widget class="QLabel" name="label_8">
+            <property name="toolTip">
+             <string>Altitude</string>
+            </property>
             <property name="text">
-             <string>Alt:</string>
+             <string>ALT</string>
             </property>
            </widget>
           </item>
@@ -310,8 +322,11 @@
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_9">
+            <property name="toolTip">
+             <string>Hour Angle</string>
+            </property>
             <property name="text">
-             <string>HA:</string>
+             <string>HA</string>
             </property>
            </widget>
           </item>
@@ -324,6 +339,9 @@
           </item>
           <item row="2" column="2">
            <widget class="QLabel" name="label_10">
+            <property name="toolTip">
+             <string>Local Sidereal TIme</string>
+            </property>
             <property name="text">
              <string>LST</string>
             </property>
