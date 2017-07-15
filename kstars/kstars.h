@@ -24,7 +24,7 @@
 #include <kxmlguiwindow.h>
 
 #include <QDockWidget>
-#include <QtDBus/qdbusmacros.h>
+#include <QtDBus/qtdbusglobal.h>
 #ifdef HAVE_CFITSIO
 #include <QPointer>
 #endif
