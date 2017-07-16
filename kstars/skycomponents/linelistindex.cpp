@@ -192,7 +192,7 @@ MeshIterator LineListIndex::visibleTrixels()
 #endif
 
 // This is a callback used int drawLinesInt() and drawLinesFloat()
-SkipList *LineListIndex::skipList(LineList *lineList)
+SkipHashList *LineListIndex::skipList(LineList *lineList)
 {
     Q_UNUSED(lineList)
     return 0;

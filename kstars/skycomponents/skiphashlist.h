@@ -29,7 +29,7 @@
  * @author James B. Bowlin
  * @version 0.1
  */
-class SkipList : public LineList
+class SkipHashList : public LineList
 {
   public:
     /**

@@ -24,7 +24,7 @@
 class QSGFlatColorMaterial;
 
 class SkyMapLite;
-class SkipList;
+class SkipHashList;
 
 /**
  * @class LineNode
@@ -43,7 +43,7 @@ class LineNode : public SkyOpacityNode
      * @param skipList - lines that have to be skipped
      * @param drawStyle - not used currently
      */
-    LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle);
+    LineNode(LineList *lineList, SkipHashList *skipList, QColor color, int width, Qt::PenStyle drawStyle);
     virtual ~LineNode();
 
     void setColor(QColor color);
@@ -62,7 +62,7 @@ class LineNode : public SkyOpacityNode
   private:
     QSGGeometryNode *m_geometryNode { nullptr };
     LineList *m_lineList { nullptr };
-    SkipList *m_skipList { nullptr };
+    SkipHashList *m_skipList { nullptr };
 
     QSGGeometry *m_geometry { nullptr };
     QSGFlatColorMaterial *m_material { nullptr };

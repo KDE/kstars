@@ -27,7 +27,7 @@
 #include "skycomponents/linelist.h"
 #include "skycomponents/linelistlabel.h"
 #include "skycomponents/satellitescomponent.h"
-#include "skycomponents/skiplist.h"
+#include "skycomponents/skiphashlist.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/solarsystemcomposite.h"
 #include "skyobjects/constellationsart.h"
@@ -290,7 +290,7 @@ void SkyQPainter::drawSkyLine(SkyPoint *a, SkyPoint *b)
     } //FIXME: what if both are offscreen but the line isn't?
 }
 
-void SkyQPainter::drawSkyPolyline(LineList *list, SkipList *skipList, LineListLabel *label)
+void SkyQPainter::drawSkyPolyline(LineList *list, SkipHashList *skipList, LineListLabel *label)
 {
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;

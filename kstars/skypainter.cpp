@@ -23,7 +23,7 @@
 #include "skymap.h"
 #include "Options.h"
 #include "kstarsdata.h"
-#include "skycomponents/skiplist.h"
+#include "skycomponents/skiphashlist.h"
 #include "skycomponents/linelistlabel.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
