@@ -306,7 +306,7 @@ if(NOT BUILD_KSTARS_LITE)
         )
     endif()
 
-    ki18n_wrap_ui(libkstarstools_SRCS
+    ki18n_wrap_ui(libkstarstools_ui_SRCS
         tools/altvstime.ui
         tools/argchangeviewoption.ui
         tools/argexportimage.ui
@@ -354,7 +354,7 @@ if(NOT BUILD_KSTARS_LITE)
     )
 
     if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
-        ki18n_wrap_ui(libkstarstools_SRCS
+        ki18n_wrap_ui(libkstarstools_ui_SRCS
             tools/whatsinteresting/wilpsettings.ui
             tools/whatsinteresting/wiequipsettings.ui
         )
@@ -379,7 +379,7 @@ if(NOT BUILD_KSTARS_LITE)
         widgets/unitspinboxwidget.cpp
     )
 
-    ki18n_wrap_ui(libkstarswidgets_SRCS
+    ki18n_wrap_ui(libkstarswidgets_ui_SRCS
     #    widgets/genericcalendarwidget.ui
         widgets/unitspinboxwidget.ui
     )
@@ -594,7 +594,7 @@ if(NOT BUILD_KSTARS_LITE)
         #skycomponents/notifyupdatesui.cpp
         )
 else(NOT BUILD_KSTARS_LITE)
-    set(libkstarstools_SRCS
+    set(libkstarstools_ui_SRCS
         tools/nameresolver.cpp
         )
 endif(NOT BUILD_KSTARS_LITE)
@@ -866,6 +866,9 @@ set(kstars_SRCS
     #KStars Lite
     ${kstarslite_SRCS}
     ${indi_lite_SRCS}
+    # Generated files
+    ${libkstarstools_ui_SRCS}
+    ${libkstarswidgets_ui_SRCS}
 )
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
