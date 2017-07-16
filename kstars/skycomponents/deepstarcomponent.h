@@ -129,7 +129,7 @@ class DeepStarComponent : public ListComponent
     long unsigned t_drawUnnamed { 0 };
     long unsigned t_updateCache { 0 };
 
-    QVector<StarBlockList *> m_starBlockList;
+    QVector<std::shared_ptr<StarBlockList>> m_starBlockList;
     QHash<int, StarObject *> m_CatalogNumber;
 
     bool staticStars { false };

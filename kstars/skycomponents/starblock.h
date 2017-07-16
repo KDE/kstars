@@ -146,8 +146,8 @@ class StarBlock
     float faintMag;
     float brightMag;
     StarBlockList *parent;
-    StarBlock *prev;
-    StarBlock *next;
+    std::shared_ptr<StarBlock> prev;
+    std::shared_ptr<StarBlock> next;
     quint32 drawID;
 
   private:

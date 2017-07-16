@@ -42,14 +42,11 @@ StarBlockList::StarBlockList(Trixel tr, DeepStarComponent *parent)
 
 StarBlockList::~StarBlockList()
 {
-    // NOTE: Rest of the StarBlocks are taken care of by StarBlockFactory
-    if (staticStars && blocks[0])
-        delete blocks[0];
 }
 
 int StarBlockList::releaseBlock(StarBlock *block)
 {
-    if (block != blocks[nBlocks - 1])
+    if (block != blocks[nBlocks - 1].get())
         qDebug() << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel << endl;
 
     else if (blocks.size() > 0)
@@ -128,9 +125,9 @@ bool StarBlockList::fillToMag(float maglim)
 
         if (nBlocks == 0 || blocks[nBlocks - 1]->isFull())
         {
-            StarBlock *newBlock;
-            newBlock = SBFactory->getBlock();
-            if (!newBlock)
+            std::shared_ptr<StarBlock> newBlock = SBFactory->getBlock();
+
+            if (!newBlock.get())
             {
                 qWarning() << "ERROR: Could not get a new block from StarBlockFactory::getBlock() in trixel " << trixel
                            << ", while trying to create block #" << nBlocks + 1 << endl;
@@ -176,7 +173,7 @@ bool StarBlockList::fillToMag(float maglim)
     return ((maglim < faintMag) ? true : false);
 }
 
-void StarBlockList::setStaticBlock(StarBlock *block)
+void StarBlockList::setStaticBlock(std::shared_ptr<StarBlock> &block)
 {
     if (!block)
         return;

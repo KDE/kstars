@@ -318,6 +318,12 @@
    ...
 }
 {
+   Qt21
+   Memcheck:Cond
+   fun:_ZN12QtConcurrent18BlockSizeManagerV214timeBeforeUserEv
+   ...
+}
+{
    KDE1
    Memcheck:Leak
    ...

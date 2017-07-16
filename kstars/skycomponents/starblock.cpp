@@ -64,9 +64,8 @@ void StarBlock::reset()
 
 StarBlock::~StarBlock()
 {
-    if (parent)
-        parent->releaseBlock(this);
 }
+
 #ifdef KSTARS_LITE
 StarNode *StarBlock::addStar(const starData &data)
 {
