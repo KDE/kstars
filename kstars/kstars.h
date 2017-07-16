@@ -24,7 +24,11 @@
 #include <kxmlguiwindow.h>
 
 #include <QDockWidget>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
 #include <QtDBus/qtdbusglobal.h>
+#else
+#include <QtDBus/qdbusmacros.h>
+#endif
 #ifdef HAVE_CFITSIO
 #include <QPointer>
 #endif
