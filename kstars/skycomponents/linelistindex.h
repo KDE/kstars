@@ -27,7 +27,7 @@
 
 class LineList;
 class LineListLabel;
-class SkipList;
+class SkipHashList;
 class SkyPainter;
 
 /**
@@ -175,7 +175,7 @@ class LineListIndex : public SkyComponent
      *
      * FIXME: I don't think that the SkipListIndex class even exists -- hdevalence
      */
-    virtual SkipList *skipList(LineList *lineList);
+    virtual SkipHashList *skipList(LineList *lineList);
 
     virtual LineListLabel *label() { return 0; }
 

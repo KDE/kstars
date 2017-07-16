@@ -32,7 +32,7 @@ class KSPlanetBase;
 class LineList;
 class LineListLabel;
 class Satellite;
-class SkipList;
+class SkipHashList;
 class SkyMap;
 class SkyObject;
 class SkyPoint;
@@ -102,7 +102,7 @@ class SkyPainter
      * @note it's more efficient to use this than repeated calls to drawSkyLine(),
      * because it avoids an extra points->size() -2 projections.
      */
-    virtual void drawSkyPolyline(LineList *list, SkipList *skipList = 0, LineListLabel *label = 0) = 0;
+    virtual void drawSkyPolyline(LineList *list, SkipHashList *skipList = 0, LineListLabel *label = 0) = 0;
 
     /**
      * @short Draw a polygon in the sky.

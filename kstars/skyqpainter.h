@@ -80,7 +80,7 @@ class SkyQPainter : public SkyPainter, public QPainter
     // Sky drawing functions
     void drawSkyBackground() Q_DECL_OVERRIDE;
     void drawSkyLine(SkyPoint *a, SkyPoint *b) Q_DECL_OVERRIDE;
-    void drawSkyPolyline(LineList *list, SkipList *skipList = 0, LineListLabel *label = 0) Q_DECL_OVERRIDE;
+    void drawSkyPolyline(LineList *list, SkipHashList *skipList = 0, LineListLabel *label = 0) Q_DECL_OVERRIDE;
     void drawSkyPolygon(LineList *list, bool forceClip = true) Q_DECL_OVERRIDE;
     bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A') Q_DECL_OVERRIDE;
     bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false) Q_DECL_OVERRIDE;

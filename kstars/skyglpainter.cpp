@@ -35,7 +35,7 @@
 #include "texturemanager.h"
 
 #include "skycomponents/linelist.h"
-#include "skycomponents/skiplist.h"
+#include "skycomponents/skiphashlist.h"
 #include "skycomponents/linelistlabel.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/flagcomponent.h"
@@ -534,7 +534,7 @@ void SkyGLPainter::drawHorizon(bool filled, SkyPoint *labelPoint, bool *drawLabe
 }
 
 //This implementation is *correct* but slow.
-void SkyGLPainter::drawSkyPolyline(LineList *list, SkipList *skipList, LineListLabel *label)
+void SkyGLPainter::drawSkyPolyline(LineList *list, SkipHashList *skipList, LineListLabel *label)
 {
     glDisable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

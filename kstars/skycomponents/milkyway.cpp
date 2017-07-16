@@ -26,7 +26,7 @@
 #endif
 #include "Options.h"
 #include "skypainter.h"
-#include "skycomponents/skiplist.h"
+#include "skycomponents/skiphashlist.h"
 
 #include <QtConcurrent>
 
@@ -48,14 +48,14 @@ MilkyWay::MilkyWay(SkyComposite *parent) : LineListIndex(parent, i18n("Milky Way
 const IndexHash &MilkyWay::getIndexHash(LineList *lineList)
 {
     // FIXME: EVIL!
-    SkipList *skipList = (SkipList *)lineList;
+    SkipHashList *skipList = (SkipHashList *)lineList;
     return skyMesh()->indexLine(skipList->points(), skipList->skipHash());
 }
 
-SkipList *MilkyWay::skipList(LineList *lineList)
+SkipHashList *MilkyWay::skipList(LineList *lineList)
 {
     // FIXME: EVIL!
-    SkipList *skipList = (SkipList *)lineList;
+    SkipHashList *skipList = (SkipHashList *)lineList;
     return skipList;
 }
 
@@ -125,13 +125,13 @@ void MilkyWay::loadContours(QString fname, QString greeting)
         }
 
         if (!skipList.get())
-            skipList.reset(new SkipList());
+            skipList.reset(new SkipHashList());
 
         std::shared_ptr<SkyPoint> point(new SkyPoint(ra, dec));
 
         skipList->append(std::move(point));
         if (firstChar == 'S')
-            static_cast<SkipList*>(skipList.get())->setSkip(iSkip);
+            static_cast<SkipHashList*>(skipList.get())->setSkip(iSkip);
 
         iSkip++;
     }

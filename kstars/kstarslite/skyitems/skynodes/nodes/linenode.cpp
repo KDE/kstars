@@ -16,14 +16,14 @@
 
 #include "linenode.h"
 
-#include "skiplist.h"
 #include "skymaplite.h"
 #include "projections/projector.h"
+#include "skycomponents/skiphashlist.h"
 
 #include <QLinkedList>
 #include <QSGFlatColorMaterial>
 
-LineNode::LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle)
+LineNode::LineNode(LineList *lineList, SkipHashList *skipList, QColor color, int width, Qt::PenStyle drawStyle)
     : m_geometryNode(new QSGGeometryNode), m_lineList(lineList), m_skipList(skipList),
       m_material(new QSGFlatColorMaterial), m_drawStyle(drawStyle)
 {

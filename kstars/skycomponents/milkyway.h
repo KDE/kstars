@@ -66,5 +66,5 @@ class MilkyWay : public LineListIndex
      * code in LineListIndex instead of repeating it all here.
      * FIXME: Implementation is broken!!
      */
-    SkipList *skipList(LineList *lineList) Q_DECL_OVERRIDE;
+    SkipHashList *skipList(LineList *lineList) Q_DECL_OVERRIDE;
 };

@@ -263,7 +263,7 @@
   ----------------------
 
     + LineList
-      - SkipList
+      - SkipHashList
 
     + PolyList
 
@@ -272,7 +272,7 @@
 
      LineListIndex    SkipListIndex       PolyListIndex
           ||               ||                  ||
-       LineList         SkipList            PolyList
+       LineList         SkipHashList            PolyList
 
   NoPrecessIndex and LabeledListIndex uses the plain LineList data
   container. NoPrecessIndex does not precess the data in the containers
@@ -285,15 +285,15 @@
   brevity) provide the base for all the other classes.  They can be used
   for indexing and drawing either a series of line segments or a series
   of filled polygons but not both.  If you want to draw both lines and
-  filled polygons you need to use the SkipList[Index] combo that adds
+  filled polygons you need to use the SkipHashList[Index] combo that adds
   the ability to skip some of the lines that are drawn.  If you don't
   want to skip any lines and want to draw filled polygons and the
   complete outline of the filled polygons then you can use the standard
   LineList[Index] combo.
 
-  Both the LineList[Index] and the SkipList[Index] store their data in
+  Both the LineList[Index] and the SkipHashList[Index] store their data in
   QVector<SkyPoint*>'s.  There is one such data structure in each
-  LineList and each SkipList.  The PolyList stores the data in a
+  LineList and each SkipHashList.  The PolyList stores the data in a
   QPolygonF instead.  This was needed to implement the code that uses
   the QPolygonF to find out which constellation a point is in.  At
   present you can not directly draw the data stored in a PolyList's
@@ -366,7 +366,7 @@
               lineList->drawID = drawID;
 
     \subsubsection DataContainer  Data Container Classes
-    The data container classes: LineList, SkipList, and PolyList are
+    The data container classes: LineList, SkipHashList, and PolyList are
     simple data containers with no non-trivial code.  All of them just
     have header files and no .cpp files.
 
