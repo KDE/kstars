@@ -50,8 +50,6 @@ DeepStarComponent::DeepStarComponent(SkyComposite *parent, QString fileName, flo
 
 DeepStarComponent::~DeepStarComponent()
 {
-    qDeleteAll(m_starBlockList);
-    m_starBlockList.clear();
     if (fileOpened)
         starReader.closeFile();
     fileOpened = false;
@@ -117,9 +115,9 @@ bool DeepStarComponent::loadStaticStars()
         {
             Trixel trixel   = i;
             quint64 records = starReader.getRecordCount(i);
-            StarBlock* SB = new StarBlock(records);
+            std::shared_ptr<StarBlock> SB(new StarBlock(records));
 
-            if (!SB)
+            if (!SB.get())
                 qDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel "
                          << trixel << endl;
 
@@ -168,9 +166,9 @@ bool DeepStarComponent::loadStaticStars()
         {
             Trixel trixel   = i;
             quint64 records = starReader.getRecordCount(i);
-            StarBlock *SB   = new StarBlock(records);
+            std::shared_ptr<StarBlock> SB(new StarBlock(records));
 
-            if (!SB)
+            if (!SB.get())
                 qDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel "
                          << trixel << endl;
 
@@ -322,8 +320,8 @@ void DeepStarComponent::draw(SkyPainter *skyp)
             Trixel currentRegion = region.next();
             for (int i = 0; i < m_starBlockList.at(currentRegion)->getBlockCount(); ++i)
             {
-                StarBlock *prevBlock = ((i >= 1) ? m_starBlockList.at(currentRegion)->block(i - 1) : nullptr);
-                StarBlock *block     = m_starBlockList.at(currentRegion)->block(i);
+                std::shared_ptr<StarBlock> prevBlock = ((i >= 1) ? m_starBlockList.at(currentRegion)->block(i - 1) : std::shared_ptr<StarBlock>());
+                std::shared_ptr<StarBlock> block     = m_starBlockList.at(currentRegion)->block(i);
 
                 if (i == 0 && !m_StarBlockFactory->markFirst(block))
                     qDebug() << "markFirst failed in trixel" << currentRegion;
@@ -348,6 +346,10 @@ void DeepStarComponent::draw(SkyPainter *skyp)
         // TODO: Is there a better way? We may have to change the magnitude tolerance if the catalog changes
         // Static stars need not execute fillToMag
 
+        // Safety check if the current region is in star block list
+        if ((int)currentRegion >= m_starBlockList.size())
+            continue;
+
         if (!staticStars && !m_starBlockList.at(currentRegion)->fillToMag(maglim) &&
             maglim <= m_FaintMagnitude * (1 - 1.5 / 16))
         {
@@ -360,7 +362,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
         //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks" << endl;
 
         // REMARK: The following should never carry state, except for const parameters like updateID and maglim
-        std::function<void(StarBlock *)> mapFunction = [&updateID, &maglim](StarBlock *myBlock) {
+        std::function<void(std::shared_ptr<StarBlock>)> mapFunction = [&updateID, &maglim](std::shared_ptr<StarBlock> myBlock) {
             for (StarObject &star : myBlock->contents())
             {
                 if (star.updateID != updateID)
@@ -374,7 +376,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
 
         for (int i = 0; i < m_starBlockList.at(currentRegion)->getBlockCount(); ++i)
         {
-            StarBlock *block = m_starBlockList.at(currentRegion)->block(i);
+            std::shared_ptr<StarBlock> block = m_starBlockList.at(currentRegion)->block(i);
             //            qDebug() << "---> Drawing stars from block " << i << " of trixel " <<
             //                currentRegion << ". SB has " << block->getStarCount() << " stars" << endl;
             for (int j = 0; j < block->getStarCount(); j++)
@@ -466,8 +468,9 @@ bool DeepStarComponent::openDataFile()
         qDebug() << "  Sky Mesh Size: " << m_skyMesh->size();
         for (long int i = 0; i < m_skyMesh->size(); i++)
         {
-            StarBlockList *sbl = new StarBlockList(i, this);
-            if (!sbl)
+            std::shared_ptr<StarBlockList> sbl(new StarBlockList(i, this));
+
+            if (!sbl.get())
             {
                 qDebug() << "nullptr starBlockList. Expect trouble!";
             }
@@ -508,9 +511,14 @@ SkyObject *DeepStarComponent::objectNearest(SkyPoint *p, double &maxrad)
     while (region.hasNext())
     {
         Trixel currentRegion = region.next();
+
+        // Safety check if the current region is in star block list
+        if ((int)currentRegion >= m_starBlockList.size())
+            continue;
+
         for (int i = 0; i < m_starBlockList.at(currentRegion)->getBlockCount(); ++i)
         {
-            StarBlock *block = m_starBlockList.at(currentRegion)->block(i);
+            std::shared_ptr<StarBlock> block = m_starBlockList.at(currentRegion)->block(i);
             for (int j = 0; j < block->getStarCount(); ++j)
             {
 #ifdef KSTARS_LITE
@@ -570,11 +578,11 @@ bool DeepStarComponent::starsInAperture(QList<StarObject *> &list, const SkyPoin
         Trixel currentRegion = region.next();
         // FIXME: Build a better way to iterate over all stars.
         // Ideally, StarBlockList should have such a facility.
-        StarBlockList *sbl = m_starBlockList[currentRegion];
+        std::shared_ptr<StarBlockList> sbl = m_starBlockList[currentRegion];
         sbl->fillToMag(maglim);
         for (int i = 0; i < sbl->getBlockCount(); ++i)
         {
-            StarBlock *block = sbl->block(i);
+            std::shared_ptr<StarBlock> block = sbl->block(i);
             for (int j = 0; j < block->getStarCount(); ++j)
             {
 #ifdef KSTARS_LITE
@@ -619,11 +627,13 @@ bool DeepStarComponent::verifySBLIntegrity()
 {
     float faintMag = -5.0;
     bool integrity = true;
+
     for (Trixel trixel = 0; trixel < (unsigned int)m_skyMesh->size(); ++trixel)
     {
         for (int i = 0; i < m_starBlockList[trixel]->getBlockCount(); ++i)
         {
-            StarBlock *block = m_starBlockList[trixel]->block(i);
+            std::shared_ptr<StarBlock> block = m_starBlockList[trixel]->block(i);
+
             if (i == 0)
                 faintMag = block->getBrightMag();
             // NOTE: Assumes 2 decimal places in magnitude field. TODO: Change if it ever does change
@@ -635,7 +645,7 @@ bool DeepStarComponent::verifySBLIntegrity()
             }
             if (i > 1 && (!block->prev))
                 qDebug() << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
-            if (block->prev && block->prev->parent == m_starBlockList[trixel] &&
+            if (block->prev && block->prev->parent == m_starBlockList[trixel].get() &&
                 block->prev != m_starBlockList[trixel]->block(i - 1))
             {
                 qDebug() << "Trixel " << trixel

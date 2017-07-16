@@ -67,7 +67,7 @@ class StarBlockList
      *
      * @param Pointer to the StarBlock
      */
-    void setStaticBlock(StarBlock *block);
+    void setStaticBlock(std::shared_ptr<StarBlock> &block);
 
     /**
      * @short  Drops the StarBlock with the given pointer from the list
@@ -82,12 +82,12 @@ class StarBlockList
      * @param  Index of the required block
      * @return The StarBlock requested for, nullptr if index out of bounds
      */
-    inline StarBlock *block(unsigned int i) { return ((i < nBlocks) ? blocks[i] : nullptr); }
+    inline std::shared_ptr<StarBlock> block(unsigned int i) { return ((i < nBlocks) ? blocks[i] : std::shared_ptr<StarBlock>()); }
 
     /**
      * @return a const reference to the contents of this StarBlockList
      */
-    inline const QList<StarBlock *> &contents() const { return blocks; }
+    inline const QList<std::shared_ptr<StarBlock>> &contents() const { return blocks; }
 
     /**
      * @short  Returns the total number of stars in this StarBlockList
@@ -118,7 +118,7 @@ class StarBlockList
     unsigned long nStars;
     long readOffset;
     float faintMag;
-    QList<StarBlock *> blocks;
+    QList<std::shared_ptr<StarBlock>> blocks;
     unsigned int nBlocks;
     bool staticStars;
     DeepStarComponent *parent;

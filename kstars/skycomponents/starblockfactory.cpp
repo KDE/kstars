@@ -50,14 +50,14 @@ StarBlockFactory::~StarBlockFactory()
         pInstance = nullptr;
 }
 
-StarBlock *StarBlockFactory::getBlock()
+std::shared_ptr<StarBlock> StarBlockFactory::getBlock()
 {
-    StarBlock *freeBlock = nullptr;
+    std::shared_ptr<StarBlock> freeBlock;
 
     if (nBlocks < nCache)
     {
-        freeBlock = new StarBlock;
-        if (freeBlock)
+        freeBlock.reset(new StarBlock);
+        if (freeBlock.get())
         {
             ++nBlocks;
             return freeBlock;
@@ -83,15 +83,16 @@ StarBlock *StarBlockFactory::getBlock()
         freeBlock->next = nullptr;
         return freeBlock;
     }
-    freeBlock = new StarBlock;
-    if (freeBlock)
+    freeBlock.reset(new StarBlock);
+    if (freeBlock.get())
         ++nBlocks;
+
     return freeBlock;
 }
 
-bool StarBlockFactory::markFirst(StarBlock *block)
+bool StarBlockFactory::markFirst(std::shared_ptr<StarBlock>& block)
 {
-    if (!block)
+    if (!block.get())
         return false;
 
     //    fprintf(stderr, "markFirst()!\n");
@@ -129,16 +130,16 @@ bool StarBlockFactory::markFirst(StarBlock *block)
     return true;
 }
 
-bool StarBlockFactory::markNext(StarBlock *after, StarBlock *block)
+bool StarBlockFactory::markNext(std::shared_ptr<StarBlock>& after, std::shared_ptr<StarBlock>& block)
 {
     //    fprintf(stderr, "markNext()!\n");
-    if (!block || !after)
+    if (!block.get() || !after.get())
     {
         qDebug() << "WARNING: markNext called with nullptr argument" << endl;
         return false;
     }
 
-    if (!first)
+    if (!first.get())
     {
         qDebug() << "WARNING: markNext called without an existing linked list" << endl;
         return false;
@@ -244,12 +245,12 @@ bool StarBlockFactory::groupMove( StarBlock *start, const int nblocks ) {
 int StarBlockFactory::deleteBlocks(int nblocks)
 {
     int i           = 0;
-    StarBlock *temp = nullptr;
+    std::shared_ptr<StarBlock> temp;
 
     while (last != nullptr && i != nblocks)
     {
         temp = last->prev;
-        delete last;
+        last.reset();
         last = temp;
         i++;
     }
@@ -266,7 +267,7 @@ int StarBlockFactory::deleteBlocks(int nblocks)
 
 void StarBlockFactory::printStructure() const
 {
-    StarBlock *cur   = nullptr;
+    std::shared_ptr<StarBlock> cur;
     Trixel curTrixel = 513; // TODO: Change if we change HTMesh level
     int index        = 0;
     bool draw        = false;
@@ -297,12 +298,12 @@ void StarBlockFactory::printStructure() const
 int StarBlockFactory::freeUnused()
 {
     int i           = 0;
-    StarBlock *temp = nullptr;
+    std::shared_ptr<StarBlock> temp;
 
     while (last != nullptr && last->drawID < drawID && i != nBlocks)
     {
         temp = last->prev;
-        delete last;
+        last.reset();
         last = temp;
         i++;
     }

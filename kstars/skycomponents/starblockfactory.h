@@ -51,14 +51,14 @@ class StarBlockFactory
      *
      * @return A StarBlock that is available for use
      */
-    StarBlock *getBlock();
+    std::shared_ptr<StarBlock> getBlock();
 
     /**
      * @short  Mark a StarBlock as most recently used and sync its drawID with the current drawID
      *
      * @return true on success, false if the StarBlock supplied was not on our list at all
      */
-    bool markFirst(StarBlock *block);
+    bool markFirst(std::shared_ptr<StarBlock>& block);
 
     /**
      * @short  Rank a given StarBlock after another given StarBlock in the LRU list
@@ -68,7 +68,7 @@ class StarBlockFactory
      * @param  block  The block to mark for use
      * @return true on success, false on failure
      */
-    bool markNext(StarBlock *after, StarBlock *block);
+    bool markNext(std::shared_ptr<StarBlock>& after, std::shared_ptr<StarBlock>& block);
 
     /**
      * @short  Returns the number of StarBlocks currently produced
@@ -111,7 +111,7 @@ class StarBlockFactory
      */
     int deleteBlocks(int nblocks);
 
-    StarBlock *first, *last; // Pointers to the beginning and end of the linked list
+    std::shared_ptr<StarBlock> first, last; // Pointers to the beginning and end of the linked list
     int nBlocks;             // Number of blocks we currently have in the cache
     int nCache;              // Number of blocks to start recycling cached blocks at
 
