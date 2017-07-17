@@ -172,7 +172,7 @@ class FITSView : public QScrollArea
     //void handleWCSCompletion();
 
   private:
-    QLabel *noImageLabel = new QLabel();
+    QLabel *noImageLabel = nullptr;
     QPixmap noImage;
 
     bool event(QEvent *event);

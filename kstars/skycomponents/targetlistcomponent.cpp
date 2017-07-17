@@ -38,10 +38,9 @@ TargetListComponent::TargetListComponent(SkyComposite *parent, SkyObjectList *ob
 
 TargetListComponent::~TargetListComponent()
 {
-    if (list)
+    if (list.get())
     {
         qDeleteAll(*list);
-        list = nullptr;
     }
 }
 

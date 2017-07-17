@@ -34,6 +34,8 @@
 #include <QHash>
 #include <QtDBus/QtDBus>
 
+#include <memory>
+
 class DriverInfo;
 class ProfileInfo;
 class KPageWidgetItem;
@@ -79,7 +81,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     Ekos::Guide *guideModule() { return guideProcess; }
     Ekos::Align *alignModule() { return alignProcess; }
     Ekos::Mount *mountModule() { return mountProcess; }
-    FITSView *getPreviewView() { return previewView; }
+    FITSView *getPreviewView() { return previewView.get(); }
 
     /** @defgroup EkosDBusInterface Ekos DBus Interface
          * EkosManager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
@@ -281,10 +283,10 @@ class EkosManager : public QDialog, public Ui::EkosManager
     QTime overallCountDown;
     QTime sequenceCountDown;
     QTimer countdownTimer;
-    QPixmap *previewPixmap;
+//    QPixmap *previewPixmap;
     QProgressIndicator *capturePI;
     // Preview Frame
-    FITSView *previewView;
+    std::unique_ptr<FITSView> previewView;
 
     // Focus Summary
     QProgressIndicator *focusPI;

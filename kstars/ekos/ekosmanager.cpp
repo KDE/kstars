@@ -193,14 +193,14 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     // FIXME
     //resize(1000,750);
 
-    previewView = new FITSView(previewWidget, FITS_NORMAL);
+    previewView.reset(new FITSView(previewWidget, FITS_NORMAL));
     previewWidget->setContentsMargins(0, 0, 0, 0);
     previewView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     previewView->setBaseSize(previewWidget->size());
     previewView->createFloatingToolBar();
     previewView->setMouseMode(FITSView::dragMouse);
     QVBoxLayout *vlayout = new QVBoxLayout();
-    vlayout->addWidget(previewView);
+    vlayout->addWidget(previewView.get());
     previewWidget->setLayout(vlayout);
 
     if (Options::ekosLeftIcons())
@@ -251,7 +251,6 @@ EkosManager::~EkosManager()
     delete profileModel;
 
     //delete previewPixmap;
-    delete previewView;
     delete focusStarPixmap;
     delete guideStarPixmap;
 

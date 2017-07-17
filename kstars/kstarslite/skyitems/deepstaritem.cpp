@@ -46,7 +46,7 @@ DeepStarItem::DeepStarItem(DeepStarComponent *deepStarComp, RootNode *rootNode)
 
             for (int i = 0; i < blockCount; ++i)
             {
-                StarBlock *block = m_starBlockList->at(c)->block(i);
+                std::shared_ptr<StarBlock> block = m_starBlockList->at(c)->block(i);
                 //            qDebug() << "---> Drawing stars from block " << i << " of trixel " <<
                 //                currentRegion << ". SB has " << block->getStarCount() << " stars" << endl;
                 int starCount = block->getStarCount();
@@ -288,7 +288,8 @@ void DeepStarItem::update()
                 {
                     bool hide = false;
 
-                    StarBlock *block = m_starBlockList->at(regionID)->block(i);
+                    std::shared_ptr<StarBlock> block = m_starBlockList->at(regionID)->block(i);
+
                     for (int j = 0; j < block->getStarCount(); j++)
                     {
                         StarNode *star         = block->star(j);

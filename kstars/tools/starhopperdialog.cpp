@@ -55,8 +55,7 @@ void StarHopperDialog::starHop(const SkyPoint &startHop, const SkyPoint &stopHop
         starList->clear();
         delete starList;
         TargetListComponent *t = getTargetListComponent();
-        delete t->list;
-        t->list = m_skyObjList;
+        t->list.reset(m_skyObjList);
         SkyMap::Instance()->forceUpdate(true);
     }
     else
