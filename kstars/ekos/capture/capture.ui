@@ -6,30 +6,30 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>662</width>
-    <height>517</height>
+    <width>642</width>
+    <height>513</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,2">
    <property name="spacing">
-    <number>3</number>
+    <number>2</number>
    </property>
    <property name="leftMargin">
-    <number>3</number>
+    <number>2</number>
    </property>
    <property name="topMargin">
-    <number>3</number>
+    <number>2</number>
    </property>
    <property name="rightMargin">
-    <number>3</number>
+    <number>2</number>
    </property>
    <property name="bottomMargin">
-    <number>3</number>
+    <number>2</number>
    </property>
    <item>
     <layout class="QVBoxLayout" name="leftLayout">
      <property name="spacing">
-      <number>3</number>
+      <number>2</number>
      </property>
      <item>
       <widget class="QGroupBox" name="CCDFWGroup">
@@ -53,24 +53,24 @@
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <property name="leftMargin">
-         <number>3</number>
+         <number>2</number>
         </property>
         <property name="topMargin">
-         <number>3</number>
+         <number>2</number>
         </property>
         <property name="rightMargin">
-         <number>3</number>
+         <number>2</number>
         </property>
         <property name="bottomMargin">
-         <number>3</number>
+         <number>2</number>
         </property>
         <property name="spacing">
-         <number>3</number>
+         <number>2</number>
         </property>
         <item row="0" column="0" colspan="7">
          <layout class="QGridLayout" name="gridLayout_4">
           <property name="spacing">
-           <number>3</number>
+           <number>2</number>
           </property>
           <item row="0" column="0">
            <widget class="QLabel" name="textLabel1_6">
@@ -104,7 +104,7 @@
           <item row="1" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_11">
             <property name="spacing">
-             <number>3</number>
+             <number>2</number>
             </property>
             <item>
              <widget class="QCheckBox" name="temperatureCheck">
@@ -210,7 +210,7 @@
         <item row="1" column="0" colspan="3">
          <layout class="QHBoxLayout" name="horizontalLayout">
           <property name="spacing">
-           <number>3</number>
+           <number>2</number>
           </property>
           <item>
            <widget class="QLabel" name="label_5">
@@ -591,7 +591,7 @@
         <item row="7" column="6" rowspan="2">
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <property name="spacing">
-           <number>3</number>
+           <number>2</number>
           </property>
           <item>
            <widget class="QPushButton" name="calibrationB">
@@ -731,7 +731,7 @@
         <item row="9" column="0" colspan="3">
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <property name="spacing">
-           <number>3</number>
+           <number>2</number>
           </property>
           <item>
            <widget class="QLabel" name="label_6">
@@ -758,7 +758,7 @@
         <item row="10" column="0" colspan="7">
          <layout class="QGridLayout" name="gridLayout_3">
           <property name="spacing">
-           <number>3</number>
+           <number>2</number>
           </property>
           <item row="3" column="2">
            <widget class="QLabel" name="label_2">
@@ -956,21 +956,21 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <property name="leftMargin">
-         <number>3</number>
+         <number>1</number>
         </property>
         <property name="topMargin">
-         <number>3</number>
+         <number>1</number>
         </property>
         <property name="rightMargin">
-         <number>3</number>
+         <number>1</number>
         </property>
         <property name="bottomMargin">
-         <number>3</number>
+         <number>1</number>
         </property>
         <property name="spacing">
-         <number>3</number>
+         <number>1</number>
         </property>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="QDoubleSpinBox" name="meridianHours">
           <property name="enabled">
            <bool>false</bool>
@@ -992,7 +992,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <widget class="QCheckBox" name="meridianCheck">
           <property name="enabled">
            <bool>false</bool>
@@ -1056,6 +1056,19 @@
           </property>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="autofocusCheck">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Perform autofocusing once Half-Flux-Radius (HFR) value exceeds this limit</string>
+          </property>
+          <property name="text">
+           <string>Autofocus if HFR &gt;</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QCheckBox" name="guideDeviationCheck">
           <property name="enabled">
@@ -1072,19 +1085,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QCheckBox" name="autofocusCheck">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Perform autofocusing once Half-Flux-Radius (HFR) value exceeds this limit</string>
-          </property>
-          <property name="text">
-           <string>Autofocus if HFR &gt;</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="3">
          <widget class="QLabel" name="textLabel1_2_4">
           <property name="toolTip">
@@ -1098,7 +1098,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="3">
+        <item row="3" column="3">
          <widget class="QLabel" name="textLabel1_2_6">
           <property name="toolTip">
            <string>Number of images to capture</string>
@@ -1111,6 +1111,39 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="refocusEveryNCheck">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Refocus every</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="refocusEveryN">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>999</number>
+          </property>
+          <property name="value">
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="textLabel_1_2_7">
+          <property name="text">
+           <string>minutes</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
@@ -1119,7 +1152,7 @@
    <item>
     <layout class="QVBoxLayout" name="rightLayout">
      <property name="spacing">
-      <number>3</number>
+      <number>2</number>
      </property>
      <item>
       <layout class="QVBoxLayout" name="SequenceQueue">
@@ -1140,6 +1173,18 @@
          <layout class="QVBoxLayout" name="verticalLayout_8">
           <property name="spacing">
            <number>1</number>
+          </property>
+          <property name="leftMargin">
+           <number>2</number>
+          </property>
+          <property name="topMargin">
+           <number>2</number>
+          </property>
+          <property name="rightMargin">
+           <number>2</number>
+          </property>
+          <property name="bottomMargin">
+           <number>2</number>
           </property>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -1622,7 +1667,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
-        <number>3</number>
+        <number>2</number>
        </property>
        <item>
         <widget class="QGroupBox" name="groupBox_2">
@@ -1631,19 +1676,19 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <property name="spacing">
-           <number>3</number>
+           <number>2</number>
           </property>
           <property name="leftMargin">
-           <number>3</number>
+           <number>2</number>
           </property>
           <property name="topMargin">
-           <number>3</number>
+           <number>2</number>
           </property>
           <property name="rightMargin">
-           <number>3</number>
+           <number>2</number>
           </property>
           <property name="bottomMargin">
-           <number>3</number>
+           <number>2</number>
           </property>
           <item>
            <widget class="QCheckBox" name="useFITSViewerInCapture">
@@ -1686,7 +1731,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <property name="spacing">
-             <number>3</number>
+             <number>2</number>
             </property>
             <item>
              <widget class="QLabel" name="label_8">
@@ -1725,19 +1770,19 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <property name="spacing">
-           <number>3</number>
+           <number>2</number>
           </property>
           <property name="leftMargin">
-           <number>3</number>
+           <number>2</number>
           </property>
           <property name="topMargin">
-           <number>3</number>
+           <number>2</number>
           </property>
           <property name="rightMargin">
-           <number>3</number>
+           <number>2</number>
           </property>
           <property name="bottomMargin">
-           <number>3</number>
+           <number>2</number>
           </property>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -1747,7 +1792,7 @@
             <item>
              <layout class="QGridLayout" name="progressLayout">
               <property name="spacing">
-               <number>3</number>
+               <number>2</number>
               </property>
               <item row="0" column="0">
                <widget class="QLabel" name="progressLabel_3">
