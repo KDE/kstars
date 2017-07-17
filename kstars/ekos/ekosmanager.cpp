@@ -1482,9 +1482,28 @@ void EkosManager::processTabChange()
     {
         if (alignProcess->isEnabled() == false && captureProcess->isEnabled())
         {
-            if (managedDevices[KSTARS_CCD]->isConnected() && managedDevices.contains(KSTARS_TELESCOPE) &&
-                alignProcess->isParserOK())
-                alignProcess->setEnabled(true);
+            if (managedDevices[KSTARS_CCD]->isConnected() && managedDevices.contains(KSTARS_TELESCOPE))
+            {
+                if (alignProcess->isParserOK())
+                    alignProcess->setEnabled(true);
+                #ifdef Q_OS_WIN
+                else
+                {
+                    // If current setting is remote astrometry and profile doesn't contain
+                    // remote astrometry, then we switch to online solver. Otherwise, the whole align
+                    // module remains disabled and the user cannot change re-enable it since he cannot select online solver
+                    ProfileInfo *pi = getCurrentProfile();
+                    if (Options::solverType() == Ekos::Align::SOLVER_REMOTE && pi->aux1() != "Astrometry" && pi->aux2() != "Astrometry"
+                            && pi->aux3() != "Astrometry" && pi->aux4() != "Astrometry")
+                    {
+
+                        Options::setSolverType(Ekos::Align::SOLVER_ONLINE);
+                        alignModule()->setSolverType(Ekos::Align::SOLVER_ONLINE);
+                        alignProcess->setEnabled(true);
+                    }
+                }
+                #endif
+            }
         }
 
         alignProcess->checkCCD();
