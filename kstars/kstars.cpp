@@ -49,6 +49,7 @@
 #ifdef Q_OS_WIN
 #include <QProcess>
 #endif
+#include <QStatusBar>
 
 KStars *KStars::pinstance = nullptr;
 
