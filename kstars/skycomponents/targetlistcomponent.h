@@ -71,7 +71,7 @@ class TargetListComponent : public SkyComponent
     void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
     // FIXME: Maybe we should make these member objects private / protected?
-    SkyObjectList *list { nullptr }; // Pointer to list of objects to draw
+    std::unique_ptr<SkyObjectList> list; // Pointer to list of objects to draw
     QPen pen;            // Pen to use to draw
 
     /**

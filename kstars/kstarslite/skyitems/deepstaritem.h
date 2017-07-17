@@ -18,6 +18,8 @@
 
 #include "skyitem.h"
 
+#include <memory>
+
 /**
  * @class DeepStarItem
  *
@@ -52,6 +54,6 @@ class DeepStarItem : public SkyItem
     StarBlockFactory *m_StarBlockFactory { nullptr };
 
     DeepStarComponent *m_deepStarComp { nullptr };
-    QVector<StarBlockList *> *m_starBlockList { nullptr };
+    QVector<std::shared_ptr<StarBlockList>> *m_starBlockList { nullptr };
     bool m_staticStars { false };
 };
