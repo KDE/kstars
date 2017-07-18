@@ -7,17 +7,14 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <QVariantMap>
-
 #include "darklibrary.h"
+
 #include "Options.h"
 
 #include "kstars.h"
 #include "kspaths.h"
 #include "kstarsdata.h"
 #include "fitsviewer/fitsview.h"
-#include "fitsviewer/fitsdata.h"
-#include "auxiliary/ksuserdb.h"
 
 namespace Ekos
 {
@@ -278,14 +275,12 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
         if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have mechanical or electronic shutter?", deviceName),
                                        i18n("Dark Exposure")) == KMessageBox::Yes)
         {
-            hasShutter   = true;
             hasNoShutter = false;
             shutterfulCCDs.append(deviceName);
             Options::setShutterfulCCDs(shutterfulCCDs);
         }
         else
         {
-            hasShutter   = false;
             hasNoShutter = true;
             shutterlessCCDs.append(deviceName);
             Options::setShutterlessCCDs(shutterlessCCDs);

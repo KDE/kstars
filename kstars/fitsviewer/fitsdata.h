@@ -19,13 +19,10 @@
 
 #pragma once
 
-#include <config-kstars.h>
+#include "config-kstars.h"
 
 #include "bayer.h"
-#include "dms.h"
 #include "fitscommon.h"
-#include "skyobject.h"
-#include "skypoint.h"
 
 #ifdef WIN32
 // This header must be included before fitsio.h to avoid compiler errors with Visual Studio
@@ -34,6 +31,7 @@
 
 #include <fitsio.h>
 
+#include <QObject>
 #include <QRect>
 #include <QRectF>
 
@@ -50,6 +48,9 @@
 #define MINIMUM_STDVAR      5
 
 class QProgressDialog;
+
+class SkyObject;
+class SkyPoint;
 
 typedef struct
 {
@@ -89,9 +90,7 @@ class FITSSkyObject : public QObject
 class FITSData
 {
   public:
-    typedef enum { CHANNEL_ONE, CHANNEL_TWO, CHANNEL_THREE } ColorChannel;
-
-    FITSData(FITSMode mode = FITS_NORMAL);
+    explicit FITSData(FITSMode mode = FITS_NORMAL);
     ~FITSData();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
@@ -233,8 +232,6 @@ class FITSData
     // FITS Record
     int getFITSRecord(QString &recordList, int &nkeys);
 
-// QVariant getFITSHeaderValue(QString &keyword);
-
 // Histogram
 #ifndef KSTARS_LITE
     void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
@@ -282,7 +279,6 @@ class FITSData
     void readWCSKeys();
 
     // Templated functions
-
     template <typename T>
     bool debayer();
 
@@ -320,54 +316,74 @@ class FITSData
 #endif
 
 #ifndef KSTARS_LITE
-    FITSHistogram *histogram = nullptr; // Pointer to the FITS data histogram
+    FITSHistogram *histogram { nullptr }; // Pointer to the FITS data histogram
 #endif
-    fitsfile *fptr; // Pointer to CFITSIO FITS file struct
+    /// Pointer to CFITSIO FITS file struct
+    fitsfile *fptr { nullptr };
 
-    int data_type;                  // FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
-    int channels;                   // Number of channels
-    uint8_t *imageBuffer = nullptr; // Generic data image buffer
+    /// FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
+    int data_type { 0 };
+    /// Number of channels
+    int channels { 1 };
+    /// Generic data image buffer
+    uint8_t *imageBuffer { nullptr };
 
-    bool tempFile;          // Is this a tempoprary file or one loaded from disk?
-    bool starsSearched;     // Did we search for stars yet?
-    bool HasWCS    = false; // Do we have WCS keywords in this FITS data?
-    bool WCSLoaded = false; // Is WCS data loaded?
-    bool markStars;         // Do we need to mark stars for the user?
-    bool HasDebayer;        // Is the image debayarable?
+    /// Is this a tempoprary file or one loaded from disk?
+    bool tempFile { false };
+    /// Did we search for stars yet?
+    bool starsSearched { false };
+    /// Do we have WCS keywords in this FITS data?
+    bool HasWCS { false };
+    /// Is WCS data loaded?
+    bool WCSLoaded { false };
+    /// Do we need to mark stars for the user?
+    bool markStars { false };
+    /// Is the image debayarable?
+    bool HasDebayer { false };
 
-    QString filename; // Our very own file name
-    FITSMode mode;    // FITS Mode (Normal, WCS, Guide, Focus..etc)
+    /// Our very own file name
+    QString filename;
+    /// FITS Mode (Normal, WCS, Guide, Focus..etc)
+    FITSMode mode;
 
-    int rotCounter;   // How many times the image was rotated? Useful for WCS keywords rotation on save.
-    int flipHCounter; // How many times the image was flipped horizontally?
-    int flipVCounter; // How many times the image was flipped vertically?
+    /// How many times the image was rotated? Useful for WCS keywords rotation on save.
+    int rotCounter { 0 };
+    /// How many times the image was flipped horizontally?
+    int flipHCounter { 0 };
+    /// How many times the image was flipped vertically?
+    int flipVCounter { 0 };
 
-    wcs_point *wcs_coord;      // Pointer to WCS coordinate data, if any.
-    struct wcsprm *wcs = 0;    // WCS Struct
-    QList<Edge *> starCenters; // All the stars we detected, if any.
-    Edge *maxHFRStar;          // The biggest fattest star in the image.
+    /// Pointer to WCS coordinate data, if any.
+    wcs_point *wcs_coord { nullptr };
+    /// WCS Struct
+    struct wcsprm *wcs { nullptr };
+    /// All the stars we detected, if any.
+    QList<Edge *> starCenters;
+    /// The biggest fattest star in the image.
+    Edge *maxHFRStar { nullptr };
 
-    uint8_t *bayerBuffer = nullptr;
-    BayerParams debayerParams; // Bayer parameters
+    uint8_t *bayerBuffer { nullptr };
+    /// Bayer parameters
+    BayerParams debayerParams;
 
-    /* stats struct to hold statisical data about the FITS data */
+    /// Stats struct to hold statisical data about the FITS data
     struct
     {
         double min[3], max[3];
         double mean[3];
         double stddev[3];
         double median[3];
-        double SNR;
-        int bitpix;
-        int bytesPerPixel;
-        int ndim;
-        uint32_t samples_per_channel;
-        uint16_t width;
-        uint16_t height;
+        double SNR { 0 };
+        int bitpix { 8 };
+        int bytesPerPixel { 1 };
+        int ndim { 2 };
+        uint32_t samples_per_channel { 0 };
+        uint16_t width { 0 };
+        uint16_t height { 0 };
     } stats;
 
-    // Remove temproray files after closing
-    bool autoRemoveTemporaryFITS = true;
+    /// Remove temproray files after closing
+    bool autoRemoveTemporaryFITS { true };
 
     QString lastError;
 };

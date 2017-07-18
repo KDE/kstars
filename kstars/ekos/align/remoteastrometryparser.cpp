@@ -7,28 +7,23 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <QDir>
+#include "remoteastrometryparser.h"
 
-#include <KMessageBox>
-#include <KLocalizedString>
+#include "align.h"
 #include "Options.h"
-
-#include <basedevice.h>
-#include <indicom.h>
-
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
 #include "indi/guimanager.h"
 #include "indi/indidevice.h"
 
-#include "remoteastrometryparser.h"
-#include "align.h"
+#include <indicom.h>
+
+#include <KMessageBox>
 
 namespace Ekos
 {
 RemoteAstrometryParser::RemoteAstrometryParser() : AstrometryParser()
 {
-    solverRunning = false;
 }
 
 RemoteAstrometryParser::~RemoteAstrometryParser()

@@ -7,21 +7,15 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <QtNetwork/QNetworkReply>
-#include <QtNetwork/QNetworkRequest>
-#include <QUrl>
-#include <QVariantMap>
-#include <QDebug>
-#include <QHttpMultiPart>
-#include <QFile>
-#include <QJsonObject>
-#include <QJsonDocument>
+#include "phd2.h"
+
+#include "Options.h"
 
 #include <KMessageBox>
-#include <KLocalizedString>
 
-#include "phd2.h"
-#include "Options.h"
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QtNetwork/QNetworkReply>
 
 namespace Ekos
 {
@@ -32,11 +26,6 @@ PHD2::PHD2()
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readPHD2()));
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this,
             SLOT(displayError(QAbstractSocket::SocketError)));
-
-    methodID   = 1;
-    state      = STOPPED;
-    connection = DISCONNECTED;
-    event      = Alert;
 
     events["Version"]                 = Version;
     events["LockPositionSet"]         = LockPositionSet;

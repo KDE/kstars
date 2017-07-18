@@ -15,13 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TESTCSVPARSER_H
-#define TESTCSVPARSER_H
-
-#include <QtTest/QtTest>
+#pragma once
 
 #include "ksparser.h"
-#include "ksfilereader.h"
+
+#include <QtTest/QtTest>
 
 class TestCSVParser : public QObject
 {
@@ -29,6 +27,7 @@ class TestCSVParser : public QObject
   public:
     TestCSVParser();
     ~TestCSVParser();
+
   private slots:
     void initTestCase();
     void cleanupTestCase();
@@ -45,5 +44,3 @@ class TestCSVParser : public QObject
     QString test_file_name_;
     KSParser *test_parser_;
 };
-
-#endif // TESTKSPARSER_H

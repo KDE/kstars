@@ -15,18 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSFILEREADER_H
-#define KSFILEREADER_H
+#pragma once
 
 #include <QFile>
 #include <QObject>
 #include <QTextStream>
-#include <QStandardPaths>
 
-//class QFile;
 class QString;
 
-/** @class KSFileReader
+/**
+ * @class KSFileReader
  * I totally rewrote this because the earlier scheme of reading all the lines of
  * a file into a buffer before processing is actually extremely inefficient
  * because it makes it impossible to interleave file reading and data processing
@@ -68,72 +66,78 @@ class KSFileReader : public QObject, public QTextStream
     Q_OBJECT
 
   public:
-    /** @short this is the preferred constructor.  You can then use
-         * the open() method to let this class open the file for you.
-         */
+    /**
+     * @short this is the preferred constructor.  You can then use
+     * the open() method to let this class open the file for you.
+     */
     explicit KSFileReader(qint64 maxLen = 1024);
 
-    /*Constructor.
-            * @param file is a previously opened (for reading) file.
-            * @param maxLen sets the maximum line length before wrapping.  Setting
-            * this parameter should help efficiency.  The little max-length.pl
-            * script will tell you the maximum line length of files.
-            */
+    /**
+     * Constructor
+     * @param file is a previously opened (for reading) file.
+     * @param maxLen sets the maximum line length before wrapping.  Setting
+     * this parameter should help efficiency.  The little max-length.pl
+     * script will tell you the maximum line length of files.
+     */
     explicit KSFileReader(QFile &file, qint64 maxLen = 1024);
 
-    /** @short opens the file fname from the QStandardPaths::GenericDataLocation directory and uses that
-         * file for the QTextStream.
-         *
-         * @param fname the name of the file to open
-         * @return returns true on success.  Prints an error message and returns
-         * false on failure.
-         */
+    /**
+     * @short opens the file fname from the QStandardPaths::GenericDataLocation directory and uses that
+     * file for the QTextStream.
+     *
+     * @param fname the name of the file to open
+     * @return returns true on success.  Prints an error message and returns
+     * false on failure.
+     */
     bool open(const QString &fname);
 
-    /** @short opens the file with full path fname and uses that
-         * file for the QTextStream. open() locates QStandardPaths::GenericDataLocation behind the scenes,
-         * so passing fname such that
-         * QString fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "file_name" );
-         * is equivalent
-         *
-         * @param fname full path to directory + name of the file to open
-         * @return returns true on success.  Prints an error message and returns
-         * false on failure.
-         */
+    /**
+     * @short opens the file with full path fname and uses that
+     * file for the QTextStream. open() locates QStandardPaths::GenericDataLocation behind the scenes,
+     * so passing fname such that
+     * QString fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "file_name" );
+     * is equivalent
+     *
+     * @param fname full path to directory + name of the file to open
+     * @return returns true on success.  Prints an error message and returns
+     * false on failure.
+     */
     bool openFullPath(const QString &fname);
 
-    /** @return true if we are not yet at the end of the file.
-         * (I added this to be compatible with existing code.)
-         */
+    /**
+     * @return true if we are not yet at the end of the file.
+     * (I added this to be compatible with existing code.)
+     */
     bool hasMoreLines() const { return !QTextStream::atEnd(); }
 
-    /** @short increments the line number and returns the next line from the
-         * file as a QString.
-         */
+    /**
+     * @short increments the line number and returns the next line from the file as a QString.
+     */
     inline QString readLine()
     {
         m_curLine++;
         return QTextStream::readLine(m_maxLen);
     }
 
-    /** @short returns the current line number
-         */
+    /** @short returns the current line number */
     int lineNumber() const { return m_curLine; }
 
-    /** @short Prepares this instance to emit progress reports on how much
-         * of the file has been read (in percent).
-         * @param totalLines the number of lines to be read
-         * @param numUpdates the number of progress reports to send
-         */
+    /**
+     * @short Prepares this instance to emit progress reports on how much
+     * of the file has been read (in percent).
+     * @param totalLines the number of lines to be read
+     * @param numUpdates the number of progress reports to send
+     */
     void setProgress(QString label, unsigned int lastLine, unsigned int numUpdates = 10);
 
-    /** @short emits progress reports when required and updates bookkeeping
-         * for when to send the next report.  This might seem slow at first
-         * glance but almost all the time we are just doing an integer compare
-         * and returning.  If you are worried about speed we can inline it.
-         * It could also safely be included in the readLine() method since
-         * m_targetLine is set to MAXUINT in the constructor.
-         */
+    /**
+     * @short emits progress reports when required and updates bookkeeping
+     * for when to send the next report.  This might seem slow at first
+     * glance but almost all the time we are just doing an integer compare
+     * and returning.  If you are worried about speed we can inline it.
+     * It could also safely be included in the readLine() method since
+     * m_targetLine is set to MAXUINT in the constructor.
+     */
     void showProgress();
 
   signals:
@@ -142,12 +146,10 @@ class KSFileReader : public QObject, public QTextStream
   private:
     QFile m_file;
     qint64 m_maxLen;
-    unsigned int m_curLine;
+    unsigned int m_curLine { 0 };
 
-    unsigned int m_totalLines;
-    unsigned int m_targetLine;
-    unsigned int m_targetIncrement;
+    unsigned int m_totalLines { 0 };
+    unsigned int m_targetLine { UINT_MAX };
+    unsigned int m_targetIncrement { 0 };
     QString m_label;
 };
-
-#endif

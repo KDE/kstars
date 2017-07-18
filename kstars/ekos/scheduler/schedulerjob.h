@@ -7,14 +7,15 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef SchedulerJob_H
-#define SchedulerJob_H
+#pragma once
+
+#include "skypoint.h"
 
 #include <QUrl>
-#include <QTableWidgetItem>
 
-#include "dms.h"
-#include "skypoint.h"
+class QTableWidgetItem;
+
+class dms;
 
 class SchedulerJob
 {
@@ -49,9 +50,11 @@ class SchedulerJob
         STAGE_CAPTURING,
         STAGE_COMPLETE
     } JOBStage;
-    //typedef enum { FITS_IDLE, FITS_SOLVING, FITS_COMPLETE, FITS_ERROR } FITSStatus;
+
     typedef enum { START_ASAP, START_CULMINATION, START_AT } StartupCondition;
+
     typedef enum { FINISH_SEQUENCE, FINISH_REPEAT, FINISH_LOOP, FINISH_AT } CompletionCondition;
+
     typedef enum {
         USE_NONE  = 0,
         USE_TRACK = 1 << 0,
@@ -63,7 +66,7 @@ class SchedulerJob
     QString getName() const;
     void setName(const QString &value);
 
-    void setTargetCoords(dms ra, dms dec);
+    void setTargetCoords(dms& ra, dms& dec);
     SkyPoint &getTargetCoords();
 
     StartupCondition getStartupCondition() const;
@@ -121,9 +124,6 @@ class SchedulerJob
     int64_t getEstimatedTime() const;
     void setEstimatedTime(const int64_t &value);
 
-    bool getTimeSlotAllocated() const;
-    void setTimeSlotAllocated(bool value);
-
     bool getInSequenceFocus() const;
     void setInSequenceFocus(bool value);
 
@@ -151,13 +151,12 @@ class SchedulerJob
   private:
     QString name;
     SkyPoint targetCoords;
-    JOBStatus state;
-
-    JOBStage stage;
+    JOBStatus state { JOB_IDLE };
+    JOBStage stage { STAGE_IDLE };
 
     StartupCondition fileStartupCondition;
-    StartupCondition startupCondition;
-    CompletionCondition completionCondition;
+    StartupCondition startupCondition { START_ASAP };
+    CompletionCondition completionCondition { FINISH_SEQUENCE };
 
     QDateTime startupTime;
     QDateTime completionTime;
@@ -165,28 +164,28 @@ class SchedulerJob
     QUrl sequenceFile;
     QUrl fitsFile;
 
-    double minAltitude;
-    double minMoonSeparation;
+    double minAltitude { -1 };
+    double minMoonSeparation { -1 };
 
-    bool enforceWeather;
-    bool enforceTwilight;
+    bool enforceWeather { false };
+    bool enforceTwilight { false };
 
-    StepPipeline stepPipeline;
+    StepPipeline stepPipeline { USE_NONE };
 
-    QTableWidgetItem *statusCell, *startupCell, *estimatedTimeCell;
+    QTableWidgetItem *statusCell { nullptr };
+    QTableWidgetItem *startupCell { nullptr };
+    QTableWidgetItem *estimatedTimeCell { nullptr };
 
-    int score;
-    int16_t culminationOffset;
-    uint8_t priority;
-    int64_t estimatedTime;
-    uint16_t repeatsRequired = 0, repeatsRemaining = 0;
-    bool timeSlotAllocated;
-    bool inSequenceFocus;
+    int score { 0 };
+    int16_t culminationOffset { 0 };
+    uint8_t priority { 10 };
+    int64_t estimatedTime { -1 };
+    uint16_t repeatsRequired { 0 };
+    uint16_t repeatsRemaining { 0 };
+    bool inSequenceFocus { false };
 
     QString dateTimeDisplayFormat;
     QString profile;
 
-    bool lightFramesRequired = false;
+    bool lightFramesRequired { false };
 };
-
-#endif // SchedulerJob_H

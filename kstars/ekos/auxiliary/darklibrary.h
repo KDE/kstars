@@ -7,20 +7,21 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef DARKLIBRARY_H
-#define DARKLIBRARY_H
+#pragma once
+
+#include "indi/indiccd.h"
 
 #include <QObject>
-#include "indi/indiccd.h"
 
 namespace Ekos
 {
 /**
- *@class DarkLibrary
- *@short Handles aquisition & loading of dark frames for cameras. If a suitable dark frame exists, it is loaded from disk, otherwise it gets captured and saved
+ * @class DarkLibrary
+ * @short Handles aquisition & loading of dark frames for cameras. If a suitable dark frame exists, it is loaded from disk, otherwise it gets captured and saved
  * for later use.
- *@author Jasem Mutlaq
- *@version 1.0
+ *
+ * @author Jasem Mutlaq
+ * @version 1.0
  */
 class DarkLibrary : public QObject
 {
@@ -42,14 +43,15 @@ class DarkLibrary : public QObject
 
   public slots:
     /**
-         * @brief newFITS A new FITS blob is received by the CCD driver.
-         * @param bp pointer to blob data
-         */
+     * @brief newFITS A new FITS blob is received by the CCD driver.
+     * @param bp pointer to blob data
+     */
     void newFITS(IBLOB *bp);
 
   private:
-    DarkLibrary(QObject *parent);
+    explicit DarkLibrary(QObject *parent);
     ~DarkLibrary();
+
     static DarkLibrary *_DarkLibrary;
 
     bool loadDarkFile(const QString &filename);
@@ -63,14 +65,12 @@ class DarkLibrary : public QObject
 
     struct
     {
-        ISD::CCDChip *targetChip;
-        double duration;
-        uint16_t offsetX;
-        uint16_t offsetY;
-        FITSView *targetImage;
+        ISD::CCDChip *targetChip { nullptr };
+        double duration { 0 };
+        uint16_t offsetX { 0 };
+        uint16_t offsetY { 0 };
+        FITSView *targetImage { nullptr };
         FITSScale filter;
     } subtractParams;
 };
 }
-
-#endif // DARKLIBRARY_H

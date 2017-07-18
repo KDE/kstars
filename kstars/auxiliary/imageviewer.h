@@ -15,20 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef IMAGEVIEWER_H_
-#define IMAGEVIEWER_H_
-
-#include <QFrame>
-#include <QFile>
-#include <QImage>
-#include <QPixmap>
-
-//#include <kio/job.h>
-#include <QDialog>
+#pragma once
 
 #include "auxiliary/filedownloader.h"
 
-class QUrl;
+#include <QDialog>
+#include <QFile>
+#include <QFrame>
+#include <QImage>
+#include <QPixmap>
+#include <QUrl>
+
 class QLabel;
 
 class ImageLabel : public QFrame
@@ -49,7 +46,8 @@ class ImageLabel : public QFrame
     QPixmap pix;
 };
 
-/** @class ImageViewer
+/**
+ * @class ImageViewer
  * @short Image viewer window for KStars
  * @author Thomas Kabelmann
  * @author Jasem Mutlaq
@@ -71,29 +69,31 @@ class ImageViewer : public QDialog
 
   public:
     /** Creates empty viewer. */
-    ImageViewer(const QString &caption, QWidget *parent = 0);
+    ImageViewer(const QString &caption, QWidget *parent = nullptr);
 
     /** Create image viewer from URL with caption */
-    ImageViewer(const QUrl &imageURL, const QString &capText = QString(), QWidget *parent = 0);
+    ImageViewer(const QUrl &imageURL, const QString &capText = QString(), QWidget *parent = nullptr);
 
     /** Destructor. If there is a partially downloaded image file, delete it.*/
     ~ImageViewer();
 
     /**
-         * @brief loadImage Load image from local file and display it
-         * @param filename path to local image
-         * @return True if opened and displayed, false otherwise
-         */
+     * @brief loadImage Load image from local file and display it
+     * @param filename path to local image
+     * @return True if opened and displayed, false otherwise
+     */
     bool loadImage(const QString &filename);
 
   private:
-    /** Display the downloaded image.  Resize the window to fit the image,  If the image is
-         * larger than the screen, make the image as large as possible while preserving the
-         * original aspect ratio */
+    /**
+     * Display the downloaded image.  Resize the window to fit the image,  If the image is
+     * larger than the screen, make the image as large as possible while preserving the
+     * original aspect ratio
+     */
     bool showImage();
 
     /** Download the image file pointed to by the URL string. */
-    void loadImageFromURL(void);
+    void loadImageFromURL();
 
     /** Save the downloaded image to a local file. */
     void saveFile(QUrl &url);
@@ -101,13 +101,13 @@ class ImageViewer : public QDialog
     QFile file;
 
     const QUrl m_ImageUrl;
-    bool fileIsImage;
+    bool fileIsImage { false };
     QString filename;
 
     FileDownloader downloadJob;
 
-    ImageLabel *m_View;
-    QLabel *m_Caption;
+    ImageLabel *m_View { nullptr };
+    QLabel *m_Caption { nullptr };
 
     // Share among image viewers
     static QUrl lastURL;
@@ -127,5 +127,3 @@ class ImageViewer : public QDialog
     /** Inverts colors **/
     void invertColors();
 };
-
-#endif

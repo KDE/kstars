@@ -27,7 +27,6 @@ class BinFileHelper;
 
 BinFileHelper::BinFileHelper()
 {
-    fileHandle = nullptr;
     init();
 }
 
@@ -52,6 +51,13 @@ void BinFileHelper::init()
     byteswap        = false;
     errnum          = ERR_NULL;
     recordCount     = 0;
+    recordSize      = 0;
+    nfields         = 0;
+    indexSize       = 0;
+    itableOffset    = 0;
+    dataOffset      = 0;
+    recordCount     = 0;
+    versionNumber   = 0;
 }
 
 void BinFileHelper::clearFields()
@@ -106,7 +112,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
 
     // Read the first 124 bytes of the binary file which contains a general text about the binary data.
     // e.g. "KStars Star Data v1.0. To be read using the 32-bit starData structure only"
-    ret = fread(ASCII_text, 124, 1, fileHandle);
+    ret = fread(ASCII_text, 124, 1, fileHandle); // cppcheck-suppress redundantAssignment
     ASCII_text[124] = '\0';
     headerText      = ASCII_text;
 
@@ -114,17 +120,17 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
     // Therefore, in the binary file it is written as 53 4B (little endian as least significant byte is stored first),
     // and when read on a little endian machine then it results in 0x4B53 (least significant byte is stored first in memory),
     // whereas a big endian machine would read it as 0x534B (most significant byte is stored first in memory).
-    ret = fread(&endian_id, 2, 1, fileHandle);
+    ret = fread(&endian_id, 2, 1, fileHandle); // cppcheck-suppress redundantAssignment
     if (endian_id != 0x4B53)
         byteswap = 1;
     else
         byteswap = 0;
 
-    ret = fread(&versionNumber, 1, 1, fileHandle);
+    ret = fread(&versionNumber, 1, 1, fileHandle); // cppcheck-suppress redundantAssignment
 
     preambleUpdated = true;
     // Read the field descriptor table
-    ret = fread(&nfields, 2, 1, fileHandle);
+    ret = fread(&nfields, 2, 1, fileHandle); // cppcheck-suppress redundantAssignment
     if (byteswap)
         nfields = bswap_16(nfields);
 
@@ -158,7 +164,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
     FDUpdated = true;
 
     // Read the index table
-    ret = fread(&indexSize, 4, 1, fileHandle);
+    ret = fread(&indexSize, 4, 1, fileHandle); // cppcheck-suppress redundantAssignment
     if (byteswap)
         indexSize = bswap_32(indexSize);
 

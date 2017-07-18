@@ -15,13 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSDSSIMAGE_H
-#define KSDSSIMAGE_H
+#pragma once
 
 #include "dms.h"
 
-#include <QString>
 #include <QImage>
+#include <QString>
 
 /**
  * @class KSDssImage
@@ -32,41 +31,40 @@
 class KSDssImage
 {
   public:
-    /**
-         * @short Constructor
-         */
-    KSDssImage(const QString &fileName);
+    /** @short Constructor */
+    explicit KSDssImage(const QString &fileName);
 
     /**
-         * @struct KSDssImage::Metadata
-         * @short Structure to hold some DSS image metadata
-         *
-         * @note Some fields in the structure are redundant. The methods
-         * that fill this structure must be designed to fill in the
-         * redundancies correctly!
-         *
-         */
+     * @struct KSDssImage::Metadata
+     * @short Structure to hold some DSS image metadata
+     *
+     * @note Some fields in the structure are redundant. The methods
+     * that fill this structure must be designed to fill in the
+     * redundancies correctly!
+     *
+     */
     struct Metadata
     {
         /**
-             * @enum KSDssImage::Metadata::Source
-             * @short Contains possible sources for digitized sky-survey images
-             */
+         * @enum KSDssImage::Metadata::Source
+         * @short Contains possible sources for digitized sky-survey images
+         */
         enum Source
         {
             DSS                   = 0,
             SDSS                  = 1,
             GenericInternetSource = 2
         };
+
         /**
-             * @enum KSDssImage::Metadata::FileFormat
-             * @short Contains possible file formats for images
-             *
-             * @note Although DSS website provides us GIF, we may convert
-             * to PNG to incorporate metadata, since by default Qt has no
-             * write support for GIF. Besides, PNG compresses better.
-             *
-             */
+         * @enum KSDssImage::Metadata::FileFormat
+         * @short Contains possible file formats for images
+         *
+         * @note Although DSS website provides us GIF, we may convert
+         * to PNG to incorporate metadata, since by default Qt has no
+         * write support for GIF. Besides, PNG compresses better.
+         *
+         */
         enum FileFormat
         {
             FITS = 0,
@@ -105,5 +103,3 @@ class KSDssImage
     QImage m_Image;
     Metadata m_Metadata;
 };
-
-#endif

@@ -7,13 +7,12 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef PHD2_H
-#define PHD2_H
+#pragma once
+
+#include "../guideinterface.h"
 
 #include <QAbstractSocket>
 #include <QJsonArray>
-
-#include "../guideinterface.h"
 
 class QTcpSocket;
 
@@ -108,15 +107,13 @@ class PHD2 : public GuideInterface
     void processPHD2State(const QString &phd2State);
     void processPHD2Error(const QJsonObject &jsonError);
 
-    QTcpSocket *tcpSocket;
-    qint64 methodID;
+    QTcpSocket *tcpSocket { nullptr };
+    qint64 methodID { 1 };
 
     QHash<QString, PHD2Event> events;
 
-    PHD2State state;
-    PHD2Connection connection;
-    PHD2Event event;
+    PHD2State state { STOPPED };
+    PHD2Connection connection { DISCONNECTED };
+    PHD2Event event { Alert };
 };
 }
-
-#endif // PHD2_H

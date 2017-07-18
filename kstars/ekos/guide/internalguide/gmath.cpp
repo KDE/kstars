@@ -19,6 +19,7 @@
 #include "vect.h"
 #include "matr.h"
 
+#include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 #include "imageautoguiding.h"
 

@@ -7,23 +7,17 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <KMessageBox>
-#include <KDirWatch>
-#include <KLocalizedString>
-#include <KNotifications/KNotification>
-
 #include "sequencejob.h"
-#include "Options.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "Options.h"
 
-#include "ui_calibrationoptions.h"
+#include <KNotifications/KNotification>
 
 #define INVALID_VALUE       -1e6
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4
-#define MAX_CAPTURE_RETRIES 3
 
 namespace Ekos
 {
@@ -31,33 +25,8 @@ SequenceJob::SequenceJob()
 {
     statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted")
                                   << i18n("Complete");
-    status   = JOB_IDLE;
-    exposure = count = delay = targetFilter = isoIndex = gain = -1;
-    frameType = FRAME_LIGHT;
     currentTemperature = targetTemperature = INVALID_VALUE;
-    captureFilter = FITS_NONE;
-    preview = false;
-    prepareReady = true;
-    enforceTemperature = false;
-    activeChip = nullptr;
-    activeCCD = nullptr;
-    activeFilter = nullptr;
-    statusCell = nullptr;
-    completed = 0;
-    captureRetires = 0;
     targetRotation = currentRotation = INVALID_VALUE;
-
-    calibrationSettings.flatFieldSource    = SOURCE_MANUAL;
-    calibrationSettings.flatFieldDuration  = DURATION_MANUAL;
-    calibrationSettings.targetADU          = 0;
-    calibrationSettings.targetADUTolerance = 250;
-    calibrationSettings.preMountPark       = false;
-    calibrationSettings.preDomePark        = false;
-
-    typePrefixEnabled      = false;
-    filterPrefixEnabled    = false;
-    expPrefixEnabled       = false;
-    timeStampPrefixEnabled = false;
 
     prepareActions[ACTION_FILTER] = true;
     prepareActions[ACTION_TEMPERATURE] = true;
@@ -173,6 +142,7 @@ void SequenceJob::prepareCapture()
 void SequenceJob::setAllActionsReady()
 {
     QMutableMapIterator<PrepareActions, bool> i(prepareActions);
+
     while (i.hasNext())
     {
         i.next();

@@ -7,35 +7,27 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef FOCUS_H
-#define FOCUS_H
+#pragma once
+
+#include "ui_focus.h"
+#include "ekos/ekos.h"
+#include "fitsviewer/fitsviewer.h"
+#include "indi/indiccd.h"
+#include "indi/indifocuser.h"
+#include "indi/indistd.h"
+#include "indi/inditelescope.h"
+#include "oal/filter.h"
 
 #include <QtDBus/QtDBus>
 
-#include "ekos/ekos.h"
-#include "focus.h"
-
-#include "oal/filter.h"
-#include "ui_focus.h"
-
-#include "indi/indistd.h"
-#include "indi/indifocuser.h"
-#include "indi/indiccd.h"
-#include "indi/inditelescope.h"
-
 namespace Ekos
 {
-struct HFRPoint
-{
-    int pos;
-    double HFR;
-};
-
 /**
- *@class Focus
- *@short Supports manual focusing and auto focusing using relative and absolute INDI focusers.
- *@author Jasem Mutlaq
- *@version 1.2
+ * @class Focus
+ * @short Supports manual focusing and auto focusing using relative and absolute INDI focusers.
+ *
+ * @author Jasem Mutlaq
+ * @version 1.2
  */
 class Focus : public QWidget, public Ui::Focus
 {
@@ -359,130 +351,136 @@ class Focus : public QWidget, public Ui::Focus
     static double fn1(double x, void *params);
 
     /**
-         * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
-         */
+     * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
+     */
     void syncTrackingBoxPosition();
 
-    // Devices needed for Focus operation
-    ISD::Focuser *currentFocuser;
-    ISD::CCD *currentCCD;
+    /// Focuser device needed for focus operation
+    ISD::Focuser *currentFocuser { nullptr };
+    /// CCD device needed for focus operation
+    ISD::CCD *currentCCD { nullptr };
 
-    // Optional device filter
-    ISD::GDInterface *currentFilter;
-    // Current filter position
-    int currentFilterIndex;
-    // True if we need to change filter position and wait for result before continuing capture
-    bool filterPositionPending;
+    /// Optional device filter
+    ISD::GDInterface *currentFilter { nullptr };
+    /// Current filter position
+    int currentFilterIndex { -1 };
+    /// True if we need to change filter position and wait for result before continuing capture
+    bool filterPositionPending { false };
 
-    // List of Focusers
+    /// List of Focusers
     QList<ISD::Focuser *> Focusers;
-    // List of CCDs
+    /// List of CCDs
     QList<ISD::CCD *> CCDs;
-    // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
+    /// They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
     QList<ISD::GDInterface *> Filters;
 
-    // As the name implies
-    FocusDirection lastFocusDirection;
-    // What type of focusing are we doing right now?
-    FocusType focusType;
-    // Focus HFR & Centeroid algorithms
-    StarAlgorithm focusDetection = ALGORITHM_GRADIENT;
-    // Focus Process Algorithm
-    FocusAlgorithm focusAlgorithm = FOCUS_ITERATIVE;
+    /// As the name implies
+    FocusDirection lastFocusDirection { FOCUS_NONE };
+    /// What type of focusing are we doing right now?
+    FocusType focusType { FOCUS_MANUAL };
+    /// Focus HFR & Centeroid algorithms
+    StarAlgorithm focusDetection { ALGORITHM_GRADIENT };
+    /// Focus Process Algorithm
+    FocusAlgorithm focusAlgorithm { FOCUS_ITERATIVE };
 
     /*********************
-        * HFR Club variables
-        *********************/
+     * HFR Club variables
+     *********************/
 
-    // Current HFR value just fetched from FITS file
-    double currentHFR;
-    // Last HFR value recorded
-    double lastHFR;
-    // If (currentHFR > deltaHFR) we start the autofocus process.
-    double minimumRequiredHFR;
-    // Maximum HFR recorded
-    double maxHFR;
-    // Is HFR increasing? We're going away from the sweet spot! If HFRInc=1, we re-capture just to make sure HFR calculations are correct, if HFRInc > 1, we switch directions
-    int HFRInc;
-    // If HFR decreasing? Well, good job. Once HFR start decreasing, we can start calculating HFR slope and estimating our next move.
-    int HFRDec;
-
-    /****************************
-        * Absolute position focusers
-        ****************************/
-    // Absolute focus position
-    double currentPosition;
-    // What was our position before we started the focus process?
-    int initialFocuserAbsPosition;
-    // Pulse duration in ms for relative focusers that only support timers, or the number of ticks in a relative or absolute focuser
-    int pulseDuration;
-    // Does the focuser support absolute motion?
-    bool canAbsMove;
-    // Does the focuser support relative motion?
-    bool canRelMove;
-    // Does the focuser support timer-based motion?
-    bool canTimerMove;
-    // Range of motion for our lovely absolute focuser
-    double absMotionMax, absMotionMin;
-    // How many iterations have we completed now in our absolute autofocus algorithm? We can't go forever
-    int absIterations;
+    /// Current HFR value just fetched from FITS file
+    double currentHFR { 0 };
+    /// Last HFR value recorded
+    double lastHFR { 0 };
+    /// If (currentHFR > deltaHFR) we start the autofocus process.
+    double minimumRequiredHFR { -1 };
+    /// Maximum HFR recorded
+    double maxHFR { 1 };
+    /// Is HFR increasing? We're going away from the sweet spot! If HFRInc=1, we re-capture just to make sure HFR calculations are correct, if HFRInc > 1, we switch directions
+    int HFRInc { 0 };
+    /// If HFR decreasing? Well, good job. Once HFR start decreasing, we can start calculating HFR slope and estimating our next move.
+    int HFRDec { 0 };
 
     /****************************
-        * Misc. variables
-        ****************************/
+     * Absolute position focusers
+     ****************************/
+    /// Absolute focus position
+    double currentPosition { 0 };
+    /// What was our position before we started the focus process?
+    int initialFocuserAbsPosition { -1 };
+    /// Pulse duration in ms for relative focusers that only support timers, or the number of ticks in a relative or absolute focuser
+    int pulseDuration { 1000 };
+    /// Does the focuser support absolute motion?
+    bool canAbsMove { false };
+    /// Does the focuser support relative motion?
+    bool canRelMove { false };
+    /// Does the focuser support timer-based motion?
+    bool canTimerMove { false };
+    /// Maximum range of motion for our lovely absolute focuser
+    double absMotionMax { 0 };
+    /// Minimum range of motion for our lovely absolute focuser
+    double absMotionMin { 0 };
+    /// How many iterations have we completed now in our absolute autofocus algorithm? We can't go forever
+    int absIterations { 0 };
 
-    // Are we in the process of capturing an image?
-    bool captureInProgress;
+    /****************************
+     * Misc. variables
+     ****************************/
+
+    /// Are we in the process of capturing an image?
+    bool captureInProgress { false };
     // Was the frame modified by us? Better keep track since we need to return it to its previous state once we are done with the focus operation.
     //bool frameModified;
-    // Was the modified frame subFramed?
-    bool subFramed;
-    // If the autofocus process fails, let's not ruin the capture session probably taking place in the next tab. Instead, we should restart it and try again, but we keep count until we hit MAXIMUM_RESET_ITERATIONS
-    // and then we truly give up.
-    int resetFocusIteration;
-    // Which filter must we use once the autofocus process kicks in?
-    int lockedFilterIndex;
-    // Keep track of what we're doing right now
-    bool inAutoFocus, inFocusLoop, inSequenceFocus, m_autoFocusSuccesful, resetFocus;
-    // Did we reverse direction?
-    bool reverseDir;
-    // Did the user or the auto selection process finish selecting our focus star?
-    bool starSelected;
-    // Adjust the focus position to a target value
-    bool adjustFocus = false;
+    /// Was the modified frame subFramed?
+    bool subFramed { false };
+    /// If the autofocus process fails, let's not ruin the capture session probably taking place in the next tab. Instead, we should restart it and try again, but we keep count until we hit MAXIMUM_RESET_ITERATIONS
+    /// and then we truly give up.
+    int resetFocusIteration { 0 };
+    /// Which filter must we use once the autofocus process kicks in?
+    int lockedFilterIndex { -1 };
+    /// Keep track of what we're doing right now
+    bool inAutoFocus { false };
+    bool inFocusLoop { false };
+    bool inSequenceFocus { false };
+    bool resetFocus { false };
+    /// Did we reverse direction?
+    bool reverseDir { false };
+    /// Did the user or the auto selection process finish selecting our focus star?
+    bool starSelected { false };
+    /// Adjust the focus position to a target value
+    bool adjustFocus { false };
     // Target frame dimensions
     //int fx,fy,fw,fh;
-    // Origianl frame dimensions
-    //int orig_x, orig_y, orig_w, orig_h;
-    // If HFR=-1 which means no stars detected, we need to decide how many times should the re-capture process take place before we give up or reverse direction.
-    int noStarCount;
-    // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
-    ISD::CCD::UploadMode rememberUploadMode;
-    // Previous binning setting
-    int activeBin;
-    // HFR values for captured frames before averages
+    /// If HFR=-1 which means no stars detected, we need to decide how many times should the re-capture process take place before we give up or reverse direction.
+    int noStarCount { 0 };
+    /// Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
+    ISD::CCD::UploadMode rememberUploadMode { ISD::CCD::UPLOAD_CLIENT };
+    /// Previous binning setting
+    int activeBin { 0 };
+    /// HFR values for captured frames before averages
     QVector<double> HFRFrames;
 
     QStringList logText;
-    ITextVectorProperty *filterName;
-    INumberVectorProperty *filterSlot;
+    ITextVectorProperty *filterName { nullptr };
+    INumberVectorProperty *filterSlot { nullptr };
 
     /****************************
-        * Plot variables
-        ****************************/
+     * Plot variables
+     ****************************/
 
-    // Plot minimum and maximum positions
-    int minPos, maxPos;
-    // List of V curve plot points
-    // Custom Plot object
-    QCustomPlot *customPlot;
-    // V-Curve graph
-    QCPGraph *v_graph;
+    /// Plot minimum positions
+    double minPos { 1e6 };
+    /// Plot maximum positions
+    double maxPos { 0 };
+    /// List of V curve plot points
+    /// V-Curve graph
+    QCPGraph *v_graph { nullptr };
 
     // Last gaussian fit values
-    QVector<double> firstGausIndexes, lastGausIndexes;
-    QVector<double> firstGausFrequencies, lastGausFrequencies;
-    QCPGraph *currentGaus, *firstGaus, *lastGaus;
+    QVector<double> lastGausIndexes;
+    QVector<double> lastGausFrequencies;
+    QCPGraph *currentGaus { nullptr };
+    QCPGraph *firstGaus { nullptr };
+    QCPGraph *lastGaus { nullptr };
 
     QVector<double> hfr_position, hfr_value;
 
@@ -490,41 +488,39 @@ class Focus : public QWidget, public Ui::Focus
     QPixmap starPixmap;
     QPixmap profilePixmap;
 
-    // State
-    Ekos::FocusState state;
+    /// State
+    Ekos::FocusState state { Ekos::FOCUS_IDLE };
 
-    // FITS Scale
+    /// FITS Scale
     FITSScale defaultScale;
 
-    // CCD Chip frame settings
+    /// CCD Chip frame settings
     QMap<ISD::CCDChip *, QVariantMap> frameSettings;
 
-    // Selected star coordinates
+    /// Selected star coordinates
     QVector3D starCenter;
 
-    // Focus Frame
-    FITSView *focusView;
+    /// Focus Frame
+    FITSView *focusView { nullptr };
 
-    // Star Select Timer
+    /// Star Select Timer
     QTimer waitStarSelectTimer;
 
-    // FITS Viewer in case user want to display in it instead of internal view
+    /// FITS Viewer in case user want to display in it instead of internal view
     QPointer<FITSViewer> fv;
 
-    // Track star position and HFR to know if we're detecting bogus stars due to detection algorithm false positive results
+    /// Track star position and HFR to know if we're detecting bogus stars due to detection algorithm false positive results
     QVector<QVector3D> starsHFR;
 
-    // Relative Profile
-    QCustomPlot *profilePlot;
-    QDialog *profileDialog;
+    /// Relative Profile
+    QCustomPlot *profilePlot { nullptr };
+    QDialog *profileDialog { nullptr };
 
-    // Polynomial fitting coefficients
+    /// Polynomial fitting coefficients
     std::vector<double> coeff;
-    int polySolutionFound = 0;
+    int polySolutionFound { 0 };
 
-    // Filters from DB
+    /// Filters from DB
     QList<OAL::Filter *> m_filterList;
 };
 }
-
-#endif // Focus_H

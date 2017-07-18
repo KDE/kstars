@@ -15,14 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TESTFWPARSER_H
-#define TESTFWPARSER_H
-
-#include <QtTest/QtTest>
-#include <QDebug>
+#pragma once
 
 #include "ksparser.h"
-#include "auxiliary/ksfilereader.h"
+
+#include <QDebug>
+#include <QtTest/QtTest>
 
 class TestFWParser : public QObject
 {
@@ -43,7 +41,5 @@ class TestFWParser : public QObject
     QList<int> widths_;
     QList<QPair<QString, KSParser::DataTypes>> sequence_;
     QString test_file_name_;
-    KSParser *test_parser_;
+    KSParser *test_parser_ { nullptr };
 };
-
-#endif // TESTFWPARSER_H

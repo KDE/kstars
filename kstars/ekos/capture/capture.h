@@ -7,25 +7,22 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef CAPTURE_H
-#define CAPTURE_H
-
-#include <QTimer>
-#include <QUrl>
-#include <QtDBus/QtDBus>
+#pragma once
 
 #include "ui_capture.h"
-
 #include "oal/filter.h"
-
 #include "ekos/ekos.h"
-#include "fitsviewer/fitscommon.h"
-#include "indi/indistd.h"
 #include "indi/indiccd.h"
 #include "indi/indicap.h"
 #include "indi/indidome.h"
 #include "indi/indilightbox.h"
 #include "indi/inditelescope.h"
+
+#include <QTimer>
+#include <QUrl>
+#include <QtDBus/QtDBus>
+
+#include <memory>
 
 class QProgressIndicator;
 class QTableWidgetItem;
@@ -33,8 +30,8 @@ class KDirWatch;
 class RotatorSettings;
 
 /**
- *@namespace Ekos
- *@short Ekos is an advanced Astrophotography tool for Linux.
+ * @namespace Ekos
+ * @short Ekos is an advanced Astrophotography tool for Linux.
  * It is based on a modular extensible framework to perform common astrophotography tasks. This includes highly accurate GOTOs using astrometry solver, ability to measure and correct polar alignment errors ,
  * auto-focus & auto-guide capabilities, and capture of single or stack of images with filter wheel support.\n
  * Features:
@@ -58,8 +55,9 @@ class RotatorSettings;
  *
  * The primary class is EkosManager. It handles startup and shutdown of local and remote INDI devices, manages and orchesterates the various Ekos modules, and provides advanced DBus
  * interface to enable unattended scripting.
-*@author Jasem Mutlaq
- *@version 1.5
+ *
+ * @author Jasem Mutlaq
+ * @version 1.5
  */
 namespace Ekos
 {
@@ -81,12 +79,6 @@ class Capture : public QWidget, public Ui::Capture
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Capture")
 
   public:
-    enum
-    {
-        CALIBRATE_NONE,
-        CALIBRATE_START,
-        CALIBRATE_DONE
-    };
     typedef enum { MF_NONE, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_ALIGNING, MF_GUIDING } MFStage;
     typedef enum {
         CAL_NONE,
@@ -532,98 +524,101 @@ class Capture : public QWidget, public Ui::Capture
     void resetFrameToZero();
 
     /* Capture */
-    double seqExpose;
-    int seqTotalCount;
-    int seqCurrentCount;
-    int seqDelay;
-    int retries;
-    QTimer *seqTimer;
+    double seqExpose { 0 };
+    int seqTotalCount { 0 };
+    int seqCurrentCount { 0 };
+    int seqDelay { 0 };
+    int retries { 0 };
+    QTimer *seqTimer { nullptr };
     QString seqPrefix;
-    int nextSequenceID;
-    int seqFileCount;
-    bool isBusy;
+    int nextSequenceID { 0 };
+    int seqFileCount { 0 };
+    bool isBusy { false };
 
-    //int calibrationState;
-    bool useGuideHead;
+    bool useGuideHead { false };
 
     QString targetName;
     QString observerName;
 
-    SequenceJob *activeJob;
+    SequenceJob *activeJob { nullptr };
 
     QList<ISD::CCD *> CCDs;
 
-    ISD::CCDChip *targetChip;
-    ISD::CCDChip *guideChip;
+    ISD::CCDChip *targetChip { nullptr };
+    ISD::CCDChip *guideChip { nullptr };
 
     // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
     QList<ISD::GDInterface *> Filters;
 
     QList<SequenceJob *> jobs;
 
-    ISD::Telescope *currentTelescope;
-    ISD::CCD *currentCCD;
-    ISD::GDInterface *currentFilter=nullptr, *currentRotator=nullptr;
-    ISD::DustCap *dustCap;
-    ISD::LightBox *lightBox;
-    ISD::Dome *dome;
+    ISD::Telescope *currentTelescope { nullptr };
+    ISD::CCD *currentCCD { nullptr };
+    ISD::GDInterface *currentFilter { nullptr };
+    ISD::GDInterface *currentRotator { nullptr };
+    ISD::DustCap *dustCap { nullptr };
+    ISD::LightBox *lightBox { nullptr };
+    ISD::Dome *dome { nullptr };
 
-    ITextVectorProperty *filterName;
-    INumberVectorProperty *filterSlot;
+    ITextVectorProperty *filterName { nullptr };
+    INumberVectorProperty *filterSlot { nullptr };
 
     QStringList logText;
     QUrl sequenceURL;
-    bool mDirty;
-    bool jobUnderEdit;
-    int currentFilterPosition;
-    QProgressIndicator *pi;
+    bool mDirty { false };
+    bool jobUnderEdit { false };
+    int currentFilterPosition { -1 };
+    QProgressIndicator *pi { nullptr };
 
     // Guide Deviation
-    bool deviationDetected;
-    bool spikeDetected;
+    bool deviationDetected { false };
+    bool spikeDetected { false };
     QTimer guideDeviationTimer;
 
     // Autofocus
-    bool isAutoFocus;
-    bool autoFocusStatus;
-    bool firstAutoFocus;
-    double focusHFR; // HFR value as received from the Ekos focus module
-    double fileHFR;  // HFR value as loaded from the sequence file
+    bool isAutoFocus { false };
+    bool autoFocusStatus { false };
+    bool firstAutoFocus { true };
+    double focusHFR { 0 }; // HFR value as received from the Ekos focus module
+    double fileHFR { 0 };  // HFR value as loaded from the sequence file
 
     // Refocus every N minutes
-    bool isRefocus;
-    int refocusEveryNMinutesValue;  // number of minutes between forced refocus
+    bool isRefocus { false };
+    int refocusEveryNMinutesValue { 0 };  // number of minutes between forced refocus
     QElapsedTimer refocusEveryNTimer; // used to determine when next force refocus should occur
 
-    //Meridan flip
-    double initialHA;
-    double initialRA;
-    bool resumeAlignmentAfterFlip;
-    bool resumeGuidingAfterFlip;
-    MFStage meridianFlipStage;
+    // Meridan flip
+    double initialHA { 0 };
+    double initialRA { 0 };
+    bool resumeAlignmentAfterFlip { false };
+    bool resumeGuidingAfterFlip { false };
+    MFStage meridianFlipStage { MF_NONE };
 
     // Flat field automation
     QVector<double> ExpRaw, ADURaw;
-    double targetADU, targetADUTolerance;
+    double targetADU { 0 };
+    double targetADUTolerance { 1000 };
     SkyPoint wallCoord;
-    bool preMountPark, preDomePark;
-    FlatFieldDuration flatFieldDuration;
-    FlatFieldSource flatFieldSource;
-    CalibrationStage calibrationStage;
-    bool dustCapLightEnabled, lightBoxLightEnabled;
+    bool preMountPark { false };
+    bool preDomePark { false };
+    FlatFieldDuration flatFieldDuration { DURATION_MANUAL };
+    FlatFieldSource flatFieldSource { SOURCE_MANUAL };
+    CalibrationStage calibrationStage { CAL_NONE };
+    bool dustCapLightEnabled { false };
+    bool lightBoxLightEnabled { false };
     ISD::CCD::UploadMode rememberUploadMode;
 
     QUrl dirPath;
 
     // Misc
-    bool ignoreJobProgress;
-    bool suspendGuideOnDownload = false;
+    bool ignoreJobProgress { true };
+    bool suspendGuideOnDownload { false };
 
     // State
-    CaptureState state;
-    FocusState focusState;
-    GuideState guideState;
-    AlignState alignState;
+    CaptureState state { CAPTURE_IDLE };
+    FocusState focusState { FOCUS_IDLE };
+    GuideState guideState { GUIDE_IDLE };
+    AlignState alignState { ALIGN_IDLE };
 
     PauseFunctionPointer pauseFunction;
 
@@ -634,23 +629,21 @@ class Capture : public QWidget, public Ui::Capture
     QProcess postCaptureScript;
 
     // Rotator Settings
-    RotatorSettings *rotatorSettings=nullptr;
+    std::unique_ptr<RotatorSettings> rotatorSettings;
 
     // How many images to capture before dithering operation is executed?
-    uint8_t ditherCounter;
+    uint8_t ditherCounter { 0 };
 
     // Map of filter focus offsets
     struct FocusOffset
     {
         QString filter;
-        int16_t offset;
+        int16_t offset { 0 };
     };
 
     QList<FocusOffset *> filterFocusOffsets;
-    int16_t lastFilterOffset = 0;
+    int16_t lastFilterOffset { 0 };
 
     QList<OAL::Filter *> m_filterList;
 };
 }
-
-#endif // CAPTURE_H

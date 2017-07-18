@@ -8,32 +8,24 @@
 
  */
 
-#ifndef FITSHISTOGRAM
-#define FITSHISTOGRAM
+#pragma once
 
-#include "ui_fitshistogramui.h"
 #include "fitscommon.h"
+#include "ui_fitshistogramui.h"
 
-#include <QUndoCommand>
-#include <QPixmap>
-#include <QMouseEvent>
-#include <QPaintEvent>
 #include <QDialog>
-#include <QVarLengthArray>
+#include <QUndoCommand>
 
-#define CIRCLE_DIM 16
-
-const int INITIAL_MAXIMUM_WIDTH = 500;
+class QMouseEvent;
 
 class FITSTab;
-class QPixmap;
 
 class histogramUI : public QDialog, public Ui::FITSHistogramUI
 {
     Q_OBJECT
 
   public:
-    histogramUI(QDialog *parent = 0);
+    explicit histogramUI(QDialog *parent = 0);
 };
 
 class FITSHistogram : public QDialog
@@ -43,7 +35,7 @@ class FITSHistogram : public QDialog
     friend class histDrawArea;
 
   public:
-    FITSHistogram(QWidget *parent);
+    explicit FITSHistogram(QWidget *parent);
     ~FITSHistogram();
 
     void constructHistogram();
@@ -51,14 +43,6 @@ class FITSHistogram : public QDialog
     void applyFilter(FITSScale ftype);
 
     double getBinWidth() { return binWidth; }
-
-    //QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getCumulativeFreq() { return cumulativeFreq; }
-    //QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getHistogram() { return histArray; }
-
-    //int napply;
-    //double histHeightRatio;
-
-    //double histFactor;
 
     QVector<double> getCumulativeFrequency() const;
 
@@ -74,20 +58,23 @@ class FITSHistogram : public QDialog
     template <typename T>
     void constructHistogram();
 
-    histogramUI *ui;
-    FITSTab *tab;
+    histogramUI *ui { nullptr };
+    FITSTab *tab { nullptr };
 
     QVector<double> intensity;
     QVector<double> r_frequency, g_frequency, b_frequency;
-    QCPGraph *r_graph, *g_graph, *b_graph;
+    QCPGraph *r_graph { nullptr };
+    QCPGraph *g_graph { nullptr };
+    QCPGraph *b_graph { nullptr };
     QVector<double> cumulativeFrequency;
 
-    double binWidth;
-    double JMIndex;
-    double fits_min, fits_max;
-    uint16_t binCount;
-    FITSScale type;
-    QCustomPlot *customPlot;
+    double binWidth { 0 };
+    double JMIndex { 0 };
+    double fits_min { 0 };
+    double fits_max { 0 };
+    uint16_t binCount { 0 };
+    FITSScale type { FITS_AUTO };
+    QCustomPlot *customPlot { nullptr };
 };
 
 class FITSHistogramCommand : public QUndoCommand
@@ -101,17 +88,18 @@ class FITSHistogramCommand : public QUndoCommand
     virtual QString text() const;
 
   private:
-    /* stats struct to hold statisical data about the FITS data */
+    /* stats struct to hold statistical data about the FITS data */
     struct
     {
-        double min, max;
-        double mean;
-        double stddev;
-        double median;
-        double SNR;
-        int bitpix;
-        int ndim;
-        unsigned int size;
+        double min { 0 };
+        double max { 0 };
+        double mean { 0 };
+        double stddev { 0 };
+        double median { 0 };
+        double SNR { 0 };
+        int bitpix { 0 };
+        int ndim { 0 };
+        unsigned int size { 0 };
         long dim[2];
     } stats;
 
@@ -120,14 +108,12 @@ class FITSHistogramCommand : public QUndoCommand
     void saveStats(double min, double max, double stddev, double mean, double median, double SNR);
     void restoreStats();
 
-    FITSHistogram *histogram;
+    FITSHistogram *histogram { nullptr };
     FITSScale type;
-    double min, max;
+    double min { 0 };
+    double max { 0 };
 
-    unsigned char *delta;
-    unsigned long compressedBytes;
-    uint8_t *original_buffer;
-    FITSTab *tab;
+    unsigned char *delta { nullptr };
+    unsigned long compressedBytes { 0 };
+    FITSTab *tab { nullptr };
 };
-
-#endif

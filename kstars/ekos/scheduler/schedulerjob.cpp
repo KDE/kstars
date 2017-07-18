@@ -7,32 +7,15 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <KLocalizedString>
-
 #include "schedulerjob.h"
+
+#include "dms.h"
 #include "kstarsdata.h"
+
+#include <QTableWidgetItem>
 
 SchedulerJob::SchedulerJob()
 {
-    startupCondition    = START_ASAP;
-    completionCondition = FINISH_SEQUENCE;
-    stepPipeline        = USE_NONE;
-    state               = JOB_IDLE;
-    stage               = STAGE_IDLE;
-
-    timeSlotAllocated = false;
-    inSequenceFocus   = false;
-    enforceWeather    = false;
-
-    priority = 10;
-
-    statusCell        = NULL;
-    startupCell       = NULL;
-    estimatedTimeCell = NULL;
-    minAltitude       = -1;
-    minMoonSeparation = -1;
-    estimatedTime     = -1;
-    culminationOffset = 0;
 }
 
 SchedulerJob::~SchedulerJob()
@@ -203,34 +186,6 @@ void SchedulerJob::setState(const JOBStatus &value)
     }
 }
 
-/*SchedulerJob::FITSStatus SchedulerJob::getFITSState() const
-{
-    return fitsState;
-}
-
-void SchedulerJob::setFITSState(const FITSStatus &value)
-{
-    fitsState = value;
-
-    switch (fitsState)
-    {
-        case FITS_SOLVING:
-            statusCell->setText(i18n("Solving FITS"));
-            break;
-
-        case FITS_ERROR:
-            statusCell->setText(i18n("Solver failed"));
-            break;
-
-        case FITS_COMPLETE:
-            statusCell->setText(i18n("Solver completed"));
-            break;
-
-        default:
-        break;
-    }
-}*/
-
 int SchedulerJob::getScore() const
 {
     return score;
@@ -352,15 +307,6 @@ void SchedulerJob::setEstimatedTime(const int64_t &value)
         estimatedTimeCell->setText(estimatedTime.toString("HH:mm:ss"));
     }
 }
-bool SchedulerJob::getTimeSlotAllocated() const
-{
-    return timeSlotAllocated;
-}
-
-void SchedulerJob::setTimeSlotAllocated(bool value)
-{
-    timeSlotAllocated = value;
-}
 
 bool SchedulerJob::getInSequenceFocus() const
 {
@@ -442,7 +388,7 @@ void SchedulerJob::setRepeatsRemaining(const uint16_t &value)
     repeatsRemaining = value;
 }
 
-void SchedulerJob::setTargetCoords(dms ra, dms dec)
+void SchedulerJob::setTargetCoords(dms& ra, dms& dec)
 {
     targetCoords.setRA0(ra);
     targetCoords.setDec0(dec);

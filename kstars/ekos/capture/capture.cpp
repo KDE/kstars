@@ -7,50 +7,33 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <QFileDialog>
-#include <QDirIterator>
-#include <QStandardPaths>
-
-#include <KMessageBox>
-#include <KDirWatch>
-#include <KLocalizedString>
-#include <KNotifications/KNotification>
-
-#include <basedevice.h>
-#include <lilxml.h>
-
-#include "Options.h"
-
-#include "oal/log.h"
-
-#include "kstars.h"
-#include "skymap.h"
-#include "kstarsdata.h"
-
 #include "capture.h"
-#include "sequencejob.h"
-#include "dslrinfodialog.h"
 
+#include "captureadaptor.h"
+#include "dslrinfodialog.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#include "rotatorsettings.h"
+#include "sequencejob.h"
+#include "skymap.h"
+#include "ui_calibrationoptions.h"
+#include "auxiliary/QProgressIndicator.h"
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
 #include "indi/clientmanager.h"
-
-#include "fitsviewer/fitsviewer.h"
+#include "ekos/ekosmanager.h"
+#include "ekos/auxiliary/darklibrary.h"
 #include "fitsviewer/fitsview.h"
 
-#include "ekos/auxiliary/darklibrary.h"
-#include "ekos/ekosmanager.h"
-#include "captureadaptor.h"
-#include "ui_calibrationoptions.h"
+#include <basedevice.h>
 
-#include "auxiliary/QProgressIndicator.h"
-#include "rotatorsettings.h"
+#include <KNotifications/KNotification>
 
 #define INVALID_VALUE -1e6
 #define MF_TIMER_TIMEOUT    90000
 #define GD_TIMER_TIMEOUT    60000
 #define MF_RA_DIFF_LIMIT    4
-#define MAX_CAPTURE_RETRIES 3
 
 // Current Sequence File Format:
 #define SQ_FORMAT_VERSION 1.9
@@ -68,60 +51,9 @@ Capture::Capture()
 
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
-    state      = CAPTURE_IDLE;
-    focusState = FOCUS_IDLE;
-    guideState = GUIDE_IDLE;
-    alignState = ALIGN_IDLE;
-
-    currentCCD       = nullptr;
-    currentTelescope = nullptr;
-    currentFilter    = nullptr;
-    dustCap          = nullptr;
-    lightBox         = nullptr;
-    dome             = nullptr;
-
-    filterSlot = nullptr;
-    filterName = nullptr;
-    activeJob  = nullptr;
-
-    targetChip = nullptr;
-    guideChip  = nullptr;
-
-    targetADU          = 0;
-    targetADUTolerance = 1000;
-    flatFieldDuration  = DURATION_MANUAL;
-    flatFieldSource    = SOURCE_MANUAL;
-    calibrationStage   = CAL_NONE;
-    preMountPark       = false;
-    preDomePark        = false;
-
-    deviationDetected = false;
-    spikeDetected     = false;
-    isBusy            = false;
-
-    ignoreJobProgress = true;
-
-    dustCapLightEnabled = lightBoxLightEnabled = false;
-
     //isAutoGuiding   = false;
-    isAutoFocus              = false;
-    autoFocusStatus          = false;
-    resumeAlignmentAfterFlip = false;
 
-    isRefocus             = false;
-
-    mDirty                = false;
-    jobUnderEdit          = false;
-    currentFilterPosition = -1;
-
-    //calibrationState  = CALIBRATE_NONE;
-    meridianFlipStage      = MF_NONE;
-    resumeGuidingAfterFlip = false;
-
-    //ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
-    //ADUSlope = 0;
-
-    rotatorSettings = new RotatorSettings(this);
+    rotatorSettings.reset(new RotatorSettings(this));
 
     pi = new QProgressIndicator(this);
 
@@ -176,7 +108,7 @@ Capture::Capture()
     connect(frameTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkFrameType(int)));
     connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
     connect(calibrationB, SIGNAL(clicked()), this, SLOT(openCalibrationDialog()));
-    connect(rotatorB, SIGNAL(clicked()), rotatorSettings, SLOT(show()));
+    connect(rotatorB, SIGNAL(clicked()), rotatorSettings.get(), SLOT(show()));
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
     addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -208,14 +140,6 @@ Capture::Capture()
     removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
 
     fitsDir->setText(Options::fitsDir());
-
-    seqExpose       = 0;
-    seqTotalCount   = 0;
-    seqCurrentCount = 0;
-    seqDelay        = 0;
-    fileHFR         = 0;
-    useGuideHead    = false;
-    firstAutoFocus  = true;
 
     foreach (QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -257,7 +181,6 @@ Capture::Capture()
 Capture::~Capture()
 {
     qDeleteAll(jobs);
-    delete (rotatorSettings);
 }
 
 void Capture::setDefaultCCD(QString ccd)
@@ -465,8 +388,6 @@ void Capture::stop(bool abort)
     retries         = 0;
     seqTotalCount   = 0;
     seqCurrentCount = 0;
-    //ADURaw1 = ADURaw2 = ExpRaw1 = ExpRaw2 = -1;
-    //ADUSlope = 0;
     ADURaw.clear();
     ExpRaw.clear();
 
@@ -759,7 +680,6 @@ void Capture::resetFrameToZero()
 
 void Capture::updateFrameProperties(int reset)
 {
-    int x, y, w, h;
     int binx = 1, biny = 1;
     double min, max, step;
     int xstep = 0, ystep = 0;
@@ -918,6 +838,10 @@ void Capture::updateFrameProperties(int reset)
     if (frameSettings.contains(targetChip))
     {
         QVariantMap settings = frameSettings[targetChip];
+        int x = settings["x"].toInt();
+        int y = settings["y"].toInt();
+        int w = settings["w"].toInt();
+        int h = settings["h"].toInt();
 
         if (targetChip->canBin())
         {
@@ -933,11 +857,6 @@ void Capture::updateFrameProperties(int reset)
             binXIN->setValue(1);
             binYIN->setValue(1);
         }
-
-        x = settings["x"].toInt();
-        y = settings["y"].toInt();
-        w = settings["w"].toInt();
-        h = settings["h"].toInt();
 
         if (x >= 0)
             frameXIN->setValue(x);
@@ -1147,11 +1066,9 @@ void Capture::newFITS(IBLOB *bp)
         if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
         {
             FITSView *currentImage = targetChip->getImageView(FITS_NORMAL);
-            FITSData *darkData     = nullptr;
+            FITSData *darkData     = DarkLibrary::Instance()->getDarkFrame(targetChip, activeJob->getExposure());
             uint16_t offsetX       = activeJob->getSubX() / activeJob->getXBin();
             uint16_t offsetY       = activeJob->getSubY() / activeJob->getYBin();
-
-            darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, activeJob->getExposure());
 
             connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
             connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
@@ -3759,10 +3676,10 @@ double Capture::setCurrentADU(double value)
     // But DSLRs can exhibit non-linear response curve and so a 2nd degree polynomial is more appropiate
     if (ExpRaw.count() >= 2)
     {
-        double chisq = 0;
-
         if (ExpRaw.count() >= 4)
         {
+            double chisq = 0;
+
             coeff = gsl_polynomial_fit(ADURaw.data(), ExpRaw.data(), ExpRaw.count(), 2, chisq);
             if (Options::captureLogging())
             {

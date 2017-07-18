@@ -7,19 +7,20 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef SEQUENCEJOB_H
-#define SEQUENCEJOB_H
-
-#include <QTableWidgetItem>
+#pragma once
 
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
+#include "skyobjects/skypoint.h"
+
+#include <QTableWidgetItem>
 
 /**
- *@class SequenceJob
- *@short Sequence Job is a container for the details required to capture a series of images.
- *@author Jasem Mutlaq
- *@version 1.0
+ * @class SequenceJob
+ * @short Sequence Job is a container for the details required to capture a series of images.
+ *
+ * @author Jasem Mutlaq
+ * @version 1.0
  */
 namespace Ekos
 {
@@ -198,70 +199,77 @@ signals:
     void checkFocus();
 
 private:
-    QStringList statusStrings;
-    ISD::CCDChip *activeChip;
-    ISD::CCD *activeCCD;
-    ISD::GDInterface *activeFilter=nullptr, *activeRotator=nullptr;
+    bool areActionsReady();
+    void setAllActionsReady();
 
-    double exposure;
-    CCDFrameType frameType;
-    int targetFilter;
-    int currentFilter;
+    QStringList statusStrings;
+    ISD::CCDChip *activeChip { nullptr };
+    ISD::CCD *activeCCD { nullptr };
+    ISD::GDInterface *activeFilter { nullptr };
+    ISD::GDInterface *activeRotator { nullptr };
+
+    double exposure { -1 };
+    CCDFrameType frameType { FRAME_LIGHT };
+    int targetFilter { -1 };
+    int currentFilter { 0 };
 
     QString filter;
-    int binX, binY;
-    int x, y, w, h;
+    int binX { 0 };
+    int binY { 0 };
+    int x { 0 };
+    int y { 0 };
+    int w { 0 };
+    int h { 0 };
     QString fullPrefix;
-    int count;
-    int delay;
-    bool preview;
-    //bool filterReady, temperatureReady, filterPostFocusReady, prepareReady;
-    bool prepareReady;
-    bool enforceTemperature;
-    int isoIndex;
-    int captureRetires;
-    unsigned int completed;
-    double exposeLeft;
-    double currentTemperature, targetTemperature;
-    double gain;
+    int count { -1 };
+    int delay { -1 };
+    bool preview { false };
+    bool prepareReady { true };
+    bool enforceTemperature { false };
+    int isoIndex { -1 };
+    int captureRetires { 0 };
+    unsigned int completed { 0 };
+    double exposeLeft { 0 };
+    double currentTemperature { 0 };
+    double targetTemperature { 0 };
+    double gain { -1 };
     // Rotation in absolute ticks, NOT angle
-    int32_t targetRotation, currentRotation;
-    FITSScale captureFilter;
-    QTableWidgetItem *statusCell;
+    int32_t targetRotation { 0 };
+    int32_t currentRotation { 0 };
+    FITSScale captureFilter { FITS_NONE };
+    QTableWidgetItem *statusCell { nullptr };
     QString fitsDir;
     QString rootFITSDir;
     QString postCaptureScript;
 
-    ISD::CCD::UploadMode uploadMode = ISD::CCD::UPLOAD_CLIENT;
+    ISD::CCD::UploadMode uploadMode { ISD::CCD::UPLOAD_CLIENT };
 
     // Transfer Format
-    ISD::CCD::TransferFormat transforFormat = ISD::CCD::FORMAT_FITS;
+    ISD::CCD::TransferFormat transforFormat { ISD::CCD::FORMAT_FITS };
 
     // TODO getters and settings
     QString remoteDir;
 
-    bool typePrefixEnabled, filterPrefixEnabled, expPrefixEnabled, timeStampPrefixEnabled;
+    bool filterPrefixEnabled { false };
+    bool expPrefixEnabled { false };
+    bool timeStampPrefixEnabled { false };
     QString rawPrefix;
 
-    JOBStatus status;
+    JOBStatus status { JOB_IDLE };
 
     // Flat field variables
     struct
     {
-        double targetADU;
-        double targetADUTolerance;
-        FlatFieldSource flatFieldSource;
-        FlatFieldDuration flatFieldDuration;
+        double targetADU { 0 };
+        double targetADUTolerance { 250 };
+        FlatFieldSource flatFieldSource { SOURCE_MANUAL };
+        FlatFieldDuration flatFieldDuration { DURATION_MANUAL };
         SkyPoint wallCoord;
-        bool preMountPark;
-        bool preDomePark;
+        bool preMountPark { false };
+        bool preDomePark { false };
 
     } calibrationSettings;
 
     QMap<PrepareActions, bool> prepareActions;
-    bool areActionsReady();
-    void setAllActionsReady();
 };
 }
-
-#endif // SEQUENCEJOB_H

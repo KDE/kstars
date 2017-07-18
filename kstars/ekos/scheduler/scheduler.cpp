@@ -1556,10 +1556,10 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
 
     QTime now       = KStarsData::Instance()->lt().time();
     double fraction = now.hour() + now.minute() / 60.0 + now.second() / 3600;
-    double rawFrac  = 0;
 
     for (double hour = fraction; hour < (fraction + 24); hour += 1.0 / 60.0)
     {
+        double rawFrac  = 0;
         KStarsDateTime myUT = ut.addSecs(hour * 3600.0);
 
         rawFrac = (hour > 24 ? (hour - 24) : hour) / 24.0;
@@ -4146,7 +4146,7 @@ void Scheduler::parkMount()
         else if (parkWaitState == PARKWAIT_PARK)
             parkWaitState = PARKWAIT_PARKING;
     }
-    else if (status == Mount::PARKING_OK)
+    else
     {
         appendLogText(i18n("Mount already parked."));
 
@@ -4179,7 +4179,7 @@ void Scheduler::unParkMount()
         else if (parkWaitState == PARKWAIT_UNPARK)
             parkWaitState = PARKWAIT_UNPARKING;
     }
-    else if (status == Mount::UNPARKING_OK)
+    else
     {
         appendLogText(i18n("Mount already unparked."));
 
@@ -4292,7 +4292,7 @@ void Scheduler::parkDome()
 
         currentOperationTime.start();
     }
-    else if (status == Dome::PARKING_OK)
+    else
     {
         appendLogText(i18n("Dome already parked."));
         shutdownState = SHUTDOWN_SCRIPT;
@@ -4312,7 +4312,7 @@ void Scheduler::unParkDome()
 
         currentOperationTime.start();
     }
-    else if (status == Dome::UNPARKING_OK)
+    else
     {
         appendLogText(i18n("Dome already unparked."));
         startupState = STARTUP_UNPARK_MOUNT;
@@ -4412,7 +4412,7 @@ void Scheduler::parkCap()
 
         currentOperationTime.start();
     }
-    else if (status == DustCap::PARKING_OK)
+    else
     {
         appendLogText(i18n("Cap already parked."));
         shutdownState = SHUTDOWN_PARK_MOUNT;
@@ -4432,7 +4432,7 @@ void Scheduler::unParkCap()
 
         currentOperationTime.start();
     }
-    else if (status == DustCap::UNPARKING_OK)
+    else
     {
         appendLogText(i18n("Cap already unparked."));
         startupState = STARTUP_COMPLETE;
@@ -4578,7 +4578,7 @@ void Scheduler::startMosaicTool()
         return;
     }
 
-    Mosaic mosaicTool(this);
+    Mosaic mosaicTool;
 
     SkyPoint center;
     center.setRA0(ra);
@@ -4587,8 +4587,6 @@ void Scheduler::startMosaicTool()
     mosaicTool.setCenter(center);
     mosaicTool.calculateFOV();
     mosaicTool.adjustSize();
-
-    int batchCount = 1;
 
     if (mosaicTool.exec() == QDialog::Accepted)
     {
@@ -4606,6 +4604,7 @@ void Scheduler::startMosaicTool()
 
         QString outputDir  = mosaicTool.getJobsDir();
         QString targetName = nameEdit->text().simplified().remove(" ");
+        int batchCount = 1;
 
         XMLEle *root = getSequenceJobRoot();
         if (root == nullptr)

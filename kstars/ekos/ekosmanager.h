@@ -1,5 +1,3 @@
-#ifndef EKOSMANAGER_H
-#define EKOSMANAGER_H
 
 /*  Ekos
     Copyright (C) 2012 Jasem Mutlaq <mutlaqja@ikarustech.com>
@@ -10,6 +8,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#pragma once
+
 #ifdef USE_QT5_INDI
 #include <baseclientqt.h>
 #else
@@ -19,15 +19,15 @@
 #include "ui_ekosmanager.h"
 
 #include "ekos.h"
-#include "indi/indistd.h"
-#include "capture/capture.h"
-#include "focus/focus.h"
-#include "guide/guide.h"
 #include "align/align.h"
-#include "mount/mount.h"
 #include "auxiliary/dome.h"
 #include "auxiliary/weather.h"
 #include "auxiliary/dustcap.h"
+#include "capture/capture.h"
+#include "focus/focus.h"
+#include "guide/guide.h"
+#include "indi/indistd.h"
+#include "mount/mount.h"
 #include "scheduler/scheduler.h"
 
 #include <QDialog>
@@ -36,14 +36,15 @@
 
 #include <memory>
 
+class QProgressIndicator;
+
 class DriverInfo;
 class ProfileInfo;
 class KPageWidgetItem;
-class QProgressIndicator;
 
 /**
- *@class Manager
- *@short Primary class to handle all Ekos modules.
+ * @class Manager
+ * @short Primary class to handle all Ekos modules.
  * The Ekos Manager class manages startup and shutdown of INDI devices and registeration of devices within Ekos Modules. Ekos module consist of \ref Ekos::Mount, \ref Ekos::Capture, \ref Ekos::Focus, \ref Ekos::Guide, and \ref Ekos::Align modules.
  * \ref EkosDBusInterface "Ekos DBus Interface" provides high level functions to control devices and Ekos modules for a total robotic operation:
  * <ul>
@@ -57,8 +58,9 @@ class QProgressIndicator;
  * </ul>
  *  For low level access to INDI devices, the \ref INDIDBusInterface "INDI Dbus Interface" provides complete access to INDI devices and properties.
  *  Ekos Manager provides a summary of operations progress in the <i>Summary</i> section of the <i>Setup</i> tab.
- *@author Jasem Mutlaq
- *@version 1.5
+ *
+ * @author Jasem Mutlaq
+ * @version 1.5
  */
 class EkosManager : public QDialog, public Ui::EkosManager
 {
@@ -66,7 +68,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos")
 
   public:
-    EkosManager(QWidget *parent);
+    explicit EkosManager(QWidget *parent);
     ~EkosManager();
 
     typedef enum { EKOS_STATUS_IDLE, EKOS_STATUS_PENDING, EKOS_STATUS_SUCCESS, EKOS_STATUS_ERROR } CommunicationStatus;
@@ -76,52 +78,56 @@ class EkosManager : public QDialog, public Ui::EkosManager
     void setOptionsWidget(KPageWidgetItem *ops) { ekosOptionsWidget = ops; }
     void addObjectToScheduler(SkyObject *object);
 
-    Ekos::Capture *captureModule() { return captureProcess; }
-    Ekos::Focus *focusModule() { return focusProcess; }
-    Ekos::Guide *guideModule() { return guideProcess; }
-    Ekos::Align *alignModule() { return alignProcess; }
-    Ekos::Mount *mountModule() { return mountProcess; }
+    Ekos::Guide *guideModule() { return guideProcess.get(); }
+    Ekos::Align *alignModule() { return alignProcess.get(); }
     FITSView *getPreviewView() { return previewView.get(); }
 
-    /** @defgroup EkosDBusInterface Ekos DBus Interface
-         * EkosManager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
-        */
+    /**
+     * @defgroup EkosDBusInterface Ekos DBus Interface
+     * EkosManager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
+     */
 
     /*@{*/
 
-    /** DBUS interface function.
-         * set Current device profile.
-         * @param profileName Profile name
-         * @return True if profile is set, false if not found.
-         */
+    /**
+     * DBUS interface function.
+     * set Current device profile.
+     * @param profileName Profile name
+     * @return True if profile is set, false if not found.
+     */
     Q_SCRIPTABLE bool setProfile(const QString &profileName);
 
-    /** DBUS interface function
-         * @brief getProfiles Return a list of all device profiles
-         * @return List of device profiles
-         */
+    /**
+     * DBUS interface function
+     * @brief getProfiles Return a list of all device profiles
+     * @return List of device profiles
+     */
     Q_SCRIPTABLE QStringList getProfiles();
 
-    /** DBUS interface function.
-         * @retrun INDI connection status (0 Idle, 1 Pending, 2 Connected, 3 Error)
-         */
+    /**
+     * DBUS interface function.
+     * @retrun INDI connection status (0 Idle, 1 Pending, 2 Connected, 3 Error)
+     */
     Q_SCRIPTABLE unsigned int getINDIConnectionStatus() { return indiConnectionStatus; }
 
-    /** DBUS interface function.
-         * @retrun Ekos starting status (0 Idle, 1 Pending, 2 Started, 3 Error)
-         */
+    /**
+     * DBUS interface function.
+     * @retrun Ekos starting status (0 Idle, 1 Pending, 2 Started, 3 Error)
+     */
     Q_SCRIPTABLE unsigned int getEkosStartingStatus() { return ekosStartingStatus; }
 
-    /** DBUS interface function.
-         * If connection mode is local, the function first establishes an INDI server with all the specified drivers in Ekos options or as set by the user. For remote connection,
-         * it establishes connection to the remote INDI server.
-         * @return Retruns true if server started successful (local mode) or connection to remote server is successful (remote mode).
-         */
+    /**
+     * DBUS interface function.
+     * If connection mode is local, the function first establishes an INDI server with all the specified drivers in Ekos options or as set by the user. For remote connection,
+     * it establishes connection to the remote INDI server.
+     * @return Retruns true if server started successful (local mode) or connection to remote server is successful (remote mode).
+     */
     Q_SCRIPTABLE bool start();
 
-    /** DBUS interface function.
-         * If connection mode is local, the function terminates the local INDI server and drivers. For remote, it disconnects from the remote INDI server.
-         */
+    /**
+     * DBUS interface function.
+     * If connection mode is local, the function terminates the local INDI server and drivers. For remote, it disconnects from the remote INDI server.
+     */
     Q_SCRIPTABLE bool stop();
 
   protected:
@@ -132,14 +138,16 @@ class EkosManager : public QDialog, public Ui::EkosManager
 
   public slots:
 
-    /** DBUS interface function.
-         * Connects all the INDI devices started by Ekos.
-         */
+    /**
+     * DBUS interface function.
+     * Connects all the INDI devices started by Ekos.
+     */
     Q_SCRIPTABLE Q_NOREPLY void connectDevices();
 
-    /** DBUS interface function.
-         * Disconnects all the INDI devices started by Ekos.
-         */
+    /**
+     * DBUS interface function.
+     * Disconnects all the INDI devices started by Ekos.
+     */
     Q_SCRIPTABLE Q_NOREPLY void disconnectDevices();
 
     /** @}*/
@@ -228,12 +236,15 @@ class EkosManager : public QDialog, public Ui::EkosManager
     void loadDrivers();
     void loadProfiles();
 
-    void processLocalDevice(ISD::GDInterface *);
-    void processRemoteDevice(ISD::GDInterface *);
     bool isRunning(const QString &process);
 
-    bool useGuideHead;
-    bool useST4;
+    QList<ISD::GDInterface *> findDevices(DeviceFamily type);
+
+    ProfileInfo *getCurrentProfile();
+    void updateProfileLocation(ProfileInfo *pi);
+
+    bool useGuideHead { false };
+    bool useST4 { false };
 
     // Containers
 
@@ -248,35 +259,33 @@ class EkosManager : public QDialog, public Ui::EkosManager
 
     // All Managed devices
     QMap<DeviceFamily, ISD::GDInterface *> managedDevices;
-    QList<ISD::GDInterface *> findDevices(DeviceFamily type);
 
-    Ekos::Capture *captureProcess;
-    Ekos::Focus *focusProcess;
-    Ekos::Guide *guideProcess;
-    Ekos::Align *alignProcess;
-    Ekos::Mount *mountProcess;
-    Ekos::Scheduler *schedulerProcess;
-    Ekos::Dome *domeProcess;
-    Ekos::Weather *weatherProcess;
-    Ekos::DustCap *dustCapProcess;
+    std::unique_ptr<Ekos::Capture> captureProcess;
+    std::unique_ptr<Ekos::Focus> focusProcess;
+    std::unique_ptr<Ekos::Guide> guideProcess;
+    std::unique_ptr<Ekos::Align> alignProcess;
+    std::unique_ptr<Ekos::Mount> mountProcess;
+    std::unique_ptr<Ekos::Scheduler> schedulerProcess;
+    std::unique_ptr<Ekos::Dome> domeProcess;
+    std::unique_ptr<Ekos::Weather> weatherProcess;
+    std::unique_ptr<Ekos::DustCap> dustCapProcess;
 
-    bool localMode, isStarted, remoteManagerStart;
+    bool localMode { true };
+    bool isStarted { false };
+    bool remoteManagerStart { false };
 
-    int nDevices, nRemoteDevices;
-    //QAtomicInt nConnectedDevices;
+    int nDevices { 0 };
 
     QStringList logText;
-    KPageWidgetItem *ekosOptionsWidget;
-    CommunicationStatus ekosStartingStatus, indiConnectionStatus;
+    KPageWidgetItem *ekosOptionsWidget { nullptr };
+    CommunicationStatus ekosStartingStatus { EKOS_STATUS_IDLE };
+    CommunicationStatus indiConnectionStatus { EKOS_STATUS_IDLE };
 
-    QStandardItemModel *profileModel;
-    QList<ProfileInfo *> profiles;
-
-    ProfileInfo *getCurrentProfile();
-    void updateProfileLocation(ProfileInfo *pi);
+    std::unique_ptr<QStandardItemModel> profileModel;
+    QList<std::shared_ptr<ProfileInfo>> profiles;
 
     // Mount Summary
-    QProgressIndicator *mountPI;
+    QProgressIndicator *mountPI { nullptr };
 
     // Capture Summary
     QTime imageCountDown;
@@ -284,26 +293,24 @@ class EkosManager : public QDialog, public Ui::EkosManager
     QTime sequenceCountDown;
     QTimer countdownTimer;
 //    QPixmap *previewPixmap;
-    QProgressIndicator *capturePI;
+    QProgressIndicator *capturePI { nullptr };
     // Preview Frame
     std::unique_ptr<FITSView> previewView;
 
     // Focus Summary
-    QProgressIndicator *focusPI;
-    QPixmap *focusStarPixmap;
+    QProgressIndicator *focusPI { nullptr };
+    std::unique_ptr<QPixmap> focusStarPixmap;
     //QPixmap *focusProfilePixmap;
     //QTemporaryFile focusStarFile;
     //QTemporaryFile focusProfileFile;
 
     // Guide Summary
-    QProgressIndicator *guidePI;
-    QPixmap *guideStarPixmap;
+    QProgressIndicator *guidePI { nullptr };
+    std::unique_ptr<QPixmap> guideStarPixmap;
     //QPixmap *guideProfilePixmap;
     //QTemporaryFile guideStarFile;
     //QTemporaryFile guideProfileFile;
 
-    ProfileInfo *currentProfile = nullptr;
-    bool profileWizardLaunched  = false;
+    ProfileInfo *currentProfile { nullptr };
+    bool profileWizardLaunched { false };
 };
-
-#endif // EKOS_H

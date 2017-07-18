@@ -8,25 +8,18 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef FITSLabel_H_
-#define FITSLabel_H_
+#pragma once
 
-#include <QFrame>
-#include <QImage>
-#include <QPixmap>
-#include <QMouseEvent>
-#include <QResizeEvent>
+#include "dms.h"
+#include "fitscommon.h"
 
-#include <QGestureEvent>
-#include <QPinchGesture>
-
+#include <qpoint.h>
 #include <QLabel>
 
-#include "fitscommon.h"
-#include "dms.h"
-#include "fitsdata.h"
-
 class FITSView;
+
+class QMouseEvent;
+class QString;
 
 class FITSLabel : public QLabel
 {
@@ -34,6 +27,7 @@ class FITSLabel : public QLabel
   public:
     explicit FITSLabel(FITSView *img, QWidget *parent = nullptr);
     virtual ~FITSLabel();
+
     void setSize(double w, double h);
     void centerTelescope(double raJ2000, double decJ2000);
     bool getMouseButtonDown();
@@ -45,17 +39,17 @@ class FITSLabel : public QLabel
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
   private:
-    bool mouseButtonDown = false;
+    bool mouseButtonDown { false };
     QPoint lastMousePoint;
-    FITSView *view;
+    FITSView *view { nullptr };
     dms ra;
     dms dec;
-    double width, height, size;
+    double width { 0 };
+    double height { 0 };
+    double size { 0 };
 
   signals:
     void newStatus(const QString &msg, FITSBar id);
     void pointSelected(int x, int y);
     void markerSelected(int x, int y);
 };
-
-#endif

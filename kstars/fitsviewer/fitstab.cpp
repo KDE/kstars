@@ -14,30 +14,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QClipboard>
-
-#include <QUndoStack>
-#include <KLocalizedString>
-#include <KMessageBox>
-#include <QFileDialog>
-
-#include "Options.h"
 #include "fitstab.h"
-#include "fitsview.h"
+
+#include "fitsdata.h"
 #include "fitshistogram.h"
+#include "fitsview.h"
 #include "fitsviewer.h"
 #include "kstars.h"
-
-#include "ui_statform.h"
+#include "Options.h"
 #include "ui_fitsheaderdialog.h"
+#include "ui_statform.h"
+
+#include <KMessageBox>
 
 FITSTab::FITSTab(FITSViewer *parent) : QWidget()
 {
-    view      = nullptr;
-    histogram = nullptr;
     viewer    = parent;
-
-    mDirty    = false;
     undoStack = new QUndoStack(this);
     undoStack->setUndoLimit(10);
     undoStack->clear();
@@ -46,7 +38,6 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget()
 
 FITSTab::~FITSTab()
 {
-    delete (view);
     disconnect(0, 0, 0);
 }
 
@@ -88,17 +79,17 @@ void FITSTab::setPreviewText(const QString &value)
 
 bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bool silent)
 {
-    if (view == nullptr)
+    if (view.get() == nullptr)
     {
-        view = new FITSView(this, mode, filter);
+        view.reset(new FITSView(this, mode, filter));
         view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         QVBoxLayout *vlayout = new QVBoxLayout();
 
-        vlayout->addWidget(view);
+        vlayout->addWidget(view.get());
 
         setLayout(vlayout);
-        connect(view, SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
-        connect(view, SIGNAL(debayerToggled(bool)), this, SIGNAL(debayerToggled(bool)));
+        connect(view.get(), SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
+        connect(view.get(), SIGNAL(debayerToggled(bool)), this, SIGNAL(debayerToggled(bool)));
     }
 
     currentURL = *imageURL;
@@ -186,14 +177,15 @@ void FITSTab::statFITS()
 void FITSTab::headerFITS()
 {
     QString recordList;
-    int nkeys;
-    int err_status;
-    char err_text[FLEN_STATUS];
+    int nkeys = 0;
+    int err_status = 0;
 
     FITSData *image_data = view->getImageData();
 
     if ((err_status = image_data->getFITSRecord(recordList, nkeys)) < 0)
     {
+        char err_text[FLEN_STATUS];
+
         fits_get_errstatus(err_status, err_text);
         KMessageBox::error(0, i18n("FITS record error: %1", QString::fromUtf8(err_text)), i18n("FITS Header"));
         return;
@@ -235,9 +227,6 @@ void FITSTab::headerFITS()
 
 bool FITSTab::saveFile()
 {
-    int err_status;
-    char err_text[FLEN_STATUS];
-
     QUrl backupCurrent = currentURL;
     QUrl currentDir(Options::fitsDir());
     currentDir.setScheme("file");
@@ -279,6 +268,9 @@ bool FITSTab::saveFile()
 
     if (currentURL.isValid())
     {
+        int err_status = 0;
+        char err_text[FLEN_STATUS];
+
         if ((err_status = saveFITS('!' + currentURL.toLocalFile())) != 0)
         {
             // -1000 = user canceled

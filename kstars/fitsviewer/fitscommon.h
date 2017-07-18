@@ -14,11 +14,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FITSCOMMON_H
-#define FITSCOMMON_H
+#pragma once
 
 typedef enum { FITS_NORMAL, FITS_FOCUS, FITS_GUIDE, FITS_CALIBRATE, FITS_ALIGN } FITSMode;
+
 typedef enum { FITS_WCS, FITS_VALUE, FITS_POSITION, FITS_ZOOM, FITS_RESOLUTION, FITS_LED, FITS_MESSAGE } FITSBar;
+
 typedef enum {
     FITS_NONE,
     FITS_AUTO_STRETCH,
@@ -36,8 +37,9 @@ typedef enum {
     FITS_SQRT,
     FITS_CUSTOM
 } FITSScale;
-typedef enum { ZOOM_FIT_WINDOW, ZOOM_KEEP_LEVEL, ZOOM_FULL } FITSZoom;
-typedef enum { HFR_AVERAGE, HFR_MAX } HFRType;
-typedef enum { ALGORITHM_GRADIENT, ALGORITHM_CENTROID, ALGORITHM_THRESHOLD } StarAlgorithm;
 
-#endif // FITSCOMMON_H
+typedef enum { ZOOM_FIT_WINDOW, ZOOM_KEEP_LEVEL, ZOOM_FULL } FITSZoom;
+
+typedef enum { HFR_AVERAGE, HFR_MAX } HFRType;
+
+typedef enum { ALGORITHM_GRADIENT, ALGORITHM_CENTROID, ALGORITHM_THRESHOLD } StarAlgorithm;

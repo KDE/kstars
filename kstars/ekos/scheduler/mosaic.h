@@ -7,15 +7,13 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef MOSAIC_H
-#define MOSAIC_H
-
-#include <QDialog>
-#include <QGraphicsItem>
+#pragma once
 
 #include "skypoint.h"
-
 #include "ui_mosaic.h"
+
+#include <QGraphicsItem>
+#include <QDialog>
 
 namespace Ekos
 {
@@ -52,15 +50,11 @@ class MosaicTile : public QGraphicsItem
     int getHeight() { return h; }
     double getOverlap() { return overlap; }
     double getPA() { return pa; }
-    double getFOVW() { return fovW; }
-    double getFOVH() { return fovH; }
 
     void updateTiles();
     OneTile *getTile(int row, int col);
 
     QRectF boundingRect() const;
-
-    QPointF getTileCenter(int row, int col);
 
     QList<OneTile *> getTiles() const;
 
@@ -68,10 +62,14 @@ class MosaicTile : public QGraphicsItem
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
 
   private:
-    double overlap;
-    int w, h;
-    double fovW, fovH;
-    double pa;
+    QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint);
+
+    double overlap { 0 };
+    int w { 1 };
+    int h { 1 };
+    double fovW { 0 };
+    double fovH { 0 };
+    double pa { 0 };
 
     QBrush brush;
     QPen pen;
@@ -80,8 +78,6 @@ class MosaicTile : public QGraphicsItem
     QPen textPen;
 
     QList<OneTile *> tiles;
-
-    QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint);
 };
 
 class Mosaic : public QDialog, public Ui::mosaicDialog
@@ -89,7 +85,7 @@ class Mosaic : public QDialog, public Ui::mosaicDialog
     Q_OBJECT
 
   public:
-    Mosaic(Scheduler *scheduler);
+    Mosaic();
     ~Mosaic();
 
     void setCameraSize(uint16_t width, uint16_t height);
@@ -121,24 +117,19 @@ class Mosaic : public QDialog, public Ui::mosaicDialog
     void render();
 
   private:
-    QPointF rotatePoint(QPointF pointToRotate, QPointF centerPoint);
-
-    Scheduler *ekosScheduler;
     SkyPoint center;
-    QImage *m_skyChart;
-    QImage *m_skyImage;
+    QImage *m_skyChart { nullptr };
+//    QImage *m_skyImage { nullptr };
 
     QPixmap targetPix;
-    QGraphicsPixmapItem *targetItem;
+    QGraphicsPixmapItem *targetItem { nullptr };
 
-    MosaicTile *mosaicTile;
+    MosaicTile *mosaicTile { nullptr };
 
-    double pixelPerArcmin;
+    double pixelPerArcmin { 0 };
 
     QPointF screenPoint;
 
     QGraphicsScene scene;
 };
 }
-
-#endif // MOSAIC_H

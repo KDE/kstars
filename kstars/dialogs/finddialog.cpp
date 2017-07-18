@@ -288,7 +288,8 @@ SkyObject *FindDialog::selectedObject() const
 {
     QModelIndex i = ui->SearchList->currentIndex();
     QVariant sObj = sortModel->data(sortModel->index(i.row(), 0), SkyObjectListModel::SkyObjectRole);
-    return (SkyObject *)sObj.value<void *>();
+
+    return reinterpret_cast<SkyObject*>(sObj.value<void *>());
 }
 
 void FindDialog::enqueueSearch()

@@ -18,13 +18,13 @@
  ***************************************************************************/
 
 #include "geolocation.h"
+
 #include "timezonerule.h"
 
-GeoLocation::GeoLocation(dms lng, dms lat, const QString &name, const QString &province, const QString &country,
-                         double tz, TimeZoneRule *tzrule, bool readOnly, int iEllips, double hght)
+GeoLocation::GeoLocation(const dms &lng, const dms &lat, const QString &name, const QString &province, const QString &country,
+                         double tz, TimeZoneRule *tzrule, bool readOnly, int iEllips, double hght) :
+    Longitude(lng), Latitude(lat)
 {
-    Longitude      = lng;
-    Latitude       = lat;
     Name           = name;
     Province       = province;
     Country        = country;
@@ -111,7 +111,7 @@ QString GeoLocation::translatedCountry() const
 void GeoLocation::cartToGeod()
 {
     static const double RIT = 2.7778e-6;
-    double e2, rpro, lat1, xn, s1, sqrtP2, latd, sinl;
+    double e2, rpro, lat1, xn, sqrtP2, latd, sinl;
 
     e2 = 2 * flattening - flattening * flattening;
 
@@ -123,8 +123,9 @@ void GeoLocation::cartToGeod()
 
     while (fabs(latd - lat1) > RIT)
     {
+        double s1 = sin(latd);
+
         lat1 = latd;
-        s1   = sin(lat1);
         xn   = axis / (sqrt(1 - e2 * s1 * s1));
         latd = atan2((long double)rpro * (1 + e2 * xn * s1), PosCartZ);
     }
@@ -153,7 +154,7 @@ void GeoLocation::geodToCart()
     PosCartZ = (xn * (1 - e2) + Height) * sinLat;
 }
 
-void GeoLocation::TopocentricVelocity(double vtopo[], dms gst)
+void GeoLocation::TopocentricVelocity(double vtopo[], const dms &gst)
 {
     double Wearth = 7.29211510e-5; // rads/s
     dms angularVEarth;

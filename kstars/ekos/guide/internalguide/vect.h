@@ -69,28 +69,6 @@ class Vector
     int operator>(double v) { return x > v && y > v && z > v; };
 };
 
-class Ray
-{
-  public:
-    Vector Org;
-    Vector Dir; // Must be normalized
-    Ray(){};
-    Ray &operator=(const Ray &r)
-    {
-        Org = r.Org;
-        Dir = r.Dir;
-        return *this;
-    };
-
-    Ray(Vector &o, Vector &d)
-    {
-        Org = o;
-        Dir = d;
-    };
-    ~Ray(){};
-    Vector Point(double t) { return Org + Dir * t; };
-};
-
 inline Vector Vector ::operator-() const
 {
     return Vector(-x, -y, -z);

@@ -9,10 +9,13 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef ALIGNVIEW_H
-#define ALIGNVIEW_H
+#pragma once
 
 #include "fitsviewer/fitsview.h"
+
+#include <QVector3D>
+
+class QPainter;
 
 class AlignView : public FITSView
 {
@@ -27,8 +30,8 @@ class AlignView : public FITSView
     void drawOverlay(QPainter *) override;
 
     // Correction line
-    void setCorrectionParams(QLineF line);
-    void setCorrectionOffset(QPointF newOffset);
+    void setCorrectionParams(QLineF &line);
+    void setCorrectionOffset(QPointF &newOffset);
 
     void setRACircle(const QVector3D &value);
 
@@ -42,5 +45,3 @@ class AlignView : public FITSView
     QPointF correctionOffset, celestialPolePoint;
     QVector3D RACircle;
 };
-
-#endif // ALIGNVIEW_H

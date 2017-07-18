@@ -7,19 +7,25 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef GUIDEINTERFACE_H
-#define GUIDEINTERFACE_H
+#pragma once
+
+#include "ekos/ekos.h"
 
 #include <QObject>
-#include "ekos/ekos.h"
+#include <QVector3D>
+
+#include <stdint.h>
+
+class QString;
 
 namespace Ekos
 {
 /**
- *@class GuideInterface
- *@short Interface skeleton for implementation of different guiding applications and/or routines
- *@author Jasem Mutlaq
- *@version 1.0
+ * @class GuideInterface
+ * @short Interface skeleton for implementation of different guiding applications and/or routines
+ *
+ * @author Jasem Mutlaq
+ * @version 1.0
  */
 class GuideInterface : public QObject
 {
@@ -48,7 +54,7 @@ class GuideInterface : public QObject
     virtual bool setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY);
     virtual bool getFrameParams(uint16_t *x, uint16_t *y, uint16_t *w, uint16_t *h, uint16_t *binX, uint16_t *binY);
 
-    virtual void setStarPosition(QVector3D starCenter);
+    virtual void setStarPosition(QVector3D& starCenter);
 
   signals:
     void newLog(const QString &);
@@ -66,5 +72,3 @@ class GuideInterface : public QObject
     uint16_t subX, subY, subW, subH, subBinX, subBinY;
 };
 }
-
-#endif // GUIDEINTERFACE_H

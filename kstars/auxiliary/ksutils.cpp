@@ -18,25 +18,17 @@
 #include "ksutils.h"
 
 #include "deepskyobject.h"
-#include "skyobject.h"
-#include "starobject.h"
 #include "Options.h"
-
-#include <QFile>
-#include <QProcessEnvironment>
-#include <QtNumeric>
-#include <QUrl>
-#include <QStandardPaths>
+#ifndef KSTARS_LITE
+#include "kswizard.h"
+#endif
+#include "starobject.h"
+#include "auxiliary/kspaths.h"
 
 #ifndef KSTARS_LITE
 #include <KMessageBox>
-#include "kswizard.h"
 #endif
 
-#include <cmath>
-#include "auxiliary/kspaths.h"
-
-#include <QPointer>
 #include <QProcessEnvironment>
 
 namespace KSUtils
@@ -160,10 +152,11 @@ QString toDirectionString(dms angle)
                                         I18N_NOOP2("Unknown cardinal / intercardinal direction", "???") };
 
     int index = (int)((angle.reduce().Degrees() + 11.25) / 22.5); // A number between 0 and 16 (inclusive) is expected
+
     if (index < 0 || index > 16)
-        index = 17; // Something went wrong.
+        index = 16; // Something went wrong.
     else
-        index = ((index == 16) ? 0 : index);
+        index = (index == 16 ? 0 : index);
 
     return i18nc("Abbreviated cardinal / intercardinal etc. direction", directions[index]);
 }
@@ -171,6 +164,7 @@ QString toDirectionString(dms angle)
 QList<SkyObject *> *castStarObjListToSkyObjList(QList<StarObject *> *starObjList)
 {
     QList<SkyObject *> *skyObjList = new QList<SkyObject *>();
+
     foreach (StarObject *so, *starObjList)
     {
         skyObjList->append(so);

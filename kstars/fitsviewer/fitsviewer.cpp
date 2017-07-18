@@ -19,48 +19,21 @@
 
 #include "fitsviewer.h"
 
-#include <QFileDialog>
-#include <QDebug>
-#include <QTabWidget>
-#include <QAction>
-#include <QTemporaryFile>
-#include <QFile>
-#include <QCursor>
-#include <QRadioButton>
-#include <QClipboard>
-#include <QImage>
-#include <QRegExp>
-#include <QKeyEvent>
-#include <QCloseEvent>
-#include <QTreeWidget>
-#include <QHeaderView>
-#include <QApplication>
-#include <QUndoStack>
-#include <QUndoGroup>
-#include <QSignalMapper>
-#include <QStatusBar>
-#include <QMenuBar>
-#include <QKeySequence>
-
-#include <KActionCollection>
-#include <KLed>
-#include <KMessageBox>
-#include <KStandardAction>
-#include <KToolBar>
-#include <KLocalizedString>
-
-#include "kstars.h"
 #include "fitsdata.h"
+#include "fitsdebayer.h"
 #include "fitstab.h"
 #include "fitsview.h"
-#include "fitsdebayer.h"
-#include "fitshistogram.h"
+#include "kstars.h"
 #include "ksutils.h"
 #include "Options.h"
-
 #ifdef HAVE_INDI
 #include "indi/indilistener.h"
 #endif
+
+#include <KActionCollection>
+#include <KMessageBox>
+#include <KToolBar>
+#include <KNotifications/KStatusNotifierItem>
 
 #define INITIAL_W 785
 #define INITIAL_H 650
@@ -85,10 +58,6 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
 
     fitsTab   = new QTabWidget(this);
     undoGroup = new QUndoGroup(this);
-
-    fitsID        = 0;
-    debayerDialog = nullptr;
-    markStars     = false;
 
     lastURL = QUrl(QDir::homePath());
 
@@ -125,9 +94,8 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     statusBar()->insertPermanentWidget(FITS_RESOLUTION, &fitsResolution);
     statusBar()->insertPermanentWidget(FITS_LED, &led);
 
-    QAction *action;
+    QAction *action = actionCollection()->addAction("rotate_right", this, SLOT(rotateCW()));
 
-    action = actionCollection()->addAction("rotate_right", this, SLOT(rotateCW()));
     action->setText(i18n("Rotate Right"));
     action->setIcon(QIcon::fromTheme("object-rotate-right", QIcon(":/icons/breeze/default/object-rotate-right.svg")));
 
@@ -293,6 +261,7 @@ FITSViewer::~FITSViewer()
     fitsTab->disconnect();
 
     qDeleteAll(fitsTabs);
+    fitsTabs.clear();
 }
 
 void FITSViewer::closeEvent(QCloseEvent * /*event*/)
@@ -535,42 +504,6 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
     updateWCSFunctions();
 }
 
-// No need to warn users about unsaved changes in a "viewer".
-/*void FITSViewer::slotClose()
-{
-    int rc=0;
-    fitsTab->disconnect();
-
-    if (undoGroup->isClean())
-        close();
-    else
-    {
-        for (int i=0; i < fitsTabs.size(); i++)
-            if ( (rc=saveUnsaved(i)) == 2)
-                return;
-    }
-}
-
-void FITSViewer::closeEvent(QCloseEvent *ev)
-{
-
-    int rc=0;
-    fitsTab->disconnect();
-
-
-   for (int i=0; i < fitsTabs.size(); i++)
-       if ( (rc=saveUnsaved(i)) == 2)
-       {
-           ev->ignore();
-           return;
-       }
-
-    if( undoGroup->isClean() )
-        ev->accept();
-    else
-        ev->ignore();
-}*/
-
 void FITSViewer::openFile()
 {
     QUrl fileURL =
@@ -687,43 +620,6 @@ void FITSViewer::debayerFITS()
     debayerDialog->show();
 }
 
-int FITSViewer::saveUnsaved(int index)
-{
-    FITSTab *targetTab = nullptr;
-
-    if (index < 0 || index >= fitsTabs.size())
-        return -1;
-    targetTab = fitsTabs[index];
-
-    if (targetTab->getView()->getMode() != FITS_NORMAL)
-        targetTab->getUndoStack()->clear();
-
-    if (targetTab->getUndoStack()->isClean())
-        return -1;
-
-    QString caption = i18n("Save Changes to FITS?");
-    QString message = i18n("%1 has unsaved changes.  Would you like to save before closing it?",
-                           targetTab->getCurrentURL()->fileName());
-    int ans =
-        KMessageBox::warningYesNoCancel(0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
-    if (ans == KMessageBox::Yes)
-    {
-        targetTab->saveFile();
-        return 0;
-    }
-    else if (ans == KMessageBox::No)
-    {
-        targetTab->getUndoStack()->clear();
-        return 1;
-    }
-    else if (ans == KMessageBox::Cancel)
-    {
-        return 2;
-    }
-
-    return -1;
-}
-
 void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
 {
     switch (id)
@@ -787,9 +683,8 @@ void FITSViewer::ZoomToFit()
 
 void FITSViewer::updateAction(const QString &name, bool enable)
 {
-    QAction *toolAction = nullptr;
+    QAction *toolAction = actionCollection()->action(name);
 
-    toolAction = actionCollection()->action(name);
     if (toolAction != nullptr)
         toolAction->setEnabled(enable);
 }
@@ -816,18 +711,6 @@ void FITSViewer::closeTab(int index)
 
     FITSTab *tab = fitsTabs[index];
 
-    // N.B. We will allow closing of all tabs
-    //if (tab->getView()->getMode() != FITS_NORMAL)
-    //   return;
-
-    /* Disabling user confirmation for saving edited FITS
-       Since in most cases the modifications are done to enhance the view and not to change the data
-       This is _intentional_, it's a feature, not a bug! */
-    /*int rc = saveUnsaved(index);
-
-    if (rc == 2)
-        return;*/
-
     fitsMap.remove(tab->getUID());
     fitsTabs.removeOne(tab);
     delete tab;
@@ -845,7 +728,7 @@ void FITSViewer::closeTab(int index)
  when one of them gets pushed and also when tabs are switched.
  */
 
-void FITSViewer::updateButtonStatus(QString action, QString item, bool showing)
+void FITSViewer::updateButtonStatus(const QString& action, const QString& item, bool showing)
 {
     QAction *a = actionCollection()->action(action);
     if (showing)

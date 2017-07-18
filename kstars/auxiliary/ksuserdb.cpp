@@ -23,6 +23,7 @@
 #include "linelist.h"
 #include "version.h"
 
+#include <QDebug>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlTableModel>
@@ -34,6 +35,11 @@
  * One of the unresolved problems was the creation of a unique identifier
  * for each object (DSO,planet,star etc) for use in the database.
 */
+
+KSUserDB::~KSUserDB()
+{
+    userdb_.close();
+}
 
 bool KSUserDB::Initialize()
 {
@@ -190,11 +196,6 @@ bool KSUserDB::Initialize()
     }
     userdb_.close();
     return true;
-}
-
-KSUserDB::~KSUserDB()
-{
-    userdb_.close();
 }
 
 QSqlError KSUserDB::LastError()
@@ -1507,7 +1508,7 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     userdb_.close();
 }
 
-void KSUserDB::GetAllProfiles(QList<ProfileInfo *> &profiles)
+void KSUserDB::GetAllProfiles(QList<std::shared_ptr<ProfileInfo>> &profiles)
 {
     userdb_.open();
     QSqlTableModel profile(0, userdb_);
@@ -1520,9 +1521,7 @@ void KSUserDB::GetAllProfiles(QList<ProfileInfo *> &profiles)
 
         int id       = record.value("id").toInt();
         QString name = record.value("name").toString();
-
-        // FIXME: This still shows 562 bytes lost in Valgrind, why? Investigate
-        ProfileInfo *pi = new ProfileInfo(id, name);
+        std::shared_ptr<ProfileInfo> pi(new ProfileInfo(id, name));
 
         // Add host and port
         pi->host = record.value("host").toString();
@@ -1543,7 +1542,7 @@ void KSUserDB::GetAllProfiles(QList<ProfileInfo *> &profiles)
             pi->guiderport = record.value("guiderport").toInt();
         }
 
-        GetProfileDrivers(pi);
+        GetProfileDrivers(pi.get());
         //GetProfileCustomDrivers(pi);
 
         profiles.append(pi);

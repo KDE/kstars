@@ -14,17 +14,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FITSTAB_H
-#define FITSTAB_H
-
-#include <QWidget>
-#include <QUrl>
+#pragma once
 
 #include "fitscommon.h"
 
-class QUndoStack;
-class FITSView;
+#include <QUndoStack>
+#include <QUrl>
+#include <QWidget>
+
+#include <memory>
+
 class FITSHistogram;
+class FITSView;
 class FITSViewer;
 
 /**
@@ -37,14 +38,15 @@ class FITSTab : public QWidget
 {
     Q_OBJECT
   public:
-    FITSTab(FITSViewer *parent);
-    ~FITSTab();
+    explicit FITSTab(FITSViewer *parent);
+    virtual ~FITSTab();
+
     bool loadFITS(const QUrl *imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE, bool silent = true);
     int saveFITS(const QString &filename);
 
     inline QUndoStack *getUndoStack() { return undoStack; }
     inline QUrl *getCurrentURL() { return &currentURL; }
-    inline FITSView *getView() { return view; }
+    inline FITSView *getView() { return view.get(); }
     inline FITSHistogram *getHistogram() { return histogram; }
     inline FITSViewer *getViewer() { return viewer; }
 
@@ -77,21 +79,23 @@ class FITSTab : public QWidget
   private:
     /** Ask user whether he wants to save changes and save if he do. */
 
-    FITSView *view;           /* FITS image object */
-    FITSHistogram *histogram; /* FITS Histogram */
-    FITSViewer *viewer;
+    /// FITS image object
+    std::unique_ptr<FITSView> view;
+    /// FITS Histogram
+    FITSHistogram *histogram { nullptr };
+    FITSViewer *viewer { nullptr };
 
-    QUndoStack *undoStack; /* History for undo/redo */
-    QUrl currentURL;       /* FITS File name and path */
+    /// History for undo/redo
+    QUndoStack *undoStack { nullptr };
+    /// FITS File name and path
+    QUrl currentURL;
 
-    bool mDirty;
+    bool mDirty { false };
     QString previewText;
-    int uid;
+    int uid { 0 };
 
   signals:
     void debayerToggled(bool);
     void newStatus(const QString &msg, FITSBar id);
     void changeStatus(bool clean);
 };
-
-#endif // FITSTAB_H
