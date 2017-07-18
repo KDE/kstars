@@ -9,9 +9,10 @@
  */
 
 #include "fitsdebayer.h"
-#include "fitsviewer.h"
-#include "fitsview.h"
+
 #include "fitsdata.h"
+#include "fitsview.h"
+#include "fitsviewer.h"
 
 debayerUI::debayerUI(QDialog *parent) : QDialog(parent)
 {

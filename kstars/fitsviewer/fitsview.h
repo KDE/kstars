@@ -8,26 +8,14 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef FITSView_H_
-#define FITSView_H_
+#pragma once
 
-#include <QFrame>
-#include <QImage>
-#include <QPixmap>
-#include <QMouseEvent>
-#include <QResizeEvent>
-#include <QPaintEvent>
+#include "fitscommon.h"
 
 #include <QFutureWatcher>
-#include <QEvent>
-#include <QGestureEvent>
-#include <QGestureEvent>
-#include <QPinchGesture>
-
+#include <QPixmap>
 #include <QScrollArea>
-#include <QLabel>
-
-#include <kxmlguiwindow.h>
+#include <QStack>
 
 #ifdef WIN32
 // avoid compiler warning when windows.h is included after fitsio.h
@@ -35,15 +23,23 @@
 #endif
 
 #include <fitsio.h>
-#include "fitshistogram.h"
-#include "fitscommon.h"
 
-#include "dms.h"
-#include "fitsdata.h"
+#include <memory>
 
 #define MINIMUM_PIXEL_RANGE 5
 #define MINIMUM_STDVAR      5
 
+class QAction;
+class QEvent;
+class QGestureEvent;
+class QImage;
+class QLabel;
+class QPinchGesture;
+class QResizeEvent;
+class QToolBar;
+
+class FITSData;
+class FITSHistogram;
 class FITSLabel;
 
 class FITSView : public QScrollArea
@@ -59,8 +55,6 @@ class FITSView : public QScrollArea
     int saveFITS(const QString &filename);
     /* Rescale image lineary from image_buffer, fit to window if desired */
     int rescale(FITSZoom type);
-
-    void setImageData(FITSData *d) { imageData = d; }
 
     // Access functions
     FITSData *getImageData() { return imageData; }
@@ -102,13 +96,8 @@ class FITSView : public QScrollArea
     void setMouseMode(int mode);
     void updateMouseCursor();
 
-    static const int dragMouse   = 0;
-    static const int selectMouse = 1;
-    static const int scopeMouse  = 2;
-
     void updateScopeButton();
     void setScopeButton(QAction *action) { centerTelescopeAction = action; }
-    int lastMouseMode;
 
     // Zoom related
     void cleanUpZoom(QPoint viewCenter);
@@ -135,16 +124,9 @@ class FITSView : public QScrollArea
 
     //void setLoadWCSEnabled(bool value);
 
-  protected:
+  public slots:
     void wheelEvent(QWheelEvent *event);
     void resizeEvent(QResizeEvent *event);
-
-    QFutureWatcher<bool> wcsWatcher; // WCS Future Watcher
-    QPointF markerCrosshair;         // Cross hair
-    FITSData *imageData;             // Pointer to FITSData object
-    double currentZoom;              // Current zoom level
-
-  public slots:
     void ZoomIn();
     void ZoomOut();
     void ZoomDefault();
@@ -171,10 +153,7 @@ class FITSView : public QScrollArea
     void syncWCSState();
     //void handleWCSCompletion();
 
-  private:
-    QLabel *noImageLabel = nullptr;
-    QPixmap noImage;
-
+private:
     bool event(QEvent *event);
     bool gestureEvent(QGestureEvent *event);
     void pinchTriggered(QPinchGesture *gesture);
@@ -187,35 +166,58 @@ class FITSView : public QScrollArea
     void calculateMaxPixel(double min, double max);
     void initDisplayImage();
 
-    QVector<QPointF> eqGridPoints;
-
-    FITSLabel *image_frame;
-
-    int image_width, image_height;
-
-    uint16_t currentWidth, currentHeight; /* Current width and height due to zoom */
-    const double zoomFactor;              /* Image zoom factor */
-
-    int data_type;         /* FITS data type when opened */
-    QImage *display_image; /* FITS image that is displayed in the GUI */
-    FITSHistogram *histogram;
-
-    double maxPixel, minPixel;
-
-    bool firstLoad;
-    bool markStars     = false;
-    bool showCrosshair = false;
-    bool showObjects   = false;
-    bool showEQGrid    = false;
-    bool showPixelGrid = false;
-    bool starsSearched = false;
-
     QPointF getPointForGridLabel();
     bool pointIsInImage(QPointF pt, bool scaled);
 
-    int mouseMode = 1;
-    bool zooming  = false;
-    int zoomTime  = 0;
+public:
+    static const int dragMouse { 0 };
+    static const int selectMouse { 1 };
+    static const int scopeMouse { 2 };
+    int lastMouseMode { 0 };
+
+protected:
+    /// WCS Future Watcher
+    QFutureWatcher<bool> wcsWatcher;
+    /// Cross hair
+    QPointF markerCrosshair;
+    /// Pointer to FITSData object
+    FITSData *imageData { nullptr };
+    /// Current zoom level
+    double currentZoom { 0 };
+
+private:
+    QLabel *noImageLabel { nullptr };
+    QPixmap noImage;
+
+    QVector<QPointF> eqGridPoints;
+
+    std::unique_ptr<FITSLabel> image_frame;
+
+    int image_width { 0 };
+    int image_height { 0 };
+
+    /// Current width due to zoom
+    uint16_t currentWidth { 0 };
+    /// Current height due to zoom
+    uint16_t currentHeight { 0 };
+    /// Image zoom factor
+    const double zoomFactor;
+
+    /// FITS image that is displayed in the GUI
+    QImage *display_image { nullptr };
+    FITSHistogram *histogram { nullptr };
+
+    bool firstLoad { true };
+    bool markStars { false };
+    bool showCrosshair { false };
+    bool showObjects { false };
+    bool showEQGrid { false };
+    bool showPixelGrid { false };
+    bool starsSearched { false };
+
+    int mouseMode { 1 };
+    bool zooming { false };
+    int zoomTime { 0 };
     QPoint zoomLocation;
 
     QString filename;
@@ -225,11 +227,10 @@ class FITSView : public QScrollArea
     QStack<FITSScale> filterStack;
 
     // Star selection algorithm
-    StarAlgorithm starAlgorithm = ALGORITHM_GRADIENT;
+    StarAlgorithm starAlgorithm { ALGORITHM_GRADIENT };
 
     // Tracking box
-    bool trackingBoxEnabled;
-    bool trackingBoxUpdated;
+    bool trackingBoxEnabled { false };
     QRect trackingBox;
     QPixmap trackingBoxPixmap;
 
@@ -237,9 +238,11 @@ class FITSView : public QScrollArea
     QPixmap scopePixmap;
 
     // Floating toolbar
-    QToolBar *floatingToolBar      = nullptr;
-    QAction *centerTelescopeAction = nullptr, *toggleEQGridAction = nullptr, *toggleObjectsAction = nullptr,
-            *toggleStarsAction = nullptr;
+    QToolBar *floatingToolBar { nullptr };
+    QAction *centerTelescopeAction { nullptr };
+    QAction *toggleEQGridAction { nullptr };
+    QAction *toggleObjectsAction { nullptr };
+    QAction *toggleStarsAction { nullptr };
 
   signals:
     void newStatus(const QString &msg, FITSBar id);
@@ -250,5 +253,3 @@ class FITSView : public QScrollArea
 
     friend class FITSLabel;
 };
-
-#endif

@@ -16,31 +16,21 @@
  ***************************************************************************/
 
 #include "imageviewer.h"
+
 #ifndef KSTARS_LITE
 #include "kstars.h"
 #endif
 
-#include <QFont>
-#include <QPainter>
-#include <QResizeEvent>
-#include <QKeyEvent>
-#include <QPaintEvent>
-#include <QCloseEvent>
-#include <QDesktopWidget>
-#include <QVBoxLayout>
-#include <QApplication>
-#include <QLabel>
-#include <QDebug>
-#include <QFileDialog>
-#include <QStatusBar>
-#include <QTemporaryFile>
-
 #ifndef KSTARS_LITE
 #include <KMessageBox>
-#include <KJobUiDelegate>
 #endif
-//#include <KIO/CopyJob>
-#include <KLocalizedString>
+
+#include <QDesktopWidget>
+#include <QFileDialog>
+#include <QPainter>
+#include <QResizeEvent>
+#include <QStatusBar>
+#include <QTemporaryFile>
 
 QUrl ImageViewer::lastURL = QUrl::fromLocalFile(QDir::homePath());
 
@@ -105,7 +95,7 @@ ImageViewer::ImageViewer(const QString &caption, QWidget *parent) : QDialog(pare
 }
 
 ImageViewer::ImageViewer(const QUrl &url, const QString &capText, QWidget *parent)
-    : QDialog(parent), m_ImageUrl(url), fileIsImage(false)
+    : QDialog(parent), m_ImageUrl(url)
 {
 #ifndef KSTARS_LITE
     init(url.fileName(), capText);

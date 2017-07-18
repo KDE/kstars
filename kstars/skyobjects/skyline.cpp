@@ -16,8 +16,11 @@
  ***************************************************************************/
 
 #include "skyline.h"
+
 #include "kstarsdata.h"
 #include "ksnumbers.h"
+
+#include <QDebug>
 
 SkyLine::SkyLine()
 {

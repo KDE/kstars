@@ -9,11 +9,14 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <QtConcurrent>
-
-#include "Options.h"
 #include "alignview.h"
+
 #include "kstarsdata.h"
+#include "Options.h"
+#include "fitsviewer/fitsdata.h"
+
+#include <QPainter>
+#include <QtConcurrent>
 
 #define ZOOM_DEFAULT 100.0
 #define ZOOM_MIN     10
@@ -60,7 +63,7 @@ bool AlignView::createWCSFile(const QString &newWCSFile, double orientation, dou
     return true;
 }
 
-void AlignView::setCorrectionParams(QLineF line)
+void AlignView::setCorrectionParams(QLineF &line)
 {
     if (imageData == nullptr)
         return;
@@ -83,7 +86,7 @@ void AlignView::setCorrectionParams(QLineF line)
     updateFrame();
 }
 
-void AlignView::setCorrectionOffset(QPointF newOffset)
+void AlignView::setCorrectionOffset(QPointF &newOffset)
 {
     if (imageData == nullptr)
         return;

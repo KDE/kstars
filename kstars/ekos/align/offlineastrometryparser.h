@@ -7,14 +7,13 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef OFFLINEASTROMETRYPARSER_H
-#define OFFLINEASTROMETRYPARSER_H
+#pragma once
+
+#include "astrometryparser.h"
 
 #include <QMap>
 #include <QProcess>
 #include <QTime>
-
-#include "astrometryparser.h"
 
 namespace Ekos
 {
@@ -56,9 +55,7 @@ class OfflineAstrometryParser : public AstrometryParser
     QProcess wcsinfo;
     QTime solverTimer;
     QString fitsFile;
-    bool astrometryFilesOK;
-    Align *align;
+    bool astrometryFilesOK { false };
+    Align *align { nullptr };
 };
 }
-
-#endif // OFFLINEASTROMETRYPARSER_H

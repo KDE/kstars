@@ -11,7 +11,6 @@
 #pragma once
 
 #include "ui_rotatorsettings.h"
-
 #include "indi/indistd.h"
 
 #include <QDialog>
@@ -20,7 +19,7 @@ class RotatorSettings : public QDialog, public Ui::RotatorDialog
 {
     Q_OBJECT
 public:
-    RotatorSettings(QWidget *parent);
+    explicit RotatorSettings(QWidget *parent);
 
     void setRotator(ISD::GDInterface *rotator);
 
@@ -43,6 +42,6 @@ protected slots:
     void gotoAngle();
 
 private:
-    ISD::GDInterface *currentRotator=nullptr;
-    double ticksPerDegree=0;
+    ISD::GDInterface *currentRotator { nullptr };
+    double ticksPerDegree { 0 };
 };

@@ -7,11 +7,10 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef REMOTEASTROMETRYPARSER_H
-#define REMOTEASTROMETRYPARSER_H
+#pragma once
 
-#include "indi/indiccd.h"
 #include "astrometryparser.h"
+#include "indi/indiccd.h"
 
 namespace Ekos
 {
@@ -24,7 +23,6 @@ class Align;
  *
  * @authro Jasem Mutlaq
  */
-
 class RemoteAstrometryParser : public AstrometryParser
 {
     Q_OBJECT
@@ -48,13 +46,11 @@ class RemoteAstrometryParser : public AstrometryParser
     void checkResults(INumberVectorProperty *nvp);
 
   private:
-    ISD::GDInterface *remoteAstrometry = nullptr;
-    bool solverRunning;
-    bool captureRunning;
-    Align *align;
+    ISD::GDInterface *remoteAstrometry { nullptr };
+    bool solverRunning { false };
+    bool captureRunning { false };
+    Align *align { nullptr };
     QTime solverTimer;
     QString parity;
 };
 }
-
-#endif // REMOTEASTROMETRYPARSER_H

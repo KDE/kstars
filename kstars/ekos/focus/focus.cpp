@@ -7,44 +7,29 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <gsl/gsl_fit.h>
-#include <gsl/gsl_vector.h>
-#include <gsl/gsl_matrix.h>
-#include <gsl/gsl_multifit.h>
-#include <gsl/gsl_min.h>
-
-#include <algorithm>
-
-#include <KMessageBox>
-#include <KLocalizedString>
-#include <KNotifications/KNotification>
-
 #include "focus.h"
-#include "Options.h"
 
-#include "indi/driverinfo.h"
-#include "indi/indicommon.h"
-#include "indi/clientmanager.h"
-#include "indi/indifilter.h"
-
-#include "auxiliary/kspaths.h"
-#include "auxiliary/ksuserdb.h"
-
-#include "fitsviewer/fitsviewer.h"
-#include "fitsviewer/fitstab.h"
-#include "fitsviewer/fitsview.h"
-#include "ekos/ekosmanager.h"
-#include "ekos/auxiliary/darklibrary.h"
-
+#include "focusadaptor.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "focusadaptor.h"
+#include "Options.h"
+#include "auxiliary/kspaths.h"
+#include "ekos/ekosmanager.h"
+#include "ekos/auxiliary/darklibrary.h"
+#include "fitsviewer/fitstab.h"
+#include "fitsviewer/fitsview.h"
+#include "indi/indifilter.h"
+
+#include <KNotifications/KNotification>
 
 #include <basedevice.h>
 
+#include <gsl/gsl_fit.h>
+#include <gsl/gsl_vector.h>
+#include <gsl/gsl_min.h>
+
 #define MAXIMUM_ABS_ITERATIONS   30
 #define MAXIMUM_RESET_ITERATIONS 2
-#define DEFAULT_SUBFRAME_DIM     128
 #define AUTO_STAR_TIMEOUT        45000
 #define MINIMUM_PULSE_TIMER      32
 #define MAX_RECAPTURE_RETRIES    3
@@ -59,47 +44,12 @@ Focus::Focus()
     new FocusAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Focus", this);
 
-    currentFocuser = nullptr;
-    currentCCD     = nullptr;
-    currentFilter  = nullptr;
-    filterName     = nullptr;
-    filterSlot     = nullptr;
-
-    canAbsMove        = false;
-    canRelMove        = false;
-    canTimerMove      = false;
-    inAutoFocus       = false;
-    inFocusLoop       = false;
-    captureInProgress = false;
-    inSequenceFocus   = false;
-    starSelected      = false;
     //frameModified     = false;
-    subFramed             = false;
-    resetFocus            = false;
-    filterPositionPending = false;
 
     waitStarSelectTimer.setInterval(AUTO_STAR_TIMEOUT);
     connect(&waitStarSelectTimer, SIGNAL(timeout()), this, SLOT(checkAutoStarTimeout()));
 
-    rememberUploadMode        = ISD::CCD::UPLOAD_CLIENT;
-    HFRInc                    = 0;
-    noStarCount               = 0;
-    reverseDir                = false;
-    initialFocuserAbsPosition = -1;
-
-    state = Ekos::FOCUS_IDLE;
-
-    pulseDuration = 1000;
-
-    resetFocusIteration = 0;
     //fy=fw=fh=0;
-    //orig_x = orig_y = orig_w = orig_h =-1;
-    lockedFilterIndex  = -1;
-    maxHFR             = 1;
-    minimumRequiredHFR = -1;
-    currentFilterIndex = -1;
-    minPos             = 1e6;
-    maxPos             = 0;
     HFRFrames.clear();
 
     showFITSViewerB->setIcon(
@@ -162,10 +112,6 @@ Focus::Focus()
 
     connect(clearDataB, SIGNAL(clicked()), this, SLOT(clearDataPoints()));
 
-    lastFocusDirection = FOCUS_NONE;
-
-    focusType = FOCUS_MANUAL;
-
     profileDialog = new QDialog(this);
     profileDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
     QVBoxLayout *profileLayout = new QVBoxLayout(profileDialog);
@@ -196,8 +142,6 @@ Focus::Focus()
     profileDialog->resize(400, 300);
 
     connect(relativeProfileB, SIGNAL(clicked()), profileDialog, SLOT(show()));
-
-    firstGaus = nullptr;
 
     currentGaus = profilePlot->addGraph();
     currentGaus->setLineStyle(QCPGraph::lsLine);
@@ -295,8 +239,6 @@ Focus::Focus()
 
 Focus::~Focus()
 {
-    //qDeleteAll(HFRAbsolutePoints);
-    // HFRAbsolutePoints.clear();
     if (focusingWidget->parent() == nullptr)
         toggleFocusingWidgetFullScreen();
 }
@@ -1090,12 +1032,10 @@ void Focus::newFITS(IBLOB *bp)
 
     if (darkFrameCheck->isChecked())
     {
-        FITSData *darkData   = nullptr;
+        FITSData *darkData   = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());;
         QVariantMap settings = frameSettings[targetChip];
         uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
         uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
-
-        darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
 
         connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
         connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
@@ -1216,9 +1156,9 @@ void Focus::setCaptureComplete()
                     // Sort all HFRs
                     std::sort(HFRFrames.begin(), HFRFrames.end());
                     const auto median =
-                        HFRFrames.size() % 2 ?
+                        ((HFRFrames.size() % 2) ?
                             HFRFrames[HFRFrames.size() / 2] :
-                            ((double)HFRFrames[HFRFrames.size() / 2 - 1] + HFRFrames[HFRFrames.size() / 2]) * .5;
+                            ((double)HFRFrames[HFRFrames.size() / 2 - 1] + HFRFrames[HFRFrames.size() / 2]) * .5);
                     const auto mean = std::accumulate(HFRFrames.begin(), HFRFrames.end(), .0) / HFRFrames.size();
                     double variance = 0;
                     foreach (auto val, HFRFrames)
@@ -1592,7 +1532,7 @@ void Focus::drawProfilePlot()
     float start   = -stdDev * 4;
     float end     = stdDev * 4;
     float step    = stdDev * 4 / 20.0;
-    for (float x = start; x < end; x += step)
+    for (double x = start; x < end; x += step)
     {
         currentIndexes.append(x);
         currentFrequencies.append((1 / (stdDev * sqrt(2 * M_PI))) * exp(-1 * (x * x) / (2 * (stdDev * stdDev))));
@@ -1632,8 +1572,8 @@ void Focus::drawProfilePlot()
 
 void Focus::autoFocusAbs()
 {
-    static int lastHFRPos = 0, minHFRPos = 0, initSlopePos = 0, focusOutLimit = 0, focusInLimit = 0;
-    static double minHFR = 0, initSlopeHFR = 0;
+    static int minHFRPos = 0, focusOutLimit = 0, focusInLimit = 0;
+    static double minHFR = 0;
     double targetPosition = 0, delta = 0;
 
     QString deltaTxt = QString("%1").arg(fabs(currentHFR - minHFR) * 100.0, 0, 'g', 3);
@@ -1688,17 +1628,6 @@ void Focus::autoFocusAbs()
     else
         noStarCount = 0;
 
-    /*if (currentHFR > maxHFR || HFRAbsolutePoints.empty())
-    {
-        maxHFR = currentHFR;
-
-        if (HFRAbsolutePoints.empty())
-        {
-            maxPos=1;
-            minPos=1e6;
-        }
-    }*/
-
     if (hfr_position.empty())
     {
         maxPos = 1;
@@ -1710,15 +1639,8 @@ void Focus::autoFocusAbs()
     if (currentPosition < minPos)
         minPos = currentPosition;
 
-    //HFRPoint *p = new HFRPoint();
-
-    //p->HFR = currentHFR;
-    //p->pos = currentPosition;
-
     hfr_position.append(currentPosition);
     hfr_value.append(currentHFR);
-
-    //HFRAbsolutePoints.append(p);
 
     drawHFRPlot();
 
@@ -1742,6 +1664,9 @@ void Focus::autoFocusAbs()
 
         case FOCUS_IN:
         case FOCUS_OUT:
+            static int lastHFRPos = 0, initSlopePos = 0;
+            static double initSlopeHFR = 0;
+
             if (reverseDir && focusInLimit && focusOutLimit &&
                 fabs(currentHFR - minHFR) < (toleranceIN->value() / 100.0) && HFRInc == 0)
             {
@@ -2415,8 +2340,6 @@ void Focus::focusStarSelected(int x, int y)
         if ((y + h) > maxH)
             h = maxH - y;
 
-        //targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
-
         //fx += x;
         //fy += y;
         //fw = w;
@@ -2695,7 +2618,7 @@ void Focus::showFITSViewer()
             else
             {
                 fv = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
-                KStars::Instance()->getFITSViewersList().append(fv);
+                KStars::Instance()->getFITSViewersList().append(fv.data());
             }
 
             fv->addFITS(&url);

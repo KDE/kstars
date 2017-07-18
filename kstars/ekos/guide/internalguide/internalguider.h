@@ -9,19 +9,19 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef INTERNALGUIDER_H
-#define INTERNALGUIDER_H
-
-#include <QFile>
-#include <QPixmap>
-
-#include "indi/indicommon.h"
-#include "fitsviewer/fitsview.h"
+#pragma once
 
 #include "matr.h"
+#include "fitsviewer/fitsview.h"
+#include "indi/indicommon.h"
 #include "../guideinterface.h"
 
+#include <QFile>
+#include <QPointer>
+
 class cgmath;
+
+class QVector3D;
 
 namespace Ekos
 {
@@ -68,7 +68,7 @@ class InternalGuider : public GuideInterface
                          double mountFocalLength) override;
 
     // Set Star Position
-    void setStarPosition(QVector3D starCenter) override;
+    void setStarPosition(QVector3D &starCenter) override;
 
     // Select algorithm
     void setSquareAlgorithm(int index);
@@ -154,5 +154,3 @@ class InternalGuider : public GuideInterface
     CalibrationType calibrationType;
 };
 }
-
-#endif // INTERNALGUIDER_H

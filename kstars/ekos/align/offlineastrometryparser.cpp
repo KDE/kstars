@@ -7,17 +7,13 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <QDir>
-#include <QFileInfo>
-
-#include <KMessageBox>
-#include <KLocalizedString>
-#include "Options.h"
-
-#include "auxiliary/kspaths.h"
 #include "offlineastrometryparser.h"
+
 #include "align.h"
 #include "ksutils.h"
+#include "Options.h"
+
+#include <KMessageBox>
 
 namespace Ekos
 {
@@ -43,8 +39,6 @@ OfflineAstrometryParser::OfflineAstrometryParser() : AstrometryParser()
     astrometryIndex[1000] = "index-4217";
     astrometryIndex[1400] = "index-4218";
     astrometryIndex[2000] = "index-4219";
-
-    astrometryFilesOK = false;
 }
 
 OfflineAstrometryParser::~OfflineAstrometryParser()

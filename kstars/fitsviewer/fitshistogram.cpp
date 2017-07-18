@@ -8,36 +8,17 @@
 
  */
 
-#include "fitsviewer.h"
 #include "fitshistogram.h"
+
+#include "fitsdata.h"
 #include "fitstab.h"
 #include "fitsview.h"
-#include "fitsdata.h"
-
-#include <cmath>
-#include <cstdlib>
-#include <zlib.h>
-
-#include <QPainter>
-#include <QSlider>
-#include <QCursor>
-#include <QPen>
-#include <QPixmap>
-#include <QRadioButton>
-#include <QPushButton>
-#include <QMouseEvent>
-#include <QPaintEvent>
-
-#include <QUndoStack>
-#include <QDebug>
-//#include <klineedit.h>
-#include <KLocalizedString>
-#include <KMessageBox>
-
+#include "fitsviewer.h"
 #include "Options.h"
 
-#define LOW_PASS_MARGIN 0.01
-#define LOW_PASS_LIMIT  .05
+#include <KMessageBox>
+
+#include <zlib.h>
 
 histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
 {
@@ -49,7 +30,6 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
 {
     ui   = new histogramUI(this);
     tab  = static_cast<FITSTab *>(parent);
-    type = FITS_AUTO;
 
     customPlot = ui->histogramPlot;
 
@@ -169,7 +149,7 @@ void FITSHistogram::constructHistogram()
     for (int i = 0; i < binCount; i++)
         intensity[i] = fits_min + (binWidth * i);
 
-    uint16_t r_id = 0, g_id = 0, b_id = 0;
+    uint16_t r_id = 0;
 
     if (image_data->getNumOfChannels() == 1)
     {
@@ -188,6 +168,8 @@ void FITSHistogram::constructHistogram()
         int b_offset = samples * 2;
         for (uint32_t i = 0; i < samples; i++)
         {
+            uint16_t g_id = 0, b_id = 0;
+
             r_id = round((buffer[i] - fits_min) / binWidth);
             r_frequency[r_id >= binCount ? binCount - 1 : r_id]++;
 
@@ -382,19 +364,16 @@ void FITSHistogram::updateValues(QMouseEvent *event)
 FITSHistogramCommand::FITSHistogramCommand(QWidget *parent, FITSHistogram *inHisto, FITSScale newType, double lmin,
                                            double lmax)
 {
-    tab             = (FITSTab *)parent;
-    type            = newType;
-    histogram       = inHisto;
-    delta           = nullptr;
-    original_buffer = nullptr;
-
-    min = lmin;
-    max = lmax;
+    tab       = static_cast<FITSTab*>(parent);
+    type      = newType;
+    histogram = inHisto;
+    min       = lmin;
+    max       = lmax;
 }
 
 FITSHistogramCommand::~FITSHistogramCommand()
 {
-    delete (delta);
+    delete[] delta;
 }
 
 bool FITSHistogramCommand::calculateDelta(uint8_t *buffer)
@@ -428,6 +407,7 @@ bool FITSHistogramCommand::calculateDelta(uint8_t *buffer)
     }
 
     int r = compress2(delta, &compressedBytes, raw_delta, totalBytes, 5);
+
     if (r != Z_OK)
     {
         /* this should NEVER happen */

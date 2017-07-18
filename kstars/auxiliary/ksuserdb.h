@@ -23,12 +23,14 @@
 #endif
 #include "skyobjects/skyobject.h"
 
-#include <QStringList>
+#include <QFile>
 #include <QSqlDatabase>
 #include <QSqlError>
+#include <QStringList>
 #include <QVariantMap>
-#include <QFile>
 #include <QXmlStreamReader>
+
+#include <memory>
 
 class LineList;
 class ArtificialHorizonEntity;
@@ -42,20 +44,23 @@ class ArtificialHorizonEntity;
  * @author Jasem Mutlaq
  * @version 1.1
  **/
+// cppcheck-suppress noConstructor
 class KSUserDB
 {
   public:
-    /** Initialize KStarsDB while running splash screen
-         * @return true on success
-         */
-    bool Initialize();
     ~KSUserDB();
+
+    /**
+     * Initialize KStarsDB while running splash screen
+     * @return true on success
+     */
+    bool Initialize();
 
     QSqlDatabase GetDatabase();
 
     /************************************************************************
-         ********************************* Drivers ******************************
-         ************************************************************************/
+     ********************************* Drivers ******************************
+     ************************************************************************/
 
     int AddProfile(const QString &name);
 
@@ -64,53 +69,52 @@ class KSUserDB
     void SaveProfile(ProfileInfo *pi);
 
     /**
-         * @brief GetAllProfiles Return all profiles in a QList
-         * @return QMap with the keys as profile names and values are profile ids.
-         */
-    //QMap<int, QStringList> GetAllProfiles();
-    void GetAllProfiles(QList<ProfileInfo *> &profiles);
+     * @brief GetAllProfiles Return all profiles in a QList
+     * @return QMap with the keys as profile names and values are profile ids.
+     */
+    void GetAllProfiles(QList<std::shared_ptr<ProfileInfo>> &profiles);
 
     /************************************************************************
-         ******************************* Dark Library****************************
-         ************************************************************************/
+     ******************************* Dark Library****************************
+     ************************************************************************/
 
     void AddDarkFrame(const QVariantMap &oneFrame);
     bool DeleteDarkFrame(const QString &filename);
     void GetAllDarkFrames(QList<QVariantMap> &darkFrames);
 
     /************************************************************************
-         ******************************* Observers ******************************
-         ************************************************************************/
+     ******************************* Observers ******************************
+     ************************************************************************/
 
-    /**
-         * @brief Adds a new observer into the database
-         **/
+    /** @brief Adds a new observer into the database **/
     void AddObserver(const QString &name, const QString &surname, const QString &contact);
 
-    /* @brief Returns the unique id of the user with given name & surname
-        *
-        * @return true if found, false otherwise
-        **/
+    /**
+     * @brief Returns the unique id of the user with given name & surname
+     *
+     * @return true if found, false otherwise
+     **/
     bool FindObserver(const QString &name, const QString &surname);
     /**
-         * @brief Removes the user with unique id as given by FindObserver
-         * Returns false if the user is not found
-         *
-         * @return bool
-         **/
+     * @brief Removes the user with unique id as given by FindObserver
+     * Returns false if the user is not found
+     *
+     * @return bool
+     **/
     bool DeleteObserver(const QString &id);
+
 #ifndef KSTARS_LITE
     /**
-         * @brief Updates the passed reference of observer_list with all observers
-         * The original content of the list is cleared.
-         *
-         * @return void
-         **/
+     * @brief Updates the passed reference of observer_list with all observers
+     * The original content of the list is cleared.
+     *
+     * @return void
+     **/
     void GetAllObservers(QList<OAL::Observer *> &observer_list);
 #endif
     /************************************************************************
-         ********************************* Horizon ******************************
-         ************************************************************************/
+     ********************************* Horizon ******************************
+     ************************************************************************/
 
     // Jasem: Add API doc
     void DeleteAllHorizons();
@@ -118,179 +122,179 @@ class KSUserDB
     QList<ArtificialHorizonEntity *> GetAllHorizons();
 
     /************************************************************************
-         ********************************* Flags ********************************
-         ************************************************************************/
+     ********************************* Flags ********************************
+     ************************************************************************/
 
     /**
-         * @brief Erases all the flags from the database
-         *
-         * @return void
-         **/
+     * @brief Erases all the flags from the database
+     *
+     * @return void
+     **/
     void DeleteAllFlags();
+
     /**
-         * @brief Add a new Flag with given parameters
-         *
-         * @param ra Right Ascension
-         * @param dec Declination
-         * @param epoch Epoch
-         * @param image_name Name of the image used
-         * @param label Content of display label on screen
-         * @param labelColor Color of the label (name or hex code) eg #00FF00
-         * @return void
-         **/
+     * @brief Add a new Flag with given parameters
+     *
+     * @param ra Right Ascension
+     * @param dec Declination
+     * @param epoch Epoch
+     * @param image_name Name of the image used
+     * @param label Content of display label on screen
+     * @param labelColor Color of the label (name or hex code) eg #00FF00
+     * @return void
+     **/
     void AddFlag(const QString &ra, const QString &dec, const QString &epoch, const QString &image_name,
                  const QString &label, const QString &labelColor);
     /**
-         * @brief Returns a QList populated with all stored flags
-         * Order: const QString &ra, const QString &dec, const QString &epoch,
-         *        const QString &imageName, const QString &label, const QString &labelColor
-         * @return QList< QStringList >
-         **/
+     * @brief Returns a QList populated with all stored flags
+     * Order: const QString &ra, const QString &dec, const QString &epoch,
+     *        const QString &imageName, const QString &label, const QString &labelColor
+     * @return QList< QStringList >
+     **/
     QList<QStringList> GetAllFlags();
 
     /************************************************************************
-         ******************************* Equipment ******************************
-         ************************************************************************/
+      ******************************* Equipment ******************************
+     ************************************************************************/
 
     /**
-         * @brief Erase the equipment with given type and unique id
-         * Valid equipment types: "telescope","lens","filter"
-         *
-         * @param type Equipment type (same as table name)
-         * @param id Unique id (same as row number)
-         * @return void
-         **/
+     * @brief Erase the equipment with given type and unique id
+     * Valid equipment types: "telescope","lens","filter"
+     *
+     * @param type Equipment type (same as table name)
+     * @param id Unique id (same as row number)
+     * @return void
+     **/
     void DeleteEquipment(const QString &type, const int &id);
     /**
-         * @brief Erases the whole equipment table of given type
-         *
-         * @param type Equipment type (same as table name)
-         * @return void
-         **/
+     * @brief Erases the whole equipment table of given type
+     *
+     * @param type Equipment type (same as table name)
+     * @return void
+     **/
     void DeleteAllEquipment(const QString &type);
 
     /************************************************************************
-         ********************************** Scope *******************************
-         ************************************************************************/
+     ********************************** Scope *******************************
+     ************************************************************************/
 
     /**
-         * @brief Appends the scope with given details in the database
-         *
-         * @return void
-         **/
+     * @brief Appends the scope with given details in the database
+     *
+     * @return void
+     **/
     void AddScope(const QString &model, const QString &vendor, const QString &driver, const QString &type,
                   const double &focalLength, const double &aperture);
     /**
-         * @brief Replaces the scope with given ID with provided content
-         *
-         * @return void
-         **/
+     * @brief Replaces the scope with given ID with provided content
+     *
+     * @return void
+     **/
     void AddScope(const QString &model, const QString &vendor, const QString &driver, const QString &type,
                   const double &focalLength, const double &aperture, const QString &id);
 #ifndef KSTARS_LITE
     /**
-         * @brief updates the scope list with all scopes from database
-         * List is cleared and then filled with content.
-         *
-         * @param m_scopeList Reference to list to be updated
-         * @return void
-         **/
+     * @brief updates the scope list with all scopes from database
+     * List is cleared and then filled with content.
+     *
+     * @param m_scopeList Reference to list to be updated
+     * @return void
+     **/
     void GetAllScopes(QList<OAL::Scope *> &m_scopeList);
 #endif
     /************************************************************************
-         ******************************* Eye Piece ******************************
-         ************************************************************************/
+     ******************************* Eye Piece ******************************
+     ************************************************************************/
 
     /**
-         * @brief Add new eyepiece to database
-         *
-         * @return void
-         **/
+     * @brief Add new eyepiece to database
+     *
+     * @return void
+     **/
     void AddEyepiece(const QString &vendor, const QString &model, const double &focalLength, const double &fov,
                      const QString &fovunit);
     /**
-         * @brief Replace eyepiece at position (ID) with new content
-         *
-         * @return void
-         **/
+     * @brief Replace eyepiece at position (ID) with new content
+     *
+     * @return void
+     **/
     void AddEyepiece(const QString &vendor, const QString &model, const double &focalLength, const double &fov,
                      const QString &fovunit, const QString &id);
 #ifndef KSTARS_LITE
     /**
-         * @brief Populate the reference passed with all eyepieces
-         *
-         * @param m_eyepieceList Reference to list of eyepieces
-         * @return void
-         **/
+     * @brief Populate the reference passed with all eyepieces
+     *
+     * @param m_eyepieceList Reference to list of eyepieces
+     * @return void
+     **/
     void GetAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList);
 #endif
     /************************************************************************
-         ********************************** Lens ********************************
-         ************************************************************************/
+     ********************************** Lens ********************************
+     ************************************************************************/
 
     /**
-         * @brief Add a new lens to the database
-         *
-         * @return void
-         **/
+     * @brief Add a new lens to the database
+     *
+     * @return void
+     **/
     void AddLens(const QString &vendor, const QString &model, const double &factor);
     /**
-         * @brief Replace a lens at given ID with new content
-         *
-         * @return void
-         **/
+     * @brief Replace a lens at given ID with new content
+     *
+     * @return void
+     **/
     void AddLens(const QString &vendor, const QString &model, const double &factor, const QString &id);
 #ifndef KSTARS_LITE
     /**
-         * @brief Populate the reference passed with all lenses
-         *
-         * @param m_lensList Reference to list of lenses
-         * @return void
-         **/
+     * @brief Populate the reference passed with all lenses
+     *
+     * @param m_lensList Reference to list of lenses
+     * @return void
+     **/
     void GetAllLenses(QList<OAL::Lens *> &m_lensList);
 #endif
     /************************************************************************
-         ******************************** Filters *******************************
-         ************************************************************************/
+     ******************************** Filters *******************************
+     ************************************************************************/
 
     /**
-         * @brief Add a new filter to the database
-         *
-         * @return void
-         **/
+     * @brief Add a new filter to the database
+     *
+     * @return void
+     **/
     void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &offset,
                    const QString &color, const QString &exposure);
     /**
-         * @brief Replace a filter at given ID with new content
-         *
-         * @return void
-         **/
+     * @brief Replace a filter at given ID with new content
+     *
+     * @return void
+     **/
     void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &offset,
                    const QString &color, const QString &exposure, const QString &id);
 #ifndef KSTARS_LITE
     /**
-         * @brief Populate the reference passed with all filters
-         *
-         * @param m_filterList Reference to list of filters
-         * @return void
-         **/
+     * @brief Populate the reference passed with all filters
+     *
+     * @param m_filterList Reference to list of filters
+     * @return void
+     **/
     void GetAllFilters(QList<OAL::Filter *> &m_filterList);
 #endif
   private:
     /**
-         * @brief This function initializes a new database in the user's directory.
-         * To be run only when a new db is needed. Should not be run over existing
-         * database file.
-         *
-         * @return bool
-         **/
+     * @brief This function initializes a new database in the user's directory.
+     * To be run only when a new db is needed. Should not be run over existing database file.
+     *
+     * @return bool
+     **/
     bool RebuildDB();
     /**
-         * @brief Rebuilds the User DB from scratch using RebuildDB.
-         * Also, loads any previous user data into the DB.
-         *
-         * @return bool
-         **/
+     * @brief Rebuilds the User DB from scratch using RebuildDB.
+     * Also, loads any previous user data into the DB.
+     *
+     * @return bool
+     **/
     bool FirstRun();
 
 #if 0
@@ -314,11 +318,7 @@ class KSUserDB
         bool ImportEquipment();
 
 #endif
-    /**
-         * @brief Helper functions
-         *
-         * @return void
-         **/
+    // Helper functions
     void readScopes();
     void readScope();
     void readEyepieces();
@@ -333,17 +333,14 @@ class KSUserDB
     //void GetProfileCustomDrivers(ProfileInfo *pi);
 
     /**
-         * @brief Linked to the user database _once_.
-         **/
-    QSqlDatabase userdb_;
-    /**
-         * @brief XML reader for importing old formats
-         **/
-    QXmlStreamReader *reader_;
-    /**
-         * @brief Function to return the last error encountered by SQLite
-         *
-         * @return QSqlError
-         **/
+     * @brief Function to return the last error encountered by SQLite
+     *
+     * @return QSqlError
+     **/
     inline QSqlError LastError();
+
+    /** Linked to the user database _once_. **/
+    QSqlDatabase userdb_;
+    /** XML reader for importing old formats **/
+    QXmlStreamReader *reader_ { nullptr };
 };

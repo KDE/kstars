@@ -7,8 +7,7 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef LinGuider_H
-#define LinGuider_H
+#pragma once
 
 #include <QAbstractSocket>
 #include <QTimer>
@@ -74,15 +73,13 @@ class LinGuider : public GuideInterface
     void sendCommand(LinGuiderCommand command, const QString &args = QString());
     void processResponse(LinGuiderCommand command, const QString &reply);
 
-    QTcpSocket *tcpSocket;
+    QTcpSocket *tcpSocket { nullptr };
     QByteArray rawBuffer;
 
-    LinGuiderState state;
-    LinGuiderConnection connection;
+    LinGuiderState state { IDLE };
+    LinGuiderConnection connection { DISCONNECTED };
 
     QTimer deviationTimer;
     QString starCenter;
 };
 }
-
-#endif // LinGuider_H

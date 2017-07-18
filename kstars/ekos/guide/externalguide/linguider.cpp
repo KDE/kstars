@@ -7,18 +7,14 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <QtNetwork/QNetworkReply>
-#include <QtNetwork/QNetworkRequest>
-#include <QUrl>
-#include <QVariantMap>
-#include <QDebug>
-#include <QFile>
-
-#include <KMessageBox>
-#include <KLocalizedString>
-
 #include "linguider.h"
+
 #include "Options.h"
+
+#include <KLocalizedString>
+#include <KMessageBox>
+
+#include <QtNetwork/QNetworkReply>
 
 namespace Ekos
 {
@@ -33,9 +29,6 @@ LinGuider::LinGuider()
             SLOT(displayError(QAbstractSocket::SocketError)));
 
     connect(tcpSocket, SIGNAL(connected()), this, SLOT(onConnected()));
-
-    state      = IDLE;
-    connection = DISCONNECTED;
 
     deviationTimer.setInterval(1000);
     connect(&deviationTimer, &QTimer::timeout, this, [&]() { sendCommand(GET_RA_DEC_DRIFT); });

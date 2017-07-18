@@ -25,6 +25,7 @@
 #include "deepskyobject.h"
 #include "skycomponent.h"
 
+#include <QDebug>
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include <QSqlQuery>

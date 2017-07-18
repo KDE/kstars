@@ -8,52 +8,25 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <config-kstars.h>
 #include "fitsview.h"
+
+#include "config-kstars.h"
+#include "fitsdata.h"
+#include "fitslabel.h"
 #include "kspopupmenu.h"
-#include "skymap.h"
-
-#include <cmath>
-#include <cstdlib>
-
-#include <QApplication>
-#include <QPaintEvent>
-#include <QtConcurrent>
-#include <QScrollArea>
-#include <QFile>
-#include <QCursor>
-#include <QToolTip>
-#include <QProgressDialog>
-#include <QDateTime>
-#include <QPainter>
-#include <QPixmap>
-#include <QDebug>
-#include <QAction>
-#include <QStatusBar>
-#include <QFileDialog>
-
-#include <QWheelEvent>
-#include <QEvent>
-#include <QGestureEvent>
-#include <QPinchGesture>
-
-#include <QMenu>
-
-#include <KActionCollection>
-#include <KMessageBox>
-#include <KLocalizedString>
-
-#include "Options.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
-#include "fitslabel.h"
+#include "Options.h"
+#include "skymap.h"
 
 #ifdef HAVE_INDI
 #include "basedevice.h"
 #include "indi/indilistener.h"
-#include "indi/indistd.h"
-#include "indi/driverinfo.h"
 #endif
+
+#include <KActionCollection>
+
+#include <QtConcurrent>
 
 #define BASE_OFFSET    50
 #define ZOOM_DEFAULT   100.0
@@ -66,13 +39,7 @@ FITSView::FITSView(QWidget *parent, FITSMode fitsMode, FITSScale filterType) : Q
 {
     grabGesture(Qt::PinchGesture);
 
-    image_frame        = new FITSLabel(this);
-    floatingToolBar    = nullptr;
-    imageData          = nullptr;
-    display_image      = nullptr;
-    firstLoad          = true;
-    trackingBoxEnabled = false;
-    trackingBoxUpdated = false;
+    image_frame.reset(new FITSLabel(this));
     filter             = filterType;
     mode               = fitsMode;
 
@@ -81,14 +48,11 @@ FITSView::FITSView(QWidget *parent, FITSMode fitsMode, FITSScale filterType) : Q
     markerCrosshair.setX(0);
     markerCrosshair.setY(0);
 
-    currentZoom = 0.0;
-    markStars   = false;
-
     setBaseSize(740, 530);
 
-    connect(image_frame, SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
-    connect(image_frame, SIGNAL(pointSelected(int, int)), this, SLOT(processPointSelection(int, int)));
-    connect(image_frame, SIGNAL(markerSelected(int, int)), this, SLOT(processMarkerSelection(int, int)));
+    connect(image_frame.get(), SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
+    connect(image_frame.get(), SIGNAL(pointSelected(int, int)), this, SLOT(processPointSelection(int, int)));
+    connect(image_frame.get(), SIGNAL(markerSelected(int, int)), this, SLOT(processMarkerSelection(int, int)));
     connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(syncWCSState()));
 
     image_frame->setMouseTracking(true);
@@ -105,7 +69,7 @@ FITSView::FITSView(QWidget *parent, FITSMode fitsMode, FITSScale filterType) : Q
         QPixmap(":/icons/center_telescope_red.svg").scaled(32, 32, Qt::KeepAspectRatio, Qt::FastTransformation);
 
     //if (fitsMode == FITS_GUIDE)
-    //connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
+    //connect(image_frame.get(), SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
 
     // Default size
     //resize(INITIAL_W, INITIAL_H);
@@ -115,7 +79,6 @@ FITSView::~FITSView()
 {
     wcsWatcher.waitForFinished();
 
-    delete (image_frame);
     delete (imageData);
     delete (display_image);
 }
@@ -254,9 +217,6 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
 
     image_frame->setSize(image_width, image_height);
 
-    maxPixel = imageData->getMax();
-    minPixel = imageData->getMin();
-
     initDisplayImage();
 
     // Rescale to fits window
@@ -392,7 +352,6 @@ template <typename T>
 int FITSView::rescale(FITSZoom type)
 {
     double val = 0;
-    double bscale, bzero;
     double min, max;
     bool displayBuffer = false;
 
@@ -436,8 +395,8 @@ int FITSView::rescale(FITSZoom type)
     }
     else
     {
-        bscale = 255. / (max - min);
-        bzero  = (-min) * (255. / (max - min));
+        double bscale = 255. / (max - min);
+        double bzero  = (-min) * (255. / (max - min));
 
         if (image_height != imageData->getHeight() || image_width != imageData->getWidth())
         {
@@ -540,7 +499,7 @@ int FITSView::rescale(FITSZoom type)
             break;
     }
 
-    setWidget(image_frame);
+    setWidget(image_frame.get());
 
     if (type != ZOOM_KEEP_LEVEL)
         emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
@@ -635,7 +594,7 @@ void FITSView::updateFrame()
 
 void FITSView::ZoomDefault()
 {
-    if (image_frame)
+    if (image_frame.get())
     {
         emit actionUpdated("view_zoom_out", true);
         emit actionUpdated("view_zoom_in", true);
@@ -716,17 +675,15 @@ void FITSView::drawStarCentroid(QPainter *painter)
 {
     painter->setPen(QPen(Qt::red, 2));
 
-    int x1, y1, w;
-
     // image_data->getStarCenter();
 
     QList<Edge *> starCenters = imageData->getStarCenters();
 
     for (int i = 0; i < starCenters.count(); i++)
     {
-        x1 = (starCenters[i]->x - starCenters[i]->width / 2) * (currentZoom / ZOOM_DEFAULT);
-        y1 = (starCenters[i]->y - starCenters[i]->width / 2) * (currentZoom / ZOOM_DEFAULT);
-        w  = (starCenters[i]->width) * (currentZoom / ZOOM_DEFAULT);
+        int x1 = (starCenters[i]->x - starCenters[i]->width / 2) * (currentZoom / ZOOM_DEFAULT);
+        int y1 = (starCenters[i]->y - starCenters[i]->width / 2) * (currentZoom / ZOOM_DEFAULT);
+        int w  = (starCenters[i]->width) * (currentZoom / ZOOM_DEFAULT);
 
         painter->drawEllipse(x1, y1, w, w);
     }
@@ -1133,7 +1090,6 @@ void FITSView::setTrackingBox(const QRect &rect)
 {
     if (rect != trackingBox)
     {
-        trackingBoxUpdated = true;
         trackingBox        = rect;
         updateFrame();
     }
@@ -1176,7 +1132,7 @@ void FITSView::toggleEQGrid()
         return;
     }
 
-    if (image_frame)
+    if (image_frame.get())
         updateFrame();
 }
 
@@ -1191,14 +1147,14 @@ void FITSView::toggleObjects()
         return;
     }
 
-    if (image_frame)
+    if (image_frame.get())
         updateFrame();
 }
 
 void FITSView::toggleStars()
 {
     toggleStars(!markStars);
-    if (image_frame)
+    if (image_frame.get())
         updateFrame();
 }
 
@@ -1255,9 +1211,7 @@ void FITSView::toggleStars(bool enable)
         QApplication::setOverrideCursor(Qt::WaitCursor);
         emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
         qApp->processEvents();
-        int count = -1;
-
-        count = findStars(starAlgorithm);
+        int count = findStars(starAlgorithm);
 
         if (count >= 0 && isVisible())
             emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);

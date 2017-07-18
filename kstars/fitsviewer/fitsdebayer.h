@@ -1,6 +1,3 @@
-#ifndef FITSDEBAYER_H
-#define FITSDEBAYER_H
-
 /*  FITS Debayer class
     Copyright (C) 2015 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
@@ -11,8 +8,10 @@
 
  */
 
-#include "ui_fitsdebayer.h"
+#pragma once
+
 #include "bayer.h"
+#include "ui_fitsdebayer.h"
 
 class FITSViewer;
 
@@ -21,7 +20,7 @@ class debayerUI : public QDialog, public Ui::FITSDebayerDialog
     Q_OBJECT
 
   public:
-    debayerUI(QDialog *parent = 0);
+    explicit debayerUI(QDialog *parent = 0);
 };
 
 class FITSDebayer : public QDialog
@@ -29,7 +28,8 @@ class FITSDebayer : public QDialog
     Q_OBJECT
 
   public:
-    FITSDebayer(FITSViewer *parent);
+    explicit FITSDebayer(FITSViewer *parent);
+
     ~FITSDebayer();
 
     void setBayerParams(BayerParams *param);
@@ -38,8 +38,6 @@ class FITSDebayer : public QDialog
     void applyDebayer();
 
   private:
-    FITSViewer *viewer;
-    debayerUI *ui;
+    FITSViewer *viewer { nullptr };
+    debayerUI *ui { nullptr };
 };
-
-#endif // FITSDEBAYER_H

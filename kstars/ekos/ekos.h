@@ -7,10 +7,14 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef EKOS_H
-#define EKOS_H
+#pragma once
 
 #include <KLocalizedString>
+
+#include <QStringList>
+#include <QString>
+
+#include <vector>
 
 namespace Ekos
 {
@@ -126,5 +130,3 @@ const QString &getAlignStatusString(AlignState state);
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
                                        const int order, double &chisq);
 }
-
-#endif // EKOS_H

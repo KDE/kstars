@@ -1,6 +1,3 @@
-#ifndef PROFILEINFO_H
-#define PROFILEINFO_H
-
 /*  Profile Info
     Copyright (C) 2012 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
@@ -11,6 +8,8 @@
 
  */
 
+#pragma once
+
 #include <QMap>
 #include <QString>
 
@@ -19,27 +18,6 @@ class ProfileInfo
   public:
     ProfileInfo(int id, const QString &name);
     ~ProfileInfo() {}
-
-    QString name;
-    QString host;
-
-    QString city;
-    QString province;
-    QString country;
-
-    int guidertype;
-    int guiderport;
-    QString guiderhost;
-
-
-    int id;
-    int port;
-    bool autoConnect;
-    int INDIWebManagerPort;
-
-    // driver[role] = label
-    QMap<QString, QString> drivers;
-    QString customDrivers;
 
     // Is connection local or remote
     bool isLocal() { return host.isEmpty(); }
@@ -56,6 +34,19 @@ class ProfileInfo
     QString aux2();
     QString aux3();
     QString aux4();
-};
 
-#endif // PROFILEINFO_H
+    QString name;
+    QString host;
+    QString city;
+    QString province;
+    QString country;
+    int guidertype { 0 };
+    int guiderport { 0 };
+    QString guiderhost;
+    int id { 0 };
+    int port { -1 };
+    bool autoConnect { false };
+    int INDIWebManagerPort { -1 };
+    // driver[role] = label
+    QMap<QString, QString> drivers;
+};

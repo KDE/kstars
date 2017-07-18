@@ -15,24 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-/* Qt Includes */
-#include <QString>
-#include <QImage>
-#include <QImageWriter>
-#include <QUrl>
-#include <QMimeDatabase>
-#include <QMimeType>
-#include <QTemporaryFile>
-
-/* Project Includes */
 #include "ksdssdownloader.h"
-#include "ksdssimage.h"
-#include "skypoint.h"
-#include "skyobject.h"
+
 #include "deepskyobject.h"
-#include "dms.h"
 #include "Options.h"
 #include "auxiliary/filedownloader.h"
+
+#include <QImageWriter>
+#include <QMimeDatabase>
+
 
 KSDssDownloader::KSDssDownloader(QObject *parent) : QObject(parent)
 {
@@ -236,7 +227,7 @@ void KSDssDownloader::startDownload(const SkyPoint *const p, const QString &dest
     initiateSingleDownloadAttempt(srcUrl);
 }
 
-void KSDssDownloader::startSingleDownload(const QUrl srcUrl, const QString &destFileName, KSDssImage::Metadata md)
+void KSDssDownloader::startSingleDownload(const QUrl srcUrl, const QString &destFileName, KSDssImage::Metadata &md)
 {
     m_FileName   = destFileName;
     QUrl fileUrl = QUrl::fromLocalFile(m_TempFile.fileName());

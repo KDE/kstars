@@ -17,28 +17,26 @@
 
 #include "ksfilereader.h"
 
-#include <QApplication>
-#include <QObject>
-#include <QFile>
-
-#include <QDebug>
 #ifndef KSTARS_LITE
 #include "kstars.h"
 #endif
 #include "kstarsdata.h"
 #include "ksutils.h"
 
-KSFileReader::KSFileReader(qint64 maxLen) : QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(UINT_MAX)
+#include <QApplication>
+#include <QDebug>
+#include <QFile>
+
+KSFileReader::KSFileReader(qint64 maxLen) : QTextStream(), m_maxLen(maxLen)
 {
 }
 
 KSFileReader::KSFileReader(QFile &file, qint64 maxLen)
-    : QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(UINT_MAX)
+    : QTextStream(), m_maxLen(maxLen)
 {
     QIODevice *device = (QIODevice *)&file;
     QTextStream::setDevice(device);
     QTextStream::setCodec("UTF-8");
-    m_targetLine = UINT_MAX;
 }
 
 bool KSFileReader::open(const QString &fname)

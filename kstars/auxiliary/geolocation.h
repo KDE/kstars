@@ -17,8 +17,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef GEOLOCATION_H_
-#define GEOLOCATION_H_
+#pragma once
 
 #include <KLocalizedString>
 
@@ -26,7 +25,8 @@
 #include "timezonerule.h"
 #include "kstarsdatetime.h"
 
-/** @class GeoLocation
+/**
+ * @class GeoLocation
  * Contains all relevant information for specifying a location
  * on Earth: City Name, State/Province name, Country Name,
  * Longitude, Latitude, Elevation, Time Zone, and Daylight Savings
@@ -51,7 +51,7 @@ class GeoLocation
          * @param iEllips type of geodetic ellipsoid model
          * @param hght the elevation above sea level (in meters?)
          */
-    GeoLocation(dms lng, dms lat, const QString &name = "Nowhere", const QString &province = "Nowhere",
+    GeoLocation(const dms &lng, const dms &lat, const QString &name = "Nowhere", const QString &province = "Nowhere",
                 const QString &country = "Nowhere", double TZ = 0, TimeZoneRule *TZrule = nullptr,
                 bool readOnly = false, int iEllips = 4, double hght = -10);
 
@@ -137,7 +137,7 @@ class GeoLocation
 
     /** Set longitude according to dms argument.
          * @param l the new longitude */
-    void setLong(dms l)
+    void setLong(const dms &l)
     {
         Longitude = l;
         geodToCart();
@@ -146,7 +146,7 @@ class GeoLocation
     /** Set latitude according to dms argument.
          * @param l the new latitude
          */
-    void setLat(dms l)
+    void setLat(const dms &l)
     {
         Latitude = l;
         geodToCart();
@@ -260,7 +260,7 @@ class GeoLocation
          *        in this array.
          * @param gt Greenwich sideral time for which we want to compute the topocentric velocity.
          */
-    void TopocentricVelocity(double vtopo[], dms gt);
+    void TopocentricVelocity(double vtopo[], const dms &gt);
 
     /** @Return Local Mean Sidereal Time.
          * @param jd Julian date
@@ -280,5 +280,3 @@ class GeoLocation
     int indexEllipsoid;
     bool ReadOnly;
 };
-
-#endif

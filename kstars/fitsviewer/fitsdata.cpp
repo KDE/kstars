@@ -19,11 +19,11 @@
 
 #include "fitsdata.h"
 
-#include "auxiliary/ksnotification.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "Options.h"
 #include "skymapcomposite.h"
+#include "auxiliary/ksnotification.h"
 
 #include <QApplication>
 #include <QImage>
@@ -59,20 +59,7 @@ bool greaterThan(Edge *s1, Edge *s2)
 
 FITSData::FITSData(FITSMode fitsMode)
 {
-    channels      = 0;
-    wcs_coord     = nullptr;
-    fptr          = nullptr;
-    maxHFRStar    = nullptr;
-    tempFile      = false;
-    starsSearched = false;
-    HasWCS        = false;
-    HasDebayer    = false;
     mode          = fitsMode;
-    channels      = 1;
-
-    stats.bitpix        = 8;
-    stats.ndim          = 2;
-    stats.bytesPerPixel = 1;
 
     debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
     debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
@@ -2715,16 +2702,6 @@ bool FITSData::rotFITS(int rotate, int mirror)
 
     return true;
 }
-
-/*
-QVariant FITSData::getFITSHeaderValue(const QString &keyword){
-    QVariant property;
-    int status=0;
-    char comment[100];
-    fits_read_key_dbl(fptr, keyword, &property, comment, &status );
-    return property;
-}
-*/
 
 void FITSData::rotWCSFITS(int angle, int mirror)
 {

@@ -7,32 +7,9 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include "guide.h"
-
-#include <QDateTime>
-
-#include <KMessageBox>
-#include <KLed>
-#include <KLocalizedString>
-
-#include <basedevice.h>
-
-#include "Options.h"
-
 #include "guideinterface.h"
-#include "internalguide/gmath.h"
 
-#include "ekos/auxiliary/darklibrary.h"
-
-#include "indi/driverinfo.h"
-#include "indi/clientmanager.h"
-
-#include "fitsviewer/fitsviewer.h"
-#include "fitsviewer/fitsview.h"
-
-//#include "guide/rcalibration.h"
-#include "guideadaptor.h"
-#include "kspaths.h"
+#include "guide.h"
 
 #define MAX_GUIDE_STARS 10
 
@@ -96,7 +73,7 @@ bool GuideInterface::getFrameParams(uint16_t *x, uint16_t *y, uint16_t *w, uint1
     return true;
 }
 
-void GuideInterface::setStarPosition(QVector3D starCenter)
+void GuideInterface::setStarPosition(QVector3D& starCenter)
 {
     INDI_UNUSED(starCenter);
 }

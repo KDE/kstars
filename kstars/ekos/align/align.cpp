@@ -7,50 +7,37 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <QProcess>
+#include "align.h"
 
+#include "alignadaptor.h"
+#include "alignview.h"
+#include "flagcomponent.h"
+#include "fov.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "align.h"
-#include "dms.h"
-#include "fov.h"
-#include "ekos/auxiliary/darklibrary.h"
-
-#include "Options.h"
-
-#include <QFileDialog>
-#include <KMessageBox>
-#include <KConfigDialog>
-#include <KNotifications/KNotification>
-
-#include "auxiliary/QProgressIndicator.h"
-#include "indi/driverinfo.h"
-#include "indi/indicommon.h"
-#include "indi/clientmanager.h"
-#include "alignadaptor.h"
-
-#include "fitsviewer/fitsviewer.h"
-#include "fitsviewer/fitstab.h"
-#include "fitsviewer/fitsview.h"
-
-#include "ekos/ekosmanager.h"
-
-#include "onlineastrometryparser.h"
 #include "offlineastrometryparser.h"
-#include "remoteastrometryparser.h"
-#include "opsastrometry.h"
+#include "onlineastrometryparser.h"
 #include "opsalign.h"
+#include "opsastrometry.h"
 #include "opsastrometrycfg.h"
 #include "opsastrometryindexfiles.h"
-
-#include "skymapcomposite.h"
-#include "dialogs/finddialog.h"
-#include "ui_mountmodel.h"
-#include "starobject.h"
+#include "Options.h"
+#include "remoteastrometryparser.h"
 #include "skymap.h"
-#include "flagcomponent.h"
+#include "skymapcomposite.h"
+#include "starobject.h"
+#include "auxiliary/QProgressIndicator.h"
+#include "dialogs/finddialog.h"
+#include "ekos/ekosmanager.h"
+#include "ekos/auxiliary/darklibrary.h"
+#include "fitsviewer/fitstab.h"
+#include "indi/clientmanager.h"
+#include "indi/driverinfo.h"
 
 #include <basedevice.h>
+
+#include <KConfigDialog>
+#include <KNotifications/KNotification>
 
 #define PAH_CUTOFF_FOV            30 // Minimum FOV width in arcminutes for PAH to work
 #define MAXIMUM_SOLVER_ITERATIONS 10
@@ -72,40 +59,9 @@ Align::Align()
 
     dirPath = QDir::homePath();
 
-    state      = ALIGN_IDLE;
-    focusState = FOCUS_IDLE;
-    pahStage   = PAH_IDLE;
-
-    currentCCD       = nullptr;
-    currentTelescope = nullptr;
-    currentFilter    = nullptr;
-    useGuideHead     = false;
-    canSync          = false;
     //loadSlewMode = false;
-    loadSlewState = IPS_IDLE;
-    //m_isSolverComplete = false;
-    //m_isSolverSuccessful = false;
-    //m_slewToTargetSelected=false;
-    m_wcsSynced = false;
-    //isFocusBusy=false;
-    ccd_hor_pixel = ccd_ver_pixel = focal_length = aperture = sOrientation = sRA = sDEC = -1;
-    decDeviation = azDeviation = altDeviation = 0;
-
-    rememberUploadMode    = ISD::CCD::UPLOAD_CLIENT;
-    currentFilter         = nullptr;
-    filterPositionPending = false;
-    lockedFilterIndex = currentFilterIndex = -1;
-    retries                                = 0;
-    targetDiff                             = 1e6;
-    solverIterations                       = 0;
-    fov_x = fov_y = fov_pixscale = 0;
-
-    parser    = nullptr;
-    solverFOV = new FOV();
+    solverFOV.reset(new FOV());
     solverFOV->setColor(KStars::Instance()->data()->colorScheme()->colorNamed("SolverFOVColor").name());
-    onlineParser  = nullptr;
-    offlineParser = nullptr;
-    remoteParser  = nullptr;
 
     showFITSViewerB->setIcon(
         QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
@@ -179,9 +135,9 @@ Align::Align()
 
     appendLogText(i18n("Idle."));
 
-    pi = new QProgressIndicator(this);
+    pi.reset(new QProgressIndicator(this));
 
-    stopLayout->addWidget(pi);
+    stopLayout->addWidget(pi.get());
 
     exposureIN->setValue(Options::alignExposure());
 
@@ -206,18 +162,18 @@ Align::Align()
     switch (solverTypeGroup->checkedId())
     {
         case SOLVER_ONLINE:
-            onlineParser = new Ekos::OnlineAstrometryParser();
-            parser       = onlineParser;
+            onlineParser.reset(new Ekos::OnlineAstrometryParser());
+            parser = onlineParser.get();
             break;
 
         case SOLVER_OFFLINE:
-            offlineParser = new OfflineAstrometryParser();
-            parser        = offlineParser;
+            offlineParser.reset(new OfflineAstrometryParser());
+            parser = offlineParser.get();
             break;
 
         case SOLVER_REMOTE:
-            remoteParser = new RemoteAstrometryParser();
-            parser       = remoteParser;
+            remoteParser.reset(new RemoteAstrometryParser());
+            parser = remoteParser.get();
             break;
     }
 
@@ -453,10 +409,6 @@ Align::Align()
 
 Align::~Align()
 {
-    delete (pi);
-    delete (solverFOV);
-    delete (parser);
-
     if (alignWidget->parent() == nullptr)
         toggleAlignWidgetFullScreen();
 
@@ -1795,41 +1747,40 @@ void Align::setSolverType(int type)
     {
         case SOLVER_ONLINE:
             loadSlewB->setEnabled(true);
-            if (onlineParser != nullptr)
+            if (onlineParser.get() != nullptr)
             {
-                parser = onlineParser;
+                parser = onlineParser.get();
                 return;
             }
 
-            onlineParser = new Ekos::OnlineAstrometryParser();
-            parser       = onlineParser;
+            onlineParser.reset(new Ekos::OnlineAstrometryParser());
+            parser = onlineParser.get();
             break;
 
         case SOLVER_OFFLINE:
             loadSlewB->setEnabled(true);
-            if (offlineParser != nullptr)
+            if (offlineParser.get() != nullptr)
             {
-                parser = offlineParser;
+                parser = offlineParser.get();
                 return;
             }
 
-            offlineParser = new Ekos::OfflineAstrometryParser();
-            parser        = offlineParser;
+            offlineParser.reset(new Ekos::OfflineAstrometryParser());
+            parser = offlineParser.get();
             break;
 
         case SOLVER_REMOTE:
             loadSlewB->setEnabled(true);
-            if (remoteParser != nullptr)
+            if (remoteParser.get() != nullptr)
             {
-                parser = remoteParser;
+                parser = remoteParser.get();
                 (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
                 return;
             }
 
-            remoteParser = new Ekos::RemoteAstrometryParser();
-            parser       = remoteParser;
+            remoteParser.reset(new Ekos::RemoteAstrometryParser());
+            parser = remoteParser.get();
             (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
-
             break;
     }
 
@@ -2379,7 +2330,7 @@ bool Align::captureAndSolve()
             SLOT(checkCCDExposureProgress(ISD::CCDChip *, double, IPState)));
 
     // In case of remote solver, we set mode to UPLOAD_BOTH
-    if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser)
+    if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
     {
         // Update ACTIVE_CCD of the remote astrometry driver so it listens to BLOB emitted by the CCD
         ITextVectorProperty *activeDevices = remoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
@@ -2395,10 +2346,10 @@ bool Align::captureAndSolve()
         }
 
         // Enable remote parse
-        dynamic_cast<RemoteAstrometryParser *>(remoteParser)->setEnabled(true);
+        dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(true);
         QString options        = solverOptions->text().simplified();
         QStringList solverArgs = options.split(" ");
-        dynamic_cast<RemoteAstrometryParser *>(remoteParser)->sendArgs(solverArgs);
+        dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->sendArgs(solverArgs);
 
         if (solverIterations == 0)
         {
@@ -2533,12 +2484,9 @@ void Align::newFITS(IBLOB *bp)
                 targetChip->getFrame(&x, &y, &w, &h);
                 targetChip->getBinning(&binx, &biny);
 
-                FITSData *darkData = nullptr;
-
                 uint16_t offsetX = x / binx;
                 uint16_t offsetY = y / biny;
-
-                darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
+                FITSData *darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
 
                 connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
                 connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
@@ -2709,10 +2657,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     alignTimer.stop();
 
-    if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser)
+    if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
     {
         // Disable remote parse
-        dynamic_cast<RemoteAstrometryParser *>(remoteParser)->setEnabled(false);
+        dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(false);
     }
 
     int binx, biny;
@@ -3951,7 +3899,7 @@ FOV *Align::fov()
     if (sOrientation == -1)
         return nullptr;
     else
-        return solverFOV;
+        return solverFOV.get();
 }
 
 void Align::setLockedFilter(ISD::GDInterface *filter, int lockedPosition)
@@ -4924,7 +4872,7 @@ void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
     remoteParserDevice = newAstrometry;
     remoteSolverR->setEnabled(true);
 
-    if (remoteParser)
+    if (remoteParser.get() != nullptr)
         remoteParser->setAstrometryDevice(remoteParserDevice);
 }
 }

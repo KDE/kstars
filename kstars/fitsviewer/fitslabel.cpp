@@ -8,30 +8,24 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <config-kstars.h>
+#include "fitslabel.h"
 
-#include <QCursor>
-#include <QToolTip>
-#include <QDebug>
+#include "config-kstars.h"
 
-#include <KMessageBox>
-#include <KLocalizedString>
+#include "fitsdata.h"
+#include "fitsview.h"
+#include "kspopupmenu.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#include "skymap.h"
 
 #ifdef HAVE_INDI
 #include "basedevice.h"
 #include "indi/indilistener.h"
-#include "indi/indistd.h"
-#include "indi/driverinfo.h"
 #endif
 
-#include "Options.h"
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "skymap.h"
-#include "auxiliary/ksutils.h"
-#include "kspopupmenu.h"
-#include "fitslabel.h"
-#include "fitsview.h"
+#include <QScrollBar>
 
 #define BASE_OFFSET    50
 #define ZOOM_DEFAULT   100.0

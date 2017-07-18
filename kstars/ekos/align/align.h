@@ -7,30 +7,26 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef ALIGN_H
-#define ALIGN_H
-
-#include <QProcess>
-#include <QTime>
-#include <QtDBus/QtDBus>
-
-#include <config-kstars.h>
+#pragma once
 
 #include "ui_align.h"
-
-#include "alignview.h"
+#include "ui_mountmodel.h"
 #include "ekos/ekos.h"
-
-#include "indi/inditelescope.h"
 #include "indi/indiccd.h"
 #include "indi/indistd.h"
+#include "indi/inditelescope.h"
 
-#include "starobject.h"
+#include <QTime>
+#include <QTimer>
+#include <QtDBus/qdbusmacros.h>
 
-#include "ui_mountmodel.h"
+#include <memory>
 
-class FOV;
 class QProgressIndicator;
+
+class AlignView;
+class FOV;
+class StarObject;
 
 namespace Ekos
 {
@@ -62,7 +58,7 @@ class Align : public QWidget, public Ui::Align
 
   public:
     Align();
-    ~Align();
+    virtual ~Align();
 
     typedef enum {
         AZ_INIT,
@@ -148,24 +144,6 @@ class Align : public QWidget, public Ui::Align
          * @return Returns solver status (Ekos::AlignState)
          */
     Q_SCRIPTABLE int getStatus() { return state; }
-
-#if 0
-        /** DBUS interface function.
-         * @return Returns true if the solver process completed or aborted, false otherwise.
-         */
-        Q_SCRIPTABLE bool isSolverComplete()
-        {
-            return m_isSolverComplete;
-        }
-
-        /** DBUS interface function.
-         * @return Returns true if the solver process completed successfully, false otherwise.
-         */
-        Q_SCRIPTABLE bool isSolverSuccessful()
-        {
-            return m_isSolverSuccessful;
-        }
-#endif
 
     /** DBUS interface function.
          * @return Returns State of load slew procedure. Idle if not started. Busy if in progress. Ok if complete. Alert if procedure failed.
@@ -509,90 +487,118 @@ class Align : public QWidget, public Ui::Align
     bool isPerpendicular(const QPointF &p1, const QPointF &p2, const QPointF &p3);
     bool calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, QVector3D &RACircle);
 
-    // Which chip should we invoke in the current CCD?
-    bool useGuideHead;
-    // Can the mount sync its coordinates to those set by Ekos?
-    bool canSync;
+    void resizeEvent(QResizeEvent *event);
+
+    bool alignmentPointsAreBad();
+    bool loadAlignmentPoints(const QString &fileURL);
+    bool saveAlignmentPoints(const QString &path);
+
+    void generateAlignStarList();
+    bool isVisible(const SkyObject *so);
+    double getAltitude(const SkyObject *so);
+    const SkyObject *getWizardAlignObject(double ra, double de);
+    void calculateAngleForRALine(double &raIncrement, double &initRA, double initDEC, double lat, double raPoints,
+                                 double minAlt);
+    void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
+    void updatePreviewAlignPoints();
+    int findNextAlignmentPointAfter(int currentSpot);
+    int findClosestAlignmentPointToTelescope();
+    void swapAlignPoints(int firstPt, int secondPt);
+
+    /// Which chip should we invoke in the current CCD?
+    bool useGuideHead { false };
+    /// Can the mount sync its coordinates to those set by Ekos?
+    bool canSync { false };
     // LoadSlew mode is when we load an image and solve it, no capture is done.
     //bool loadSlewMode;
-    // If load and slew is solved successfully, coordinates obtained, slewed to target, and then captured, solved, and re-slewed to target again.
-    IPState loadSlewState;
-    // Solver iterations count
-    uint8_t solverIterations;
+    /// If load and slew is solved successfully, coordinates obtained, slewed to target, and then captured, solved, and re-slewed to target again.
+    IPState loadSlewState { IPS_IDLE };
+    /// Solver iterations count
+    uint8_t solverIterations { 0 };
 
     // FOV
-    double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y, fov_pixscale;
-    int ccd_width, ccd_height;
+    double ccd_hor_pixel { -1 };
+    double ccd_ver_pixel { -1 };
+    double focal_length { -1 };
+    double aperture { -1 };
+    double fov_x { 0 };
+    double fov_y { 0 };
+    double fov_pixscale { 0 };
+    int ccd_width { 0 };
+    int ccd_height { 0 };
 
     // Keep track of solver results
-    double sOrientation, sRA, sDEC;
+    double sOrientation { -1 };
+    double sRA { -1 };
+    double sDEC { -1 };
 
-    // Solver alignment coordinates
+    /// Solver alignment coordinates
     SkyPoint alignCoord;
-    // Target coordinates we need to slew to
+    /// Target coordinates we need to slew to
     SkyPoint targetCoord;
-    // Actual current telescope coordinates
+    /// Actual current telescope coordinates
     SkyPoint telescopeCoord;
-    // Coord from Load & Slew
+    /// Coord from Load & Slew
     SkyPoint loadSlewCoord;
-    // Difference between solution and target coordinate
-    double targetDiff;
+    /// Difference between solution and target coordinate
+    double targetDiff { 1e6 };
 
-    // Progress icon if the solver is running
-    QProgressIndicator *pi;
+    /// Progress icon if the solver is running
+    std::unique_ptr<QProgressIndicator> pi;
 
-    // Keep track of how long the solver is running
+    /// Keep track of how long the solver is running
     QTime solverTimer;
 
     // Polar Alignment
     AZStage azStage;
     ALTStage altStage;
-    double azDeviation, altDeviation;
-    double decDeviation;
+    double azDeviation { 0 };
+    double altDeviation { 0 };
+    double decDeviation { 0 };
     static const double RAMotion;
     static const float SIDRATE;
 
-    // Have we slewed?
-    bool isSlewDirty = false;
+    /// Have we slewed?
+    bool isSlewDirty { false };
 
     // Online and Offline parsers
-    AstrometryParser *parser;
-    OnlineAstrometryParser *onlineParser;
-    OfflineAstrometryParser *offlineParser;
+    AstrometryParser* parser { nullptr };
+    std::unique_ptr<OnlineAstrometryParser> onlineParser;
+    std::unique_ptr<OfflineAstrometryParser> offlineParser;
 
-    RemoteAstrometryParser *remoteParser;
-    ISD::GDInterface *remoteParserDevice = nullptr;
+    std::unique_ptr<RemoteAstrometryParser> remoteParser;
+    ISD::GDInterface *remoteParserDevice { nullptr };
 
     // Pointers to our devices
-    ISD::Telescope *currentTelescope;
-    ISD::CCD *currentCCD;
+    ISD::Telescope *currentTelescope { nullptr };
+    ISD::CCD *currentCCD { nullptr };
     QList<ISD::CCD *> CCDs;
 
-    // Optional device filter
-    ISD::GDInterface *currentFilter;
-    int lockedFilterIndex;
-    int currentFilterIndex;
-    // True if we need to change filter position and wait for result before continuing capture
-    bool filterPositionPending;
+    /// Optional device filter
+    ISD::GDInterface *currentFilter { nullptr };
+    int lockedFilterIndex { -1 };
+    int currentFilterIndex { -1 };
+    /// True if we need to change filter position and wait for result before continuing capture
+    bool filterPositionPending { false };
 
-    // Keep track of solver FOV to be plotted in the skymap after each successful solve operation
-    FOV *solverFOV;
+    /// Keep track of solver FOV to be plotted in the skymap after each successful solve operation
+    std::unique_ptr<FOV> solverFOV;
 
-    // WCS
-    bool m_wcsSynced;
+    /// WCS
+    bool m_wcsSynced { false };
 
-    // Log
+    /// Log
     QStringList logText;
 
-    // Capture retries
-    int retries;
+    /// Capture retries
+    int retries { 0 };
 
     // State
-    AlignState state;
-    FocusState focusState;
+    AlignState state { ALIGN_IDLE };
+    FocusState focusState { FOCUS_IDLE };
 
     // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
-    ISD::CCD::UploadMode rememberUploadMode;
+    ISD::CCD::UploadMode rememberUploadMode { ISD::CCD::UPLOAD_CLIENT };
 
     GotoMode currentGotoMode;
 
@@ -606,25 +612,25 @@ class Align : public QWidget, public Ui::Align
     QString blobFileName;
 
     // Align Frame
-    AlignView *alignView;
+    AlignView *alignView { nullptr };
 
     // FITS Viewer in case user want to display in it instead of internal view
     QPointer<FITSViewer> fv;
 
     // Polar Alignment Helper
-    PAHStage pahStage;
+    PAHStage pahStage { PAH_IDLE };
 
     // keep track of autoWSC
-    bool rememberAutoWCS;
-    bool rememberSolverWCS;
+    bool rememberAutoWCS { false };
+    bool rememberSolverWCS { false };
 
     // Sky centers
     typedef struct
     {
         SkyPoint skyCenter;
         QPointF pixelCenter;
-        double pixelScale;
-        double orientation;
+        double pixelScale { 0 };
+        double orientation { 0 };
     } PAHImageInfo;
 
     QVector<PAHImageInfo *> pahImageInfos;
@@ -641,42 +647,22 @@ class Align : public QWidget, public Ui::Align
     HemisphereType hemisphere;
 
     // Astrometry Options
-    OpsAstrometry *opsAstrometry;
-    OpsAlign *opsAlign;
-    OpsAstrometryCfg *opsAstrometryCfg;
-    OpsAstrometryIndexFiles *opsAstrometryIndexFiles;
-
-    void resizeEvent(QResizeEvent *event);
-    QCPCurve *centralTarget   = nullptr;
-    QCPCurve *yellowTarget    = nullptr;
-    QCPCurve *redTarget       = nullptr;
-    QCPCurve *concentricRings = nullptr;
+    OpsAstrometry *opsAstrometry { nullptr };
+    OpsAlign *opsAlign { nullptr };
+    OpsAstrometryCfg *opsAstrometryCfg { nullptr };
+    OpsAstrometryIndexFiles *opsAstrometryIndexFiles { nullptr };
+    QCPCurve *centralTarget { nullptr };
+    QCPCurve *yellowTarget { nullptr };
+    QCPCurve *redTarget { nullptr };
+    QCPCurve *concentricRings { nullptr };
     QDialog mountModelDialog;
     Ui_mountModel mountModel;
-    int currentAlignmentPoint = 0;
-    bool mountModelRunning    = false;
-    bool targetAccuracyNotMet = false;
-
-    bool alignmentPointsAreBad();
-    bool loadAlignmentPoints(const QString &fileURL);
-    bool saveAlignmentPoints(const QString &path);
-
+    int currentAlignmentPoint { 0 };
+    bool mountModelRunning { false };
+    bool targetAccuracyNotMet { false };
+    bool previewShowing { false };
     QUrl alignURL;
     QUrl alignURLPath;
     QVector<const StarObject *> alignStars;
-    void generateAlignStarList();
-    bool isVisible(const SkyObject *so);
-    double getAltitude(const SkyObject *so);
-    const SkyObject *getWizardAlignObject(double ra, double de);
-    void calculateAngleForRALine(double &raIncrement, double &initRA, double initDEC, double lat, double raPoints,
-                                 double minAlt);
-    void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
-    bool previewShowing = false;
-    void updatePreviewAlignPoints();
-    int findNextAlignmentPointAfter(int currentSpot);
-    int findClosestAlignmentPointToTelescope();
-    void swapAlignPoints(int firstPt, int secondPt);
 };
 }
-
-#endif // ALIGN_H

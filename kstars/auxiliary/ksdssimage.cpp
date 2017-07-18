@@ -15,16 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-/* Project Includes */
 #include "ksdssimage.h"
 
-/* KDE Includes */
-
-/* Qt Includes */
-#include <QString>
-#include <QChar>
 #include <QImageReader>
-#include <QImage>
 
 KSDssImage::KSDssImage(const QString &fileName)
 {

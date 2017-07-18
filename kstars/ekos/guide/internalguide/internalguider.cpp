@@ -9,18 +9,16 @@
     version 2 of the License, or (at your option) any later version.
 */
 
+#include "internalguider.h"
+
+#include "gmath.h"
+#include "Options.h"
+#include "auxiliary/kspaths.h"
+
 #include <KMessageBox>
 #include <KNotification>
 
-#include "auxiliary/kspaths.h"
-#include "auxiliary/QProgressIndicator.h"
-
-#include "internalguider.h"
-#include "gmath.h"
-
-#include "Options.h"
-
-#define MAX_DITHER_RETIRES 20
+#include <QTimer>
 
 namespace Ekos
 {
@@ -697,7 +695,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
     }
 }
 
-void InternalGuider::setStarPosition(QVector3D starCenter)
+void InternalGuider::setStarPosition(QVector3D &starCenter)
 {
     pmath->setReticleParameters(starCenter.x(), starCenter.y(), -1);
 }
