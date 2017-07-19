@@ -50,7 +50,7 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
     //compute eccentric anomaly:
     double E = m.Degrees() + e * 180.0 / dms::PI * sinm * (1.0 + e * cosm);
 
-    if (e > 0.05) //need more accurate approximation, iterate...
+    if (e > 0.005) //need more accurate approximation, iterate...
     {
         double E0;
         int iter(0);
@@ -62,6 +62,9 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
                 (E0 - e * 180.0 / dms::PI * sin(E0 * dms::DegToRad) - m.Degrees()) / (1 - e * cos(E0 * dms::DegToRad));
         } while (fabs(E - E0) > 0.001 && iter < 1000);
     }
+
+    // Assert that the solution of the Kepler equation E = M + e sin E is accurate to about 0.1 arcsecond
+    Q_ASSERT( fabs( E - ( m.Degrees() + ( e * 180.0 / dms::PI ) * sin( E * dms::DegToRad ) ) ) < 0.10/3600.0 );
 
     double sinE, cosE;
     dms E1(E);
@@ -75,12 +78,12 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
     double r = sqrt(xv * xv + yv * yv);
 
     //vw is the sum of the true anomaly and the argument of perihelion
-    dms vw(v + w.Degrees());
+    dms vw(v + w.Degrees()); // Note: MPC gives us the J2000.0 argument of perihelion, so the true anomaly is referenced to J2000.0
     double sinN, cosN, sinvw, cosvw, sini, cosi;
 
-    N.SinCos(sinN, cosN);
+    N.SinCos(sinN, cosN); // N is presumably the longitude of the ascending node, referenced to J2000
     vw.SinCos(sinvw, cosvw);
-    i.SinCos(sini, cosi);
+    i.SinCos(sini, cosi); // i is the inclination referenced to J2000
 
     //xh, yh, zh are the heliocentric cartesian coords with the ecliptic plane congruent with zh=0.
     double xh = r * (cosN * cosvw - sinN * sinvw * cosi);
