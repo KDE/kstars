@@ -18,6 +18,7 @@
 #include "modcalcangdist.h"
 
 #include <QTextStream>
+#include <QPointer>
 
 #include <KLocalizedString>
 #include <KMessageBox>
