@@ -50,6 +50,7 @@
 #include <QProcess>
 #endif
 #include <QStatusBar>
+#include <QMenu>
 
 KStars *KStars::pinstance = nullptr;
 

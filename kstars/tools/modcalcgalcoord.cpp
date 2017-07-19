@@ -19,6 +19,7 @@
 
 #include <QTextStream>
 #include <QFileDialog>
+#include <QPointer>
 
 #include <KMessageBox>
 
