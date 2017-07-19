@@ -37,7 +37,7 @@ int letterToNum(QChar c)
 int letterDesigToN(QString s)
 {
     int n = 0;
-    foreach (QChar c, s)
+    foreach (const QChar &c, s)
     {
         int nl = letterToNum(c);
         if (nl == 0)
@@ -197,7 +197,7 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
         //compute eccentric anomaly:
         double E = m.Degrees() + e * 180.0 / dms::PI * sinm * (1.0 + e * cosm);
 
-        if (e > 0.05) //need more accurate approximation, iterate...
+        if (e > 0.005) //need more accurate approximation, iterate...
         {
             double E0;
             int iter(0);
@@ -209,6 +209,9 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
                              (1 - e * cos(E0 * dms::DegToRad));
             } while (fabs(E - E0) > 0.001 && iter < 1000);
         }
+
+        // Assert that the solution of the Kepler equation E = M + e sin E is accurate to about 0.1 arcsecond
+        Q_ASSERT( fabs( E - ( m.Degrees() + ( e * 180.0 / dms::PI ) * sin( E * dms::DegToRad ) ) ) < 0.10/3600.0 );
 
         double sinE, cosE;
         dms E1(E);
