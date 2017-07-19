@@ -24,7 +24,7 @@
 #include <kxmlguiwindow.h>
 
 #include <QDockWidget>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
 #include <QtDBus/qtdbusglobal.h>
 #else
 #include <QtDBus/qdbusmacros.h>
