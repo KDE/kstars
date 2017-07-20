@@ -192,6 +192,16 @@ bool KSUserDB::Initialize()
                 columnQuery = QString("ALTER TABLE profile ADD COLUMN guiderport INTEGER");
                 query.exec(columnQuery);
             }
+
+            // If prior to 2.8.0 upgrade database to add telescope selection
+            if (currentDBVersion < "2.8.0")
+            {
+                QSqlQuery query(userdb_);
+                QString columnQuery = QString("ALTER TABLE profile ADD COLUMN primaryscope INTEGER DEFAULT 0");
+                query.exec(columnQuery);
+                columnQuery = QString("ALTER TABLE profile ADD COLUMN guidescope INTEGER DEFAULT 0");
+                query.exec(columnQuery);
+            }
         }
     }
     userdb_.close();
@@ -305,7 +315,7 @@ bool KSUserDB::RebuildDB()
 
     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host "
                   "TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT "
-                  "NULL, autoconnect INTEGER DEFAULT 1, guidertype INTEGER DEFAULT 0, guiderhost TEXT, guiderpost INTEGER)");
+                  "NULL, autoconnect INTEGER DEFAULT 1, guidertype INTEGER DEFAULT 0, guiderhost TEXT, guiderpost INTEGER, primaryscope INTEGER DEFAULT 0, guidescope INTEGER DEFAULT 0)");
     tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role "
                   "TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
 //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
@@ -1439,7 +1449,7 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     // Clear data
     if (!query.exec(QString("UPDATE profile SET "
                             "host=null,port=null,city=null,province=null,country=null,indiwebmanagerport=NULL,"
-                            "autoconnect=NULL WHERE id=%1")
+                            "autoconnect=NULL,primaryscope=0,guidescope=0 WHERE id=%1")
                         .arg(pi->id)))
         qDebug() << query.lastQuery() << query.lastError().text();
 
@@ -1491,6 +1501,12 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
             qDebug() << query.lastQuery() << query.lastError().text();
     }
 
+    // Update scope selection
+    if (!query.exec(QString("UPDATE profile SET primaryscope='%1' WHERE id=%2").arg(pi->primaryscope).arg(pi->id)))
+        qDebug() << query.lastQuery() << query.lastError().text();
+    if (!query.exec(QString("UPDATE profile SET guidescope=%1 WHERE id=%2").arg(pi->guidescope).arg(pi->id)))
+        qDebug() << query.lastQuery() << query.lastError().text();
+
     QMapIterator<QString, QString> i(pi->drivers);
     while (i.hasNext())
     {
@@ -1541,6 +1557,9 @@ void KSUserDB::GetAllProfiles(QList<std::shared_ptr<ProfileInfo>> &profiles)
             pi->guiderhost = record.value("guiderhost").toString();
             pi->guiderport = record.value("guiderport").toInt();
         }
+
+        pi->primaryscope = record.value("primaryscope").toInt();
+        pi->guidescope = record.value("guidescope").toInt();
 
         GetProfileDrivers(pi.get());
         //GetProfileCustomDrivers(pi);

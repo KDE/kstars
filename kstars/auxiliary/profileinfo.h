@@ -42,6 +42,8 @@ class ProfileInfo
     QString country;
     int guidertype { 0 };
     int guiderport { 0 };
+    int primaryscope { 0 };
+    int guidescope { 0 };
     QString guiderhost;
     int id { 0 };
     int port { -1 };

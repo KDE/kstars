@@ -12,6 +12,7 @@
 
 #include <QDialog>
 
+#include "oal/scope.h"
 #include "ui_profileeditor.h"
 
 class ProfileInfo;
@@ -44,6 +45,7 @@ class ProfileEditor : public QDialog
     void setPi(ProfileInfo *value);
 
     void loadDrivers();
+    void loadScopeEquipment();
 
     void setProfileName(const QString &name);
     void setAuxDrivers(const QStringList &aux);
@@ -60,8 +62,9 @@ class ProfileEditor : public QDialog
     void updateGuiderSelection(int id);
 
   private:
-    ProfileEditorUI *ui;
-    ProfileInfo *pi;
+    ProfileEditorUI *ui = nullptr;
+    ProfileInfo *pi = nullptr;
+    QList<OAL::Scope *> m_scopeList;
 };
 
 #endif // PROFILEEDITOR_H

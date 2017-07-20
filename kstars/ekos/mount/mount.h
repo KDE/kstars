@@ -133,11 +133,11 @@ class Mount : public QWidget, public Ui::Mount
     Q_INVOKABLE Q_SCRIPTABLE QList<double> getTelescopeInfo();
 
     /** DBUS interface function.
-         * Set telescope and guide scope info. All measurements is in millimeters.
-         * @param primaryFocalLength Primary Telescope Focal Length
-         * @param primaryAperture Primary Telescope Aperture
-         * @param guideFocalLength Guide Telescope Focal Length
-         * @param guideAperture Guide Telescope Aperture
+         * Set telescope and guide scope info and save them in INDI mount driver. All measurements is in millimeters.
+         * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
+         * @param primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
+         * @param guideFocalLength Guide Telescope Focal Length. Set to 0 to skip setting this value.
+         * @param guideAperture Guide Telescope Aperture. Set to 0 to skip setting this value.
          */
     Q_SCRIPTABLE Q_NOREPLY void setTelescopeInfo(double primaryFocalLength, double primaryAperture,
                                                  double guideFocalLength, double guideAperture);

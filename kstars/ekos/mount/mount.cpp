@@ -574,6 +574,9 @@ void Mount::stop()
 
 void Mount::save()
 {
+    if (currentTelescope == nullptr)
+        return;
+
     INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
     if (nvp)
@@ -781,10 +784,16 @@ QList<double> Mount::getTelescopeInfo()
 void Mount::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength,
                              double guideAperture)
 {
-    primaryScopeFocalIN->setValue(primaryFocalLength);
-    primaryScopeApertureIN->setValue(primaryAperture);
-    guideScopeFocalIN->setValue(guideFocalLength);
-    guideScopeApertureIN->setValue(guideAperture);
+    if (primaryFocalLength > 0)
+        primaryScopeFocalIN->setValue(primaryFocalLength);
+    if (primaryAperture > 0)
+        primaryScopeApertureIN->setValue(primaryAperture);
+    if (guideFocalLength > 0)
+        guideScopeFocalIN->setValue(guideFocalLength);
+    if (guideAperture > 0)
+        guideScopeApertureIN->setValue(guideAperture);
+
+    save();
 }
 
 bool Mount::canPark()
