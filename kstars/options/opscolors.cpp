@@ -113,8 +113,10 @@ OpsColors::OpsColors() : QFrame(KStars::Instance())
     connect(PresetBox, SIGNAL(currentRowChanged(int)), this, SLOT(slotPreset(int)));
     connect(AddPreset, SIGNAL(clicked()), this, SLOT(slotAddPreset()));
     connect(RemovePreset, SIGNAL(clicked()), this, SLOT(slotRemovePreset()));
+    connect(SavePreset, SIGNAL(clicked()), this, SLOT(slotSavePreset()));
 
     RemovePreset->setEnabled(false);
+    SavePreset->setEnabled(false);
 }
 
 //empty destructor
@@ -138,13 +140,16 @@ void OpsColors::newColor(QListWidgetItem *item)
 
     //NewColor will only be valid if the above if statement was found to be true during one of the for loop iterations
     if (NewColor.isValid())
-    {
+    {        
         pixmap.fill(NewColor);
         item->setData(Qt::DecorationRole, pixmap);
         item->setData(ItemColorData, NewColor);
         KStarsData::Instance()->colorScheme()->setColor(KStarsData::Instance()->colorScheme()->keyAt(index),
                                                         NewColor.name());
     }
+
+    if (PresetBox->currentRow() > 3)
+        SavePreset->setEnabled(true);
 
     KStars::Instance()->map()->forceUpdate();
 
@@ -157,7 +162,7 @@ void OpsColors::newColor(QListWidgetItem *item)
 
 void OpsColors::slotPreset(int index)
 {
-    QString sPreset = PresetFileList.at(index);
+    QString sPreset = PresetFileList.at(index);    
     setColors(sPreset);
 }
 
@@ -167,12 +172,18 @@ bool OpsColors::setColors(const QString &filename)
 
     //check if colorscheme is removable...
     QFile test;
-    test.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-                     filename); //try filename in local user KDE directory tree.
+     //try filename in local user KDE directory tree.
+    test.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename);
     if (test.exists())
+    {
         RemovePreset->setEnabled(true);
+        SavePreset->setEnabled(true);
+    }
     else
+    {
         RemovePreset->setEnabled(false);
+        SavePreset->setEnabled(false);
+    }
     test.close();
 
     QString actionName = QString("cs_" + filename.left(filename.indexOf(".colors"))).toUtf8();
@@ -228,6 +239,13 @@ void OpsColors::slotAddPreset()
     }
 }
 
+void OpsColors::slotSavePreset()
+{
+    QString schemename = PresetBox->currentItem()->text();
+    KStarsData::Instance()->colorScheme()->save(schemename);
+    SavePreset->setEnabled(false);
+}
+
 void OpsColors::slotRemovePreset()
 {
     QListWidgetItem *current = PresetBox->currentItem();
@@ -253,6 +271,7 @@ void OpsColors::slotRemovePreset()
         //There seems to be no way to set no item selected, so select
         // the first item.
         PresetBox->setCurrentRow(0);
+        PresetFileList.removeOne(filename);
         delete current;
         RemovePreset->setEnabled(false);
 
