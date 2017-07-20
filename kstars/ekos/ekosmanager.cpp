@@ -978,6 +978,39 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
     mountProcess->setTelescope(scopeDevice);
 
+    ProfileInfo *pi = getCurrentProfile();
+    if (pi)
+    {
+        int primaryScopeID=0, guideScopeID=0;
+        primaryScopeID=pi->primaryscope;
+        guideScopeID=pi->guidescope;
+        if (primaryScopeID > 0 || guideScopeID > 0)
+        {
+            double primaryScopeFL=0, primaryScopeAperture=0, guideScopeFL=0, guideScopeAperture=0;
+
+            // Get all OAL equipment filter list
+            QList<OAL::Scope*> m_scopeList;
+            KStarsData::Instance()->userdb()->GetAllScopes(m_scopeList);
+            foreach(OAL::Scope *oneScope, m_scopeList)
+            {
+                if (oneScope->id().toInt() == primaryScopeID)
+                {
+                    primaryScopeFL = oneScope->focalLength();
+                    primaryScopeAperture = oneScope->aperture();
+                }
+
+                if (oneScope->id().toInt() == guideScopeID)
+                {
+                    guideScopeFL = oneScope->focalLength();
+                    guideScopeAperture = oneScope->aperture();
+                }
+            }
+
+            // Save telescope info in mount driver
+            mountProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+        }
+    }
+
     if (guideProcess.get() != nullptr)
         guideProcess->setTelescope(scopeDevice);
 
