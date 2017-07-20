@@ -15,25 +15,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCDAYLENGTH_H_
-#define MODCALCDAYLENGTH_H_
+#pragma once
 
 #include "ui_modcalcdaylength.h"
 
-class GeoLocation;
-class QTextStream;
+#include <QFrame>
 
-/** Module to compute the equatorial coordinates for a given date and time
+class QDate;
+class QTextStream;
+class QTime;
+
+class GeoLocation;
+
+/**
+ * Module to compute the equatorial coordinates for a given date and time
  * from a given epoch or equinox
-  *@author Pablo de Vicente
-  */
+ *
+ * @author Pablo de Vicente
+ */
 class modCalcDayLength : public QFrame, public Ui::modCalcDayLengthDlg
 {
     Q_OBJECT
+
   public:
-    /**Constructor. */
+    /** Constructor */
     explicit modCalcDayLength(QWidget *p);
-    /**Destructor. */
+    /** Destructor */
     ~modCalcDayLength();
 
   public slots:
@@ -46,18 +53,17 @@ class modCalcDayLength : public QFrame, public Ui::modCalcDayLengthDlg
 
   private:
     void updateAlmanac(const QDate &d, GeoLocation *geo);
-    QTime lengthOfDay(QTime setQTime, QTime riseQTime);
+    QTime lengthOfDay(const QTime &setQTime, const QTime &riseQTime);
 
-    void showCurrentDate(void);
-    void initGeo(void);
+    void showCurrentDate();
+    void initGeo();
     void processLines(QTextStream &istream);
 
-    GeoLocation *geoPlace, *geoBatch;
+    GeoLocation *geoPlace { nullptr };
+    GeoLocation *geoBatch { nullptr };
     QString srTimeString, stTimeString, ssTimeString;
     QString mrTimeString, mtTimeString, msTimeString;
     QString srAzString, stAltString, ssAzString;
     QString mrAzString, mtAltString, msAzString;
     QString daylengthString, lunarphaseString;
 };
-
-#endif

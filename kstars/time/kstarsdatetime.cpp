@@ -17,11 +17,12 @@
 
 #include "kstarsdatetime.h"
 
-#include <QDebug>
+#include "dms.h"
+#include "ksnumbers.h"
+
 #include <KLocalizedString>
 
-#include "ksnumbers.h"
-#include "dms.h"
+#include <QDebug>
 
 KStarsDateTime::KStarsDateTime() : QDateTime()
 {
@@ -291,10 +292,10 @@ double KStarsDateTime::stringToEpoch(const QString &eName, bool &ok)
         return epoch;
 
     if (eName.startsWith('J'))
-        epoch = eName.mid(1).toDouble(&ok);
+        epoch = eName.midRef(1).toDouble(&ok);
     else if (eName.startsWith('B'))
     {
-        epoch = eName.mid(1).toDouble(&ok);
+        epoch = eName.midRef(1).toDouble(&ok);
         epoch = jdToEpoch(epochToJd(epoch, BESSELIAN), JULIAN); // Convert Besselian epoch to Julian epoch
     }
     // Assume it's Julian

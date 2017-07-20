@@ -168,7 +168,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             ra.setD(wcs_coord[index].ra);
             dec.setD(wcs_coord[index].dec);
 
-            emit newStatus(QString("%1 , %2").arg(ra.toHMSString()).arg(dec.toDMSString()), FITS_WCS);
+            emit newStatus(QString("%1 , %2").arg(ra.toHMSString(), dec.toDMSString()), FITS_WCS);
         }
 
         bool objFound = false;

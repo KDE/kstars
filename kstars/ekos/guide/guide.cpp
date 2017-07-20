@@ -9,40 +9,24 @@
 
 #include "guide.h"
 
-#include <QDateTime>
-#include <QSharedPointer>
-
-#include <KMessageBox>
-#include <KLed>
-#include <KLocalizedString>
-#include <KConfigDialog>
+#include "guideadaptor.h"
+#include "kstarsdata.h"
+#include "opscalibration.h"
+#include "opsguide.h"
+#include "Options.h"
+#include "auxiliary/QProgressIndicator.h"
+#include "ekos/auxiliary/darklibrary.h"
+#include "externalguide/linguider.h"
+#include "externalguide/phd2.h"
+#include "fitsviewer/fitsdata.h"
+#include "fitsviewer/fitsview.h"
+#include "fitsviewer/fitsviewer.h"
+#include "internalguide/internalguider.h"
 
 #include <basedevice.h>
 
-#include "Options.h"
-#include "opscalibration.h"
-#include "opsguide.h"
+#include <KConfigDialog>
 
-#include "internalguide/internalguider.h"
-#include "externalguide/phd2.h"
-#include "externalguide/linguider.h"
-
-#include "ekos/auxiliary/darklibrary.h"
-#include "auxiliary/QProgressIndicator.h"
-
-#include "indi/driverinfo.h"
-#include "indi/clientmanager.h"
-
-#include "fitsviewer/fitsviewer.h"
-#include "fitsviewer/fitsview.h"
-
-#include "guideadaptor.h"
-#include "kspaths.h"
-#include "kstarsdata.h"
-#include "auxiliary/qcustomplot.h"
-
-#define driftGraph_WIDTH          200
-#define driftGraph_HEIGHT         200
 #define CAPTURE_TIMEOUT_THRESHOLD 10000
 #define MAX_GUIDE_STARS           10
 
@@ -65,9 +49,6 @@ Guide::Guide() : QWidget()
 
     // ST4 Driver
     GuideDriver = nullptr;
-
-    // Auto Star
-    autoStarCaptured = false;
 
     // Subframe
     subFramed = false;
@@ -97,7 +78,7 @@ Guide::Guide() : QWidget()
     loadSettings();
 
     // Image Filters
-    foreach (QString filter, FITSViewer::filterTypes)
+    for (auto &filter : FITSViewer::filterTypes)
         filterCombo->addItem(filter);
 
     // Progress Indicator
@@ -529,17 +510,27 @@ void Guide::updateGuideParams()
 
         l_Focal->setText(QString::number(mountFocalLength, 'f', 1));
         l_Aperture->setText(QString::number(mountAperture, 'f', 1));
-        l_FbyD->setText(QString::number(mountFocalLength / mountAperture, 'f', 1));
+        if (mountAperture == 0)
+        {
+            l_FbyD->setText("0");
+            // Pixel scale in arcsec/pixel
+            pixScaleX = 0;
+            pixScaleY = 0;
+        }
+        else
+        {
+            l_FbyD->setText(QString::number(mountFocalLength / mountAperture, 'f', 1));
+            // Pixel scale in arcsec/pixel
+            pixScaleX = 206264.8062470963552 * ccdPixelSizeX / 1000.0 / mountFocalLength;
+            pixScaleY = 206264.8062470963552 * ccdPixelSizeY / 1000.0 / mountFocalLength;
+        }
 
-        // Pixel scale in arcsec/pixel
-        pixScaleX = 206264.8062470963552 * ccdPixelSizeX / 1000.0 / mountFocalLength;
-        pixScaleY = 206264.8062470963552 * ccdPixelSizeY / 1000.0 / mountFocalLength;
 
         // FOV in arcmin
         double fov_w = (w * pixScaleX) / 60.0;
         double fov_h = (h * pixScaleY) / 60.0;
 
-        l_FOV->setText(QString("%1x%2").arg(QString::number(fov_w, 'f', 1)).arg(QString::number(fov_h, 'f', 1)));
+        l_FOV->setText(QString("%1x%2").arg(QString::number(fov_w, 'f', 1), QString::number(fov_h, 'f', 1)));
     }
 }
 

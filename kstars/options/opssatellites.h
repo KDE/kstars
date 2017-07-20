@@ -18,10 +18,10 @@
 
 #include "ui_opssatellites.h"
 
+#include <kconfigdialog.h>
+
 #include <QFrame>
 #include <QSortFilterProxyModel>
-
-#include <kconfigdialog.h>
 
 class QStandardItem;
 class QStandardItemModel;
@@ -29,6 +29,8 @@ class KStars;
 
 class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
 {
+  Q_OBJECT
+
   public:
     explicit SatelliteSortFilterProxyModel(QObject *parent);
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
@@ -46,20 +48,14 @@ class OpsSatellites : public QFrame, public Ui::OpsSatellites
     Q_OBJECT
 
   public:
-    /**
-     * Constructor
-     */
+    /** Constructor */
     OpsSatellites();
 
-    /**
-     * Destructor
-     */
+    /** Destructor */
     ~OpsSatellites();
 
   private:
-    /**
-     * Refresh satellites list
-     */
+    /** Refresh satellites list */
     void updateListView();
 
     /**

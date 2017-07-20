@@ -15,17 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCVIZEQUINOX_H_
-#define MODCALCVIZEQUINOX_H_
+#pragma once
 
-#include "ui_modcalcvizequinox.h"
 #include "kstarsdatetime.h"
+#include "ui_modcalcvizequinox.h"
 
 class QTextStream;
 
+class KPlotObject;
+
 /**
-  *@class modCalcEquinox
-  *@author Jason Harris
+  * @class modCalcEquinox
+  *
+  * @author Jason Harris
   */
 class modCalcEquinox : public QFrame, public Ui::modCalcEquinox
 {
@@ -35,7 +37,6 @@ class modCalcEquinox : public QFrame, public Ui::modCalcEquinox
     modCalcEquinox(QWidget *p);
     ~modCalcEquinox();
 
-    KStarsDateTime dSpring, dSummer, dAutumn, dWinter;
     double dmonth(int imonth);
 
   private slots:
@@ -49,7 +50,9 @@ class modCalcEquinox : public QFrame, public Ui::modCalcEquinox
     void addDateAxes();
     KStarsDateTime findEquinox(int year, bool Spring, KPlotObject *po);
     KStarsDateTime findSolstice(int year, bool Summer);
+
+  public:
+    KStarsDateTime dSpring, dSummer, dAutumn, dWinter;
+  private:
     double DMonth[12];
 };
-
-#endif

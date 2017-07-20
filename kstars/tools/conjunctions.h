@@ -22,26 +22,27 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONJUNCTIONS_H_
-#define CONJUNCTIONS_H_
+#pragma once
 
-#include <QTextStream>
-#include <QAbstractTableModel>
-#include <QStandardItemModel>
-#include <QSortFilterProxyModel>
-
+#include "dms.h"
 #include "ui_conjunctions.h"
-#include "skyobjects/skyobject.h"
-#include "skyobjects/ksplanetbase.h"
+
+#include <QFrame>
+#include <QMap>
+#include <QString>
+
+#include <memory>
+
+class QSortFilterProxyModel;
+class QStandardItemModel;
 
 class GeoLocation;
 class KSPlanetBase;
-class dms;
+class SkyObject;
 
 /**
-  *@short Predicts conjunctions using KSConjunct in the background
+  * @short Predicts conjunctions using KSConjunct in the background
   */
-
 class ConjunctionsTool : public QFrame, public Ui::ConjunctionsDlg
 {
     Q_OBJECT
@@ -63,22 +64,17 @@ class ConjunctionsTool : public QFrame, public Ui::ConjunctionsDlg
     void slotFilterReg(const QString &);
 
   private:
-    SkyObject *Object1;
-    KSPlanetBase *Object2; // Second object is always a planet.
-
-    QHash<int, QString> pNames; // To store the names of Planets vs. values expected by KSPlanetBase::createPlanet()
-    QMap<int, long double>
-        outputJDList; // To store Julian Days corresponding to the row index in the output list widget
-
     void showConjunctions(const QMap<long double, dms> &conjunctionlist, const QString &object1,
                           const QString &object2);
 
-    GeoLocation *geoPlace;
-
-    QStandardItemModel *m_Model;
-    QSortFilterProxyModel *m_SortModel;
-
-    int m_index;
+    std::unique_ptr<SkyObject> Object1;
+    std::unique_ptr<KSPlanetBase> Object2; // Second object is always a planet.
+    /// To store the names of Planets vs. values expected by KSPlanetBase::createPlanet()
+    QHash<int, QString> pNames;
+    /// To store Julian Days corresponding to the row index in the output list widget
+    QMap<int, long double> outputJDList;
+    GeoLocation *geoPlace { nullptr };
+    QStandardItemModel *m_Model { nullptr };
+    QSortFilterProxyModel *m_SortModel { nullptr };
+    int m_index { 0 };
 };
-
-#endif

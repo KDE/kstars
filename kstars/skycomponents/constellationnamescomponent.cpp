@@ -14,22 +14,20 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #include "constellationnamescomponent.h"
 
-#include <QTextStream>
-#include <QtConcurrent>
-
+#include "ksfilereader.h"
 #include "kstarsdata.h"
+#include "Options.h"
+#include "skylabeler.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
-#include "skyobjects/skyobject.h"
-#include "skycomponents/culturelist.h"
-#include "Options.h"
-
-#include "ksfilereader.h"
-#include "skylabeler.h"
 #include "projections/projector.h"
+#include "skycomponents/culturelist.h"
+
+#include <QtConcurrent>
 
 ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, CultureList *cultures)
     : ListComponent(parent)
@@ -74,14 +72,14 @@ void ConstellationNamesComponent::loadData(CultureList *cultures)
 
         if (culture)
         {
-            rah = line.mid(0, 2).toInt();
-            ram = line.mid(2, 2).toInt();
-            ras = line.mid(4, 2).toInt();
+            rah = line.midRef(0, 2).toInt();
+            ram = line.midRef(2, 2).toInt();
+            ras = line.midRef(4, 2).toInt();
 
             sgn = line.at(6);
-            dd  = line.mid(7, 2).toInt();
-            dm  = line.mid(9, 2).toInt();
-            ds  = line.mid(11, 2).toInt();
+            dd  = line.midRef(7, 2).toInt();
+            dm  = line.midRef(9, 2).toInt();
+            ds  = line.midRef(11, 2).toInt();
 
             abbrev = line.mid(13, 3);
             name   = line.mid(17).trimmed();

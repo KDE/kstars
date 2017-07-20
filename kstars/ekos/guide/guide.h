@@ -7,28 +7,23 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef guide_H
-#define guide_H
+#pragma once
 
+#include "ui_guide.h"
+#include "ekos/ekos.h"
+#include "indi/indiccd.h"
+#include "indi/inditelescope.h"
+
+#include <QTime>
 #include <QTimer>
 #include <QtDBus/QtDBus>
 
-#include "ekos/ekos.h"
-
-#include "indi/indistd.h"
-#include "indi/inditelescope.h"
-#include "indi/indiccd.h"
-
-#include "guide.h"
-
-#include "fitsviewer/fitscommon.h"
-
-#include "ui_guide.h"
-
-class QTabWidget;
-class FITSView;
-class ScrollGraph;
 class QProgressIndicator;
+class QTabWidget;
+
+class FITSView;
+class FITSViewer;
+class ScrollGraph;
 
 namespace Ekos
 {
@@ -40,12 +35,13 @@ class PHD2;
 class LinGuider;
 
 /**
- *@class Guide
- *@short Performs calibration and autoguiding using an ST4 port or directly via the INDI driver. Can be used with the following external guiding applications:
+ * @class Guide
+ * @short Performs calibration and autoguiding using an ST4 port or directly via the INDI driver. Can be used with the following external guiding applications:
  * PHD2
  * LinGuider
- *@author Jasem Mutlaq
- *@version 1.4
+ *
+ * @author Jasem Mutlaq
+ * @version 1.4
  */
 class Guide : public QWidget, public Ui::Guide
 {
@@ -442,26 +438,32 @@ class Guide : public QWidget, public Ui::Guide
     QStack<GuideState> operationStack;
 
     // Devices
-    ISD::CCD *currentCCD;
-    ISD::Telescope *currentTelescope;
-    ISD::ST4 *ST4Driver;
-    ISD::ST4 *AODriver;
-    ISD::ST4 *GuideDriver;
+    ISD::CCD *currentCCD { nullptr };
+    ISD::Telescope *currentTelescope { nullptr };
+    ISD::ST4 *ST4Driver { nullptr };
+    ISD::ST4 *AODriver { nullptr };
+    ISD::ST4 *GuideDriver { nullptr };
 
     // Device Containers
     QList<ISD::ST4 *> ST4List;
     QList<ISD::CCD *> CCDs;
 
     // Guider process
-    GuideInterface *guider;
+    GuideInterface *guider { nullptr };
     GuiderType guiderType;
 
     // Star
     QVector3D starCenter;
 
     // Guide Params
-    double ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength, guideDeviationRA, guideDeviationDEC,
-        pixScaleX, pixScaleY;
+    double ccdPixelSizeX { 0 };
+    double ccdPixelSizeY { 0 };
+    double mountAperture { 0 };
+    double mountFocalLength { 0 };
+    double guideDeviationRA { 0 };
+    double guideDeviationDEC { 0 };
+    double pixScaleX { 0 };
+    double pixScaleY { 0 };
 
     // Rapid Guide
     //bool rapidGuideReticleSet;
@@ -474,7 +476,7 @@ class Guide : public QWidget, public Ui::Guide
 
     // Capture timeout timer
     QTimer captureTimeout;
-    uint8_t captureTimeoutCounter = 0;
+    uint8_t captureTimeoutCounter { 0 };
 
     // Pulse Timer
     QTimer pulseTimer;
@@ -483,26 +485,23 @@ class Guide : public QWidget, public Ui::Guide
     QStringList logText;
 
     // Misc
-    bool useGuideHead;
+    bool useGuideHead { false };
 
     // Progress Activity Indicator
-    QProgressIndicator *pi;
+    QProgressIndicator *pi { nullptr };
 
     // Options
-    OpsCalibration *opsCalibration;
-    OpsGuide *opsGuide;
+    OpsCalibration *opsCalibration { nullptr };
+    OpsGuide *opsGuide { nullptr };
 
     // Guide Frame
-    FITSView *guideView;
-
-    // Auto star operation
-    bool autoStarCaptured;
+    FITSView *guideView { nullptr };
 
     // Calibration done already?
-    bool calibrationComplete = false;
+    bool calibrationComplete { false };
 
     // Was the modified frame subFramed?
-    bool subFramed;
+    bool subFramed { false };
 
     // CCD Chip frame settings
     QMap<ISD::CCDChip *, QVariantMap> frameSettings;
@@ -511,7 +510,7 @@ class Guide : public QWidget, public Ui::Guide
     QPixmap profilePixmap;
 
     // Flag to start auto calibration followed immediately by guiding
-    bool autoCalibrateGuide;
+    bool autoCalibrateGuide { false };
 
     // Pointers of guider processes
     QPointer<InternalGuider> internalGuider;
@@ -520,5 +519,3 @@ class Guide : public QWidget, public Ui::Guide
     QPointer<FITSViewer> fv;
 };
 }
-
-#endif // guide_H

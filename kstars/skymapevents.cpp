@@ -17,38 +17,22 @@
 
 //This file contains Event handlers for the SkyMap class.
 
-#include <QCursor>
-#include <QPainter>
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <QResizeEvent>
-#include <QKeyEvent>
-#include <QKeySequence>
-#include <QPaintEvent>
-#include <QToolTip>
-#include <QStatusBar>
-
 #include "skymap.h"
-#include "skyqpainter.h"
-#include "skyglpainter.h"
-#include "Options.h"
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "ksutils.h"
-#include "simclock.h"
+
+#include "ksplanetbase.h"
 #include "kspopupmenu.h"
-#include "skyobjects/ksplanetbase.h"
-#include "widgets/infoboxwidget.h"
-#include "printing/simplefovexporter.h"
 #include "observinglist.h"
-
-#include "projections/projector.h"
-
-#include "skycomponents/skymapcomposite.h"
-
-// TODO: Remove if debug key binding is removed
+#include "Options.h"
+#include "skyglpainter.h"
+#include "skyqpainter.h"
+#include "printing/simplefovexporter.h"
 #include "skycomponents/skylabeler.h"
+#include "skycomponents/skymapcomposite.h"
 #include "skycomponents/starcomponent.h"
+#include "widgets/infoboxwidget.h"
+
+#include <QStatusBar>
+#include <QToolTip>
 
 void SkyMap::resizeEvent(QResizeEvent *)
 {
@@ -68,7 +52,6 @@ void SkyMap::resizeEvent(QResizeEvent *)
 
 void SkyMap::keyPressEvent(QKeyEvent *e)
 {
-    QString s;
     bool arrowKeyPressed(false);
     bool shiftPressed(false);
     float step = 1.0;

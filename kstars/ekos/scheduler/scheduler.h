@@ -9,21 +9,26 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef SCHEDULER_H
-#define SCHEDULER_H
-
-#include <QMainWindow>
-#include <QtDBus/QtDBus>
-#include <QProcess>
+#pragma once
 
 #include "ui_scheduler.h"
-#include "scheduler.h"
-#include "schedulerjob.h"
-#include "auxiliary/QProgressIndicator.h"
 #include "ekos/align/align.h"
 
-class KSMoon;
+#include <lilxml.h>
+
+#include <QProcess>
+#include <QTime>
+#include <QTimer>
+#include <QUrl>
+#include <QtDBus/QtDBus>
+
+#include <stdint.h>
+
+class QProgressIndicator;
+
 class GeoLocation;
+class KSMoon;
+class SchedulerJob;
 class SkyObject;
 
 namespace Ekos
@@ -529,76 +534,96 @@ class Scheduler : public QWidget, public Ui::Scheduler
                            bool &hasAutoFocus);
     int getCompletedFiles(const QString &path, const QString &seqPrefix);
 
-    Ekos::Scheduler *ui;
-
+    Ekos::Scheduler *ui { nullptr };
     //DBus interfaces
-    QDBusInterface *focusInterface;
-    QDBusInterface *ekosInterface;
-    QDBusInterface *captureInterface;
-    QDBusInterface *mountInterface;
-    QDBusInterface *alignInterface;
-    QDBusInterface *guideInterface;
-    QDBusInterface *domeInterface;
-    QDBusInterface *weatherInterface;
-    QDBusInterface *capInterface;
-
+    QDBusInterface *focusInterface { nullptr };
+    QDBusInterface *ekosInterface { nullptr };
+    QDBusInterface *captureInterface { nullptr };
+    QDBusInterface *mountInterface { nullptr };
+    QDBusInterface *alignInterface { nullptr };
+    QDBusInterface *guideInterface { nullptr };
+    QDBusInterface *domeInterface { nullptr };
+    QDBusInterface *weatherInterface { nullptr };
+    QDBusInterface *capInterface { nullptr };
     // Scheduler and job state and stages
-    SchedulerState state;
-    EkosState ekosState;
-    INDIState indiState;
-    StartupState startupState;
-    ShutdownState shutdownState;
-    ParkWaitStatus parkWaitState;
+    SchedulerState state { SCHEDULER_IDLE };
+    EkosState ekosState { EKOS_IDLE };
+    INDIState indiState { INDI_IDLE };
+    StartupState startupState { STARTUP_IDLE };
+    ShutdownState shutdownState { SHUTDOWN_IDLE };
+    ParkWaitStatus parkWaitState { PARKWAIT_IDLE };
+    /// List of all jobs as entered by the user or file
+    QList<SchedulerJob *> jobs;
+    /// Active job
+    SchedulerJob *currentJob { nullptr };
+    /// URL to store the scheduler file
+    QUrl schedulerURL;
+    /// URL for Ekos Sequence
+    QUrl sequenceURL;
+    /// FITS URL to solve
+    QUrl fitsURL;
+    /// Startup script URL
+    QUrl startupScriptURL;
+    /// Shutdown script URL
+    QUrl shutdownScriptURL;
+    /// Store all log strings
+    QStringList logText;
+    /// Busy indicator widget
+    QProgressIndicator *pi { nullptr };
+    /// Are we editing a job right now? Job row index
+    int jobUnderEdit { -1 };
+    /// Pointer to Moon object
+    KSMoon *moon { nullptr };
+    /// Pointer to Geograpic locatoin
+    GeoLocation *geo { nullptr };
+    /// How many repeated job batches did we complete thus far?
+    uint16_t captureBatch { 0 };
+    /// Startup and Shutdown scripts process
+    QProcess scriptProcess;
+    /// Store day fraction of dawn to calculate dark skies range
+    double Dawn { -1 };
+    /// Store day fraction of dusk to calculate dark skies range
+    double Dusk { -1 };
+    /// Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
+    QDateTime preDawnDateTime;
+    /// Dusk date time
+    QDateTime duskDateTime;
+    /// Was job modified and needs saving?
+    bool mDirty { false };
+    /// Keep watch of weather status
+    IPState weatherStatus { IPS_IDLE };
+    /// Keep track of how many times we didn't receive weather updates
+    uint8_t noWeatherCounter { 0 };
+    /// Are we shutting down until later?
+    bool preemptiveShutdown { false };
+    /// Only run job evaluation
+    bool jobEvaluationOnly { false };
+    /// Keep track of Load & Slew operation
+    bool loadAndSlewProgress { false };
+    /// Check if initial autofocus is completed and do not run autofocus until there is a change is telescope position/alignment.
+    bool autofocusCompleted { false };
+    /// Keep track of INDI connection failures
+    uint8_t indiConnectFailureCount { 0 };
+    /// Keep track of Ekos focus module failures
+    uint8_t focusFailureCount { 0 };
+    /// Keep track of Ekos guide module failures
+    uint8_t guideFailureCount { 0 };
+    /// Keep track of Ekos align module failures
+    uint8_t alignFailureCount { 0 };
+    /// Keep track of Ekos capture module failures
+    uint8_t captureFailureCount { 0 };
+    /// Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
+    QTimer weatherTimer;
+    /// Timer to put the scheduler into sleep mode until a job is ready
+    QTimer sleepTimer;
+    /// To call checkStatus
+    QTimer schedulerTimer;
+    /// To call checkJobStage
+    QTimer jobTimer;
 
-    QList<SchedulerJob *> jobs; // List of all jobs as entered by the user or file
-    SchedulerJob *currentJob;   // Active job
-
-    QUrl schedulerURL;      // URL to store the scheduler file
-    QUrl sequenceURL;       // URL for Ekos Sequence
-    QUrl fitsURL;           // FITS URL to solve
-    QUrl startupScriptURL;  // Startup script URL
-    QUrl shutdownScriptURL; // Shutdown script URL
-
-    QStringList logText; // Store all log strings
-
-    QProgressIndicator *pi; // Busy indicator widget
-    int jobUnderEdit;       // Are we editing a job right now? Job row index
-
-    KSMoon *moon;     // Pointer to Moon object
-    GeoLocation *geo; // Pointer to Geograpic locatoin
-
-    uint16_t captureBatch; // How many repeated job batches did we complete thus far?
-
-    QProcess scriptProcess; // Startup and Shutdown scripts process
-
-    double Dawn, Dusk;         // Store day fraction of dawn and dusk to calculate dark skies range
-    QDateTime preDawnDateTime; // Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
-    QDateTime duskDateTime;    // Dusk date time
-    bool mDirty;               // Was job modified and needs saving?
-    IPState weatherStatus;     // Keep watch of weather status
-    uint8_t noWeatherCounter;  // Keep track of how many times we didn't receive weather updates
-    bool preemptiveShutdown;   // Are we shutting down until later?
-    bool jobEvaluationOnly;    // Only run job evaluation
-    bool loadAndSlewProgress;  // Keep track of Load & Slew operation
-    bool
-        autofocusCompleted; // Check if initial autofocus is completed and do not run autofocus until there is a change is telescope position/alignment.
-
-    uint8_t indiConnectFailureCount; // Keep track of INDI connection failures
-    uint8_t focusFailureCount;       // Keep track of Ekos focus module failures
-    uint8_t guideFailureCount;       // Keep track of Ekos guide module failures
-    uint8_t alignFailureCount;       // Keep track of Ekos align module failures
-    uint8_t captureFailureCount;     // Keep track of Ekos capture module failures
-
-    QTimer
-        weatherTimer; // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
-    QTimer sleepTimer;     // Timer to put the scheduler into sleep mode until a job is ready
-    QTimer schedulerTimer; // To call checkStatus
-    QTimer jobTimer;       // To call checkJobStage
-
-    QTime currentOperationTime; // Generic time to track timeout of current operation in progress
+    /// Generic time to track timeout of current operation in progress
+    QTime currentOperationTime;
 
     QUrl dirPath;
 };
 }
-
-#endif // SCHEDULER_H

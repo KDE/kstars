@@ -12,6 +12,8 @@
 #include <indicom.h>
 #include <cmath>
 
+#include <cmath>
+
 RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);

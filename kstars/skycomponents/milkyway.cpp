@@ -107,8 +107,8 @@ void MilkyWay::loadContours(QString fname, QString greeting)
             continue;
 
         bool okRA = false, okDec = false;
-        double ra  = line.mid(2, 8).toDouble(&okRA);
-        double dec = line.mid(11, 8).toDouble(&okDec);
+        double ra  = line.midRef(2, 8).toDouble(&okRA);
+        double dec = line.midRef(11, 8).toDouble(&okDec);
 
         if (!okRA || !okDec)
         {

@@ -546,7 +546,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
     for (; i < lines.size(); ++i)
     {
         QString d(lines.at(i)); // current data line
-        if (d.left(1) != "#")
+        if (d.at(0) != '#')
             break; // no longer in header!
 
         int idelimiter = d.indexOf("# Delimiter: ");
@@ -624,7 +624,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
             if (catEpoch == 0.)
             {
                 bool ok(false);
-                catEpoch = d.mid(iepoch).toFloat(&ok);
+                catEpoch = d.midRef(iepoch).toFloat(&ok);
                 if (!ok)
                 {
                     if (showerrs)

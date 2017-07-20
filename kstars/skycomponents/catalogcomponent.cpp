@@ -18,30 +18,10 @@
 #include "catalogcomponent.h"
 
 #include "catalogdata.h"
-
-#include <QDebug>
-#include <KLocalizedString>
-#ifndef KSTARS_LITE
-#include <KMessageBox>
-#endif
-#include <QDir>
-#include <QFile>
-#include <QPixmap>
-#include <QTextStream>
-
-#include "Options.h"
-
 #include "kstarsdata.h"
-#ifndef KSTARS_LITE
-#include "skymap.h"
-#endif
 #include "skypainter.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
-#include "catalogdb.h"
-
-QStringList CatalogComponent::m_Columns =
-    QString("ID RA Dc Tp Nm Mg Flux Mj Mn PA Ig").split(' ', QString::SkipEmptyParts);
 
 CatalogComponent::CatalogComponent(SkyComposite *parent, const QString &catname, bool showerrs, int index,
                                    bool callLoadData)
@@ -162,11 +142,9 @@ void CatalogComponent::_loadData(bool includeCatalogDesignation)
 
     CatalogData loaded_catalog_data;
     KStarsData::Instance()->catalogdb()->GetCatalogData(m_catName, loaded_catalog_data);
-    m_catPrefix   = loaded_catalog_data.prefix;
     m_catColor    = loaded_catalog_data.color;
     m_catFluxFreq = loaded_catalog_data.fluxfreq;
     m_catFluxUnit = loaded_catalog_data.fluxunit;
-    m_catEpoch    = loaded_catalog_data.epoch;
 }
 
 void CatalogComponent::update(KSNumbers *)
@@ -248,11 +226,16 @@ void CatalogComponent::draw(SkyPainter *skyp)
     }
 }
 
+bool CatalogComponent::getVisibility()
+{
+    return (Options::showCatalog().at(m_ccIndex) > 0) ? true : false;
+}
+
 bool CatalogComponent::selected()
 {
-    if (Options::showCatalogNames().contains(m_catName) &&
-        Options::
-            showDeepSky()) // do not draw / update custom catalogs if show deep-sky is turned off, even if they are chosen.
+    // Do not draw / update custom catalogs if show deep-sky is turned off, even if they are chosen.
+    if (Options::showCatalogNames().contains(m_catName) && Options::showDeepSky())
         return true;
+
     return false;
 }

@@ -19,12 +19,13 @@
 #include "skymap.h"
 #include "ui_calibrationoptions.h"
 #include "auxiliary/QProgressIndicator.h"
+#include "ekos/ekosmanager.h"
+#include "ekos/auxiliary/darklibrary.h"
+#include "fitsviewer/fitsdata.h"
+#include "fitsviewer/fitsview.h"
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
 #include "indi/clientmanager.h"
-#include "ekos/ekosmanager.h"
-#include "ekos/auxiliary/darklibrary.h"
-#include "fitsviewer/fitsview.h"
 
 #include <basedevice.h>
 
@@ -141,7 +142,7 @@ Capture::Capture()
 
     fitsDir->setText(Options::fitsDir());
 
-    foreach (QString filter, FITSViewer::filterTypes)
+    for (auto &filter : FITSViewer::filterTypes)
         filterCombo->addItem(filter);
 
     guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
@@ -1523,7 +1524,7 @@ void Capture::checkSeqBoundary(const QString &path)
         {
             bool indexOK = false;
 
-            newFileIndex = tempName.mid(lastUnderScoreIndex + 1).toInt(&indexOK);
+            newFileIndex = tempName.midRef(lastUnderScoreIndex + 1).toInt(&indexOK);
             if (indexOK && newFileIndex >= nextSequenceID)
                 nextSequenceID = newFileIndex + 1;
         }
@@ -4498,8 +4499,8 @@ void Capture::showObserverDialog()
     QList<OAL::Observer *> m_observerList;
     KStars::Instance()->data()->userdb()->GetAllObservers(m_observerList);
     QStringList observers;
-    foreach (OAL::Observer *o, m_observerList)
-        observers << QString("%1 %2").arg(o->name()).arg(o->surname());
+    for (auto &o : m_observerList)
+        observers << QString("%1 %2").arg(o->name(), o->surname());
 
     QDialog observersDialog(this);
     observersDialog.setWindowTitle(i18n("Select Current Observer"));
@@ -4523,8 +4524,8 @@ void Capture::showObserverDialog()
         QList<OAL::Observer *> m_observerList;
         KStars::Instance()->data()->userdb()->GetAllObservers(m_observerList);
         QStringList observers;
-        foreach (OAL::Observer *o, m_observerList)
-            observers << QString("%1 %2").arg(o->name()).arg(o->surname());
+        for (auto &o : m_observerList)
+            observers << QString("%1 %2").arg(o->name(), o->surname());
 
         observerCombo.clear();
         observerCombo.addItems(observers);

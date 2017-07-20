@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONSTELLATIONNAMESCOMPONENT_H
-#define CONSTELLATIONNAMESCOMPONENT_H
+#pragma once
 
-#include <QList>
 #include "listcomponent.h"
 
-class SkyLabeler;
 class CultureList;
+class KSNumbers;
+class SkyComposite;
+class SkyPainter;
 
 /**
  * @class ConstellationNamesComponent
@@ -34,34 +34,37 @@ class CultureList;
 class ConstellationNamesComponent : public ListComponent
 {
   public:
-    /** @short Constructor
-         * @p parent Pointer to the parent SkyComposite object
-         *
-         * Reads the constellation names data from cnames.dat
-         * Each line in the file is parsed according to column position:
-         * @li 0-1     RA hours [int]
-         * @li 2-3     RA minutes [int]
-         * @li 4-5     RA seconds [int]
-         * @li 6       Dec sign [char; '+' or '-']
-         * @li 7-8     Dec degrees [int]
-         * @li 9-10    Dec minutes [int]
-         * @li 11-12   Dec seconds [int]
-         * @li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
-         * @li 17-     Constellation name [string]
-         */
+    /**
+     * @short Constructor
+     * @p parent Pointer to the parent SkyComposite object
+     *
+     * Reads the constellation names data from cnames.dat
+     * Each line in the file is parsed according to column position:
+     * @li 0-1     RA hours [int]
+     * @li 2-3     RA minutes [int]
+     * @li 4-5     RA seconds [int]
+     * @li 6       Dec sign [char; '+' or '-']
+     * @li 7-8     Dec degrees [int]
+     * @li 9-10    Dec minutes [int]
+     * @li 11-12   Dec seconds [int]
+     * @li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
+     * @li 17-     Constellation name [string]
+     */
     ConstellationNamesComponent(SkyComposite *parent, CultureList *cultures);
 
     /** @short Destructor.  Delete list members */
     virtual ~ConstellationNamesComponent();
 
-    /** @short Draw constellation names on the sky map.
-         * @p psky Reference to the QPainter on which to paint
-         */
+    /**
+     * @short Draw constellation names on the sky map.
+     * @p psky Reference to the QPainter on which to paint
+     */
     void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
-    /** @short we need a custom routine (for now) so we don't
-         * precess the locations of the names.
-         */
+    /**
+     * @short we need a custom routine (for now) so we don't
+     * precess the locations of the names.
+     */
     void update(KSNumbers *num) Q_DECL_OVERRIDE;
 
     /** @short Return true if we are using localized constellation names */
@@ -72,7 +75,5 @@ class ConstellationNamesComponent : public ListComponent
     void loadData(CultureList *cultures);
 
   private:
-    bool localCNames;
+    bool localCNames { false };
 };
-
-#endif

@@ -14,6 +14,7 @@
 #include "kstars.h"
 #include "kspaths.h"
 #include "kstarsdata.h"
+#include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 
 namespace Ekos

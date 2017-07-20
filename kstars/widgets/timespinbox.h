@@ -15,41 +15,43 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TIMESPINBOX_H
-#define TIMESPINBOX_H
+#pragma once
 
 #include <QSpinBox>
+#include <QStringList>
 
-class QStringList;
-
-/** @class TimeSpinBox
-	*Custom spinbox to handle selection of timestep values with variable units.
-	*@note this should only be used internally, embedded in a TimeStepBox widget.
-	*@author Jason Harris
-	*@version 1.0
-	*/
+/**
+ * @class TimeSpinBox
+ * Custom spinbox to handle selection of timestep values with variable units.
+ * @note this should only be used internally, embedded in a TimeStepBox widget.
+ *
+ * @author Jason Harris
+ * @version 1.0
+ */
 
 class TimeSpinBox : public QSpinBox
 {
     Q_OBJECT
   public:
-    /**Constructor */
+    /** Constructor */
     explicit TimeSpinBox(QWidget *parent, bool daysOnly = false);
-    /**Destructor (empty)*/
+    /** Destructor (empty) */
     ~TimeSpinBox() {}
 
-    /**Convert the internal value to a display string.
-        	*@note reimplemented from QSpinBox
-        	*@p value the internal value to convert to a display string
-        	*@return the display string
-        	*/
+    /**
+     * Convert the internal value to a display string.
+     * @note reimplemented from QSpinBox
+     * @p value the internal value to convert to a display string
+     * @return the display string
+     */
     QString textFromValue(int value) const Q_DECL_OVERRIDE;
 
-    /**Convert the displayed string to an internal value.
-        	*@note reimplemented from QSpinBox
-        	*@p ok bool pointer set to true if conversion was successful
-        	*@return internal value converted from displayed text
-        	*/
+    /**
+     * Convert the displayed string to an internal value.
+     * @note reimplemented from QSpinBox
+     * @p ok bool pointer set to true if conversion was successful
+     * @return internal value converted from displayed text
+     */
     int valueFromText(const QString &text) const Q_DECL_OVERRIDE;
 
     /** @return the current TimeStep setting */
@@ -72,5 +74,3 @@ class TimeSpinBox : public QSpinBox
     float TimeScale[43];
     QStringList TimeString;
 };
-
-#endif

@@ -154,8 +154,7 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
         if (ui->localTreeWidget->currentItem())
             currentDriver = ui->localTreeWidget->currentItem()->text(LOCAL_NAME_COLUMN);
 
-        foreach (QTreeWidgetItem *item,
-                 ui->localTreeWidget->findItems(dv->getTreeLabel(), Qt::MatchExactly | Qt::MatchRecursive))
+        for (auto &item : ui->localTreeWidget->findItems(dv->getTreeLabel(), Qt::MatchExactly | Qt::MatchRecursive))
         {
             item->setText(LOCAL_VERSION_COLUMN, dv->getVersion());
 
@@ -237,8 +236,7 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
     }
     else
     {
-        foreach (QTreeWidgetItem *item,
-                 ui->clientTreeWidget->findItems(dv->getName(), Qt::MatchExactly, HOST_NAME_COLUMN))
+        for (auto &item : ui->clientTreeWidget->findItems(dv->getName(), Qt::MatchExactly, HOST_NAME_COLUMN))
         {
             if (dv->getClientState())
             {
@@ -260,11 +258,11 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<Drive
 {
     bool found = false;
 
-    foreach (DriverInfo *dv, dList)
+    for (DriverInfo *dv : dList)
     {
         QList<DriverInfo *> uList;
 
-        foreach (DriverInfo *idv, dList)
+        for (DriverInfo *idv : dList)
         {
             if (dv->getHost() == idv->getHost() && dv->getPort() == idv->getPort())
             {
@@ -285,9 +283,9 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<Drive
 
                 found = false;
 
-                foreach (QList<DriverInfo *> qdi, uHosts)
+                for (auto &qdi : uHosts)
                 {
-                    foreach (DriverInfo *di, qdi)
+                    for (DriverInfo *di : qdi)
                     {
                         if (di == idv)
                         {
@@ -322,7 +320,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
     if (Options::iNDILogging())
         qDebug() << "INDI: Starting local drivers...";
 
-    foreach (QList<DriverInfo *> qdv, uHosts)
+    for (auto &qdv : uHosts)
     {
         if (qdv.empty())
             continue;
@@ -362,7 +360,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
         if (Options::iNDILogging())
             qDebug() << "INDI: INDI Server started locally on port " << port;
 
-        foreach (DriverInfo *dv, qdv)
+        for (DriverInfo *dv : qdv)
         {
             if (serverManager->startDriver(dv) == false)
             {
@@ -380,7 +378,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
 
         clientManager = new ClientManager();
 
-        foreach (DriverInfo *dv, qdv)
+        for (DriverInfo *dv : qdv)
             clientManager->appendManagedDriver(dv);
 
         connect(clientManager, SIGNAL(connectionFailure(ClientManager *)), this,
@@ -430,7 +428,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
             msgBox->setIcon(QMessageBox::Critical);
             msgBox->show();
 
-            foreach (DriverInfo *dv, qdv)
+            for (DriverInfo *dv : qdv)
                 processDeviceStatus(dv);
 
             GUIManager::Instance()->removeClient(clientManager);
@@ -449,7 +447,7 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
         qDebug() << "INDI: Stopping local drivers...";
 
     // #1 Disconnect all clients
-    foreach (DriverInfo *dv, dList)
+    for (DriverInfo *dv : dList)
     {
         ClientManager *cm = dv->getClientManager();
 
@@ -469,7 +467,7 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
     }
 
     // #2 Disconnect all servers
-    foreach (DriverInfo *dv, dList)
+    for (DriverInfo *dv : dList)
     {
         ServerManager *sm = dv->getServerManager();
 
@@ -552,7 +550,7 @@ void DriverManager::updateClientTab()
     QString hostname = item->text(HOST_NAME_COLUMN);
     QString hostport = item->text(HOST_PORT_COLUMN);
 
-    foreach (DriverInfo *dv, driversList)
+    for (auto &dv : driversList)
     {
         if (hostname == dv->getName() && hostport == dv->getPort())
         {
@@ -643,7 +641,7 @@ void DriverManager::processServerTermination(ServerManager *server)
     if (server == nullptr)
         return;
 
-    foreach (DriverInfo *dv, driversList)
+    for (auto &dv : driversList)
         if (dv->getServerManager() == server)
         {
             dv->setServerState(false);
@@ -669,7 +667,7 @@ void DriverManager::processRemoteTree(bool dState)
     if (!currentItem)
         return;
 
-    foreach (DriverInfo *dv, driversList)
+    for (auto &dv : driversList)
     {
         if (dv->getDriverSource() != HOST_SOURCE)
             continue;
@@ -955,7 +953,7 @@ bool DriverManager::readXMLDrivers()
     indiDir.setFilter(QDir::Files | QDir::NoSymLinks);
     QFileInfoList list = indiDir.entryInfoList();
 
-    foreach (QFileInfo fileInfo, list)
+    for (auto &fileInfo : list)
     {
         // libindi 0.7.1: Skip skeleton files
         if (fileInfo.fileName().endsWith("_sk.xml"))
@@ -974,7 +972,7 @@ bool DriverManager::readXMLDrivers()
             }
         }
 
-        driverName = QString("%1/%2").arg(driversDir).arg(fileInfo.fileName());
+        driverName = QString("%1/%2").arg(driversDir, fileInfo.fileName());
         processXMLDriver(driverName);
     }
 
@@ -1506,7 +1504,7 @@ void DriverManager::saveHosts()
 
 DriverInfo *DriverManager::findDriverByName(const QString &name)
 {
-    foreach (DriverInfo *dv, driversList)
+    for (auto &dv : driversList)
     {
         if (dv->getName() == name)
             return dv;
@@ -1517,7 +1515,7 @@ DriverInfo *DriverManager::findDriverByName(const QString &name)
 
 DriverInfo *DriverManager::findDriverByLabel(const QString &label)
 {
-    foreach (DriverInfo *dv, driversList)
+    for (auto &dv : driversList)
     {
         if (dv->getTreeLabel() == label)
             return dv;
@@ -1528,7 +1526,7 @@ DriverInfo *DriverManager::findDriverByLabel(const QString &label)
 
 DriverInfo *DriverManager::findDriverByExec(const QString &exec)
 {
-    foreach (DriverInfo *dv, driversList)
+    for (auto &dv : driversList)
     {
         if (dv->getDriver() == exec)
             return dv;
@@ -1542,13 +1540,16 @@ QString DriverManager::getUniqueDeviceLabel(const QString &label)
     int nset            = 0;
     QString uniqueLabel = label;
 
-    foreach (ClientManager *cm, clients)
-        foreach (INDI::BaseDevice *dv, cm->getDevices())
+    for (auto &cm : clients)
+    {
+        auto& devices = cm->getDevices();
+
+        for (auto &dv : devices)
         {
             if (label == QString(dv->getDeviceName()))
                 nset++;
         }
-
+    }
     if (nset > 0)
         uniqueLabel = QString("%1 %2").arg(label).arg(nset + 1);
 

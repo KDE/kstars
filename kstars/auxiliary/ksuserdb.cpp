@@ -1477,11 +1477,11 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     if (pi->city.isEmpty() == false)
     {
         if (!query.exec(QString("UPDATE profile SET city='%1',province='%2',country='%3' WHERE id=%4")
-                            .arg(pi->city)
-                            .arg(pi->province)
-                            .arg(pi->country)
+                            .arg(pi->city, pi->province, pi->country)
                             .arg(pi->id)))
+        {
             qDebug() << query.lastQuery() << query.lastError().text();
+        }
     }
 
     // Update Auto Connect Info
@@ -1512,10 +1512,11 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     {
         i.next();
         if (!query.exec(QString("INSERT INTO driver (label, role, profile) VALUES('%1','%2',%3)")
-                            .arg(i.value())
-                            .arg(i.key())
+                            .arg(i.value(), i.key())
                             .arg(pi->id)))
+        {
             qDebug() << query.lastQuery() << query.lastError().text();
+        }
     }
 
     /*if (pi->customDrivers.isEmpty() == false && !query.exec(QString("INSERT INTO custom_driver (drivers, profile) VALUES('%1',%2)").arg(pi->customDrivers).arg(pi->id)))

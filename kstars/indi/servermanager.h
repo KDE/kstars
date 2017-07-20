@@ -1,6 +1,3 @@
-#ifndef SERVERMANAGER_H
-#define SERVERMANAGER_H
-
 /*  INDI Server Manager
     Copyright (C) 2012 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
@@ -11,14 +8,16 @@
 
  */
 
-#include <QObject>
-#include <QTcpSocket>
-#include <QProcess>
-#include <QFile>
-
-#include <lilxml.h>
+#pragma once
 
 #include "indicommon.h"
+
+#include <QFile>
+#include <QObject>
+#include <QProcess>
+#include <QTcpSocket>
+
+#include <memory>
 
 class DriverInfo;
 
@@ -33,15 +32,7 @@ class ServerManager : public QObject
     Q_OBJECT
 
   public:
-    enum
-    {
-        INDI_DEVICE_NOT_FOUND    = -1,
-        INDI_PROPERTY_INVALID    = -2,
-        INDI_PROPERTY_DUPLICATED = -3,
-        INDI_DISPATCH_ERROR      = -4
-    };
-
-    ServerManager(QString inHost, uint inPort);
+    ServerManager(const QString& inHost, uint inPort);
     ~ServerManager();
 
     bool start();
@@ -62,27 +53,24 @@ class ServerManager : public QObject
 
     int size() { return managedDrivers.size(); }
 
-    bool isDriverManaged(DriverInfo *);
+public slots:
+    void connectionSuccess();
+    void processServerError(QProcess::ProcessError);
+    void processStandardError();
 
-  private:
+private:
     QTcpSocket serverSocket;
-    LilXML *XMLParser;
     QString host;
     QString port;
     QString serverBuffer;
-    QProcess *serverProcess;
+    std::unique_ptr<QProcess> serverProcess;
 
     ServerMode mode;
-    bool driverCrashed;
+    bool driverCrashed { false };
 
     QList<DriverInfo *> managedDrivers;
 
     QFile indiFIFO;
-
-  public slots:
-    void connectionSuccess();
-    void processServerError(QProcess::ProcessError);
-    void processStandardError();
 
   signals:
     void serverFailure(ServerManager *);
@@ -90,5 +78,3 @@ class ServerManager : public QObject
     void started();
     void finished(int exit_code, QProcess::ExitStatus exit_status);
 };
-
-#endif // SERVERMANAGER_H

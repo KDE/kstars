@@ -7,14 +7,15 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef TELESCOPEWIZARDPROCESS_H_
-#define TELESCOPEWIZARDPROCESS_H_
+#pragma once
 
-#include <QStringList>
-#include <QHash>
-
-#include "indi/indistd.h"
 #include "ui_telescopewizard.h"
+#include "indi/indistd.h"
+
+#include <QHash>
+#include <QStringList>
+
+#include <memory>
 
 class DriverInfo;
 
@@ -25,7 +26,7 @@ class telescopeWizardProcess : public QDialog
     Q_OBJECT
 
   public:
-    explicit telescopeWizardProcess(QWidget *parent = 0, const char *name = 0);
+    explicit telescopeWizardProcess(QWidget *parent = nullptr);
     ~telescopeWizardProcess();
 
     unsigned int currentPage;
@@ -38,29 +39,11 @@ class telescopeWizardProcess : public QDialog
         PORT_P      = 4
     };
 
-  private:
-    Ui::telescopeWizard *ui;
-
-    ISD::GDInterface *scopeDevice;
-
-    QProgressDialog *progressScan;
-
-    QStringList portList;
-    QString currentDevice;
-
-    int currentPort;
-    int timeOutCount;
-    bool INDIMessageBar;
-    bool linkRejected;
-
-    QHash<QString, DriverInfo *> driversList;
-
-    QList<DriverInfo *> managedDevice;
-
+private:
     void establishLink();
     void Reset();
 
-  public slots:
+public slots:
     void cancelCheck();
     void processNext();
     void processBack();
@@ -69,6 +52,15 @@ class telescopeWizardProcess : public QDialog
     void processTelescope(ISD::GDInterface *);
     void scanPorts();
     void linkSuccess();
-};
 
-#endif
+private:
+    std::unique_ptr<Ui::telescopeWizard> ui;
+    ISD::GDInterface *scopeDevice { nullptr };
+    QProgressDialog *progressScan { nullptr };
+    QStringList portList;
+    int currentPort { -1 };
+    bool INDIMessageBar { false };
+    bool linkRejected { false };
+    QHash<QString, DriverInfo *> driversList;
+    QList<DriverInfo *> managedDevice;
+};

@@ -1,12 +1,15 @@
-#ifndef OPSASTROMETRYINDEXFILES_H
-#define OPSASTROMETRYINDEXFILES_H
+
+#pragma once
+
+#include "ui_opsastrometryindexfiles.h"
 
 #include <QDialog>
-#include "ui_opsastrometryindexfiles.h"
-#include "QNetworkAccessManager"
+#include <QMap>
+#include <QString>
 
-#include "kauth.h"
+class QNetworkAccessManager;
 
+class Align;
 class KConfigDialog;
 
 namespace Ekos
@@ -30,14 +33,14 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
     void downloadOrDeleteIndexFiles(bool checked);
 
   private:
-    KConfigDialog *m_ConfigDialog;
-    Align *alignModule;
-    QNetworkAccessManager *manager;
     bool getAstrometryDataDir(QString &dataDir);
-    void downloadIndexFile(QString URL, QString fileN, QCheckBox *checkBox, int currentIndex, int maxIndex);
-    QMap<float, QString> astrometryIndex;
+    void downloadIndexFile(const QString &URL, const QString &fileN, QCheckBox *checkBox, int currentIndex,
+                           int maxIndex);
     bool astrometryIndicesAreAvailable();
+
+    KConfigDialog *m_ConfigDialog { nullptr };
+    Align *alignModule { nullptr };
+    QNetworkAccessManager *manager { nullptr };
+    QMap<float, QString> astrometryIndex;
 };
 }
-
-#endif // OPSASTROMETRYINDEXFILES_H

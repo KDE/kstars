@@ -7,19 +7,20 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDICCD_H
-#define INDICCD_H
+#pragma once
 
 #include "indistd.h"
+#include "auxiliary/imageviewer.h"
+#include "fitsviewer/fitscommon.h"
+#include "fitsviewer/fitsview.h"
+#include "fitsviewer/fitsviewer.h"
 
 #include <QStringList>
 #include <QPointer>
 
-#include <fitsviewer/fitsviewer.h>
-#include <fitsviewer/fitsdata.h>
+#include <memory>
 
-#include <auxiliary/imageviewer.h>
-
+class FITSData;
 class FITSView;
 
 class StreamWG;
@@ -56,8 +57,6 @@ class CCDChip
     bool getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH);
     bool setFrame(int x, int y, int w, int h);
 
-    //bool getFocusFrame(int *x, int *y, int *w, int *h);
-    //bool setFocusFrame(int x, int y, int w, int h);
     bool resetFrame();
     bool capture(double exposure);
     bool setFrameType(CCDFrameType fType);
@@ -97,7 +96,6 @@ class CCDChip
     void setCanAbort(bool value);
 
     FITSData *getImageData() const;
-    void setImageData(FITSData *value);
 
     int getISOIndex() const;
     bool setISOIndex(int value);
@@ -106,20 +104,18 @@ class CCDChip
 
   private:
     QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage, alignImage;
-    FITSData *imageData;
-    FITSMode captureMode;
-    FITSScale captureFilter;
-    INDI::BaseDevice *baseDevice;
-    ClientManager *clientManager;
+    FITSData *imageData { nullptr };
+    FITSMode captureMode { FITS_NORMAL };
+    FITSScale captureFilter { FITS_NONE };
+    INDI::BaseDevice *baseDevice { nullptr };
+    ClientManager *clientManager { nullptr };
     ChipType type;
-    bool batchMode;
-    bool displayFITS;
+    bool batchMode { false };
     QStringList frameTypes;
-    bool CanBin;
-    bool CanSubframe;
-    bool CanAbort;
-    ISD::CCD *parentCCD;
-    //int fx,fy,fw,fh;
+    bool CanBin { false };
+    bool CanSubframe { false };
+    bool CanAbort { false };
+    ISD::CCD *parentCCD { nullptr };
 };
 
 /**
@@ -134,7 +130,7 @@ class CCD : public DeviceDecorator
     Q_OBJECT
 
   public:
-    CCD(GDInterface *iPtr);
+    explicit CCD(GDInterface *iPtr);
     ~CCD();
 
     typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
@@ -237,31 +233,36 @@ class CCD : public DeviceDecorator
     void newFPS(double instantFPS, double averageFPS);
 
   private:
-    void addFITSKeywords(QString filename);
-    QString filter;
+    void addFITSKeywords(const QString& filename);
 
-    bool ISOMode;
-    bool HasGuideHead;
-    bool HasCooler;
-    bool HasCoolerControl;
-    bool HasVideoStream;
+    QString filter;
+    bool ISOMode { true };
+    bool HasGuideHead { false };
+    bool HasCooler { false };
+    bool HasCoolerControl { false };
+    bool HasVideoStream { false };
     QString seqPrefix;
     QString fitsDir;
     char BLOBFilename[MAXINDIFILENAME];
-    int nextSequenceID;
-    StreamWG *streamWindow;
-    int streamW, streamH;
-    ISD::ST4 *ST4Driver;
-    int normalTabID, calibrationTabID, focusTabID, guideTabID, alignTabID;
-    CCDChip *primaryChip, *guideChip;
-    TransferFormat transferFormat, targetTransferFormat;
-    TelescopeType telescopeType = TELESCOPE_PRIMARY;
+    int nextSequenceID { 0 };
+    std::unique_ptr<StreamWG> streamWindow;
+    int streamW { 0 };
+    int streamH { 0 };
+    int normalTabID { -1 };
+    int calibrationTabID { -1 };
+    int focusTabID { -1 };
+    int guideTabID { -1 };
+    int alignTabID { -1 };
+    std::unique_ptr<CCDChip> primaryChip;
+    std::unique_ptr<CCDChip> guideChip;
+    TransferFormat transferFormat { FORMAT_FITS };
+    TransferFormat targetTransferFormat { FORMAT_FITS };
+    TelescopeType telescopeType { TELESCOPE_PRIMARY };
 
     // Gain, since it is spread among different vector properties, let's try to find the property itself.
-    INumber *gainN = nullptr;
+    INumber *gainN { nullptr };
 
     QPointer<FITSViewer> fv;
     QPointer<ImageViewer> imageViewer;
 };
 }
-#endif // INDICCD_H

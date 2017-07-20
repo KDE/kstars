@@ -18,18 +18,15 @@
 
 #include "timespinbox.h"
 
-#include <cstdlib>
-#include <cmath>
-
-#include <QFontMetrics>
-#include <QLineEdit>
+#include <KLocalizedString>
 
 #include <QDebug>
-#include <KLocalizedString>
+#include <QLineEdit>
+
+#include <cmath>
 
 #define SECS_PER_DAY  86400.
 #define SIDEREAL_YEAR 31558149.77
-#define TROPICAL_YEAR 31556925.19
 
 //Time steps:
 //0-9:   0 sec, 0.1, 0.25, 0.5, 1, 2, 5, 10, 20, 30 sec
@@ -205,8 +202,9 @@ int TimeSpinBox::valueFromText(const QString &text) const
 
 QString TimeSpinBox::textFromValue(int value) const
 {
-    QString neg("-"), result;
+    QString result;
     int posval(abs(value));
+
     if (posval > TimeString.size() - 1)
         posval = 4;
 
@@ -224,6 +222,7 @@ void TimeSpinBox::changeScale(float x)
     //Pick the closest value
     int imin = 0;
     float dx, dxlast(10000000000.0), dxmin(10000000000.0);
+
     for (unsigned int i = 0; i < 42; ++i)
     {
         dx = fabs(TimeScale[i] - fabs(x));

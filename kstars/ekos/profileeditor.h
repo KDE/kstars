@@ -7,13 +7,15 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef PROFILEEDITOR_H
-#define PROFILEEDITOR_H
-
-#include <QDialog>
+#pragma once
 
 #include "oal/scope.h"
 #include "ui_profileeditor.h"
+
+#include <QDialog>
+#include <QFrame>
+#include <QString>
+#include <QStringList>
 
 class ProfileInfo;
 
@@ -22,8 +24,7 @@ class ProfileEditorUI : public QFrame, public Ui::ProfileEditorUI
     Q_OBJECT
 
   public:
-    /** @short Constructor
-         */
+    /** @short Constructor */
     explicit ProfileEditorUI(QWidget *parent);
 };
 
@@ -31,17 +32,12 @@ class ProfileEditor : public QDialog
 {
     Q_OBJECT
   public:
-    /**
-         *@short Constructor.
-         */
+    /** @short Constructor */
     explicit ProfileEditor(QWidget *ks);
 
-    /**
-         *@short Destructor.
-         */
+    /** @short Destructor */
     ~ProfileEditor();
 
-    ProfileInfo *getPi() const;
     void setPi(ProfileInfo *value);
 
     void loadDrivers();
@@ -62,9 +58,7 @@ class ProfileEditor : public QDialog
     void updateGuiderSelection(int id);
 
   private:
-    ProfileEditorUI *ui = nullptr;
-    ProfileInfo *pi = nullptr;
+    ProfileEditorUI *ui { nullptr };
+    ProfileInfo *pi { nullptr };
     QList<OAL::Scope *> m_scopeList;
 };
-
-#endif // PROFILEEDITOR_H

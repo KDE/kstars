@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CATALOGCOMPONENT_H
-#define CATALOGCOMPONENT_H
+#pragma once
 
 #include "listcomponent.h"
 #include "Options.h"
@@ -24,34 +23,32 @@
 struct stat;
 
 /**
-*@class CatalogComponent
-*Represents a custom user-defined catalog.
-Code adapted from CustomCatalogComponent.cpp originally authored
-by Thomas Kabelmann --spacetime
-
-*@author Thomas Kabelmann
-         Rishab Arora (spacetime)
-*@version 0.2
-*/
-
+ * @class CatalogComponent
+ * Represents a custom user-defined catalog.
+ * Code adapted from CustomCatalogComponent.cpp originally authored by Thomas Kabelmann --spacetime
+ *
+ * @author Thomas Kabelmann
+ *         Rishab Arora (spacetime)
+ * @version 0.2
+ */
 class CatalogComponent : public ListComponent
 {
   public:
     /**
-         *@short Constructor
-         *@p parent Pointer to the parent SkyComposite object
-         */
+     * @short Constructor
+     * @p parent Pointer to the parent SkyComposite object
+     */
     CatalogComponent(SkyComposite *, const QString &fname, bool showerrs, int index, bool callLoadData = true);
 
     /**
-         *@short Destructor.  Delete list members
-         */
+     * @short Destructor.  Delete list members
+     */
     virtual ~CatalogComponent();
 
     /**
-         *@short Draw custom catalog objects on the sky map.
-         *@p psky Reference to the QPainter on which to paint
-         */
+     * @short Draw custom catalog objects on the sky map.
+     * @p psky Reference to the QPainter on which to paint
+     */
     void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
     void update(KSNumbers *num) Q_DECL_OVERRIDE;
@@ -69,24 +66,22 @@ class CatalogComponent : public ListComponent
     inline QString catColor() { return m_catColor; }
 
     /**
-         *@return true if visibility Option is set for this catalog
-         *@note this is complicated for custom catalogs, because
-         *Options::showCatalog() returns a QList<int>, not a bool.
-         *This function extracts the correct visibility value and
-         *returns the appropriate bool value
-         */
-    inline bool getVisibility() { return (Options::showCatalog()[m_ccIndex] > 0) ? true : false; }
+     * @return true if visibility Option is set for this catalog
+     * @note this is complicated for custom catalogs, because
+     * Options::showCatalog() returns a QList<int>, not a bool.
+     * This function extracts the correct visibility value and
+     * returns the appropriate bool value
+     */
+    bool getVisibility();
 
-    /**
-         * @see SyncedCatalogItem
-         */
+    /** @see SyncedCatalogItem */
     quint32 getUpdateID() { return updateID; }
 
     /**
-         * @brief Returns true if this catalog is to be drawn
-         * Overridden from SkyComponent::selected
-         * @return bool
-         **/
+     * @brief Returns true if this catalog is to be drawn
+     * Overridden from SkyComponent::selected
+     * @return bool
+     **/
     bool selected() Q_DECL_OVERRIDE;
 
   protected:
@@ -98,13 +93,8 @@ class CatalogComponent : public ListComponent
 
     // FIXME: There seems to be no way to remove catalogs from the program. -- asimha
 
-    QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
-    float m_catEpoch;
-    bool m_Showerrs;
-    int m_ccIndex;
-    quint32 updateID;
-
-    static QStringList m_Columns;
+    QString m_catName, m_catColor, m_catFluxFreq, m_catFluxUnit;
+    bool m_Showerrs { false };
+    int m_ccIndex { 0 };
+    quint32 updateID { 0 };
 };
-
-#endif

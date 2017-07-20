@@ -167,9 +167,9 @@ void LocationDialog::filterCity()
         if (!loc->province().isEmpty())
             sp = loc->translatedProvince();
 
-        if (sc.toLower().startsWith(ld->CityFilter->text().toLower()) &&
-            sp.toLower().startsWith(ld->ProvinceFilter->text().toLower()) &&
-            ss.toLower().startsWith(ld->CountryFilter->text().toLower()))
+        if (sc.startsWith(ld->CityFilter->text(), Qt::CaseInsensitive) &&
+            sp.startsWith(ld->ProvinceFilter->text(), Qt::CaseInsensitive) &&
+            ss.startsWith(ld->CountryFilter->text(), Qt::CaseInsensitive))
         {
             ld->GeoBox->addItem(loc->fullName());
             filteredCityList.append(loc);

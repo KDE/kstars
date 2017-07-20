@@ -1,6 +1,3 @@
-#ifndef magnitudespinbox_h
-#define magnitudespinbox_h
-
 /***************************************************************************
                           magnitudespinbox.h  -  description
                              -------------------
@@ -25,6 +22,7 @@
 	*@author Heiko Evermann
 	*@version 1.0
 	*/
+#pragma once
 
 #include <QDoubleSpinBox>
 
@@ -32,14 +30,11 @@ class QWidget;
 
 class MagnitudeSpinBox : public QDoubleSpinBox
 {
+  Q_OBJECT
   public:
-    /**Default Constructor.
-        	*/
+    /** Default Constructor */
     explicit MagnitudeSpinBox(QWidget *parent = 0);
 
-    /**Constructor.  Set minimum and maximum values for the spinbox.
-        	*/
-    MagnitudeSpinBox(double minValue, double maxValue, QWidget *parent = 0);
+    /** Constructor.  Set minimum and maximum values for the spinbox. */
+    MagnitudeSpinBox(double minValue, double maxValue, QWidget *parent = nullptr);
 };
-
-#endif

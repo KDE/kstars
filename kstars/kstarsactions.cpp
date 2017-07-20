@@ -15,91 +15,51 @@
  *                                                                         *
  ***************************************************************************/
 
-//needed in slotRunScript() for chmod() syscall (remote script downloaded to temp file)
+// This file contains function definitions for Actions declared in kstars.h
 
-#ifdef _WIN32
-#include <windows.h>
-#undef interface
-#endif
-#include <sys/stat.h>
-#include <config-kstars.h>
-
-#include <QCheckBox>
-#include <QDir>
-#include <QTextStream>
-#include <QDialog>
-#include <QDockWidget>
-#include <QPointer>
-#include <QInputDialog>
-#include <QQuickWindow>
-#include <QQuickView>
-#include <QDebug>
-#include <QAction>
-#include <QFileDialog>
-#include <QMenu>
-#include <QStatusBar>
-#include <QProcess>
-#include <QIcon>
-#include <QTemporaryFile>
-#include <QStandardPaths>
-
-#include <KActionCollection>
-#include <KActionMenu>
-#include <KToggleAction>
-#include <KMessageBox>
-#include <KTipDialog>
-#include <KConfigDialog>
-
-#include <kns3/downloaddialog.h>
-
-#include "options/opscatalog.h"
-#include "options/opsguides.h"
-#include "options/opssolarsystem.h"
-#include "options/opssatellites.h"
-#include "options/opssupernovae.h"
-#include "options/opscolors.h"
-#include "options/opsadvanced.h"
-
-#include "Options.h"
 #include "kstars.h"
+
+#include "imageexporter.h"
 #include "kstarsdata.h"
-#include "kstarsdatetime.h"
+#include "kswizard.h"
+#include "Options.h"
 #include "skymap.h"
-#include "skyobjects/skyobject.h"
-#include "skyobjects/ksplanetbase.h"
-#include "simclock.h"
-#include "dialogs/timedialog.h"
-#include "dialogs/locationdialog.h"
+#include "dialogs/exportimagedialog.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/focusdialog.h"
 #include "dialogs/fovdialog.h"
-#include "dialogs/exportimagedialog.h"
+#include "dialogs/locationdialog.h"
+#include "dialogs/timedialog.h"
+#include "oal/execute.h"
+#include "options/opsadvanced.h"
+#include "options/opscatalog.h"
+#include "options/opscolors.h"
+#include "options/opsguides.h"
+#include "options/opssatellites.h"
+#include "options/opssolarsystem.h"
+#include "options/opssupernovae.h"
 #include "printing/printingwizard.h"
-#include "kswizard.h"
-#include "tools/astrocalc.h"
-#include "tools/altvstime.h"
-#include "tools/wutdialog.h"
-#include "tools/observinglist.h"
-#include "tools/eyepiecefield.h"
+#include "projections/projector.h"
+#include "skycomponents/asteroidscomponent.h"
+#include "skycomponents/cometscomponent.h"
+#include "skycomponents/satellitescomponent.h"
+#include "skycomponents/skymapcomposite.h"
+#include "skycomponents/solarsystemcomposite.h"
+#include "skycomponents/supernovaecomponent.h"
 #include "tools/adddeepskyobject.h"
-
-#include "tools/whatsinteresting/wiview.h"
-#include "tools/whatsinteresting/wilpsettings.h"
-#include "tools/whatsinteresting/wiequipsettings.h"
-
-#include "tools/skycalendar.h"
-#include "tools/scriptbuilder.h"
-#include "tools/planetviewer.h"
-//#include "tools/jmoontool.h"
-//FIXME Port to KF5
-//#include "tools/moonphasetool.h"
+#include "tools/altvstime.h"
+#include "tools/astrocalc.h"
+#include "tools/eyepiecefield.h"
 #include "tools/flagmanager.h"
 #include "tools/horizonmanager.h"
-#include "oal/execute.h"
-#include "projections/projector.h"
-#include "imageexporter.h"
-
-#include <KSharedConfig>
+#include "tools/observinglist.h"
+#include "tools/planetviewer.h"
+#include "tools/scriptbuilder.h"
+#include "tools/skycalendar.h"
+#include "tools/wutdialog.h"
+#include "tools/whatsinteresting/wiequipsettings.h"
+#include "tools/whatsinteresting/wilpsettings.h"
+#include "tools/whatsinteresting/wiview.h"
 
 #ifdef HAVE_INDI
 #include <basedevice.h>
@@ -109,18 +69,6 @@
 #include "indi/guimanager.h"
 #include "indi/indilistener.h"
 #endif
-
-#ifdef HAVE_NOTIFYCONFIG
-#include <KNotifyConfigWidget>
-#endif
-
-#include "skycomponents/catalogcomponent.h"
-#include "skycomponents/skymapcomposite.h"
-#include "skycomponents/solarsystemcomposite.h"
-#include "skycomponents/cometscomponent.h"
-#include "skycomponents/asteroidscomponent.h"
-#include "skycomponents/supernovaecomponent.h"
-#include "skycomponents/satellitescomponent.h"
 
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
@@ -135,9 +83,22 @@
 #include "xplanet/opsxplanet.h"
 #endif
 
-// #include "libkdeedu/kdeeduui/kdeeduglossary.h"
+#ifdef HAVE_NOTIFYCONFIG
+#include <KNotifyConfigWidget>
+#endif
+#include <KActionCollection>
+#include <KActionMenu>
+#include <KTipDialog>
+#include <kns3/downloaddialog.h>
 
-//This file contains function definitions for Actions declared in kstars.h
+#include <QQuickWindow>
+#include <QQuickView>
+
+#ifdef _WIN32
+#include <windows.h>
+#undef interface
+#endif
+#include <sys/stat.h>
 
 /** ViewToolBar Action.  All of the viewToolBar buttons are connected to this slot. **/
 
@@ -1155,7 +1116,7 @@ void KStars::slotRunScript()
         while (!istream.atEnd())
         {
             line = istream.readLine();
-            if (line.left(1) != "#" && line.left(9) != "dbus-send")
+            if (line.at(0) != '#' && line.left(9) != "dbus-send")
             {
                 fileOK = false;
                 break;

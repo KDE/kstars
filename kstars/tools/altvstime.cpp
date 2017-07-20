@@ -17,15 +17,7 @@
 
 #include "altvstime.h"
 
-#include <QVBoxLayout>
-#include <QFrame>
-
-#include <KLocalizedString>
-#include <QDialog>
-#include <QPainter>
-#include <QtPrintSupport/QPrinter>
-#include <QtPrintSupport/QPrintDialog>
-
+#include "avtplotwidget.h"
 #include "dms.h"
 #include "ksalmanac.h"
 #include "kstarsdata.h"
@@ -40,9 +32,15 @@
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
 
+#include <KLocalizedString>
 #include <kplotwidget.h>
-#include "avtplotwidget.h"
-#include "ui_altvstime.h"
+
+#include <QVBoxLayout>
+#include <QFrame>
+#include <QDialog>
+#include <QPainter>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
 
 AltVsTimeUI::AltVsTimeUI(QWidget *p) : QFrame(p)
 {
@@ -601,10 +599,10 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, int data
                                       "<td>%L4</td>"
                                       "</tr>"
                                       "</table>")
-                                       .arg(graph->name().isEmpty() ? "???" : graph->name())
-                                       .arg(localTime.toString())
-                                       .arg(localSiderealTime.toString())
-                                       .arg(QString::number(yValue, 'f', 2) + " " + QChar(176)),
+                                       .arg((graph->name().isEmpty() ? "???" : graph->name()),
+                                            localTime.toString(),
+                                            localSiderealTime.toString(),
+                                            QString::number(yValue, 'f', 2) + " " + QChar(176)),
                                    avtUI->View, avtUI->View->rect());
             }
         }
@@ -884,15 +882,6 @@ void AltVsTime::computeSunRiseSetTimes()
     KSAlmanac ksal;
     ksal.setDate(&today);
     ksal.setLocation(geo);
-    double sunRise = ksal.getSunRise();
-    double sunSet  = ksal.getSunSet();
-    this->setSunRiseSetTimes(sunRise, sunSet);
-}
-
-void AltVsTime::setSunRiseSetTimes(double sunRise, double sunSet)
-{
-    this->sunRise = sunRise;
-    this->sunSet  = sunSet;
 }
 
 //FIXME
@@ -1002,10 +991,9 @@ void AltVsTime::mouseOverLine(QMouseEvent *event)
                                       "<td>%L4</td>"
                                       "</tr>"
                                       "</table>")
-                                       .arg(graph->name().isEmpty() ? "???" : graph->name())
-                                       .arg(localTime.toString())
-                                       .arg(localSiderealTime.toString())
-                                       .arg(QString::number(yValue, 'f', 2) + " " + QChar(176)),
+                                       .arg((graph->name().isEmpty() ? "???" : graph->name()),
+                                            localTime.toString(), localSiderealTime.toString(),
+                                            QString::number(yValue, 'f', 2) + " " + QChar(176)),
                                    avtUI->View, avtUI->View->rect());
             }
             else
@@ -1209,10 +1197,6 @@ void AltVsTime::drawGradient()
     // Variables needed for Gradient:
     double SunRise, SunSet, Dawn, Dusk, SunMinAlt, SunMaxAlt;
     double MoonRise, MoonSet, MoonIllum;
-
-    //Default SunRise/SunSet values
-    SunRise = 0.25;
-    SunSet  = 0.75;
 
     ksal->setLocation(geoLoc);
     ksal->setDate(&utt);
@@ -1472,7 +1456,6 @@ void AltVsTime::slotPrint()
     QPainter p;            // Our painter object
     QPrinter printer;      // Our printer object
     QString str_legend;    // Text legend
-    QString str_year;      // Calendar's year
     int text_height = 200; // Height of legend text zone in points
     QSize plot_size;       // Initial plot widget size
     QFont plot_font;       // Initial plot widget font

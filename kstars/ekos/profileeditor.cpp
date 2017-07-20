@@ -7,23 +7,14 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <QDialogButtonBox>
-#include <QDesktopServices>
-
-#include <KMessageBox>
-
-#include "Options.h"
-
-#include "kstarsdata.h"
-#include "geolocation.h"
-#include "auxiliary/ksuserdb.h"
-#include "guide/guide.h"
-
-#include "indi/drivermanager.h"
-#include "indi/driverinfo.h"
-
 #include "profileeditor.h"
-#include "profileinfo.h"
+
+#include "geolocation.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#include "guide/guide.h"
+#include "indi/driverinfo.h"
+#include "indi/drivermanager.h"
 
 ProfileEditorUI::ProfileEditorUI(QWidget *p) : QFrame(p)
 {
@@ -286,11 +277,6 @@ void ProfileEditor::saveProfile()
     accept();
 }
 
-ProfileInfo *ProfileEditor::getPi() const
-{
-    return pi;
-}
-
 void ProfileEditor::setRemoteMode(bool enable)
 {
     loadDrivers(); //This is needed to reload the drivers because some may not be available locally
@@ -336,10 +322,10 @@ void ProfileEditor::setPi(ProfileInfo *value)
     if (pi->city.isEmpty() == false)
     {
         if (pi->province.isEmpty())
-            ui->loadSiteCheck->setText(ui->loadSiteCheck->text() + QString(" (%1, %2)").arg(pi->country).arg(pi->city));
+            ui->loadSiteCheck->setText(ui->loadSiteCheck->text() + QString(" (%1, %2)").arg(pi->country, pi->city));
         else
             ui->loadSiteCheck->setText(ui->loadSiteCheck->text() +
-                                       QString(" (%1, %2, %3)").arg(pi->country).arg(pi->province).arg(pi->city));
+                                       QString(" (%1, %2, %3)").arg(pi->country, pi->province, pi->city));
     }
 
     if (pi->host.isEmpty() == false)

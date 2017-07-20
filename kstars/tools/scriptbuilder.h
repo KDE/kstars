@@ -15,20 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SCRIPTBUILDER_H_
-#define SCRIPTBUILDER_H_
+#pragma once
 
-#include <QDialog>
-
+#include "scriptargwidgets.h"
 #include "ui_scriptbuilder.h"
 #include "ui_scriptnamedialog.h"
 #include "ui_optionstreeview.h"
-#include "scriptargwidgets.h"
+
+#include <QDialog>
+#include <QUrl>
+
+#include <memory>
 
 class QTreeWidget;
+class QTreeWidgetItem;
 class QTextStream;
-class QVBoxLayout;
-class QUrl;
 
 class KStars;
 class ScriptFunction;
@@ -46,11 +47,12 @@ class OptionsTreeView : public QDialog
   public:
     explicit OptionsTreeView(QWidget *p);
     ~OptionsTreeView();
+
     QTreeWidget *optionsList() { return otvw->OptionsList; }
     void resizeColumns();
 
   private:
-    OptionsTreeViewWidget *otvw;
+    std::unique_ptr<OptionsTreeViewWidget> otvw;
 };
 
 class ScriptNameWidget : public QFrame, public Ui::ScriptNameDialog
@@ -73,8 +75,8 @@ class ScriptNameDialog : public QDialog
     void slotEnableOkButton();
 
   private:
-    ScriptNameWidget *snw;
-    QPushButton *okB;
+    ScriptNameWidget *snw { nullptr };
+    QPushButton *okB { nullptr };
 };
 
 class ScriptBuilderUI : public QFrame, public Ui::ScriptBuilder
@@ -84,11 +86,13 @@ class ScriptBuilderUI : public QFrame, public Ui::ScriptBuilder
     explicit ScriptBuilderUI(QWidget *p);
 };
 
-/** @class ScriptBuilder
-	*A GUI tool for building behavioral DBus scripts for KStars.
-	*@author Jason Harris
-	*@version 1.0
-	*/
+/**
+ * @class ScriptBuilder
+ * A GUI tool for building behavioral DBus scripts for KStars.
+ *
+ * @author Jason Harris
+ * @version 1.0
+ */
 class ScriptBuilder : public QDialog
 {
     Q_OBJECT
@@ -177,9 +181,9 @@ class ScriptBuilder : public QDialog
     void initViewOptions();
     void warningMismatch(const QString &expected) const;
 
-    ScriptBuilderUI *sb;
+    ScriptBuilderUI *sb { nullptr };
 
-    KStars *ks; //parent needed for sub-dialogs
+    KStars *ks { nullptr }; //parent needed for sub-dialogs
     QList<ScriptFunction *> KStarsFunctionList;
     QList<ScriptFunction *> SimClockFunctionList;
 
@@ -189,23 +193,23 @@ class ScriptBuilder : public QDialog
 
     QList<ScriptFunction *> ScriptList;
 
-    QWidget *argBlank;
-    ArgLookToward *argLookToward;
-    ArgFindObject *argFindObject;
-    ArgSetRaDec *argSetRaDec;
-    ArgSetAltAz *argSetAltAz;
-    ArgSetLocalTime *argSetLocalTime;
-    ArgWaitFor *argWaitFor;
-    ArgWaitForKey *argWaitForKey;
-    ArgSetTrack *argSetTracking;
-    ArgChangeViewOption *argChangeViewOption;
-    ArgSetGeoLocation *argSetGeoLocation;
-    ArgTimeScale *argTimeScale;
-    ArgZoom *argZoom;
-    ArgExportImage *argExportImage;
-    ArgPrintImage *argPrintImage;
-    ArgSetColor *argSetColor;
-    ArgLoadColorScheme *argLoadColorScheme;
+    QWidget *argBlank { nullptr };
+    ArgLookToward *argLookToward { nullptr };
+    ArgFindObject *argFindObject { nullptr };
+    ArgSetRaDec *argSetRaDec { nullptr };
+    ArgSetAltAz *argSetAltAz { nullptr };
+    ArgSetLocalTime *argSetLocalTime { nullptr };
+    ArgWaitFor *argWaitFor { nullptr };
+    ArgWaitForKey *argWaitForKey { nullptr };
+    ArgSetTrack *argSetTracking { nullptr };
+    ArgChangeViewOption *argChangeViewOption { nullptr };
+    ArgSetGeoLocation *argSetGeoLocation { nullptr };
+    ArgTimeScale *argTimeScale { nullptr };
+    ArgZoom *argZoom { nullptr };
+    ArgExportImage *argExportImage { nullptr };
+    ArgPrintImage *argPrintImage { nullptr };
+    ArgSetColor *argSetColor { nullptr };
+    ArgLoadColorScheme *argLoadColorScheme { nullptr };
 
 #if 0
         ArgStartINDI * argStartINDI;
@@ -229,16 +233,21 @@ class ScriptBuilder : public QDialog
         ArgSetFilterNumINDI * argSetFilterNumINDI;
 #endif
 
-    ScriptNameDialog *snd;
-    OptionsTreeView *otv;
+    ScriptNameDialog *snd { nullptr };
+    OptionsTreeView *otv { nullptr };
 
-    QTreeWidgetItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
+    QTreeWidgetItem *opsGUI { nullptr };
+    QTreeWidgetItem *opsToolbar { nullptr };
+    QTreeWidgetItem *opsShowObj { nullptr };
+    QTreeWidgetItem *opsShowOther { nullptr };
+    QTreeWidgetItem *opsCName { nullptr };
+    QTreeWidgetItem *opsHide { nullptr };
+    QTreeWidgetItem *opsSkymap { nullptr };
+    QTreeWidgetItem *opsLimit { nullptr };
 
-    bool UnsavedChanges;
-    bool checkForChanges;
+    bool UnsavedChanges { false };
+    bool checkForChanges { false };
     QUrl currentFileURL;
     QString currentDir;
     QString currentScriptName, currentAuthor;
 };
-
-#endif

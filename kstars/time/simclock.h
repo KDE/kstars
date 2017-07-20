@@ -15,16 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARS_SIMCLOCK_H__
-#define KSTARS_SIMCLOCK_H__
+#pragma once
 
-#include <time.h>
+#include "kstarsdatetime.h"
+
 #ifndef KSTARS_LITE
 #include <QtDBus/QtDBus>
 #endif
+#include <QTime>
 #include <QTimer>
-
-#include "kstarsdatetime.h"
 
 /** @class SimClock
 	*@short kstars simulation clock
@@ -132,13 +131,14 @@ class SimClock : public QObject
     void clockToggled(bool);
 
   private:
-    long double julianmark;
+    long double julianmark { 0 };
     KStarsDateTime UTC;
     QTimer tmr;
-    double Scale;
+    double Scale { 1 };
     QTime sysmark;
-    int lastelapsed;
-    bool ManualMode, ManualActive;
+    int lastelapsed { 0 };
+    bool ManualMode { false };
+    bool ManualActive { false };
 
     // used to generate names for dcop interfaces
     //static int idgen;
@@ -149,5 +149,3 @@ class SimClock : public QObject
     SimClock(const SimClock &);
     SimClock &operator=(const SimClock &);
 };
-
-#endif

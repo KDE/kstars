@@ -376,7 +376,7 @@ class ObservingList : public QDialog
          * @short Return the active itemmodel
          * @return the session model or the wishlist model depending on which tab is currently being viewed.
          */
-    inline QStandardItemModel *getActiveModel() const { return ((sessionView) ? m_SessionModel : m_WishListModel); }
+    inline QStandardItemModel *getActiveModel() const { return (sessionView ? m_SessionModel.get() : m_WishListModel.get()); }
 
     /**
          * @short Return the active sort model
@@ -384,7 +384,7 @@ class ObservingList : public QDialog
          */
     inline QSortFilterProxyModel *getActiveSortModel() const
     {
-        return ((sessionView) ? m_SessionSortModel : m_WishListSortModel);
+        return (sessionView ? m_SessionSortModel.get() : m_WishListSortModel.get());
     }
 
     /**
@@ -399,22 +399,30 @@ class ObservingList : public QDialog
          */
     inline QModelIndexList getSelectedItems() const { return getActiveView()->selectionModel()->selectedRows(); }
 
-    KSAlmanac *ksal;
-    ObservingListUI *ui;
+    std::unique_ptr<KSAlmanac> ksal;
+    ObservingListUI *ui { nullptr };
     QList<QSharedPointer<SkyObject>> m_WishList, m_SessionList;
-    SkyObject *LogObject, *m_CurrentObject;
-    bool isModified, sessionView, dss, singleSelection, showScope, noSelection;
+    SkyObject *LogObject { nullptr };
+    SkyObject *m_CurrentObject { nullptr };
+    bool isModified { false };
+    bool sessionView { false };
+    bool dss { false };
+    bool singleSelection { false };
+    bool showScope { false };
+    bool noSelection { false };
     QString m_listFileName, m_currentImageFileName, m_currentThumbImageFileName;
     KStarsDateTime dt;
-    GeoLocation *geo;
-    QStandardItemModel *m_WishListModel, *m_SessionModel;
-    QSortFilterProxyModel *m_WishListSortModel, *m_SessionSortModel;
+    GeoLocation *geo { nullptr };
+    std::unique_ptr<QStandardItemModel> m_WishListModel;
+    std::unique_ptr<QStandardItemModel> m_SessionModel;
+    std::unique_ptr<QSortFilterProxyModel> m_WishListSortModel;
+    std::unique_ptr<QSortFilterProxyModel> m_SessionSortModel;
     QHash<QString, QTime> TimeHash;
     std::unique_ptr<ObsListPopupMenu> pmenu;
-    KSDssDownloader *m_dl;
+    KSDssDownloader *m_dl { nullptr };
     QHash<SkyObject *, QPixmap> ImagePreviewHash;
     QPixmap m_NoImagePixmap;
-    QTimer *m_altitudeUpdater;
+    QTimer *m_altitudeUpdater { nullptr };
     std::function<QStandardItem *(const SkyPoint &)> m_altCostHelper;
-    bool m_initialWishlistLoad = false;
+    bool m_initialWishlistLoad { false };
 };

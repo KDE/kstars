@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SCRIPTFUNCTION_H_
-#define SCRIPTFUNCTION_H_
+#pragma once
 
 #include <QString>
 
@@ -69,5 +68,3 @@ class ScriptFunction
     bool Valid, ClockFunction;
     int NumArgs;
 };
-
-#endif

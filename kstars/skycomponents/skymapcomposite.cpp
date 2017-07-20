@@ -291,8 +291,9 @@ void SkyMapComposite::draw(SkyPainter *skyp)
     if (KStars::Instance())
     {
         auto &obsList = KStarsData::Instance()->observingList()->sessionList();
+
         if (Options::obsListText())
-            foreach (QSharedPointer<SkyObject> obj_clone, obsList)
+            for (auto &obj_clone : obsList)
             {
                 // Find the "original" obj
                 SkyObject *o = findByName(obj_clone->name()); // FIXME: This is sloww.... and can also fail!!!
