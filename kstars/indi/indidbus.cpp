@@ -7,9 +7,12 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <basedevice.h>
-#include <indiproperty.h>
+#include "indidbus.h"
 
+#include <basedevice.h>
+
+#include "indiadaptor.h"
+#include "nan.h"
 #include "indi/drivermanager.h"
 #include "indi/servermanager.h"
 #include "indi/driverinfo.h"
@@ -17,10 +20,6 @@
 #include "indi/indilistener.h"
 #include "indi/deviceinfo.h"
 
-#include "nan.h"
-
-#include "indidbus.h"
-#include "indiadaptor.h"
 
 INDIDBus::INDIDBus(QObject *parent) : QObject(parent)
 {
@@ -32,7 +31,7 @@ bool INDIDBus::start(const QString &port, const QStringList &drivers)
 {
     QList<DriverInfo *> newDrivers;
 
-    foreach (QString driver, drivers)
+    for (auto &driver : drivers)
     {
         DriverInfo *drv = DriverManager::Instance()->findDriverByExec(driver);
 

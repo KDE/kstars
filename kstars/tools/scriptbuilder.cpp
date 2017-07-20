@@ -17,23 +17,6 @@
 
 #include "scriptbuilder.h"
 
-//needed in slotSave() for chmod() syscall
-#include <sys/stat.h>
-
-#include <QApplication>
-#include <QFontMetrics>
-#include <QTreeWidget>
-#include <QTextStream>
-#include <QFileDialog>
-#include <QStandardPaths>
-#include <QDebug>
-
-#include <KLocalizedString>
-#include <KMessageBox>
-#include <KIO/StoredTransferJob>
-#include <KIO/CopyJob>
-#include <KJob>
-
 #include "kspaths.h"
 #include "scriptfunction.h"
 #include "kstars.h"
@@ -45,6 +28,22 @@
 #include "widgets/dmsbox.h"
 #include "widgets/timestepbox.h"
 
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KIO/StoredTransferJob>
+#include <KIO/CopyJob>
+#include <KJob>
+
+#include <QApplication>
+#include <QFontMetrics>
+#include <QTreeWidget>
+#include <QTextStream>
+#include <QFileDialog>
+#include <QStandardPaths>
+#include <QDebug>
+
+#include <sys/stat.h>
+
 OptionsTreeViewWidget::OptionsTreeViewWidget(QWidget *p) : QFrame(p)
 {
     setupUi(this);
@@ -55,11 +54,11 @@ OptionsTreeViewWidget::OptionsTreeViewWidget(QWidget *p) : QFrame(p)
 
 OptionsTreeView::OptionsTreeView(QWidget *p) : QDialog(p)
 {
-    otvw = new OptionsTreeViewWidget(this);
+    otvw.reset(new OptionsTreeViewWidget(this));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
 
-    mainLayout->addWidget(otvw);
+    mainLayout->addWidget(otvw.get());
     setLayout(mainLayout);
 
     setWindowTitle(i18n("Options"));
@@ -74,7 +73,6 @@ OptionsTreeView::OptionsTreeView(QWidget *p) : QDialog(p)
 
 OptionsTreeView::~OptionsTreeView()
 {
-    delete otvw;
 }
 
 void OptionsTreeView::resizeColumns()
@@ -1178,14 +1176,14 @@ bool ScriptBuilder::parseFunction(QString fn_name, QStringList &fn)
 
         if (cur.startsWith('\"'))
         {
-            arg += cur.right(cur.length() - 1);
+            arg += cur.rightRef(cur.length() - 1);
             arg += ' ';
             foundQuote     = true;
             quoteProcessed = true;
         }
         else if (cur.endsWith('\"'))
         {
-            arg += cur.left(cur.length() - 1);
+            arg += cur.leftRef(cur.length() - 1);
             arg += '\'';
             foundQuote = false;
         }
@@ -1447,7 +1445,6 @@ void ScriptBuilder::slotArgWidget()
     //Display the function's arguments widget
     if (sb->ScriptListBox->currentRow() > -1 && sb->ScriptListBox->currentRow() < ((int)sb->ScriptListBox->count()))
     {
-        QString t          = sb->ScriptListBox->currentItem()->text();
         unsigned int n     = sb->ScriptListBox->currentRow();
         ScriptFunction *sf = ScriptList.at(n);
 

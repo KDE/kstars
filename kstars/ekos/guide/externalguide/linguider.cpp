@@ -359,7 +359,7 @@ bool LinGuider::resume()
 bool LinGuider::dither(double pixels)
 {
     QString pixelsString = QString::number(pixels, 'f', 2);
-    QString args         = QString("%1 %2").arg(pixelsString).arg(pixelsString);
+    QString args         = QString("%1 %2").arg(pixelsString, pixelsString);
 
     sendCommand(SET_DITHERING_RANGE, args);
 

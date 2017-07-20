@@ -8,37 +8,20 @@
 
  */
 
-#include <errno.h>
-#include <sys/stat.h>
+#include "servermanager.h"
+
+#include "driverinfo.h"
+#include "drivermanager.h"
+#include "Options.h"
 
 #include <indidevapi.h>
-#include <indicom.h>
 
-#include <config-kstars.h>
-
-#include <QTcpSocket>
-#include <QTextEdit>
-
-#include <QProcess>
-#include <QLocale>
-#include <QDebug>
 #include <KMessageBox>
-#include <QStatusBar>
-#include <QStandardPaths>
 
-#include "servermanager.h"
-#include "drivermanager.h"
-#include "driverinfo.h"
+#include <sys/stat.h>
 
-#include "Options.h"
-#include "kstars.h"
-#include "kstarsdatetime.h"
-#include "kspaths.h"
-
-ServerManager::ServerManager(QString inHost, uint inPort)
+ServerManager::ServerManager(const QString& inHost, uint inPort)
 {
-    serverProcess = nullptr;
-    XMLParser     = nullptr;
     host          = inHost;
     port          = QString::number(inPort);
 
@@ -52,10 +35,8 @@ ServerManager::~ServerManager()
 
     QFile::remove(indiFIFO.fileName());
 
-    if (serverProcess)
+    if (serverProcess.get() != nullptr)
         serverProcess->close();
-
-    delete (serverProcess);
 }
 
 bool ServerManager::start()
@@ -67,9 +48,9 @@ bool ServerManager::start()
     bool connected = false;
     int fd         = 0;
 
-    if (serverProcess == nullptr)
+    if (serverProcess.get() == nullptr)
     {
-        serverProcess      = new QProcess(this);
+        serverProcess.reset(new QProcess(this));
 #ifdef Q_OS_OSX
         QString driversDir = Options::indiDriversDir();
         if (Options::indiDriversAreInternal())
@@ -137,9 +118,9 @@ bool ServerManager::start()
 
     if (connected)
     {
-        connect(serverProcess, SIGNAL(error(QProcess::ProcessError)), this,
+        connect(serverProcess.get(), SIGNAL(error(QProcess::ProcessError)), this,
                 SLOT(processServerError(QProcess::ProcessError)));
-        connect(serverProcess, SIGNAL(readyReadStandardError()), this, SLOT(processStandardError()));
+        connect(serverProcess.get(), SIGNAL(readyReadStandardError()), this, SLOT(processStandardError()));
 
         emit started();
     }
@@ -238,20 +219,9 @@ void ServerManager::stopDriver(DriverInfo *dv)
     dv->setPort(dv->getUserPort());
 }
 
-bool ServerManager::isDriverManaged(DriverInfo *di)
-{
-    foreach (DriverInfo *dv, managedDrivers)
-    {
-        if (dv == di)
-            return true;
-    }
-
-    return false;
-}
-
 void ServerManager::stop()
 {
-    if (serverProcess == nullptr)
+    if (serverProcess.get() == nullptr)
         return;
 
     foreach (DriverInfo *device, managedDrivers)
@@ -266,14 +236,12 @@ void ServerManager::stop()
 
     serverProcess->waitForFinished();
 
-    delete serverProcess;
-
-    serverProcess = nullptr;
+    serverProcess.reset();
 }
 
 void ServerManager::terminate()
 {
-    if (serverProcess == nullptr)
+    if (serverProcess.get() == nullptr)
         return;
 
     serverProcess->terminate();
@@ -286,7 +254,7 @@ void ServerManager::connectionSuccess()
     foreach (DriverInfo *device, managedDrivers)
         device->setServerState(true);
 
-    connect(serverProcess, SIGNAL(readyReadStandardError()), this, SLOT(processStandardError()));
+    connect(serverProcess.get(), SIGNAL(readyReadStandardError()), this, SLOT(processStandardError()));
 
     emit started();
 }
@@ -309,14 +277,14 @@ void ServerManager::processStandardError()
 
     if (Options::iNDILogging())
     {
-        foreach (QString msg, stderr.split("\n"))
+        for (auto &msg : stderr.split("\n"))
             qDebug() << "INDI Server: " << msg;
     }
 
     if (driverCrashed == false && (serverBuffer.contains("stdin EOF") || serverBuffer.contains("stderr EOF")))
     {
         QStringList parts = serverBuffer.split("Driver");
-        foreach (QString driver, parts)
+        for (auto &driver : parts)
         {
             if (driver.contains("stdin EOF") || driver.contains("stderr EOF"))
             {
@@ -337,7 +305,7 @@ void ServerManager::processStandardError()
 
 QString ServerManager::errorString()
 {
-    if (serverProcess)
+    if (serverProcess.get() != nullptr)
         return serverProcess->errorString();
 
     return nullptr;

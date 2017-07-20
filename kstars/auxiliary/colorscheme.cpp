@@ -17,32 +17,20 @@
 
 #include "colorscheme.h"
 
-#include <QFile>
-#include <QDir>
-#include <QTextStream>
-
-#include <kconfig.h>
-#include <QDebug>
-#include <KLocalizedString>
-
-#ifndef KSTARS_LITE
-#include <KMessageBox>
-#endif
-
-#include <kconfiggroup.h>
-#include <KSharedConfig>
-#include <QStandardPaths>
-
+#include "kspaths.h"
 #include "ksutils.h"
 #include "Options.h"
+#include "auxiliary/ksnotification.h"
 #include "skyobjects/starobject.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #else
 #include "skyqpainter.h"
 #endif
-#include "kspaths.h"
-#include "auxiliary/ksnotification.h"
+
+#ifndef KSTARS_LITE
+#include <KMessageBox>
+#endif
 
 ColorScheme::ColorScheme() : FileName()
 {
@@ -102,7 +90,7 @@ ColorScheme::ColorScheme() : FileName()
     DarkPalette        = 0;
 }
 
-void ColorScheme::appendItem(QString key, QString name, QString def)
+void ColorScheme::appendItem(const QString &key, const QString &name, const QString &def)
 {
     KeyName.append(key);
     Name.append(name);
@@ -180,7 +168,7 @@ bool ColorScheme::load(const QString &name)
 
         if (!ok)
         {
-            qDebug() << QString("Unable to load color scheme named %1. Also tried %2.").arg(name).arg(filename);
+            qDebug() << QString("Unable to load color scheme named %1. Also tried %2.").arg(name, filename);
             return false;
         }
     }

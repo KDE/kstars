@@ -17,57 +17,34 @@
 
 #include "detaildialog.h"
 
-#include <QLineEdit>
-#include <QPixmap>
-#include <QRegExp>
-#include <QTextStream>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QTreeWidgetItem>
-#include <QPushButton>
-#include <QTemporaryFile>
-#include <QDebug>
-#include <QDesktopServices>
+#include "config-kstars.h"
 
-#include <KMessageBox>
-#include <KToolInvocation>
-#include <KLocalizedString>
-#include <QStandardPaths>
-
+#include "addlinkdialog.h"
+#include "kspaths.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "kstarsdatetime.h"
-#include "ksnumbers.h"
-#include "geolocation.h"
 #include "ksutils.h"
+#include "observinglist.h"
 #include "skymap.h"
-#include "skyobjects/skyobject.h"
-#include "skyobjects/starobject.h"
+#include "thumbnailpicker.h"
+#include "skycomponents/constellationboundarylines.h"
+#include "skycomponents/skymapcomposite.h"
 #include "skyobjects/deepskyobject.h"
-#include "skyobjects/ksplanetbase.h"
-#include "skyobjects/ksmoon.h"
-#include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
+#include "skyobjects/kscomet.h"
+#include "skyobjects/ksmoon.h"
+#include "skyobjects/starobject.h"
 #include "skyobjects/supernova.h"
 #include "skycomponents/catalogcomponent.h"
-#include "thumbnailpicker.h"
-#include "Options.h"
-#include "widgets/kshelplabel.h"
-#include "addlinkdialog.h"
-#include "observinglist.h"
-
-#include <config-kstars.h>
 
 #ifdef HAVE_INDI
 #include <basedevice.h>
 #include "indi/indilistener.h"
-#include "indi/indistd.h"
-#include "indi/driverinfo.h"
 #endif
 
-#include "skycomponents/constellationboundarylines.h"
-#include "skycomponents/skymapcomposite.h"
-#include "kspaths.h"
+#include <KToolInvocation>
+
+#include <QDesktopServices>
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent)
     : KPageDialog(parent), selectedObject(o), Data(0), DataComet(0), Pos(0), Links(0), Adv(0), Log(0)
@@ -83,7 +60,7 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
     titlePalette.setColor(foregroundRole(), palette().color(QPalette::Active, QPalette::HighlightedText));
 
     //Create thumbnail image
-    Thumbnail = new QPixmap(200, 200);
+    Thumbnail.reset(new QPixmap(200, 200));
 
     setWindowTitle(i18n("Object Details"));
 
@@ -100,7 +77,6 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 
 DetailDialog::~DetailDialog()
 {
-    delete Thumbnail;
 }
 
 void DetailDialog::createGeneralTab()
@@ -974,9 +950,10 @@ void DetailDialog::editLinkDialog()
 void DetailDialog::removeLinkDialog()
 {
     int type = 0, row = 0;
-    QString currentItemURL, currentItemTitle, LineEntry, TempFileName, FileLine;
+    QString currentItemURL, currentItemTitle, LineEntry, TempFileName;
     QFile URLFile;
     QTemporaryFile TempFile;
+
     TempFile.setAutoRemove(false);
     TempFile.open();
     TempFileName = TempFile.fileName();

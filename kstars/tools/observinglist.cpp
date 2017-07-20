@@ -88,8 +88,8 @@ ObservingList::ObservingList()
     m_listFileName = QString();
     pmenu.reset(new ObsListPopupMenu());
     //Set up the Table Views
-    m_WishListModel = new QStandardItemModel(0, 5, this);
-    m_SessionModel  = new QStandardItemModel(0, 5);
+    m_WishListModel.reset(new QStandardItemModel(0, 5, this));
+    m_SessionModel.reset(new QStandardItemModel(0, 5));
 
     m_WishListModel->setHorizontalHeaderLabels(
         QStringList() << i18n("Name") << i18n("Alternate Name") << i18nc("Right Ascension", "RA (J2000)")
@@ -101,21 +101,21 @@ ObservingList::ObservingList()
                       << i18nc("Constellation", "Constell.") << i18n("Time") << i18nc("Altitude", "Alt")
                       << i18nc("Azimuth", "Az"));
 
-    m_WishListSortModel = new QSortFilterProxyModel(this);
-    m_WishListSortModel->setSourceModel(m_WishListModel);
+    m_WishListSortModel.reset(new QSortFilterProxyModel(this));
+    m_WishListSortModel->setSourceModel(m_WishListModel.get());
     m_WishListSortModel->setDynamicSortFilter(true);
     m_WishListSortModel->setSortRole(Qt::UserRole);
-    ui->WishListView->setModel(m_WishListSortModel);
+    ui->WishListView->setModel(m_WishListSortModel.get());
     ui->WishListView->horizontalHeader()->setStretchLastSection(true);
 
     ui->WishListView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
-    m_SessionSortModel = new SessionSortFilterProxyModel();
-    m_SessionSortModel->setSourceModel(m_SessionModel);
+    m_SessionSortModel.reset(new SessionSortFilterProxyModel());
+    m_SessionSortModel->setSourceModel(m_SessionModel.get());
     m_SessionSortModel->setDynamicSortFilter(true);
-    ui->SessionView->setModel(m_SessionSortModel);
+    ui->SessionView->setModel(m_SessionSortModel.get());
     ui->SessionView->horizontalHeader()->setStretchLastSection(true);
     ui->SessionView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
-    ksal = new KSAlmanac;
+    ksal.reset(new KSAlmanac);
     ksal->setLocation(geo);
     ui->avt->setGeoLocation(geo);
     ui->avt->setSunRiseSetTimes(ksal->getSunRise(), ksal->getSunSet());
@@ -221,10 +221,6 @@ ObservingList::ObservingList()
 
 ObservingList::~ObservingList()
 {
-    delete ksal;
-    delete m_SessionModel;
-    delete m_WishListModel;
-    delete m_SessionSortModel;
 }
 
 // Show Event
@@ -367,10 +363,11 @@ void ObservingList::slotAddObject(const SkyObject *_obj, bool session, bool upda
         dms lst(geo->GSTtoLST(dt.gst()));
         p.EquatorialToHorizontal(&lst, geo->lat());
 
-        QString ra, dec, time = "--", alt = "--", az = "--";
+        QString alt = "--", az = "--";
 
         QStandardItem *BestTime = new QStandardItem();
-        /*if(obj->name() == "star" ) {
+        /* QString ra, dec;
+         if(obj->name() == "star" ) {
             ra = obj->ra0().toHMSString();
             dec = obj->dec0().toDMSString();
             BestTime->setData( QString( "--" ), Qt::DisplayRole );
@@ -408,7 +405,7 @@ void ObservingList::slotRemoveObject(const SkyObject *_o, bool session, bool upd
 
     // Is the pointer supplied in our own lists?
     const QList<QSharedPointer<SkyObject>> &list = (session ? sessionList() : obsList());
-    QStandardItemModel *currentModel             = (session ? m_SessionModel : m_WishListModel);
+    QStandardItemModel *currentModel             = (session ? m_SessionModel.get() : m_WishListModel.get());
 
     QSharedPointer<SkyObject> o = findObject(_o, session);
     if (!o)
@@ -1192,7 +1189,8 @@ void ObservingList::slotUpdate()
     ui->avt->removeAllPlotObjects();
     //Creating a copy of the lists, we can't use the original lists as they'll keep getting modified as the loop iterates
     QList<QSharedPointer<SkyObject>> _obsList = m_WishList, _SessionList = m_SessionList;
-    foreach (QSharedPointer<SkyObject> o, _obsList)
+
+    for (QSharedPointer<SkyObject> &o : _obsList)
     {
         if (o->name() != "star")
         {
@@ -1200,7 +1198,7 @@ void ObservingList::slotUpdate()
             slotAddObject(o.data(), false, true);
         }
     }
-    foreach (QSharedPointer<SkyObject> obj, _SessionList)
+    for (QSharedPointer<SkyObject> &obj : _SessionList)
     {
         if (obj->name() != "star")
         {

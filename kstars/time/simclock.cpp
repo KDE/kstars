@@ -17,13 +17,12 @@
 
 #include "simclock.h"
 
-#include <QDebug>
-#include <KLocalizedString>
-
 #ifndef KSTARS_LITE
 #include "kstars.h"
 #include "simclockadaptor.h"
 #endif
+
+#include <QDebug>
 
 int SimClock::TimerInterval = 100; //msec
 
@@ -37,10 +36,6 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) : QObject(parent
         tmr.stop();
     setUTC(when);
     julianmark = UTC.djd();
-
-    Scale        = 1.0;
-    ManualMode   = false;
-    ManualActive = false;
 
     QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
 }
@@ -172,8 +167,7 @@ void SimClock::setUTC(const KStarsDateTime &newtime)
         }
 
         qDebug() << QString("Setting clock:  UTC: %1  JD: %2")
-                        .arg(UTC.toString())
-                        .arg(QLocale().toString((double)UTC.djd(), 'f', 2));
+                        .arg(UTC.toString(), QLocale().toString((double)UTC.djd(), 'f', 2));
         emit timeChanged();
     }
     else

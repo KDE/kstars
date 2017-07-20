@@ -7,8 +7,13 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDIWEBMANAGER_H
-#define INDIWEBMANAGER_H
+#pragma once
+
+#include <QNetworkAccessManager>
+
+class QByteArray;
+class QJsonDocument;
+class QUrl;
 
 class ProfileInfo;
 
@@ -24,5 +29,3 @@ bool startProfile(ProfileInfo *pi);
 bool stopProfile(ProfileInfo *pi);
 }
 }
-
-#endif // INDIWEBMANAGER_H

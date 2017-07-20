@@ -30,6 +30,7 @@
 #include "dialogs/finddialog.h"
 #include "ekos/ekosmanager.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitstab.h"
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
@@ -417,7 +418,7 @@ Align::~Align()
     dir.setNameFilters(QStringList() << "fits*"
                                      << "tmp.*");
     dir.setFilter(QDir::Files);
-    foreach (QString dirFile, dir.entryList())
+    for (auto &dirFile : dir.entryList())
         dir.remove(dirFile);
 }
 void Align::selectSolutionTableRow(int row, int column)
@@ -508,11 +509,11 @@ void Align::handlePointTooltip(QMouseEvent *event)
                                   "</tr>"
                                   "</table>")
                                    .arg(point + 1)
-                                   .arg(solutionTable->item(point, 2)->text())
-                                   .arg(solutionTable->item(point, 0)->text())
-                                   .arg(solutionTable->item(point, 1)->text())
-                                   .arg(solutionTable->item(point, 4)->text())
-                                   .arg(solutionTable->item(point, 5)->text()),
+                                   .arg(solutionTable->item(point, 2)->text(),
+                                        solutionTable->item(point, 0)->text(),
+                                        solutionTable->item(point, 1)->text(),
+                                        solutionTable->item(point, 4)->text(),
+                                        solutionTable->item(point, 5)->text()),
                                alignPlot, alignPlot->rect());
         }
     }
@@ -2372,7 +2373,7 @@ bool Align::captureAndSolve()
     dir.setNameFilters(QStringList() << "fits*"
                                      << "tmp.*");
     dir.setFilter(QDir::Files);
-    foreach (QString dirFile, dir.entryList())
+    for (auto &dirFile : dir.entryList())
         dir.remove(dirFile);
     //}
 
@@ -2694,7 +2695,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     double deDiff = (alignCoord.dec().Degrees() - targetCoord.dec().Degrees()) * 3600;
 
     dms RADiff(fabs(raDiff) / 3600.0), DEDiff(deDiff / 3600.0);
-    dRAOut->setText(QString("%1%2").arg(raDiff > 0 ? "+" : "-").arg(RADiff.toHMSString()));
+
+    dRAOut->setText(QString("%1%2").arg((raDiff > 0 ? "+" : "-"), RADiff.toHMSString()));
     dDEOut->setText(DEDiff.toDMSString(true));
 
     pixScaleOut->setText(QString::number(pixscale, 'f', 2));

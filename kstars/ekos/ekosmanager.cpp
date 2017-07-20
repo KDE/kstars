@@ -18,6 +18,7 @@
 #include "profilewizard.h"
 #include "skymap.h"
 #include "auxiliary/darklibrary.h"
+#include "auxiliary/QProgressIndicator.h"
 #include "capture/sequencejob.h"
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"

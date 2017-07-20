@@ -7,40 +7,29 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <config-kstars.h>
+#include "indiccd.h"
 
-#include <string.h>
+#include "config-kstars.h"
 
-#include <KMessageBox>
-#include <QStatusBar>
-#include <QImageReader>
+#include "clientmanager.h"
+#include "driverinfo.h"
+#include "guimanager.h"
+#include "kspaths.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#include "streamwg.h"
+#include "ekos/ekosmanager.h"
+#ifdef HAVE_CFITSIO
+#include "fitsviewer/fitsdata.h"
+#endif
+
 #include <KNotifications/KNotification>
 
 #include <basedevice.h>
 
-#ifdef HAVE_CFITSIO
-#include "fitsviewer/fitsviewer.h"
-#include "fitsviewer/fitscommon.h"
-#include "fitsviewer/fitsview.h"
-#include "fitsviewer/fitsdata.h"
-#endif
-
 #ifdef HAVE_LIBRAW
 #include <libraw/libraw.h>
 #endif
-
-#include "driverinfo.h"
-#include "clientmanager.h"
-#include "streamwg.h"
-#include "indiccd.h"
-#include "guimanager.h"
-#include "kstarsdata.h"
-#include "fov.h"
-#include "kspaths.h"
-
-#include <ekos/ekosmanager.h>
-
-#include "Options.h"
 
 const QStringList RAWFormats = { "cr2", "crw", "nef", "raf", "dng", "arw" };
 
@@ -52,19 +41,6 @@ CCDChip::CCDChip(ISD::CCD *ccd, ChipType cType)
     clientManager = ccd->getDriverInfo()->getClientManager();
     parentCCD     = ccd;
     type          = cType;
-    batchMode     = false;
-    displayFITS   = true;
-    CanBin        = false;
-    CanSubframe   = false;
-    CanAbort      = false;
-    imageData     = nullptr;
-
-    captureMode   = FITS_NORMAL;
-    captureFilter = FITS_NONE;
-
-    //fx=fy=fw=fh=0;
-
-    normalImage = focusImage = guideImage = calibrationImage = nullptr;
 }
 
 FITSView *CCDChip::getImageView(FITSMode imageType)
@@ -457,26 +433,6 @@ bool CCDChip::canAbort() const
     return CanAbort;
 }
 
-/*bool CCDChip::getFocusFrame(int *x, int *y, int *w, int *h)
-{
-    *x = fx;
-    *y = fy;
-    *w = fw;
-    *h = fh;
-
-    return true;
-}
-
-bool CCDChip::setFocusFrame(int x, int y, int w, int h)
-{
-    fx=x;
-    fy=y;
-    fw=w;
-    fh=h;
-
-    return true;
-}*/
-
 void CCDChip::setCanAbort(bool value)
 {
     CanAbort = value;
@@ -487,10 +443,6 @@ FITSData *CCDChip::getImageData() const
     return imageData;
 }
 
-void CCDChip::setImageData(FITSData *value)
-{
-    imageData = value;
-}
 int CCDChip::getISOIndex() const
 {
     ISwitchVectorProperty *isoProp = baseDevice->getSwitch("CCD_ISO");
@@ -828,33 +780,12 @@ bool CCDChip::setBinning(int bin_x, int bin_y)
 
 CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
 {
-    dType            = KSTARS_CCD;
-    ISOMode          = true;
-    HasGuideHead     = false;
-    HasCooler        = false;
-    HasCoolerControl = false;
-    HasVideoStream   = false;
-    fv               = nullptr;
-    streamWindow     = nullptr;
-    ST4Driver        = nullptr;
-    nextSequenceID   = 0;
-
-    primaryChip = new CCDChip(this, CCDChip::PRIMARY_CCD);
-
-    normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
-    guideChip                                                             = nullptr;
-
-    transferFormat = targetTransferFormat = FORMAT_FITS;
+    primaryChip.reset(new CCDChip(this, CCDChip::PRIMARY_CCD));
 }
 
 CCD::~CCD()
 {
-#ifdef HAVE_CFITSIO
-    delete (fv);
-#endif
-    delete (primaryChip);
-    delete (guideChip);
-    delete (streamWindow);
+    delete fv;
 }
 
 void CCD::registerProperty(INDI::Property *prop)
@@ -862,7 +793,7 @@ void CCD::registerProperty(INDI::Property *prop)
     if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
     {
         HasGuideHead = true;
-        guideChip    = new CCDChip(this, CCDChip::GUIDE_CCD);
+        guideChip.reset(new CCDChip(this, CCDChip::GUIDE_CCD));
     }
     else if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))
     {
@@ -986,7 +917,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
     {
         INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
         if (np)
-            emit newExposureValue(primaryChip, np->value, nvp->s);
+            emit newExposureValue(primaryChip.get(), np->value, nvp->s);
     }
     else if (!strcmp(nvp->name, "CCD_TEMPERATURE"))
     {
@@ -999,7 +930,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
     {
         INumber *np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
         if (np)
-            emit newExposureValue(guideChip, np->value, nvp->s);
+            emit newExposureValue(guideChip.get(), np->value, nvp->s);
     }
     else if (!strcmp(nvp->name, "FPS"))
     {
@@ -1012,7 +943,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 
         if (nvp->s == IPS_ALERT)
         {
-            emit newGuideStarData(primaryChip, -1, -1, -1);
+            emit newGuideStarData(primaryChip.get(), -1, -1, -1);
         }
         else
         {
@@ -1027,7 +958,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
                 fit = np->value;
 
             if (dx >= 0 && dy >= 0 && fit >= 0)
-                emit newGuideStarData(primaryChip, dx, dy, fit);
+                emit newGuideStarData(primaryChip.get(), dx, dy, fit);
         }
     }
     else if (!strcmp(nvp->name, "GUIDER_RAPID_GUIDE_DATA"))
@@ -1037,7 +968,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
 
         if (nvp->s == IPS_ALERT)
         {
-            emit newGuideStarData(guideChip, -1, -1, -1);
+            emit newGuideStarData(guideChip.get(), -1, -1, -1);
         }
         else
         {
@@ -1052,7 +983,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
                 fit = np->value;
 
             if (dx >= 0 && dy >= 0 && fit >= 0)
-                emit newGuideStarData(guideChip, dx, dy, fit);
+                emit newGuideStarData(guideChip.get(), dx, dy, fit);
         }
     }
 
@@ -1070,12 +1001,13 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     {
         HasVideoStream = true;
 
-        if (streamWindow == nullptr && svp->sp[0].s == ISS_ON)
+        if (streamWindow.get() == nullptr && svp->sp[0].s == ISS_ON)
         {
-            streamWindow = new StreamWG(this);
+            streamWindow.reset(new StreamWG(this));
 
             INumberVectorProperty *streamFrame = baseDevice->getNumber("CCD_STREAM_FRAME");
             INumber *w = nullptr, *h = nullptr;
+
             if (streamFrame)
             {
                 w = IUFindNumber(streamFrame, "WIDTH");
@@ -1106,9 +1038,9 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             streamWindow->setSize(streamW, streamH);
         }
 
-        if (streamWindow)
+        if (streamWindow.get() != nullptr)
         {
-            connect(streamWindow, SIGNAL(hidden()), this, SLOT(StreamWindowHidden()), Qt::UniqueConnection);
+            connect(streamWindow.get(), SIGNAL(hidden()), this, SLOT(StreamWindowHidden()), Qt::UniqueConnection);
 
             streamWindow->enableStream(svp->sp[0].s == ISS_ON);
             emit videoStreamToggled(svp->sp[0].s == ISS_ON);
@@ -1150,13 +1082,12 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     {
         ISwitch *dSwitch = IUFindSwitch(svp, "DISCONNECT");
 
-        if (dSwitch && dSwitch->s == ISS_ON && streamWindow != nullptr)
+        if (dSwitch && dSwitch->s == ISS_ON && streamWindow.get() != nullptr)
         {
             streamWindow->enableStream(false);
             emit videoStreamToggled(false);
             streamWindow->close();
-            delete (streamWindow);
-            streamWindow = nullptr;
+            streamWindow.reset();
         }
 
         //emit switchUpdated(svp);
@@ -1189,7 +1120,7 @@ void CCD::processBLOB(IBLOB *bp)
     QString format(bp->format);
 
     // If stream, process it first
-    if (format.contains("stream") && streamWindow)
+    if (format.contains("stream") && streamWindow.get() != nullptr)
     {
         if (streamWindow->isStreamEnabled() == false)
             return;
@@ -1254,9 +1185,9 @@ void CCD::processBLOB(IBLOB *bp)
     CCDChip *targetChip = nullptr;
 
     if (!strcmp(bp->name, "CCD2"))
-        targetChip = guideChip;
+        targetChip = guideChip.get();
     else
-        targetChip = primaryChip;
+        targetChip = primaryChip.get();
 
     QString currentDir;
 
@@ -1317,9 +1248,10 @@ void CCD::processBLOB(IBLOB *bp)
         }
         else
             filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
-                        QString("%1.%2").arg(QString().sprintf("%03d", nextSequenceID)).arg(QString(fmt));
+                        QString("%1.%2").arg(QString().sprintf("%03d", nextSequenceID), QString(fmt));
 
         QFile fits_temp_file(filename);
+
         if (!fits_temp_file.open(QIODevice::WriteOnly))
         {
             qDebug() << "ISD:CCD Error: Unable to open " << fits_temp_file.fileName() << endl;
@@ -1360,11 +1292,12 @@ void CCD::processBLOB(IBLOB *bp)
         if (BType == BLOB_RAW)
         {
 #ifdef HAVE_LIBRAW
-
             QString rawFileName  = filename;
             rawFileName          = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
-            QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
+
+            QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath(), rawFileName);
             QTemporaryFile imgPreview(templateName);
+
             imgPreview.setAutoRemove(false);
             imgPreview.open();
             imgPreview.close();
@@ -1711,7 +1644,7 @@ void CCD::processBLOB(IBLOB *bp)
     emit BLOBUpdated(bp);
 }
 
-void CCD::addFITSKeywords(QString filename)
+void CCD::addFITSKeywords(const QString& filename)
 {
 #ifdef HAVE_CFITSIO
     int status = 0;
@@ -1794,7 +1727,7 @@ void CCD::StreamWindowHidden()
         }
     }
 
-    if (streamWindow)
+    if (streamWindow.get() != nullptr)
         streamWindow->disconnect();
 }
 
@@ -1837,11 +1770,11 @@ CCDChip *CCD::getChip(CCDChip::ChipType cType)
     switch (cType)
     {
         case CCDChip::PRIMARY_CCD:
-            return primaryChip;
+            return primaryChip.get();
             break;
 
         case CCDChip::GUIDE_CCD:
-            return guideChip;
+            return guideChip.get();
             break;
     }
 
@@ -1853,7 +1786,7 @@ bool CCD::setRapidGuide(CCDChip *targetChip, bool enable)
     ISwitchVectorProperty *rapidSP = nullptr;
     ISwitch *enableS               = nullptr;
 
-    if (targetChip == primaryChip)
+    if (targetChip == primaryChip.get())
         rapidSP = baseDevice->getSwitch("CCD_RAPID_GUIDE");
     else
         rapidSP = baseDevice->getSwitch("GUIDER_RAPID_GUIDE");
@@ -1884,7 +1817,7 @@ bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage
     ISwitchVectorProperty *rapidSP = nullptr;
     ISwitch *autoLoopS = nullptr, *sendImageS = nullptr, *showMarkerS = nullptr;
 
-    if (targetChip == primaryChip)
+    if (targetChip == primaryChip.get())
         rapidSP = baseDevice->getSwitch("CCD_RAPID_GUIDE_SETUP");
     else
         rapidSP = baseDevice->getSwitch("GUIDER_RAPID_GUIDE_SETUP");
@@ -2187,7 +2120,7 @@ bool CCD::setStreamingFrame(int x, int y, int w, int h)
 
 bool CCD::isStreamingEnabled()
 {
-    if (HasVideoStream == false || streamWindow == nullptr)
+    if (HasVideoStream == false || streamWindow.get() == nullptr)
         return false;
 
     return streamWindow->isStreamEnabled();

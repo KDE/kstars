@@ -353,7 +353,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
 
     double ra = 0, dec = 0, orientation = 0, pixscale = 0;
 
-    foreach (QString key, wcskeys)
+    for (auto &key : wcskeys)
     {
         key_value = key.split(" ");
 

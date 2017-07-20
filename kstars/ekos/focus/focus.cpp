@@ -16,6 +16,7 @@
 #include "auxiliary/kspaths.h"
 #include "ekos/ekosmanager.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
 #include "indi/indifilter.h"
@@ -191,7 +192,7 @@ Focus::Focus()
 
     appendLogText(i18n("Idle."));
 
-    foreach (QString filter, FITSViewer::filterTypes)
+    for (auto &filter : FITSViewer::filterTypes)
         filterCombo->addItem(filter);
 
     filterCombo->setCurrentIndex(Options::focusEffect());

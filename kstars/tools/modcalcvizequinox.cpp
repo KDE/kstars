@@ -17,22 +17,17 @@
 
 #include "modcalcvizequinox.h"
 
-#include <cmath> //fabs()
+#include "dms.h"
+#include "kstarsdata.h"
+#include "skyobjects/kssun.h"
+#include "widgets/dmsbox.h"
 
-#include <KPlotWidget>
+#include <KLineEdit>
 #include <KPlotAxis>
 #include <KPlotObject>
 #include <KPlotPoint>
-#include <KLocalizedString>
-#include <KMessageBox>
-#include <KLineEdit>
 
-#include "dms.h"
-#include "kstarsdata.h"
-#include "kstarsdatetime.h"
-#include "ksnumbers.h"
-#include "skyobjects/kssun.h"
-#include "widgets/dmsbox.h"
+#include <cmath>
 
 modCalcEquinox::modCalcEquinox(QWidget *parentSplit) : QFrame(parentSplit), dSpring(), dSummer(), dAutumn(), dWinter()
 {
@@ -282,16 +277,16 @@ KStarsDateTime modCalcEquinox::findEquinox(int year, bool Spring, KPlotObject *e
     const int month = Spring ? 2 : 8;
     int i           = QDate(year, month, 1).dayOfYear();
     double dec1, dec2;
-    dec2 = ecl->points()[i]->y();
+    dec2 = ecl->points().at(i)->y();
     do
     {
         ++i;
         dec1 = dec2;
-        dec2 = ecl->points()[i]->y();
+        dec2 = ecl->points().at(i)->y();
     } while (dec1 * dec2 > 0.0); //when dec1*dec2<0.0, we bracket the zero
 
-    double x1 = ecl->points()[i - 1]->x();
-    double x2 = ecl->points()[i]->x();
+    double x1 = ecl->points().at(i-1)->x();
+    double x2 = ecl->points().at(i)->x();
     double d  = fabs(dec2 - dec1);
     double f  = 1.0 - fabs(dec2) / d; //fractional distance of the zero, from point1 to point2
 

@@ -222,7 +222,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
 
     int filterCounter = 1;
 
-    foreach (QString filter, FITSViewer::filterTypes)
+    for (auto& filter : FITSViewer::filterTypes)
     {
         action = actionCollection()->addAction(QString("filter%1").arg(filterCounter));
         action->setText(i18n(filter.toUtf8().constData()));

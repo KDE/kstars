@@ -15,8 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TIMEZONERULE_H_
-#define TIMEZONERULE_H_
+#pragma once
+
+#include "kstarsdatetime.h"
+
+#include <QTime>
+
+class QString;
 
 /** @class TimeZoneRule
 	*This class provides the information needed to determine whether Daylight
@@ -49,9 +54,6 @@
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
-#include <QString>
-#include "kstarsdatetime.h"
 
 class TimeZoneRule
 {
@@ -156,14 +158,15 @@ class TimeZoneRule
         	*@return the calendar date, an integer between 1 and 31. */
     int findRevertDay(const KStarsDateTime &d);
 
-    int StartDay, RevertDay;
-    int StartMonth, RevertMonth;
-    int StartWeek, RevertWeek;
+    int StartDay { 0 };
+    int RevertDay { 0 };
+    int StartMonth { 0 };
+    int RevertMonth { 0 };
+    int StartWeek { 0 };
+    int RevertWeek { 0 };
     QTime StartTime, RevertTime;
     KStarsDateTime next_change_utc;
     KStarsDateTime next_change_ltime;
-    double dTZ;
-    double HourOffset;
+    double dTZ { 0 };
+    double HourOffset { 0 };
 };
-
-#endif

@@ -15,12 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCPLANETS_H_
-#define MODCALCPLANETS_H_
-
-#include <QTextStream>
+#pragma once
 
 #include "ui_modcalcplanets.h"
+
+class QTextStream;
 
 class GeoLocation;
 class KSPlanetBase;
@@ -63,5 +62,3 @@ class modCalcPlanets : public QFrame, public Ui::modCalcPlanetsDlg
 
     GeoLocation *geoPlace;
 };
-
-#endif

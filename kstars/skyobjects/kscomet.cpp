@@ -118,9 +118,9 @@ KSComet::KSComet(const QString &_s, const QString &imfile, long double _JD, doub
             cometType.insert('D', 3);
             cometType.insert('A', 4);
         }
-        qint64 type       = cometType[rePro.cap(1)[0]]; // Type of comet
+        qint64 type       = cometType[rePro.cap(1).at(0)]; // Type of comet
         qint64 year       = rePro.cap(2).toInt();       // Year of discovery
-        qint64 halfMonth  = letterToNum(rePro.cap(3)[0]);
+        qint64 halfMonth  = letterToNum(rePro.cap(3).at(0));
         qint64 nHalfMonth = rePro.cap(4).toInt();
         qint64 fragment   = letterDesigToN(rePro.cap(6));
 

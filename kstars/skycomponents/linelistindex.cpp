@@ -203,7 +203,7 @@ void LineListIndex::drawLines(SkyPainter *skyp)
     DrawID drawID     = skyMesh()->drawID();
     UpdateID updateID = KStarsData::Instance()->updateID();
 
-    foreach (std::shared_ptr<LineListList> lineListList, m_lineIndex->values())
+    for (auto &lineListList : m_lineIndex->values())
     {
         for (int i = 0; i < lineListList->size(); i++)
         {

@@ -36,9 +36,11 @@ class ThumbnailPickerUI : public QFrame, public Ui::ThumbnailPicker
     explicit ThumbnailPickerUI(QWidget *p);
 };
 
-/** @short Dialog for modifying an object's thumbnail image
-	*@author Jason Harris
-	*/
+/**
+ * @short Dialog for modifying an object's thumbnail image
+ *
+ * @author Jason Harris
+ */
 class ThumbnailPicker : public QDialog
 {
     Q_OBJECT
@@ -60,7 +62,7 @@ class ThumbnailPicker : public QDialog
     void slotFillList();
     void slotProcessGoogleResult(KJob *);
 
-    /**Make sure download has finished, then make sure file exists, then add image to list */
+    /** Make sure download has finished, then make sure file exists, then add image to list */
     void slotJobResult(KJob *);
 
   private:

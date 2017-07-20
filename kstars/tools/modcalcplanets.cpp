@@ -17,21 +17,11 @@
 
 #include "modcalcplanets.h"
 
-#include <KLocalizedString>
-#include <KMessageBox>
-
-#include <QFileDialog>
-
 #include "geolocation.h"
-#include "dialogs/locationdialog.h"
-#include "dms.h"
 #include "kstarsdata.h"
-#include "ksnumbers.h"
-#include "skyobjects/kssun.h"
-#include "skyobjects/ksplanet.h"
+#include "dialogs/locationdialog.h"
 #include "skyobjects/ksmoon.h"
-//#include "skyobjects/kspluto.h"
-#include "widgets/dmsbox.h"
+#include "skyobjects/kssun.h"
 
 modCalcPlanets::modCalcPlanets(QWidget *parentSplit) : QFrame(parentSplit)
 {
@@ -259,7 +249,6 @@ void modCalcPlanets::processLines(QTextStream &istream)
     fOut.open(QIODevice::WriteOnly);
     QTextStream ostream(&fOut);
     bool lineIsValid = true;
-    QString message;
 
     QChar space = ' ';
     QString planetB;

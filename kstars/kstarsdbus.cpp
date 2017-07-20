@@ -17,38 +17,21 @@
 
 //KStars DBUS functions
 
-#include <QDir>
-#include <QPixmap>
-#include <QKeySequence>
-#include <QPainter>
-
-#include <QtPrintSupport/QPrinter>
-#include <QtPrintSupport/QPrintDialog>
-#include <QtSvg/QSvgGenerator>
-#include <QXmlStreamWriter>
-#include <QPushButton>
-#include <QDoubleSpinBox>
-#include <QLineEdit>
-
-#include <KActionCollection>
+#include "kstars.h"
 
 #include "colorscheme.h"
-#include "kstars.h"
-#include "kstarsdata.h"
+#include "eyepiecefield.h"
+#include "imageexporter.h"
 #include "ksdssdownloader.h"
+#include "kstarsdata.h"
+#include "observinglist.h"
+#include "Options.h"
 #include "skymap.h"
-#include "skyobjects/skyobject.h"
-#include "skyobjects/starobject.h"
+#include "skycomponents/constellationboundarylines.h"
+#include "skycomponents/skymapcomposite.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanetbase.h"
-#include "skycomponents/skymapcomposite.h"
-#include "simclock.h"
-#include "Options.h"
-#include "imageexporter.h"
-#include "skycomponents/constellationboundarylines.h"
-#include "observinglist.h"
-#include "eyepiecefield.h"
-
+#include "skyobjects/starobject.h"
 #include "tools/whatsinteresting/wiview.h"
 
 #ifdef HAVE_CFITSIO
@@ -57,6 +40,8 @@
 #include "ekos/ekosmanager.h"
 #endif
 #endif
+
+#include <KActionCollection>
 
 void KStars::setRaDec(double ra, double dec)
 {
@@ -292,12 +277,10 @@ bool KStars::setGeoLocation(const QString &city, const QString &province, const 
     {
         if (province.isEmpty())
             qDebug()
-                << QString("Error [D-Bus setGeoLocation]: city %1, %2 not found in database.").arg(city).arg(country);
+                << QString("Error [D-Bus setGeoLocation]: city %1, %2 not found in database.").arg(city, country);
         else
             qDebug() << QString("Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.")
-                            .arg(city)
-                            .arg(province)
-                            .arg(country);
+                            .arg(city, province, country);
     }
 
     return cityFound;
@@ -887,7 +870,8 @@ void KStars::renderEyepieceView(const QString &objectName, const QString &destPa
 QString KStars::getObservingWishListObjectNames()
 {
     QString output;
-    foreach (QSharedPointer<SkyObject> object, KStarsData::Instance()->observingList()->obsList())
+
+    for (auto &object : KStarsData::Instance()->observingList()->obsList())
     {
         output.append(object->name() + '\n');
     }
@@ -897,7 +881,8 @@ QString KStars::getObservingWishListObjectNames()
 QString KStars::getObservingSessionPlanObjectNames()
 {
     QString output;
-    foreach (QSharedPointer<SkyObject> object, KStarsData::Instance()->observingList()->sessionList())
+
+    for (auto &object : KStarsData::Instance()->observingList()->sessionList())
     {
         output.append(object->name() + '\n');
     }

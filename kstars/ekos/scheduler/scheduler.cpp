@@ -9,32 +9,25 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include "Options.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <QtDBus>
-#include <QFileDialog>
-
-#include <KMessageBox>
-#include <KLocalizedString>
-#include <KNotifications/KNotification>
-
-#include "scheduleradaptor.h"
-#include "dialogs/finddialog.h"
-#include "ekos/capture/sequencejob.h"
-#include "ekos/ekosmanager.h"
-#include "kstars.h"
 #include "scheduler.h"
-#include "skymapcomposite.h"
-#include "kstarsdata.h"
-#include "ksmoon.h"
+
 #include "ksalmanac.h"
+#include "ksnotification.h"
+#include "kstars.h"
+#include "kstarsdata.h"
 #include "ksutils.h"
 #include "mosaic.h"
+#include "Options.h"
+#include "scheduleradaptor.h"
+#include "schedulerjob.h"
+#include "skymapcomposite.h"
+#include "auxiliary/QProgressIndicator.h"
+#include "dialogs/finddialog.h"
+#include "ekos/ekosmanager.h"
+#include "ekos/capture/sequencejob.h"
 #include "skyobjects/starobject.h"
-#include "ksnotification.h"
+
+#include <KNotifications/KNotification>
 
 #define BAD_SCORE               -1000
 #define MAX_FAILURE_ATTEMPTS    3
@@ -73,37 +66,6 @@ Scheduler::Scheduler()
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler", this);
 
     dirPath   = QUrl::fromLocalFile(QDir::homePath());
-    state     = SCHEDULER_IDLE;
-    ekosState = EKOS_IDLE;
-    indiState = INDI_IDLE;
-
-    startupState  = STARTUP_IDLE;
-    shutdownState = SHUTDOWN_IDLE;
-
-    parkWaitState = PARKWAIT_IDLE;
-
-    currentJob          = nullptr;
-    geo                 = nullptr;
-    captureBatch        = 0;
-    jobUnderEdit        = -1;
-    mDirty              = false;
-    jobEvaluationOnly   = false;
-    loadAndSlewProgress = false;
-    autofocusCompleted  = false;
-    preemptiveShutdown  = false;
-
-    Dawn = -1;
-    Dusk = -1;
-
-    indiConnectFailureCount = 0;
-    focusFailureCount       = 0;
-    guideFailureCount       = 0;
-    alignFailureCount       = 0;
-    captureFailureCount     = 0;
-
-    noWeatherCounter = 0;
-
-    weatherStatus = IPS_IDLE;
 
     // Get current KStars time and set seconds to zero
     QDateTime currentDateTime = KStarsData::Instance()->lt();
@@ -4622,7 +4584,7 @@ void Scheduler::startMosaicTool()
             if (createJobSequence(root, prefix, outputDir) == false)
                 return;
 
-            QString filename = QString("%1/%2.esq").arg(outputDir).arg(prefix);
+            QString filename = QString("%1/%2.esq").arg(outputDir, prefix);
             sequenceEdit->setText(filename);
             sequenceURL = QUrl::fromLocalFile(filename);
 
@@ -4641,7 +4603,7 @@ void Scheduler::startMosaicTool()
             queueTable->removeRow(0);
         }
 
-        QUrl mosaicURL = QUrl::fromLocalFile((QString("%1/%2_mosaic.esl").arg(outputDir).arg(targetName)));
+        QUrl mosaicURL = QUrl::fromLocalFile((QString("%1/%2_mosaic.esl").arg(outputDir, targetName)));
 
         if (saveScheduler(mosaicURL))
         {
@@ -4715,7 +4677,7 @@ bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QSt
                 }
                 else if (!strcmp(tagXMLEle(subEP), "FITSDirectory"))
                 {
-                    editXMLEle(subEP, QString("%1/%2").arg(outputDir).arg(prefix).toLatin1().constData());
+                    editXMLEle(subEP, QString("%1/%2").arg(outputDir, prefix).toLatin1().constData());
                 }
             }
         }
@@ -4723,7 +4685,7 @@ bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QSt
 
     QDir().mkpath(outputDir);
 
-    QString filename = QString("%1/%2.esq").arg(outputDir).arg(prefix);
+    QString filename = QString("%1/%2.esq").arg(outputDir, prefix);
     FILE *outputFile = fopen(filename.toLatin1().constData(), "w");
 
     if (outputFile == nullptr)

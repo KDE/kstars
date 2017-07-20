@@ -18,24 +18,14 @@
 
 #include "oal/execute.h"
 
-#include <QFile>
-
-#include <KMessageBox>
-#include <QFileDialog>
 #include "kstarsdata.h"
-#include "oal/observer.h"
-#include "oal/site.h"
-#include "oal/session.h"
-#include "oal/scope.h"
-#include "oal/eyepiece.h"
-#include "oal/lens.h"
-#include "oal/filter.h"
-#include "skyobjects/skyobject.h"
-#include "skyobjects/starobject.h"
-#include "dialogs/locationdialog.h"
-#include "dialogs/finddialog.h"
-#include "skycomponents/skymapcomposite.h"
 #include "observinglist.h"
+#include "dialogs/finddialog.h"
+#include "dialogs/locationdialog.h"
+#include "skycomponents/skymapcomposite.h"
+#include "skyobjects/starobject.h"
+
+#include <QFileDialog>
 
 Execute::Execute()
 {
@@ -62,17 +52,6 @@ Execute::Execute()
     connect(addObs, SIGNAL(clicked()), this, SLOT(slotObserverAdd()));
 
     setWindowTitle(i18n("Execute Session"));
-
-    currentTarget   = nullptr;
-    currentObserver = nullptr;
-    currentScope    = nullptr;
-    currentEyepiece = nullptr;
-    currentLens     = nullptr;
-    currentFilter   = nullptr;
-    currentSession  = nullptr;
-    nextSession     = 0;
-    nextObservation = 0;
-    nextSite        = 0;
 
     //initialize the global logObject
     logObject = KStarsData::Instance()->logObject();
@@ -235,7 +214,8 @@ void Execute::loadTargets()
 {
     ui.Target->clear();
     sortTargetList();
-    foreach (QSharedPointer<SkyObject> o, KStarsData::Instance()->observingList()->sessionList())
+
+    for (auto &o : KStarsData::Instance()->observingList()->sessionList())
     {
         ui.Target->addItem(getObjectName(o.data(), false));
     }

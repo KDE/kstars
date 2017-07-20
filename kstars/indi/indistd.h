@@ -44,7 +44,7 @@ class GDSetCommand : public QObject
 
 /**
  * @class GDInterface
- *  GDInterface is the Generic Device <i>Interface</i> for INDI devices. It is used as part of the Decorater Pattern when initially a new INDI device is created as a
+ * GDInterface is the Generic Device <i>Interface</i> for INDI devices. It is used as part of the Decorater Pattern when initially a new INDI device is created as a
  * Generic Device in INDIListener. If the device registers an INDI Standard Property belonging to one specific device type (e.g. Telescope), then the device functionality
  * is extended to the particular device type.
  *
@@ -85,17 +85,17 @@ class GDInterface : public QObject
 
     virtual ~GDInterface() {}
 
-  protected:
-    DeviceFamily dType;
-    QList<INDI::Property *> properties;
-
   public slots:
     virtual bool Connect()                                    = 0;
     virtual bool Disconnect()                                 = 0;
     virtual bool runCommand(int command, void *ptr = nullptr) = 0;
     virtual bool setProperty(QObject *)                       = 0;
 
-  signals:
+protected:
+    DeviceFamily dType { KSTARS_CCD };
+    QList<INDI::Property *> properties;
+
+signals:
     void Connected();
     void Disconnected();
     void switchUpdated(ISwitchVectorProperty *svp);

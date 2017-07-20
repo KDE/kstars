@@ -31,7 +31,6 @@
 #include <QLineEdit>
 #include <QPainter>
 #include <QPointer>
-#include <QTextStream>
 #include <QUrlQuery>
 
 ThumbnailPickerUI::ThumbnailPickerUI(QWidget *parent) : QFrame(parent)
@@ -147,7 +146,6 @@ void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
     //Add images from the ImageList
     for (int i = 0; i < ImageList.size(); ++i)
     {
-        QString s(ImageList[i]);
         QUrl u(ImageList[i]);
 
         if (u.isValid())

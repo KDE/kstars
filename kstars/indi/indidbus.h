@@ -7,8 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDIDBUS_H
-#define INDIDBUS_H
+#pragma once
 
 #include <QObject>
 #include <QtDBus/QtDBus>
@@ -173,5 +172,3 @@ class INDIDBus : public QObject
 
     /** @}*/
 };
-
-#endif

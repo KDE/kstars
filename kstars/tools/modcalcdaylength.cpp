@@ -17,19 +17,14 @@
 
 #include "modcalcdaylength.h"
 
-#include <KLineEdit>
-
-#include <KLocalizedString>
-#include <KMessageBox>
-
-#include "skyobjects/skyobject.h"
 #include "geolocation.h"
 #include "kstarsdata.h"
-#include "skyobjects/kssun.h"
-#include "skyobjects/ksmoon.h"
-#include "ksnumbers.h"
-#include "kstarsdatetime.h"
 #include "dialogs/locationdialog.h"
+#include "skyobjects/ksmoon.h"
+#include "skyobjects/kssun.h"
+#include "skyobjects/skyobject.h"
+
+#include <KLineEdit>
 
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit) : QFrame(parentSplit)
 {
@@ -73,7 +68,7 @@ void modCalcDayLength::initGeo(void)
     LocationBatch->setText(geoBatch->fullName());
 }
 
-QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime)
+QTime modCalcDayLength::lengthOfDay(const QTime &setQTime, const QTime &riseQTime)
 {
     QTime dL(0, 0, 0);
     int dds       = riseQTime.secsTo(setQTime);
@@ -296,7 +291,7 @@ void modCalcDayLength::processLines(QTextStream &istream)
 
     //Write header
     ostream << "# " << i18nc("%1 is a location on earth", "Almanac for %1", geoBatch->fullName())
-            << QString("  [%1, %2]").arg(geoBatch->lng()->toDMSString()).arg(geoBatch->lat()->toDMSString()) << endl
+            << QString("  [%1, %2]").arg(geoBatch->lng()->toDMSString(), geoBatch->lat()->toDMSString()) << endl
             << "# " << i18n("computed by KStars") << endl
             << "#" << endl
             << "# Date      SRise  STran  SSet     SRiseAz      STranAlt      SSetAz     DayLen    MRise  MTran  MSet  "

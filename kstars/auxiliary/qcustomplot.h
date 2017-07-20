@@ -136,22 +136,22 @@ class QCPBars;
 namespace QCP
 {
 #else
-class QCP // when in moc-run, make it look like a class, so we get Q_GADGET, Q_ENUMS/Q_FLAGS features in namespace
+class QCP // when in moc-run, make it look like a class, so we get Q_GADGET, Q_ENUM/Q_FLAGS features in namespace
 {
     Q_GADGET
-    Q_ENUMS(ExportPen)
-    Q_ENUMS(ResolutionUnit)
-    Q_ENUMS(SignDomain)
-    Q_ENUMS(MarginSide)
+    Q_ENUM(ExportPen)
+    Q_ENUM(ResolutionUnit)
+    Q_ENUM(SignDomain)
+    Q_ENUM(MarginSide)
     Q_FLAGS(MarginSides)
-    Q_ENUMS(AntialiasedElement)
+    Q_ENUM(AntialiasedElement)
     Q_FLAGS(AntialiasedElements)
-    Q_ENUMS(PlottingHint)
+    Q_ENUM(PlottingHint)
     Q_FLAGS(PlottingHints)
-    Q_ENUMS(Interaction)
+    Q_ENUM(Interaction)
     Q_FLAGS(Interactions)
-    Q_ENUMS(SelectionRectMode)
-    Q_ENUMS(SelectionType)
+    Q_ENUM(SelectionRectMode)
+    Q_ENUM(SelectionType)
   public:
 #endif
 
@@ -572,7 +572,7 @@ class QCP_LIB_DECL QCPPainter : public QPainter
         pmNonCosmetic =
             0x04 ///< <tt>0x04</tt> Turns pen widths 0 to 1, i.e. disables cosmetic pens. (A cosmetic pen is always drawn with width 1 pixel in the vector image/pdf viewer, independent of zoom.)
     };
-    Q_ENUMS(PainterMode)
+    Q_ENUM(PainterMode)
     Q_FLAGS(PainterModes)
     Q_DECLARE_FLAGS(PainterModes, PainterMode)
 
@@ -747,7 +747,7 @@ class QCP_LIB_DECL QCPLayer : public QObject
         ,
         lmBuffered ///< Layer has its own paint buffer and may be replotted individually (see \ref replot).
     };
-    Q_ENUMS(LayerMode)
+    Q_ENUM(LayerMode)
 
     QCPLayer(QCustomPlot *parentPlot, const QString &layerName);
     virtual ~QCPLayer();
@@ -1325,7 +1325,7 @@ class QCP_LIB_DECL QCPLayoutElement : public QCPLayerable
         ,
         upLayout ///< Final phase in which the layout system places the rects of the elements
     };
-    Q_ENUMS(UpdatePhase)
+    Q_ENUM(UpdatePhase)
 
     explicit QCPLayoutElement(QCustomPlot *parentPlot = 0);
     virtual ~QCPLayoutElement();
@@ -1454,7 +1454,7 @@ class QCP_LIB_DECL QCPLayoutGrid : public QCPLayout
         ,
         foColumnsFirst ///< Columns are filled first, and a new element is wrapped to the next row if the column count would exceed \ref setWrap.
     };
-    Q_ENUMS(FillOrder)
+    Q_ENUM(FillOrder)
 
     explicit QCPLayoutGrid();
     virtual ~QCPLayoutGrid();
@@ -1532,7 +1532,7 @@ class QCP_LIB_DECL QCPLayoutInset : public QCPLayout
         ,
         ipBorderAligned ///< The element is aligned to one of the layout sides, see \ref setInsetAlignment
     };
-    Q_ENUMS(InsetPlacement)
+    Q_ENUM(InsetPlacement)
 
     explicit QCPLayoutInset();
     virtual ~QCPLayoutInset();
@@ -1614,7 +1614,7 @@ class QCP_LIB_DECL QCPLineEnding
         ,
         esSkewedBar ///< A bar that is skewed (skew controllable via \ref setLength)
     };
-    Q_ENUMS(EndingStyle)
+    Q_ENUM(EndingStyle)
 
     QCPLineEnding();
     QCPLineEnding(EndingStyle style, double width = 8, double length = 10, bool inverted = false);
@@ -1666,7 +1666,7 @@ class QCP_LIB_DECL QCPAxisTicker
         ,
         tssMeetTickCount ///< Less readable tick steps are allowed which in turn facilitates getting closer to the requested tick count
     };
-    Q_ENUMS(TickStepStrategy)
+    Q_ENUM(TickStepStrategy)
 
     QCPAxisTicker();
     virtual ~QCPAxisTicker();
@@ -1778,7 +1778,7 @@ class QCP_LIB_DECL QCPAxisTickerTime : public QCPAxisTicker
         tuHours,
         tuDays
     };
-    Q_ENUMS(TimeUnit)
+    Q_ENUM(TimeUnit)
 
     QCPAxisTickerTime();
 
@@ -1832,7 +1832,7 @@ class QCP_LIB_DECL QCPAxisTickerFixed : public QCPAxisTicker
         ,
         ssPowers ///< An integer power of the specified tick step is allowed.
     };
-    Q_ENUMS(ScaleStrategy)
+    Q_ENUM(ScaleStrategy)
 
     QCPAxisTickerFixed();
 
@@ -1913,7 +1913,7 @@ class QCP_LIB_DECL QCPAxisTickerPi : public QCPAxisTicker
         ,
         fsUnicodeFractions ///< Fractions are written using sub- and superscript UTF-8 digits and the fraction symbol.
     };
-    Q_ENUMS(FractionStyle)
+    Q_ENUM(FractionStyle)
 
     QCPAxisTickerPi();
 
@@ -2103,7 +2103,7 @@ class QCP_LIB_DECL QCPAxis : public QCPLayerable
         ,
         atBottom = 0x08 ///< <tt>0x08</tt> Axis is horizontal and on the bottom side of the axis rect
     };
-    Q_ENUMS(AxisType)
+    Q_ENUM(AxisType)
     Q_FLAGS(AxisTypes)
     Q_DECLARE_FLAGS(AxisTypes, AxisType)
     /*!
@@ -2117,7 +2117,7 @@ class QCP_LIB_DECL QCPAxis : public QCPLayerable
         ,
         lsOutside ///< Tick labels will be displayed outside the axis rect
     };
-    Q_ENUMS(LabelSide)
+    Q_ENUM(LabelSide)
     /*!
           Defines the scale of an axis.
           \see setScaleType
@@ -2128,7 +2128,7 @@ class QCP_LIB_DECL QCPAxis : public QCPLayerable
         ,
         stLogarithmic ///< Logarithmic scaling with correspondingly transformed axis coordinates (possibly also \ref setTicker to a \ref QCPAxisTickerLog instance).
     };
-    Q_ENUMS(ScaleType)
+    Q_ENUM(ScaleType)
     /*!
           Defines the selectable parts of an axis.
           \see setSelectableParts, setSelectedParts
@@ -2143,7 +2143,7 @@ class QCP_LIB_DECL QCPAxis : public QCPLayerable
         ,
         spAxisLabel = 0x004 ///< The axis label
     };
-    Q_ENUMS(SelectablePart)
+    Q_ENUM(SelectablePart)
     Q_FLAGS(SelectableParts)
     Q_DECLARE_FLAGS(SelectableParts, SelectablePart)
 
@@ -2454,7 +2454,7 @@ class QCP_LIB_DECL QCPScatterStyle
         ,
         spAll = 0xFF ///< <tt>0xFF</tt> All properties
     };
-    Q_ENUMS(ScatterProperty)
+    Q_ENUM(ScatterProperty)
     Q_FLAGS(ScatterProperties)
     Q_DECLARE_FLAGS(ScatterProperties, ScatterProperty)
 
@@ -2503,7 +2503,7 @@ class QCP_LIB_DECL QCPScatterStyle
         ,
         ssCustom ///< custom painter operations are performed per scatter (As QPainterPath, see \ref setCustomPath)
     };
-    Q_ENUMS(ScatterShape)
+    Q_ENUM(ScatterShape)
 
     QCPScatterStyle();
     QCPScatterStyle(ScatterShape shape, double size = 6);
@@ -3668,7 +3668,7 @@ class QCP_LIB_DECL QCPItemPosition : public QCPItemAnchor
         ,
         ptPlotCoords ///< Dynamic positioning at a plot coordinate defined by two axes (see \ref setAxes).
     };
-    Q_ENUMS(PositionType)
+    Q_ENUM(PositionType)
 
     QCPItemPosition(QCustomPlot *parentPlot, QCPAbstractItem *parentItem, const QString &name);
     virtual ~QCPItemPosition();
@@ -3821,7 +3821,7 @@ class QCP_LIB_DECL QCustomPlot : public QWidget
         ,
         limAbove ///< Layer is inserted above other layer
     };
-    Q_ENUMS(LayerInsertMode)
+    Q_ENUM(LayerInsertMode)
 
     /*!
           Defines with what timing the QCustomPlot surface is refreshed after a replot.
@@ -3838,7 +3838,7 @@ class QCP_LIB_DECL QCustomPlot : public QWidget
         ,
         rpQueuedReplot ///< Queues the entire replot for the next event loop iteration. This way multiple redundant replots can be avoided. The actual replot is then done with \ref rpRefreshHint priority.
     };
-    Q_ENUMS(RefreshPriority)
+    Q_ENUM(RefreshPriority)
 
     explicit QCustomPlot(QWidget *parent = 0);
     virtual ~QCustomPlot();
@@ -4683,7 +4683,7 @@ class QCP_LIB_DECL QCPColorGradient
         ,
         ciHSV ///< Color channels hue, saturation and value are linearly interpolated (The hue is interpolated over the shortest angle distance)
     };
-    Q_ENUMS(ColorInterpolation)
+    Q_ENUM(ColorInterpolation)
 
     /*!
           Defines the available presets that can be loaded with \ref loadPreset. See the documentation
@@ -4715,7 +4715,7 @@ class QCP_LIB_DECL QCPColorGradient
         ,
         gpHues ///< Full hue cycle, with highest and lowest color red (suitable for periodic data, such as angles and phases, see \ref setPeriodic)
     };
-    Q_ENUMS(GradientPreset)
+    Q_ENUM(GradientPreset)
 
     QCPColorGradient();
     QCPColorGradient(GradientPreset preset);
@@ -4791,7 +4791,7 @@ class QCP_LIB_DECL QCPSelectionDecoratorBracket : public QCPSelectionDecorator
         ,
         bsUserStyle ///< Start custom bracket styles at this index when subclassing and reimplementing \ref drawBracket.
     };
-    Q_ENUMS(BracketStyle)
+    Q_ENUM(BracketStyle)
 
     QCPSelectionDecoratorBracket();
     virtual ~QCPSelectionDecoratorBracket();
@@ -5086,7 +5086,7 @@ class QCP_LIB_DECL QCPLegend : public QCPLayoutGrid
         ,
         spItems = 0x002 ///< <tt>0x002</tt> Legend items individually (see \ref selectedItems)
     };
-    Q_ENUMS(SelectablePart)
+    Q_ENUM(SelectablePart)
     Q_FLAGS(SelectableParts)
     Q_DECLARE_FLAGS(SelectableParts, SelectablePart)
 
@@ -5438,7 +5438,7 @@ class QCP_LIB_DECL QCPGraph : public QCPAbstractPlottable1D<QCPGraphData>
         ,
         lsImpulse ///< each data point is represented by a line parallel to the value axis, which reaches from the data point to the zero-value-line
     };
-    Q_ENUMS(LineStyle)
+    Q_ENUM(LineStyle)
 
     explicit QCPGraph(QCPAxis *keyAxis, QCPAxis *valueAxis);
     virtual ~QCPGraph();
@@ -5578,7 +5578,7 @@ class QCP_LIB_DECL QCPCurve : public QCPAbstractPlottable1D<QCPCurveData>
         ,
         lsLine ///< Data points are connected with a straight line
     };
-    Q_ENUMS(LineStyle)
+    Q_ENUM(LineStyle)
 
     explicit QCPCurve(QCPAxis *keyAxis, QCPAxis *valueAxis);
     virtual ~QCPCurve();
@@ -5675,7 +5675,7 @@ class QCP_LIB_DECL QCPBarsGroup : public QObject
         ,
         stPlotCoords ///< Bar spacing is in key coordinates and thus scales with the key axis range
     };
-    Q_ENUMS(SpacingType)
+    Q_ENUM(SpacingType)
 
     QCPBarsGroup(QCustomPlot *parentPlot);
     virtual ~QCPBarsGroup();
@@ -5783,7 +5783,7 @@ class QCP_LIB_DECL QCPBars : public QCPAbstractPlottable1D<QCPBarsData>
         ,
         wtPlotCoords ///< Bar width is in key coordinates and thus scales with the key axis range
     };
-    Q_ENUMS(WidthType)
+    Q_ENUM(WidthType)
 
     explicit QCPBars(QCPAxis *keyAxis, QCPAxis *valueAxis);
     virtual ~QCPBars();
@@ -6177,7 +6177,7 @@ class QCP_LIB_DECL QCPFinancial : public QCPAbstractPlottable1D<QCPFinancialData
         ,
         wtPlotCoords ///< width is in key coordinates and thus scales with the key axis range
     };
-    Q_ENUMS(WidthType)
+    Q_ENUM(WidthType)
 
     /*!
           Defines the possible representations of OHLC data in the plot.
@@ -6190,7 +6190,7 @@ class QCP_LIB_DECL QCPFinancial : public QCPAbstractPlottable1D<QCPFinancialData
         ,
         csCandlestick ///< Candlestick representation
     };
-    Q_ENUMS(ChartStyle)
+    Q_ENUM(ChartStyle)
 
     explicit QCPFinancial(QCPAxis *keyAxis, QCPAxis *valueAxis);
     virtual ~QCPFinancial();
@@ -6325,7 +6325,7 @@ class QCP_LIB_DECL QCPErrorBars : public QCPAbstractPlottable, public QCPPlottab
         ,
         etValueError ///< The errors are for the value dimension (bars appear parallel to the value axis)
     };
-    Q_ENUMS(ErrorType)
+    Q_ENUM(ErrorType)
 
     explicit QCPErrorBars(QCPAxis *keyAxis, QCPAxis *valueAxis);
     virtual ~QCPErrorBars();
@@ -6897,7 +6897,7 @@ class QCP_LIB_DECL QCPItemTracer : public QCPAbstractItem
         ,
         tsSquare ///< A square
     };
-    Q_ENUMS(TracerStyle)
+    Q_ENUM(TracerStyle)
 
     explicit QCPItemTracer(QCustomPlot *parentPlot);
     virtual ~QCPItemTracer();
@@ -6982,7 +6982,7 @@ class QCP_LIB_DECL QCPItemBracket : public QCPAbstractItem
         ,
         bsCalligraphic ///< A curly brace with varying stroke width giving a calligraphic impression
     };
-    Q_ENUMS(BracketStyle)
+    Q_ENUM(BracketStyle)
 
     explicit QCPItemBracket(QCustomPlot *parentPlot);
     virtual ~QCPItemBracket();

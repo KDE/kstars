@@ -24,36 +24,22 @@
 
 #include "conjunctions.h"
 
-#include <QProgressDialog>
-#include <QStandardItemModel>
-#include <QSortFilterProxyModel>
-#include <QHeaderView>
-#include <QPointer>
-#include <QFileDialog>
-
-#include <KLocalizedString>
-#include <KMessageBox>
-
-#include "ksconjunct.h"
 #include "geolocation.h"
-#include "dialogs/locationdialog.h"
-#include "dms.h"
+#include "ksconjunct.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksnumbers.h"
-#include "widgets/dmsbox.h"
-#include "dialogs/finddialog.h"
-#include "skyobjects/kssun.h"
-#include "skyobjects/ksplanet.h"
-#include "skyobjects/ksplanetbase.h"
-#include "skyobjects/ksmoon.h"
-#include "skyobjects/kspluto.h"
-#include "skyobjects/kscomet.h"
-#include "skyobjects/ksasteroid.h"
-#include "skycomponents/skymapcomposite.h"
 #include "skymap.h"
+#include "dialogs/finddialog.h"
+#include "dialogs/locationdialog.h"
+#include "skycomponents/skymapcomposite.h"
+#include "skyobjects/kscomet.h"
+#include "skyobjects/kspluto.h"
 
-ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit), Object1(0), Object2(0)
+#include <QFileDialog>
+#include <QProgressDialog>
+#include <QStandardItemModel>
+
+ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
 {
     setupUi(this);
 
@@ -122,8 +108,6 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit), 
     //FilterEdit->showClearButton = true;
     ClearFilterButton->setIcon(QIcon::fromTheme("edit-clear", QIcon(":/icons/breeze/default/edit-clear.svg")));
 
-    m_index = 0;
-
     // signals and slots connections
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
     connect(Obj1FindButton, SIGNAL(clicked()), this, SLOT(slotFindObject()));
@@ -140,8 +124,6 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit), 
 
 ConjunctionsTool::~ConjunctionsTool()
 {
-    delete Object1;
-    delete Object2;
 }
 
 void ConjunctionsTool::slotGoto()
@@ -167,11 +149,11 @@ void ConjunctionsTool::slotFindObject()
     QPointer<FindDialog> fd = new FindDialog(KStars::Instance());
     if (fd->exec() == QDialog::Accepted)
     {
-        delete Object1;
+        Object1.reset();
         if (!fd->targetObject())
             return;
-        Object1 = fd->targetObject()->clone();
-        if (Object1)
+        Object1.reset(fd->targetObject()->clone());
+        if (Object1.get() != nullptr)
             Obj1FindButton->setText(Object1->name());
     }
     delete fd;
@@ -263,13 +245,13 @@ void ConjunctionsTool::slotCompute(void)
     }
 
     // Check if Object1 and Object2 are set
-    if (FilterTypeComboBox->currentIndex() == 0 && !Object1)
+    if (FilterTypeComboBox->currentIndex() == 0 && Object1.get() == nullptr)
     {
         KMessageBox::sorry(
             0, i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button."));
         return;
     }
-    Object2 = KSPlanetBase::createPlanet(Obj2ComboBox->currentIndex());
+    Object2.reset(KSPlanetBase::createPlanet(Obj2ComboBox->currentIndex()));
     if (FilterTypeComboBox->currentIndex() == 0 && Object1->name() == Object2->name())
     {
         // FIXME: Must free the created Objects
@@ -355,7 +337,7 @@ void ConjunctionsTool::slotCompute(void)
         progressDlg.setWindowModality(Qt::WindowModal);
         progressDlg.setValue(0);
 
-        foreach (QString object, objects)
+        for (auto &object : objects)
         {
             // If the user click on the 'cancel' button
             if (progressDlg.wasCanceled())
@@ -367,7 +349,7 @@ void ConjunctionsTool::slotCompute(void)
             progressDlg.setLabelText(i18n("Compute conjunction between %1 and %2", Object2->name(), object));
 
             // Compute conjuction
-            Object1 = data->skyComposite()->findByName(object);
+            Object1.reset(data->skyComposite()->findByName(object));
             showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation, opposition),
                              object, Object2->name());
         }
@@ -388,8 +370,7 @@ void ConjunctionsTool::slotCompute(void)
         QApplication::restoreOverrideCursor();
     }
 
-    delete Object2;
-    Object2 = nullptr;
+    Object2.reset();
 }
 
 void ConjunctionsTool::showProgress(int n)
@@ -401,10 +382,9 @@ void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctio
                                         const QString &object2)
 {
     KStarsDateTime dt;
-    QMap<long double, dms>::ConstIterator it;
     QList<QStandardItem *> itemList;
 
-    for (it = conjunctionlist.constBegin(); it != conjunctionlist.constEnd(); ++it)
+    for (auto it = conjunctionlist.constBegin(); it != conjunctionlist.constEnd(); ++it)
     {
         dt.setDJD(it.key());
         QStandardItem *typeItem;

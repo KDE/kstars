@@ -17,18 +17,12 @@
 
 #include "ksplanet.h"
 
-#include <typeinfo>
-
-#include <cmath>
-
-#include <QFile>
-#include <QTextStream>
-
-#include <QDebug>
-
 #include "ksnumbers.h"
 #include "ksutils.h"
 #include "ksfilereader.h"
+
+#include <cmath>
+#include <typeinfo>
 
 KSPlanet::OrbitDataManager KSPlanet::odm;
 
@@ -71,7 +65,7 @@ bool KSPlanet::OrbitDataManager::readOrbitData(const QString &fname, QVector<Orb
 
 bool KSPlanet::OrbitDataManager::loadData(KSPlanet::OrbitDataColl &odc, const QString &n)
 {
-    QString fname, snum, line;
+    QString fname, snum;
     QFile f;
     int nCount = 0;
     QString nl = n.toLower();
@@ -128,7 +122,7 @@ bool KSPlanet::OrbitDataManager::loadData(KSPlanet::OrbitDataColl &odc, const QS
 }
 
 KSPlanet::KSPlanet(const QString &s, const QString &imfile, const QColor &c, double pSize)
-    : KSPlanetBase(s, imfile, c, pSize), data_loaded(false)
+    : KSPlanetBase(s, imfile, c, pSize)
 {
 }
 
