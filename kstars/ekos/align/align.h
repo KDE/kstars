@@ -18,7 +18,12 @@
 
 #include <QTime>
 #include <QTimer>
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+#include <QtDBus/qtdbusglobal.h>
+#else
 #include <QtDBus/qdbusmacros.h>
+#endif
 
 #include <memory>
 
