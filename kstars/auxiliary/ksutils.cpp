@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "ksutils.h"
+#include <QPointer>
+
 
 #include "deepskyobject.h"
 #include "Options.h"

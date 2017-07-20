@@ -10,6 +10,7 @@
 #include "rotatorsettings.h"
 
 #include <indicom.h>
+#include <cmath>
 
 RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
 {
