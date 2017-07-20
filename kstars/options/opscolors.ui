@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>447</width>
-    <height>336</height>
+    <width>486</width>
+    <height>377</height>
    </rect>
   </property>
   <layout class="QHBoxLayout">
@@ -192,22 +192,7 @@
      <property name="title">
       <string>Preset Color Schemes</string>
      </property>
-     <layout class="QVBoxLayout">
-      <property name="spacing">
-       <number>5</number>
-      </property>
-      <property name="leftMargin">
-       <number>5</number>
-      </property>
-      <property name="topMargin">
-       <number>5</number>
-      </property>
-      <property name="rightMargin">
-       <number>5</number>
-      </property>
-      <property name="bottomMargin">
-       <number>5</number>
-      </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QListWidget" name="PresetBox">
         <property name="toolTip">
@@ -219,100 +204,15 @@
        </widget>
       </item>
       <item>
-       <layout class="QGridLayout">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <property name="spacing">
-         <number>6</number>
-        </property>
-        <item row="0" column="2">
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="1">
-         <widget class="QPushButton" name="RemovePreset">
-          <property name="toolTip">
-           <string>Remove a preset color scheme</string>
-          </property>
-          <property name="whatsThis">
-           <string>Press this button to remove the highlighted color scheme.  This will only work on your custom color schemes.</string>
-          </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="SavePreset">
           <property name="text">
-           <string>Remove Color Scheme</string>
+           <string>Save</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="0">
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="2">
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="1">
+        <item>
          <widget class="QPushButton" name="AddPreset">
           <property name="toolTip">
            <string>Create a new preset color scheme using current settings</string>
@@ -321,7 +221,20 @@
            <string>After changing the colors to a scheme that you like, press this button to create a new scheme using those colors.  Your scheme will appear here in the list of presets, and will also be available in the &quot;Settings&quot; menu of the main window.</string>
           </property>
           <property name="text">
-           <string>Save Current Colors...</string>
+           <string>Save As...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="RemovePreset">
+          <property name="toolTip">
+           <string>Remove a preset color scheme</string>
+          </property>
+          <property name="whatsThis">
+           <string>Press this button to remove the highlighted color scheme.  This will only work on your custom color schemes.</string>
+          </property>
+          <property name="text">
+           <string>Remove</string>
           </property>
          </widget>
         </item>
@@ -339,7 +252,6 @@
   <tabstop>kcfg_StarColorIntensity</tabstop>
   <tabstop>PresetBox</tabstop>
   <tabstop>AddPreset</tabstop>
-  <tabstop>RemovePreset</tabstop>
  </tabstops>
  <resources/>
  <connections/>

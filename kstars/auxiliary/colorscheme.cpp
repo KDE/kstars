@@ -42,6 +42,7 @@
 #include "skyqpainter.h"
 #endif
 #include "kspaths.h"
+#include "auxiliary/ksnotification.h"
 
 ColorScheme::ColorScheme() : FileName()
 {
@@ -285,14 +286,10 @@ bool ColorScheme::save(const QString &name)
         file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
                          filename); //determine filename in local user KDE directory tree.
 
-        if (file.exists() || !file.open(QIODevice::ReadWrite | QIODevice::Append))
+        //if (file.exists() || !file.open(QIODevice::ReadWrite | QIODevice::Append))
+        if (!file.open(QIODevice::ReadWrite))
         {
-            QString message = i18n("Local color scheme file could not be opened.\nScheme cannot be recorded.");
-#ifndef KSTARS_LITE
-            KMessageBox::sorry(0, message, i18n("Could Not Open File"));
-#else
-            qDebug() << message << i18n("Could Not Open File");
-#endif
+            KSNotification::sorry(i18n("Local color scheme file could not be opened.\nScheme cannot be recorded."));
             return false;
         }
         else
@@ -308,31 +305,38 @@ bool ColorScheme::save(const QString &name)
         file.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) +
                          "colors.dat"); //determine filename in local user KDE directory tree.
 
-        if (!file.open(QIODevice::ReadWrite | QIODevice::Append))
+        if (!file.open(QIODevice::ReadWrite))
         {
-            QString message = i18n("Local color scheme index file could not be opened.\nScheme cannot be recorded.");
-#ifndef KSTARS_LITE
-            KMessageBox::sorry(0, message, i18n("Could Not Open File"));
-#else
-            qDebug() << message << i18n("Could Not Open File");
-#endif
-            return false;
+            KSNotification::sorry(i18n("Local color scheme index file could not be opened.\nScheme cannot be recorded."));
         }
         else
         {
+            bool found = false;
+            QString schemeLine = name + ":" + filename;
+
+            // Check if the scheme line is in the colors.dat file
+            // If not, then we add it
             QTextStream stream(&file);
-            stream << name << ":" << filename << endl;
-            file.close();
+            while (stream.atEnd() == false)
+            {
+                QString line = stream.readLine();
+                if (line == schemeLine)
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found == false)
+            {
+                stream << schemeLine << endl;
+                file.close();
+            }
         }
     }
     else
     {
-        QString message = i18n("Invalid filename requested.\nScheme cannot be recorded.");
-#ifndef KSTARS_LITE
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
-#else
-        qDebug() << message << i18n("Invalid Filename");
-#endif
+        KSNotification::sorry("Invalid filename requested.\nScheme cannot be recorded.");
         return false;
     }
 

@@ -32,7 +32,8 @@
 	*
 	*@short The Colors page of the Options window.
 	*@author Jason Harris
-	*@version 1.0
+    *@author Jasem Mutlaq
+    *@version 1.1
 	*/
 
 class KStars;
@@ -49,6 +50,7 @@ class OpsColors : public QFrame, public Ui::OpsColors
     void newColor(QListWidgetItem *item);
     void slotPreset(int i);
     void slotAddPreset();
+    void slotSavePreset();
     void slotRemovePreset();
     void slotStarColorMode(int);
     void slotStarColorIntensity(int);
@@ -56,7 +58,6 @@ class OpsColors : public QFrame, public Ui::OpsColors
 
   private:
     bool setColors(const QString &filename);
-
     QStringList PresetFileList;
 };
 
