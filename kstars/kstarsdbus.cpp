@@ -43,6 +43,9 @@
 
 #include <KActionCollection>
 
+#include <QPrintDialog>
+#include <QPrinter>
+
 void KStars::setRaDec(double ra, double dec)
 {
     SkyPoint p(ra, dec);
