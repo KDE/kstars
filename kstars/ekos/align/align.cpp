@@ -1782,6 +1782,8 @@ void Align::setSolverType(int type)
             remoteParser.reset(new Ekos::RemoteAstrometryParser());
             parser = remoteParser.get();
             (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
+            if (currentCCD)
+                (dynamic_cast<RemoteAstrometryParser *>(parser))->setCCD(currentCCD->getDeviceName());
             break;
     }
 
@@ -1831,6 +1833,9 @@ void Align::checkCCD(int ccdNum)
 
     connect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this,
             SLOT(processCCDSwitch(ISwitchVectorProperty *)));
+
+    if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
+        (dynamic_cast<RemoteAstrometryParser *>(remoteParser.get()))->setCCD(currentCCD->getDeviceName());
 
     syncCCDInfo();
 
