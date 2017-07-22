@@ -170,6 +170,28 @@ void RemoteAstrometryParser::setEnabled(bool enable)
     }
 }
 
+bool RemoteAstrometryParser::setCCD(const QString &ccd)
+{
+    ITextVectorProperty *activeDevices = remoteAstrometry->getBaseDevice()->getText("ACTIVE_DEVICES");
+
+    if (activeDevices == nullptr)
+        return false;
+
+    IText *activeCCD  = IUFindText(activeDevices, "ACTIVE_CCD");
+
+    if (activeCCD == nullptr)
+        return false;
+
+    // If same device, no need to update
+    if (QString(activeCCD->text) == ccd)
+        return true;
+
+    IUSaveText(activeCCD, ccd.toLatin1().data());
+    remoteAstrometry->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+
+    return true;
+}
+
 bool RemoteAstrometryParser::stopSolver()
 {
     // Disable solver
@@ -216,6 +238,12 @@ void RemoteAstrometryParser::checkStatus(ISwitchVectorProperty *svp)
         align->appendLogText(i18n("Solver failed. Try again."));
         emit solverFailed();
         return;
+    }
+    // In case the remote solver started solving by listening to ACTIVE_CCD BLOB remotely via snooping
+    // then we need to start the timer.
+    else if (solverTimer.elapsed() == 0 && svp->s == IPS_BUSY)
+    {
+        solverTimer.start();
     }
 }
 

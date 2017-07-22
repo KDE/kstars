@@ -40,6 +40,7 @@ class RemoteAstrometryParser : public AstrometryParser
     void setAstrometryDevice(ISD::GDInterface *device);
     void setEnabled(bool enable);
     bool sendArgs(const QStringList &args);
+    bool setCCD(const QString& ccd);
 
   public slots:
     void checkStatus(ISwitchVectorProperty *svp);
