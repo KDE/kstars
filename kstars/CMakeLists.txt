@@ -948,6 +948,7 @@ else(BUILD_KSTARS_LITE)
         KF5::KIOFileWidgets
         KF5::WidgetsAddons
         KF5::Plotting
+        KF5::Notifications
         Qt5::Gui
         Qt5::PrintSupport
         Qt5::Sql
