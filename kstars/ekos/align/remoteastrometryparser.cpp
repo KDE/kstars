@@ -241,7 +241,7 @@ void RemoteAstrometryParser::checkStatus(ISwitchVectorProperty *svp)
     }
     // In case the remote solver started solving by listening to ACTIVE_CCD BLOB remotely via snooping
     // then we need to start the timer.
-    else if (solverTimer.elapsed() == 0 && svp->s == IPS_BUSY)
+    else if (svp->s == IPS_BUSY)
     {
         solverTimer.restart();
     }
