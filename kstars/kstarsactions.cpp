@@ -94,6 +94,8 @@
 #include <QQuickWindow>
 #include <QQuickView>
 
+#include <KToggleAction>
+
 #ifdef _WIN32
 #include <windows.h>
 #undef interface
