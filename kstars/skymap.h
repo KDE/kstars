@@ -15,59 +15,50 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYMAP_H_
-#define SKYMAP_H_
+#pragma once
 
-#define USEGL
+#include "config-kstars.h"
 
-#include <QTimer>
-#include <QGraphicsView>
-#include <QPixmap>
-#include <QTime>
-
+#include "skymapdrawabstract.h"
+#include "printing/legend.h"
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyline.h"
 
-#include "skymapdrawabstract.h"
-#include "skymapqdraw.h"
-#include "printing/legend.h"
-
-#include <config-kstars.h>
+#include <QGraphicsView>
+#include <QTimer>
 
 class QPainter;
 class QPaintDevice;
-class QPixmap;
 
 class dms;
-class KStarsData;
-class KSPopupMenu;
-class SkyObject;
-class InfoBoxWidget;
 class InfoBoxes;
+class InfoBoxWidget;
+class KSPopupMenu;
+class KStarsData;
 class Projector;
-
-class QGraphicsScene;
+class SkyObject;
 
 #ifdef HAVE_OPENGL
 class SkyMapGLDraw;
 class SkyMapQDraw;
 #endif
 
-/** @class SkyMap
-    *
-    *This is the canvas on which the sky is painted.  It's the main widget for KStars.
-    *Contains SkyPoint members for the map's Focus (current central position), Destination
-    *(requested central position), FocusPoint (next queued position to be focused),
-    *MousePoint (position of mouse cursor), and ClickedPoint (position of last mouse click).
-    *Also contains the InfoBoxes for on-screen data display.
-    *
-    *SkyMap handles most user interaction events (both mouse and keyboard).
-    *
-    *@short Canvas widget for displaying the sky bitmap; also handles user interaction events.
-    *@author Jason Harris
-    *@version 1.0
-    */
-
+/**
+ * @class SkyMap
+ *
+ * This is the canvas on which the sky is painted.  It's the main widget for KStars.
+ * Contains SkyPoint members for the map's Focus (current central position), Destination
+ * (requested central position), FocusPoint (next queued position to be focused),
+ * MousePoint (position of mouse cursor), and ClickedPoint (position of last mouse click).
+ * Also contains the InfoBoxes for on-screen data display.
+ *
+ * SkyMap handles most user interaction events (both mouse and keyboard).
+ *
+ * @short Canvas widget for displaying the sky bitmap; also handles user interaction events.
+ *
+ * @author Jason Harris
+ * @version 1.0
+ */
 class SkyMap : public QGraphicsView
 {
     Q_OBJECT
@@ -80,7 +71,7 @@ class SkyMap : public QGraphicsView
         *Constructor.  Read stored settings from KConfig object (focus position,
         *zoom factor, sky color, etc.).  Run initPopupMenus().
         */
-    explicit SkyMap();
+    SkyMap();
 
   public:
     static SkyMap *Create();
@@ -613,41 +604,42 @@ class SkyMap : public QGraphicsView
 
 #ifdef HAVE_XPLANET
     /**
-         * @short Strart xplanet.
-         * @param outputFile Output file path.
-         */
+     * @short Strart xplanet.
+     * @param outputFile Output file path.
+     */
     void startXplanet(const QString &outputFile = "");
 #endif
 
-    bool mouseButtonDown, midMouseButtonDown;
-    // true if mouseMoveEvent; needed by setMouseMoveCursor
-    bool mouseMoveCursor;
-    bool slewing, clockSlewing;
+    bool mouseButtonDown { false };
+    bool midMouseButtonDown { false };
+    /// True if mouseMoveEvent; needed by setMouseMoveCursor
+    bool mouseMoveCursor { false };
+    bool slewing { false };
+    bool clockSlewing { false };
     //if false only old pixmap will repainted with bitBlt(), this
     // saves a lot of cpu usage
-    bool computeSkymap;
+    bool computeSkymap { false };
     // True if we are either looking for angular distance or star hopping directions
-    bool rulerMode;
+    bool rulerMode { false };
     // True only if we are looking for star hopping directions. If
     // false while rulerMode is true, it means we are measuring angular
     // distance. FIXME: Find a better way to do this
-    bool starHopDefineMode;
+    bool starHopDefineMode { false };
     double y0;
 
     double m_Scale;
 
-    KStarsData *data;
-    KSPopupMenu *pmenu;
+    KStarsData *data { nullptr };
+    KSPopupMenu *pmenu { nullptr };
 
-    /** @short Coordinates of point under cursor. It's update in
-         * function mouseMoveEvent
-         */
+    /// Coordinates of point under cursor. It's update in function mouseMoveEvent
     SkyPoint m_MousePoint;
 
     SkyPoint Focus, ClickedPoint, FocusPoint, Destination;
-    SkyObject *ClickedObject, *FocusObject;
+    SkyObject *ClickedObject { nullptr };
+    SkyObject *FocusObject { nullptr };
 
-    Projector *m_proj;
+    Projector *m_proj { nullptr };
 
     SkyLine AngularRuler; //The line for measuring angles in the map
     QRect ZoomRect;       //The manual-focus circle.
@@ -658,30 +650,27 @@ class SkyMap : public QGraphicsView
     QTimer m_HoverTimer;
 
     // InfoBoxes. Used in desctructor to save state
-    InfoBoxWidget *m_timeBox;
-    InfoBoxWidget *m_geoBox;
-    InfoBoxWidget *m_objBox;
-    InfoBoxes *m_iboxes;
+    InfoBoxWidget *m_timeBox { nullptr };
+    InfoBoxWidget *m_geoBox { nullptr };
+    InfoBoxWidget *m_objBox { nullptr };
+    InfoBoxes *m_iboxes { nullptr };
 
     // legend
-    bool m_previewLegend;
+    bool m_previewLegend { false };
     Legend m_legend;
 
-    bool m_objPointingMode;
-    bool m_fovCaptureMode;
+    bool m_objPointingMode { false };
+    bool m_fovCaptureMode { false };
 
-    QWidget *m_SkyMapDraw; // Can be dynamic_cast<> to SkyMapDrawAbstract
+    QWidget *m_SkyMapDraw { nullptr }; // Can be dynamic_cast<> to SkyMapDrawAbstract
 
 // NOTE: These are pointers to the individual widgets
 #ifdef HAVE_OPENGL
-    SkyMapQDraw *m_SkyMapQDraw;
-    SkyMapGLDraw *m_SkyMapGLDraw;
+    SkyMapQDraw *m_SkyMapQDraw { nullptr };
+    SkyMapGLDraw *m_SkyMapGLDraw { nullptr };
 #endif
-
-    QGraphicsScene *m_Scene;
 
     static SkyMap *pinstance;
-    const SkyPoint *m_rulerStartPoint; // Good to keep the original ruler start-point for purposes of dynamic_cast
+    /// Good to keep the original ruler start-point for purposes of dynamic_cast
+    const SkyPoint *m_rulerStartPoint { nullptr };
 };
-
-#endif

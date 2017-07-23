@@ -56,7 +56,7 @@
 #define F       3.35281066474748e-3      // Flattening factor
 #define MFACTOR 7.292115e-5
 
-Satellite::Satellite(const QString name, const QString line1, const QString line2)
+Satellite::Satellite(const QString &name, const QString &line1, const QString &line2)
 {
     //m_name          = name;
     m_number      = line1.midRef(2, 5).toInt();
@@ -116,11 +116,12 @@ Satellite::~Satellite()
 void Satellite::init()
 {
     double ao, cosio, sinio, cosio2, omeosq, posq, rp, rteosq, eccsq, con42, cnodm, snodm, cosim, sinim, cosomm, sinomm,
-        cc1sq, cc2, cc3, coef, coef1, cosio4, day, dndt, em, emsq, eeta, etasq, gam, inclm, nm, perige, pinvsq, psisq,
+        cc1sq, cc2, cc3, coef, coef1, cosio4, day, em, emsq, eeta, etasq, gam, inclm, nm, perige, pinvsq, psisq,
         qzms24, rtemsq, s1, s2, s3, s4, s5, s6, s7, sfour, ss1(0), ss2(0), ss3(0), ss4(0), ss5(0), ss6(0), ss7(0),
         sz1(0), sz2(0), sz3(0), sz11(0), sz12(0), sz13(0), sz21(0), sz22(0), sz23(0), sz31(0), sz32(0), sz33(0), tc,
         temp, temp1, temp2, temp3, tsi, xpidot, xhdot1, z1, z2, z3, z11, z12, z13, z21, z22, z23, z31, z32, z33, ak, d1,
         del, adel, po, ds70, ts70, tfrac, c1, thgr70, fk5r, c1p2p;
+//    double dndt;
 
     // Init near earth variables
     isimp   = false;
@@ -498,36 +499,39 @@ void Satellite::init()
             xh3  = -2.0 * s2 * (z23 - z21);
 
             // Apply deep space long period periodic contributions to the mean elements
-            double f2, f3, ses, sghl, sghs, shll, shs, sinzf, sis, sls, zf, zm;
+//            double f2, f3, sinzf,  zf, zm;
+            double ses, sghl, sghs, shll, shs, sis, sls;
 
             // Define some constants
             const double zns = 1.19459e-5;
             const double znl = 1.5835218e-4;
 
             // Calculate time varying periodics
-            zm    = zmos;
-            zf    = zm + 2.0 * zes * sin(zm);
-            sinzf = sin(zf);
-            f2    = 0.5 * sinzf * sinzf - 0.25;
-            f3    = -0.5 * sinzf * cos(zf);
-            ses   = se2 * f2 + se3 * f3;
-            sis   = si2 * f2 + si3 * f3;
-            sls   = sl2 * f2 + sl3 * f3 + sl4 * sinzf;
-            sghs  = sgh2 * f2 + sgh3 * f3 + sgh4 * sinzf;
-            shs   = sh2 * f2 + sh3 * f3;
-            zm    = zmol;
+            // These results are never used, should we remove them?
+//            zm    = zmos;
+//            zf    = zm + 2.0 * zes * sin(zm);
+//            sinzf = sin(zf);
+//            f2    = 0.5 * sinzf * sinzf - 0.25;
+//            f3    = -0.5 * sinzf * cos(zf);
+//            ses   = se2 * f2 + se3 * f3;
+//            sis   = si2 * f2 + si3 * f3;
+//            sls   = sl2 * f2 + sl3 * f3 + sl4 * sinzf;
+//            sghs  = sgh2 * f2 + sgh3 * f3 + sgh4 * sinzf;
+//            shs   = sh2 * f2 + sh3 * f3;
+//            zm    = zmol;
 
-            zf    = zm + 2.0 * zel * sin(zm);
-            sinzf = sin(zf);
-            f2    = 0.5 * sinzf * sinzf - 0.25;
-            f3    = -0.5 * sinzf * cos(zf);
-            sghl  = xgh2 * f2 + xgh3 * f3 + xgh4 * sinzf;
-            shll  = xh2 * f2 + xh3 * f3;
+//            zf    = zm + 2.0 * zel * sin(zm);
+//            sinzf = sin(zf);
+//            f2    = 0.5 * sinzf * sinzf - 0.25;
+//            f3    = -0.5 * sinzf * cos(zf);
+//            sghl  = xgh2 * f2 + xgh3 * f3 + xgh4 * sinzf;
+//            shll  = xh2 * f2 + xh3 * f3;
 
             // Deep space contributions to mean motion dot due to geopotential resonance with half day and one day orbits
             double ainv2, aonv = 0.0, cosisq, eoc, f220, f221, f311, f321, f322, f330, f441, f442, f522, f523, f542,
                           f543, g200, g201, g211, g300, g310, g322, g410, g422, g520, g521, g532, g533, sgs, sini2,
-                          temp, temp1, theta, xno2, emo, emsqo;
+                          temp, temp1, theta, xno2, emsqo;
+//            double emo;
 
             // Define some constant
             const double q22    = 1.7891679e-6;
@@ -576,7 +580,8 @@ void Satellite::init()
             }
 
             // Calculate deep space resonance effects
-            dndt  = 0.0;
+            // Value never used
+//            dndt  = 0.0;
             theta = fmod(gsto + tc * rptim, TWOPI);
 
             // Initialize the resonance terms
@@ -588,7 +593,8 @@ void Satellite::init()
                 if (irez == 2)
                 {
                     cosisq = cosim * cosim;
-                    emo    = em;
+                    // Value never used
+//                    emo    = em;
                     em     = m_eccentricity;
                     emsqo  = emsq;
                     emsq   = eccsq;
@@ -666,7 +672,8 @@ void Satellite::init()
                     d5433 = temp * f543 * g533;
                     xlamo = fmod(m_mean_anomaly + m_ra + m_ra - theta - theta, TWOPI);
                     xfact = mdot + dmdt + 2.0 * (nodedot + dnodt - rptim) - m_mean_motion;
-                    em    = emo;
+                    // Value never used
+//                    em    = emo;
                     emsq  = emsqo;
                 }
 
@@ -690,7 +697,8 @@ void Satellite::init()
                 xli   = xlamo;
                 xni   = m_mean_motion;
                 atime = 0.0;
-                nm    = m_mean_motion + dndt;
+                // Value never used
+//                nm    = m_mean_motion + dndt;
             }
         }
 
@@ -720,13 +728,14 @@ int Satellite::sgp4(double tsince)
     KStarsData *data = KStarsData::Instance();
 
     int ktr;
-    double am, axnl, aynl, betal, cosim, cnod, cos2u, coseo1, cosi, cosip, cosisq, cossu, cosu, delm, delomg, em, emsq,
+    double am, axnl, aynl, betal, cosim, cnod, cos2u, coseo1 = 0, cosi, cosip, cosisq, cossu, cosu, delm, delomg, em,
         ecose, el2, eo1, ep, esine, argpm, argpp, argpdf, pl,
-        mrt = 0.0, mvt, rdotl, rl, rvdot, rvdotl, sinim, dndt, sin2u, sineo1, sini, sinip, sinsu, sinu, snod, su, t2,
+        mrt = 0.0, mvt, rdotl, rl, rvdot, rvdotl, sinim, dndt, sin2u, sineo1 = 0, sini, sinip, sinsu, sinu, snod, su, t2,
         t3, t4, tem5, temp, temp1, temp2, tempa, tempe, templ, u, ux, uy, uz, vx, vy, vz, inclm, mm, nm, nodem, xinc,
         xincp, xl, xlm, mp, xmdf, xmx, xmy, nodedf, xnode, nodep, tc, sat_posx, sat_posy, sat_posz, sat_posw, sat_velx,
         sat_vely, sat_velz, sinlat, obs_posx, obs_posy, obs_posz, obs_posw, /*obs_velx, obs_vely, obs_velz,*/
         coslat, thetageo, sintheta, costheta, c, sq, achcp, vkmpersec;
+//    double emsq;
 
     const double temp4 = 1.5e-12;
 
@@ -785,7 +794,8 @@ int Satellite::sgp4(double tsince)
         const double step2 = step * step / 2;
 
         // Calculate deep space resonance effects
-        dndt  = 0.0;
+        // Value never used
+//        dndt  = 0.0;
         theta = fmod(gsto + tc * rptim, TWOPI);
         em    = em + dedt * tsince;
 
@@ -899,8 +909,10 @@ int Satellite::sgp4(double tsince)
 
     mm   = mm + m_mean_motion * templ;
     xlm  = mm + argpm + nodem;
-    emsq = em * em;
-    temp = 1.0 - emsq;
+    // Value never used
+//    emsq = em * em;
+    // Value never used
+//    temp = 1.0 - emsq;
 
     nodem = fmod(nodem, TWOPI);
     argpm = fmod(argpm, TWOPI);

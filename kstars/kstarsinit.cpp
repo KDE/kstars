@@ -15,48 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QFile>
-#include <QDir>
-#include <QTextStream>
-#include <QStatusBar>
-#include <QMenu>
-#include <QWidgetAction>
-
-#include <KActionCollection>
-#include <KActionMenu>
-#include <KTipDialog>
-#include <KStandardAction>
-#include <KToggleAction>
-#include <KToolBar>
-#include <KNewStuff3/kns3/knewstuffaction.h>
-
-#include <KMessageBox>
-
-#include "Options.h"
-#include "fov.h"
 #include "kstars.h"
-#include "kstarsdata.h"
-#include "kspaths.h"
-#include "skymap.h"
-#include "projections/projector.h"
-#include "skyobjects/skyobject.h"
-#include "skyobjects/ksplanetbase.h"
-#include "simclock.h"
-#include "widgets/timestepbox.h"
-#include "oal/equipmentwriter.h"
-#include "oal/observeradd.h"
-#include "skycomponents/skymapcomposite.h"
-#include "texturemanager.h"
-#include "kspaths.h"
 
-#include <config-kstars.h>
-#include <QStandardPaths>
+
+#include "fov.h"
+#include "kspaths.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#include "skymap.h"
+#include "texturemanager.h"
+#include "projections/projector.h"
+#include "skycomponents/skymapcomposite.h"
+#include "skyobjects/ksplanetbase.h"
+#include "widgets/timestepbox.h"
 
 #ifdef HAVE_INDI
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
 #include "ekos/ekosmanager.h"
 #endif
+
+#include <KActionCollection>
+#include <KActionMenu>
+#include <KTipDialog>
+#include <KToolBar>
+#include <KNewStuff3/kns3/knewstuffaction.h>
 
 //This file contains functions that kstars calls at startup (except constructors).
 //These functions are declared in kstars.h

@@ -9,12 +9,9 @@
 
 #include "imageautoguiding.h"
 
-#include <QtGlobal>
+#include <qglobal.h>
 
-#include <math.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cmath>
 
 #define SWAP(a, b) \
     tempr = (a);   \
@@ -293,7 +290,7 @@ void fournNR(float data[], unsigned long nn[], long ndim, long isign)
     long idim;
     unsigned long i1, i2rev, i3rev, ip1, ip2, ip3, ifp1, ifp2;
     unsigned long i2, i3;
-    unsigned long ibit, k1, k2, n, nprev, nrem, ntot;
+    unsigned long ibit, k1 = 0, k2, n, nprev, nrem, ntot;
     float wi, wr, tempi, tempr;
     double theta, wpi, wpr, wtemp;
 

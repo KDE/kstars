@@ -19,6 +19,8 @@
 
 #include "fitsviewer.h"
 
+#include "config-kstars.h"
+
 #include "fitsdata.h"
 #include "fitsdebayer.h"
 #include "fitstab.h"

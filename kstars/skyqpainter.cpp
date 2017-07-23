@@ -774,8 +774,6 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
 
         case 5:  //Gaseous Nebula
         case 15: // Dark Nebula
-            if (size < 2.)
-                size = 2.;
             save();
             translate(x, y);
             rotate(positionAngle); //rotate the coordinate system
@@ -801,8 +799,6 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
             restore(); //reset coordinate system
             break;
         case 7: //Supernova remnant // FIXME: Why is SNR drawn different from a gaseous nebula?
-            if (size < 2)
-                size = 2;
             save();
             translate(x, y);
             rotate(positionAngle); //rotate the coordinate system
@@ -837,9 +833,6 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         {
             tempBrush = brush();
             setBrush(QBrush());
-            psize = 1.;
-            if (size > 50.)
-                psize *= 2.;
             color = pen().color().name();
             save();
             translate(x, y);

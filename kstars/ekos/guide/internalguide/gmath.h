@@ -9,21 +9,23 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef GMATH_H_
-#define GMATH_H_
+#pragma once
 
 #include <stdint.h>
 #include <sys/types.h>
 
-#include <QObject>
-#include <QTime>
-#include <QPointer>
-
-#include "fitsviewer/fitsview.h"
+#include "matr.h"
+#include "vect.h"
 #include "indi/indicommon.h"
 
-#include "vect.h"
-#include "matr.h"
+#include <QObject>
+#include <QPointer>
+#include <QTime>
+#include <QVector>
+
+class QFile;
+
+class FITSView;
 
 typedef struct
 {
@@ -51,7 +53,6 @@ typedef struct
 #define GUIDE_RA    0
 #define GUIDE_DEC   1
 #define CHANNEL_CNT 2
-#define DEFAULT_SQR 1
 
 #define MAX_ACCUM_CNT 50
 extern const guide_square_t guide_squares[];
@@ -65,7 +66,6 @@ class cproc_in_params
     void reset(void);
 
     int threshold_alg_idx;
-    double guiding_rate;
     bool enabled[CHANNEL_CNT];
     bool enabled_axis1[CHANNEL_CNT];
     bool enabled_axis2[CHANNEL_CNT];
@@ -179,25 +179,50 @@ class cgmath : public QObject
     // Templated functions
     template <typename T>
     Vector findLocalStarPosition(void) const;
-    // sys...
-    uint32_t ticks;                // global channel ticker
-    QPointer<FITSView> guideView;  // pointer to image
-    int video_width, video_height; // video frame dimensions
-    double ccd_pixel_width, ccd_pixel_height, aperture, focal;
+
+    // Creates a new float image from the guideView image data. The returned image MUST be deleted later or memory will leak.
+    float *createFloatImage() const;
+
+    void do_ticks(void);
+    Vector point2arcsec(const Vector &p) const;
+    void process_axes(void);
+    void calc_square_err(void);
+    const char *get_direction_string(GuideDirection dir);
+
+    /// Global channel ticker
+    uint32_t ticks { 0 };
+    /// Pointer to image
+    QPointer<FITSView> guideView;
+    /// Video frame width
+    int video_width { -1 };
+    /// Video frame height
+    int video_height { -1 };
+    double ccd_pixel_width { 0 };
+    double ccd_pixel_height { 0 };
+    double aperture { 0 };
+    double focal { 0 };
     Matrix ROT_Z;
-    bool preview_mode, suspended, lost_star, dec_swap;
+    bool preview_mode { true };
+    bool suspended { false };
+    bool lost_star { false };
+    bool dec_swap { false };
 
     // square variables
-    int squareSize;     // size of analysing square
-    int square_alg_idx; // index of threshold algorithm
-    int subBinX, subBinY;
+    /// Analyzing square size
+    int squareSize { 0 };
+    /// Index of threshold algorithm
+    int square_alg_idx { SMART_THRESHOLD };
+    int subBinX { 1 };
+    int subBinY { 1 };
 
     // sky coord. system vars.
-    Vector star_pos;     // position of star in reticle coord. system
-    Vector scr_star_pos; // sctreen star position
+    /// Star position in reticle coord. system
+    Vector star_pos;
+    /// Star position on the screen
+    Vector scr_star_pos;
     Vector reticle_pos;
     Vector reticle_orts[2];
-    double reticle_angle;
+    double reticle_angle { 0 };
 
     // processing
     uint32_t channel_ticks[2];
@@ -210,36 +235,25 @@ class cgmath : public QObject
     cproc_out_params out_params;
 
     // stat math...
-    bool do_statistics;
-    double sum, sqr_sum;
-    double delta_prev, sigma_prev, sigma;
-
-    // proc
-    void do_ticks(void);
-    Vector point2arcsec(const Vector &p) const;
-    void process_axes(void);
-    void calc_square_err(void);
-    const char *get_direction_string(GuideDirection dir);
+    bool do_statistics { true };
+    double sum { 0 };
 
     // rapid guide
-    bool useRapidGuide = false;
-    double rapidDX, rapidDY;
+    bool useRapidGuide { false };
+    double rapidDX { 0 };
+    double rapidDY { 0 };
 
     // Image Guide
-    bool imageGuideEnabled = false;
-    // Creates a new float image from the guideView image data. The returned image MUST be deleted later or memory will leak.
-    float *createFloatImage() const;
+    bool imageGuideEnabled { false };
     // Partition guideView image into NxN square regions each of size axis*axis. The returned vector contains pointers to
     // the newly allocated square images. It MUST be deleted later by delete[] or memory will leak.
     QVector<float *> partitionImage() const;
-    uint32_t regionAxis = 64;
+    uint32_t regionAxis { 64 };
     QVector<float *> referenceRegions;
 
     // dithering
     double ditherRate[2];
 
-    QFile *logFile;
+    QFile *logFile { nullptr };
     QTime logTime;
 };
-
-#endif /*GMATH_H_*/

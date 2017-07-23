@@ -23,7 +23,6 @@
 #include "kstarsdata.h"
 #include "skymapcomposite.h"
 #include "skymap.h"
-#include "skypoint.h"
 #include "printingwizard.h"
 
 ShFovExporter::ShFovExporter(PrintingWizard *wizard, SkyMap *map) : m_Map(map), m_ParentWizard(wizard)

@@ -918,7 +918,7 @@ void EkosManager::deviceDisconnected()
 {
     ISD::GDInterface *dev = static_cast<ISD::GDInterface *>(sender());
 
-    if (dev)
+    if (dev != nullptr)
     {
         if (dev->getState("CONNECTION") == IPS_ALERT)
             indiConnectionStatus = EKOS_STATUS_ERROR;
@@ -939,7 +939,8 @@ void EkosManager::deviceDisconnected()
     disconnectB->setEnabled(false);
     processINDIB->setEnabled(true);
 
-    if (dev->getBaseDevice() && (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
+    if (dev != nullptr && dev->getBaseDevice() &&
+        (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
     {
         if (mountProcess.get() != nullptr)
             mountProcess->setEnabled(false);

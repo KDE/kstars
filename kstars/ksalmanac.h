@@ -16,8 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSALMANAC_H_
-#define KSALMANAC_H_
+#pragma once
 
 #include "skyobjects/kssun.h"
 #include "skyobjects/ksmoon.h"
@@ -131,11 +130,15 @@ class KSAlmanac
     KSMoon m_Moon;
     KStarsDateTime dt;
 
-    const GeoLocation *geo;
-    double SunRise, SunSet, MoonRise, MoonSet, DuskAstronomicalTwilight, DawnAstronomicalTwilight;
-    double SunMinAlt, SunMaxAlt;
-    double MoonPhase;
+    const GeoLocation *geo { nullptr };
+    double SunRise { 0 };
+    double SunSet { 0 };
+    double MoonRise { 0 };
+    double MoonSet { 0 };
+    double DuskAstronomicalTwilight { 0 };
+    double DawnAstronomicalTwilight { 0 };
+    double SunMinAlt { 0 };
+    double SunMaxAlt { 0 };
+    double MoonPhase { 0 };
     QTime SunRiseT, SunSetT, MoonRiseT, MoonSetT, DuskAstronomicalTwilightT, DawnAstronomicalTwilightT;
 };
-
-#endif

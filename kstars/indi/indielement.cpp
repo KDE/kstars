@@ -9,33 +9,27 @@
     2004-01-15	INDI element is the most basic unit of the INDI KStars client.
  */
 
-#include <base64.h>
-
 #include "indielement.h"
+
 #include "indiproperty.h"
 #include "indigroup.h"
 #include "indidevice.h"
 
 #include <indicom.h>
 
-#include <QCheckBox>
-#include <QLabel>
-#include <QLayout>
-#include <QSlider>
-#include <QDir>
-#include <QHBoxLayout>
-#include <QButtonGroup>
-#include <QFont>
-#include <QDoubleSpinBox>
-#include <QDebug>
-
-#include <QPushButton>
 #include <KSqueezedTextLabel>
-#include <QLineEdit>
 #include <KLocalizedString>
 #include <KLed>
-#include <QFileDialog>
 #include <KMessageBox>
+
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QDir>
+#include <QDoubleSpinBox>
+#include <QFileDialog>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSlider>
 
 extern const char *libindi_strings_context;
 
@@ -49,20 +43,6 @@ INDI_E::INDI_E(INDI_P *gProp, INDI::Property *dProp)
 
     EHBox = new QHBoxLayout;
     EHBox->setMargin(0);
-
-    tp       = nullptr;
-    sp       = nullptr;
-    np       = nullptr;
-    label_w  = nullptr;
-    read_w   = nullptr;
-    write_w  = nullptr;
-    spin_w   = nullptr;
-    slider_w = nullptr;
-    push_w   = nullptr;
-    browse_w = nullptr;
-    check_w  = nullptr;
-    led_w    = nullptr;
-    hSpacer  = nullptr;
 }
 
 INDI_E::~INDI_E()
@@ -656,6 +636,7 @@ void INDI_E::browseBlob()
     {
         KMessageBox::error(0, i18n("Not enough memory for file %1", filename));
         fp.close();
+        return;
     }
 
     memcpy(bp->blob, fp.readAll().constData(), bp->size);

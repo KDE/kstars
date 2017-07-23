@@ -1586,7 +1586,7 @@ void Capture::setExposureProgress(ISD::CCDChip *tChip, double value, IPState sta
 
     //qDebug() << "Exposure with value " << value;
 
-    if (state == IPS_OK)
+    if (activeJob != nullptr && state == IPS_OK)
     {
         activeJob->setCaptureRetires(0);
         activeJob->setExposeLeft(0);

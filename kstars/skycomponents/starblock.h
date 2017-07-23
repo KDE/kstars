@@ -26,8 +26,8 @@
 class StarObject;
 class StarBlockList;
 class PointSourceNode;
-struct starData;
-struct deepStarData;
+struct StarData;
+struct DeepStarData;
 
 #ifdef KSTARS_LITE
 #include "starobject.h"
@@ -81,8 +81,8 @@ class StarBlock
          *@param  data    data to initialize star with.
          *@return pointer to star initialized with data. nullptr if block is full.
          */
-    StarBlockEntry *addStar(const starData &data);
-    StarBlockEntry *addStar(const deepStarData &data);
+    StarBlockEntry *addStar(const StarData &data);
+    StarBlockEntry *addStar(const DeepStarData &data);
 
     /**
          *@short Returns true if the StarBlock is full

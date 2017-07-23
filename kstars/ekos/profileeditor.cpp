@@ -393,8 +393,8 @@ void ProfileEditor::setPi(ProfileInfo *value)
                 ui->guiderCombo->addItem(value);
                 row = ui->guiderCombo->count() - 1;
             }
-            else
-                ui->guiderCombo->setCurrentIndex(row);
+
+            ui->guiderCombo->setCurrentIndex(row);
         }
         else if (key == "Focuser")
         {

@@ -230,8 +230,8 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
     QString indexSeriesName = checkBox->text().remove("&");
     QProgressBar *indexDownloadProgress =
         findChild<QProgressBar *>(indexSeriesName.replace("-", "_").left(10) + "_progress");
-    if (indexDownloadProgress)
-        indexDownloadProgress->setValue((int)(currentIndex * 100 / maxIndex));
+    if (indexDownloadProgress && maxIndex > 0)
+        indexDownloadProgress->setValue(currentIndex*100 / maxIndex);
 
     QString indexURL = URL;
     indexURL.replace("*", indexString);

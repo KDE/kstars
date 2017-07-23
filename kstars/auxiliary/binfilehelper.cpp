@@ -111,7 +111,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
     rewind(fileHandle);
 
     // Read the first 124 bytes of the binary file which contains a general text about the binary data.
-    // e.g. "KStars Star Data v1.0. To be read using the 32-bit starData structure only"
+    // e.g. "KStars Star Data v1.0. To be read using the 32-bit StarData structure only"
     ret = fread(ASCII_text, 124, 1, fileHandle); // cppcheck-suppress redundantAssignment
     ASCII_text[124] = '\0';
     headerText      = ASCII_text;

@@ -107,8 +107,8 @@ class DeepStarComponent : public ListComponent
     bool starsInAperture(QList<StarObject *> &list, const SkyPoint &center, float radius, float maglim = -29);
 
     // TODO: Find the right place for this method
-    static void byteSwap(deepStarData *stardata);
-    static void byteSwap(starData *stardata);
+    static void byteSwap(DeepStarData *stardata);
+    static void byteSwap(StarData *stardata);
 
     static StarBlockFactory m_StarBlockFactory;
 
@@ -135,8 +135,8 @@ class DeepStarComponent : public ListComponent
     bool staticStars { false };
 
     // Stuff required for reading data
-    deepStarData deepstardata;
-    starData stardata;
+    DeepStarData deepstardata;
+    StarData stardata;
     BinFileHelper starReader;
     QString dataFileName;
 };

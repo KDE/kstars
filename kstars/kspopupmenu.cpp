@@ -17,13 +17,11 @@
 
 #include "kspopupmenu.h"
 
-#include <QSignalMapper>
-#include <QWidgetAction>
-
-#include <KLocalizedString>
+#include "config-kstars.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "skymap.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/trailobject.h"
@@ -31,14 +29,12 @@
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/satellite.h"
 #include "skyobjects/supernova.h"
-#include "skycomponents/skymapcomposite.h"
+#include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/flagcomponent.h"
-#include "skymap.h"
+#include "skycomponents/skymapcomposite.h"
 #include "tools/whatsinteresting/wiview.h"
 
 #include "observinglist.h"
-
-#include <config-kstars.h>
 
 #ifdef HAVE_INDI
 #include "indi/indilistener.h"
@@ -52,7 +48,10 @@
 #include <basedevice.h>
 #endif
 
-#include "skycomponents/constellationboundarylines.h"
+#include <KLocalizedString>
+
+#include <QSignalMapper>
+#include <QWidgetAction>
 
 namespace
 {
@@ -307,18 +306,20 @@ void KSPopupMenu::createSupernovaMenu(Supernova *supernova)
     initPopupMenu(supernova, name, i18n("supernova"), info);
 }
 
-void KSPopupMenu::initPopupMenu(SkyObject *obj, QString name, QString type, QString info, bool showDetails,
-                                bool showObsList, bool showFlags)
+void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QString &type, QString info,
+                                bool showDetails, bool showObsList, bool showFlags)
 {
     KStarsData *data = KStarsData::Instance();
     SkyMap *map      = SkyMap::Instance();
 
     clear();
-    bool showLabel = name != i18n("star") && !name.isEmpty();
-    if (name.isEmpty())
-        name = i18n("Empty sky");
+    bool showLabel = (name != i18n("star") && !name.isEmpty());
+    QString Name = name;
 
-    addFancyLabel(name);
+    if (Name.isEmpty())
+        Name = i18n("Empty sky");
+
+    addFancyLabel(Name);
     addFancyLabel(type);
     addFancyLabel(info);
     addFancyLabel(KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName(obj));
@@ -594,10 +595,11 @@ void KSPopupMenu::addINDI()
 
             connect(sMapper, SIGNAL(mapped(QObject *)), gd, SLOT(setProperty(QObject *)));
 
-            menuDevice->addSeparator();
+            if (menuDevice != nullptr)
+                menuDevice->addSeparator();
         }
 
-        if (telescope && menuDevice)
+        if (telescope != nullptr && menuDevice != nullptr)
         {
             menuDevice->addSeparator();
 
@@ -613,7 +615,7 @@ void KSPopupMenu::addINDI()
 #endif
 }
 
-void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize)
+void KSPopupMenu::addFancyLabel(const QString &name, int deltaFontSize)
 {
     if (name.isEmpty())
         return;

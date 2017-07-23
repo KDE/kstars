@@ -9,8 +9,8 @@
   + StarBlockList - A list of StarBlocks; machinery to load data dynamically from catalog files
   + StarBlockFactory - Maintains a cache of recently used StarBlocks
   + BinFileHelper - A generic helper class used to deal with binary data files (See ../binfilehelper.h)
-  + starData - holds 32 bits of data describing a star (See ../skyobjects/stardata.h)
-  + deepStarData - holds 16 bits of data describing a (faint) star (See ../skyobjects/deepstardata.h)
+  + StarData - holds 32 bits of data describing a star (See ../skyobjects/stardata.h)
+  + DeepStarData - holds 16 bits of data describing a (faint) star (See ../skyobjects/deepstardata.h)
 
   \section Categorization Categorization of Stars
   Stars could be either named or unnamed. Named stars and unnamed stars
@@ -31,9 +31,9 @@
 
   A third categorization is "shallow" and "deep" stars. Shallow stars
   are the brighter stars, which have enough catalog data to require a
-  32-byte data structure (starData) to hold them. Deep stars are the
+  32-byte data structure (StarData) to hold them. Deep stars are the
   fainter ones, data for which can be fit into a 16-byte structure
-  (deepStarData). All named stars and all static stars are shallow. All
+  (DeepStarData). All named stars and all static stars are shallow. All
   deep stars are dynamic and unnamed. StarComponent manages only shallow
   stars. DeepStarComponent manages both shallow and deep stars.
   
@@ -91,7 +91,7 @@
   (32 bytes) and a Bayer designation (8 bytes).
 
   Each record in namedstars.dat is 32 bytes long, and holds a direct
-  memory dump of struct starData, made on a little-endian system. (On
+  memory dump of struct StarData, made on a little-endian system. (On
   big endian systems, byte order inversion is done at runtime)
 
   Named stars are read off the disk at initialization time by

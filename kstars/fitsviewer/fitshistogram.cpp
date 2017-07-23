@@ -410,6 +410,7 @@ bool FITSHistogramCommand::calculateDelta(uint8_t *buffer)
 
     if (r != Z_OK)
     {
+        delete[] raw_delta;
         /* this should NEVER happen */
         qDebug() << "FITSHistogram Error: Failed to compress raw_delta" << endl;
         return false;

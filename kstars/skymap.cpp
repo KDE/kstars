@@ -18,73 +18,50 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
+
 #include "skymap.h"
 
-#include <cmath>
-
-#include <QCursor>
-#include <QBitmap>
-#include <QPainter>
-#include <QPixmap>
-#include <QToolTip>
-#include <QTextStream>
-#include <QFile>
-#include <QPointF>
-#include <QApplication>
-#include <QGraphicsScene>
-#include <QInputDialog>
-#include <QIcon>
-#include <QDesktopServices>
-
-#include <KActionCollection>
-#include <KConfig>
-//#include <KIconThemes/KIconLoader>
-#include <KToolBar>
-#include <KToolInvocation>
-#include <KMessageBox>
-
-#include "Options.h"
-#include "kstars.h"
-#include "kspaths.h"
-#include "kstarsdata.h"
-#include "ksutils.h"
-#include "ksdssdownloader.h"
-#include "imageviewer.h"
-#include "dialogs/detaildialog.h"
-#include "kspopupmenu.h"
-#include "printing/printingwizard.h"
-#include "simclock.h"
-#include "skyobjects/skyobject.h"
-#include "skyobjects/deepskyobject.h"
-#include "skyobjects/ksplanetbase.h"
-#include "skycomponents/skymapcomposite.h"
-#include "skycomponents/flagcomponent.h"
-#include "widgets/infoboxwidget.h"
-#include "projections/projector.h"
-#include "projections/lambertprojector.h"
-#include "projections/gnomonicprojector.h"
-#include "projections/stereographicprojector.h"
-#include "projections/orthographicprojector.h"
-#include "projections/azimuthalequidistantprojector.h"
-#include "projections/equirectangularprojector.h"
 #include "fov.h"
-
-#include "tools/flagmanager.h"
-
-#include "texturemanager.h"
-
-#include "skymapqdraw.h"
-
+#include "imageviewer.h"
+#include "ksdssdownloader.h"
+#include "kspaths.h"
+#include "kspopupmenu.h"
+#include "ksutils.h"
+#include "Options.h"
 #ifdef HAVE_OPENGL
 #include "skymapgldraw.h"
 #endif
-
+#include "skymapqdraw.h"
 #include "starhopperdialog.h"
+#include "texturemanager.h"
+#include "printing/printingwizard.h"
+#include "skycomponents/flagcomponent.h"
+#include "skyobjects/deepskyobject.h"
+#include "skyobjects/ksplanetbase.h"
+#include "tools/flagmanager.h"
+#include "widgets/infoboxwidget.h"
+#include "projections/azimuthalequidistantprojector.h"
+#include "projections/equirectangularprojector.h"
+#include "projections/lambertprojector.h"
+#include "projections/gnomonicprojector.h"
+#include "projections/orthographicprojector.h"
+#include "projections/stereographicprojector.h"
+
+#include <KActionCollection>
+#include <KToolBar>
+#include <KToolInvocation>
+
+#include <QBitmap>
+#include <QToolTip>
+#include <QInputDialog>
+#include <QDesktopServices>
 
 #ifdef HAVE_XPLANET
 #include <QProcess>
 #include <QFileDialog>
 #endif
+
+#include <cmath>
 
 namespace
 {
