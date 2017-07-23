@@ -41,6 +41,7 @@
 #include <KToolBar>
 #include <KNewStuff3/kns3/knewstuffaction.h>
 
+#include <QMenu>
 #include <QStatusBar>
 
 //This file contains functions that kstars calls at startup (except constructors).
