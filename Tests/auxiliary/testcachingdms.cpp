@@ -15,25 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-/* Project Includes */
 #include "testcachingdms.h"
 
-#include "nan.h"
+#include "auxiliary/cachingdms.h"
 
-/* KDE Includes */
+#include <QtTest/QtTest>
 
-/* Qt Includes */
-
-/* STL Includes */
 #include <ctime>
-#include <cstdlib>
 #include <cstdint>
 
 TestCachingDms::TestCachingDms() : QObject()
-{
-}
-
-TestCachingDms::~TestCachingDms()
 {
 }
 
@@ -254,23 +245,23 @@ void TestCachingDms::testFailsafeUseOfBaseClassPtr()
         int64_t y;
     } angle;
     const int testCases = 5000;
-    std::srand(std::time(0));
+    std::srand(std::time(nullptr));
     for (int k = 0; k < testCases; ++k)
     {
-        angle a;
+        angle a { 0 };
         CachingDms _a;
         dms __a;
         a.y = std::rand();
         _a.setD(a.x);
         __a.setD(a.x);
         dms *d;
-        if (rand() % 10 > 5)
+        if (std::rand() % 10 > 5)
             d = &_a;
         else
             d = &__a;
         angle b;
         b.y = std::rand();
-        switch (rand() % 7)
+        switch (std::rand() % 7)
         {
             case 0:
                 d->setD(b.x);

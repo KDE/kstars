@@ -6,7 +6,7 @@ ActionReply DownloadHelper::saveindexfile(const QVariantMap &args)
     QString filename = args["filename"].toString();
     QFile file(filename);
 
-    if (file.open(QIODevice::WriteOnly) == false)
+    if (!file.open(QIODevice::WriteOnly))
     {
         reply = ActionReply::HelperErrorReply();
         reply.setErrorDescription(file.errorString());

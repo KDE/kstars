@@ -116,10 +116,6 @@ void TestCSVParser::initTestCase()
     test_parser_ = new KSParser(test_file_name_, '#', sequence_);
 }
 
-TestCSVParser::~TestCSVParser()
-{
-}
-
 void TestCSVParser::cleanupTestCase()
 {
     delete test_parser_;

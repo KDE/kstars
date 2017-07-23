@@ -26,7 +26,7 @@ class TestCSVParser : public QObject
     Q_OBJECT
   public:
     TestCSVParser();
-    ~TestCSVParser();
+    ~TestCSVParser() = default;
 
   private slots:
     void initTestCase();
@@ -42,5 +42,5 @@ class TestCSVParser : public QObject
     QStringList test_cases_;
     QList<QPair<QString, KSParser::DataTypes>> sequence_;
     QString test_file_name_;
-    KSParser *test_parser_;
+    KSParser *test_parser_ { nullptr };
 };
