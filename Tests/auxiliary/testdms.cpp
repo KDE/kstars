@@ -8,13 +8,12 @@
  */
 
 #include "testdms.h"
-#include "nan.h"
+
+#include "auxiliary/dms.h"
+
+#include <QtTest/QtTest>
 
 TestDMS::TestDMS() : QObject()
-{
-}
-
-TestDMS::~TestDMS()
 {
 }
 

@@ -243,7 +243,7 @@ int main(int argc, char *argv[])
         QPixmap sky(w, h);
 
         dat->setFullTimeUpdate();
-        dat->updateTime(dat->geo(), map);
+        dat->updateTime(dat->geo(), map != nullptr);
 
         SkyPoint dest(Options::focusRA(), Options::focusDec());
         map->setDestination(dest);

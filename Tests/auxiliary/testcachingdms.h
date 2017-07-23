@@ -15,34 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TESTCACHINGDMS_H
-#define TESTCACHINGDMS_H
+#pragma once
 
-#include <QtTest/QtTest>
-#include <QDebug>
-
-#include "auxiliary/cachingdms.h"
+#include <QObject>
 
 /**
  * @class TestCachingDms
  * @short Tests for CachingDms
  * @author Akarsh Simha <akarsh.simha@kdemail.net>
  */
-
 class TestCachingDms : public QObject
 {
     Q_OBJECT
 
   public:
-    /**
-         * @short Constructor
-         */
+    /** @short Constructor */
     TestCachingDms();
 
-    /**
-         * @short Destructor
-         */
-    ~TestCachingDms();
+    /** @short Destructor */
+    ~TestCachingDms() = default;
 
   private slots:
     void defaultCtor();
@@ -57,5 +48,3 @@ class TestCachingDms : public QObject
     void unaryMinusOperator();
     void testFailsafeUseOfBaseClassPtr();
 };
-
-#endif

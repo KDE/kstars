@@ -7,20 +7,16 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef TESTDMS_H
-#define TESTDMS_H
+#pragma once
 
-#include <QtTest/QtTest>
-#include <QDebug>
-
-#include "auxiliary/dms.h"
+#include <QObject>
 
 class TestDMS : public QObject
 {
     Q_OBJECT
   public:
     TestDMS();
-    ~TestDMS();
+    virtual ~TestDMS() = default;
 
     void checkCtor_data();
 
@@ -31,5 +27,3 @@ class TestDMS : public QObject
     void stringCtor();
     void testReduceToRange();
 };
-
-#endif
