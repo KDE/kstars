@@ -17,24 +17,18 @@
 
 #include "starobject.h"
 
-#include <typeinfo>
-
-#include <cmath>
-#include <QColor>
-#include <QPainter>
-#include <QFontMetricsF>
-#include <QPixmap>
-#include <QDebug>
-
+#include "deepstardata.h"
+#include "ksnumbers.h"
 #ifndef KSTARS_LITE
 #include "kspopupmenu.h"
 #endif
-#include "ksnumbers.h"
 #include "kstarsdata.h"
-#include "kstarsdatetime.h"
+#include "ksutils.h"
 #include "Options.h"
 #include "skymap.h"
-#include "ksutils.h"
+#include "stardata.h"
+
+#include <typeinfo>
 
 #ifdef PROFILE_UPDATECOORDS
 double StarObject::updateCoordsCpuTime = 0.;
@@ -144,7 +138,7 @@ StarObject *StarObject::clone() const
     return new StarObject(*this);
 }
 
-void StarObject::init(const starData *stardata)
+void StarObject::init(const StarData *stardata)
 {
     double ra, dec;
     ra  = stardata->RA / 1000000.0;
@@ -193,7 +187,7 @@ void StarObject::init(const starData *stardata)
     lastPrecessJD = J2000;
 }
 
-void StarObject::init(const deepStarData *stardata)
+void StarObject::init(const DeepStarData *stardata)
 {
     double ra, dec, BV_Index;
 
@@ -215,7 +209,8 @@ void StarObject::init(const deepStarData *stardata)
     SpType[0] = 'B';
     if (stardata->B == 30000 || stardata->V == 30000)
     {
-        BV_Index  = -100;
+        // Unused value
+//        BV_Index  = -100;
         SpType[0] = '?';
     }
     else
@@ -239,7 +234,7 @@ void StarObject::init(const deepStarData *stardata)
     lastPrecessJD          = J2000;
 }
 
-void StarObject::setNames(QString name, QString name2)
+void StarObject::setNames(const QString &name, const QString &name2)
 {
     QString lname;
 

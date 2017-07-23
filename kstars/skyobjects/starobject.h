@@ -17,14 +17,16 @@
 
 #pragma once
 
-#include "deepstardata.h"
-#include "skyobject.h"
-#include "stardata.h"
-
 //#define PROFILE_UPDATECOORDS
 
+#include "skyobject.h"
+
+#include <QString>
+
+struct DeepStarData;
 class KSNumbers;
 class KSPopupMenu;
+struct StarData;
 
 /** @class StarObject
         *This is a subclass of SkyObject.  It adds the Spectral type, and flags
@@ -103,7 +105,7 @@ class StarObject : public SkyObject
          *@param  stardata  Pointer to starData object containing required data (except name and gname)
          *@return Nothing
          */
-    void init(const starData *stardata);
+    void init(const StarData *stardata);
 
     /**
          *@short  Initializes a StarObject to given data
@@ -111,7 +113,7 @@ class StarObject : public SkyObject
          *@param  stardata  Pointer to deepStarData object containing the available data
          *@return Nothing
          */
-    void init(const deepStarData *stardata);
+    void init(const DeepStarData *stardata);
 
     /**
          *@short  Sets the name, genetive name, and long name
@@ -119,7 +121,7 @@ class StarObject : public SkyObject
          *@param  name  Common name
          *@param  name2 Genetive name
          */
-    void setNames(QString name, QString name2);
+    void setNames(const QString &name, const QString &name2);
 
     /** @return true if the star has a name ("star" doesn't count) */
     inline bool hasName() const { return (!Name.isEmpty() && Name != starString); }
@@ -273,6 +275,8 @@ class StarObject : public SkyObject
          */
     inline float getBVIndex() const { return ((B < 30.0 && V < 30.0) ? B - V : 99.9); }
 
+    void initPopupMenu(KSPopupMenu *pmenu) Q_DECL_OVERRIDE;
+
     quint64 updateID;
     quint64 updateNumID;
 
@@ -280,8 +284,6 @@ class StarObject : public SkyObject
     static double updateCoordsCpuTime;
     static unsigned int starsUpdated;
 #endif
-
-    void initPopupMenu(KSPopupMenu *pmenu) Q_DECL_OVERRIDE;
 
   protected:
     // DEBUG EDIT. For testing proper motion, uncomment this, and related blocks
@@ -291,10 +293,15 @@ class StarObject : public SkyObject
     // END DEBUG
 
   private:
-    double PM_RA, PM_Dec, Parallax; //, VRange, VPeriod;
-    bool Multiplicity, Variability;
+    double PM_RA { 0 };
+    double PM_Dec { 0 };
+    double Parallax { 0 };
+    bool Multiplicity { false };
+    bool Variability { false };
     char SpType[2];
-    int HD;
-    float B,
-        V; // B and V magnitudes, separately. NOTE 1) This is kept separate from mag for a reason. See init( const deepStarData *); 2) This applies only to deep stars at the moment
+    int HD { 0 };
+    // B and V magnitudes, separately. NOTE 1) This is kept separate from mag for a reason.
+    // See init( const DeepStarData *); 2) This applies only to deep stars at the moment
+    float B { 0 };
+    float V { 0 };
 };

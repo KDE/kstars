@@ -1025,8 +1025,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
                 IBLOBVectorProperty *rawBP = baseDevice->getBLOB("CCD1");
                 if (rawBP)
                 {
-                    int x, y, w, h;
-                    int binx, biny;
+                    int x = 0, y = 0, w = 0, h = 0;
+                    int binx = 0, biny = 0;
 
                     primaryChip->getFrame(&x, &y, &w, &h);
                     primaryChip->getBinning(&binx, &biny);

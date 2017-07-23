@@ -471,9 +471,9 @@ bool StarComponent::loadStaticData()
         Trixel trixel = i; // = ( ( i >= 256 ) ? ( i - 256 ) : ( i + 256 ) );
         for (unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j)
         {
-            if (!fread(&stardata, sizeof(starData), 1, dataFile))
+            if (!fread(&stardata, sizeof(StarData), 1, dataFile))
             {
-                qDebug() << "FILE FORMAT ERROR: Could not read starData structure for star #" << j << " under trixel #"
+                qDebug() << "FILE FORMAT ERROR: Could not read StarData structure for star #" << j << " under trixel #"
                          << trixel << endl;
             }
 
@@ -639,7 +639,7 @@ StarObject *StarComponent::findByHDIndex(int HDnum)
         dataFile = m_DeepStarComponents.at(1)->getStarReader()->getFileHandle();
         //KDE_fseek( dataFile, offset, SEEK_SET );
         QT_FSEEK(dataFile, offset, SEEK_SET);
-        ret = fread(&stardata, sizeof(starData), 1, dataFile);
+        ret = fread(&stardata, sizeof(StarData), 1, dataFile);
         if (m_DeepStarComponents.at(1)->getStarReader()->getByteSwap())
         {
             byteSwap(&stardata);
@@ -746,7 +746,7 @@ void StarComponent::starsInAperture(QList<StarObject *> &list, const SkyPoint &c
     }
 }
 
-void StarComponent::byteSwap(starData *stardata)
+void StarComponent::byteSwap(StarData *stardata)
 {
     stardata->RA       = bswap_32(stardata->RA);
     stardata->Dec      = bswap_32(stardata->Dec);

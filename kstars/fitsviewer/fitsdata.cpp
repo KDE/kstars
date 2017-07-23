@@ -1080,7 +1080,10 @@ int FITSData::findOneStar(const QRectF &boundary)
 
     // If no stars were detected
     if (center->width == -1)
+    {
+        delete center;
         return 0;
+    }
 
     // 30% fuzzy
     //center->width += center->width*0.3 * (running_threshold / threshold);
@@ -2137,7 +2140,7 @@ bool FITSData::loadWCS()
     int status = 0;
     char *header;
     int nkeyrec, nreject, nwcs, stat[2];
-    double imgcrd[2], phi, pixcrd[2], theta, world[2];
+    double imgcrd[2], phi = 0, pixcrd[2], theta = 0, world[2];
     int width  = getWidth();
     int height = getHeight();
 

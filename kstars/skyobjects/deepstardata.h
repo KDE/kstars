@@ -15,24 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DEEPSTARDATA_H
-#define DEEPSTARDATA_H
+#pragma once
 
 #include <QtGlobal>
 
 /**
- *@short  A 16-byte structure that holds star data for really faint stars.
- *@author Akarsh Simha
- *@version 1.0
+ * @short  A 16-byte structure that holds star data for really faint stars.
+ *
+ * @author Akarsh Simha
+ * @version 1.0
  */
-struct deepStarData
+struct DeepStarData
 {
-    qint32 RA;  /**< Raw signed 32-bit RA value. Needs to be multiplied by the scale (1e6) */
-    qint32 Dec; /**< Raw signed 32-bit DE value. Needs to be multiplied by the scale (1e6) */
-    qint16 dRA;
-    qint16 dDec;
-    qint16 B;
-    qint16 V;
+    qint32 RA { 0 };  /**< Raw signed 32-bit RA value. Needs to be multiplied by the scale (1e6) */
+    qint32 Dec { 0 }; /**< Raw signed 32-bit DE value. Needs to be multiplied by the scale (1e6) */
+    qint16 dRA { 0 };
+    qint16 dDec { 0 };
+    qint16 B { 0 };
+    qint16 V { 0 };
 };
-
-#endif

@@ -35,6 +35,7 @@
 #include "ksnumbers.h"
 #include "listcomponent.h"
 #include "skylabel.h"
+#include "stardata.h"
 #include "skyobjects/starobject.h"
 
 #include <memory>
@@ -136,9 +137,9 @@ class StarComponent : public ListComponent
     void starsInAperture(QList<StarObject *> &list, const SkyPoint &center, float radius, float maglim = -29);
 
     // TODO: Make byteSwap a template method and put it in byteorder.h
-    // It should ideally handle 32-bit, 16-bit fields and starData and
-    // deepStarData fields
-    static void byteSwap(starData *stardata);
+    // It should ideally handle 32-bit, 16-bit fields and StarData and
+    // DeepStarData fields
+    static void byteSwap(StarData *stardata);
 
   private:
     /**
@@ -209,7 +210,7 @@ class StarComponent : public ListComponent
         char longName[32];
     } starName;
 
-    starData stardata;
+    StarData stardata;
     starName starname;
 
     static StarComponent *pinstance;

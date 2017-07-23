@@ -328,7 +328,8 @@ KStarsDateTime modCalcEquinox::findSolstice(int year, bool Summer)
     } while (y3 * sgn > y2 * sgn);
 
     //Ok, now y2 is larger(smaller) than both y3 and y1.
-    jd2 = jd3 - 1.0;
+    // Never read back
+//    jd2 = jd3 - 1.0;
     jd1 = jd3 - 2.0;
 
     //Choose a new starting jd2 that follows the golden ratio:
@@ -357,7 +358,8 @@ KStarsDateTime modCalcEquinox::findSolstice(int year, bool Summer)
             else
             {
                 jd3 = jd2;
-                y3  = y2;
+                // Never read back
+//                y3  = y2;
                 jd2 = jd4;
                 y2  = y4;
             }
@@ -367,7 +369,8 @@ KStarsDateTime modCalcEquinox::findSolstice(int year, bool Summer)
             if (jd4 > jd2)
             {
                 jd3 = jd4;
-                y3  = y4;
+                // Never read back
+//                y3  = y4;
             }
             else
             {

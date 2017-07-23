@@ -316,7 +316,6 @@ SkyPoint SkyPoint::moveAway(const SkyPoint &from, double dist) const
 
     //    double dir0 = (dist >= 0 ) ? bearing : bearing + dms::PI; // in radian
     double dir0   = bearing + std::signbit(dist) * dms::PI; // might be faster?
-    dist          = fabs(dist);                             // in radian
     double sinDst = sin(dst), cosDst = cos(dst);
 
     lat1.setUsing_asin(dec().sin() * cosDst + dec().cos() * sinDst * cos(dir0));

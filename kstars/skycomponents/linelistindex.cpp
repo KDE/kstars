@@ -75,11 +75,8 @@ void LineListIndex::removeLine(const std::shared_ptr<LineList> &lineList)
     m_listList.removeOne(lineList);
 }
 
-void LineListIndex::appendLine(const std::shared_ptr<LineList> &lineList, int debug)
+void LineListIndex::appendLine(const std::shared_ptr<LineList> &lineList)
 {
-    if (debug < skyMesh()->debug())
-        debug = skyMesh()->debug();
-
     const IndexHash &indexHash     = getIndexHash(lineList.get());
     IndexHash::const_iterator iter = indexHash.constBegin();
 
@@ -97,11 +94,8 @@ void LineListIndex::appendLine(const std::shared_ptr<LineList> &lineList, int de
     m_listList.append(lineList);
 }
 
-void LineListIndex::appendPoly(const std::shared_ptr<LineList> &lineList, int debug)
+void LineListIndex::appendPoly(const std::shared_ptr<LineList> &lineList)
 {
-    if (debug < skyMesh()->debug())
-        debug = skyMesh()->debug();
-
     const IndexHash &indexHash     = skyMesh()->indexPoly(lineList->points());
     IndexHash::const_iterator iter = indexHash.constBegin();
 
@@ -118,12 +112,12 @@ void LineListIndex::appendPoly(const std::shared_ptr<LineList> &lineList, int de
     }
 }
 
-void LineListIndex::appendBoth(const std::shared_ptr<LineList> &lineList, int debug)
+void LineListIndex::appendBoth(const std::shared_ptr<LineList> &lineList)
 {
     QMutexLocker m1(&mutex);
 
-    appendLine(lineList, debug);
-    appendPoly(lineList, debug);
+    appendLine(lineList);
+    appendPoly(lineList);
 }
 
 void LineListIndex::reindexLines()

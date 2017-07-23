@@ -1337,7 +1337,7 @@ void Guide::setStatus(Ekos::GuideState newState)
 
 void Guide::updateCCDBin(int index)
 {
-    if (currentCCD == nullptr && guiderType != GUIDE_INTERNAL)
+    if (currentCCD == nullptr || guiderType != GUIDE_INTERNAL)
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
@@ -1458,7 +1458,7 @@ bool Guide::setGuiderType(int type)
         return false;
     }
 
-    if (guider)
+    if (guider != nullptr)
     {
         // Disconnect from host
         if (guider->isConnected())
@@ -1562,25 +1562,29 @@ bool Guide::setGuiderType(int type)
             break;
     }
 
-    connect(guider, SIGNAL(frameCaptureRequested()), this, SLOT(capture()));
-    connect(guider, SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
-    connect(guider, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
-    connect(guider, SIGNAL(newStarPosition(QVector3D, bool)), this, SLOT(setStarPosition(QVector3D, bool)));
+    if (guider != nullptr)
+    {
+        connect(guider, SIGNAL(frameCaptureRequested()), this, SLOT(capture()));
+        connect(guider, SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+        connect(guider, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
+        connect(guider, SIGNAL(newStarPosition(QVector3D, bool)), this, SLOT(setStarPosition(QVector3D, bool)));
 
-    connect(guider, SIGNAL(newAxisDelta(double, double)), this, SLOT(setAxisDelta(double, double)));
-    connect(guider, SIGNAL(newAxisPulse(double, double)), this, SLOT(setAxisPulse(double, double)));
-    connect(guider, SIGNAL(newAxisSigma(double, double)), this, SLOT(setAxisSigma(double, double)));
+        connect(guider, SIGNAL(newAxisDelta(double, double)), this, SLOT(setAxisDelta(double, double)));
+        connect(guider, SIGNAL(newAxisPulse(double, double)), this, SLOT(setAxisPulse(double, double)));
+        connect(guider, SIGNAL(newAxisSigma(double, double)), this, SLOT(setAxisSigma(double, double)));
+    }
 
     externalConnectB->setEnabled(false);
     externalDisconnectB->setEnabled(false);
 
-    if (guiderType != GUIDE_INTERNAL)
+    if (guider != nullptr && guiderType != GUIDE_INTERNAL)
     {
         externalConnectB->setEnabled(!guider->isConnected());
         externalDisconnectB->setEnabled(guider->isConnected());
     }
 
-    guider->Connect();
+    if (guider != nullptr)
+        guider->Connect();
 
     return true;
 }

@@ -17,14 +17,10 @@
 
 #include "starhopper.h"
 
-#include "skyobjects/skyobject.h"
-#include "skyobjects/starobject.h"
-#include "starcomponent.h"
-
 #include "kstarsdata.h"
 #include "ksutils.h"
-
-#include <QList>
+#include "starcomponent.h"
+#include "skyobjects/starobject.h"
 
 QList<StarObject *> *StarHopper::computePath(const SkyPoint &src, const SkyPoint &dest, float fov__, float maglim__,
                                              QStringList *metadata_)
@@ -81,6 +77,9 @@ QList<const StarObject *> StarHopper::computePath_const(const SkyPoint &src, con
                 curr_node = sp;
             }
         }
+        if (curr_node == nullptr)
+            continue;
+
         qDebug() << "Lowest fscore (vertex distance-plus-cost score) is " << lowfscore
                  << " with coords: " << curr_node->ra().toHMSString() << curr_node->dec().toDMSString()
                  << ". Considering this node now.";

@@ -11,6 +11,7 @@
 #include "fitsview.h"
 
 #include "config-kstars.h"
+
 #include "fitsdata.h"
 #include "fitslabel.h"
 #include "kspopupmenu.h"

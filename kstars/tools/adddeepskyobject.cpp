@@ -15,15 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-/* Project Includes */
 #include "adddeepskyobject.h"
+
+#include "syncedcatalogcomponent.h"
 #include "skyobjects/skyobject.h"
 
-/* KDE Includes */
 #include <KMessageBox>
 
-/* Qt Includes */
 #include <QInputDialog>
+#include <QRegularExpression>
 
 AddDeepSkyObject::AddDeepSkyObject(QWidget *parent, SyncedCatalogComponent *catalog)
     : QDialog(parent), m_catalog(catalog), ui(new Ui::AddDeepSkyObject)
@@ -174,11 +174,11 @@ void AddDeepSkyObject::fillFromText(const QString &text)
     }
     if (!coordText.isEmpty())
     {
-        int coord1 = indexOf(coordText, matchCoords, 0, &rmatch);
-        Q_ASSERT(coord1 >= 0);
+//        int coord1 = indexOf(coordText, matchCoords, 0, &rmatch);
+//        Q_ASSERT(coord1 >= 0);
         RA         = dms(rmatch.captured(1) + ' ' + rmatch.captured(2) + ' ' + rmatch.captured(3), false);
-        int coord2 = indexOf(coordText, matchCoords, coord1 + rmatch.captured(0).length(), &rmatch);
-        Q_ASSERT(coord2 >= 0);
+//        int coord2 = indexOf(coordText, matchCoords, coord1 + rmatch.captured(0).length(), &rmatch);
+//        Q_ASSERT(coord2 >= 0);
         Dec = dms(rmatch.captured(1) + ' ' + rmatch.captured(2) + ' ' + rmatch.captured(3), true);
         qDebug() << "Extracted coordinates: " << RA.toHMSString() << " " << Dec.toDMSString();
         coordsFound = true;

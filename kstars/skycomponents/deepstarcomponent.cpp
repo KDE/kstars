@@ -125,11 +125,11 @@ bool DeepStarComponent::loadStaticStars()
 
             for (quint64 j = 0; j < records; ++j)
             {
-                bool fread_success = fread(&stardata, sizeof(starData), 1, dataFile);
+                bool fread_success = fread(&stardata, sizeof(StarData), 1, dataFile);
 
                 if (!fread_success)
                 {
-                    qDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #"
+                    qDebug() << "ERROR: Could not read StarData structure for star #" << j << " under trixel #"
                              << trixel << endl;
                 }
 
@@ -177,11 +177,11 @@ bool DeepStarComponent::loadStaticStars()
             for (quint64 j = 0; j < records; ++j)
             {
                 bool fread_success = false;
-                fread_success      = fread(&deepstardata, sizeof(deepStarData), 1, dataFile);
+                fread_success      = fread(&deepstardata, sizeof(DeepStarData), 1, dataFile);
 
                 if (!fread_success)
                 {
-                    qDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #"
+                    qDebug() << "ERROR: Could not read StarData structure for star #" << j << " under trixel #"
                              << trixel << endl;
                 }
 
@@ -601,7 +601,7 @@ bool DeepStarComponent::starsInAperture(QList<StarObject *> &list, const SkyPoin
     return true;
 }
 
-void DeepStarComponent::byteSwap(deepStarData *stardata)
+void DeepStarComponent::byteSwap(DeepStarData *stardata)
 {
     stardata->RA   = bswap_32(stardata->RA);
     stardata->Dec  = bswap_32(stardata->Dec);
@@ -611,7 +611,7 @@ void DeepStarComponent::byteSwap(deepStarData *stardata)
     stardata->V    = bswap_16(stardata->V);
 }
 
-void DeepStarComponent::byteSwap(starData *stardata)
+void DeepStarComponent::byteSwap(StarData *stardata)
 {
     stardata->RA       = bswap_32(stardata->RA);
     stardata->Dec      = bswap_32(stardata->Dec);

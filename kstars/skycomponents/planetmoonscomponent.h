@@ -15,41 +15,36 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PLANETMOONSCOMPONENT_H
-#define PLANETMOONSCOMPONENT_H
+#pragma once
 
 #include "skycomponent.h"
 #include "skyobjects/ksplanetbase.h"
-#include "skyobjects/planetmoons.h"
 
+#include <memory>
+
+class KSNumbers;
+class PlanetMoons;
 class SkyComposite;
 class SolarSystemSingleComponent;
-class SkyMap;
-class KSNumbers;
-class JupiterMoons;
-class SaturnMoons;
-class SkyLabeler;
 
 /**
-	*@class PlanetMoonsComponent
-	*Represents the planetmoons on the sky map.
-
-	*@author Vipul Kumar Singh
-	*@author Médéric boquien
-	*@version 0.1
-	*/
+ * @class PlanetMoonsComponent
+ * Represents the planetmoons on the sky map.
+ *
+ * @author Vipul Kumar Singh
+ * @author Médéric boquien
+ * @version 0.1
+ */
 class PlanetMoonsComponent : public SkyComponent
 {
   public:
     /**
-         *@short Constructor
-         *@p parent pointer to the parent SkyComposite
-         */
-    PlanetMoonsComponent(SkyComposite *parent, SolarSystemSingleComponent *pla, KSPlanetBase::Planets planet);
+     * @short Constructor
+     * @p parent pointer to the parent SkyComposite
+     */
+    PlanetMoonsComponent(SkyComposite *parent, SolarSystemSingleComponent *pla, KSPlanetBase::Planets& planet);
 
-    /**
-         *@short Destructor
-         */
+    /** @short Destructor */
     ~PlanetMoonsComponent();
 
     bool selected() Q_DECL_OVERRIDE;
@@ -61,27 +56,26 @@ class PlanetMoonsComponent : public SkyComponent
 
     SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
 
-    /** @return a pointer to a moon if its name matches the argument
-         *
-         * @p name the name to be matched
-         * @return a SkyObject pointer to the moon whose name matches
-         * the argument, or a nullptr pointer if no match was found.
-         */
+    /**
+     * @return a pointer to a moon if its name matches the argument
+     *
+     * @p name the name to be matched
+     * @return a SkyObject pointer to the moon whose name matches
+     * the argument, or a nullptr pointer if no match was found.
+     */
     SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
 
     /** Return pointer to stored planet object. */
     KSPlanetBase *getPlanet() const;
 
     /** Return pointer to stored moons object. */
-    inline PlanetMoons *getMoons() const { return pmoons; }
+    inline PlanetMoons *getMoons() const { return pmoons.get(); }
 
   protected:
     void drawTrails(SkyPainter *skyp) Q_DECL_OVERRIDE;
 
   private:
     KSPlanetBase::Planets planet;
-    PlanetMoons *pmoons;
-    SolarSystemSingleComponent *m_Planet;
+    std::unique_ptr<PlanetMoons> pmoons;
+    SolarSystemSingleComponent *m_Planet { nullptr };
 };
-
-#endif

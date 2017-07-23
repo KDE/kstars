@@ -9,13 +9,11 @@
 
 #include "mosaic.h"
 
-#include "skymap.h"
-#include "projections/projector.h"
-
-#include "scheduler.h"
-#include "ekos/ekosmanager.h"
-
 #include "Options.h"
+#include "scheduler.h"
+#include "skymap.h"
+#include "ekos/ekosmanager.h"
+#include "projections/projector.h"
 
 namespace Ekos
 {
@@ -115,7 +113,7 @@ void MosaicTile::updateTiles()
 
     qDebug() << "FovW " << fovW << " FovH " << fovH;
     qDebug() << "initX"
-             << "initX " << initX << " initY " << initY;
+             << "initX " << x << " initY " << y;
     qDebug() << "Offset X " << xOffset << " Y " << yOffset;
 
     for (int row = 0; row < h; row++)

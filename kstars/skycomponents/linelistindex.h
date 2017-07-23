@@ -114,27 +114,21 @@ class LineListIndex : public SkyComponent
     /**
      * @short Typically called from within a subclasses constructors.
      * Adds the trixels covering the outline of lineList to the lineIndex.
-     *
-     * @param debug if greater than zero causes the number of trixels found
-     * to be printed.
      */
-    void appendLine(const std::shared_ptr<LineList> &lineList, int debug = 0);
+    void appendLine(const std::shared_ptr<LineList> &lineList);
 
     void removeLine(const std::shared_ptr<LineList> &lineList);
 
     /**
      * @short Typically called from within a subclasses constructors.
      * Adds the trixels covering the full lineList to the polyIndex.
-     *
-     * @param debug if greater than zero causes the number of trixels found
-     * to be printed.
      */
-    void appendPoly(const std::shared_ptr<LineList> &lineList, int debug = 0);
+    void appendPoly(const std::shared_ptr<LineList> &lineList);
 
     /**
      * @short a convenience method that adds a lineList to both the lineIndex and the polyIndex.
      */
-    void appendBoth(const std::shared_ptr<LineList> &lineList, int debug = 0);
+    void appendBoth(const std::shared_ptr<LineList> &lineList);
 
     /**
      * @short Draws all the lines in m_listList as simple lines in float mode.

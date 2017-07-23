@@ -70,7 +70,7 @@ void modCalcPlanets::slotLocation()
     delete ld;
 }
 
-void modCalcPlanets::slotComputePosition(void)
+void modCalcPlanets::slotComputePosition()
 {
     KStarsDateTime dt     = DateTimeBox->dateTime();
     long double julianDay = dt.djd();
@@ -91,48 +91,48 @@ void modCalcPlanets::slotComputePosition(void)
     // Pointer to hold planet data. Pointer is used since it has to
     // hold objects of different type. It's safe to use new/delete
     // because exceptions are disallowed.
-    KSPlanetBase *p = 0;
+    std::unique_ptr<KSPlanetBase> p;
 
     switch (PlanetComboBox->currentIndex())
     {
         case 0:
-            p = new KSPlanet(KSPlanetBase::MERCURY);
+            p.reset(new KSPlanet(KSPlanetBase::MERCURY));
             break;
         case 1:
-            p = new KSPlanet(KSPlanetBase::VENUS);
+            p.reset(new KSPlanet(KSPlanetBase::VENUS));
             break;
         case 3:
-            p = new KSPlanet(KSPlanetBase::MARS);
+            p.reset(new KSPlanet(KSPlanetBase::MARS));
             break;
         case 4:
-            p = new KSPlanet(KSPlanetBase::JUPITER);
+            p.reset(new KSPlanet(KSPlanetBase::JUPITER));
             break;
         case 5:
-            p = new KSPlanet(KSPlanetBase::SATURN);
+            p.reset(new KSPlanet(KSPlanetBase::SATURN));
             break;
         case 6:
-            p = new KSPlanet(KSPlanetBase::URANUS);
+            p.reset(new KSPlanet(KSPlanetBase::URANUS));
             break;
         case 7:
-            p = new KSPlanet(KSPlanetBase::NEPTUNE);
+            p.reset(new KSPlanet(KSPlanetBase::NEPTUNE));
             break;
         /*case 8:
-            p = new KSPluto(); break;*/
+            p.reset(new KSPluto(); break;*/
         case 8:
-            p = new KSMoon();
+            p.reset(new KSMoon());
             break;
         case 9:
-            p = new KSSun();
+            p.reset(new KSSun());
             p->setRsun(0.0);
             break;
     }
+    if (p.get() == nullptr)
+        return;
 
     // Show data.
     p->findPosition(&num, geoPlace->lat(), &LST, &Earth);
     p->EquatorialToHorizontal(&LST, geoPlace->lat());
     showCoordinates(*p);
-    // Cleanup.
-    delete p;
 }
 
 void modCalcPlanets::showCoordinates(const KSPlanetBase &ksp)

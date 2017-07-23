@@ -83,8 +83,8 @@ bool StarBlockList::fillToMag(float maglim)
     // TODO: Remove staticity of BinFileHelper
     BinFileHelper *dSReader;
     StarBlockFactory *SBFactory;
-    starData stardata;
-    deepStarData deepstardata;
+    StarData stardata;
+    DeepStarData deepstardata;
     FILE *dataFile;
 
     dSReader  = parent->getStarReader();
@@ -145,18 +145,18 @@ bool StarBlockList::fillToMag(float maglim)
         // TODO: Make this more general
         if (dSReader->guessRecordSize() == 32)
         {
-            ret = fread(&stardata, sizeof(starData), 1, dataFile);
+            ret = fread(&stardata, sizeof(StarData), 1, dataFile);
             if (dSReader->getByteSwap())
                 DeepStarComponent::byteSwap(&stardata);
-            readOffset += sizeof(starData);
+            readOffset += sizeof(StarData);
             blocks[nBlocks - 1]->addStar(stardata);
         }
         else
         {
-            ret = fread(&deepstardata, sizeof(deepStarData), 1, dataFile);
+            ret = fread(&deepstardata, sizeof(DeepStarData), 1, dataFile);
             if (dSReader->getByteSwap())
                 DeepStarComponent::byteSwap(&deepstardata);
-            readOffset += sizeof(deepStarData);
+            readOffset += sizeof(DeepStarData);
             blocks[nBlocks - 1]->addStar(deepstardata);
         }
 

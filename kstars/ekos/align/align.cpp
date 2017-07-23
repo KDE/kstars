@@ -40,6 +40,8 @@
 #include <KConfigDialog>
 #include <KNotifications/KNotification>
 
+#include <memory>
+
 #define PAH_CUTOFF_FOV            30 // Minimum FOV width in arcminutes for PAH to work
 #define MAXIMUM_SOLVER_ITERATIONS 10
 
@@ -2819,7 +2821,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     // CONTINUE HERE
 
     //This block of code along with some sections in the switch below will set the status report in the solution table for this item.
-    QTableWidgetItem *statusReport = new QTableWidgetItem();
+    std::unique_ptr<QTableWidgetItem> statusReport(new QTableWidgetItem());
+
     if (loadSlewState == IPS_IDLE)
     {
         solutionTable->setCellWidget(currentRow, 3, new QWidget());
@@ -2835,7 +2838,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             if (loadSlewState == IPS_IDLE)
             {
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
-                solutionTable->setItem(currentRow, 3, statusReport);
+                solutionTable->setItem(currentRow, 3, statusReport.release());
             }
 
             return;
@@ -2851,7 +2854,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                     if (loadSlewState == IPS_IDLE)
                     {
                         statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
-                        solutionTable->setItem(currentRow, 3, statusReport);
+                        solutionTable->setItem(currentRow, 3, statusReport.release());
                     }
 
                     solverFailed();
@@ -2865,7 +2868,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 if (loadSlewState == IPS_IDLE)
                 {
                     statusReport->setIcon(QIcon(":/icons/AlignWarning.svg"));
-                    solutionTable->setItem(currentRow, 3, statusReport);
+                    solutionTable->setItem(currentRow, 3, statusReport.release());
                 }
 
                 executeGOTO();
@@ -2875,7 +2878,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             if (loadSlewState == IPS_IDLE)
             {
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
-                solutionTable->setItem(currentRow, 3, statusReport);
+                solutionTable->setItem(currentRow, 3, statusReport.release());
             }
 
             appendLogText(i18n("Target is within acceptable range. Astrometric solver is successful."));
@@ -2891,7 +2894,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             if (loadSlewState == IPS_IDLE)
             {
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
-                solutionTable->setItem(currentRow, 3, statusReport);
+                solutionTable->setItem(currentRow, 3, statusReport.release());
             }
             if (mountModelRunning)
             {

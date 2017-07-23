@@ -9,19 +9,14 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include "Options.h"
-
 #include "gmath.h"
 
-#include <math.h>
-#include <string.h>
-
-#include "vect.h"
-#include "matr.h"
-
+#include "imageautoguiding.h"
+#include "Options.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
-#include "imageautoguiding.h"
+
+#include <cmath>
 
 #define DEF_SQR_0 (8 - 0)
 #define DEF_SQR_1 (16 - 0)
@@ -50,24 +45,7 @@ typedef struct
 cgmath::cgmath() : QObject()
 {
     // sys...
-    ticks            = 0;
-    video_width      = -1;
-    video_height     = -1;
-    ccd_pixel_width  = 0;
-    ccd_pixel_height = 0;
-    focal            = 0;
-    aperture         = 0;
     ROT_Z            = Matrix(0);
-    preview_mode     = true;
-    suspended        = false;
-    lost_star        = false;
-    useRapidGuide    = false;
-    dec_swap         = false;
-
-    subBinX = subBinY = 1;
-
-    // square variables
-    square_alg_idx = SMART_THRESHOLD;
 
     // sky coord. system vars.
     star_pos        = Vector(0);
@@ -89,11 +67,6 @@ cgmath::cgmath() : QObject()
     memset(drift[GUIDE_RA], 0, sizeof(double) * MAX_ACCUM_CNT);
     memset(drift[GUIDE_DEC], 0, sizeof(double) * MAX_ACCUM_CNT);
     drift_integral[GUIDE_RA] = drift_integral[GUIDE_DEC] = 0;
-
-    // statistics
-    do_statistics = true;
-    sum = sqr_sum = 0;
-    delta_prev = sigma_prev = sigma = 0;
 }
 
 cgmath::~cgmath()
@@ -490,8 +463,7 @@ void cgmath::start(void)
     memset(drift[GUIDE_DEC], 0, sizeof(double) * MAX_ACCUM_CNT);
 
     // cleanup stat vars.
-    sum = sqr_sum = 0;
-    delta_prev = sigma_prev = sigma = 0;
+    sum = 0;
 
     preview_mode = false;
 
@@ -542,6 +514,7 @@ float *cgmath::createFloatImage() const
     // We only process 1st plane if it is a color image
     uint32_t imgSize = imageData->getSize();
     float *imgFloat  = new float[imgSize];
+
     if (imgFloat == nullptr)
     {
         qCritical() << "Not enough memory for float image array!";
@@ -615,6 +588,7 @@ float *cgmath::createFloatImage() const
         break;
 
         default:
+            delete[] imgFloat;
             return nullptr;
     }
 
@@ -1426,7 +1400,6 @@ cproc_in_params::cproc_in_params()
 void cproc_in_params::reset(void)
 {
     threshold_alg_idx = CENTROID_THRESHOLD;
-    guiding_rate      = 0.5;
     average           = true;
 
     for (int k = GUIDE_RA; k <= GUIDE_DEC; k++)

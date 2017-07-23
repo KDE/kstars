@@ -17,32 +17,18 @@
 
 #include "planetmoonscomponent.h"
 
-#include <QList>
-#include <QPoint>
-
-#include "skyobjects/jupitermoons.h"
-#include "skyobjects/ksplanetbase.h"
-#include "kstarsdata.h"
-#ifdef KSTARS_LITE
-#include "skymaplite.h"
-#include "kstarslite/skyitems/planetsitem.h"
-#else
-#include "skymap.h"
-#endif
-#include "skyobjects/skypoint.h"
-#include "skyobjects/trailobject.h"
-#include "dms.h"
 #include "Options.h"
-#include "solarsystemsinglecomponent.h"
-#include "solarsystemcomposite.h"
+#include "kstarsdata.h"
 #include "skylabeler.h"
 #include "skypainter.h"
-
+#include "solarsystemcomposite.h"
+#include "solarsystemsinglecomponent.h"
 #include "projections/projector.h"
+#include "skyobjects/jupitermoons.h"
 
 PlanetMoonsComponent::PlanetMoonsComponent(SkyComposite *p, SolarSystemSingleComponent *planetComponent,
-                                           KSPlanetBase::Planets _planet)
-    : SkyComponent(p), planet(_planet), pmoons(0), m_Planet(planetComponent)
+                                           KSPlanetBase::Planets& _planet)
+    : SkyComponent(p), planet(_planet), m_Planet(planetComponent)
 {
     /*
     if (planet == KSPlanetBase::JUPITER)
@@ -51,19 +37,19 @@ PlanetMoonsComponent::PlanetMoonsComponent(SkyComposite *p, SolarSystemSingleCom
         pmoons = new SaturnMoons();
     */
     Q_ASSERT(planet == KSPlanetBase::JUPITER);
-    delete pmoons;
+//    delete pmoons;
     //    pmoons = new JupiterMoons();
-    int nmoons = pmoons->nMoons();
-    for (int i = 0; i < nmoons; ++i)
-    {
+//    int nmoons = pmoons->nMoons();
+
+//    for (int i = 0; i < nmoons; ++i)
+//    {
         //        objectNames(SkyObject::MOON).append( pmoons->name(i) );
         //        objectLists(SkyObject::MOON).append( QPair<QString, const SkyObject*>(pmoons->name(i),pmoons->moon(i)) );
-    }
+//    }
 }
 
 PlanetMoonsComponent::~PlanetMoonsComponent()
 {
-    delete pmoons;
 }
 
 bool PlanetMoonsComponent::selected()
