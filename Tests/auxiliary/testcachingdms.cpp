@@ -23,6 +23,7 @@
 
 #include <ctime>
 #include <cstdint>
+#include <cstdlib>
 
 TestCachingDms::TestCachingDms() : QObject()
 {
