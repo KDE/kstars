@@ -38,6 +38,7 @@
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KTipDialog>
+#include <KToggleAction>
 #include <KToolBar>
 #include <KNewStuff3/kns3/knewstuffaction.h>
 
