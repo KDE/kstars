@@ -22,8 +22,8 @@
 #include <QtTest/QtTest>
 
 #include <ctime>
-#include <cstdint>
 #include <cstdlib>
+#include <cstdint>
 
 TestCachingDms::TestCachingDms() : QObject()
 {
