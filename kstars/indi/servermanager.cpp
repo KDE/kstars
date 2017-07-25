@@ -12,6 +12,7 @@
 
 #include "driverinfo.h"
 #include "drivermanager.h"
+#include "auxiliary/kspaths.h"
 #include "Options.h"
 
 #include <indidevapi.h>
