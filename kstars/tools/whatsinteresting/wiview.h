@@ -17,47 +17,46 @@
 
 #pragma once
 
-#include "skyobject.h"
-#include "modelmanager.h"
-#include "skyobjlistmodel.h"
-#include "obsconditions.h"
+#include <QString>
+#include <QWidget>
 
+#include <memory>
+
+class QNetworkAccessManager;
 class QQmlContext;
-class QQuickView;
 class QQuickItem;
+class QQuickView;
+
+class ModelManager;
+class ObsConditions;
+class SkyObject;
+class SkyObjItem;
 
 /**
-  * \class WIView
-  * \brief Manages the QML user interface for What's Interesting.
-  * WIView is used to display the QML UI using a QQuickView.
-  * It acts on all signals emitted by the UI and manages the data
-  * sent to the UI for display.
-  * \author Samikshan Bairagya
-  */
+ * @class WIView
+ * @brief Manages the QML user interface for What's Interesting. WIView is used to display the
+ * QML UI using a QQuickView. It acts on all signals emitted by the UI and manages the data
+ * sent to the UI for display.
+ *
+ * @author Samikshan Bairagya
+ */
 class WIView : public QWidget
 {
     Q_OBJECT
   public:
     /**
-          * \brief Constructor - Store QML components as QObject pointers.
-          * Connect signals from various QML components into public slots.
-          * Displays the user interface for What's Interesting
-          */
+     * @brief Constructor - Store QML components as QObject pointers.
+     * Connect signals from various QML components into public slots.
+     * Displays the user interface for What's Interesting
+     */
     explicit WIView(QWidget *parent = nullptr);
 
-    /**
-     * \brief Destructor
-     */
     ~WIView();
 
-    /**
-     * \brief Load details-view for selected sky-object
-     */
+    /** Load details-view for selected sky-object */
     void loadDetailsView(SkyObjItem *soitem, int index);
 
-    /**
-     * \brief Updates sky-object list models
-     */
+    /** Updates sky-object list models */
     void updateModel(ObsConditions& obs);
 
     inline QQuickView *getWIBaseView() const { return m_BaseView; }
@@ -65,57 +64,45 @@ class WIView : public QWidget
   public slots:
 
     /**
-     * \brief public slot - Act upon signal emitted when category of sky-object is selected
+     * @brief public slot - Act upon signal emitted when category of sky-object is selected
      * from category selection view of the QML UI.
-     * \param type Category selected
+     * @param type Category selected
      */
     void onCategorySelected(QString model);
 
     /**
-     * \brief public slot - Act upon signal emitted when an item is selected from list of sky-objects.
+     * @brief public slot - Act upon signal emitted when an item is selected from list of sky-objects.
      * Display details-view for the skyobject selected.
-     * \param type        Category selected.
-     * \param typename    Name of category selected.
-     * \param index       Index of item in the list of skyobjects.
+     * @param type        Category selected.
+     * @param typename    Name of category selected.
+     * @param index       Index of item in the list of skyobjects.
      */
     void onSoListItemClicked(int index);
 
-    /**
-     * \brief public slot - Show details-view for next sky-object from list of current sky-objects's category.
-     */
+    /** public slot - Show details-view for next sky-object from list of current sky-objects's category. */
     void onNextObjClicked();
 
     /**
-     * \brief public slot - Show details-view for previous sky-object from list of current sky-objects's
+     * @brief public slot - Show details-view for previous sky-object from list of current sky-objects's
      * category.
      */
     void onPrevObjClicked();
 
-    /**
-     * \brief public slot - Slew map to current sky-object in the details view.
-     */
+    /** public slot - Slew map to current sky-object in the details view. */
     void onCenterButtonClicked();
 
-    /**
-     * \brief public slot - Slew map to current sky-object in the details view.
-     */
+    /** public slot - Slew map to current sky-object in the details view. */
     void onSlewTelescopeButtonClicked();
 
-    /**
-     * \brief public slot - Open Details Dialog to show more details for current sky-object.
-     */
+    /** public slot - Open Details Dialog to show more details for current sky-object. */
     void onDetailsButtonClicked();
 
-    /**
-     * \brief public slot - Open WI settings dialog.
-     */
+    /** public slot - Open WI settings dialog. */
     void onSettingsIconClicked();
 
     void onInspectIconClicked(bool checked) { inspectOnClick = checked; }
 
-    /**
-     * \brief public slot - Reload list of visible sky-objects.
-     */
+    /** public slot - Reload list of visible sky-objects. */
     void onReloadIconClicked();
 
     void onVisibleIconClicked(bool checked);
@@ -144,22 +131,39 @@ class WIView : public QWidget
     void setNightVisionOn(bool on);
 
   private:
-    QQuickItem *m_BaseObj, *m_ViewsRowObj, *m_CategoryTitle, *m_SoListObj, *m_DetailsViewObj, *m_skyObjView,
-        *m_ContainerObj, *m_ProgressBar, *m_loadingMessage, *m_NextObj, *m_PrevObj, *m_CenterButtonObj,
-        *m_SlewTelescopeButtonObj, *m_DetailsButtonObj, *inspectIconObj, *visibleIconObj, *favoriteIconObj;
-    QQmlContext *m_Ctxt;
-    QObject *infoBoxText, *descTextObj, *nightVision, *autoTrackCheckbox, *autoCenterCheckbox;
+    QString getWikipediaName(SkyObjItem *soitem);
 
-    QQuickView *m_BaseView;
-    ObsConditions *m_Obs = nullptr;
-    ModelManager *m_ModManager;
+    QQuickItem *m_BaseObj { nullptr };
+    QQuickItem *m_ViewsRowObj { nullptr };
+    QQuickItem *m_CategoryTitle { nullptr };
+    QQuickItem *m_SoListObj { nullptr };
+    QQuickItem *m_DetailsViewObj { nullptr };
+    QQuickItem *m_ProgressBar { nullptr };
+    QQuickItem *m_loadingMessage { nullptr };
+    QQuickItem *m_NextObj { nullptr };
+    QQuickItem *m_PrevObj { nullptr };
+    QQuickItem *m_CenterButtonObj { nullptr };
+    QQuickItem *m_SlewTelescopeButtonObj { nullptr };
+    QQuickItem *m_DetailsButtonObj { nullptr };
+    QQuickItem *inspectIconObj { nullptr };
+    QQuickItem *visibleIconObj { nullptr };
+    QQuickItem *favoriteIconObj { nullptr };
+    QQmlContext *m_Ctxt { nullptr };
+    QObject *infoBoxText { nullptr };
+    QObject *descTextObj { nullptr };
+    QObject *nightVision { nullptr };
+    QObject *autoTrackCheckbox { nullptr };
+    QObject *autoCenterCheckbox { nullptr };
+
+    QQuickView *m_BaseView { nullptr };
+    ObsConditions *m_Obs { nullptr };
+    std::unique_ptr<ModelManager> m_ModManager;
     /// Current sky-object item.
-    SkyObjItem *m_CurSoItem = nullptr;
+    std::unique_ptr<SkyObjItem> m_CurSoItem;
     /// Index of current sky-object item in Details view.
-    int m_CurIndex;
+    int m_CurIndex { 0 };
     /// Currently selected category from WI QML view
     QString m_CurrentObjectListName;
-    QString getWikipediaName(SkyObjItem *soitem);
-    QNetworkAccessManager *manager;
-    bool inspectOnClick;
+    std::unique_ptr<QNetworkAccessManager> manager;
+    bool inspectOnClick { false };
 };

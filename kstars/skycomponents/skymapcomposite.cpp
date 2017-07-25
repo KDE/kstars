@@ -33,6 +33,9 @@
 #include "horizontalcoordinategrid.h"
 #include "ksasteroid.h"
 #include "kscomet.h"
+#ifndef KSTARS_LITE
+#include "kstars.h"
+#endif
 #include "kstarsdata.h"
 #include "milkyway.h"
 #include "satellitescomponent.h"
@@ -574,6 +577,11 @@ QList<SkyObject *> SkyMapComposite::findObjectsInArea(const SkyPoint &p1, const 
 
 SkyObject *SkyMapComposite::findByName(const QString &name)
 {
+#ifndef KSTARS_LITE
+    if (KStars::Closing)
+        return nullptr;
+#endif
+
     //We search the children in an "intelligent" order (most-used
     //object types first), in order to avoid wasting too much time
     //looking for a match.  The most important part of this ordering

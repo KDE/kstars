@@ -15,27 +15,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODEL_MANAGER_H
-#define MODEL_MANAGER_H
+#pragma once
 
-#include "skyobjlistmodel.h"
-#include "kstarsdata.h"
-#include "obsconditions.h"
-#include "starobject.h"
+#include <QList>
+#include <QObject>
+
+class ObsConditions;
+class SkyObjItem;
+class SkyObjListModel;
 
 /**
- * \class ModelManager
- * \brief Manages models for QML listviews of different types of sky-objects.
- * \author Samikshan Bairagya
+ * @class ModelManager
+ * @brief Manages models for QML listviews of different types of sky-objects.
+ *
+ * @author Samikshan Bairagya
  */
 class ModelManager : public QObject
 {
     Q_OBJECT
   public:
     /**
-         * \enum ModelType
-         * \brief Model type for different types of sky-objects.
-         */
+     * @enum ModelType
+     * @brief Model type for different types of sky-objects.
+     */
     enum ObjectList
     {
         Planets,
@@ -56,26 +58,19 @@ class ModelManager : public QObject
     };
 
     /**
-         * \brief Constructor - Creates models for different sky-object types.
-         * \param obs   Pointer to an ObsConditions object.
-         */
+     * @brief Constructor - Creates models for different sky-object types.
+     * @param obs   Pointer to an ObsConditions object.
+     */
     ModelManager(ObsConditions *obs);
 
-    /**
-         * \brief Destructor
-         */
-    ~ModelManager();
+    virtual ~ModelManager();
 
-    /**
-         * \brief Updates sky-object list models.
-         */
+    /** Updates sky-object list models. */
     void updateAllModels(ObsConditions *obs);
 
     void updateModel(ObsConditions *obs, QString modelName);
 
-    /**
-         * \brief Clears all sky-objects list models.
-         */
+    /** Clears all sky-objects list models. */
     void resetAllModels();
 
     void setShowOnlyVisibleObjects(bool show) { showOnlyVisible = show; }
@@ -87,10 +82,10 @@ class ModelManager : public QObject
     bool showOnlyFavoriteObjects() { return showOnlyFavorites; }
 
     /**
-         * \brief Returns model of given type.
-         * \return Pointer to SkyObjListModel of given type.
-         * \param type   Type of sky-object model to be returned.
-         */
+     * @brief Returns model of given type.
+     * @return Pointer to SkyObjListModel of given type.
+     * @param type   Type of sky-object model to be returned.
+     */
     SkyObjListModel *returnModel(QString modelName);
 
     int getModelNumber(QString modelName);
@@ -109,22 +104,21 @@ class ModelManager : public QObject
     void modelUpdated();
 
   private:
-    ObsConditions *m_ObsConditions;
     void loadLists();
     void loadObjectList(QList<SkyObjItem *> &skyObjectList, int type);
     void loadNamedStarList();
     void loadObjectsIntoModel(SkyObjListModel &model, QList<SkyObjItem *> &skyObjectList);
+
+    ObsConditions *m_ObsConditions { nullptr };
     QList<QList<SkyObjItem *>> m_ObjectList;
     QList<SkyObjListModel *> m_ModelList;
-    bool showOnlyVisible   = true;
-    bool showOnlyFavorites = true;
+    bool showOnlyVisible { true };
+    bool showOnlyFavorites { true };
     QList<SkyObjItem *> favoriteGalaxies;
     QList<SkyObjItem *> favoriteNebulas;
     QList<SkyObjItem *> favoriteClusters;
-    SkyObjListModel *tempModel;
-    bool ngcLoaded       = false;
-    bool icLoaded        = false;
-    bool sharplessLoaded = false;
+    SkyObjListModel *tempModel { nullptr };
+    bool ngcLoaded { false };
+    bool icLoaded { false };
+    bool sharplessLoaded { false };
 };
-
-#endif

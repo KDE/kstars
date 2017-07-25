@@ -15,31 +15,37 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QQuickView>
-#include <QQuickItem>
-#include <QQmlContext>
-#include <QStandardPaths>
-#include <QGraphicsObject>
 #include "wiview.h"
-#include "skymap.h"
-#include "dialogs/detaildialog.h"
-#include <klocalizedcontext.h>
+
 #include "kspaths.h"
-#include "starobject.h"
-#include "skymap.h"
+#include "modelmanager.h"
+#include "obsconditions.h"
 #include "Options.h"
-#include "wiequipsettings.h"
+#include "skymap.h"
 #include "skymapcomposite.h"
+#include "skyobjitem.h"
+#include "skyobjlistmodel.h"
+#include "starobject.h"
+#include "wiequipsettings.h"
+#include "dialogs/detaildialog.h"
+
+#include <klocalizedcontext.h>
+
+#include <QGraphicsObject>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QQmlContext>
+#include <QQuickItem>
+#include <QQuickView>
+#include <QStandardPaths>
 #include <QtConcurrent>
 
 #ifdef HAVE_INDI
 #include <basedevice.h>
 #include "indi/indilistener.h"
-#include "indi/indistd.h"
-#include "indi/driverinfo.h"
 #endif
 
-WIView::WIView(QWidget *parent) : QWidget(parent), m_CurrentObjectListName(-1)
+WIView::WIView(QWidget *parent) : QWidget(parent)
 {
     //These settings are like this just to get it started.
     int bortle                           = Options::bortleClass();
@@ -49,7 +55,7 @@ WIView::WIView(QWidget *parent) : QWidget(parent), m_CurrentObjectListName(-1)
 
     m_Obs = new ObsConditions(bortle, aperture, equip, telType);
 
-    m_ModManager = new ModelManager(m_Obs);
+    m_ModManager.reset(new ModelManager(m_Obs));
 
     m_BaseView = new QQuickView();
 
@@ -100,9 +106,6 @@ WIView::WIView(QWidget *parent) : QWidget(parent), m_CurrentObjectListName(-1)
     descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
     infoBoxText = m_DetailsViewObj->findChild<QObject *>("infoBoxText");
 
-    m_skyObjView   = m_BaseObj->findChild<QQuickItem *>("skyObjView");
-    m_ContainerObj = m_BaseObj->findChild<QQuickItem *>("containerObj");
-
     m_NextObj = m_BaseObj->findChild<QQuickItem *>("nextObj");
     connect(m_NextObj, SIGNAL(nextObjClicked()), this, SLOT(onNextObjClicked()));
     m_PrevObj = m_BaseObj->findChild<QQuickItem *>("prevObj");
@@ -151,11 +154,11 @@ WIView::WIView(QWidget *parent) : QWidget(parent), m_CurrentObjectListName(-1)
     connect(KStars::Instance()->map(), SIGNAL(objectClicked(SkyObject *)), this,
             SLOT(inspectSkyObjectOnClick(SkyObject *)));
 
-    manager = new QNetworkAccessManager();
+    manager.reset(new QNetworkAccessManager());
 
     setProgressBarVisible(true);
-    connect(m_ModManager, SIGNAL(loadProgressUpdated(double)), this, SLOT(updateProgress(double)));
-    connect(m_ModManager, SIGNAL(modelUpdated()), this, SLOT(refreshListView()));
+    connect(m_ModManager.get(), SIGNAL(loadProgressUpdated(double)), this, SLOT(updateProgress(double)));
+    connect(m_ModManager.get(), SIGNAL(modelUpdated()), this, SLOT(refreshListView()));
     m_ViewsRowObj->setProperty("enabled", false);
 
     inspectOnClick = false;
@@ -167,9 +170,6 @@ WIView::WIView(QWidget *parent) : QWidget(parent), m_CurrentObjectListName(-1)
 
 WIView::~WIView()
 {
-    delete m_ModManager;
-    delete m_CurSoItem;
-    delete manager;
 }
 
 void WIView::setNightVisionOn(bool on)
@@ -178,8 +178,8 @@ void WIView::setNightVisionOn(bool on)
         nightVision->setProperty("state", "active");
     else
         nightVision->setProperty("state", "");
-    if (m_CurSoItem)
-        loadDetailsView(m_CurSoItem, m_CurIndex);
+    if (m_CurSoItem.get() != nullptr)
+        loadDetailsView(m_CurSoItem.get(), m_CurIndex);
 }
 
 void WIView::setProgressBarVisible(bool visible)
@@ -254,17 +254,17 @@ void WIView::onCategorySelected(QString model)
         favoriteIconObj->setProperty("state", "unchecked");
     if (model == "ngc" && (!m_ModManager->isNGCLoaded()))
     {
-        QtConcurrent::run(m_ModManager, &ModelManager::loadNGCCatalog);
+        QtConcurrent::run(m_ModManager.get(), &ModelManager::loadNGCCatalog);
         return;
     }
     if (model == "ic" && (!m_ModManager->isICLoaded()))
     {
-        QtConcurrent::run(m_ModManager, &ModelManager::loadICCatalog);
+        QtConcurrent::run(m_ModManager.get(), &ModelManager::loadICCatalog);
         return;
     }
     if (model == "sharpless" && (!m_ModManager->isSharplessLoaded()))
     {
-        QtConcurrent::run(m_ModManager, &ModelManager::loadSharplessCatalog);
+        QtConcurrent::run(m_ModManager.get(), &ModelManager::loadSharplessCatalog);
         return;
     }
     updateModel(*m_Obs);
@@ -386,9 +386,9 @@ void WIView::onReloadIconClicked()
     if (m_CurrentObjectListName != "")
     {
         updateModel(*m_Obs);
-        m_CurIndex = m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjIndex(m_CurSoItem);
+        m_CurIndex = m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjIndex(m_CurSoItem.get());
     }
-    loadDetailsView(m_CurSoItem, m_CurIndex);
+    loadDetailsView(m_CurSoItem.get(), m_CurIndex);
 }
 
 void WIView::onVisibleIconClicked(bool visible)
@@ -422,9 +422,9 @@ void WIView::onUpdateIconClicked()
     mbox.exec();
     if (mbox.clickedButton() == currentObject)
     {
-        if (m_CurSoItem)
+        if (m_CurSoItem.get() != nullptr)
         {
-            tryToUpdateWikipediaInfo(m_CurSoItem, getWikipediaName(m_CurSoItem));
+            tryToUpdateWikipediaInfo(m_CurSoItem.get(), getWikipediaName(m_CurSoItem.get()));
         }
     }
     else if (mbox.clickedButton() == allObjects || mbox.clickedButton() == missingObjects)
@@ -502,7 +502,7 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     if (index != -1)
         modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
 
-    m_CurSoItem = soitem;
+    m_CurSoItem.reset(soitem);
     m_CurIndex  = index;
     if (modelSize <= 1)
     {
@@ -655,7 +655,7 @@ void WIView::updateWikipediaDescription(SkyObjItem *soitem)
         html              = "<HTML><HEAD><style type=text/css>body {color:" + color +
                ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + html + "</BODY></HTML>";
 
-        if (soitem == m_CurSoItem)
+        if (soitem == m_CurSoItem.get())
             descTextObj->setProperty("text", html);
         refreshListView();
     });
@@ -873,7 +873,7 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
             html.replace("color: white", "color: " + color);
         html = "<HTML><HEAD><style type=text/css>body {color:" + color +
                ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + html + "</BODY></HTML>";
-        if (soitem == m_CurSoItem)
+        if (soitem == m_CurSoItem.get())
             infoBoxText->setProperty("text", html);
     });
 }

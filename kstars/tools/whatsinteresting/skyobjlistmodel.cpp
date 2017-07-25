@@ -17,6 +17,9 @@
 
 #include "skyobjlistmodel.h"
 
+#include "skyobject.h"
+#include "skyobjitem.h"
+
 SkyObjListModel::SkyObjListModel(SkyObjItem *soitem, QObject *parent) : QAbstractListModel(parent)
 {
     //FIXME Needs porting to KF5

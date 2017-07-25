@@ -15,13 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "ksfilereader.h"
-#include "kstarsdata.h"
-#include "deepskyobject.h"
-#include "ksplanetbase.h"
 #include "skyobjitem.h"
-#include "ksutils.h"
+
+#include "deepskyobject.h"
+#include "ksfilereader.h"
 #include "kspaths.h"
+#include "ksplanetbase.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
 
 SkyObjItem::SkyObjItem(SkyObject *so)
     : m_Name(so->name()), m_LongName(so->longname()), m_TypeName(so->typeName()), m_So(so)
@@ -234,4 +235,20 @@ inline QString SkyObjItem::loadObjectDescription() const
         }
     }
     return getTypeName();
+}
+
+QString SkyObjItem::getRADE() const
+{
+    return "RA: " + m_So->ra().toHMSString() + "<BR>DE: " + m_So->dec().toDMSString();
+}
+
+QString SkyObjItem::getAltAz() const
+{
+    return "Alt: " + QString::number(m_So->alt().Degrees(), 'f', 2) +
+           ", Az: " + QString::number(m_So->az().Degrees(), 'f', 2);
+}
+
+float SkyObjItem::getMagnitude() const
+{
+    return m_So->mag();
 }
