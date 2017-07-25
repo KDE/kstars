@@ -15,11 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "ksfilereader.h"
 #include "modelmanager.h"
-#include "kstarsdatetime.h"
+
+#include "ksfilereader.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "obsconditions.h"
 #include "skymapcomposite.h"
-#include "skyobject.h"
+#include "skyobjitem.h"
+#include "skyobjlistmodel.h"
+#include "starobject.h"
+
 #include <QtConcurrent>
 
 ModelManager::ModelManager(ObsConditions *obs)
@@ -54,6 +60,9 @@ ModelManager::~ModelManager()
 
 void ModelManager::loadLists()
 {
+    if (KStars::Closing)
+        return;
+
     emit loadProgressUpdated(0);
     KStarsData *data = KStarsData::Instance();
     QVector<QPair<QString, const SkyObject *>> listStars;
@@ -83,6 +92,9 @@ void ModelManager::loadLists()
 
     while (fileReader.hasMoreLines())
     {
+        if (KStars::Closing)
+            return;
+
         QString line = fileReader.readLine();
 
         if (line.length() == 0 || line[0] == '#')
@@ -237,19 +249,28 @@ void ModelManager::updateModel(ObsConditions *obs, QString modelName)
 
 void ModelManager::loadObjectList(QList<SkyObjItem *> &skyObjectList, int type)
 {
+    if (KStars::Closing)
+        return;
+
     KStarsData *data                                   = KStarsData::Instance();
     QVector<QPair<QString, const SkyObject *>> objects = data->skyComposite()->objectLists(type);
 
     for (int i = 0; i < objects.size(); i++)
     {
+        if (KStars::Closing)
+            return;
+
         QPair<QString, const SkyObject *> pair = objects.value(i);
-        const SkyObject *listObject            = dynamic_cast<const SkyObject *>(pair.second);
+        const SkyObject *listObject            = pair.second;
         if (listObject->name() != "Sun")
             skyObjectList.append(new SkyObjItem((SkyObject *)(listObject)));
     }
     QString prevName;
     for (int i = 0; i < skyObjectList.size(); i++)
     {
+        if (KStars::Closing)
+            return;
+
         SkyObjItem *obj = skyObjectList.at(i);
         if (prevName == obj->getName())
         {

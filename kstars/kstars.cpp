@@ -53,6 +53,7 @@
 #include <QMenu>
 
 KStars *KStars::pinstance = nullptr;
+bool KStars::Closing = false;
 
 KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     : KXmlGuiWindow(), StartClockRunning(clockrun), StartDateString(startdate)
@@ -596,3 +597,9 @@ EkosManager *KStars::ekosManager()
 }
 
 #endif
+
+void KStars::closeEvent(QCloseEvent *event)
+{
+    KStars::Closing = true;
+    QWidget::closeEvent(event);
+}

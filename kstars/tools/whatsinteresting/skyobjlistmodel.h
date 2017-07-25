@@ -15,66 +15,63 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYOBJ_LISTMODEL_H
-#define SKYOBJ_LISTMODEL_H
+#pragma once
 
 #include "qabstractitemmodel.h"
-#include "skyobject.h"
-#include "skyobjitem.h"
+
+class SkyObjItem;
 
 /**
- * \class SkyObjListModel
+ * @class SkyObjListModel
  * Represents a model for the list of interesting sky-objects to be displayed in the QML interface.
- * \author Samikshan Bairagya
+ *
+ * @author Samikshan Bairagya
  */
 class SkyObjListModel : public QAbstractListModel
 {
     Q_OBJECT
   public:
-    /**
-         * \brief Constructor
-         */
-    explicit SkyObjListModel(SkyObjItem *soitem = 0, QObject *parent = 0);
+    /** Constructor */
+    explicit SkyObjListModel(SkyObjItem *soitem = nullptr, QObject *parent = nullptr);
 
     /**
-         * \brief Add a sky-object to the model.
-         * \param sobj    Pointer to sky-object to be added.
-         */
+     * @brief Add a sky-object to the model.
+     * @param sobj
+     * Pointer to sky-object to be added.
+     */
     void addSkyObject(SkyObjItem *sobj);
 
     /**
-         * \brief Create and return a QHash<int, QByteArray> of rolenames for the SkyObjItem.
-         * \return QHash<int, QByteArray> of rolenames for the SkyObjItem.
-         */
+     * @brief Create and return a QHash<int, QByteArray> of rolenames for the SkyObjItem.
+     * @return QHash<int, QByteArray> of rolenames for the SkyObjItem.
+     */
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
     /**
-         * \brief Overridden method from QAbstractItemModel.
-         * \return The number of items in the sky-object list model.
-         */
+     * @brief Overridden method from QAbstractItemModel.
+     * @return The number of items in the sky-object list model.
+     */
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
     /**
-         * \brief Overridden method from QAbstractItemModel.
-         * \return Data stored under the given role for the sky-object item referred to by the index.
-         */
+     * @brief Overridden method from QAbstractItemModel.
+     * @return Data stored under the given role for the sky-object item referred to by the index.
+     */
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
     /**
-         * \brief Get the list of sky-object items in the model.
-         * \return A QList of pointers to SkyObjItems which are there in the model.
-         */
+     * @brief Get the list of sky-object items in the model.
+     * @return A QList of pointers to SkyObjItems which are there in the model.
+     */
     QList<SkyObjItem *> getSkyObjItems();
 
     /**
-         * \brief Get sky-object item referred to by index.
-         * \return Pointer to SkyObjItem referred to by index.
-         */
+     * @brief Get sky-object item referred to by index.
+     * @return Pointer to SkyObjItem referred to by index.
+     */
     SkyObjItem *getSkyObjItem(int index);
 
-    /**
-         * \brief Erase all data in model.
-         */
+    /** Erase all data in model. */
     void resetModel();
 
     int getSkyObjIndex(SkyObjItem *item);
@@ -82,5 +79,3 @@ class SkyObjListModel : public QAbstractListModel
   private:
     QList<SkyObjItem *> m_SoItemList; ///List of sky-object items in model.
 };
-
-#endif

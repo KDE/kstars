@@ -20,6 +20,9 @@
 #include "binfilehelper.h"
 #include "deepstarcomponent.h"
 #include "highpmstarlist.h"
+#ifndef KSTARS_LITE
+#include "kstars.h"
+#endif
 #include "kstarsdata.h"
 #include "kstarssplash.h"
 #include "Options.h"
@@ -584,15 +587,25 @@ SkyObject *StarComponent::findStarByGenetiveName(const QString name)
 // Overrides ListComponent::findByName() to include genetive name and HD index also in the search
 SkyObject *StarComponent::findByName(const QString &name)
 {
+#ifndef KSTARS_LITE
+    if (KStars::Closing)
+        return nullptr;
+#endif
+
     foreach (SkyObject *o, m_ObjectList)
     {
+#ifndef KSTARS_LITE
+        if (KStars::Closing)
+            return nullptr;
+#endif
+
         if (QString::compare(o->name(), name, Qt::CaseInsensitive) == 0 ||
             QString::compare(o->longname(), name, Qt::CaseInsensitive) == 0 ||
             QString::compare(o->name2(), name, Qt::CaseInsensitive) == 0 ||
             QString::compare(((StarObject *)o)->gname(false), name, Qt::CaseInsensitive) == 0)
             return o;
     }
-    return 0;
+    return nullptr;
 }
 
 void StarComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion &region)

@@ -115,8 +115,6 @@ class KStars : public KXmlGuiWindow
          */
     explicit KStars(bool doSplash, bool startClockRunning = true, const QString &startDateString = QString());
 
-    static KStars *pinstance; // Pointer to an instance of KStars
-
   public:
     /**
          * @short Create an instance of this class. Destroy any previous instance
@@ -684,6 +682,16 @@ class KStars : public KXmlGuiWindow
 
     /** Build the KStars main window */
     void buildGUI();
+
+    virtual void closeEvent(QCloseEvent *event);
+
+  public:
+    /// Set to true when the application is being closed
+    static bool Closing;
+
+  private:
+    /// Pointer to an instance of KStars
+    static KStars *pinstance;
 
     KActionMenu *colorActionMenu { nullptr };
     KActionMenu *fovActionMenu { nullptr };

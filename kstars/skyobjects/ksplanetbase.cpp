@@ -101,21 +101,22 @@ void KSPlanetBase::updateCoords(const KSNumbers *num, bool includePlanets, const
                                 bool)
 {
     KStarsData *kd = KStarsData::Instance();
-    if (includePlanets)
-    {
-        kd->skyComposite()->earth()->findPosition(num); //since we don't pass lat & LST, localizeCoords will be skipped
 
-        if (lat && LST)
-        {
-            findPosition(num, lat, LST, kd->skyComposite()->earth());
-            //Don't add to the trail this time
-            if (hasTrail())
-                Trail.takeLast();
-        }
-        else
-        {
-            findGeocentricPosition(num, kd->skyComposite()->earth());
-        }
+    if (kd == nullptr || !includePlanets)
+        return;
+
+    kd->skyComposite()->earth()->findPosition(num); //since we don't pass lat & LST, localizeCoords will be skipped
+
+    if (lat && LST)
+    {
+        findPosition(num, lat, LST, kd->skyComposite()->earth());
+        // Don't add to the trail this time
+        if (hasTrail())
+            Trail.takeLast();
+    }
+    else
+    {
+        findGeocentricPosition(num, kd->skyComposite()->earth());
     }
 }
 

@@ -25,6 +25,7 @@
 #include "skycomponents/skymapcomposite.h"
 #ifndef KSTARS_LITE
 #include "imageexporter.h"
+#include "kstars.h"
 #include "observinglist.h"
 #include "skymap.h"
 #include "dialogs/detaildialog.h"
@@ -622,6 +623,11 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
 // FIXME: This is a significant contributor to KStars start-up time
 bool KStarsData::readURLData(const QString &urlfile, int type, bool deepOnly)
 {
+#ifndef KSTARS_LITE
+    if (KStars::Closing)
+        return true;
+#endif
+
     QFile file;
     if (!openUrlFile(urlfile, file))
         return false;
@@ -635,6 +641,14 @@ bool KStarsData::readURLData(const QString &urlfile, int type, bool deepOnly)
         //ignore comment lines
         if (!line.startsWith('#'))
         {
+#ifndef KSTARS_LITE
+            if (KStars::Closing)
+            {
+                file.close();
+                return true;
+            }
+#endif
+
             int idx      = line.indexOf(':');
             QString name = line.left(idx);
             if (name == "XXX")

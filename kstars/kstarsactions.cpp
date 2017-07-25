@@ -497,6 +497,9 @@ void KStars::slotWISettings()
 
 void KStars::slotToggleWIView()
 {
+    if (KStars::Closing)
+        return;
+
     if (!m_WIView)
     {
         m_WIView = new WIView(0);
