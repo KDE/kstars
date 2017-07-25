@@ -221,8 +221,8 @@ void ConjunctionsTool::slotFilterReg(const QString &filter)
 
 void ConjunctionsTool::slotCompute(void)
 {
-    KStarsDateTime dtStart = startDate->dateTime(); // Start date
-    KStarsDateTime dtStop  = stopDate->dateTime();  // Stop date
+    KStarsDateTime dtStart(startDate->dateTime()); // Start date
+    KStarsDateTime dtStop(stopDate->dateTime());  // Stop date
     long double startJD    = dtStart.djd();         // Start julian day
     long double stopJD     = dtStop.djd();          // Stop julian day
     bool opposition        = false;                 // true=opposition, false=conjunction

@@ -17,18 +17,14 @@
 
 #include "modcalcgalcoord.h"
 
-#include <QTextStream>
-#include <QFileDialog>
-#include <QPointer>
+#include "dialogs/finddialog.h"
+#include "skyobjects/skyobject.h"
+#include "skyobjects/skypoint.h"
 
 #include <KMessageBox>
 
-#include "dms.h"
-#include "skyobjects/skypoint.h"
-#include "skyobjects/skyobject.h"
-#include "kstars.h"
-#include "dialogs/finddialog.h"
-#include "widgets/dmsbox.h"
+#include <QTextStream>
+#include <QPointer>
 
 modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit) : QFrame(parentSplit)
 {

@@ -1166,7 +1166,7 @@ void CCD::processBLOB(IBLOB *bp)
         return;
     }
 
-    QByteArray fmt = QString(bp->format).toLower().remove(".").toUtf8();
+    QByteArray fmt = QString(bp->format).toLower().remove('.').toUtf8();
 
     // If it's not FITS or an image, don't process it.
     if ((QImageReader::supportedImageFormats().contains(fmt)))
@@ -1652,7 +1652,7 @@ void CCD::addFITSKeywords(const QString& filename)
     if (filter.isEmpty() == false)
     {
         QString key_comment("Filter name");
-        filter.replace(" ", "_");
+        filter.replace(' ', '_');
 
         fitsfile *fptr = nullptr;
 

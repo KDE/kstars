@@ -24,7 +24,8 @@ class LineListIndex;
 class LineIndexNode : public SkyOpacityNode
 {
   public:
-    LineIndexNode(QString schemeColor = "");
+    explicit LineIndexNode(QString schemeColor = "");
+
     QString getSchemeColor() { return schemeColor; }
 
   private:
@@ -51,7 +52,7 @@ class LinesItem : public SkyItem
      * @short Constructor
      * @param rootNode parent RootNode that instantiated this object
      */
-    LinesItem(RootNode *rootNode);
+    explicit LinesItem(RootNode *rootNode);
 
     /**
      * @short adds LinesListIndex that is needed to be displayed to m_lineIndexes

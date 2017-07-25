@@ -177,7 +177,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             if ((std::abs(listObject->x() - x) < 5 / scale) && (std::abs(listObject->y() - y) < 5 / scale))
             {
                 QToolTip::showText(e->globalPos(),
-                                   listObject->skyObject()->name() + "\n" + listObject->skyObject()->longname(), this);
+                                   listObject->skyObject()->name() + '\n' + listObject->skyObject()->longname(), this);
                 objFound = true;
                 break;
             }

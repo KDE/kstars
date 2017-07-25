@@ -28,12 +28,15 @@
 #include "kspopupmenu.h"
 #include "ksutils.h"
 #include "Options.h"
+#include "skymapcomposite.h"
 #ifdef HAVE_OPENGL
 #include "skymapgldraw.h"
 #endif
 #include "skymapqdraw.h"
 #include "starhopperdialog.h"
+#include "starobject.h"
 #include "texturemanager.h"
+#include "dialogs/detaildialog.h"
 #include "printing/printingwizard.h"
 #include "skycomponents/flagcomponent.h"
 #include "skyobjects/deepskyobject.h"

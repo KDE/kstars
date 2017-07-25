@@ -7,8 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDIFOCUSER_H
-#define INDIFOCUSER_H
+#pragma once
 
 #include "indistd.h"
 
@@ -32,7 +31,7 @@ class Focuser : public DeviceDecorator
         FOCUS_OUTWARD
     };
 
-    Focuser(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_FOCUSER; }
+    explicit Focuser(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_FOCUSER; }
 
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
@@ -54,5 +53,3 @@ class Focuser : public DeviceDecorator
     bool getFocusDirection(FocusDirection *dir);
 };
 }
-
-#endif // INDIFOCUSER_H

@@ -16,66 +16,69 @@
 
 #pragma once
 
-#include <QStringListModel>
-#include <QSqlDatabase>
+#include "dms.h"
 
-#include "skyobjects/skyobject.h"
+#include <QHash>
+#include <QSqlDatabase>
+#include <QStringListModel>
+
+class QGeoPositionInfoSource;
+class QNetworkAccessManager;
+class QNetworkSession;
+class QNetworkReply;
+
+class GeoLocation;
 
 /**
  * @class LocationDialogLite
  * A backend of location dialog declared in QML.
  *
- * @short Backend for location dialog in QML
  * @author Artem Fedoskin, Jason Harris
  * @version 1.0
  */
-
-class GeoLocation;
-class QGeoPositionInfoSource;
-
-class QNetworkAccessManager;
-class QNetworkSession;
-class QNetworkReply;
-
 class LocationDialogLite : public QObject
 {
     Q_OBJECT
+
     Q_PROPERTY(QString currentLocation READ getCurrentLocation WRITE setCurrentLocation NOTIFY currentLocationChanged)
     Q_PROPERTY(QStringList TZList MEMBER m_TZList NOTIFY TZListChanged)
     Q_PROPERTY(QStringList DSTRules MEMBER m_DSTRules NOTIFY DSTRulesChanged)
     Q_PROPERTY(int currLocIndex MEMBER m_currLocIndex NOTIFY currLocIndexChanged)
   public:
-    LocationDialogLite();
     typedef enum { CITY_ADD, CITY_UPDATE, CITY_REMOVE } CityOperation;
 
-    Q_INVOKABLE void filterCity(QString city, QString province, QString country);
+    LocationDialogLite();
 
-    void setCurrentLocation(QString loc);
+    Q_INVOKABLE void filterCity(const QString &city, const QString &province, const QString &country);
+
+    void setCurrentLocation(const QString &loc);
     QString getCurrentLocation() { return m_currentLocation; }
-    Q_INVOKABLE bool editCity(QString fullName, QString city, QString province, QString country, QString latitude,
-                              QString longitude, QString TimeZoneString, QString TZRule);
+    Q_INVOKABLE bool editCity(const QString &fullName, const QString &city, const QString &province,
+                              const QString &country, const QString &latitude,
+                              const QString &longitude, const QString &TimeZoneString, const QString &TZRule);
 
-    Q_INVOKABLE bool setLocation(QString fullName);
+    Q_INVOKABLE bool setLocation(const QString &fullName);
 
-    Q_INVOKABLE bool addCity(QString city, QString province, QString country, QString latitude, QString longitude,
-                             QString TimeZoneString, QString TZRule);
-    Q_INVOKABLE bool deleteCity(QString fullName);
+    Q_INVOKABLE bool addCity(const QString &city, const QString &province, const QString &country,
+                             const QString &latitude, const QString &longitude,
+                             const QString &TimeZoneString, const QString &TZRule);
+    Q_INVOKABLE bool deleteCity(const QString &fullName);
 
-    Q_INVOKABLE bool isReadOnly(QString fullName);
+    Q_INVOKABLE bool isReadOnly(const QString &fullName);
 
-    Q_INVOKABLE QString getCity(QString fullName);
-    Q_INVOKABLE QString getProvince(QString fullName);
-    Q_INVOKABLE QString getCountry(QString fullName);
-    Q_INVOKABLE double getLatitude(QString fullName);
-    Q_INVOKABLE double getLongitude(QString fullName);
-    Q_INVOKABLE int getTZ(QString fullName);
-    Q_INVOKABLE int getDST(QString fullName);
-    Q_INVOKABLE bool isDuplicate(QString city, QString province, QString country);
+    Q_INVOKABLE QString getCity(const QString &fullName);
+    Q_INVOKABLE QString getProvince(const QString &fullName);
+    Q_INVOKABLE QString getCountry(const QString &fullName);
+    Q_INVOKABLE double getLatitude(const QString &fullName);
+    Q_INVOKABLE double getLongitude(const QString &fullName);
+    Q_INVOKABLE int getTZ(const QString &fullName);
+    Q_INVOKABLE int getDST(const QString &fullName);
+    Q_INVOKABLE bool isDuplicate(const QString &city, const QString &province, const QString &country);
 
     /**
      * @brief checkLongLat checks whether given longitude and latitude are valid
      */
-    Q_INVOKABLE bool checkLongLat(QString longitude, QString latitude);
+    Q_INVOKABLE bool checkLongLat(const QString &longitude, const QString &latitude);
 
     /**
      * TODO - port dmsBox to QML
@@ -85,7 +88,7 @@ class LocationDialogLite : public QObject
      * @param ok
      * @return angle in dms
      */
-    dms createDms(QString degree, bool deg, bool *ok);
+    dms createDms(const QString &degree, bool deg, bool *ok);
 
     /**
      * @short Retrieve name of location by latitude and longitude. Name will be sent with

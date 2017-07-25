@@ -34,7 +34,7 @@ KSAlmanac::KSAlmanac()
     // Jasem 2015-08-24 Do NOT use KStarsDataTime for local time, it is only for UTC
     QDateTime midnight = QDateTime(data->lt().date(), QTime());
     geo                = data->geo();
-    dt                 = geo->LTtoUT(midnight);
+    dt                 = geo->LTtoUT(KStarsDateTime(midnight));
     update();
 }
 

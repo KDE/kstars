@@ -7,19 +7,20 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDITELESCOPE_H
-#define INDITELESCOPE_H
+#pragma once
 
-#include "skypoint.h"
-#include <QObject>
 #include "basedevice.h"
+#include "skypoint.h"
 #include "kstarslite/skypointlite.h"
 #include "kstarslite/skyobjectlite.h"
+
+#include <QObject>
 
 class ClientManagerLite;
 
 /**
- * @class Telescope
+ * @class TelescopeLite
+ *
  * device handle controlling telescope. It can slew and sync to a specific sky point and supports all standard propreties with INDI
  * telescope device.
  *
@@ -28,13 +29,15 @@ class ClientManagerLite;
 class TelescopeLite : public QObject
 {
     Q_OBJECT
+
     Q_PROPERTY(bool slewDecreasable READ isSlewDecreasable WRITE setSlewDecreasable NOTIFY slewDecreasableChanged)
     Q_PROPERTY(bool slewIncreasable READ isSlewIncreasable WRITE setSlewIncreasable NOTIFY slewIncreasableChanged)
     Q_PROPERTY(QString slewRateLabel READ getSlewRateLabel WRITE setSlewRateLabel NOTIFY slewRateLabelChanged)
     Q_PROPERTY(QString deviceName READ getDeviceName WRITE setDeviceName NOTIFY deviceNameChanged)
+
   public:
-    TelescopeLite(INDI::BaseDevice *device);
-    TelescopeLite() {}
+    explicit TelescopeLite(INDI::BaseDevice *device);
+    TelescopeLite() { }
     ~TelescopeLite();
 
     enum TelescopeMotionNS
@@ -120,17 +123,14 @@ class TelescopeLite : public QObject
 
   private:
     SkyPoint currentCoord;
-    double minAlt, maxAlt;
-    bool IsParked;
-    ClientManagerLite *clientManager;
-    INDI::BaseDevice *baseDevice;
-    int slewRateIndex;
-
+    double minAlt { 0 };
+    double maxAlt { 0 };
+    bool IsParked { false };
+    ClientManagerLite *clientManager { nullptr };
+    INDI::BaseDevice *baseDevice { nullptr };
+    int slewRateIndex { 0 };
     QString m_deviceName;
-
-    bool m_slewDecreasable;
-    bool m_slewIncreasable;
+    bool m_slewDecreasable { false };
+    bool m_slewIncreasable { false };
     QString m_slewRateLabel;
 };
-
-#endif // INDITELESCOPE_H

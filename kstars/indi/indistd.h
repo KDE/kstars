@@ -124,7 +124,7 @@ class GenericDevice : public GDInterface
     Q_OBJECT
 
   public:
-    GenericDevice(DeviceInfo *idv);
+    explicit GenericDevice(DeviceInfo &idv);
     ~GenericDevice();
 
     virtual void registerProperty(INDI::Property *prop);
@@ -165,12 +165,12 @@ class GenericDevice : public GDInterface
     void updateLocation();
 
   private:
-    bool connected;
-    DriverInfo *driverInfo;
-    DeviceInfo *deviceInfo;
-    INDI::BaseDevice *baseDevice;
-    ClientManager *clientManager;
-    QTimer *watchDogTimer;
+    bool connected { false };
+    DriverInfo *driverInfo { nullptr };
+    DeviceInfo *deviceInfo { nullptr };
+    INDI::BaseDevice *baseDevice { nullptr };
+    ClientManager *clientManager { nullptr };
+    QTimer *watchDogTimer { nullptr };
     char BLOBFilename[MAXINDIFILENAME];
 };
 
@@ -185,7 +185,7 @@ class DeviceDecorator : public GDInterface
     Q_OBJECT
 
   public:
-    DeviceDecorator(GDInterface *iPtr);
+    explicit DeviceDecorator(GDInterface *iPtr);
     ~DeviceDecorator();
 
     virtual void registerProperty(INDI::Property *prop);
@@ -218,9 +218,9 @@ class DeviceDecorator : public GDInterface
     virtual bool setProperty(QObject *);
 
   protected:
-    INDI::BaseDevice *baseDevice;
-    ClientManager *clientManager;
-    GDInterface *interfacePtr;
+    INDI::BaseDevice *baseDevice { nullptr };
+    ClientManager *clientManager { nullptr };
+    GDInterface *interfacePtr { nullptr };
 };
 
 /**
@@ -244,8 +244,8 @@ class ST4
     const char *getDeviceName();
 
   private:
-    INDI::BaseDevice *baseDevice;
-    ClientManager *clientManager;
-    bool swapDEC;
+    INDI::BaseDevice *baseDevice { nullptr };
+    ClientManager *clientManager { nullptr };
+    bool swapDEC { false };
 };
 }

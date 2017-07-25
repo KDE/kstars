@@ -216,7 +216,7 @@ bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
     while (!in.atEnd())
     {
         line = in.readLine();
-        if (line.isEmpty() || line.startsWith("#"))
+        if (line.isEmpty() || line.startsWith('#'))
             continue;
 
         line = line.trimmed();
@@ -291,7 +291,8 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
 
     if (Options::astrometrySolverVerbose())
     {
-        QString command = solverPath + " " + solverArgs.join(" ");
+        QString command = solverPath + ' ' + solverArgs.join(' ');
+
         align->appendLogText(command);
     }
 
@@ -355,7 +356,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
 
     for (auto &key : wcskeys)
     {
-        key_value = key.split(" ");
+        key_value = key.split(' ');
 
         if (key_value.size() > 1)
         {

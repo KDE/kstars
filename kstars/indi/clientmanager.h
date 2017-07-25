@@ -8,8 +8,7 @@
 
 */
 
-#ifndef CLIENTMANAGER_H
-#define CLIENTMANAGER_H
+#pragma once
 
 #ifdef USE_QT5_INDI
 #include <baseclientqt.h>
@@ -17,8 +16,6 @@
 #include <baseclient.h>
 #include <QObject>
 #endif
-
-#include "config-kstars.h"
 
 class DeviceInfo;
 class DriverInfo;
@@ -47,17 +44,17 @@ class ClientManager : public QObject, public INDI::BaseClient
     virtual ~ClientManager();
 
     /**
-         * @brief appendManagedDriver Add driver to pool of managed drivers by this client manager.
-         * @param dv pointer to driver info instance.
-         * @note This function is ALWAYS called from the main KStars thread.
-         */
+     * @brief appendManagedDriver Add driver to pool of managed drivers by this client manager.
+     * @param dv pointer to driver info instance.
+     * @note This function is ALWAYS called from the main KStars thread.
+     */
     void appendManagedDriver(DriverInfo *dv);
 
     /**
-         * @brief removeManagedDriver Remove managed driver from pool of drivers managed by this client manager.
-         * @param dv pointer to driver info instance.
-         * @note This function is ALWAYS called from the main KStars thread.
-         */
+     * @brief removeManagedDriver Remove managed driver from pool of drivers managed by this client manager.
+     * @param dv pointer to driver info instance.
+     * @note This function is ALWAYS called from the main KStars thread.
+     */
     void removeManagedDriver(DriverInfo *dv);
 
     int count() { return managedDrivers.count(); }
@@ -88,7 +85,7 @@ class ClientManager : public QObject, public INDI::BaseClient
 
   private:
     QList<DriverInfo *> managedDrivers;
-    ServerManager *sManager;
+    ServerManager *sManager { nullptr };
 
   signals:
     void connectionSuccessful();
@@ -111,5 +108,3 @@ class ClientManager : public QObject, public INDI::BaseClient
     void newINDILight(ILightVectorProperty *lvp);
     void newINDIMessage(INDI::BaseDevice *dp, int messageID);
 };
-
-#endif // CLIENTMANAGER_H

@@ -20,28 +20,30 @@
 #include "dms.h"
 
 #include <QDialog>
-#include <QTemporaryFile>
 #include <QPixmap>
+#include <QTemporaryFile>
 
-class SkyPoint;
-class FOV;
-class QString;
-class QLabel;
-class QImage;
-class QSlider;
-class QComboBox;
+#include <memory>
+
 class QCheckBox;
+class QComboBox;
+class QImage;
+class QLabel;
 class QPushButton;
+class QSlider;
+class QString;
+
 class FOV;
 class KSDssDownloader;
 class KStarsDateTime;
+class SkyPoint;
 
 /**
  * @class EyepieceField
  * @short Renders the view through the eyepiece of various telescope types
+ *
  * @author Akarsh Simha <akarsh.simha@kdemail.net>
  */
-
 class EyepieceField : public QDialog // FIXME: Rename to EyepieceView
 {
     Q_OBJECT
@@ -51,11 +53,6 @@ class EyepieceField : public QDialog // FIXME: Rename to EyepieceView
          * @short Constructor
          */
     EyepieceField(QWidget *parent = 0);
-
-    /**
-         * @short Destructor
-         */
-    ~EyepieceField();
 
     /**
          * @short Show the eyepiece field dialog
@@ -166,24 +163,25 @@ class EyepieceField : public QDialog // FIXME: Rename to EyepieceView
     void slotDssDownloaded(bool success);
 
   private:
-    QLabel *m_skyChartDisplay;
-    QLabel *m_skyImageDisplay;
-    QImage *m_skyChart;
-    QImage *m_skyImage;
-    QSlider *m_rotationSlider;
-    QCheckBox *m_invertColors;
-    QCheckBox *m_overlay;
-    QCheckBox *m_invertView;
-    QCheckBox *m_flipView;
-    QComboBox *m_presetCombo;
-    QPushButton *m_getDSS;
+    QLabel *m_skyChartDisplay { nullptr };
+    QLabel *m_skyImageDisplay { nullptr };
+    std::unique_ptr<QImage> m_skyChart;
+    std::unique_ptr<QImage> m_skyImage;
+    QSlider *m_rotationSlider { nullptr };
+    QCheckBox *m_invertColors { nullptr };
+    QCheckBox *m_overlay { nullptr };
+    QCheckBox *m_invertView { nullptr };
+    QCheckBox *m_flipView { nullptr };
+    QComboBox *m_presetCombo { nullptr };
+    QPushButton *m_getDSS { nullptr };
     const FOV *m_currentFOV;
-    double m_fovWidth, m_fovHeight;
-    KSDssDownloader *m_dler;
-    KStarsDateTime *m_dt;
-    SkyPoint *m_sp;
-    double m_lat; // latitude
+    double m_fovWidth { 0 };
+    double m_fovHeight { 0 };
+    KSDssDownloader *m_dler { nullptr };
+    KStarsDateTime *m_dt { nullptr };
+    SkyPoint *m_sp { nullptr };
+    double m_lat { 0 };
     QTemporaryFile m_tempFile;
     QPixmap m_renderImage, m_renderChart;
-    bool m_usedAltAz;
+    bool m_usedAltAz { false };
 };

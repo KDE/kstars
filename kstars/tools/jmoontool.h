@@ -14,35 +14,36 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JMOONTOOL_H_
-#define JMOONTOOL_H_
+#pragma once
 
 #include <QDialog>
 
-class KStars;
 class QColor;
-class KPlotWidget;
 
-/** @class JMoonTool
-	*@short Display the positions of Jupiter's moons as a function of time
-	*@version 1.0
-	*@author Jason Harris
-	*/
+class KPlotWidget;
+class KStars;
+
+/**
+ * @class JMoonTool
+ * @short Display the positions of Jupiter's moons as a function of time
+ *
+ * @version 1.0
+ * @author Jason Harris
+ */
 class JMoonTool : public QDialog
 {
     Q_OBJECT
+
   public:
-    JMoonTool(QWidget *parent = 0);
-    ~JMoonTool();
+    explicit JMoonTool(QWidget *parent = nullptr);
 
   protected:
     virtual void keyPressEvent(QKeyEvent *e);
 
   private:
     void initPlotObjects();
-    KPlotWidget *pw;
-    KStars *ksw;
+
+    KPlotWidget *pw { nullptr };
+    KStars *ksw { nullptr };
     QColor colJp, colIo, colEu, colGn, colCa;
 };
-
-#endif

@@ -19,6 +19,8 @@
 
 #include <KMessageBox>
 
+#include <QUuid>
+
 #include <sys/stat.h>
 
 ServerManager::ServerManager(const QString& inHost, uint inPort)
@@ -62,7 +64,7 @@ bool ServerManager::start()
         else
             indiServerDir = QFileInfo(Options::indiServer()).dir().path();
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        env.insert("PATH", driversDir + ":" + indiServerDir + ":/usr/local/bin:/usr/bin:/bin");
+        env.insert("PATH", driversDir + ':' + indiServerDir + ":/usr/local/bin:/usr/bin:/bin");
         QString gscDirPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "gsc";
         env.insert("GSCDAT", gscDirPath);
         QString gphoto_iolibs = QCoreApplication::applicationDirPath() + "/../PlugIns/libgphoto2_port";
@@ -278,7 +280,7 @@ void ServerManager::processStandardError()
 
     if (Options::iNDILogging())
     {
-        for (auto &msg : stderr.split("\n"))
+        for (auto &msg : stderr.split('\n'))
             qDebug() << "INDI Server: " << msg;
     }
 

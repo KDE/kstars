@@ -16,11 +16,13 @@
  ***************************************************************************/
 
 #include "eqplotwidget.h"
-#include <QPainter>
-#include <KLocalizedString>
-#include <QDebug>
+
 #include "kstarsdatetime.h"
 #include "modcalcvizequinox.h"
+
+#include <KLocalizedString>
+
+#include <QPainter>
 
 eqPlotWidget::eqPlotWidget(QWidget *parent) : KPlotWidget(parent)
 {

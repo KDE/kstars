@@ -8,16 +8,16 @@
 
 */
 
-#include <QImageReader>
-#include <QPainter>
-#include <QRubberBand>
-
 #include "videowg.h"
-#include "Options.h"
+
+#include <QImageReader>
+#include <QMouseEvent>
+#include <QResizeEvent>
+#include <QRubberBand>
 
 VideoWG::VideoWG(QWidget *parent) : QLabel(parent)
 {
-    streamImage = new QImage();
+    streamImage.reset(new QImage());
 
     grayTable.resize(256);
 
@@ -27,7 +27,6 @@ VideoWG::VideoWG(QWidget *parent) : QLabel(parent)
 
 VideoWG::~VideoWG()
 {
-    delete (streamImage);
 }
 
 bool VideoWG::newFrame(IBLOB *bp)
@@ -36,7 +35,7 @@ bool VideoWG::newFrame(IBLOB *bp)
         return false;
 
     QString format(bp->format);
-    format.remove(".");
+    format.remove('.');
     format.remove("stream_");
     bool rc = false;
 
@@ -44,14 +43,12 @@ bool VideoWG::newFrame(IBLOB *bp)
         rc = streamImage->loadFromData(static_cast<uchar *>(bp->blob), bp->size);
     else if (static_cast<uint32_t>(bp->size) > totalBaseCount)
     {
-        delete (streamImage);
-        streamImage = new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_RGB888);
-        rc          = !streamImage->isNull();
+        streamImage.reset(new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_RGB888));
+        rc = !streamImage->isNull();
     }
     else if (static_cast<uint32_t>(bp->size) == totalBaseCount)
     {
-        delete (streamImage);
-        streamImage = new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_Indexed8);
+        streamImage.reset(new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_Indexed8));
         streamImage->setColorTable(grayTable);
         rc = !streamImage->isNull();
     }

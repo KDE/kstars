@@ -219,7 +219,7 @@ void KStarsData::updateTime(GeoLocation *geo, const bool automaticDSTchange)
 
     if (std::abs(ut().djd() - LastNumUpdate.djd()) > 1.0)
     {
-        LastNumUpdate = ut().djd();
+        LastNumUpdate = KStarsDateTime(ut().djd());
         m_preUpdateNumID++;
         m_preUpdateNum = KSNumbers(num);
         skyComposite()->update(&num);
@@ -227,7 +227,7 @@ void KStarsData::updateTime(GeoLocation *geo, const bool automaticDSTchange)
 
     if (std::abs(ut().djd() - LastPlanetUpdate.djd()) > 0.01)
     {
-        LastPlanetUpdate = ut().djd();
+        LastPlanetUpdate = KStarsDateTime(ut().djd());
         skyComposite()->updateSolarSystemBodies(&num);
     }
 
@@ -271,10 +271,10 @@ unsigned int KStarsData::incUpdateID()
 void KStarsData::setFullTimeUpdate()
 {
     //Set the update markers to invalid dates to trigger updates in each category
-    LastSkyUpdate    = QDateTime();
-    LastPlanetUpdate = QDateTime();
-    LastMoonUpdate   = QDateTime();
-    LastNumUpdate    = QDateTime();
+    LastSkyUpdate    = KStarsDateTime(QDateTime());
+    LastPlanetUpdate = KStarsDateTime(QDateTime());
+    LastMoonUpdate   = KStarsDateTime(QDateTime());
+    LastNumUpdate    = KStarsDateTime(QDateTime());
 }
 
 void KStarsData::syncLST()

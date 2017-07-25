@@ -69,10 +69,10 @@ class ImageViewer : public QDialog
 
   public:
     /** Creates empty viewer. */
-    ImageViewer(const QString &caption, QWidget *parent = nullptr);
+    explicit ImageViewer(const QString &caption, QWidget *parent = nullptr);
 
     /** Create image viewer from URL with caption */
-    ImageViewer(const QUrl &imageURL, const QString &capText = QString(), QWidget *parent = nullptr);
+    explicit ImageViewer(const QUrl &imageURL, const QString &capText = QString(), QWidget *parent = nullptr);
 
     /** Destructor. If there is a partially downloaded image file, delete it.*/
     ~ImageViewer();

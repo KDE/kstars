@@ -7,8 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDIDOME_H
-#define INDIDOME_H
+#pragma once
 
 #include "indistd.h"
 
@@ -20,13 +19,12 @@ namespace ISD
  *
  * @author Jasem Mutlaq
  */
-
 class Dome : public DeviceDecorator
 {
     Q_OBJECT
 
   public:
-    Dome(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_DOME; }
+    explicit Dome(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_DOME; }
 
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
@@ -45,5 +43,3 @@ class Dome : public DeviceDecorator
     bool UnPark();
 };
 }
-
-#endif // INDIDOME_H

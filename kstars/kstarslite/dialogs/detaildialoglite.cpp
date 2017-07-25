@@ -15,27 +15,24 @@
  ***************************************************************************/
 
 #include "detaildialoglite.h"
-#include "skymaplite.h"
-#include "kstarslite/skyobjectlite.h"
-#include "ksutils.h"
-#include "kspaths.h"
 
-#include "skyobjects/ksplanetbase.h"
-#include "skyobjects/ksmoon.h"
-#include "skyobjects/kscomet.h"
+#include "constellationboundarylines.h"
+#include "deepskyobject.h"
+#include "kspaths.h"
+#include "ksutils.h"
+#include "Options.h"
+#include "skymapcomposite.h"
+#include "skymaplite.h"
+#include "starobject.h"
+#include "kstarslite/skyobjectlite.h"
 #include "skyobjects/ksasteroid.h"
+#include "skyobjects/kscomet.h"
+#include "skyobjects/ksmoon.h"
+#include "skyobjects/ksplanetbase.h"
 #include "skyobjects/supernova.h"
 
-#include "deepskyobject.h"
-#include "starobject.h"
-
-#include <QTemporaryFile>
 #include <QDesktopServices>
-
-#include "Options.h"
-
-#include "skymapcomposite.h"
-#include "constellationboundarylines.h"
+#include <QTemporaryFile>
 
 DetailDialogLite::DetailDialogLite()
 {
@@ -114,7 +111,7 @@ void DetailDialogLite::createGeneralTab()
             if (s->isMultiple() && s->isVariable())
             {
                 QString multiple = QString(i18nc("the star is a multiple star", "multiple") + ',');
-                setProperty("angSize", QString(multiple + "\n" + (i18nc("the star is a variable star", "variable"))));
+                setProperty("angSize", QString(multiple + '\n' + (i18nc("the star is a variable star", "variable"))));
             }
             else if (s->isMultiple())
             {
@@ -672,7 +669,7 @@ void DetailDialogLite::updateLocalDatabase(int type, const QString &search_line,
     delete out_stream;
 }
 
-void DetailDialogLite::addLink(QString url, QString desc, bool isImageLink)
+void DetailDialogLite::addLink(const QString &url, const QString &desc, bool isImageLink)
 {
     SkyObject *selectedObject = SkyMapLite::Instance()->getClickedObjectLite()->getObject();
 
@@ -804,7 +801,7 @@ void DetailDialogLite::removeLink(int itemIndex, bool isImage)
     setProperty("imageTitleList", selectedObject->ImageTitle());
 }
 
-void DetailDialogLite::editLink(int itemIndex, bool isImage, QString desc, QString url)
+void DetailDialogLite::editLink(int itemIndex, bool isImage, const QString &desc, const QString &url)
 {
     SkyObject *selectedObject = SkyMapLite::Instance()->getClickedObjectLite()->getObject();
 
@@ -946,8 +943,9 @@ void DetailDialogLite::setupThumbnail()
     QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode));
 }*/
 
-void DetailDialogLite::saveLogData(QString userLog)
+void DetailDialogLite::saveLogData(const QString &userLog)
 {
     SkyObject *selectedObject = SkyMapLite::Instance()->getClickedObjectLite()->getObject();
+
     selectedObject->saveUserLog(userLog);
 }

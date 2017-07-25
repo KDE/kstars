@@ -83,10 +83,6 @@ DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
 #endif
 
     currentPort = Options::serverPortStart().toInt() - 1;
-    lastGroup   = nullptr;
-    lastDevice  = nullptr;
-
-    connectionMode = SERVER_CLIENT;
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     ui                      = new DriverManagerUI(this);
@@ -97,21 +93,19 @@ DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
 
-    QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 
-    lastGroup = nullptr;
+    connect(ui->addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
+    connect(ui->modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
+    connect(ui->removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
 
-    QObject::connect(ui->addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
-    QObject::connect(ui->modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
-    QObject::connect(ui->removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
-
-    QObject::connect(ui->connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
-    QObject::connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
-    QObject::connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
-    QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
-    QObject::connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateLocalTab()));
-    QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientTab()));
-    QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
+    connect(ui->connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
+    connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
+    connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
+    connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
+    connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateLocalTab()));
+    connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientTab()));
+    connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
 
     // Do not use KSPaths here, this is for INDI
     if (Options::indiDriversDir().isEmpty())
@@ -1209,8 +1203,6 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     device->setText(LOCAL_VERSION_COLUMN, version);
     device->setText(LOCAL_PORT_COLUMN, port);
 
-    lastDevice = device;
-
     //if ((driverSource == PRIMARY_XML) && driversStringList.contains(driver) == false)
     if (groupType == KSTARS_TELESCOPE && driversStringList.contains(driver) == false)
         driversStringList.append(driver);
@@ -1243,7 +1235,7 @@ bool DriverManager::checkDriverAvailability(QString driver)
     else
         indiServerDir = QFileInfo(Options::indiServer()).dir().path();
 
-    QFile driverFile(indiServerDir + "/" + driver);
+    QFile driverFile(indiServerDir + '/' + driver);
 
     return driverFile.exists();
 }

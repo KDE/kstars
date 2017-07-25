@@ -15,24 +15,27 @@
  ***************************************************************************/
 
 #include "clientmanagerlite.h"
-#include "Options.h"
+
 #include "basedevice.h"
-#include "kstarslite.h"
-#include <QQmlApplicationEngine>
-#include <KLocalizedString>
 #include "indicom.h"
-#include "skymaplite.h"
-#include "kstarslite/skyitems/telescopesymbolsitem.h"
-#include <QDebug>
-#include <QImageReader>
-#include <QTemporaryFile>
+#include "inditelescopelite.h"
 #include "kspaths.h"
+#include "kstarslite.h"
+#include "Options.h"
+#include "skymaplite.h"
 #include "fitsviewer/fitsdata.h"
 #include "kstarslite/imageprovider.h"
-#include <QProcess>
-#include <QFileDialog>
-#include "kspaths.h"
+#include "kstarslite/skyitems/telescopesymbolsitem.h"
+
+#include <KLocalizedString>
+
 #include <QApplication>
+#include <QDebug>
+#include <QFileDialog>
+#include <QImageReader>
+#include <QProcess>
+#include <QQmlApplicationEngine>
+#include <QTemporaryFile>
 
 const char *libindi_strings_context = "string from libindi, used in the config dialog";
 
@@ -46,10 +49,9 @@ DeviceInfoLite::DeviceInfoLite(INDI::BaseDevice *dev) : device(dev), telescope(n
 
 DeviceInfoLite::~DeviceInfoLite()
 {
-    delete telescope;
 }
 
-ClientManagerLite::ClientManagerLite() : m_connected(false)
+ClientManagerLite::ClientManagerLite()
 {
 #ifdef ANDROID
     defaultImageType      = ".jpeg";
@@ -72,7 +74,7 @@ bool ClientManagerLite::setHost(QString ip, unsigned int port)
         qDebug() << ip << port;
         if (connectServer())
         {
-            setConnectedHost(ip + ":" + QString::number(port));
+            setConnectedHost(ip + ':' + QString::number(port));
             //Update last used server and port
             setLastUsedServer(ip);
             setLastUsedPort(port);
@@ -90,13 +92,13 @@ void ClientManagerLite::disconnectHost()
     setConnectedHost("");
 }
 
-TelescopeLite *ClientManagerLite::getTelescope(QString deviceName)
+TelescopeLite *ClientManagerLite::getTelescope(const QString &deviceName)
 {
     foreach (DeviceInfoLite *devInfo, m_devices)
     {
         if (devInfo->device->getDeviceName() == deviceName)
         {
-            return devInfo->telescope;
+            return devInfo->telescope.get();
         }
     }
     return nullptr;
@@ -614,7 +616,7 @@ bool ClientManagerLite::saveDisplayImage()
     //QString filename = KSPaths::writableLocation(QStandardPaths::PicturesLocation);
     //#ifndef ANDROID
     QString filename = QFileDialog::getSaveFileName(QApplication::activeWindow(), i18n("Save Image"),
-                                                    KSPaths::writableLocation(QStandardPaths::PicturesLocation) + "/" +
+                                                    KSPaths::writableLocation(QStandardPaths::PicturesLocation) + '/' +
                                                         fileEnding + ".jpeg",
                                                     i18n("JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)"));
     //#else
@@ -667,7 +669,7 @@ void ClientManagerLite::newDevice(INDI::BaseDevice *dp)
 
     DeviceInfoLite *devInfo = new DeviceInfoLite(dp);
     //Think about it!
-    //devInfo->telescope = new TelescopeLite(dp);
+    //devInfo->telescope.reset(new TelescopeLite(dp));
     m_devices.append(devInfo);
 }
 
@@ -697,8 +699,8 @@ void ClientManagerLite::newProperty(INDI::Property *property)
     {
         if ((!strcmp(property->getName(), "EQUATORIAL_EOD_COORD") || !strcmp(property->getName(), "HORIZONTAL_COORD")))
         {
-            devInfo->telescope = new TelescopeLite(devInfo->device);
-            emit telescopeAdded(devInfo->telescope);
+            devInfo->telescope.reset(new TelescopeLite(devInfo->device));
+            emit telescopeAdded(devInfo->telescope.get());
         }
     }
 
@@ -760,9 +762,9 @@ void ClientManagerLite::removeProperty(INDI::Property *property)
     {
         if ((!strcmp(property->getName(), "EQUATORIAL_EOD_COORD") || !strcmp(property->getName(), "HORIZONTAL_COORD")))
         {
-            if (devInfo->telescope)
+            if (devInfo->telescope.get() != nullptr)
             {
-                emit telescopeRemoved(devInfo->telescope);
+                emit telescopeRemoved(devInfo->telescope.get());
             }
             KStarsLite::Instance()->map()->update(); // Update SkyMap if position of telescope is changed
         }
@@ -790,7 +792,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB *bp)
     QString format(bp->format);
     QString deviceName = bp->bvp->device;
 
-    QByteArray fmt = QString(bp->format).toLower().remove(".").toUtf8();
+    QByteArray fmt = QString(bp->format).toLower().remove('.').toUtf8();
 
     // If it's not FITS or an image, don't process it.
     if ((QImageReader::supportedImageFormats().contains(fmt)))
@@ -1009,9 +1011,9 @@ void ClientManagerLite::clearDevices()
     //Delete all created devices
     foreach (DeviceInfoLite *devInfo, m_devices)
     {
-        if (devInfo->telescope)
+        if (devInfo->telescope.get() != nullptr)
         {
-            emit telescopeRemoved(devInfo->telescope);
+            emit telescopeRemoved(devInfo->telescope.get());
         }
         delete devInfo;
     }

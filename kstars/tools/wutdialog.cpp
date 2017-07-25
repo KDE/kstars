@@ -17,21 +17,7 @@
 
 #include "wutdialog.h"
 
-#include <QTimer>
-#include <QCursor>
-#include <QListWidgetItem>
-
-#include <QComboBox>
-#include <KLocalizedString>
-#include <QPushButton>
-
-#include "ui_wutdialog.h"
-
-#include "kstars.h"
-#include "kstarsdata.h"
 #include "skymap.h"
-#include "ksnumbers.h"
-#include "simclock.h"
 #include "dialogs/detaildialog.h"
 #include "dialogs/locationdialog.h"
 #include "dialogs/timedialog.h"
@@ -46,7 +32,7 @@ WUTDialogUI::WUTDialogUI(QWidget *p) : QFrame(p)
 }
 
 WUTDialog::WUTDialog(QWidget *parent, bool _session, GeoLocation *_geo, KStarsDateTime _lt)
-    : QDialog(parent), session(_session), T0(_lt), geo(_geo), EveningFlag(0), timer(nullptr)
+    : QDialog(parent), session(_session), T0(_lt), geo(_geo), EveningFlag(0)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);

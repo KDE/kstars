@@ -984,18 +984,18 @@ QString Telescope::getManualMotionString() const
     if (movementSP)
     {
         if (movementSP->sp[MOTION_NORTH].s == ISS_ON)
-            NSMotion = "N";
+            NSMotion = 'N';
         else if (movementSP->sp[MOTION_SOUTH].s == ISS_ON)
-            NSMotion = "S";
+            NSMotion = 'S';
     }
 
     movementSP = baseDevice->getSwitch("TELESCOPE_MOTION_WE");
     if (movementSP)
     {
         if (movementSP->sp[MOTION_WEST].s == ISS_ON)
-            WEMotion = "W";
+            WEMotion = 'W';
         else if (movementSP->sp[MOTION_EAST].s == ISS_ON)
-            WEMotion = "E";
+            WEMotion = 'E';
     }
 
     return QString("%1%2").arg(NSMotion, WEMotion);

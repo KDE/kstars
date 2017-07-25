@@ -534,8 +534,9 @@ QString StarObject::greekLetter(bool gchar) const
     return letter;
 }
 
-QString StarObject::constell()
-    const // FIXME: Move this somewhere else, make this static, and give it a better name. Mostly for code cleanliness. Also, try to put it in a DB.
+// FIXME: Move this somewhere else, make this static, and give it a better name.
+// Mostly for code cleanliness. Also, try to put it in a DB.
+QString StarObject::constell() const
 {
     QString code = name2().mid(4, 3);
 
@@ -550,6 +551,7 @@ QString StarObject::constell()
 QString StarObject::nameLabel(bool drawName, bool drawMag) const
 {
     QString sName;
+
     if (drawName)
     {
         if (translatedName() != i18n("star") && !translatedName().isEmpty())

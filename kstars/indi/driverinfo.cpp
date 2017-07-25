@@ -8,32 +8,23 @@
 
  */
 
-#include <QDebug>
+#include "driverinfo.h"
+
+#include "deviceinfo.h"
+#include "servermanager.h"
+
 #include <basedevice.h>
 
-#include "driverinfo.h"
-#include "deviceinfo.h"
-
-#include "servermanager.h"
+#include <QDebug>
 
 DriverInfo::DriverInfo(const QString &inName)
 {
     uniqueLabel.clear();
     name = inName;
 
-    driverSource = PRIMARY_XML;
-
-    // Initially off
-    serverState = false;
-    clientState = false;
-
-    serverManager = nullptr;
-
     hostname = "localhost";
     port     = "-1";
     userPort = "-1";
-
-    type = KSTARS_UNKNOWN;
 }
 
 DriverInfo::DriverInfo(DriverInfo *di)

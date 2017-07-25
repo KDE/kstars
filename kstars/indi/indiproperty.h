@@ -9,28 +9,33 @@
 
  */
 
-#ifndef INDIPROPERTY_H_
-#define INDIPROPERTY_H_
-
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <indiproperty.h>
+#pragma once
 
 #include "indicommon.h"
+
+#include <QObject>
+
+#include <memory>
+
+namespace INDI
+{
+class Property;
+}
 
 class INDI_G;
 class INDI_E;
 
+class QAbstractButton;
+class QButtonGroup;
+class QCheckBox;
 class QComboBox;
+class QHBoxLayout;
+class QPushButton;
+class QSpacerItem;
+class QVBoxLayout;
+
 class KLed;
 class KSqueezedTextLabel;
-
-class QPushButton;
-class QHBoxLayout;
-class QVBoxLayout;
-class QButtonGroup;
-class QAbstractButton;
-class QCheckBox;
 
 /**
  * @class INDI_P
@@ -67,7 +72,7 @@ class INDI_P : public QObject
     void buildLightGUI();
     void buildBLOBGUI();
 
-    /* Setup the 'set' button in the property */
+    /** Setup the 'set' button in the property */
     void setupSetButton(const QString &caption);
 
     void newTime();
@@ -76,7 +81,7 @@ class INDI_P : public QObject
 
     INDI_G *getGroup() { return pg; }
 
-    QHBoxLayout *getContainer() { return PHBox; }
+    QHBoxLayout *getContainer() { return PHBox.get(); }
 
     const QString &getName() { return name; }
 
@@ -86,26 +91,6 @@ class INDI_P : public QObject
     INDI_E *getElement(const QString &elementName);
 
     QList<INDI_E *> getElements() { return elementList; }
-
-  private:
-    INDI::Property *dataProp;
-    INDI_G *pg; /* parent group */
-    QCheckBox *enableBLOBC;
-    KSqueezedTextLabel *labelW; /* Label widget */
-    QPushButton *setB;          /* set button */
-    KLed *ledStatus;            /* state LED */
-    PGui guiType;               /* type of GUI, if any */
-
-    QSpacerItem *horSpacer; /* Horizontal spacer */
-    QHBoxLayout *PHBox;     /* Horizontal container */
-    QVBoxLayout *PVBox;     /* Vertical container */
-
-    QButtonGroup *groupB; /* group button for radio and check boxes (Elements) */
-    QComboBox *menuC;     /* Combo box for menu */
-
-    QString name;
-
-    QList<INDI_E *> elementList; /* list of elements */
 
   public slots:
     void processSetButton();
@@ -119,6 +104,31 @@ class INDI_P : public QObject
     void sendText();
 
     void setBLOBOption(int state);
-};
 
-#endif
+  private:
+    INDI::Property *dataProp { nullptr };
+    /// Parent group
+    INDI_G *pg { nullptr };
+    QCheckBox *enableBLOBC { nullptr };
+    /// Label widget
+    std::unique_ptr<KSqueezedTextLabel> labelW;
+    /// Set button
+    std::unique_ptr<QPushButton> setB;
+    /// Status LED
+    std::unique_ptr<KLed> ledStatus;
+    /// GUI type
+    PGui guiType;
+    /// Horizontal spacer
+    QSpacerItem *horSpacer { nullptr };
+    /// Horizontal container
+    std::unique_ptr<QHBoxLayout> PHBox;
+    /// Vertical container
+    QVBoxLayout *PVBox { nullptr };
+    /// Group button for radio and check boxes (Elements)
+    std::unique_ptr<QButtonGroup> groupB;
+    /// Combo box for menu
+    std::unique_ptr<QComboBox> menuC;
+    QString name;
+    /// List of elements
+    QList<INDI_E *> elementList;
+};

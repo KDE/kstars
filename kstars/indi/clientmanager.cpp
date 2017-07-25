@@ -8,30 +8,17 @@
 
  */
 
-#include <cstdlib>
-
-#include <QDebug>
-#include <QProcess>
-#include <QTime>
-#include <QTemporaryFile>
-#include <QDataStream>
-#include <QTimer>
-
-#include <basedevice.h>
-
 #include "clientmanager.h"
-#include "drivermanager.h"
-#include "servermanager.h"
-#include "driverinfo.h"
-#include "deviceinfo.h"
-#include "indilistener.h"
-#include "guimanager.h"
 
+#include "deviceinfo.h"
+#include "drivermanager.h"
+#include "guimanager.h"
+#include "indilistener.h"
 #include "Options.h"
+#include "servermanager.h"
 
 ClientManager::ClientManager()
 {
-    sManager = nullptr;
 }
 
 ClientManager::~ClientManager()
@@ -80,7 +67,7 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
         foreach (DriverInfo *dv, managedDrivers)
         {
             QString dvName = dv->getName();
-            dvName         = dv->getName().split(" ").first();
+            dvName         = dv->getName().split(' ').first();
             if (dvName.isEmpty())
                 dvName = dv->getName();
             if (/*dv->getUniqueLabel() == dp->getDeviceName() ||*/

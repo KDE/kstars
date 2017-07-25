@@ -17,19 +17,19 @@
 
 #include "calendarwidget.h"
 
-#include <QPainter>
-#include <KPlotting/KPlotObject>
-#include <QDebug>
-#include <KLocalizedString>
-
-#include "kstarsdata.h"
-#include "skyobjects/kssun.h"
-#include "skycalendar.h"
 #include "ksalmanac.h"
+#include "kssun.h"
+#include "kstarsdata.h"
+#include "skycalendar.h"
+
+#include <KLocalizedString>
+#include <KPlotting/KPlotObject>
+
+#include <QPainter>
+#include <QDebug>
 
 #define BIGTICKSIZE   10
 #define SMALLTICKSIZE 4
-#define TICKOFFSET    0
 
 CalendarWidget::CalendarWidget(QWidget *parent) : KPlotWidget(parent)
 {
@@ -88,8 +88,8 @@ void CalendarWidget::setHorizon()
     // Get rise and set time every 7 days for 1 year
     while (skycal->year() == kdt.date().year())
     {
-        QTime tmp_rTime = thesun.riseSetTime(kdt.djd() + 1.0, skycal->get_geo(), true, true);
-        QTime tmp_sTime = thesun.riseSetTime(kdt.djd(), skycal->get_geo(), false, true);
+        QTime tmp_rTime = thesun.riseSetTime(KStarsDateTime(kdt.djd() + 1.0), skycal->get_geo(), true, true);
+        QTime tmp_sTime = thesun.riseSetTime(KStarsDateTime(kdt.djd()), skycal->get_geo(), false, true);
 
         /* riseSetTime seems buggy since it sometimes returns the same time for rise and set (01:00:00).
          * In this case, we just reset tmp_rTime and tmp_sTime so they will be considered invalid
@@ -124,7 +124,7 @@ void CalendarWidget::setHorizon()
          * there is no night, else there is no day. */
         else
         {
-            if (thesun.transitAltitude(kdt.djd(), skycal->get_geo()).degree() > 0)
+            if (thesun.transitAltitude(KStarsDateTime(kdt.djd()), skycal->get_geo()).degree() > 0)
             {
                 rTime = -4.0;
                 sTime = 4.0;

@@ -49,7 +49,6 @@ const int MINIMUM_ROWS_PER_CENTER = 3;
 #define LOW_EDGE_CUTOFF_1  50
 #define LOW_EDGE_CUTOFF_2  10
 #define MINIMUM_EDGE_LIMIT 2
-#define SMALL_SCALE_SQUARE 256
 
 bool greaterThan(Edge *s1, Edge *s2)
 {
@@ -287,7 +286,7 @@ int FITSData::saveFITS(const QString &newFilename)
         // Skip "!" in the beginning of the new file name
         QString finalFileName(newFilename);
 
-        finalFileName.remove("!");
+        finalFileName.remove('!');
 
         // Remove first otherwise copy will fail below if file exists
         QFile::remove(finalFileName);

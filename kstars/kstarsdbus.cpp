@@ -300,7 +300,7 @@ void KStars::readConfig()
     if (data()->StoredDate.isValid())
     {
         data()->changeDateTime(data()->geo()->LTtoUT(data()->StoredDate));
-        data()->StoredDate = QDateTime(); //invalidate StoredDate
+        data()->StoredDate = KStarsDateTime(QDateTime()); //invalidate StoredDate
     }
 
     map()->forceUpdate();

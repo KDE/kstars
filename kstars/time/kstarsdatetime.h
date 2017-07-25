@@ -55,7 +55,7 @@ class KStarsDateTime : public QDateTime
          *Creates a date/time at the specified Julian Day.
          *@p jd The Julian Day
          */
-    KStarsDateTime(long double djd);
+    explicit KStarsDateTime(long double djd);
 
     /**
          *@short Copy constructor
@@ -67,7 +67,7 @@ class KStarsDateTime : public QDateTime
          *@short Copy constructor
          *@p qdt The QDateTime object to copy.
          */
-    KStarsDateTime(const QDateTime &qdt);
+    explicit KStarsDateTime(const QDateTime &qdt);
 
     /**
          *@short Constructor

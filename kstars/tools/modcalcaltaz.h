@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCALTAZ_H_
-#define MODCALCALTAZ_H_
+#pragma once
 
+#include "dms.h"
 #include "ui_modcalcaltaz.h"
 
-class QWidget;
+class QDateTime;
+
 class GeoLocation;
-class dms;
 
 /**
   *@author Pablo de Vicente
@@ -46,5 +46,3 @@ class modCalcAltAz : public QFrame, public Ui::modCalcAltAz
     GeoLocation *geoPlace;
     dms LST;
 };
-
-#endif

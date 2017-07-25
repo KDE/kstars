@@ -199,7 +199,7 @@ void GUIManager::removeClient(ClientManager *cm)
         {
             for (int i = 0; i < mainTabWidget->count(); i++)
             {
-                if (mainTabWidget->tabText(i).remove("&") == QString(gdv->getBaseDevice()->getDeviceName()))
+                if (mainTabWidget->tabText(i).remove('&') == QString(gdv->getBaseDevice()->getDeviceName()))
                 {
                     mainTabWidget->removeTab(i);
                     break;
@@ -235,7 +235,7 @@ void GUIManager::removeDevice(DeviceInfo *di)
 
     for (int i = 0; i < mainTabWidget->count(); i++)
     {
-        if (mainTabWidget->tabText(i).remove("&") == QString(deviceName))
+        if (mainTabWidget->tabText(i).remove('&') == QString(deviceName))
         {
             mainTabWidget->removeTab(i);
             break;

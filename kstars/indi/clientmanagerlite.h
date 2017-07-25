@@ -14,15 +14,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CLIENTMANAGERLITE_H
-#define CLIENTMANAGERLITE_H
+#pragma once
 
 #include "baseclientqt.h"
-#include "inditelescopelite.h"
 #include "indicommon.h"
-#include "Options.h"
 #include "indistd.h"
+
 #include <QImage>
+
+#include <memory>
 
 class QFileDialog;
 
@@ -31,12 +31,12 @@ class TelescopeLite;
 
 struct DeviceInfoLite
 {
-    DeviceInfoLite(INDI::BaseDevice *dev);
+    explicit DeviceInfoLite(INDI::BaseDevice *dev);
     ~DeviceInfoLite();
-    INDI::BaseDevice *device;
 
-    //Motion control
-    TelescopeLite *telescope;
+    INDI::BaseDevice *device { nullptr };
+    /// Motion control
+    std::unique_ptr<TelescopeLite> telescope;
 };
 
 /**
@@ -51,30 +51,37 @@ class ClientManagerLite : public INDI::BaseClientQt
     Q_PROPERTY(QString connectedHost READ connectedHost WRITE setConnectedHost NOTIFY connectedHostChanged)
     Q_PROPERTY(bool connected READ isConnected WRITE setConnected NOTIFY connectedChanged)
 
-    /** A wrapper for Options::lastServer(). Used to store last used server if user successfully
-         * connected to some server at least once.**/
+    /**
+     * A wrapper for Options::lastServer(). Used to store last used server if user successfully
+     * connected to some server at least once.
+     **/
     Q_PROPERTY(QString lastUsedServer READ getLastUsedServer WRITE setLastUsedServer NOTIFY lastUsedServerChanged)
 
-    /** A wrapper for Options::lastServer(). Used to store last used port if user successfully
-         * connected to some server at least once.**/
+    /**
+     * A wrapper for Options::lastServer(). Used to store last used port if user successfully
+     * connected to some server at least once.
+     **/
     Q_PROPERTY(int lastUsedPort READ getLastUsedPort WRITE setLastUsedPort NOTIFY lastUsedPortChanged)
   public:
     typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
+
     ClientManagerLite();
     virtual ~ClientManagerLite();
+
     Q_INVOKABLE bool setHost(QString ip, unsigned int port);
     Q_INVOKABLE void disconnectHost();
 
-    Q_INVOKABLE TelescopeLite *getTelescope(QString deviceName);
+    Q_INVOKABLE TelescopeLite *getTelescope(const QString &deviceName);
 
     QString connectedHost() { return m_connectedHost; }
     void setConnectedHost(QString connectedHost);
     void setConnected(bool connected);
+
     /**
-         * @brief syncLED
-         * @param name of Light which LED needs to be synced
-         * @return color of state
-         */
+     * @brief syncLED
+     * @param name of Light which LED needs to be synced
+     * @return color of state
+     */
     Q_INVOKABLE QString syncLED(QString device, QString property, QString name = "");
 
     void buildTextGUI(INDI::Property *property);
@@ -105,9 +112,9 @@ class ClientManagerLite : public INDI::BaseClientQt
     Q_INVOKABLE int getLastUsedPort();
     Q_INVOKABLE void setLastUsedPort(int port);
     /**
-         * @brief saveDisplayImage
-         * @return true if image was saved false otherwise
-         */
+     * @brief saveDisplayImage
+     * @return true if image was saved false otherwise
+     */
     Q_INVOKABLE bool saveDisplayImage();
 
     void clearDevices();
@@ -172,7 +179,7 @@ class ClientManagerLite : public INDI::BaseClientQt
 
     QList<DeviceInfoLite *> m_devices;
     QString m_connectedHost;
-    bool m_connected;
+    bool m_connected { false };
     char BLOBFilename[MAXINDIFILENAME];
     QImage displayImage;
 #ifdef ANDROID
@@ -180,5 +187,3 @@ class ClientManagerLite : public INDI::BaseClientQt
     QString defaultImagesLocation;
 #endif
 };
-
-#endif // CLIENTMANAGERLITE_H

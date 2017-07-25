@@ -82,6 +82,7 @@ Align::Align()
     alignView->setBaseSize(alignWidget->size());
     alignView->createFloatingToolBar();
     QVBoxLayout *vlayout = new QVBoxLayout();
+
     vlayout->addWidget(alignView);
     alignWidget->setLayout(vlayout);
 
@@ -963,8 +964,8 @@ void Align::generateAlignStarList()
     boxNames.removeDuplicates();
     greekBoxNames.removeDuplicates();
     qSort(greekBoxNames.begin(), greekBoxNames.end(), [](const QString &a, const QString &b) {
-        QStringList aParts = a.split(" ");
-        QStringList bParts = b.split(" ");
+        QStringList aParts = a.split(' ');
+        QStringList bParts = b.split(' ');
         if (aParts.length() < 2 || bParts.length() < 2)
             return a < b; //This should not happen, they should all have 2 words in the string.
         if (aParts[1] == bParts[1])
@@ -1038,7 +1039,7 @@ void Align::updatePreviewAlignPoints()
                 QString objString = objNameCell->text();
 
                 SkyPoint flagPoint(raDMS, decDMS);
-                flags->add(flagPoint, "J2000", "Default", "Align " + QString::number(i + 1) + " " + objString, "white");
+                flags->add(flagPoint, "J2000", "Default", "Align " + QString::number(i + 1) + ' ' + objString, "white");
             }
         }
     }
@@ -1393,9 +1394,9 @@ void Align::exportSolutionPoints()
         }
         dms raDMS = dms::fromString(raCell->text(), false);
         dms deDMS = dms::fromString(deCell->text(), true);
-        outstream << raDMS.toHMSString() << "," << deDMS.toDMSString() << "," << raDMS.Degrees() << ","
-                  << deDMS.Degrees() << "," << objNameCell->text() << "," << raErrorCell->text().remove("\"") << ","
-                  << deErrorCell->text().remove("\"") << endl;
+        outstream << raDMS.toHMSString() << ',' << deDMS.toDMSString() << ',' << raDMS.Degrees() << ','
+                  << deDMS.Degrees() << ',' << objNameCell->text() << ',' << raErrorCell->text().remove('\"') << ','
+                  << deErrorCell->text().remove('\"') << endl;
     }
     appendLogText(i18n("Solution Points Saved as: %1", path));
     file.close();
@@ -2355,8 +2356,10 @@ bool Align::captureAndSolve()
 
         // Enable remote parse
         dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(true);
+
         QString options        = solverOptions->text().simplified();
-        QStringList solverArgs = options.split(" ");
+        QStringList solverArgs = options.split(' ');
+
         dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->sendArgs(solverArgs);
 
         if (solverIterations == 0)
@@ -2560,7 +2563,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
 
     if (isGenerated)
     {
-        solverArgs = options.split(" ");
+        solverArgs = options.split(' ');
         // Replace RA and DE with LST & 90/-90 pole
         if (pahStage == PAH_FIRST_CAPTURE)
         {
@@ -2612,7 +2615,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
             solverArgs = generateOptions(optionsMap);
         }
         else if (rc == KMessageBox::No)
-            solverArgs = options.split(" ");
+            solverArgs = options.split(' ');
         else
         {
             abort();
@@ -2758,7 +2761,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         textLabel->setBrush(Qt::white);
         //textLabel->setBrush(Qt::NoBrush);
         textLabel->setPen(Qt::NoPen);
-        textLabel->setText(" " + QString::number(solutionTable->rowCount()) + " ");
+        textLabel->setText(' ' + QString::number(solutionTable->rowCount()) + ' ');
         textLabel->setFont(QFont(font().family(), 8));
 
         if (!alignPlot->xAxis->range().contains(raDiff))

@@ -8,18 +8,18 @@
 
 */
 
-#ifndef VIDEOWG_H_
-#define VIDEOWG_H_
-
-#include <QPixmap>
-#include <QPaintEvent>
-#include <QVector>
-#include <QColor>
-#include <QImage>
-#include <QLabel>
+#pragma once
 
 #include <indidevapi.h>
 
+#include <QPixmap>
+#include <QVector>
+#include <QColor>
+#include <QLabel>
+
+#include <memory>
+
+class QImage;
 class QRubberBand;
 
 class VideoWG : public QLabel
@@ -27,7 +27,7 @@ class VideoWG : public QLabel
     Q_OBJECT
 
   public:
-    VideoWG(QWidget *parent = 0);
+    explicit VideoWG(QWidget *parent = nullptr);
     ~VideoWG();
 
     bool newFrame(IBLOB *bp);
@@ -46,15 +46,12 @@ class VideoWG : public QLabel
     void newSelection(QRect);
 
   private:
-    uint16_t streamW        = -1;
-    uint16_t streamH        = -1;
-    uint32_t totalBaseCount = 0;
+    uint16_t streamW { 0 };
+    uint16_t streamH { 0 };
+    uint32_t totalBaseCount { 0 };
     QVector<QRgb> grayTable;
-    QImage *streamImage;
+    std::unique_ptr<QImage> streamImage;
     QPixmap kPix;
-
-    QRubberBand *rubberBand = nullptr;
+    QRubberBand *rubberBand { nullptr };
     QPoint origin;
 };
-
-#endif

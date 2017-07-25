@@ -15,10 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LEGEND_H
-#define LEGEND_H
+#pragma once
 
-#include <QObject>
 #include <QFont>
 #include <QPoint>
 #include <QColor>
@@ -27,9 +25,9 @@ class QPaintDevice;
 class QPointF;
 class QSize;
 
-class SkyQPainter;
-class SkyMap;
 class ColorScheme;
+class SkyMap;
+class SkyQPainter;
 
 /**
  * \class Legend
@@ -347,27 +345,25 @@ class Legend
           */
     QPoint positionToDeviceCoord(QPaintDevice *pd);
 
-    SkyQPainter *m_Painter;
-    SkyMap *m_SkyMap;
-    bool m_DeletePainter;
+    SkyQPainter *m_Painter { nullptr };
+    SkyMap *m_SkyMap { nullptr };
+    bool m_DeletePainter { false };
 
-    LEGEND_TYPE m_Type;
+    LEGEND_TYPE m_Type { LT_FULL };
     LEGEND_ORIENTATION m_Orientation;
     LEGEND_POSITION m_Position;
     QPoint m_PositionFloating;
 
-    ColorScheme *m_cScheme;
+    ColorScheme *m_cScheme { nullptr };
     QFont m_Font;
     QColor m_BgColor;
-    bool m_DrawFrame;
+    bool m_DrawFrame { false };
 
-    int m_SymbolSize;
-    int m_BRectWidth;
-    int m_BRectHeight;
-    int m_MaxHScalePixels;
-    int m_MaxVScalePixels;
-    int m_XSymbolSpacing;
-    int m_YSymbolSpacing;
+    int m_SymbolSize { 0 };
+    int m_BRectWidth { 0 };
+    int m_BRectHeight { 0 };
+    int m_MaxHScalePixels { 0 };
+    int m_MaxVScalePixels { 0 };
+    int m_XSymbolSpacing { 0 };
+    int m_YSymbolSpacing { 0 };
 };
-
-#endif // LEGEND_H

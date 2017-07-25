@@ -92,7 +92,7 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
     for (auto &indexName : indexList)
     {
-        indexName                = indexName.replace("-", "_").left(10);
+        indexName                = indexName.replace('-', '_').left(10);
         QCheckBox *indexCheckBox = findChild<QCheckBox *>(indexName);
         if (indexCheckBox)
             indexCheckBox->setChecked(true);
@@ -183,7 +183,7 @@ bool OpsAstrometryIndexFiles::getAstrometryDataDir(QString &dataDir)
     while (!in.atEnd())
     {
         line = in.readLine();
-        if (line.isEmpty() || line.startsWith("#"))
+        if (line.isEmpty() || line.startsWith('#'))
             continue;
 
         line = line.trimmed();
@@ -225,16 +225,17 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
 {
     QString indexString = QString::number(currentIndex);
     if (currentIndex < 10)
-        indexString = "0" + indexString;
+        indexString = '0' + indexString;
 
-    QString indexSeriesName = checkBox->text().remove("&");
+    QString indexSeriesName = checkBox->text().remove('&');
     QProgressBar *indexDownloadProgress =
-        findChild<QProgressBar *>(indexSeriesName.replace("-", "_").left(10) + "_progress");
+        findChild<QProgressBar *>(indexSeriesName.replace('-', '_').left(10) + "_progress");
     if (indexDownloadProgress && maxIndex > 0)
         indexDownloadProgress->setValue(currentIndex*100 / maxIndex);
 
     QString indexURL = URL;
-    indexURL.replace("*", indexString);
+
+    indexURL.replace('*', indexString);
 
     QNetworkReply *response = manager->get(QNetworkRequest(QUrl(indexURL)));
 
@@ -252,9 +253,11 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
                 response->deleteLater();
                 if (response->error() != QNetworkReply::NoError)
                     return;
+
                 QByteArray responseData = response->readAll();
                 QString indexFileN      = fileN;
-                indexFileN.replace("*", indexString);
+
+                indexFileN.replace('*', indexString);
 
                 QFile file(indexFileN);
                 if (QFileInfo(QFileInfo(file).path()).isWritable())
@@ -313,12 +316,13 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
 
     if (checkBox)
     {
-        QString indexSetName                = checkBox->text().remove("&");
+        QString indexSetName                = checkBox->text().remove('&');
         QString progressBarName             = indexSetName;
-        progressBarName                     = progressBarName.replace("-", "_").left(10) + "_progress";
+        progressBarName                     = progressBarName.replace('-', '_').left(10) + "_progress";
         QProgressBar *indexDownloadProgress = findChild<QProgressBar *>(progressBarName);
-        QString filePath                    = astrometryDataDir + "/" + indexSetName;
+        QString filePath                    = astrometryDataDir + '/' + indexSetName;
         int indexFileNum                    = indexSetName.midRef(8, 2).toInt();
+
         if (checked)
         {
             checkBox->setChecked(!checked);

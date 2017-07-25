@@ -14,32 +14,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef INDIDRIVER_H_
-#define INDIDRIVER_H_
+#pragma once
+
+#include "ui_devmanager.h"
 
 #include <QFrame>
 #include <QHash>
-#include <qstringlist.h>
-#include <kdialog.h>
-#include <unistd.h>
+#include <QIcon>
+#include <QList>
 
 #include <lilxml.h>
-#include "ui_devmanager.h"
+
+#include <unistd.h>
 
 class QTreeWidgetItem;
-class QIcon;
 
+class DeviceManager;
 class INDI_D;
 class KStars;
-class DeviceManager;
 
 struct INDIHostsInfo
 {
     QString name;
     QString hostname;
     QString portnumber;
-    bool isConnected;
-    DeviceManager *deviceManager;
+    bool isConnected { false };
+    DeviceManager *deviceManager { nullptr };
 };
 
 class IDevice : public QObject
@@ -47,9 +47,6 @@ class IDevice : public QObject
     Q_OBJECT
 
   public:
-    IDevice(const QString &inName, const QString &inLabel, const QString &inDriver, const QString &inVersion);
-    ~IDevice();
-
     enum DeviceStatus
     {
         DEV_START,
@@ -62,6 +59,12 @@ class IDevice : public QObject
         EM_XML
     };
 
+    IDevice(const QString &inName, const QString &inLabel, const QString &inDriver, const QString &inVersion);
+    ~IDevice();
+
+    void clear();
+    QString getServerBuffer();
+
     QString tree_label;
     QString unique_label;
     QString name;
@@ -73,14 +76,11 @@ class IDevice : public QObject
     XMLSource xmlSource;
 
     DeviceManager *deviceManager;
-    int type;
+    int type { 0 };
 
     /* Telescope specific attributes */
-    double focal_length;
-    double aperture;
-
-    void clear();
-    QString getServerBuffer();
+    double focal_length { 0 };
+    double aperture { 0 };
 };
 
 class DeviceManagerUI : public QFrame, public Ui::devManager
@@ -88,7 +88,7 @@ class DeviceManagerUI : public QFrame, public Ui::devManager
     Q_OBJECT
 
   public:
-    DeviceManagerUI(QWidget *parent = 0);
+    explicit DeviceManagerUI(QWidget *parent = nullptr);
 
     QIcon runningPix;
     QIcon stopPix;
@@ -121,23 +121,13 @@ class INDIDriver : public QDialog
         HOST_PORT_COLUMN
     };
 
-    INDIDriver(KStars *ks);
+    explicit INDIDriver(KStars *ks);
     ~INDIDriver();
 
     bool readXMLDrivers();
     void processXMLDriver(QString &driverName);
     bool buildDeviceGroup(XMLEle *root, char errmsg[]);
     bool buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int groupType, char errmsg[]);
-
-    KStars *ksw;
-    DeviceManagerUI *ui;
-    QList<IDevice *> devices;
-    QTreeWidgetItem *lastGroup;
-    QTreeWidgetItem *lastDevice;
-
-    QHash<QString, QString> driversList;
-    int currentPort;
-    IDevice::XMLSource xmlSource;
 
     int getINDIPort(int customPort);
     bool isDeviceRunning(const QString &deviceLabel);
@@ -169,10 +159,18 @@ class INDIDriver : public QDialog
     void newCCDDiscovered();
     void updateCustomDrivers();
 
+  public:
+    KStars *ksw { nullptr };
+    DeviceManagerUI *ui { nullptr };
+    QList<IDevice *> devices;
+    QTreeWidgetItem *lastGroup { nullptr };
+    QTreeWidgetItem *lastDevice { nullptr };
+    QHash<QString, QString> driversList;
+    int currentPort { 0 };
+    IDevice::XMLSource xmlSource;
+
   signals:
     void newDevice();
     void newTelescope();
     void newCCD();
 };
-
-#endif

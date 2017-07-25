@@ -13,8 +13,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef SATELLITESITEM_H_
-#define SATELLITESITEM_H_
+
+#pragma once
 
 #include "skyitem.h"
 
@@ -34,24 +34,21 @@ class SatellitesItem : public SkyItem
 {
   public:
     /**
-         * @short Constructor
-         * @param satComp - pointer to SatellitesComponent that handles data
-         * @param rootNode parent RootNode that instantiates this object
-         */
-    SatellitesItem(SatellitesComponent *satComp, RootNode *rootNode = 0);
+     * @short Constructor
+     * @param satComp - pointer to SatellitesComponent that handles data
+     * @param rootNode parent RootNode that instantiates this object
+     */
+    explicit SatellitesItem(SatellitesComponent *satComp, RootNode *rootNode = nullptr);
 
     /**
-         * @short recreates the node tree (deletes old nodes and appends new ones according to
-         * SatelliteGroups from SatellitesComponent::groups())
-         */
+     * @short recreates the node tree (deletes old nodes and appends new ones according to
+     * SatelliteGroups from SatellitesComponent::groups())
+     */
     void recreateList();
 
-    /**
-         * @short Update positions and visibility of satellites
-         */
+    /** Update positions and visibility of satellites */
     virtual void update() override;
 
   private:
-    SatellitesComponent *m_satComp;
+    SatellitesComponent *m_satComp { nullptr };
 };
-#endif

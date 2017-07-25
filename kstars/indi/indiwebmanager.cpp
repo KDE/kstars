@@ -14,8 +14,10 @@
 #include "Options.h"
 #include "profileinfo.h"
 
-#include <QNetworkReply>
+#include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QNetworkReply>
 
 namespace INDI
 {

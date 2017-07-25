@@ -14,10 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PVPLOTWIDGET_H_
-#define PVPLOTWIDGET_H_
-
-#include <QFrame>
+#pragma once
 
 #include "kplotwidget.h"
 
@@ -27,8 +24,7 @@ class PVPlotWidget : public KPlotWidget
 {
     Q_OBJECT
   public:
-    PVPlotWidget(QWidget *parent = 0);
-    ~PVPlotWidget();
+    explicit PVPlotWidget(QWidget *parent = nullptr);
 
   public slots:
     void slotZoomIn();
@@ -46,11 +42,11 @@ class PVPlotWidget : public KPlotWidget
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 
   private:
-    bool mouseButtonDown;
-    int oldx, oldy;
-    double factor;
-    PlanetViewer *pv;
     void updateFactor(const int modifier);
-};
 
-#endif
+    bool mouseButtonDown { false };
+    int oldx { 0 };
+    int oldy { 0 };
+    double factor { 2 };
+    PlanetViewer *pv { nullptr };
+};

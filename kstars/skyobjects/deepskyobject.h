@@ -15,18 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DEEPSKYOBJECT_H_
-#define DEEPSKYOBJECT_H_
+#pragma once
 
-#include <qimage.h>
-#include <qpoint.h>
-
-#include "skyobject.h"
 #include "dms.h"
+#include "skyobject.h"
+
+#include <QImage>
+#include <QString>
 
 class QImage;
 class QString;
+
 class KSPopupMenu;
+
 class CatalogComponent;
 class CatalogEntryData;
 
@@ -70,7 +71,7 @@ class DeepSkyObject : public SkyObject
          */
     DeepSkyObject(const DeepSkyObject &o);
 
-    DeepSkyObject(const CatalogEntryData &data, CatalogComponent *cat = 0);
+    explicit DeepSkyObject(const CatalogEntryData &data, CatalogComponent *cat = nullptr);
 
     QString labelString() const Q_DECL_OVERRIDE;
 
@@ -205,28 +206,23 @@ class DeepSkyObject : public SkyObject
         	*/
     double labelOffset() const Q_DECL_OVERRIDE;
 
-    quint64 updateID;
-    quint64 updateNumID;
-
     void initPopupMenu(KSPopupMenu *pmenu) Q_DECL_OVERRIDE;
 
+  public:
+    quint64 updateID { 0 };
+    quint64 updateNumID { 0 };
+
   private:
-    double PositionAngle;
+    double PositionAngle { 0 };
     QImage m_image;
-    QList<const SkyObject *>
-        m_Parents; // Q: Should we use KStars UUIDs, DB UUIDs, or SkyObject * pointers? Q: Should we extend this to stars? -- asimha
-    QList<const SkyObject *>
-        m_Children; // Q: Should we use KStars UUIDs, DB UUIDs, or SkyObject * pointers? Q: Should we extend this to stars? -- asimha
-    QStringList
-        m_AlternateDesignations; // Alternate names. FIXME: These should be superseded by designation UIDs in the database
-    QString Description;         // Dreyer or other description
-    QString Classification;      // Object class. eg: SBb for galaxies
-
-    CatalogComponent *customCat;
-    int UGC, PGC;
-    float MajorAxis, MinorAxis, Flux;
-    unsigned char Catalog;
-    bool imageLoaded = false;
+    /// Dreyer or other description
+    QString Description;
+    CatalogComponent *customCat { nullptr };
+    int UGC { 0 };
+    int PGC { 0 };
+    float MajorAxis { 0 };
+    float MinorAxis { 0 };
+    float Flux { 0 };
+    unsigned char Catalog { 0 };
+    bool imageLoaded { false };
 };
-
-#endif

@@ -150,24 +150,26 @@ QString SkyObjItem::getImageURL(bool preferThumb) const
             .url();
 
     //First try to return the preferred file
-    if (thumbURL != "" && preferThumb)
+    if (!thumbURL.isEmpty() && preferThumb)
         return thumbURL;
-    if (fullSizeURL != "" && (!preferThumb))
+    if (!fullSizeURL.isEmpty() && (!preferThumb))
         return fullSizeURL;
 
     //If that fails, try to return the large image first, then the thumb, and then if it is a planet, the xplanet image. Finally if all else fails, the wiki image.
     QString fname = fullSizeURL;
-    if (fname == "")
+
+    if (fname.isEmpty())
+    {
         fname = thumbURL;
-    if (fname == "" && m_Type == Planet)
+    }
+    if (fname.isEmpty() && m_Type == Planet)
     {
         fname = XPlanetURL;
     }
-    if (fname == "")
+    if (fname.isEmpty())
     {
         fname = wikiImageURL;
     }
-
     return fname;
 }
 

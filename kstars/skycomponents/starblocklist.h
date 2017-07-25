@@ -19,8 +19,8 @@
 
 #include "typedef.h"
 
-class StarBlock;
 class DeepStarComponent;
+class StarBlock;
 
 /**
  * @class StarBlockList
@@ -29,7 +29,6 @@ class DeepStarComponent;
  * @author Akarsh Simha
  * @version 0.1
  */
-
 class StarBlockList
 {
   public:
@@ -44,11 +43,6 @@ class StarBlockList
      * @param parent Pointer to the parent DeepStarComponent
      */
     StarBlockList(Trixel trixel, DeepStarComponent *parent = nullptr);
-
-    /**
-     * Destructor
-     */
-    ~StarBlockList();
 
     /**
      * @short Ensures that the list is loaded with stars to given magnitude limit
@@ -115,11 +109,11 @@ class StarBlockList
 
   private:
     Trixel trixel;
-    unsigned long nStars;
-    long readOffset;
-    float faintMag;
+    unsigned long nStars { 0 };
+    long readOffset { 0 };
+    float faintMag { -5 };
     QList<std::shared_ptr<StarBlock>> blocks;
-    unsigned int nBlocks;
-    bool staticStars;
-    DeepStarComponent *parent;
+    unsigned int nBlocks { 0 };
+    bool staticStars { false };
+    DeepStarComponent *parent { nullptr };
 };

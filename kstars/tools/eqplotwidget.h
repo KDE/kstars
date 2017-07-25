@@ -15,19 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kplotwidget.h"
+#pragma once
 
-#ifndef EQPLOTWIDGET_H_
-#define EQPLOTWIDGET_H_
+#include "kplotwidget.h"
 
 class eqPlotWidget : public KPlotWidget
 {
     Q_OBJECT
   public:
-    eqPlotWidget(QWidget *parent = 0);
+    explicit eqPlotWidget(QWidget *parent = nullptr);
 
   protected:
     void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
 };
-
-#endif

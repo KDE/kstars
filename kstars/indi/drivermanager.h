@@ -11,7 +11,6 @@
 #pragma once
 
 #include "indicommon.h"
-#include "indidbus.h"
 #include "ui_drivermanager.h"
 
 #include <QDialog>
@@ -34,17 +33,18 @@ class DriverManagerUI : public QFrame, public Ui::DriverManager
     Q_OBJECT
 
   public:
-    DriverManagerUI(QWidget *parent = 0);
+    explicit DriverManagerUI(QWidget *parent = nullptr);
 
+  public slots:
+    void makePortEditable(QTreeWidgetItem *selectedItem, int column);
+
+  public:
     QIcon runningPix;
     QIcon stopPix;
     QIcon connected;
     QIcon disconnected;
     QIcon localMode;
     QIcon serverMode;
-
-  public slots:
-    void makePortEditable(QTreeWidgetItem *selectedItem, int column);
 };
 
 /**
@@ -89,14 +89,6 @@ class DriverManager : public QDialog
     bool buildDeviceGroup(XMLEle *root, char errmsg[]);
     bool buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, DeviceFamily groupType, char errmsg[]);
 
-    QTreeWidgetItem *lastGroup;
-    QTreeWidgetItem *lastDevice;
-
-    int currentPort;
-
-    //DriverInfo::XMLSource xmlSource;
-    DriverSource driverSource;
-
     int getINDIPort(int customPort);
     bool isDeviceRunning(const QString &deviceLabel);
 
@@ -134,19 +126,20 @@ class DriverManager : public QDialog
     DriverManager(QWidget *parent);
     ~DriverManager();
 
+    bool checkDriverAvailability(QString driver);
+
     static DriverManager *_DriverManager;
 
-    ServerMode connectionMode;
-
-    DriverManagerUI *ui;
+    ServerMode connectionMode { SERVER_CLIENT };
+    QTreeWidgetItem *lastGroup { nullptr };
+    int currentPort;
+    //DriverInfo::XMLSource xmlSource;
+    DriverSource driverSource;
+    DriverManagerUI *ui { nullptr };
     QList<DriverInfo *> driversList;
     QList<ServerManager *> servers;
     QList<ClientManager *> clients;
     QStringList driversStringList;
-
-    bool checkDriverAvailability(QString driver);
-
-    INDIDBus indiDBUS;
 
   public slots:
     //void enableDevice(INDI_D *device);

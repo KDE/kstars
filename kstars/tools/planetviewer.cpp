@@ -16,32 +16,24 @@
 
 #include "planetviewer.h"
 
-#include <cstdlib> //needed for abs() on some platforms
+#include "ksfilereader.h"
+#include "ksnumbers.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
+#include "skyobjects/ksplanet.h"
+#include "skyobjects/ksplanetbase.h"
 
-#include <QFile>
-#include <QMouseEvent>
-#include <QVBoxLayout>
-#include <QTextStream>
-#include <QKeyEvent>
-#include <QPaintEvent>
-
-#include <QDebug>
 #include <KLocalizedString>
-
 #include <KPlotting/KPlotAxis>
 #include <KPlotting/KPlotObject>
 #include <KPlotting/KPlotPoint>
+#include <KPlotting/KPlotWidget>
 
-#include "ui_planetviewer.h"
-#include "kstarsdata.h"
-#include "ksutils.h"
-#include "ksnumbers.h"
-#include "ksfilereader.h"
-#include "skyobjects/ksplanetbase.h"
-#include "skyobjects/ksplanet.h"
-#include "skyobjects/kspluto.h"
-#include "dms.h"
-#include "widgets/timestepbox.h"
+#include <QFile>
+#include <QKeyEvent>
+#include <QVBoxLayout>
+
+#include <cmath>
 
 PlanetViewerUI::PlanetViewerUI(QWidget *p) : QFrame(p)
 {
@@ -127,10 +119,6 @@ PlanetViewer::PlanetViewer(QWidget *parent) : QDialog(parent), scale(1.0), isClo
     connect(pw->DateBox, SIGNAL(dateChanged(const QDate &)), SLOT(slotChangeDate()));
     connect(pw->TodayButton, SIGNAL(clicked()), SLOT(slotToday()));
     connect(this, SIGNAL(closeClicked()), SLOT(slotCloseWindow()));
-}
-
-PlanetViewer::~PlanetViewer()
-{
 }
 
 QString PlanetViewer::planetName(uint i) const

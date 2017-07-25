@@ -13,45 +13,42 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef ELLIPSENODE_H_
-#define ELLIPSENODE_H_
-#include <QSGNode>
-#include <QColor>
 
-/** @class EllipseNode
- *
+#pragma once
+
+#include <QColor>
+#include <QSGNode>
+
+class QSGFlatColorMaterial;
+class QSGGeometry;
+class QSGGeometryNode;
+
+/**
+ * @class EllipseNode
  * @short QSGTransformNode derrived node used to draw ellipses
+ *
  * @author Artem Fedoskin
  * @version 1.0
  */
-
-class QSGGeometryNode;
-class QSGGeometry;
-class QSGFlatColorMaterial;
-
 class EllipseNode : public QSGTransformNode
 {
   public:
-    EllipseNode(QColor color = QColor(), int width = 1);
+    explicit EllipseNode(QColor color = QColor(), int width = 1);
 
     void setColor(QColor color);
     void setLineWidth(int width);
     /**
-         * @short Redraw ellipse with the given width, height and positions (x,y)
-         * @param filled - if true the ellipse will be filled with color
-         */
+     * @short Redraw ellipse with the given width, height and positions (x,y)
+     * @param filled - if true the ellipse will be filled with color
+     */
     void updateGeometry(float x, float y, int width, int height, bool filled);
 
   private:
-    QSGGeometryNode *m_geometryNode;
-    QSGGeometry *m_geometry;
-    QSGFlatColorMaterial *m_material;
-
-    int m_width;
-    int m_height;
-
-    float m_x;
-    float m_y;
+    QSGGeometryNode *m_geometryNode { nullptr };
+    QSGGeometry *m_geometry { nullptr };
+    QSGFlatColorMaterial *m_material { nullptr };
+    int m_width { -1 };
+    int m_height { -1 };
+    float m_x { -1 };
+    float m_y { -1 };
 };
-
-#endif

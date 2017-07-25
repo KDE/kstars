@@ -9,9 +9,7 @@
     Handle INDI Standard properties.
  */
 
-#include <QDebug>
-
-#include <basedevice.h>
+#include "indilistener.h"
 
 #include "clientmanager.h"
 #include "deviceinfo.h"
@@ -21,11 +19,14 @@
 #include "indifilter.h"
 #include "indifocuser.h"
 #include "indilightbox.h"
-#include "indilistener.h"
 #include "inditelescope.h"
 #include "indiweather.h"
 #include "kstars.h"
 #include "Options.h"
+
+#include <basedevice.h>
+
+#include <QDebug>
 
 #define NINDI_STD 35
 
@@ -161,7 +162,7 @@ void INDIListener::processDevice(DeviceInfo *dv)
     if (Options::iNDILogging())
         qDebug() << "INDIListener: Processing device " << dv->getBaseDevice()->getDeviceName();
 
-    ISD::GDInterface *gd = new ISD::GenericDevice(dv);
+    ISD::GDInterface *gd = new ISD::GenericDevice(*dv);
 
     devices.append(gd);
 

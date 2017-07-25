@@ -17,27 +17,24 @@
 #pragma once
 
 #include "skymaplite.h"
-#include "projections/projector.h"
-#include "../skyopacitynode.h"
 
 #include <QSGTransformNode>
 
 class Projector;
-class SkyMapLite;
+class SkyOpacityNode;
 
 /**
  * @class SkyNode
+ * @short Provides virtual functions for update of coordinates and nodes hiding
  *
  * A QSGTransformNode derived class that has to be subclassed by node containers like PlanetNode and
  * PointSourceNode. SkyObject * that is passed as parameter to constructor is used in subclasses
  * to calculate new coordinates in update(). Subclasses have to implement hide() so that each of
  * their child nodes can be hidden.
  *
- *@short Provides virtual functions for update of coordinates and nodes hiding
- *@author Artem Fedoskin
- *@version 1.0
+ * @author Artem Fedoskin
+ * @version 1.0
  */
-
 class SkyNode : public QSGTransformNode
 {
   public:
@@ -45,14 +42,9 @@ class SkyNode : public QSGTransformNode
      * @brief Constructor
      * @param skyObject that is represented on the SkyMapLIte
      */
-    SkyNode(SkyObject *skyObject);
+    explicit SkyNode(SkyObject *skyObject);
     SkyNode();
-    /**
-     * @short short function that returns pointer to the current projector
-     * @return pointer to current projector of SkyMapLite
-     */
 
-    /// All children nodes allocated on heap are deleted when parent is destroyed
     virtual ~SkyNode() {}
 
     inline const Projector *projector() { return SkyMapLite::Instance()->projector(); }
@@ -63,9 +55,7 @@ class SkyNode : public QSGTransformNode
      */
     inline SkyMapLite *map() const { return SkyMapLite::Instance(); }
 
-    /**
-     * @short updates coordinate of the object on SkyMapLite
-     */
+    /** Updates coordinate of the object on SkyMapLite */
     virtual void update() {}
 
     /**
@@ -74,7 +64,7 @@ class SkyNode : public QSGTransformNode
      */
     void update(bool drawLabel);
 
-    inline void addChildNode(QSGNode *node) { m_opacity->appendChildNode(node); }
+    void addChildNode(QSGNode *node);
 
     /**
      * @short hides all child nodes (sets opacity of m_opacity to 0)
@@ -98,17 +88,18 @@ class SkyNode : public QSGTransformNode
     /**
      * @return true if object is visible (m_opacity->opacity() != 0) else returns false
      */
-    inline bool visible() { return m_opacity->visible(); }
+    bool visible();
 
     /**
      * @short returns SkyObject associated with this SkyNode
      * @return pointer to the object of type SkyObject
      */
     SkyObject *skyObject() const { return m_skyObject; }
-    SkyOpacityNode *m_opacity;
+
+    SkyOpacityNode *m_opacity { nullptr };
 
   protected:
-    SkyObject *m_skyObject;
-    bool m_drawLabel;
-    int m_hideCount;
+    SkyObject *m_skyObject { nullptr };
+    bool m_drawLabel { false };
+    int m_hideCount { 0 };
 };

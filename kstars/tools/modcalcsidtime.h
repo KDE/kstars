@@ -15,29 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCSIDTIME_H_
-#define MODCALCSIDTIME_H_
+#pragma once
 
-#include <QFrame>
 #include "ui_modcalcsidtime.h"
 
+#include <QFrame>
+
 class QTime;
+
 class GeoLocation;
 
 /**
-  * Class which implements the KStars calculator module to compute Universal
-  * time to/from Sidereal time.
-  *
-  * Inherits modCalcSidTimeDlg
-  *@author Pablo de Vicente
-	*@version 0.9
-  */
+ * Class which implements the KStars calculator module to compute Universal
+ * time to/from Sidereal time.
+ *
+ * Inherits modCalcSidTimeDlg
+ *
+ * @author Pablo de Vicente
+ * @version 0.9
+ */
 class modCalcSidTime : public QFrame, public Ui::modCalcSidTimeDlg
 {
     Q_OBJECT
+
   public:
-    modCalcSidTime(QWidget *p);
-    ~modCalcSidTime();
+    explicit modCalcSidTime(QWidget *p);
 
   private slots:
     void slotChangeLocation();
@@ -55,15 +57,15 @@ class modCalcSidTime : public QFrame, public Ui::modCalcSidTimeDlg
     void processLines(QTextStream &istream);
 
   private:
-    /* Fills the UT, Date boxes with the current time
-         * and date and the longitude box with the current Geo location
-         */
+    /**
+     * Fills the UT, Date boxes with the current time
+     * and date and the longitude box with the current Geo location
+     */
     void showCurrentTimeAndLocation();
 
     QTime computeLTtoST(QTime lt);
     QTime computeSTtoLT(QTime st);
 
-    GeoLocation *geo, *geoBatch;
+    GeoLocation *geo { nullptr };
+    GeoLocation *geoBatch { nullptr };
 };
-
-#endif

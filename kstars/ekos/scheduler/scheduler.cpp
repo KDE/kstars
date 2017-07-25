@@ -1491,12 +1491,12 @@ void Scheduler::wakeUpScheduler()
     }
 }
 
-double Scheduler::findAltitude(const SkyPoint &target, const QDateTime when)
+double Scheduler::findAltitude(const SkyPoint &target, const QDateTime &when)
 {
     // Make a copy
     SkyPoint p = target;
     QDateTime lt(when.date(), QTime());
-    KStarsDateTime ut = KStarsData::Instance()->geo()->LTtoUT(lt);
+    KStarsDateTime ut = KStarsData::Instance()->geo()->LTtoUT(KStarsDateTime(lt));
 
     KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay() / 1000);
 
@@ -1512,7 +1512,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
     double earlyDawn = Dawn - Options::preDawnTime() / (60.0 * 24.0);
     double altitude  = 0;
     QDateTime lt(KStarsData::Instance()->lt().date(), QTime());
-    KStarsDateTime ut = geo->LTtoUT(lt);
+    KStarsDateTime ut = geo->LTtoUT(KStarsDateTime(lt));
 
     SkyPoint target = job->getTargetCoords();
 
@@ -1579,7 +1579,7 @@ bool Scheduler::calculateCulmination(SchedulerJob *job)
     o.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
     QDateTime midnight(KStarsData::Instance()->lt().date(), QTime());
-    KStarsDateTime dt = geo->LTtoUT(midnight);
+    KStarsDateTime dt = geo->LTtoUT(KStarsDateTime(midnight));
 
     QTime transitTime = o.transitTime(dt, geo);
 
@@ -1812,7 +1812,7 @@ double Scheduler::getCurrentMoonSeparation(SchedulerJob *job)
     // Get target altitude given the time
     SkyPoint p = job->getTargetCoords();
     QDateTime midnight(KStarsData::Instance()->lt().date(), QTime());
-    KStarsDateTime ut   = geo->LTtoUT(midnight);
+    KStarsDateTime ut   = geo->LTtoUT(KStarsDateTime(midnight));
     KStarsDateTime myUT = ut.addSecs(KStarsData::Instance()->lt().time().msecsSinceStartOfDay() / 1000);
     CachingDms LST      = geo->GSTtoLST(myUT.gst());
     p.EquatorialToHorizontal(&LST, geo->lat());
@@ -1834,14 +1834,14 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
     // Get target altitude given the time
     SkyPoint p = job->getTargetCoords();
     QDateTime midnight(when.date(), QTime());
-    KStarsDateTime ut   = geo->LTtoUT(midnight);
+    KStarsDateTime ut   = geo->LTtoUT(KStarsDateTime(midnight));
     KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay() / 1000);
     CachingDms LST      = geo->GSTtoLST(myUT.gst());
     p.EquatorialToHorizontal(&LST, geo->lat());
     double currentAlt = p.alt().Degrees();
 
     // Update moon
-    ut = geo->LTtoUT(when);
+    ut = geo->LTtoUT(KStarsDateTime(when));
     KSNumbers ksnum(ut.djd());
     LST = geo->GSTtoLST(ut.gst());
     moon->updateCoords(&ksnum, true, geo->lat(), &LST, true);
@@ -1910,8 +1910,9 @@ void Scheduler::executeJob(SchedulerJob *job)
 {
     if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
-        QString targetName = job->getName().replace(" ", "");
+        QString targetName = job->getName().replace(' ', "");
         QList<QVariant> targetArgs;
+
         targetArgs.append(targetName);
         captureInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetName", targetArgs);
     }
@@ -2603,7 +2604,7 @@ void Scheduler::checkJobStage()
     }
 
     // #4 Check if we're not at dawn
-    if (currentJob->getEnforceTwilight() && KStarsData::Instance()->lt() > preDawnDateTime)
+    if (currentJob->getEnforceTwilight() && KStarsData::Instance()->lt() > KStarsDateTime(preDawnDateTime))
     {
         // If either mount or dome are not parked, we shutdown if we approach dawn
         if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
@@ -3887,7 +3888,7 @@ void Scheduler::startCapture()
 {
     captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
 
-    QString targetName = currentJob->getName().replace(" ", "");
+    QString targetName = currentJob->getName().replace(' ', "");
     QList<QVariant> targetArgs;
     targetArgs.append(targetName);
     captureInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetName", targetArgs);
@@ -4565,7 +4566,7 @@ void Scheduler::startMosaicTool()
                  << mosaicTool.getJobsDir();
 
         QString outputDir  = mosaicTool.getJobsDir();
-        QString targetName = nameEdit->text().simplified().remove(" ");
+        QString targetName = nameEdit->text().simplified().remove(' ');
         int batchCount = 1;
 
         XMLEle *root = getSequenceJobRoot();
@@ -4577,8 +4578,8 @@ void Scheduler::startMosaicTool()
         foreach (OneTile *oneJob, mosaicTool.getJobs())
         {
             QString prefix = QString("%1-Part%2").arg(targetName).arg(batchCount++);
-            prefix         = prefix.replace(" ", "-");
 
+            prefix.replace(' ', '-');
             nameEdit->setText(prefix);
 
             if (createJobSequence(root, prefix, outputDir) == false)
@@ -5056,7 +5057,8 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
     // FITS Dir
     QString finalFITSDir = job->getFITSDir();
 
-    QString targetName = schedJob->getName().remove(" ");
+    QString targetName = schedJob->getName().remove(' ');
+
     finalFITSDir += QLatin1Literal("/") + targetName + QLatin1Literal("/") + frameType;
     if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && filterType.isEmpty() == false)
         finalFITSDir += QLatin1Literal("/") + filterType;
