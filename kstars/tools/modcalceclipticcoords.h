@@ -15,25 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCECLIPTICCOORDS_H_
-#define MODCALCECLIPTICCOORDS_H_
+#pragma once
 
-#include "ui_modcalceclipticcoords.h"
 #include "kstarsdatetime.h"
+#include "ui_modcalceclipticcoords.h"
 
 /**
   * Class which implements the KStars calculator module to compute
   * geocentric ecliptic coordinates to/from geocentric equatorial coordinates.
   *
   * Inherits QWidget
-  *@author Pablo de Vicente
+  *
+  * @author Pablo de Vicente
   */
 class modCalcEclCoords : public QFrame, public Ui::modCalcEclCoordsDlg
 {
     Q_OBJECT
 
   public:
-    modCalcEclCoords(QWidget *p);
+    explicit modCalcEclCoords(QWidget *p);
     ~modCalcEclCoords();
 
   public slots:
@@ -45,4 +45,3 @@ class modCalcEclCoords : public QFrame, public Ui::modCalcEclCoordsDlg
   private:
     KStarsDateTime kdt;
 };
-#endif

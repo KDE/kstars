@@ -1,5 +1,6 @@
-#ifndef DEVICEORIENTATION_H
-#define DEVICEORIENTATION_H
+
+#pragma once
+
 #include <QObject>
 
 class DeviceOrientation : public QObject
@@ -10,7 +11,7 @@ class DeviceOrientation : public QObject
     //    Q_PROPERTY(int pitch MEMBER m_Pitch NOTIFY pitchChanged)
     //    Q_PROPERTY(int roll MEMBER m_Roll NOTIFY rollChanged)
   public:
-    DeviceOrientation(QObject *parent = nullptr);
+    explicit DeviceOrientation(QObject *parent = nullptr);
     void getOrientation();
 
     float getAzimuth() { return m_Azimuth; }
@@ -24,9 +25,7 @@ class DeviceOrientation : public QObject
     //    void rollChanged(int roll);
 
   private:
-    float m_Azimuth;
-    float m_Altitude;
-    float m_Roll;
+    float m_Azimuth { 0 };
+    float m_Altitude { 0 };
+    float m_Roll { 0 };
 };
-
-#endif // DEVICEORIENTATION_H

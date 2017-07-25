@@ -602,7 +602,7 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, int data
                                        .arg((graph->name().isEmpty() ? "???" : graph->name()),
                                             localTime.toString(),
                                             localSiderealTime.toString(),
-                                            QString::number(yValue, 'f', 2) + " " + QChar(176)),
+                                            QString::number(yValue, 'f', 2) + ' ' + QChar(176)),
                                    avtUI->View, avtUI->View->rect());
             }
         }
@@ -993,7 +993,7 @@ void AltVsTime::mouseOverLine(QMouseEvent *event)
                                       "</table>")
                                        .arg((graph->name().isEmpty() ? "???" : graph->name()),
                                             localTime.toString(), localSiderealTime.toString(),
-                                            QString::number(yValue, 'f', 2) + " " + QChar(176)),
+                                            QString::number(yValue, 'f', 2) + ' ' + QChar(176)),
                                    avtUI->View, avtUI->View->rect());
             }
             else
@@ -1192,7 +1192,7 @@ void AltVsTime::drawGradient()
     geoLoc             = KStarsData::Instance()->geo();
     ksal               = new KSAlmanac;
     QDateTime midnight = QDateTime(dtt.date(), QTime());
-    KStarsDateTime utt = geoLoc->LTtoUT(midnight);
+    KStarsDateTime utt = geoLoc->LTtoUT(KStarsDateTime(midnight));
 
     // Variables needed for Gradient:
     double SunRise, SunSet, Dawn, Dusk, SunMinAlt, SunMaxAlt;
@@ -1390,7 +1390,7 @@ KStarsDateTime AltVsTime::getDate()
 {
     //convert midnight local time to UT:
     QDateTime lt(avtUI->DateWidget->date(), QTime());
-    return geo->LTtoUT(lt);
+    return geo->LTtoUT(KStarsDateTime(lt));
 }
 
 double AltVsTime::getEpoch(const QString &eName)
@@ -1483,7 +1483,7 @@ void AltVsTime::slotPrint()
 
         // Set text legend
         str_legend = i18n("Elevation vs. Time Plot");
-        str_legend += "\n";
+        str_legend += '\n';
         str_legend += geo->fullName();
         str_legend += " - ";
         str_legend += avtUI->DateWidget->date().toString("dd/MM/yyyy");

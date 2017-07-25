@@ -16,26 +16,24 @@
 
 #include "pvplotwidget.h"
 
-#include <cmath> //for sqrt()
+#include "planetviewer.h"
 
-#include <QApplication>
-#include <QtGlobal>
 #include <KPlotObject>
 #include <KPlotPoint>
 
-#include "planetviewer.h"
+#include <QKeyEvent>
+#include <QMouseEvent>
+#include <QWheelEvent>
 
-PVPlotWidget::PVPlotWidget(QWidget *parent) : KPlotWidget(parent), mouseButtonDown(false), oldx(0), oldy(0), factor(2)
+#include <cmath>
+
+PVPlotWidget::PVPlotWidget(QWidget *parent) : KPlotWidget(parent)
 {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAntialiasing(true);
     //FIXME: Evil cast!
     pv = (PlanetViewer *)topLevelWidget();
-}
-
-PVPlotWidget::~PVPlotWidget()
-{
 }
 
 void PVPlotWidget::keyPressEvent(QKeyEvent *e)

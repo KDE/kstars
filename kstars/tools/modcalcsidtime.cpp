@@ -17,18 +17,14 @@
 
 #include "modcalcsidtime.h"
 
-#include <QTextStream>
-#include <QFileDialog>
-
-#include <KLocalizedString>
-#include <KMessageBox>
-#include <KLineEdit>
-
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
-#include "simclock.h"
 #include "dialogs/locationdialog.h"
-#include "widgets/dmsbox.h"
+
+#include <KLineEdit>
+#include <KMessageBox>
+
+#include <QTextStream>
 
 modCalcSidTime::modCalcSidTime(QWidget *parent) : QFrame(parent)
 {
@@ -59,10 +55,6 @@ modCalcSidTime::modCalcSidTime(QWidget *parent) : QFrame(parent)
     ViewButtonBatch->setEnabled(false);
 
     show();
-}
-
-modCalcSidTime::~modCalcSidTime()
-{
 }
 
 void modCalcSidTime::showCurrentTimeAndLocation()

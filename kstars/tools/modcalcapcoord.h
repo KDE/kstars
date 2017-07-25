@@ -15,26 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCAPCOORD_H_
-#define MODCALCAPCOORD_H_
+#pragma once
 
 #include "ui_modcalcapcoord.h"
 
 class QTextStream;
 
-/** Module to compute the equatorial coordinates for a given date and time
+/**
+ * Compute the equatorial coordinates for a given date and time
  * from a given epoch or equinox
-  *@author Pablo de Vicente
-	*@version 0.9
-  */
+ *
+ * @author Pablo de Vicente
+ * @version 0.9
+ */
 class modCalcApCoord : public QFrame, public Ui::modCalcApCoordDlg
 {
     Q_OBJECT
   public:
-    /**Constructor. */
-    modCalcApCoord(QWidget *p);
-    /**Destructor. */
-    ~modCalcApCoord();
+    /** Constructor. */
+    explicit modCalcApCoord(QWidget *p);
 
     /** Process Lines **/
     //	void processLines( const QFile * f );
@@ -44,7 +43,7 @@ class modCalcApCoord : public QFrame, public Ui::modCalcApCoordDlg
     void slotCompute();
     void slotObject();
 
-    /**Fill the Time and Date fields with the current values from the CPU clock. */
+    /** Fill the Time and Date fields with the current values from the CPU clock. */
     void showCurrentTime();
 
     void slotUtCheckedBatch();
@@ -54,5 +53,3 @@ class modCalcApCoord : public QFrame, public Ui::modCalcApCoordDlg
     void slotEpochCheckedBatch();
     void slotRunBatch();
 };
-
-#endif

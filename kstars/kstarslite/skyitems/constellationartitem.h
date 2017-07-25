@@ -37,7 +37,7 @@ class ConstellationArtItem : public SkyItem
      * @param artComp - pointer to ConstellationArtComponent instance, that handles constellation art data
      * @param rootNode - pointer to the root node
      */
-    ConstellationArtItem(ConstellationArtComponent *artComp, RootNode *rootNode = 0);
+    explicit ConstellationArtItem(ConstellationArtComponent *artComp, RootNode *rootNode = nullptr);
 
     /**
      * @short calls update() of all child ConstellationArtNodes if constellation art is on. Otherwise

@@ -36,7 +36,7 @@ class HorizonNode : public SkyNode
      * @short Constructor.
      * @param pointList - list of points that comprise horizon
      */
-    HorizonNode(QList<std::shared_ptr<SkyPoint>> &pointList);
+    explicit HorizonNode(QList<std::shared_ptr<SkyPoint>> &pointList);
 
     /** @short Update child nodes based on user settings (filled/non-filled ground) and their visibility */
     virtual void update() override;

@@ -32,16 +32,8 @@
 StarBlockList::StarBlockList(Trixel tr, DeepStarComponent *parent)
 {
     trixel       = tr;
-    nStars       = 0;
-    readOffset   = 0;
-    faintMag     = -5.0;
-    nBlocks      = 0;
     this->parent = parent;
     staticStars  = parent->hasStaticStars();
-}
-
-StarBlockList::~StarBlockList()
-{
 }
 
 int StarBlockList::releaseBlock(StarBlock *block)

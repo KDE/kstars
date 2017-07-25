@@ -210,7 +210,7 @@ void DeepSkyComponent::loadData()
 
         //B magnitude
         ss = row_content["BMag"].toString();
-        if (ss == "")
+        if (ss.isEmpty())
         {
             mag = 99.9f;
         }
@@ -230,7 +230,7 @@ void DeepSkyComponent::loadData()
         //is horizontal.  But we want the angle measured from North, so
         //we set PA = 90 - pa.
         ss = row_content["pa"].toString();
-        if (ss == "")
+        if (ss.isEmpty())
         {
             pa = 90;
         }

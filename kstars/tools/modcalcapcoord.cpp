@@ -17,20 +17,18 @@
 
 #include "modcalcapcoord.h"
 
+#include "dms.h"
+#include "kstars.h"
+#include "kstarsdatetime.h"
+#include "dialogs/finddialog.h"
+#include "skyobjects/skypoint.h"
+#include "skyobjects/skyobject.h"
+
+#include <KMessageBox>
+
 #include <QTextStream>
 #include <QFileDialog>
 #include <QPointer>
-
-#include <KLocalizedString>
-#include <KMessageBox>
-
-#include "kstars.h"
-#include "dms.h"
-#include "skyobjects/skypoint.h"
-#include "skyobjects/skyobject.h"
-#include "kstarsdatetime.h"
-#include "widgets/dmsbox.h"
-#include "dialogs/finddialog.h"
 
 modCalcApCoord::modCalcApCoord(QWidget *parentSplit) : QFrame(parentSplit)
 {
@@ -54,10 +52,6 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit) : QFrame(parentSplit)
     connect(runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
 
     show();
-}
-
-modCalcApCoord::~modCalcApCoord()
-{
 }
 
 void modCalcApCoord::showCurrentTime(void)

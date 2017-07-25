@@ -61,15 +61,14 @@ class SkyObjItem
 
     /**
      * @brief Constructor
-     * \param so Pointer to the SkyObject which the SkyObjItem represents.
+     * @param so Pointer to the SkyObject which the SkyObjItem represents.
      */
-    SkyObjItem(SkyObject *so = 0);
-
+    explicit SkyObjItem(SkyObject *so = nullptr);
     ~SkyObjItem();
 
     /**
      * @brief Get data associated with a particular role for the SkyObjItem
-     * \param role User-defined role for which data is required
+     * @param role User-defined role for which data is required
      * @return QVariant data associated with role
      */
     QVariant data(int role);

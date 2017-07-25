@@ -61,8 +61,7 @@ class ModelManager : public QObject
      * @brief Constructor - Creates models for different sky-object types.
      * @param obs   Pointer to an ObsConditions object.
      */
-    ModelManager(ObsConditions *obs);
-
+    explicit ModelManager(ObsConditions *obs);
     virtual ~ModelManager();
 
     /** Updates sky-object list models. */

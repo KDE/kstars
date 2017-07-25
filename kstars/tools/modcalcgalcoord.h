@@ -15,24 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCGALCOORD_H_
-#define MODCALCGALCOORD_H_
+#pragma once
 
+#include "dms.h"
 #include "ui_modcalcgalcoord.h"
 
 /**
-  * Class which implements the KStars calculator module to compute
-  * Galactic coordinates to/from Equatorial coordinates.
-  *
-  *@author Pablo de Vicente
-	*@version 0.9
-  */
+ * Class which implements the KStars calculator module to compute
+ * Galactic coordinates to/from Equatorial coordinates.
+ *
+ * @author Pablo de Vicente
+ * @version 0.9
+ */
 class modCalcGalCoord : public QFrame, public Ui::modCalcGalCoordDlg
 {
     Q_OBJECT
 
   public:
-    modCalcGalCoord(QWidget *p);
+    explicit modCalcGalCoord(QWidget *p);
     ~modCalcGalCoord();
 
   public slots:
@@ -54,6 +54,5 @@ class modCalcGalCoord : public QFrame, public Ui::modCalcGalCoordDlg
 
     dms galLong, galLat, raCoord, decCoord;
     QString epoch;
-    bool galInputCoords;
+    bool galInputCoords { false };
 };
-#endif

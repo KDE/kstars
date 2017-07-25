@@ -13,13 +13,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef SUPERNOVAEITEM_H_
-#define SUPERNOVAEITEM_H_
+
+#pragma once
 
 #include "skyitem.h"
 
-class KSComet;
-class SkyObject;
 class SupernovaeComponent;
 
 /**
@@ -34,24 +32,21 @@ class SupernovaeItem : public SkyItem
 {
   public:
     /**
-         * @short Constructor
-         * @param snovaComp - pointer to SupernovaeComponent that handles data
-         * @param rootNode parent RootNode that instantiates this object
-         */
-    SupernovaeItem(SupernovaeComponent *snovaComp, RootNode *rootNode = 0);
+     * @short Constructor
+     * @param snovaComp - pointer to SupernovaeComponent that handles data
+     * @param rootNode parent RootNode that instantiates this object
+     */
+    explicit SupernovaeItem(SupernovaeComponent *snovaComp, RootNode *rootNode = nullptr);
 
     /**
-         * @short Recreate the node tree (delete old nodes and append new ones according to
-         * SupernovaeItem::objectList())
-         */
+     * @short Recreate the node tree (delete old nodes and append new ones according to
+     * SupernovaeItem::objectList())
+     */
     void recreateList();
 
-    /**
-         * @short Update positions and visibility of supernovae
-         */
+    /** Update positions and visibility of supernovae */
     virtual void update() override;
 
   private:
-    SupernovaeComponent *m_snovaComp;
+    SupernovaeComponent *m_snovaComp { nullptr };
 };
-#endif

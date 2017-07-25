@@ -7,31 +7,27 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDILIGHTBOX_H
-#define INDILIGHTBOX_H
+#pragma once
 
-#include "indistd.h"
 #include "indicap.h"
+#include "indistd.h"
 
 namespace ISD
 {
 /**
- * @class Cap
+ * @class LightBox
  * Handles operation of a remotely controlled light box.
  *
  * @author Jasem Mutlaq
  */
-
 class LightBox : public DustCap
 {
     Q_OBJECT
 
   public:
-    LightBox(GDInterface *iPtr) : DustCap(iPtr) {}
+    explicit LightBox(GDInterface *iPtr) : DustCap(iPtr) {}
 
     virtual bool hasLight();
     virtual bool canPark();
 };
 }
-
-#endif // INDILIGHTBOX_H

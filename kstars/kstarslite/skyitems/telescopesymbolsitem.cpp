@@ -14,15 +14,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "skynodes/crosshairnode.h"
-#include "indi/clientmanagerlite.h"
 #include "telescopesymbolsitem.h"
-#include "Options.h"
-#include "projections/projector.h"
-#include "kstarslite/skyitems/rootnode.h"
-#include "kstarslite.h"
 
+#include "kstarslite.h"
 #include "labelsitem.h"
+#include "Options.h"
+#include "indi/clientmanagerlite.h"
+#include "kstarslite/skyitems/rootnode.h"
+#include "projections/projector.h"
+#include "skynodes/crosshairnode.h"
+
+#include <basedevice.h>
 
 TelescopeSymbolsItem::TelescopeSymbolsItem(RootNode *rootNode)
     : SkyItem(LabelsItem::label_t::TELESCOPE_SYMBOL, rootNode)

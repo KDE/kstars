@@ -17,37 +17,24 @@
 
 #include "deepskyobject.h"
 
-#include <typeinfo>
-
-#include <QFile>
-#include <QRegExp>
-#include <QPainter>
-#include <QImage>
-
-#include <assert.h>
-
-#include "kstarsdata.h"
-#include "ksutils.h"
-#include "dms.h"
+#include "catalogentrydata.h"
 #ifndef KSTARS_LITE
 #include "kspopupmenu.h"
 #endif
+#include "kstarsdata.h"
+#include "ksutils.h"
 #include "Options.h"
 #include "skymap.h"
 #include "texturemanager.h"
-#include "catalogentrydata.h"
 
-#include <QDebug>
-#include <KLocalizedString>
+#include <typeinfo>
 
 DeepSkyObject::DeepSkyObject(const DeepSkyObject &o)
     : SkyObject(o), PositionAngle(o.PositionAngle), m_image(o.m_image), UGC(o.UGC), PGC(o.PGC), MajorAxis(o.MajorAxis),
       MinorAxis(o.MinorAxis), Catalog(o.Catalog)
 {
-    customCat = nullptr;
     Flux      = o.flux();
     setMag(o.mag());
-    updateID = updateNumID = 0;
 }
 
 DeepSkyObject::DeepSkyObject(int t, dms r, dms d, float m, const QString &n, const QString &n2, const QString &lname,
@@ -60,9 +47,6 @@ DeepSkyObject::DeepSkyObject(int t, dms r, dms d, float m, const QString &n, con
     PGC           = pgc;
     UGC           = ugc;
     setCatalog(cat);
-    updateID = updateNumID = 0;
-    customCat              = nullptr;
-    Flux                   = 0;
 
     // Disable image loading on init
     //loadImage();
@@ -178,8 +162,8 @@ QString DeepSkyObject::labelString() const
     if (Options::showDeepSkyMagnitudes())
     {
         if (Options::showDeepSkyNames())
-            oName += " ";
-        oName += "[" + QLocale().toString(mag(), 'f', 1) + "m]";
+            oName += ' ';
+        oName += '[' + QLocale().toString(mag(), 'f', 1) + "m]";
     }
 
     return oName;

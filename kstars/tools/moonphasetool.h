@@ -15,25 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MOONPHASETOOL_H_
-#define _MOONPHASETOOL_H_
+#pragma once
 
 //#include "widgets/genericcalendarwidget.h"
 #include "widgets/moonphasecalendarwidget.h"
 
-#include "ksnumbers.h"
-
 #include <QDialog>
-#include <QCalendarWidget>
+
+#include <memory>
+
+class QCalendarWidget;
 
 class KSMoon;
+class KSNumbers;
 class KSSun;
 
 /**
- *@class MoonPhaseTool
- *@author Akarsh Simha
- *@version 1.0
- *@short Shows a moon phase calendar for an entire month
+ * @class MoonPhaseTool
+ * @short Shows a moon phase calendar for an entire month
  *
  * This tool shows a moon phase calendar for an entire month in the
  * same spirit as this website:
@@ -42,15 +41,16 @@ class KSSun;
  * It uses a clone of KSMoon in the backend to perform the phase
  * computation and uses the moon images for the various phases to
  * display a nice table
+ *
+ * @author Akarsh Simha
+ * @version 1.0
  */
-
 class MoonPhaseTool : public QDialog
 {
     Q_OBJECT
 
   public:
-    MoonPhaseTool(QWidget *p);
-    ~MoonPhaseTool();
+    explicit MoonPhaseTool(QWidget *p);
 
     /*
         public slots:
@@ -60,14 +60,12 @@ class MoonPhaseTool : public QDialog
         */
 
   private:
-    KSMoon *m_Moon;
-    KSSun *m_Sun;
-    KSNumbers *m_Num;
-    unsigned short month;
-    unsigned int year;
-    //GenericCalendarWidget *gcw;
-    QCalendarWidget *gcw;
-    MoonPhaseCalendar *mpc;
+    std::unique_ptr<KSMoon> m_Moon;
+    std::unique_ptr<KSSun> m_Sun;
+    KSNumbers *m_Num { nullptr };
+    unsigned short month { 0 };
+    unsigned int year { 0 };
+    //GenericCalendarWidget *gcw { nullptr };
+    QCalendarWidget *gcw { nullptr };
+    std::unique_ptr<MoonPhaseCalendar> mpc;
 };
-
-#endif

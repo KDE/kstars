@@ -116,8 +116,9 @@ void modCalcVlsr::slotCompute()
     if (!ok1 || !ok2)
         return;
 
-    KStarsDateTime dt = Date->dateTime();
+    KStarsDateTime dt(Date->dateTime());
     double vst[3];
+
     geoPlace->TopocentricVelocity(vst, dt.gst());
 
     if (sender()->objectName() == "VLSR")

@@ -1,6 +1,3 @@
-#ifndef DRIVERINFO_H
-#define DRIVERINFO_H
-
 /*  INDI Driver Info
     Copyright (C) 2012 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
@@ -11,14 +8,16 @@
 
  */
 
-#include <QObject>
-#include <QVariantMap>
+#pragma once
 
 #include "indicommon.h"
 
-class ServerManager;
+#include <QObject>
+#include <QVariantMap>
+
 class ClientManager;
 class DeviceInfo;
+class ServerManager;
 
 /**
  * @class DriverInfo
@@ -50,8 +49,8 @@ class DriverInfo : public QObject
     Q_OBJECT
 
   public:
-    DriverInfo(const QString &inName);
-    DriverInfo(DriverInfo *di);
+    explicit DriverInfo(const QString &inName);
+    explicit DriverInfo(DriverInfo *di);
     ~DriverInfo();
 
     DriverInfo *clone();
@@ -123,32 +122,40 @@ class DriverInfo : public QObject
     void addAuxInfo(const QString &key, const QVariant &value);
 
   private:
-    QString name;        // Actual device name as defined by INDI server
-    QString treeLabel;   // How it appears in the GUI initially as read from source
-    QString uniqueLabel; // How it appears in INDI Menu in case tree_label above is taken by another device
-
-    QString driver;   // Exec for the driver
-    QString version;  // Version of the driver (optional)
-    QString userPort; // INDI server port as the user wants it.
-    QString skelFile; // Skeleton file, if any;
-
-    QString port;     // INDI Host port
-    QString hostname; // INDI Host hostname
-
-    DeviceFamily type; // Device type (Telescope, CCD..etc), if known (optional)
-
-    bool serverState; // Is the driver in the server running?
-    bool clientState; // Is the client connected to the server running the desired driver?
-
-    DriverSource driverSource;    // How did we read the driver information? From XML file? From 3rd party file? ..etc.
-    ServerManager *serverManager; // Who is managing this device?
-    ClientManager *clientManager; // Any GUI client handling this device?
-
-    QVariantMap auxInfo; // Any additional properties in key, value pairs
+    /// Actual device name as defined by INDI server
+    QString name;
+    /// How it appears in the GUI initially as read from source
+    QString treeLabel;
+    /// How it appears in INDI Menu in case tree_label above is taken by another device
+    QString uniqueLabel;
+    /// Exec for the driver
+    QString driver;
+    /// Version of the driver (optional)
+    QString version;
+    /// INDI server port as the user wants it.
+    QString userPort;
+    /// Skeleton file, if any;
+    QString skelFile;
+    /// INDI Host port
+    QString port;
+    /// INDI Host hostname
+    QString hostname;
+    /// Device type (Telescope, CCD..etc), if known (optional)
+    DeviceFamily type { KSTARS_UNKNOWN };
+    /// Is the driver in the server running?
+    bool serverState { false };
+    /// Is the client connected to the server running the desired driver?
+    bool clientState { false };
+    /// How did we read the driver information? From XML file? From 3rd party file? ..etc.
+    DriverSource driverSource { PRIMARY_XML };
+    /// Who is managing this device?
+    ServerManager *serverManager { nullptr };
+    /// Any GUI client handling this device?
+    ClientManager *clientManager { nullptr };
+    /// Any additional properties in key, value pairs
+    QVariantMap auxInfo;
     QList<DeviceInfo *> devices;
 
   signals:
     void deviceStateChanged(DriverInfo *);
 };
-
-#endif // DRIVERINFO_H

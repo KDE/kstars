@@ -119,13 +119,13 @@ void modCalcDayLength::updateAlmanac(const QDate &d, GeoLocation *geo)
     KSSun Sun;
     Sun.findPosition(&num);
 
-    QTime ssTime = Sun.riseSetTime(jd0, geo, false);
-    QTime srTime = Sun.riseSetTime(jd0, geo, true);
-    QTime stTime = Sun.transitTime(jd0, geo);
+    QTime ssTime = Sun.riseSetTime(KStarsDateTime(jd0), geo, false);
+    QTime srTime = Sun.riseSetTime(KStarsDateTime(jd0), geo, true);
+    QTime stTime = Sun.transitTime(KStarsDateTime(jd0), geo);
 
-    dms ssAz  = Sun.riseSetTimeAz(jd0, geo, false);
-    dms srAz  = Sun.riseSetTimeAz(jd0, geo, true);
-    dms stAlt = Sun.transitAltitude(jd0, geo);
+    dms ssAz  = Sun.riseSetTimeAz(KStarsDateTime(jd0), geo, false);
+    dms srAz  = Sun.riseSetTimeAz(KStarsDateTime(jd0), geo, true);
+    dms stAlt = Sun.transitAltitude(KStarsDateTime(jd0), geo);
 
     //In most cases, the Sun will rise and set:
     if (ssTime.isValid())
@@ -170,13 +170,13 @@ void modCalcDayLength::updateAlmanac(const QDate &d, GeoLocation *geo)
     //Moon
     KSMoon Moon;
 
-    QTime msTime = Moon.riseSetTime(jd0, geo, false);
-    QTime mrTime = Moon.riseSetTime(jd0, geo, true);
-    QTime mtTime = Moon.transitTime(jd0, geo);
+    QTime msTime = Moon.riseSetTime(KStarsDateTime(jd0), geo, false);
+    QTime mrTime = Moon.riseSetTime(KStarsDateTime(jd0), geo, true);
+    QTime mtTime = Moon.transitTime(KStarsDateTime(jd0), geo);
 
-    dms msAz  = Moon.riseSetTimeAz(jd0, geo, false);
-    dms mrAz  = Moon.riseSetTimeAz(jd0, geo, true);
-    dms mtAlt = Moon.transitAltitude(jd0, geo);
+    dms msAz  = Moon.riseSetTimeAz(KStarsDateTime(jd0), geo, false);
+    dms mrAz  = Moon.riseSetTimeAz(KStarsDateTime(jd0), geo, true);
+    dms mtAlt = Moon.transitAltitude(KStarsDateTime(jd0), geo);
 
     //In most cases, the Moon will rise and set:
     if (msTime.isValid())

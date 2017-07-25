@@ -15,32 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef WI_LP_SETTINGS_H
-#define WI_LP_SETTINGS_H
+#pragma once
 
 #include "ui_wilpsettings.h"
 
 class KStars;
 
 /**
- * \class WILPSettings
- * \brief User interface for "Light Pollution Settings" page in WI settings dialog
+ * @class WILPSettings
+ * @brief User interface for "Light Pollution Settings" page in WI settings dialog
  * This class deals with light pollution settings for WI. The user sets the bortle
  * dark-sky rating for the night sky, and this value is used to calculate one of the
  * parameters that decides the limiting mangnitude.
- * \author Samikshan Bairagya
+ *
+ * @author Samikshan Bairagya
  */
 class WILPSettings : public QFrame, public Ui::WILPSettings
 {
     Q_OBJECT
+
   public:
-    /**
-         * \brief Constructor
-         */
-    WILPSettings(KStars *ks);
+    explicit WILPSettings(KStars *ks);
 
   private:
-    KStars *m_Ks;
+    KStars *m_Ks { nullptr };
 };
-
-#endif

@@ -16,10 +16,23 @@
 
 #include "indidriver.h"
 
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
+#include "config-kstars.h"
+
+#include "devicemanager.h"
+#include "indidevice.h"
+#include "indimenu.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
+#include "Options.h"
+#include "ui_indihostconf.h"
+#include "oal/log.h"
+#include "oal/scope.h"
+
+#include <KMessageBox>
+#include <KProcess>
+#include <KActionCollection>
+#include <KIconLoader>
 
 #include <QRadioButton>
 #include <QFile>
@@ -29,30 +42,16 @@
 #include <QIcon>
 #include <QDialog>
 #include <QTcpServer>
-
 #include <QMenu>
-#include <KMessageBox>
 #include <QPushButton>
 #include <QLineEdit>
-#include <KProcess>
 #include <QAction>
-#include <KActionCollection>
-#include <KIconLoader>
-
-#include "oal/log.h"
-#include "oal/scope.h"
-#include "indimenu.h"
-#include "ui_indihostconf.h"
-#include "devicemanager.h"
-#include "indidevice.h"
-#include "Options.h"
-
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "ksutils.h"
-
-#include <config-kstars.h>
 #include <QStandardPaths>
+
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
 
 #define MAX_RETRIES 3
 #define ERRMSG_SIZE 1024
@@ -743,7 +742,7 @@ void INDIDriver::updateCustomDrivers()
     // Find custom telescope to ADD
     foreach (OAL::Scope *s, *(KStarsData::Instance()->logObject()->scopeList()))
     {
-        label = s->vendor() + " " + s->model();
+        label = s->vendor() + ' ' + s->model();
 
         if (s->driver() == xi18n("None") || findDeviceByLabel(label))
             continue;

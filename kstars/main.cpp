@@ -211,7 +211,7 @@ int main(int argc, char *argv[])
                 if (datestring.contains(":")) //also includes time
                 {
                     //kdt = QDateTime::fromString( datestring, QDateTime::ISODate );
-                    kdt = QDateTime::fromString(datestring, Qt::ISODate);
+                    kdt = KStarsDateTime(QDateTime::fromString(datestring, Qt::ISODate));
                 }
                 else //string probably contains date only
                 {
@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
             }
             else //assume Text format for date string
             {
-                kdt = dat->geo()->LTtoUT(QDateTime::fromString(datestring, Qt::TextDate));
+                kdt = dat->geo()->LTtoUT(KStarsDateTime(QDateTime::fromString(datestring, Qt::TextDate)));
             }
 
             if (!kdt.isValid())

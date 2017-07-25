@@ -1113,7 +1113,7 @@ void ObservingList::plot(SkyObject *o)
         DayOffset = 1;
 
     QDateTime midnight = QDateTime(dt.date(), QTime());
-    KStarsDateTime ut  = geo->LTtoUT(midnight);
+    KStarsDateTime ut  = geo->LTtoUT(KStarsDateTime(midnight));
     double h1          = geo->GSTtoLST(ut.gst()).Hours();
     if (h1 > 12.0)
         h1 -= 24.0;
@@ -1142,7 +1142,7 @@ double ObservingList::findAltitude(SkyPoint *p, double hour)
     // Jasem 2015-09-05 Using correct procedure to find altitude
     SkyPoint sp                   = *p; // make a copy
     QDateTime midnight            = QDateTime(dt.date(), QTime());
-    KStarsDateTime ut             = geo->LTtoUT(midnight);
+    KStarsDateTime ut             = geo->LTtoUT(KStarsDateTime(midnight));
     KStarsDateTime targetDateTime = ut.addSecs(hour * 3600.0);
     dms LST                       = geo->GSTtoLST(targetDateTime.gst());
     sp.EquatorialToHorizontal(&LST, geo->lat());

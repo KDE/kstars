@@ -17,23 +17,20 @@
 
 #include "skycalendar.h"
 
-#include <QDesktopWidget>
-#include <QPixmap>
-#include <QPainter>
-#include <QtPrintSupport/QPrinter>
-#include <QtPrintSupport/QPrintDialog>
-#include <QFontInfo>
-#include <QDebug>
-#include <KPlotting/KPlotObject>
-#include <QPushButton>
-
-#include "calendarwidget.h"
 #include "geolocation.h"
-#include "dialogs/locationdialog.h"
-#include "kstarsdatetime.h"
+#include "ksplanetbase.h"
 #include "kstarsdata.h"
-#include "skyobjects/ksplanet.h"
+#include "dialogs/locationdialog.h"
 #include "skycomponents/skymapcomposite.h"
+
+#include <KPlotObject>
+
+#include <QDesktopWidget>
+#include <QPainter>
+#include <QPixmap>
+#include <QPrintDialog>
+#include <QPrinter>
+#include <QPushButton>
 
 SkyCalendarUI::SkyCalendarUI(QWidget *parent) : QFrame(parent)
 {
@@ -405,7 +402,7 @@ void SkyCalendar::slotPrint()
         // Set text legend
         str_year.setNum(year());
         str_legend = i18n("Sky Calendar");
-        str_legend += "\n";
+        str_legend += '\n';
         str_legend += geo->fullName();
         str_legend += " - ";
         str_legend += str_year;

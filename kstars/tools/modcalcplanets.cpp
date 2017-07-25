@@ -72,7 +72,7 @@ void modCalcPlanets::slotLocation()
 
 void modCalcPlanets::slotComputePosition()
 {
-    KStarsDateTime dt     = DateTimeBox->dateTime();
+    KStarsDateTime dt(DateTimeBox->dateTime());
     long double julianDay = dt.djd();
     KSNumbers num(julianDay);
     CachingDms LST(geoPlace->GSTtoLST(dt.gst()));

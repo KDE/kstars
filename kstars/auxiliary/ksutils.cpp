@@ -16,14 +16,12 @@
  ***************************************************************************/
 
 #include "ksutils.h"
-#include <QPointer>
-
 
 #include "deepskyobject.h"
-#include "Options.h"
 #ifndef KSTARS_LITE
 #include "kswizard.h"
 #endif
+#include "Options.h"
 #include "starobject.h"
 #include "auxiliary/kspaths.h"
 
@@ -31,6 +29,7 @@
 #include <KMessageBox>
 #endif
 
+#include <QPointer>
 #include <QProcessEnvironment>
 
 namespace KSUtils
@@ -1128,14 +1127,14 @@ void configureDefaultAstrometry()
                             QString dataDir = line.trimmed().mid(9).trimmed();
                             if (dataDir != astrometryPath) //Update to the correct path.
                             {
-                                contents += "add_path " + astrometryPath + "\n";
+                                contents += "add_path " + astrometryPath + '\n';
                                 fileNeedsUpdating = true;
                             }
                         }
                     }
                     else
                     {
-                        contents += line + "\n";
+                        contents += line + '\n';
                     }
                 }
                 confFile.close();

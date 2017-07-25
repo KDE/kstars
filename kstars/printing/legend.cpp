@@ -15,14 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QBrush>
-
 #include "legend.h"
-#include "skyqpainter.h"
-#include "skymap.h"
-#include "kstarsdata.h"
-#include "Options.h"
+
 #include "colorscheme.h"
+#include "kstarsdata.h"
+#include "skymap.h"
+#include "skyqpainter.h"
+#include "Options.h"
+
+#include <QBrush>
 
 namespace
 {
@@ -36,9 +37,9 @@ const int ySymbolSpacing  = 70;
 }
 
 Legend::Legend(LEGEND_ORIENTATION orientation, LEGEND_POSITION pos)
-    : m_Painter(0), m_SkyMap(SkyMap::Instance()), m_DeletePainter(false), m_Type(LT_FULL), m_Orientation(orientation),
+    : m_SkyMap(SkyMap::Instance()), m_Orientation(orientation),
       m_Position(pos), m_PositionFloating(QPoint(0, 0)), m_cScheme(KStarsData::Instance()->colorScheme()),
-      m_DrawFrame(false), m_SymbolSize(symbolSize), m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight),
+      m_SymbolSize(symbolSize), m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight),
       m_MaxHScalePixels(maxHScalePixels), m_MaxVScalePixels(maxVScalePixels), m_XSymbolSpacing(xSymbolSpacing),
       m_YSymbolSpacing(ySymbolSpacing)
 {
@@ -47,7 +48,7 @@ Legend::Legend(LEGEND_ORIENTATION orientation, LEGEND_POSITION pos)
 
 Legend::~Legend()
 {
-    if (m_Painter && m_DeletePainter)
+    if (m_Painter != nullptr && m_DeletePainter)
     {
         delete m_Painter;
     }
@@ -353,7 +354,7 @@ void Legend::paintSymbols(QPointF pos)
         case Legend::LO_HORIZONTAL:
         {
             // paint Open Cluster/Asterism symbol
-            QString label1 = i18n("Open Cluster") + "\n" + i18n("Asterism");
+            QString label1 = i18n("Open Cluster") + '\n' + i18n("Asterism");
             paintSymbol(QPointF(x, y), 3, 1, 0, label1);
             x += m_XSymbolSpacing;
 
@@ -362,7 +363,7 @@ void Legend::paintSymbols(QPointF pos)
             x += m_XSymbolSpacing;
 
             // paint Gaseous Nebula/Dark Nebula symbol
-            QString label3 = i18n("Gaseous Nebula") + "\n" + i18n("Dark Nebula");
+            QString label3 = i18n("Gaseous Nebula") + '\n' + i18n("Dark Nebula");
             paintSymbol(QPointF(x, y), 5, 1, 0, label3);
             x += m_XSymbolSpacing;
 
@@ -375,7 +376,7 @@ void Legend::paintSymbols(QPointF pos)
             x += m_XSymbolSpacing;
 
             // paint Galaxy/Quasar
-            QString label6 = i18n("Galaxy") + "\n" + i18n("Quasar");
+            QString label6 = i18n("Galaxy") + '\n' + i18n("Quasar");
             paintSymbol(QPointF(x, y), 8, 0.5, 60, label6);
             x += m_XSymbolSpacing;
 
@@ -388,7 +389,7 @@ void Legend::paintSymbols(QPointF pos)
         case Legend::LO_VERTICAL:
         {
             // paint Open Cluster/Asterism symbol
-            QString label1 = i18n("Open Cluster") + "\n" + i18n("Asterism");
+            QString label1 = i18n("Open Cluster") + '\n' + i18n("Asterism");
             paintSymbol(QPointF(x, y), 3, 1, 0, label1);
             y += m_YSymbolSpacing;
 
@@ -397,7 +398,7 @@ void Legend::paintSymbols(QPointF pos)
             y += m_YSymbolSpacing;
 
             // paint Gaseous Nebula/Dark Nebula symbol
-            QString label3 = i18n("Gaseous Nebula") + "\n" + i18n("Dark Nebula");
+            QString label3 = i18n("Gaseous Nebula") + '\n' + i18n("Dark Nebula");
             paintSymbol(QPointF(x, y), 5, 1, 0, label3);
             y += m_YSymbolSpacing;
 
@@ -410,7 +411,7 @@ void Legend::paintSymbols(QPointF pos)
             y += m_YSymbolSpacing;
 
             // paint Galaxy/Quasar
-            QString label6 = i18n("Galaxy") + "\n" + i18n("Quasar");
+            QString label6 = i18n("Galaxy") + '\n' + i18n("Quasar");
             paintSymbol(QPointF(x, y), 8, 0.5, 60, label6);
             y += m_YSymbolSpacing;
 

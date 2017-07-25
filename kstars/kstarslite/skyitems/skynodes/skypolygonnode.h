@@ -13,6 +13,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #pragma once
 
 #include "skynode.h"
@@ -25,6 +26,7 @@ class PolyNode;
  *
  * @short A SkyNode derived class that represents polygon (either filled or non-filled)
  * One of the applications of this class is drawing of Milky Way.
+ *
  * @author Artem Fedoskin
  * @version 1.0
  */
@@ -36,7 +38,7 @@ class SkyPolygonNode : public SkyNode
      * @short Constructor.
      * @param list - Used of lines that comprise polygon
      */
-    SkyPolygonNode(LineList *list);
+    explicit SkyPolygonNode(LineList *list);
 
     /**
      * @short Update position and visibility of this polygon.

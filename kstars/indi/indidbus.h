@@ -25,7 +25,7 @@ class INDIDBus : public QObject
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.INDI")
 
   public:
-    explicit INDIDBus(QObject *parent = 0);
+    explicit INDIDBus(QObject *parent = nullptr);
 
     /** @defgroup INDIDBusInterface INDI DBus Interface
          * INDIDBus interface provides complete scripting capability over INDI servers and devices within KStars.

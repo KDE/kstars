@@ -35,18 +35,12 @@ GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inP
     elementValue = qValue;
 }
 
-GenericDevice::GenericDevice(DeviceInfo *idv)
+GenericDevice::GenericDevice(DeviceInfo &idv)
 {
-    connected = false;
-
-    Q_ASSERT(idv != nullptr);
-
-    deviceInfo    = idv;
-    driverInfo    = idv->getDriverInfo();
-    baseDevice    = idv->getBaseDevice();
+    deviceInfo    = &idv;
+    driverInfo    = idv.getDriverInfo();
+    baseDevice    = idv.getBaseDevice();
     clientManager = driverInfo->getClientManager();
-
-    watchDogTimer = nullptr;
 
     dType = KSTARS_UNKNOWN;
 }
@@ -348,7 +342,7 @@ void GenericDevice::processBLOB(IBLOB *bp)
 
         fits_temp_file.close();
 
-        QByteArray fmt = QString(bp->format).toLower().remove(".").toUtf8();
+        QByteArray fmt = QString(bp->format).toLower().remove('.').toUtf8();
         if (QImageReader::supportedImageFormats().contains(fmt))
         {
             QUrl url(filename);
@@ -433,7 +427,7 @@ void GenericDevice::updateTime()
 
     //isoTS = QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month()).arg(newDate.day()).arg(newTime.hour()).arg(newTime.minute()).arg(newTime.second());
 
-    isoTS = KStars::Instance()->data()->ut().toString(Qt::ISODate).remove("Z");
+    isoTS = KStars::Instance()->data()->ut().toString(Qt::ISODate).remove('Z');
 
     /* Update Date/Time */
     ITextVectorProperty *timeUTC = baseDevice->getText("TIME_UTC");
@@ -827,7 +821,6 @@ ST4::ST4(INDI::BaseDevice *bdv, ClientManager *cm)
 {
     baseDevice    = bdv;
     clientManager = cm;
-    swapDEC       = false;
 }
 
 ST4::~ST4()

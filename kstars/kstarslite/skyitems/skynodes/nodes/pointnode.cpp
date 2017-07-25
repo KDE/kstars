@@ -14,17 +14,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QImage>
-#include <QQuickWindow>
-
 #include "pointnode.h"
-#include "kstarslite/skyitems/rootnode.h"
-#include <QSGTexture>
-#include "skymaplite.h"
+
 #include "Options.h"
+#include "skymaplite.h"
+#include "../../rootnode.h"
+
+#include <QQuickWindow>
+#include <QSGSimpleTextureNode>
 
 PointNode::PointNode(RootNode *p, char sp, float size)
-    : spType(sp), texture(new QSGSimpleTextureNode), m_rootNode(p), m_size(-1), //Important to init to -1
+    : spType(sp), texture(new QSGSimpleTextureNode), m_rootNode(p),
       starColorMode(Options::starColorMode())
 {
     appendChildNode(texture);
@@ -48,4 +48,9 @@ void PointNode::setSize(float size)
         m_size        = size;
         starColorMode = newStarCM;
     }
+}
+
+QSizeF PointNode::size() const
+{
+    return texture->rect().size();
 }

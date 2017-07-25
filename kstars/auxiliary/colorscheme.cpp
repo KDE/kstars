@@ -178,7 +178,7 @@ bool ColorScheme::load(const QString &name)
 
     //first line is the star-color mode and star color intensity and dark palette
     QString line      = stream.readLine();
-    QStringList modes = line.split(":");
+    QStringList modes = line.split(':');
 
     // Star Color Mode
     if (modes.count() > 0)
@@ -300,7 +300,7 @@ bool ColorScheme::save(const QString &name)
         else
         {
             bool found = false;
-            QString schemeLine = name + ":" + filename;
+            QString schemeLine = name + ':' + filename;
 
             // Check if the scheme line is in the colors.dat file
             // If not, then we add it

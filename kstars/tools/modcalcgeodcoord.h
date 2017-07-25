@@ -15,27 +15,27 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCGEODCOORD_H_
-#define MODCALCGEODCOORD_H_
+#pragma once
 
 #include "ui_modcalcgeod.h"
+
+#include <memory>
 
 class QTextStream;
 class GeoLocation;
 
 /**
-  * Class which implements the KStars calculator module to compute
-  * Geodetic coordinates to/from Cartesian coordinates.
-  *
-  *@author Pablo de Vicente
-	*@version 0.9
-  */
+ * Class which implements the KStars calculator module to compute
+ * Geodetic coordinates to/from Cartesian coordinates.
+ *
+ * @author Pablo de Vicente
+ * @version 0.9
+ */
 class modCalcGeodCoord : public QFrame, public Ui::modCalcGeodCoordDlg
 {
     Q_OBJECT
   public:
-    modCalcGeodCoord(QWidget *p);
-    ~modCalcGeodCoord();
+    explicit modCalcGeodCoord(QWidget *p);
 
     void genGeoCoords(void);
     void getCartGeoCoords(void);
@@ -69,8 +69,6 @@ class modCalcGeodCoord : public QFrame, public Ui::modCalcGeodCoordDlg
     //		QLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;
     //		dmsBox *timeBox, *dateBox, *lonGeoBox, *latGeoBox;
 
-    GeoLocation *geoPlace;
-    bool xyzInputCoords;
+    std::unique_ptr<GeoLocation> geoPlace;
+    bool xyzInputCoords { false };
 };
-
-#endif

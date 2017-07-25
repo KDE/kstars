@@ -46,7 +46,7 @@ class FITSView : public QScrollArea
 {
     Q_OBJECT
   public:
-    FITSView(QWidget *parent = 0, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
+    explicit FITSView(QWidget *parent = nullptr, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
     ~FITSView();
 
     /* Loads FITS image, scales it, and displays it in the GUI */

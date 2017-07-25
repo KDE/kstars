@@ -17,21 +17,20 @@
 
 #include "modcalcgeodcoord.h"
 
-#include <QTextStream>
-#include <QFileDialog>
-
-#include <KMessageBox>
-#include <KLocalizedString>
-
 #include "dms.h"
 #include "geolocation.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "widgets/dmsbox.h"
+
+#include <KMessageBox>
+
+#include <QTextStream>
+#include <QFileDialog>
 
 modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit) : QFrame(parentSplit)
 {
     QStringList ellipsoidList;
+
     ellipsoidList << "IAU76"
                   << "GRS80"
                   << "MERIT83"
@@ -42,7 +41,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit) : QFrame(parentSplit)
 
     spheRadio->setChecked(true);
     ellipsoidBox->insertItems(5, ellipsoidList);
-    geoPlace = new GeoLocation(dms(0), dms(0));
+    geoPlace.reset(new GeoLocation(dms(0), dms(0)));
     showLongLat();
     setEllipsoid(0);
     show();
@@ -51,14 +50,10 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit) : QFrame(parentSplit)
     connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeGeoCoords()));
 }
 
-modCalcGeodCoord::~modCalcGeodCoord()
-{
-    delete geoPlace;
-}
-
 void modCalcGeodCoord::showLongLat(void)
 {
     KStarsData *data = KStarsData::Instance();
+
     LongGeoBox->show(data->geo()->lng());
     LatGeoBox->show(data->geo()->lat());
     AltGeoBox->setText(QString("0.0"));

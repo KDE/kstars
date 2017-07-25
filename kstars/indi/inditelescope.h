@@ -28,7 +28,7 @@ class Telescope : public DeviceDecorator
     Q_OBJECT
 
   public:
-    Telescope(GDInterface *iPtr);
+    explicit Telescope(GDInterface *iPtr);
     ~Telescope();
 
     typedef enum { MOTION_NORTH, MOTION_SOUTH } TelescopeMotionNS;

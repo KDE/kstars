@@ -16,26 +16,22 @@
 
 #include "finddialoglite.h"
 
-#include "kstarsdata.h"
-#include "Options.h"
-#include "skyobjects/skyobject.h"
-#include "skycomponents/starcomponent.h"
-#include "skycomponents/skymapcomposite.h"
-#include "skymaplite.h"
-#include "kstarslite.h"
+#include "catalogentrydata.h"
 #include "deepskyobject.h"
-
-#include "solarsystemcomposite.h"
-//Resolver
-#include "tools/nameresolver.h"
-#include "skycomponents/syncedcatalogcomponent.h"
-
-#include <QSortFilterProxyModel>
+#include "kstarsdata.h"
+#include "kstarslite.h"
+#include "skymaplite.h"
 #include "skyobjectlistmodel.h"
-#include <QTimer>
-#include <QQmlContext>
+#include "syncedcatalogcomponent.h"
+#include "skycomponents/skymapcomposite.h"
+#include "skyobjects/skyobject.h"
+#include "tools/nameresolver.h"
 
-FindDialogLite::FindDialogLite() : timer(0)
+#include <QQmlContext>
+#include <QSortFilterProxyModel>
+#include <QTimer>
+
+FindDialogLite::FindDialogLite()
 {
     m_filterModel.append(i18n("Any"));
     m_filterModel.append(i18n("Stars"));
@@ -61,8 +57,6 @@ FindDialogLite::FindDialogLite() : timer(0)
     m_sortModel->setDynamicSortFilter(true);
     KStarsLite::Instance()->qmlEngine()->rootContext()->setContextProperty("SortModel", m_sortModel);
     m_sortModel->sort(0);
-
-    listFiltered = false;
 }
 
 FindDialogLite::~FindDialogLite()
@@ -185,15 +179,16 @@ bool FindDialogLite::isInList(QString searchQuery)
 {
     if (searchQuery.isEmpty())
         return false;
+
     int size         = m_sortModel->rowCount(m_sortModel->index(0, 0));
-    QString stripped = searchQuery.remove(" ");
+    QString stripped = searchQuery.remove(' ');
+
     for (int i = 0; i < size; ++i)
     {
         QString s = m_sortModel->data(m_sortModel->index(i, 0), Qt::DisplayRole).toString();
-        if (s == searchQuery || s.remove(" ") == stripped)
-        {
+
+        if (s == searchQuery || s.remove(' ') == stripped)
             return true;
-        }
     }
     return false;
 }

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "wilpsettings.h"
+
 #include "kstars.h"
 
 WILPSettings::WILPSettings(KStars *ks) : QFrame(ks), m_Ks(ks)

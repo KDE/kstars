@@ -93,16 +93,17 @@ KStarsDateTime KStarsDateTime::fromString(const QString &s)
     //DEBUG
     qDebug() << "Date string: " << s;
 
-    KStarsDateTime dtResult = QDateTime::fromString(s, Qt::TextDate);
+    KStarsDateTime dtResult(QDateTime::fromString(s, Qt::TextDate));
+
     if (dtResult.isValid())
         return dtResult;
 
-    dtResult = QDateTime::fromString(s, Qt::ISODate);
+    dtResult = KStarsDateTime(QDateTime::fromString(s, Qt::ISODate));
     if (dtResult.isValid())
         return dtResult;
 
     //dtResult = QDateTime::fromString( s, QDateTime::RFCDate );
-    dtResult = QDateTime::fromString(s, Qt::RFC2822Date);
+    dtResult = KStarsDateTime(QDateTime::fromString(s, Qt::RFC2822Date));
     if (dtResult.isValid())
         return dtResult;
 

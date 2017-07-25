@@ -301,7 +301,7 @@ void INDI_E::updateNP()
         if (write_w->text().isEmpty())
             return;
 
-        f_scansexa(write_w->text().replace(",", ".").toLatin1().constData(), &(np->value));
+        f_scansexa(write_w->text().replace(',', '.').toLatin1().constData(), &(np->value));
         return;
     }
 

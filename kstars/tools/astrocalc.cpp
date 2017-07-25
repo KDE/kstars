@@ -17,16 +17,6 @@
 
 #include "astrocalc.h"
 
-#include <QSplitter>
-#include <QStackedWidget>
-#include <QTreeWidget>
-#include <QTreeWidgetItem>
-#include <QDialogButtonBox>
-#include <QTextEdit>
-
-#include <KLocalizedString>
-
-#include "dms.h"
 #include "modcalcjd.h"
 #include "modcalcgeodcoord.h"
 #include "modcalcgalcoord.h"
@@ -40,6 +30,13 @@
 #include "modcalcvizequinox.h"
 #include "modcalcvlsr.h"
 #include "conjunctions.h"
+
+#include <QDialogButtonBox>
+#include <QSplitter>
+#include <QStackedWidget>
+#include <QTextEdit>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 
 AstroCalc::AstroCalc(QWidget *parent) : QDialog(parent)
 {
@@ -203,10 +200,6 @@ QTreeWidgetItem *AstroCalc::addTreeTopItem(QTreeWidget *parent, QString title, Q
     QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList(title));
     htmlTable.insert(item, html);
     return item;
-}
-
-AstroCalc::~AstroCalc()
-{
 }
 
 void AstroCalc::slotItemSelection(QTreeWidgetItem *item)

@@ -37,6 +37,7 @@ class DeviceInfo;
 class INDIListener : public QObject
 {
     Q_OBJECT
+
   public:
     static INDIListener *Instance();
 
@@ -50,14 +51,6 @@ class INDIListener : public QObject
 
     bool isStandardProperty(const QString &name);
 
-  private:
-    INDIListener(QObject *parent);
-    ~INDIListener();
-    static INDIListener *_INDIListener;
-    QList<ClientManager *> clients;
-    QList<ISD::GDInterface *> devices;
-    QList<ISD::ST4 *> st4Devices;
-
   public slots:
 
     void registerProperty(INDI::Property *prop);
@@ -70,6 +63,16 @@ class INDIListener : public QObject
     void processBLOB(IBLOB *bp);
     void processMessage(INDI::BaseDevice *dp, int messageID);
     void removeDevice(DeviceInfo *dv);
+
+  private:
+    explicit INDIListener(QObject *parent);
+    ~INDIListener();
+
+    static INDIListener *_INDIListener;
+
+    QList<ClientManager *> clients;
+    QList<ISD::GDInterface *> devices;
+    QList<ISD::ST4 *> st4Devices;
 
   signals:
     void newDevice(ISD::GDInterface *);

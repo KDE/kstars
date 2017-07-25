@@ -13,53 +13,49 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef POINTNODE_H_
-#define POINTNODE_H_
-#include <QSGSimpleTextureNode>
+
+#pragma once
+
 #include "../../skyopacitynode.h"
 
-class PlanetItemNode;
-class SkyMapLite;
+class QSGSimpleTextureNode;
 
-/** @class PointNode
+class RootNode;
+
+/**
+ * @class PointNode
+ * @short SkyOpacityNode derived class that represents stars and planets using cached QSGTexture
  *
  * A SkyOpacityNode derived class used for representing stars and planets as stars. Upon
  * construction loads the texture of star cached in parentNode
  *
- *@short SkyOpacityNode derived class that represents stars and planets using cached QSGTexture
- *@author Artem Fedoskin
- *@version 1.0
+ * @author Artem Fedoskin
+ * @version 1.0
  */
-
-class RootNode;
-
 class PointNode : public SkyOpacityNode
 {
   public:
     /**
-         * @short Constructor
-         * @param spType spectral type
-         * @param parentNode pointer to the top parent node, which holds texture cache
-         * @param size initial size of PointNode
-         */
-    PointNode(RootNode *rootNode, char spType = 'A', float size = 1);
+     * @short Constructor
+     * @param spType spectral type
+     * @param parentNode pointer to the top parent node, which holds texture cache
+     * @param size initial size of PointNode
+     */
+    explicit PointNode(RootNode *rootNode, char spType = 'A', float size = 1);
 
     /**
-         * @short setSize update size of PointNode with the given parameter
-         * @param size new size of PointNode
-         */
+     * @short setSize update size of PointNode with the given parameter
+     * @param size new size of PointNode
+     */
     void setSize(float size);
 
-    inline QSizeF size() const { return texture->rect().size(); }
+    QSizeF size() const;
 
   private:
-    char spType;
-
-    QSGSimpleTextureNode *texture;
+    char spType { 0 };
+    QSGSimpleTextureNode *texture { nullptr };
     //parentNode holds texture cache
-    RootNode *m_rootNode;
-    float m_size;
-    uint starColorMode;
+    RootNode *m_rootNode { nullptr };
+    float m_size { -1 };
+    uint starColorMode { 0 };
 };
-
-#endif

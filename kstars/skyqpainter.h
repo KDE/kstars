@@ -51,7 +51,7 @@ class SkyQPainter : public SkyPainter, public QPainter
      * @short Creates a SkyQPainter with the given QPaintDevice and given canvas size
      * @param pd the painting device. Cannot be 0
      */
-    SkyQPainter(QPaintDevice *pd);
+    explicit SkyQPainter(QPaintDevice *pd);
 
     /**
      * @short Creates a SkyQPainter given a QWidget and an optional QPaintDevice.

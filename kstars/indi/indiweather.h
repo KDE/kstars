@@ -7,8 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDIWEATHER_H
-#define INDIWEATHER_H
+#pragma once
 
 #include "indistd.h"
 
@@ -20,13 +19,12 @@ namespace ISD
  *
  * @author Jasem Mutlaq
  */
-
 class Weather : public DeviceDecorator
 {
     Q_OBJECT
 
   public:
-    Weather(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_WEATHER; }
+    explicit Weather(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_WEATHER; }
 
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
@@ -40,5 +38,3 @@ class Weather : public DeviceDecorator
     uint16_t getUpdatePeriod();
 };
 }
-
-#endif // INDIWEATHER

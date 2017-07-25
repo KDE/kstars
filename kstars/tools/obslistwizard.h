@@ -16,10 +16,10 @@
 
 #pragma once
 
-#include <QDialog>
-
 #include "ui_obslistwizard.h"
 #include "skyobjects/skypoint.h"
+
+#include <QDialog>
 
 class QListWidget;
 class QPushButton;
@@ -30,8 +30,9 @@ class GeoLocation;
 class ObsListWizardUI : public QFrame, public Ui::ObsListWizard
 {
     Q_OBJECT
+
   public:
-    ObsListWizardUI(QWidget *p);
+    explicit ObsListWizardUI(QWidget *p);
 };
 
 /**
@@ -45,7 +46,7 @@ class ObsListWizard : public QDialog
     Q_OBJECT
   public:
     /** @short Constructor */
-    ObsListWizard(QWidget *parent);
+    explicit ObsListWizard(QWidget *parent);
     /** @short Destructor */
     ~ObsListWizard();
 

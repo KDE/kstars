@@ -51,7 +51,7 @@ class ObservingListUI : public QFrame, public Ui::ObservingList
   public:
     /** @short Cunstructor
             */
-    ObservingListUI(QWidget *parent);
+    explicit ObservingListUI(QWidget *parent);
 };
 
 /** @class ObservingList

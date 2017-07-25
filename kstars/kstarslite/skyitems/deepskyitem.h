@@ -31,9 +31,6 @@ class DSOIndexNode : public SkyOpacityNode
   public:
     DSOIndexNode(DeepSkyIndex *index, LabelsItem::label_t labelType, QString colorString);
 
-    DeepSkyIndex *m_index { nullptr };
-    QSGNode *m_trixels { nullptr };
-
     /** @short m_labelType - holds label type of this catalog */
     LabelsItem::label_t m_labelType;
     /** @short schemeColor - holds the color, with which nodes of this catalog should be drawn */
@@ -44,6 +41,9 @@ class DSOIndexNode : public SkyOpacityNode
 
     /** @short shows the catalog nodes and their labels */
     virtual void show();
+
+    DeepSkyIndex *m_index { nullptr };
+    QSGNode *m_trixels { nullptr };
 };
 
 /**
@@ -53,7 +53,7 @@ class DSOIndexNode : public SkyOpacityNode
 class DSOTrixelNode : public TrixelNode
 {
   public:
-    DSOTrixelNode(Trixel trixelID);
+    explicit DSOTrixelNode(Trixel trixelID);
 
     virtual void deleteAllChildNodes();
 

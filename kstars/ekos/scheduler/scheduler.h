@@ -154,7 +154,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @param when date time to find altitude
          * @return Altitude of the target at the specific date and time given.
          */
-    static double findAltitude(const SkyPoint &target, const QDateTime when);
+    static double findAltitude(const SkyPoint &target, const QDateTime &when);
 
     /** @defgroup SchedulerDBusInterface Ekos DBus Interface - Scheduler Module
          * Ekos::Align interface provides primary functions to run and stop the scheduler.

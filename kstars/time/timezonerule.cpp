@@ -344,7 +344,7 @@ void TimeZoneRule::nextDSTChange_LTime(const KStarsDateTime &date)
 
     // return an invalid date if the rule is the empty rule.
     if (isEmptyRule())
-        result = QDateTime();
+        result = KStarsDateTime(QDateTime());
 
     else if (deltaTZ())
     {
@@ -383,7 +383,7 @@ void TimeZoneRule::previousDSTChange_LTime(const KStarsDateTime &date)
 
     // return an invalid date if the rule is the empty rule
     if (isEmptyRule())
-        next_change_ltime = QDateTime();
+        next_change_ltime = KStarsDateTime(QDateTime());
 
     if (deltaTZ())
     {

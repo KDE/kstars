@@ -7,7 +7,7 @@
 #define ALPHA_LOW_PASS 0.1
 #endif
 
-DeviceOrientation::DeviceOrientation(QObject *parent) : QObject(parent), m_Azimuth(0), m_Altitude(0), m_Roll(0)
+DeviceOrientation::DeviceOrientation(QObject *parent) : QObject(parent)
 {
 }
 

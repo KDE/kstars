@@ -84,7 +84,7 @@ class Execute : public QDialog
     /**
      * @short set the currentTarget when the user selection is changed in the target combo box
      */
-    void slotSetTarget(QString name);
+    void slotSetTarget(const QString &name);
 
     /** @short loads the equipment list from the global logObject into the comboBoxes */
     void loadEquipment();

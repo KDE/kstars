@@ -1126,9 +1126,9 @@ void ScriptBuilder::readScript(QTextStream &istream)
             //remove leading dbus prefix
             line = line.mid(line.lastIndexOf(service_name) + service_name.count());
 
-            fn_name = line.left(line.indexOf(" "));
+            fn_name = line.left(line.indexOf(' '));
 
-            line = line.mid(line.indexOf(" ") + 1);
+            line = line.mid(line.indexOf(' ') + 1);
 
             //construct a stringlist that is fcn name and its arg name/value pairs
             QStringList fn;

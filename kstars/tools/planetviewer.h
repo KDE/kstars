@@ -14,21 +14,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PLANETVIEWER_H_
-#define PLANETVIEWER_H_
+#pragma once
 
-#include <QTimer>
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <QKeyEvent>
-#include <QPaintEvent>
+#include "kstarsdatetime.h"
+#include "ui_planetviewer.h"
 
 #include <QDialog>
-#include <QPushButton>
+#include <QTimer>
 
-#include "pvplotwidget.h"
-#include "ui_planetviewer.h"
-#include "kstarsdatetime.h"
+class QKeyEvent;
+class QPaintEvent;
 
 #define AUMAX 48
 
@@ -37,21 +32,24 @@ class KSPlanetBase;
 class PlanetViewerUI : public QFrame, public Ui::PlanetViewer
 {
     Q_OBJECT
+
   public:
-    PlanetViewerUI(QWidget *parent = 0);
+    explicit PlanetViewerUI(QWidget *parent = nullptr);
 };
 
-/** @class PlanetViewer
-	*@short Display an overhead view of the solar system
-	*@version 1.0
-	*@author Jason Harris
-	*/
+/**
+ * @class PlanetViewer
+ * @short Display an overhead view of the solar system
+ *
+ * @version 1.0
+ * @author Jason Harris
+ */
 class PlanetViewer : public QDialog
 {
     Q_OBJECT
+
   public:
-    PlanetViewer(QWidget *parent = 0);
-    ~PlanetViewer();
+    explicit PlanetViewer(QWidget *parent = nullptr);
 
     inline QString centerPlanet() const { return CenterPlanet; }
     inline void setCenterPlanet(const QString &cp) { CenterPlanet = cp; }
@@ -75,18 +73,14 @@ class PlanetViewer : public QDialog
   private:
     void updatePlanets();
 
-    PlanetViewerUI *pw;
+    PlanetViewerUI *pw { nullptr };
     KStarsDateTime ut;
-    double scale;
-    bool isClockRunning;
+    double scale { 0 };
+    bool isClockRunning { false };
     QTimer tmr;
     int UpdateInterval[9], LastUpdate[9];
     QString CenterPlanet;
-
     QList<KSPlanetBase *> PlanetList;
-
-    KPlotObject *ksun;
+    KPlotObject *ksun { nullptr };
     KPlotObject *planet[9];
 };
-
-#endif

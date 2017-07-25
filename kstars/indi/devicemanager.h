@@ -11,8 +11,7 @@
 
  */
 
-#ifndef DEVICEMANAGER_H_
-#define DEVICEMANAGER_H_
+#pragma once
 
 #include <QTcpSocket>
 
@@ -103,5 +102,3 @@ class DeviceManager : public QObject
     void deviceManagerError(DeviceManager *);
     void newServerInput();
 };
-
-#endif

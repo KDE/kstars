@@ -182,8 +182,9 @@ bool Execute::saveSession()
     }
     if (currentSession)
     {
-        currentSession->setSession(currentSession->id(), site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(),
-                                   ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(),
+        currentSession->setSession(currentSession->id(), site->id(), KStarsDateTime(ui.Begin->dateTime()),
+                                   KStarsDateTime(ui.Begin->dateTime()), ui.Weather->toPlainText(),
+                                   ui.Equipment->toPlainText(), ui.Comment->toPlainText(),
                                    ui.Language->text());
     }
     else
@@ -191,8 +192,9 @@ bool Execute::saveSession()
         while (logObject->findSessionByName(i18n("session_") + QString::number(nextSession)))
             nextSession++;
         currentSession = new OAL::Session(i18n("session_") + QString::number(nextSession++), site->id(),
-                                          ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(),
-                                          ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text());
+                                          KStarsDateTime(ui.Begin->dateTime()), KStarsDateTime(ui.Begin->dateTime()),
+                                          ui.Weather->toPlainText(), ui.Equipment->toPlainText(),
+                                          ui.Comment->toPlainText(), ui.Language->text());
         logObject->sessionList()->append(currentSession);
     }
     ui.stackedWidget->setCurrentIndex(1); //Move to the next page
@@ -305,7 +307,7 @@ void Execute::slotEndSession()
 {
     if (currentSession)
     {
-        currentSession->setSession(currentSession->id(), currentSession->site(), ui.Begin->dateTime(),
+        currentSession->setSession(currentSession->id(), currentSession->site(), KStarsDateTime(ui.Begin->dateTime()),
                                    KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(),
                                    ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text());
 
@@ -346,7 +348,7 @@ void Execute::slotObserverAdd()
     delete m_observerAdd;
 }
 
-void Execute::slotSetTarget(QString name)
+void Execute::slotSetTarget(const QString &name)
 {
     currentTarget = KStarsData::Instance()->observingList()->findObjectByName(name);
     if (!currentTarget)

@@ -20,9 +20,9 @@
 #include "exporteyepieceview.h"
 #include "fov.h"
 #include "ksdssdownloader.h"
+#include "Options.h"
 #include "skymap.h"
 #include "skyqpainter.h"
-#include "Options.h"
 
 #include <QLabel>
 #include <QSlider>
@@ -43,7 +43,6 @@ EyepieceField::EyepieceField(QWidget *parent) : QDialog(parent)
 
     m_sp         = 0;
     m_dt         = 0;
-    m_lat        = 0;
     m_currentFOV = 0;
     m_fovWidth = m_fovHeight = 0;
     m_dler                   = 0;
@@ -129,9 +128,6 @@ EyepieceField::EyepieceField(QWidget *parent) : QDialog(parent)
     connect(m_presetCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotEnforcePreset(int)));
     connect(m_presetCombo, SIGNAL(activated(int)), this, SLOT(slotEnforcePreset(int)));
     connect(m_getDSS, SIGNAL(clicked()), this, SLOT(slotDownloadDss()));
-
-    m_skyChart = 0;
-    m_skyImage = 0;
 }
 
 void EyepieceField::slotEnforcePreset(int index)
@@ -214,27 +210,25 @@ void EyepieceField::showEyepieceField(SkyPoint *sp, FOV const *const fov, const 
 
 void EyepieceField::showEyepieceField(SkyPoint *sp, const double fovWidth, double fovHeight, const QString &imagePath)
 {
-    if (!m_skyChart)
-        m_skyChart = new QImage();
+    if (m_skyChart.get() == nullptr)
+        m_skyChart.reset(new QImage());
 
     if (QFile::exists(imagePath))
     {
         qDebug() << "Image path " << imagePath << " exists";
-        if (!m_skyImage)
+        if (m_skyImage.get() == nullptr)
         {
             qDebug() << "Sky image did not exist, creating.";
-            m_skyImage = new QImage();
+            m_skyImage.reset(new QImage());
         }
     }
     else
     {
-        delete m_skyImage;
-        m_skyImage = 0;
+        m_skyImage.reset();
     }
 
     m_usedAltAz = Options::useAltAz();
-    generateEyepieceView(sp, m_skyChart, m_skyImage, fovWidth, fovHeight, imagePath);
-    m_lat = KStarsData::Instance()->geo()->lat()->radians();
+    generateEyepieceView(sp, m_skyChart.get(), m_skyImage.get(), fovWidth, fovHeight, imagePath);
 
     // Keep a copy for local purposes (computation of field rotation etc.)
     if (m_sp != sp)
@@ -518,15 +512,15 @@ void EyepieceField::render()
     bool flip         = m_flipView->isChecked();
     bool invert       = m_invertView->isChecked();
     bool invertColors = m_invertColors->isChecked();
-    bool overlay      = m_overlay->isChecked() && m_skyImage;
+    bool overlay      = m_overlay->isChecked() && m_skyImage.get();
 
-    Q_ASSERT(m_skyChart);
+    Q_ASSERT(m_skyChart.get());
 
-    renderEyepieceView(m_skyChart, &m_renderChart, rotation, 1.0, flip, invert, m_skyImage, &m_renderImage, overlay,
-                       invertColors);
+    renderEyepieceView(m_skyChart.get(), &m_renderChart, rotation, 1.0, flip, invert, m_skyImage.get(), &m_renderImage,
+                       overlay, invertColors);
 
     m_skyChartDisplay->setVisible(!overlay);
-    if (m_skyImage)
+    if (m_skyImage.get() != nullptr)
     {
         m_skyImageDisplay->setVisible(true);
         m_overlay->setVisible(true);
@@ -544,7 +538,7 @@ void EyepieceField::render()
     if (!overlay)
         m_skyChartDisplay->setPixmap(m_renderChart.scaled(m_skyChartDisplay->width(), m_skyChartDisplay->height(),
                                                           Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    if (m_skyImage)
+    if (m_skyImage.get() != nullptr)
         m_skyImageDisplay->setPixmap(m_renderImage.scaled(m_skyImageDisplay->width(), m_skyImageDisplay->height(),
                                                           Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
@@ -587,17 +581,10 @@ void EyepieceField::slotDssDownloaded(bool success)
         showEyepieceField(m_sp, m_fovWidth, m_fovHeight, m_tempFile.fileName());
 }
 
-EyepieceField::~EyepieceField()
-{
-    // Empty
-    delete m_skyChart;
-    delete m_skyImage;
-}
-
 void EyepieceField::slotExport()
 {
-    bool overlay = m_overlay->isChecked() && m_skyImage;
-    new ExportEyepieceView(m_sp, *m_dt, ((m_skyImage && !overlay) ? &m_renderImage : 0), &m_renderChart, this);
+    bool overlay = m_overlay->isChecked() && m_skyImage.get();
+    new ExportEyepieceView(m_sp, *m_dt, ((m_skyImage.get() && !overlay) ? &m_renderImage : 0), &m_renderChart, this);
 }
 
 dms EyepieceField::findNorthAngle(const SkyPoint *sp, const dms *lat)

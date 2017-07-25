@@ -16,26 +16,19 @@
 
 #include "jmoontool.h"
 
-#include <QVBoxLayout>
-#include <QGridLayout>
-#include <QLayout>
-#include <QFrame>
-#include <QKeyEvent>
-
-#include <QDebug>
-#include <KLocalizedString>
-#include <KPlotting/KPlotWidget>
-#include <KPlotting/KPlotObject>
-#include <KPlotting/KPlotAxis>
-
-#include "simclock.h"
-#include "dms.h"
 #include "ksnumbers.h"
 #include "kstars.h"
-#include "kstarsdata.h"
-#include "skyobjects/ksplanet.h"
 #include "skyobjects/jupitermoons.h"
-#include "skycomponents/skymapcomposite.h"
+#include "skyobjects/ksplanet.h"
+#include "skyobjects/kssun.h"
+
+#include <KPlotting/KPlotObject>
+#include <KPlotting/KPlotWidget>
+
+#include <QFrame>
+#include <QGridLayout>
+#include <QKeyEvent>
+#include <QVBoxLayout>
 
 JMoonTool::JMoonTool(QWidget *parent) : QDialog(parent)
 {
@@ -111,10 +104,6 @@ JMoonTool::JMoonTool(QWidget *parent) : QDialog(parent)
 
     initPlotObjects();
     update();
-}
-
-JMoonTool::~JMoonTool()
-{
 }
 
 void JMoonTool::initPlotObjects()

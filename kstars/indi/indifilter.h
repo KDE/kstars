@@ -7,8 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDIFILTER_H
-#define INDIFILTER_H
+#pragma once
 
 #include "indistd.h"
 
@@ -25,7 +24,7 @@ class Filter : public DeviceDecorator
     Q_OBJECT
 
   public:
-    Filter(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_FILTER; }
+    explicit Filter(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_FILTER; }
 
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
@@ -35,5 +34,3 @@ class Filter : public DeviceDecorator
     DeviceFamily getType() { return dType; }
 };
 }
-
-#endif // INDIFILTER_H

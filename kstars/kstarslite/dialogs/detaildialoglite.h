@@ -14,29 +14,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DETAILDIALOGLITE_H_
-#define DETAILDIALOGLITE_H_
+#pragma once
 
-#include "skyobjects/skyobject.h"
-#include <QImage>
+#include <QObject>
+#include <QString>
 
-class QTimer;
-class QStringListModel;
-class QSortFilterProxyModel;
-class SkyObjectListModel;
-
-/** @class DetalDialogLite
+/**
+ * @class DetalDialogLite
+ * @short Backend for Object details dialog in QML
  * A backend of details dialog declared in QML. Members of this class are the properties that are used
  * in QML. Whenever user clicks on some object the properties are updated with the info about this object
  * and Details dialog in QML is updated automatically as we use property binding there.
  *
- * @short Backend for Object details dialog in QML
  * @author Artem Fedoskin, Jason Harris, Jasem Mutlaq
  * @version 1.0
  */
 class DetailDialogLite : public QObject
 {
     Q_OBJECT
+
     //General
     Q_PROPERTY(QString name MEMBER m_name NOTIFY nameChanged)
     Q_PROPERTY(QString magnitude MEMBER m_magnitude NOTIFY magnitudeChanged)
@@ -91,85 +87,73 @@ class DetailDialogLite : public QObject
     Q_PROPERTY(QString userLog MEMBER m_userLog NOTIFY userLogChanged)
 
   public:
-    explicit DetailDialogLite();
+    DetailDialogLite();
 
-    /**
-         * @short Connect SkyMapLite's signals to proper slots
-         */
+    /** Connect SkyMapLite's signals to proper slots */
     void initialize();
 
-    /**
-         * @short Set thumbnail to SkyMapLite::clickedObjectLite's thumbnail (if any)
-         */
+    /** Set thumbnail to SkyMapLite::clickedObjectLite's thumbnail (if any) */
     void setupThumbnail();
 
     /**
-         * @brief addLink adds new link to SkyObject
-         * @param isImageLink true if it is a link to image. False if it is information link
-         */
-    Q_INVOKABLE void addLink(QString url, QString desc, bool isImageLink);
+     * @brief addLink adds new link to SkyObject
+     * @param isImageLink true if it is a link to image. False if it is information link
+     */
+    Q_INVOKABLE void addLink(const QString &url, const QString &desc, bool isImageLink);
 
     /**
-          * @short Remove link from user's database
-          * @param itemIndex - index of a link
-          * @param isImage - true if it is a link on image, false if it is an info link
-          */
+     * @short Remove link from user's database
+     * @param itemIndex - index of a link
+     * @param isImage - true if it is a link on image, false if it is an info link
+     */
     Q_INVOKABLE void removeLink(int itemIndex, bool isImage);
 
     /**
-         * @short Edit link's description and URL
-         * @param itemIndex - index of a link
-         * @param isImage - true if it is a link on image, false if it is an info link
-         * @param desc - new description
-         * @param url - new URL
-         */
-    void editLink(int itemIndex, bool isImage, QString desc, QString url);
+     * @short Edit link's description and URL
+     * @param itemIndex - index of a link
+     * @param isImage - true if it is a link on image, false if it is an info link
+     * @param desc - new description
+     * @param url - new URL
+     */
+    void editLink(int itemIndex, bool isImage, const QString &desc, const QString &url);
 
-    /** Update the local info_url and image_url files
-            @param type The URL type. 0 for Info Links, 1 for Images.
-            @param search_line The line to be search for in the local URL files
-            @param replace_line The replacement line once search_line is found.
-            @note If replace_line is empty, the function will remove search_line from the file
-        */
+    /**
+     * Update the local info_url and image_url files
+     * @param type The URL type. 0 for Info Links, 1 for Images.
+     * @param search_line The line to be search for in the local URL files
+     * @param replace_line The replacement line once search_line is found.
+     * @note If replace_line is empty, the function will remove search_line from the file
+     */
     void updateLocalDatabase(int type, const QString &search_line, const QString &replace_line = QString());
 
     //We don't need bindings to URLs so let's just have getters
     /**
-         * @param index - URL's index in SkyObject::ImageList()
-         * @return URL to user added information about object
-         */
+     * @param index - URL's index in SkyObject::ImageList()
+     * @return URL to user added information about object
+     */
     Q_INVOKABLE QString getInfoURL(int index);
 
     /**
-         * @param index - URL's index in SkyObject::ImageList()
-         * @return URL to user added object image
-         */
+     * @param index - URL's index in SkyObject::ImageList()
+     * @return URL to user added object image
+     */
     Q_INVOKABLE QString getImageURL(int index);
+
   public slots:
-    /**
-         * @short Update properties that are shown on "General" tab
-         */
+    /** Update properties that are shown on "General" tab */
     void createGeneralTab();
 
-    /**
-         * @short Update properties that are shown on "Position" tab
-         */
+    /** Update properties that are shown on "Position" tab */
     void createPositionTab();
 
-    /**
-         * @short Update properties that are shown on "Log" tab
-         */
+    /** Update properties that are shown on "Log" tab */
     void createLogTab();
 
-    /**
-         * @short Update properties that are shown on "Links" tab
-         */
+    /** Update properties that are shown on "Links" tab */
     void createLinksTab();
 
-    /**
-         * @short Save the User's text in the Log Tab to the userlog.dat file.
-         */
-    void saveLogData(QString userLog);
+    /** Save the User's text in the Log Tab to the userlog.dat file. */
+    void saveLogData(const QString &userLog);
 
   signals:
     //General
@@ -271,13 +255,11 @@ class DetailDialogLite : public QObject
     QString m_azSet;
 
     //Links
-    bool m_isLinksOn;
+    bool m_isLinksOn { false };
     QStringList m_infoTitleList;
     QStringList m_imageTitleList;
 
     //Log
-    bool m_isLogOn;
+    bool m_isLogOn { false };
     QString m_userLog;
 };
-
-#endif

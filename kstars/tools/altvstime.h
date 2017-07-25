@@ -54,7 +54,7 @@ class AltVsTime : public QDialog
 
   public:
     /** Constructor */
-    explicit AltVsTime(QWidget *parent = 0);
+    explicit AltVsTime(QWidget *parent = nullptr);
 
     /** Destructor */
     ~AltVsTime();

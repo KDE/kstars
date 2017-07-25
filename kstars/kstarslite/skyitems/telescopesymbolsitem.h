@@ -13,19 +13,20 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef TELESCOPESYMBOLSITEM_H_
-#define TELESCOPESYMBOLSITEM_H_
+
+#pragma once
 
 #include "skyitem.h"
-#include "basedevice.h"
 
-class KSAsteroid;
-class SkyObject;
-class RootNode;
-class EllipseNode;
-class LineNode;
-class CrosshairNode;
+namespace INDI
+{
+class BaseDevice;
+}
+
 class ClientManagerLite;
+class CrosshairNode;
+class RootNode;
+class SkyObject;
 
 /**
  * @class TelescopeSymbolsItem
@@ -34,36 +35,30 @@ class ClientManagerLite;
  * @author Artem Fedoskin
  * @version 1.0
  */
-
 class TelescopeSymbolsItem : public SkyItem
 {
   public:
     /**
-         * @short Constructor
-         * @param rootNode parent RootNode that instantiates PlanetsItem
-         */
-    TelescopeSymbolsItem(RootNode *rootNode);
+     * @short Constructor
+     * @param rootNode parent RootNode that instantiates PlanetsItem
+     */
+    explicit TelescopeSymbolsItem(RootNode *rootNode);
 
     /**
-         * @short Updates position and visibility of CrosshairNodes that represent telescope symbols
-         * If client is no more connected to host or device CrosshairNode is deleted.
-         */
+     * @short Updates position and visibility of CrosshairNodes that represent telescope symbols
+     * If client is no more connected to host or device CrosshairNode is deleted.
+     */
     virtual void update() override;
 
-    /**
-         * @short Add telescope symbol for device bd
-         */
+    /** Add telescope symbol for device bd */
     void addTelescope(INDI::BaseDevice *bd);
 
-    /**
-         * @short Remove telescope symbol of device bd
-         */
+    /** Remove telescope symbol of device bd */
     void removeTelescope(INDI::BaseDevice *bd);
 
   private:
     QHash<INDI::BaseDevice *, CrosshairNode *> m_telescopes;
-    ClientManagerLite *m_clientManager;
+    ClientManagerLite *m_clientManager { nullptr };
     QColor m_color;
-    KStarsData *m_KStarsData;
+    KStarsData *m_KStarsData { nullptr };
 };
-#endif

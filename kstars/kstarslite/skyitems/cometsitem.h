@@ -13,12 +13,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef COMETSITEM_H_
-#define COMETSITEM_H_
+
+#pragma once
 
 #include "skyitem.h"
 
-class KSComet;
 class SkyObject;
 
 /**
@@ -28,29 +27,27 @@ class SkyObject;
  * @author Artem Fedoskin
  * @version 1.0
  */
-
 class CometsItem : public SkyItem
 {
   public:
     /**
-         * @short Constructor
-         * @param cometsList const reference to list of comets
-         * @param rootNode parent RootNode that instantiates this object
-         */
-    CometsItem(const QList<SkyObject *> &cometsList, RootNode *rootNode = 0);
+     * @short Constructor
+     * @param cometsList const reference to list of comets
+     * @param rootNode parent RootNode that instantiates this object
+     */
+    explicit CometsItem(const QList<SkyObject *> &cometsList, RootNode *rootNode = nullptr);
 
     /**
-         * @short recreates the node tree (deletes old nodes and appends new ones according to
-         * m_cometsList)
-         */
+     * @short recreates the node tree (deletes old nodes and appends new ones according to
+     * m_cometsList)
+     */
     void recreateList();
 
     /**
-         * @short Determines the visibility of the object and its label and hides/updates them accordingly
-         */
+     * @short Determines the visibility of the object and its label and hides/updates them accordingly
+     */
     virtual void update() override;
 
   private:
     const QList<SkyObject *> &m_cometsList;
 };
-#endif

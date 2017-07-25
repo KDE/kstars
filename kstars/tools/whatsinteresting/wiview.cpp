@@ -279,7 +279,7 @@ void WIView::onSoListItemClicked(int index)
 
 void WIView::onNextObjClicked()
 {
-    if (m_CurrentObjectListName != "")
+    if (!m_CurrentObjectListName.isEmpty())
     {
         int modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
         SkyObjItem *nextItem =
@@ -290,7 +290,7 @@ void WIView::onNextObjClicked()
 
 void WIView::onPrevObjClicked()
 {
-    if (m_CurrentObjectListName != "")
+    if (!m_CurrentObjectListName.isEmpty())
     {
         int modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
         SkyObjItem *prevItem =
@@ -383,7 +383,7 @@ void WIView::onSettingsIconClicked()
 
 void WIView::onReloadIconClicked()
 {
-    if (m_CurrentObjectListName != "")
+    if (!m_CurrentObjectListName.isEmpty())
     {
         updateModel(*m_Obs);
         m_CurIndex = m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjIndex(m_CurSoItem.get());
@@ -411,7 +411,7 @@ void WIView::onUpdateIconClicked()
     QPushButton *allObjects = nullptr;
 
     mbox.setText("Please choose which object(s) to try to update with Wikipedia data.");
-    if (m_CurrentObjectListName != "")
+    if (!m_CurrentObjectListName.isEmpty())
     {
         missingObjects = mbox.addButton("Objects with no data", QMessageBox::AcceptRole);
         allObjects     = mbox.addButton("Entire List", QMessageBox::AcceptRole);
@@ -444,7 +444,7 @@ void WIView::onUpdateIconClicked()
 void WIView::refreshListView()
 {
     m_Ctxt->setContextProperty("soListModel", 0);
-    if (m_CurrentObjectListName != "")
+    if (!m_CurrentObjectListName.isEmpty())
         m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(m_CurrentObjectListName));
     if (m_CurIndex == -2)
         onSoListItemClicked(0);
@@ -454,7 +454,7 @@ void WIView::refreshListView()
 
 void WIView::updateModel(ObsConditions& obs)
 {
-    if (m_CurrentObjectListName != "")
+    if (!m_CurrentObjectListName.isEmpty())
     {
         m_Obs = &obs;
         m_ModManager->updateModel(m_Obs, m_CurrentObjectListName);
@@ -570,7 +570,9 @@ QString WIView::getWikipediaName(SkyObjItem *soitem)
 {
     if (!soitem)
         return "";
+
     QString name;
+
     if (soitem->getName().toLower().startsWith("m "))
         name = soitem->getName().replace("M ", "Messier_").remove(' ');
     else if (soitem->getName().toLower().startsWith("ngc"))
@@ -599,14 +601,16 @@ QString WIView::getWikipediaName(SkyObjItem *soitem)
     else if (soitem->getType() == SkyObjItem::Star)
     {
         StarObject *star = dynamic_cast<StarObject *>(soitem->getSkyObject());
-        name             = star->gname(false).replace(
-            " ", "_"); //the greek name seems to give the most consistent search results for opensearch.
-        if (name == "")
-            name = soitem->getName().replace(" ", "_") + "_(star)";
-        name.remove("[").remove("]");
+
+        // The greek name seems to give the most consistent search results for opensearch.
+        name             = star->gname(false).replace(' ', '_');
+        if (name.isEmpty())
+            name = soitem->getName().replace(' ', '_') + "_(star)";
+        name.remove('[').remove(']');
     }
     else
         name = soitem->getName().remove(' ');
+
     return name;
 }
 
@@ -614,6 +618,7 @@ void WIView::updateWikipediaDescription(SkyObjItem *soitem)
 {
     if (!soitem)
         return;
+
     QString name = getWikipediaName(soitem);
 
     QUrl url("https://en.wikipedia.org/w/api.php?action=opensearch&search=" + name + "&format=xml");
@@ -711,7 +716,7 @@ void WIView::loadObjectInfoBox(SkyObjItem *soitem)
                         KSPaths::locate(QStandardPaths::GenericDataLocation,
                                         "descriptions/wikiImage-" + soitem->getName().toLower().remove(' ') + ".png"))
                         .url();
-                if (wikiImageName != "")
+                if (!wikiImageName.isEmpty())
                 {
                     int captionEnd = infoBoxHTML.indexOf(
                         "</caption>"); //Start looking for the image AFTER the caption.  Planets have images in their caption.
@@ -758,11 +763,12 @@ void WIView::tryToUpdateWikipediaInfoInModel(bool onlyMissing)
 
 void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
 {
-    if (name == "" || !soitem)
+    if (name.isEmpty() || !soitem)
         return;
-    QUrl url("https://en.wikipedia.org/w/index.php?action=render&title=" + name + "&redirects");
 
+    QUrl url("https://en.wikipedia.org/w/index.php?action=render&title=" + name + "&redirects");
     QNetworkReply *response = manager->get(QNetworkRequest(url));
+
     QTimer::singleShot(30000, response, [response] { //Shut it down after 30 sec.
         response->abort();
         response->deleteLater();
@@ -787,9 +793,9 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
         if (leftPos == -1)
         { //No InfoBox is Found
             if (soitem->getType() == SkyObjItem::Star &&
-                name != soitem->getName().replace(" ", "_")) //For stars, the regular name rather than gname
+                name != soitem->getName().replace(' ', '_')) //For stars, the regular name rather than gname
             {
-                tryToUpdateWikipediaInfo(soitem, soitem->getName().replace(" ", "_"));
+                tryToUpdateWikipediaInfo(soitem, soitem->getName().replace(' ', '_'));
                 return;
             }
             QString html = "<BR>Sorry, no Information Box in the object's Wikipedia article was found.";
@@ -881,13 +887,13 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
 void WIView::saveObjectInfoBoxText(SkyObjItem *soitem, QString type, QString text)
 {
     QFile file;
-    QString fname = type + "-" + soitem->getName().toLower().remove(' ') + ".html";
+    QString fname = type + '-' + soitem->getName().toLower().remove(' ') + ".html";
 
     QDir writableDir;
     QString filePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions";
     writableDir.mkpath(filePath);
 
-    file.setFileName(filePath + "/" + fname); //determine filename in local user KDE directory tree.
+    file.setFileName(filePath + '/' + fname); //determine filename in local user KDE directory tree.
 
     if (file.open(QIODevice::WriteOnly) == false)
     {
@@ -982,7 +988,7 @@ void WIView::downloadWikipediaImage(SkyObjItem *soitem, QString imageURL)
     QString filePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions";
     writableDir.mkpath(filePath);
 
-    QString fileN = filePath + "/" + fname;
+    QString fileN = filePath + '/' + fname;
 
     QNetworkReply *response = manager->get(QNetworkRequest(QUrl(imageURL)));
     QTimer::singleShot(60000, response, [response] { //Shut it down after 60 sec.

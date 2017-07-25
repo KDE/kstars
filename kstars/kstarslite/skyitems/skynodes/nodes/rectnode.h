@@ -13,49 +13,48 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef RECTNODE_H_
-#define RECTNODE_H_
 
-/** @class RectNode
- *
- * @short QSGGeometryNode derived class that draws filled and non-filled rectangles
- * @author Artem Fedoskin
- * @version 1.0
- */
+#pragma once
+
 #include <QColor>
 #include <QSGGeometryNode>
 
-class QSGGeometryNode;
 class QSGGeometry;
 class QSGFlatColorMaterial;
 
+/**
+ * @class RectNode
+ * @short QSGGeometryNode derived class that draws filled and non-filled rectangles
+ *
+ * @author Artem Fedoskin
+ * @version 1.0
+ */
 class RectNode : public QSGGeometryNode
 {
   public:
-    RectNode(bool filled = false, QColor color = "#FFFFFF");
+    explicit RectNode(bool filled = false, QColor color = "#FFFFFF");
+
     /**
-         * @brief setRect sets rectangle to display
-         * @param x - x coordinate of left-top corner
-         * @param y - y coordinate of left-top corner
-         * @param w - width
-         * @param h - height
-         */
+     * @brief setRect sets rectangle to display
+     * @param x - x coordinate of left-top corner
+     * @param y - y coordinate of left-top corner
+     * @param w - width
+     * @param h - height
+     */
     void setRect(int x, int y, int w, int h);
-    /**
-         * @brief setColor sets the color of rectangle
-         */
+
+    /** setColor sets the color of rectangle */
     void setColor(QColor color);
+
     /**
-         * @brief setFilled sets whether the rectangle should be filled or no
-         * @param filled true to be filled, false otherwise
-         */
+     * @brief setFilled sets whether the rectangle should be filled or no
+     * @param filled true to be filled, false otherwise
+     */
     void setFilled(bool filled);
 
   private:
-    QSGGeometryNode *m_geometryNode;
-    QSGGeometry *m_geometry;
-    QSGFlatColorMaterial *m_material;
-    bool m_filled;
+    QSGGeometryNode *m_geometryNode { nullptr };
+    QSGGeometry *m_geometry { nullptr };
+    QSGFlatColorMaterial *m_material { nullptr };
+    bool m_filled { false };
 };
-
-#endif

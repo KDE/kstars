@@ -16,15 +16,15 @@
 
 #include "skynode.h"
 
-#include "skymaplite.h"
+#include "../skyopacitynode.h"
 
 SkyNode::SkyNode(SkyObject *skyObject)
-    : m_opacity(new SkyOpacityNode), m_skyObject(skyObject), m_drawLabel(false), m_hideCount(0)
+    : m_opacity(new SkyOpacityNode), m_skyObject(skyObject)
 {
     appendChildNode(m_opacity);
 }
 
-SkyNode::SkyNode() : m_opacity(new SkyOpacityNode), m_skyObject(nullptr), m_drawLabel(false)
+SkyNode::SkyNode() : m_opacity(new SkyOpacityNode)
 {
     appendChildNode(m_opacity);
 }
@@ -45,4 +45,14 @@ void SkyNode::update(bool drawLabel)
 {
     m_drawLabel = drawLabel;
     update();
+}
+
+void SkyNode::addChildNode(QSGNode *node)
+{
+    m_opacity->appendChildNode(node);
+}
+
+bool SkyNode::visible()
+{
+    return m_opacity->visible();
 }
