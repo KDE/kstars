@@ -32,7 +32,7 @@ WUTDialogUI::WUTDialogUI(QWidget *p) : QFrame(p)
 }
 
 WUTDialog::WUTDialog(QWidget *parent, bool _session, GeoLocation *_geo, KStarsDateTime _lt)
-    : QDialog(parent), session(_session), T0(_lt), geo(_geo), EveningFlag(0)
+    : QDialog(parent), session(_session), T0(_lt), geo(_geo)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -97,9 +97,8 @@ void WUTDialog::makeConnections()
     connect(WUT->CenterButton, SIGNAL(clicked()), SLOT(slotCenter()));
     connect(WUT->DetailButton, SIGNAL(clicked()), SLOT(slotDetails()));
     connect(WUT->ObslistButton, SIGNAL(clicked()), SLOT(slotObslist()));
-    connect(WUT->CategoryListWidget, SIGNAL(currentTextChanged(const QString &)), SLOT(slotLoadList(const QString &)));
-    connect(WUT->ObjectListWidget, SIGNAL(currentTextChanged(const QString &)),
-            SLOT(slotDisplayObject(const QString &)));
+    connect(WUT->CategoryListWidget, SIGNAL(currentTextChanged(QString)), SLOT(slotLoadList(QString)));
+    connect(WUT->ObjectListWidget, SIGNAL(currentTextChanged(QString)), SLOT(slotDisplayObject(QString)));
     connect(WUT->EveningMorningBox, SIGNAL(activated(int)), SLOT(slotEveningMorning(int)));
     connect(WUT->MagnitudeEdit, SIGNAL(valueChanged(double)), SLOT(slotChangeMagnitude()));
 }

@@ -214,13 +214,13 @@ NewFOV::NewFOV(QWidget *parent, const FOV *fov) : QDialog(parent), f()
         ui->ViewBox->update();
     }
 
-    connect(ui->FOVName, SIGNAL(textChanged(const QString &)), SLOT(slotUpdateFOV()));
-    connect(ui->FOVEditX, SIGNAL(textChanged(const QString &)), SLOT(slotUpdateFOV()));
-    connect(ui->FOVEditY, SIGNAL(textChanged(const QString &)), SLOT(slotUpdateFOV()));
-    connect(ui->FOVEditOffsetX, SIGNAL(textChanged(const QString &)), SLOT(slotUpdateFOV()));
-    connect(ui->FOVEditOffsetY, SIGNAL(textChanged(const QString &)), SLOT(slotUpdateFOV()));
-    connect(ui->FOVEditRotation, SIGNAL(textChanged(const QString &)), SLOT(slotUpdateFOV()));
-    connect(ui->ColorButton, SIGNAL(changed(const QColor &)), SLOT(slotUpdateFOV()));
+    connect(ui->FOVName, SIGNAL(textChanged(QString)), SLOT(slotUpdateFOV()));
+    connect(ui->FOVEditX, SIGNAL(textChanged(QString)), SLOT(slotUpdateFOV()));
+    connect(ui->FOVEditY, SIGNAL(textChanged(QString)), SLOT(slotUpdateFOV()));
+    connect(ui->FOVEditOffsetX, SIGNAL(textChanged(QString)), SLOT(slotUpdateFOV()));
+    connect(ui->FOVEditOffsetY, SIGNAL(textChanged(QString)), SLOT(slotUpdateFOV()));
+    connect(ui->FOVEditRotation, SIGNAL(textChanged(QString)), SLOT(slotUpdateFOV()));
+    connect(ui->ColorButton, SIGNAL(changed(QColor)), SLOT(slotUpdateFOV()));
     connect(ui->ShapeBox, SIGNAL(activated(int)), SLOT(slotUpdateFOV()));
     connect(ui->ComputeEyeFOV, SIGNAL(clicked()), SLOT(slotComputeFOV()));
     connect(ui->ComputeCameraFOV, SIGNAL(clicked()), SLOT(slotComputeFOV()));

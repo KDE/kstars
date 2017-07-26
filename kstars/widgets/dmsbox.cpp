@@ -32,7 +32,7 @@ dmsBox::dmsBox(QWidget *parent, bool dg) : QLineEdit(parent), EmptyFlag(true)
     setMaximumWidth(160);
     setDegType(dg);
 
-    connect(this, SIGNAL(textChanged(const QString &)), this, SLOT(slotTextChanged(const QString &)));
+    connect(this, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
 }
 
 void dmsBox::setEmptyText()

@@ -44,7 +44,7 @@ modCalcAltAz::modCalcAltAz(QWidget *parentSplit) : QFrame(parentSplit)
     LocationButton->setText(geoPlace->fullName());
 
     //Make sure slotDateTime() gets called, so that LST will be set
-    connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime &)), this, SLOT(slotDateTimeChanged(const QDateTime &)));
+    connect(DateTime, SIGNAL(dateTimeChanged(QDateTime)), this, SLOT(slotDateTimeChanged(QDateTime)));
     DateTime->setDateTime(data->lt());
 
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));

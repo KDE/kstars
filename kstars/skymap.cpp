@@ -179,8 +179,8 @@ SkyMap::SkyMap()
     m_objBox = new InfoBoxWidget(Options::shadeFocusBox(), Options::positionFocusBox(), Options::stickyFocusBox(),
                                  QStringList(), this);
     m_objBox->setVisible(Options::showFocusBox());
-    connect(this, SIGNAL(objectChanged(SkyObject *)), m_objBox, SLOT(slotObjectChanged(SkyObject *)));
-    connect(this, SIGNAL(positionChanged(SkyPoint *)), m_objBox, SLOT(slotPointChanged(SkyPoint *)));
+    connect(this, SIGNAL(objectChanged(SkyObject*)), m_objBox, SLOT(slotObjectChanged(SkyObject*)));
+    connect(this, SIGNAL(positionChanged(SkyPoint*)), m_objBox, SLOT(slotPointChanged(SkyPoint*)));
 
     m_SkyMapDraw = new SkyMapQDraw(this);
     m_SkyMapDraw->setMouseTracking(true);

@@ -17,28 +17,21 @@
 
 #include "addcatdialog.h"
 
-#include <QFrame>
-#include <QTextStream>
-#include <QDebug>
-#include <QDoubleSpinBox>
-#include <QTemporaryFile>
-#include <QUrl>
+#include "kstarsdata.h"
+#include "skycomponents/skymapcomposite.h"
 
-#include <KColorButton>
+#include <KLineEdit>
 #include <KMessageBox>
 
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "Options.h"
-#include "skycomponents/catalogcomponent.h"
-#include "skycomponents/skymapcomposite.h"
+#include <QTextStream>
+#include <QUrl>
 
 AddCatDialogUI::AddCatDialogUI(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
 }
 
-AddCatDialog::AddCatDialog(KStars *_ks) : QDialog((QWidget *)_ks)
+AddCatDialog::AddCatDialog(QWidget *parent) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -57,7 +50,7 @@ AddCatDialog::AddCatDialog(KStars *_ks) : QDialog((QWidget *)_ks)
     mainLayout->addWidget(buttonBox);
 
     connect(acd->DataURL->lineEdit(), SIGNAL(lostFocus()), this, SLOT(slotShowDataFile()));
-    connect(acd->DataURL, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotShowDataFile()));
+    connect(acd->DataURL, SIGNAL(urlSelected(QUrl)), this, SLOT(slotShowDataFile()));
     connect(acd->PreviewButton, SIGNAL(clicked()), this, SLOT(slotPreviewCatalog()));
     connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(slotCreateCatalog()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
@@ -75,10 +68,6 @@ AddCatDialog::AddCatDialog(KStars *_ks) : QDialog((QWidget *)_ks)
     acd->FieldPool->addItem(i18n("Minor Axis"));
     acd->FieldPool->addItem(i18n("Position Angle"));
     acd->FieldPool->addItem(i18n("Ignore"));
-}
-
-AddCatDialog::~AddCatDialog()
-{
 }
 
 void AddCatDialog::slotHelp()
@@ -263,7 +252,7 @@ void AddCatDialog::slotCreateCatalog()
 
             KStarsData::Instance()->skyComposite()->addCustomCatalog(OutFile.fileName(), 0);
 
-            emit QDialog::accept();
+            QDialog::accept();
             close();
         }
     }

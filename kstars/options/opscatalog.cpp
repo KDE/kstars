@@ -75,7 +75,7 @@ OpsCatalog::OpsCatalog() : QFrame(KStars::Instance())
     m_CheckedCatalogNames = Options::showCatalogNames();
     populateCustomCatalogs();
 
-    connect(CatalogList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(updateCustomCatalogs()));
+    connect(CatalogList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(updateCustomCatalogs()));
     connect(CatalogList, SIGNAL(itemSelectionChanged()), this, SLOT(selectCatalog()));
     connect(AddCatalog, SIGNAL(clicked()), this, SLOT(slotAddCatalog()));
     connect(LoadCatalog, SIGNAL(clicked()), this, SLOT(slotLoadCatalog()));

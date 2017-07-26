@@ -69,7 +69,7 @@ Execute::Execute()
     connect(ui.NextButton, SIGNAL(clicked()), this, SLOT(slotNext()));
     connect(ui.Slew, SIGNAL(clicked()), this, SLOT(slotSlew()));
     connect(ui.Location, SIGNAL(clicked()), this, SLOT(slotLocation()));
-    connect(ui.Target, SIGNAL(currentTextChanged(const QString)), this, SLOT(slotSetTarget(QString)));
+    connect(ui.Target, SIGNAL(currentTextChanged(QString)), this, SLOT(slotSetTarget(QString)));
     connect(ui.SessionURL, SIGNAL(leftClickedUrl()), this, SLOT(slotShowSession()));
     connect(ui.ObservationsURL, SIGNAL(leftClickedUrl()), this, SLOT(slotShowTargets()));
     connect(ui.AddObject, SIGNAL(leftClickedUrl()), this, SLOT(slotAddObject()));

@@ -73,7 +73,7 @@ void KSFileReader::setProgress(QString label, unsigned int totalLines, unsigned 
     m_targetLine      = m_totalLines / 100;
     m_targetIncrement = m_totalLines / numUpdates;
 
-    connect(this, SIGNAL(progressText(const QString &)), KStarsData::Instance(), SIGNAL(progressText(const QString &)));
+    connect(this, SIGNAL(progressText(QString)), KStarsData::Instance(), SIGNAL(progressText(QString)));
 }
 
 void KSFileReader::showProgress()

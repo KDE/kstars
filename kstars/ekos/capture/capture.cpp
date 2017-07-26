@@ -638,8 +638,8 @@ void Capture::checkCCD(int ccdNum)
         liveVideoB->setEnabled(currentCCD->hasVideoStream());
         setVideoStreamEnabled(currentCCD->isStreamingEnabled());
 
-        connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-                SLOT(processCCDNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+                SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(newTemperatureValue(double)), this, SLOT(updateCCDTemperature(double)),
                 Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(newRemoteFile(QString)), this, SLOT(setNewRemoteFile(QString)));
@@ -1350,8 +1350,8 @@ void Capture::captureImage()
         activeJob->setCurrentTemperature(temperature);
     }
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)), Qt::UniqueConnection);
-    connect(currentCCD, SIGNAL(newImage(QImage *, ISD::CCDChip *)), this, SLOT(sendNewImage(QImage *, ISD::CCDChip *)),
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
+    connect(currentCCD, SIGNAL(newImage(QImage*,ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*,ISD::CCDChip*)),
             Qt::UniqueConnection);
 
     if (activeJob->getFrameType() == FRAME_FLAT)
@@ -1410,8 +1410,8 @@ void Capture::captureImage()
     switch (rc)
     {
         case SequenceJob::CAPTURE_OK:
-            connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
-                    SLOT(setExposureProgress(ISD::CCDChip *, double, IPState)), Qt::UniqueConnection);
+            connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this,
+                    SLOT(setExposureProgress(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
             appendLogText(i18n("Capturing image..."));
             break;
 
@@ -2414,8 +2414,8 @@ void Capture::setTelescope(ISD::GDInterface *newTelescope)
 {
     currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
 
-    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-            SLOT(processTelescopeNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+            SLOT(processTelescopeNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
     meridianCheck->setEnabled(true);
     meridianHours->setEnabled(true);

@@ -189,9 +189,9 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     connect(location->CityListBox, SIGNAL(itemSelectionChanged()), this, SLOT(slotChangeCity()));
-    connect(location->CityFilter, SIGNAL(textChanged(const QString &)), this, SLOT(slotFilterCities()));
-    connect(location->ProvinceFilter, SIGNAL(textChanged(const QString &)), this, SLOT(slotFilterCities()));
-    connect(location->CountryFilter, SIGNAL(textChanged(const QString &)), this, SLOT(slotFilterCities()));
+    connect(location->CityFilter, SIGNAL(textChanged(QString)), this, SLOT(slotFilterCities()));
+    connect(location->ProvinceFilter, SIGNAL(textChanged(QString)), this, SLOT(slotFilterCities()));
+    connect(location->CountryFilter, SIGNAL(textChanged(QString)), this, SLOT(slotFilterCities()));
     connect(download->DownloadButton, SIGNAL(clicked()), this, SLOT(slotDownload()));
 
     //Initialize Geographic Location page

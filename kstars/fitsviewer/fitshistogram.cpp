@@ -64,7 +64,7 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
 
     connect(ui->buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(applyScale()));
 
-    connect(customPlot, SIGNAL(mouseMove(QMouseEvent *)), this, SLOT(updateValues(QMouseEvent *)));
+    connect(customPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(updateValues(QMouseEvent*)));
 
     connect(ui->minEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
     connect(ui->maxEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));

@@ -21,7 +21,6 @@ class Matrix
     double x[4][4];
     Matrix();
     explicit Matrix(double);
-    Matrix &operator=(const Matrix &);
     Matrix &operator+=(const Matrix &);
     Matrix &operator-=(const Matrix &);
     Matrix &operator*=(const Matrix &);

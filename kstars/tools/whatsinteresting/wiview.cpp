@@ -151,8 +151,8 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
     #endif
 
 
-    connect(KStars::Instance()->map(), SIGNAL(objectClicked(SkyObject *)), this,
-            SLOT(inspectSkyObjectOnClick(SkyObject *)));
+    connect(KStars::Instance()->map(), SIGNAL(objectClicked(SkyObject*)), this,
+            SLOT(inspectSkyObjectOnClick(SkyObject*)));
 
     manager.reset(new QNetworkAccessManager());
 

@@ -496,24 +496,24 @@ bool EkosManager::start()
         nDevices = currentProfile->drivers.count();
     }
 
-    connect(INDIListener::Instance(), SIGNAL(newDevice(ISD::GDInterface *)), this,
-            SLOT(processNewDevice(ISD::GDInterface *)));
-    connect(INDIListener::Instance(), SIGNAL(newTelescope(ISD::GDInterface *)), this,
-            SLOT(setTelescope(ISD::GDInterface *)));
-    connect(INDIListener::Instance(), SIGNAL(newCCD(ISD::GDInterface *)), this, SLOT(setCCD(ISD::GDInterface *)));
-    connect(INDIListener::Instance(), SIGNAL(newFilter(ISD::GDInterface *)), this, SLOT(setFilter(ISD::GDInterface *)));
-    connect(INDIListener::Instance(), SIGNAL(newFocuser(ISD::GDInterface *)), this,
-            SLOT(setFocuser(ISD::GDInterface *)));
-    connect(INDIListener::Instance(), SIGNAL(newDome(ISD::GDInterface *)), this, SLOT(setDome(ISD::GDInterface *)));
-    connect(INDIListener::Instance(), SIGNAL(newWeather(ISD::GDInterface *)), this,
-            SLOT(setWeather(ISD::GDInterface *)));
-    connect(INDIListener::Instance(), SIGNAL(newDustCap(ISD::GDInterface *)), this,
-            SLOT(setDustCap(ISD::GDInterface *)));
-    connect(INDIListener::Instance(), SIGNAL(newLightBox(ISD::GDInterface *)), this,
-            SLOT(setLightBox(ISD::GDInterface *)));
-    connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4 *)), this, SLOT(setST4(ISD::ST4 *)));
-    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface *)), this,
-            SLOT(removeDevice(ISD::GDInterface *)), Qt::DirectConnection);
+    connect(INDIListener::Instance(), SIGNAL(newDevice(ISD::GDInterface*)), this,
+            SLOT(processNewDevice(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newTelescope(ISD::GDInterface*)), this,
+            SLOT(setTelescope(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newCCD(ISD::GDInterface*)), this, SLOT(setCCD(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newFilter(ISD::GDInterface*)), this, SLOT(setFilter(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newFocuser(ISD::GDInterface*)), this,
+            SLOT(setFocuser(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newDome(ISD::GDInterface*)), this, SLOT(setDome(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newWeather(ISD::GDInterface*)), this,
+            SLOT(setWeather(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newDustCap(ISD::GDInterface*)), this,
+            SLOT(setDustCap(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newLightBox(ISD::GDInterface*)), this,
+            SLOT(setLightBox(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
+    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this,
+            SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);
 
     #ifdef Q_OS_OSX
     if (localMode||currentProfile->host=="localhost")
@@ -563,8 +563,8 @@ bool EkosManager::start()
             return false;
         }
 
-        connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString, QString)), this,
-                SLOT(processServerTermination(QString, QString)));
+        connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this,
+                SLOT(processServerTermination(QString,QString)));
 
         ekosStartingStatus = EKOS_STATUS_PENDING;
 
@@ -620,8 +620,8 @@ bool EkosManager::start()
             return false;
         }
 
-        connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString, QString)), this,
-                SLOT(processServerTermination(QString, QString)));
+        connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this,
+                SLOT(processServerTermination(QString,QString)));
 
         QApplication::restoreOverrideCursor();
         ekosStartingStatus = EKOS_STATUS_PENDING;
@@ -688,7 +688,7 @@ void EkosManager::checkINDITimeout()
         {
             bool driverFound = false;
 
-            for (auto *device : genericDevices)
+            for (auto &device : genericDevices)
             {
                 if (device->getBaseDevice()->getDriverName() == driver)
                 {
@@ -725,7 +725,7 @@ void EkosManager::connectDevices()
     // Check if already connected
     int nConnected = 0;
 
-    for (auto *device : genericDevices)
+    for (auto &device : genericDevices)
     {
         if (device->isConnected())
             nConnected++;
@@ -738,7 +738,7 @@ void EkosManager::connectDevices()
 
     indiConnectionStatus = EKOS_STATUS_PENDING;
 
-    for (auto *device : genericDevices)
+    for (auto &device : genericDevices)
         device->Connect();
 
     connectB->setEnabled(false);
@@ -749,7 +749,7 @@ void EkosManager::connectDevices()
 
 void EkosManager::disconnectDevices()
 {
-    for (auto *device : genericDevices)
+    for (auto &device : genericDevices)
         device->Disconnect();
 
     appendLogText(i18n("Disconnecting INDI devices..."));
@@ -813,7 +813,7 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
 
     connect(devInterface, SIGNAL(Connected()), this, SLOT(deviceConnected()));
     connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
-    connect(devInterface, SIGNAL(propertyDefined(INDI::Property *)), this, SLOT(processNewProperty(INDI::Property *)));
+    connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
 
     if (nDevices <= 0)
     {
@@ -974,8 +974,8 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
     appendLogText(i18n("%1 is online.", scopeDevice->getDeviceName()));
 
-    connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-            SLOT(processNewNumber(INumberVectorProperty *)));
+    connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+            SLOT(processNewNumber(INumberVectorProperty*)));
 
     initMount();
 
@@ -1083,8 +1083,8 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
     appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
 
-    connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-            SLOT(processNewNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+    connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+            SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
     if (managedDevices.contains(KSTARS_TELESCOPE))
     {
@@ -1102,10 +1102,10 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 
     initCapture();
 
-    connect(filterDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-            SLOT(processNewNumber(INumberVectorProperty *)));
-    connect(filterDevice, SIGNAL(textUpdated(ITextVectorProperty *)), this,
-            SLOT(processNewText(ITextVectorProperty *)));
+    connect(filterDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+            SLOT(processNewNumber(INumberVectorProperty*)));
+    connect(filterDevice, SIGNAL(textUpdated(ITextVectorProperty*)), this,
+            SLOT(processNewText(ITextVectorProperty*)));
 
     captureProcess->addFilter(filterDevice);
 
@@ -1572,10 +1572,10 @@ void EkosManager::initCapture()
     }
     connect(captureProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));
     connect(captureProcess.get(), SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(updateCaptureStatus(Ekos::CaptureState)));
-    connect(captureProcess.get(), SIGNAL(newImage(QImage *, Ekos::SequenceJob *)), this,
-            SLOT(updateCaptureProgress(QImage *, Ekos::SequenceJob *)));
-    connect(captureProcess.get(), SIGNAL(newExposureProgress(Ekos::SequenceJob *)), this,
-            SLOT(updateExposureProgress(Ekos::SequenceJob *)));
+    connect(captureProcess.get(), SIGNAL(newImage(QImage*,Ekos::SequenceJob*)), this,
+            SLOT(updateCaptureProgress(QImage*,Ekos::SequenceJob*)));
+    connect(captureProcess.get(), SIGNAL(newExposureProgress(Ekos::SequenceJob*)), this,
+            SLOT(updateExposureProgress(Ekos::SequenceJob*)));
     captureGroup->setEnabled(true);
     sequenceProgress->setEnabled(true);
     captureProgress->setEnabled(true);
@@ -1676,8 +1676,8 @@ void EkosManager::initAlign()
     if (focusProcess.get() != nullptr)
     {
         // Filter lock
-        connect(focusProcess.get(), SIGNAL(filterLockUpdated(ISD::GDInterface *, int)), alignProcess.get(),
-                SLOT(setLockedFilter(ISD::GDInterface *, int)), Qt::UniqueConnection);
+        connect(focusProcess.get(), SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess.get(),
+                SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
         connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), alignProcess.get(), SLOT(setFocusStatus(Ekos::FocusState)),
                 Qt::UniqueConnection);
     }
@@ -1698,8 +1698,8 @@ void EkosManager::initFocus()
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Focus"));
     connect(focusProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));
     connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(setFocusStatus(Ekos::FocusState)));
-    connect(focusProcess.get(), SIGNAL(newStarPixmap(QPixmap &)), this, SLOT(updateFocusStarPixmap(QPixmap &)));
-    connect(focusProcess.get(), SIGNAL(newProfilePixmap(QPixmap &)), this, SLOT(updateFocusProfilePixmap(QPixmap &)));
+    connect(focusProcess.get(), SIGNAL(newStarPixmap(QPixmap&)), this, SLOT(updateFocusStarPixmap(QPixmap&)));
+    connect(focusProcess.get(), SIGNAL(newProfilePixmap(QPixmap&)), this, SLOT(updateFocusProfilePixmap(QPixmap&)));
     connect(focusProcess.get(), SIGNAL(newHFR(double)), this, SLOT(updateCurrentHFR(double)));
 
     if (Options::ekosLeftIcons())
@@ -1749,8 +1749,8 @@ void EkosManager::initFocus()
     if (alignProcess.get() != nullptr)
     {
         // Filter lock
-        connect(focusProcess.get(), SIGNAL(filterLockUpdated(ISD::GDInterface *, int)), alignProcess.get(),
-                SLOT(setLockedFilter(ISD::GDInterface *, int)), Qt::UniqueConnection);
+        connect(focusProcess.get(), SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess.get(),
+                SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
         connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), alignProcess.get(), SLOT(setFocusStatus(Ekos::FocusState)),
                 Qt::UniqueConnection);
     }
@@ -1781,8 +1781,8 @@ void EkosManager::initMount()
 
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Mount"));
     connect(mountProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));
-    connect(mountProcess.get(), SIGNAL(newCoords(QString, QString, QString, QString)), this,
-            SLOT(updateMountCoords(QString, QString, QString, QString)));
+    connect(mountProcess.get(), SIGNAL(newCoords(QString,QString,QString,QString)), this,
+            SLOT(updateMountCoords(QString,QString,QString,QString)));
     connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this,
             SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
     connect(mountProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
@@ -1858,9 +1858,9 @@ void EkosManager::initGuide()
         }
 
         connect(guideProcess.get(), SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(updateGuideStatus(Ekos::GuideState)));
-        connect(guideProcess.get(), SIGNAL(newStarPixmap(QPixmap &)), this, SLOT(updateGuideStarPixmap(QPixmap &)));
-        connect(guideProcess.get(), SIGNAL(newProfilePixmap(QPixmap &)), this, SLOT(updateGuideProfilePixmap(QPixmap &)));
-        connect(guideProcess.get(), SIGNAL(sigmasUpdated(double, double)), this, SLOT(updateSigmas(double, double)));
+        connect(guideProcess.get(), SIGNAL(newStarPixmap(QPixmap&)), this, SLOT(updateGuideStarPixmap(QPixmap&)));
+        connect(guideProcess.get(), SIGNAL(newProfilePixmap(QPixmap&)), this, SLOT(updateGuideProfilePixmap(QPixmap&)));
+        connect(guideProcess.get(), SIGNAL(sigmasUpdated(double,double)), this, SLOT(updateSigmas(double,double)));
 
         if (Options::ekosLeftIcons())
         {
@@ -1882,8 +1882,8 @@ void EkosManager::initGuide()
         //connect(guideProcess.get(), SIGNAL(guideReady()), captureProcess, SLOT(enableGuideLimits()));
         connect(guideProcess.get(), SIGNAL(newStatus(Ekos::GuideState)), captureProcess.get(),
                 SLOT(setGuideStatus(Ekos::GuideState)));
-        connect(guideProcess.get(), SIGNAL(newAxisDelta(double, double)), captureProcess.get(),
-                SLOT(setGuideDeviation(double, double)));
+        connect(guideProcess.get(), SIGNAL(newAxisDelta(double,double)), captureProcess.get(),
+                SLOT(setGuideDeviation(double,double)));
 
         // Dithering
         connect(captureProcess.get(), SIGNAL(newStatus(Ekos::CaptureState)), guideProcess.get(),
@@ -1892,8 +1892,8 @@ void EkosManager::initGuide()
         // Guide Head
         connect(captureProcess.get(), SIGNAL(suspendGuiding()), guideProcess.get(), SLOT(suspend()));
         connect(captureProcess.get(), SIGNAL(resumeGuiding()), guideProcess.get(), SLOT(resume()));
-        connect(guideProcess.get(), SIGNAL(guideChipUpdated(ISD::CCDChip *)), captureProcess.get(),
-                SLOT(setGuideChip(ISD::CCDChip *)));
+        connect(guideProcess.get(), SIGNAL(guideChipUpdated(ISD::CCDChip*)), captureProcess.get(),
+                SLOT(setGuideChip(ISD::CCDChip*)));
 
         // Meridian Flip
         connect(captureProcess.get(), SIGNAL(meridianFlipStarted()), guideProcess.get(), SLOT(abort()), Qt::UniqueConnection);

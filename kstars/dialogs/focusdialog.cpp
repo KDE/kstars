@@ -17,16 +17,16 @@
 
 #include "focusdialog.h"
 
-#include <QVBoxLayout>
-#include <QDebug>
+#include "dms.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "skymap.h"
+#include "skyobjects/skypoint.h"
+
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "dms.h"
-#include "skyobjects/skypoint.h"
-#include "skymap.h"
+#include <QVBoxLayout>
 
 FocusDialogUI::FocusDialogUI(QWidget *parent) : QFrame(parent)
 {
@@ -40,8 +40,6 @@ FocusDialog::FocusDialog() : QDialog(KStars::Instance())
 #endif
     //initialize point to the current focus position
     Point = SkyMap::Instance()->focus();
-
-    UsedAltAz = false; //assume RA/Dec by default
 
     fd = new FocusDialogUI(this);
 
@@ -66,14 +64,10 @@ FocusDialog::FocusDialog() : QDialog(KStars::Instance())
     fd->raBox->setDegType(false); //RA box should be HMS-style
     fd->raBox->setFocus();        //set input focus
 
-    connect(fd->raBox, SIGNAL(textChanged(const QString &)), this, SLOT(checkLineEdits()));
-    connect(fd->decBox, SIGNAL(textChanged(const QString &)), this, SLOT(checkLineEdits()));
-    connect(fd->azBox, SIGNAL(textChanged(const QString &)), this, SLOT(checkLineEdits()));
-    connect(fd->altBox, SIGNAL(textChanged(const QString &)), this, SLOT(checkLineEdits()));
-}
-
-FocusDialog::~FocusDialog()
-{
+    connect(fd->raBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
+    connect(fd->decBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
+    connect(fd->azBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
+    connect(fd->altBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
 }
 
 void FocusDialog::checkLineEdits()

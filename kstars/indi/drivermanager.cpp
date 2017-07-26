@@ -53,8 +53,8 @@ DriverManagerUI::DriverManagerUI(QWidget *parent) : QFrame(parent)
     connected    = QIcon::fromTheme("network-connect", QIcon(":/icons/breeze/default/network-connect.svg"));
     disconnected = QIcon::fromTheme("network-disconnect", QIcon(":/icons/breeze/default/network-disconnect.svg"));
 
-    connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this,
-            SLOT(makePortEditable(QTreeWidgetItem *, int)));
+    connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this,
+            SLOT(makePortEditable(QTreeWidgetItem*,int)));
 }
 
 void DriverManagerUI::makePortEditable(QTreeWidgetItem *selectedItem, int column)
@@ -103,9 +103,9 @@ DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
     connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
     connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
     connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
-    connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateLocalTab()));
-    connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientTab()));
-    connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
+    connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(updateLocalTab()));
+    connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(updateClientTab()));
+    connect(ui->localTreeWidget, SIGNAL(expanded(QModelIndex)), this, SLOT(resizeDeviceColumn()));
 
     // Do not use KSPaths here, this is for INDI
     if (Options::indiDriversDir().isEmpty())
@@ -375,8 +375,8 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
         for (DriverInfo *dv : qdv)
             clientManager->appendManagedDriver(dv);
 
-        connect(clientManager, SIGNAL(connectionFailure(ClientManager *)), this,
-                SLOT(processClientTermination(ClientManager *)));
+        connect(clientManager, SIGNAL(connectionFailure(ClientManager*)), this,
+                SLOT(processClientTermination(ClientManager*)));
 
         clientManager->setServer(qdv.at(0)->getHost().toLatin1().constData(), ((uint)port));
 
@@ -704,8 +704,8 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
 
     clientManager->appendManagedDriver(dv);
 
-    connect(clientManager, SIGNAL(connectionFailure(ClientManager *)), this,
-            SLOT(processClientTermination(ClientManager *)));
+    connect(clientManager, SIGNAL(connectionFailure(ClientManager*)), this,
+            SLOT(processClientTermination(ClientManager*)));
 
     clientManager->setServer(dv->getHost().toLatin1().constData(), (uint)(dv->getPort().toInt()));
 
@@ -894,7 +894,7 @@ bool DriverManager::readINDIHosts()
             dv->setHostParameters(hHost, hPort);
             dv->setDriverSource(HOST_SOURCE);
 
-            connect(dv, SIGNAL(deviceStateChanged(DriverInfo *)), this, SLOT(processDeviceStatus(DriverInfo *)));
+            connect(dv, SIGNAL(deviceStateChanged(DriverInfo*)), this, SLOT(processDeviceStatus(DriverInfo*)));
 
             driversList.append(dv);
 
@@ -1220,7 +1220,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     if (vMap.isEmpty() == false)
         dv->setAuxInfo(vMap);
 
-    connect(dv, SIGNAL(deviceStateChanged(DriverInfo *)), this, SLOT(processDeviceStatus(DriverInfo *)));
+    connect(dv, SIGNAL(deviceStateChanged(DriverInfo*)), this, SLOT(processDeviceStatus(DriverInfo*)));
 
     driversList.append(dv);
 
@@ -1306,7 +1306,7 @@ void DriverManager::updateCustomDrivers()
             dv->setAuxInfo(vMap);
         }
 
-        connect(dv, SIGNAL(deviceStateChanged(DriverInfo *)), this, SLOT(processDeviceStatus(DriverInfo *)));
+        connect(dv, SIGNAL(deviceStateChanged(DriverInfo*)), this, SLOT(processDeviceStatus(DriverInfo*)));
         driversList.append(dv);
     }
 
@@ -1372,7 +1372,7 @@ void DriverManager::addINDIHost()
 
         hostItem->setDriverSource(HOST_SOURCE);
 
-        connect(hostItem, SIGNAL(deviceStateChanged(DriverInfo *)), this, SLOT(processDeviceStatus(DriverInfo *)));
+        connect(hostItem, SIGNAL(deviceStateChanged(DriverInfo*)), this, SLOT(processDeviceStatus(DriverInfo*)));
 
         driversList.append(hostItem);
 

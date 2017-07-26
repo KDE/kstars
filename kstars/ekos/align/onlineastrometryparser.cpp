@@ -50,7 +50,7 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     connect(this, &OnlineAstrometryParser::solverFailed, this, [&]() { parity = INVALID_VALUE; });
 
     connect(this, SIGNAL(solverFailed()), this, SLOT(resetSolver()));
-    connect(this, SIGNAL(solverFinished(double, double, double, double)), this, SLOT(resetSolver()));
+    connect(this, SIGNAL(solverFinished(double,double,double,double)), this, SLOT(resetSolver()));
 
     downsample_factor = 0;
     parity            = INVALID_VALUE;
@@ -132,7 +132,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
         }
     }
 
-    connect(networkManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onResult(QNetworkReply *)));
+    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onResult(QNetworkReply*)));
 
     solverTimer.start();
 

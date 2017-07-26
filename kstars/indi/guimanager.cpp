@@ -185,8 +185,8 @@ void GUIManager::addClient(ClientManager *cm)
     type = Qt::DirectConnection;
 #endif
 
-    connect(cm, SIGNAL(newINDIDevice(DeviceInfo *)), this, SLOT(buildDevice(DeviceInfo *)), type);
-    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo *)), this, SLOT(removeDevice(DeviceInfo *)), type);
+    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), type);
+    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), type);
 }
 
 void GUIManager::removeClient(ClientManager *cm)
@@ -275,16 +275,16 @@ void GUIManager::buildDevice(DeviceInfo *di)
     type = Qt::DirectConnection;
 #endif
 
-    connect(cm, SIGNAL(newINDIProperty(INDI::Property *)), gdm, SLOT(buildProperty(INDI::Property *)), type);
-    connect(cm, SIGNAL(removeINDIProperty(INDI::Property *)), gdm, SLOT(removeProperty(INDI::Property *)), type);
+    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), gdm, SLOT(buildProperty(INDI::Property*)), type);
+    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), gdm, SLOT(removeProperty(INDI::Property*)), type);
 
-    connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty *)), gdm, SLOT(updateSwitchGUI(ISwitchVectorProperty *)));
-    connect(cm, SIGNAL(newINDIText(ITextVectorProperty *)), gdm, SLOT(updateTextGUI(ITextVectorProperty *)));
-    connect(cm, SIGNAL(newINDINumber(INumberVectorProperty *)), gdm, SLOT(updateNumberGUI(INumberVectorProperty *)));
-    connect(cm, SIGNAL(newINDILight(ILightVectorProperty *)), gdm, SLOT(updateLightGUI(ILightVectorProperty *)));
-    connect(cm, SIGNAL(newINDIBLOB(IBLOB *)), gdm, SLOT(updateBLOBGUI(IBLOB *)));
+    connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), gdm, SLOT(updateSwitchGUI(ISwitchVectorProperty*)));
+    connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), gdm, SLOT(updateTextGUI(ITextVectorProperty*)));
+    connect(cm, SIGNAL(newINDINumber(INumberVectorProperty*)), gdm, SLOT(updateNumberGUI(INumberVectorProperty*)));
+    connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), gdm, SLOT(updateLightGUI(ILightVectorProperty*)));
+    connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), gdm, SLOT(updateBLOBGUI(IBLOB*)));
 
-    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice *, int)), gdm, SLOT(updateMessageLog(INDI::BaseDevice *, int)));
+    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*,int)), gdm, SLOT(updateMessageLog(INDI::BaseDevice*,int)));
 
     mainTabWidget->addTab(gdm->getDeviceBox(), di->getBaseDevice()->getDeviceName());
 

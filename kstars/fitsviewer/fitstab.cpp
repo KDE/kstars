@@ -88,7 +88,7 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
         vlayout->addWidget(view.get());
 
         setLayout(vlayout);
-        connect(view.get(), SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
+        connect(view.get(), SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
         connect(view.get(), SIGNAL(debayerToggled(bool)), this, SIGNAL(debayerToggled(bool)));
     }
 

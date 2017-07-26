@@ -186,8 +186,8 @@ Align::Align()
         setEnabled(false);
     else
     {
-        connect(parser, SIGNAL(solverFinished(double, double, double, double)), this,
-                SLOT(solverFinished(double, double, double, double)), Qt::UniqueConnection);
+        connect(parser, SIGNAL(solverFinished(double,double,double,double)), this,
+                SLOT(solverFinished(double,double,double,double)), Qt::UniqueConnection);
         connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
     }
 
@@ -293,9 +293,9 @@ Align::Align()
 
     buildTarget();
 
-    connect(alignPlot, SIGNAL(mouseMove(QMouseEvent *)), this, SLOT(handlePointTooltip(QMouseEvent *)));
-    connect(rightLayout, SIGNAL(splitterMoved(int, int)), this, SLOT(handleVerticalPlotSizeChange()));
-    connect(alignSplitter, SIGNAL(splitterMoved(int, int)), this, SLOT(handleHorizontalPlotSizeChange()));
+    connect(alignPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(handlePointTooltip(QMouseEvent*)));
+    connect(rightLayout, SIGNAL(splitterMoved(int,int)), this, SLOT(handleVerticalPlotSizeChange()));
+    connect(alignSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(handleHorizontalPlotSizeChange()));
     connect(accuracySpin, SIGNAL(valueChanged(int)), this, SLOT(buildTarget()));
 
     alignPlot->resize(190, 190);
@@ -351,8 +351,8 @@ Align::Align()
     mountModel.alignTable->verticalHeader()->setSectionsMovable(true);
     mountModel.alignTable->verticalHeader()->setDragEnabled(true);
     mountModel.alignTable->verticalHeader()->setDragDropMode(QAbstractItemView::InternalMove);
-    connect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int, int, int)), this,
-            SLOT(moveAlignPoint(int, int, int)));
+    connect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int,int,int)), this,
+            SLOT(moveAlignPoint(int,int,int)));
 
     mountModel.loadAlignB->setIcon(
         QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
@@ -386,16 +386,16 @@ Align::Align()
     connect(exportSolutionsCSV, SIGNAL(clicked()), this, SLOT(exportSolutionPoints()));
     connect(autoScaleGraphB, SIGNAL(clicked()), this, SLOT(slotAutoScaleGraph()));
     connect(mountModelB, SIGNAL(clicked()), this, SLOT(slotMountModel()));
-    connect(solutionTable, SIGNAL(cellClicked(int, int)), this, SLOT(selectSolutionTableRow(int, int)));
+    connect(solutionTable, SIGNAL(cellClicked(int,int)), this, SLOT(selectSolutionTableRow(int,int)));
 
     connect(mountModel.wizardAlignB, SIGNAL(clicked()), this, SLOT(slotWizardAlignmentPoints()));
-    connect(mountModel.alignTypeBox, SIGNAL(currentIndexChanged(const QString)), this,
-            SLOT(alignTypeChanged(const QString)));
+    connect(mountModel.alignTypeBox, SIGNAL(currentIndexChanged(QString)), this,
+            SLOT(alignTypeChanged(QString)));
 
-    connect(mountModel.starListBox, SIGNAL(currentIndexChanged(const QString)), this,
-            SLOT(slotStarSelected(const QString)));
-    connect(mountModel.greekStarListBox, SIGNAL(currentIndexChanged(const QString)), this,
-            SLOT(slotStarSelected(const QString)));
+    connect(mountModel.starListBox, SIGNAL(currentIndexChanged(QString)), this,
+            SLOT(slotStarSelected(QString)));
+    connect(mountModel.greekStarListBox, SIGNAL(currentIndexChanged(QString)), this,
+            SLOT(slotStarSelected(QString)));
 
     connect(mountModel.loadAlignB, SIGNAL(clicked()), this, SLOT(slotLoadAlignmentPoints()));
     connect(mountModel.saveAsAlignB, SIGNAL(clicked()), this, SLOT(slotSaveAsAlignmentPoints()));
@@ -1479,11 +1479,11 @@ void Align::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIn
         mountModel.alignTable->setItem(newVisualIndex, i, oldItem);
         mountModel.alignTable->setItem(oldVisualIndex, i, newItem);
     }
-    disconnect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int, int, int)), this,
-               SLOT(moveAlignPoint(int, int, int)));
+    disconnect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int,int,int)), this,
+               SLOT(moveAlignPoint(int,int,int)));
     mountModel.alignTable->verticalHeader()->moveSection(newVisualIndex, oldVisualIndex);
-    connect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int, int, int)), this,
-            SLOT(moveAlignPoint(int, int, int)));
+    connect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int,int,int)), this,
+            SLOT(moveAlignPoint(int,int,int)));
 
     if (previewShowing)
         updatePreviewAlignPoints();
@@ -1721,8 +1721,8 @@ bool Align::isParserOK()
 
     if (rc)
     {
-        connect(parser, SIGNAL(solverFinished(double, double, double, double)), this,
-                SLOT(solverFinished(double, double, double, double)), Qt::UniqueConnection);
+        connect(parser, SIGNAL(solverFinished(double,double,double,double)), this,
+                SLOT(solverFinished(double,double,double,double)), Qt::UniqueConnection);
         connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
     }
 
@@ -1793,8 +1793,8 @@ void Align::setSolverType(int type)
     parser->setAlign(this);
     if (parser->init())
     {
-        connect(parser, SIGNAL(solverFinished(double, double, double, double)), this,
-                SLOT(solverFinished(double, double, double, double)), Qt::UniqueConnection);
+        connect(parser, SIGNAL(solverFinished(double,double,double,double)), this,
+                SLOT(solverFinished(double,double,double,double)), Qt::UniqueConnection);
         connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
     }
     else
@@ -1829,13 +1829,13 @@ void Align::checkCCD(int ccdNum)
     }
 
     if (currentCCD)
-        disconnect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this,
-                   SLOT(processCCDSwitch(ISwitchVectorProperty *)));
+        disconnect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this,
+                   SLOT(processCCDSwitch(ISwitchVectorProperty*)));
 
     currentCCD = CCDs.at(ccdNum);
 
-    connect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this,
-            SLOT(processCCDSwitch(ISwitchVectorProperty *)));
+    connect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this,
+            SLOT(processCCDSwitch(ISwitchVectorProperty*)));
 
     if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
         (dynamic_cast<RemoteAstrometryParser *>(remoteParser.get()))->setCCD(currentCCD->getDeviceName());
@@ -1866,8 +1866,8 @@ void Align::setTelescope(ISD::GDInterface *newTelescope)
 {
     currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
 
-    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-            SLOT(processTelescopeNumber(INumberVectorProperty *)));
+    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+            SLOT(processTelescopeNumber(INumberVectorProperty*)));
 
     syncTelescopeInfo();
 }
@@ -2334,9 +2334,9 @@ bool Align::captureAndSolve()
 
     alignView->setBaseSize(alignWidget->size());
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
-    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
-            SLOT(checkCCDExposureProgress(ISD::CCDChip *, double, IPState)));
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this,
+            SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
 
     // In case of remote solver, we set mode to UPLOAD_BOTH
     if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
@@ -3926,8 +3926,8 @@ void Align::setLockedFilter(ISD::GDInterface *filter, int lockedPosition)
         if (filterSlot)
             currentFilterIndex = filterSlot->np[0].value - 1;
 
-        connect(currentFilter, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-                SLOT(processFilterNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+        connect(currentFilter, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+                SLOT(processFilterNumber(INumberVectorProperty*)), Qt::UniqueConnection);
     }
 }
 
@@ -4393,7 +4393,7 @@ void Align::calculatePAHError()
 
     alignView->setCorrectionParams(correctionVector);
 
-    connect(alignView, SIGNAL(trackingStarSelected(int, int)), this, SLOT(setPAHCorrectionOffset(int, int)));
+    connect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
 }
 
 void Align::setPAHCorrectionOffset(int x, int y)

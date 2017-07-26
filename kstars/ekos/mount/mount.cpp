@@ -178,10 +178,10 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
     currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
 
-    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-            SLOT(updateNumber(INumberVectorProperty *)), Qt::UniqueConnection);
-    connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this,
-            SLOT(updateSwitch(ISwitchVectorProperty *)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+            SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this,
+            SLOT(updateSwitch(ISwitchVectorProperty*)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(newTarget(QString)), this, SIGNAL(newTarget(QString)), Qt::UniqueConnection);
     connect(currentTelescope, &ISD::Telescope::Disconnected, [this]()
     {
@@ -355,7 +355,7 @@ void Mount::updateTelescopeCoords()
 
         lastAlt = currentAlt;
 
-        newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text());
+        emit newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text());
 
         ISD::Telescope::TelescopeStatus currentStatus = currentTelescope->getStatus();
         if (lastStatus != currentStatus)

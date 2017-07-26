@@ -93,7 +93,7 @@ QMap<char, QColor> SkyQPainter::ColorMap = QMap<char, QColor>();
 
 void SkyQPainter::releaseImageCache()
 {
-    for (char color : ColorMap.keys())
+    for (char &color : ColorMap.keys())
     {
         QPixmap **pmap = imageCache[harvardToIndex(color)];
 
@@ -205,7 +205,7 @@ void SkyQPainter::initStarImages()
         ColorMap.insert('M', m_starColor);
     }
 
-    for (char color : ColorMap.keys())
+    for (char &color : ColorMap.keys())
     {
         QPixmap BigImage(15, 15);
         BigImage.fill(Qt::transparent);

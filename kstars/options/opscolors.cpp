@@ -106,7 +106,7 @@ OpsColors::OpsColors() : QFrame(KStars::Instance())
 
     kcfg_DarkAppColors->setChecked(KStarsData::Instance()->colorScheme()->useDarkPalette());
 
-    connect(ColorPalette, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(newColor(QListWidgetItem *)));
+    connect(ColorPalette, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(newColor(QListWidgetItem*)));
     connect(kcfg_StarColorIntensity, SIGNAL(valueChanged(int)), this, SLOT(slotStarColorIntensity(int)));
     connect(kcfg_StarColorMode, SIGNAL(activated(int)), this, SLOT(slotStarColorMode(int)));
     connect(kcfg_DarkAppColors, SIGNAL(toggled(bool)), this, SLOT(slotDarkAppColors(bool)));

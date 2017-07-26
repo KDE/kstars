@@ -115,9 +115,6 @@ class KSPlanet : public KSPlanetBase
          */
         OrbitData(double a, double b, double c) : A(a), B(b), C(c) {}
 
-        /** Assignment operator */
-        OrbitData operator=(const OrbitData o) { return o; }
-
         double A, B, C;
     };
 

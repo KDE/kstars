@@ -27,7 +27,7 @@ InternalGuider::InternalGuider()
     // Create math object
     pmath = new cgmath();
 
-    connect(pmath, SIGNAL(newStarPosition(QVector3D, bool)), this, SIGNAL(newStarPosition(QVector3D, bool)));
+    connect(pmath, SIGNAL(newStarPosition(QVector3D,bool)), this, SIGNAL(newStarPosition(QVector3D,bool)));
 
     // Calibration
     calibrationStage = CAL_IDLE;
@@ -358,7 +358,7 @@ void InternalGuider::reset()
 {
     state = GUIDE_IDLE;
     //calibrationStage = CAL_IDLE;
-    connect(guideFrame, SIGNAL(trackingStarSelected(int, int)), this, SLOT(trackingStarSelected(int, int)),
+    connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int,int)),
             Qt::UniqueConnection);
 }
 

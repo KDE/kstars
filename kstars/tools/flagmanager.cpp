@@ -117,7 +117,7 @@ FlagManager::FlagManager(QWidget *ks) : QDialog(ks)
     connect(ui->CenterButton, SIGNAL(clicked()), this, SLOT(slotCenterFlag()));
     connect(ui->ScopeButton, SIGNAL(clicked()), this, SLOT(slotCenterTelescope()));
     connect(ui->flagList, SIGNAL(clicked(QModelIndex)), this, SLOT(slotSetShownFlag(QModelIndex)));
-    connect(ui->flagList, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(slotCenterFlag()));
+    connect(ui->flagList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotCenterFlag()));
 
     connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(slotSaveChanges()));
 }

@@ -80,17 +80,11 @@ void Matrix ::Transpose()
             }
 }
 
-Matrix &Matrix ::operator=(const Matrix &A)
-{
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            x[i][j] = A.x[i][j];
-
-    return *this;
-}
-
 Matrix &Matrix ::operator+=(const Matrix &A)
 {
+    if (this == &A)
+        return *this;
+
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             x[i][j] += A.x[i][j];
@@ -100,6 +94,9 @@ Matrix &Matrix ::operator+=(const Matrix &A)
 
 Matrix &Matrix ::operator-=(const Matrix &A)
 {
+    if (this == &A)
+        return *this;
+
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             x[i][j] -= A.x[i][j];
@@ -118,6 +115,9 @@ Matrix &Matrix ::operator*=(double v)
 
 Matrix &Matrix ::operator*=(const Matrix &A)
 {
+    if (this == &A)
+        return *this;
+
     Matrix res = *this;
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)

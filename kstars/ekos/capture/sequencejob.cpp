@@ -152,7 +152,7 @@ void SequenceJob::setAllActionsReady()
 
 bool SequenceJob::areActionsReady()
 {
-    for (bool ready : prepareActions.values())
+    for (bool &ready : prepareActions.values())
     {
         if (ready == false)
             return false;

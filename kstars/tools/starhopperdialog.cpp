@@ -34,7 +34,7 @@ StarHopperDialog::StarHopperDialog(QWidget *parent) : QDialog(parent), ui(new Ui
     connect(ui->NextButton, SIGNAL(clicked()), this, SLOT(slotNext()));
     connect(ui->GotoButton, SIGNAL(clicked()), this, SLOT(slotGoto()));
     connect(ui->DetailsButton, SIGNAL(clicked()), this, SLOT(slotDetails()));
-    connect(m_lw, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(slotGoto()));
+    connect(m_lw, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotGoto()));
     connect(m_lw, SIGNAL(itemSelectionChanged()), this, SLOT(slotRefreshMetadata()));
     connect(this, SIGNAL(finished(int)), this, SLOT(deleteLater()));
 }

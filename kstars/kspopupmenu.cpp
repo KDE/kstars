@@ -434,8 +434,8 @@ void KSPopupMenu::initFlagActions(SkyObject *obj)
         QMenu *editMenu   = new QMenu(i18n("Edit flag..."), KStars::Instance());
         QMenu *deleteMenu = new QMenu(i18n("Delete flag..."), KStars::Instance());
 
-        connect(editMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotEditFlag(QAction *)));
-        connect(deleteMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotDeleteFlag(QAction *)));
+        connect(editMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotEditFlag(QAction*)));
+        connect(deleteMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotDeleteFlag(QAction*)));
 
         if (m_EditActionMapping)
         {
@@ -593,7 +593,7 @@ void KSPopupMenu::addINDI()
                 }
             }
 
-            connect(sMapper, SIGNAL(mapped(QObject *)), gd, SLOT(setProperty(QObject *)));
+            connect(sMapper, SIGNAL(mapped(QObject*)), gd, SLOT(setProperty(QObject*)));
 
             if (menuDevice != nullptr)
                 menuDevice->addSeparator();

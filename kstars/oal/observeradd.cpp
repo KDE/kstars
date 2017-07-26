@@ -90,11 +90,10 @@ void ObserverAdd::slotUpdateModel()
 
 void ObserverAdd::slotRemoveObserver()
 {
-    QModelIndexList selection = ui.tableView->selectionModel()->selectedRows();
-
     QModelIndex index = ui.tableView->currentIndex();
     int nr            = index.row();
     QString s         = ui.tableView->model()->data(ui.tableView->model()->index(nr, 0)).toString();
+
     KStarsData::Instance()->userdb()->DeleteObserver(s);
     ui.RemoveObserverB->setEnabled(false);
     slotUpdateModel();

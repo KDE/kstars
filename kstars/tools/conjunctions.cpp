@@ -115,9 +115,9 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     connect(FilterTypeComboBox, SIGNAL(currentIndexChanged(int)), SLOT(slotFilterType(int)));
     connect(ClearButton, SIGNAL(clicked()), this, SLOT(slotClear()));
     connect(ExportButton, SIGNAL(clicked()), this, SLOT(slotExport()));
-    connect(OutputList, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(slotGoto()));
+    connect(OutputList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotGoto()));
     connect(ClearFilterButton, SIGNAL(clicked()), FilterEdit, SLOT(clear()));
-    connect(FilterEdit, SIGNAL(textChanged(const QString &)), this, SLOT(slotFilterReg(const QString &)));
+    connect(FilterEdit, SIGNAL(textChanged(QString)), this, SLOT(slotFilterReg(QString)));
 
     show();
 }
