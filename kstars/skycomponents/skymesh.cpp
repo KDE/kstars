@@ -90,8 +90,8 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
     m_drawID++;
 
     return;
-    if (m_inDraw && bufNum != DRAW_BUF)
-        printf("Warining: overlapping buffer: %d\n", bufNum);
+//    if (m_inDraw && bufNum != DRAW_BUF)
+//        printf("Warning: overlapping buffer: %d\n", bufNum);
 }
 
 Trixel SkyMesh::index(const SkyPoint *p)
@@ -119,8 +119,8 @@ void SkyMesh::index(const SkyPoint *p, double radius, MeshBufNum_t bufNum)
     HTMesh::intersect(p->ra().Degrees(), p->dec().Degrees(), radius, (BufNum)bufNum);
 
     return;
-    if (m_inDraw && bufNum != DRAW_BUF)
-        printf("Warning: overlapping buffer: %d\n", bufNum);
+//    if (m_inDraw && bufNum != DRAW_BUF)
+//        printf("Warning: overlapping buffer: %d\n", bufNum);
 }
 
 void SkyMesh::index(const SkyPoint *p1, const SkyPoint *p2)

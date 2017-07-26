@@ -9,6 +9,7 @@
 
 #include "horizonmanager.h"
 
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "linelist.h"
 #include "Options.h"

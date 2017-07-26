@@ -17,12 +17,13 @@
 
 #include "timestepbox.h"
 
-#include <cstdlib>
+#include "timespinbox.h"
+#include "timeunitbox.h"
 
-#include <QHBoxLayout>
+#include <KLocalizedString>
 
 #include <QDebug>
-#include <KLocalizedString>
+#include <QHBoxLayout>
 
 TimeStepBox::TimeStepBox(QWidget *parent, bool daysonly) : QWidget(parent)
 {

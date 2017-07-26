@@ -44,7 +44,9 @@
 
 class QFile;
 
+class Execute;
 class FOV;
+class ImageExporter;
 class SkyMap;
 class SkyMapComposite;
 class SkyObject;

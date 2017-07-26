@@ -18,10 +18,12 @@
 
 #include "oal/execute.h"
 
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "observinglist.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/locationdialog.h"
+#include "oal/observeradd.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skyobjects/starobject.h"
 

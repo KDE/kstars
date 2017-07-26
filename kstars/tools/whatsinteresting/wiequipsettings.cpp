@@ -15,14 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QListWidget>
-#include <QLineEdit>
-#include <QDoubleSpinBox>
-#include <QComboBox>
 #include "wiequipsettings.h"
+
 #include "kstars.h"
-#include "kstarsdata.h"
 #include "Options.h"
+
+#include <QListWidgetItem>
 
 WIEquipSettings::WIEquipSettings() : QFrame(KStars::Instance())
 {

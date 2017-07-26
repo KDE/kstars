@@ -12,6 +12,7 @@
 
 #include "ekosmanager.h"
 #include "kspaths.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
 #include "auxiliary/ksnotification.h"

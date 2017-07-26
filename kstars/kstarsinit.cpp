@@ -17,7 +17,6 @@
 
 #include "kstars.h"
 
-
 #include "fov.h"
 #include "kspaths.h"
 #include "kstarsdata.h"
@@ -27,6 +26,7 @@
 #include "projections/projector.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skyobjects/ksplanetbase.h"
+#include "widgets/timespinbox.h"
 #include "widgets/timestepbox.h"
 
 #ifdef HAVE_INDI

@@ -20,8 +20,8 @@
 #include "ksnumbers.h"
 #include "typedef.h"
 
-class SkyMesh;
 struct HighPMStar;
+class SkyMesh;
 
 /** @class HighPMStarList
  * Holds a list of stars with high proper motion along with the trixel each star
@@ -80,9 +80,9 @@ class HighPMStarList
     QVector<HighPMStar *> m_stars;
 
     KSNumbers m_reindexNum;
-    double m_reindexInterval;
-    double m_threshold;
-    double m_maxPM;
+    double m_reindexInterval { 0 };
+    double m_threshold { 0 };
+    double m_maxPM { 0 };
 
-    SkyMesh *m_skyMesh;
+    SkyMesh *m_skyMesh { nullptr };
 };

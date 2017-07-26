@@ -9,6 +9,7 @@
 
 #include "mosaic.h"
 
+#include "kstars.h"
 #include "Options.h"
 #include "scheduler.h"
 #include "skymap.h"

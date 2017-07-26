@@ -17,13 +17,14 @@
 
 #include "pwizfovsh.h"
 
-#include <QPointer>
-
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "pwizobjectselection.h"
 #include "printingwizard.h"
 #include "dialogs/finddialog.h"
-#include "pwizobjectselection.h"
-#include "kstarsdata.h"
 #include "dialogs/detaildialog.h"
+
+#include <QPointer>
 
 PWizFovShUI::PWizFovShUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent), m_ParentWizard(wizard)
 {

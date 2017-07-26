@@ -17,12 +17,11 @@
 
 #include "draglistbox.h"
 
-#include <QDragEnterEvent>
 #include <QDrag>
+#include <QDragEnterEvent>
+#include <QDropEvent>
 #include <QMimeData>
 #include <QMouseEvent>
-#include <QDropEvent>
-#include <QDebug>
 
 #include <KLocalizedString>
 
@@ -33,11 +32,6 @@ DragListBox::DragListBox(QWidget *parent, const char *name) : QListWidget(parent
         setObjectName(name);
     }
     setAcceptDrops(true);
-    leftButtonDown = false;
-}
-
-DragListBox::~DragListBox()
-{
 }
 
 bool DragListBox::contains(const QString &s) const

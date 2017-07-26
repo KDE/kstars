@@ -636,12 +636,16 @@ void KStars::loadColorScheme(const QString &name)
 void KStars::exportImage(const QString &url, int w, int h, bool includeLegend)
 {
     ImageExporter *m_ImageExporter = m_KStarsData->imageExporter();
+
     if (w <= 0)
         w = map()->width();
     if (h <= 0)
         h = map()->height();
+
+    QSize size(w, h);
+
     m_ImageExporter->includeLegend(includeLegend);
-    m_ImageExporter->setRasterOutputSize(new QSize(w, h));
+    m_ImageExporter->setRasterOutputSize(&size);
     m_ImageExporter->exportImage(url);
 }
 

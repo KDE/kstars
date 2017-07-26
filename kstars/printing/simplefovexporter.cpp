@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "simplefovexporter.h"
+
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skyqpainter.h"

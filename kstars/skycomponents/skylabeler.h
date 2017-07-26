@@ -15,8 +15,9 @@
  *																		 *
  ***************************************************************************/
 
-#ifndef SKYLABELER_H
-#define SKYLABELER_H
+#pragma once
+
+#include "skylabel.h"
 
 #include <QFontMetricsF>
 #include <QList>
@@ -24,8 +25,6 @@
 #include <QPainter>
 #include <QPicture>
 #include <QFont>
-
-#include "skylabel.h"
 
 class QString;
 class QPointF;
@@ -334,37 +333,27 @@ class SkyLabeler
 
   private:
     ScreenRows screenRows;
-
-    int m_maxX;
-    int m_maxY;
-    int m_size;
-    int m_minDeltaX;
-
-    int m_marks;
-    int m_hits;
-    int m_misses;
-    int m_elements;
-    int m_errors;
-
-    qreal m_yScale;
-    double m_offset;
-
+    int m_maxX { 0 };
+    int m_maxY { 0 };
+    int m_size { 0 };
+    /// When to merge two adjacent regions
+    int m_minDeltaX { 30 };
+    int m_marks { 0 };
+    int m_hits { 0 };
+    int m_misses { 0 };
+    int m_elements { 0 };
+    int m_errors { 0 };
+    qreal m_yScale { 0 };
+    double m_offset { 0 };
     QFont m_stdFont, m_skyFont;
     QFontMetricsF m_fontMetrics;
-
 //In KStars Lite this font should be used wherever font of m_p was changed or used
 #ifdef KSTARS_LITE
     QFont m_drawFont;
 #endif
-
     QPainter m_p;
     QPicture m_picture;
-
     QVector<LabelList> labelList;
-
-    const Projector *m_proj;
-
+    const Projector *m_proj { nullptr };
     static SkyLabeler *pinstance;
 };
-
-#endif

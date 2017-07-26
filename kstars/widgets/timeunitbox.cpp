@@ -17,16 +17,15 @@
 
 #include "timeunitbox.h"
 
-#include <cstdlib>
-
 #include <QToolButton>
 #include <QVBoxLayout>
 
-#include <QDebug>
+#define TUB_DAYUNITS 5
 
 TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly) : QWidget(parent)
 {
     QVBoxLayout *vlay = new QVBoxLayout(this);
+
     vlay->setMargin(0);
     vlay->setSpacing(0);
 
@@ -47,18 +46,17 @@ TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly) : QWidget(parent)
 
     connect(UpButton, SIGNAL(clicked()), this, SLOT(increase()));
     connect(DownButton, SIGNAL(clicked()), this, SLOT(decrease()));
-}
 
-TimeUnitBox::~TimeUnitBox()
-{
+    for (int i = 0; i < TUB_ALLUNITS; ++i)
+        UnitStep[i] = 0;
 }
 
 void TimeUnitBox::setDaysOnly(bool daysonly)
 {
     if (daysonly)
     {
-        setMinimum(1 - DAYUNITS);
-        setMaximum(DAYUNITS - 1);
+        setMinimum(1 - TUB_DAYUNITS);
+        setMaximum(TUB_DAYUNITS - 1);
         setValue(1); // Start out with days units
 
         UnitStep[0] = 0;
@@ -69,8 +67,8 @@ void TimeUnitBox::setDaysOnly(bool daysonly)
     }
     else
     {
-        setMinimum(1 - ALLUNITS);
-        setMaximum(ALLUNITS - 1);
+        setMinimum(1 - TUB_ALLUNITS);
+        setMaximum(TUB_ALLUNITS - 1);
         setValue(1); // Start out with seconds units
 
         UnitStep[0] = 0;

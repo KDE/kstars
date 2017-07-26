@@ -340,6 +340,7 @@ void DarkLibrary::newFITS(IBLOB *bp)
     }
     else
     {
+        delete calibrationData;
         emit darkFrameCompleted(false);
         emit newLog(i18n("Warning: Cannot load calibration file %1", calibrationView->getImageData()->getFilename()));
     }

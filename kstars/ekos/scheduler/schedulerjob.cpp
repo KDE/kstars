@@ -18,10 +18,6 @@ SchedulerJob::SchedulerJob()
 {
 }
 
-SchedulerJob::~SchedulerJob()
-{
-}
-
 QString SchedulerJob::getName() const
 {
     return name;

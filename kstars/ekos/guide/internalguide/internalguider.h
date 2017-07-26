@@ -12,16 +12,18 @@
 #pragma once
 
 #include "matr.h"
-#include "fitsviewer/fitsview.h"
 #include "indi/indicommon.h"
 #include "../guideinterface.h"
 
 #include <QFile>
 #include <QPointer>
 
-class cgmath;
+#include <memory>
 
 class QVector3D;
+
+class cgmath;
+class FITSView;
 
 namespace Ekos
 {
@@ -50,7 +52,6 @@ class InternalGuider : public GuideInterface
     };
 
     InternalGuider();
-    ~InternalGuider();
 
     bool Connect() override { return true; }
     bool Disconnect() override { return true; }
@@ -88,7 +89,6 @@ class InternalGuider : public GuideInterface
     bool isGuiding(void) const;
     void setAO(bool enable);
     void setInterface(void);
-    void setReady(bool enable) { m_isReady = enable; }
     bool isRapidGuide() { return m_useRapidGuide; }
 
     double getAOLimit();
@@ -125,32 +125,33 @@ class InternalGuider : public GuideInterface
     // Image Guiding
     bool processImageGuiding();
 
-    cgmath *pmath;
-    QPointer<FITSView> guideFrame;
-    bool m_isStarted;
-    bool m_isReady;
-    bool m_isSubFramed;
-    bool isFirstFrame, first_subframe;
-    bool imageGuideEnabled = false;
-    int m_lostStarTries;
-    bool m_useRapidGuide;
-    bool m_isDithering;
-
-    QFile logFile;
-
     void reset();
 
-    int auto_drift_time;
-    int turn_back_time;
-    double start_x1, start_y1;
-    double end_x1, end_y1;
-    double start_x2, start_y2;
-    double end_x2, end_y2;
-    int iterations, dec_iterations;
-    double phi;
+    std::unique_ptr<cgmath> pmath;
+    QPointer<FITSView> guideFrame;
+    bool m_isStarted { false };
+    bool m_isSubFramed { false };
+    bool isFirstFrame { false };
+    bool first_subframe { false };
+    bool imageGuideEnabled { false };
+    int m_lostStarTries { 0 };
+    bool m_useRapidGuide { false };
+    QFile logFile;
+    int auto_drift_time { 5 };
+    int turn_back_time { 0 };
+    double start_x1 { 0 };
+    double start_y1 { 0 };
+    double end_x1 { 0 };
+    double end_y1 { 0 };
+    double start_x2 { 0 };
+    double start_y2 { 0 };
+    double end_x2 { 0 };
+    double end_y2 { 0 };
+    int iterations { 0 };
+    int dec_iterations { 0 };
+    double phi { 0 };
     Matrix ROT_Z;
-
-    CalibrationStage calibrationStage;
+    CalibrationStage calibrationStage { CAL_IDLE };
     CalibrationType calibrationType;
 };
 }

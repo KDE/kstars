@@ -21,7 +21,6 @@ class SchedulerJob
 {
   public:
     SchedulerJob();
-    ~SchedulerJob();
 
     typedef enum {
         JOB_IDLE,
@@ -154,7 +153,7 @@ class SchedulerJob
     JOBStatus state { JOB_IDLE };
     JOBStage stage { STAGE_IDLE };
 
-    StartupCondition fileStartupCondition;
+    StartupCondition fileStartupCondition { START_ASAP };
     StartupCondition startupCondition { START_ASAP };
     CompletionCondition completionCondition { FINISH_SEQUENCE };
 

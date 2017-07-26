@@ -429,7 +429,7 @@ void Legend::paintSymbol(QPointF pos, int type, float e, float angle, QString la
 {
     qreal x              = pos.x();
     qreal y              = pos.y();
-    qreal bRectHalfWidth = m_BRectWidth / 2;
+    qreal bRectHalfWidth = (qreal)m_BRectWidth / 2;
 
     // paint symbol
     m_Painter->drawDeepSkySymbol(pos, type, m_SymbolSize, e, angle);

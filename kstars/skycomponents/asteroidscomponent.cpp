@@ -25,6 +25,9 @@
 
 #include "asteroidscomponent.h"
 
+#ifndef KSTARS_LITE
+#include "kstars.h"
+#endif
 #include "auxiliary/filedownloader.h"
 #include "projections/projector.h"
 #include "solarsystemcomposite.h"

@@ -103,7 +103,7 @@ void SequenceJob::prepareCapture()
     }
 
     // Check if we need to change filter wheel
-    if ((frameType == FRAME_LIGHT || frameType == FRAME_LIGHT) && targetFilter != -1 && activeFilter != nullptr)
+    if (frameType == FRAME_LIGHT && targetFilter != -1 && activeFilter != nullptr)
     {
         if (targetFilter == currentFilter)
             prepareActions[ACTION_FILTER] = true;

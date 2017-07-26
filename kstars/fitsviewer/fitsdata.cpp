@@ -604,12 +604,11 @@ void FITSData::calculateMinMax()
 template <typename T>
 void FITSData::runningAverageStdDev()
 {
-    T *buffer = reinterpret_cast<T *>(imageBuffer);
-
+    T *buffer     = reinterpret_cast<T *>(imageBuffer);
     int m_n       = 2;
     double m_oldM = 0, m_newM = 0, m_oldS = 0, m_newS = 0;
-    m_oldM = m_newM = buffer[0];
 
+    m_oldM = m_newM = buffer[0];
     for (unsigned int i = 1; i < stats.samples_per_channel; i++)
     {
         m_newM = m_oldM + (buffer[i] - m_oldM) / m_n;
@@ -620,7 +619,7 @@ void FITSData::runningAverageStdDev()
         m_n++;
     }
 
-    double variance = m_newS / (m_n - 2);
+    double variance = (m_n == 2 ? 0 : m_newS / (m_n - 2));
 
     stats.mean[0]   = m_newM;
     stats.stddev[0] = sqrt(variance);
@@ -634,8 +633,8 @@ void FITSData::setMinMax(double newMin, double newMax, uint8_t channel)
 
 int FITSData::getFITSRecord(QString &recordList, int &nkeys)
 {
-    char *header;
-    int status = 0;
+    char *header = nullptr;
+    int status   = 0;
 
     if (fits_hdr2str(fptr, 0, nullptr, 0, &header, &nkeys, &status))
     {
@@ -1484,7 +1483,10 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
             cen_y = (int)floor(rCenter->y);
 
             if (cen_x < 0 || cen_x > stats.width || cen_y < 0 || cen_y > stats.height)
+            {
+                delete rCenter;
                 continue;
+            }
 
             // Complete sum along the radius
             //for (int k=0; k < rCenter->width; k++)
@@ -1532,11 +1534,10 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
 
     if (starCenters.count() > 1 && mode != FITS_FOCUS)
     {
-        float width_avg = width_sum / starCenters.count();
-
+        float width_avg = (float)width_sum / starCenters.count();
         float lsum = 0, sdev = 0;
 
-        foreach (Edge *center, starCenters)
+        for (auto &center : starCenters)
             lsum += (center->width - width_avg) * (center->width - width_avg);
 
         sdev = (sqrt(lsum / (starCenters.count() - 1))) * 4;
@@ -1973,6 +1974,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, float image_min
                         //   Pick up window elements
                         int k = 0;
                         float window[9];
+
+                        memset(&window[0], 0, 9*sizeof(float));
                         for (int j = m - 1; j < m + 2; ++j)
                             for (int i = n - 1; i < n + 2; ++i)
                                 window[k++] = extension[j * N + i];

@@ -275,7 +275,7 @@ void ImageExporter::setRasterOutputSize(const QSize *size)
     if (size)
         m_Size = new QSize(*size); // make a copy, so it's safe if the original gets deleted
     else
-        m_Size = 0;
+        m_Size = nullptr;
 }
 
 void ImageExporter::setLegendAlpha(int alpha)

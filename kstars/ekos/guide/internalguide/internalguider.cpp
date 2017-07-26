@@ -14,6 +14,7 @@
 #include "gmath.h"
 #include "Options.h"
 #include "auxiliary/kspaths.h"
+#include "fitsviewer/fitsview.h"
 
 #include <KMessageBox>
 #include <KNotification>
@@ -25,26 +26,10 @@ namespace Ekos
 InternalGuider::InternalGuider()
 {
     // Create math object
-    pmath = new cgmath();
-
-    connect(pmath, SIGNAL(newStarPosition(QVector3D,bool)), this, SIGNAL(newStarPosition(QVector3D,bool)));
-
-    // Calibration
-    calibrationStage = CAL_IDLE;
+    pmath.reset(new cgmath());
+    connect(pmath.get(), SIGNAL(newStarPosition(QVector3D,bool)), this, SIGNAL(newStarPosition(QVector3D,bool)));
 
     state = GUIDE_IDLE;
-
-    auto_drift_time = 5;
-
-    start_x1 = start_y1 = 0;
-    end_x1 = end_y1 = 0;
-    start_x2 = start_y2 = 0;
-    end_x2 = end_y2 = 0;
-}
-
-InternalGuider::~InternalGuider()
-{
-    delete (pmath);
 }
 
 bool InternalGuider::guide()

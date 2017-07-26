@@ -117,12 +117,15 @@ class DeepStarComponent : public ListComponent
     KSNumbers m_reindexNum;
 
     float m_zoomMagLimit { 0 };
-    float triggerMag { 0 }; // Magnitude at which this catalog triggers
-
-    float m_FaintMagnitude { 0 }; // Limiting magnitude of the catalog currently loaded
-    bool fileOpened { false };        // Indicates whether the file is opened or not
+    /// Magnitude at which this catalog triggers
+    float triggerMag { 0 };
+    /// Limiting magnitude of the catalog currently loaded
+    float m_FaintMagnitude { 0 };
+    /// Indicates whether the file is opened or not
+    bool fileOpened { false };
     unsigned long visibleStarCount { 0 };
-    quint16 MSpT; // Maximum number of stars in any given trixel
+    /// Maximum number of stars in any given trixel
+    quint16 MSpT { 0 };
 
     // Time keeping variables
     long unsigned t_dynamicLoad { 0 };

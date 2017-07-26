@@ -7,24 +7,21 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <QtNetwork/QNetworkReply>
-#include <QtNetwork/QNetworkRequest>
-#include <QUrl>
-#include <QVariantMap>
-#include <QDebug>
-#include <QHttpMultiPart>
-#include <QFile>
-#include <QJsonObject>
-#include <QJsonDocument>
+#include "onlineastrometryparser.h"
+
+#include "align.h"
+#include "Options.h"
 
 #include <KLocalizedString>
 
-#include "onlineastrometryparser.h"
-#include "align.h"
-
-#include "Options.h"
-
-#include "fitsviewer/fitsdata.h"
+#include <QFile>
+#include <QHttpMultiPart>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QUrl>
+#include <QVariantMap>
 
 #define JOB_RETRY_DURATION    2000 /* 2000 ms */
 #define JOB_RETRY_ATTEMPTS    90
@@ -36,10 +33,9 @@ namespace Ekos
 {
 OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
 {
-    job_retries    = 0;
-    solver_retries = 0;
-
     networkManager = new QNetworkAccessManager(this);
+
+    parity = INVALID_VALUE;
 
     connect(this, SIGNAL(authenticateFinished()), this, SLOT(uploadFile()));
     connect(this, SIGNAL(uploadFinished()), this, SLOT(getJobID()));
@@ -51,14 +47,6 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
 
     connect(this, SIGNAL(solverFailed()), this, SLOT(resetSolver()));
     connect(this, SIGNAL(solverFinished(double,double,double,double)), this, SLOT(resetSolver()));
-
-    downsample_factor = 0;
-    parity            = INVALID_VALUE;
-    isGenerated       = true;
-}
-
-OnlineAstrometryParser::~OnlineAstrometryParser()
-{
 }
 
 bool OnlineAstrometryParser::init()
@@ -74,7 +62,7 @@ void OnlineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
 
 bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStringList &args, bool generated)
 {
-    bool ok;
+    bool ok = false;
 
     isGenerated = generated;
 

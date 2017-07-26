@@ -17,6 +17,7 @@
 
 #include "finddialog.h"
 
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
 #include "detaildialog.h"

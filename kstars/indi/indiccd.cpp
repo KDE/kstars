@@ -15,6 +15,7 @@
 #include "driverinfo.h"
 #include "guimanager.h"
 #include "kspaths.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
 #include "streamwg.h"

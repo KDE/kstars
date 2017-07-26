@@ -26,6 +26,7 @@
 #include "dialogs/finddialog.h"
 #include "dialogs/locationdialog.h"
 #include "widgets/dmsbox.h"
+#include "widgets/timespinbox.h"
 #include "widgets/timestepbox.h"
 
 #include <KLocalizedString>

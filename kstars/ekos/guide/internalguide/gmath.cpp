@@ -1046,7 +1046,9 @@ Vector cgmath::findLocalStarPosition(void) const
                 }
                 psrc += video_width;
             }
-            threshold /= (double)pix_cnt;
+            if (pix_cnt != 0)
+                threshold /= (double)pix_cnt;
+
             // cut by 10% higher then average threshold
             if (max_val > threshold)
                 threshold += (max_val - threshold) * SMART_CUT_FACTOR;

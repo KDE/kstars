@@ -131,7 +131,6 @@ KSComet::KSComet(const QString &_s, const QString &imfile, long double _JD, doub
                   fragment;                // Bits 0-15  (16)
         return;
     }
-    uidPart = 0;
     // qDebug() << "Didn't get it: " << _s;
 }
 

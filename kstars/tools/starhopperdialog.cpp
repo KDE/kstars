@@ -17,6 +17,7 @@
 
 #include "starhopperdialog.h"
 
+#include "kstars.h"
 #include "ksutils.h"
 #include "skymap.h"
 #include "skymapcomposite.h"

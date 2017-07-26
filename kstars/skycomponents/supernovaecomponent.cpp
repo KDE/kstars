@@ -30,6 +30,9 @@
 #include "ksnotification.h"
 //#include "notifyupdatesui.h"
 
+#ifndef KSTARS_LITE
+#include "kstars.h"
+#endif
 #include "kstarsdata.h"
 #include "auxiliary/kspaths.h"
 

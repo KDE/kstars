@@ -356,8 +356,8 @@ void SkyMapComposite::draw(SkyPainter *skyp)
             KStarsData::Instance()
                 ->observingList()
                 ->sessionList()))); // Make sure we never delete the pointers in m_ObservingList->list!
-    if (m_ObservingList)
-        m_ObservingList->draw(skyp);
+
+    m_ObservingList->draw(skyp);
 
     m_Flags->draw(skyp);
 

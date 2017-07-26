@@ -179,7 +179,7 @@ class SkyObjItem
     /// Position of sky-object in the sky.
     QString m_Position;
     /// Category of sky-object of type SkyObjItem::Type
-    Type m_Type;
+    Type m_Type { SkyObjItem::Planet };
     /// Pointer to SkyObject represented by SkyObjItem
     SkyObject *m_So { nullptr };
 };

@@ -17,6 +17,7 @@
 #include "guimanager.h"
 #include "indilistener.h"
 #include "kspaths.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
 #include "servermanager.h"

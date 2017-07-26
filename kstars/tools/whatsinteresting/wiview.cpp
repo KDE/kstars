@@ -18,6 +18,7 @@
 #include "wiview.h"
 
 #include "kspaths.h"
+#include "kstars.h"
 #include "modelmanager.h"
 #include "obsconditions.h"
 #include "Options.h"

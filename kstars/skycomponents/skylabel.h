@@ -15,12 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYLABEL_H
-#define SKYLABEL_H
+#pragma once
 
-#include <QPointF>
-#include <QList>
 #include "skyobjects/skyobject.h"
+
+#include <QList>
+#include <QPointF>
 
 class SkyLabel;
 typedef QList<SkyLabel> LabelList;
@@ -42,5 +42,3 @@ class SkyLabel
     QPointF o;
     SkyObject *obj;
 };
-
-#endif

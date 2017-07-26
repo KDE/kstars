@@ -17,6 +17,7 @@
 
 #include "wutdialog.h"
 
+#include "kstars.h"
 #include "skymap.h"
 #include "dialogs/detaildialog.h"
 #include "dialogs/locationdialog.h"

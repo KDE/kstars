@@ -43,7 +43,3 @@ KSDssImage::KSDssImage(const QString &fileName)
     }
     m_Image = reader.read();
 }
-
-KSDssImage::Metadata::Metadata() : height(0.), width(0.), band('?'), gen(-1), valid(false)
-{
-}
