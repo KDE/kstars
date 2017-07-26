@@ -135,7 +135,6 @@ void PHD2::readPHD2()
 void PHD2::processJSON(const QJsonObject &jsonObj)
 {
     PHD2MessageType messageType = PHD2_UNKNOWN;
-    bool result                 = false;
 
     if (jsonObj.contains("Event"))
     {
@@ -148,13 +147,11 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
     else if (jsonObj.contains("error"))
     {
         messageType = PHD2_ERROR;
-        result      = false;
         processPHD2Error(jsonObj);
     }
     else if (jsonObj.contains("result"))
     {
         messageType = PHD2_RESULT;
-        result      = true;
     }
 
     switch (connection)
@@ -167,7 +164,9 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
         case CONNECTED:
             // If initial state is STOPPED, let us connect equipment
             if (state == STOPPED)
+            {
                 setEquipmentConnected(true);
+            }
             else if (state == GUIDING)
             {
                 connection = EQUIPMENT_CONNECTED;
@@ -182,16 +181,13 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
         case EQUIPMENT_CONNECTING:
             if (messageType == PHD2_RESULT)
             {
-                if (result)
-                {
-                    connection = EQUIPMENT_CONNECTED;
-                    emit newStatus(Ekos::GUIDE_CONNECTED);
-                }
-                else
-                {
-                    connection = EQUIPMENT_DISCONNECTED;
-                    emit newStatus(Ekos::GUIDE_DISCONNECTED);
-                }
+                connection = EQUIPMENT_CONNECTED;
+                emit newStatus(Ekos::GUIDE_CONNECTED);
+            }
+            else
+            {
+                connection = EQUIPMENT_DISCONNECTED;
+                emit newStatus(Ekos::GUIDE_DISCONNECTED);
             }
             return;
 

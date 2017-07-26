@@ -282,9 +282,9 @@ void modCalcSidTime::processLines(QTextStream &istream)
                     continue;
                 }
 
-                geoBatch =
-                    KStarsData::Instance()->locationNamed(locationFields[0], locationFields[1], locationFields[2]);
-                if (!geoBatch)
+                geoBatch = KStarsData::Instance()->locationNamed(locationFields[0], locationFields[1],
+                                                                 locationFields[2]);
+                if (geoBatch == nullptr)
                 {
                     qDebug() << "Error: location not found in database: " << locationString;
                     continue;
@@ -295,7 +295,7 @@ void modCalcSidTime::processLines(QTextStream &istream)
         if (DateCheckBatch->isChecked())
         {
             //Parse one of the fields as the date
-            foreach (const QString &s, fields)
+            for (auto &s : fields)
             {
                 dt = QDate::fromString(s);
                 if (dt.isValid())
@@ -309,7 +309,7 @@ void modCalcSidTime::processLines(QTextStream &istream)
         }
 
         //Parse one of the fields as the time
-        foreach (const QString &s, fields)
+        for (auto &s : fields)
         {
             if (s.contains(':'))
             {
@@ -324,24 +324,27 @@ void modCalcSidTime::processLines(QTextStream &istream)
             continue;
         }
 
-        if (ComputeComboBatch->currentIndex() == 0)
+        if (geoBatch != nullptr)
         {
-            //inTime is the local time, compute LST
-            KStarsDateTime ksdt(dt, inTime);
-            ksdt    = geoBatch->LTtoUT(ksdt);
-            dms lst = geoBatch->GSTtoLST(ksdt.gst());
-            outTime = QTime(lst.hour(), lst.minute(), lst.second());
-        }
-        else
-        {
-            //inTime is the sidereal time, compute the local time
-            KStarsDateTime ksdt(dt, QTime(0, 0, 0));
-            dms lst;
-            lst.setH(inTime.hour(), inTime.minute(), inTime.second());
-            QTime ut = ksdt.GSTtoUT(geoBatch->LSTtoGST(lst));
-            ksdt.setTime(ut);
-            ksdt    = geoBatch->UTtoLT(ksdt);
-            outTime = ksdt.time();
+            if (ComputeComboBatch->currentIndex() == 0)
+            {
+                //inTime is the local time, compute LST
+                KStarsDateTime ksdt(dt, inTime);
+                ksdt    = geoBatch->LTtoUT(ksdt);
+                dms lst = geoBatch->GSTtoLST(ksdt.gst());
+                outTime = QTime(lst.hour(), lst.minute(), lst.second());
+            }
+            else
+            {
+                //inTime is the sidereal time, compute the local time
+                KStarsDateTime ksdt(dt, QTime(0, 0, 0));
+                dms lst;
+                lst.setH(inTime.hour(), inTime.minute(), inTime.second());
+                QTime ut = ksdt.GSTtoUT(geoBatch->LSTtoGST(lst));
+                ksdt.setTime(ut);
+                ksdt    = geoBatch->UTtoLT(ksdt);
+                outTime = ksdt.time();
+            }
         }
 
         //Write to output file

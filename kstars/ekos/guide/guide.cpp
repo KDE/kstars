@@ -10,6 +10,7 @@
 #include "guide.h"
 
 #include "guideadaptor.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "opscalibration.h"
 #include "opsguide.h"

@@ -262,7 +262,8 @@ void FITSHistogram::constructHistogram()
     customPlot->yAxis->setLabel(i18n("Frequency"));
 
     customPlot->xAxis->setRange(fits_min, fits_max);
-    customPlot->yAxis->setRange(0, maxFrequency);
+    if (maxFrequency > 0)
+        customPlot->yAxis->setRange(0, maxFrequency);
 
     customPlot->setInteraction(QCP::iRangeDrag, true);
     customPlot->setInteraction(QCP::iRangeZoom, true);

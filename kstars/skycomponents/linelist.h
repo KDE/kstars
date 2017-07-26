@@ -36,7 +36,7 @@ class LineList
 {
   public:
     LineList() : drawID(0), updateID(0), updateNumID(0) {}
-    ~LineList() { }
+    virtual ~LineList() { }
 
     /**
      * @short return the list of points for iterating or appending (or whatever).

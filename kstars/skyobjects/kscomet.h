@@ -192,13 +192,28 @@ class KSComet : public KSPlanetBase
   private:
     void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
 
-    long double JD, JDp;
-    double q, e, a, P, EarthMOID;
-    double TailSize, ComaAngSize, ComaSize, NuclearSize; // All in kilometres
-    float M1, M2, K1, K2, Albedo, Diameter, RotationPeriod, Period;
+    long double JD { 0 };
+    long double JDp { 0 };
+    double q { 0 };
+    double e { 0 };
+    double a { 0 };
+    double P { 0 };
+    double EarthMOID { 0 };
+    double TailSize { 0 };
+    double ComaAngSize { 0 };
+    double ComaSize { 0 };
+    double NuclearSize { 0 };
+    float M1 { 0 };
+    float M2 { 0 };
+    float K1 { 0 };
+    float K2 { 0 };
+    float Albedo { 0 };
+    float Diameter { 0 };
+    float RotationPeriod { 0 };
+    float Period { 0 };
     dms i, w, N;
     QString OrbitID, OrbitClass, Dimensions;
-    bool NEO;
-
-    qint64 uidPart; // Part of UID
+    bool NEO { false };
+    /// Part of UID
+    qint64 uidPart { 0 };
 };

@@ -26,11 +26,11 @@ typedef struct HighPMStar
 {
     HighPMStar(Trixel t, StarObject *s) : trixel(t), star(s) {}
     Trixel trixel;
-    StarObject *star;
+    StarObject *star { nullptr };
 
 } HighPMStar;
 
-HighPMStarList::HighPMStarList(double threshold) : m_reindexNum(J2000), m_threshold(threshold), m_maxPM(0.0)
+HighPMStarList::HighPMStarList(double threshold) : m_reindexNum(J2000), m_threshold(threshold)
 {
     m_skyMesh = SkyMesh::Instance();
 }

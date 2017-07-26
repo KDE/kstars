@@ -27,6 +27,7 @@
 #include "dms.h"
 #include "skyobjects/skypoint.h"
 #include "geolocation.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "widgets/dmsbox.h"

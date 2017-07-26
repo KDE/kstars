@@ -15,24 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSMOON_H_
-#define KSMOON_H_
+#pragma once
 
 #include "ksplanetbase.h"
 #include "dms.h"
 
-/** @class KSMoon
-	*A subclass of SkyObject that provides information
-	*needed for the Moon.  Specifically, KSMoon provides a moon-specific
-	*findPosition() function.  Also, there is a method findPhase(), which returns
-	*the lunar phase as a floating-point number between 0.0 and 1.0.
-	*@short Provides necessary information about the Moon.
-	*@author Jason Harris
-	*@version 1.0
-	*/
-
 class KSSun;
 
+/**
+ * @class KSMoon
+ * @short Provides necessary information about the Moon.
+ * A subclass of SkyObject that provides information
+ * needed for the Moon.  Specifically, KSMoon provides a moon-specific
+ * findPosition() function.  Also, there is a method findPhase(), which returns
+ * the lunar phase as a floating-point number between 0.0 and 1.0.
+ *
+ * @author Jason Harris
+ * @version 1.0
+ */
 class KSMoon : public KSPlanetBase
 {
   public:
@@ -43,19 +43,18 @@ class KSMoon : public KSPlanetBase
     /** Copy constructor */
     KSMoon(const KSMoon &o);
 
+    ~KSMoon();
+
     KSMoon *clone() const Q_DECL_OVERRIDE;
     SkyObject::UID getUID() const Q_DECL_OVERRIDE;
 
-    /** Destructor (empty). */
-    ~KSMoon();
-
     /**
-         *Determine the phase angle of the moon, and assign the appropriate
-         *moon image
-         * @param Sun a KSSun pointer with coordinates updated to the time of computation. If not supplied, the findByName() method will be used to find the sun.
-         *@note Overrides KSPlanetBase::findPhase()
-         */
-    virtual void findPhase(const KSSun *Sun = 0);
+     * Determine the phase angle of the moon, and assign the appropriate moon image
+     * @param Sun a KSSun pointer with coordinates updated to the time of computation.
+     * If not supplied, the findByName() method will be used to find the sun.
+     * @note Overrides KSPlanetBase::findPhase()
+     */
+    virtual void findPhase(const KSSun *Sun = nullptr);
 
     /** @return the illuminated fraction of the Moon as seen from Earth */
     double illum() const { return 0.5 * (1.0 - cos(Phase * dms::PI / 180.0)); }
@@ -69,24 +68,26 @@ class KSMoon : public KSPlanetBase
     /** @return iPhase, which is used as a key to find the right image file */
     inline short int getIPhase() const { return iPhase; }
 
-    /** Reimplemented from KSPlanetBase, this function employs unique algorithms for
-         *  estimating the lunar coordinates.  Finding the position of the moon is
-         * much more difficult than the other planets.  For one thing, the Moon is
-         * a lot closer, so we can detect smaller deviations in its orbit.  Also,
-         * the Earth has a significant effect on the Moon's orbit, and their
-         * interaction is complex and nonlinear.  As a result, the positions as
-         * calculated by findPosition() are only accurate to about 10 arcseconds
-         * (10 times less precise than the planets' positions!)
-         * @short moon-specific coordinate finder
-         * @param num KSNumbers pointer for the target date/time
-         * @note we don't use the Earth pointer here
-         */
+    /**
+     * Reimplemented from KSPlanetBase, this function employs unique algorithms for
+     * estimating the lunar coordinates.  Finding the position of the moon is
+     * much more difficult than the other planets.  For one thing, the Moon is
+     * a lot closer, so we can detect smaller deviations in its orbit.  Also,
+     * the Earth has a significant effect on the Moon's orbit, and their
+     * interaction is complex and nonlinear.  As a result, the positions as
+     * calculated by findPosition() are only accurate to about 10 arcseconds
+     * (10 times less precise than the planets' positions!)
+     * @short moon-specific coordinate finder
+     * @param num KSNumbers pointer for the target date/time
+     * @note we don't use the Earth pointer here
+     */
     bool findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *) Q_DECL_OVERRIDE;
 
     /**
-         * @brief updateMag calls findMagnitude() to calculate current magnitude of moon
-         * according to current phase. This function is required to perform findMagnitude() from any where in Kstars
-         */
+     * @brief updateMag calls findMagnitude() to calculate current magnitude of moon
+     * according to current phase. This function is required to perform findMagnitude()
+     * from any where in Kstars
+     */
     void updateMag() { findMagnitude(nullptr); }
 
     void initPopupMenu(KSPopupMenu *pmenu) Q_DECL_OVERRIDE;
@@ -97,43 +98,38 @@ class KSMoon : public KSPlanetBase
     static bool data_loaded;
     static int instance_count;
 
-    /** @class MoonLRData
-         * Encapsulates the Longitude and radius terms of the sums
-         * used to compute the moon's position.
-         * @short Moon Longitude and radius data object
-         * @author Mark Hollomon
-         * @version 1.0
-         */
+    /**
+     * @class MoonLRData
+     * @short Moon Longitude and radius data object
+     * Encapsulates the Longitude and radius terms of the sums
+     * used to compute the moon's position.
+     */
     struct MoonLRData
     {
-        int nd;
-        int nm;
-        int nm1;
-        int nf;
-        double Li;
-        double Ri;
+        int nd { 0 };
+        int nm { 0 };
+        int nm1 { 0 };
+        int nf { 0 };
+        double Li { 0 };
+        double Ri { 0 };
     };
 
     static QList<MoonLRData> LRData;
 
-    /** @class MoonBData
-         * Encapsulates the Latitude terms of the sums
-         * used to compute the moon's position.
-         * @short Moon Latitude data object
-         * @author Mark Hollomon
-         * @version 1.0
-         */
+    /**
+     * @class MoonBData
+     * Encapsulates the Latitude terms of the sums used to compute the moon's position.
+     * @short Moon Latitude data object
+     */
     struct MoonBData
     {
-        int nd;
-        int nm;
-        int nm1;
-        int nf;
-        double Bi;
+        int nd { 0 };
+        int nm { 0 };
+        int nm1 { 0 };
+        int nf { 0 };
+        double Bi { 0 };
     };
 
     static QList<MoonBData> BData;
-    unsigned int iPhase;
+    unsigned int iPhase { 0 };
 };
-
-#endif

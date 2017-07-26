@@ -52,7 +52,7 @@
 StarComponent *StarComponent::pinstance = 0;
 
 StarComponent::StarComponent(SkyComposite *parent)
-    : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0), starsLoaded(false)
+    : ListComponent(parent), m_reindexNum(J2000)
 {
     m_skyMesh          = SkyMesh::Instance();
     m_StarBlockFactory = StarBlockFactory::Instance();
@@ -63,8 +63,6 @@ StarComponent::StarComponent(SkyComposite *parent)
     m_highPMStars.append(new HighPMStarList(840.0));
     m_highPMStars.append(new HighPMStarList(304.0));
     m_reindexInterval = StarObject::reindexInterval(304.0);
-
-    m_zoomMagLimit = 0.0;
 
     for (int i = 0; i <= MAX_LINENUMBER_MAG; i++)
         m_labelList[i] = new LabelList;

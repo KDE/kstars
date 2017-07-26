@@ -171,7 +171,7 @@ class GenericDevice : public GDInterface
     INDI::BaseDevice *baseDevice { nullptr };
     ClientManager *clientManager { nullptr };
     QTimer *watchDogTimer { nullptr };
-    char BLOBFilename[MAXINDIFILENAME];
+    char BLOBFilename[MAXINDIFILENAME+1];
 };
 
 /**

@@ -243,7 +243,7 @@ class CCD : public DeviceDecorator
     bool HasVideoStream { false };
     QString seqPrefix;
     QString fitsDir;
-    char BLOBFilename[MAXINDIFILENAME];
+    char BLOBFilename[MAXINDIFILENAME+1];
     int nextSequenceID { 0 };
     std::unique_ptr<StreamWG> streamWindow;
     int streamW { 0 };

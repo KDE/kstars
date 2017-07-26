@@ -1316,8 +1316,9 @@ int Align::findNextAlignmentPointAfter(int currentSpot)
             {
                 dms raDMS = dms::fromString(raCell->text(), false);
                 dms deDMS = dms::fromString(deCell->text(), true);
+                SkyPoint point(raDMS, deDMS);
+                dms thisDiff = thisPt.angularDistanceTo(&point);
 
-                dms thisDiff = thisPt.angularDistanceTo(new SkyPoint(raDMS, deDMS));
                 if (thisDiff.Degrees() < bestDiff.Degrees())
                 {
                     index    = i;

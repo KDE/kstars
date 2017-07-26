@@ -910,9 +910,6 @@ bool ST4::doPulse(GuideDirection dir, int msecs)
             return false;
     }
 
-    if (dirPulse == nullptr || npulse == nullptr)
-        return false;
-
     dirPulse->value = msecs;
 
     clientManager->sendNewNumber(npulse);

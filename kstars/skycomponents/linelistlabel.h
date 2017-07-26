@@ -58,16 +58,6 @@ class LineListLabel
     void updateLabelCandidates(qreal x, qreal y, LineList *lineList, int i);
 
   private:
-    const QString m_text;
-    SkyLabeler *m_skyLabeler;
-
-    // these two arrays track/contain 4 candidate points
-    int m_labIndex[4];
-    LineList *m_labList[4];
-
-    float m_marginLeft, m_marginRight, m_marginTop, m_marginBot;
-    float m_farLeft, m_farRight, m_farTop, m_farBot;
-
     /**
      * @short This routine does two things at once.  It returns the QPointF
      * corresponding to pointList[i] and also computes the angle using
@@ -76,4 +66,20 @@ class LineListLabel
      *	   1 <= i < pointList.size().
      */
     QPointF angleAt(const Projector *proj, LineList *list, int i, double *angle);
+
+    const QString m_text;
+    SkyLabeler *m_skyLabeler { nullptr };
+
+    // these two arrays track/contain 4 candidate points
+    int m_labIndex[4] { 0, 0, 0, 0 };
+    LineList *m_labList[4] { nullptr, nullptr, nullptr, nullptr };
+
+    float m_marginLeft { 0 };
+    float m_marginRight { 0 };
+    float m_marginTop { 0 };
+    float m_marginBot { 0 };
+    float m_farLeft { 0 };
+    float m_farRight { 0 };
+    float m_farTop { 0 };
+    float m_farBot { 0 };
 };

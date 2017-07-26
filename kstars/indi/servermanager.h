@@ -65,7 +65,7 @@ private:
     QString serverBuffer;
     std::unique_ptr<QProcess> serverProcess;
 
-    ServerMode mode;
+    ServerMode mode { SERVER_CLIENT };
     bool driverCrashed { false };
 
     QList<DriverInfo *> managedDrivers;

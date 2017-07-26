@@ -7,14 +7,13 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef ONLINEASTROMETRYPARSER_H
-#define ONLINEASTROMETRYPARSER_H
-
-#include <QTime>
-#include <QtNetwork/QNetworkAccessManager>
+#pragma once
 
 #include "astrometryparser.h"
 
+#include <QTime>
+
+class QNetworkAccessManager;
 class QNetworkReply;
 
 namespace Ekos
@@ -23,7 +22,8 @@ class Align;
 
 /**
  * @class  OnlineAstrometryParser
- * OnlineAstrometryParser invokes the online services provided by astrometry.net solver to find solutions to captured images.
+ * OnlineAstrometryParser invokes the online services provided by astrometry.net solver to
+ * find solutions to captured images.
  *
  * @authro Jasem Mutlaq
  */
@@ -33,7 +33,6 @@ class OnlineAstrometryParser : public AstrometryParser
 
   public:
     OnlineAstrometryParser();
-    virtual ~OnlineAstrometryParser();
 
     virtual void setAlign(Align *_align) { align = _align; }
     virtual bool init();
@@ -66,24 +65,28 @@ class OnlineAstrometryParser : public AstrometryParser
   private:
     void authenticate();
 
-    WorkflowStage workflowStage;
-    QNetworkAccessManager *networkManager;
-
+    WorkflowStage workflowStage { NO_STAGE };
+    QNetworkAccessManager *networkManager { nullptr };
     QString sessionKey;
-    int subID;
-    int jobID;
-    int job_retries, solver_retries;
-
+    int subID { 0 };
+    int jobID { 0 };
+    int job_retries { 0 };
+    int solver_retries { 0 };
     QTime solverTimer;
     QString filename, units;
-    double lowerScale, upperScale, center_ra, center_dec, radius, pixscale;
-    bool useWCSCenter = false;
-    int parity;
-    double ra, dec, orientation;
-    int downsample_factor;
-    bool isGenerated;
-    Align *align;
+    double lowerScale { 0 };
+    double upperScale { 0 };
+    double center_ra { 0 };
+    double center_dec { 0 };
+    double radius { 0 };
+    double pixscale { 0 };
+    bool useWCSCenter { false };
+    int parity { 0 };
+    double ra { 0 };
+    double dec { 0 };
+    double orientation { 0 };
+    int downsample_factor { 0 };
+    bool isGenerated { true };
+    Align *align { nullptr };
 };
 }
-
-#endif // ONLINEASTROMETRYPARSER_H

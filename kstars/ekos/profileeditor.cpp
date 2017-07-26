@@ -15,6 +15,7 @@
 #include "guide/guide.h"
 #include "indi/driverinfo.h"
 #include "indi/drivermanager.h"
+#include "oal/equipmentwriter.h"
 
 ProfileEditorUI::ProfileEditorUI(QWidget *p) : QFrame(p)
 {

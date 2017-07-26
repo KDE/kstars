@@ -21,6 +21,7 @@
 
 #include "ksplanetbase.h"
 #include "kspopupmenu.h"
+#include "kstars.h"
 #include "observinglist.h"
 #include "Options.h"
 #include "skyglpainter.h"

@@ -17,9 +17,6 @@ namespace Ekos
 {
 GuideInterface::GuideInterface()
 {
-    subX = subY = subW = subH = 0;
-    subBinX = subBinY = 1;
-    ccdPixelSizeX = ccdPixelSizeY = mountAperture = mountFocalLength = 0;
 }
 
 bool GuideInterface::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture,

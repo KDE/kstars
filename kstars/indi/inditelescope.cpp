@@ -370,9 +370,6 @@ bool Telescope::doPulse(GuideDirection dir, int msecs)
             return false;
     }
 
-    if (dirPulse == nullptr || npulse == nullptr)
-        return false;
-
     dirPulse->value = msecs;
 
     clientManager->sendNewNumber(npulse);

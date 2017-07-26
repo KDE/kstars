@@ -17,21 +17,6 @@
 
 #pragma once
 
-/**
- * @class StarComponent
- *
- * @short Represents the stars on the sky map. For optimization reasons the stars are not
- * separate objects and are stored in a list.
- *
- * The StarComponent class manages all stars drawn in KStars. While it handles all stars
- * having names using its own member methods, it shunts the responsibility of unnamed stars
- * to the class 'DeepStarComponent', objects of which it maintains.
- *
- * @author Thomas Kabelmann
- * @author Akarsh Simha
- * @version 1.0
- */
-
 #include "ksnumbers.h"
 #include "listcomponent.h"
 #include "skylabel.h"
@@ -56,6 +41,20 @@ class StarBlockFactory;
 
 #define MAX_LINENUMBER_MAG 90
 
+/**
+ * @class StarComponent
+ *
+ * @short Represents the stars on the sky map. For optimization reasons the stars are not
+ * separate objects and are stored in a list.
+ *
+ * The StarComponent class manages all stars drawn in KStars. While it handles all stars
+ * having names using its own member methods, it shunts the responsibility of unnamed stars
+ * to the class 'DeepStarComponent', objects of which it maintains.
+ *
+ * @author Thomas Kabelmann
+ * @author Akarsh Simha
+ * @version 1.0
+ */
 class StarComponent : public ListComponent
 {
 #ifdef KSTARS_LITE
@@ -150,7 +149,7 @@ class StarComponent : public ListComponent
      * as against 'deep' stars which are mostly loaded dynamically (KStars treats all
      * unnamed stars as 'deep' stars) into memory when required, depending on region
      * and magnitude limit. Once loading is successful, this method sets the starsLoaded flag to true
-         */
+     */
     bool loadStaticData();
 
     /** @return the magnitude of the faintest star */
@@ -159,20 +158,32 @@ class StarComponent : public ListComponent
     /** true if all stars(not only high PM ones) were reindexed else false**/
     bool reindex(KSNumbers *num);
 
+    /** Adds a label to the lists of labels to be drawn prioritized by magnitude. */
+    void addLabel(const QPointF &p, StarObject *star);
+
+    void reindexAll(KSNumbers *num);
+
+    /** Load available deep star catalogs */
+    int loadDeepStarCatalogs();
+
+    bool addDeepStarCatalogIfExists(const QString &fileName, float trigMag, bool staticstars = false);
+
     SkyMesh *m_skyMesh { nullptr };
     std::unique_ptr<StarIndex> m_starIndex;
 
     KSNumbers m_reindexNum;
-    double m_reindexInterval;
+    double m_reindexInterval { 0 };
 
     LabelList *m_labelList[MAX_LINENUMBER_MAG + 1];
-    bool m_hideLabels = false;
+    bool m_hideLabels { false };
 
-    float m_zoomMagLimit;
+    float m_zoomMagLimit { 0 };
 
-    float m_FaintMagnitude; // Limiting magnitude of the catalog currently loaded
-    bool starsLoaded = false;
-    float magLim; // Current limiting magnitude for visible stars
+    /// Limiting magnitude of the catalog currently loaded
+    float m_FaintMagnitude { -5 };
+    bool starsLoaded { false };
+    /// Current limiting magnitude for visible stars
+    float magLim { 0 };
 
     StarObject m_starObject;
     StarObject *focusStar { nullptr }; // This object is always drawn
@@ -187,23 +198,9 @@ class StarComponent : public ListComponent
     QVector<DeepStarComponent *> m_DeepStarComponents;
 
     /**
-         *@short adds a label to the lists of labels to be drawn prioritized
-         *by magnitude.
-         */
-    void addLabel(const QPointF &p, StarObject *star);
-
-    void reindexAll(KSNumbers *num);
-
-    /**
-         *@short load available deep star catalogs
-         */
-    int loadDeepStarCatalogs();
-
-    bool addDeepStarCatalogIfExists(const QString &fileName, float trigMag, bool staticstars = false);
-
-    /**
-         *@short Structure that holds star name information, to be read as-is from the corresponding binary data file
-         */
+     * Structure that holds star name information, to be read as-is from the
+     * corresponding binary data file
+     */
     typedef struct starName
     {
         char bayerName[8];

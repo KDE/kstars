@@ -16,22 +16,24 @@
  ***************************************************************************/
 
 #include "kswizard.h"
-#include "ksutils.h"
-#include <QFile>
-#include <QStackedWidget>
-#include <QPixmap>
-#include <QLineEdit>
-#include <QPushButton>
-#include <kns3/downloaddialog.h>
-#include <QStandardPaths>
-#include <QDesktopServices>
 
-#include "kspaths.h"
-#include "kstarsdata.h"
 #include "geolocation.h"
+#include "kspaths.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
+#include "Options.h"
 #include "widgets/dmsbox.h"
 
-#include "Options.h"
+#include <kns3/downloaddialog.h>
+
+#include <QDesktopServices>
+#include <QFile>
+#include <QLineEdit>
+#include <QPixmap>
+#include <QPushButton>
+#include <QStackedWidget>
+#include <QStandardPaths>
 
 namespace
 {

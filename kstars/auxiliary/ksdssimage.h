@@ -25,9 +25,9 @@
 /**
  * @class KSDssImage
  * @short Provides a class to hold a DSS Image along with its metadata
+ *
  * @author Akarsh Simha <akarsh@kde.org>
  */
-
 class KSDssImage
 {
   public:
@@ -72,19 +72,29 @@ class KSDssImage
             PNG  = 2
         };
 
-        QString version;   // Used for DSS -- Indicates which version of scans to pull
-        QString object;    // Name / identifier of the object. Added to metadata
-        FileFormat format; // File format used.
-        Source src;        // DSS / SDSS -- source of the image
-        dms ra0;           // Center RA (J2000.0)
-        dms dec0;          // Center Dec (J2000.0)
-        float height;      // height in arcminutes
-        float width;       // width in arcminutes
-        char band;         // photometric band (UBVRI...) Use "?" for unknown.
-        int gen;           // generation for DSS images, data release for SDSS; use -1 for unknown.
-        bool valid;        // is this data valid?
+        /// Used for DSS -- Indicates which version of scans to pull
+        QString version;
+        /// Name / identifier of the object. Added to metadata
+        QString object;
+        /// File format used.
+        FileFormat format { FITS };
+        /// DSS / SDSS -- source of the image
+        Source src { DSS };
+        /// Center RA (J2000.0)
+        dms ra0;
+        /// Center Dec (J2000.0)
+        dms dec0;
+        /// Height in arcminutes
+        float height { 0 };
+        /// Width in arcminutes
+        float width { 0 };
+        /// Photometric band (UBVRI...) Use "?" for unknown.
+        char band { '?' };
+        /// Generation for DSS images, data release for SDSS; use -1 for unknown.
+        int gen { -1 };
+        /// Are these data valid?
+        bool valid { false };
 
-        Metadata(); // default constructor
         inline bool isValid() const
         {
             return valid; // convenience method

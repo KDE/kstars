@@ -22,6 +22,7 @@
 #include "ksutils.h"
 #include "skyobjects/ksplanet.h"
 #include "skyobjects/ksplanetbase.h"
+#include "widgets/timespinbox.h"
 
 #include <KLocalizedString>
 #include <KPlotting/KPlotAxis>

@@ -349,17 +349,12 @@ bool INDIDBus::setSwitch(const QString &device, const QString &property, const Q
             if (sp->r == ISR_1OFMANY || sp->r == ISR_ATMOST1)
                 IUResetSwitch(sp);
 
-            if (sp)
-            {
-                ISwitch *sw = IUFindSwitch(sp, switchName.toLatin1());
-                if (sw)
-                {
-                    sw->s = (status == "On") ? ISS_ON : ISS_OFF;
-                    return true;
-                }
+            ISwitch *sw = IUFindSwitch(sp, switchName.toLatin1());
 
-                qWarning() << "Could not find property: " << device << '.' << property << '.' << switchName << endl;
-                return false;
+            if (sw)
+            {
+                sw->s = (status == "On") ? ISS_ON : ISS_OFF;
+                return true;
             }
 
             qWarning() << "Could not find property: " << device << '.' << property << '.' << switchName << endl;

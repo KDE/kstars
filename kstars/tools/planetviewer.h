@@ -82,5 +82,5 @@ class PlanetViewer : public QDialog
     QString CenterPlanet;
     QList<KSPlanetBase *> PlanetList;
     KPlotObject *ksun { nullptr };
-    KPlotObject *planet[9];
+    KPlotObject *planet[9] { nullptr };
 };

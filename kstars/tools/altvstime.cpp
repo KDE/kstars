@@ -1185,32 +1185,29 @@ void AltVsTime::showCurrentDate()
 void AltVsTime::drawGradient()
 {
     // Things needed for Gradient:
-    KSAlmanac *ksal;
-    KStarsDateTime dtt;
-    GeoLocation *geoLoc;
-    dtt                = KStarsDateTime::currentDateTime();
-    geoLoc             = KStarsData::Instance()->geo();
-    ksal               = new KSAlmanac;
-    QDateTime midnight = QDateTime(dtt.date(), QTime());
-    KStarsDateTime utt = geoLoc->LTtoUT(KStarsDateTime(midnight));
+    KSAlmanac ksal;
+    KStarsDateTime dtt  = KStarsDateTime::currentDateTime();
+    GeoLocation *geoLoc = KStarsData::Instance()->geo();
+    QDateTime midnight  = QDateTime(dtt.date(), QTime());
+    KStarsDateTime utt  = geoLoc->LTtoUT(KStarsDateTime(midnight));
 
     // Variables needed for Gradient:
     double SunRise, SunSet, Dawn, Dusk, SunMinAlt, SunMaxAlt;
     double MoonRise, MoonSet, MoonIllum;
 
-    ksal->setLocation(geoLoc);
-    ksal->setDate(&utt);
+    ksal.setLocation(geoLoc);
+    ksal.setDate(&utt);
 
     // Get the values:
-    SunRise   = ksal->getSunRise();
-    SunSet    = ksal->getSunSet();
-    SunMaxAlt = ksal->getSunMaxAlt();
-    SunMinAlt = ksal->getSunMinAlt();
-    MoonRise  = ksal->getMoonRise();
-    MoonSet   = ksal->getMoonSet();
-    MoonIllum = ksal->getMoonIllum();
-    Dawn      = ksal->getDawnAstronomicalTwilight();
-    Dusk      = ksal->getDuskAstronomicalTwilight();
+    SunRise   = ksal.getSunRise();
+    SunSet    = ksal.getSunSet();
+    SunMaxAlt = ksal.getSunMaxAlt();
+    SunMinAlt = ksal.getSunMinAlt();
+    MoonRise  = ksal.getMoonRise();
+    MoonSet   = ksal.getMoonSet();
+    MoonIllum = ksal.getMoonIllum();
+    Dawn      = ksal.getDawnAstronomicalTwilight();
+    Dusk      = ksal.getDuskAstronomicalTwilight();
 
     gradient = new QPixmap(avtUI->View->rect().width(), avtUI->View->rect().height());
 
@@ -1358,31 +1355,31 @@ void AltVsTime::drawGradient()
 
     p.setClipping(false);
 
-    //Add vertical line indicating "now"
-    if (geoLoc)
-    {
-        QTime t = geoLoc->UTtoLT(KStarsDateTime::currentDateTimeUtc())
-                      .time(); // convert the current system clock time to the TZ corresponding to geo
-        double x = 12.0 + t.hour() + t.minute() / 60.0 + t.second() / 3600.0;
-        while (x > 24.0)
-            x -= 24.0;
-        int ix = int(x * pW / 24.0); //convert to screen pixel coords
-        p.setPen(QPen(QBrush("white"), 2.0, Qt::DotLine));
-        p.drawLine(ix, 0, ix, pH);
+    // Add vertical line indicating "now"
+    // Convert the current system clock time to the TZ corresponding to geo
+    QTime t = geoLoc->UTtoLT(KStarsDateTime::currentDateTimeUtc()).time();
+    double x = 12.0 + t.hour() + t.minute() / 60.0 + t.second() / 3600.0;
 
-        QFont largeFont = p.font();
-        largeFont.setPointSize(largeFont.pointSize() + 1);
+    while (x > 24.0)
+        x -= 24.0;
 
-        //Label this vertical line with the current time
-        p.save();
-        p.setFont(largeFont);
-        p.translate(ix + 10, pH - 20);
-        p.rotate(-90);
-        p.drawText(
-            0, 0,
-            QLocale().toString(t, QLocale::ShortFormat)); // short format necessary to avoid false time-zone labeling
-        p.restore();
-    }
+    // Convert to screen pixel coords
+    int ix = int(x * pW / 24.0);
+
+    p.setPen(QPen(QBrush("white"), 2.0, Qt::DotLine));
+    p.drawLine(ix, 0, ix, pH);
+
+    QFont largeFont = p.font();
+
+    largeFont.setPointSize(largeFont.pointSize() + 1);
+    // Label this vertical line with the current time
+    p.save();
+    p.setFont(largeFont);
+    p.translate(ix + 10, pH - 20);
+    p.rotate(-90);
+    // Short format necessary to avoid false time-zone labeling
+    p.drawText(0, 0, QLocale().toString(t, QLocale::ShortFormat));
+    p.restore();
     p.end();
 }
 

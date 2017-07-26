@@ -2373,7 +2373,8 @@ void Focus::focusStarSelected(int x, int y)
     {
         //starRect = QRect(x-focusBoxSize->value()/(subBinX*2), y-focusBoxSize->value()/(subBinY*2), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
         double dist = sqrt((starCenter.x() - x) * (starCenter.x() - x) + (starCenter.y() - y) * (starCenter.y() - y));
-        squareMovedOutside = (dist > (focusBoxSize->value() / subBinX));
+
+        squareMovedOutside = (dist > ((double)focusBoxSize->value() / subBinX));
         starCenter.setX(x);
         starCenter.setY(y);
         //starRect = QRect( starCenter.x()-focusBoxSize->value()/(2*subBinX), starCenter.y()-focusBoxSize->value()/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);

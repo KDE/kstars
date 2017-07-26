@@ -2929,7 +2929,7 @@ void Scheduler::checkJobStage()
             }
             else if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR || guideStatus == Ekos::GUIDE_ABORTED)
             {
-                if (guideStatus == Ekos::GUIDE_ABORTED || guideStatus == Ekos::GUIDE_CALIBRATION_ERROR)
+                if (guideStatus == Ekos::GUIDE_ABORTED)
                     appendLogText(i18n("%1 guiding failed!", currentJob->getName()));
                 else
                     appendLogText(i18n("%1 calibration failed!", currentJob->getName()));

@@ -43,7 +43,8 @@ typedef struct LabelRun
 
 //----- Static Methods ------------------------------------------------------//
 
-SkyLabeler *SkyLabeler::pinstance = 0;
+SkyLabeler *SkyLabeler::pinstance = nullptr;
+
 SkyLabeler *SkyLabeler::Instance()
 {
     if (!pinstance)
@@ -91,12 +92,8 @@ double SkyLabeler::ZoomOffset()
 //----- Constructor ---------------------------------------------------------//
 
 SkyLabeler::SkyLabeler()
-    : m_maxY(0), m_size(0), m_fontMetrics(QFont()), m_picture(-1), labelList(NUM_LABEL_TYPES), m_proj(0)
+    : m_fontMetrics(QFont()), m_picture(-1), labelList(NUM_LABEL_TYPES)
 {
-    m_errors    = 0;
-    m_minDeltaX = 30; // when to merge two adjacent regions
-    m_marks = m_hits = m_misses = m_elements = 0;
-
 #ifdef KSTARS_LITE
     //Painter is needed to get default font and we use it only once to have only one warning
     m_stdFont = QFont();
@@ -686,44 +683,44 @@ void SkyLabeler::printInfo()
 
     return;
 
-    static const char *labelName[NUM_LABEL_TYPES];
-
-    labelName[STAR_LABEL]         = "Star";
-    labelName[ASTEROID_LABEL]     = "Asteroid";
-    labelName[COMET_LABEL]        = "Comet";
-    labelName[PLANET_LABEL]       = "Planet";
-    labelName[JUPITER_MOON_LABEL] = "Jupiter Moon";
-    labelName[SATURN_MOON_LABEL]  = "Saturn Moon";
-    labelName[DEEP_SKY_LABEL]     = "Deep Sky Object";
-    labelName[CONSTEL_NAME_LABEL] = "Constellation Name";
-
-    for (int i = 0; i < NUM_LABEL_TYPES; i++)
-    {
-        printf("  %20ss: %d\n", labelName[i], labelList[i].size());
-    }
-
-    // Check for errors in the data structure
-    for (int y = 0; y <= m_maxY; y++)
-    {
-        LabelRow *row = screenRows[y];
-        int size      = row->size();
-        if (size < 2)
-            continue;
-
-        bool error = false;
-        for (int i = 1; i < size; i++)
-        {
-            if (row->at(i - 1)->end > row->at(i)->start)
-                error = true;
-        }
-        if (!error)
-            continue;
-
-        printf("ERROR: %3d: ", y);
-        for (int i = 0; i < row->size(); i++)
-        {
-            printf("(%d, %d) ", row->at(i)->start, row->at(i)->end);
-        }
-        printf("\n");
-    }
+//    static const char *labelName[NUM_LABEL_TYPES];
+//
+//    labelName[STAR_LABEL]         = "Star";
+//    labelName[ASTEROID_LABEL]     = "Asteroid";
+//    labelName[COMET_LABEL]        = "Comet";
+//    labelName[PLANET_LABEL]       = "Planet";
+//    labelName[JUPITER_MOON_LABEL] = "Jupiter Moon";
+//    labelName[SATURN_MOON_LABEL]  = "Saturn Moon";
+//    labelName[DEEP_SKY_LABEL]     = "Deep Sky Object";
+//    labelName[CONSTEL_NAME_LABEL] = "Constellation Name";
+//
+//    for (int i = 0; i < NUM_LABEL_TYPES; i++)
+//    {
+//        printf("  %20ss: %d\n", labelName[i], labelList[i].size());
+//    }
+//
+//    // Check for errors in the data structure
+//    for (int y = 0; y <= m_maxY; y++)
+//    {
+//        LabelRow *row = screenRows[y];
+//        int size      = row->size();
+//        if (size < 2)
+//            continue;
+//
+//        bool error = false;
+//        for (int i = 1; i < size; i++)
+//        {
+//            if (row->at(i - 1)->end > row->at(i)->start)
+//                error = true;
+//        }
+//        if (!error)
+//            continue;
+//
+//        printf("ERROR: %3d: ", y);
+//        for (int i = 0; i < row->size(); i++)
+//        {
+//            printf("(%d, %d) ", row->at(i)->start, row->at(i)->end);
+//        }
+//        printf("\n");
+//    }
 }

@@ -26,6 +26,7 @@
 #include "ksdssdownloader.h"
 #include "kspaths.h"
 #include "kspopupmenu.h"
+#include "kstars.h"
 #include "ksutils.h"
 #include "Options.h"
 #include "skymapcomposite.h"
@@ -761,9 +762,9 @@ bool SkyMap::isObjectLabeled(SkyObject *object)
 SkyPoint SkyMap::getCenterPoint()
 {
     SkyPoint retVal;
-    // FIXME: subtraction of these 0.00001 is a simple workaround, because wrong SkyPoint is returned when _exact_ center of
-    // SkyMap is passed to the projector.
-    retVal = projector()->fromScreen(QPointF(width() / 2 - 0.00001, height() / 2 - 0.00001), data->lst(),
+    // FIXME: subtraction of these 0.00001 is a simple workaround, because wrong
+    // SkyPoint is returned when _exact_ center of SkyMap is passed to the projector.
+    retVal = projector()->fromScreen(QPointF((qreal)width() / 2 - 0.00001, (qreal)height() / 2 - 0.00001), data->lst(),
                                      data->geo()->lat());
     return retVal;
 }

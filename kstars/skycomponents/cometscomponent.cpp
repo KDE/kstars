@@ -28,6 +28,9 @@
 #include "Options.h"
 #include "skyobjects/kscomet.h"
 #include "ksutils.h"
+#ifndef KSTARS_LITE
+#include "kstars.h"
+#endif
 #include "kstarsdata.h"
 #include "ksfilereader.h"
 #include "auxiliary/kspaths.h"

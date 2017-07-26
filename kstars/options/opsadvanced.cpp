@@ -16,18 +16,17 @@
  ***************************************************************************/
 
 #include "opsadvanced.h"
-#include "config-kstars.h"
 
-#include <QLabel>
-#include <QCheckBox>
-#include <QRadioButton>
-#include <QDesktopServices>
-
-#include "Options.h"
+#include "kspaths.h"
 #include "kstars.h"
 #include "ksutils.h"
-#include "widgets/timestepbox.h"
-#include "kspaths.h"
+#include "Options.h"
+#include "widgets/timespinbox.h"
+
+#include <QCheckBox>
+#include <QDesktopServices>
+#include <QLabel>
+#include <QRadioButton>
 
 OpsAdvanced::OpsAdvanced() : QFrame(KStars::Instance())
 {
@@ -49,7 +48,7 @@ OpsAdvanced::OpsAdvanced() : QFrame(KStars::Instance())
     connect(kcfg_ObsListDemoteHole, &QCheckBox::toggled,
             [this](bool state) { kcfg_ObsListHoleSize->setEnabled(state); });
 
-    foreach (QAbstractButton *b, modulesGroup->buttons())
+    for (auto &b : modulesGroup->buttons())
         b->setEnabled(kcfg_VerboseLogging->isChecked());
 }
 

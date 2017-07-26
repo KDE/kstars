@@ -15,8 +15,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef LOG_H_
-#define LOG_H_
+
+#pragma once
 
 #include "oal/oal.h"
 
@@ -24,7 +24,6 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
-#include "kstars.h"
 #include "dms.h"
 #include "skyobjects/skyobject.h"
 #include "oal/observer.h"
@@ -35,8 +34,6 @@
 #include "oal/filter.h"
 #include "oal/lens.h"
 #include "oal/observation.h"
-
-class KStars;
 
 /**
  * @class Log
@@ -91,28 +88,28 @@ class OAL::Log
     void readEyepieces();
     void readLenses();
     void readFilters();
-    void readObservation(QString id);
+    void readObservation(const QString &id);
     void readTarget();
-    void readSite(QString id);
-    void readSession(QString id, QString lang);
+    void readSite(const QString &id);
+    void readSession(const QString &id, const QString &lang);
     void readAll();
     SkyPoint readPosition(bool &Ok);
     void readGeoDate();
     QString readResult();
-    OAL::Observer *findObserverByName(QString fullName);
-    OAL::Observer *findObserverById(QString id);
-    OAL::Site *findSiteByName(QString name);
-    OAL::Site *findSiteById(QString id);
-    OAL::Session *findSessionByName(QString id);
-    OAL::Scope *findScopeByName(QString name);
-    OAL::Scope *findScopeById(QString id);
-    OAL::Eyepiece *findEyepieceById(QString id);
-    OAL::Lens *findLensById(QString id);
-    OAL::Filter *findFilterById(QString id);
-    OAL::Eyepiece *findEyepieceByName(QString name);
-    OAL::Lens *findLensByName(QString name);
-    OAL::Filter *findFilterByName(QString name);
-    OAL::Observation *findObservationByName(QString name);
+    OAL::Observer *findObserverByName(const QString &name);
+    OAL::Observer *findObserverById(const QString &id);
+    OAL::Site *findSiteByName(const QString &name);
+    OAL::Site *findSiteById(const QString &id);
+    OAL::Session *findSessionByName(const QString &id);
+    OAL::Scope *findScopeByName(const QString &name);
+    OAL::Scope *findScopeById(const QString &id);
+    OAL::Eyepiece *findEyepieceById(const QString &id);
+    OAL::Lens *findLensById(const QString &id);
+    OAL::Filter *findFilterById(const QString &id);
+    OAL::Eyepiece *findEyepieceByName(const QString &name);
+    OAL::Lens *findLensByName(const QString &name);
+    OAL::Filter *findFilterByName(const QString &name);
+    OAL::Observation *findObservationByName(const QString &name);
     QHash<QString, QTime> timeHash() const { return TimeHash; }
     KStarsDateTime dateTime() const { return dt; }
     GeoLocation *geoLocation() { return geo; }
@@ -131,12 +128,11 @@ class OAL::Log
     QList<OAL::Scope *> m_scopeList;
     QList<OAL::Observation *> m_observationList;
     QString output;
-    bool native;
+    bool native { false };
     dms ra, dec;
-    QXmlStreamWriter *writer;
-    QXmlStreamReader *reader;
+    QXmlStreamWriter *writer { nullptr };
+    QXmlStreamReader *reader { nullptr };
     QHash<QString, QTime> TimeHash;
     KStarsDateTime dt;
-    GeoLocation *geo;
+    GeoLocation *geo { nullptr };
 };
-#endif

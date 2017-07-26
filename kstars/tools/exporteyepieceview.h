@@ -15,77 +15,64 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef EXPORTEYEPIECEVIEW_H
-#define EXPORTEYEPIECEVIEW_H
+#pragma once
 
 #include "kstarsdatetime.h"
 
 #include <QDialog>
 #include <QImage>
 
-class SkyPoint;
-class QLabel;
+#include <memory>
+
 class QComboBox;
+class QLabel;
 class QPixmap;
+
+class SkyPoint;
 
 /**
  * @class ExportEyepieceView
  * @short Dialog to export the eyepiece view as an image, with some annotations for field-use
+ *
  * @author Akarsh Simha <akarsh@kde.org>
  */
-
 class ExportEyepieceView : public QDialog
 {
     Q_OBJECT;
 
   public:
     /**
-         * @short Constructor
-         * @note Class self-destructs (commits suicide). Invoke and forget.
-         */
+     * @short Constructor
+     * @note Class self-destructs (commits suicide). Invoke and forget.
+     */
     ExportEyepieceView(const SkyPoint *_sp, const KStarsDateTime &dt, const QPixmap *renderImage,
                        const QPixmap *renderChart, QWidget *parent = 0);
 
-    /**
-         * @short Destructor
-         */
-    ~ExportEyepieceView();
-
   public slots:
 
-    /**
-         * @short Change the tick overlay scheme
-         */
+    /** Change the tick overlay scheme */
     void slotOverlayTicks(int overlayType);
 
-    /**
-         * @short Save the image (export), and then close the dialog by calling slotCloseDialog()
-         */
+    /** Save the image (export), and then close the dialog by calling slotCloseDialog() */
     void slotSaveImage();
 
-    /**
-         * @short Closes the dialog, and sets up deleteLater() so that the dialog is destructed.
-         */
+    /** Closes the dialog, and sets up deleteLater() so that the dialog is destructed. */
     void slotCloseDialog();
 
   private slots:
 
-    /**
-         * @short render the output
-         */
+    /** Render the output */
     void render();
 
   private:
-    QLabel *m_outputDisplay;
-    QLabel *m_tickWarningLabel;
-    QComboBox *m_tickConfigCombo;
+    QLabel *m_outputDisplay { nullptr };
+    QLabel *m_tickWarningLabel { nullptr };
+    QComboBox *m_tickConfigCombo { nullptr };
 
     KStarsDateTime m_dt;
-    SkyPoint *m_sp;
-    QPixmap *m_renderImage;
-    QPixmap *m_renderChart;
+    std::unique_ptr<SkyPoint> m_sp;
+    std::unique_ptr<QPixmap> m_renderImage;
+    std::unique_ptr<QPixmap> m_renderChart;
     QImage m_output;
-    int m_tickConfig;
+    int m_tickConfig { 0 };
 };
-
-#endif

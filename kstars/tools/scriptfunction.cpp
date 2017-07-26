@@ -212,7 +212,7 @@ QString ScriptFunction::scriptLine() const
     QString out(Name);
     unsigned int i = 0;
 
-    while (!ArgName[i].isEmpty() && i < 6)
+    while (i < 6 && !ArgName[i].isEmpty())
     {
         //Make sure strings are quoted
         QString value = ArgVal[i];

@@ -58,9 +58,10 @@ class SkyQPainter : public SkyPainter, public QPainter
      * @param widget the QWidget that provides the canvas size, and also the paint device unless @p pd is specified
      * @param pd the painting device. If 0, then @p widget will be used.
      */
-    explicit SkyQPainter(QWidget *widget, QPaintDevice *pd = 0);
+    explicit SkyQPainter(QWidget *widget, QPaintDevice *pd = nullptr);
 
     virtual ~SkyQPainter();
+
     void setPen(const QPen &pen) Q_DECL_OVERRIDE;
     void setBrush(const QBrush &brush) Q_DECL_OVERRIDE;
 
@@ -80,14 +81,15 @@ class SkyQPainter : public SkyPainter, public QPainter
     // Sky drawing functions
     void drawSkyBackground() Q_DECL_OVERRIDE;
     void drawSkyLine(SkyPoint *a, SkyPoint *b) Q_DECL_OVERRIDE;
-    void drawSkyPolyline(LineList *list, SkipHashList *skipList = 0, LineListLabel *label = 0) Q_DECL_OVERRIDE;
+    void drawSkyPolyline(LineList *list, SkipHashList *skipList = nullptr,
+                         LineListLabel *label = nullptr) Q_DECL_OVERRIDE;
     void drawSkyPolygon(LineList *list, bool forceClip = true) Q_DECL_OVERRIDE;
     bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A') Q_DECL_OVERRIDE;
     bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false) Q_DECL_OVERRIDE;
     bool drawPlanet(KSPlanetBase *planet) Q_DECL_OVERRIDE;
     void drawObservingList(const QList<SkyObject *> &obs) Q_DECL_OVERRIDE;
     void drawFlags() Q_DECL_OVERRIDE;
-    void drawHorizon(bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0) Q_DECL_OVERRIDE;
+    void drawHorizon(bool filled, SkyPoint *labelPoint = nullptr, bool *drawLabel = nullptr) Q_DECL_OVERRIDE;
     bool drawSatellite(Satellite *sat) Q_DECL_OVERRIDE;
     virtual void drawDeepSkySymbol(const QPointF &pos, int type, float size, float e, float positionAngle);
     bool drawSupernova(Supernova *sup) Q_DECL_OVERRIDE;
@@ -98,9 +100,10 @@ class SkyQPainter : public SkyPainter, public QPainter
 
   private:
     virtual bool drawDeepSkyImage(const QPointF &pos, DeepSkyObject *obj, float positionAngle);
-    QPaintDevice *m_pd;
-    const Projector *m_proj;
-    bool m_vectorStars;
+
+    QPaintDevice *m_pd { nullptr };
+    const Projector *m_proj { nullptr };
+    bool m_vectorStars { false };
     QSize m_size;
     static int starColorMode;
     static QColor m_starColor;

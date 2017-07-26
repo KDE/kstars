@@ -67,8 +67,16 @@ class GuideInterface : public QObject
     void frameCaptureRequested();
 
   protected:
-    Ekos::GuideState state;
-    double ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength;
-    uint16_t subX, subY, subW, subH, subBinX, subBinY;
+    Ekos::GuideState state { GUIDE_IDLE };
+    double ccdPixelSizeX { 0 };
+    double ccdPixelSizeY { 0 };
+    double mountAperture { 0 };
+    double mountFocalLength { 0 };
+    uint16_t subX { 0 };
+    uint16_t subY { 0 };
+    uint16_t subW { 0 };
+    uint16_t subH { 0 };
+    uint16_t subBinX { 1 };
+    uint16_t subBinY { 1 };
 };
 }

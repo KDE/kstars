@@ -20,18 +20,21 @@
 #include "exporteyepieceview.h"
 #include "fov.h"
 #include "ksdssdownloader.h"
+#include "kstars.h"
 #include "Options.h"
 #include "skymap.h"
 #include "skyqpainter.h"
 
-#include <QLabel>
-#include <QSlider>
-#include <QComboBox>
-#include <QVBoxLayout>
-#include <QCheckBox>
 #include <QBitmap>
-#include <QSvgRenderer>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QSlider>
 #include <QSvgGenerator>
+#include <QSvgRenderer>
+#include <QVBoxLayout>
 
 EyepieceField::EyepieceField(QWidget *parent) : QDialog(parent)
 {

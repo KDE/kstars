@@ -15,24 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-/* Project Includes */
 #include "exporteyepieceview.h"
-#include "eyepiecefield.h"
-#include "skypoint.h"
-#include "kstarsdatetime.h"
+
 #include "dms.h"
+#include "eyepiecefield.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "skypoint.h"
 
-/* KDE Includes */
-
-/* Qt Includes */
-#include <QWidget>
 #include <QComboBox>
-#include <QPixmap>
 #include <QDialogButtonBox>
-#include <QPainter>
 #include <QFileDialog>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QPainter>
+#include <QPixmap>
+#include <QVBoxLayout>
+#include <QWidget>
 
 ExportEyepieceView::ExportEyepieceView(const SkyPoint *_sp, const KStarsDateTime &dt, const QPixmap *renderImage,
                                        const QPixmap *renderChart, QWidget *parent)
@@ -41,15 +40,13 @@ ExportEyepieceView::ExportEyepieceView(const SkyPoint *_sp, const KStarsDateTime
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
-    m_sp = new SkyPoint(*_sp); // Work on a copy.
+    m_sp.reset(new SkyPoint(*_sp)); // Work on a copy.
 
     Q_ASSERT(renderChart);
-    m_renderChart = new QPixmap(*renderChart);
+    m_renderChart.reset(new QPixmap(*renderChart));
 
-    if (renderImage)
-        m_renderImage = new QPixmap(*renderImage);
-    else
-        m_renderImage = 0;
+    if (renderImage != nullptr)
+        m_renderImage.reset(new QPixmap(*renderImage));
 
     setWindowTitle(i18n("Export eyepiece view"));
 
@@ -95,13 +92,6 @@ ExportEyepieceView::ExportEyepieceView(const SkyPoint *_sp, const KStarsDateTime
     show();
 }
 
-ExportEyepieceView::~ExportEyepieceView()
-{
-    delete m_sp;
-    delete m_renderChart;
-    delete m_renderImage;
-}
-
 void ExportEyepieceView::slotOverlayTicks(int tickConfig)
 {
     m_tickConfig = tickConfig;
@@ -121,7 +111,7 @@ void ExportEyepieceView::render()
     float baseWidth  = m_renderChart->width();
     float baseHeight = m_renderChart->height();
 
-    if (m_renderImage)
+    if (m_renderImage.get() != nullptr)
         m_output = QImage(int(baseWidth * 2.25), int(baseHeight),
                           QImage::Format_ARGB32); // 0.25 * baseWidth gap between the images
     else
@@ -130,7 +120,7 @@ void ExportEyepieceView::render()
     m_output.fill(Qt::white);
     QPainter op(&m_output);
     op.drawPixmap(QPointF(0, 0), *m_renderChart);
-    if (m_renderImage)
+    if (m_renderImage.get() != nullptr)
         op.drawPixmap(QPointF(baseWidth * 1.25, 0), *m_renderImage);
 
     if (m_tickConfig != 0 && Options::useAltAz()) // FIXME: this is very skymap-state-heavy for my happiness --asimha
@@ -149,14 +139,14 @@ void ExportEyepieceView::render()
 
         GeoLocation *geo = KStarsData::Instance()->geo();
         double alt0      = m_sp->alt().Degrees(); // altitude when hour = 0, i.e. at m_dt (see below).
-        dms northAngle0  = EyepieceField::findNorthAngle(m_sp, geo->lat());
+        dms northAngle0  = EyepieceField::findNorthAngle(m_sp.get(), geo->lat());
 
         for (float hour = -3.5; hour <= 3.5; hour += 0.5)
         {
             dms rotation; // rotation
 
             // FIXME: Code duplication : code duplicated from EyepieceField. This should really be a member of SkyPoint or something.
-            SkyPoint sp    = SkyPoint::timeTransformed(m_sp, m_dt, geo, hour);
+            SkyPoint sp    = SkyPoint::timeTransformed(m_sp.get(), m_dt, geo, hour);
             double alt     = sp.alt().Degrees();
             dms northAngle = EyepieceField::findNorthAngle(&sp, geo->lat());
 
@@ -177,7 +167,7 @@ void ExportEyepieceView::render()
         }
         p.end();
         op.drawImage(QPointF(0, 0), tickOverlay);
-        if (m_renderImage)
+        if (m_renderImage.get() != nullptr)
         {
             op.drawImage(QPointF(baseWidth * 1.25, 0), tickOverlay);
         }

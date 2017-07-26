@@ -26,14 +26,14 @@
 class QString;
 
 /**
- *@short   A structure describing a data field in the binary file. Its size is 16 bytes.
+ * @short A structure describing a data field in the binary file. Its size is 16 bytes.
  */
 typedef struct dataElement
 {
-    char name[10]; /**< Field name (eg. RA) */
-    qint8 size;    /**< Field size in bytes (eg. 4) */
-    quint8 type;
-    qint32 scale; /**< Field scale. The final field value = raw_value * scale */
+    char name[10] = ""; /**< Field name (eg. RA) */
+    qint8 size { 0 };    /**< Field size in bytes (eg. 4) */
+    quint8 type { 0 };
+    qint32 scale { 0 }; /**< Field scale. The final field value = raw_value * scale */
 } dataElement;
 
 /**

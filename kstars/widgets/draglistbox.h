@@ -15,35 +15,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DRAGLISTBOX_H
-#define DRAGLISTBOX_H
+#pragma once
 
 #include <QListWidget>
 
-#include <QDragEnterEvent>
-#include <QMouseEvent>
-#include <QDropEvent>
-
 class QDragEnterEvent;
+class QDropEvent;
+class QMouseEvent;
 
-/** @class DragListBox
-	*@short Extension of KListWidget that allows Drag-and-Drop
-	*with other DragListBoxes
-	*@author Jason Harris
-	*@version 1.0
-	*/
-
+/**
+ * @class DragListBox
+ * @short Extension of KListWidget that allows Drag-and-Drop with other DragListBoxes
+ *
+ * @author Jason Harris
+ * @version 1.0
+ */
 class DragListBox : public QListWidget
 {
     Q_OBJECT
   public:
-    /** @short Default constructor
-         */
-    explicit DragListBox(QWidget *parent = 0, const char *name = 0);
-
-    /** @short Default destructor
-         */
-    ~DragListBox();
+    explicit DragListBox(QWidget *parent = nullptr, const char *name = nullptr);
 
     int ignoreIndex() const { return IgnoreIndex; }
     bool contains(const QString &s) const;
@@ -56,8 +47,6 @@ class DragListBox : public QListWidget
     void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
 
   private:
-    bool leftButtonDown;
-    int IgnoreIndex;
+    bool leftButtonDown { false };
+    int IgnoreIndex { 0 };
 };
-
-#endif //DRAGLISTBOX_H

@@ -337,7 +337,7 @@ void FlagManager::insertFlag(bool isNew, int row)
 {
     dms ra(ui->raBox->createDms(false)); //false means expressed in hours
     dms dec(ui->decBox->createDms(true));
-    SkyPoint *flagPoint = new SkyPoint(ra, dec);
+    SkyPoint flagPoint(ra, dec);
 
     // Add flag in the list
     QList<QStandardItem *> itemList;
@@ -348,7 +348,7 @@ void FlagManager::insertFlag(bool isNew, int row)
     FlagComponent *flags = m_Ks->data()->skyComposite()->flags();
 
     QPixmap pixmap;
-    itemList << new QStandardItem(flagPoint->ra0().toHMSString()) << new QStandardItem(flagPoint->dec0().toDMSString())
+    itemList << new QStandardItem(flagPoint.ra0().toHMSString()) << new QStandardItem(flagPoint.dec0().toDMSString())
              << new QStandardItem(ui->epochBox->text())
              << new QStandardItem(QIcon(pixmap.fromImage(flags->imageList(ui->flagCombobox->currentIndex()))),
                                   ui->flagCombobox->currentText())

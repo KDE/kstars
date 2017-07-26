@@ -15,13 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSASTEROID_H_
-#define KSASTEROID_H_
+#pragma once
 
 #include "ksplanetbase.h"
 
-class KSNumbers;
 class dms;
+class KSNumbers;
 
 /** @class KSAsteroid
 	*@short A subclass of KSPlanetBase that implements asteroids.
@@ -203,14 +202,20 @@ class KSAsteroid : public KSPlanetBase
   private:
     void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
 
-    int catN;
-    long double JD;
-    double q, a, e, P, EarthMOID;
-    float Albedo, Diameter, RotationPeriod, Period;
+    int catN { 0 };
+    long double JD { 0 };
+    double q { 0 };
+    double a { 0 };
+    double e { 0 };
+    double P { 0 };
+    double EarthMOID { 0 };
+    float Albedo { 0 };
+    float Diameter { 0 };
+    float RotationPeriod { 0 };
+    float Period { 0 };
     dms i, w, M, N;
-    double H, G;
+    double H { 0 };
+    double G { 0 };
     QString OrbitID, OrbitClass, Dimensions;
-    bool NEO;
+    bool NEO { false };
 };
-
-#endif

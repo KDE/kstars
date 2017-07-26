@@ -112,7 +112,6 @@ SkyQPainter::SkyQPainter(QPaintDevice *pd) : SkyPainter(), QPainter()
     Q_ASSERT(pd);
     m_pd          = pd;
     m_size        = QSize(pd->width(), pd->height());
-    m_vectorStars = false;
 }
 
 SkyQPainter::SkyQPainter(QPaintDevice *pd, const QSize &size) : SkyPainter(), QPainter()
@@ -120,7 +119,6 @@ SkyQPainter::SkyQPainter(QPaintDevice *pd, const QSize &size) : SkyPainter(), QP
     Q_ASSERT(pd);
     m_pd          = pd;
     m_size        = size;
-    m_vectorStars = false;
 }
 
 SkyQPainter::SkyQPainter(QWidget *widget, QPaintDevice *pd) : SkyPainter(), QPainter()
@@ -129,7 +127,6 @@ SkyQPainter::SkyQPainter(QWidget *widget, QPaintDevice *pd) : SkyPainter(), QPai
     // Set paint device pointer to pd or to the widget if pd = 0
     m_pd          = (pd ? pd : widget);
     m_size        = widget->size();
-    m_vectorStars = false;
 }
 
 SkyQPainter::~SkyQPainter()
@@ -273,21 +270,21 @@ void SkyQPainter::drawSkyLine(SkyPoint *a, SkyPoint *b)
     return;
 
     //THREE CASES:
-    if (aVisible && bVisible)
-    {
-        //Both a,b visible, so paint the line normally:
-        drawLine(aScreen, bScreen);
-    }
-    else if (aVisible)
-    {
-        //a is visible but b isn't:
-        drawLine(aScreen, m_proj->clipLine(a, b));
-    }
-    else if (bVisible)
-    {
-        //b is visible but a isn't:
-        drawLine(bScreen, m_proj->clipLine(b, a));
-    } //FIXME: what if both are offscreen but the line isn't?
+//    if (aVisible && bVisible)
+//    {
+//        //Both a,b visible, so paint the line normally:
+//        drawLine(aScreen, bScreen);
+//    }
+//    else if (aVisible)
+//    {
+//        //a is visible but b isn't:
+//        drawLine(aScreen, m_proj->clipLine(a, b));
+//    }
+//    else if (bVisible)
+//    {
+//        //b is visible but a isn't:
+//        drawLine(bScreen, m_proj->clipLine(b, a));
+//    } //FIXME: what if both are offscreen but the line isn't?
 }
 
 void SkyQPainter::drawSkyPolyline(LineList *list, SkipHashList *skipList, LineListLabel *label)
