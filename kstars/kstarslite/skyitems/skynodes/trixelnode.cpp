@@ -14,12 +14,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "skymaplite.h"
 #include "trixelnode.h"
-#include <QSGSimpleTextureNode>
+
 #include "skynode.h"
 
-TrixelNode::TrixelNode(Trixel trixel) : m_trixel(trixel)
+#include <QSGSimpleTextureNode>
+
+TrixelNode::TrixelNode(const Trixel &trixel) : m_trixel(trixel)
 {
 }
 

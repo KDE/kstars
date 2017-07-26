@@ -92,7 +92,7 @@ QList<const StarObject *> StarHopper::computePath_const(const SkyPoint &src, con
             // Just a test -- try to print out useful instructions to the debug console. Once we make star hopper unexperimental, we should move this to some sort of a display
             qDebug() << "Star Hopping Directions: ";
             const SkyPoint *prevHop = start;
-            foreach (const StarObject *hopStar, result_path)
+            for (const StarObject *hopStar : result_path)
             {
                 QString direction;
                 QString spectralChar = "";
@@ -145,8 +145,6 @@ QList<const StarObject *> StarHopper::computePath_const(const SkyPoint &src, con
             continue;
         }
 
-        SkyPoint const *nhd_node;
-
         // Get the list of stars that are neighbours of this node
         QList<StarObject *> neighbors;
 
@@ -161,7 +159,8 @@ QList<const StarObject *> StarHopper::computePath_const(const SkyPoint &src, con
         qDebug() << "Choosing next node from a set of " << neighbors.count();
         // Look for the potential next node
         double curr_g_score = g_score[curr_node];
-        foreach (nhd_node, neighbors)
+
+        for (auto &nhd_node : neighbors)
         {
             if (cSet.contains(nhd_node))
                 continue;

@@ -24,7 +24,7 @@ class LineListIndex;
 class LineIndexNode : public SkyOpacityNode
 {
   public:
-    explicit LineIndexNode(QString schemeColor = "");
+    explicit LineIndexNode(const QString &schemeColor = "");
 
     QString getSchemeColor() { return schemeColor; }
 

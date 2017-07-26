@@ -1011,25 +1011,28 @@ QPointF FITSView::getPointForGridLabel()
 
     //These get the maximum X and Y points in the list that are in the image
     QPointF maxXPt(image_width * scale / 2, image_height * scale / 2);
-    foreach (QPointF p, eqGridPoints)
+    for (auto& p : eqGridPoints)
     {
         if (p.x() > maxXPt.x() && pointIsInImage(p, true))
             maxXPt = p;
     }
     QPointF maxYPt(image_width * scale / 2, image_height * scale / 2);
-    foreach (QPointF p, eqGridPoints)
+
+    for (auto& p : eqGridPoints)
     {
         if (p.y() > maxYPt.y() && pointIsInImage(p, true))
             maxYPt = p;
     }
     QPointF minXPt(image_width * scale / 2, image_height * scale / 2);
-    foreach (QPointF p, eqGridPoints)
+
+    for (auto& p : eqGridPoints)
     {
         if (p.x() < minXPt.x() && pointIsInImage(p, true))
             minXPt = p;
     }
     QPointF minYPt(image_width * scale / 2, image_height * scale / 2);
-    foreach (QPointF p, eqGridPoints)
+
+    for (auto& p : eqGridPoints)
     {
         if (p.y() < minYPt.y() && pointIsInImage(p, true))
             minYPt = p;

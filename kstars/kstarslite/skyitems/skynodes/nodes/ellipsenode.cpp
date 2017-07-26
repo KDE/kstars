@@ -20,7 +20,7 @@
 #include <QSGGeometry>
 #include <QSGGeometryNode>
 
-EllipseNode::EllipseNode(QColor color, int width)
+EllipseNode::EllipseNode(const QColor &color, int width)
     : m_geometryNode(new QSGGeometryNode), m_material(new QSGFlatColorMaterial)
 {
     m_geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);

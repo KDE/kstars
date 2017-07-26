@@ -220,7 +220,7 @@ bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
             continue;
 
         line = line.trimmed();
-        if (line.startsWith("add_path"))
+        if (line.startsWith(QLatin1String("add_path")))
         {
             dataDir = line.mid(9).trimmed();
             return true;

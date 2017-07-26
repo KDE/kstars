@@ -15,25 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QPainter>
+#include "kstarsdocument.h"
+
+#include <QPrinter>
 #include <QTextDocument>
 #include <QTextDocumentWriter>
-#include <QtPrintSupport/QPrinter>
-
-#include "kstarsdocument.h"
-#include "kstars.h"
 
 KStarsDocument::KStarsDocument()
 {
-    m_Document = new QTextDocument();
-}
-
-KStarsDocument::~KStarsDocument()
-{
-    if (m_Document)
-    {
-        delete m_Document;
-    }
+    m_Document.reset(new QTextDocument());
 }
 
 void KStarsDocument::clearContent()
@@ -49,13 +39,15 @@ void KStarsDocument::print(QPrinter *printer)
 bool KStarsDocument::writeOdt(const QString &fname)
 {
     QTextDocumentWriter writer(fname);
-    return writer.write(m_Document);
+
+    return writer.write(m_Document.get());
 }
 
 void KStarsDocument::writePsPdf(const QString &fname)
 {
     QPrinter printer(QPrinter::HighResolution);
+
     printer.setOutputFileName(fname);
-    printer.setOutputFormat(fname.endsWith(".pdf") ? QPrinter::PdfFormat : QPrinter::NativeFormat);
+    printer.setOutputFormat(fname.endsWith(QLatin1String(".pdf")) ? QPrinter::PdfFormat : QPrinter::NativeFormat);
     m_Document->print(&printer);
 }

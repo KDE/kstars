@@ -1119,7 +1119,7 @@ void configureDefaultAstrometry()
                 while (!in.atEnd())
                 {
                     line = in.readLine();
-                    if (line.trimmed().startsWith("add_path"))
+                    if (line.trimmed().startsWith(QLatin1String("add_path")))
                     {
                         if (!foundPathBefore) //This will ensure there is not more than one add_path line in the file.
                         {

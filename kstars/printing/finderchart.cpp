@@ -17,18 +17,16 @@
 
 #include "finderchart.h"
 
+#include "detailstable.h"
+#include "geolocation.h"
+#include "kstarsdatetime.h"
+#include "loggingform.h"
+
+#include <QLocale>
 #include <QTextDocument>
 #include <QTextDocumentFragment>
-#include <QTextTable>
 #include <QTextDocumentWriter>
-#include <QtSvg/QSvgGenerator>
-#include <QPainter>
-
-#include "kstars.h"
-#include "loggingform.h"
-#include "detailstable.h"
-#include "kstarsdatetime.h"
-#include "geolocation.h"
+#include <QTextTable>
 
 FinderChart::FinderChart() : KStarsDocument()
 {
@@ -36,7 +34,7 @@ FinderChart::FinderChart() : KStarsDocument()
 
 void FinderChart::insertTitleSubtitle(const QString &title, const QString &subtitle)
 {
-    QTextCursor cursor(m_Document);
+    QTextCursor cursor(m_Document.get());
     cursor.movePosition(QTextCursor::Start);
 
     QTextBlockFormat titleBlockFmt;

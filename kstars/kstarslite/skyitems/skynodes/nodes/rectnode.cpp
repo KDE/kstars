@@ -17,7 +17,7 @@
 #include <QSGGeometryNode>
 #include <QSGFlatColorMaterial>
 
-RectNode::RectNode(bool filled, QColor color)
+RectNode::RectNode(bool filled, const QColor &color)
 {
     m_geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     m_geometry->allocate(4);
@@ -41,7 +41,7 @@ void RectNode::setRect(int x, int y, int w, int h)
     markDirty(QSGNode::DirtyGeometry);
 }
 
-void RectNode::setColor(QColor color)
+void RectNode::setColor(const QColor &color)
 {
     if (m_material->color() != color)
     {

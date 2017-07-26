@@ -137,7 +137,7 @@ void CatalogComponent::_loadData(bool includeCatalogDesignation)
     }
 
     // Remove Duplicates (see FIXME by AS above)
-    foreach (QStringList list, objectNames())
+    for (auto &list : objectNames())
         list.removeDuplicates();
 
     CatalogData loaded_catalog_data;

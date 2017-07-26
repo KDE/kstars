@@ -33,7 +33,7 @@ class QSGGeometryNode;
 class EllipseNode : public QSGTransformNode
 {
   public:
-    explicit EllipseNode(QColor color = QColor(), int width = 1);
+    explicit EllipseNode(const QColor &color = QColor(), int width = 1);
 
     void setColor(QColor color);
     void setLineWidth(int width);

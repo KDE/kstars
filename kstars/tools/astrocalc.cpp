@@ -188,16 +188,17 @@ QWidget *AstroCalc::addToStack()
 }
 
 template <typename T>
-QTreeWidgetItem *AstroCalc::addTreeItem(QTreeWidgetItem *parent, QString title)
+QTreeWidgetItem *AstroCalc::addTreeItem(QTreeWidgetItem *parent, const QString &title)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList(title));
     dispatchTable.insert(item, WidgetThunk(this, &AstroCalc::addToStack<T>));
     return item;
 }
 
-QTreeWidgetItem *AstroCalc::addTreeTopItem(QTreeWidget *parent, QString title, QString html)
+QTreeWidgetItem *AstroCalc::addTreeTopItem(QTreeWidget *parent, const QString &title, const QString &html)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList(title));
+
     htmlTable.insert(item, html);
     return item;
 }

@@ -82,7 +82,7 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     // Get the list
     m_HorizonList = horizonComponent->horizonList();
 
-    foreach (ArtificialHorizonEntity *horizon, *m_HorizonList)
+    for (ArtificialHorizonEntity *horizon : *m_HorizonList)
     {
         QStandardItem *regionItem = new QStandardItem(horizon->region());
         regionItem->setCheckable(true);
@@ -90,7 +90,8 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
         m_RegionsModel->appendRow(regionItem);
 
         SkyList *points = horizon->list()->points();
-        foreach (auto& p, *points)
+
+        for (auto& p : *points)
         {
             QList<QStandardItem *> pointsList;
             pointsList << new QStandardItem("") << new QStandardItem(p->az().toDMSString())

@@ -64,7 +64,7 @@ class SymbolNode : public QSGNode
 class StarSymbol : public SymbolNode
 {
   public:
-    explicit StarSymbol(QColor color = QColor());
+    explicit StarSymbol(const QColor &color = QColor());
 
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
@@ -74,7 +74,7 @@ class StarSymbol : public SymbolNode
 class AsterismSymbol : public SymbolNode
 {
   public:
-    explicit AsterismSymbol(QColor color);
+    explicit AsterismSymbol(const QColor &color);
 
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
@@ -91,7 +91,7 @@ class AsterismSymbol : public SymbolNode
 class GlobularClusterSymbol : public SymbolNode
 {
   public:
-    explicit GlobularClusterSymbol(QColor color);
+    explicit GlobularClusterSymbol(const QColor &color);
 
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
@@ -102,7 +102,7 @@ class GlobularClusterSymbol : public SymbolNode
 class DarkNebulaSymbol : public SymbolNode
 {
   public:
-    explicit DarkNebulaSymbol(QColor color);
+    explicit DarkNebulaSymbol(const QColor &color);
 
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
@@ -112,7 +112,7 @@ class DarkNebulaSymbol : public SymbolNode
 class PlanetaryNebulaSymbol : public SymbolNode
 {
   public:
-    explicit PlanetaryNebulaSymbol(QColor color);
+    explicit PlanetaryNebulaSymbol(const QColor &color);
 
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
@@ -123,7 +123,7 @@ class PlanetaryNebulaSymbol : public SymbolNode
 class SupernovaRemnantSymbol : public SymbolNode
 {
   public:
-    explicit SupernovaRemnantSymbol(QColor color);
+    explicit SupernovaRemnantSymbol(const QColor &color);
 
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
@@ -133,7 +133,7 @@ class SupernovaRemnantSymbol : public SymbolNode
 class GalaxySymbol : public SymbolNode
 {
   public:
-    explicit GalaxySymbol(QColor color);
+    explicit GalaxySymbol(const QColor &color);
 
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
@@ -143,7 +143,7 @@ class GalaxySymbol : public SymbolNode
 class GalaxyClusterSymbol : public SymbolNode
 {
   public:
-    explicit GalaxyClusterSymbol(QColor color);
+    explicit GalaxyClusterSymbol(const QColor &color);
 
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
@@ -165,7 +165,7 @@ class DSOSymbolNode : public SkyNode
      * @param skyObject - DeepSkyObject, for which this symbol should be created
      * @param color of the symbol
      */
-    explicit DSOSymbolNode(DeepSkyObject *skyObject, QColor color = QColor());
+    explicit DSOSymbolNode(DeepSkyObject *skyObject, const QColor &color = QColor());
 
     /**
      * @short Changes position and rotation angle of the symbol

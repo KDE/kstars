@@ -67,7 +67,7 @@ void HorizonComponent::update(KSNumbers *)
 
     KStarsData *data = KStarsData::Instance();
 
-    foreach (std::shared_ptr<SkyPoint> p, pointList())
+    for (auto &p : pointList())
     {
         p->HorizontalToEquatorial(data->lst(), data->geo()->lat());
     }

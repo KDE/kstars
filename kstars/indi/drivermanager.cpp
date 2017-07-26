@@ -950,7 +950,7 @@ bool DriverManager::readXMLDrivers()
     for (auto &fileInfo : list)
     {
         // libindi 0.7.1: Skip skeleton files
-        if (fileInfo.fileName().endsWith("_sk.xml"))
+        if (fileInfo.fileName().endsWith(QLatin1String("_sk.xml")))
             continue;
 
         if (fileInfo.fileName() == "drivers.xml")
@@ -988,7 +988,7 @@ void DriverManager::processXMLDriver(QString &driverName)
     XMLEle *root      = nullptr;
     XMLEle *ep        = nullptr;
 
-    if (driverName.endsWith("drivers.xml"))
+    if (driverName.endsWith(QLatin1String("drivers.xml")))
         driverSource = PRIMARY_XML;
     else
         driverSource = THIRD_PARTY_XML;
@@ -1227,7 +1227,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     return true;
 }
 
-bool DriverManager::checkDriverAvailability(QString driver)
+bool DriverManager::checkDriverAvailability(const QString &driver)
 {
     QString indiServerDir = Options::indiServer();
     if (Options::indiServerIsInternal())

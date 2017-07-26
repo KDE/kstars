@@ -17,11 +17,10 @@
 
 #include "loggingform.h"
 
+#include <KLocalizedString>
+
 #include <QTextDocument>
 #include <QTextTable>
-#include <QtPrintSupport/QPrinter>
-
-#include "kstars.h"
 
 LoggingForm::LoggingForm()
 {
@@ -29,7 +28,7 @@ LoggingForm::LoggingForm()
 
 void LoggingForm::createFinderChartLogger()
 {
-    QTextCursor cursor(m_Document);
+    QTextCursor cursor(m_Document.get());
     cursor.movePosition(QTextCursor::Start);
 
     QTextTableFormat tableFormat;
@@ -71,5 +70,5 @@ void LoggingForm::createFinderChartLogger()
 
 QTextDocument *LoggingForm::getDocument()
 {
-    return m_Document;
+    return m_Document.get();
 }

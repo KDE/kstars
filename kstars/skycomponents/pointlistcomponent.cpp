@@ -35,7 +35,7 @@ void PointListComponent::update(KSNumbers *num)
 
     KStarsData *data = KStarsData::Instance();
 
-    foreach (std::shared_ptr<SkyPoint> p, pointList())
+    for (auto &p : pointList())
     {
         if (num)
             p->updateCoords(num);

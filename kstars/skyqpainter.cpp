@@ -82,7 +82,7 @@ const int nSPclasses = 7;
 // Cache for star images.
 //
 // These pixmaps are never deallocated. Not really good...
-QPixmap *imageCache[nSPclasses][nStarSizes] = { { 0 } };
+QPixmap *imageCache[nSPclasses][nStarSizes] = { { nullptr } };
 
 std::unique_ptr<QPixmap> visibleSatPixmap, invisibleSatPixmap;
 }
@@ -93,7 +93,7 @@ QMap<char, QColor> SkyQPainter::ColorMap = QMap<char, QColor>();
 
 void SkyQPainter::releaseImageCache()
 {
-    foreach (char color, ColorMap.keys())
+    for (char color : ColorMap.keys())
     {
         QPixmap **pmap = imageCache[harvardToIndex(color)];
 
@@ -205,7 +205,7 @@ void SkyQPainter::initStarImages()
         ColorMap.insert('M', m_starColor);
     }
 
-    foreach (char color, ColorMap.keys())
+    for (char color : ColorMap.keys())
     {
         QPixmap BigImage(15, 15);
         BigImage.fill(Qt::transparent);

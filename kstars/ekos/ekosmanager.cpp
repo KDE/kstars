@@ -684,11 +684,11 @@ void EkosManager::checkINDITimeout()
     {
         QStringList remainingDevices;
 
-        foreach (QString driver, currentProfile->drivers.values())
+        for (auto &driver : currentProfile->drivers.values())
         {
             bool driverFound = false;
 
-            foreach (ISD::GDInterface *device, genericDevices)
+            for (auto *device : genericDevices)
             {
                 if (device->getBaseDevice()->getDriverName() == driver)
                 {
@@ -724,7 +724,8 @@ void EkosManager::connectDevices()
 {
     // Check if already connected
     int nConnected = 0;
-    foreach (ISD::GDInterface *device, genericDevices)
+
+    for (auto *device : genericDevices)
     {
         if (device->isConnected())
             nConnected++;
@@ -737,7 +738,7 @@ void EkosManager::connectDevices()
 
     indiConnectionStatus = EKOS_STATUS_PENDING;
 
-    foreach (ISD::GDInterface *device, genericDevices)
+    for (auto *device : genericDevices)
         device->Connect();
 
     connectB->setEnabled(false);
@@ -748,7 +749,7 @@ void EkosManager::connectDevices()
 
 void EkosManager::disconnectDevices()
 {
-    foreach (ISD::GDInterface *device, genericDevices)
+    for (auto *device : genericDevices)
         device->Disconnect();
 
     appendLogText(i18n("Disconnecting INDI devices..."));

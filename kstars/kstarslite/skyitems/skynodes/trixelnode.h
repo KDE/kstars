@@ -19,6 +19,8 @@
 #include "typedef.h"
 #include "../skyopacitynode.h"
 
+#include <QLinkedList>
+
 class SkyObject;
 class SkyNode;
 
@@ -30,7 +32,7 @@ class TrixelNode : public SkyOpacityNode
 {
   public:
     /** Constructor **/
-    explicit TrixelNode(Trixel trixel);
+    explicit TrixelNode(const Trixel &trixel);
 
     /**
      * m_hideCount is a counter of how much updates of SkyMapLite this trixel remained

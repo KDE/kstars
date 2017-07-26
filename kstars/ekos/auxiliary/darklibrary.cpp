@@ -55,58 +55,54 @@ void DarkLibrary::refreshFromDB()
 
 FITSData *DarkLibrary::getDarkFrame(ISD::CCDChip *targetChip, double duration)
 {
-    foreach (QVariantMap map, darkFrames)
+    for (auto &map : darkFrames)
     {
-        // First check CCD name matches
-        if (map["ccd"].toString() == targetChip->getCCD()->getDeviceName())
+        // First check CCD name matches and check if we are on the correct chip
+        if (map["ccd"].toString() == targetChip->getCCD()->getDeviceName() &&
+            map["chip"].toInt() == static_cast<int>(targetChip->getType()))
         {
-            // Then check we are on the correct chip
-            if (map["chip"].toInt() == static_cast<int>(targetChip->getType()))
+            int binX, binY;
+            targetChip->getBinning(&binX, &binY);
+
+            // Then check if binning is the same
+            if (map["binX"].toInt() == binX && map["binY"].toInt() == binY)
             {
-                int binX, binY;
-                targetChip->getBinning(&binX, &binY);
-
-                // Then check if binning is the same
-                if (map["binX"].toInt() == binX && map["binY"].toInt() == binY)
+                // Then check for temperature
+                if (targetChip->getCCD()->hasCooler())
                 {
-                    // Then check for temperature
-                    if (targetChip->getCCD()->hasCooler())
-                    {
-                        double temperature = 0;
-                        targetChip->getCCD()->getTemperature(&temperature);
-                        // TODO make this configurable value, the threshold
-                        if (fabs(map["temperature"].toDouble() - temperature) > Options::maxDarkTemperatureDiff())
-                            continue;
-                    }
-
-                    // Then check for duration
-                    // TODO make this value configurable
-                    if (fabs(map["duration"].toDouble() - duration) > 0.05)
+                    double temperature = 0;
+                    targetChip->getCCD()->getTemperature(&temperature);
+                    // TODO make this configurable value, the threshold
+                    if (fabs(map["temperature"].toDouble() - temperature) > Options::maxDarkTemperatureDiff())
                         continue;
+                }
 
-                    // Finaly check if the duration is acceptable
-                    QDateTime frameTime = QDateTime::fromString(map["timestamp"].toString(), Qt::ISODate);
-                    if (frameTime.daysTo(QDateTime::currentDateTime()) > Options::darkLibraryDuration())
-                        continue;
+                // Then check for duration
+                // TODO make this value configurable
+                if (fabs(map["duration"].toDouble() - duration) > 0.05)
+                    continue;
 
-                    QString filename = map["filename"].toString();
+                // Finaly check if the duration is acceptable
+                QDateTime frameTime = QDateTime::fromString(map["timestamp"].toString(), Qt::ISODate);
+                if (frameTime.daysTo(QDateTime::currentDateTime()) > Options::darkLibraryDuration())
+                    continue;
 
-                    if (darkFiles.contains(filename))
-                        return darkFiles[filename];
+                QString filename = map["filename"].toString();
 
-                    // Finally we made it, let's put it in the hash
-                    bool rc = loadDarkFile(filename);
-                    if (rc)
-                        return darkFiles[filename];
-                    else
-                    {
-                        // Remove bad dark frame
-                        emit newLog(i18n("Removing bad dark frame file %1", filename));
-                        darkFiles.remove(filename);
-                        QFile::remove(filename);
-                        KStarsData::Instance()->userdb()->DeleteDarkFrame(filename);
-                        return nullptr;
-                    }
+                if (darkFiles.contains(filename))
+                    return darkFiles[filename];
+
+                // Finally we made it, let's put it in the hash
+                if (loadDarkFile(filename))
+                    return darkFiles[filename];
+                else
+                {
+                    // Remove bad dark frame
+                    emit newLog(i18n("Removing bad dark frame file %1", filename));
+                    darkFiles.remove(filename);
+                    QFile::remove(filename);
+                    KStarsData::Instance()->userdb()->DeleteDarkFrame(filename);
+                    return nullptr;
                 }
             }
         }

@@ -35,13 +35,12 @@ class QModelIndex;
  * special manner when sorting by time.  This class reimplements
  * lessThan() in QSortFilterProxyModel to obtain the required sorting.
  */
-
 class SessionSortFilterProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT;
 
   public:
-    explicit SessionSortFilterProxyModel(QObject *parent = 0);
+    explicit SessionSortFilterProxyModel(QObject *parent = nullptr);
 
   protected:
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;
