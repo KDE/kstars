@@ -683,14 +683,14 @@ DeviceDecorator::DeviceDecorator(GDInterface *iPtr)
 
     connect(iPtr, SIGNAL(Connected()), this, SIGNAL(Connected()));
     connect(iPtr, SIGNAL(Disconnected()), this, SIGNAL(Disconnected()));
-    connect(iPtr, SIGNAL(propertyDefined(INDI::Property *)), this, SIGNAL(propertyDefined(INDI::Property *)));
-    connect(iPtr, SIGNAL(propertyDeleted(INDI::Property *)), this, SIGNAL(propertyDeleted(INDI::Property *)));
+    connect(iPtr, SIGNAL(propertyDefined(INDI::Property*)), this, SIGNAL(propertyDefined(INDI::Property*)));
+    connect(iPtr, SIGNAL(propertyDeleted(INDI::Property*)), this, SIGNAL(propertyDeleted(INDI::Property*)));
     connect(iPtr, SIGNAL(messageUpdated(int)), this, SIGNAL(messageUpdated(int)));
-    connect(iPtr, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this, SIGNAL(switchUpdated(ISwitchVectorProperty *)));
-    connect(iPtr, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SIGNAL(numberUpdated(INumberVectorProperty *)));
-    connect(iPtr, SIGNAL(textUpdated(ITextVectorProperty *)), this, SIGNAL(textUpdated(ITextVectorProperty *)));
-    connect(iPtr, SIGNAL(BLOBUpdated(IBLOB *)), this, SIGNAL(BLOBUpdated(IBLOB *)));
-    connect(iPtr, SIGNAL(lightUpdated(ILightVectorProperty *)), this, SIGNAL(lightUpdated(ILightVectorProperty *)));
+    connect(iPtr, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SIGNAL(switchUpdated(ISwitchVectorProperty*)));
+    connect(iPtr, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SIGNAL(numberUpdated(INumberVectorProperty*)));
+    connect(iPtr, SIGNAL(textUpdated(ITextVectorProperty*)), this, SIGNAL(textUpdated(ITextVectorProperty*)));
+    connect(iPtr, SIGNAL(BLOBUpdated(IBLOB*)), this, SIGNAL(BLOBUpdated(IBLOB*)));
+    connect(iPtr, SIGNAL(lightUpdated(ILightVectorProperty*)), this, SIGNAL(lightUpdated(ILightVectorProperty*)));
 
     baseDevice    = interfacePtr->getBaseDevice();
     clientManager = interfacePtr->getDriverInfo()->getClientManager();

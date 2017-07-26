@@ -98,10 +98,10 @@ FindDialog::FindDialog(QWidget *parent) : QDialog(parent), timer(0), m_targetObj
     ui->SearchList->setModel(sortModel);
 
     // Connect signals to slots
-    connect(ui->SearchBox, SIGNAL(textChanged(const QString &)), SLOT(enqueueSearch()));
+    connect(ui->SearchBox, SIGNAL(textChanged(QString)), SLOT(enqueueSearch()));
     connect(ui->SearchBox, SIGNAL(returnPressed()), SLOT(slotOk()));
     connect(ui->FilterType, SIGNAL(activated(int)), this, SLOT(enqueueSearch()));
-    connect(ui->SearchList, SIGNAL(doubleClicked(const QModelIndex &)), SLOT(slotOk()));
+    connect(ui->SearchList, SIGNAL(doubleClicked(QModelIndex)), SLOT(slotOk()));
 
     // Set focus to object name edit
     ui->SearchBox->setFocus();

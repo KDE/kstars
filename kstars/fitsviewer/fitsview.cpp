@@ -51,9 +51,9 @@ FITSView::FITSView(QWidget *parent, FITSMode fitsMode, FITSScale filterType) : Q
 
     setBaseSize(740, 530);
 
-    connect(image_frame.get(), SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
-    connect(image_frame.get(), SIGNAL(pointSelected(int, int)), this, SLOT(processPointSelection(int, int)));
-    connect(image_frame.get(), SIGNAL(markerSelected(int, int)), this, SLOT(processMarkerSelection(int, int)));
+    connect(image_frame.get(), SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
+    connect(image_frame.get(), SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
+    connect(image_frame.get(), SIGNAL(markerSelected(int,int)), this, SLOT(processMarkerSelection(int,int)));
     connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(syncWCSState()));
 
     image_frame->setMouseTracking(true);
@@ -533,7 +533,7 @@ void FITSView::ZoomIn()
 
     updateFrame();
 
-    newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+    emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 }
 
 void FITSView::ZoomOut()
@@ -556,7 +556,7 @@ void FITSView::ZoomOut()
 
     updateFrame();
 
-    newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+    emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 }
 
 void FITSView::ZoomToFit()
@@ -606,7 +606,7 @@ void FITSView::ZoomDefault()
 
         updateFrame();
 
-        newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+        emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 
         update();
     }

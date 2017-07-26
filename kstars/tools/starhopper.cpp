@@ -92,7 +92,8 @@ QList<const StarObject *> StarHopper::computePath_const(const SkyPoint &src, con
             // Just a test -- try to print out useful instructions to the debug console. Once we make star hopper unexperimental, we should move this to some sort of a display
             qDebug() << "Star Hopping Directions: ";
             const SkyPoint *prevHop = start;
-            for (const StarObject *hopStar : result_path)
+
+            for (auto &hopStar : result_path)
             {
                 QString direction;
                 QString spectralChar = "";

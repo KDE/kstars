@@ -484,7 +484,7 @@ void KStars::slotWISettings()
 
     KConfigDialog *dialog = new KConfigDialog(this, "wisettings", Options::self());
 
-    connect(dialog, SIGNAL(settingsChanged(const QString &)), this, SLOT(slotApplyWIConfigChanges()));
+    connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(slotApplyWIConfigChanges()));
 
     m_WISettings          = new WILPSettings(this);
     m_WIEquipmentSettings = new WIEquipSettings();
@@ -771,7 +771,7 @@ void KStars::slotViewOps()
     dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
-    connect(dialog, SIGNAL(settingsChanged(const QString &)), this, SLOT(slotApplyConfigChanges()));
+    connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(slotApplyConfigChanges()));
 
     opcatalog     = new OpsCatalog();
     opguides      = new OpsGuides();
@@ -1167,7 +1167,7 @@ void KStars::slotPrint()
     bool switchColors(false);
 
     //Suggest Chart color scheme
-    if (data()->colorScheme()->colorNamed("SkyColor") != "#FFFFFF")
+    if (data()->colorScheme()->colorNamed("SkyColor") != QColor(255, 255, 255))
     {
         QString message = i18n("You can save printer ink by using the \"Star Chart\" "
                                "color scheme, which uses a white background. Would you like to "
@@ -1512,7 +1512,7 @@ void KStars::slotHorizonManager()
     if (!m_HorizonManager)
     {
         m_HorizonManager = new HorizonManager(this);
-        connect(m_SkyMap, SIGNAL(positionClicked(SkyPoint *)), m_HorizonManager, SLOT(addSkyPoint(SkyPoint *)));
+        connect(m_SkyMap, SIGNAL(positionClicked(SkyPoint*)), m_HorizonManager, SLOT(addSkyPoint(SkyPoint*)));
     }
 
     m_HorizonManager->show();

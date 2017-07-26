@@ -104,10 +104,10 @@ void telescopeWizardProcess::cancelCheck(void)
         case LOCAL_P:
         case PORT_P:
             if (KMessageBox::warningYesNo(0, i18n("Are you sure you want to cancel?")) == KMessageBox::Yes)
-                emit reject();
+                emit rejected();
             break;
         default:
-            emit reject();
+            emit rejected();
             break;
     }
 }
@@ -212,8 +212,8 @@ void telescopeWizardProcess::establishLink()
         return;
 
     managedDevice.append(dv);
-    connect(INDIListener::Instance(), SIGNAL(newDevice(ISD::GDInterface *)), this,
-            SLOT(processTelescope(ISD::GDInterface *)));
+    connect(INDIListener::Instance(), SIGNAL(newDevice(ISD::GDInterface*)), this,
+            SLOT(processTelescope(ISD::GDInterface*)));
 
     if (ui->portIn->text().isEmpty())
     {

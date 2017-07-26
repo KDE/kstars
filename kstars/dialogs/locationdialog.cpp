@@ -64,14 +64,14 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(0)
     ld->RemoveButton->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
     ld->UpdateButton->setIcon(QIcon::fromTheme("svn-update", QIcon(":/icons/breeze/default/svn-update.svg")));
 
-    connect(ld->CityFilter, SIGNAL(textChanged(const QString &)), this, SLOT(enqueueFilterCity()));
-    connect(ld->ProvinceFilter, SIGNAL(textChanged(const QString &)), this, SLOT(enqueueFilterCity()));
-    connect(ld->CountryFilter, SIGNAL(textChanged(const QString &)), this, SLOT(enqueueFilterCity()));
-    connect(ld->NewCityName, SIGNAL(textChanged(const QString &)), this, SLOT(nameChanged()));
-    connect(ld->NewProvinceName, SIGNAL(textChanged(const QString &)), this, SLOT(nameChanged()));
-    connect(ld->NewCountryName, SIGNAL(textChanged(const QString &)), this, SLOT(nameChanged()));
-    connect(ld->NewLong, SIGNAL(textChanged(const QString &)), this, SLOT(dataChanged()));
-    connect(ld->NewLat, SIGNAL(textChanged(const QString &)), this, SLOT(dataChanged()));
+    connect(ld->CityFilter, SIGNAL(textChanged(QString)), this, SLOT(enqueueFilterCity()));
+    connect(ld->ProvinceFilter, SIGNAL(textChanged(QString)), this, SLOT(enqueueFilterCity()));
+    connect(ld->CountryFilter, SIGNAL(textChanged(QString)), this, SLOT(enqueueFilterCity()));
+    connect(ld->NewCityName, SIGNAL(textChanged(QString)), this, SLOT(nameChanged()));
+    connect(ld->NewProvinceName, SIGNAL(textChanged(QString)), this, SLOT(nameChanged()));
+    connect(ld->NewCountryName, SIGNAL(textChanged(QString)), this, SLOT(nameChanged()));
+    connect(ld->NewLong, SIGNAL(textChanged(QString)), this, SLOT(dataChanged()));
+    connect(ld->NewLat, SIGNAL(textChanged(QString)), this, SLOT(dataChanged()));
     connect(ld->TZBox, SIGNAL(activated(int)), this, SLOT(dataChanged()));
     connect(ld->DSTRuleBox, SIGNAL(activated(int)), this, SLOT(dataChanged()));
     connect(ld->GeoBox, SIGNAL(itemSelectionChanged()), this, SLOT(changeCity()));
@@ -81,7 +81,7 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(0)
     connect(ld->UpdateButton, SIGNAL(clicked()), this, SLOT(updateCity()));
 
     ld->DSTLabel->setText("<a href=\"showrules\">" + i18n("DST Rule:") + "</a>");
-    connect(ld->DSTLabel, SIGNAL(linkActivated(const QString &)), this, SLOT(showTZRules()));
+    connect(ld->DSTLabel, SIGNAL(linkActivated(QString)), this, SLOT(showTZRules()));
 
     dataModified = false;
     nameModified = false;

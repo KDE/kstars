@@ -47,7 +47,7 @@ modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFl
     VTopo->setValidator(new QDoubleValidator(VTopo));
 
     // signals and slots connections
-    connect(Date, SIGNAL(dateTimeChanged(const QDateTime &)), this, SLOT(slotCompute()));
+    connect(Date, SIGNAL(dateTimeChanged(QDateTime)), this, SLOT(slotCompute()));
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
     connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotFindObject()));

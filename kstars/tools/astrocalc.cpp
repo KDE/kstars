@@ -175,8 +175,8 @@ AstroCalc::AstroCalc(QWidget *parent) : QDialog(parent)
     addTreeItem<ConjunctionsTool>(solarItem, i18n("Conjunctions"));
 
     acStack->setCurrentWidget(splashScreen);
-    connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this,
-            SLOT(slotItemSelection(QTreeWidgetItem *)));
+    connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this,
+            SLOT(slotItemSelection(QTreeWidgetItem*)));
 }
 
 template <typename T>

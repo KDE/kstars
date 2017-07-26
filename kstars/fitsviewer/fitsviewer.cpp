@@ -76,8 +76,8 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
 //Of course this is also dependent on the presence of WCS data in the image.
 
 #ifdef HAVE_INDI
-    connect(INDIListener::Instance(), SIGNAL(newTelescope(ISD::GDInterface *)), this, SLOT(updateWCSFunctions()));
-    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface *)), this, SLOT(updateWCSFunctions()));
+    connect(INDIListener::Instance(), SIGNAL(newTelescope(ISD::GDInterface*)), this, SLOT(updateWCSFunctions()));
+    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(updateWCSFunctions()));
 #endif
 
     led.setColor(Qt::green);
@@ -336,8 +336,8 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     QApplication::restoreOverrideCursor();
     tab->setPreviewText(previewText);
 
-    connect(tab, SIGNAL(newStatus(QString, FITSBar)), this, SLOT(updateStatusBar(QString, FITSBar)));
-    connect(tab->getView(), SIGNAL(actionUpdated(QString, bool)), this, SLOT(updateAction(QString, bool)));
+    connect(tab, SIGNAL(newStatus(QString,FITSBar)), this, SLOT(updateStatusBar(QString,FITSBar)));
+    connect(tab->getView(), SIGNAL(actionUpdated(QString,bool)), this, SLOT(updateAction(QString,bool)));
     connect(tab, SIGNAL(changeStatus(bool)), this, SLOT(updateTabStatus(bool)));
     connect(tab, SIGNAL(debayerToggled(bool)), this, SLOT(setDebayerAction(bool)));
     connect(tab->getView(), SIGNAL(wcsToggled(bool)), this, SLOT(updateWCSFunctions()));

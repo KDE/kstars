@@ -14,7 +14,7 @@ SkyObjDescription::SkyObjDescription(const QString so_Name, const QString so_Typ
     QNetworkRequest request(wikiUrl);
 
     manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply *)), SLOT(fileDownloaded(QNetworkReply *)));
+    connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(fileDownloaded(QNetworkReply*)));
     manager->get(request);
 }
 

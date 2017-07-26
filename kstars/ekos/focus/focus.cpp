@@ -222,7 +222,7 @@ Focus::Focus()
     QVBoxLayout *vlayout = new QVBoxLayout();
     vlayout->addWidget(focusView);
     focusingWidget->setLayout(vlayout);
-    connect(focusView, SIGNAL(trackingStarSelected(int, int)), this, SLOT(focusStarSelected(int, int)),
+    connect(focusView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int,int)),
             Qt::UniqueConnection);
 
     focusView->setStarsEnabled(true);
@@ -628,8 +628,8 @@ void Focus::checkFocuser(int FocuserNum)
 
     focusType = (canRelMove || canAbsMove || canTimerMove) ? FOCUS_AUTO : FOCUS_MANUAL;
 
-    connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-            SLOT(processFocusNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+    connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+            SLOT(processFocusNumber(INumberVectorProperty*)), Qt::UniqueConnection);
     //connect(currentFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(registerFocusProperty(INDI::Property*)), Qt::UniqueConnection);
 
     resetButtons();
@@ -904,7 +904,7 @@ void Focus::capture()
     if (gainIN->isEnabled())
         currentCCD->setGain(gainIN->value());
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     targetChip->setFrameType(FRAME_LIGHT);
 

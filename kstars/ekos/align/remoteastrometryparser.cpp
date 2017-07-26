@@ -221,10 +221,10 @@ void RemoteAstrometryParser::setAstrometryDevice(ISD::GDInterface *device)
 
     remoteAstrometry->disconnect(this);
 
-    connect(remoteAstrometry, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this,
-            SLOT(checkStatus(ISwitchVectorProperty *)));
-    connect(remoteAstrometry, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-            SLOT(checkResults(INumberVectorProperty *)));
+    connect(remoteAstrometry, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this,
+            SLOT(checkStatus(ISwitchVectorProperty*)));
+    connect(remoteAstrometry, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+            SLOT(checkResults(INumberVectorProperty*)));
 }
 
 void RemoteAstrometryParser::checkStatus(ISwitchVectorProperty *svp)

@@ -172,7 +172,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
     addComponent(m_Satellites = new SatellitesComponent(this), 7);
     addComponent(m_Supernovae = new SupernovaeComponent(this), 7);
 #endif
-    connect(this, SIGNAL(progressText(const QString &)), KStarsData::Instance(), SIGNAL(progressText(const QString &)));
+    connect(this, SIGNAL(progressText(QString)), KStarsData::Instance(), SIGNAL(progressText(QString)));
 }
 
 SkyMapComposite::~SkyMapComposite()

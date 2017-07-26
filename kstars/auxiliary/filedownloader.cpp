@@ -23,7 +23,7 @@
 
 FileDownloader::FileDownloader(QObject *parent) : QObject(parent)
 {
-    connect(&m_WebCtrl, SIGNAL(finished(QNetworkReply *)), this, SLOT(dataFinished(QNetworkReply *)));
+    connect(&m_WebCtrl, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataFinished(QNetworkReply*)));
 }
 
 FileDownloader::~FileDownloader()
@@ -38,8 +38,8 @@ void FileDownloader::get(const QUrl &fileUrl)
     m_Reply     = m_WebCtrl.get(request);
 
     connect(m_Reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SIGNAL(downloadProgress(qint64, qint64)));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(setDownloadProgress(qint64, qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
     connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
 
     setDownloadProgress(0, 0);
@@ -53,8 +53,8 @@ void FileDownloader::post(const QUrl &fileUrl, QByteArray &data)
     m_Reply     = m_WebCtrl.post(request, data);
 
     connect(m_Reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SIGNAL(downloadProgress(qint64, qint64)));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(setDownloadProgress(qint64, qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
     connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
 
     setDownloadProgress(0, 0);
@@ -68,8 +68,8 @@ void FileDownloader::post(const QUrl &fileUrl, QHttpMultiPart *parts)
     m_Reply     = m_WebCtrl.post(request, parts);
 
     connect(m_Reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SIGNAL(downloadProgress(qint64, qint64)));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(setDownloadProgress(qint64, qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
     connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
 
     setDownloadProgress(0, 0);

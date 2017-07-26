@@ -189,9 +189,9 @@ AltVsTime::AltVsTime(QWidget *parent) : QDialog(parent)
 
     connect(avtUI->View->yAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(onYRangeChanged(QCPRange)));
     connect(avtUI->View->xAxis2, SIGNAL(rangeChanged(QCPRange)), this, SLOT(onXRangeChanged(QCPRange)));
-    connect(avtUI->View, SIGNAL(plottableClick(QCPAbstractPlottable *plottable, int dataIndex, QMouseEvent *event)), this,
-            SLOT(plotMousePress(QCPAbstractPlottable *, int, QMouseEvent *)));
-    connect(avtUI->View, SIGNAL(mouseMove(QMouseEvent *)), this, SLOT(mouseOverLine(QMouseEvent *)));
+    connect(avtUI->View, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), this,
+            SLOT(plotMousePress(QCPAbstractPlottable*,int,QMouseEvent*)));
+    connect(avtUI->View, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(mouseOverLine(QMouseEvent*)));
 
     connect(avtUI->browseButton, SIGNAL(clicked()), this, SLOT(slotBrowseObject()));
     connect(avtUI->cityButton, SIGNAL(clicked()), this, SLOT(slotChooseCity()));

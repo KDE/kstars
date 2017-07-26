@@ -659,19 +659,19 @@ void DetailDialog::createLinksTab()
     connect(Links->RemoveLinkButton, SIGNAL(clicked()), this, SLOT(removeLinkDialog()));
 
     // When an item is selected in info list, selected items are cleared image list.
-    connect(Links->InfoTitleList, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)), this,
-            SLOT(setCurrentLink(QListWidgetItem *)));
-    connect(Links->InfoTitleList, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
+    connect(Links->InfoTitleList, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this,
+            SLOT(setCurrentLink(QListWidgetItem*)));
+    connect(Links->InfoTitleList, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
             Links->ImageTitleList, SLOT(clearSelection()));
 
     // vice versa
-    connect(Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)), this,
-            SLOT(setCurrentLink(QListWidgetItem *)));
-    connect(Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
+    connect(Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this,
+            SLOT(setCurrentLink(QListWidgetItem*)));
+    connect(Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
             Links->InfoTitleList, SLOT(clearSelection()));
 
-    connect(Links->InfoTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(viewLink()));
-    connect(Links->ImageTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(viewLink()));
+    connect(Links->InfoTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(viewLink()));
+    connect(Links->ImageTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(viewLink()));
 
     connect(Links->InfoTitleList, SIGNAL(itemSelectionChanged()), this, SLOT(updateButtons()));
     connect(Links->ImageTitleList, SIGNAL(itemSelectionChanged()), this, SLOT(updateButtons()));
@@ -714,7 +714,7 @@ void DetailDialog::addLink()
                 QTextStream stream(&file);
                 stream << entry << endl;
                 file.close();
-                emit updateLists();
+                updateLists();
             }
         }
         else
@@ -740,7 +740,7 @@ void DetailDialog::addLink()
                 QTextStream stream(&file);
                 stream << entry << endl;
                 file.close();
-                emit updateLists();
+                updateLists();
             }
         }
     }
@@ -759,7 +759,7 @@ void DetailDialog::createAdvancedTab()
     Adv = new DatabaseWidget(this);
     addPage(Adv, i18n("Advanced"));
 
-    connect(Adv->ADVTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(viewADVData()));
+    connect(Adv->ADVTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(viewADVData()));
 
     populateADVTree();
 }

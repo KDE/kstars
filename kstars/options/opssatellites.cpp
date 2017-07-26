@@ -71,8 +71,8 @@ OpsSatellites::OpsSatellites() : QFrame(KStars::Instance())
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), SLOT(slotCancel()));
-    connect(FilterEdit, SIGNAL(textChanged(const QString &)), this, SLOT(slotFilterReg(const QString &)));
-    connect(m_Model, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(slotItemChanged(QStandardItem *)));
+    connect(FilterEdit, SIGNAL(textChanged(QString)), this, SLOT(slotFilterReg(QString)));
+    connect(m_Model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(slotItemChanged(QStandardItem*)));
 
     connect(satelliteButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this,
             [&]() { isDirty = true; });
@@ -295,5 +295,5 @@ void OpsSatellites::slotItemChanged(QStandardItem *item)
             item->parent()->setCheckState(Qt::PartiallyChecked);
     }
 
-    connect(m_Model, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(slotItemChanged(QStandardItem *)));
+    connect(m_Model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(slotItemChanged(QStandardItem*)));
 }

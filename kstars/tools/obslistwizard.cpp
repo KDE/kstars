@@ -75,11 +75,11 @@ ObsListWizard::ObsListWizard(QWidget *ksparent) : QDialog(ksparent)
     connect(olw->RA, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
     connect(olw->Dec, SIGNAL(editingFinished()), this, SLOT(slotParseRegion()));
     connect(olw->Radius, SIGNAL(editingFinished()), this, SLOT(slotObjectCountDirty()));
-    connect(olw->Date, SIGNAL(dateChanged(const QDate &)), this, SLOT(slotObjectCountDirty()));
+    connect(olw->Date, SIGNAL(dateChanged(QDate)), this, SLOT(slotObjectCountDirty()));
     connect(olw->Mag, SIGNAL(valueChanged(double)), this, SLOT(slotObjectCountDirty()));
     connect(olw->IncludeNoMag, SIGNAL(clicked()), this, SLOT(slotObjectCountDirty()));
-    connect(olw->timeTo, SIGNAL(timeChanged(const QTime &)), this, SLOT(slotObjectCountDirty()));
-    connect(olw->timeFrom, SIGNAL(timeChanged(const QTime &)), this, SLOT(slotObjectCountDirty()));
+    connect(olw->timeTo, SIGNAL(timeChanged(QTime)), this, SLOT(slotObjectCountDirty()));
+    connect(olw->timeFrom, SIGNAL(timeChanged(QTime)), this, SLOT(slotObjectCountDirty()));
     connect(olw->minAlt, SIGNAL(valueChanged(double)), this, SLOT(slotObjectCountDirty()));
     connect(olw->maxAlt, SIGNAL(valueChanged(double)), this, SLOT(slotObjectCountDirty()));
 

@@ -17,10 +17,9 @@
 
 #include "pwizprint.h"
 
-#include "printingwizard.h"
 #include "finderchart.h"
 #include "kstars.h"
-#include "loggingform.h"
+#include "printingwizard.h"
 
 #include <KMessageBox>
 #include <KIO/StoredTransferJob>
@@ -44,7 +43,7 @@ PWizPrintUI::PWizPrintUI(PrintingWizard *wizard, QWidget *parent) : QFrame(paren
 void PWizPrintUI::slotPreview()
 {
     QPointer<QPrintPreviewDialog> previewDlg(new QPrintPreviewDialog(m_ParentWizard->getPrinter(), KStars::Instance()));
-    connect(previewDlg, SIGNAL(paintRequested(QPrinter *)), SLOT(slotPrintPreview(QPrinter *)));
+    connect(previewDlg, SIGNAL(paintRequested(QPrinter*)), SLOT(slotPrintPreview(QPrinter*)));
     previewDlg->exec();
     delete previewDlg;
 }

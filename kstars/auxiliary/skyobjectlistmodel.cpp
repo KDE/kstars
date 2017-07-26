@@ -15,6 +15,7 @@
  ***************************************************************************/
 
 #include "skyobjectlistmodel.h"
+
 #include "skyobject.h"
 
 SkyObjectListModel::SkyObjectListModel(QObject *parent) : QAbstractListModel(parent)
@@ -61,11 +62,12 @@ QVariant SkyObjectListModel::data(const QModelIndex &index, int role) const
 QStringList SkyObjectListModel::filter(QRegExp regEx)
 {
     QStringList filteredList;
-    for (int i = 0; i < skyObjects.size(); ++i)
+
+    for (auto &item : skyObjects)
     {
-        if (regEx.exactMatch(skyObjects[i].first))
+        if (regEx.exactMatch(item.first))
         {
-            filteredList.append(skyObjects[i].first);
+            filteredList.append(item.first);
         }
     }
     return filteredList;
@@ -73,8 +75,7 @@ QStringList SkyObjectListModel::filter(QRegExp regEx)
 
 void SkyObjectListModel::setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects)
 {
-    emit beginResetModel();
+    beginResetModel();
     skyObjects = sObjects;
-
-    emit endResetModel();
+    endResetModel();
 }

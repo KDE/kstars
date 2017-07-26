@@ -73,10 +73,10 @@ EquipmentWriter::EquipmentWriter()
     connect(ui.AddEyepiece, SIGNAL(clicked()), this, SLOT(slotSave()));
     connect(ui.AddLens, SIGNAL(clicked()), this, SLOT(slotSave()));
     connect(ui.AddFilter, SIGNAL(clicked()), this, SLOT(slotSave()));
-    connect(ui.ScopeList, SIGNAL(currentTextChanged(const QString)), this, SLOT(slotSetScope(QString)));
-    connect(ui.EyepieceList, SIGNAL(currentTextChanged(const QString)), this, SLOT(slotSetEyepiece(QString)));
-    connect(ui.LensList, SIGNAL(currentTextChanged(const QString)), this, SLOT(slotSetLens(QString)));
-    connect(ui.FilterList, SIGNAL(currentTextChanged(const QString)), this, SLOT(slotSetFilter(QString)));
+    connect(ui.ScopeList, SIGNAL(currentTextChanged(QString)), this, SLOT(slotSetScope(QString)));
+    connect(ui.EyepieceList, SIGNAL(currentTextChanged(QString)), this, SLOT(slotSetEyepiece(QString)));
+    connect(ui.LensList, SIGNAL(currentTextChanged(QString)), this, SLOT(slotSetLens(QString)));
+    connect(ui.FilterList, SIGNAL(currentTextChanged(QString)), this, SLOT(slotSetFilter(QString)));
     connect(ui.RemoveScope, SIGNAL(clicked()), this, SLOT(slotRemoveScope()));
     connect(ui.RemoveEyepiece, SIGNAL(clicked()), this, SLOT(slotRemoveEyepiece()));
     connect(ui.RemoveLens, SIGNAL(clicked()), this, SLOT(slotRemoveLens()));

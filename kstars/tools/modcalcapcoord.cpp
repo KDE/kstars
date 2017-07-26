@@ -41,8 +41,8 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit) : QFrame(parentSplit)
     connect(NowButton, SIGNAL(clicked()), this, SLOT(showCurrentTime()));
     connect(RACat, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
     connect(DecCat, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
-    connect(UT, SIGNAL(timeChanged(const QTime &)), this, SLOT(slotCompute()));
-    connect(Date, SIGNAL(dateChanged(const QDate &)), this, SLOT(slotCompute()));
+    connect(UT, SIGNAL(timeChanged(QTime)), this, SLOT(slotCompute()));
+    connect(Date, SIGNAL(dateChanged(QDate)), this, SLOT(slotCompute()));
 
     connect(utCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtCheckedBatch()));
     connect(dateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateCheckedBatch()));

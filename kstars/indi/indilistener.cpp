@@ -120,17 +120,17 @@ void INDIListener::addClient(ClientManager *cm)
 
     clients.append(cm);
 
-    connect(cm, SIGNAL(newINDIDevice(DeviceInfo *)), this, SLOT(processDevice(DeviceInfo *)), type);
-    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo *)), this, SLOT(removeDevice(DeviceInfo *)), type);
-    connect(cm, SIGNAL(newINDIProperty(INDI::Property *)), this, SLOT(registerProperty(INDI::Property *)), type);
-    connect(cm, SIGNAL(removeINDIProperty(INDI::Property *)), this, SLOT(removeProperty(INDI::Property *)), type);
+    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)), type);
+    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), type);
+    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)), type);
+    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)), type);
 
-    connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty *)), this, SLOT(processSwitch(ISwitchVectorProperty *)));
-    connect(cm, SIGNAL(newINDIText(ITextVectorProperty *)), this, SLOT(processText(ITextVectorProperty *)));
-    connect(cm, SIGNAL(newINDINumber(INumberVectorProperty *)), this, SLOT(processNumber(INumberVectorProperty *)));
-    connect(cm, SIGNAL(newINDILight(ILightVectorProperty *)), this, SLOT(processLight(ILightVectorProperty *)));
-    connect(cm, SIGNAL(newINDIBLOB(IBLOB *)), this, SLOT(processBLOB(IBLOB *)));
-    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice *, int)), this, SLOT(processMessage(INDI::BaseDevice *, int)));
+    connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
+    connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));
+    connect(cm, SIGNAL(newINDINumber(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
+    connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), this, SLOT(processLight(ILightVectorProperty*)));
+    connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), this, SLOT(processBLOB(IBLOB*)));
+    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*,int)), this, SLOT(processMessage(INDI::BaseDevice*,int)));
 }
 
 void INDIListener::removeClient(ClientManager *cm)

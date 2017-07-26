@@ -308,7 +308,7 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
     subtractParams.offsetX     = offsetX;
     subtractParams.offsetY     = offsetY;
 
-    connect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
+    connect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     emit newLog(i18n("Capturing dark frame..."));
 

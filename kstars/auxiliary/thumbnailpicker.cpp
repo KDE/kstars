@@ -68,7 +68,7 @@ ThumbnailPicker::ThumbnailPicker(SkyObject *o, const QPixmap &current, QWidget *
     connect(ui->EditButton, SIGNAL(clicked()), this, SLOT(slotEditImage()));
     connect(ui->UnsetButton, SIGNAL(clicked()), this, SLOT(slotUnsetImage()));
     connect(ui->ImageList, SIGNAL(currentRowChanged(int)), this, SLOT(slotSetFromList(int)));
-    connect(ui->ImageURLBox, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotSetFromURL()));
+    connect(ui->ImageURLBox, SIGNAL(urlSelected(QUrl)), this, SLOT(slotSetFromURL()));
     connect(ui->ImageURLBox, SIGNAL(returnPressed()), this, SLOT(slotSetFromURL()));
 
     //ui->ImageURLBox->lineEdit()->setTrapReturnKey( true );
@@ -152,7 +152,7 @@ void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
         {
             KIO::StoredTransferJob *j = KIO::storedGet(u, KIO::NoReload, KIO::HideProgressInfo);
             j->setUiDelegate(0);
-            connect(j, SIGNAL(result(KJob *)), SLOT(slotJobResult(KJob *)));
+            connect(j, SIGNAL(result(KJob*)), SLOT(slotJobResult(KJob*)));
         }
     }
 }
@@ -205,7 +205,7 @@ void ThumbnailPicker::parseGooglePage(const QString &URL)
 {
     QUrl googleURL(URL);
     KIO::StoredTransferJob *job = KIO::storedGet(googleURL);
-    connect(job, SIGNAL(result(KJob *)), this, SLOT(slotProcessGoogleResult(KJob *)));
+    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotProcessGoogleResult(KJob*)));
 
     job->start();
 }
@@ -378,7 +378,7 @@ void ThumbnailPicker::slotSetFromURL()
         {
             KIO::StoredTransferJob *j = KIO::storedGet(u, KIO::NoReload, KIO::HideProgressInfo);
             j->setUiDelegate(0);
-            connect(j, SIGNAL(result(KJob *)), SLOT(slotJobResult(KJob *)));
+            connect(j, SIGNAL(result(KJob*)), SLOT(slotJobResult(KJob*)));
         }
     }
 }

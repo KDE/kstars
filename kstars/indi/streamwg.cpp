@@ -101,7 +101,7 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
 
     resize(Options::streamWindowWidth(), Options::streamWindowHeight());
 
-    connect(currentCCD, SIGNAL(newFPS(double, double)), this, SLOT(updateFPS(double, double)));
+    connect(currentCCD, SIGNAL(newFPS(double,double)), this, SLOT(updateFPS(double,double)));
 }
 
 StreamWG::~StreamWG()

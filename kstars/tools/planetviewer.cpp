@@ -116,7 +116,7 @@ PlanetViewer::PlanetViewer(QWidget *parent) : QDialog(parent), scale(1.0), isClo
     connect(pw->RunButton, SIGNAL(clicked()), SLOT(slotRunClock()));
     connect(pw->ZoomInButton, SIGNAL(clicked()), pw->map, SLOT(slotZoomIn()));
     connect(pw->ZoomOutButton, SIGNAL(clicked()), pw->map, SLOT(slotZoomOut()));
-    connect(pw->DateBox, SIGNAL(dateChanged(const QDate &)), SLOT(slotChangeDate()));
+    connect(pw->DateBox, SIGNAL(dateChanged(QDate)), SLOT(slotChangeDate()));
     connect(pw->TodayButton, SIGNAL(clicked()), SLOT(slotToday()));
     connect(this, SIGNAL(closeClicked()), SLOT(slotCloseWindow()));
 }

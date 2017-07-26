@@ -143,7 +143,7 @@ ScriptNameDialog::ScriptNameDialog(QWidget *p) : QDialog(p)
 
     okB = buttonBox->button(QDialogButtonBox::Ok);
 
-    connect(snw->ScriptName, SIGNAL(textChanged(const QString &)), this, SLOT(slotEnableOkButton()));
+    connect(snw->ScriptName, SIGNAL(textChanged(QString)), this, SLOT(slotEnableOkButton()));
 }
 
 ScriptNameDialog::~ScriptNameDialog()
@@ -341,10 +341,10 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
     otv->resizeColumns();
 
     //connect widgets in ScriptBuilderUI
-    connect(sb->FunctionTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotAddFunction()));
-    connect(sb->FunctionTree, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(slotShowDoc()));
+    connect(sb->FunctionTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotAddFunction()));
+    connect(sb->FunctionTree, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(slotShowDoc()));
     connect(sb->UpButton, SIGNAL(clicked()), this, SLOT(slotMoveFunctionUp()));
-    connect(sb->ScriptListBox, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(slotArgWidget()));
+    connect(sb->ScriptListBox, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotArgWidget()));
     connect(sb->DownButton, SIGNAL(clicked()), this, SLOT(slotMoveFunctionDown()));
     connect(sb->CopyButton, SIGNAL(clicked()), this, SLOT(slotCopyFunction()));
     connect(sb->RemoveButton, SIGNAL(clicked()), this, SLOT(slotRemoveFunction()));
@@ -361,32 +361,32 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
     connect(argChangeViewOption->TreeButton, SIGNAL(clicked()), this, SLOT(slotShowOptions()));
     connect(argFindObject->FindButton, SIGNAL(clicked()), this, SLOT(slotFindObject()));
 
-    connect(argLookToward->FocusEdit, SIGNAL(editTextChanged(const QString &)), this, SLOT(slotLookToward()));
-    connect(argFindObject->NameEdit, SIGNAL(textChanged(const QString &)), this, SLOT(slotArgFindObject()));
-    connect(argSetRaDec->RABox, SIGNAL(textChanged(const QString &)), this, SLOT(slotRa()));
-    connect(argSetRaDec->DecBox, SIGNAL(textChanged(const QString &)), this, SLOT(slotDec()));
-    connect(argSetAltAz->AltBox, SIGNAL(textChanged(const QString &)), this, SLOT(slotAlt()));
-    connect(argSetAltAz->AzBox, SIGNAL(textChanged(const QString &)), this, SLOT(slotAz()));
-    connect(argSetLocalTime->DateWidget, SIGNAL(dateChanged(const QDate &)), this, SLOT(slotChangeDate()));
-    connect(argSetLocalTime->TimeBox, SIGNAL(timeChanged(const QTime &)), this, SLOT(slotChangeTime()));
+    connect(argLookToward->FocusEdit, SIGNAL(editTextChanged(QString)), this, SLOT(slotLookToward()));
+    connect(argFindObject->NameEdit, SIGNAL(textChanged(QString)), this, SLOT(slotArgFindObject()));
+    connect(argSetRaDec->RABox, SIGNAL(textChanged(QString)), this, SLOT(slotRa()));
+    connect(argSetRaDec->DecBox, SIGNAL(textChanged(QString)), this, SLOT(slotDec()));
+    connect(argSetAltAz->AltBox, SIGNAL(textChanged(QString)), this, SLOT(slotAlt()));
+    connect(argSetAltAz->AzBox, SIGNAL(textChanged(QString)), this, SLOT(slotAz()));
+    connect(argSetLocalTime->DateWidget, SIGNAL(dateChanged(QDate)), this, SLOT(slotChangeDate()));
+    connect(argSetLocalTime->TimeBox, SIGNAL(timeChanged(QTime)), this, SLOT(slotChangeTime()));
     connect(argWaitFor->DelayBox, SIGNAL(valueChanged(int)), this, SLOT(slotWaitFor()));
-    connect(argWaitForKey->WaitKeyEdit, SIGNAL(textChanged(const QString &)), this, SLOT(slotWaitForKey()));
+    connect(argWaitForKey->WaitKeyEdit, SIGNAL(textChanged(QString)), this, SLOT(slotWaitForKey()));
     connect(argSetTracking->CheckTrack, SIGNAL(stateChanged(int)), this, SLOT(slotTracking()));
-    connect(argChangeViewOption->OptionName, SIGNAL(activated(const QString &)), this, SLOT(slotViewOption()));
-    connect(argChangeViewOption->OptionValue, SIGNAL(textChanged(const QString &)), this, SLOT(slotViewOption()));
-    connect(argSetGeoLocation->CityName, SIGNAL(textChanged(const QString &)), this, SLOT(slotChangeCity()));
-    connect(argSetGeoLocation->ProvinceName, SIGNAL(textChanged(const QString &)), this, SLOT(slotChangeProvince()));
-    connect(argSetGeoLocation->CountryName, SIGNAL(textChanged(const QString &)), this, SLOT(slotChangeCountry()));
+    connect(argChangeViewOption->OptionName, SIGNAL(activated(QString)), this, SLOT(slotViewOption()));
+    connect(argChangeViewOption->OptionValue, SIGNAL(textChanged(QString)), this, SLOT(slotViewOption()));
+    connect(argSetGeoLocation->CityName, SIGNAL(textChanged(QString)), this, SLOT(slotChangeCity()));
+    connect(argSetGeoLocation->ProvinceName, SIGNAL(textChanged(QString)), this, SLOT(slotChangeProvince()));
+    connect(argSetGeoLocation->CountryName, SIGNAL(textChanged(QString)), this, SLOT(slotChangeCountry()));
     connect(argTimeScale->TimeScale, SIGNAL(scaleChanged(float)), this, SLOT(slotTimeScale()));
-    connect(argZoom->ZoomBox, SIGNAL(textChanged(const QString &)), this, SLOT(slotZoom()));
-    connect(argExportImage->ExportFileName, SIGNAL(textChanged(const QString &)), this, SLOT(slotExportImage()));
+    connect(argZoom->ZoomBox, SIGNAL(textChanged(QString)), this, SLOT(slotZoom()));
+    connect(argExportImage->ExportFileName, SIGNAL(textChanged(QString)), this, SLOT(slotExportImage()));
     connect(argExportImage->ExportWidth, SIGNAL(valueChanged(int)), this, SLOT(slotExportImage()));
     connect(argExportImage->ExportHeight, SIGNAL(valueChanged(int)), this, SLOT(slotExportImage()));
     connect(argPrintImage->UsePrintDialog, SIGNAL(toggled(bool)), this, SLOT(slotPrintImage()));
     connect(argPrintImage->UseChartColors, SIGNAL(toggled(bool)), this, SLOT(slotPrintImage()));
-    connect(argSetColor->ColorName, SIGNAL(activated(const QString &)), this, SLOT(slotChangeColorName()));
-    connect(argSetColor->ColorValue, SIGNAL(changed(const QColor &)), this, SLOT(slotChangeColor()));
-    connect(argLoadColorScheme->SchemeList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(slotLoadColorScheme()));
+    connect(argSetColor->ColorName, SIGNAL(activated(QString)), this, SLOT(slotChangeColorName()));
+    connect(argSetColor->ColorValue, SIGNAL(changed(QColor)), this, SLOT(slotChangeColor()));
+    connect(argLoadColorScheme->SchemeList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotLoadColorScheme()));
 
     //disable some buttons
     sb->CopyButton->setEnabled(false);
@@ -1319,7 +1319,7 @@ void ScriptBuilder::slotAddFunction()
     if (currentItem == nullptr || currentItem->parent() == nullptr)
         return;
 
-    for (auto* sc : KStarsFunctionList)
+    for (auto &sc : KStarsFunctionList)
     {
         if (sc->prototype() == currentItem->text(0))
         {
@@ -1328,7 +1328,7 @@ void ScriptBuilder::slotAddFunction()
         }
     }
 
-    for (auto* sc : SimClockFunctionList)
+    for (auto &sc : SimClockFunctionList)
     {
         if (sc->prototype() == currentItem->text(0))
         {
@@ -1682,7 +1682,7 @@ void ScriptBuilder::slotShowDoc()
     if (currentItem == nullptr || currentItem->parent() == nullptr)
         return;
 
-    for (auto* sc : KStarsFunctionList)
+    for (auto &sc : KStarsFunctionList)
     {
         if (sc->prototype() == currentItem->text(0))
         {
@@ -1691,7 +1691,7 @@ void ScriptBuilder::slotShowDoc()
         }
     }
 
-    for (auto* sc : SimClockFunctionList)
+    for (auto &sc : SimClockFunctionList)
     {
         if (sc->prototype() == currentItem->text(0))
         {

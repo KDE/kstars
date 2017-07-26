@@ -35,9 +35,9 @@ modCalcSidTime::modCalcSidTime(QWidget *parent) : QFrame(parent)
 
     // signals and slots connections
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotChangeLocation()));
-    connect(Date, SIGNAL(dateChanged(const QDate &)), this, SLOT(slotChangeDate()));
-    connect(LT, SIGNAL(timeChanged(const QTime &)), this, SLOT(slotConvertST(const QTime &)));
-    connect(ST, SIGNAL(timeChanged(const QTime &)), this, SLOT(slotConvertLT(const QTime &)));
+    connect(Date, SIGNAL(dateChanged(QDate)), this, SLOT(slotChangeDate()));
+    connect(LT, SIGNAL(timeChanged(QTime)), this, SLOT(slotConvertST(QTime)));
+    connect(ST, SIGNAL(timeChanged(QTime)), this, SLOT(slotConvertLT(QTime)));
 
     connect(LocationCheckBatch, SIGNAL(clicked()), this, SLOT(slotLocationChecked()));
     connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
@@ -45,8 +45,8 @@ modCalcSidTime::modCalcSidTime(QWidget *parent) : QFrame(parent)
     connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotHelpLabel()));
     connect(ComputeComboBatch, SIGNAL(currentIndexChanged(int)), this, SLOT(slotHelpLabel()));
 
-    connect(InputFileBatch, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()));
-    connect(OutputFileBatch, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()));
+    connect(InputFileBatch, SIGNAL(urlSelected(QUrl)), this, SLOT(slotCheckFiles()));
+    connect(OutputFileBatch, SIGNAL(urlSelected(QUrl)), this, SLOT(slotCheckFiles()));
     connect(LocationButtonBatch, SIGNAL(clicked()), this, SLOT(slotLocationBatch()));
     connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
     connect(ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()));

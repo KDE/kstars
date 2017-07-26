@@ -748,7 +748,7 @@ void KStars::buildGUI()
     TextureManager::Create();
     //create the skymap
     m_SkyMap = SkyMap::Create();
-    connect(m_SkyMap, SIGNAL(mousePointChanged(SkyPoint *)), SLOT(slotShowPositionBar(SkyPoint *)));
+    connect(m_SkyMap, SIGNAL(mousePointChanged(SkyPoint*)), SLOT(slotShowPositionBar(SkyPoint*)));
     connect(m_SkyMap, SIGNAL(zoomChanged()), SLOT(slotZoomChanged()));
     setCentralWidget(m_SkyMap);
 

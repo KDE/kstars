@@ -35,11 +35,11 @@ modCalcJD::modCalcJD(QWidget *parentSplit) : QFrame(parentSplit)
 
     // signals and slots connections
     connect(NowButton, SIGNAL(clicked()), this, SLOT(showCurrentTime()));
-    connect(DateTimeBox, SIGNAL(dateTimeChanged(const QDateTime &)), this, SLOT(slotUpdateCalendar()));
+    connect(DateTimeBox, SIGNAL(dateTimeChanged(QDateTime)), this, SLOT(slotUpdateCalendar()));
     connect(JDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateJD()));
     connect(ModJDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateModJD()));
-    connect(InputFileBatch, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()));
-    connect(OutputFileBatch, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()));
+    connect(InputFileBatch, SIGNAL(urlSelected(QUrl)), this, SLOT(slotCheckFiles()));
+    connect(OutputFileBatch, SIGNAL(urlSelected(QUrl)), this, SLOT(slotCheckFiles()));
     connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
     connect(ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()));
 

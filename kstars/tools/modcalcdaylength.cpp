@@ -34,12 +34,12 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit) : QFrame(parentSplit)
     initGeo();
     slotComputeAlmanac();
 
-    connect(Date, SIGNAL(dateChanged(const QDate &)), this, SLOT(slotComputeAlmanac()));
+    connect(Date, SIGNAL(dateChanged(QDate)), this, SLOT(slotComputeAlmanac()));
     connect(Location, SIGNAL(clicked()), this, SLOT(slotLocation()));
 
     connect(LocationBatch, SIGNAL(clicked()), this, SLOT(slotLocationBatch()));
-    connect(InputFileBatch, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()));
-    connect(OutputFileBatch, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()));
+    connect(InputFileBatch, SIGNAL(urlSelected(QUrl)), this, SLOT(slotCheckFiles()));
+    connect(OutputFileBatch, SIGNAL(urlSelected(QUrl)), this, SLOT(slotCheckFiles()));
     connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
     connect(ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()));
 

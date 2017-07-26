@@ -63,7 +63,7 @@ Guide::Guide() : QWidget()
     QVBoxLayout *vlayout = new QVBoxLayout();
     vlayout->addWidget(guideView);
     guideWidget->setLayout(vlayout);
-    connect(guideView, SIGNAL(trackingStarSelected(int, int)), this, SLOT(setTrackingStar(int, int)));
+    connect(guideView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setTrackingStar(int,int)));
 
     ccdPixelSizeX = ccdPixelSizeY = mountAperture = mountFocalLength = pixScaleX = pixScaleY = -1;
     guideDeviationRA = guideDeviationDEC = 0;
@@ -239,8 +239,8 @@ Guide::Guide() : QWidget()
     driftGraph->setInteractions(QCP::iRangeZoom);
     driftGraph->setInteraction(QCP::iRangeDrag, true);
 
-    connect(driftGraph, SIGNAL(mouseMove(QMouseEvent *)), this, SLOT(driftMouseOverLine(QMouseEvent *)));
-    connect(driftGraph, SIGNAL(mousePress(QMouseEvent *)), this, SLOT(driftMouseClicked(QMouseEvent *)));
+    connect(driftGraph, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(driftMouseOverLine(QMouseEvent*)));
+    connect(driftGraph, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(driftMouseClicked(QMouseEvent*)));
 
     // Init Internal Guider always
     internalGuider        = new InternalGuider();
@@ -333,10 +333,10 @@ void Guide::checkCCD(int ccdNum)
         currentCCD = CCDs.at(ccdNum);
 
         //connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()), Qt::UniqueConnection);
-        connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-                SLOT(processCCDNumber(INumberVectorProperty *)), Qt::UniqueConnection);
-        connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
-                SLOT(checkExposureValue(ISD::CCDChip *, double, IPState)), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+                SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this,
+                SLOT(checkExposureValue(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
 
 // If guider is external and already connected and remote images option was disabled AND it was already
 // disabled, then let's go ahead and disable it.
@@ -643,7 +643,7 @@ bool Guide::captureOneFrame()
 
     currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)), Qt::UniqueConnection);
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
     if (Options::guideLogging())
         qDebug() << "Guide: Capturing frame...";
 
@@ -736,7 +736,7 @@ void Guide::setBusy(bool enable)
 
         pi->stopAnimation();
 
-        connect(guideView, SIGNAL(trackingStarSelected(int, int)), this, SLOT(setTrackingStar(int, int)),
+        connect(guideView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setTrackingStar(int,int)),
                 Qt::UniqueConnection);
     }
 }
@@ -1474,9 +1474,9 @@ bool Guide::setGuiderType(int type)
     {
         case GUIDE_INTERNAL:
         {
-            connect(internalGuider, SIGNAL(newPulse(GuideDirection, int)), this, SLOT(sendPulse(GuideDirection, int)));
-            connect(internalGuider, SIGNAL(newPulse(GuideDirection, int, GuideDirection, int)), this,
-                    SLOT(sendPulse(GuideDirection, int, GuideDirection, int)));
+            connect(internalGuider, SIGNAL(newPulse(GuideDirection,int)), this, SLOT(sendPulse(GuideDirection,int)));
+            connect(internalGuider, SIGNAL(newPulse(GuideDirection,int,GuideDirection,int)), this,
+                    SLOT(sendPulse(GuideDirection,int,GuideDirection,int)));
             connect(internalGuider, SIGNAL(DESwapChanged(bool)), swapCheck, SLOT(setChecked(bool)));
 
             guider = internalGuider;
@@ -1567,11 +1567,11 @@ bool Guide::setGuiderType(int type)
         connect(guider, SIGNAL(frameCaptureRequested()), this, SLOT(capture()));
         connect(guider, SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
         connect(guider, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
-        connect(guider, SIGNAL(newStarPosition(QVector3D, bool)), this, SLOT(setStarPosition(QVector3D, bool)));
+        connect(guider, SIGNAL(newStarPosition(QVector3D,bool)), this, SLOT(setStarPosition(QVector3D,bool)));
 
-        connect(guider, SIGNAL(newAxisDelta(double, double)), this, SLOT(setAxisDelta(double, double)));
-        connect(guider, SIGNAL(newAxisPulse(double, double)), this, SLOT(setAxisPulse(double, double)));
-        connect(guider, SIGNAL(newAxisSigma(double, double)), this, SLOT(setAxisSigma(double, double)));
+        connect(guider, SIGNAL(newAxisDelta(double,double)), this, SLOT(setAxisDelta(double,double)));
+        connect(guider, SIGNAL(newAxisPulse(double,double)), this, SLOT(setAxisPulse(double,double)));
+        connect(guider, SIGNAL(newAxisSigma(double,double)), this, SLOT(setAxisSigma(double,double)));
     }
 
     externalConnectB->setEnabled(false);

@@ -133,10 +133,10 @@ ObservingList::ObservingList()
     ui->SessionView->installEventFilter(this);
     // setDefaultImage();
     //Connections
-    connect(ui->WishListView, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(slotCenterObject()));
+    connect(ui->WishListView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotCenterObject()));
     connect(ui->WishListView->selectionModel(),
-            SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this, SLOT(slotNewSelection()));
-    connect(ui->SessionView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+            SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(slotNewSelection()));
+    connect(ui->SessionView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(slotNewSelection()));
     connect(ui->WUTButton, SIGNAL(clicked()), this, SLOT(slotWUT()));
     connect(ui->FindButton, SIGNAL(clicked()), this, SLOT(slotFind()));
