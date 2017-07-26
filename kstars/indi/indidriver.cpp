@@ -508,7 +508,7 @@ bool INDIDriver::readXMLDrivers()
     foreach (QFileInfo fileInfo, list)
     {
         // libindi 0.7.1: Skip skeleton files
-        if (fileInfo.fileName().endsWith("_sk.xml"))
+        if (fileInfo.fileName().endsWith(QLatin1String("_sk.xml")))
             continue;
 
         if (fileInfo.fileName() == "drivers.xml")
@@ -546,7 +546,7 @@ void INDIDriver::processXMLDriver(QString &driverName)
     LilXML *xmlParser = newLilXML();
     XMLEle *root      = nullptr;
 
-    if (driverName.endsWith("drivers.xml"))
+    if (driverName.endsWith(QLatin1String("drivers.xml")))
         xmlSource = IDevice::PRIMARY_XML;
     else
         xmlSource = IDevice::THIRD_PARTY_XML;

@@ -47,7 +47,7 @@ FlagComponent::FlagComponent(SkyComposite *parent) : PointListComponent(parent)
     QDir appDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
     appDir.setNameFilters(QStringList() << "flag*");
     // Add all other images found in user appdata directory
-    foreach (QString item, appDir.entryList())
+    for (auto &item : appDir.entryList())
     {
         QString fileName =
             item.replace(QRegExp("\\.[^.]*$"), QString()).replace(QRegExp("^flag"), QString()).replace('_', ' ');
@@ -325,9 +325,9 @@ QList<int> FlagComponent::getFlagsNearPix(SkyPoint *point, int pixelRadius)
 #endif
     QPointF pos = proj->toScreen(point);
     QList<int> retVal;
-
     int ptr = 0;
-    foreach (std::shared_ptr<SkyPoint> cp, pointList())
+
+    for (auto &cp : pointList())
     {
         if (std::isnan(cp->ra().Degrees()) || std::isnan(cp->dec().Degrees()))
             continue;
@@ -389,7 +389,8 @@ void FlagComponent::update(KSNumbers *num)
     if (!selected())
         return;
     KStarsData *data = KStarsData::Instance();
-    foreach (std::shared_ptr<SkyPoint> p, pointList())
+
+    for (auto &p : pointList())
     {
         if (num)
             p->updateCoordsNow(num);

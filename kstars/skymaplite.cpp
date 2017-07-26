@@ -100,9 +100,7 @@ RootNode *SkyMapLite::m_rootNode = nullptr;
 int SkyMapLite::starColorMode = 0;
 
 SkyMapLite::SkyMapLite()
-    : m_proj(0), count(0), data(KStarsData::Instance()), nStarSizes(15), nSPclasses(7), pinch(false),
-      m_loadingFinished(false), m_sizeMagLim(10.0), isInitialized(false), clearTextures(false), m_centerLocked(false),
-      m_automaticMode(false), m_skyRotation(0), m_skyMapOrientation(SkyMapOrientation::Top0)
+    : data(KStarsData::Instance())
 #if defined(Q_OS_ANDROID)
       ,
       m_deviceOrientation(new DeviceOrientation(this))
@@ -112,16 +110,10 @@ SkyMapLite::SkyMapLite()
     setAcceptedMouseButtons(Qt::AllButtons);
     setFlag(ItemHasContents, true);
 
-    m_rootNode = 0;
+    m_rootNode = nullptr;
     m_magLim   = 2.222 * log10(static_cast<double>(Options::starDensity())) + 0.35;
 
-    midMouseButtonDown = false;
-    mouseButtonDown    = false;
     setSlewing(false);
-    clockSlewing = false;
-
-    ClickedObject = nullptr;
-    FocusObject   = nullptr;
 
     m_ClickedObjectLite = new SkyObjectLite;
     m_ClickedPointLite  = new SkyPointLite;
@@ -254,17 +246,12 @@ void SkyMapLite::initialize(QQuickItem *parent)
 SkyMapLite::~SkyMapLite()
 {
     // Delete image cache
-    foreach (QVector<QPixmap *> imgCache, imageCache)
-    {
-        foreach (QPixmap *img, imgCache)
-            delete img;
-    }
+    for (auto &imgCache : imageCache)
+        qDeleteAll(imgCache);
+
     // Delete textures generated from image cache
-    foreach (QVector<QSGTexture *> tCache, textureCache)
-    {
-        foreach (QSGTexture *t, tCache)
-            delete t;
-    }
+    for (auto &tCache : textureCache)
+        qDeleteAll(tCache);
 }
 
 void SkyMapLite::setFocus(SkyPoint *p)
@@ -1054,7 +1041,7 @@ void SkyMapLite::initStarImages()
                 ColorMap.insert('M', QColor::fromRgb(255, 0, 0));
         }
 
-        foreach (char color, ColorMap.keys())
+        for (char color : ColorMap.keys())
         {
             //Add new spectral class
 

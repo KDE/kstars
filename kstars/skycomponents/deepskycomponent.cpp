@@ -373,7 +373,7 @@ void DeepSkyComponent::loadData()
         deep_sky_parser.ShowProgress();
     }
 
-    foreach (QStringList list, objectNames())
+    for (auto &list : objectNames())
         list.removeDuplicates();
 }
 
@@ -390,7 +390,7 @@ void DeepSkyComponent::mergeSplitFiles()
     qDebug() << "Merging split NGC/IC files" << endl;
 
     QString buffer;
-    foreach (const QString &fname, catFiles)
+    for (auto &fname : catFiles)
     {
         QFile f(localDir.absoluteFilePath(fname));
         if (f.open(QIODevice::ReadOnly))

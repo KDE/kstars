@@ -187,7 +187,7 @@ bool OpsAstrometryIndexFiles::getAstrometryDataDir(QString &dataDir)
             continue;
 
         line = line.trimmed();
-        if (line.startsWith("add_path"))
+        if (line.startsWith(QLatin1String("add_path")))
         {
             dataDir = line.mid(9).trimmed();
             return true;
@@ -332,9 +332,9 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                     indexDownloadProgress->setVisible(true);
                 checkBox->setEnabled(false);
                 QString URL;
-                if (indexSetName.startsWith("index-41"))
+                if (indexSetName.startsWith(QLatin1String("index-41")))
                     URL = "http://broiler.astrometry.net/~dstn/4100/" + indexSetName;
-                else if (indexSetName.startsWith("index-42"))
+                else if (indexSetName.startsWith(QLatin1String("index-42")))
                     URL = "http://broiler.astrometry.net/~dstn/4200/" + indexSetName;
                 int maxIndex = 0;
                 if (indexFileNum < 8 && URL.contains("*"))

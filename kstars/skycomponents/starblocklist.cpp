@@ -29,7 +29,7 @@
 
 #include <QDebug>
 
-StarBlockList::StarBlockList(Trixel tr, DeepStarComponent *parent)
+StarBlockList::StarBlockList(const Trixel &tr, DeepStarComponent *parent)
 {
     trixel       = tr;
     this->parent = parent;

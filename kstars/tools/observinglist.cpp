@@ -516,10 +516,11 @@ void ObservingList::slotNewSelection()
         //Find the selected object in the SessionList,
         //then break the loop.  Now SessionList.current()
         //points to the new selected object (until now it was the previous object)
-        foreach (o, getActiveList())
+        for (auto& o_temp : getActiveList())
         {
-            if (getObjectName(o.data()) == newName)
+            if (getObjectName(o_temp.data()) == newName)
             {
+                o = o_temp;
                 found = true;
                 break;
             }

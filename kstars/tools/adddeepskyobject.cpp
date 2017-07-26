@@ -125,7 +125,7 @@ void AddDeepSkyObject::fillFromText(const QString &text)
     QRegularExpression findName2("\\b(" + catalogNames.join("|") + ")\\s+(J?[-+0-9\\.]+[A-Da-h]?)\\b");
     QRegularExpression findName3("\\b([A-Za-z]+[0-9]?)\\s+(J?[-+0-9]+[A-Da-h]?)\\b");
 
-    QString coordText = QString();
+    QString coordText;
     bool coordsFound = false, magFound = false, sizeFound = false, nameFound = false, positionAngleFound = false;
     dms RA, Dec;
     float mag           = NaN::f;

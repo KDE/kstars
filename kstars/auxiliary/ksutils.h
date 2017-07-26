@@ -261,7 +261,7 @@ struct JPLFilter
 /**
  *@short Generate a query string for downloading comet/asteroid data from JPL.
  *@param kind The kind of object we want: ast, com.
- *@param dataFields The collumns we want to download.
+ *@param dataFields The columns we want to download.
  *@param filters Filters for the Data.
  *@return The query string.
  */

@@ -62,10 +62,10 @@ class AstroCalc : public QDialog
          * @param acalc  pointer to class.
          * @param f      function which construct widget.
          */
-        WidgetThunk(AstroCalc *acalc, WidgetConstructor f) : widget(0), calc(acalc), func(f) {}
+        WidgetThunk(AstroCalc *acalc, const WidgetConstructor& f) : widget(0), calc(acalc), func(f) { }
         /**
          * Request widget.
-         *  @return newly created widget or cached value.
+         * @return newly created widget or cached value.
          */
         QWidget *eval();
 
@@ -90,7 +90,7 @@ class AstroCalc : public QDialog
      * @param title name of item
      * @param html  string to be displayed in splash screen
      */
-    QTreeWidgetItem *addTreeTopItem(QTreeWidget *parent, QString title, QString html);
+    QTreeWidgetItem *addTreeTopItem(QTreeWidget *parent, const QString &title, const QString &html);
 
     /**
      * Add item to navigation panel. At the same time adds item to dispatchTable Template
@@ -99,7 +99,7 @@ class AstroCalc : public QDialog
      * @param title  name of item
      */
     template <typename T>
-    QTreeWidgetItem *addTreeItem(QTreeWidgetItem *parent, QString title);
+    QTreeWidgetItem *addTreeItem(QTreeWidgetItem *parent, const QString &title);
 
     /** Lookup table for help texts. Maps navpanel item to help text. */
     QMap<QTreeWidgetItem *, QString> htmlTable;

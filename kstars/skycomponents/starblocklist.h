@@ -26,6 +26,7 @@ class StarBlock;
  * @class StarBlockList
  * Maintains a list of StarBlocks that contain the stars lying in a single trixel.
  * Takes care of the dynamic loading of stars
+ *
  * @author Akarsh Simha
  * @version 0.1
  */
@@ -33,16 +34,11 @@ class StarBlockList
 {
   public:
     /**
-     * Constructor.
-     */
-    explicit StarBlockList(Trixel trixel);
-
-    /**
      * Constructor for deep star catalogs.
      * @param trixel The trixel ID
      * @param parent Pointer to the parent DeepStarComponent
      */
-    StarBlockList(Trixel trixel, DeepStarComponent *parent = nullptr);
+    explicit StarBlockList(const Trixel &trixel, DeepStarComponent *parent = nullptr);
 
     /**
      * @short Ensures that the list is loaded with stars to given magnitude limit

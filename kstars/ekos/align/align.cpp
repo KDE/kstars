@@ -1015,7 +1015,7 @@ void Align::updatePreviewAlignPoints()
     FlagComponent *flags = KStarsData::Instance()->skyComposite()->flags();
     for (int i = 0; i < flags->size(); i++)
     {
-        if (flags->label(i).startsWith("Align"))
+        if (flags->label(i).startsWith(QLatin1String("Align")))
         {
             flags->remove(i);
             i--;
@@ -1160,7 +1160,7 @@ void Align::slotSaveAlignmentPoints()
 {
     QUrl backupCurrent = alignURL;
 
-    if (alignURL.toLocalFile().startsWith("/tmp/") || alignURL.toLocalFile().contains("/Temp"))
+    if (alignURL.toLocalFile().startsWith(QLatin1String("/tmp/")) || alignURL.toLocalFile().contains("/Temp"))
         alignURL.clear();
 
     if (alignURL.isEmpty())
@@ -1176,7 +1176,7 @@ void Align::slotSaveAlignmentPoints()
 
         alignURLPath = QUrl(alignURL.url(QUrl::RemoveFilename));
 
-        if (alignURL.toLocalFile().endsWith(".eal") == false)
+        if (alignURL.toLocalFile().endsWith(QLatin1String(".eal")) == false)
             alignURL.setPath(alignURL.toLocalFile() + ".eal");
 
         if (QFile::exists(alignURL.toLocalFile()))
@@ -1340,7 +1340,7 @@ void Align::exportSolutionPoints()
                                                   "CSV File (*.csv)");
     if (exportFile.isEmpty()) // if user presses cancel
         return;
-    if (exportFile.toLocalFile().endsWith(".csv") == false)
+    if (exportFile.toLocalFile().endsWith(QLatin1String(".csv")) == false)
         exportFile.setPath(exportFile.toLocalFile() + ".csv");
 
     QString path = exportFile.toLocalFile();
@@ -2578,10 +2578,10 @@ void Align::startSolving(const QString &filename, bool isGenerated)
             }
         }
     }
-    else if (filename.endsWith("fits") || filename.endsWith("fit"))
+    else if (filename.endsWith(QLatin1String("fits")) || filename.endsWith(QLatin1String("fit")))
     {
         solverArgs = getSolverOptionsFromFITS(filename);
-        appendLogText(i18n("Using solver options: %1", solverArgs.join(" ")));
+        appendLogText(i18n("Using solver options: %1", solverArgs.join(' ')));
     }
     else
     {
@@ -4257,7 +4257,7 @@ void Align::restartPAHProcess()
     if (pahStage == PAH_IDLE)
         return;
 
-    // Only display dialog if user explicity restarts
+    // Only display dialog if user explicitly restarts
     if ((static_cast<QPushButton *>(sender()) == PAHRestartB) &&
         KMessageBox::questionYesNo(KStars::Instance(),
                                    i18n("Are you sure you want to restart the polar alignment process?"),

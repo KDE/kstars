@@ -24,11 +24,11 @@
 
 #include <QSGNode>
 
-LinesItem::LinesItem(RootNode *rootNode) : SkyItem(LabelsItem::label_t::NO_LABEL, rootNode)
+LineIndexNode::LineIndexNode(const QString &color) : schemeColor(color)
 {
 }
 
-LineIndexNode::LineIndexNode(QString color) : schemeColor(color)
+LinesItem::LinesItem(RootNode *rootNode) : SkyItem(LabelsItem::label_t::NO_LABEL, rootNode)
 {
 }
 

@@ -13,18 +13,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "skyobject.h"
-#include "Options.h"
-
-#include <QSGFlatColorMaterial>
 
 #include "dsosymbolnode.h"
-#include "nodes/ellipsenode.h"
-#include "deepskyobject.h"
 
-#include "../rootnode.h"
-#include "../labelsitem.h"
-#include "labelnode.h"
+#include "deepskyobject.h"
+#include "Options.h"
+#include "nodes/ellipsenode.h"
+
+#include <QSGFlatColorMaterial>
 
 void SymbolNode::updateSymbol(float x, float y, float e, float size)
 {
@@ -52,7 +48,7 @@ void SymbolNode::updateSymbol(float x, float y, float e, float size)
     yb  = y + dyb;
 }
 
-StarSymbol::StarSymbol(QColor color) : m_ellipse(new EllipseNode(color))
+StarSymbol::StarSymbol(const QColor &color) : m_ellipse(new EllipseNode(color))
 {
     appendChildNode(m_ellipse);
 }
@@ -68,7 +64,7 @@ void StarSymbol::updateSymbol(float x, float y, float e, float size)
         m_ellipse->updateGeometry(0, 0, int(size / 2), int(size / 2), false);
 }
 
-AsterismSymbol::AsterismSymbol(QColor color)
+AsterismSymbol::AsterismSymbol(const QColor &color)
 {
     e1 = new EllipseNode(color);
     e2 = new EllipseNode(color);
@@ -107,7 +103,7 @@ void AsterismSymbol::updateSymbol(float x, float y, float e, float size)
     e8->updateGeometry(x2, yb, psize, psize, true);
 }
 
-GlobularClusterSymbol::GlobularClusterSymbol(QColor color) : e1(new EllipseNode(color))
+GlobularClusterSymbol::GlobularClusterSymbol(const QColor &color) : e1(new EllipseNode(color))
 {
     appendChildNode(e1);
 
@@ -147,7 +143,7 @@ void GlobularClusterSymbol::updateSymbol(float x, float y, float e, float size)
     lines->markDirty(QSGNode::DirtyGeometry);
 }
 
-DarkNebulaSymbol::DarkNebulaSymbol(QColor color)
+DarkNebulaSymbol::DarkNebulaSymbol(const QColor &color)
 {
     lines = new QSGGeometryNode;
     appendChildNode(lines);
@@ -192,7 +188,7 @@ void DarkNebulaSymbol::updateSymbol(float x, float y, float e, float size)
     lines->markDirty(QSGNode::DirtyGeometry);
 }
 
-PlanetaryNebulaSymbol::PlanetaryNebulaSymbol(QColor color)
+PlanetaryNebulaSymbol::PlanetaryNebulaSymbol(const QColor &color)
 {
     e1 = new EllipseNode(color);
     appendChildNode(e1);
@@ -242,7 +238,7 @@ void PlanetaryNebulaSymbol::updateSymbol(float x, float y, float e, float size)
     lines->markDirty(QSGNode::DirtyGeometry);
 }
 
-SupernovaRemnantSymbol::SupernovaRemnantSymbol(QColor color)
+SupernovaRemnantSymbol::SupernovaRemnantSymbol(const QColor &color)
 {
     lines = new QSGGeometryNode;
     appendChildNode(lines);
@@ -286,7 +282,7 @@ void SupernovaRemnantSymbol::updateSymbol(float x, float y, float e, float size)
     lines->markDirty(QSGNode::DirtyGeometry);
 }
 
-GalaxySymbol::GalaxySymbol(QColor color) : e1(new EllipseNode(color))
+GalaxySymbol::GalaxySymbol(const QColor &color) : e1(new EllipseNode(color))
 {
     appendChildNode(e1);
 }
@@ -309,7 +305,7 @@ void GalaxySymbol::updateSymbol(float x, float y, float e, float size)
     }
 }
 
-GalaxyClusterSymbol::GalaxyClusterSymbol(QColor color) : lines(new QSGGeometryNode)
+GalaxyClusterSymbol::GalaxyClusterSymbol(const QColor &color) : lines(new QSGGeometryNode)
 {
     QSGGeometry *geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     geometry->setDrawingMode(GL_LINES);
@@ -372,7 +368,7 @@ void GalaxyClusterSymbol::updateSymbol(float x, float y, float e, float size)
     lines->markDirty(QSGNode::DirtyGeometry);
 }
 
-DSOSymbolNode::DSOSymbolNode(DeepSkyObject *skyObject, QColor color)
+DSOSymbolNode::DSOSymbolNode(DeepSkyObject *skyObject, const QColor &color)
     : m_dso(skyObject), m_symbol(0), m_rotate(false), m_color(color) //We don't rotate the symbol by default
 {
 }

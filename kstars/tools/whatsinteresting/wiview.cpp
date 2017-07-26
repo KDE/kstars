@@ -573,11 +573,11 @@ QString WIView::getWikipediaName(SkyObjItem *soitem)
 
     QString name;
 
-    if (soitem->getName().toLower().startsWith("m "))
+    if (soitem->getName().toLower().startsWith(QLatin1String("m ")))
         name = soitem->getName().replace("M ", "Messier_").remove(' ');
-    else if (soitem->getName().toLower().startsWith("ngc"))
+    else if (soitem->getName().toLower().startsWith(QLatin1String("ngc")))
         name = soitem->getName().toLower().replace("ngc", "NGC_").remove(' ');
-    else if (soitem->getName().toLower().startsWith("ic"))
+    else if (soitem->getName().toLower().startsWith(QLatin1String("ic")))
         name = soitem->getName().toLower().replace("ic", "IC_").remove(' ');
     else if (soitem->getType() == SkyObjItem::Constellation)
     {

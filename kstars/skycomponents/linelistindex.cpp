@@ -126,16 +126,15 @@ void LineListIndex::reindexLines()
     DrawID drawID = skyMesh()->incDrawID();
 
     m_lineIndex.reset(new LineListHash());
-    foreach (std::shared_ptr<LineListList> listList, *oldIndex)
+    for (auto &listList : *oldIndex)
     {
-        for (int i = 0; i < listList->size(); i++)
+        for (auto &item : *listList)
         {
-            const std::shared_ptr<LineList>& lineList = listList->at(i);
-
-            if (lineList->drawID == drawID)
+            if (item->drawID == drawID)
                 continue;
-            lineList->drawID = drawID;
-            appendLine(lineList);
+
+            item->drawID = drawID;
+            appendLine(item);
         }
         listList.reset();
     }

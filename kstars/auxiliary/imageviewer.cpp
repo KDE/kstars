@@ -182,7 +182,7 @@ void ImageViewer::init(QString caption, QString capText)
 ImageViewer::~ImageViewer()
 {
     QString filename = file.fileName();
-    if (filename.startsWith("/tmp/") || filename.contains("/Temp"))
+    if (filename.startsWith(QLatin1String("/tmp/")) || filename.contains("/Temp"))
     {
         if (m_ImageUrl.isEmpty() == false ||
             KMessageBox::questionYesNo(0, i18n("Remove temporary file %1 from disk?", filename),

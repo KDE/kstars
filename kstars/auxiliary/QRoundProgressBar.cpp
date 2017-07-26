@@ -142,8 +142,7 @@ void QRoundProgressBar::setFormat(const QString &format)
 
 void QRoundProgressBar::resetFormat()
 {
-    m_format = QString::null;
-
+    m_format.clear();
     valueFormatChanged();
 }
 

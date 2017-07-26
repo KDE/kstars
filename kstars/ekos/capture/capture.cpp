@@ -2791,7 +2791,7 @@ void Capture::saveSequenceQueue()
 {
     QUrl backupCurrent = sequenceURL;
 
-    if (sequenceURL.toLocalFile().startsWith("/tmp/") || sequenceURL.toLocalFile().contains("/Temp"))
+    if (sequenceURL.toLocalFile().startsWith(QLatin1String("/tmp/")) || sequenceURL.toLocalFile().contains("/Temp"))
         sequenceURL.clear();
 
     // If no changes made, return.
@@ -2811,7 +2811,7 @@ void Capture::saveSequenceQueue()
 
         dirPath = QUrl(sequenceURL.url(QUrl::RemoveFilename));
 
-        if (sequenceURL.toLocalFile().endsWith(".esq") == false)
+        if (sequenceURL.toLocalFile().endsWith(QLatin1String(".esq")) == false)
             sequenceURL.setPath(sequenceURL.toLocalFile() + ".esq");
 
         if (QFile::exists(sequenceURL.toLocalFile()))
@@ -3674,7 +3674,7 @@ double Capture::setCurrentADU(double value)
                  << " Exposure Count: " << ExpRaw.count();
 
     // Most CCDs are quite linear so 1st degree polynomial is quite sufficient
-    // But DSLRs can exhibit non-linear response curve and so a 2nd degree polynomial is more appropiate
+    // But DSLRs can exhibit non-linear response curve and so a 2nd degree polynomial is more appropriate
     if (ExpRaw.count() >= 2)
     {
         if (ExpRaw.count() >= 4)

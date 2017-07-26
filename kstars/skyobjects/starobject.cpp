@@ -242,7 +242,7 @@ void StarObject::setNames(const QString &name, const QString &name2)
 
     setName2(name2);
 
-    if (hasName() && name.startsWith("HD") == false)
+    if (hasName() && name.startsWith(QLatin1String("HD")) == false)
     {
         lname = name;
         if (hasName2())

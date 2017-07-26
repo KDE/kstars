@@ -126,7 +126,7 @@ class DriverManager : public QDialog
     DriverManager(QWidget *parent);
     ~DriverManager();
 
-    bool checkDriverAvailability(QString driver);
+    bool checkDriverAvailability(const QString &driver);
 
     static DriverManager *_DriverManager;
 

@@ -14,8 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYMAPLITE_H_
-#define SKYMAPLITE_H_
+#pragma once
 
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyline.h"
@@ -86,17 +85,20 @@ class SkyMapLite : public QQuickItem
     Q_PROPERTY(bool centerLocked READ getCenterLocked WRITE setCenterLocked NOTIFY centerLockedChanged)
     Q_PROPERTY(bool automaticMode READ getAutomaticMode WRITE setAutomaticMode NOTIFY automaticModeChanged)
     Q_PROPERTY(double skyRotation READ getSkyRotation WRITE setSkyRotation NOTIFY skyRotationChanged)
+
+    enum class SkyMapOrientation
+    {
+        Top0,
+        Right90,
+        Bottom180,
+        Left270
+    };
+
   protected:
-    /** Constructor. **/
-    explicit SkyMapLite();
+    SkyMapLite();
 
     /** Updates SkyMapLite by calling RootNode::update(), which in turn initiates update of all child nodes. **/
     virtual QSGNode *updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData);
-
-    /** pointer to RootNode. Use it to universally access RootNode
-         * @warning RootNode should be used solely during updatePaintNode! See Qt Quick Scene Graph documentation.
-        **/
-    static RootNode *m_rootNode;
 
   public:
     /** Creates instance of SkyMapLite (delete the old one if any) **/
@@ -499,7 +501,7 @@ class SkyMapLite : public QQuickItem
 
     void automaticModeChanged(bool);
 
-    /** Emited when skyRotation used to rotate coordinates of SkyPoints is changed **/
+    /** Emitted when skyRotation used to rotate coordinates of SkyPoints is changed **/
     void skyRotationChanged(double skyRotation);
 
   protected:
@@ -605,121 +607,85 @@ class SkyMapLite : public QQuickItem
          */
     void zoomOutOrMagStep(const int modifier);
 
-    //True if SkyMapLite was initialized (star images were initialized etc.)
-    bool isInitialized;
-
-    bool mouseButtonDown, midMouseButtonDown;
-    // true if mouseMoveEvent; needed by setMouseMoveCursor
-    bool mouseMoveCursor;
-    bool m_slewing;
-    bool clockSlewing;
-    // true if pinch to zoom or pinch to rotate is performed
-    bool pinch;
-    //if false only old pixmap will repainted with bitBlt(), this
-    // saves a lot of cpu usage
-    bool computeSkymap;
-    // True if we are either looking for angular distance or star hopping directions
-    //bool rulerMode;
-    // True only if we are looking for star hopping directions. If
-    // false while rulerMode is true, it means we are measuring angular
-    // distance. FIXME: Find a better way to do this
-    //bool starHopDefineMode;
-    double y0;
-
-    //double m_Scale;
-    int count;
-
-    KStarsData *data;
-
-    //True if SkyMapComposite has finished loading of SkyComponents
-    bool m_loadingFinished;
-
-    /** @short Coordinates of point under cursor. It's update in
-         * function mouseMoveEvent
-         */
-    SkyPoint m_MousePoint;
-
-    SkyPoint Focus, ClickedPoint, FocusPoint, Destination;
-    SkyObject *ClickedObject, *FocusObject;
-
-    SkyPointLite *m_ClickedPointLite;
-    SkyObjectLite *m_ClickedObjectLite;
-
-    bool m_centerLocked;
-
-    //SkyLine AngularRuler; //The line for measuring angles in the map
-    QRect ZoomRect; //The manual-focus circle.
-
-    // Mouse should not move for that interval to display tooltip
-    static const int HOVER_INTERVAL = 500;
-    // Timer for tooltips
-    QTimer m_HoverTimer;
-
-    bool m_objPointingMode;
-    bool m_fovCaptureMode;
-
-    Projector *m_proj;
-
+    /**
+     * pointer to RootNode. Use it to universally access RootNode
+     * @warning RootNode should be used solely during updatePaintNode! See Qt Quick Scene Graph documentation.
+     **/
+    static RootNode *m_rootNode;
     static SkyMapLite *pinstance;
-    QQuickItem *m_SkyMapLiteWrapper;
-
-    ///Holds SkyNodes that need to be deleted
-    QLinkedList<SkyNode *> m_deleteNodes;
-
-    float m_sizeMagLim; //Used in PointSourceNode
-    double m_magLim;    //Mag limit for all objects
-
-    /// Used to notify zoom-dependent labels about font size change
-    bool m_fontSizeChanged;
-    /// Used for drawing labels
-    QPainter m_painter;
-
-    /** This timer is triggered every time user touches the screen with one finger. If touch was released
-            within 500 milliseconds than it is a tap, otherwise we pan. **/
-    QTimer m_tapBeganTimer;
-
     static int starColorMode;
 
-    const SkyPoint *m_rulerStartPoint; // Good to keep the original ruler start-point for purposes of dynamic_cast
-
+    /// True if SkyMapLite was initialized (star images were initialized etc.)
+    bool isInitialized { false };
+    bool mouseButtonDown { false };
+    bool midMouseButtonDown { false };
+    /// True if mouseMoveEvent; needed by setMouseMoveCursor
+    bool mouseMoveCursor { false };
+    bool m_slewing { false };
+    bool clockSlewing { false };
+    /// True if pinch to zoom or pinch to rotate is performed
+    bool pinch { false };
+    /// If false only old pixmap will repainted with bitBlt() to save a lot of CPU usage
+    bool computeSkymap { false };
+    double y0 { 0 };
+    int count { 0 };
+    KStarsData *data { nullptr };
+    /// True if SkyMapComposite has finished loading of SkyComponents
+    bool m_loadingFinished { false };
+    /// Coordinates of point under cursor. It's update in function mouseMoveEvent
+    SkyPoint m_MousePoint;
+    SkyPoint Focus, ClickedPoint, FocusPoint, Destination;
+    SkyObject *ClickedObject { nullptr };
+    SkyObject *FocusObject { nullptr };
+    SkyPointLite *m_ClickedPointLite { nullptr };
+    SkyObjectLite *m_ClickedObjectLite { nullptr };
+    bool m_centerLocked { false };
+    //SkyLine AngularRuler; //The line for measuring angles in the map
+    QRect ZoomRect; //The manual-focus circle.
+    /// Mouse should not move for that interval to display tooltip
+    static const int HOVER_INTERVAL = 500;
+    /// Timer for tooltips
+    QTimer m_HoverTimer;
+    bool m_objPointingMode { false };
+    bool m_fovCaptureMode { false };
+    Projector *m_proj { nullptr };
+    QQuickItem *m_SkyMapLiteWrapper { nullptr };
+    /// Holds SkyNodes that need to be deleted
+    QLinkedList<SkyNode *> m_deleteNodes;
+    /// Used in PointSourceNode
+    float m_sizeMagLim { 10 };
+    /// Mag limit for all objects
+    double m_magLim { 0 };
+    /// Used to notify zoom-dependent labels about font size change
+    bool m_fontSizeChanged { false };
+    /// Used for drawing labels
+    QPainter m_painter;
+    /**
+     * This timer is triggered every time user touches the screen with one finger.
+     * If touch was released within 500 milliseconds than it is a tap, otherwise we pan.
+     **/
+    QTimer m_tapBeganTimer;
+    /// Good to keep the original ruler start-point for purposes of dynamic_cast
+    const SkyPoint *m_rulerStartPoint;
     QStringList m_FOVSymbols;
     QList<bool> m_FOVSymVisible;
-
-    // This can be later changed
-    // Total number of sizes of stars.
-    const int nStarSizes;
-    // Total number of specatral classes
-    // N.B. Must be in sync with harvardToIndex
-    const int nSPclasses;
-
-    //This can be later changed
-    // Cache for star images.
+    /// Total number of sizes of stars.
+    const int nStarSizes { 15 };
+    /// Total number of spectral classes (N.B. Must be in sync with harvardToIndex)
+    const int nSPclasses { 7 };
+    /// Cache for star images.
     QVector<QVector<QPixmap *>> imageCache;
-    //Textures created from cached star images
+    /// Textures created from cached star images
     QVector<QVector<QSGTexture *>> textureCache;
-    bool clearTextures;
-
-    bool tapBegan;
-
+    bool clearTextures { false };
+    bool tapBegan { false };
     QList<INDI::BaseDevice *> m_newTelescopes;
     QList<INDI::BaseDevice *> m_delTelescopes;
-    bool m_automaticMode;
-
-    double m_skyRotation;
-
-    enum class SkyMapOrientation
-    {
-        Top0,
-        Right90,
-        Bottom180,
-        Left270
-    };
-    SkyMapOrientation m_skyMapOrientation;
-
+    bool m_automaticMode { false };
+    double m_skyRotation { 0 };
+    SkyMapOrientation m_skyMapOrientation { SkyMapOrientation::Top0 };
 #if defined(Q_OS_ANDROID)
     QTimer automaticModeTimer;
-    DeviceOrientation *m_deviceOrientation;
+    DeviceOrientation *m_deviceOrientation { nullptr };
 #endif
 };
-
-#endif

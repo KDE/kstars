@@ -1313,14 +1313,13 @@ void ScriptBuilder::slotRemoveFunction()
 
 void ScriptBuilder::slotAddFunction()
 {
-    ScriptFunction *sc           = nullptr;
     ScriptFunction *found        = nullptr;
     QTreeWidgetItem *currentItem = sb->FunctionTree->currentItem();
 
     if (currentItem == nullptr || currentItem->parent() == nullptr)
         return;
 
-    foreach (sc, KStarsFunctionList)
+    for (auto* sc : KStarsFunctionList)
     {
         if (sc->prototype() == currentItem->text(0))
         {
@@ -1329,7 +1328,7 @@ void ScriptBuilder::slotAddFunction()
         }
     }
 
-    foreach (sc, SimClockFunctionList)
+    for (auto* sc : SimClockFunctionList)
     {
         if (sc->prototype() == currentItem->text(0))
         {
@@ -1677,14 +1676,13 @@ void ScriptBuilder::slotArgWidget()
 
 void ScriptBuilder::slotShowDoc()
 {
-    ScriptFunction *sc           = nullptr;
     ScriptFunction *found        = nullptr;
     QTreeWidgetItem *currentItem = sb->FunctionTree->currentItem();
 
     if (currentItem == nullptr || currentItem->parent() == nullptr)
         return;
 
-    foreach (sc, KStarsFunctionList)
+    for (auto* sc : KStarsFunctionList)
     {
         if (sc->prototype() == currentItem->text(0))
         {
@@ -1693,7 +1691,7 @@ void ScriptBuilder::slotShowDoc()
         }
     }
 
-    foreach (sc, SimClockFunctionList)
+    for (auto* sc : SimClockFunctionList)
     {
         if (sc->prototype() == currentItem->text(0))
         {

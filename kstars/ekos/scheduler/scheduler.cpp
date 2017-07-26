@@ -3463,7 +3463,7 @@ void Scheduler::save()
 {
     QUrl backupCurrent = schedulerURL;
 
-    if (schedulerURL.toLocalFile().startsWith("/tmp/") || schedulerURL.toLocalFile().contains("/Temp"))
+    if (schedulerURL.toLocalFile().startsWith(QLatin1String("/tmp/")) || schedulerURL.toLocalFile().contains("/Temp"))
         schedulerURL.clear();
 
     // If no changes made, return.

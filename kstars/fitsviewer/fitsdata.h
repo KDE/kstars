@@ -197,7 +197,7 @@ class FITSData
          * @param wcsCoord Coordinates of target
          * @param wcsPixelPoint Return XY FITS coordinates
          * @param wcsImagePoint Return XY Image coordinates
-         * @return True if conversion is successfull, false otherwise.
+         * @return True if conversion is successful, false otherwise.
          */
     bool wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint);
 

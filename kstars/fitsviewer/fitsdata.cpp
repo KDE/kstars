@@ -108,7 +108,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
 
     filename = inFilename;
 
-    if (filename.startsWith("/tmp/") || filename.contains("/Temp"))
+    if (filename.startsWith(QLatin1String("/tmp/")) || filename.contains("/Temp"))
         tempFile = true;
     else
         tempFile = false;
