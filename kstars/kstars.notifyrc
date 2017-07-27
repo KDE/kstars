@@ -243,6 +243,7 @@ Name[sv]=Kalibrering lyckades
 Name[tr]=Kalibrasyon Başarılı
 Name[uk]=Калібрування успішне
 Name[x-test]=xxCalibration Successxx
+Name[zh_CN]=校准成功
 Name[zh_TW]=調校完成
 Comment=Guiding calibration completed successfully
 Comment[ca]=El calibratge amb guiatge s'ha completat correctament
