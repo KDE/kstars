@@ -495,7 +495,7 @@ void WIView::inspectSkyObject(SkyObject *obj)
 
 void WIView::loadDetailsView(SkyObjItem *soitem, int index)
 {
-    if (!soitem)
+    if (soitem == nullptr)
         return;
 
     int modelSize = -1;
@@ -503,7 +503,9 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     if (index != -1)
         modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
 
-    m_CurSoItem.reset(soitem);
+    if (soitem != m_CurSoItem.get())
+        m_CurSoItem.reset(soitem);
+
     m_CurIndex  = index;
     if (modelSize <= 1)
     {
