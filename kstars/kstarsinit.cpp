@@ -192,11 +192,11 @@ void KStars::initActions()
     actionCollection()->addAction("time_step_forward", this, SLOT(slotStepForward()))
         << i18n("Advance one step forward in time")
         << QIcon::fromTheme("media-skip-forward", QIcon(":/icons/breeze/default/media-skip-forward.svg"))
-        << QKeySequence(Qt::Key_Greater, Qt::Key_Period);
+        << QKeySequence(Qt::Key_Greater);
     actionCollection()->addAction("time_step_backward", this, SLOT(slotStepBackward()))
         << i18n("Advance one step backward in time")
         << QIcon::fromTheme("media-skip-backward", QIcon(":/icons/breeze/default/media-skip-backward.svg"))
-        << QKeySequence(Qt::Key_Less, Qt::Key_Comma);
+        << QKeySequence(Qt::Key_Less);
 
     // ==== Pointing Menu ================
     actionCollection()->addAction("zenith", this, SLOT(slotPointFocus())) << i18n("&Zenith") << QKeySequence("Z");
