@@ -974,14 +974,12 @@ if (CFITSIO_FOUND)
 endif(CFITSIO_FOUND)
 
 if(INDI_FOUND)
-    if (ANDROID)
-        include_directories(${NOVA_INCLUDE_DIR})
-    else ()
+    if (NOT ANDROID)
         find_package(Nova REQUIRED)
         include_directories(${NOVA_INCLUDE_DIR})
     endif ()
 
-    ## Support Multiple Platforms. All Require INDI + libnova
+    ## Support Multiple Platforms. All Require INDI
     ## WIN32 Desktop: Requires INDI Qt5 Client + GSL
     ## WIN32 Lite: Requires INDI Qt5 Client
     ## Linux + MacOS Desktop: Requires INDI Client + GSL
@@ -999,7 +997,7 @@ if(INDI_FOUND)
     if(WIN32 OR ANDROID)
         if(ANDROID)
             add_definitions(-DUSE_QT5_INDI)
-            target_link_libraries(KStarsLib ${INDI_CLIENT_ANDROID_LIBRARIES} ${NOVA_LIBRARIES} ${CFITSIO_LIBRARIES} ${LIBRAW_LIBRARIES})
+            target_link_libraries(KStarsLib ${INDI_CLIENT_ANDROID_LIBRARIES} ${CFITSIO_LIBRARIES} ${LIBRAW_LIBRARIES})
         else(ANDROID)
             target_link_libraries(KStarsLib ${INDI_CLIENT_LIBRARIES} ${NOVA_LIBRARIES})
         endif(ANDROID)
@@ -1049,7 +1047,7 @@ endif(NOT BUILD_KSTARS_LITE)
 
 if (ANDROID)
     add_library(kstars SHARED ${KSTARS_APP_SRCS})
-    add_dependencies(KStarsLib cfitsio indi nova raw)
+    add_dependencies(KStarsLib cfitsio indi raw)
     set(ANDROID_NDK $ENV{ANDROID_NDK})
     # This hack is needed by a strange NDK bug. Some symbols are missing in locale.o (libc.a) at linking stage. But
     # if we force-link with a working libc.a from android-24, there will be duplicated symbols, some symbols will
