@@ -139,22 +139,6 @@ endif()
 MACRO_BOOL_TO_01(CFITSIO_FOUND HAVE_CFITSIO)
 set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "http://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" TYPE OPTIONAL PURPOSE "Support for the FITS (Flexible Image Transport System) data format in KStars.")
 
-## Nova Library
-if (ANDROID)
-    set(GIT_EXECUTABLE git)
-    externalproject_add(nova SOURCE_DIR "${CMAKE_BINARY_DIR}/android/3rdparty/libnova"
-        DOWNLOAD_COMMAND bash -c "mkdir -p ${CMAKE_BINARY_DIR}/android/3rdparty && git clone https://git.code.sf.net/p/libnova/libnova ${CMAKE_BINARY_DIR}/android/3rdparty/libnova"
-        PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/libnova && patch -p0 < ${CMAKE_SOURCE_DIR}/android/3rdparty/libnova.patch"
-        CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake -DBUILD_SHARED_LIBRARY=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-        BUILD_COMMAND make libnova
-        UPDATE_COMMAND ""
-        BUILD_IN_SOURCE 1
-        INSTALL_COMMAND "")
-
-    set(NOVA_INCLUDE_DIR ${CMAKE_BINARY_DIR}/android/3rdparty/libnova/src ${CMAKE_BINARY_DIR}/android/3rdparty/libnova/src/libnova)
-    set(NOVA_LIBRARIES ${CMAKE_BINARY_DIR}/android/3rdparty/libnova/lib/liblibnova.a -landroid_support)
-endif ()
-
 ## INDI Library
 if (ANDROID)
     set(QT_ANDROID $ENV{QT_ANDROID})
@@ -163,11 +147,9 @@ if (ANDROID)
         CONFIGURE_COMMAND cd libindi && cmake . -DCMAKE_TOOLCHAIN_FILE=${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\
              -DINDI_BUILD_POSIX_CLIENT=OFF -DINDI_BUILD_SERVER=OFF -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_UNITTESTS=OFF \\
              -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_QT5_CLIENT=ON -DINDI_CALCULATE_MINMAX=ON \\
-             -DQT_ANDROID=${QT_ANDROID} -DCFITSIO_DIR=${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio \\
-             -DNOVA_DIR=${CMAKE_BINARY_DIR}/android/3rdparty/libnova
+             -DQT_ANDROID=${QT_ANDROID} -DCFITSIO_DIR=${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio
         BUILD_COMMAND make -C libindi
         BUILD_IN_SOURCE 1
-        DEPENDS nova
         UPDATE_COMMAND ""
         INSTALL_COMMAND "")
 
