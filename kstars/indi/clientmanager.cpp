@@ -156,6 +156,13 @@ void ClientManager::newMessage(INDI::BaseDevice *dp, int messageID)
     emit newINDIMessage(dp, messageID);
 }
 
+#if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
+void ClientManager::newUniversalMessage(std::string message)
+{
+    emit newINDIUniversalMessage(QString::fromStdString(message));
+}
+#endif
+
 void ClientManager::appendManagedDriver(DriverInfo *dv)
 {
     managedDrivers.append(dv);

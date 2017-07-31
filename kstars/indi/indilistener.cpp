@@ -24,6 +24,8 @@
 #include "kstars.h"
 #include "Options.h"
 
+#include "auxiliary/ksnotification.h"
+
 #include <basedevice.h>
 
 #include <QDebug>
@@ -130,7 +132,9 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, SIGNAL(newINDINumber(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
     connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), this, SLOT(processLight(ILightVectorProperty*)));
     connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), this, SLOT(processBLOB(IBLOB*)));
-    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*,int)), this, SLOT(processMessage(INDI::BaseDevice*,int)));
+    #if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
+    connect(cm, SIGNAL(newINDIUniversalMessage(QString)), this, SLOT(processUniversalMessage(QString)));
+    #endif
 }
 
 void INDIListener::removeClient(ClientManager *cm)
@@ -405,4 +409,15 @@ void INDIListener::processMessage(INDI::BaseDevice *dp, int messageID)
             break;
         }
     }
+}
+
+void INDIListener::processUniversalMessage(const QString &message)
+{
+    QString displayMessage = message;
+    // Remove timestamp info as it is not suitable for message box
+    int colonIndex = displayMessage.indexOf(": ");
+    if (colonIndex > 0)
+        displayMessage = displayMessage.mid(colonIndex+2);
+
+    KSNotification::transient(displayMessage, i18n("INDI Server Message"));
 }
