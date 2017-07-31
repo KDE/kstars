@@ -61,5 +61,5 @@ class ConstellationArtComponent : public SkyComponent
 
   private:
     QString cultureName;
-    int records;
+    int records { 0 };
 };
