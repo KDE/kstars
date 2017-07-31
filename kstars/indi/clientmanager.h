@@ -80,6 +80,10 @@ class ClientManager : public QObject, public INDI::BaseClient
     virtual void newLight(ILightVectorProperty *);
     virtual void newMessage(INDI::BaseDevice *dp, int messageID);
 
+#if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
+    virtual void newUniversalMessage(std::string message);
+#endif
+
     virtual void serverConnected();
     virtual void serverDisconnected(int exit_code);
 
@@ -107,4 +111,7 @@ class ClientManager : public QObject, public INDI::BaseClient
     void newINDIText(ITextVectorProperty *tvp);
     void newINDILight(ILightVectorProperty *lvp);
     void newINDIMessage(INDI::BaseDevice *dp, int messageID);
+    #if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
+    void newINDIUniversalMessage(const QString &message);
+    #endif
 };

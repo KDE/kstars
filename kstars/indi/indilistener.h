@@ -62,6 +62,7 @@ class INDIListener : public QObject
     void processLight(ILightVectorProperty *lvp);
     void processBLOB(IBLOB *bp);
     void processMessage(INDI::BaseDevice *dp, int messageID);
+    void processUniversalMessage(const QString &message);
     void removeDevice(DeviceInfo *dv);
 
   private:

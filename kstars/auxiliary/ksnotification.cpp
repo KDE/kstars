@@ -13,6 +13,7 @@
 #ifdef KSTARS_LITE
 #include "kstarslite.h"
 #else
+#include <QPointer>
 #include <KMessageBox>
 #endif
 
@@ -47,4 +48,21 @@ void info(const QString &message, const QString &title)
     KMessageBox::information(0, message, title);
 #endif
 }
+
+void transient(const QString &message, const QString &title)
+{
+#ifdef KSTARS_LITE
+    Q_UNUSED(title);
+    KStarsLite::Instance()->notificationMessage(message);
+#else
+    QPointer<QMessageBox> msgBox = new QMessageBox();
+    msgBox->setAttribute(Qt::WA_DeleteOnClose);
+    msgBox->setWindowTitle(title);
+    msgBox->setText(message);
+    msgBox->setModal(false);
+    msgBox->setIcon(QMessageBox::Warning);
+    msgBox->show();
+#endif
+}
+
 }

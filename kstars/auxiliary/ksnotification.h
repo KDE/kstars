@@ -19,4 +19,10 @@ namespace KSNotification
 void error(const QString &message, const QString &title = i18n("Error"));
 void sorry(const QString &message, const QString &title = i18n("Sorry"));
 void info(const QString &message, const QString &title = i18n("Info"));
+/**
+ * @brief transient Non modal message box that gets deleted on close.
+ * @param message message content
+ * @param title message title
+ */
+void transient(const QString &message, const QString &title);
 }
