@@ -14,11 +14,13 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #include "constellationsart.h"
+
 #include "texturemanager.h"
 
-ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, double pa, double w, double h,
-                                     QString abbreviation, QString filename)
+ConstellationsArt::ConstellationsArt(dms &midpointra, dms &midpointdec, double pa, double w, double h,
+                                     const QString &abbreviation, const QString &filename)
 {
     positionAngle = pa;
     abbrev        = abbreviation;
@@ -32,10 +34,6 @@ ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, double pa,
     //This sets both current and J2000 RA/DEC to the values ra and dec.
     setRA(midpointra);
     setDec(midpointdec);
-}
-
-ConstellationsArt::~ConstellationsArt()
-{
 }
 
 void ConstellationsArt::loadImage()

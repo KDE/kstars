@@ -18,10 +18,12 @@
 #include "constellationartcomponent.h"
 
 #include "constellationsart.h"
+#include "culturelist.h"
 #include "kspaths.h"
 #include "Options.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
+#include "skypainter.h"
 #endif
 
 #include <QSqlError>
@@ -36,20 +38,13 @@ ConstellationArtComponent::ConstellationArtComponent(SkyComposite *parent, Cultu
 
 ConstellationArtComponent::~ConstellationArtComponent()
 {
-    while (!m_ConstList.isEmpty())
-    {
-        ConstellationsArt *o = m_ConstList.takeFirst();
-        delete o;
-    }
+    deleteData();
 }
 
 void ConstellationArtComponent::deleteData()
 {
-    while (!m_ConstList.isEmpty())
-    {
-        ConstellationsArt *o = m_ConstList.takeFirst();
-        delete o;
-    }
+    qDeleteAll(m_ConstList);
+    m_ConstList.clear();
 }
 
 void ConstellationArtComponent::loadData()

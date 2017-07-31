@@ -117,7 +117,7 @@ class SkyPoint
     /** Sets RA, the current Right Ascension.
         	*@param r Right Ascension.
         	*/
-    inline void setRA(dms r) { RA = r; }
+    inline void setRA(dms& r) { RA = r; }
     inline void setRA(const CachingDms &r) { RA = r; }
 
     /** Overloaded member function, provided for convenience.
