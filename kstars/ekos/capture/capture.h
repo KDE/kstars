@@ -347,8 +347,9 @@ class Capture : public QWidget, public Ui::Capture
     /**
          * @brief addJob Add a new job to the sequence queue given the settings in the GUI.
          * @param preview True if the job is a preview job, otherwise, it is added as a batch job.
+         * @return True if job is added successfully, false otherwise.
          */
-    void addJob(bool preview = false);
+    bool addJob(bool preview = false);
 
     /**
          * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.

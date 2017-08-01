@@ -292,7 +292,10 @@ void Capture::start()
     Options::setUseFITSViewerInCapture(useFITSViewerInCapture->isChecked());
 
     if (queueTable->rowCount() == 0)
-        addJob();
+    {
+        if (addJob() == false)
+            return;
+    }
 
     SequenceJob *first_job = nullptr;
 
@@ -401,12 +404,13 @@ void Capture::stop(bool abort)
             emit newStatus(Ekos::CAPTURE_ABORTED);
         }
 
-        // In case
+        // In case of batch job
         if (activeJob->isPreview() == false)
         {
             activeJob->disconnect(this);
             activeJob->reset();
         }
+        // or preview job in calibration stage
         else if (calibrationStage == CAL_CALIBRATION)
         {
             activeJob->disconnect(this);
@@ -414,9 +418,12 @@ void Capture::stop(bool abort)
             activeJob->setPreview(false);
             currentCCD->setUploadMode(rememberUploadMode);
         }
-        else // Delete preview job
+        // or regular preview job
+        else
         {
+            currentCCD->setUploadMode(rememberUploadMode);
             jobs.removeOne(activeJob);
+            // Delete preview job
             delete (activeJob);
             activeJob = nullptr;
         }
@@ -1101,6 +1108,8 @@ bool Capture::setCaptureComplete()
     if (seqTotalCount <= 0)
     {
         jobs.removeOne(activeJob);
+        // Reset upload mode if it was changed by preview
+        currentCCD->setUploadMode(rememberUploadMode);
         delete (activeJob);
         // Reset active job pointer
         activeJob = nullptr;
@@ -1297,12 +1306,12 @@ void Capture::captureOne()
     Options::setUseFITSViewerInCapture(useFITSViewerInCapture->isChecked());
 
     //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-    if (uploadModeCombo->currentIndex() != 0)
+    /*if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_CLIENT)
     {
         appendLogText(i18n("Cannot take preview image while CCD upload mode is set to local or both. Please change "
                            "upload mode to client and try again."));
         return;
-    }
+    }*/
 
     if (transferFormatCombo->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
     {
@@ -1310,9 +1319,8 @@ void Capture::captureOne()
         return;
     }
 
-    addJob(true);
-
-    prepareJob(jobs.last());
+    if (addJob(true))
+        prepareJob(jobs.last());
 }
 
 void Capture::captureImage()
@@ -1368,14 +1376,16 @@ void Capture::captureImage()
             }
 
             calibrationStage = CAL_CALIBRATION;
-            activeJob->setPreview(true);
             // We need to be in preview mode and in client mode for this to work
-            rememberUploadMode = currentCCD->getUploadMode();
-            if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
-            {
-                currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
-            }
+            activeJob->setPreview(true);
         }
+    }
+
+    // Temporary change upload mode to client when requesting previews
+    if (activeJob->isPreview())
+    {
+        rememberUploadMode = activeJob->getUploadMode();
+        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
@@ -1649,7 +1659,7 @@ void Capture::updateRotatorNumber(INumberVectorProperty *nvp)
     }
 }
 
-void Capture::addJob(bool preview)
+bool Capture::addJob(bool preview)
 {
     SequenceJob *job = nullptr;
     QString imagePrefix;
@@ -1657,13 +1667,13 @@ void Capture::addJob(bool preview)
     if (preview == false && darkSubCheck->isChecked())
     {
         KMessageBox::error(this, i18n("Auto dark subtract is not supported in batch mode."));
-        return;
+        return false;
     }
 
     if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_CLIENT && remoteDirIN->text().isEmpty())
     {
         KMessageBox::error(this, i18n("You must set remote directory for Local & Both modes."));
-        return;
+        return false;
     }
 
     if (jobUnderEdit)
@@ -1674,7 +1684,7 @@ void Capture::addJob(bool preview)
     if (job == nullptr)
     {
         qWarning() << "Job is nullptr!" << endl;
-        return;
+        return false;
     }
 
     if (ISOCombo->isEnabled())
@@ -1750,7 +1760,7 @@ void Capture::addJob(bool preview)
 
         // Nothing more to do if preview
         if (preview)
-            return;
+            return true;
     }
 
     QString finalFITSDir = fitsDir->text();
@@ -1854,6 +1864,8 @@ void Capture::addJob(bool preview)
         resetJobEdit();
         appendLogText(i18n("Job #%1 changes applied.", currentRow + 1));
     }
+
+    return true;
 }
 
 void Capture::removeJob()
@@ -2022,7 +2034,7 @@ void Capture::prepareJob(SequenceJob *job)
     }
 
     // If we haven't performed a single autofocus yet, we stop
-    if (!job->isPreview() && Options::enforceRefocusEveryN() && (isAutoFocus == false && firstAutoFocus == true))
+    if (!job->isPreview() && Options::enforceRefocusEveryN() && refocusEveryNCheck->isEnabled() && isAutoFocus == false && firstAutoFocus == true)
     {
         appendLogText(i18n(
             "Manual scheduled focusing is not supported. Run Autofocus process before trying again."));
@@ -4276,10 +4288,7 @@ bool Capture::processPostCaptureCalibrationStage()
             activeJob->setExposure(nextExposure);
             activeJob->setPreview(true);
             rememberUploadMode = activeJob->getUploadMode();
-            if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
-            {
-                currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
-            }
+            currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
 
             startNextExposure();
             return false;
