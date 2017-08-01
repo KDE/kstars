@@ -4517,6 +4517,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
         // Sync 2nd rotation value to be that of 1st in case
         PAHSecondRotationSpin->setValue(PAHFirstRotationSpin->value());
+        PAHSecondWestMeridianR->setChecked(PAHFirstWestMeridianR->isChecked());
         PAHSecondEastMeridianR->setChecked(PAHFirstEastMeridianR->isChecked());
 
         pahStage = PAH_SECOND_ROTATE;
