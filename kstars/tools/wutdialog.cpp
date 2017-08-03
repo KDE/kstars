@@ -127,7 +127,7 @@ void WUTDialog::init()
         if (m_VisibleList.contains(c))
             visibleObjects(c).clear();
         else
-            m_VisibleList[c] = QList<SkyObject *>();
+            m_VisibleList[c] = QList<const SkyObject *>();
 
         m_CategoryInitialized[c] = false;
     }
@@ -246,7 +246,7 @@ void WUTDialog::init()
     delete oldNum;
 }
 
-QList<SkyObject *> &WUTDialog::visibleObjects(const QString &category)
+QList<const SkyObject *> &WUTDialog::visibleObjects(const QString &category)
 {
     return m_VisibleList[category];
 }
@@ -282,10 +282,19 @@ void WUTDialog::slotLoadList(const QString &c)
 
         else if (c == m_Categories[1]) //Stars
         {
-            foreach (SkyObject *o, data->skyComposite()->stars())
-                if (o->name() != i18n("star") && checkVisibility(o) && o->mag() <= m_Mag)
-                    visibleObjects(c).append(o);
 
+            QVector<QPair<QString, const SkyObject *>> starObjects;
+            starObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
+            starObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
+
+            for (QVector<QPair<QString, const SkyObject *>>::iterator it = starObjects.begin();it != starObjects.end();it++)
+            {
+               const SkyObject *o =  it->second;
+               if (checkVisibility(o) && o->mag() <= m_Mag)
+               {
+                   visibleObjects(c).append(o);
+               }
+            }
             m_CategoryInitialized[c] = true;
         }
 
@@ -348,7 +357,7 @@ void WUTDialog::slotLoadList(const QString &c)
     }
 
     //Now the category has been initialized, we can populate the list widget
-    foreach (SkyObject *o, visibleObjects(c))
+    foreach (const SkyObject *o, visibleObjects(c))
         WUT->ObjectListWidget->addItem(o->name());
 
     setCursor(QCursor(Qt::ArrowCursor));
@@ -361,7 +370,7 @@ void WUTDialog::slotLoadList(const QString &c)
     }
 }
 
-bool WUTDialog::checkVisibility(SkyObject *o)
+bool WUTDialog::checkVisibility(const SkyObject *o)
 {
     bool visible(false);
     double minAlt = 6.0; //An object is considered 'visible' if it is above horizon during civil twilight.
