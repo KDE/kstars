@@ -131,13 +131,12 @@ int main(int argc, char *argv[])
     parser.addHelpOption();
 
     //parser.addHelpOption(INSERT_DESCRIPTION_HERE);
-    parser.addOption(QCommandLineOption(QStringList() << "dump", i18n("Dump sky image to file")));
-    parser.addOption(QCommandLineOption(QStringList() << "script ", i18n("Script to execute")));
-    parser.addOption(QCommandLineOption(QStringList() << "width ", i18n("Width of sky image"), "640"));
-    parser.addOption(QCommandLineOption(QStringList() << "height ", i18n("Height of sky image"), "480"));
-    parser.addOption(QCommandLineOption(QStringList() << "filename ", i18n("Filename for sky image"), "kstars.png"));
-    parser.addOption(QCommandLineOption(QStringList() << "date", i18n("Date and time")));
-    parser.addOption(QCommandLineOption(QStringList() << "paused", i18n("Start with clock paused")));
+    parser.addOption(QCommandLineOption("dump", i18n("Dump sky image to file."), "file"));
+    parser.addOption(QCommandLineOption("script", i18n("Script to execute."), "file"));
+    parser.addOption(QCommandLineOption("width", i18n("Width of sky image."), "value"));
+    parser.addOption(QCommandLineOption("height", i18n("Height of sky image."), "value"));
+    parser.addOption(QCommandLineOption("date", i18n("Date and time."), "string"));
+    parser.addOption(QCommandLineOption("paused", i18n("Start with clock paused.")));
 
     // urls to open
     parser.addPositionalArgument(QStringLiteral("urls"), i18n("FITS file(s) to open."), QStringLiteral("[urls...]"));
@@ -151,7 +150,7 @@ int main(int argc, char *argv[])
 
         //parse filename and image format
         const char *format = "PNG";
-        QString fname      = parser.value("filename");
+        QString fname      = parser.value("dump");
         QString ext        = fname.mid(fname.lastIndexOf(".") + 1);
         if (ext.toLower() == "png")
         {

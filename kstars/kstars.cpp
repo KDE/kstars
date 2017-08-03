@@ -160,6 +160,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     m_KStarsData->setLocationFromOptions();
 
     //Initialize Time and Date
+    bool datetimeSet=false;
     if (StartDateString.isEmpty() == false)
     {
         KStarsDateTime startDate = KStarsDateTime::fromString(StartDateString);
@@ -167,6 +168,8 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
             data()->changeDateTime(data()->geo()->LTtoUT(startDate));
         else
             data()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
+
+        datetimeSet=true;
     }
     // JM 2016-11-15: Not need to set it again as it was initialized in the ctor of SimClock
     /*
@@ -181,7 +184,8 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     if (StartClockRunning == false)
     {
         qDebug() << "KStars is started in paused state.";
-        data()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
+        if (datetimeSet == false)
+            data()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
     }
 
     // Setup splash screen
