@@ -1113,7 +1113,7 @@ void CCD::processText(ITextVectorProperty *tvp)
 void CCD::processBLOB(IBLOB *bp)
 {
     // Ignore write-only BLOBs since we only receive it for state-change
-    if (bp->bvp->p == IP_WO)
+    if (bp->bvp->p == IP_WO || bp->size == 0)
         return;
 
     BType = BLOB_OTHER;
