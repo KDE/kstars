@@ -544,7 +544,29 @@ bool GenericDevice::runCommand(int command, void *ptr)
         break;
 
         // We do it here because it could be either FOCUSER or ROTATOR interfaces, so no need to duplicate code
-        case INDI_SET_ROTATOR:
+        case INDI_SET_ROTATOR_ANGLE:
+        {
+            if (ptr == nullptr)
+                return false;
+
+            INumberVectorProperty *nvp = baseDevice->getNumber("ABS_ROTATOR_ANGLE");
+
+            if (nvp == nullptr)
+                return false;
+
+            double requestedAngle = *((double *)ptr);
+
+            if (requestedAngle == nvp->np[0].value)
+                break;
+
+            nvp->np[0].value = requestedAngle;
+
+            clientManager->sendNewNumber(nvp);
+        }
+        break;
+
+        // We do it here because it could be either FOCUSER or ROTATOR interfaces, so no need to duplicate code
+        case INDI_SET_ROTATOR_TICKS:
         {
             if (ptr == nullptr)
                 return false;

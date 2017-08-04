@@ -129,7 +129,7 @@ void SequenceJob::prepareCapture()
     if (targetRotation != INVALID_VALUE && currentRotation != targetRotation)
     {
         prepareActions[ACTION_ROTATOR] = false;
-        activeRotator->runCommand(INDI_SET_ROTATOR, &targetRotation);
+        activeRotator->runCommand(INDI_SET_ROTATOR_TICKS, &targetRotation);
     }
 
     if (prepareReady == false && areActionsReady())
