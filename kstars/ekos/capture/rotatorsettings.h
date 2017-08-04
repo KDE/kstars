@@ -26,6 +26,7 @@ public:
     void setTicksMinMaxStep(int32_t min, int32_t max, int32_t step);
 
     void setCurrentTicks(int32_t ticks);
+    void setCurrentAngle(double angle);
 
     bool isRotationEnforced() { return enforceRotationCheck->isChecked(); }
     void setRotationEnforced(bool enabled) { enforceRotationCheck->setChecked(enabled); }
@@ -42,6 +43,5 @@ protected slots:
     void gotoAngle();
 
 private:
-    ISD::GDInterface *currentRotator { nullptr };
-    double ticksPerDegree { 0 };
+    ISD::GDInterface *currentRotator { nullptr };    
 };

@@ -1652,10 +1652,16 @@ void Capture::updateRotatorNumber(INumberVectorProperty *nvp)
     if (!strcmp(nvp->name, "ABS_ROTATOR_POSITION"))
     {
         // Update widget rotator position
+        rotatorSettings->setTicksMinMaxStep(static_cast<int32_t>(nvp->np[0].min), static_cast<int32_t>(nvp->np[0].max), static_cast<int32_t>(nvp->np[0].step));
         rotatorSettings->setCurrentTicks(static_cast<int32_t>(nvp->np[0].value));
 
         if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
             activeJob->setCurrentRotation(static_cast<int32_t>(nvp->np[0].value));
+    }
+    else if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
+    {
+        // Update widget rotator position
+        rotatorSettings->setCurrentAngle(nvp->np[0].value);
     }
 }
 
@@ -2412,7 +2418,7 @@ void Capture::setFocusStatus(FocusState state)
 void Capture::setRotator(ISD::GDInterface *newRotator)
 {
     currentRotator = newRotator;
-    connect(currentRotator, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateRotatorNumber(INumberVectorProperty*)));
+    connect(currentRotator, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateRotatorNumber(INumberVectorProperty*)), Qt::UniqueConnection);
     rotatorB->setEnabled(true);
 
     rotatorSettings->setRotator(newRotator);

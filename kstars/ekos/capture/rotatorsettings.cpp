@@ -7,11 +7,13 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+
 #include "rotatorsettings.h"
 
-#include <indicom.h>
-#include <cmath>
+#include <QDebug>
 
+#include <indicom.h>
+#include <basedevice.h>
 #include <cmath>
 
 RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
@@ -49,41 +51,27 @@ void RotatorSettings::setTicksMinMaxStep(int32_t min, int32_t max, int32_t step)
     plannedTicksSpin->setMinimum(min);
     plannedTicksSpin->setMaximum(max);
     plannedTicksSpin->setSingleStep(step);
-
-    ticksPerDegree = max/360.0;
 }
 
 void RotatorSettings::gotoTicks()
 {
     int32_t ticks = ticksSpin->value();
-    currentRotator->runCommand(INDI_SET_ROTATOR, &ticks);
+    currentRotator->runCommand(INDI_SET_ROTATOR_TICKS, &ticks);
 }
 
 void RotatorSettings::gotoAngle()
 {
-    double a=angleSpin->value();
-    double b=rotatorGauge->value();
-    double d=fabs(a-b);
-    double r=(d > 180) ? 360 - d : d;
-    int sign = (a - b >= 0 && a - b <= 180) || (a - b <=-180 && a- b>= -360) ? 1 : -1;
-    r *= sign;
-
-    double newTarget = (r+b) * ticksPerDegree;
-    if (newTarget < ticksSpin->minimum())
-        newTarget -= ticksSpin->minimum();
-    else if (newTarget > ticksSpin->maximum())
-        newTarget -= ticksSpin->maximum();
-
-    ticksSpin->setValue(newTarget);
-
-    gotoTicks();
+    double angle = angleSpin->value();
+    currentRotator->runCommand(INDI_SET_ROTATOR_ANGLE, &angle);
 }
 
 void RotatorSettings::setCurrentTicks(int32_t ticks)
 {
     ticksEdit->setText(QString::number(ticks));
-    double angle = range360(ticks / ticksPerDegree);
-    angleEdit->setText(QString::number(angle, 'f', 2));
+}
 
+void RotatorSettings::setCurrentAngle(double angle)
+{
+    angleEdit->setText(QString::number(angle, 'f', 2));
     rotatorGauge->setValue(angle);
 }
