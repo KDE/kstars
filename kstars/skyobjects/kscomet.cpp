@@ -66,7 +66,7 @@ KSComet::KSComet(const QString &_s, const QString &imfile, long double _JD, doub
     int m       = int(60.0 * (Hour - h));
     int s       = int(60.0 * (60.0 * (Hour - h) - m));
 
-    JDp = KStarsDateTime(QDate(year, month, day), QTime(h, m, s)).djd();
+    JDp   = KStarsDateTime(QDate(year, month, day), QTime(h, m, s)).djd();
 
     //compute the semi-major axis, a:
     if (e == 1)
@@ -164,14 +164,16 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
 
     lastPrecessJD = num->julianDay();
 
-    //Precess the longitude of the Ascending Node to the desired epoch:
-    dms n = dms(double(N.Degrees() - 3.82394E-5 * (lastPrecessJD - J2000))).reduce();
+    // Different between lastJD and Tp (Time of periapsis (Julian Day Number))
+    long double deltaJDP = lastPrecessJD - JDp;
+    // Limit it to last orbit
+    //while (deltaJDP > P) deltaJDP -= P;
 
     if (e > 0.98)
     {
         //Use near-parabolic approximation
         double k = 0.01720209895; //Gauss gravitational constant
-        double a = 0.75 * (lastPrecessJD - JDp) * k * sqrt((1 + e) / (q * q * q));
+        double a = 0.75 * (deltaJDP) * k * sqrt((1 + e) / (q * q * q));
         double b = sqrt(1.0 + a * a);
         double W = pow((b + a), 1.0 / 3.0) - pow((b - a), 1.0 / 3.0);
         double c = 1.0 + 1.0 / (W * W);
@@ -189,8 +191,11 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
     else
     {
         //Use normal ellipse method
-        //Determine Mean anomaly for desired date:
-        dms m = dms(double(360.0 * (lastPrecessJD - JDp) / P)).reduce();
+        //Determine Mean anomaly for desired date. deltaJDP is the difference between current JD minus JD of comet epoch.
+        // In JPL data, the Modified Julian Day is given to designate the epoch of comet data, which we convert to JD.
+        // Check http://astro.if.ufrgs.br/trigesf/position.html#17 for more details
+
+        dms m = dms(double(360.0 * (deltaJDP) / P)).reduce();
         double sinm, cosm;
         m.SinCos(sinm, cosm);
 
@@ -220,17 +225,29 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
         double xv = a * (cosE - e);
         double yv = a * sqrt(1.0 - e * e) * sinE;
 
-        //v is the true anomaly; r is the distance from the Sun
+        //v is the true anomaly in degrees
         v = atan2(yv, xv) / dms::DegToRad;
+        // Comet-Sun Heliocentric Distance in AU
         r = sqrt(xv * xv + yv * yv);
     }
 
+    //Precess the longitude of the Ascending Node to the desired epoch
+    // i, w, and N are supplied in J2000 Epoch from JPL
+    //dms n = dms(double(N.Degrees() - 3.82394E-5 * (lastPrecessJD - J2000))).reduce();
+    // http://astro.if.ufrgs.br/trigesf/position.html#16
+    dms n = dms(double(N.Degrees() + 3.82394E-5 * (lastPrecessJD - J2000))).reduce();
+
     //vw is the sum of the true anomaly and the argument of perihelion
     dms vw(v + w.Degrees());
+
     double sinN, cosN, sinvw, cosvw, sini, cosi;
 
+    // Get sin's and cos's for:
+    // Longitude of ascending node
     n.SinCos(sinN, cosN);
+    // sum of true anamoly and argument of perihelion
     vw.SinCos(sinvw, cosvw);
+    // Inclination
     i.SinCos(sini, cosi);
 
     //xh, yh, zh are the heliocentric cartesian coords with the ecliptic plane congruent with zh=0.
@@ -243,6 +260,7 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
     double ELatRad  = atan2(zh, r);
 
     helEcPos.longitude.setRadians(ELongRad);
+    helEcPos.longitude.reduceToRange(dms::ZERO_TO_2PI);
     helEcPos.latitude.setRadians(ELatRad);
     setRsun(r);
 
@@ -266,9 +284,11 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
     ELatRad   = atan2(zh, rr);
 
     ep.longitude.setRadians(ELongRad);
+    ep.longitude.reduceToRange(dms::ZERO_TO_2PI);
     ep.latitude.setRadians(ELatRad);
     setRearth(Earth);
 
+    // Now convert to geocentric equatorial coords
     EclipticToEquatorial(num->obliquity());
     nutate(num);
     aberrate(num);
