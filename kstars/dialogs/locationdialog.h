@@ -20,10 +20,15 @@
 #include "geolocation.h"
 #include "ui_locationdialog.h"
 
+#include <QPointer>
+#include <QGeoPositionInfo>
+#include <QGeoPositionInfoSource>
 #include <QDialog>
 #include <QList>
 
 class QTimer;
+class QNetworkAccessManager;
+class QNetworkReply;
 
 class LocationDialogUI : public QFrame, public Ui::LocationDialog
 {
@@ -52,9 +57,14 @@ class LocationDialogUI : public QFrame, public Ui::LocationDialog
  * location to the custom Cities database.  If the user selects "Add" without
  * filling in all of the manual entry fields, an error message is displayed.
  *
+ * The user can fetch current geographic location from QtPosition system. The actual
+ * underlying location source depends on the OS and what modules are currently available, if any.
+ *
  * @short Geographic Location dialog
  * @author Jason Harris
- * @version 1.0
+ * @author Jasem Mutlaq
+ * @author Artem Fedoskin
+ * @version 1.1
  */
 class LocationDialog : public QDialog
 {
@@ -148,11 +158,25 @@ class LocationDialog : public QDialog
      */
     bool updateCity(CityOperation operation);
 
+    /**
+     * @brief getNameFromCoordinates Given the current latitude and longitude, use Google Location API services to reverse lookup
+     * the city, province, and country located at the requested position.
+     * @param latitude Latitude in degrees
+     * @param longitude Longitude is degrees
+     */
+    void getNameFromCoordinates(double latitude, double longitude);
+
     void clearFields();
     void showTZRules();
     void nameChanged();
     void dataChanged();
     void slotOk();
+
+protected slots:
+    void processLocationNameData(QNetworkReply *rep);
+    void positionUpdated(const QGeoPositionInfo &info);
+    void positionUpdateError(QGeoPositionInfoSource::Error error);
+    void positionUpdateTimeout();
 
   private:
     /** Make sure Longitude and Latitude values are valid. */
@@ -165,4 +189,7 @@ class LocationDialog : public QDialog
     GeoLocation *SelectedCity { nullptr };
     QList<GeoLocation *> filteredCityList;
     QTimer *timer { nullptr };
+    //Retrieve the name of city
+    QNetworkAccessManager *nam { nullptr };
+    QPointer<QGeoPositionInfoSource> source;
 };

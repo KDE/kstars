@@ -22,6 +22,19 @@
 
 #include <QSqlQuery>
 
+#include <QGeoPositionInfoSource>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QNetworkAccessManager>
+#include <QNetworkConfigurationManager>
+#include <QNetworkReply>
+#include <QNetworkSession>
+#include <QQmlContext>
+#include <QSqlQuery>
+#include <QUrlQuery>
+
 LocationDialogUI::LocationDialogUI(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
@@ -80,6 +93,19 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(0)
     connect(ld->RemoveButton, SIGNAL(clicked()), this, SLOT(removeCity()));
     connect(ld->UpdateButton, SIGNAL(clicked()), this, SLOT(updateCity()));
 
+    source = QGeoPositionInfoSource::createDefaultSource(this);
+
+    qDebug() << "Using position source " << source->sourceName();
+
+    connect(source, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(positionUpdated(QGeoPositionInfo)));
+    connect(source, SIGNAL(error(QGeoPositionInfoSource::Error)), this, SLOT(positionUpdateError(QGeoPositionInfoSource::Error)));
+    connect(source, SIGNAL(updateTimeout()), this, SLOT(positionUpdateTimeout()));
+
+    connect(ld->GetLocationButton, &QPushButton::clicked, this, [this]()
+    {
+       source->requestUpdate(5000);
+    });
+
     ld->DSTLabel->setText("<a href=\"showrules\">" + i18n("DST Rule:") + "</a>");
     connect(ld->DSTLabel, SIGNAL(linkActivated(QString)), this, SLOT(showTZRules()));
 
@@ -88,6 +114,9 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(0)
     ld->AddCityButton->setEnabled(false);
 
     ld->errorLabel->setText(QString());
+
+    nam = new QNetworkAccessManager(this);
+    connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(processLocationNameData(QNetworkReply *)));
 
     initCityList();
     resize(640, 480);
@@ -637,4 +666,71 @@ void LocationDialog::slotOk()
 bool LocationDialog::addCityEnabled()
 {
     return ld->AddCityButton->isEnabled();
+}
+
+void LocationDialog::getNameFromCoordinates(double latitude, double longitude)
+{
+    QString lat = QString::number(latitude);
+    QString lon = QString::number(longitude);
+    QString latlng(lat + ", " + lon);
+
+    QUrl url("http://maps.googleapis.com/maps/api/geocode/json");
+    QUrlQuery query;
+    query.addQueryItem("latlng", latlng);
+    url.setQuery(query);
+    qDebug() << "submitting request";
+
+    nam->get(QNetworkRequest(url));
+    connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(processLocationNameData(QNetworkReply *)));
+}
+
+void LocationDialog::processLocationNameData(QNetworkReply *networkReply)
+{
+    if (!networkReply)
+        return;
+
+    if (!networkReply->error())
+    {
+        QJsonDocument document = QJsonDocument::fromJson(networkReply->readAll());
+
+        if (document.isObject())
+        {
+            QJsonObject obj = document.object();
+            QJsonValue val;
+
+            if (obj.contains(QStringLiteral("results")))
+            {
+                val = obj["results"];
+
+                QString city =
+                    val.toArray()[0].toObject()["address_components"].toArray()[2].toObject()["long_name"].toString();
+                QString region =
+                    val.toArray()[0].toObject()["address_components"].toArray()[3].toObject()["long_name"].toString();
+                QString country =
+                    val.toArray()[0].toObject()["address_components"].toArray()[4].toObject()["long_name"].toString();
+
+                //emit newNameFromCoordinates(city, region, country);
+            }
+            else
+            {
+            }
+        }
+    }
+    networkReply->deleteLater();
+}
+
+void LocationDialog::positionUpdated(const QGeoPositionInfo &info)
+{
+        qDebug() << "Position updated:" << info;
+}
+
+void LocationDialog::positionUpdateError(QGeoPositionInfoSource::Error error)
+{
+    qDebug() << "Positon update error: " << error;
+}
+
+void LocationDialog::positionUpdateTimeout()
+{
+    qDebug() << "Timed out!";
+    qDebug() << source->error();
 }
