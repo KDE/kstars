@@ -956,6 +956,7 @@ else(BUILD_KSTARS_LITE)
         Qt5::Qml
         Qt5::Quick
         Qt5::Network
+        Qt5::Positioning
         Qt5::Concurrent
         ${ZLIB_LIBRARIES}
         )
