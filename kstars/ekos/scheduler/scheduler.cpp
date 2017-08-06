@@ -29,6 +29,8 @@
 
 #include <KNotifications/KNotification>
 
+#include <ekos_scheduler_debug.h>
+
 #define BAD_SCORE               -1000
 #define MAX_FAILURE_ATTEMPTS    3
 #define UPDATE_PERIOD_MS        1000
@@ -250,8 +252,7 @@ void Scheduler::appendLogText(const QString &text)
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                             QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
-    if (Options::verboseLogging())
-        qDebug() << "Scheduler: " << text;
+    qCInfo(KSTARS_EKOS_SCHEDULER) << text;
 
     emit newLog();
 }

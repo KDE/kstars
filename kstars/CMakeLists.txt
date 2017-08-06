@@ -871,6 +871,18 @@ set(kstars_SRCS
     ${libkstarswidgets_ui_SRCS}
 )
 
+# Generate all the necessary QtLoggingCategory files
+ecm_qt_declare_logging_category(kstars_SRCS HEADER kstars_debug.h IDENTIFIER KSTARS CATEGORY_NAME org.kde.kstars)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER indi_debug.h IDENTIFIER KSTARS_INDI CATEGORY_NAME org.kde.kstars.indi)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER fits_debug.h IDENTIFIER KSTARS_FITS CATEGORY_NAME org.kde.kstars.fits)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_debug.h IDENTIFIER KSTARS_EKOS CATEGORY_NAME org.kde.kstars.ekos)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_capture_debug.h IDENTIFIER KSTARS_EKOS_CAPTURE CATEGORY_NAME org.kde.kstars.ekos.capture)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_focus_debug.h IDENTIFIER KSTARS_EKOS_FOCUS CATEGORY_NAME org.kde.kstars.ekos.focus)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_align_debug.h IDENTIFIER KSTARS_EKOS_ALIGN CATEGORY_NAME org.kde.kstars.ekos.align)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_guide_debug.h IDENTIFIER KSTARS_EKOS_GUIDE CATEGORY_NAME org.kde.kstars.ekos.guide)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_mount_debug.h IDENTIFIER KSTARS_EKOS_MOUNT CATEGORY_NAME org.kde.kstars.ekos.mount)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_scheduler_debug.h IDENTIFIER KSTARS_EKOS_SCHEDULER CATEGORY_NAME org.kde.kstars.ekos.scheduler)
+
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
 IF (UNITY_BUILD)

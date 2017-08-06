@@ -1,6 +1,5 @@
 #include "auxiliary/kspaths.h"
 #include <QFileInfo>
-#include <QDebug>
 
 QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString &fileName,
                         QStandardPaths::LocateOptions options)

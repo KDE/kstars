@@ -42,6 +42,8 @@
 
 #include <memory>
 
+#include <ekos_align_debug.h>
+
 #define PAH_CUTOFF_FOV            30 // Minimum FOV width in arcminutes for PAH to work
 #define MAXIMUM_SOLVER_ITERATIONS 10
 
@@ -3038,8 +3040,7 @@ void Align::appendLogText(const QString &text)
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                             QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
-    if (Options::alignmentLogging())
-        qDebug() << "Alignment: " << text;
+    qCInfo(KSTARS_EKOS_ALIGN) << text;
 
     emit newLog();
 }

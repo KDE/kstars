@@ -37,6 +37,8 @@
 #include <KToolBar>
 #include <KNotifications/KStatusNotifierItem>
 
+#include <fits_debug.h>
+
 #define INITIAL_W 785
 #define INITIAL_H 650
 
@@ -401,7 +403,7 @@ bool FITSViewer::removeFITS(int fitsUID)
 
     if (tab == nullptr)
     {
-        qDebug() << "Cannot find tab with UID " << fitsUID << " in the FITS Viewer";
+        qCWarning(KSTARS_FITS) << "Cannot find tab with UID " << fitsUID << " in the FITS Viewer";
         return false;
     }
 
@@ -422,7 +424,7 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
 
     if (tab == nullptr)
     {
-        qDebug() << "Cannot find tab with UID " << fitsUID << " in the FITS Viewer";
+        qCWarning(KSTARS_FITS) << "Cannot find tab with UID " << fitsUID << " in the FITS Viewer";
         return false;
     }
 

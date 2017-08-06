@@ -46,6 +46,8 @@
 #include <QPrintDialog>
 #include <QPrinter>
 
+#include "kstars_debug.h"
+
 void KStars::setRaDec(double ra, double dec)
 {
     SkyPoint p(ra, dec);
@@ -830,7 +832,7 @@ void KStars::renderEyepieceView(const QString &objectName, const QString &destPa
     const SkyObject *obj = data()->objectNamed(objectName);
     if (!obj)
     {
-        qWarning() << "Object named " << objectName << " was not found!";
+        qCWarning(KSTARS) << "Object named " << objectName << " was not found!";
         return;
     }
     SkyObject *target          = obj->clone();

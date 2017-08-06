@@ -22,7 +22,7 @@
 #include "simclockadaptor.h"
 #endif
 
-#include <QDebug>
+#include <kstars_debug.h>
 
 int SimClock::TimerInterval = 100; //msec
 
@@ -121,7 +121,7 @@ void SimClock::stop()
 
     if (!ManualMode && tmr.isActive())
     {
-        qDebug() << "Stopping the timer";
+        qCDebug(KSTARS) << "Stopping the timer";
         tmr.stop();
         emit clockToggled(true);
     }
@@ -141,7 +141,7 @@ void SimClock::start()
     }
     else if (!ManualMode && !tmr.isActive())
     {
-        qDebug() << "Starting the timer";
+        qCDebug(KSTARS) << "Starting the timer";
         sysmark.start();
         julianmark  = UTC.djd();
         lastelapsed = 0;
@@ -166,13 +166,13 @@ void SimClock::setUTC(const KStarsDateTime &newtime)
             lastelapsed = 0;
         }
 
-        qDebug() << QString("Setting clock:  UTC: %1  JD: %2")
+        qCInfo(KSTARS) << QString("Setting clock:  UTC: %1  JD: %2")
                         .arg(UTC.toString(), QLocale().toString((double)UTC.djd(), 'f', 2));
         emit timeChanged();
     }
     else
     {
-        qDebug() << "Cannot set SimClock:  Invalid Date/Time.";
+        qCWarning(KSTARS) << "Cannot set SimClock:  Invalid Date/Time.";
     }
 }
 
@@ -180,7 +180,7 @@ void SimClock::setClockScale(float s)
 {
     if (Scale != s)
     {
-        qDebug() << "New clock scale: " << s << " sec";
+        qCInfo(KSTARS) << "New clock scale: " << s << " sec";
         Scale = s;
         if (tmr.isActive())
         {

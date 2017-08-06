@@ -33,6 +33,7 @@
 #endif
 
 #include <QTcpServer>
+#include <indi_debug.h>
 
 #define INDI_MAX_TRIES 2
 #define ERRMSG_SIZE    1024
@@ -312,8 +313,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
 
     getUniqueHosts(dList, uHosts);
 
-    if (Options::iNDILogging())
-        qDebug() << "INDI: Starting local drivers...";
+    qCDebug(KSTARS_INDI) << "INDI: Starting local drivers...";
 
     for (auto &qdv : uHosts)
     {
@@ -352,8 +352,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
             return false;
         }
 
-        if (Options::iNDILogging())
-            qDebug() << "INDI: INDI Server started locally on port " << port;
+        qCDebug(KSTARS_INDI) << "INDI: INDI Server started locally on port " << port;
 
         for (DriverInfo *dv : qdv)
         {
@@ -386,8 +385,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
 
         for (int i = 0; i < INDI_MAX_TRIES; i++)
         {
-            if (Options::iNDILogging())
-                qDebug() << "INDI: Connecting to local INDI server on port " << port << " ...";
+            qCDebug(KSTARS_INDI) << "INDI: Connecting to local INDI server on port " << port << " ...";
 
             connectionToServer = clientManager->connectServer();
 
@@ -402,16 +400,14 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
 
         if (connectionToServer)
         {
-            if (Options::iNDILogging())
-                qDebug() << "Connection to INDI server is successful";
+            qCDebug(KSTARS_INDI) << "Connection to INDI server is successful";
 
             clients.append(clientManager);
             updateMenuActions();
         }
         else
         {
-            if (Options::iNDILogging())
-                qDebug() << "INDI: Connection to local INDI server on port " << port << " failed!";
+            qCDebug(KSTARS_INDI) << "INDI: Connection to local INDI server on port " << port << " failed!";
 
             KNotification::beep();
             QPointer<QMessageBox> msgBox = new QMessageBox();
@@ -438,8 +434,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
 
 void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
 {
-    if (Options::iNDILogging())
-        qDebug() << "INDI: Stopping local drivers...";
+    qCDebug(KSTARS_INDI) << "INDI: Stopping local drivers...";
 
     // #1 Disconnect all clients
     for (DriverInfo *dv : dList)

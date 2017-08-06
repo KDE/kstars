@@ -19,6 +19,8 @@
 
 #include <KNotification>
 
+#include <indi_debug.h>
+
 namespace ISD
 {
 Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
@@ -547,8 +549,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         DecEle->value = ScopeTarget->dec().Degrees();
         clientManager->sendNewNumber(EqProp);
 
-        if (Options::iNDILogging())
-            qDebug() << "ISD:Telescope: Sending coords RA " << RAEle->value << " DEC " << DecEle->value;
+        qCDebug(KSTARS_INDI) << "ISD:Telescope: Sending coords RA " << RAEle->value << " DEC " << DecEle->value;
 
         RAEle->value  = currentRA;
         DecEle->value = currentDEC;
@@ -602,8 +603,7 @@ bool Telescope::Slew(SkyPoint *ScopeTarget)
         slewSW->s = ISS_ON;
         clientManager->sendNewSwitch(motionSP);
 
-        if (Options::iNDILogging())
-            qDebug() << "ISD:Telescope: " << slewSW->name;
+        qCDebug(KSTARS_INDI) << "ISD:Telescope: " << slewSW->name;
     }
 
     return sendCoords(ScopeTarget);
@@ -637,8 +637,7 @@ bool Telescope::Sync(SkyPoint *ScopeTarget)
         syncSW->s = ISS_ON;
         clientManager->sendNewSwitch(motionSP);
 
-        if (Options::iNDILogging())
-            qDebug() << "ISD:Telescope: Syncing...";
+        qCDebug(KSTARS_INDI) << "ISD:Telescope: Syncing...";
     }
 
     return sendCoords(ScopeTarget);
@@ -656,8 +655,7 @@ bool Telescope::Abort()
     if (abortSW == nullptr)
         return false;
 
-    if (Options::iNDILogging())
-        qDebug() << "ISD:Telescope: Aborted." << endl;
+    qCDebug(KSTARS_INDI) << "ISD:Telescope: Aborted." << endl;
 
     abortSW->s = ISS_ON;
     clientManager->sendNewSwitch(motionSP);
@@ -677,8 +675,7 @@ bool Telescope::Park()
     if (parkSW == nullptr)
         return false;
 
-    if (Options::iNDILogging())
-        qDebug() << "ISD:Telescope: Parking..." << endl;
+    qCDebug(KSTARS_INDI) << "ISD:Telescope: Parking..." << endl;
 
     IUResetSwitch(parkSP);
     parkSW->s = ISS_ON;
@@ -699,8 +696,7 @@ bool Telescope::UnPark()
     if (parkSW == nullptr)
         return false;
 
-    if (Options::iNDILogging())
-        qDebug() << "ISD:Telescope: UnParking..." << endl;
+    qCDebug(KSTARS_INDI) << "ISD:Telescope: UnParking..." << endl;
 
     IUResetSwitch(parkSP);
     parkSW->s = ISS_ON;

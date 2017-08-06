@@ -29,6 +29,8 @@
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_min.h>
 
+#include <ekos_focus_debug.h>
+
 #define MAXIMUM_ABS_ITERATIONS   30
 #define MAXIMUM_RESET_ITERATIONS 2
 #define AUTO_STAR_TIMEOUT        45000
@@ -746,8 +748,7 @@ void Focus::start()
     Options::setLockFocusFilter(lockFilterCheck->isChecked());
     Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
 
-    if (Options::focusLogging())
-        qDebug() << "Focus: Starting focus with box size: " << focusBoxSize->value()
+    qCDebug(KSTARS_EKOS_FOCUS)  << "Focus: Starting focus with box size: " << focusBoxSize->value()
                  << " Step Size: " << stepIN->value() << " Threshold: " << thresholdSpin->value()
                  << " Tolerance: " << toleranceIN->value()
                  << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
@@ -798,8 +799,7 @@ void Focus::abort()
 
 void Focus::stop(bool aborted)
 {
-    if (Options::focusLogging())
-        qDebug() << "Focus: Stopppig Focus";
+    qCDebug(KSTARS_EKOS_FOCUS) << "Focus: Stopppig Focus";
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
@@ -950,8 +950,7 @@ bool Focus::focusIn(int ms)
     if (ms == -1)
         ms = stepIN->value();
 
-    if (Options::focusLogging())
-        qDebug() << "Focus: Focus in (" << ms << ")";
+    qCDebug(KSTARS_EKOS_FOCUS) << "Focus: Focus in (" << ms << ")";
 
     lastFocusDirection = FOCUS_IN;
 
@@ -992,8 +991,7 @@ bool Focus::focusOut(int ms)
     if (ms == -1)
         ms = stepIN->value();
 
-    if (Options::focusLogging())
-        qDebug() << "Focus: Focus out (" << ms << ")";
+    qCDebug(KSTARS_EKOS_FOCUS) << "Focus: Focus out (" << ms << ")";
 
     currentFocuser->focusOut();
 
@@ -1129,8 +1127,7 @@ void Focus::setCaptureComplete()
             }*/
         }
 
-        if (Options::focusLogging())
-            qDebug() << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR;
+        qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR;
 
         HFRFrames.append(currentHFR);
 
@@ -1580,15 +1577,13 @@ void Focus::autoFocusAbs()
     QString deltaTxt = QString("%1").arg(fabs(currentHFR - minHFR) * 100.0, 0, 'g', 3);
     QString HFRText  = QString("%1").arg(currentHFR, 0, 'g', 3);
 
-    if (Options::focusLogging())
-    {
-        qDebug() << "Focus: ########################################";
-        qDebug() << "Focus: ========================================";
-        qDebug() << "Focus: Current HFR: " << currentHFR << " Current Position: " << currentPosition;
-        qDebug() << "Focus: Last minHFR: " << minHFR << " Last MinHFR Pos: " << minHFRPos;
-        qDebug() << "Focus: Delta: " << deltaTxt << "%";
-        qDebug() << "Focus: ========================================";
-    }
+    bool isDebugEnabled = QLoggingCategory("org.kde.kstars.ekos.focus").isDebugEnabled();
+
+    qCDebug(KSTARS_EKOS_FOCUS) << "========================================";
+    qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR: " << currentHFR << " Current Position: " << currentPosition;
+    qCDebug(KSTARS_EKOS_FOCUS) << "Last minHFR: " << minHFR << " Last MinHFR Pos: " << minHFRPos;
+    qCDebug(KSTARS_EKOS_FOCUS) << "Delta: " << deltaTxt << "%";
+    qCDebug(KSTARS_EKOS_FOCUS) << "========================================";
 
     if (minHFR)
         appendLogText(i18n("FITS received. HFR %1 @ %2. Delta (%3%)", HFRText, currentPosition, deltaTxt));
@@ -1703,23 +1698,20 @@ void Focus::autoFocusAbs()
                     initSlopeHFR = lastHFR;
                     initSlopePos = lastHFRPos;
 
-                    if (Options::focusLogging())
-                        qDebug() << "Focus: Setting initial slop to " << initSlopePos << " @ HFR " << initSlopeHFR;
+                    qCDebug(KSTARS_EKOS_FOCUS) << "Setting initial slop to " << initSlopePos << " @ HFR " << initSlopeHFR;
                 }
 
                 // Let's now limit the travel distance of the focuser
                 if (lastFocusDirection == FOCUS_OUT && lastHFRPos < focusInLimit && fabs(currentHFR - lastHFR) > 0.1)
                 {
                     focusInLimit = lastHFRPos;
-                    if (Options::focusLogging())
-                        qDebug() << "Focus: New FocusInLimit " << focusInLimit;
+                    qCDebug(KSTARS_EKOS_FOCUS) << "New FocusInLimit " << focusInLimit;
                 }
                 else if (lastFocusDirection == FOCUS_IN && lastHFRPos > focusOutLimit &&
                          fabs(currentHFR - lastHFR) > 0.1)
                 {
                     focusOutLimit = lastHFRPos;
-                    if (Options::focusLogging())
-                        qDebug() << "Focus: New FocusOutLimit " << focusOutLimit;
+                    qCDebug(KSTARS_EKOS_FOCUS) << "New FocusOutLimit " << focusOutLimit;
                 }
 
                 // If we have slope, get next target position
@@ -1739,8 +1731,7 @@ void Focus::autoFocusAbs()
                             targetPosition = currentPosition + (currentHFR * factor - currentHFR) / slope;
                         }
                     }
-                    if (Options::focusLogging())
-                        qDebug() << "Focus: Using slope to calculate target pulse...";
+                    qCDebug(KSTARS_EKOS_FOCUS) << "Using slope to calculate target pulse...";
                 }
                 // Otherwise proceed iteratively
                 else
@@ -1750,12 +1741,10 @@ void Focus::autoFocusAbs()
                     else
                         targetPosition = currentPosition + pulseDuration;
 
-                    if (Options::focusLogging())
-                        qDebug() << "Focus: Proceeding iteratively to next target pulse ...";
+                    qCDebug(KSTARS_EKOS_FOCUS) << "Proceeding iteratively to next target pulse ...";
                 }
 
-                if (Options::focusLogging())
-                    qDebug() << "Focus: V-Curve Slope " << slope << " current Position " << currentPosition
+                qCDebug(KSTARS_EKOS_FOCUS) << "V-Curve Slope " << slope << " current Position " << currentPosition
                              << " targetPosition " << targetPosition;
 
                 lastHFR = currentHFR;
@@ -1765,11 +1754,7 @@ void Focus::autoFocusAbs()
                 {
                     minHFR    = lastHFR;
                     minHFRPos = currentPosition;
-                    if (Options::focusLogging())
-                    {
-                        qDebug() << "Focus: new minHFR " << minHFR << " @ positioin " << minHFRPos;
-                        qDebug() << "Focus: ########################################";
-                    }
+                    qCDebug(KSTARS_EKOS_FOCUS) << "new minHFR " << minHFR << " @ positioin " << minHFRPos;
                 }
 
                 lastHFRPos = currentPosition;
@@ -1800,34 +1785,29 @@ void Focus::autoFocusAbs()
                 initSlopeHFR = 0;
                 HFRInc       = 0;
 
-                if (Options::focusLogging())
-                    qDebug() << "Focus: We are going away from optimal HFR ";
+                qCDebug(KSTARS_EKOS_FOCUS) << "Focus is moving away from optimal HFR.";
 
                 // Let's set new limits
                 if (lastFocusDirection == FOCUS_IN)
                 {
                     focusInLimit = currentPosition;
-                    if (Options::focusLogging())
-                        qDebug() << "Focus: Setting focus IN limit to " << focusInLimit;
+                    qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus IN limit to " << focusInLimit;
 
                     if (hfr_position.count() > 3)
                     {
                         focusOutLimit = hfr_position[hfr_position.count() - 3];
-                        if (Options::focusLogging())
-                            qDebug() << "Focus: Setting focus OUT limit to " << focusOutLimit;
+                        qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus OUT limit to " << focusOutLimit;
                     }
                 }
                 else
                 {
                     focusOutLimit = currentPosition;
-                    if (Options::focusLogging())
-                        qDebug() << "Focus: Setting focus OUT limit to " << focusOutLimit;
+                    qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus OUT limit to " << focusOutLimit;
 
                     if (hfr_position.count() > 3)
                     {
                         focusInLimit = hfr_position[hfr_position.count() - 3];
-                        if (Options::focusLogging())
-                            qDebug() << "Focus: Setting focus IN limit to " << focusInLimit;
+                        qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus IN limit to " << focusInLimit;
                     }
                 }
 
@@ -1839,17 +1819,13 @@ void Focus::autoFocusAbs()
 
                     polyMinimumFound = findMinimum(minHFRPos, &min_position, &min_hfr);
 
-                    if (Options::fITSLogging())
-                    {
-                        qDebug() << "Polynomial Coefficients c0:" << coeff[0] << "c1:" << coeff[1] << "c2:" << coeff[2]
+                    qCDebug(KSTARS_EKOS_FOCUS) << "Polynomial Coefficients c0:" << coeff[0] << "c1:" << coeff[1] << "c2:" << coeff[2]
                                  << "c3:" << coeff[3];
-                        qDebug() << "Found Minimum?" << (polyMinimumFound ? "Yes" : "No");
-                        if (polyMinimumFound)
-                            qDebug() << "Minimum Solution:" << min_hfr << "@" << min_position;
-                    }
+                     qCDebug(KSTARS_EKOS_FOCUS) << "Found Minimum?" << (polyMinimumFound ? "Yes" : "No");
 
                     if (polyMinimumFound)
                     {
+                        qCDebug(KSTARS_EKOS_FOCUS) << "Minimum Solution:" << min_hfr << "@" << min_position;
                         polySolutionFound++;
                         targetPosition = floor(min_position);
                         appendLogText(i18n("Found polynomial solution @ %1", QString::number(min_position, 'f', 0)));
@@ -1868,22 +1844,19 @@ void Focus::autoFocusAbs()
                         targetPosition = minHFRPos + pulseDuration / 2;
                 }
 
-                if (Options::focusLogging())
-                    qDebug() << "Focus: new targetPosition " << targetPosition;
+                qCDebug(KSTARS_EKOS_FOCUS) << "new targetPosition " << targetPosition;
             }
 
             // Limit target Pulse to algorithm limits
             if (focusInLimit != 0 && lastFocusDirection == FOCUS_IN && targetPosition < focusInLimit)
             {
                 targetPosition = focusInLimit;
-                if (Options::focusLogging())
-                    qDebug() << "Focus: Limiting target pulse to focus in limit " << targetPosition;
+                qCDebug(KSTARS_EKOS_FOCUS) << "Limiting target pulse to focus in limit " << targetPosition;
             }
             else if (focusOutLimit != 0 && lastFocusDirection == FOCUS_OUT && targetPosition > focusOutLimit)
             {
                 targetPosition = focusOutLimit;
-                if (Options::focusLogging())
-                    qDebug() << "Focus: Limiting target pulse to focus out limit " << targetPosition;
+                qCDebug(KSTARS_EKOS_FOCUS) << "Focus: Limiting target pulse to focus out limit " << targetPosition;
             }
 
             // Limit target pulse to focuser limits
@@ -1913,8 +1886,7 @@ void Focus::autoFocusAbs()
 
             if (fabs(targetPosition - initialFocuserAbsPosition) > maxTravelIN->value())
             {
-                if (Options::focusLogging())
-                    qDebug() << "Focus: targetPosition (" << targetPosition << ") - initHFRAbsPos ("
+                qCDebug(KSTARS_EKOS_FOCUS) << "Focus: targetPosition (" << targetPosition << ") - initHFRAbsPos ("
                              << initialFocuserAbsPosition << ") exceeds maxTravel distance of " << maxTravelIN->value();
 
                 appendLogText("Maximum travel limit reached. Autofocus aborted.");
@@ -1926,12 +1898,8 @@ void Focus::autoFocusAbs()
             // Get delta for next move
             delta = (targetPosition - currentPosition);
 
-            if (Options::focusLogging())
-            {
-                qDebug() << "Focus: delta (targetPosition - currentPosition) " << delta;
-                qDebug() << "Focus: Focusing " << ((delta < 0) ? "IN" : "OUT");
-                qDebug() << "Focus: ########################################";
-            }
+            qCDebug(KSTARS_EKOS_FOCUS) << "delta (targetPosition - currentPosition) " << delta;
+            qCDebug(KSTARS_EKOS_FOCUS) << "Focusing " << ((delta < 0) ? "IN" : "OUT");
 
             // Now cross your fingers and wait
             bool rc = false;
@@ -2189,8 +2157,7 @@ void Focus::appendLogText(const QString &text)
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                             QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
-    if (Options::focusLogging())
-        qDebug() << "Focus: " << text;
+    qCInfo(KSTARS_EKOS_FOCUS) << text;
 
     emit newLog();
 }
@@ -2544,8 +2511,7 @@ void Focus::setAbsoluteFocusTicks()
         return;
     }
 
-    if (Options::focusLogging())
-        qDebug() << "Focus: Setting focus ticks to " << absTicksSpin->value();
+    qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus ticks to " << absTicksSpin->value();
 
     currentFocuser->moveAbs(absTicksSpin->value());
 }
@@ -2712,7 +2678,7 @@ bool Focus::findMinimum(double expected, double *position, double *hfr)
 
     if (status != GSL_SUCCESS)
     {
-        qDebug() << "Focus GSL error:" << gsl_strerror(status);
+        qCWarning(KSTARS_EKOS_FOCUS) << "Focus GSL error:" << gsl_strerror(status);
         return false;
     }
 

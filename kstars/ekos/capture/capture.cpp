@@ -31,6 +31,8 @@
 
 #include <KNotifications/KNotification>
 
+#include <ekos_capture_debug.h>
+
 #define INVALID_VALUE -1e6
 #define MF_TIMER_TIMEOUT    90000
 #define GD_TIMER_TIMEOUT    60000
@@ -1252,8 +1254,7 @@ bool Capture::resumeSequence()
 
         // check if time for forced refocus
 
-	if (Options::captureLogging())
-	  qDebug() << "Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
+    qDebug(KSTARS_EKOS_CAPTURE) << "Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
 
         if (refocusEveryNCheck->isEnabled() && refocusEveryNCheck->isChecked() && getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60)
             isRefocus = true;
@@ -1546,8 +1547,7 @@ void Capture::appendLogText(const QString &text)
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                             QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
-    if (Options::captureLogging())
-        qDebug() << "Capture: " << text;
+    qCInfo(KSTARS_EKOS_CAPTURE) << text;
 
     emit newLog();
 }
@@ -1613,8 +1613,7 @@ void Capture::setExposureProgress(ISD::CCDChip *tChip, double value, IPState sta
         //if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
         if (guideState == GUIDE_GUIDING && Options::guiderType() == 0 && suspendGuideOnDownload)
         {
-            if (Options::captureLogging())
-                qDebug() << "Capture: Autoguiding suspended until primary CCD chip completes downloading...";
+            qDebug(KSTARS_EKOS_CAPTURE) << "Autoguiding suspended until primary CCD chip completes downloading...";
             emit suspendGuiding();
         }
 
@@ -3687,8 +3686,7 @@ double Capture::setCurrentADU(double value)
     ExpRaw.append(activeJob->getExposure());
     ADURaw.append(value);
 
-    if (Options::captureLogging())
-        qDebug() << "Capture: Current ADU = " << value << " targetADU = " << targetADU
+    qDebug(KSTARS_EKOS_CAPTURE) << "Capture: Current ADU = " << value << " targetADU = " << targetADU
                  << " Exposure Count: " << ExpRaw.count();
 
     // Most CCDs are quite linear so 1st degree polynomial is quite sufficient
@@ -3700,12 +3698,9 @@ double Capture::setCurrentADU(double value)
             double chisq = 0;
 
             coeff = gsl_polynomial_fit(ADURaw.data(), ExpRaw.data(), ExpRaw.count(), 2, chisq);
-            if (Options::captureLogging())
-            {
-                qDebug() << "Capture: Running polynomial fitting. Found " << coeff.size() << " coefficients.";
-                for (size_t i = 0; i < coeff.size(); i++)
-                    qDebug() << "Capture: Coeff #" << i << "=" << coeff[i];
-            }
+            qDebug(KSTARS_EKOS_CAPTURE) << "Capture: Running polynomial fitting. Found " << coeff.size() << " coefficients.";
+            for (size_t i = 0; i < coeff.size(); i++)
+                    qDebug(KSTARS_EKOS_CAPTURE) << "Capture: Coeff #" << i << "=" << coeff[i];
         }
 
         bool looping = false;
@@ -3714,7 +3709,7 @@ double Capture::setCurrentADU(double value)
             int size = ExpRaw.count();
             looping  = (ExpRaw[size - 1] == ExpRaw[size - 2]) && (ExpRaw[size - 2] == ExpRaw[size - 3]);
             if (looping)
-                qDebug() << "Capture: Detected looping in polynomial results. Falling back to llsqr.";
+                qWarning(KSTARS_EKOS_CAPTURE) << "Capture: Detected looping in polynomial results. Falling back to llsqr.";
         }
 
         // If we get invalid data, let's fall back to llsq
@@ -3725,8 +3720,7 @@ double Capture::setCurrentADU(double value)
             double a = 0, b = 0;
             llsq(ExpRaw, ADURaw, a, b);
 
-            if (Options::captureLogging())
-                qDebug() << "Capture: polynomial fitting invalid, faling back to llsq. a=" << a << " b=" << b;
+            qWarning(KSTARS_EKOS_CAPTURE) << "Capture: polynomial fitting invalid, faling back to llsq. a=" << a << " b=" << b;
 
             // If we have valid results, let's calculate next exposure
             if (a != 0)
@@ -3749,8 +3743,7 @@ double Capture::setCurrentADU(double value)
             nextExposure = activeJob->getExposure() * .75;
     }
 
-    if (Options::captureLogging())
-        qDebug() << "Capture: next FLAT exposure is " << nextExposure;
+    qDebug(KSTARS_EKOS_CAPTURE) << "Capture: next FLAT exposure is " << nextExposure;
 
     return nextExposure;
 }

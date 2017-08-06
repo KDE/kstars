@@ -29,6 +29,8 @@
 #include "skycomponents/culturelist.h"
 #include "skycomponents/starcomponent.h"
 
+#include "kstars_debug.h"
+
 ConstellationLines::ConstellationLines(SkyComposite *parent, CultureList *cultures)
     : LineListIndex(parent, i18n("Constellation Lines")), m_reindexNum(J2000)
 {
@@ -107,7 +109,7 @@ ConstellationLines::ConstellationLines(SkyComposite *parent, CultureList *cultur
                 lineList->append(std::move(star));
             }
             else if (!star.get())
-                qWarning() << i18n("Star HD%1 not found.", HDnum);
+                qCWarning(KSTARS) << i18n("Star HD%1 not found.", HDnum);
         }
     }
     //Add the last clc component
