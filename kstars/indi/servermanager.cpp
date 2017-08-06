@@ -18,10 +18,11 @@
 #include <indidevapi.h>
 
 #include <KMessageBox>
-
 #include <QUuid>
 
 #include <sys/stat.h>
+
+#include <indi_debug.h>
 
 ServerManager::ServerManager(const QString& inHost, uint inPort)
 {
@@ -101,7 +102,7 @@ bool ServerManager::start()
 
     if (!indiFIFO.open(QIODevice::ReadWrite | QIODevice::Text))
     {
-        qDebug() << "Unable to create INDI FIFO file: " << fifoFile << endl;
+        qCCritical(KSTARS_INDI) << "Unable to create INDI FIFO file: " << fifoFile << endl;
         return false;
     }
 
@@ -281,7 +282,7 @@ void ServerManager::processStandardError()
     if (Options::iNDILogging())
     {
         for (auto &msg : stderr.split('\n'))
-            qDebug() << "INDI Server: " << msg;
+            qCDebug(KSTARS_INDI) << "INDI Server: " << msg;
     }
 
     if (driverCrashed == false && (serverBuffer.contains("stdin EOF") || serverBuffer.contains("stderr EOF")))

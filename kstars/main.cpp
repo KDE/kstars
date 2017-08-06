@@ -87,12 +87,12 @@ int main(int argc, char *argv[])
                         "http://www.indilib.org");
 
     // Active developers
-    aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org", "http://www.ph.utexas.edu/~asimha");
-    aboutData.addAuthor(i18n("Artem Fedoskin"), i18n("KStars Lite"), "afedoskin3@gmail.com");
+    aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org", "http://www.ph.utexas.edu/~asimha");    
     aboutData.addAuthor(i18n("Robert Lancaster"), i18n("FITSViewer Improvements. KStars OSX Port"),
                         "rlancaste@gmail.com");
 
     // Inactive developers
+    aboutData.addAuthor(i18n("Artem Fedoskin"), i18n("KStars Lite"), "afedoskin3@gmail.com");
     aboutData.addAuthor(i18n("James Bowlin"), QString(), "bowlin@mindspring.com");
     aboutData.addAuthor(i18n("Pablo de Vicente"), QString(), "pvicentea@wanadoo.es");
     aboutData.addAuthor(i18n("Thomas Kabelmann"), QString(), "tk78@gmx.de");

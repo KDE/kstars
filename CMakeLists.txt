@@ -75,6 +75,7 @@ include(ECMInstallIcons)
 include(ECMAddAppIcon)
 include(KDEInstallDirs)
 include(MacroBoolTo01)
+include(ECMQtDeclareLoggingCategory)
 if(NOT ANDROID)
     #We get error "could not find main method" with this module
     include(KDECompilerSettings NO_POLICY_SCOPE)

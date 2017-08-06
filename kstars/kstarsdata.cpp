@@ -39,6 +39,8 @@
 #include <QSqlQuery>
 #include <QtConcurrent>
 
+#include "kstars_debug.h"
+
 namespace
 {
 // Report fatal error during data loading to user
@@ -667,7 +669,7 @@ bool KStarsData::readURLData(const QString &urlfile, int type, bool deepOnly)
 
             if (!o)
             {
-                qWarning() << i18n("Object named %1 not found", name);
+                qCWarning(KSTARS) << i18n("Object named %1 not found", name);
             }
             else
             {

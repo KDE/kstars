@@ -35,6 +35,8 @@
 
 #include <float.h>
 
+#include <fits_debug.h>
+
 #define ZOOM_DEFAULT   100.0
 #define ZOOM_MIN       10
 #define ZOOM_MAX       400
@@ -104,9 +106,11 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
 
         if (tempFile && autoRemoveTemporaryFITS)
             QFile::remove(filename);
-    }
+    }    
 
     filename = inFilename;
+
+    qCInfo(KSTARS_FITS) << "Loading FITS file " << filename;
 
     if (filename.startsWith(QLatin1String("/tmp/")) || filename.contains("/Temp"))
         tempFile = true;
@@ -120,8 +124,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         errMessage = i18n("Could not open file %1. Error %2", filename, QString::fromUtf8(error_status));
         if (silent == false)
             KSNotification::error(errMessage, i18n("FITS Open"));
-        if (Options::fITSLogging())
-            qDebug() << errMessage;
+        qCCritical(KSTARS_FITS) << errMessage;
         return false;
     }
 
@@ -132,8 +135,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         errMessage = i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status));
         if (silent == false)
             KSNotification::error(errMessage, i18n("FITS Open"));
-        if (Options::fITSLogging())
-            qDebug() << errMessage;
+        qCCritical(KSTARS_FITS) << errMessage;
         return false;
     }
 
@@ -142,8 +144,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         errMessage = i18n("1D FITS images are not supported in KStars.");
         if (silent == false)
             KSNotification::error(errMessage, i18n("FITS Open"));
-        if (Options::fITSLogging())
-            qDebug() << errMessage;
+        qCCritical(KSTARS_FITS) << errMessage;
         return false;
     }
 
@@ -187,8 +188,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
             errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
             if (silent == false)
                 KSNotification::error(errMessage, i18n("FITS Open"));
-            if (Options::fITSLogging())
-                qDebug() << errMessage;
+            qCCritical(KSTARS_FITS) << errMessage;
             return false;
             break;
     }
@@ -201,8 +201,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         errMessage = i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]);
         if (silent == false)
             KSNotification::error(errMessage, i18n("FITS Open"));
-        if (Options::fITSLogging())
-            qDebug() << errMessage;
+        qCCritical(KSTARS_FITS) << errMessage;
         return false;
     }
 
@@ -223,7 +222,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     //if (image_buffer == nullptr)
     if (imageBuffer == nullptr)
     {
-        qDebug() << "FITSData: Not enough memory for image_buffer channel. Requested: "
+        qCWarning(KSTARS_FITS) << "FITSData: Not enough memory for image_buffer channel. Requested: "
                  << stats.samples_per_channel * channels * stats.bytesPerPixel << " bytes.";
         clearImageBuffers();
         return false;
@@ -242,8 +241,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         if (silent == false)
             KSNotification::error(errMessage, i18n("FITS Open"));
         fits_report_error(stderr, status);
-        if (Options::fITSLogging())
-            qDebug() << errMessage;
+        qCCritical(KSTARS_FITS) << errMessage;
         return false;
     }
 
@@ -293,7 +291,7 @@ int FITSData::saveFITS(const QString &newFilename)
 
         if (QFile::copy(filename, finalFileName) == false)
         {
-            qCritical() << "FITS: Failed to copy " << filename << " to " << finalFileName;
+            qCCritical(KSTARS_FITS()) << "FITS: Failed to copy " << filename << " to " << finalFileName;
             fptr = nullptr;
             return -1;
         }
@@ -870,8 +868,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
         }
     }
 
-    if (Options::fITSLogging())
-        qDebug() << "FITS: Weighted Center is X: " << center->x << " Y: " << center->y << " Width: " << center->width;
+    qCDebug(KSTARS_FITS) << "FITS: Weighted Center is X: " << center->x << " Y: " << center->y << " Width: " << center->width;
 
     // If no stars were detected
     if (center->width == -1)
@@ -947,8 +944,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 
     data->appendStar(center);
 
-    if (Options::fITSLogging())
-        qDebug() << "Flux: " << FSum << " Half-Flux: " << HF << " HFR: " << center->HFR;
+    qCDebug(KSTARS_FITS) << "Flux: " << FSum << " Half-Flux: " << HF << " HFR: " << center->HFR;
 
     return 1;
 }
@@ -1025,8 +1021,7 @@ int FITSData::findOneStar(const QRectF &boundary)
         }
     }
 
-    if (Options::fITSLogging())
-        qDebug() << "FITS: Weighted Center is X: " << massX / totalMass << " Y: " << massY / totalMass;
+   qCDebug(KSTARS_FITS) << "FITS: Weighted Center is X: " << massX / totalMass << " Y: " << massY / totalMass;
 
     Edge *center  = new Edge;
     center->width = -1;
@@ -1245,12 +1240,9 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
             dispersion_ratio = 1.8 - (MINIMUM_STDVAR - initStdDev) * 0.2;
         }
 
-        if (Options::fITSLogging())
-        {
-            qDebug() << "SNR: " << stats.SNR;
-            qDebug() << "The threshold level is " << threshold << "(actual " << threshold - min
+        qCDebug(KSTARS_FITS) << "SNR: " << stats.SNR;
+        qCDebug(KSTARS_FITS) << "The threshold level is " << threshold << "(actual " << threshold - min
                      << ")  minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeCount;
-        }
 
         threshold -= min;
 
@@ -1316,16 +1308,13 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
                                      (buffer[i_center + (i * stats.width) + starDiameter / 2] - min) >=
                                  dispersion_ratio))
                             {
-                                if (Options::fITSLogging())
-                                {
-                                    qDebug()
+                                qCDebug(KSTARS_FITS)
                                         << "Edge center is " << buffer[i_center + (i * stats.width)] - min
                                         << " Edge is " << buffer[i_center + (i * stats.width) - starDiameter / 2] - min
                                         << " and ratio is "
                                         << ((buffer[i_center + (i * stats.width)] - min) /
                                             (buffer[i_center + (i * stats.width) - starDiameter / 2] - min))
                                         << " located at X: " << center << " Y: " << i + 0.5;
-                                }
 
                                 Edge *newEdge = new Edge();
 
@@ -1348,8 +1337,7 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
             }
         }
 
-        if (Options::fITSLogging())
-            qDebug() << "Total number of edges found is: " << edges.count();
+        qCDebug(KSTARS_FITS) << "Total number of edges found is: " << edges.count();
 
         // In case of hot pixels
         if (edges.count() == 1 && initStdDev > 1)
@@ -1360,9 +1348,7 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
 
         if (edges.count() >= MAX_EDGE_LIMIT)
         {
-            if (Options::fITSLogging())
-                qDebug() << "Too many edges, aborting... " << edges.count();
-
+           qCWarning(KSTARS_FITS) << "Too many edges, aborting... " << edges.count();
             qDeleteAll(edges);
             return;
         }
@@ -1388,22 +1374,17 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
     // Now, let's scan the edges and find the maximum centroid vertically
     for (int i = 0; i < edges.count(); i++)
     {
-        if (Options::fITSLogging())
-        {
-            qDebug() << "# " << i << " Edge at (" << edges[i]->x << "," << edges[i]->y << ") With a value of "
+        qCDebug(KSTARS_FITS) << "# " << i << " Edge at (" << edges[i]->x << "," << edges[i]->y << ") With a value of "
                      << edges[i]->val << " and width of " << edges[i]->width << " pixels. with sum " << edges[i]->sum;
-        }
 
         // If edge scanned already, skip
         if (edges[i]->scanned == 1)
         {
-            if (Options::fITSLogging())
-                qDebug() << "Skipping check for center " << i << " because it was already counted";
+            qCDebug(KSTARS_FITS) << "Skipping check for center " << i << " because it was already counted";
             continue;
         }
 
-        if (Options::fITSLogging())
-            qDebug() << "Invetigating edge # " << i << " now ...";
+        qCDebug(KSTARS_FITS) << "Invetigating edge # " << i << " now ...";
 
         // Get X, Y, and Val of edge
         cen_x = edges[i]->x;
@@ -1452,8 +1433,7 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
                 cen_limit = 2;
         }
 
-        if (Options::fITSLogging())
-            qDebug() << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is "
+        qCDebug(KSTARS_FITS) << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is "
                      << cen_limit;
 
         if (cen_limit < 1)
@@ -1471,8 +1451,7 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
             width_sum += rCenter->width;
             rCenter->width = cen_w;
 
-            if (Options::fITSLogging())
-                qDebug() << "Found a real center with number with (" << rCenter->x << "," << rCenter->y << ")";
+            qCDebug(KSTARS_FITS) << "Found a real center with number with (" << rCenter->x << "," << rCenter->y << ")";
 
             // Calculate Total Flux From Center, Half Flux, Full Summation
             double TF   = 0;
@@ -1509,8 +1488,7 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
             {
                 if (TF >= HF)
                 {
-                    if (Options::fITSLogging())
-                        qDebug() << "Stopping at TF " << TF << " after #" << k << " pixels.";
+                    qCDebug(KSTARS_FITS) << "Stopping at TF " << TF << " after #" << k << " pixels.";
                     break;
                 }
 
@@ -1525,8 +1503,7 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
             // Store full flux
             rCenter->val = FSum;
 
-            if (Options::fITSLogging())
-                qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum;
+            qCDebug(KSTARS_FITS) << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum;
 
             starCenters.append(rCenter);
         }
@@ -2136,8 +2113,7 @@ bool FITSData::loadWCS()
         return true;
     }
 
-    if (Options::fITSLogging())
-        qDebug() << "Started WCS Data Processing...";
+    qCDebug(KSTARS_FITS) << "Started WCS Data Processing...";
 
     int status = 0;
     char *header;
@@ -2220,8 +2196,7 @@ bool FITSData::loadWCS()
 
     WCSLoaded = true;
 
-    if (Options::fITSLogging())
-        qDebug() << "Finished WCS Data processing...";
+    qCDebug(KSTARS_FITS) << "Finished WCS Data processing...";
 
     return true;
 #endif
@@ -3760,8 +3735,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
     fitsfile *new_fptr;
     char errMsg[512];
 
-    if (Options::fITSLogging())
-        qDebug() << "Creating new WCS file: " << newWCSFile << " with parameters orientation: " << orientation
+    qCInfo(KSTARS_FITS) << "Creating new WCS file: " << newWCSFile << " with parameters orientation: " << orientation
                  << "ra: " << ra << "dec: " << dec << "Pixel scale: " << pixscale;
 
     nelements = stats.samples_per_channel * channels;
@@ -3806,8 +3780,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
     {
         QFile::remove(filename);
         tempFile = false;
-        if (Options::fITSLogging())
-            qDebug() << "Removing FITS File: " << filename;
+        qCDebug(KSTARS_FITS) << "Removing FITS File: " << filename;
     }
 
     filename = newWCSFile;
@@ -3938,8 +3911,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
 
     WCSLoaded = false;
 
-    if (Options::fITSLogging())
-        qDebug() << "Finished creating WCS file: " << newWCSFile;
+    qCDebug(KSTARS_FITS) << "Finished creating WCS file: " << newWCSFile;
 
     return true;
 }

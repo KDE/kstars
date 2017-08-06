@@ -23,6 +23,8 @@
 #include "Options.h"
 #include "widgets/timespinbox.h"
 
+#include <KConfigDialog>
+
 #include <QCheckBox>
 #include <QDesktopServices>
 #include <QLabel>
@@ -47,6 +49,11 @@ OpsAdvanced::OpsAdvanced() : QFrame(KStars::Instance())
 
     connect(kcfg_ObsListDemoteHole, &QCheckBox::toggled,
             [this](bool state) { kcfg_ObsListHoleSize->setEnabled(state); });
+
+    //Get a pointer to the KConfigDialog
+    KConfigDialog *m_ConfigDialog = KConfigDialog::exists("settings");
+    connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
+    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 
     for (auto &b : modulesGroup->buttons())
         b->setEnabled(kcfg_VerboseLogging->isChecked());
@@ -97,4 +104,9 @@ void OpsAdvanced::slotShowLogFiles()
     QUrl path = QUrl::fromLocalFile(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs");
 
     QDesktopServices::openUrl(path);
+}
+
+void OpsAdvanced::slotApply()
+{
+    KSUtils::Logging::SyncFilterRules();
 }

@@ -231,6 +231,11 @@ class Logging
          */
     static void Disable();
 
+    /**
+     * @brief SyncFilterRules Sync QtLogging filter rules from Options
+     */
+    static void SyncFilterRules();
+
   private:
     static QString _filename;
 
@@ -238,7 +243,7 @@ class Logging
     static void File(QtMsgType type, const QMessageLogContext &context, const QString &msg);
     static void Stdout(QtMsgType type, const QMessageLogContext &context, const QString &msg);
     static void Stderr(QtMsgType type, const QMessageLogContext &context, const QString &msg);
-    static void Write(QTextStream &stream, QtMsgType type, const QString &msg);
+    static void Write(QTextStream &stream, QtMsgType type, const QMessageLogContext &context, const QString &msg);
 };
 
 QString getDefaultPath(QString option);

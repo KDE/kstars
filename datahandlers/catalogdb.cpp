@@ -25,10 +25,11 @@
 #include "deepskyobject.h"
 #include "skycomponent.h"
 
-#include <QDebug>
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include <QSqlQuery>
+
+#include <catalog_debug.h>
 
 bool CatalogDB::Initialize()
 {
@@ -41,18 +42,18 @@ bool CatalogDB::Initialize()
     bool first_run = false;
     if (!testdb.exists())
     {
-        qDebug() << "DSO DB does not exist!";
+        qCWarning(KSTARS_CATALOG) << "DSO DB does not exist!";
         first_run = true;
     }
     skydb_.setDatabaseName(dbfile);
     if (!skydb_.open())
     {
-        qWarning() << i18n("Unable to open DSO database file!");
-        qWarning() << LastError();
+        qCWarning(KSTARS_CATALOG) << i18n("Unable to open DSO database file!");
+        qCWarning(KSTARS_CATALOG) << LastError();
     }
     else
     {
-        qDebug() << "Opened the DSO Database. Ready!";
+        qCDebug(KSTARS_CATALOG) << "Opened the DSO Database. Ready!";
         if (first_run == true)
         {
             FirstRun();
@@ -64,7 +65,7 @@ bool CatalogDB::Initialize()
 
 void CatalogDB::FirstRun()
 {
-    qWarning() << i18n("Rebuilding Additional Sky Catalog Database");
+    qCWarning(KSTARS_CATALOG) << i18n("Rebuilding Additional Sky Catalog Database");
     QVector<QString> tables;
     tables.append("CREATE TABLE Version ("
                   "Version CHAR DEFAULT NULL)");
@@ -112,7 +113,7 @@ void CatalogDB::FirstRun()
         QSqlQuery query(skydb_);
         if (!query.exec(tables[i]))
         {
-            qDebug() << query.lastError();
+            qCWarning(KSTARS_CATALOG) << query.lastError();
         }
     }
     return;
@@ -245,7 +246,7 @@ void CatalogDB::ClearDSOEntries(int catalog_id)
         QSqlQuery query(skydb_);
         if (!query.exec(del_query[i]))
         {
-            qDebug() << query.lastError();
+            qCWarning(KSTARS_CATALOG) << query.lastError();
         }
     }
 
@@ -291,8 +292,8 @@ bool CatalogDB::AddEntry(const CatalogEntryData &catalog_entry, int catid)
 {
     if (!skydb_.open())
     {
-        qWarning() << "Failed to open database to add catalog entry!";
-        qWarning() << LastError();
+        qCWarning(KSTARS_CATALOG) << "Failed to open database to add catalog entry!";
+        qCWarning(KSTARS_CATALOG) << LastError();
         return false;
     }
     bool retVal = _AddEntry(catalog_entry, catid);
@@ -306,13 +307,13 @@ bool CatalogDB::_AddEntry(const CatalogEntryData &catalog_entry, int catid)
     // If RA, Dec are Null, it denotes an invalid object and should not be written
     if (catid < 0)
     {
-        qWarning() << "Catalog ID " << catid << " is invalid! Cannot add object.";
+        qCWarning(KSTARS_CATALOG) << "Catalog ID " << catid << " is invalid! Cannot add object.";
         return false;
     }
     if (catalog_entry.ra == KSParser::EBROKEN_DOUBLE || catalog_entry.ra == 0.0 || std::isnan(catalog_entry.ra) ||
         catalog_entry.dec == KSParser::EBROKEN_DOUBLE || catalog_entry.dec == 0.0 || std::isnan(catalog_entry.dec))
     {
-        qDebug() << "Attempt to add incorrect ra & dec with ID:" << catalog_entry.ID
+        qCWarning(KSTARS_CATALOG) << "Attempt to add incorrect ra & dec with ID:" << catalog_entry.ID
                  << " Long Name: " << catalog_entry.long_name;
         return false;
     }
@@ -341,9 +342,9 @@ bool CatalogDB::_AddEntry(const CatalogEntryData &catalog_entry, int catid)
         add_query.bindValue(":Flux", catalog_entry.flux);
         if (!add_query.exec())
         {
-            qWarning() << "Custom Catalog Insert Query FAILED!";
-            qWarning() << add_query.lastQuery() << endl;
-            qWarning() << add_query.lastError() << endl;
+            qCWarning(KSTARS_CATALOG) << "Custom Catalog Insert Query FAILED!";
+            qCWarning(KSTARS_CATALOG) << add_query.lastQuery();
+            qCWarning(KSTARS_CATALOG) << add_query.lastError() << endl;
         }
 
         // Find UID of the Row just added
@@ -375,7 +376,7 @@ bool CatalogDB::_AddEntry(const CatalogEntryData &catalog_entry, int catid)
     }
     else
     {
-        qWarning() << "FIXME: This query has not been tested!!!!";
+        //qWarning() << "FIXME: This query has not been tested!!!!";
         add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
                        ", IDNumber) VALUES (:catid, :rowuid, :longname,"
                        "(SELECT MAX(ISNULL(IDNumber,1))+1 FROM ObjectDesignation WHERE id_Catalog = :catid) )");

@@ -28,6 +28,8 @@
 #include <QSqlRecord>
 #include <QSqlTableModel>
 
+#include <kstars_debug.h>
+
 /*
  * TODO (spacetime):
  * The database supports storing logs. But it needs to be implemented.
@@ -50,19 +52,19 @@ bool KSUserDB::Initialize()
     bool first_run = false;
     if (!testdb.exists())
     {
-        qDebug() << "User DB does not exist. New User DB will be created.";
+        qCInfo(KSTARS) << "User DB does not exist. New User DB will be created.";
         first_run = true;
     }
     userdb_.setDatabaseName(dbfile);
     if (!userdb_.open())
     {
-        qWarning() << "Unable to open user database file.";
-        qWarning() << LastError();
+        qCWarning(KSTARS) << "Unable to open user database file.";
+        qCritical(KSTARS) << LastError();
         return false;
     }
     else
     {
-        qDebug() << "Opened the User DB. Ready.";
+        qCDebug(KSTARS) << "Opened the User DB. Ready.";
         if (first_run == true)
             FirstRun();
         else
@@ -101,19 +103,19 @@ bool KSUserDB::Initialize()
                 QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
 
                 if (!query.exec(versionQuery))
-                    qDebug() << query.lastError();
+                    qCWarning(KSTARS) << query.lastError();
 
                 // Profiles
                 if (!query.exec("CREATE TABLE IF NOT EXISTS profile (id INTEGER DEFAULT NULL PRIMARY KEY "
                                 "AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, "
                                 "country TEXT, indiwebmanagerport INTEGER DEFAULT NULL)"))
-                    qDebug() << query.lastError();
+                    qCWarning(KSTARS) << query.lastError();
 
                 // Drivers
                 if (!query.exec("CREATE TABLE IF NOT EXISTS driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                                 "label TEXT NOT NULL, role TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN "
                                 "KEY(profile) REFERENCES profile(id))"))
-                    qDebug() << query.lastError();
+                    qCWarning(KSTARS) << query.lastError();
 
 // Custom Drivers
 //if (!query.exec("CREATE TABLE IF NOT EXISTS custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))"))
@@ -125,16 +127,16 @@ bool KSUserDB::Initialize()
                     qDebug() << query.lastError();
 #else
                 if (!query.exec("INSERT INTO profile (name) VALUES ('Simulators')"))
-                    qDebug() << query.lastError();
+                    qCWarning(KSTARS) << query.lastError();
 #endif
 
                 // Add sample profile drivers
                 if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('Telescope Simulator', 'Mount', 1)"))
-                    qDebug() << query.lastError();
+                    qCWarning(KSTARS) << query.lastError();
                 if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('CCD Simulator', 'CCD', 1)"))
-                    qDebug() << query.lastError();
+                    qCWarning(KSTARS) << query.lastError();
                 if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('Focuser Simulator', 'Focuser', 1)"))
-                    qDebug() << query.lastError();
+                    qCWarning(KSTARS) << query.lastError();
             }
 
             // If prior to 2.6.1 upgrade database for dark library tables
@@ -144,14 +146,14 @@ bool KSUserDB::Initialize()
                 QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
 
                 if (!query.exec(versionQuery))
-                    qDebug() << query.lastError();
+                    qCWarning(KSTARS) << query.lastError();
 
                 // Dark Frame
                 if (!query.exec("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY "
                                 "AUTOINCREMENT, ccd TEXT NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, "
                                 "temperature REAL, duration REAL, filename TEXT NOT NULL, timestamp DATETIME DEFAULT "
                                 "CURRENT_TIMESTAMP)"))
-                    qDebug() << query.lastError();
+                    qCWarning(KSTARS) << query.lastError();
             }
 
             // If prior to 2.7.3 upgrade database to add column for focus offset

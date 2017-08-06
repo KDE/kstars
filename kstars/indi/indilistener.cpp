@@ -28,7 +28,7 @@
 
 #include <basedevice.h>
 
-#include <QDebug>
+#include <indi_debug.h>
 
 #define NINDI_STD 35
 
@@ -111,8 +111,7 @@ ISD::GDInterface *INDIListener::getDevice(const QString &name)
 
 void INDIListener::addClient(ClientManager *cm)
 {
-    if (Options::iNDILogging())
-        qDebug() << "INDIListener: Adding a new client manager to INDI listener..";
+    qCDebug(KSTARS_INDI) << "INDIListener: Adding a new client manager to INDI listener..";
 
     Qt::ConnectionType type = Qt::BlockingQueuedConnection;
 
@@ -163,8 +162,7 @@ void INDIListener::removeClient(ClientManager *cm)
 
 void INDIListener::processDevice(DeviceInfo *dv)
 {
-    if (Options::iNDILogging())
-        qDebug() << "INDIListener: Processing device " << dv->getBaseDevice()->getDeviceName();
+    qCDebug(KSTARS_INDI) << "INDIListener: Processing device " << dv->getBaseDevice()->getDeviceName();
 
     ISD::GDInterface *gd = new ISD::GenericDevice(*dv);
 
@@ -175,8 +173,7 @@ void INDIListener::processDevice(DeviceInfo *dv)
 
 void INDIListener::removeDevice(DeviceInfo *dv)
 {
-    if (Options::iNDILogging())
-        qDebug() << "INDIListener: Removing device " << dv->getBaseDevice()->getDeviceName() << " with unique label "
+    qCDebug(KSTARS_INDI) << "INDIListener: Removing device " << dv->getBaseDevice()->getDeviceName() << " with unique label "
                  << dv->getDriverInfo()->getUniqueLabel();
 
     foreach (ISD::GDInterface *gd, devices)
@@ -208,8 +205,7 @@ void INDIListener::removeDevice(DeviceInfo *dv)
 
 void INDIListener::registerProperty(INDI::Property *prop)
 {
-    if (Options::iNDILogging())
-        qDebug() << "<" << prop->getDeviceName() << ">: <" << prop->getName() << ">";
+   qCDebug(KSTARS_INDI) << "<" << prop->getDeviceName() << ">: <" << prop->getName() << ">";
 
     foreach (ISD::GDInterface *gd, devices)
     {

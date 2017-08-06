@@ -33,6 +33,8 @@
 #include <qplatformdefs.h>
 #include <QtConcurrent>
 
+#include <kstars_debug.h>
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -456,7 +458,7 @@ bool DeepStarComponent::openDataFile()
         {
             if (!(m_skyMesh = SkyMesh::Create(htm_level)))
             {
-                qDebug() << "Could not create HTMesh of level " << htm_level << " for catalog " << dataFileName
+                qCWarning(KSTARS) << "Could not create HTMesh of level " << htm_level << " for catalog " << dataFileName
                          << ". Skipping it.";
                 return false;
             }
@@ -465,14 +467,14 @@ bool DeepStarComponent::openDataFile()
         if (starReader.getByteSwap())
             MSpT = bswap_16(MSpT);
         fileOpened = true;
-        qDebug() << "  Sky Mesh Size: " << m_skyMesh->size();
+        qCDebug(KSTARS) << "  Sky Mesh Size: " << m_skyMesh->size();
         for (long int i = 0; i < m_skyMesh->size(); i++)
         {
             std::shared_ptr<StarBlockList> sbl(new StarBlockList(i, this));
 
             if (!sbl.get())
             {
-                qDebug() << "nullptr starBlockList. Expect trouble!";
+                qCWarning(KSTARS) << "nullptr starBlockList. Expect trouble!";
             }
             m_starBlockList.append(sbl);
         }

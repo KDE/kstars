@@ -18,6 +18,8 @@ IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(LibKSDataHandlers LibKSDataHandlers_SRC 10 cpp)
 ENDIF ()
 
+ecm_qt_declare_logging_category(LibKSDataHandlers_SRC HEADER catalog_debug.h IDENTIFIER KSTARS_CATALOG CATEGORY_NAME org.kde.kstars.catalog)
+
 add_library(LibKSDataHandlers STATIC ${LibKSDataHandlers_SRC})
 
 # Added this because includedir was missing, is this required?

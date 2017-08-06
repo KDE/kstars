@@ -46,6 +46,8 @@
 #include "indigroup.h"
 #include "indielement.h"
 
+#include <indi_debug.h>
+
 const char *libindi_strings_context = "string from libindi, used in the config dialog";
 
 INDI_D::INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_dv, ClientManager *in_cm) : QDialog(0)
@@ -274,8 +276,7 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
     if (Options::showINDIMessages())
         KStars::Instance()->statusBar()->showMessage(i18nc("INDI message shown in status bar", "%1", message), 0);
 
-    if (Options::iNDILogging())
-        qDebug() << idv->getDeviceName() << ": " << message.mid(21);
+    qCInfo(KSTARS_INDI) << idv->getDeviceName() << ": " << message.mid(21);
 }
 
 INDI_D::~INDI_D()

@@ -31,6 +31,7 @@
 
 #include <QPointer>
 #include <QProcessEnvironment>
+#include <QLoggingCategory>
 
 namespace KSUtils
 {
@@ -918,28 +919,30 @@ void Logging::UseFile()
         file.close();
     }
 
+    qSetMessagePattern("[%{time yyyy-MM-dd h:mm:ss.zzz t} %{if-debug}DEBG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{endif}%{if-critical}CRIT%{endif}%{if-fatal}FATL%{endif}] %{if-category}[%{category}]%{endif} - %{message}");
     qInstallMessageHandler(File);
 }
 
-void Logging::File(QtMsgType type, const QMessageLogContext &, const QString &msg)
+void Logging::File(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QFile file(_filename);
     if (file.open(QFile::Append | QIODevice::Text))
     {
         QTextStream stream(&file);
-        Write(stream, type, msg);
+        Write(stream, type, context, msg);
     }
 }
 
 void Logging::UseStdout()
 {
+    qSetMessagePattern("[%{time yyyy-MM-dd h:mm:ss.zzz t} %{if-debug}DEBG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{endif}%{if-critical}CRIT%{endif}%{if-fatal}FATL%{endif}] %{if-category}[%{category}]%{endif} - %{message}");
     qInstallMessageHandler(Stdout);
 }
 
-void Logging::Stdout(QtMsgType type, const QMessageLogContext &, const QString &msg)
+void Logging::Stdout(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QTextStream stream(stdout, QIODevice::WriteOnly);
-    Write(stream, type, msg);
+    Write(stream, type, context, msg);
 }
 
 void Logging::UseStderr()
@@ -947,35 +950,42 @@ void Logging::UseStderr()
     qInstallMessageHandler(Stderr);
 }
 
-void Logging::Stderr(QtMsgType type, const QMessageLogContext &, const QString &msg)
+void Logging::Stderr(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QTextStream stream(stderr, QIODevice::WriteOnly);
-    Write(stream, type, msg);
+    Write(stream, type,context,  msg);
 }
 
-void Logging::Write(QTextStream &stream, QtMsgType type, const QString &msg)
-{
-    stream << QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzz") << " - ";
+void Logging::Write(QTextStream &stream, QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{    
+
+    stream << QDateTime::currentDateTime().toString("[yyyy-MM-ddThh:mm:ss.zzz t ");
 
     switch (type)
     {
+        case QtInfoMsg:
+            stream << "INFO ]";
+            break;
         case QtDebugMsg:
-            stream << "DEBG - ";
+            stream << "DEBG ]";
             break;
         case QtWarningMsg:
-            stream << "WARN - ";
+            stream << "WARN ]";
             break;
         case QtCriticalMsg:
-            stream << "CRIT - ";
+            stream << "CRIT ]";
             break;
         case QtFatalMsg:
-            stream << "FATL - ";
+            stream << "FATL ]";
             break;
         default:
-            stream << "UNKN - ";
+            stream << "UNKN ]";
     }
 
+
+    stream << "[" << qSetFieldWidth(30) << context.category << qSetFieldWidth(0) << "] - ";
     stream << msg << endl;
+    //stream << qFormatLogMessage(type, context, msg) << endl;
 }
 
 void Logging::UseDefault()
@@ -991,6 +1001,29 @@ void Logging::Disable()
 void Logging::Disabled(QtMsgType, const QMessageLogContext &, const QString &)
 {
 }
+
+void Logging::SyncFilterRules()
+{
+    QString rules = QString("org.kde.kstars.ekos.debug=%1\n"
+                            "org.kde.kstars.fits.debug=%2\n"
+                            "org.kde.kstars.ekos.capture.debug=%3\n"
+                            "org.kde.kstars.ekos.focus.debug=%4\n"
+                            "org.kde.kstars.ekos.guide.debug=%5\n"
+                            "org.kde.kstars.ekos.align.debug=%6\n"
+                            "org.kde.kstars.ekos.mount.debug=%7\n"
+                            "org.kde.kstars.debug=%1").arg(
+                            Options::verboseLogging() ? "true" : "false",
+                            Options::fITSLogging() ? "true" : "false",
+                            Options::captureLogging() ? "true" : "false",
+                            Options::focusLogging() ? "true" : "false",
+                            Options::guideLogging() ? "true" : "false",
+                            Options::alignmentLogging() ? "true" : "false",
+                            Options::mountLogging() ? "true" : "false"
+                            );
+
+    QLoggingCategory::setFilterRules(rules);
+}
+
 /**
   This method provides a centralized location for the default paths to important external files used in the Options
   on different operating systems.  Note that on OS X, if the user builds the app without indi, astrometry, and xplanet internally

@@ -47,4 +47,5 @@ class OpsAdvanced : public QFrame, public Ui::OpsAdvanced
     void slotToggleVerbosityOptions();
     void slotToggleOutputOptions();
     void slotShowLogFiles();
+    void slotApply();
 };

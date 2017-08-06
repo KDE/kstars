@@ -40,6 +40,8 @@
 
 #include <QComboBox>
 
+#include <ekos_debug.h>
+
 #define MAX_REMOTE_INDI_TIMEOUT 15000
 #define MAX_LOCAL_INDI_TIMEOUT  5000
 
@@ -801,8 +803,7 @@ void EkosManager::cleanDevices(bool stopDrivers)
 
 void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
 {
-    if (Options::verboseLogging())
-        qDebug() << "Ekos received a new device: " << devInterface->getDeviceName();
+    qCInfo(KSTARS_EKOS) << "Ekos received a new device: " << devInterface->getDeviceName();
 
     // Always reset INDI Connection status if we receive a new device
     indiConnectionStatus = EKOS_STATUS_IDLE;
@@ -843,7 +844,7 @@ void EkosManager::deviceConnected()
     if (Options::verboseLogging())
     {
         ISD::GDInterface *device = (ISD::GDInterface *)sender();
-        qDebug() << "Ekos: " << device->getDeviceName() << "is connected.";
+        qCInfo(KSTARS_EKOS) << device->getDeviceName() << "is connected.";
     }
 
     int nConnectedDevices = 0;
@@ -854,13 +855,13 @@ void EkosManager::deviceConnected()
             nConnectedDevices++;
     }
 
-    qDebug() << "Ekos: " << nConnectedDevices << " devices connected out of " << genericDevices.count();
+    qCDebug(KSTARS_EKOS) << nConnectedDevices << " devices connected out of " << genericDevices.count();
 
     //if (nConnectedDevices >= pi->drivers.count())
     if (nConnectedDevices >= genericDevices.count())
     {
         indiConnectionStatus = EKOS_STATUS_SUCCESS;
-        qDebug() << "Ekos: All INDI devices are now connected.";
+        qCInfo(KSTARS_EKOS)<< "All INDI devices are now connected.";
     }
     else
         indiConnectionStatus = EKOS_STATUS_PENDING;
@@ -929,7 +930,7 @@ void EkosManager::deviceDisconnected()
             indiConnectionStatus = EKOS_STATUS_IDLE;
 
         if (Options::verboseLogging())
-            qDebug() << "Ekos: " << dev->getDeviceName() << " is disconnected.";
+            qCDebug(KSTARS_EKOS) << dev->getDeviceName() << " is disconnected.";
 
         appendLogText(i18n("%1 is disconnected.", dev->getDeviceName()));
     }
@@ -1523,8 +1524,7 @@ void EkosManager::appendLogText(const QString &text)
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                             QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
-    if (Options::verboseLogging())
-        qDebug() << "Ekos: " << text;
+    qCInfo(KSTARS_EKOS) << text;
 
     updateLog();
 }
