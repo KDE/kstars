@@ -6,25 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>776</width>
-    <height>559</height>
+    <width>784</width>
+    <height>476</height>
    </rect>
   </property>
   <layout class="QVBoxLayout">
    <property name="spacing">
-    <number>6</number>
+    <number>3</number>
    </property>
    <property name="leftMargin">
-    <number>8</number>
+    <number>3</number>
    </property>
    <property name="topMargin">
-    <number>8</number>
+    <number>3</number>
    </property>
    <property name="rightMargin">
-    <number>8</number>
+    <number>3</number>
    </property>
    <property name="bottomMargin">
-    <number>8</number>
+    <number>3</number>
    </property>
    <item>
     <widget class="QGroupBox" name="CityGroupBox">
@@ -33,19 +33,19 @@
      </property>
      <layout class="QHBoxLayout">
       <property name="spacing">
-       <number>6</number>
+       <number>3</number>
       </property>
       <property name="leftMargin">
-       <number>8</number>
+       <number>3</number>
       </property>
       <property name="topMargin">
-       <number>8</number>
+       <number>3</number>
       </property>
       <property name="rightMargin">
-       <number>8</number>
+       <number>3</number>
       </property>
       <property name="bottomMargin">
-       <number>8</number>
+       <number>3</number>
       </property>
       <item>
        <layout class="QVBoxLayout">
@@ -126,7 +126,7 @@
            <number>0</number>
           </property>
           <property name="spacing">
-           <number>6</number>
+           <number>3</number>
           </property>
           <item row="2" column="0">
            <widget class="QLabel" name="CountryFiltLabel">
@@ -188,19 +188,19 @@
      </property>
      <layout class="QHBoxLayout">
       <property name="spacing">
-       <number>6</number>
+       <number>3</number>
       </property>
       <property name="leftMargin">
-       <number>8</number>
+       <number>3</number>
       </property>
       <property name="topMargin">
-       <number>8</number>
+       <number>3</number>
       </property>
       <property name="rightMargin">
-       <number>8</number>
+       <number>3</number>
       </property>
       <property name="bottomMargin">
-       <number>8</number>
+       <number>3</number>
       </property>
       <item>
        <layout class="QGridLayout">
@@ -217,7 +217,7 @@
          <number>0</number>
         </property>
         <property name="spacing">
-         <number>6</number>
+         <number>3</number>
         </property>
         <item row="1" column="1">
          <widget class="QLineEdit" name="NewProvinceName">
@@ -275,7 +275,7 @@
       <item>
        <layout class="QVBoxLayout">
         <property name="spacing">
-         <number>6</number>
+         <number>3</number>
         </property>
         <property name="leftMargin">
          <number>0</number>
@@ -292,7 +292,7 @@
         <item>
          <layout class="QHBoxLayout">
           <property name="spacing">
-           <number>6</number>
+           <number>3</number>
           </property>
           <property name="leftMargin">
            <number>0</number>
@@ -321,7 +321,7 @@
              <number>0</number>
             </property>
             <property name="spacing">
-             <number>6</number>
+             <number>3</number>
             </property>
             <item row="1" column="0">
              <widget class="QLabel" name="LongLabel">
@@ -399,7 +399,7 @@
              <number>0</number>
             </property>
             <property name="spacing">
-             <number>6</number>
+             <number>3</number>
             </property>
             <item row="1" column="0">
              <widget class="QLabel" name="DSTLabel">
@@ -449,7 +449,7 @@
         <item>
          <layout class="QHBoxLayout">
           <property name="spacing">
-           <number>6</number>
+           <number>3</number>
           </property>
           <property name="leftMargin">
            <number>0</number>
@@ -463,6 +463,16 @@
           <property name="bottomMargin">
            <number>0</number>
           </property>
+          <item>
+           <widget class="QPushButton" name="GetLocationButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Get Location</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QPushButton" name="ClearFieldsButton">
             <property name="text">
