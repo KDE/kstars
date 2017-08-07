@@ -33,6 +33,8 @@
 
 #include <basedevice.h>
 
+#include <ekos_mount_debug.h>
+
 extern const char *libindi_strings_context;
 
 #define UPDATE_DELAY         1000
@@ -448,8 +450,7 @@ void Mount::appendLogText(const QString &text)
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                             QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
-    if (Options::verboseLogging())
-        qDebug() << "Mount: " << text;
+    qCInfo(KSTARS_EKOS_MOUNT) << text;
 
     emit newLog();
 }

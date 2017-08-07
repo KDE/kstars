@@ -108,6 +108,8 @@ bool ServerManager::start()
 
     args << "-f" << fifoFile;
 
+    qCDebug(KSTARS_INDI) << "Starting INDI Server: " << args << "-f" << fifoFile;
+
     serverProcess->setProcessChannelMode(QProcess::SeparateChannels);
     serverProcess->setReadChannel(QProcess::StandardError);
 
@@ -130,6 +132,8 @@ bool ServerManager::start()
     }
     else
         KMessageBox::error(0, i18n("INDI server failed to start: %1", serverProcess->errorString()));
+
+    qCDebug(KSTARS_INDI) << "INDI Server Started? " << connected;
 
     return connected;
 #endif
@@ -191,6 +195,8 @@ bool ServerManager::startDriver(DriverInfo *dv)
         }
     }
 
+    qCDebug(KSTARS_INDI) << "Starting INDI Driver " << dv->getDriver();
+
     out << "start " << dv->getDriver();
     if (dv->getUniqueLabel().isEmpty() == false)
         out << " -n \"" << dv->getUniqueLabel() << "\"";
@@ -213,6 +219,8 @@ void ServerManager::stopDriver(DriverInfo *dv)
 
     managedDrivers.removeOne(dv);
 
+    qCDebug(KSTARS_INDI) << "Stopping INDI Driver " << dv->getDriver();
+
     if (dv->getUniqueLabel().isEmpty() == false)
         out << "stop " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
     else
@@ -233,6 +241,8 @@ void ServerManager::stop()
         device->setServerState(false);
         device->clear();
     }
+
+    qCDebug(KSTARS_INDI) << "Stopping INDI Server " << host << "@" << port;
 
     serverProcess->disconnect(SIGNAL(error(QProcess::ProcessError)));
 
@@ -279,11 +289,8 @@ void ServerManager::processStandardError()
 
     serverBuffer.append(stderr);
 
-    if (Options::iNDILogging())
-    {
-        for (auto &msg : stderr.split('\n'))
+   for (auto &msg : stderr.split('\n'))
             qCDebug(KSTARS_INDI) << "INDI Server: " << msg;
-    }
 
     if (driverCrashed == false && (serverBuffer.contains("stdin EOF") || serverBuffer.contains("stderr EOF")))
     {
@@ -294,6 +301,7 @@ void ServerManager::processStandardError()
             {
                 driverCrashed      = true;
                 QString driverName = driver.left(driver.indexOf(':')).trimmed();
+                qCCritical(KSTARS_INDI) << "INDI driver " << driverName << " crashed!";
                 KMessageBox::information(
                     0,
                     i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.",
