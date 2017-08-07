@@ -1577,8 +1577,6 @@ void Focus::autoFocusAbs()
     QString deltaTxt = QString("%1").arg(fabs(currentHFR - minHFR) * 100.0, 0, 'g', 3);
     QString HFRText  = QString("%1").arg(currentHFR, 0, 'g', 3);
 
-    bool isDebugEnabled = QLoggingCategory("org.kde.kstars.ekos.focus").isDebugEnabled();
-
     qCDebug(KSTARS_EKOS_FOCUS) << "========================================";
     qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR: " << currentHFR << " Current Position: " << currentPosition;
     qCDebug(KSTARS_EKOS_FOCUS) << "Last minHFR: " << minHFR << " Last MinHFR Pos: " << minHFRPos;
