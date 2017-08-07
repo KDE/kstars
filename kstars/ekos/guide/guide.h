@@ -306,6 +306,15 @@ class Guide : public QWidget, public Ui::Guide
          */
     //void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
 
+    /**
+         * @brief Set telescope and guide scope info. All measurements is in millimeters.
+         * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
+         * @param primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
+         * @param guideFocalLength Guide Telescope Focal Length. Set to 0 to skip setting this value.
+         * @param guideAperture Guide Telescope Aperture. Set to 0 to skip setting this value.
+         */
+    void setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture);
+
     // Append Log entry
     void appendLogText(const QString &);
 

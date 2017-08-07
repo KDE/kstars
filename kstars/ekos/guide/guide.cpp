@@ -409,6 +409,21 @@ void Guide::syncCCDInfo()
     updateGuideParams();
 }
 
+void Guide::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture)
+{
+    if (primaryFocalLength > 0)
+        mountFocalLength = primaryFocalLength;
+    if (primaryAperture > 0)
+        mountAperture = primaryAperture;
+    // If we have guide scope info, always prefer that over primary
+    if (guideFocalLength > 0)
+        mountFocalLength = guideFocalLength;
+    if (guideAperture > 0)
+        mountAperture = guideAperture;
+
+    updateGuideParams();
+}
+
 void Guide::syncTelescopeInfo()
 {
     if (currentTelescope == nullptr)

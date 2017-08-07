@@ -193,6 +193,14 @@ class Align : public QWidget, public Ui::Align
          */
     void setTelescope(ISD::GDInterface *newTelescope);
 
+    /* @brief Set telescope and guide scope info. All measurements is in millimeters.
+    * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
+    * @param primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
+    * @param guideFocalLength Guide Telescope Focal Length. Set to 0 to skip setting this value.
+    * @param guideAperture Guide Telescope Aperture. Set to 0 to skip setting this value.
+    */
+    void setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture);
+
     /**
          * @brief setAstrometryDevice
          * @param newAstrometry
@@ -669,5 +677,7 @@ class Align : public QWidget, public Ui::Align
     QUrl alignURL;
     QUrl alignURLPath;
     QVector<const StarObject *> alignStars;
+
+    double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
 };
 }

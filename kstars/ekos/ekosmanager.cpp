@@ -982,44 +982,22 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
     mountProcess->setTelescope(scopeDevice);
 
-    ProfileInfo *pi = getCurrentProfile();
-    if (pi)
-    {
-        int primaryScopeID=0, guideScopeID=0;
-        primaryScopeID=pi->primaryscope;
-        guideScopeID=pi->guidescope;
-        if (primaryScopeID > 0 || guideScopeID > 0)
-        {
-            double primaryScopeFL=0, primaryScopeAperture=0, guideScopeFL=0, guideScopeAperture=0;
-
-            // Get all OAL equipment filter list
-            QList<OAL::Scope*> m_scopeList;
-            KStarsData::Instance()->userdb()->GetAllScopes(m_scopeList);
-            foreach(OAL::Scope *oneScope, m_scopeList)
-            {
-                if (oneScope->id().toInt() == primaryScopeID)
-                {
-                    primaryScopeFL = oneScope->focalLength();
-                    primaryScopeAperture = oneScope->aperture();
-                }
-
-                if (oneScope->id().toInt() == guideScopeID)
-                {
-                    guideScopeFL = oneScope->focalLength();
-                    guideScopeAperture = oneScope->aperture();
-                }
-            }
-
-            // Save telescope info in mount driver
-            mountProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
-        }
-    }
+    double primaryScopeFL=0, primaryScopeAperture=0, guideScopeFL=0, guideScopeAperture=0;
+    getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+    // Save telescope info in mount driver
+    mountProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
 
     if (guideProcess.get() != nullptr)
+    {
         guideProcess->setTelescope(scopeDevice);
+        guideProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+    }
 
     if (alignProcess.get() != nullptr)
+    {
         alignProcess->setTelescope(scopeDevice);
+        alignProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+    }
 }
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
@@ -1649,6 +1627,11 @@ void EkosManager::initAlign()
         return;
 
     alignProcess.reset(new Ekos::Align());
+
+    double primaryScopeFL=0, primaryScopeAperture=0, guideScopeFL=0, guideScopeAperture=0;
+    getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+    alignProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+
     alignProcess->setEnabled(false);
     int index = toolsWidget->addTab(alignProcess.get(), QIcon(":/icons/ekos_align.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Align"));
@@ -1836,7 +1819,14 @@ void EkosManager::initMount()
 void EkosManager::initGuide()
 {
     if (guideProcess.get() == nullptr)
+    {
         guideProcess.reset(new Ekos::Guide());
+
+        double primaryScopeFL=0, primaryScopeAperture=0, guideScopeFL=0, guideScopeAperture=0;
+        getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+        // Save telescope info in mount driver
+        guideProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+    }
 
     //if ( (haveGuider || ccdCount > 1 || useGuideHead) && useST4 && toolsWidget->indexOf(guideProcess) == -1)
     if ((findDevices(KSTARS_CCD).isEmpty() == false || useGuideHead) && useST4 &&
@@ -2406,5 +2396,36 @@ void EkosManager::showEkosOptions()
     {
         KConfigDialog *cDialog = KConfigDialog::exists("settings");
         cDialog->setCurrentPage(ekosOptionsWidget);
+    }
+}
+
+void EkosManager::getCurrentProfileTelescopeInfo(double &primaryFocalLength, double &primaryAperture, double &guideFocalLength, double &guideAperture)
+{
+    ProfileInfo *pi = getCurrentProfile();
+    if (pi)
+    {
+        int primaryScopeID=0, guideScopeID=0;
+        primaryScopeID=pi->primaryscope;
+        guideScopeID=pi->guidescope;
+        if (primaryScopeID > 0 || guideScopeID > 0)
+        {
+            // Get all OAL equipment filter list
+            QList<OAL::Scope*> m_scopeList;
+            KStarsData::Instance()->userdb()->GetAllScopes(m_scopeList);
+            foreach(OAL::Scope *oneScope, m_scopeList)
+            {
+                if (oneScope->id().toInt() == primaryScopeID)
+                {
+                    primaryFocalLength = oneScope->focalLength();
+                    primaryAperture = oneScope->aperture();
+                }
+
+                if (oneScope->id().toInt() == guideScopeID)
+                {
+                    guideFocalLength = oneScope->focalLength();
+                    guideAperture = oneScope->aperture();
+                }
+            }
+        }
     }
 }
