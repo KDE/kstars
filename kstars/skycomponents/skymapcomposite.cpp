@@ -60,6 +60,8 @@
 
 #include <QApplication>
 
+#include <kstars_debug.h>
+
 SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m_reindexNum(J2000)
 {
     m_skyLabeler.reset(SkyLabeler::Instance());
@@ -375,12 +377,12 @@ void SkyMapComposite::draw(SkyPainter *skyp)
 /*
     QPainter *psky = dynamic_cast< QPainter *>( skyp );
     if( psky ) {
-        qDebug() << "Drawing trixel boundaries for debugging.";
+        qCDebug(KSTARS) << "Drawing trixel boundaries for debugging.";
         psky->setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
         m_skyMesh->draw( *psky, OBJ_NEAREST_BUF );
         SkyMesh *p;
         if( p = SkyMesh::Instance( 6 ) ) {
-            qDebug() << "We have a deep sky mesh to draw";
+            qCDebug(KSTARS) << "We have a deep sky mesh to draw";
             p->draw( *psky, OBJ_NEAREST_BUF );
         }
 
@@ -502,7 +504,7 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
 
     rTry = maxrad;
     oTry = m_Supernovae->objectNearest(p, rTry);
-    //qDebug()<<rTry<<rBest<<maxrad;
+    //qCDebug(KSTARS)<<rTry<<rBest<<maxrad;
     if (rTry < rBest)
     {
         rBest = rTry;
@@ -510,7 +512,7 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
     }
 
     //if ( oBest && Options::verboseLogging())
-    //qDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
+    //qCDebug(KSTARS) << "OBEST=" << oBest->name() << " - " << oBest->name2();
     maxrad = rBest;
     return oBest; //will be 0 if no object nearer than maxrad was found
 }
@@ -779,7 +781,7 @@ void SkyMapComposite::emitProgressText(const QString &message)
     //Can cause crashes on Android, investigate it
     qApp->processEvents(); // -jbb: this seemed to make it work.
 #endif
-    //qDebug() << QString("PROGRESS TEXT: %1\n").arg( message );
+    //qCDebug(KSTARS) << QString("PROGRESS TEXT: %1\n").arg( message );
 }
 
 const QList<DeepSkyObject *> &SkyMapComposite::deepSkyObjects() const

@@ -34,8 +34,9 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
-#include <QDebug>
 #include <QEventLoop>
+
+#include <kstars_debug.h>
 
 class CatalogEntryData NameResolver::resolveName(const QString &name)
 {
@@ -45,7 +46,7 @@ class CatalogEntryData NameResolver::resolveName(const QString &name)
     if (!NameResolverInternals::sesameResolver(data, name))
     {
         QString msg = xi18n("Error: sesameResolver failed. Could not resolve name on CDS Sesame!");
-        qDebug() << msg;
+        qCDebug(KSTARS) << msg;
 
 #ifdef KSTARS_LITE
         KStarsLite::Instance()->notificationMessage(msg);
@@ -61,7 +62,7 @@ bool NameResolver::NameResolverInternals::sesameResolver(class CatalogEntryData 
     QUrl resolverUrl = QUrl(QString("http://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/-oxpFI/SNV?%1").arg(name));
 
     QString msg = xi18n("Attempting to resolve object %1 using CDS Sesame.", name);
-    qDebug() << msg;
+    qCDebug(KSTARS) << msg;
 
 #ifdef KSTARS_LITE
     KStarsLite::Instance()->notificationMessage(msg);
@@ -93,7 +94,7 @@ bool NameResolver::NameResolverInternals::sesameResolver(class CatalogEntryData 
     {
         // file is empty
         msg = xi18n("Empty result instead of expected XML from CDS Sesame! Maybe bad internet connection?");
-        qDebug() << msg;
+        qCDebug(KSTARS) << msg;
 
 #ifdef KSTARS_LITE
         KStarsLite::Instance()->notificationMessage(msg);
@@ -110,7 +111,7 @@ bool NameResolver::NameResolverInternals::sesameResolver(class CatalogEntryData 
 
         if (token == QXmlStreamReader::StartElement)
         {
-            qDebug() << "Parsing token with name " << xml.name();
+            qCDebug(KSTARS) << "Parsing token with name " << xml.name();
 
             if (xml.name() == "Resolver")
             {
@@ -127,7 +128,7 @@ bool NameResolver::NameResolverInternals::sesameResolver(class CatalogEntryData 
                                << " while reading output from CDS Sesame";
                 }
 
-                qDebug() << "Resolved by " << resolver << attributes.value("name") << "!";
+                qCDebug(KSTARS) << "Resolved by " << resolver << attributes.value("name") << "!";
 
                 // Start reading the data to pick out the relevant ones
                 while (xml.readNextStartElement())
@@ -164,18 +165,18 @@ bool NameResolver::NameResolverInternals::sesameResolver(class CatalogEntryData 
                         xml.readNext();
                         if (xml.isCharacters())
                         {
-                            qDebug() << "characters: " << xml.tokenString();
+                            qCDebug(KSTARS) << "characters: " << xml.tokenString();
                             mag = xml.tokenString().toFloat();
                         }
                         else if (xml.isStartElement())
                         {
                             while (xml.name() != "v")
                             {
-                                qDebug() << "element: " << xml.name();
+                                qCDebug(KSTARS) << "element: " << xml.name();
                                 xml.readNextStartElement();
                             }
                             mag = xml.readElementText().toFloat();
-                            qDebug() << "Got " << xml.tokenString() << " mag = " << mag;
+                            qCDebug(KSTARS) << "Got " << xml.tokenString() << " mag = " << mag;
                             while (!xml.atEnd() && xml.readNext() && xml.name() != "mag")
                                 ; // finish reading the <mag> tag all the way to </mag>
                         }
@@ -219,7 +220,7 @@ bool NameResolver::NameResolverInternals::sesameResolver(class CatalogEntryData 
     {
         msg = xi18n("Error parsing XML from CDS Sesame: %1 on line %2 @ col = %3", xml.errorString(), xml.lineNumber(),
                     xml.columnNumber());
-        qDebug() << msg;
+        qCDebug(KSTARS) << msg;
 
 #ifdef KSTARS_LITE
         KStarsLite::Instance()->notificationMessage(msg);
@@ -228,12 +229,12 @@ bool NameResolver::NameResolverInternals::sesameResolver(class CatalogEntryData 
     }
 
     msg = xi18n("Resolved %1 successfully!", name);
-    qDebug() << msg;
+    qCDebug(KSTARS) << msg;
 
 #ifdef KSTARS_LITE
     KStarsLite::Instance()->notificationMessage(msg);
 #endif
-    qDebug() << "Object type: " << SkyObject::typeName(data.type) << "; Coordinates: " << data.ra << ";" << data.dec;
+    qCDebug(KSTARS) << "Object type: " << SkyObject::typeName(data.type) << "; Coordinates: " << data.ra << ";" << data.dec;
     return true;
 }
 

@@ -57,6 +57,8 @@
 #include <KPlotting/KPlotAxis>
 #include <KPlotting/KPlotObject>
 
+#include <kstars_debug.h>
+
 //
 // ObservingListUI
 // ---------------------------------
@@ -208,7 +210,7 @@ ObservingList::ObservingList()
 
         QStandardItem *altItem = new QStandardItem(itemText);
         altItem->setData(altCost, Qt::UserRole);
-        //        qDebug() << "Updating altitude for " << p.ra().toHMSString() << " " << p.dec().toDMSString() << " alt = " << p.alt().toDMSString() << " info to " << itemText;
+        //        qCDebug(KSTARS) << "Updating altitude for " << p.ra().toHMSString() << " " << p.dec().toDMSString() << " alt = " << p.alt().toDMSString() << " info to " << itemText;
         return altItem;
     };
 
@@ -254,7 +256,7 @@ void ObservingList::slotAddObject(const SkyObject *_obj, bool session, bool upda
 
     if (!_obj)
     {
-        qWarning() << "Trying to add null object to observing list! Ignoring.";
+        qCWarning(KSTARS) << "Trying to add null object to observing list! Ignoring.";
         return;
     }
 
@@ -282,7 +284,7 @@ void ObservingList::slotAddObject(const SkyObject *_obj, bool session, bool upda
     else
     {
         assert(!findObject(_obj, true));
-        qDebug() << "Cloned object " << finalObjectName << " to add to observing list.";
+        qCDebug(KSTARS) << "Cloned object " << finalObjectName << " to add to observing list.";
         obj = QSharedPointer<SkyObject>(
             _obj->clone()); // Use a clone in case the original SkyObject is deleted due to change in catalog configuration.
     }
@@ -625,7 +627,7 @@ void ObservingList::slotNewSelection()
         else
         {
             setDefaultImage();
-            qDebug() << "Object " << newName << " not found in list.";
+            qCWarning(KSTARS) << "Object " << newName << " not found in list.";
         }
         ui->quickInfoLabel->setText(labelText);
     }
@@ -1004,7 +1006,7 @@ void ObservingList::slotLoadWishList()
     f.setFileName(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist");
     if (!f.open(QIODevice::ReadOnly))
     {
-        qDebug() << "No WishList Saved yet";
+        qWarning(KSTARS) << "No WishList Saved yet";
         return;
     }
     QTextStream istream(&f);
@@ -1640,7 +1642,7 @@ void ObservingList::slotUpdateAltitudes()
 {
     // FIXME: Update upon gaining visibility, do not update when not visible
     KStarsDateTime now = KStarsDateTime::currentDateTimeUtc();
-    //    qDebug() << "Updating altitudes in observation planner @ JD - J2000 = " << double( now.djd() - J2000 );
+    //    qCDebug(KSTARS) << "Updating altitudes in observation planner @ JD - J2000 = " << double( now.djd() - J2000 );
     for (int irow = m_WishListModel->rowCount() - 1; irow >= 0; --irow)
     {
         QModelIndex idx = m_WishListSortModel->mapToSource(m_WishListSortModel->index(irow, 0));

@@ -20,6 +20,8 @@
 
 #include <QStandardItemModel>
 
+#include <kstars_debug.h>
+
 HorizonManagerUI::HorizonManagerUI(QWidget *p) : QFrame(p)
 {
     setupUi(this);
@@ -370,7 +372,7 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
     point->setAlt(alt);
     point->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-    qDebug() << "Received Az: " << point->az().toDMSString() << " Alt: " << point->alt().toDMSString();
+    qCDebug(KSTARS) << "Received Az: " << point->az().toDMSString() << " Alt: " << point->alt().toDMSString();
 
     SkyMap::Instance()->forceUpdateNow();
 
@@ -505,7 +507,7 @@ void HorizonManager::clearPoints()
 {
     QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
 
-    //qDebug() << "Row " << ui->regionsList->currentIndex().row();
+    //qCDebug(KSTARS) << "Row " << ui->regionsList->currentIndex().row();
 
     if (regionItem)
     {

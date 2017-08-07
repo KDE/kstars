@@ -1254,7 +1254,7 @@ bool Capture::resumeSequence()
 
         // check if time for forced refocus
 
-    qDebug(KSTARS_EKOS_CAPTURE) << "Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
 
         if (refocusEveryNCheck->isEnabled() && refocusEveryNCheck->isChecked() && getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60)
             isRefocus = true;
@@ -1613,7 +1613,7 @@ void Capture::setExposureProgress(ISD::CCDChip *tChip, double value, IPState sta
         //if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
         if (guideState == GUIDE_GUIDING && Options::guiderType() == 0 && suspendGuideOnDownload)
         {
-            qDebug(KSTARS_EKOS_CAPTURE) << "Autoguiding suspended until primary CCD chip completes downloading...";
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Autoguiding suspended until primary CCD chip completes downloading...";
             emit suspendGuiding();
         }
 
@@ -3686,7 +3686,7 @@ double Capture::setCurrentADU(double value)
     ExpRaw.append(activeJob->getExposure());
     ADURaw.append(value);
 
-    qDebug(KSTARS_EKOS_CAPTURE) << "Capture: Current ADU = " << value << " targetADU = " << targetADU
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Capture: Current ADU = " << value << " targetADU = " << targetADU
                  << " Exposure Count: " << ExpRaw.count();
 
     // Most CCDs are quite linear so 1st degree polynomial is quite sufficient
@@ -3698,9 +3698,9 @@ double Capture::setCurrentADU(double value)
             double chisq = 0;
 
             coeff = gsl_polynomial_fit(ADURaw.data(), ExpRaw.data(), ExpRaw.count(), 2, chisq);
-            qDebug(KSTARS_EKOS_CAPTURE) << "Capture: Running polynomial fitting. Found " << coeff.size() << " coefficients.";
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture: Running polynomial fitting. Found " << coeff.size() << " coefficients.";
             for (size_t i = 0; i < coeff.size(); i++)
-                    qDebug(KSTARS_EKOS_CAPTURE) << "Capture: Coeff #" << i << "=" << coeff[i];
+                    qCDebug(KSTARS_EKOS_CAPTURE) << "Capture: Coeff #" << i << "=" << coeff[i];
         }
 
         bool looping = false;
@@ -3743,7 +3743,7 @@ double Capture::setCurrentADU(double value)
             nextExposure = activeJob->getExposure() * .75;
     }
 
-    qDebug(KSTARS_EKOS_CAPTURE) << "Capture: next FLAT exposure is " << nextExposure;
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Capture: next FLAT exposure is " << nextExposure;
 
     return nextExposure;
 }
