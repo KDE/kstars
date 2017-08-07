@@ -25,6 +25,8 @@
 
 #include <cmath>
 
+#include <kstars_debug.h>
+
 KSConjunct::KSConjunct()
 {
     geoPlace = KStarsData::Instance()->geo();
@@ -48,10 +50,10 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject &Object1, KSPla
     double step, step0;
     int Sign, prevSign;
     opposition = _opposition;
-    //  qDebug() << "Entered KSConjunct::findClosestApproach() with startJD = " << (double)startJD;
-    //  qDebug() << "Initial Positional Information: \n";
-    //  qDebug() << Object1.name() << ": RA = " << Object1.ra() -> toHMSString() << "; Dec = " << Object1.dec() -> toDMSString() << "\n";
-    //  qDebug() << Object2.name() << ": RA = " << Object2.ra() -> toHMSString() << "; Dec = " << Object2.dec() -> toDMSString() << "\n";
+    //  qCDebug(KSTARS) << "Entered KSConjunct::findClosestApproach() with startJD = " << (double)startJD;
+    //  qCDebug(KSTARS) << "Initial Positional Information: \n";
+    //  qCDebug(KSTARS) << Object1.name() << ": RA = " << Object1.ra() -> toHMSString() << "; Dec = " << Object1.dec() -> toDMSString() << "\n";
+    //  qCDebug(KSTARS) << Object2.name() << ": RA = " << Object2.ra() -> toHMSString() << "; Dec = " << Object2.dec() -> toDMSString() << "\n";
     prevSign = 0;
 
     step0 =
@@ -83,7 +85,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject &Object1, KSPla
 
     step = step0;
 
-    //	qDebug() << "Initial Separation between " << Object1.name() << " and " << Object2.name() << " = " << (prevDist.toDMSString());
+    //	qCDebug(KSTARS) << "Initial Separation between " << Object1.name() << " and " << Object2.name() << " = " << (prevDist.toDMSString());
 
     long double jd = startJD;
     prevDist       = findDistance(jd, &Object1, &Object2);
@@ -95,7 +97,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject &Object1, KSPla
 
         Dist = findDistance(jd, &Object1, &Object2);
         Sign = sgn(Dist - prevDist);
-        //	qDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees()) << "; Step = " << step;
+        //	qCDebug(KSTARS) << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees()) << "; Step = " << step;
 
         //How close are we to a conjunction, and how fast are we approaching one?
         double factor = fabs((Dist.Degrees() - prevDist.Degrees()) / Dist.Degrees());
@@ -112,7 +114,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject &Object1, KSPla
         {
             if (step > step0) //mini-loop to back up and make sure we're close enough
             {
-                //            qDebug() << "Entering slow loop: " << endl;
+                //            qCDebug(KSTARS) << "Entering slow loop: " << endl;
                 jd -= step;
                 step = step0;
                 Sign = prevSign;
@@ -120,7 +122,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject &Object1, KSPla
                 {
                     Dist = findDistance(jd, &Object1, &Object2);
                     Sign = sgn(Dist - prevDist);
-                    //	qDebug() << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "djd=" << (int)(jd - startJD);
+                    //	qCDebug(KSTARS) << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "djd=" << (int)(jd - startJD);
                     if (Sign != prevSign)
                         break;
 
@@ -130,7 +132,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject &Object1, KSPla
                 }
             }
 
-            //	qDebug() << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
+            //	qCDebug(KSTARS) << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
             if (findPrecise(&extremum, &Object1, &Object2, jd, step, Sign))
                 if (extremum.second.radians() < maxSeparation.radians())
                     Separations.insert(extremum.first, extremum.second);
@@ -178,7 +180,7 @@ bool KSConjunct::findPrecise(QPair<long double, dms> *out, SkyObject *Object1, K
 
     if (out == nullptr)
     {
-        qDebug() << "ERROR: Argument out to KSConjunct::findPrecise(...) was nullptr!";
+        qCDebug(KSTARS) << "ERROR: Argument out to KSConjunct::findPrecise(...) was nullptr!";
         return false;
     }
 
@@ -191,7 +193,7 @@ bool KSConjunct::findPrecise(QPair<long double, dms> *out, SkyObject *Object1, K
     {
         jd += step;
         Dist = findDistance(jd, Object1, Object2);
-        //    qDebug() << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "step=" << step;
+        //    qCDebug(KSTARS) << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "step=" << step;
 
         if (fabs(step) < 1.0 / (24.0 * 60.0))
         {

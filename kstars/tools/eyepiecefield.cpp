@@ -36,6 +36,8 @@
 #include <QSvgRenderer>
 #include <QVBoxLayout>
 
+#include <kstars_debug.h>
+
 EyepieceField::EyepieceField(QWidget *parent) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
@@ -218,10 +220,10 @@ void EyepieceField::showEyepieceField(SkyPoint *sp, const double fovWidth, doubl
 
     if (QFile::exists(imagePath))
     {
-        qDebug() << "Image path " << imagePath << " exists";
+        qCDebug(KSTARS) << "Image path " << imagePath << " exists";
         if (m_skyImage.get() == nullptr)
         {
-            qDebug() << "Sky image did not exist, creating.";
+            qCDebug(KSTARS) << "Sky image did not exist, creating.";
             m_skyImage.reset(new QImage());
         }
     }
@@ -308,7 +310,7 @@ void EyepieceField::generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage 
             dssWidth  = dssImage.getImage().width() * 1.01 / 60.0;
             dssHeight = dssImage.getImage().height() * 1.01 / 60.0;
         }
-        qDebug() << "DSS width: " << dssWidth << " height: " << dssHeight;
+        qCDebug(KSTARS) << "DSS width: " << dssWidth << " height: " << dssHeight;
     }
 
     // Set FOV width/height from DSS if necessary
@@ -415,7 +417,7 @@ void EyepieceField::generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage 
             // Need to rotate the image so that up is towards zenith rather than north.
             sp->EquatorialToHorizontal(ksd->lst(), ksd->geo()->lat());
             dms northBearing = findNorthAngle(sp, ksd->geo()->lat());
-            qDebug() << "North angle = " << northBearing.toDMSString();
+            qCDebug(KSTARS) << "North angle = " << northBearing.toDMSString();
 
             QTransform transform;
 
@@ -624,10 +626,10 @@ dms EyepieceField::findNorthAngle(const SkyPoint *sp, const dms *lat)
     if (sp->az().reduce().Degrees() < 180.0)      // if on the eastern hemisphere, flip sign
         northAngle2 = -northAngle2;
     double northAngle = northAngle1 + northAngle2;
-    qDebug() << "Data: alt = " << sp->alt().toDMSString() << "; az = " << sp->az().toDMSString() << "; ra, dec ("
+    qCDebug(KSTARS) << "Data: alt = " << sp->alt().toDMSString() << "; az = " << sp->az().toDMSString() << "; ra, dec ("
              << sp->getLastPrecessJD() / 365.25 << ") = " << sp->ra().toHMSString() << "," << sp->dec().toDMSString()
              << "; ra0,dec0 (J2000.0) = " << sp->ra0().toHMSString() << "," << sp->dec0().toDMSString();
-    qDebug() << "PA corrections: precession cosine = " << cosNorthAngle1 << "; angle = " << northAngle1
+    qCDebug(KSTARS) << "PA corrections: precession cosine = " << cosNorthAngle1 << "; angle = " << northAngle1
              << "; horizontal = " << cosNorthAngle2 << "; angle = " << northAngle2;
     return dms(northAngle * 180 / M_PI);
 }

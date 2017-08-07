@@ -20,7 +20,7 @@
 #include "starblock.h"
 #include "starobject.h"
 
-#include <QDebug>
+#include <kstars_debug.h>
 
 // TODO: Implement a better way of deciding this
 #define DEFAULT_NCACHE 12
@@ -65,9 +65,9 @@ std::shared_ptr<StarBlock> StarBlockFactory::getBlock()
     }
     if (last && (last->drawID != drawID || last->drawID == 0))
     {
-        //        qDebug() << "Recycling block with drawID =" << last->drawID << "and current drawID =" << drawID;
+        //        qCDebug(KSTARS) << "Recycling block with drawID =" << last->drawID << "and current drawID =" << drawID;
         if (last->parent->block(last->parent->getBlockCount() - 1) != last)
-            qDebug() << "ERROR: Goof up here!";
+            qCDebug(KSTARS) << "ERROR: Goof up here!";
         freeBlock = last;
         last      = last->prev;
         if (last)
@@ -98,7 +98,7 @@ bool StarBlockFactory::markFirst(std::shared_ptr<StarBlock>& block)
     //    fprintf(stderr, "markFirst()!\n");
     if (!first)
     {
-        //        qDebug() << "INFO: Linking in first block" << endl;
+        //        qCDebug(KSTARS) << "INFO: Linking in first block" << endl;
         last = first = block;
         first->prev = first->next = nullptr;
         first->drawID             = drawID;
@@ -135,19 +135,19 @@ bool StarBlockFactory::markNext(std::shared_ptr<StarBlock>& after, std::shared_p
     //    fprintf(stderr, "markNext()!\n");
     if (!block.get() || !after.get())
     {
-        qDebug() << "WARNING: markNext called with nullptr argument" << endl;
+        qCDebug(KSTARS) << "WARNING: markNext called with nullptr argument" << endl;
         return false;
     }
 
     if (!first.get())
     {
-        qDebug() << "WARNING: markNext called without an existing linked list" << endl;
+        qCDebug(KSTARS) << "WARNING: markNext called without an existing linked list" << endl;
         return false;
     }
 
     if (block == after)
     {
-        qDebug() << "ERROR: Trying to mark a block after itself!" << endl;
+        qCDebug(KSTARS) << "ERROR: Trying to mark a block after itself!" << endl;
         return false;
     }
 
@@ -161,7 +161,7 @@ bool StarBlockFactory::markNext(std::shared_ptr<StarBlock>& after, std::shared_p
     {
         if (block->next == nullptr)
         {
-            qDebug() << "ERROR: Trying to mark only block after some other block";
+            qCDebug(KSTARS) << "ERROR: Trying to mark only block after some other block";
             return false;
         }
         first = block->next;
@@ -169,7 +169,7 @@ bool StarBlockFactory::markNext(std::shared_ptr<StarBlock>& after, std::shared_p
 
     if (after->getFaintMag() > block->getFaintMag() && block->getFaintMag() != -5)
     {
-        qDebug() << "WARNING: Marking block with faint mag = " << block->getFaintMag() << " after block with faint mag "
+        qCDebug(KSTARS) << "WARNING: Marking block with faint mag = " << block->getFaintMag() << " after block with faint mag "
                  << after->getFaintMag() << "in trixel" << block->parent->getTrixel();
     }
 
@@ -259,7 +259,7 @@ int StarBlockFactory::deleteBlocks(int nblocks)
     else
         first = nullptr;
 
-    qDebug() << nblocks << "StarBlocks freed from StarBlockFactory" << endl;
+    qCDebug(KSTARS) << nblocks << "StarBlocks freed from StarBlockFactory" << endl;
 
     nBlocks -= i;
     return i;
@@ -277,17 +277,17 @@ void StarBlockFactory::printStructure() const
     {
         if (curTrixel != cur->parent->getTrixel())
         {
-            qDebug() << "Trixel" << cur->parent->getTrixel() << "starts at index" << index << endl;
+            qCDebug(KSTARS) << "Trixel" << cur->parent->getTrixel() << "starts at index" << index << endl;
             curTrixel = cur->parent->getTrixel();
         }
         if (cur->drawID == drawID && !draw)
         {
-            qDebug() << "Blocks from index" << index << "are drawn";
+            qCDebug(KSTARS) << "Blocks from index" << index << "are drawn";
             draw = true;
         }
         if (cur->drawID != drawID && draw)
         {
-            qDebug() << "Blocks from index" << index << "are not drawn";
+            qCDebug(KSTARS) << "Blocks from index" << index << "are not drawn";
             draw = false;
         }
         cur = cur->next;
@@ -312,7 +312,7 @@ int StarBlockFactory::freeUnused()
     else
         first = nullptr;
 
-    qDebug() << i << "StarBlocks freed from StarBlockFactory" << endl;
+    qCDebug(KSTARS) << i << "StarBlocks freed from StarBlockFactory" << endl;
 
     nBlocks -= i;
     return i;
