@@ -241,6 +241,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     QList<ISD::GDInterface *> findDevices(DeviceFamily type);
 
     ProfileInfo *getCurrentProfile();
+    void getCurrentProfileTelescopeInfo(double &primaryFocalLength, double &primaryAperture, double &guideFocalLength, double &guideAperture);
     void updateProfileLocation(ProfileInfo *pi);
 
     bool useGuideHead { false };

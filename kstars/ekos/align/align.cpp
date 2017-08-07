@@ -1892,8 +1892,6 @@ void Align::syncTelescopeInfo()
 
     INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
-    double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
-
     if (nvp)
     {
         INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
@@ -1947,6 +1945,21 @@ void Align::syncTelescopeInfo()
 
         generateArgs();
     }
+}
+
+void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture)
+{
+    if (primaryFocalLength > 0)
+        primaryFL = focal_length = primaryFocalLength;
+    else if (guideFocalLength > 0)
+        guideFL = focal_length = guideFocalLength;
+
+    if (primaryAperture > 0)
+        primaryAperture = aperture = primaryAperture;
+    else
+        this->guideAperture = aperture = guideAperture;
+
+    syncTelescopeInfo();
 }
 
 void Align::syncCCDInfo()
