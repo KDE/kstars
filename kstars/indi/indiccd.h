@@ -142,7 +142,7 @@ class CCD : public DeviceDecorator
         BLOB_RAW,
         BLOB_OTHER
     } BType;
-    typedef enum { TELESCOPE_PRIMARY, TELESCOPE_GUIDE } TelescopeType;
+    typedef enum { TELESCOPE_PRIMARY, TELESCOPE_GUIDE, TELESCOPE_UNKNOWN } TelescopeType;
 
     void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
@@ -257,7 +257,7 @@ class CCD : public DeviceDecorator
     std::unique_ptr<CCDChip> guideChip;
     TransferFormat transferFormat { FORMAT_FITS };
     TransferFormat targetTransferFormat { FORMAT_FITS };
-    TelescopeType telescopeType { TELESCOPE_PRIMARY };
+    TelescopeType telescopeType { TELESCOPE_UNKNOWN };
 
     // Gain, since it is spread among different vector properties, let's try to find the property itself.
     INumber *gainN { nullptr };
