@@ -1864,7 +1864,8 @@ void Align::checkCCD(int ccdNum)
     syncCCDInfo();
 
     FOVScopeCombo->blockSignals(true);
-    FOVScopeCombo->setCurrentIndex(currentCCD->getTelescopeType());
+    ISD::CCD::TelescopeType type = currentCCD->getTelescopeType();
+    FOVScopeCombo->setCurrentIndex(type == ISD::CCD::TELESCOPE_UNKNOWN ? 0 : type);
     FOVScopeCombo->blockSignals(false);
 
     syncTelescopeInfo();
@@ -4802,7 +4803,7 @@ void Align::processCCDSwitch(ISwitchVectorProperty *svp)
     if (currentCCD && !strcmp(svp->name, "TELESCOPE_TYPE"))
     {
         FOVScopeCombo->blockSignals(true);
-        FOVScopeCombo->setCurrentIndex(currentCCD->getTelescopeType());
+        FOVScopeCombo->setCurrentIndex(IUFindOnSwitchIndex(svp));
         FOVScopeCombo->blockSignals(false);
 
         syncTelescopeInfo();
