@@ -1968,14 +1968,24 @@ void Align::syncTelescopeInfo()
 void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture)
 {
     if (primaryFocalLength > 0)
-        primaryFL = focal_length = primaryFocalLength;
-    else if (guideFocalLength > 0)
-        guideFL = focal_length = guideFocalLength;
+        primaryFL = primaryFocalLength;
+    if (guideFocalLength > 0)
+        guideFL = guideFocalLength;
 
     if (primaryAperture > 0)
-        primaryAperture = aperture = primaryAperture;
+        primaryAperture = primaryAperture;
     else
-        this->guideAperture = aperture = guideAperture;
+        this->guideAperture = guideAperture;
+
+    focal_length = primaryFL;
+
+    if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
+        focal_length = guideFL;
+
+    aperture = primaryAperture;
+
+    if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
+        aperture = guideAperture;
 
     syncTelescopeInfo();
 }
