@@ -1959,6 +1959,7 @@ void Align::syncTelescopeInfo()
                           QString::number(guideFL / guideAperture, 'f', 1), QString::number(guideFL, 'f', 2),
                           QString::number(guideAperture, 'f', 2)),
                     Qt::ToolTipRole);
+
         calculateFOV();
 
         generateArgs();
@@ -1974,7 +1975,7 @@ void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, 
 
     if (primaryAperture > 0)
         primaryAperture = primaryAperture;
-    else
+    if (guideAperture > 0)
         this->guideAperture = guideAperture;
 
     focal_length = primaryFL;
@@ -4813,7 +4814,16 @@ void Align::updateTelescopeType(int index)
     if (currentCCD == nullptr)
         return;
 
-    currentCCD->setTelescopeType(static_cast<ISD::CCD::TelescopeType>(index));
+    bool rc = currentCCD->setTelescopeType(static_cast<ISD::CCD::TelescopeType>(index));
+
+    // If false, try to set it to existing known telescope
+    if (rc == false)
+    {
+       focal_length = (index == ISD::CCD::TELESCOPE_PRIMARY) ? primaryFL : guideFL;
+       aperture = (index == ISD::CCD::TELESCOPE_PRIMARY) ? primaryAperture : guideAperture;
+
+       syncTelescopeInfo();
+    }
 }
 
 // Function adapted from https://rosettacode.org/wiki/Circles_of_given_radius_through_two_points
