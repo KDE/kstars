@@ -39,7 +39,7 @@
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
       <arg name="filterSlot" type="i" direction="in"/>
-    </method>    
+    </method>
     <method name="getHFR">
       <arg type="d" direction="out"/>
     </method>    

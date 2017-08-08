@@ -34,6 +34,7 @@
 #include "fitsviewer/fitstab.h"
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
+#include "indi/indifilter.h"
 
 #include <basedevice.h>
 
@@ -99,6 +100,23 @@ Align::Align()
     connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
     connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));
+
+    FilterCaptureCombo->addItem("--");
+    connect(FilterCaptureCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
+            [=](const QString &text)
+    {
+        Options::setDefaultAlignFW(text);
+    });
+
+    connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
+
+    connect(FilterPosCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
+            [=](int index)
+    {
+        lockedFilterIndex = index;
+        Options::setLockAlignFilterIndex(index);
+    }
+    );
 
     gotoModeButtonGroup->setId(syncR, GOTO_SYNC);
     gotoModeButtonGroup->setId(slewR, GOTO_SLEW);
@@ -3908,7 +3926,116 @@ FOV *Align::fov()
         return solverFOV.get();
 }
 
-void Align::setLockedFilter(ISD::GDInterface *filter, int lockedPosition)
+void Align::addFilter(ISD::GDInterface *newFilter)
+{
+    foreach (ISD::GDInterface *filter, Filters)
+    {
+        if (!strcmp(filter->getDeviceName(), newFilter->getDeviceName()))
+            return;
+    }
+
+    FilterCaptureLabel->setEnabled(true);
+    FilterCaptureCombo->setEnabled(true);
+    FilterPosLabel->setEnabled(true);
+    FilterPosCombo->setEnabled(true);
+
+    FilterCaptureCombo->addItem(newFilter->getDeviceName());
+
+    Filters.append(static_cast<ISD::Filter *>(newFilter));
+
+    checkFilter(1);
+
+    FilterCaptureCombo->setCurrentIndex(1);
+}
+
+bool Align::setFilter(QString device, int filterSlot)
+{
+    bool deviceFound = false;
+
+    for (int i = 0; i < FilterCaptureCombo->count(); i++)
+        if (device == FilterCaptureCombo->itemText(i))
+        {
+            FilterCaptureCombo->setCurrentIndex(i);
+            deviceFound = true;
+            break;
+        }
+
+    if (deviceFound == false)
+        return false;
+
+    if (filterSlot >=0 && filterSlot < FilterCaptureCombo->count())
+        FilterCaptureCombo->setCurrentIndex(filterSlot);
+
+    return true;
+}
+
+void Align::checkFilter(int filterNum)
+{
+    if (filterNum == -1)
+    {
+        filterNum = FilterCaptureCombo->currentIndex();
+        if (filterNum == -1)
+            return;
+    }
+
+    if (filterNum == 0)
+    {
+        currentFilter = nullptr;
+        currentFilterIndex=-1;
+        FilterPosCombo->clear();
+        //syncFilterInfo();
+        return;
+    }
+
+    QStringList filterAlias = Options::filterAlias();
+
+    if (filterNum <= Filters.count())
+        currentFilter = Filters.at(filterNum-1);
+
+    FilterPosCombo->clear();
+
+    ITextVectorProperty *filterName = currentFilter->getBaseDevice()->getText("FILTER_NAME");
+    INumberVectorProperty *filterSlot = currentFilter->getBaseDevice()->getNumber("FILTER_SLOT");
+
+    if (filterSlot == nullptr)
+    {
+        KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1",
+                                   currentFilter->getBaseDevice()->getDeviceName()));
+        return;
+    }
+
+    currentFilterIndex = filterSlot->np[0].value - 1;
+
+    for (int i = 0; i < filterSlot->np[0].max; i++)
+    {
+        QString item;
+
+        if (filterName != nullptr && (i < filterName->ntp))
+            item = filterName->tp[i].text;
+        else if (i < filterAlias.count() && filterAlias[i].isEmpty() == false)
+            item = filterAlias.at(i);
+        else
+            item = QString("Filter_%1").arg(i + 1);
+
+        FilterPosCombo->addItem(item);
+    }
+
+    if (lockedFilterIndex < 0)
+        lockedFilterIndex = Options::lockAlignFilterIndex();
+    FilterPosCombo->setCurrentIndex(lockedFilterIndex);
+
+    // If we are waiting to change the filter wheel, let's check if the condition is now met.
+    if (filterPositionPending)
+    {
+        if (lockedFilterIndex == currentFilterIndex)
+        {
+            filterPositionPending = false;
+            captureAndSolve();
+        }
+    }
+}
+
+/*void Align::setLockedFilter(ISD::GDInterface *filter, int lockedPosition)
 {
     currentFilter = filter;
     if (currentFilter)
@@ -3922,9 +4049,9 @@ void Align::setLockedFilter(ISD::GDInterface *filter, int lockedPosition)
         connect(currentFilter, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
                 SLOT(processFilterNumber(INumberVectorProperty*)), Qt::UniqueConnection);
     }
-}
+}*/
 
-void Align::processFilterNumber(INumberVectorProperty *nvp)
+/*void Align::processFilterNumber(INumberVectorProperty *nvp)
 {
     if (currentFilter && !strcmp(nvp->name, "FILTER_SLOT") && !strcmp(nvp->device, currentFilter->getDeviceName()))
     {
@@ -3939,7 +4066,7 @@ void Align::processFilterNumber(INumberVectorProperty *nvp)
             }
         }
     }
-}
+}*/
 
 void Align::setWCSEnabled(bool enable)
 {

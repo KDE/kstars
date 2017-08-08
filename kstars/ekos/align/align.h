@@ -125,6 +125,13 @@ class Align : public QWidget, public Ui::Align
     Q_SCRIPTABLE bool setCCD(QString device);
 
     /** DBUS interface function.
+         * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.
+         * @param device The filter device name
+         * @return Returns true if filter device is found and set, false otherwise.
+         */
+    Q_SCRIPTABLE bool setFilter(QString device, int filterSlot);
+
+    /** DBUS interface function.
          * Start the plate-solving process given the passed image file.
          * @param filename Name of image file to solve. FITS and JPG/JPG/TIFF formats are accepted.
          * @param isGenerated Set to true if filename is generated from a CCD capture operation. If the file is loaded from any storage or network media, pass false.
@@ -186,6 +193,12 @@ class Align : public QWidget, public Ui::Align
          * @param newCCD pointer to CCD device.
          */
     void addCCD(ISD::GDInterface *newCCD);
+
+    /**
+         * @brief addFilter Add filter to the list of available filters.
+         * @param newFilter pointer to filter device.
+         */
+    void addFilter(ISD::GDInterface *newFilter);
 
     /**
          * @brief Set the current telescope
@@ -262,6 +275,13 @@ class Align : public QWidget, public Ui::Align
     void checkCCD(int CCDNum = -1);
 
     /**
+         * @brief Check Filter and make sure information is updated accordingly.
+         * @param filterNum By default, we check the already selected filter in the dropdown menu. If filterNum is specified, the check is made against this specific filter in the dropdown menu.
+         *  filterNum is the index of the filter in the dropdown menu.
+         */
+    void checkFilter(int filterNum = -1);
+
+    /**
          * @brief checkCCDExposureProgress Track the progress of CCD exposure
          * @param targeChip Target chip under exposure
          * @param remaining how many seconds remaining
@@ -329,7 +349,7 @@ class Align : public QWidget, public Ui::Align
          */
     void syncTelescopeInfo();
 
-    void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
+    //void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
 
     void setFocusStatus(Ekos::FocusState state);
 
@@ -352,7 +372,7 @@ class Align : public QWidget, public Ui::Align
     void correctAzError();
     void correctAltError();
 
-    void processFilterNumber(INumberVectorProperty *nvp);
+    //void processFilterNumber(INumberVectorProperty *nvp);
     void processCCDSwitch(ISwitchVectorProperty *svp);
 
     void setDefaultCCD(QString ccd);
@@ -589,6 +609,8 @@ class Align : public QWidget, public Ui::Align
 
     /// Optional device filter
     ISD::GDInterface *currentFilter { nullptr };
+    /// They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
+    QList<ISD::GDInterface *> Filters;
     int lockedFilterIndex { -1 };
     int currentFilterIndex { -1 };
     /// True if we need to change filter position and wait for result before continuing capture

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>602</width>
-    <height>459</height>
+    <width>607</width>
+    <height>482</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_19">
@@ -493,25 +493,27 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="1" colspan="2">
-               <widget class="QComboBox" name="binningCombo">
-                <property name="toolTip">
-                 <string>Camera binning</string>
+              <item row="1" column="7">
+               <widget class="QPushButton" name="toggleFullScreenB">
+                <property name="minimumSize">
+                 <size>
+                  <width>22</width>
+                  <height>22</height>
+                 </size>
                 </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_7">
+                <property name="maximumSize">
+                 <size>
+                  <width>22</width>
+                  <height>22</height>
+                 </size>
+                </property>
                 <property name="toolTip">
-                 <string/>
+                 <string>Toggle Full Screen</string>
                 </property>
                 <property name="text">
-                 <string>Exp:</string>
+                 <string/>
                 </property>
                </widget>
-              </item>
-              <item row="0" column="1" colspan="3">
-               <widget class="QComboBox" name="CCDCaptureCombo"/>
               </item>
               <item row="1" column="1" colspan="2">
                <widget class="QDoubleSpinBox" name="exposureIN">
@@ -532,6 +534,16 @@
                 </property>
                </widget>
               </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_7">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>Exp:</string>
+                </property>
+               </widget>
+              </item>
               <item row="1" column="3">
                <widget class="QCheckBox" name="alignDarkFrameCheck">
                 <property name="toolTip">
@@ -542,6 +554,13 @@
                 </property>
                </widget>
               </item>
+              <item row="2" column="1" colspan="2">
+               <widget class="QComboBox" name="binningCombo">
+                <property name="toolTip">
+                 <string>Camera binning</string>
+                </property>
+               </widget>
+              </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_18">
                 <property name="toolTip">
@@ -549,28 +568,6 @@
                 </property>
                 <property name="text">
                  <string>Bin:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="7">
-               <widget class="QPushButton" name="toggleFullScreenB">
-                <property name="minimumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Toggle Full Screen</string>
-                </property>
-                <property name="text">
-                 <string/>
                 </property>
                </widget>
               </item>
@@ -595,6 +592,29 @@
                  <string/>
                 </property>
                </widget>
+              </item>
+              <item row="0" column="1" colspan="3">
+               <widget class="QComboBox" name="CCDCaptureCombo"/>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="FilterCaptureLabel">
+                <property name="text">
+                 <string>FW:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QComboBox" name="FilterCaptureCombo"/>
+              </item>
+              <item row="3" column="2">
+               <widget class="QLabel" name="FilterPosLabel">
+                <property name="text">
+                 <string>Filter:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3" colspan="2">
+               <widget class="QComboBox" name="FilterPosCombo"/>
               </item>
              </layout>
             </item>

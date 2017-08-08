@@ -1091,6 +1091,12 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     initFocus();
 
     focusProcess->addFilter(filterDevice);
+
+    initAlign();
+
+    alignProcess->addFilter(filterDevice);
+    if (Options::defaultAlignFW().isEmpty() == false)
+        alignProcess->setFilter(Options::defaultAlignFW(), -1);
 }
 
 void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
@@ -1213,6 +1219,9 @@ void EkosManager::processNewText(ITextVectorProperty *tvp)
 
         if (focusProcess.get() != nullptr)
             focusProcess->checkFilter();
+
+        if (alignProcess.get() != nullptr)
+            alignProcess->checkFilter();
     }
 }
 
@@ -1263,6 +1272,9 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 
         if (focusProcess.get() != nullptr)
             focusProcess->checkFilter();
+
+        if (alignProcess.get() != nullptr)
+            alignProcess->checkFilter();
     }
 }
 
@@ -1372,6 +1384,9 @@ void EkosManager::processNewProperty(INDI::Property *prop)
 
         if (focusProcess.get() != nullptr)
             focusProcess->checkFilter();
+
+        if (alignProcess.get() != nullptr)
+            alignProcess->checkFilter();
 
         return;
     }
@@ -1659,8 +1674,8 @@ void EkosManager::initAlign()
     if (focusProcess.get() != nullptr)
     {
         // Filter lock
-        connect(focusProcess.get(), SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess.get(),
-                SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
+        //connect(focusProcess.get(), SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess.get(),
+                //SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
         connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), alignProcess.get(), SLOT(setFocusStatus(Ekos::FocusState)),
                 Qt::UniqueConnection);
     }
@@ -1732,8 +1747,8 @@ void EkosManager::initFocus()
     if (alignProcess.get() != nullptr)
     {
         // Filter lock
-        connect(focusProcess.get(), SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess.get(),
-                SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
+        //connect(focusProcess.get(), SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess.get(),
+                //SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
         connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), alignProcess.get(), SLOT(setFocusStatus(Ekos::FocusState)),
                 Qt::UniqueConnection);
     }

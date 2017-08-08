@@ -19,6 +19,11 @@
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
     </method>
+    <method name="setFilter">
+      <arg type="b" direction="out"/>
+      <arg name="device" type="s" direction="in"/>
+      <arg name="filterSlot" type="i" direction="in"/>
+    </method>
     <method name="startSolving">
       <arg name="filename" type="s" direction="in"/>
       <arg name="isGenerated" type="b" direction="in"/>
