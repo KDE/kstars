@@ -1974,7 +1974,7 @@ void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, 
         guideFL = guideFocalLength;
 
     if (primaryAperture > 0)
-        primaryAperture = primaryAperture;
+        this->primaryAperture = primaryAperture;
     if (guideAperture > 0)
         this->guideAperture = guideAperture;
 
