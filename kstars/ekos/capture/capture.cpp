@@ -39,7 +39,7 @@
 #define MF_RA_DIFF_LIMIT    4
 
 // Current Sequence File Format:
-#define SQ_FORMAT_VERSION 1.9
+#define SQ_FORMAT_VERSION 2.0
 // We accept file formats with version back to:
 #define SQ_COMPAT_VERSION 1.6
 
@@ -78,6 +78,8 @@ Capture::Capture()
     filterOffsetB->setIcon(QIcon::fromTheme("view-filter", QIcon(":/icons/breeze/default/view-filter.svg")));
     connect(filterOffsetB, SIGNAL(clicked()), this, SLOT(showFilterOffsetDialog()));
     filterOffsetB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    FilterCaptureCombo->addItem("--");
 
     connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
 
@@ -231,9 +233,9 @@ void Capture::addFilter(ISD::GDInterface *newFilter)
 
     filterOffsetB->setEnabled(true);
 
-    checkFilter(0);
+    checkFilter(1);
 
-    FilterCaptureCombo->setCurrentIndex(0);
+    FilterCaptureCombo->setCurrentIndex(1);
 }
 
 void Capture::pause()
@@ -925,7 +927,7 @@ bool Capture::setFilter(QString device, int filterSlot)
 {
     bool deviceFound = false;
 
-    for (int i = 0; i < FilterCaptureCombo->count(); i++)
+    for (int i = 1; i < FilterCaptureCombo->count(); i++)
         if (device == FilterCaptureCombo->itemText(i))
         {
             checkFilter(i);
@@ -951,10 +953,20 @@ void Capture::checkFilter(int filterNum)
             return;
     }
 
+    if (filterNum == 0)
+    {
+        currentFilter = nullptr;
+        filterSlot = nullptr;
+        currentFilterPosition=-1;
+        FilterPosCombo->clear();
+        syncFilterInfo();
+        return;
+    }
+
     QStringList filterAlias = Options::filterAlias();
 
     if (filterNum <= Filters.count())
-        currentFilter = Filters.at(filterNum);
+        currentFilter = Filters.at(filterNum-1);
 
     syncFilterInfo();
 
@@ -995,16 +1007,25 @@ void Capture::checkFilter(int filterNum)
 
 void Capture::syncFilterInfo()
 {
-    if (currentCCD && currentFilter)
+    if (currentCCD)
     {
         ITextVectorProperty *activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
         if (activeDevices)
         {
             IText *activeFilter = IUFindText(activeDevices, "ACTIVE_FILTER");
-            if (activeFilter && strcmp(activeFilter->text, currentFilter->getDeviceName()))
+            if (activeFilter)
             {
-                IUSaveText(activeFilter, currentFilter->getDeviceName());
-                currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                if (currentFilter != nullptr && strcmp(activeFilter->text, currentFilter->getDeviceName()))
+                {
+                    IUSaveText(activeFilter, currentFilter->getDeviceName());
+                    currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                }
+                // Reset filter name in CCD driver
+                else if (currentFilter == nullptr && strlen(activeFilter->text) > 0)
+                {
+                    IUSaveText(activeFilter, "");
+                    currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                }
             }
         }
     }
@@ -2588,6 +2609,15 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                     else
                         meridianCheck->setChecked(false);
                 }
+                else if (!strcmp(tagXMLEle(ep), "CCD"))
+                {
+                    CCDCaptureCombo->setCurrentText(pcdataXMLEle(ep));
+                }
+                else if (!strcmp(tagXMLEle(ep), "FilterWheel"))
+                {
+                    FilterCaptureCombo->setCurrentText(pcdataXMLEle(ep));
+                    checkFilter();
+                }
                 else
                 {
                     processJobInfo(ep);
@@ -2890,6 +2920,8 @@ bool Capture::saveSequenceQueue(const QString &path)
     outstream << "<SequenceQueue version='" << SQ_FORMAT_VERSION << "'>" << endl;
     if (observerName.isEmpty() == false)
         outstream << "<Observer>" << observerName << "</Observer>" << endl;
+    outstream << "<CCD>" << CCDCaptureCombo->currentText() << "</CCD>" << endl;
+    outstream << "<FilterWheel>" << FilterCaptureCombo->currentText() << "</FilterWheel>" << endl;
     outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>"
               << guideDeviation->value() << "</GuideDeviation>" << endl;
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>"
