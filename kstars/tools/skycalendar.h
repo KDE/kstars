@@ -18,6 +18,7 @@
 #pragma once
 
 #include <QDialog>
+#include <QMutex>
 
 #include "ui_skycalendar.h"
 
@@ -53,6 +54,7 @@ class SkyCalendar : public QDialog
     void slotFillCalendar();
     void slotPrint();
     void slotLocation();
+    void slotCalculating();
 
   private:
     void addPlanetEvents(int nPlanet);
@@ -60,4 +62,7 @@ class SkyCalendar : public QDialog
 
     SkyCalendarUI *scUI { nullptr };
     GeoLocation *geo { nullptr };
+    QMutex calculationMutex;
+    QString plotButtonText;
+    bool calculating { false };
 };
