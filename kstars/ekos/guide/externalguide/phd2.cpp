@@ -368,6 +368,12 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
         case LockPositionSet:
             emit newLog(i18n("PHD2: Lock Position Set."));
+            // If we recieve this message then equipment is ALREADY connected.
+            if (connection != EQUIPMENT_CONNECTED)
+            {
+                connection = EQUIPMENT_CONNECTED;
+                emit newStatus(Ekos::GUIDE_CONNECTED);
+            }
             break;
 
         case LockPositionLost:
