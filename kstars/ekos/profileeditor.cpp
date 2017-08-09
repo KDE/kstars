@@ -350,15 +350,16 @@ void ProfileEditor::setPi(ProfileInfo *value)
 
     ui->guideTypeCombo->setCurrentIndex(pi->guidertype);
     updateGuiderSelection(ui->guideTypeCombo->currentIndex());
-    /*if (pi->guidertype != Ekos::Guide::GUIDE_INTERNAL)
+    if (pi->guidertype == Ekos::Guide::GUIDE_PHD2)
     {
-        ui->externalGuideHost->setText(pi->guiderhost);
-        ui->externalGuidePort->setText(QString::number(pi->guiderport));
-        ui->externalGuideHostLabel->setEnabled(true);
-        ui->externalGuideHost->setEnabled(true);
-        ui->externalGuidePort->setEnabled(true);
-        ui->externalGuidePortLabel->setEnabled(true);
-    }*/
+        Options::setPHD2Host(pi->guiderhost);
+        Options::setPHD2Port(pi->guiderport);
+    }
+    else if (pi->guidertype == Ekos::Guide::GUIDE_LINGUIDER)
+    {
+        Options::setLinGuiderHost(pi->guiderhost);
+        Options::setLinGuiderPort(pi->guiderport);
+    }
 
     QMapIterator<QString, QString> i(pi->drivers);
     int row = 0;
