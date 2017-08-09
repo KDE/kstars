@@ -1231,10 +1231,18 @@ void Guide::startAutoCalibrateGuide()
     // A must for auto stuff
     Options::setGuideAutoStarEnabled(true);
 
-    calibrationComplete = false;
-    autoCalibrateGuide  = true;
-
-    calibrate();
+    if (guiderType == GUIDE_INTERNAL)
+    {
+        calibrationComplete = false;
+        autoCalibrateGuide  = true;
+        calibrate();
+    }
+    else
+    {
+        calibrationComplete = true;
+        autoCalibrateGuide  = true;
+        guide();
+    }
 }
 
 void Guide::setStatus(Ekos::GuideState newState)
