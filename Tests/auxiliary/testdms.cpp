@@ -42,7 +42,7 @@ void TestDMS::explicitSexigesimalCtor()
     QVERIFY(d.degree() == 14);
     QVERIFY(d.arcmin() == 55);
     QVERIFY(d.arcsec() == 20);
-    QVERIFY(d.Degrees() == (14.0 + 55.0 / 60.0 + 20.0 / 3600.0));
+    QVERIFY(qFuzzyCompare(d.Degrees(), (14.0 + 55.0 / 60.0 + 20.0 / 3600.0)));
 }
 
 void TestDMS::angleCtor()
@@ -59,7 +59,7 @@ void TestDMS::angleCtor()
 
     QVERIFY(d.degree() == (int)angle);
 
-    QVERIFY(d.Hours() == (angle + 360) / 15.0);
+    QVERIFY(qFuzzyCompare(d.Hours(), (angle + 360) / 15.0));
     QVERIFY(d.hour() == 16);
     QVERIFY(d.minute() == 29);
     QVERIFY(d.second() == 45);
@@ -75,12 +75,12 @@ void TestDMS::stringCtor()
     QVERIFY(d.degree() == 14);
     QVERIFY(d.arcmin() == 55);
     QVERIFY(d.arcsec() == 20);
-    QVERIFY(d.Degrees() == (14.0 + 55.0 / 60.0 + 20.0 / 3600.0));
+    QVERIFY(qFuzzyCompare(d.Degrees(), (14.0 + 55.0 / 60.0 + 20.0 / 3600.0)));
 
     // From Hours
     dms h(hms, false);
-    QVERIFY(h.Degrees() == d.Degrees() * 15.0);
-    QVERIFY(h.Hours() == d.Degrees());
+    QVERIFY(qFuzzyCompare(h.Degrees(), d.Degrees() * 15.0));
+    QVERIFY(qFuzzyCompare(h.Hours(), d.Degrees()));
 }
 
 void TestDMS::testReduceToRange()

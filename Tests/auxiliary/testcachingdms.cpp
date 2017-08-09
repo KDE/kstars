@@ -56,7 +56,7 @@ void TestCachingDms::explicitSexigesimalCtor()
     QVERIFY(d.degree() == 14);
     QVERIFY(d.arcmin() == 55);
     QVERIFY(d.arcsec() == 20);
-    QVERIFY(d.Degrees() == (14.0 + 55.0 / 60.0 + 20.0 / 3600.0));
+    QVERIFY(qFuzzyCompare(d.Degrees(), (14.0 + 55.0 / 60.0 + 20.0 / 3600.0)));
     QVERIFY(fabs(d.sin() - .25750758368074941632) < 1e-9);
     QVERIFY(fabs(d.cos() - .96627627744186177805) < 1e-9);
 }
@@ -75,7 +75,7 @@ void TestCachingDms::angleCtor()
 
     QVERIFY(d.degree() == (int)angle);
 
-    QVERIFY(d.Hours() == (angle + 360) / 15.0);
+    QVERIFY(qFuzzyCompare(d.Hours(), (angle + 360) / 15.0));
     QVERIFY(d.hour() == 16);
     QVERIFY(d.minute() == 29);
     QVERIFY(d.second() == 45);
@@ -93,14 +93,14 @@ void TestCachingDms::stringCtor()
     QVERIFY(d.degree() == 14);
     QVERIFY(d.arcmin() == 55);
     QVERIFY(d.arcsec() == 20);
-    QVERIFY(d.Degrees() == (14.0 + 55.0 / 60.0 + 20.0 / 3600.0));
+    QVERIFY(qFuzzyCompare(d.Degrees(), (14.0 + 55.0 / 60.0 + 20.0 / 3600.0)));
     QVERIFY(fabs(d.sin() - .25750758368074941632) < 1e-9);
     QVERIFY(fabs(d.cos() - .96627627744186177805) < 1e-9);
 
     // From Hours
     CachingDms h(hms, false);
-    QVERIFY(h.Degrees() == d.Degrees() * 15.0);
-    QVERIFY(h.Hours() == d.Degrees());
+    QVERIFY(qFuzzyCompare(h.Degrees(), d.Degrees() * 15.0));
+    QVERIFY(qFuzzyCompare(h.Hours(), d.Degrees()));
 }
 
 void TestCachingDms::setUsing_asin()
@@ -188,9 +188,9 @@ void TestCachingDms::unaryMinusOperator()
 {
     CachingDms d(56.3);
     qDebug() << (-d).Degrees();
-    QVERIFY((-d).Degrees() == -56.3);
-    QVERIFY((-d).cos() == d.cos());
-    QVERIFY((-d).sin() == -d.sin());
+    QVERIFY(qFuzzyCompare((-d).Degrees(), -56.3));
+    QVERIFY(qFuzzyCompare((-d).cos(), d.cos()));
+    QVERIFY(qFuzzyCompare((-d).sin(), -d.sin()));
 }
 
 void TestCachingDms::additionOperator()
