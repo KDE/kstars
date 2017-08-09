@@ -31,6 +31,7 @@
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QPushButton>
+#include <QtConcurrent>
 
 SkyCalendarUI::SkyCalendarUI(QWidget *parent) : QFrame(parent)
 {
@@ -79,6 +80,7 @@ SkyCalendar::SkyCalendar(QWidget *parent) : QDialog(parent)
 
     scUI->CalendarView->setHorizon();
 
+    plotButtonText = scUI->CreateButton->text();
     connect(scUI->CreateButton, SIGNAL(clicked()), this, SLOT(slotFillCalendar()));
     connect(scUI->LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
 }
@@ -94,6 +96,10 @@ int SkyCalendar::year()
 
 void SkyCalendar::slotFillCalendar()
 {
+    calculating = true;
+    scUI->CreateButton->setEnabled(false);
+    QtConcurrent::run(this, &SkyCalendar::slotCalculating);
+
     scUI->CalendarView->resetPlot();
     scUI->CalendarView->setHorizon();
 
@@ -114,7 +120,35 @@ void SkyCalendar::slotFillCalendar()
     //if ( scUI->checkBox_Pluto->isChecked() )
     //addPlanetEvents( KSPlanetBase::PLUTO );
 
+  {
+    QMutexLocker locker(&calculationMutex);
+
+    calculating = false;
+    scUI->CreateButton->setEnabled(true);
     scUI->CalendarView->update();
+  }
+}
+
+void SkyCalendar::slotCalculating()
+{
+  while (calculating)
+  {
+    QMutexLocker locker(&calculationMutex);
+
+    if (!calculating)
+      continue;
+
+    scUI->CreateButton->setText(i18n("Please Wait")+".  ");
+    scUI->CreateButton->repaint();
+    QThread::msleep(200);
+    scUI->CreateButton->setText(i18n("Please Wait")+".. ");
+    scUI->CreateButton->repaint();
+    QThread::msleep(200);
+    scUI->CreateButton->setText(i18n("Please Wait")+"...");
+    scUI->CreateButton->repaint();
+    QThread::msleep(200);
+  }
+  scUI->CreateButton->setText(plotButtonText);
 }
 
 // FIXME: For the time being, adjust with dirty, cluttering labels that don't align to the line
