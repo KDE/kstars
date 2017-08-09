@@ -290,6 +290,8 @@ void EkosManager::loadDrivers()
 
 void EkosManager::reset()
 {
+    qCDebug(KSTARS_EKOS) << "Resetting Ekos Manager...";
+
     nDevices = 0;
 
     useGuideHead = false;
@@ -741,7 +743,10 @@ void EkosManager::connectDevices()
     indiConnectionStatus = EKOS_STATUS_PENDING;
 
     for (auto &device : genericDevices)
+    {
+        qCDebug(KSTARS_EKOS) << "Connecting " << device->getDeviceName();
         device->Connect();
+    }
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
@@ -752,7 +757,10 @@ void EkosManager::connectDevices()
 void EkosManager::disconnectDevices()
 {
     for (auto &device : genericDevices)
+    {
+        qCDebug(KSTARS_EKOS) << "Disconnecting " << device->getDeviceName();
         device->Disconnect();
+    }
 
     appendLogText(i18n("Disconnecting INDI devices..."));
 }
