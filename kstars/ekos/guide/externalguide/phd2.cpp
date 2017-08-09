@@ -17,6 +17,8 @@
 #include <QJsonObject>
 #include <QtNetwork/QNetworkReply>
 
+#define MAX_SET_CONNECTED_RETRIES   3
+
 namespace Ekos
 {
 PHD2::PHD2()
@@ -248,6 +250,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             state = GUIDING;
             if (connection != EQUIPMENT_CONNECTED)
             {
+                setConnectedRetries = 0;
                 connection = EQUIPMENT_CONNECTED;
                 emit newStatus(Ekos::GUIDE_CONNECTED);
             }
@@ -436,6 +439,14 @@ void PHD2::sendJSONRPCRequest(const QString &method, const QJsonArray args)
 
 void PHD2::setEquipmentConnected(bool enable)
 {
+    if (setConnectedRetries++ > MAX_SET_CONNECTED_RETRIES)
+    {
+        setConnectedRetries = 0;
+        connection = EQUIPMENT_DISCONNECTED;
+        emit newStatus(Ekos::GUIDE_DISCONNECTED);
+        return;
+    }
+
     if ((connection == EQUIPMENT_CONNECTED && enable == true) ||
         (connection == EQUIPMENT_DISCONNECTED && enable == false))
         return;
