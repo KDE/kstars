@@ -115,5 +115,6 @@ class PHD2 : public GuideInterface
     PHD2State state { STOPPED };
     PHD2Connection connection { DISCONNECTED };
     PHD2Event event { Alert };
+    uint8_t setConnectedRetries { 0 };
 };
 }
