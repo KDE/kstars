@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>605</width>
-    <height>312</height>
+    <width>593</width>
+    <height>288</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -36,6 +36,21 @@
        <string>&amp;General</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <property name="spacing">
@@ -89,6 +104,21 @@
             <string>DSS Imagery</string>
            </property>
            <layout class="QGridLayout" name="gridLayout">
+            <property name="leftMargin">
+             <number>5</number>
+            </property>
+            <property name="topMargin">
+             <number>5</number>
+            </property>
+            <property name="rightMargin">
+             <number>5</number>
+            </property>
+            <property name="bottomMargin">
+             <number>5</number>
+            </property>
+            <property name="spacing">
+             <number>5</number>
+            </property>
             <item row="0" column="0">
              <widget class="QLabel" name="label">
               <property name="text">
@@ -189,28 +219,8 @@
          <property name="title">
           <string>Logging Output</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Verbosity:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QRadioButton" name="kcfg_LogToFile">
-            <property name="toolTip">
-             <string>Log output to log file</string>
-            </property>
-            <property name="text">
-             <string>File</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">logbuttonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="0" column="2">
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="2" colspan="2">
            <widget class="QRadioButton" name="kcfg_RegularLogging">
             <property name="toolTip">
              <string>Enable regular debug output</string>
@@ -226,40 +236,20 @@
             </attribute>
            </widget>
           </item>
-          <item row="2" column="5">
-           <widget class="QCheckBox" name="kcfg_AlignmentLogging">
-            <property name="toolTip">
-             <string>Log Ekos Alignment module activity</string>
+          <item row="0" column="5">
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="text">
-             <string>Alignment</string>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>216</width>
+              <height>20</height>
+             </size>
             </property>
-            <attribute name="buttonGroup">
-             <string notr="true">modulesGroup</string>
-            </attribute>
-           </widget>
+           </spacer>
           </item>
-          <item row="2" column="2">
-           <widget class="QCheckBox" name="kcfg_INDILogging">
-            <property name="toolTip">
-             <string>Log INDI devices activity</string>
-            </property>
-            <property name="text">
-             <string>INDI</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">modulesGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>Output:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
+          <item row="0" column="4">
            <widget class="QRadioButton" name="kcfg_DisableLogging">
             <property name="toolTip">
              <string>Disable all logging output</string>
@@ -275,6 +265,151 @@
             </attribute>
            </widget>
           </item>
+          <item row="0" column="6">
+           <widget class="QPushButton" name="showLogsB">
+            <property name="text">
+             <string>Show Logs</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Output:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" colspan="6">
+           <layout class="QGridLayout" name="gridLayout_2">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item row="0" column="4">
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="2">
+             <widget class="QCheckBox" name="kcfg_MountLogging">
+              <property name="toolTip">
+               <string>Log Ekos Mount module activity</string>
+              </property>
+              <property name="text">
+               <string>Mount</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">modulesGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QCheckBox" name="kcfg_FocusLogging">
+              <property name="toolTip">
+               <string>Log Ekos Focus module activity</string>
+              </property>
+              <property name="text">
+               <string>Focus</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">modulesGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QCheckBox" name="kcfg_CaptureLogging">
+              <property name="toolTip">
+               <string>Log Ekos Capture module activity</string>
+              </property>
+              <property name="text">
+               <string>Capture</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">modulesGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="kcfg_FITSLogging">
+              <property name="toolTip">
+               <string>Log FITS processing activity</string>
+              </property>
+              <property name="text">
+               <string>FITS</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">modulesGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="kcfg_AlignmentLogging">
+              <property name="toolTip">
+               <string>Log Ekos Alignment module activity</string>
+              </property>
+              <property name="text">
+               <string>Alignment</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">modulesGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QCheckBox" name="kcfg_INDILogging">
+              <property name="toolTip">
+               <string>Log INDI devices activity</string>
+              </property>
+              <property name="text">
+               <string>INDI</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">modulesGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QCheckBox" name="kcfg_SchedulerLogging">
+              <property name="toolTip">
+               <string>Log Ekos Scheduler module activity</string>
+              </property>
+              <property name="text">
+               <string>Scheduler</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">modulesGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QCheckBox" name="kcfg_GuideLogging">
+              <property name="toolTip">
+               <string>Log Ekos Guide module activity</string>
+              </property>
+              <property name="text">
+               <string>Guide</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">modulesGroup</string>
+              </attribute>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Verbosity:</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="1">
            <widget class="QRadioButton" name="kcfg_VerboseLogging">
             <property name="toolTip">
@@ -288,53 +423,7 @@
             </attribute>
            </widget>
           </item>
-          <item row="2" column="4">
-           <widget class="QCheckBox" name="kcfg_FocusLogging">
-            <property name="toolTip">
-             <string>Log Ekos Focus module activity</string>
-            </property>
-            <property name="text">
-             <string>Focus</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">modulesGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="2" column="6">
-           <widget class="QCheckBox" name="kcfg_GuideLogging">
-            <property name="toolTip">
-             <string>Log Ekos Guide module activity</string>
-            </property>
-            <property name="text">
-             <string>Guide</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">modulesGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>Modules:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QCheckBox" name="kcfg_FITSLogging">
-            <property name="toolTip">
-             <string>Log FITS processing activity</string>
-            </property>
-            <property name="text">
-             <string>FITS</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">modulesGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="1" column="1">
+          <item row="1" column="1" colspan="2">
            <widget class="QRadioButton" name="kcfg_LogToDefault">
             <property name="toolTip">
              <string>Log debug messages to default output device used by the platform (e.g. Standard Error)</string>
@@ -350,36 +439,43 @@
             </attribute>
            </widget>
           </item>
-          <item row="2" column="7">
-           <widget class="QCheckBox" name="kcfg_MountLogging">
+          <item row="1" column="3">
+           <widget class="QRadioButton" name="kcfg_LogToFile">
             <property name="toolTip">
-             <string>Log Ekos Mount module activity</string>
+             <string>Log output to log file</string>
             </property>
             <property name="text">
-             <string>Mount</string>
+             <string>File</string>
             </property>
             <attribute name="buttonGroup">
-             <string notr="true">modulesGroup</string>
+             <string notr="true">logbuttonGroup</string>
             </attribute>
            </widget>
           </item>
-          <item row="2" column="3">
-           <widget class="QCheckBox" name="kcfg_CaptureLogging">
-            <property name="toolTip">
-             <string>Log Ekos Capture module activity</string>
+          <item row="1" column="5">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>216</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_6">
             <property name="text">
-             <string>Capture</string>
+             <string>Modules:</string>
             </property>
-            <attribute name="buttonGroup">
-             <string notr="true">modulesGroup</string>
-            </attribute>
            </widget>
           </item>
-          <item row="0" column="7">
-           <widget class="QPushButton" name="showLogsB">
-            <property name="text">
-             <string>Show Logs</string>
+          <item row="2" column="0" colspan="7">
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
@@ -406,8 +502,26 @@
        <string>Look and &amp;Feel</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
        <item>
         <layout class="QGridLayout" name="gridLayout_3">
+         <property name="spacing">
+          <number>5</number>
+         </property>
          <item row="0" column="0">
           <widget class="QCheckBox" name="kcfg_UseAnimatedSlewing">
            <property name="toolTip">
@@ -459,6 +573,9 @@
          </item>
          <item row="2" column="2">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <property name="spacing">
+            <number>5</number>
+           </property>
            <item>
             <widget class="TimeStepBox" name="SlewTimeScale"/>
            </item>
@@ -499,24 +616,24 @@
          </property>
          <layout class="QVBoxLayout">
           <property name="spacing">
-           <number>6</number>
+           <number>5</number>
           </property>
           <property name="leftMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <property name="topMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <property name="rightMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <property name="bottomMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <item>
            <layout class="QHBoxLayout">
             <property name="spacing">
-             <number>6</number>
+             <number>5</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
@@ -599,7 +716,7 @@
              <number>0</number>
             </property>
             <property name="spacing">
-             <number>6</number>
+             <number>5</number>
             </property>
             <item row="4" column="0" rowspan="2">
              <widget class="QCheckBox" name="kcfg_HideIC">
@@ -744,6 +861,21 @@
        <string>Observing &amp;List</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
        <item>
         <widget class="QGroupBox" name="ObsListOptions">
          <property name="sizePolicy">
@@ -757,19 +889,19 @@
          </property>
          <layout class="QHBoxLayout">
           <property name="spacing">
-           <number>6</number>
+           <number>5</number>
           </property>
           <property name="leftMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <property name="topMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <property name="rightMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <property name="bottomMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <item>
            <widget class="QRadioButton" name="kcfg_ObsListSymbol">
@@ -800,23 +932,23 @@
           </sizepolicy>
          </property>
          <property name="title">
-          <string>Preferred Imagery (Always downloads DSS. SDSS support has been removed temporarily in this version)</string>
+          <string>Preferred Imagery</string>
          </property>
          <layout class="QHBoxLayout" name="_3">
           <property name="spacing">
-           <number>6</number>
+           <number>5</number>
           </property>
           <property name="leftMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <property name="topMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <property name="rightMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <property name="bottomMargin">
-           <number>8</number>
+           <number>5</number>
           </property>
           <item>
            <widget class="QRadioButton" name="kcfg_ObsListPreferDSS">
@@ -850,6 +982,21 @@
           <string>Miscellaneous</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
+          <property name="spacing">
+           <number>5</number>
+          </property>
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
           <item>
            <widget class="QCheckBox" name="kcfg_ObsListDemoteHole">
             <property name="text">
@@ -859,6 +1006,9 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="spacing">
+             <number>5</number>
+            </property>
             <item>
              <spacer name="holeSizeSpacer">
               <property name="orientation">
@@ -972,12 +1122,12 @@
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="logbuttonGroup"/>
   <buttongroup name="modulesGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="logbuttonGroup"/>
   <buttongroup name="verbosityButtonGroup"/>
  </buttongroups>
 </ui>

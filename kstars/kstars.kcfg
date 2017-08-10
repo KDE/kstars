@@ -1916,6 +1916,10 @@
       </entry>
    </group>
    <group name="Scheduler">
+    <entry name="SchedulerLogging" type="Bool">
+      <whatsthis>Log Ekos Scheduler Module activity.</whatsthis>
+      <default>false</default>
+    </entry>
     <entry name="StopEkosAfterShutdown" type="Bool">
           <label>After shutdown procedure is successfully executed, shutdown INDI and Ekos.</label>
           <default>true</default>
