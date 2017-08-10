@@ -767,6 +767,9 @@ void KStars::slotViewOps()
 
     //KConfigDialog didn't find an instance of this dialog, so lets create it :
     KConfigDialog *dialog = new KConfigDialog(this, "settings", Options::self());
+    // For some reason the dialog does not resize to contents
+    // so we set initial 'resonable' size here. Any better way to do this?
+    dialog->resize(800,600);
 #ifdef Q_OS_OSX
     dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
