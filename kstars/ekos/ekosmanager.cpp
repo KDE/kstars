@@ -813,6 +813,15 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
 {
     qCInfo(KSTARS_EKOS) << "Ekos received a new device: " << devInterface->getDeviceName();
 
+    for(auto &device: genericDevices)
+    {
+        if (!strcmp(device->getDeviceName(), devInterface->getDeviceName()))
+        {
+            qCWarning(KSTARS_EKOS) << "Found duplicate device, ignoring...";
+            return;
+        }
+    }
+
     // Always reset INDI Connection status if we receive a new device
     indiConnectionStatus = EKOS_STATUS_IDLE;
 
