@@ -690,6 +690,17 @@ IPerm GenericDevice::getPermission(const QString &propName)
     return baseDevice->getPropertyPermission(propName.toLatin1().constData());
 }
 
+INDI::Property *GenericDevice::getProperty(const QString &propName)
+{
+    for (auto &oneProp : properties)
+    {
+        if (propName == QString(oneProp->getName()))
+            return oneProp;
+    }
+
+    return nullptr;
+}
+
 void GenericDevice::resetWatchdog()
 {
     INumberVectorProperty *nvp = baseDevice->getNumber("WATCHDOG_HEARTBEAT");
@@ -806,6 +817,11 @@ INDI::BaseDevice *DeviceDecorator::getBaseDevice()
 QList<INDI::Property *> DeviceDecorator::getProperties()
 {
     return interfacePtr->getProperties();
+}
+
+INDI::Property *DeviceDecorator::getProperty(const QString &propName)
+{
+    return interfacePtr->getProperty(propName);
 }
 
 bool DeviceDecorator::isConnected()

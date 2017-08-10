@@ -82,6 +82,7 @@ class GDInterface : public QObject
                                double *step)             = 0;
     virtual IPState getState(const QString &propName)    = 0;
     virtual IPerm getPermission(const QString &propName) = 0;
+    virtual INDI::Property *getProperty(const QString &propName) = 0;
 
     virtual ~GDInterface() {}
 
@@ -149,6 +150,7 @@ class GenericDevice : public GDInterface
                                double *step);
     virtual IPState getState(const QString &propName);
     virtual IPerm getPermission(const QString &propName);
+    virtual INDI::Property *getProperty(const QString &propName);
 
   public slots:
     virtual bool Connect();
@@ -210,6 +212,7 @@ class DeviceDecorator : public GDInterface
     bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max, double *step);
     IPState getState(const QString &propName);
     IPerm getPermission(const QString &propName);
+    INDI::Property *getProperty(const QString &propName);
 
   public slots:
     virtual bool Connect();

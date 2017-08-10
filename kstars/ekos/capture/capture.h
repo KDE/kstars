@@ -10,6 +10,7 @@
 #pragma once
 
 #include "ui_capture.h"
+#include "customproperties.h"
 #include "oal/filter.h"
 #include "ekos/ekos.h"
 #include "indi/indiccd.h"
@@ -646,5 +647,7 @@ class Capture : public QWidget, public Ui::Capture
     int16_t lastFilterOffset { 0 };
 
     QList<OAL::Filter *> m_filterList;
+
+    std::unique_ptr<CustomProperties> customPropertiesDialog;
 };
 }

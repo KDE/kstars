@@ -8,6 +8,8 @@
  */
 
 #include "sequencejob.h"
+#include "indi/driverinfo.h"
+#include "indi/clientmanager.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -84,6 +86,32 @@ void SequenceJob::prepareCapture()
 
     activeCCD->setUploadMode(uploadMode);
 
+    // Set all custom properties
+    if (preview == false)
+    {
+        QMapIterator<QString, QMap<QString,double>> i(customProperties);
+        while (i.hasNext())
+        {
+            i.next();
+            INDI::Property *customProp = activeCCD->getProperty(i.key());
+            if (customProp)
+            {
+                QMap<QString,double> numbers = i.value();
+                QMapIterator<QString,double> j(numbers);
+                INumberVectorProperty *np = customProp->getNumber();
+                while (j.hasNext())
+                {
+                    j.next();
+                    INumber *oneNumber = IUFindNumber(np, j.key().toLatin1().data());
+                    if (oneNumber)
+                        oneNumber->value = j.value();
+                }
+
+                activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
+            }
+        }
+    }
+
     if (activeChip->isBatchMode())
     {
         QString finalRemoteDir = fitsDir;
@@ -150,6 +178,16 @@ void SequenceJob::setAllActionsReady()
     }
 }
 
+QMap<QString, QMap<QString, double> > SequenceJob::getCustomProperties() const
+{
+    return customProperties;
+}
+
+void SequenceJob::setCustomProperties(const QMap<QString, QMap<QString, double> > &value)
+{
+    customProperties = value;
+}
+
 bool SequenceJob::areActionsReady()
 {
     for (bool &ready : prepareActions.values())
@@ -157,7 +195,7 @@ bool SequenceJob::areActionsReady()
         if (ready == false)
             return false;
     }
-
+    
     return true;
 }
 

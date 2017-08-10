@@ -194,6 +194,9 @@ class SequenceJob : public QObject
 
     void setCurrentRotation(int32_t value);
 
+    QMap<QString, QMap<QString, double> > getCustomProperties() const;
+    void setCustomProperties(const QMap<QString, QMap<QString, double> > &value);
+
 signals:
     void prepareComplete();
     void checkFocus();
@@ -271,5 +274,7 @@ private:
     } calibrationSettings;
 
     QMap<PrepareActions, bool> prepareActions;
+
+    QMap<QString, QMap<QString,double>> customProperties;
 };
 }
