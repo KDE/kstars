@@ -17,6 +17,8 @@
 #include <QJsonObject>
 #include <QtNetwork/QNetworkReply>
 
+#include <ekos_guide_debug.h>
+
 #define MAX_SET_CONNECTED_RETRIES   3
 
 namespace Ekos
@@ -127,8 +129,7 @@ void PHD2::readPHD2()
             continue;
         }
 
-        if (Options::guideLogging())
-            qDebug() << "Guide: " << rawString;
+        qCDebug(KSTARS_EKOS_GUIDE) << rawString;
 
         processJSON(jdoc.object());
     }
@@ -165,7 +166,7 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
 
         case CONNECTED:
             // If initial state is STOPPED, let us connect equipment
-            if (state == STOPPED)
+            if (state == STOPPED || state == PAUSED)
             {
                 setEquipmentConnected(true);
             }
@@ -186,7 +187,7 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
                 connection = EQUIPMENT_CONNECTED;
                 emit newStatus(Ekos::GUIDE_CONNECTED);
             }
-            else
+            else if (messageType == PHD2_ERROR)
             {
                 connection = EQUIPMENT_DISCONNECTED;
                 emit newStatus(Ekos::GUIDE_DISCONNECTED);
@@ -368,17 +369,12 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
         case LockPositionSet:
             emit newLog(i18n("PHD2: Lock Position Set."));
-            // If we recieve this message then equipment is ALREADY connected.
-            if (connection != EQUIPMENT_CONNECTED)
-            {
-                connection = EQUIPMENT_CONNECTED;
-                emit newStatus(Ekos::GUIDE_CONNECTED);
-            }
             break;
 
         case LockPositionLost:
             emit newLog(i18n("PHD2: Lock Position Lost."));
-            emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+            if (state == CALIBRATING)
+                emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
             break;
 
         case Alert:
@@ -479,6 +475,13 @@ bool PHD2::calibrate()
 
 bool PHD2::guide()
 {
+    if (state == GUIDING)
+    {
+        emit newLog(i18n("PHD2: Guiding is already running."));
+        emit newStatus(Ekos::GUIDE_GUIDING);
+        return true;
+    }
+
     if (connection != EQUIPMENT_CONNECTED)
     {
         emit newLog(i18n("PHD2 Error: Equipment not connected."));
