@@ -85,26 +85,26 @@ Scheduler::Scheduler()
                                        QDBusConnection::sessionBus(), this);
 
     focusInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Focus", "org.kde.kstars.Ekos.Focus",
-                                        QDBusConnection::sessionBus(), this);
+                                          QDBusConnection::sessionBus(), this);
     captureInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Capture", "org.kde.kstars.Ekos.Capture",
                                           QDBusConnection::sessionBus(), this);
     mountInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount", "org.kde.kstars.Ekos.Mount",
-                                        QDBusConnection::sessionBus(), this);
+                                          QDBusConnection::sessionBus(), this);
     alignInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Align", "org.kde.kstars.Ekos.Align",
-                                        QDBusConnection::sessionBus(), this);
+                                          QDBusConnection::sessionBus(), this);
     guideInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Guide", "org.kde.kstars.Ekos.Guide",
-                                        QDBusConnection::sessionBus(), this);
+                                          QDBusConnection::sessionBus(), this);
     domeInterface    = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Dome", "org.kde.kstars.Ekos.Dome",
-                                       QDBusConnection::sessionBus(), this);
+                                          QDBusConnection::sessionBus(), this);
     weatherInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Weather", "org.kde.kstars.Ekos.Weather",
                                           QDBusConnection::sessionBus(), this);
     capInterface     = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/DustCap", "org.kde.kstars.Ekos.DustCap",
-                                      QDBusConnection::sessionBus(), this);
+                                          QDBusConnection::sessionBus(), this);
 
     moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName("Moon"));
 
     sleepLabel->setPixmap(
-        QIcon::fromTheme("chronometer", QIcon(":/icons/breeze/default/chronometer.svg")).pixmap(QSize(32, 32)));
+                QIcon::fromTheme("chronometer", QIcon(":/icons/breeze/default/chronometer.svg")).pixmap(QSize(32, 32)));
     sleepLabel->hide();
 
     schedulerTimer.setInterval(UPDATE_PERIOD_MS);
@@ -145,16 +145,16 @@ Scheduler::Scheduler()
     selectStartupScriptB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
     selectStartupScriptB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectShutdownScriptB->setIcon(
-        QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+                QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
     selectShutdownScriptB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectFITSB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
     selectFITSB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     startupB->setIcon(
-        QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+                QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
     startupB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     shutdownB->setIcon(
-        QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+                QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
     shutdownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     connect(startupB, SIGNAL(clicked()), this, SLOT(runStartupProcedure()));
@@ -320,7 +320,7 @@ void Scheduler::selectFITS()
 void Scheduler::selectSequence()
 {
     sequenceURL =
-        QFileDialog::getOpenFileUrl(this, i18n("Select Sequence Queue"), dirPath, i18n("Ekos Sequence Queue (*.esq)"));
+            QFileDialog::getOpenFileUrl(this, i18n("Select Sequence Queue"), dirPath, i18n("Ekos Sequence Queue (*.esq)"));
     if (sequenceURL.isEmpty())
         return;
 
@@ -330,8 +330,8 @@ void Scheduler::selectSequence()
 
     // For object selection, all fields must be filled
     if ((raBox->isEmpty() == false && decBox->isEmpty() == false && nameEdit->text().isEmpty() == false)
-        // For FITS selection, only the name and fits URL should be filled.
-        || (nameEdit->text().isEmpty() == false && fitsURL.isEmpty() == false))
+            // For FITS selection, only the name and fits URL should be filled.
+            || (nameEdit->text().isEmpty() == false && fitsURL.isEmpty() == false))
     {
         addToQueueB->setEnabled(true);
         mosaicB->setEnabled(true);
@@ -548,7 +548,7 @@ void Scheduler::saveJob()
     completionCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QTableWidgetItem *estimatedTimeCell =
-        (jobUnderEdit >= 0) ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
+            (jobUnderEdit >= 0) ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
     if (job->getEstimatedTime() > 0)
     {
         QTime estimatedTime = QTime::fromMSecsSinceStartOfDay(job->getEstimatedTime() * 3600);
@@ -664,21 +664,21 @@ void Scheduler::loadJob(QModelIndex i)
 
     switch (job->getFileStartupCondition())
     {
-        case SchedulerJob::START_ASAP:
-            asapConditionR->setChecked(true);
-            culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
-            break;
+    case SchedulerJob::START_ASAP:
+        asapConditionR->setChecked(true);
+        culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
+        break;
 
-        case SchedulerJob::START_CULMINATION:
-            culminationConditionR->setChecked(true);
-            culminationOffset->setValue(job->getCulminationOffset());
-            break;
+    case SchedulerJob::START_CULMINATION:
+        culminationConditionR->setChecked(true);
+        culminationOffset->setValue(job->getCulminationOffset());
+        break;
 
-        case SchedulerJob::START_AT:
-            startupTimeConditionR->setChecked(true);
-            startupTimeEdit->setDateTime(job->getStartupTime());
-            culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
-            break;
+    case SchedulerJob::START_AT:
+        startupTimeConditionR->setChecked(true);
+        startupTimeEdit->setDateTime(job->getStartupTime());
+        culminationOffset->setValue(DEFAULT_CULMINATION_TIME);
+        break;
     }
 
     if (job->getMinAltitude() >= 0)
@@ -711,23 +711,23 @@ void Scheduler::loadJob(QModelIndex i)
 
     switch (job->getCompletionCondition())
     {
-        case SchedulerJob::FINISH_SEQUENCE:
-            sequenceCompletionR->setChecked(true);
-            break;
+    case SchedulerJob::FINISH_SEQUENCE:
+        sequenceCompletionR->setChecked(true);
+        break;
 
-        case SchedulerJob::FINISH_REPEAT:
-            repeatCompletionR->setChecked(true);
-            break;
+    case SchedulerJob::FINISH_REPEAT:
+        repeatCompletionR->setChecked(true);
+        break;
 
-        case SchedulerJob::FINISH_LOOP:
-            loopCompletionR->setChecked(true);
-            repeatsSpin->setValue(job->getRepeatsRequired());
-            break;
+    case SchedulerJob::FINISH_LOOP:
+        loopCompletionR->setChecked(true);
+        repeatsSpin->setValue(job->getRepeatsRequired());
+        break;
 
-        case SchedulerJob::FINISH_AT:
-            timeCompletionR->setChecked(true);
-            completionTimeEdit->setDateTime(job->getCompletionTime());
-            break;
+    case SchedulerJob::FINISH_AT:
+        timeCompletionR->setChecked(true);
+        completionTimeEdit->setDateTime(job->getCompletionTime());
+        break;
     }
 
     appendLogText(i18n("Editing job #%1...", i.row() + 1));
@@ -941,7 +941,7 @@ void Scheduler::start()
         appendLogText(i18n("Scheduler resumed."));
 
         startB->setIcon(
-            QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+                    QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
         startB->setToolTip(i18n("Stop Scheduler"));
         return;
     }
@@ -1056,149 +1056,149 @@ void Scheduler::evaluateJobs()
         // #1 Check startup conditions
         switch (job->getStartupCondition())
         {
-            // #1.1 ASAP?
-            case SchedulerJob::START_ASAP:
-                // If not light frames are required, run it now
-                if (job->getLightFramesRequired())
-                    score = calculateJobScore(job, now);
-                else
-                    score = 1000;
+        // #1.1 ASAP?
+        case SchedulerJob::START_ASAP:
+            // If not light frames are required, run it now
+            if (job->getLightFramesRequired())
+                score = calculateJobScore(job, now);
+            else
+                score = 1000;
 
-                job->setScore(score);
+            job->setScore(score);
 
-                // If we can't start now, let's schedule it
-                if (score < 0)
+            // If we can't start now, let's schedule it
+            if (score < 0)
+            {
+                // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
+                if (calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : 0,
+                                          job->getMinMoonSeparation()))
                 {
-                    // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
-                    if (calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : 0,
-                                              job->getMinMoonSeparation()))
-                    {
-                        //appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
-                        job->setState(SchedulerJob::JOB_SCHEDULED);
-                        // Since it's scheduled, we need to skip it now and re-check it later since its startup condition changed to START_AT
-                        job->setScore(BAD_SCORE);
-                        continue;
-                    }
-                    else
-                    {
-                        job->setState(SchedulerJob::JOB_INVALID);
-                        appendLogText(i18n("Ekos failed to schedule %1.", job->getName()));
-                    }
-                }
-                else if (isWeatherOK(job) == false)
-                    job->setScore(BAD_SCORE);
-                else
-                    appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
-                break;
-
-            // #1.2 Culmination?
-            case SchedulerJob::START_CULMINATION:
-                if (calculateCulmination(job))
-                {
-                    appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(),
-                                       job->getStartupTime().toString()));
+                    //appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(), job->getStartupTime().toString()));
                     job->setState(SchedulerJob::JOB_SCHEDULED);
                     // Since it's scheduled, we need to skip it now and re-check it later since its startup condition changed to START_AT
                     job->setScore(BAD_SCORE);
                     continue;
                 }
                 else
+                {
                     job->setState(SchedulerJob::JOB_INVALID);
-                break;
+                    appendLogText(i18n("Ekos failed to schedule %1.", job->getName()));
+                }
+            }
+            else if (isWeatherOK(job) == false)
+                job->setScore(BAD_SCORE);
+            else
+                appendLogText(i18n("%1 observation job is due to run as soon as possible.", job->getName()));
+            break;
+
+            // #1.2 Culmination?
+        case SchedulerJob::START_CULMINATION:
+            if (calculateCulmination(job))
+            {
+                appendLogText(i18n("%1 observation job is scheduled at %2", job->getName(),
+                                   job->getStartupTime().toString()));
+                job->setState(SchedulerJob::JOB_SCHEDULED);
+                // Since it's scheduled, we need to skip it now and re-check it later since its startup condition changed to START_AT
+                job->setScore(BAD_SCORE);
+                continue;
+            }
+            else
+                job->setState(SchedulerJob::JOB_INVALID);
+            break;
 
             // #1.3 Start at?
-            case SchedulerJob::START_AT:
+        case SchedulerJob::START_AT:
+        {
+            if (job->getCompletionCondition() == SchedulerJob::FINISH_AT)
             {
-                if (job->getCompletionCondition() == SchedulerJob::FINISH_AT)
+                if (job->getStartupTime().secsTo(job->getCompletionTime()) <= 0)
                 {
-                    if (job->getStartupTime().secsTo(job->getCompletionTime()) <= 0)
-                    {
-                        appendLogText(i18n("%1 completion time (%2) is earlier than start up time (%3)", job->getName(),
-                                           job->getCompletionTime().toString(), job->getStartupTime().toString()));
-                        job->setState(SchedulerJob::JOB_INVALID);
-                        continue;
-                    }
+                    appendLogText(i18n("%1 completion time (%2) is earlier than start up time (%3)", job->getName(),
+                                       job->getCompletionTime().toString(), job->getStartupTime().toString()));
+                    job->setState(SchedulerJob::JOB_INVALID);
+                    continue;
+                }
+            }
+
+            QDateTime startupTime = job->getStartupTime();
+            int timeUntil         = KStarsData::Instance()->lt().secsTo(startupTime);
+            // If starting time already passed by 5 minutes (default), we mark the job as invalid
+            if (timeUntil < (-1 * Options::leadTime() * 60))
+            {
+                dms passedUp(timeUntil / 3600.0);
+                if (job->getState() == SchedulerJob::JOB_EVALUATION)
+                {
+                    appendLogText(i18n("%1 startup time already passed by %2. Job is marked as invalid.",
+                                       job->getName(), passedUp.toHMSString()));
+                    job->setState(SchedulerJob::JOB_INVALID);
+                }
+                else
+                {
+                    appendLogText(i18n("%1 startup time already passed by %2. Aborting job...", job->getName(),
+                                       passedUp.toHMSString()));
+                    job->setState(SchedulerJob::JOB_ABORTED);
                 }
 
-                QDateTime startupTime = job->getStartupTime();
-                int timeUntil         = KStarsData::Instance()->lt().secsTo(startupTime);
-                // If starting time already passed by 5 minutes (default), we mark the job as invalid
-                if (timeUntil < (-1 * Options::leadTime() * 60))
+                continue;
+            }
+            // Start scoring once we reach startup time
+            else if (timeUntil <= 0)
+            {
+                /*score += getAltitudeScore(job, now);
+                    score += getMoonSeparationScore(job, now);
+                    score += getDarkSkyScore(now);*/
+                score = calculateJobScore(job, now);
+
+                if (score < 0)
                 {
-                    dms passedUp(timeUntil / 3600.0);
                     if (job->getState() == SchedulerJob::JOB_EVALUATION)
                     {
-                        appendLogText(i18n("%1 startup time already passed by %2. Job is marked as invalid.",
-                                           job->getName(), passedUp.toHMSString()));
+                        appendLogText(
+                                    i18n("%1 observation job evaluation failed with a score of %2. Aborting job...",
+                                         job->getName(), score));
                         job->setState(SchedulerJob::JOB_INVALID);
                     }
                     else
                     {
-                        appendLogText(i18n("%1 startup time already passed by %2. Aborting job...", job->getName(),
-                                           passedUp.toHMSString()));
+                        appendLogText(i18n(
+                                          "%1 observation job updated score is %2 %3 seconds after startup time. Aborting job...",
+                                          job->getName(), abs(timeUntil), score));
                         job->setState(SchedulerJob::JOB_ABORTED);
                     }
 
                     continue;
                 }
-                // Start scoring once we reach startup time
-                else if (timeUntil <= 0)
-                {
-                    /*score += getAltitudeScore(job, now);
-                    score += getMoonSeparationScore(job, now);
-                    score += getDarkSkyScore(now);*/
-                    score = calculateJobScore(job, now);
-
-                    if (score < 0)
-                    {
-                        if (job->getState() == SchedulerJob::JOB_EVALUATION)
-                        {
-                            appendLogText(
-                                i18n("%1 observation job evaluation failed with a score of %2. Aborting job...",
-                                     job->getName(), score));
-                            job->setState(SchedulerJob::JOB_INVALID);
-                        }
-                        else
-                        {
-                            appendLogText(i18n(
-                                "%1 observation job updated score is %2 %3 seconds after startup time. Aborting job...",
-                                job->getName(), abs(timeUntil), score));
-                            job->setState(SchedulerJob::JOB_ABORTED);
-                        }
-
-                        continue;
-                    }
-                    // If job is already scheduled, we check the weather, and if it is not OK, we set bad score until weather improves.
-                    else if (isWeatherOK(job) == false)
-                        score += BAD_SCORE;
-                }
-                // If it is in the future and originally was designated as ASAP job
-                // Job must be less than 12 hours away to be considered for re-evaluation
-                else if (timeUntil > (Options::leadTime() * 60) && (timeUntil < 12 * 3600) &&
-                         job->getFileStartupCondition() == SchedulerJob::START_ASAP)
-                {
-                    QDateTime nextJobTime = now.addSecs(Options::leadTime() * 60);
-                    if (job->getEnforceTwilight() == false || (now > duskDateTime && now < preDawnDateTime))
-                        job->setStartupTime(nextJobTime);
+                // If job is already scheduled, we check the weather, and if it is not OK, we set bad score until weather improves.
+                else if (isWeatherOK(job) == false)
                     score += BAD_SCORE;
-                }
-                // If time is far in the future, we make the score negative
-                else
-                {
-                    if (job->getState() == SchedulerJob::JOB_EVALUATION &&
-                        calculateJobScore(job, job->getStartupTime()) < 0)
-                    {
-                        appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting job...",
-                                           job->getName(), score));
-                        job->setState(SchedulerJob::JOB_INVALID);
-                        continue;
-                    }
-
-                    score += BAD_SCORE;
-                }
-
-                job->setScore(score);
             }
+            // If it is in the future and originally was designated as ASAP job
+            // Job must be less than 12 hours away to be considered for re-evaluation
+            else if (timeUntil > (Options::leadTime() * 60) && (timeUntil < 12 * 3600) &&
+                     job->getFileStartupCondition() == SchedulerJob::START_ASAP)
+            {
+                QDateTime nextJobTime = now.addSecs(Options::leadTime() * 60);
+                if (job->getEnforceTwilight() == false || (now > duskDateTime && now < preDawnDateTime))
+                    job->setStartupTime(nextJobTime);
+                score += BAD_SCORE;
+            }
+            // If time is far in the future, we make the score negative
+            else
+            {
+                if (job->getState() == SchedulerJob::JOB_EVALUATION &&
+                        calculateJobScore(job, job->getStartupTime()) < 0)
+                {
+                    appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting job...",
+                                       job->getName(), score));
+                    job->setState(SchedulerJob::JOB_INVALID);
+                    continue;
+                }
+
+                score += BAD_SCORE;
+            }
+
+            job->setScore(score);
+        }
             break;
         }
 
@@ -1216,26 +1216,26 @@ void Scheduler::evaluateJobs()
     {
         switch (job->getState())
         {
-            case SchedulerJob::JOB_INVALID:
-                invalidJobs++;
-                break;
+        case SchedulerJob::JOB_INVALID:
+            invalidJobs++;
+            break;
 
-            case SchedulerJob::JOB_ERROR:
-            case SchedulerJob::JOB_ABORTED:
-                abortedJobs++;
-                break;
+        case SchedulerJob::JOB_ERROR:
+        case SchedulerJob::JOB_ABORTED:
+            abortedJobs++;
+            break;
 
-            case SchedulerJob::JOB_COMPLETE:
-                completedJobs++;
-                break;
+        case SchedulerJob::JOB_COMPLETE:
+            completedJobs++;
+            break;
 
-            case SchedulerJob::JOB_SCHEDULED:
-            case SchedulerJob::JOB_BUSY:
-                upcomingJobs++;
-                break;
+        case SchedulerJob::JOB_SCHEDULED:
+        case SchedulerJob::JOB_BUSY:
+            upcomingJobs++;
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
     }
 
@@ -1292,7 +1292,7 @@ void Scheduler::evaluateJobs()
         // If this job is not scheduled, continue
         // If this job startup conditon is not to start at a specific time, continue
         if (job == firstJob || job->getState() != SchedulerJob::JOB_SCHEDULED ||
-            job->getStartupCondition() != SchedulerJob::START_AT)
+                job->getStartupCondition() != SchedulerJob::START_AT)
             continue;
 
         double timeBetweenJobs = (double)std::abs(firstStartTime.secsTo(job->getStartupTime()));
@@ -1385,7 +1385,7 @@ void Scheduler::evaluateJobs()
         }
 
         appendLogText(
-            i18n("Found candidate job %1 (Priority #%2).", bestCandidate->getName(), bestCandidate->getPriority()));
+                    i18n("Found candidate job %1 (Priority #%2).", bestCandidate->getName(), bestCandidate->getPriority()));
 
         currentJob = bestCandidate;
     }
@@ -1416,7 +1416,7 @@ void Scheduler::evaluateJobs()
             // If start up procedure is complete and the user selected pre-emptive shutdown, let us check if the next observation time exceed
             // the pre-emptive shutdown time in hours (default 2). If it exceeds that, we perform complete shutdown until next job is ready
             if (startupState == STARTUP_COMPLETE && Options::preemptiveShutdown() &&
-                nextObservationTime > (Options::preemptiveShutdownTime() * 3600))
+                    nextObservationTime > (Options::preemptiveShutdownTime() * 3600))
             {
                 appendLogText(i18n("%1 observation job is scheduled for execution at %2. Observatory is scheduled for "
                                    "shutdown until next job is ready.",
@@ -1437,8 +1437,8 @@ void Scheduler::evaluateJobs()
                 // If start up procedure is already complete, and we didn't issue any parking commands before and parking is checked and enabled
                 // Then we park the mount until next job is ready. But only if the job uses TRACK as its first step, otherwise we cannot get into position again.
                 if (startupState == STARTUP_COMPLETE && parkWaitState == PARKWAIT_IDLE &&
-                    (nextObservationJob->getStepPipeline() & SchedulerJob::USE_TRACK) && parkMountCheck->isEnabled() &&
-                    parkMountCheck->isChecked())
+                        (nextObservationJob->getStepPipeline() & SchedulerJob::USE_TRACK) && parkMountCheck->isEnabled() &&
+                        parkMountCheck->isChecked())
                 {
                     appendLogText(i18n("%1 observation job is scheduled for execution at %2. Parking the mount until "
                                        "the job is ready.",
@@ -1627,26 +1627,26 @@ void Scheduler::checkWeather()
 
         switch (newStatus)
         {
-            case IPS_OK:
-                statusString = i18n("Weather conditions are OK.");
-                break;
+        case IPS_OK:
+            statusString = i18n("Weather conditions are OK.");
+            break;
 
-            case IPS_BUSY:
-                statusString = i18n("Warning! Weather conditions are in the WARNING zone.");
-                break;
+        case IPS_BUSY:
+            statusString = i18n("Warning! Weather conditions are in the WARNING zone.");
+            break;
 
-            case IPS_ALERT:
-                statusString = i18n("Caution! Weather conditions are in the DANGER zone!");
-                break;
+        case IPS_ALERT:
+            statusString = i18n("Caution! Weather conditions are in the DANGER zone!");
+            break;
 
-            default:
-                if (noWeatherCounter++ >= MAX_FAILURE_ATTEMPTS)
-                {
-                    noWeatherCounter = 0;
-                    appendLogText(i18n("Warning: Ekos did not receive any weather updates for the last %1 minutes.",
-                                       weatherTimer.interval() / (60000.0)));
-                }
-                break;
+        default:
+            if (noWeatherCounter++ >= MAX_FAILURE_ATTEMPTS)
+            {
+                noWeatherCounter = 0;
+                appendLogText(i18n("Warning: Ekos did not receive any weather updates for the last %1 minutes.",
+                                   weatherTimer.interval() / (60000.0)));
+            }
+            break;
         }
 
         if (newStatus != weatherStatus)
@@ -1657,26 +1657,26 @@ void Scheduler::checkWeather()
 
             if (weatherStatus == IPS_OK)
                 weatherLabel->setPixmap(
-                    QIcon::fromTheme("security-high", QIcon(":/icons/breeze/default/security-high.svg"))
-                        .pixmap(QSize(32, 32)));
+                            QIcon::fromTheme("security-high", QIcon(":/icons/breeze/default/security-high.svg"))
+                            .pixmap(QSize(32, 32)));
             else if (weatherStatus == IPS_BUSY)
             {
                 weatherLabel->setPixmap(
-                    QIcon::fromTheme("security-medium", QIcon(":/icons/breeze/default/security-medium.svg"))
-                        .pixmap(QSize(32, 32)));
+                            QIcon::fromTheme("security-medium", QIcon(":/icons/breeze/default/security-medium.svg"))
+                            .pixmap(QSize(32, 32)));
                 KNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"));
             }
             else if (weatherStatus == IPS_ALERT)
             {
                 weatherLabel->setPixmap(
-                    QIcon::fromTheme("security-low", QIcon(":/icons/breeze/default/security-low.svg"))
-                        .pixmap(QSize(32, 32)));
+                            QIcon::fromTheme("security-low", QIcon(":/icons/breeze/default/security-low.svg"))
+                            .pixmap(QSize(32, 32)));
                 KNotification::event(QLatin1String("WeatherAlert"),
                                      i18n("Weather conditions are critical. Observatory shutdown is imminent"));
             }
             else
                 weatherLabel->setPixmap(QIcon::fromTheme("chronometer", QIcon(":/icons/breeze/default/chronometer.svg"))
-                                            .pixmap(QSize(32, 32)));
+                                        .pixmap(QSize(32, 32)));
 
             weatherLabel->show();
             weatherLabel->setToolTip(statusString);
@@ -1936,57 +1936,70 @@ bool Scheduler::checkEkosState()
 
     switch (ekosState)
     {
-        case EKOS_IDLE:
+    case EKOS_IDLE:
+    {
+        // Even if state is IDLE, check if Ekos is already started. If not, start it.
+        QDBusReply<int> isEkosStarted;
+        isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
+        if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
         {
-            // Even if state is IDLE, check if Ekos is already started. If not, start it.
-            QDBusReply<int> isEkosStarted;
-            isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
-            if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
-            {
-                ekosState = EKOS_READY;
-                return true;
-            }
-            else
-            {
-                ekosInterface->call(QDBus::AutoDetect, "start");
-                ekosState = EKOS_STARTING;
-
-                currentOperationTime.start();
-
-                return false;
-            }
-        }
-        break;
-
-        case EKOS_STARTING:
-        {
-            QDBusReply<int> isEkosStarted;
-            isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
-            if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
-            {
-                appendLogText(i18n("Ekos started."));
-                ekosState = EKOS_READY;
-                return true;
-            }
-            else if (isEkosStarted.value() == EkosManager::EKOS_STATUS_ERROR)
-            {
-                appendLogText(i18n("Ekos failed to start."));
-                stop();
-                return false;
-            }
-            // If a minute passed, give up
-            else if (currentOperationTime.elapsed() > (60 * 1000))
-            {
-                appendLogText(i18n("Ekos timed out."));
-                stop();
-                return false;
-            }
-        }
-        break;
-
-        case EKOS_READY:
+            ekosState = EKOS_READY;
             return true;
-            break;
+        }
+        else
+        {
+            ekosInterface->call(QDBus::AutoDetect, "start");
+            ekosState = EKOS_STARTING;
+
+            currentOperationTime.start();
+
+            return false;
+        }
+    }
+        break;
+
+    case EKOS_STARTING:
+    {
+        QDBusReply<int> isEkosStarted;
+        isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
+        if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
+        {
+            appendLogText(i18n("Ekos started."));
+            ekosState = EKOS_READY;
+            return true;
+        }
+        else if (isEkosStarted.value() == EkosManager::EKOS_STATUS_ERROR)
+        {
+            appendLogText(i18n("Ekos failed to start."));
+            stop();
+            return false;
+        }
+        // If a minute passed, give up
+        else if (currentOperationTime.elapsed() > (60 * 1000))
+        {
+            appendLogText(i18n("Ekos timed out."));
+            stop();
+            return false;
+        }
+    }
+        break;
+
+    case EKOS_STOPPING:
+    {
+        QDBusReply<int> isEkosStarted;
+        isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
+        if (isEkosStarted.value() == EkosManager::EKOS_STATUS_IDLE)
+        {
+            appendLogText(i18n("Ekos stopped."));
+            ekosState = EKOS_IDLE;
+            return true;
+        }
+    }
+    break;
+
+    case EKOS_READY:
+        return true;
+        break;
     }
 
     return false;
@@ -2001,125 +2014,138 @@ bool Scheduler::checkINDIState()
 
     switch (indiState)
     {
-        case INDI_IDLE:
+    case INDI_IDLE:
+    {
+        // Even in idle state, we make sure that INDI is not already connected.
+        QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
+        if (isINDIConnected.value() == EkosManager::EKOS_STATUS_SUCCESS)
         {
-            // Even in idle state, we make sure that INDI is not already connected.
-            QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
-            if (isINDIConnected.value() == EkosManager::EKOS_STATUS_SUCCESS)
-            {
-                indiState = INDI_PROPERTY_CHECK;
+            indiState = INDI_PROPERTY_CHECK;
 
-                qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking INDI Properties...";
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking INDI Properties...";
 
-                return false;
-            }
-            else
+            return false;
+        }
+        else
+        {
+            ekosInterface->call(QDBus::AutoDetect, "connectDevices");
+            indiState = INDI_CONNECTING;
+
+            currentOperationTime.start();
+
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Connecting INDI Devices";
+
+            return false;
+        }
+    }
+        break;
+
+    case INDI_CONNECTING:
+    {
+        QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
+        if (isINDIConnected.value() == EkosManager::EKOS_STATUS_SUCCESS)
+        {
+            appendLogText(i18n("INDI devices connected."));
+            indiState = INDI_PROPERTY_CHECK;
+            return false;
+        }
+        else if (isINDIConnected.value() == EkosManager::EKOS_STATUS_ERROR)
+        {
+            if (indiConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
             {
+                appendLogText(i18n("One or more INDI devices failed to connect. Retrying..."));
                 ekosInterface->call(QDBus::AutoDetect, "connectDevices");
-                indiState = INDI_CONNECTING;
-
-                currentOperationTime.start();
-
-                qCDebug(KSTARS_EKOS_SCHEDULER) << "Connecting INDI Devices";
-
                 return false;
             }
+
+            appendLogText(i18n("INDI devices failed to connect. Check INDI control panel for details."));
+            stop();
+            return false;
         }
+        // If 30 seconds passed, we retry
+        else if (currentOperationTime.elapsed() > (30 * 1000))
+        {
+            if (indiConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                appendLogText(i18n("One or more INDI devices failed to connect. Retrying..."));
+                ekosInterface->call(QDBus::AutoDetect, "connectDevices");
+                return false;
+            }
+
+            appendLogText(i18n("INDI devices connection timed out. Check INDI control panel for details."));
+            stop();
+            return false;
+        }
+        else
+            return false;
+    }
         break;
 
-        case INDI_CONNECTING:
+
+    case INDI_DISCONNECTING:
+    {
+        QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
+        if (isINDIConnected.value() == EkosManager::EKOS_STATUS_IDLE)
         {
-            QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
-            if (isINDIConnected.value() == EkosManager::EKOS_STATUS_SUCCESS)
-            {
-                appendLogText(i18n("INDI devices connected."));
-                indiState = INDI_PROPERTY_CHECK;
-                return false;
-            }
-            else if (isINDIConnected.value() == EkosManager::EKOS_STATUS_ERROR)
-            {
-                if (indiConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("One or more INDI devices failed to connect. Retrying..."));
-                    ekosInterface->call(QDBus::AutoDetect, "connectDevices");
-                    return false;
-                }
-
-                appendLogText(i18n("INDI devices failed to connect. Check INDI control panel for details."));
-                stop();
-                return false;
-            }
-            // If 30 seconds passed, we retry
-            else if (currentOperationTime.elapsed() > (30 * 1000))
-            {
-                if (indiConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("One or more INDI devices failed to connect. Retrying..."));
-                    ekosInterface->call(QDBus::AutoDetect, "connectDevices");
-                    return false;
-                }
-
-                appendLogText(i18n("INDI devices connection timed out. Check INDI control panel for details."));
-                stop();
-                return false;
-            }
-            else
-                return false;
-        }
-        break;
-
-        case INDI_PROPERTY_CHECK:
-        {
-            // Check if mount and dome support parking or not.
-            QDBusReply<bool> boolReply = mountInterface->call(QDBus::AutoDetect, "canPark");
-            unparkMountCheck->setEnabled(boolReply.value());
-            parkMountCheck->setEnabled(boolReply.value());
-
-            //qDebug() << "Mount can park " << boolReply.value();
-
-            boolReply = domeInterface->call(QDBus::AutoDetect, "canPark");
-            unparkDomeCheck->setEnabled(boolReply.value());
-            parkDomeCheck->setEnabled(boolReply.value());
-
-            boolReply = captureInterface->call(QDBus::AutoDetect, "hasCoolerControl");
-            warmCCDCheck->setEnabled(boolReply.value());
-
-            QDBusReply<int> updateReply = weatherInterface->call(QDBus::AutoDetect, "getUpdatePeriod");
-            if (updateReply.error().type() == QDBusError::NoError)
-            {
-                weatherCheck->setEnabled(true);
-                if (updateReply.value() > 0)
-                {
-                    weatherTimer.setInterval(updateReply.value() * 1000);
-                    connect(&weatherTimer, SIGNAL(timeout()), this, SLOT(checkWeather()));
-                    weatherTimer.start();
-
-                    // Check weather initially
-                    checkWeather();
-                }
-            }
-            else
-                weatherCheck->setEnabled(false);
-
-            QDBusReply<bool> capReply = capInterface->call(QDBus::AutoDetect, "canPark");
-            if (capReply.error().type() == QDBusError::NoError)
-            {
-                capCheck->setEnabled(capReply.value());
-                uncapCheck->setEnabled(capReply.value());
-            }
-            else
-            {
-                capCheck->setEnabled(false);
-                uncapCheck->setEnabled(false);
-            }
-
-            indiState = INDI_READY;
+            appendLogText(i18n("INDI devices disconnected."));
+            indiState = INDI_IDLE;
             return true;
         }
+    }
         break;
 
-        case INDI_READY:
-            return true;
+    case INDI_PROPERTY_CHECK:
+    {
+        // Check if mount and dome support parking or not.
+        QDBusReply<bool> boolReply = mountInterface->call(QDBus::AutoDetect, "canPark");
+        unparkMountCheck->setEnabled(boolReply.value());
+        parkMountCheck->setEnabled(boolReply.value());
+
+        //qDebug() << "Mount can park " << boolReply.value();
+
+        boolReply = domeInterface->call(QDBus::AutoDetect, "canPark");
+        unparkDomeCheck->setEnabled(boolReply.value());
+        parkDomeCheck->setEnabled(boolReply.value());
+
+        boolReply = captureInterface->call(QDBus::AutoDetect, "hasCoolerControl");
+        warmCCDCheck->setEnabled(boolReply.value());
+
+        QDBusReply<int> updateReply = weatherInterface->call(QDBus::AutoDetect, "getUpdatePeriod");
+        if (updateReply.error().type() == QDBusError::NoError)
+        {
+            weatherCheck->setEnabled(true);
+            if (updateReply.value() > 0)
+            {
+                weatherTimer.setInterval(updateReply.value() * 1000);
+                connect(&weatherTimer, SIGNAL(timeout()), this, SLOT(checkWeather()));
+                weatherTimer.start();
+
+                // Check weather initially
+                checkWeather();
+            }
+        }
+        else
+            weatherCheck->setEnabled(false);
+
+        QDBusReply<bool> capReply = capInterface->call(QDBus::AutoDetect, "canPark");
+        if (capReply.error().type() == QDBusError::NoError)
+        {
+            capCheck->setEnabled(capReply.value());
+            uncapCheck->setEnabled(capReply.value());
+        }
+        else
+        {
+            capCheck->setEnabled(false);
+            uncapCheck->setEnabled(false);
+        }
+
+        indiState = INDI_READY;
+        return true;
+    }
+        break;
+
+    case INDI_READY:
+        return true;
     }
 
     return false;
@@ -2134,103 +2160,103 @@ bool Scheduler::checkStartupState()
 
     switch (startupState)
     {
-        case STARTUP_IDLE:
+    case STARTUP_IDLE:
+    {
+        KNotification::event(QLatin1String("ObservatoryStartup"), i18n("Observatory is in the startup process"));
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Startup Idle. Starting startup process...";
+
+        // If Ekos is already started, we skip the script and move on to dome unpark step
+        // unless we do not have light frames, then we skip all
+        QDBusReply<int> isEkosStarted;
+        isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
+        if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
         {
-            KNotification::event(QLatin1String("ObservatoryStartup"), i18n("Observatory is in the startup process"));
-
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Startup Idle. Starting startup process...";
-
-            // If Ekos is already started, we skip the script and move on to dome unpark step
-            // unless we do not have light frames, then we skip all
-            QDBusReply<int> isEkosStarted;
-            isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
-            if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
-            {
-                if (startupScriptURL.isEmpty() == false)
-                    appendLogText(i18n("Ekos is already started, skipping startup script..."));
-
-                if (currentJob->getLightFramesRequired())
-                    startupState = STARTUP_UNPARK_DOME;
-                else
-                    startupState = STARTUP_COMPLETE;
-                return true;
-            }
-
-            if (profileCombo->currentText() != i18n("Default"))
-            {
-                QList<QVariant> profile;
-                profile.append(profileCombo->currentText());
-                ekosInterface->callWithArgumentList(QDBus::AutoDetect, "setProfile", profile);
-            }
-
             if (startupScriptURL.isEmpty() == false)
-            {
-                startupState = STARTUP_SCRIPT;
-                executeScript(startupScriptURL.toString(QUrl::PreferLocalFile));
-                return false;
-            }
+                appendLogText(i18n("Ekos is already started, skipping startup script..."));
 
-            startupState = STARTUP_UNPARK_DOME;
+            if (currentJob->getLightFramesRequired())
+                startupState = STARTUP_UNPARK_DOME;
+            else
+                startupState = STARTUP_COMPLETE;
+            return true;
+        }
+
+        if (profileCombo->currentText() != i18n("Default"))
+        {
+            QList<QVariant> profile;
+            profile.append(profileCombo->currentText());
+            ekosInterface->callWithArgumentList(QDBus::AutoDetect, "setProfile", profile);
+        }
+
+        if (startupScriptURL.isEmpty() == false)
+        {
+            startupState = STARTUP_SCRIPT;
+            executeScript(startupScriptURL.toString(QUrl::PreferLocalFile));
             return false;
         }
+
+        startupState = STARTUP_UNPARK_DOME;
+        return false;
+    }
         break;
 
-        case STARTUP_SCRIPT:
-            return false;
-            break;
+    case STARTUP_SCRIPT:
+        return false;
+        break;
 
-        case STARTUP_UNPARK_DOME:
-            // If there is no job in case of manual startup procedure,
-            // or if the job requires light frames, let's proceed with
-            // unparking the dome, otherwise startup process is complete.
-            if (currentJob == nullptr || currentJob->getLightFramesRequired())
-            {
-                if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
-                    unParkDome();
-                else
-                    startupState = STARTUP_UNPARK_MOUNT;
-            }
+    case STARTUP_UNPARK_DOME:
+        // If there is no job in case of manual startup procedure,
+        // or if the job requires light frames, let's proceed with
+        // unparking the dome, otherwise startup process is complete.
+        if (currentJob == nullptr || currentJob->getLightFramesRequired())
+        {
+            if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
+                unParkDome();
             else
-            {
-                startupState = STARTUP_COMPLETE;
-                return true;
-            }
-
-            break;
-
-        case STARTUP_UNPARKING_DOME:
-            checkDomeParkingStatus();
-            break;
-
-        case STARTUP_UNPARK_MOUNT:
-            if (unparkMountCheck->isEnabled() && unparkMountCheck->isChecked())
-                unParkMount();
-            else
-                startupState = STARTUP_UNPARK_CAP;
-            break;
-
-        case STARTUP_UNPARKING_MOUNT:
-            checkMountParkingStatus();
-            break;
-
-        case STARTUP_UNPARK_CAP:
-            if (uncapCheck->isEnabled() && uncapCheck->isChecked())
-                unParkCap();
-            else
-                startupState = STARTUP_COMPLETE;
-            break;
-
-        case STARTUP_UNPARKING_CAP:
-            checkCapParkingStatus();
-            break;
-
-        case STARTUP_COMPLETE:
+                startupState = STARTUP_UNPARK_MOUNT;
+        }
+        else
+        {
+            startupState = STARTUP_COMPLETE;
             return true;
+        }
 
-        case STARTUP_ERROR:
-            stop();
-            return true;
-            break;
+        break;
+
+    case STARTUP_UNPARKING_DOME:
+        checkDomeParkingStatus();
+        break;
+
+    case STARTUP_UNPARK_MOUNT:
+        if (unparkMountCheck->isEnabled() && unparkMountCheck->isChecked())
+            unParkMount();
+        else
+            startupState = STARTUP_UNPARK_CAP;
+        break;
+
+    case STARTUP_UNPARKING_MOUNT:
+        checkMountParkingStatus();
+        break;
+
+    case STARTUP_UNPARK_CAP:
+        if (uncapCheck->isEnabled() && uncapCheck->isChecked())
+            unParkCap();
+        else
+            startupState = STARTUP_COMPLETE;
+        break;
+
+    case STARTUP_UNPARKING_CAP:
+        checkCapParkingStatus();
+        break;
+
+    case STARTUP_COMPLETE:
+        return true;
+
+    case STARTUP_ERROR:
+        stop();
+        return true;
+        break;
     }
 
     return false;
@@ -2245,124 +2271,124 @@ bool Scheduler::checkShutdownState()
 
     switch (shutdownState)
     {
-        case SHUTDOWN_IDLE:
-            KNotification::event(QLatin1String("ObservatoryShutdown"), i18n("Observatory is in the shutdown process"));
+    case SHUTDOWN_IDLE:
+        KNotification::event(QLatin1String("ObservatoryShutdown"), i18n("Observatory is in the shutdown process"));
 
-            qCInfo(KSTARS_EKOS_SCHEDULER) << "Starting shutdown process...";
+        qCInfo(KSTARS_EKOS_SCHEDULER) << "Starting shutdown process...";
 
-            weatherTimer.stop();
-            weatherTimer.disconnect();
-            weatherLabel->hide();
+        weatherTimer.stop();
+        weatherTimer.disconnect();
+        weatherLabel->hide();
 
-            jobTimer.stop();
+        jobTimer.stop();
 
-            currentJob = nullptr;
+        currentJob = nullptr;
 
-            if (state == SCHEDULER_RUNNIG)
-                schedulerTimer.start();
+        if (state == SCHEDULER_RUNNIG)
+            schedulerTimer.start();
 
-            if (preemptiveShutdown == false)
-            {
-                sleepTimer.stop();
-                sleepTimer.disconnect();
-            }
+        if (preemptiveShutdown == false)
+        {
+            sleepTimer.stop();
+            sleepTimer.disconnect();
+        }
 
-            if (warmCCDCheck->isEnabled() && warmCCDCheck->isChecked())
-            {
-                appendLogText(i18n("Warming up CCD..."));
+        if (warmCCDCheck->isEnabled() && warmCCDCheck->isChecked())
+        {
+            appendLogText(i18n("Warming up CCD..."));
 
-                // Turn it off
-                QVariant arg(false);
-                captureInterface->call(QDBus::AutoDetect, "setCoolerControl", arg);
-            }
+            // Turn it off
+            QVariant arg(false);
+            captureInterface->call(QDBus::AutoDetect, "setCoolerControl", arg);
+        }
 
-            if (capCheck->isEnabled() && capCheck->isChecked())
-            {
-                shutdownState = SHUTDOWN_PARK_CAP;
-                return false;
-            }
-
-            if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
-            {
-                shutdownState = SHUTDOWN_PARK_MOUNT;
-                return false;
-            }
-
-            if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
-            {
-                shutdownState = SHUTDOWN_PARK_DOME;
-                return false;
-            }
-            if (shutdownScriptURL.isEmpty() == false)
-            {
-                shutdownState = SHUTDOWN_SCRIPT;
-                return false;
-            }
-
-            shutdownState = SHUTDOWN_COMPLETE;
-            return true;
-            break;
-
-        case SHUTDOWN_PARK_CAP:
-            if (capCheck->isEnabled() && capCheck->isChecked())
-                parkCap();
-            else
-                shutdownState = SHUTDOWN_PARK_MOUNT;
-            break;
-
-        case SHUTDOWN_PARKING_CAP:
-            checkCapParkingStatus();
-            break;
-
-        case SHUTDOWN_PARK_MOUNT:
-            if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
-                parkMount();
-            else
-                shutdownState = SHUTDOWN_PARK_DOME;
-            break;
-
-        case SHUTDOWN_PARKING_MOUNT:
-            checkMountParkingStatus();
-            break;
-
-        case SHUTDOWN_PARK_DOME:
-            if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
-                parkDome();
-            else
-                shutdownState = SHUTDOWN_SCRIPT;
-            break;
-
-        case SHUTDOWN_PARKING_DOME:
-            checkDomeParkingStatus();
-            break;
-
-        case SHUTDOWN_SCRIPT:
-            if (shutdownScriptURL.isEmpty() == false)
-            {
-                // Need to stop Ekos now before executing script if it happens to stop INDI
-                if (ekosState != EKOS_IDLE && Options::shutdownScriptTerminatesINDI())
-                {
-                    stopEkos();
-                    return false;
-                }
-
-                shutdownState = SHUTDOWN_SCRIPT_RUNNING;
-                executeScript(shutdownScriptURL.toString(QUrl::PreferLocalFile));
-            }
-            else
-                shutdownState = SHUTDOWN_COMPLETE;
-            break;
-
-        case SHUTDOWN_SCRIPT_RUNNING:
+        if (capCheck->isEnabled() && capCheck->isChecked())
+        {
+            shutdownState = SHUTDOWN_PARK_CAP;
             return false;
+        }
 
-        case SHUTDOWN_COMPLETE:
-            return true;
+        if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
+        {
+            shutdownState = SHUTDOWN_PARK_MOUNT;
+            return false;
+        }
 
-        case SHUTDOWN_ERROR:
-            stop();
-            return true;
-            break;
+        if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
+        {
+            shutdownState = SHUTDOWN_PARK_DOME;
+            return false;
+        }
+        if (shutdownScriptURL.isEmpty() == false)
+        {
+            shutdownState = SHUTDOWN_SCRIPT;
+            return false;
+        }
+
+        shutdownState = SHUTDOWN_COMPLETE;
+        return true;
+        break;
+
+    case SHUTDOWN_PARK_CAP:
+        if (capCheck->isEnabled() && capCheck->isChecked())
+            parkCap();
+        else
+            shutdownState = SHUTDOWN_PARK_MOUNT;
+        break;
+
+    case SHUTDOWN_PARKING_CAP:
+        checkCapParkingStatus();
+        break;
+
+    case SHUTDOWN_PARK_MOUNT:
+        if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
+            parkMount();
+        else
+            shutdownState = SHUTDOWN_PARK_DOME;
+        break;
+
+    case SHUTDOWN_PARKING_MOUNT:
+        checkMountParkingStatus();
+        break;
+
+    case SHUTDOWN_PARK_DOME:
+        if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
+            parkDome();
+        else
+            shutdownState = SHUTDOWN_SCRIPT;
+        break;
+
+    case SHUTDOWN_PARKING_DOME:
+        checkDomeParkingStatus();
+        break;
+
+    case SHUTDOWN_SCRIPT:
+        if (shutdownScriptURL.isEmpty() == false)
+        {
+            // Need to stop Ekos now before executing script if it happens to stop INDI
+            if (ekosState != EKOS_IDLE && Options::shutdownScriptTerminatesINDI())
+            {
+                stopEkos();
+                return false;
+            }
+
+            shutdownState = SHUTDOWN_SCRIPT_RUNNING;
+            executeScript(shutdownScriptURL.toString(QUrl::PreferLocalFile));
+        }
+        else
+            shutdownState = SHUTDOWN_COMPLETE;
+        break;
+
+    case SHUTDOWN_SCRIPT_RUNNING:
+        return false;
+
+    case SHUTDOWN_COMPLETE:
+        return true;
+
+    case SHUTDOWN_ERROR:
+        stop();
+        return true;
+        break;
     }
 
     return false;
@@ -2377,36 +2403,36 @@ bool Scheduler::checkParkWaitState()
 
     switch (parkWaitState)
     {
-        case PARKWAIT_IDLE:
-            return true;
+    case PARKWAIT_IDLE:
+        return true;
 
-        case PARKWAIT_PARK:
-            parkMount();
-            break;
+    case PARKWAIT_PARK:
+        parkMount();
+        break;
 
-        case PARKWAIT_PARKING:
-            checkMountParkingStatus();
-            break;
+    case PARKWAIT_PARKING:
+        checkMountParkingStatus();
+        break;
 
-        case PARKWAIT_PARKED:
-            return true;
+    case PARKWAIT_PARKED:
+        return true;
 
-        case PARKWAIT_UNPARK:
-            unParkMount();
-            break;
+    case PARKWAIT_UNPARK:
+        unParkMount();
+        break;
 
-        case PARKWAIT_UNPARKING:
-            checkMountParkingStatus();
-            break;
+    case PARKWAIT_UNPARKING:
+        checkMountParkingStatus();
+        break;
 
-        case PARKWAIT_UNPARKED:
-            return true;
+    case PARKWAIT_UNPARKED:
+        return true;
 
-        case PARKWAIT_ERROR:
-            appendLogText(i18n("park/unpark wait procedure failed, aborting..."));
-            stop();
-            return true;
-            break;
+    case PARKWAIT_ERROR:
+        appendLogText(i18n("park/unpark wait procedure failed, aborting..."));
+        stop();
+        return true;
+        break;
     }
 
     return false;
@@ -2465,14 +2491,32 @@ void Scheduler::checkStatus()
         // #2.1 If shutdown is already complete or in error, we need to stop
         if (shutdownState == SHUTDOWN_COMPLETE || shutdownState == SHUTDOWN_ERROR)
         {
+            // If INDI is not done disconnecting, try again later
+            if (indiState == INDI_DISCONNECTING && checkINDIState() == false)
+                return;
+
+            // Disconnect INDI if required first
+            if (indiState != INDI_IDLE && Options::stopEkosAfterShutdown())
+            {
+                disconnectINDI();
+                return;
+            }
+
+            // If Ekos is not done stopping, try again later
+            if (ekosState == EKOS_STOPPING && checkEkosState() == false)
+                return;
+
+            // Stop Ekos if required.
+            if (ekosState != EKOS_IDLE && Options::stopEkosAfterShutdown())
+            {
+                stopEkos();
+                return;
+            }
+
             if (shutdownState == SHUTDOWN_COMPLETE)
                 appendLogText(i18n("Shutdown complete."));
             else
                 appendLogText(i18n("Shutdown procedure failed, aborting..."));
-
-            // Stop Ekos if required.
-            if (ekosState != EKOS_IDLE && Options::stopEkosAfterShutdown())
-                stopEkos();
 
             // Stop Scheduler
             stop();
@@ -2534,7 +2578,7 @@ void Scheduler::checkJobStage()
 
     // #1 Check if we need to stop at some point
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT &&
-        currentJob->getState() == SchedulerJob::JOB_BUSY)
+            currentJob->getState() == SchedulerJob::JOB_BUSY)
     {
         // If the job reached it COMPLETION time, we stop it.
         if (KStarsData::Instance()->lt().secsTo(currentJob->getCompletionTime()) <= 0)
@@ -2603,8 +2647,8 @@ void Scheduler::checkJobStage()
         {
             // Minute is a DOUBLE value, do not use i18np
             appendLogText(i18n(
-                "Approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), aborting all jobs...",
-                preDawnDateTime.toString(), Options::preDawnTime()));
+                              "Approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), aborting all jobs...",
+                              preDawnDateTime.toString(), Options::preDawnTime()));
 
             currentJob->setState(SchedulerJob::JOB_ABORTED);
             stopCurrentJobAction();
@@ -2619,109 +2663,109 @@ void Scheduler::checkJobStage()
 
     switch (currentJob->getStage())
     {
-        case SchedulerJob::STAGE_IDLE:
-            getNextAction();
-            break;
-
-        case SchedulerJob::STAGE_SLEWING:
-        {
-            QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect, "getSlewStatus");
-            bool isDomeMoving          = false;
-
-            if (parkDomeCheck->isEnabled())
-            {
-                QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isMoving");
-                if (domeReply.error().type() == QDBusError::NoError && domeReply.value() == true)
-                    isDomeMoving = true;
-            }
-
-            if (slewStatus.error().type() == QDBusError::UnknownObject)
-            {
-                appendLogText(i18n("Connection to INDI is lost. Aborting..."));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
-                return;
-            }
-
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Slewing Stage... Slew Status is "
-                         << pstateStr(static_cast<IPState>(slewStatus.value()));
-
-            if (slewStatus.value() == IPS_OK && isDomeMoving == false)
-            {
-                appendLogText(i18n("%1 slew is complete.", currentJob->getName()));
-                currentJob->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
-                getNextAction();
-                return;
-            }
-            else if (slewStatus.value() == IPS_ALERT)
-            {
-                appendLogText(i18n("%1 slew failed!", currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                findNextJob();
-                return;
-            }
-        }
+    case SchedulerJob::STAGE_IDLE:
+        getNextAction();
         break;
 
-        case SchedulerJob::STAGE_FOCUSING:
-        case SchedulerJob::STAGE_POSTALIGN_FOCUSING:
+    case SchedulerJob::STAGE_SLEWING:
+    {
+        QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect, "getSlewStatus");
+        bool isDomeMoving          = false;
+
+        if (parkDomeCheck->isEnabled())
         {
-            QDBusReply<int> focusReply = focusInterface->call(QDBus::AutoDetect, "getStatus");
-
-            if (focusReply.error().type() == QDBusError::UnknownObject)
-            {
-                appendLogText(i18n("Connection to INDI is lost. Aborting..."));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
-                return;
-            }
-
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus stage...";
-
-            Ekos::FocusState focusStatus = static_cast<Ekos::FocusState>(focusReply.value());
-
-            // Is focus complete?
-            if (focusStatus == Ekos::FOCUS_COMPLETE)
-            {
-                appendLogText(i18n("%1 focusing is complete.", currentJob->getName()));
-
-                autofocusCompleted = true;
-
-                if (currentJob->getStage() == SchedulerJob::STAGE_FOCUSING)
-                {
-                    // Reset frame to original size.
-                    //focusInterface->call(QDBus::AutoDetect,"resetFrame");
-                    currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
-                }
-                else
-                    currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE);
-
-                getNextAction();
-                return;
-            }
-            else if (focusStatus == Ekos::FOCUS_FAILED || focusStatus == Ekos::FOCUS_ABORTED)
-            {
-                appendLogText(i18n("%1 focusing failed!", currentJob->getName()));
-
-                if (focusFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("Restarting %1 focusing procedure...", currentJob->getName()));
-                    // Reset frame to original size.
-                    focusInterface->call(QDBus::AutoDetect, "resetFrame");
-                    // Restart focusing
-                    startFocusing();
-                    return;
-                }
-
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                findNextJob();
-                return;
-            }
+            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isMoving");
+            if (domeReply.error().type() == QDBusError::NoError && domeReply.value() == true)
+                isDomeMoving = true;
         }
 
-// Is focus complete?
+        if (slewStatus.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
+        }
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Slewing Stage... Slew Status is "
+                                       << pstateStr(static_cast<IPState>(slewStatus.value()));
+
+        if (slewStatus.value() == IPS_OK && isDomeMoving == false)
+        {
+            appendLogText(i18n("%1 slew is complete.", currentJob->getName()));
+            currentJob->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
+            getNextAction();
+            return;
+        }
+        else if (slewStatus.value() == IPS_ALERT)
+        {
+            appendLogText(i18n("%1 slew failed!", currentJob->getName()));
+            currentJob->setState(SchedulerJob::JOB_ERROR);
+
+            findNextJob();
+            return;
+        }
+    }
+        break;
+
+    case SchedulerJob::STAGE_FOCUSING:
+    case SchedulerJob::STAGE_POSTALIGN_FOCUSING:
+    {
+        QDBusReply<int> focusReply = focusInterface->call(QDBus::AutoDetect, "getStatus");
+
+        if (focusReply.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
+        }
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus stage...";
+
+        Ekos::FocusState focusStatus = static_cast<Ekos::FocusState>(focusReply.value());
+
+        // Is focus complete?
+        if (focusStatus == Ekos::FOCUS_COMPLETE)
+        {
+            appendLogText(i18n("%1 focusing is complete.", currentJob->getName()));
+
+            autofocusCompleted = true;
+
+            if (currentJob->getStage() == SchedulerJob::STAGE_FOCUSING)
+            {
+                // Reset frame to original size.
+                //focusInterface->call(QDBus::AutoDetect,"resetFrame");
+                currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
+            }
+            else
+                currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE);
+
+            getNextAction();
+            return;
+        }
+        else if (focusStatus == Ekos::FOCUS_FAILED || focusStatus == Ekos::FOCUS_ABORTED)
+        {
+            appendLogText(i18n("%1 focusing failed!", currentJob->getName()));
+
+            if (focusFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                appendLogText(i18n("Restarting %1 focusing procedure...", currentJob->getName()));
+                // Reset frame to original size.
+                focusInterface->call(QDBus::AutoDetect, "resetFrame");
+                // Restart focusing
+                startFocusing();
+                return;
+            }
+
+            currentJob->setState(SchedulerJob::JOB_ERROR);
+
+            findNextJob();
+            return;
+        }
+    }
+
+        // Is focus complete?
 #if 0
         if(focusReply.value())
         {
@@ -2768,72 +2812,31 @@ void Scheduler::checkJobStage()
 #endif
         break;
 
-        case SchedulerJob::STAGE_ALIGNING:
-        {
-            QDBusReply<int> alignReply;
+    case SchedulerJob::STAGE_ALIGNING:
+    {
+        QDBusReply<int> alignReply;
 
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Alignment stage...";
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Alignment stage...";
 
 #if 0
-            if (currentJob->getFITSFile().isEmpty() == false && loadAndSlewProgress)
+        if (currentJob->getFITSFile().isEmpty() == false && loadAndSlewProgress)
+        {
+            QDBusReply<int> loadSlewReply = alignInterface->call(QDBus::AutoDetect,"getLoadAndSlewStatus");
+
+            if (Options::verboseLogging())
+                qDebug() << "Checking Load And Slew Status";
+
+            if (loadSlewReply.value() == IPS_OK)
             {
-                QDBusReply<int> loadSlewReply = alignInterface->call(QDBus::AutoDetect,"getLoadAndSlewStatus");
-
-                if (Options::verboseLogging())
-                    qDebug() << "Checking Load And Slew Status";
-
-                if (loadSlewReply.value() == IPS_OK)
-                {
-                    appendLogText(i18n("%1 is solved and aligned successfully.", currentJob->getFITSFile().toString()));
-                    loadAndSlewProgress = false;
-                    currentJob->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
-                    getNextAction();
-
-                }
-                else if (loadSlewReply.value() == IPS_ALERT)
-                {
-                    appendLogText(i18n("%1 Load And Slew failed!", currentJob->getName()));
-
-                    if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                    {
-                        appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
-                        startAstrometry();
-                        return;
-                    }
-
-                    currentJob->setState(SchedulerJob::JOB_ERROR);
-                    findNextJob();
-                }
-
-                return;
-            }
-            else
-#endif
-
-            alignReply = alignInterface->call(QDBus::AutoDetect, "getStatus");
-
-            if (alignReply.error().type() == QDBusError::UnknownObject)
-            {
-                appendLogText(i18n("Connection to INDI is lost. Aborting..."));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
-                return;
-            }
-
-            Ekos::AlignState alignStatus = static_cast<Ekos::AlignState>(alignReply.value());
-
-            // Is solver complete?
-            if (alignStatus == Ekos::ALIGN_COMPLETE)
-            {
-                appendLogText(i18n("%1 alignment is complete.", currentJob->getName()));
-
+                appendLogText(i18n("%1 is solved and aligned successfully.", currentJob->getFITSFile().toString()));
+                loadAndSlewProgress = false;
                 currentJob->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
                 getNextAction();
-                return;
+
             }
-            else if (alignStatus == Ekos::ALIGN_FAILED || alignStatus == Ekos::ALIGN_ABORTED)
+            else if (loadSlewReply.value() == IPS_ALERT)
             {
-                appendLogText(i18n("%1 alignment failed!", currentJob->getName()));
+                appendLogText(i18n("%1 Load And Slew failed!", currentJob->getName()));
 
                 if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
@@ -2843,195 +2846,191 @@ void Scheduler::checkJobStage()
                 }
 
                 currentJob->setState(SchedulerJob::JOB_ERROR);
-
                 findNextJob();
             }
+
+            return;
         }
+        else
+#endif
+
+            alignReply = alignInterface->call(QDBus::AutoDetect, "getStatus");
+
+        if (alignReply.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
+        }
+
+        Ekos::AlignState alignStatus = static_cast<Ekos::AlignState>(alignReply.value());
+
+        // Is solver complete?
+        if (alignStatus == Ekos::ALIGN_COMPLETE)
+        {
+            appendLogText(i18n("%1 alignment is complete.", currentJob->getName()));
+
+            currentJob->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
+            getNextAction();
+            return;
+        }
+        else if (alignStatus == Ekos::ALIGN_FAILED || alignStatus == Ekos::ALIGN_ABORTED)
+        {
+            appendLogText(i18n("%1 alignment failed!", currentJob->getName()));
+
+            if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
+                startAstrometry();
+                return;
+            }
+
+            currentJob->setState(SchedulerJob::JOB_ERROR);
+
+            findNextJob();
+        }
+    }
         break;
 
-        case SchedulerJob::STAGE_RESLEWING:
+    case SchedulerJob::STAGE_RESLEWING:
+    {
+        QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect, "getSlewStatus");
+        bool isDomeMoving          = false;
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Re-slewing stage...";
+
+        if (parkDomeCheck->isEnabled())
         {
-            QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect, "getSlewStatus");
-            bool isDomeMoving          = false;
-
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Re-slewing stage...";
-
-            if (parkDomeCheck->isEnabled())
-            {
-                QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isMoving");
-                if (domeReply.error().type() == QDBusError::NoError && domeReply.value() == true)
-                    isDomeMoving = true;
-            }
-
-            if (slewStatus.error().type() == QDBusError::UnknownObject)
-            {
-                appendLogText(i18n("Connection to INDI is lost. Aborting..."));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
-                return;
-            }
-
-            if (slewStatus.value() == IPS_OK && isDomeMoving == false)
-            {
-                appendLogText(i18n("%1 repositioning is complete.", currentJob->getName()));
-                currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
-                getNextAction();
-                return;
-            }
-            else if (slewStatus.value() == IPS_ALERT)
-            {
-                appendLogText(i18n("%1 slew failed!", currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                findNextJob();
-                return;
-            }
+            QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isMoving");
+            if (domeReply.error().type() == QDBusError::NoError && domeReply.value() == true)
+                isDomeMoving = true;
         }
+
+        if (slewStatus.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
+        }
+
+        if (slewStatus.value() == IPS_OK && isDomeMoving == false)
+        {
+            appendLogText(i18n("%1 repositioning is complete.", currentJob->getName()));
+            currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
+            getNextAction();
+            return;
+        }
+        else if (slewStatus.value() == IPS_ALERT)
+        {
+            appendLogText(i18n("%1 slew failed!", currentJob->getName()));
+            currentJob->setState(SchedulerJob::JOB_ERROR);
+
+            findNextJob();
+            return;
+        }
+    }
         break;
 
-        case SchedulerJob::STAGE_GUIDING:
+    case SchedulerJob::STAGE_GUIDING:
+    {
+        QDBusReply<int> guideReply = guideInterface->call(QDBus::AutoDetect, "getStatus");
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Calibration & Guide stage...";
+
+        if (guideReply.error().type() == QDBusError::UnknownObject)
         {
-            QDBusReply<int> guideReply = guideInterface->call(QDBus::AutoDetect, "getStatus");
-
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Calibration & Guide stage...";
-
-            if (guideReply.error().type() == QDBusError::UnknownObject)
-            {
-                appendLogText(i18n("Connection to INDI is lost. Aborting..."));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
-                return;
-            }
-
-            Ekos::GuideState guideStatus = static_cast<Ekos::GuideState>(guideReply.value());
-
-            // If calibration stage complete?
-            if (guideStatus == Ekos::GUIDE_GUIDING)
-            {
-                appendLogText(i18n("%1 guiding is in progress...", currentJob->getName()));
-
-                currentJob->setStage(SchedulerJob::STAGE_GUIDING_COMPLETE);
-                getNextAction();
-                return;
-            }
-            else if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR || guideStatus == Ekos::GUIDE_ABORTED)
-            {
-                if (guideStatus == Ekos::GUIDE_ABORTED)
-                    appendLogText(i18n("%1 guiding failed!", currentJob->getName()));
-                else
-                    appendLogText(i18n("%1 calibration failed!", currentJob->getName()));
-
-                if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
-                    startGuiding();
-                    return;
-                }
-
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                findNextJob();
-                return;
-            }
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
         }
+
+        Ekos::GuideState guideStatus = static_cast<Ekos::GuideState>(guideReply.value());
+
+        // If calibration stage complete?
+        if (guideStatus == Ekos::GUIDE_GUIDING)
+        {
+            appendLogText(i18n("%1 guiding is in progress...", currentJob->getName()));
+
+            currentJob->setStage(SchedulerJob::STAGE_GUIDING_COMPLETE);
+            getNextAction();
+            return;
+        }
+        else if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR || guideStatus == Ekos::GUIDE_ABORTED)
+        {
+            if (guideStatus == Ekos::GUIDE_ABORTED)
+                appendLogText(i18n("%1 guiding failed!", currentJob->getName()));
+            else
+                appendLogText(i18n("%1 calibration failed!", currentJob->getName()));
+
+            if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
+                startGuiding();
+                return;
+            }
+
+            currentJob->setState(SchedulerJob::JOB_ERROR);
+
+            findNextJob();
+            return;
+        }
+    }
         break;
 
 #if 0
-        case SchedulerJob::STAGE_CALIBRATING:
+    case SchedulerJob::STAGE_CALIBRATING:
+    {
+        QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
+
+        if (Options::verboseLogging())
+            qDebug() << "Calibration & Guide stage...";
+
+        if (guideReply.error().type() == QDBusError::UnknownObject)
         {
-            QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
+        }
 
-            if (Options::verboseLogging())
-                qDebug() << "Calibration & Guide stage...";
-
-            if (guideReply.error().type() == QDBusError::UnknownObject)
-            {
-                appendLogText(i18n("Connection to INDI is lost. Aborting..."));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
-                return;
-            }
-
-            // If calibration stage complete?
+        // If calibration stage complete?
+        if(guideReply.value())
+        {
+            guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationSuccessful");
+            // If calibration successful?
             if(guideReply.value())
             {
-                guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationSuccessful");
-                // If calibration successful?
-                if(guideReply.value())
+                appendLogText(i18n("%1 calibration is complete.", currentJob->getName()));
+
+                guideReply = guideInterface->call(QDBus::AutoDetect,"guide");
+                if(guideReply.value() == false)
                 {
-                    appendLogText(i18n("%1 calibration is complete.", currentJob->getName()));
-
-                    guideReply = guideInterface->call(QDBus::AutoDetect,"guide");
-                    if(guideReply.value() == false)
-                    {
-                        appendLogText(i18n("%1 guiding failed!", currentJob->getName()));
-
-                        currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                        findNextJob();
-                        return;
-                    }
-
-                    appendLogText(i18n("%1 guiding is in progress...", currentJob->getName()));
-
-                    currentJob->setStage(SchedulerJob::STAGE_GUIDING);
-                    getNextAction();
-                    return;
-                }
-                else
-                {
-                    appendLogText(i18n("%1 calibration failed!", currentJob->getName()));
-
-                    if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                    {
-                        appendLogText(i18n("Restarting %1 calibration procedure...", currentJob->getName()));
-                        startCalibrating();
-                        return;
-                    }
+                    appendLogText(i18n("%1 guiding failed!", currentJob->getName()));
 
                     currentJob->setState(SchedulerJob::JOB_ERROR);
 
                     findNextJob();
                     return;
                 }
-            }
-        }
-        break;
-#endif
 
-        case SchedulerJob::STAGE_CAPTURING:
-        {
-            QDBusReply<QString> captureReply = captureInterface->call(QDBus::AutoDetect, "getSequenceQueueStatus");
+                appendLogText(i18n("%1 guiding is in progress...", currentJob->getName()));
 
-            if (captureReply.error().type() == QDBusError::UnknownObject)
-            {
-                appendLogText(i18n("Connection to INDI is lost. Aborting..."));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
+                currentJob->setStage(SchedulerJob::STAGE_GUIDING);
+                getNextAction();
                 return;
             }
-
-            if (captureReply.value().toStdString() == "Aborted" || captureReply.value().toStdString() == "Error")
+            else
             {
-                appendLogText(i18n("%1 capture failed!", currentJob->getName()));
+                appendLogText(i18n("%1 calibration failed!", currentJob->getName()));
 
-                // If capture failed due to guiding error, let's try to restart that
-                if ((currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) &&
-                    captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
-                    // Check if it is guiding related.
-                    QDBusReply<int> guideReply = guideInterface->call(QDBus::AutoDetect, "getStatus");
-                    if (guideReply.value() == Ekos::GUIDE_ABORTED ||
-                        guideReply.value() == Ekos::GUIDE_CALIBRATION_ERROR ||
-                        guideReply.value() == GUIDE_DITHERING_ERROR)
-                    // If guiding failed, let's restart it
-                    //if(guideReply.value() == false)
-                    {
-                        appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
-                        //currentJob->setStage(SchedulerJob::STAGE_GUIDING);
-                        startGuiding();
-                        return;
-                    }
+                    appendLogText(i18n("Restarting %1 calibration procedure...", currentJob->getName()));
+                    startCalibrating();
+                    return;
                 }
 
                 currentJob->setState(SchedulerJob::JOB_ERROR);
@@ -3039,21 +3038,66 @@ void Scheduler::checkJobStage()
                 findNextJob();
                 return;
             }
-
-            if (captureReply.value().toStdString() == "Complete")
-            {
-                currentJob->setState(SchedulerJob::JOB_COMPLETE);
-                //currentJob->setStage(SchedulerJob::STAGE_COMPLETE);
-                captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
-
-                findNextJob();
-                return;
-            }
         }
+    }
+        break;
+#endif
+
+    case SchedulerJob::STAGE_CAPTURING:
+    {
+        QDBusReply<QString> captureReply = captureInterface->call(QDBus::AutoDetect, "getSequenceQueueStatus");
+
+        if (captureReply.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
+        }
+
+        if (captureReply.value().toStdString() == "Aborted" || captureReply.value().toStdString() == "Error")
+        {
+            appendLogText(i18n("%1 capture failed!", currentJob->getName()));
+
+            // If capture failed due to guiding error, let's try to restart that
+            if ((currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) &&
+                    captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                // Check if it is guiding related.
+                QDBusReply<int> guideReply = guideInterface->call(QDBus::AutoDetect, "getStatus");
+                if (guideReply.value() == Ekos::GUIDE_ABORTED ||
+                        guideReply.value() == Ekos::GUIDE_CALIBRATION_ERROR ||
+                        guideReply.value() == GUIDE_DITHERING_ERROR)
+                    // If guiding failed, let's restart it
+                    //if(guideReply.value() == false)
+                {
+                    appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
+                    //currentJob->setStage(SchedulerJob::STAGE_GUIDING);
+                    startGuiding();
+                    return;
+                }
+            }
+
+            currentJob->setState(SchedulerJob::JOB_ERROR);
+
+            findNextJob();
+            return;
+        }
+
+        if (captureReply.value().toStdString() == "Complete")
+        {
+            currentJob->setState(SchedulerJob::JOB_COMPLETE);
+            //currentJob->setStage(SchedulerJob::STAGE_COMPLETE);
+            captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
+
+            findNextJob();
+            return;
+        }
+    }
         break;
 
-        default:
-            break;
+    default:
+        break;
     }
 }
 
@@ -3063,32 +3107,12 @@ void Scheduler::getNextAction()
 
     switch (currentJob->getStage())
     {
-        case SchedulerJob::STAGE_IDLE:
-            if (currentJob->getLightFramesRequired())
-            {
-                if (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK)
-                    startSlew();
-                else if (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
-                    startFocusing();
-                else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
-                    startAstrometry();
-                else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                    startGuiding();
-                else
-                    startCapture();
-            }
-            else
-            {
-                if (currentJob->getStepPipeline())
-                    appendLogText(
-                        i18n("Proceeding directly to capture stage because only calibration frames are pending."));
-                startCapture();
-            }
-
-            break;
-
-        case SchedulerJob::STAGE_SLEW_COMPLETE:
-            if (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
+    case SchedulerJob::STAGE_IDLE:
+        if (currentJob->getLightFramesRequired())
+        {
+            if (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK)
+                startSlew();
+            else if (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
                 startFocusing();
             else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
                 startAstrometry();
@@ -3096,46 +3120,66 @@ void Scheduler::getNextAction()
                 startGuiding();
             else
                 startCapture();
-            break;
-
-        case SchedulerJob::STAGE_FOCUS_COMPLETE:
-            if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
-                startAstrometry();
-            else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                startGuiding();
-            else
-                startCapture();
-            break;
-
-        case SchedulerJob::STAGE_ALIGN_COMPLETE:
-            currentJob->setStage(SchedulerJob::STAGE_RESLEWING);
-            break;
-
-        case SchedulerJob::STAGE_RESLEWING_COMPLETE:
-            // If we have in-sequence-focus in the sequence file then we perform post alignment focusing so that the focus
-            // frame is ready for the capture module in-sequence-focus procedure.
-            if ((currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS) && currentJob->getInSequenceFocus())
-                // Post alignment re-focusing
-                startFocusing();
-            else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                startGuiding();
-            else
-                startCapture();
-            break;
-
-        case SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE:
-            if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                startGuiding();
-            else
-                startCapture();
-            break;
-
-        case SchedulerJob::STAGE_GUIDING_COMPLETE:
+        }
+        else
+        {
+            if (currentJob->getStepPipeline())
+                appendLogText(
+                            i18n("Proceeding directly to capture stage because only calibration frames are pending."));
             startCapture();
-            break;
+        }
 
-        default:
-            break;
+        break;
+
+    case SchedulerJob::STAGE_SLEW_COMPLETE:
+        if (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
+            startFocusing();
+        else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
+            startAstrometry();
+        else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
+            startGuiding();
+        else
+            startCapture();
+        break;
+
+    case SchedulerJob::STAGE_FOCUS_COMPLETE:
+        if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
+            startAstrometry();
+        else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
+            startGuiding();
+        else
+            startCapture();
+        break;
+
+    case SchedulerJob::STAGE_ALIGN_COMPLETE:
+        currentJob->setStage(SchedulerJob::STAGE_RESLEWING);
+        break;
+
+    case SchedulerJob::STAGE_RESLEWING_COMPLETE:
+        // If we have in-sequence-focus in the sequence file then we perform post alignment focusing so that the focus
+        // frame is ready for the capture module in-sequence-focus procedure.
+        if ((currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS) && currentJob->getInSequenceFocus())
+            // Post alignment re-focusing
+            startFocusing();
+        else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
+            startGuiding();
+        else
+            startCapture();
+        break;
+
+    case SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE:
+        if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
+            startGuiding();
+        else
+            startCapture();
+        break;
+
+    case SchedulerJob::STAGE_GUIDING_COMPLETE:
+        startCapture();
+        break;
+
+    default:
+        break;
     }
 }
 
@@ -3145,43 +3189,43 @@ void Scheduler::stopCurrentJobAction()
 
     switch (currentJob->getStage())
     {
-        case SchedulerJob::STAGE_IDLE:
-            break;
+    case SchedulerJob::STAGE_IDLE:
+        break;
 
-        case SchedulerJob::STAGE_SLEWING:
-            mountInterface->call(QDBus::AutoDetect, "abort");
-            break;
+    case SchedulerJob::STAGE_SLEWING:
+        mountInterface->call(QDBus::AutoDetect, "abort");
+        break;
 
-        case SchedulerJob::STAGE_FOCUSING:
-            focusInterface->call(QDBus::AutoDetect, "abort");
-            break;
+    case SchedulerJob::STAGE_FOCUSING:
+        focusInterface->call(QDBus::AutoDetect, "abort");
+        break;
 
-        case SchedulerJob::STAGE_ALIGNING:
-            alignInterface->call(QDBus::AutoDetect, "abort");
-            break;
+    case SchedulerJob::STAGE_ALIGNING:
+        alignInterface->call(QDBus::AutoDetect, "abort");
+        break;
 
         //case SchedulerJob::STAGE_CALIBRATING:
         //        guideInterface->call(QDBus::AutoDetect,"stopCalibration");
         //    break;
 
-        case SchedulerJob::STAGE_GUIDING:
-            stopGuiding();
-            break;
+    case SchedulerJob::STAGE_GUIDING:
+        stopGuiding();
+        break;
 
-        case SchedulerJob::STAGE_CAPTURING:
-            captureInterface->call(QDBus::AutoDetect, "abort");
-            //stopGuiding();
-            break;
+    case SchedulerJob::STAGE_CAPTURING:
+        captureInterface->call(QDBus::AutoDetect, "abort");
+        //stopGuiding();
+        break;
 
-        default:
-            break;
+    default:
+        break;
     }
 }
 
 void Scheduler::load()
 {
     QUrl fileURL =
-        QFileDialog::getOpenFileUrl(this, i18n("Open Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
+            QFileDialog::getOpenFileUrl(this, i18n("Open Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
     if (fileURL.isEmpty())
         return;
 
@@ -3458,7 +3502,7 @@ void Scheduler::save()
     if (schedulerURL.isEmpty())
     {
         schedulerURL =
-            QFileDialog::getSaveFileUrl(this, i18n("Save Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
+                QFileDialog::getSaveFileUrl(this, i18n("Save Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
         // if user presses cancel
         if (schedulerURL.isEmpty())
         {
@@ -3647,7 +3691,7 @@ void Scheduler::startFocusing()
     {
         appendLogText(i18n("Autofocus is not supported."));
         currentJob->setStepPipeline(
-            static_cast<SchedulerJob::StepPipeline>(currentJob->getStepPipeline() & ~SchedulerJob::USE_FOCUS));
+                    static_cast<SchedulerJob::StepPipeline>(currentJob->getStepPipeline() & ~SchedulerJob::USE_FOCUS));
         currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
         getNextAction();
         return;
@@ -3669,7 +3713,7 @@ void Scheduler::startFocusing()
     QList<QVariant> autoStar;
     autoStar.append(true);
     if ((reply = focusInterface->callWithArgumentList(QDBus::AutoDetect, "setAutoStarEnabled", autoStar)).type() ==
-        QDBusMessage::ErrorMessage)
+            QDBusMessage::ErrorMessage)
     {
         appendLogText(i18n("setAutoFocusStar DBUS error: %1", reply.errorMessage()));
         return;
@@ -3683,7 +3727,7 @@ void Scheduler::startFocusing()
     }
 
     if (currentJob->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE ||
-        currentJob->getStage() == SchedulerJob::STAGE_POSTALIGN_FOCUSING)
+            currentJob->getStage() == SchedulerJob::STAGE_POSTALIGN_FOCUSING)
     {
         currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING);
         appendLogText(i18n("Post-alignment focusing for %1 ...", currentJob->getName()));
@@ -3824,7 +3868,7 @@ void Scheduler::startAstrometry()
         solveArgs.append(currentJob->getFITSFile().toString(QUrl::PreferLocalFile));
 
         if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "loadAndSlew", solveArgs)).type() ==
-            QDBusMessage::ErrorMessage)
+                QDBusMessage::ErrorMessage)
         {
             appendLogText(i18n("loadAndSlew DBUS error: %1", reply.errorMessage()));
             return;
@@ -3901,8 +3945,8 @@ void Scheduler::startCapture()
 void Scheduler::stopGuiding()
 {
     if ((currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) &&
-        (currentJob->getStage() == SchedulerJob::STAGE_GUIDING_COMPLETE ||
-         currentJob->getStage() == SchedulerJob::STAGE_CAPTURING))
+            (currentJob->getStage() == SchedulerJob::STAGE_GUIDING_COMPLETE ||
+             currentJob->getStage() == SchedulerJob::STAGE_CAPTURING))
     {
         guideInterface->call(QDBus::AutoDetect, "abort");
         guideFailureCount = 0;
@@ -3915,19 +3959,20 @@ void Scheduler::setSolverAction(Align::GotoMode mode)
     alignInterface->call(QDBus::AutoDetect, "setSolverAction", gotoMode);
 }
 
+void Scheduler::disconnectINDI()
+{
+    qCInfo(KSTARS_EKOS_SCHEDULER) << "Disconnecting INDI...";
+    indiState = INDI_DISCONNECTING;
+    indiConnectFailureCount = 0;
+    ekosInterface->call(QDBus::AutoDetect, "disconnectDevices");
+}
+
+
 void Scheduler::stopEkos()
 {
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Stopping Ekos...";
-
-    indiConnectFailureCount = 0;
-    ekosInterface->call(QDBus::AutoDetect, "disconnectDevices");
+    ekosState = EKOS_STOPPING;
     ekosInterface->call(QDBus::AutoDetect, "stop");
-
-    ekosState = EKOS_IDLE;
-    indiState = INDI_IDLE;
-    //startupState = STARTUP_IDLE;
-    //shutdownState= SHUTDOWN_IDLE;
-    //weatherStatus= IPS_IDLE;
 }
 
 void Scheduler::setDirty()
@@ -3986,15 +4031,15 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         // We check if the frame type is LIGHT and if either the number of completed frames is less than required
         // OR if the completion condition is set to LOOP so it is never complete due to looping.
         if (job->getFrameType() == FRAME_LIGHT &&
-            (completed < job->getCount() || schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP))
+                (completed < job->getCount() || schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP))
         {
             lightFramesRequired = true;
 
             // In some cases we do not need to calculate time we just need to know
             // if light frames are required or not. So we break out
             if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP ||
-                (schedJob->getStartupCondition() == SchedulerJob::START_AT &&
-                 schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT))
+                    (schedJob->getStartupCondition() == SchedulerJob::START_AT &&
+                     schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT))
                 break;
         }
 
@@ -4028,7 +4073,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
     // If we know startup and finish times, we can estimate time right away
     if (schedJob->getStartupCondition() == SchedulerJob::START_AT &&
-        schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
+            schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
     {
         qint64 diff = schedJob->getStartupTime().secsTo(schedJob->getCompletionTime());
         schedJob->setEstimatedTime(diff);
@@ -4147,67 +4192,67 @@ void Scheduler::checkMountParkingStatus()
 
     switch (status)
     {
-        case Mount::PARKING_OK:
-            appendLogText(i18n("Mount parked."));
-            if (shutdownState == SHUTDOWN_PARKING_MOUNT)
-                shutdownState = SHUTDOWN_PARK_DOME;
-            else if (parkWaitState == PARKWAIT_PARKING)
-                parkWaitState = PARKWAIT_PARKED;
-            parkingFailureCount = 0;
-            break;
+    case Mount::PARKING_OK:
+        appendLogText(i18n("Mount parked."));
+        if (shutdownState == SHUTDOWN_PARKING_MOUNT)
+            shutdownState = SHUTDOWN_PARK_DOME;
+        else if (parkWaitState == PARKWAIT_PARKING)
+            parkWaitState = PARKWAIT_PARKED;
+        parkingFailureCount = 0;
+        break;
 
-        case Mount::UNPARKING_OK:
-            appendLogText(i18n("Mount unparked."));
-            if (startupState == STARTUP_UNPARKING_MOUNT)
-                startupState = STARTUP_UNPARK_CAP;
-            else if (parkWaitState == PARKWAIT_UNPARKING)
-                parkWaitState = PARKWAIT_UNPARKED;
-            parkingFailureCount = 0;
-            break;
+    case Mount::UNPARKING_OK:
+        appendLogText(i18n("Mount unparked."));
+        if (startupState == STARTUP_UNPARKING_MOUNT)
+            startupState = STARTUP_UNPARK_CAP;
+        else if (parkWaitState == PARKWAIT_UNPARKING)
+            parkWaitState = PARKWAIT_UNPARKED;
+        parkingFailureCount = 0;
+        break;
 
-        case Mount::PARKING_BUSY:
-        case Mount::UNPARKING_BUSY:
-            // TODO make the timeouts configurable by the user
-            if (currentOperationTime.elapsed() > (60 * 1000))
+    case Mount::PARKING_BUSY:
+    case Mount::UNPARKING_BUSY:
+        // TODO make the timeouts configurable by the user
+        if (currentOperationTime.elapsed() > (60 * 1000))
+        {
+            if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
             {
-                if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("Operation timeout. Restarting operation..."));
-                    if (status == Mount::PARKING_BUSY)
-                        parkMount();
-                    else
-                        unParkMount();
-                    break;
-                }
+                appendLogText(i18n("Operation timeout. Restarting operation..."));
+                if (status == Mount::PARKING_BUSY)
+                    parkMount();
+                else
+                    unParkMount();
+                break;
             }
-            break;
+        }
+        break;
 
-        case Mount::PARKING_ERROR:
-            if (startupState == STARTUP_UNPARKING_MOUNT)
-            {
-                appendLogText(i18n("Mount unparking error."));
-                startupState = STARTUP_ERROR;
-            }
-            else if (shutdownState == SHUTDOWN_PARKING_MOUNT)
-            {
-                appendLogText(i18n("Mount parking error."));
-                shutdownState = SHUTDOWN_ERROR;
-            }
-            else if (parkWaitState == PARKWAIT_PARKING)
-            {
-                appendLogText(i18n("Mount parking error."));
-                parkWaitState = PARKWAIT_ERROR;
-            }
-            else if (parkWaitState == PARKWAIT_UNPARK)
-            {
-                appendLogText(i18n("Mount unparking error."));
-                parkWaitState = PARKWAIT_ERROR;
-            }
-            parkingFailureCount = 0;
-            break;
+    case Mount::PARKING_ERROR:
+        if (startupState == STARTUP_UNPARKING_MOUNT)
+        {
+            appendLogText(i18n("Mount unparking error."));
+            startupState = STARTUP_ERROR;
+        }
+        else if (shutdownState == SHUTDOWN_PARKING_MOUNT)
+        {
+            appendLogText(i18n("Mount parking error."));
+            shutdownState = SHUTDOWN_ERROR;
+        }
+        else if (parkWaitState == PARKWAIT_PARKING)
+        {
+            appendLogText(i18n("Mount parking error."));
+            parkWaitState = PARKWAIT_ERROR;
+        }
+        else if (parkWaitState == PARKWAIT_UNPARK)
+        {
+            appendLogText(i18n("Mount unparking error."));
+            parkWaitState = PARKWAIT_ERROR;
+        }
+        parkingFailureCount = 0;
+        break;
 
-        default:
-            break;
+    default:
+        break;
     }
 }
 
@@ -4276,58 +4321,58 @@ void Scheduler::checkDomeParkingStatus()
 
     switch (status)
     {
-        case Dome::PARKING_OK:
-            if (shutdownState == SHUTDOWN_PARKING_DOME)
-            {
-                appendLogText(i18n("Dome parked."));
+    case Dome::PARKING_OK:
+        if (shutdownState == SHUTDOWN_PARKING_DOME)
+        {
+            appendLogText(i18n("Dome parked."));
 
-                shutdownState = SHUTDOWN_SCRIPT;
-            }
-            parkingFailureCount = 0;
-            break;
+            shutdownState = SHUTDOWN_SCRIPT;
+        }
+        parkingFailureCount = 0;
+        break;
 
-        case Dome::UNPARKING_OK:
-            if (startupState == STARTUP_UNPARKING_DOME)
-            {
-                startupState = STARTUP_UNPARK_MOUNT;
-                appendLogText(i18n("Dome unparked."));
-            }
-            parkingFailureCount = 0;
-            break;
+    case Dome::UNPARKING_OK:
+        if (startupState == STARTUP_UNPARKING_DOME)
+        {
+            startupState = STARTUP_UNPARK_MOUNT;
+            appendLogText(i18n("Dome unparked."));
+        }
+        parkingFailureCount = 0;
+        break;
 
-        case Dome::PARKING_BUSY:
-        case Dome::UNPARKING_BUSY:
-            // TODO make the timeouts configurable by the user
-            if (currentOperationTime.elapsed() > (120 * 1000))
+    case Dome::PARKING_BUSY:
+    case Dome::UNPARKING_BUSY:
+        // TODO make the timeouts configurable by the user
+        if (currentOperationTime.elapsed() > (120 * 1000))
+        {
+            if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
             {
-                if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("Operation timeout. Restarting operation..."));
-                    if (status == Dome::PARKING_BUSY)
-                        parkDome();
-                    else
-                        unParkDome();
-                    break;
-                }
+                appendLogText(i18n("Operation timeout. Restarting operation..."));
+                if (status == Dome::PARKING_BUSY)
+                    parkDome();
+                else
+                    unParkDome();
+                break;
             }
-            break;
+        }
+        break;
 
-        case Dome::PARKING_ERROR:
-            if (shutdownState == SHUTDOWN_PARKING_DOME)
-            {
-                appendLogText(i18n("Dome parking error."));
-                shutdownState = SHUTDOWN_ERROR;
-            }
-            else if (startupState == STARTUP_UNPARKING_DOME)
-            {
-                appendLogText(i18n("Dome unparking error."));
-                startupState = STARTUP_ERROR;
-            }
-            parkingFailureCount = 0;
-            break;
+    case Dome::PARKING_ERROR:
+        if (shutdownState == SHUTDOWN_PARKING_DOME)
+        {
+            appendLogText(i18n("Dome parking error."));
+            shutdownState = SHUTDOWN_ERROR;
+        }
+        else if (startupState == STARTUP_UNPARKING_DOME)
+        {
+            appendLogText(i18n("Dome unparking error."));
+            startupState = STARTUP_ERROR;
+        }
+        parkingFailureCount = 0;
+        break;
 
-        default:
-            break;
+    default:
+        break;
     }
 }
 
@@ -4396,57 +4441,57 @@ void Scheduler::checkCapParkingStatus()
 
     switch (status)
     {
-        case DustCap::PARKING_OK:
-            if (shutdownState == SHUTDOWN_PARKING_CAP)
-            {
-                appendLogText(i18n("Cap parked."));
-                shutdownState = SHUTDOWN_PARK_MOUNT;
-            }
-            parkingFailureCount = 0;
-            break;
+    case DustCap::PARKING_OK:
+        if (shutdownState == SHUTDOWN_PARKING_CAP)
+        {
+            appendLogText(i18n("Cap parked."));
+            shutdownState = SHUTDOWN_PARK_MOUNT;
+        }
+        parkingFailureCount = 0;
+        break;
 
-        case DustCap::UNPARKING_OK:
-            if (startupState == STARTUP_UNPARKING_CAP)
-            {
-                startupState = STARTUP_COMPLETE;
-                appendLogText(i18n("Cap unparked."));
-            }
-            parkingFailureCount = 0;
-            break;
+    case DustCap::UNPARKING_OK:
+        if (startupState == STARTUP_UNPARKING_CAP)
+        {
+            startupState = STARTUP_COMPLETE;
+            appendLogText(i18n("Cap unparked."));
+        }
+        parkingFailureCount = 0;
+        break;
 
-        case DustCap::PARKING_BUSY:
-        case DustCap::UNPARKING_BUSY:
-            // TODO make the timeouts configurable by the user
-            if (currentOperationTime.elapsed() > (60 * 1000))
+    case DustCap::PARKING_BUSY:
+    case DustCap::UNPARKING_BUSY:
+        // TODO make the timeouts configurable by the user
+        if (currentOperationTime.elapsed() > (60 * 1000))
+        {
+            if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
             {
-                if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("Operation timeout. Restarting operation..."));
-                    if (status == DustCap::PARKING_BUSY)
-                        parkCap();
-                    else
-                        unParkCap();
-                    break;
-                }
+                appendLogText(i18n("Operation timeout. Restarting operation..."));
+                if (status == DustCap::PARKING_BUSY)
+                    parkCap();
+                else
+                    unParkCap();
+                break;
             }
-            break;
+        }
+        break;
 
-        case DustCap::PARKING_ERROR:
-            if (shutdownState == SHUTDOWN_PARKING_CAP)
-            {
-                appendLogText(i18n("Cap parking error."));
-                shutdownState = SHUTDOWN_ERROR;
-            }
-            else if (startupState == STARTUP_UNPARKING_CAP)
-            {
-                appendLogText(i18n("Cap unparking error."));
-                startupState = STARTUP_ERROR;
-            }
-            parkingFailureCount = 0;
-            break;
+    case DustCap::PARKING_ERROR:
+        if (shutdownState == SHUTDOWN_PARKING_CAP)
+        {
+            appendLogText(i18n("Cap parking error."));
+            shutdownState = SHUTDOWN_ERROR;
+        }
+        else if (startupState == STARTUP_UNPARKING_CAP)
+        {
+            appendLogText(i18n("Cap unparking error."));
+            startupState = STARTUP_ERROR;
+        }
+        parkingFailureCount = 0;
+        break;
 
-        default:
-            break;
+    default:
+        break;
     }
 }
 
@@ -4546,7 +4591,7 @@ void Scheduler::startMosaicTool()
         // #5 Update J2000 coords
         // #6 Repeat and save Ekos Scheduler List in the output directory
         qCDebug(KSTARS_EKOS_SCHEDULER) << "Job accepted with # " << mosaicTool.getJobs().size() << " jobs and fits dir "
-                 << mosaicTool.getJobsDir();
+                                       << mosaicTool.getJobsDir();
 
         QString outputDir  = mosaicTool.getJobsDir();
         QString targetName = nameEdit->text().simplified().remove(' ');
@@ -4706,11 +4751,11 @@ void Scheduler::checkTwilightWarning(bool enabled)
         return;
 
     if (KMessageBox::warningContinueCancel(
-            NULL,
-            i18n("Warning! Turning off astronomial twilight check may cause the observatory "
-                 "to run during daylight. This can cause irreversible damage to your equipment!"),
-            i18n("Astronomial Twilight Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-            "astronomical_twilight_warning") == KMessageBox::Cancel)
+                NULL,
+                i18n("Warning! Turning off astronomial twilight check may cause the observatory "
+                     "to run during daylight. This can cause irreversible damage to your equipment!"),
+                i18n("Astronomial Twilight Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                "astronomical_twilight_warning") == KMessageBox::Cancel)
     {
         twilightCheck->setChecked(true);
     }
@@ -4728,7 +4773,7 @@ void Scheduler::checkStartupProcedure()
             appendLogText(i18n("Manual startup procedure terminated due to errors."));
 
         startupB->setIcon(
-            QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+                    QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
     }
 }
 
@@ -4743,11 +4788,11 @@ void Scheduler::runStartupProcedure()
         }
 
         if (KMessageBox::questionYesNo(
-                nullptr, i18n("Are you sure you want to execute the startup procedure manually?")) == KMessageBox::Yes)
+                    nullptr, i18n("Are you sure you want to execute the startup procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning! Executing startup procedure manually..."));
             startupB->setIcon(
-                QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+                        QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
             startupState = STARTUP_IDLE;
             checkStartupState();
             QTimer::singleShot(1000, this, SLOT(checkStartupProcedure()));
@@ -4757,38 +4802,38 @@ void Scheduler::runStartupProcedure()
     {
         switch (startupState)
         {
-            case STARTUP_IDLE:
-                break;
+        case STARTUP_IDLE:
+            break;
 
-            case STARTUP_SCRIPT:
-                scriptProcess.terminate();
-                break;
+        case STARTUP_SCRIPT:
+            scriptProcess.terminate();
+            break;
 
-            case STARTUP_UNPARK_DOME:
-                break;
+        case STARTUP_UNPARK_DOME:
+            break;
 
-            case STARTUP_UNPARKING_DOME:
-                domeInterface->call(QDBus::AutoDetect, "abort");
-                break;
+        case STARTUP_UNPARKING_DOME:
+            domeInterface->call(QDBus::AutoDetect, "abort");
+            break;
 
-            case STARTUP_UNPARK_MOUNT:
-                break;
+        case STARTUP_UNPARK_MOUNT:
+            break;
 
-            case STARTUP_UNPARKING_MOUNT:
-                mountInterface->call(QDBus::AutoDetect, "abort");
-                break;
+        case STARTUP_UNPARKING_MOUNT:
+            mountInterface->call(QDBus::AutoDetect, "abort");
+            break;
 
-            case STARTUP_UNPARK_CAP:
-                break;
+        case STARTUP_UNPARK_CAP:
+            break;
 
-            case STARTUP_UNPARKING_CAP:
-                break;
+        case STARTUP_UNPARKING_CAP:
+            break;
 
-            case STARTUP_COMPLETE:
-                break;
+        case STARTUP_COMPLETE:
+            break;
 
-            case STARTUP_ERROR:
-                break;
+        case STARTUP_ERROR:
+            break;
         }
 
         startupState = STARTUP_IDLE;
@@ -4816,7 +4861,7 @@ void Scheduler::checkShutdownProcedure()
 
         shutdownState = SHUTDOWN_IDLE;
         shutdownB->setIcon(
-            QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+                    QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
     }
 }
 
@@ -4825,11 +4870,11 @@ void Scheduler::runShutdownProcedure()
     if (shutdownState == SHUTDOWN_IDLE || shutdownState == SHUTDOWN_ERROR || shutdownState == SHUTDOWN_COMPLETE)
     {
         if (KMessageBox::questionYesNo(
-                nullptr, i18n("Are you sure you want to execute the shutdown procedure manually?")) == KMessageBox::Yes)
+                    nullptr, i18n("Are you sure you want to execute the shutdown procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning! Executing shutdown procedure manually..."));
             shutdownB->setIcon(
-                QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+                        QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
             shutdownState = SHUTDOWN_IDLE;
             checkShutdownState();
             QTimer::singleShot(1000, this, SLOT(checkShutdownProcedure()));
@@ -4839,41 +4884,41 @@ void Scheduler::runShutdownProcedure()
     {
         switch (shutdownState)
         {
-            case SHUTDOWN_IDLE:
-                break;
+        case SHUTDOWN_IDLE:
+            break;
 
-            case SHUTDOWN_SCRIPT:
-                break;
+        case SHUTDOWN_SCRIPT:
+            break;
 
-            case SHUTDOWN_SCRIPT_RUNNING:
-                scriptProcess.terminate();
-                break;
+        case SHUTDOWN_SCRIPT_RUNNING:
+            scriptProcess.terminate();
+            break;
 
-            case SHUTDOWN_PARK_DOME:
-                break;
+        case SHUTDOWN_PARK_DOME:
+            break;
 
-            case SHUTDOWN_PARKING_DOME:
-                domeInterface->call(QDBus::AutoDetect, "abort");
-                break;
+        case SHUTDOWN_PARKING_DOME:
+            domeInterface->call(QDBus::AutoDetect, "abort");
+            break;
 
-            case SHUTDOWN_PARK_MOUNT:
-                break;
+        case SHUTDOWN_PARK_MOUNT:
+            break;
 
-            case SHUTDOWN_PARKING_MOUNT:
-                mountInterface->call(QDBus::AutoDetect, "abort");
-                break;
+        case SHUTDOWN_PARKING_MOUNT:
+            mountInterface->call(QDBus::AutoDetect, "abort");
+            break;
 
-            case SHUTDOWN_PARK_CAP:
-                break;
+        case SHUTDOWN_PARK_CAP:
+            break;
 
-            case SHUTDOWN_PARKING_CAP:
-                break;
+        case SHUTDOWN_PARKING_CAP:
+            break;
 
-            case SHUTDOWN_COMPLETE:
-                break;
+        case SHUTDOWN_COMPLETE:
+            break;
 
-            case SHUTDOWN_ERROR:
-                break;
+        case SHUTDOWN_ERROR:
+            break;
         }
 
         shutdownState = SHUTDOWN_IDLE;
@@ -5021,7 +5066,7 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
     imagePrefix += frameType;
 
     if (filterEnabled && filterType.isEmpty() == false &&
-        (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT))
+            (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT))
     {
         imagePrefix += '_';
 
