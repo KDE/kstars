@@ -54,8 +54,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
         SCHEDULER_SHUTDOWN,
         SCHEDULER_ABORTED
     } SchedulerState;
-    typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_READY } EkosState;
-    typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_PROPERTY_CHECK, INDI_READY } INDIState;
+    typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_STOPPING, EKOS_READY } EkosState;
+    typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_DISCONNECTING, INDI_PROPERTY_CHECK, INDI_READY } INDIState;
     typedef enum {
         STARTUP_IDLE,
         STARTUP_SCRIPT,
@@ -133,7 +133,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
     void getNextAction();
 
     /**
-         * @brief stopindi Stoping the indi services
+         * @brief disconnectINDI disconnect all INDI devices from server.
+         */
+    void disconnectINDI();
+
+    /**
+         * @brief stopEkos shutdown Ekos completely
          */
     void stopEkos();
 
