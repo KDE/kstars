@@ -144,6 +144,7 @@ if (INDI_FOUND)
                     ekos/capture/calibrationoptions.ui
                     ekos/capture/dslrinfo.ui
                     ekos/capture/rotatorsettings.ui
+                    ekos/capture/customproperties.ui
                     # Align
                     ekos/align/align.ui
                     ekos/align/opsekos.ui
@@ -183,6 +184,7 @@ if (INDI_FOUND)
                        ekos/capture/sequencejob.cpp
                        ekos/capture/dslrinfodialog.cpp
                        ekos/capture/rotatorsettings.cpp
+                       ekos/capture/customproperties.cpp
 
                        # Scheduler
                        ekos/scheduler/schedulerjob.cpp

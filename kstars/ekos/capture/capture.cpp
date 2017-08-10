@@ -41,7 +41,7 @@
 // Current Sequence File Format:
 #define SQ_FORMAT_VERSION 2.0
 // We accept file formats with version back to:
-#define SQ_COMPAT_VERSION 1.6
+#define SQ_COMPAT_VERSION 2.0
 
 namespace Ekos
 {
@@ -178,6 +178,9 @@ Capture::Capture()
     // Remote directory
     connect(uploadModeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
             [&](int index) { remoteDirIN->setEnabled(index != 0); });
+
+    customPropertiesDialog.reset(new CustomProperties());
+    connect(customValuesB, SIGNAL(clicked()), customPropertiesDialog.get(), SLOT(show()));
 
     // Load FIlter Offets
     loadFilterOffsets();
@@ -628,23 +631,7 @@ void Capture::checkCCD(int ccdNum)
             }
         }
 
-        gainLabel->setEnabled(currentCCD->hasGain());
-        gainIN->setEnabled(currentCCD->hasGain());
-        if (gainIN->isEnabled())
-        {
-            double gain = 0, min = 0, max = 0, step = 1;
-            currentCCD->getGainMinMaxStep(&min, &max, &step);
-            if (currentCCD->getGain(&gain))
-            {
-                gainIN->setMinimum(min);
-                gainIN->setMaximum(max);
-                if (step > 0)
-                    gainIN->setSingleStep(step);
-                gainIN->setValue(gain);
-            }
-        }
-        else
-            gainIN->clear();
+        customPropertiesDialog->setCCD(currentCCD);
 
         liveVideoB->setEnabled(currentCCD->hasVideoStream());
         setVideoStreamEnabled(currentCCD->isStreamingEnabled());
@@ -1716,9 +1703,6 @@ bool Capture::addJob(bool preview)
     if (ISOCombo->isEnabled())
         job->setISOIndex(ISOCombo->currentIndex());
 
-    if (gainIN->isEnabled())
-        job->setGain(gainIN->value());
-
     job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(transferFormatCombo->currentIndex()));
 
     job->setPreview(preview);
@@ -1768,6 +1752,9 @@ bool Capture::addJob(bool preview)
     job->setActiveChip(targetChip);
     job->setActiveCCD(currentCCD);
     job->setActiveFilter(currentFilter);
+
+    // Custom Properties
+    job->setCustomProperties(customPropertiesDialog->getCustomProperties());
 
     if (currentRotator && rotatorSettings->isRotationEnforced())
     {
@@ -2740,11 +2727,6 @@ bool Capture::processJobInfo(XMLEle *root)
             if (ISOCombo->isEnabled())
                 ISOCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
         }
-        else if (!strcmp(tagXMLEle(ep), "Gain"))
-        {
-            if (gainIN->isEnabled())
-                gainIN->setValue(atof(pcdataXMLEle(ep)));
-        }
         else if (!strcmp(tagXMLEle(ep), "FormatIndex"))
         {
             transferFormatCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
@@ -2753,6 +2735,26 @@ bool Capture::processJobInfo(XMLEle *root)
         {
             rotatorSettings->setRotationEnforced(true);
             rotatorSettings->setTargetRotationTicks(atoi(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Properties"))
+        {
+            QMap<QString, QMap<QString,double>> propertyMap;
+
+            for (subEP = nextXMLEle(ep, 1); subEP != nullptr; subEP = nextXMLEle(ep, 0))
+            {
+                 QMap<QString,double> numbers;
+                 XMLEle *oneNumber = nullptr;
+                 for (oneNumber = nextXMLEle(subEP, 1); oneNumber != nullptr; oneNumber = nextXMLEle(subEP, 0))
+                 {
+                     const char *name = findXMLAttValu(oneNumber, "name");
+                     numbers[name] = atof(pcdataXMLEle(oneNumber));
+                 }
+
+                 const char *name = findXMLAttValu(subEP, "name");
+                 propertyMap[name] = numbers;
+            }
+
+            customPropertiesDialog->setCustomProperties(propertyMap);
         }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
@@ -2861,7 +2863,7 @@ void Capture::saveSequenceQueue()
         if (sequenceURL.toLocalFile().endsWith(QLatin1String(".esq")) == false)
             sequenceURL.setPath(sequenceURL.toLocalFile() + ".esq");
 
-        if (QFile::exists(sequenceURL.toLocalFile()))
+        /*if (QFile::exists(sequenceURL.toLocalFile()))
         {
             int r = KMessageBox::warningContinueCancel(0,
                                                        i18n("A file named \"%1\" already exists. "
@@ -2870,7 +2872,7 @@ void Capture::saveSequenceQueue()
                                                        i18n("Overwrite File?"), KStandardGuiItem::overwrite());
             if (r == KMessageBox::Cancel)
                 return;
-        }
+        }*/
     }
 
     if (sequenceURL.isValid())
@@ -2973,11 +2975,25 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<RemoteDirectory>" << job->getRemoteDir() << "</RemoteDirectory>" << endl;
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
-        if (job->getGain() != -1)
-            outstream << "<Gain>" << (job->getGain()) << "</Gain>" << endl;
         outstream << "<FormatIndex>" << (job->getTransforFormat()) << "</FormatIndex>" << endl;
         if (job->getTargetRotation() != INVALID_VALUE)
             outstream << "<Rotation>" << (job->getTargetRotation()) << "</Rotation>" << endl;
+        QMapIterator<QString, QMap<QString,double>> customIter(job->getCustomProperties());
+        outstream << "<Properties>" << endl;
+        while (customIter.hasNext())
+        {
+            customIter.next();
+            outstream << "<NumberVector name='" << customIter.key() << "'>" << endl;
+            QMap<QString,double> numbers = customIter.value();
+            QMapIterator<QString,double> numberIter(numbers);
+            while (numberIter.hasNext())
+            {
+                numberIter.next();
+                outstream << "<OneNumber name='" << numberIter.key() << "'>" << numberIter.value() << "</OneNumber>" << endl;
+            }
+            outstream << "</NumberVector>" << endl;
+        }
+        outstream << "</Properties>" << endl;
 
         outstream << "<Calibration>" << endl;
         outstream << "<FlatSource>" << endl;
@@ -3087,13 +3103,13 @@ void Capture::syncGUIToJob(SequenceJob *job)
     preMountPark       = job->isPreMountPark();
     preDomePark        = job->isPreDomePark();
 
+    // Custom Properties
+    customPropertiesDialog->setCustomProperties(job->getCustomProperties());
+
     fitsDir->setText(job->getRootFITSDir());
 
     if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());
-
-    if (gainIN->isEnabled())
-        gainIN->setValue(job->getGain());
 
     transferFormatCombo->setCurrentIndex(job->getTransforFormat());
 
@@ -4602,4 +4618,5 @@ int Capture::getRefocusEveryNTimerElapsedSec()
 {
     return refocusEveryNTimer.elapsed()/1000;
 }
+
 }
