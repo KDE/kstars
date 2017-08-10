@@ -50,7 +50,7 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
         return;
     }
 
-    qCDebug(KSTARS_INDI) << "Received new device " << dp->getDeviceName();
+    qCDebug(KSTARS_INDI) << "Received new device" << dp->getDeviceName();
 
     // First iteration find unique matches
     foreach (DriverInfo *dv, managedDrivers)
@@ -114,6 +114,8 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
                 //GUIManager::Instance()->removeDevice(deviceInfo);
                 //INDIListener::Instance()->removeDevice(deviceInfo);
 
+                qCDebug(KSTARS_INDI) << "Removing device" << dp->getDeviceName();
+
                 emit removeINDIDevice(deviceInfo);
 
                 driverInfo->removeDevice(deviceInfo);
@@ -166,6 +168,8 @@ void ClientManager::newUniversalMessage(std::string message)
 
 void ClientManager::appendManagedDriver(DriverInfo *dv)
 {
+    qCDebug(KSTARS_INDI) << "Adding managed driver" << dv->getName();
+
     managedDrivers.append(dv);
 
     dv->setClientManager(this);
@@ -175,6 +179,8 @@ void ClientManager::appendManagedDriver(DriverInfo *dv)
 
 void ClientManager::removeManagedDriver(DriverInfo *dv)
 {
+    qCDebug(KSTARS_INDI) << "Removing managed driver" << dv->getName();
+
     dv->setClientState(false);
 
     foreach (DeviceInfo *di, dv->getDevices())
@@ -202,6 +208,8 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
 
 void ClientManager::serverConnected()
 {
+    qCDebug(KSTARS_INDI) << "INDI server connected.";
+
     foreach (DriverInfo *device, managedDrivers)
     {
         device->setClientState(true);
@@ -212,6 +220,8 @@ void ClientManager::serverConnected()
 
 void ClientManager::serverDisconnected(int exit_code)
 {
+    qCDebug(KSTARS_INDI) << "INDI server disconnected. Exit code:" << exit_code;
+
     foreach (DriverInfo *device, managedDrivers)
     {
         device->setClientState(false);
