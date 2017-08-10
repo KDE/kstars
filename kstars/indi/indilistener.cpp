@@ -138,6 +138,8 @@ void INDIListener::addClient(ClientManager *cm)
 
 void INDIListener::removeClient(ClientManager *cm)
 {
+    qCDebug(KSTARS_INDI) << "INDIListener: Removing client manager for server" << cm->getHost() << "@" << cm->getPort();
+
     QList<ISD::GDInterface *>::iterator it = devices.begin();
     clients.removeOne(cm);
 
@@ -148,7 +150,21 @@ void INDIListener::removeClient(ClientManager *cm)
 
         if (cm->isDriverManaged(dv))
         {
-            it = devices.erase(it);
+            // If we have multiple devices per driver, we need to remove them all
+            if (dv->getAuxInfo().value("mdpd", false).toBool() == true)
+            {
+                while (it != devices.end())
+                {
+                    if (dv->getDevice((*it)->getDeviceName()) != nullptr)
+                    {
+                        it = devices.erase(it);
+                    }
+                    else
+                        break;
+                }
+            }
+            else
+                it = devices.erase(it);
 
             cm->removeManagedDriver(dv);
             cm->disconnect(this);
@@ -162,7 +178,7 @@ void INDIListener::removeClient(ClientManager *cm)
 
 void INDIListener::processDevice(DeviceInfo *dv)
 {
-    qCDebug(KSTARS_INDI) << "INDIListener: Processing device " << dv->getBaseDevice()->getDeviceName();
+    qCDebug(KSTARS_INDI) << "INDIListener: New device" << dv->getBaseDevice()->getDeviceName();
 
     ISD::GDInterface *gd = new ISD::GenericDevice(*dv);
 
@@ -173,7 +189,7 @@ void INDIListener::processDevice(DeviceInfo *dv)
 
 void INDIListener::removeDevice(DeviceInfo *dv)
 {
-    qCDebug(KSTARS_INDI) << "INDIListener: Removing device " << dv->getBaseDevice()->getDeviceName() << " with unique label "
+    qCDebug(KSTARS_INDI) << "INDIListener: Removing device" << dv->getBaseDevice()->getDeviceName() << "with unique label "
                  << dv->getDriverInfo()->getUniqueLabel();
 
     foreach (ISD::GDInterface *gd, devices)
