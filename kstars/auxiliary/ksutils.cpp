@@ -1005,14 +1005,16 @@ void Logging::Disabled(QtMsgType, const QMessageLogContext &, const QString &)
 void Logging::SyncFilterRules()
 {
     QString rules = QString("org.kde.kstars.ekos.debug=%1\n"
-                            "org.kde.kstars.fits.debug=%2\n"
-                            "org.kde.kstars.ekos.capture.debug=%3\n"
-                            "org.kde.kstars.ekos.focus.debug=%4\n"
-                            "org.kde.kstars.ekos.guide.debug=%5\n"
-                            "org.kde.kstars.ekos.align.debug=%6\n"
-                            "org.kde.kstars.ekos.mount.debug=%7\n"
+                            "org.kde.kstars.indi.debug=%2\n"
+                            "org.kde.kstars.ekos.mount.debug=%3\n"
+                            "org.kde.kstars.ekos.capture.debug=%4\n"
+                            "org.kde.kstars.ekos.focus.debug=%5\n"
+                            "org.kde.kstars.ekos.guide.debug=%6\n"
+                            "org.kde.kstars.ekos.align.debug=%7\n"
+                            "org.kde.kstars.ekos.mount.debug=%8\n"
                             "org.kde.kstars.debug=%1").arg(
                             Options::verboseLogging() ? "true" : "false",
+                            Options::iNDILogging() ? "true" : "false",
                             Options::fITSLogging() ? "true" : "false",
                             Options::captureLogging() ? "true" : "false",
                             Options::focusLogging() ? "true" : "false",
