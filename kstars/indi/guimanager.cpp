@@ -131,7 +131,7 @@ void GUIManager::showEvent(QShowEvent * /*event*/)
 ** Traverse the drivers list, check for updated drivers and take
 ** appropriate action
 *********************************************************************/
-void GUIManager::updateStatus()
+void GUIManager::updateStatus(bool toggle_behavior)
 {
     QAction *showINDIPanel = KStars::Instance()->actionCollection()->action("show_control_panel");
 
@@ -151,9 +151,16 @@ void GUIManager::updateStatus()
 
     showINDIPanel->setChecked(true);
 
-    raise();
-    activateWindow();
-    showNormal();
+    if (isVisible() && isActiveWindow() && toggle_behavior)
+    {
+        hide();
+    }
+    else
+    {
+        raise();
+        activateWindow();
+        showNormal();
+    }
 }
 
 INDI_D *GUIManager::findGUIDevice(const QString &deviceName)
@@ -290,5 +297,5 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     guidevices.append(gdm);
 
-    updateStatus();
+    updateStatus(false);
 }

@@ -158,8 +158,7 @@ void KStars::initActions()
 #endif
     actionCollection()->addAction("export_image", this, SLOT(slotExportImage()))
         << i18n("&Save Sky Image...")
-        << QIcon::fromTheme("document-export-image", QIcon(":/icons/breeze/default/document-export.svg"))
-        << QKeySequence(Qt::CTRL + Qt::Key_I);
+        << QIcon::fromTheme("document-export-image", QIcon(":/icons/breeze/default/document-export.svg"));
     actionCollection()->addAction("run_script", this, SLOT(slotRunScript()))
         << i18n("&Run Script...") << QIcon::fromTheme("system-run", QIcon(":/icons/breeze/default/system-run.svg"))
         << QKeySequence(Qt::CTRL + Qt::Key_R);
@@ -393,7 +392,9 @@ void KStars::initActions()
     actionCollection()->addAction("skycalendar", this, SLOT(slotCalendar())) << i18n("Sky Calendar");
 
 #ifdef HAVE_INDI
-    actionCollection()->addAction("ekos", this, SLOT(slotEkos())) << i18n("Ekos") << QKeySequence(Qt::CTRL + Qt::Key_K);
+    ka = actionCollection()->addAction("ekos", this, SLOT(slotEkos())) << i18n("Ekos") <<
+                                                                                  QKeySequence(Qt::CTRL + Qt::Key_K);
+    ka->setShortcutContext(Qt::ApplicationShortcut);
 #endif
 
     //FIXME: implement glossary
@@ -442,7 +443,10 @@ void KStars::initActions()
         << i18n("Device Manager...")
         << QIcon::fromTheme("network-server", QIcon(":/icons/breeze/default/network-server.svg"))
         << QKeySequence(Qt::CTRL + Qt::Key_D);
-    ka = actionCollection()->addAction("indi_cpl", this, SLOT(slotINDIPanel())) << i18n("INDI Control Panel...");
+    ka = actionCollection()->addAction("indi_cpl", this, SLOT(slotINDIPanel()))
+        << i18n("INDI Control Panel...")
+        << QKeySequence(Qt::CTRL + Qt::Key_I);
+    ka->setShortcutContext(Qt::ApplicationShortcut);
     ka->setEnabled(false);
 #else
 //FIXME need to disable/hide devices submenu in the tools menu. It is created from the kstarsui.rc file
