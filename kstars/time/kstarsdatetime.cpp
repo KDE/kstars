@@ -22,7 +22,7 @@
 
 #include <KLocalizedString>
 
-#include <QDebug>
+#include <kstars_debug.h>
 
 KStarsDateTime::KStarsDateTime() : QDateTime()
 {
@@ -32,7 +32,9 @@ KStarsDateTime::KStarsDateTime() : QDateTime()
 KStarsDateTime::KStarsDateTime(const KStarsDateTime &kdt) : QDateTime()
 {
     setDJD(kdt.djd());
-    setUtcOffset(kdt.utcOffset());
+    setTimeSpec(kdt.timeSpec());
+    //utcoffset deprecated
+    //setUtcOffset(kdt.utcOffset());
 }
 
 /*KStarsDateTime::KStarsDateTime( const QDateTime &kdt ) :
@@ -52,12 +54,13 @@ KStarsDateTime::KStarsDateTime(const QDateTime &qdt) : QDateTime(qdt) //, QDateT
     QDate _d           = qdt.date();
     long double jdFrac = (_t.hour() - 12 + (_t.minute() + (_t.second() + _t.msec() / 1000.) / 60.) / 60.) / 24.;
     DJD                = (long double)(_d.toJulianDay()) + jdFrac;
-    setUtcOffset(qdt.utcOffset());
+    setTimeSpec(qdt.timeSpec());
+    //setUtcOffset(qdt.utcOffset());
 }
 
-KStarsDateTime::KStarsDateTime(const QDate &_d, const QTime &_t)
+KStarsDateTime::KStarsDateTime(const QDate &_d, const QTime &_t, Qt::TimeSpec timeSpec)
     : //QDateTime( _d, _t, QDateTime::Spec::UTC() )
-      QDateTime(_d, _t, Qt::UTC)
+      QDateTime(_d, _t, timeSpec)
 {
     //don't call setDJD() because we don't need to compute the time; just set DJD directly
     long double jdFrac = (_t.hour() - 12 + (_t.minute() + (_t.second() + _t.msec() / 1000.) / 60.) / 60.) / 24.;
@@ -67,6 +70,7 @@ KStarsDateTime::KStarsDateTime(const QDate &_d, const QTime &_t)
 KStarsDateTime::KStarsDateTime(long double _jd) : QDateTime()
 {
     setDJD(_jd);
+    setTimeSpec(Qt::UTC);
 }
 
 //KStarsDateTime KStarsDateTime::currentDateTime( QDateTime::Spec spec ) {
@@ -91,7 +95,7 @@ KStarsDateTime KStarsDateTime::currentDateTimeUtc()
 KStarsDateTime KStarsDateTime::fromString(const QString &s)
 {
     //DEBUG
-    qDebug() << "Date string: " << s;
+    qCDebug(KSTARS) << "Date string: " << s;
 
     KStarsDateTime dtResult(QDateTime::fromString(s, Qt::TextDate));
 
@@ -107,11 +111,11 @@ KStarsDateTime KStarsDateTime::fromString(const QString &s)
     if (dtResult.isValid())
         return dtResult;
 
-    qWarning() << i18n("Could not parse Date/Time string: ") << s;
-    qWarning() << i18n("Valid date formats: ");
-    qWarning() << "  1950-02-25   ;  1950-02-25T05:30:00";
-    qWarning() << "  25 Feb 1950  ;  25 Feb 1950 05:30:00";
-    qWarning() << "  Sat Feb 25 1950  ;  Sat Feb 25 05:30:00 1950";
+    qCWarning(KSTARS) << i18n("Could not parse Date/Time string: ") << s;
+    qCWarning(KSTARS) << i18n("Valid date formats: ");
+    qCWarning(KSTARS) << "  1950-02-25   ;  1950-02-25T05:30:00";
+    qCWarning(KSTARS) << "  25 Feb 1950  ;  25 Feb 1950 05:30:00";
+    qCWarning(KSTARS) << "  Sat Feb 25 1950  ;  Sat Feb 25 05:30:00 1950";
     return KStarsDateTime(QDateTime()); //invalid
 }
 
@@ -167,7 +171,7 @@ dms KStarsDateTime::gst() const
 {
     dms gst0 = GSTat0hUT();
 
-    double hr = double(time().hour());
+    double hr = double(time().hour() - offsetFromUtc()/3600.0);
     double mn = double(time().minute());
     double sc = double(time().second()) + double(0.001 * time().msec());
     double st = (hr + (mn + sc / 60.0) / 60.0) * SIDEREALSECOND;

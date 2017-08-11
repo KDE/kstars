@@ -75,7 +75,7 @@ class KStarsDateTime : public QDateTime
          *@p _d The QDate to assign
          *@p _t The QTime to assign
          */
-    KStarsDateTime(const QDate &_d, const QTime &_t);
+    KStarsDateTime(const QDate &_d, const QTime &_t, Qt::TimeSpec timeSpec = Qt::UTC);
 
     /**
          *Assign the (long double) Julian Day value, which includes the time of day
