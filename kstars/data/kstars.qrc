@@ -143,5 +143,6 @@
     </qresource>
     <qresource prefix="/images">
         <file>noimage.png</file>
+        <file>reticle.png</file>
     </qresource>
 </RCC>

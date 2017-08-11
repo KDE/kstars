@@ -57,6 +57,7 @@
 #include "tools/scriptbuilder.h"
 #include "tools/skycalendar.h"
 #include "tools/wutdialog.h"
+#include "tools/polarishourangle.h"
 #include "tools/whatsinteresting/wiequipsettings.h"
 #include "tools/whatsinteresting/wilpsettings.h"
 #include "tools/whatsinteresting/wiview.h"
@@ -1552,6 +1553,12 @@ void KStars::slotExecute()
 {
     KStarsData::Instance()->executeSession()->init();
     KStarsData::Instance()->executeSession()->show();
+}
+
+void KStars::slotPolarisHourAngle()
+{
+    QPointer<PolarisHourAngle> pHourAngle = new PolarisHourAngle(this);
+    pHourAngle->exec();
 }
 
 //Help Menu

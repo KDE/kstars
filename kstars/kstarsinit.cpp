@@ -423,9 +423,13 @@ void KStars::initActions()
     actionCollection()->addAction("artificialhorizon", this, SLOT(slotHorizonManager()))
         << i18n("Artificial Horizon...");
 
-    // ==== observation menu ================
+    // ==== observation menu - execute ================
     ka = actionCollection()->addAction("execute", this, SLOT(slotExecute()))
          << i18n("Execute the session Plan...") << QKeySequence(Qt::CTRL + Qt::Key_2);
+
+    // ==== observation menu - polaris hour angle ================
+    ka = actionCollection()->addAction("polaris_hour_angle", this, SLOT(slotPolarisHourAngle()))
+         << i18n("Polaris Hour Angle...");
 
 // ==== devices Menu ================
 #ifdef HAVE_INDI
