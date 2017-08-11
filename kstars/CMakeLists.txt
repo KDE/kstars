@@ -283,6 +283,7 @@ if(NOT BUILD_KSTARS_LITE)
         tools/flagmanager.cpp
         tools/horizonmanager.cpp
         tools/nameresolver.cpp
+        tools/polarishourangle.cpp
 
         #FIXME Port to KF5
         #tools/moonphasetool.cpp
@@ -353,6 +354,7 @@ if(NOT BUILD_KSTARS_LITE)
         tools/starhopperdialog.ui
         tools/horizonmanager.ui
         tools/adddeepskyobject.ui
+        tools/polarishourangle.ui
     )
 
     if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)

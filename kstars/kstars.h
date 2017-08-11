@@ -652,6 +652,8 @@ class KStars : public KXmlGuiWindow
 
     void slotExecute();
 
+    void slotPolarisHourAngle();
+
     /** Update comets orbital elements*/
     void slotUpdateComets();
 
