@@ -1491,13 +1491,20 @@ void Scheduler::wakeUpScheduler()
 double Scheduler::findAltitude(const SkyPoint &target, const QDateTime &when)
 {
     // Make a copy
-    SkyPoint p = target;
+    /*SkyPoint p = target;
     QDateTime lt(when.date(), QTime());
     KStarsDateTime ut = KStarsData::Instance()->geo()->LTtoUT(KStarsDateTime(lt));
 
     KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay() / 1000);
 
     CachingDms LST = KStarsData::Instance()->geo()->GSTtoLST(myUT.gst());
+    p.EquatorialToHorizontal(&LST, KStarsData::Instance()->geo()->lat());
+
+    return p.alt().Degrees();*/
+
+    SkyPoint p = target;
+    KStarsDateTime lt(when);
+    CachingDms LST = KStarsData::Instance()->geo()->GSTtoLST(lt.gst());
     p.EquatorialToHorizontal(&LST, KStarsData::Instance()->geo()->lat());
 
     return p.alt().Degrees();
