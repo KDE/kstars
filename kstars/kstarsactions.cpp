@@ -637,7 +637,7 @@ void KStars::slotINDIPanel()
         }
     }
 #endif
-    GUIManager::Instance()->updateStatus();
+    GUIManager::Instance()->updateStatus(true);
 #endif
 }
 
@@ -708,9 +708,16 @@ void KStars::slotEkos()
     }
 #endif
 
-    ekosManager()->raise();
-    ekosManager()->activateWindow();
-    ekosManager()->showNormal();
+    if (ekosManager()->isVisible() && ekosManager()->isActiveWindow())
+    {
+        ekosManager()->hide();
+    }
+    else
+    {
+        ekosManager()->raise();
+        ekosManager()->activateWindow();
+        ekosManager()->showNormal();
+    }
 
 #endif
 #endif

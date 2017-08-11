@@ -39,7 +39,7 @@ class GUIManager : public QWidget
   public:
     static GUIManager *Instance();
 
-    void updateStatus();
+    void updateStatus(bool toggle_behavior);
 
     INDI_D *findGUIDevice(const QString &deviceName);
 
