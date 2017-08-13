@@ -443,7 +443,7 @@ SkyPoint Projector::fromScreen(const QPointF &p, dms *LST, const dms *lat) const
         m_vp.focus->dec().SinCos(sinY0, cosY0);
     }
 
-    double Y    = asin(cosc * sinY0 + (dy * sinc * cosY0) / r);
+    double Y    = asin(cosc * sinY0 + (r == 0 ? 0 : (dy * sinc * cosY0) / r));
     double atop = dx * sinc;
     double abot = r * cosY0 * cosc - dy * sinY0 * sinc;
     double A    = atan2(atop, abot);
