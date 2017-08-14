@@ -333,6 +333,3 @@ void dms::reduceToRange(enum dms::AngleRanges range)
     }
 }
 
-// M_PI is defined in math.h
-const double dms::PI       = M_PI;
-const double dms::DegToRad = PI / 180.0;
