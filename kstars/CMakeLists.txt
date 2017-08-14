@@ -444,56 +444,12 @@ if(NOT BUILD_KSTARS_LITE)
         dialogs/exportimagedialog.ui
     )
 
-    set(oal_SRCS
-        oal/log.cpp
-        oal/observer.cpp
-        oal/site.cpp
-        oal/session.cpp
-        oal/scope.cpp
-        oal/eyepiece.cpp
-        oal/filter.cpp
-        oal/observation.cpp
-        oal/lens.cpp
-        oal/equipmentwriter.cpp
-        oal/observeradd.cpp
-        oal/execute.cpp
-    )
-
-    set(printing_SRCS
-        printing/detailstable.cpp
-        printing/finderchart.cpp
-        printing/foveditordialog.cpp
-        printing/fovsnapshot.cpp
-        printing/kstarsdocument.cpp
-        printing/legend.cpp
-        printing/loggingform.cpp
-        printing/printingwizard.cpp
-        printing/pwizchartconfig.cpp
-        printing/pwizchartcontents.cpp
-        printing/pwizfovbrowse.cpp
-        printing/pwizfovconfig.cpp
-        printing/pwizfovmanual.cpp
-        printing/pwizfovsh.cpp
-        printing/pwizfovtypeselection.cpp
-        printing/pwizobjectselection.cpp
-        printing/pwizprint.cpp
-        printing/shfovexporter.cpp
-        printing/simplefovexporter.cpp
-    )
-
-    set(printingui_SRCS
-        printing/foveditordialog.ui
-        printing/pwizchartconfig.ui
-        printing/pwizchartcontents.ui
-        printing/pwizfovbrowse.ui
-        printing/pwizfovconfig.ui
-        printing/pwizfovmanual.ui
-        printing/pwizfovsh.ui
-        printing/pwizfovtypeselection.ui
-        printing/pwizobjectselection.ui
-        printing/pwizprint.ui
-        printing/pwizwelcome.ui
-    )
+    set(hips_SRCS
+        hips/healpix.cpp
+        #hips/hipsmanager.cpp
+        #hips/hipsrenderer.cpp
+        #hips/urlfiledownload.cpp
+        )
 
     set(oal_SRCS
         oal/log.cpp
@@ -581,6 +537,7 @@ set(libkstarscomponents_SRCS
     skycomponents/ecliptic.cpp
     skycomponents/equator.cpp
     skycomponents/artificialhorizoncomponent.cpp
+    skycomponents/hipscomponent.cpp
     skycomponents/horizoncomponent.cpp
     skycomponents/milkyway.cpp
     skycomponents/skycomponent.cpp
@@ -865,7 +822,8 @@ set(kstars_SRCS
     ${kstars_options_SRCS}
     ${kstars_skyobjects_SRCS}
     ${kstars_dialogs_SRCS}
-    ${oal_SRCS}
+    ${hips_SRCS}
+    ${oal_SRCS}    
     ${printing_SRCS}
     #KStars Lite
     ${kstarslite_SRCS}
@@ -875,7 +833,7 @@ set(kstars_SRCS
     ${libkstarswidgets_ui_SRCS}
 )
 
-# Generate all the necessary QtLoggingCategory files
+# Generate all the necessary QLoggingCategory files
 ecm_qt_declare_logging_category(kstars_SRCS HEADER kstars_debug.h IDENTIFIER KSTARS CATEGORY_NAME org.kde.kstars)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER indi_debug.h IDENTIFIER KSTARS_INDI CATEGORY_NAME org.kde.kstars.indi)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER fits_debug.h IDENTIFIER KSTARS_FITS CATEGORY_NAME org.kde.kstars.fits)

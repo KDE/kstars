@@ -56,6 +56,7 @@
 #include "ksutils.h"
 #include "observinglist.h"
 #include "skymap.h"
+#include "hipscomponent.h"
 #endif
 
 #include <QApplication>
@@ -145,6 +146,9 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
     addComponent(m_DeepSky = new DeepSkyComponent(this), 5);
     addComponent(m_ConstellationArt = new ConstellationArtComponent(this, m_Cultures.get()), 100);
 
+    // Hips
+    addComponent(m_HiPS = new HIPSComponent(this));
+
     addComponent(m_ArtificialHorizon = new ArtificialHorizonComponent(this), 110);
 
     m_internetResolvedCat = "_Internet_Resolved";
@@ -163,9 +167,8 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
     }
 
     addComponent(m_SolarSystem = new SolarSystemComposite(this), 2);
-#ifndef KSTARS_LITE
-    addComponent(m_Flags = new FlagComponent(this), 4);
-#endif
+
+    addComponent(m_Flags = new FlagComponent(this), 4);       
 
     addComponent(m_ObservingList =
                      new TargetListComponent(this, 0, QPen(), &Options::obsListSymbol, &Options::obsListText),
