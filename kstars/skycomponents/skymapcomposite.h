@@ -56,6 +56,7 @@ class StarComponent;
 class SupernovaeComponent;
 class SyncedCatalogComponent;
 class TargetListComponent;
+class HIPSComponent;
 
 /**
  * @class SkyMapComposite
@@ -254,6 +255,7 @@ class SkyMapComposite : public QObject, public SkyComposite
     StarComponent *m_Stars { nullptr };
 #ifndef KSTARS_LITE
     FlagComponent *m_Flags { nullptr };
+    HIPSComponent *m_HiPS { nullptr };
 #endif
     TargetListComponent *m_ObservingList { nullptr };
     TargetListComponent *m_StarHopRouteList { nullptr };
