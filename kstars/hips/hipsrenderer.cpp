@@ -19,11 +19,6 @@
 */
 
 #include "hipsrenderer.h"
-#include "cscanrender.h"
-#include "transform.h"
-#include "precess.h"
-#include "skutils.h"
-#include "setting.h"
 
 HiPSRenderer *g_hipsRenderer;
 
@@ -32,7 +27,7 @@ HiPSRenderer::HiPSRenderer()
   m_manager.init();
 }
 
-void HiPSRenderer::render(mapView_t *view, CSkPainter *painter, QImage *pDest)
+void HiPSRenderer::render(QImage *pDest)
 {
   if (!m_manager.getParam()->render || m_manager.getParam()->url.isEmpty())
   {
@@ -43,9 +38,11 @@ void HiPSRenderer::render(mapView_t *view, CSkPainter *painter, QImage *pDest)
 
   int level = 1;
 
-  double minfov = D2R(58.5);
+  // FIXME
+  //double minfov = D2R(58.5);
 
-  while( level < m_manager.getParam()->max_level && view->fov < minfov) { minfov /= 2; level++; }
+  // FIXME
+  //while( level < m_manager.getParam()->max_level && view->fov < minfov) { minfov /= 2; level++; }
 
   m_renderedMap.clear();
   m_rendered = 0;
@@ -55,9 +52,12 @@ void HiPSRenderer::render(mapView_t *view, CSkPainter *painter, QImage *pDest)
   double ra, dec;
   double cx, cy;
 
+  // FIXME
+  #if 0
   trfGetCenter(cx, cy);
   trfConvScrPtToXY(cx, cy, ra, dec);
   precess(&ra, &dec, view->jd, JD2000);
+#endif
 
   bool allSky;
 
@@ -74,6 +74,8 @@ void HiPSRenderer::render(mapView_t *view, CSkPainter *painter, QImage *pDest)
   int centerPix = m_HEALpix.getPix(level, ra, dec);
 
   // calculate healpix grid edge size in pixels
+  // FIXME
+#if 0
   SKPOINT pts[4];
   m_HEALpix.getCornerPoints(level, centerPix, pts);
   for (int i = 0; i < 2; i++) trfProjectPointNoCheck(&pts[i]);
@@ -85,17 +87,18 @@ void HiPSRenderer::render(mapView_t *view, CSkPainter *painter, QImage *pDest)
 
   renderRec(allSky, level, centerPix, painter, pDest);
 
-  scanRender.enableBillinearInt(old);    
+  scanRender.enableBillinearInt(old);
+#endif
 }
 
-void HiPSRenderer::renderRec(bool allsky, int level, int pix, CSkPainter *painter, QImage *pDest)
+void HiPSRenderer::renderRec(bool allsky, int level, int pix, QImage *pDest)
 {
   if (m_renderedMap.contains(pix))
   {
     return;
   }
 
-  if (renderPix(allsky, level ,pix, painter, pDest))
+  if (renderPix(allsky, level ,pix, pDest))
   {
     m_renderedMap.insert(pix);
     int dirs[8];
@@ -103,15 +106,17 @@ void HiPSRenderer::renderRec(bool allsky, int level, int pix, CSkPainter *painte
 
     m_HEALpix.neighbours(nside, pix, dirs);    
 
-    renderRec(allsky, level, dirs[0], painter, pDest);
-    renderRec(allsky, level, dirs[2], painter, pDest);
-    renderRec(allsky, level, dirs[4], painter, pDest);
-    renderRec(allsky, level, dirs[6], painter, pDest);
+    renderRec(allsky, level, dirs[0], pDest);
+    renderRec(allsky, level, dirs[2], pDest);
+    renderRec(allsky, level, dirs[4], pDest);
+    renderRec(allsky, level, dirs[6], pDest);
   }    
 }
 
-bool HiPSRenderer::renderPix(bool allsky, int level, int pix, CSkPainter *painter, QImage *pDest)
+bool HiPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
 {  
+// FIXME
+#if 0
   SKPOINT pts[4];
   bool freeImage;
   SKPOINT sub[4];
@@ -195,6 +200,8 @@ bool HiPSRenderer::renderPix(bool allsky, int level, int pix, CSkPainter *painte
     return true;
   }
 
+
+#endif
   return false;
 }
 
@@ -212,5 +219,3 @@ HiPSManager *HiPSRenderer::manager()
 {
   return &m_manager;
 }
-
-

@@ -1,8 +1,32 @@
-#include "cscanrender.h"
-#include "omp.h"
-#include "skcore.h"
+/*
+  Copyright (C) 2015-2017, Pavel Mraz
+
+  Copyright (C) 2017, Jasem Mutlaq
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
+
+#include "scanrender.h"
+#include <omp.h>
 
 //#define PARALLEL_OMP
+
+#define FRAC(f, from, to)      ((((f) - (from)) / (double)((to) - (from))))
+#define LERP(f, mi, ma)        ((mi) + (f) * ((ma) - (mi)))
+#define CLAMP(v, mi, ma)       (((v) < (mi)) ? (mi) : ((v) > (ma)) ? (ma) : (v))
+#define SIGN(x)                ((x) >= 0 ? 1.0 : -1.0)
 
 CScanRender scanRender;
 
@@ -322,7 +346,7 @@ void CScanRender::renderPolygon(QImage *dst, QImage *src)
     renderPolygonNI(dst, src);
 }
 
-void CScanRender::renderPolygon(QPainter *p, int interpolation, SKPOINT *pts, QImage *pDest, QImage *pSrc, QPointF *uv)
+void CScanRender::renderPolygon(int interpolation, QPoint *pts, QImage *pDest, QImage *pSrc, QPointF *uv)
 {
   QPointF Auv = uv[0];
   QPointF Buv = uv[1];
@@ -332,18 +356,18 @@ void CScanRender::renderPolygon(QPainter *p, int interpolation, SKPOINT *pts, QI
   if (interpolation < 2)
   {
     resetScanPoly(pDest->width(), pDest->height());
-    scanLine(pts[0].sx, pts[0].sy, pts[1].sx, pts[1].sy, 1, 1, 1, 0);
-    scanLine(pts[1].sx, pts[1].sy, pts[2].sx, pts[2].sy, 1, 0, 0, 0);
-    scanLine(pts[2].sx, pts[2].sy, pts[3].sx, pts[3].sy, 0, 0, 0, 1);
-    scanLine(pts[3].sx, pts[3].sy, pts[0].sx, pts[0].sy, 0, 1, 1, 1);
+    scanLine(pts[0].x(), pts[0].y(), pts[1].x(), pts[1].y(), 1, 1, 1, 0);
+    scanLine(pts[1].x(), pts[1].y(), pts[2].x(), pts[2].y(), 1, 0, 0, 0);
+    scanLine(pts[2].x(), pts[2].y(), pts[3].x(), pts[3].y(), 0, 0, 0, 1);
+    scanLine(pts[3].x(), pts[3].y(), pts[0].x(), pts[0].y(), 0, 1, 1, 1);
     renderPolygon(pDest, pSrc);
     return;
   }
 
-  QPointF A = QPointF(pts[0].sx, pts[0].sy);
-  QPointF B = QPointF(pts[1].sx, pts[1].sy);
-  QPointF C = QPointF(pts[2].sx, pts[2].sy);
-  QPointF D = QPointF(pts[3].sx, pts[3].sy);
+  QPointF A = pts[0];
+  QPointF B = pts[1];
+  QPointF C = pts[2];
+  QPointF D = pts[3];
 
   //p->setPen(Qt::green);
 

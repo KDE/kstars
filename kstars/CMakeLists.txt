@@ -446,9 +446,11 @@ if(NOT BUILD_KSTARS_LITE)
 
     set(hips_SRCS
         hips/healpix.cpp
-        #hips/hipsmanager.cpp
-        #hips/hipsrenderer.cpp
-        #hips/urlfiledownload.cpp
+        hips/hipsmanager.cpp
+        hips/hipsrenderer.cpp
+        hips/scanrender.cpp
+        hips/pixcache.cpp
+        hips/urlfiledownload.cpp
         )
 
     set(oal_SRCS

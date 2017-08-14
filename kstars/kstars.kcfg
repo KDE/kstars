@@ -1978,4 +1978,18 @@
          <default>7624</default>
       </entry>
    </group>
+   <group name="HiPS">
+    <entry name="hips_mem_cache" type="UInt">
+          <label>RAM cache size in MB used to store cached HIPS images.</label>
+          <default>300</default>
+    </entry>
+    <entry name="hips_net_cache" type="UInt">
+          <label>Hard disk cache size in MB used to store cached HIPS images.</label>
+          <default>1000</default>
+    </entry>
+    <entry name="his_source" type="String">
+          <label>HIPS source catalog.</label>
+          <default>DSS Color</default>
+    </entry>
+   </group>
 </kcfg>

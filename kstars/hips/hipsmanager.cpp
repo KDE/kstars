@@ -19,12 +19,14 @@
 */
 
 #include "hipsmanager.h"
-#include "skutils.h"
 
 #include <QTime>
 #include <QHash>
 #include <QNetworkDiskCache>
 #include <QPainter>
+
+#include "auxiliary/kspaths.h"
+#include "Options.h"
 
 static QNetworkDiskCache *g_discCache = nullptr;
 static UrlFileDownload *g_download = nullptr;
@@ -59,12 +61,15 @@ void HiPSManager::init()
                   this, SLOT(slotDone(QNetworkReply::NetworkError,QByteArray&,pixCacheKey_t&)));
   }
 
-  g_discCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/cache/hips");
-  g_discCache->setMaximumCacheSize(setting("hips_net_cache").toLongLong());
-  m_cache.setMaxCost(setting("hips_mem_cache").toInt());
+  //g_discCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/cache/hips");
+  g_discCache->setCacheDirectory(KSPaths::writableLocation(QStandardPaths::GenericCacheLocation) + "hips");
+  //g_discCache->setMaximumCacheSize(setting("hips_net_cache").toLongLong());
+  //m_cache.setMaxCost(setting("hips_mem_cache").toInt());
+  g_discCache->setMaximumCacheSize(Options::hips_net_cache()*1024*1024);
+  m_cache.setMaxCost(Options::hips_mem_cache()*1024*1024);
 }
 
-QVariant HiPSManager::setting(const QString &name)
+/*QVariant HiPSManager::setting(const QString &name)
 {
   QSettings set;
 
@@ -98,6 +103,7 @@ void HiPSManager::writeSetting(const QString &name, const QVariant &value)
     set.setValue("hips_net_cache", value);
   }
 }
+*/
 
 void HiPSManager::setParam(const hipsParams_t &param)
 {  
