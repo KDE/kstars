@@ -22,12 +22,18 @@
 
 #include "Options.h"
 
-HiPSRenderer::HiPSRenderer()
+#include "projections/projector.h"
+
+HIPSRenderer::HIPSRenderer()
 {  
 }
 
-void HiPSRenderer::render(QImage *pDest)
+QImage * HIPSRenderer::render(uint16_t w, uint16_t h, const Projector *m_proj)
 {
+    delete (m_Img);
+    m_Img = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+    return nullptr;
+
 #if 0
   //if (!m_manager.getParam()->render || m_manager.getParam()->url.isEmpty())
   if (Options::hIPSSource() == i18n("None"))
@@ -91,7 +97,7 @@ void HiPSRenderer::render(QImage *pDest)
 #endif
 }
 
-void HiPSRenderer::renderRec(bool allsky, int level, int pix, QImage *pDest)
+void HIPSRenderer::renderRec(bool allsky, int level, int pix, QImage *pDest)
 {
 #if 0
   if (m_renderedMap.contains(pix))
@@ -115,7 +121,7 @@ void HiPSRenderer::renderRec(bool allsky, int level, int pix, QImage *pDest)
 #endif
 }
 
-bool HiPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
+bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
 {  
 // FIXME
 #if 0

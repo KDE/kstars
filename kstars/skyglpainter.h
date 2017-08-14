@@ -52,6 +52,7 @@ class SkyGLPainter : public SkyPainter
     bool drawSupernova(Supernova *sup) Q_DECL_OVERRIDE;
     void drawText(int x, int y, const QString text, QFont font, QColor color);
     bool drawConstellationArtImage(ConstellationsArt *obj) Q_DECL_OVERRIDE;
+    bool drawHips() Q_DECL_OVERRIDE;
 
   private:
     bool addItem(SkyPoint *p, int type, float width, char sp = 'a');

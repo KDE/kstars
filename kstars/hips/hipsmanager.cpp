@@ -356,6 +356,19 @@ pixCacheItem_t *HIPSManager::getCacheItem(pixCacheKey_t &key)
 
 bool HIPSManager::setCurrentSource(const QString &title)
 {
+    if (title == i18n("None"))
+    {
+        Options::setHIPSSource(title);
+        m_currentSource.clear();
+        m_currentFormat.clear();
+        m_currentFrame.clear();
+        m_currentURL.clear();
+        m_currentOrder=0;
+        m_currentTileWidth=0;
+        m_uid=0;
+        return true;
+    }
+
     for (QVariantMap &source : m_hipsSources)
     {
         if (source.value("title").toString() == title)

@@ -23,13 +23,15 @@
 #include "hipsmanager.h"
 #include "healpix.h"
 
-class HiPSRenderer : public QObject
+class Projector;
+
+class HIPSRenderer : public QObject
 {
   Q_OBJECT
 public:
-  explicit HiPSRenderer();
+  explicit HIPSRenderer();
   //void render(mapView_t *view, CSkPainter *painter, QImage *pDest);
-  void render(QImage *pDest);
+  QImage* render(uint16_t w, uint16_t h, const Projector *m_proj);
   void renderRec(bool allsky, int level, int pix, QImage *pDest);
   bool renderPix(bool allsky, int level, int pix, QImage *pDest);
 
@@ -43,6 +45,7 @@ private:
   int         m_size;
   QSet <int>  m_renderedMap;
   HEALPix     m_HEALpix;
+  QImage      *m_Img = { nullptr };
 };
 
 

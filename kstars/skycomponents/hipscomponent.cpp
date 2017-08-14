@@ -13,6 +13,8 @@
 
 #include "hipscomponent.h"
 
+#include "skypainter.h"
+
 HIPSComponent::HIPSComponent(SkyComposite *parent) : SkyComponent(parent)
 {
 }
@@ -23,5 +25,5 @@ HIPSComponent::~HIPSComponent()
 
 void HIPSComponent::draw(SkyPainter *skyp)
 {
-    Q_UNUSED(skyp)
+  skyp->drawHips();
 }
