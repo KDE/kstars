@@ -1,8 +1,6 @@
 /*
   Copyright (C) 2015-2017, Pavel Mraz
 
-  Copyright (C) 2017, Jasem Mutlaq
-
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
@@ -20,35 +18,22 @@
 
 #pragma once
 
-#include "hipsmanager.h"
-#include "healpix.h"
+#include "hips.h"
 
-class HiPSRenderer : public QObject
+#include <QCache>
+
+class PixCache
 {
-  Q_OBJECT
 public:
-  explicit HiPSRenderer();
-  //void render(mapView_t *view, CSkPainter *painter, QImage *pDest);
-  void render(QImage *pDest);
-  void renderRec(bool allsky, int level, int pix, QImage *pDest);
-  bool renderPix(bool allsky, int level, int pix, QImage *pDest);
-  void setParam(const hipsParams_t &param);
-  hipsParams_t *getParam();
+  PixCache();  
 
-  HiPSManager *manager();
+  void add(pixCacheKey_t &key, pixCacheItem_t *item, int cost);
+  pixCacheItem_t *get(pixCacheKey_t &key);
+  void setMaxCost(int maxCost);
+  void printCache();
+  int  used();
 
-signals:
-
-public slots:
-
-private:
-  HiPSManager m_manager;
-  int         m_blocks;
-  int         m_rendered;
-  int         m_size;
-  QSet <int>  m_renderedMap;
-  HEALPix     m_HEALpix;
+private:  
+  QCache <pixCacheKey_t, pixCacheItem_t> m_cache;
 };
-
-extern HiPSRenderer *g_hipsRenderer;
 
