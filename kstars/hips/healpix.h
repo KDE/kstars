@@ -43,7 +43,6 @@ class HEALPix
 public:
   HEALPix();
 
-  void setParam(hipsParams_t *param);
   void getCornerPoints(int level, int pix, SkyPoint *points);
   void neighbours(int nside, qint32 ipix, int *result);
   int  getPix(int level, double ra, double dec);
@@ -54,8 +53,6 @@ private:
   QVector3D toVec3(double fx, double fy, int face);
   void boundaries(qint32 nside, qint32 pix, int step, QVector3D *out);
   int ang2pix_nest_z_phi(qint32 nside_, double z, double phi);
-  void xyz2sph(const QVector3D &vec, double &l, double &b);
-
-  hipsParams_t *m_param;
+  void xyz2sph(const QVector3D &vec, double &l, double &b);  
 };
 

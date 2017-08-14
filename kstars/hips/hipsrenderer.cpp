@@ -20,16 +20,17 @@
 
 #include "hipsrenderer.h"
 
-HiPSRenderer *g_hipsRenderer;
+#include "Options.h"
 
 HiPSRenderer::HiPSRenderer()
-{
-  m_manager.init();
+{  
 }
 
 void HiPSRenderer::render(QImage *pDest)
 {
-  if (!m_manager.getParam()->render || m_manager.getParam()->url.isEmpty())
+#if 0
+  //if (!m_manager.getParam()->render || m_manager.getParam()->url.isEmpty())
+  if (Options::hIPSSource() == i18n("None"))
   {
     return;
   }
@@ -53,11 +54,10 @@ void HiPSRenderer::render(QImage *pDest)
   double cx, cy;
 
   // FIXME
-  #if 0
   trfGetCenter(cx, cy);
   trfConvScrPtToXY(cx, cy, ra, dec);
   precess(&ra, &dec, view->jd, JD2000);
-#endif
+
 
   bool allSky;
 
@@ -75,7 +75,7 @@ void HiPSRenderer::render(QImage *pDest)
 
   // calculate healpix grid edge size in pixels
   // FIXME
-#if 0
+
   SKPOINT pts[4];
   m_HEALpix.getCornerPoints(level, centerPix, pts);
   for (int i = 0; i < 2; i++) trfProjectPointNoCheck(&pts[i]);
@@ -93,6 +93,7 @@ void HiPSRenderer::render(QImage *pDest)
 
 void HiPSRenderer::renderRec(bool allsky, int level, int pix, QImage *pDest)
 {
+#if 0
   if (m_renderedMap.contains(pix))
   {
     return;
@@ -110,7 +111,8 @@ void HiPSRenderer::renderRec(bool allsky, int level, int pix, QImage *pDest)
     renderRec(allsky, level, dirs[2], pDest);
     renderRec(allsky, level, dirs[4], pDest);
     renderRec(allsky, level, dirs[6], pDest);
-  }    
+  }
+#endif
 }
 
 bool HiPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
@@ -203,19 +205,4 @@ bool HiPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
 
 #endif
   return false;
-}
-
-void HiPSRenderer::setParam(const hipsParams_t &param)
-{
-  m_manager.setParam(param);
-}
-
-hipsParams_t *HiPSRenderer::getParam()
-{
-  return m_manager.getParam();
-}
-
-HiPSManager *HiPSRenderer::manager()
-{
-  return &m_manager;
 }

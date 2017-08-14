@@ -83,6 +83,14 @@ class KSUserDB
     void GetAllDarkFrames(QList<QVariantMap> &darkFrames);
 
     /************************************************************************
+     *********************************** HiPS *******************************
+     ************************************************************************/
+
+    void AddHIPSSource(const QVariantMap &oneSource);
+    bool DeleteHIPSSource(const QString &title);
+    void GetAllHIPSSources(QList<QVariantMap> &HIPSSources);
+
+    /************************************************************************
      ******************************* Observers ******************************
      ************************************************************************/
 

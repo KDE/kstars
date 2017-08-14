@@ -106,13 +106,9 @@ HEALPix::HEALPix()
 {
 }
 
-void HEALPix::setParam(hipsParams_t *param)
-{
-  m_param = param;
-}
-
 void HEALPix::getCornerPoints(int level, int pix, SkyPoint *points)
 {
+#if 0
   static QMatrix4x4 gl(-0.0548755f,  0.494109f, -0.867666f,  0.f,
                        -0.873437f,  -0.444830f, -0.198076f,  0.f,
                        -0.483835f,   0.746982f,  0.455984f,  0.f,
@@ -163,6 +159,8 @@ void HEALPix::getCornerPoints(int level, int pix, SkyPoint *points)
     }
   }
   */
+
+#endif
 }
 
 void HEALPix::boundaries(qint32 nside, qint32 pix, int step, QVector3D *out)
@@ -401,7 +399,9 @@ int HEALPix::ang2pix_nest_z_phi (qint32 nside_, double z, double phi)
 }
 
 int HEALPix::getPix(int level, double ra, double dec)
-{    
+{
+#if 0
+
   int nside = 1 << level;
   double polar[2];    
 
@@ -425,6 +425,8 @@ int HEALPix::getPix(int level, double ra, double dec)
   }
 
   return ang2pix_nest_z_phi(nside, sin(polar[0]), polar[1]);
+#endif
+  return -1;
 }
 
 void HEALPix::getPixChilds(int pix, int *childs)

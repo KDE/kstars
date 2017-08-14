@@ -51,25 +51,32 @@ private slots:
   }
 };
 
-class HiPSManager : public QObject
+class HIPSManager : public QObject
 {
   Q_OBJECT
 
-public:  
-  explicit HiPSManager();
-  void init();
-  //QVariant setting(const QString &name);
-  //void writeSetting(const QString &name, const QVariant &value);
-  void setParam(const hipsParams_t &param);
+public:
+  static HIPSManager *Instance();
+
   QImage *getPix(bool allsky, int level, int pix, bool &freeImage);
+
   qint64 getDiscCacheSize();
-  bool parseProperties(hipsParams_t *param, const QString &filename, const QString &url = "");
+
+  //bool parseProperties(hipsParams_t *param, const QString &filename, const QString &url = "");
+
+  void readSources();
+
   void cancelAll();
   void clearDiscCache();
 
   PixCache *getCache();
 
-  hipsParams_t *getParam();
+  const QVariantMap & getCurrentSource() const { return m_currentSource; }
+
+  QList<QVariantMap> getHIPSSources() const { return m_hipsSources; }
+
+public slots:
+    bool setCurrentSource(const QString &title);
 
 signals:
   void sigRepaint();
@@ -79,15 +86,30 @@ private slots:
   void removeTimer(pixCacheKey_t &key);
 
 private:
-  qint64         m_uid;
-  hipsParams_t m_param;  
-  PixCache       m_cache;
+  explicit HIPSManager();
 
+  static HIPSManager * _HIPSManager;
+
+  // Cache
+  PixCache       m_cache;
   QSet <pixCacheKey_t> m_downloadMap;
 
   void addToMemoryCache(pixCacheKey_t &key, pixCacheItem_t *item);
   pixCacheItem_t *getCacheItem(pixCacheKey_t &key);
 
+  // List of all sources in the database
+  QList<QVariantMap> m_hipsSources;
+
+  // Current Active Source
+  QVariantMap m_currentSource;
+
+  // Handy shortcuts
+  qint64 m_uid;
+  QString m_currentFormat;
+  QString m_currentFrame;
+  uint8_t m_currentOrder;
+  uint16_t m_currentTileWidth;
+  QUrl m_currentURL;
 };
 
 #endif // HIPSMANAGER_H
