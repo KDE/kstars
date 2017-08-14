@@ -171,6 +171,12 @@ class SkyPainter
      */
     virtual bool drawConstellationArtImage(ConstellationsArt *obj) = 0;
 
+    /**
+     * @brief drawHips Draw HIPS all sky catalog
+     * @return true if it was drawn
+     */
+    virtual bool drawHips() = 0;
+
   protected:
     SkyMap *m_sm { nullptr };
 

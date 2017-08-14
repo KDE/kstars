@@ -1989,6 +1989,7 @@
     </entry>
     <entry name="HIPSSource" type="String">
           <label>HIPS source catalog title.</label>
+          <default>None</default>
     </entry>
    </group>
 </kcfg>

@@ -313,6 +313,9 @@ void SkyMapComposite::draw(SkyPainter *skyp)
 
     m_MilkyWay->draw(skyp);
 
+    // Draw HIPS after milky way but before everything else
+    m_HiPS->draw(skyp);
+
     m_EquatorialCoordinateGrid->draw(skyp);
     m_HorizontalCoordinateGrid->draw(skyp);
 

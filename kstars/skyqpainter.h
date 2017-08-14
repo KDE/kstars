@@ -28,6 +28,7 @@ class Projector;
 class QWidget;
 class QSize;
 class QMessageBox;
+class HIPSRenderer;
 
 /**
  * @short The QPainter-based painting backend.
@@ -97,6 +98,7 @@ class SkyQPainter : public SkyPainter, public QPainter
     /// This function exists so that we can draw other objects (e.g., planets) as point sources.
     virtual void drawPointSource(const QPointF &pos, float size, char sp = 'A');
     bool drawConstellationArtImage(ConstellationsArt *obj) Q_DECL_OVERRIDE;
+    bool drawHips() Q_DECL_OVERRIDE;
 
   private:
     virtual bool drawDeepSkyImage(const QPointF &pos, DeepSkyObject *obj, float positionAngle);
@@ -104,6 +106,7 @@ class SkyQPainter : public SkyPainter, public QPainter
     QPaintDevice *m_pd { nullptr };
     const Projector *m_proj { nullptr };
     bool m_vectorStars { false };
+    HIPSRenderer *m_hipsRender { nullptr };
     QSize m_size;
     static int starColorMode;
     static QColor m_starColor;

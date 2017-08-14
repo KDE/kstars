@@ -603,6 +603,13 @@ void KStars::repopulateHIPS()
     hipsGroup->actions().clear();
     QList<QAction *> acitons2 = hipsGroup->actions();
 
+    QAction *ka = actionCollection()->addAction(i18n("None"), this, SLOT(slotHIPSSource()))
+        << i18n("None") << AddToGroup(hipsGroup)
+        << Checked(Options::hIPSSource() == i18n("None"));
+
+    hipsActionMenu->addAction(ka);
+    hipsActionMenu->addSeparator();
+
     for (QVariantMap source : HIPSManager::Instance()->getHIPSSources())
     {
         QString title = source.value("title").toString();
