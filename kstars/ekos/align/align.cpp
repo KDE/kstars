@@ -2894,7 +2894,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         break;
 
     case GOTO_SLEW:
-        if (loadSlewState == IPS_BUSY || targetDiff > accuracySpin->value())
+        if (loadSlewState == IPS_BUSY || targetDiff > (double)accuracySpin->value())
         {
             if (loadSlewState == IPS_IDLE && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
             {

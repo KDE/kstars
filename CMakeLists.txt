@@ -290,12 +290,7 @@ IF (UNIX OR APPLE)
         SET(COMP_FLAGS "${COMP_FLAGS} -Wno-nonnull -Wno-deprecated-declarations")
     ENDIF ()
 
-    # Minimal debug info with Clang
-    IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        SET(COMP_FLAGS "${COMP_FLAGS} -gline-tables-only")
-    ELSE ()
-        SET(COMP_FLAGS "${COMP_FLAGS} -g")
-    ENDIF ()
+    SET(COMP_FLAGS "${COMP_FLAGS} -g")
 
     # Note: The following flags are problematic on older systems with gcc 4.8
     IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9.9))
