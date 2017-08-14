@@ -28,6 +28,7 @@
 #include "skyobjects/ksplanetbase.h"
 #include "widgets/timespinbox.h"
 #include "widgets/timestepbox.h"
+#include "hips/hipsmanager.h"
 
 #ifdef HAVE_INDI
 #include "indi/drivermanager.h"
@@ -331,6 +332,14 @@ void KStars::initActions()
     FOVManager::readFOVs();
     repopulateFOV();
 
+    //Add HIPS Sources actions
+    hipsActionMenu = actionCollection()->add<KActionMenu>("hipssources");
+    hipsActionMenu->setText(i18n("HiPS All Sky Overlay"));
+    hipsActionMenu->setDelayed(false);
+    hipsActionMenu->setIcon(QIcon::fromTheme("view-preview", QIcon(":/icons/breeze/default/view-preview.svg")));
+    HIPSManager::Instance()->readSources();
+    repopulateHIPS();
+
     actionCollection()->addAction("geolocation", this, SLOT(slotGeoLocator()))
         << i18nc("Location on Earth", "&Geographic...")
         << QIcon::fromTheme("kstars_xplanet", QIcon(":/icons/breeze/default/kstars_xplanet.svg"))
@@ -585,6 +594,33 @@ void KStars::repopulateFOV()
     fovActionMenu->addSeparator();
     fovActionMenu->addAction(ka);
 }
+
+void KStars::repopulateHIPS()
+{
+    // Iterate through FOVs
+    hipsActionMenu->menu()->clear();
+    QList<QAction *> acitons = hipsGroup->actions();
+    hipsGroup->actions().clear();
+    QList<QAction *> acitons2 = hipsGroup->actions();
+
+    for (QVariantMap source : HIPSManager::Instance()->getHIPSSources())
+    {
+        QString title = source.value("title").toString();
+
+        QAction *ka = actionCollection()->addAction(title, this, SLOT(slotHIPSSource()))
+            << title << AddToGroup(hipsGroup)
+            << Checked(Options::hIPSSource() == title);
+
+        hipsActionMenu->addAction(ka);
+    }
+
+    // TODO HIPS Sources Manager
+    // Add menu bottom
+    //QAction *ka = actionCollection()->addAction("edit_fov", this, SLOT(slotFOVEdit())) << i18n("Edit FOV Symbols...");
+    //fovActionMenu->addSeparator();
+    //fovActionMenu->addAction(ka);
+}
+
 
 void KStars::initStatusBar()
 {

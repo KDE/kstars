@@ -157,6 +157,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     //Initialize QActionGroups
     projectionGroup = new QActionGroup(this);
     cschemeGroup    = new QActionGroup(this);
+    hipsGroup       = new QActionGroup(this);
 
     m_KStarsData = KStarsData::Create();
     Q_ASSERT(m_KStarsData);

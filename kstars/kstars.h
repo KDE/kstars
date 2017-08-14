@@ -614,6 +614,9 @@ class KStars : public KXmlGuiWindow
     /** Select the Target symbol (a.k.a. field-of-view indicator) */
     void slotTargetSymbol(bool flag);
 
+    /** Select the HIPS Source catalog. */
+    void slotHIPSSource();
+
     /** Invoke the Field-of-View symbol editor window */
     void slotFOVEdit();
 
@@ -673,6 +676,9 @@ class KStars : public KXmlGuiWindow
     /** Load FOV information and repopulate menu. */
     void repopulateFOV();
 
+    /** Load HIPS information and repopulate menu. */
+    void repopulateHIPS();
+
     /** Initialize Menu bar, toolbars and all Actions. */
     void initActions();
 
@@ -697,6 +703,7 @@ class KStars : public KXmlGuiWindow
 
     KActionMenu *colorActionMenu { nullptr };
     KActionMenu *fovActionMenu { nullptr };
+    KActionMenu *hipsActionMenu { nullptr };
 
     KStarsData *m_KStarsData { nullptr };
     SkyMap *m_SkyMap { nullptr };
@@ -746,6 +753,7 @@ class KStars : public KXmlGuiWindow
 
     QActionGroup *projectionGroup { nullptr };
     QActionGroup *cschemeGroup { nullptr };
+    QActionGroup *hipsGroup { nullptr };
 
     bool DialogIsObsolete { false };
     bool StartClockRunning { false };

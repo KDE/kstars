@@ -35,19 +35,6 @@ typedef struct
   int     memoryCacheSize;   // count
 } hipsCache_t;
 
-typedef struct
-{  
-  bool    render;
-  bool    showGrid;
-  bool    billinear;
-  QString name;
-  QString imageExtension; // JPG, PNG, etc.
-  QString url;  
-  int     max_level;
-  int     frame;          // HIPS_FRAME_xxx
-  int     tileWidth;
-} hipsParams_t;
-
 class pixCacheItem_t
 {  
 public:

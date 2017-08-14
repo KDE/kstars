@@ -26,7 +26,12 @@
 #include <QPainter>
 
 #include "auxiliary/kspaths.h"
+#include "auxiliary/ksuserdb.h"
+#include "kstarsdata.h"
+#include "kstars.h"
 #include "Options.h"
+
+#include "kstars_debug.h"
 
 static QNetworkDiskCache *g_discCache = nullptr;
 static UrlFileDownload *g_download = nullptr;
@@ -42,77 +47,62 @@ inline bool operator==(const pixCacheKey_t &k1, const pixCacheKey_t &k2)
   return (k1.uid == k2.uid) && (k1.level == k2.level) && (k1.pix == k2.pix);
 }
 
-HiPSManager::HiPSManager()
+HIPSManager * HIPSManager::_HIPSManager = nullptr;
+
+HIPSManager *HIPSManager::Instance()
 {
+    if (_HIPSManager == nullptr)
+        _HIPSManager = new HIPSManager();
+
+    return _HIPSManager;
 }
 
-void HiPSManager::init()
+HIPSManager::HIPSManager() : QObject(KStars::Instance())
 {
-  if (g_discCache == nullptr)
-  {
-    g_discCache = new QNetworkDiskCache();
-  }
+    if (g_discCache == nullptr)
+    {
+      g_discCache = new QNetworkDiskCache();
+    }
 
-  if (g_download == nullptr)
-  {
-    g_download = new UrlFileDownload(this, g_discCache);
+    if (g_download == nullptr)
+    {
+      g_download = new UrlFileDownload(this, g_discCache);
 
-    connect(g_download, SIGNAL(sigDownloadDone(QNetworkReply::NetworkError,QByteArray&,pixCacheKey_t&)),
-                  this, SLOT(slotDone(QNetworkReply::NetworkError,QByteArray&,pixCacheKey_t&)));
-  }
+      connect(g_download, SIGNAL(sigDownloadDone(QNetworkReply::NetworkError,QByteArray&,pixCacheKey_t&)),
+                    this, SLOT(slotDone(QNetworkReply::NetworkError,QByteArray&,pixCacheKey_t&)));
+    }
 
-  //g_discCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/cache/hips");
-  g_discCache->setCacheDirectory(KSPaths::writableLocation(QStandardPaths::GenericCacheLocation) + "hips");
-  //g_discCache->setMaximumCacheSize(setting("hips_net_cache").toLongLong());
-  //m_cache.setMaxCost(setting("hips_mem_cache").toInt());
-  g_discCache->setMaximumCacheSize(Options::hips_net_cache()*1024*1024);
-  m_cache.setMaxCost(Options::hips_mem_cache()*1024*1024);
+    //g_discCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/cache/hips");
+    g_discCache->setCacheDirectory(KSPaths::writableLocation(QStandardPaths::GenericCacheLocation) + "hips");
+    //g_discCache->setMaximumCacheSize(setting("hips_net_cache").toLongLong());
+    //m_cache.setMaxCost(setting("hips_mem_cache").toInt());
+    g_discCache->setMaximumCacheSize(Options::hIPSNetCache()*1024*1024);
+    m_cache.setMaxCost(Options::hIPSMemoryCache()*1024*1024);
 }
 
-/*QVariant HiPSManager::setting(const QString &name)
+void HIPSManager::readSources()
 {
-  QSettings set;
+    KStarsData::Instance()->userdb()->GetAllHIPSSources(m_hipsSources);
 
-  if (name == "hips_mem_cache")
-  {
-    return set.value("hips_mem_cache", 300 * 1024 * 1024);
-  }
+    QString currentSourceTitle = Options::hIPSSource();
 
-  if (name == "hips_net_cache")
-  {
-    return set.value("hips_net_cache", 1000 * 1024 * 1024);
-  }
-
-  return QVariant();
+    setCurrentSource(currentSourceTitle);
 }
 
-void HiPSManager::writeSetting(const QString &name, const QVariant &value)
-{
-  QSettings set;
-
-  qDebug() << name << value;
-
-
-  if (name == "hips_mem_cache")
-  {
-    set.setValue("hips_mem_cache", value);
-  }
-
-  if (name == "hips_net_cache")
-  {
-    set.setValue("hips_net_cache", value);
-  }
-}
-*/
-
-void HiPSManager::setParam(const hipsParams_t &param)
+/*void HIPSManager::setParam(const hipsParams_t &param)
 {  
   m_param = param;
   m_uid = qHash(param.url);  
-}
+}*/
 
-QImage *HiPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
-{  
+QImage *HIPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
+{
+  if (m_currentSource.isEmpty())
+  {
+      qCWarning(KSTARS) << "HIPS source not available!";
+      return nullptr;
+  }
+
   int origPix = pix;  
   freeImage = false;
 
@@ -141,7 +131,7 @@ QImage *HiPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
     if (item)
     {
       QImage *cacheImage = item->image;
-      int size = m_param.tileWidth >> 1;
+      int size = m_currentTileWidth >> 1;
       int offset = cacheImage->width() / size;
       QImage *image = cacheImage;
 
@@ -185,25 +175,27 @@ QImage *HiPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
   if (!allsky)
   {
     int dir = (pix / 10000) * 10000;
-    path = "/Norder" + QString::number(level) + "/Dir" + QString::number(dir) + "/Npix" + QString::number(pix) + "." + m_param.imageExtension;
+    path = "/Norder" + QString::number(level) + "/Dir" + QString::number(dir) + "/Npix" + QString::number(pix) + "." + m_currentFormat;
   }
   else
   {
-    path = "/Norder3/Allsky." + m_param.imageExtension;
+    path = "/Norder3/Allsky." + m_currentFormat;
   } 
 
-  g_download->begin(m_param.url + path, key);
+  m_currentURL.setQuery(path);
+  g_download->begin(m_currentURL, key);
   m_downloadMap.insert(key);    
 
   return nullptr; 
 }
 
-qint64 HiPSManager::getDiscCacheSize()
+qint64 HIPSManager::getDiscCacheSize()
 {
   return g_discCache->cacheSize();
 }
 
-bool HiPSManager::parseProperties(hipsParams_t *param, const QString &filename, const QString &url)
+#if 0
+bool HIPSManager::parseProperties(hipsParams_t *param, const QString &filename, const QString &url)
 {
   QFile f(filename);
 
@@ -289,18 +281,19 @@ bool HiPSManager::parseProperties(hipsParams_t *param, const QString &filename, 
 
   return count == 5; // all items have been loaded
 }
+#endif
 
-void HiPSManager::cancelAll()
+void HIPSManager::cancelAll()
 {
   g_download->abortAll();
 }
 
-void HiPSManager::clearDiscCache()
+void HIPSManager::clearDiscCache()
 {
   g_discCache->clear();
 }
 
-void HiPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, pixCacheKey_t &key)
+void HIPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, pixCacheKey_t &key)
 {    
   if (error == QNetworkReply::NoError)
   {
@@ -317,7 +310,7 @@ void HiPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, 
     }
     else
     {
-      qDebug() << "no image" << data;
+      qCWarning(KSTARS) << "no image" << data;
     }
   }
   else
@@ -335,24 +328,19 @@ void HiPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, 
   }
 }
 
-void HiPSManager::removeTimer(pixCacheKey_t &key)
+void HIPSManager::removeTimer(pixCacheKey_t &key)
 {  
   m_downloadMap.remove(key);
   sender()->deleteLater();
   emit sigRepaint();
 }
 
-hipsParams_t *HiPSManager::getParam()
-{
-  return &m_param;
-}
-
-PixCache *HiPSManager::getCache()
+PixCache *HIPSManager::getCache()
 {
   return &m_cache;
 }
 
-void HiPSManager::addToMemoryCache(pixCacheKey_t &key, pixCacheItem_t *item)
+void HIPSManager::addToMemoryCache(pixCacheKey_t &key, pixCacheItem_t *item)
 {    
   Q_ASSERT(item);
   Q_ASSERT(item->image);
@@ -361,12 +349,45 @@ void HiPSManager::addToMemoryCache(pixCacheKey_t &key, pixCacheItem_t *item)
   m_cache.add(key, item, cost);
 }
 
-pixCacheItem_t *HiPSManager::getCacheItem(pixCacheKey_t &key)
+pixCacheItem_t *HIPSManager::getCacheItem(pixCacheKey_t &key)
 {  
   return m_cache.get(key);
 }
 
+bool HIPSManager::setCurrentSource(const QString &title)
+{
+    for (QVariantMap &source : m_hipsSources)
+    {
+        if (source.value("title").toString() == title)
+        {
+            m_currentSource = source;
+            m_currentFormat = source.value("format").toString();
+            if (m_currentFormat.contains("jpeg"))
+                m_currentFormat = "jpeg";
+            else if (m_currentFormat.contains("png"))
+                m_currentFormat = "png";
+            else
+            {
+                qCWarning(KSTARS) << "FITS HIPS images are not currently supported.";
+                return false;
+            }
+
+            m_currentOrder = source.value("hipsorder").toInt();
+            m_currentTileWidth = source.value("size").toInt();
+            m_currentFrame = source.value("frame").toString();
+            m_currentURL = source.value("url").toUrl();
+            m_uid = qHash(m_currentURL);
+
+            Options::setHIPSSource(title);
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void RemoveTimer::setKey(const pixCacheKey_t &key)
 {
-  m_key = key;
+    m_key = key;
 }

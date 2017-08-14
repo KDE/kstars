@@ -30,7 +30,7 @@ class UrlFileDownload : public QObject
   Q_OBJECT
 public:
   explicit UrlFileDownload(QObject *parent, QNetworkDiskCache *cache);
-  void begin(const QString &urlName, const pixCacheKey_t &key);
+  void begin(const QUrl &url, const pixCacheKey_t &key);
   void abortAll();
 
 signals:

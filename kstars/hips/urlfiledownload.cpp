@@ -28,10 +28,8 @@ UrlFileDownload::UrlFileDownload(QObject *parent, QNetworkDiskCache *cache) : QO
   m_manager.setCache(cache);
 }
 
-void UrlFileDownload::begin(const QString &urlName, const pixCacheKey_t &key)
+void UrlFileDownload::begin(const QUrl &url, const pixCacheKey_t &key)
 {
-  QUrl url(urlName);  
-
   QNetworkRequest request(url);
   request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
 

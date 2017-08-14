@@ -61,6 +61,7 @@
 #include "tools/whatsinteresting/wiequipsettings.h"
 #include "tools/whatsinteresting/wilpsettings.h"
 #include "tools/whatsinteresting/wiview.h"
+#include "hips/hipsmanager.h"
 
 #ifdef HAVE_INDI
 #include <basedevice.h>
@@ -102,6 +103,8 @@
 #undef interface
 #endif
 #include <sys/stat.h>
+
+#include "kstars_debug.h"
 
 /** ViewToolBar Action.  All of the viewToolBar buttons are connected to this slot. **/
 
@@ -1449,7 +1452,7 @@ void KStars::slotMapProjection()
         Options::setProjection(Projector::Gnomonic);
 
     //DEBUG
-    qDebug() << "Projection system: " << Options::projection();
+    qCDebug(KSTARS) << "Projection system: " << Options::projection();
 
     m_SkyMap->forceUpdate();
 }
@@ -1483,6 +1486,16 @@ void KStars::slotTargetSymbol(bool flag)
 
     // Sync visibleFOVs with fovNames
     data()->syncFOV();
+
+    map()->forceUpdate();
+}
+
+void KStars::slotHIPSSource()
+{
+    QAction *selectedAction = qobject_cast<QAction*>(sender());
+    Q_ASSERT(selectedAction != nullptr);
+
+    HIPSManager::Instance()->setCurrentSource(selectedAction->text());
 
     map()->forceUpdate();
 }
@@ -1658,7 +1671,7 @@ void KStars::addColorMenuItem(const QString &name, const QString &actionName)
 
 void KStars::removeColorMenuItem(const QString &actionName)
 {
-    qDebug() << "removing " << actionName;
+    qCDebug(KSTARS) << "removing " << actionName;
     colorActionMenu->removeAction(actionCollection()->action(actionName));
 }
 

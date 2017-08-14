@@ -32,17 +32,12 @@ public:
   void render(QImage *pDest);
   void renderRec(bool allsky, int level, int pix, QImage *pDest);
   bool renderPix(bool allsky, int level, int pix, QImage *pDest);
-  void setParam(const hipsParams_t &param);
-  hipsParams_t *getParam();
-
-  HiPSManager *manager();
 
 signals:
 
 public slots:
 
-private:
-  HiPSManager m_manager;
+private:  
   int         m_blocks;
   int         m_rendered;
   int         m_size;
@@ -50,5 +45,4 @@ private:
   HEALPix     m_HEALpix;
 };
 
-extern HiPSRenderer *g_hipsRenderer;
 
