@@ -60,20 +60,22 @@ public:
 
   QImage *getPix(bool allsky, int level, int pix, bool &freeImage);
 
-  qint64 getDiscCacheSize();
-
-  //bool parseProperties(hipsParams_t *param, const QString &filename, const QString &url = "");
-
   void readSources();
 
   void cancelAll();
-  void clearDiscCache();
+  void clearDiscCache();  
 
-  PixCache *getCache();
-
+  // Getters
   const QVariantMap & getCurrentSource() const { return m_currentSource; }
-
-  QList<QVariantMap> getHIPSSources() const { return m_hipsSources; }
+  const QList<QVariantMap> &getHIPSSources() const { return m_hipsSources; }
+  PixCache *getCache();
+  qint64 getDiscCacheSize() const;
+  const QString &getCurrentFormat() const { return m_currentFormat; }
+  const QString &getCurrentFrame() const { return m_currentFrame; }
+  const uint8_t &getCurrentOrder() const { return m_currentOrder; }
+  const uint16_t &getCurrentTileWidth() const { return m_currentTileWidth; }
+  const QUrl &getCurrentURL() const { return m_currentURL; }
+  qint64 getUID() const { return m_uid; }
 
 public slots:
     bool setCurrentSource(const QString &title);

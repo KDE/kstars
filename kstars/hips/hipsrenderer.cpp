@@ -23,47 +23,45 @@
 #include "Options.h"
 
 #include "projections/projector.h"
+#include "skymap.h"
 
 HIPSRenderer::HIPSRenderer()
 {  
 }
 
 QImage * HIPSRenderer::render(uint16_t w, uint16_t h, const Projector *m_proj)
-{
-    delete (m_Img);
-    m_Img = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
-    return nullptr;
-
-#if 0
-  //if (!m_manager.getParam()->render || m_manager.getParam()->url.isEmpty())
+{    
   if (Options::hIPSSource() == i18n("None"))
   {
-    return;
+    return nullptr;
   }
 
-  m_HEALpix.setParam(m_manager.getParam());
+  delete (m_Img);
+  m_Img = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
 
   int level = 1;
 
-  // FIXME
-  //double minfov = D2R(58.5);
+  // Min FOV in Radians
+  double minfov = 58.5;
+  double fov    = m_proj->fov();
 
-  // FIXME
-  //while( level < m_manager.getParam()->max_level && view->fov < minfov) { minfov /= 2; level++; }
+  // Find suitable level for current FOV
+  while( level < HIPSManager::Instance()->getCurrentOrder() && fov < minfov)
+  {
+      minfov /= 2;
+      level++;
+  }
 
   m_renderedMap.clear();
   m_rendered = 0;
   m_blocks = 0;
   m_size = 0;
 
-  double ra, dec;
-  double cx, cy;
+  SkyPoint center = SkyMap::Instance()->getCenterPoint();
+  center.deprecess(KStarsData::Instance()->updateNum());
 
-  // FIXME
-  trfGetCenter(cx, cy);
-  trfConvScrPtToXY(cx, cy, ra, dec);
-  precess(&ra, &dec, view->jd, JD2000);
-
+  double ra = center.ra0().radians();
+  double de = center.dec0().radians();
 
   bool allSky;
 
@@ -77,7 +75,9 @@ QImage * HIPSRenderer::render(uint16_t w, uint16_t h, const Projector *m_proj)
     allSky = false;
   }         
 
-  int centerPix = m_HEALpix.getPix(level, ra, dec);
+  int centerPix = m_HEALpix.getPix(level, ra, de);
+
+#if 0
 
   // calculate healpix grid edge size in pixels
   // FIXME
@@ -91,10 +91,11 @@ QImage * HIPSRenderer::render(uint16_t w, uint16_t h, const Projector *m_proj)
   bool old = scanRender.isBillinearInt();
   scanRender.enableBillinearInt(getParam()->billinear && (size >= getParam()->tileWidth || allSky));
 
-  renderRec(allSky, level, centerPix, painter, pDest);
+  renderRec(allSky, level, centerPix, pDest);
 
   scanRender.enableBillinearInt(old);
 #endif
+  return nullptr;
 }
 
 void HIPSRenderer::renderRec(bool allsky, int level, int pix, QImage *pDest)
