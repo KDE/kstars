@@ -34,6 +34,7 @@
 
 #include <QMatrix4x4>
 
+#include "hipsmanager.h"
 #include "skypoint.h"
 
 static const double twothird = 2.0/3.0;
@@ -400,17 +401,15 @@ int HEALPix::ang2pix_nest_z_phi (qint32 nside_, double z, double phi)
 
 int HEALPix::getPix(int level, double ra, double dec)
 {
-#if 0
-
   int nside = 1 << level;
   double polar[2];    
 
-  if (m_param->frame == HIPS_FRAME_EQT)
+  if (HIPSManager::Instance()->getCurrentFrame() == "equatorial")
   {
     polar[0] = dec;
     polar[1] = ra;
   }
-  else if (m_param->frame == HIPS_FRAME_GAL)
+  else if (HIPSManager::Instance()->getCurrentFrame() == "galactic")
   {    
     static QMatrix4x4 gl(-0.0548762f, -0.873437f, -0.483835f,  0,
                           0.4941100f, -0.444830f,  0.746982f,  0,
@@ -425,8 +424,6 @@ int HEALPix::getPix(int level, double ra, double dec)
   }
 
   return ang2pix_nest_z_phi(nside, sin(polar[0]), polar[1]);
-#endif
-  return -1;
 }
 
 void HEALPix::getPixChilds(int pix, int *childs)

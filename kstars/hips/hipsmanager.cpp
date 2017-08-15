@@ -80,6 +80,11 @@ HIPSManager::HIPSManager() : QObject(KStars::Instance())
     m_cache.setMaxCost(Options::hIPSMemoryCache()*1024*1024);
 }
 
+qint64 HIPSManager::getDiscCacheSize() const
+{
+    return g_discCache->cacheSize();
+}
+
 void HIPSManager::readSources()
 {
     KStarsData::Instance()->userdb()->GetAllHIPSSources(m_hipsSources);
@@ -189,10 +194,6 @@ QImage *HIPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
   return nullptr; 
 }
 
-qint64 HIPSManager::getDiscCacheSize()
-{
-  return g_discCache->cacheSize();
-}
 
 #if 0
 bool HIPSManager::parseProperties(hipsParams_t *param, const QString &filename, const QString &url)
