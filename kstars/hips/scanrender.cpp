@@ -19,8 +19,8 @@
 */
 
 #include "scanrender.h"
-#include <omp.h>
 
+//#include <omp.h>
 //#define PARALLEL_OMP
 
 #define FRAC(f, from, to)      ((((f) - (from)) / (double)((to) - (from))))
