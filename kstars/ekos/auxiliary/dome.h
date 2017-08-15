@@ -78,6 +78,12 @@ class Dome : public QObject
          */
     void setDome(ISD::GDInterface *newDome);
 
+    /**
+     * @brief setTelescope Set the telescope device. This is only used to sync ACTIVE_TELESCOPE to the current active telescope.
+     * @param newTelescope pointer to telescope device.
+     */
+    void setTelescope(ISD::GDInterface *newTelescope);
+
   private:
     // Devices needed for Dome operation
     ISD::Dome *currentDome;
