@@ -227,10 +227,8 @@ bool KSUserDB::Initialize()
                                     " missing plates from red survey (253, 260, 359) has been replaced by pixels from the DSSColor STScI jpeg survey."
                                     " The 11 missing blue plates (mainly in galactic plane) have not been replaced (only red component).',"
                                     "'equatorial', 'jpeg fits', 'http://alasky.u-strasbg.fr/DSS/DSSColor',"
-                                    "9, 512, 1, 1500636467000)"));
-                    {
+                                    "9, 512, 1, 1500636467000)"))
                         qCWarning(KSTARS) << query.lastError();
-                    }
 
                     if (!query.exec("INSERT INTO hips (title, description, frame, format, url, hipsorder, size, skyfraction, timestamp )"
                                     "VALUES ('2MASS color',"
@@ -245,10 +243,8 @@ bool KSUserDB::Initialize()
                                     " for all data processing through the Production Pipeline, and construction and distribution of the data products."
                                     " Funding is provided primarily by NASA and the NSF',"
                                     "'equatorial', 'jpeg fits', 'http://alaskybis.u-strasbg.fr/2MASS/Color',"
-                                    "9, 512, 1, 1500636469000)"));
-                    {
+                                    "9, 512, 1, 1500636469000)"))
                         qCWarning(KSTARS) << query.lastError();
-                    }
 
                     if (!query.exec("INSERT INTO hips (title, description, frame, format, url, hipsorder, size, skyfraction, timestamp )"
                                     "VALUES ('Fermi color', 'Launched on June 11, 2008, the Fermi Gamma-ray Space Telescope observes the cosmos using the"
@@ -260,10 +256,8 @@ bool KSUserDB::Initialize()
                                     " In the Cartesian projection pixels near the pole have a much smaller area than pixels on the equator, so these"
                                     " pixels have smaller integrated flux. When creating large scale images in other projections users may wish to make"
                                     " sure to compensate for this effect the flux conserving clip-resampling option.', 'equatorial', 'jpeg fits', 'http://alaskybis.u-strasbg.fr/Fermi/Color',"
-                                    "3, 512, 1, 1500636451000)"));
-                    {
+                                    "3, 512, 1, 1500636451000)"))
                         qCWarning(KSTARS) << query.lastError();
-                    }
                 }
 
             }
