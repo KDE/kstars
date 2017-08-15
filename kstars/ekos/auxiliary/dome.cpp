@@ -11,6 +11,8 @@
 #include "ekos/ekosmanager.h"
 #include "kstars.h"
 #include "domeadaptor.h"
+#include "indi/driverinfo.h"
+#include "indi/clientmanager.h"
 
 #include <basedevice.h>
 
@@ -31,6 +33,23 @@ Dome::~Dome()
 void Dome::setDome(ISD::GDInterface *newDome)
 {
     currentDome = static_cast<ISD::Dome *>(newDome);
+}
+
+void Dome::setTelescope(ISD::GDInterface *newTelescope)
+{
+    if (currentDome == nullptr)
+        return;
+
+    ITextVectorProperty *activeDevices = currentDome->getBaseDevice()->getText("ACTIVE_DEVICES");
+    if (activeDevices)
+    {
+        IText *activeTelescope = IUFindText(activeDevices, "ACTIVE_TELESCOPE");
+        if (activeTelescope)
+        {
+            IUSaveText(activeTelescope, newTelescope->getDeviceName());
+            currentDome->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+        }
+    }
 }
 
 bool Dome::canPark()

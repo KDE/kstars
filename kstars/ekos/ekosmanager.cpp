@@ -1015,6 +1015,9 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
         alignProcess->setTelescope(scopeDevice);
         alignProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
     }
+
+    if (domeProcess.get() != nullptr)
+        domeProcess->setTelescope(scopeDevice);
 }
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
@@ -1139,6 +1142,9 @@ void EkosManager::setDome(ISD::GDInterface *domeDevice)
 
     if (captureProcess.get() != nullptr)
         captureProcess->setDome(domeDevice);
+
+    if (managedDevices.contains(KSTARS_TELESCOPE))
+       domeProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
 
     appendLogText(i18n("%1 is online.", domeDevice->getDeviceName()));
 }
