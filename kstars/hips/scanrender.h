@@ -32,18 +32,18 @@ typedef struct
 } bkScan_t;
 
 
-class CScanRender
+class ScanRender
 {
   public:
-    explicit CScanRender(void);
-    void enableBillinearInt(bool enable);
-    bool isBillinearInt(void);
+    explicit ScanRender(void);
+    void setBilinearInterpolationEnabled(bool enable);
+    bool isBilinearInterpolationEnabled(void);
     void resetScanPoly(int sx, int sy);
     void scanLine(int x1, int y1, int x2, int y2);
     void scanLine(int x1, int y1, int x2, int y2, float u1, float v1, float u2, float v2);
     void renderPolygon(QColor col, QImage *dst);
     void renderPolygon(QImage *dst, QImage *src);
-    void renderPolygon(int interpolation, QPoint *pts, QImage *pDest, QImage *pSrc, QPointF *uv);
+    void renderPolygon(int interpolation, QPointF *pts, QImage *pDest, QImage *pSrc, QPointF *uv);
 
     void renderPolygonNI(QImage *dst, QImage *src);
     void renderPolygonBI(QImage *dst, QImage *src);
@@ -65,5 +65,5 @@ private:
     bool     bBilinear;
 };
 
-extern CScanRender scanRender;
+extern ScanRender scanRender;
 

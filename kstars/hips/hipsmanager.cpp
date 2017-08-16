@@ -362,7 +362,7 @@ bool HIPSManager::setCurrentSource(const QString &title)
         Options::setHIPSSource(title);
         m_currentSource.clear();
         m_currentFormat.clear();
-        m_currentFrame.clear();
+        m_currentFrame = HIPS_OTHER_FRAME;
         m_currentURL.clear();
         m_currentOrder=0;
         m_currentTileWidth=0;
@@ -388,7 +388,14 @@ bool HIPSManager::setCurrentSource(const QString &title)
 
             m_currentOrder = source.value("hipsorder").toInt();
             m_currentTileWidth = source.value("size").toInt();
-            m_currentFrame = source.value("frame").toString();
+
+            if (source.value("frame").toString() == "equatorial")
+                m_currentFrame = HIPS_EQUATORIAL_FRAME;
+            else if (source.value("frame").toString() == "galactic")
+                m_currentFrame = HIPS_GALACTIC_FRAME;
+            else
+                m_currentFrame = HIPS_OTHER_FRAME;
+
             m_currentURL = source.value("url").toUrl();
             m_uid = qHash(m_currentURL);
 

@@ -1991,5 +1991,13 @@
           <label>HIPS source catalog title.</label>
           <default>None</default>
     </entry>
+    <entry name="HIPSBiLinearInterpolation" type="Bool">
+          <label>Use Bilinear interpolation when rendering HiPS images?</label>
+          <default>false</default>
+    </entry>
+    <entry name="HIPSShowGrid" type="Bool">
+          <label>Show HiPS grid on the sky map.</label>
+          <default>false</default>
+    </entry>
    </group>
 </kcfg>

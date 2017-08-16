@@ -33,4 +33,5 @@
 #00FF00 :RAGuideError
 #00A5FF :DEGuideError
 #FFFF00 :SolverFOVColor
+#FFFFFF :HIPSGridColor
 #00FF00 :FITSObjectLabelColor

@@ -58,6 +58,8 @@ class HIPSManager : public QObject
 public:
   static HIPSManager *Instance();
 
+  typedef enum { HIPS_EQUATORIAL_FRAME, HIPS_GALACTIC_FRAME, HIPS_OTHER_FRAME } HIPSFrame;
+
   QImage *getPix(bool allsky, int level, int pix, bool &freeImage);
 
   void readSources();
@@ -71,7 +73,7 @@ public:
   PixCache *getCache();
   qint64 getDiscCacheSize() const;
   const QString &getCurrentFormat() const { return m_currentFormat; }
-  const QString &getCurrentFrame() const { return m_currentFrame; }
+  HIPSFrame getCurrentFrame() const { return m_currentFrame; }
   const uint8_t &getCurrentOrder() const { return m_currentOrder; }
   const uint16_t &getCurrentTileWidth() const { return m_currentTileWidth; }
   const QUrl &getCurrentURL() const { return m_currentURL; }
@@ -108,7 +110,7 @@ private:
   // Handy shortcuts
   qint64 m_uid;
   QString m_currentFormat;
-  QString m_currentFrame;
+  HIPSFrame m_currentFrame = HIPS_OTHER_FRAME;
   uint8_t m_currentOrder;
   uint16_t m_currentTileWidth;
   QUrl m_currentURL;

@@ -43,7 +43,7 @@ class HEALPix
 public:
   HEALPix();
 
-  void getCornerPoints(int level, int pix, SkyPoint *points);
+  void getCornerPoints(int level, int pix, SkyPoint *skyCoords);
   void neighbours(int nside, qint32 ipix, int *result);
   int  getPix(int level, double ra, double dec);
   void getPixChilds(int pix, int *childs);

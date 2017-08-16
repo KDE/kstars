@@ -26,7 +26,8 @@
 #include "skymap.h"
 
 HIPSRenderer::HIPSRenderer()
-{  
+{
+    scanRender.reset(new ScanRender());
 }
 
 QImage * HIPSRenderer::render(uint16_t w, uint16_t h, const Projector *m_proj)
@@ -36,8 +37,10 @@ QImage * HIPSRenderer::render(uint16_t w, uint16_t h, const Projector *m_proj)
     return nullptr;
   }
 
-  delete (m_Img);
-  m_Img = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+  delete (hipsImage);
+  hipsImage = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+
+  m_projector = m_proj;
 
   int level = 1;
 
@@ -77,36 +80,34 @@ QImage * HIPSRenderer::render(uint16_t w, uint16_t h, const Projector *m_proj)
 
   int centerPix = m_HEALpix.getPix(level, ra, de);
 
-#if 0
+  SkyPoint cornerSkyCoords[4];
+  QPointF tileLine[2];
+  m_HEALpix.getCornerPoints(level, centerPix, cornerSkyCoords);
+  tileLine[0] = m_projector->toScreen(&cornerSkyCoords[0]);
+  tileLine[1] = m_projector->toScreen(&cornerSkyCoords[1]);
 
-  // calculate healpix grid edge size in pixels
-  // FIXME
+  int size = std::sqrt(std::pow(tileLine[0].x()-tileLine[1].x(), 2) + std::pow(tileLine[0].y()-tileLine[1].y(), 2));
+  if (size < 0)
+      size = HIPSManager::Instance()->getCurrentTileWidth();
 
-  SKPOINT pts[4];
-  m_HEALpix.getCornerPoints(level, centerPix, pts);
-  for (int i = 0; i < 2; i++) trfProjectPointNoCheck(&pts[i]);
-  int size = sqrt(POW2(pts[0].sx - pts[1].sx) + POW2(pts[0].sy - pts[1].sy));
-  if (size < 0) size = getParam()->tileWidth;  
+  bool old = scanRender->isBilinearInterpolationEnabled();
+  scanRender->setBilinearInterpolationEnabled(Options::hIPSBiLinearInterpolation() && (size >= HIPSManager::Instance()->getCurrentTileWidth() || allSky));
 
-  bool old = scanRender.isBillinearInt();
-  scanRender.enableBillinearInt(getParam()->billinear && (size >= getParam()->tileWidth || allSky));
+  renderRec(allSky, level, centerPix, hipsImage);
 
-  renderRec(allSky, level, centerPix, pDest);
+  scanRender->setBilinearInterpolationEnabled(old);
 
-  scanRender.enableBillinearInt(old);
-#endif
-  return nullptr;
+  return hipsImage;
 }
 
 void HIPSRenderer::renderRec(bool allsky, int level, int pix, QImage *pDest)
 {
-#if 0
   if (m_renderedMap.contains(pix))
   {
     return;
   }
 
-  if (renderPix(allsky, level ,pix, pDest))
+  if (renderPix(allsky, level, pix, pDest))
   {
     m_renderedMap.insert(pix);
     int dirs[8];
@@ -119,35 +120,52 @@ void HIPSRenderer::renderRec(bool allsky, int level, int pix, QImage *pDest)
     renderRec(allsky, level, dirs[4], pDest);
     renderRec(allsky, level, dirs[6], pDest);
   }
-#endif
 }
 
 bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
-{  
-// FIXME
-#if 0
-  SKPOINT pts[4];
-  bool freeImage;
-  SKPOINT sub[4];
+{
+  SkyPoint cornerSkyCoords[4];
+  QPointF cornerScreenCoords[4];
+  QVector<QPointF> cornerScreenVector;
+  bool freeImage = false;
 
-  m_HEALpix.getCornerPoints(level, pix, pts);
+  m_HEALpix.getCornerPoints(level, pix, cornerSkyCoords);
 
-  if (SKPLANECheckFrustumToPolygon(trfGetFrustum(), pts, 4))
+  for (int i=0; i < 4; i++)
+  {
+      cornerScreenCoords[i] = m_projector->toScreen(&cornerSkyCoords[i]);
+      cornerScreenVector.append(cornerScreenCoords[i]);
+  }
+
+  QPolygonF pixPolygon(cornerScreenVector);
+
+  //if (SKPLANECheckFrustumToPolygon(trfGetFrustum(), pts, 4))
+  // Is the the right way to do this?
+  if (m_projector->clipPoly().intersected(pixPolygon).isEmpty() == false)
   {
     m_blocks++;
 
-    for (int i = 0; i < 4; i++)
+    /*for (int i = 0; i < 4; i++)
     {
       trfProjectPointNoCheck(&pts[i]);
-    }    
+    } */
 
-    QImage *image = m_manager.getPix(allsky, level, pix, freeImage);    
+    QImage *image = HIPSManager::Instance()->getPix(allsky, level, pix, freeImage);
 
     if (image)      
     {
       m_rendered++;
       m_size += image->byteCount();
 
+      // UV Mapping to apply image unto the destination image
+      // 4x4 = 16 points are mapped from the source image unto the destination image.
+      // Starting from each grandchild pixel, each pix polygon is mapped accordingly.
+      // For example, pixel 357 will have 4 child pixels, each of them will have 4 childs pixels and so
+      // on. Each healpix pixel appears roughly as a diamond on the sky map.
+      // The corners points for HealPIX moves from NORTH -> EAST -> SOUTH -> WEST
+      // Hence first point is 0.25, 0.25 in UV coordinate system.
+      // Depending on the selected algorithm, the mapping will either utilize nearest neighbour
+      // or bilinear interpolation.
       QPointF uv[16][4] = {{QPointF(.25, .25), QPointF(0.25, 0), QPointF(0, .0),QPointF(0, .25)},
                            {QPointF(.25, .5), QPointF(0.25, 0.25), QPointF(0, .25),QPointF(0, .5)},
                            {QPointF(.5, .25), QPointF(0.5, 0), QPointF(.25, .0),QPointF(.25, .25)},
@@ -169,22 +187,31 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
                            {QPointF(1, 1), QPointF(1, 0.75), QPointF(.75, .75),QPointF(.75, 1)},
                           };
 
-      int ch[4];
+      int childPixelID[4];
 
-      m_HEALpix.getPixChilds(pix, ch);
+      // Find all the 4 children of the current pixel
+      m_HEALpix.getPixChilds(pix, childPixelID);
 
       int j = 0;
       for (int q = 0; q < 4; q++)
       {
-        int ch2[4];
-        m_HEALpix.getPixChilds(ch[q], ch2);
+        int grandChildPixelID[4];
+        // Find the children of this child (i.e. grand child)
+        // Then we have 4x4 pixels under the primary pixel
+        // The image is interpolated and rendered over these pixels
+        // coordinate to minimize any distortions due to the projection
+        // system.
+        m_HEALpix.getPixChilds(childPixelID[q], grandChildPixelID);
+
+        QPointF fineScreenCoords[4];
 
         for (int w = 0; w < 4; w++)
         {
-          m_HEALpix.getCornerPoints(level + 2, ch2[w], sub);
+          m_HEALpix.getCornerPoints(level + 2, grandChildPixelID[w], cornerSkyCoords);
 
-          for (int i = 0; i < 4; i++) trfProjectPointNoCheck(&sub[i]);
-          scanRender.renderPolygon(painter, 3, sub, pDest, image, uv[j]);
+          for (int i = 0; i < 4; i++)
+              fineScreenCoords[i] = m_projector->toScreen(&cornerSkyCoords[i]);
+          scanRender->renderPolygon(3, fineScreenCoords, pDest, image, uv[j]);
           j++;
         }
       }
@@ -195,8 +222,9 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
       }
     }        
 
-    if (getParam()->showGrid)
+    if (Options::hIPSShowGrid())
     {
+      /*
       painter->setPen(g_skSet.map.drawing.color);
       painter->drawLine(pts[0].sx, pts[0].sy, pts[1].sx, pts[1].sy);
       painter->drawLine(pts[1].sx, pts[1].sy, pts[2].sx, pts[2].sy);
@@ -204,12 +232,11 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
       painter->drawLine(pts[3].sx, pts[3].sy, pts[0].sx, pts[0].sy);
       painter->drawCText((pts[0].sx + pts[1].sx + pts[2].sx + pts[3].sx) / 4,
                          (pts[0].sy + pts[1].sy + pts[2].sy + pts[3].sy) / 4, QString::number(pix) + " / " + QString::number(level));
+      */
     }
 
     return true;
   }
 
-
-#endif
   return false;
 }

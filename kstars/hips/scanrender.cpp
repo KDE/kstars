@@ -28,10 +28,10 @@
 #define CLAMP(v, mi, ma)       (((v) < (mi)) ? (mi) : ((v) > (ma)) ? (ma) : (v))
 #define SIGN(x)                ((x) >= 0 ? 1.0 : -1.0)
 
-CScanRender scanRender;
+ScanRender scanRender;
 
 //////////////////////////////
-CScanRender::CScanRender(void)
+ScanRender::ScanRender(void)
 //////////////////////////////
 {
   bBilinear = false;
@@ -39,21 +39,21 @@ CScanRender::CScanRender(void)
 }
 
 /////////////////////////////////////////////////
-void CScanRender::enableBillinearInt(bool enable)
+void ScanRender::setBilinearInterpolationEnabled(bool enable)
 /////////////////////////////////////////////////
 {
   bBilinear = enable;
 }
 
 //////////////////////////////////
-bool CScanRender::isBillinearInt()
+bool ScanRender::isBilinearInterpolationEnabled()
 //////////////////////////////////
 {
   return(bBilinear);
 }
 
 ///////////////////////////////////////////////
-void CScanRender::resetScanPoly(int sx, int sy)
+void ScanRender::resetScanPoly(int sx, int sy)
 ///////////////////////////////////////////////
 {
   plMinY =  999999;
@@ -61,7 +61,7 @@ void CScanRender::resetScanPoly(int sx, int sy)
 
   if (sy >= MAX_BK_SCANLINES)
   {
-    qDebug("CScanRender::resetScanPoly fail!");
+    qDebug("ScanRender::resetScanPoly fail!");
     return;
   }
 
@@ -70,7 +70,7 @@ void CScanRender::resetScanPoly(int sx, int sy)
 }
 
 //////////////////////////////////////////////////////////
-void CScanRender::scanLine(int x1, int y1, int x2, int y2)
+void ScanRender::scanLine(int x1, int y1, int x2, int y2)
 //////////////////////////////////////////////////////////
 {
   int side;
@@ -163,7 +163,7 @@ void CScanRender::scanLine(int x1, int y1, int x2, int y2)
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void CScanRender::scanLine(int x1, int y1, int x2, int y2, float u1, float v1, float u2, float v2)
+void ScanRender::scanLine(int x1, int y1, int x2, int y2, float u1, float v1, float u2, float v2)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 {
   int side;
@@ -238,7 +238,7 @@ void CScanRender::scanLine(int x1, int y1, int x2, int y2, float u1, float v1, f
 
 
 ////////////////////////////////////////////////////////
-void CScanRender::renderPolygon(QColor col, QImage *dst)
+void ScanRender::renderPolygon(QColor col, QImage *dst)
 ////////////////////////////////////////////////////////
 { 
   quint32   c = col.rgb();
@@ -285,7 +285,7 @@ void CScanRender::renderPolygon(QColor col, QImage *dst)
 
 
 /////////////////////////////////////////////////////////////
-void CScanRender::renderPolygonAlpha(QColor col, QImage *dst)
+void ScanRender::renderPolygonAlpha(QColor col, QImage *dst)
 /////////////////////////////////////////////////////////////
 {
   quint32   c = col.rgba();
@@ -331,13 +331,13 @@ void CScanRender::renderPolygonAlpha(QColor col, QImage *dst)
   }
 }
 
-void CScanRender::setOpacity(float opacity)
+void ScanRender::setOpacity(float opacity)
 {
   m_opacity = opacity;
 }
 
 /////////////////////////////////////////////////////////
-void CScanRender::renderPolygon(QImage *dst, QImage *src)
+void ScanRender::renderPolygon(QImage *dst, QImage *src)
 /////////////////////////////////////////////////////////
 {
   if (bBilinear)
@@ -346,7 +346,7 @@ void CScanRender::renderPolygon(QImage *dst, QImage *src)
     renderPolygonNI(dst, src);
 }
 
-void CScanRender::renderPolygon(int interpolation, QPoint *pts, QImage *pDest, QImage *pSrc, QPointF *uv)
+void ScanRender::renderPolygon(int interpolation, QPointF *pts, QImage *pDest, QImage *pSrc, QPointF *uv)
 {
   QPointF Auv = uv[0];
   QPointF Buv = uv[1];
@@ -415,7 +415,7 @@ void CScanRender::renderPolygon(int interpolation, QPoint *pts, QImage *pDest, Q
 }
 
 ///////////////////////////////////////////////////////////
-void CScanRender::renderPolygonNI(QImage *dst, QImage *src)
+void ScanRender::renderPolygonNI(QImage *dst, QImage *src)
 ///////////////////////////////////////////////////////////
 {
   int w = dst->width();
@@ -518,7 +518,7 @@ void CScanRender::renderPolygonNI(QImage *dst, QImage *src)
 
 
 ///////////////////////////////////////////////////////////
-void CScanRender::renderPolygonBI(QImage *dst, QImage *src)
+void ScanRender::renderPolygonBI(QImage *dst, QImage *src)
 ///////////////////////////////////////////////////////////
 {
   int w = dst->width();
@@ -651,7 +651,7 @@ void CScanRender::renderPolygonBI(QImage *dst, QImage *src)
   }
 }
 
-void CScanRender::renderPolygonAlpha(QImage *dst, QImage *src)
+void ScanRender::renderPolygonAlpha(QImage *dst, QImage *src)
 {
   if (bBilinear)
     renderPolygonAlphaBI(dst, src);
@@ -660,7 +660,7 @@ void CScanRender::renderPolygonAlpha(QImage *dst, QImage *src)
 }
 
 
-void CScanRender::renderPolygonAlphaBI(QImage *dst, QImage *src)
+void ScanRender::renderPolygonAlphaBI(QImage *dst, QImage *src)
 {
   int w = dst->width();
   int sw = src->width();
@@ -810,7 +810,7 @@ void CScanRender::renderPolygonAlphaBI(QImage *dst, QImage *src)
 
 
 ////////////////////////////////////////////////////////////////
-void CScanRender::renderPolygonAlphaNI(QImage *dst, QImage *src)
+void ScanRender::renderPolygonAlphaNI(QImage *dst, QImage *src)
 ////////////////////////////////////////////////////////////////
 {
   int w = dst->width();

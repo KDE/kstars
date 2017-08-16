@@ -20,8 +20,11 @@
 
 #pragma once
 
+#include <memory>
+
 #include "hipsmanager.h"
 #include "healpix.h"
+#include "scanrender.h"
 
 class Projector;
 
@@ -45,7 +48,9 @@ private:
   int         m_size;
   QSet <int>  m_renderedMap;
   HEALPix     m_HEALpix;
-  QImage      *m_Img = { nullptr };
+  std::unique_ptr<ScanRender> scanRender;
+  QImage      *hipsImage = { nullptr };
+  const Projector   *m_projector;
 };
 
 
