@@ -500,6 +500,9 @@ class Focus : public QWidget, public Ui::Focus
     /// Selected star coordinates
     QVector3D starCenter;
 
+    // Remember last star center coordinates in case of timeout in manual select mode
+    QVector3D rememberStarCenter;
+
     /// Focus Frame
     FITSView *focusView { nullptr };
 
