@@ -19,6 +19,8 @@
 
 #include "skyqpainter.h"
 
+#include <QPointer>
+
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skymap.h"
@@ -621,14 +623,15 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 
 bool SkyQPainter::drawHips()
 {
+    int w = viewport().width();
+    int h = viewport().height();
+    QImage *hipsImage = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+    bool rendered = m_hipsRender->render(w, h, hipsImage, m_proj);
+    if (rendered)
+        drawImage(viewport(), *hipsImage);
 
-    QImage *img = m_hipsRender->render(viewport().width(), viewport().height(), m_proj);
-    if (img)
-    {
-        // Draw Image
-    }
-
-    return false;
+    delete (hipsImage);
+    return rendered;
 }
 
 bool SkyQPainter::drawDeepSkyObject(DeepSkyObject *obj, bool drawImage)

@@ -334,7 +334,7 @@ void KStars::initActions()
 
     //Add HIPS Sources actions
     hipsActionMenu = actionCollection()->add<KActionMenu>("hipssources");
-    hipsActionMenu->setText(i18n("HiPS All Sky Overlay"));
+    hipsActionMenu->setText(i18n("HiPS All Sky Overlay (Experimental)"));
     hipsActionMenu->setDelayed(false);
     hipsActionMenu->setIcon(QIcon::fromTheme("view-preview", QIcon(":/icons/breeze/default/view-preview.svg")));
     HIPSManager::Instance()->readSources();

@@ -27,6 +27,7 @@
 
 #include "auxiliary/kspaths.h"
 #include "auxiliary/ksuserdb.h"
+#include "skymap.h"
 #include "kstarsdata.h"
 #include "kstars.h"
 #include "Options.h"
@@ -187,8 +188,9 @@ QImage *HIPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
     path = "/Norder3/Allsky." + m_currentFormat;
   } 
 
-  m_currentURL.setQuery(path);
-  g_download->begin(m_currentURL, key);
+  QUrl downloadURL(m_currentURL);
+  downloadURL.setPath(downloadURL.path() + path);
+  g_download->begin(downloadURL, key);
   m_downloadMap.insert(key);    
 
   return nullptr; 
@@ -307,7 +309,7 @@ void HIPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, 
     {      
       addToMemoryCache(key, item);
 
-      emit sigRepaint();
+      //SkyMap::Instance()->forceUpdate();
     }
     else
     {
@@ -377,7 +379,7 @@ bool HIPSManager::setCurrentSource(const QString &title)
             m_currentSource = source;
             m_currentFormat = source.value("format").toString();
             if (m_currentFormat.contains("jpeg"))
-                m_currentFormat = "jpeg";
+                m_currentFormat = "jpg";
             else if (m_currentFormat.contains("png"))
                 m_currentFormat = "png";
             else

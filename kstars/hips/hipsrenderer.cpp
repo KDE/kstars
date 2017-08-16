@@ -24,29 +24,32 @@
 
 #include "projections/projector.h"
 #include "skymap.h"
+#include "skyqpainter.h"
+#include "colorscheme.h"
+
+#include "kstars_debug.h"
 
 HIPSRenderer::HIPSRenderer()
 {
     scanRender.reset(new ScanRender());
 }
 
-QImage * HIPSRenderer::render(uint16_t w, uint16_t h, const Projector *m_proj)
-{    
+bool HIPSRenderer::render(uint16_t w, uint16_t h, QImage *hipsImage, const Projector *m_proj)
+{
   if (Options::hIPSSource() == i18n("None"))
   {
-    return nullptr;
+    return false;
   }
 
-  delete (hipsImage);
-  hipsImage = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+  gridColor = KStarsData::Instance()->colorScheme()->colorNamed("HIPSGridColor").name();
 
   m_projector = m_proj;
 
   int level = 1;
 
-  // Min FOV in Radians
+  // Min FOV in Degrees
   double minfov = 58.5;
-  double fov    = m_proj->fov();
+  double fov    = m_proj->fov() * w / (double) h;
 
   // Find suitable level for current FOV
   while( level < HIPSManager::Instance()->getCurrentOrder() && fov < minfov)
@@ -83,8 +86,15 @@ QImage * HIPSRenderer::render(uint16_t w, uint16_t h, const Projector *m_proj)
   SkyPoint cornerSkyCoords[4];
   QPointF tileLine[2];
   m_HEALpix.getCornerPoints(level, centerPix, cornerSkyCoords);
-  tileLine[0] = m_projector->toScreen(&cornerSkyCoords[0]);
-  tileLine[1] = m_projector->toScreen(&cornerSkyCoords[1]);
+
+  //qCDebug(KSTARS) << "#" << i+1 << "RA0" << cornerSkyCoords[i].ra0().toHMSString();
+  //qCDebug(KSTARS) << "#" << i+1 << "DE0" << cornerSkyCoords[i].dec0().toHMSString();
+
+  //qCDebug(KSTARS) << "#" << i+1 << "X" << tileLine[i].x();
+  //qCDebug(KSTARS) << "#" << i+1 << "Y" << tileLine[i].y();
+
+  for (int i=0; i < 2; i++)
+      tileLine[i] = m_projector->toScreen(&cornerSkyCoords[i]);
 
   int size = std::sqrt(std::pow(tileLine[0].x()-tileLine[1].x(), 2) + std::pow(tileLine[0].y()-tileLine[1].y(), 2));
   if (size < 0)
@@ -97,7 +107,7 @@ QImage * HIPSRenderer::render(uint16_t w, uint16_t h, const Projector *m_proj)
 
   scanRender->setBilinearInterpolationEnabled(old);
 
-  return hipsImage;
+  return true;
 }
 
 void HIPSRenderer::renderRec(bool allsky, int level, int pix, QImage *pDest)
@@ -126,22 +136,21 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
 {
   SkyPoint cornerSkyCoords[4];
   QPointF cornerScreenCoords[4];
-  QVector<QPointF> cornerScreenVector;
   bool freeImage = false;
 
   m_HEALpix.getCornerPoints(level, pix, cornerSkyCoords);
+  bool isVisible = false;
 
   for (int i=0; i < 4; i++)
   {
       cornerScreenCoords[i] = m_projector->toScreen(&cornerSkyCoords[i]);
-      cornerScreenVector.append(cornerScreenCoords[i]);
-  }
-
-  QPolygonF pixPolygon(cornerScreenVector);
+      isVisible |= m_projector->checkVisibility(&cornerSkyCoords[i]);
+  }  
 
   //if (SKPLANECheckFrustumToPolygon(trfGetFrustum(), pts, 4))
   // Is the the right way to do this?
-  if (m_projector->clipPoly().intersected(pixPolygon).isEmpty() == false)
+
+  if (isVisible)
   {
     m_blocks++;
 
@@ -207,10 +216,11 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
 
         for (int w = 0; w < 4; w++)
         {
-          m_HEALpix.getCornerPoints(level + 2, grandChildPixelID[w], cornerSkyCoords);
+          SkyPoint fineSkyPoints[4];
+          m_HEALpix.getCornerPoints(level + 2, grandChildPixelID[w], fineSkyPoints);
 
           for (int i = 0; i < 4; i++)
-              fineScreenCoords[i] = m_projector->toScreen(&cornerSkyCoords[i]);
+              fineScreenCoords[i] = m_projector->toScreen(&fineSkyPoints[i]);
           scanRender->renderPolygon(3, fineScreenCoords, pDest, image, uv[j]);
           j++;
         }
@@ -220,19 +230,19 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
       {
         delete image;
       }
-    }        
+    }
 
     if (Options::hIPSShowGrid())
     {
-      /*
-      painter->setPen(g_skSet.map.drawing.color);
-      painter->drawLine(pts[0].sx, pts[0].sy, pts[1].sx, pts[1].sy);
-      painter->drawLine(pts[1].sx, pts[1].sy, pts[2].sx, pts[2].sy);
-      painter->drawLine(pts[2].sx, pts[2].sy, pts[3].sx, pts[3].sy);
-      painter->drawLine(pts[3].sx, pts[3].sy, pts[0].sx, pts[0].sy);
-      painter->drawCText((pts[0].sx + pts[1].sx + pts[2].sx + pts[3].sx) / 4,
-                         (pts[0].sy + pts[1].sy + pts[2].sy + pts[3].sy) / 4, QString::number(pix) + " / " + QString::number(level));
-      */
+      QPainter p(pDest);
+      p.setPen(gridColor);
+
+      p.drawLine(cornerScreenCoords[0].x(), cornerScreenCoords[0].y(), cornerScreenCoords[1].x(), cornerScreenCoords[1].y());
+      p.drawLine(cornerScreenCoords[1].x(), cornerScreenCoords[1].y(), cornerScreenCoords[2].x(), cornerScreenCoords[2].y());
+      p.drawLine(cornerScreenCoords[2].x(), cornerScreenCoords[2].y(), cornerScreenCoords[3].x(), cornerScreenCoords[3].y());
+      p.drawLine(cornerScreenCoords[3].x(), cornerScreenCoords[3].y(), cornerScreenCoords[0].x(), cornerScreenCoords[0].y());
+      p.drawText((cornerScreenCoords[0].x() + cornerScreenCoords[1].x() + cornerScreenCoords[2].x() + cornerScreenCoords[3].x()) / 4,
+                         (cornerScreenCoords[0].y() + cornerScreenCoords[1].y() + cornerScreenCoords[2].y() + cornerScreenCoords[3].y()) / 4, QString::number(pix) + " / " + QString::number(level));
     }
 
     return true;

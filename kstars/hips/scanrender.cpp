@@ -28,7 +28,8 @@
 #define CLAMP(v, mi, ma)       (((v) < (mi)) ? (mi) : ((v) > (ma)) ? (ma) : (v))
 #define SIGN(x)                ((x) >= 0 ? 1.0 : -1.0)
 
-ScanRender scanRender;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-align"
 
 //////////////////////////////
 ScanRender::ScanRender(void)
@@ -892,3 +893,4 @@ void ScanRender::renderPolygonAlphaNI(QImage *dst, QImage *src)
   }  
 }
 
+#pragma GCC diagnostic pop
