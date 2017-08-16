@@ -689,7 +689,7 @@ void SkyMap::mouseDoubleClickEvent(QMouseEvent *e)
 
 double SkyMap::zoomFactor(const int modifier)
 {
-    double factor = (modifier & Qt::ControlModifier) ? DZOOM : 2.0;
+    double factor = (modifier & Qt::ControlModifier) ? DZOOM : 1.5;
     if (modifier & Qt::ShiftModifier)
         factor = sqrt(factor);
     return factor;
