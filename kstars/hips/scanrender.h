@@ -64,6 +64,3 @@ private:
     bkScan_t scLR[MAX_BK_SCANLINES];
     bool     bBilinear;
 };
-
-extern ScanRender scanRender;
-

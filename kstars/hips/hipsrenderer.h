@@ -34,7 +34,7 @@ class HIPSRenderer : public QObject
 public:
   explicit HIPSRenderer();
   //void render(mapView_t *view, CSkPainter *painter, QImage *pDest);
-  QImage* render(uint16_t w, uint16_t h, const Projector *m_proj);
+  bool render(uint16_t w, uint16_t h, QImage *hipsImage, const Projector *m_proj);
   void renderRec(bool allsky, int level, int pix, QImage *pDest);
   bool renderPix(bool allsky, int level, int pix, QImage *pDest);
 
@@ -49,8 +49,8 @@ private:
   QSet <int>  m_renderedMap;
   HEALPix     m_HEALpix;
   std::unique_ptr<ScanRender> scanRender;
-  QImage      *hipsImage = { nullptr };
-  const Projector   *m_projector;
+  const Projector   *m_projector;  
+  QColor gridColor;
 };
 
 
