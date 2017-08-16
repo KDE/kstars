@@ -119,7 +119,6 @@ class Mosaic : public QDialog, public Ui::mosaicDialog
   private:
     SkyPoint center;
     QImage *m_skyChart { nullptr };
-//    QImage *m_skyImage { nullptr };
 
     QPixmap targetPix;
     QGraphicsPixmapItem *targetItem { nullptr };
@@ -131,5 +130,7 @@ class Mosaic : public QDialog, public Ui::mosaicDialog
     QPointF screenPoint;
 
     QGraphicsScene scene;
+
+    bool rememberAltAzOption;
 };
 }
