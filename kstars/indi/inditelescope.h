@@ -64,6 +64,11 @@ class Telescope : public DeviceDecorator
     bool Sync(double ra, double dec);
     bool canSync();
 
+    // Tracking
+    bool canControlTrack() const { return m_canControlTrack; }
+    bool hasTrackModes() const { return m_hasTrackModes; }
+    bool hasCustomTrackRate() const { return m_hasTrackModes; }
+
     // Motion
     bool MoveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd);
     bool MoveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd);
@@ -114,8 +119,12 @@ class Telescope : public DeviceDecorator
     QTimer *centerLockTimer  = nullptr;
     SkyObject *currentObject = nullptr;
     bool inManualMotion      = false;
-    bool m_hasAlignmentModel = false;
     IPState NSPreviousState  = IPS_IDLE;
     IPState WEPreviousState  = IPS_IDLE;
+
+    bool m_hasAlignmentModel = { false };
+    bool m_canControlTrack = { false };
+    bool m_hasTrackModes { false};
+    bool m_hasCustomTrackRate { false};
 };
 }
