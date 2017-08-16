@@ -198,10 +198,16 @@ Mosaic::Mosaic()
     //mosaicView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
 
     // scene.addItem(mosaicTile);
+
+    rememberAltAzOption = Options::useAltAz();
+
+    // Always use Equatorial Mode in Mosaic mode
+    Options::setUseAltAz(false);
 }
 
 Mosaic::~Mosaic()
 {
+    Options::setUseAltAz(rememberAltAzOption);
 }
 
 void Mosaic::saveJobsDirectory()
