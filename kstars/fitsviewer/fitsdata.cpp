@@ -3587,10 +3587,63 @@ QVector<int> FITSData::hysteresis(int width, int height, const QVector<int> &ima
 
 #endif
 
+template <typename T>
+void FITSData::convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image)
+{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-align"
+    T *buffer = (T*)getImageBuffer();
+#pragma GCC diagnostic pop
+    const T limit   = std::numeric_limits<T>::max();
+    T bMin    = dataMin < 0 ? 0 : dataMin;
+    T bMax    = dataMax > limit ? limit : dataMax;
+    uint16_t w    = getWidth();
+    uint16_t h    = getHeight();
+    uint32_t size = getSize();
+    double val;
+
+    if (getNumOfChannels() == 1)
+    {
+        /* Fill in pixel values using indexed map, linear scale */
+        for (int j = 0; j < h; j++)
+        {
+            unsigned char *scanLine = image.scanLine(j);
+
+            for (int i = 0; i < w; i++)
+            {
+                val         = qBound(bMin, buffer[j * w + i], bMax);
+                val         = val * scale + zero;
+                scanLine[i] = qBound<unsigned char>(0, (unsigned char)val, 255);
+            }
+        }
+    }
+    else
+    {
+        double rval = 0, gval = 0, bval = 0;
+        QRgb value;
+        /* Fill in pixel values using indexed map, linear scale */
+        for (int j = 0; j < h; j++)
+        {
+            QRgb *scanLine = reinterpret_cast<QRgb *>((image.scanLine(j)));
+
+            for (int i = 0; i < w; i++)
+            {
+                rval = qBound(bMin, buffer[j * w + i], bMax);
+                gval = qBound(bMin, buffer[j * w + i + size], bMax);
+                bval = qBound(bMin, buffer[j * w + i + size * 2], bMax);
+
+                value = qRgb(rval * scale + zero, gval * scale + zero, bval * scale + zero);
+
+                scanLine[i] = value;
+            }
+        }
+    }
+}
+
 QImage FITSData::FITSToImage(const QString &filename)
 {
     QImage fitsImage;
-    double min, max, val;
+    double min, max;
 
     FITSData data;
 
@@ -3619,10 +3672,6 @@ QImage FITSData::FITSToImage(const QString &filename)
         fitsImage = QImage(data.getWidth(), data.getHeight(), QImage::Format_RGB32);
     }
 
-    uint16_t w    = data.getWidth();
-    uint16_t h    = data.getHeight();
-    uint32_t size = data.getSize();
-
     double dataMin = data.stats.mean[0] - data.stats.stddev[0];
     double dataMax = data.stats.mean[0] + data.stats.stddev[0] * 3;
 
@@ -3633,93 +3682,36 @@ QImage FITSData::FITSToImage(const QString &filename)
     switch (data.getDataType())
     {
         case TBYTE:
-        {
-            uint8_t *buffer = data.getImageBuffer();
-            uint8_t bMin    = dataMin < 0 ? 0 : dataMin;
-            uint8_t bMax    = dataMax > 255 ? 255 : dataMax;
-            if (data.getNumOfChannels() == 1)
-            {
-                /* Fill in pixel values using indexed map, linear scale */
-                for (int j = 0; j < h; j++)
-                {
-                    unsigned char *scanLine = fitsImage.scanLine(j);
+            data.convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-                    for (int i = 0; i < w; i++)
-                    {
-                        val         = qBound(bMin, buffer[j * w + i], bMax);
-                        val         = val * bscale + bzero;
-                        scanLine[i] = qBound(0.0, val, 255.0);
-                    }
-                }
-            }
-            else
-            {
-                double rval = 0, gval = 0, bval = 0;
-                QRgb value;
-                /* Fill in pixel values using indexed map, linear scale */
-                for (int j = 0; j < h; j++)
-                {
-                    QRgb *scanLine = reinterpret_cast<QRgb *>((fitsImage.scanLine(j)));
-
-                    for (int i = 0; i < w; i++)
-                    {
-                        rval = qBound(bMin, buffer[j * w + i], bMax);
-                        gval = qBound(bMin, buffer[j * w + i + size], bMax);
-                        bval = qBound(bMin, buffer[j * w + i + size * 2], bMax);
-                        ;
-
-                        value = qRgb(rval * bscale + bzero, gval * bscale + bzero, bval * bscale + bzero);
-
-                        scanLine[i] = value;
-                    }
-                }
-            }
-        }
-        break;
+        case TSHORT:
+            data.convertToQImage<int16_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
         case TUSHORT:
-        {
-            uint16_t *buffer = reinterpret_cast<uint16_t *>(data.getImageBuffer());
-            uint16_t bMin    = dataMin < 0 ? 0 : dataMin;
-            uint16_t bMax    = dataMax > USHRT_MAX ? USHRT_MAX : dataMax;
-            if (data.getNumOfChannels() == 1)
-            {
-                /* Fill in pixel values using indexed map, linear scale */
-                for (int j = 0; j < h; j++)
-                {
-                    unsigned char *scanLine = fitsImage.scanLine(j);
+            data.convertToQImage<uint16_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-                    for (int i = 0; i < w; i++)
-                    {
-                        val         = qBound(bMin, buffer[j * w + i], bMax);
-                        val         = val * bscale + bzero;
-                        scanLine[i] = qBound(0.0, val, 255.0);
-                    }
-                }
-            }
-            else
-            {
-                double rval = 0, gval = 0, bval = 0;
-                QRgb value;
-                /* Fill in pixel values using indexed map, linear scale */
-                for (int j = 0; j < h; j++)
-                {
-                    QRgb *scanLine = reinterpret_cast<QRgb *>((fitsImage.scanLine(j)));
+        case TLONG:
+            data.convertToQImage<int32_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-                    for (int i = 0; i < w; i++)
-                    {
-                        rval = qBound(bMin, buffer[j * w + i], bMax);
-                        gval = qBound(bMin, buffer[j * w + i + size], bMax);
-                        bval = qBound(bMin, buffer[j * w + i + size * 2], bMax);
+        case TULONG:
+            data.convertToQImage<uint32_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-                        value = qRgb(rval * bscale + bzero, gval * bscale + bzero, bval * bscale + bzero);
+        case TFLOAT:
+            data.convertToQImage<float>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-                        scanLine[i] = value;
-                    }
-                }
-            }
-        }
-        break;
+        case TLONGLONG:
+            data.convertToQImage<int64_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
+
+        case TDOUBLE:
+            data.convertToQImage<double>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
         default:
             break;

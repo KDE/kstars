@@ -305,6 +305,9 @@ class FITSData
     template <typename T>
     void sobel(QVector<float> &gradient, QVector<float> &direction);
 
+    template <typename T>
+    void convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image);
+
     // Give unique IDs to each contigous region
     int partition(int width, int height, QVector<float> &gradient, QVector<int> &ids);
     void trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y);
