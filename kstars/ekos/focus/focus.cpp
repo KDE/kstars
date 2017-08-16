@@ -268,7 +268,6 @@ void Focus::resetFrame()
             settings["binx"]          = 1;
             settings["biny"]          = 1;
             frameSettings[targetChip] = settings;
-            //targetChip->setFocusFrame(0,0,0,0);
 
             starSelected = false;
             starCenter   = QVector3D();
@@ -2267,6 +2266,12 @@ void Focus::focusStarSelected(int x, int y)
     if (state == Ekos::FOCUS_PROGRESS)
         return;
 
+    if (subFramed == false)
+    {
+        rememberStarCenter.setX(x);
+        rememberStarCenter.setY(y);
+    }
+
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
     int subBinX, subBinY;
@@ -2486,6 +2491,13 @@ void Focus::checkAutoStarTimeout()
     //if (starSelected == false && inAutoFocus)
     if (starCenter.isNull() && inAutoFocus)
     {
+        if (rememberStarCenter.isNull() == false)
+        {
+            focusStarSelected(rememberStarCenter.x(), rememberStarCenter.y());
+            appendLogText(i18n("No star was selected. Using last known position..."));
+            return;
+        }
+
         appendLogText(i18n("No star was selected. Aborting..."));
         initialFocuserAbsPosition = -1;
         abort();
