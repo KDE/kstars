@@ -36,6 +36,8 @@
 
 #include "hipsmanager.h"
 #include "skypoint.h"
+#include "kstarsdata.h"
+#include "geolocation.h"
 
 static const double twothird = 2.0/3.0;
 static const double pi = 3.141592653589793238462643383279502884197;
@@ -107,61 +109,61 @@ HEALPix::HEALPix()
 {
 }
 
-void HEALPix::getCornerPoints(int level, int pix, SkyPoint *points)
+void HEALPix::getCornerPoints(int level, int pix, SkyPoint *skyCoords)
 {
-#if 0
   static QMatrix4x4 gl(-0.0548755f,  0.494109f, -0.867666f,  0.f,
                        -0.873437f,  -0.444830f, -0.198076f,  0.f,
                        -0.483835f,   0.746982f,  0.455984f,  0.f,
                               0.f,         0.f,        0.f,  1.f);
 
   QVector3D v[4];
-  int nside = 1 << level;
+  // Transform from HealPIX convention to KStars
+  QVector3D transformed[4];
 
+  int nside = 1 << level;
   boundaries(nside, pix, 1, v);
 
-  // FIXME: Never tested.
+
+    if (HIPSManager::Instance()->getCurrentFrame() == HIPSManager::HIPS_EQUATORIAL_FRAME)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            //transformed[i].setX(-v[i].y());
+            //transformed[i].setY(-v[i].z());
+            //transformed[i].setZ(v[i].x());
+            transformed[i].setX(v[i].x());
+            transformed[i].setY(v[i].y());
+            transformed[i].setZ(v[i].z());
+        }
+    }
+    else if (HIPSManager::Instance()->getCurrentFrame() == HIPSManager::HIPS_GALACTIC_FRAME)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            QVector3D tmp = QVector3D(v[i].x(), v[i].y(), v[i].z());
+            tmp = gl.mapVector(tmp);
+
+            transformed[i].setX(-tmp.y());
+            transformed[i].setY(tmp.x());
+            transformed[i].setZ(-tmp.z());
+        }
+    }
+
+  // From rectangular coordinates to Sky coordinates
   for (int i = 0; i < 4; i++)
   {
-      if (m_param->frame == HIPS_FRAME_GAL)
-          v[i] = gl.mapVector(v[i]);
-
-      double ra, de=0;
-      xyz2sph(v[i], ra, de);
+      double ra=0, de=0;
+      xyz2sph(transformed[i], ra, de);
       de /= dms::DegToRad;
       ra /= dms::DegToRad;
 
-      points[i].setRA0(ra/15.0);
-      points[i].setDec0(de);
+      skyCoords[i].setRA0(ra/15.0);
+      skyCoords[i].setDec0(de);
+
+      skyCoords[i].updateCoords(KStarsData::Instance()->updateNum(), false);
+      skyCoords[i].EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
   }
 
-  // Check for convention?
-  /*
-  for (int i = 0; i < 4; i++)
-  {
-    if (m_param->frame == HIPS_FRAME_EQT)
-    {
-      points[i].w.x = -v[i].y;
-      points[i].w.y = -v[i].z;
-      points[i].w.z = v[i].x;
-    }
-    else if (m_param->frame == HIPS_FRAME_GAL)
-    {
-      points[i].w.x = v[i].x;
-      points[i].w.y = v[i].y;
-      points[i].w.z = v[i].z;
-
-      QVector3D tmp = QVector3D(v[i].x, v[i].y, v[i].z);
-      tmp = gl.mapVector(tmp);
-
-      points[i].w.x = -tmp.y();
-      points[i].w.z =  tmp.x();
-      points[i].w.y = -tmp.z();
-    }
-  }
-  */
-
-#endif
 }
 
 void HEALPix::boundaries(qint32 nside, qint32 pix, int step, QVector3D *out)
@@ -404,12 +406,12 @@ int HEALPix::getPix(int level, double ra, double dec)
   int nside = 1 << level;
   double polar[2];    
 
-  if (HIPSManager::Instance()->getCurrentFrame() == "equatorial")
+  if (HIPSManager::Instance()->getCurrentFrame() == HIPSManager::HIPS_EQUATORIAL_FRAME)
   {
     polar[0] = dec;
     polar[1] = ra;
   }
-  else if (HIPSManager::Instance()->getCurrentFrame() == "galactic")
+  else if (HIPSManager::Instance()->getCurrentFrame() == HIPSManager::HIPS_GALACTIC_FRAME)
   {    
     static QMatrix4x4 gl(-0.0548762f, -0.873437f, -0.483835f,  0,
                           0.4941100f, -0.444830f,  0.746982f,  0,
@@ -441,7 +443,7 @@ void HEALPix::xyz2sph(const QVector3D &vec, double &l, double &b)
   if (rho > 0)
   {
     l = atan2(vec.y(), vec.x());
-    l -= floor(l / M_PI*2) * M_PI*2;
+    l -= floor(l / (M_PI*2)) * (M_PI*2);
     b = atan2(vec.z(), sqrt(rho));
   }
   else
@@ -453,7 +455,7 @@ void HEALPix::xyz2sph(const QVector3D &vec, double &l, double &b)
     }
     else
     {
-      b = (vec.z() > 0.0) ? dms::PI/2. : -dms::PI/2.;
+      b = (vec.z() > 0.0) ? M_PI/2. : -dms::PI/2.;
     }
   }
 }
