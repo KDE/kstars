@@ -108,6 +108,12 @@ void Telescope::registerProperty(INDI::Property *prop)
 
     if (!strcmp(prop->getName(), "ALIGNMENT_POINTSET_ACTION") || !strcmp(prop->getName(), "ALIGNLIST"))
         m_hasAlignmentModel = true;
+    else if (!strcmp(prop->getName(), "TELESCOPE_TRACK_STATE"))
+        m_canControlTrack = true;
+    else if (!strcmp(prop->getName(), "TELESCOPE_TRACK_MODE"))
+        m_hasTrackModes = true;
+    else if (!strcmp(prop->getName(), "TELESCOPE_TRACK_RATE"))
+        m_hasCustomTrackRate = true;
 
     DeviceDecorator::registerProperty(prop);
 }
