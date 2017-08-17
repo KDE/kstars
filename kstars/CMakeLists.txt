@@ -446,11 +446,14 @@ if(NOT BUILD_KSTARS_LITE)
 
     set(hips_SRCS
         hips/healpix.cpp
-        hips/hipsmanager.cpp
         hips/hipsrenderer.cpp
         hips/scanrender.cpp
         hips/pixcache.cpp
         hips/urlfiledownload.cpp
+        )
+
+    set(hips_manager_SRCS
+        hips/hipsmanager.cpp
         )
 
     set(oal_SRCS
@@ -853,7 +856,7 @@ IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstars kstars_SRCS 10 cpp)
 ENDIF ()
 
-set(kstars_SRCS ${kstars_SRCS} ; ${fits_bayer_SRCS})
+set(kstars_SRCS ${kstars_SRCS} ${fits_bayer_SRCS} ${hips_manager_SRCS})
 
 if(NOT BUILD_KSTARS_LITE)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
