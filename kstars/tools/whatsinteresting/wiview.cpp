@@ -179,8 +179,9 @@ void WIView::setNightVisionOn(bool on)
         nightVision->setProperty("state", "active");
     else
         nightVision->setProperty("state", "");
-    if (m_CurSoItem.get() != nullptr)
-        loadDetailsView(m_CurSoItem.get(), m_CurIndex);
+
+    if (m_CurSoItem != nullptr)
+        loadDetailsView(m_CurSoItem, m_CurIndex);
 }
 
 void WIView::setProgressBarVisible(bool visible)
@@ -305,6 +306,7 @@ void WIView::onCenterButtonClicked()
     ///Center map on selected sky-object
     SkyObject *so  = m_CurSoItem->getSkyObject();
     KStars *kstars = KStars::Instance();
+
     if (so)
     {
         kstars->map()->setFocusPoint(so);
@@ -351,7 +353,7 @@ void WIView::onSlewTelescopeButtonClicked()
             gd->setProperty(&SlewCMD);
             gd->runCommand(INDI_SEND_COORDS, m_CurSoItem->getSkyObject());
 
-            ///Slew map to selected sky-object
+            /// Slew map to selected sky-object
             onCenterButtonClicked();
 
             return;
@@ -387,9 +389,9 @@ void WIView::onReloadIconClicked()
     if (!m_CurrentObjectListName.isEmpty())
     {
         updateModel(*m_Obs);
-        m_CurIndex = m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjIndex(m_CurSoItem.get());
+        m_CurIndex = m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjIndex(m_CurSoItem);
     }
-    loadDetailsView(m_CurSoItem.get(), m_CurIndex);
+    loadDetailsView(m_CurSoItem, m_CurIndex);
 }
 
 void WIView::onVisibleIconClicked(bool visible)
@@ -423,9 +425,9 @@ void WIView::onUpdateIconClicked()
     mbox.exec();
     if (mbox.clickedButton() == currentObject)
     {
-        if (m_CurSoItem.get() != nullptr)
+        if (m_CurSoItem != nullptr)
         {
-            tryToUpdateWikipediaInfo(m_CurSoItem.get(), getWikipediaName(m_CurSoItem.get()));
+            tryToUpdateWikipediaInfo(m_CurSoItem, getWikipediaName(m_CurSoItem));
         }
     }
     else if (mbox.clickedButton() == allObjects || mbox.clickedButton() == missingObjects)
@@ -487,7 +489,8 @@ void WIView::inspectSkyObject(SkyObject *obj)
     if (obj->name() != "star")
     {
         m_CurrentObjectListName = "";
-        loadDetailsView(new SkyObjItem(obj), -1);
+        trackedItem.reset(new SkyObjItem(obj));
+        loadDetailsView(trackedItem.get(), -1);
         m_BaseObj->setProperty("state", "singleItemSelected");
         m_CategoryTitle->setProperty("text", "Selected Object");
     }
@@ -503,8 +506,8 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     if (index != -1)
         modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
 
-    if (soitem != m_CurSoItem.get())
-        m_CurSoItem.reset(soitem);
+    if (soitem != m_CurSoItem)
+        m_CurSoItem = soitem;
 
     m_CurIndex  = index;
     if (modelSize <= 1)
@@ -663,7 +666,7 @@ void WIView::updateWikipediaDescription(SkyObjItem *soitem)
         html              = "<HTML><HEAD><style type=text/css>body {color:" + color +
                ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + html + "</BODY></HTML>";
 
-        if (soitem == m_CurSoItem.get())
+        if (soitem == m_CurSoItem)
             descTextObj->setProperty("text", html);
         refreshListView();
     });
@@ -882,7 +885,7 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
             html.replace("color: white", "color: " + color);
         html = "<HTML><HEAD><style type=text/css>body {color:" + color +
                ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + html + "</BODY></HTML>";
-        if (soitem == m_CurSoItem.get())
+        if (soitem == m_CurSoItem)
             infoBoxText->setProperty("text", html);
     });
 }

@@ -158,8 +158,10 @@ class WIView : public QWidget
     QQuickView *m_BaseView { nullptr };
     ObsConditions *m_Obs { nullptr };
     std::unique_ptr<ModelManager> m_ModManager;
-    /// Current sky-object item.
-    std::unique_ptr<SkyObjItem> m_CurSoItem;
+    /// Current sky object item.
+    SkyObjItem *m_CurSoItem { nullptr };
+    /// Created sky object item on-demand
+    std::unique_ptr<SkyObjItem> trackedItem;
     /// Index of current sky-object item in Details view.
     int m_CurIndex { 0 };
     /// Currently selected category from WI QML view
