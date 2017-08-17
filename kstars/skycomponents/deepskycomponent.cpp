@@ -443,7 +443,7 @@ void DeepSkyComponent::draw(SkyPainter *skyp)
 
     drawFlag = Options::showMessier() && !(Options::hideOnSlew() && Options::hideMessier() && SkyMap::IsSlewing());
 
-    drawDeepSkyCatalog(skyp, drawFlag, &m_MessierIndex, "MessColor", Options::showMessierImages());
+    drawDeepSkyCatalog(skyp, drawFlag, &m_MessierIndex, "MessColor", Options::showMessierImages() && !Options::showHIPS());
 
     drawFlag = Options::showNGC() && !(Options::hideOnSlew() && Options::hideNGC() && SkyMap::IsSlewing());
 
