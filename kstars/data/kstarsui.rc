@@ -92,6 +92,7 @@
         <Menu name="observation" noMerge="1"><text>&amp;Observation</text>
            <Action name="obslist" />
            <Action name="execute" />
+           <Separator />
            <Action name="polaris_hour_angle" />
         </Menu>
 
