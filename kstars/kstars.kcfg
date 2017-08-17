@@ -1999,5 +1999,10 @@
           <label>Show HiPS grid on the sky map.</label>
           <default>false</default>
     </entry>
+    <entry name="ShowHIPS" type="Bool">
+       <label>Draw HiPS sources in the sky map?</label>
+       <whatsthis>Toggle whether the HIPS sources are drawn in the sky map.</whatsthis>
+       <default>false</default>
+    </entry>
    </group>
 </kcfg>

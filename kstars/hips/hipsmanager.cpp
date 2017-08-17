@@ -361,6 +361,7 @@ bool HIPSManager::setCurrentSource(const QString &title)
 {
     if (title == i18n("None"))
     {
+        Options::setShowHIPS(false);
         Options::setHIPSSource(title);
         m_currentSource.clear();
         m_currentFormat.clear();
@@ -402,6 +403,7 @@ bool HIPSManager::setCurrentSource(const QString &title)
             m_uid = qHash(m_currentURL);
 
             Options::setHIPSSource(title);
+            Options::setShowHIPS(true);
 
             return true;
         }

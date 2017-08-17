@@ -16,12 +16,19 @@
 #include "skypainter.h"
 #include "skymap.h"
 
+#include "Options.h"
+
 HIPSComponent::HIPSComponent(SkyComposite *parent) : SkyComponent(parent)
 {
 }
 
 HIPSComponent::~HIPSComponent()
 {
+}
+
+bool HIPSComponent::selected()
+{
+    return Options::showHIPS();
 }
 
 void HIPSComponent::draw(SkyPainter *skyp)
