@@ -4,6 +4,85 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.8.1 (Hipster):
+=================================================================================================
+617e4fe 2017-08-17 Jasem Mutlaq         Initial work on mount tracking support
+08205fb 2017-08-16 Jasem Mutlaq         In case no star is selected in autofocus and timeout is triggered, go to last known center
+b847689 2017-08-16 Jasem Mutlaq         Switch to equatorial mode to correctly orient the display for the camera position angle. Needs testing
+c55ab9f 2017-08-16 Jasem Mutlaq         Make zoom modifier a bit less dramatic
+552a61e 2017-08-16 Jasem Mutlaq         HiPS experiemental support is now operational in KStars with 3 catalogs. Others will be available via HiPS download manager in the next release
+2a2ffcb 2017-08-14 Csaba Kertesz        Miscellaneous fixes
+a317b9d 2017-08-16 Jasem Mutlaq         More work on healPIX and HIPS. Added options for HIPS Grid, color selection. Still testing Healpix functions with KStars projections and SkyPoint.
+2344a8e 2017-08-16 Jasem Mutlaq         More progress on Healpix, getPix works now but still long way to go
+f48d4c8 2017-08-16 Jasem Mutlaq         Remove extra semi colon
+dc93af9 2017-08-15 Jasem Mutlaq         Dome should sync ACTIVE_TELESCOPE if detected
+4a3c5f5 2017-08-15 Jasem Mutlaq         Disable omp for now
+3fa4529 2017-08-15 Jasem Mutlaq         Add separate none selector to execlusive groups, more Hips related work
+f0ef17d 2017-08-14 Jasem Mutlaq         More work to manage HIPS. Now 3 hips sources are stored in the default database. HIPS GUI manager to be added to add and remove HIPS sources
+8ad7925 2017-08-14 Jasem Mutlaq         More work on HiPS. Nothing works yet we have a long way to go. Copyright added and cache mechanism imported from SkyTextX
+7feab37 2017-08-14 Csaba Kertesz        Allow higher tolerance for the alignment
+f9cbb1d 2017-08-14 Jasem Mutlaq         Initial work for HIPS support in KStars
+f312564 2017-08-14 Jasem Mutlaq         Use constexpr
+6911b50 2017-08-13 Csaba Kertesz        Fix a division by zero
+29811be 2017-08-11 Csaba Kertesz        Usability improvement for Ekos sessions
+b42a164 2017-08-11 Jasem Mutlaq         Forgot to add missing files
+2bbf3a4 2017-08-11 Jasem Mutlaq         Add Polaris Hour Angle adapted from SkyTechX
+8d85c26 2017-08-11 Jasem Mutlaq         QDateTime setUtcOffset is deprecated since Qt v5.2 so ought to move away from it and we are now using timespec instead. I made the necessary changes..
+1ee8f79 2017-08-10 Jasem Mutlaq         Adding support to custom properties setting in capture module. Removing explicit support for gain settings since this is covered by custom properties.
+3d6f003 2017-08-10 Jasem Mutlaq         Formatted again with clang
+fa1fad0 2017-08-10 Jasem Mutlaq         Add switch for scheduler logging
+5430fc4 2017-08-10 Jasem Mutlaq         Resize config dialog to resonable size on startup
+004da33 2017-08-10 Jasem Mutlaq         Separate INDI and Ekos shutdown
+4c011c1 2017-08-10 Jasem Mutlaq         Ignore duplicate device if received
+98d99b6 2017-08-10 Jasem Mutlaq         Add proper debugging category statements
+7e40c62 2017-08-10 Jasem Mutlaq         Handle proper removal of devices in case of Multiple-Devices-Per-Driver drivers
+b325443 2017-08-10 Jasem Mutlaq         Add INDI debug option
+b2afffe 2017-08-10 Jasem Mutlaq         Fix handling of already connected PHD2
+36fbe22 2017-08-10 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
+8b24907 2017-08-10 Jasem Mutlaq         More debug statements
+fa79fc4 2017-08-09 Csaba Kertesz        Improve the testing robustness on x86 target
+529a65c 2017-08-09 Jasem Mutlaq         On position set, set equipment to connected if not already set
+d5bdd46 2017-08-09 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
+04b1a72 2017-08-09 Jasem Mutlaq         Retries set equipment connected if it fails 3 times
+3adad76 2017-08-09 Jasem Mutlaq         Do not calibrate for external guiders
+93eda2a 2017-08-09 Csaba Kertesz        Show the progress while the Sky Calendar is being plotted
+c22a83f 2017-08-09 Jasem Mutlaq         Set PHD2 and LinGuider options as per profile info
+b90ae91 2017-08-09 Jasem Mutlaq         Use one function to handle all guider selection transitions
+d35ae9d 2017-08-08 Jasem Mutlaq         If type is unkown default to primary in align module
+3da2cc9 2017-08-08 Jasem Mutlaq         Default to uknown telescope type initially
+bd5ef9b 2017-08-08 Jasem Mutlaq         Fix typo
+926443e 2017-08-08 Jasem Mutlaq         Handle scope switch when standard INDI properties is not defined
+18e6916 2017-08-08 Jasem Mutlaq         read in both primary and guide infos from telescope
+b2d545e 2017-08-08 Jasem Mutlaq         Separate filter wheel management from focus to alignment
+3ed6831 2017-08-08 Jasem Mutlaq         Support selection of no filter wheel device. Save CCD and Filter Wheel device names in the sequence file to be set when loaded again
+303ef97 2017-08-07 Jasem Mutlaq         Fallback to Profile Telescope info in case a non-INDI compliant mount driver is used
+0dac605 2017-08-07 Jasem Mutlaq         Remove unused debug
+7fe20b8 2017-08-07 Jasem Mutlaq         Update more files to the new logging category
+970db6d 2017-08-07 Jasem Mutlaq         Migrate more to QLoggingCategory
+5028e95 2017-08-06 Jasem Mutlaq         Migrating KStars to use QLoggingCategory framework which supports granular control over logging in runtime.
+8a0f7c5 2017-08-06 Jasem Mutlaq         Add initial work for retrieving geolocation. However the backend used in Linux geoclue is not working with QtPositioning so need to investigate
+e43ef3a 2017-08-06 Jasem Mutlaq         Add dependency for QtPositioning and bump to 2.8.1
+1e22cf5 2017-08-05 Jasem Mutlaq         Partial fix for comet positions. Some position are better, but others are way off.
+9676f88 2017-08-04 Jasem Mutlaq         Add support for Rotator Angle handling directly
+b75189c 2017-08-04 Jasem Mutlaq         Fix command line options parsing and do not set time twice if already set on startup
+eac48c2 2017-07-19 Akarsh Simha         1. Improve accuracy of eccentric anomaly calculation by iteration
+0e47636 2017-08-03 Robert Barlow        Patch by Robert Barlow to support custom catalogs in WUT. BUGS:357671
+29ed0b2 2017-08-03 Jasem Mutlaq         Do not process zero length blobs
+22d9b92 2017-08-01 Jasem Mutlaq         Check return status of addJob before proceeding. Always use CLIENT mode when taking previews
+b41529f 2017-07-31 Csaba Kertesz        Fix app-closing crashes related to constellation and catalog handling
+ff4b962 2017-08-01 Jasem Mutlaq         Fix problem with resetting PAH buttons in second rotation stage
+405a80e 2017-07-31 Jasem Mutlaq         Display INDI universal messages as received from INDI server
+99004c2 2017-07-29 Csaba Kertesz        Remove libnova dependency from the Android build
+3665023 2017-07-28 Csaba Kertesz        Fix a crash in the What is interesting dialog
+82e903e 2017-07-28 Jasem Mutlaq         BUGS: 382721 Just use less than and greater than keys for time.
+48bf745 2017-07-26 Csaba Kertesz        Fix Coverity findings
+0175158 2017-07-26 Csaba Kertesz        Normalized slots and other fixes for Clazy
+299c1dc 2017-07-26 Csaba Kertesz        Further Krazy fixes
+d5435c7 2017-07-25 Csaba Kertesz        Fix Krazy findings
+9c62a17 2017-07-25 Csaba Kertesz        Fix crashes when an operation is in progress while KStars is being closed
+0d0d217 2017-07-25 Csaba Kertesz        Add Coverity build script
+3c86098 2017-07-25 Csaba Kertesz        Add Krazy build script
+
 2.8.0 (Arcturus):
 =================================================================================================
 ebc576a 2017-07-25 Jasem Mutlaq         Fix compiling on MacOS
