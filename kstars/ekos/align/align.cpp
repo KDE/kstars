@@ -4380,6 +4380,9 @@ void Align::startPAHProcess()
         currentTelescope->clearAlignmentModel();
     }
 
+    // Set tracking ON if not already
+    if (currentTelescope->canControlTrack() && currentTelescope->isTracking() == false)
+        currentTelescope->setTrackEnabled(true);
 
     PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
 }
