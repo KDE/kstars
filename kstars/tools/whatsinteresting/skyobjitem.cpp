@@ -190,8 +190,11 @@ QString SkyObjItem::getSurfaceBrightness() const
       * brightness obtained in mag * arcminutes^-2
       */
 
-    DeepSkyObject *dso = (DeepSkyObject *)m_So;
-    float SB           = m_So->mag() + 2.5 * log10(dso->a() * dso->b() / 4);
+    DeepSkyObject *dso = dynamic_cast<DeepSkyObject*>(m_So);
+    float SB           = m_So->mag();
+
+    if (dso != nullptr)
+        SB += 2.5 * log10(dso->a() * dso->b() / 4);
 
     switch (getType())
     {
