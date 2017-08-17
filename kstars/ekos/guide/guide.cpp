@@ -106,7 +106,14 @@ Guide::Guide() : QWidget()
     //connect(guiderCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
     connect(guiderCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             [&](const QString &ccd) { Options::setDefaultGuideCCD(ccd); });
-    connect(guiderCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
+    connect(guiderCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+        [&](int index)
+    {
+        starCenter = QVector3D();
+        checkCCD(index);
+    }
+    );
+
 
     // Dark Frame Check
     connect(darkFrameCheck, SIGNAL(toggled(bool)), this, SLOT(setDarkFrameEnabled(bool)));
@@ -2134,6 +2141,10 @@ bool Guide::executeOperationStack()
                     setStatus(GUIDE_CALIBRATION_SUCESS);
                     break;
                 }
+
+                // Tracking must be engaged
+                if (currentTelescope && currentTelescope->canControlTrack() && currentTelescope->isTracking() == false)
+                    currentTelescope->setTrackEnabled(true);
             }
 
             if (guider->calibrate())
