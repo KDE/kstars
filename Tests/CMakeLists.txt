@@ -21,4 +21,7 @@ SET( TEST_LIBRARIES
 
 add_subdirectory(auxiliary)
 add_subdirectory(skyobjects)
-add_subdirectory(kstars_ui)
+
+IF (UNIX)
+    add_subdirectory(kstars_ui)
+ENDIF ()
