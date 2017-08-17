@@ -34,7 +34,7 @@ PolarisHourAngle::PolarisHourAngle(QWidget *parent) :
   setupUi(this);
   setFixedHeight(size().height());
 
-  SkyObject *polaris = KStarsData::Instance()->skyComposite()->findByName("polaris");
+  SkyObject *polaris = KStarsData::Instance()->skyComposite()->findByName(i18n("Polaris"));
   Q_ASSERT_X(polaris != nullptr, "PolarisHourAngle", "Unable to find Polaris!");
   m_polaris = polaris->clone();
 
