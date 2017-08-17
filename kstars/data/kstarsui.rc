@@ -55,6 +55,7 @@
                         <Action name="project_stereographic"/>
                         <Action name="project_gnomonic"/>
                 </Menu>
+                <Action name="hipssources" />
         </Menu>
 
         <Menu name="tools" noMerge="1"><text>&amp;Tools</text>

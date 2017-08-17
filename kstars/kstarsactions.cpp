@@ -1495,7 +1495,7 @@ void KStars::slotHIPSSource()
     QAction *selectedAction = qobject_cast<QAction*>(sender());
     Q_ASSERT(selectedAction != nullptr);
 
-    HIPSManager::Instance()->setCurrentSource(selectedAction->text());
+    HIPSManager::Instance()->setCurrentSource(selectedAction->text().remove("&"));
 
     map()->forceUpdate();
 }
