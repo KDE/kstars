@@ -24,6 +24,7 @@ ProfileEditorUI::ProfileEditorUI(QWidget *p) : QFrame(p)
 
 ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 {
+    setObjectName("profileEditorDialog");
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
@@ -38,7 +39,9 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
     setWindowTitle(i18n("Profile Editor"));
 
     // Create button box and link it to save and reject functions
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Close);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Close, this);
+
+    buttonBox->setObjectName("dialogButtons");
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(saveProfile()));

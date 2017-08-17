@@ -200,9 +200,9 @@ void Scheduler::watchJobChanges(bool enable)
         connect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        connect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
+        connect(schedulerProfileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
 
-        connect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
+        connect(schedulerProfileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         connect(stepsButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(setDirty()));
         connect(startupButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(setDirty()));
         connect(constraintButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(setDirty()));
@@ -225,9 +225,9 @@ void Scheduler::watchJobChanges(bool enable)
         disconnect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        disconnect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
+        disconnect(schedulerProfileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
 
-        disconnect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
+        disconnect(schedulerProfileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         disconnect(stepsButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(setDirty()));
         disconnect(startupButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(setDirty()));
         disconnect(constraintButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(setDirty()));
@@ -435,7 +435,7 @@ void Scheduler::saveJob()
 
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
     job->setSequenceFile(sequenceURL);
-    job->setProfile(profileCombo->currentText());
+    job->setProfile(schedulerProfileCombo->currentText());
 
     fitsURL = QUrl::fromLocalFile(fitsEdit->text());
     job->setFITSFile(fitsURL);
@@ -653,7 +653,7 @@ void Scheduler::loadJob(QModelIndex i)
     sequenceEdit->setText(job->getSequenceFile().toLocalFile());
     sequenceURL = job->getSequenceFile();
 
-    profileCombo->setCurrentText(job->getProfile());
+    schedulerProfileCombo->setCurrentText(job->getProfile());
 
     trackStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
     focusStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
@@ -2186,10 +2186,10 @@ bool Scheduler::checkStartupState()
                 return true;
             }
 
-            if (profileCombo->currentText() != i18n("Default"))
+            if (schedulerProfileCombo->currentText() != i18n("Default"))
             {
                 QList<QVariant> profile;
-                profile.append(profileCombo->currentText());
+                profile.append(schedulerProfileCombo->currentText());
                 ekosInterface->callWithArgumentList(QDBus::AutoDetect, "setProfile", profile);
             }
 
@@ -3454,7 +3454,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
         }
         else if (!strcmp(tagXMLEle(ep), "Profile"))
         {
-            profileCombo->setCurrentText(pcdataXMLEle(ep));
+            schedulerProfileCombo->setCurrentText(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "Steps"))
         {
@@ -4932,18 +4932,18 @@ void Scheduler::runShutdownProcedure()
 
 void Scheduler::loadProfiles()
 {
-    QString currentProfile = profileCombo->currentText();
+    QString currentProfile = schedulerProfileCombo->currentText();
 
     QDBusReply<QStringList> profiles = ekosInterface->call(QDBus::AutoDetect, "getProfiles");
 
     if (profiles.error().type() == QDBusError::NoError)
     {
-        profileCombo->blockSignals(true);
-        profileCombo->clear();
-        profileCombo->addItem(i18n("Default"));
-        profileCombo->addItems(profiles);
-        profileCombo->setCurrentText(currentProfile);
-        profileCombo->blockSignals(false);
+        schedulerProfileCombo->blockSignals(true);
+        schedulerProfileCombo->clear();
+        schedulerProfileCombo->addItem(i18n("Default"));
+        schedulerProfileCombo->addItems(profiles);
+        schedulerProfileCombo->setCurrentText(currentProfile);
+        schedulerProfileCombo->blockSignals(false);
     }
 }
 

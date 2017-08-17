@@ -694,6 +694,9 @@ class KStars : public KXmlGuiWindow
     virtual void closeEvent(QCloseEvent *event);
 
   public:
+    /** Check if the KStars main window is shown */
+    bool isGUIReady() { return m_SkyMap != nullptr; };
+
     /// Set to true when the application is being closed
     static bool Closing;
 
