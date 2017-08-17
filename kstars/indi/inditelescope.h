@@ -66,8 +66,18 @@ class Telescope : public DeviceDecorator
 
     // Tracking
     bool canControlTrack() const { return m_canControlTrack; }
+    bool setTrackEnabled(bool enable);
+    bool isTracking();
+
+    // Track Mode
     bool hasTrackModes() const { return m_hasTrackModes; }
+    bool setTrackMode(uint8_t index);
+    bool getTrackMode(uint8_t &index);
+
+    // Custom Track Rate
     bool hasCustomTrackRate() const { return m_hasTrackModes; }
+    bool setCustomTrackRate(double raRate, double deRate);
+    bool getCustomTrackRate(double &raRate, double &deRate);
 
     // Motion
     bool MoveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd);
