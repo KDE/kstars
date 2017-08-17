@@ -999,4 +999,96 @@ QString Telescope::getManualMotionString() const
 
     return QString("%1%2").arg(NSMotion, WEMotion);
 }
+
+bool Telescope::setTrackEnabled(bool enable)
+{
+    ISwitchVectorProperty *trackSP = baseDevice->getSwitch("TELESCOPE_TRACK_STATE");
+    if (trackSP == nullptr)
+        return false;
+
+    ISwitch *trackON  = IUFindSwitch(trackSP, "TRACK_ON");
+    ISwitch *trackOFF = IUFindSwitch(trackSP, "TRACK_OFF");
+
+    if (trackON == nullptr || trackOFF == nullptr)
+        return false;
+
+    trackON->s = enable ? ISS_ON : ISS_OFF;
+    trackOFF->s= enable ? ISS_OFF : ISS_ON;
+
+    clientManager->sendNewSwitch(trackSP);
+
+    return true;
+}
+
+bool Telescope::isTracking()
+{
+    return (getStatus() == MOUNT_TRACKING);
+}
+
+bool Telescope::setTrackMode(uint8_t index)
+{
+    ISwitchVectorProperty *trackModeSP = baseDevice->getSwitch("TELESCOPE_TRACK_MODE");
+    if (trackModeSP == nullptr)
+        return false;
+    if (index >= trackModeSP->nsp)
+        return false;
+
+    IUResetSwitch(trackModeSP);
+    trackModeSP->sp[index].s = ISS_ON;
+
+    clientManager->sendNewSwitch(trackModeSP);
+
+    return true;
+}
+
+bool Telescope::getTrackMode(uint8_t &index)
+{
+    ISwitchVectorProperty *trackModeSP = baseDevice->getSwitch("TELESCOPE_TRACK_MODE");
+    if (trackModeSP == nullptr)
+        return false;
+
+    index = IUFindOnSwitchIndex(trackModeSP);
+
+    return true;
+}
+
+bool Telescope::setCustomTrackRate(double raRate, double deRate)
+{
+    INumberVectorProperty *trackRateNP = baseDevice->getNumber("TELESCOPE_TRACK_RATE");
+    if (trackRateNP == nullptr)
+        return false;
+
+    INumber *raRateN = IUFindNumber(trackRateNP, "TRACK_RATE_RA");
+    INumber *deRateN = IUFindNumber(trackRateNP, "TRACK_RATE_DE");
+
+    if (raRateN == nullptr || deRateN == nullptr)
+        return false;
+
+    raRateN->value = raRate;
+    deRateN->value = deRate;
+
+    clientManager->sendNewNumber(trackRateNP);
+
+    return true;
+}
+
+bool Telescope::getCustomTrackRate(double &raRate, double &deRate)
+{
+    INumberVectorProperty *trackRateNP = baseDevice->getNumber("TELESCOPE_TRACK_RATE");
+    if (trackRateNP == nullptr)
+        return false;
+
+    INumber *raRateN = IUFindNumber(trackRateNP, "TRACK_RATE_RA");
+    INumber *deRateN = IUFindNumber(trackRateNP, "TRACK_RATE_DE");
+
+    if (raRateN == nullptr || deRateN == nullptr)
+        return false;
+
+    raRate = raRateN->value;
+    deRate = deRateN->value;
+
+    return true;
+
+}
+
 }
