@@ -2278,7 +2278,7 @@ void Align::generateArgs()
         }
     }
 
-    if (Options::astrometryUsePosition())
+    if (Options::astrometryUsePosition() && currentTelescope != nullptr)
     {
         double ra = 0, dec = 0;
         currentTelescope->getEqCoords(&ra, &dec);
