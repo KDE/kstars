@@ -23,7 +23,6 @@
 #include "linelist.h"
 #include "version.h"
 
-#include <QDebug>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlTableModel>
@@ -84,7 +83,7 @@ bool KSUserDB::Initialize()
                 QSqlQuery query(userdb_);
                 QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
                 if (!query.exec(versionQuery))
-                    qDebug() << query.lastError();
+                    qCWarning(KSTARS) << query.lastError();
             }
 
             // If prior to 2.4.0 upgrade database for horizon table
@@ -93,7 +92,7 @@ bool KSUserDB::Initialize()
                 QSqlQuery query(userdb_);
                 if (!query.exec("CREATE TABLE IF NOT EXISTS horizons (id INTEGER DEFAULT NULL PRIMARY KEY "
                                 "AUTOINCREMENT, name TEXT NOT NULL, label TEXT NOT NULL, enabled INTEGER NOT NULL)"))
-                    qDebug() << query.lastError();
+                    qCWarning(KSTARS) << query.lastError();
             }
 
             // If prior to 2.6.0 upgrade database for profiles tables
@@ -287,7 +286,8 @@ bool KSUserDB::FirstRun()
 
 bool KSUserDB::RebuildDB()
 {
-    qWarning() << "Rebuilding User Database";
+    qCInfo(KSTARS) << "Rebuilding User Database";
+
     QVector<QString> tables;
     tables.append("CREATE TABLE Version ("
                   "Version CHAR DEFAULT NULL)");
@@ -393,15 +393,6 @@ bool KSUserDB::RebuildDB()
                   "NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, duration REAL, "
                   "filename TEXT NOT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
 
-    for (int i = 0; i < tables.count(); ++i)
-    {
-        QSqlQuery query(userdb_);
-        if (!query.exec(tables[i]))
-        {
-            qDebug() << query.lastError();
-        }
-    }
-
     tables.append("CREATE TABLE IF NOT EXISTS hips (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,"
                   "title TEXT NOT NULL, description TEXT NOT NULL, frame TEXT NOT NULL,"
                    "format TEXT NOT NULL, url TEXT NOT NULL, hipsorder INTEGER, size INTEGER,"
@@ -443,6 +434,16 @@ bool KSUserDB::RebuildDB()
                     " pixels have smaller integrated flux. When creating large scale images in other projections users may wish to make"
                     " sure to compensate for this effect the flux conserving clip-resampling option.', 'equatorial', 'jpeg fits', 'http://alaskybis.u-strasbg.fr/Fermi/Color',"
                     "3, 512, 1, 1500636451000)");
+
+    for (int i = 0; i < tables.count(); ++i)
+    {
+        QSqlQuery query(userdb_);
+        if (!query.exec(tables[i]))
+        {
+            qCDebug(KSTARS) << query.lastError();
+            qCDebug(KSTARS) << query.executedQuery();
+        }
+    }
 
     return true;
 }
@@ -1519,7 +1520,7 @@ void KSUserDB::DeleteAllHorizons()
         QSqlRecord record  = regions.record(i);
         QString tableQuery = QString("DROP TABLE %1").arg(record.value("name").toString());
         if (!query.exec(tableQuery))
-            qDebug() << query.lastError().text();
+            qCWarning(KSTARS) << query.lastError().text();
     }
 
     regions.removeRows(0, regions.rowCount());
@@ -1579,7 +1580,7 @@ int KSUserDB::AddProfile(const QString &name)
     bool rc = query.exec(QString("INSERT INTO profile (name) VALUES('%1')").arg(name));
 
     if (rc == false)
-        qDebug() << query.lastQuery() << query.lastError().text();
+        qCWarning(KSTARS) << query.lastQuery() << query.lastError().text();
     else
         id = query.lastInsertId().toInt();
 
@@ -1598,7 +1599,7 @@ bool KSUserDB::DeleteProfile(ProfileInfo *pi)
     rc = query.exec("DELETE FROM profile WHERE id=" + QString::number(pi->id));
 
     if (rc == false)
-        qDebug() << query.lastQuery() << query.lastError().text();
+        qCWarning(KSTARS) << query.lastQuery() << query.lastError().text();
 
     userdb_.close();
 
@@ -1618,25 +1619,25 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
                             "host=null,port=null,city=null,province=null,country=null,indiwebmanagerport=NULL,"
                             "autoconnect=NULL,primaryscope=0,guidescope=0 WHERE id=%1")
                         .arg(pi->id)))
-        qDebug() << query.lastQuery() << query.lastError().text();
+        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
     // Update Name
     if (!query.exec(QString("UPDATE profile SET name='%1' WHERE id=%2").arg(pi->name).arg(pi->id)))
-        qDebug() << query.lastQuery() << query.lastError().text();
+        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
     // Update Remote Data
     if (pi->host.isEmpty() == false)
     {
         if (!query.exec(
                 QString("UPDATE profile SET host='%1',port=%2 WHERE id=%3").arg(pi->host).arg((pi->port)).arg(pi->id)))
-            qDebug() << query.lastQuery() << query.lastError().text();
+            qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
         if (pi->INDIWebManagerPort != -1)
         {
             if (!query.exec(QString("UPDATE profile SET indiwebmanagerport='%1' WHERE id=%2")
                                 .arg(pi->INDIWebManagerPort)
                                 .arg(pi->id)))
-                qDebug() << query.lastQuery() << query.lastError().text();
+                qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
         }
     }
 
@@ -1647,32 +1648,32 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
                             .arg(pi->city, pi->province, pi->country)
                             .arg(pi->id)))
         {
-            qDebug() << query.lastQuery() << query.lastError().text();
+            qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
         }
     }
 
     // Update Auto Connect Info
     if (!query.exec(QString("UPDATE profile SET autoconnect=%1 WHERE id=%2").arg(pi->autoConnect ? 1 : 0).arg(pi->id)))
-        qDebug() << query.lastQuery() << query.lastError().text();
+        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
     // Update Guide Application Info
     if (!query.exec(QString("UPDATE profile SET guidertype=%1 WHERE id=%2").arg(pi->guidertype).arg(pi->id)))
-        qDebug() << query.lastQuery() << query.lastError().text();
+        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
     // If using external guider
     if (pi->guidertype != 0)
     {
         if (!query.exec(QString("UPDATE profile SET guiderhost='%1' WHERE id=%2").arg(pi->guiderhost).arg(pi->id)))
-            qDebug() << query.lastQuery() << query.lastError().text();
+            qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
         if (!query.exec(QString("UPDATE profile SET guiderport=%1 WHERE id=%2").arg(pi->guiderport).arg(pi->id)))
-            qDebug() << query.lastQuery() << query.lastError().text();
+            qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
     }
 
     // Update scope selection
     if (!query.exec(QString("UPDATE profile SET primaryscope='%1' WHERE id=%2").arg(pi->primaryscope).arg(pi->id)))
-        qDebug() << query.lastQuery() << query.lastError().text();
+        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
     if (!query.exec(QString("UPDATE profile SET guidescope=%1 WHERE id=%2").arg(pi->guidescope).arg(pi->id)))
-        qDebug() << query.lastQuery() << query.lastError().text();
+        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
     QMapIterator<QString, QString> i(pi->drivers);
     while (i.hasNext())
@@ -1682,7 +1683,7 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
                             .arg(i.value(), i.key())
                             .arg(pi->id)))
         {
-            qDebug() << query.lastQuery() << query.lastError().text();
+            qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
         }
     }
 
@@ -1747,7 +1748,7 @@ void KSUserDB::GetProfileDrivers(ProfileInfo *pi)
     driver.setTable("driver");
     driver.setFilter("profile=" + QString::number(pi->id));
     if (driver.select() == false)
-        qDebug() << "driver select error: " << driver.query().lastQuery() << driver.lastError().text();
+        qCWarning(KSTARS) << "Driver select error:" << driver.lastError().text();
 
     for (int i = 0; i < driver.rowCount(); ++i)
     {
@@ -1788,7 +1789,7 @@ void KSUserDB::DeleteProfileDrivers(ProfileInfo *pi)
         qDebug() << query.lastQuery() << query.lastError().text();*/
 
     if (!query.exec("DELETE FROM driver WHERE profile=" + QString::number(pi->id)))
-        qDebug() << query.lastQuery() << query.lastError().text();
+        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
     userdb_.close();
 }
