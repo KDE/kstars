@@ -401,8 +401,8 @@ void KStars::initActions()
     actionCollection()->addAction("skycalendar", this, SLOT(slotCalendar())) << i18n("Sky Calendar");
 
 #ifdef HAVE_INDI
-    ka = actionCollection()->addAction("ekos", this, SLOT(slotEkos())) << i18n("Ekos") <<
-                                                                                  QKeySequence(Qt::CTRL + Qt::Key_K);
+    ka = actionCollection()->addAction("ekos", this, SLOT(slotEkos()))
+            << i18n("Ekos") << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_K);
     ka->setShortcutContext(Qt::ApplicationShortcut);
 #endif
 
@@ -451,10 +451,10 @@ void KStars::initActions()
     actionCollection()->addAction("device_manager", this, SLOT(slotINDIDriver()))
         << i18n("Device Manager...")
         << QIcon::fromTheme("network-server", QIcon(":/icons/breeze/default/network-server.svg"))
-        << QKeySequence(Qt::CTRL + Qt::Key_D);
+        << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_D);
     ka = actionCollection()->addAction("indi_cpl", this, SLOT(slotINDIPanel()))
         << i18n("INDI Control Panel...")
-        << QKeySequence(Qt::CTRL + Qt::Key_I);
+        << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_I);
     ka->setShortcutContext(Qt::ApplicationShortcut);
     ka->setEnabled(false);
 #else
@@ -565,6 +565,21 @@ void KStars::initActions()
          << QIcon::fromTheme("center_telescope", QIcon(":/icons/center_telescope.svg"))
          << ToolTip(i18n("Toggle Lock Telescope Center"));
     ka->setEnabled(false);
+
+    ka = actionCollection()->addAction("telescope_track", this, SLOT(slotINDITelescopeTrack()))
+         << i18n("Track with the telescope (INDI)") <<  QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_T);
+    ka = actionCollection()->addAction("telescope_slew", this, SLOT(slotINDITelescopeSlew()))
+            << i18n("Slew with the telescope (INDI)") <<  QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_S);
+    ka = actionCollection()->addAction("telescope_sync", this, SLOT(slotINDITelescopeSync()))
+            << i18n("Sync with the telescope (INDI)") <<  QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_Y);
+    ka = actionCollection()->addAction("telescope_abort", this, SLOT(slotINDITelescopeAbort()))
+            << i18n("Abort any telescope motion (INDI)") <<  QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_A);
+    ka->setShortcutContext(Qt::ApplicationShortcut);
+    ka = actionCollection()->addAction("telescope_park", this, SLOT(slotINDITelescopePark()))
+            << i18n("Park the telescope (INDI)") <<  QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_P);
+    ka = actionCollection()->addAction("telescope_unpark", this, SLOT(slotINDITelescopeUnpark()))
+            << i18n("Unpark the telescope (INDI)") <<  QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_U);
+    ka->setShortcutContext(Qt::ApplicationShortcut);
 #endif
 }
 
