@@ -196,6 +196,13 @@ class SkyMap : public QGraphicsView
             */
     SkyPoint *clickedPoint() { return &ClickedPoint; }
 
+    /**
+     * @short Retrieve the mouse pointer position.
+     *
+     * @return The sky coordinates where the mouse pointer is over.
+     */
+    SkyPoint *mousePoint() { return &m_MousePoint; }
+
     /** @short Set the ClickedPoint to the skypoint given as an argument.
             *@param f pointer to the new ClickedPoint.
             */
