@@ -47,7 +47,7 @@ DeepStarComponent::DeepStarComponent(SkyComposite *parent, QString fileName, flo
     openDataFile();
     if (staticStars)
         loadStaticStars();
-    qDebug() << "Loaded DSO catalog file: " << dataFileName;
+    qCInfo(KSTARS) << "Loaded DSO catalog file: " << dataFileName;
 }
 
 DeepStarComponent::~DeepStarComponent()
@@ -71,7 +71,7 @@ bool DeepStarComponent::loadStaticStars()
 
     if (!starReader.readHeader())
     {
-        qDebug() << "Error reading header of catalog file " << dataFileName << ": " << starReader.getErrorNumber()
+        qCCritical(KSTARS) << "Error reading header of catalog file " << dataFileName << ": " << starReader.getErrorNumber()
                  << ": " << starReader.getError() << endl;
         return false;
     }
@@ -80,7 +80,7 @@ bool DeepStarComponent::loadStaticStars()
 
     if (recordSize != 16 && recordSize != 32)
     {
-        qDebug() << "Cannot understand catalog file " << dataFileName << endl;
+        qCCritical(KSTARS) << "Cannot understand catalog file " << dataFileName << endl;
         return false;
     }
 
@@ -104,9 +104,7 @@ bool DeepStarComponent::loadStaticStars()
     m_FaintMagnitude = faintmag / 100.0;
 
     if (htm_level != m_skyMesh->level())
-        qDebug()
-            << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE"
-            << endl;
+        qCWarning(KSTARS) << "HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE!";
 
     // JM 2012-12-05: Breaking into 2 loops instead of one previously with multiple IF checks for recordSize
     // While the CPU branch prediction might not suffer any penalities since the branch prediction after a few times
@@ -120,8 +118,8 @@ bool DeepStarComponent::loadStaticStars()
             std::shared_ptr<StarBlock> SB(new StarBlock(records));
 
             if (!SB.get())
-                qDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel "
-                         << trixel << endl;
+                qCCritical(KSTARS) << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel "
+                         << trixel;
 
             m_starBlockList.at(trixel)->setStaticBlock(SB);
 
@@ -131,8 +129,8 @@ bool DeepStarComponent::loadStaticStars()
 
                 if (!fread_success)
                 {
-                    qDebug() << "ERROR: Could not read StarData structure for star #" << j << " under trixel #"
-                             << trixel << endl;
+                    qCCritical(KSTARS) << "ERROR: Could not read StarData structure for star #" << j << " under trixel #"
+                             << trixel;
                 }
 
                 /* Swap Bytes when required */
@@ -156,8 +154,8 @@ bool DeepStarComponent::loadStaticStars()
                 }
                 else
                 {
-                    qDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel
-                             << " than we allocated space for!" << endl;
+                    qCCritical(KSTARS) << "CODE ERROR: More unnamed static stars in trixel " << trixel
+                             << " than we allocated space for!";
                 }
             }
         }
@@ -171,8 +169,8 @@ bool DeepStarComponent::loadStaticStars()
             std::shared_ptr<StarBlock> SB(new StarBlock(records));
 
             if (!SB.get())
-                qDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel "
-                         << trixel << endl;
+                qCCritical(KSTARS) << "Could not allocate new StarBlock to hold shallow unnamed stars for trixel "
+                         << trixel;
 
             m_starBlockList.at(trixel)->setStaticBlock(SB);
 
@@ -183,8 +181,8 @@ bool DeepStarComponent::loadStaticStars()
 
                 if (!fread_success)
                 {
-                    qDebug() << "ERROR: Could not read StarData structure for star #" << j << " under trixel #"
-                             << trixel << endl;
+                    qCCritical(KSTARS) << "Could not read StarData structure for star #" << j << " under trixel #"
+                             << trixel;
                 }
 
                 /* Swap Bytes when required */
@@ -208,8 +206,8 @@ bool DeepStarComponent::loadStaticStars()
                 }
                 else
                 {
-                    qDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel
-                             << " than we allocated space for!" << endl;
+                    qCCritical(KSTARS) << "CODE ERROR: More unnamed static stars in trixel " << trixel
+                             << " than we allocated space for!";
                 }
             }
         }
@@ -326,9 +324,9 @@ void DeepStarComponent::draw(SkyPainter *skyp)
                 std::shared_ptr<StarBlock> block     = m_starBlockList.at(currentRegion)->block(i);
 
                 if (i == 0 && !m_StarBlockFactory->markFirst(block))
-                    qDebug() << "markFirst failed in trixel" << currentRegion;
+                    qCWarning(KSTARS) << "markFirst failed in trixel" << currentRegion;
                 if (i > 0 && !m_StarBlockFactory->markNext(prevBlock, block))
-                    qDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
+                    qCWarning(KSTARS) << "markNext failed in trixel" << currentRegion << "while marking block" << i;
                 if (i < m_starBlockList.at(currentRegion)->getBlockCount() &&
                     m_starBlockList.at(currentRegion)->block(i)->getFaintMag() < maglim)
                     break;
@@ -355,7 +353,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
         if (!staticStars && !m_starBlockList.at(currentRegion)->fillToMag(maglim) &&
             maglim <= m_FaintMagnitude * (1 - 1.5 / 16))
         {
-            qDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel " << currentRegion << " !" << endl;
+            qCWarning(KSTARS) << "SBL::fillToMag( " << maglim << " ) failed for trixel " << currentRegion << " !" << endl;
         }
 
         t_dynamicLoad += t.restart();
@@ -435,9 +433,9 @@ bool DeepStarComponent::openDataFile()
     starReader.openFile(dataFileName);
     fileOpened = false;
     if (!starReader.getFileHandle())
-        qDebug() << "WARNING: Failed to open deep star catalog " << dataFileName << ". Disabling it." << endl;
+        qCWarning(KSTARS) << "Failed to open deep star catalog " << dataFileName << ". Disabling it.";
     else if (!starReader.readHeader())
-        qDebug() << "WARNING: Header read error for deep star catalog " << dataFileName << "!! Disabling it!" << endl;
+        qCWarning(KSTARS) << "Header read error for deep star catalog " << dataFileName << "!! Disabling it!" << endl;
     else
     {
         qint16 faintmag;
