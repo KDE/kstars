@@ -22,6 +22,6 @@ SET( TEST_LIBRARIES
 add_subdirectory(auxiliary)
 add_subdirectory(skyobjects)
 
-IF (UNIX)
+IF (UNIX AND NOT APPLE)
     add_subdirectory(kstars_ui)
 ENDIF ()
