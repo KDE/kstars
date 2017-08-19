@@ -42,6 +42,8 @@
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 
+#include "kstars_debug.h"
+
 AltVsTimeUI::AltVsTimeUI(QWidget *p) : QFrame(p)
 {
     setupUi(this);
@@ -397,7 +399,7 @@ void AltVsTime::processObject(SkyObject *o, bool forceAdd)
     }
     if (found && !forceAdd)
     {
-        qDebug() << "This point is already displayed; I will not duplicate it.";
+        qCWarning(KSTARS) << "This point is already displayed; It will not be duplicated.";
     }
     else
     {
@@ -457,7 +459,7 @@ void AltVsTime::processObject(SkyObject *o, bool forceAdd)
         //Set epochName to epoch shown in date tab
         avtUI->epochName->setText(QString().setNum(getDate().epoch()));
     }
-    qDebug() << "Currently, there are " << avtUI->View->graphCount() << " objects displayed.";
+    //qCDebug() << "Currently, there are " << avtUI->View->graphCount() << " objects displayed.";
 
     //restore original position
     if (o->isSolarSystem())
@@ -725,6 +727,12 @@ void AltVsTime::slotMarkRiseTime()
 {
     const KStarsDateTime &ut  = KStarsData::Instance()->ut();
     SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+    if (selectedObject == nullptr)
+    {
+        qCWarning(KSTARS) << "Mark Rise Time: Unable to find" << avtUI->nameBox->text();
+        return;
+    }
+
     QCPItemTracer *riseTimeTracer;
     // check if at least one graph exists in the plot
     if (avtUI->View->graphCount() > 0)
@@ -1397,7 +1405,7 @@ double AltVsTime::getEpoch(const QString &eName)
     double epoch = eName.toDouble(&ok);
     if (!ok)
     {
-        qDebug() << "Invalid Epoch.  Assuming 2000.0.";
+        qCWarning(KSTARS) << "Invalid Epoch.  Assuming 2000.0.";
         return 2000.0;
     }
     return epoch;
