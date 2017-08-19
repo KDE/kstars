@@ -93,9 +93,9 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(0)
     connect(ld->RemoveButton, SIGNAL(clicked()), this, SLOT(removeCity()));
     connect(ld->UpdateButton, SIGNAL(clicked()), this, SLOT(updateCity()));
 
+// FIXME Disable this until Qt5 works with Geoclue2
+#if 0
     source = QGeoPositionInfoSource::createDefaultSource(this);
-
-    qDebug() << "Using position source " << source->sourceName();
 
     connect(source, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(positionUpdated(QGeoPositionInfo)));
     connect(source, SIGNAL(error(QGeoPositionInfoSource::Error)), this, SLOT(positionUpdateError(QGeoPositionInfoSource::Error)));
@@ -105,6 +105,7 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(0)
     {
        source->requestUpdate(5000);
     });
+#endif
 
     ld->DSTLabel->setText("<a href=\"showrules\">" + i18n("DST Rule:") + "</a>");
     connect(ld->DSTLabel, SIGNAL(linkActivated(QString)), this, SLOT(showTZRules()));
@@ -115,8 +116,11 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(0)
 
     ld->errorLabel->setText(QString());
 
+// FIXME Disable this until Qt5 works with Geoclue2
+#if 0
     nam = new QNetworkAccessManager(this);
     connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(processLocationNameData(QNetworkReply *)));
+#endif
 
     initCityList();
     resize(640, 480);
@@ -668,6 +672,8 @@ bool LocationDialog::addCityEnabled()
     return ld->AddCityButton->isEnabled();
 }
 
+// FIXME Disable this until Qt5 works with Geoclue2
+#if 0
 void LocationDialog::getNameFromCoordinates(double latitude, double longitude)
 {
     QString lat = QString::number(latitude);
@@ -734,3 +740,4 @@ void LocationDialog::positionUpdateTimeout()
     qDebug() << "Timed out!";
     qDebug() << source->error();
 }
+#endif
