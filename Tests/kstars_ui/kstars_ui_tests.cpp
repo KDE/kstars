@@ -25,6 +25,7 @@
 #include <QtConcurrentRun>
 #include <QtTest/QtTest>
 
+#include <time.h>
 #include <unistd.h>
 
 namespace
