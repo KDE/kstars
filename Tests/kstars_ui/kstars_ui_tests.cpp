@@ -11,8 +11,10 @@
 #include "kstars_ui_tests.h"
 
 #include "auxiliary/kspaths.h"
+#if defined(HAVE_INDI)
 #include "ekos/ekosmanager.h"
 #include "ekos/profileeditor.h"
+#endif
 #include "kstars.h"
 
 #include <KActionCollection>
