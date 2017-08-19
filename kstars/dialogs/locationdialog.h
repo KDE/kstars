@@ -164,7 +164,10 @@ class LocationDialog : public QDialog
      * @param latitude Latitude in degrees
      * @param longitude Longitude is degrees
      */
+    // FIXME Disable this until Qt5 works with Geoclue2
+    #if 0
     void getNameFromCoordinates(double latitude, double longitude);
+    #endif
 
     void clearFields();
     void showTZRules();
@@ -173,10 +176,13 @@ class LocationDialog : public QDialog
     void slotOk();
 
 protected slots:
+    // FIXME Disable this until Qt5 works with Geoclue2
+    #if 0
     void processLocationNameData(QNetworkReply *rep);
     void positionUpdated(const QGeoPositionInfo &info);
     void positionUpdateError(QGeoPositionInfoSource::Error error);
     void positionUpdateTimeout();
+    #endif
 
   private:
     /** Make sure Longitude and Latitude values are valid. */
