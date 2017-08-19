@@ -574,11 +574,28 @@ class KStars : public KXmlGuiWindow
     /** action slot: open Ekos panel */
     void slotEkos();
 
+    /** action slot: Track with the telescope (INDI) */
+    void slotINDITelescopeTrack();
+
+    /** action slot: Slew with the telescope (INDI) */
+    void slotINDITelescopeSlew();
+
+    /** action slot: Sync the telescope (INDI) */
+    void slotINDITelescopeSync();
+
+    /** action slot: Abort any telescope motion (INDI) */
+    void slotINDITelescopeAbort();
+
+    /** action slot: Park the telescope (INDI) */
+    void slotINDITelescopePark();
+
+    /** action slot: Unpark the telescope (INDI) */
+    void slotINDITelescopeUnpark();
+
     /** action slot: open dialog for setting the view options */
     void slotViewOps();
 
-    /** finish setting up after the kstarsData has finished
-         */
+    /** finish setting up after the kstarsData has finished */
     void datainitFinished();
 
     /** Open FITS image. */

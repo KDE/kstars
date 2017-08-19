@@ -726,6 +726,132 @@ void KStars::slotEkos()
 #endif
 }
 
+void KStars::slotINDITelescopeTrack()
+{
+#ifdef HAVE_INDI
+    if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
+        return;
+
+    for (auto *gd : INDIListener::Instance()->getDevices())
+    {
+        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+
+        if (telescope != nullptr && telescope->isConnected())
+        {
+            ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
+
+            gd->setProperty(&SlewCMD);
+
+            gd->runCommand(INDI_SEND_COORDS, m_SkyMap->mousePoint());
+            return;
+        }
+    }
+#endif
+}
+
+void KStars::slotINDITelescopeSlew()
+{
+#ifdef HAVE_INDI
+    if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
+        return;
+
+    for (auto *gd : INDIListener::Instance()->getDevices())
+    {
+        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+
+        if (telescope != nullptr && telescope->isConnected())
+        {
+            ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "SLEW", ISS_ON, this);
+
+            gd->setProperty(&SlewCMD);
+
+            gd->runCommand(INDI_SEND_COORDS, m_SkyMap->mousePoint());
+            return;
+        }
+    }
+#endif
+}
+
+void KStars::slotINDITelescopeSync()
+{
+#ifdef HAVE_INDI
+    if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
+        return;
+
+    for (auto *gd : INDIListener::Instance()->getDevices())
+    {
+        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+
+        if (telescope != nullptr && telescope->isConnected() && telescope->canSync())
+        {
+            ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "SYNC", ISS_ON, this);
+
+            gd->setProperty(&SlewCMD);
+
+            gd->runCommand(INDI_SEND_COORDS, m_SkyMap->mousePoint());
+            return;
+        }
+    }
+#endif
+}
+
+void KStars::slotINDITelescopeAbort()
+{
+#ifdef HAVE_INDI
+    if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
+        return;
+
+    for (auto *gd : INDIListener::Instance()->getDevices())
+    {
+        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+
+        if (telescope != nullptr && telescope->isConnected())
+        {
+            telescope->Abort();
+            return;
+        }
+    }
+#endif
+}
+
+void KStars::slotINDITelescopePark()
+{
+#ifdef HAVE_INDI
+    if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
+        return;
+
+    for (auto *gd : INDIListener::Instance()->getDevices())
+    {
+        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+
+        if (telescope != nullptr && telescope->isConnected() && telescope->canPark())
+        {
+            telescope->Park();
+            return;
+        }
+    }
+#endif
+}
+
+void KStars::slotINDITelescopeUnpark()
+{
+#ifdef HAVE_INDI
+    if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
+        return;
+
+    for (auto *gd : INDIListener::Instance()->getDevices())
+    {
+        ISD::Telescope* telescope = dynamic_cast<ISD::Telescope*>(gd);
+
+        if (telescope != nullptr && telescope->isConnected() && telescope->canPark())
+        {
+            telescope->UnPark();
+            return;
+        }
+    }
+#endif
+}
+
 void KStars::slotGeoLocator()
 {
     QPointer<LocationDialog> locationdialog = new LocationDialog(this);
