@@ -30,6 +30,8 @@
 
 #include <indi_debug.h>
 
+#include <knotification.h>
+
 #define NINDI_STD 35
 
 /* INDI standard property used across all clients to enable interoperability. */
@@ -431,5 +433,11 @@ void INDIListener::processUniversalMessage(const QString &message)
     if (colonIndex > 0)
         displayMessage = displayMessage.mid(colonIndex+2);
 
-    KSNotification::transient(displayMessage, i18n("INDI Server Message"));
+    if (Options::messageNotificationINDI())
+    {
+        KNotification::event(QLatin1String("IndiServerMessage"),
+                             displayMessage+" (INDI)");
+    } else {
+        KSNotification::transient(displayMessage, i18n("INDI Server Message"));
+    }
 }

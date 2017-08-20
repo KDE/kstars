@@ -161,6 +161,11 @@
          <whatsthis>Toggle display of INDI messages in the KStars statusbar.</whatsthis>
          <default>true</default>
       </entry>
+      <entry name="messageNotificationINDI" type="Bool">
+         <label>INDI message notifications</label>
+         <whatsthis>Show INDI messages as desktop notifications instead of dialogs.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="useComputerSource" type="Bool">
          <label>Use computer time and location for synchronization?</label>
          <default>true</default>
