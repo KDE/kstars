@@ -81,6 +81,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     Ekos::Guide *guideModule() { return guideProcess.get(); }
     Ekos::Align *alignModule() { return alignProcess.get(); }
     FITSView *getPreviewView() { return previewView.get(); }
+    QString getCurrentJobName();
 
     /**
      * @defgroup EkosDBusInterface Ekos DBus Interface

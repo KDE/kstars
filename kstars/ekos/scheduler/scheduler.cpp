@@ -191,7 +191,10 @@ Scheduler::Scheduler()
     loadProfiles();
 }
 
-Scheduler::~Scheduler() {}
+QString Scheduler::getCurrentJobName()
+{
+    return (currentJob != nullptr ? currentJob->getName() : "");
+}
 
 void Scheduler::watchJobChanges(bool enable)
 {
@@ -1924,6 +1927,9 @@ void Scheduler::executeJob(SchedulerJob *job)
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Executing Job " << currentJob->getName();
 
+    KNotification::event(QLatin1String("EkosSchedulerJobStart"),
+                         i18n("Ekos job started (%1)", currentJob->getName()));
+
     currentJob->setState(SchedulerJob::JOB_BUSY);
 
     updatePreDawn();
@@ -3090,6 +3096,8 @@ void Scheduler::checkJobStage()
 
             if (captureReply.value().toStdString() == "Complete")
             {
+                KNotification::event(QLatin1String("EkosScheduledImagingFinished"),
+                                     i18n("Ekos job (%1) - Capture finished", currentJob->getName()));
                 currentJob->setState(SchedulerJob::JOB_COMPLETE);
                 //currentJob->setStage(SchedulerJob::STAGE_COMPLETE);
                 captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
@@ -3939,6 +3947,9 @@ void Scheduler::startCapture()
     captureInterface->call(QDBus::AutoDetect, "start");
 
     currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
+
+    KNotification::event(QLatin1String("EkosScheduledImagingStart"),
+                         i18n("Ekos job (%1) - Capture started", currentJob->getName()));
 
     if (captureBatch > 0)
         appendLogText(i18n("%1 capture is in progress (Batch #%2)...", currentJob->getName(), captureBatch + 1));
