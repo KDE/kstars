@@ -1154,3 +1154,7 @@ Comment[sv]=Manuell stativförflyttning klar
 Comment[tr]=Kaide elle hareket tamamlandı
 Comment[uk]=Рух лафета вручну завершено
 Comment[x-test]=xxMount manual motion completedxx
+[Event/IndiServerMessage]
+Name=INDI Server Message
+Comment=INDI Server Message (it must be enabled in INDI section of Settings)
+Action=Popup
