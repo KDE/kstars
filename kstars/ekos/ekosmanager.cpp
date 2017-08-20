@@ -2031,6 +2031,11 @@ void EkosManager::addObjectToScheduler(SkyObject *object)
         schedulerProcess->addObject(object);
 }
 
+QString EkosManager::getCurrentJobName()
+{
+    return schedulerProcess->getCurrentJobName();
+}
+
 bool EkosManager::setProfile(const QString &profileName)
 {
     int index = profileCombo->findText(profileName);

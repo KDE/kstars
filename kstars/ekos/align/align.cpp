@@ -3391,6 +3391,13 @@ void Align::SlewToTarget()
 {
     if (canSync && loadSlewState == IPS_IDLE)
     {
+        if (KStars::Instance()->ekosManager() &&
+            !KStars::Instance()->ekosManager()->getCurrentJobName().isEmpty())
+        {
+            KNotification::event(QLatin1String("EkosSchedulerTelescopeSynced"),
+                                 i18n("Ekos job (%1) - Telescope synced",
+                                      KStars::Instance()->ekosManager()->getCurrentJobName()));
+        }
         Sync();
         return;
     }

@@ -93,8 +93,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
     } ParkWaitStatus;
 
     Scheduler();
-    ~Scheduler();
+    ~Scheduler() = default;
 
+    QString getCurrentJobName();
     void appendLogText(const QString &);
     QString getLogText() { return logText.join("\n"); }
     void clearLog();

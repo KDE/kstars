@@ -12,6 +12,8 @@
 #include "dms.h"
 #include "kstarsdata.h"
 
+#include <knotification.h>
+
 #include <QTableWidgetItem>
 
 SchedulerJob::SchedulerJob()
@@ -173,6 +175,8 @@ void SchedulerJob::setState(const JOBStatus &value)
             break;
 
         case JOB_ERROR:
+            KNotification::event(QLatin1String("EkosSchedulerJobFail"),
+                                 i18n("Ekos job failed (%1)", getName()));
             statusCell->setText(i18n("Error"));
             break;
 

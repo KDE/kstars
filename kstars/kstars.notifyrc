@@ -1158,3 +1158,23 @@ Comment[x-test]=xxMount manual motion completedxx
 Name=INDI Server Message
 Comment=INDI Server Message (it must be enabled in INDI section of Settings)
 Action=Popup
+[Event/EkosSchedulerJobStart]
+Name=Scheduled Ekos job started
+Comment=A scheduled Ekos job is started
+Action=None
+[Event/EkosSchedulerJobFail]
+Name=Scheduled Ekos job failed
+Comment=A scheduled Ekos job is failed
+Action=None
+[Event/EkosScheduledImagingStart]
+Name=Imaging in scheduled Ekos job started
+Comment=An image sequence capture is started in a scheduled Ekos job
+Action=None
+[Event/EkosScheduledImagingFinished]
+Name=Imaging in scheduled Ekos job finished
+Comment=An image sequence capture is finished in a scheduled Ekos job
+Action=None
+[Event/EkosSchedulerTelescopeSynced]
+Name=Telescope is synced in a scheduled Ekos job
+Comment=The telescope is synced before tracking a new target in a scheduled Ekos job
+Action=None
