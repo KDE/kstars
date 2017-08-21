@@ -402,7 +402,7 @@ void KStars::initActions()
 
 #ifdef HAVE_INDI
     ka = actionCollection()->addAction("ekos", this, SLOT(slotEkos()))
-            << i18n("Ekos") << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_K);
+            << i18n("Ekos") << QKeySequence(Qt::CTRL + Qt::Key_K);
     ka->setShortcutContext(Qt::ApplicationShortcut);
 #endif
 
@@ -454,7 +454,7 @@ void KStars::initActions()
         << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_D);
     ka = actionCollection()->addAction("indi_cpl", this, SLOT(slotINDIPanel()))
         << i18n("INDI Control Panel...")
-        << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_I);
+        << QKeySequence(Qt::CTRL + Qt::Key_I);
     ka->setShortcutContext(Qt::ApplicationShortcut);
     ka->setEnabled(false);
 #else
