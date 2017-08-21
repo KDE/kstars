@@ -374,7 +374,7 @@ bool KSUserDB::RebuildDB()
 
     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host "
                   "TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT "
-                  "NULL, autoconnect INTEGER DEFAULT 1, guidertype INTEGER DEFAULT 0, guiderhost TEXT, guiderpost INTEGER, primaryscope INTEGER DEFAULT 0, guidescope INTEGER DEFAULT 0)");
+                  "NULL, autoconnect INTEGER DEFAULT 1, guidertype INTEGER DEFAULT 0, guiderhost TEXT, guiderport INTEGER, primaryscope INTEGER DEFAULT 0, guidescope INTEGER DEFAULT 0)");
     tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role "
                   "TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
 //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
