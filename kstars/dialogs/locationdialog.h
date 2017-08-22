@@ -21,8 +21,10 @@
 #include "ui_locationdialog.h"
 
 #include <QPointer>
+#ifdef HAVE_GEOCLUE2
 #include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
+#endif
 #include <QDialog>
 #include <QList>
 
@@ -165,7 +167,7 @@ class LocationDialog : public QDialog
      * @param longitude Longitude is degrees
      */
     // FIXME Disable this until Qt5 works with Geoclue2
-    #if 0
+    #ifdef HAVE_GEOCLUE_2
     void getNameFromCoordinates(double latitude, double longitude);
     #endif
 
@@ -177,8 +179,9 @@ class LocationDialog : public QDialog
 
 protected slots:
     // FIXME Disable this until Qt5 works with Geoclue2
-    #if 0
+    #ifdef HAVE_GEOCLUE_2
     void processLocationNameData(QNetworkReply *rep);
+    void requestUpdate();
     void positionUpdated(const QGeoPositionInfo &info);
     void positionUpdateError(QGeoPositionInfoSource::Error error);
     void positionUpdateTimeout();
@@ -196,6 +199,9 @@ protected slots:
     QList<GeoLocation *> filteredCityList;
     QTimer *timer { nullptr };
     //Retrieve the name of city
+
+    #ifdef HAVE_GEOCLUE_2
     QNetworkAccessManager *nam { nullptr };
     QPointer<QGeoPositionInfoSource> source;
+    #endif
 };

@@ -22,7 +22,9 @@
 
 #include <QSqlQuery>
 
+#ifdef HAVE_GEOCLUE2
 #include <QGeoPositionInfoSource>
+#endif
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -94,17 +96,16 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(0)
     connect(ld->UpdateButton, SIGNAL(clicked()), this, SLOT(updateCity()));
 
 // FIXME Disable this until Qt5 works with Geoclue2
-#if 0
+#ifdef HAVE_GEOCLUE_2
     source = QGeoPositionInfoSource::createDefaultSource(this);
+    source->setPreferredPositioningMethods(QGeoPositionInfoSource::SatellitePositioningMethods);
+    qDebug() << "Last known position" << source->lastKnownPosition().coordinate();
 
     connect(source, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(positionUpdated(QGeoPositionInfo)));
     connect(source, SIGNAL(error(QGeoPositionInfoSource::Error)), this, SLOT(positionUpdateError(QGeoPositionInfoSource::Error)));
     connect(source, SIGNAL(updateTimeout()), this, SLOT(positionUpdateTimeout()));
 
-    connect(ld->GetLocationButton, &QPushButton::clicked, this, [this]()
-    {
-       source->requestUpdate(5000);
-    });
+    connect(ld->GetLocationButton, SIGNAL(clicked()), this, SLOT(requestUpdate()));
 #endif
 
     ld->DSTLabel->setText("<a href=\"showrules\">" + i18n("DST Rule:") + "</a>");
@@ -117,7 +118,7 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(0)
     ld->errorLabel->setText(QString());
 
 // FIXME Disable this until Qt5 works with Geoclue2
-#if 0
+#ifdef HAVE_GEOCLUE_2
     nam = new QNetworkAccessManager(this);
     connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(processLocationNameData(QNetworkReply *)));
 #endif
@@ -673,7 +674,7 @@ bool LocationDialog::addCityEnabled()
 }
 
 // FIXME Disable this until Qt5 works with Geoclue2
-#if 0
+#ifdef HAVE_GEOCLUE_2
 void LocationDialog::getNameFromCoordinates(double latitude, double longitude)
 {
     QString lat = QString::number(latitude);
@@ -723,6 +724,11 @@ void LocationDialog::processLocationNameData(QNetworkReply *networkReply)
         }
     }
     networkReply->deleteLater();
+}
+
+void LocationDialog::requestUpdate()
+{
+    source->requestUpdate(15000);
 }
 
 void LocationDialog::positionUpdated(const QGeoPositionInfo &info)
