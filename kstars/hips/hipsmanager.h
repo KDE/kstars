@@ -70,8 +70,8 @@ public:
   void clearDiscCache();  
 
   // Getters
-  const QVariantMap & getCurrentSource() const { return m_currentSource; }
-  const QList<QVariantMap> &getHIPSSources() const { return m_hipsSources; }
+  const QMap<QString,QString> & getCurrentSource() const { return m_currentSource; }
+  const QList<QMap<QString,QString>> &getHIPSSources() const { return m_hipsSources; }
   PixCache *getCache();
   qint64 getDiscCacheSize() const;
   const QString &getCurrentFormat() const { return m_currentFormat; }
@@ -83,14 +83,15 @@ public:
 
 public slots:
     bool setCurrentSource(const QString &title);
-    void displaySettings();
+    void showSettings();
 
 signals:
   void sigRepaint();
 
 private slots:
   void slotDone(QNetworkReply::NetworkError error, QByteArray &data, pixCacheKey_t &key);
-  void removeTimer(pixCacheKey_t &key);
+  void slotApply();
+  void removeTimer(pixCacheKey_t &key);  
 
 private:
   explicit HIPSManager();
@@ -105,12 +106,14 @@ private:
   pixCacheItem_t *getCacheItem(pixCacheKey_t &key);
 
   // List of all sources in the database
-  QList<QVariantMap> m_hipsSources;
+  QList<QMap<QString,QString>> m_hipsSources;
 
   // Current Active Source
-  QVariantMap m_currentSource;
+  QMap<QString,QString> m_currentSource;
 
-  std::unique_ptr<OpsHIPS> settings;
+  std::unique_ptr<OpsHIPS> sourceSettings;
+  std::unique_ptr<OpsHIPSCache> cacheSettings;
+  std::unique_ptr<OpsHIPSDisplay> displaySettings;
 
   // Handy shortcuts
   qint64 m_uid;

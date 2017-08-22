@@ -83,17 +83,35 @@ HIPSManager::HIPSManager() : QObject(KStars::Instance())
 
 }
 
-void HIPSManager::displaySettings()
+void HIPSManager::showSettings()
 {
     KConfigDialog *dialog = KConfigDialog::exists("hipssettings");
     if (dialog == nullptr)
     {
         dialog = new KConfigDialog(KStars::Instance(), "hipssettings", Options::self());
-        settings.reset(new OpsHIPS());
-        dialog->addPage(settings.get(), i18n("HiPS Settings"));
+        connect(dialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
+        connect(dialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
+
+        displaySettings.reset(new OpsHIPSDisplay());
+        dialog->addPage(displaySettings.get(), i18n("Display"));
+
+        cacheSettings.reset(new OpsHIPSCache());
+        dialog->addPage(cacheSettings.get(), i18n("Cache"));
+
+        sourceSettings.reset(new OpsHIPS());
+        dialog->addPage(sourceSettings.get(), i18n("Sources"));
+
+        dialog->resize(800,600);
     }
 
     dialog->show();
+}
+
+void HIPSManager::slotApply()
+{
+    readSources();
+    KStars::Instance()->repopulateHIPS();
+    SkyMap::Instance()->forceUpdate();
 }
 
 qint64 HIPSManager::getDiscCacheSize() const
@@ -388,12 +406,12 @@ bool HIPSManager::setCurrentSource(const QString &title)
         return true;
     }
 
-    for (QVariantMap &source : m_hipsSources)
+    for (QMap<QString,QString> &source : m_hipsSources)
     {
-        if (source.value("title").toString() == title)
+        if (source.value("obs_title") == title)
         {
             m_currentSource = source;
-            m_currentFormat = source.value("format").toString();
+            m_currentFormat = source.value("hips_tile_format");
             if (m_currentFormat.contains("jpeg"))
                 m_currentFormat = "jpg";
             else if (m_currentFormat.contains("png"))
@@ -404,17 +422,17 @@ bool HIPSManager::setCurrentSource(const QString &title)
                 return false;
             }
 
-            m_currentOrder = source.value("hipsorder").toInt();
-            m_currentTileWidth = source.value("size").toInt();
+            m_currentOrder = source.value("hips_order").toInt();
+            m_currentTileWidth = source.value("hips_tile_width").toInt();
 
-            if (source.value("frame").toString() == "equatorial")
+            if (source.value("hips_frame") == "equatorial")
                 m_currentFrame = HIPS_EQUATORIAL_FRAME;
-            else if (source.value("frame").toString() == "galactic")
+            else if (source.value("hips_frame") == "galactic")
                 m_currentFrame = HIPS_GALACTIC_FRAME;
             else
                 m_currentFrame = HIPS_OTHER_FRAME;
 
-            m_currentURL = source.value("url").toUrl();
+            m_currentURL = QUrl(source.value("hips_service_url"));
             m_uid = qHash(m_currentURL);
 
             Options::setHIPSSource(title);

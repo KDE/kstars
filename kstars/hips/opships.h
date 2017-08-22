@@ -10,9 +10,27 @@
 #pragma once
 
 #include "ui_opships.h"
+#include "ui_opshipsdisplay.h"
+#include "ui_opshipscache.h"
 
 class KConfigDialog;
 class FileDownloader;
+
+class OpsHIPSDisplay : public QFrame, public Ui::OpsHIPSDisplay
+{
+    Q_OBJECT
+
+  public:
+    explicit OpsHIPSDisplay();
+};
+
+class OpsHIPSCache : public QFrame, public Ui::OpsHIPSCache
+{
+    Q_OBJECT
+
+  public:
+    explicit OpsHIPSCache();
+};
 
 /**
  * @class OpsHIPS
@@ -30,17 +48,23 @@ class OpsHIPS : public QFrame, public Ui::OpsHIPS
     ~OpsHIPS();
 
   public slots:
-    void slotApply();
-    void slotRefresh();
+    void slotRefresh();    
 
   protected slots:
     void downloadReady();
     void downloadError(const QString &errorString);
+    void previewReady();
+    void slotItemUpdated(QListWidgetItem *item);
+    void slotItemClicked(QListWidgetItem *item);
 
   private:
+
+    void setPreview(const QString &id, const QString &url);
+
     KConfigDialog *m_ConfigDialog = nullptr;
     FileDownloader *downloadJob = nullptr;
+    FileDownloader *previewJob = nullptr;
 
-    QList<QVariantMap> sources;
+    QList<QMap<QString,QString>> sources;
     bool dirty=false;
 };
