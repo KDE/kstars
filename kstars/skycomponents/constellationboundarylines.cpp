@@ -47,8 +47,8 @@ ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
     int verbose      = 0; // -1 => create cbounds-$x.idx on stdout
     //  0 => normal
     const char *fname = "cbounds.dat";
-    int flag;
-    double ra, dec, lastRa, lastDec;
+    int flag = 0;
+    double ra, dec = 0, lastRa, lastDec;
     std::shared_ptr<LineList> lineList;
     std::shared_ptr<PolyList> polyList;
     bool ok = false;
