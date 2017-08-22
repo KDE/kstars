@@ -331,9 +331,10 @@ IF (UNIX OR APPLE)
 ENDIF ()
 
 # Sanitizer support
-SET(CLANG_SANITIZERS OFF CACHE BOOL "Clang's sanitizer support")
-IF (CLANG_SANITIZERS AND
-    ((UNIX AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR (APPLE AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")))
+SET(SANITIZERS OFF CACHE BOOL "Sanitizer support for gcc and Clang")
+IF (SANITIZERS AND
+    ((UNIX AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR CMAKE_COMPILER_IS_GNUCXX) OR
+     (APPLE AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR CMAKE_COMPILER_IS_GNUCXX))))
     SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
