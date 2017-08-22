@@ -82,7 +82,7 @@ void modCalcGalCoord::slotComputeCoords()
             glat = GalLatitude->createDms(true, &ok);
         if (ok)
         {
-            SkyPoint sp, ra, dec;
+            SkyPoint sp;
             sp.GalacticToEquatorial1950(&glong, &glat);
             sp.B1950ToJ2000();
             RA->showInHours(sp.ra());
