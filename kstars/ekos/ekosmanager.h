@@ -197,7 +197,6 @@ class EkosManager : public QDialog, public Ui::EkosManager
     void editProfile();
     void deleteProfile();
     void wizardProfile();
-    void saveDefaultProfile(const QString &name);
 
     // Mount Summary
     void updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
