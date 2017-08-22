@@ -113,6 +113,22 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(editProfileB, SIGNAL(clicked()), this, SLOT(editProfile()));
     connect(deleteProfileB, SIGNAL(clicked()), this, SLOT(deleteProfile()));
     connect(profileCombo, SIGNAL(activated(QString)), this, SLOT(saveDefaultProfile(QString)));
+    connect(profileCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
+         [=](const QString &text)
+    {
+        Options::setProfile(text);
+        if (text == "Simulators")
+        {
+            editProfileB->setEnabled(false);
+            deleteProfileB->setEnabled(false);
+        }
+        else
+        {
+            editProfileB->setEnabled(true);
+            deleteProfileB->setEnabled(true);
+        }
+    });
+
 
     // Ekos Wizard
     connect(wizardProfileB, SIGNAL(clicked()), this, SLOT(wizardProfile()));
@@ -277,6 +293,12 @@ void EkosManager::loadProfiles()
     if (index == -1)
         index = 0;
     profileCombo->setCurrentIndex(index);
+
+    if (profileCombo->currentText() == "Simulators")
+    {
+        editProfileB->setEnabled(false);
+        deleteProfileB->setEnabled(false);
+    }
 }
 
 void EkosManager::loadDrivers()
@@ -2152,11 +2174,6 @@ ProfileInfo *EkosManager::getCurrentProfile()
     }
 
     return currProfile;
-}
-
-void EkosManager::saveDefaultProfile(const QString &name)
-{
-    Options::setProfile(name);
 }
 
 void EkosManager::updateProfileLocation(ProfileInfo *pi)
