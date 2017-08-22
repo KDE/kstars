@@ -111,11 +111,6 @@ HEALPix::HEALPix()
 
 void HEALPix::getCornerPoints(int level, int pix, SkyPoint *skyCoords)
 {
-  static QMatrix4x4 gl(-0.0548755f,  0.494109f, -0.867666f,  0.f,
-                       -0.873437f,  -0.444830f, -0.198076f,  0.f,
-                       -0.483835f,   0.746982f,  0.455984f,  0.f,
-                              0.f,         0.f,        0.f,  1.f);
-
   QVector3D v[4];
   // Transform from HealPIX convention to KStars
   QVector3D transformed[4];
@@ -123,42 +118,32 @@ void HEALPix::getCornerPoints(int level, int pix, SkyPoint *skyCoords)
   int nside = 1 << level;
   boundaries(nside, pix, 1, v);
 
-
-    if (HIPSManager::Instance()->getCurrentFrame() == HIPSManager::HIPS_EQUATORIAL_FRAME)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            //transformed[i].setX(-v[i].y());
-            //transformed[i].setY(-v[i].z());
-            //transformed[i].setZ(v[i].x());
-            transformed[i].setX(v[i].x());
-            transformed[i].setY(v[i].y());
-            transformed[i].setZ(v[i].z());
-        }
-    }
-    else if (HIPSManager::Instance()->getCurrentFrame() == HIPSManager::HIPS_GALACTIC_FRAME)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            QVector3D tmp = QVector3D(v[i].x(), v[i].y(), v[i].z());
-            tmp = gl.mapVector(tmp);
-
-            transformed[i].setX(-tmp.y());
-            transformed[i].setY(tmp.x());
-            transformed[i].setZ(-tmp.z());
-        }
-    }
-
   // From rectangular coordinates to Sky coordinates
   for (int i = 0; i < 4; i++)
   {
+      transformed[i].setX(v[i].x());
+      transformed[i].setY(v[i].y());
+      transformed[i].setZ(v[i].z());
+
       double ra=0, de=0;
       xyz2sph(transformed[i], ra, de);
       de /= dms::DegToRad;
       ra /= dms::DegToRad;
 
-      skyCoords[i].setRA0(ra/15.0);
-      skyCoords[i].setDec0(de);
+      if (HIPSManager::Instance()->getCurrentFrame() == HIPSManager::HIPS_EQUATORIAL_FRAME)
+      {
+          skyCoords[i].setRA0(ra/15.0);
+          skyCoords[i].setDec0(de);
+      }
+      else
+      {
+        dms galacticLong(ra);
+        dms galacticLat(de);
+        skyCoords[i].GalacticToEquatorial1950(&galacticLong, &galacticLat);
+        skyCoords[i].B1950ToJ2000();
+        skyCoords[i].setRA0(skyCoords[i].ra());
+        skyCoords[i].setDec0(skyCoords[i].dec());
+      }
 
       skyCoords[i].updateCoords(KStarsData::Instance()->updateNum(), false);
       skyCoords[i].EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
