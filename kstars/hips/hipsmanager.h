@@ -24,8 +24,10 @@
 #include "urlfiledownload.h"
 #include "hips.h"
 #include "pixcache.h"
+#include "opships.h"
 
 #include <QObject>
+#include <memory>
 
 class RemoveTimer : public QTimer
 {
@@ -81,6 +83,7 @@ public:
 
 public slots:
     bool setCurrentSource(const QString &title);
+    void displaySettings();
 
 signals:
   void sigRepaint();
@@ -106,6 +109,8 @@ private:
 
   // Current Active Source
   QVariantMap m_currentSource;
+
+  std::unique_ptr<OpsHIPS> settings;
 
   // Handy shortcuts
   qint64 m_uid;

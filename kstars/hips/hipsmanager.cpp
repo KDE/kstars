@@ -24,6 +24,7 @@
 #include <QHash>
 #include <QNetworkDiskCache>
 #include <QPainter>
+#include <KConfigDialog>
 
 #include "auxiliary/kspaths.h"
 #include "auxiliary/ksuserdb.h"
@@ -79,6 +80,20 @@ HIPSManager::HIPSManager() : QObject(KStars::Instance())
     //m_cache.setMaxCost(setting("hips_mem_cache").toInt());
     g_discCache->setMaximumCacheSize(Options::hIPSNetCache()*1024*1024);
     m_cache.setMaxCost(Options::hIPSMemoryCache()*1024*1024);
+
+}
+
+void HIPSManager::displaySettings()
+{
+    KConfigDialog *dialog = KConfigDialog::exists("hipssettings");
+    if (dialog == nullptr)
+    {
+        dialog = new KConfigDialog(KStars::Instance(), "hipssettings", Options::self());
+        settings.reset(new OpsHIPS());
+        dialog->addPage(settings.get(), i18n("HiPS Settings"));
+    }
+
+    dialog->show();
 }
 
 qint64 HIPSManager::getDiscCacheSize() const

@@ -235,6 +235,7 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
     if (Options::hIPSShowGrid())
     {
       QPainter p(pDest);
+      p.setRenderHint(QPainter::Antialiasing);
       p.setPen(gridColor);
 
       p.drawLine(cornerScreenCoords[0].x(), cornerScreenCoords[0].y(), cornerScreenCoords[1].x(), cornerScreenCoords[1].y());
