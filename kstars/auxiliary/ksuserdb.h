@@ -86,9 +86,9 @@ class KSUserDB
      *********************************** HiPS *******************************
      ************************************************************************/
 
-    void AddHIPSSource(const QVariantMap &oneSource);
-    bool DeleteHIPSSource(const QString &title);
-    void GetAllHIPSSources(QList<QVariantMap> &HIPSSources);
+    void AddHIPSSource(const QMap<QString, QString> &oneSource);
+    bool DeleteHIPSSource(const QString &ID);
+    void GetAllHIPSSources(QList<QMap<QString,QString>> &HIPSSources);
 
     /************************************************************************
      ******************************* Observers ******************************

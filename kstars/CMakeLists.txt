@@ -450,6 +450,7 @@ if(NOT BUILD_KSTARS_LITE)
         hips/scanrender.cpp
         hips/pixcache.cpp
         hips/urlfiledownload.cpp
+        hips/opships.cpp
         )
 
     set(hips_manager_SRCS
@@ -890,6 +891,7 @@ if(NOT BUILD_KSTARS_LITE)
         oal/observeradd.ui
         oal/equipmentwriter.ui
         oal/execute.ui
+        hips/opships.ui
         #skycomponents/notifyupdatesui.ui
     )
 endif(NOT BUILD_KSTARS_LITE)

@@ -612,11 +612,9 @@ void KStars::repopulateFOV()
 
 void KStars::repopulateHIPS()
 {
-    // Iterate through FOVs
-    hipsActionMenu->menu()->clear();
-    QList<QAction *> acitons = hipsGroup->actions();
-    hipsGroup->actions().clear();
-    QList<QAction *> acitons2 = hipsGroup->actions();
+    // Iterate through actions
+    hipsActionMenu->menu()->clear();    
+    hipsGroup->actions().clear();    
 
     QAction *ka = actionCollection()->addAction(i18n("None"), this, SLOT(slotHIPSSource()))
         << i18n("None") << AddToGroup(hipsGroup)
@@ -636,13 +634,11 @@ void KStars::repopulateHIPS()
         hipsActionMenu->addAction(ka);
     }
 
-    // TODO HIPS Sources Manager
-    // Add menu bottom
-    //QAction *ka = actionCollection()->addAction("edit_fov", this, SLOT(slotFOVEdit())) << i18n("Edit FOV Symbols...");
-    //fovActionMenu->addSeparator();
-    //fovActionMenu->addAction(ka);
+    // Hips settings
+    ka = actionCollection()->addAction("hipssettings", HIPSManager::Instance(), SLOT(displaySettings())) << i18n("HiPS Settings...");
+    hipsActionMenu->addSeparator();
+    hipsActionMenu->addAction(ka);
 }
-
 
 void KStars::initStatusBar()
 {
