@@ -111,8 +111,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     // Profiles
     connect(addProfileB, SIGNAL(clicked()), this, SLOT(addProfile()));
     connect(editProfileB, SIGNAL(clicked()), this, SLOT(editProfile()));
-    connect(deleteProfileB, SIGNAL(clicked()), this, SLOT(deleteProfile()));
-    connect(profileCombo, SIGNAL(activated(QString)), this, SLOT(saveDefaultProfile(QString)));
+    connect(deleteProfileB, SIGNAL(clicked()), this, SLOT(deleteProfile()));    
     connect(profileCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
          [=](const QString &text)
     {

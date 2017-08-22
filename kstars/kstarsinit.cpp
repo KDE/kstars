@@ -623,9 +623,9 @@ void KStars::repopulateHIPS()
     hipsActionMenu->addAction(ka);
     hipsActionMenu->addSeparator();
 
-    for (QVariantMap source : HIPSManager::Instance()->getHIPSSources())
+    for (QMap<QString,QString> source : HIPSManager::Instance()->getHIPSSources())
     {
-        QString title = source.value("title").toString();
+        QString title = source.value("obs_title");
 
         QAction *ka = actionCollection()->addAction(title, this, SLOT(slotHIPSSource()))
             << title << AddToGroup(hipsGroup)
@@ -635,7 +635,7 @@ void KStars::repopulateHIPS()
     }
 
     // Hips settings
-    ka = actionCollection()->addAction("hipssettings", HIPSManager::Instance(), SLOT(displaySettings())) << i18n("HiPS Settings...");
+    ka = actionCollection()->addAction("hipssettings", HIPSManager::Instance(), SLOT(showSettings())) << i18n("HiPS Settings...");
     hipsActionMenu->addSeparator();
     hipsActionMenu->addAction(ka);
 }

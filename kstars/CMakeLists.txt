@@ -892,6 +892,8 @@ if(NOT BUILD_KSTARS_LITE)
         oal/equipmentwriter.ui
         oal/execute.ui
         hips/opships.ui
+        hips/opshipsdisplay.ui
+        hips/opshipscache.ui
         #skycomponents/notifyupdatesui.ui
     )
 endif(NOT BUILD_KSTARS_LITE)
@@ -937,7 +939,7 @@ else(BUILD_KSTARS_LITE)
         Qt5::Qml
         Qt5::Quick
         Qt5::Network
-        Qt5::Positioning
+        #Qt5::Positioning
         Qt5::Concurrent
         ${ZLIB_LIBRARIES}
         )

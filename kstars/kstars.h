@@ -187,6 +187,9 @@ class KStars : public KXmlGuiWindow
 
     void showWI(ObsConditions *obs);
 
+    /** Load HIPS information and repopulate menu. */
+    void repopulateHIPS();
+
     WIEquipSettings *getWIEquipSettings() { return m_WIEquipmentSettings; }
 
   public Q_SLOTS:
@@ -691,10 +694,7 @@ class KStars : public KXmlGuiWindow
 
   private:
     /** Load FOV information and repopulate menu. */
-    void repopulateFOV();
-
-    /** Load HIPS information and repopulate menu. */
-    void repopulateHIPS();
+    void repopulateFOV();    
 
     /** Initialize Menu bar, toolbars and all Actions. */
     void initActions();
@@ -712,7 +712,7 @@ class KStars : public KXmlGuiWindow
 
   public:
     /** Check if the KStars main window is shown */
-    bool isGUIReady() { return m_SkyMap != nullptr; };
+    bool isGUIReady() { return m_SkyMap != nullptr; }
 
     /// Set to true when the application is being closed
     static bool Closing;
