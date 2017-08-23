@@ -764,6 +764,7 @@ void Focus::start()
 
     //emit statusUpdated(true);
     state = Ekos::FOCUS_PROGRESS;
+    qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
     emit newStatus(state);
 
     // Denoise with median filter
@@ -833,6 +834,7 @@ void Focus::stop(bool aborted)
     if (aborted)
     {
         state = Ekos::FOCUS_ABORTED;
+        qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
         emit newStatus(state);
     }
 }
@@ -1326,6 +1328,7 @@ void Focus::setCaptureComplete()
                 focusView->setTrackingBoxEnabled(true);
 
                 state = Ekos::FOCUS_WAITING;
+                qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
                 emit newStatus(state);
 
                 waitStarSelectTimer.start();
@@ -1421,6 +1424,7 @@ void Focus::setCaptureComplete()
             focusView->setTrackingBoxEnabled(true);
 
             state = Ekos::FOCUS_WAITING;
+            qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
             emit newStatus(state);
 
             waitStarSelectTimer.start();
@@ -1487,6 +1491,7 @@ void Focus::setCaptureComplete()
     if (state != Ekos::FOCUS_PROGRESS)
     {
         state = Ekos::FOCUS_PROGRESS;
+        qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
         emit newStatus(state);
     }
 
@@ -2188,6 +2193,7 @@ void Focus::startFraming()
 
     //emit statusUpdated(true);
     state = Ekos::FOCUS_FRAMING;
+    qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
     emit newStatus(state);
 
     resetButtons();
@@ -2387,6 +2393,7 @@ void Focus::focusStarSelected(int x, int y)
 
     waitStarSelectTimer.stop();
     state = inAutoFocus ? FOCUS_PROGRESS : FOCUS_IDLE;
+    qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
 
     emit newStatus(state);
 }
@@ -2460,6 +2467,8 @@ void Focus::setAutoFocusParameters(int boxSize, int stepSize, int maxTravel, dou
 
 void Focus::setAutoFocusResult(bool status)
 {
+    qCDebug(KSTARS_EKOS_FOCUS) << "AutoFocus result:" << status;
+
     // In case of failure, go back to last position if the focuser is absolute
     if (status == false && canAbsMove && currentFocuser && currentFocuser->isConnected() &&
         initialFocuserAbsPosition >= 0)
@@ -2479,8 +2488,6 @@ void Focus::setAutoFocusResult(bool status)
 
     resetFocusIteration = 0;
 
-    qCDebug(KSTARS_EKOS_FOCUS) << "AutoFocus result:" << status;
-
     if (status)
     {
         KNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"));
@@ -2492,6 +2499,7 @@ void Focus::setAutoFocusResult(bool status)
         state = Ekos::FOCUS_FAILED;
     }
 
+    qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
     emit newStatus(state);
 }
 
@@ -2515,6 +2523,7 @@ void Focus::checkAutoStarTimeout()
     else if (state == FOCUS_WAITING)
     {
         state = FOCUS_IDLE;
+        qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
         emit newStatus(state);
     }
 }
