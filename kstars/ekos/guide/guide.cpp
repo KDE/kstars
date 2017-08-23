@@ -669,8 +669,7 @@ bool Guide::captureOneFrame()
     currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
-    if (Options::guideLogging())
-        qDebug() << "Guide: Capturing frame...";
+    qCDebug(KSTARS_EKOS_GUIDE) << "Capturing frame...";
 
     // Timeout is exposure duration + timeout threshold in seconds
     captureTimeout.start(seqExpose * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
@@ -801,8 +800,7 @@ void Guide::newFITS(IBLOB *bp)
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
 
-    if (Options::guideLogging())
-        qDebug() << "Guide: received guide frame.";
+    qCDebug(KSTARS_EKOS_GUIDE) << "Received guide frame.";
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
@@ -832,10 +830,6 @@ void Guide::newFITS(IBLOB *bp)
     syncTrackingBoxPosition();
 
     setCaptureComplete();
-    /*if (operationStack.isEmpty())
-        setCaptureComplete();
-    else
-        executeOperationStack();*/
 }
 
 void Guide::setCaptureComplete()
@@ -1067,10 +1061,7 @@ bool Guide::calibrate()
 
     executeOperationStack();
 
-    if (Options::guideLogging())
-    {
-        qDebug() << "Guide: Starting calibration via " << ST4Combo->currentText();
-    }
+    qCDebug(KSTARS_EKOS_GUIDE) << "Starting calibration via " << ST4Combo->currentText();
 
     return true;
 }

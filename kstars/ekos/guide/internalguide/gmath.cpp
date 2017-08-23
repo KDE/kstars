@@ -16,6 +16,8 @@
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 
+#include "ekos_guide_debug.h"
+
 #include <cmath>
 
 #define DEF_SQR_0 (8 - 0)
@@ -316,8 +318,7 @@ bool cgmath::calculateAndSetReticle1D(double start_x, double start_y, double end
 
         ditherRate[GUIDE_RA] = totalPulse / len;
 
-        if (Options::guideLogging())
-            qDebug() << "Guide: Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
+        qCDebug(KSTARS_EKOS_GUIDE) << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
     }
 
     return true;
@@ -387,8 +388,7 @@ bool cgmath::calculateAndSetReticle2D(double start_ra_x, double start_ra_y, doub
 
         ditherRate[GUIDE_RA] = totalPulse / len;
 
-        if (Options::guideLogging())
-            qDebug() << "Guide: Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
+        qCDebug(KSTARS_EKOS_GUIDE) << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
 
         x   = end_dec_x - start_dec_x;
         y   = end_dec_y - start_dec_y;
@@ -396,8 +396,7 @@ bool cgmath::calculateAndSetReticle2D(double start_ra_x, double start_ra_y, doub
 
         ditherRate[GUIDE_DEC] = totalPulse / len;
 
-        if (Options::guideLogging())
-            qDebug() << "Guide: Dither DEC Rate " << ditherRate[GUIDE_DEC] << " ms/Pixel";
+        qCDebug(KSTARS_EKOS_GUIDE) << "Dither DEC Rate " << ditherRate[GUIDE_DEC] << " ms/Pixel";
     }
 
     return true;
@@ -692,8 +691,7 @@ Vector cgmath::findLocalStarPosition(void) const
         {
             ImageAutoGuiding::ImageAutoGuiding1(referenceRegions[i], imageParition[i], regionAxis, &xshift, &yshift);
             Vector shift(xshift, yshift, -1);
-            if (Options::guideLogging())
-                qDebug() << "Guide: Region #" << i << ": X-Shift=" << xshift << "Y-Shift=" << yshift;
+            qCDebug(KSTARS_EKOS_GUIDE) << "Region #" << i << ": X-Shift=" << xshift << "Y-Shift=" << yshift;
 
             xsum += xshift;
             ysum += yshift;
@@ -713,11 +711,8 @@ Vector cgmath::findLocalStarPosition(void) const
         float median_x = shifts[referenceRegions.count() / 2 - 1].x;
         float median_y = shifts[referenceRegions.count() / 2 - 1].y;
 
-        if (Options::guideLogging())
-        {
-            qDebug() << "Guide: Average : X-Shift=" << average_x << "Y-Shift=" << average_y;
-            qDebug() << "Guide: Median  : X-Shift=" << median_x << "Y-Shift=" << median_y;
-        }
+        qCDebug(KSTARS_EKOS_GUIDE) << "Average : X-Shift=" << average_x << "Y-Shift=" << average_y;
+        qCDebug(KSTARS_EKOS_GUIDE) << "Median  : X-Shift=" << median_x << "Y-Shift=" << median_y;
 
         return Vector(median_x, median_y, -1);
     }
@@ -785,15 +780,13 @@ Vector cgmath::findLocalStarPosition(void) const
 
     if (imageData == nullptr)
     {
-        if (Options::guideLogging())
-            qDebug() << "Guide: Cannot process a nullptr image.";
+        qCWarning(KSTARS_EKOS_GUIDE) << "Cannot process a nullptr image.";
         return Vector(-1, -1, -1);
     }
 
     T *pdata = reinterpret_cast<T *>(imageData->getImageBuffer());
 
-    if (Options::guideLogging())
-        qDebug() << "Guide: Tracking Square " << trackingBox;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Tracking Square " << trackingBox;
 
     double square_square = trackingBox.width() * trackingBox.width();
 
@@ -1110,8 +1103,7 @@ void cgmath::process_axes(void)
     int cnt        = 0;
     double t_delta = 0;
 
-    if (Options::guideLogging())
-        qDebug() << "Guide: Processing Axes";
+    qCDebug(KSTARS_EKOS_GUIDE) << "Processing Axes";
 
     in_params.proportional_gain[0] = Options::rAProportionalGain();
     in_params.proportional_gain[1] = Options::dECProportionalGain();
@@ -1161,9 +1153,7 @@ void cgmath::process_axes(void)
         {
             t_delta += drift[k][idx];
 
-            if (Options::guideLogging())
-                qDebug() << "Guide: At #" << idx << "drift[" << k << "][" << idx << "] = " << drift[k][idx]
-                         << " , t_delta: " << t_delta;
+             qCDebug(KSTARS_EKOS_GUIDE) << "At #" << idx << "drift[" << k << "][" << idx << "] = " << drift[k][idx] << " , t_delta: " << t_delta;
 
             if (idx > 0)
                 --idx;
@@ -1177,12 +1167,8 @@ void cgmath::process_axes(void)
         out_params.delta[k] = t_delta / (double)cnt;
         drift_integral[k] /= (double)MAX_ACCUM_CNT;
 
-        if (Options::guideLogging())
-        {
-            //qDebug() << "cnt: " << cnt;
-            qDebug() << "Guide: delta         [" << k << "]= " << out_params.delta[k];
-            qDebug() << "Guide: drift_integral[" << k << "]= " << drift_integral[k];
-        }
+        qCDebug(KSTARS_EKOS_GUIDE) << "delta         [" << k << "]= " << out_params.delta[k];
+        qCDebug(KSTARS_EKOS_GUIDE) << "drift_integral[" << k << "]= " << drift_integral[k];
 
         out_params.pulse_length[k] =
             fabs(out_params.delta[k] * in_params.proportional_gain[k] + drift_integral[k] * in_params.integral_gain[k]);
@@ -1190,8 +1176,7 @@ void cgmath::process_axes(void)
                                          out_params.pulse_length[k] :
                                          in_params.max_pulse_length[k];
 
-        if (Options::guideLogging())
-            qDebug() << "Guide: pulse_length  [" << k << "]= " << out_params.pulse_length[k];
+        qCDebug(KSTARS_EKOS_GUIDE) << "pulse_length  [" << k << "]= " << out_params.pulse_length[k];
 
         // calc direction
         // We do not send pulse if direction is disabled completely, or if direction in a specific axis (e.g. N or S) is disabled
@@ -1220,8 +1205,7 @@ void cgmath::process_axes(void)
         else
             out_params.pulse_dir[k] = NO_DIR;
 
-        if (Options::guideLogging())
-            qDebug() << "Guide: Direction     : " << get_direction_string(out_params.pulse_dir[k]);
+        qCDebug(KSTARS_EKOS_GUIDE) << "Direction     : " << get_direction_string(out_params.pulse_dir[k]);
     }
 
     //emit newAxisDelta(out_params.delta[0], out_params.delta[1]);
@@ -1262,8 +1246,7 @@ void cgmath::performProcessing(void)
     if (preview_mode)
         return;
 
-    if (Options::guideLogging())
-        qDebug() << "Guide: ################## BEGIN PROCESSING ##################";
+    qCDebug(KSTARS_EKOS_GUIDE) << "################## BEGIN PROCESSING ##################";
 
     // translate star coords into sky coord. system
 
@@ -1271,20 +1254,16 @@ void cgmath::performProcessing(void)
     arc_star_pos    = point2arcsec(star_pos);
     arc_reticle_pos = point2arcsec(reticle_pos);
 
-    if (Options::guideLogging())
-    {
-        qDebug() << "Guide: Star    X : " << star_pos.x << " Y  : " << star_pos.y;
-        qDebug() << "Guide: Reticle X : " << reticle_pos.x << " Y  :" << reticle_pos.y;
-        qDebug() << "Guide: Star    RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y;
-        qDebug() << "Guide: Reticle RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y;
-    }
+    qCDebug(KSTARS_EKOS_GUIDE) << "Star    X : " << star_pos.x << " Y  : " << star_pos.y;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Reticle X : " << reticle_pos.x << " Y  :" << reticle_pos.y;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Star    RA: " << arc_star_pos.x << " DEC: " << arc_star_pos.y;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Reticle RA: " << arc_reticle_pos.x << " DEC: " << arc_reticle_pos.y;
 
     // translate into sky coords.
     star_pos   = arc_star_pos - arc_reticle_pos;
     star_pos.y = -star_pos.y; // invert y-axis as y picture axis is inverted
 
-    if (Options::guideLogging())
-        qDebug() << "Guide: -------> BEFORE ROTATION Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
+    qCDebug(KSTARS_EKOS_GUIDE) << "-------> BEFORE ROTATION Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
 
     star_pos = star_pos * ROT_Z;
 
@@ -1293,13 +1272,9 @@ void cgmath::performProcessing(void)
     drift[GUIDE_RA][channel_ticks[GUIDE_RA]]   = star_pos.x;
     drift[GUIDE_DEC][channel_ticks[GUIDE_DEC]] = star_pos.y;
 
-    if (Options::guideLogging())
-    {
-        qDebug() << "Guide: -------> AFTER ROTATION  Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
-        qDebug() << "Guide: RA channel ticks: " << channel_ticks[GUIDE_RA]
+    qCDebug(KSTARS_EKOS_GUIDE) << "-------> AFTER ROTATION  Diff RA: " << star_pos.x << " DEC: " << star_pos.y;
+    qCDebug(KSTARS_EKOS_GUIDE) << "RA channel ticks: " << channel_ticks[GUIDE_RA]
                  << " DEC channel ticks: " << channel_ticks[GUIDE_DEC];
-    }
-
     // make decision by axes
     process_axes();
 
@@ -1309,8 +1284,7 @@ void cgmath::performProcessing(void)
     // finally process tickers
     do_ticks();
 
-    if (Options::guideLogging())
-        qDebug() << "Guide: ################## FINISH PROCESSING ##################";
+    qCDebug(KSTARS_EKOS_GUIDE) << "################## FINISH PROCESSING ##################";
 }
 
 void cgmath::calc_square_err(void)
