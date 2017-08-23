@@ -202,22 +202,12 @@ class Mount : public QWidget, public Ui::Mount
     void updateTelescopeCoords();
 
     /**
-         * @brief move Issues command to the mount to move in a particular direction based on the pressed direcitonal buttons in the GUI
-         */
-    void move();
-
-    /**
          * @brief move Issues motion command to the mount to move in a particular direction based the request NS and WE values
          * @param command Either ISD::Telescope::MOTION_START (0) or ISD::Telescope::MOTION_STOP (1)
          * @param NS is either -1 for no direction, or ISD::Telescope::MOTION_NORTH (0), or ISD::Telescope::MOTION_SOUTH (1)
          * @param WE is either -1 for no direction, or ISD::Telescope::MOTION_WEST (0), or ISD::Telescope::MOTION_EAST (1)
          */
     void motionCommand(int command, int NS, int WE);
-
-    /**
-         * @brief stop Aborts telescope motion
-         */
-    void stop();
 
     /**
          * @brief save Save telescope focal length and aperture in the INDI telescope driver configuration.
@@ -244,6 +234,8 @@ class Mount : public QWidget, public Ui::Mount
          * @brief disableAltLimits calls enableAltitudeLimits(false). This function is mostly used to disable altitude limit once a meridial flip process is started.
          */
     void disableAltLimits();
+
+    bool setScopeConfig(int index);
 
   protected slots:
     void showMountToolBox();
