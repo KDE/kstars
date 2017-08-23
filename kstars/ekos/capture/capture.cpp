@@ -1218,6 +1218,8 @@ bool Capture::resumeSequence()
         return false;
     }
 
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Resuming capture sequence...";
+
     // If seqTotalCount is zero, we have to find if there are more pending jobs in the queue
     if (seqTotalCount == 0)
     {
@@ -1239,7 +1241,10 @@ bool Capture::resumeSequence()
             //Resume guiding if it was suspended before
             //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             if (guideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
+            {
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Resuming guiding...";
                 emit resumeGuiding();
+            }
 
             return true;
         }
@@ -1251,27 +1256,32 @@ bool Capture::resumeSequence()
     {
         isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked() && HFRPixels->value() > 0);
         if (isAutoFocus)
-            autoFocusStatus = false;
+            requiredAutoFocusStarted = false;
 
-        // Reset HFR pixels to zero after merdian flip
+        // Reset HFR pixels to file value after merdian flip
         if (isAutoFocus && meridianFlipStage != MF_NONE)
         {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
             firstAutoFocus = true;
             HFRPixels->setValue(fileHFR);
         }
 
         // check if time for forced refocus
-
-    qCDebug(KSTARS_EKOS_CAPTURE) << "Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
-
-        if (refocusEveryNCheck->isEnabled() && refocusEveryNCheck->isChecked() && getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60)
-            isRefocus = true;
-        else
-            isRefocus = false;
+        if (refocusEveryNCheck->isEnabled() && refocusEveryNCheck->isChecked())
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "NFocus Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
+            if (getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60)
+                isRefocus = true;
+            else
+                isRefocus = false;
+        }
 
         // If we suspended guiding due to primary chip download, resume guide chip guiding now
         if (guideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
+        {
+            qCInfo(KSTARS_EKOS_CAPTURE) << "Resuming guiding...";
             emit resumeGuiding();
+        }
 
         if (guideState == GUIDE_GUIDING && Options::ditherEnabled() && activeJob->getFrameType() == FRAME_LIGHT &&
             --ditherCounter == 0)
@@ -1279,6 +1289,8 @@ bool Capture::resumeSequence()
             ditherCounter = Options::ditherFrames();
 
             secondsLabel->setText(i18n("Dithering..."));
+
+            qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering...";
 
             state = CAPTURE_DITHERING;
             emit newStatus(Ekos::CAPTURE_DITHERING);
@@ -1299,6 +1311,8 @@ bool Capture::resumeSequence()
         {
             secondsLabel->setText(i18n("Focusing..."));
             emit checkFocus(HFRPixels->value());
+
+            qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
 
             state = CAPTURE_FOCUSING;
             emit newStatus(Ekos::CAPTURE_FOCUSING);
@@ -1464,15 +1478,16 @@ bool Capture::resumeCapture()
         appendLogText(i18n("Sequence paused."));
         secondsLabel->setText(i18n("Paused..."));
         return false;
-    }
-
-    appendLogText(i18n("Dither complete."));
+    }    
 
     // FIXME ought to be able to combine these - only different is value passed
     //       to checkFocus()
-    if (isAutoFocus && autoFocusStatus == false)
+    // 2018-08-23 Jasem: For now in-sequence-focusing takes precedense.
+    if (isAutoFocus && requiredAutoFocusStarted == false)
     {
+        requiredAutoFocusStarted = true;
         secondsLabel->setText(i18n("Focusing..."));
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Requesting focusing if HFR >" << HFRPixels->value();
         emit checkFocus(HFRPixels->value());
         state = CAPTURE_FOCUSING;
         emit newStatus(Ekos::CAPTURE_FOCUSING);
@@ -3701,6 +3716,7 @@ void Capture::setGuideStatus(GuideState state)
             break;
 
         case GUIDE_DITHERING_SUCCESS:
+            appendLogText(i18n("Dither complete."));
             resumeCapture();
             break;
 

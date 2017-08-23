@@ -255,10 +255,12 @@ void Focus::resetFrame()
         if (targetChip)
         {
             //fx=fy=fw=fh=0;
-            targetChip->resetFrame();
+            targetChip->resetFrame();            
 
             int x, y, w, h;
             targetChip->getFrame(&x, &y, &w, &h);
+
+            qCDebug(KSTARS_EKOS_FOCUS) << "Frame is reset. X:" << x << "Y:" << y << "W:" << w << "H:" << h << "binX:" << 1 << "binY:" << 1;
 
             QVariantMap settings;
             settings["x"]             = x;
@@ -747,7 +749,7 @@ void Focus::start()
     Options::setLockFocusFilter(lockFilterCheck->isChecked());
     Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
 
-    qCDebug(KSTARS_EKOS_FOCUS)  << "Focus: Starting focus with box size: " << focusBoxSize->value()
+    qCDebug(KSTARS_EKOS_FOCUS)  << "Starting focus with box size: " << focusBoxSize->value()
                  << " Step Size: " << stepIN->value() << " Threshold: " << thresholdSpin->value()
                  << " Tolerance: " << toleranceIN->value()
                  << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
@@ -798,7 +800,7 @@ void Focus::abort()
 
 void Focus::stop(bool aborted)
 {
-    qCDebug(KSTARS_EKOS_FOCUS) << "Focus: Stopppig Focus";
+    qCDebug(KSTARS_EKOS_FOCUS) << "Stopppig Focus";
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
@@ -949,7 +951,7 @@ bool Focus::focusIn(int ms)
     if (ms == -1)
         ms = stepIN->value();
 
-    qCDebug(KSTARS_EKOS_FOCUS) << "Focus: Focus in (" << ms << ")";
+    qCDebug(KSTARS_EKOS_FOCUS) << "Focus in (" << ms << ")";
 
     lastFocusDirection = FOCUS_IN;
 
@@ -990,7 +992,7 @@ bool Focus::focusOut(int ms)
     if (ms == -1)
         ms = stepIN->value();
 
-    qCDebug(KSTARS_EKOS_FOCUS) << "Focus: Focus out (" << ms << ")";
+    qCDebug(KSTARS_EKOS_FOCUS) << "Focus out (" << ms << ")";
 
     currentFocuser->focusOut();
 
@@ -1362,7 +1364,7 @@ void Focus::setCaptureComplete()
                 //x += subX;
                 //y += subY;
                 //w = subW;
-                //h = subH;
+                //h = subH;                
 
                 QVariantMap settings = frameSettings[targetChip];
                 settings["x"]        = subX;
@@ -1371,6 +1373,8 @@ void Focus::setCaptureComplete()
                 settings["h"]        = subH;
                 settings["binx"]     = subBinX;
                 settings["biny"]     = subBinY;
+
+                qCDebug(KSTARS_EKOS_FOCUS) << "Frame is subframed. X:" << subX << "Y:" << subY << "W:" << subW << "H:" << subH << "binX:" << subBinX << "binY:" << subBinY;
 
                 starsHFR.clear();
 
@@ -1446,11 +1450,13 @@ void Focus::setCaptureComplete()
         }
         else if (currentHFR > minimumRequiredHFR)
         {
+            qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is above required minimum HFR:" << minimumRequiredHFR << ". Starting AutoFocus...";
             inSequenceFocus = true;
             start();
         }
         else
         {
+            qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR << ". Autofocus successful.";
             setAutoFocusResult(true);
             drawProfilePlot();
         }
@@ -1853,7 +1859,7 @@ void Focus::autoFocusAbs()
             else if (focusOutLimit != 0 && lastFocusDirection == FOCUS_OUT && targetPosition > focusOutLimit)
             {
                 targetPosition = focusOutLimit;
-                qCDebug(KSTARS_EKOS_FOCUS) << "Focus: Limiting target pulse to focus out limit " << targetPosition;
+                qCDebug(KSTARS_EKOS_FOCUS) << "Limiting target pulse to focus out limit " << targetPosition;
             }
 
             // Limit target pulse to focuser limits
@@ -1883,7 +1889,7 @@ void Focus::autoFocusAbs()
 
             if (fabs(targetPosition - initialFocuserAbsPosition) > maxTravelIN->value())
             {
-                qCDebug(KSTARS_EKOS_FOCUS) << "Focus: targetPosition (" << targetPosition << ") - initHFRAbsPos ("
+                qCDebug(KSTARS_EKOS_FOCUS) << "targetPosition (" << targetPosition << ") - initHFRAbsPos ("
                              << initialFocuserAbsPosition << ") exceeds maxTravel distance of " << maxTravelIN->value();
 
                 appendLogText("Maximum travel limit reached. Autofocus aborted.");
@@ -2331,6 +2337,8 @@ void Focus::focusStarSelected(int x, int y)
 
         subFramed = true;
 
+        qCDebug(KSTARS_EKOS_FOCUS) << "Frame is subframed. X:" << x << "Y:" << y << "W:" << w << "H:" << h << "binX:" << subBinX << "binY:" << subBinY;
+
         focusView->setFirstLoad(true);
 
         capture();
@@ -2385,6 +2393,7 @@ void Focus::focusStarSelected(int x, int y)
 
 void Focus::checkFocus(double requiredHFR)
 {
+    qCDebug(KSTARS_EKOS_FOCUS) << "Check Focus requested with minimum required HFR" << requiredHFR;
     minimumRequiredHFR = requiredHFR;
 
     capture();
@@ -2470,7 +2479,7 @@ void Focus::setAutoFocusResult(bool status)
 
     resetFocusIteration = 0;
 
-    //emit autoFocusFinished(status, currentHFR);
+    qCDebug(KSTARS_EKOS_FOCUS) << "AutoFocus result:" << status;
 
     if (status)
     {

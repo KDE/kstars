@@ -16,6 +16,8 @@
 #include "auxiliary/kspaths.h"
 #include "fitsviewer/fitsview.h"
 
+#include "ekos_guide_debug.h"
+
 #include <KMessageBox>
 #include <KNotification>
 
@@ -100,6 +102,8 @@ bool InternalGuider::abort()
 {
     calibrationStage = CAL_IDLE;
 
+    logFile.close();
+
     if (state == GUIDE_CALIBRATING || state == GUIDE_GUIDING || state == GUIDE_DITHERING)
         emit newStatus(GUIDE_ABORTED);
     else
@@ -167,9 +171,7 @@ bool InternalGuider::dither(double pixels)
         else
             target_pos = Vector(cur_x, cur_y, 0) - Vector(diff_x, diff_y, 0);
 
-        if (Options::guideLogging())
-            qDebug() << "Guide: Dithering process started.. Reticle Target Pos X " << target_pos.x << " Y "
-                     << target_pos.y;
+        qCDebug(KSTARS_EKOS_GUIDE) << "Dithering process started.. Reticle Target Pos X " << target_pos.x << " Y " << target_pos.y;
 
         pmath->setReticleParameters(target_pos.x, target_pos.y, ret_angle);
 
@@ -185,14 +187,12 @@ bool InternalGuider::dither(double pixels)
     star_pos.y      = -star_pos.y;
     star_pos        = star_pos * ROT_Z;
 
-    if (Options::guideLogging())
-        qDebug() << "Guide: Dithering in progress. Diff star X:" << star_pos.x << "Y:" << star_pos.y;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Dithering in progress. Diff star X:" << star_pos.x << "Y:" << star_pos.y;
 
     if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
     {
         pmath->setReticleParameters(cur_x, cur_y, ret_angle);
-        if (Options::guideLogging())
-            qDebug() << "Guide: Dither complete.";
+        qCDebug(KSTARS_EKOS_GUIDE) << "Dither complete.";
 
         if (Options::ditherSettle() > 0)
         {
@@ -377,14 +377,11 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             pmath->getReticleParameters(&start_x1, &start_y1, nullptr);
 
-            if (Options::guideLogging())
-                qDebug() << "Guide: Start X1 " << start_x1 << " Start Y1 " << start_y1;
+            qCDebug(KSTARS_EKOS_GUIDE) << "Start X1 " << start_x1 << " Start Y1 " << start_y1;
 
             emit newPulse(RA_INC_DIR, pulseDuration);
 
-            if (Options::guideLogging())
-                qDebug() << "Guide: Iteration " << iterations << " Direction: RA_INC_DIR"
-                         << " Duration: " << pulseDuration << " ms.";
+            qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: RA_INC_DIR" << " Duration: " << pulseDuration << " ms.";
 
             iterations++;
 
@@ -400,8 +397,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 // Star position resulting from LAST guiding pulse to mount
                 double cur_x, cur_y;
                 pmath->getStarScreenPosition(&cur_x, &cur_y);
-                qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
-                qDebug() << "Guide: Iteration " << iterations << " Direction: RA_INC_DIR"
+                qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
+                qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: RA_INC_DIR"
                          << " Duration: " << pulseDuration << " ms.";
             }
 
@@ -417,8 +414,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             if (iterations == auto_drift_time)
             {
                 pmath->getStarScreenPosition(&end_x1, &end_y1);
-                if (Options::guideLogging())
-                    qDebug() << "Guide: End X1 " << end_x1 << " End Y1 " << end_y1;
+                qCDebug(KSTARS_EKOS_GUIDE) << "End X1 " << end_x1 << " End Y1 " << end_y1;
 
                 phi   = pmath->calculatePhi(start_x1, start_y1, end_x1, end_y1);
                 ROT_Z = RotateZ(-M_PI * phi / 180.0); // derotates...
@@ -434,8 +430,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             star_pos.y      = -star_pos.y;
             star_pos        = star_pos * ROT_Z;
 
-            if (Options::guideLogging())
-                qDebug() << "Guide: Star x pos is " << star_pos.x << " from original point.";
+           qCDebug(KSTARS_EKOS_GUIDE) << "Star x pos is " << star_pos.x << " from original point.";
 
             // start point reached... so exit
             if (star_pos.x < 1.5)
@@ -457,8 +452,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                         // Star position resulting from LAST guiding pulse to mount
                         double cur_x, cur_y;
                         pmath->getStarScreenPosition(&cur_x, &cur_y);
-                        qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
-                        qDebug() << "Guide: Iteration " << iterations << " Direction: RA_DEC_DIR"
+                        qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
+                        qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: RA_DEC_DIR"
                                  << " Duration: " << pulseDuration << " ms.";
                     }
 
@@ -488,8 +483,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 start_x2         = cur_x;
                 start_y2         = cur_y;
 
-                if (Options::guideLogging())
-                    qDebug() << "Guide: Start X2 " << start_x2 << " start Y2 " << start_y2;
+                qCDebug(KSTARS_EKOS_GUIDE) << "Start X2 " << start_x2 << " start Y2 " << start_y2;
 
                 emit newPulse(DEC_INC_DIR, pulseDuration);
 
@@ -498,8 +492,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                     // Star position resulting from LAST guiding pulse to mount
                     double cur_x, cur_y;
                     pmath->getStarScreenPosition(&cur_x, &cur_y);
-                    qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
-                    qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_INC_DIR"
+                    qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
+                    qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: DEC_INC_DIR"
                              << " Duration: " << pulseDuration << " ms.";
                 }
 
@@ -547,8 +541,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 // Star position resulting from LAST guiding pulse to mount
                 double cur_x, cur_y;
                 pmath->getStarScreenPosition(&cur_x, &cur_y);
-                qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
-                qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_INC_DIR"
+                qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
+                qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: DEC_INC_DIR"
                          << " Duration: " << pulseDuration << " ms.";
             }
 
@@ -565,8 +559,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             if (dec_iterations == auto_drift_time)
             {
                 pmath->getStarScreenPosition(&end_x2, &end_y2);
-                if (Options::guideLogging())
-                    qDebug() << "Guide: End X2 " << end_x2 << " End Y2 " << end_y2;
+                qCDebug(KSTARS_EKOS_GUIDE) << "End X2 " << end_x2 << " End Y2 " << end_y2;
 
                 phi   = pmath->calculatePhi(start_x2, start_y2, end_x2, end_y2);
                 ROT_Z = RotateZ(-M_PI * phi / 180.0); // derotates...
@@ -580,15 +573,13 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             //pmain_wnd->appendLogText(i18n("GUIDE_DEC running back...");
 
-            if (Options::guideLogging())
-                qDebug() << "Guide: Cur X2 " << cur_x << " Cur Y2 " << cur_y;
+            qCDebug(KSTARS_EKOS_GUIDE) << "Cur X2 " << cur_x << " Cur Y2 " << cur_y;
 
             Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(start_x2, start_y2, 0);
             star_pos.y      = -star_pos.y;
             star_pos        = star_pos * ROT_Z;
 
-            if (Options::guideLogging())
-                qDebug() << "Guide: start Pos X " << star_pos.x << " from original point.";
+            qCDebug(KSTARS_EKOS_GUIDE) << "start Pos X " << star_pos.x << " from original point.";
 
             // start point reached... so exit
             if (star_pos.x < 1.5)
@@ -610,8 +601,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                         // Star position resulting from LAST guiding pulse to mount
                         double cur_x, cur_y;
                         pmath->getStarScreenPosition(&cur_x, &cur_y);
-                        qDebug() << "Guide: Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
-                        qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_DEC_DIR"
+                        qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
+                        qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: DEC_DEC_DIR"
                                  << " Duration: " << pulseDuration << " ms.";
                     }
 

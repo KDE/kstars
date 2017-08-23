@@ -579,7 +579,7 @@ class Capture : public QWidget, public Ui::Capture
 
     // Autofocus
     bool isAutoFocus { false };
-    bool autoFocusStatus { false };
+    bool requiredAutoFocusStarted { false };
     bool firstAutoFocus { true };
     double focusHFR { 0 }; // HFR value as received from the Ekos focus module
     double fileHFR { 0 };  // HFR value as loaded from the sequence file
