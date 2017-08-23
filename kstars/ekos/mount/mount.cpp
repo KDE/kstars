@@ -50,42 +50,10 @@ Mount::Mount()
 
     currentTelescope = nullptr;
 
-    stopB->setIcon(QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg")));
-    northB->setIcon(QIcon::fromTheme("go-up", QIcon(":/icons/breeze/default/go-up.svg")));
-    westB->setIcon(QIcon::fromTheme("go-previous", QIcon(":/icons/breeze/default/go-previous.svg")));
-    eastB->setIcon(QIcon::fromTheme("go-next", QIcon(":/icons/breeze/default/go-next.svg")));
-    southB->setIcon(QIcon::fromTheme("go-down", QIcon(":/icons/breeze/default/go-down.svg")));
-
     abortDispatch = -1;
 
     minAltLimit->setValue(Options::minimumAltLimit());
     maxAltLimit->setValue(Options::maximumAltLimit());
-
-    northwestB->setIcon(QIcon(":/icons/go-nw.svg"));
-    northeastB->setIcon(QIcon(":/icons/go-ne.svg"));
-    southwestB->setIcon(QIcon(":/icons/go-sw.svg"));
-    southeastB->setIcon(QIcon(":/icons/go-se.svg"));
-
-    connect(northB, SIGNAL(pressed()), this, SLOT(move()));
-    connect(northB, SIGNAL(released()), this, SLOT(stop()));
-    connect(westB, SIGNAL(pressed()), this, SLOT(move()));
-    connect(westB, SIGNAL(released()), this, SLOT(stop()));
-    connect(southB, SIGNAL(pressed()), this, SLOT(move()));
-    connect(southB, SIGNAL(released()), this, SLOT(stop()));
-    connect(eastB, SIGNAL(pressed()), this, SLOT(move()));
-    connect(eastB, SIGNAL(released()), this, SLOT(stop()));
-    connect(northeastB, SIGNAL(pressed()), this, SLOT(move()));
-    connect(northeastB, SIGNAL(released()), this, SLOT(stop()));
-    connect(northwestB, SIGNAL(pressed()), this, SLOT(move()));
-    connect(northwestB, SIGNAL(released()), this, SLOT(stop()));
-    connect(southeastB, SIGNAL(pressed()), this, SLOT(move()));
-    connect(southeastB, SIGNAL(released()), this, SLOT(stop()));
-    connect(southwestB, SIGNAL(pressed()), this, SLOT(move()));
-    connect(southwestB, SIGNAL(released()), this, SLOT(stop()));
-    connect(stopB, SIGNAL(clicked()), this, SLOT(stop()));
-    connect(saveB, SIGNAL(clicked()), this, SLOT(save()));
-
-    connect(slewSpeedCombo, SIGNAL(activated(int)), this, SLOT(setSlewRate(int)));
 
     connect(minAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
     connect(maxAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
@@ -233,26 +201,18 @@ void Mount::syncTelescopeInfo()
 
     if (svp)
     {
-        slewSpeedCombo->clear();
-        slewSpeedCombo->setEnabled(true);
-
-        for (int i = 0; i < svp->nsp; i++)
-            slewSpeedCombo->addItem(i18nc(libindi_strings_context, svp->sp[i].label));
-
         int index = IUFindOnSwitchIndex(svp);
-        slewSpeedCombo->setCurrentIndex(index);
 
         // QtQuick
         m_SpeedSlider->setEnabled(true);
         m_SpeedSlider->setProperty("maximumValue", svp->nsp - 1);
         m_SpeedSlider->setProperty("value", index);
 
-        m_SpeedLabel->setProperty("text", slewSpeedCombo->currentText());
+        m_SpeedLabel->setProperty("text", i18nc(libindi_strings_context, svp->sp[index].label));
         m_SpeedLabel->setEnabled(true);
     }
     else
     {
-        slewSpeedCombo->setEnabled(false);
         // QtQuick
         m_SpeedSlider->setEnabled(false);
         m_SpeedLabel->setEnabled(false);
@@ -280,6 +240,63 @@ void Mount::syncTelescopeInfo()
         m_Park->setEnabled(false);
         m_Unpark->setEnabled(false);
     }
+
+    // Configs
+    svp = currentTelescope->getBaseDevice()->getSwitch("APPLY_SCOPE_CONFIG");
+    if (svp)
+    {
+        scopeConfigCombo->disconnect();
+        scopeConfigCombo->clear();
+        for (int i=0; i < svp->nsp; i++)
+            scopeConfigCombo->addItem(svp->sp[i].label);
+
+        scopeConfigCombo->setCurrentIndex(IUFindOnSwitchIndex(svp));
+        connect(scopeConfigCombo, SIGNAL(activated(int)), this, SLOT(setScopeConfig(int)));
+    }
+
+    // Tracking State
+    svp = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_TRACK_STATE");
+    if (svp)
+    {
+        trackingGroup->setEnabled(true);
+        trackOnB->disconnect();
+        trackOffB->disconnect();
+        connect(trackOnB, &QPushButton::clicked, [&]() { currentTelescope->setTrackEnabled(true);});
+        connect(trackOffB, &QPushButton::clicked, [&]()
+        {
+            if (KMessageBox::questionYesNo(KStars::Instance(),
+                                       i18n("Are you sure you want to turn off mount tracking?"),
+                                       i18n("Mount Tracking"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
+                                       "turn_off_mount_tracking_dialog") == KMessageBox::Yes)
+                            currentTelescope->setTrackEnabled(false);
+        });
+    }
+    else
+    {
+        trackOnB->setChecked(false);
+        trackOffB->setChecked(false);
+        trackingGroup->setEnabled(false);
+    }
+
+    ITextVectorProperty *tvp = currentTelescope->getBaseDevice()->getText("SCOPE_CONFIG_NAME");
+    if (tvp)
+        scopeConfigNameEdit->setText(tvp->tp[0].text);
+}
+
+bool Mount::setScopeConfig(int index)
+{
+    ISwitchVectorProperty *svp = currentTelescope->getBaseDevice()->getSwitch("APPLY_SCOPE_CONFIG");
+    if (svp == nullptr)
+        return false;
+
+    IUResetSwitch(svp);
+    svp->sp[index].s = ISS_ON;
+
+    // Clear scope config name so that it gets filled by INDI
+    scopeConfigNameEdit->clear();
+
+    currentTelescope->getDriverInfo()->getClientManager()->sendNewSwitch(svp);
+    return true;
 }
 
 void Mount::updateTelescopeCoords()
@@ -374,6 +391,13 @@ void Mount::updateTelescopeCoords()
             emit newStatus(lastStatus);
         }
 
+        if (trackingGroup->isEnabled())
+        {
+           bool isTracking = (currentStatus == ISD::Telescope::MOUNT_TRACKING);
+           trackOnB->setChecked(isTracking);
+           trackOffB->setChecked(!isTracking);
+        }
+
         if (currentTelescope->isConnected() == false)
             updateTimer.stop();
         else if (updateTimer.isActive() == false)
@@ -415,7 +439,7 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
 
 bool Mount::setSlewRate(int index)
 {
-    if (currentTelescope && slewSpeedCombo->isEnabled())
+    if (currentTelescope)
         return currentTelescope->setSlewRate(index);
 
     return false;
@@ -427,12 +451,8 @@ void Mount::updateSwitch(ISwitchVectorProperty *svp)
     {
         int index = IUFindOnSwitchIndex(svp);
 
-        slewSpeedCombo->blockSignals(true);
-        slewSpeedCombo->setCurrentIndex(index);
-        slewSpeedCombo->blockSignals(false);
-
         m_SpeedSlider->setProperty("value", index);
-        m_SpeedLabel->setProperty("text", slewSpeedCombo->currentText());
+        m_SpeedLabel->setProperty("text", i18nc(libindi_strings_context, svp->sp[index].label));
     }
     /*else if (!strcmp(svp->name, "TELESCOPE_PARK"))
     {
@@ -487,96 +507,20 @@ void Mount::motionCommand(int command, int NS, int WE)
     }
 }
 
-void Mount::move()
-{
-    QObject *obj = sender();
-
-    if (obj == northB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_START);
-    }
-    else if (obj == westB)
-    {
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_START);
-    }
-    else if (obj == southB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_START);
-    }
-    else if (obj == eastB)
-    {
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_START);
-    }
-    else if (obj == northwestB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_START);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_START);
-    }
-    else if (obj == northeastB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_START);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_START);
-    }
-    else if (obj == southwestB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_START);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_START);
-    }
-    else if (obj == southeastB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_START);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_START);
-    }
-}
-
-void Mount::stop()
-{
-    QObject *obj = sender();
-
-    if (obj == stopB)
-        currentTelescope->Abort();
-    else if (obj == northB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_STOP);
-    }
-    else if (obj == westB)
-    {
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_STOP);
-    }
-    else if (obj == southB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_STOP);
-    }
-    else if (obj == eastB)
-    {
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_STOP);
-    }
-    else if (obj == northwestB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_STOP);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_STOP);
-    }
-    else if (obj == northeastB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_NORTH, ISD::Telescope::MOTION_STOP);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_STOP);
-    }
-    else if (obj == southwestB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_STOP);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_WEST, ISD::Telescope::MOTION_STOP);
-    }
-    else if (obj == southeastB)
-    {
-        currentTelescope->MoveNS(ISD::Telescope::MOTION_SOUTH, ISD::Telescope::MOTION_STOP);
-        currentTelescope->MoveWE(ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_STOP);
-    }
-}
-
 void Mount::save()
 {
     if (currentTelescope == nullptr)
         return;
+
+    if (scopeConfigNameEdit->text().isEmpty() == false)
+    {
+        ITextVectorProperty *tvp = currentTelescope->getBaseDevice()->getText("SCOPE_CONFIG_NAME");
+        if (tvp)
+        {
+            IUSaveText(&(tvp->tp[0]), scopeConfigNameEdit->text().toLatin1().constData());
+            currentTelescope->getDriverInfo()->getClientManager()->sendNewText(tvp);
+        }
+    }
 
     INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
@@ -793,6 +737,9 @@ void Mount::setTelescopeInfo(double primaryFocalLength, double primaryAperture, 
         guideScopeFocalIN->setValue(guideFocalLength);
     if (guideAperture > 0)
         guideScopeApertureIN->setValue(guideAperture);
+
+    if (scopeConfigNameEdit->text().isEmpty() == false)
+        appendLogText(i18n("Warning: Overriding %1 configuration.", scopeConfigNameEdit->text()));
 
     save();
 }
