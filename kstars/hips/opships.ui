@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>688</width>
-    <height>445</height>
+    <width>787</width>
+    <height>504</height>
    </rect>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
    <property name="spacing">
@@ -45,19 +51,6 @@
           <number>3</number>
          </property>
          <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
           <widget class="QLabel" name="sourceImage">
            <property name="minimumSize">
             <size>
@@ -65,11 +58,12 @@
              <height>256</height>
             </size>
            </property>
-           <property name="maximumSize">
-            <size>
-             <width>256</width>
-             <height>256</height>
-            </size>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 rgba(128, 128, 128, 128), stop: 1 rgba(0, 0,0, 128));</string>
            </property>
            <property name="frameShape">
             <enum>QFrame::Box</enum>
@@ -81,22 +75,12 @@
             <pixmap resource="../data/kstars.qrc">:/images/noimage.png</pixmap>
            </property>
            <property name="scaledContents">
-            <bool>true</bool>
+            <bool>false</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </item>
