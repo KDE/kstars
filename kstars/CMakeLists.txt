@@ -69,11 +69,12 @@ if(NOT BUILD_KSTARS_LITE)
             )
         include_directories(${CFITSIO_INCLUDE_DIR})
 
-        IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-            SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        ENDIF ()
     endif(CFITSIO_FOUND)
 endif(NOT BUILD_KSTARS_LITE)
+
+IF (CFITSIO_FOUND AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
+    SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+ENDIF ()
 
 if (INDI_FOUND)
     if(BUILD_KSTARS_LITE)
@@ -718,24 +719,32 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/skynodes/nodes/rectnode.cpp
         #Other
         kstarslite/deviceorientation.cpp
+        )
+
+    set(kstarslite_libtess_SRC
         #libtess
-        libtess/dict.c
-        libtess/geom.c
         libtess/gluos.h
-        libtess/memalloc.c
-        libtess/mesh.c
-        libtess/normal.c
         libtess/priorityq-sort.h
-        libtess/priorityq.c
-        libtess/render.c
         libtess/sweep.c
-        libtess/tess.c
         libtess/tessmono.c
-        libtess/priorityq-heap.c
         libtess/dict-list.h
         libtess/glu.h
         libtess/tessellate.c
+        libtess/dict.c
+        libtess/geom.c
+        libtess/memalloc.c
+        libtess/mesh.c
+        libtess/normal.c
+        libtess/priorityq.c
+        libtess/priorityq-heap.c
+        libtess/render.c
+        libtess/tess.c
         )
+
+    IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        SET_SOURCE_FILES_PROPERTIES(${kstarslite_libtess_SRC} PROPERTIES COMPILE_FLAGS "-Wno-error")
+    ENDIF ()
+
     #Qml files will be probably moved to user's data dir, but for use
     #with QtCreator it is more convenient to have them here
     set(kstarsliteqml_SRCS
@@ -857,7 +866,7 @@ IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstars kstars_SRCS 10 cpp)
 ENDIF ()
 
-set(kstars_SRCS ${kstars_SRCS} ${fits_bayer_SRCS} ${hips_manager_SRCS})
+set(kstars_SRCS ${kstars_SRCS} ${fits_bayer_SRCS} ${hips_manager_SRCS} ${kstarslite_libtess_SRC})
 
 if(NOT BUILD_KSTARS_LITE)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)

@@ -51,9 +51,7 @@ class DeepSkyNode : public SkyNode
      */
     DeepSkyNode(DeepSkyObject *skyObject, DSOSymbolNode *symbol, LabelsItem::label_t labelType, short trixel = -1);
 
-    /**
-     * @short Destructor. Call delete routines of label
-     */
+    /** @short Destructor. Call delete routines of label */
     virtual ~DeepSkyNode();
 
     /**
@@ -73,6 +71,7 @@ class DeepSkyNode : public SkyNode
      * need to calculate the position again and we pass it as a parameter.
      */
     void update(bool drawImage, bool drawLabel, QPointF pos = QPointF(-1, -1));
+
     virtual void hide() override;
 
     /**
@@ -86,14 +85,15 @@ class DeepSkyNode : public SkyNode
     DSOSymbolNode *symbol() { return m_symbol; }
 
   private:
-    QSGSimpleTextureNode *m_objImg;
-    Trixel m_trixel; //Trixel to which this object belongs. Used only in stars. By default -1 for all
+    QSGSimpleTextureNode *m_objImg { nullptr };
+    /// Trixel to which this object belongs. Used only in stars. By default -1 for all
+    Trixel m_trixel { 0 };
 
-    LabelNode *m_label;
-    LabelsItem::label_t m_labelType;
+    LabelNode *m_label { nullptr };
+    LabelsItem::label_t m_labelType { LabelsItem::NO_LABEL };
 
-    DeepSkyObject *m_dso;
-    DSOSymbolNode *m_symbol;
-    float m_angle;
+    DeepSkyObject *m_dso { nullptr };
+    DSOSymbolNode *m_symbol { nullptr };
+    float m_angle { 0 };
     QPointF pos;
 };

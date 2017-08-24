@@ -1324,6 +1324,8 @@ void Satellite::initPopupMenu(KSPopupMenu *pmenu)
 {
 #ifndef KSTARS_LITE
     pmenu->createSatelliteMenu(this);
+#else
+    Q_UNUSED(pmenu);
 #endif
 }
 

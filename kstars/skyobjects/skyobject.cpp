@@ -71,8 +71,9 @@ SkyObject::~SkyObject()
 
 void SkyObject::showPopupMenu(KSPopupMenu *pmenu, const QPoint &pos)
 {
-#ifdef KSTARS_LITE
+#if defined(KSTARS_LITE)
     Q_UNUSED(pos)
+    Q_UNUSED(pmenu);
 #else
     initPopupMenu(pmenu);
     pmenu->popup(pos);

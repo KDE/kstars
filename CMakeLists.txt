@@ -290,6 +290,9 @@ IF (UNIX OR APPLE)
     IF (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
         SET(COMP_FLAGS "${COMP_FLAGS} -Wno-nonnull -Wno-deprecated-declarations")
     ENDIF ()
+    IF (BUILD_KSTARS_LITE AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        SET(COMP_FLAGS "${COMP_FLAGS} -Wno-overloaded-virtual")
+    ENDIF ()
 
     SET(COMP_FLAGS "${COMP_FLAGS} -g")
 

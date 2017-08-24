@@ -196,7 +196,7 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, Me
     if (labelMagLim > Options::magLimitDrawDeepSky())
         labelMagLim = Options::magLimitDrawDeepSky();
 
-    uint regionID = 0;
+    int regionID = 0;
     if (region->hasNext())
     {
         regionID = region->next();

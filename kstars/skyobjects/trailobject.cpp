@@ -63,6 +63,8 @@ void TrailObject::initPopupMenu(KSPopupMenu *pmenu)
 {
 #ifndef KSTARS_LITE
     pmenu->createPlanetMenu(this);
+#else
+    Q_UNUSED(pmenu);
 #endif
 }
 

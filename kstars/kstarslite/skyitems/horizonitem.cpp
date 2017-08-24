@@ -27,7 +27,7 @@
 HorizonItem::HorizonItem(HorizonComponent *hComp, RootNode *rootNode)
     : SkyItem(LabelsItem::label_t::HORIZON_LABEL, rootNode), m_horizonComp(hComp)
 {
-    appendChildNode(new HorizonNode(m_horizonComp->pointList()));
+    appendChildNode(new HorizonNode());
 
     double az = -0.01;
     static QString name[8];
@@ -57,7 +57,7 @@ void HorizonItem::update()
 {
     if (!childCount())
     {
-        appendChildNode(new HorizonNode(m_horizonComp->pointList()));
+        appendChildNode(new HorizonNode());
     }
 
     //HorizonNode *hNode = static_cast<HorizonNode *>(n->skyNodeAtIndex(0));

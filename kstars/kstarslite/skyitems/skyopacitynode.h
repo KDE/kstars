@@ -14,17 +14,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYOPACITYNODE_H_
-#define SKYOPACITYNODE_H_
+#pragma once
 
 #include <QSGOpacityNode>
 
-/** @class SkyOpacityNode
+/**
+ * @class SkyOpacityNode
  *
- *@short A wrapper for QSGOpacityNode that provides hide() and show() functions. If node is invisible
+ * @short A wrapper for QSGOpacityNode that provides hide() and show() functions. If node is invisible
  * (opacity is 0) it won't be rendered.
- *@author Artem Fedoskin
- *@version 1.0
+ *
+ * @author Artem Fedoskin
+ * @version 1.0
  */
 
 class SkyOpacityNode : public QSGOpacityNode
@@ -32,23 +33,12 @@ class SkyOpacityNode : public QSGOpacityNode
   public:
     SkyOpacityNode();
 
-    /**
-         * @short makes this node visible
-         */
+    /** @short makes this node visible */
     virtual void show();
 
-    /**
-         * @short hides this node
-         */
+    /** @short hides this node */
     virtual void hide();
 
-    /**
-         * @return true if node is visible
-         */
+    /** @return true if node is visible */
     bool visible();
-
-  private:
-    double m_opacityVal;
 };
-
-#endif

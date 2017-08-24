@@ -33,6 +33,11 @@ bool HIPSComponent::selected()
 
 void HIPSComponent::draw(SkyPainter *skyp)
 {
+#if !defined(KSTARS_LITE)
     if (SkyMap::IsSlewing() == false)
         skyp->drawHips();
+#else
+    Q_UNUSED(skyp);
+
+#endif
 }

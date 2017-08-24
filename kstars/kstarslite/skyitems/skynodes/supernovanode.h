@@ -56,6 +56,4 @@ class SupernovaNode : public SkyNode
 
     QSGFlatColorMaterial *m_material { nullptr };
     QSGGeometry *m_geometry { nullptr };
-
-    PointNode *m_point { nullptr };
 };

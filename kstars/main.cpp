@@ -48,8 +48,10 @@
 #include "version.h"
 #include "Options.h"
 
+#ifndef KSTARS_LITE
 static const char description[] = I18N_NOOP("Desktop Planetarium");
 static const char notice[] = I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
+#endif
 
 int main(int argc, char *argv[])
 {

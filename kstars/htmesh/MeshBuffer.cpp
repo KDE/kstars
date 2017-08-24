@@ -36,7 +36,7 @@ int MeshBuffer::append(Trixel trixel)
 
 void MeshBuffer::fill()
 {
-    for (Trixel i = 0; i < (unsigned int)maxSize; i++)
+    for (Trixel i = 0; i < (int)maxSize; i++)
     {
         m_buffer[i] = i;
     }
