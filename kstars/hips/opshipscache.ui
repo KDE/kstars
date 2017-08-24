@@ -13,6 +13,9 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QLabel" name="label_4">
+     <property name="toolTip">
+      <string>Cache space on hard disk used to store HiPS images.</string>
+     </property>
      <property name="text">
       <string>Disk</string>
      </property>
@@ -20,6 +23,9 @@
    </item>
    <item row="0" column="1">
     <widget class="QSpinBox" name="kcfg_HIPSNetCache">
+     <property name="toolTip">
+      <string>Cache space on hard disk used to store HiPS images.</string>
+     </property>
      <property name="minimum">
       <number>10</number>
      </property>
@@ -53,6 +59,9 @@
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label">
+     <property name="toolTip">
+      <string>Cache space in RAM used to store HiPS images.</string>
+     </property>
      <property name="text">
       <string>Memory:</string>
      </property>
@@ -60,6 +69,9 @@
    </item>
    <item row="1" column="1">
     <widget class="QSpinBox" name="kcfg_HIPSMemoryCache">
+     <property name="toolTip">
+      <string>Cache space in RAM used to store HiPS images.</string>
+     </property>
      <property name="minimum">
       <number>10</number>
      </property>
