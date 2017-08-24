@@ -726,10 +726,10 @@ void AltVsTime::slotComputeAltitudeByTime()
 void AltVsTime::slotMarkRiseTime()
 {
     const KStarsDateTime &ut  = KStarsData::Instance()->ut();
-    SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+    SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
     if (selectedObject == nullptr)
     {
-        qCWarning(KSTARS) << "Mark Rise Time: Unable to find" << avtUI->nameBox->text();
+        qCWarning(KSTARS) << "Mark Rise Time: Unable to find" << avtUI->PlotList->currentItem()->text();
         return;
     }
 
@@ -740,18 +740,7 @@ void AltVsTime::slotMarkRiseTime()
         double time = 0;
         double hours, minutes;
 
-        QCPGraph *selectedGraph;
-        // get the graph's name from the name box
-        QString graphName = avtUI->nameBox->text();
-        // find the graph index
-        int graphIndex = 0;
-        for (int i = 0; i < avtUI->View->graphCount(); i++)
-            if (avtUI->View->graph(i)->name().compare(graphName) == 0)
-            {
-                graphIndex = i;
-                break;
-            }
-        selectedGraph = avtUI->View->graph(graphIndex);
+        QCPGraph *selectedGraph = avtUI->View->graph(avtUI->PlotList->currentRow());
 
         QTime rt = selectedObject->riseSetTime(ut, geo, true); //true = use rise time
         // mark the Rise time with a solid red circle
@@ -781,7 +770,12 @@ void AltVsTime::slotMarkRiseTime()
 void AltVsTime::slotMarkSetTime()
 {
     const KStarsDateTime &ut  = KStarsData::Instance()->ut();
-    SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+     SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
+    if (selectedObject == nullptr)
+    {
+        qCWarning(KSTARS) << "Mark Set Time: Unable to find" << avtUI->PlotList->currentItem()->text();
+        return;
+    }
     QCPItemTracer *setTimeTracer;
     // check if at least one graph exists in the plot
     if (avtUI->View->graphCount() > 0)
@@ -789,18 +783,7 @@ void AltVsTime::slotMarkSetTime()
         double time = 0;
         double hours, minutes;
 
-        QCPGraph *selectedGraph;
-        // get the graph's name from the name box
-        QString graphName = avtUI->nameBox->text();
-        // find the graph index
-        int graphIndex = 0;
-        for (int i = 0; i < avtUI->View->graphCount(); i++)
-            if (avtUI->View->graph(i)->name().compare(graphName) == 0)
-            {
-                graphIndex = i;
-                break;
-            }
-        selectedGraph = avtUI->View->graph(graphIndex);
+        QCPGraph *selectedGraph = avtUI->View->graph(avtUI->PlotList->currentRow());
 
         QTime rt = selectedObject->riseSetTime(ut, geo, true); //true = use rise time
         //If set time is before rise time, use set time for tomorrow
@@ -834,7 +817,12 @@ void AltVsTime::slotMarkSetTime()
 void AltVsTime::slotMarkTransitTime()
 {
     const KStarsDateTime &ut  = KStarsData::Instance()->ut();
-    SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+     SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
+    if (selectedObject == nullptr)
+    {
+        qCWarning(KSTARS) << "Mark Transit Time: Unable to find" << avtUI->PlotList->currentItem()->text();
+        return;
+    }
     QCPItemTracer *transitTimeTracer;
     // check if at least one graph exists in the plot
     if (avtUI->View->graphCount() > 0)
@@ -842,18 +830,7 @@ void AltVsTime::slotMarkTransitTime()
         double time = 0;
         double hours, minutes;
 
-        QCPGraph *selectedGraph;
-        // get the graph's name from the name box
-        QString graphName = avtUI->nameBox->text();
-        // find the graph index
-        int graphIndex = 0;
-        for (int i = 0; i < avtUI->View->graphCount(); i++)
-            if (avtUI->View->graph(i)->name().compare(graphName) == 0)
-            {
-                graphIndex = i;
-                break;
-            }
-        selectedGraph = avtUI->View->graph(graphIndex);
+        QCPGraph *selectedGraph = avtUI->View->graph(avtUI->PlotList->currentRow());
 
         QTime rt = selectedObject->riseSetTime(ut, geo, true); //true = use rise time
         //If transit time is before rise time, use transit time for tomorrow
