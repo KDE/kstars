@@ -93,13 +93,16 @@ void HIPSManager::showSettings()
         connect(dialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 
         displaySettings.reset(new OpsHIPSDisplay());
-        dialog->addPage(displaySettings.get(), i18n("Display"));
+        KPageWidgetItem *page = dialog->addPage(displaySettings.get(), i18n("Display"));
+        page->setIcon(QIcon::fromTheme("computer", QIcon(":/icons/breeze/default/computer.svg")));
 
         cacheSettings.reset(new OpsHIPSCache());
-        dialog->addPage(cacheSettings.get(), i18n("Cache"));
+        page = dialog->addPage(cacheSettings.get(), i18n("Cache"));
+        page->setIcon(QIcon::fromTheme("preferences-web-browser-cache", QIcon(":/icons/breeze/default/preferences-web-browser-cache.svg")));
 
         sourceSettings.reset(new OpsHIPS());
-        dialog->addPage(sourceSettings.get(), i18n("Sources"));
+        page = dialog->addPage(sourceSettings.get(), i18n("Sources"));
+        page->setIcon(QIcon::fromTheme("view-preview", QIcon(":/icons/breeze/default/view-preview.svg")));
 
         dialog->resize(800,600);
     }

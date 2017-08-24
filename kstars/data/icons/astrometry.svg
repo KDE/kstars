@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   id="svg2"
+   viewBox="0 0 453.54331 453.54334"
+   height="128mm"
+   width="128mm">
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-146.78574,-109.17599)"
+     id="layer1">
+    <g
+       transform="translate(15.714287,-38.714288)"
+       id="g4942">
+      <rect
+         style="fill:#d35f5f;fill-opacity:1"
+         id="rect4830"
+         width="370"
+         height="330"
+         x="172.14285"
+         y="208.07649" />
+      <rect
+         style="fill:#000000;fill-opacity:1"
+         id="rect4834"
+         width="377.85715"
+         height="339.28571"
+         x="168.57143"
+         y="203.79077" />
+      <path
+         style="fill:#d54a3c;fill-opacity:1"
+         d="m 172.09823,373.03583 0,-164.64286 185,0 185,0 0,164.64286 0,164.64286 -185,0 -185,0 0,-164.64286 z"
+         id="path4832" />
+      <ellipse
+         style="fill:#000000;fill-opacity:1"
+         id="path4836"
+         cx="537.5"
+         cy="209.14792"
+         rx="27.5"
+         ry="25.357143" />
+      <ellipse
+         style="fill:#000000;fill-opacity:1"
+         id="path4836-3"
+         cx="174.28574"
+         cy="537.36218"
+         rx="27.5"
+         ry="25.357143" />
+      <rect
+         style="fill:#000000;fill-opacity:1"
+         id="rect4874"
+         width="4.2857141"
+         height="195"
+         x="268.57141"
+         y="345.93365" />
+      <rect
+         style="fill:#000000;fill-opacity:1"
+         id="rect4874-5"
+         width="4.2857141"
+         height="90"
+         x="412.14288"
+         y="452.71936" />
+      <rect
+         style="fill:#000000;fill-opacity:1"
+         id="rect4891"
+         width="216.42857"
+         height="5"
+         x="170"
+         y="423.79077" />
+      <rect
+         style="fill:#000000;fill-opacity:1"
+         id="rect4891-3"
+         width="75"
+         height="5"
+         x="168.92857"
+         y="321.71936" />
+      <ellipse
+         style="fill:#ffffff;fill-opacity:1"
+         id="path4836-6-7"
+         cx="270.57141"
+         cy="322.36221"
+         rx="32.5"
+         ry="33.214287" />
+      <ellipse
+         style="fill:#ffffff;fill-opacity:1"
+         id="path4836-6-7-5"
+         cx="413.57144"
+         cy="428.7908"
+         rx="32.5"
+         ry="33.214287" />
+    </g>
+  </g>
+</svg>

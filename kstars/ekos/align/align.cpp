@@ -140,19 +140,23 @@ Align::Align()
 #endif
 
     opsAlign = new OpsAlign(this);
-    dialog->addPage(opsAlign, i18n("Astrometry.net"));
+    KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("Astrometry.net"));
+    page->setIcon(QIcon(":/icons/astrometry.svg"));
 
     opsAstrometry = new OpsAstrometry(this);
-    dialog->addPage(opsAstrometry, i18n("Solver Options"));
+    page = dialog->addPage(opsAstrometry, i18n("Solver Options"));
+    page->setIcon(QIcon::fromTheme("configure", QIcon(":/icons/breeze/default/configure.svg")));
 
 #ifdef Q_OS_OSX
     opsAstrometryCfg = new OpsAstrometryCfg(this);
-    dialog->addPage(opsAstrometryCfg, i18n("Astrometry.cfg"));
+    page = dialog->addPage(opsAstrometryCfg, i18n("Astrometry.cfg"));
+    page->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/breeze/default/document-edit.svg")));
 #endif
 
 #ifndef Q_OS_WIN
     opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
-    dialog->addPage(opsAstrometryIndexFiles, i18n("Astrometry Index Files"));
+    page = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
+    page->setIcon(QIcon::fromTheme("map-flat", QIcon(":/icons/breeze/default/map-flat.svg")));
 #endif
 
     connect(editOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));

@@ -256,9 +256,11 @@ Guide::Guide() : QWidget()
     internalGuider        = new InternalGuider();
     KConfigDialog *dialog = new KConfigDialog(this, "guidesettings", Options::self());
     opsCalibration        = new OpsCalibration(internalGuider);
-    dialog->addPage(opsCalibration, i18n("Calibration Settings"));
+    KPageWidgetItem *page = dialog->addPage(opsCalibration, i18n("Calibration"));
+    page->setIcon(QIcon::fromTheme("tool-measure", QIcon(":/icons/breeze/default/tool-measure.svg")));
     opsGuide = new OpsGuide();
-    dialog->addPage(opsGuide, i18n("Guide Settings"));
+    page = dialog->addPage(opsGuide, i18n("Guide"));
+    page->setIcon(QIcon::fromTheme("kstars_guides", QIcon(":/icons/breeze/default/kstars_guides.svg")));
     connect(guideOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
 
     internalGuider->setGuideView(guideView);

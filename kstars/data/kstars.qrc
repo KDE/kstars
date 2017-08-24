@@ -133,6 +133,10 @@
         <file>icons/AlignWarning.svg</file>
         <file>icons/breeze/default/draw-cuboid.svg</file>
         <file>icons/breeze/default/im-user.svg</file>
+        <file>icons/breeze/default/preferences-web-browser-cache.svg</file>
+        <file>icons/astrometry.svg</file>
+        <file>icons/breeze/default/configure.svg</file>
+        <file>icons/breeze/default/tool-measure.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>
