@@ -31,7 +31,7 @@
 
 
 DeepSkyNode::DeepSkyNode(DeepSkyObject *skyObject, DSOSymbolNode *symbol, LabelsItem::label_t labelType, short trixel)
-    : m_dso(skyObject), m_objImg(0), m_symbol(symbol), m_trixel(trixel), m_labelType(labelType), m_label(0)
+    : m_trixel(trixel), m_labelType(labelType), m_dso(skyObject), m_symbol(symbol)
 {
     m_symbol->hide();
 }

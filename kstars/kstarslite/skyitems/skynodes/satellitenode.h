@@ -68,7 +68,6 @@ class SatelliteNode : public SkyNode
     Satellite *m_sat;
     RootNode *m_rootNode;
 
-    SkyOpacityNode *m_linesOpacity { nullptr };
     QSGGeometryNode *m_lines { nullptr };
 
     LabelNode *m_label { nullptr };

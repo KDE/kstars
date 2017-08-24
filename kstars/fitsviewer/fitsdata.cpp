@@ -1724,8 +1724,6 @@ void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, float image_min
     double coeff   = 0;
     bool calcStats = false;
 
-    T bufferVal = 0;
-
     // Intermediate value
     double ival = 0;
 
@@ -1860,8 +1858,10 @@ void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, float image_min
             if (histogram == nullptr)
                 return;
 
+            T bufferVal                    = 0;
             QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
-            coeff                          = 255.0 / (height * width);
+
+            coeff = 255.0 / (height * width);
 
             for (int i = 0; i < channels; i++)
             {
@@ -2104,8 +2104,7 @@ bool FITSData::checkForWCS()
 
 bool FITSData::loadWCS()
 {
-#ifndef KSTARS_LITE
-#ifdef HAVE_WCSLIB
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 
     if (WCSLoaded)
     {
@@ -2199,17 +2198,14 @@ bool FITSData::loadWCS()
     qCDebug(KSTARS_FITS) << "Finished WCS Data processing...";
 
     return true;
-#endif
-#endif
-
+#else
     return false;
+#endif
 }
 
 bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint)
 {
-#ifndef KSTARS_LITE
-#ifdef HAVE_WCSLIB
-
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
     int status = 0;
     int stat[2];
     double imgcrd[2], worldcrd[2], pixcrd[2], phi[2], theta[2];
@@ -2236,18 +2232,17 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
     wcsPixelPoint.setY(pixcrd[1]);
 
     return true;
-
-#endif
-#endif
-
+#else
+    Q_UNUSED(wcsCoord);
+    Q_UNUSED(wcsPixelPoint);
+    Q_UNUSED(wcsImagePoint);
     return false;
+#endif
 }
 
 bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 {
-#ifndef KSTARS_LITE
-#ifdef HAVE_WCSLIB
-
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
     int status = 0;
     int stat[2];
     double imgcrd[2], phi, pixcrd[2], theta, world[2];
@@ -2273,15 +2268,14 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
     }
 
     return true;
-
-#endif
-#endif
-
+#else
+    Q_UNUSED(wcsPixelPoint);
+    Q_UNUSED(wcsCoord);
     return false;
+#endif
 }
 
-#ifndef KSTARS_LITE
-#ifdef HAVE_WCSLIB
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 void FITSData::findObjectsInImage(double world[], double phi, double theta, double imgcrd[], double pixcrd[],
                                   int stat[])
 {
@@ -2356,7 +2350,6 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
 
     delete (num);
 }
-#endif
 #endif
 
 QList<FITSSkyObject *> FITSData::getSkyObjects()

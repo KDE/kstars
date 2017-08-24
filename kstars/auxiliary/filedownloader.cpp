@@ -206,6 +206,9 @@ void FileDownloader::setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal
             progressDialog->setMaximum(0);
         }
     }
+#else
+    Q_UNUSED(bytesReceived);
+    Q_UNUSED(bytesTotal);
 #endif
 }
 

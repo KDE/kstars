@@ -25,10 +25,10 @@
 #include "../labelsitem.h"
 #include "labelnode.h"
 
-PointSourceNode::PointSourceNode(SkyObject *skyObject, RootNode *parentNode, LabelsItem::label_t labelType, char spType,
-                                 float size, short trixel)
-    : SkyNode(skyObject), m_point(0), m_rootNode(parentNode), m_label(0), m_spType(spType), m_size(size),
-      m_labelType(labelType), m_trixel(trixel), isTextureRegenerated(false)
+PointSourceNode::PointSourceNode(SkyObject *skyObject, RootNode *parentNode, LabelsItem::label_t labelType,
+                                 char spType, float size, short trixel)
+    : SkyNode(skyObject), m_rootNode(parentNode), m_spType(spType), m_size(size),
+      m_labelType(labelType), m_trixel(trixel)
 {
 }
 

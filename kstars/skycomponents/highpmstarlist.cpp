@@ -46,7 +46,7 @@ bool HighPMStarList::append(Trixel trixel, StarObject *star, double pm)
     if (pm < m_threshold)
         return false;
 
-    if (trixel >= (unsigned int)m_skyMesh->size())
+    if (trixel >= m_skyMesh->size())
         qDebug() << "### Trixel ID out of range for the Mesh currently in use!" << trixel;
 
     m_stars.append(new HighPMStar(trixel, star));
@@ -84,7 +84,7 @@ bool HighPMStarList::reindex(KSNumbers *num, StarIndex *starIndex)
         StarObject *star = HPStar->star;
 
         // out with the old ...
-        if (HPStar->trixel >= (unsigned int)m_skyMesh->size())
+        if (HPStar->trixel >= m_skyMesh->size())
         {
             qDebug() << "### Expect an Index out-of-range error. star->trixel =" << HPStar->trixel;
         }
@@ -97,7 +97,7 @@ bool HighPMStarList::reindex(KSNumbers *num, StarIndex *starIndex)
 
         // in with the new ...
         HPStar->trixel = trixel;
-        if (trixel >= (unsigned int)m_skyMesh->size())
+        if (trixel >= m_skyMesh->size())
             qDebug() << "### Expect an Index out-of-range error. trixel =" << trixel;
 
         StarList *list = starIndex->at(trixel);

@@ -114,12 +114,14 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
     m_imgProvider = new ImageProvider;
     m_Engine.addImageProvider(QLatin1String("images"), m_imgProvider);
 
+#ifdef Q_OS_ANDROID
     QQuickWindow *mainWindow = static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
-
     QSurfaceFormat format = mainWindow->format();
+
     format.setSamples(4);
     format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
     mainWindow->setFormat(format);
+#endif
 
     connect(qApp, SIGNAL(applicationStateChanged(Qt::ApplicationState)), SLOT(handleStateChange(Qt::ApplicationState)));
 

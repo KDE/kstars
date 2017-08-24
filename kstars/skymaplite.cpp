@@ -967,6 +967,8 @@ void SkyMapLite::setAutomaticMode(bool automaticMode)
             m_deviceOrientation->stopSensors();
         }
     }
+#else
+    Q_UNUSED(automaticMode);
 #endif
 }
 

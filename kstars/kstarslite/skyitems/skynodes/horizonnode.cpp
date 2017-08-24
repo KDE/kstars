@@ -5,7 +5,7 @@
 #include "Options.h"
 #include "nodes/polynode.h"
 
-HorizonNode::HorizonNode(QList<std::shared_ptr<SkyPoint>> &pointList) : m_pointList(pointList), m_polygonNode(new PolyNode)
+HorizonNode::HorizonNode() : m_polygonNode(new PolyNode)
 {
     appendChildNode(m_polygonNode);
 }

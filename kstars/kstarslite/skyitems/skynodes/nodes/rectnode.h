@@ -32,7 +32,7 @@ class QSGFlatColorMaterial;
 class RectNode : public QSGGeometryNode
 {
   public:
-    explicit RectNode(bool filled = false, const QColor &color = "#FFFFFF");
+    explicit RectNode(bool filled = false);
 
     /**
      * @brief setRect sets rectangle to display
@@ -53,7 +53,6 @@ class RectNode : public QSGGeometryNode
     void setFilled(bool filled);
 
   private:
-    QSGGeometryNode *m_geometryNode { nullptr };
     QSGGeometry *m_geometry { nullptr };
     QSGFlatColorMaterial *m_material { nullptr };
     bool m_filled { false };

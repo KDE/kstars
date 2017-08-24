@@ -41,7 +41,7 @@ class SkyObject;
 
 typedef quint32 DrawID;
 typedef quint32 UpdateID;
-typedef unsigned int Trixel;
+typedef qint32 Trixel;
 typedef unsigned short BufNum;
 
 typedef QVector<std::shared_ptr<SkyPoint>> SkyList;

@@ -131,6 +131,8 @@ void SatellitesComponent::draw(SkyPainter *skyp)
             }
         }
     }
+#else
+    Q_UNUSED(skyp);
 #endif
 }
 

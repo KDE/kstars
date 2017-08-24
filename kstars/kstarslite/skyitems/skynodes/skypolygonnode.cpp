@@ -32,7 +32,7 @@ void SkyPolygonNode::update(bool forceClip)
         m_polygonNode->show();
     }
 
-    bool isVisible, isVisibleLast;
+    bool isVisible = false, isVisibleLast = false;
     SkyList *points = m_list->points();
     QPolygonF polygon;
     const Projector *m_proj = SkyMapLite::Instance()->projector();

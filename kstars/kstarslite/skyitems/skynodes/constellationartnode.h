@@ -23,11 +23,12 @@ class QSGSimpleTextureNode;
 class ConstellationsArt;
 class RootNode;
 
-/** @class ConstellationArtNode
+/**
+ * @class ConstellationArtNode
  *
- *@short A SkyNode derived class that represents ConstellationsArt object.
- *@author Artem Fedoskin
- *@version 1.0
+ * @short A SkyNode derived class that represents ConstellationsArt object.
+ * @author Artem Fedoskin
+ * @version 1.0
  */
 class ConstellationArtNode : public SkyNode
 {
@@ -49,7 +50,6 @@ class ConstellationArtNode : public SkyNode
     virtual void hide() override;
 
   private:
-    RootNode *m_rootNode { nullptr };
     ConstellationsArt *m_art { nullptr };
     QSGSimpleTextureNode *m_texture { nullptr };
 };

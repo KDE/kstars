@@ -94,6 +94,8 @@ void DeepSkyObject::initPopupMenu(KSPopupMenu *pmenu)
 {
 #ifndef KSTARS_LITE
     pmenu->createDeepSkyObjectMenu(this);
+#else
+    Q_UNUSED(pmenu);
 #endif
 }
 

@@ -13,6 +13,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #pragma once
 
 #include "linelist.h"
@@ -69,6 +70,4 @@ class LineNode : public SkyOpacityNode
 
     Qt::PenStyle m_drawStyle;
     QColor m_color;
-
-    QSGTransformNode *debug { nullptr };
 };

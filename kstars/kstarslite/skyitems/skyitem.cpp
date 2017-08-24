@@ -13,7 +13,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #include "skyitem.h"
+
 #include "rootnode.h"
 
 SkyItem::SkyItem(LabelsItem::label_t labelType, RootNode *parent) : m_rootNode(parent), m_labelType(labelType)

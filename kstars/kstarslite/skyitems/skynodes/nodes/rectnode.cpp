@@ -13,11 +13,13 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "rectnode.h"
-#include <QSGGeometryNode>
-#include <QSGFlatColorMaterial>
 
-RectNode::RectNode(bool filled, const QColor &color)
+#include "rectnode.h"
+
+#include <QSGFlatColorMaterial>
+#include <QSGGeometryNode>
+
+RectNode::RectNode(bool filled)
 {
     m_geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     m_geometry->allocate(4);

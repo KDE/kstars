@@ -369,7 +369,7 @@ void GalaxyClusterSymbol::updateSymbol(float x, float y, float e, float size)
 }
 
 DSOSymbolNode::DSOSymbolNode(DeepSkyObject *skyObject, const QColor &color)
-    : m_dso(skyObject), m_symbol(0), m_rotate(false), m_color(color) //We don't rotate the symbol by default
+    : m_color(color), m_dso(skyObject)
 {
 }
 

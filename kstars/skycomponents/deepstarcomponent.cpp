@@ -111,7 +111,7 @@ bool DeepStarComponent::loadStaticStars()
     // should always gets it right. It's better to do it this way to avoid any chances since the compiler might not optimize it.
     if (recordSize == 32)
     {
-        for (Trixel i = 0; i < (unsigned int)m_skyMesh->size(); ++i)
+        for (Trixel i = 0; i < m_skyMesh->size(); ++i)
         {
             Trixel trixel   = i;
             quint64 records = starReader.getRecordCount(i);
@@ -162,7 +162,7 @@ bool DeepStarComponent::loadStaticStars()
     }
     else
     {
-        for (Trixel i = 0; i < (unsigned int)m_skyMesh->size(); ++i)
+        for (Trixel i = 0; i < m_skyMesh->size(); ++i)
         {
             Trixel trixel   = i;
             quint64 records = starReader.getRecordCount(i);
@@ -628,7 +628,7 @@ bool DeepStarComponent::verifySBLIntegrity()
     float faintMag = -5.0;
     bool integrity = true;
 
-    for (Trixel trixel = 0; trixel < (unsigned int)m_skyMesh->size(); ++trixel)
+    for (Trixel trixel = 0; trixel < m_skyMesh->size(); ++trixel)
     {
         for (int i = 0; i < m_starBlockList[trixel]->getBlockCount(); ++i)
         {

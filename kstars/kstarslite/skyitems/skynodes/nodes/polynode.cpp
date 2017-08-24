@@ -14,14 +14,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QSGGeometryNode>
-#include <QSGGeometry>
-#include <QSGFlatColorMaterial>
-#include <QPolygon>
-
 #include "polynode.h"
-//#include <stdio.h>
-//#include <stdlib.h>
+
+#include <QPolygon>
+#include <QSGFlatColorMaterial>
+#include <QSGGeometry>
+#include <QSGGeometryNode>
 
 extern "C" {
 #include "libtess/tessellate.h"
@@ -80,14 +78,9 @@ void PolyNode::updateGeometry(const QPolygonF &polygon, bool filled)
         double *coordinates_out;
         int *tris_out;
         int nverts, ntris, i;
-
         QPolygonF pol = polygon;
-
         int polySize = pol.size() * 2;
-
         double vertices_array[polySize];
-
-        const double *p = vertices_array;
 
         for (int i = 0; i < polySize; i += 2)
         {
