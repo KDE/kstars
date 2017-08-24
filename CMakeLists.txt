@@ -369,7 +369,8 @@ install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-IF (NOT BUILD_KSTARS_LITE)
+# Only build k5auth for Linux
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     # This helper file is generated to download astrometry.net index files.
     add_executable(kauth_kstars_helper kstars/auxiliary/downloadhelper.cpp  ${helper_mocs})
     target_link_libraries(kauth_kstars_helper Qt5::Core)
