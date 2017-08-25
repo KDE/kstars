@@ -12,6 +12,7 @@
 
 #include <KNotifications/KNotification>
 #include <KLocalizedContext>
+#include <KActionCollection>
 
 #include "mount.h"
 #include "Options.h"
@@ -20,6 +21,7 @@
 #include "indi/indicommon.h"
 #include "indi/clientmanager.h"
 #include "indi/indifilter.h"
+
 
 #include "mountadaptor.h"
 
@@ -387,6 +389,10 @@ void Mount::updateTelescopeCoords()
             m_Unpark->setEnabled(currentTelescope->isParked());
 
             m_statusText->setProperty("text", currentTelescope->getStatusString(currentStatus));
+
+            QAction *a = KStars::Instance()->actionCollection()->action("telescope_track");
+            if (a != nullptr)
+                a->setChecked(currentStatus == ISD::Telescope::MOUNT_TRACKING);
 
             emit newStatus(lastStatus);
         }

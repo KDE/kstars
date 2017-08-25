@@ -738,11 +738,10 @@ void KStars::slotINDITelescopeTrack()
 
         if (telescope != nullptr && telescope->isConnected())
         {
-            ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
+            KToggleAction *a = (KToggleAction *)sender();
 
-            gd->setProperty(&SlewCMD);
-
-            gd->runCommand(INDI_SEND_COORDS, m_SkyMap->mousePoint());
+            if (a == actionCollection()->action("telescope_track"))
+            telescope->setTrackEnabled(a->isChecked());
             return;
         }
     }
@@ -761,11 +760,10 @@ void KStars::slotINDITelescopeSlew()
 
         if (telescope != nullptr && telescope->isConnected())
         {
-            ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "SLEW", ISS_ON, this);
-
-            gd->setProperty(&SlewCMD);
-
-            gd->runCommand(INDI_SEND_COORDS, m_SkyMap->mousePoint());
+            if (m_SkyMap->focusObject() != nullptr)
+                telescope->Slew(m_SkyMap->focusObject());
+            else
+                telescope->Slew(m_SkyMap->mousePoint());
             return;
         }
     }
@@ -784,11 +782,10 @@ void KStars::slotINDITelescopeSync()
 
         if (telescope != nullptr && telescope->isConnected() && telescope->canSync())
         {
-            ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "SYNC", ISS_ON, this);
-
-            gd->setProperty(&SlewCMD);
-
-            gd->runCommand(INDI_SEND_COORDS, m_SkyMap->mousePoint());
+            if (m_SkyMap->focusObject() != nullptr)
+                telescope->Sync(m_SkyMap->focusObject());
+            else
+                telescope->Sync(m_SkyMap->mousePoint());
             return;
         }
     }
