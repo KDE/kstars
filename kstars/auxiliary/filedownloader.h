@@ -36,7 +36,7 @@ class FileDownloader : public QObject
     QByteArray downloadedData() const;
 
     QUrl getDownloadedFileURL() const;
-    bool setDownloadedFileURL(const QUrl &DownloadedFile);
+    bool setDownloadedFileURL(const QUrl &DownloadedFile, bool isBinary=false);
 
     void setProgressDialogEnabled(bool ShowProgressDialog, const QString &textTitle = QString(),
                                   const QString &textLabel = QString());

@@ -137,14 +137,18 @@ QUrl FileDownloader::getDownloadedFileURL() const
     return m_DownloadedFileURL;
 }
 
-bool FileDownloader::setDownloadedFileURL(const QUrl &DownloadedFile)
+bool FileDownloader::setDownloadedFileURL(const QUrl &DownloadedFile, bool isBinary)
 {
     m_DownloadedFileURL = DownloadedFile;
 
     if (m_DownloadedFileURL.isEmpty() == false)
     {
         m_DownloadedFile.setFileName(m_DownloadedFileURL.toLocalFile());
-        bool rc = m_DownloadedFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
+        bool rc=false;
+        if (isBinary)
+            rc = m_DownloadedFile.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        else
+            rc = m_DownloadedFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
 
         if (rc == false)
             qWarning() << m_DownloadedFile.errorString();
