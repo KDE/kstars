@@ -31,7 +31,8 @@
 
 HIPSRenderer::HIPSRenderer()
 {
-    scanRender.reset(new ScanRender());
+    m_scanRender.reset(new ScanRender());
+    m_HEALpix.reset(new HEALPix());
 }
 
 bool HIPSRenderer::render(uint16_t w, uint16_t h, QImage *hipsImage, const Projector *m_proj)
@@ -81,11 +82,11 @@ bool HIPSRenderer::render(uint16_t w, uint16_t h, QImage *hipsImage, const Proje
     allSky = false;
   }         
 
-  int centerPix = m_HEALpix.getPix(level, ra, de);
+  int centerPix = m_HEALpix->getPix(level, ra, de);
 
   SkyPoint cornerSkyCoords[4];
   QPointF tileLine[2];
-  m_HEALpix.getCornerPoints(level, centerPix, cornerSkyCoords);
+  m_HEALpix->getCornerPoints(level, centerPix, cornerSkyCoords);
 
   //qCDebug(KSTARS) << "#" << i+1 << "RA0" << cornerSkyCoords[i].ra0().toHMSString();
   //qCDebug(KSTARS) << "#" << i+1 << "DE0" << cornerSkyCoords[i].dec0().toHMSString();
@@ -100,12 +101,12 @@ bool HIPSRenderer::render(uint16_t w, uint16_t h, QImage *hipsImage, const Proje
   if (size < 0)
       size = HIPSManager::Instance()->getCurrentTileWidth();
 
-  bool old = scanRender->isBilinearInterpolationEnabled();
-  scanRender->setBilinearInterpolationEnabled(Options::hIPSBiLinearInterpolation() && (size >= HIPSManager::Instance()->getCurrentTileWidth() || allSky));
+  bool old = m_scanRender->isBilinearInterpolationEnabled();
+  m_scanRender->setBilinearInterpolationEnabled(Options::hIPSBiLinearInterpolation() && (size >= HIPSManager::Instance()->getCurrentTileWidth() || allSky));
 
   renderRec(allSky, level, centerPix, hipsImage);
 
-  scanRender->setBilinearInterpolationEnabled(old);
+  m_scanRender->setBilinearInterpolationEnabled(old);
 
   return true;
 }
@@ -123,7 +124,7 @@ void HIPSRenderer::renderRec(bool allsky, int level, int pix, QImage *pDest)
     int dirs[8];
     int nside = 1 << level;
 
-    m_HEALpix.neighbours(nside, pix, dirs);    
+    m_HEALpix->neighbours(nside, pix, dirs);
 
     renderRec(allsky, level, dirs[0], pDest);
     renderRec(allsky, level, dirs[2], pDest);
@@ -138,7 +139,7 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
   QPointF cornerScreenCoords[4];
   bool freeImage = false;
 
-  m_HEALpix.getCornerPoints(level, pix, cornerSkyCoords);
+  m_HEALpix->getCornerPoints(level, pix, cornerSkyCoords);
   bool isVisible = false;
 
   for (int i=0; i < 4; i++)
@@ -199,7 +200,7 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
       int childPixelID[4];
 
       // Find all the 4 children of the current pixel
-      m_HEALpix.getPixChilds(pix, childPixelID);
+      m_HEALpix->getPixChilds(pix, childPixelID);
 
       int j = 0;
       for (int q = 0; q < 4; q++)
@@ -210,18 +211,18 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
         // The image is interpolated and rendered over these pixels
         // coordinate to minimize any distortions due to the projection
         // system.
-        m_HEALpix.getPixChilds(childPixelID[q], grandChildPixelID);
+        m_HEALpix->getPixChilds(childPixelID[q], grandChildPixelID);
 
         QPointF fineScreenCoords[4];
 
         for (int w = 0; w < 4; w++)
         {
           SkyPoint fineSkyPoints[4];
-          m_HEALpix.getCornerPoints(level + 2, grandChildPixelID[w], fineSkyPoints);
+          m_HEALpix->getCornerPoints(level + 2, grandChildPixelID[w], fineSkyPoints);
 
           for (int i = 0; i < 4; i++)
               fineScreenCoords[i] = m_projector->toScreen(&fineSkyPoints[i]);
-          scanRender->renderPolygon(3, fineScreenCoords, pDest, image, uv[j]);
+          m_scanRender->renderPolygon(3, fineScreenCoords, pDest, image, uv[j]);
           j++;
         }
       }
