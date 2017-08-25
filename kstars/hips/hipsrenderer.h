@@ -47,8 +47,8 @@ private:
   int         m_rendered;
   int         m_size;
   QSet <int>  m_renderedMap;
-  HEALPix     m_HEALpix;
-  std::unique_ptr<ScanRender> scanRender;
+  std::unique_ptr<HEALPix> m_HEALpix;
+  std::unique_ptr<ScanRender> m_scanRender;
   const Projector   *m_projector;  
   QColor gridColor;
 };
