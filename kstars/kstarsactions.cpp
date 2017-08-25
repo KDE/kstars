@@ -349,6 +349,18 @@ void KStars::slotINDIToolBar()
 #endif
 }
 
+void KStars::slotSetTelescopeEnabled(bool enable)
+{
+    telescopeGroup->setEnabled(enable);
+    if (enable == false)
+    {
+        for(QAction *a : telescopeGroup->actions())
+        {
+            a->setChecked(false);
+        }
+    }
+}
+
 /** Major Dialog Window Actions **/
 
 void KStars::slotCalculator()
@@ -738,10 +750,15 @@ void KStars::slotINDITelescopeTrack()
 
         if (telescope != nullptr && telescope->isConnected())
         {
-            KToggleAction *a = (KToggleAction *)sender();
+            KToggleAction *a = qobject_cast<KToggleAction*>(sender());
+            if (a != nullptr)
+            {
+                // Why this doesn't work? a->isChecked() always returns true!
+                //telescope->setTrackEnabled(a->isChecked());
 
-            if (a == actionCollection()->action("telescope_track"))
-            telescope->setTrackEnabled(a->isChecked());
+                telescope->setTrackEnabled(!telescope->isTracking());
+            }
+
             return;
         }
     }
@@ -762,8 +779,10 @@ void KStars::slotINDITelescopeSlew()
         {
             if (m_SkyMap->focusObject() != nullptr)
                 telescope->Slew(m_SkyMap->focusObject());
-            else
-                telescope->Slew(m_SkyMap->mousePoint());
+            // FIXME This can cause havoc for end users so it should
+            // probably gets its own action
+            //else
+                //telescope->Slew(m_SkyMap->mousePoint());
             return;
         }
     }
@@ -784,8 +803,8 @@ void KStars::slotINDITelescopeSync()
         {
             if (m_SkyMap->focusObject() != nullptr)
                 telescope->Sync(m_SkyMap->focusObject());
-            else
-                telescope->Sync(m_SkyMap->mousePoint());
+            //else
+                //telescope->Sync(m_SkyMap->mousePoint());
             return;
         }
     }

@@ -560,38 +560,48 @@ void KStars::initActions()
          << QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg"))
          << ToolTip(i18n("Toggle FITS Viewer"));
     ka->setEnabled(false);
+
     ka = actionCollection()->add<KToggleAction>("lock_telescope", this, SLOT(slotINDIToolBar()))
          << i18nc("Toggle the telescope center lock in display", "Center Telescope")
          << QIcon::fromTheme("center_telescope", QIcon(":/icons/center_telescope.svg"))
-         << ToolTip(i18n("Toggle Lock Telescope Center"));
-    ka->setEnabled(false);
+         << ToolTip(i18n("Toggle Lock Telescope Center"));    
+    telescopeGroup->addAction(ka);
 
     ka = actionCollection()->add<KToggleAction>("telescope_track", this, SLOT(slotINDITelescopeTrack()))
             << i18n("Toggle Telescope Tracking")
             << QIcon::fromTheme("object-locked", QIcon(":/icons/breeze/default/object-locked.svg"))
             << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_T);
+    telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_slew", this, SLOT(slotINDITelescopeSlew()))
             << i18n("Slew Telescope")
             << QIcon::fromTheme("object-rotate-right", QIcon(":/icons/breeze/default/object-rotate-right.svg"))
             << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_S);
+    telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_sync", this, SLOT(slotINDITelescopeSync()))
             << i18n("Sync Telescope")
             << QIcon::fromTheme("media-record", QIcon(":/icons/breeze/default/media-record.svg"))
             << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_Y);
+    telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_abort", this, SLOT(slotINDITelescopeAbort()))
             << i18n("Abort Telescope")
             << QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg"))
             << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_A);
     ka->setShortcutContext(Qt::ApplicationShortcut);
+    telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_park", this, SLOT(slotINDITelescopePark()))
             << i18n("Park Telescope")
             << QIcon::fromTheme("flag-red", QIcon(":/icons/breeze/default/kstars_flag.svg"))
             << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_P);
+    telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_unpark", this, SLOT(slotINDITelescopeUnpark()))
             << i18n("Unpark Telescope")
             << QIcon::fromTheme("flag-green", QIcon(":/icons/breeze/default/flag-green.svg"))
             << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_U);
     ka->setShortcutContext(Qt::ApplicationShortcut);
+    telescopeGroup->addAction(ka);
+
+    // Disable all telescope actions by default
+    telescopeGroup->setEnabled(false);
 #endif
 }
 

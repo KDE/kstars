@@ -475,6 +475,12 @@ class KStars : public KXmlGuiWindow
     /** action slot: open dialog for selecting a new geographic location */
     void slotGeoLocator();
 
+    /**
+     * @brief slotSetTelescopeEnabled call when telescope comes online or goes offline.
+     * @param enable True if telescope is online and connected, false otherwise.
+     */
+    void slotSetTelescopeEnabled(bool enable);
+
     /** Delete FindDialog because ObjNames list has changed in KStarsData due to
          * reloading star data. So list in FindDialog must be new filled with current data. */
     void clearCachedFindDialog();
@@ -774,6 +780,7 @@ class KStars : public KXmlGuiWindow
     QActionGroup *projectionGroup { nullptr };
     QActionGroup *cschemeGroup { nullptr };
     QActionGroup *hipsGroup { nullptr };
+    QActionGroup *telescopeGroup { nullptr };
 
     bool DialogIsObsolete { false };
     bool StartClockRunning { false };

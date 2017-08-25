@@ -453,6 +453,8 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
             cm->disconnectServer();
             clients.removeOne(cm);
             cm->deleteLater();
+
+            KStars::Instance()->slotSetTelescopeEnabled(false);
         }
     }
 
