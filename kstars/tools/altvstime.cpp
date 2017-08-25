@@ -817,7 +817,7 @@ void AltVsTime::slotMarkSetTime()
 void AltVsTime::slotMarkTransitTime()
 {
     const KStarsDateTime &ut  = KStarsData::Instance()->ut();
-     SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
+    SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
     if (selectedObject == nullptr)
     {
         qCWarning(KSTARS) << "Mark Transit Time: Unable to find" << avtUI->PlotList->currentItem()->text();
@@ -1002,11 +1002,9 @@ void AltVsTime::slotUpdateDateLoc()
     // Determine dawn/dusk time and min/max sun elevation
     setDawnDusk();
 
-    for (int i = 0; i < avtUI->PlotList->count(); ++i)
+    for (int i = 0; i < pList.count(); ++i)
     {
-        QString oName = avtUI->PlotList->item(i)->text().toLower();
-
-        SkyObject *o = data->objectNamed(oName);
+        SkyObject *o = pList.at(i);
         if (o)
         {
             //If the object is in the solar system, recompute its position for the given date
