@@ -70,6 +70,12 @@ bool HIPSRenderer::render(uint16_t w, uint16_t h, QImage *hipsImage, const Proje
   double ra = center.ra0().radians();
   double de = center.dec0().radians();
 
+  if (std::isnan(ra) || std::isnan(de))
+  {
+      qCWarning(KSTARS) << "NAN Center, HiPS draw canceled.";
+      return false;
+  }
+
   bool allSky;
 
   if (level < 3)
