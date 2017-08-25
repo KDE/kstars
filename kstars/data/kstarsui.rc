@@ -190,7 +190,7 @@
         <Action name="lock_telescope" />
 </ToolBar>
 
-<ToolBar hidden="1" noMerge="1" name="TelescopeToolBar" iconText="icononly">
+<ToolBar hidden="1" noMerge="1" name="TelescopeToolBar" iconText="icononly" hidden="true">
         <text>Telescope Toolbar</text>
         <Action name="telescope_track" />
         <Action name="telescope_slew" />
