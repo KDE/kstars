@@ -137,6 +137,7 @@
         <file>icons/astrometry.svg</file>
         <file>icons/breeze/default/configure.svg</file>
         <file>icons/breeze/default/tool-measure.svg</file>
+        <file>icons/breeze/default/flag-green.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>
