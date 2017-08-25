@@ -97,9 +97,6 @@ void GUIManager::closeEvent(QCloseEvent * /*event*/)
     {
         QAction *showINDIPanel = KStars::Instance()->actionCollection()->action("show_control_panel");
         showINDIPanel->setChecked(false);
-
-        QAction *centerTelescope = KStars::Instance()->actionCollection()->action("lock_telescope");
-        centerTelescope->setChecked(false);
     }
 
     Options::setINDIWindowWidth(width());
@@ -122,9 +119,6 @@ void GUIManager::showEvent(QShowEvent * /*event*/)
     QAction *a = KStars::Instance()->actionCollection()->action("show_control_panel");
     a->setEnabled(true);
     a->setChecked(true);
-
-    a = KStars::Instance()->actionCollection()->action("lock_telescope");
-    a->setEnabled(true);
 }
 
 /*********************************************************************
@@ -141,11 +135,6 @@ void GUIManager::updateStatus(bool toggle_behavior)
                                    "Device Manager in the devices menu."));
         showINDIPanel->setChecked(false);
         showINDIPanel->setEnabled(false);
-
-        QAction *centerTelescope = KStars::Instance()->actionCollection()->action("lock_telescope");
-        centerTelescope->setChecked(false);
-        centerTelescope->setEnabled(false);
-
         return;
     }
 
@@ -256,10 +245,6 @@ void GUIManager::removeDevice(DeviceInfo *di)
     {
         QAction *showINDIPanel = KStars::Instance()->actionCollection()->action("show_control_panel");
         showINDIPanel->setEnabled(false);
-
-        QAction *centerTelescope = KStars::Instance()->actionCollection()->action("lock_telescope");
-        centerTelescope->setChecked(false);
-        centerTelescope->setEnabled(false);
     }
 }
 

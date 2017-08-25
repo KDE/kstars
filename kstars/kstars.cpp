@@ -158,6 +158,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     projectionGroup = new QActionGroup(this);
     cschemeGroup    = new QActionGroup(this);
     hipsGroup       = new QActionGroup(this);
+    telescopeGroup  = new QActionGroup(this);
 
     m_KStarsData = KStarsData::Create();
     Q_ASSERT(m_KStarsData);
@@ -612,3 +613,4 @@ void KStars::closeEvent(QCloseEvent *event)
     KStars::Closing = true;
     QWidget::closeEvent(event);
 }
+

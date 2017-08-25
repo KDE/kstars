@@ -18,6 +18,7 @@
 #include "skymapcomposite.h"
 
 #include <KNotification>
+#include <KActionCollection>
 
 #include <indi_debug.h>
 
@@ -99,9 +100,27 @@ void Telescope::registerProperty(INDI::Property *prop)
             if (sp)
             {
                 if ((sp->s == ISS_ON) && svp->s == IPS_OK)
+                {
                     parkStatus = PARK_PARKED;
+
+                    QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
+                    if (parkAction)
+                        parkAction->setEnabled(false);
+                    QAction *unParkAction = KStars::Instance()->actionCollection()->action("telescope_unpark");
+                    if (unParkAction)
+                        unParkAction->setEnabled(true);
+                }
                 else if ((sp->s == ISS_OFF) && svp->s == IPS_OK)
+                {
                     parkStatus = PARK_UNPARKED;
+
+                    QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
+                    if (parkAction)
+                        parkAction->setEnabled(true);
+                    QAction *unParkAction = KStars::Instance()->actionCollection()->action("telescope_unpark");
+                    if (unParkAction)
+                        unParkAction->setEnabled(false);
+                }
             }
         }
     }
@@ -176,7 +195,21 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
 {
     bool manualMotionChanged = false;
 
-    if (!strcmp(svp->name, "TELESCOPE_PARK"))
+    if (!strcmp(svp->name, "CONNECTION"))
+    {
+        ISwitch *conSP = IUFindSwitch(svp, "CONNECT");
+        if (conSP)
+        {
+            // TODO We must allow for multiple mount drivers to be online, not just one
+            // For the actions taken, the user should be able to specifiy which mounts shall receive the commands. It could be one
+            // or more. For now, we enable/disable telescope group on the assumption there is only one mount present.
+            if (isConnected() == false && conSP->s == ISS_ON)
+                KStars::Instance()->slotSetTelescopeEnabled(true);
+            else if (isConnected() && conSP->s == ISS_OFF)
+                KStars::Instance()->slotSetTelescopeEnabled(false);
+        }
+    }
+    else if (!strcmp(svp->name, "TELESCOPE_PARK"))
     {
         ISwitch *sp = IUFindSwitch(svp, "PARK");
         if (sp)
@@ -208,12 +241,26 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
                 parkStatus = PARK_PARKED;
                 KNotification::event(QLatin1String("MountParked"), i18n("Mount parked"));
                 currentObject = nullptr;
+
+                QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
+                if (parkAction)
+                    parkAction->setEnabled(false);
+                QAction *unParkAction = KStars::Instance()->actionCollection()->action("telescope_unpark");
+                if (unParkAction)
+                    unParkAction->setEnabled(true);
             }
-            else if (svp->s == IPS_OK && sp->s == ISS_OFF && parkStatus != PARK_UNPARKED)
+            else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && parkStatus != PARK_UNPARKED)
             {
                 parkStatus = PARK_UNPARKED;
                 KNotification::event(QLatin1String("MountUnparked"), i18n("Mount unparked"));
                 currentObject = nullptr;
+
+                QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
+                if (parkAction)
+                    parkAction->setEnabled(true);
+                QAction *unParkAction = KStars::Instance()->actionCollection()->action("telescope_unpark");
+                if (unParkAction)
+                    unParkAction->setEnabled(false);
             }
         }
     }

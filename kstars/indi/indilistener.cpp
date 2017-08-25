@@ -76,7 +76,15 @@ INDIListener *INDIListener::_INDIListener = nullptr;
 INDIListener *INDIListener::Instance()
 {
     if (_INDIListener == nullptr)
+    {
         _INDIListener = new INDIListener(KStars::Instance());
+
+        connect(_INDIListener, &INDIListener::newTelescope, [&]()
+        {
+            KStars::Instance()->slotSetTelescopeEnabled(true);
+        });
+
+    }
 
     return _INDIListener;
 }
