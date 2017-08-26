@@ -283,7 +283,7 @@ void ObservingList::slotAddObject(const SkyObject *_obj, bool session, bool upda
     }
     else
     {
-        assert(!findObject(_obj, true));
+        assert(!findObject(_obj, session));
         qCDebug(KSTARS) << "Cloned object " << finalObjectName << " to add to observing list.";
         obj = QSharedPointer<SkyObject>(
             _obj->clone()); // Use a clone in case the original SkyObject is deleted due to change in catalog configuration.
@@ -879,8 +879,9 @@ void ObservingList::slotOpenList()
         TimeHash = logObject.timeHash();
         geo      = logObject.geoLocation();
         dt       = logObject.dateTime();
-        foreach (SkyObject *o, *(logObject.targetList()))
-            slotAddObject(o, true);
+        //foreach (SkyObject *o, *(logObject.targetList()))
+        for (auto &o : logObject.targetList())
+            slotAddObject(o.data(), true);
         //Update the location and user set times from file
         slotUpdate();
         //Newly-opened list should not trigger isModified flag
