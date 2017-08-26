@@ -31,7 +31,7 @@
 
 OAL::Log::~Log()
 {
-    qDeleteAll(m_targetList);
+    //qDeleteAll(m_targetList);
     qDeleteAll(m_observerList);
     qDeleteAll(m_eyepieceList);
     qDeleteAll(m_lensList);
@@ -45,7 +45,8 @@ OAL::Log::~Log()
 void OAL::Log::writeBegin()
 {
     output       = "";
-    m_targetList = KSUtils::makeVanillaPointerList(KStarsData::Instance()->observingList()->sessionList());
+    //m_targetList = KSUtils::makeVanillaPointerList(KStarsData::Instance()->observingList()->sessionList());
+    m_targetList = KStarsData::Instance()->observingList()->sessionList();
     writer       = new QXmlStreamWriter(&output);
     writer->setAutoFormatting(true);
     writer->writeStartDocument();
@@ -109,9 +110,10 @@ void OAL::Log::writeSessions()
 void OAL::Log::writeTargets()
 {
     writer->writeStartElement("targets");
-    foreach (SkyObject *o, m_targetList)
+    //foreach (SkyObject *o, m_targetList)
+    for (auto &o : m_targetList)
     {
-        writeTarget(o);
+        writeTarget(o.data());
     }
     writer->writeEndElement();
 }
@@ -628,7 +630,7 @@ void OAL::Log::readTarget()
                     if (!o)
                         o = KStarsData::Instance()->skyComposite()->findStarByGenetiveName(name);
                     if (o)
-                        targetList()->append(o);
+                        targetList().append(QSharedPointer<SkyObject>(o->clone()));
                 }
             }
             else if (!o && reader->name() == "position")
@@ -645,7 +647,7 @@ void OAL::Log::readTarget()
                     }
 
                     if (o)
-                        targetList()->append(o);
+                        targetList().append(QSharedPointer<SkyObject>(o->clone()));
                 }
             }
             else if (reader->name() == "time")

@@ -57,7 +57,7 @@ class OAL::Log
     void writeFilters();
     void writeImagers();
     void writeObservations();
-    inline QList<SkyObject *> *targetList() { return &m_targetList; }
+    inline QList<QSharedPointer<SkyObject>> &targetList() { return m_targetList; }
     inline QList<OAL::Scope *> *scopeList() { return &m_scopeList; }
     inline QList<OAL::Site *> *siteList() { return &m_siteList; }
     inline QList<OAL::Session *> *sessionList() { return &m_sessionList; }
@@ -116,7 +116,7 @@ class OAL::Log
     inline QString writtenOutput() const { return output; }
 
   private:
-    QList<SkyObject *> m_targetList;
+    QList<QSharedPointer<SkyObject>> m_targetList;
     QList<OAL::Observer *> m_observerList;
     QList<OAL::Eyepiece *> m_eyepieceList;
     QList<OAL::Lens *> m_lensList;
