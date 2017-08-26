@@ -328,7 +328,7 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
 
     std::shared_ptr<SkyPoint> point;
 
-    if (livePreview.get())
+    if (livePreview.get() == nullptr)
     {
         livePreview.reset(new LineList());
         if (row > 0)
