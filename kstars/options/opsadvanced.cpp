@@ -50,6 +50,10 @@ OpsAdvanced::OpsAdvanced() : QFrame(KStars::Instance())
     connect(kcfg_ObsListDemoteHole, &QCheckBox::toggled,
             [this](bool state) { kcfg_ObsListHoleSize->setEnabled(state); });
 
+    connect(zoomScrollSlider, &QSlider::valueChanged, [&](int value) {
+        kcfg_ZoomScrollFactor->setValue(value / 100.0);
+    });
+
     //Get a pointer to the KConfigDialog
     KConfigDialog *m_ConfigDialog = KConfigDialog::exists("settings");
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));

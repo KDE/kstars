@@ -685,6 +685,13 @@
          <min>250.</min>
          <max>5000000.</max>
       </entry>
+      <entry name="ZoomScrollFactor" type="Double">
+         <label>Zoom scroll sensitivity.</label>
+         <whatsthis>When zooming in or out, change zoom speed factor by this multiplier.</whatsthis>
+         <default>0.2</default>
+         <min>0.01</min>
+         <max>1.0</max>
+      </entry>
       <entry name="MagLimitAsteroid" type="Double">
          <label>Faint limit for asteroids</label>
          <whatsthis>The faint magnitude limit for drawing asteroids.</whatsthis>
