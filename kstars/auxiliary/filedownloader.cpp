@@ -21,6 +21,8 @@
 #include "kstars.h"
 #endif
 
+#include "kstars_debug.h"
+
 FileDownloader::FileDownloader(QObject *parent) : QObject(parent)
 {
     connect(&m_WebCtrl, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataFinished(QNetworkReply*)));
@@ -77,19 +79,24 @@ void FileDownloader::post(const QUrl &fileUrl, QHttpMultiPart *parts)
 
 void FileDownloader::dataReady()
 {
-    if (m_DownloadedFile.isOpen())
-        m_DownloadedFile.write(m_Reply->readAll());
+    if (m_downloadTemporaryFile.isOpen())
+        m_downloadTemporaryFile.write(m_Reply->readAll());
     else
         m_DownloadedData += m_Reply->readAll();
 }
 
 void FileDownloader::dataFinished(QNetworkReply *pReply)
 {
+    if (pReply->error() != QNetworkReply::NoError)
+        return;
+
     dataReady();
-    if (m_DownloadedFile.isOpen())
+    if (m_downloadTemporaryFile.isOpen())
     {
-        m_DownloadedFile.flush();
-        m_DownloadedFile.close();
+        m_downloadTemporaryFile.flush();
+        m_downloadTemporaryFile.close();
+        QFile::remove(m_DownloadedFileURL.toLocalFile());
+        m_downloadTemporaryFile.copy(m_DownloadedFileURL.toLocalFile());
     }
 
     if (isCancelled == false)
@@ -102,18 +109,23 @@ void FileDownloader::slotError()
 {
     m_Reply->deleteLater();
 
+    if (progressDialog != nullptr)
+        progressDialog->hide();
+
     if (isCancelled)
     {
         // Remove partially downloaded file, should we download to %tmp first?
-        if (m_DownloadedFile.isOpen())
+        if (m_downloadTemporaryFile.isOpen())
         {
-            m_DownloadedFile.close();
-            QFile::remove(m_DownloadedFileURL.toLocalFile());
-        }
+            m_downloadTemporaryFile.close();
+            m_downloadTemporaryFile.remove();
+        }        
         emit canceled();
     }
     else
+    {
         emit error(m_Reply->errorString());
+    }
 }
 
 void FileDownloader::setProgressDialogEnabled(bool ShowProgressDialog, const QString &textTitle,
@@ -137,26 +149,22 @@ QUrl FileDownloader::getDownloadedFileURL() const
     return m_DownloadedFileURL;
 }
 
-bool FileDownloader::setDownloadedFileURL(const QUrl &DownloadedFile, bool isBinary)
+bool FileDownloader::setDownloadedFileURL(const QUrl &DownloadedFile)
 {
     m_DownloadedFileURL = DownloadedFile;
 
     if (m_DownloadedFileURL.isEmpty() == false)
-    {
-        m_DownloadedFile.setFileName(m_DownloadedFileURL.toLocalFile());
-        bool rc=false;
-        if (isBinary)
-            rc = m_DownloadedFile.open(QIODevice::WriteOnly | QIODevice::Truncate);
-        else
-            rc = m_DownloadedFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
+    {        
+        bool rc= m_downloadTemporaryFile.open();
 
         if (rc == false)
-            qWarning() << m_DownloadedFile.errorString();
+            qCWarning(KSTARS) << m_downloadTemporaryFile.errorString();
+        else
+            qCDebug(KSTARS) << "Opened" << m_downloadTemporaryFile.fileName() << "to download data into" << DownloadedFile.toLocalFile();
 
         return rc;
     }
 
-    m_DownloadedFile.close();
     return true;
 }
 

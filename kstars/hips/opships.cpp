@@ -185,7 +185,7 @@ void OpsHIPS::setPreview(const QString &id, const QString &url)
         previewJob = new FileDownloader();
         connect(previewJob, SIGNAL(downloaded()), this, SLOT(previewReady()));
 
-        previewJob->setDownloadedFileURL(QUrl::fromLocalFile(currentPreviewPath), true);
+        previewJob->setDownloadedFileURL(QUrl::fromLocalFile(currentPreviewPath));
 
         previewJob->get(QUrl(url + QLatin1Literal("/preview.jpg")));
     }

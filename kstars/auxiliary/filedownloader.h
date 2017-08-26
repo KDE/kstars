@@ -19,6 +19,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QTemporaryFile>
 
 class QProgressDialog;
 
@@ -36,7 +37,7 @@ class FileDownloader : public QObject
     QByteArray downloadedData() const;
 
     QUrl getDownloadedFileURL() const;
-    bool setDownloadedFileURL(const QUrl &DownloadedFile, bool isBinary=false);
+    bool setDownloadedFileURL(const QUrl &DownloadedFile);
 
     void setProgressDialogEnabled(bool ShowProgressDialog, const QString &textTitle = QString(),
                                   const QString &textLabel = QString());
@@ -59,7 +60,9 @@ class FileDownloader : public QObject
 
     // Downloaded file
     QUrl m_DownloadedFileURL;
-    QFile m_DownloadedFile;
+
+    // Temporary file used until download is successful
+    QTemporaryFile m_downloadTemporaryFile;
 
     // Network reply
     QNetworkReply *m_Reply = nullptr;
@@ -72,6 +75,7 @@ class FileDownloader : public QObject
 #endif
     bool isCancelled = false;
     QString label, title;
+
 };
 
 #endif // FILEDOWNLOADER_H
