@@ -20,6 +20,7 @@ import "helpers"
 
 ColumnLayout {
     id: bottomMenu
+    objectName: "bottomMenu"
     property int padding: 10
 
     property double openOffset: bottomMenu.height - bottomBar.background.radius //Hide bottom round corners
@@ -42,6 +43,7 @@ ColumnLayout {
     }
 
     state: "closed"
+    property alias state : bottomMenu.state
     spacing: padding
 
     x: (parent.width - width)/2
@@ -107,9 +109,13 @@ ColumnLayout {
         mirror: true // Make sure that arrows in both menus look symmetric
 
         MouseArea {
+            objectName: "arrowUpMouseArea"
             anchors.fill: parent
             onPressed: {
                 bottomMenu.state = bottomMenu.state == "closed" ? "open" : "closed"
+            }
+            function manualPress() {
+                onPressed(1);
             }
         }
 

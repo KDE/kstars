@@ -21,6 +21,7 @@ import KStarsLiteEnums 1.0
 
 ColumnLayout {
     id: topMenu
+    objectName: "topMenu"
     property int padding: 10
     property double openOffset: -topBar.background.radius //Hide top round corners
     property double closedOffset: -topBar.height // Hide top bar when closed
@@ -39,6 +40,7 @@ ColumnLayout {
     }
 
     state: "closed"
+    property alias state : topMenu.state
     spacing: padding
 
     x: (parent.width - width)/2
@@ -285,9 +287,13 @@ ColumnLayout {
         }
 
         MouseArea {
+            objectName: "arrowDownMouseArea"
             anchors.fill: parent
             onPressed: {
                 topMenu.state = topMenu.state == "closed" ? "open" : "closed"
+            }
+            function manualPress() {
+                onPressed(1);
             }
         }
 

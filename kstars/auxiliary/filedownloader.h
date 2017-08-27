@@ -10,15 +10,14 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef FILEDOWNLOADER_H
-#define FILEDOWNLOADER_H
+#pragma once
 
-#include <QObject>
 #include <QByteArray>
 #include <QFile>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QObject>
 #include <QTemporaryFile>
 
 class QProgressDialog;
@@ -27,7 +26,7 @@ class FileDownloader : public QObject
 {
     Q_OBJECT
   public:
-    explicit FileDownloader(QObject *parent = 0);
+    explicit FileDownloader(QObject *parent = nullptr);
     virtual ~FileDownloader();
 
     void get(const QUrl &fileUrl);
@@ -65,17 +64,15 @@ class FileDownloader : public QObject
     QTemporaryFile m_downloadTemporaryFile;
 
     // Network reply
-    QNetworkReply *m_Reply = nullptr;
+    QNetworkReply *m_Reply { nullptr };
 
     // Optional Progress dialog
-    bool m_ShowProgressDialog = false;
+    bool m_ShowProgressDialog { false };
 
 #ifndef KSTARS_LITE
-    QProgressDialog *progressDialog = nullptr;
+    QProgressDialog *progressDialog { nullptr };
 #endif
-    bool isCancelled = false;
-    QString label, title;
-
+    bool isCancelled { false };
+    QString label;
+    QString title;
 };
-
-#endif // FILEDOWNLOADER_H

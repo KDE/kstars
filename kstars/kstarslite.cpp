@@ -19,7 +19,6 @@
 #include "kstarsdata.h"
 #include <QQmlContext>
 #include <QGuiApplication>
-#include <QQuickWindow>
 #include <QQuickStyle>
 #include <QSurfaceFormat>
 #include "kstarslite/imageprovider.h"
@@ -70,7 +69,7 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
     m_Engine.rootContext()->setContextProperty("KStarsData", m_KStarsData);
     m_Engine.rootContext()->setContextProperty("Options", Options::self());
     m_Engine.rootContext()->setContextProperty("SimClock", m_KStarsData->clock());
-    m_Engine.rootContext()->setContextObject(new KLocalizedContext(this));
+    m_Engine.rootContext()->setContextObject(new KLocalizedContext());
     qmlRegisterUncreatableType<Projector>("KStarsLiteEnums", 1, 0, "Projection", "Provides Projection enum");
     qmlRegisterUncreatableType<KStarsLite>("KStarsLiteEnums", 1, 0, "ObjectsToToggle",
                                            "Enum for togglint the visibility of sky objects");
@@ -159,6 +158,19 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
     datainitFinished();
 }
 
+KStarsLite::~KStarsLite()
+{
+    delete m_imgProvider;
+}
+
+QQuickWindow *KStarsLite::getMainWindow()
+{
+    if (!m_Engine.rootContext() || m_Engine.rootObjects().isEmpty())
+        return nullptr;
+
+    return static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
+}
+
 void KStarsLite::slotTrack()
 {
     if (Options::isTracking())
@@ -197,12 +209,7 @@ KStarsLite *KStarsLite::createInstance(bool doSplash, bool clockrunning, const Q
     // pinstance is set directly in constructor.
     new KStarsLite(doSplash, clockrunning, startDateString);
     Q_ASSERT(pinstance && "pinstance must be non NULL");
-    return nullptr;
-}
-
-KStarsLite::~KStarsLite()
-{
-    delete m_imgProvider;
+    return pinstance;
 }
 
 void KStarsLite::fullUpdate()

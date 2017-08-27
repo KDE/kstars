@@ -14,13 +14,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARSLITE_H_
-#define KSTARSLITE_H_
+#pragma once
 
-#include <config-kstars.h>
+#include "config-kstars.h"
+
+#include <QQuickWindow>
+#include <QPalette>
 #include <QString>
 #include <QtQml/QQmlApplicationEngine>
-#include <QPalette>
 
 //Needed for Projection enum
 #include "projections/projector.h"
@@ -41,52 +42,55 @@ class ClientManagerLite;
 class QQuickItem;
 
 /**
- *@class KStarsLite
- *@short This class loads QML files and connects SkyMapLite and KStarsData
+ * @class KStarsLite
+ * @short This class loads QML files and connects SkyMapLite and KStarsData
  * Unlike KStars class it is not a main window (see KStarsLite::m_Engine) but a root object that contains the program clock and
  * holds pointers to SkyMapLite and KStarsData objects.
  * KStarsLite is a singleton, use KStarsLite::createInstance() to create an instance and KStarsLite::Instance() to get a pointer to the instance
- *@author Artem Fedoskin
- *@version 1.0
+ *
+ * @author Artem Fedoskin
+ * @version 1.0
  */
-
 class KStarsLite : public QObject
 {
     Q_OBJECT
     //runTutorial is a wrapper for Options::RunStartupWizard()
     Q_PROPERTY(bool runTutorial WRITE setRunTutorial READ getRunTutorial NOTIFY runTutorialChanged)
   private:
+
     /**
-         * @short Constructor.
-         * @param doSplash should the splash panel be displayed during
-         * initialization.
-         * @param startClockRunning should the clock be running on startup?
-         * @param startDateString date (in string representation) to start running from.
-         */
+     * @short Constructor.
+     * @param doSplash should the splash panel be displayed during initialization.
+     * @param startClockRunning should the clock be running on startup?
+     * @param startDateString date (in string representation) to start running from.
+     */
     explicit KStarsLite(bool doSplash, bool startClockRunning = true, const QString &startDateString = QString());
 
     static KStarsLite *pinstance; // Pointer to an instance of KStarsLite
 
   public:
     /**
-         * @short Create an instance of this class. Destroy any previous instance
-         * @param doSplash
-         * @param clockrunning
-         * @param startDateString
-         * @note See KStarsLite::KStarsLite for details on parameters
-         * @return a pointer to the instance
-         */
+     * @short Create an instance of this class. Destroy any previous instance
+     * @param doSplash
+     * @param clockrunning
+     * @param startDateString
+     * @note See KStarsLite::KStarsLite for details on parameters
+     * @return a pointer to the instance
+     */
     static KStarsLite *createInstance(bool doSplash, bool clockrunning = true,
                                       const QString &startDateString = QString());
 
     /** @return a pointer to the instance of this class */
     inline static KStarsLite *Instance() { return pinstance; }
 
-    /** Destructor. Does nothing yet*/
+    /** Destructor. Does nothing yet */
     virtual ~KStarsLite();
 
     /** @return pointer to SkyMapLite object which draws SkyMap. */
     inline SkyMapLite *map() const { return m_SkyMapLite; }
+
+    /** @return pointer to the main window. */
+    QQuickWindow *getMainWindow();
 
     /** @return pointer to KStarsData object which contains application data. */
     inline KStarsData *data() const { return m_KStarsData; }
@@ -112,10 +116,10 @@ class KStarsLite : public QObject
     /** @return pointer to KStarsData object which handles connection to INDI server. */
     inline ClientManagerLite *clientManagerLite() const { return m_clientManager; }
 
-    /** @defgroup kconfigwrappers QML wrappers around KConfig
-         *  @{
-         */
-
+    /**
+     * @defgroup kconfigwrappers QML wrappers around KConfig
+     * @{
+     */
     enum ObjectsToToggle
     {
         Stars,
@@ -135,33 +139,30 @@ class KStarsLite : public QObject
     };
 
     Q_ENUMS(ObjectsToToggle)
-    /**
-         * @short setProjection calls Options::setProjection(proj) and updates SkyMapLite
-         */
-    /*Having projection as uint is not good but it will go away once KConfig is fixed
-        The reason for this is that you can't use Enums of another in class in Q_INVOKABLE function*/
+
+    /** setProjection calls Options::setProjection(proj) and updates SkyMapLite */
+    // Having projection as uint is not good but it will go away once KConfig is fixed
+    // The reason for this is that you can't use Enums of another in class in Q_INVOKABLE function
     Q_INVOKABLE void setProjection(uint proj);
 
-    /** These functions are just convenient getters to access internals of KStars from QML **/
+    // These functions are just convenient getters to access internals of KStars from QML
 
     /**
-         * @short returns color with key name from current color scheme
-         * @param schemeColor name the key name of the color to be retrieved from current color scheme
-         * @return color from name
-         */
+     * @short returns color with key name from current color scheme
+     * @param schemeColor name the key name of the color to be retrieved from current color scheme
+     * @return color from name
+     */
     Q_INVOKABLE QColor getColor(QString name);
 
     Q_INVOKABLE QString getConfigCScheme();
 
     /**
-         * @short toggles on/off objects of group toToggle
-         * @see ObjectsToToggle
-         */
+     * @short toggles on/off objects of group toToggle
+     * @see ObjectsToToggle
+     */
     Q_INVOKABLE void toggleObjects(ObjectsToToggle toToggle, bool toggle);
 
-    /**
-         * @return true if objects from group toToggle are currently toggled on
-         **/
+    /** @return true if objects from group toToggle are currently toggled on **/
     Q_INVOKABLE bool isToggled(ObjectsToToggle toToggle);
 
     /** @} */ // end of kconfigwrappers group
@@ -178,24 +179,26 @@ class KStarsLite : public QObject
 
     void runTutorialChanged();
 
-    /** Once this signal is emitted, notification with text msg will appear on the screen.
-            Use this signal to output messages to user (warnings, info etc.) **/
+    /**
+     * Once this signal is emitted, notification with text msg will appear on the screen.
+     * Use this signal to output messages to user (warnings, info etc.)
+     */
     void notificationMessage(QString msg);
 
   public Q_SLOTS:
     /**
-         * Update time-dependent data and (possibly) repaint the sky map.
-         * @param automaticDSTchange change DST status automatically?
-         */
+     * Update time-dependent data and (possibly) repaint the sky map.
+     * @param automaticDSTchange change DST status automatically?
+     */
     void updateTime(const bool automaticDSTchange = true);
 
-    /** Write current settings to config file. Used to save config file upon exit
-         */
+    /** Write current settings to config file. Used to save config file upon exit */
     bool writeConfig();
 
-    /** Load a color scheme.
-         * @param name the name of the color scheme to load (e.g., "Moonless Night")
-         */
+    /**
+     * Load a color scheme.
+     * @param name the name of the color scheme to load (e.g., "Moonless Night")
+     */
     void loadColorScheme(const QString &name);
 
     /** sets time and date according to parameter time*/
@@ -210,12 +213,11 @@ class KStarsLite : public QObject
     /** action slot: advance one step backward in time */
     void slotStepBackward();
 
-    /** @short start tracking clickedPoint or stop tracking if we are already tracking some object **/
+    /** start tracking clickedPoint or stop tracking if we are already tracking some object **/
     void slotTrack();
 
   private slots:
-    /** finish setting up after the KStarsData has finished
-         */
+    /** finish setting up after the KStarsData has finished */
     void datainitFinished();
 
     /** Save data to config file before exiting.*/
@@ -242,5 +244,3 @@ class KStarsLite : public QObject
 
     ClientManagerLite *m_clientManager;
 };
-
-#endif

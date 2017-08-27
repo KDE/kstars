@@ -241,6 +241,7 @@ ApplicationWindow {
 
     Drawer {
         id: globalDrawer
+        objectName: "globalDrawer"
         width: Math.min(window.width, window.height) / 4 * 2
         height: window.height
         //Disable drawer while loading
@@ -366,6 +367,7 @@ ApplicationWindow {
 
     Drawer {
         id: contextDrawer
+        objectName: "contextDrawer"
         width: Math.min(window.width, window.height) / 4 * 2
         height: window.height
         //Disable drawer while loading and if SkyMapLite is not visible
