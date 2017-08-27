@@ -363,10 +363,10 @@ add_subdirectory(doc)
 add_subdirectory(kstars)
 add_subdirectory(datahandlers)
 
-if(NOT BUILD_KSTARS_LITE)
+IF (NOT ANDROID)
     enable_testing(true)
     add_subdirectory(Tests)
-endif(NOT BUILD_KSTARS_LITE)
+ENDIF ()
 
 install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 

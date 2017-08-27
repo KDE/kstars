@@ -10,11 +10,6 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <QFile>
-#include <QProgressDialog>
-
-#include <KLocalizedString>
-
 #include "filedownloader.h"
 
 #ifndef KSTARS_LITE
@@ -22,6 +17,11 @@
 #endif
 
 #include "kstars_debug.h"
+
+#include <KLocalizedString>
+
+#include <QFile>
+#include <QProgressDialog>
 
 FileDownloader::FileDownloader(QObject *parent) : QObject(parent)
 {
@@ -109,8 +109,10 @@ void FileDownloader::slotError()
 {
     m_Reply->deleteLater();
 
+#ifndef KSTARS_LITE
     if (progressDialog != nullptr)
         progressDialog->hide();
+#endif
 
     if (isCancelled)
     {
@@ -171,9 +173,9 @@ bool FileDownloader::setDownloadedFileURL(const QUrl &DownloadedFile)
 void FileDownloader::setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
 #ifndef KSTARS_LITE
-    if (m_ShowProgressDialog)
+    if (m_ShowProgressDialog != nullptr)
     {
-        if (progressDialog == NULL)
+        if (progressDialog == nullptr)
         {
             isCancelled    = false;
             progressDialog = new QProgressDialog(KStars::Instance());
