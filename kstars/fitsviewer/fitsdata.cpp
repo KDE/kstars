@@ -1252,13 +1252,15 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
         {
             if (mode == FITS_GUIDE || mode == FITS_FOCUS)
             {
-                subX = round(stats.width / 15.0);
-                subY = round(stats.height / 15.0);
+                // Only consider the central 70%
+                subX = round(stats.width * 0.15);
+                subY = round(stats.height * 0.15);
                 subW = stats.width - subX;
                 subH = stats.height - subY;
             }
             else
             {
+                // Consider the complete area 100%
                 subX = 0;
                 subY = 0;
                 subW = stats.width;
@@ -1349,8 +1351,8 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
         if (edges.count() >= MAX_EDGE_LIMIT)
         {
            qCWarning(KSTARS_FITS) << "Too many edges, aborting... " << edges.count();
-            qDeleteAll(edges);
-            return;
+           qDeleteAll(edges);
+           return;
         }
 
         if (edges.count() >= minimumEdgeCount)
