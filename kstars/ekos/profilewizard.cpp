@@ -11,11 +11,13 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QTcpSocket>
+#include <QTimer>
 
 #include "profilewizard.h"
 #include "kstars.h"
 #include "auxiliary/kspaths.h"
 #include "ksnotification.h"
+#include "qMDNS.h"
 
 ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
 {
@@ -54,9 +56,15 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
     connect(localEquipmentB, SIGNAL(clicked()), this, SLOT(processLocalEquipment()));
     connect(remoteEquipmentB, &QPushButton::clicked, this,
             [this]() { wizardContainer->setCurrentIndex(REMOTE_EQUIPMENT); });
+    connect(stellarMateEquipmentB, &QPushButton::clicked, this,
+            [this]() { wizardContainer->setCurrentIndex(STELLARMATE_EQUIPMENT); });
 
     // Remote Equipment Action
     connect(remoteEquipmentNextB, SIGNAL(clicked()), this, SLOT(processRemoteEquipment()));
+
+    // StellarMate Equipment Action
+    connect(stellarMateEquipmentNextB, SIGNAL(clicked()), this, SLOT(processStellarMateEquipment()));
+    connect(stellarMateAutoDetectB, SIGNAL(clicked()), this, SLOT(detectStellarMate()));
 
     // Local Windows
     connect(windowsReadyB, SIGNAL(clicked()), this, SLOT(processLocalWindows()));
@@ -132,6 +140,28 @@ void ProfileWizard::processRemoteEquipment()
     }
     else
         useWebManager = webManagerYesR->isChecked();
+
+    useJoystickCheck->setEnabled(true);
+    useRemoteAstrometryCheck->setEnabled(true);
+    useWatchDogCheck->setEnabled(true);
+    useSkySafariCheck->setEnabled(true);
+
+    wizardContainer->setCurrentIndex(CREATE_PROFILE);
+}
+
+void ProfileWizard::processStellarMateEquipment()
+{
+    if (stellarMateHost->text().isEmpty())
+    {
+        KSNotification::error(i18n("Host name cannot be empty!"));
+        return;
+    }
+
+    host = stellarMateHost->text();
+    port = stellarMatePort->text();
+
+    useInternalServer = false;
+    useWebManager = true;
 
     useJoystickCheck->setEnabled(true);
     useRemoteAstrometryCheck->setEnabled(true);
@@ -224,4 +254,40 @@ QStringList ProfileWizard::selectedAuxDrivers()
 int ProfileWizard::selectedExternalGuider()
 {
     return useGuiderType;
+}
+
+void ProfileWizard::detectStellarMate()
+{
+    stellarMateDetectDialog = new QProgressDialog(this);
+    stellarMateDetectDialog->setMinimum(0);
+    stellarMateDetectDialog->setMaximum(0);
+    stellarMateDetectDialog->setWindowTitle(i18n("Detecting StellarMate..."));
+    stellarMateDetectDialog->setLabelText(i18n("Please wait while searching for StellarMate..."));
+
+    stellarMateDetectDialog->show();
+
+    connect(stellarMateDetectDialog, &QProgressDialog::canceled, [&]()
+    {
+        qMDNS::getInstance()->disconnect();
+    });
+    connect(qMDNS::getInstance(), SIGNAL(hostFound(QHostInfo)), this, SLOT(processHostInfo(QHostInfo)));
+    QTimer::singleShot(120*1000, this, SLOT(detectStellarMateTimeout()));
+
+    qMDNS::getInstance()->lookup("stellarmate");
+}
+
+void ProfileWizard::processHostInfo(QHostInfo info)
+{
+    stellarMateHost->setText(info.hostName());
+    qMDNS::getInstance()->disconnect();
+    stellarMateDetectDialog->close();
+}
+
+void ProfileWizard::detectStellarMateTimeout()
+{
+    if (stellarMateDetectDialog->isHidden() == false)
+    {
+        KSNotification::error(i18n("Failed to detect any StellarMate gadget. Make sure it is powered and on the same network."));
+        stellarMateDetectDialog->close();
+    }
 }

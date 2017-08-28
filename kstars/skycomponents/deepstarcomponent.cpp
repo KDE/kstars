@@ -353,7 +353,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
         if (!staticStars && !m_starBlockList.at(currentRegion)->fillToMag(maglim) &&
             maglim <= m_FaintMagnitude * (1 - 1.5 / 16))
         {
-            qCWarning(KSTARS) << "SBL::fillToMag( " << maglim << " ) failed for trixel " << currentRegion << " !" << endl;
+            qCWarning(KSTARS) << "SBL::fillToMag( " << maglim << " ) failed for trixel " << currentRegion;
         }
 
         t_dynamicLoad += t.restart();

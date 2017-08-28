@@ -13,6 +13,10 @@
 
 #include "ui_profilewizard.h"
 
+#include <QProgressDialog>
+#include <QHostInfo>
+#include <QPointer>
+
 class ProfileWizard : public QDialog, public Ui::ProfileWizard
 {
     Q_OBJECT
@@ -23,6 +27,7 @@ class ProfileWizard : public QDialog, public Ui::ProfileWizard
         INTRO,
         EQUIPMENT_LOCATION,
         REMOTE_EQUIPMENT,
+        STELLARMATE_EQUIPMENT,
         WINDOWS_LOCAL,
         MAC_LOCAL,
         CREATE_PROFILE
@@ -38,9 +43,13 @@ class ProfileWizard : public QDialog, public Ui::ProfileWizard
     void reset();
     void processLocalEquipment();
     void processRemoteEquipment();
+    void processStellarMateEquipment();
     void processLocalWindows();
     void processLocalMac();
     void createProfile();
+    void detectStellarMate();
+    void processHostInfo(QHostInfo info);
+    void detectStellarMateTimeout();
 
   private:
     bool useInternalServer   = true;
@@ -52,6 +61,7 @@ class ProfileWizard : public QDialog, public Ui::ProfileWizard
     GuiderType useGuiderType = INTERNAL_GUIDER;
 
     QString profileName, host, port;
+    QPointer<QProgressDialog> stellarMateDetectDialog;
 
     friend class EkosManager;
 };
