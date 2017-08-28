@@ -173,7 +173,7 @@ bool FileDownloader::setDownloadedFileURL(const QUrl &DownloadedFile)
 void FileDownloader::setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
 #ifndef KSTARS_LITE
-    if (m_ShowProgressDialog != nullptr)
+    if (m_ShowProgressDialog)
     {
         if (progressDialog == nullptr)
         {
