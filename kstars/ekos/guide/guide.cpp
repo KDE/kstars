@@ -710,6 +710,7 @@ bool Guide::abort()
         case GUIDE_STAR_SELECT:
         case GUIDE_CAPTURE:
         case GUIDE_GUIDING:
+        case GUIDE_LOOPING:
             guider->abort();
         default:
             break;
