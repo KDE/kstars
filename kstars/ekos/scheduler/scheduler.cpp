@@ -3721,14 +3721,17 @@ void Scheduler::startFocusing()
         return;
     }
 
-    // Set autostar & use subframe
-    QList<QVariant> autoStar;
-    autoStar.append(true);
-    if ((reply = focusInterface->callWithArgumentList(QDBus::AutoDetect, "setAutoStarEnabled", autoStar)).type() ==
-        QDBusMessage::ErrorMessage)
+    // Set autostar if full field option is false
+    if (Options::focusUseFullField() == false)
     {
-        appendLogText(i18n("setAutoFocusStar DBUS error: %1", reply.errorMessage()));
-        return;
+        QList<QVariant> autoStar;
+        autoStar.append(true);
+        if ((reply = focusInterface->callWithArgumentList(QDBus::AutoDetect, "setAutoStarEnabled", autoStar)).type() ==
+            QDBusMessage::ErrorMessage)
+        {
+            appendLogText(i18n("setAutoFocusStar DBUS error: %1", reply.errorMessage()));
+            return;
+        }
     }
 
     // Start auto-focus
