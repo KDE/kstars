@@ -235,7 +235,8 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
         if (byteswap)
             nrecs = bswap_32(nrecs);
 
-        if (prev_offset != 0 && prev_nrecs != (-prev_offset + offset) / recordSize)
+        //if (prev_offset != 0 && prev_nrecs != (-prev_offset + offset) / recordSize)
+        if (prev_offset != 0 && prev_nrecs != (offset - prev_offset) / recordSize)
         {
             errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u",
                                  (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs,
