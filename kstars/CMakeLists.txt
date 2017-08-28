@@ -172,6 +172,7 @@ if (INDI_FOUND)
                        ekos/ekosmanager.cpp
                        ekos/profileeditor.cpp
                        ekos/profilewizard.cpp
+                       ekos/qMDNS.cpp
                        ekos/opsekos.cpp                       
 
                        # Auxiliary
