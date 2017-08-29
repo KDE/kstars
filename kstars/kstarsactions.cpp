@@ -753,13 +753,9 @@ void KStars::slotINDITelescopeTrack()
             KToggleAction *a = qobject_cast<KToggleAction*>(sender());
             if (a != nullptr)
             {
-                // Why this doesn't work? a->isChecked() always returns true!
-                //telescope->setTrackEnabled(a->isChecked());
-
-                telescope->setTrackEnabled(!telescope->isTracking());
+                telescope->setTrackEnabled(a->isChecked());
+                return;
             }
-
-            return;
         }
     }
 #endif
