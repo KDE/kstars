@@ -700,7 +700,6 @@
  </widget>
  <tabstops>
   <tabstop>tabWidget</tabstop>
-  <tabstop>ScopeList</tabstop>
   <tabstop>Vendor</tabstop>
   <tabstop>Model</tabstop>
   <tabstop>driverComboBox</tabstop>
@@ -730,9 +729,12 @@
   <tabstop>f_Vendor</tabstop>
   <tabstop>f_Model</tabstop>
   <tabstop>f_Type</tabstop>
+  <tabstop>f_Offset</tabstop>
   <tabstop>f_Color</tabstop>
+  <tabstop>f_Exposure</tabstop>
   <tabstop>NewFilter</tabstop>
   <tabstop>AddFilter</tabstop>
+  <tabstop>ScopeList</tabstop>
   <tabstop>RemoveFilter</tabstop>
  </tabstops>
  <resources/>

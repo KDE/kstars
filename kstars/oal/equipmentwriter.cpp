@@ -285,8 +285,15 @@ void EquipmentWriter::slotRemoveFilter()
 
 void EquipmentWriter::slotSaveFilter()
 {
-    KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
-                                                ui.f_Color->text(), ui.f_Exposure->text(), ui.f_Id->text());
+    // Add
+    if (ui.f_Id->text().isEmpty())
+        KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
+                                                    ui.f_Offset->text(), ui.f_Color->text(), ui.f_Exposure->text());
+    // Update Existing
+    else
+        KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
+                                                    ui.f_Offset->text(), ui.f_Color->text(), ui.f_Exposure->text(), ui.f_Id->text());
+
     loadEquipment();
 }
 
@@ -315,6 +322,7 @@ void EquipmentWriter::slotNewFilter()
     ui.f_Type->clear();
     ui.f_Model->clear();
     ui.f_Color->clear();
+    ui.f_Offset->clear();
     ui.f_Exposure->clear();
     ui.FilterList->selectionModel()->clear();
     newFilter = true;
