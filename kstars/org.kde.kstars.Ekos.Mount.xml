@@ -58,5 +58,8 @@
     <method name="unpark">
       <arg type="b" direction="out"/>
     </method>
+    <method name="resetModel">
+      <arg type="b" direction="out"/>
+    </method>
   </interface>
 </node>

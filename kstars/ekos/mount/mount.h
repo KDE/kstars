@@ -143,6 +143,12 @@ class Mount : public QWidget, public Ui::Mount
                                                  double guideFocalLength, double guideAperture);
 
     /** DBUS interface function.
+         * Reset mount model if supported by the mount.
+         * @return true if the command is executed successfully, false otherwise.
+         */
+    Q_INVOKABLE Q_SCRIPTABLE bool resetModel();
+
+    /** DBUS interface function.
          * Can mount park?
          */
     Q_INVOKABLE Q_SCRIPTABLE bool canPark();
@@ -161,6 +167,7 @@ class Mount : public QWidget, public Ui::Mount
          * Return parking status of the mount.
          */
     Q_INVOKABLE Q_SCRIPTABLE ParkingStatus getParkingStatus();
+
 
     Q_INVOKABLE bool setSlewRate(int index);
 

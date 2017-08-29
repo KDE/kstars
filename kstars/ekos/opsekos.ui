@@ -203,6 +203,13 @@
      </layout>
     </item>
     <item>
+     <widget class="QCheckBox" name="kcfg_ResetMountModel">
+      <property name="text">
+       <string>Reset Mount Model On Alignment Failure</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QCheckBox" name="kcfg_StopEkosAfterShutdown">
       <property name="toolTip">
        <string>After shutdown procedure is successfully executed, stop INDI and Ekos.</string>

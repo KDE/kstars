@@ -8,6 +8,7 @@
 */
 
 #include "remoteastrometryparser.h"
+#include "ekos_align_debug.h"
 
 #include "align.h"
 #include "Options.h"
@@ -160,6 +161,7 @@ void RemoteAstrometryParser::setEnabled(bool enable)
         enableSW->s = ISS_ON;
         remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
         solverRunning = true;
+        qCDebug(KSTARS_EKOS_ALIGN) << "Enabling remote solver...";
     }
     else if (enable == false && disableSW->s == ISS_OFF)
     {
@@ -167,6 +169,7 @@ void RemoteAstrometryParser::setEnabled(bool enable)
         disableSW->s = ISS_ON;
         remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
         solverRunning = false;
+        qCDebug(KSTARS_EKOS_ALIGN) << "Disabling remote solver...";
     }
 }
 
