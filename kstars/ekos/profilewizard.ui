@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>637</width>
+    <width>665</width>
     <height>366</height>
    </rect>
   </property>
@@ -338,15 +338,16 @@ Tutorials</string>
          </item>
          <item>
           <widget class="QPushButton" name="localEquipmentB">
-           <property name="minimumSize">
-            <size>
-             <width>256</width>
-             <height>128</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="font">
             <font>
-             <pointsize>14</pointsize>
+             <family>Arial Black</family>
+             <pointsize>12</pointsize>
             </font>
            </property>
            <property name="focusPolicy">
@@ -381,15 +382,16 @@ to this computer</string>
           <layout class="QHBoxLayout" name="horizontalLayout_11">
            <item>
             <widget class="QPushButton" name="remoteEquipmentB">
-             <property name="minimumSize">
-              <size>
-               <width>256</width>
-               <height>128</height>
-              </size>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
              <property name="font">
               <font>
-               <pointsize>14</pointsize>
+               <family>Arial Black</family>
+               <pointsize>12</pointsize>
               </font>
              </property>
              <property name="focusPolicy">
@@ -416,19 +418,25 @@ to a remote computer</string>
            </item>
            <item>
             <widget class="QPushButton" name="stellarMateEquipmentB">
-             <property name="minimumSize">
-              <size>
-               <width>256</width>
-               <height>128</height>
-              </size>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
              <property name="font">
               <font>
-               <pointsize>14</pointsize>
+               <family>Arial Black</family>
+               <pointsize>12</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
               </font>
              </property>
              <property name="focusPolicy">
               <enum>Qt::ClickFocus</enum>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>Equipment is attached
@@ -445,6 +453,12 @@ to StellarMate</string>
               </size>
              </property>
              <property name="autoDefault">
+              <bool>false</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
               <bool>false</bool>
              </property>
             </widget>
@@ -647,6 +661,9 @@ to StellarMate</string>
            </property>
            <property name="text">
             <string>Enter StellarMate host name. If you do not know, click Auto Detect:</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -886,14 +903,15 @@ to StellarMate</string>
          <item>
           <widget class="QPushButton" name="useInternalINDIB">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="font">
             <font>
-             <pointsize>14</pointsize>
+             <family>Arial Black</family>
+             <pointsize>12</pointsize>
             </font>
            </property>
            <property name="focusPolicy">
@@ -921,14 +939,15 @@ Server</string>
          <item>
           <widget class="QPushButton" name="useExternalINDIB">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="font">
             <font>
-             <pointsize>14</pointsize>
+             <family>Arial Black</family>
+             <pointsize>12</pointsize>
             </font>
            </property>
            <property name="focusPolicy">
