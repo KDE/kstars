@@ -3690,9 +3690,6 @@ void Capture::setGuideStatus(GuideState state)
             break;
 
         case GUIDE_GUIDING:
-            break;
-        //isAutoGuiding = true;
-
         case GUIDE_CALIBRATION_SUCESS:
             guideDeviationCheck->setEnabled(true);
             guideDeviation->setEnabled(true);
