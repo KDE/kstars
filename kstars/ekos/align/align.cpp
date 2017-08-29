@@ -2388,7 +2388,7 @@ bool Align::captureAndSolve()
     connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this,
             SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
 
-    // In case of remote solver, we set mode to UPLOAD_BOTH
+    // In case of remote solver, check if we need to update active CCD
     if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
     {
         // Update ACTIVE_CCD of the remote astrometry driver so it listens to BLOB emitted by the CCD

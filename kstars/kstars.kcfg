@@ -1948,6 +1948,10 @@
          <label>Perform pre-emptive shutdown if no jobs are due for a number of hours.</label>
          <default>false</default>
       </entry>
+      <entry name="ResetMountModel" type="Bool">
+         <label>Reset mount model in case of alignment failure.</label>
+         <default>false</default>
+      </entry>
       <entry name="PreemptiveShutdownTime" type="Double">
          <label>Maximum number of hours before the next job is due to trigger a pre-emptive shutdown.</label>
          <default>2</default>

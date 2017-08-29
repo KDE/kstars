@@ -64,13 +64,7 @@ Mount::Mount()
 
     connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]()
     {
-        if (currentTelescope->hasAlignmentModel() == false)
-            return;
-
-        if (currentTelescope->clearAlignmentModel())
-            appendLogText(i18n("Alignment Model cleared."));
-        else
-            appendLogText(i18n("Failed to clear Alignment Model."));
+        resetModel();
     });
 
     connect(enableLimitsCheck, SIGNAL(toggled(bool)), this, SLOT(enableAltitudeLimits(bool)));
@@ -838,5 +832,23 @@ void Mount::centerMount()
 {
     if (currentTelescope)
         currentTelescope->runCommand(INDI_ENGAGE_TRACKING);
+}
+
+bool Mount::resetModel()
+{
+    if (currentTelescope == nullptr)
+        return false;
+
+    if (currentTelescope->hasAlignmentModel() == false)
+        return false;
+
+    if (currentTelescope->clearAlignmentModel())
+    {
+        appendLogText(i18n("Alignment Model cleared."));
+        return true;
+    }
+
+    appendLogText(i18n("Failed to clear Alignment Model."));
+    return false;
 }
 }
