@@ -258,6 +258,43 @@ bool KSUserDB::Initialize()
                         qCWarning(KSTARS) << query.lastError();
                 }
             }
+
+            // If prior to 2.8.3 drop filters if invalid
+            if (currentDBVersion < "2.8.3")
+            {
+                QSqlQuery query(userdb_);
+                if (!query.exec("PRAGMA table_info(filter)"))
+                    qCWarning(KSTARS) << query.lastError();
+                else
+                {
+                    bool validTable = false;
+                    while (query.next())
+                    {
+                        if (query.value(1) == "Exposure")
+                        {
+                            validTable = true;
+                            break;
+                        }
+                    }
+
+                    if (validTable == false)
+                    {
+                        qCWarning(KSTARS) << "Detected invalid filter table, re-creating...";
+                        if (!query.exec("DROP table filter"))
+                            qCWarning(KSTARS) << query.lastError();
+                        if (!query.exec("CREATE TABLE filter ( "
+                                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                                   "Vendor TEXT DEFAULT NULL, "
+                                   "Model TEXT DEFAULT NULL, "
+                                   "Type TEXT DEFAULT NULL, "
+                                   "Offset TEXT DEFAULT NULL, "
+                                   "Color TEXT DEFAULT NULL,"
+                                   "Exposure TEXT DEFAULT '1')"))
+                            qCWarning(KSTARS) << query.lastError();
+                    }
+                }
+            }
+
         }
     }
     userdb_.close();
@@ -334,7 +371,7 @@ bool KSUserDB::RebuildDB()
                   "Model TEXT DEFAULT NULL, "
                   "Type TEXT DEFAULT NULL, "
                   "Offset TEXT DEFAULT NULL, "
-                  "Color TEXT DEFAULT NULL),"
+                  "Color TEXT DEFAULT NULL,"
                   "Exposure TEXT DEFAULT '1')");
 
     tables.append("CREATE TABLE wishlist ( "
