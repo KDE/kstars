@@ -8,12 +8,13 @@
 */
 
 #include "offlineastrometryparser.h"
-
+#include "kstars_ekos_align_debug.h"
 #include "align.h"
 #include "ksutils.h"
 #include "Options.h"
 
 #include <KMessageBox>
+
 
 namespace Ekos
 {
@@ -73,14 +74,14 @@ bool OfflineAstrometryParser::init()
 #ifdef Q_OS_OSX
     // Please check if this works!
     solveField.start("bash", QStringList() << "-c"
-                                           << "solve-field | grep Revision");
+                                           << "solve-field --help | grep Revision");
 #else
     solveField.start("bash", QStringList() << "-c"
-                                           << "solve-field | grep Revision");
+                                           << "solve-field --help | grep Revision");
 #endif
     solveField.waitForFinished();
     QString output = solveField.readAllStandardOutput();
-    qDebug() << output;
+    qCDebug(KSTARS_EKOS_ALIGN) << "solve-field Revision" << output;
 
     if (output.isEmpty() == false)
     {
