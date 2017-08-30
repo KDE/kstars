@@ -49,6 +49,8 @@ class FITSView : public QScrollArea
     explicit FITSView(QWidget *parent = nullptr, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
     ~FITSView();
 
+    typedef enum {dragCursor, selectCursor, scopeCursor, crosshairCursor } CursorMode;
+
     /* Loads FITS image, scales it, and displays it in the GUI */
     bool loadFITS(const QString &filename, bool silent = true);
     /* Save FITS */
@@ -92,8 +94,8 @@ class FITSView : public QScrollArea
 
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    int getMouseMode();
-    void setMouseMode(int mode);
+    CursorMode getCursorMode();
+    void setCursorMode(CursorMode mode);
     void updateMouseCursor();
 
     void updateScopeButton();
@@ -170,10 +172,7 @@ private:
     bool pointIsInImage(QPointF pt, bool scaled);
 
 public:
-    static const int dragMouse { 0 };
-    static const int selectMouse { 1 };
-    static const int scopeMouse { 2 };
-    int lastMouseMode { 0 };
+    CursorMode lastMouseMode { selectCursor };
 
 protected:
     /// WCS Future Watcher
@@ -215,7 +214,7 @@ private:
     bool showPixelGrid { false };
     bool starsSearched { false };
 
-    int mouseMode { 1 };
+    CursorMode cursorMode { selectCursor };
     bool zooming { false };
     int zoomTime { 0 };
     QPoint zoomLocation;
@@ -235,7 +234,9 @@ private:
     QPixmap trackingBoxPixmap;
 
     // Scope pixmap
-    QPixmap scopePixmap;
+    QPixmap redScopePixmap;
+    // Magenta Scope Pixmap
+    QPixmap magentaScopePixmap;
 
     // Floating toolbar
     QToolBar *floatingToolBar { nullptr };

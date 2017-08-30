@@ -180,7 +180,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     previewView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     previewView->setBaseSize(previewWidget->size());
     previewView->createFloatingToolBar();
-    previewView->setMouseMode(FITSView::dragMouse);
+    previewView->setCursorMode(FITSView::dragCursor);
     QVBoxLayout *vlayout = new QVBoxLayout();
     vlayout->addWidget(previewView.get());
     previewWidget->setLayout(vlayout);

@@ -181,3 +181,11 @@ void AlignView::setRACircle(const QVector3D &value)
     RACircle = value;
     updateFrame();
 }
+
+void AlignView::setRefreshEnabled(bool enable)
+{
+    if (enable)
+        setCursorMode(crosshairCursor);
+    else
+        setCursorMode(selectCursor);
+}

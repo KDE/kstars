@@ -4431,6 +4431,7 @@ void Align::restartPAHProcess()
     alignView->setCorrectionParams(correctionVector);
     alignView->setCorrectionOffset(correctionOffset);
     alignView->setRACircle(QVector3D());
+    alignView->setRefreshEnabled(false);
 
     disconnect(alignView, SIGNAL(trackingStarSelected(int, int)), this, SLOT(setPAHCorrectionOffset(int, int)));
 }
@@ -4572,6 +4573,8 @@ void Align::startPAHRefreshProcess()
     // Hide EQ Grids if shown
     if (alignView->isEQGridShown())
         alignView->toggleEQGrid();
+
+    alignView->setRefreshEnabled(true);
 
     Options::setAstrometrySolverWCS(false);
     Options::setAutoWCS(false);

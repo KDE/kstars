@@ -57,8 +57,8 @@ FITSView::FITSView(QWidget *parent, FITSMode fitsMode, FITSScale filterType) : Q
     connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(syncWCSState()));
 
     image_frame->setMouseTracking(true);
-    setMouseMode(
-        selectMouse); //This is the default mode because the Focus and Align FitsViews should not be in dragMouse mode
+    setCursorMode(
+        selectCursor); //This is the default mode because the Focus and Align FitsViews should not be in dragMouse mode
 
     noImageLabel = new QLabel();
     noImage.load(":/images/noimage.png");
@@ -66,8 +66,8 @@ FITSView::FITSView(QWidget *parent, FITSMode fitsMode, FITSScale filterType) : Q
     noImageLabel->setAlignment(Qt::AlignCenter);
     this->setWidget(noImageLabel);
 
-    scopePixmap =
-        QPixmap(":/icons/center_telescope_red.svg").scaled(32, 32, Qt::KeepAspectRatio, Qt::FastTransformation);
+    redScopePixmap = QPixmap(":/icons/center_telescope_red.svg").scaled(32, 32, Qt::KeepAspectRatio, Qt::FastTransformation);
+    magentaScopePixmap = QPixmap(":/icons/center_telescope_magenta.svg").scaled(32, 32, Qt::KeepAspectRatio, Qt::FastTransformation);
 
     //if (fitsMode == FITS_GUIDE)
     //connect(image_frame.get(), SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
@@ -90,7 +90,7 @@ This method looks at what mouse mode is currently selected and updates the curso
 
 void FITSView::updateMouseCursor()
 {
-    if (mouseMode == dragMouse)
+    if (cursorMode == dragCursor)
     {
         if (horizontalScrollBar()->maximum() > 0 || verticalScrollBar()->maximum() > 0)
         {
@@ -102,13 +102,17 @@ void FITSView::updateMouseCursor()
         else
             viewport()->setCursor(Qt::CrossCursor);
     }
-    if (mouseMode == selectMouse)
+    else if (cursorMode == selectCursor)
     {
         viewport()->setCursor(Qt::CrossCursor);
     }
-    if (mouseMode == scopeMouse)
+    else if (cursorMode == scopeCursor)
     {
-        viewport()->setCursor(QCursor(scopePixmap, 10, 10));
+        viewport()->setCursor(QCursor(redScopePixmap, 10, 10));
+    }
+    else if (cursorMode == crosshairCursor)
+    {
+        viewport()->setCursor(QCursor(magentaScopePixmap, 10, 10));
     }
 }
 
@@ -120,14 +124,12 @@ The different defaults are accomplished by putting making the actual default mou
 the selectMouse, but when a FITSViewer loads an image, it immediately makes it the dragMouse.
  */
 
-void FITSView::setMouseMode(int mode)
+void FITSView::setCursorMode(CursorMode mode)
 {
-    if (mode > -1 && mode < 3)
-    {
-        mouseMode = mode;
-        updateMouseCursor();
-    }
-    if (mode==FITSView::scopeMouse&&imageHasWCS())
+    cursorMode = mode;
+    updateMouseCursor();
+
+    if (mode==scopeCursor && imageHasWCS())
     {
         if(imageData->isWCSLoaded() == false && wcsWatcher.isRunning() == false)
         {
@@ -314,9 +316,9 @@ int FITSView::rescale(FITSZoom type)
     return 0;
 }
 
-int FITSView::getMouseMode()
+FITSView::CursorMode FITSView::getCursorMode()
 {
-    return mouseMode;
+    return cursorMode;
 }
 
 void FITSView::enterEvent(QEvent *)
@@ -619,7 +621,7 @@ void FITSView::drawOverlay(QPainter *painter)
     if (markStars)
         drawStarCentroid(painter);
 
-    if (trackingBoxEnabled && getMouseMode() != FITSView::scopeMouse)
+    if (trackingBoxEnabled && getCursorMode() != FITSView::scopeCursor)
         drawTrackingBox(painter);
 
     if (markerCrosshair.isNull() == false)
@@ -645,7 +647,7 @@ void FITSView::updateMode(FITSMode fmode)
 
 void FITSView::drawMarker(QPainter *painter)
 {
-    painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor"))));
+    painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")), 2));
     painter->setBrush(Qt::NoBrush);
     float pxperdegree = (currentZoom / ZOOM_DEFAULT) * (57.3 / 1.8);
 
@@ -1495,14 +1497,14 @@ void FITSView::centerTelescope()
 {
     if (imageHasWCS())
     {
-        if (getMouseMode() == FITSView::scopeMouse)
+        if (getCursorMode() == FITSView::scopeCursor)
         {
-            setMouseMode(lastMouseMode);
+            setCursorMode(lastMouseMode);
         }
         else
         {
-            lastMouseMode = getMouseMode();
-            setMouseMode(FITSView::scopeMouse);
+            lastMouseMode = getCursorMode();
+            setCursorMode(FITSView::scopeCursor);
         }
         updateFrame();
     }
@@ -1513,7 +1515,7 @@ void FITSView::updateScopeButton()
 {
     if (centerTelescopeAction)
     {
-        if (getMouseMode() == FITSView::scopeMouse)
+        if (getCursorMode() == FITSView::scopeCursor)
         {
             centerTelescopeAction->setChecked(true);
         }
