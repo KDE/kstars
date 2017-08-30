@@ -2196,6 +2196,7 @@ bool FITSData::loadWCS()
     findObjectsInImage(&world[0], phi, theta, &imgcrd[0], &pixcrd[0], &stat[0]);
 
     WCSLoaded = true;
+    HasWCS = true;
 
     qCDebug(KSTARS_FITS) << "Finished WCS Data processing...";
 
