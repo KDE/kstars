@@ -62,7 +62,7 @@ If the mouse button is released, it resets mouseButtonDown variable and the mous
 void FITSLabel::mouseReleaseEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);
-    if (view->getMouseMode() == FITSView::dragMouse)
+    if (view->getCursorMode() == FITSView::dragCursor)
     {
         mouseButtonDown = false;
         view->updateMouseCursor();
@@ -79,7 +79,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 {
     float scale = (view->getCurrentZoom() / ZOOM_DEFAULT);
 
-    if (view->getMouseMode() == FITSView::dragMouse && mouseButtonDown)
+    if (view->getCursorMode() == FITSView::dragCursor && mouseButtonDown)
     {
         QPoint newPoint = e->globalPos();
         int dx          = newPoint.x() - lastMousePoint.x();
@@ -154,7 +154,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
     emit newStatus(stringValue, FITS_VALUE);
 
-    if (view_data->hasWCS() && view->getMouseMode() != FITSView::selectMouse)
+    if (view_data->hasWCS() && view->getCursorMode() != FITSView::selectCursor)
     {
         int index = x + y * width;
 
@@ -208,13 +208,13 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
 {
     float scale = (view->getCurrentZoom() / ZOOM_DEFAULT);
 
-    if (view->getMouseMode() == FITSView::dragMouse)
+    if (view->getCursorMode() == FITSView::dragCursor)
     {
         mouseButtonDown = true;
         lastMousePoint  = e->globalPos();
         view->updateMouseCursor();
     }
-    else if (e->buttons() & Qt::LeftButton && view->getMouseMode() == FITSView::scopeMouse)
+    else if (e->buttons() & Qt::LeftButton && view->getCursorMode() == FITSView::scopeCursor)
     {
 #ifdef HAVE_INDI
         FITSData *view_data = view->getImageData();
@@ -238,7 +238,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
                                                  KStandardGuiItem::cancel(), "continue_slew_warning"))
                 {
                     centerTelescope(wcs_coord[index].ra / 15.0, wcs_coord[index].dec);
-                    view->setMouseMode(view->lastMouseMode);
+                    view->setCursorMode(view->lastMouseMode);
                     view->updateScopeButton();
                 }
             }
@@ -257,7 +257,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
 #ifdef HAVE_INDI
     FITSData *view_data = view->getImageData();
 
-    if (e->buttons() & Qt::RightButton && view->getMouseMode() != FITSView::scopeMouse)
+    if (e->buttons() & Qt::RightButton && view->getCursorMode() != FITSView::scopeCursor)
     {
         mouseReleaseEvent(e);
         if (view_data->hasWCS())
@@ -294,9 +294,12 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     }
 #endif
 
-    if (e->buttons() & Qt::LeftButton && view->getMouseMode() == FITSView::selectMouse)
+    if  (e->buttons() & Qt::LeftButton)
     {
-        emit pointSelected(x, y);
+        if (view->getCursorMode() == FITSView::selectCursor)
+            emit pointSelected(x, y);
+        else if (view->getCursorMode() == FITSView::crosshairCursor)
+            emit pointSelected(x+5/scale, y+5/scale);
     }
 }
 

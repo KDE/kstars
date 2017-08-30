@@ -34,6 +34,7 @@ class AlignView : public FITSView
     void setCorrectionOffset(QPointF &newOffset);
 
     void setRACircle(const QVector3D &value);
+    void setRefreshEnabled(bool enable);
 
   protected:
     void drawLine(QPainter *painter);

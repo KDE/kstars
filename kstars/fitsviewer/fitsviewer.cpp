@@ -392,7 +392,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     updateStatusBar(i18n("Ready."), FITS_MESSAGE);
 
     updateWCSFunctions();
-    tab->getView()->setMouseMode(FITSView::dragMouse);
+    tab->getView()->setCursorMode(FITSView::dragCursor);
 
     return (fitsID++);
 }
@@ -787,7 +787,7 @@ void FITSViewer::updateWCSFunctions()
 
 void FITSViewer::updateScopeButton()
 {
-    if (getCurrentView()->getMouseMode() == FITSView::scopeMouse)
+    if (getCurrentView()->getCursorMode() == FITSView::scopeCursor)
     {
         actionCollection()->action("center_telescope")->setChecked(true);
     }
@@ -805,14 +805,14 @@ void FITSViewer::updateScopeButton()
 void FITSViewer::centerTelescope()
 {
     getCurrentView()->setScopeButton(actionCollection()->action("center_telescope"));
-    if (getCurrentView()->getMouseMode() == FITSView::scopeMouse)
+    if (getCurrentView()->getCursorMode() == FITSView::scopeCursor)
     {
-        getCurrentView()->setMouseMode(getCurrentView()->lastMouseMode);
+        getCurrentView()->setCursorMode(getCurrentView()->lastMouseMode);
     }
     else
     {
-        getCurrentView()->lastMouseMode = getCurrentView()->getMouseMode();
-        getCurrentView()->setMouseMode(FITSView::scopeMouse);
+        getCurrentView()->lastMouseMode = getCurrentView()->getCursorMode();
+        getCurrentView()->setCursorMode(FITSView::scopeCursor);
     }
     updateScopeButton();
 }
