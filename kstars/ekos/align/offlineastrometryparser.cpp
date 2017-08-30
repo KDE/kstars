@@ -8,7 +8,7 @@
 */
 
 #include "offlineastrometryparser.h"
-#include "kstars_ekos_align_debug.h"
+#include "ekos_align_debug.h"
 #include "align.h"
 #include "ksutils.h"
 #include "Options.h"
