@@ -3968,6 +3968,7 @@ void Scheduler::stopGuiding()
         (currentJob->getStage() == SchedulerJob::STAGE_GUIDING_COMPLETE ||
          currentJob->getStage() == SchedulerJob::STAGE_CAPTURING))
     {
+        qCInfo(KSTARS_EKOS_SCHEDULER) << "Stopping guiding...";
         guideInterface->call(QDBus::AutoDetect, "abort");
         guideFailureCount = 0;
     }
