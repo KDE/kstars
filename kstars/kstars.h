@@ -586,11 +586,21 @@ class KStars : public KXmlGuiWindow
     /** action slot: Track with the telescope (INDI) */
     void slotINDITelescopeTrack();
 
-    /** action slot: Slew with the telescope (INDI) */
-    void slotINDITelescopeSlew();
+    /**
+     * Action slot: Slew with the telescope (INDI)
+     *
+     * @param focused_object Slew to the focused object or the mouse pointer if false.
+     *
+     */
+    void slotINDITelescopeSlew(bool focused_object = true);
 
-    /** action slot: Sync the telescope (INDI) */
-    void slotINDITelescopeSync();
+    /**
+     * Action slot: Sync the telescope (INDI)
+     *
+     * @param focused_object Sync the position of the focused object or the mouse pointer if false.
+     *
+     */
+    void slotINDITelescopeSync(bool focused_object = true);
 
     /** action slot: Abort any telescope motion (INDI) */
     void slotINDITelescopeAbort();

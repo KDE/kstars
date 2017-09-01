@@ -751,6 +751,7 @@ void KStars::slotINDITelescopeTrack()
         if (telescope != nullptr && telescope->isConnected())
         {
             KToggleAction *a = qobject_cast<KToggleAction*>(sender());
+
             if (a != nullptr)
             {
                 telescope->setTrackEnabled(a->isChecked());
@@ -761,7 +762,7 @@ void KStars::slotINDITelescopeTrack()
 #endif
 }
 
-void KStars::slotINDITelescopeSlew()
+void KStars::slotINDITelescopeSlew(bool focused_object)
 {
 #ifdef HAVE_INDI
     if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
@@ -773,19 +774,20 @@ void KStars::slotINDITelescopeSlew()
 
         if (telescope != nullptr && telescope->isConnected())
         {
-            if (m_SkyMap->focusObject() != nullptr)
-                telescope->Slew(m_SkyMap->focusObject());
-            // FIXME This can cause havoc for end users so it should
-            // probably gets its own action
-            //else
-                //telescope->Slew(m_SkyMap->mousePoint());
+            if (focused_object)
+            {
+                if (m_SkyMap->focusObject() != nullptr)
+                    telescope->Slew(m_SkyMap->focusObject());
+            } else
+                telescope->Slew(m_SkyMap->mousePoint());
+
             return;
         }
     }
 #endif
 }
 
-void KStars::slotINDITelescopeSync()
+void KStars::slotINDITelescopeSync(bool focused_object)
 {
 #ifdef HAVE_INDI
     if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
@@ -797,10 +799,13 @@ void KStars::slotINDITelescopeSync()
 
         if (telescope != nullptr && telescope->isConnected() && telescope->canSync())
         {
-            if (m_SkyMap->focusObject() != nullptr)
-                telescope->Sync(m_SkyMap->focusObject());
-            //else
-                //telescope->Sync(m_SkyMap->mousePoint());
+            if (focused_object)
+            {
+                if (m_SkyMap->focusObject() != nullptr)
+                    telescope->Sync(m_SkyMap->focusObject());
+            } else
+                telescope->Sync(m_SkyMap->mousePoint());
+
             return;
         }
     }
