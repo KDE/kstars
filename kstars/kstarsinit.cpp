@@ -569,36 +569,35 @@ void KStars::initActions()
 
     ka = actionCollection()->add<KToggleAction>("telescope_track", this, SLOT(slotINDITelescopeTrack()))
             << i18n("Toggle Telescope Tracking")
-            << QIcon::fromTheme("object-locked", QIcon(":/icons/breeze/default/object-locked.svg"))
-            << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_T);
+            << QIcon::fromTheme("object-locked", QIcon(":/icons/breeze/default/object-locked.svg"));
     telescopeGroup->addAction(ka);
-    ka = actionCollection()->addAction("telescope_slew", this, SLOT(slotINDITelescopeSlew()))
-            << i18n("Slew Telescope")
-            << QIcon::fromTheme("object-rotate-right", QIcon(":/icons/breeze/default/object-rotate-right.svg"))
-            << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_S);
+    ka = actionCollection()->addAction("telescope_slew", this, [=]() { slotINDITelescopeSlew(true); } )
+            << i18n("Slew telescope to the focused object")
+            << QIcon::fromTheme("object-rotate-right", QIcon(":/icons/breeze/default/object-rotate-right.svg"));
     telescopeGroup->addAction(ka);
-    ka = actionCollection()->addAction("telescope_sync", this, SLOT(slotINDITelescopeSync()))
-            << i18n("Sync Telescope")
-            << QIcon::fromTheme("media-record", QIcon(":/icons/breeze/default/media-record.svg"))
-            << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_Y);
+    ka = actionCollection()->addAction("telescope_sync", this, [=]() { slotINDITelescopeSync(true); } )
+            << i18n("Sync telescope to the focused object")
+            << QIcon::fromTheme("media-record", QIcon(":/icons/breeze/default/media-record.svg"));
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_abort", this, SLOT(slotINDITelescopeAbort()))
-            << i18n("Abort Telescope")
-            << QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg"))
-            << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_A);
+            << i18n("Abort telescope motions")
+            << QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg"));
     ka->setShortcutContext(Qt::ApplicationShortcut);
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_park", this, SLOT(slotINDITelescopePark()))
-            << i18n("Park Telescope")
-            << QIcon::fromTheme("flag-red", QIcon(":/icons/breeze/default/kstars_flag.svg"))
-            << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_P);
+            << i18n("Park telescope")
+            << QIcon::fromTheme("flag-red", QIcon(":/icons/breeze/default/kstars_flag.svg"));
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_unpark", this, SLOT(slotINDITelescopeUnpark()))
-            << i18n("Unpark Telescope")
-            << QIcon::fromTheme("flag-green", QIcon(":/icons/breeze/default/flag-green.svg"))
-            << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_U);
+            << i18n("Unpark telescope")
+            << QIcon::fromTheme("flag-green", QIcon(":/icons/breeze/default/flag-green.svg"));
     ka->setShortcutContext(Qt::ApplicationShortcut);
     telescopeGroup->addAction(ka);
+
+    ka = actionCollection()->addAction("telescope_slew_mouse", this, [=]() { slotINDITelescopeSlew(false); } )
+            << i18n("Slew the telescope to the mouse pointer position");
+    ka = actionCollection()->addAction("telescope_sync_mouse", this, [=]() { slotINDITelescopeSync(false); } )
+            << i18n("Sync the telescope to the mouse pointer position");
 
     // Disable all telescope actions by default
     telescopeGroup->setEnabled(false);
