@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>379</width>
-    <height>378</height>
+    <width>297</width>
+    <height>376</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -257,6 +257,43 @@
          <string>Receive external guide frames</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QCheckBox" name="kcfg_DitherNoGuiding">
+          <property name="toolTip">
+           <string>Perform dithering when not guiding,</string>
+          </property>
+          <property name="text">
+           <string>Non-Guide Dither Pulse:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="kcfg_DitherNoGuidingPulse">
+          <property name="toolTip">
+           <string>Pulse length in milliseconds to command mount motion in a random direction</string>
+          </property>
+          <property name="minimum">
+           <number>10</number>
+          </property>
+          <property name="maximum">
+           <number>10000</number>
+          </property>
+          <property name="singleStep">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>ms</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QCheckBox" name="kcfg_RapidGuideEnabled">
