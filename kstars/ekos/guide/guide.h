@@ -392,6 +392,8 @@ class Guide : public QWidget, public Ui::Guide
 
     void processCaptureTimeout();
 
+    void ditherDirectly();
+
   signals:
     void newLog();
     void newStatus(Ekos::GuideState status);

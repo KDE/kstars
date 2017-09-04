@@ -875,11 +875,13 @@ void Guide::setCaptureComplete()
             guider->guide();
             break;
 
-        case GUIDE_DITHERING:        
-            guider->dither(Options::ditherPixels());
+        case GUIDE_DITHERING:
+                guider->dither(Options::ditherPixels());
             break;
 
         case GUIDE_DITHERING_SETTLE:
+            if (Options::ditherNoGuiding())
+                return;
             capture();
             break;
 
@@ -923,7 +925,7 @@ bool Guide::sendPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_di
     if (GuideDriver == nullptr || (ra_dir == NO_DIR && dec_dir == NO_DIR))
         return false;
 
-    if (state == GUIDE_CALIBRATING)
+    if (state == GUIDE_CALIBRATING && Options::ditherNoGuiding() == false)
         pulseTimer.start((ra_msecs > dec_msecs ? ra_msecs : dec_msecs) + 100);
 
     return GuideDriver->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
@@ -934,7 +936,7 @@ bool Guide::sendPulse(GuideDirection dir, int msecs)
     if (GuideDriver == nullptr || dir == NO_DIR)
         return false;
 
-    if (state == GUIDE_CALIBRATING)
+    if (state == GUIDE_CALIBRATING && Options::ditherNoGuiding() == false)
         pulseTimer.start(msecs + 100);
 
     return GuideDriver->doPulse(dir, msecs);
@@ -1080,6 +1082,12 @@ bool Guide::guide()
 
 bool Guide::dither()
 {
+    if (Options::ditherNoGuiding())
+    {
+        ditherDirectly();
+        return true;
+    }
+
     if (state == GUIDE_DITHERING || state == GUIDE_DITHERING_SETTLE)
         return true;
 
@@ -1350,11 +1358,14 @@ void Guide::setStatus(Ekos::GuideState newState)
 
         case GUIDE_DITHERING_SUCCESS:
             appendLogText(i18n("Dithering completed successfully."));
-            // Go back to guiding state immediately
-            setStatus(GUIDE_GUIDING);
-            // Only capture again if we are using internal guider
-            if (guiderType == GUIDE_INTERNAL)
-                capture();
+            // Go back to guiding state immediately if using regular guider
+            if (Options::ditherNoGuiding() == false)
+            {
+                setStatus(GUIDE_GUIDING);
+                // Only capture again if we are using internal guider
+                if (guiderType == GUIDE_INTERNAL)
+                    capture();
+            }
             break;
         default:
             break;
@@ -2376,6 +2387,40 @@ void Guide::setBLOBEnabled(bool enable)
             appendLogText(i18n("Enabling remote image reception from %1", oneCCD->getDeviceName()));
             oneCCD->setBLOBEnabled(enable);
         }
+    }
+}
+
+void Guide::ditherDirectly()
+{
+    double ditherPulse = Options::ditherNoGuidingPulse();
+
+    // Randomize pulse length. It is equal to 50% of pulse length + random value up to 50%
+    // e.g. if ditherPulse is 500ms then final pulse is = 250 + rand(0 to 250)
+    int ra_msec  = static_cast<int>(((double)rand() / RAND_MAX) * ditherPulse / 2.0 +  ditherPulse / 2.0);
+    int ra_polarity = (rand() % 2 == 0) ? 1 : -1;
+
+    int de_msec  = static_cast<int>(((double)rand() / RAND_MAX) * ditherPulse / 2.0 +  ditherPulse / 2.0);
+    int de_polarity = (rand() % 2 == 0) ? 1 : -1;
+
+    qCInfo(KSTARS_EKOS_GUIDE) << "Starting non-guiding dither...";
+    qCDebug(KSTARS_EKOS_GUIDE) << "dither ra_msec:" << ra_msec << "ra_polarity:" << ra_polarity << "de_msec:" << de_msec << "de_polarity:" << de_polarity;
+
+    bool rc = sendPulse(ra_polarity > 0 ? RA_INC_DIR : RA_DEC_DIR, ra_msec, de_polarity > 0 ? DEC_INC_DIR : DEC_DEC_DIR, de_msec);
+
+    if (rc)
+    {
+        qCInfo(KSTARS_EKOS_GUIDE) << "Non-guiding dither successful.";
+        QTimer::singleShot( (ra_msec > de_msec ? ra_msec : de_msec) + Options::ditherSettle() * 1000 + 100, [this]()
+        {
+            emit newStatus(GUIDE_DITHERING_SUCCESS);
+            state = GUIDE_IDLE;
+        });
+    }
+    else
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << "Non-guiding dither failed.";
+        emit newStatus(GUIDE_DITHERING_ERROR);
+        state = GUIDE_IDLE;
     }
 }
 }

@@ -1861,12 +1861,20 @@
          <label>How many dithering attempts to undertake before giving up.</label>
          <default>10</default>
       </entry>
+      <entry name="DitherNoGuidingPulse" type="UInt">
+         <label>Pulse length in milliseconds used for non-guiding dither.</label>
+         <default>500</default>
+      </entry>
       <entry name="DitherFailAbortsAutoGuide" type="Bool">
          <label>If dithering fails then abort autoguide.</label>
          <default>false</default>
       </entry>
       <entry name="DitherEnabled" type="Bool">
          <label>Use Auto Dithering when guiding.</label>
+         <default>false</default>
+      </entry>
+      <entry name="DitherNoGuiding" type="Bool">
+         <label>Perform dithering even when not guiding.</label>
          <default>false</default>
       </entry>
       <entry name="AOLimit" type="Double">
