@@ -104,9 +104,17 @@ const int KSNumbers::amp[NUTTERMS][4] = { { -171996, -1742, 92025, 89 },
 KSNumbers::KSNumbers(long double jd)
 {
     K.setD(20.49552 / 3600.); //set the constant of aberration
-    P.setD(
-        102.94719); // ecliptic longitude of earth's perihelion, source: http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html; FIXME: We should correct this, as it changes with time. See the commit log for an order of magnitude estimate of the error.
+
+    // ecliptic longitude of earth's perihelion, source: http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html; FIXME: We should correct this, as it changes with time. See the commit log for an order of magnitude estimate of the error.
     // FIXME: FIXME above seems to have been addressed? What is deltaEcLong? -- asimha
+    P.setD(102.94719);
+
+    // JM 2017-09-04: Yes the longitude of the perihelion changes with time. The value below is the one for 04-09-2017 obtained from JPL Horizons system.
+    // But some Earth orbital elements MUST be updated periodically like any other solar system body.
+    // This is an important FIXME!
+    // deltaEcLong is used in nutation calculations. Can P be obtained computationally?
+    //P.setD(104.8089842092676);
+
     computeConstantValues();
     updateValues(jd);
 }
