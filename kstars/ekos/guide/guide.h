@@ -345,6 +345,7 @@ class Guide : public QWidget, public Ui::Guide
     void refreshColorScheme();
 
   protected slots:
+    void updateTelescopeType(int index);
     void updateCCDBin(int index);
 
     /**
@@ -469,8 +470,8 @@ class Guide : public QWidget, public Ui::Guide
     // Guide Params
     double ccdPixelSizeX { 0 };
     double ccdPixelSizeY { 0 };
-    double mountAperture { 0 };
-    double mountFocalLength { 0 };
+    double aperture { 0 };
+    double focal_length { 0 };
     double guideDeviationRA { 0 };
     double guideDeviationDEC { 0 };
     double pixScaleX { 0 };
@@ -528,5 +529,7 @@ class Guide : public QWidget, public Ui::Guide
     QPointer<PHD2> phd2Guider;
     QPointer<LinGuider> linGuider;
     QPointer<FITSViewer> fv;
+
+    double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
 };
 }

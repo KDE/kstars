@@ -1589,6 +1589,10 @@
          <label>Focus process algorithm</label>
          <default>0</default>
       </entry>
+      <entry name="FocusFramesCount" type="UInt">
+         <label>Number of focus frames to average for HFR calculations.</label>
+         <default>1</default>
+      </entry>
    </group>
    <group name="Align">
       <entry name="DefaultAlignCCD" type="String">
@@ -1789,6 +1793,10 @@
       <entry name="LinGuiderPort" type="UInt">
          <label>Lin_guider Event Monitoring Port</label>
          <default>5656</default>
+      </entry>
+      <entry name="GuideScopeType" type="UInt">
+         <label>Index of telescope type to be used when guiding. 0 for Primary, 1 for Guide</label>
+         <default>0</default>
       </entry>
       <entry name="CalibrationPulseDuration" type="UInt">
          <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
