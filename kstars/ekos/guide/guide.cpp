@@ -68,7 +68,7 @@ Guide::Guide() : QWidget()
     guideWidget->setLayout(vlayout);
     connect(guideView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setTrackingStar(int,int)));
 
-    ccdPixelSizeX = ccdPixelSizeY = mountAperture = mountFocalLength = pixScaleX = pixScaleY = -1;
+    ccdPixelSizeX = ccdPixelSizeY = aperture = focal_length = pixScaleX = pixScaleY = -1;
     guideDeviationRA = guideDeviationDEC = 0;
 
     useGuideHead = false;
@@ -114,6 +114,8 @@ Guide::Guide() : QWidget()
     }
     );
 
+    FOVScopeCombo->setCurrentIndex(Options::guideScopeType());
+    connect(FOVScopeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTelescopeType(int)));
 
     // Dark Frame Check
     connect(darkFrameCheck, SIGNAL(toggled(bool)), this, SLOT(setDarkFrameEnabled(bool)));
@@ -421,14 +423,14 @@ void Guide::syncCCDInfo()
 void Guide::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture)
 {
     if (primaryFocalLength > 0)
-        mountFocalLength = primaryFocalLength;
+        focal_length = primaryFocalLength;
     if (primaryAperture > 0)
-        mountAperture = primaryAperture;
+        aperture = primaryAperture;
     // If we have guide scope info, always prefer that over primary
     if (guideFocalLength > 0)
-        mountFocalLength = guideFocalLength;
+        focal_length = guideFocalLength;
     if (guideAperture > 0)
-        mountAperture = guideAperture;
+        aperture = guideAperture;
 
     updateGuideParams();
 }
@@ -442,26 +444,34 @@ void Guide::syncTelescopeInfo()
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "GUIDER_APERTURE");
+        INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
 
-        if (np && np->value != 0)
-            mountAperture = np->value;
-        else
-        {
-            np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
-            if (np)
-                mountAperture = np->value;
-        }
+        if (np && np->value > 0)
+            primaryAperture = np->value;
+
+        np = IUFindNumber(nvp, "GUIDER_APERTURE");
+        if (np && np->value > 0)
+            guideAperture = np->value;
+
+        aperture = primaryAperture;
+
+        //if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
+        if (FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_GUIDE)
+            aperture = guideAperture;
+
+        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
+        if (np && np->value > 0)
+            primaryFL = np->value;
 
         np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
-        if (np && np->value != 0)
-            mountFocalLength = np->value;
-        else
-        {
-            np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
-            if (np)
-                mountFocalLength = np->value;
-        }
+        if (np && np->value > 0)
+            guideFL = np->value;
+
+        focal_length = primaryFL;
+
+        //if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
+        if (FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_GUIDE)
+            focal_length = guideFL;
     }
 
     updateGuideParams();
@@ -524,9 +534,24 @@ void Guide::updateGuideParams()
         }
     }
 
-    if (ccdPixelSizeX != -1 && ccdPixelSizeY != -1 && mountAperture != -1 && mountFocalLength != -1)
+    if (ccdPixelSizeX != -1 && ccdPixelSizeY != -1 && aperture != -1 && focal_length != -1)
     {
-        guider->setGuiderParams(ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength);
+        FOVScopeCombo->setItemData(
+                    ISD::CCD::TELESCOPE_PRIMARY,
+                    i18nc("F-Number, Focal Length, Aperture",
+                          "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
+                          QString::number(primaryFL / primaryAperture, 'f', 1), QString::number(primaryFL, 'f', 2),
+                          QString::number(primaryAperture, 'f', 2)),
+                    Qt::ToolTipRole);
+        FOVScopeCombo->setItemData(
+                    ISD::CCD::TELESCOPE_GUIDE,
+                    i18nc("F-Number, Focal Length, Aperture",
+                          "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
+                          QString::number(guideFL / guideAperture, 'f', 1), QString::number(guideFL, 'f', 2),
+                          QString::number(guideAperture, 'f', 2)),
+                    Qt::ToolTipRole);
+
+        guider->setGuiderParams(ccdPixelSizeX, ccdPixelSizeY, aperture, focal_length);
         emit guideChipUpdated(targetChip);
 
         int x, y, w, h;
@@ -535,9 +560,9 @@ void Guide::updateGuideParams()
             guider->setFrameParams(x, y, w, h, subBinX, subBinY);
         }
 
-        l_Focal->setText(QString::number(mountFocalLength, 'f', 1));
-        l_Aperture->setText(QString::number(mountAperture, 'f', 1));
-        if (mountAperture == 0)
+        l_Focal->setText(QString::number(focal_length, 'f', 1));
+        l_Aperture->setText(QString::number(aperture, 'f', 1));
+        if (aperture == 0)
         {
             l_FbyD->setText("0");
             // Pixel scale in arcsec/pixel
@@ -546,10 +571,10 @@ void Guide::updateGuideParams()
         }
         else
         {
-            l_FbyD->setText(QString::number(mountFocalLength / mountAperture, 'f', 1));
+            l_FbyD->setText(QString::number(focal_length / aperture, 'f', 1));
             // Pixel scale in arcsec/pixel
-            pixScaleX = 206264.8062470963552 * ccdPixelSizeX / 1000.0 / mountFocalLength;
-            pixScaleY = 206264.8062470963552 * ccdPixelSizeY / 1000.0 / mountFocalLength;
+            pixScaleX = 206264.8062470963552 * ccdPixelSizeX / 1000.0 / focal_length;
+            pixScaleY = 206264.8062470963552 * ccdPixelSizeY / 1000.0 / focal_length;
         }
 
 
@@ -631,9 +656,13 @@ bool Guide::captureOneFrame()
         return false;
     }
 
+    // If CCD Telescope Type does not match desired scope type, change it
+    if (currentCCD->getTelescopeType() != FOVScopeCombo->currentIndex())
+        currentCCD->setTelescopeType(static_cast<ISD::CCD::TelescopeType>(FOVScopeCombo->currentIndex()));
+
     double seqExpose = exposureIN->value();
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);        
 
     targetChip->setCaptureMode(FITS_GUIDE);
     targetChip->setFrameType(FRAME_LIGHT);
@@ -2423,4 +2452,18 @@ void Guide::ditherDirectly()
         state = GUIDE_IDLE;
     }
 }
+
+void Guide::updateTelescopeType(int index)
+{
+    if (currentCCD == nullptr)
+        return;
+
+    focal_length = (index == ISD::CCD::TELESCOPE_PRIMARY) ? primaryFL : guideFL;
+    aperture = (index == ISD::CCD::TELESCOPE_PRIMARY) ? primaryAperture : guideAperture;
+
+    Options::setGuideScopeType(index);
+
+    syncTelescopeInfo();
+}
+
 }
