@@ -372,9 +372,6 @@ class Align : public QWidget, public Ui::Align
     void correctAzError();
     void correctAltError();
 
-    //void processFilterNumber(INumberVectorProperty *nvp);
-    void processCCDSwitch(ISwitchVectorProperty *svp);
-
     void setDefaultCCD(QString ccd);
 
     void saveSettleTime();
@@ -699,6 +696,8 @@ class Align : public QWidget, public Ui::Align
     QUrl alignURL;
     QUrl alignURLPath;
     QVector<const StarObject *> alignStars;
+
+    ISD::CCD::TelescopeType rememberTelescopeType = { ISD::CCD::TELESCOPE_UNKNOWN };
 
     double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
 };
