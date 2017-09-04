@@ -123,6 +123,8 @@ Focus::Focus()
     activeBin = Options::focusXBin();
     binningCombo->setCurrentIndex(activeBin - 1);
 
+    focusFramesSpin->setValue(Options::focusFramesCount());
+
     connect(clearDataB, SIGNAL(clicked()), this, SLOT(clearDataPoints()));
 
     profileDialog = new QDialog(this);
@@ -759,6 +761,7 @@ void Focus::start()
     Options::setSuspendGuiding(suspendGuideCheck->isChecked());
     Options::setLockFocusFilter(lockFilterCheck->isChecked());
     Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
+    Options::setFocusFramesCount(focusFramesSpin->value());
 
     qCDebug(KSTARS_EKOS_FOCUS)  << "Starting focus with box size: " << focusBoxSize->value()
                  << " Step Size: " << stepIN->value() << " Threshold: " << thresholdSpin->value()
