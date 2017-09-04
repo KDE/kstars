@@ -25,6 +25,7 @@ KSPage {
         TabBar {
             id: tabBar
             property bool isTab: true
+            spacing: 20
             currentIndex: detailsSwipeView.currentIndex
             anchors {
                 top: parent.top
