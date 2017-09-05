@@ -41,6 +41,10 @@ class FileDownloader : public QObject
     void setProgressDialogEnabled(bool ShowProgressDialog, const QString &textTitle = QString(),
                                   const QString &textLabel = QString());
 
+    // Callbacks to verify data before being accepted
+    void registerDataVerification(std::function<bool(const QByteArray &data)> verifyFunc) { m_verifyData = verifyFunc; }
+    void registerFileVerification(std::function<bool(const QString &filename)> verifyFile){ m_verifyFile = verifyFile; }
+
   signals:
     void downloaded();
     void canceled();
@@ -75,4 +79,7 @@ class FileDownloader : public QObject
     bool isCancelled { false };
     QString label;
     QString title;
+
+    std::function<bool(const QByteArray &data)> m_verifyData;
+    std::function<bool(const QString &filename)> m_verifyFile;
 };

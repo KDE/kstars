@@ -26,6 +26,9 @@
 FileDownloader::FileDownloader(QObject *parent) : QObject(parent)
 {
     connect(&m_WebCtrl, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataFinished(QNetworkReply*)));
+
+    registerDataVerification([](const QByteArray &) { return true; });
+    registerFileVerification([](const QString &) { return true;});
 }
 
 FileDownloader::~FileDownloader()
@@ -91,12 +94,29 @@ void FileDownloader::dataFinished(QNetworkReply *pReply)
         return;
 
     dataReady();
-    if (m_downloadTemporaryFile.isOpen())
+
+    if (m_verifyData(m_DownloadedData) == false)
+    {
+        emit error(i18n("Data verification failed!"));
+        pReply->deleteLater();
+        return;
+    }
+    else if (m_downloadTemporaryFile.isOpen())
     {
         m_downloadTemporaryFile.flush();
         m_downloadTemporaryFile.close();
-        QFile::remove(m_DownloadedFileURL.toLocalFile());
-        m_downloadTemporaryFile.copy(m_DownloadedFileURL.toLocalFile());
+
+        if (m_verifyFile(m_downloadTemporaryFile.fileName()) == false)
+        {
+            emit error(i18n("File verification failed!"));
+            pReply->deleteLater();
+            return;
+        }
+        else
+        {
+            QFile::remove(m_DownloadedFileURL.toLocalFile());
+            m_downloadTemporaryFile.copy(m_DownloadedFileURL.toLocalFile());
+        }
     }
 
     if (isCancelled == false)
