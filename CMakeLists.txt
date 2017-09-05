@@ -366,6 +366,8 @@ add_subdirectory(datahandlers)
 IF (NOT ANDROID)
     enable_testing(true)
     add_subdirectory(Tests)
+    # Make it possible to use the po files fetched by the fetch-translations step
+    ki18n_install("${CMAKE_CURRENT_BINARY_DIR}/po")
 ENDIF ()
 
 install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
