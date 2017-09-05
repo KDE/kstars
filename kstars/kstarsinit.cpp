@@ -571,11 +571,11 @@ void KStars::initActions()
             << i18n("Toggle Telescope Tracking")
             << QIcon::fromTheme("object-locked", QIcon(":/icons/breeze/default/object-locked.svg"));
     telescopeGroup->addAction(ka);
-    ka = actionCollection()->addAction("telescope_slew", this, [=]() { slotINDITelescopeSlew(true); } )
+    ka = actionCollection()->addAction("telescope_slew", this, SLOT(slotINDITelescopeSlew()))
             << i18n("Slew telescope to the focused object")
             << QIcon::fromTheme("object-rotate-right", QIcon(":/icons/breeze/default/object-rotate-right.svg"));
     telescopeGroup->addAction(ka);
-    ka = actionCollection()->addAction("telescope_sync", this, [=]() { slotINDITelescopeSync(true); } )
+    ka = actionCollection()->addAction("telescope_sync", this, SLOT(slotINDITelescopeSync()))
             << i18n("Sync telescope to the focused object")
             << QIcon::fromTheme("media-record", QIcon(":/icons/breeze/default/media-record.svg"));
     telescopeGroup->addAction(ka);
@@ -594,9 +594,20 @@ void KStars::initActions()
     ka->setShortcutContext(Qt::ApplicationShortcut);
     telescopeGroup->addAction(ka);
 
+// TODO: Delete the non-lambda version and keep the lambda version after Ubuntu Xenial support is dropped
+#if KDE_IS_VERSION(4,14,22)
     ka = actionCollection()->addAction("telescope_slew_mouse", this, [=]() { slotINDITelescopeSlew(false); } )
+#else
+    ka = actionCollection()->addAction("telescope_slew_mouse", this, SLOT(slotINDITelescopeSlewMousePointer()))
+#endif
             << i18n("Slew the telescope to the mouse pointer position");
+
+// TODO: Delete the non-lambda version and keep the lambda version after Ubuntu Xenial support is dropped
+#if KDE_IS_VERSION(4,14,22)
     ka = actionCollection()->addAction("telescope_sync_mouse", this, [=]() { slotINDITelescopeSync(false); } )
+#else
+    ka = actionCollection()->addAction("telescope_sync_mouse", this, SLOT(slotINDITelescopeSyncMousePointer()))
+#endif
             << i18n("Sync the telescope to the mouse pointer position");
 
     // Disable all telescope actions by default

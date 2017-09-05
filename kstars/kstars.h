@@ -21,6 +21,7 @@
 #include "oal/equipmentwriter.h"
 #include "oal/observeradd.h"
 
+#include <kdeversion.h>
 #include <kxmlguiwindow.h>
 
 #include <QDockWidget>
@@ -593,6 +594,10 @@ class KStars : public KXmlGuiWindow
      *
      */
     void slotINDITelescopeSlew(bool focused_object = true);
+// TODO: Delete this function after Ubuntu Xenial support is dropped
+#if !KDE_IS_VERSION(4,14,22)
+    void slotINDITelescopeSlewMousePointer();
+#endif
 
     /**
      * Action slot: Sync the telescope (INDI)
@@ -601,6 +606,10 @@ class KStars : public KXmlGuiWindow
      *
      */
     void slotINDITelescopeSync(bool focused_object = true);
+// TODO: Delete this function after Ubuntu Xenial support is dropped
+#if !KDE_IS_VERSION(4,14,22)
+    void slotINDITelescopeSyncMousePointer();
+#endif
 
     /** action slot: Abort any telescope motion (INDI) */
     void slotINDITelescopeAbort();
