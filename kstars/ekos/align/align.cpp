@@ -4331,6 +4331,12 @@ void Align::setCaptureStatus(CaptureState newState)
     switch (newState)
     {
     case CAPTURE_ALIGNING:
+        if (currentTelescope && currentTelescope->hasAlignmentModel() && Options::resetMountModelAfterMeridian())
+        {
+            bool rc = currentTelescope->clearAlignmentModel();
+            qCDebug(KSTARS_EKOS_ALIGN) << "Post meridian flip mount model reset" << (rc ? "successful." : "failed.");
+        }
+
         QTimer::singleShot(Options::settlingTime(), this, SLOT(captureAndSolve()));
         break;
 

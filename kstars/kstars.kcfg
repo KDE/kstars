@@ -1471,7 +1471,11 @@
       <entry name="AutoMeridianFlip" type="Bool">
          <label>Flips the mount when reaching the meridian, if supported.</label>
          <default>false</default>
-      </entry>      
+      </entry>
+      <entry name="ResetMountModelAfterMeridian" type="Bool">
+         <label>Reset mount model after meridian flip.</label>
+         <default>false</default>
+      </entry>
       <entry name="ADUValue" type="UInt">
          <label>Desired flat field ADU percentage</label>
          <whatsthis>If set, Ekos will capture a few flat images to determine the optimal exposure time to achieve the desired ADU percentage.</whatsthis>
@@ -1965,7 +1969,7 @@
          <label>Perform pre-emptive shutdown if no jobs are due for a number of hours.</label>
          <default>false</default>
       </entry>
-      <entry name="ResetMountModel" type="Bool">
+      <entry name="ResetMountModelOnAlignFail" type="Bool">
          <label>Reset mount model in case of alignment failure.</label>
          <default>false</default>
       </entry>
