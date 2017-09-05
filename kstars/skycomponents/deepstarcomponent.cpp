@@ -496,7 +496,7 @@ StarObject *DeepStarComponent::findByHDIndex(int HDnum)
 
 SkyObject *DeepStarComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
-    StarObject *oBest = 0;
+    StarObject *oBest = nullptr;
 
 #ifdef KSTARS_LITE
     m_zoomMagLimit = StarComponent::zoomMagnitudeLimit();

@@ -249,10 +249,10 @@ void AsteroidsComponent::draw(SkyPainter *skyp)
 
 SkyObject *AsteroidsComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
-    SkyObject *oBest = 0;
+    SkyObject *oBest = nullptr;
 
     if (!selected())
-        return 0;
+        return nullptr;
 
     foreach (SkyObject *o, m_ObjectList)
     {

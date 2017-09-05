@@ -14,7 +14,7 @@
 SkipListElement::SkipListElement(long level, Key key, Value value) : myLevel(level), myKey(key), myValue(value)
 {
     for (int i = 0; i < SKIPLIST_MAXLEVEL; i++)
-        myNext[i] = 0;
+        myNext[i] = nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

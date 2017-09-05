@@ -33,14 +33,14 @@ class KSHelpLabel : public QLabel
     /**
          * Constructor. Creates clear label
          */
-    explicit KSHelpLabel(QWidget *parent = 0);
+    explicit KSHelpLabel(QWidget *parent = nullptr);
 
     /**
          * Constructor. Creates label with a text and help anchor.
          * @param text Text of the label
          * @param anchor Name of the section in the AstroInfo project (without 'ai-')
          */
-    KSHelpLabel(const QString &text, const QString &anchor, QWidget *parent = 0);
+    KSHelpLabel(const QString &text, const QString &anchor, QWidget *parent = nullptr);
 
     QString text() const { return m_cleanText; }
     void setText(const QString &text);

@@ -66,15 +66,15 @@ SkyObject *ListComponent::findByName(const QString &name)
             return o;
     }
     //No object found
-    return 0;
+    return nullptr;
 }
 
 SkyObject *ListComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
     if (!selected())
-        return 0;
+        return nullptr;
 
-    SkyObject *oBest = 0;
+    SkyObject *oBest = nullptr;
     foreach (SkyObject *o, m_ObjectList)
     {
         double r = o->angularDistanceTo(p).Degrees();

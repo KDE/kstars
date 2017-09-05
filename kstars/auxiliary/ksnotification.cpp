@@ -25,7 +25,7 @@ void error(const QString &message, const QString &title)
     Q_UNUSED(title);
     KStarsLite::Instance()->notificationMessage(message);
 #else
-    KMessageBox::error(0, message, title);
+    KMessageBox::error(nullptr, message, title);
 #endif
 }
 
@@ -35,7 +35,7 @@ void sorry(const QString &message, const QString &title)
     Q_UNUSED(title);
     KStarsLite::Instance()->notificationMessage(message);
 #else
-    KMessageBox::sorry(0, message, title);
+    KMessageBox::sorry(nullptr, message, title);
 #endif
 }
 
@@ -45,7 +45,7 @@ void info(const QString &message, const QString &title)
     Q_UNUSED(title);
     KStarsLite::Instance()->notificationMessage(message);
 #else
-    KMessageBox::information(0, message, title);
+    KMessageBox::information(nullptr, message, title);
 #endif
 }
 

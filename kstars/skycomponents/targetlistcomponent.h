@@ -57,7 +57,7 @@ class TargetListComponent : public SkyComponent
      * @short Constructor that sets up this target list
      */
     TargetListComponent(SkyComposite *parent, QList<SkyObject *> *objectList, QPen _pen,
-                        bool (*optionDrawSymbols)(void) = 0, bool (*optionDrawLabels)(void) = 0);
+                        bool (*optionDrawSymbols)(void) = nullptr, bool (*optionDrawLabels)(void) = nullptr);
 
     ~TargetListComponent() override;
 

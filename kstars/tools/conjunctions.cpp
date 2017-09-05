@@ -192,7 +192,7 @@ void ConjunctionsTool::slotExport()
     QByteArray line;
 
     //QFile file( KFileDialog::getSaveFileName( QDir::homePath(), "*|All files", this, "Save Conjunctions" ) );
-    QFile file(QFileDialog::getSaveFileName(0, i18n("Save Conjunctions"), QDir::homePath(), "*|All files"));
+    QFile file(QFileDialog::getSaveFileName(nullptr, i18n("Save Conjunctions"), QDir::homePath(), "*|All files"));
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
 
@@ -239,7 +239,7 @@ void ConjunctionsTool::slotCompute(void)
 
     if (!ok)
     {
-        KMessageBox::sorry(0, i18n("Maximum separation entered is not a valid angle. Use the What's this help feature "
+        KMessageBox::sorry(nullptr, i18n("Maximum separation entered is not a valid angle. Use the What's this help feature "
                                    "for information on how to enter a valid angle"));
         return;
     }
@@ -248,14 +248,14 @@ void ConjunctionsTool::slotCompute(void)
     if (FilterTypeComboBox->currentIndex() == 0 && Object1.get() == nullptr)
     {
         KMessageBox::sorry(
-            0, i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button."));
+            nullptr, i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button."));
         return;
     }
     Object2.reset(KSPlanetBase::createPlanet(Obj2ComboBox->currentIndex()));
     if (FilterTypeComboBox->currentIndex() == 0 && Object1->name() == Object2->name())
     {
         // FIXME: Must free the created Objects
-        KMessageBox::sorry(0, i18n("Please select two different objects to check conjunctions with."));
+        KMessageBox::sorry(nullptr, i18n("Please select two different objects to check conjunctions with."));
         return;
     }
 

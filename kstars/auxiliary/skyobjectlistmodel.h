@@ -39,7 +39,7 @@ class SkyObjectListModel : public QAbstractListModel
         SkyObjectRole = Qt::UserRole + 1,
     };
 
-    explicit SkyObjectListModel(QObject *parent = 0);
+    explicit SkyObjectListModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &) const override { return skyObjects.size(); }
     QVariant data(const QModelIndex &index, int role) const override;

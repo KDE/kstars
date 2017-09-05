@@ -56,7 +56,7 @@ ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
     intro();
 
     // Open the .idx file and skip past the first line
-    KSFileReader idxReader, *idxFile = 0;
+    KSFileReader idxReader, *idxFile = nullptr;
     QString idxFname = QString("cbounds-%1.idx").arg(SkyMesh::Instance()->level());
     if (idxReader.open(idxFname))
     {
@@ -270,7 +270,7 @@ PolyList *ConstellationBoundaryLines::ContainingPoly(SkyPoint *p)
         }
     }
 
-    return 0;
+    return nullptr;
 }
 
 //-------------------------------------------------------------------

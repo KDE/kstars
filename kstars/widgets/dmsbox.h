@@ -113,7 +113,7 @@ class dmsBox : public QLineEdit
         	*@param ok set to true if a dms object was succedssfully created.
         	*@return a dms object constructed from the fields of the dmsbox
         	*/
-    dms createDms(bool deg = true, bool *ok = 0);
+    dms createDms(bool deg = true, bool *ok = nullptr);
 
     /** @return a boolean indicating if object contains degrees or hours
         	*/

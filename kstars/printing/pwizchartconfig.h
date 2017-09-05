@@ -32,7 +32,7 @@ class PWizChartConfigUI : public QFrame, public Ui::PWizChartConfig
     /**
           * \brief Constructor.
           */
-    explicit PWizChartConfigUI(QWidget *parent = 0);
+    explicit PWizChartConfigUI(QWidget *parent = nullptr);
 
     /**
           * \brief Get entered chart title.

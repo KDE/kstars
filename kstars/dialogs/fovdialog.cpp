@@ -45,7 +45,7 @@ int FOVDialog::fovID = -1;
 namespace
 {
 // Try to convert text in KLine edit to double
-inline double textToDouble(const QLineEdit *edit, bool *ok = 0)
+inline double textToDouble(const QLineEdit *edit, bool *ok = nullptr)
 {
     return edit->text().replace(QLocale().decimalPoint(), ".").toDouble(ok);
 }
@@ -152,7 +152,7 @@ void FOVDialog::slotEditFOV()
 {
     //Preload current values
     QListWidgetItem *item = fov->FOVListBox->currentItem();
-    if (item == 0)
+    if (item == nullptr)
         return;
     FOV *f = item->data(Qt::UserRole).value<FOV *>();
 
@@ -198,7 +198,7 @@ NewFOV::NewFOV(QWidget *parent, const FOV *fov) : QDialog(parent), f()
     okB = buttonBox->button(QDialogButtonBox::Ok);
 
     // Initialize FOV if required
-    if (fov != 0)
+    if (fov != nullptr)
     {
         f = *fov;
         ui->FOVName->setText(f.name());
@@ -349,7 +349,7 @@ void NewFOV::slotComputeTelescopeFL()
 
 //-------------TelescopeFL------------------//
 
-TelescopeFL::TelescopeFL(QWidget *parent) : QDialog(parent), aperture(0), fNumber(0), apertureUnit(0)
+TelescopeFL::TelescopeFL(QWidget *parent) : QDialog(parent), aperture(nullptr), fNumber(nullptr), apertureUnit(nullptr)
 {
     setWindowTitle(i18n("Telescope Focal Length Calculator"));
 

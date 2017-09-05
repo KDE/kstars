@@ -34,7 +34,7 @@ class PWizChartContentsUI : public QFrame, public Ui::PWizChartContents
     /**
           * \brief Constructor.
           */
-    explicit PWizChartContentsUI(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit PWizChartContentsUI(PrintingWizard *wizard, QWidget *parent = nullptr);
 
     /**
           * \brief Enable or disable specific fields depending on the type of selected object.

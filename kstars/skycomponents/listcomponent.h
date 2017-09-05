@@ -50,7 +50,7 @@ class ListComponent : public SkyComponent
      * Precession/Nutation computation should be skipped; this computation
      * is only occasionally required.
      */
-    void update(KSNumbers *num = 0) override;
+    void update(KSNumbers *num = nullptr) override;
 
     SkyObject *findByName(const QString &name) override;
     SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;

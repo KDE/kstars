@@ -201,10 +201,10 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     }
 
     // Setup splash screen
-    KStarsSplash *splash = 0;
+    KStarsSplash *splash = nullptr;
     if (doSplash)
     {
-        splash = new KStarsSplash(0);
+        splash = new KStarsSplash(nullptr);
         connect(m_KStarsData, SIGNAL(progressText(QString)), splash, SLOT(setMessage(QString)));
         splash->show();
     }
@@ -309,7 +309,7 @@ void KStars::clearCachedFindDialog()
         if (m_FindDialog->isHidden())
         {
             delete m_FindDialog;
-            m_FindDialog     = 0;
+            m_FindDialog     = nullptr;
             DialogIsObsolete = false;
         }
         else

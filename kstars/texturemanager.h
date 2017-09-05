@@ -61,7 +61,7 @@ class TextureManager : public QObject
     typedef QHash<QString, QImage>::const_iterator CacheIter;
 
     /** Private constructor */
-    explicit TextureManager(QObject *parent = 0);
+    explicit TextureManager(QObject *parent = nullptr);
     /** Try find image in the cache and then to load it from disk if it's not found */
     static CacheIter findTexture(const QString &name);
 

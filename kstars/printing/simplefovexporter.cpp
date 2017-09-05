@@ -27,7 +27,7 @@
 
 SimpleFovExporter::SimpleFovExporter()
     : m_KSData(KStarsData::Instance()), m_Map(KStars::Instance()->map()), m_StopClock(false), m_OverrideFovShape(false),
-      m_DrawFovSymbol(false), m_PrevClockState(false), m_PrevSlewing(false), m_PrevPoint(0), m_PrevZoom(0)
+      m_DrawFovSymbol(false), m_PrevClockState(false), m_PrevSlewing(false), m_PrevPoint(nullptr), m_PrevZoom(0)
 {
 }
 
@@ -40,7 +40,7 @@ void SimpleFovExporter::exportFov(SkyPoint *point, FOV *fov, QPaintDevice *pd)
 
 void SimpleFovExporter::exportFov(FOV *fov, QPaintDevice *pd)
 {
-    pExportFov(0, fov, pd);
+    pExportFov(nullptr, fov, pd);
 }
 
 void SimpleFovExporter::exportFov(QPaintDevice *pd)
@@ -187,7 +187,7 @@ void SimpleFovExporter::saveState(bool savePos)
     }
 
     // save current central point and zoom level
-    m_PrevPoint = savePos ? m_Map->focusPoint() : 0;
+    m_PrevPoint = savePos ? m_Map->focusPoint() : nullptr;
     m_PrevZoom  = Options::zoomFactor();
 }
 

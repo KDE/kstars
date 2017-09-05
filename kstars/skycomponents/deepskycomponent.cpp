@@ -310,7 +310,7 @@ void DeepSkyComponent::loadData()
             longname = i18nc("object name (optional)", longname.toLatin1().constData());
 
         // create new deepskyobject
-        DeepSkyObject *o = 0;
+        DeepSkyObject *o = nullptr;
         if (type == 0)
             type = 1; //Make sure we use CATALOG_STAR, not STAR
         o = new DeepSkyObject(type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc);
@@ -505,7 +505,7 @@ void DeepSkyComponent::drawDeepSkyCatalog(SkyPainter *skyp, bool drawObject, Dee
     {
         Trixel trixel       = region.next();
         DeepSkyList *dsList = dsIndex->value(trixel);
-        if (dsList == 0)
+        if (dsList == nullptr)
             continue;
         for (int j = 0; j < dsList->size(); j++)
         {
@@ -615,10 +615,10 @@ void DeepSkyComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion &
 SkyObject *DeepSkyComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
     if (!selected())
-        return 0;
+        return nullptr;
 
-    SkyObject *oTry  = 0;
-    SkyObject *oBest = 0;
+    SkyObject *oTry  = nullptr;
+    SkyObject *oBest = nullptr;
     double rTry      = maxrad;
     double rBest     = maxrad;
     double r;

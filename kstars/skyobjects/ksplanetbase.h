@@ -166,8 +166,8 @@ class KSPlanetBase : public TrailObject
      * @param lat pointer to the geographic latitude; if nullptr, we skip localizeCoords()
      * @param LST pointer to the local sidereal time; if nullptr, we skip localizeCoords()
      */
-    void updateCoords(const KSNumbers *num, bool includePlanets = true, const CachingDms *lat = 0,
-                      const CachingDms *LST = 0, bool forceRecompute = false) override;
+    void updateCoords(const KSNumbers *num, bool includePlanets = true, const CachingDms *lat = nullptr,
+                      const CachingDms *LST = nullptr, bool forceRecompute = false) override;
 
     /**
      * @short Find position, including correction for Figure-of-the-Earth.
@@ -176,8 +176,8 @@ class KSPlanetBase : public TrailObject
      * @param LST pointer to the local sidereal time; if nullptr, we skip localizeCoords()
      * @param Earth pointer to the Earth (not used for the Moon)
      */
-    void findPosition(const KSNumbers *num, const CachingDms *lat = 0, const CachingDms *LST = 0,
-                      const KSPlanetBase *Earth = 0);
+    void findPosition(const KSNumbers *num, const CachingDms *lat = nullptr, const CachingDms *LST = nullptr,
+                      const KSPlanetBase *Earth = nullptr);
 
     /** @return the Planet's position angle. */
     double pa() const override { return PositionAngle; }

@@ -81,7 +81,7 @@ void DragListBox::dropEvent(QDropEvent *evt)
         if (!(text == i18n("Ignore") && QString(evt->source()->objectName()) == "FieldList" && evt->source() != this))
         {
             QListWidgetItem *lwi = itemAt(evt->pos());
-            if (lwi == 0 && evt->pos().y() > visualItemRect(item(count() - 1)).bottom())
+            if (lwi == nullptr && evt->pos().y() > visualItemRect(item(count() - 1)).bottom())
             {
                 addItem(text);
             }

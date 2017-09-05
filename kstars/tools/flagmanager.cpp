@@ -194,7 +194,7 @@ bool FlagManager::validatePoint()
         message += '\n' + i18n("The Declination value must be between -90.0 and 90.0.");
     if (!message.isEmpty())
     {
-        KMessageBox::sorry(0, message, i18n("Invalid Coordinate Data"));
+        KMessageBox::sorry(nullptr, message, i18n("Invalid Coordinate Data"));
         return false;
     }
 
@@ -256,7 +256,7 @@ void FlagManager::slotCenterFlag()
 {
     if (ui->flagList->currentIndex().isValid())
     {
-        m_Ks->map()->setClickedObject(0);
+        m_Ks->map()->setClickedObject(nullptr);
         m_Ks->map()->setClickedPoint(
             m_Ks->data()->skyComposite()->flags()->pointList().at(ui->flagList->currentIndex().row()).get());
         m_Ks->map()->slotCenter();

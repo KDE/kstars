@@ -198,7 +198,7 @@ void CatalogComponent::draw(SkyPainter *skyp)
 
     // Check if the coordinates have been updated
     if (updateID != KStarsData::Instance()->updateID())
-        update(0);
+        update(nullptr);
 
     //Draw Custom Catalog objects
     // FIXME: Improve using HTM!

@@ -143,7 +143,7 @@ void SolarSystemComposite::updateMoons(KSNumbers *num)
     KStarsData *data = KStarsData::Instance();
     m_Sun->findPosition(num);
     m_Moon->findPosition(num, data->geo()->lat(), data->lst());
-    m_Moon->findPhase(0);
+    m_Moon->findPhase(nullptr);
     //    m_JupiterMoons->updateMoons( num );
 }
 

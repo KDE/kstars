@@ -37,7 +37,7 @@ class AltVsTimeUI : public QFrame, public Ui::AltVsTime
 {
     Q_OBJECT
   public:
-    explicit AltVsTimeUI(QWidget *p = 0);
+    explicit AltVsTimeUI(QWidget *p = nullptr);
 };
 
 /**

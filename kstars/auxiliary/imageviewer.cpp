@@ -87,7 +87,7 @@ void ImageLabel::resizeEvent(QResizeEvent *event)
     pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
-ImageViewer::ImageViewer(const QString &caption, QWidget *parent) : QDialog(parent), fileIsImage(false), downloadJob(0)
+ImageViewer::ImageViewer(const QString &caption, QWidget *parent) : QDialog(parent), fileIsImage(false), downloadJob(nullptr)
 {
 #ifndef KSTARS_LITE
     init(caption, QString());
@@ -185,7 +185,7 @@ ImageViewer::~ImageViewer()
     if (filename.startsWith(QLatin1String("/tmp/")) || filename.contains("/Temp"))
     {
         if (m_ImageUrl.isEmpty() == false ||
-            KMessageBox::questionYesNo(0, i18n("Remove temporary file %1 from disk?", filename),
+            KMessageBox::questionYesNo(nullptr, i18n("Remove temporary file %1 from disk?", filename),
                                        i18n("Confirm Removal"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
                                        i18n("imageviewer_temporary_file_removal")) == KMessageBox::Yes)
             QFile::remove(filename);
@@ -233,7 +233,7 @@ void ImageViewer::downloadReady()
         close();
     }
     else
-        KMessageBox::error(0, file.errorString(), i18n("Image Viewer"));
+        KMessageBox::error(nullptr, file.errorString(), i18n("Image Viewer"));
 #endif
 }
 

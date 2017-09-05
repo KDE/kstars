@@ -37,12 +37,12 @@ void SkyComponent::emitProgressText(const QString &message)
 
 SkyObject *SkyComponent::findByName(const QString &)
 {
-    return 0;
+    return nullptr;
 }
 
 SkyObject *SkyComponent::objectNearest(SkyPoint *, double &)
 {
-    return 0;
+    return nullptr;
 }
 
 void SkyComponent::drawTrails(SkyPainter *)

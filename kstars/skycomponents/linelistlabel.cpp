@@ -45,7 +45,7 @@ void LineListLabel::reset()
     // inside of drawLabels().
     for (int i = 0; i < 4; i++)
     {
-        m_labList[i]  = 0;
+        m_labList[i]  = nullptr;
         m_labIndex[i] = 0;
     }
 

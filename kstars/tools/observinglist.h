@@ -299,7 +299,7 @@ class ObservingList : public QDialog
     /** @short Downloads the corresponding DSS or SDSS image from the web and
             *displays it
             */
-    void slotGetImage(bool _dss = false, const SkyObject *o = 0);
+    void slotGetImage(bool _dss = false, const SkyObject *o = nullptr);
 
     void slotSearchImage();
 
@@ -314,7 +314,7 @@ class ObservingList : public QDialog
             *@p filename the file onto which the url has to be copied to
             *NOTE: This is not a generic image saver, it is specific to the current object
             */
-    void saveImage(QUrl url, QString filename, const SkyObject *o = 0);
+    void saveImage(QUrl url, QString filename, const SkyObject *o = nullptr);
 
     /** @short Shows the image in a ImageViewer window.
             */

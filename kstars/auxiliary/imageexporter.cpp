@@ -29,7 +29,7 @@
 #include <QStatusBar>
 #include <QtSvg/QSvgGenerator>
 
-ImageExporter::ImageExporter(QObject *parent) : QObject(parent), m_includeLegend(false), m_Size(0)
+ImageExporter::ImageExporter(QObject *parent) : QObject(parent), m_includeLegend(false), m_Size(nullptr)
 {
     m_Legend = new Legend;
 

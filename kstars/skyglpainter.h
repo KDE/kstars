@@ -38,7 +38,7 @@ class SkyGLPainter : public SkyPainter
     bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false) override;
     bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A') override;
     void drawSkyPolygon(LineList *list, bool forceClip = true) override;
-    void drawSkyPolyline(LineList *list, SkipHashList *skipList = 0, LineListLabel *label = 0) override;
+    void drawSkyPolyline(LineList *list, SkipHashList *skipList = nullptr, LineListLabel *label = nullptr) override;
     void drawSkyLine(SkyPoint *a, SkyPoint *b) override;
     void drawSkyBackground() override;
     void drawObservingList(const QList<SkyObject *> &obs) override;
@@ -47,7 +47,7 @@ class SkyGLPainter : public SkyPainter
     void begin() override;
     void setBrush(const QBrush &brush) override;
     void setPen(const QPen &pen) override;
-    void drawHorizon(bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0) override;
+    void drawHorizon(bool filled, SkyPoint *labelPoint = nullptr, bool *drawLabel = nullptr) override;
     bool drawSatellite(Satellite *sat) override;
     bool drawSupernova(Supernova *sup) override;
     void drawText(int x, int y, const QString text, QFont font, QColor color);

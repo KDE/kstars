@@ -35,7 +35,7 @@ class ExportImageDialogUI : public QFrame, public Ui::ExportImageDialog
     Q_OBJECT
 
   public:
-    explicit ExportImageDialogUI(QWidget *parent = 0);
+    explicit ExportImageDialogUI(QWidget *parent = nullptr);
 };
 
 /** @short Export sky image dialog. This dialog enables user to set up basic legend
@@ -52,7 +52,7 @@ class ExportImageDialog : public QDialog
           *@param size size of exported image.
           *@param imgExporter A pointer to an ImageExporter that we can use instead of creating our own. if 0, we will create our own.
           */
-    ExportImageDialog(const QString &url, const QSize &size, ImageExporter *imgExporter = 0);
+    ExportImageDialog(const QString &url, const QSize &size, ImageExporter *imgExporter = nullptr);
 
     /** @short Default destructor. */
     ~ExportImageDialog() override {}

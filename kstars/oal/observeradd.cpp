@@ -45,7 +45,7 @@ ObserverAdd::ObserverAdd()
     // Load the observers list from the file
     loadObservers();
     QSqlDatabase db       = KStarsData::Instance()->userdb()->GetDatabase();
-    QSqlTableModel *users = new QSqlTableModel(0, db);
+    QSqlTableModel *users = new QSqlTableModel(nullptr, db);
     users->setTable("user");
     users->select();
     ui.tableView->setModel(users);
@@ -79,7 +79,7 @@ void ObserverAdd::checkObserverInfo()
 void ObserverAdd::slotUpdateModel()
 {
     QSqlDatabase db       = KStarsData::Instance()->userdb()->GetDatabase();
-    QSqlTableModel *users = new QSqlTableModel(0, db);
+    QSqlTableModel *users = new QSqlTableModel(nullptr, db);
     users->setTable("user");
     users->select();
     ui.tableView->setModel(users);

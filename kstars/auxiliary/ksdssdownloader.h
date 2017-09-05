@@ -48,7 +48,7 @@ class KSDssDownloader : public QObject
 
   public:
     /** @short Constructor */
-    explicit KSDssDownloader(QObject *parent = 0);
+    explicit KSDssDownloader(QObject *parent = nullptr);
 
     /**
      * @short Constructor that initiates a "standard" DSS download job, calls the downloadReady slot, and finally self destructs
@@ -57,7 +57,7 @@ class KSDssDownloader : public QObject
      * things may segfault!
      */
     KSDssDownloader(const SkyPoint *const p, const QString &destFileName,
-                    const std::function<void(bool)> &slotDownloadReady, QObject *parent = 0);
+                    const std::function<void(bool)> &slotDownloadReady, QObject *parent = nullptr);
 
     /**
      * @short Stateful single-download of a supplied URL. Use when the flexibility is required
@@ -76,14 +76,14 @@ class KSDssDownloader : public QObject
      * @note Moved from namespace KSUtils (--asimha, Jan 5 2016)
      */
     static QString getDSSURL(const SkyPoint *const p, const QString &version = "all",
-                             struct KSDssImage::Metadata *md = 0);
+                             struct KSDssImage::Metadata *md = nullptr);
 
     /**
      * @short High-level method to create a URL to obtain a DSS image for a given SkyPoint
      * @note This method includes an option to set the height, but uses default values for many parameters
      */
     static QString getDSSURL(const SkyPoint *const p, float width, float height = 0, const QString &version = "all",
-                             struct KSDssImage::Metadata *md = 0);
+                             struct KSDssImage::Metadata *md = nullptr);
 
     /**
      * @short Create a URL to obtain a DSS image for a given RA, Dec
@@ -106,7 +106,7 @@ class KSDssDownloader : public QObject
      */
     static QString getDSSURL(const dms &ra, const dms &dec, float width = 0, float height = 0,
                              const QString &type_ = "gif", const QString &version_ = "all",
-                             struct KSDssImage::Metadata *md = 0);
+                             struct KSDssImage::Metadata *md = nullptr);
 
     /** @short Write image metadata into file */
     static bool writeImageWithMetadata(const QString &srcFile, const QString &destFile, const KSDssImage::Metadata &md);

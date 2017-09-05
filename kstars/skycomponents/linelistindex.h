@@ -171,7 +171,7 @@ class LineListIndex : public SkyComponent
      */
     virtual SkipHashList *skipList(LineList *lineList);
 
-    virtual LineListLabel *label() { return 0; }
+    virtual LineListLabel *label() { return nullptr; }
 
     inline LineListList listList() const { return m_listList; }
 

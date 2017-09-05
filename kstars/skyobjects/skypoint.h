@@ -257,8 +257,8 @@ class SkyPoint
         	*@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
             *@param forceRecompute reapplies precession, nutation and aberration even if the time passed since the last computation is not significant.
         	*/
-    virtual void updateCoords(const KSNumbers *num, bool includePlanets = true, const CachingDms *lat = 0,
-                              const CachingDms *LST = 0, bool forceRecompute = false);
+    virtual void updateCoords(const KSNumbers *num, bool includePlanets = true, const CachingDms *lat = nullptr,
+                              const CachingDms *LST = nullptr, bool forceRecompute = false);
 
     /**
          * @brief updateCoordsNow Shortcut for updateCoords( const KSNumbers *num, false, nullptr, nullptr, true)
@@ -383,7 +383,7 @@ class SkyPoint
          *  @param positionAngle if a non-null pointer is passed, the position angle [E of N] in degrees from this SkyPoint to sp is computed and stored in the passed variable.
          *  @return dms angle representing angular separation.
          **/
-    dms angularDistanceTo(const SkyPoint *sp, double *const positionAngle = 0) const;
+    dms angularDistanceTo(const SkyPoint *sp, double *const positionAngle = nullptr) const;
 
     /**
          * @return returns true if _current_ epoch RA / Dec match

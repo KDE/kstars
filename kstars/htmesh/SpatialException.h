@@ -35,7 +35,7 @@ class LINKAGE SpatialException
             string.  This behavior is shared by all derived classes.
         */
 
-    SpatialException(const char *what = 0, int defIndex = 1) throw();
+    SpatialException(const char *what = nullptr, int defIndex = 1) throw();
 
     /** Standard constructor.
             The message is assembled from copies of
@@ -83,7 +83,7 @@ class LINKAGE SpatialUnimplemented : public SpatialException
 {
   public:
     /// Default and explicit constructors.
-    SpatialUnimplemented(const char *what = 0) throw();
+    SpatialUnimplemented(const char *what = nullptr) throw();
 
     /// Standard constructor.
     SpatialUnimplemented(const char *context, const char *because) throw();
@@ -104,13 +104,13 @@ class LINKAGE SpatialFailure : public SpatialException
 {
   public:
     /// Default and explicit constructors.
-    SpatialFailure(const char *what = 0) throw();
+    SpatialFailure(const char *what = nullptr) throw();
 
     /// Standard constructor.
     SpatialFailure(const char *context, const char *because) throw();
 
     /// Special constructor.
-    SpatialFailure(const char *context, const char *operation, const char *resource, const char *because = 0) throw();
+    SpatialFailure(const char *context, const char *operation, const char *resource, const char *because = nullptr) throw();
 
     /// Copy constructor.
     SpatialFailure(const SpatialFailure &) throw();
@@ -128,7 +128,7 @@ class LINKAGE SpatialBoundsError : public SpatialException
 {
   public:
     /// Default and explicit constructors.
-    SpatialBoundsError(const char *what = 0) throw();
+    SpatialBoundsError(const char *what = nullptr) throw();
 
     /** Standard constructor.
             If limit and index are -1, both are
@@ -154,7 +154,7 @@ class LINKAGE SpatialInterfaceError : public SpatialException
 {
   public:
     /// Default and explicit constructors.
-    SpatialInterfaceError(const char *what = 0) throw();
+    SpatialInterfaceError(const char *what = nullptr) throw();
 
     /// Standard constructor.
     SpatialInterfaceError(const char *context, const char *because) throw();

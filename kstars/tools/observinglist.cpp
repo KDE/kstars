@@ -71,7 +71,7 @@ ObservingListUI::ObservingListUI(QWidget *p) : QFrame(p)
 // ObservingList
 // ---------------------------------
 ObservingList::ObservingList()
-    : QDialog((QWidget *)KStars::Instance()), LogObject(0), m_CurrentObject(0), isModified(false), m_dl(0)
+    : QDialog((QWidget *)KStars::Instance()), LogObject(nullptr), m_CurrentObject(nullptr), isModified(false), m_dl(nullptr)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -236,7 +236,7 @@ void ObservingList::showEvent(QShowEvent *)
         m_initialWishlistLoad = true;
 
         slotLoadWishList(); //Load the wishlist from disk if present
-        m_CurrentObject = 0;
+        m_CurrentObject = nullptr;
         setSaveImagesButton();    
 
         slotUpdateAltitudes();
@@ -264,7 +264,7 @@ void ObservingList::slotAddObject(const SkyObject *_obj, bool session, bool upda
 
     if (finalObjectName.isEmpty())
     {
-        KMessageBox::sorry(0, i18n("Unnamed stars are not supported in the observing lists"));
+        KMessageBox::sorry(nullptr, i18n("Unnamed stars are not supported in the observing lists"));
         return;
     }
 
@@ -638,7 +638,7 @@ void ObservingList::slotNewSelection()
             //Disable buttons
             noSelection = true;            
             ui->NotesEdit->setEnabled(false);
-            m_CurrentObject = 0;
+            m_CurrentObject = nullptr;
             ui->TimeEdit->setEnabled(false);
             ui->SetTime->setEnabled(false);
             ui->SearchImage->setEnabled(false);
@@ -654,7 +654,7 @@ void ObservingList::slotNewSelection()
             ui->TimeEdit->setEnabled(false);
             ui->SetTime->setEnabled(false);
             ui->SearchImage->setEnabled(false);
-            m_CurrentObject = 0;
+            m_CurrentObject = nullptr;
             //Clear the plot in the AVTPlotwidget
             ui->avt->removeAllPlotObjects();
             //Clear the user log text box.
@@ -766,7 +766,7 @@ void ObservingList::slotFind()
     if (fd->exec() == QDialog::Accepted)
     {
         SkyObject *o = fd->targetObject();
-        if (o != 0)
+        if (o != nullptr)
         {
             slotAddObject(o, sessionView);
         }
@@ -857,7 +857,7 @@ void ObservingList::slotOpenList()
         if (!f.open(QIODevice::ReadOnly))
         {
             QString message = i18n("Could not open file %1", f.fileName());
-            KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
             return;
         }
         saveCurrentList(); //See if the current list needs to be saved before opening the new one
@@ -866,7 +866,7 @@ void ObservingList::slotOpenList()
 
         sessionList().clear();
         TimeHash.clear();
-        m_CurrentObject = 0;
+        m_CurrentObject = nullptr;
         m_SessionModel->removeRows(0, m_SessionModel->rowCount());
         //First line is the name of the list. The rest of the file is
         //object names, one per line. With the TimeHash value if present
@@ -890,7 +890,7 @@ void ObservingList::slotOpenList()
     }
     else if (!fileURL.toLocalFile().isEmpty())
     {
-        KMessageBox::sorry(0, i18n("The specified file is invalid"));
+        KMessageBox::sorry(nullptr, i18n("The specified file is invalid"));
     }
 }
 
@@ -1053,7 +1053,7 @@ void ObservingList::slotSaveSession(bool nativeSave)
 {
     if (sessionList().isEmpty())
     {
-        KMessageBox::error(0, i18n("Cannot save an empty session list!"));
+        KMessageBox::error(nullptr, i18n("Cannot save an empty session list!"));
         return;
     }
 
@@ -1066,7 +1066,7 @@ void ObservingList::slotSaveSession(bool nativeSave)
     if (!f.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Could not open file %1.  Try a different filename?", f.fileName());
-        if (KMessageBox::warningYesNo(0, message, i18n("Could Not Open File"), KGuiItem(i18n("Try Different")),
+        if (KMessageBox::warningYesNo(nullptr, message, i18n("Could Not Open File"), KGuiItem(i18n("Try Different")),
                                       KGuiItem(i18n("Do Not Try"))) == KMessageBox::Yes)
         {
             m_listFileName.clear();
@@ -1162,7 +1162,7 @@ void ObservingList::slotChangeTab(int index)
     ui->SetTime->setEnabled(false);
     ui->SearchImage->setEnabled(false);
     ui->DeleteImage->setEnabled(false);
-    m_CurrentObject = 0;
+    m_CurrentObject = nullptr;
     sessionView     = index != 0;
     setSaveImagesButton();
     ui->WizardButton->setEnabled(!sessionView); //wizard adds only to the Wish List
@@ -1280,11 +1280,11 @@ void ObservingList::downloadReady(bool success)
     //    downloadJob = 0;
 
     delete m_dl;
-    m_dl = 0; // required if we came from slotCustomDSS; does nothing otherwise
+    m_dl = nullptr; // required if we came from slotCustomDSS; does nothing otherwise
 
     if (!success)
     {
-        KMessageBox::sorry(0, i18n("Failed to download DSS/SDSS image!"));
+        KMessageBox::sorry(nullptr, i18n("Failed to download DSS/SDSS image!"));
     }
     else
     {
@@ -1367,7 +1367,7 @@ void ObservingList::slotSaveAllImages()
 {
     ui->SearchImage->setEnabled(false);
     ui->DeleteImage->setEnabled(false);
-    m_CurrentObject = 0;
+    m_CurrentObject = nullptr;
     //Clear the selection in the Tables
     ui->WishListView->clearSelection();
     ui->SessionView->clearSelection();
@@ -1413,13 +1413,13 @@ void ObservingList::slotImageViewer()
 
 void ObservingList::slotDeleteAllImages()
 {
-    if (KMessageBox::warningYesNo(0, i18n("This will delete all saved images. Are you sure you want to do this?"),
+    if (KMessageBox::warningYesNo(nullptr, i18n("This will delete all saved images. Are you sure you want to do this?"),
                                   i18n("Delete All Images")) == KMessageBox::No)
         return;
     ui->ImagePreview->setCursor(Qt::ArrowCursor);
     ui->SearchImage->setEnabled(false);
     ui->DeleteImage->setEnabled(false);
-    m_CurrentObject = 0;
+    m_CurrentObject = nullptr;
     //Clear the selection in the Tables
     ui->WishListView->clearSelection();
     ui->SessionView->clearSelection();

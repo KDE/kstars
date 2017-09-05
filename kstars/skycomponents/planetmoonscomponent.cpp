@@ -86,7 +86,7 @@ SkyObject *PlanetMoonsComponent::findByName(const QString &name)
             return moon;
     }
 
-    return 0;
+    return nullptr;
 }
 
 #ifdef KSTARS_LITE

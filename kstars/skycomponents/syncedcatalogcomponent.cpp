@@ -87,7 +87,7 @@ DeepSkyObject *SyncedCatalogComponent::addObject(CatalogEntryData catalogEntry)
     dbEntry.ID    = m_catCount;
     CatalogDB *db = KStarsData::Instance()->catalogdb();
     if (!(db->AddEntry(dbEntry, m_catId)))
-        return 0;
+        return nullptr;
     m_catCount++;
     qDebug() << "Added object " << catalogEntry.long_name << " into database!";
     DeepSkyObject *newObj = new DeepSkyObject(

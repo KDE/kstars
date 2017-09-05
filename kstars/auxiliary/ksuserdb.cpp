@@ -69,7 +69,7 @@ bool KSUserDB::Initialize()
         else
         {
             // Update table if previous version exists
-            QSqlTableModel version(0, userdb_);
+            QSqlTableModel version(nullptr, userdb_);
             version.setTable("Version");
             version.select();
             QSqlRecord record = version.record(0);
@@ -487,7 +487,7 @@ bool KSUserDB::RebuildDB()
 void KSUserDB::AddObserver(const QString &name, const QString &surname, const QString &contact)
 {
     userdb_.open();
-    QSqlTableModel users(0, userdb_);
+    QSqlTableModel users(nullptr, userdb_);
     users.setTable("user");
     users.setFilter("Name LIKE \'" + name + "\' AND Surname LIKE \'" + surname + "\'");
     users.select();
@@ -517,7 +517,7 @@ void KSUserDB::AddObserver(const QString &name, const QString &surname, const QS
 bool KSUserDB::FindObserver(const QString &name, const QString &surname)
 {
     userdb_.open();
-    QSqlTableModel users(0, userdb_);
+    QSqlTableModel users(nullptr, userdb_);
     users.setTable("user");
     users.setFilter("Name LIKE \'" + name + "\' AND Surname LIKE \'" + surname + "\'");
     users.select();
@@ -533,7 +533,7 @@ bool KSUserDB::FindObserver(const QString &name, const QString &surname)
 bool KSUserDB::DeleteObserver(const QString &id)
 {
     userdb_.open();
-    QSqlTableModel users(0, userdb_);
+    QSqlTableModel users(nullptr, userdb_);
     users.setTable("user");
     users.setFilter("id = \'" + id + "\'");
     users.select();
@@ -557,7 +557,7 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list)
 {
     userdb_.open();
     observer_list.clear();
-    QSqlTableModel users(0, userdb_);
+    QSqlTableModel users(nullptr, userdb_);
     users.setTable("user");
     users.select();
 
@@ -582,7 +582,7 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list)
 void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
 {
     userdb_.open();
-    QSqlTableModel darkframe(0, userdb_);
+    QSqlTableModel darkframe(nullptr, userdb_);
     darkframe.setTable("darkframe");
     darkframe.select();
 
@@ -606,7 +606,7 @@ void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
 bool KSUserDB::DeleteDarkFrame(const QString &filename)
 {
     userdb_.open();
-    QSqlTableModel darkframe(0, userdb_);
+    QSqlTableModel darkframe(nullptr, userdb_);
     darkframe.setTable("darkframe");
     darkframe.setFilter("filename = \'" + filename + "\'");
 
@@ -625,7 +625,7 @@ void KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
     darkFrames.clear();
 
     userdb_.open();
-    QSqlTableModel darkframe(0, userdb_);
+    QSqlTableModel darkframe(nullptr, userdb_);
     darkframe.setTable("darkframe");
     darkframe.select();
 
@@ -648,7 +648,7 @@ void KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
 void KSUserDB::AddHIPSSource(const QMap<QString,QString> &oneSource)
 {
     userdb_.open();
-    QSqlTableModel HIPSSource(0, userdb_);
+    QSqlTableModel HIPSSource(nullptr, userdb_);
     HIPSSource.setTable("hips");
     HIPSSource.select();
 
@@ -667,7 +667,7 @@ void KSUserDB::AddHIPSSource(const QMap<QString,QString> &oneSource)
 bool KSUserDB::DeleteHIPSSource(const QString &ID)
 {
     userdb_.open();
-    QSqlTableModel HIPSSource(0, userdb_);
+    QSqlTableModel HIPSSource(nullptr, userdb_);
     HIPSSource.setTable("hips");
     HIPSSource.setFilter("ID = \'" + ID + "\'");
 
@@ -686,7 +686,7 @@ void KSUserDB::GetAllHIPSSources(QList<QMap<QString, QString>> &HIPSSources)
     HIPSSources.clear();
 
     userdb_.open();
-    QSqlTableModel HIPSSource(0, userdb_);
+    QSqlTableModel HIPSSource(nullptr, userdb_);
     HIPSSource.setTable("hips");
     HIPSSource.select();
 
@@ -710,7 +710,7 @@ void KSUserDB::GetAllHIPSSources(QList<QMap<QString, QString>> &HIPSSources)
 void KSUserDB::DeleteAllFlags()
 {
     userdb_.open();
-    QSqlTableModel flags(0, userdb_);
+    QSqlTableModel flags(nullptr, userdb_);
     flags.setEditStrategy(QSqlTableModel::OnManualSubmit);
     flags.setTable("flags");
     flags.select();
@@ -726,7 +726,7 @@ void KSUserDB::AddFlag(const QString &ra, const QString &dec, const QString &epo
                        const QString &label, const QString &labelColor)
 {
     userdb_.open();
-    QSqlTableModel flags(0, userdb_);
+    QSqlTableModel flags(nullptr, userdb_);
     flags.setTable("flags");
 
     int row = 0;
@@ -748,7 +748,7 @@ QList<QStringList> KSUserDB::GetAllFlags()
     QList<QStringList> flagList;
 
     userdb_.open();
-    QSqlTableModel flags(0, userdb_);
+    QSqlTableModel flags(nullptr, userdb_);
     flags.setTable("flags");
     flags.select();
 
@@ -783,7 +783,7 @@ QList<QStringList> KSUserDB::GetAllFlags()
 void KSUserDB::DeleteEquipment(const QString &type, const int &id)
 {
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable(type);
     equip.setFilter("id = " + QString::number(id));
     equip.select();
@@ -798,7 +798,7 @@ void KSUserDB::DeleteEquipment(const QString &type, const int &id)
 void KSUserDB::DeleteAllEquipment(const QString &type)
 {
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setEditStrategy(QSqlTableModel::OnManualSubmit);
     equip.setTable(type);
     equip.setFilter("id >= 1");
@@ -817,7 +817,7 @@ void KSUserDB::AddScope(const QString &model, const QString &vendor, const QStri
                         const double &focalLength, const double &aperture)
 {
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("telescope");
 
     int row = 0;
@@ -838,7 +838,7 @@ void KSUserDB::AddScope(const QString &model, const QString &vendor, const QStri
                         const double &focalLength, const double &aperture, const QString &id)
 {
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("telescope");
     equip.setFilter("id = " + id);
     equip.select();
@@ -864,7 +864,7 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list)
     scope_list.clear();
 
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("telescope");
     equip.select();
 
@@ -894,7 +894,7 @@ void KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const do
                            const QString &fovunit)
 {
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("eyepiece");
 
     int row = 0;
@@ -914,7 +914,7 @@ void KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const do
                            const QString &fovunit, const QString &id)
 {
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("eyepiece");
     equip.setFilter("id = " + id);
     equip.select();
@@ -939,7 +939,7 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list)
     eyepiece_list.clear();
 
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("eyepiece");
     equip.select();
 
@@ -967,7 +967,7 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list)
 void KSUserDB::AddLens(const QString &vendor, const QString &model, const double &factor)
 {
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("lens");
 
     int row = 0;
@@ -984,7 +984,7 @@ void KSUserDB::AddLens(const QString &vendor, const QString &model, const double
 void KSUserDB::AddLens(const QString &vendor, const QString &model, const double &factor, const QString &id)
 {
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("lens");
     equip.setFilter("id = " + id);
     equip.select();
@@ -1006,7 +1006,7 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list)
     lens_list.clear();
 
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("lens");
     equip.select();
 
@@ -1032,7 +1032,7 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QStr
                          const QString &color, const QString &exposure)
 {
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("filter");
 
     int row = 0;
@@ -1054,7 +1054,7 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QStr
                          const QString &color, const QString &exposure, const QString &id)
 {
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("filter");
     equip.setFilter("id = " + id);
     equip.select();
@@ -1080,7 +1080,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list)
 {
     userdb_.open();
     filter_list.clear();
-    QSqlTableModel equip(0, userdb_);
+    QSqlTableModel equip(nullptr, userdb_);
     equip.setTable("filter");
     equip.select();
 
@@ -1490,11 +1490,11 @@ QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
     QList<ArtificialHorizonEntity *> horizonList;
 
     userdb_.open();
-    QSqlTableModel regions(0, userdb_);
+    QSqlTableModel regions(nullptr, userdb_);
     regions.setTable("horizons");
     regions.select();
 
-    QSqlTableModel points(0, userdb_);
+    QSqlTableModel points(nullptr, userdb_);
 
     for (int i = 0; i < regions.rowCount(); ++i)
     {
@@ -1538,7 +1538,7 @@ QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
 void KSUserDB::DeleteAllHorizons()
 {
     userdb_.open();
-    QSqlTableModel regions(0, userdb_);
+    QSqlTableModel regions(nullptr, userdb_);
     regions.setEditStrategy(QSqlTableModel::OnManualSubmit);
     regions.setTable("horizons");
     regions.select();
@@ -1563,7 +1563,7 @@ void KSUserDB::DeleteAllHorizons()
 void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
 {
     userdb_.open();
-    QSqlTableModel regions(0, userdb_);
+    QSqlTableModel regions(nullptr, userdb_);
     regions.setTable("horizons");
 
     regions.select();
@@ -1580,7 +1580,7 @@ void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
     QSqlQuery query(userdb_);
     query.exec(tableQuery);
 
-    QSqlTableModel points(0, userdb_);
+    QSqlTableModel points(nullptr, userdb_);
 
     points.setTable(tableName);
 
@@ -1726,7 +1726,7 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
 void KSUserDB::GetAllProfiles(QList<std::shared_ptr<ProfileInfo>> &profiles)
 {
     userdb_.open();
-    QSqlTableModel profile(0, userdb_);
+    QSqlTableModel profile(nullptr, userdb_);
     profile.setTable("profile");
     profile.select();
 
@@ -1774,7 +1774,7 @@ void KSUserDB::GetProfileDrivers(ProfileInfo *pi)
 {
     userdb_.open();
 
-    QSqlTableModel driver(0, userdb_);
+    QSqlTableModel driver(nullptr, userdb_);
     driver.setTable("driver");
     driver.setFilter("profile=" + QString::number(pi->id));
     if (driver.select() == false)

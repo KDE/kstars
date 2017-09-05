@@ -244,7 +244,7 @@ void OpsSatellites::slotFilterReg(const QString &filter)
 
 void OpsSatellites::slotItemChanged(QStandardItem *item)
 {
-    if (item->parent() == 0 && !item->hasChildren())
+    if (item->parent() == nullptr && !item->hasChildren())
     {
         return;
     }

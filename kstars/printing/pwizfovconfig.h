@@ -33,7 +33,7 @@ class PWizFovConfigUI : public QFrame, public Ui::PWizFovConfig
     /**
           * \brief Constructor.
           */
-    explicit PWizFovConfigUI(QWidget *parent = 0);
+    explicit PWizFovConfigUI(QWidget *parent = nullptr);
 
     /**
           * \brief Check if switching to "Sky Chart" color scheme is enabled.

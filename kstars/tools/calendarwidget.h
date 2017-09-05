@@ -28,7 +28,7 @@ class CalendarWidget : public KPlotWidget
 {
     Q_OBJECT
   public:
-    explicit CalendarWidget(QWidget *parent = 0);
+    explicit CalendarWidget(QWidget *parent = nullptr);
     void setHorizon();
     inline float getRiseTime(int i) { return riseTimeList.at(i); }
     inline float getSetTime(int i) { return setTimeList.at(i); }

@@ -29,7 +29,7 @@ class ClickLabel : public QLabel
 {
     Q_OBJECT
   public:
-    explicit ClickLabel(QWidget *parent = 0, const char *name = 0);
+    explicit ClickLabel(QWidget *parent = nullptr, const char *name = nullptr);
     ~ClickLabel() override {}
 
   signals:

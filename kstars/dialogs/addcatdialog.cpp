@@ -87,7 +87,7 @@ void AddCatDialog::slotHelp()
         i18n("The fields should be separated by whitespace.  In addition, the catalog "
              "may contain comment lines beginning with \'#\'.");
 
-    KMessageBox::information(0, message, i18n("Help on custom catalog file format"));
+    KMessageBox::information(nullptr, message, i18n("Help on custom catalog file format"));
 }
 
 /* Attempt to parse the catalog data file specified in the DataURL box.
@@ -212,7 +212,7 @@ void AddCatDialog::slotPreviewCatalog()
 {
     if (validateDataFile())
     {
-        KMessageBox::informationList(0, i18n("Preview of %1", acd->CatalogName->text()), CatalogContents.split('\n'),
+        KMessageBox::informationList(nullptr, i18n("Preview of %1", acd->CatalogName->text()), CatalogContents.split('\n'),
                                      i18n("Catalog Preview"));
     }
 }
@@ -228,7 +228,7 @@ void AddCatDialog::slotCreateCatalog()
         if (QFile::exists(acd->CatalogURL->url().toLocalFile()))
         {
             QUrl u(acd->CatalogURL->url());
-            int r = KMessageBox::warningContinueCancel(0,
+            int r = KMessageBox::warningContinueCancel(nullptr,
                                                        i18n("A file named \"%1\" already exists. "
                                                             "Overwrite it?",
                                                             u.fileName()),
@@ -241,7 +241,7 @@ void AddCatDialog::slotCreateCatalog()
         QFile OutFile(acd->CatalogURL->url().toLocalFile());
         if (!OutFile.open(QIODevice::WriteOnly))
         {
-            KMessageBox::sorry(0, i18n("Could not open the file %1 for writing.", acd->CatalogURL->url().toLocalFile()),
+            KMessageBox::sorry(nullptr, i18n("Could not open the file %1 for writing.", acd->CatalogURL->url().toLocalFile()),
                                i18n("Error Opening Output File"));
         }
         else

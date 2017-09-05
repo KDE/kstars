@@ -216,17 +216,17 @@ Satellite *SatellitesComponent::findSatellite(QString name)
         }
     }
 
-    return 0;
+    return nullptr;
 }
 
 SkyObject *SatellitesComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
     if (!selected())
-        return 0;
+        return nullptr;
 
     //KStarsData* data = KStarsData::Instance();
 
-    SkyObject *oBest = 0;
+    SkyObject *oBest = nullptr;
     double rBest     = maxrad;
     double r;
 

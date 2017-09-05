@@ -82,7 +82,7 @@ class DetailDialog : public KPageDialog
     Q_OBJECT
   public:
     /** Constructor */
-    DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent = 0);
+    DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent = nullptr);
 
     /** Destructor */
     ~DetailDialog() override;
@@ -212,7 +212,7 @@ class DataWidget : public QFrame, public Ui::DetailsData
   Q_OBJECT
 
   public:
-    explicit DataWidget(QWidget *parent = 0);
+    explicit DataWidget(QWidget *parent = nullptr);
 };
 
 class DataCometWidget : public QFrame, public Ui::DetailsDataComet
@@ -220,7 +220,7 @@ class DataCometWidget : public QFrame, public Ui::DetailsDataComet
   Q_OBJECT
 
   public:
-    explicit DataCometWidget(QWidget *parent = 0);
+    explicit DataCometWidget(QWidget *parent = nullptr);
 };
 
 class PositionWidget : public QFrame, public Ui::DetailsPosition
@@ -228,7 +228,7 @@ class PositionWidget : public QFrame, public Ui::DetailsPosition
   Q_OBJECT
 
   public:
-    explicit PositionWidget(QWidget *parent = 0);
+    explicit PositionWidget(QWidget *parent = nullptr);
 };
 
 class LinksWidget : public QFrame, public Ui::DetailsLinks
@@ -236,7 +236,7 @@ class LinksWidget : public QFrame, public Ui::DetailsLinks
   Q_OBJECT
 
   public:
-    explicit LinksWidget(QWidget *parent = 0);
+    explicit LinksWidget(QWidget *parent = nullptr);
 };
 
 class DatabaseWidget : public QFrame, public Ui::DetailsDatabase
@@ -244,7 +244,7 @@ class DatabaseWidget : public QFrame, public Ui::DetailsDatabase
   Q_OBJECT
 
   public:
-    explicit DatabaseWidget(QWidget *parent = 0);
+    explicit DatabaseWidget(QWidget *parent = nullptr);
 };
 
 class LogWidget : public QFrame, public Ui::DetailsLog
@@ -252,5 +252,5 @@ class LogWidget : public QFrame, public Ui::DetailsLog
   Q_OBJECT
 
   public:
-    explicit LogWidget(QWidget *parent = 0);
+    explicit LogWidget(QWidget *parent = nullptr);
 };

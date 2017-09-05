@@ -164,7 +164,7 @@ Key SkipList::findMIN(const Key searchKey) const
 {
     int i;
     SkipListElement *element(myHeader);
-    SkipListElement *nextElement = 0;
+    SkipListElement *nextElement = nullptr;
     Key retKey;
 
     for (i = myHeader->getLevel(); i >= 0; i--)

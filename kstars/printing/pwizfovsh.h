@@ -35,7 +35,7 @@ class PWizFovShUI : public QFrame, public Ui::PWizFovSh
     /**
           * \brief Constructor.
           */
-    explicit PWizFovShUI(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit PWizFovShUI(PrintingWizard *wizard, QWidget *parent = nullptr);
 
     /**
           * \brief Get magnitude limit set by user.

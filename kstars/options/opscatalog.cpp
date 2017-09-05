@@ -207,10 +207,10 @@ void OpsCatalog::refreshCatalogList()
 void OpsCatalog::slotRemoveCatalog()
 {
     if (KMessageBox::warningYesNo(
-            0, i18n("The selected database will be removed. This action cannot be reversed! Delete Catalog?"),
+            nullptr, i18n("The selected database will be removed. This action cannot be reversed! Delete Catalog?"),
             i18n("Delete Catalog?")) == KMessageBox::No)
     {
-        KMessageBox::information(0, "Catalog deletion cancelled.");
+        KMessageBox::information(nullptr, "Catalog deletion cancelled.");
         return;
     }
 

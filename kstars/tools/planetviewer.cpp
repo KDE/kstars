@@ -95,7 +95,7 @@ PlanetViewer::PlanetViewer(QWidget *parent) : QDialog(parent), scale(1.0), isClo
 
     for (int i = 0; i < PlanetList.count(); ++i)
     {
-        PlanetList[i]->findPosition(&num, 0, 0); // nullptr args: don't need geocent. coords.
+        PlanetList[i]->findPosition(&num, nullptr, nullptr); // nullptr args: don't need geocent. coords.
         LastUpdate[i] = int(ut.date().toJulianDay());
     }
 
