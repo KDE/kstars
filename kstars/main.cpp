@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
 
     if (parser.isSet("dump"))
     {
-        qDebug() << "Dumping sky image";
+        qCDebug(KSTARS) << "Dumping sky image";
 
         //parse filename and image format
         const char *format = "PNG";
@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
 
             if (!kdt.isValid())
             {
-                qWarning() << i18n("Using CPU date/time instead.");
+                qCWarning(KSTARS) << i18n("Supplied date string is invalid: %1. Using CPU date/time instead.", datestring);
 
                 kdt = KStarsDateTime::currentDateTimeUtc();
             }
@@ -262,7 +262,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                qWarning() << i18n("Could not execute script.");
+                qCWarning(KSTARS) << i18n("Could not execute script.");
             }
         }
 
@@ -272,9 +272,9 @@ int main(int argc, char *argv[])
         qApp->processEvents();
 
         if (!sky.save(fname, format))
-            qWarning() << "Unable to save image: " << fname;
+            qCWarning(KSTARS) << "Unable to save image: " << fname;
         else
-            qDebug() << "Saved to file: %1" << fname;
+            qCDebug(KSTARS) << "Saved to file: %1" << fname;
 
         delete map;
         delete dat;
