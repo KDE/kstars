@@ -20,6 +20,8 @@
 #include <QObject>
 #include <QTemporaryFile>
 
+#include <functional>
+
 class QProgressDialog;
 
 class FileDownloader : public QObject

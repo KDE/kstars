@@ -594,20 +594,10 @@ void KStars::initActions()
     ka->setShortcutContext(Qt::ApplicationShortcut);
     telescopeGroup->addAction(ka);
 
-// TODO: Delete the non-lambda version and keep the lambda version after Ubuntu Xenial support is dropped
-#if KDE_IS_VERSION(4,14,22)
-    ka = actionCollection()->addAction("telescope_slew_mouse", this, [=]() { slotINDITelescopeSlew(false); } )
-#else
     ka = actionCollection()->addAction("telescope_slew_mouse", this, SLOT(slotINDITelescopeSlewMousePointer()))
-#endif
             << i18n("Slew the telescope to the mouse pointer position");
 
-// TODO: Delete the non-lambda version and keep the lambda version after Ubuntu Xenial support is dropped
-#if KDE_IS_VERSION(4,14,22)
-    ka = actionCollection()->addAction("telescope_sync_mouse", this, [=]() { slotINDITelescopeSync(false); } )
-#else
     ka = actionCollection()->addAction("telescope_sync_mouse", this, SLOT(slotINDITelescopeSyncMousePointer()))
-#endif
             << i18n("Sync the telescope to the mouse pointer position");
 
     // Disable all telescope actions by default
