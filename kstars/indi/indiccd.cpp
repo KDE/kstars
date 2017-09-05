@@ -11,7 +11,7 @@
 
 #include "config-kstars.h"
 
-#include "kstars_indi_debug.h"
+#include "indi_debug.h"
 
 #include "clientmanager.h"
 #include "driverinfo.h"
