@@ -787,6 +787,16 @@ void KStars::slotINDITelescopeSlew(bool focused_object)
 #endif
 }
 
+// TODO: Delete this function after Ubuntu Xenial support is dropped
+#if !KDE_IS_VERSION(4,14,22)
+void KStars::slotINDITelescopeSlewMousePointer()
+{
+#ifdef HAVE_INDI
+  slotINDITelescopeSlew(false);
+#endif
+}
+#endif
+
 void KStars::slotINDITelescopeSync(bool focused_object)
 {
 #ifdef HAVE_INDI
@@ -811,6 +821,16 @@ void KStars::slotINDITelescopeSync(bool focused_object)
     }
 #endif
 }
+
+// TODO: Delete this function after Ubuntu Xenial support is dropped
+#if !KDE_IS_VERSION(4,14,22)
+void KStars::slotINDITelescopeSyncMousePointer()
+{
+#ifdef HAVE_INDI
+  slotINDITelescopeSync(false);
+#endif
+}
+#endif
 
 void KStars::slotINDITelescopeAbort()
 {
