@@ -11,6 +11,8 @@
 
 #include "config-kstars.h"
 
+#include "kstars_indi_debug.h"
+
 #include "clientmanager.h"
 #include "driverinfo.h"
 #include "guimanager.h"
@@ -519,7 +521,7 @@ bool CCDChip::setFrameType(const QString &name)
         fType = FRAME_FLAT;
     else
     {
-        qDebug() << name << " frame type is unknown." << endl;
+        qCWarning(KSTARS_INDI) << name << " frame type is unknown." ;
         return false;
     }
 
@@ -584,7 +586,7 @@ CCDFrameType CCDChip::getFrameType()
 
     if (ccdFrame == nullptr)
     {
-        qDebug() << "ISD:CCD Cannot find active frame in CCD!" << endl;
+        qCWarning(KSTARS_INDI) << "ISD:CCD Cannot find active frame in CCD!";
         return fType;
     }
 
@@ -1220,7 +1222,7 @@ void CCD::processBLOB(IBLOB *bp)
 
         if (!tmpFile.open())
         {
-            qDebug() << "ISD:CCD Error: Unable to open " << filename << endl;
+            qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open " << filename;
             emit BLOBUpdated(nullptr);
             return;
         }
@@ -1255,7 +1257,7 @@ void CCD::processBLOB(IBLOB *bp)
 
         if (!fits_temp_file.open(QIODevice::WriteOnly))
         {
-            qDebug() << "ISD:CCD Error: Unable to open " << fits_temp_file.fileName() << endl;
+            qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open " << fits_temp_file.fileName();
             emit BLOBUpdated(nullptr);
             return;
         }

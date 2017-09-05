@@ -381,7 +381,7 @@ bool KStarsData::readCityData()
     citydb.setDatabaseName(dbfile);
     if (citydb.open() == false)
     {
-        qWarning() << "Unable to open city database file " << dbfile << citydb.lastError().text() << endl;
+        qCCritical(KSTARS) << "Unable to open city database file " << dbfile << citydb.lastError().text();
         return false;
     }
 
@@ -390,7 +390,7 @@ bool KStarsData::readCityData()
     //get_query.prepare("SELECT * FROM city");
     if (!get_query.exec("SELECT * FROM city"))
     {
-        qDebug() << get_query.lastError();
+        qCCritical(KSTARS) << get_query.lastError();
         return false;
     }
 
@@ -878,7 +878,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
             QStringList fn = line.mid(i).split(' ');
 
             //DEBUG
-            qDebug() << fn << endl;
+            //qDebug() << fn << endl;
 
             if (fn[0] == "lookTowards" && fn.size() >= 2)
             {
@@ -963,7 +963,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
             {
                 fn.removeAll(fn.first());
                 QString csName = fn.join(" ").remove('\"');
-                qDebug() << "Color scheme: " << csName << endl;
+                qCDebug(KSTARS) << "Loading Color scheme: " << csName;
 
                 QString filename = csName.toLower().trimmed();
                 bool ok(false);

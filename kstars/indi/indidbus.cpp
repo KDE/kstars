@@ -20,6 +20,8 @@
 #include "indi/indilistener.h"
 #include "indi/deviceinfo.h"
 
+#include "kstars_debug.h"
+
 INDIDBus::INDIDBus(QObject *parent) : QObject(parent)
 {
     new INDIAdaptor(this);
@@ -62,7 +64,7 @@ bool INDIDBus::stop(const QString &port)
 
     if (stopDrivers.isEmpty())
     {
-        qWarning() << "Could not find devices on port " << port << endl;
+        qCWarning(KSTARS) << "Could not find devices on port " << port;
         return false;
     }
 
@@ -194,7 +196,7 @@ QStringList INDIDBus::getProperties(const QString &device)
                     break;
 
                     case INDI_UNKNOWN:
-                        qWarning() << device << '.' << QString(prop->getName()) << " has an unknown type! Aborting...";
+                        qCWarning(KSTARS) << device << '.' << QString(prop->getName()) << " has an unknown type! Aborting...";
                         return properties;
                         break;
                 }
@@ -204,7 +206,7 @@ QStringList INDIDBus::getProperties(const QString &device)
         }
     }
 
-    qWarning() << "Could not find device: " << device << endl;
+    qCWarning(KSTARS) << "Could not find device: " << device;
     return properties;
 }
 
@@ -227,12 +229,12 @@ QString INDIDBus::getPropertyState(const QString &device, const QString &propert
                 return status;
             }
 
-            qWarning() << "Could not find property: " << device << '.' << property << endl;
+            qCWarning(KSTARS) << "Could not find property: " << device << '.' << property;
             return status;
         }
     }
 
-    qWarning() << "Could not find property: " << device << '.' << property << endl;
+    qCWarning(KSTARS) << "Could not find property: " << device << '.' << property;
     return status;
 }
 
@@ -269,19 +271,19 @@ bool INDIDBus::sendProperty(const QString &device, const QString &property)
                         break;
 
                     default:
-                        qWarning() << "Only switch, text, and number properties are supported.";
+                        qCWarning(KSTARS) << "Only switch, text, and number properties are supported.";
                         return false;
                 }
 
                 return true;
             }
 
-            qWarning() << "Could not find property: " << device << '.' << property << endl;
+            qCWarning(KSTARS) << "Could not find property: " << device << '.' << property;
             return false;
         }
     }
 
-    qWarning() << "Could not find property: " << device << '.' << property << endl;
+    qCWarning(KSTARS) << "Could not find property: " << device << '.' << property;
     return false;
 }
 
@@ -312,12 +314,12 @@ QString INDIDBus::getLight(const QString &device, const QString &property, const
                 }
             }
 
-            qWarning() << "Could not find property: " << device << '.' << property << endl;
+            qCWarning(KSTARS) << "Could not find property: " << device << '.' << property;
             return status;
         }
     }
 
-    qWarning() << "Could not find property: " << device << '.' << property << endl;
+    qCWarning(KSTARS) << "Could not find property: " << device << '.' << property;
     return status;
 }
 
@@ -326,7 +328,7 @@ bool INDIDBus::setSwitch(const QString &device, const QString &property, const Q
 {
     if (status != "On" && status != "Off")
     {
-        qWarning() << "Invalid switch status requested: " << status << endl;
+        qCWarning(KSTARS) << "Invalid switch status requested: " << status;
         return false;
     }
 
@@ -342,7 +344,7 @@ bool INDIDBus::setSwitch(const QString &device, const QString &property, const Q
 
             if (sp->r == ISR_1OFMANY && status == "Off")
             {
-                qWarning() << "Cannot set ISR_1OFMANY switch to Off. At least one switch must be On." << endl;
+                qCWarning(KSTARS) << "Cannot set ISR_1OFMANY switch to Off. At least one switch must be On.";
                 return false;
             }
 
@@ -357,12 +359,12 @@ bool INDIDBus::setSwitch(const QString &device, const QString &property, const Q
                 return true;
             }
 
-            qWarning() << "Could not find property: " << device << '.' << property << '.' << switchName << endl;
+            qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << switchName;
             return false;
         }
     }
 
-    qWarning() << "Could not find property: " << device << '.' << property << '.' << switchName << endl;
+    qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << switchName;
     return false;
 }
 
@@ -388,16 +390,16 @@ QString INDIDBus::getSwitch(const QString &device, const QString &property, cons
                     return result;
                 }
 
-                qWarning() << "Could not find property: " << device << '.' << property << '.' << switchName << endl;
+                qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << switchName;
                 return result;
             }
 
-            qWarning() << "Could not find property: " << device << '.' << property << '.' << switchName << endl;
+            qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << switchName;
             return result;
         }
     }
 
-    qWarning() << "Could not find property: " << device << '.' << property << '.' << switchName << endl;
+    qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << switchName;
     return result;
 }
 
@@ -422,16 +424,16 @@ bool INDIDBus::setText(const QString &device, const QString &property, const QSt
                     return true;
                 }
 
-                qWarning() << "Could not find property: " << device << '.' << property << '.' << textName << endl;
+                qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << textName;
                 return false;
             }
 
-            qWarning() << "Could not find property: " << device << '.' << property << '.' << textName << endl;
+            qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << textName;
             return false;
         }
     }
 
-    qWarning() << "Could not find property: " << device << '.' << property << '.' << textName << endl;
+    qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << textName;
     return false;
 }
 
@@ -457,16 +459,16 @@ QString INDIDBus::getText(const QString &device, const QString &property, const 
                     return result;
                 }
 
-                qWarning() << "Could not find property: " << device << '.' << property << '.' << textName << endl;
+                qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << textName;
                 return result;
             }
 
-            qWarning() << "Could not find property: " << device << '.' << property << '.' << textName << endl;
+            qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << textName;
             return result;
         }
     }
 
-    qWarning() << "Could not find property: " << device << '.' << property << '.' << textName << endl;
+    qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << textName;
     return result;
 }
 
@@ -491,16 +493,16 @@ bool INDIDBus::setNumber(const QString &device, const QString &property, const Q
                     return true;
                 }
 
-                qWarning() << "Could not find property: " << device << '.' << property << '.' << numberName << endl;
+                qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << numberName;
                 return false;
             }
 
-            qWarning() << "Could not find property: " << device << '.' << property << '.' << numberName << endl;
+            qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << numberName;
             return false;
         }
     }
 
-    qWarning() << "Could not find property: " << device << '.' << property << '.' << numberName << endl;
+    qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << numberName;
     return false;
 }
 
@@ -526,16 +528,16 @@ double INDIDBus::getNumber(const QString &device, const QString &property, const
                     return result;
                 }
 
-                qWarning() << "Could not find property: " << device << '.' << property << '.' << numberName << endl;
+                qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << numberName;
                 return result;
             }
 
-            qWarning() << "Could not find property: " << device << '.' << property << '.' << numberName << endl;
+            qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << numberName;
             return result;
         }
     }
 
-    qWarning() << "Could not find property: " << device << '.' << property << '.' << numberName << endl;
+    qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << numberName;
     return result;
 }
 
@@ -567,16 +569,16 @@ QByteArray INDIDBus::getBLOBData(const QString &device, const QString &property,
                     return array;
                 }
 
-                qWarning() << "Could not find property: " << device << '.' << property << '.' << blobName << endl;
+                qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << blobName;
                 return array;
             }
 
-            qWarning() << "Could not find property: " << device << '.' << property << '.' << blobName << endl;
+            qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << blobName;
             return array;
         }
     }
 
-    qWarning() << "Could not find property: " << device << '.' << property << '.' << blobName << endl;
+    qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << blobName;
     return array;
 }
 
@@ -607,15 +609,15 @@ QString INDIDBus::getBLOBFile(const QString &device, const QString &property, co
                     return filename;
                 }
 
-                qWarning() << "Could not find property: " << device << '.' << property << '.' << blobName << endl;
+                qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << blobName;
                 return filename;
             }
 
-            qWarning() << "Could not find property: " << device << '.' << property << '.' << blobName << endl;
+            qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << blobName;
             return filename;
         }
     }
 
-    qWarning() << "Could not find property: " << device << '.' << property << '.' << blobName << endl;
+    qCWarning(KSTARS) << "Could not find property: " << device << '.' << property << '.' << blobName;
     return filename;
 }

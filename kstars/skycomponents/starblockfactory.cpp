@@ -259,7 +259,7 @@ int StarBlockFactory::deleteBlocks(int nblocks)
     else
         first = nullptr;
 
-    qCDebug(KSTARS) << nblocks << "StarBlocks freed from StarBlockFactory" << endl;
+    qCDebug(KSTARS) << nblocks << "StarBlocks freed from StarBlockFactory";
 
     nBlocks -= i;
     return i;
@@ -312,7 +312,7 @@ int StarBlockFactory::freeUnused()
     else
         first = nullptr;
 
-    qCDebug(KSTARS) << i << "StarBlocks freed from StarBlockFactory" << endl;
+    qCDebug(KSTARS) << i << "StarBlocks freed from StarBlockFactory";
 
     nBlocks -= i;
     return i;
