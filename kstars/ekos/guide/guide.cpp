@@ -105,12 +105,39 @@ Guide::Guide() : QWidget()
     // Guider CCD Selection
     //connect(guiderCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
     connect(guiderCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
-            [&](const QString &ccd) { Options::setDefaultGuideCCD(ccd); });
+            [&](const QString &ccd)
+    {
+        if (guiderType == GUIDE_INTERNAL)
+            Options::setDefaultGuideCCD(ccd);
+        else if (ccd.isEmpty() == false)
+        {
+            QString ccdName = ccd;
+            ccdName = ccdName.remove(" Guider");
+            setBLOBEnabled(Options::guideRemoteImagesEnabled(), ccdName);
+            guiderCombo->blockSignals(true);
+            guiderCombo->setCurrentIndex(-1);
+            guiderCombo->blockSignals(false);
+        }
+
+    });
     connect(guiderCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
         [&](int index)
     {
-        starCenter = QVector3D();
-        checkCCD(index);
+        if (guiderType == GUIDE_INTERNAL)
+        {
+            starCenter = QVector3D();
+            checkCCD(index);
+        }
+        else if (index >= 0)
+        {
+            // Disable or enable selected CCD based on options
+            QString ccdName = guiderCombo->currentText().remove(" Guider");
+            setBLOBEnabled(Options::guideRemoteImagesEnabled(), ccdName);
+            guiderCombo->blockSignals(true);
+            guiderCombo->setCurrentIndex(-1);
+            guiderCombo->blockSignals(false);
+        }
+
     }
     );
 
@@ -1570,6 +1597,8 @@ bool Guide::setGuiderType(int type)
             infoGroup->setEnabled(true);
             driftGraphicsGroup->setEnabled(true);
 
+            guiderCombo->setToolTip(i18n("Select guide camera."));
+
             updateGuideParams();
         }
         break;
@@ -1592,12 +1621,19 @@ bool Guide::setGuiderType(int type)
             infoGroup->setEnabled(false);
             driftGraphicsGroup->setEnabled(false);
 
-            guiderCombo->setEnabled(false);
             ST4Combo->setEnabled(false);
             exposureIN->setEnabled(false);
             binningCombo->setEnabled(false);
             boxSizeCombo->setEnabled(false);
             filterCombo->setEnabled(false);
+
+            if (Options::guideRemoteImagesEnabled() == false)
+            {
+                guiderCombo->setCurrentIndex(-1);
+                guiderCombo->setToolTip(i18n("Select a camera to disable remote streaming."));
+            }
+            else
+                guiderCombo->setEnabled(false);
             break;
 
         case GUIDE_LINGUIDER:
@@ -1618,12 +1654,19 @@ bool Guide::setGuiderType(int type)
             infoGroup->setEnabled(false);
             driftGraphicsGroup->setEnabled(false);
 
-            guiderCombo->setEnabled(false);
             ST4Combo->setEnabled(false);
             exposureIN->setEnabled(false);
             binningCombo->setEnabled(false);
             boxSizeCombo->setEnabled(false);
             filterCombo->setEnabled(false);
+
+            if (Options::guideRemoteImagesEnabled() == false)
+            {
+                guiderCombo->setCurrentIndex(-1);
+                guiderCombo->setToolTip(i18n("Select a camera to disable remote streaming."));
+            }
+            else
+                guiderCombo->setEnabled(false);
 
             break;
     }
@@ -2395,7 +2438,7 @@ void Guide::showFITSViewer()
     }
 }
 
-void Guide::setBLOBEnabled(bool enable)
+void Guide::setBLOBEnabled(bool enable, const QString &ccd)
 {
     // Nothing to do if guider is international or remote images are enabled
     if (guiderType == GUIDE_INTERNAL || Options::guideRemoteImagesEnabled())
@@ -2405,6 +2448,10 @@ void Guide::setBLOBEnabled(bool enable)
 
     foreach(ISD::CCD *oneCCD, CCDs)
     {
+        // If it's not the desired CCD, continue.
+        if (ccd.isEmpty() == false && QString(oneCCD->getDeviceName()) != ccd)
+            continue;
+
         if (enable == false && oneCCD->isBLOBEnabled())
         {
             appendLogText(i18n("Disabling remote image reception from %1", oneCCD->getDeviceName()));
