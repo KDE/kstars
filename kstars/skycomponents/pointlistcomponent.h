@@ -53,7 +53,7 @@ class PointListComponent : public SkyComponent
      * Precession/Nutation computation should be skipped; this computation
      * is only occasionally required.
      */
-    void update(KSNumbers *num = 0) override;
+    void update(KSNumbers *num = nullptr) override;
 
     QList<std::shared_ptr<SkyPoint>> &pointList() { return m_PointList; }
 

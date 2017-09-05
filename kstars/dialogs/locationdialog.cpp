@@ -43,7 +43,7 @@ LocationDialogUI::LocationDialogUI(QWidget *parent) : QFrame(parent)
     setupUi(this);
 }
 
-LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(0)
+LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -157,7 +157,7 @@ void LocationDialog::initCityList()
         i18np("One city matches search criteria", "%1 cities match search criteria", ld->GeoBox->count()));
 
     // attempt to highlight the current kstars location in the GeoBox
-    ld->GeoBox->setCurrentItem(0);
+    ld->GeoBox->setCurrentItem(nullptr);
     for (int i = 0; i < ld->GeoBox->count(); i++)
     {
         if (ld->GeoBox->item(i)->text() == data->geo()->fullName())
@@ -226,7 +226,7 @@ void LocationDialog::changeCity()
 {
     KStarsData *data = KStarsData::Instance();
     //when the selected city changes, set newCity, and redraw map
-    SelectedCity = 0L;
+    SelectedCity = nullptr;
     if (ld->GeoBox->currentItem())
     {
         for (int i = 0; i < filteredCityList.size(); ++i)
@@ -302,13 +302,13 @@ bool LocationDialog::updateCity(CityOperation operation)
     if (operation == CITY_REMOVE)
     {
         QString message = i18n("Are you sure you want to remove %1?", selectedCityName());
-        if (KMessageBox::questionYesNo(0, message, i18n("Remove City?")) == KMessageBox::No)
+        if (KMessageBox::questionYesNo(nullptr, message, i18n("Remove City?")) == KMessageBox::No)
             return false; //user answered No.
     }
     else if (!nameModified && !dataModified)
     {
         QString message = i18n("This city already exists in the database.");
-        KMessageBox::sorry(0, message, i18n("Error: Duplicate Entry"));
+        KMessageBox::sorry(nullptr, message, i18n("Error: Duplicate Entry"));
         return false;
     }
 
@@ -322,19 +322,19 @@ bool LocationDialog::updateCity(CityOperation operation)
     if (ld->NewCityName->text().isEmpty() || ld->NewCountryName->text().isEmpty())
     {
         QString message = i18n("All fields (except province) must be filled to add this location.");
-        KMessageBox::sorry(0, message, i18n("Fields are Empty"));
+        KMessageBox::sorry(nullptr, message, i18n("Fields are Empty"));
         return false;
     }
     else if (!latOk || !lngOk)
     {
         QString message = i18n("Could not parse the Latitude/Longitude.");
-        KMessageBox::sorry(0, message, i18n("Bad Coordinates"));
+        KMessageBox::sorry(nullptr, message, i18n("Bad Coordinates"));
         return false;
     }
     else if (!tzOk)
     {
         QString message = i18n("Could not parse coordinates.");
-        KMessageBox::sorry(0, message, i18n("Bad Coordinates"));
+        KMessageBox::sorry(nullptr, message, i18n("Bad Coordinates"));
         return false;
     }
 
@@ -472,7 +472,7 @@ bool LocationDialog::updateCity(CityOperation operation)
     filterCity();
 
     //Attempt to highlight new city in list
-    ld->GeoBox->setCurrentItem(0);
+    ld->GeoBox->setCurrentItem(nullptr);
     if (g && ld->GeoBox->count())
     {
         for (int i = 0; i < ld->GeoBox->count(); i++)

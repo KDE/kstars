@@ -46,11 +46,11 @@ EyepieceField::EyepieceField(QWidget *parent) : QDialog(parent)
 
     setWindowTitle(i18n("Eyepiece Field View"));
 
-    m_sp         = 0;
-    m_dt         = 0;
-    m_currentFOV = 0;
+    m_sp         = nullptr;
+    m_dt         = nullptr;
+    m_currentFOV = nullptr;
     m_fovWidth = m_fovHeight = 0;
-    m_dler                   = 0;
+    m_dler                   = nullptr;
 
     QWidget *mainWidget     = new QWidget(this);
     QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -205,7 +205,7 @@ void EyepieceField::showEyepieceField(SkyPoint *sp, FOV const *const fov, const 
     {
         //Q_ASSERT( false );
         // Don't crash the program
-        KMessageBox::error(0, i18n(("No image found. Please specify the exact FOV.")));
+        KMessageBox::error(nullptr, i18n(("No image found. Please specify the exact FOV.")));
         return;
     }
 
@@ -253,7 +253,7 @@ void EyepieceField::showEyepieceField(SkyPoint *sp, const double fovWidth, doubl
     render();
     m_fovWidth   = fovWidth;
     m_fovHeight  = fovHeight;
-    m_currentFOV = 0;
+    m_currentFOV = nullptr;
 }
 
 void EyepieceField::generateEyepieceView(SkyPoint *sp, QImage *skyChart, QImage *skyImage, const FOV *fov,
@@ -500,7 +500,7 @@ void EyepieceField::renderEyepieceView(SkyPoint *sp, QPixmap *renderChart, doubl
                                        const QString &imagePath, QPixmap *renderImage, const bool overlay,
                                        const bool invertColors)
 {
-    QImage *skyChart, *skyImage = 0;
+    QImage *skyChart, *skyImage = nullptr;
     skyChart = new QImage();
     if (QFile::exists(imagePath) && (renderImage || overlay))
         skyImage = new QImage();
@@ -554,7 +554,7 @@ void EyepieceField::render()
 void EyepieceField::slotDownloadDss()
 {
     double fovWidth = 0, fovHeight = 0;
-    if (m_fovWidth == 0 && m_currentFOV == 0)
+    if (m_fovWidth == 0 && m_currentFOV == nullptr)
     {
         fovWidth = fovHeight = 15.0;
     }
@@ -579,7 +579,7 @@ void EyepieceField::slotDssDownloaded(bool success)
 {
     if (!success)
     {
-        KMessageBox::sorry(0, i18n("Failed to download DSS/SDSS image!"));
+        KMessageBox::sorry(nullptr, i18n("Failed to download DSS/SDSS image!"));
         return;
     }
     else

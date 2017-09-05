@@ -84,7 +84,7 @@ KSPlanetBase *KSPlanetBase::createPlanet(int n)
             return new KSMoon();
             break;
     }
-    return 0;
+    return nullptr;
 }
 
 void KSPlanetBase::EquatorialToEcliptic(const CachingDms *Obliquity)

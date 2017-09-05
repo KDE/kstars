@@ -49,7 +49,7 @@ void fatalErrorMessage(QString fname)
 {
 #ifndef KSTARS_LITE
 
-    KMessageBox::sorry(0,
+    KMessageBox::sorry(nullptr,
                        i18n("The file  %1 could not be found. "
                             "KStars cannot run properly without this file. "
                             "KStars searches for this file in following locations:\n\n\t"
@@ -88,7 +88,7 @@ bool nonFatalErrorMessage(QString fname)
 #endif
 }
 
-KStarsData *KStarsData::pinstance = 0;
+KStarsData *KStarsData::pinstance = nullptr;
 
 KStarsData *KStarsData::Create()
 {
@@ -331,7 +331,7 @@ GeoLocation *KStarsData::locationNamed(const QString &city, const QString &provi
             return loc;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 void KStarsData::setLocationFromOptions()
@@ -370,7 +370,7 @@ void KStarsData::setLocation(const GeoLocation &l)
 SkyObject *KStarsData::objectNamed(const QString &name)
 {
     if ((name == "star") || (name == "nothing") || name.isEmpty())
-        return 0;
+        return nullptr;
     return skyComposite()->findByName(name);
 }
 

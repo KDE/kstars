@@ -840,7 +840,7 @@ void KStars::renderEyepieceView(const QString &objectName, const QString &destPa
     const KStarsDateTime ut    = data()->ut();
     const GeoLocation *geo     = data()->geo();
     QPixmap *renderChart       = new QPixmap();
-    QPixmap *renderImage       = 0;
+    QPixmap *renderImage       = nullptr;
     QTemporaryFile tempFile;
     if (overlay || (!destPathImage.isEmpty()))
     {

@@ -313,7 +313,7 @@ void Execute::slotEndSession()
                                    KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(),
                                    ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text());
 
-        QUrl fileURL = QFileDialog::getSaveFileUrl(0, i18n("Save Session"), QUrl(QDir::homePath()), "*.xml");
+        QUrl fileURL = QFileDialog::getSaveFileUrl(nullptr, i18n("Save Session"), QUrl(QDir::homePath()), "*.xml");
 
         if (fileURL.isEmpty())
         {
@@ -327,7 +327,7 @@ void Execute::slotEndSession()
             if (!f.open(QIODevice::WriteOnly))
             {
                 QString message = i18n("Could not open file %1", f.fileName());
-                KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+                KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
                 return;
             }
             QTextStream ostream(&f);
@@ -436,7 +436,7 @@ void Execute::slotAddObject()
     if (fd->exec() == QDialog::Accepted)
     {
         SkyObject *o = fd->targetObject();
-        if (o != 0)
+        if (o != nullptr)
         {
             KStarsData::Instance()->observingList()->slotAddObject(o, true);
             init();

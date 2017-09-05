@@ -35,9 +35,9 @@ class EquirectangularProjector : public Projector
     Projection type() const override;
     double radius() const override;
     bool unusablePoint(const QPointF &p) const override;
-    Vector2f toScreenVec(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = 0) const override;
+    Vector2f toScreenVec(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = nullptr) const override;
     SkyPoint fromScreen(const QPointF &p, dms *LST, const dms *lat) const override;
-    QVector<Vector2f> groundPoly(SkyPoint *labelpoint = 0, bool *drawLabel = 0) const override;
+    QVector<Vector2f> groundPoly(SkyPoint *labelpoint = nullptr, bool *drawLabel = nullptr) const override;
     void updateClipPoly() override;
 };
 

@@ -231,13 +231,13 @@ void WUTDialog::init()
     else
         WUT->MoonSetLabel->setText(
             i18n("Moon sets at: %1 on %2", sSet, QLocale().toString(Tomorrow.date(), QLocale::LongFormat)));
-    oMoon->findPhase(0);
+    oMoon->findPhase(nullptr);
     WUT->MoonIllumLabel->setText(oMoon->phaseName() + QString(" (%1%)").arg(int(100.0 * oMoon->illum())));
 
     //Restore Sun's and Moon's coordinates, and recompute Moon's original Phase
     oMoon->updateCoords(oldNum, true, geo->lat(), data->lst(), true);
     oSun->updateCoords(oldNum, true, geo->lat(), data->lst(), true);
-    oMoon->findPhase(0);
+    oMoon->findPhase(nullptr);
 
     if (WUT->CategoryListWidget->currentItem())
         slotLoadList(WUT->CategoryListWidget->currentItem()->text());
@@ -425,12 +425,12 @@ void WUTDialog::slotDisplayObject(const QString &name)
     sSet     = "--:--";
     WUT->DetailButton->setEnabled(false);
 
-    SkyObject *o = 0;
+    SkyObject *o = nullptr;
     if (name.isEmpty())
     {
         //no object selected
         WUT->ObjectBox->setTitle(i18n("No Object Selected"));
-        o = 0;
+        o = nullptr;
     }
     else
     {
@@ -489,13 +489,13 @@ void WUTDialog::slotDisplayObject(const QString &name)
 void WUTDialog::slotCenter()
 {
     KStars *kstars = KStars::Instance();
-    SkyObject *o   = 0;
+    SkyObject *o   = nullptr;
     // get selected item
-    if (WUT->ObjectListWidget->currentItem() != 0)
+    if (WUT->ObjectListWidget->currentItem() != nullptr)
     {
         o = kstars->data()->objectNamed(WUT->ObjectListWidget->currentItem()->text());
     }
-    if (o != 0)
+    if (o != nullptr)
     {
         kstars->map()->setFocusPoint(o);
         kstars->map()->setFocusObject(o);
@@ -506,13 +506,13 @@ void WUTDialog::slotCenter()
 void WUTDialog::slotDetails()
 {
     KStars *kstars = KStars::Instance();
-    SkyObject *o   = 0;
+    SkyObject *o   = nullptr;
     // get selected item
-    if (WUT->ObjectListWidget->currentItem() != 0)
+    if (WUT->ObjectListWidget->currentItem() != nullptr)
     {
         o = kstars->data()->objectNamed(WUT->ObjectListWidget->currentItem()->text());
     }
-    if (o != 0)
+    if (o != nullptr)
     {
         QPointer<DetailDialog> detail = new DetailDialog(o, kstars->data()->ut(), geo, kstars);
         detail->exec();
@@ -521,13 +521,13 @@ void WUTDialog::slotDetails()
 }
 void WUTDialog::slotObslist()
 {
-    SkyObject *o = 0;
+    SkyObject *o = nullptr;
     // get selected item
-    if (WUT->ObjectListWidget->currentItem() != 0)
+    if (WUT->ObjectListWidget->currentItem() != nullptr)
     {
         o = KStarsData::Instance()->objectNamed(WUT->ObjectListWidget->currentItem()->text());
     }
-    if (o != 0)
+    if (o != nullptr)
     {
         KStarsData::Instance()->observingList()->slotAddObject(o, session);
     }

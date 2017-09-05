@@ -133,7 +133,7 @@ void PWizPrintUI::slotExport()
             //if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
             {
                 QString message = i18n("Could not upload file to remote location: %1", url.url());
-                KMessageBox::sorry(0, message, i18n("Could not upload file"));
+                KMessageBox::sorry(nullptr, message, i18n("Could not upload file"));
             }
         }
     }

@@ -240,7 +240,7 @@ void modCalcGeodCoord::slotRunBatch(void)
         if (!f.open(QIODevice::ReadOnly))
         {
             QString message = i18n("Could not open file %1.", f.fileName());
-            KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
             return;
         }
 
@@ -253,7 +253,7 @@ void modCalcGeodCoord::slotRunBatch(void)
     else
     {
         QString message = i18n("Invalid file: %1", inputFileName);
-        KMessageBox::sorry(0, message, i18n("Invalid file"));
+        KMessageBox::sorry(nullptr, message, i18n("Invalid file"));
         InputFileBoxBatch->setUrl(QUrl());
     }
 }

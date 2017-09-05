@@ -29,7 +29,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 
-MapCanvas::MapCanvas(QWidget *parent) : QFrame(parent), ld(0)
+MapCanvas::MapCanvas(QWidget *parent) : QFrame(parent), ld(nullptr)
 {
     setAutoFillBackground(false);
 

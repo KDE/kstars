@@ -61,7 +61,7 @@ class QRoundProgressBar : public QWidget
 {
     Q_OBJECT
   public:
-    explicit QRoundProgressBar(QWidget *parent = 0);
+    explicit QRoundProgressBar(QWidget *parent = nullptr);
 
     static const int PositionLeft   = 180;
     static const int PositionTop    = 90;

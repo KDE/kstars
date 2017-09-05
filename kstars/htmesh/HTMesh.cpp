@@ -255,7 +255,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2, BufNum 
 MeshBuffer *HTMesh::meshBuffer(BufNum bufNum)
 {
     if (!validBufNum(bufNum))
-        return 0;
+        return nullptr;
     return m_meshBuffer[bufNum];
 }
 

@@ -33,7 +33,7 @@ class FindDialogUI : public QFrame, public Ui::FindDialog
 {
     Q_OBJECT
   public:
-    explicit FindDialogUI(QWidget *parent = 0);
+    explicit FindDialogUI(QWidget *parent = nullptr);
 };
 
 /** @class FindDialog
@@ -52,7 +52,7 @@ class FindDialog : public QDialog
     /**Constructor. Creates all widgets and packs them in QLayouts.  Connects
          * Signals and Slots.  Runs initObjectList().
          */
-    explicit FindDialog(QWidget *parent = 0);
+    explicit FindDialog(QWidget *parent = nullptr);
 
     /** Destructor */
     ~FindDialog() override;
@@ -115,7 +115,7 @@ class FindDialog : public QDialog
     /**
          * @short Finishes the processing towards closing the dialog initiated by slotOk() or slotResolve()
          */
-    void finishProcessing(SkyObject *selObj = 0, bool resolve = true);
+    void finishProcessing(SkyObject *selObj = nullptr, bool resolve = true);
 
     /** @short pre-filter the list of objects according to the
          * selected object type.

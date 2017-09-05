@@ -48,8 +48,8 @@ PWizWelcomeUI::PWizWelcomeUI(QWidget *parent) : QFrame(parent)
 }
 
 PrintingWizard::PrintingWizard(QWidget *parent)
-    : QDialog(parent), m_KStars(KStars::Instance()), m_FinderChart(0), m_SkyObject(0), m_FovType(FT_UNDEFINED),
-      m_FovImageSize(QSize(500, 500)), m_ShBeginObject(0), m_PointingShBegin(false), m_SwitchColors(false),
+    : QDialog(parent), m_KStars(KStars::Instance()), m_FinderChart(nullptr), m_SkyObject(nullptr), m_FovType(FT_UNDEFINED),
+      m_FovImageSize(QSize(500, 500)), m_ShBeginObject(nullptr), m_PointingShBegin(false), m_SwitchColors(false),
       m_RecapturingFov(false), m_RecaptureIdx(-1)
 {
     m_Printer = new QPrinter(QPrinter::ScreenResolution);

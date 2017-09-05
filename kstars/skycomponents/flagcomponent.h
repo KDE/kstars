@@ -56,7 +56,7 @@ class FlagComponent : public QObject, public PointListComponent
 
     bool selected() override;
 
-    void update(KSNumbers *num = 0) override;
+    void update(KSNumbers *num = nullptr) override;
 
     /**
      * @short Add a flag.

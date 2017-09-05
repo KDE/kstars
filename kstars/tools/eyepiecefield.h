@@ -61,7 +61,7 @@ class EyepieceField : public QDialog // FIXME: Rename to EyepieceView
      * @note The SkyPoint must have correct Alt/Az coordinates, maybe by calling update()
      * already before calling this method.
      */
-    void showEyepieceField(SkyPoint *sp, FOV const *const fov = 0, const QString &imagePath = QString());
+    void showEyepieceField(SkyPoint *sp, FOV const *const fov = nullptr, const QString &imagePath = QString());
 
     /**
      * @short Show the eyepiece field dialog

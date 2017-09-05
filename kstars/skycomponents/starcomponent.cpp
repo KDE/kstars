@@ -49,7 +49,7 @@
 #include "byteorder.h"
 #endif
 
-StarComponent *StarComponent::pinstance = 0;
+StarComponent *StarComponent::pinstance = nullptr;
 
 StarComponent::StarComponent(SkyComposite *parent)
     : ListComponent(parent), m_reindexNum(J2000)
@@ -639,14 +639,14 @@ StarObject *StarComponent::findByHDIndex(int HDnum)
         FILE *dataFile = nullptr;
 
         if (!hdidxFile)
-            return 0;
+            return nullptr;
         //KDE_fseek( hdidxFile, (HDnum - 1) * 4, SEEK_SET );
         QT_FSEEK(hdidxFile, (HDnum - 1) * 4, SEEK_SET);
         // TODO: Offsets need to be byteswapped if this is a big endian machine.
         // This means that the Henry Draper Index needs a endianness indicator.
         ret = fread(&offset, 4, 1, hdidxFile);
         if (offset <= 0)
-            return 0;
+            return nullptr;
         dataFile = m_DeepStarComponents.at(1)->getStarReader()->getFileHandle();
         //KDE_fseek( dataFile, offset, SEEK_SET );
         QT_FSEEK(dataFile, offset, SEEK_SET);
@@ -664,7 +664,7 @@ StarObject *StarComponent::findByHDIndex(int HDnum)
         return focusStar;
     }
 
-    return 0;
+    return nullptr;
 }
 
 // This uses the main star index for looking up nearby stars but then
@@ -676,7 +676,7 @@ SkyObject *StarComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
     m_zoomMagLimit = zoomMagnitudeLimit();
 
-    SkyObject *oBest = 0;
+    SkyObject *oBest = nullptr;
 
     MeshIterator region(m_skyMesh, OBJ_NEAREST_BUF);
 

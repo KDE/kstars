@@ -25,7 +25,7 @@
 // TODO: Implement a better way of deciding this
 #define DEFAULT_NCACHE 12
 
-StarBlockFactory *StarBlockFactory::pInstance = 0;
+StarBlockFactory *StarBlockFactory::pInstance = nullptr;
 
 StarBlockFactory *StarBlockFactory::Instance()
 {

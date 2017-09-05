@@ -52,7 +52,7 @@ class PWizWelcomeUI : public QFrame, public Ui::PWizWelcome
     /**
           * \brief Constructor.
           */
-    explicit PWizWelcomeUI(QWidget *parent = 0);
+    explicit PWizWelcomeUI(QWidget *parent = nullptr);
 };
 
 /**
@@ -94,7 +94,7 @@ class PrintingWizard : public QDialog
     /**
           * \brief Constructor.
           */
-    explicit PrintingWizard(QWidget *parent = 0);
+    explicit PrintingWizard(QWidget *parent = nullptr);
 
     /**
           * \brief Destructor.
@@ -192,7 +192,7 @@ class PrintingWizard : public QDialog
           * \param center Point at which SkyMap should be centered.
           * \param fov Field of view symbol, used to calculate zoom factor.
           */
-    void beginFovCapture(SkyPoint *center, FOV *fov = 0);
+    void beginFovCapture(SkyPoint *center, FOV *fov = nullptr);
 
     /**
           * \brief Capture current contents of FOV symbol.
@@ -242,7 +242,7 @@ class PrintingWizard : public QDialog
           * \param center Point at which SkyMap should be centered.
           * \param fov Field of view symbol, used to calculate zoom factor.
           */
-    void slewAndBeginCapture(SkyPoint *center, FOV *fov = 0);
+    void slewAndBeginCapture(SkyPoint *center, FOV *fov = nullptr);
 
     /**
           * \brief Create finder chart using settings from all steps.

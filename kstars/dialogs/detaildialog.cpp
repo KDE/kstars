@@ -47,7 +47,7 @@
 #include <QDesktopServices>
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent)
-    : KPageDialog(parent), selectedObject(o), Data(0), DataComet(0), Pos(0), Links(0), Adv(0), Log(0)
+    : KPageDialog(parent), selectedObject(o), Data(nullptr), DataComet(nullptr), Pos(nullptr), Links(nullptr), Adv(nullptr), Log(nullptr)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -704,7 +704,7 @@ void DetailDialog::addLink()
             {
                 QString message =
                     i18n("Custom image-links file could not be opened.\nLink cannot be recorded for future sessions.");
-                KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+                KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
                 delete adialog;
                 return;
             }
@@ -730,7 +730,7 @@ void DetailDialog::addLink()
             {
                 QString message = i18n(
                     "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions.");
-                KMessageBox::sorry(0, message, i18n("Could not Open File"));
+                KMessageBox::sorry(nullptr, message, i18n("Could not Open File"));
                 delete adialog;
                 return;
             }
@@ -988,7 +988,7 @@ void DetailDialog::removeLinkDialog()
     else
         return;
 
-    if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to remove the %1 link?", currentItemTitle),
+    if (KMessageBox::warningContinueCancel(nullptr, i18n("Are you sure you want to remove the %1 link?", currentItemTitle),
                                            i18n("Delete Confirmation"),
                                            KStandardGuiItem::del()) != KMessageBox::Continue)
         return;
@@ -1286,7 +1286,7 @@ void DetailDialog::updateThumbnail()
             bool rc = Data->Image->pixmap()->save(fname, "PNG");
             if (rc == false)
             {
-                KMessageBox::error(0, i18n("Error: Unable to save image to %1", fname), i18n("Save Thumbnail"));
+                KMessageBox::error(nullptr, i18n("Error: Unable to save image to %1", fname), i18n("Save Thumbnail"));
             }
             else
                 *Thumbnail = *(Data->Image->pixmap());

@@ -36,7 +36,7 @@ class FovEditorDialogUI : public QFrame, public Ui::FovEditorDialog
     /**
      * \brief Constructor.
      */
-    explicit FovEditorDialogUI(QWidget *parent = 0);
+    explicit FovEditorDialogUI(QWidget *parent = nullptr);
 };
 
 /**
@@ -51,7 +51,7 @@ class FovEditorDialog : public QDialog
     /**
      * \brief Constructor.
      */
-    explicit FovEditorDialog(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit FovEditorDialog(PrintingWizard *wizard, QWidget *parent = nullptr);
 
   private slots:
     /**

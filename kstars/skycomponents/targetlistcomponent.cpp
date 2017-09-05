@@ -24,8 +24,8 @@
 
 TargetListComponent::TargetListComponent(SkyComposite *parent) : SkyComponent(parent)
 {
-    drawSymbols = 0;
-    drawLabels  = 0;
+    drawSymbols = nullptr;
+    drawLabels  = nullptr;
 }
 
 TargetListComponent::TargetListComponent(SkyComposite *parent, SkyObjectList *objectList, QPen _pen,

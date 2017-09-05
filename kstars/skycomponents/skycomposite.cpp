@@ -79,14 +79,14 @@ SkyObject *SkyComposite::findByName(const QString &name)
         if (o)
             return o;
     }
-    return 0;
+    return nullptr;
 }
 
 SkyObject *SkyComposite::objectNearest(SkyPoint *p, double &maxrad)
 {
     if (!selected())
-        return 0;
-    SkyObject *oBest = 0;
+        return nullptr;
+    SkyObject *oBest = nullptr;
     foreach (SkyComponent *comp, components())
     {
         // qDebug() << "Checking " << typeid( *comp ).name() <<" for oBest";

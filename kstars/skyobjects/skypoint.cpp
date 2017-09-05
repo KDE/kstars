@@ -40,7 +40,7 @@ long unsigned SkyPoint::eqToHzCalls = 0;
 double SkyPoint::cpuTime_EqToHz     = 0.;
 #endif
 
-KSSun *SkyPoint::m_Sun         = 0;
+KSSun *SkyPoint::m_Sun         = nullptr;
 const double SkyPoint::altCrit = -1.0;
 
 SkyPoint::SkyPoint()

@@ -104,7 +104,7 @@ void FocusDialog::validatePoint()
             message += '\n' + i18n("The Declination value must be between -90.0 and 90.0.");
         if (!message.isEmpty())
         {
-            KMessageBox::sorry(0, message, i18n("Invalid Coordinate Data"));
+            KMessageBox::sorry(nullptr, message, i18n("Invalid Coordinate Data"));
             return;
         }
 
@@ -132,7 +132,7 @@ void FocusDialog::validatePoint()
                 message += '\n' + i18n("The Altitude value must be between -90.0 and 90.0.");
             if (!message.isEmpty())
             {
-                KMessageBox::sorry(0, message, i18n("Invalid Coordinate Data"));
+                KMessageBox::sorry(nullptr, message, i18n("Invalid Coordinate Data"));
                 return;
             }
 

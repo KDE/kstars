@@ -41,7 +41,7 @@ class SimClock : public QObject
          * @param parent parent object for the clock
          * @param when the date/time to which the SimClock should be initialized in UTC
          */
-    explicit SimClock(QObject *parent = 0, const KStarsDateTime &when = KStarsDateTime::currentDateTimeUtc());
+    explicit SimClock(QObject *parent = nullptr, const KStarsDateTime &when = KStarsDateTime::currentDateTimeUtc());
 
     /** @return const reference to the current simulation Universal Time. */
     const KStarsDateTime &utc() const { return UTC; }

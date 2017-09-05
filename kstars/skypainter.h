@@ -102,7 +102,7 @@ class SkyPainter
      * @note it's more efficient to use this than repeated calls to drawSkyLine(),
      * because it avoids an extra points->size() -2 projections.
      */
-    virtual void drawSkyPolyline(LineList *list, SkipHashList *skipList = 0, LineListLabel *label = 0) = 0;
+    virtual void drawSkyPolyline(LineList *list, SkipHashList *skipList = nullptr, LineListLabel *label = nullptr) = 0;
 
     /**
      * @short Draw a polygon in the sky.
@@ -159,7 +159,7 @@ class SkyPainter
     /** @short Draw a Supernova */
     virtual bool drawSupernova(Supernova *sup) = 0;
 
-    virtual void drawHorizon(bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0) = 0;
+    virtual void drawHorizon(bool filled, SkyPoint *labelPoint = nullptr, bool *drawLabel = nullptr) = 0;
 
     /** @short Get the width of a star of magnitude mag */
     float starWidth(float mag) const;

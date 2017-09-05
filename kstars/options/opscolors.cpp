@@ -218,8 +218,8 @@ void OpsColors::slotAddPreset()
 {
     bool okPressed = false;
     QString schemename =
-        QInputDialog::getText(0, i18n("New Color Scheme"), i18n("Enter a name for the new color scheme:"),
-                              QLineEdit::Normal, QString(), &okPressed, 0);
+        QInputDialog::getText(nullptr, i18n("New Color Scheme"), i18n("Enter a name for the new color scheme:"),
+                              QLineEdit::Normal, QString(), &okPressed, nullptr);
 
     if (okPressed && !schemename.isEmpty())
     {
@@ -263,7 +263,7 @@ void OpsColors::slotRemovePreset()
     if (!cdatFile.exists() || !cdatFile.open(QIODevice::ReadWrite))
     {
         QString message = i18n("Local color scheme index file could not be opened.\nScheme cannot be removed.");
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
     }
     else
     {
@@ -297,7 +297,7 @@ void OpsColors::slotRemovePreset()
             if (!colorFile.remove())
             {
                 QString message = i18n("Could not delete the file: %1", colorFile.fileName());
-                KMessageBox::sorry(0, message, i18n("Error Deleting File"));
+                KMessageBox::sorry(nullptr, message, i18n("Error Deleting File"));
             }
 
             //remove the old colors.dat file, and rebuild it with the modified string list.
@@ -310,7 +310,7 @@ void OpsColors::slotRemovePreset()
         else
         {
             QString message = i18n("Could not find an entry named %1 in colors.dat.", name);
-            KMessageBox::sorry(0, message, i18n("Scheme Not Found"));
+            KMessageBox::sorry(nullptr, message, i18n("Scheme Not Found"));
         }
         cdatFile.close();
     }

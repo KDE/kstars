@@ -125,7 +125,7 @@ void modCalcJD::slotRunBatch()
         if (!f.open(QIODevice::ReadOnly))
         {
             QString message = i18n("Could not open file %1.", f.fileName());
-            KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
             return;
         }
 
@@ -138,7 +138,7 @@ void modCalcJD::slotRunBatch()
     else
     {
         QString message = i18n("Invalid file: %1", inputFileName);
-        KMessageBox::sorry(0, message, i18n("Invalid file"));
+        KMessageBox::sorry(nullptr, message, i18n("Invalid file"));
         return;
     }
 }
@@ -252,6 +252,6 @@ void modCalcJD::slotViewBatch()
 
     fOut.close();
 
-    KMessageBox::informationList(0, i18n("Results of Julian day calculation"), text,
+    KMessageBox::informationList(nullptr, i18n("Results of Julian day calculation"), text,
                                  OutputFileBatch->url().toLocalFile());
 }

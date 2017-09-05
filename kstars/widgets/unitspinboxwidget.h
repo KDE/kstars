@@ -32,7 +32,7 @@ class UnitSpinBoxWidget : public QWidget
     Q_OBJECT
 
   public:
-    explicit UnitSpinBoxWidget(QWidget *parent = 0);
+    explicit UnitSpinBoxWidget(QWidget *parent = nullptr);
     ~UnitSpinBoxWidget() override;
 
     /**

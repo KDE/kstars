@@ -46,7 +46,7 @@ class ExportEyepieceView : public QDialog
      * @note Class self-destructs (commits suicide). Invoke and forget.
      */
     ExportEyepieceView(const SkyPoint *_sp, const KStarsDateTime &dt, const QPixmap *renderImage,
-                       const QPixmap *renderChart, QWidget *parent = 0);
+                       const QPixmap *renderChart, QWidget *parent = nullptr);
 
   public slots:
 

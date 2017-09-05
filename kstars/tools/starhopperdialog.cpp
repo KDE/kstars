@@ -138,7 +138,7 @@ void StarHopperDialog::slotDetails()
 SkyObject *StarHopperDialog::getStarData(QListWidgetItem *item)
 {
     if (!item)
-        return 0;
+        return nullptr;
     else
     {
         QVariant v          = item->data(Qt::UserRole);

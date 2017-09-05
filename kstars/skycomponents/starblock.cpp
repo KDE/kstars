@@ -42,7 +42,7 @@ StarNode::~StarNode()
 #endif
 
 StarBlock::StarBlock(int nstars)
-    : faintMag(-5), brightMag(35), parent(0), prev(0), next(0), drawID(0), nStars(0),
+    : faintMag(-5), brightMag(35), parent(nullptr), prev(nullptr), next(nullptr), drawID(0), nStars(0),
 #ifdef KSTARS_LITE
       stars(nstars, StarNode())
 #else
@@ -100,7 +100,7 @@ StarNode *StarBlock::addStar(const DeepStarData &data)
 StarObject *StarBlock::addStar(const StarData &data)
 {
     if (isFull())
-        return 0;
+        return nullptr;
     StarObject &star = stars[nStars++];
 
     star.init(&data);
@@ -114,7 +114,7 @@ StarObject *StarBlock::addStar(const StarData &data)
 StarObject *StarBlock::addStar(const DeepStarData &data)
 {
     if (isFull())
-        return 0;
+        return nullptr;
     StarObject &star = stars[nStars++];
 
     star.init(&data);

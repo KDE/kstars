@@ -371,7 +371,7 @@ void AltVsTime::processObject(SkyObject *o, bool forceAdd)
         return;
 
     KSNumbers *num    = new KSNumbers(getDate().djd());
-    KSNumbers *oldNum = 0;
+    KSNumbers *oldNum = nullptr;
 
     //If the object is in the solar system, recompute its position for the given epochLabel
     KStarsData *data = KStarsData::Instance();
@@ -994,7 +994,7 @@ void AltVsTime::slotUpdateDateLoc()
     KStarsData *data     = KStarsData::Instance();
     KStarsDateTime today = getDate();
     KSNumbers *num       = new KSNumbers(today.djd());
-    KSNumbers *oldNum    = 0;
+    KSNumbers *oldNum    = nullptr;
     CachingDms LST       = geo->GSTtoLST(today.gst());
 
     //First determine time of sunset and sunrise
@@ -1064,7 +1064,7 @@ void AltVsTime::slotUpdateDateLoc()
             {
                 o->updateCoords(oldNum, true, data->geo()->lat(), data->lst());
                 delete oldNum;
-                oldNum = 0;
+                oldNum = nullptr;
             }
             o->EquatorialToHorizontal(data->lst(), data->geo()->lat());
         }

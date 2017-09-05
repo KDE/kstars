@@ -36,7 +36,7 @@ class LocationDialogUI : public QFrame, public Ui::LocationDialog
 {
     Q_OBJECT
   public:
-    explicit LocationDialogUI(QWidget *parent = 0);
+    explicit LocationDialogUI(QWidget *parent = nullptr);
 };
 
 /**

@@ -23,7 +23,7 @@
 #include "kstarsdata.h"
 #include "observinglist.h"
 
-ObsListPopupMenu::ObsListPopupMenu() : QMenu(0)
+ObsListPopupMenu::ObsListPopupMenu() : QMenu(nullptr)
 {
 }
 

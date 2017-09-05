@@ -35,7 +35,7 @@ class InfoBoxes : public QWidget
 {
     Q_OBJECT
   public:
-    explicit InfoBoxes(QWidget *parent = 0);
+    explicit InfoBoxes(QWidget *parent = nullptr);
     ~InfoBoxes() override;
 
     void addInfoBox(InfoBoxWidget *ibox);
@@ -66,7 +66,7 @@ class InfoBoxWidget : public QWidget
 
     /** Create one infobox. */
     InfoBoxWidget(bool shade, const QPoint &pos, int anchor = 0, const QStringList &str = QStringList(),
-                  QWidget *parent = 0);
+                  QWidget *parent = nullptr);
     /** Destructor */
     ~InfoBoxWidget() override;
 

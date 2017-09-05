@@ -67,7 +67,7 @@ class SkyComposite : public SkyComponent
      * @note By default, the num parameter is nullptr, indicating that Precession/Nutation
      * computation should be skipped; this computation is only occasionally required.
      */
-    void update(KSNumbers *num = 0) override;
+    void update(KSNumbers *num = nullptr) override;
 
     /**
      * @short Add a new sub component to the composite

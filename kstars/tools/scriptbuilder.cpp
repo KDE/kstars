@@ -850,14 +850,14 @@ void ScriptBuilder::slotOpen()
                 fname = tmpfile.fileName();
                 if (KIO::copy(currentFileURL, QUrl(fname))->exec() == false)
                     //if ( ! KIO::NetAccess::download( currentFileURL, fname, (QWidget*) 0 ) )
-                    KMessageBox::sorry(0, i18n("Could not download remote file."), i18n("Download Error"));
+                    KMessageBox::sorry(nullptr, i18n("Could not download remote file."), i18n("Download Error"));
             }
 
             QFile f(fname);
             if (!f.open(QIODevice::ReadOnly))
             {
                 QString message = i18n("Could not open file %1.", f.fileName());
-                KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+                KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
                 currentFileURL.clear();
                 return;
             }
@@ -870,7 +870,7 @@ void ScriptBuilder::slotOpen()
         else if (!currentFileURL.url().isEmpty())
         {
             QString message = i18n("Invalid URL: %1", currentFileURL.url());
-            KMessageBox::sorry(0, message, i18n("Invalid URL"));
+            KMessageBox::sorry(nullptr, message, i18n("Invalid URL"));
             currentFileURL.clear();
         }
     }
@@ -938,7 +938,7 @@ void ScriptBuilder::slotSave()
         if (!f.open(QIODevice::WriteOnly))
         {
             QString message = i18n("Could not open file %1.", f.fileName());
-            KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
             currentFileURL.clear();
             return;
         }
@@ -959,7 +959,7 @@ void ScriptBuilder::slotSave()
             if (KIO::storedHttpPost(&tmpfile, currentFileURL)->exec() == false)
             {
                 QString message = i18n("Could not upload image to remote location: %1", currentFileURL.url());
-                KMessageBox::sorry(0, message, i18n("Could not upload file"));
+                KMessageBox::sorry(nullptr, message, i18n("Could not upload file"));
             }
         }
 
@@ -968,7 +968,7 @@ void ScriptBuilder::slotSave()
     else
     {
         QString message = i18n("Invalid URL: %1", currentFileURL.url());
-        KMessageBox::sorry(0, message, i18n("Invalid URL"));
+        KMessageBox::sorry(nullptr, message, i18n("Invalid URL"));
         currentFileURL.clear();
     }
 }
@@ -987,7 +987,7 @@ void ScriptBuilder::saveWarning()
         QString caption = i18n("Save Changes to Script?");
         QString message = i18n("The current script has unsaved changes.  Would you like to save before closing it?");
         int ans =
-            KMessageBox::warningYesNoCancel(0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
+            KMessageBox::warningYesNoCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
         if (ans == KMessageBox::Yes)
         {
             slotSave();
@@ -1021,7 +1021,7 @@ void ScriptBuilder::slotRunScript()
     if (!f.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Could not open file %1.", f.fileName());
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
         currentFileURL.clear();
         return;
     }
@@ -1153,7 +1153,7 @@ void ScriptBuilder::readScript(QTextStream &istream)
     //Select first item in sb->ScriptListBox
     if (sb->ScriptListBox->count())
     {
-        sb->ScriptListBox->setCurrentItem(0);
+        sb->ScriptListBox->setCurrentItem(nullptr);
         slotArgWidget();
     }
 }

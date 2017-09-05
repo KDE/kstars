@@ -73,7 +73,7 @@ SkyObjItem *SkyObjListModel::getSkyObjItem(int index)
     if (m_SoItemList.size() > index)
         return m_SoItemList[index];
     else
-        return 0;
+        return nullptr;
 }
 
 int SkyObjListModel::getSkyObjIndex(SkyObjItem *item)

@@ -135,7 +135,7 @@ void CometsComponent::loadData()
     QHash<QString, QVariant> row_content;
     while (cometParser.HasNextRow())
     {
-        KSComet *com = 0;
+        KSComet *com = nullptr;
         row_content  = cometParser.ReadNextRow();
         name         = row_content["full name"].toString();
         name         = name.trimmed();
@@ -262,7 +262,7 @@ void CometsComponent::downloadReady()
 void CometsComponent::downloadError(const QString &errorString)
 {
 #ifndef KSTARS_LITE
-    KMessageBox::error(0, i18n("Error downloading asteroids data: %1", errorString));
+    KMessageBox::error(nullptr, i18n("Error downloading asteroids data: %1", errorString));
 #else
     qDebug() << i18n("Error downloading comets data: %1", errorString);
 #endif

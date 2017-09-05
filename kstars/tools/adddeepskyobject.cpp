@@ -142,7 +142,7 @@ void AddDeepSkyObject::fillFromText(const QString &text)
     };
 
     auto countNonOverlappingMatches = [indexOf](const QString &string, const QRegularExpression &regExp,
-                                                QStringList *list = 0) -> int {
+                                                QStringList *list = nullptr) -> int {
         int count           = 0;
         int matchIndex      = -1;
         int lastMatchLength = 1;
@@ -373,7 +373,7 @@ bool AddDeepSkyObject::slotOk()
     if (!success)
     {
         // Display error message
-        KMessageBox::sorry(0, i18n("Could not add deep-sky object. See console for error message!"),
+        KMessageBox::sorry(nullptr, i18n("Could not add deep-sky object. See console for error message!"),
                            i18n("Add deep-sky object"));
     }
     // Accept the dialog

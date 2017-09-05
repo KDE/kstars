@@ -205,7 +205,7 @@ void FovEditorDialog::slotSaveImage()
         if (uploadJob->exec() == false)
         {
             QString message = i18n("Could not upload image to remote location: %1", fileUrl.url());
-            KMessageBox::sorry(0, message, i18n("Could not upload file"));
+            KMessageBox::sorry(nullptr, message, i18n("Could not upload file"));
         }
         uploadJob->kill();
     }

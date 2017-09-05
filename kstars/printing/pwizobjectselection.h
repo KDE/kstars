@@ -35,7 +35,7 @@ class PWizObjectSelectionUI : public QFrame, public Ui::PWizObjectSelection
     /**
           * \brief Constructor.
           */
-    explicit PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent = nullptr);
 
     /**
           * \brief Update UI elements for newly selected SkyObject.

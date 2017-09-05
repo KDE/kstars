@@ -48,7 +48,7 @@ bool openDataFile(QFile &file, const QString &s)
 
 QString getDSSURL(const SkyPoint *const p)
 {
-    const DeepSkyObject *dso = 0;
+    const DeepSkyObject *dso = nullptr;
     double height, width;
 
     double dss_default_size = Options::defaultDSSImageSize();
@@ -990,7 +990,7 @@ void Logging::Write(QTextStream &stream, QtMsgType type, const QMessageLogContex
 
 void Logging::UseDefault()
 {
-    qInstallMessageHandler(0);
+    qInstallMessageHandler(nullptr);
 }
 
 void Logging::Disable()

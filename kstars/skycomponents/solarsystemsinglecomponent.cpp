@@ -71,7 +71,7 @@ SkyObject *SolarSystemSingleComponent::findByName(const QString &name)
         QString::compare(m_Planet->longname(), name, Qt::CaseInsensitive) == 0 ||
         QString::compare(m_Planet->name2(), name, Qt::CaseInsensitive) == 0)
         return m_Planet;
-    return 0;
+    return nullptr;
 }
 
 SkyObject *SolarSystemSingleComponent::objectNearest(SkyPoint *p, double &maxrad)
@@ -82,7 +82,7 @@ SkyObject *SolarSystemSingleComponent::objectNearest(SkyPoint *p, double &maxrad
         maxrad = r;
         return m_Planet;
     }
-    return 0;
+    return nullptr;
 }
 
 void SolarSystemSingleComponent::update(KSNumbers *)

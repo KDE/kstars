@@ -151,7 +151,7 @@ void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
         if (u.isValid())
         {
             KIO::StoredTransferJob *j = KIO::storedGet(u, KIO::NoReload, KIO::HideProgressInfo);
-            j->setUiDelegate(0);
+            j->setUiDelegate(nullptr);
             connect(j, SIGNAL(result(KJob*)), SLOT(slotJobResult(KJob*)));
         }
     }
@@ -352,7 +352,7 @@ void ThumbnailPicker::slotSetFromURL()
 
             if (im.isNull())
             {
-                KMessageBox::sorry(0, i18n("Failed to load image at %1", localFile.fileName()),
+                KMessageBox::sorry(nullptr, i18n("Failed to load image at %1", localFile.fileName()),
                                    i18n("Failed to load image"));
                 return;
             }
@@ -377,7 +377,7 @@ void ThumbnailPicker::slotSetFromURL()
         else
         {
             KIO::StoredTransferJob *j = KIO::storedGet(u, KIO::NoReload, KIO::HideProgressInfo);
-            j->setUiDelegate(0);
+            j->setUiDelegate(nullptr);
             connect(j, SIGNAL(result(KJob*)), SLOT(slotJobResult(KJob*)));
         }
     }

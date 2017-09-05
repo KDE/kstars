@@ -25,7 +25,7 @@ class ThumbImage : public QLabel
 {
     Q_OBJECT
   public:
-    explicit ThumbImage(QWidget *parent, const char *name = 0);
+    explicit ThumbImage(QWidget *parent, const char *name = nullptr);
     ~ThumbImage() override;
 
     void setImage(QPixmap *pm)

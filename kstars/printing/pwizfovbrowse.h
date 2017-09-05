@@ -34,7 +34,7 @@ class PWizFovBrowseUI : public QFrame, public Ui::PWizFovBrowse
     /**
           * \brief Constructor.
           */
-    explicit PWizFovBrowseUI(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit PWizFovBrowseUI(PrintingWizard *wizard, QWidget *parent = nullptr);
 
   private slots:
     /**

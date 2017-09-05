@@ -74,7 +74,7 @@ class LINKAGE SpatialIndex
             there are 8 nodes, and we get the names from numbers 8 through
             15 giving S0,S1,S2,S3,N0,N1,N2,N3.  The order is always
             ascending starting from S0000.. to N3333...  */
-    static char *nameById(uint64 ID, char *name = 0);
+    static char *nameById(uint64 ID, char *name = nullptr);
 
     /** find the vector to the centroid of a triangle represented by
           the ID */

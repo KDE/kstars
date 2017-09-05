@@ -140,7 +140,7 @@ void CatalogDB::RefreshCatalogList()
 {
     catalog_list_.clear();
     skydb_.open();
-    QSqlTableModel catalog(0, skydb_);
+    QSqlTableModel catalog(nullptr, skydb_);
     catalog.setTable("Catalog");
     catalog.setSort(0, Qt::AscendingOrder);
     catalog.select();
@@ -163,7 +163,7 @@ void CatalogDB::RefreshCatalogList()
 int CatalogDB::FindCatalog(const QString &catalog_name)
 {
     skydb_.open();
-    QSqlTableModel catalog(0, skydb_);
+    QSqlTableModel catalog(nullptr, skydb_);
 
     catalog.setTable("Catalog");
     catalog.setFilter("Name LIKE \'" + catalog_name + "\'");
@@ -185,7 +185,7 @@ int CatalogDB::FindCatalog(const QString &catalog_name)
 void CatalogDB::AddCatalog(const CatalogData &catalog_data)
 {
     skydb_.open();
-    QSqlTableModel cat_entry(0, skydb_);
+    QSqlTableModel cat_entry(nullptr, skydb_);
     cat_entry.setTable("Catalog");
 
     int row = 0;
@@ -212,7 +212,7 @@ void CatalogDB::RemoveCatalog(const QString &catalog_name)
     ClearDSOEntries(FindCatalog(catalog_name));
 
     skydb_.open();
-    QSqlTableModel catalog(0, skydb_);
+    QSqlTableModel catalog(nullptr, skydb_);
 
     // Part 2 Clear Catalog Table
     catalog.setTable("Catalog");
@@ -261,7 +261,7 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec, const double ma
      * This Fuzz has not been established after due discussion
     */
     //skydb_.open();
-    QSqlTableModel dsoentries(0, skydb_);
+    QSqlTableModel dsoentries(nullptr, skydb_);
 
     QString filter = "((RA - " + QString().setNum(ra) +
                      ") between -0.0016 and 0.0016) and "
@@ -776,7 +776,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
         // Detect a duplicate catalog name
         if (FindCatalog(catalog_name) != -1)
         {
-            if (KMessageBox::warningYesNo(0,
+            if (KMessageBox::warningYesNo(nullptr,
                                           i18n("A catalog of the same name already exists. "
                                                "Overwrite contents? If you press yes, the"
                                                " new catalog will erase the old one!"),
@@ -810,7 +810,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
 void CatalogDB::GetCatalogData(const QString &catalog_name, CatalogData &load_catalog)
 {
     skydb_.open();
-    QSqlTableModel catalog(0, skydb_);
+    QSqlTableModel catalog(nullptr, skydb_);
     catalog.setTable("Catalog");
     catalog.setFilter("Name LIKE \'" + catalog_name + "\'");
     catalog.select();

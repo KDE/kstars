@@ -214,7 +214,7 @@ void modCalcDayLength::updateAlmanac(const QDate &d, GeoLocation *geo)
 
     //after calling riseSetTime Phase needs to reset, setting it before causes Phase to set nan
     Moon.findPosition(&num);
-    Moon.findPhase(0);
+    Moon.findPhase(nullptr);
     lunarphaseString = Moon.phaseName() + " (" + QString::number(int(100 * Moon.illum())) + "%)";
 
     //Fix length of Az strings
@@ -265,7 +265,7 @@ void modCalcDayLength::slotRunBatch()
         if (!f.open(QIODevice::ReadOnly))
         {
             QString message = i18n("Could not open file %1.", f.fileName());
-            KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+            KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
             return;
         }
 
@@ -278,7 +278,7 @@ void modCalcDayLength::slotRunBatch()
     else
     {
         QString message = i18n("Invalid file: %1", inputFileName);
-        KMessageBox::sorry(0, message, i18n("Invalid file"));
+        KMessageBox::sorry(nullptr, message, i18n("Invalid file"));
         return;
     }
 }
@@ -332,5 +332,5 @@ void modCalcDayLength::slotViewBatch()
 
     fOut.close();
 
-    KMessageBox::informationList(0, i18n("Results of Almanac calculation"), text, OutputFileBatch->url().toLocalFile());
+    KMessageBox::informationList(nullptr, i18n("Results of Almanac calculation"), text, OutputFileBatch->url().toLocalFile());
 }

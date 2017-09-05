@@ -55,9 +55,9 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
     //Fill in the data fields
     //Contents depend on type of object
-    StarObject *s      = 0;
-    DeepSkyObject *dso = 0;
-    KSPlanetBase *ps   = 0;
+    StarObject *s      = nullptr;
+    DeepSkyObject *dso = nullptr;
+    KSPlanetBase *ps   = nullptr;
     QString pname, oname;
 
     QString objNamesVal, objTypeVal, objDistVal, objSizeVal, objMagVal, objBvVal, objIllumVal;

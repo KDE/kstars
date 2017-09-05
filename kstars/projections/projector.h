@@ -129,14 +129,14 @@ class Projector
      * @param onVisibleHemisphere pointer to a bool to indicate whether the point is
      *   on the visible part of the Celestial Sphere.
      */
-    virtual Vector2f toScreenVec(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = 0) const;
+    virtual Vector2f toScreenVec(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = nullptr) const;
 
     /**
      * This is exactly the same as toScreenVec but it returns a QPointF.
      * It just calls toScreenVec and converts the result.
      * @see toScreenVec()
      */
-    QPointF toScreen(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = 0) const;
+    QPointF toScreen(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = nullptr) const;
 
     /**
      * @short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
@@ -237,7 +237,7 @@ class Projector
      * @param drawLabel this tells whether to draw a label.
      * @return the ground polygon
      */
-    virtual QVector<Vector2f> groundPoly(SkyPoint *labelpoint = 0, bool *drawLabel = 0) const;
+    virtual QVector<Vector2f> groundPoly(SkyPoint *labelpoint = nullptr, bool *drawLabel = nullptr) const;
 
     /**
      * @brief updateClipPoly calculate the clipping polygen given the current FOV.

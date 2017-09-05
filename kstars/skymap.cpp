@@ -106,7 +106,7 @@ QBitmap defaultCursorBitmap(int width)
 }
 }
 
-SkyMap *SkyMap::pinstance = 0;
+SkyMap *SkyMap::pinstance = nullptr;
 
 SkyMap *SkyMap::Create()
 {
@@ -121,8 +121,8 @@ SkyMap *SkyMap::Instance()
 }
 
 SkyMap::SkyMap()
-    : QGraphicsView(KStars::Instance()), computeSkymap(true), rulerMode(false), data(KStarsData::Instance()), pmenu(0),
-      ClickedObject(0), FocusObject(0), m_proj(0), m_previewLegend(false), m_objPointingMode(false)
+    : QGraphicsView(KStars::Instance()), computeSkymap(true), rulerMode(false), data(KStarsData::Instance()), pmenu(nullptr),
+      ClickedObject(nullptr), FocusObject(nullptr), m_proj(nullptr), m_previewLegend(false), m_objPointingMode(false)
 {
     m_Scale = 1.0;
 
@@ -150,7 +150,7 @@ SkyMap::SkyMap()
     ClickedObject = nullptr;
     FocusObject   = nullptr;
 
-    m_SkyMapDraw = 0;
+    m_SkyMapDraw = nullptr;
 
     pmenu = new KSPopupMenu();
 
@@ -262,7 +262,7 @@ SkyMap::~SkyMap()
 
     delete m_proj;
 
-    pinstance = 0;
+    pinstance = nullptr;
 }
 
 void SkyMap::showFocusCoords()
@@ -1211,7 +1211,7 @@ void SkyMap::startXplanet(const QString &outputFile)
     // If Options::xplanetPath() is empty, return
     if (Options::xplanetPath().isEmpty())
     {
-        KMessageBox::error(0, i18n("Xplanet binary path is empty in config panel."));
+        KMessageBox::error(nullptr, i18n("Xplanet binary path is empty in config panel."));
         return;
     }
 

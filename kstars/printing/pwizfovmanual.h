@@ -34,7 +34,7 @@ class PWizFovManualUI : public QFrame, public Ui::PWizFovManual
     /**
           * \brief Constructor.
           */
-    explicit PWizFovManualUI(PrintingWizard *wizard, QWidget *parent = 0);
+    explicit PWizFovManualUI(PrintingWizard *wizard, QWidget *parent = nullptr);
 
   private slots:
     /**

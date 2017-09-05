@@ -131,6 +131,6 @@ void ExportImageDialog::exportImage()
     m_ImageExporter->includeLegend(m_DialogUI->addLegendCheckBox->isChecked());
     if (!m_ImageExporter->exportImage(m_Url))
     {
-        KMessageBox::sorry(0, m_ImageExporter->getLastErrorMessage(), i18n("Could not export image"));
+        KMessageBox::sorry(nullptr, m_ImageExporter->getLastErrorMessage(), i18n("Could not export image"));
     }
 }

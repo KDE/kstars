@@ -71,7 +71,7 @@ class SkyLine
          */
     dms angularSize(int i = 0) const;
 
-    void update(KStarsData *data, KSNumbers *num = 0);
+    void update(KStarsData *data, KSNumbers *num = nullptr);
 
   private:
     QList<SkyPoint *> m_pList;

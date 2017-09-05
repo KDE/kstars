@@ -243,7 +243,7 @@ void SkyMap::keyPressEvent(QKeyEvent *e)
 
         case Qt::Key_D: //Details window for Clicked/Centered object
         {
-            SkyObject *orig = 0;
+            SkyObject *orig = nullptr;
             if (shiftPressed)
             {
                 orig = clickedObject();
@@ -277,7 +277,7 @@ void SkyMap::keyPressEvent(QKeyEvent *e)
 
         case Qt::Key_O: //Add object to Observing List
         {
-            SkyObject *orig = 0;
+            SkyObject *orig = nullptr;
             if (shiftPressed)
             {
                 orig = clickedObject();
@@ -298,7 +298,7 @@ void SkyMap::keyPressEvent(QKeyEvent *e)
 
         case Qt::Key_L: //Toggle User label on Clicked/Centered object
         {
-            SkyObject *orig = 0;
+            SkyObject *orig = nullptr;
             if (shiftPressed)
             {
                 orig = clickedObject();
@@ -322,7 +322,7 @@ void SkyMap::keyPressEvent(QKeyEvent *e)
 
         case Qt::Key_T: //Toggle planet trail on Clicked/Centered object (if solsys)
         {
-            SkyObject *orig = 0;
+            SkyObject *orig = nullptr;
             if (shiftPressed)
             {
                 orig = clickedObject();

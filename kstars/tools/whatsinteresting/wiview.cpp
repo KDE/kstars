@@ -446,7 +446,7 @@ void WIView::onUpdateIconClicked()
 
 void WIView::refreshListView()
 {
-    m_Ctxt->setContextProperty("soListModel", 0);
+    m_Ctxt->setContextProperty("soListModel", nullptr);
     if (!m_CurrentObjectListName.isEmpty())
         m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(m_CurrentObjectListName));
     if (m_CurIndex == -2)

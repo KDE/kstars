@@ -77,7 +77,7 @@ class DeepSkyComponent : public SkyComponent
      * @note By default, the num parameter is nullptr, indicating that Precession/Nutation
      * computation should be skipped; this computation is only occasionally required.
      */
-    void update(KSNumbers *num = 0) override;
+    void update(KSNumbers *num = nullptr) override;
 
     /**
      * @short Search the children of this SkyComponent for a SkyObject whose name matches the argument

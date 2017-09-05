@@ -117,7 +117,7 @@ QString transitTimeLabel(SkyObject *o)
 }
 
 KSPopupMenu::KSPopupMenu()
-    : QMenu(KStars::Instance()), m_CurrentFlagIdx(-1), m_EditActionMapping(0), m_DeleteActionMapping(0)
+    : QMenu(KStars::Instance()), m_CurrentFlagIdx(-1), m_EditActionMapping(nullptr), m_DeleteActionMapping(nullptr)
 {
 }
 

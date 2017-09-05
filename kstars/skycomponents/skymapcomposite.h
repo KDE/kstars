@@ -81,7 +81,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 
     ~SkyMapComposite() override;
 
-    void update(KSNumbers *num = 0) override;
+    void update(KSNumbers *num = nullptr) override;
 
     /**
      * @short Delegate planet position updates to the SolarSystemComposite

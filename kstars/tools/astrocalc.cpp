@@ -205,7 +205,7 @@ QTreeWidgetItem *AstroCalc::addTreeTopItem(QTreeWidget *parent, const QString &t
 
 void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
 {
-    if (item == 0)
+    if (item == nullptr)
         return;
     // Lookup in HTML table
     QMap<QTreeWidgetItem *, QString>::iterator iterHTML = htmlTable.find(item);
@@ -230,7 +230,7 @@ QSize AstroCalc::sizeHint() const
 
 QWidget *AstroCalc::WidgetThunk::eval()
 {
-    if (widget == 0)
+    if (widget == nullptr)
     {
         // This is pointer to member function call.
         widget = (calc->*func)();

@@ -586,7 +586,7 @@ QPoint Legend::positionToDeviceCoord(QPaintDevice *pd)
 }
 
 Legend::Legend(const Legend &o)
-    : m_Painter(0), m_SkyMap(o.m_SkyMap), m_DeletePainter(o.m_DeletePainter), m_Type(o.m_Type),
+    : m_Painter(nullptr), m_SkyMap(o.m_SkyMap), m_DeletePainter(o.m_DeletePainter), m_Type(o.m_Type),
       m_Orientation(o.m_Orientation), m_Position(o.m_Position), m_PositionFloating(o.m_PositionFloating),
       m_cScheme(o.m_cScheme), m_Font(o.m_Font), m_BgColor(o.m_BgColor), m_DrawFrame(o.m_DrawFrame),
       m_SymbolSize(o.m_SymbolSize), m_BRectWidth(o.m_BRectWidth), m_BRectHeight(o.m_BRectHeight),

@@ -343,7 +343,7 @@ uint64 SpatialIndex::idByName(const char *name)
     uint64 out  = 0, i;
     uint32 size = 0;
 
-    if (name == 0) // null pointer-name
+    if (name == nullptr) // null pointer-name
         throw SpatialFailure("SpatialIndex:idByName:no name given");
     if (name[0] != 'N' && name[0] != 'S') // invalid name
         throw SpatialFailure("SpatialIndex:idByName:invalid name", name);

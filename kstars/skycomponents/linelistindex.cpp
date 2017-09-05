@@ -188,7 +188,7 @@ MeshIterator LineListIndex::visibleTrixels()
 SkipHashList *LineListIndex::skipList(LineList *lineList)
 {
     Q_UNUSED(lineList)
-    return 0;
+    return nullptr;
 }
 
 void LineListIndex::drawLines(SkyPainter *skyp)
@@ -225,7 +225,7 @@ void LineListIndex::drawFilled(SkyPainter *skyp)
     {
         std::shared_ptr<LineListList> lineListList = m_polyIndex->value(region.next());
 
-        if (lineListList == 0)
+        if (lineListList == nullptr)
             continue;
 
         for (int i = 0; i < lineListList->size(); i++)

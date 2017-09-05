@@ -59,7 +59,7 @@ KSDssDownloader::KSDssDownloader(const SkyPoint *const p, const QString &destFil
 
 QString KSDssDownloader::getDSSURL(const SkyPoint *const p, const QString &version, struct KSDssImage::Metadata *md)
 {
-    const DeepSkyObject *dso = 0;
+    const DeepSkyObject *dso = nullptr;
     double height, width;
 
     double dss_default_size = Options::defaultDSSImageSize();
@@ -121,7 +121,7 @@ QString KSDssDownloader::getDSSURL(const SkyPoint *const p, float width, float h
     QString URL = getDSSURL(p->ra0(), p->dec0(), width, height, "gif", version, md);
     if (md)
     {
-        const SkyObject *obj = 0;
+        const SkyObject *obj = nullptr;
         obj                  = dynamic_cast<const SkyObject *>(p);
         if (obj && obj->hasName())
             md->object = obj->name();

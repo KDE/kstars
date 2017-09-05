@@ -22,7 +22,7 @@
 #include <QPaintEvent>
 #include <QPainter>
 
-FOVWidget::FOVWidget(QWidget *parent) : QFrame(parent), m_FOV(0)
+FOVWidget::FOVWidget(QWidget *parent) : QFrame(parent), m_FOV(nullptr)
 {
 }
 

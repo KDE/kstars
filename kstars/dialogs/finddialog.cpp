@@ -57,7 +57,7 @@ FindDialogUI::FindDialogUI(QWidget *parent) : QFrame(parent)
     SearchList->setMinimumHeight(320);
 }
 
-FindDialog::FindDialog(QWidget *parent) : QDialog(parent), timer(0), m_targetObject(0)
+FindDialog::FindDialog(QWidget *parent) : QDialog(parent), timer(nullptr), m_targetObject(nullptr)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -123,7 +123,7 @@ void FindDialog::init()
     filterByType();
     sortModel->sort(0);
     initSelection();
-    m_targetObject = 0;
+    m_targetObject = nullptr;
 }
 
 void FindDialog::initSelection()
@@ -350,7 +350,7 @@ void FindDialog::slotOk()
 
 void FindDialog::slotResolve()
 {
-    finishProcessing(0, true);
+    finishProcessing(nullptr, true);
 }
 
 void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
@@ -359,7 +359,7 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
     {
         CatalogEntryData cedata;
         cedata             = NameResolver::resolveName(processSearchText());
-        DeepSkyObject *dso = 0;
+        DeepSkyObject *dso = nullptr;
         if (!std::isnan(cedata.ra) && !std::isnan(cedata.dec))
         {
             dso = KStarsData::Instance()->skyComposite()->internetResolvedComponent()->addObject(cedata);
@@ -369,10 +369,10 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
         }
     }
     m_targetObject = selObj;
-    if (selObj == 0)
+    if (selObj == nullptr)
     {
         QString message = i18n("No object named %1 found.", ui->SearchBox->text());
-        KMessageBox::sorry(0, message, i18n("Bad object name"));
+        KMessageBox::sorry(nullptr, message, i18n("Bad object name"));
     }
     else
     {

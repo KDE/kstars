@@ -171,9 +171,9 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
     addComponent(m_Flags = new FlagComponent(this), 4);       
 
     addComponent(m_ObservingList =
-                     new TargetListComponent(this, 0, QPen(), &Options::obsListSymbol, &Options::obsListText),
+                     new TargetListComponent(this, nullptr, QPen(), &Options::obsListSymbol, &Options::obsListText),
                  120);
-    addComponent(m_StarHopRouteList = new TargetListComponent(this, 0, QPen()), 130);
+    addComponent(m_StarHopRouteList = new TargetListComponent(this, nullptr, QPen()), 130);
     addComponent(m_Satellites = new SatellitesComponent(this), 7);
     addComponent(m_Supernovae = new SupernovaeComponent(this), 7);
 #endif
@@ -417,8 +417,8 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
 {
     double rTry      = maxrad;
     double rBest     = maxrad;
-    SkyObject *oTry  = 0;
-    SkyObject *oBest = 0;
+    SkyObject *oTry  = nullptr;
+    SkyObject *oBest = nullptr;
 
     //printf("%.1f %.1f\n", p->ra().Degrees(), p->dec().Degrees() );
     m_skyMesh->aperture(p, maxrad + 1.0, OBJ_NEAREST_BUF);
@@ -526,7 +526,7 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
 SkyObject *SkyMapComposite::starNearest(SkyPoint *p, double &maxrad)
 {
     double rtry     = maxrad;
-    SkyObject *star = 0;
+    SkyObject *star = nullptr;
 
     m_skyMesh->aperture(p, maxrad + 1.0, OBJ_NEAREST_BUF);
 
@@ -594,7 +594,7 @@ SkyObject *SkyMapComposite::findByName(const QString &name)
     //object types first), in order to avoid wasting too much time
     //looking for a match.  The most important part of this ordering
     //is that stars should be last (because the stars list is so long)
-    SkyObject *o = 0;
+    SkyObject *o = nullptr;
     o            = m_SolarSystem->findByName(name);
     if (o)
         return o;
@@ -623,7 +623,7 @@ SkyObject *SkyMapComposite::findByName(const QString &name)
     if (o)
         return o;
 
-    return 0;
+    return nullptr;
 }
 
 SkyObject *SkyMapComposite::findStarByGenetiveName(const QString name)
@@ -653,7 +653,7 @@ KSPlanetBase *SkyMapComposite::planet(int n)
         return (KSPlanetBase *)(m_SolarSystem->findByName(i18n("Neptune")));
     //if ( n == KSPlanetBase::PLUTO ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Pluto" ) ) );
 
-    return 0;
+    return nullptr;
 }
 
 void SkyMapComposite::addCustomCatalog(const QString &filename, int index)
