@@ -111,6 +111,7 @@ else(BUILD_KSTARS_LITE)
       XmlGui
       Plotting
       Notifications
+      KDELibs4Support
     )
 endif(BUILD_KSTARS_LITE)
 
