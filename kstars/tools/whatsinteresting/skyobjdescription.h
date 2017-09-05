@@ -45,7 +45,7 @@ class SkyObjDescription : public QObject
     /**
          * \brief Destructor
          */
-    virtual ~SkyObjDescription();
+    ~SkyObjDescription() override;
 
     /**
          * @return returns description if it was available on wikipedia else returns empty string

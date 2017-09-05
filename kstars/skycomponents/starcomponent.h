@@ -65,7 +65,7 @@ class StarComponent : public ListComponent
     StarComponent(SkyComposite *);
 
   public:
-    virtual ~StarComponent();
+    ~StarComponent() override;
 
     // TODO: Desingletonize StarComponent
     /** @short Create an instance of StarComponent */
@@ -76,11 +76,11 @@ class StarComponent : public ListComponent
 
     //This function is empty; we need that so that the JiT update
     //is the only one being used.
-    void update(KSNumbers *num) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) override;
 
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
 
     /**
      * @short draw all the labels in the prioritized LabelLists and then clear the LabelLists.
@@ -89,7 +89,7 @@ class StarComponent : public ListComponent
 
     static float zoomMagnitudeLimit();
 
-    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
     virtual SkyObject *findStarByGenetiveName(const QString name);
 
@@ -102,7 +102,7 @@ class StarComponent : public ListComponent
      * @return Pointer to the star with the given name as a SkyObject, nullptr if
      * no match was found
      */
-    SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
+    SkyObject *findByName(const QString &name) override;
 
     /**
      * @short Searches the region(s) and appends the SkyObjects found to the list of sky objects
@@ -112,7 +112,7 @@ class StarComponent : public ListComponent
      * @p list list of SkyObject to which matching list has to be appended to
      * @p region defines the regions in which the search for SkyObject should be done within
      */
-    void objectsInArea(QList<SkyObject *> &list, const SkyRegion &region) Q_DECL_OVERRIDE;
+    void objectsInArea(QList<SkyObject *> &list, const SkyRegion &region) override;
 
     /**
      * @short Find stars by HD catalog index

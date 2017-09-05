@@ -27,7 +27,7 @@ class OpsXplanet : public QFrame, public Ui::OpsXplanet
 
   public:
     explicit OpsXplanet(KStars *_ks);
-    ~OpsXplanet();
+    ~OpsXplanet() override;
 
   private:
     KStars *ksw;

@@ -38,7 +38,7 @@ class AddDeepSkyObject : public QDialog, public Ui::AddDeepSkyObject
     AddDeepSkyObject(QWidget *parent, SyncedCatalogComponent *catalog);
 
     /** @short Destructor */
-    ~AddDeepSkyObject();
+    ~AddDeepSkyObject() override;
 
     /** @short Fills the dialog from a text by trying to guess fields */
     void fillFromText(const QString &text);

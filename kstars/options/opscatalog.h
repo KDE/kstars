@@ -42,7 +42,7 @@ class OpsCatalog : public QFrame, public Ui::OpsCatalog
 
   public:
     explicit OpsCatalog();
-    ~OpsCatalog();
+    ~OpsCatalog() override;
 
   private slots:
     void updateCustomCatalogs();

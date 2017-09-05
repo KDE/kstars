@@ -43,15 +43,15 @@ class CatalogComponent : public ListComponent
     /**
      * @short Destructor.  Delete list members
      */
-    virtual ~CatalogComponent();
+    ~CatalogComponent() override;
 
     /**
      * @short Draw custom catalog objects on the sky map.
      * @p psky Reference to the QPainter on which to paint
      */
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
 
-    void update(KSNumbers *num) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) override;
 
     /** @return the name of the catalog */
     inline QString name() const { return m_catName; }
@@ -82,7 +82,7 @@ class CatalogComponent : public ListComponent
      * Overridden from SkyComponent::selected
      * @return bool
      **/
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 
   protected:
     /** @short Load data into custom catalog */

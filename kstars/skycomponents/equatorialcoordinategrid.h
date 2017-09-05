@@ -39,7 +39,7 @@ class EquatorialCoordinateGrid : public CoordinateGrid
      */
     explicit EquatorialCoordinateGrid(SkyComposite *parent);
 
-    void preDraw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void preDraw(SkyPainter *skyp) override;
 
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 };

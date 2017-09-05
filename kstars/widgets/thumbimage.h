@@ -26,7 +26,7 @@ class ThumbImage : public QLabel
     Q_OBJECT
   public:
     explicit ThumbImage(QWidget *parent, const char *name = 0);
-    ~ThumbImage();
+    ~ThumbImage() override;
 
     void setImage(QPixmap *pm)
     {
@@ -44,10 +44,10 @@ class ThumbImage : public QLabel
 
   protected:
     //	void resizeEvent( QResizeEvent *e);
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *) override;
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
 
   private:
     QRect *CropRect;

@@ -55,7 +55,7 @@ class ExportImageDialog : public QDialog
     ExportImageDialog(const QString &url, const QSize &size, ImageExporter *imgExporter = 0);
 
     /** @short Default destructor. */
-    ~ExportImageDialog() {}
+    ~ExportImageDialog() override {}
 
     inline void setOutputUrl(const QString &url) { m_Url = url; }
     inline void setOutputSize(const QSize &size) { m_Size = size; }

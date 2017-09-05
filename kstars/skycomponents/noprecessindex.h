@@ -36,12 +36,12 @@ class NoPrecessIndex : public LineListIndex
      * @ short override JITupdate so we don't perform the precession
      * correction, only rotation.
      */
-    void JITupdate(LineList *lineList) Q_DECL_OVERRIDE;
+    void JITupdate(LineList *lineList) override;
 
   protected:
     /**
      * @short we need to use the buffer that does not have the
      * reverse-precession correction.
      */
-    MeshBufNum_t drawBuffer() Q_DECL_OVERRIDE { return NO_PRECESS_BUF; }
+    MeshBufNum_t drawBuffer() override { return NO_PRECESS_BUF; }
 };

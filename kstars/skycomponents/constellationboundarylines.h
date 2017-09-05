@@ -50,13 +50,13 @@ class ConstellationBoundaryLines : public NoPrecessIndex
      * of boundary-line intervals that divide two particular constellations.
      */
     explicit ConstellationBoundaryLines(SkyComposite *parent);
-    virtual ~ConstellationBoundaryLines();
+    ~ConstellationBoundaryLines() override;
 
     QString constellationName(SkyPoint *p);
 
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 
-    void preDraw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void preDraw(SkyPainter *skyp) override;
 
   private:
     void appendPoly(const std::shared_ptr<PolyList> &polyList, int debug = 0);

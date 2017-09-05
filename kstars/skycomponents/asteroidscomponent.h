@@ -43,10 +43,10 @@ class AsteroidsComponent : public QObject, public SolarSystemListComponent
          */
     explicit AsteroidsComponent(SolarSystemComposite *parent);
 
-    virtual ~AsteroidsComponent();
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
-    bool selected() Q_DECL_OVERRIDE;
-    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
+    ~AsteroidsComponent() override;
+    void draw(SkyPainter *skyp) override;
+    bool selected() override;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
     void updateDataFile();
 

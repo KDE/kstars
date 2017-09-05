@@ -73,13 +73,13 @@ class DeepSkyObject : public SkyObject
 
     explicit DeepSkyObject(const CatalogEntryData &data, CatalogComponent *cat = nullptr);
 
-    QString labelString() const Q_DECL_OVERRIDE;
+    QString labelString() const override;
 
-    DeepSkyObject *clone() const Q_DECL_OVERRIDE;
-    SkyObject::UID getUID() const Q_DECL_OVERRIDE;
+    DeepSkyObject *clone() const override;
+    SkyObject::UID getUID() const override;
 
     /** *Destructor */
-    virtual ~DeepSkyObject() {}
+    ~DeepSkyObject() override {}
 
     /**
           *@enum CATALOG
@@ -154,7 +154,7 @@ class DeepSkyObject : public SkyObject
     /**
           *@return the object's position angle in degrees, measured clockwise from North.
         	*/
-    inline virtual double pa() const Q_DECL_OVERRIDE { return PositionAngle; }
+    inline double pa() const override { return PositionAngle; }
 
     /**
           *@return the object's UGC catalog number.  Return 0 if the object is not in UGC.
@@ -204,9 +204,9 @@ class DeepSkyObject : public SkyObject
     /**
         	*@return the pixel distance for offseting the object's name label
         	*/
-    double labelOffset() const Q_DECL_OVERRIDE;
+    double labelOffset() const override;
 
-    void initPopupMenu(KSPopupMenu *pmenu) Q_DECL_OVERRIDE;
+    void initPopupMenu(KSPopupMenu *pmenu) override;
 
   public:
     quint64 updateID { 0 };

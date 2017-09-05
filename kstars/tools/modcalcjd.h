@@ -37,7 +37,7 @@ class modCalcJD : public QFrame, public Ui::modCalcJdDlg
     Q_OBJECT
   public:
     explicit modCalcJD(QWidget *p);
-    ~modCalcJD();
+    ~modCalcJD() override;
 
   public slots:
     void slotUpdateCalendar();

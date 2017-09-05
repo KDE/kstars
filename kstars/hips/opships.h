@@ -45,7 +45,7 @@ class OpsHIPS : public QFrame, public Ui::OpsHIPS
 
   public:
     explicit OpsHIPS();
-    ~OpsHIPS();
+    ~OpsHIPS() override;
 
   public slots:
     void slotRefresh();    

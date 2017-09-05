@@ -36,7 +36,7 @@ class ConstellationArtComponent : public SkyComponent
     explicit ConstellationArtComponent(SkyComposite *, CultureList *cultures);
 
     /** Destructor */
-    ~ConstellationArtComponent();
+    ~ConstellationArtComponent() override;
 
     /**
      * @short Read the skycultures.sqlite database file.
@@ -55,7 +55,7 @@ class ConstellationArtComponent : public SkyComponent
     /** @short Shows the details of the constellations selected skyculture */
     void showList();
 
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
 
     QList<ConstellationsArt *> m_ConstList;
 

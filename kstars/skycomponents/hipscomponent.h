@@ -29,7 +29,7 @@ class HIPSComponent : public SkyComponent
     explicit HIPSComponent(SkyComposite *);
 
     /** Destructor */
-    ~HIPSComponent();
+    ~HIPSComponent() override;
 
     bool selected() override;
     void draw(SkyPainter *skyp) override;

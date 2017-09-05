@@ -44,7 +44,7 @@ class OpsColors : public QFrame, public Ui::OpsColors
 
   public:
     explicit OpsColors();
-    ~OpsColors();
+    ~OpsColors() override;
 
   private slots:
     void newColor(QListWidgetItem *item);

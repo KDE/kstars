@@ -52,7 +52,7 @@ class FocusDialog : public QDialog
     inline SkyPoint *point() { return Point; }
 
     /** @return suggested size of focus window. */
-    QSize sizeHint() const Q_DECL_OVERRIDE;
+    QSize sizeHint() const override;
 
     /** @return whether user set the AltAz coords */
     inline bool usedAltAz() const { return UsedAltAz; }

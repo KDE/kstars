@@ -43,18 +43,18 @@ class HorizonComponent : public PointListComponent
     /**
          *@short Destructor
          */
-    virtual ~HorizonComponent();
+    ~HorizonComponent() override;
 
     /**
          *@short Draw the Horizon on the Sky map
          *@p map Pointer to the SkyMap object
          *@p psky Reference to the QPainter on which to paint
          */
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
 
-    void update(KSNumbers *) Q_DECL_OVERRIDE;
+    void update(KSNumbers *) override;
 
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 
   private:
     void drawCompassLabels();

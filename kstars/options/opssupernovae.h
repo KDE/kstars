@@ -44,7 +44,7 @@ class OpsSupernovae : public QFrame, public Ui::OpsSupernovae
     /**
          * Destructor
          */
-    ~OpsSupernovae() {}
+    ~OpsSupernovae() override {}
 };
 
 #endif //OPSSUPERNOVAE_H_

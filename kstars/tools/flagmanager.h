@@ -50,7 +50,7 @@ class FlagManager : public QDialog
     explicit FlagManager(QWidget *ks);
 
     /** @short Destructor */
-    ~FlagManager();
+    ~FlagManager() override;
 
     void setRaDec(const dms &ra, const dms &dec);
     void clearFields();

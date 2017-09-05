@@ -16,7 +16,7 @@ class TestDMS : public QObject
     Q_OBJECT
   public:
     TestDMS();
-    virtual ~TestDMS() = default;
+    ~TestDMS() override = default;
 
     void checkCtor_data();
 

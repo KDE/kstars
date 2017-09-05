@@ -38,7 +38,7 @@ class KStarsSplash : public QSplashScreen
     explicit KStarsSplash(const QString &customMessage = "");
 
     /** Destructor */
-    ~KStarsSplash();
+    ~KStarsSplash() override;
 
   public slots:
     /** Display the text argument in the Splash Screen's status label.

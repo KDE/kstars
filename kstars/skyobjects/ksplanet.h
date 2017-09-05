@@ -60,10 +60,10 @@ class KSPlanet : public KSPlanetBase
      */
     explicit KSPlanet(int n);
 
-    KSPlanet *clone() const Q_DECL_OVERRIDE;
-    SkyObject::UID getUID() const Q_DECL_OVERRIDE;
+    KSPlanet *clone() const override;
+    SkyObject::UID getUID() const override;
 
-    virtual ~KSPlanet() {}
+    ~KSPlanet() override {}
 
     /**
      * @short return the untranslated name
@@ -73,7 +73,7 @@ class KSPlanet : public KSPlanetBase
     QString untranslatedName() const;
 
     /** @short Preload the data used by findPosition. */
-    bool loadData() Q_DECL_OVERRIDE;
+    bool loadData() override;
 
     /**
      * Calculate the ecliptic longitude and latitude of the planet for
@@ -92,7 +92,7 @@ class KSPlanet : public KSPlanetBase
      * @param Earth pointer to the planet Earth (needed to calculate geocentric coords)
      * @return true if position was successfully calculated.
      */
-    bool findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Earth = nullptr) Q_DECL_OVERRIDE;
+    bool findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Earth = nullptr) override;
 
     /**
      * @class OrbitData
@@ -178,7 +178,7 @@ class KSPlanet : public KSPlanetBase
     };
 
   private:
-    void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
+    void findMagnitude(const KSNumbers *) override;
 
   protected:
     bool data_loaded { false };

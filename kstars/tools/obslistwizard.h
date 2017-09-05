@@ -48,7 +48,7 @@ class ObsListWizard : public QDialog
     /** @short Constructor */
     explicit ObsListWizard(QWidget *parent);
     /** @short Destructor */
-    ~ObsListWizard();
+    ~ObsListWizard() override;
 
     /** @return reference to QPtrList of objects selected by the wizard */
     QList<SkyObject *> &obsList() { return ObsList; }

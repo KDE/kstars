@@ -50,7 +50,7 @@ class FOVDialog : public QDialog
     Q_OBJECT
   public:
     explicit FOVDialog(QWidget *parent = 0);
-    virtual ~FOVDialog();
+    ~FOVDialog() override;
   private slots:
     void slotNewFOV();
     void slotEditFOV();
@@ -79,7 +79,7 @@ class NewFOV : public QDialog
          * @fov widget to copy data from. If it's empty will create empty one.
          */
     explicit NewFOV(QWidget *parent = 0, const FOV *fov = 0);
-    ~NewFOV() {}
+    ~NewFOV() override {}
     /** Return reference to FOV. */
     const FOV &getFOV() const { return f; }
 
@@ -112,7 +112,7 @@ class TelescopeFL : public QDialog
          */
     explicit TelescopeFL(QWidget *parent = 0);
 
-    ~TelescopeFL() {}
+    ~TelescopeFL() override {}
 
     /**
          * Compute and return the focal length in mm

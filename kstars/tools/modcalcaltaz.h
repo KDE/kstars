@@ -33,7 +33,7 @@ class modCalcAltAz : public QFrame, public Ui::modCalcAltAz
 
   public:
     explicit modCalcAltAz(QWidget *p);
-    ~modCalcAltAz();
+    ~modCalcAltAz() override;
 
   public slots:
     void slotCompute();

@@ -36,9 +36,9 @@ class HorizontalCoordinateGrid : public CoordinateGrid
      */
     explicit HorizontalCoordinateGrid(SkyComposite *parent);
 
-    void preDraw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void preDraw(SkyPainter *skyp) override;
 
-    void update(KSNumbers *) Q_DECL_OVERRIDE;
+    void update(KSNumbers *) override;
 
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 };

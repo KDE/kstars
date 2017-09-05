@@ -213,7 +213,7 @@ class QRoundProgressBar : public QWidget
     void setValue(int val);
 
   protected:
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) override;
     virtual void drawBackground(QPainter &p, const QRectF &baseRect);
     virtual void drawBase(QPainter &p, const QRectF &baseRect);
     virtual void drawValue(QPainter &p, const QRectF &baseRect, double value, double arcLength);
@@ -223,10 +223,10 @@ class QRoundProgressBar : public QWidget
     virtual QString valueToText(double value) const;
     virtual void valueFormatChanged();
 
-    QSize minimumSizeHint() const Q_DECL_OVERRIDE { return QSize(32, 32); }
+    QSize minimumSizeHint() const override { return QSize(32, 32); }
 
-    bool hasHeightForWidth() const Q_DECL_OVERRIDE { return true; }
-    int heightForWidth(int w) const Q_DECL_OVERRIDE { return w; }
+    bool hasHeightForWidth() const override { return true; }
+    int heightForWidth(int w) const override { return w; }
 
     void rebuildDataBrushIfNeeded();
 

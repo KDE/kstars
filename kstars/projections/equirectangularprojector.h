@@ -32,13 +32,13 @@ class EquirectangularProjector : public Projector
 {
   public:
     explicit EquirectangularProjector(const ViewParams &p);
-    Projection type() const Q_DECL_OVERRIDE;
-    double radius() const Q_DECL_OVERRIDE;
-    bool unusablePoint(const QPointF &p) const Q_DECL_OVERRIDE;
-    Vector2f toScreenVec(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = 0) const Q_DECL_OVERRIDE;
-    SkyPoint fromScreen(const QPointF &p, dms *LST, const dms *lat) const Q_DECL_OVERRIDE;
-    QVector<Vector2f> groundPoly(SkyPoint *labelpoint = 0, bool *drawLabel = 0) const Q_DECL_OVERRIDE;
-    void updateClipPoly() Q_DECL_OVERRIDE;
+    Projection type() const override;
+    double radius() const override;
+    bool unusablePoint(const QPointF &p) const override;
+    Vector2f toScreenVec(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = 0) const override;
+    SkyPoint fromScreen(const QPointF &p, dms *LST, const dms *lat) const override;
+    QVector<Vector2f> groundPoly(SkyPoint *labelpoint = 0, bool *drawLabel = 0) const override;
+    void updateClipPoly() override;
 };
 
 #endif // EQUIRECTANGULARPROJECTOR_H

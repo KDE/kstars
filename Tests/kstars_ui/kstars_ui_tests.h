@@ -22,7 +22,7 @@ class KStarsUiTests : public QObject
 
   public:
     KStarsUiTests();
-    virtual ~KStarsUiTests() = default;
+    ~KStarsUiTests() override = default;
 
   private slots:
     void initTestCase();

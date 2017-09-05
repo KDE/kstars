@@ -36,7 +36,7 @@ class ListComponent : public SkyComponent
   public:
     explicit ListComponent(SkyComposite *parent);
 
-    virtual ~ListComponent();
+    ~ListComponent() override;
 
     /**
      * @short Update the sky positions of this component.
@@ -50,10 +50,10 @@ class ListComponent : public SkyComponent
      * Precession/Nutation computation should be skipped; this computation
      * is only occasionally required.
      */
-    void update(KSNumbers *num = 0) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num = 0) override;
 
-    SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
-    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
+    SkyObject *findByName(const QString &name) override;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
     void clear();
 

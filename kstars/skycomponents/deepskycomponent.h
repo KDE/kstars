@@ -57,9 +57,9 @@ class DeepSkyComponent : public SkyComponent
   public:
     explicit DeepSkyComponent(SkyComposite *);
 
-    ~DeepSkyComponent();
+    ~DeepSkyComponent() override;
 
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
 
     /**
      * @short draw all the labels in the prioritized LabelLists and then
@@ -77,7 +77,7 @@ class DeepSkyComponent : public SkyComponent
      * @note By default, the num parameter is nullptr, indicating that Precession/Nutation
      * computation should be skipped; this computation is only occasionally required.
      */
-    void update(KSNumbers *num = 0) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num = 0) override;
 
     /**
      * @short Search the children of this SkyComponent for a SkyObject whose name matches the argument
@@ -85,7 +85,7 @@ class DeepSkyComponent : public SkyComponent
      * @return a pointer to the SkyObject whose name matches the argument, or a nullptr pointer
      * if no match was found.
      */
-    SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
+    SkyObject *findByName(const QString &name) override;
 
     /**
      * @short Searches the region(s) and appends the SkyObjects found to the list of sky objects
@@ -96,13 +96,13 @@ class DeepSkyComponent : public SkyComponent
      * @p region defines the regions in which the search for SkyObject should be done within
      * @return void
      */
-    void objectsInArea(QList<SkyObject *> &list, const SkyRegion &region) Q_DECL_OVERRIDE;
+    void objectsInArea(QList<SkyObject *> &list, const SkyRegion &region) override;
 
-    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
     const QList<DeepSkyObject *> &objectList() const { return m_DeepSkyList; }
 
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 
   private:
     /**

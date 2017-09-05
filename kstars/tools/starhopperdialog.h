@@ -39,7 +39,7 @@ class StarHopperDialog : public QDialog, public Ui::StarHopperDialog
 
   public:
     explicit StarHopperDialog(QWidget *parent = nullptr);
-    virtual ~StarHopperDialog();
+    ~StarHopperDialog() override;
 
     /**
      * @short Forms a Star Hop route from source to destination and displays on skymap

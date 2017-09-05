@@ -49,7 +49,7 @@ class ConjunctionsTool : public QFrame, public Ui::ConjunctionsDlg
 
   public:
     explicit ConjunctionsTool(QWidget *p);
-    ~ConjunctionsTool();
+    ~ConjunctionsTool() override;
 
   public slots:
 

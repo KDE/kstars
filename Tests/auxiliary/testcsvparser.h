@@ -26,7 +26,7 @@ class TestCSVParser : public QObject
     Q_OBJECT
   public:
     TestCSVParser();
-    ~TestCSVParser() = default;
+    ~TestCSVParser() override = default;
 
   private slots:
     void initTestCase();

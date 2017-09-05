@@ -34,25 +34,25 @@ class SkyGLPainter : public SkyPainter
 {
   public:
     explicit SkyGLPainter(QGLWidget *widget);
-    bool drawPlanet(KSPlanetBase *planet) Q_DECL_OVERRIDE;
-    bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false) Q_DECL_OVERRIDE;
-    bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A') Q_DECL_OVERRIDE;
-    void drawSkyPolygon(LineList *list, bool forceClip = true) Q_DECL_OVERRIDE;
-    void drawSkyPolyline(LineList *list, SkipHashList *skipList = 0, LineListLabel *label = 0) Q_DECL_OVERRIDE;
-    void drawSkyLine(SkyPoint *a, SkyPoint *b) Q_DECL_OVERRIDE;
-    void drawSkyBackground() Q_DECL_OVERRIDE;
-    void drawObservingList(const QList<SkyObject *> &obs) Q_DECL_OVERRIDE;
-    void drawFlags() Q_DECL_OVERRIDE;
-    void end() Q_DECL_OVERRIDE;
-    void begin() Q_DECL_OVERRIDE;
-    void setBrush(const QBrush &brush) Q_DECL_OVERRIDE;
-    void setPen(const QPen &pen) Q_DECL_OVERRIDE;
-    void drawHorizon(bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0) Q_DECL_OVERRIDE;
-    bool drawSatellite(Satellite *sat) Q_DECL_OVERRIDE;
-    bool drawSupernova(Supernova *sup) Q_DECL_OVERRIDE;
+    bool drawPlanet(KSPlanetBase *planet) override;
+    bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false) override;
+    bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A') override;
+    void drawSkyPolygon(LineList *list, bool forceClip = true) override;
+    void drawSkyPolyline(LineList *list, SkipHashList *skipList = 0, LineListLabel *label = 0) override;
+    void drawSkyLine(SkyPoint *a, SkyPoint *b) override;
+    void drawSkyBackground() override;
+    void drawObservingList(const QList<SkyObject *> &obs) override;
+    void drawFlags() override;
+    void end() override;
+    void begin() override;
+    void setBrush(const QBrush &brush) override;
+    void setPen(const QPen &pen) override;
+    void drawHorizon(bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0) override;
+    bool drawSatellite(Satellite *sat) override;
+    bool drawSupernova(Supernova *sup) override;
     void drawText(int x, int y, const QString text, QFont font, QColor color);
-    bool drawConstellationArtImage(ConstellationsArt *obj) Q_DECL_OVERRIDE;
-    bool drawHips() Q_DECL_OVERRIDE;
+    bool drawConstellationArtImage(ConstellationsArt *obj) override;
+    bool drawHips() override;
 
   private:
     bool addItem(SkyPoint *p, int type, float width, char sp = 'a');

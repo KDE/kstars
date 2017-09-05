@@ -43,31 +43,31 @@ class SolarSystemSingleComponent : public SkyComponent
     /** Initialize visible method, minimum size and sizeScale. */
     SolarSystemSingleComponent(SolarSystemComposite *, KSPlanetBase *kspb, bool (*visibleMethod)());
 
-    virtual ~SolarSystemSingleComponent();
+    ~SolarSystemSingleComponent() override;
 
     /** Return pointer to stored planet object. */
     KSPlanetBase *planet() { return m_Planet; }
 
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 
     /**
          * @brief update Only convert Equatorial to Horizontal coordinates given current time.
          * @param num pointer to KSNumbers instance for target time
          */
-    void update(KSNumbers *num) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) override;
 
     /**
          * @brief updateSolarSystemBodies Update Equtorial & Horizontal coordinates.
          * @param num pointer to KSNumbers instance for target time
          */
-    void updateSolarSystemBodies(KSNumbers *num) Q_DECL_OVERRIDE;
+    void updateSolarSystemBodies(KSNumbers *num) override;
 
-    SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
-    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    SkyObject *findByName(const QString &name) override;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
+    void draw(SkyPainter *skyp) override;
 
   protected:
-    void drawTrails(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void drawTrails(SkyPainter *skyp) override;
 
   private:
     bool (*visible)();

@@ -36,7 +36,7 @@ class TimeSpinBox : public QSpinBox
     /** Constructor */
     explicit TimeSpinBox(QWidget *parent, bool daysOnly = false);
     /** Destructor (empty) */
-    ~TimeSpinBox() {}
+    ~TimeSpinBox() override {}
 
     /**
      * Convert the internal value to a display string.
@@ -44,7 +44,7 @@ class TimeSpinBox : public QSpinBox
      * @p value the internal value to convert to a display string
      * @return the display string
      */
-    QString textFromValue(int value) const Q_DECL_OVERRIDE;
+    QString textFromValue(int value) const override;
 
     /**
      * Convert the displayed string to an internal value.
@@ -52,7 +52,7 @@ class TimeSpinBox : public QSpinBox
      * @p ok bool pointer set to true if conversion was successful
      * @return internal value converted from displayed text
      */
-    int valueFromText(const QString &text) const Q_DECL_OVERRIDE;
+    int valueFromText(const QString &text) const override;
 
     /** @return the current TimeStep setting */
     float timeScale() const;

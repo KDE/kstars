@@ -52,7 +52,7 @@ class AddLinkDialog : public QDialog
     /**
           *Destructor (empty)
         	*/
-    ~AddLinkDialog() {}
+    ~AddLinkDialog() override {}
 
     /**
           *@return QString of the entered URL

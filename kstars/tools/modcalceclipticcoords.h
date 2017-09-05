@@ -34,7 +34,7 @@ class modCalcEclCoords : public QFrame, public Ui::modCalcEclCoordsDlg
 
   public:
     explicit modCalcEclCoords(QWidget *p);
-    ~modCalcEclCoords();
+    ~modCalcEclCoords() override;
 
   public slots:
     void slotNow(void);

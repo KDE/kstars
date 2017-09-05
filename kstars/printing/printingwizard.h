@@ -99,7 +99,7 @@ class PrintingWizard : public QDialog
     /**
           * \brief Destructor.
           */
-    ~PrintingWizard();
+    ~PrintingWizard() override;
 
     /**
           * \brief Get used FOV export method.

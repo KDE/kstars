@@ -35,7 +35,7 @@ class modCalcEquinox : public QFrame, public Ui::modCalcEquinox
 
   public:
     explicit modCalcEquinox(QWidget *p);
-    ~modCalcEquinox();
+    ~modCalcEquinox() override;
 
     double dmonth(int imonth);
 

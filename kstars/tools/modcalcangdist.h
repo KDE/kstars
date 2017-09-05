@@ -37,7 +37,7 @@ class modCalcAngDist : public QFrame, public Ui::modCalcAngDistDlg
     /**Constructor. */
     explicit modCalcAngDist(QWidget *p);
     /**Destructor. */
-    ~modCalcAngDist();
+    ~modCalcAngDist() override;
 
   public slots:
     void slotValidatePositions();
