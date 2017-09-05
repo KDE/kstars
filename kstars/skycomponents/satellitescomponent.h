@@ -44,24 +44,24 @@ class SatellitesComponent : public SkyComponent
     /**
      * @short Destructor
      */
-    ~SatellitesComponent();
+    ~SatellitesComponent() override;
 
     /**
      * @return true if satellites must be draw.
      */
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 
     /**
      * Draw all satellites.
      * @param skyp SkyPainter to use
      */
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
 
     /**
      * Update satellites position.
      * @param num
      */
-    void update(KSNumbers *num) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) override;
 
     /**
      * Download new TLE files
@@ -92,19 +92,19 @@ class SatellitesComponent : public SkyComponent
      * @param p
      * @param maxrad
      */
-    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
     /**
      * Return object given name
      * @param name object name
      * @return object if found, otherwise nullptr
      */
-    SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
+    SkyObject *findByName(const QString &name) override;
 
     void loadData();
 
   protected:
-    void drawTrails(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void drawTrails(SkyPainter *skyp) override;
 
   private:
     QList<SatelliteGroup *> m_groups; // List of all groups

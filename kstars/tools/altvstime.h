@@ -57,7 +57,7 @@ class AltVsTime : public QDialog
     explicit AltVsTime(QWidget *parent = nullptr);
 
     /** Destructor */
-    ~AltVsTime();
+    ~AltVsTime() override;
 
     /**
      * Determine the limits for the sideral time axis, using

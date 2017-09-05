@@ -36,11 +36,11 @@ class Ecliptic : public LineListIndex
      */
     explicit Ecliptic(SkyComposite *parent);
 
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
     virtual void drawCompassLabels();
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 
-    LineListLabel *label() Q_DECL_OVERRIDE { return &m_label; }
+    LineListLabel *label() override { return &m_label; }
 
   private:
     LineListLabel m_label;

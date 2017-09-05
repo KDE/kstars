@@ -34,7 +34,7 @@ public:
   explicit PolarisHourAngle(QWidget *parent);
 
 protected:
-  void paintEvent(QPaintEvent *);
+  void paintEvent(QPaintEvent *) override;
 
 private slots:
   void onTimeUpdated(QDateTime newDateTime);

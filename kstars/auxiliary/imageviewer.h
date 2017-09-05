@@ -33,14 +33,14 @@ class ImageLabel : public QFrame
     Q_OBJECT
   public:
     explicit ImageLabel(QWidget *parent);
-    ~ImageLabel();
+    ~ImageLabel() override;
     void setImage(const QImage &img);
     void invertPixels();
 
     QImage m_Image; // ImageViewer needs access to the image in order to modify it
   protected:
-    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *e) override;
+    void resizeEvent(QResizeEvent *) override;
 
   private:
     QPixmap pix;
@@ -75,7 +75,7 @@ class ImageViewer : public QDialog
     explicit ImageViewer(const QUrl &imageURL, const QString &capText = QString(), QWidget *parent = nullptr);
 
     /** Destructor. If there is a partially downloaded image file, delete it.*/
-    ~ImageViewer();
+    ~ImageViewer() override;
 
     /**
      * @brief loadImage Load image from local file and display it

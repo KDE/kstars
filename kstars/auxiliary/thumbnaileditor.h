@@ -39,7 +39,7 @@ class ThumbnailEditor : public QDialog
     Q_OBJECT
   public:
     ThumbnailEditor(ThumbnailPicker *_tp, double _w, double _h);
-    ~ThumbnailEditor();
+    ~ThumbnailEditor() override;
     QPixmap thumbnail();
 
   private slots:

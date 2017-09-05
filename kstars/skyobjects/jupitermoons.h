@@ -48,7 +48,7 @@ class JupiterMoons : public PlanetMoons
     /**
           *Destructor.  Delete moon objects.
           */
-    virtual ~JupiterMoons();
+    ~JupiterMoons() override;
 
     /**
           *@short Find the positions of each Moon, relative to Jupiter.
@@ -70,7 +70,7 @@ class JupiterMoons : public PlanetMoons
           *@param jup pointer to the jupiter object
           *@param sunptr pointer to the Sun object
           */
-    void findPosition(const KSNumbers *num, const KSPlanetBase *jup, const KSSun *sunptr) Q_DECL_OVERRIDE;
+    void findPosition(const KSNumbers *num, const KSPlanetBase *jup, const KSSun *sunptr) override;
 };
 
 #endif

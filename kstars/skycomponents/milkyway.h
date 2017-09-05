@@ -46,8 +46,8 @@ class MilkyWay : public LineListIndex
     /** Load skiplists from file */
     void loadContours(QString fname, QString greeting);
 
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
-    bool selected() Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
+    bool selected() override;
 
   protected:
     /**
@@ -57,7 +57,7 @@ class MilkyWay : public LineListIndex
      * LineList.
      * FIXME: Implementation is broken!!
      */
-    const IndexHash &getIndexHash(LineList *skipList) Q_DECL_OVERRIDE;
+    const IndexHash &getIndexHash(LineList *skipList) override;
 
     /**
      * @short Returns a boolean indicating whether to skip the i-th line
@@ -66,5 +66,5 @@ class MilkyWay : public LineListIndex
      * code in LineListIndex instead of repeating it all here.
      * FIXME: Implementation is broken!!
      */
-    SkipHashList *skipList(LineList *lineList) Q_DECL_OVERRIDE;
+    SkipHashList *skipList(LineList *lineList) override;
 };

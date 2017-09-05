@@ -104,7 +104,7 @@ class KStarsData : public QObject
     bool initialize();
 
     /** Destructor.  Delete data objects. */
-    virtual ~KStarsData();
+    ~KStarsData() override;
 
     /**
      * Set the NextDSTChange member.

@@ -31,13 +31,13 @@ class LogEdit : public QTextEdit
     Q_OBJECT
   public:
     explicit LogEdit(QWidget *parent = 0);
-    ~LogEdit() {}
+    ~LogEdit() override {}
 
   signals:
     void focusOut();
 
   protected:
-    void focusOutEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
+    void focusOutEvent(QFocusEvent *e) override;
 };
 
 #endif

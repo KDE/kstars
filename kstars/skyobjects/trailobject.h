@@ -40,9 +40,9 @@ class TrailObject : public SkyObject
     /** Constructor */
     TrailObject(int t, double r, double d, float m = 0.0, const QString &n = QString());
 
-    virtual ~TrailObject();
+    ~TrailObject() override;
 
-    TrailObject *clone() const Q_DECL_OVERRIDE;
+    TrailObject *clone() const override;
 
     /** @return whether the planet has a trail */
     inline bool hasTrail() const { return (Trail.count() > 0); }
@@ -71,7 +71,7 @@ class TrailObject : public SkyObject
     /** Maximum trail size */
     static const int MaxTrail = 400;
 
-    void initPopupMenu(KSPopupMenu *pmenu) Q_DECL_OVERRIDE;
+    void initPopupMenu(KSPopupMenu *pmenu) override;
 
   protected:
     QList<SkyPoint> Trail;

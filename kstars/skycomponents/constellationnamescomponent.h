@@ -53,24 +53,24 @@ class ConstellationNamesComponent : public ListComponent
     ConstellationNamesComponent(SkyComposite *parent, CultureList *cultures);
 
     /** @short Destructor.  Delete list members */
-    virtual ~ConstellationNamesComponent();
+    ~ConstellationNamesComponent() override;
 
     /**
      * @short Draw constellation names on the sky map.
      * @p psky Reference to the QPainter on which to paint
      */
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
 
     /**
      * @short we need a custom routine (for now) so we don't
      * precess the locations of the names.
      */
-    void update(KSNumbers *num) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) override;
 
     /** @short Return true if we are using localized constellation names */
     inline bool isLocalCNames() { return localCNames; }
 
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 
     void loadData(CultureList *cultures);
 

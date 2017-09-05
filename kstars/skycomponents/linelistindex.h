@@ -51,7 +51,7 @@ class LineListIndex : public SkyComponent
     explicit LineListIndex(SkyComposite *parent, const QString &name = "");
 
     /** @short Destructor */
-    ~LineListIndex();
+    ~LineListIndex() override;
 
     /**
      * @short The top level draw routine.  Draws all the LineLists for any
@@ -61,7 +61,7 @@ class LineListIndex : public SkyComponent
      * MilkyWay draw() routine calls all of the more specific draw()
      * routines below.
      */
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
 
 #ifdef KSTARS_LITE
     /**

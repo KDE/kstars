@@ -49,7 +49,7 @@ class KSPopupMenu : public QMenu
     KSPopupMenu();
 
     /** Destructor (empty)*/
-    ~KSPopupMenu();
+    ~KSPopupMenu() override;
 
     /**
      * Add an item to the popup menu for each of the URL links associated with

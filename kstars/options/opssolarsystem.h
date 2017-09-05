@@ -35,7 +35,7 @@ class OpsSolarSystem : public QFrame, public Ui::OpsSolarSystem
 
   public:
     explicit OpsSolarSystem();
-    ~OpsSolarSystem();
+    ~OpsSolarSystem() override;
 
   private slots:
     void slotChangeMagDownload(double mag);

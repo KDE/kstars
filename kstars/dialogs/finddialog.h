@@ -55,7 +55,7 @@ class FindDialog : public QDialog
     explicit FindDialog(QWidget *parent = 0);
 
     /** Destructor */
-    virtual ~FindDialog();
+    ~FindDialog() override;
 
     /**
          * @return the target object (need not be the same as currently selected object!)
@@ -101,7 +101,7 @@ class FindDialog : public QDialog
          * the window with no selection, using reject().
          * @param e The QKeyEvent pointer
          */
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *e) override;
 
     /** @return the currently-selected item from the listbox of named objects */
     SkyObject *selectedObject() const;

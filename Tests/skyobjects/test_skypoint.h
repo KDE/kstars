@@ -37,7 +37,7 @@ class TestSkyPoint : public QObject
 
   public:
     TestSkyPoint() : QObject(){};
-    ~TestSkyPoint(){};
+    ~TestSkyPoint() override{};
 
   private slots:
     void testPrecession();

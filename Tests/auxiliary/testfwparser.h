@@ -27,7 +27,7 @@ class TestFWParser : public QObject
     Q_OBJECT
   public:
     TestFWParser();
-    ~TestFWParser();
+    ~TestFWParser() override;
   private slots:
     void initTestCase();
     void cleanupTestCase();

@@ -47,7 +47,7 @@ class MapCanvas : public QFrame
     explicit MapCanvas(QWidget *parent);
 
     /**Destructor (empty) */
-    ~MapCanvas();
+    ~MapCanvas() override;
 
     /** Set location dialog */
     // FIXME: This is temporary plug
@@ -81,13 +81,13 @@ class MapCanvas : public QFrame
          * currently-selected city.
          * @see LocationDialog
          */
-    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *e) override;
 
     /**Trim the list of cities so that only those within 2 degrees
          * of the mouse click are shown in the list.
          * @see LocationDialog
          */
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *e) override;
 
   private:
     LocationDialog *ld;

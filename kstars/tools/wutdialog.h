@@ -51,7 +51,7 @@ class WUTDialog : public QDialog
     /** Constructor */
     explicit WUTDialog(QWidget *ks, bool session = false, GeoLocation *geo = KStarsData::Instance()->geo(),
                        KStarsDateTime lt = KStarsData::Instance()->lt());
-    ~WUTDialog();
+    ~WUTDialog() override;
 
     /**
      * @short Check visibility of object

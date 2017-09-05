@@ -48,15 +48,15 @@ class DeepStarComponent : public ListComponent
   public:
     DeepStarComponent(SkyComposite *parent, QString fileName, float trigMag, bool staticstars = false);
 
-    virtual ~DeepStarComponent();
+    ~DeepStarComponent() override;
 
     //This function is empty; we need that so that the JiT update
     //is the only one beiong used.
-    void update(KSNumbers *num) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) override;
 
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
 
     bool loadStaticStars();
 
@@ -81,7 +81,7 @@ class DeepStarComponent : public ListComponent
     /**
      * @return Nearest star within maxrad of SkyPoint p, or nullptr if not found
      */
-    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
     inline bool fileOpen() const { return fileOpened; }
 

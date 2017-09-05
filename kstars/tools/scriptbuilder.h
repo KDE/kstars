@@ -46,7 +46,7 @@ class OptionsTreeView : public QDialog
     Q_OBJECT
   public:
     explicit OptionsTreeView(QWidget *p);
-    ~OptionsTreeView();
+    ~OptionsTreeView() override;
 
     QTreeWidget *optionsList() { return otvw->OptionsList; }
     void resizeColumns();
@@ -67,7 +67,7 @@ class ScriptNameDialog : public QDialog
     Q_OBJECT
   public:
     explicit ScriptNameDialog(QWidget *p);
-    ~ScriptNameDialog();
+    ~ScriptNameDialog() override;
     QString scriptName() const { return snw->ScriptName->text(); }
     QString authorName() const { return snw->AuthorName->text(); }
 
@@ -98,7 +98,7 @@ class ScriptBuilder : public QDialog
     Q_OBJECT
   public:
     explicit ScriptBuilder(QWidget *parent);
-    ~ScriptBuilder();
+    ~ScriptBuilder() override;
 
     bool unsavedChanges() const { return UnsavedChanges; }
     void setUnsavedChanges(bool b = true);

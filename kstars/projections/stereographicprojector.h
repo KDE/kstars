@@ -32,10 +32,10 @@ class StereographicProjector : public Projector
 {
   public:
     explicit StereographicProjector(const ViewParams &p);
-    Projection type() const Q_DECL_OVERRIDE;
-    double radius() const Q_DECL_OVERRIDE;
-    double projectionK(double x) const Q_DECL_OVERRIDE;
-    double projectionL(double x) const Q_DECL_OVERRIDE;
+    Projection type() const override;
+    double radius() const override;
+    double projectionK(double x) const override;
+    double projectionL(double x) const override;
 };
 
 #endif // STEREOGRAPHICPROJECTOR_H

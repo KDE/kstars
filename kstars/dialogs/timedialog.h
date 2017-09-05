@@ -56,7 +56,7 @@ class TimeDialog : public QDialog
     /**
         	*Destructor (empty)
         	*/
-    ~TimeDialog() {}
+    ~TimeDialog() override {}
 
     /** @returns a QTime object with the selected time
         	*/
@@ -80,7 +80,7 @@ class TimeDialog : public QDialog
     void setNow(void);
 
   protected:
-    void keyReleaseEvent(QKeyEvent *) Q_DECL_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent *) override;
 
   private:
     bool UTCNow;

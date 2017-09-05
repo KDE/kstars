@@ -62,7 +62,7 @@ class ModelManager : public QObject
      * @param obs   Pointer to an ObsConditions object.
      */
     explicit ModelManager(ObsConditions *obs);
-    virtual ~ModelManager();
+    ~ModelManager() override;
 
     /** Updates sky-object list models. */
     void updateAllModels(ObsConditions *obs);

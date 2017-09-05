@@ -44,7 +44,7 @@ class ImageExporter : public QObject
     /**
          * @short Destructor
          */
-    ~ImageExporter();
+    ~ImageExporter() override;
 
     /**
          * @return last error message

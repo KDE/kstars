@@ -87,7 +87,7 @@ class SkyObject : public SkyPoint
               const QString &lname = QString());
 
     /** Destructor (empty) */
-    virtual ~SkyObject();
+    ~SkyObject() override;
 
     /**
      * @short Create copy of object.

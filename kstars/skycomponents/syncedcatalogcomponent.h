@@ -55,7 +55,7 @@ class SyncedCatalogComponent : public CatalogComponent
          */
     // bool editObject( SkyObject *object );
 
-    void loadData() Q_DECL_OVERRIDE { _loadData(false); }
+    void loadData() override { _loadData(false); }
 
     //    virtual bool selected();
 

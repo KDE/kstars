@@ -130,7 +130,7 @@ class KStars : public KXmlGuiWindow
     inline static KStars *Instance() { return pinstance; }
 
     /** Destructor. */
-    virtual ~KStars();
+    ~KStars() override;
 
     /** Syncs config file. Deletes objects. */
     void releaseResources();
@@ -726,7 +726,7 @@ class KStars : public KXmlGuiWindow
     /** Build the KStars main window */
     void buildGUI();
 
-    virtual void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event) override;
 
   public:
     /** Check if the KStars main window is shown */

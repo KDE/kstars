@@ -112,7 +112,7 @@ class SimpleFovExporter
           * \brief Enable or disable FOV shape overriding.
           * \param override should be true if FOV representation is to be always rectangular.
           */
-    inline void setFovShapeOverriden(bool override) { m_OverrideFovShape = override; }
+    inline void setFovShapeOverriden(bool overrideFovShape) { m_OverrideFovShape = overrideFovShape; }
 
     /**
           * \brief Enable or disable FOV symbol drawing.

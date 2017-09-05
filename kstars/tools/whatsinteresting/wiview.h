@@ -51,7 +51,7 @@ class WIView : public QWidget
      */
     explicit WIView(QWidget *parent = nullptr);
 
-    ~WIView();
+    ~WIView() override;
 
     /** Load details-view for selected sky-object */
     void loadDetailsView(SkyObjItem *soitem, int index);

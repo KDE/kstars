@@ -48,7 +48,7 @@ class HorizonManager : public QDialog
     explicit HorizonManager(QWidget *ks);
 
     /** @short Destructor */
-    ~HorizonManager();
+    ~HorizonManager() override;
 
     void showRegion(const int regionID);
 

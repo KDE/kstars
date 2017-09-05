@@ -45,7 +45,7 @@ class SkyCalendar : public QDialog
 
   public:
     explicit SkyCalendar(QWidget *parent = nullptr);
-    ~SkyCalendar();
+    ~SkyCalendar() override;
 
     int year();
     GeoLocation *get_geo();

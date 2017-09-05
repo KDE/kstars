@@ -33,7 +33,7 @@ class modCalcGalCoord : public QFrame, public Ui::modCalcGalCoordDlg
 
   public:
     explicit modCalcGalCoord(QWidget *p);
-    ~modCalcGalCoord();
+    ~modCalcGalCoord() override;
 
   public slots:
 

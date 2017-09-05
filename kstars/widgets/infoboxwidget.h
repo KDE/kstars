@@ -36,13 +36,13 @@ class InfoBoxes : public QWidget
     Q_OBJECT
   public:
     explicit InfoBoxes(QWidget *parent = 0);
-    virtual ~InfoBoxes();
+    ~InfoBoxes() override;
 
     void addInfoBox(InfoBoxWidget *ibox);
     QList<InfoBoxWidget *> getInfoBoxes() const { return m_boxes; }
 
   protected:
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) override;
 
   private:
     QList<InfoBoxWidget *> m_boxes;
@@ -68,7 +68,7 @@ class InfoBoxWidget : public QWidget
     InfoBoxWidget(bool shade, const QPoint &pos, int anchor = 0, const QStringList &str = QStringList(),
                   QWidget *parent = 0);
     /** Destructor */
-    virtual ~InfoBoxWidget();
+    ~InfoBoxWidget() override;
 
     /** Check whether box is shaded. In this case only one line is shown. */
     bool shaded() const { return m_shaded; }
@@ -92,12 +92,12 @@ class InfoBoxWidget : public QWidget
     void clicked();
 
   protected:
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 
   private:
     /** Uset to set information about object. */

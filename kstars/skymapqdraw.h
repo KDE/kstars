@@ -42,12 +42,12 @@ class SkyMapQDraw : public QWidget, public SkyMapDrawAbstract
     /**
          *@short Destructor
          */
-    ~SkyMapQDraw();
+    ~SkyMapQDraw() override;
 
   protected:
-    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *e) override;
 
-    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *e) override;
 
     QPixmap *m_SkyPixmap;
 };

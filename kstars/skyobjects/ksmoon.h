@@ -43,10 +43,10 @@ class KSMoon : public KSPlanetBase
     /** Copy constructor */
     KSMoon(const KSMoon &o);
 
-    ~KSMoon();
+    ~KSMoon() override;
 
-    KSMoon *clone() const Q_DECL_OVERRIDE;
-    SkyObject::UID getUID() const Q_DECL_OVERRIDE;
+    KSMoon *clone() const override;
+    SkyObject::UID getUID() const override;
 
     /**
      * Determine the phase angle of the moon, and assign the appropriate moon image
@@ -63,7 +63,7 @@ class KSMoon : public KSPlanetBase
     QString phaseName() const;
 
     /** reimplemented from KSPlanetBase */
-    bool loadData() Q_DECL_OVERRIDE;
+    bool loadData() override;
 
     /** @return iPhase, which is used as a key to find the right image file */
     inline short int getIPhase() const { return iPhase; }
@@ -81,7 +81,7 @@ class KSMoon : public KSPlanetBase
      * @param num KSNumbers pointer for the target date/time
      * @note we don't use the Earth pointer here
      */
-    bool findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *) Q_DECL_OVERRIDE;
+    bool findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *) override;
 
     /**
      * @brief updateMag calls findMagnitude() to calculate current magnitude of moon
@@ -90,10 +90,10 @@ class KSMoon : public KSPlanetBase
      */
     void updateMag() { findMagnitude(nullptr); }
 
-    void initPopupMenu(KSPopupMenu *pmenu) Q_DECL_OVERRIDE;
+    void initPopupMenu(KSPopupMenu *pmenu) override;
 
   private:
-    void findMagnitude(const KSNumbers *) Q_DECL_OVERRIDE;
+    void findMagnitude(const KSNumbers *) override;
 
     static bool data_loaded;
     static int instance_count;

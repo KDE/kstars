@@ -59,7 +59,7 @@ class TargetListComponent : public SkyComponent
     TargetListComponent(SkyComposite *parent, QList<SkyObject *> *objectList, QPen _pen,
                         bool (*optionDrawSymbols)(void) = 0, bool (*optionDrawLabels)(void) = 0);
 
-    virtual ~TargetListComponent();
+    ~TargetListComponent() override;
 
     /**
      * @short Draw this component by iterating over the list.
@@ -68,7 +68,7 @@ class TargetListComponent : public SkyComponent
      * the objects on the list. So this must be called only after the
      * objects are drawn in a given draw cycle.
      */
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void draw(SkyPainter *skyp) override;
 
     // FIXME: Maybe we should make these member objects private / protected?
     std::unique_ptr<SkyObjectList> list; // Pointer to list of objects to draw

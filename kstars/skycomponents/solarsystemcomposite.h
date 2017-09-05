@@ -42,7 +42,7 @@ class SolarSystemComposite : public SkyComposite
 {
   public:
     explicit SolarSystemComposite(SkyComposite *parent);
-    ~SolarSystemComposite();
+    ~SolarSystemComposite() override;
 
     KSPlanet *earth() { return m_Earth; }
 
@@ -53,15 +53,15 @@ class SolarSystemComposite : public SkyComposite
     const QList<SkyObject *> &planetObjects() const;
     const QList<SkyObject *> &moons() const;
 
-    bool selected() Q_DECL_OVERRIDE;
+    bool selected() override;
 
-    void update(KSNumbers *num) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) override;
 
-    void updateSolarSystemBodies(KSNumbers *num) Q_DECL_OVERRIDE;
+    void updateSolarSystemBodies(KSNumbers *num) override;
 
-    void updateMoons(KSNumbers *num) Q_DECL_OVERRIDE;
+    void updateMoons(KSNumbers *num) override;
 
-    void drawTrails(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void drawTrails(SkyPainter *skyp) override;
 
     CometsComponent *cometsComponent();
 

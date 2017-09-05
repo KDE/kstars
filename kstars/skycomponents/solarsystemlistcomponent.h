@@ -34,9 +34,9 @@ class SolarSystemListComponent : public ListComponent
   public:
     explicit SolarSystemListComponent(SolarSystemComposite *parent);
 
-    virtual ~SolarSystemListComponent();
+    ~SolarSystemListComponent() override;
 
-    void update(KSNumbers *num) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) override;
 
     /** @short Update the coordinates of the solar system bodies in this component.
          *
@@ -44,10 +44,10 @@ class SolarSystemListComponent : public ListComponent
          * @p data Pointer to the KStarsData object
          * @p num Pointer to the KSNumbers object
          */
-    void updateSolarSystemBodies(KSNumbers *num) Q_DECL_OVERRIDE;
+    void updateSolarSystemBodies(KSNumbers *num) override;
 
   protected:
-    void drawTrails(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void drawTrails(SkyPainter *skyp) override;
 
   private:
     KSPlanet *m_Earth;

@@ -72,8 +72,8 @@ class QProgressIndicator : public QWidget
      */
     const QColor &color() const { return m_color; }
 
-    QSize sizeHint() const Q_DECL_OVERRIDE;
-    int heightForWidth(int w) const Q_DECL_OVERRIDE;
+    QSize sizeHint() const override;
+    int heightForWidth(int w) const override;
   public slots:
     /**
      * Starts the spin animation.
@@ -110,8 +110,8 @@ class QProgressIndicator : public QWidget
     void setColor(const QColor &color);
 
   protected:
-    void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void timerEvent(QTimerEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
   private:
     int m_angle { 0 };

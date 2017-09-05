@@ -39,12 +39,12 @@ class DragListBox : public QListWidget
     int ignoreIndex() const { return IgnoreIndex; }
     bool contains(const QString &s) const;
 
-    void dragEnterEvent(QDragEnterEvent *evt) Q_DECL_OVERRIDE;
-    void dragMoveEvent(QDragMoveEvent *evt) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent *evt) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *evt) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *evt) override;
+    void dragMoveEvent(QDragMoveEvent *evt) override;
+    void dropEvent(QDropEvent *evt) override;
+    void mousePressEvent(QMouseEvent *evt) override;
+    void mouseMoveEvent(QMouseEvent *) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
 
   private:
     bool leftButtonDown { false };

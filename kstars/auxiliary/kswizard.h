@@ -93,7 +93,7 @@ class KSWizard : public QDialog
      */
     explicit KSWizard(QWidget *parent = nullptr);
 
-    virtual ~KSWizard();
+    ~KSWizard() override;
 
     /** @return pointer to the geographic location selected by the user */
     const GeoLocation *geo() const { return Geo; }

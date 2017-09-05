@@ -94,7 +94,7 @@ class ObservingList : public QDialog
     ObservingList();
     /** @short Destuctor (empty)
             */
-    ~ObservingList();
+    ~ObservingList() override;
 
     /** @return reference to the current observing list
             */
@@ -147,7 +147,7 @@ class ObservingList : public QDialog
     /** @short This is the declaration of the event filter function
          * which is installed on the KImageFilePreview and the TabeView
          */
-    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
     /** @short saves a thumbnail image for the details dialog
          * from the downloaded image
@@ -363,7 +363,7 @@ class ObservingList : public QDialog
     void downloadReady(bool success);
 
   protected:
-    void showEvent(QShowEvent *) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *) override;
 
   private:
     /**

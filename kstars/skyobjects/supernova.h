@@ -44,10 +44,10 @@ class Supernova : public SkyObject
          * @return a clone of this object
          * @note See SkyObject::clone()
          */
-    Supernova *clone() const Q_DECL_OVERRIDE;
+    Supernova *clone() const override;
 
     /** Destructor(Empty) */
-    virtual ~Supernova() {}
+    ~Supernova() override {}
 
     /**
          * @return the type of the supernova
@@ -69,7 +69,7 @@ class Supernova : public SkyObject
          */
     inline float getRedShift() const { return redShift; }
 
-    void initPopupMenu(KSPopupMenu *) Q_DECL_OVERRIDE;
+    void initPopupMenu(KSPopupMenu *) override;
 
   private:
     QString type, hostGalaxy, date;

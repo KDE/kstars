@@ -74,7 +74,7 @@ class ConstellationsArt : public SkyObject
     inline QString getImageFileName() const { return imageFileName; }
 
     /** @return an object's position angle */
-    inline double pa() const Q_DECL_OVERRIDE { return positionAngle; }
+    inline double pa() const override { return positionAngle; }
 
     /** Set the position angle */
     inline void setPositionAngle(double pa) { positionAngle = pa; }

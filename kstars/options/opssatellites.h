@@ -33,7 +33,7 @@ class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
 
   public:
     explicit SatelliteSortFilterProxyModel(QObject *parent);
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 };
 
 /**
@@ -52,7 +52,7 @@ class OpsSatellites : public QFrame, public Ui::OpsSatellites
     OpsSatellites();
 
     /** Destructor */
-    ~OpsSatellites();
+    ~OpsSatellites() override;
 
   private:
     /** Refresh satellites list */

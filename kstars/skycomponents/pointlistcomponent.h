@@ -39,7 +39,7 @@ class PointListComponent : public SkyComponent
   public:
     explicit PointListComponent(SkyComposite *parent);
 
-    virtual ~PointListComponent();
+    ~PointListComponent() override;
 
     /**
      * @short Update the sky positions of this component.
@@ -53,7 +53,7 @@ class PointListComponent : public SkyComponent
      * Precession/Nutation computation should be skipped; this computation
      * is only occasionally required.
      */
-    void update(KSNumbers *num = 0) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num = 0) override;
 
     QList<std::shared_ptr<SkyPoint>> &pointList() { return m_PointList; }
 

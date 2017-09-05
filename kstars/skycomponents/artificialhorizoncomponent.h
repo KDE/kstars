@@ -54,10 +54,10 @@ class ArtificialHorizonComponent : public NoPrecessIndex
      */
     explicit ArtificialHorizonComponent(SkyComposite *parent);
 
-    virtual ~ArtificialHorizonComponent();
+    ~ArtificialHorizonComponent() override;
 
-    bool selected() Q_DECL_OVERRIDE;
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    bool selected() override;
+    void draw(SkyPainter *skyp) override;
 
     void setLivePreview(const std::shared_ptr<LineList> &preview) { livePreview = preview; }
     void addRegion(const QString &regionName, bool enabled, const std::shared_ptr<LineList> &list);
@@ -68,7 +68,7 @@ class ArtificialHorizonComponent : public NoPrecessIndex
     void save();
 
   protected:
-    void preDraw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void preDraw(SkyPainter *skyp) override;
 
   private:
     QList<ArtificialHorizonEntity *> m_HorizonList;

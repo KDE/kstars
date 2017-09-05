@@ -32,7 +32,7 @@ class OpsGuides : public QFrame, public Ui::OpsGuides
 
   public:
     explicit OpsGuides();
-    ~OpsGuides();
+    ~OpsGuides() override;
 
   private slots:
     void slotApply();

@@ -33,7 +33,7 @@ class TestCachingDms : public QObject
     TestCachingDms();
 
     /** @short Destructor */
-    ~TestCachingDms() = default;
+    ~TestCachingDms() override = default;
 
   private slots:
     void defaultCtor();

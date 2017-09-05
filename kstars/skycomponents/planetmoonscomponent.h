@@ -45,16 +45,16 @@ class PlanetMoonsComponent : public SkyComponent
     PlanetMoonsComponent(SkyComposite *parent, SolarSystemSingleComponent *pla, KSPlanetBase::Planets& planet);
 
     /** @short Destructor */
-    ~PlanetMoonsComponent();
+    ~PlanetMoonsComponent() override;
 
-    bool selected() Q_DECL_OVERRIDE;
-    void draw(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    bool selected() override;
+    void draw(SkyPainter *skyp) override;
 #ifndef KSTARS_LITE
-    void update(KSNumbers *num) Q_DECL_OVERRIDE;
+    void update(KSNumbers *num) override;
 #endif
-    void updateMoons(KSNumbers *num) Q_DECL_OVERRIDE;
+    void updateMoons(KSNumbers *num) override;
 
-    SkyObject *objectNearest(SkyPoint *p, double &maxrad) Q_DECL_OVERRIDE;
+    SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
     /**
      * @return a pointer to a moon if its name matches the argument
@@ -63,7 +63,7 @@ class PlanetMoonsComponent : public SkyComponent
      * @return a SkyObject pointer to the moon whose name matches
      * the argument, or a nullptr pointer if no match was found.
      */
-    SkyObject *findByName(const QString &name) Q_DECL_OVERRIDE;
+    SkyObject *findByName(const QString &name) override;
 
     /** Return pointer to stored planet object. */
     KSPlanetBase *getPlanet() const;
@@ -72,7 +72,7 @@ class PlanetMoonsComponent : public SkyComponent
     inline PlanetMoons *getMoons() const { return pmoons.get(); }
 
   protected:
-    void drawTrails(SkyPainter *skyp) Q_DECL_OVERRIDE;
+    void drawTrails(SkyPainter *skyp) override;
 
   private:
     KSPlanetBase::Planets planet;
