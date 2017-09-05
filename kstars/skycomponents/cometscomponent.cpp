@@ -223,6 +223,7 @@ void CometsComponent::updateDataFile()
     downloadJob = new FileDownloader();
 
     downloadJob->setProgressDialogEnabled(true, i18n("Comets Update"), i18n("Downloading comets updates..."));
+    downloadJob->registerDataVerification([&](const QByteArray &data) { return data.startsWith("full_name");});
 
     connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));

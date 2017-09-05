@@ -275,6 +275,7 @@ void AsteroidsComponent::updateDataFile()
     downloadJob = new FileDownloader();
 
     downloadJob->setProgressDialogEnabled(true, i18n("Asteroid Update"), i18n("Downloading asteroids updates..."));
+    downloadJob->registerDataVerification([&](const QByteArray &data) { return data.startsWith("full_name");});
 
     QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
