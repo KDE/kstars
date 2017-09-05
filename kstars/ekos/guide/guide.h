@@ -436,8 +436,9 @@ class Guide : public QWidget, public Ui::Guide
     /**
      * @brief setBLOBEnabled Enable or disable BLOB reception from current CCD if using external guider
      * @param enable True to enable BLOB reception, false to disable BLOB reception
+     * @param name CCD to enable to disable. If empty (default), then action is applied to all CCDs.
      */
-    void setBLOBEnabled(bool enable);
+    void setBLOBEnabled(bool enable, const QString &ccd = QString());
 
     // Operation stack
     void buildOperationStack(GuideState operation);
