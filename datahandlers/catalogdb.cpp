@@ -344,7 +344,7 @@ bool CatalogDB::_AddEntry(const CatalogEntryData &catalog_entry, int catid)
         {
             qCWarning(KSTARS_CATALOG) << "Custom Catalog Insert Query FAILED!";
             qCWarning(KSTARS_CATALOG) << add_query.lastQuery();
-            qCWarning(KSTARS_CATALOG) << add_query.lastError() << endl;
+            qCWarning(KSTARS_CATALOG) << add_query.lastError();
         }
 
         // Find UID of the Row just added

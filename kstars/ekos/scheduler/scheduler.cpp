@@ -2891,7 +2891,7 @@ void Scheduler::checkJobStage()
 
                 if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
-                    if (Options::resetMountModel())
+                    if (Options::resetMountModelOnAlignFail())
                         mountInterface->call(QDBus::AutoDetect, "resetModel");
                     appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
                     startAstrometry();

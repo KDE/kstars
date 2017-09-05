@@ -29,6 +29,8 @@
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
 
+#include "kstars_debug.h"
+
 OAL::Log::~Log()
 {
     //qDeleteAll(m_targetList);
@@ -896,8 +898,8 @@ void OAL::Log::readGeoDate()
     geo = KStarsData::Instance()->locationNamed(name, province, country);
     if (geo == nullptr)
     {
-        qDebug() << "Warning! Location " << name << ", " << province << ", " << country
-                 << " not found in KStars. Using current location." << endl;
+        qCWarning(KSTARS) << "Location " << name << ", " << province << ", " << country
+                 << " not found in KStars. Using current location.";
         geo = KStarsData::Instance()->geo();
     }
     dt.setDate(QDate::fromString(date, "ddMMyyyy"));

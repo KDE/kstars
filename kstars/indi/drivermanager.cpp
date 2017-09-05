@@ -1017,7 +1017,7 @@ void DriverManager::processXMLDriver(QString &driverName)
         }
         else if (errmsg[0])
         {
-            qDebug() << QString(errmsg) << endl;
+            qCDebug(KSTARS_INDI) << QString(errmsg);
             delLilXML(xmlParser);
             return;
         }

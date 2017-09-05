@@ -19,6 +19,7 @@
 
 #include "kspaths.h"
 #include "kstarsdata.h"
+#include "kstars_debug.h"
 
 #include <QSqlQuery>
 
@@ -368,13 +369,13 @@ bool LocationDialog::updateCity(CityOperation operation)
                       "TZRule TEXT DEFAULT NULL)");
         if (create_query.exec(query) == false)
         {
-            qWarning() << create_query.lastError() << endl;
+            qCWarning(KSTARS) << create_query.lastError();
             return false;
         }
     }
     else if (mycitydb.open() == false)
     {
-        qWarning() << mycitydb.lastError() << endl;
+        qCWarning(KSTARS) << mycitydb.lastError();
         return false;
     }
 
@@ -401,7 +402,7 @@ bool LocationDialog::updateCity(CityOperation operation)
             add_query.bindValue(":TZRule", TZrule);
             if (add_query.exec() == false)
             {
-                qWarning() << add_query.lastError() << endl;
+                qCWarning(KSTARS) << add_query.lastError();
                 return false;
             }
 
@@ -431,7 +432,7 @@ bool LocationDialog::updateCity(CityOperation operation)
             update_query.bindValue(":TZRule", TZrule);
             if (update_query.exec() == false)
             {
-                qWarning() << update_query.lastError() << endl;
+                qCWarning(KSTARS) << update_query.lastError() << endl;
                 return false;
             }
 
@@ -455,7 +456,7 @@ bool LocationDialog::updateCity(CityOperation operation)
             delete_query.bindValue(":Country", country);
             if (delete_query.exec() == false)
             {
-                qWarning() << delete_query.lastError() << endl;
+                qCWarning(KSTARS) << delete_query.lastError() << endl;
                 return false;
             }
 
