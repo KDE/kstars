@@ -187,7 +187,7 @@ ImageViewer::~ImageViewer()
         if (m_ImageUrl.isEmpty() == false ||
             KMessageBox::questionYesNo(nullptr, i18n("Remove temporary file %1 from disk?", filename),
                                        i18n("Confirm Removal"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-                                       i18n("imageviewer_temporary_file_removal")) == KMessageBox::Yes)
+                                       "imageviewer_temporary_file_removal") == KMessageBox::Yes)
             QFile::remove(filename);
     }
 
