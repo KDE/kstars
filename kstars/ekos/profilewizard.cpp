@@ -64,7 +64,13 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
 
     // StellarMate Equipment Action
     connect(stellarMateEquipmentNextB, SIGNAL(clicked()), this, SLOT(processStellarMateEquipment()));
+#ifdef Q_OS_WIN
+    // Auto Detect does not work on Windows yet for some reason.
+    // Packet is sent correctly, but no replies are received from anything on the LAN outside of PC.
+    stellarMateAutoDetectB->setEnabled(false);
+#else
     connect(stellarMateAutoDetectB, SIGNAL(clicked()), this, SLOT(detectStellarMate()));
+#endif
 
     // Local Windows
     connect(windowsReadyB, SIGNAL(clicked()), this, SLOT(processLocalWindows()));
