@@ -42,13 +42,13 @@ TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly) : QWidget(parent)
     vlay->addWidget(UpButton);
     vlay->addWidget(DownButton);
 
-    setDaysOnly(daysonly);
-
     connect(UpButton, SIGNAL(clicked()), this, SLOT(increase()));
     connect(DownButton, SIGNAL(clicked()), this, SLOT(decrease()));
 
     for (int i = 0; i < TUB_ALLUNITS; ++i)
         UnitStep[i] = 0;
+
+    setDaysOnly(daysonly);
 }
 
 void TimeUnitBox::setDaysOnly(bool daysonly)

@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "timespinbox.h"
+#include "kstars_debug.h"
 
 #include <KLocalizedString>
 
@@ -248,6 +249,6 @@ float TimeSpinBox::timeScale(void) const
 
 void TimeSpinBox::reportChange()
 {
-    qDebug() << "Reporting new timestep value: " << timeScale();
+    qCDebug(KSTARS) << "Reporting new timestep value: " << timeScale();
     emit scaleChanged(timeScale());
 }
