@@ -1216,9 +1216,7 @@ bool Capture::resumeSequence()
         appendLogText(i18n("Sequence paused."));
         secondsLabel->setText(i18n("Paused..."));
         return false;
-    }
-
-    qCDebug(KSTARS_EKOS_CAPTURE) << "Resuming capture sequence...";
+    }    
 
     // If seqTotalCount is zero, we have to find if there are more pending jobs in the queue
     if (seqTotalCount == 0)
@@ -1249,7 +1247,10 @@ bool Capture::resumeSequence()
             return true;
         }
         else
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "All capture jobs complete.";
             return false;
+        }
     }
     // Otherwise, let's prepare for next exposure after making sure in-sequence focus and dithering are complete if applicable.
     else
@@ -2027,6 +2028,8 @@ void Capture::setBusy(bool enable)
 void Capture::prepareJob(SequenceJob *job)
 {
     activeJob = job;
+
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing capture job" << job->getFullPrefix() << "for execution.";
 
     if (activeJob->getActiveCCD() != currentCCD)
     {

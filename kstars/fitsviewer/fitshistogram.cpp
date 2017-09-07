@@ -10,6 +10,8 @@
 
 #include "fitshistogram.h"
 
+#include "fits_debug.h"
+
 #include "fitsdata.h"
 #include "fitstab.h"
 #include "fitsview.h"
@@ -142,9 +144,7 @@ void FITSHistogram::constructHistogram()
     double pixel_range = fits_max - fits_min;
     binWidth           = pixel_range / (binCount - 1);
 
-    if (Options::fITSLogging())
-        qDebug() << "fits MIN: " << fits_min << " - fits MAX: " << fits_max << " - pixel range: " << pixel_range
-                 << " - bin width " << binWidth << " bin count " << binCount;
+    qCDebug(KSTARS_FITS) << "Histogram min:" << fits_min << ", max:" << fits_max << ", range:" << pixel_range << ", binW:" << binWidth << ", bin#:" << binCount;
 
     for (int i = 0; i < binCount; i++)
         intensity[i] = fits_min + (binWidth * i);
@@ -221,8 +221,7 @@ void FITSHistogram::constructHistogram()
 
     // Custom index to indicate the overall constrast of the image
     JMIndex = cumulativeFrequency[binCount / 8] / cumulativeFrequency[binCount / 4];
-    if (Options::fITSLogging())
-        qDebug() << "FITHistogram: JMIndex " << JMIndex;
+    qCDebug(KSTARS_FITS) << "FITHistogram: JMIndex " << JMIndex;
 
     image_data->setMedian(median);
 
@@ -403,7 +402,7 @@ bool FITSHistogramCommand::calculateDelta(uint8_t *buffer)
     if (delta == nullptr)
     {
         delete[] raw_delta;
-        qDebug() << "FITSHistogram Error: Ran out of memory compressing delta" << endl;
+        qCCritical(KSTARS_FITS) << "FITSHistogram Error: Ran out of memory compressing delta";
         return false;
     }
 
@@ -413,7 +412,7 @@ bool FITSHistogramCommand::calculateDelta(uint8_t *buffer)
     {
         delete[] raw_delta;
         /* this should NEVER happen */
-        qDebug() << "FITSHistogram Error: Failed to compress raw_delta" << endl;
+        qCCritical(KSTARS_FITS) << "FITSHistogram Error: Failed to compress raw_delta";
         return false;
     }
 
@@ -456,7 +455,7 @@ bool FITSHistogramCommand::reverseDelta()
     int r = uncompress(raw_delta, &totalBytes, delta, compressedBytes);
     if (r != Z_OK)
     {
-        qDebug() << "FITSHistogram compression error in reverseDelta()" << endl;
+        qCCritical(KSTARS_FITS) << "FITSHistogram compression error in reverseDelta()";
         delete[] output_image;
         delete[] raw_delta;
         return false;
