@@ -162,8 +162,6 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
 {
     double v(0.0), r(0.0);
 
-    lastPrecessJD = num->julianDay();
-
     // Different between lastJD and Tp (Time of periapsis (Julian Day Number))
     long double deltaJDP = lastPrecessJD - JDp;
     // Limit it to last orbit
