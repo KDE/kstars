@@ -27,6 +27,7 @@ KSAsteroid::KSAsteroid(int _catN, const QString &s, const QString &imfile, long 
     : KSPlanetBase(s, imfile), catN(_catN), JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H), G(_G)
 {
     setType(SkyObject::ASTEROID);
+
     //Compute the orbital Period from Kepler's 3rd law:
     P = 365.2568984 * pow(a, 1.5); //period in days
 }
@@ -43,7 +44,9 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
     //determine the mean anomaly for the desired date.  This is the mean anomaly for the
     //ephemeis epoch, plus the number of days between the desired date and ephemeris epoch,
     //times the asteroid's mean daily motion (360/P):
-    dms m = dms(double(M.Degrees() + (num->julianDay() - JD) * 360.0 / P)).reduce();
+    lastPrecessJD = num->julianDay();
+
+    dms m = dms(double(M.Degrees() + (lastPrecessJD - JD) * 360.0 / P)).reduce();
     double sinm, cosm;
     m.SinCos(sinm, cosm);
 
@@ -78,12 +81,17 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
     double r = sqrt(xv * xv + yv * yv);
 
     //vw is the sum of the true anomaly and the argument of perihelion
-    dms vw(v + w.Degrees()); // Note: MPC gives us the J2000.0 argument of perihelion, so the true anomaly is referenced to J2000.0
+    dms vw(v + w.Degrees());
     double sinN, cosN, sinvw, cosvw, sini, cosi;
 
-    N.SinCos(sinN, cosN); // N is presumably the longitude of the ascending node, referenced to J2000
+    //Precess the longitude of the Ascending Node to the desired epoch
+    // i, w, and N are supplied in J2000 Epoch from JPL
+    // http://astro.if.ufrgs.br/trigesf/position.html#16
+    //dms n = dms(double(N.Degrees() - 3.82394E-5 * (lastPrecessJD - J2000))).reduce();
+
+    N.SinCos(sinN, cosN);
     vw.SinCos(sinvw, cosvw);
-    i.SinCos(sini, cosi); // i is the inclination referenced to J2000
+    i.SinCos(sini, cosi);
 
     //xh, yh, zh are the heliocentric cartesian coords with the ecliptic plane congruent with zh=0.
     double xh = r * (cosN * cosvw - sinN * sinvw * cosi);
@@ -95,6 +103,7 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
     double ELatRad  = atan2(zh, r);
 
     helEcPos.longitude.setRadians(ELongRad);
+    helEcPos.longitude.reduceToRange(dms::ZERO_TO_2PI);
     helEcPos.latitude.setRadians(ELatRad);
     setRsun(r);
 
@@ -117,10 +126,11 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
 
     //the spherical geocentricecliptic coordinates:
     ELongRad  = atan2(yh, xh);
-    double rr = sqrt(xh * xh + yh * yh + zh * zh);
+    double rr = sqrt(xh * xh + yh * yh);
     ELatRad   = atan2(zh, rr);
 
     ep.longitude.setRadians(ELongRad);
+    ep.longitude.reduceToRange(dms::ZERO_TO_2PI);
     ep.latitude.setRadians(ELatRad);
     if (Earth)
         setRearth(Earth);
