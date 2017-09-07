@@ -44,7 +44,6 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
     //determine the mean anomaly for the desired date.  This is the mean anomaly for the
     //ephemeis epoch, plus the number of days between the desired date and ephemeris epoch,
     //times the asteroid's mean daily motion (360/P):
-    lastPrecessJD = num->julianDay();
 
     dms m = dms(double(M.Degrees() + (lastPrecessJD - JD) * 360.0 / P)).reduce();
     double sinm, cosm;

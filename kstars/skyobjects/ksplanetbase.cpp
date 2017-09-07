@@ -123,7 +123,9 @@ void KSPlanetBase::updateCoords(const KSNumbers *num, bool includePlanets, const
 void KSPlanetBase::findPosition(const KSNumbers *num, const CachingDms *lat, const CachingDms *LST,
                                 const KSPlanetBase *Earth)
 {
-    // DEBUG edit
+
+    lastPrecessJD = num->julianDay();
+
     findGeocentricPosition(num, Earth); //private function, reimplemented in each subclass
     findPhase();
     setAngularSize(asin(physicalSize() / Rearth / AU_KM) * 60. * 180. / dms::PI); //angular size in arcmin
