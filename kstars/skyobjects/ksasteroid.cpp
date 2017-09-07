@@ -84,11 +84,6 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
     dms vw(v + w.Degrees());
     double sinN, cosN, sinvw, cosvw, sini, cosi;
 
-    //Precess the longitude of the Ascending Node to the desired epoch
-    // i, w, and N are supplied in J2000 Epoch from JPL
-    // http://astro.if.ufrgs.br/trigesf/position.html#16
-    //dms n = dms(double(N.Degrees() - 3.82394E-5 * (lastPrecessJD - J2000))).reduce();
-
     N.SinCos(sinN, cosN);
     vw.SinCos(sinvw, cosvw);
     i.SinCos(sini, cosi);
