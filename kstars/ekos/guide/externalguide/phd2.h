@@ -43,6 +43,7 @@ class PHD2 : public GuideInterface
         CalibrationDataFlipped,
         LoopingExposures,
         LoopingExposuresStopped,
+        SettleBegin,
         Settling,
         SettleDone,
         StarLost,

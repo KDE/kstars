@@ -43,6 +43,7 @@ PHD2::PHD2()
     events["CalibrationDataFlipped"]  = CalibrationDataFlipped;
     events["LoopingExposures"]        = LoopingExposures;
     events["LoopingExposuresStopped"] = LoopingExposuresStopped;
+    events["SettleBegin"]             = SettleBegin;
     events["Settling"]                = Settling;
     events["SettleDone"]              = SettleDone;
     events["StarLost"]                = StarLost;
@@ -170,7 +171,7 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
             {
                 setEquipmentConnected(true);
             }
-            else if (state == GUIDING)
+            else if (state == GUIDING || state == DITHERING)
             {
                 connection = EQUIPMENT_CONNECTED;
                 emit newStatus(Ekos::GUIDE_CONNECTED);
@@ -293,8 +294,9 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             emit newLog(i18n("PHD2: Looping Exposures Stopped."));
             break;
 
-        case Settling:
-            break;
+        case Settling:        
+        case SettleBegin:
+        break;
 
         case SettleDone:
         {
@@ -364,6 +366,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
         case GuidingDithered:
             emit newLog(i18n("PHD2: Guide Dithering."));
+            state = DITHERING;
             emit newStatus(Ekos::GUIDE_DITHERING);
             break;
 
@@ -407,6 +410,22 @@ void PHD2::processPHD2Error(const QJsonObject &jsonError)
 
     emit newLog(i18n("PHD2 Error: %1", jsonErrorObject["message"].toString()));
 
+    if (state == DITHERING)
+    {
+        state = DITHER_FAILED;
+        //emit ditherFailed();
+        emit newStatus(GUIDE_DITHERING_ERROR);
+
+        if (Options::ditherFailAbortsAutoGuide())
+        {
+            state = STOPPED;
+            emit newStatus(GUIDE_ABORTED);
+        }
+        else
+        {
+            resume();
+        }
+     }
     /* switch (connection)
      {
          case CONNECTING:
