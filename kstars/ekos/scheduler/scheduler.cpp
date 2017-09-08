@@ -202,8 +202,7 @@ void Scheduler::watchJobChanges(bool enable)
     {
         connect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        connect(schedulerProfileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
+        connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));        
 
         connect(schedulerProfileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         connect(stepsButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(setDirty()));
@@ -230,7 +229,6 @@ void Scheduler::watchJobChanges(bool enable)
         disconnect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(schedulerProfileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
 
-        disconnect(schedulerProfileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         disconnect(stepsButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(setDirty()));
         disconnect(startupButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(setDirty()));
         disconnect(constraintButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(setDirty()));
@@ -438,7 +436,6 @@ void Scheduler::saveJob()
 
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
     job->setSequenceFile(sequenceURL);
-    job->setProfile(schedulerProfileCombo->currentText());
 
     fitsURL = QUrl::fromLocalFile(fitsEdit->text());
     job->setFITSFile(fitsURL);
@@ -655,8 +652,6 @@ void Scheduler::loadJob(QModelIndex i)
 
     sequenceEdit->setText(job->getSequenceFile().toLocalFile());
     sequenceURL = job->getSequenceFile();
-
-    schedulerProfileCombo->setCurrentText(job->getProfile());
 
     trackStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
     focusStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
@@ -3292,6 +3287,10 @@ bool Scheduler::loadScheduler(const QString &fileURL)
                 const char *tag = tagXMLEle(ep);
                 if (!strcmp(tag, "Job"))
                     processJobInfo(ep);
+                else if (!strcmp(tag, "Profile"))
+                {
+                    schedulerProfileCombo->setCurrentText(pcdataXMLEle(ep));
+                }
                 else if (!strcmp(tag, "StartupProcedure"))
                 {
                     XMLEle *procedure;
@@ -3462,10 +3461,6 @@ bool Scheduler::processJobInfo(XMLEle *root)
                 }
             }
         }
-        else if (!strcmp(tagXMLEle(ep), "Profile"))
-        {
-            schedulerProfileCombo->setCurrentText(pcdataXMLEle(ep));
-        }
         else if (!strcmp(tagXMLEle(ep), "Steps"))
         {
             XMLEle *module;
@@ -3528,17 +3523,6 @@ void Scheduler::save()
 
         if (schedulerURL.toLocalFile().contains('.') == 0)
             schedulerURL.setPath(schedulerURL.toLocalFile() + ".esl");
-
-        if (QFile::exists(schedulerURL.toLocalFile()))
-        {
-            int r = KMessageBox::warningContinueCancel(0,
-                                                       i18n("A file named \"%1\" already exists. "
-                                                            "Overwrite it?",
-                                                            schedulerURL.fileName()),
-                                                       i18n("Overwrite File?"), KStandardGuiItem::overwrite());
-            if (r == KMessageBox::Cancel)
-                return;
-        }
     }
 
     if (schedulerURL.isValid())
@@ -3573,7 +3557,8 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
     QTextStream outstream(&file);
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SchedulerList version='1.3'>" << endl;
+    outstream << "<SchedulerList version='1.4'>" << endl;
+    outstream << "<Profile>" << schedulerProfileCombo->currentText() << "</Profile>" << endl;
 
     foreach (SchedulerJob *job, jobs)
     {
@@ -3625,7 +3610,6 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
                       << endl;
         outstream << "</CompletionCondition>" << endl;
 
-        outstream << "<Profile>" << job->getProfile() << "</Profile>" << endl;
         outstream << "<Steps>" << endl;
         if (job->getStepPipeline() & SchedulerJob::USE_TRACK)
             outstream << "<Step>Track</Step>" << endl;

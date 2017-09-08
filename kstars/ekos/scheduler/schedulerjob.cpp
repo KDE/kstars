@@ -338,16 +338,6 @@ void SchedulerJob::setEnforceTwilight(bool value)
     enforceTwilight = value;
 }
 
-QString SchedulerJob::getProfile() const
-{
-    return profile;
-}
-
-void SchedulerJob::setProfile(const QString &value)
-{
-    profile = value;
-}
-
 QTableWidgetItem *SchedulerJob::getEstimatedTimeCell() const
 {
     return estimatedTimeCell;
