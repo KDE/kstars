@@ -22,7 +22,7 @@ SET( TEST_LIBRARIES
 add_subdirectory(auxiliary)
 add_subdirectory(skyobjects)
 
-IF (UNIX AND NOT APPLE)
+IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
     IF (BUILD_KSTARS_LITE)
         add_subdirectory(kstars_lite_ui)
     ELSE ()
