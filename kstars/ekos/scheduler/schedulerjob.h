@@ -132,9 +132,6 @@ class SchedulerJob
     bool getEnforceTwilight() const;
     void setEnforceTwilight(bool value);
 
-    QString getProfile() const;
-    void setProfile(const QString &value);
-
     QTableWidgetItem *getEstimatedTimeCell() const;
     void setEstimatedTimeCell(QTableWidgetItem *value);
 
@@ -184,7 +181,6 @@ class SchedulerJob
     bool inSequenceFocus { false };
 
     QString dateTimeDisplayFormat;
-    QString profile;
 
     bool lightFramesRequired { false };
 };
