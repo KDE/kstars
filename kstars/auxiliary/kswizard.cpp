@@ -327,8 +327,8 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
         QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     if (dataLocation.isEmpty())
     {
-        QString dataSourceLocation = QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath();
-        if (dataSourceLocation.isEmpty()) //If there is no default data directory in the app bundle
+        QDir dataSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath();
+        if (! dataSourceDir.exists()) //If there is no default data directory in the app bundle
         {
             KMessageBox::sorry(0, i18n("Error! There was no default data directory found in the app bundle!"));
             return;
@@ -343,7 +343,7 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
                 0, i18n("Error! There was a problem creating the data directory ~/Library/Application Support/ !"));
             return;
         }
-        KSUtils::copyRecursively(dataSourceLocation, dataLocation);
+        KSUtils::copyRecursively(dataSourceDir.absolutePath(), dataLocation);
         //This will update the next, ok, and copy kstars dir buttons.
         slotUpdateDataButtons();
 

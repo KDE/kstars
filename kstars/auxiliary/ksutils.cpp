@@ -1095,6 +1095,22 @@ QString getDefaultPath(QString option)
 #ifdef Q_OS_OSX
 bool copyDataFolderFromAppBundleIfNeeded() //The method returns true if the data directory is good to go.
 {
+    //This will copy the translations directory if it is in the app bundle but not in Application Support.
+    QString translationsLocation =
+        QStandardPaths::locate(QStandardPaths::GenericDataLocation, "locale", QStandardPaths::LocateDirectory);
+    if (translationsLocation.isEmpty())
+    {
+        QDir translationsSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/locale").absolutePath();
+        if (translationsSourceDir.exists())
+        {
+            translationsLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/locale/";
+            QDir writableDir;
+            writableDir.mkdir(translationsLocation);
+            copyRecursively(translationsSourceDir.absolutePath(), translationsLocation);
+        }
+    }
+
+    //This will check for the data directory and if its not present, it will run the wizard.
     QString dataLocation =
         QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     if (dataLocation.isEmpty()) //If there is no kstars user data directory
