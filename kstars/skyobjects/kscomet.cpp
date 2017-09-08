@@ -160,6 +160,8 @@ void KSComet::findPhysicalParameters()
 
 bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Earth)
 {
+    // All elements are in the heliocentric ecliptic J2000 reference frame.
+
     double v(0.0), r(0.0);
 
     // Different between lastJD and Tp (Time of periapsis (Julian Day Number))
@@ -231,7 +233,6 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
 
     //Precess the longitude of the Ascending Node to the desired epoch
     // i, w, and N are supplied in J2000 Epoch from JPL
-    //dms n = dms(double(N.Degrees() - 3.82394E-5 * (lastPrecessJD - J2000))).reduce();
     // http://astro.if.ufrgs.br/trigesf/position.html#16
     dms n = dms(double(N.Degrees() + 3.82394E-5 * (lastPrecessJD - J2000))).reduce();
 
