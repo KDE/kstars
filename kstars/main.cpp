@@ -93,6 +93,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org", "http://www.ph.utexas.edu/~asimha");    
     aboutData.addAuthor(i18n("Robert Lancaster"), i18n("FITSViewer Improvements. KStars OSX Port"),
                         "rlancaste@gmail.com");
+    aboutData.addAuthor(i18n("Csaba Kertesz"), QString(), "csaba.kertesz@gmail.com", "");
 
     // Inactive developers
     aboutData.addAuthor(i18n("Artem Fedoskin"), i18n("KStars Lite"), "afedoskin3@gmail.com");
