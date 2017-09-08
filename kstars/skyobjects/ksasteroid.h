@@ -25,6 +25,10 @@ class KSNumbers;
 /** @class KSAsteroid
 	*@short A subclass of KSPlanetBase that implements asteroids.
 	*
+    * All elements are in the heliocentric ecliptic J2000 reference frame.
+    *
+    * Check here for full description: https://ssd.jpl.nasa.gov/?sb_elem#legend
+    *
 	*The orbital elements are stored as private member variables, and it
 	*provides methods to compute the ecliptic coordinates for any time
 	*from the orbital elements.
