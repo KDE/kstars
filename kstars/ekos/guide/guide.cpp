@@ -290,7 +290,6 @@ Guide::Guide() : QWidget()
     opsGuide = new OpsGuide();
     page = dialog->addPage(opsGuide, i18n("Guide"));
     page->setIcon(QIcon::fromTheme("kstars_guides", QIcon(":/icons/breeze/default/kstars_guides.svg")));
-    connect(guideOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
 
     internalGuider->setGuideView(guideView);
 

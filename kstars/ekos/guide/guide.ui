@@ -131,27 +131,20 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="0">
+            <item row="0" column="1">
+             <widget class="QPushButton" name="loopB">
+              <property name="text">
+               <string>Loop</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="3">
              <widget class="QPushButton" name="stopB">
               <property name="enabled">
                <bool>false</bool>
               </property>
               <property name="text">
                <string>Stop</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1" colspan="2">
-             <widget class="QPushButton" name="guideOptionsB">
-              <property name="text">
-               <string>Options</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QPushButton" name="loopB">
-              <property name="text">
-               <string>Loop</string>
               </property>
              </widget>
             </item>
@@ -1204,7 +1197,6 @@
   <tabstop>calibrateB</tabstop>
   <tabstop>guideB</tabstop>
   <tabstop>stopB</tabstop>
-  <tabstop>guideOptionsB</tabstop>
   <tabstop>guiderCombo</tabstop>
   <tabstop>ST4Combo</tabstop>
   <tabstop>exposureIN</tabstop>
