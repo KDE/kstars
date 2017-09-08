@@ -94,7 +94,7 @@ class Mosaic : public QDialog, public Ui::mosaicDialog
     void setCenter(const SkyPoint &value);
 
     QString getJobsDir() { return jobsDir->text(); }
-    QList<OneTile *> getJobs() { return mosaicTile->getTiles(); }
+    QList<OneTile *> getJobs() { return mosaicTileItem->getTiles(); }
 
   protected:
     virtual void showEvent(QShowEvent *);
@@ -121,11 +121,11 @@ class Mosaic : public QDialog, public Ui::mosaicDialog
     QImage *m_skyChart { nullptr };
 
     QPixmap targetPix;
-    QGraphicsPixmapItem *targetItem { nullptr };
+    QGraphicsPixmapItem *skyMapItem { nullptr };
 
-    MosaicTile *mosaicTile { nullptr };
+    MosaicTile *mosaicTileItem { nullptr };
 
-    double pixelPerArcmin { 0 };
+    double pixelsPerArcmin { 0 };
 
     QPointF screenPoint;
 
