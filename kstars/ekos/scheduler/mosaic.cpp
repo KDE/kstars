@@ -283,7 +283,7 @@ void Mosaic::updateTargetFOV()
     double oldZoomFactor = Options::zoomFactor();
 
     // Get 2x the target FOV
-    ks->setApproxFOV(targetWFOVSpin->value() * 2 / 60.0);
+    ks->setApproxFOV(targetWFOVSpin->value() * 5 / 60.0);
 
     center.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
@@ -298,10 +298,10 @@ void Mosaic::updateTargetFOV()
     double fov_h = map->height() / pixelsPerArcmin;
 
     // 150% of desired FOV so we get extra space for rotations
-    double x = (fov_w - targetWFOVSpin->value() * 1.5) / 2 * pixelsPerArcmin;
-    double y = (fov_h - targetHFOVSpin->value() * 1.5) / 2 * pixelsPerArcmin;
-    double w = targetWFOVSpin->value() * 1.5 * pixelsPerArcmin;
-    double h = targetHFOVSpin->value() * 1.5 * pixelsPerArcmin;
+    double x = (fov_w - targetWFOVSpin->value() * 2) / 2 * pixelsPerArcmin;
+    double y = (fov_h - targetHFOVSpin->value() * 2) / 2 * pixelsPerArcmin;
+    double w = targetWFOVSpin->value() * 2 * pixelsPerArcmin;
+    double h = targetHFOVSpin->value() * 2 * pixelsPerArcmin;
 
     // Get the sky map image
     if (m_skyChart)
@@ -324,8 +324,8 @@ void Mosaic::updateTargetFOV()
     scene.setSceneRect(skyMapItem->boundingRect());
 
     // Center tile
-    mosaicTileItem->setPos(skyMapItem->mapToScene(QPointF( mosaicWSpin->value()*cameraWFOVSpin->value()*pixelsPerArcmin/4,
-                                                           mosaicHSpin->value()*cameraHFOVSpin->value()*pixelsPerArcmin/4)));
+    mosaicTileItem->setPos(skyMapItem->mapToScene(QPointF( mosaicWSpin->value()*cameraWFOVSpin->value()*pixelsPerArcmin/2,
+                                                           mosaicHSpin->value()*cameraHFOVSpin->value()*pixelsPerArcmin/2)));
 }
 
 void Mosaic::render()
