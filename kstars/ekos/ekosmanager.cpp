@@ -1008,7 +1008,7 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
     appendLogText(i18n("%1 is online.", scopeDevice->getDeviceName()));
 
     connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-            SLOT(processNewNumber(INumberVectorProperty*)));
+            SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
     initMount();
 
@@ -1117,9 +1117,9 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     initCapture();
 
     connect(filterDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-            SLOT(processNewNumber(INumberVectorProperty*)));
+            SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
     connect(filterDevice, SIGNAL(textUpdated(ITextVectorProperty*)), this,
-            SLOT(processNewText(ITextVectorProperty*)));
+            SLOT(processNewText(ITextVectorProperty*)), Qt::UniqueConnection);
 
     captureProcess->addFilter(filterDevice);
 
