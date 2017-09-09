@@ -1052,6 +1052,7 @@ void Capture::newFITS(IBLOB *bp)
     {
         if (bp == nullptr)
         {
+            appendLogText(i18n("Failed to save file to %1", activeJob->getFITSDir()));
             abort();
             return;
         }
