@@ -821,7 +821,13 @@ void Focus::stop(bool aborted)
 
     inAutoFocus        = false;
     inFocusLoop        = false;
-    starSelected       = false;
+    // Why starSelected is set to false below? We should retain star selection status under:
+    // 1. Autostar is off, or
+    // 2. Toggle subframe, or
+    // 3. Reset frame
+    // 4. Manual motion?
+
+    //starSelected       = false;
     polySolutionFound  = 0;
     captureInProgress  = false;
     minimumRequiredHFR = -1;
