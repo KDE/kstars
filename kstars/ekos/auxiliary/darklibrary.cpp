@@ -327,6 +327,12 @@ void DarkLibrary::newFITS(IBLOB *bp)
 
     FITSView *calibrationView = subtractParams.targetChip->getImageView(FITS_CALIBRATE);
 
+    if (calibrationView == nullptr)
+    {
+        emit darkFrameCompleted(false);
+        return;
+    }
+
     emit newLog(i18n("Dark frame received."));
 
     FITSData *calibrationData = new FITSData();
