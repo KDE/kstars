@@ -636,12 +636,12 @@
       <entry name="UseLatinConstellNames" type="Bool">
          <label>Use Latin constellation names?</label>
          <whatsthis>Use Latin constellation names.</whatsthis>
-         <default>true</default>
+         <default>false</default>
       </entry>
       <entry name="UseLocalConstellNames" type="Bool">
          <label>Use localized constellation names?</label>
          <whatsthis>Use localized constellation names (if localized names are not available, default to Latin names).</whatsthis>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="UseAltAz" type="Bool">
          <label>Use horizontal coordinate system?</label>
