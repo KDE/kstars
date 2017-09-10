@@ -234,7 +234,7 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
     //Precess the longitude of the Ascending Node to the desired epoch
     // i, w, and N are supplied in J2000 Epoch from JPL
     // http://astro.if.ufrgs.br/trigesf/position.html#16
-    dms n = dms(double(N.Degrees() + 3.82394E-5 * (lastPrecessJD - J2000))).reduce();
+    //dms n = dms(double(N.Degrees() + 3.82394E-5 * (lastPrecessJD - J2000))).reduce();
 
     //vw is the sum of the true anomaly and the argument of perihelion
     dms vw(v + w.Degrees());
@@ -243,7 +243,7 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
 
     // Get sin's and cos's for:
     // Longitude of ascending node
-    n.SinCos(sinN, cosN);
+    N.SinCos(sinN, cosN);
     // sum of true anamoly and argument of perihelion
     vw.SinCos(sinvw, cosvw);
     // Inclination
@@ -289,8 +289,15 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
 
     // Now convert to geocentric equatorial coords
     EclipticToEquatorial(num->obliquity());
-    nutate(num);
-    aberrate(num);
+
+    // JM 2017-09-10: The calculations above produce J2000 RESULTS
+    // So we have to precess as well
+    setRA0(ra());
+    setDec0(dec());
+    apparentCoord(J2000, lastPrecessJD);
+
+    //nutate(num);
+    //aberrate(num);
 
     findPhysicalParameters();
 

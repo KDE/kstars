@@ -547,7 +547,9 @@ void DetailDialog::createPositionTab(const KStarsDateTime &ut, GeoLocation *geo)
     Pos->Alt->setText(a.toDMSString());
 
     // Display the RA0 and Dec0 for objects that are outside the solar system
-    if (!selectedObject->isSolarSystem())
+    // 2017-09-10 JM: Exception added for asteroids and comets since we have J2000 for them.
+    // Maybe others?
+    if (!selectedObject->isSolarSystem() || selectedObject->type() == SkyObject::COMET || selectedObject->type() == SkyObject::ASTEROID)
     {
         Pos->RA0->setText(selectedObject->ra0().toHMSString());
         Pos->Dec0->setText(selectedObject->dec0().toDMSString());

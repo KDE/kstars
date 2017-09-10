@@ -133,8 +133,14 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
         setRearth(Earth);
 
     EclipticToEquatorial(num->obliquity());
-    nutate(num);
-    aberrate(num);
+
+    // JM 2017-09-10: The calculations above produce J2000 RESULTS
+    // So we have to precess as well
+    setRA0(ra());
+    setDec0(dec());
+    apparentCoord(J2000, lastPrecessJD);
+    //nutate(num);
+    //aberrate(num);
 
     return true;
 }
