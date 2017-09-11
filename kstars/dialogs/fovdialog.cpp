@@ -227,7 +227,11 @@ NewFOV::NewFOV(QWidget *parent, const FOV *fov) : QDialog(parent), f()
     connect(ui->ComputeHPBW, SIGNAL(clicked()), SLOT(slotComputeFOV()));
     connect(ui->ComputeBinocularFOV, SIGNAL(clicked()), SLOT(slotComputeFOV()));
     connect(ui->ComputeTLengthFromFNum1, SIGNAL(clicked()), SLOT(slotComputeTelescopeFL()));
-    connect(ui->ComputeTLengthFromFNum2, SIGNAL(clicked()), SLOT(slotComputeTelescopeFL()));
+    connect(ui->DetectFromINDI, SIGNAL(clicked()), SLOT(slotDetectFromINDI()));
+
+    #ifndef HAVE_INDI
+    ui->DetectFromINDI->setEnabled(false);
+    #endif
 
     // Populate eyepiece AFOV options. The userData field contains the apparent FOV associated with that option
     ui->EyepieceAFOV->insertItem(0, i18nc("Specify the apparent field of view (AFOV) manually", "Specify AFOV"), -1);
@@ -294,11 +298,16 @@ void NewFOV::slotComputeFOV()
     }
     else if (sender() == ui->ComputeCameraFOV && ui->TLength2->value() > 0.0)
     {
-        double sx = (double)ui->ChipWidth->value() * 3438.0 / ui->TLength2->value();
+        /*double sx = (double)ui->ChipWidth->value() * 3438.0 / ui->TLength2->value();
         double sy = (double)ui->ChipHeight->value() * 3438.0 / ui->TLength2->value();
-        //const double aspectratio = 3.0/2.0; // Use the default aspect ratio for DSLRs / Film (i.e. 3:2)
-        ui->FOVEditX->setText(toString(sx));
-        ui->FOVEditY->setText(toString(sy));
+        //const double aspectratio = 3.0/2.0; // Use the default aspect ratio for DSLRs / Film (i.e. 3:2)*/
+
+        // FOV in arcmins
+        double fov_x = 206264.8062470963552 * ui->cameraWidth->value() * ui->cameraPixelSizeW->value() / 60000.0 / ui->TLength2->value();
+        double fov_y = 206264.8062470963552 * ui->cameraHeight->value() * ui->cameraPixelSizeH->value() / 60000.0 / ui->TLength2->value();
+
+        ui->FOVEditX->setText(toString(fov_x));
+        ui->FOVEditY->setText(toString(fov_y));
     }
     else if (sender() == ui->ComputeHPBW && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0)
     {
@@ -336,13 +345,10 @@ void NewFOV::slotEyepieceAFOVChanged(int index)
 
 void NewFOV::slotComputeTelescopeFL()
 {
-    QObject *whichTab              = sender();
     TelescopeFL *telescopeFLDialog = new TelescopeFL(this);
     if (telescopeFLDialog->exec() == QDialog::Accepted)
     {
-        Q_ASSERT(whichTab == ui->ComputeTLengthFromFNum1 || whichTab == ui->ComputeTLengthFromFNum2);
-        ((whichTab == ui->ComputeTLengthFromFNum1) ? ui->TLength1 : ui->TLength2)
-            ->setValue(telescopeFLDialog->computeFL());
+        ui->TLength1->setValue(telescopeFLDialog->computeFL());
     }
     delete telescopeFLDialog;
 }
@@ -397,4 +403,9 @@ double TelescopeFL::computeFL() const
 unsigned int FOVDialog::currentItem() const
 {
     return fov->FOVListBox->currentRow();
+}
+
+void FOVDialog::slotDetectFromINDI()
+{
+    // TODO
 }

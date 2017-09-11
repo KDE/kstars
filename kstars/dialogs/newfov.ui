@@ -6,14 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>660</width>
-    <height>450</height>
+    <width>708</width>
+    <height>398</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>New FOV Indicator</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <layout class="QHBoxLayout">
      <property name="spacing">
@@ -417,19 +432,19 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
       <attribute name="title">
        <string>Camera</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="0" column="0">
+           <item row="0" column="0" colspan="2">
             <widget class="QLabel" name="textLabel5_2">
              <property name="text">
-              <string>Telescope focal length:</string>
+              <string>Telescope Focal length:</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="0" column="3">
             <widget class="QDoubleSpinBox" name="TLength2">
              <property name="focusPolicy">
               <enum>Qt::StrongFocus</enum>
@@ -450,7 +465,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
              </property>
             </widget>
            </item>
-           <item row="0" column="2">
+           <item row="0" column="4">
             <widget class="QLabel" name="textLabel6_2_3">
              <property name="minimumSize">
               <size>
@@ -458,78 +473,64 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                <height>0</height>
               </size>
              </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-               <underline>false</underline>
-               <strikeout>false</strikeout>
-              </font>
-             </property>
              <property name="text">
               <string>mm</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="textLabel9">
+            <widget class="QLabel" name="label_8">
              <property name="text">
-              <string>Chip/Film width:</string>
+              <string>Camera W:</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QDoubleSpinBox" name="ChipWidth">
-             <property name="focusPolicy">
-              <enum>Qt::StrongFocus</enum>
-             </property>
-             <property name="toolTip">
-              <string>Size of chip or film, in millimeters</string>
-             </property>
-             <property name="whatsThis">
-              <string>Enter the physical size of the CCD chip or film negative.
-
-This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
-             </property>
+            <widget class="QSpinBox" name="cameraWidth">
              <property name="minimum">
-              <double>0.000000000000000</double>
+              <number>10</number>
              </property>
              <property name="maximum">
-              <double>300.000000000000000</double>
+              <number>20000</number>
              </property>
              <property name="value">
-              <double>0.000000000000000</double>
+              <number>10</number>
              </property>
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QLabel" name="textLabel6_2_3_2">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-               <underline>false</underline>
-               <strikeout>false</strikeout>
-              </font>
-             </property>
+            <widget class="QLabel" name="label_10">
              <property name="text">
-              <string>mm</string>
+              <string>H:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QSpinBox" name="cameraHeight">
+             <property name="minimum">
+              <number>10</number>
+             </property>
+             <property name="maximum">
+              <number>20000</number>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="4">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>pixels</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="textLabel9_2">
+            <widget class="QLabel" name="textLabel9">
              <property name="text">
-              <string>Chip/Film height:</string>
+              <string>Pixel W:</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QDoubleSpinBox" name="ChipHeight">
+            <widget class="QDoubleSpinBox" name="cameraPixelSizeW">
              <property name="focusPolicy">
               <enum>Qt::StrongFocus</enum>
              </property>
@@ -542,30 +543,51 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
 This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
              </property>
              <property name="minimum">
-              <double>0.000000000000000</double>
+              <double>1.000000000000000</double>
              </property>
              <property name="maximum">
-              <double>300.000000000000000</double>
+              <double>30.000000000000000</double>
              </property>
              <property name="value">
-              <double>0.000000000000000</double>
+              <double>1.000000000000000</double>
              </property>
             </widget>
            </item>
            <item row="2" column="2">
-            <widget class="QLabel" name="textLabel6_2_3_3">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-               <underline>false</underline>
-               <strikeout>false</strikeout>
-              </font>
-             </property>
+            <widget class="QLabel" name="label_11">
              <property name="text">
-              <string>mm</string>
+              <string>H:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3">
+            <widget class="QDoubleSpinBox" name="cameraPixelSizeH">
+             <property name="focusPolicy">
+              <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>Size of chip or film, in millimeters</string>
+             </property>
+             <property name="whatsThis">
+              <string>Enter the physical size of the CCD chip or film negative.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
+             </property>
+             <property name="minimum">
+              <double>1.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>30.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>1.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="4">
+            <widget class="QLabel" name="textLabel6_2_3_2">
+             <property name="text">
+              <string>µm</string>
              </property>
             </widget>
            </item>
@@ -583,39 +605,6 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
             </size>
            </property>
           </spacer>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <widget class="QPushButton" name="ComputeTLengthFromFNum2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>or compute from F-Number</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer>
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Expanding</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>22</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
          </item>
         </layout>
        </item>
@@ -635,6 +624,34 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
+          <widget class="QPushButton" name="ComputeCameraFOV">
+           <property name="toolTip">
+            <string>Compute field-of-view from above data fields</string>
+           </property>
+           <property name="whatsThis">
+            <string>This button will compute the field-of-view (FOV) angle for a specific camera/telescope combination.  You must first specify the focal length of the telescope and the size of the CCD chip or film negative.
+
+The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
+           </property>
+           <property name="text">
+            <string>Compute FOV</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="DetectFromINDI">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Detect from INDI</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -649,21 +666,6 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
             </size>
            </property>
           </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="ComputeCameraFOV">
-           <property name="toolTip">
-            <string>Compute field-of-view from above data fields</string>
-           </property>
-           <property name="whatsThis">
-            <string>This button will compute the field-of-view (FOV) angle for a specific camera/telescope combination.  You must first specify the focal length of the telescope and the size of the CCD chip or film negative.
-
-The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
-           </property>
-           <property name="text">
-            <string>Compute FOV</string>
-           </property>
-          </widget>
          </item>
         </layout>
        </item>
@@ -1009,45 +1011,6 @@ The computed HPBW angle (in arcminutes) will be displayed in the &quot;Field of 
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="fieldoFviewLabel">
-       <property name="text">
-        <string>Field of view:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="FOVEditX">
-       <property name="toolTip">
-        <string>Desired field-of-view size, in arcminutes</string>
-       </property>
-       <property name="whatsThis">
-        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
-
-You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>arcmin</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string> x </string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="4">
-      <widget class="QLineEdit" name="FOVEditY"/>
-     </item>
      <item row="0" column="5">
       <widget class="QLabel" name="label_3">
        <property name="text">
@@ -1055,23 +1018,13 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="fieldoFviewLabel_2">
-       <property name="text">
-        <string>Offset X:</string>
-       </property>
-      </widget>
+     <item row="0" column="4">
+      <widget class="QLineEdit" name="FOVEditY"/>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="FOVEditOffsetX">
-       <property name="toolTip">
-        <string>Desired horizontal offset in arcminutes</string>
-       </property>
-       <property name="whatsThis">
-        <string/>
-       </property>
+     <item row="1" column="5">
+      <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>0</string>
+        <string>arcmin</string>
        </property>
       </widget>
      </item>
@@ -1082,37 +1035,10 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
        </property>
       </widget>
      </item>
-     <item row="1" column="3">
-      <widget class="QLabel" name="fieldoFviewLabel_3">
+     <item row="0" column="0">
+      <widget class="QLabel" name="fieldoFviewLabel">
        <property name="text">
-        <string>Offset Y:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4">
-      <widget class="QLineEdit" name="FOVEditOffsetY">
-       <property name="toolTip">
-        <string>Desired vertical offset in arcminutes</string>
-       </property>
-       <property name="whatsThis">
-        <string/>
-       </property>
-       <property name="text">
-        <string>0</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="5">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>arcmin</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="fieldoFviewLabel_4">
-       <property name="text">
-        <string>Rotation:</string>
+        <string>Field of view:</string>
        </property>
       </widget>
      </item>
@@ -1129,10 +1055,30 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="label_7">
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Degrees</string>
+        <string>arcmin</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLineEdit" name="FOVEditOffsetY">
+       <property name="toolTip">
+        <string>Desired vertical offset in arcminutes</string>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLabel" name="fieldoFviewLabel_3">
+       <property name="text">
+        <string>Offset Y:</string>
        </property>
       </widget>
      </item>
@@ -1148,6 +1094,62 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Degrees E of N</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="fieldoFviewLabel_4">
+       <property name="text">
+        <string>Rotation:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="fieldoFviewLabel_2">
+       <property name="text">
+        <string>Offset X:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string> x </string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="FOVEditX">
+       <property name="toolTip">
+        <string>Desired field-of-view size, in arcminutes</string>
+       </property>
+       <property name="whatsThis">
+        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
+
+You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="FOVEditOffsetX">
+       <property name="toolTip">
+        <string>Desired horizontal offset in arcminutes</string>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -1354,11 +1356,19 @@ Circle, Square, Crosshairs, Bullseye.</string>
  <tabstops>
   <tabstop>FOVName</tabstop>
   <tabstop>tabWidget2</tabstop>
+  <tabstop>TLength1</tabstop>
+  <tabstop>EyeLength</tabstop>
+  <tabstop>EyepieceAFOV</tabstop>
   <tabstop>EyeFOV</tabstop>
+  <tabstop>ComputeTLengthFromFNum1</tabstop>
   <tabstop>ComputeEyeFOV</tabstop>
   <tabstop>TLength2</tabstop>
-  <tabstop>ChipWidth</tabstop>
+  <tabstop>cameraWidth</tabstop>
+  <tabstop>cameraHeight</tabstop>
+  <tabstop>cameraPixelSizeW</tabstop>
+  <tabstop>cameraPixelSizeH</tabstop>
   <tabstop>ComputeCameraFOV</tabstop>
+  <tabstop>DetectFromINDI</tabstop>
   <tabstop>LinearFOV</tabstop>
   <tabstop>LinearFOVDistance</tabstop>
   <tabstop>ComputeBinocularFOV</tabstop>
@@ -1367,6 +1377,9 @@ Circle, Square, Crosshairs, Bullseye.</string>
   <tabstop>ComputeHPBW</tabstop>
   <tabstop>FOVEditX</tabstop>
   <tabstop>FOVEditY</tabstop>
+  <tabstop>FOVEditOffsetX</tabstop>
+  <tabstop>FOVEditOffsetY</tabstop>
+  <tabstop>FOVEditRotation</tabstop>
   <tabstop>ShapeBox</tabstop>
   <tabstop>ColorButton</tabstop>
  </tabstops>
