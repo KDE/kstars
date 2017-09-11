@@ -56,6 +56,7 @@ class FOVDialog : public QDialog
     void slotEditFOV();
     void slotRemoveFOV();
     void slotSelect(int);
+    void slotDetectFromINDI();
 
   private:
     /** Add new widget to list box */
