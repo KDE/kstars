@@ -4,6 +4,89 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.8.3 (Tommy):
+=================================================================================================
+1eb46b9 2017-09-11 Jasem Mutlaq         If calibration view is gone then set dark frame as false
+833600c 2017-09-10 Jasem Mutlaq         Comet and Asteroid calculation produce J2000 results so we need to precess them
+9b1e68f 2017-09-10 Jasem Mutlaq         Localized constellation names should be used by default
+2458141 2017-09-10 Jasem Mutlaq         Use bigger font for constellation names
+11a630e 2017-09-10 Jasem Mutlaq         Display error when failing to save an image locally
+65e868c 2017-09-09 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
+a641c62 2017-09-09 Valentin Boettcher   Update remainder of VSOP87 files
+942632f 2017-09-09 Jasem Mutlaq         Check whether a sequence is complete before preparing jobs as we do not need to trigger precapture jobs prematurely
+16ccf06 2017-09-09 Jasem Mutlaq         Use unique connections to avoid dupes
+0514332 2017-09-09 Jasem Mutlaq         Do not set starSelected to false on stop. Doing so will make focus module switch HFR algorithms on the next run which might return a different HFR v..
+a87381a 2017-09-09 Csaba Kertesz        Make the UI tests optional and omit them if CFitsIO is not available
+dc5e05c 2017-09-09 Csaba Kertesz        Add myself to the active developers
+60f35f4 2017-09-09 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
+1c82cd3 2017-09-09 Robert Lancaster     copyLocale step for MacOS until KF5 looks for translations relative the current binary on MacOS
+70e6630 2017-09-09 Csaba Kertesz        Add CFitsIO target dependency to fix compilation error on Fedora
+0aefab5 2017-09-08 Jasem Mutlaq         Improve FOV view for the Mosaic Tool
+adbb893 2017-09-08 Jasem Mutlaq         Improve Mosaic tool: 1. Dragging now actually works. 2. Title J2000 positions are very accurate. 3. Provide extra space to allow for rotations.
+1c75eb1 2017-09-08 Jasem Mutlaq         remove options button since it is repeated down
+28e3c90 2017-09-08 Jasem Mutlaq         Handle SettleBegin event and on dither error, resume with guiding policy
+ef713cf 2017-09-08 Jasem Mutlaq         Move profile out of job since it applies to the whole schedule list
+8e8a5a1 2017-09-08 Jasem Mutlaq         Add note that all elements are in J2000 ecliptic coordinates
+cd138b7 2017-09-07 Jasem Mutlaq         Set lastPrecessJD for all solar system bodies
+94868fd 2017-09-07 Jasem Mutlaq         Better debug statements
+e5357b2 2017-09-07 Jasem Mutlaq         Add earth.B0 from Valentin script. Moving vsops into one directory
+d758bd0 2017-09-07 Jasem Mutlaq         Fix inaccurate positions of asteroids, comets, and other solar system bodies. There were problem in multiple places, but the Earth ecliptic longitud..
+8c71580 2017-09-07 Jasem Mutlaq         Remove unused debug
+9b65f45 2017-09-07 Valentin Boettcher   Improved VSOP87 data
+0922489 2017-09-06 Jasem Mutlaq         Remove i18n when it should not be used
+0138944 2017-09-06 Jasem Mutlaq         Fix time unit box stepping action. This fix should be available in the next KStars release 2.8.3 BUGS:384434 FIXED-IN:17.12
+9c41018 2017-09-06 Jasem Mutlaq         Disable auto detect StellarMate in Windows as qMDNS does not work there now
+eb4b0d7 2017-09-06 Jasem Mutlaq         More logging fixes
+9cdb3a3 2017-09-05 Kevin Funk           clang-tidy: modernize-use-nullptr run
+880316d 2017-09-05 Kevin Funk           CMake: Treat Eigen includes as system headers
+a95c63d 2017-09-05 Kevin Funk           clang-tidy: modernize-use-override run
+6982b22 2017-09-05 Jasem Mutlaq         Correct header
+041c3cf 2017-09-05 Jasem Mutlaq         CMake: Use dynamically fetched translations by Kevin Funk
+13f94dc 2017-09-05 Jasem Mutlaq         QLoggingCategory migration still going
+61575d0 2017-09-05 Jasem Mutlaq         Add option to reset mount model after meridian flip is complete
+905f65d 2017-09-05 Csaba Kertesz        Fix the late compilation errors
+7ebcb80 2017-09-05 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
+fb5e85f 2017-09-05 Jasem Mutlaq         Verify comet and asteroid data before saving the returned result as JPL apparently does not return 404 but a different valid page that does not cont..
+bc9a84f 2017-09-05 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
+f646c0d 2017-09-05 Jasem Mutlaq         Permit user to disable camera BLOBs when using external guiders
+04a3320 2017-09-05 Csaba Kertesz        Add KDELibs4Support dependency to find kdeversion.h on all systems
+11ff043 2017-09-04 Csaba Kertesz        Be compatible with KDE version in Ubuntu Xenial
+98b1bad 2017-09-05 Jasem Mutlaq         Allow user to explicitly select telescope type in guide module
+8b9e277 2017-09-05 Jasem Mutlaq         Record focus frame count used for HFR average in the options
+8569beb 2017-09-05 Jasem Mutlaq         If problem is encountered while dither, report dither error first before abort
+b56915c 2017-09-04 Jasem Mutlaq         Do not load Ekos summary screen FITS in resource limited mode
+49a82bc 2017-09-04 Jasem Mutlaq         Do not alter telescope type in Align module unless the solver is executed
+64c3b77 2017-09-04 Jasem Mutlaq         Add support to non-guiding dither
+fef70ef 2017-09-04 Jasem Mutlaq         Add note on longitude of earth perihelion which is an important FIXME item
+5d32e77 2017-09-04 Jasem Mutlaq         Fix spacing problem
+60604f4 2017-09-01 Csaba Kertesz        Adding mouse pointer-based telescope control actions
+d0936b8 2017-09-01 Jasem Mutlaq         Sync to master INDI update
+9283958 2017-09-01 Jasem Mutlaq         Sync drivers with upstream updates
+a660d6a 2017-09-01 Jasem Mutlaq         Bump INDI dependency now to 1.5.0
+2a0aa23 2017-08-31 Jasem Mutlaq         Add info message when stopping guiding
+85d34e4 2017-08-30 Jasem Mutlaq         Use correct debug file
+c82db62 2017-08-30 Jasem Mutlaq         refactor mouse mode to cursor mode and use enum of const int. Add magenta crosshair for live view selection. Increase pen width for view crosshair
+9aa5f08 2017-08-30 Jasem Mutlaq         Make sure HasWCS is true in case of manually loading WCS after load is complete in case of manually injecting WCS data
+c6329a6 2017-08-30 Jasem Mutlaq         Use --help as it works across all versions
+b6e6a3e 2017-08-30 Jasem Mutlaq         Fix few profile wizard GUI issues
+b177ef4 2017-08-30 Jasem Mutlaq         Also enable guide check deviation when guiding starts since some external guider do not send calibration signal
+e86d660 2017-08-29 Jasem Mutlaq         Add ability to reset mount model in the scheduler in case of alignment failure
+44ac701 2017-08-29 Jasem Mutlaq         Telescope group should not be exclusive. This fixes the isChecked issue always evaluating to true
+7c43604 2017-08-29 Jasem Mutlaq         Bump to 2.8.3 and fix filter table typo by recreating it
+b3fe48f 2017-08-29 Jasem Mutlaq         Fix tab order. Differentiate between saving and adding new filters
+3b4bd87 2017-08-29 Jasem Mutlaq         Add missing files
+d7dd6d1 2017-08-29 Jasem Mutlaq         Add support to auto-detecting StellarMate gadgets
+3e22461 2017-08-29 Jasem Mutlaq         Limit search area in guide and focus to 70% from center
+912c0d2 2017-08-28 Csaba Kertesz        Compilation fix
+3a59076 2017-08-27 Csaba Kertesz        Add basic GUI testing to KStars Lite
+fa9acd2 2017-08-24 Csaba Kertesz        Fix KStars Lite startup and compilation warnings on Linux host
+d7a70e6 2017-08-28 Jasem Mutlaq         Initial work for full field focusing, it works now for those who want to use it
+0389b7e 2017-08-28 Jasem Mutlaq         Fix warning
+a62c609 2017-08-28 Kevin Funk           CMake: Fix some CMake CMP0054 warnings
+56bfdea 2017-08-28 Jasem Mutlaq         Handle GUIDE_LOOPING in abort
+178ff0d 2017-08-28 Jasem Mutlaq         Use currentIndexChanged to detect changes better
+ddd861d 2017-08-27 Jasem Mutlaq         Fix crash is saving and opening session list
+
 2.8.1 (Hipster):
 =================================================================================================
 617e4fe 2017-08-17 Jasem Mutlaq         Initial work on mount tracking support
