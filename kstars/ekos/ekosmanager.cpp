@@ -1158,6 +1158,9 @@ void EkosManager::setDome(ISD::GDInterface *domeDevice)
     if (captureProcess.get() != nullptr)
         captureProcess->setDome(domeDevice);
 
+    if (alignProcess.get() != nullptr)
+        alignProcess->setDome(domeDevice);
+
     if (managedDevices.contains(KSTARS_TELESCOPE))
        domeProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
 
@@ -1721,6 +1724,11 @@ void EkosManager::initAlign()
     if (mountProcess.get() != nullptr)
         connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), alignProcess.get(),
                 SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
+
+    if (managedDevices.contains(KSTARS_DOME))
+    {
+        alignProcess->setDome(managedDevices[KSTARS_DOME]);
+    }
 }
 
 void EkosManager::initFocus()
