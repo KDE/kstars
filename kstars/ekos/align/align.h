@@ -15,6 +15,7 @@
 #include "indi/indiccd.h"
 #include "indi/indistd.h"
 #include "indi/inditelescope.h"
+#include "indi/indidome.h"
 
 #include <QTime>
 #include <QTimer>
@@ -206,6 +207,12 @@ class Align : public QWidget, public Ui::Align
          */
     void setTelescope(ISD::GDInterface *newTelescope);
 
+    /**
+         * @brief Set the current dome
+         * @newDome pointer to telescope device.
+         */
+    void setDome(ISD::GDInterface *newDome);
+
     /* @brief Set telescope and guide scope info. All measurements is in millimeters.
     * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
     * @param primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
@@ -263,10 +270,16 @@ class Align : public QWidget, public Ui::Align
   public slots:
 
     /**
-         * @brief Process updated telescope coordinates.
-         * @coord pointer to telescope coordinate property.
+         * @brief Process updated device properties
+         * @nvp pointer to updated property.
          */
-    void processTelescopeNumber(INumberVectorProperty *coord);
+    void processNumber(INumberVectorProperty *nvp);
+
+    /**
+         * @brief Process updated device properties
+         * @svp pointer to updated property.
+         */
+    void processSwitch(ISwitchVectorProperty *svp);
 
     /**
          * @brief Check CCD and make sure information is updated and FOV is re-calculated.
@@ -601,6 +614,7 @@ class Align : public QWidget, public Ui::Align
 
     // Pointers to our devices
     ISD::Telescope *currentTelescope { nullptr };
+    ISD::Dome *currentDome { nullptr };
     ISD::CCD *currentCCD { nullptr };
     QList<ISD::CCD *> CCDs;
 
@@ -700,5 +714,6 @@ class Align : public QWidget, public Ui::Align
     ISD::CCD::TelescopeType rememberTelescopeType = { ISD::CCD::TELESCOPE_UNKNOWN };
 
     double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
+    bool domeReady = true;
 };
 }

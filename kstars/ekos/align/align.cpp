@@ -1889,9 +1889,16 @@ void Align::setTelescope(ISD::GDInterface *newTelescope)
     currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
 
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-            SLOT(processTelescopeNumber(INumberVectorProperty*)));
+            SLOT(processNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
     syncTelescopeInfo();
+}
+
+void Align::setDome(ISD::GDInterface *newDome)
+{
+    currentDome = static_cast<ISD::Dome *>(newDome);
+    connect(currentDome, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this,
+            SLOT(processSwitch(ISwitchVectorProperty*)), Qt::UniqueConnection);
 }
 
 void Align::syncTelescopeInfo()
@@ -3118,22 +3125,38 @@ void Align::clearLog()
     emit newLog();
 }
 
-void Align::processTelescopeNumber(INumberVectorProperty *coord)
+void Align::processSwitch(ISwitchVectorProperty *svp)
+{
+    if (!strcmp(svp->name, "DOME_MOTION"))
+    {
+        // If dome is not ready and state is now
+        if (domeReady == false && svp->s == IPS_OK)
+        {
+            domeReady = true;
+            // trigger process number for mount so that it proceeds with normal workflow since
+            // it was stopped by dome not being ready
+            INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_EOD_COORD");
+            processNumber(nvp);
+        }
+    }
+}
+
+void Align::processNumber(INumberVectorProperty *nvp)
 {
     QString ra_dms, dec_dms;
 
-    if (!strcmp(coord->name, "EQUATORIAL_EOD_COORD"))
+    if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD"))
     {
-        getFormattedCoords(coord->np[0].value, coord->np[1].value, ra_dms, dec_dms);
+        getFormattedCoords(nvp->np[0].value, nvp->np[1].value, ra_dms, dec_dms);
 
-        telescopeCoord.setRA(coord->np[0].value);
-        telescopeCoord.setDec(coord->np[1].value);
+        telescopeCoord.setRA(nvp->np[0].value);
+        telescopeCoord.setDec(nvp->np[1].value);
         telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
 
-        switch (coord->s)
+        switch (nvp->s)
         {
         case IPS_OK:
         {
@@ -3143,10 +3166,17 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 opsAstrometry->estRA->setText(ra_dms);
                 opsAstrometry->estDec->setText(dec_dms);
 
-                Options::setAstrometryPositionRA(coord->np[0].value * 15);
-                Options::setAstrometryPositionDE(coord->np[1].value);
+                Options::setAstrometryPositionRA(nvp->np[0].value * 15);
+                Options::setAstrometryPositionDE(nvp->np[1].value);
 
                 generateArgs();
+            }
+
+            // If dome is syncing, wait until it stops
+            if (currentDome && currentDome->isMoving())
+            {
+                domeReady = false;
+                return;
             }
 
             if (isSlewDirty && pahStage == PAH_FIND_CP)
