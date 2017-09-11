@@ -206,7 +206,10 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
             if (isConnected() == false && conSP->s == ISS_ON)
                 KStars::Instance()->slotSetTelescopeEnabled(true);
             else if (isConnected() && conSP->s == ISS_OFF)
+            {
                 KStars::Instance()->slotSetTelescopeEnabled(false);
+                centerLockTimer->stop();
+            }
         }
     }
     else if (!strcmp(svp->name, "TELESCOPE_PARK"))
