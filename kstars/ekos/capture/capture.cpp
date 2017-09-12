@@ -1777,8 +1777,8 @@ bool Capture::addJob(bool preview)
     if (currentRotator && rotatorSettings->isRotationEnforced())
     {
         job->setActiveRotator(currentRotator);
-        job->setTargetRotation(rotatorSettings->getTargetRotationTicks());
-        job->setCurrentRotation(rotatorSettings->getCurrentRotationTicks());
+        job->setTargetRotation(rotatorSettings->getTargetRotationPA());
+        job->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
     }
 
     job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
@@ -2446,7 +2446,7 @@ void Capture::setFocusStatus(FocusState state)
 void Capture::setRotator(ISD::GDInterface *newRotator)
 {
     currentRotator = newRotator;
-    connect(currentRotator, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateRotatorNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+    connect(currentRotator, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateRotatorNumber(INumberVectorProperty*)), Qt::UniqueConnection);    
     rotatorB->setEnabled(true);
 
     rotatorSettings->setRotator(newRotator);
@@ -2755,7 +2755,7 @@ bool Capture::processJobInfo(XMLEle *root)
         else if (!strcmp(tagXMLEle(ep), "Rotation"))
         {
             rotatorSettings->setRotationEnforced(true);
-            rotatorSettings->setTargetRotationTicks(atoi(pcdataXMLEle(ep)));
+            rotatorSettings->setTargetRotationPA(atof(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Properties"))
         {
@@ -3137,7 +3137,7 @@ void Capture::syncGUIToJob(SequenceJob *job)
     if (job->getTargetRotation() != INVALID_VALUE)
     {
         rotatorSettings->setRotationEnforced(true);
-        rotatorSettings->setTargetRotationTicks(job->getTargetRotation());
+        rotatorSettings->setTargetRotationPA(job->getTargetRotation());
     }
     else
         rotatorSettings->setRotationEnforced(false);

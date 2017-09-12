@@ -1451,7 +1451,10 @@ void EkosManager::processNewProperty(INDI::Property *prop)
         {
             ISD::GDInterface *interface = qobject_cast<ISD::GDInterface *>(sender());
             if (interface)
+            {
                 captureProcess->setRotator(interface);
+                alignProcess->setRotator(interface);
+            }
         }
     }
 

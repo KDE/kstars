@@ -5096,4 +5096,10 @@ void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
     if (remoteParser.get() != nullptr)
         remoteParser->setAstrometryDevice(remoteParserDevice);
 }
+
+void Align::setRotator(ISD::GDInterface *newRotator)
+{
+    currentRotator = newRotator;
+}
+
 }

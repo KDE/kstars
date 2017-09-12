@@ -504,12 +504,12 @@ void SequenceJob::setGain(double value)
     gain = value;
 }
 
-int32_t SequenceJob::getTargetRotation() const
+double SequenceJob::getTargetRotation() const
 {
     return targetRotation;
 }
 
-void SequenceJob::setTargetRotation(int32_t value)
+void SequenceJob::setTargetRotation(double value)
 {
     targetRotation = value;
 }
@@ -545,7 +545,7 @@ void SequenceJob::setCurrentFilter(int value)
         emit checkFocus();
 }
 
-void SequenceJob::setCurrentRotation(int32_t value)
+void SequenceJob::setCurrentRotation(double value)
 {
     currentRotation = value;
 

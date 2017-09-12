@@ -1437,6 +1437,14 @@
       <entry name="DefaultObserver" type="String">
          <label>Default observer full name.</label>
       </entry>
+      <entry name="PAMultiplier" type="Double">
+         <label>Position angle multiplier</label>
+         <default>1</default>
+      </entry>
+      <entry name="PAOffset" type="Double">
+         <label>Position angle offset</label>
+         <default>0</default>
+      </entry>
       <entry name="GuideDeviation" type="Double">
          <label>Default maximum permittable guide deviation</label>
          <whatsthis>If guide deviation exceeds this limit, the exposure will be automatically aborted and only resumed when the deviation is within this limit.</whatsthis>
