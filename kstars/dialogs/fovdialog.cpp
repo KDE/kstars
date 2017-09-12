@@ -36,6 +36,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "widgets/fovwidget.h"
+#include "Options.h"
 
 // This is needed to make FOV work with QVariant
 Q_DECLARE_METATYPE(FOV *)
@@ -209,6 +210,12 @@ NewFOV::NewFOV(QWidget *parent, const FOV *fov) : QDialog(parent), f()
         ui->FOVEditRotation->setText(toString(f.rotation()));
         ui->ColorButton->setColor(QColor(f.color()));
         ui->ShapeBox->setCurrentIndex(f.shape());
+
+        ui->TLength2->setValue(Options::telescopeFocalLength());
+        ui->cameraWidth->setValue(Options::cameraWidth());
+        ui->cameraHeight->setValue(Options::cameraHeight());
+        ui->cameraPixelSizeW->setValue(Options::cameraPixelWidth());
+        ui->cameraPixelSizeH->setValue(Options::cameraPixelHeight());
 
         ui->ViewBox->setFOV(&f);
         ui->ViewBox->update();
