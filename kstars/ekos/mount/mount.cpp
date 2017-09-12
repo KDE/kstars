@@ -62,6 +62,8 @@ Mount::Mount()
 
     connect(mountToolBoxB, SIGNAL(clicked()), this, SLOT(showMountToolBox()));
 
+    connect(saveB, SIGNAL(clicked()), this, SLOT(save()));
+
     connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]()
     {
         resetModel();
