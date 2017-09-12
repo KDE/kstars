@@ -213,6 +213,8 @@ class Align : public QWidget, public Ui::Align
          */
     void setDome(ISD::GDInterface *newDome);
 
+    void setRotator(ISD::GDInterface *newRotator);
+
     /* @brief Set telescope and guide scope info. All measurements is in millimeters.
     * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
     * @param primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
@@ -616,6 +618,7 @@ class Align : public QWidget, public Ui::Align
     ISD::Telescope *currentTelescope { nullptr };
     ISD::Dome *currentDome { nullptr };
     ISD::CCD *currentCCD { nullptr };
+    ISD::GDInterface *currentRotator { nullptr };
     QList<ISD::CCD *> CCDs;
 
     /// Optional device filter

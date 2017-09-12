@@ -31,16 +31,22 @@ public:
     bool isRotationEnforced() { return enforceRotationCheck->isChecked(); }
     void setRotationEnforced(bool enabled) { enforceRotationCheck->setChecked(enabled); }
 
-    int32_t getTargetRotationTicks() { return plannedTicksSpin->value(); }
-    void setTargetRotationTicks(int32_t value) { plannedTicksSpin->setValue(value); }
+    double getTargetRotationPA() { return plannedPASpin->value(); }
+    void setTargetRotationPA(double value) { plannedPASpin->setValue(value); }
     double getTargetAngle() { return angleSpin->value(); }
+    double getCurrentRotationPA() { return PASpin->value(); }
+
+    void setPAMultiplier(double value) { PAMulSpin->setValue(value);}
+    void setPAOffset(double value) { PAOffsetSpin->setValue(value);}
 
     int32_t getCurrentRotationTicks() { return ticksEdit->text().toInt(); }
+
 
 
 protected slots:
     void gotoTicks();
     void gotoAngle();
+    void updatePA();
 
 private:
     ISD::GDInterface *currentRotator { nullptr };    

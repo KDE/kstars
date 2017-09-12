@@ -189,10 +189,10 @@ class SequenceJob : public QObject
     double getGain() const;
     void setGain(double value);
 
-    int32_t getTargetRotation() const;
-    void setTargetRotation(int32_t value);
+    double getTargetRotation() const;
+    void setTargetRotation(double value);
 
-    void setCurrentRotation(int32_t value);
+    void setCurrentRotation(double value);
 
     QMap<QString, QMap<QString, double> > getCustomProperties() const;
     void setCustomProperties(const QMap<QString, QMap<QString, double> > &value);
@@ -237,8 +237,8 @@ private:
     double targetTemperature { 0 };
     double gain { -1 };
     // Rotation in absolute ticks, NOT angle
-    int32_t targetRotation { 0 };
-    int32_t currentRotation { 0 };
+    double targetRotation { 0 };
+    double currentRotation { 0 };
     FITSScale captureFilter { FITS_NONE };
     QTableWidgetItem *statusCell { nullptr };
     QString fitsDir;
