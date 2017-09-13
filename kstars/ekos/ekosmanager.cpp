@@ -1216,6 +1216,9 @@ void EkosManager::removeDevice(ISD::GDInterface *devInterface)
             break;
 
         case KSTARS_FOCUSER:
+            // TODO this should be done for all modules
+            if (focusProcess.get() != nullptr)
+                  focusProcess.get()->removeDevice(devInterface);
             break;
 
         default:
