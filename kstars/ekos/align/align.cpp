@@ -2729,6 +2729,18 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     sRA          = ra;
     sDEC         = dec;
 
+    // Update Rotater offsets
+    if (currentRotator != nullptr)
+    {
+        INumberVectorProperty *absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
+        if (absAngle)
+        {
+            // PA = RawAngle * Multiplier + Offset
+            double rawAngle = absAngle->np[0].value;
+            double offset = orientation - (rawAngle * Options::pAMultiplier());
+            Options::setPAOffset(offset);
+        }
+    }
     // Reset Telescope Type to remembered value
     if (rememberTelescopeType != ISD::CCD::TELESCOPE_UNKNOWN)
     {
