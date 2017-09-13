@@ -112,7 +112,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(addProfileB, SIGNAL(clicked()), this, SLOT(addProfile()));
     connect(editProfileB, SIGNAL(clicked()), this, SLOT(editProfile()));
     connect(deleteProfileB, SIGNAL(clicked()), this, SLOT(deleteProfile()));    
-    connect(profileCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    connect(profileCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
          [=](const QString &text)
     {
         Options::setProfile(text);
@@ -283,8 +283,10 @@ void EkosManager::loadProfiles()
     }
 
     profileModel->sort(0);
+    profileCombo->blockSignals(true);
     profileCombo->setModel(profileModel.get());
     profileCombo->setModelColumn(1);
+    profileCombo->blockSignals(false);
 
     // Load last used profile from options
     int index = profileCombo->findText(Options::profile());
