@@ -596,7 +596,10 @@ void Focus::checkFocuser(int FocuserNum)
         FocuserNum = focuserCombo->currentIndex();
 
     if (FocuserNum == -1)
+    {
+        currentFocuser = nullptr;
         return;
+    }
 
     if (FocuserNum <= Focusers.count())
         currentFocuser = Focusers.at(FocuserNum);
@@ -2256,6 +2259,14 @@ void Focus::resetButtons()
         startFocusB->setEnabled(focusType == FOCUS_AUTO);
         setAbsTicksB->setEnabled(canAbsMove);
     }
+    else
+    {
+        focusOutB->setEnabled(false);
+        focusInB->setEnabled(false);
+
+        startFocusB->setEnabled(false);
+        setAbsTicksB->setEnabled(false);
+    }
 
     stopFocusB->setEnabled(false);
     startLoopB->setEnabled(true);
@@ -2798,5 +2809,47 @@ void Focus::refreshFilterExposure()
     else
         // Default value
         exposureIN->setValue(1);
+}
+
+void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
+{
+    // Check in Focusers
+    for (ISD::GDInterface *focuser : Focusers)
+    {
+        if (focuser == deviceRemoved)
+        {
+            Focusers.removeOne(dynamic_cast<ISD::Focuser*>(focuser));
+            focuserCombo->removeItem(focuserCombo->findText(focuser->getDeviceName()));
+            checkFocuser();
+            resetButtons();
+            return;
+        }
+    }
+
+    // Check in CCDs
+    for (ISD::GDInterface *ccd : CCDs)
+    {
+        if (ccd == deviceRemoved)
+        {
+            CCDs.removeOne(dynamic_cast<ISD::CCD*>(ccd));
+            CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(ccd->getDeviceName()));
+            checkCCD();
+            resetButtons();
+            return;
+        }
+    }
+
+    // Check in Filters
+    for (ISD::GDInterface *filter : Filters)
+    {
+        if (filter == deviceRemoved)
+        {
+            Filters.removeOne(filter);
+            filterCombo->removeItem(filterCombo->findText(filter->getDeviceName()));
+            checkFilter();
+            resetButtons();
+            return;
+        }
+    }
 }
 }

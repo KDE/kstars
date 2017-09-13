@@ -151,6 +151,12 @@ class Focus : public QWidget, public Ui::Focus
          */
     void addFilter(ISD::GDInterface *newFilter);
 
+    /**
+     * @brief removeDevice Remove device from Focus module
+     * @param deviceRemoved pointer to device
+     */
+    void removeDevice(ISD::GDInterface *deviceRemoved);
+
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
 
