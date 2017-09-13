@@ -13,105 +13,6 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="2">
-      <widget class="QLineEdit" name="kcfg_AstrometrySolverBinary">
-       <property name="toolTip">
-        <string>Astrometry.net solve-field binary</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="5">
-      <widget class="QLineEdit" name="kcfg_AstrometryAPIKey">
-       <property name="toolTip">
-        <string>Astrometry.net configuration file</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QCheckBox" name="kcfg_AstrometryWCSIsInternal">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4">
-      <widget class="QLabel" name="label_17">
-       <property name="text">
-        <string>API Key:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLineEdit" name="kcfg_AstrometryConfFile">
-       <property name="toolTip">
-        <string>Astrometry.net configuration file</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="label_14">
-       <property name="text">
-        <string>config:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="label_18">
-       <property name="text">
-        <string>API URL:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="5">
-      <widget class="QLineEdit" name="kcfg_AstrometryWCSInfo">
-       <property name="toolTip">
-        <string>Astrometry.net wcsinfo binary</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QCheckBox" name="kcfg_AstrometryConfFileIsInternal">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label_15">
-       <property name="text">
-        <string>solver:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="4">
-      <widget class="QLabel" name="label_16">
-       <property name="text">
-        <string>wcsinfo:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLineEdit" name="kcfg_AstrometryAPIURL">
-       <property name="toolTip">
-        <string>Astrometry.net configuration file</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="0">
       <widget class="QCheckBox" name="kcfg_AstrometrySolverIsInternal">
        <property name="text">
@@ -132,10 +33,133 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="label_14">
+       <property name="text">
+        <string>config:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_15">
+       <property name="text">
+        <string>solver:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="5">
+      <widget class="QLineEdit" name="kcfg_AstrometryWCSInfo">
+       <property name="toolTip">
+        <string>Astrometry.net wcsinfo binary</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QCheckBox" name="kcfg_AstrometryWCSIsInternal">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="kcfg_AstrometrySolverBinary">
+       <property name="toolTip">
+        <string>Astrometry.net solve-field binary</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="kcfg_AstrometryConfFile">
+       <property name="toolTip">
+        <string>Astrometry.net configuration file</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="kcfg_AstrometryAPIURL">
+       <property name="toolTip">
+        <string>Astrometry.net configuration file</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <widget class="QLineEdit" name="kcfg_AstrometryAPIKey">
+       <property name="toolTip">
+        <string>Astrometry.net configuration file</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="4">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>Time out:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLabel" name="label_17">
+       <property name="text">
+        <string>API Key:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QCheckBox" name="kcfg_AstrometryConfFileIsInternal">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="label_18">
+       <property name="text">
+        <string>API URL:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QLabel" name="label_16">
+       <property name="text">
+        <string>wcsinfo:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QCheckBox" name="kcfg_AstrometryUseRotator">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;On Load &amp;amp; Slew, solve the image and slew the mount to the target location and then rotate the camera to match the orientation of the FITS image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Rotator:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotattorThreshold">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured postion angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
