@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
+    <width>437</width>
     <height>372</height>
    </rect>
   </property>
@@ -68,15 +68,15 @@
    <item row="0" column="1">
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string>Sequence Job Position Angle</string>
+      <string>Target Position Angle</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QLabel" name="label_5">
+         <widget class="QCheckBox" name="enforceRotationCheck">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set desired rotator ticks position before capture sequence is started.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set target position angle before capture is started.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>PA</string>
@@ -84,24 +84,27 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="plannedPASpin">
+         <widget class="QDoubleSpinBox" name="targetPASpin">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="toolTip">
-           <string>Target Position Angle</string>
+          <property name="decimals">
+           <number>3</number>
           </property>
           <property name="minimum">
-           <number>-180</number>
+           <double>-180.000000000000000</double>
           </property>
           <property name="maximum">
-           <number>180</number>
+           <double>180.000000000000000</double>
           </property>
           <property name="singleStep">
-           <number>10</number>
+           <double>10.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -113,12 +116,12 @@
          <number>3</number>
         </property>
         <item>
-         <widget class="QCheckBox" name="enforceRotationCheck">
+         <widget class="QCheckBox" name="syncFOVPA">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set target position angle before capture is started.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Set FOV indicator Position Angle to match this Position Angle</string>
           </property>
           <property name="text">
-           <string>Set Position Before Capture</string>
+           <string>Sync FOV to PA</string>
           </property>
          </widget>
         </item>
@@ -156,7 +159,7 @@
    <item row="1" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Control</string>
+      <string>Rotator Control</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
@@ -256,13 +259,13 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Position Angle (PA) is defined as degrees E of N. Zero degrees indicate frame &lt;span style=&quot; font-weight:600;&quot;&gt;UP&lt;/span&gt; points directly toward the celestial pole. 90 degrees indicate frame &lt;span style=&quot; font-weight:600;&quot;&gt;UP&lt;/span&gt; points 90 degrees clockwise with respect to the celestial pole.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;PA is calculated from raw rotator angle plus modifiers to match the rotation angle as measured by astrometry. Enter the modifiers manually or solve an image in the Align Module to generate them automatically.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="title">
-      <string>Position Angle</string>
+      <string>Current Position Angle</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="3">
        <widget class="QDoubleSpinBox" name="PAMulSpin">
         <property name="toolTip">
-         <string>Raw angle multiplier</string>
+         <string>Rotator angle multiplier</string>
         </property>
         <property name="minimum">
          <double>0.010000000000000</double>
@@ -293,6 +296,9 @@
        <widget class="QDoubleSpinBox" name="PASpin">
         <property name="toolTip">
          <string>Position Angle</string>
+        </property>
+        <property name="decimals">
+         <number>3</number>
         </property>
         <property name="minimum">
          <double>-180.000000000000000</double>
@@ -345,7 +351,7 @@
       <item row="0" column="5">
        <widget class="QDoubleSpinBox" name="PAOffsetSpin">
         <property name="toolTip">
-         <string>Raw angle offset</string>
+         <string>Rotator angle offset</string>
         </property>
         <property name="minimum">
          <double>-180.000000000000000</double>

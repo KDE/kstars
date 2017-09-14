@@ -1679,14 +1679,14 @@ void Capture::updateRotatorNumber(INumberVectorProperty *nvp)
         // Update widget rotator position
         rotatorSettings->setTicksMinMaxStep(static_cast<int32_t>(nvp->np[0].min), static_cast<int32_t>(nvp->np[0].max), static_cast<int32_t>(nvp->np[0].step));
         rotatorSettings->setCurrentTicks(static_cast<int32_t>(nvp->np[0].value));
-
-        if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
-            activeJob->setCurrentRotation(static_cast<int32_t>(nvp->np[0].value));
     }
     else if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
     {
         // Update widget rotator position
         rotatorSettings->setCurrentAngle(nvp->np[0].value);
+
+        if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
+            activeJob->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
     }
 }
 
@@ -2218,13 +2218,13 @@ void Capture::preparePreCaptureActions()
         }
     }
 
-    if (activeJob->getTargetRotation() != INVALID_VALUE)
+    if (currentRotator != nullptr && activeJob->getTargetRotation() != INVALID_VALUE)
     {
-        activeJob->setCurrentRotation(rotatorSettings->getCurrentRotationTicks());
+        activeJob->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
 
-        if (rotatorSettings->getCurrentRotationTicks() != activeJob->getTargetRotation())
+        if (rotatorSettings->getCurrentRotationPA() != activeJob->getTargetRotation())
         {
-            appendLogText(i18n("Setting rotation to %1 ticks...", activeJob->getTargetRotation()));
+            appendLogText(i18n("Setting rotation to %1 degrees E of N...", activeJob->getTargetRotation()));
             secondsLabel->setText(i18n("Set Rotator %1...", activeJob->getTargetRotation()));
 
             if (activeJob->isPreview() == false)
@@ -4636,6 +4636,19 @@ void Capture::restartRefocusEveryNTimer()
 int Capture::getRefocusEveryNTimerElapsedSec()
 {
     return refocusEveryNTimer.elapsed()/1000;
+}
+
+void Capture::setAlignResults(double orientation, double ra, double de, double pixscale)
+{
+    Q_UNUSED(orientation);
+    Q_UNUSED(ra);
+    Q_UNUSED(de);
+    Q_UNUSED(pixscale);
+
+    if (currentRotator == nullptr)
+        return;
+
+    rotatorSettings->refresh();
 }
 
 }

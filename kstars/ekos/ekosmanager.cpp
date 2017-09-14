@@ -1662,6 +1662,10 @@ void EkosManager::initCapture()
         connect(alignProcess.get(), SIGNAL(newStatus(Ekos::AlignState)), captureProcess.get(),
                 SLOT(setAlignStatus(Ekos::AlignState)), Qt::UniqueConnection);
 
+        // Solver data
+        connect(alignProcess.get(), SIGNAL(newSolverResults(double,double,double,double)), captureProcess.get(),
+                SLOT(setAlignResults(double,double,double,double)), Qt::UniqueConnection);
+
         // Capture Status
         connect(captureProcess.get(), SIGNAL(newStatus(Ekos::CaptureState)), alignProcess.get(),
                 SLOT(setCaptureStatus(Ekos::CaptureState)), Qt::UniqueConnection);
@@ -1715,6 +1719,11 @@ void EkosManager::initAlign()
         // Align Status
         connect(alignProcess.get(), SIGNAL(newStatus(Ekos::AlignState)), captureProcess.get(),
                 SLOT(setAlignStatus(Ekos::AlignState)), Qt::UniqueConnection);
+
+        // Solver data
+        connect(alignProcess.get(), SIGNAL(newSolverResults(double,double,double,double)), captureProcess.get(),
+                SLOT(setAlignResults(double,double,double,double)), Qt::UniqueConnection);
+
         // Capture Status
         connect(captureProcess.get(), SIGNAL(newStatus(Ekos::CaptureState)), alignProcess.get(),
                 SLOT(setCaptureStatus(Ekos::CaptureState)), Qt::UniqueConnection);
