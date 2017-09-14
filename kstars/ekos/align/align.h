@@ -448,16 +448,17 @@ class Align : public QWidget, public Ui::Align
     //void newSolutionDeviation(double ra_arcsecs, double de_arcsecs);
     void newSolverResults(double orientation, double ra, double dec, double pixscale);
 
-  private:
-    /**
-        * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
-        */
-    void calculateFOV();
-
+  protected slots:
     /**
          * @brief After a solver process is completed successfully, sync, slew to target, or do nothing as set by the user.
          */
     void executeGOTO();
+
+  private:
+    /**
+        * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
+        */
+    void calculateFOV();    
 
     /**
          * @brief After a solver process is completed successfully, measure Azimuth or Altitude error as requested by the user.
@@ -557,6 +558,8 @@ class Align : public QWidget, public Ui::Align
     //bool loadSlewMode;
     /// If load and slew is solved successfully, coordinates obtained, slewed to target, and then captured, solved, and re-slewed to target again.
     IPState loadSlewState { IPS_IDLE };
+    // Target Position Angle of solver Load&Slew image to be used for rotator if necessary
+    double loadSlewTargetPA { std::numeric_limits<double>::quiet_NaN() };
     /// Solver iterations count
     uint8_t solverIterations { 0 };
 
