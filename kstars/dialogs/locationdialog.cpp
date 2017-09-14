@@ -739,7 +739,7 @@ void LocationDialog::positionUpdated(const QGeoPositionInfo &info)
 
 void LocationDialog::positionUpdateError(QGeoPositionInfoSource::Error error)
 {
-    qDebug() << "Positon update error: " << error;
+    qDebug() << "Position update error: " << error;
 }
 
 void LocationDialog::positionUpdateTimeout()
