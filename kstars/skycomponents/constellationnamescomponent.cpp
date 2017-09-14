@@ -135,7 +135,7 @@ void ConstellationNamesComponent::draw(SkyPainter *skyp)
     SkyLabeler *skyLabeler = SkyLabeler::Instance();
     //skyLabeler->useStdFont();
     // Subjective change, but constellation names really need to stand out against everything else
-    skyLabeler->setFont(QFont("Arial", 16, QFont::Bold));
+    skyLabeler->setFont(QFont("Arial", 14));
     skyLabeler->setPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("CNameColor")));
 
     QString name;
