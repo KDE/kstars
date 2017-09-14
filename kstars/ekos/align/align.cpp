@@ -2729,18 +2729,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     sRA          = ra;
     sDEC         = dec;
 
-    // Update Rotater offsets
-    if (currentRotator != nullptr)
-    {
-        INumberVectorProperty *absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
-        if (absAngle)
-        {
-            // PA = RawAngle * Multiplier + Offset
-            double rawAngle = absAngle->np[0].value;
-            double offset = orientation - (rawAngle * Options::pAMultiplier());
-            Options::setPAOffset(offset);
-        }
-    }
     // Reset Telescope Type to remembered value
     if (rememberTelescopeType != ISD::CCD::TELESCOPE_UNKNOWN)
     {
@@ -2794,8 +2782,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     pixScaleOut->setText(QString::number(pixscale, 'f', 2));
 
     //emit newSolutionDeviation(raDiff, deDiff);
-
-    emit newSolverResults(orientation, ra, dec, pixscale);
 
     targetDiff = sqrt(raDiff * raDiff + deDiff * deDiff);
 
@@ -2916,6 +2902,41 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
         statusReport->setFlags(Qt::ItemIsSelectable);
     }
+
+    // Update Rotater offsets
+    if (currentRotator != nullptr)
+    {
+        // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
+        if (loadSlewState == IPS_BUSY && Options::astrometryUseRotator())
+        {
+            double rawAngle = (orientation - Options::pAOffset()) / Options::pAMultiplier();
+            INumberVectorProperty *absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
+            if (absAngle)
+            {
+                loadSlewTargetPA = orientation;
+                absAngle->np[0].value = rawAngle;
+                ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
+                clientManager->sendNewNumber(absAngle);
+                appendLogText(i18n("Setting rotation to %1 degrees E of N...", loadSlewTargetPA));
+                return;
+            }
+        }
+        // Otherwise, simply update offsets.
+        else
+        {
+            loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
+            INumberVectorProperty *absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
+            if (absAngle)
+            {
+                // PA = RawAngle * Multiplier + Offset
+                double rawAngle = absAngle->np[0].value;
+                double offset = orientation - (rawAngle * Options::pAMultiplier());
+                Options::setPAOffset(offset);
+            }
+        }
+    }
+
+    emit newSolverResults(orientation, ra, dec, pixscale);
 
     switch (currentGotoMode)
     {
@@ -3157,10 +3178,10 @@ void Align::processSwitch(ISwitchVectorProperty *svp)
 
 void Align::processNumber(INumberVectorProperty *nvp)
 {
-    QString ra_dms, dec_dms;
-
     if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD"))
     {
+        QString ra_dms, dec_dms;
+
         getFormattedCoords(nvp->np[0].value, nvp->np[1].value, ra_dms, dec_dms);
 
         telescopeCoord.setRA(nvp->np[0].value);
@@ -3401,6 +3422,18 @@ void Align::processNumber(INumberVectorProperty *nvp)
             break;
         default:
             break;
+        }
+    }
+    else if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE") && std::isnan(loadSlewTargetPA) == false)
+    {
+        // PA = RawAngle * Multiplier + Offset
+        double currentPA = (nvp->np[0].value * Options::pAMultiplier()) + Options::pAOffset();
+        if (fabs(currentPA - loadSlewTargetPA)*60 <= Options::astrometryRotatorThreshold())
+        {
+            appendLogText(i18n("Rotator reached target position angle."));
+            targetAccuracyNotMet = true;
+            loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
+            QTimer::singleShot(Options::settlingTime(), this, SLOT(executeGOTO()));
         }
     }
 
@@ -5114,6 +5147,7 @@ void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
 void Align::setRotator(ISD::GDInterface *newRotator)
 {
     currentRotator = newRotator;
+    connect(currentRotator, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 }
 
 }
