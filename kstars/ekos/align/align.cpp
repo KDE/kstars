@@ -2793,7 +2793,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     pixScaleOut->setText(QString::number(pixscale, 'f', 2));
 
-    emit newSolutionDeviation(raDiff, deDiff);
+    //emit newSolutionDeviation(raDiff, deDiff);
+
+    emit newSolverResults(orientation, ra, dec, pixscale);
 
     targetDiff = sqrt(raDiff * raDiff + deDiff * deDiff);
 

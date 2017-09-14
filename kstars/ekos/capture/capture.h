@@ -409,6 +409,7 @@ class Capture : public QWidget, public Ui::Capture
     void setGuideStatus(Ekos::GuideState state);
     // Align
     void setAlignStatus(Ekos::AlignState state);
+    void setAlignResults(double orientation, double ra, double de, double pixscale);
     // Update Mount module status
     void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 

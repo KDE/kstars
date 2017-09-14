@@ -444,10 +444,9 @@ class Align : public QWidget, public Ui::Align
 
   signals:
     void newLog();
-    void solverComplete(bool);
-    void solverSlewComplete();
     void newStatus(Ekos::AlignState state);
-    void newSolutionDeviation(double ra_arcsecs, double de_arcsecs);
+    //void newSolutionDeviation(double ra_arcsecs, double de_arcsecs);
+    void newSolverResults(double orientation, double ra, double dec, double pixscale);
 
   private:
     /**

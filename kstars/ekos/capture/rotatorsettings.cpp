@@ -10,6 +10,8 @@
 
 #include "rotatorsettings.h"
 #include "Options.h"
+#include "fov.h"
+#include "kstarsdata.h"
 
 #include <indicom.h>
 #include <basedevice.h>
@@ -32,7 +34,17 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     PAMulSpin->setValue(Options::pAMultiplier());
     PAOffsetSpin->setValue(Options::pAOffset());
 
-    connect(plannedPASpin, &QSpinBox::editingFinished, this, [this]() { enforceRotationCheck->setChecked(true);});
+    connect(setPAB, SIGNAL(clicked()), this, SLOT(setPA()));
+
+    syncFOVPA->setChecked(Options::syncFOVPA());
+    connect(syncFOVPA, &QCheckBox::toggled, [this](bool toggled)
+    {
+        Options::setSyncFOVPA(toggled);
+        if (toggled) syncPA(targetPASpin->value());
+    });
+
+    connect(enforceRotationCheck, SIGNAL(toggled(bool)), targetPASpin, SLOT(setEnabled(bool)));
+    connect(targetPASpin, SIGNAL(valueChanged(double)), this, SLOT(syncPA(double)));    
     connect(PAMulSpin, &QSpinBox::editingFinished, this, [this]()
     {
         Options::setPAMultiplier(PAMulSpin->value());
@@ -43,7 +55,7 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     {
         Options::setPAOffset(PAOffsetSpin->value());
         updatePA();
-    });
+    });           
 }
 
 void RotatorSettings::setRotator(ISD::GDInterface *rotator)
@@ -115,4 +127,30 @@ void RotatorSettings::updatePA()
         PA += 180;
 
     PASpin->setValue(PA);
+}
+
+void RotatorSettings::refresh()
+{
+    PAMulSpin->setValue(Options::pAMultiplier());
+    PAOffsetSpin->setValue(Options::pAOffset());
+    updatePA();
+}
+
+void RotatorSettings::syncPA(double PA)
+{
+    if (syncFOVPA->isChecked())
+    {
+        for (FOV* fov : KStarsData::Instance()->getVisibleFOVs())
+        {
+            fov->setRotation(PA);
+        }
+    }
+}
+
+void RotatorSettings::setPA()
+{
+   // PA = RawAngle * Multiplier + Offset
+   double rawAngle = (PASpin->value() - PAOffsetSpin->value()) / PAMulSpin->value();
+   angleEdit->setText(QString::number(rawAngle, 'f', 3));
+   gotoAngle();
 }

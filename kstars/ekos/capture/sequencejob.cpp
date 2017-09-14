@@ -154,10 +154,12 @@ void SequenceJob::prepareCapture()
     }
 
     // Check if we need to update rotator
-    if (targetRotation != INVALID_VALUE && currentRotation != targetRotation)
+    if (targetRotation != INVALID_VALUE && fabs(currentRotation - targetRotation)*60 > Options::astrometryRotatorThreshold())
     {
+        // PA = RawAngle * Multiplier + Offset
+        double rawAngle = (targetRotation - Options::pAOffset()) / Options::pAMultiplier();
         prepareActions[ACTION_ROTATOR] = false;
-        activeRotator->runCommand(INDI_SET_ROTATOR_TICKS, &targetRotation);
+        activeRotator->runCommand(INDI_SET_ROTATOR_ANGLE, &rawAngle);
     }
 
     if (prepareReady == false && areActionsReady())
@@ -549,7 +551,7 @@ void SequenceJob::setCurrentRotation(double value)
 {
     currentRotation = value;
 
-    if (currentRotation == targetRotation)
+    if (fabs(currentRotation - targetRotation)*60 <= Options::astrometryRotatorThreshold())
         prepareActions[ACTION_ROTATOR] = true;
 
     if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))

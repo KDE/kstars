@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>422</width>
-    <height>124</height>
+    <height>150</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -157,7 +157,7 @@
       </widget>
      </item>
      <item row="3" column="2">
-      <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotattorThreshold">
+      <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotatorThreshold">
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured postion angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
