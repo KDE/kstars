@@ -1156,9 +1156,13 @@ void Scheduler::evaluateJobs()
                         }
                         else
                         {
-                            appendLogText(i18n(
+                            if (timeUntil == 0)
+                                appendLogText(i18n(
+                                    "%1 observation job updated score is %2. Aborting job...", job->getName(), score, abs(timeUntil)));
+                            else
+                                appendLogText(i18n(
                                 "%1 observation job updated score is %2 %3 seconds after startup time. Aborting job...",
-                                job->getName(), abs(timeUntil), score));
+                                job->getName(), score, abs(timeUntil)));
                             job->setState(SchedulerJob::JOB_ABORTED);
                         }
 
