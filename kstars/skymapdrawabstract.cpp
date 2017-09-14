@@ -76,9 +76,14 @@ void SkyMapDrawAbstract::drawOverlays(QPainter &p, bool drawFov)
         //draw FOV symbol
         foreach (FOV *fov, m_KStarsData->getVisibleFOVs())
         {
-            QPointF point        = SkyMap::Instance()->projector()->toScreen(m_SkyMap->focusPoint(), true);
-            double northRotation = SkyMap::Instance()->projector()->findNorthPA(m_SkyMap->focusPoint(), point.x(), point.y());
-            fov->setNorthPA(northRotation);
+            if (fov->rotation() != 0)
+            {
+                SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(p.viewport().center(), KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+                QPointF screenSkyPoint = p.viewport().center();
+                double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(), screenSkyPoint.y());
+                fov->setCenter(centerSkyPoint);
+                fov->setNorthPA(northRotation);
+            }
             fov->draw(p, Options::zoomFactor());
         }
     }
