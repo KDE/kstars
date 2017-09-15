@@ -2471,17 +2471,20 @@ void Capture::setTelescope(ISD::GDInterface *newTelescope)
 
 void Capture::syncTelescopeInfo()
 {
-    if (currentCCD && currentTelescope && currentTelescope->isConnected())
+    if (currentTelescope && currentTelescope->isConnected())
     {
-        ITextVectorProperty *activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
-        if (activeDevices)
+        // Sync ALL CCDs to current telescope
+        for (ISD::CCD *oneCCD : CCDs)
         {
-            IText *activeTelescope = IUFindText(activeDevices, "ACTIVE_TELESCOPE");
-            if (activeTelescope)
+            ITextVectorProperty *activeDevices = oneCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
+            if (activeDevices)
             {
-                IUSaveText(activeTelescope, currentTelescope->getDeviceName());
-
-                currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                IText *activeTelescope = IUFindText(activeDevices, "ACTIVE_TELESCOPE");
+                if (activeTelescope)
+                {
+                    IUSaveText(activeTelescope, currentTelescope->getDeviceName());
+                    oneCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                }
             }
         }
     }
