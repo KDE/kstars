@@ -105,7 +105,7 @@ void modCalcGeodCoord::showSpheGeoCoords(void)
 {
     LongGeoBox->show(geoPlace->lng());
     LatGeoBox->show(geoPlace->lat());
-    AltGeoBox->setText(QLocale().toString(geoPlace->elevation(), 3));
+    AltGeoBox->setText(QLocale().toString(geoPlace->height(), 3));
 }
 
 void modCalcGeodCoord::showCartGeoCoords(void)
@@ -339,7 +339,7 @@ void modCalcGeodCoord::processLines(QTextStream &istream)
             geoPl.setXPos(xB * 1000.0);
             geoPl.setYPos(yB * 1000.0);
             geoPl.setZPos(zB * 1000.0);
-            ostream << geoPl.lng()->toDMSString() << space << geoPl.lat()->toDMSString() << space << geoPl.elevation()
+            ostream << geoPl.lng()->toDMSString() << space << geoPl.lat()->toDMSString() << space << geoPl.height()
                     << endl;
 
             // Input coords. are Long, Lat and Height

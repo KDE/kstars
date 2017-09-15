@@ -22,7 +22,7 @@
 #include "timezonerule.h"
 
 GeoLocation::GeoLocation(const dms &lng, const dms &lat, const QString &name, const QString &province, const QString &country,
-                         double tz, TimeZoneRule *tzrule, bool readOnly, int iEllips, double elevation) :
+                         double tz, TimeZoneRule *tzrule, bool readOnly, int iEllips, double hght) :
     Longitude(lng), Latitude(lat)
 {
     Name           = name;
@@ -30,7 +30,7 @@ GeoLocation::GeoLocation(const dms &lng, const dms &lat, const QString &name, co
     Country        = country;
     TimeZone       = tz;
     TZrule         = tzrule;
-    Elevation      = elevation;
+    Height         = hght;
     indexEllipsoid = iEllips;
     ReadOnly       = readOnly;
     setEllipsoid(indexEllipsoid);
@@ -133,7 +133,7 @@ void GeoLocation::cartToGeod()
     sinl = sin(latd);
     xn   = axis / (sqrt(1 - e2 * sinl * sinl));
 
-    Elevation = sqrtP2 / cos(latd) - xn;
+    Height = sqrtP2 / cos(latd) - xn;
     Longitude.setRadians(atan2(PosCartY, PosCartX));
     Latitude.setRadians(latd);
 }
@@ -149,9 +149,9 @@ void GeoLocation::geodToCart()
     Latitude.SinCos(sinLat, cosLat);
 
     xn       = axis / (sqrt(1 - e2 * sinLat * sinLat));
-    PosCartX = (xn + Elevation) * cosLat * cosLong;
-    PosCartY = (xn + Elevation) * cosLat * sinLong;
-    PosCartZ = (xn * (1 - e2) + Elevation) * sinLat;
+    PosCartX = (xn + Height) * cosLat * cosLong;
+    PosCartY = (xn + Height) * cosLat * sinLong;
+    PosCartZ = (xn * (1 - e2) + Height) * sinLat;
 }
 
 void GeoLocation::TopocentricVelocity(double vtopo[], const dms &gst)
