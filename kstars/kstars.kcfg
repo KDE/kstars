@@ -1438,7 +1438,7 @@
          <label>Default observer full name.</label>
       </entry>
       <entry name="SyncFOVPA" type="Bool">
-         <label>Sync FOV indicator Positon Angle with Rotator Settings Position Angle</label>
+         <label>Sync FOV indicator Position Angle with Rotator Settings Position Angle</label>
          <default>false</default>
       </entry>
       <entry name="PAMultiplier" type="Double">
