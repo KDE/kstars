@@ -474,7 +474,7 @@ void Focus::checkFilter(int filterNum)
     bool deviceChanged = false;
     if (filterNum <= Filters.count())
     {
-        if (currentFilter != Filters.at(filterNum))
+        if (currentFilter != Filters.at(filterNum) || filterName == nullptr)
             deviceChanged = true;
         currentFilter = Filters.at(filterNum);
     }
