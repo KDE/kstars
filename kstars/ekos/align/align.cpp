@@ -140,6 +140,7 @@ Align::Align()
 #endif
 
     opsAlign = new OpsAlign(this);
+    connect(opsAlign, SIGNAL(settingsUpdated()), this, SLOT(refreshAlignOptions()));
     KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("Astrometry.net"));
     page->setIcon(QIcon(":/icons/astrometry.svg"));
 
@@ -4251,11 +4252,11 @@ void Align::setFocusStatus(Ekos::FocusState state)
 
 QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 {
-    int status = 0, fits_ccd_width, fits_ccd_height, fits_focal_length = -1, fits_binx = 1, fits_biny = 1;
+    int status = 0, fits_ccd_width, fits_ccd_height, fits_binx = 1, fits_biny = 1;
     char comment[128], error_status[512];
     fitsfile *fptr = nullptr;
     double ra = 0, dec = 0, fits_fov_x, fits_fov_y, fov_lower, fov_upper, fits_ccd_hor_pixel = -1,
-            fits_ccd_ver_pixel = -1;
+            fits_ccd_ver_pixel = -1, fits_focal_length = -1;
     QString fov_low, fov_high;
     QStringList solver_args;
 
@@ -4278,6 +4279,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 
     solver_args = generateOptions(optionsMap);
 
+    status = 0;
     if (fits_open_image(&fptr, filename.toLatin1(), READONLY, &status))
     {
         fits_report_error(stderr, status);
@@ -4286,6 +4288,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
         return solver_args;
     }
 
+    status = 0;
     if (fits_read_key(fptr, TINT, "NAXIS1", &fits_ccd_width, comment, &status))
     {
         fits_report_error(stderr, status);
@@ -4294,6 +4297,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
         return solver_args;
     }
 
+    status = 0;
     if (fits_read_key(fptr, TINT, "NAXIS2", &fits_ccd_height, comment, &status))
     {
         fits_report_error(stderr, status);
@@ -4304,6 +4308,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 
     bool coord_ok = true;
 
+    status = 0;
     if (fits_read_key(fptr, TDOUBLE, "OBJCTRA", &ra, comment, &status))
     {
         char objectra_str[32];
@@ -4312,7 +4317,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
             fits_report_error(stderr, status);
             fits_get_errstatus(status, error_status);
             coord_ok = false;
-            appendLogText(i18n("FITS header: Cannot find OBJCTRA."));
+            appendLogText(i18n("FITS header: Cannot find OBJCTRA (%1).", QString(error_status)));
         }
         else
         {
@@ -4321,6 +4326,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
         }
     }
 
+    status = 0;
     if (coord_ok && fits_read_key(fptr, TDOUBLE, "OBJCTDEC", &dec, comment, &status))
     {
         char objectde_str[32];
@@ -4329,7 +4335,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
             fits_report_error(stderr, status);
             fits_get_errstatus(status, error_status);
             coord_ok = false;
-            appendLogText(i18n("FITS header: Cannot find OBJCTDEC."));
+            appendLogText(i18n("FITS header: Cannot find OBJCTDEC (%1).", QString(error_status)));
         }
         else
         {
@@ -4347,31 +4353,42 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     if (coord_ok && Options::astrometryUsePosition())
         solver_args << "-3" << QString::number(ra * 15.0) << "-4" << QString::number(dec) << "-5 15";
 
-    if (fits_read_key(fptr, TINT, "FOCALLEN", &fits_focal_length, comment, &status))
+    status = 0;
+    if (fits_read_key(fptr, TDOUBLE, "FOCALLEN", &fits_focal_length, comment, &status))
     {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Cannot find FOCALLEN."));
-        return solver_args;
+        int integer_focal_length = -1;
+        if (fits_read_key(fptr, TINT, "FOCALLEN", &integer_focal_length, comment, &status))
+        {
+            fits_report_error(stderr, status);
+            fits_get_errstatus(status, error_status);
+            appendLogText(i18n("FITS header: Cannot find FOCALLEN (%1).", QString(error_status)));
+            return solver_args;
+        }
+        else
+            fits_focal_length = integer_focal_length;
     }
 
+    status = 0;
     if (fits_read_key(fptr, TDOUBLE, "PIXSIZE1", &fits_ccd_hor_pixel, comment, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Cannot find PIXSIZE1."));
+        appendLogText(i18n("FITS header: Cannot find PIXSIZE1 (%1).", QString(error_status)));
         return solver_args;
     }
 
+    status = 0;
     if (fits_read_key(fptr, TDOUBLE, "PIXSIZE2", &fits_ccd_ver_pixel, comment, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Cannot find PIXSIZE2."));
+        appendLogText(i18n("FITS header: Cannot find PIXSIZE2 (%1).", QString(error_status)));
         return solver_args;
     }
 
+    status = 0;
     fits_read_key(fptr, TINT, "XBINNING", &fits_binx, comment, &status);
+    status = 0;
     fits_read_key(fptr, TINT, "YBINNING", &fits_biny, comment, &status);
 
     // Calculate FOV
@@ -5148,6 +5165,14 @@ void Align::setRotator(ISD::GDInterface *newRotator)
 {
     currentRotator = newRotator;
     connect(currentRotator, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+}
+
+void Align::refreshAlignOptions()
+{
+    if (fov())
+        fov()->setImageDisplay(Options::astrometrySolverWCS());
+
+    alignTimer.setInterval(Options::astrometryTimeout() * 1000);
 }
 
 }
