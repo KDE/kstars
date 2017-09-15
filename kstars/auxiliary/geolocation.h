@@ -49,11 +49,11 @@ class GeoLocation
          * @param TZrule pointer to the daylight savings time rule
          * @param readOnly whether the location is read only or updatable.
          * @param iEllips type of geodetic ellipsoid model
-         * @param hght the elevation above sea level (in meters?)
+         * @param elevation the elevation above sea level (in meters)
          */
     GeoLocation(const dms &lng, const dms &lat, const QString &name = "Nowhere", const QString &province = "Nowhere",
                 const QString &country = "Nowhere", double TZ = 0, TimeZoneRule *TZrule = nullptr,
-                bool readOnly = false, int iEllips = 4, double hght = -10);
+                bool readOnly = false, int iEllips = 4, double elevation = -10);
 
     /** Constructor using doubles to specify X, Y and Z referred to the center of the Earth.
          * @param x the x-position, in m
@@ -78,7 +78,7 @@ class GeoLocation
     const CachingDms *lat() const { return &Latitude; }
 
     /** @return elevation above seal level (meters) */
-    double height() const { return Height; }
+    double elevation() const { return Elevation; }
 
     /** @return X position in m */
     double xPos() const { return PosCartX; }
@@ -157,7 +157,7 @@ class GeoLocation
          */
     void setHeight(double hg)
     {
-        Height = hg;
+        Elevation = hg;
         geodToCart();
     }
 
@@ -274,7 +274,7 @@ class GeoLocation
     CachingDms Longitude, Latitude;
     QString Name, Province, Country;
     TimeZoneRule *TZrule;
-    double TimeZone, Height;
+    double TimeZone, Elevation;
     double axis, flattening;
     long double PosCartX, PosCartY, PosCartZ;
     int indexEllipsoid;
