@@ -37,6 +37,7 @@
 #endif
 
 #include <QSqlQuery>
+#include <QSqlRecord>
 #include <QtConcurrent>
 
 #include "kstars_debug.h"
@@ -132,6 +133,8 @@ KStarsData::~KStarsData()
     pinstance = nullptr;
 }
 
+
+
 bool KStarsData::initialize()
 {
     //Initialize CatalogDB//
@@ -144,6 +147,47 @@ bool KStarsData::initialize()
         fatalErrorMessage("TZrules.dat");
         return false;
     }
+
+
+    emit progressText(i18n("Upgrade existing user city db to support geographic elevation."));
+
+
+    QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "mycitydb.sqlite";
+
+    /// This code to add Height column to table city in mycitydb.sqlite is a transitional measure to support a meaningful
+    /// geographic elevation.
+    if (QFile::exists(dbfile))
+    {
+            QSqlDatabase fixcitydb = QSqlDatabase::addDatabase("QSQLITE", "fixcitydb");
+
+        fixcitydb.setDatabaseName(dbfile);
+        fixcitydb.open();
+
+        if (fixcitydb.tables().contains("city",Qt::CaseInsensitive))
+        {
+            QSqlRecord r = fixcitydb.record("city");
+            if (!r.contains("Elevation"))
+            {
+                emit progressText(i18n("Adding \"Elevation\" column to city table."));
+
+                QSqlQuery query(fixcitydb);
+                if (query.exec("alter table city add column Elevation real default -10;") == false)
+                {
+                    emit progressText(QString("failed to add Elevation column to city table in mycitydb.sqlite: &1").arg(query.lastError().text()));
+                }
+            }
+            else
+            {
+                emit progressText(i18n("City table already contains \"Elevation\"."));
+            }
+        }
+        else
+        {
+            emit progressText(i18n("City table missing from database."));
+        }
+        fixcitydb.close();
+    }
+
 
     //Load Cities//
     emit progressText(i18n("Loading city data"));
@@ -354,7 +398,7 @@ void KStarsData::setLocation(const GeoLocation &l)
     Options::setProvinceName(m_Geo.province());
     Options::setCountryName(m_Geo.country());
     Options::setTimeZone(m_Geo.TZ0());
-    Options::setElevation(m_Geo.height());
+    Options::setElevation(m_Geo.elevation());
     Options::setLongitude(m_Geo.lng()->Degrees());
     Options::setLatitude(m_Geo.lat()->Degrees());
     // set the rule from rulebook
@@ -406,9 +450,10 @@ bool KStarsData::readCityData()
         dms lng              = dms(get_query.value(5).toString());
         double TZ            = get_query.value(6).toDouble();
         TimeZoneRule *TZrule = &(Rulebook[get_query.value(7).toString()]);
+        double elevation     = get_query.value(8).toDouble();
 
         // appends city names to list
-        geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, true));
+        geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, true,4, elevation));
     }
     citydb.close();
 
@@ -437,9 +482,10 @@ bool KStarsData::readCityData()
                 dms lng              = dms(get_query.value(5).toString());
                 double TZ            = get_query.value(6).toDouble();
                 TimeZoneRule *TZrule = &(Rulebook[get_query.value(7).toString()]);
+                double elevation     = get_query.value(8).toDouble();
 
                 // appends city names to list
-                geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, false));
+                geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, false,4,elevation));
             }
             mycitydb.close();
         }

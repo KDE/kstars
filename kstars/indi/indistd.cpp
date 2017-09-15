@@ -196,6 +196,9 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
 
         lat.setD(np->value);
 
+        np = IUFindNumber(nvp, "ELEV");
+
+
         GeoLocation *geo = KStars::Instance()->data()->geo();
 
         geo->setLong(lng);
@@ -477,6 +480,12 @@ void GenericDevice::updateLocation()
         return;
 
     np->value = geo->lat()->Degrees();
+
+    np = IUFindNumber(nvp, "ELEV");
+    if (np == nullptr)
+        return;
+
+    np->value = geo->elevation();
 
     clientManager->sendNewNumber(nvp);
 }
