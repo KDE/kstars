@@ -440,19 +440,24 @@ class Align : public QWidget, public Ui::Align
     void alignTypeChanged(const QString alignType);
     void togglePreviewAlignPoints();
     void slotSortAlignmentPoints();
-    void slotAutoScaleGraph();
-
-  signals:
-    void newLog();
-    void newStatus(Ekos::AlignState state);
-    //void newSolutionDeviation(double ra_arcsecs, double de_arcsecs);
-    void newSolverResults(double orientation, double ra, double dec, double pixscale);
+    void slotAutoScaleGraph();  
 
   protected slots:
     /**
          * @brief After a solver process is completed successfully, sync, slew to target, or do nothing as set by the user.
          */
     void executeGOTO();
+
+    /**
+     * @brief refreshAlignOptions is called when settings are updated in OpsAlign.
+     */
+    void refreshAlignOptions();
+
+  signals:
+    void newLog();
+    void newStatus(Ekos::AlignState state);
+    //void newSolutionDeviation(double ra_arcsecs, double de_arcsecs);
+    void newSolverResults(double orientation, double ra, double dec, double pixscale);
 
   private:
     /**
