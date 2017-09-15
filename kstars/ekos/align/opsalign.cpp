@@ -91,7 +91,6 @@ void OpsAlign::toggleWCSInternal()
 
 void OpsAlign::slotApply()
 {
-    if (alignModule->fov())
-        alignModule->fov()->setImageDisplay(kcfg_AstrometrySolverWCS->isChecked());
+    emit settingsUpdated();
 }
 }

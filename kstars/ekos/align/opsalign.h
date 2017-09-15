@@ -36,6 +36,9 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
     void toggleWCSInternal();
     void slotApply();
 
+  signals:
+    void settingsUpdated();
+
   private:
     KConfigDialog *m_ConfigDialog;
     Align *alignModule;
