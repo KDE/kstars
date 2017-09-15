@@ -88,8 +88,6 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
     connect(ld->NewCountryName, SIGNAL(textChanged(QString)), this, SLOT(nameChanged()));
     connect(ld->NewLong, SIGNAL(textChanged(QString)), this, SLOT(dataChanged()));
     connect(ld->NewLat, SIGNAL(textChanged(QString)), this, SLOT(dataChanged()));
-    connect(ld->NewElev, SIGNAL(valueChanged(double)), this, SLOT(dataChanged()));
-
     connect(ld->TZBox, SIGNAL(activated(int)), this, SLOT(dataChanged()));
     connect(ld->DSTRuleBox, SIGNAL(activated(int)), this, SLOT(dataChanged()));
     connect(ld->GeoBox, SIGNAL(itemSelectionChanged()), this, SLOT(changeCity()));
@@ -257,7 +255,6 @@ void LocationDialog::changeCity()
         ld->NewLong->showInDegrees(SelectedCity->lng());
         ld->NewLat->showInDegrees(SelectedCity->lat());
         ld->TZBox->setEditText(QLocale().toString(SelectedCity->TZ0()));
-        ld->NewElev->setValue(SelectedCity->elevation());
 
         //Pick the City's rule from the rulebook
         for (int i = 0; i < ld->DSTRuleBox->count(); ++i)
@@ -321,7 +318,6 @@ bool LocationDialog::updateCity(CityOperation operation)
     QString TimeZoneString = ld->TZBox->lineEdit()->text();
     TimeZoneString.replace(QLocale().decimalPoint(), ".");
     double TZ = TimeZoneString.toDouble(&tzOk);
-    double height          = ld->NewElev->value();
 
     if (ld->NewCityName->text().isEmpty() || ld->NewCountryName->text().isEmpty())
     {
@@ -370,9 +366,7 @@ bool LocationDialog::updateCity(CityOperation operation)
                       "Latitude TEXT DEFAULT NULL, "
                       "Longitude TEXT DEFAULT NULL, "
                       "TZ REAL DEFAULT NULL, "
-                      "TZRule TEXT DEFAULT NULL,"
-                      "Height REAL NOT NULL DEFAULT -10 )");
-
+                      "TZRule TEXT DEFAULT NULL)");
         if (create_query.exec(query) == false)
         {
             qCWarning(KSTARS) << create_query.lastError();
@@ -397,8 +391,8 @@ bool LocationDialog::updateCity(CityOperation operation)
         case CITY_ADD:
         {
             QSqlQuery add_query(mycitydb);
-            add_query.prepare("INSERT INTO city(Name, Province, Country, Latitude, Longitude, TZ, TZRule, Height) "
-                              "VALUES(:Name, :Province, :Country, :Latitude, :Longitude, :TZ, :TZRule, :Height)");
+            add_query.prepare("INSERT INTO city(Name, Province, Country, Latitude, Longitude, TZ, TZRule) "
+                              "VALUES(:Name, :Province, :Country, :Latitude, :Longitude, :TZ, :TZRule)");
             add_query.bindValue(":Name", name);
             add_query.bindValue(":Province", province);
             add_query.bindValue(":Country", country);
@@ -406,7 +400,6 @@ bool LocationDialog::updateCity(CityOperation operation)
             add_query.bindValue(":Longitude", lng.toDMSString());
             add_query.bindValue(":TZ", TZ);
             add_query.bindValue(":TZRule", TZrule);
-            add_query.bindValue(":Height", height);
             if (add_query.exec() == false)
             {
                 qCWarning(KSTARS) << add_query.lastError();
@@ -425,7 +418,7 @@ bool LocationDialog::updateCity(CityOperation operation)
 
             QSqlQuery update_query(mycitydb);
             update_query.prepare("UPDATE city SET Name = :newName, Province = :newProvince, Country = :newCountry, "
-                                 "Latitude = :Latitude, Longitude = :Longitude, TZ = :TZ, TZRule = :TZRule, Height = :Height WHERE "
+                                 "Latitude = :Latitude, Longitude = :Longitude, TZ = :TZ, TZRule = :TZRule WHERE "
                                  "Name = :Name AND Province = :Province AND Country = :Country");
             update_query.bindValue(":newName", name);
             update_query.bindValue(":newProvince", province);
@@ -437,7 +430,6 @@ bool LocationDialog::updateCity(CityOperation operation)
             update_query.bindValue(":Longitude", lng.toDMSString());
             update_query.bindValue(":TZ", TZ);
             update_query.bindValue(":TZRule", TZrule);
-            update_query.bindValue(":Height", height);
             if (update_query.exec() == false)
             {
                 qCWarning(KSTARS) << update_query.lastError() << endl;
@@ -451,7 +443,6 @@ bool LocationDialog::updateCity(CityOperation operation)
             g->setLong(lng);
             g->setTZ(TZ);
             g->setTZRule(&KStarsData::Instance()->Rulebook[TZrule]);
-            g->setHeight(height);
         }
         break;
 
@@ -557,7 +548,6 @@ void LocationDialog::clearFields()
     ld->NewCountryName->clear();
     ld->NewLong->clearFields();
     ld->NewLat->clearFields();
-    ld->NewElev->setValue(-10);
     ld->TZBox->lineEdit()->setText(QLocale().toString(0.0));
     ld->DSTRuleBox->setCurrentIndex(0);
     nameModified = true;
