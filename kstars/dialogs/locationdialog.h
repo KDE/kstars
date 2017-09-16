@@ -110,9 +110,6 @@ class LocationDialog : public QDialog
     /** @return the country name of the selected location. */
     QString selectedCountryName() const { return SelectedCity->translatedCountry(); }
 
-    /** @return true if the AddCityBUtton is enabled */
-    bool addCityEnabled();
-
   public slots:
     /**
      * When text is entered in the City/Province/Country Filter KLineEdits, the List of cities is

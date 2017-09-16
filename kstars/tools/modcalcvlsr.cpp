@@ -500,7 +500,7 @@ void modCalcVlsr::processLines(QTextStream &istream)
         vgB = spB.vGeocentric(vlsrB, jd0);
         geoPlace->setLong(longB);
         geoPlace->setLat(latB);
-        geoPlace->setHeight(heightB);
+        geoPlace->setElevation(heightB);
         dms gsidt = KStarsDateTime(dtB, utB).gst();
         geoPlace->TopocentricVelocity(vtopo, gsidt);
         spB.ra().SinCos(sra, cra);

@@ -155,7 +155,7 @@ class GeoLocation
     /** Set elevation above sea level
          * @param hg the new elevation (meters)
          */
-    void setHeight(double hg)
+    void setElevation(double hg)
     {
         Elevation = hg;
         geodToCart();

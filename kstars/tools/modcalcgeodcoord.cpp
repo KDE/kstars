@@ -75,14 +75,14 @@ void modCalcGeodCoord::getSphGeoCoords(void)
 {
     geoPlace->setLong(LongGeoBox->createDms());
     geoPlace->setLat(LatGeoBox->createDms());
-    geoPlace->setHeight(AltGeoBox->text().toDouble());
+    geoPlace->setElevation(AltGeoBox->text().toDouble());
 }
 
 void modCalcGeodCoord::slotClearGeoCoords(void)
 {
     geoPlace->setLong(dms(0.0));
     geoPlace->setLat(dms(0.0));
-    geoPlace->setHeight(0.0);
+    geoPlace->setElevation(0.0);
     LatGeoBox->clearFields();
     LongGeoBox->clearFields();
 }
@@ -393,7 +393,7 @@ void modCalcGeodCoord::processLines(QTextStream &istream)
 
             geoPl.setLong(longB);
             geoPl.setLat(latB);
-            geoPl.setHeight(hB);
+            geoPl.setElevation(hB);
 
             ostream << geoPl.xPos() / 1000.0 << space << geoPl.yPos() / 1000.0 << space << geoPl.zPos() / 1000.0
                     << endl;
