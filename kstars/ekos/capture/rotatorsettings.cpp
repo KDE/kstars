@@ -121,10 +121,11 @@ void RotatorSettings::setCurrentAngle(double angle)
 void RotatorSettings::updatePA()
 {
     double PA = rotatorGauge->value() * PAMulSpin->value() + PAOffsetSpin->value();
-    while (PA > 180)
-        PA -= 180;
-    while (PA < -180)
-        PA += 180;
+    // Limit PA to -180 to +180
+    if (PA > 180)
+        PA -= 360;
+    if (PA < -180)
+        PA += 360;
 
     PASpin->setValue(PA);
 }
@@ -151,6 +152,12 @@ void RotatorSettings::setPA()
 {
    // PA = RawAngle * Multiplier + Offset
    double rawAngle = (PASpin->value() - PAOffsetSpin->value()) / PAMulSpin->value();
+   // Get raw angle (0 to 360) from PA (-180 to +180)
+   if (rawAngle < 0)
+       rawAngle += 360;
+   else if (rawAngle > 360)
+       rawAngle -= 360;
+
    angleEdit->setText(QString::number(rawAngle, 'f', 3));
    gotoAngle();
 }
