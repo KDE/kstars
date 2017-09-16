@@ -565,6 +565,7 @@ class Align : public QWidget, public Ui::Align
     IPState loadSlewState { IPS_IDLE };
     // Target Position Angle of solver Load&Slew image to be used for rotator if necessary
     double loadSlewTargetPA { std::numeric_limits<double>::quiet_NaN() };
+    double currentRotatorPA { -1 };
     /// Solver iterations count
     uint8_t solverIterations { 0 };
 
