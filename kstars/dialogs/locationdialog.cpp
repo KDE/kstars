@@ -337,8 +337,8 @@ bool LocationDialog::updateCity(CityOperation operation)
     }
     else if (!tzOk)
     {
-        QString message = i18n("Could not parse coordinates.");
-        KMessageBox::sorry(nullptr, message, i18n("Bad Coordinates"));
+        QString message = i18n("UTC Offset must be selected.");
+        KMessageBox::sorry(nullptr, message, i18n("UTC Offset"));
         return false;
     }
 
@@ -390,6 +390,7 @@ bool LocationDialog::updateCity(CityOperation operation)
     QString province = ld->NewProvinceName->text().trimmed();
     QString country  = ld->NewCountryName->text().trimmed();
     QString TZrule   = ld->DSTRuleBox->currentText();
+    double Elevation = ld->NewElev->value();
     GeoLocation *g   = nullptr;
 
     switch (operation)
@@ -397,8 +398,8 @@ bool LocationDialog::updateCity(CityOperation operation)
         case CITY_ADD:
         {
             QSqlQuery add_query(mycitydb);
-            add_query.prepare("INSERT INTO city(Name, Province, Country, Latitude, Longitude, TZ, TZRule, Height) "
-                              "VALUES(:Name, :Province, :Country, :Latitude, :Longitude, :TZ, :TZRule, :Height)");
+            add_query.prepare("INSERT INTO city(Name, Province, Country, Latitude, Longitude, TZ, TZRule, Elevation) "
+                              "VALUES(:Name, :Province, :Country, :Latitude, :Longitude, :TZ, :TZRule, :Elevation)");
             add_query.bindValue(":Name", name);
             add_query.bindValue(":Province", province);
             add_query.bindValue(":Country", country);
@@ -406,7 +407,7 @@ bool LocationDialog::updateCity(CityOperation operation)
             add_query.bindValue(":Longitude", lng.toDMSString());
             add_query.bindValue(":TZ", TZ);
             add_query.bindValue(":TZRule", TZrule);
-            add_query.bindValue(":Height", height);
+            add_query.bindValue(":Elevation", Elevation);
             if (add_query.exec() == false)
             {
                 qCWarning(KSTARS) << add_query.lastError();
@@ -414,7 +415,7 @@ bool LocationDialog::updateCity(CityOperation operation)
             }
 
             //Add city to geoList...don't need to insert it alphabetically, since we always sort GeoList
-            g = new GeoLocation(lng, lat, name, province, country, TZ, &KStarsData::Instance()->Rulebook[TZrule]);
+            g = new GeoLocation(lng, lat, name, province, country, TZ, &KStarsData::Instance()->Rulebook[TZrule], Elevation);
             KStarsData::Instance()->getGeoList().append(g);
         }
         break;
@@ -425,7 +426,7 @@ bool LocationDialog::updateCity(CityOperation operation)
 
             QSqlQuery update_query(mycitydb);
             update_query.prepare("UPDATE city SET Name = :newName, Province = :newProvince, Country = :newCountry, "
-                                 "Latitude = :Latitude, Longitude = :Longitude, TZ = :TZ, TZRule = :TZRule, Height = :Height WHERE "
+                                 "Latitude = :Latitude, Longitude = :Longitude, TZ = :TZ, TZRule = :TZRule, Elevation = :Elevation WHERE "
                                  "Name = :Name AND Province = :Province AND Country = :Country");
             update_query.bindValue(":newName", name);
             update_query.bindValue(":newProvince", province);
@@ -437,7 +438,7 @@ bool LocationDialog::updateCity(CityOperation operation)
             update_query.bindValue(":Longitude", lng.toDMSString());
             update_query.bindValue(":TZ", TZ);
             update_query.bindValue(":TZRule", TZrule);
-            update_query.bindValue(":Height", height);
+            update_query.bindValue(":Elevation", Elevation);
             if (update_query.exec() == false)
             {
                 qCWarning(KSTARS) << update_query.lastError() << endl;
@@ -451,7 +452,8 @@ bool LocationDialog::updateCity(CityOperation operation)
             g->setLong(lng);
             g->setTZ(TZ);
             g->setTZRule(&KStarsData::Instance()->Rulebook[TZrule]);
-            g->setHeight(height);
+            g->setElevation(height);
+
         }
         break;
 
@@ -557,11 +559,14 @@ void LocationDialog::clearFields()
     ld->NewCountryName->clear();
     ld->NewLong->clearFields();
     ld->NewLat->clearFields();
-    ld->NewElev->setValue(-10);
-    ld->TZBox->lineEdit()->setText(QLocale().toString(0.0));
+    ld->NewElev->setValue(-10);    
+    ld->TZBox->setCurrentIndex(-1);
+    // JM 2017-09-16: No, let's not assume it is 0. User have to explicitly set TZ so avoid mistakes.
+    //ld->TZBox->lineEdit()->setText(QLocale().toString(0.0));
     ld->DSTRuleBox->setCurrentIndex(0);
     nameModified = true;
     dataModified = false;
+
     ld->AddCityButton->setEnabled(false);
     ld->UpdateButton->setEnabled(false);
     ld->NewCityName->setFocus();
@@ -643,7 +648,7 @@ void LocationDialog::dataChanged()
         ld->UpdateButton->setEnabled(SelectedCity->isReadOnly() == false && !ld->NewCityName->text().isEmpty() &&
                                      !ld->NewCountryName->text().isEmpty() && checkLongLat());
 
-    if (!addCityEnabled())
+    if (ld->AddCityButton->isEnabled() == false && ld->UpdateButton->isEnabled() == false)
     {
         if (ld->NewCityName->text().isEmpty())
         {
@@ -657,9 +662,9 @@ void LocationDialog::dataChanged()
         {
             ld->errorLabel->setText(i18n("Cannot add new location -- invalid latitude / longitude"));
         }
-        else
+        else if (SelectedCity->isReadOnly())
         {
-            ld->errorLabel->setText(i18n("Cannot add new location -- please check all fields"));
+            ld->errorLabel->setText(i18n("City is Read Only. Change name to add new city."));
         }
     }
     else
@@ -670,18 +675,13 @@ void LocationDialog::dataChanged()
 
 void LocationDialog::slotOk()
 {
-    if (addCityEnabled())
+    if (ld->AddCityButton->isEnabled())
     {
         if (addCity())
             accept();
     }
     else
         accept();
-}
-
-bool LocationDialog::addCityEnabled()
-{
-    return ld->AddCityButton->isEnabled();
 }
 
 // FIXME Disable this until Qt5 works with Geoclue2
