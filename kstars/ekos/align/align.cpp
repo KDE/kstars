@@ -2910,29 +2910,34 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
         if (loadSlewState == IPS_BUSY && Options::astrometryUseRotator())
         {
-            double rawAngle = (orientation - Options::pAOffset()) / Options::pAMultiplier();
-            INumberVectorProperty *absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
-            if (absAngle)
-            {
-                loadSlewTargetPA = orientation;
-                absAngle->np[0].value = rawAngle;
-                ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
-                clientManager->sendNewNumber(absAngle);
-                appendLogText(i18n("Setting rotation to %1 degrees E of N...", loadSlewTargetPA));
-                return;
-            }
+            qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
+            loadSlewTargetPA = orientation;
         }
-        // Otherwise, simply update offsets.
         else
         {
-            loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
             INumberVectorProperty *absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
             if (absAngle)
             {
                 // PA = RawAngle * Multiplier + Offset
                 double rawAngle = absAngle->np[0].value;
                 double offset = orientation - (rawAngle * Options::pAMultiplier());
+                currentRotatorPA = orientation;
+                qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << orientation << "Rotator Offset:" << offset;
                 Options::setPAOffset(offset);
+            }
+
+            if (absAngle && std::isnan(loadSlewTargetPA) == false && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
+            {
+                double rawAngle = (loadSlewTargetPA - Options::pAOffset()) / Options::pAMultiplier();
+                if (rawAngle < 0)
+                    rawAngle += 360;
+                else if (rawAngle > 360)
+                    rawAngle -= 360;
+                absAngle->np[0].value = rawAngle;
+                ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
+                clientManager->sendNewNumber(absAngle);
+                appendLogText(i18n("Setting rotation to %1 degrees E of N...", loadSlewTargetPA));
+                return;
             }
         }
     }
@@ -3425,11 +3430,15 @@ void Align::processNumber(INumberVectorProperty *nvp)
             break;
         }
     }
-    else if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE") && std::isnan(loadSlewTargetPA) == false)
+    else if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
     {
         // PA = RawAngle * Multiplier + Offset
-        double currentPA = (nvp->np[0].value * Options::pAMultiplier()) + Options::pAOffset();
-        if (fabs(currentPA - loadSlewTargetPA)*60 <= Options::astrometryRotatorThreshold())
+        currentRotatorPA = (nvp->np[0].value * Options::pAMultiplier()) + Options::pAOffset();
+        if (currentRotatorPA > 180)
+            currentRotatorPA -= 360;
+        if (currentRotatorPA < -180)
+            currentRotatorPA += 360;
+        if (std::isnan(loadSlewTargetPA) == false && fabs(currentRotatorPA - loadSlewTargetPA)*60 <= Options::astrometryRotatorThreshold())
         {
             appendLogText(i18n("Rotator reached target position angle."));
             targetAccuracyNotMet = true;
@@ -4309,39 +4318,39 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     bool coord_ok = true;
 
     status = 0;
-    if (fits_read_key(fptr, TDOUBLE, "OBJCTRA", &ra, comment, &status))
+    char objectra_str[32];
+    if (fits_read_key(fptr, TSTRING, "OBJCTRA", objectra_str, comment, &status))
     {
-        char objectra_str[32];
-        if (fits_read_key(fptr, TSTRING, "OBJCTRA", objectra_str, comment, &status))
+        if (fits_read_key(fptr, TDOUBLE, "OBJCTRA", &ra, comment, &status))
         {
             fits_report_error(stderr, status);
             fits_get_errstatus(status, error_status);
             coord_ok = false;
             appendLogText(i18n("FITS header: Cannot find OBJCTRA (%1).", QString(error_status)));
         }
-        else
-        {
-            dms raDMS = dms::fromString(objectra_str, false);
-            ra        = raDMS.Hours();
-        }
+    }
+    else
+    {
+        dms raDMS = dms::fromString(objectra_str, false);
+        ra        = raDMS.Hours();
     }
 
     status = 0;
-    if (coord_ok && fits_read_key(fptr, TDOUBLE, "OBJCTDEC", &dec, comment, &status))
+    char objectde_str[32];
+    if (coord_ok && fits_read_key(fptr, TSTRING, "OBJCTDEC", objectde_str, comment, &status))
     {
-        char objectde_str[32];
-        if (fits_read_key(fptr, TSTRING, "OBJCTDEC", objectde_str, comment, &status))
+        if (fits_read_key(fptr, TDOUBLE, "OBJCTDEC", &dec, comment, &status))
         {
             fits_report_error(stderr, status);
             fits_get_errstatus(status, error_status);
             coord_ok = false;
             appendLogText(i18n("FITS header: Cannot find OBJCTDEC (%1).", QString(error_status)));
         }
-        else
-        {
-            dms deDMS = dms::fromString(objectde_str, true);
-            dec       = deDMS.Degrees();
-        }
+    }
+    else
+    {
+        dms deDMS = dms::fromString(objectde_str, true);
+        dec       = deDMS.Degrees();
     }
 
     /*if (coord_ok == false)
