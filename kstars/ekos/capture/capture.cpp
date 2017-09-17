@@ -4340,7 +4340,7 @@ bool Capture::processPostCaptureCalibrationStage()
             else
                 nextExposure = setCurrentADU(currentADU);
 
-            if (nextExposure <= 0)
+            if (nextExposure <= 0 || std::isnan(nextExposure))
             {
                 appendLogText(
                     i18n("Unable to calculate optimal exposure settings, please capture the flats manually."));
@@ -4349,6 +4349,9 @@ bool Capture::processPostCaptureCalibrationStage()
                 abort();
                 return false;
             }
+
+            // Limit to minimum and maximum values
+            nextExposure = qBound(exposureIN->minimum(), nextExposure, exposureIN->maximum());
 
             appendLogText(i18n("Current ADU is %1 Next exposure is %2 seconds.", QString::number(currentADU, 'f', 0),
                                QString::number(nextExposure, 'f', 3)));
