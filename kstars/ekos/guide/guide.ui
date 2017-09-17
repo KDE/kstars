@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>682</width>
-    <height>486</height>
+    <width>686</width>
+    <height>484</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -156,7 +156,7 @@
              <number>1</number>
             </property>
             <property name="verticalSpacing">
-             <number>5</number>
+             <number>3</number>
             </property>
             <item row="3" column="2">
              <widget class="QLabel" name="label_8">
@@ -231,6 +231,9 @@
             </item>
             <item row="2" column="1">
              <widget class="QDoubleSpinBox" name="exposureIN">
+              <property name="decimals">
+               <number>3</number>
+              </property>
               <property name="maximum">
                <double>60.000000000000000</double>
               </property>
@@ -540,6 +543,9 @@
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout">
+            <property name="spacing">
+             <number>3</number>
+            </property>
             <item row="0" column="0">
              <widget class="QLabel" name="l_16">
               <property name="text">
@@ -719,6 +725,9 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="rightLayout">
+       <property name="spacing">
+        <number>3</number>
+       </property>
        <item>
         <widget class="QWidget" name="guideWidget" native="true">
          <property name="sizePolicy">
@@ -743,6 +752,9 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <property name="spacing">
+          <number>3</number>
+         </property>
          <item>
           <widget class="QGroupBox" name="driftGraphicsGroup">
            <property name="title">
