@@ -1452,14 +1452,14 @@ void EkosManager::processNewProperty(INDI::Property *prop)
 
     if (!strcmp(prop->getName(), "ABS_ROTATOR_POSITION"))
     {
-        if (captureProcess.get() != nullptr)
+        ISD::GDInterface *interface = qobject_cast<ISD::GDInterface *>(sender());
+        if (interface)
         {
-            ISD::GDInterface *interface = qobject_cast<ISD::GDInterface *>(sender());
-            if (interface)
-            {
+            managedDevices[KSTARS_ROTATOR] = interface;
+            if (captureProcess.get() != nullptr)
                 captureProcess->setRotator(interface);
+            if (alignProcess.get() != nullptr)
                 alignProcess->setRotator(interface);
-            }
         }
     }
 
@@ -1687,6 +1687,10 @@ void EkosManager::initCapture()
     {
         captureProcess->setDome(managedDevices[KSTARS_DOME]);
     }
+    if (managedDevices.contains(KSTARS_ROTATOR))
+    {
+        captureProcess->setRotator(managedDevices[KSTARS_ROTATOR]);
+    }
 }
 
 void EkosManager::initAlign()
@@ -1745,6 +1749,10 @@ void EkosManager::initAlign()
     if (managedDevices.contains(KSTARS_DOME))
     {
         alignProcess->setDome(managedDevices[KSTARS_DOME]);
+    }
+    if (managedDevices.contains(KSTARS_ROTATOR))
+    {
+        alignProcess->setRotator(managedDevices[KSTARS_ROTATOR]);
     }
 }
 
