@@ -22,7 +22,7 @@
 #include "timezonerule.h"
 
 GeoLocation::GeoLocation(const dms &lng, const dms &lat, const QString &name, const QString &province, const QString &country,
-                         double tz, TimeZoneRule *tzrule, bool readOnly, int iEllips, double elevation) :
+                         double tz, TimeZoneRule *tzrule, double elevation, bool readOnly, int iEllips) :
     Longitude(lng), Latitude(lat)
 {
     Name           = name;
@@ -38,7 +38,7 @@ GeoLocation::GeoLocation(const dms &lng, const dms &lat, const QString &name, co
 }
 
 GeoLocation::GeoLocation(double x, double y, double z, const QString &name, const QString &province,
-                         const QString &country, double TZ, TimeZoneRule *tzrule, bool readOnly, int iEllips)
+                         const QString &country, double TZ, TimeZoneRule *tzrule, double elevation, bool readOnly, int iEllips)
 {
     PosCartX       = x;
     PosCartY       = y;
@@ -48,6 +48,7 @@ GeoLocation::GeoLocation(double x, double y, double z, const QString &name, cons
     Country        = country;
     TimeZone       = TZ;
     TZrule         = tzrule;
+    Elevation      = elevation;
     indexEllipsoid = iEllips;
     ReadOnly       = readOnly;
     setEllipsoid(indexEllipsoid);
