@@ -382,7 +382,7 @@ void KStarsData::setLocationFromOptions()
 {
     setLocation(GeoLocation(dms(Options::longitude()), dms(Options::latitude()), Options::cityName(),
                             Options::provinceName(), Options::countryName(), Options::timeZone(),
-                            &(Rulebook[Options::dST()]), false, 4, Options::elevation()));
+                            &(Rulebook[Options::dST()]), Options::elevation(), false, 4));
 }
 
 void KStarsData::setLocation(const GeoLocation &l)
