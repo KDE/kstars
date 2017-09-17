@@ -371,7 +371,7 @@ bool LocationDialog::updateCity(CityOperation operation)
                       "Longitude TEXT DEFAULT NULL, "
                       "TZ REAL DEFAULT NULL, "
                       "TZRule TEXT DEFAULT NULL,"
-                      "Height REAL NOT NULL DEFAULT -10 )");
+                      "Elevation REAL NOT NULL DEFAULT -10 )");
 
         if (create_query.exec(query) == false)
         {
@@ -643,10 +643,10 @@ void LocationDialog::dataChanged()
 {
     dataModified = true;
     ld->AddCityButton->setEnabled(nameModified && !ld->NewCityName->text().isEmpty() &&
-                                  !ld->NewCountryName->text().isEmpty() && checkLongLat());
+                                  !ld->NewCountryName->text().isEmpty() && checkLongLat() && ld->TZBox->currentIndex() != -1);
     if (SelectedCity)
         ld->UpdateButton->setEnabled(SelectedCity->isReadOnly() == false && !ld->NewCityName->text().isEmpty() &&
-                                     !ld->NewCountryName->text().isEmpty() && checkLongLat());
+                                     !ld->NewCountryName->text().isEmpty() && checkLongLat() && ld->TZBox->currentIndex() != -1);
 
     if (ld->AddCityButton->isEnabled() == false && ld->UpdateButton->isEnabled() == false)
     {
@@ -661,6 +661,10 @@ void LocationDialog::dataChanged()
         else if (!checkLongLat())
         {
             ld->errorLabel->setText(i18n("Cannot add new location -- invalid latitude / longitude"));
+        }
+        else if (ld->TZBox->currentIndex() == -1)
+        {
+            ld->errorLabel->setText(i18n("Cannot add new location -- missing UTC Offset"));
         }
         else if (SelectedCity->isReadOnly())
         {
