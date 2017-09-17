@@ -453,7 +453,7 @@ bool KStarsData::readCityData()
         double elevation     = get_query.value(8).toDouble();
 
         // appends city names to list
-        geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, true,4, elevation));
+        geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, elevation, true,4));
     }
     citydb.close();
 
@@ -485,7 +485,7 @@ bool KStarsData::readCityData()
                 double elevation     = get_query.value(8).toDouble();
 
                 // appends city names to list
-                geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, false,4,elevation));
+                geoList.append(new GeoLocation(lng, lat, name, province, country, TZ, TZrule, elevation, false,4));
             }
             mycitydb.close();
         }
