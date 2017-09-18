@@ -1194,6 +1194,9 @@ void Guide::setCaptureStatus(CaptureState newState)
 
 void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
 {
+    if (guiderType != GUIDE_INTERNAL)
+        return;
+
     switch (newState)
     {
         case ISD::Telescope::MOUNT_SLEWING:
