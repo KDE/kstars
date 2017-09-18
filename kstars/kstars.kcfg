@@ -1488,9 +1488,30 @@
          <label>Reset mount model after meridian flip.</label>
          <default>false</default>
       </entry>
-      <entry name="ADUValue" type="UInt">
-         <label>Desired flat field ADU percentage</label>
-         <whatsthis>If set, Ekos will capture a few flat images to determine the optimal exposure time to achieve the desired ADU percentage.</whatsthis>
+      <entry name="CalibrationADUValue" type="UInt">
+         <label>Desired flat field ADU</label>
+         <whatsthis>If set, Ekos will capture a few flat images to determine the optimal exposure time to achieve the desired ADU value.</whatsthis>
+         <default>0</default>
+      </entry>
+      <entry name="CalibrationADUValueTolerance" type="UInt">
+         <label>ADU Value tolerance</label>
+         <whatsthis>Maximum difference between measured and target ADU values to deem the value as acceptable.</whatsthis>
+         <default>1000</default>
+      </entry>
+      <entry name="CalibrationFlatSourceIndex" type="UInt">
+         <label>Index of flat source option.</label>
+         <default>0</default>
+      </entry>
+      <entry name="CalibrationFlatDurationIndex" type="UInt">
+         <label>Index of flat duration option.</label>
+         <default>0</default>
+      </entry>
+      <entry name="CalibrationWallAz" type="Double">
+         <label>Azimuth of calibration wall location.</label>
+         <default>0</default>
+      </entry>
+      <entry name="CalibrationWallAlt" type="Double">
+         <label>Altitude of calibration wall location.</label>
          <default>0</default>
       </entry>
       <entry name="MaxTemperatureDiff" type="Double">

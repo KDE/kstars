@@ -182,6 +182,13 @@ Capture::Capture()
     customPropertiesDialog.reset(new CustomProperties());
     connect(customValuesB, SIGNAL(clicked()), customPropertiesDialog.get(), SLOT(show()));
 
+    flatFieldSource = static_cast<FlatFieldSource>(Options::calibrationFlatSourceIndex());
+    flatFieldDuration = static_cast<FlatFieldDuration>(Options::calibrationFlatDurationIndex());
+    wallCoord.setAz(Options::calibrationWallAz());
+    wallCoord.setAlt(Options::calibrationWallAlt());
+    targetADU = Options::calibrationADUValue();
+    targetADUTolerance = Options::calibrationADUValueTolerance();
+
     // Load FIlter Offets
     loadFilterOffsets();
 }
@@ -4015,6 +4022,13 @@ void Capture::openCalibrationDialog()
         preDomePark  = calibrationOptions.parkDomeC->isChecked();
 
         setDirty();
+
+        Options::setCalibrationFlatSourceIndex(flatFieldSource);
+        Options::setCalibrationFlatDurationIndex(flatFieldDuration);
+        Options::setCalibrationWallAz(wallCoord.az().Degrees());
+        Options::setCalibrationWallAlt(wallCoord.alt().Degrees());
+        Options::setCalibrationADUValue(targetADU);
+        Options::setCalibrationADUValueTolerance(targetADUTolerance);
     }
 }
 

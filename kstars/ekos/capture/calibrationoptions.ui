@@ -36,6 +36,9 @@
           <property name="checked">
            <bool>true</bool>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">flatSourceGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -46,6 +49,9 @@
           <property name="text">
            <string>Dust Cover with Built-in Flat Light</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">flatSourceGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -56,6 +62,9 @@
           <property name="text">
            <string>Dust Cover with External Flat Light</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">flatSourceGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -68,6 +77,9 @@
             <property name="text">
              <string>Wall</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">flatSourceGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -111,6 +123,9 @@
           <property name="text">
            <string>Dawn/Dusk</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">flatSourceGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -148,6 +163,9 @@
             <property name="checked">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">flatDurationGroup</string>
+            </attribute>
            </widget>
           </item>
           <item row="1" column="0">
@@ -158,6 +176,9 @@
             <property name="text">
              <string>ADU</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">flatDurationGroup</string>
+            </attribute>
            </widget>
           </item>
           <item row="1" column="1">
@@ -300,4 +321,8 @@
    </hints>
   </connection>
  </connections>
+ <buttongroups>
+  <buttongroup name="flatSourceGroup"/>
+  <buttongroup name="flatDurationGroup"/>
+ </buttongroups>
 </ui>
