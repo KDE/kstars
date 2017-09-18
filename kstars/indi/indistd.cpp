@@ -299,7 +299,7 @@ void GenericDevice::processBLOB(IBLOB *bp)
 
     QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
 
-    filename += QString("file_") + ts + QString(bp->format).trimmed();
+    filename += QString("%1_").arg(bp->label) + ts + QString(bp->format).trimmed();
 
     strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
     bp->aux2 = BLOBFilename;
