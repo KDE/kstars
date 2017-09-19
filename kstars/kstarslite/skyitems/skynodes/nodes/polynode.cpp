@@ -80,7 +80,7 @@ void PolyNode::updateGeometry(const QPolygonF &polygon, bool filled)
         int nverts, ntris, i;
         QPolygonF pol = polygon;
         int polySize = pol.size() * 2;
-        double vertices_array[polySize];
+        std::vector<double> vertices_array(polySize);
 
         for (int i = 0; i < polySize; i += 2)
         {
@@ -88,7 +88,7 @@ void PolyNode::updateGeometry(const QPolygonF &polygon, bool filled)
             vertices_array[i + 1] = pol[i / 2].y();
         }
 
-        const double *contours_array[] = { vertices_array, vertices_array + polySize };
+        const double *contours_array[] = { &vertices_array[0], &vertices_array[0] + polySize };
         int contours_size              = 2;
 
         tessellate(&coordinates_out, &nverts, &tris_out, &ntris, contours_array, contours_array + contours_size);
