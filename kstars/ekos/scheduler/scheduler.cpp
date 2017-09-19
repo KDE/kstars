@@ -2536,6 +2536,10 @@ void Scheduler::checkStatus()
         // #2.2  Check if shutdown is in progress
         if (shutdownState > SHUTDOWN_IDLE)
         {
+            // If Ekos is not done stopping, try again later
+            if (ekosState == EKOS_STOPPING && checkEkosState() == false)
+                return;
+
             checkShutdownState();
             return;
         }
