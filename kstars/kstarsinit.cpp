@@ -160,9 +160,14 @@ void KStars::initActions()
     actionCollection()->addAction("export_image", this, SLOT(slotExportImage()))
         << i18n("&Save Sky Image...")
         << QIcon::fromTheme("document-export-image", QIcon(":/icons/breeze/default/document-export.svg"));
+
+// 2017-09-17 Jasem: FIXME! Scripting does not work properly under non UNIX systems.
+// It must be updated to use DBus session bus from Qt (like scheduler)
+#ifndef Q_OS_WIN
     actionCollection()->addAction("run_script", this, SLOT(slotRunScript()))
         << i18n("&Run Script...") << QIcon::fromTheme("system-run", QIcon(":/icons/breeze/default/system-run.svg"))
         << QKeySequence(Qt::CTRL + Qt::Key_R);
+#endif
     actionCollection()->addAction("printing_wizard", this, SLOT(slotPrintingWizard()))
         << i18nc("start Printing Wizard", "Printing &Wizard");
     ka = actionCollection()->addAction(KStandardAction::Print, "print", this, SLOT(slotPrint()));
@@ -412,8 +417,13 @@ void KStars::initActions()
     //     ka->setShortcuts( QKeySequence(Qt::CTRL+Qt::Key_K ) );
     //     connect( ka, SIGNAL( triggered() ), this, SLOT( slotGlossary() ) );
 
+    // 2017-09-17 Jasem: FIXME! Scripting does not work properly under non UNIX systems.
+    // It must be updated to use DBus session bus from Qt (like scheduler)
+#ifndef Q_OS_WIN
     actionCollection()->addAction("scriptbuilder", this, SLOT(slotScriptBuilder()))
         << i18n("Script Builder") << QKeySequence(Qt::CTRL + Qt::Key_B);
+#endif
+
     actionCollection()->addAction("solarsystem", this, SLOT(slotSolarSystem()))
         << i18n("Solar System") << QKeySequence(Qt::CTRL + Qt::Key_Y);
 
