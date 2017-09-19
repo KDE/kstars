@@ -93,6 +93,17 @@ Capture::Capture()
 
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
 
+    connect(temperatureCheck, &QCheckBox::toggled, [this](bool toggled)
+    {
+        if (currentCCD)
+        {
+            QVariantMap auxInfo = currentCCD->getDriverInfo()->getAuxInfo();
+            auxInfo[QString("%1_TC").arg(currentCCD->getDeviceName())] = toggled;
+            currentCCD->getDriverInfo()->setAuxInfo(auxInfo);
+        }
+
+    });
+
     connect(previewB, SIGNAL(clicked()), this, SLOT(captureOne()));
 
     //connect( seqWatcher, SIGNAL(dirty(QString)), this, SLOT(checkSeqFile(QString)));
@@ -559,12 +570,15 @@ void Capture::checkCCD(int ccdNum)
                 temperatureIN->setMinimum(min);
                 temperatureIN->setMaximum(max);
                 temperatureIN->setSingleStep(1);
+                bool isChecked = currentCCD->getDriverInfo()->getAuxInfo().value(QString("%1_TC").arg(currentCCD->getDeviceName()), false).toBool();
+                temperatureCheck->setChecked(isChecked);
             }
             else
             {
                 setTemperatureB->setEnabled(false);
                 temperatureIN->setReadOnly(true);
                 temperatureCheck->setEnabled(false);
+                temperatureCheck->setChecked(false);
             }
 
             double temperature = 0;
