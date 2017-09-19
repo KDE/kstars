@@ -1189,89 +1189,6 @@ void KStars::slotRunScript()
             return;
         }
 
-        /*
-        if ( ! fileURL.isLocalFile() )
-        {
-            //Warn the user about executing remote code.
-            QString message = i18n( "Warning:  You are about to execute a remote shell script on your machine. " );
-            message += i18n( "If you absolutely trust the source of this script, press Continue to execute the script; " );
-            message += i18n( "to save the file without executing it, press Save; " );
-            message += i18n( "to cancel the download, press Cancel. " );
-
-            int result = KMessageBox::warningYesNoCancel( 0, message, i18n( "Really Execute Remote Script?" ),
-                         KStandardGuiItem::cont(), KStandardGuiItem::save() );
-
-            if ( result == KMessageBox::Cancel ) return;
-            if ( result == KMessageBox::No )
-            { //save file
-                QUrl saveURL = QFileDialog::getSaveFileUrl(KStars::Instance(), QString(), QUrl(QDir::homePath()), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
-                QTemporaryFile tmpfile;
-                tmpfile.open();
-
-                while ( ! saveURL.isValid() )
-                {
-                    message = i18n( "Save location is invalid. Try another location?" );
-                    if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ), KGuiItem(i18n("Try Another")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::No ) return;
-                    saveURL = QFileDialog::getSaveFileUrl(KStars::Instance(), QString(), QUrl(QDir::homePath()), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
-                }
-
-                if ( saveURL.isLocalFile() )
-                {
-                    fname = saveURL.toLocalFile();
-                }
-                else
-                {
-                    fname = tmpfile.fileName();
-                }
-
-                //if( KIO::NetAccess::download( fileURL, fname, this ) ) {
-                if (KIO::file_copy(fileURL, QUrl(fname))->exec() == true)
-                {
-        #ifndef _WIN32
-                    chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH ); //make it executable
-        #endif
-
-                    if ( tmpfile.fileName() == fname )
-                    { //upload to remote location
-                        //if ( ! KIO::NetAccess::upload( tmpfile.fileName(), fileURL, this ) )
-                        QUrl sourceURL(tmpfile.fileName());
-                        sourceURL.setScheme("file");
-                        if (KIO::file_copy(sourceURL, fileURL)->exec() == false)
-                        {
-                            QString message = i18n( "Could not upload image to remote location: %1", fileURL.url() );
-                            KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
-                        }
-                    }
-                } else
-                {
-                    KMessageBox::sorry( 0, i18n( "Could not download the file." ), i18n( "Download Error" ) );
-                }
-
-                return;
-            }
-        }
-        */
-
-        //Damn the torpedos and full speed ahead, we're executing the script!
-        QTemporaryFile tmpfile;
-        tmpfile.open();
-
-        /*
-        if ( ! fileURL.isLocalFile() )
-        {
-            fname = tmpfile.fileName();
-            //if( KIO::NetAccess::download( fileURL, fname, this ) )
-            if (KIO::file_copy(fileURL, QUrl(fname))->exec() == true)
-            {
-        #ifndef _WIN32
-                chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
-        #endif
-                f.setFileName( fname );
-            }
-        } else {
-            f.setFileName( fileURL.toLocalFile() );
-        }*/
-
         f.setFileName(fileURL.toLocalFile());
 
         if (!f.open(QIODevice::ReadOnly))
@@ -1280,10 +1197,6 @@ void KStars::slotRunScript()
             KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
             return;
         }
-
-        // Before we run the script, make sure that it's safe.  Each line must either begin with "#"
-        // or begin with "dbus-send". INDI scripts are much more complicated, so this simple test is not
-        // suitable. INDI Scripting will return in KDE 4.1
 
         QTextStream istream(&f);
         QString line;
@@ -1317,6 +1230,9 @@ void KStars::slotRunScript()
         //Add statusbar message that script is running
         statusBar()->showMessage(i18n("Running script: %1", fileURL.fileName()));
 
+        // 2017-09-19: Jasem
+        // FIXME This is a hack and does not work on non-Linux systems
+        // The Script Builder should generate files that can run cross-platform
         QProcess p;
         p.start(f.fileName());
         if (!p.waitForStarted())
