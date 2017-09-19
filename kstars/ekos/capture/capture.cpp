@@ -4493,8 +4493,9 @@ void Capture::showFilterOffsetDialog()
 
         QLabel *label  = new QLabel(oneOffset->filter, &filterOffsetDialog);
         QSpinBox *spin = new QSpinBox(&filterOffsetDialog);
-        spin->setMinimum(-1000);
-        spin->setMaximum(1000);
+        spin->setMinimum(-10000);
+        spin->setMaximum(10000);
+        spin->setSingleStep(100);
         spin->setValue(oneOffset->offset);
 
         grid->addWidget(label, i, 0);
