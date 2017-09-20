@@ -428,7 +428,7 @@ void DetailDialog::createGeneralTab()
             if (ast->getRotationPeriod() == 0.0)
                 DataComet->Rotation->setText("--");
             else
-                DataComet->Rotation->setText(i18nc("Rotation period in hours", "%1 h", QString::number(ast->getRotationPeriod()));
+                DataComet->Rotation->setText(i18nc("Rotation period in hours", "%1 h", QString::number(ast->getRotationPeriod())));
             // Period
             if (ast->getPeriod() == 0.0)
                  DataComet->Period->setText("--");
@@ -477,7 +477,7 @@ void DetailDialog::createGeneralTab()
             if (com->getRotationPeriod() == 0.0)
                 DataComet->Rotation->setText("--");
             else
-                DataComet->Rotation->setText(i18nc("Rotation period in hours", "%1 h", QString::number(com->getRotationPeriod()));
+                DataComet->Rotation->setText(i18nc("Rotation period in hours", "%1 h", QString::number(com->getRotationPeriod())));
             // Period
             if (com->getPeriod() == 0.0)
                  DataComet->Period->setText("--");
