@@ -108,7 +108,7 @@ void DetailDialog::createGeneralTab()
 
     //Fill in the data fields
     //Contents depend on type of object
-    QString objecttyp, str;
+    QString objecttyp;
 
     switch (selectedObject->type())
     {
@@ -388,114 +388,101 @@ void DetailDialog::createGeneralTab()
     {
         case SkyObject::ASTEROID:
         {
-            KSAsteroid *ast = (KSAsteroid *)selectedObject;
-            DataComet       = new DataCometWidget(this); // Show same specifics data as comets
+            KSAsteroid *ast = dynamic_cast<KSAsteroid*>(selectedObject);
+            // Show same specifics data as comets
+            DataComet       = new DataCometWidget(this);
             Data->IncludeData->layout()->addWidget(DataComet);
 
             // Perihelion
-            str.setNum(ast->getPerihelion());
-            DataComet->Perihelion->setText(str + " AU");
+            DataComet->Perihelion->setText(i18nc("Distance in astronomical units", "%1 AU", QString::number(ast->getPerihelion())));
             // Earth MOID
             if (ast->getEarthMOID() == 0)
-                str = "";
+                DataComet->EarthMOID->setText("--");
             else
-                str.setNum(ast->getEarthMOID()).append(" AU");
-            DataComet->EarthMOID->setText(str);
+                DataComet->EarthMOID->setText(i18nc("Distance in astronomical units", "%1 AU", QString::number(ast->getEarthMOID())));
             // Orbit ID
             DataComet->OrbitID->setText(ast->getOrbitID());
             // Orbit Class
             DataComet->OrbitClass->setText(ast->getOrbitClass());
             // NEO
             if (ast->isNEO())
-                DataComet->NEO->setText("Yes");
+                DataComet->NEO->setText(i18n("Yes"));
             else
-                DataComet->NEO->setText("No");
+                DataComet->NEO->setText(i18n("No"));
             // Albedo
             if (ast->getAlbedo() == 0.0)
-                str = "";
+                DataComet->Albedo->setText("--");
             else
-                str.setNum(ast->getAlbedo());
-            DataComet->Albedo->setText(str);
+                DataComet->Albedo->setText(QString::number(ast->getAlbedo()));
             // Diameter
             if (ast->getDiameter() == 0.0)
-                str = "";
+                DataComet->Diameter->setText("--");
             else
-                str.setNum(ast->getDiameter()).append(" km");
-            DataComet->Diameter->setText(str);
+                DataComet->Diameter->setText(i18nc("Diameter in kilometers", "%1 km", QString::number(ast->getDiameter())));
             // Dimensions
             if (ast->getDimensions().isEmpty())
-                DataComet->Dimensions->setText("");
+                DataComet->Dimensions->setText("--");
             else
-                DataComet->Dimensions->setText(ast->getDimensions() + " km");
+                DataComet->Dimensions->setText(i18nc("Dimension in kilometers", "%1 km", ast->getDimensions()));
             // Rotation period
             if (ast->getRotationPeriod() == 0.0)
-                str = "";
+                DataComet->Rotation->setText("--");
             else
-                str.setNum(ast->getRotationPeriod()).append(" h");
-            DataComet->Rotation->setText(str);
+                DataComet->Rotation->setText(i18nc("Rotation period in hours", "%1 h", QString::number(ast->getRotationPeriod()));
             // Period
             if (ast->getPeriod() == 0.0)
-                str = "";
+                 DataComet->Period->setText("--");
             else
-                str.setNum(ast->getPeriod()).append(" y");
-            DataComet->Period->setText(str);
-
+                DataComet->Period->setText(i18nc("Orbit period in years", "%1 y", QString::number(ast->getPeriod())));
             break;
         }
         case SkyObject::COMET:
         {
-            KSComet *com = (KSComet *)selectedObject;
+            KSComet *com = dynamic_cast<KSComet*>(selectedObject);
             DataComet    = new DataCometWidget(this);
             Data->IncludeData->layout()->addWidget(DataComet);
 
             // Perihelion
-            str.setNum(com->getPerihelion());
-            DataComet->Perihelion->setText(str + " AU");
+            DataComet->Perihelion->setText(i18nc("Distance in astronomical units", "%1 AU", QString::number(com->getPerihelion())));
             // Earth MOID
             if (com->getEarthMOID() == 0)
-                str = "";
+                DataComet->EarthMOID->setText("--");
             else
-                str.setNum(com->getEarthMOID()).append(" AU");
-            DataComet->EarthMOID->setText(str);
+                DataComet->EarthMOID->setText(i18nc("Distance in astronomical units", "%1 AU", QString::number(com->getEarthMOID())));
             // Orbit ID
             DataComet->OrbitID->setText(com->getOrbitID());
             // Orbit Class
             DataComet->OrbitClass->setText(com->getOrbitClass());
             // NEO
             if (com->isNEO())
-                DataComet->NEO->setText("Yes");
+                DataComet->NEO->setText(i18n("Yes"));
             else
-                DataComet->NEO->setText("No");
+                DataComet->NEO->setText(i18n("No"));
             // Albedo
             if (com->getAlbedo() == 0.0)
-                str = "";
+                DataComet->Albedo->setText("--");
             else
-                str.setNum(com->getAlbedo());
-            DataComet->Albedo->setText(str);
+                DataComet->Albedo->setText(QString::number(com->getAlbedo()));
             // Diameter
             if (com->getDiameter() == 0.0)
-                str = "";
+                DataComet->Diameter->setText("--");
             else
-                str.setNum(com->getDiameter()).append(" km");
-            DataComet->Diameter->setText(str);
+                DataComet->Diameter->setText(i18nc("Diameter in kilometers", "%1 km", QString::number(com->getDiameter())));
             // Dimensions
             if (com->getDimensions().isEmpty())
-                DataComet->Dimensions->setText("");
+                DataComet->Dimensions->setText("--");
             else
-                DataComet->Dimensions->setText(com->getDimensions() + " km");
+                DataComet->Dimensions->setText(i18nc("Dimension in kilometers", "%1 km", com->getDimensions()));
             // Rotation period
             if (com->getRotationPeriod() == 0.0)
-                str = "";
+                DataComet->Rotation->setText("--");
             else
-                str.setNum(com->getRotationPeriod()).append(" h");
-            DataComet->Rotation->setText(str);
+                DataComet->Rotation->setText(i18nc("Rotation period in hours", "%1 h", QString::number(com->getRotationPeriod()));
             // Period
             if (com->getPeriod() == 0.0)
-                str = "";
+                 DataComet->Period->setText("--");
             else
-                str.setNum(com->getPeriod()).append(" y");
-            DataComet->Period->setText(str);
-
+                DataComet->Period->setText(i18nc("Orbit period in years", "%1 y", QString::number(com->getPeriod())));
             break;
         }
     }
@@ -1226,6 +1213,14 @@ void DetailDialog::centerTelescope()
             KMessageBox::error(0,
                                i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
             return;
+        }
+
+        // Display Sun warning on slew
+        if (selectedObject && selectedObject->name() == "Sun")
+        {
+            if (KMessageBox::warningContinueCancel(nullptr, i18n("Danger! Viewing the Sun without adequate solar filters is dangerous and will result in permement eye damage!"))
+                                               ==KMessageBox::Cancel)
+                return;
         }
 
         ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);

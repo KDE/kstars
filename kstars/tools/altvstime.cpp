@@ -100,12 +100,12 @@ AltVsTime::AltVsTime(QWidget *parent) : QDialog(parent)
     avtUI->View->yAxis2->setLabelColor(axisColor);
 
     // give the axis some labels:
-    avtUI->View->xAxis2->setLabel("Local Sidereal Time");
+    avtUI->View->xAxis2->setLabel(i18n("Local Sidereal Time"));
     avtUI->View->xAxis2->setVisible(true);
     avtUI->View->yAxis2->setVisible(true);
     avtUI->View->yAxis2->setTickLength(0, 0);
-    avtUI->View->xAxis->setLabel("Local Time");
-    avtUI->View->yAxis->setLabel("Altitude");
+    avtUI->View->xAxis->setLabel(i18n("Local Time"));
+    avtUI->View->yAxis->setLabel(i18n("Altitude"));
     avtUI->View->xAxis->setRange(43200, 129600);
     avtUI->View->xAxis2->setRange(61200, 147600);
 
