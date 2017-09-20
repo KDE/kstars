@@ -716,6 +716,7 @@ class Align : public QWidget, public Ui::Align
     Ui_mountModel mountModel;
     int currentAlignmentPoint { 0 };
     bool mountModelRunning { false };
+    bool mountModelReset { false };
     bool targetAccuracyNotMet { false };
     bool previewShowing { false };
     QUrl alignURL;

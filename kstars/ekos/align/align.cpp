@@ -2428,10 +2428,18 @@ bool Align::captureAndSolve()
 
         if (solverIterations == 0)
         {
-            double ra, dec;
-            currentTelescope->getEqCoords(&ra, &dec);
-            targetCoord.setRA(ra);
-            targetCoord.setDec(dec);
+            // If mount model was reset, we do not update targetCoord
+            // since the RA/DE is now different immediately after the reset
+            // so we still try to lock for the coordinates before the reset.
+            if (mountModelReset)
+                mountModelReset = false;
+            else
+            {
+                double ra, dec;
+                currentTelescope->getEqCoords(&ra, &dec);
+                targetCoord.setRA(ra);
+                targetCoord.setDec(dec);
+            }
         }
     }
     //else
@@ -4436,8 +4444,8 @@ void Align::setCaptureStatus(CaptureState newState)
     case CAPTURE_ALIGNING:
         if (currentTelescope && currentTelescope->hasAlignmentModel() && Options::resetMountModelAfterMeridian())
         {
-            bool rc = currentTelescope->clearAlignmentModel();
-            qCDebug(KSTARS_EKOS_ALIGN) << "Post meridian flip mount model reset" << (rc ? "successful." : "failed.");
+            mountModelReset = currentTelescope->clearAlignmentModel();
+            qCDebug(KSTARS_EKOS_ALIGN) << "Post meridian flip mount model reset" << (mountModelReset ? "successful." : "failed.");
         }
 
         QTimer::singleShot(Options::settlingTime(), this, SLOT(captureAndSolve()));
@@ -4517,7 +4525,7 @@ void Align::startPAHProcess()
     if (currentTelescope->hasAlignmentModel())
     {
         appendLogText(i18n("Clearing mount Alignment Model..."));
-        currentTelescope->clearAlignmentModel();
+        mountModelReset = currentTelescope->clearAlignmentModel();
     }
 
     // Set tracking ON if not already
