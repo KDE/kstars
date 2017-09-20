@@ -1307,7 +1307,8 @@ bool Capture::resumeSequence()
         }
 
         // Dither either when guiding or IF Non-Guide either option is enabled
-        if ( (guideState == GUIDE_GUIDING || Options::ditherNoGuiding()) && Options::ditherEnabled() && activeJob->getFrameType() == FRAME_LIGHT &&
+        // 2017-09-20 Jasem: No need to dither after post meridian flip guiding
+        if ( meridianFlipStage != MF_GUIDING && (guideState == GUIDE_GUIDING || Options::ditherNoGuiding()) && Options::ditherEnabled() && activeJob->getFrameType() == FRAME_LIGHT &&
             --ditherCounter == 0)
         {
             ditherCounter = Options::ditherFrames();
