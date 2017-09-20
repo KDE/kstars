@@ -34,8 +34,7 @@ PolarisHourAngle::PolarisHourAngle(QWidget *parent) :
   setupUi(this);
   setFixedHeight(size().height());
 
-  // FIXME - Check why this could lead to crash if translated? Should we use just latin name?
-  SkyObject *polaris = KStarsData::Instance()->skyComposite()->findByName(i18n("Polaris"));
+  SkyObject *polaris = KStarsData::Instance()->skyComposite()->findByName(i18nc("star name", "Polaris"));
   Q_ASSERT_X(polaris != nullptr, "PolarisHourAngle", "Unable to find Polaris!");
   m_polaris = polaris->clone();
 
