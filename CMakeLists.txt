@@ -364,8 +364,10 @@ add_subdirectory(kstars)
 add_subdirectory(datahandlers)
 
 IF (NOT ANDROID)
+    IF (BUILD_TESTING)
     enable_testing(true)
     add_subdirectory(Tests)
+    ENDIF()
     # Make it possible to use the po files fetched by the fetch-translations step
     ki18n_install("${CMAKE_CURRENT_BINARY_DIR}/po")
 ENDIF ()
