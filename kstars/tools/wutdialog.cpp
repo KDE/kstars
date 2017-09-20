@@ -174,7 +174,9 @@ void WUTDialog::init()
         hDur = int(Dur);
         mDur = int(60.0 * (Dur - (float)hDur));
         QTime tDur(hDur, mDur);
-        sDuration = QLocale().toString(tDur);
+        //sDuration = QLocale().toString(tDur);
+        // Should always be in 24 hour format
+        sDuration = tDur.toString("hh:mm");
     }
 
     WUT->SunSetLabel->setText(i18nc("Sunset at time %1 on date %2", "Sunset: %1 on %2", sSet,
