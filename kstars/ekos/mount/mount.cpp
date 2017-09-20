@@ -783,7 +783,12 @@ Mount::ParkingStatus Mount::getParkingStatus()
     switch (parkSP->s)
     {
         case IPS_IDLE:
-            return PARKING_IDLE;
+            // If mount is unparked on startup, state is OK and switch is UNPARK
+            if (parkSP->sp[1].s == ISS_ON)
+                return UNPARKING_OK;
+            else
+                return PARKING_IDLE;
+            break;
 
         case IPS_OK:
             if (parkSP->sp[0].s == ISS_ON)
