@@ -1736,6 +1736,9 @@ bool Guide::selectAutoStar()
     if (starCenters.empty())
         return false;
 
+    int subBinX, subBinY;
+    targetChip->getBinning(&subBinX, &subBinY);
+
     guideView->setStarsEnabled(true);
     guideView->updateFrame();
 
@@ -1759,10 +1762,14 @@ bool Guide::selectAutoStar()
         // Severely reject stars close to edges
         if (center->x < (center->width * 5) || center->y < (center->width * 5) ||
             center->x > (maxX - center->width * 5) || center->y > (maxY - center->width * 5))
-            score -= 50;
+            score -= 1000;
 
-        // Moderately favor brighter stars
-        score += center->width * center->width;
+        // Reject stars bigger than square
+        if (center->width > boxSizeCombo->currentText().toInt() / subBinX)
+            score -= 1000;
+        else
+            // Moderately favor brighter stars
+            score += center->width * center->width;
 
         // Moderately reject stars close to other stars
         foreach (Edge *edge, starCenters)
@@ -1780,8 +1787,8 @@ bool Guide::selectAutoStar()
         scores[i] = score;
     }
 
-    int maxScore      = 0;
-    int maxScoreIndex = 0;
+    int maxScore      = -1;
+    int maxScoreIndex = -1;
     for (int i = 0; i < maxIndex; i++)
     {
         if (scores[i] > maxScore)
@@ -1789,6 +1796,12 @@ bool Guide::selectAutoStar()
             maxScore      = scores[i];
             maxScoreIndex = i;
         }
+    }
+
+    if (maxScoreIndex < 0)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "No suitable star detected.";
+        return false;
     }
 
     /*if (ui.autoSquareSizeCheck->isEnabled() && ui.autoSquareSizeCheck->isChecked())
@@ -2382,6 +2395,7 @@ bool Guide::executeOneOperation(GuideState operation)
                 else
                 {
                     appendLogText(i18n("Failed to select an auto star."));
+                    actionRequired = true;
                     state = GUIDE_CALIBRATION_ERROR;
                     emit newStatus(state);
                     setBusy(false);
