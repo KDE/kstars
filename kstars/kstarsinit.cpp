@@ -131,8 +131,6 @@ QAction *newToggleAction(KActionCollection *col, QString name, QString text, QOb
 
 void KStars::initActions()
 {
-    //KIconLoader::global()->addAppDir( "kstars" );
-
     //This will check if there is an icon for a very common action to see if a theme is loaded.
     //If one is not detected, it tries to set the theme to the one specified here.
     static const char *GENERIC_ICON_TO_CHECK = "document-open";
@@ -650,7 +648,7 @@ void KStars::repopulateHIPS()
 
     QAction *ka = actionCollection()->addAction(i18n("None"), this, SLOT(slotHIPSSource()))
         << i18n("None") << AddToGroup(hipsGroup)
-        << Checked(Options::hIPSSource() == i18n("None"));
+        << Checked(Options::hIPSSource() == "None");
 
     hipsActionMenu->addAction(ka);
     hipsActionMenu->addSeparator();

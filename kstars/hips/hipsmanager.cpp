@@ -395,7 +395,7 @@ pixCacheItem_t *HIPSManager::getCacheItem(pixCacheKey_t &key)
 
 bool HIPSManager::setCurrentSource(const QString &title)
 {
-    if (title == i18n("None"))
+    if (title == "None")
     {
         Options::setShowHIPS(false);
         Options::setHIPSSource(title);
