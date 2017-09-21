@@ -289,7 +289,7 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
         if (KMessageBox::warningContinueCancel(
                 nullptr, i18n("Cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"),
                 KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                "dark_exposure_dialog_notification") == KMessageBox::Cancel)
+                "dark_exposure_dialog_notification", KMessageBox::WindowModal|KMessageBox::Notify) == KMessageBox::Cancel)
         {
             emit newLog(i18n("Dark frame capture cancelled."));
             disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
