@@ -60,6 +60,9 @@ bool KStars::Closing = false;
 KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     : KXmlGuiWindow(), StartClockRunning(clockrun), StartDateString(startdate)
 {
+    // Needed to set layout direction. It should be set to either RTL or LTR
+    QT_TRANSLATE_NOOP("QApplication", "QT_LAYOUT_DIRECTION");
+
     setWindowTitle(i18n("KStars"));
 
 //On OS X, need to launch kdeinit5 so you can get KLauncher and KIOSlave so you can download new data.
