@@ -1450,7 +1450,7 @@ void EkosManager::processNewProperty(INDI::Property *prop)
         }
     }
 
-    if (!strcmp(prop->getName(), "ABS_ROTATOR_POSITION"))
+    if (!strcmp(prop->getName(), "ABS_ROTATOR_ANGLE"))
     {
         ISD::GDInterface *interface = qobject_cast<ISD::GDInterface *>(sender());
         if (interface)

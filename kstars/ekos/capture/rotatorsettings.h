@@ -25,7 +25,6 @@ public:
 
     void setTicksMinMaxStep(int32_t min, int32_t max, int32_t step);
 
-    void setCurrentTicks(int32_t ticks);
     void setCurrentAngle(double angle);
 
     bool isRotationEnforced() { return enforceRotationCheck->isChecked(); }
@@ -39,12 +38,9 @@ public:
     void setPAMultiplier(double value) { PAMulSpin->setValue(value);}
     void setPAOffset(double value) { PAOffsetSpin->setValue(value);}
 
-    int32_t getCurrentRotationTicks() { return ticksEdit->text().toInt(); }
-
     void refresh();
 
 protected slots:
-    void gotoTicks();
     void gotoAngle();
     void updatePA();
     void setPA();

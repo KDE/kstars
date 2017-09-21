@@ -1696,13 +1696,7 @@ void Capture::updateCCDTemperature(double value)
 
 void Capture::updateRotatorNumber(INumberVectorProperty *nvp)
 {
-    if (!strcmp(nvp->name, "ABS_ROTATOR_POSITION"))
-    {
-        // Update widget rotator position
-        rotatorSettings->setTicksMinMaxStep(static_cast<int32_t>(nvp->np[0].min), static_cast<int32_t>(nvp->np[0].max), static_cast<int32_t>(nvp->np[0].step));
-        rotatorSettings->setCurrentTicks(static_cast<int32_t>(nvp->np[0].value));
-    }
-    else if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
+    if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
     {
         // Update widget rotator position
         rotatorSettings->setCurrentAngle(nvp->np[0].value);
@@ -2473,9 +2467,8 @@ void Capture::setRotator(ISD::GDInterface *newRotator)
 
     rotatorSettings->setRotator(newRotator);
 
-    INumberVectorProperty *nvp = newRotator->getBaseDevice()->getNumber("ABS_ROTATOR_POSITION");
-    rotatorSettings->setTicksMinMaxStep(static_cast<int32_t>(nvp->np[0].min), static_cast<int32_t>(nvp->np[0].max), static_cast<int32_t>(nvp->np[0].step));
-    rotatorSettings->setCurrentTicks(static_cast<int32_t>(nvp->np[0].value));
+    INumberVectorProperty *nvp = newRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
+    rotatorSettings->setCurrentAngle(nvp->np[0].value);
 }
 
 void Capture::setTelescope(ISD::GDInterface *newTelescope)
