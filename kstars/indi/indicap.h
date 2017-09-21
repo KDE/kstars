@@ -36,7 +36,10 @@ class DustCap : public DeviceDecorator
     virtual bool hasLight();
     virtual bool canPark();
     virtual bool isLightOn();
+    // Check if cap is fully parked.
     virtual bool isParked();
+    // Check if cap is fully unparked. We need this because we have parking and unparking in progress
+    virtual bool isUnParked();
 
   public slots:
     /**
