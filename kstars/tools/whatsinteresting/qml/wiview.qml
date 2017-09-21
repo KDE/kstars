@@ -473,7 +473,7 @@ Rectangle {
 
 					anchors {
 						verticalCenterOffset: 30
-						horizontalCenterOffset: -50
+                        horizontalCenterOffset: -75
 						centerIn: parent
 					}
 
@@ -505,7 +505,7 @@ Rectangle {
 
 					anchors {
 						verticalCenterOffset: 30
-						horizontalCenterOffset: 50
+                        horizontalCenterOffset: 75
 						centerIn: parent
 					}
 
@@ -806,7 +806,7 @@ Rectangle {
 	   
 											wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 											font{
-												family: "Cantarell"
+                                                family: "Arial"
 												pixelSize: 13
 											}
 											
@@ -913,7 +913,7 @@ Rectangle {
                             text: xi18n("text")
                             horizontalAlignment: Text.AlignRight
                             font{
-                                family: "Cantarell"
+                                family: "Arial"
                                 bold: true
                                 pixelSize:11
                             }
@@ -981,7 +981,7 @@ Rectangle {
                                 text: xi18n("Center in Map \n")
                                 font {
                                     underline: true
-                                    family: "Cantarell"
+                                    family: "Arial"
                                     pixelSize: 14
                                 }
 
@@ -1001,7 +1001,7 @@ Rectangle {
                                 	text: xi18n(" Auto     Track   ")
                                 	color: "white"
                                 	font {
-                                    	family: "Cantarell"
+                                        family: "Arial"
                                     	pixelSize: 14
                                 	}
                                 	y: 15
@@ -1141,7 +1141,7 @@ Rectangle {
 													width: parent.width - 20
 													textFormat: Text.RichText
 													font{
-														family: "Cantarell"
+                                                        family: "Arial"
 														pixelSize: 13
 													}
 													onLinkActivated: Qt.openUrlExternally(link)
@@ -1275,7 +1275,7 @@ Rectangle {
 													clip: true
 													width: parent.width
 													font{
-														family: "Cantarell"
+                                                        family: "Arial"
 														pixelSize: 13
 													} //font
 												} //text
