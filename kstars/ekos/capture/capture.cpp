@@ -2289,7 +2289,10 @@ void Capture::executeJob()
 
     syncGUIToJob(activeJob);
 
-    // Check flat field frame requirements
+    updatePreCaptureCalibrationStatus();
+
+    // Check calibration frame requirements
+#if 0
     if (activeJob->getFrameType() != FRAME_LIGHT && activeJob->isPreview() == false)
     {
         updatePreCaptureCalibrationStatus();
@@ -2297,6 +2300,7 @@ void Capture::executeJob()
     }
 
     captureImage();
+#endif
 }
 
 void Capture::updatePreCaptureCalibrationStatus()
@@ -4042,10 +4046,53 @@ void Capture::openCalibrationDialog()
 
 IPState Capture::processPreCaptureCalibrationStage()
 {
-    if (guideState == GUIDE_GUIDING)
+    if (activeJob->getFrameType() != FRAME_LIGHT && guideState == GUIDE_GUIDING)
     {
         appendLogText(i18n("Autoguiding suspended."));
         emit suspendGuiding();
+    }
+
+    // Unpark dust cap if we have to take light images.
+    if (activeJob->getFrameType() == FRAME_LIGHT && dustCap)
+    {
+        if (dustCap->isLightOn() == true)
+        {
+            dustCapLightEnabled = false;
+            dustCap->SetLightEnabled(false);
+        }
+
+        // If cap is not park, park it
+        if (calibrationStage < CAL_DUSTCAP_UNPARKING && dustCap->isParked())
+        {
+            if (dustCap->UnPark())
+            {
+                calibrationStage = CAL_DUSTCAP_UNPARKING;
+                appendLogText(i18n("Unparking dust cap..."));
+                return IPS_BUSY;
+            }
+            else
+            {
+                appendLogText(i18n("Unparking dust cap failed, aborting..."));
+                abort();
+                return IPS_ALERT;
+            }
+        }
+
+        // Wait until cap is unparked
+        if (calibrationStage == CAL_DUSTCAP_UNPARKING)
+        {
+            if (dustCap->isUnParked() == false)
+                return IPS_BUSY;
+            else
+            {
+                calibrationStage = CAL_DUSTCAP_UNPARKED;
+                appendLogText(i18n("Dust cap unparked."));
+            }
+        }
+
+        calibrationStage = CAL_PRECAPTURE_COMPLETE;
+
+        return IPS_OK;
     }
 
     // Let's check what actions to be taken, if any, for the flat field source
@@ -4055,8 +4102,8 @@ IPState Capture::processPreCaptureCalibrationStage()
         case SOURCE_DAWN_DUSK: // Not yet implemented
             break;
 
-        // Park cap, if not parked
-        // Turn on Light
+        // For Dark, Flat, Bias: Park cap, if not parked. Turn on Light For Flat. Turn off Light for Bias + Darks
+        // For Lights: Unpark cap and turn off light
         case SOURCE_FLATCAP:
             if (dustCap)
             {
@@ -4077,7 +4124,7 @@ IPState Capture::processPreCaptureCalibrationStage()
                     }
                 }
 
-                // Wait until  cap is parked
+                // Wait until cap is parked
                 if (calibrationStage == CAL_DUSTCAP_PARKING)
                 {
                     if (dustCap->isParked() == false)

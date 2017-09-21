@@ -53,6 +53,16 @@ bool DustCap::isParked()
     return (parkSP->s == IPS_OK && parkSP->sp[0].s == ISS_ON);
 }
 
+bool DustCap::isUnParked()
+{
+    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("CAP_PARK");
+
+    if (parkSP == nullptr)
+        return false;
+
+    return (parkSP->s == IPS_OK && parkSP->sp[1].s == ISS_ON);
+}
+
 bool DustCap::Park()
 {
     ISwitchVectorProperty *parkSP = baseDevice->getSwitch("CAP_PARK");
