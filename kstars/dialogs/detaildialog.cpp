@@ -1218,7 +1218,7 @@ void DetailDialog::centerTelescope()
         // Display Sun warning on slew
         if (selectedObject && selectedObject->name() == "Sun")
         {
-            if (KMessageBox::warningContinueCancel(nullptr, i18n("Danger! Viewing the Sun without adequate solar filters is dangerous and will result in permement eye damage!"))
+            if (KMessageBox::warningContinueCancel(nullptr, i18n("Danger! Viewing the Sun without adequate solar filters is dangerous and will result in permanent eye damage!"))
                                                ==KMessageBox::Cancel)
                 return;
         }
