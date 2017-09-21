@@ -25,10 +25,8 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     rotatorGauge->setMinimum(0);
     rotatorGauge->setMaximum(360);
 
-    connect(ticksSlider, SIGNAL(valueChanged(int)), ticksSpin, SLOT(setValue(int)));
     connect(angleSlider, &QSlider::valueChanged, this, [this](int angle){angleSpin->setValue(angle);});
 
-    connect(setTickB, SIGNAL(clicked()), this, SLOT(gotoTicks()));
     connect(setAngleB, SIGNAL(clicked()), this, SLOT(gotoAngle()));
 
     PAMulSpin->setValue(Options::pAMultiplier());
@@ -64,13 +62,7 @@ void RotatorSettings::setRotator(ISD::GDInterface *rotator)
 
     connect(currentRotator, &ISD::GDInterface::propertyDefined, [&](INDI::Property *prop)
         {
-            if (!strcmp(prop->getName(), "ABS_ROTATOR_POSITION"))
-            {
-                INumberVectorProperty *absPos = prop->getNumber();
-                setTicksMinMaxStep(static_cast<int32_t>(absPos->np[0].min), static_cast<int32_t>(absPos->np[0].max), static_cast<int32_t>(absPos->np[0].step));
-                setCurrentTicks(static_cast<int32_t>(absPos->np[0].value));
-            }
-            else if (!strcmp(prop->getName(), "ABS_ROTATOR_ANGLE"))
+            if (!strcmp(prop->getName(), "ABS_ROTATOR_ANGLE"))
             {
                 INumberVectorProperty *absAngle = prop->getNumber();
                 setCurrentAngle(absAngle->np[0].value);
@@ -78,36 +70,11 @@ void RotatorSettings::setRotator(ISD::GDInterface *rotator)
         });
 }
 
-void RotatorSettings::setTicksMinMaxStep(int32_t min, int32_t max, int32_t step)
-{
-    ticksSlider->setMinimum(min);
-    ticksSlider->setMaximum(max);
-    ticksSlider->setSingleStep(step);
-
-    ticksSpin->setMinimum(min);
-    ticksSpin->setMaximum(max);
-    ticksSpin->setSingleStep(step);
-
-    //plannedTicksSpin->setMinimum(min);
-    //plannedTicksSpin->setMaximum(max);
-    //plannedTicksSpin->setSingleStep(step);
-}
-
-void RotatorSettings::gotoTicks()
-{
-    int32_t ticks = ticksSpin->value();
-    currentRotator->runCommand(INDI_SET_ROTATOR_TICKS, &ticks);
-}
 
 void RotatorSettings::gotoAngle()
 {
     double angle = angleSpin->value();
     currentRotator->runCommand(INDI_SET_ROTATOR_ANGLE, &angle);
-}
-
-void RotatorSettings::setCurrentTicks(int32_t ticks)
-{
-    ticksEdit->setText(QString::number(ticks));
 }
 
 void RotatorSettings::setCurrentAngle(double angle)

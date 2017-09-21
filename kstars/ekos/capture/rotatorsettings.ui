@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>437</width>
-    <height>372</height>
+    <width>443</width>
+    <height>345</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -118,7 +118,7 @@
         <item>
          <widget class="QCheckBox" name="syncFOVPA">
           <property name="toolTip">
-           <string>Set FOV indicator Position Angle to match this Position Angle</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set FOV indicator Position Angle to match Target Position Angle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Sync FOV to PA</string>
@@ -162,65 +162,7 @@
       <string>Rotator Control</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Ticks:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="ticksEdit">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="2">
-       <widget class="QSlider" name="ticksSlider">
-        <property name="minimum">
-         <number>-500000</number>
-        </property>
-        <property name="maximum">
-         <number>500000</number>
-        </property>
-        <property name="singleStep">
-         <number>5000</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QSpinBox" name="ticksSpin">
-        <property name="maximum">
-         <number>100000</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QPushButton" name="setTickB">
-        <property name="text">
-         <string>Set</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Angle:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="angleEdit">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
        <widget class="QSlider" name="angleSlider">
         <property name="maximum">
          <number>360</number>
@@ -233,7 +175,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
+      <item row="0" column="3">
        <widget class="QDoubleSpinBox" name="angleSpin">
         <property name="maximum">
          <double>360.000000000000000</double>
@@ -243,10 +185,24 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="4">
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="angleEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
        <widget class="QPushButton" name="setAngleB">
         <property name="text">
          <string>Set</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Angle:</string>
         </property>
        </widget>
       </item>
