@@ -1568,7 +1568,14 @@ void KStars::slotHIPSSource()
     QAction *selectedAction = qobject_cast<QAction*>(sender());
     Q_ASSERT(selectedAction != nullptr);
 
-    HIPSManager::Instance()->setCurrentSource(selectedAction->text().remove("&"));
+    QString selectedSource = selectedAction->text().remove("&");
+
+    // selectedSource could be translated, while we need to send only Latin "None"
+    // to Hips manager.
+    if (selectedSource == i18n("None"))
+        HIPSManager::Instance()->setCurrentSource("None");
+    else
+        HIPSManager::Instance()->setCurrentSource(selectedSource);
 
     map()->forceUpdate();
 }
