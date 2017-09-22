@@ -26,6 +26,8 @@
 class QFile;
 
 class FITSView;
+class FITSData;
+class Edge;
 
 typedef struct
 {
@@ -111,10 +113,8 @@ class cgmath : public QObject
     bool setGuiderParameters(double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal);
     void getGuiderParameters(double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal);
     bool setReticleParameters(double x, double y, double ang);
-    bool getReticleParameters(double *x, double *y, double *ang) const;
-    int getSquareIndex(void) const;
-    int getSquareAlgorithmIndex(void) const;
-    int getSquareSize() { return squareSize; }
+    bool getReticleParameters(double *x, double *y, double *ang) const;    
+    int getSquareAlgorithmIndex(void) const;    
     void setSquareAlgorithm(int alg_idx);
 
     Matrix getROTZ() { return ROT_Z; }
@@ -127,6 +127,9 @@ class cgmath : public QObject
     void setDeclinationSwapEnabled(bool enable) { dec_swap = enable; }
     FITSView *getGuideView() { return guideView; }
     void setPreviewMode(bool enable) { preview_mode = enable; }
+
+    // Based on PHD2 algorithm
+    QList<Edge *> PSFAutoFind(int extraEdgeAllowance=0);
 
     /*void moveSquare( double newx, double newy );
         void resizeSquare( int size_idx );
@@ -181,7 +184,7 @@ class cgmath : public QObject
     Vector findLocalStarPosition(void) const;
 
     // Creates a new float image from the guideView image data. The returned image MUST be deleted later or memory will leak.
-    float *createFloatImage() const;
+    float *createFloatImage(FITSData *target=nullptr) const;
 
     void do_ticks(void);
     Vector point2arcsec(const Vector &p) const;
@@ -207,9 +210,6 @@ class cgmath : public QObject
     bool lost_star { false };
     bool dec_swap { false };
 
-    // square variables
-    /// Analyzing square size
-    int squareSize { 0 };
     /// Index of threshold algorithm
     int square_alg_idx { SMART_THRESHOLD };
     int subBinX { 1 };

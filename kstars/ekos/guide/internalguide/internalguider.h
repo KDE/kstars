@@ -24,6 +24,7 @@ class QVector3D;
 
 class cgmath;
 class FITSView;
+class Edge;
 
 namespace Ekos
 {
@@ -101,6 +102,8 @@ class InternalGuider : public GuideInterface
 
     bool isImageGuideEnabled() const;
     void setImageGuideEnabled(bool value);
+
+    QList<Edge *> getGuideStars();
 
   public slots:
     void setDECSwap(bool enable);

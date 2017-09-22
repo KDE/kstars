@@ -909,4 +909,10 @@ void InternalGuider::setRegionAxis(uint32_t value)
 {
     pmath->setRegionAxis(value);
 }
+
+QList<Edge *> InternalGuider::getGuideStars()
+{
+    return pmath->PSFAutoFind();
+}
+
 }
