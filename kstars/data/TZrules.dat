@@ -5,14 +5,14 @@ US  Mar  2Sun  02:00  Nov  1Sun  02:00
 
 #"MX": DST starts on the 1st Sunday of May, and switch back on 
 #      the last Sunday of September (2:00 am). (Mexico)
-MX  May  1Sun  02:00  Sep   Sun  02:00
+MX  Apr  1Sun  02:00  Oct   Sun  02:00
 
 #"EU": DST starts on the last Sunday of March, reverts on last 
 #      Sunday of October (1:00 am)
-EU  Mar   Sun  02:00  Oct   Sun  03:00
+EU  Mar   Sun  01:00  Oct   Sun  01:00
 
 #"EE": Same as EU but changes at 0:00 instead of 1:00 (East Europe)
-EE  Mar   Sun  00:00  Oct   Sun  02:00
+EE  Mar   Sun  00:00  Oct   Sun  00:00
 
 #"CH": DST starts 2nd Sun in Apr, reverts 2nd Sun in Sept (0:00) 
 #      (China; the dates are rather uncertain...)
@@ -26,18 +26,18 @@ HK  May  2Sun  03:30  Oct  3Sun  03:30
 #      dates are approximate, since Iran doesn't use the 
 #      Gregorian calendar.  Dates vary between March 20-21 and 
 #      Sep 22-23)
-IR  Mar    21  00:00  Sep    22  00:00
+IR  Mar    21  00:00  Sep    21  00:00
 
 #"IQ": DST starts Apr 1, reverts Oct 1 (3:00). (Iraq)
 IQ  Apr     1  03:00  Oct     1  00:00
 
 #"ZN": DST starts Apr 1, reverts Oct 1 (1:00).  Israel has no
 #      fixed law for start/end dates, so these are approximate.
-ZN  Apr     1  01:00  Oct     1  00:00
+ZN  Mar     Fri  01:00  Oct     Sun  00:00
 
 #"JD": DST starts last Thu of Mar, reverts last Thu of Sep (0:00)
 #      (Jordan)
-JD  Mar   Thu  00:00  Sep   Thu  00:00
+JD  Mar   Thu  00:00  Oct   Fri  00:00
 
 #"SK": DST starts 2nd Sun in May, reverts 2nd Sun in Oct (0:00)
 #(South Korea)
@@ -48,36 +48,36 @@ SK  May  2Sun  00:00  Oct  2Sun  00:00
 LB  Mar   Sun  00:00  Oct   Sun  00:00
 
 #"SY": DST starts Apr 1, reverts Oct 1 (0:00). (Syria)
-SY  Apr     1  00:00  Oct     1  00:00
+SY  Mar   Fri  00:00  Oct   Fri  00:00
 
 #"TS": DST starts 1st Sun in Oct, reverts last Sun in Mar (2:00)
 TS  Oct  1Sun  02:00  Mar   Sun  02:00
 
 #"AU": DST starts last Sun in Oct, reverts last Sun in Mar (2:00)
-AU  Oct   Sun  02:00  Mar   Sun  02:00
+AU  Oct   1Sun  02:00  Apr   1Sun  02:00
 
 #"NZ": DST starts 1st Sun in Oct, reverts 3rd Sun in Mar (2:00)
-NZ  Oct  1Sun  02:00  Mar  3Sun  02:00
+NZ  Sep  Sun  02:00  Apr  1Sun  02:00
 
 #"CZ": DST starts 1st Sun in Oct, reverts 3rd Sun in Mar (2:45)
 #      (used for Chatham, New Zealand)
-CZ  Oct  1Sun  02:45  Mar  3Sun  02:45
+CZ  Sep  Sun  02:45  Apr  1Sun  02:45
 
 #"TG": DST starts 1st Sunday in Nov, reverts last Sun in Jan (2:00)
 #(Tonga)
-TG  Nov  1Sun  02:00  Jan   Sun  02:00
+TG  Nov  1Sun  02:00  Jan  3Sun  03:00
 
 #"BZ": DST starts 2nd Sun in Oct, reverts 3rd Sun in Feb (0:00)
 #(Brazil)
-BZ  Oct  2Sun  00:00  Feb  3Sun  00:00
+BZ  Oct  3Sun  00:00  Feb  3Sun  00:00
 
 #"CL": DST starts 2nd Sun in Oct, reverts 2nd Sun in Mar (4:00)
 #(Chile)
-CL  Oct  2Sun  04:00  Mar  2Sun  04:00
+CL  Aug  2Sun  04:00  May  2Sun  03:00
 
 #"PY": DST starts 1st Sun in Oct, reverts 1st Sun in Mar (0:00)
 #(Paraguay)
-PY  Oct  1Sun  00:00  Mar  1Sun  00:00
+PY  Oct  1Sun  00:00  Mar  Sun  00:00
 
 #"EG": DST starts last Fri in Apr, reverts last Thu in Sep (0:00)
 #(Egypt)
