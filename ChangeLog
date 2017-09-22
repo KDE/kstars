@@ -4,6 +4,76 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.8.4 (Juli):
+=================================================================================================
+7c04782 2017-09-22 Jasem Mutlaq         Add support for PSF convoluted star detection algorithm adapted from PHD2 for auto selection of the guide star
+0019dfb 2017-09-22 Jasem Mutlaq         Add copy constructor
+765f011 2017-09-22 Jasem Mutlaq         Experimental zoom-dependent font size. Please test
+86176fa 2017-09-22 Jasem Mutlaq         Do not use display labels for HD stars, use genetive name
+c3f8853 2017-09-22 Jasem Mutlaq         Tempeorary hack to enable RTL for Arabic since qtbase_ar.qm does not exist upstream yet
+00780eb 2017-09-22 Jérôme SONRIER       Update TZ rules
+c7d478b 2017-09-22 Jasem Mutlaq         In case we are taking light images and the dust cap is parked, we unpark it before we proceed
+3200cf1 2017-09-22 Jasem Mutlaq         Make the dark library dialog non-blocking so that user can take action
+ece5d50 2017-09-21 Jasem Mutlaq         Bump to 2.8.4
+06864de 2017-09-21 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
+2c5480b 2017-09-21 Jasem Mutlaq         Update rotator settings to match those of INDI
+4b6176e 2017-09-21 Jasem Mutlaq         Set this string so that RTL languages can set it to RTL and layout can switch automatically
+161f6dd 2017-09-21 Jasem Mutlaq         Do not translate None for HiPS sources
+46e5f9f 2017-09-21 Jasem Mutlaq         Fix None issue not getting selected when displayed in different locale
+868e941 2017-09-21 Jasem Mutlaq         Unify font families and make more space due to language issue
+1f584ff 2017-09-21 Yuri Chornoivan      Fix minor typo
+0d4b150 2017-09-20 Jasem Mutlaq         Do not set target coords from telescope coords immediately after a model reset since the telescopes coords will be invalid
+fb9ef7a 2017-09-20 Jasem Mutlaq         Unpark can be IDLE after initial startup so handle this
+84dd672 2017-09-20 Jasem Mutlaq         Do not dither after meridian flip
+cdbde3f 2017-09-20 Jasem Mutlaq         Thank to Yuri for the tip now finding Polaris in different locales works
+261f862 2017-09-20 Csaba Kertesz        Allow more tolerance for the alignment
+d1ba9c4 2017-09-20 Csaba Kertesz        Fix compiler warning (-Wvla) to avoid stack overflow
+6d0e344 2017-09-20 Jasem Mutlaq         Reject large calibration stars that do not fit within the guide box
+618f206 2017-09-20 Jasem Mutlaq         Fix compile error
+2d056f4 2017-09-20 Jasem Mutlaq         Do not build testing unless required
+8833f71 2017-09-20 Jasem Mutlaq         Several i18n fixes and add warning when Slewing to Sun
+b5278f3 2017-09-19 Jasem Mutlaq         Disable scripting for non-UNIX systems for now until DBus handling is fixed properly
+e4fd674 2017-09-19 Jasem Mutlaq         Remember if temperature check is enforced for current CCDs in the list
+c11fccd 2017-09-19 Jasem Mutlaq         Increaser range for focus filter offsets
+879088e 2017-09-19 Jasem Mutlaq         When ekos state is stopping, we must check for its status in all shutdown stages
+0a98aff 2017-09-18 Jasem Mutlaq         Save settings for capture calibration in options
+a0a733f 2017-09-18 Jasem Mutlaq         Use better naming scheme for generic blobs
+1b11f4e 2017-09-18 Jasem Mutlaq         Do not process mount status unless guider is internal
+e90fd9a 2017-09-17 Jasem Mutlaq         Give hints if UTC offset is not set
+ac46233 2017-09-17 Jasem Mutlaq         Swap elevation and read only
+05142d1 2017-09-17 Jasem Mutlaq         Elevation should come before read only
+5bb9d50 2017-09-17 Robert Barlow        Update citydb with elevations from Google and reduce minimum elevation in location dialog
+201f95f 2017-09-17 Jasem Mutlaq         Make guide exposure 3 decimals
+bb7d7f4 2017-09-17 Jasem Mutlaq         Limit next exposure setting for automatic ADU to camera limits
+49419db 2017-09-17 Jasem Mutlaq         Add support for ROTATOR class and handle setting of it like other devices
+bdb2615 2017-09-16 Jasem Mutlaq         Fix issues with elevation and city addition and update in location dialog
+371edd5 2017-09-16 Jasem Mutlaq         DB changes from Robert
+f9a841c 2017-09-16 Jasem Mutlaq         Rotator fixes
+fdd6f99 2017-09-15 Robert Barlow        Add elevation to geo-location and database
+6de0ec3 2017-09-15 Jasem Mutlaq         Fix rotator limits and PA angles
+f509a28 2017-09-15 Jasem Mutlaq         Fix rotator calculations and only start to check PA after solving first actual image after load and slew. Fix reading of RA and DE from FITS files a..
+04872e5 2017-09-15 Jasem Mutlaq         Set status to 0 otherwise cfitsio would magically fail if the previous operation failed.
+ad6d365 2017-09-15 Jasem Mutlaq         Alignment settings changes should be handled in align module
+20d854e 2017-09-15 Jasem Mutlaq         Update active telescope name for all CCds
+ec2ecbf 2017-09-15 Yuri Chornoivan      Fix minor typo
+b3f002d 2017-09-15 Jasem Mutlaq         Consider device not found if filterName is null initially
+7d071bd 2017-09-15 Jasem Mutlaq         Support for rotator in load&slew. It should automatically adjust rotator the orientation of the solved image
+9e92c2d 2017-09-15 Jasem Mutlaq         Rotator control and sequence settings now work and tested on my observator with NightCrawler
+0ce0ee8 2017-09-15 Jasem Mutlaq         Fix rotation of PA FOVs
+ec1e4ef 2017-09-14 Jasem Mutlaq         Fix scheduler abort job statement
+7a40915 2017-09-14 Yuri Chornoivan      Fix minor typos
+46b57ef 2017-09-14 Jasem Mutlaq         Make constellation names less prominent as they can be distacting.
+dbc15e9 2017-09-13 Jasem Mutlaq         More progress on rotator integration with alignment module
+09daa11 2017-09-13 Jasem Mutlaq         Fix saving of last equipment profile
+a13e691 2017-09-13 Jasem Mutlaq         Improve handling of device removals in focus module
+c8c977d 2017-09-12 Jasem Mutlaq         More progress on Rotator integration with Ekos
+d852d8d 2017-09-12 Jasem Mutlaq         FOV rotation is specified as E of N for clarity and now it is properly drawn on the sky map
+61d7679 2017-09-12 Jasem Mutlaq         saveB was not connected to slot, how did this happen?
+9439fee 2017-09-12 Jasem Mutlaq         Use camera width and pixel size for FOV calculatio. Add button to fetch values from INDI, this is still TODO
+b56f73f 2017-09-11 Jasem Mutlaq         Manage dome motion in alignment module
+907c966 2017-09-11 Jasem Mutlaq         Stop timer on telescope disconnect
+6c3476e 2017-09-11 Christian Dersch     Updated from upstream. Workaround for M102
+
 2.8.3 (Tommy):
 =================================================================================================
 1eb46b9 2017-09-11 Jasem Mutlaq         If calibration view is gone then set dark frame as false
@@ -1330,11 +1400,11 @@ d53f6ff 2016-08-31	Jasem Mutlaq	Reject invalid frame requests
 
 2.3.0 (Altair):
  ===================----------------------------------
- 
+
  - Migrated to KDE Frameworks 5
  - Ekos DBUS Interface
  - INDI DBUS Interface
- 
+
  1.0 (Kornephoros): (* indicates to-be-done)
 ===================----------------------------------
 
@@ -1360,10 +1430,10 @@ Other Features:
 
 Performance:
 
-- Rigorous performance profiling with valgrind has resulted in 
+- Rigorous performance profiling with valgrind has resulted in
   sky-rendering times about half of what they were in 0.9.1
 
-- Startup time has been greatly reduced by more efficient 
+- Startup time has been greatly reduced by more efficient
   algorithms to read in large data files.
 
 
@@ -1374,8 +1444,8 @@ New Tools:
 - Light-curve Plotter for variable stars
 
 - Detailed Information Window has been greatly expanded; in addition
-  to presenting data about the object, it allows you to manage the 
-  object's internet links, query professional astronomical databases, 
+  to presenting data about the object, it allows you to manage the
+  object's internet links, query professional astronomical databases,
   and attach personalized text to the object's data record.
 
 * KStars script generator: a GUI to build KStars DCOP scripts.
@@ -1387,7 +1457,7 @@ Miscellany:
 
 - Opening secondary KStars windows is finally stable
 
-- Expanded DCOP functionality; can now generate interesting 
+- Expanded DCOP functionality; can now generate interesting
   "demo movies" with KStars.
 
 - Delay "focus below horizon" popup window to avoid mysterious
@@ -1398,7 +1468,7 @@ Miscellany:
 * Expanded number of image/info links
 
 - KStars can now alternately use a localized list of internet links,
-  rather than the default which links to mostly English-only 
+  rather than the default which links to mostly English-only
   websites.
 
 - We no longer support KDE 2.x
@@ -1407,39 +1477,39 @@ Miscellany:
  0.9.1 (Indus):
 ===============--------------------------------------
 
-   This is a maintenance release; it contains all the feature 
-   improvements we have made up to the KDE 3.1 feature freeze.  
+   This is a maintenance release; it contains all the feature
+   improvements we have made up to the KDE 3.1 feature freeze.
 
-- The Info Panel has been removed; in its place, we display the 
-  time/geography/focus data directly on screen in three separate 
-  "Info Boxes".  These can be dragged around the window to any 
-  position, and they "stick" to the window edges on resize events.  
-  In addition, each box can be "shaded" (by double-clicking) 
-  between a full mode, and a short mode, in which only one line of 
-  information is shown.  
+- The Info Panel has been removed; in its place, we display the
+  time/geography/focus data directly on screen in three separate
+  "Info Boxes".  These can be dragged around the window to any
+  position, and they "stick" to the window edges on resize events.
+  In addition, each box can be "shaded" (by double-clicking)
+  between a full mode, and a short mode, in which only one line of
+  information is shown.
 
-- New "Detailed Information" window displays name, position and other 
+- New "Detailed Information" window displays name, position and other
   information about any object in the sky.
 
-- Redesign of Time Step widget in the main toolbar.  The new custom 
-  widget renders properly in all widget styles and should function 
+- Redesign of Time Step widget in the main toolbar.  The new custom
+  widget renders properly in all widget styles and should function
   more consistently.
 
 - ~50% improvement in sky-rendering speed due to code optimization
 
-- Improved display of angles as strings (use 
+- Improved display of angles as strings (use
   degree/arcminute/arcsecond symbols instead of letters d,m,s).
 
 - More accurate Rise/Set/Transit times for planets
 
-- new AstroCalculator module: "Day Duration"...calculates time of 
+- new AstroCalculator module: "Day Duration"...calculates time of
   sunrise/sunset/noon as well as length of day and position of Sun
   at these three times.
 
-- Added many locations to geographic database, including major 
+- Added many locations to geographic database, including major
   observatories.
 
-- More AstroInfo articles on on Blackbody Radiation, Parallax, 
+- More AstroInfo articles on on Blackbody Radiation, Parallax,
   Stars, Star Colors, Dark Matter, and Elliptical Galaxies
 
 - Handling of Daylight Savings time (a.k.a. Summer Time) is more stable.
@@ -1453,7 +1523,7 @@ Miscellany:
 ============--------------------------------------------
 
 Display Features:
-- Configurable InfoPanel: can choose to show parts of infopanel, or hide 
+- Configurable InfoPanel: can choose to show parts of infopanel, or hide
   it all.
 
 - We now show the sky "slewing" to a new position, instead of "snapping"
@@ -1464,7 +1534,7 @@ Display Features:
 - Planets drawn with more realistic angular sizes and position angles
 
 - The NGC/IC catalogs are now complete (13,000 deep sky objects; the old
-  version had ~10,000).  In addition, the new catalog has more precise 
+  version had ~10,000).  In addition, the new catalog has more precise
   coordinates.
 
 - Deep sky objects drawn with correct angular size and position angle
@@ -1472,14 +1542,14 @@ Display Features:
 
 - Added many more zoom levels
 
-- KDE3 automatically alpha-blends the planet, Messier, and star bitmaps 
+- KDE3 automatically alpha-blends the planet, Messier, and star bitmaps
   in the sky map
 
-- KStars can spawn multiple windows.  Use this with caution; it isn't 
+- KStars can spawn multiple windows.  Use this with caution; it isn't
   stable yet!
 
-- Added View Options toolbar, which provides buttons to toggle the display 
-  of major sky features (stars, constellations, planets, deep sky obj., 
+- Added View Options toolbar, which provides buttons to toggle the display
+  of major sky features (stars, constellations, planets, deep sky obj.,
   coordinate grid, and horizon)
 
 - Added Advanced tab to Configuration window
@@ -1498,30 +1568,30 @@ Other Features:
 
 - Added Daylight Savings Time rules
 
-- Added DCOP interface, which will form the foundation of our scriptable 
+- Added DCOP interface, which will form the foundation of our scriptable
   behavior features.
 
 - Can zoom with the mouse wheel, or by dragging with the middle mouse
   button.
 
-- new "Advanced" Options tab for tweaking behaviors such as atmospheric 
+- new "Advanced" Options tab for tweaking behaviors such as atmospheric
   refraction correction, hiding objects while moving, and animated slewing
 
 - Preliminary Print function (does not work well yet)
 
 - "Tip of the Day" window
-	
+
 
 Calculation Accuracy:
-- More accurate Planet positions:  now properly include aberration, 
+- More accurate Planet positions:  now properly include aberration,
   nutation, light travel time delay.  Planet positions are updated
   more often.
 
-- Atmospheric refraction: in Alt/Az mode, we include the effect of our 
-  atmosphere, which bends light that passes through it, slightly altering 
+- Atmospheric refraction: in Alt/Az mode, we include the effect of our
+  atmosphere, which bends light that passes through it, slightly altering
   the positions of objects in the sky.
 
-- rewrote time handling code; simulation time is now kept by a separate 
+- rewrote time handling code; simulation time is now kept by a separate
   class.
 
 
@@ -1533,15 +1603,15 @@ Performance:
 
 - Find Object (by Name) function is faster
 
-- clicking on the map to identify an object is more intelligent when 
-  several objects are near the clicked location (it prioritizes the 
+- clicking on the map to identify an object is more intelligent when
+  several objects are near the clicked location (it prioritizes the
   selection by object type).
 
 
-Code Structure: 
+Code Structure:
 - major code overhauls to improve performance and memory usage
 
-- Improved OOP code structure (classes are more independent; and 
+- Improved OOP code structure (classes are more independent; and
   have private data).
 
 - Planet data stored in a hierarchy of classes.
@@ -1556,90 +1626,90 @@ Code Structure:
 Several bugfixes, including some crash conditions.
 
 
-0.8 (Hydra):  
+0.8 (Hydra):
 ============-----------------------------------------------
 
-Sky display: Milky Way is now filled.  Added coordinate grid.  
-  Reorganized "colors" tab in options window.  Added options to 
-  show constellation names in native language, or as official IAU 
-  abbreviations.  Popup menu now shows Rise/Set times of the object.  
-  Added "genetive" star names (e.g., "alpha Orionis").  Added 
-  keyboard shortcuts to center on planets, and on cardinal direction 
+Sky display: Milky Way is now filled.  Added coordinate grid.
+  Reorganized "colors" tab in options window.  Added options to
+  show constellation names in native language, or as official IAU
+  abbreviations.  Popup menu now shows Rise/Set times of the object.
+  Added "genetive" star names (e.g., "alpha Orionis").  Added
+  keyboard shortcuts to center on planets, and on cardinal direction
   points along the horizon (N, S, E, W).
-	
-Customization: Ability to add custom geographic locations, custom 
-  URLs, and custom color schemes.  Added "star chart" predefined 
-  color scheme.  
 
-Geographic locations: Added about 80 non-US cities to locations 
-  database.  Improved determination of a location's time zone.  
+Customization: Ability to add custom geographic locations, custom
+  URLs, and custom color schemes.  Added "star chart" predefined
+  color scheme.
+
+Geographic locations: Added about 80 non-US cities to locations
+  database.  Improved determination of a location's time zone.
   Added optional "Province" field to geolocation database.
-	
-Documentation: Updated Handbook.  Added AstroInfo articles to the 
+
+Documentation: Updated Handbook.  Added AstroInfo articles to the
   Handbook.  Added toolbar button to launch handbook browser
-	
-Performance: 
-- Improved memory handling (unused objects are not loaded into 
-  memory on startup).  
+
+Performance:
+- Improved memory handling (unused objects are not loaded into
+  memory on startup).
 
 
-0.7 (Gemini): 
+0.7 (Gemini):
 =============------------------------------------------------
-Added realistic star colors.  
-Added ability to provide custom image and information links.  
-Most Messier objects now shown as inline images directly on the sky map.  
-Expanded number of internet links.  
+Added realistic star colors.
+Added ability to provide custom image and information links.
+Most Messier objects now shown as inline images directly on the sky map.
+Expanded number of internet links.
 Added Pluto.
-Added Milky Way countour.  
+Added Milky Way countour.
 Added spectral type of stars to popup menu.
-Automated object tracking when an object is centered.  
-Display name and coordinates of centered object in the infoPanel.  
-Fixed "extra layout" error messages.  
-Improved efficiency of KSPlanet::findPosition().  
-Initial startup parameters make more sense.  
-If focus point is below horizon when KStars restarts, a warning message 
-  is triggered.  Also, if it is shut down while tracking an object, it 
-  will still be tracking when restarted.  
-Choose latin or localized constellation names.  
+Automated object tracking when an object is centered.
+Display name and coordinates of centered object in the infoPanel.
+Fixed "extra layout" error messages.
+Improved efficiency of KSPlanet::findPosition().
+Initial startup parameters make more sense.
+If focus point is below horizon when KStars restarts, a warning message
+  is triggered.  Also, if it is shut down while tracking an object, it
+  will still be tracking when restarted.
+Choose latin or localized constellation names.
 Various bug fixes and minor improvements.
 
 
-0.6 (Fomalhaut): 
+0.6 (Fomalhaut):
 ================--------------------------------------------
-Added the moon, with phases.  
-Reorganized the InfoPanel widget (and painted it black).  
-The sky map now stretches when the window is resized.  
-Improved startup speed and vastly improved speed of the "Find Object" 
+Added the moon, with phases.
+Reorganized the InfoPanel widget (and painted it black).
+The sky map now stretches when the window is resized.
+Improved startup speed and vastly improved speed of the "Find Object"
   function.
 
-0.5 (Enif): 
+0.5 (Enif):
 ===========------------------------------
-Added Sun and all planets except Pluto.  
-Reorganized view options dialog.  
+Added Sun and all planets except Pluto.
+Reorganized view options dialog.
 Added Splash Screen, with loading messages.
 
-0.4 (Deneb): 
+0.4 (Deneb):
 ============-----------------------------
 Added customizable display options, including color palette.
-Implemented Alt/Az Coordinate system. 
-Added optional opaque horizon. 
-Expanded star catalog. 
-Deep-sky objects symbols indicate object type, and color indicates catalog. 
-Added NGC/IC catalog. 
-Added links to HST press release images. 
-Added Find-by-name function. 
+Implemented Alt/Az Coordinate system.
+Added optional opaque horizon.
+Expanded star catalog.
+Deep-sky objects symbols indicate object type, and color indicates catalog.
+Added NGC/IC catalog.
+Added links to HST press release images.
+Added Find-by-name function.
 Updated documentation.
 
-0.3 (Castor): 
+0.3 (Castor):
 =============----------------------------
 added Messier objects, constellation lines, image downloads,
 drag sky w/ mouse.
 
-0.2 (Betelgeuse): 
+0.2 (Betelgeuse):
 =================----------------
 added global coverage to city database
 
-0.1 (Altair): 
+0.1 (Altair):
 =============--------------------
 first public release
 
