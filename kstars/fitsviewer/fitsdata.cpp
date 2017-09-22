@@ -67,6 +67,20 @@ FITSData::FITSData(FITSMode fitsMode)
     debayerParams.offsetX = debayerParams.offsetY = 0;
 }
 
+FITSData::FITSData(const FITSData *other)
+{
+    debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
+    debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
+    debayerParams.offsetX = debayerParams.offsetY = 0;
+
+    this->mode = other->mode;
+    this->data_type = other->data_type;
+    this->channels = other->channels;
+    memcpy(&stats, &(other->stats), sizeof(stats));
+    imageBuffer = new uint8_t[stats.samples_per_channel*channels*stats.bytesPerPixel];
+    memcpy(imageBuffer, other->imageBuffer, stats.samples_per_channel*channels*stats.bytesPerPixel);
+}
+
 FITSData::~FITSData()
 {
     int status = 0;
