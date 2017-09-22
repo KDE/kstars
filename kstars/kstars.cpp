@@ -60,8 +60,13 @@ bool KStars::Closing = false;
 KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     : KXmlGuiWindow(), StartClockRunning(clockrun), StartDateString(startdate)
 {
-    // Needed to set layout direction. It should be set to either RTL or LTR
-    QT_TRANSLATE_NOOP("QApplication", "QT_LAYOUT_DIRECTION");
+    // FIXME Hack to set RTL direction for Arabic
+    // This is not a solution. It seems qtbase_ar.qm needs to take care of this?
+    // qttranslations5-l10n does not contain qtbase_ar.qm
+    // It seems qtbase_ar.ts does not exist for Qt 5.9 at all and needs to be translated.
+    // https://wiki.qt.io/Qt_Localization
+    if (i18n("Sky") == "السماء")
+        qApp->setLayoutDirection(Qt::RightToLeft);
 
     setWindowTitle(i18n("KStars"));
 
