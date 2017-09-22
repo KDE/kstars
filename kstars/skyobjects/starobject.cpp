@@ -554,8 +554,9 @@ QString StarObject::nameLabel(bool drawName, bool drawMag) const
 
     if (drawName)
     {
-        if (translatedName() != i18n("star") && !translatedName().isEmpty())
-            sName = translatedName();
+        QString translation = translatedName();
+        if (translation != i18n("star") && !translation.startsWith("HD"))
+            sName = translation;
         else if (!gname().trimmed().isEmpty())
             sName = gname(true);
         else
