@@ -183,6 +183,11 @@ bool SkyLabeler::drawNameLabel(SkyObject *obj, const QPointF &_p)
     }
     else
     {
+        double factor = log(Options::zoomFactor() / 750.0);
+        double newPointSize = qBound(12.0, factor*m_stdFont.pointSizeF(), 18.0);
+        QFont zoomFont(m_p.font());
+        zoomFont.setPointSizeF(newPointSize);
+        m_p.setFont(zoomFont);
         m_p.drawText(p, sLabel);
         return true;
     }
