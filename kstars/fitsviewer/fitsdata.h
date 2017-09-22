@@ -91,6 +91,7 @@ class FITSData
 {
   public:
     explicit FITSData(FITSMode mode = FITS_NORMAL);
+    explicit FITSData(const FITSData *other);
     ~FITSData();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
@@ -156,7 +157,7 @@ class FITSData
     int getBPP() { return stats.bitpix; }
     double getADU();
 
-    // Star detection
+    // Star Detection - Native KStars implementation
     int getDetectedStars() { return starCenters.count(); }
     bool areStarsSearched() { return starsSearched; }
     void appendStar(Edge *newCenter) { starCenters.append(newCenter); }
@@ -167,7 +168,7 @@ class FITSData
     void getCenterSelection(int *x, int *y);
     int findOneStar(const QRectF &boundary);
 
-    // Find single star based on partially customized Canny edge detection
+    // Star Detection - Partially customized Canny edge detection algorithm
     static int findCannyStar(FITSData *data, const QRect &boundary = QRect());
     template <typename T>
     static int findCannyStar(FITSData *data, const QRect &boundary);
