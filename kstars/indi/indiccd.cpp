@@ -1426,7 +1426,7 @@ void CCD::processBLOB(IBLOB *bp)
                 //This is how to get the image to show up in the EkosManger preview FitsView.
                 FITSView *previewView = KStars::Instance()->ekosManager()->getPreviewView();
                 // Only load preview in Ekos Summary screen if limited resources mode is off
-                if (Options::limitedResourcesMode() == false && previewView)
+                if (Options::limitedResourcesMode() == false && targetChip == primaryChip.get() && previewView)
                 {
                     previewView->setFilter(captureFilter);
                     bool imageLoad = previewView->loadFITS(filename, true);
