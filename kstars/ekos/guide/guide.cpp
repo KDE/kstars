@@ -728,10 +728,17 @@ bool Guide::captureOneFrame()
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
     qCDebug(KSTARS_EKOS_GUIDE) << "Capturing frame...";
 
-    // Timeout is exposure duration + timeout threshold in seconds
-    captureTimeout.start(seqExpose * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+    double finalExposure = seqExpose;
 
-    targetChip->capture(seqExpose);
+    // Increase exposure for calibration frame if we need auto-select a star
+    // To increase chances we detect one.
+    if (operationStack.contains(GUIDE_STAR_SELECT) && Options::guideAutoStarEnabled())
+        finalExposure *= 3;
+
+    // Timeout is exposure duration + timeout threshold in seconds
+    captureTimeout.start(finalExposure * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+
+    targetChip->capture(finalExposure);
 
     return true;
 }
