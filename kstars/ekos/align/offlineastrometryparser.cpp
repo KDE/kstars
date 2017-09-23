@@ -40,6 +40,9 @@ OfflineAstrometryParser::OfflineAstrometryParser() : AstrometryParser()
     astrometryIndex[1000] = "index-4217";
     astrometryIndex[1400] = "index-4218";
     astrometryIndex[2000] = "index-4219";
+
+    // Reset parity on solver failure
+    connect(this, &OfflineAstrometryParser::solverFailed, this, [&]() { parity = QString(); });
 }
 
 OfflineAstrometryParser::~OfflineAstrometryParser()
@@ -110,24 +113,24 @@ bool OfflineAstrometryParser::astrometryNetOK()
 
     if (Options::astrometrySolverIsInternal())
     {
-        QFileInfo solver(QCoreApplication::applicationDirPath() + "/astrometry/bin/solve-field");
-        solverOK = solver.exists() && solver.isFile();
+        QFileInfo solverFileInfo(QCoreApplication::applicationDirPath() + "/astrometry/bin/solve-field");
+        solverOK = solverFileInfo.exists() && solverFileInfo.isFile();
     }
     else
     {
-        QFileInfo solver(Options::astrometrySolverBinary());
-        solverOK = solver.exists() && solver.isFile();
+        QFileInfo solverFileInfo(Options::astrometrySolverBinary());
+        solverOK = solverFileInfo.exists() && solverFileInfo.isFile();
     }
 
     if (Options::astrometryWCSIsInternal())
     {
-        QFileInfo wcsinfo(QCoreApplication::applicationDirPath() + "/astrometry/bin/wcsinfo");
-        wcsinfoOK = wcsinfo.exists() && wcsinfo.isFile();
+        QFileInfo wcsFileInfo(QCoreApplication::applicationDirPath() + "/astrometry/bin/wcsinfo");
+        wcsinfoOK = wcsFileInfo.exists() && wcsFileInfo.isFile();
     }
     else
     {
-        QFileInfo wcsinfo(Options::astrometryWCSInfo());
-        wcsinfoOK = wcsinfo.exists() && wcsinfo.isFile();
+        QFileInfo wcsFileInfo(Options::astrometryWCSInfo());
+        wcsinfoOK = wcsFileInfo.exists() && wcsFileInfo.isFile();
     }
 
     return (solverOK && wcsinfoOK);
@@ -240,7 +243,7 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     QString path            = env.value("PATH", "");
     env.insert("PATH", "/usr/local/bin:" + path);
-    solver.setProcessEnvironment(env);
+    solver->setProcessEnvironment(env);
 #endif
 
     QStringList solverArgs = args;
@@ -262,19 +265,19 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
 
     fitsFile = filename;
 
-    connect(&solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
-    connect(&solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
+    solver.clear();
+    solver = new QProcess(this);
 
-    // Reset parity on solver failure
-    connect(this, &OfflineAstrometryParser::solverFailed, this, [&]() { parity = QString(); });
+    connect(solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
+    connect(solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
 
 #if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
-    connect(&solver, &QProcess::errorOccurred, this, [&]() {
-        align->appendLogText(i18n("Error starting solver: %1", solver.errorString()));
+    connect(solver, &QProcess::errorOccurred, this, [&]() {
+        align->appendLogText(i18n("Error starting solver: %1", solver->errorString()));
         emit solverFailed();
     });
 #else
-    connect(&solver, SIGNAL(error(QProcess::ProcessError)), this, SIGNAL(solverFailed()));
+    connect(solver, SIGNAL(error(QProcess::ProcessError)), this, SIGNAL(solverFailed()));
 #endif
 
     solverTimer.start();
@@ -286,9 +289,9 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
     else
         solverPath = Options::astrometrySolverBinary();
 
-    solver.start(solverPath, solverArgs);
+    solver->start(solverPath, solverArgs);
 
-    align->appendLogText(i18n("Starting solver..."));
+    align->appendLogText(i18n("Starting solver->.."));
 
     if (Options::astrometrySolverVerbose())
     {
@@ -302,15 +305,15 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
 
 bool OfflineAstrometryParser::stopSolver()
 {
-    solver.terminate();
-    solver.disconnect();
+    solver->terminate();
+    solver->disconnect();
 
     return true;
 }
 
 void OfflineAstrometryParser::solverComplete(int exist_status)
 {
-    solver.disconnect();
+    solver->disconnect();
 
     // TODO use QTemporaryFile later
     QString solutionFile = QDir::tempPath() + "/solution.wcs";
@@ -383,6 +386,6 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
 void OfflineAstrometryParser::logSolver()
 {
     if (Options::astrometrySolverVerbose())
-        align->appendLogText(solver.readAll().trimmed());
+        align->appendLogText(solver->readAll().trimmed());
 }
 }
