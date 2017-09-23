@@ -13,6 +13,7 @@
 
 #include <QMap>
 #include <QProcess>
+#include <QPointer>
 #include <QTime>
 
 namespace Ekos
@@ -51,7 +52,7 @@ class OfflineAstrometryParser : public AstrometryParser
 
     QMap<float, QString> astrometryIndex;
     QString parity;
-    QProcess solver;
+    QPointer<QProcess> solver;
     QProcess wcsinfo;
     QTime solverTimer;
     QString fitsFile;
