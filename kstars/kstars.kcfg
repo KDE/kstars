@@ -1306,6 +1306,10 @@
       </entry>      
    </group>
    <group name="FITSViewer">
+   <entry name="useFITSViewer" type="Bool">
+      <label>Display every image captured in a FITS Viewer window.</label>
+      <default>true</default>
+   </entry>
    <entry name="singlePreviewFITS" type="Bool">
       <label>Preview FITS in a single tab?</label>
       <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>
@@ -1537,9 +1541,9 @@
       <entry name="AutoStretch" type="Bool">
          <label>Perform auto stretch on captured images in FITS Viewer.</label>
          <default>true</default>
-      </entry>
-      <entry name="useFITSViewerInCapture" type="Bool">
-         <label>Display every image captured in the sequence in a FitsViewer window.</label>
+      </entry>      
+      <entry name="useSummaryPreview" type="Bool">
+         <label>Display every image captured sequence image in the Ekos summary screen preview window.</label>
          <default>true</default>
       </entry>
    </group>

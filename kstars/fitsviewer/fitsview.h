@@ -51,11 +51,11 @@ class FITSView : public QScrollArea
 
     typedef enum {dragCursor, selectCursor, scopeCursor, crosshairCursor } CursorMode;
 
-    /* Loads FITS image, scales it, and displays it in the GUI */
+    // Loads FITS image, scales it, and displays it in the GUI
     bool loadFITS(const QString &filename, bool silent = true);
-    /* Save FITS */
+    // Save FITS
     int saveFITS(const QString &filename);
-    /* Rescale image lineary from image_buffer, fit to window if desired */
+    // Rescale image lineary from image_buffer, fit to window if desired
     int rescale(FITSZoom type);
 
     // Access functions

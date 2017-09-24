@@ -38,6 +38,16 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
+         <widget class="QCheckBox" name="kcfg_useFITSViewer">
+          <property name="toolTip">
+           <string>Automatically display recieved images in the FITS Viewer</string>
+          </property>
+          <property name="text">
+           <string>Use FITS Viewer</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
           <property name="toolTip">
            <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
@@ -49,7 +59,7 @@
            <string/>
           </property>
           <property name="text">
-           <string>Preview Mode</string>
+           <string>Single Preview Tab</string>
           </property>
           <property name="checked">
            <bool>true</bool>

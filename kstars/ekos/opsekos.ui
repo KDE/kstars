@@ -354,6 +354,16 @@
      </widget>
     </item>
     <item>
+     <widget class="QCheckBox" name="kcfg_useSummaryPreview">
+      <property name="toolTip">
+       <string>Display receieved FITS in the Summary screen preview window.</string>
+      </property>
+      <property name="text">
+       <string>Summary Screen Preview</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <spacer name="verticalSpacer_3">
       <property name="orientation">
        <enum>Qt::Vertical</enum>

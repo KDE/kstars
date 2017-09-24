@@ -1382,9 +1382,10 @@ void CCD::processBLOB(IBLOB *bp)
     {
         QUrl fileURL = QUrl::fromLocalFile(filename);
 
-        // If there is no FITSViewer, create it. Unless it is a dedicated Focus or Guide frame
-        // then no need for a FITS Viewer as they get displayed inside Ekos
-        if (Options::useFITSViewerInCapture() || !targetChip->isBatchMode())
+        // Get or Create FITSViewer if we are using FITSViewer
+        // or if capture mode is calibrate since for now we are forced to open the file in the viewer
+        // this should be fixed in the future and should only use FITSData
+        if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
         {
             if (fv.isNull() && targetChip->getCaptureMode() != FITS_GUIDE &&
                 targetChip->getCaptureMode() != FITS_FOCUS && targetChip->getCaptureMode() != FITS_ALIGN)
@@ -1408,12 +1409,17 @@ void CCD::processBLOB(IBLOB *bp)
 
         QString previewTitle;
 
-        bool preview = !targetChip->isBatchMode() && Options::singlePreviewFITS();
-        if (preview)
+        // If image is preview and we should display all captured images in a single tab called "Preview"
+        // Then set the title to "Preview"
+        // Otherwise, the title will be the captured image name
+        if (targetChip->isBatchMode() == false && Options::singlePreviewFITS())
         {
+            // If we are displayed all images from all cameras in a single FITS Viewer window
+            // Then we prefix the camera name to the "Preview" string
             if (Options::singleWindowCapturedFITS())
                 previewTitle = i18n("%1 Preview", getDeviceName());
             else
+            // Otherwise, just use "Preview"
                 previewTitle = i18n("Preview");
         }
 
@@ -1423,17 +1429,18 @@ void CCD::processBLOB(IBLOB *bp)
         {
             case FITS_NORMAL:
             {
-                //This is how to get the image to show up in the EkosManger preview FitsView.
-                FITSView *previewView = KStars::Instance()->ekosManager()->getPreviewView();
+                // Get a pointer to the Ekos summary preview if it exsist
+                FITSView *summaryFITSPreview = KStars::Instance()->ekosManager()->getSummaryPreview();
                 // Only load preview in Ekos Summary screen if limited resources mode is off
-                if (Options::limitedResourcesMode() == false && targetChip == primaryChip.get() && previewView)
+                // and if useSummaryPreview is enabled and if the target chip belongs to the primary chip of the camera
+                if (Options::useSummaryPreview() && Options::limitedResourcesMode() == false && targetChip == primaryChip.get() && summaryFITSPreview)
                 {
-                    previewView->setFilter(captureFilter);
-                    bool imageLoad = previewView->loadFITS(filename, true);
+                    summaryFITSPreview->setFilter(captureFilter);
+                    bool imageLoad = summaryFITSPreview->loadFITS(filename, true);
                     if (imageLoad)
-                        previewView->updateFrame();
+                        summaryFITSPreview->updateFrame();
                 }
-                if (Options::useFITSViewerInCapture() || !targetChip->isBatchMode())
+                if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
                 {
                     if (normalTabID == -1 || Options::singlePreviewFITS() == false)
                         tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
@@ -1459,44 +1466,17 @@ void CCD::processBLOB(IBLOB *bp)
                         return;
                     }
                 }
-                else
+                // If we used Ekos summary preview to load the FITS image
+                // Then set it as the default image view for the target chip
+                else if (summaryFITSPreview)
                 {
-                    if (previewView)
-                    {
-                        targetChip->setImageView(previewView, FITS_NORMAL);
-                        emit newImage(previewView->getDisplayImage(), targetChip);
-                    }
+                  targetChip->setImageView(summaryFITSPreview, FITS_NORMAL);
+                  emit newImage(summaryFITSPreview->getDisplayImage(), targetChip);
                 }
             }
             break;
 
             case FITS_FOCUS:
-                /*
-                if (focusTabID == -1)
-                    tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
-                else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
-                {
-                    fv->removeFITS(focusTabID);
-                    tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
-                }
-                else
-                    tabRC = focusTabID;
-
-                if (tabRC >= 0)
-                {
-                    focusTabID = tabRC;
-                    targetChip->setImageView(fv->getView(focusTabID), FITS_FOCUS);
-
-                    emit newImage(fv->getView(focusTabID)->getDisplayImage(), targetChip);
-                }
-                else
-                {
-                    emit newExposureValue(targetChip, 0, IPS_ALERT);
-                    // If there is problem loading image then BLOB is not valid so let's return
-                    return;
-                }
-                */
-
                 {
                     FITSView *focusView = targetChip->getImageView(FITS_FOCUS);
                     if (focusView)
@@ -1505,7 +1485,6 @@ void CCD::processBLOB(IBLOB *bp)
                         bool imageLoad = focusView->loadFITS(filename, true);
                         if (imageLoad)
                         {
-                            //focusView->rescale(ZOOM_FIT_WINDOW);
                             focusView->updateFrame();
                             emit newImage(focusView->getDisplayImage(), targetChip);
                         }
@@ -1519,29 +1498,6 @@ void CCD::processBLOB(IBLOB *bp)
                 break;
 
             case FITS_GUIDE:
-                /*
-                if (guideTabID == -1)
-                    tabRC = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
-                else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
-                {
-                    fv->removeFITS(guideTabID);
-                    tabRC = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
-                }
-                else
-                    tabRC = guideTabID;
-
-                if (tabRC >= 0)
-                {
-                    guideTabID = tabRC;
-                    targetChip->setImageView(fv->getView(guideTabID), FITS_GUIDE);
-
-                    emit newImage(fv->getView(guideTabID)->getDisplayImage(), targetChip);
-                }
-                else
-                {
-                    emit newExposureValue(targetChip, 0, IPS_ALERT);
-                    return;
-                }*/
                 {
                     FITSView *guideView = targetChip->getImageView(FITS_GUIDE);
                     if (guideView)
@@ -1550,7 +1506,6 @@ void CCD::processBLOB(IBLOB *bp)
                         bool imageLoad = guideView->loadFITS(filename, true);
                         if (imageLoad)
                         {
-                            //guideView->rescale(ZOOM_FIT_WINDOW);
                             guideView->updateFrame();
                             emit newImage(guideView->getDisplayImage(), targetChip);
                         }
@@ -1564,8 +1519,9 @@ void CCD::processBLOB(IBLOB *bp)
                 break;
 
             case FITS_CALIBRATE:
-                if (Options::useFITSViewerInCapture() || !targetChip->isBatchMode())
-                {
+            // FIXME should use FITSData, no need for FITSView
+            //if (Options::useFITSViewer())
+                //{
                     if (calibrationTabID == -1)
                         tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
                     else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
@@ -1586,32 +1542,10 @@ void CCD::processBLOB(IBLOB *bp)
                         emit newExposureValue(targetChip, 0, IPS_ALERT);
                         return;
                     }
-                }
+                //}
                 break;
 
             case FITS_ALIGN:
-                /*
-                if (alignTabID == -1)
-                    tabRC = fv->addFITS(&fileURL, FITS_ALIGN, captureFilter);
-                else if (fv->updateFITS(&fileURL, alignTabID, captureFilter) == false)
-                {
-                    fv->removeFITS(alignTabID);
-                    tabRC = fv->addFITS(&fileURL, FITS_ALIGN, captureFilter);
-                }
-                else
-                    tabRC = alignTabID;
-
-                if (tabRC >= 0)
-                {
-                    alignTabID = tabRC;
-                    targetChip->setImageView(fv->getView(alignTabID), FITS_ALIGN);
-                }
-                else
-                {
-                    emit newExposureValue(targetChip, 0, IPS_ALERT);
-                    return;
-                }*/
-
                 {
                     FITSView *alignView = targetChip->getImageView(FITS_ALIGN);
                     if (alignView)
@@ -1620,7 +1554,6 @@ void CCD::processBLOB(IBLOB *bp)
                         bool imageLoad = alignView->loadFITS(filename, true);
                         if (imageLoad)
                         {
-                            //alignView->rescale(ZOOM_FIT_WINDOW);
                             alignView->updateFrame();
                             emit newImage(alignView->getDisplayImage(), targetChip);
                         }
@@ -1637,11 +1570,12 @@ void CCD::processBLOB(IBLOB *bp)
                 break;
         }
 
-        if (Options::useFITSViewerInCapture() || !targetChip->isBatchMode())
-        {
-            if (targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE)
+        // FITSViewer is shown if:
+        // Image in preview mode, or useFITSViewre is true; AND
+        // Image type is either NORMAL or CALIBRATION since the rest have their dedicated windows.
+        // NORMAL is used for raw INDI drivers without Ekos.
+        if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) && (targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE))
                 fv->show();
-        }
     }
 #endif
 

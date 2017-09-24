@@ -166,7 +166,6 @@ Capture::Capture()
     refocusEveryNCheck->setChecked(Options::enforceRefocusEveryN());
     meridianCheck->setChecked(Options::autoMeridianFlip());
     meridianHours->setValue(Options::autoMeridianHours());
-    useFITSViewerInCapture->setChecked(Options::useFITSViewerInCapture());
 
     connect(autofocusCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(refocusEveryNCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
@@ -313,8 +312,7 @@ void Capture::start()
     Options::setEnforceRefocusEveryN(refocusEveryNCheck->isChecked());
 
     Options::setAutoMeridianFlip(meridianCheck->isChecked());
-    Options::setAutoMeridianHours(meridianHours->value());
-    Options::setUseFITSViewerInCapture(useFITSViewerInCapture->isChecked());
+    Options::setAutoMeridianHours(meridianHours->value());    
 
     if (queueTable->rowCount() == 0)
     {
@@ -1350,8 +1348,7 @@ bool Capture::resumeSequence()
 }
 
 void Capture::captureOne()
-{
-    Options::setUseFITSViewerInCapture(useFITSViewerInCapture->isChecked());
+{    
 
     //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
     /*if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_CLIENT)
@@ -2149,7 +2146,7 @@ void Capture::prepareJob(SequenceJob *job)
     if (currentFilterPosition > 0)
     {
         // If we haven't performed a single autofocus yet, we stop
-        if (Options::autoFocusOnFilterChange() && (isAutoFocus == false && firstAutoFocus == true))
+        if (!job->isPreview() && Options::autoFocusOnFilterChange() && (isAutoFocus == false && firstAutoFocus == true))
         {
             appendLogText(i18n(
                 "Manual focusing post filter change is not supported. Run Autofocus process before trying again."));
