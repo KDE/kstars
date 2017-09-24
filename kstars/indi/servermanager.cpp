@@ -238,8 +238,7 @@ void ServerManager::stop()
 
     foreach (DriverInfo *device, managedDrivers)
     {
-        device->setServerState(false);
-        device->clear();
+        device->reset();
     }
 
     qCDebug(KSTARS_INDI) << "Stopping INDI Server " << host << "@" << port;
