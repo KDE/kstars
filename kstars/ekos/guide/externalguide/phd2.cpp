@@ -341,6 +341,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
         case GuidingStopped:
             emit newLog(i18n("PHD2: Guiding Stopped."));
+            state = STOPPED;
             //emit autoGuidingToggled(false);
             emit newStatus(Ekos::GUIDE_IDLE);
             break;

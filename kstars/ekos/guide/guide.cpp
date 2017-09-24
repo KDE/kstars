@@ -1352,6 +1352,7 @@ void Guide::setStatus(Ekos::GuideState newState)
             captureB->setEnabled(false);
             loopB->setEnabled(false);
             setBLOBEnabled(true);
+            setBusy(false);
             break;
 
         case GUIDE_CALIBRATION_SUCESS:
@@ -1367,6 +1368,7 @@ void Guide::setStatus(Ekos::GuideState newState)
             break;
 
         case GUIDE_CALIBRATION_ERROR:
+        case GUIDE_IDLE:
             setBusy(false);
             break;
 
