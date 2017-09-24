@@ -175,14 +175,14 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     // FIXME
     //resize(1000,750);
 
-    previewView.reset(new FITSView(previewWidget, FITS_NORMAL));
+    summaryPreview.reset(new FITSView(previewWidget, FITS_NORMAL));
     previewWidget->setContentsMargins(0, 0, 0, 0);
-    previewView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    previewView->setBaseSize(previewWidget->size());
-    previewView->createFloatingToolBar();
-    previewView->setCursorMode(FITSView::dragCursor);
+    summaryPreview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    summaryPreview->setBaseSize(previewWidget->size());
+    summaryPreview->createFloatingToolBar();
+    summaryPreview->setCursorMode(FITSView::dragCursor);
     QVBoxLayout *vlayout = new QVBoxLayout();
-    vlayout->addWidget(previewView.get());
+    vlayout->addWidget(summaryPreview.get());
     previewWidget->setLayout(vlayout);
 
     if (Options::ekosLeftIcons())
@@ -566,6 +566,7 @@ bool EkosManager::start()
                                             i18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
                                             "ekos_shutdown_existing_indiserver")))
             {
+                DriverManager::Instance()->stopAllDevices();
                 //TODO is there a better way to do this.
                 QProcess p;
                 p.start("pkill indiserver");

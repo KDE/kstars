@@ -226,7 +226,7 @@ void ClientManager::serverDisconnected(int exit_code)
     {
         device->setClientState(false);
 
-        device->clear();
+        device->reset();
     }
 
     if (exit_code < 0)

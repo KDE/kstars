@@ -636,8 +636,7 @@ void DriverManager::processServerTermination(ServerManager *server)
     for (auto &dv : driversList)
         if (dv->getServerManager() == server)
         {
-            dv->setServerState(false);
-            dv->clear();
+            dv->reset();
         }
 
     if (server->getMode() == SERVER_ONLY)

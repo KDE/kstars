@@ -48,9 +48,15 @@ DriverInfo::DriverInfo(DriverInfo *di)
     devices       = di->getDevices();
 }
 
-DriverInfo *DriverInfo::clone()
+DriverInfo *DriverInfo::clone(bool resetClone)
 {
-    return new DriverInfo(this);
+    DriverInfo * clone = new DriverInfo(this);
+    if (resetClone)
+    {
+        clone->reset();
+        clone->resetDevices();
+    }
+    return clone;
 }
 
 DriverInfo::~DriverInfo()
@@ -58,12 +64,12 @@ DriverInfo::~DriverInfo()
     qDeleteAll(devices);
 }
 
-void DriverInfo::clear()
+void DriverInfo::reset()
 {
     serverState   = false;
-    clientState   = false;
+    clientState   = false;    
     serverManager = nullptr;
-    //uniqueLabel.clear();
+    clientManager = nullptr;
 }
 
 QString DriverInfo::getServerBuffer()

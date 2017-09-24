@@ -53,9 +53,10 @@ class DriverInfo : public QObject
     explicit DriverInfo(DriverInfo *di);
     ~DriverInfo();
 
-    DriverInfo *clone();
+    DriverInfo *clone(bool resetClone=true);
 
-    void clear();
+    void reset();
+    void resetDevices() { devices.clear(); }
     QString getServerBuffer();
 
     bool isEmpty() { return devices.isEmpty(); }

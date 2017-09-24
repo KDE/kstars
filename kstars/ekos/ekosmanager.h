@@ -80,7 +80,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
 
     Ekos::Guide *guideModule() { return guideProcess.get(); }
     Ekos::Align *alignModule() { return alignProcess.get(); }
-    FITSView *getPreviewView() { return previewView.get(); }
+    FITSView *getSummaryPreview() { return summaryPreview.get(); }
     QString getCurrentJobName();
 
     /**
@@ -296,7 +296,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
 //    QPixmap *previewPixmap;
     QProgressIndicator *capturePI { nullptr };
     // Preview Frame
-    std::unique_ptr<FITSView> previewView;
+    std::unique_ptr<FITSView> summaryPreview;
 
     // Focus Summary
     QProgressIndicator *focusPI { nullptr };
