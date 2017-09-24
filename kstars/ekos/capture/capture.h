@@ -609,7 +609,7 @@ class Capture : public QWidget, public Ui::Capture
     CalibrationStage calibrationStage { CAL_NONE };
     bool dustCapLightEnabled { false };
     bool lightBoxLightEnabled { false };
-    ISD::CCD::UploadMode rememberUploadMode;
+    ISD::CCD::UploadMode rememberUploadMode { ISD::CCD::UPLOAD_CLIENT };
 
     QUrl dirPath;
 

@@ -96,6 +96,7 @@ class CCDChip
     void setCanAbort(bool value);
 
     FITSData *getImageData() const;
+    void setImageData(FITSData *data) { imageData = data; }
 
     int getISOIndex() const;
     bool setISOIndex(int value);
