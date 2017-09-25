@@ -196,6 +196,13 @@ class Mount : public QWidget, public Ui::Mount
          */
     void updateSwitch(ISwitchVectorProperty *svp);
 
+
+    /**
+         * @brief updateText Update text properties under watch in the mount module
+         * @param tvp pointer to text property
+         */
+    void updateText(ITextVectorProperty *tvp);
+
     /**
          * @brief updateLog Update mount module log to include any messages arriving for the telescope driver
          * @param messageID ID of the new message

@@ -150,6 +150,8 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
             SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this,
             SLOT(updateSwitch(ISwitchVectorProperty*)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(textUpdated(ITextVectorProperty*)), this,
+            SLOT(updateText(ITextVectorProperty*)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(newTarget(QString)), this, SIGNAL(newTarget(QString)), Qt::UniqueConnection);
     connect(currentTelescope, &ISD::Telescope::Disconnected, [this]()
     {
@@ -279,6 +281,14 @@ void Mount::syncTelescopeInfo()
     ITextVectorProperty *tvp = currentTelescope->getBaseDevice()->getText("SCOPE_CONFIG_NAME");
     if (tvp)
         scopeConfigNameEdit->setText(tvp->tp[0].text);
+}
+
+void Mount::updateText(ITextVectorProperty *tvp)
+{
+    if (!strcmp(tvp->name, "SCOPE_CONFIG_NAME"))
+    {
+        scopeConfigNameEdit->setText(tvp->tp[0].text);
+    }
 }
 
 bool Mount::setScopeConfig(int index)
