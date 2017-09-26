@@ -76,8 +76,8 @@ class SequenceJob : public QObject
     void setActiveChip(ISD::CCDChip *chip) { activeChip = chip; }
     ISD::CCDChip *getActiveChip() { return activeChip; }
 
-    void setFITSDir(const QString &dir) { fitsDir = dir; }
-    const QString &getFITSDir() { return fitsDir; }
+    void setLocalDir(const QString &dir) { localDirectory = dir; }
+    const QString &getLocalDir() { return localDirectory; }
 
     void setTargetFilter(int pos, const QString &name);
     int getTargetFilter() { return targetFilter; }
@@ -168,9 +168,6 @@ class SequenceJob : public QObject
     bool getEnforceTemperature() const;
     void setEnforceTemperature(bool value);
 
-    QString getRootFITSDir() const;
-    void setRootFITSDir(const QString &value);
-
     bool getFilterPostFocusReady() const;
     void setFilterPostFocusReady(bool value);
 
@@ -196,6 +193,9 @@ class SequenceJob : public QObject
 
     QMap<QString, QMap<QString, double> > getCustomProperties() const;
     void setCustomProperties(const QMap<QString, QMap<QString, double> > &value);
+
+    QString getDirectoryPostfix() const;
+    void setDirectoryPostfix(const QString &value);
 
 signals:
     void prepareComplete();
@@ -240,9 +240,7 @@ private:
     double targetRotation { 0 };
     double currentRotation { 0 };
     FITSScale captureFilter { FITS_NONE };
-    QTableWidgetItem *statusCell { nullptr };
-    QString fitsDir;
-    QString rootFITSDir;
+    QTableWidgetItem *statusCell { nullptr };    
     QString postCaptureScript;
 
     ISD::CCD::UploadMode uploadMode { ISD::CCD::UPLOAD_CLIENT };
@@ -250,8 +248,10 @@ private:
     // Transfer Format
     ISD::CCD::TransferFormat transforFormat { ISD::CCD::FORMAT_FITS };
 
-    // TODO getters and settings
-    QString remoteDir;
+    // Directory Settings
+    QString localDirectory;
+    QString remoteDirectory;
+    QString directoryPostfix;
 
     bool filterPrefixEnabled { false };
     bool expPrefixEnabled { false };

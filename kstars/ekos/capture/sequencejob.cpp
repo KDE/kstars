@@ -78,7 +78,8 @@ void SequenceJob::prepareCapture()
 
     activeChip->setBatchMode(!preview);
 
-    activeCCD->setFITSDir(fitsDir);
+    if (localDirectory.isEmpty() == false)
+        activeCCD->setFITSDir(localDirectory + directoryPostfix);
 
     activeCCD->setISOMode(timeStampPrefixEnabled);
 
@@ -112,12 +113,8 @@ void SequenceJob::prepareCapture()
         }
     }
 
-    if (activeChip->isBatchMode())
-    {
-        QString finalRemoteDir = fitsDir;
-        finalRemoteDir.replace(rootFITSDir, remoteDir).replace("//", "/");
-        activeCCD->updateUploadSettings(finalRemoteDir);
-    }
+    if (activeChip->isBatchMode() && remoteDirectory.isEmpty() == false)
+        activeCCD->updateUploadSettings(remoteDirectory + directoryPostfix);
 
     if (isoIndex != -1)
     {
@@ -183,6 +180,16 @@ void SequenceJob::setAllActionsReady()
         i.next();
         i.setValue(true);
     }
+}
+
+QString SequenceJob::getDirectoryPostfix() const
+{
+    return directoryPostfix;
+}
+
+void SequenceJob::setDirectoryPostfix(const QString &value)
+{
+    directoryPostfix = value;
 }
 
 QMap<QString, QMap<QString, double> > SequenceJob::getCustomProperties() const
@@ -435,16 +442,6 @@ void SequenceJob::setEnforceTemperature(bool value)
     enforceTemperature = value;
 }
 
-QString SequenceJob::getRootFITSDir() const
-{
-    return rootFITSDir;
-}
-
-void SequenceJob::setRootFITSDir(const QString &value)
-{
-    rootFITSDir = value;
-}
-
 bool SequenceJob::getFilterPostFocusReady() const
 {
     return prepareActions[ACTION_POST_FOCUS];
@@ -483,12 +480,14 @@ void SequenceJob::setUploadMode(const ISD::CCD::UploadMode &value)
 
 QString SequenceJob::getRemoteDir() const
 {
-    return remoteDir;
+    return remoteDirectory;
 }
 
 void SequenceJob::setRemoteDir(const QString &value)
 {
-    remoteDir = value;
+    remoteDirectory = value;
+    if (remoteDirectory.endsWith("/"))
+        remoteDirectory.chop(1);
 }
 
 ISD::CCD::TransferFormat SequenceJob::getTransforFormat() const
