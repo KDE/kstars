@@ -1175,6 +1175,14 @@ bool Capture::setCaptureComplete()
 
     currentImgCountOUT->setText(QString::number(seqCurrentCount));
 
+    // Check if we need to execute post capture script first
+    if (activeJob->getPostCaptureScript().isEmpty() == false)
+    {
+        postCaptureScript.start(activeJob->getPostCaptureScript());
+        appendLogText(i18n("Executing post capture script %1", activeJob->getPostCaptureScript()));
+        return true;
+    }
+
     // if we're done
     if (seqCurrentCount >= seqTotalCount)
     {
@@ -1186,15 +1194,7 @@ bool Capture::setCaptureComplete()
     if (checkMeridianFlip())
         return true;
 
-    if (activeJob->getPostCaptureScript().isEmpty() == false)
-    {
-        postCaptureScript.start(activeJob->getPostCaptureScript());
-        appendLogText(i18n("Executing post capture script %1", activeJob->getPostCaptureScript()));
-    }
-    else
-        resumeSequence();
-
-    return true;
+    return resumeSequence();
 }
 
 void Capture::processJobCompletion()
@@ -4474,7 +4474,21 @@ void Capture::startPostFilterAutoFocus()
 
 void Capture::postScriptFinished(int exitCode)
 {
-    appendLogText(i18n("Post capture script finished with code %1. Resuming sequence...", exitCode));
+    appendLogText(i18n("Post capture script finished with code %1.", exitCode));
+
+    // if we're done
+    if (seqCurrentCount >= seqTotalCount)
+    {
+        processJobCompletion();
+        return;
+    }
+
+    // Check if meridian condition is met
+    if (checkMeridianFlip())
+        return;
+
+    appendLogText(i18n("Resuming sequence..."));
+    // Then just resume sequence.
     resumeSequence();
 }
 
