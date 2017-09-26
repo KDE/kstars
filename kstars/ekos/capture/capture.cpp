@@ -1071,7 +1071,7 @@ void Capture::newFITS(IBLOB *bp)
     {
         if (bp == nullptr)
         {
-            appendLogText(i18n("Failed to save file to %1", activeJob->getFITSDir()));
+            appendLogText(i18n("Failed to save file to %1", activeJob->getLocalDir() + activeJob->getDirectoryPostfix()));
             abort();
             return;
         }
@@ -1435,7 +1435,7 @@ void Capture::captureImage()
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
-        checkSeqBoundary(activeJob->getFITSDir());
+        checkSeqBoundary(activeJob->getLocalDir() + activeJob->getDirectoryPostfix());
         currentCCD->setNextSequenceID(nextSequenceID);
     }
 
@@ -1720,6 +1720,12 @@ bool Capture::addJob(bool preview)
         return false;
     }
 
+    if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_LOCAL && fitsDir->text().isEmpty())
+    {
+        KMessageBox::error(this, i18n("You must set local directory for Client & Both modes."));
+        return false;
+    }
+
     if (jobUnderEdit)
         job = jobs.at(queueTable->currentRow());
     else
@@ -1750,7 +1756,6 @@ bool Capture::addJob(bool preview)
     job->setCaptureFilter((FITSScale)filterCombo->currentIndex());
 
     job->setUploadMode(static_cast<ISD::CCD::UploadMode>(uploadModeCombo->currentIndex()));
-    job->setRemoteDir(remoteDirIN->text());
     job->setPostCaptureScript(postCaptureScriptIN->text());
     job->setFlatFieldDuration(flatFieldDuration);
     job->setFlatFieldSource(flatFieldSource);
@@ -1796,8 +1801,6 @@ bool Capture::addJob(bool preview)
 
     job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
 
-    job->setRootFITSDir(fitsDir->text());
-
     if (jobUnderEdit == false)
     {
         jobs.append(job);
@@ -1807,17 +1810,18 @@ bool Capture::addJob(bool preview)
             return true;
     }
 
-    QString finalFITSDir = fitsDir->text();
+    QString directoryPostfix;
 
     if (targetName.isEmpty())
-        finalFITSDir += QLatin1Literal("/") + frameTypeCombo->currentText();
+        directoryPostfix = QLatin1Literal("/") + frameTypeCombo->currentText();
     else
-        finalFITSDir += QLatin1Literal("/") + targetName + QLatin1Literal("/") + frameTypeCombo->currentText();
-    if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) &&
-        job->getFilterName().isEmpty() == false)
-        finalFITSDir += QLatin1Literal("/") + job->getFilterName();
+        directoryPostfix = QLatin1Literal("/") + targetName + QLatin1Literal("/") + frameTypeCombo->currentText();
+    if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) &&  job->getFilterName().isEmpty() == false)
+        directoryPostfix += QLatin1Literal("/") + job->getFilterName();
 
-    job->setFITSDir(finalFITSDir);
+    job->setRemoteDir(remoteDirIN->text());
+    job->setLocalDir(fitsDir->text());
+    job->setDirectoryPostfix(directoryPostfix);
 
     int currentRow = 0;
     if (jobUnderEdit == false)
@@ -2070,13 +2074,13 @@ void Capture::prepareJob(SequenceJob *job)
         imgProgress->setValue(seqCurrentCount);
 
         if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
-            updateSequencePrefix(activeJob->getFullPrefix(), activeJob->getFITSDir());
+            updateSequencePrefix(activeJob->getFullPrefix(), activeJob->getLocalDir() + activeJob->getDirectoryPostfix());
     }
 
     // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system unless ignoreJobProgress is set to true
     if (ignoreJobProgress == false && activeJob->isPreview() == false)
     {
-        checkSeqBoundary(activeJob->getFITSDir());
+        checkSeqBoundary(activeJob->getLocalDir() + activeJob->getDirectoryPostfix());
 
         if (seqFileCount > 0)
         {
@@ -3008,8 +3012,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Delay>" << job->getDelay() / 1000 << "</Delay>" << endl;
         if (job->getPostCaptureScript().isEmpty() == false)
             outstream << "<PostCaptureScript>" << job->getPostCaptureScript() << "</PostCaptureScript>" << endl;
-        QString rootDir = job->getRootFITSDir();
-        outstream << "<FITSDirectory>" << rootDir << "</FITSDirectory>" << endl;
+        outstream << "<FITSDirectory>" << job->getLocalDir() << "</FITSDirectory>" << endl;
         outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << endl;
         if (job->getRemoteDir().isEmpty() == false)
             outstream << "<RemoteDirectory>" << job->getRemoteDir() << "</RemoteDirectory>" << endl;
@@ -3146,7 +3149,7 @@ void Capture::syncGUIToJob(SequenceJob *job)
     // Custom Properties
     customPropertiesDialog->setCustomProperties(job->getCustomProperties());
 
-    fitsDir->setText(job->getRootFITSDir());
+    fitsDir->setText(job->getLocalDir());
 
     if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());
@@ -4386,9 +4389,7 @@ bool Capture::processPostCaptureCalibrationStage()
                     seqPrefix = imagePrefix;
                     currentCCD->setSeqPrefix(imagePrefix);
 
-                    QString finalRemoteDir = activeJob->getFITSDir();
-                    finalRemoteDir.replace(activeJob->getRootFITSDir(), activeJob->getRemoteDir()).replace("//", "/");
-                    currentCCD->updateUploadSettings(finalRemoteDir);
+                    currentCCD->updateUploadSettings(activeJob->getRemoteDir() + activeJob->getDirectoryPostfix());
 
                     calibrationStage = CAL_CALIBRATION_COMPLETE;
                     startNextExposure();

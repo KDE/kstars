@@ -4036,7 +4036,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
         int completed = 0;
         if (rememberJobProgress)
-            completed = getCompletedFiles(job->getFITSDir(), job->getFullPrefix());
+            completed = getCompletedFiles(job->getLocalDir() + job->getDirectoryPostfix(), job->getFullPrefix());
 
         // Check if we still need any light frames. Because light frames changes the flow of the observatory startup
         // Without light frames, there is no need to do focusing, alignment, guiding...etc
@@ -5061,7 +5061,11 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
         }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
-            job->setFITSDir(pcdataXMLEle(ep));
+            job->setLocalDir(pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
+        {
+            job->setRemoteDir(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "UploadMode"))
         {
@@ -5094,16 +5098,17 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
 
     job->setFullPrefix(imagePrefix);
 
-    // FITS Dir
-    QString finalFITSDir = job->getFITSDir();
 
     QString targetName = schedJob->getName().remove(' ');
 
-    finalFITSDir += QLatin1Literal("/") + targetName + QLatin1Literal("/") + frameType;
-    if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && filterType.isEmpty() == false)
-        finalFITSDir += QLatin1Literal("/") + filterType;
+    // Directory postfix
+    QString directoryPostfix;
 
-    job->setFITSDir(finalFITSDir);
+    directoryPostfix = QLatin1Literal("/") + targetName + QLatin1Literal("/") + frameType;
+    if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && filterType.isEmpty() == false)
+        directoryPostfix += QLatin1Literal("/") + filterType;
+
+    job->setDirectoryPostfix(directoryPostfix);
 
     return job;
 }
