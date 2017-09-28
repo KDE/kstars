@@ -18,6 +18,7 @@
 #include "indi/indidome.h"
 #include "indi/indilightbox.h"
 #include "indi/inditelescope.h"
+#include "ekos/auxiliary/filtermanager.h"
 
 #include <QTimer>
 #include <QUrl>
@@ -270,6 +271,7 @@ class Capture : public QWidget, public Ui::Capture
     void syncFrameType(ISD::GDInterface *ccd);
     void setTelescope(ISD::GDInterface *newTelescope);
     void setRotator(ISD::GDInterface *newRotator);
+    void setFilterManager(const QSharedPointer<FilterManager> &manager);
     void syncTelescopeInfo();
     void syncFilterInfo();
 
@@ -563,9 +565,6 @@ class Capture : public QWidget, public Ui::Capture
     ISD::LightBox *lightBox { nullptr };
     ISD::Dome *dome { nullptr };
 
-    ITextVectorProperty *filterName { nullptr };
-    INumberVectorProperty *filterSlot { nullptr };
-
     QStringList logText;
     QUrl sequenceURL;
     bool mDirty { false };
@@ -650,5 +649,8 @@ class Capture : public QWidget, public Ui::Capture
     QList<OAL::Filter *> m_filterList;
 
     std::unique_ptr<CustomProperties> customPropertiesDialog;
+
+    // Filter Manager
+    QSharedPointer<FilterManager> filterManager;
 };
 }

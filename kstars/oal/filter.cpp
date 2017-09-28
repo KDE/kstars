@@ -18,15 +18,16 @@
 
 #include "oal/filter.h"
 
-void OAL::Filter::setFilter(const QString &_id, const QString &_model, const QString &_vendor, const QString &_type,
-                            const QString &_offset, const QString &_color, const QString &_exposure)
+OAL::Filter::Filter(const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &offset, const QString &color, const QString &exposure, const QString &lockedFilter, bool useAutoFocus)
 {
-    m_Id       = _id;
-    m_Model    = _model;
-    m_Vendor   = _vendor;
-    m_Type     = _type;
-    m_Color    = _color;
-    m_Name     = _vendor + ' ' + _model + " - " + _type + ' ' + _color + " (" + _id + ')';
-    m_Offset   = _offset;
-    m_Exposure = _exposure;
+    m_Id       = id;
+    m_Model    = model;
+    m_Vendor   = vendor;
+    m_Type     = type;
+    m_Color    = color;
+    m_Name     = vendor + ' ' + model + " - " + type + ' ' + color + " (" + id + ')';
+    m_Offset   = offset;
+    m_Exposure = exposure;
+    m_LockedFilter = lockedFilter;
+    m_UseAutoFocus = useAutoFocus;
 }

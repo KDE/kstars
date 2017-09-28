@@ -108,6 +108,9 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     // Summary
     // previewPixmap = new QPixmap(QPixmap(":/images/noimage.png"));
 
+    // Filter Manager
+    filterManager.reset(new FilterManager());
+
     // Profiles
     connect(addProfileB, SIGNAL(clicked()), this, SLOT(addProfile()));
     connect(editProfileB, SIGNAL(clicked()), this, SLOT(editProfile()));
@@ -1133,6 +1136,9 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     initAlign();
 
     alignProcess->addFilter(filterDevice);
+
+    filterManager->addFilter(filterDevice);
+
     if (Options::defaultAlignFW().isEmpty() == false)
         alignProcess->setFilter(Options::defaultAlignFW(), -1);
 }
@@ -1146,6 +1152,8 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
     initFocus();
 
     focusProcess->addFocuser(focuserDevice);
+
+    filterManager->addFocuser(focuserDevice);
 
     appendLogText(i18n("%1 focuser is online.", focuserDevice->getDeviceName()));
 }
@@ -1261,14 +1269,16 @@ void EkosManager::processNewText(ITextVectorProperty *tvp)
 {
     if (!strcmp(tvp->name, "FILTER_NAME"))
     {
-        if (captureProcess.get() != nullptr)
+        filterManager->updateFilterNames();
+
+        /*if (captureProcess.get() != nullptr)
             captureProcess->checkFilter();
 
         if (focusProcess.get() != nullptr)
             focusProcess->checkFilter();
 
         if (alignProcess.get() != nullptr)
-            alignProcess->checkFilter();
+            alignProcess->checkFilter();*/
     }
 }
 
@@ -1314,7 +1324,8 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "FILTER_SLOT"))
     {
-        if (captureProcess.get() != nullptr)
+        filterManager->updateFilterNames();
+        /*if (captureProcess.get() != nullptr)
             captureProcess->checkFilter();
 
         if (focusProcess.get() != nullptr)
@@ -1322,6 +1333,7 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 
         if (alignProcess.get() != nullptr)
             alignProcess->checkFilter();
+            */
     }
 }
 
@@ -1426,7 +1438,8 @@ void EkosManager::processNewProperty(INDI::Property *prop)
 
     if (!strcmp(prop->getName(), "FILTER_NAME"))
     {
-        if (captureProcess.get() != nullptr)
+        filterManager->updateFilterNames();
+        /*if (captureProcess.get() != nullptr)
             captureProcess->checkFilter();
 
         if (focusProcess.get() != nullptr)
@@ -1434,6 +1447,7 @@ void EkosManager::processNewProperty(INDI::Property *prop)
 
         if (alignProcess.get() != nullptr)
             alignProcess->checkFilter();
+            */
 
         return;
     }
@@ -1623,6 +1637,8 @@ void EkosManager::initCapture()
     sequenceProgress->setEnabled(true);
     captureProgress->setEnabled(true);
     imageProgress->setEnabled(true);
+
+    captureProcess->setFilterManager(filterManager);
 
     if (!capturePI)
     {

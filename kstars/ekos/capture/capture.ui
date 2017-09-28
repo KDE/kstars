@@ -171,7 +171,7 @@
            </widget>
           </item>
           <item row="0" column="4">
-           <widget class="QPushButton" name="filterOffsetB">
+           <widget class="QPushButton" name="filterManagerB">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -1915,7 +1915,7 @@
  <tabstops>
   <tabstop>CCDCaptureCombo</tabstop>
   <tabstop>FilterCaptureCombo</tabstop>
-  <tabstop>filterOffsetB</tabstop>
+  <tabstop>filterManagerB</tabstop>
   <tabstop>temperatureCheck</tabstop>
   <tabstop>temperatureIN</tabstop>
   <tabstop>setTemperatureB</tabstop>

@@ -137,7 +137,7 @@ void SequenceJob::prepareCapture()
             prepareActions[ACTION_FILTER] = false;
 
             // Post Focus on Filter change. If frame is NOT light, then we do not perform autofocusing on filter change
-            prepareActions[ACTION_POST_FOCUS] = (!Options::autoFocusOnFilterChange());
+            //prepareActions[ACTION_POST_FOCUS] = (!Options::autoFocusOnFilterChange());
 
             activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
         }
@@ -145,7 +145,7 @@ void SequenceJob::prepareCapture()
     else
     {
         prepareActions[ACTION_FILTER] = true;
-        prepareActions[ACTION_POST_FOCUS] = true;
+        //prepareActions[ACTION_POST_FOCUS] = true;
     }
 
     // Check if we need to update temperature
@@ -547,8 +547,8 @@ void SequenceJob::setCurrentFilter(int value)
         prepareReady = true;
         emit prepareComplete();
     }
-    else if (prepareActions[ACTION_FILTER] == true && prepareActions[ACTION_POST_FOCUS] == false)
-        emit checkFocus();
+    //else if (prepareActions[ACTION_FILTER] == true && prepareActions[ACTION_POST_FOCUS] == false)
+        //emit checkFocus();
 }
 
 void SequenceJob::setCurrentRotation(double value)

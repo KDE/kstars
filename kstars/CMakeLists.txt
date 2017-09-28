@@ -165,6 +165,8 @@ if (INDI_FOUND)
                     #TODO remove from GIT
                     #ekos/guide/guider.ui
                     #ekos/guide/rcalibration.ui
+                    # Auxiliary
+                    ekos/auxiliary/filtersettings.ui
                 )
 
             set(ekos_SRCS
@@ -180,6 +182,7 @@ if (INDI_FOUND)
                        ekos/auxiliary/weather.cpp
                        ekos/auxiliary/dustcap.cpp
                        ekos/auxiliary/darklibrary.cpp
+                       ekos/auxiliary/filtermanager.cpp
 
                        # Capture
                        ekos/capture/capture.cpp

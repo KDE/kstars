@@ -149,7 +149,7 @@ class Focus : public QWidget, public Ui::Focus
          * @brief addFilter Add filter to the list of available filters.
          * @param newFilter pointer to filter device.
          */
-    void addFilter(ISD::GDInterface *newFilter);
+    void addFilter(ISD::GDInterface *newFilter);    
 
     /**
      * @brief removeDevice Remove device from Focus module

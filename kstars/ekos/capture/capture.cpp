@@ -75,9 +75,8 @@ Capture::Capture()
     pauseB->setIcon(QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg")));
     pauseB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    filterOffsetB->setIcon(QIcon::fromTheme("view-filter", QIcon(":/icons/breeze/default/view-filter.svg")));
-    connect(filterOffsetB, SIGNAL(clicked()), this, SLOT(showFilterOffsetDialog()));
-    filterOffsetB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    filterManagerB->setIcon(QIcon::fromTheme("view-filter", QIcon(":/icons/breeze/default/view-filter.svg")));
+    filterManagerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     FilterCaptureCombo->addItem("--");
 
@@ -251,7 +250,7 @@ void Capture::addFilter(ISD::GDInterface *newFilter)
 
     Filters.append(static_cast<ISD::Filter *>(newFilter));
 
-    filterOffsetB->setEnabled(true);
+    filterManagerB->setEnabled(true);
 
     checkFilter(1);
 
@@ -358,6 +357,9 @@ void Capture::start()
     deviationDetected = false;
     spikeDetected     = false;
 
+
+    // FIXME
+#if 0
     lastFilterOffset = 0;
     // lastFilterOffset should be set to the offset of the current used filter so that any subsequent filter change
     // is made against this startup value
@@ -373,6 +375,7 @@ void Capture::start()
             }
         }
     }
+#endif
 
     ditherCounter     = Options::ditherFrames();
     initialHA         = getCurrentHA();
@@ -959,56 +962,35 @@ void Capture::checkFilter(int filterNum)
             return;
     }
 
+    // "--" is no filter
     if (filterNum == 0)
     {
         currentFilter = nullptr;
-        filterSlot = nullptr;
         currentFilterPosition=-1;
         FilterPosCombo->clear();
         syncFilterInfo();
         return;
-    }
-
-    QStringList filterAlias = Options::filterAlias();
+    }    
 
     if (filterNum <= Filters.count())
         currentFilter = Filters.at(filterNum-1);
+
+    filterManager->setCurrentFilter(currentFilter);
 
     syncFilterInfo();
 
     FilterPosCombo->clear();
 
-    filterName = currentFilter->getBaseDevice()->getText("FILTER_NAME");
-    filterSlot = currentFilter->getBaseDevice()->getNumber("FILTER_SLOT");
+    FilterPosCombo->addItems(filterManager->getFilterLabels());
 
-    if (filterSlot == nullptr)
-    {
-        KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1",
-                                   currentFilter->getBaseDevice()->getDeviceName()));
-        return;
-    }
+    currentFilterPosition = filterManager->getFilterPosition();
 
-    for (int i = 0; i < filterSlot->np[0].max; i++)
-    {
-        QString item;
+    FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
 
-        if (filterName != nullptr && (i < filterName->ntp))
-            item = filterName->tp[i].text;
-        else if (i < filterAlias.count() && filterAlias[i].isEmpty() == false)
-            item = filterAlias.at(i);
-        else
-            item = QString("Filter_%1").arg(i + 1);
 
-        FilterPosCombo->addItem(item);
-    }
-
-    FilterPosCombo->setCurrentIndex((int)filterSlot->np[0].value - 1);
-
-    currentFilterPosition = (int)filterSlot->np[0].value;
-
-    if (activeJob &&
+    /*if (activeJob &&
         (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
-        activeJob->setCurrentFilter(currentFilterPosition);
+        activeJob->setCurrentFilter(currentFilterPosition);*/
 }
 
 void Capture::syncFilterInfo()
@@ -1390,9 +1372,16 @@ void Capture::captureImage()
         return;
     }
 
+    /*
     if (filterSlot != nullptr)
     {
         currentFilterPosition = (int)filterSlot->np[0].value;
+        activeJob->setCurrentFilter(currentFilterPosition);
+    }*/
+
+    if (currentFilter != nullptr)
+    {
+        currentFilterPosition = filterManager->getFilterPosition();
         activeJob->setCurrentFilter(currentFilterPosition);
     }
 
@@ -1774,7 +1763,8 @@ bool Capture::addJob(bool preview)
     job->setFrameType(static_cast<CCDFrameType>(frameTypeCombo->currentIndex()));
     job->setFullPrefix(imagePrefix);
 
-    if (filterSlot != nullptr && currentFilter != nullptr)
+    //if (filterSlot != nullptr && currentFilter != nullptr)
+    if (FilterPosCombo->currentIndex() != -1 && currentFilter != nullptr)
         job->setTargetFilter(FilterPosCombo->currentIndex() + 1, FilterPosCombo->currentText());
 
     job->setExposure(exposureIN->value());
@@ -2127,7 +2117,7 @@ void Capture::prepareJob(SequenceJob *job)
     // Just notification of active job stating up
     emit newImage(nullptr, activeJob);
 
-    connect(job, SIGNAL(checkFocus()), this, SLOT(startPostFilterAutoFocus()));
+    //connect(job, SIGNAL(checkFocus()), this, SLOT(startPostFilterAutoFocus()));
 
     // Reset calibration stage
     if (calibrationStage == CAL_CAPTURING)
@@ -2158,6 +2148,7 @@ void Capture::prepareJob(SequenceJob *job)
             return;
         }
 
+        /*
         if (currentFilterPosition != activeJob->getTargetFilter() && filterFocusOffsets.empty() == false)
         {
             int16_t targetFilterOffset = 0;
@@ -2190,6 +2181,7 @@ void Capture::prepareJob(SequenceJob *job)
                 return;
             }
         }
+        */
     }
 
     preparePreCaptureActions();
@@ -4456,6 +4448,7 @@ void Capture::setNewRemoteFile(QString file)
     appendLogText(i18n("Remote image saved to %1", file));
 }
 
+/*
 void Capture::startPostFilterAutoFocus()
 {
     if (focusState >= FOCUS_PROGRESS || state == CAPTURE_FOCUSING)
@@ -4471,6 +4464,7 @@ void Capture::startPostFilterAutoFocus()
     // Force it to always run autofocus routine
     emit checkFocus(0.1);
 }
+*/
 
 void Capture::postScriptFinished(int exitCode)
 {
@@ -4589,6 +4583,7 @@ void Capture::showFilterOffsetDialog()
                 }
             }
 
+#if 0
             // If no filter exists, let's create one
             if (matchedFilter == nullptr)
             {
@@ -4602,6 +4597,7 @@ void Capture::showFilterOffsetDialog()
                                                             QString::number(oneOffset->offset), oneOffset->filter,
                                                             matchedFilter->exposure(), matchedFilter->id());
             }
+#endif
         }
     }
 }
@@ -4737,6 +4733,12 @@ void Capture::setAlignResults(double orientation, double ra, double de, double p
         return;
 
     rotatorSettings->refresh();
+}
+
+void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
+{
+    filterManager = manager;
+    connect(filterManagerB, SIGNAL(clicked()), filterManager.data(), SLOT(show()), Qt::UniqueConnection);
 }
 
 }
