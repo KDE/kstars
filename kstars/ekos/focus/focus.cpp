@@ -2776,6 +2776,7 @@ void Focus::saveFilterExposure()
         }
     }
 
+#if 0
     // If doesn't exist, create one
     if (matchedFilter == nullptr)
         KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", "0",
@@ -2786,6 +2787,7 @@ void Focus::saveFilterExposure()
         KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", matchedFilter->offset(),
                                                     matchedFilter->color(), QString::number(exposureIN->value()),
                                                     matchedFilter->id());
+#endif
     // Reload
     KStarsData::Instance()->userdb()->GetAllFilters(m_filterList);
 }

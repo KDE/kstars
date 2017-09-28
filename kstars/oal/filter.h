@@ -31,24 +31,29 @@ class OAL::Filter
 {
   public:
     Filter(const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &offset,
-           const QString &color, const QString &exposure)
-    {
-        setFilter(id, model, vendor, type, offset, color, exposure);
-    }
+           const QString &color, const QString &exposure, const QString &lockedFilter, bool useAutoFocus);
     QString id() const { return m_Id; }
     QString name() const { return m_Name; }
     QString model() const { return m_Model; }
     QString vendor() const { return m_Vendor; }
     QString type() const { return m_Type; }
     QString color() const { return m_Color; }
+
+    // Additional fields used by Ekos
     QString offset() const { return m_Offset; }
     void setOffset(const QString &_offset) { m_Offset = _offset; }
+
     QString exposure() const { return m_Exposure; }
     void setExposure(const QString &_exposure) { m_Exposure = _exposure; }
-    void setFilter(const QString &_id, const QString &_model, const QString &_vendor, const QString &_type,
-                   const QString &_offset, const QString &_color, const QString &_exposure);
+
+    QString lockedFilter() const { return m_LockedFilter; }
+    void setLockedFilter(const QString &_filter) { m_LockedFilter = _filter; }
+
+    bool useAutoFocus() const { return m_UseAutoFocus; }
+    void setUseAutoFocus(bool enabled) { m_UseAutoFocus = enabled; }
 
   private:
-    QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name, m_Offset, m_Exposure;
+    QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name, m_Offset, m_Exposure, m_LockedFilter;
+    bool m_UseAutoFocus;
 };
 #endif
