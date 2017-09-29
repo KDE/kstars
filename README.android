@@ -38,8 +38,9 @@ When KF5 are ready, build KStars Lite for Android:
 - Install Eigen3, git and other dependencies
 - Configure out-of-source build (MinSizeRel build type is recommended for Android):
 
-cmake -B. -H.. -DBUILD_KSTARS_LITE=ON -DCMAKE_TOOLCHAIN_FILE=android/toolchain-android.cmake \
-        -DEIGEN3_INCLUDE_DIR=/usr/include/eigen3/ -DCMAKE_INSTALL_PREFIX=$(pwd)/android/export -DCMAKE_BUILD_TYPE=MinSizeRel
+cmake -B. -H.. -DBUILD_KSTARS_LITE=ON -DCMAKE_TOOLCHAIN_FILE=$(pwd)/../android/toolchain-android.cmake \
+      -DEIGEN3_INCLUDE_DIR=/usr/include/eigen3/ -DCMAKE_INSTALL_PREFIX=$(pwd)/android/export -DCMAKE_BUILD_TYPE=MinSizeRel \
+      -DCMAKE_AR=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
 
 - Compile:
 
