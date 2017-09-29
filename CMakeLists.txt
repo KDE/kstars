@@ -145,14 +145,13 @@ set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "htt
 if (ANDROID)
     set(QT_ANDROID $ENV{QT_ANDROID})
     externalproject_add(indi SOURCE_DIR "${CMAKE_BINARY_DIR}/android/indi"
-        DOWNLOAD_COMMAND bash -c "mkdir -p ${CMAKE_BINARY_DIR}/android/indi && git clone https://github.com/indilib/indi/ ${CMAKE_BINARY_DIR}/android/indi"
+        URL https://github.com/indilib/indi/archive/master.zip
         CONFIGURE_COMMAND cd libindi && cmake . -DCMAKE_TOOLCHAIN_FILE=${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\
              -DINDI_BUILD_POSIX_CLIENT=OFF -DINDI_BUILD_SERVER=OFF -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_UNITTESTS=OFF \\
-             -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_QT5_CLIENT=ON -DINDI_CALCULATE_MINMAX=ON \\
+             -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_QT5_CLIENT=ON -DINDI_CALCULATE_MINMAX=ON -DCMAKE_AR=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar \\
              -DQT_ANDROID=${QT_ANDROID} -DCFITSIO_DIR=${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio
         BUILD_COMMAND make -C libindi
         BUILD_IN_SOURCE 1
-        UPDATE_COMMAND ""
         INSTALL_COMMAND "")
 
     set(INDI_FOUND TRUE)
@@ -174,7 +173,7 @@ if(BUILD_KSTARS_LITE AND ANDROID)
     externalproject_add(raw SOURCE_DIR "${CMAKE_BINARY_DIR}/android/3rdparty/libraw"
         URL https://www.libraw.org/data/LibRaw-0.17.2.tar.gz 
         PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/libraw && wget -qO- https://github.com/LibRaw/LibRaw-cmake/archive/master.zip | jar xvf /dev/stdin && mv -f LibRaw-cmake-master/* . && patch -p0 < ${CMAKE_SOURCE_DIR}/android/3rdparty/libraw.patch"
-        CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DENABLE_OPENMP=OFF
+        CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DENABLE_OPENMP=OFF -DENABLE_LCMS=OFF
         BUILD_COMMAND make raw
         BUILD_IN_SOURCE 1
         INSTALL_COMMAND "")

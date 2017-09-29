@@ -54,7 +54,12 @@ static const char description[] = I18N_NOOP("Desktop Planetarium");
 static const char notice[] = I18N_NOOP("Some images in KStars are for non-commercial use only. See README.images.");
 #endif
 
+
 int main(int argc, char *argv[])
+#if defined(Q_OS_ANDROID)
+// __attribute__ is needed because clang-based linking removes the main() symbol from the shared library on Android
+__attribute__ ((visibility ("default")))
+#endif
 {
 #ifdef KSTARS_LITE
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
