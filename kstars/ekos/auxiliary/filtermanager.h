@@ -10,69 +10,135 @@
 #pragma once
 
 #include <QDialog>
+#include <QSqlDatabase>
+#include <QQueue>
+#include <QPointer>
+
 #include <indi/indistd.h>
 #include <indi/indifocuser.h>
 #include <oal/filter.h>
-#include <QSqlDatabase>
+
+#include "ekos/ekos.h"
 
 #include "ui_filtersettings.h"
 
 class QSqlTableModel;
+class LockDelegate;
+class NotEditableDelegate;
+class ExposureDelegate;
+class OffsetDelegate;
+class UseAutoFocusDelegate;
+
+namespace Ekos
+{
 
 class FilterManager : public QDialog, public Ui::FilterSettings
 {
+    Q_OBJECT
 public:
+
+    typedef enum
+    {
+        CHANGE_POLICY    = 1 << 0,
+        LOCK_POLICY      = 1 << 1,
+        OFFSET_POLICY    = 1 << 2,
+        AUTOFOCUS_POLICY = 1 << 3,
+        ALL_POLICIES     = CHANGE_POLICY | OFFSET_POLICY | LOCK_POLICY | AUTOFOCUS_POLICY
+    } FilterPolicy;
+
     FilterManager();
-    void refreshFilterData();
 
-    QStringList getFilterLabels(ISD::GDInterface *filter=nullptr);
+    void refreshFilterModel();
 
-    bool setFilterPosition(uint8_t position, ISD::GDInterface *filter=nullptr);
-    int getFilterPosition(ISD::GDInterface *filter=nullptr);
+    QStringList getFilterLabels(bool forceRefresh=false);
 
-    void addFilter(ISD::GDInterface *filter);
-    void setCurrentFilter(ISD::GDInterface *filter);
+    int getFilterPosition(bool forceRefresh=false);
 
-    void addFocuser(ISD::GDInterface *focuser);
-    void setCurrentFocuser(ISD::GDInterface *focuser);
+    // The target position and offset
+    int getTargetFilterPosition() { return targetFilterPosition; }
+    int getTargetFilterOffset() { return targetFilterOffset; }
+
+    /**
+     * @brief getFilterExposure Get optimal exposure time for the specified filter
+     * @param name filter to obtain exposure time for
+     * @return exposure time in seconds.
+     */
+    double getFilterExposure(const QString &name = QString()) const;
+    bool setFilterExposure(double exposure);
+
+    /**
+     * @brief getFilterLock Return filter that should be used when running autofocus for the supplied filter
+     * For example, "Red" filter can be locked to use "Lum" when doing autofocus. "Green" filter can be locked to "--"
+     * which means that no filter change is necessary.
+     * @param name filter which we need to query its locked filter.
+     * @return locked filter. "--" indicates no locked filter and whatever current filter should be used.
+     *
+     */
+    QString getFilterLock(const QString &name) const;
+
+    void setCurrentFilter(ISD::GDInterface *filter);    
+
+
+    /**
+     * @brief applyFilterFocusPolicies Check if we need to apply any filter policies for focus operations.
+     */
+    void applyFilterFocusPolicies();
 
 public slots:
-    void updateFilterNames();
-    void updateFilterPosition();
+    // Position. if applyPolicy is true then all filter offsets and autofocus & lock policies are applied.
+    bool setFilterPosition(uint8_t position, FilterPolicy policy = ALL_POLICIES);
+    // Offset
+    void setFocusOffsetComplete();
+    // Remove Device
+    void removeDevice(ISD::GDInterface *device);
+    // Refresh Filters after model update
+    void reloadFilters();
+    // Focus Status
+    void setFocusStatus(Ekos::FocusState focusState);
 
 signals:
     // Emitted only when there is a change in the filter slot number
-    void currentFilterPositionChanged(int);
+    void positionChanged(int);
     // Emitted when filter change operation completed successfully including any focus offsets or auto-focus operation
-    void currentFilterPositionCompleted(int);
-    // Emitted when filter labels are updated for the current filter
-    void currentFilterLabelsChanged(QStringList);
+    void labelsChanged(QStringList);
+    // Emitted when filter exposure duration changes
+    void exposureChanged(double);
+    // Emitted when filter change completed including all required actions    
+    void ready();
+    // Emitted when operation fails
+    void failed();
+    // Status signal
+    void newStatus(FilterState state);
+    // Check Focus
+    void checkFocus(double);
+    // New Focus offset requested
+    void newFocusOffset(int16_t);
 
-private slots:
-    // Apply changes to database
-    void apply();
+private slots:    
     void processText(ITextVectorProperty *tvp);
     void processNumber(INumberVectorProperty *nvp);
     void processSwitch(ISwitchVectorProperty *svp);
 
 private:
 
-    QStringList getFilterLabelsForDevice(ISD::GDInterface *filter);
-    int getFilterPositionForDevice(ISD::GDInterface *filter);
-
     // Filter Wheel Devices
-    QList<ISD::GDInterface*> m_filterDevices;
     ISD::GDInterface *m_currentFilterDevice = { nullptr };
-    QStringList m_currentFilterList;
+
+    // Position and Labels
+    QStringList m_currentFilterLabels;
     int m_currentFilterPosition = { -1 };
+    double m_currentFilterExposure = { -1 };
 
     // Filter Structure
     QList<OAL::Filter *> m_ActiveFilters;
-    QList<OAL::Filter *> m_FilterList;
+    OAL::Filter *targetFilter = { nullptr };
+    OAL::Filter *currentFilter = { nullptr };
+    OAL::Filter *lockedFilter = { nullptr };
+    bool m_useLockedFilter = { false };
+    bool m_useTargetFilter = { false };
 
-    // Focusers
-    QList<ISD::Focuser *> m_focuserDevices;
-    ISD::Focuser *m_currentFocuserDevice = { nullptr };
+    // Autofocus retries
+    uint8_t retries = { 0 };
 
     int16_t lastFilterOffset { 0 };
 
@@ -80,6 +146,34 @@ private:
     QSqlTableModel *filterModel = { nullptr };
 
     // INDI Properties of current active filter
-    ITextVectorProperty *m_currentFilterName { nullptr };
-    INumberVectorProperty *m_currentFilterSlot { nullptr };
+    ITextVectorProperty *m_FilterNameProperty { nullptr };
+    INumberVectorProperty *m_FilterPositionProperty { nullptr };
+
+    // Operation stack
+    void buildOperationQueue(FilterState operation);
+    bool executeOperationQueue();
+    bool executeOneOperation(FilterState operation);
+
+    // Update model
+    void syncDBToINDI();
+
+    // Operation Queue
+    QQueue<FilterState> operationQueue;
+
+    FilterState state = { FILTER_IDLE };
+
+    int targetFilterPosition = { -1 };
+    int targetFilterOffset = { - 1 };
+
+    // Delegates
+    QPointer<LockDelegate> lockDelegate;
+    QPointer<NotEditableDelegate> noEditDelegate;
+    QPointer<ExposureDelegate> exposureDelegate;
+    QPointer<OffsetDelegate> offsetDelegate;
+    QPointer<UseAutoFocusDelegate> useAutoFocusDelegate;
+
+    // Policies
+    FilterPolicy m_Policy = { ALL_POLICIES };
 };
+
+}

@@ -106,10 +106,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
 
     // Summary
-    // previewPixmap = new QPixmap(QPixmap(":/images/noimage.png"));
-
-    // Filter Manager
-    filterManager.reset(new FilterManager());
+    // previewPixmap = new QPixmap(QPixmap(":/images/noimage.png"));    
 
     // Profiles
     connect(addProfileB, SIGNAL(clicked()), this, SLOT(addProfile()));
@@ -311,6 +308,9 @@ void EkosManager::loadDrivers()
 void EkosManager::reset()
 {
     qCDebug(KSTARS_EKOS) << "Resetting Ekos Manager...";
+
+    // Filter Manager
+    filterManager.reset(new Ekos::FilterManager());
 
     nDevices = 0;
 
@@ -1137,8 +1137,6 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 
     alignProcess->addFilter(filterDevice);
 
-    filterManager->addFilter(filterDevice);
-
     if (Options::defaultAlignFW().isEmpty() == false)
         alignProcess->setFilter(Options::defaultAlignFW(), -1);
 }
@@ -1151,9 +1149,7 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 
     initFocus();
 
-    focusProcess->addFocuser(focuserDevice);
-
-    filterManager->addFocuser(focuserDevice);
+    focusProcess->addFocuser(focuserDevice);    
 
     appendLogText(i18n("%1 focuser is online.", focuserDevice->getDeviceName()));
 }
@@ -1236,6 +1232,7 @@ void EkosManager::removeDevice(ISD::GDInterface *devInterface)
             break;
     }
 
+
     appendLogText(i18n("%1 is offline.", devInterface->getDeviceName()));
 
     // #1 Remove from Generic Devices
@@ -1269,7 +1266,7 @@ void EkosManager::processNewText(ITextVectorProperty *tvp)
 {
     if (!strcmp(tvp->name, "FILTER_NAME"))
     {
-        filterManager->updateFilterNames();
+        //filterManager->updateFilterNames();
 
         /*if (captureProcess.get() != nullptr)
             captureProcess->checkFilter();
@@ -1322,10 +1319,10 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
         return;
     }
 
+    /*
     if (!strcmp(nvp->name, "FILTER_SLOT"))
-    {
-        filterManager->updateFilterNames();
-        /*if (captureProcess.get() != nullptr)
+    {        
+        if (captureProcess.get() != nullptr)
             captureProcess->checkFilter();
 
         if (focusProcess.get() != nullptr)
@@ -1333,8 +1330,9 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 
         if (alignProcess.get() != nullptr)
             alignProcess->checkFilter();
-            */
+
     }
+    */
 }
 
 void EkosManager::processNewProperty(INDI::Property *prop)
@@ -1436,10 +1434,10 @@ void EkosManager::processNewProperty(INDI::Property *prop)
         return;
     }
 
+    /*
     if (!strcmp(prop->getName(), "FILTER_NAME"))
-    {
-        filterManager->updateFilterNames();
-        /*if (captureProcess.get() != nullptr)
+    {        
+        if (captureProcess.get() != nullptr)
             captureProcess->checkFilter();
 
         if (focusProcess.get() != nullptr)
@@ -1447,10 +1445,11 @@ void EkosManager::processNewProperty(INDI::Property *prop)
 
         if (alignProcess.get() != nullptr)
             alignProcess->checkFilter();
-            */
+
 
         return;
     }
+    */
 
     if (!strcmp(prop->getName(), "ASTROMETRY_SOLVER"))
     {
@@ -1663,12 +1662,6 @@ void EkosManager::initCapture()
                 SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
         connect(focusProcess.get(), &Ekos::Focus::newHFR, captureProcess.get(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
 
-        // Adjust focus position
-        connect(captureProcess.get(), SIGNAL(newFocusOffset(int16_t)), focusProcess.get(), SLOT(adjustRelativeFocus(int16_t)),
-                Qt::UniqueConnection);
-        connect(focusProcess.get(), SIGNAL(focusPositionAdjusted()), captureProcess.get(), SLOT(preparePreCaptureActions()),
-                Qt::UniqueConnection);
-
         // Meridian Flip
         connect(captureProcess.get(), SIGNAL(meridianFlipStarted()), focusProcess.get(), SLOT(resetFrame()), Qt::UniqueConnection);
     }
@@ -1735,6 +1728,8 @@ void EkosManager::initAlign()
         toolsWidget->setTabIcon(index, icon);
     }
 
+    alignProcess->setFilterManager(filterManager);
+
     if (captureProcess.get() != nullptr)
     {
         // Align Status
@@ -1752,9 +1747,6 @@ void EkosManager::initAlign()
 
     if (focusProcess.get() != nullptr)
     {
-        // Filter lock
-        //connect(focusProcess.get(), SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess.get(),
-                //SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
         connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), alignProcess.get(), SLOT(setFocusStatus(Ekos::FocusState)),
                 Qt::UniqueConnection);
     }
@@ -1788,6 +1780,14 @@ void EkosManager::initFocus()
     connect(focusProcess.get(), SIGNAL(newProfilePixmap(QPixmap&)), this, SLOT(updateFocusProfilePixmap(QPixmap&)));
     connect(focusProcess.get(), SIGNAL(newHFR(double)), this, SLOT(updateCurrentHFR(double)));
 
+    focusProcess->setFilterManager(filterManager);
+    connect(filterManager.data(), SIGNAL(checkFocus(double)), focusProcess.get(), SLOT(checkFocus(double)), Qt::UniqueConnection);
+    connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), filterManager.data(), SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
+    connect(filterManager.data(), SIGNAL(newFocusOffset(int16_t)), focusProcess.get(), SLOT(adjustRelativeFocus(int16_t)),
+            Qt::UniqueConnection);
+    connect(focusProcess.get(), SIGNAL(focusPositionAdjusted()), filterManager.data(), SLOT(setFocusOffsetComplete()),
+            Qt::UniqueConnection);
+
     if (Options::ekosLeftIcons())
     {
         QTransform trans;
@@ -1815,12 +1815,6 @@ void EkosManager::initFocus()
                 SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
         connect(focusProcess.get(), &Ekos::Focus::newHFR, captureProcess.get(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
 
-        // Adjust focus position
-        connect(captureProcess.get(), SIGNAL(newFocusOffset(int16_t)), focusProcess.get(), SLOT(adjustRelativeFocus(int16_t)),
-                Qt::UniqueConnection);
-        connect(focusProcess.get(), SIGNAL(focusPositionAdjusted()), captureProcess.get(), SLOT(preparePreCaptureActions()),
-                Qt::UniqueConnection);
-
         // Meridian Flip
         connect(captureProcess.get(), SIGNAL(meridianFlipStarted()), focusProcess.get(), SLOT(resetFrame()), Qt::UniqueConnection);
     }
@@ -1834,9 +1828,6 @@ void EkosManager::initFocus()
 
     if (alignProcess.get() != nullptr)
     {
-        // Filter lock
-        //connect(focusProcess.get(), SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess.get(),
-                //SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
         connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), alignProcess.get(), SLOT(setFocusStatus(Ekos::FocusState)),
                 Qt::UniqueConnection);
     }

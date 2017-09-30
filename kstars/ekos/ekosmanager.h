@@ -287,7 +287,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     QList<std::shared_ptr<ProfileInfo>> profiles;
 
     // Filter Manager
-    QSharedPointer<FilterManager> filterManager;
+    QSharedPointer<Ekos::FilterManager> filterManager;
 
     // Mount Summary
     QProgressIndicator *mountPI { nullptr };

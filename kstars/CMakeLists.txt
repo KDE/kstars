@@ -183,6 +183,7 @@ if (INDI_FOUND)
                        ekos/auxiliary/dustcap.cpp
                        ekos/auxiliary/darklibrary.cpp
                        ekos/auxiliary/filtermanager.cpp
+                       ekos/auxiliary/filterdelegate.cpp
 
                        # Capture
                        ekos/capture/capture.cpp
