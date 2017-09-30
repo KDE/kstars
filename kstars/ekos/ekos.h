@@ -127,6 +127,19 @@ typedef enum {
 
 const QString &getAlignStatusString(AlignState state);
 
+// Filter Manager States
+static const QStringList filterStates = { I18N_NOOP("Idle"), I18N_NOOP("Changing Filter"), I18N_NOOP("Focus Offset"),
+                                          I18N_NOOP("Auto Focus")};
+typedef enum
+{
+    FILTER_IDLE,
+    FILTER_CHANGE,
+    FILTER_OFFSET,
+    FILTER_AUTOFOCUS
+} FilterState;
+
+const QString &getFilterStatusString(FilterState state);
+
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
                                        const int order, double &chisq);
 }
