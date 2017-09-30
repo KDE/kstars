@@ -18,7 +18,8 @@
 
 #include "oal/filter.h"
 
-OAL::Filter::Filter(const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &offset, const QString &color, const QString &exposure, const QString &lockedFilter, bool useAutoFocus)
+OAL::Filter::Filter(const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &color,
+                          double exposure, int offset, bool useAutoFocus, const QString &lockedFilter)
 {
     m_Id       = id;
     m_Model    = model;

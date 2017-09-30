@@ -256,16 +256,16 @@ void EquipmentWriter::slotNewLens()
 void EquipmentWriter::slotAddFilter()
 {
     KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
-                                                ui.f_Offset->text(), ui.f_Color->text(), ui.f_Exposure->text(),
-                                                ui.f_LockedFilter->text(), ui.f_UseAutoFocus->isChecked());
+                                                ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
+                                                ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text());
     loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();
     ui.f_Vendor->clear();
     ui.f_Type->clear();
-    ui.f_Offset->clear();
+    ui.f_Offset->setValue(0);
     ui.f_Color->clear();
-    ui.f_Exposure->clear();
+    ui.f_Exposure->setValue(1);
     ui.f_LockedFilter->clear();
     ui.f_UseAutoFocus->setChecked(false);
 }
@@ -278,9 +278,9 @@ void EquipmentWriter::slotRemoveFilter()
     ui.f_Model->clear();
     ui.f_Vendor->clear();
     ui.f_Type->clear();
-    ui.f_Offset->clear();
+    ui.f_Offset->setValue(0);
     ui.f_Color->clear();
-    ui.f_Exposure->clear();
+    ui.f_Exposure->setValue(0);
     ui.f_LockedFilter->clear();
     ui.f_UseAutoFocus->setChecked(false);
     ui.FilterList->clear();
@@ -293,13 +293,13 @@ void EquipmentWriter::slotSaveFilter()
     // Add
     if (ui.f_Id->text().isEmpty())
         KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
-                                                    ui.f_Offset->text(), ui.f_Color->text(), ui.f_Exposure->text(),
-                                                    ui.f_LockedFilter->text(), ui.f_UseAutoFocus->isChecked());
+                                                    ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
+                                                    ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text());
     // Update Existing
     else
         KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
-                                                    ui.f_Offset->text(), ui.f_Color->text(), ui.f_Exposure->text(),
-                                                    ui.f_LockedFilter->text(), ui.f_UseAutoFocus->isChecked(), ui.f_Id->text());
+                                                    ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
+                                                    ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text(), ui.f_Id->text());
 
     loadEquipment();
 }
@@ -314,9 +314,9 @@ void EquipmentWriter::slotSetFilter(QString name)
         ui.f_Model->setText(f->model());
         ui.f_Vendor->setText(f->vendor());
         ui.f_Type->setText(f->type());
-        ui.f_Offset->setText(f->offset());
         ui.f_Color->setText(f->color());
-        ui.f_Exposure->setText(f->exposure());
+        ui.f_Offset->setValue(f->offset());
+        ui.f_Exposure->setValue(f->exposure());
         ui.f_LockedFilter->setText(f->lockedFilter());
         ui.f_UseAutoFocus->setChecked(f->useAutoFocus());
         newFilter = false;
@@ -331,8 +331,8 @@ void EquipmentWriter::slotNewFilter()
     ui.f_Type->clear();
     ui.f_Model->clear();
     ui.f_Color->clear();
-    ui.f_Offset->clear();
-    ui.f_Exposure->clear();
+    ui.f_Offset->setValue(0);
+    ui.f_Exposure->setValue(1);
     ui.f_LockedFilter->clear();
     ui.f_UseAutoFocus->setChecked(false);
     ui.FilterList->selectionModel()->clear();
