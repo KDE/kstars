@@ -305,6 +305,19 @@
                 </widget>
                </item>
                <item>
+                <widget class="QPushButton" name="logsB">
+                 <property name="minimumSize">
+                  <size>
+                   <width>32</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Logs</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QPushButton" name="controlPanelB">
                  <property name="enabled">
                   <bool>false</bool>
@@ -1411,7 +1424,7 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QHBoxLayout" name="bottomLayout">
        <item>
         <widget class="QPlainTextEdit" name="ekosLogOut">

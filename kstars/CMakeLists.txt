@@ -167,6 +167,7 @@ if (INDI_FOUND)
                     #ekos/guide/rcalibration.ui
                     # Auxiliary
                     ekos/auxiliary/filtersettings.ui
+                    ekos/auxiliary/opslogs.ui
                 )
 
             set(ekos_SRCS

@@ -266,8 +266,19 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
         return;
 
     QString message = QString::fromStdString(dv->messageQueue(messageID));
+    // TODO the colors should be from the color scheme
+    if (message.mid(21,2) == "[E")
+        message = QString("<b style='color:red'>%1</b>").arg(message);
+    else if (message.mid(21,2) == "[W")
+        message = QString("<b style='color:orange'>%1</b>").arg(message);
+    else if (message.mid(21,2) != "[I")
+    {
+        // Debug message
+        qCDebug(KSTARS_INDI) << idv->getDeviceName() << ": " << message.mid(21);
+        return;
+    }
     msgST_w->ensureCursorVisible();
-    msgST_w->insertPlainText(i18nc("Message shown in INDI control panel", "%1", message));
+    msgST_w->insertHtml(i18nc("Message shown in INDI control panel", "%1", message));
     msgST_w->insertPlainText("\n");
     QTextCursor c = msgST_w->textCursor();
     c.movePosition(QTextCursor::Start);
