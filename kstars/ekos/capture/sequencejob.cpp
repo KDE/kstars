@@ -32,7 +32,7 @@ SequenceJob::SequenceJob()
 
     prepareActions[ACTION_FILTER] = true;
     prepareActions[ACTION_TEMPERATURE] = true;
-    prepareActions[ACTION_POST_FOCUS] = true;
+    //prepareActions[ACTION_POST_FOCUS] = true;
     prepareActions[ACTION_ROTATOR] = true;
 }
 
@@ -136,22 +136,21 @@ void SequenceJob::prepareCapture()
         {
             prepareActions[ACTION_FILTER] = false;
 
-            // Post Focus on Filter change. If frame is NOT light, then we do not perform autofocusing on filter change
-            prepareActions[ACTION_POST_FOCUS] = (!Options::autoFocusOnFilterChange());
+            emit prepareState(CAPTURE_CHANGING_FILTER);
 
-            activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
+            filterManager->setFilterPosition(targetFilter);
         }
     }
     else
     {
         prepareActions[ACTION_FILTER] = true;
-        prepareActions[ACTION_POST_FOCUS] = true;
     }
 
     // Check if we need to update temperature
     if (enforceTemperature && fabs(targetTemperature - currentTemperature) > Options::maxTemperatureDiff())
     {
         prepareActions[ACTION_TEMPERATURE] = false;
+        emit prepareState(CAPTURE_SETTING_TEMPERATURE);
         activeCCD->setTemperature(targetTemperature);
     }
 
@@ -161,6 +160,7 @@ void SequenceJob::prepareCapture()
         // PA = RawAngle * Multiplier + Offset
         double rawAngle = (targetRotation - Options::pAOffset()) / Options::pAMultiplier();
         prepareActions[ACTION_ROTATOR] = false;
+        emit prepareState(CAPTURE_SETTING_ROTATOR);
         activeRotator->runCommand(INDI_SET_ROTATOR_ANGLE, &rawAngle);
     }
 
@@ -442,22 +442,6 @@ void SequenceJob::setEnforceTemperature(bool value)
     enforceTemperature = value;
 }
 
-bool SequenceJob::getFilterPostFocusReady() const
-{
-    return prepareActions[ACTION_POST_FOCUS];
-}
-
-void SequenceJob::setFilterPostFocusReady(bool value)
-{
-    prepareActions[ACTION_POST_FOCUS] = value;
-
-    if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
-    {
-        prepareReady = true;
-        emit prepareComplete();
-    }
-}
-
 QString SequenceJob::getPostCaptureScript() const
 {
     return postCaptureScript;
@@ -547,8 +531,8 @@ void SequenceJob::setCurrentFilter(int value)
         prepareReady = true;
         emit prepareComplete();
     }
-    else if (prepareActions[ACTION_FILTER] == true && prepareActions[ACTION_POST_FOCUS] == false)
-        emit checkFocus();
+    //else if (prepareActions[ACTION_FILTER] == true && prepareActions[ACTION_POST_FOCUS] == false)
+        //emit checkFocus();
 }
 
 void SequenceJob::setCurrentRotation(double value)

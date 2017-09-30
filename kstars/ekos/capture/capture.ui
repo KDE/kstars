@@ -154,7 +154,7 @@
            </layout>
           </item>
           <item row="0" column="3">
-           <widget class="QComboBox" name="FilterCaptureCombo">
+           <widget class="QComboBox" name="FilterDevicesCombo">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -171,7 +171,7 @@
            </widget>
           </item>
           <item row="0" column="4">
-           <widget class="QPushButton" name="filterOffsetB">
+           <widget class="QPushButton" name="filterManagerB">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -182,7 +182,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Filter focus offsets</string>
+             <string>Filter Settings</string>
             </property>
             <property name="statusTip">
              <string/>
@@ -1914,8 +1914,8 @@
  </widget>
  <tabstops>
   <tabstop>CCDCaptureCombo</tabstop>
-  <tabstop>FilterCaptureCombo</tabstop>
-  <tabstop>filterOffsetB</tabstop>
+  <tabstop>FilterDevicesCombo</tabstop>
+  <tabstop>filterManagerB</tabstop>
   <tabstop>temperatureCheck</tabstop>
   <tabstop>temperatureIN</tabstop>
   <tabstop>setTemperatureB</tabstop>

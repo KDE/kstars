@@ -34,6 +34,10 @@ const QString &getAlignStatusString(AlignState state)
 {
     return alignStates[state];
 }
+const QString &getFilterStatusString(FilterState state)
+{
+    return filterStates[state];
+}
 
 /* Taken from http://codereview.stackexchange.com/questions/71300/wrapper-function-to-do-polynomial-fits-with-gsl */
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
