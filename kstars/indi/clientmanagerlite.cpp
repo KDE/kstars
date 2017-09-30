@@ -33,8 +33,11 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QImageReader>
+#include <QJsonArray>
+#include <QJsonDocument>
 #include <QProcess>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include <QTemporaryFile>
 
 const char *libindi_strings_context = "string from libindi, used in the config dialog";
@@ -51,7 +54,7 @@ DeviceInfoLite::~DeviceInfoLite()
 {
 }
 
-ClientManagerLite::ClientManagerLite()
+ClientManagerLite::ClientManagerLite(QQmlContext& main_context) : context(main_context)
 {
 #ifdef ANDROID
     defaultImageType      = ".jpeg";
@@ -60,13 +63,14 @@ ClientManagerLite::ClientManagerLite()
     qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeNS");
     qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeWE");
     qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeCommand");
+    context.setContextProperty("webMProfileModel", QVariant::fromValue(webMProfiles));
 }
 
 ClientManagerLite::~ClientManagerLite()
 {
 }
 
-bool ClientManagerLite::setHost(QString ip, unsigned int port)
+bool ClientManagerLite::setHost(const QString &ip, unsigned int port)
 {
     if (!isConnected())
     {
@@ -92,9 +96,195 @@ void ClientManagerLite::disconnectHost()
     setConnectedHost("");
 }
 
+void ClientManagerLite::getWebManagerProfiles(const QString &ip, unsigned int port)
+{
+    if (webMProfilesReply.get() != nullptr)
+        return;
+
+    QString urlStr(QString("http://%1:%2/api/profiles").arg(ip).arg(port));
+    QNetworkRequest request { QUrl(urlStr) };
+
+    webMProfilesReply.reset(manager.get(request));
+    connect(webMProfilesReply.get(), SIGNAL(error(QNetworkReply::NetworkError)),
+            this, SLOT(webManagerReplyError(QNetworkReply::NetworkError)));
+    connect(webMProfilesReply.get(), &QNetworkReply::finished, this, &ClientManagerLite::webManagerReplyFinished);
+    setLastUsedServer(ip);
+    setLastUsedWebManagerPort(port);
+}
+
+void ClientManagerLite::startWebManagerProfile(const QString &profile)
+{
+    if (webMStartProfileReply.get() != nullptr)
+        return;
+
+    QString urlStr("http://%1:%2/api/server/start/%3");
+
+    urlStr = urlStr.arg(getLastUsedServer()).arg(getLastUsedWebManagerPort()).arg(profile);
+    QNetworkRequest request { QUrl(urlStr) };
+
+    webMStartProfileReply.reset(manager.post(request, QByteArray()));
+    connect(webMStartProfileReply.get(), SIGNAL(error(QNetworkReply::NetworkError)),
+            this, SLOT(webManagerReplyError(QNetworkReply::NetworkError)));
+    connect(webMStartProfileReply.get(), &QNetworkReply::finished,
+            this, &ClientManagerLite::webManagerReplyFinished);
+}
+
+void ClientManagerLite::stopWebManagerProfile()
+{
+    if (webMStopProfileReply.get() != nullptr)
+        return;
+
+    QString urlStr(QString("http://%1:%2/api/server/stop").arg(getLastUsedServer()).arg(getLastUsedWebManagerPort()));
+    QNetworkRequest request { QUrl(urlStr) };
+
+    webMStopProfileReply.reset(manager.post(request, QByteArray()));
+    connect(webMStopProfileReply.get(), SIGNAL(error(QNetworkReply::NetworkError)),
+            this, SLOT(webManagerReplyError(QNetworkReply::NetworkError)));
+    connect(webMStopProfileReply.get(), &QNetworkReply::finished,
+            this, &ClientManagerLite::webManagerReplyFinished);
+}
+
+void ClientManagerLite::webManagerReplyError(QNetworkReply::NetworkError code)
+{
+    if (webMProfilesReply.get() != nullptr)
+    {
+        qWarning("Web Manager profile query error: %d", (int)code);
+        KStarsLite::Instance()->notificationMessage(i18n("Couldn't connect to the Web Manager"));
+        webMProfilesReply.release()->deleteLater();
+        return;
+    }
+    if (webMStatusReply.get() != nullptr)
+    {
+        qWarning("Web Manager status query error: %d", (int)code);
+        KStarsLite::Instance()->notificationMessage(i18n("Couldn't connect to the Web Manager"));
+        webMStatusReply.release()->deleteLater();
+        return;
+    }
+    if (webMStopProfileReply.get() != nullptr)
+    {
+        qWarning("Web Manager stop active profile error: %d", (int)code);
+        KStarsLite::Instance()->notificationMessage(i18n("Couldn't connect to the Web Manager"));
+        webMStopProfileReply.release()->deleteLater();
+        return;
+    }
+    if (webMStartProfileReply.get() != nullptr)
+    {
+        qWarning("Web Manager start active profile error: %d", (int)code);
+        KStarsLite::Instance()->notificationMessage(i18n("Couldn't connect to the Web Manager"));
+        webMStartProfileReply.release()->deleteLater();
+        return;
+    }
+}
+
+void ClientManagerLite::webManagerReplyFinished()
+{
+    // Web Manager profile query
+    if (webMProfilesReply.get() != nullptr)
+    {
+        QByteArray responseData = webMProfilesReply->readAll();
+        QJsonDocument json = QJsonDocument::fromJson(responseData);
+
+        webMProfilesReply.release()->deleteLater();
+        if (!json.isArray())
+        {
+            KStarsLite::Instance()->notificationMessage(i18n("Invalid response from Web Manager"));
+            return;
+        }
+        QJsonArray array = json.array();
+
+        webMProfiles.clear();
+        for (int i = 0; i < array.size(); ++i)
+        {
+            if (array.at(i).isObject() && array.at(i).toObject().contains("name"))
+            {
+                webMProfiles += array.at(i).toObject()["name"].toString();
+            }
+        }
+        // Send a query for the network status
+        QString urlStr(QString("http://%1:%2/api/server/status").arg(getLastUsedServer()).arg(getLastUsedWebManagerPort()));
+        QNetworkRequest request { QUrl(urlStr) };
+
+        webMStatusReply.reset(manager.get(request));
+        connect(webMStatusReply.get(), SIGNAL(error(QNetworkReply::NetworkError)),
+                this, SLOT(webManagerReplyError(QNetworkReply::NetworkError)));
+        connect(webMStatusReply.get(), &QNetworkReply::finished, this, &ClientManagerLite::webManagerReplyFinished);
+        return;
+    }
+    // Web Manager status query
+    if (webMStatusReply.get() != nullptr)
+    {
+        QByteArray responseData = webMStatusReply->readAll();
+        QJsonDocument json = QJsonDocument::fromJson(responseData);
+
+        webMStatusReply.release()->deleteLater();
+        if (!json.isArray() || json.array().size() != 1 || !json.array().at(0).isObject())
+        {
+            KStarsLite::Instance()->notificationMessage(i18n("Invalid response from Web Manager"));
+            return;
+        }
+        QJsonObject object = json.array().at(0).toObject();
+
+        // Check the response
+        if (!object.contains("status") || !object.contains("active_profile"))
+        {
+            KStarsLite::Instance()->notificationMessage(i18n("Invalid response from Web Manager"));
+            return;
+        }
+        QString statusStr = object["status"].toString();
+        QString activeProfileStr = object["active_profile"].toString();
+
+        indiControlPage->setProperty("webMBrowserButtonVisible", true);
+        indiControlPage->setProperty("webMStatusTextVisible", true);
+        if (statusStr == "True")
+        {
+            // INDI Server is running (online)
+            indiControlPage->setProperty("webMStatusText", QString(i18n("Web Manager Status:")+' '+i18n("Online")));
+            indiControlPage->setProperty("webMActiveProfileText",
+                                         QString(i18n("Active Profile:")+" "+activeProfileStr));
+            indiControlPage->setProperty("webMActiveProfileLayoutVisible", true);
+            indiControlPage->setProperty("webMProfileListVisible", false);
+        } else {
+            // INDI Server is not running (offline)
+            indiControlPage->setProperty("webMStatusText", QString(i18n("Web Manager Status:")+' '+i18n("Offline")));
+            indiControlPage->setProperty("webMActiveProfileLayoutVisible", false);
+            context.setContextProperty("webMProfileModel", QVariant::fromValue(webMProfiles));
+            indiControlPage->setProperty("webMProfileListVisible", true);
+        }
+        return;
+    }
+    // Web Manager stop active profile
+    if (webMStopProfileReply.get() != nullptr)
+    {
+        webMStopProfileReply.release()->deleteLater();
+        indiControlPage->setProperty("webMStatusText", QString(i18n("Web Manager Status:")+' '+i18n("Offline")));
+        indiControlPage->setProperty("webMStatusTextVisible", true);
+        indiControlPage->setProperty("webMActiveProfileLayoutVisible", false);
+        context.setContextProperty("webMProfileModel", QVariant::fromValue(webMProfiles));
+        indiControlPage->setProperty("webMProfileListVisible", true);
+        return;
+    }
+    // Web Manager start active profile
+    if (webMStartProfileReply.get() != nullptr)
+    {
+        webMStartProfileReply.release()->deleteLater();
+        // Send a query for the network status
+        QString urlStr("http://%1:%2/api/server/status");
+
+        urlStr = urlStr.arg(getLastUsedServer()).arg(getLastUsedWebManagerPort());
+        QNetworkRequest request { QUrl(urlStr) };
+
+        webMStatusReply.reset(manager.get(request));
+        connect(webMStatusReply.get(), SIGNAL(error(QNetworkReply::NetworkError)),
+                this, SLOT(webManagerReplyError(QNetworkReply::NetworkError)));
+        connect(webMStatusReply.get(), &QNetworkReply::finished,
+                this, &ClientManagerLite::webManagerReplyFinished);
+        return;
+    }
+}
+
 TelescopeLite *ClientManagerLite::getTelescope(const QString &deviceName)
 {
-    foreach (DeviceInfoLite *devInfo, m_devices)
+    for (auto& devInfo : m_devices)
     {
         if (devInfo->device->getDeviceName() == deviceName)
         {
@@ -104,7 +294,7 @@ TelescopeLite *ClientManagerLite::getTelescope(const QString &deviceName)
     return nullptr;
 }
 
-void ClientManagerLite::setConnectedHost(QString connectedHost)
+void ClientManagerLite::setConnectedHost(const QString &connectedHost)
 {
     m_connectedHost = connectedHost;
     setConnected(m_connectedHost.size() > 0);
@@ -118,7 +308,7 @@ void ClientManagerLite::setConnected(bool connected)
     emit connectedChanged(connected);
 }
 
-QString ClientManagerLite::syncLED(QString device, QString property, QString name)
+QString ClientManagerLite::syncLED(const QString &device, const QString &property, const QString &name)
 {
     foreach (DeviceInfoLite *devInfo, m_devices)
     {
@@ -477,7 +667,7 @@ void ClientManagerLite::buildLightGUI(INDI::Property *property)
     guiProp->addLayout(EHBox);
 }*/
 
-void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, QString name)
+void ClientManagerLite::sendNewINDISwitch(const QString &deviceName, const QString &propName, const QString &name)
 {
     foreach (DeviceInfoLite *devInfo, m_devices)
     {
@@ -577,7 +767,7 @@ void ClientManagerLite::sendNewINDIText(const QString &deviceName, const QString
     }
 }
 
-void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, int index)
+void ClientManagerLite::sendNewINDISwitch(const QString &deviceName, const QString &propName, int index)
 {
     if (index >= 0)
     {
@@ -640,7 +830,7 @@ bool ClientManagerLite::saveDisplayImage()
     return false;
 }
 
-bool ClientManagerLite::isDeviceConnected(QString deviceName)
+bool ClientManagerLite::isDeviceConnected(const QString &deviceName)
 {
     INDI::BaseDevice *device = getDevice(deviceName.toStdString().c_str());
 
@@ -1025,7 +1215,7 @@ QString ClientManagerLite::getLastUsedServer()
     return Options::lastServer();
 }
 
-void ClientManagerLite::setLastUsedServer(QString server)
+void ClientManagerLite::setLastUsedServer(const QString &server)
 {
     if (getLastUsedServer() != server)
     {
@@ -1045,5 +1235,19 @@ void ClientManagerLite::setLastUsedPort(int port)
     {
         Options::setLastServerPort(port);
         lastUsedPortChanged();
+    }
+}
+
+int ClientManagerLite::getLastUsedWebManagerPort()
+{
+    return Options::lastWebManagerPort();
+}
+
+void ClientManagerLite::setLastUsedWebManagerPort(int port)
+{
+    if (getLastUsedWebManagerPort() != port)
+    {
+        Options::setLastWebManagerPort(port);
+        lastUsedWebManagerPortChanged();
     }
 }
