@@ -61,7 +61,7 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
     Q_ASSERT(m_KStarsData);
 
     //INDI Android Client
-    m_clientManager = new ClientManagerLite;
+    m_clientManager = new ClientManagerLite(*m_Engine.rootContext());
     m_Engine.rootContext()->setContextProperty("ClientManagerLite", m_clientManager);
 
     //Make instance of KStarsLite and KStarsData available to QML
@@ -104,6 +104,7 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
                "QML file was not loaded. Probably syntax error or failed module import.");
 
     m_RootObject = m_Engine.rootObjects()[0];
+    m_clientManager->setIndiControlPage(*m_RootObject->findChild<QObject*>("indiControlPanel"));
 
     QQuickItem *skyMapLiteWrapper = m_RootObject->findChild<QQuickItem *>("skyMapLiteWrapper");
 

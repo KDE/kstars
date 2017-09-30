@@ -21,10 +21,13 @@
 #include "indistd.h"
 
 #include <QImage>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 #include <memory>
 
 class QFileDialog;
+class QQmlContext;
 
 using namespace INDI;
 class TelescopeLite;
@@ -62,27 +65,68 @@ class ClientManagerLite : public INDI::BaseClientQt
      * connected to some server at least once.
      **/
     Q_PROPERTY(int lastUsedPort READ getLastUsedPort WRITE setLastUsedPort NOTIFY lastUsedPortChanged)
+
+    /**
+     * A wrapper for Options::lastServer(). Used to store last Web Manager used port if user successfully
+     * connected at least once.
+     **/
+    Q_PROPERTY(int lastUsedWebManagerPort READ getLastUsedWebManagerPort WRITE setLastUsedWebManagerPort
+               NOTIFY lastUsedWebManagerPortChanged)
   public:
     typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
 
-    ClientManagerLite();
+    explicit ClientManagerLite(QQmlContext& main_context);
     virtual ~ClientManagerLite();
 
-    Q_INVOKABLE bool setHost(QString ip, unsigned int port);
+    Q_INVOKABLE bool setHost(const QString &ip, unsigned int port);
     Q_INVOKABLE void disconnectHost();
+
+    /**
+     * Get the profiles from Web Manager
+     *
+     * @param ip IP address
+     * @param port Port number
+     *
+     * The process is async and the results are stored in @a webMProfiles. Once this
+     * request finishes, the server status is queried from the server.
+     */
+    Q_INVOKABLE void getWebManagerProfiles(const QString &ip, unsigned int port);
+
+    /**
+     * Start an INDI server with a Web Manager profile
+     *
+     * @param profile Profile name
+     */
+    Q_INVOKABLE void startWebManagerProfile(const QString &profile);
+
+    /** Stop the INDI server with an active Web Manager profile */
+    Q_INVOKABLE void stopWebManagerProfile();
+
+    /** Handle the errors of the async Web Manager requests */
+    Q_INVOKABLE void webManagerReplyError(QNetworkReply::NetworkError code);
+
+    /** Do actions when async Web Manager requests are finished */
+    Q_INVOKABLE void webManagerReplyFinished();
 
     Q_INVOKABLE TelescopeLite *getTelescope(const QString &deviceName);
 
     QString connectedHost() { return m_connectedHost; }
-    void setConnectedHost(QString connectedHost);
+    void setConnectedHost(const QString &connectedHost);
     void setConnected(bool connected);
+
+    /**
+     * Set the INDI Control Page
+     *
+     * @param page Reference to the QML page
+     */
+    void setIndiControlPage(QObject &page) { indiControlPage = &page; };
 
     /**
      * @brief syncLED
      * @param name of Light which LED needs to be synced
      * @return color of state
      */
-    Q_INVOKABLE QString syncLED(QString device, QString property, QString name = "");
+    Q_INVOKABLE QString syncLED(const QString &device, const QString &property, const QString &name = "");
 
     void buildTextGUI(INDI::Property *property);
     void buildNumberGUI(INDI::Property *property);
@@ -93,8 +137,8 @@ class ClientManagerLite : public INDI::BaseClientQt
     void buildLightGUI(INDI::Property *property);
     //void buildBLOBGUI(INDI::Property *property);
 
-    Q_INVOKABLE void sendNewINDISwitch(QString deviceName, QString propName, QString name);
-    Q_INVOKABLE void sendNewINDISwitch(QString deviceName, QString propName, int index);
+    Q_INVOKABLE void sendNewINDISwitch(const QString &deviceName, const QString &propName, const QString &name);
+    Q_INVOKABLE void sendNewINDISwitch(const QString &deviceName, const QString &propName, int index);
 
     Q_INVOKABLE void sendNewINDINumber(const QString &deviceName, const QString &propName, const QString &numberName,
                                        double value);
@@ -102,15 +146,19 @@ class ClientManagerLite : public INDI::BaseClientQt
                                      const QString &text);
 
     bool isConnected() { return m_connected; }
-    Q_INVOKABLE bool isDeviceConnected(QString deviceName);
+    Q_INVOKABLE bool isDeviceConnected(const QString &deviceName);
 
     QList<DeviceInfoLite *> getDevices() { return m_devices; }
 
     Q_INVOKABLE QString getLastUsedServer();
-    Q_INVOKABLE void setLastUsedServer(QString server);
+    Q_INVOKABLE void setLastUsedServer(const QString &server);
 
     Q_INVOKABLE int getLastUsedPort();
     Q_INVOKABLE void setLastUsedPort(int port);
+
+    Q_INVOKABLE int getLastUsedWebManagerPort();
+    Q_INVOKABLE void setLastUsedWebManagerPort(int port);
+
     /**
      * @brief saveDisplayImage
      * @return true if image was saved false otherwise
@@ -173,15 +221,32 @@ class ClientManagerLite : public INDI::BaseClientQt
 
     void lastUsedServerChanged();
     void lastUsedPortChanged();
+    void lastUsedWebManagerPortChanged();
 
   private:
     bool processBLOBasCCD(IBLOB *bp);
 
+    /// Qml context
+    QQmlContext& context;
     QList<DeviceInfoLite *> m_devices;
     QString m_connectedHost;
     bool m_connected { false };
     char BLOBFilename[MAXINDIFILENAME];
     QImage displayImage;
+    /// INDI Control Page
+    QObject* indiControlPage;
+    /// Manager for the JSON requests to the Web Manager
+    QNetworkAccessManager manager;
+    /// Network reply for querying profiles from the Web Manager
+    std::unique_ptr<QNetworkReply> webMProfilesReply;
+    /// Network reply for Web Manager status
+    std::unique_ptr<QNetworkReply> webMStatusReply;
+    /// Network reply to stop the active profile in the Web Manager
+    std::unique_ptr<QNetworkReply> webMStopProfileReply;
+    /// Network reply to start a profile in the Web Manager
+    std::unique_ptr<QNetworkReply> webMStartProfileReply;
+    /// Web Manager profiles
+    QStringList webMProfiles;
 #ifdef ANDROID
     QString defaultImageType;
     QString defaultImagesLocation;
