@@ -374,7 +374,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QComboBox" name="FilterCaptureCombo">
+           <widget class="QComboBox" name="FilterDevicesCombo">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -409,16 +409,22 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="lockFilterCheck">
-              <property name="enabled">
-               <bool>false</bool>
+             <widget class="QPushButton" name="filterManagerB">
+              <property name="maximumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
               </property>
               <property name="toolTip">
-               <string>If locked, the focus process will always use the specified filter when performing autofocus.
-Otherwise, the autofocus process will utilize whatever filter currently set by the driver.</string>
+               <string>Filter Settings</string>
               </property>
               <property name="text">
-               <string>Lock</string>
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../../data/kstars.qrc">
+                <normaloff>:/icons/breeze/default/view-filter.svg</normaloff>:/icons/breeze/default/view-filter.svg</iconset>
               </property>
              </widget>
             </item>
@@ -944,7 +950,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>FilterCaptureCombo</tabstop>
+  <tabstop>FilterDevicesCombo</tabstop>
   <tabstop>CCDCaptureCombo</tabstop>
   <tabstop>binningCombo</tabstop>
   <tabstop>startLoopB</tabstop>
@@ -953,7 +959,6 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
   <tabstop>ISOCombo</tabstop>
   <tabstop>exposureIN</tabstop>
   <tabstop>FilterPosCombo</tabstop>
-  <tabstop>lockFilterCheck</tabstop>
   <tabstop>absTicksLabel</tabstop>
   <tabstop>filterCombo</tabstop>
   <tabstop>focusInB</tabstop>
@@ -983,6 +988,8 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
   <tabstop>relativeProfileB</tabstop>
   <tabstop>useFullField</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../data/kstars.qrc"/>
+ </resources>
  <connections/>
 </ui>

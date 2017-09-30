@@ -11,12 +11,12 @@
 
 #include "ui_focus.h"
 #include "ekos/ekos.h"
+#include "ekos/auxiliary/filtermanager.h"
 #include "fitsviewer/fitsviewer.h"
 #include "indi/indiccd.h"
 #include "indi/indifocuser.h"
 #include "indi/indistd.h"
 #include "indi/inditelescope.h"
-#include "oal/filter.h"
 
 #include <QtDBus/QtDBus>
 
@@ -27,7 +27,7 @@ namespace Ekos
  * @short Supports manual focusing and auto focusing using relative and absolute INDI focusers.
  *
  * @author Jasem Mutlaq
- * @version 1.2
+ * @version 1.3
  */
 class Focus : public QWidget, public Ui::Focus
 {
@@ -157,6 +157,8 @@ class Focus : public QWidget, public Ui::Focus
      */
     void removeDevice(ISD::GDInterface *deviceRemoved);
 
+    void setFilterManager(const QSharedPointer<FilterManager> &manager);
+
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
 
@@ -285,17 +287,6 @@ class Focus : public QWidget, public Ui::Focus
 
   private slots:
     /**
-         * @brief filterLockToggled Process filter locking/unlocking. Filter lock causes the autofocus process to use the selected filter whenever it runs.
-         */
-    void filterLockToggled(bool);
-
-    /**
-         * @brief updateFilterPos If filter locking is checked, set the locked filter to the current filter position
-         * @param index current filter position
-         */
-    void updateFilterPos(int index);
-
-    /**
          * @brief toggleSubframe Process enabling and disabling subfrag.
          * @param enable If true, subframing is enabled. If false, subframing is disabled. Even if subframing is enabled, it must be supported by the CCD driver.
          */
@@ -321,24 +312,11 @@ class Focus : public QWidget, public Ui::Focus
 
     void toggleFocusingWidgetFullScreen();
 
-    /**
-         * @brief saveFilterExposure Save filter exposure value in database
-         */
-    void saveFilterExposure();
-
-    /**
-         * @brief refreshFilterExposure Load filter exposure value from DB and apply it to current exposure value
-         */
-    void refreshFilterExposure();
-
-    //void registerFocusProperty(INDI::Property *prop);
-
   signals:
     void newLog();
     //void autoFocusFinished(bool status, double finalHFR);
     void suspendGuiding();
     void resumeGuiding();
-    void filterLockUpdated(ISD::GDInterface *filter, int lockedIndex);
     void newStatus(Ekos::FocusState state);
     void newStarPixmap(QPixmap &);
     void newProfilePixmap(QPixmap &);
@@ -369,7 +347,7 @@ class Focus : public QWidget, public Ui::Focus
     /// Optional device filter
     ISD::GDInterface *currentFilter { nullptr };
     /// Current filter position
-    int currentFilterIndex { -1 };
+    int currentFilterPosition { -1 };
     /// True if we need to change filter position and wait for result before continuing capture
     bool filterPositionPending { false };
 
@@ -529,7 +507,7 @@ class Focus : public QWidget, public Ui::Focus
     std::vector<double> coeff;
     int polySolutionFound { 0 };
 
-    /// Filters from DB
-    QList<OAL::Filter *> m_filterList;
+    // Filter Manager
+    QSharedPointer<FilterManager> filterManager;
 };
 }
