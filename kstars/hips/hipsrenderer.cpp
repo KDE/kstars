@@ -37,11 +37,6 @@ HIPSRenderer::HIPSRenderer()
 
 bool HIPSRenderer::render(uint16_t w, uint16_t h, QImage *hipsImage, const Projector *m_proj)
 {
-  if (Options::hIPSSource() == i18n("None"))
-  {
-    return false;
-  }
-
   gridColor = KStarsData::Instance()->colorScheme()->colorNamed("HIPSGridColor").name();
 
   m_projector = m_proj;
