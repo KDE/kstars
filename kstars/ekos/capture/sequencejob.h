@@ -11,6 +11,7 @@
 
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
+#include "ekos/auxiliary/filtermanager.h"
 #include "skyobjects/skypoint.h"
 
 #include <QTableWidgetItem>
@@ -41,8 +42,7 @@ class SequenceJob : public QObject
     typedef enum
     {
         ACTION_FILTER,
-        ACTION_TEMPERATURE,
-        ACTION_POST_FOCUS,
+        ACTION_TEMPERATURE,        
         ACTION_ROTATOR
     } PrepareActions;
 
@@ -88,6 +88,8 @@ class SequenceJob : public QObject
 
     void setFrameType(CCDFrameType type);
     CCDFrameType getFrameType() { return frameType; }
+
+    void setFilterManager(const QSharedPointer<FilterManager> &manager) { filterManager = manager; }
 
     void setCaptureFilter(FITSScale capFilter) { captureFilter = capFilter; }
     FITSScale getCaptureFilter() { return captureFilter; }
@@ -168,9 +170,6 @@ class SequenceJob : public QObject
     bool getEnforceTemperature() const;
     void setEnforceTemperature(bool value);
 
-    bool getFilterPostFocusReady() const;
-    void setFilterPostFocusReady(bool value);
-
     QString getPostCaptureScript() const;
     void setPostCaptureScript(const QString &value);
 
@@ -195,10 +194,11 @@ class SequenceJob : public QObject
     void setCustomProperties(const QMap<QString, QMap<QString, double> > &value);
 
     QString getDirectoryPostfix() const;
-    void setDirectoryPostfix(const QString &value);
+    void setDirectoryPostfix(const QString &value);    
 
 signals:
     void prepareComplete();
+    void prepareState(Ekos::CaptureState state);
     void checkFocus();
 
 private:
@@ -276,5 +276,8 @@ private:
     QMap<PrepareActions, bool> prepareActions;
 
     QMap<QString, QMap<QString,double>> customProperties;
+
+    // Filter Manager
+    QSharedPointer<FilterManager> filterManager;
 };
 }

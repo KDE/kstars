@@ -389,21 +389,40 @@ void OAL::Log::writeFilter(OAL::Filter *f)
 {
     writer->writeStartElement("filter");
     writer->writeAttribute("id", f->id());
+
+    // Model
     writer->writeStartElement("model");
     writer->writeCDATA(f->model());
     writer->writeEndElement();
+    // Vendor
     writer->writeStartElement("vendor");
     writer->writeCDATA(f->vendor());
     writer->writeEndElement();
+    // Type
     writer->writeStartElement("type");
     writer->writeCDATA(f->type());
-    writer->writeEndElement();
-    writer->writeStartElement("offset");
-    writer->writeCDATA(f->offset());
-    writer->writeEndElement();
+    writer->writeEndElement();    
+    // Color
     writer->writeStartElement("color");
     writer->writeCDATA(f->color());
     writer->writeEndElement();
+    // Offset
+    writer->writeStartElement("offset");
+    writer->writeCDATA(QString::number(f->offset()));
+    writer->writeEndElement();
+    // Exposure
+    writer->writeStartElement("exposure");
+    writer->writeCDATA(QString::number(f->exposure()));
+    writer->writeEndElement();
+    // AutoFocus
+    writer->writeStartElement("autofocus");
+    writer->writeCDATA(QString::number(f->useAutoFocus() ? 1 : 0));
+    writer->writeEndElement();
+    // Locked Filter
+    writer->writeStartElement("lockedfilter");
+    writer->writeCDATA(f->lockedFilter());
+    writer->writeEndElement();
+
     writer->writeEndElement();
 }
 

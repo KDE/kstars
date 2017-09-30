@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>411</width>
-    <height>344</height>
+    <width>398</width>
+    <height>333</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="_2">
@@ -20,7 +20,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -555,17 +555,14 @@
       <attribute name="title">
        <string>Filter</string>
       </attribute>
-      <layout class="QHBoxLayout" name="_5">
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
        <item>
         <widget class="QListWidget" name="FilterList"/>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout4">
+        <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <layout class="QFormLayout" name="formLayout4">
-           <property name="fieldGrowthPolicy">
-            <enum>QFormLayout::ExpandingFieldsGrow</enum>
-           </property>
+          <layout class="QFormLayout" name="formLayout_3">
            <item row="0" column="0">
             <widget class="QLabel" name="label4">
              <property name="text">
@@ -583,47 +580,73 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item row="1" column="0">
             <widget class="QLabel" name="label5">
              <property name="text">
               <string>Vendor:</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
+           <item row="1" column="1">
             <widget class="QLineEdit" name="f_Vendor"/>
            </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label6">
-             <property name="text">
-              <string>Type:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QLineEdit" name="f_Type"/>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="label_12">
-             <property name="text">
-              <string>Color:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1">
-            <widget class="QLineEdit" name="f_Color"/>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="f_Model"/>
-           </item>
-           <item row="3" column="0">
+           <item row="2" column="0">
             <widget class="QLabel" name="label3">
              <property name="text">
               <string>Model:</string>
              </property>
             </widget>
            </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="f_Model"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label6">
+             <property name="text">
+              <string>Type:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="f_Type"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>Color:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="f_Color"/>
+           </item>
            <item row="5" column="0">
+            <widget class="QLabel" name="label_19">
+             <property name="text">
+              <string>Exposure:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QDoubleSpinBox" name="f_Exposure">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimum">
+              <double>0.010000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>120.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>1.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
             <widget class="QLabel" name="label_18">
              <property name="toolTip">
               <string>Filter focus offset</string>
@@ -633,22 +656,48 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
-            <widget class="QLineEdit" name="f_Offset"/>
+           <item row="6" column="1">
+            <widget class="QSpinBox" name="f_Offset">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimum">
+              <number>-10000</number>
+             </property>
+             <property name="maximum">
+              <number>10000</number>
+             </property>
+             <property name="singleStep">
+              <number>100</number>
+             </property>
+            </widget>
            </item>
            <item row="7" column="0">
-            <widget class="QLabel" name="label_19">
+            <widget class="QLabel" name="label_21">
              <property name="text">
-              <string>Exposure:</string>
+              <string>Auto Focus:</string>
              </property>
             </widget>
            </item>
            <item row="7" column="1">
-            <widget class="QLineEdit" name="f_Exposure">
-             <property name="toolTip">
-              <string>Filter default exposure time in Ekos Focus Module</string>
+            <widget class="QCheckBox" name="f_UseAutoFocus">
+             <property name="text">
+              <string>Enable</string>
              </property>
             </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="label_20">
+             <property name="text">
+              <string>Locked Filter:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1">
+            <widget class="QLineEdit" name="f_LockedFilter"/>
            </item>
           </layout>
          </item>
@@ -729,9 +778,6 @@
   <tabstop>f_Vendor</tabstop>
   <tabstop>f_Model</tabstop>
   <tabstop>f_Type</tabstop>
-  <tabstop>f_Offset</tabstop>
-  <tabstop>f_Color</tabstop>
-  <tabstop>f_Exposure</tabstop>
   <tabstop>NewFilter</tabstop>
   <tabstop>AddFilter</tabstop>
   <tabstop>ScopeList</tabstop>

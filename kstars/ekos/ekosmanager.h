@@ -29,6 +29,7 @@
 #include "indi/indistd.h"
 #include "mount/mount.h"
 #include "scheduler/scheduler.h"
+#include "auxiliary/filtermanager.h"
 
 #include <QDialog>
 #include <QHash>
@@ -284,6 +285,9 @@ class EkosManager : public QDialog, public Ui::EkosManager
 
     std::unique_ptr<QStandardItemModel> profileModel;
     QList<std::shared_ptr<ProfileInfo>> profiles;
+
+    // Filter Manager
+    QSharedPointer<Ekos::FilterManager> filterManager;
 
     // Mount Summary
     QProgressIndicator *mountPI { nullptr };

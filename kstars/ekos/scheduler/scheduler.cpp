@@ -2721,8 +2721,7 @@ void Scheduler::checkJobStage()
         }
         break;
 
-        case SchedulerJob::STAGE_FOCUSING:
-        case SchedulerJob::STAGE_POSTALIGN_FOCUSING:
+        case SchedulerJob::STAGE_FOCUSING:        
         {
             QDBusReply<int> focusReply = focusInterface->call(QDBus::AutoDetect, "getStatus");
 
@@ -2745,14 +2744,7 @@ void Scheduler::checkJobStage()
 
                 autofocusCompleted = true;
 
-                if (currentJob->getStage() == SchedulerJob::STAGE_FOCUSING)
-                {
-                    // Reset frame to original size.
-                    //focusInterface->call(QDBus::AutoDetect,"resetFrame");
-                    currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
-                }
-                else
-                    currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE);
+                currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
 
                 getNextAction();
                 return;
@@ -2777,95 +2769,19 @@ void Scheduler::checkJobStage()
                 return;
             }
         }
-
-            // Is focus complete?
-#if 0
-        if(focusReply.value())
-        {
-            focusReply = focusInterface->call(QDBus::AutoDetect,"isAutoFocusSuccessful");
-            // Is focus successful ?
-            if(focusReply.value())
-            {
-                appendLogText(i18n("%1 focusing is complete.", currentJob->getName()));
-
-                autofocusCompleted = true;
-
-                if (currentJob->getStage() == SchedulerJob::STAGE_FOCUSING)
-                {
-                    // Reset frame to original size.
-                    //focusInterface->call(QDBus::AutoDetect,"resetFrame");
-                    currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
-                }
-                else
-                    currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE);
-
-                getNextAction();
-                return;
-            }
-            else
-            {
-                appendLogText(i18n("%1 focusing failed!", currentJob->getName()));
-
-                if (focusFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("Restarting %1 focusing procedure...", currentJob->getName()));
-                    // Reset frame to original size.
-                    focusInterface->call(QDBus::AutoDetect,"resetFrame");
-                    // Restart focusing
-                    startFocusing();
-                    return;
-                }
-
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                findNextJob();
-                return;
-            }
-        }
-#endif
         break;
+
+        /*case SchedulerJob::STAGE_POSTALIGN_FOCUSING:
+        focusInterface->call(QDBus::AutoDetect,"resetFrame");
+        currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE);
+        getNextAction();
+        break;*/
 
         case SchedulerJob::STAGE_ALIGNING:
         {
             QDBusReply<int> alignReply;
 
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Alignment stage...";
-
-#if 0
-        if (currentJob->getFITSFile().isEmpty() == false && loadAndSlewProgress)
-        {
-            QDBusReply<int> loadSlewReply = alignInterface->call(QDBus::AutoDetect,"getLoadAndSlewStatus");
-
-            if (Options::verboseLogging())
-                qDebug() << "Checking Load And Slew Status";
-
-            if (loadSlewReply.value() == IPS_OK)
-            {
-                appendLogText(i18n("%1 is solved and aligned successfully.", currentJob->getFITSFile().toString()));
-                loadAndSlewProgress = false;
-                currentJob->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
-                getNextAction();
-
-            }
-            else if (loadSlewReply.value() == IPS_ALERT)
-            {
-                appendLogText(i18n("%1 Load And Slew failed!", currentJob->getName()));
-
-                if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
-                    startAstrometry();
-                    return;
-                }
-
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-                findNextJob();
-            }
-
-            return;
-        }
-        else
-#endif
 
             alignReply = alignInterface->call(QDBus::AutoDetect, "getStatus");
 
@@ -2994,69 +2910,6 @@ void Scheduler::checkJobStage()
             }
         }
         break;
-
-#if 0
-    case SchedulerJob::STAGE_CALIBRATING:
-    {
-        QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
-
-        if (Options::verboseLogging())
-            qDebug() << "Calibration & Guide stage...";
-
-        if (guideReply.error().type() == QDBusError::UnknownObject)
-        {
-            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
-            currentJob->setState(SchedulerJob::JOB_ABORTED);
-            checkShutdownState();
-            return;
-        }
-
-        // If calibration stage complete?
-        if(guideReply.value())
-        {
-            guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationSuccessful");
-            // If calibration successful?
-            if(guideReply.value())
-            {
-                appendLogText(i18n("%1 calibration is complete.", currentJob->getName()));
-
-                guideReply = guideInterface->call(QDBus::AutoDetect,"guide");
-                if(guideReply.value() == false)
-                {
-                    appendLogText(i18n("%1 guiding failed!", currentJob->getName()));
-
-                    currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                    findNextJob();
-                    return;
-                }
-
-                appendLogText(i18n("%1 guiding is in progress...", currentJob->getName()));
-
-                currentJob->setStage(SchedulerJob::STAGE_GUIDING);
-                getNextAction();
-                return;
-            }
-            else
-            {
-                appendLogText(i18n("%1 calibration failed!", currentJob->getName()));
-
-                if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("Restarting %1 calibration procedure...", currentJob->getName()));
-                    startCalibrating();
-                    return;
-                }
-
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                findNextJob();
-                return;
-            }
-        }
-    }
-        break;
-#endif
 
         case SchedulerJob::STAGE_CAPTURING:
         {
@@ -3683,6 +3536,20 @@ void Scheduler::startSlew()
 
 void Scheduler::startFocusing()
 {
+    // 2017-09-30 Jasem: We're skipping post align focusing now as it can be performed
+    // when first focus request is made in capture module
+    if (currentJob->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE ||
+        currentJob->getStage() == SchedulerJob::STAGE_POSTALIGN_FOCUSING)
+    {
+        // Clear the HFR limit value set in the capture module
+        captureInterface->call(QDBus::AutoDetect, "clearAutoFocusHFR");
+        // Reset Focus frame so that next frame take a full-resolution capture first.
+        focusInterface->call(QDBus::AutoDetect,"resetFrame");
+        currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE);
+        getNextAction();
+        return;
+    }
+
     // Check if autofocus is supported
     QDBusReply<bool> focusModeReply;
     focusModeReply = focusInterface->call(QDBus::AutoDetect, "canAutoFocus");
@@ -3733,9 +3600,9 @@ void Scheduler::startFocusing()
     {
         appendLogText(i18n("startFocus DBUS error: %1", reply.errorMessage()));
         return;
-    }
+    }    
 
-    if (currentJob->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE ||
+    /*if (currentJob->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE ||
         currentJob->getStage() == SchedulerJob::STAGE_POSTALIGN_FOCUSING)
     {
         currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING);
@@ -3745,7 +3612,10 @@ void Scheduler::startFocusing()
     {
         currentJob->setStage(SchedulerJob::STAGE_FOCUSING);
         appendLogText(i18n("Focusing %1 ...", currentJob->getName()));
-    }
+    }*/
+
+    currentJob->setStage(SchedulerJob::STAGE_FOCUSING);
+    appendLogText(i18n("Focusing %1 ...", currentJob->getName()));
 }
 
 void Scheduler::findNextJob()
