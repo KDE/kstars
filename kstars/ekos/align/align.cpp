@@ -101,19 +101,18 @@ Align::Align()
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
     connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));
 
-    FilterCaptureCombo->addItem("--");
-    connect(FilterCaptureCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
+    FilterDevicesCombo->addItem("--");
+    connect(FilterDevicesCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
             [=](const QString &text)
     {
         Options::setDefaultAlignFW(text);
     });
 
-    connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
+    connect(FilterDevicesCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
 
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
             [=](int index)
     {
-        lockedFilterIndex = index;
         Options::setLockAlignFilterIndex(index);
     }
     );
@@ -2352,13 +2351,19 @@ bool Align::captureAndSolve()
         return false;
     }
 
-    if (currentFilter != nullptr && lockedFilterIndex != -1)
+    if (currentFilter != nullptr)
     {
-        if (lockedFilterIndex != currentFilterIndex)
+        if (currentFilter->isConnected() == false)
         {
-            int lockedFilterPosition = lockedFilterIndex + 1;
+            appendLogText(i18n("Error: Lost connection to filter wheel."));
+            return false;
+        }
+
+        if (FilterPosCombo->currentIndex()+1 != currentFilterPosition)
+        {
             filterPositionPending    = true;
-            currentFilter->runCommand(INDI_SET_FILTER, &lockedFilterPosition);
+            int targetPosition = FilterPosCombo->currentIndex() + 1;
+            filterManager->setFilterPosition(targetPosition);
             return true;
         }
     }
@@ -4073,27 +4078,27 @@ void Align::addFilter(ISD::GDInterface *newFilter)
     }
 
     FilterCaptureLabel->setEnabled(true);
-    FilterCaptureCombo->setEnabled(true);
+    FilterDevicesCombo->setEnabled(true);
     FilterPosLabel->setEnabled(true);
     FilterPosCombo->setEnabled(true);
 
-    FilterCaptureCombo->addItem(newFilter->getDeviceName());
+    FilterDevicesCombo->addItem(newFilter->getDeviceName());
 
     Filters.append(static_cast<ISD::Filter *>(newFilter));
 
     checkFilter(1);
 
-    FilterCaptureCombo->setCurrentIndex(1);
+    FilterDevicesCombo->setCurrentIndex(1);
 }
 
 bool Align::setFilter(QString device, int filterSlot)
 {
     bool deviceFound = false;
 
-    for (int i = 0; i < FilterCaptureCombo->count(); i++)
-        if (device == FilterCaptureCombo->itemText(i))
+    for (int i = 0; i < FilterDevicesCombo->count(); i++)
+        if (device == FilterDevicesCombo->itemText(i))
         {
-            FilterCaptureCombo->setCurrentIndex(i);
+            FilterDevicesCombo->setCurrentIndex(i);
             deviceFound = true;
             break;
         }
@@ -4101,8 +4106,8 @@ bool Align::setFilter(QString device, int filterSlot)
     if (deviceFound == false)
         return false;
 
-    if (filterSlot >=0 && filterSlot < FilterCaptureCombo->count())
-        FilterCaptureCombo->setCurrentIndex(filterSlot);
+    if (filterSlot >=0 && filterSlot < FilterDevicesCombo->count())
+        FilterDevicesCombo->setCurrentIndex(filterSlot);
 
     return true;
 }
@@ -4111,100 +4116,31 @@ void Align::checkFilter(int filterNum)
 {
     if (filterNum == -1)
     {
-        filterNum = FilterCaptureCombo->currentIndex();
+        filterNum = FilterDevicesCombo->currentIndex();
         if (filterNum == -1)
             return;
     }
 
+    // "--" is no filter
     if (filterNum == 0)
     {
         currentFilter = nullptr;
-        currentFilterIndex=-1;
+        currentFilterPosition=-1;
         FilterPosCombo->clear();
-        //syncFilterInfo();
         return;
     }
-
-    QStringList filterAlias = Options::filterAlias();
 
     if (filterNum <= Filters.count())
         currentFilter = Filters.at(filterNum-1);
 
     FilterPosCombo->clear();
 
-    ITextVectorProperty *filterName = currentFilter->getBaseDevice()->getText("FILTER_NAME");
-    INumberVectorProperty *filterSlot = currentFilter->getBaseDevice()->getNumber("FILTER_SLOT");
+    FilterPosCombo->addItems(filterManager->getFilterLabels());
 
-    if (filterSlot == nullptr)
-    {
-        KMessageBox::error(0, i18n("Unable to find FILTER_SLOT property in driver %1",
-                                   currentFilter->getBaseDevice()->getDeviceName()));
-        return;
-    }
+    currentFilterPosition = filterManager->getFilterPosition();
 
-    currentFilterIndex = filterSlot->np[0].value - 1;
-
-    for (int i = 0; i < filterSlot->np[0].max; i++)
-    {
-        QString item;
-
-        if (filterName != nullptr && (i < filterName->ntp))
-            item = filterName->tp[i].text;
-        else if (i < filterAlias.count() && filterAlias[i].isEmpty() == false)
-            item = filterAlias.at(i);
-        else
-            item = QString("Filter_%1").arg(i + 1);
-
-        FilterPosCombo->addItem(item);
-    }
-
-    if (lockedFilterIndex < 0)
-        lockedFilterIndex = Options::lockAlignFilterIndex();
-    FilterPosCombo->setCurrentIndex(lockedFilterIndex);
-
-    // If we are waiting to change the filter wheel, let's check if the condition is now met.
-    if (filterPositionPending)
-    {
-        if (lockedFilterIndex == currentFilterIndex)
-        {
-            filterPositionPending = false;
-            captureAndSolve();
-        }
-    }
+    FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
 }
-
-/*void Align::setLockedFilter(ISD::GDInterface *filter, int lockedPosition)
-{
-    currentFilter = filter;
-    if (currentFilter)
-    {
-        lockedFilterIndex = lockedPosition;
-
-        INumberVectorProperty *filterSlot = filter->getBaseDevice()->getNumber("FILTER_SLOT");
-        if (filterSlot)
-            currentFilterIndex = filterSlot->np[0].value - 1;
-
-        connect(currentFilter, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-                SLOT(processFilterNumber(INumberVectorProperty*)), Qt::UniqueConnection);
-    }
-}*/
-
-/*void Align::processFilterNumber(INumberVectorProperty *nvp)
-{
-    if (currentFilter && !strcmp(nvp->name, "FILTER_SLOT") && !strcmp(nvp->device, currentFilter->getDeviceName()))
-    {
-        currentFilterIndex = nvp->np[0].value - 1;
-
-        if (filterPositionPending)
-        {
-            if (currentFilterIndex == lockedFilterIndex)
-            {
-                filterPositionPending = false;
-                captureAndSolve();
-            }
-        }
-    }
-}*/
 
 void Align::setWCSEnabled(bool enable)
 {
@@ -5190,6 +5126,55 @@ void Align::refreshAlignOptions()
         fov()->setImageDisplay(Options::astrometrySolverWCS());
 
     alignTimer.setInterval(Options::astrometryTimeout() * 1000);
+}
+
+void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
+{
+    filterManager = manager;
+
+    connect(filterManager.data(), &FilterManager::ready, [this]()
+    {
+        if (filterPositionPending)
+        {
+            filterPositionPending = false;
+            captureAndSolve();
+        }
+    }
+    );
+
+    connect(filterManager.data(), &FilterManager::failed, [this]()
+    {
+         appendLogText(i18n("Filter operation failed."));
+         abort();
+    }
+    );
+
+    connect(filterManager.data(), &FilterManager::newStatus, [this](Ekos::FilterState filterState)
+    {
+        if (filterPositionPending)
+        {
+            switch (filterState)
+            {
+                case FILTER_OFFSET:
+                    appendLogText(i18n("Changing focus offset by %1 steps...", filterManager->getTargetFilterOffset()));
+                    break;
+
+                case FILTER_CHANGE:
+                    appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(filterManager->getTargetFilterPosition()-1)));
+                    break;
+
+                case FILTER_AUTOFOCUS:
+                    appendLogText(i18n("Auto focus on filter change..."));
+                    break;
+
+                default:
+                break;
+            }
+        }
+    });
+
+    connect(filterManager.data(), &FilterManager::labelsChanged, this, [this]() { checkFilter(); });
+    connect(filterManager.data(), &FilterManager::positionChanged, this, [this]() { checkFilter();});
 }
 
 }

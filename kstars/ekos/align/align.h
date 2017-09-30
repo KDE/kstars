@@ -16,6 +16,7 @@
 #include "indi/indistd.h"
 #include "indi/inditelescope.h"
 #include "indi/indidome.h"
+#include "ekos/auxiliary/filtermanager.h"
 
 #include <QTime>
 #include <QTimer>
@@ -261,6 +262,8 @@ class Align : public QWidget, public Ui::Align
          */
     void getFOVScale(double &fov_w, double &fov_h, double &fov_scale);
 
+    void setFilterManager(const QSharedPointer<FilterManager> &manager);
+
     /**
          * @brief generateOptions Generate astrometry.net option given the supplied map
          * @param optionsMap List of key=value pairs for all astrometry.net options
@@ -363,8 +366,6 @@ class Align : public QWidget, public Ui::Align
          * @brief We received new telescope info, process them and update FOV.
          */
     void syncTelescopeInfo();
-
-    //void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
 
     void setFocusStatus(Ekos::FocusState state);
 
@@ -633,8 +634,7 @@ class Align : public QWidget, public Ui::Align
     ISD::GDInterface *currentFilter { nullptr };
     /// They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
     QList<ISD::GDInterface *> Filters;
-    int lockedFilterIndex { -1 };
-    int currentFilterIndex { -1 };
+    int currentFilterPosition { -1 };
     /// True if we need to change filter position and wait for result before continuing capture
     bool filterPositionPending { false };
 
@@ -727,5 +727,8 @@ class Align : public QWidget, public Ui::Align
 
     double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
     bool domeReady = true;
+
+    // Filter Manager
+    QSharedPointer<FilterManager> filterManager;
 };
 }
