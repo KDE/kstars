@@ -30,6 +30,10 @@ namespace Ekos
 
 FilterManager::FilterManager() : QDialog(KStars::Instance())
 {
+    #ifdef Q_OS_OSX
+    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+    #endif
+
     setupUi(this);
 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(close()));
