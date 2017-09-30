@@ -1602,14 +1602,6 @@
          <label>Suspend guiding while autofocus in progress.</label>
          <default>true</default>
       </entry>
-      <entry name="LockFocusFilter" type="Bool">
-         <label>Use specified filter when performing focus regardless of current filter settings.</label>
-         <default>false</default>
-      </entry>
-      <entry name="LockFocusFilterIndex" type="UInt">
-         <label>Use specified filter index when performing focus regardless of current filter settings.</label>
-         <default>0</default>
-      </entry>
       <entry name="UseFocusDarkFrame" type="Bool">
          <label>Take a dark frame and subtract it before running autofocus operation.</label>
          <default>false</default>
