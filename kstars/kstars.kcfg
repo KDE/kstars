@@ -2055,6 +2055,10 @@
          <label>The port of last used server</label>
          <default>7624</default>
       </entry>
+      <entry name="LastWebManagerPort" type="UInt">
+         <label>The port of last used Web Manager</label>
+         <default>8624</default>
+      </entry>
    </group>
    <group name="HIPS">
     <entry name="HIPSMemoryCache" type="UInt">
