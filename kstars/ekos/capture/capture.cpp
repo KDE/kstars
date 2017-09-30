@@ -78,7 +78,7 @@ Capture::Capture()
     filterManagerB->setIcon(QIcon::fromTheme("view-filter", QIcon(":/icons/breeze/default/view-filter.svg")));
     filterManagerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    FilterCaptureCombo->addItem("--");
+    FilterDevicesCombo->addItem("--");
 
     connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
 
@@ -90,7 +90,7 @@ Capture::Capture()
     guideDeviationTimer.setInterval(GD_TIMER_TIMEOUT);
     connect(&guideDeviationTimer, SIGNAL(timeout()), this, SLOT(checkGuideDeviationTimeout()));
 
-    connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
+    connect(FilterDevicesCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
 
     connect(temperatureCheck, &QCheckBox::toggled, [this](bool toggled)
     {
@@ -198,8 +198,8 @@ Capture::Capture()
     targetADU = Options::calibrationADUValue();
     targetADUTolerance = Options::calibrationADUValueTolerance();
 
-    // Load FIlter Offets
-    loadFilterOffsets();
+    // Load FIlter Offets    
+    //loadFilterOffsets();
 }
 
 Capture::~Capture()
@@ -246,7 +246,7 @@ void Capture::addFilter(ISD::GDInterface *newFilter)
             return;
     }
 
-    FilterCaptureCombo->addItem(newFilter->getDeviceName());
+    FilterDevicesCombo->addItem(newFilter->getDeviceName());
 
     Filters.append(static_cast<ISD::Filter *>(newFilter));
 
@@ -254,7 +254,7 @@ void Capture::addFilter(ISD::GDInterface *newFilter)
 
     checkFilter(1);
 
-    FilterCaptureCombo->setCurrentIndex(1);
+    FilterDevicesCombo->setCurrentIndex(1);
 }
 
 void Capture::pause()
@@ -358,7 +358,7 @@ void Capture::start()
     spikeDetected     = false;
 
 
-    // FIXME
+    // FIXME Migrate to Filter Manager
 #if 0
     lastFilterOffset = 0;
     // lastFilterOffset should be set to the offset of the current used filter so that any subsequent filter change
@@ -936,8 +936,8 @@ bool Capture::setFilter(QString device, int filterSlot)
 {
     bool deviceFound = false;
 
-    for (int i = 1; i < FilterCaptureCombo->count(); i++)
-        if (device == FilterCaptureCombo->itemText(i))
+    for (int i = 1; i < FilterDevicesCombo->count(); i++)
+        if (device == FilterDevicesCombo->itemText(i))
         {
             checkFilter(i);
             deviceFound = true;
@@ -947,8 +947,8 @@ bool Capture::setFilter(QString device, int filterSlot)
     if (deviceFound == false)
         return false;
 
-    if (filterSlot < FilterCaptureCombo->count())
-        FilterCaptureCombo->setCurrentIndex(filterSlot);
+    if (filterSlot < FilterDevicesCombo->count())
+        FilterDevicesCombo->setCurrentIndex(filterSlot);
 
     return true;
 }
@@ -957,7 +957,7 @@ void Capture::checkFilter(int filterNum)
 {
     if (filterNum == -1)
     {
-        filterNum = FilterCaptureCombo->currentIndex();
+        filterNum = FilterDevicesCombo->currentIndex();
         if (filterNum == -1)
             return;
     }
@@ -1257,7 +1257,7 @@ bool Capture::resumeSequence()
     // Otherwise, let's prepare for next exposure after making sure in-sequence focus and dithering are complete if applicable.
     else
     {
-        isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked() && HFRPixels->value() > 0);
+        isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked()/* && HFRPixels->value() > 0*/);
         if (isAutoFocus)
             requiredAutoFocusStarted = false;
 
@@ -1315,7 +1315,10 @@ bool Capture::resumeSequence()
         else if (isAutoFocus && activeJob->getFrameType() == FRAME_LIGHT)
         {
             secondsLabel->setText(i18n("Focusing..."));
-            emit checkFocus(HFRPixels->value());
+            if (HFRPixels->value() == 0)
+                emit checkFocus(0.1);
+            else
+                emit checkFocus(HFRPixels->value());
 
             qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
 
@@ -1718,7 +1721,10 @@ bool Capture::addJob(bool preview)
     if (jobUnderEdit)
         job = jobs.at(queueTable->currentRow());
     else
+    {
         job = new SequenceJob();
+        job->setFilterManager(filterManager);
+    }
 
     if (job == nullptr)
     {
@@ -1790,6 +1796,8 @@ bool Capture::addJob(bool preview)
     }
 
     job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
+    job->setRemoteDir(remoteDirIN->text());
+    job->setLocalDir(fitsDir->text());
 
     if (jobUnderEdit == false)
     {
@@ -1809,8 +1817,6 @@ bool Capture::addJob(bool preview)
     if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) &&  job->getFilterName().isEmpty() == false)
         directoryPostfix += QLatin1Literal("/") + job->getFilterName();
 
-    job->setRemoteDir(remoteDirIN->text());
-    job->setLocalDir(fitsDir->text());
     job->setDirectoryPostfix(directoryPostfix);
 
     int currentRow = 0;
@@ -2189,66 +2195,50 @@ void Capture::prepareJob(SequenceJob *job)
 
 void Capture::preparePreCaptureActions()
 {
+    // Update position
     if (currentFilterPosition > 0)
-    {
         activeJob->setCurrentFilter(currentFilterPosition);
 
-        if (currentFilterPosition != activeJob->getTargetFilter())
-        {
-            appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter() - 1)));
-            secondsLabel->setText(i18n("Set filter..."));
-
-            if (activeJob->isPreview() == false)
-            {
-                state = CAPTURE_CHANGING_FILTER;
-                emit newStatus(Ekos::CAPTURE_CHANGING_FILTER);
-            }
-
-            setBusy(true);
-        }
-    }
-
+    // update temperature
     if (currentCCD->hasCooler() && activeJob->getEnforceTemperature())
     {
-        if (activeJob->getCurrentTemperature() != INVALID_VALUE &&
-            fabs(activeJob->getCurrentTemperature() - activeJob->getTargetTemperature()) >
-                Options::maxTemperatureDiff())
-        {
-            appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
-            secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
-
-            if (activeJob->isPreview() == false)
-            {
-                state = CAPTURE_SETTING_TEMPERATURE;
-                emit newStatus(Ekos::CAPTURE_SETTING_TEMPERATURE);
-            }
-
-            setBusy(true);
-        }
+        double temperature = 0;
+        currentCCD->getTemperature(&temperature);
+        activeJob->setCurrentTemperature(temperature);
     }
 
+    // update rotator angle
     if (currentRotator != nullptr && activeJob->getTargetRotation() != INVALID_VALUE)
-    {
         activeJob->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
 
-        if (rotatorSettings->getCurrentRotationPA() != activeJob->getTargetRotation())
-        {
-            appendLogText(i18n("Setting rotation to %1 degrees E of N...", activeJob->getTargetRotation()));
-            secondsLabel->setText(i18n("Set Rotator %1...", activeJob->getTargetRotation()));
-
-            if (activeJob->isPreview() == false)
-            {
-                state = CAPTURE_SETTING_ROTATOR;
-                emit newStatus(Ekos::CAPTURE_SETTING_ROTATOR);
-            }
-
-            setBusy(true);
-        }
-    }
-
+    setBusy(true);
+    connect(activeJob, SIGNAL(prepareState(Ekos::CaptureState)), this, SLOT(updatePrepareState(Ekos::CaptureState)));
     connect(activeJob, SIGNAL(prepareComplete()), this, SLOT(executeJob()));
 
     activeJob->prepareCapture();
+}
+
+void Capture::updatePrepareState(Ekos::CaptureState prepareState)
+{
+    state = prepareState;
+    emit newStatus(prepareState);
+
+    switch (prepareState)
+    {
+        case CAPTURE_SETTING_TEMPERATURE:
+        appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
+        secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
+        break;
+
+       case CAPTURE_SETTING_ROTATOR:
+        appendLogText(i18n("Setting rotation to %1 degrees E of N...", activeJob->getTargetRotation()));
+        secondsLabel->setText(i18n("Set Rotator %1...", activeJob->getTargetRotation()));
+        break;
+
+    default:
+        break;
+
+    }
 }
 
 void Capture::executeJob()
@@ -2426,7 +2416,7 @@ void Capture::setFocusStatus(FocusState state)
     {
         if (focusState == FOCUS_COMPLETE)
         {
-            HFRPixels->setValue(focusHFR + (focusHFR * 0.025));
+            //HFRPixels->setValue(focusHFR + (focusHFR * 0.025));
             appendLogText(i18n("Focus complete."));
         }
         else if (focusState == FOCUS_FAILED)
@@ -2434,9 +2424,7 @@ void Capture::setFocusStatus(FocusState state)
             appendLogText(i18n("Autofocus failed. Aborting exposure..."));
             secondsLabel->setText("");
             abort();
-        }
-
-        activeJob->setFilterPostFocusReady(focusState == FOCUS_COMPLETE);
+        }        
         return;
     }
 
@@ -2638,7 +2626,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 }
                 else if (!strcmp(tagXMLEle(ep), "FilterWheel"))
                 {
-                    FilterCaptureCombo->setCurrentText(pcdataXMLEle(ep));
+                    FilterDevicesCombo->setCurrentText(pcdataXMLEle(ep));
                     checkFilter();
                 }
                 else
@@ -2959,7 +2947,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     if (observerName.isEmpty() == false)
         outstream << "<Observer>" << observerName << "</Observer>" << endl;
     outstream << "<CCD>" << CCDCaptureCombo->currentText() << "</CCD>" << endl;
-    outstream << "<FilterWheel>" << FilterCaptureCombo->currentText() << "</FilterWheel>" << endl;
+    outstream << "<FilterWheel>" << FilterDevicesCombo->currentText() << "</FilterWheel>" << endl;
     outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>"
               << guideDeviation->value() << "</GuideDeviation>" << endl;
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>"
@@ -3124,6 +3112,7 @@ void Capture::syncGUIToJob(SequenceJob *job)
     uploadModeCombo->setCurrentIndex(job->getUploadMode());
     remoteDirIN->setEnabled(uploadModeCombo->currentIndex() != 0);
     remoteDirIN->setText(job->getRemoteDir());
+    fitsDir->setText(job->getLocalDir());
 
     // Temperature Options
     temperatureCheck->setChecked(job->getEnforceTemperature());
@@ -3139,9 +3128,7 @@ void Capture::syncGUIToJob(SequenceJob *job)
     preDomePark        = job->isPreDomePark();
 
     // Custom Properties
-    customPropertiesDialog->setCustomProperties(job->getCustomProperties());
-
-    fitsDir->setText(job->getLocalDir());
+    customPropertiesDialog->setCustomProperties(job->getCustomProperties());    
 
     if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());
@@ -4486,8 +4473,10 @@ void Capture::postScriptFinished(int exitCode)
     resumeSequence();
 }
 
+// FIXME Migrate to Filter Manager
+#if 0
 void Capture::loadFilterOffsets()
-{
+{    
     // Get all OAL equipment filter list
     KStarsData::Instance()->userdb()->GetAllFilters(m_filterList);
     filterFocusOffsets.clear();
@@ -4601,6 +4590,7 @@ void Capture::showFilterOffsetDialog()
         }
     }
 }
+#endif
 
 void Capture::toggleVideoStream(bool enable)
 {
@@ -4738,7 +4728,71 @@ void Capture::setAlignResults(double orientation, double ra, double de, double p
 void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
 {
     filterManager = manager;
-    connect(filterManagerB, SIGNAL(clicked()), filterManager.data(), SLOT(show()), Qt::UniqueConnection);
+    connect(filterManagerB, &QPushButton::clicked, [this]()
+    {
+        filterManager->show();
+        filterManager->raise();
+    });
+
+    connect(filterManager.data(), &FilterManager::ready, [this]()
+    {
+        currentFilterPosition = filterManager->getFilterPosition();
+        // Due to race condition,
+        focusState = FOCUS_IDLE;
+        if (activeJob)
+            activeJob->setCurrentFilter(currentFilterPosition);
+
+    }
+    );
+
+    connect(filterManager.data(), &FilterManager::failed, [this]()
+    {
+        if (activeJob)
+        {
+            appendLogText(i18n("Filter operation failed."));
+            abort();
+        }
+    }
+    );
+
+    connect(filterManager.data(), &FilterManager::newStatus, [this](Ekos::FilterState filterState)
+    {
+        if (state == CAPTURE_CHANGING_FILTER)
+        {
+            secondsLabel->setText(Ekos::getFilterStatusString(filterState));
+            switch (filterState)
+            {
+                case FILTER_OFFSET:
+                    appendLogText(i18n("Changing focus offset by %1 steps...", filterManager->getTargetFilterOffset()));
+                    break;
+
+                case FILTER_CHANGE:
+                    appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(filterManager->getTargetFilterPosition()-1)));
+                    break;
+
+                case FILTER_AUTOFOCUS:
+                    appendLogText(i18n("Auto focus on filter change..."));
+                    clearAutoFocusHFR();
+                    break;
+
+                default:
+                break;
+            }
+        }
+    });
+
+    connect(filterManager.data(), &FilterManager::labelsChanged, this, [this]()
+    {
+        FilterPosCombo->clear();
+        FilterPosCombo->addItems(filterManager->getFilterLabels());
+        currentFilterPosition = filterManager->getFilterPosition();
+        FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
+    });
+    connect(filterManager.data(), &FilterManager::positionChanged, this, [this]()
+    {
+        currentFilterPosition = filterManager->getFilterPosition();
+        FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
+    });
 }
 
 }

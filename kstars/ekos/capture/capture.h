@@ -453,7 +453,7 @@ class Capture : public QWidget, public Ui::Capture
 
     // Auto Focus
     //void updateAutofocusStatus(bool status, double HFR);
-    void startPostFilterAutoFocus();
+    //void startPostFilterAutoFocus();
 
     // Timed refocus
     void startRefocusEveryNTimer();
@@ -476,8 +476,8 @@ class Capture : public QWidget, public Ui::Capture
     void postScriptFinished(int exitCode);
 
     // Filter focus offset
-    void showFilterOffsetDialog();
-    void loadFilterOffsets();
+    //void showFilterOffsetDialog();
+    //void loadFilterOffsets();
 
     // Live Video Preview
     void toggleVideoStream(bool enable);
@@ -485,6 +485,9 @@ class Capture : public QWidget, public Ui::Capture
 
     // Observer
     void showObserverDialog();
+
+    // Active Job Prepare State
+    void updatePrepareState(Ekos::CaptureState prepareState);
 
     // Rotator
     void updateRotatorNumber(INumberVectorProperty *nvp);
@@ -635,18 +638,6 @@ class Capture : public QWidget, public Ui::Capture
 
     // How many images to capture before dithering operation is executed?
     uint8_t ditherCounter { 0 };
-
-    // Map of filter focus offsets
-    struct FocusOffset
-    {
-        QString filter;
-        int16_t offset { 0 };
-    };
-
-    QList<FocusOffset *> filterFocusOffsets;
-    int16_t lastFilterOffset { 0 };
-
-    QList<OAL::Filter *> m_filterList;
 
     std::unique_ptr<CustomProperties> customPropertiesDialog;
 
