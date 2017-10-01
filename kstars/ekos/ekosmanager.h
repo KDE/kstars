@@ -30,6 +30,8 @@
 #include "mount/mount.h"
 #include "scheduler/scheduler.h"
 #include "auxiliary/filtermanager.h"
+// Can't use forward decleration with QPointer. QTBUG-29588
+#include "auxiliary/opslogs.h"
 
 #include <QDialog>
 #include <QHash>
@@ -183,6 +185,10 @@ class EkosManager : public QDialog, public Ui::EkosManager
     //void processINDIModeChange();
     void checkINDITimeout();
 
+    // Logs
+    void updateDebugInterfaces();
+    void watchDebugProperty(ISwitchVectorProperty *svp);
+
     void setTelescope(ISD::GDInterface *);
     void setCCD(ISD::GDInterface *);
     void setFilter(ISD::GDInterface *);
@@ -318,4 +324,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
 
     ProfileInfo *currentProfile { nullptr };
     bool profileWizardLaunched { false };
+
+    // Logs
+    QPointer<Ekos::OpsLogs> opsLogs;
 };

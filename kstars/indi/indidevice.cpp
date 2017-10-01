@@ -268,9 +268,9 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
     QString message = QString::fromStdString(dv->messageQueue(messageID));
     // TODO the colors should be from the color scheme
     if (message.mid(21,2) == "[E")
-        message = QString("<b style='color:red'>%1</b>").arg(message);
+        message = QString("<span style='color:red'>%1</span>").arg(message);
     else if (message.mid(21,2) == "[W")
-        message = QString("<b style='color:orange'>%1</b>").arg(message);
+        message = QString("<span style='color:orange'>%1</span>").arg(message);
     else if (message.mid(21,2) != "[I")
     {
         // Debug message

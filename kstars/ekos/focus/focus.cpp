@@ -102,8 +102,6 @@ Focus::Focus()
     connect(binningCombo, SIGNAL(activated(int)), this, SLOT(setActiveBinning(int)));
     connect(focusBoxSize, SIGNAL(valueChanged(int)), this, SLOT(updateBoxSize(int)));
 
-    connect(exposureIN, SIGNAL(editingFinished()), this, SLOT(saveFilterExposure()));
-
     focusDetection = static_cast<StarAlgorithm>(Options::focusDetection());
     focusDetectionCombo->setCurrentIndex(focusDetection);
 
