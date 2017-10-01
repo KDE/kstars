@@ -239,13 +239,6 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
 {
     INDI_UNUSED(generated);
 
-#ifdef Q_OS_OSX
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    QString path            = env.value("PATH", "");
-    env.insert("PATH", "/usr/local/bin:" + path);
-    solver->setProcessEnvironment(env);
-#endif
-
     QStringList solverArgs = args;
 
     // Use parity if it is: 1. Already known from previous solve. 2. This is NOT a blind solve
@@ -267,6 +260,13 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
 
     solver.clear();
     solver = new QProcess(this);
+
+#ifdef Q_OS_OSX
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    QString path            = env.value("PATH", "");
+    env.insert("PATH", "/usr/local/bin:" + path);
+    solver->setProcessEnvironment(env);
+#endif
 
     connect(solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
     connect(solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
