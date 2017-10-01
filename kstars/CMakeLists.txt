@@ -185,6 +185,7 @@ if (INDI_FOUND)
                        ekos/auxiliary/darklibrary.cpp
                        ekos/auxiliary/filtermanager.cpp
                        ekos/auxiliary/filterdelegate.cpp
+                       ekos/auxiliary/opslogs.cpp
 
                        # Capture
                        ekos/capture/capture.cpp

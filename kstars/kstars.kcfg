@@ -219,6 +219,38 @@
          <label>Video streaming window height</label>
          <default>240</default>
       </entry>
+      <entry name="INDIMountLogging" type="Bool">
+         <label>Enable INDI Mount logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDIFocuserLogging" type="Bool">
+         <label>Enable INDI Focuser logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDICCDLogging" type="Bool">
+         <label>Enable INDI CCD logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDIFilterWheelLogging" type="Bool">
+         <label>Enable INDI Filter Wheel logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDIDomeLogging" type="Bool">
+         <label>Enable INDI Dome logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDIDetectorLogging" type="Bool">
+         <label>Enable INDI Detector logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDIWeatherLogging" type="Bool">
+         <label>Enable INDI Weather logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDIAuxiliaryLogging" type="Bool">
+         <label>Enable INDI Auxiliary logging</label>
+         <default>false</default>
+      </entry>
    </group>
 
    <group name="Location">
