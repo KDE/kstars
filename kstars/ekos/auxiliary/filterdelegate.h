@@ -14,6 +14,7 @@
 #pragma once
 
 #include <QStyledItemDelegate>
+#include <QItemDelegate>
 
 class QCheckBox;
 class QSpinBox;
@@ -35,11 +36,11 @@ protected:
     { return nullptr; }
 };
 
-class UseAutoFocusDelegate : public QStyledItemDelegate
+class UseAutoFocusDelegate : public QItemDelegate
 {
     Q_OBJECT
 public:
-    explicit UseAutoFocusDelegate(QObject *parent = nullptr) : QStyledItemDelegate(parent) {}
+    explicit UseAutoFocusDelegate(QObject *parent = nullptr) : QItemDelegate(parent) {}
 
     QWidget * createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *, const QModelIndex &index) const;

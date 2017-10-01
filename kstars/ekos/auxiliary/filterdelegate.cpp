@@ -51,25 +51,15 @@ void UseAutoFocusDelegate::setModelData(QWidget *, QAbstractItemModel *model, co
 
 void UseAutoFocusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    //retrieve data
-    bool data = index.model()->data(index, Qt::DisplayRole).toBool();
-
-    //create CheckBox style
     QStyleOptionButton checkboxstyle;
     QRect checkbox_rect = QApplication::style()->subElementRect(QStyle::SE_CheckBoxIndicator, &checkboxstyle);
 
-    //center
-    checkboxstyle.rect = option.rect;
-    checkboxstyle.rect.setLeft(option.rect.x() +
-                               option.rect.width()/2 - checkbox_rect.width()/2);
-    //checked or not checked
-    if(data)
-        checkboxstyle.state = QStyle::State_On|QStyle::State_Enabled;
-    else
-        checkboxstyle.state = QStyle::State_Off|QStyle::State_Enabled;
+    QRect rect(option.rect.x() + option.rect.width()/2 - checkbox_rect.width()/2,
+               option.rect.y() + option.rect.height()/2 - checkbox_rect.height()/2,
+               checkbox_rect.width(), checkbox_rect.height());
 
-    //done! we can draw!
-    QApplication::style()->drawControl(QStyle::CE_CheckBox, &checkboxstyle, painter);
+    drawCheck(painter, option, rect, index.data().toBool() ? Qt::Checked : Qt::Unchecked);
+    //drawFocus(painter, option, checkboxstyle.rect);
 }
 
 bool UseAutoFocusDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &,
