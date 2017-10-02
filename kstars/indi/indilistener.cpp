@@ -441,11 +441,20 @@ void INDIListener::processUniversalMessage(const QString &message)
     if (colonIndex > 0)
         displayMessage = displayMessage.mid(colonIndex+2);
 
+    // Special case for Alignment since it is not tied to a device
+    if (displayMessage.startsWith("[ALIGNMENT]"))
+    {
+        qCDebug(KSTARS_INDI) << "AlignmentSubSystem:" << displayMessage;
+        return;
+    }
+
     if (Options::messageNotificationINDI())
     {
         KNotification::event(QLatin1String("IndiServerMessage"),
                              displayMessage+" (INDI)");
-    } else {
+    }
+    else
+    {
         KSNotification::transient(displayMessage, i18n("INDI Server Message"));
     }
 }
