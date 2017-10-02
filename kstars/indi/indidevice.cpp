@@ -266,6 +266,10 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
         return;
 
     QString message = QString::fromStdString(dv->messageQueue(messageID));
+
+    if (Options::showINDIMessages())
+        KStars::Instance()->statusBar()->showMessage(i18nc("INDI message shown in status bar", "%1", message), 0);
+
     // TODO the colors should be from the color scheme
     if (message.mid(21,2) == "[E")
         message = QString("<span style='color:red'>%1</span>").arg(message);
@@ -283,9 +287,6 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
     QTextCursor c = msgST_w->textCursor();
     c.movePosition(QTextCursor::Start);
     msgST_w->setTextCursor(c);
-
-    if (Options::showINDIMessages())
-        KStars::Instance()->statusBar()->showMessage(i18nc("INDI message shown in status bar", "%1", message), 0);
 
     qCInfo(KSTARS_INDI) << idv->getDeviceName() << ": " << message.mid(21);
 }
