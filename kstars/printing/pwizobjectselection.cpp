@@ -102,17 +102,17 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
             {
                 if (!s->longname().isEmpty())
                 {
-                    retVal += QString(", HD%1").arg(QString::number(s->getHDIndex()));
+                    retVal += QString(" ● HD%1").arg(QString::number(s->getHDIndex()));
                 }
 
                 else
                 {
-                    retVal += QString(", HD%1").arg(QString::number(s->getHDIndex()));
+                    retVal += QString(" ● HD%1").arg(QString::number(s->getHDIndex()));
                 }
             }
 
-            retVal += "; " + s->sptype() + ' ' + i18n("star");
-            retVal += "; " + i18nc("number in magnitudes", "%1 mag", QLocale().toString(s->mag(), 1));
+            retVal += " ● " + s->sptype() + ' ' + i18n("star");
+            retVal += " ● " + i18nc("number in magnitudes", "%1 mag", QLocale().toString(s->mag(), 1));
 
             break;
         }
@@ -139,18 +139,17 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
                 type = ps->translatedName();
             }
 
-            else if (ps->name() == i18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris")
+            else if (ps->name() == i18nc("Asteroid name (optional)", "Pluto") || ps->name() == i18nc("Asteroid name (optional)", "Ceres") || ps->name() == i18nc("Asteroid name (optional)", "Eris"))
             {
                 type = i18n("Dwarf planet");
             }
-
             else
             {
                 type = ps->typeName();
             }
 
-            retVal += "; " + type;
-            retVal += "; " + i18nc("number in magnitudes", "%1 mag", QLocale().toString(ps->mag(), 1));
+            retVal += " ● " + type;
+            retVal += " ● " + i18nc("number in magnitudes", "%1 mag", QLocale().toString(ps->mag(), 1));
 
             break;
         }
@@ -181,7 +180,7 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
 
                 else
                 {
-                    oname += ", " + dso->translatedName2();
+                    oname += " ● " + dso->translatedName2();
                 }
             }
 
@@ -189,7 +188,7 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
             {
                 if (!oname.isEmpty())
                 {
-                    oname += ", ";
+                    oname += " ● ";
                 }
 
                 oname += "UGC " + QString::number(dso->ugc());
@@ -199,17 +198,17 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
             {
                 if (!oname.isEmpty())
                 {
-                    oname += ", ";
+                    oname += " ● ";
                 }
 
                 oname += "PGC " + QString::number(dso->pgc());
             }
 
             if (!oname.isEmpty())
-                pname += ", " + oname;
+                pname += " ● " + oname;
 
             retVal = pname;
-            retVal += "; " + dso->typeName();
+            retVal += " ● " + dso->typeName();
 
             break;
         }

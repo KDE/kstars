@@ -627,9 +627,9 @@ void ObsListWizard::applyFilters(bool doBuildList)
             filterPass = true;
 
         if (needRegion && filterPass)
-            filterPass = applyRegionFilter(data->skyComposite()->findByName(i18n("Pluto")), doBuildList);
+            filterPass = applyRegionFilter(data->skyComposite()->findByName(i18nc("Asteroid name (optional)", "Pluto")), doBuildList);
         if (olw->SelectByDate->isChecked() && filterPass)
-            applyObservableFilter(data->skyComposite()->findByName(i18n("Pluto")), doBuildList);
+            applyObservableFilter(data->skyComposite()->findByName(i18nc("Asteroid name (optional)", "Pluto")), doBuildList);
     }
 
     //Deep sky objects

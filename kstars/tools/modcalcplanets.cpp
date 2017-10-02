@@ -272,7 +272,7 @@ void modCalcPlanets::processLines(QTextStream &istream)
            << "Sun"
            << "Moon";
     pNamesi18n << i18n("Mercury") << i18n("Venus") << i18n("Earth") << i18n("Mars") << i18n("Jupiter") << i18n("Saturn")
-               << i18n("Uranus") << i18n("Neptune") /* << i18n("Pluto") */
+               << i18n("Uranus") << i18n("Neptune") /* << i18nc("Asteroid name (optional)", "Pluto") */
                << i18n("Sun") << i18n("Moon");
 
     ///Parse the input file

@@ -77,7 +77,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     pNames[KSPlanetBase::SATURN]  = i18n("Saturn");
     pNames[KSPlanetBase::URANUS]  = i18n("Uranus");
     pNames[KSPlanetBase::NEPTUNE] = i18n("Neptune");
-    //pNames[KSPlanetBase::PLUTO] = i18n("Pluto");
+    //pNames[KSPlanetBase::PLUTO] = i18nc("Asteroid name (optional)", "Pluto");
     pNames[KSPlanetBase::SUN]  = i18n("Sun");
     pNames[KSPlanetBase::MOON] = i18n("Moon");
 
