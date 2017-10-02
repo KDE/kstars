@@ -112,7 +112,7 @@ class WUTDialog : public QDialog
     void updateMag();
 
   private:
-    QList<const SkyObject *> &visibleObjects(const QString &category);
+    QSet<const SkyObject *> &visibleObjects(const QString &category);
     bool isCategoryInitialized(const QString &category);
     /** @short Initialize all SIGNAL/SLOT connections, used in constructor */
     void makeConnections();
@@ -128,6 +128,6 @@ class WUTDialog : public QDialog
     double m_Mag { 0 };
     QTimer *timer { nullptr };
     QStringList m_Categories;
-    QHash<QString, QList<const SkyObject *>> m_VisibleList;
+    QHash<QString, QSet<const SkyObject *>> m_VisibleList;
     QHash<QString, bool> m_CategoryInitialized;
 };
