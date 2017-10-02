@@ -157,10 +157,10 @@ class cgmath : public QObject
     void performProcessing(void);
 
     // Math
-    bool calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int totalPulse = -1);
+    bool calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse = -1);
     bool calculateAndSetReticle2D(double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
                                   double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
-                                  bool *swap_dec, int totalPulse = -1);
+                                  bool *swap_dec, int RATotalPulse = -1, int DETotalPulse = -1);
     double calculatePhi(double start_x, double start_y, double end_x, double end_y) const;
 
     // Dither

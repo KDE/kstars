@@ -152,6 +152,9 @@ class InternalGuider : public GuideInterface
     double end_y2 { 0 };
     int iterations { 0 };
     int dec_iterations { 0 };
+    int m_RATotalPulse { 0 };
+    int m_DETotalPulse { 0 };
+    int m_BacklastCounter { 0 };
     double phi { 0 };
     Matrix ROT_Z;
     CalibrationStage calibrationStage { CAL_IDLE };
