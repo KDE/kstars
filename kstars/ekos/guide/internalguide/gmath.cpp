@@ -311,7 +311,7 @@ Vector cgmath::point2arcsec(const Vector &p) const
     return arcs;
 }
 
-bool cgmath::calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int totalPulse)
+bool cgmath::calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse)
 {
     double phi;
 
@@ -322,13 +322,14 @@ bool cgmath::calculateAndSetReticle1D(double start_x, double start_y, double end
 
     setReticleParameters(start_x, start_y, phi);
 
-    if (totalPulse > 0)
+    if (RATotalPulse > 0)
     {
         double x   = end_x - start_x;
         double y   = end_y - start_y;
         double len = sqrt(x * x + y * y);
 
-        ditherRate[GUIDE_RA] = totalPulse / len;
+        // Total pulse includes start --> end --> start
+        ditherRate[GUIDE_RA] = RATotalPulse / (2 * len);
 
         qCDebug(KSTARS_EKOS_GUIDE) << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
     }
@@ -338,7 +339,7 @@ bool cgmath::calculateAndSetReticle1D(double start_x, double start_y, double end
 
 bool cgmath::calculateAndSetReticle2D(double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
                                       double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
-                                      bool *swap_dec, int totalPulse)
+                                      bool *swap_dec, int RATotalPulse, int DETotalPulse)
 {
     double phi_ra  = 0; // angle calculated by GUIDE_RA drift
     double phi_dec = 0; // angle calculated by GUIDE_DEC drift
@@ -392,21 +393,24 @@ bool cgmath::calculateAndSetReticle2D(double start_ra_x, double start_ra_y, doub
 
     setReticleParameters(start_ra_x, start_ra_y, phi);
 
-    if (totalPulse > 0)
+    if (RATotalPulse > 0)
     {
         double x   = end_ra_x - start_ra_x;
         double y   = end_ra_y - start_ra_y;
         double len = sqrt(x * x + y * y);
 
-        ditherRate[GUIDE_RA] = totalPulse / len;
+        ditherRate[GUIDE_RA] = RATotalPulse / (2 * len);
 
         qCDebug(KSTARS_EKOS_GUIDE) << "Dither RA Rate " << ditherRate[GUIDE_RA] << " ms/Pixel";
+    }
 
-        x   = end_dec_x - start_dec_x;
-        y   = end_dec_y - start_dec_y;
-        len = sqrt(x * x + y * y);
+    if (DETotalPulse > 0)
+    {
+        double x   = end_dec_x - start_dec_x;
+        double y   = end_dec_y - start_dec_y;
+        double len = sqrt(x * x + y * y);
 
-        ditherRate[GUIDE_DEC] = totalPulse / len;
+        ditherRate[GUIDE_DEC] = DETotalPulse / (2 * len);
 
         qCDebug(KSTARS_EKOS_GUIDE) << "Dither DEC Rate " << ditherRate[GUIDE_DEC] << " ms/Pixel";
     }

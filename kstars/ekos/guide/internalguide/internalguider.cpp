@@ -358,7 +358,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
     Q_ASSERT(pmath);
 
     int pulseDuration = Options::calibrationPulseDuration();
-    int totalPulse    = pulseDuration * Options::autoModeIterations();
+    int finalPulse    = pulseDuration;
+    //int totalPulse    = pulseDuration * Options::autoModeIterations();
 
     if (ra_only)
         calibrationType = CAL_RA_AUTO;
@@ -375,17 +376,21 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 turn_back_time = auto_drift_time * 2 + auto_drift_time / 2;
             else
                 turn_back_time = auto_drift_time * 6;
+
             iterations = 0;
+            m_BacklastCounter = 0;
+            m_RATotalPulse = m_DETotalPulse = 0;
 
             emit newLog(i18n("RA drifting forward..."));
 
-            pmath->getReticleParameters(&start_x1, &start_y1, nullptr);
+            pmath->getReticleParameters(&start_x1, &start_y1, nullptr);            
 
             qCDebug(KSTARS_EKOS_GUIDE) << "Start X1 " << start_x1 << " Start Y1 " << start_y1;
 
-            emit newPulse(RA_INC_DIR, pulseDuration);
+            emit newPulse(RA_INC_DIR, finalPulse);
+            m_RATotalPulse += finalPulse;
 
-            qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: RA_INC_DIR" << " Duration: " << pulseDuration << " ms.";
+            qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: RA_INC_DIR" << " Duration: " << finalPulse << " ms.";
 
             iterations++;
 
@@ -394,22 +399,35 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             break;
 
         case CAL_RA_INC:
-            emit newPulse(RA_INC_DIR, pulseDuration);
+        {
+            // Star position resulting from LAST guiding pulse to mount
+            double cur_x, cur_y;
+            pmath->getStarScreenPosition(&cur_x, &cur_y);
+
+            if (fabs(cur_x-start_x1) < 0.1 && fabs(cur_y-start_y1) < 0.1 && ++m_BacklastCounter > 2)
+            {
+                 // Increase pulse by 175%
+                 finalPulse = pulseDuration + pulseDuration * 0.75;
+            }
+
+            emit newPulse(RA_INC_DIR, finalPulse);
+            m_RATotalPulse += finalPulse;
 
             if (Options::guideLogging())
-            {
-                // Star position resulting from LAST guiding pulse to mount
-                double cur_x, cur_y;
-                pmath->getStarScreenPosition(&cur_x, &cur_y);
+            {                
                 qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
                 qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: RA_INC_DIR"
-                         << " Duration: " << pulseDuration << " ms.";
+                         << " Duration: " << finalPulse << " ms.";
             }
 
             iterations++;
 
             if (iterations == auto_drift_time)
+            {
+                m_BacklastCounter = 0;
                 calibrationStage = CAL_RA_DEC;
+            }
+        }
 
             break;
 
@@ -442,6 +460,12 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 pmath->performProcessing();
                 auto_term_ok = true;
             }
+            else if (fabs(cur_x-end_x1) < 0.1 && fabs(cur_y-end_y1) < 0.1 && ++m_BacklastCounter > 2)
+            {
+                 // Increase pulse by 175%
+                 finalPulse = pulseDuration + pulseDuration * 0.75;
+            }
+
 
             //----- Z-check end -----
 
@@ -449,7 +473,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             {
                 if (iterations < turn_back_time)
                 {
-                    emit newPulse(RA_DEC_DIR, pulseDuration);
+                    emit newPulse(RA_DEC_DIR, finalPulse);
+                    m_RATotalPulse += finalPulse;
 
                     if (Options::guideLogging())
                     {
@@ -458,7 +483,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                         pmath->getStarScreenPosition(&cur_x, &cur_y);
                         qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
                         qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: RA_DEC_DIR"
-                                 << " Duration: " << pulseDuration << " ms.";
+                                 << " Duration: " << finalPulse << " ms.";
                     }
 
                     iterations++;
@@ -470,9 +495,9 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
                 emit newLog(i18np("Guide RA: Scope cannot reach the start point after %1 iteration. Possible mount or "
-                                  "drive problems...",
+                                  "backlash problems...",
                                   "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible mount or "
-                                  "drive problems...",
+                                  "backlash problems...",
                                   turn_back_time));
 
                 KNotification::event(QLatin1String("CalibrationFailed"),
@@ -490,6 +515,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 qCDebug(KSTARS_EKOS_GUIDE) << "Start X2 " << start_x2 << " start Y2 " << start_y2;
 
                 emit newPulse(DEC_INC_DIR, pulseDuration);
+                m_DETotalPulse += pulseDuration;
 
                 if (Options::guideLogging())
                 {
@@ -503,11 +529,12 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
                 iterations++;
                 dec_iterations = 1;
+                m_BacklastCounter = 0;
                 emit newLog(i18n("DEC drifting forward..."));
                 break;
             }
             // calc orientation
-            if (pmath->calculateAndSetReticle1D(start_x1, start_y1, end_x1, end_y1, totalPulse))
+            if (pmath->calculateAndSetReticle1D(start_x1, start_y1, end_x1, end_y1, m_RATotalPulse))
             {
                 calibrationStage = CAL_IDLE;
 
@@ -523,7 +550,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             }
             else
             {
-                emit newLog(i18n("Calibration rejected. Star drift is too short."));
+                emit newLog(i18n("Calibration rejected. Star drift is too short. Check for mount, cable, or backlash problems."));
 
                 calibrationStage = CAL_ERROR;
 
@@ -538,23 +565,37 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
         }
 
         case CAL_DEC_INC:
-            emit newPulse(DEC_INC_DIR, pulseDuration);
+    {
+            // Star position resulting from LAST guiding pulse to mount
+            double cur_x, cur_y;
+            pmath->getStarScreenPosition(&cur_x, &cur_y);
+
+            if (fabs(cur_x-start_x2) < 0.1 && fabs(cur_y-start_y2) < 0.1 && ++m_BacklastCounter > 2)
+            {
+                 // Increase pulse by 175%
+                 finalPulse = pulseDuration + pulseDuration * 0.75;
+            }
+
+            emit newPulse(DEC_INC_DIR, finalPulse);
+            m_DETotalPulse += finalPulse;
 
             if (Options::guideLogging())
             {
-                // Star position resulting from LAST guiding pulse to mount
-                double cur_x, cur_y;
-                pmath->getStarScreenPosition(&cur_x, &cur_y);
+
                 qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
                 qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: DEC_INC_DIR"
-                         << " Duration: " << pulseDuration << " ms.";
+                         << " Duration: " << finalPulse << " ms.";
             }
 
             iterations++;
             dec_iterations++;
 
             if (dec_iterations == auto_drift_time)
+            {
+                m_BacklastCounter = 0;
                 calibrationStage = CAL_DEC_DEC;
+            }
+    }
 
             break;
 
@@ -591,6 +632,11 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 pmath->performProcessing();
                 auto_term_ok = true;
             }
+            else if (fabs(cur_x-end_x2) < 0.1 && fabs(cur_y-end_y2) < 0.1 && ++m_BacklastCounter > 2)
+            {
+                 // Increase pulse by 175%
+                 finalPulse = pulseDuration + pulseDuration * 0.75;
+            }
 
             //----- Z-check end -----
 
@@ -598,7 +644,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             {
                 if (iterations < turn_back_time)
                 {
-                    emit newPulse(DEC_DEC_DIR, pulseDuration);
+                    emit newPulse(DEC_DEC_DIR, finalPulse);
+                    m_DETotalPulse += finalPulse;
 
                     if (Options::guideLogging())
                     {
@@ -607,7 +654,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                         pmath->getStarScreenPosition(&cur_x, &cur_y);
                         qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << iterations - 1 << ": STAR " << cur_x << "," << cur_y;
                         qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << iterations << " Direction: DEC_DEC_DIR"
-                                 << " Duration: " << pulseDuration << " ms.";
+                                 << " Duration: " << finalPulse << " ms.";
                     }
 
                     iterations++;
@@ -620,9 +667,9 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
                 emit newLog(i18np("Guide DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount "
-                                  "or drive problems...",
+                                  "or backlash problems...",
                                   "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount "
-                                  "or drive problems...",
+                                  "or backlash problems...",
                                   turn_back_time));
 
                 KNotification::event(QLatin1String("CalibrationFailed"),
@@ -634,7 +681,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             bool swap_dec = false;
             // calc orientation
             if (pmath->calculateAndSetReticle2D(start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2,
-                                                &swap_dec, totalPulse))
+                                                &swap_dec, m_RATotalPulse, m_DETotalPulse))
             {
                 calibrationStage = CAL_IDLE;
                 //fillInterface();
@@ -655,7 +702,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
             }
             else
             {
-                emit newLog(i18n("Calibration rejected. Star drift is too short."));
+                emit newLog(i18n("Calibration rejected. Star drift is too short. Check for mount, cable, or backlash problems."));
 
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
