@@ -197,8 +197,8 @@ void DetailDialog::createGeneralTab()
             {
                 objecttyp = ps->translatedName();
             }
-            else if (ps->name() == i18n("Pluto") || ps->name() == "Ceres" ||
-                     ps->name() == "Eris") // TODO: Check if Ceres / Eris have translations and i18n() them
+            else if (ps->name() == i18nc("Asteroid name (optional)", "Pluto") || ps->name() == i18nc("Asteroid name (optional)", "Ceres") ||
+                     ps->name() == i18nc("Asteroid name (optional)", "Eris"))
             {
                 objecttyp = i18n("Dwarf planet");
             }
@@ -1084,7 +1084,7 @@ void DetailDialog::populateADVTree()
         {
             // Top Level
             case 0:
-                temp = new QTreeWidgetItem(parent, QStringList(item->Name));
+                temp = new QTreeWidgetItem(parent, QStringList(i18nc("Advanced URLs: description or category", item->Name.toLocal8Bit().data())));
                 if (parent == nullptr)
                     Adv->ADVTree->addTopLevelItem(temp);
                 parent = temp;
@@ -1099,7 +1099,7 @@ void DetailDialog::populateADVTree()
 
             // Leaf
             case 2:
-                new QTreeWidgetItem(parent, QStringList(item->Name));
+                new QTreeWidgetItem(parent, QStringList(i18nc("Advanced URLs: description or category", item->Name.toLocal8Bit().data())));
                 break;
         }
     }
