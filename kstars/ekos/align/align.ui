@@ -1005,7 +1005,7 @@
               </item>
              </layout>
             </widget>
-            <widget class="QCustomPlot" name="alignPlot" native="true">
+            <widget class="QCustomPlot" name="alignPlot">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
@@ -1058,7 +1058,7 @@
              </size>
             </property>
             <property name="title">
-             <string>Polar Alignment Assistant (Beta)</string>
+             <string>Polar Alignment Assistant</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <property name="spacing">
@@ -1848,8 +1848,8 @@
  <customwidgets>
   <customwidget>
    <class>QCustomPlot</class>
-   <extends>QWidget</extends>
-   <header>auxiliary/qcustomplot.h</header>
+   <extends>QFrame</extends>
+   <header>qcustomplot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -1890,7 +1890,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="solverTypeGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
+  <buttongroup name="solverTypeGroup"/>
  </buttongroups>
 </ui>
