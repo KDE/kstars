@@ -316,8 +316,7 @@ Rectangle {
 
         GridLayout {
             id: mountCoordsLayout
-            Layout.maximumWidth: 200
-            Layout.fillWidth: true
+
             rows: 2
             columns: 4
 
@@ -326,6 +325,7 @@ Rectangle {
                 text: qsTr("RA:")
                 font.bold: true                
                 color: "white"
+                Layout.preferredWidth:15
                 fontSizeMode: Text.Fit
             }
 
@@ -334,6 +334,7 @@ Rectangle {
                 objectName: "raValueObject"                
                 color: coordsColor
                 text: "00:00:00"
+                Layout.preferredWidth:80
                 fontSizeMode: Text.Fit
             }
 
@@ -341,6 +342,7 @@ Rectangle {
                 id: azLabel
                 color: "#ffffff"
                 text: qsTr("AZ:")
+                Layout.preferredWidth:15
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -350,6 +352,7 @@ Rectangle {
                 objectName: "azValueObject"
                 color: coordsColor
                 text: "00:00:00"
+                Layout.preferredWidth:60
                 fontSizeMode: Text.Fit
             }
 
@@ -357,6 +360,7 @@ Rectangle {
                 id: deLabel
                 color: "#ffffff"
                 text: qsTr("DE:")
+                Layout.preferredWidth:15
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -366,6 +370,7 @@ Rectangle {
                 objectName: "deValueObject"
                 color: coordsColor
                 text: "00:00:00"
+                Layout.preferredWidth:80
                 fontSizeMode: Text.Fit
             }
 
@@ -373,6 +378,7 @@ Rectangle {
                 id: altLabel
                 color: "#ffffff"
                 text: qsTr("AL:")
+                Layout.preferredWidth:15
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -382,6 +388,7 @@ Rectangle {
                 objectName: "altValueObject"
                 color: coordsColor
                 text: "00:00:00"
+                Layout.preferredWidth:60
                 fontSizeMode: Text.Fit
             }
 
@@ -389,6 +396,7 @@ Rectangle {
                 id: haLabel
                 color: "#ffffff"
                 text: qsTr("HA:")
+                Layout.preferredWidth:15
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -398,6 +406,7 @@ Rectangle {
                 objectName: "haValueObject"
                 color: coordsColor
                 text: "00:00:00"
+                Layout.preferredWidth:80
                 fontSizeMode: Text.Fit
             }
 
@@ -405,6 +414,7 @@ Rectangle {
                 id: zaLabel
                 color: "#ffffff"
                 text: qsTr("ZA:")
+                Layout.preferredWidth:15
                 fontSizeMode: Text.Fit
                 font.bold: true
             }
@@ -414,6 +424,7 @@ Rectangle {
                 objectName: "zaValueObject"
                 color: coordsColor
                 text: "00:00:00"
+                Layout.preferredWidth:60
                 fontSizeMode: Text.Fit
             }
         }
