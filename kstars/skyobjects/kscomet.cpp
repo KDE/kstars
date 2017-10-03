@@ -79,12 +79,13 @@ KSComet::KSComet(const QString &_s, const QString &imfile, long double _JD, doub
     P = 365.2568984 * pow(a, 1.5); //period in days
 
     //If the name contains a "/", make this name2 and make name a truncated version without the leading "P/" or "C/"
-    if (name().contains(QDir::separator()))
+    // 2017-10-03 Jasem: We should keep the full name
+    /*if (name().contains(QDir::separator()))
     {
         setLongName(name());
         setName(name().replace("P/", " ").trimmed());
         setName(name().remove("C/"));
-    }
+    }*/
 
     // Try to calculate UID for comets. It's derived from comet designation.
     // To parge name string regular exressions are used. Not really readable.
