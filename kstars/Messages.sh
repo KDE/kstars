@@ -42,6 +42,12 @@ while( name[i]!="" ) { printf( " %s", name[i] ); i++; } \
 printf( "\n" ); } }' | sort --unique | gawk '{ \
 printf( "xi18nc(\"object name (optional)\", \"%s\");\n", $0 ); }' >> kstars_i18n.cpp
 
+# Extract asteroids
+cat data/asteroids.dat | awk '{if (NR!=1) {{FPAT = "([^,]*)|(\"[^\"]+\")"}; {gsub("\"",""); name = substr($1,8); printf("xi18nc(\"Asteroid name (optional)\",\"%s\")\n",name)}}}' >> kstars_i18n.cpp;
+
+# Extract comets
+cat data/comets.dat | awk '{if (NR!=1) {{FPAT = "([^,]*)|(\"[^\"]+\")"}; {gsub("\"",""); sub(/^[ \t]+/, ""); printf("xi18nc(\"Comet name (optional)\",\"%s\")\n",$1)}}}' >> kstars_i18n.cpp;
+
 # extract strings from file containing advanced URLs:
 cat data/advinterface.dat | gawk '( match( $0, "KSLABEL" ) ) { \
 name=substr($0,10); \
