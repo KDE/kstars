@@ -1613,8 +1613,8 @@ QList<Edge*> cgmath::PSFAutoFind(int extraEdgeAllowance)
         }
     }
 
-    for (std::set<Peak>::const_reverse_iterator it = stars.rbegin(); it != stars.rend(); ++it)
-        qCDebug(KSTARS_EKOS_GUIDE) << "AutoFind: local max [" << it->x << "," << it->y << "]" << it->val;
+    //for (std::set<Peak>::const_reverse_iterator it = stars.rbegin(); it != stars.rend(); ++it)
+        //qCDebug(KSTARS_EKOS_GUIDE) << "AutoFind: local max [" << it->x << "," << it->y << "]" << it->val;
 
     // merge stars that are very close into a single star
     {
