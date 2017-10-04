@@ -97,7 +97,6 @@ Focus::Focus()
 
     connect(focuserCombo, SIGNAL(activated(int)), this, SLOT(checkFocuser(int)));
     connect(FilterDevicesCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
-    connect(FilterPosCombo, SIGNAL(activated(int)), this, SLOT(updateFilterPos(int)));    
     connect(setAbsTicksB, SIGNAL(clicked()), this, SLOT(setAbsoluteFocusTicks()));
     connect(binningCombo, SIGNAL(activated(int)), this, SLOT(setActiveBinning(int)));
     connect(focusBoxSize, SIGNAL(valueChanged(int)), this, SLOT(updateBoxSize(int)));
