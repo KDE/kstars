@@ -2431,21 +2431,17 @@ bool Align::captureAndSolve()
 
         dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->sendArgs(solverArgs);
 
-        if (solverIterations == 0)
+        // If mount model was reset, we do not update targetCoord
+        // since the RA/DE is now different immediately after the reset
+        // so we still try to lock for the coordinates before the reset.
+        if (solverIterations == 0 && mountModelReset == false)
         {
-            // If mount model was reset, we do not update targetCoord
-            // since the RA/DE is now different immediately after the reset
-            // so we still try to lock for the coordinates before the reset.
-            if (mountModelReset)
-                mountModelReset = false;
-            else
-            {
-                double ra, dec;
-                currentTelescope->getEqCoords(&ra, &dec);
-                targetCoord.setRA(ra);
-                targetCoord.setDec(dec);
-            }
+            double ra, dec;
+            currentTelescope->getEqCoords(&ra, &dec);
+            targetCoord.setRA(ra);
+            targetCoord.setDec(dec);
         }
+        mountModelReset = false;
     }
     //else
     //{
@@ -2634,7 +2630,6 @@ void Align::setSolverAction(int mode)
 void Align::startSolving(const QString &filename, bool isGenerated)
 {
     QStringList solverArgs;
-    double ra, dec;
 
     QString options = solverOptions->text().simplified();
 
@@ -2700,13 +2695,15 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         }
     }
 
-    currentTelescope->getEqCoords(&ra, &dec);
-
-    if (solverIterations == 0)
+    if (solverIterations == 0 && mountModelReset == false)
     {
+        double ra, dec;
+        currentTelescope->getEqCoords(&ra, &dec);
         targetCoord.setRA(ra);
         targetCoord.setDec(dec);
     }
+
+    mountModelReset = false;
 
     Options::setSolverType(solverTypeGroup->checkedId());
     //Options::setSolverOptions(solverOptions->text());
