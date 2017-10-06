@@ -150,8 +150,11 @@ class InternalGuider : public GuideInterface
     double start_y2 { 0 };
     double end_x2 { 0 };
     double end_y2 { 0 };
-    int iterations { 0 };
+    double last_x { 0 };
+    double last_y { 0 };
+    int ra_iterations { 0 };
     int dec_iterations { 0 };
+    int m_LastPulse { 0 };
     int m_RATotalPulse { 0 };
     int m_DETotalPulse { 0 };
     int m_BacklastCounter { 0 };
