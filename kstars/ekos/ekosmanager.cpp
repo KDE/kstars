@@ -2563,6 +2563,8 @@ void EkosManager::getCurrentProfileTelescopeInfo(double &primaryFocalLength, dou
 
 void EkosManager::updateDebugInterfaces()
 {
+    KSUtils::Logging::SyncFilterRules();
+
     for (ISD::GDInterface *device : genericDevices)
     {
         INDI::Property *debugProp = device->getProperty("DEBUG");
