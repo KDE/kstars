@@ -38,6 +38,8 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 
+#include "kstars_debug.h"
+
 FlagManagerUI::FlagManagerUI(QWidget *p) : QFrame(p)
 {
     setupUi(this);
@@ -184,11 +186,12 @@ bool FlagManager::validatePoint()
     //check if ra & dec values were successfully converted
     if (!raOk || !decOk)
     {
+        KMessageBox::error(KStars::Instance(), i18n("Invalid coordinates!"));
         return false;
     }
 
     //make sure values are in valid range
-    if (ra.Hours() < 0.0 || ra.Hours() > 24.0)
+    if (ra.Hours() < 0.0 || ra.Degrees() > 360.0)
         message = i18n("The Right Ascension value must be between 0.0 and 24.0.");
     if (dec.Degrees() < -90.0 || dec.Degrees() > 90.0)
         message += '\n' + i18n("The Declination value must be between -90.0 and 90.0.");
@@ -212,6 +215,9 @@ void FlagManager::deleteFlagItem(int flagIdx)
 
 void FlagManager::slotAddFlag()
 {
+    if (validatePoint() == false)
+        return;
+
     dms ra(ui->raBox->createDms(false)); //false means expressed in hours
     dms dec(ui->decBox->createDms(true));
 
@@ -308,7 +314,8 @@ void FlagManager::slotSaveChanges()
 {
     int row = ui->flagList->currentIndex().row();
 
-    validatePoint();
+    if (validatePoint() == false)
+        return;
 
     insertFlag(false, row);
 
@@ -326,6 +333,8 @@ void FlagManager::slotSaveChanges()
 
     //Save changes to file
     m_Ks->data()->skyComposite()->flags()->saveToFile();
+
+    ui->flagList->selectRow(row);
 }
 
 void FlagManager::slotSetShownFlag(QModelIndex idx)

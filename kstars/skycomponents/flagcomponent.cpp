@@ -154,7 +154,7 @@ void FlagComponent::saveToFile()
     TODO: This is a really bad way of storing things. Adding one flag shouldn't
     involve writing a new file/table every time. Needs fixing.
     */
-    KStarsData::Instance()->userdb()->DeleteAllFlags();
+    KStarsData::Instance()->userdb()->DeleteAllFlags();    
 
     for (int i = 0; i < size(); ++i)
     {
@@ -214,7 +214,7 @@ void FlagComponent::remove(int index)
 void FlagComponent::updateFlag(int index, const SkyPoint &flagPoint, QString epoch, QString image, QString label,
                                QColor labelColor)
 {
-    if (index > pointList().size() - 1)
+    if (index < 0 || index > pointList().size() - 1)
         return;
 
     std::shared_ptr<SkyPoint> existingFlag = pointList().at(index);
