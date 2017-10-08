@@ -60,7 +60,7 @@ Mount::Mount()
     connect(minAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
     connect(maxAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
 
-    connect(mountToolBoxB, SIGNAL(clicked()), this, SLOT(showMountToolBox()));
+    connect(mountToolBoxB, SIGNAL(clicked()), this, SLOT(toggleMountToolBox()));
 
     connect(saveB, SIGNAL(clicked()), this, SLOT(save()));
 
@@ -820,9 +820,12 @@ Mount::ParkingStatus Mount::getParkingStatus()
     return PARKING_ERROR;
 }
 
-void Mount::showMountToolBox()
+void Mount::toggleMountToolBox()
 {
-    m_BaseView->show();
+    if (m_BaseView->isVisible())
+        m_BaseView->hide();
+    else
+        m_BaseView->show();
 }
 
 void Mount::findTarget()
