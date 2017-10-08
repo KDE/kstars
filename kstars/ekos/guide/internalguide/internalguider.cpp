@@ -408,7 +408,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
         qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << ra_iterations << " Direction: RA_INC_DIR" << " Duration: " << m_LastPulse << " ms.";
 
         // Must pass at least 1.5 pixels to move on to the next stage
-        if (ra_iterations >= auto_drift_time && fabs(cur_x-start_x1) > 1.5 && fabs(cur_y-start_y1) > 1.5)
+        if (ra_iterations >= auto_drift_time && (fabs(cur_x-start_x1) > 1.5 || fabs(cur_y-start_y1) > 1.5))
         {
             m_RATotalPulse += m_LastPulse;
 
@@ -582,7 +582,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
         qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << dec_iterations << ": STAR " << cur_x << "," << cur_y;
         qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << dec_iterations << " Direction: DEC_INC_DIR" << " Duration: " << m_LastPulse << " ms.";
 
-        if (dec_iterations >= auto_drift_time && fabs(cur_x-start_x2) > 1.5 && fabs(cur_y-start_y2) > 1.5)
+        if (dec_iterations >= auto_drift_time && (fabs(cur_x-start_x2) > 1.5 || fabs(cur_y-start_y2) > 1.5))
         {
             calibrationStage = CAL_DEC_DEC;
 
