@@ -422,7 +422,8 @@ void Focus::addFilter(ISD::GDInterface *newFilter)
     FilterCaptureLabel->setEnabled(true);
     FilterDevicesCombo->setEnabled(true);
     FilterPosLabel->setEnabled(true);
-    FilterPosCombo->setEnabled(true);    
+    FilterPosCombo->setEnabled(true);
+    filterManagerB->setEnabled(true);
 
     FilterDevicesCombo->addItem(newFilter->getDeviceName());
 
@@ -2759,7 +2760,8 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
 
     connect(exposureIN, &QDoubleSpinBox::editingFinished, [this]()
     {
-       filterManager->setFilterExposure(exposureIN->value());
+        if (currentFilter)
+            filterManager->setFilterExposure(exposureIN->value());
     });
 
     connect(filterManager.data(), &FilterManager::labelsChanged, this, [this]()

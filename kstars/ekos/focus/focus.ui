@@ -410,6 +410,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="filterManagerB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="maximumSize">
                <size>
                 <width>22</width>
