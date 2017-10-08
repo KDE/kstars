@@ -2603,6 +2603,10 @@ void EkosManager::watchDebugProperty(ISwitchVectorProperty *svp)
     {
         ISD::GenericDevice *deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
 
+        // We don't process pure general interfaces
+        if (deviceInterface->getBaseDevice()->getDriverInterface() == INDI::BaseDevice::GENERAL_INTERFACE)
+            return;
+
         // If debug was turned off, but our logging policy requires it then turn it back on.
         // We turn on debug logging if AT LEAST one driver interface is selected by the logging settings
         if (svp->s == IPS_OK && svp->sp[0].s == ISS_OFF &&
