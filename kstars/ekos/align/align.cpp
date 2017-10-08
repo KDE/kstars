@@ -4136,7 +4136,7 @@ void Align::checkFilter(int filterNum)
 
     currentFilterPosition = filterManager->getFilterPosition();
 
-    FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
+    FilterPosCombo->setCurrentIndex(Options::lockAlignFilterIndex());
 }
 
 void Align::setWCSEnabled(bool enable)
@@ -4191,6 +4191,15 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
         }
 
         appendLogText(i18n("Restarting capture attempt #%1", retries));
+
+        int currentRow = solutionTable->rowCount() - 1;
+
+        solutionTable->setCellWidget(currentRow, 3, new QWidget());
+        QTableWidgetItem *statusReport = new QTableWidgetItem();
+        statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
+        statusReport->setFlags(Qt::ItemIsSelectable);
+        solutionTable->setItem(currentRow, 3, statusReport);
+
         captureAndSolve();
     }
 }
