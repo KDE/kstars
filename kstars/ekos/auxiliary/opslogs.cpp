@@ -36,10 +36,50 @@ OpsLogs::OpsLogs() : QFrame(KStars::Instance())
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(refreshInterface()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(refreshInterface()));
 
+    connect(kcfg_VerboseLogging, SIGNAL(toggled(bool)), this, SLOT(slotToggleVerbosityOptions()));
+
+    connect(kcfg_LogToFile, SIGNAL(toggled(bool)), this, SLOT(slotToggleOutputOptions()));
+
     connect(showLogsB, &QPushButton::clicked, []()
     {
         QDesktopServices::openUrl(QUrl::fromLocalFile(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs"));
     });
+
+    for (auto &b : modulesGroup->buttons())
+        b->setEnabled(kcfg_VerboseLogging->isChecked());
+    for (auto &b : driversGroup->buttons())
+        b->setEnabled(kcfg_VerboseLogging->isChecked());
+}
+
+void OpsLogs::slotToggleVerbosityOptions()
+{
+    if (kcfg_DisableLogging->isChecked())
+        KSUtils::Logging::Disable();
+
+    foreach (QAbstractButton *b, modulesGroup->buttons())
+    {
+        b->setEnabled(kcfg_VerboseLogging->isChecked());
+        // If verbose is not checked, CLEAR all selections
+        b->setChecked(kcfg_VerboseLogging->isChecked() ? b->isChecked() : false);
+    }
+
+    foreach (QAbstractButton *b, driversGroup->buttons())
+    {
+        b->setEnabled(kcfg_VerboseLogging->isChecked());
+        // If verbose is not checked, CLEAR all selections
+        b->setChecked(kcfg_VerboseLogging->isChecked() ? b->isChecked() : false);
+    }
+}
+
+void OpsLogs::slotToggleOutputOptions()
+{
+    if (kcfg_LogToDefault->isChecked())
+    {
+        if (kcfg_DisableLogging->isChecked() == false)
+            KSUtils::Logging::UseDefault();
+    }
+    else
+        KSUtils::Logging::UseFile();
 }
 
 void OpsLogs::refreshInterface()

@@ -83,6 +83,9 @@
         <property name="text">
          <string>CCD</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="7" column="5" colspan="2">
@@ -93,6 +96,9 @@
         <property name="text">
          <string>Guide</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="11" column="9">
@@ -100,6 +106,9 @@
         <property name="text">
          <string>Auxiliary</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="1" column="6" colspan="2">
@@ -120,6 +129,9 @@
         <property name="text">
          <string>Mount</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="3" column="1" rowspan="5">
@@ -153,6 +165,9 @@
         <property name="text">
          <string>Alignment</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="8" column="0" colspan="13">
@@ -167,6 +182,9 @@
         <property name="text">
          <string>Filter Wheel</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="0" column="3" colspan="3">
@@ -194,6 +212,9 @@
         <property name="text">
          <string>Mount</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="0" column="6" colspan="2">
@@ -224,6 +245,9 @@
         <property name="text">
          <string>Weather</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="10" column="1" rowspan="3">
@@ -241,6 +265,9 @@
         <property name="text">
          <string>Focuser</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="4" column="2">
@@ -251,6 +278,9 @@
         <property name="text">
          <string>INDI</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="11" column="2">
@@ -258,6 +288,9 @@
         <property name="text">
          <string>Dome</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="0" column="8" colspan="3">
@@ -281,6 +314,9 @@
         <property name="text">
          <string>Detector</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="4" column="5">
@@ -291,6 +327,9 @@
         <property name="text">
          <string>Capture</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="4" column="7">
@@ -301,6 +340,9 @@
         <property name="text">
          <string>Focus</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="4" column="9">
@@ -311,6 +353,9 @@
         <property name="text">
          <string>Scheduler</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="7" column="9">
@@ -321,6 +366,9 @@
         <property name="text">
          <string>FITS</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
+        </attribute>
        </widget>
       </item>
      </layout>
@@ -380,5 +428,15 @@
  <connections/>
  <buttongroups>
   <buttongroup name="verbosityButtonGroup"/>
+  <buttongroup name="modulesGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="driversGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
  </buttongroups>
 </ui>
