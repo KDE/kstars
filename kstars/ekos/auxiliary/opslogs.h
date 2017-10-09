@@ -34,9 +34,8 @@ class OpsLogs : public QFrame, public Ui::OpsLogs
 
   private slots:
     void refreshInterface();
-
-  //signals:
-    //void debugInterfaceChanged();
+    void slotToggleVerbosityOptions();
+    void slotToggleOutputOptions();
 
   private:
     uint16_t m_INDIDebugInterface = { 0 };
