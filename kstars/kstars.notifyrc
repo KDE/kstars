@@ -101,7 +101,7 @@ Comment[uk]=Дію з автофокусування успішно викона
 Comment[x-test]=xxAutofocus operation completed successfullyxx
 Comment[zh_CN]=自动对焦操作成功完成
 Comment[zh_TW]=自動對焦操作成功完成
-Sound=Oxygen-K3B-Finish-Success.ogg
+Sound=KDE-K3B-Finish-Success.ogg
 Action=Sound
 [Event/FocusFailed]
 Name=Autofocus Failure
@@ -146,7 +146,7 @@ Comment[uk]=Не вдалося виконати дію з автофокусу�
 Comment[x-test]=xxAutofocus operation failed with errorsxx
 Comment[zh_CN]=自动对焦操作失败，出现错误
 Comment[zh_TW]=自動對焦操作發生錯誤
-Sound=Oxygen-Sys-App-Error-Serious.ogg
+Sound=KDE-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/AlignSuccessful]
 Name=Alignment Success
@@ -190,7 +190,7 @@ Comment[uk]=Астрометричне вирівнювання успішно �
 Comment[x-test]=xxAstrometry alignment completed successfullyxx
 Comment[zh_CN]=Astrometry 对准成功完成
 Comment[zh_TW]=對準夜空成功
-Sound=Oxygen-K3B-Finish-Success.ogg
+Sound=KDE-K3B-Finish-Success.ogg
 Action=Sound
 [Event/AlignFailed]
 Name=Alignment Failure
@@ -234,7 +234,7 @@ Comment[uk]=Не вдалося виконати астрометричне ви
 Comment[x-test]=xxAstrometry alignment failed with errorsxx
 Comment[zh_CN]=Ast 对准失败，发生错误
 Comment[zh_TW]=對準夜空失敗
-Sound=Oxygen-Sys-App-Error-Serious.ogg
+Sound=KDE-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/CalibrationSuccessful]
 Name=Calibration Success
@@ -279,7 +279,7 @@ Comment[uk]=Калібрування наведення успішно вико�
 Comment[x-test]=xxGuiding calibration completed successfullyxx
 Comment[zh_CN]=已成功完成导星校准
 Comment[zh_TW]=校正已成功完成
-Sound=Oxygen-K3B-Finish-Success.ogg
+Sound=KDE-K3B-Finish-Success.ogg
 Action=Sound
 [Event/CalibrationFailed]
 Name=Calibration Failure
@@ -323,7 +323,7 @@ Comment[uk]=Не вдалося виконати калібування наве
 Comment[x-test]=xxGuiding calibration failed with errorsxx
 Comment[zh_CN]=导星校准失败，出现错误
 Comment[zh_TW]=校正時發生錯誤
-Sound=Oxygen-Sys-App-Error-Serious.ogg
+Sound=KDE-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/GuideFailed]
 Name=Guiding Failure
@@ -368,7 +368,7 @@ Comment[uk]=Не вдалося виконати автоматичне наве
 Comment[x-test]=xxAutoguiding failed with errorsxx
 Comment[zh_CN]=自动导星失败，出现错误
 Comment[zh_TW]=自動導引時發生錯誤
-Sound=Oxygen-Sys-App-Error-Serious.ogg
+Sound=KDE-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/CaptureSuccessful]
 Name=Capture Success
@@ -411,7 +411,7 @@ Comment[uk]=Захоплення з ПЗЗ виконано успішно
 Comment[x-test]=xxCCD Capture completed successfullyxx
 Comment[zh_CN]=CCD 拍摄完毕
 Comment[zh_TW]=CCD 擷取已成功完成
-Sound=Oxygen-K3B-Finish-Success.ogg
+Sound=KDE-K3B-Finish-Success.ogg
 Action=Sound
 [Event/CaptureFailed]
 Name=Capture Failure
@@ -456,7 +456,7 @@ Comment[uk]=Не вдалося виконати захоплення зобра
 Comment[x-test]=xxCCD capture failed with errorsxx
 Comment[zh_CN]=CCD 拍摄失败，出现错误
 Comment[zh_TW]=CCD 擷取時發生錯誤
-Sound=Oxygen-Sys-App-Error-Serious.ogg
+Sound=KDE-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/FITSReceived]
 Name=FITS Received
@@ -501,7 +501,7 @@ Comment[uk]=Отримано файл FITS
 Comment[x-test]=xxFITS file is receivedxx
 Comment[zh_CN]=收到 FITS 文件
 Comment[zh_TW]=FITS 檔已接收
-Sound=Oxygen-Sys-App-Message.ogg
+Sound=KDE-Sys-App-Message.ogg
 Action=Sound
 [Event/WeatherWarning]
 Name=Weather Warning
