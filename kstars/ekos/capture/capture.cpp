@@ -2311,7 +2311,7 @@ void Capture::updatePreCaptureCalibrationStatus()
 
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
-    if (guideDeviationCheck->isChecked() == false || activeJob == nullptr)
+    if (activeJob == nullptr)
         return;
 
     // If guiding is started after a meridian flip we will start getting guide deviations again
@@ -2319,7 +2319,9 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     if (meridianFlipStage == MF_GUIDING)
     {
         double deviation_rms = sqrt(delta_ra * delta_ra + delta_dec * delta_dec);
-        if (deviation_rms < guideDeviation->value())
+        // If the user didn't select any guiding deviation, we fall through
+        // otherwise we can for deviation RMS
+        if (guideDeviationCheck->isChecked() == false || deviation_rms < guideDeviation->value())
         {
             initialHA = getCurrentHA();
             appendLogText(i18n("Post meridian flip calibration completed successfully."));
@@ -2331,7 +2333,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     }
 
     // We don't enforce limit on previews
-    if (activeJob->isPreview() || activeJob->getExposeLeft() == 0)
+    if (guideDeviationCheck->isChecked() == false || activeJob->isPreview() || activeJob->getExposeLeft() == 0)
         return;
 
     double deviation_rms = sqrt(delta_ra * delta_ra + delta_dec * delta_dec);
