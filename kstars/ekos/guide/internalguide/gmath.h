@@ -22,8 +22,7 @@
 #include <QPointer>
 #include <QTime>
 #include <QVector>
-
-class QFile;
+#include <QFile>
 
 class FITSView;
 class FITSData;
@@ -166,9 +165,6 @@ class cgmath : public QObject
     // Dither
     double getDitherRate(int axis);
 
-    // Logging
-    void setLogFile(QFile *file);
-
     bool isImageGuideEnabled() const;
     void setImageGuideEnabled(bool value);
 
@@ -191,6 +187,9 @@ class cgmath : public QObject
     void process_axes(void);
     void calc_square_err(void);
     const char *get_direction_string(GuideDirection dir);
+
+    // Logging
+    void createGuideLog();
 
     /// Global channel ticker
     uint32_t ticks { 0 };
@@ -254,6 +253,6 @@ class cgmath : public QObject
     // dithering
     double ditherRate[2];
 
-    QFile *logFile { nullptr };
+    QFile logFile;
     QTime logTime;
 };

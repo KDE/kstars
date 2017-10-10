@@ -31,7 +31,7 @@ InternalGuider::InternalGuider()
     pmath.reset(new cgmath());
     connect(pmath.get(), SIGNAL(newStarPosition(QVector3D,bool)), this, SIGNAL(newStarPosition(QVector3D,bool)));
 
-    state = GUIDE_IDLE;
+    state = GUIDE_IDLE;    
 }
 
 bool InternalGuider::guide()
@@ -47,22 +47,7 @@ bool InternalGuider::guide()
             return processGuiding();
     }
 
-    guideFrame->disconnect(this);
-
-    QString logFileName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "guide_log.txt";
-    logFile.setFileName(logFileName);
-    logFile.open(QIODevice::WriteOnly | QIODevice::Text);
-    QTextStream out(&logFile);
-
-    out << "Guiding rate,x15 arcsec/sec: " << Options::guidingRate() << endl;
-    out << "Focal,mm: " << mountFocalLength << endl;
-    out << "Aperture,mm: " << mountAperture << endl;
-    out << "F/D: " << mountFocalLength / mountAperture << endl;
-    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error "
-           "(arcsec), DEC Correction (ms), DEC Correction Direction"
-        << endl;
-
-    pmath->setLogFile(&logFile);
+    guideFrame->disconnect(this);    
 
     pmath->start();
 
