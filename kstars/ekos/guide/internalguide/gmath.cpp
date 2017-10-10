@@ -15,6 +15,7 @@
 #include "Options.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
+#include "auxiliary/kspaths.h"
 
 #include "ekos_guide_debug.h"
 
@@ -81,6 +82,9 @@ cgmath::cgmath() : QObject()
     memset(drift[GUIDE_RA], 0, sizeof(double) * MAX_ACCUM_CNT);
     memset(drift[GUIDE_DEC], 0, sizeof(double) * MAX_ACCUM_CNT);
     drift_integral[GUIDE_RA] = drift_integral[GUIDE_DEC] = 0;
+
+    QString logFileName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "guide_log.txt";
+    logFile.setFileName(logFileName);
 }
 
 cgmath::~cgmath()
@@ -145,6 +149,23 @@ void cgmath::getGuiderParameters(double *ccd_pix_wd, double *ccd_pix_ht, double 
     *ccd_pix_ht      = ccd_pixel_height * 1000.0;
     *guider_aperture = aperture;
     *guider_focal    = focal;
+}
+
+void cgmath::createGuideLog()
+{
+    logFile.close();
+    logFile.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream out(&logFile);
+
+    out << "Guiding rate,x15 arcsec/sec: " << Options::guidingRate() << endl;
+    out << "Focal,mm: " << focal << endl;
+    out << "Aperture,mm: " << aperture << endl;
+    out << "F/D: " << focal / aperture << endl;
+    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error "
+           "(arcsec), DEC Correction (ms), DEC Correction Direction"
+        << endl;
+
+    logTime.restart();
 }
 
 bool cgmath::setReticleParameters(double x, double y, double ang)
@@ -481,6 +502,9 @@ void cgmath::start(void)
     sum = 0;
 
     preview_mode = false;
+
+    if (focal > 0 && aperture > 0)
+        createGuideLog();
 
     // Create reference Image
     if (imageGuideEnabled)
@@ -1228,10 +1252,13 @@ void cgmath::process_axes(void)
 
     //emit newAxisDelta(out_params.delta[0], out_params.delta[1]);
 
-    QTextStream out(logFile);
-    out << ticks << "," << logTime.elapsed() << "," << out_params.delta[0] << "," << out_params.pulse_length[0] << ","
-        << get_direction_string(out_params.pulse_dir[0]) << "," << out_params.delta[1] << ","
-        << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]) << endl;
+    if (Options::guideLogging())
+    {
+        QTextStream out(&logFile);
+        out << ticks << "," << logTime.elapsed() << "," << out_params.delta[0] << "," << out_params.pulse_length[0] << ","
+            << get_direction_string(out_params.pulse_dir[0]) << "," << out_params.delta[1] << ","
+            << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]) << endl;
+    }
 }
 
 void cgmath::performProcessing(void)
@@ -1340,12 +1367,6 @@ void cgmath::setRapidStarData(double dx, double dy)
 {
     rapidDX = dx;
     rapidDY = dy;
-}
-
-void cgmath::setLogFile(QFile *file)
-{
-    logFile = file;
-    logTime.restart();
 }
 
 const char *cgmath::get_direction_string(GuideDirection dir)
