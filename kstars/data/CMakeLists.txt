@@ -32,7 +32,10 @@ install(FILES
 file(GLOB vsop87_files vsop87/*)
 install( FILES ${vsop87_files} DESTINATION ${KDE_INSTALL_DATADIR}/kstars)
 
-install( FILES KDE-KStars-Alert.ogg KDE-KStars-Warning.ogg  DESTINATION  ${KDE_INSTALL_DATADIR}/sounds )
+# N.B. On Windows & Mac, the sound files do not exist at all.
+# On Linux, it will overwrite the Oxygen-* files.
+file(GLOB sound_files sounds/*)
+install( FILES ${sound_files} DESTINATION ${KDE_INSTALL_DATADIR}/sounds )
 
 install(FILES
     textures/star.png
