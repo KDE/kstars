@@ -305,8 +305,11 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
 
 bool OfflineAstrometryParser::stopSolver()
 {
-    solver->terminate();
-    solver->disconnect();
+    if (solver.isNull() == false)
+    {
+        solver->terminate();
+        solver->disconnect();
+    }
 
     return true;
 }
