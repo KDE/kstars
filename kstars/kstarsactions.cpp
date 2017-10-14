@@ -1123,7 +1123,10 @@ void KStars::slotOpenFITS()
     if (fv->addFITS(&fileURL, FITS_NORMAL, FITS_NONE, QString(), false) == -2)
         delete (fv);
     else
+    {
+        m_FITSViewers.append(fv);
         fv->show();
+    }
 #endif
 }
 
