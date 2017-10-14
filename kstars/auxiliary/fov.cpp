@@ -222,7 +222,7 @@ void FOV::draw(QPainter &p, float zoomFactor)
         p.translate(p.viewport().center());
 
     p.translate(offsetXPixelSize, offsetYPixelSize);
-    p.rotate( (m_PA + m_northPA) * -1);
+    p.rotate( (m_PA - m_northPA) * -1);
 
     QPointF center(0, 0);
 
