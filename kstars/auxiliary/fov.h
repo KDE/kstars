@@ -74,8 +74,8 @@ class FOV
     inline float offsetX() const { return m_offsetX; }
     inline float offsetY() const { return m_offsetY; }
 
-    void setRotation(float rt) { m_rotation = rt; }
-    inline float rotation() const { return m_rotation; }
+    void setPA(float rt) { m_PA = rt; }
+    inline float PA() const { return m_PA; }
 
     inline QString color() const { return m_color; }
     void setColor(const QString &c) { m_color = c; }
@@ -110,7 +110,7 @@ class FOV
     Shape m_shape;
     float m_sizeX { 0 }, m_sizeY { 0 };
     float m_offsetX { 0 }, m_offsetY { 0 };
-    float m_rotation { 0 };
+    float m_PA { 0 };
     float m_northPA { 0 };
     SkyPoint m_center;
     QImage m_image;
