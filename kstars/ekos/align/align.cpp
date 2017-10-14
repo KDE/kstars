@@ -2957,7 +2957,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 absAngle->np[0].value = rawAngle;
                 ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
                 clientManager->sendNewNumber(absAngle);
-                appendLogText(i18n("Setting rotation to %1 degrees E of N...", loadSlewTargetPA));
+                appendLogText(i18n("Setting position angle to %1 degrees E of N...", loadSlewTargetPA));
                 return;
             }
         }
