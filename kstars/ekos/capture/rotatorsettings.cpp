@@ -79,8 +79,8 @@ void RotatorSettings::gotoAngle()
 
 void RotatorSettings::setCurrentAngle(double angle)
 {
-    angleEdit->setText(QString::number(angle, 'f', 2));
-    rawAngle->setText(QString::number(angle, 'f', 2));
+    angleEdit->setText(QString::number(angle, 'f', 3));
+    rawAngle->setText(QString::number(angle, 'f', 3));
     rotatorGauge->setValue(angle);
     updatePA();
 }
@@ -94,7 +94,8 @@ void RotatorSettings::updatePA()
     if (PA < -180)
         PA += 360;
 
-    PASpin->setValue(PA);
+    //PASpin->setValue(PA);
+    PAOut->setText(QString::number(PA, 'f', 3));
 }
 
 void RotatorSettings::refresh()
@@ -125,6 +126,7 @@ void RotatorSettings::setPA()
    else if (rawAngle > 360)
        rawAngle -= 360;
 
-   angleEdit->setText(QString::number(rawAngle, 'f', 3));
+   //angleEdit->setText(QString::number(rawAngle, 'f', 3));
+   angleSpin->setValue(rawAngle);
    gotoAngle();
 }

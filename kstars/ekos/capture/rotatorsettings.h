@@ -33,7 +33,7 @@ public:
     double getTargetRotationPA() { return targetPASpin->value(); }
     void setTargetRotationPA(double value) { targetPASpin->setValue(value); }
     double getTargetAngle() { return angleSpin->value(); }
-    double getCurrentRotationPA() { return PASpin->value(); }
+    double getCurrentRotationPA() { return PAOut->text().toDouble(); }
 
     void setPAMultiplier(double value) { PAMulSpin->setValue(value);}
     void setPAOffset(double value) { PAOffsetSpin->setValue(value);}
