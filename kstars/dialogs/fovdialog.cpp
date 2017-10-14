@@ -207,7 +207,7 @@ NewFOV::NewFOV(QWidget *parent, const FOV *fov) : QDialog(parent), f()
         ui->FOVEditY->setText(toString(f.sizeY()));
         ui->FOVEditOffsetX->setText(toString(f.offsetX()));
         ui->FOVEditOffsetY->setText(toString(f.offsetY()));
-        ui->FOVEditRotation->setText(toString(f.rotation()));
+        ui->FOVEditRotation->setText(toString(f.PA()));
         ui->ColorButton->setColor(QColor(f.color()));
         ui->ShapeBox->setCurrentIndex(f.shape());
 
@@ -285,7 +285,7 @@ void NewFOV::slotUpdateFOV()
 
     float rot = textToDouble(ui->FOVEditRotation, &okX);
     if (okX)
-        f.setRotation(rot);
+        f.setPA(rot);
 
     f.setShape(ui->ShapeBox->currentIndex());
     f.setColor(ui->ColorButton->color().name());

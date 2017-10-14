@@ -2796,8 +2796,17 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     targetDiff = sqrt(raDiff * raDiff + deDiff * deDiff);
 
+    // Because astrometry reads image upside-down (bottom to top), the orientation is rotated 180 degrees when compared to PA
+    // PA = Orientation + 180
+    double solverPA = orientation + 180;
+    // Limit PA to -180 to +180
+    if (solverPA > 180)
+        solverPA -= 360;
+    if (solverPA < -180)
+        solverPA += 360;
+
     solverFOV->setCenter(alignCoord);
-    solverFOV->setRotation(sOrientation);
+    solverFOV->setPA(solverPA);
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
 
     QString ra_dms, dec_dms;
@@ -2920,8 +2929,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
         if (loadSlewState == IPS_BUSY && Options::astrometryUseRotator())
         {
+            loadSlewTargetPA = solverPA;
             qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
-            loadSlewTargetPA = orientation;
+
         }
         else
         {
@@ -2929,10 +2939,11 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             if (absAngle)
             {
                 // PA = RawAngle * Multiplier + Offset
+                currentRotatorPA = solverPA;
                 double rawAngle = absAngle->np[0].value;
-                double offset = orientation - (rawAngle * Options::pAMultiplier());
-                currentRotatorPA = orientation;
-                qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << orientation << "Rotator Offset:" << offset;
+                double offset = solverPA - (rawAngle * Options::pAMultiplier());
+
+                qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA << "Rotator Offset:" << offset;
                 Options::setPAOffset(offset);
             }
 

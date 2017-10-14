@@ -75,7 +75,7 @@ bool FOVManager::save()
     foreach (FOV *fov, m_FOVs)
     {
         ostream << fov->name() << ':' << fov->sizeX() << ':' << fov->sizeY() << ':' << fov->offsetX() << ':'
-                << fov->offsetY() << ':' << fov->rotation() << ':' << QString::number(fov->shape())
+                << fov->offsetY() << ':' << fov->PA() << ':' << QString::number(fov->shape())
                 << ':' //FIXME: is this needed???
                 << fov->color() << endl;
     }
@@ -177,7 +177,7 @@ FOV::FOV(const QString &n, float a, float b, float xoffset, float yoffset, float
 
     m_offsetX  = xoffset;
     m_offsetY  = yoffset;
-    m_rotation = rot;
+    m_PA = rot;
     m_shape    = sh;
     m_color    = col;
     m_northPA  = 0;
@@ -193,7 +193,7 @@ FOV::FOV()
 
     m_sizeX = m_sizeY = 0;
     m_shape           = SQUARE;
-    m_offsetX = m_offsetY = m_rotation = 0, m_northPA = 0;
+    m_offsetX = m_offsetY = m_PA = 0, m_northPA = 0;
     m_imageDisplay = false;
 }
 
@@ -222,7 +222,7 @@ void FOV::draw(QPainter &p, float zoomFactor)
         p.translate(p.viewport().center());
 
     p.translate(offsetXPixelSize, offsetYPixelSize);
-    p.rotate(m_rotation + m_northPA);
+    p.rotate( (m_PA + m_northPA) * -1);
 
     QPointF center(0, 0);
 

@@ -110,7 +110,7 @@ void RotatorSettings::syncPA(double PA)
     {
         for (FOV* fov : KStarsData::Instance()->getVisibleFOVs())
         {
-            fov->setRotation(PA);
+            fov->setPA(PA);
         }
     }
 }
