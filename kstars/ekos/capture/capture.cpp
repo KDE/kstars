@@ -2351,11 +2351,17 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                 return;
             }
 
-            spikeDetected     = false;
-            deviationDetected = true;
             appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting exposure.",
                                deviationText, guideDeviation->value()));
             abort();
+
+            // Check if we need to start meridian flip
+            if (checkMeridianFlip())
+                return;
+
+            spikeDetected     = false;
+            deviationDetected = true;
+
             guideDeviationTimer.start();
         }
         return;
