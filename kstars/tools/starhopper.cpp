@@ -112,15 +112,13 @@ QList<const StarObject *> StarHopper::computePath_const(const SkyPoint &src, con
                     if (!patternNames.contains(hopStar))
                     {
                         spectralChar += hopStar->spchar();
-                        starHopDirections = i18n(" Slew %1 degrees %2 to find an %3 star of mag %4 ")
-                                                .arg(QString::number(angDist.Degrees(), 'f', 2), direction,
-                                                     spectralChar, QString::number(hopStar->mag()));
+                        starHopDirections = i18n(" Slew %1 degrees %2 to find an %3 star of mag %4 ", QString::number(angDist.Degrees(), 'f', 2),
+                                                 direction, spectralChar, QString::number(hopStar->mag()));
                         qCDebug(KSTARS) << starHopDirections;
                     }
                     else
                     {
-                        starHopDirections = i18n(" Slew %1 degrees %2 to find a(n) %3")
-                                                .arg(QString::number(angDist.Degrees(), 'f', 2), direction,
+                        starHopDirections = i18n(" Slew %1 degrees %2 to find a(n) %3", QString::number(angDist.Degrees(), 'f', 2), direction,
                                                      patternNames.value(hopStar));
                         qCDebug(KSTARS) << starHopDirections;
                     }
@@ -157,7 +155,7 @@ QList<const StarObject *> StarHopper::computePath_const(const SkyPoint &src, con
         // equatorial and horizontal coordinates nicely
         SkyPoint *CurrentNode = const_cast<SkyPoint *>(curr_node);
         CurrentNode->deprecess(KStarsData::Instance()->updateNum());
-        qCDebug(KSTARS) << "Calling starsInAperture";
+        //qCDebug(KSTARS) << "Calling starsInAperture";
         StarComponent::Instance()->starsInAperture(neighbors, *curr_node, fov, maglim);
         qCDebug(KSTARS) << "Choosing next node from a set of " << neighbors.count();
         // Look for the potential next node
@@ -306,7 +304,7 @@ float StarHopper::cost(const SkyPoint *curr, const SkyPoint *next)
         factor -= 1.0;
         if (localNeighbors.size() == 2)
         {
-            patternName = "triangle (of similar magnitudes)"; // any three stars form a triangle!
+            patternName = i18n("triangle (of similar magnitudes)"); // any three stars form a triangle!
             // Try to find triangles. Note that we assume that the standard Euclidian metric works on a sphere for small angles, i.e. the celestial sphere is nearly flat over our FOV.
             StarObject *star1 = localNeighbors[0];
             double dRA1       = nextstar->ra().radians() - star1->ra().radians();
@@ -323,18 +321,18 @@ float StarHopper::cost(const SkyPoint *curr, const SkyPoint *next)
             {
                 // We have a right angled triangle! Give -3 magnitudes!
                 patterncost += -3;
-                patternName = "right-angled triangle";
+                patternName = i18n("right-angled triangle");
             }
 
             // Check for isosceles triangles (without loss of generality, this is the vertex)
             if (fabs((dist1sqr - dist2sqr) / (dist1sqr)) < EQUAL_EDGE_THRESHOLD)
             {
                 patterncost += -1;
-                patternName = "isosceles triangle";
+                patternName = i18n("isosceles triangle");
                 if (fabs((dRA2 * dDec1 - dRA1 * dDec2) / sqrt(dist1sqr * dist2sqr)) < RIGHT_ANGLE_THRESHOLD)
                 {
                     patterncost += -1;
-                    patternName = "straight line of 3 stars";
+                    patternName = i18n("straight line of 3 stars");
                 }
                 // Check for equilateral triangles
                 double dist3    = star1->angularDistanceTo(star2).radians();
@@ -342,14 +340,14 @@ float StarHopper::cost(const SkyPoint *curr, const SkyPoint *next)
                 if (fabs((dist3sqr - dist1sqr) / dist1sqr) < EQUAL_EDGE_THRESHOLD)
                 {
                     patterncost += -1;
-                    patternName = "equilateral triangle";
+                    patternName = i18n("equilateral triangle");
                 }
             }
         }
         // TODO: Identify squares.
         if (!patternName.isEmpty())
         {
-            patternName += QString(" within %1% of FOV of the marked star").arg((int)(100.0 / factor));
+            patternName += i18n(" within %1% of FOV of the marked star", (int)(100.0 / factor));
             patternNames.insert(nextstar, patternName);
         }
     }
