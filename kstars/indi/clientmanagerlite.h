@@ -167,6 +167,10 @@ class ClientManagerLite : public INDI::BaseClientQt
 
     void clearDevices();
 
+  private slots:
+
+    void connectNewDevice(const QString& device_name);
+
   protected:
     virtual void newDevice(INDI::BaseDevice *dp);
     virtual void removeDevice(INDI::BaseDevice *dp);
