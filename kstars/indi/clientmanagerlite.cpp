@@ -278,6 +278,8 @@ void ClientManagerLite::webManagerReplyFinished()
                 this, SLOT(webManagerReplyError(QNetworkReply::NetworkError)));
         connect(webMStatusReply.get(), &QNetworkReply::finished,
                 this, &ClientManagerLite::webManagerReplyFinished);
+        // Connect to the server automatically
+        QMetaObject::invokeMethod(indiControlPage, "connectIndiServer");
         return;
     }
 }
@@ -687,6 +689,12 @@ void ClientManagerLite::sendNewINDISwitch(const QString &deviceName, const QStri
                 if (sp == nullptr)
                     return;
 
+                if (QString(sp->name) == QString("CONNECT"))
+                {
+                    IUResetSwitch(svp);
+                    sp->s = ISS_ON;
+                }
+
                 if (svp->r == ISR_1OFMANY)
                 {
                     IUResetSwitch(svp);
@@ -841,6 +849,11 @@ bool ClientManagerLite::isDeviceConnected(const QString &deviceName)
     return false;
 }
 
+void ClientManagerLite::connectNewDevice(const QString& device_name)
+{
+    connectDevice(qPrintable(device_name));
+}
+
 void ClientManagerLite::newDevice(INDI::BaseDevice *dp)
 {
     setBLOBMode(B_ALSO, dp->getDeviceName());
@@ -861,6 +874,8 @@ void ClientManagerLite::newDevice(INDI::BaseDevice *dp)
     //Think about it!
     //devInfo->telescope.reset(new TelescopeLite(dp));
     m_devices.append(devInfo);
+    // Connect the device automatically
+    QTimer::singleShot(2000, [=]() { connectNewDevice(deviceName); });
 }
 
 void ClientManagerLite::removeDevice(BaseDevice *dp)

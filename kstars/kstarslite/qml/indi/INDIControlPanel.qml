@@ -28,6 +28,10 @@ KSPage {
     property alias webMBrowserButtonVisible: webMBrowserButton.visible
     property alias webMProfileListVisible: webMProfileList.visible
 
+    function connectIndiServer() {
+        indiServerConnectButton.clicked()
+    }
+
     Component.onCompleted: {
         // Debug purposes
         ClientManagerLite.setHost("localhost", 7624)
@@ -140,12 +144,14 @@ KSPage {
                 visible: false
 
                 delegate: RowLayout {
-                    spacing: 60
                     height: webMConnectButton.height
 
-                    KSLabel {
+                    Rectangle {
+                        width: webMStatusLabel.width
                         height: webMConnectButton.height
-                        text: xi18n("Profile:")+" "+modelData
+                        KSLabel {
+                            text: xi18n("Profile:")+" "+modelData
+                        }
                     }
 
                     Button {
@@ -189,6 +195,7 @@ KSPage {
                 }
 
                 Button {
+                    id: indiServerConnectButton
                     text: indiPage.connected ? xi18n("Disconnect") : xi18n("Connect")
 
                     onClicked: {
