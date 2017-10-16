@@ -2355,11 +2355,12 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                                deviationText, guideDeviation->value()));
             abort();
 
+            spikeDetected     = false;
+
             // Check if we need to start meridian flip
             if (checkMeridianFlip())
                 return;
 
-            spikeDetected     = false;
             deviationDetected = true;
 
             guideDeviationTimer.start();
