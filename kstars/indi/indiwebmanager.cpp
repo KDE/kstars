@@ -9,6 +9,7 @@
 
 #include "indiwebmanager.h"
 
+#include "auxiliary/ksnotification.h"
 #include "driverinfo.h"
 #include "drivermanager.h"
 #include "Options.h"
@@ -18,6 +19,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkReply>
+
+#include "ekos_debug.h"
 
 namespace INDI
 {
@@ -137,13 +140,21 @@ bool areDriversRunning(ProfileInfo *pi)
         if (array.count() < piExecDrivers.count())
             return false;
 
+        // Get all the drivers running remotely
+        QStringList webManagerDrivers;
         for (auto value : array)
         {
             QJsonObject obj = value.toObject();
+            webManagerDrivers << obj.value("driver").toString();
+        }
 
-            if (piExecDrivers.contains(obj.value("driver").toString()) == false)
+        // Make sure all the profile drivers are running there
+        for (auto oneDriverExec : piExecDrivers)
+        {
+            if (webManagerDrivers.contains(oneDriverExec) == false)
             {
-                qDebug() << "Driver " << obj.value("driver").toString() << " is not running on the remote INDI server.";
+                KSNotification::error(i18n("Driver %1 failed to start on the remote INDI server!", oneDriverExec));
+                qCritical(KSTARS_EKOS) << "Driver" << oneDriverExec << "failed to start on the remote INDI server!";
                 return false;
             }
         }
@@ -178,9 +189,6 @@ bool syncProfile(ProfileInfo *pi)
     while (i.hasNext())
     {
         QString name = i.next().value();
-        // Do NOT add guide application selections which are only for user-friendly reasons
-        if (name == "PHD2" || name == "LinGuider")
-            continue;
         QJsonObject driver;
         driver.insert("label", name);
         driverArray.append(driver);
