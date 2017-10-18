@@ -40,16 +40,16 @@ bool VideoWG::newFrame(IBLOB *bp)
     bool rc = false;
 
     if (QImageReader::supportedImageFormats().contains(format.toLatin1()))
-        rc = streamImage->loadFromData(static_cast<uchar *>(bp->blob), bp->size);
-    else if (static_cast<uint32_t>(bp->size) > totalBaseCount)
-    {
-        streamImage.reset(new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_RGB888));
-        rc = !streamImage->isNull();
-    }
+        rc = streamImage->loadFromData(static_cast<uchar *>(bp->blob), bp->size);    
     else if (static_cast<uint32_t>(bp->size) == totalBaseCount)
     {
         streamImage.reset(new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_Indexed8));
         streamImage->setColorTable(grayTable);
+        rc = !streamImage->isNull();
+    }
+    else if (static_cast<uint32_t>(bp->size) == totalBaseCount*3)
+    {
+        streamImage.reset(new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_RGB888));
         rc = !streamImage->isNull();
     }
 
