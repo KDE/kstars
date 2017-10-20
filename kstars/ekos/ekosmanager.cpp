@@ -1514,6 +1514,13 @@ void EkosManager::processNewProperty(INDI::Property *prop)
             alignProcess->setRotator(deviceInterface);
     }
 
+    if (!strcmp(prop->getName(), "GPS_REFRESH"))
+    {
+        managedDevices[KSTARS_GPS] = deviceInterface;
+        if (mountProcess.get() != nullptr)
+            mountProcess->setGPS(deviceInterface);
+    }
+
     if (focusProcess.get() != nullptr && strstr(prop->getName(), "FOCUS_"))
     {
         focusProcess->checkFocuser();
@@ -1900,6 +1907,9 @@ void EkosManager::initMount()
     connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this,
             SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
     connect(mountProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
+
+    if (managedDevices.contains(KSTARS_GPS))
+        mountProcess->setGPS(managedDevices[KSTARS_GPS]);
 
     if (Options::ekosLeftIcons())
     {

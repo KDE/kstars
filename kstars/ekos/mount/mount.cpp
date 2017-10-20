@@ -144,6 +144,9 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
         return;
     }
 
+    if (currentGPS != nullptr)
+        syncGPS();
+
     currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
 
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
@@ -447,6 +450,9 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
             }
         }
     }
+
+    if (currentGPS != nullptr && !strcmp(nvp->device, currentGPS->getDeviceName()) && !strcmp(nvp->name, "GEOGRAPHIC_COORD") && nvp->s == IPS_OK)
+        syncGPS();
 }
 
 bool Mount::setSlewRate(int index)
@@ -870,5 +876,59 @@ bool Mount::resetModel()
 
     appendLogText(i18n("Failed to clear Alignment Model."));
     return false;
+}
+
+void Mount::setGPS(ISD::GDInterface *newGPS)
+{
+    if (newGPS == currentGPS)
+        return;
+
+    currentGPS = newGPS;
+    connect(newGPS, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+
+    Options::setUseComputerSource(false);
+    Options::setUseDeviceSource(true);
+
+    appendLogText(i18n("GPS driver detected. KStars and mount time and location settings are now synced to the GPS driver."));
+
+    syncGPS();
+}
+
+void Mount::syncGPS()
+{
+    // We only update when location is OK
+    INumberVectorProperty *location = currentGPS->getBaseDevice()->getNumber("GEOGRAPHIC_COORD");
+    if (location == nullptr || location->s != IPS_OK)
+        return;
+
+    // Sync name
+    if (currentTelescope)
+    {
+        ITextVectorProperty *activeDevices = currentTelescope->getBaseDevice()->getText("ACTIVE_DEVICES");
+        if (activeDevices)
+        {
+            IText *activeGPS = IUFindText(activeDevices, "ACTIVE_GPS");
+            if (activeGPS)
+            {
+                if (strcmp(activeGPS->text, currentGPS->getDeviceName()))
+                {
+                    IUSaveText(activeGPS, currentGPS->getDeviceName());
+                    currentTelescope->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                }
+            }
+        }
+    }
+
+    // GPS Refresh should only be called once automatically.
+    if (GPSInitialized == false)
+    {
+        ISwitchVectorProperty *refreshGPS = currentGPS->getBaseDevice()->getSwitch("GPS_REFRESH");
+        if (refreshGPS)
+        {
+            refreshGPS->sp[0].s = ISS_ON;
+            currentGPS->getDriverInfo()->getClientManager()->sendNewSwitch(refreshGPS);
+            GPSInitialized = true;
+        }
+    }
 }
 }

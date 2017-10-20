@@ -46,6 +46,8 @@ class Mount : public QWidget, public Ui::Mount
          */
     void setTelescope(ISD::GDInterface *newTelescope);
 
+    void setGPS(ISD::GDInterface *newGPS);
+
     // Log functions
     void appendLogText(const QString &);
     void clearLog();
@@ -261,7 +263,10 @@ class Mount : public QWidget, public Ui::Mount
     void newStatus(ISD::Telescope::TelescopeStatus status);
 
   private:
-    ISD::Telescope *currentTelescope;
+    void syncGPS();
+
+    ISD::Telescope *currentTelescope = nullptr;
+    ISD::GDInterface *currentGPS = nullptr;
     QStringList logText;
     SkyPoint telescopeCoord;
     QString lastNotificationMessage;
@@ -269,6 +274,7 @@ class Mount : public QWidget, public Ui::Mount
     double lastAlt;
     int abortDispatch;
     bool altLimitEnabled;
+    bool GPSInitialized = {false};
     ISD::Telescope::TelescopeStatus lastStatus = ISD::Telescope::MOUNT_IDLE;
 
     QQuickView *m_BaseView = nullptr;
