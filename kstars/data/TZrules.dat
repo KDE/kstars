@@ -53,7 +53,7 @@ SY  Mar   Fri  00:00  Oct   Fri  00:00
 #"TS": DST starts 1st Sun in Oct, reverts last Sun in Mar (2:00)
 TS  Oct  1Sun  02:00  Mar   Sun  02:00
 
-#"AU": DST starts last Sun in Oct, reverts last Sun in Mar (2:00)
+#"AU": DST starts first Sun in Oct, reverts first Sun in April (2:00)
 AU  Oct   1Sun  02:00  Apr   1Sun  02:00
 
 #"NZ": DST starts 1st Sun in Oct, reverts 3rd Sun in Mar (2:00)
