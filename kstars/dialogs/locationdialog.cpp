@@ -20,6 +20,7 @@
 #include "kspaths.h"
 #include "kstarsdata.h"
 #include "kstars_debug.h"
+#include "ksutils.h"
 
 #include <QSqlQuery>
 
@@ -37,6 +38,8 @@
 #include <QQmlContext>
 #include <QSqlQuery>
 #include <QUrlQuery>
+#include <QPlainTextEdit>
+
 
 LocationDialogUI::LocationDialogUI(QWidget *parent) : QFrame(parent)
 {
@@ -574,52 +577,31 @@ void LocationDialog::clearFields()
 
 void LocationDialog::showTZRules()
 {
-    QStringList lines;
-    lines.append(i18n(" Start Date (Start Time)  /  Revert Date (Revert Time)"));
-    lines.append(" ");
-    lines.append(i18n("--: No DST correction"));
-    lines.append(i18n("AU: last Sun in Oct. (02:00) / last Sun in Mar. (02:00)"));
-    lines.append(i18n("BZ:  2nd Sun in Oct. (00:00) /  3rd Sun in Feb. (00:00)"));
-    lines.append(i18n("CH:  2nd Sun in Apr. (00:00) /  2nd Sun in Sep. (00:00)"));
-    lines.append(i18n("CL:  2nd Sun in Oct. (04:00) /  2nd Sun in Mar. (04:00)"));
-    lines.append(i18n("CZ:  1st Sun in Oct. (02:45) /  3rd Sun in Mar. (02:45)"));
-    lines.append(i18n("EE: Last Sun in Mar. (00:00) / Last Sun in Oct. (02:00)"));
-    lines.append(i18n("EG: Last Fri in Apr. (00:00) / Last Thu in Sep. (00:00)"));
-    lines.append(i18n("EU: Last Sun in Mar. (01:00) / Last Sun in Oct. (01:00)"));
-    lines.append(i18n("FK:  1st Sun in Sep. (02:00) /  3rd Sun in Apr. (02:00)"));
-    lines.append(i18n("HK:  2nd Sun in May  (03:30) /  3rd Sun in Oct. (03:30)"));
-    lines.append(i18n("IQ: Apr 1 (03:00) / Oct. 1 (00:00)"));
-    lines.append(i18n("IR: Mar 21 (00:00) / Sep. 22 (00:00)"));
-    lines.append(i18n("JD: Last Thu in Mar. (00:00) / Last Thu in Sep. (00:00)"));
-    lines.append(i18n("LB: Last Sun in Mar. (00:00) / Last Sun in Oct. (00:00)"));
-    lines.append(i18n("MX:  1st Sun in May  (02:00) / Last Sun in Sep. (02:00)"));
-    lines.append(i18n("NB:  1st Sun in Sep. (02:00) /  1st Sun in Apr. (02:00)"));
-    lines.append(i18n("NZ:  1st Sun in Oct. (02:00) /  3rd Sun in Mar. (02:00)"));
-    lines.append(i18n("PY:  1st Sun in Oct. (00:00) /  1st Sun in Mar. (00:00)"));
-    lines.append(i18n("RU: Last Sun in Mar. (02:00) / Last Sun in Oct. (02:00)"));
-    lines.append(i18n("SK:  2nd Sun in May  (00:00) /  2nd Sun in Oct. (00:00)"));
-    lines.append(i18n("SY: Apr. 1 (00:00) / Oct. 1 (00:00)"));
-    lines.append(i18n("TG:  1st Sun in Nov. (02:00) / Last Sun in Jan. (02:00)"));
-    lines.append(i18n("TS:  1st Sun in Oct. (02:00) / Last Sun in Mar. (02:00)"));
-    lines.append(i18n("US:  1st Sun in Apr. (02:00) / Last Sun in Oct. (02:00)"));
-    lines.append(i18n("ZN: Apr. 1 (01:00) / Oct. 1 (00:00)"));
+    QFile file;
+
+    if (KSUtils::openDataFile(file, "TZrules.dat") == false)
+        return;
+
+    QTextStream stream(&file);
 
     QString message = i18n("Daylight Saving Time Rules");
 
     QPointer<QDialog> tzd = new QDialog(this);
     tzd->setWindowTitle(message);
 
-    QListWidget *lw = new QListWidget(tzd);
-    lw->addItems(lines);
-    //This is pretty lame...I have to measure the width of the first item in the
-    //list widget, in order to set its width properly.  Why doesn't it just resize
-    //the widget to fit the contents automatically?  I tried setting the sizePolicy,
-    //no joy...
-    int w = int(1.1 * lw->visualItemRect(lw->item(0)).width());
-    lw->setMinimumWidth(w);
+    QPlainTextEdit *textEdit = new QPlainTextEdit(tzd);
+    textEdit->setReadOnly(true);
+    while (stream.atEnd() == false)
+    {
+        QString line = stream.readLine();
+        if (line.startsWith("#"))
+            textEdit->appendPlainText(line);
+    }
+    textEdit->moveCursor(QTextCursor::Start);
+    textEdit->ensureCursorVisible();
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
-    mainLayout->addWidget(lw);
+    mainLayout->addWidget(textEdit);
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
