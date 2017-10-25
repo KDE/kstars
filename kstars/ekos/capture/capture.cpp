@@ -52,6 +52,8 @@ Capture::Capture()
     new CaptureAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture", this);
 
+    KStarsData::Instance()->userdb()->GetAllDSLRInfos(DSLRInfos);
+
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
     //isAutoGuiding   = false;
@@ -649,7 +651,7 @@ void Capture::checkCCD(int ccdNum)
             {
                 DSLRInfo infoDialog(this, currentCCD);
                 infoDialog.exec();
-                //appendLogText(i18n("DSLR CCD Information is incomplete. Please update CCD Information in Image Info section in the INDI Control Panel."));
+                addDSLRInfo(QString(currentCCD->getDeviceName()), infoDialog.sensorMaxWidth, infoDialog.sensorMaxHeight, infoDialog.sensorPixelW, infoDialog.sensorPixelH);
             }
         }
 
@@ -818,6 +820,10 @@ void Capture::updateFrameProperties(int reset)
     }
     else
         return;
+
+    // cull to camera limits, if there are any
+    if (useGuideHead == false)
+        cullToCameraLimits();
 
     if (reset == 1 || frameSettings.contains(targetChip) == false)
     {
@@ -4802,6 +4808,54 @@ void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
         currentFilterPosition = filterManager->getFilterPosition();
         FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
     });
+}
+
+void Capture::addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH)
+{
+    // Check if model already exists
+    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString,QVariant> &oneDSLRInfo)
+    { return (oneDSLRInfo["Model"] == model);});
+
+    if (pos != DSLRInfos.end())
+    {
+        KStarsData::Instance()->userdb()->DeleteDSLRInfo(model);
+        DSLRInfos.removeOne(*pos);
+    }
+
+    QMap<QString, QVariant> oneDSLRInfo;
+    oneDSLRInfo["Model"] = model;
+    oneDSLRInfo["Width"] = maxW;
+    oneDSLRInfo["Height"] = maxH;
+    oneDSLRInfo["PixelW"] = pixelW;
+    oneDSLRInfo["PixelH"] = pixelH;
+
+    KStarsData::Instance()->userdb()->AddDSLRInfo(oneDSLRInfo);
+
+    KStarsData::Instance()->userdb()->GetAllDSLRInfos(DSLRInfos);
+}
+
+void Capture::cullToCameraLimits()
+{
+    QString model(currentCCD->getDeviceName());
+
+    // Check if model already exists
+    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString,QVariant> &oneDSLRInfo)
+    { return (oneDSLRInfo["Model"] == model);});
+
+    if (pos != DSLRInfos.end())
+    {
+        if (frameWIN->maximum() == 0 || frameWIN->maximum() > (*pos)["Width"].toInt())
+        {
+            frameWIN->setValue((*pos)["Width"].toInt());
+            frameWIN->setMaximum((*pos)["Width"].toInt());
+        }
+
+        if (frameHIN->maximum() == 0 || frameHIN->maximum() > (*pos)["Height"].toInt())
+        {
+            frameHIN->setValue((*pos)["Height"].toInt());
+            frameHIN->setMaximum((*pos)["Height"].toInt());
+        }
+    }
 }
 
 }

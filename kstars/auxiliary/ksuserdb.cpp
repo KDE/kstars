@@ -279,6 +279,21 @@ bool KSUserDB::Initialize()
                            "LockedFilter TEXT DEFAULT '--')"))
                     qCWarning(KSTARS) << query.lastError();
             }
+
+            // If prior to 2.8.7 create DSLR info table
+            if (currentDBVersion < "2.8.7")
+            {
+                QSqlQuery query(userdb_);
+
+                if (!query.exec("CREATE TABLE dslr ( "
+                           "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                           "Model TEXT DEFAULT NULL, "
+                           "Width INTEGER DEFAULT NULL, "
+                           "Height INTEGER DEFAULT NULL, "
+                           "PixelW REAL DEFAULT 5.0,"
+                           "PixelH REAL DEFAULT 5.0)"))
+                    qCWarning(KSTARS) << query.lastError();
+            }
         }
     }
     userdb_.close();
@@ -451,6 +466,14 @@ bool KSUserDB::RebuildDB()
                   " pixels have smaller integrated flux. When creating large scale images in other projections users may wish to make"
                   " sure to compensate for this effect the flux conserving clip-resampling option.', '9', 'equatorial', '512', 'jpeg fits',"
                   "'http://alaskybis.u-strasbg.fr/Fermi/Color', '1')");
+
+
+    tables.append("CREATE TABLE dslr (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+               "Model TEXT DEFAULT NULL, "
+               "Width INTEGER DEFAULT NULL, "
+               "Height INTEGER DEFAULT NULL, "
+               "PixelW REAL DEFAULT 5.0,"
+               "PixelH REAL DEFAULT 5.0)");
 
     for (int i = 0; i < tables.count(); ++i)
     {
@@ -682,6 +705,67 @@ void KSUserDB::GetAllHIPSSources(QList<QMap<QString, QString>> &HIPSSources)
             recordMap[record.fieldName(j)] = record.value(j).toString();
 
         HIPSSources.append(recordMap);
+    }
+
+    userdb_.close();
+}
+
+
+/* DSLR Section */
+
+void KSUserDB::AddDSLRInfo(const QMap<QString,QVariant> &oneInfo)
+{
+    userdb_.open();
+    QSqlTableModel DSLRInfo(nullptr, userdb_);
+    DSLRInfo.setTable("dslr");
+    DSLRInfo.select();
+
+    QSqlRecord record = DSLRInfo.record();
+
+    for (QMap<QString,QVariant>::const_iterator iter = oneInfo.begin(); iter != oneInfo.end(); ++iter)
+        record.setValue(iter.key(), iter.value());
+
+    DSLRInfo.insertRecord(-1, record);
+
+    DSLRInfo.submitAll();
+
+    userdb_.close();
+}
+
+bool KSUserDB::DeleteDSLRInfo(const QString &model)
+{
+    userdb_.open();
+    QSqlTableModel DSLRInfo(nullptr, userdb_);
+    DSLRInfo.setTable("dslr");
+    DSLRInfo.setFilter("model = \'" + model + "\'");
+
+    DSLRInfo.select();
+
+    DSLRInfo.removeRows(0, 1);
+    DSLRInfo.submitAll();
+
+    userdb_.close();
+
+    return true;
+}
+
+void KSUserDB::GetAllDSLRInfos(QList<QMap<QString, QVariant>> &DSLRInfos)
+{
+    DSLRInfos.clear();
+
+    userdb_.open();
+    QSqlTableModel DSLRInfo(nullptr, userdb_);
+    DSLRInfo.setTable("dslr");
+    DSLRInfo.select();
+
+    for (int i = 0; i < DSLRInfo.rowCount(); ++i)
+    {
+        QMap<QString,QVariant> recordMap;
+        QSqlRecord record = DSLRInfo.record(i);
+        for (int j = 1; j < record.count(); j++)
+            recordMap[record.fieldName(j)] = record.value(j);
+
+        DSLRInfos.append(recordMap);
     }
 
     userdb_.close();

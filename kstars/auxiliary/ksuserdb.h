@@ -91,6 +91,14 @@ class KSUserDB
     void GetAllHIPSSources(QList<QMap<QString,QString>> &HIPSSources);
 
     /************************************************************************
+     *********************************** DSLR *******************************
+     ************************************************************************/
+
+    void AddDSLRInfo(const QMap<QString, QVariant> &oneInfo);
+    bool DeleteDSLRInfo(const QString &model);
+    void GetAllDSLRInfos(QList<QMap<QString,QVariant>> &DSLRInfos);
+
+    /************************************************************************
      ******************************* Observers ******************************
      ************************************************************************/
 
