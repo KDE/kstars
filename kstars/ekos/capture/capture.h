@@ -521,6 +521,10 @@ class Capture : public QWidget, public Ui::Capture
     double setCurrentADU(double value);
     void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
 
+    // DSLR Info
+    void addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH);
+    void cullToCameraLimits();
+
     /* Meridian Flip */
     bool checkMeridianFlip();
     void checkGuidingAfterFlip();
@@ -643,5 +647,8 @@ class Capture : public QWidget, public Ui::Capture
 
     // Filter Manager
     QSharedPointer<FilterManager> filterManager;
+
+    // DSLR Infos
+    QList<QMap<QString,QVariant>> DSLRInfos;
 };
 }

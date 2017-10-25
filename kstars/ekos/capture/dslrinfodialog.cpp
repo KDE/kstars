@@ -32,19 +32,20 @@ DSLRInfo::DSLRInfo(QWidget *parent, ISD::CCD *ccd) : QDialog(parent)
 
 void DSLRInfo::save()
 {
-    int w    = maxWidth->value();
-    int h    = maxHeight->value();
-    double x = pixelX->value();
-    double y = pixelY->value();
+    sensorMaxWidth    = maxWidth->value();
+    sensorMaxHeight   = maxHeight->value();
+    sensorPixelW      = pixelX->value();
+    sensorPixelH      = pixelY->value();
 
-    if (w == 0 || h == 0 || x == 0 || y == 0)
+    if (sensorMaxWidth == 0 || sensorMaxHeight == 0 || sensorPixelW == 0 || sensorPixelH == 0)
     {
         KMessageBox::error(0, i18n("Invalid values. Please set all values."));
         return;
     }
 
     ISD::CCDChip *primaryChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    primaryChip->setImageInfo(w, h, x, y, 8);
+    primaryChip->setImageInfo(sensorMaxWidth, sensorMaxHeight, sensorPixelW, sensorPixelH, 8);
+    primaryChip->setFrame(sensorMaxWidth, sensorMaxHeight, sensorPixelW, sensorPixelH);
 
     currentCCD->setConfig(SAVE_CONFIG);
 }

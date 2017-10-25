@@ -19,6 +19,10 @@
 
 #include "indi/indiccd.h"
 
+namespace Ekos {
+class Capture;
+}
+
 class DSLRInfo : public QDialog, public Ui::DSLRInfo
 {
     Q_OBJECT
@@ -31,6 +35,10 @@ class DSLRInfo : public QDialog, public Ui::DSLRInfo
 
   private:
     ISD::CCD *currentCCD = nullptr;
+    int sensorMaxWidth, sensorMaxHeight;
+    double sensorPixelW,sensorPixelH;
+
+  friend class Ekos::Capture;
 };
 
 #endif
