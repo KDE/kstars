@@ -4,6 +4,32 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.8.7 (Nunki):
+=================================================================================================
+abb0ff2 2017-10-25 Jasem Mutlaq         Limit DSLR maximum resolution to the imaging resolution defined by the user on first connection. This resolution is enforced at all times to avoid d..
+5df85d8 2017-10-24 Jasem Mutlaq         Load TZRules from the file instead of hard-coding it
+50a2088 2017-10-24 Jasem Mutlaq         BUGS:377516 Do not explicitly set time format, let it pick up system locale format.
+0d43b78 2017-10-24 Jasem Mutlaq         Correct description for AU TZ rule
+be91c1d 2017-10-20 Jasem Mutlaq         Handle GPS driver automatically and create a GPS-specific location for the user
+82f2a0d 2017-10-18 Jasem Mutlaq         Only accept exact RGB count
+b860b0a 2017-10-17 Csaba Kertesz        Small improvements to the INDI interface in KStars Lite
+c6063d8 2017-10-17 Jasem Mutlaq         Check remote drivers against required drivers, and not vice versa
+4cea5a9 2017-10-17 Jasem Mutlaq         Sync INDI drivers
+3243dd7 2017-10-16 Jasem Mutlaq         Move spike reset before the meridian flip check
+ca47748 2017-10-15 Jasem Mutlaq         When aborting capture due to guiding deviation, check if we need to perform meridian flip. Thanks to Turki for the heads up
+70a7593 2017-10-15 Jasem Mutlaq         i18n fixes
+9121b1e 2017-10-14 Jasem Mutlaq         Various fixes for rotation control
+5848882 2017-10-14 Jasem Mutlaq         Fix sign for northPA
+f757c0c 2017-10-14 Jasem Mutlaq         Fix PA issues with FOV display and Rotator
+1ef9d58 2017-10-14 Jasem Mutlaq         Add regular open FITS action to generic viewers list as well
+8442bb0 2017-10-14 Jasem Mutlaq         Check if solver pointer set
+18a353c 2017-10-12 Jasem Mutlaq         Rename ogg file to avoid packaging conflicts
+d697b06 2017-10-11 Jasem Mutlaq         Add necessary sounds for cross-platform availibility
+dab113e 2017-10-10 Jasem Mutlaq         Revert to Oxygen-* sounds until a more multi-platform solution is found
+6f05acb 2017-10-10 Jasem Mutlaq         Better handling of guide log file
+49d5aa8 2017-10-10 Jasem Mutlaq         Do not require guide deviation to be checked to process post-meridian-flip guiding
+fcb989d 2017-10-10 Jasem Mutlaq         Use standard KDE sounds
+
 2.8.4 (Juli):
 =================================================================================================
 7c04782 2017-09-22 Jasem Mutlaq         Add support for PSF convoluted star detection algorithm adapted from PHD2 for auto selection of the guide star

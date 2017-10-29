@@ -95,6 +95,9 @@ Focus::Focus()
         }
     });
 
+    FocusSettleTime->setValue(Options::focusSettleTime());
+    connect(FocusSettleTime, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+         [=](double d) { Options::setFocusSettleTime(d); });
     connect(focuserCombo, SIGNAL(activated(int)), this, SLOT(checkFocuser(int)));
     connect(FilterDevicesCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
     connect(setAbsTicksB, SIGNAL(clicked()), this, SLOT(setAbsoluteFocusTicks()));
@@ -2027,7 +2030,8 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (canAbsMove && inAutoFocus)
         {
             if (nvp->s == IPS_OK && captureInProgress == false)
-                capture();
+                QTimer::singleShot(FocusSettleTime->value()*1000, this, SLOT(capture()));
+                //capture();
             else if (nvp->s == IPS_ALERT)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
@@ -2067,7 +2071,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (canRelMove && inAutoFocus)
         {
             if (nvp->s == IPS_OK && captureInProgress == false)
-                capture();
+                QTimer::singleShot(FocusSettleTime->value()*1000, this, SLOT(capture()));
             else if (nvp->s == IPS_ALERT)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
@@ -2094,7 +2098,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (canAbsMove == false && canRelMove == false && inAutoFocus)
         {
             if (nvp->s == IPS_OK && captureInProgress == false)
-                capture();
+                QTimer::singleShot(FocusSettleTime->value()*1000, this, SLOT(capture()));
             else if (nvp->s == IPS_ALERT)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
