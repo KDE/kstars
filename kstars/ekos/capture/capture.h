@@ -524,6 +524,7 @@ class Capture : public QWidget, public Ui::Capture
     // DSLR Info
     void addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH);
     void cullToCameraLimits();
+    bool isModelinDSLRInfo(const QString &model);
 
     /* Meridian Flip */
     bool checkMeridianFlip();
