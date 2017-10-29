@@ -647,7 +647,7 @@ void Capture::checkCCD(int ccdNum)
 
             double pixelX = 0, pixelY = 0;
             bool rc = targetChip->getPixelSize(pixelX, pixelY);
-            if (rc == false || pixelX == 0 || pixelY == 0)
+            if (rc == false || pixelX == 0 || pixelY == 0 || isModelinDSLRInfo(QString(currentCCD->getDeviceName())) == false)
             {
                 DSLRInfo infoDialog(this, currentCCD);
                 infoDialog.exec();
@@ -4832,6 +4832,14 @@ void Capture::addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, do
     KStarsData::Instance()->userdb()->AddDSLRInfo(oneDSLRInfo);
 
     KStarsData::Instance()->userdb()->GetAllDSLRInfos(DSLRInfos);
+}
+
+bool Capture::isModelinDSLRInfo(const QString &model)
+{
+    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString,QVariant> &oneDSLRInfo)
+    { return (oneDSLRInfo["Model"] == model);});
+
+    return (pos != DSLRInfos.end());
 }
 
 void Capture::cullToCameraLimits()
