@@ -1588,6 +1588,10 @@
          <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuser moves TICKS steps, the difference in HFR is more than 0.1 pixels. Lower the value when you are close to optimal focus.</whatsthis>
          <default>100</default>
       </entry>
+      <entry name="FocusSettleTime" type="Double">
+         <whatsthis>Wait for this many seconds after moving the focuser before capturing the next image during AutoFocus.</whatsthis>
+         <default>0</default>
+      </entry>
       <entry name="FocusTolerance" type="Double">
          <label>Default Focuser tolerance value</label>
          <whatsthis>The tolerance specifies the percentage difference between the current focusing position and the minimum obtained during the focusing run. Adjustment of this value is necessary to prevent the focusing algorithm from oscillating back and forth.</whatsthis>
