@@ -100,6 +100,11 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
 
 #ifdef Q_OS_OSX
 
+    QString vlcPlugins = QDir(QCoreApplication::applicationDirPath() + "/../PlugIns/vlc").absolutePath();
+    qputenv("VLC_PLUGIN_PATH", vlcPlugins.toLatin1());
+    QString phonon_backend_path = QDir(QCoreApplication::applicationDirPath() + "/../PlugIns/phonon4qt5_backend/phonon_vlc.so").absolutePath();
+    qputenv("PHONON_BACKEND", phonon_backend_path.toLatin1());
+
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     QString path            = env.value("PATH", "");
     env.insert("PATH", "/usr/bin:/usr/local/bin:\"" + QCoreApplication::applicationDirPath() + "\":" + path);
