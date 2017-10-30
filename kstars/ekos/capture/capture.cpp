@@ -1134,6 +1134,8 @@ bool Capture::setCaptureComplete()
         // Reset active job pointer
         activeJob = nullptr;
         abort();
+        if (guideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
+            emit resumeGuiding();
         return true;
     }
 
