@@ -501,7 +501,7 @@ Comment[uk]=Отримано файл FITS
 Comment[x-test]=xxFITS file is receivedxx
 Comment[zh_CN]=收到 FITS 文件
 Comment[zh_TW]=FITS 檔已接收
-Sound=KDE-KStars-Sys-App-Message.ogg
+Sound=KDE-KStars-FITS-Recieved.ogg
 Action=Sound
 [Event/WeatherWarning]
 Name=Weather Warning
@@ -1365,3 +1365,7 @@ Comment[uk]=Телескоп синхронізовано для стеженн�
 Comment[x-test]=xxThe telescope is synced before tracking a new target in a scheduled Ekos jobxx
 Comment[zh_CN]=望远镜在跟踪一个新目标前已在一项 Ekos 计划作业中同步完毕
 Action=None
+[Event/EkosCaptureImageReceived]
+Name=Captured image recieved
+Sound=KDE-KStars-Sys-App-Message.ogg
+Action=Sound
