@@ -2519,7 +2519,12 @@ void EkosManager::showEkosOptions()
 
     if (alignProcess.get() && alignProcess.get() == currentWidget)
     {
-        KConfigDialog::showDialog("alignsettings");
+        KConfigDialog *alignSettings = KConfigDialog::exists("alignsettings");
+        if (alignSettings)
+        {
+            alignSettings->setEnabled(true);
+            alignSettings->show();
+        }
         return;
     }
 
