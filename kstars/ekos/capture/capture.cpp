@@ -1122,6 +1122,8 @@ bool Capture::setCaptureComplete()
     DarkLibrary::Instance()->disconnect(this);
     secondsLabel->setText(i18n("Complete."));
 
+    KNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"));
+
     // If it was initially set as preview job
     if (seqTotalCount <= 0)
     {
