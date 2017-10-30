@@ -1093,22 +1093,26 @@ QString getDefaultPath(QString option)
 }
 
 #ifdef Q_OS_OSX
-bool copyDataFolderFromAppBundleIfNeeded() //The method returns true if the data directory is good to go.
-{
-    //This will copy the translations directory if it is in the app bundle but not in Application Support.
-    QString translationsLocation =
-        QStandardPaths::locate(QStandardPaths::GenericDataLocation, "locale", QStandardPaths::LocateDirectory);
-    if (translationsLocation.isEmpty())
+void copyResourcesFolderFromAppBundle(QString folder){
+    QString folderLocation = QStandardPaths::locate(QStandardPaths::GenericDataLocation, folder, QStandardPaths::LocateDirectory);
+    if (folderLocation.isEmpty())
     {
-        QDir translationsSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/locale").absolutePath();
-        if (translationsSourceDir.exists())
+        QDir folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/"+folder).absolutePath();
+        if (folderSourceDir.exists())
         {
-            translationsLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/locale/";
+            folderLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/"+folder+"/";
             QDir writableDir;
-            writableDir.mkdir(translationsLocation);
-            copyRecursively(translationsSourceDir.absolutePath(), translationsLocation);
+            writableDir.mkdir(folderLocation);
+            copyRecursively(folderSourceDir.absolutePath(), folderLocation);
         }
     }
+}
+bool copyDataFolderFromAppBundleIfNeeded() //The method returns true if the data directory is good to go.
+{
+    //This will copy the locale folder, the notifications folder, and the sounds folder to Application Support if needed.
+    copyResourcesFolderFromAppBundle("locale");
+    copyResourcesFolderFromAppBundle("knotifications5");
+    copyResourcesFolderFromAppBundle("sounds");
 
     //This will check for the data directory and if its not present, it will run the wizard.
     QString dataLocation =
