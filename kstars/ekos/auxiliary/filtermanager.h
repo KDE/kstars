@@ -64,7 +64,7 @@ public:
      * @return exposure time in seconds.
      */
     double getFilterExposure(const QString &name = QString()) const;
-    bool setFilterExposure(double exposure);
+    bool setFilterExposure(int index, double exposure);
 
     /**
      * @brief getFilterLock Return filter that should be used when running autofocus for the supplied filter

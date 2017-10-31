@@ -530,9 +530,9 @@ double FilterManager::getFilterExposure(const QString &name) const
     return 1;
 }
 
-bool FilterManager::setFilterExposure(double exposure)
+bool FilterManager::setFilterExposure(int index, double exposure)
 {
-     QString color = m_currentFilterLabels[m_currentFilterPosition-1];
+     QString color = m_currentFilterLabels[index];
      for (int i=0; i < m_ActiveFilters.count(); i++)
      {
          if (color == m_ActiveFilters[i]->color())

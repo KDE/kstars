@@ -214,7 +214,7 @@ Focus::Focus()
     defaultScale = static_cast<FITSScale>(Options::focusEffect());
     connect(filterCombo, SIGNAL(activated(int)), this, SLOT(filterChangeWarning(int)));
 
-    //exposureIN->setValue(Options::focusExposure());
+    exposureIN->setValue(Options::focusExposure());
     toleranceIN->setValue(Options::focusTolerance());
     stepIN->setValue(Options::focusTicks());
     useAutoStar->setChecked(Options::focusAutoStarEnabled());
@@ -2765,7 +2765,9 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
     connect(exposureIN, &QDoubleSpinBox::editingFinished, [this]()
     {
         if (currentFilter)
-            filterManager->setFilterExposure(exposureIN->value());
+            filterManager->setFilterExposure(FilterPosCombo->currentIndex(), exposureIN->value());
+        else
+            Options::setFocusExposure(exposureIN->value());
     });
 
     connect(filterManager.data(), &FilterManager::labelsChanged, this, [this]()
