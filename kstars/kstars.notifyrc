@@ -1366,6 +1366,6 @@ Comment[x-test]=xxThe telescope is synced before tracking a new target in a sche
 Comment[zh_CN]=望远镜在跟踪一个新目标前已在一项 Ekos 计划作业中同步完毕
 Action=None
 [Event/EkosCaptureImageReceived]
-Name=Captured image recieved
+Name=Captured image received
 Sound=KDE-KStars-Sys-App-Message.ogg
 Action=Sound
