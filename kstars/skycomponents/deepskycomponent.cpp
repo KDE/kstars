@@ -31,6 +31,8 @@
 #include "projections/projector.h"
 #include "skyobjects/deepskyobject.h"
 
+#include "kstars_debug.h"
+
 DeepSkyComponent::DeepSkyComponent(SkyComposite *parent) : SkyComponent(parent)
 {
     m_skyMesh = SkyMesh::Instance();
@@ -148,7 +150,7 @@ void DeepSkyComponent::loadData()
     KSParser deep_sky_parser(file_name, '#', sequence, widths);
 
     deep_sky_parser.SetProgress(i18n("Loading NGC/IC objects"), 13444, 10);
-    qDebug() << "Loading NGC/IC objects";
+    qCInfo(KSTARS) << "Loading NGC/IC objects";
 
     QHash<QString, QVariant> row_content;
     while (deep_sky_parser.HasNextRow())
@@ -183,8 +185,7 @@ void DeepSkyComponent::loadData()
 
         QString suffix = row_content["suffix"].toString(); // multipliticity suffixes, eg: the 'A' in NGC 4945A
 
-        Q_ASSERT(suffix.isEmpty() || (suffix.at(0) >= QChar('A') && suffix.at(0) <= QChar('Z')) ||
-                 (suffix.at(0) >= QChar('a') && suffix.at(0) <= QChar('z')));
+        //Q_ASSERT(suffix.isEmpty() || (suffix.isEmpty() == false && suffix.at(0) > 0x40 && suffix.at(0) < 0x7B));
 
         //coordinates
         int rah     = row_content["RA_H"].toInt();
@@ -198,10 +199,9 @@ void DeepSkyComponent::loadData()
         if (!((0.0 <= rah && rah < 24.0) || (0.0 <= ram && ram < 60.0) || (0.0 <= ras && ras < 60.0) ||
               (0.0 <= dd && dd <= 90.0) || (0.0 <= dm && dm < 60.0) || (0.0 <= ds && ds < 60.0)))
         {
-            qDebug() << "Bad coordinates while processing NGC/IC object: " << cat << ingc;
-            qDebug() << "RA H:M:S = " << rah << ":" << ram << ":" << ras << "; Dec D:M:S = " << dd << ":" << dm << ":"
+            qCWarning(KSTARS) << "Bad coordinates while processing NGC/IC object: " << cat << ingc;
+            qCWarning(KSTARS) << "RA H:M:S = " << rah << ":" << ram << ":" << ras << "; Dec D:M:S = " << dd << ":" << dm << ":"
                      << ds;
-            Q_ASSERT(false);
         }
 
         //Ignore lines with no coordinate values if not debugging
@@ -387,7 +387,7 @@ void DeepSkyComponent::mergeSplitFiles()
     QDir localDir        = QFileInfo(firstFile).absoluteDir();
     QStringList catFiles = localDir.entryList(QStringList("ngcic??.dat"));
 
-    qDebug() << "Merging split NGC/IC files" << endl;
+    qCInfo(KSTARS) << "Merging split NGC/IC files" << endl;
 
     QString buffer;
     for (auto &fname : catFiles)
@@ -402,7 +402,7 @@ void DeepSkyComponent::mergeSplitFiles()
         }
         else
         {
-            qDebug() << QString("Error: Could not open %1 for reading").arg(fname) << endl;
+            qCCritical(KSTARS) << QString("Error: Could not open %1 for reading").arg(fname) << endl;
         }
     }
 
@@ -418,7 +418,7 @@ void DeepSkyComponent::mergeSplitFiles()
         {
             QString fullname = localDir.absoluteFilePath(fname);
             //DEBUG
-            qDebug() << "Removing " << fullname << " ..." << endl;
+            qCInfo(KSTARS) << "Removing " << fullname << " ..." << endl;
             QFile::remove(fullname);
         }
     }
