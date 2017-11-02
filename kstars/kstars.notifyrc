@@ -1367,5 +1367,10 @@ Comment[zh_CN]=望远镜在跟踪一个新目标前已在一项 Ekos 计划作�
 Action=None
 [Event/EkosCaptureImageReceived]
 Name=Captured image received
+Name[ca]=S'ha rebut la imatge capturada
+Name[pt]=Imagem capturada recebida
+Name[sv]=Tagen bild mottagen
+Name[uk]=Отримано захоплене зображення
+Name[x-test]=xxCaptured image receivedxx
 Sound=KDE-KStars-Sys-App-Message.ogg
 Action=Sound
