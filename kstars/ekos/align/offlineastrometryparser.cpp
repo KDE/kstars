@@ -264,7 +264,15 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
 #ifdef Q_OS_OSX
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     QString path            = env.value("PATH", "");
-    env.insert("PATH", "/usr/local/bin:" + path);
+    if (Options::astrometrySolverIsInternal())
+    {
+        env.insert("PATH", QCoreApplication::applicationDirPath() + "/netpbm/bin:" + QCoreApplication::applicationDirPath() + "/python/bin:/usr/local/bin:" + path);
+        env.insert("PYTHONPATH", QCoreApplication::applicationDirPath() + "/python/bin/site-packages");
+    }
+    else
+    {
+        env.insert("PATH", "/usr/local/bin:" + path);
+    }
     solver->setProcessEnvironment(env);
 #endif
 
