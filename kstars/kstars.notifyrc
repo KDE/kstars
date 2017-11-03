@@ -1368,6 +1368,7 @@ Action=None
 [Event/EkosCaptureImageReceived]
 Name=Captured image received
 Name[ca]=S'ha rebut la imatge capturada
+Name[ca@valencia]=S'ha rebut la imatge capturada
 Name[pt]=Imagem capturada recebida
 Name[sv]=Tagen bild mottagen
 Name[uk]=Отримано захоплене зображення
