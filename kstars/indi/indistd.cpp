@@ -23,6 +23,8 @@
 #include <QImageReader>
 #include <QStatusBar>
 
+#include "indi_debug.h"
+
 namespace ISD
 {
 GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inProperty, const QString &inElement,
@@ -197,6 +199,13 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
 
         lat.setD(np->value);
 
+        // Double check we have valid values
+        if (lng.Degrees() == 0 && lat.Degrees() ==0)
+        {
+            qCWarning(KSTARS_INDI) << "Ignoring invalid device coordinates.";
+            return;
+        }
+
         np = IUFindNumber(nvp, "ELEV");
         if (np)
             elev = np->value;
@@ -213,6 +222,8 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
             geo->setLong(lng);
             geo->setLat(lat);
         }
+
+        qCInfo(KSTARS_INDI) << "Setting location from device. Longitude:" << lng.toDMSString() << "Latitude:" << lat.toDMSString();
 
         KStars::Instance()->data()->setLocation(*geo);
     }
@@ -324,7 +335,7 @@ void GenericDevice::processBLOB(IBLOB *bp)
             ascii_data_file->setFileName(filename);
             if (!ascii_data_file->open(QIODevice::WriteOnly))
             {
-                qDebug() << "GenericDevice Error: Unable to open " << ascii_data_file->fileName() << endl;
+                qCCritical(KSTARS_INDI) << "GenericDevice Error: Unable to open " << ascii_data_file->fileName() << endl;
                 return;
             }
 
@@ -345,7 +356,7 @@ void GenericDevice::processBLOB(IBLOB *bp)
         QFile fits_temp_file(filename);
         if (!fits_temp_file.open(QIODevice::WriteOnly))
         {
-            qDebug() << "GenericDevice Error: Unable to open " << fits_temp_file.fileName() << endl;
+            qCCritical(KSTARS_INDI) << "GenericDevice Error: Unable to open " << fits_temp_file.fileName() << endl;
             return;
         }
 
