@@ -181,7 +181,8 @@ void FilterManager::setCurrentFilter(ISD::GDInterface *filter)
     connect(filter, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
     connect(filter, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
 
-    refreshFilterModel();
+    if (m_currentFilterLabels.isEmpty() == false)
+        refreshFilterModel();
 
     lastFilterOffset = m_ActiveFilters[m_currentFilterPosition-1]->offset();
 }
