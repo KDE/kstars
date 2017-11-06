@@ -56,6 +56,16 @@ void FilterManager::refreshFilterModel()
     filterModel->select();
     filterModel->setEditStrategy(QSqlTableModel::OnFieldChange);
 
+    // If we have an existing table but it doesn't match the number of current filters
+    // then we remove it.
+    if (filterModel->rowCount() > 0 && filterModel->rowCount() != m_currentFilterLabels.count())
+    {
+        for (int i=0; i < filterModel->rowCount(); i++)
+            filterModel->removeRow(i);
+
+        filterModel->select();
+    }
+
     // If it is first time, let's populate data
     if (filterModel->rowCount() == 0)
     {
