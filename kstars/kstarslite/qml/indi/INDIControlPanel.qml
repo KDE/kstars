@@ -12,6 +12,7 @@ import QtQuick 2.6
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.2
+import Qt.labs.settings 1.0
 import "../modules"
 import "../constants" 1.0
 
@@ -61,7 +62,7 @@ KSPage {
             }
 
             KSLabel {
-                text: xi18n("IP Address")
+                text: xi18n("IP Address or Hostname")
             }
 
             RowLayout {
@@ -76,7 +77,13 @@ KSPage {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.maximumWidth: parent.width*0.8
                     Layout.fillWidth: true
-                    text: ClientManagerLite.lastUsedServer
+                    //text: ClientManagerLite.lastUsedServer
+                    text: "localhost"
+
+                    Settings
+                    {
+                        property alias text : ipHost.text
+                    }
                 }
             }
 
@@ -96,7 +103,13 @@ KSPage {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.maximumWidth: parent.width*0.2
                     Layout.fillWidth: true
-                    text: ClientManagerLite.lastUsedWebManagerPort
+                    //text: ClientManagerLite.lastUsedWebManagerPort
+                    text: "8624"
+
+                    Settings
+                    {
+                        property alias text : portWebManager.text
+                    }
                 }
 
                 Button {
@@ -191,7 +204,13 @@ KSPage {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.maximumWidth: parent.width*0.2
                     Layout.fillWidth: true
-                    text: ClientManagerLite.lastUsedPort
+                    //text: ClientManagerLite.lastUsedPort
+                    text: "7624"
+
+                    Settings
+                    {
+                        property alias text : portHost.text
+                    }
                 }
 
                 Button {
@@ -241,7 +260,7 @@ KSPage {
 
             ListModel {
                 id: devicesModel
-            }
+            }            
 
             Connections {
                 target: ClientManagerLite
@@ -275,6 +294,18 @@ KSPage {
 
             onClicked: {
                 stackView.push(devicesModel.get(currentIndex).panel)
+            }
+        }
+
+        KSButton
+        {
+            id: disconnectINDI
+            visible: indiPage.connected
+            text: xi18n("Disconnect INDI");
+
+            onClicked:
+            {
+                ClientManagerLite.disconnectHost();
             }
         }
     }
