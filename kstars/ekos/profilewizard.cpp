@@ -35,18 +35,18 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
         windiPix->setPixmap(im);
 
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
-    connect(buttonBox, &QDialogButtonBox::helpRequested, this, [this]() { KStars::Instance()->appHelpActivated(); });
+    connect(buttonBox, &QDialogButtonBox::helpRequested, this, []() { KStars::Instance()->appHelpActivated(); });
     connect(buttonBox, &QDialogButtonBox::clicked, this, [this](QAbstractButton *button) {
         if (button == buttonBox->button(QDialogButtonBox::Reset))
             reset();
     });
 
     connect(discoverEkosB, &QPushButton::clicked, this,
-            [this]() { QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos.html")); });
+            []() { QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos.html")); });
     connect(videoTutorialsB, &QPushButton::clicked, this,
-            [this]() { QDesktopServices::openUrl(QUrl("https://www.youtube.com/user/QAstronomy")); });
+            []() { QDesktopServices::openUrl(QUrl("https://www.youtube.com/user/QAstronomy")); });
     connect(INDIInfoB, &QPushButton::clicked, this,
-            [this]() { QDesktopServices::openUrl(QUrl("http://indilib.org/about/discover-indi.html")); });
+            []() { QDesktopServices::openUrl(QUrl("http://indilib.org/about/discover-indi.html")); });
 
     // Intro actions
     connect(introNextB, &QPushButton::clicked, this,
