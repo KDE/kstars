@@ -763,7 +763,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
                 psize *= 2.;
             if (size > 100.)
                 psize *= 2.;
-            auto putDot = [this, psize, &lambdaDrawEllipse](float x, float y) {
+            auto putDot = [psize, &lambdaDrawEllipse](float x, float y) {
                 lambdaDrawEllipse(x - psize / 2., y - psize / 2., psize, psize);
             };
             putDot(xa, y1);
