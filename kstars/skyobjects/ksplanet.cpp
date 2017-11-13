@@ -326,8 +326,12 @@ bool KSPlanet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *
 
         EclipticToEquatorial(num->obliquity());
 
-        nutate(num);
-        aberrate(num);
+        setRA0(ra());
+        setDec0(dec());
+        apparentCoord(J2000, lastPrecessJD);
+
+        //nutate(num);
+        //aberrate(num);
     }
     else
     {
