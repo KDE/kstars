@@ -597,7 +597,13 @@ void KStars::updateTime(const bool automaticDSTchange)
     //the skymap has been completely updated.
     if (Data->clock()->isManualMode() && Data->clock()->isActive())
     {
-        QTimer::singleShot(0, Data->clock(), SLOT(manualTick()));
+        // Jasem 2017-11-13: Time for each update varies.
+        // Ideally we want to advance the simulation clock by
+        // the current clock scale (e.g. 1 hour) every 1 second
+        // of real time. However, the sky map update, depending on calculations and
+        // drawing of objects, takes variable time to complete.
+        //QTimer::singleShot(0, Data->clock(), SLOT(manualTick()));
+        QTimer::singleShot(1000, Data->clock(), SLOT(manualTick()));
     }
 }
 
