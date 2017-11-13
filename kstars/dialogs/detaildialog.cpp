@@ -519,8 +519,8 @@ void DetailDialog::createPositionTab(const KStarsDateTime &ut, GeoLocation *geo)
     //qDebug() << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString() << endl;
     Pos->RALabel->setText(i18n("RA (%1):", sEpoch));
     Pos->DecLabel->setText(i18n("DE (%1):", sEpoch));
-    Pos->RA->setText(selectedObject->ra().toHMSString());
-    Pos->Dec->setText(selectedObject->dec().toDMSString());
+    Pos->RA->setText(selectedObject->ra().toHMSString(false, true));
+    Pos->Dec->setText(selectedObject->dec().toDMSString(false, false, true));
 
     selectedObject->EquatorialToHorizontal(data->lst(), data->geo()->lat());
 
@@ -536,6 +536,9 @@ void DetailDialog::createPositionTab(const KStarsDateTime &ut, GeoLocation *geo)
     // Display the RA0 and Dec0 for objects that are outside the solar system
     // 2017-09-10 JM: Exception added for asteroids and comets since we have J2000 for them.
     // Maybe others?
+    Pos->RA0->setText(selectedObject->ra0().toHMSString(false, true));
+    Pos->Dec0->setText(selectedObject->dec0().toDMSString(false, false, true));
+#if 0
     if (!selectedObject->isSolarSystem() || selectedObject->type() == SkyObject::COMET || selectedObject->type() == SkyObject::ASTEROID)
     {
         Pos->RA0->setText(selectedObject->ra0().toHMSString());
@@ -546,6 +549,7 @@ void DetailDialog::createPositionTab(const KStarsDateTime &ut, GeoLocation *geo)
         Pos->RA0->setText("--");
         Pos->Dec0->setText("--");
     }
+#endif
 
     //Hour Angle can be negative, but dms HMS expressions cannot.
     //Here's a kludgy workaround:
