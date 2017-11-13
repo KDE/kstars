@@ -97,7 +97,8 @@ void SimClock::manualTick(bool force, bool backward)
     {
         //The single shot timer is needed because otherwise the animation is happening so frequently
         //that the kstars interface becomes too unresponsive.
-        QTimer::singleShot(1, [this,backward] { setUTC(UTC.addSecs((long double)Scale * (backward ? -1 : 1))); });
+        //QTimer::singleShot(1, [this,backward] { setUTC(UTC.addSecs((long double)Scale * (backward ? -1 : 1))); });
+        setUTC(UTC.addSecs((long double)Scale * (backward ? -1 : 1)));
     }
     else if (!ManualMode)
         tick();
@@ -166,8 +167,8 @@ void SimClock::setUTC(const KStarsDateTime &newtime)
             lastelapsed = 0;
         }
 
-        qCInfo(KSTARS) << QString("Setting clock:  UTC: %1  JD: %2")
-                        .arg(UTC.toString(), QLocale().toString((double)UTC.djd(), 'f', 2));
+        // N.B. Too much log spam when in manual mode
+        //qCInfo(KSTARS) << QString("Setting clock:  UTC: %1  JD: %2").arg(UTC.toString(), QLocale().toString((double)UTC.djd(), 'f', 2));
         emit timeChanged();
     }
     else
