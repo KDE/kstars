@@ -217,7 +217,7 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
         }
 
         // Assert that the solution of the Kepler equation E = M + e sin E is accurate to about 0.1 arcsecond
-        Q_ASSERT( fabs( E - ( m.Degrees() + ( e * 180.0 / dms::PI ) * sin( E * dms::DegToRad ) ) ) < 0.10/3600.0 );
+        //Q_ASSERT( fabs( E - ( m.Degrees() + ( e * 180.0 / dms::PI ) * sin( E * dms::DegToRad ) ) ) < 0.10/3600.0 );
 
         double sinE, cosE;
         dms E1(E);
