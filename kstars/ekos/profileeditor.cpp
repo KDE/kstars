@@ -195,6 +195,17 @@ void ProfileEditor::saveProfile()
     {
         pi->guiderhost = ui->externalGuideHost->text();
         pi->guiderport = ui->externalGuidePort->text().toInt();
+
+        if (pi->guidertype == Ekos::Guide::GUIDE_PHD2)
+        {
+            Options::setPHD2Host(pi->guiderhost);
+            Options::setPHD2Port(pi->guiderport);
+        }
+        else if (pi->guidertype == Ekos::Guide::GUIDE_LINGUIDER)
+        {
+            Options::setLinGuiderHost(pi->guiderhost);
+            Options::setLinGuiderPort(pi->guiderport);
+        }
     }
 
     // Scope list
