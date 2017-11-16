@@ -281,7 +281,7 @@ void modCalcPlanets::processLines(QTextStream &istream)
     {
         QString lineToWrite;
         QString line = istream.readLine();
-        line.trimmed();
+        line = line.trimmed();
 
         //Go through the line, looking for parameters
 
