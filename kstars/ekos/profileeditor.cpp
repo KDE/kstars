@@ -163,7 +163,7 @@ void ProfileEditor::saveProfile()
     // Remote Mode
     else
     {
-        pi->host = ui->remoteHost->text();
+        pi->host = ui->remoteHost->text().trimmed();
         pi->port = ui->remotePort->text().toInt();
         if (ui->INDIWebManagerCheck->isChecked())
             pi->INDIWebManagerPort = ui->INDIWebManagerPort->text().toInt();
