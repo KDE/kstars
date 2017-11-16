@@ -1793,7 +1793,7 @@ bool Guide::selectAutoStar()
                     if (edge == center)
                         continue;
 
-                    if (abs(center->x - edge->x) < center->width * 2 && abs(center->y - edge->y) < center->width * 2)
+                    if (fabs(center->x - edge->x) < center->width * 2 && fabs(center->y - edge->y) < center->width * 2)
                     {
                         score -= 15;
                         break;
