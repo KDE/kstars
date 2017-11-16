@@ -274,9 +274,7 @@ void KStarsData::updateTime(GeoLocation *geo, const bool automaticDSTchange)
     if (std::abs(ut().djd() - LastPlanetUpdate.djd()) > 0.01)
     {
         LastPlanetUpdate = KStarsDateTime(ut().djd());
-        //skyComposite()->updateSolarSystemBodies(&num);
-        // Jasem 2017-11-13: Using QtConcurrent can't go bad right? We'll see.
-        QtConcurrent::run(skyComposite(), &SkyMapComposite::updateSolarSystemBodies, &num);
+        skyComposite()->updateSolarSystemBodies(&num);
     }
 
     // Moon moves ~30 arcmin/hr, so update its position every minute.
