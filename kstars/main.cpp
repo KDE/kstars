@@ -20,6 +20,7 @@
 
 #include <QApplication>
 #include <QScreen>
+#include <QtGlobal>
 
 #ifdef KSTARS_LITE
 #include "kstarslite.h"
@@ -55,11 +56,11 @@ static const char notice[] = I18N_NOOP("Some images in KStars are for non-commer
 #endif
 
 
-int main(int argc, char *argv[])
 #if defined(Q_OS_ANDROID)
 // __attribute__ is needed because clang-based linking removes the main() symbol from the shared library on Android
-__attribute__ ((visibility ("default")))
+Q_DECL_EXPORT
 #endif
+int main(int argc, char *argv[])
 {
 #ifdef KSTARS_LITE
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
