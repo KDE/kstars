@@ -1,35 +1,30 @@
---- CMakeLists.txt.orig	2017-05-20 20:42:17.997533874 +0300
-+++ CMakeLists.txt	2017-05-20 20:43:31.245445501 +0300
-@@ -26,6 +26,8 @@
- 
- PROJECT(libraw)
- 
-+include(${CMAKE_TOOLCHAIN_FILE})
-+
- # ==================================================================================================
- # Library version info extraction
- 
-@@ -114,10 +116,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 47f3869..f5df332 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -114,9 +114,16 @@ INCLUDE(MacroLogFeature)
  INCLUDE(MacroOptionalFindPackage)
  INCLUDE(MacroJPEG)
  
-+IF (ANDROID)
-+    INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/android-hack)
-+ENDIF ()
++IF(${CMAKE_TOOLCHAIN_FILE} MATCHES ".*toolchain-android.cmake")
++    include(${CMAKE_TOOLCHAIN_FILE})
++ENDIF()
++INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/android-hack)
 +
  # Math library check
  
- IF(NOT WIN32)
--    FIND_LIBRARY(MATH_LIBRARY m)
-+#    FIND_LIBRARY(MATH_LIBRARY m)
-+     set(MATH_LIBRARY -lm)
+-IF(NOT WIN32)
++IF(${CMAKE_TOOLCHAIN_FILE} MATCHES ".*toolchain-android.cmake")
++    set(MATH_LIBRARY -lm) # toolchain-android.cmake can't find libm.so
++ELSEIF(NOT WIN32)
+     FIND_LIBRARY(MATH_LIBRARY m)
  ENDIF()
  
- # LCMS version 1 and 2 library check
+diff --git a/android-hack/swab.h b/android-hack/swab.h
 new file mode 100644
 index 0000000..061c61e
 --- /dev/null
-+++ android-hack/swab.h
++++ b/android-hack/swab.h
 @@ -0,0 +1,6 @@
 +
 +#pragma once
@@ -37,11 +32,13 @@ index 0000000..061c61e
 +#include <stdint.h>
 +
 +void swab(const void *from, void*to, ssize_t n);
---- internal/dcraw_common.cpp
-+++ internal/dcraw_common.cpp
-@@ -21,6 +21,24 @@
-    for more information
+diff --git a/internal/dcraw_common.cpp b/internal/dcraw_common.cpp
+index 608641a..0f991e4 100644
+--- a/internal/dcraw_common.cpp
++++ b/internal/dcraw_common.cpp
+@@ -19,6 +19,24 @@ it under the terms of the one of two licenses as you choose:
  */
+ 
  
 +#ifdef ANDROID
 +#include <swab.h>
@@ -64,9 +61,11 @@ index 0000000..061c61e
  #include <math.h>
  #define CLASS LibRaw::
  #include "libraw/libraw_types.h"
---- src/libraw_cxx.cpp     2016-05-14 09:53:59.000000000 +0300
-+++ src/libraw_cxx.cpp      2017-04-18 15:01:21.806381052 +0300
-@@ -19,6 +19,10 @@
+diff --git a/src/libraw_cxx.cpp b/src/libraw_cxx.cpp
+index c977302..2112ba8 100644
+--- a/src/libraw_cxx.cpp
++++ b/src/libraw_cxx.cpp
+@@ -16,6 +16,10 @@ it under the terms of the one of two licenses as you choose:
  
   */
  

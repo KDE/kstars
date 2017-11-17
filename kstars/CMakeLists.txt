@@ -970,6 +970,7 @@ if(NOT WIN32)
 endif(NOT WIN32)
 
 if (CFITSIO_FOUND)
+    target_include_directories(KStarsLib PUBLIC ${CFITSIO_INCLUDE_DIR})
     target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
 endif(CFITSIO_FOUND)
 
@@ -1045,7 +1046,7 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
 qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
 endif(NOT BUILD_KSTARS_LITE)
 
-if (ANDROID)
+if (CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
     add_library(kstars SHARED ${KSTARS_APP_SRCS})
     add_dependencies(KStarsLib cfitsio indi raw)
     set(ANDROID_NDK $ENV{ANDROID_NDK})

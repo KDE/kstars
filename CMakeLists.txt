@@ -40,7 +40,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Android)
     set(ANDROID TRUE)
 endif()
 
-if(BUILD_KSTARS_LITE AND ANDROID)
+if(CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
     include(${CMAKE_BINARY_DIR}/kf5/kde/install/share/ECM/cmake/ECMConfig.cmake)
 endif()
 
@@ -49,7 +49,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
 if(BUILD_KSTARS_LITE)
-    if(ANDROID)
+    if(CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
         set(QT_ANDROID $ENV{QT_ANDROID})
         include(${QT_ANDROID}/lib/cmake/Qt5/Qt5Config.cmake)
         include(${QT_ANDROID}/lib/cmake/Qt5Core/Qt5CoreConfig.cmake)
@@ -65,6 +65,9 @@ if(BUILD_KSTARS_LITE)
         include(${QT_ANDROID}/lib/cmake/Qt5Concurrent/Qt5ConcurrentConfig.cmake)
         include(${QT_ANDROID}/lib/cmake/Qt5AndroidExtras/Qt5AndroidExtrasConfig.cmake)
     else()
+        if(ANDROID)
+            list(APPEND QT_EXTRA_COMPONENTS AndroidExtras)
+        endif()
         find_package(Qt5 5.7 REQUIRED COMPONENTS Gui Qml Quick QuickControls2 Xml Svg Sql Network Positioning Concurrent ${QT_EXTRA_COMPONENTS})
     endif()
 else()
@@ -77,7 +80,7 @@ include(ECMAddAppIcon)
 include(KDEInstallDirs)
 include(MacroBoolTo01)
 include(ECMQtDeclareLoggingCategory)
-if(NOT ANDROID)
+if(NOT CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
     #We get error "could not find main method" with this module
     include(KDECompilerSettings NO_POLICY_SCOPE)
 endif()
@@ -86,7 +89,7 @@ include(FeatureSummary)
 
 # Load the frameworks we need
 if(BUILD_KSTARS_LITE)
-    if(ANDROID)
+    if(CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
         set(KF5_VERSION 5.28.0)
         set(KF5_HOST_TOOLING /usr/lib/x86_64-linux-gnu/cmake/)
         include(${CMAKE_BINARY_DIR}/kf5/kde/install/lib/cmake/KF5Config/KF5ConfigConfig.cmake)
@@ -120,23 +123,27 @@ add_definitions(${EIGEN_DEFINITIONS})
 include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
 
 ## CFITSIO Library
-if(BUILD_KSTARS_LITE)
-    if(ANDROID)
-        externalproject_add(cfitsio SOURCE_DIR "${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio"
-            URL https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio3370.tar.gz
-            PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio && dos2unix ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio/CMakeLists.txt && patch -p0 < ${CMAKE_SOURCE_DIR}/android/3rdparty/cfitsio.patch"
-            CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-            BUILD_COMMAND make cfitsio
-            BUILD_IN_SOURCE 1
-            INSTALL_COMMAND "")
-
-        set(CFITSIO_INCLUDE_DIR ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio)
-        set(CFITSIO_LIBRARIES ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio/libcfitsio.a)
-    else()
-        find_package(CFitsio REQUIRED)
+if(ANDROID)
+    if(CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
+        set(extra_cmake "-DM_LIB=-lm")
     endif()
+    externalproject_add(cfitsio SOURCE_DIR "${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio"
+        URL https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio3370.tar.gz
+        PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio && dos2unix ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio/CMakeLists.txt && patch -p1 < ${CMAKE_SOURCE_DIR}/android/3rdparty/cfitsio.patch"
+        CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} ${extra_cmake}
+        BUILD_COMMAND make cfitsio
+        BUILD_IN_SOURCE 1
+        INSTALL_COMMAND "")
+
+    set(CFITSIO_FOUND TRUE)
+    set(CFITSIO_INCLUDE_DIR PUBLIC ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio)
+    set(CFITSIO_LIBRARIES ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio/libcfitsio.a)
 else()
-    find_package(CFitsio)
+    if(BUILD_KSTARS_LITE)
+        find_package(CFitsio REQUIRED)
+    else()
+        find_package(CFitsio)
+    endif()
 endif()
 MACRO_BOOL_TO_01(CFITSIO_FOUND HAVE_CFITSIO)
 set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "http://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" TYPE OPTIONAL PURPOSE "Support for the FITS (Flexible Image Transport System) data format in KStars.")
@@ -144,12 +151,15 @@ set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "htt
 ## INDI Library
 if (ANDROID)
     set(QT_ANDROID $ENV{QT_ANDROID})
+    if(CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
+        set(extra_cmake -DCMAKE_AR=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar)
+    endif()
     externalproject_add(indi SOURCE_DIR "${CMAKE_BINARY_DIR}/android/indi"
         URL https://github.com/indilib/indi/archive/master.zip
-        CONFIGURE_COMMAND cd libindi && cmake . -DCMAKE_TOOLCHAIN_FILE=${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\
+        CONFIGURE_COMMAND cd libindi && cmake . -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\
              -DINDI_BUILD_POSIX_CLIENT=OFF -DINDI_BUILD_SERVER=OFF -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_UNITTESTS=OFF \\
-             -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_QT5_CLIENT=ON -DINDI_CALCULATE_MINMAX=ON -DCMAKE_AR=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar \\
-             -DQT_ANDROID=${QT_ANDROID} -DCFITSIO_DIR=${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio
+             -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_QT5_CLIENT=ON -DINDI_CALCULATE_MINMAX=ON \\
+             -DCFITSIO_DIR=${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio -DQT_ANDROID=${QT_ANDROID} -DCMAKE_PREFIX_PATH=${QT_ANDROID} ${extra_cmake}
         BUILD_COMMAND make -C libindi
         BUILD_IN_SOURCE 1
         INSTALL_COMMAND "")
@@ -171,14 +181,14 @@ if(BUILD_KSTARS_LITE AND ANDROID)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgomp")
 
     externalproject_add(raw SOURCE_DIR "${CMAKE_BINARY_DIR}/android/3rdparty/libraw"
-        URL https://www.libraw.org/data/LibRaw-0.17.2.tar.gz 
-        PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/libraw && wget -qO- https://github.com/LibRaw/LibRaw-cmake/archive/master.zip | jar xvf /dev/stdin && mv -f LibRaw-cmake-master/* . && patch -p0 < ${CMAKE_SOURCE_DIR}/android/3rdparty/libraw.patch"
-        CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DENABLE_OPENMP=OFF -DENABLE_LCMS=OFF
+        URL https://www.libraw.org/data/LibRaw-0.17.2.tar.gz
+        PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/libraw && wget -qO- https://github.com/LibRaw/LibRaw-cmake/archive/master.zip | jar xvf /dev/stdin && rm -rf cmake && mv -f LibRaw-cmake-master/CMakeLists.txt LibRaw-cmake-master/cmake . && patch -p1 < ${CMAKE_SOURCE_DIR}/android/3rdparty/libraw.patch"
+        CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DENABLE_OPENMP=OFF -DENABLE_LCMS=OFF
         BUILD_COMMAND make raw
         BUILD_IN_SOURCE 1
         INSTALL_COMMAND "")
     include_directories(${CMAKE_BINARY_DIR}/android/3rdparty/libraw)
-    set(LIBRAW_LIBRARIES ${CMAKE_BINARY_DIR}/android/3rdparty/libraw/libraw.a -lgnustl_static)
+    set(LIBRAW_LIBRARIES ${CMAKE_BINARY_DIR}/android/3rdparty/libraw/libraw.a)
     set(LibRaw_FOUND true)
 else()
     find_package(LibRaw)
@@ -388,7 +398,7 @@ if (NOT BUILD_KSTARS_LITE AND ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 ENDIF ()
 
 # Final package generation
-if (ANDROID)
+if (CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
     set(EXPORT_DIR "${CMAKE_BINARY_DIR}/android/kstars_build_apk/")
     set(ANDROID_APK_DIR "${CMAKE_SOURCE_DIR}/android/apk/")
     set(EXECUTABLE_DESTINATION_PATH "${EXPORT_DIR}/libs/armeabi-v7a/libkstars.so")
