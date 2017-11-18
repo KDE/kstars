@@ -119,8 +119,6 @@ class KSWizard : public QDialog
 
     void slotFinishWizard();
 
-    void slotUpdateText();
-
     void slotOpenOrCreateAstrometryFolder();
 
     void slotInstallGSC();
@@ -130,14 +128,6 @@ class KSWizard : public QDialog
     void slotCheckDownloadProgress();
 
     void slotGSCInstallerFinished();
-
-    void slotInstallPip();
-
-    void slotInstallPyfits();
-
-    void slotInstallNetpbm();
-
-    void slotInstallerFinished();
 
     void slotUpdateDataButtons();
 
@@ -155,24 +145,16 @@ class KSWizard : public QDialog
 
 #ifdef Q_OS_OSX
 
-    bool brewExists();
-
     bool pythonExists();
-
     bool GSCExists();
-
-    bool pipExists();
-
     bool pyfitsExists();
-
     bool netpbmExists();
 
     bool dataDirExists();
     bool astrometryDirExists();
+
     void updateAstrometryButtons();
 
-    QProcess *install { nullptr };
-    QProgressIndicator *installMonitor { nullptr };
     QProgressIndicator *gscMonitor { nullptr };
     QTimer *downloadMonitor { nullptr };
     QString gscZipPath;

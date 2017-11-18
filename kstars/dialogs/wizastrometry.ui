@@ -58,7 +58,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Astrometry Setup for Plate Solving Astronomical Images</string>
+        <string>Astrometry Setup for Plate Solving Astronomical Images with INDI/Ekos</string>
        </property>
       </widget>
      </item>
@@ -81,7 +81,7 @@
      <item>
       <widget class="QLabel" name="WelcomeText">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;KStars makes use of Astrometry.net to plate solve images to aid with telescope alignment.  KStars for Mac includes Astrometry.net. To run it, you need to install some programs and configure astrometry.net&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;KStars can make use of Astrometry.net to plate solve images to aid with telescope alignment. You can use the online solver without any changes. To use the offline solver, you need to verify that certain programs are installed and that astrometry is configured properly. KStars for Mac includes Astrometry.net&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -102,7 +102,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The buttons to the right should install needed programs (still experimental) or you can install them yourself from an installer, from the command line, and/or from homebrew.  Output appears below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To the right you can verify that you have the required packages installed.  If installed, a check should appear next to it.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -110,42 +110,17 @@
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QPushButton" name="pipInstall">
-           <property name="text">
-            <string>python/pip</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pyfitsInstall">
-           <property name="text">
-            <string>pyfits</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="netpbmInstall">
-           <property name="text">
-            <string>netpbm</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="spacing">
           <number>-1</number>
          </property>
          <item>
-          <widget class="QCheckBox" name="pipFound">
+          <widget class="QCheckBox" name="pythonFound">
            <property name="enabled">
             <bool>false</bool>
            </property>
            <property name="text">
-            <string/>
+            <string>Python</string>
            </property>
           </widget>
          </item>
@@ -155,7 +130,7 @@
             <bool>false</bool>
            </property>
            <property name="text">
-            <string/>
+            <string>pyfits</string>
            </property>
           </widget>
          </item>
@@ -165,7 +140,7 @@
             <bool>false</bool>
            </property>
            <property name="text">
-            <string/>
+            <string>netpbm</string>
            </property>
           </widget>
          </item>
@@ -174,19 +149,9 @@
       </layout>
      </item>
      <item>
-      <widget class="QPlainTextEdit" name="programOutput">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="astrometryFeedback">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To plate solve, you need to put index files in the following folder. See the documentation at this link: &lt;a href=&quot;http://astrometry.net/doc/readme.html&quot;&gt;Astrometry Readme&lt;/a&gt; for details on how to get files.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To plate solve, you also need to put index files in the following folder. You can install the files that you need inside Ekos.  You can also download them from the internet.  See the documentation at this link: &lt;a href=&quot;http://astrometry.net/doc/readme.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Astrometry Readme&lt;/span&gt;&lt;/a&gt; for details on how to get files.   Note that you do not need all of the index files, the ones you need depend on your field size.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
