@@ -155,32 +155,13 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     connect(data->copyKStarsData, SIGNAL(clicked()), this, SLOT(slotOpenOrCopyKStarsDataDirectory()));
     connect(astrometry->astrometryButton, SIGNAL(clicked()), this, SLOT(slotOpenOrCreateAstrometryFolder()));
     connect(data->installGSC, SIGNAL(clicked()), this, SLOT(slotInstallGSC()));
-    connect(astrometry->pipInstall, SIGNAL(clicked()), this, SLOT(slotInstallPip()));
-    connect(astrometry->pyfitsInstall, SIGNAL(clicked()), this, SLOT(slotInstallPyfits()));
-    connect(astrometry->netpbmInstall, SIGNAL(clicked()), this, SLOT(slotInstallNetpbm()));
     connect(this, SIGNAL(accepted()), this, SLOT(slotFinishWizard()));
-
-    install                 = new QProcess(this);
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    QString path            = env.value("PATH", "");
-    env.insert("PATH", "/usr/local/bin:" + path);
-    install->setProcessEnvironment(env);
-    install->setProcessChannelMode(QProcess::MergedChannels);
-    connect(install, SIGNAL(readyReadStandardOutput()), this, SLOT(slotUpdateText()));
-    connect(install, SIGNAL(readyReadStandardError()), this, SLOT(slotUpdateText()));
-    connect(install, SIGNAL(finished(int)), this, SLOT(slotInstallerFinished()));
 
     gscMonitor = new QProgressIndicator(data);
     data->GSCLayout->addWidget(gscMonitor);
     data->downloadProgress->setValue(0);
     data->downloadProgress->setEnabled(false);
     data->downloadProgress->setVisible(false);
-    installMonitor = new QProgressIndicator(astrometry);
-    astrometry->installersLayout->addWidget(installMonitor);
-
-    astrometry->programOutput->appendPlainText("Available Paths:");
-    astrometry->programOutput->appendPlainText(env.value("PATH", "No Paths!"));
-    astrometry->programOutput->appendPlainText("🔭 Installer Ready!\n");
 
 #endif
 
@@ -450,108 +431,6 @@ void KSWizard::slotGSCInstallerFinished()
 #endif
 }
 
-void KSWizard::slotInstallPip()
-{
-#ifdef Q_OS_OSX
-    astrometry->programOutput->appendPlainText("🔭 INSTALLING PIP:\n");
-    if (!pythonExists())
-    {
-        if (brewExists())
-        {
-            astrometry->programOutput->appendPlainText("/usr/local/bin/brew install python\n");
-            install->start("/usr/local/bin/brew", QStringList() << "install"
-                                                                << "python");
-            installMonitor->startAnimation();
-        }
-        else
-            KMessageBox::sorry(0,
-                               "Python is not installed.  Please install python to /usr/local/bin first, or <a "
-                               "href=http://brew.sh>install homebrew</a> and click again.",
-                               "", KMessageBox::AllowLink);
-    }
-    else
-    {
-        if (!pipExists())
-        {
-            if (brewExists())
-            {
-                astrometry->programOutput->appendPlainText("/usr/local/bin/brew install python\n");
-                install->start("/usr/local/bin/brew", QStringList() << "install"
-                                                                    << "python");
-                installMonitor->startAnimation();
-            }
-            else if (QProcess::execute("type /usr/local/bin/easy_install") == QProcess::NormalExit)
-            {
-                astrometry->programOutput->appendPlainText("/usr/local/bin/easy_install pip\n");
-                install->start("/usr/local/bin/easy_install", QStringList() << "pip");
-                installMonitor->startAnimation();
-            }
-            else
-            {
-                KMessageBox::sorry(0,
-                                   "pip failed to install with homebrew and easy_install.  Try <a "
-                                   "href=http://brew.sh>installing homebrew</a> and clicking again.",
-                                   "", KMessageBox::AllowLink);
-            }
-        }
-    }
-#endif
-}
-
-void KSWizard::slotInstallPyfits()
-{
-#ifdef Q_OS_OSX
-    astrometry->programOutput->appendPlainText("🔭 INSTALLING PYFITS:\n");
-
-    if (!pythonExists())
-    {
-        KMessageBox::sorry(0, "/usr/local/bin/python is not installed.  Please install python first.");
-    }
-    else if (!pipExists())
-    {
-        KMessageBox::sorry(0, "/usr/local/bin/pip is not installed.  Please install pip first.");
-    }
-    else
-    {
-        astrometry->programOutput->appendPlainText("/usr/local/bin/pip install pyfits\n");
-        install->start("/usr/local/bin/pip", QStringList() << "install"
-                                                           << "pyfits");
-        installMonitor->startAnimation();
-    }
-#endif
-}
-
-void KSWizard::slotInstallNetpbm()
-{
-#ifdef Q_OS_OSX
-    astrometry->programOutput->appendPlainText("🔭 INSTALLING NETPBM:\n");
-
-    if (brewExists())
-    {
-        install->start("/usr/local/bin/brew", QStringList() << "install"
-                                                            << "netpbm");
-        installMonitor->startAnimation();
-    }
-    else
-    {
-        //install->start("ruby", QStringList() << "-e" << "'$(curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install)'" << "<" << "/dev/null" << "2>" << "/dev/null");
-        //install->waitForFinished();
-        //install->start("/usr/local/bin/brew" , QStringList() << "install" << "netpbm");
-        KMessageBox::sorry(
-            0, "homebrew is not installed.  Try <a href=http://brew.sh>installing homebrew</a> and clicking again.", "",
-            KMessageBox::AllowLink);
-    }
-#endif
-}
-
-void KSWizard::slotUpdateText()
-{
-#ifdef Q_OS_OSX
-    QByteArray data = install->readAllStandardOutput();
-    astrometry->programOutput->appendPlainText(QString(data));
-#endif
-}
-
 #ifdef Q_OS_OSX
 bool KSWizard::dataDirExists()
 {
@@ -569,7 +448,9 @@ bool KSWizard::astrometryDirExists()
 
 bool KSWizard::pythonExists()
 {
-    return QProcess::execute("type /usr/local/bin/python") == QProcess::NormalExit;
+    return QFileInfo("/usr/local/bin/python").exists()||
+            QFileInfo("/usr/bin/python").exists()||
+            QFileInfo(QCoreApplication::applicationDirPath() + "/python/bin/python").exists();
 }
 bool KSWizard::GSCExists()
 {
@@ -578,74 +459,27 @@ bool KSWizard::GSCExists()
     return !GSCLocation.isEmpty();
 }
 
-bool KSWizard::pipExists()
-{
-    return QProcess::execute("type /usr/local/bin/pip") == QProcess::NormalExit;
-}
-
 bool KSWizard::pyfitsExists()
 {
-    QProcess testPyfits;
-    testPyfits.start("/usr/local/bin/pip list");
-    testPyfits.waitForFinished();
-    QString listPip(testPyfits.readAllStandardOutput());
-    qDebug() << listPip;
-    return listPip.contains("pyfits", Qt::CaseInsensitive);
+    return QFileInfo("/usr/local/lib/python2.7/site-packages/pyfits").exists()||
+            QFileInfo("/usr/lib/python2.7/site-packages/pyfits").exists()||
+            QFileInfo(QCoreApplication::applicationDirPath() + "/python/bin/site-packages/pyfits").exists();
+
 }
 
 bool KSWizard::netpbmExists()
 {
-    return QProcess::execute("type /usr/local/bin/jpegtopnm") == QProcess::NormalExit;
-}
-
-bool KSWizard::brewExists()
-{
-    return QProcess::execute("type /usr/local/bin/brew") == QProcess::NormalExit;
+    return QFileInfo("/usr/local/bin/jpegtopnm").exists()||
+            QFileInfo("/usr/bin/jpegtopnm").exists()||
+            QFileInfo(QCoreApplication::applicationDirPath() + "/netpbm/bin/jpegtopnm").exists();
 }
 
 void KSWizard::updateAstrometryButtons()
 {
     astrometry->astrometryFound->setChecked(astrometryDirExists());
-    if (astrometryDirExists())
-    {
-        astrometry->astrometryButton->setText("Open Folder");
-        astrometry->astrometryFeedback->setText("<html><head/><body><p>To plate solve, you need to put index files in "
-                                                "the following folder. See the documentation at this link: <a "
-                                                "href=http://astrometry.net/doc/readme.html>Astrometry Readme</a> for "
-                                                "details on how to get files.</p></body></html>");
-    }
-    else
-    {
-        astrometry->astrometryButton->setText("Create Folder");
-        astrometry->astrometryFeedback->setText("KStars needs to configure the astrometry.cfg file and create a folder "
-                                                "for the index files. Please click the button below to complete this "
-                                                "task.");
-    }
-
-    if (!pythonExists())
-    {
-        astrometry->pipFound->setChecked(false);
-        astrometry->pipInstall->setDisabled(false);
-        astrometry->pyfitsFound->setChecked(false);
-        astrometry->pyfitsInstall->setDisabled(false);
-    }
-    else
-    {
-        bool ifPipExists = pipExists();
-        astrometry->pipFound->setChecked(ifPipExists);
-        astrometry->pipInstall->setDisabled(ifPipExists);
-        if (ifPipExists)
-        {
-            bool ifPyfitsExists = pyfitsExists();
-            astrometry->pyfitsFound->setChecked(ifPyfitsExists);
-            astrometry->pyfitsInstall->setDisabled(ifPyfitsExists);
-        }
-    }
-
-    //Testing a random netpbm command.
-    bool ifNetpbmExists = netpbmExists();
-    astrometry->netpbmFound->setChecked(ifNetpbmExists);
-    astrometry->netpbmInstall->setDisabled(ifNetpbmExists);
+    astrometry->pythonFound->setChecked(pythonExists());
+    astrometry->pyfitsFound->setChecked(pyfitsExists());
+    astrometry->netpbmFound->setChecked(netpbmExists());
 }
 #endif
 
@@ -677,14 +511,5 @@ void KSWizard::slotUpdateDataButtons()
         data->GSCFeedback->setText("GSC was found on your system.  To use it, just take an image in the CCD simulator. "
                                    "To uninstall, just delete the gsc folder from your data directory above.");
     setButtonsEnabled();
-#endif
-}
-
-void KSWizard::slotInstallerFinished()
-{
-#ifdef Q_OS_OSX
-    astrometry->programOutput->appendPlainText("🔭 Installer Finished!\n");
-    updateAstrometryButtons();
-    installMonitor->stopAnimation();
 #endif
 }
