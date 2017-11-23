@@ -221,7 +221,7 @@ bool OpsAstrometryIndexFiles::astrometryIndicesAreAvailable()
 }
 
 void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QString &fileN, QCheckBox *checkBox,
-                                                int currentIndex, int maxIndex)
+                                                int currentIndex, int maxIndex, double fileSize)
 {
     QString indexString = QString::number(currentIndex);
     if (currentIndex < 10)
@@ -239,7 +239,17 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
 
     QNetworkReply *response = manager->get(QNetworkRequest(QUrl(indexURL)));
 
-    QTimer::singleShot(60000, response, [response, checkBox, indexDownloadProgress] { //Shut it down after 60 sec.
+
+    //Shut it down after too much time elapses.
+    //If the filesize is less  than 4 MB, it sets the timeout for 1 minute or 60000 s.
+    //If it's larger, it assumes a bad download rate of 1 Mbps (100 MB/ms)
+    //and the calculation estimates the time in milliseconds it would take to download.
+    int timeout=60000;
+    if(fileSize>4000000)
+        timeout=fileSize/100.0;
+    //qDebug()<<"Filesize: "<< fileSize << ", timeout: " << timeout;
+
+    QTimer::singleShot(timeout, response, [response, checkBox, indexDownloadProgress] {
         qDebug() << "Index File Download Timed out.";
         response->abort();
         response->deleteLater();
@@ -249,7 +259,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
             indexDownloadProgress->setVisible(false);
     });
     connect(response, &QNetworkReply::finished, this,
-            [URL, fileN, checkBox, currentIndex, maxIndex, this, response, indexString, indexDownloadProgress] {
+            [URL, fileN, checkBox, currentIndex, maxIndex, this, response, indexString, indexDownloadProgress, fileSize] {
                 response->deleteLater();
                 if (response->error() != QNetworkReply::NoError)
                     return;
@@ -302,7 +312,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
                     slotUpdate();
                 }
                 else
-                    downloadIndexFile(URL, fileN, checkBox, currentIndex + 1, maxIndex);
+                    downloadIndexFile(URL, fileN, checkBox, currentIndex + 1, maxIndex, fileSize);
             });
 }
 
@@ -321,7 +331,8 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
         progressBarName                     = progressBarName.replace('-', '_').left(10) + "_progress";
         QProgressBar *indexDownloadProgress = findChild<QProgressBar *>(progressBarName);
         QString filePath                    = astrometryDataDir + '/' + indexSetName;
-        int indexFileNum                    = indexSetName.midRef(8, 2).toInt();
+        QString fileNumString               = indexSetName.mid(8, 2);
+        int indexFileNum                    = fileNumString.toInt();
 
         if (checked)
         {
@@ -343,7 +354,12 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                     if (indexFileNum < 5)
                         maxIndex = 47;
                 }
-                downloadIndexFile(URL, filePath, checkBox, 0, maxIndex);
+                //qDebug()<<"key: " <<astrometryIndex.key(fileNumString);
+                double fileSize=1E11*qPow(astrometryIndex.key(fileNumString),-1.909); //This estimates the file size based on skymark size obtained from the index number.
+                //qDebug() << "Full file size: " << fileSize;
+                if(maxIndex!=0)
+                    fileSize/=maxIndex; //FileSize is divided between multiple files for some index series.
+                downloadIndexFile(URL, filePath, checkBox, 0, maxIndex,fileSize);
             }
             else
             {
