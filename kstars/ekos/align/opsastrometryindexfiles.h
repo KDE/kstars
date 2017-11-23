@@ -35,7 +35,7 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
   private:
     bool getAstrometryDataDir(QString &dataDir);
     void downloadIndexFile(const QString &URL, const QString &fileN, QCheckBox *checkBox, int currentIndex,
-                           int maxIndex);
+                           int maxIndex, double fileSize);
     bool astrometryIndicesAreAvailable();
 
     KConfigDialog *m_ConfigDialog { nullptr };
