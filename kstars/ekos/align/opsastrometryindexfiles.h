@@ -6,6 +6,7 @@
 #include <QDialog>
 #include <QMap>
 #include <QString>
+#include <QDir>
 
 class QNetworkAccessManager;
 
@@ -37,10 +38,15 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
     void downloadIndexFile(const QString &URL, const QString &fileN, QCheckBox *checkBox, int currentIndex,
                            int maxIndex, double fileSize);
     bool astrometryIndicesAreAvailable();
+    void setDownloadInfoVisible(QString indexSeriesName,QCheckBox *checkBox, bool set);
+    bool fileCountMatches(QDir directory, QString indexName);
+    void disconnectDownload(QMetaObject::Connection *cancelConnection, QMetaObject::Connection *replyConnection, QMetaObject::Connection *percentConnection);
 
     KConfigDialog *m_ConfigDialog { nullptr };
     Align *alignModule { nullptr };
     QNetworkAccessManager *manager { nullptr };
     QMap<float, QString> astrometryIndex;
+    int downloadSpeed; //bytes per millisecond
+    int actualdownloadSpeed; //bytes per millisecond
 };
 }

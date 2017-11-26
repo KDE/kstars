@@ -16,6 +16,9 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
 {
     setupUi(this);
 
+    downloadSpeed=100;
+    actualdownloadSpeed=downloadSpeed;
+
     alignModule = parent;
     manager     = new QNetworkAccessManager();
 
@@ -52,11 +55,29 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
     }
 
     QList<QProgressBar *> progressBars = findChildren<QProgressBar *>();
+    QList<QLabel *> qLabels = findChildren<QLabel *>();
+    QList<QPushButton *> qButtons = findChildren<QPushButton *>();
 
     for (auto &bar : progressBars)
     {
         bar->setVisible(false);
+        bar->setTextVisible(false);
     }
+
+    for (auto &button : qButtons)
+    {
+        button->setVisible(false);
+    }
+
+    for (QLabel * label: qLabels)
+    {
+        if(label->text().contains("info")||label->text().contains("perc"))
+        {
+            label->setVisible(false);
+        }
+    }
+
+
 }
 
 OpsAstrometryIndexFiles::~OpsAstrometryIndexFiles()
@@ -92,10 +113,12 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
     for (auto &indexName : indexList)
     {
-        indexName                = indexName.replace('-', '_').left(10);
-        QCheckBox *indexCheckBox = findChild<QCheckBox *>(indexName);
-        if (indexCheckBox)
-            indexCheckBox->setChecked(true);
+        if(fileCountMatches(directory,indexName)){
+            indexName                = indexName.replace('-', '_').left(10);
+            QCheckBox *indexCheckBox = findChild<QCheckBox *>(indexName);
+            if (indexCheckBox)
+                indexCheckBox->setChecked(true);
+        }
     }
 
     QList<QCheckBox *> checkboxes = findChildren<QCheckBox *>();
@@ -148,6 +171,19 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
         last_skymarksize = skymarksize;
     }
+}
+
+bool OpsAstrometryIndexFiles::fileCountMatches(QDir directory, QString indexName){
+    QString indexNameMatch = indexName.left(10) + "*.fits";
+    QStringList list = directory.entryList(QStringList(indexNameMatch));
+    int count=0;
+    if(indexName.contains("4207")||indexName.contains("4206")||indexName.contains("4205"))
+        count = 12;
+    else if(indexName.contains("4204")||indexName.contains("4203")||indexName.contains("4202")||indexName.contains("4201")||indexName.contains("4200"))
+        count = 48;
+    else
+        count = 1;
+    return list.count()==count;
 }
 
 void OpsAstrometryIndexFiles::slotOpenIndexFileDirectory()
@@ -223,15 +259,26 @@ bool OpsAstrometryIndexFiles::astrometryIndicesAreAvailable()
 void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QString &fileN, QCheckBox *checkBox,
                                                 int currentIndex, int maxIndex, double fileSize)
 {
+    QTime downloadTime;
+    downloadTime.start();
+
     QString indexString = QString::number(currentIndex);
     if (currentIndex < 10)
         indexString = '0' + indexString;
 
-    QString indexSeriesName = checkBox->text().remove('&');
-    QProgressBar *indexDownloadProgress =
-        findChild<QProgressBar *>(indexSeriesName.replace('-', '_').left(10) + "_progress");
-    if (indexDownloadProgress && maxIndex > 0)
-        indexDownloadProgress->setValue(currentIndex*100 / maxIndex);
+    QString indexSeriesName             = checkBox->text().remove('&');
+    QProgressBar *indexDownloadProgress = findChild<QProgressBar *>(indexSeriesName.replace('-', '_').left(10) + "_progress");
+    QLabel *indexDownloadInfo           = findChild<QLabel *>(indexSeriesName.replace('-', '_').left(10) + "_info");
+    QPushButton *indexDownloadCancel    = findChild<QPushButton *>(indexSeriesName.replace('-', '_').left(10) + "_cancel");
+    QLabel *indexDownloadPerc    = findChild<QLabel *>(indexSeriesName.replace('-', '_').left(10) + "_perc");
+
+    setDownloadInfoVisible(indexSeriesName, checkBox, true);
+
+    if(indexDownloadInfo){
+        if (indexDownloadProgress && maxIndex > 0)
+            indexDownloadProgress->setValue(currentIndex*100 / maxIndex);
+        indexDownloadInfo->setText("(" + QString::number(currentIndex) + "/" + QString::number(maxIndex + 1) + ") ");
+    }
 
     QString indexURL = URL;
 
@@ -239,81 +286,139 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
 
     QNetworkReply *response = manager->get(QNetworkRequest(QUrl(indexURL)));
 
-
     //Shut it down after too much time elapses.
     //If the filesize is less  than 4 MB, it sets the timeout for 1 minute or 60000 s.
-    //If it's larger, it assumes a bad download rate of 1 Mbps (100 MB/ms)
+    //If it's larger, it assumes a bad download rate of 1 Mbps (100 bytes/ms)
     //and the calculation estimates the time in milliseconds it would take to download.
     int timeout=60000;
     if(fileSize>4000000)
-        timeout=fileSize/100.0;
+        timeout=fileSize/downloadSpeed;
     //qDebug()<<"Filesize: "<< fileSize << ", timeout: " << timeout;
 
-    QTimer::singleShot(timeout, response, [response, checkBox, indexDownloadProgress] {
-        qDebug() << "Index File Download Timed out.";
-        response->abort();
-        response->deleteLater();
-        if (checkBox)
-            checkBox->setEnabled(true);
-        if (indexDownloadProgress)
-            indexDownloadProgress->setVisible(false);
+    QMetaObject::Connection *cancelConnection = new QMetaObject::Connection();
+    QMetaObject::Connection *replyConnection = new QMetaObject::Connection();
+    QMetaObject::Connection *percentConnection = new QMetaObject::Connection();
+
+    if(indexDownloadPerc){
+        *percentConnection=connect(response,&QNetworkReply::downloadProgress,
+        [=](qint64 bytesReceived, qint64 bytesTotal){
+            if (indexDownloadProgress){
+                indexDownloadProgress->setValue(bytesReceived);
+                indexDownloadProgress->setMaximum(bytesTotal);
+            }
+            indexDownloadPerc->setText(QString::number(bytesReceived*100/bytesTotal)+"%");
+        });
+
+    }
+
+    QTimer::singleShot(timeout, response,
+    [=]() {
+        KMessageBox::error(0, i18n("Download Timed out.  Either the network is not fast enough, the file is not accessible, or you aren't connected."));
+        disconnectDownload(cancelConnection,replyConnection,percentConnection);
+        if(response){
+            response->abort();
+            response->deleteLater();
+        }
+        setDownloadInfoVisible(indexSeriesName, checkBox, false);
     });
-    connect(response, &QNetworkReply::finished, this,
-            [URL, fileN, checkBox, currentIndex, maxIndex, this, response, indexString, indexDownloadProgress, fileSize] {
-                response->deleteLater();
-                if (response->error() != QNetworkReply::NoError)
-                    return;
 
-                QByteArray responseData = response->readAll();
-                QString indexFileN      = fileN;
+    *cancelConnection=connect(indexDownloadCancel, &QPushButton::clicked,
+    [=](){
+        qDebug() << "Download Cancelled.";
+        disconnectDownload(cancelConnection,replyConnection,percentConnection);
+        if(response){
+            response->abort();
+            response->deleteLater();
+        }
+        setDownloadInfoVisible(indexSeriesName, checkBox, false);
+    });
 
-                indexFileN.replace('*', indexString);
+    *replyConnection=connect(response, &QNetworkReply::finished, this,
+    [=]() {
+        if(response){
+            disconnectDownload(cancelConnection,replyConnection,percentConnection);
+            setDownloadInfoVisible(indexSeriesName, checkBox, false);
+            response->deleteLater();
+            if (response->error() != QNetworkReply::NoError)
+                return;
 
-                QFile file(indexFileN);
-                if (QFileInfo(QFileInfo(file).path()).isWritable())
+            QByteArray responseData = response->readAll();
+            QString indexFileN      = fileN;
+
+            indexFileN.replace('*', indexString);
+
+            QFile file(indexFileN);
+            if (QFileInfo(QFileInfo(file).path()).isWritable())
+            {
+                if (!file.open(QIODevice::WriteOnly))
                 {
-                    if (!file.open(QIODevice::WriteOnly))
-                    {
-                        KMessageBox::error(0, i18n("File Write Error"));
-                        slotUpdate();
-                        return;
-                    }
-                    else
-                    {
-                        file.write(responseData.data(), responseData.size());
-                        file.close();
-                    }
-                }
-                else
-                {
-#ifdef Q_OS_OSX
-                    KMessageBox::error(0, i18n("Astrometry Folder Permissions Error"));
-#else
-                    KAuth::Action action(QStringLiteral("org.kde.kf5auth.kstars.saveindexfile"));
-                    action.setHelperId(QStringLiteral("org.kde.kf5auth.kstars"));
-                    action.setArguments(QVariantMap({ { "filename", indexFileN }, { "contents", responseData } }));
-                    KAuth::ExecuteJob *job = action.execute();
-                    if (!job->exec())
-                    {
-                        QMessageBox::information(
-                            this, "Error",
-                            QString("KAuth returned an error code: %1 %2").arg(job->error()).arg(job->errorString()));
-                        slotUpdate();
-                        return;
-                    }
-#endif
-                }
-
-                if (currentIndex == maxIndex)
-                {
-                    checkBox->setEnabled(true);
-                    if (indexDownloadProgress)
-                        indexDownloadProgress->setVisible(false);
+                    KMessageBox::error(0, i18n("File Write Error"));
                     slotUpdate();
+                    return;
                 }
                 else
-                    downloadIndexFile(URL, fileN, checkBox, currentIndex + 1, maxIndex, fileSize);
-            });
+                {
+                    file.write(responseData.data(), responseData.size());
+                    file.close();
+                    int downloadedFileSize = QFileInfo(file).size();
+                    int dtime=downloadTime.elapsed();
+                    actualdownloadSpeed=(actualdownloadSpeed+(downloadedFileSize/dtime))/2;
+                    qDebug()<<"Filesize: "<< downloadedFileSize<<", time: "<<dtime<<", inst speed: "<< downloadedFileSize/dtime<< ", averaged speed: "<< actualdownloadSpeed;
+
+                }
+            }
+            else
+            {
+#ifdef Q_OS_OSX
+                KMessageBox::error(0, i18n("Astrometry Folder Permissions Error"));
+#else
+                KAuth::Action action(QStringLiteral("org.kde.kf5auth.kstars.saveindexfile"));
+                action.setHelperId(QStringLiteral("org.kde.kf5auth.kstars"));
+                action.setArguments(QVariantMap({ { "filename", indexFileN }, { "contents", responseData } }));
+                KAuth::ExecuteJob *job = action.execute();
+                if (!job->exec())
+                {
+                    QMessageBox::information(
+                                this, "Error",
+                                QString("KAuth returned an error code: %1 %2").arg(job->error()).arg(job->errorString()));
+                    slotUpdate();
+                    return;
+                }
+#endif
+            }
+
+            if (currentIndex == maxIndex)
+            {
+                slotUpdate();
+            }
+            else
+                downloadIndexFile(URL, fileN, checkBox, currentIndex + 1, maxIndex, fileSize);
+        }
+    });
+}
+
+void OpsAstrometryIndexFiles::setDownloadInfoVisible(QString indexSeriesName, QCheckBox *checkBox, bool set){
+    QProgressBar *indexDownloadProgress = findChild<QProgressBar *>(indexSeriesName.replace('-', '_').left(10) + "_progress");
+    QLabel *indexDownloadInfo           = findChild<QLabel *>(indexSeriesName.replace('-', '_').left(10) + "_info");
+    QPushButton *indexDownloadCancel    = findChild<QPushButton *>(indexSeriesName.replace('-', '_').left(10) + "_cancel");
+    QLabel *indexDownloadPerc          = findChild<QLabel *>(indexSeriesName.replace('-', '_').left(10) + "_perc");
+    if (indexDownloadProgress)
+        indexDownloadProgress->setVisible(set);
+    if (indexDownloadInfo)
+        indexDownloadInfo->setVisible(set);
+    if (indexDownloadCancel)
+        indexDownloadCancel->setVisible(set);
+    if (indexDownloadPerc)
+        indexDownloadPerc->setVisible(set);
+    checkBox->setEnabled(!set);
+}
+void OpsAstrometryIndexFiles::disconnectDownload(QMetaObject::Connection *cancelConnection,QMetaObject::Connection *replyConnection,QMetaObject::Connection *percentConnection){
+    if(cancelConnection)
+        disconnect(*cancelConnection);
+    if(replyConnection)
+        disconnect(*replyConnection);
+    if(percentConnection)
+        disconnect(*percentConnection);
 }
 
 void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
@@ -326,27 +431,21 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
 
     if (checkBox)
     {
-        QString indexSetName                = checkBox->text().remove('&');
-        QString progressBarName             = indexSetName;
-        progressBarName                     = progressBarName.replace('-', '_').left(10) + "_progress";
-        QProgressBar *indexDownloadProgress = findChild<QProgressBar *>(progressBarName);
-        QString filePath                    = astrometryDataDir + '/' + indexSetName;
-        QString fileNumString               = indexSetName.mid(8, 2);
-        int indexFileNum                    = fileNumString.toInt();
+        QString indexSeriesName = checkBox->text().remove('&');
+        QString filePath        = astrometryDataDir + '/' + indexSeriesName;
+        QString fileNumString   = indexSeriesName.mid(8, 2);
+        int indexFileNum        = fileNumString.toInt();
 
         if (checked)
         {
             checkBox->setChecked(!checked);
             if (astrometryIndicesAreAvailable())
             {
-                if (indexDownloadProgress)
-                    indexDownloadProgress->setVisible(true);
-                checkBox->setEnabled(false);
                 QString URL;
-                if (indexSetName.startsWith(QLatin1String("index-41")))
-                    URL = "http://broiler.astrometry.net/~dstn/4100/" + indexSetName;
-                else if (indexSetName.startsWith(QLatin1String("index-42")))
-                    URL = "http://broiler.astrometry.net/~dstn/4200/" + indexSetName;
+                if (indexSeriesName.startsWith(QLatin1String("index-41")))
+                    URL = "http://broiler.astrometry.net/~dstn/4100/" + indexSeriesName;
+                else if (indexSeriesName.startsWith(QLatin1String("index-42")))
+                    URL = "http://broiler.astrometry.net/~dstn/4200/" + indexSeriesName;
                 int maxIndex = 0;
                 if (indexFileNum < 8 && URL.contains("*"))
                 {
@@ -354,9 +453,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                     if (indexFileNum < 5)
                         maxIndex = 47;
                 }
-                //qDebug()<<"key: " <<astrometryIndex.key(fileNumString);
                 double fileSize=1E11*qPow(astrometryIndex.key(fileNumString),-1.909); //This estimates the file size based on skymark size obtained from the index number.
-                //qDebug() << "Full file size: " << fileSize;
                 if(maxIndex!=0)
                     fileSize/=maxIndex; //FileSize is divided between multiple files for some index series.
                 downloadIndexFile(URL, filePath, checkBox, 0, maxIndex,fileSize);
@@ -369,7 +466,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
         else
         {
             if (KMessageBox::Continue == KMessageBox::warningContinueCancel(
-                                             NULL, "Are you sure you want to delete these index files? " + indexSetName,
+                                             NULL, "Are you sure you want to delete these index files? " + indexSeriesName,
                                              i18n("Delete File(s)"), KStandardGuiItem::cont(),
                                              KStandardGuiItem::cancel(), "delete_index_files_warning"))
             {
@@ -380,7 +477,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                     QStringList indexList = directory.entryList(nameFilter);
                     for (auto &fileName : indexList)
                     {
-                        if (fileName.contains(indexSetName.left(10)))
+                        if (fileName.contains(indexSeriesName.left(10)))
                         {
                             if (!directory.remove(fileName))
                             {
@@ -400,7 +497,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                     KAuth::Action action(QStringLiteral("org.kde.kf5auth.kstars.removeindexfileset"));
                     action.setHelperId(QStringLiteral("org.kde.kf5auth.kstars"));
                     action.setArguments(
-                        QVariantMap({ { "indexSetName", indexSetName }, { "astrometryDataDir", astrometryDataDir } }));
+                        QVariantMap({ { "indexSetName", indexSeriesName }, { "astrometryDataDir", astrometryDataDir } }));
                     KAuth::ExecuteJob *job = action.execute();
                     if (!job->exec())
                         QMessageBox::information(
