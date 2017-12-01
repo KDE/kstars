@@ -148,7 +148,6 @@ if (INDI_FOUND)
                     ekos/capture/customproperties.ui
                     # Align
                     ekos/align/align.ui
-                    ekos/align/opsekos.ui
                     ekos/align/opsastrometry.ui
                     ekos/align/opsalign.ui
                     ekos/align/opsastrometrycfg.ui
