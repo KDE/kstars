@@ -547,6 +547,7 @@ set(libkstarscomponents_SRCS
     skycomponents/coordinategrid.cpp
     skycomponents/equatorialcoordinategrid.cpp
     skycomponents/horizontalcoordinategrid.cpp
+    skycomponents/localmeridiancomponent.cpp
     skycomponents/ecliptic.cpp
     skycomponents/equator.cpp
     skycomponents/artificialhorizoncomponent.cpp

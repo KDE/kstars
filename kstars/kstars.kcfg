@@ -505,6 +505,11 @@
          <whatsthis>Toggle whether the horizontal coordinate grid is drawn in the sky map.</whatsthis>
          <default>false</default>
       </entry>
+      <entry name="ShowLocalMeridian" type="Bool">
+         <label>Draw local meridian line in the sky map?</label>
+         <whatsthis>Toggle whether the local meridian line is drawn in the sky map.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="ShowGround" type="Bool">
          <label>Draw opaque ground in the sky map?</label>
          <whatsthis>Toggle whether the region below the horizon is opaque.</whatsthis>
@@ -937,6 +942,11 @@
          <label>Color of horizon line</label>
          <whatsthis>The color for the horizon line and opaque ground.</whatsthis>
          <default>#5A3</default>
+      </entry>
+      <entry name="LocalMeridianColor" type="String">
+         <label>Color of local meridian line</label>
+         <whatsthis>The color for the local meridian line.</whatsthis>
+         <default>#0059b3</default>
       </entry>
       <entry name="MessierColor" type="String">
          <label>Color of Messier objects</label>

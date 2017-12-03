@@ -59,6 +59,7 @@ ColorScheme::ColorScheme() : FileName()
     appendItem("EqColor", i18n("Equator"), "#909090");
     appendItem("EclColor", i18n("Ecliptic"), "#613d12");
     appendItem("HorzColor", i18n("Horizon"), "#091f14");
+    appendItem("LocalMeridianColor", i18n("Local Meridian"), "#0059b3");
     appendItem("CompassColor", i18n("Compass Labels"), "#909055");
     appendItem("EquatorialGridColor", i18n("Equatorial Coordinate Grid"), "#445566");
     appendItem("HorizontalGridColor", i18n("Horizontal Coordinate Grid"), "#091f14");

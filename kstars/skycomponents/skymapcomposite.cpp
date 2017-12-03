@@ -31,6 +31,7 @@
 #include "equatorialcoordinategrid.h"
 #include "horizoncomponent.h"
 #include "horizontalcoordinategrid.h"
+#include "localmeridiancomponent.h"
 #include "ksasteroid.h"
 #include "kscomet.h"
 #ifndef KSTARS_LITE
@@ -134,6 +135,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
     addComponent(m_Stars = StarComponent::Create(this), 10);
     addComponent(m_EquatorialCoordinateGrid = new EquatorialCoordinateGrid(this));
     addComponent(m_HorizontalCoordinateGrid = new HorizontalCoordinateGrid(this));
+    addComponent(m_LocalMeridianComponent = new LocalMeridianComponent(this));
 
     // Do add to components.
     addComponent(m_CBoundLines = new ConstellationBoundaryLines(this), 80);
@@ -192,6 +194,7 @@ void SkyMapComposite::update(KSNumbers *num)
     //2. Coordinate grid
     //m_EquatorialCoordinateGrid->update( num );
     m_HorizontalCoordinateGrid->update(num);
+    m_LocalMeridianComponent->update(num);
     //3. Constellation boundaries
     //m_CBounds->update( data, num );
     //4. Constellation lines
@@ -318,6 +321,7 @@ void SkyMapComposite::draw(SkyPainter *skyp)
 
     m_EquatorialCoordinateGrid->draw(skyp);
     m_HorizontalCoordinateGrid->draw(skyp);
+    m_LocalMeridianComponent->draw(skyp);
 
     //Draw constellation boundary lines only if we draw western constellations
     if (m_Cultures->current() == "Western")

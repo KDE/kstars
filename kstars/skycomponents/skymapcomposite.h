@@ -42,6 +42,7 @@ class Equator;
 class EquatorialCoordinateGrid;
 class FlagComponent;
 class HorizontalCoordinateGrid;
+class LocalMeridianComponent;
 class HorizonComponent;
 class KSPlanet;
 class KSPlanetBase;
@@ -189,6 +190,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 
     inline EquatorialCoordinateGrid *equatorialCoordGrid() { return m_EquatorialCoordinateGrid; }
     inline HorizontalCoordinateGrid *horizontalCoordGrid() { return m_HorizontalCoordinateGrid; }
+    inline LocalMeridianComponent *localMeridianComponent() { return m_LocalMeridianComponent; }
 
     inline ConstellationArtComponent *constellationArt() { return m_ConstellationArt; }
 
@@ -244,6 +246,7 @@ class SkyMapComposite : public QObject, public SkyComposite
     ConstellationArtComponent *m_ConstellationArt { nullptr };
     EquatorialCoordinateGrid *m_EquatorialCoordinateGrid { nullptr };
     HorizontalCoordinateGrid *m_HorizontalCoordinateGrid { nullptr };
+    LocalMeridianComponent *m_LocalMeridianComponent { nullptr };
     DeepSkyComponent *m_DeepSky { nullptr };
     Equator *m_Equator { nullptr };
     ArtificialHorizonComponent *m_ArtificialHorizon { nullptr };
