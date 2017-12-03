@@ -15,6 +15,7 @@
 #FFFFFF :EqColor
 #666633 :EclColor
 #55AA33 :HorzColor
+#008000 :LocalMeridianColor
 #FFFFFF :CompassColor
 #445566 :EquatorialGridColor
 #55AA33 :HorizontalGridColor
