@@ -609,8 +609,8 @@ void DeepSkyComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion &
 //we multiply each catalog's smallest angular distance by the
 //following factors before selecting the final nearest object:
 // IC catalog = 0.8
-// NGC catalog = 0.5
-// "other" catalog = 0.4
+// NGC catalog = 0.6
+// "other" catalog = 0.6
 // Messier object = 0.25
 SkyObject *DeepSkyComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
@@ -733,7 +733,7 @@ SkyObject *DeepSkyComponent::objectNearest(SkyPoint *p, double &maxrad)
     //  }
     //}
 
-    rTry *= 0.5;
+    rTry *= 0.25;
     if (rTry < rBest)
     {
         rBest = rTry;
