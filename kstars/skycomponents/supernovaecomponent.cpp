@@ -158,6 +158,9 @@ SkyObject *SupernovaeComponent::findByName(const QString &name)
 
 SkyObject *SupernovaeComponent::objectNearest(SkyPoint *p, double &maxrad)
 {
+    if (!selected())
+        return nullptr;
+
     SkyObject *oBest = nullptr;
     double rBest     = maxrad;
 
