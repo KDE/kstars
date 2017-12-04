@@ -409,7 +409,8 @@ void SkyMapComposite::draw(SkyPainter *skyp)
 //to certain object types.
 //we multiply each object type's smallest angular distance by the
 //following factors before selecting the final nearest object:
-// faint stars = 1.0 (not weighted)
+// faint stars > 12th mag = 1.75
+// stars > 4 and < 12 = 1.5
 // stars brighter than 4th mag = 0.75
 // IC catalog = 0.8
 // NGC catalog = 0.6
@@ -431,19 +432,20 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
     //reduce rBest by 0.75 for stars brighter than 4th mag
     if (oBest && oBest->mag() < 4.0)
         rBest *= 0.75;
+    // For stars fainter than 12th mag
     else if (oBest && oBest->mag() > 12.0)
-        rBest *= 1.25;
+        rBest *= 1.75;
+    // For stars between 4th and 12th mag
+    else if (oBest)
+        rBest *= 1.5;
 
-    // TODO: Add support for deep star catalogs
-
-    //m_DeepSky internally discriminates among deepsky catalogs
-    //and renormalizes rTry
-    oTry = m_DeepSky->objectNearest(p, rTry);
+    rTry = maxrad;
+    oTry = m_Satellites->objectNearest(p, rTry);
     if (rTry < rBest)
     {
         rBest = rTry;
         oBest = oTry;
-    }
+    }    
 
     for (int i = 0; i < m_DeepStars.size(); ++i)
     {
@@ -456,10 +458,21 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
         }
     }
 
+    // TODO: Add support for deep star catalogs
+
+    //m_DeepSky internally discriminates among deepsky catalogs
+    //and renormalizes rTry
+    oTry = m_DeepSky->objectNearest(p, rTry);
+    if (oTry && rTry < rBest)
+    {
+        rBest = rTry;
+        oBest = oTry;
+    }
+
     rTry = maxrad;
     oTry = m_CustomCatalogs->objectNearest(p, rTry);
     rTry *= 0.5;
-    if (rTry < rBest)
+    if (oTry && rTry < rBest)
     {
         rBest = rTry;
         oBest = oTry;
@@ -468,7 +481,7 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
     rTry = maxrad;
     oTry = m_internetResolvedComponent->objectNearest(p, rTry);
     rTry *= 0.5;
-    if (rTry < rBest)
+    if (oTry && rTry < rBest)
     {
         rBest = rTry;
         oBest = oTry;
@@ -477,6 +490,15 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
     rTry = maxrad;
     oTry = m_manualAdditionsComponent->objectNearest(p, rTry);
     rTry *= 0.5;
+    if (oTry && rTry < rBest)
+    {
+        rBest = rTry;
+        oBest = oTry;
+    }
+
+    rTry = maxrad;
+    oTry = m_Supernovae->objectNearest(p, rTry);
+    //qCDebug(KSTARS)<<rTry<<rBest<<maxrad;
     if (rTry < rBest)
     {
         rBest = rTry;
@@ -498,23 +520,6 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
             rTry *= 0.75; // Bright comets / asteroids get some precedence.
         }
     }
-    if (rTry < rBest)
-    {
-        rBest = rTry;
-        oBest = oTry;
-    }
-
-    rTry = maxrad;
-    oTry = m_Satellites->objectNearest(p, rTry);
-    if (rTry < rBest)
-    {
-        rBest = rTry;
-        oBest = oTry;
-    }
-
-    rTry = maxrad;
-    oTry = m_Supernovae->objectNearest(p, rTry);
-    //qCDebug(KSTARS)<<rTry<<rBest<<maxrad;
     if (rTry < rBest)
     {
         rBest = rTry;
