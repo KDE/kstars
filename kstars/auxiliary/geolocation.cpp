@@ -57,7 +57,9 @@ GeoLocation::GeoLocation(double x, double y, double z, const QString &name, cons
 
 QString GeoLocation::fullName() const
 {
-    if (province().isEmpty())
+    if (country().isEmpty())
+        return translatedName();
+    else if (province().isEmpty())
     {
         return QString("%1, %2").arg(translatedName(), translatedCountry());
     }
