@@ -67,7 +67,7 @@ class ConjunctionsTool : public QFrame, public Ui::ConjunctionsDlg
     void showConjunctions(const QMap<long double, dms> &conjunctionlist, const QString &object1,
                           const QString &object2);
 
-    std::unique_ptr<SkyObject> Object1;
+    SkyObject* Object1 = nullptr;
     std::unique_ptr<KSPlanetBase> Object2; // Second object is always a planet.
     /// To store the names of Planets vs. values expected by KSPlanetBase::createPlanet()
     QHash<int, QString> pNames;

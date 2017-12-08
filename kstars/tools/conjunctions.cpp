@@ -38,6 +38,7 @@
 #include <QFileDialog>
 #include <QProgressDialog>
 #include <QStandardItemModel>
+#include <QtConcurrent>
 
 ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
 {
@@ -111,7 +112,11 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     // signals and slots connections
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
     connect(Obj1FindButton, SIGNAL(clicked()), this, SLOT(slotFindObject()));
-    connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
+    //connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
+    connect(ComputeButton, &QPushButton::clicked, [this]()
+    {
+       QtConcurrent::run(this, &ConjunctionsTool::slotCompute);
+    });
     connect(FilterTypeComboBox, SIGNAL(currentIndexChanged(int)), SLOT(slotFilterType(int)));
     connect(ClearButton, SIGNAL(clicked()), this, SLOT(slotClear()));
     connect(ExportButton, SIGNAL(clicked()), this, SLOT(slotExport()));
@@ -148,12 +153,11 @@ void ConjunctionsTool::slotFindObject()
 {
     QPointer<FindDialog> fd = new FindDialog(KStars::Instance());
     if (fd->exec() == QDialog::Accepted)
-    {
-        Object1.reset();
+    {        
         if (!fd->targetObject())
             return;
-        Object1.reset(fd->targetObject()->clone());
-        if (Object1.get() != nullptr)
+        Object1 = fd->targetObject();
+        if (Object1 != nullptr)
             Obj1FindButton->setText(Object1->name());
     }
     delete fd;
@@ -245,7 +249,7 @@ void ConjunctionsTool::slotCompute(void)
     }
 
     // Check if Object1 and Object2 are set
-    if (FilterTypeComboBox->currentIndex() == 0 && Object1.get() == nullptr)
+    if (FilterTypeComboBox->currentIndex() == 0 && Object1 == nullptr)
     {
         KMessageBox::sorry(
             nullptr, i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button."));
@@ -334,6 +338,7 @@ void ConjunctionsTool::slotCompute(void)
     {
         // Show a progress dialog while processing
         QProgressDialog progressDlg(i18n("Compute conjunction..."), i18n("Abort"), 0, objects.count(), this);
+        progressDlg.setWindowTitle(i18n("Conjunction"));
         progressDlg.setWindowModality(Qt::WindowModal);
         progressDlg.setValue(0);
 
@@ -349,7 +354,7 @@ void ConjunctionsTool::slotCompute(void)
             progressDlg.setLabelText(i18n("Compute conjunction between %1 and %2", Object2->name(), object));
 
             // Compute conjuction
-            Object1.reset(data->skyComposite()->findByName(object));
+            Object1 = data->skyComposite()->findByName(object);
             showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation, opposition),
                              object, Object2->name());
         }
