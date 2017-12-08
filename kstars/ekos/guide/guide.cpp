@@ -114,9 +114,9 @@ Guide::Guide() : QWidget()
             QString ccdName = ccd;
             ccdName = ccdName.remove(" Guider");
             setBLOBEnabled(Options::guideRemoteImagesEnabled(), ccdName);
-            guiderCombo->blockSignals(true);
+            /*guiderCombo->blockSignals(true);
             guiderCombo->setCurrentIndex(-1);
-            guiderCombo->blockSignals(false);
+            guiderCombo->blockSignals(false);*/
         }
 
     });
@@ -133,9 +133,12 @@ Guide::Guide() : QWidget()
             // Disable or enable selected CCD based on options
             QString ccdName = guiderCombo->currentText().remove(" Guider");
             setBLOBEnabled(Options::guideRemoteImagesEnabled(), ccdName);
+            checkCCD(index);
+            /*
             guiderCombo->blockSignals(true);
             guiderCombo->setCurrentIndex(-1);
             guiderCombo->blockSignals(false);
+            */
         }
 
     }
@@ -372,6 +375,17 @@ void Guide::checkCCD(int ccdNum)
     {
         currentCCD = CCDs.at(ccdNum);
 
+        if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
+            useGuideHead = true;
+        else
+            useGuideHead = false;
+
+        if (guiderType != GUIDE_INTERNAL)
+        {
+            syncCCDInfo();
+            return;
+        }
+
         //connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
                 SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
@@ -401,13 +415,7 @@ void Guide::checkCCD(int ccdNum)
                 }
             }
         }
-#endif
-
-        if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
-            useGuideHead = true;
-        else
-            useGuideHead = false;
-
+#endif        
         ISD::CCDChip *targetChip =
             currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         targetChip->setImageView(guideView, FITS_GUIDE);
@@ -519,7 +527,7 @@ void Guide::updateGuideParams()
         return;
     }
 
-    binningCombo->setEnabled(targetChip->canBin() && (guiderType == GUIDE_INTERNAL));
+    binningCombo->setEnabled(targetChip->canBin());
     int subBinX = 1, subBinY = 1;
     if (targetChip->canBin())
     {
@@ -602,7 +610,6 @@ void Guide::updateGuideParams()
             pixScaleX = 206264.8062470963552 * ccdPixelSizeX / 1000.0 / focal_length;
             pixScaleY = 206264.8062470963552 * ccdPixelSizeY / 1000.0 / focal_length;
         }
-
 
         // FOV in arcmin
         double fov_w = (w * pixScaleX) / 60.0;
@@ -1640,11 +1647,13 @@ bool Guide::setGuiderType(int type)
 
             if (Options::guideRemoteImagesEnabled() == false)
             {
-                guiderCombo->setCurrentIndex(-1);
+                //guiderCombo->setCurrentIndex(-1);
                 guiderCombo->setToolTip(i18n("Select a camera to disable remote streaming."));
             }
             else
                 guiderCombo->setEnabled(false);
+
+            updateGuideParams();
             break;
 
         case GUIDE_LINGUIDER:
@@ -1678,6 +1687,8 @@ bool Guide::setGuiderType(int type)
             }
             else
                 guiderCombo->setEnabled(false);
+
+            updateGuideParams();
 
             break;
     }
