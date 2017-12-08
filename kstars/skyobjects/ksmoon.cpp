@@ -272,8 +272,14 @@ void KSMoon::findMagnitude(const KSNumbers *)
 
 void KSMoon::findPhase(const KSSun *Sun)
 {
-    if (!Sun)
-        Sun = (const KSSun *)KStarsData::Instance()->skyComposite()->findByName("Sun");
+    if (Sun == nullptr)
+    {
+        if (defaultSun == nullptr)
+            defaultSun = dynamic_cast<KSSun*>(KStarsData::Instance()->skyComposite()->findByName("Sun"));
+        Sun = defaultSun;
+    }
+
+    Q_ASSERT(Sun != nullptr);
 
     Phase           = (ecLong() - Sun->ecLong()).Degrees(); // Phase is obviously in degrees
     double DegPhase = dms(Phase).reduce().Degrees();
