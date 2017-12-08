@@ -132,4 +132,5 @@ class KSMoon : public KSPlanetBase
 
     static QList<MoonBData> BData;
     unsigned int iPhase { 0 };
+    KSSun *defaultSun=nullptr;
 };
