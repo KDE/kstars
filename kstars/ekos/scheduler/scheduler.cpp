@@ -32,7 +32,7 @@
 #include <ekos_scheduler_debug.h>
 
 #define BAD_SCORE               -1000
-#define MAX_FAILURE_ATTEMPTS    3
+#define MAX_FAILURE_ATTEMPTS    5
 #define UPDATE_PERIOD_MS        1000
 #define SETTING_ALTITUDE_CUTOFF 3
 
