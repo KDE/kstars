@@ -2386,6 +2386,10 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
 void Capture::setFocusStatus(FocusState state)
 {
+    // Do NOT update state if in the process of meridian flip
+    if (meridianFlipStage != MF_NONE)
+        return;
+
     focusState = state;
 
     if (focusState > FOCUS_ABORTED)
