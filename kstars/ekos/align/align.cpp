@@ -5153,6 +5153,7 @@ void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
     {
         if (filterPositionPending)
         {
+            focusState = FOCUS_IDLE;
             filterPositionPending = false;
             captureAndSolve();
         }
