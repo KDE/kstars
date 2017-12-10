@@ -958,7 +958,7 @@ void Guide::setCaptureComplete()
             break;
     }
 
-    emit newStarPixmap(guideView->getTrackingBoxPixmap());
+    newStarPixmap(guideView->getTrackingBoxPixmap());
 }
 
 void Guide::appendLogText(const QString &text)
@@ -1589,6 +1589,7 @@ bool Guide::setGuiderType(int type)
             connect(internalGuider, SIGNAL(newPulse(GuideDirection,int,GuideDirection,int)), this,
                     SLOT(sendPulse(GuideDirection,int,GuideDirection,int)));
             connect(internalGuider, SIGNAL(DESwapChanged(bool)), swapCheck, SLOT(setChecked(bool)));
+            connect(internalGuider, SIGNAL(newStarPixmap(QPixmap &)), this, SIGNAL(newStarPixmap(QPixmap&)));
 
             guider = internalGuider;
 
@@ -1626,6 +1627,9 @@ bool Guide::setGuiderType(int type)
                 phd2Guider = new PHD2();
 
             guider = phd2Guider;
+            phd2Guider->setGuideView(guideView);
+
+            connect(phd2Guider, SIGNAL(newStarPixmap(QPixmap &)), this, SIGNAL(newStarPixmap(QPixmap&)));
 
             calibrateB->setEnabled(false);
             captureB->setEnabled(false);
@@ -1637,7 +1641,7 @@ bool Guide::setGuiderType(int type)
 
             controlGroup->setEnabled(false);
             infoGroup->setEnabled(false);
-            driftGraphicsGroup->setEnabled(false);
+            driftGraphicsGroup->setEnabled(true);
 
             ST4Combo->setEnabled(false);
             exposureIN->setEnabled(false);
