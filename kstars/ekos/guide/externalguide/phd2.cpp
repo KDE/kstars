@@ -10,8 +10,13 @@
 #include "phd2.h"
 
 #include "Options.h"
+#include "kspaths.h"
+#include "kstars.h"
+#include "fitsio.h"
+#include "ekos/ekosmanager.h"
 
 #include <KMessageBox>
+#include <QImage>
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -130,13 +135,11 @@ void PHD2::readPHD2()
             continue;
         }
 
-        qCDebug(KSTARS_EKOS_GUIDE) << rawString;
-
-        processJSON(jdoc.object());
+        processJSON(jdoc.object(), rawString);
     }
 }
 
-void PHD2::processJSON(const QJsonObject &jsonObj)
+void PHD2::processJSON(const QJsonObject &jsonObj, QString rawString)
 {
     PHD2MessageType messageType = PHD2_UNKNOWN;
 
@@ -155,8 +158,20 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
     }
     else if (jsonObj.contains("result"))
     {
-        messageType = PHD2_RESULT;
+        QJsonObject jsonResult = jsonObj["result"].toObject();
+        if (jsonResult.contains("frame"))
+        {
+                messageType = PHD2_STAR_IMAGE;
+                processStarImage(jsonResult);
+        }
+        else
+        {
+            messageType = PHD2_RESULT;
+        }
     }
+
+    if(messageType != PHD2_STAR_IMAGE)
+        qCDebug(KSTARS_EKOS_GUIDE) << rawString;
 
     switch (connection)
     {
@@ -362,6 +377,10 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             diff_de_arcsecs = 206.26480624709 * diff_de_pixels * ccdPixelSizeY / mountFocalLength;
 
             emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
+
+            QJsonArray args2;
+            args2<<32; //This is the size of the image that is being requested  32 x 32 pixels.
+            sendJSONRPCRequest("get_star_image", args2); //This requests a star image for the guide view.
         }
         break;
 
@@ -385,6 +404,54 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             emit newLog(i18n("PHD2 %1: %2", jsonEvent["Type"].toString(), jsonEvent["Msg"].toString()));
             break;
     }
+}
+
+void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
+{
+    //The width and height of the recieved PHD2 Star Image
+   int width =  jsonStarFrame["width"].toInt();
+   int height = jsonStarFrame["height"].toInt();
+
+   //This sets up the Temp file which will be reused for subsequent captures
+   QString filename = KSPaths::writableLocation(QStandardPaths::TempLocation) + QLatin1Literal("phd2.fits");
+
+   //This section sets up the FITS File
+   fitsfile *fptr;
+   int status=0;
+   long  fpixel = 1, naxis = 2, nelements, exposure;
+   long naxes[2] = { width, height };
+   fits_create_file(&fptr, QString("!"+filename).toLatin1().data(), &status);
+   fits_create_img(fptr, SHORT_IMG, naxis, naxes, &status);
+    //Note, this is made up.  If you want the actual exposure time, you have to request it from PHD2
+   exposure = 1;
+   fits_update_key(fptr, TLONG, "EXPOSURE", &exposure,"Total Exposure Time", &status);
+
+   //This section takes the Pixels from the JSON Document
+   //Then it converts from base64 to a QByteArray
+   //Then it creates a datastream from the QByteArray to the pixel array for the FITS File   
+   QByteArray converted = QByteArray::fromBase64(jsonStarFrame["pixels"].toString().toLocal8Bit());
+
+   //This finishes up and closes the FITS file
+   nelements = naxes[0] * naxes[1];
+   fits_write_img(fptr, TSHORT, fpixel, nelements, converted.data(), &status);
+   fits_close_file(fptr, &status);
+   fits_report_error(stderr, status);
+
+   //This loads the FITS file in the Guide FITSView
+   //Then it updates the Summary Screen
+   bool imageLoad = guideFrame->loadFITS(filename, true);
+   if (imageLoad)
+   {
+       guideFrame->updateFrame();
+       guideFrame->setTrackingBox(QRect(0,0,width,height));
+       emit newStarPixmap(guideFrame->getTrackingBoxPixmap());
+   }
+
+}
+
+void PHD2::setGuideView(FITSView *guideView)
+{
+    guideFrame = guideView;
 }
 
 void PHD2::processPHD2State(const QString &phd2State)
@@ -453,7 +520,8 @@ void PHD2::sendJSONRPCRequest(const QString &method, const QJsonArray args)
 
     QJsonDocument json_doc(jsonRPC);
 
-    emit newLog(json_doc.toJson(QJsonDocument::Compact));
+    //emit newLog(json_doc.toJson(QJsonDocument::Compact));
+    qCDebug(KSTARS_EKOS_GUIDE) << json_doc.toJson(QJsonDocument::Compact);
 
     tcpSocket->write(json_doc.toJson(QJsonDocument::Compact));
     tcpSocket->write("\r\n");

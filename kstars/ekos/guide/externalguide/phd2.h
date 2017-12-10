@@ -10,6 +10,8 @@
 #pragma once
 
 #include "../guideinterface.h"
+#include "fitsviewer/fitsview.h"
+#include <QPointer>
 
 #include <QAbstractSocket>
 #include <QJsonArray>
@@ -77,7 +79,8 @@ class PHD2 : public GuideInterface
         EQUIPMENT_CONNECTING,
         EQUIPMENT_CONNECTED
     } PHD2Connection;
-    typedef enum { PHD2_UNKNOWN, PHD2_RESULT, PHD2_EVENT, PHD2_ERROR } PHD2MessageType;
+    typedef enum { PHD2_UNKNOWN, PHD2_RESULT, PHD2_EVENT, PHD2_ERROR,
+                   PHD2_STAR_IMAGE } PHD2MessageType;
 
     PHD2();
     ~PHD2();
@@ -93,18 +96,24 @@ class PHD2 : public GuideInterface
     bool resume() override;
     bool dither(double pixels) override;
 
+    void setGuideView(FITSView *guideView);
+
   private slots:
 
     void readPHD2();
     void displayError(QAbstractSocket::SocketError socketError);
 
   private:
+
     void setEquipmentConnected(bool enable);
 
+    QPointer<FITSView> guideFrame;
+
     void sendJSONRPCRequest(const QString &method, const QJsonArray args = QJsonArray());
-    void processJSON(const QJsonObject &jsonObj);
+    void processJSON(const QJsonObject &jsonObj, QString rawString);
 
     void processPHD2Event(const QJsonObject &jsonEvent);
+    void processStarImage(const QJsonObject &jsonStarFrame);
     void processPHD2State(const QString &phd2State);
     void processPHD2Error(const QJsonObject &jsonError);
 
