@@ -599,7 +599,8 @@ class Capture : public QWidget, public Ui::Capture
 
     // Meridan flip
     double initialHA { 0 };
-    double initialRA { 0 };
+    //double initialRA { 0 };
+    SkyPoint initialMountCoords;
     bool resumeAlignmentAfterFlip { false };
     bool resumeGuidingAfterFlip { false };
     MFStage meridianFlipStage { MF_NONE };
