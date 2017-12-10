@@ -421,7 +421,7 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
    long  fpixel = 1, naxis = 2, nelements, exposure;
    long naxes[2] = { width, height };
    fits_create_file(&fptr, QString("!"+filename).toLatin1().data(), &status);
-   fits_create_img(fptr, SHORT_IMG, naxis, naxes, &status);
+   fits_create_img(fptr, USHORT_IMG, naxis, naxes, &status);
     //Note, this is made up.  If you want the actual exposure time, you have to request it from PHD2
    exposure = 1;
    fits_update_key(fptr, TLONG, "EXPOSURE", &exposure,"Total Exposure Time", &status);
@@ -433,7 +433,7 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
 
    //This finishes up and closes the FITS file
    nelements = naxes[0] * naxes[1];
-   fits_write_img(fptr, TSHORT, fpixel, nelements, converted.data(), &status);
+   fits_write_img(fptr, TUSHORT, fpixel, nelements, converted.data(), &status);
    fits_close_file(fptr, &status);
    fits_report_error(stderr, status);
 
