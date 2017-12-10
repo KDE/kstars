@@ -605,7 +605,9 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         DecEle->value = ScopeTarget->dec().Degrees();
         clientManager->sendNewNumber(EqProp);
 
-        qCDebug(KSTARS_INDI) << "ISD:Telescope: Sending coords RA " << RAEle->value << " DEC " << DecEle->value;
+        qCDebug(KSTARS_INDI) << "ISD:Telescope sending coords RA:" << ScopeTarget->ra().toHMSString() <<
+                                "(" << RAEle->value << ") DE:" << ScopeTarget->dec().toDMSString() <<
+                                "(" << DecEle->value << ")";
 
         RAEle->value  = currentRA;
         DecEle->value = currentDEC;
