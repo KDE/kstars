@@ -356,52 +356,35 @@ void Capture::start()
         first_job = jobs.first();
     }
 
+    // Record initialHA and initialMount position when we are starting fresh
+    // If recovering from deviation error, these values should not be recorded.
+    // Refocus timer should not be reset on deviation error
+    if (deviationDetected == false)
+    {
+        initialHA         = getCurrentHA();
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Initial hour angle:" << initialHA;
+        meridianFlipStage = MF_NONE;
+        // Record initial mount coordinates that we may use later to perform a meridian flip
+        if (currentTelescope)
+        {
+            double initialRA, initialDE;
+            currentTelescope->getEqCoords(&initialRA, &initialDE);
+            initialMountCoords.setRA(initialRA);
+            initialMountCoords.setDec(initialDE);
+
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Initial mount coordinates RA:" << initialMountCoords.ra().toHMSString()
+                                         << "DE:" << initialMountCoords.dec().toDMSString();
+        }
+
+
+        // start timer to measure time until next forced refocus
+        startRefocusEveryNTimer();
+    }
+
     deviationDetected = false;
     spikeDetected     = false;
 
-
-    // FIXME Migrate to Filter Manager
-#if 0
-    lastFilterOffset = 0;
-    // lastFilterOffset should be set to the offset of the current used filter so that any subsequent filter change
-    // is made against this startup value
-    if (currentFilterPosition > 0)
-    {
-        QString currentFilterName = FilterPosCombo->itemText(currentFilterPosition - 1);
-        foreach (FocusOffset *offset, filterFocusOffsets)
-        {
-            if (offset->filter == currentFilterName)
-            {
-                lastFilterOffset = offset->offset;
-                break;
-            }
-        }
-    }
-#endif
-
     ditherCounter     = Options::ditherFrames();
-    initialHA         = getCurrentHA();
-    meridianFlipStage = MF_NONE;
-
-
-    // start timer to measure time until next forced refocus
-    startRefocusEveryNTimer();
-
-    // Check if we need to update the sequence directory numbers before starting
-    /*for (int i=0; i < jobs.count(); i++)
-    {
-        QString firstDir = jobs.at(i)->getFITSDir();
-        int sequenceID=1;
-
-        for (int j=i+1; j < jobs.count(); j++)
-        {
-            if (firstDir == jobs.at(j)->getFITSDir())
-            {
-                jobs.at(i)->setFITSDir(QString("%1/Sequence_1").arg(firstDir));
-                jobs.at(j)->setFITSDir(QString("%1/Sequence_%2").arg(jobs.at(j)->getFITSDir()).arg(++sequenceID));
-            }
-        }
-    }*/
 
     state = CAPTURE_PROGRESS;
     emit newStatus(Ekos::CAPTURE_PROGRESS);
@@ -3473,7 +3456,7 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
         {
             double ra, dec;
             currentTelescope->getEqCoords(&ra, &dec);
-            double diffRA = initialRA - ra;
+            double diffRA = initialMountCoords.ra().Hours() - ra;
             // If the mount is actually flipping then we should see a difference in RA
             // which if it exceeded MF_RA_DIFF_LIMIT (4 hours) then we consider it to be
             // undertaking the flip. Otherwise, it's not flipping and let timeout takes care of
@@ -3605,9 +3588,9 @@ bool Capture::checkMeridianFlip()
         if ((guideState == GUIDE_GUIDING) || isAutoFocus)
             emit meridianFlipStarted();
 
-        double dec;
-        currentTelescope->getEqCoords(&initialRA, &dec);
-        currentTelescope->Slew(initialRA, dec);
+        //double dec;
+        //currentTelescope->getEqCoords(&initialRA, &dec);
+        currentTelescope->Slew(&initialMountCoords);
         secondsLabel->setText(i18n("Meridian Flip..."));
 
         retries = 0;
@@ -3638,9 +3621,10 @@ void Capture::checkMeridianFlipTimeout()
         }
         else
         {
-            double dec;
-            currentTelescope->getEqCoords(&initialRA, &dec);
-            currentTelescope->Slew(initialRA, dec);
+            //double dec;
+            //currentTelescope->getEqCoords(&initialRA, &dec);
+            //currentTelescope->Slew(initialRA, dec);
+            currentTelescope->Slew(&initialMountCoords);
             appendLogText(i18n("Retrying meridian flip again..."));
         }
     }
