@@ -1555,7 +1555,7 @@ void Capture::checkSeqBoundary(const QString &path)
         QString finalSeqPrefix = seqPrefix;
         finalSeqPrefix.remove("_ISO8601");
         // find the prefix first
-        if (tempName.startsWith(finalSeqPrefix) == false)
+        if (tempName.startsWith(finalSeqPrefix, Qt::CaseInsensitive) == false)
             continue;
 
         seqFileCount++;
