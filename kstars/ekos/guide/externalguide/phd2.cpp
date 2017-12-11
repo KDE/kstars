@@ -671,4 +671,21 @@ bool PHD2::dither(double pixels)
 
     return true;
 }
+
+bool PHD2::clearCalibration()
+{
+    if (connection != EQUIPMENT_CONNECTED)
+    {
+        emit newLog(i18n("PHD2 Error: Equipment not connected."));
+        return false;
+    }
+
+    QJsonArray args;
+    //This instructs PHD2 which calibration to clear.
+    args << "mount";
+    sendJSONRPCRequest("clear_calibration", args);
+
+    return true;
+}
+
 }

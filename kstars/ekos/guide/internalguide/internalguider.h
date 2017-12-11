@@ -64,6 +64,7 @@ class InternalGuider : public GuideInterface
     bool suspend() override;
     bool resume() override;
     bool dither(double pixels) override;
+    bool clearCalibration() override { return true;}
 
     bool setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY) override;
     bool setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture,

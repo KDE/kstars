@@ -62,6 +62,7 @@ class LinGuider : public GuideInterface
     bool suspend() override;
     bool resume() override;
     bool dither(double pixels) override;
+    bool clearCalibration() override { return true;}
 
   private slots:
 
