@@ -219,10 +219,15 @@ class Guide : public QWidget, public Ui::Guide
     Q_SCRIPTABLE bool abort();
 
     /** DBUS interface function.
-         * Start the calibration operation.
+         * Start the calibration operation. Note that this will not start guiding automatically.
          * @return Returns true if calibration started successfully, false otherwise.
          */
     Q_SCRIPTABLE bool calibrate();
+
+    /** DBUS interface function.
+         * Clear calibration data. Next time any guide operation is performed, a calibration is first started.
+         */
+    Q_SCRIPTABLE Q_NOREPLY void clearCalibration();
 
     /** DBUS interface function.
          * @brief dither Starts dithering process in a random direction restricted by the number of pixels specified in dither options
@@ -523,7 +528,7 @@ class Guide : public QWidget, public Ui::Guide
     QPixmap profilePixmap;
 
     // Flag to start auto calibration followed immediately by guiding
-    bool autoCalibrateGuide { false };
+    //bool autoCalibrateGuide { false };
 
     // Pointers of guider processes
     QPointer<InternalGuider> internalGuider;

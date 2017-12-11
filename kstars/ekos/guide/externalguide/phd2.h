@@ -95,6 +95,7 @@ class PHD2 : public GuideInterface
     bool suspend() override;
     bool resume() override;
     bool dither(double pixels) override;
+    bool clearCalibration() override;
 
     void setGuideView(FITSView *guideView);
 

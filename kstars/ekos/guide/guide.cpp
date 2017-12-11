@@ -57,7 +57,7 @@ Guide::Guide() : QWidget()
     subFramed = false;
 
     // To do calibrate + guide in one command
-    autoCalibrateGuide = false;
+    //autoCalibrateGuide = false;
 
     guideView = new FITSView(guideWidget, FITS_GUIDE);
     guideView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -214,8 +214,9 @@ Guide::Guide() : QWidget()
     // Stop
     connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
 
-    // Calibrate
-    connect(calibrateB, SIGNAL(clicked()), this, SLOT(calibrate()));
+    // Clear Calibrate
+    //connect(calibrateB, SIGNAL(clicked()), this, SLOT(calibrate()));
+    connect(clearCalibrationB, SIGNAL(clicked()), this, SLOT(clearCalibration()));
 
     // Guide
     connect(guideB, SIGNAL(clicked()), this, SLOT(guide()));
@@ -797,7 +798,7 @@ void Guide::setBusy(bool enable)
 
     if (enable)
     {
-        calibrateB->setEnabled(false);
+        clearCalibrationB->setEnabled(false);
         guideB->setEnabled(false);
         captureB->setEnabled(false);
         loopB->setEnabled(false);
@@ -821,15 +822,10 @@ void Guide::setBusy(bool enable)
             subFrameCheck->setEnabled(true);
         }
 
-        // All can calibrate except for PHD2
-        if (guiderType != GUIDE_PHD2)
-            calibrateB->setEnabled(true);
-
-        if (calibrationComplete || guiderType != GUIDE_INTERNAL)
-            guideB->setEnabled(true);
-
+        if (calibrationComplete)
+            clearCalibrationB->setEnabled(true);
+        guideB->setEnabled(true);
         stopB->setEnabled(false);
-
         pi->stopAnimation();
 
         connect(guideView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setTrackingStar(int,int)),
@@ -1142,6 +1138,9 @@ bool Guide::calibrate()
 
 bool Guide::guide()
 {
+    if (calibrationComplete == false)
+        return calibrate();
+
     saveSettings();
 
     bool rc = guider->guide();
@@ -1218,7 +1217,7 @@ void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
         case ISD::Telescope::MOUNT_MOVING:
             captureB->setEnabled(false);
             loopB->setEnabled(false);
-            calibrateB->setEnabled(false);
+            clearCalibrationB->setEnabled(false);
             if (newState == ISD::Telescope::MOUNT_PARKING)
                 abort();
             break;
@@ -1228,7 +1227,7 @@ void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
             {
                 captureB->setEnabled(true);
                 loopB->setEnabled(true);
-                calibrateB->setEnabled(true);
+                clearCalibrationB->setEnabled(true);
             }
     }
 }
@@ -1312,6 +1311,11 @@ void Guide::startAutoCalibrateGuide()
     // A must for auto stuff
     Options::setGuideAutoStarEnabled(true);
 
+    clearCalibration();
+
+    guide();
+
+#if 0
     if (guiderType == GUIDE_INTERNAL)
     {
         calibrationComplete = false;
@@ -1324,6 +1328,16 @@ void Guide::startAutoCalibrateGuide()
         autoCalibrateGuide  = true;
         guide();
     }
+#endif
+}
+
+void Guide::clearCalibration()
+{
+    calibrationComplete = false;
+
+    guider->clearCalibration();
+
+    appendLogText(i18n("Calibration is cleared."));
 }
 
 void Guide::setStatus(Ekos::GuideState newState)
@@ -1343,9 +1357,8 @@ void Guide::setStatus(Ekos::GuideState newState)
             externalConnectB->setEnabled(false);
             externalDisconnectB->setEnabled(true);
             captureB->setEnabled(false);
-            loopB->setEnabled(false);
-            if (guiderType == GUIDE_LINGUIDER)
-                calibrateB->setEnabled(true);
+            loopB->setEnabled(false);            
+            clearCalibrationB->setEnabled(true);
             guideB->setEnabled(true);
             setBLOBEnabled(false);
             break;
@@ -1354,7 +1367,7 @@ void Guide::setStatus(Ekos::GuideState newState)
             appendLogText(i18n("External guider disconnected."));
             externalConnectB->setEnabled(true);
             externalDisconnectB->setEnabled(false);
-            calibrateB->setEnabled(false);
+            clearCalibrationB->setEnabled(false);
             guideB->setEnabled(false);
             captureB->setEnabled(false);
             loopB->setEnabled(false);
@@ -1365,13 +1378,14 @@ void Guide::setStatus(Ekos::GuideState newState)
         case GUIDE_CALIBRATION_SUCESS:
             appendLogText(i18n("Calibration completed."));
             calibrationComplete = true;
-            if (autoCalibrateGuide)
+            /*if (autoCalibrateGuide)
             {
                 autoCalibrateGuide = false;
                 guide();
             }
             else
-                setBusy(false);
+                setBusy(false);*/
+            guide();
             break;
 
         case GUIDE_CALIBRATION_ERROR:
@@ -1595,8 +1609,8 @@ bool Guide::setGuiderType(int type)
 
             internalGuider->setRegionAxis(opsGuide->kcfg_GuideRegionAxis->currentText().toInt());
 
-            calibrateB->setEnabled(true);
-            guideB->setEnabled(false);
+            clearCalibrationB->setEnabled(true);
+            guideB->setEnabled(true);
             captureB->setEnabled(true);
             loopB->setEnabled(true);
             darkFrameCheck->setEnabled(true);
@@ -1631,7 +1645,7 @@ bool Guide::setGuiderType(int type)
 
             connect(phd2Guider, SIGNAL(newStarPixmap(QPixmap &)), this, SIGNAL(newStarPixmap(QPixmap&)));
 
-            calibrateB->setEnabled(false);
+            clearCalibrationB->setEnabled(true);
             captureB->setEnabled(false);
             loopB->setEnabled(false);
             darkFrameCheck->setEnabled(false);
@@ -1666,7 +1680,7 @@ bool Guide::setGuiderType(int type)
 
             guider = linGuider;
 
-            calibrateB->setEnabled(true);
+            clearCalibrationB->setEnabled(true);
             captureB->setEnabled(false);
             loopB->setEnabled(false);
             darkFrameCheck->setEnabled(false);

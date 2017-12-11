@@ -111,17 +111,40 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QPushButton" name="calibrateB">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
+            <item row="0" column="1">
+             <widget class="QPushButton" name="loopB">
               <property name="text">
-               <string>Calibrate</string>
+               <string>Loop</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="1" colspan="2">
+            <item row="2" column="2">
+             <widget class="QPushButton" name="clearCalibrationB">
+              <property name="minimumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Clear calibration data.</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../../data/kstars.qrc">
+                <normaloff>:/icons/breeze/default/edit-delete.svg</normaloff>:/icons/breeze/default/edit-delete.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" colspan="2">
              <widget class="QPushButton" name="guideB">
               <property name="enabled">
                <bool>false</bool>
@@ -131,14 +154,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <widget class="QPushButton" name="loopB">
-              <property name="text">
-               <string>Loop</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0" colspan="3">
+            <item row="3" column="0" colspan="2">
              <widget class="QPushButton" name="stopB">
               <property name="enabled">
                <bool>false</bool>
@@ -1238,8 +1254,6 @@
   <tabstop>captureB</tabstop>
   <tabstop>subFrameCheck</tabstop>
   <tabstop>darkFrameCheck</tabstop>
-  <tabstop>calibrateB</tabstop>
-  <tabstop>guideB</tabstop>
   <tabstop>stopB</tabstop>
   <tabstop>guiderCombo</tabstop>
   <tabstop>ST4Combo</tabstop>
@@ -1269,6 +1283,8 @@
   <tabstop>spinBox_MinPulseDEC</tabstop>
   <tabstop>spinBox_AOLimit</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../data/kstars.qrc"/>
+ </resources>
  <connections/>
 </ui>
