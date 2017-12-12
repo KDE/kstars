@@ -4031,13 +4031,7 @@ void Capture::openCalibrationDialog()
 }
 
 IPState Capture::processPreCaptureCalibrationStage()
-{
-    if (activeJob->getFrameType() != FRAME_LIGHT && guideState == GUIDE_GUIDING)
-    {
-        appendLogText(i18n("Autoguiding suspended."));
-        emit suspendGuiding();
-    }
-
+{    
     // Unpark dust cap if we have to take light images.
     if (activeJob->getFrameType() == FRAME_LIGHT && dustCap)
     {
@@ -4047,7 +4041,7 @@ IPState Capture::processPreCaptureCalibrationStage()
             dustCap->SetLightEnabled(false);
         }
 
-        // If cap is not park, park it
+        // If cap is not unparked, unpark it
         if (calibrationStage < CAL_DUSTCAP_UNPARKING && dustCap->isParked())
         {
             if (dustCap->UnPark())
@@ -4078,7 +4072,20 @@ IPState Capture::processPreCaptureCalibrationStage()
 
         calibrationStage = CAL_PRECAPTURE_COMPLETE;
 
+        if (guideState == GUIDE_SUSPENDED)
+        {
+            appendLogText(i18n("Autoguiding resumed."));
+            emit resumeGuiding();
+        }
+
+
         return IPS_OK;
+    }
+
+    if (activeJob->getFrameType() != FRAME_LIGHT && guideState == GUIDE_GUIDING)
+    {
+        appendLogText(i18n("Autoguiding suspended."));
+        emit suspendGuiding();
     }
 
     // Let's check what actions to be taken, if any, for the flat field source
