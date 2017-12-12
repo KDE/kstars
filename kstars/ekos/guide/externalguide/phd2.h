@@ -79,8 +79,19 @@ class PHD2 : public GuideInterface
         EQUIPMENT_CONNECTING,
         EQUIPMENT_CONNECTED
     } PHD2Connection;
-    typedef enum { PHD2_UNKNOWN, PHD2_RESULT, PHD2_EVENT, PHD2_ERROR,
-                   PHD2_STAR_IMAGE } PHD2MessageType;
+    typedef enum {
+        PHD2_UNKNOWN,
+        PHD2_RESULT,
+        PHD2_EVENT,
+        PHD2_ERROR,
+        PHD2_STAR_IMAGE,
+    } PHD2MessageType;
+    typedef enum {
+        NO_RESULT,
+        PIXEL_SCALE,
+        EXPOSURE_TIME,
+        CONNECTION_RESULT
+    } PHD2ResultType;
 
     PHD2();
     ~PHD2();
@@ -97,6 +108,10 @@ class PHD2 : public GuideInterface
     bool dither(double pixels) override;
     bool clearCalibration() override;
 
+    void requestPixelScale();
+    void requestStarImage(int size);
+    void requestExposureTime();
+
     void setGuideView(FITSView *guideView);
 
   private slots:
@@ -110,8 +125,11 @@ class PHD2 : public GuideInterface
 
     QPointer<FITSView> guideFrame;
 
+    QVector<QPointF> errorLog;
+
     void sendJSONRPCRequest(const QString &method, const QJsonArray args = QJsonArray());
     void processJSON(const QJsonObject &jsonObj, QString rawString);
+    bool blockLine2=false;
 
     void processPHD2Event(const QJsonObject &jsonEvent);
     void processStarImage(const QJsonObject &jsonStarFrame);
@@ -126,6 +144,9 @@ class PHD2 : public GuideInterface
     PHD2State state { STOPPED };
     PHD2Connection connection { DISCONNECTED };
     PHD2Event event { Alert };
+    PHD2ResultType desiredResult { NO_RESULT };
     uint8_t setConnectedRetries { 0 };
+
+    double pixelScale=0;
 };
 }

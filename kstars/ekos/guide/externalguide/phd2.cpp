@@ -58,6 +58,9 @@ PHD2::PHD2()
     events["GuidingDithered"]         = GuidingDithered;
     events["LockPositionLost"]        = LockPositionLost;
     events["Alert"]                   = Alert;
+
+    QDir writableDir;
+    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::TempLocation));
 }
 
 PHD2::~PHD2()
@@ -130,8 +133,17 @@ void PHD2::readPHD2()
 
         if (qjsonError.error != QJsonParseError::NoError)
         {
-            emit newLog(rawString);
-            emit newLog(qjsonError.errorString());
+            //So we don't spam the error log with image frames that accidentally get broken up.
+            if(rawString.contains("frame"))     //This prevents it from printing the first line of the error.
+                blockLine2=true;                //This will set it to watch for the second line to cause an error.
+            else if(blockLine2)                 //This will prevent it from printing the second line of the error.
+                blockLine2=false;               //After avoiding printing the error message, this will set it to look for errors again.
+            else
+            {
+                //This will still print other parsing errors that don't involve image frames.
+                emit newLog(rawString);
+                emit newLog(qjsonError.errorString());
+            }
             continue;
         }
 
@@ -158,30 +170,56 @@ void PHD2::processJSON(const QJsonObject &jsonObj, QString rawString)
     }
     else if (jsonObj.contains("result"))
     {
+        //This is a special result/message type, the Star Image.  We want to handle it separately from the others so it doesn't print massive amounts of data to the log.
         QJsonObject jsonResult = jsonObj["result"].toObject();
         if (jsonResult.contains("frame"))
         {
                 messageType = PHD2_STAR_IMAGE;
                 processStarImage(jsonResult);
+                return;
         }
         else
-        {
             messageType = PHD2_RESULT;
-        }
     }
 
-    if(messageType != PHD2_STAR_IMAGE)
-        qCDebug(KSTARS_EKOS_GUIDE) << rawString;
+    qCDebug(KSTARS_EKOS_GUIDE) << rawString;
+
+    if(messageType == PHD2_RESULT){
+        switch (desiredResult)
+        {
+            case NO_RESULT:
+            case CONNECTION_RESULT:
+                desiredResult=NO_RESULT;
+                //These will be handled below in the next switch statement.
+                break;
+
+            case PIXEL_SCALE:
+                pixelScale=jsonObj["result"].toDouble();
+                desiredResult=NO_RESULT;
+                return;
+
+            case EXPOSURE_TIME:
+                int exposurems=jsonObj["result"].toInt();
+                KStars::Instance()->ekosManager()->guideModule()->setExposure(exposurems/1000.0);
+                desiredResult=NO_RESULT;
+                return;
+        }
+    }
 
     switch (connection)
     {
         case CONNECTING:
-            if (event == Version)
+            if (event == Version){
                 connection = CONNECTED;
+                if(pixelScale==0)
+                    requestPixelScale();
+            }
             return;
 
         case CONNECTED:
             // If initial state is STOPPED, let us connect equipment
+            if(pixelScale==0)
+                requestPixelScale();
             if (state == STOPPED || state == PAUSED)
             {
                 setEquipmentConnected(true);
@@ -202,6 +240,7 @@ void PHD2::processJSON(const QJsonObject &jsonObj, QString rawString)
             {
                 connection = EQUIPMENT_CONNECTED;
                 emit newStatus(Ekos::GUIDE_CONNECTED);
+                requestPixelScale();
             }
             else if (messageType == PHD2_ERROR)
             {
@@ -273,6 +312,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             }
             emit newLog(i18n("PHD2: Guiding Started."));
             emit newStatus(Ekos::GUIDE_GUIDING);
+            requestExposureTime();
             break;
 
         case Paused:
@@ -373,14 +413,40 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             diff_ra_pixels = jsonEvent["RADistanceRaw"].toDouble();
             diff_de_pixels = jsonEvent["DECDistanceRaw"].toDouble();
 
-            diff_ra_arcsecs = 206.26480624709 * diff_ra_pixels * ccdPixelSizeX / mountFocalLength;
-            diff_de_arcsecs = 206.26480624709 * diff_de_pixels * ccdPixelSizeY / mountFocalLength;
+            //If the pixelScale is properly set from PHD2, the second block of code is not needed, but if not, we will attempt to calculate the ra and dec error without it.
+            if(pixelScale!=0)
+            {
+                diff_ra_arcsecs = diff_ra_pixels * pixelScale;
+                diff_de_arcsecs = diff_de_pixels * pixelScale;
+            }
+            else
+            {
+                diff_ra_arcsecs = 206.26480624709 * diff_ra_pixels * ccdPixelSizeX / mountFocalLength;
+                diff_de_arcsecs = 206.26480624709 * diff_de_pixels * ccdPixelSizeY / mountFocalLength;
+            }
 
-            emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
+            if (std::isfinite(diff_ra_arcsecs) && std::isfinite(diff_de_arcsecs))
+            {
+                errorLog.append(QPointF(diff_ra_arcsecs, diff_de_arcsecs));
+                if(errorLog.size()>50)
+                    errorLog.remove(0);
 
-            QJsonArray args2;
-            args2<<32; //This is the size of the image that is being requested  32 x 32 pixels.
-            sendJSONRPCRequest("get_star_image", args2); //This requests a star image for the guide view.
+                emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
+
+                double total_sqr_RA_error;
+                double total_sqr_DE_error;
+                for(int i=0;i<errorLog.size();i++)
+                {
+                    QPointF point=errorLog.at(i);
+                    total_sqr_RA_error+=point.x()*point.x();
+                    total_sqr_DE_error+=point.y()*point.y();
+                }
+
+                emit newAxisSigma(sqrt(total_sqr_RA_error/errorLog.size()), sqrt(total_sqr_DE_error/errorLog.size()));
+
+            }
+
+            requestStarImage(32); //This requests a star image for the guide view.  32 x 32 pixels
         }
         break;
 
@@ -506,6 +572,24 @@ void PHD2::processPHD2Error(const QJsonObject &jsonError)
      }*/
 }
 
+void PHD2::requestPixelScale(){
+    QJsonArray args;
+    desiredResult=PIXEL_SCALE;
+    sendJSONRPCRequest("get_pixel_scale", args);
+}
+
+void PHD2::requestExposureTime(){
+    QJsonArray args;
+    desiredResult=EXPOSURE_TIME;
+    sendJSONRPCRequest("get_exposure", args);
+}
+
+void PHD2::requestStarImage(int size){
+    QJsonArray args2;
+    args2<<size; //This is both the width and height.
+    sendJSONRPCRequest("get_star_image", args2);
+}
+
 void PHD2::sendJSONRPCRequest(const QString &method, const QJsonArray args)
 {
     QJsonObject jsonRPC;
@@ -552,6 +636,8 @@ void PHD2::setEquipmentConnected(bool enable)
     args << enable;
 
     sendJSONRPCRequest("set_connected", args);
+    desiredResult=CONNECTION_RESULT;
+
 }
 
 bool PHD2::calibrate()
@@ -587,6 +673,8 @@ bool PHD2::guide()
     args << settle;
     // Recalibrate param
     args << false;
+
+    errorLog.clear();
 
     sendJSONRPCRequest("guide", args);
 
