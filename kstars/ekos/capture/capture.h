@@ -586,7 +586,7 @@ class Capture : public QWidget, public Ui::Capture
     QTimer guideDeviationTimer;
 
     // Autofocus
-    bool isAutoFocus { false };
+    bool isInSequenceFocus { false };
     bool requiredAutoFocusStarted { false };
     bool firstAutoFocus { true };
     double focusHFR { 0 }; // HFR value as received from the Ekos focus module
@@ -644,6 +644,7 @@ class Capture : public QWidget, public Ui::Capture
 
     // How many images to capture before dithering operation is executed?
     uint8_t ditherCounter { 0 };
+    uint8_t inSequenceFocusCounter { 0 };
 
     std::unique_ptr<CustomProperties> customPropertiesDialog;
 
