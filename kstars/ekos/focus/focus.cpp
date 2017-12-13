@@ -824,12 +824,19 @@ void Focus::capture()
             return;
         }
 
-        if (FilterPosCombo->currentIndex()+1 != currentFilterPosition)
-        {            
-            filterPositionPending    = true;
-            int targetPosition = FilterPosCombo->currentIndex() + 1;
-            // Only apply change filter and offset policies. Do not lock or autofocus as we are calling this from with
-            // focus module
+        int targetPosition = FilterPosCombo->currentIndex() + 1;
+        QString lockedFilter = filterManager->getFilterLock(FilterPosCombo->currentText());
+
+        // We change filter if:
+        // 1. Target position is not equal to current position.
+        // 2. Locked filter of CURRENT filter is a different filter.
+        if (lockedFilter != "--" && lockedFilter != FilterPosCombo->currentText())
+            targetPosition = FilterPosCombo->findText(lockedFilter) + 1;
+        filterPositionPending = (targetPosition != currentFilterPosition);
+        // If either the target position is not equal to the current position, OR
+        if (filterPositionPending)
+        {
+            // Apply all policies except autofocus since we are already in autofocus module doh.
             filterManager->setFilterPosition(targetPosition, static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY|FilterManager::OFFSET_POLICY));
             return;
         }
