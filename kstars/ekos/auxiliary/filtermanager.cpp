@@ -248,7 +248,8 @@ bool FilterManager::setFilterPosition(uint8_t position, FilterPolicy policy)
     }
 
     lockedFilter = nullptr;
-    if (targetFilter->useAutoFocus() && targetFilter->lockedFilter() != "--")
+    //if (targetFilter->useAutoFocus() && targetFilter->lockedFilter() != "--")
+    if ((policy & LOCK_POLICY) && targetFilter->lockedFilter() != "--")
     {
         QString color = targetFilter->lockedFilter();
         // Search for locked filter by filter color name
