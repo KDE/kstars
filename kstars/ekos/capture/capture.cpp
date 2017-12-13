@@ -385,6 +385,7 @@ void Capture::start()
     spikeDetected     = false;
 
     ditherCounter     = Options::ditherFrames();
+    inSequenceFocusCounter = Options::inSequenceCheckFrames();
 
     state = CAPTURE_PROGRESS;
     emit newStatus(Ekos::CAPTURE_PROGRESS);
@@ -1250,12 +1251,12 @@ bool Capture::resumeSequence()
     // Otherwise, let's prepare for next exposure after making sure in-sequence focus and dithering are complete if applicable.
     else
     {
-        isAutoFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked()/* && HFRPixels->value() > 0*/);
-        if (isAutoFocus)
+        isInSequenceFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked()/* && HFRPixels->value() > 0*/);
+        if (isInSequenceFocus)
             requiredAutoFocusStarted = false;
 
         // Reset HFR pixels to file value after merdian flip
-        if (isAutoFocus && meridianFlipStage != MF_NONE)
+        if (isInSequenceFocus && meridianFlipStage != MF_NONE)
         {
             qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
             firstAutoFocus = true;
@@ -1305,8 +1306,10 @@ bool Capture::resumeSequence()
             state = CAPTURE_FOCUSING;
             emit newStatus(Ekos::CAPTURE_FOCUSING);
         }
-        else if (isAutoFocus && activeJob->getFrameType() == FRAME_LIGHT)
+        else if (isInSequenceFocus && activeJob->getFrameType() == FRAME_LIGHT && --inSequenceFocusCounter == 0)
         {
+            inSequenceFocusCounter = Options::inSequenceCheckFrames();
+
             secondsLabel->setText(i18n("Focusing..."));
             if (HFRPixels->value() == 0)
                 emit checkFocus(0.1);
@@ -1490,7 +1493,7 @@ bool Capture::resumeCapture()
     // FIXME ought to be able to combine these - only different is value passed
     //       to checkFocus()
     // 2018-08-23 Jasem: For now in-sequence-focusing takes precedense.
-    if (isAutoFocus && requiredAutoFocusStarted == false)
+    if (isInSequenceFocus && requiredAutoFocusStarted == false)
     {
         requiredAutoFocusStarted = true;
         secondsLabel->setText(i18n("Focusing..."));
@@ -2128,7 +2131,7 @@ void Capture::prepareJob(SequenceJob *job)
     }
 
     // If we haven't performed a single autofocus yet, we stop
-    if (!job->isPreview() && Options::enforceRefocusEveryN() && refocusEveryNCheck->isEnabled() && isAutoFocus == false && firstAutoFocus == true)
+    if (!job->isPreview() && Options::enforceRefocusEveryN() && refocusEveryNCheck->isEnabled() && isInSequenceFocus == false && firstAutoFocus == true)
     {
         appendLogText(i18n(
             "Manual scheduled focusing is not supported. Run Autofocus process before trying again."));
@@ -2136,10 +2139,11 @@ void Capture::prepareJob(SequenceJob *job)
         return;
     }
 
+#if 0
     if (currentFilterPosition > 0)
     {
         // If we haven't performed a single autofocus yet, we stop
-        if (!job->isPreview() && Options::autoFocusOnFilterChange() && (isAutoFocus == false && firstAutoFocus == true))
+        if (!job->isPreview() && Options::autoFocusOnFilterChange() && (isInSequenceFocus == false && firstAutoFocus == true))
         {
             appendLogText(i18n(
                 "Manual focusing post filter change is not supported. Run Autofocus process before trying again."));
@@ -2182,6 +2186,7 @@ void Capture::prepareJob(SequenceJob *job)
         }
         */
     }
+#endif
 
     preparePreCaptureActions();
 }
@@ -2417,6 +2422,7 @@ void Capture::setFocusStatus(FocusState state)
         restartRefocusEveryNTimer();
     }
 
+#if 0
     if (activeJob &&
         (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
     {
@@ -2433,9 +2439,12 @@ void Capture::setFocusStatus(FocusState state)
         }        
         return;
     }
+#endif
 
-    if ((isRefocus || isAutoFocus) && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
+    if ((isRefocus || isInSequenceFocus) && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
+        secondsLabel->setText(QString());
+
         if (focusState == FOCUS_COMPLETE)
         {
             appendLogText(i18n("Focus complete."));
@@ -2443,8 +2452,7 @@ void Capture::setFocusStatus(FocusState state)
         }
         else if (focusState == FOCUS_FAILED)
         {
-            appendLogText(i18n("Autofocus failed. Aborting exposure..."));
-            secondsLabel->setText("");
+            appendLogText(i18n("Autofocus failed. Aborting exposure..."));            
             abort();
         }
     }
@@ -2957,7 +2965,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>"
               << guideDeviation->value() << "</GuideDeviation>" << endl;
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>"
-              << HFRPixels->value() << "</Autofocus>" << endl;
+              << (Options::saveHFRToFile() ? HFRPixels->value() : 0) << "</Autofocus>" << endl;
     outstream << "<RefocusEveryN enabled='" << (refocusEveryNCheck->isChecked() ? "true" : "false") << "'>"
               << refocusEveryN->value() << "</RefocusEveryN>" << endl;
     outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>"
@@ -3589,7 +3597,7 @@ bool Capture::checkMeridianFlip()
         // If we are autoguiding, we should resume autoguiding after flip
         resumeGuidingAfterFlip = (guideState == GUIDE_GUIDING);
 
-        if ((guideState == GUIDE_GUIDING) || isAutoFocus)
+        if ((guideState == GUIDE_GUIDING) || isInSequenceFocus)
             emit meridianFlipStarted();
 
         //double dec;

@@ -1572,13 +1572,17 @@
          <label>Increase autofocus HFR value by this percentage gain and store it in Capture Module.</label>
          <default>2.5</default>
       </entry>
+      <entry name="SaveHFRToFile" type="Bool">
+         <label>When saving a sequence file, save current HFR threshold value. By default, zero value is used.</label>
+         <default>false</default>
+      </entry>
+      <entry name="InSequenceCheckFrames" type="UInt">
+         <label>Run In-Sequence HFR check after this many frames.</label>
+         <default>1</default>
+      </entry>
       <entry name="DarkLibraryDuration" type="UInt">
          <label>Reuse dark frames from the dark library for this many days. If exceeded, a new dark frame shall be captured and stored for future use.</label>
          <default>30</default>
-      </entry>
-      <entry name="AutoFocusOnFilterChange" type="Bool">
-         <label>Perform an autofocus operation when changing filter wheels during an exposure sequence.</label>
-         <default>false</default>
       </entry>
       <entry name="AutoStretch" type="Bool">
          <label>Perform auto stretch on captured images in FITS Viewer.</label>
