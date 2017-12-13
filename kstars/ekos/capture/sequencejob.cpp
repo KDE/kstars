@@ -138,7 +138,12 @@ void SequenceJob::prepareCapture()
 
             emit prepareState(CAPTURE_CHANGING_FILTER);
 
-            filterManager->setFilterPosition(targetFilter);
+            FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES;
+            // Don't perform autofocus on preview
+            if (isPreview())
+                policy = static_cast<FilterManager::FilterPolicy>(FilterManager::ALL_POLICIES & ~FilterManager::AUTOFOCUS_POLICY);
+
+            filterManager->setFilterPosition(targetFilter, policy);
         }
     }
     else
