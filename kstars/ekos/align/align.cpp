@@ -2359,10 +2359,11 @@ bool Align::captureAndSolve()
             return false;
         }
 
-        if (FilterPosCombo->currentIndex()+1 != currentFilterPosition)
+        int targetPosition = FilterPosCombo->currentIndex() + 1;
+
+        if (targetPosition > 0 && targetPosition != currentFilterPosition)
         {
             filterPositionPending    = true;
-            int targetPosition = FilterPosCombo->currentIndex() + 1;
             filterManager->setFilterPosition(targetPosition);
             return true;
         }
