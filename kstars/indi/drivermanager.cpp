@@ -1189,6 +1189,10 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
         return false;
 
     version = pcdataXMLEle(el);
+    bool versionOK=false;
+    version.toDouble(&versionOK);
+    if (versionOK == false)
+        version = "1.0";
 
     bool driverIsAvailable = checkDriverAvailability(driver);
 
