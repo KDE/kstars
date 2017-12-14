@@ -1310,6 +1310,18 @@ bool Capture::resumeSequence()
         {
             inSequenceFocusCounter = Options::inSequenceCheckFrames();
 
+            // Post meridian flip we need to reset filter _before_ running in-sequence focusing
+            // as it could have changed for whatever reason (e.g. alignment used a different filter).
+            // Then when focus process begins with the _target_ filter in place, it should take all the necessary actions to make it
+            // work for the next set of captures. This is direct reset to the filter device, not via Filter Manager.
+            if (meridianFlipStage != MF_NONE && activeJob && currentFilter)
+            {
+                int targetFilterPosition = activeJob->getTargetFilter();
+                int currentFilterPosition= filterManager->getFilterPosition();
+                if (targetFilterPosition > 0 && targetFilterPosition != currentFilterPosition)
+                    currentFilter->runCommand(INDI_SET_FILTER, &targetFilterPosition);
+            }
+
             secondsLabel->setText(i18n("Focusing..."));
             if (HFRPixels->value() == 0)
                 emit checkFocus(0.1);
