@@ -519,8 +519,8 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
                 emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
 
-                double total_sqr_RA_error;
-                double total_sqr_DE_error;
+                double total_sqr_RA_error=0.0;
+                double total_sqr_DE_error=0.0;
                 for(int i=0;i<errorLog.size();i++)
                 {
                     QPointF point=errorLog.at(i);
