@@ -54,7 +54,8 @@ class PHD2 : public GuideInterface
         GuideStep,
         GuidingDithered,
         LockPositionLost,
-        Alert
+        Alert,
+        GuideParamChange
     } PHD2Event;
     typedef enum {
         STOPPED,
@@ -84,13 +85,18 @@ class PHD2 : public GuideInterface
         PHD2_RESULT,
         PHD2_EVENT,
         PHD2_ERROR,
-        PHD2_STAR_IMAGE,
     } PHD2MessageType;
     typedef enum {
         NO_RESULT,
+        CLEAR_CALIBRATION_COMMAND_RECEIVED,
+        DITHER_COMMAND_RECEIVED,
         PIXEL_SCALE,
+        STAR_IMAGE,
+        GUIDE_COMMAND_RECEIVED,
         EXPOSURE_TIME,
-        CONNECTION_RESULT
+        CONNECTION_RESULT,
+        SET_PAUSED_COMMAND_RECEIVED,
+        STOP_CAPTURE_COMMAND_RECEIVED
     } PHD2ResultType;
 
     PHD2();
@@ -127,6 +133,7 @@ class PHD2 : public GuideInterface
 
     QVector<QPointF> errorLog;
 
+    void sendPHD2Request(const QString &method, const QJsonArray args = QJsonArray());
     void sendJSONRPCRequest(const QString &method, const QJsonArray args = QJsonArray());
     void processJSON(const QJsonObject &jsonObj, QString rawString);
     bool blockLine2=false;
@@ -140,11 +147,12 @@ class PHD2 : public GuideInterface
     qint64 methodID { 1 };
 
     QHash<QString, PHD2Event> events;
+    QHash<QString, PHD2ResultType> methodResults;
+    QVector<QPair<int, QString>> resultRequests;
 
     PHD2State state { STOPPED };
     PHD2Connection connection { DISCONNECTED };
     PHD2Event event { Alert };
-    PHD2ResultType desiredResult { NO_RESULT };
     uint8_t setConnectedRetries { 0 };
 
     double pixelScale=0;
