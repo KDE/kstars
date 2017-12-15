@@ -349,6 +349,11 @@ class Guide : public QWidget, public Ui::Guide
 
     void refreshColorScheme();
 
+    //plot slots
+    void handleVerticalPlotSizeChange();
+    void handleHorizontalPlotSizeChange();
+    //void slotAutoScaleGraph();
+
   protected slots:
     void updateTelescopeType(int index);
     void updateCCDBin(int index);
@@ -412,6 +417,10 @@ class Guide : public QWidget, public Ui::Guide
     void guideChipUpdated(ISD::CCDChip *);
 
   private:
+
+    void resizeEvent(QResizeEvent *event);
+    void buildTarget();
+
     /**
          * @brief updateGuideParams Update the guider and frame parameters due to any changes in the mount and/or ccd frame
          */
@@ -537,5 +546,10 @@ class Guide : public QWidget, public Ui::Guide
     QPointer<FITSViewer> fv;
 
     double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
+
+    QCPCurve *centralTarget { nullptr };
+    QCPCurve *yellowTarget { nullptr };
+    QCPCurve *redTarget { nullptr };
+    QCPCurve *concentricRings { nullptr };
 };
 }
