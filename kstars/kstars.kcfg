@@ -1800,7 +1800,7 @@
       </entry>
       <entry name="AstrometryDetectParity" type="Bool">
          <label>Detect parity and reuse it to speed up solver.</label>
-         <default>true</default>
+         <default>false</default>
       </entry>
       <entry name="AstrometryCustomOptions" type="String">
          <label>Additional optional astrometry.net options</label>
