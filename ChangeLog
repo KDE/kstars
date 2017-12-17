@@ -4,6 +4,45 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.8.9 (Sarin):
+=================================================================================================
+bcf13d8 2017-12-16 Robert Lancaster     Add scatter plot in guide module                                                                                                                      
+e6bb032 2017-12-15 Jasem Mutlaq         Update INDI drivers list                                                                                                                              
+2853e56 2017-12-14 Jasem Mutlaq         target filter need to be set after meridian flip and before in-sequence focusing is started in case current filter is different                       
+3f058ed 2017-12-14 Jasem Mutlaq         Init variables to zero D9326                                                                                                                          
+09e0df4 2017-12-14 Robert Lancaster     I cleaned up some of the code in the PHD2 file, added a Request List so that it remembers what it asked PHD2 to do, and added a skeleton to make it ..
+7a979bb 2017-12-14 Jasem Mutlaq         Update driver list for v1.6.0                                                                                                                         
+d895018 2017-12-14 Jasem Mutlaq         If version is not valid, set it to 1.0                                                                                                                
+b236166 2017-12-13 Jasem Mutlaq         Do not use Autofocus filter policy on preview                                                                                                         
+4b9daca 2017-12-13 Jasem Mutlaq         Improve focus filter policy                                                                                                                           
+ab0e8d2 2017-12-13 Jasem Mutlaq         Add option for when to perform in-sequence focusing                                                                                                   
+b473d01 2017-12-13 Jasem Mutlaq         Lock policy should determine lock filter search                                                                                                       
+feab1ce 2017-12-13 Jasem Mutlaq         Check target filter position is > 0                                                                                                                   
+0549957 2017-12-12 Jasem Mutlaq         Resume guiding if it was suspended due to parking dust cap before                                                                                     
+755e8df 2017-12-12 Robert Lancaster     This patch should add several improvements to the PHD2 interface in KStars.  Here is a list. 1.  Makes sure the temp directory exists so that the gu..
+1399d97 2017-12-11 Jasem Mutlaq         Remove calibration button and make it automatic with just one simple guide button. A clear calibration button is added to reset the calibration       
+d3ec2d4 2017-12-11 Jasem Mutlaq         Bump version to 2.8.9                                                                                                                                 
+c0340ce 2017-12-10 Robert Lancaster     Use USHORT for PHD2 image                                                                                                                             
+881385b 2017-12-10 Jasem Mutlaq         Make file system string comparision case insensitive so that it does not overwrite files on Windows.                                                  
+7128916 2017-12-10 Jasem Mutlaq         Do not update focus state when in meridian flip                                                                                                       
+bbe79a3 2017-12-10 Jasem Mutlaq         Set focus to IDLE on filter position ready                                                                                                            
+91c1130 2017-12-10 Robert Lancaser      Add support for star image reception from PHD2                                                                                                        
+e4fc7c3 2017-12-10 Jasem Mutlaq         Only reset initialHA on first regular startup not after deviation restart                                                                             
+c28546d 2017-12-10 Jasem Mutlaq         Increase max failure attempts                                                                                                                         
+063582f 2017-12-10 Jasem Mutlaq         Update debugging statement to show DMS                                                                                                                
+f8a0645 2017-12-08 Jasem Mutlaq         Update Guide params when using external guiders. This needs to be extensively tested as it may lead to regressions on the remote image reception fun..
+c42dd43 2017-12-08 Jasem Mutlaq         Use QtConcurrent as to not freeze KStars during the calculation. Object1 should _not_ be a unique_ptr since reset will delete the object while we ar..
+84ec267 2017-12-08 Jasem Mutlaq         Cache default Sun pointer instead of repeated search                                                                                                  
+060961b 2017-12-04 Jasem Mutlaq         Improve objectnearest search algorithm so that object selection especially for bright deep sky objects is not as furstrating                          
+4d0d6c2 2017-12-04 Jasem Mutlaq         If not selected, return nullptr for objectnearest                                                                                                     
+1b1846b 2017-12-04 Jasem Mutlaq         If there is no country defined, just return site name                                                                                                 
+59b15b4 2017-12-04 Jasem Mutlaq         Update description and text for time and location settings to avoid confusion on what they exactly do                                                 
+b675922 2017-12-03 Jasem Mutlaq         String should not contain show                                                                                                                        
+a7d91de 2017-12-03 Jasem Mutlaq         Add support for local meridian solid line                                                                                                             
+ec1b8e3 2017-12-01 Jasem Mutlaq         remove duplicate file                                                                                                                                 
+d81a8c2 2017-11-26 Robert Lancaster     Add support for percentage display while downloading astrometry index files                                                                           
+6cb541f 2017-11-23 Robert Lancaster     This patch will calculate the download time for astrometry index files and will still set it for 60 seconds for the smaller 
+
 2.8.7 (Nunki):
 =================================================================================================
 abb0ff2 2017-10-25 Jasem Mutlaq         Limit DSLR maximum resolution to the imaging resolution defined by the user on first connection. This resolution is enforced at all times to avoid d..
