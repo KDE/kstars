@@ -415,6 +415,17 @@ bool EkosManager::start()
 
     bool haveCCD = false, haveGuider = false;
 
+    if (currentProfile->guidertype == Ekos::Guide::GUIDE_PHD2)
+    {
+        Options::setPHD2Host(currentProfile->guiderhost);
+        Options::setPHD2Port(currentProfile->guiderport);
+    }
+    else if (currentProfile->guidertype == Ekos::Guide::GUIDE_LINGUIDER)
+    {
+        Options::setLinGuiderHost(currentProfile->guiderhost);
+        Options::setLinGuiderPort(currentProfile->guiderport);
+    }
+
     if (localMode)
     {
         DriverInfo *drv = driversList.value(currentProfile->mount());
