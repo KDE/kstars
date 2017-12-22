@@ -348,8 +348,10 @@ class Focus : public QWidget, public Ui::Focus
     ISD::GDInterface *currentFilter { nullptr };
     /// Current filter position
     int currentFilterPosition { -1 };
+    int fallbackFilterPosition { -1 };
     /// True if we need to change filter position and wait for result before continuing capture
     bool filterPositionPending { false };
+    bool fallbackFilterPending { false };
 
     /// List of Focusers
     QList<ISD::Focuser *> Focusers;
