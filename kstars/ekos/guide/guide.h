@@ -82,7 +82,7 @@ class Guide : public QWidget, public Ui::Guide
          * @param device The ST4 device name
          * @return Returns true if ST4 device is found and set, false otherwise.
          */
-    Q_SCRIPTABLE bool setST4(QString device);
+    Q_SCRIPTABLE bool setST4(const QString &device);
 
     /** DBUS interface function.
          * @return Returns List of registered ST4 devices.

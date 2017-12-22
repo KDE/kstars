@@ -801,12 +801,16 @@ void Guide::addST4(ISD::ST4 *newST4)
     ST4Driver = GuideDriver = ST4List[0];
 }
 
-bool Guide::setST4(QString device)
+bool Guide::setST4(const QString &device)
 {
     for (int i = 0; i < ST4List.count(); i++)
         if (ST4List.at(i)->getDeviceName() == device)
         {
             ST4Combo->setCurrentIndex(i);
+            // setST4(index) is not called UNLESS index is changed
+            // So we must make sure ST4Driver and GuideDriver are updated here as well.
+            ST4Driver = ST4List.at(i);
+            GuideDriver = ST4Driver;
             return true;
         }
 
@@ -2305,7 +2309,7 @@ void Guide::setAxisDelta(double ra, double de)
     if (driftPlot->xAxis->range().contains(ra) == false || driftPlot->yAxis->range().contains(de) == false)
     {
         driftPlot->setBackground(QBrush(Qt::gray));
-        QTimer::singleShot(0.3, this, [=](){ driftPlot->setBackground(QBrush(Qt::black));driftPlot->replot();});
+        QTimer::singleShot(300, this, [=](){ driftPlot->setBackground(QBrush(Qt::black));driftPlot->replot();});
     }
 
     driftPlot->replot();
