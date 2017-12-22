@@ -147,8 +147,7 @@ void FilterManager::reloadFilters()
 {
     qDeleteAll(m_ActiveFilters);
     currentFilter = nullptr;
-    targetFilter = nullptr;
-    lockedFilter = nullptr;
+    targetFilter = nullptr;    
     m_ActiveFilters.clear();
     operationQueue.clear();
 
@@ -245,20 +244,6 @@ bool FilterManager::setFilterPosition(uint8_t position, FilterPolicy policy)
     {
         emit ready();
         return true;
-    }
-
-    lockedFilter = nullptr;
-    //if (targetFilter->useAutoFocus() && targetFilter->lockedFilter() != "--")
-    if ((policy & LOCK_POLICY) && targetFilter->lockedFilter() != "--")
-    {
-        QString color = targetFilter->lockedFilter();
-        // Search for locked filter by filter color name
-        auto pos = std::find_if(m_ActiveFilters.begin(), m_ActiveFilters.end(), [color](OAL::Filter *oneFilter)
-        {
-                return (oneFilter->color() == color);
-    });
-        if (pos != m_ActiveFilters.end())
-            lockedFilter = *pos;
     }
 
     buildOperationQueue(FILTER_CHANGE);
@@ -394,20 +379,17 @@ void FilterManager::processSwitch(ISwitchVectorProperty *svp)
 
 void FilterManager::buildOperationQueue(FilterState operation)
 {
-    operationQueue.clear();
-    m_useLockedFilter = false;
+    operationQueue.clear();    
     m_useTargetFilter = false;
 
     switch (operation)
     {
     case FILTER_CHANGE:
-
-        if ( (m_Policy & LOCK_POLICY) && lockedFilter != nullptr && lockedFilter != currentFilter)
-            m_useLockedFilter = true;
-        if ( (m_Policy & CHANGE_POLICY) && ((m_Policy & ~LOCK_POLICY) || lockedFilter == nullptr) && targetFilter != currentFilter)
+    {
+        if ( (m_Policy & CHANGE_POLICY) && targetFilter != currentFilter)
             m_useTargetFilter = true;
 
-        if (m_useLockedFilter || m_useTargetFilter)
+        if (m_useTargetFilter)
         {            
             operationQueue.enqueue(FILTER_CHANGE);
             if (m_Policy & OFFSET_POLICY)
@@ -415,18 +397,8 @@ void FilterManager::buildOperationQueue(FilterState operation)
         }
 
         if ( (m_Policy & AUTOFOCUS_POLICY) && targetFilter->useAutoFocus())
-        {
             operationQueue.enqueue(FILTER_AUTOFOCUS);
-
-            if (lockedFilter != nullptr && lockedFilter != targetFilter)
-            {
-                m_useTargetFilter = true;
-                if (m_Policy & (CHANGE_POLICY|LOCK_POLICY))
-                    operationQueue.enqueue(FILTER_CHANGE);
-                if (m_Policy & OFFSET_POLICY)
-                    operationQueue.enqueue(FILTER_OFFSET);
-            }
-        }
+    }
         break;
 
     default:
@@ -453,9 +425,7 @@ bool FilterManager::executeOperationQueue()
     case FILTER_CHANGE:
     {
         state = FILTER_CHANGE;
-        if (m_useLockedFilter)
-            targetFilterPosition = m_ActiveFilters.indexOf(lockedFilter) + 1;
-        else if (m_useTargetFilter)
+        if (m_useTargetFilter)
             targetFilterPosition = m_ActiveFilters.indexOf(targetFilter) + 1;
         m_currentFilterDevice->runCommand(INDI_SET_FILTER, &targetFilterPosition);
         emit newStatus(state);
@@ -465,14 +435,7 @@ bool FilterManager::executeOperationQueue()
     case FILTER_OFFSET:
     {
         state = FILTER_OFFSET;
-        if (m_useLockedFilter)
-        {
-            targetFilterOffset = lockedFilter->offset() - lastFilterOffset;
-            lastFilterOffset   = lockedFilter->offset();
-            currentFilter = lockedFilter;
-            m_useLockedFilter = false;
-        }
-        else if (m_useTargetFilter)
+        if (m_useTargetFilter)
         {
             targetFilterOffset = targetFilter->offset() - lastFilterOffset;
             lastFilterOffset   = targetFilter->offset();

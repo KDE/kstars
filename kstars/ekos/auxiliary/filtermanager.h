@@ -40,10 +40,9 @@ public:
     typedef enum
     {
         CHANGE_POLICY    = 1 << 0,
-        LOCK_POLICY      = 1 << 1,
-        OFFSET_POLICY    = 1 << 2,
-        AUTOFOCUS_POLICY = 1 << 3,
-        ALL_POLICIES     = CHANGE_POLICY | OFFSET_POLICY | LOCK_POLICY | AUTOFOCUS_POLICY
+        OFFSET_POLICY    = 1 << 1,
+        AUTOFOCUS_POLICY = 1 << 2,
+        ALL_POLICIES     = CHANGE_POLICY | OFFSET_POLICY | AUTOFOCUS_POLICY
     } FilterPolicy;
 
     FilterManager();
@@ -133,8 +132,6 @@ private:
     QList<OAL::Filter *> m_ActiveFilters;
     OAL::Filter *targetFilter = { nullptr };
     OAL::Filter *currentFilter = { nullptr };
-    OAL::Filter *lockedFilter = { nullptr };
-    bool m_useLockedFilter = { false };
     bool m_useTargetFilter = { false };
 
     // Autofocus retries

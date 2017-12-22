@@ -824,14 +824,21 @@ void Focus::capture()
             return;
         }
 
-        int targetPosition = FilterPosCombo->currentIndex() + 1;
+        int targetPosition = FilterPosCombo->currentIndex() + 1;        
         QString lockedFilter = filterManager->getFilterLock(FilterPosCombo->currentText());
 
         // We change filter if:
         // 1. Target position is not equal to current position.
         // 2. Locked filter of CURRENT filter is a different filter.
         if (lockedFilter != "--" && lockedFilter != FilterPosCombo->currentText())
+        {
+            // Go back to this filter one we are done
+            fallbackFilterPending = true;
+            fallbackFilterPosition = targetPosition;
             targetPosition = FilterPosCombo->findText(lockedFilter) + 1;
+
+        }
+
         filterPositionPending = (targetPosition != currentFilterPosition);
         // If either the target position is not equal to the current position, OR
         if (filterPositionPending)
@@ -2468,6 +2475,13 @@ void Focus::setAutoFocusResult(bool status)
     }
 
     qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
+
+    // Do not emit result back yet if we have a locked filter pending return to original filter
+    if (fallbackFilterPending)
+    {
+        filterManager->setFilterPosition(fallbackFilterPosition, static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY|FilterManager::OFFSET_POLICY));
+        return;
+    }
     emit newStatus(state);
 }
 
@@ -2758,6 +2772,11 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
         {
             filterPositionPending = false;
             capture();
+        }
+        else if (fallbackFilterPending)
+        {
+            fallbackFilterPending = false;
+            emit newStatus(state);
         }
     }
     );
