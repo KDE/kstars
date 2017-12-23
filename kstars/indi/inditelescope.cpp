@@ -133,6 +133,8 @@ void Telescope::registerProperty(INDI::Property *prop)
         m_hasTrackModes = true;
     else if (!strcmp(prop->getName(), "TELESCOPE_TRACK_RATE"))
         m_hasCustomTrackRate = true;
+    else if (!strcmp(prop->getName(), "TELESCOPE_PARK_OPTION"))
+        m_hasCustomParking = true;
 
     DeviceDecorator::registerProperty(prop);
 }
@@ -271,6 +273,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
     {
         if (svp->s == IPS_OK)
         {
+            inCustomParking = false;
             KNotification::event(QLatin1String("MountAborted"), i18n("Mount motion was aborted"));
         }
     }
@@ -285,6 +288,8 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
 
         NSCurrentMotion = baseDevice->getSwitch("TELESCOPE_MOTION_NS")->s;
         WECurrentMotion = baseDevice->getSwitch("TELESCOPE_MOTION_WE")->s;
+
+        inCustomParking = false;
 
         if (NSCurrentMotion == IPS_BUSY || WECurrentMotion == IPS_BUSY || NSPreviousState == IPS_BUSY ||
             WEPreviousState == IPS_BUSY)
@@ -443,6 +448,20 @@ bool Telescope::runCommand(int command, void *ptr)
 
     switch (command)
     {
+        // set pending based on the outcome of send coords
+        case INDI_CUSTOM_PARKING:
+        {
+            bool rc = false;
+            if (ptr == nullptr)
+                rc = sendCoords(KStars::Instance()->map()->clickedPoint());
+            else
+                rc = sendCoords(static_cast<SkyPoint *>(ptr));
+
+            inCustomParking = rc;
+        }
+        break;
+
+
         case INDI_SEND_COORDS:
             if (ptr == nullptr)
                 sendCoords(KStars::Instance()->map()->clickedPoint());
@@ -718,6 +737,8 @@ bool Telescope::Abort()
     abortSW->s = ISS_ON;
     clientManager->sendNewSwitch(motionSP);
 
+    inCustomParking = false;
+
     return true;
 }
 
@@ -968,6 +989,16 @@ Telescope::TelescopeStatus Telescope::getStatus()
         case IPS_OK:
             if (inManualMotion)
                 return MOUNT_MOVING;
+            else if (inCustomParking)
+            {
+                inCustomParking = false;
+                // set CURRENT position as the desired parking position
+                sendParkingOptionCommand(PARK_OPTION_CURRENT);
+                // Write data to disk
+                sendParkingOptionCommand(PARK_OPTION_WRITE_DATA);
+
+                return MOUNT_TRACKING;
+            }
             else
                 return MOUNT_TRACKING;
             break;
@@ -982,7 +1013,8 @@ Telescope::TelescopeStatus Telescope::getStatus()
         }
         break;
 
-        case IPS_ALERT:
+        case IPS_ALERT:        
+            inCustomParking = false;
             return MOUNT_ERROR;
             break;
     }
@@ -1141,6 +1173,19 @@ bool Telescope::getCustomTrackRate(double &raRate, double &deRate)
 
     return true;
 
+}
+
+bool Telescope::sendParkingOptionCommand(ParkOptionCommand command)
+{
+    ISwitchVectorProperty *parkOptionsSP = baseDevice->getSwitch("TELESCOPE_PARK_OPTION");
+    if (parkOptionsSP == nullptr)
+        return false;
+
+    IUResetSwitch(parkOptionsSP);
+    parkOptionsSP->sp[command].s = ISS_ON;
+    clientManager->sendNewSwitch(parkOptionsSP);
+
+    return true;
 }
 
 }

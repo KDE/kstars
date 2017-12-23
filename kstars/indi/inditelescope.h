@@ -44,6 +44,7 @@ class Telescope : public DeviceDecorator
         MOUNT_ERROR
     } TelescopeStatus;
     typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNPARKED } ParkStatus;
+    typedef enum { PARK_OPTION_CURRENT, PARK_OPTION_DEFAULT, PARK_OPTION_WRITE_DATA } ParkOptionCommand;
 
     void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
@@ -91,6 +92,8 @@ class Telescope : public DeviceDecorator
     // Parking
     bool canPark();
     bool isParked() { return parkStatus == PARK_PARKED; }
+    bool canCustomPark() { return m_hasCustomParking; }
+    bool sendParkingOptionCommand(ParkOptionCommand command);
 
     // Status
     ParkStatus getParkStatus() { return parkStatus; }
@@ -129,6 +132,7 @@ class Telescope : public DeviceDecorator
     QTimer *centerLockTimer  = nullptr;
     SkyObject *currentObject = nullptr;
     bool inManualMotion      = false;
+    bool inCustomParking     = false;
     IPState NSPreviousState  = IPS_IDLE;
     IPState WEPreviousState  = IPS_IDLE;
 
@@ -136,5 +140,8 @@ class Telescope : public DeviceDecorator
     bool m_canControlTrack = { false };
     bool m_hasTrackModes { false};
     bool m_hasCustomTrackRate { false};
+    bool m_hasCustomParking { false };
+
+
 };
 }

@@ -45,6 +45,7 @@
 #include "indi/indigroup.h"
 #include "indi/indiproperty.h"
 #include "indi/indielement.h"
+#include "indi/inditelescope.h"
 #include <basedevice.h>
 #endif
 
@@ -552,7 +553,8 @@ void KSPopupMenu::addINDI()
 
         foreach (INDI::Property *pp, gd->getProperties())
         {
-            if (pp->getType() != INDI_SWITCH || INDIListener::Instance()->isStandardProperty(pp->getName()) == false)
+            if (pp->getType() != INDI_SWITCH || INDIListener::Instance()->isStandardProperty(pp->getName()) == false
+                                             || QString(pp->getName()).startsWith("TELESCOPE_MOTION"))
                 continue;
 
             QSignalMapper *sMapper = new QSignalMapper(this);
@@ -601,6 +603,17 @@ void KSPopupMenu::addINDI()
 
         if (telescope != nullptr && menuDevice != nullptr)
         {
+            if (dynamic_cast<ISD::Telescope*>(telescope)->canCustomPark())
+            {
+                menuDevice->addSeparator();
+                QAction *a = menuDevice->addAction(i18n("Set As Parking Position"));
+
+                QSignalMapper *scopeMapper = new QSignalMapper(this);
+                scopeMapper->setMapping(a, INDI_CUSTOM_PARKING);
+                connect(a, SIGNAL(triggered()), scopeMapper, SLOT(map()));
+                connect(scopeMapper, SIGNAL(mapped(int)), telescope, SLOT(runCommand(int)));
+            }
+
             menuDevice->addSeparator();
 
             QAction *a = menuDevice->addAction(i18n("Center Crosshair"));
