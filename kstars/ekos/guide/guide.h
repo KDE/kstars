@@ -75,7 +75,7 @@ class Guide : public QWidget, public Ui::Guide
          * @param device The CCD device name
          * @return Returns true if CCD device is found and set, false otherwise.
          */
-    Q_SCRIPTABLE bool setCCD(QString device);
+    Q_SCRIPTABLE bool setCCD(const QString &device);
 
     /** DBUS interface function.
          * select the ST4 device from the available ST4 drivers.
@@ -415,6 +415,10 @@ class Guide : public QWidget, public Ui::Guide
     void newAxisDelta(double delta_ra, double delta_dec);
     void sigmasUpdated(double ra, double dec);
     void guideChipUpdated(ISD::CCDChip *);
+
+  private slots:
+    void setDefaultST4(const QString &driver);
+    void setDefaultCCD(const QString &ccd);
 
   private:
 

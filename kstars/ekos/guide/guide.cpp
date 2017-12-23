@@ -103,24 +103,8 @@ Guide::Guide() : QWidget()
     connect(boxSizeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTrackingBoxSize(int)));
 
     // Guider CCD Selection
-    //connect(guiderCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
-    connect(guiderCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
-            [&](const QString &ccd)
-    {
-        if (guiderType == GUIDE_INTERNAL)
-            Options::setDefaultGuideCCD(ccd);
-        else if (ccd.isEmpty() == false)
-        {
-            QString ccdName = ccd;
-            ccdName = ccdName.remove(" Guider");
-            setBLOBEnabled(Options::guideRemoteImagesEnabled(), ccdName);
-            /*guiderCombo->blockSignals(true);
-            guiderCombo->setCurrentIndex(-1);
-            guiderCombo->blockSignals(false);*/
-        }
-
-    });
-    connect(guiderCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+    connect(guiderCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
+    connect(guiderCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
         [&](int index)
     {
         if (guiderType == GUIDE_INTERNAL)
@@ -134,13 +118,7 @@ Guide::Guide() : QWidget()
             QString ccdName = guiderCombo->currentText().remove(" Guider");
             setBLOBEnabled(Options::guideRemoteImagesEnabled(), ccdName);
             checkCCD(index);
-            /*
-            guiderCombo->blockSignals(true);
-            guiderCombo->setCurrentIndex(-1);
-            guiderCombo->blockSignals(false);
-            */
         }
-
     }
     );
 
@@ -153,10 +131,9 @@ Guide::Guide() : QWidget()
     // Subframe check
     connect(subFrameCheck, SIGNAL(toggled(bool)), this, SLOT(setSubFrameEnabled(bool)));
 
-    // ST4 Selection
-    connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(setST4(int)));
-    //connect(ST4Combo, SIGNAL(activated(QString)), this, SLOT(setDefaultST4(QString)));
-    //connect(ST4Combo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, [&](const QString & st4){Options::setDefaultST4Driver(st4);});
+    // ST4 Selection    
+    connect(ST4Combo, SIGNAL(activated(QString)), this, SLOT(setDefaultST4(QString)));
+    connect(ST4Combo, SIGNAL(activated(int)), this, SLOT(setST4(int)));
 
     // Binning Combo Selection
     connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
@@ -482,6 +459,8 @@ void Guide::addCCD(ISD::GDInterface *newCCD)
 
     if (guiderType != GUIDE_INTERNAL && guider)
         setBLOBEnabled(false);
+
+    checkCCD();
 }
 
 void Guide::addGuideHead(ISD::GDInterface *newCCD)
@@ -511,12 +490,13 @@ void Guide::setTelescope(ISD::GDInterface *newTelescope)
     syncTelescopeInfo();
 }
 
-bool Guide::setCCD(QString device)
+bool Guide::setCCD(const QString &device)
 {
     for (int i = 0; i < guiderCombo->count(); i++)
         if (device == guiderCombo->itemText(i))
         {
             guiderCombo->setCurrentIndex(i);
+            checkCCD(i);
             return true;
         }
 
@@ -791,14 +771,9 @@ void Guide::addST4(ISD::ST4 *newST4)
 
     ST4List.append(newST4);
 
-    ST4Combo->blockSignals(true);
     ST4Combo->addItem(newST4->getDeviceName());
-    ST4Combo->blockSignals(false);
 
-    // Always set the ST4Driver to the first added driver. If the default driver
-    // is at another index, setST4(device) will be called from Ekos which will set a new index and that will then
-    // trigger setST4(index) to update the final ST4 driver.
-    ST4Driver = GuideDriver = ST4List[0];
+    setST4(0);
 }
 
 bool Guide::setST4(const QString &device)
@@ -807,10 +782,7 @@ bool Guide::setST4(const QString &device)
         if (ST4List.at(i)->getDeviceName() == device)
         {
             ST4Combo->setCurrentIndex(i);
-            // setST4(index) is not called UNLESS index is changed
-            // So we must make sure ST4Driver and GuideDriver are updated here as well.
-            ST4Driver = ST4List.at(i);
-            GuideDriver = ST4Driver;
+            setST4(i);
             return true;
         }
 
@@ -824,9 +796,7 @@ void Guide::setST4(int index)
 
     ST4Driver = ST4List.at(index);
 
-    GuideDriver = ST4Driver;
-
-    Options::setDefaultST4Driver(ST4Driver->getDeviceName());
+    GuideDriver = ST4Driver;    
 }
 
 void Guide::setAO(ISD::ST4 *newAO)
@@ -2777,6 +2747,23 @@ void Guide::updateTelescopeType(int index)
     Options::setGuideScopeType(index);
 
     syncTelescopeInfo();
+}
+
+void Guide::setDefaultST4(const QString &driver)
+{
+    Options::setDefaultST4Driver(driver);
+}
+
+void Guide::setDefaultCCD(const QString &ccd)
+{
+    if (guiderType == GUIDE_INTERNAL)
+        Options::setDefaultGuideCCD(ccd);
+    else if (ccd.isEmpty() == false)
+    {
+        QString ccdName = ccd;
+        ccdName = ccdName.remove(" Guider");
+        setBLOBEnabled(Options::guideRemoteImagesEnabled(), ccdName);
+    }
 }
 
 }

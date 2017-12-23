@@ -83,7 +83,7 @@ Focus::Focus()
     connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
 
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
-    connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
+    connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
 
     connect(useFullField, &QCheckBox::toggled, [&](bool toggled)
     {
@@ -98,7 +98,10 @@ Focus::Focus()
     FocusSettleTime->setValue(Options::focusSettleTime());
     connect(FocusSettleTime, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
          [=](double d) { Options::setFocusSettleTime(d); });
+
+    connect(focuserCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultFocuser(QString)));
     connect(focuserCombo, SIGNAL(activated(int)), this, SLOT(checkFocuser(int)));
+
     connect(FilterDevicesCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
     connect(setAbsTicksB, SIGNAL(clicked()), this, SLOT(setAbsoluteFocusTicks()));
     connect(binningCombo, SIGNAL(activated(int)), this, SLOT(setActiveBinning(int)));
@@ -293,12 +296,13 @@ void Focus::resetFrame()
     }
 }
 
-bool Focus::setCCD(QString device)
+bool Focus::setCCD(const QString &device)
 {
     for (int i = 0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
         {
             CCDCaptureCombo->setCurrentIndex(i);
+            checkCCD(i);
             return true;
         }
 
@@ -308,6 +312,11 @@ bool Focus::setCCD(QString device)
 void Focus::setDefaultCCD(QString ccd)
 {
     Options::setDefaultFocusCCD(ccd);
+}
+
+void Focus::setDefaultFocuser(QString focuser)
+{
+    Options::setDefaultFocusFocuser(focuser);
 }
 
 void Focus::checkCCD(int ccdNum)
@@ -508,11 +517,12 @@ void Focus::addFocuser(ISD::GDInterface *newFocuser)
     checkFocuser();
 }
 
-bool Focus::setFocuser(QString device)
+bool Focus::setFocuser(const QString & device)
 {
     for (int i = 0; i < focuserCombo->count(); i++)
         if (device == focuserCombo->itemText(i))
         {
+            focuserCombo->setCurrentIndex(i);
             checkFocuser(i);
             return true;
         }
@@ -595,6 +605,8 @@ void Focus::addCCD(ISD::GDInterface *newCCD)
     CCDs.append(static_cast<ISD::CCD *>(newCCD));
 
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
+
+    checkCCD();
 }
 
 void Focus::getAbsFocusPosition()

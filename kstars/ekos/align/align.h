@@ -124,7 +124,7 @@ class Align : public QWidget, public Ui::Align
          * @param device CCD device name
          * @return Returns true if device if found and selected, false otherwise.
          */
-    Q_SCRIPTABLE bool setCCD(QString device);
+    Q_SCRIPTABLE bool setCCD(const QString &device);
 
     /** DBUS interface function.
          * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.

@@ -53,14 +53,14 @@ class Focus : public QWidget, public Ui::Focus
          * @param device The CCD device name
          * @return Returns true if CCD device is found and set, false otherwise.
          */
-    Q_SCRIPTABLE bool setCCD(QString device);
+    Q_SCRIPTABLE bool setCCD(const QString &device);
 
     /** DBUS interface function.
          * select the focuser device from the available focuser drivers. The focuser device can be the same as the CCD driver if the focuser functionality was embedded within the driver.
          * @param device The focuser device name
          * @return Returns true if focuser device is found and set, false otherwise.
          */
-    Q_SCRIPTABLE bool setFocuser(QString device);
+    Q_SCRIPTABLE bool setFocuser(const QString &device);
 
     /** DBUS interface function.
          * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.
@@ -299,6 +299,7 @@ class Focus : public QWidget, public Ui::Focus
     void setActiveBinning(int bin);
 
     void setDefaultCCD(QString ccd);
+    void setDefaultFocuser(QString focuser);
 
     void updateBoxSize(int value);
 
