@@ -95,7 +95,7 @@ Align::Align()
     connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
 
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
-    connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
+    connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
 
     connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
@@ -1827,12 +1827,13 @@ void Align::setSolverType(int type)
         parser->disconnect();
 }
 
-bool Align::setCCD(QString device)
+bool Align::setCCD(const QString & device)
 {
     for (int i = 0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
         {
             CCDCaptureCombo->setCurrentIndex(i);
+            checkCCD(i);
             return true;
         }
 
@@ -1882,6 +1883,8 @@ void Align::addCCD(ISD::GDInterface *newCCD)
     CCDs.append(static_cast<ISD::CCD *>(newCCD));
 
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
+
+    checkCCD();
 }
 
 void Align::setTelescope(ISD::GDInterface *newTelescope)

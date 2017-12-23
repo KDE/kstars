@@ -85,7 +85,7 @@ Capture::Capture()
     connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
 
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
-    connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
+    connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
 
     connect(liveVideoB, SIGNAL(clicked(bool)), this, SLOT(toggleVideoStream(bool)));
 
@@ -227,6 +227,8 @@ void Capture::addCCD(ISD::GDInterface *newCCD)
 
     if (Filters.count() > 0)
         syncFilterInfo();
+
+    checkCCD();
 }
 
 void Capture::addGuideHead(ISD::GDInterface *newCCD)
@@ -494,12 +496,13 @@ void Capture::sendNewImage(QImage *image, ISD::CCDChip *myChip)
         emit newImage(image, activeJob);
 }
 
-bool Capture::setCCD(QString device)
+bool Capture::setCCD(const QString &device)
 {
     for (int i = 0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
         {
             CCDCaptureCombo->setCurrentIndex(i);
+            checkCCD(i);
             return true;
         }
 

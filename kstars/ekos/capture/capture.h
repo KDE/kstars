@@ -115,7 +115,7 @@ class Capture : public QWidget, public Ui::Capture
          * select the CCD device from the available CCD drivers.
          * @param device The CCD device name
          */
-    Q_SCRIPTABLE bool setCCD(QString device);
+    Q_SCRIPTABLE bool setCCD(const QString &device);
 
     /** DBUS interface function.
          * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.
