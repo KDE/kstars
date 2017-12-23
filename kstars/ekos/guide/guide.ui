@@ -304,6 +304,113 @@
             </item>
            </layout>
           </item>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <property name="spacing">
+             <number>1</number>
+            </property>
+            <item row="1" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <property name="spacing">
+               <number>1</number>
+              </property>
+              <item>
+               <widget class="QCheckBox" name="eastControlCheck">
+                <property name="toolTip">
+                 <string>East Direction Guiding</string>
+                </property>
+                <property name="text">
+                 <string>+</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="westControlCheck">
+                <property name="toolTip">
+                 <string>West Direction Guiding</string>
+                </property>
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="2">
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <property name="spacing">
+               <number>1</number>
+              </property>
+              <item>
+               <widget class="QCheckBox" name="northControlCheck">
+                <property name="toolTip">
+                 <string>North Direction Guiding</string>
+                </property>
+                <property name="text">
+                 <string>+</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="southControlCheck">
+                <property name="toolTip">
+                 <string>South Direction Guiding</string>
+                </property>
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="0" column="2">
+             <widget class="QCheckBox" name="checkBox_DirDEC">
+              <property name="toolTip">
+               <string>Guide Declination Axis</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>DEC</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QCheckBox" name="checkBox_DirRA">
+              <property name="toolTip">
+               <string>Guide Right Ascention Axis</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>RA</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="l_9">
+              <property name="text">
+               <string>Enable directions</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QCheckBox" name="swapCheck">
+              <property name="toolTip">
+               <string>Swap DEC direction pulses. This value is determined automatically from the calibration procedure, only override if necessary.</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Swap</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
         </widget>
        </item>
@@ -754,524 +861,576 @@
       </layout>
      </item>
      <item>
-      <widget class="QSplitter" name="rightLayout">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
+      <layout class="QVBoxLayout" name="verticalLayout_8" stretch="2,0">
+       <property name="spacing">
+        <number>1</number>
        </property>
-       <widget class="QWidget" name="guideWidget" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>320</width>
-          <height>240</height>
-         </size>
-        </property>
-        <property name="sizeIncrement">
-         <size>
-          <width>40</width>
-          <height>30</height>
-         </size>
-        </property>
-       </widget>
-       <widget class="QSplitter" name="driftSplitter">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <widget class="QGroupBox" name="driftGraphicsGroup">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QSplitter" name="rightLayout">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-           <horstretch>2</horstretch>
-           <verstretch>2</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title">
-          <string>Drift Graphics</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>1</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QCustomPlot" name="driftGraph">
-              <property name="minimumSize">
-               <size>
-                <width>200</width>
-                <height>200</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>1</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QTabWidget" name="tabWidget">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize">
-          <size>
-           <width>225</width>
-           <height>200</height>
-          </size>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-         <property name="currentIndex">
-          <number>1</number>
-         </property>
-         <widget class="QWidget" name="tab">
-          <attribute name="title">
-           <string>Control parameters</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <property name="leftMargin">
-            <number>0</number>
+         <widget class="QWidget" name="guideWidget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>320</width>
+            <height>240</height>
+           </size>
+          </property>
+          <property name="sizeIncrement">
+           <size>
+            <width>40</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
+         <widget class="QSplitter" name="driftSplitter">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <widget class="QGroupBox" name="driftGraphicsGroup">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>2</horstretch>
+             <verstretch>2</verstretch>
+            </sizepolicy>
            </property>
-           <property name="topMargin">
-            <number>0</number>
+           <property name="title">
+            <string>Drift Graphics</string>
            </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QGroupBox" name="controlGroup">
-             <property name="title">
-              <string>Control Parameters</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_3">
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="spacing">
+             <number>1</number>
+            </property>
+            <property name="leftMargin">
+             <number>3</number>
+            </property>
+            <property name="topMargin">
+             <number>3</number>
+            </property>
+            <property name="rightMargin">
+             <number>3</number>
+            </property>
+            <property name="bottomMargin">
+             <number>3</number>
+            </property>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
               <property name="spacing">
-               <number>3</number>
-              </property>
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
+               <number>0</number>
               </property>
               <item>
-               <layout class="QGridLayout" name="gridLayout_3">
-                <property name="spacing">
-                 <number>1</number>
-                </property>
-                <item row="0" column="2">
-                 <widget class="QCheckBox" name="checkBox_DirDEC">
-                  <property name="toolTip">
-                   <string>Guide Declination Axis</string>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="text">
-                   <string>DEC</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="l_9">
-                  <property name="text">
-                   <string>Enable directions</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <layout class="QHBoxLayout" name="horizontalLayout_7">
-                  <property name="spacing">
-                   <number>1</number>
-                  </property>
-                  <item>
-                   <widget class="QCheckBox" name="eastControlCheck">
-                    <property name="toolTip">
-                     <string>East Direction Guiding</string>
-                    </property>
-                    <property name="text">
-                     <string>+</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="westControlCheck">
-                    <property name="toolTip">
-                     <string>West Direction Guiding</string>
-                    </property>
-                    <property name="text">
-                     <string>-</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QCheckBox" name="checkBox_DirRA">
-                  <property name="toolTip">
-                   <string>Guide Right Ascention Axis</string>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="text">
-                   <string>RA</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <layout class="QHBoxLayout" name="horizontalLayout_8">
-                  <property name="spacing">
-                   <number>1</number>
-                  </property>
-                  <item>
-                   <widget class="QCheckBox" name="northControlCheck">
-                    <property name="toolTip">
-                     <string>North Direction Guiding</string>
-                    </property>
-                    <property name="text">
-                     <string>+</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="southControlCheck">
-                    <property name="toolTip">
-                     <string>South Direction Guiding</string>
-                    </property>
-                    <property name="text">
-                     <string>-</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item row="2" column="2">
-                 <widget class="QCheckBox" name="swapCheck">
-                  <property name="toolTip">
-                   <string>Swap DEC direction pulses. This value is determined automatically from the calibration procedure, only override if necessary.</string>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="text">
-                   <string>Swap</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="Line" name="line">
+               <spacer name="horizontalSpacer">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Minimum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>1</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QCustomPlot" name="driftGraph">
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>200</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                </widget>
               </item>
               <item>
-               <layout class="QGridLayout" name="gridLayout_2">
-                <property name="spacing">
-                 <number>1</number>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
                 </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="l_11">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Proportional term accounts for present values of the error. For example, if the error is large and positive, the guider corrective pulse will also be large and positive.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="text">
-                   <string>Proportional gain</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="spinBox_PropGainRA">
-                  <property name="decimals">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <double>1000.000000000000000</double>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QDoubleSpinBox" name="spinBox_PropGainDEC">
-                  <property name="decimals">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <double>1000.000000000000000</double>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="l_12">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Integral term accounts for past values of the error. For example, if the current pulse is not sufficiently strong, the integral of the error will accumulate over time, and the guider will respond by applying a stronger action.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="text">
-                   <string>Integral gain</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="spinBox_IntGainRA">
-                  <property name="decimals">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <double>1000.000000000000000</double>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QDoubleSpinBox" name="spinBox_IntGainDEC">
-                  <property name="decimals">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <double>1000.000000000000000</double>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="l_13">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="toolTip">
-                   <string>Derivative term accounts for possible future trends of the error, based on its current rate of change.</string>
-                  </property>
-                  <property name="text">
-                   <string>Derivative gain</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QDoubleSpinBox" name="spinBox_DerGainRA">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="decimals">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <double>1000.000000000000000</double>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="2">
-                 <widget class="QDoubleSpinBox" name="spinBox_DerGainDEC">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="decimals">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <double>1000.000000000000000</double>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="l_14">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum guide pulse that is generated by the guider and sent to the mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="text">
-                   <string>Maximum pulse</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QSpinBox" name="spinBox_MaxPulseRA">
-                  <property name="maximum">
-                   <number>9999</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="2">
-                 <widget class="QSpinBox" name="spinBox_MaxPulseDEC">
-                  <property name="maximum">
-                   <number>9999</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="l_15">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum guide pulse that is sent to the mount. If the generated pulse is less than this value, then no pulse is sent to the mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="text">
-                   <string>Minimum pulse</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QSpinBox" name="spinBox_MinPulseRA">
-                  <property name="maximum">
-                   <number>9999</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="2">
-                 <widget class="QSpinBox" name="spinBox_MinPulseDEC">
-                  <property name="maximum">
-                   <number>9999</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="0">
-                 <widget class="QLabel" name="l_23">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="text">
-                   <string>AO Limits</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="1">
-                 <widget class="QDoubleSpinBox" name="spinBox_AOLimit">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="toolTip">
-                   <string>Maximum deviation to correct for using Adaptive Optics unit. If the guiding deviation exceeds this value, Ekos will guide the mount mechanically</string>
-                  </property>
-                  <property name="decimals">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <double>30.000000000000000</double>
-                  </property>
-                  <property name="singleStep">
-                   <double>0.500000000000000</double>
-                  </property>
-                  <property name="value">
-                   <double>2.000000000000000</double>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="2">
-                 <widget class="QLabel" name="l_24">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="text">
-                   <string>arcsecs</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Minimum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>1</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
              </layout>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="tab_2">
-          <attribute name="title">
-           <string>Drift Plot</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <property name="leftMargin">
-            <number>0</number>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QTabWidget" name="tabWidget">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="topMargin">
-            <number>0</number>
+           <property name="minimumSize">
+            <size>
+             <width>225</width>
+             <height>200</height>
+            </size>
            </property>
-           <property name="rightMargin">
-            <number>0</number>
+           <property name="currentIndex">
+            <number>1</number>
            </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QCustomPlot" name="driftPlot">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+           <widget class="QWidget" name="tab">
+            <attribute name="title">
+             <string>Control parameters</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <property name="leftMargin">
+              <number>0</number>
              </property>
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>200</height>
-              </size>
+             <property name="topMargin">
+              <number>0</number>
              </property>
-            </widget>
-           </item>
-          </layout>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QGroupBox" name="controlGroup">
+               <property name="title">
+                <string>Control Parameters</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <property name="spacing">
+                 <number>3</number>
+                </property>
+                <property name="leftMargin">
+                 <number>3</number>
+                </property>
+                <property name="topMargin">
+                 <number>3</number>
+                </property>
+                <property name="rightMargin">
+                 <number>3</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>3</number>
+                </property>
+                <item>
+                 <widget class="Line" name="line">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QGridLayout" name="gridLayout_2">
+                  <property name="spacing">
+                   <number>1</number>
+                  </property>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="l_11">
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Proportional term accounts for present values of the error. For example, if the error is large and positive, the guider corrective pulse will also be large and positive.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="text">
+                     <string>Proportional gain</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QDoubleSpinBox" name="spinBox_PropGainRA">
+                    <property name="decimals">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <double>1000.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="2">
+                   <widget class="QDoubleSpinBox" name="spinBox_PropGainDEC">
+                    <property name="decimals">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <double>1000.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="l_12">
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Integral term accounts for past values of the error. For example, if the current pulse is not sufficiently strong, the integral of the error will accumulate over time, and the guider will respond by applying a stronger action.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="text">
+                     <string>Integral gain</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QDoubleSpinBox" name="spinBox_IntGainRA">
+                    <property name="decimals">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <double>1000.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="2">
+                   <widget class="QDoubleSpinBox" name="spinBox_IntGainDEC">
+                    <property name="decimals">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <double>1000.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="l_13">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="toolTip">
+                     <string>Derivative term accounts for possible future trends of the error, based on its current rate of change.</string>
+                    </property>
+                    <property name="text">
+                     <string>Derivative gain</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QDoubleSpinBox" name="spinBox_DerGainRA">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="decimals">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <double>1000.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="2">
+                   <widget class="QDoubleSpinBox" name="spinBox_DerGainDEC">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="decimals">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <double>1000.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="l_14">
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum guide pulse that is generated by the guider and sent to the mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="text">
+                     <string>Maximum pulse</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QSpinBox" name="spinBox_MaxPulseRA">
+                    <property name="maximum">
+                     <number>9999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="2">
+                   <widget class="QSpinBox" name="spinBox_MaxPulseDEC">
+                    <property name="maximum">
+                     <number>9999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="l_15">
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum guide pulse that is sent to the mount. If the generated pulse is less than this value, then no pulse is sent to the mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="text">
+                     <string>Minimum pulse</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QSpinBox" name="spinBox_MinPulseRA">
+                    <property name="maximum">
+                     <number>9999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="2">
+                   <widget class="QSpinBox" name="spinBox_MinPulseDEC">
+                    <property name="maximum">
+                     <number>9999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="l_23">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="text">
+                     <string>AO Limits</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QDoubleSpinBox" name="spinBox_AOLimit">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="toolTip">
+                     <string>Maximum deviation to correct for using Adaptive Optics unit. If the guiding deviation exceeds this value, Ekos will guide the mount mechanically</string>
+                    </property>
+                    <property name="decimals">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <double>30.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.500000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>2.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="2">
+                   <widget class="QLabel" name="l_24">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="text">
+                     <string>arcsecs</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_2">
+            <attribute name="title">
+             <string>Drift Plot</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QCustomPlot" name="driftPlot">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>200</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
          </widget>
         </widget>
-       </widget>
-      </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_9">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="text">
+            <string> Graph:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="showRAPlotCheck">
+           <property name="text">
+            <string>RA </string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="showDECPlotCheck">
+           <property name="text">
+            <string>DEC, </string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_10">
+           <property name="text">
+            <string>Trace:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="guideSlider">
+           <property name="maximum">
+            <number>10</number>
+           </property>
+           <property name="value">
+            <number>10</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="latestCheck">
+           <property name="text">
+            <string>Max </string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="guideAutoScaleGraphB">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="guideSaveDataB">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="guideDataClearB">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="accuracyRadiusSpin">
+           <property name="decimals">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <double>20.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.500000000000000</double>
+           </property>
+           <property name="value">
+            <double>2.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
@@ -1305,7 +1464,6 @@
   <tabstop>westControlCheck</tabstop>
   <tabstop>northControlCheck</tabstop>
   <tabstop>southControlCheck</tabstop>
-  <tabstop>swapCheck</tabstop>
   <tabstop>spinBox_PropGainRA</tabstop>
   <tabstop>spinBox_PropGainDEC</tabstop>
   <tabstop>spinBox_IntGainRA</tabstop>
