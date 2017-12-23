@@ -352,7 +352,15 @@ class Guide : public QWidget, public Ui::Guide
     //plot slots
     void handleVerticalPlotSizeChange();
     void handleHorizontalPlotSizeChange();
-    //void slotAutoScaleGraph();
+    void clearGuideGraphs();
+    void slotAutoScaleGraphs();
+    void buildTarget();
+    void guideReport();
+    void setLatestGuidePoint(bool isChecked);
+    void toggleShowRAPlot(bool isChecked);
+    void toggleShowDEPlot(bool isChecked);
+    void exportGuideData();
+
 
   protected slots:
     void updateTelescopeType(int index);
@@ -423,7 +431,6 @@ class Guide : public QWidget, public Ui::Guide
   private:
 
     void resizeEvent(QResizeEvent *event);
-    void buildTarget();
 
     /**
          * @brief updateGuideParams Update the guider and frame parameters due to any changes in the mount and/or ccd frame
@@ -555,5 +562,8 @@ class Guide : public QWidget, public Ui::Guide
     QCPCurve *yellowTarget { nullptr };
     QCPCurve *redTarget { nullptr };
     QCPCurve *concentricRings { nullptr };
+
+    bool graphOnLatestPt=true;
+    QUrl guideURLPath;
 };
 }

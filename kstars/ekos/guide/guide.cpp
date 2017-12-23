@@ -91,6 +91,22 @@ Guide::Guide() : QWidget()
     showFITSViewerB->setIcon(
         QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
     connect(showFITSViewerB, SIGNAL(clicked()), this, SLOT(showFITSViewer()));
+    showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    guideAutoScaleGraphB->setIcon(
+        QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg")));
+    connect(guideAutoScaleGraphB, SIGNAL(clicked()), this, SLOT(slotAutoScaleGraphs()));
+    guideAutoScaleGraphB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    guideSaveDataB->setIcon(
+        QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")));
+    connect(guideSaveDataB, SIGNAL(clicked()), this, SLOT(exportGuideData()));
+    guideSaveDataB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    guideDataClearB->setIcon(
+        QIcon::fromTheme("application-exit", QIcon(":/icons/breeze/default/application-exit.svg")));
+    connect(guideDataClearB, SIGNAL(clicked()), this, SLOT(clearGuideGraphs()));
+    guideDataClearB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     // Exposure
     connect(exposureIN, SIGNAL(editingFinished()), this, SLOT(saveDefaultGuideExposure()));
@@ -246,6 +262,22 @@ Guide::Guide() : QWidget()
     driftGraph->graph(1)->setName("DE");
     driftGraph->graph(1)->setLineStyle(QCPGraph::lsStepLeft);
 
+    // RA Point
+    driftGraph->addGraph();
+    driftGraph->graph(2)->setLineStyle(QCPGraph::lsNone);
+    driftGraph->graph(2)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+    driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
+
+
+    // DE Point
+    driftGraph->addGraph();
+    driftGraph->graph(3)->setLineStyle(QCPGraph::lsNone);
+    driftGraph->graph(3)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+    driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
+
+    driftGraph->legend->removeItem(3);
+    driftGraph->legend->removeItem(2);
+
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%m:%s");
     driftGraph->xAxis->setTicker(timeTicker);
@@ -316,10 +348,14 @@ Guide::Guide() : QWidget()
 
     buildTarget();
 
-    //connect(driftPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(handlePointTooltip(QMouseEvent*)));
     connect(rightLayout, SIGNAL(splitterMoved(int,int)), this, SLOT(handleVerticalPlotSizeChange()));
     connect(driftSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(handleHorizontalPlotSizeChange()));
-    //connect(accuracySpin, SIGNAL(valueChanged(int)), this, SLOT(buildTarget()));
+
+    connect(accuracyRadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(buildTarget()));
+    connect(guideSlider, SIGNAL(sliderMoved(int)), this, SLOT(guideReport()));
+    connect(latestCheck, SIGNAL(toggled(bool)), this, SLOT(setLatestGuidePoint(bool)));
+    connect(showRAPlotCheck, SIGNAL(toggled(bool)), this, SLOT(toggleShowRAPlot(bool)));
+    connect(showDECPlotCheck, SIGNAL(toggled(bool)), this, SLOT(toggleShowDEPlot(bool)));
 
     driftPlot->resize(190, 190);
     driftPlot->replot();
@@ -377,7 +413,8 @@ void Guide::resizeEvent(QResizeEvent *event)
 
 void Guide::buildTarget()
 {
-    double accuracyRadius = 2;
+    double accuracyRadius = accuracyRadiusSpin->value();
+
     if (centralTarget)
     {
         concentricRings->data()->clear();
@@ -444,6 +481,165 @@ void Guide::buildTarget()
 
     if (driftPlot->size().width() > 0)
         driftPlot->replot();
+}
+
+void Guide::clearGuideGraphs(){
+    driftGraph->graph(0)->data()->clear();
+    driftGraph->graph(1)->data()->clear();
+    driftPlot->graph(0)->data()->clear();
+    driftPlot->graph(1)->data()->clear();
+    driftGraph->replot();
+    driftPlot->replot();
+}
+
+void Guide::slotAutoScaleGraphs(){
+    double accuracyRadius = accuracyRadiusSpin->value();
+
+    double key = guideTimer.elapsed() / 1000.0;
+    driftGraph->xAxis->setRange(key - 120, key);
+    driftGraph->yAxis->setRange(-3, 3);
+    driftGraph->graph(0)->rescaleValueAxis(true);
+    driftGraph->replot();
+
+    driftPlot->xAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
+    driftPlot->yAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
+    driftPlot->graph(0)->rescaleAxes(true);
+
+    driftPlot->yAxis->setScaleRatio(driftPlot->xAxis, 1.0);
+    driftPlot->xAxis->setScaleRatio(driftPlot->yAxis, 1.0);
+
+    driftPlot->replot();
+}
+
+void Guide::guideReport(){
+    int sliderValue=guideSlider->value();
+    latestCheck->setChecked(sliderValue==guideSlider->maximum()-1||sliderValue==guideSlider->maximum());
+
+    driftGraph->graph(2)->data()->clear();
+    driftGraph->graph(3)->data()->clear();
+    driftPlot->graph(1)->data()->clear();
+    double t = driftGraph->graph(0)->dataMainKey(sliderValue);
+    double ra = driftGraph->graph(0)->dataMainValue(sliderValue);
+    double de = driftGraph->graph(1)->dataMainValue(sliderValue);
+    driftGraph->graph(2)->addData(t, ra);
+    driftGraph->graph(3)->addData(t, de);
+    if (driftGraph->xAxis->range().contains(t) == false)
+    {
+        if(t < driftGraph->xAxis->range().lower)
+        {
+            driftGraph->xAxis->setRange(t, t + driftGraph->xAxis->range().size());
+        }
+        if(t > driftGraph->xAxis->range().upper)
+        {
+            driftGraph->xAxis->setRange(t - driftGraph->xAxis->range().size(), t);
+        }
+    }
+    driftGraph->replot();
+
+    driftPlot->graph(1)->addData(ra, de);
+    driftPlot->replot();
+
+    if(!graphOnLatestPt)
+    {
+        QTime localTime = guideTimer;
+        localTime = localTime.addSecs(t);
+
+        QPoint localTooltipCoordinates=driftGraph->graph(0)->dataPixelPosition(sliderValue).toPoint();
+        QPoint globalTooltipCoordinates=driftGraph->mapToGlobal(localTooltipCoordinates);
+
+        QToolTip::showText(
+            globalTooltipCoordinates,
+            i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds",
+                  "<table>"
+                  "<tr><td>LT:   </td><td>%1</td></tr>"
+                  "<tr><td>RA:   </td><td>%2 \"</td></tr>"
+                  "<tr><td>DE:   </td><td>%3 \"</td></tr>"
+                  "</table>",
+                  localTime.toString("hh:mm:ss AP"), QString::number(ra, 'f', 2),
+                  QString::number(de, 'f', 2)));
+    }
+}
+
+void Guide::setLatestGuidePoint(bool isChecked)
+{
+    graphOnLatestPt=isChecked;
+    if(isChecked)
+        guideSlider->setValue(guideSlider->maximum());
+}
+
+void Guide::toggleShowRAPlot(bool isChecked)
+{
+    driftGraph->graph(0)->setVisible(isChecked);
+    driftGraph->graph(2)->setVisible(isChecked);
+    driftGraph->replot();
+}
+
+void Guide::toggleShowDEPlot(bool isChecked)
+{
+    driftGraph->graph(1)->setVisible(isChecked);
+    driftGraph->graph(3)->setVisible(isChecked);
+    driftGraph->replot();
+}
+
+void Guide::exportGuideData()
+{
+    int numPoints = driftGraph->graph(0)->dataCount();
+    if (numPoints == 0)
+        return;
+
+    QUrl exportFile = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export Guide Data"), guideURLPath,
+                                                  "CSV File (*.csv)");
+    if (exportFile.isEmpty()) // if user presses cancel
+        return;
+    if (exportFile.toLocalFile().endsWith(QLatin1String(".csv")) == false)
+        exportFile.setPath(exportFile.toLocalFile() + ".csv");
+
+    QString path = exportFile.toLocalFile();
+
+    if (QFile::exists(path))
+    {
+        int r = KMessageBox::warningContinueCancel(0,
+                                                   i18n("A file named \"%1\" already exists. "
+                                                        "Overwrite it?",
+                                                        exportFile.fileName()),
+                                                   i18n("Overwrite File?"), KStandardGuiItem::overwrite());
+        if (r == KMessageBox::Cancel)
+            return;
+    }
+
+    if (!exportFile.isValid())
+    {
+        QString message = i18n("Invalid URL: %1", exportFile.url());
+        KMessageBox::sorry(KStars::Instance(), message, i18n("Invalid URL"));
+        return;
+    }
+
+    QFile file;
+    file.setFileName(path);
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        QString message = i18n("Unable to write to file %1", path);
+        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        return;
+    }
+
+    QTextStream outstream(&file);
+
+    outstream << "Time (sec), Local Time (HMS), RA Error (arcsec), DE Error (arcsec)" << endl;
+
+    for (int i = 0; i < numPoints; i++)
+    {
+        double t = driftGraph->graph(0)->dataMainKey(i);
+        double ra = driftGraph->graph(0)->dataMainValue(i);
+        double de = driftGraph->graph(1)->dataMainValue(i);
+
+        QTime localTime = guideTimer;
+        localTime = localTime.addSecs(t);
+
+        outstream << t << ',' << localTime.toString("hh:mm:ss AP") << ',' << ra << ',' << de << ',' << endl;
+    }
+    appendLogText(i18n("Guide Data Saved as: %1", path));
+    file.close();
 }
 
 void Guide::addCCD(ISD::GDInterface *newCCD)
@@ -1541,10 +1737,7 @@ void Guide::setStatus(Ekos::GuideState newState)
                 appendLogText(i18n("Autoguiding started."));
                 setBusy(true);
 
-                driftGraph->graph(0)->data().clear();
-                driftGraph->graph(1)->data().clear();
-                driftPlot->graph(0)->data()->clear();
-                driftPlot->graph(1)->data()->clear();
+                clearGuideGraphs();
                 guideTimer = QTime::currentTime();
                 refreshColorScheme();
             }
@@ -2243,6 +2436,11 @@ void Guide::setAxisDelta(double ra, double de)
     driftGraph->graph(0)->addData(key, ra);
     driftGraph->graph(1)->addData(key, de);
 
+    int currentNumPoints=driftGraph->graph(0)->dataCount();
+    guideSlider->setMaximum(currentNumPoints);
+    if(graphOnLatestPt)
+        guideSlider->setValue(currentNumPoints);
+
     // Expand range if it doesn't fit already
     if (driftGraph->yAxis->range().contains(ra) == false)
         driftGraph->yAxis->setRange(-1.25 * ra, 1.25 * ra);
@@ -2252,29 +2450,21 @@ void Guide::setAxisDelta(double ra, double de)
 
     // Show last 120 seconds
     //driftGraph->xAxis->setRange(key, 120, Qt::AlignRight);
-    driftGraph->xAxis->setRange(key, driftGraph->xAxis->range().size(), Qt::AlignRight);
+    if(graphOnLatestPt){
+        driftGraph->xAxis->setRange(key, driftGraph->xAxis->range().size(), Qt::AlignRight);
+        driftGraph->graph(2)->data()->clear();
+        driftGraph->graph(3)->data()->clear();
+        driftGraph->graph(2)->addData(key, ra);
+        driftGraph->graph(3)->addData(key, de);
+    }
     driftGraph->replot();
 
     //Add to Drift Plot
     driftPlot->graph(0)->addData(ra, de);
-    driftPlot->clearItems();
-    driftPlot->graph(1)->data()->clear();
-    driftPlot->graph(1)->addData(ra, de);
-
-/**
-    //This would be a good autoscale function.
-    if (driftPlot->xAxis->range().contains(ra) == false)
-    {
-        driftPlot->graph(0)->rescaleKeyAxis(true);
-        driftPlot->yAxis->setScaleRatio(driftPlot->xAxis, 1.0);
+    if(graphOnLatestPt){
+        driftPlot->graph(1)->data()->clear();
+        driftPlot->graph(1)->addData(ra, de);
     }
-
-    if (driftPlot->yAxis->range().contains(de) == false)
-    {
-        driftPlot->graph(0)->rescaleValueAxis(true);
-        driftPlot->xAxis->setScaleRatio(driftPlot->yAxis, 1.0);
-    }
-**/
 
     if (driftPlot->xAxis->range().contains(ra) == false || driftPlot->yAxis->range().contains(de) == false)
     {
