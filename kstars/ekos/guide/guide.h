@@ -355,7 +355,7 @@ class Guide : public QWidget, public Ui::Guide
     void clearGuideGraphs();
     void slotAutoScaleGraphs();
     void buildTarget();
-    void guideReport();
+    void guideHistory();
     void setLatestGuidePoint(bool isChecked);
     void toggleShowRAPlot(bool isChecked);
     void toggleShowDEPlot(bool isChecked);

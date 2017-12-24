@@ -2041,6 +2041,18 @@
       <entry name="GuidingRate" type="Double">
          <default>0.5</default>
       </entry>
+      <entry name="GuiderAccuracyThreshold" type="UInt">
+         <label>Accuracy threshold for the Guide Graphs.</label>
+         <default>2</default>
+      </entry>
+      <entry name="RADisplayedOnGuideGraph" type="Bool">
+         <label>Display the RA Plot on the Guide Drift Graphics.</label>
+         <default>true</default>
+      </entry>
+      <entry name="DEDisplayedOnGuideGraph" type="Bool">
+         <label>Display the DEC Plot on the Guide Drift Graphics.</label>
+         <default>true</default>
+      </entry>
    </group>
    <group name="Scheduler">
     <entry name="SchedulerLogging" type="Bool">

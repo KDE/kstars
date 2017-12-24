@@ -262,19 +262,20 @@ Guide::Guide() : QWidget()
     driftGraph->graph(1)->setName("DE");
     driftGraph->graph(1)->setLineStyle(QCPGraph::lsStepLeft);
 
-    // RA Point
+    // RA highlighted Point
     driftGraph->addGraph();
     driftGraph->graph(2)->setLineStyle(QCPGraph::lsNone);
     driftGraph->graph(2)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
     driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
 
 
-    // DE Point
+    // DE highlighted Point
     driftGraph->addGraph();
     driftGraph->graph(3)->setLineStyle(QCPGraph::lsNone);
     driftGraph->graph(3)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
     driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
 
+    //This will prevent the highlighted points from showing up in the legend.
     driftGraph->legend->removeItem(3);
     driftGraph->legend->removeItem(2);
 
@@ -346,13 +347,18 @@ Guide::Guide() : QWidget()
     driftPlot->graph(1)->setLineStyle(QCPGraph::lsNone);
     driftPlot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(Qt::yellow, 2), QBrush(), 10));
 
-    buildTarget();
-
     connect(rightLayout, SIGNAL(splitterMoved(int,int)), this, SLOT(handleVerticalPlotSizeChange()));
     connect(driftSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(handleHorizontalPlotSizeChange()));
 
+    accuracyRadiusSpin->setValue(Options::guiderAccuracyThreshold());
+    showRAPlotCheck->setChecked(Options::rADisplayedOnGuideGraph());
+    showDECPlotCheck->setChecked(Options::dEDisplayedOnGuideGraph());
+
+    buildTarget();
+
+    //These are the buttons and slider below the guide plots.
     connect(accuracyRadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(buildTarget()));
-    connect(guideSlider, SIGNAL(sliderMoved(int)), this, SLOT(guideReport()));
+    connect(guideSlider, SIGNAL(sliderMoved(int)), this, SLOT(guideHistory()));
     connect(latestCheck, SIGNAL(toggled(bool)), this, SLOT(setLatestGuidePoint(bool)));
     connect(showRAPlotCheck, SIGNAL(toggled(bool)), this, SLOT(toggleShowRAPlot(bool)));
     connect(showDECPlotCheck, SIGNAL(toggled(bool)), this, SLOT(toggleShowDEPlot(bool)));
@@ -414,6 +420,7 @@ void Guide::resizeEvent(QResizeEvent *event)
 void Guide::buildTarget()
 {
     double accuracyRadius = accuracyRadiusSpin->value();
+    Options::setGuiderAccuracyThreshold(accuracyRadius);
 
     if (centralTarget)
     {
@@ -484,10 +491,12 @@ void Guide::buildTarget()
 }
 
 void Guide::clearGuideGraphs(){
-    driftGraph->graph(0)->data()->clear();
-    driftGraph->graph(1)->data()->clear();
-    driftPlot->graph(0)->data()->clear();
-    driftPlot->graph(1)->data()->clear();
+    driftGraph->graph(0)->data()->clear(); //RA data
+    driftGraph->graph(1)->data()->clear(); //DEC data
+    driftGraph->graph(2)->data()->clear(); //RA highlighted point
+    driftGraph->graph(3)->data()->clear(); //DEC highlighted point
+    driftPlot->graph(0)->data()->clear(); //Guide data
+    driftPlot->graph(1)->data()->clear(); //Guide highlighted point
     driftGraph->replot();
     driftPlot->replot();
 }
@@ -511,18 +520,20 @@ void Guide::slotAutoScaleGraphs(){
     driftPlot->replot();
 }
 
-void Guide::guideReport(){
+void Guide::guideHistory(){
     int sliderValue=guideSlider->value();
     latestCheck->setChecked(sliderValue==guideSlider->maximum()-1||sliderValue==guideSlider->maximum());
 
-    driftGraph->graph(2)->data()->clear();
-    driftGraph->graph(3)->data()->clear();
-    driftPlot->graph(1)->data()->clear();
-    double t = driftGraph->graph(0)->dataMainKey(sliderValue);
-    double ra = driftGraph->graph(0)->dataMainValue(sliderValue);
-    double de = driftGraph->graph(1)->dataMainValue(sliderValue);
-    driftGraph->graph(2)->addData(t, ra);
-    driftGraph->graph(3)->addData(t, de);
+    driftGraph->graph(2)->data()->clear(); //Clear RA highlighted point
+    driftGraph->graph(3)->data()->clear(); //Clear DEC highlighted point
+    driftPlot->graph(1)->data()->clear(); //Clear Guide highlighted point
+    double t = driftGraph->graph(0)->dataMainKey(sliderValue); //Get time from RA data
+    double ra = driftGraph->graph(0)->dataMainValue(sliderValue); //Get RA from RA data
+    double de = driftGraph->graph(1)->dataMainValue(sliderValue); //Get DEC from DEC data
+    driftGraph->graph(2)->addData(t, ra); //Set RA highlighted point
+    driftGraph->graph(3)->addData(t, de); //Set DEC highlighted point
+
+    //This will allow the graph to scroll left and right along with the guide slider
     if (driftGraph->xAxis->range().contains(t) == false)
     {
         if(t < driftGraph->xAxis->range().lower)
@@ -536,7 +547,7 @@ void Guide::guideReport(){
     }
     driftGraph->replot();
 
-    driftPlot->graph(1)->addData(ra, de);
+    driftPlot->graph(1)->addData(ra, de); //Set guide highlighted point
     driftPlot->replot();
 
     if(!graphOnLatestPt)
@@ -569,6 +580,7 @@ void Guide::setLatestGuidePoint(bool isChecked)
 
 void Guide::toggleShowRAPlot(bool isChecked)
 {
+    Options::setRADisplayedOnGuideGraph(isChecked);
     driftGraph->graph(0)->setVisible(isChecked);
     driftGraph->graph(2)->setVisible(isChecked);
     driftGraph->replot();
@@ -576,6 +588,7 @@ void Guide::toggleShowRAPlot(bool isChecked)
 
 void Guide::toggleShowDEPlot(bool isChecked)
 {
+    Options::setDEDisplayedOnGuideGraph(isChecked);
     driftGraph->graph(1)->setVisible(isChecked);
     driftGraph->graph(3)->setVisible(isChecked);
     driftGraph->replot();
@@ -625,7 +638,7 @@ void Guide::exportGuideData()
 
     QTextStream outstream(&file);
 
-    outstream << "Time (sec), Local Time (HMS), RA Error (arcsec), DE Error (arcsec)" << endl;
+    outstream << "Frame #, Time Elapsed (sec), Local Time (HMS), RA Error (arcsec), DE Error (arcsec)" << endl;
 
     for (int i = 0; i < numPoints; i++)
     {
@@ -636,7 +649,7 @@ void Guide::exportGuideData()
         QTime localTime = guideTimer;
         localTime = localTime.addSecs(t);
 
-        outstream << t << ',' << localTime.toString("hh:mm:ss AP") << ',' << ra << ',' << de << ',' << endl;
+        outstream << i << ',' << t << ',' << localTime.toString("hh:mm:ss AP") << ',' << ra << ',' << de << ',' << endl;
     }
     appendLogText(i18n("Guide Data Saved as: %1", path));
     file.close();
@@ -2452,18 +2465,18 @@ void Guide::setAxisDelta(double ra, double de)
     //driftGraph->xAxis->setRange(key, 120, Qt::AlignRight);
     if(graphOnLatestPt){
         driftGraph->xAxis->setRange(key, driftGraph->xAxis->range().size(), Qt::AlignRight);
-        driftGraph->graph(2)->data()->clear();
-        driftGraph->graph(3)->data()->clear();
-        driftGraph->graph(2)->addData(key, ra);
-        driftGraph->graph(3)->addData(key, de);
+        driftGraph->graph(2)->data()->clear(); //Clear highlighted RA point
+        driftGraph->graph(3)->data()->clear(); //Clear highlighted DEC point
+        driftGraph->graph(2)->addData(key, ra); //Set highlighted RA point to latest point
+        driftGraph->graph(3)->addData(key, de); //Set highlighted DEC point to latest point
     }
     driftGraph->replot();
 
     //Add to Drift Plot
     driftPlot->graph(0)->addData(ra, de);
     if(graphOnLatestPt){
-        driftPlot->graph(1)->data()->clear();
-        driftPlot->graph(1)->addData(ra, de);
+        driftPlot->graph(1)->data()->clear(); //Clear highlighted point
+        driftPlot->graph(1)->addData(ra, de); //Set highlighted point to latest point
     }
 
     if (driftPlot->xAxis->range().contains(ra) == false || driftPlot->yAxis->range().contains(de) == false)
