@@ -2053,6 +2053,14 @@
          <label>Display the DEC Plot on the Guide Drift Graphics.</label>
          <default>true</default>
       </entry>
+      <entry name="RACorrDisplayedOnGuideGraph" type="Bool">
+         <label>Display the RA Corrections Plot on the Guide Drift Graphics.</label>
+         <default>false</default>
+      </entry>
+      <entry name="DECorrDisplayedOnGuideGraph" type="Bool">
+         <label>Display the DEC Corrections Plot on the Guide Drift Graphics.</label>
+         <default>false</default>
+      </entry>
    </group>
    <group name="Scheduler">
     <entry name="SchedulerLogging" type="Bool">

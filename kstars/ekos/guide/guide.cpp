@@ -222,7 +222,7 @@ Guide::Guide() : QWidget()
     pulseTimer.setSingleShot(true);
     connect(&pulseTimer, SIGNAL(timeout()), this, SLOT(capture()));
 
-    // Drift Graph
+    // Drift Graph Color Settings
     driftGraph->setBackground(QBrush(Qt::black));
     driftGraph->xAxis->setBasePen(QPen(Qt::white, 1));
     driftGraph->yAxis->setBasePen(QPen(Qt::white, 1));
@@ -231,64 +231,106 @@ Guide::Guide() : QWidget()
     driftGraph->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
     driftGraph->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
     driftGraph->xAxis->grid()->setZeroLinePen(Qt::NoPen);
-    driftGraph->yAxis->grid()->setZeroLinePen(Qt::NoPen);
+    driftGraph->yAxis->grid()->setZeroLinePen(QPen(Qt::white, 1));
     driftGraph->xAxis->setBasePen(QPen(Qt::white, 1));
     driftGraph->yAxis->setBasePen(QPen(Qt::white, 1));
+    driftGraph->yAxis2->setBasePen(QPen(Qt::white, 1));
     driftGraph->xAxis->setTickPen(QPen(Qt::white, 1));
     driftGraph->yAxis->setTickPen(QPen(Qt::white, 1));
+    driftGraph->yAxis2->setTickPen(QPen(Qt::white, 1));
     driftGraph->xAxis->setSubTickPen(QPen(Qt::white, 1));
     driftGraph->yAxis->setSubTickPen(QPen(Qt::white, 1));
+    driftGraph->yAxis2->setSubTickPen(QPen(Qt::white, 1));
     driftGraph->xAxis->setTickLabelColor(Qt::white);
     driftGraph->yAxis->setTickLabelColor(Qt::white);
+    driftGraph->yAxis2->setTickLabelColor(Qt::white);
     driftGraph->xAxis->setLabelColor(Qt::white);
     driftGraph->yAxis->setLabelColor(Qt::white);
+    driftGraph->yAxis2->setLabelColor(Qt::white);
 
-    driftGraph->xAxis->setRange(0, 120, Qt::AlignRight);
+    //Horizontal Axis Time Ticker Settings
+    QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
+    timeTicker->setTimeFormat("%m:%s");
+    driftGraph->xAxis->setTicker(timeTicker);
 
+    //Vertical Axis Labels Settings
+    driftGraph->yAxis2->setVisible(true);
+    driftGraph->yAxis2->setTickLabels(true);
+    driftGraph->yAxis->setLabelFont(QFont(font().family(), 10));
+    driftGraph->yAxis2->setLabelFont(QFont(font().family(), 10));
+    driftGraph->yAxis->setTickLabelFont(QFont(font().family(), 9));
+    driftGraph->yAxis2->setTickLabelFont(QFont(font().family(), 9));
+    driftGraph->yAxis->setLabelPadding(1);
+    driftGraph->yAxis2->setLabelPadding(1);
+    driftGraph->yAxis->setLabel(i18n("drift (arcsec)"));
+    driftGraph->yAxis2->setLabel(i18n("pulse (ms)"));
+
+    //Sets the default ranges
+    driftGraph->xAxis->setRange(0, 60, Qt::AlignRight);
+    driftGraph->yAxis->setRange(-3, 3);
+    driftGraph->yAxis2->setRange(-30, 30);
+
+    //This sets up the legend
     driftGraph->legend->setVisible(true);
     driftGraph->legend->setFont(QFont("Helvetica", 9));
     driftGraph->legend->setTextColor(Qt::white);
     driftGraph->legend->setBrush(QBrush(Qt::black));
+    driftGraph->legend->setFillOrder(QCPLegend::foColumnsFirst);
+    driftGraph->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft|Qt::AlignBottom);
 
     // RA Curve
-    driftGraph->addGraph();
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
     driftGraph->graph(0)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
     driftGraph->graph(0)->setName("RA");
     driftGraph->graph(0)->setLineStyle(QCPGraph::lsStepLeft);
 
     // DE Curve
-    driftGraph->addGraph();
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
     driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
     driftGraph->graph(1)->setName("DE");
     driftGraph->graph(1)->setLineStyle(QCPGraph::lsStepLeft);
 
     // RA highlighted Point
-    driftGraph->addGraph();
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
     driftGraph->graph(2)->setLineStyle(QCPGraph::lsNone);
     driftGraph->graph(2)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
     driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
 
-
     // DE highlighted Point
-    driftGraph->addGraph();
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis);
     driftGraph->graph(3)->setLineStyle(QCPGraph::lsNone);
     driftGraph->graph(3)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
     driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
 
-    //This will prevent the highlighted points from showing up in the legend.
+    // RA Pulse
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis2);
+    QColor raPulseColor(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"));
+    raPulseColor.setAlpha(75);
+    driftGraph->graph(4)->setPen(QPen(raPulseColor));
+    driftGraph->graph(4)->setBrush(QBrush(raPulseColor, Qt::Dense4Pattern));
+    driftGraph->graph(4)->setName("RA Pulse");
+    driftGraph->graph(4)->setLineStyle(QCPGraph::lsStepLeft);
+
+    // DEC Pulse
+    driftGraph->addGraph(driftGraph->xAxis, driftGraph->yAxis2);
+    QColor dePulseColor(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"));
+    dePulseColor.setAlpha(75);
+    driftGraph->graph(5)->setPen(QPen(dePulseColor));
+    driftGraph->graph(5)->setBrush(QBrush(dePulseColor, Qt::Dense4Pattern));
+    driftGraph->graph(5)->setName("DEC Pulse");
+    driftGraph->graph(5)->setLineStyle(QCPGraph::lsStepLeft);
+
+    //This will prevent the highlighted points and Pulses from showing up in the legend.
+    driftGraph->legend->removeItem(5);
+    driftGraph->legend->removeItem(4);
     driftGraph->legend->removeItem(3);
     driftGraph->legend->removeItem(2);
 
-    QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
-    timeTicker->setTimeFormat("%m:%s");
-    driftGraph->xAxis->setTicker(timeTicker);
-    driftGraph->axisRect()->setupFullAxesBox();
-    driftGraph->yAxis->setRange(-3, 3);
-
-    // make left and bottom axes transfer their ranges to right and top axes:
+    //Dragging and zooming settings
+    // make bottom axis transfer its range to the top axis if the graph gets zoomed:
     connect(driftGraph->xAxis, SIGNAL(rangeChanged(QCPRange)), driftGraph->xAxis2, SLOT(setRange(QCPRange)));
-    connect(driftGraph->yAxis, SIGNAL(rangeChanged(QCPRange)), driftGraph->yAxis2, SLOT(setRange(QCPRange)));
-
+    // update the second vertical axis properly if the graph gets zoomed.
+    connect(driftGraph->yAxis,SIGNAL(rangeChanged(QCPRange)),SLOT(setCorrectionGraphScale()));
     driftGraph->setInteractions(QCP::iRangeZoom);
     driftGraph->setInteraction(QCP::iRangeDrag, true);
 
@@ -319,6 +361,8 @@ Guide::Guide() : QWidget()
 
     driftPlot->xAxis->setLabelFont(QFont(font().family(), 10));
     driftPlot->yAxis->setLabelFont(QFont(font().family(), 10));
+    driftPlot->xAxis->setTickLabelFont(QFont(font().family(), 9));
+    driftPlot->yAxis->setTickLabelFont(QFont(font().family(), 9));
 
     driftPlot->xAxis->setLabelPadding(2);
     driftPlot->yAxis->setLabelPadding(2);
@@ -350,18 +394,34 @@ Guide::Guide() : QWidget()
     connect(rightLayout, SIGNAL(splitterMoved(int,int)), this, SLOT(handleVerticalPlotSizeChange()));
     connect(driftSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(handleHorizontalPlotSizeChange()));
 
+    //This sets the values of all the Graph Options that are stored.
     accuracyRadiusSpin->setValue(Options::guiderAccuracyThreshold());
     showRAPlotCheck->setChecked(Options::rADisplayedOnGuideGraph());
     showDECPlotCheck->setChecked(Options::dEDisplayedOnGuideGraph());
+    showRACorrectionsCheck->setChecked(Options::rACorrDisplayedOnGuideGraph());
+    showDECorrectionsCheck->setChecked(Options::dECorrDisplayedOnGuideGraph());
+
+    //This sets the visibility of graph components to the stored values.
+    driftGraph->graph(0)->setVisible(Options::rADisplayedOnGuideGraph()); //RA data
+    driftGraph->graph(1)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC data
+    driftGraph->graph(2)->setVisible(Options::rADisplayedOnGuideGraph()); //RA highlighted point
+    driftGraph->graph(3)->setVisible(Options::dEDisplayedOnGuideGraph()); //DEC highlighted point
+    driftGraph->graph(4)->setVisible(Options::rACorrDisplayedOnGuideGraph()); //RA Pulses
+    driftGraph->graph(5)->setVisible(Options::dECorrDisplayedOnGuideGraph()); //DEC Pulses
+    updateCorrectionsScaleVisibility();
 
     buildTarget();
 
-    //These are the buttons and slider below the guide plots.
+    //This connects all the buttons and slider below the guide plots.
     connect(accuracyRadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(buildTarget()));
     connect(guideSlider, SIGNAL(sliderMoved(int)), this, SLOT(guideHistory()));
     connect(latestCheck, SIGNAL(toggled(bool)), this, SLOT(setLatestGuidePoint(bool)));
     connect(showRAPlotCheck, SIGNAL(toggled(bool)), this, SLOT(toggleShowRAPlot(bool)));
     connect(showDECPlotCheck, SIGNAL(toggled(bool)), this, SLOT(toggleShowDEPlot(bool)));
+    connect(showRACorrectionsCheck, SIGNAL(toggled(bool)), this, SLOT(toggleRACorrectionsPlot(bool)));
+    connect(showDECorrectionsCheck, SIGNAL(toggled(bool)), this, SLOT(toggleDECorrectionsPlot(bool)));
+    connect(correctionSlider, SIGNAL(sliderMoved(int)), this, SLOT(setCorrectionGraphScale()));
+
 
     driftPlot->resize(190, 190);
     driftPlot->replot();
@@ -495,6 +555,8 @@ void Guide::clearGuideGraphs(){
     driftGraph->graph(1)->data()->clear(); //DEC data
     driftGraph->graph(2)->data()->clear(); //RA highlighted point
     driftGraph->graph(3)->data()->clear(); //DEC highlighted point
+    driftGraph->graph(4)->data()->clear(); //RA Pulses
+    driftGraph->graph(5)->data()->clear(); //DEC Pulses
     driftPlot->graph(0)->data()->clear(); //Guide data
     driftPlot->graph(1)->data()->clear(); //Guide highlighted point
     driftGraph->replot();
@@ -505,7 +567,7 @@ void Guide::slotAutoScaleGraphs(){
     double accuracyRadius = accuracyRadiusSpin->value();
 
     double key = guideTimer.elapsed() / 1000.0;
-    driftGraph->xAxis->setRange(key - 120, key);
+    driftGraph->xAxis->setRange(key - 60, key);
     driftGraph->yAxis->setRange(-3, 3);
     driftGraph->graph(0)->rescaleValueAxis(true);
     driftGraph->replot();
@@ -530,6 +592,8 @@ void Guide::guideHistory(){
     double t = driftGraph->graph(0)->dataMainKey(sliderValue); //Get time from RA data
     double ra = driftGraph->graph(0)->dataMainValue(sliderValue); //Get RA from RA data
     double de = driftGraph->graph(1)->dataMainValue(sliderValue); //Get DEC from DEC data
+    double raPulse = driftGraph->graph(4)->dataMainValue(sliderValue); //Get RA Pulse from RA pulse data
+    double dePulse = driftGraph->graph(5)->dataMainValue(sliderValue); //Get DEC Pulse from DEC pulse data
     driftGraph->graph(2)->addData(t, ra); //Set RA highlighted point
     driftGraph->graph(3)->addData(t, de); //Set DEC highlighted point
 
@@ -558,16 +622,35 @@ void Guide::guideHistory(){
         QPoint localTooltipCoordinates=driftGraph->graph(0)->dataPixelPosition(sliderValue).toPoint();
         QPoint globalTooltipCoordinates=driftGraph->mapToGlobal(localTooltipCoordinates);
 
-        QToolTip::showText(
-            globalTooltipCoordinates,
-            i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds",
-                  "<table>"
-                  "<tr><td>LT:   </td><td>%1</td></tr>"
-                  "<tr><td>RA:   </td><td>%2 \"</td></tr>"
-                  "<tr><td>DE:   </td><td>%3 \"</td></tr>"
-                  "</table>",
-                  localTime.toString("hh:mm:ss AP"), QString::number(ra, 'f', 2),
-                  QString::number(de, 'f', 2)));
+        if(raPulse == 0 && dePulse == 0)
+        {
+            QToolTip::showText(
+                globalTooltipCoordinates,
+                i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds",
+                      "<table>"
+                      "<tr><td>LT:   </td><td>%1</td></tr>"
+                      "<tr><td>RA:   </td><td>%2 \"</td></tr>"
+                      "<tr><td>DE:   </td><td>%3 \"</td></tr>"
+                      "</table>",
+                      localTime.toString("hh:mm:ss AP"), QString::number(ra, 'f', 2),
+                      QString::number(de, 'f', 2)));
+        }
+        else
+        {
+            QToolTip::showText(
+                globalTooltipCoordinates,
+                i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds; %4 is RA Pulse in ms; %5 is DE Pulse in ms",
+                      "<table>"
+                      "<tr><td>LT:   </td><td>%1</td></tr>"
+                      "<tr><td>RA:   </td><td>%2 \"</td></tr>"
+                      "<tr><td>DE:   </td><td>%3 \"</td></tr>"
+                      "<tr><td>RA Pulse:   </td><td>%4 ms</td></tr>"
+                      "<tr><td>DE Pulse:   </td><td>%5 ms</td></tr>"
+                      "</table>",
+                      localTime.toString("hh:mm:ss AP"), QString::number(ra, 'f', 2),
+                      QString::number(de, 'f', 2),QString::number(raPulse, 'f', 2),QString::number(dePulse, 'f', 2))); //The pulses were divided by 100 before they were put on the graph.
+        }
+
     }
 }
 
@@ -591,6 +674,34 @@ void Guide::toggleShowDEPlot(bool isChecked)
     Options::setDEDisplayedOnGuideGraph(isChecked);
     driftGraph->graph(1)->setVisible(isChecked);
     driftGraph->graph(3)->setVisible(isChecked);
+    driftGraph->replot();
+}
+
+void Guide::toggleRACorrectionsPlot(bool isChecked)
+{
+    Options::setRACorrDisplayedOnGuideGraph(isChecked);
+    driftGraph->graph(4)->setVisible(isChecked);
+    updateCorrectionsScaleVisibility();
+}
+
+void Guide::toggleDECorrectionsPlot(bool isChecked)
+{
+    Options::setDECorrDisplayedOnGuideGraph(isChecked);
+    driftGraph->graph(5)->setVisible(isChecked);
+    updateCorrectionsScaleVisibility();
+}
+
+void Guide::updateCorrectionsScaleVisibility()
+{
+    bool isVisible=(Options::rACorrDisplayedOnGuideGraph()||Options::dECorrDisplayedOnGuideGraph());
+    driftGraph->yAxis2->setVisible(isVisible);
+    //driftGraph->yAxis2->setTickLabels(isVisible);
+    correctionSlider->setVisible(isVisible);
+    driftGraph->replot();
+}
+
+void Guide::setCorrectionGraphScale(){
+    driftGraph->yAxis2->setRange(driftGraph->yAxis->range().lower*correctionSlider->value(),driftGraph->yAxis->range().upper*correctionSlider->value());
     driftGraph->replot();
 }
 
@@ -638,18 +749,20 @@ void Guide::exportGuideData()
 
     QTextStream outstream(&file);
 
-    outstream << "Frame #, Time Elapsed (sec), Local Time (HMS), RA Error (arcsec), DE Error (arcsec)" << endl;
+    outstream << "Frame #, Time Elapsed (sec), Local Time (HMS), RA Error (arcsec), DE Error (arcsec), RA Pulse  (ms), DE Pulse (ms)" << endl;
 
     for (int i = 0; i < numPoints; i++)
     {
         double t = driftGraph->graph(0)->dataMainKey(i);
         double ra = driftGraph->graph(0)->dataMainValue(i);
         double de = driftGraph->graph(1)->dataMainValue(i);
+        double raPulse = driftGraph->graph(4)->dataMainValue(i);
+        double dePulse = driftGraph->graph(5)->dataMainValue(i);
 
         QTime localTime = guideTimer;
         localTime = localTime.addSecs(t);
 
-        outstream << i << ',' << t << ',' << localTime.toString("hh:mm:ss AP") << ',' << ra << ',' << de << ',' << endl;
+        outstream << i << ',' << t << ',' << localTime.toString("hh:mm:ss AP") << ',' << ra << ',' << de << ',' << raPulse << ',' << dePulse << ',' << endl;
     }
     appendLogText(i18n("Guide Data Saved as: %1", path));
     file.close();
@@ -2446,6 +2559,8 @@ void Guide::setAxisDelta(double ra, double de)
     // Time since timer started.
     double key = guideTimer.elapsed() / 1000.0;
 
+    ra = -ra;  //The ra is backwards in sign from how it should be displayed on the graph.
+
     driftGraph->graph(0)->addData(key, ra);
     driftGraph->graph(1)->addData(key, de);
 
@@ -2508,6 +2623,11 @@ void Guide::setAxisPulse(double ra, double de)
 {
     l_PulseRA->setText(QString::number(static_cast<int>(ra)));
     l_PulseDEC->setText(QString::number(static_cast<int>(de)));
+
+    double key = guideTimer.elapsed() / 1000.0;
+
+    driftGraph->graph(4)->addData(key, ra);
+    driftGraph->graph(5)->addData(key, de);
 }
 
 void Guide::refreshColorScheme()
@@ -2547,22 +2667,43 @@ void Guide::driftMouseOverLine(QMouseEvent *event)
             double raDelta = driftGraph->graph(0)->dataMainValue(raIndex);
             double deDelta = driftGraph->graph(1)->dataMainValue(deIndex);
 
+            double raPulse = driftGraph->graph(4)->dataMainValue(raIndex); //Get RA Pulse from RA pulse data
+            double dePulse = driftGraph->graph(5)->dataMainValue(deIndex); //Get DEC Pulse from DEC pulse data
+
             // Compute time value:
             QTime localTime = guideTimer;
 
             localTime = localTime.addSecs(key);
 
             QToolTip::hideText();
-            QToolTip::showText(
-                event->globalPos(),
-                i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds",
-                      "<table>"
-                      "<tr><td>LT:   </td><td>%1</td></tr>"
-                      "<tr><td>RA:   </td><td>%2 \"</td></tr>"
-                      "<tr><td>DE:   </td><td>%3 \"</td></tr>"
-                      "</table>",
-                      localTime.toString("hh:mm:ss AP"), QString::number(raDelta, 'f', 2),
-                      QString::number(deDelta, 'f', 2)));
+            if(raPulse==0 && dePulse == 0)
+            {
+                QToolTip::showText(
+                    event->globalPos(),
+                            i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds;",
+                                  "<table>"
+                                  "<tr><td>LT:   </td><td>%1</td></tr>"
+                                  "<tr><td>RA:   </td><td>%2 \"</td></tr>"
+                                  "<tr><td>DE:   </td><td>%3 \"</td></tr>"
+                                  "</table>",
+                                  localTime.toString("hh:mm:ss AP"), QString::number(raDelta, 'f', 2),
+                                  QString::number(deDelta, 'f', 2)));
+            }
+            else
+            {
+                QToolTip::showText(
+                    event->globalPos(),
+                            i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds; %4 is RA Pulse in ms; %5 is DE Pulse in ms",
+                                  "<table>"
+                                  "<tr><td>LT:   </td><td>%1</td></tr>"
+                                  "<tr><td>RA:   </td><td>%2 \"</td></tr>"
+                                  "<tr><td>DE:   </td><td>%3 \"</td></tr>"
+                                  "<tr><td>RA Pulse:   </td><td>%4 ms</td></tr>"
+                                  "<tr><td>DE Pulse:   </td><td>%5 ms</td></tr>"
+                                  "</table>",
+                                  localTime.toString("hh:mm:ss AP"), QString::number(raDelta, 'f', 2),
+                                  QString::number(deDelta, 'f', 2),QString::number(raPulse, 'f', 2),QString::number(dePulse, 'f', 2))); //The pulses were divided by 100 before they were put on the graph.
+            }
         }
         else
             QToolTip::hideText();

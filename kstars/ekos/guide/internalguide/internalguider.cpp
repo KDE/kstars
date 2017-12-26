@@ -877,7 +877,19 @@ bool InternalGuider::processGuiding()
         // draw some params in window
         emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
 
-        emit newAxisPulse(out->pulse_length[GUIDE_RA], out->pulse_length[GUIDE_DEC]);
+        double raPulse = out->pulse_length[GUIDE_RA];
+        double dePulse = out->pulse_length[GUIDE_DEC];
+
+        if(out->pulse_dir[GUIDE_RA]==NO_DIR)  //If the pulse was not sent to the mount, it should have 0 value
+            raPulse = 0;
+        if(out->pulse_dir[GUIDE_DEC]==NO_DIR) //If the pulse was not sent to the mount, it should have 0 value
+            dePulse = 0;
+        if(out->pulse_dir[GUIDE_RA]==RA_INC_DIR)  //If the pulse was in the Negative direction, it should have a negative sign.
+            raPulse = -raPulse;  
+        if(out->pulse_dir[GUIDE_DEC]==DEC_INC_DIR) //If the pulse was in the Negative direction, it should have a negative sign.
+            dePulse = -dePulse;
+
+        emit newAxisPulse(raPulse, dePulse);
 
         emit newAxisSigma(out->sigma[GUIDE_RA], out->sigma[GUIDE_DEC]);
     }
