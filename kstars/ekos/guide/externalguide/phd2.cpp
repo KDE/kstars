@@ -495,9 +495,21 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
         case GuideStep:
         {
-            double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs;
+            double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs, pulse_ra, pulse_dec;
+            QString RADirection, DECDirection;
             diff_ra_pixels = jsonEvent["RADistanceRaw"].toDouble();
             diff_de_pixels = jsonEvent["DECDistanceRaw"].toDouble();
+            pulse_ra = jsonEvent["RADuration"].toDouble();
+            pulse_dec = jsonEvent["DECDuration"].toDouble();
+            RADirection = jsonEvent["RADirection"].toString();
+            DECDirection = jsonEvent["DECDirection"].toString();
+
+            if(RADirection == "East")
+                pulse_ra = -pulse_ra;  //West Direction is Positive, East is Negative
+            if(DECDirection == "South")
+                pulse_dec = -pulse_dec; //South Direction is Negative, North is Positive
+
+            qDebug() << pulse_ra << "," << pulse_dec << "," << RADirection << "," << DECDirection;
 
             //If the pixelScale is properly set from PHD2, the second block of code is not needed, but if not, we will attempt to calculate the ra and dec error without it.
             if(pixelScale!=0)
@@ -518,6 +530,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
                     errorLog.remove(0);
 
                 emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
+                emit newAxisPulse(pulse_ra, pulse_dec);
 
                 double total_sqr_RA_error=0.0;
                 double total_sqr_DE_error=0.0;

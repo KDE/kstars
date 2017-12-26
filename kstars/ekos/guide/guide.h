@@ -359,7 +359,11 @@ class Guide : public QWidget, public Ui::Guide
     void setLatestGuidePoint(bool isChecked);
     void toggleShowRAPlot(bool isChecked);
     void toggleShowDEPlot(bool isChecked);
+    void toggleRACorrectionsPlot(bool isChecked);
+    void toggleDECorrectionsPlot(bool isChecked);
     void exportGuideData();
+    void setCorrectionGraphScale();
+    void updateCorrectionsScaleVisibility();
 
 
   protected slots:
