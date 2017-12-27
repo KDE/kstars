@@ -24,22 +24,28 @@ class Dome : public DeviceDecorator
     Q_OBJECT
 
   public:
+    typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNPARKED } ParkStatus;
+
     explicit Dome(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_DOME; }
 
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
     void processNumber(INumberVectorProperty *nvp);
     void processLight(ILightVectorProperty *lvp);
+    void registerProperty(INDI::Property *prop);
 
     DeviceFamily getType() { return dType; }
 
     bool canPark();
-    bool isParked();
+    bool isParked() { return parkStatus == PARK_PARKED; }
     bool isMoving();
 
   public slots:
     bool Abort();
     bool Park();
     bool UnPark();
+
+  private:
+    ParkStatus parkStatus = PARK_UNKNOWN;
 };
 }
