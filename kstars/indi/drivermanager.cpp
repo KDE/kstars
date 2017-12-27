@@ -460,6 +460,7 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
             cm->deleteLater();
 
             KStars::Instance()->slotSetTelescopeEnabled(false);
+            KStars::Instance()->slotSetDomeEnabled(false);
         }
     }
 

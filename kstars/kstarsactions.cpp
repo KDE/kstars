@@ -361,6 +361,18 @@ void KStars::slotSetTelescopeEnabled(bool enable)
     }
 }
 
+void KStars::slotSetDomeEnabled(bool enable)
+{
+    domeGroup->setEnabled(enable);
+    if (enable == false)
+    {
+        for(QAction *a : domeGroup->actions())
+        {
+            a->setChecked(false);
+        }
+    }
+}
+
 /** Major Dialog Window Actions **/
 
 void KStars::slotCalculator()
@@ -877,6 +889,44 @@ void KStars::slotINDITelescopeUnpark()
         if (telescope != nullptr && telescope->isConnected() && telescope->canPark())
         {
             telescope->UnPark();
+            return;
+        }
+    }
+#endif
+}
+
+void KStars::slotINDIDomePark()
+{
+#ifdef HAVE_INDI
+    if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
+        return;
+
+    for (auto *gd : INDIListener::Instance()->getDevices())
+    {
+        ISD::Dome* dome = dynamic_cast<ISD::Dome*>(gd);
+
+        if (dome != nullptr && dome->isConnected() && dome->canPark())
+        {
+            dome->Park();
+            return;
+        }
+    }
+#endif
+}
+
+void KStars::slotINDIDomeUnpark()
+{
+#ifdef HAVE_INDI
+    if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
+        return;
+
+    for (auto *gd : INDIListener::Instance()->getDevices())
+    {
+        ISD::Dome* dome = dynamic_cast<ISD::Dome*>(gd);
+
+        if (dome != nullptr && dome->isConnected() && dome->canPark())
+        {
+            dome->UnPark();
             return;
         }
     }

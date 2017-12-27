@@ -481,6 +481,12 @@ class KStars : public KXmlGuiWindow
      */
     void slotSetTelescopeEnabled(bool enable);
 
+    /**
+     * @brief slotSetDomeEnabled call when dome comes online or goes offline.
+     * @param enable True if dome is online and connected, false otherwise.
+     */
+    void slotSetDomeEnabled(bool enable);
+
     /** Delete FindDialog because ObjNames list has changed in KStarsData due to
          * reloading star data. So list in FindDialog must be new filled with current data. */
     void clearCachedFindDialog();
@@ -612,6 +618,12 @@ class KStars : public KXmlGuiWindow
 
     /** action slot: Unpark the telescope (INDI) */
     void slotINDITelescopeUnpark();
+
+    /** action slot: Park the dome (INDI) */
+    void slotINDIDomePark();
+
+    /** action slot: UnPark the dome (INDI) */
+    void slotINDIDomeUnpark();
 
     /** action slot: open dialog for setting the view options */
     void slotViewOps();
@@ -793,6 +805,7 @@ class KStars : public KXmlGuiWindow
     QActionGroup *cschemeGroup { nullptr };
     QActionGroup *hipsGroup { nullptr };
     QActionGroup *telescopeGroup { nullptr };
+    QActionGroup *domeGroup { nullptr };
 
     bool DialogIsObsolete { false };
     bool StartClockRunning { false };

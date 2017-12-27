@@ -178,6 +178,9 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     hipsGroup       = new QActionGroup(this);
     telescopeGroup  = new QActionGroup(this);
     telescopeGroup->setExclusive(false);
+    domeGroup       = new QActionGroup(this);
+    domeGroup->setExclusive(false);
+
 
     m_KStarsData = KStarsData::Create();
     Q_ASSERT(m_KStarsData);

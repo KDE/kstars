@@ -84,6 +84,11 @@ INDIListener *INDIListener::Instance()
             KStars::Instance()->slotSetTelescopeEnabled(true);
         });
 
+        connect(_INDIListener, &INDIListener::newDome, [&]()
+        {
+            KStars::Instance()->slotSetDomeEnabled(true);
+        });
+
     }
 
     return _INDIListener;

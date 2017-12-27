@@ -200,4 +200,10 @@
         <Action name="telescope_abort" />
 </ToolBar>
 
+<ToolBar hidden="1" noMerge="1" name="DomeToolBar" iconText="icononly" hidden="true">
+        <text>Dome Toolbar</text>
+        <Action name="dome_park" />
+        <Action name="dome_unpark" />
+</ToolBar>
+
 </kpartgui>
