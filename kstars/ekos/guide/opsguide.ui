@@ -263,7 +263,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_DitherNoGuiding">
           <property name="toolTip">
-           <string>Perform dithering when not guiding,</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform dithering when not guiding.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Non-Guide Dither Pulse:</string>
