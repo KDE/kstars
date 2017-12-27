@@ -695,7 +695,6 @@ void Guide::updateCorrectionsScaleVisibility()
 {
     bool isVisible=(Options::rACorrDisplayedOnGuideGraph()||Options::dECorrDisplayedOnGuideGraph());
     driftGraph->yAxis2->setVisible(isVisible);
-    //driftGraph->yAxis2->setTickLabels(isVisible);
     correctionSlider->setVisible(isVisible);
     driftGraph->replot();
 }
@@ -1248,10 +1247,13 @@ bool Guide::abort()
 
 void Guide::setBusy(bool enable)
 {
-    if (enable && pi->isAnimated())
-        return;
-    else if (enable == false && pi->isAnimated() == false)
-        return;
+    if(guiderType != GUIDE_PHD2)  //These 2 commands caused a problem with PHD2 because in the initial connection, multiple state commands get executed, and the setBusy command gets called more than once.  This prevented the guide button from being disabled as it is supposed to be.
+    {
+        if (enable && pi->isAnimated())
+            return;
+        else if (enable == false && pi->isAnimated() == false)
+            return;
+    }
 
     if (enable)
     {
@@ -1447,7 +1449,7 @@ bool Guide::sendPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_di
     if (GuideDriver == nullptr || (ra_dir == NO_DIR && dec_dir == NO_DIR))
         return false;
 
-    if (state == GUIDE_CALIBRATING && Options::ditherNoGuiding() == false)
+    if (state == GUIDE_CALIBRATING)
         pulseTimer.start((ra_msecs > dec_msecs ? ra_msecs : dec_msecs) + 100);
 
     return GuideDriver->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
@@ -1458,7 +1460,7 @@ bool Guide::sendPulse(GuideDirection dir, int msecs)
     if (GuideDriver == nullptr || dir == NO_DIR)
         return false;
 
-    if (state == GUIDE_CALIBRATING && Options::ditherNoGuiding() == false)
+    if (state == GUIDE_CALIBRATING)
         pulseTimer.start(msecs + 100);
 
     return GuideDriver->doPulse(dir, msecs);
@@ -1595,8 +1597,10 @@ bool Guide::calibrate()
 
 bool Guide::guide()
 {
-    if (calibrationComplete == false)
-        return calibrate();
+    if(guiderType != GUIDE_PHD2){
+        if (calibrationComplete == false)
+            return calibrate();
+    }
 
     saveSettings();
 
@@ -1607,7 +1611,7 @@ bool Guide::guide()
 
 bool Guide::dither()
 {
-    if (Options::ditherNoGuiding())
+    if (Options::ditherNoGuiding() && state == GUIDE_IDLE)
     {
         ditherDirectly();
         return true;
