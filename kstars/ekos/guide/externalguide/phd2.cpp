@@ -683,7 +683,7 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
 bool PHD2::calibrate()
 {
     // We don't explicitly do calibration since it is done in the guide step by PHD2 anyway
-    emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+    //emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
     return true;
 }
 
