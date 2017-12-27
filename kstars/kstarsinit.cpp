@@ -610,6 +610,19 @@ void KStars::initActions()
 
     // Disable all telescope actions by default
     telescopeGroup->setEnabled(false);
+
+    // Dome Actions
+    ka = actionCollection()->addAction("dome_park", this, SLOT(slotINDIDomePark()))
+            << i18n("Park dome")
+            << QIcon::fromTheme("dome-park", QIcon(":/icons/dome-park.svg"));
+    domeGroup->addAction(ka);
+    ka = actionCollection()->addAction("dome_unpark", this, SLOT(slotINDIDomeUnpark()))
+            << i18n("Unpark dome")
+            << QIcon::fromTheme("dome-unpark", QIcon(":/icons/dome-unpark.svg"));
+    ka->setShortcutContext(Qt::ApplicationShortcut);
+    domeGroup->addAction(ka);
+
+    domeGroup->setEnabled(false);
 #endif
 }
 

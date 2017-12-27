@@ -9,6 +9,7 @@
 
 #include <basedevice.h>
 #include "indidome.h"
+#include "kstars.h"
 #include "clientmanager.h"
 
 namespace ISD
@@ -25,6 +26,20 @@ void Dome::processNumber(INumberVectorProperty *nvp)
 
 void Dome::processSwitch(ISwitchVectorProperty *svp)
 {
+    if (!strcmp(svp->name, "CONNECTION"))
+    {
+        ISwitch *conSP = IUFindSwitch(svp, "CONNECT");
+        if (conSP)
+        {
+            if (isConnected() == false && conSP->s == ISS_ON)
+                KStars::Instance()->slotSetDomeEnabled(true);
+            else if (isConnected() && conSP->s == ISS_OFF)
+            {
+                KStars::Instance()->slotSetDomeEnabled(false);
+            }
+        }
+    }
+
     DeviceDecorator::processSwitch(svp);
 }
 

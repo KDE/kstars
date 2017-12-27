@@ -136,6 +136,8 @@
         <file>icons/breeze/default/flag-green.svg</file>
         <file>icons/stellarmate.svg</file>
         <file>icons/center_telescope_magenta.svg</file>
+        <file>icons/dome-park.svg</file>
+        <file>icons/dome-unpark.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>
