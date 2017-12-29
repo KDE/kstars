@@ -268,7 +268,9 @@ Guide::Guide() : QWidget()
     //Sets the default ranges
     driftGraph->xAxis->setRange(0, 60, Qt::AlignRight);
     driftGraph->yAxis->setRange(-3, 3);
-    driftGraph->yAxis2->setRange(-30, 30);
+    int scale = 50;  //This is a scaling value between the left and the right axes of the driftGraph, it could be stored in kstars kcfg
+    correctionSlider->setValue(scale);
+    driftGraph->yAxis2->setRange(-3 * scale, 3 * scale);
 
     //This sets up the legend
     driftGraph->legend->setVisible(true);
@@ -1247,13 +1249,10 @@ bool Guide::abort()
 
 void Guide::setBusy(bool enable)
 {
-    if(guiderType != GUIDE_PHD2)  //These 2 commands caused a problem with PHD2 because in the initial connection, multiple state commands get executed, and the setBusy command gets called more than once.  This prevented the guide button from being disabled as it is supposed to be.
-    {
         if (enable && pi->isAnimated())
             return;
         else if (enable == false && pi->isAnimated() == false)
             return;
-    }
 
     if (enable)
     {
@@ -1826,6 +1825,7 @@ void Guide::setStatus(Ekos::GuideState newState)
 
         case GUIDE_DISCONNECTED:
             appendLogText(i18n("External guider disconnected."));
+            setBusy(false); //This needs to come before caputureB since it will set it to enabled again.
             externalConnectB->setEnabled(true);
             externalDisconnectB->setEnabled(false);
             clearCalibrationB->setEnabled(false);
@@ -1833,7 +1833,6 @@ void Guide::setStatus(Ekos::GuideState newState)
             captureB->setEnabled(false);
             loopB->setEnabled(false);
             setBLOBEnabled(true);
-            setBusy(false);
             break;
 
         case GUIDE_CALIBRATION_SUCESS:
@@ -1846,7 +1845,8 @@ void Guide::setStatus(Ekos::GuideState newState)
             }
             else
                 setBusy(false);*/
-            guide();
+            if(guiderType != GUIDE_PHD2) //PHD2 will take care of this.  If this command is executed for PHD2, it might start guiding when it is first connected, if the calibration was completed already.
+                guide();
             break;
 
         case GUIDE_CALIBRATION_ERROR:
@@ -1975,6 +1975,8 @@ void Guide::setDarkFrameEnabled(bool enable)
 void Guide::saveDefaultGuideExposure()
 {
     Options::setGuideExposure(exposureIN->value());
+    if(guiderType == GUIDE_PHD2)
+        phd2Guider->requestSetExposureTime(exposureIN->value()*1000);
 }
 
 void Guide::setStarPosition(const QVector3D &newCenter, bool updateNow)
@@ -2110,15 +2112,21 @@ bool Guide::setGuiderType(int type)
             loopB->setEnabled(false);
             darkFrameCheck->setEnabled(false);
             subFrameCheck->setEnabled(false);
-            guideB->setEnabled(true);
+            guideB->setEnabled(false); //This will be enabled later when equipment connects (or not)
             externalConnectB->setEnabled(false);
+
+            checkBox_DirRA->setEnabled(false);
+            eastControlCheck->setEnabled(false);
+            westControlCheck->setEnabled(false);
+            swapCheck->setEnabled(false);
+
 
             controlGroup->setEnabled(false);
             infoGroup->setEnabled(false);
             driftGraphicsGroup->setEnabled(true);
 
             ST4Combo->setEnabled(false);
-            exposureIN->setEnabled(false);
+            exposureIN->setEnabled(true);
             binningCombo->setEnabled(false);
             boxSizeCombo->setEnabled(false);
             filterCombo->setEnabled(false);
@@ -2388,6 +2396,7 @@ void Guide::onEnableDirRA(bool enable)
 void Guide::onEnableDirDEC(bool enable)
 {
     Options::setDECGuideEnabled(enable);
+    updatePHD2Directions();
 }
 
 void Guide::onInputParamChanged()
@@ -2432,10 +2441,12 @@ void Guide::onControlDirectionChanged(bool enable)
     if (northControlCheck == dynamic_cast<QCheckBox *>(obj))
     {
         Options::setNorthDECGuideEnabled(enable);
+        updatePHD2Directions();
     }
     else if (southControlCheck == dynamic_cast<QCheckBox *>(obj))
     {
         Options::setSouthDECGuideEnabled(enable);
+        updatePHD2Directions();
     }
     else if (westControlCheck == dynamic_cast<QCheckBox *>(obj))
     {
@@ -2445,6 +2456,48 @@ void Guide::onControlDirectionChanged(bool enable)
     {
         Options::setEastRAGuideEnabled(enable);
     }
+}
+void Guide::updatePHD2Directions()
+{
+    if(guiderType == GUIDE_PHD2)
+        phd2Guider -> requestSetDEGuideMode(checkBox_DirDEC->isChecked(), northControlCheck->isChecked(), southControlCheck->isChecked());
+}
+void Guide::updateDirectionsFromPHD2(QString mode)
+{
+    //disable connections
+    disconnect(checkBox_DirDEC, SIGNAL(toggled(bool)), this, SLOT(onEnableDirDEC(bool)));
+    disconnect(northControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
+    disconnect(southControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
+
+    if(mode == "Auto")
+    {
+        checkBox_DirDEC->setChecked(true);
+        northControlCheck->setChecked(true);
+        southControlCheck->setChecked(true);
+    }
+    else if(mode == "North")
+    {
+        checkBox_DirDEC->setChecked(true);
+        northControlCheck->setChecked(true);
+        southControlCheck->setChecked(false);
+    }
+    else if(mode == "South")
+    {
+        checkBox_DirDEC->setChecked(true);
+        northControlCheck->setChecked(false);
+        southControlCheck->setChecked(true);
+    }
+    else //Off
+    {
+        checkBox_DirDEC->setChecked(false);
+        northControlCheck->setChecked(true);
+        southControlCheck->setChecked(true);
+    }
+
+    //Re-enable connections
+    connect(checkBox_DirDEC, SIGNAL(toggled(bool)), this, SLOT(onEnableDirDEC(bool)));
+    connect(northControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
+    connect(southControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
 }
 
 #if 0
