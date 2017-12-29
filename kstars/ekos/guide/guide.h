@@ -365,6 +365,8 @@ class Guide : public QWidget, public Ui::Guide
     void setCorrectionGraphScale();
     void updateCorrectionsScaleVisibility();
 
+    void updateDirectionsFromPHD2(QString mode);
+
 
   protected slots:
     void updateTelescopeType(int index);
@@ -410,6 +412,7 @@ class Guide : public QWidget, public Ui::Guide
     void processGuideOptions();
 
     void onControlDirectionChanged(bool enable);
+    void updatePHD2Directions();
 
     void showFITSViewer();
 
