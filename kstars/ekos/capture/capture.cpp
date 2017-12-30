@@ -708,10 +708,6 @@ void Capture::updateFrameProperties(int reset)
     binXIN->setEnabled(targetChip->canBin());
     binYIN->setEnabled(targetChip->canBin());
 
-    QList<double> exposureValues;
-    exposureValues << 0.01 << 0.02 << 0.05 << 0.1 << 0.2 << 0.25 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 5 << 6 << 7 << 8 << 9 << 10 << 20 << 30 << 40 << 50 << 60 << 120 << 180 << 300 << 600 << 900;
-    exposureIN->setRecommendedValues(exposureValues);
-
     if (currentCCD->getMinMaxStep(exposureProp, exposureElem, &min, &max, &step))
     {
         exposureIN->setMinimum(min);
@@ -723,6 +719,10 @@ void Capture::updateFrameProperties(int reset)
         else
             exposureIN->setDecimals(3);
     }
+
+    QList<double> exposureValues;
+    exposureValues << min << 0.01 << 0.02 << 0.05 << 0.1 << 0.2 << 0.25 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 5 << 6 << 7 << 8 << 9 << 10 << 20 << 30 << 40 << 50 << 60 << 120 << 180 << 300 << 600 << 900 << max;
+    exposureIN->setRecommendedValues(exposureValues);
 
     if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
     {
