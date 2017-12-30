@@ -281,7 +281,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QDoubleSpinBox" name="exposureIN">
+           <widget class="NonLinearDoubleSpinBox" name="exposureIN">
             <property name="decimals">
              <number>3</number>
             </property>
@@ -1541,6 +1541,11 @@
    <extends>QWidget</extends>
    <header>auxiliary/qcustomplot.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>NonLinearDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>auxiliary/nonlineardoublespinbox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

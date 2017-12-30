@@ -617,6 +617,7 @@ set(kstars_extra_SRCS
     auxiliary/ksutils.cpp
     auxiliary/ksdssimage.cpp
     auxiliary/ksdssdownloader.cpp
+    auxiliary/nonlineardoublespinbox.cpp
     auxiliary/profileinfo.cpp
     auxiliary/filedownloader.cpp
     auxiliary/kspaths.cpp

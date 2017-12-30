@@ -1,0 +1,31 @@
+/*  Non Linear Spin Box
+    Copyright (C) 2017 Robert Lancaster <rlancaste@gmail.com>
+
+    Based on an idea discussed in the QT Centre: http://www.qtcentre.org/threads/47535-QDoubleSpinBox-with-nonlinear-values
+
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+*/
+
+#ifndef NONLINEARDOUBLESPINBOX_H
+#define NONLINEARDOUBLESPINBOX_H
+
+#include <QDoubleSpinBox>
+
+class NonLinearDoubleSpinBox : public QDoubleSpinBox
+{
+    Q_OBJECT
+    public:
+        NonLinearDoubleSpinBox(QWidget *parent = Q_NULLPTR);
+
+        void stepBy(int steps);
+        void setRecommendedValues(QList<double> values);
+
+    private:
+        QList<double> _values;
+        int _idx = -1;
+};
+
+#endif // NONLINEARDOUBLESPINBOX_H

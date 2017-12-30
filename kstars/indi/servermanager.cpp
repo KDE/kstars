@@ -77,6 +77,9 @@ bool ServerManager::start()
         QString qhyFirmwarePath = QCoreApplication::applicationDirPath() + "/../PlugIns/qhy";
         if (QFileInfo(qhyFirmwarePath).exists() && Options::indiDriversAreInternal())
             env.insert("QHY_FIRMWARE_DIR", QDir(qhyFirmwarePath).absolutePath());
+        QString apogeeFirmwarePath = QCoreApplication::applicationDirPath() + "/../PlugIns/";
+        if (QFileInfo(apogeeFirmwarePath).exists() && Options::indiDriversAreInternal())
+            env.insert("APOGEE_ETC_DIR", QDir(apogeeFirmwarePath).absolutePath());
         env.insert("INDIPREFIX", indiServerDir);
         serverProcess->setProcessEnvironment(env);
 #endif
