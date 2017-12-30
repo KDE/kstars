@@ -122,7 +122,10 @@ PHD2::~PHD2()
 bool PHD2::Connect()
 {
     if (connection == DISCONNECTED)
+    {
+        emit newLog(i18n("Connecting to PHD2 Host: %1, on port %2. . .", Options::pHD2Host(), Options::pHD2Port()));
         tcpSocket->connectToHost(Options::pHD2Host(), Options::pHD2Port());
+    }
     else    // Already connected, let's connect equipment
         connectEquipment(true);
     return true;
@@ -284,7 +287,8 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
         case Settling:        
         case SettleBegin:
-        break;
+            //This can happen for guiding or for dithering.  A Settle done event will arrive when it finishes.
+            break;
 
         case SettleDone:
         {
@@ -300,6 +304,8 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             {
                 if (error)
                     state = STOPPED;
+                else
+                    emit newLog(i18n("PHD2: Settling complete, Guiding Started."));
             }
             else if (state == DITHERING)
             {
@@ -345,10 +351,16 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
         case GuideStep:
         {
-            if( state == LOSTLOCK){
+            if( state == LOSTLOCK)
+            {
                 emit newLog(i18n("PHD2: Star found, guiding resumed."));
-                abortTimer->stop();
-                //emit newStatus(Ekos::GUIDE_GUIDING);
+                abortTimer->stop();  
+                state = GUIDING;
+            }
+            if(state != GUIDING)
+            {
+                emit newLog(i18n("PHD2: Guiding started up again."));
+                emit newStatus(Ekos::GUIDE_GUIDING);
                 state = GUIDING;
             }
             double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs, pulse_ra, pulse_dec;
@@ -406,9 +418,12 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
         break;
 
         case GuidingDithered:
-            emit newLog(i18n("PHD2: Guide Dithering."));
-            state = DITHERING;
-            emit newStatus(Ekos::GUIDE_DITHERING);
+            emit newLog(i18n("PHD2: Dither Completed. Settling. . ."));
+            if(state == GUIDING)
+            {
+                state = DITHERING;
+                emit newStatus(Ekos::GUIDE_DITHERING);
+            }
             break;
 
         case LockPositionSet:
@@ -475,6 +490,9 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, QString rawString)
             break;
 
         case DITHER_COMMAND_RECEIVED:               //dither
+            emit newLog(i18n("PHD2: Guide Dithering. . ."));
+            state = DITHERING;
+            emit newStatus(Ekos::GUIDE_DITHERING);
             break;
 
                                                     //find_star
@@ -538,7 +556,10 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, QString rawString)
 
         case PIXEL_SCALE:                           //get_pixel_scale
             pixelScale=jsonObj["result"].toDouble();
-            emit newLog(i18n("PHD2: Pixel Scale is %1 arcsec per pixel", QString::number(pixelScale, 'f', 2)));
+            if(pixelScale == 0 )
+                emit newLog(i18n("PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is invalid."));
+            else
+                emit newLog(i18n("PHD2: Pixel Scale is %1 arcsec per pixel", QString::number(pixelScale, 'f', 2)));
             break;
 
                                                     //get_profile
@@ -618,7 +639,6 @@ void PHD2::processPHD2Error(const QJsonObject &jsonError)
         else if(resultRequest == DITHER_COMMAND_RECEIVED && state == DITHERING)
         {
             state = DITHER_FAILED;
-            //emit ditherFailed();
             emit newStatus(GUIDE_DITHERING_ERROR);
 
             if (Options::ditherFailAbortsAutoGuide())
@@ -883,6 +903,11 @@ void PHD2::connectEquipment(bool enable)
 
     // connected = enable
     args << enable;
+
+    if(enable)
+        emit newLog(i18n("PHD2: Connecting Equipment. . ."));
+    else
+        emit newLog(i18n("PHD2: Disconnecting Equipment. . ."));
 
     sendPHD2Request("set_connected", args);
 
