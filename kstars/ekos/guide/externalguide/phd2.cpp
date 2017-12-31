@@ -112,6 +112,23 @@ PHD2::PHD2()
 
     abortTimer = new QTimer(this);
     connect(abortTimer, &QTimer::timeout, this, [=]{abort();});
+
+    ditherTimer = new QTimer(this);
+    connect(ditherTimer, &QTimer::timeout, this, [=]
+    {
+        ditherTimer->stop();
+        if (Options::ditherFailAbortsAutoGuide())
+        {
+            state = DITHER_FAILED;
+            emit newStatus(GUIDE_DITHERING_ERROR);
+        }
+        else
+        {
+            emit newLog(i18n("PHD2: There was no dithering response from PHD2, but continue guiding."));
+            state = GUIDING;
+            emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
+        }
+    });
 }
 
 PHD2::~PHD2()
@@ -309,14 +326,17 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             }
             else if (state == DITHERING)
             {
-                if (error)
+                ditherTimer->stop();
+                if (error && Options::ditherFailAbortsAutoGuide())
                 {
                     state = DITHER_FAILED;
                     emit newStatus(GUIDE_DITHERING_ERROR);
                 }
                 else
                 {
-                    state = DITHER_SUCCESSFUL;
+                    if(error)
+                         emit newLog(i18n("PHD2: There was a dithering error, but continue guiding."));
+                    state = GUIDING;
                     emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
                 }
             }
@@ -328,12 +348,11 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             break;
 
         case StarLost:
-            emit newLog(i18n("PHD2: Star Lost."));
+            emit newLog(i18n("PHD2: Star Lost. Trying to reacquire."));
             if(state != LOSTLOCK)
             {
                 state = LOSTLOCK;
                 abortTimer->start(starReAcquisitionTime);
-                //emit newStatus(Ekos::GUIDE_ABORTED);
             }
             break;
 
@@ -351,13 +370,15 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
         case GuideStep:
         {
+            if(state == DITHERING)
+                    return;
             if( state == LOSTLOCK)
             {
                 emit newLog(i18n("PHD2: Star found, guiding resumed."));
                 abortTimer->stop();  
                 state = GUIDING;
             }
-            if(state != GUIDING)
+            else if(state != GUIDING)
             {
                 emit newLog(i18n("PHD2: Guiding started up again."));
                 emit newStatus(Ekos::GUIDE_GUIDING);
@@ -418,7 +439,6 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
         break;
 
         case GuidingDithered:
-            emit newLog(i18n("PHD2: Dither Completed. Settling. . ."));
             if(state == GUIDING)
             {
                 state = DITHERING;
@@ -490,7 +510,6 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, QString rawString)
             break;
 
         case DITHER_COMMAND_RECEIVED:               //dither
-            emit newLog(i18n("PHD2: Guide Dithering. . ."));
             state = DITHERING;
             emit newStatus(Ekos::GUIDE_DITHERING);
             break;
@@ -638,6 +657,7 @@ void PHD2::processPHD2Error(const QJsonObject &jsonError)
         }
         else if(resultRequest == DITHER_COMMAND_RECEIVED && state == DITHERING)
         {
+            ditherTimer->stop();
             state = DITHER_FAILED;
             emit newStatus(GUIDE_DITHERING_ERROR);
 
@@ -775,6 +795,7 @@ bool PHD2::dither(double pixels)
     args << settle;
 
     state = DITHERING;
+    ditherTimer->start(static_cast<int>(Options::ditherTimeout())*1000); //Timer is in ms, timeout is in sec
 
     sendPHD2Request("dither", args);
 

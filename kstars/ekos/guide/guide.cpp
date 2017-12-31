@@ -564,6 +564,7 @@ void Guide::clearGuideGraphs(){
     driftGraph->graph(5)->data()->clear(); //DEC Pulses
     driftPlot->graph(0)->data()->clear(); //Guide data
     driftPlot->graph(1)->data()->clear(); //Guide highlighted point
+    driftGraph->clearItems();  //Clears dither text items from the graph
     driftGraph->replot();
     driftPlot->replot();
 }
@@ -1621,6 +1622,18 @@ bool Guide::dither()
 
     if (state == GUIDE_DITHERING || state == GUIDE_DITHERING_SETTLE)
         return true;
+
+    //This adds a dither text item to the graph where dithering occurred.
+    double time = guideTimer.elapsed() / 1000.0;
+    QCPItemText *ditherLabel = new QCPItemText(driftGraph);
+    ditherLabel->setPositionAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+    ditherLabel->position->setType(QCPItemPosition::ptPlotCoords);
+    ditherLabel->position->setCoords(time, 1.5);
+    ditherLabel->setColor(Qt::white);
+    ditherLabel->setBrush(Qt::NoBrush);
+    ditherLabel->setPen(Qt::NoPen);
+    ditherLabel->setText("Dither");
+    ditherLabel->setFont(QFont(font().family(), 10));
 
     if (guiderType == GUIDE_INTERNAL)
     {
