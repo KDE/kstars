@@ -22,10 +22,14 @@ class NonLinearDoubleSpinBox : public QDoubleSpinBox
 
         void stepBy(int steps);
         void setRecommendedValues(QList<double> values);
+        void addRecommendedValue(double v);
+        QList<double> getRecommendedValues();
+        QString getRecommendedValuesString();
 
     private:
         QList<double> _values;
         int _idx = -1;
+        void updateRecommendedValues();
 };
 
 #endif // NONLINEARDOUBLESPINBOX_H

@@ -562,9 +562,11 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, QString rawString)
         case EXPOSURE_DURATIONS:                    //get_exposure_durations
         {
             QVariantList exposureListArray=jsonObj["result"].toArray().toVariantList();
-            QString logValidExposureTimes = i18n("PHD2: Valid Exposure Times: Auto");
+            logValidExposureTimes = i18n("PHD2: Valid Exposure Times: Auto, ");
+            QList<double> values;
             for(int i=1; i < exposureListArray.size(); i ++) //For some reason PHD2 has a negative exposure time of 1 at the start of the array?
-                logValidExposureTimes += ", " + QString::number(exposureListArray.at(i).toDouble()/1000.0);  //PHD2 reports in ms.
+                values << exposureListArray.at(i).toDouble()/1000.0;//PHD2 reports in ms.
+            logValidExposureTimes += KStars::Instance()->ekosManager()->guideModule()->setRecommendedExposureValues(values);
             emit newLog(logValidExposureTimes);
             break;
         }
@@ -647,7 +649,7 @@ void PHD2::processPHD2Error(const QJsonObject &jsonError)
         //This means the user mistakenly entered an invalid exposure time.
         if(resultRequest == SET_EXPOSURE_COMMAND_RECEIVED)
         {
-            requestExposureDurations();  //This will let the user know the valid exposure durations
+            emit newLog(logValidExposureTimes);  //This will let the user know the valid exposure durations
             QTimer::singleShot(300, [=]{requestExposureTime();}); //This will reset the Exposure time in Ekos to PHD2's current exposure time after a third of a second.
         }
         else if(resultRequest == CONNECTION_RESULT)
@@ -734,6 +736,7 @@ void PHD2::setEquipmentConnected()
         connection = EQUIPMENT_CONNECTED;
         emit newStatus(Ekos::GUIDE_CONNECTED);
         updateGuideParameters();
+        QTimer::singleShot(800, [=]{requestExposureDurations();});
     }
 }
 
