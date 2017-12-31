@@ -109,6 +109,7 @@ Guide::Guide() : QWidget()
     guideDataClearB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     // Exposure
+    //Should we set the range for the spin box here?
     QList<double> exposureValues;
     exposureValues << 0.02 << 0.05 << 0.1 << 0.2 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 3.5 << 4 << 4.5 << 5 << 6 << 7 << 8 << 9 << 10 << 15 << 30;
     exposureIN->setRecommendedValues(exposureValues);
@@ -771,6 +772,12 @@ void Guide::exportGuideData()
     }
     appendLogText(i18n("Guide Data Saved as: %1", path));
     file.close();
+}
+
+QString Guide::setRecommendedExposureValues(QList<double> values)
+{
+    exposureIN->setRecommendedValues(values);
+    return exposureIN->getRecommendedValuesString();
 }
 
 void Guide::addCCD(ISD::GDInterface *newCCD)

@@ -231,5 +231,7 @@ class PHD2 : public GuideInterface
     int starReAcquisitionTime=5000;
 
     double pixelScale=0;
+
+    QString logValidExposureTimes;
 };
 }
