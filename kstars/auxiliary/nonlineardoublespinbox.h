@@ -27,8 +27,8 @@ class NonLinearDoubleSpinBox : public QDoubleSpinBox
         QString getRecommendedValuesString();
 
     private:
-        QList<double> _values;
-        int _idx = -1;
+        QList<double> m_Values;
+        int m_idx = -1;
         void updateRecommendedValues();
 };
 
