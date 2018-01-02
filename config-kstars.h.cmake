@@ -22,6 +22,6 @@
 /* Define if you have notify config */
 #cmakedefine HAVE_NOTIFYCONFIG 1
 
-/* Define if you have Data Visualization */
+/* Define if you have Qt5 Data Visualization */
 #cmakedefine HAVE_DATAVISUALIZATION 1
 

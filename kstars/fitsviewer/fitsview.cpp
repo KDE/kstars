@@ -1512,6 +1512,7 @@ void FITSView::createFloatingToolBar()
                                    i18n("Detect Stars in Image"), this, SLOT(toggleStars()));
     toggleStarsAction->setCheckable(true);
 
+    #ifdef HAVE_DATAVISUALIZATION
     if (mode == FITS_FOCUS || mode == FITS_GUIDE)
     {
         toggleProfileAction =
@@ -1519,6 +1520,7 @@ void FITSView::createFloatingToolBar()
                                    i18n("View Star Profile"), this, SLOT(toggleStarProfile()));
         toggleProfileAction->setCheckable(true);
     }
+    #endif
 
     if (mode == FITS_NORMAL || mode == FITS_ALIGN)
     {
