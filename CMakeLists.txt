@@ -206,6 +206,10 @@ find_package(Xplanet)
 MACRO_BOOL_TO_01(XPLANET_FOUND HAVE_XPLANET)
 set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all the major planets and most satellites" URL "http://xplanet.sourceforge.net" TYPE OPTIONAL PURPOSE "Gives KStars support for xplanet.")
 
+# Qt5 Data Visualization
+find_package(Qt5DataVisualization)
+MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
+
 ## Astrometry.net
 find_package(AstrometryNet)
 MACRO_BOOL_TO_01(ASTROMETRYNET_FOUND HAVE_ASTROMETRYNET)

@@ -17,12 +17,6 @@ endif ()
 
 if (NOT ANDROID)
     find_package(ZLIB REQUIRED)
-    find_package(Qt5DataVisualization)
-    if (Qt5DataVisualization_FOUND)
-        SET(HAVE_DATAVISUALIZATION 1)
-    else()
-        SET(HAVE_DATAVISUALIZATION 0)
-    endif()
     find_package(Threads REQUIRED)
 endif ()
 
@@ -62,7 +56,7 @@ if(NOT BUILD_KSTARS_LITE)
             fitsviewer/opsfits.cpp            
             )
 
-        if (QtDataVisualization_FOUND)
+        if (Qt5DataVisualization_FOUND)
         set(fits_SRCS ${fits_SRCS} fitsviewer/starprofileviewer.cpp)
         endif()
 
