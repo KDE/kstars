@@ -12,6 +12,12 @@
 
 #include "fitscommon.h"
 
+#include <config-kstars.h>
+
+#ifdef HAVE_DATAVISUALIZATION
+#include "starprofileviewer.h"
+#endif
+
 #include <QFutureWatcher>
 #include <QPixmap>
 #include <QScrollArea>
@@ -142,6 +148,8 @@ class FITSView : public QScrollArea
 
     // Stars
     void toggleStars();
+    void toggleStarProfile();
+    void viewStarProfile();
 
     void centerTelescope();
 
@@ -208,6 +216,7 @@ private:
 
     bool firstLoad { true };
     bool markStars { false };
+    bool starProfile { false };
     bool showCrosshair { false };
     bool showObjects { false };
     bool showEQGrid { false };
@@ -244,6 +253,12 @@ private:
     QAction *toggleEQGridAction { nullptr };
     QAction *toggleObjectsAction { nullptr };
     QAction *toggleStarsAction { nullptr };
+    QAction *toggleProfileAction { nullptr };
+
+    //Star Profile Viewer
+    #ifdef HAVE_DATAVISUALIZATION
+    StarProfileViewer *starProfileWidget = nullptr;
+    #endif
 
   signals:
     void newStatus(const QString &msg, FITSBar id);
