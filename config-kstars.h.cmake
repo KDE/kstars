@@ -22,3 +22,6 @@
 /* Define if you have notify config */
 #cmakedefine HAVE_NOTIFYCONFIG 1
 
+/* Define if you have Data Visualization */
+#cmakedefine HAVE_DATAVISUALIZATION 1
+

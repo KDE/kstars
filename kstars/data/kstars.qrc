@@ -138,6 +138,7 @@
         <file>icons/center_telescope_magenta.svg</file>
         <file>icons/dome-park.svg</file>
         <file>icons/dome-unpark.svg</file>
+        <file>icons/star_profile.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>

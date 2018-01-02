@@ -16,8 +16,14 @@ if (ANDROID AND CMAKE_TOOLCHAIN_FILE)
 endif ()
 
 if (NOT ANDROID)
-    Find_package(ZLIB REQUIRED)
-    Find_package(Threads REQUIRED)
+    find_package(ZLIB REQUIRED)
+    find_package(Qt5DataVisualization)
+    if (Qt5DataVisualization_FOUND)
+        SET(HAVE_DATAVISUALIZATION 1)
+    else()
+        SET(HAVE_DATAVISUALIZATION 0)
+    endif()
+    find_package(Threads REQUIRED)
 endif ()
 
 if(MSVC)
@@ -53,8 +59,13 @@ if(NOT BUILD_KSTARS_LITE)
             fitsviewer/fitsviewer.cpp
             fitsviewer/fitstab.cpp
             fitsviewer/fitsdebayer.cpp
-            fitsviewer/opsfits.cpp
+            fitsviewer/opsfits.cpp            
             )
+
+        if (QtDataVisualization_FOUND)
+        set(fits_SRCS ${fits_SRCS} fitsviewer/starprofileviewer.cpp)
+        endif()
+
         set (fits_bayer_SRCS
             fitsviewer/bayer.c
             )
@@ -957,9 +968,13 @@ else(BUILD_KSTARS_LITE)
         Qt5::Quick
         Qt5::Network
         #Qt5::Positioning
-        Qt5::Concurrent
+        Qt5::Concurrent        
         ${ZLIB_LIBRARIES}
         )
+
+    if (Qt5DataVisualization_FOUND)
+        target_link_libraries(KStarsLib Qt5::DataVisualization)
+    endif(Qt5DataVisualization_FOUND)
 
     if (KF5NotifyConfig_FOUND)
         target_link_libraries(KStarsLib KF5::NotifyConfig)

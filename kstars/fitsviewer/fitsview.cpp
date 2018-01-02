@@ -265,6 +265,11 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
     if (isVisible())
         emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
 
+    if(starProfile){
+        toggleProfileAction->setChecked(true);
+        viewStarProfile();
+    }
+
     return true;
 }
 
@@ -1098,6 +1103,8 @@ void FITSView::setTrackingBox(const QRect &rect)
     {
         trackingBox        = rect;
         updateFrame();
+        if(starProfile)
+            viewStarProfile();
     }
 }
 
@@ -1162,6 +1169,47 @@ void FITSView::toggleStars()
     toggleStars(!markStars);
     if (image_frame.get())
         updateFrame();
+}
+
+void FITSView::toggleStarProfile()
+{
+    starProfile = !starProfile;
+    if(starProfile)
+        viewStarProfile();
+    toggleProfileAction->setChecked(starProfile);
+}
+
+void FITSView::viewStarProfile()
+{
+    #ifdef HAVE_DATAVISUALIZATION
+    if(trackingBoxEnabled)
+    {
+        if(!starProfileWidget)
+        {
+            starProfileWidget = new StarProfileViewer;
+            connect(starProfileWidget, SIGNAL(rejected()) , this, SLOT(toggleStarProfile()));
+        }
+
+        if(starsSearched == false)
+            findStars(starAlgorithm);
+        QList<Edge *> starCenters = imageData->getStarCenters();
+        double HFR = 0;
+        for (int i = 0; i < starCenters.count(); i++)
+        {
+            int x1 = starCenters[i]->x;
+            int y1 = starCenters[i]->y;
+            if(trackingBox.contains(x1,y1)){
+               double newHFR = imageData->getHFR(x1,y1);
+               if(newHFR > HFR)
+                   HFR = newHFR;
+            }
+        }
+
+        starProfileWidget->loadData(getTrackingBoxPixmap().toImage(), HFR);
+        starProfileWidget->show();
+        starProfileWidget->raise();
+    }
+    #endif
 }
 
 void FITSView::togglePixelGrid()
@@ -1463,6 +1511,14 @@ void FITSView::createFloatingToolBar()
         floatingToolBar->addAction(QIcon::fromTheme("kstars_stars", QIcon(":/icons/breeze/default/kstars_stars.svg")),
                                    i18n("Detect Stars in Image"), this, SLOT(toggleStars()));
     toggleStarsAction->setCheckable(true);
+
+    if (mode == FITS_FOCUS || mode == FITS_GUIDE)
+    {
+        toggleProfileAction =
+            floatingToolBar->addAction(QIcon::fromTheme("star-profile", QIcon(":/icons/star_profile.svg")),
+                                   i18n("View Star Profile"), this, SLOT(toggleStarProfile()));
+        toggleProfileAction->setCheckable(true);
+    }
 
     if (mode == FITS_NORMAL || mode == FITS_ALIGN)
     {
