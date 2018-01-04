@@ -1182,8 +1182,11 @@ void FITSView::toggleStarProfile()
 void FITSView::viewStarProfile()
 {
     #ifdef HAVE_DATAVISUALIZATION
-    if(trackingBoxEnabled)
+    if(!trackingBoxEnabled)
     {
+        setTrackingBoxEnabled(true);
+        setTrackingBox(QRect(0,0,imageData->getWidth(), imageData->getHeight()));
+    }
         if(!starProfileWidget)
         {
             starProfileWidget = new StarProfileViewer;
@@ -1205,10 +1208,10 @@ void FITSView::viewStarProfile()
             }
         }
 
-        starProfileWidget->loadData(getTrackingBoxPixmap().toImage(), HFR);
+        starProfileWidget->loadData(display_image->copy(trackingBox), HFR);
         starProfileWidget->show();
         starProfileWidget->raise();
-    }
+
     #endif
 }
 

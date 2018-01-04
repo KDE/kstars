@@ -68,18 +68,13 @@ bool ServerManager::start()
         env.insert("PATH", driversDir + ':' + indiServerDir + ":/usr/local/bin:/usr/bin:/bin");
         QString gscDirPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "gsc";
         env.insert("GSCDAT", gscDirPath);
-        QString gphoto_iolibs = QCoreApplication::applicationDirPath() + "/../PlugIns/libgphoto2_port";
-        if (QFileInfo(gphoto_iolibs).exists() && Options::indiDriversAreInternal())
-            env.insert("IOLIBS", QDir(gphoto_iolibs).absolutePath());
-        QString gphoto_camlibs = QCoreApplication::applicationDirPath() + "/../PlugIns/libgphoto2";
-        if (QFileInfo(gphoto_camlibs).exists() && Options::indiDriversAreInternal())
-            env.insert("CAMLIBS", QDir(gphoto_camlibs).absolutePath());
-        QString qhyFirmwarePath = QCoreApplication::applicationDirPath() + "/../PlugIns/qhy";
-        if (QFileInfo(qhyFirmwarePath).exists() && Options::indiDriversAreInternal())
-            env.insert("QHY_FIRMWARE_DIR", QDir(qhyFirmwarePath).absolutePath());
-        QString apogeeFirmwarePath = QCoreApplication::applicationDirPath() + "/../PlugIns/";
-        if (QFileInfo(apogeeFirmwarePath).exists() && Options::indiDriversAreInternal())
-            env.insert("APOGEE_ETC_DIR", QDir(apogeeFirmwarePath).absolutePath());
+
+        insertEnvironmentPath(&env, "IOLIBS", "/../PlugIns/libgphoto2_port");
+        insertEnvironmentPath(&env, "CAMLIBS", "/../PlugIns/libgphoto2");
+        insertEnvironmentPath(&env, "QHY_FIRMWARE_DIR","/../PlugIns/qhy");
+        insertEnvironmentPath(&env, "APOGEE_ETC_DIR", "/../PlugIns");
+        insertEnvironmentPath(&env, "DSI_FIRMWARE_DIR", "/../PlugIns/firmware");
+
         env.insert("INDIPREFIX", indiServerDir);
         serverProcess->setProcessEnvironment(env);
 #endif
@@ -140,6 +135,13 @@ bool ServerManager::start()
 
     return connected;
 #endif
+}
+
+void ServerManager::insertEnvironmentPath(QProcessEnvironment *env, QString variable, QString relativePath)
+{
+    QString environmentPath = QCoreApplication::applicationDirPath() + relativePath;
+    if (QFileInfo(environmentPath).exists() && Options::indiDriversAreInternal())
+        env->insert(variable, QDir(environmentPath).absolutePath());
 }
 
 bool ServerManager::startDriver(DriverInfo *dv)
