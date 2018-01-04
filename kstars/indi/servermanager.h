@@ -65,6 +65,8 @@ private:
     QString serverBuffer;
     std::unique_ptr<QProcess> serverProcess;
 
+    void insertEnvironmentPath(QProcessEnvironment *env, QString variable, QString relativePath);
+
     ServerMode mode { SERVER_CLIENT };
     bool driverCrashed { false };
 
