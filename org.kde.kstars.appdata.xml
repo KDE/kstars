@@ -32,6 +32,7 @@
   <name xml:lang="tr">KStars</name>
   <name xml:lang="uk">KStars</name>
   <name xml:lang="x-test">xxKStarsxx</name>
+  <name xml:lang="zh-CN">KStars</name>
   <name xml:lang="zh-TW">天文_KStars</name>
   <summary>Desktop Planetarium</summary>
   <summary xml:lang="bs">Stoni planetarij</summary>
@@ -60,6 +61,7 @@
   <summary xml:lang="tr">Masaüstü Yıldız Evi</summary>
   <summary xml:lang="uk">Настільний планетарій</summary>
   <summary xml:lang="x-test">xxDesktop Planetariumxx</summary>
+  <summary xml:lang="zh-CN">桌面天文馆</summary>
   <summary xml:lang="zh-TW">桌面星象儀</summary>
   <description>
     <p>KStars is free, open source, cross-platform Astronomy Software.</p>
