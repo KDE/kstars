@@ -218,6 +218,14 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action->setText(i18n("Zoom To Fit"));
     connect(action, SIGNAL(triggered(bool)), SLOT(ZoomToFit()));
 
+    #ifdef HAVE_DATAVISUALIZATION
+    action = actionCollection()->addAction("toggle_3D_graph");
+    action->setIcon(QIcon::fromTheme("star_profile", QIcon(":/icons/star_profile.svg")));
+    action->setText(i18n("View 3D Graph"));
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(toggle3DGraph()));
+    #endif
+
     action = actionCollection()->addAction("mark_stars");
     action->setText(i18n("Mark Stars"));
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
@@ -500,6 +508,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         actionCollection()->action("fits_debayer")->setEnabled(false);
 
     updateStatusBar("", FITS_WCS);
+    updateButtonStatus("toggle_3D_graph", "View 3D Graph", getCurrentView()->isStarProfileShown());
     updateButtonStatus("view_crosshair", "Cross Hairs", getCurrentView()->isCrosshairShown());
     updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
     updateButtonStatus("view_objects", "Objects in Image", getCurrentView()->areObjectsShown());
@@ -819,25 +828,41 @@ void FITSViewer::centerTelescope()
 
 void FITSViewer::toggleCrossHair()
 {
+    if (fitsTabs.empty())
+        return;
     getCurrentView()->toggleCrosshair();
     updateButtonStatus("view_crosshair", "Cross Hairs", getCurrentView()->isCrosshairShown());
 }
 void FITSViewer::toggleEQGrid()
 {
+    if (fitsTabs.empty())
+        return;
     getCurrentView()->toggleEQGrid();
     updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
 }
 
 void FITSViewer::toggleObjects()
 {
+    if (fitsTabs.empty())
+        return;
     getCurrentView()->toggleObjects();
     updateButtonStatus("view_objects", "Objects in Image", getCurrentView()->areObjectsShown());
 }
 
 void FITSViewer::togglePixelGrid()
 {
+    if (fitsTabs.empty())
+        return;
     getCurrentView()->togglePixelGrid();
     updateButtonStatus("view_pixel_grid", "Pixel Gridines", getCurrentView()->isPixelGridShown());
+}
+
+void FITSViewer::toggle3DGraph()
+{
+    if (fitsTabs.empty())
+        return;
+    getCurrentView()->toggleStarProfile();
+    updateButtonStatus("toggle_3D_graph", "View 3D Graph", getCurrentView()->isStarProfileShown());
 }
 
 void FITSViewer::toggleStars()

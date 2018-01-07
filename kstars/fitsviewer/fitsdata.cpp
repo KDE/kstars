@@ -723,6 +723,52 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     return 0;
 }
 
+int FITSData::findStars(QRect *trackingBox, bool temp)
+{
+    return findStars(starAlgorithm, trackingBox, temp);
+}
+
+int FITSData::findStars(StarAlgorithm algorithm, QRect *trackingBox, bool temp)
+{
+    int count = 0;
+    starAlgorithm = algorithm;
+
+    if (trackingBox)
+    {
+        switch (algorithm)
+        {
+            case ALGORITHM_GRADIENT:
+                count = findCannyStar(this, *trackingBox);
+                break;
+
+            case ALGORITHM_CENTROID:
+                count = findStars(*trackingBox, temp); //if it is a temp, we want it to search for stars, so yes force it.
+                break;
+
+            case ALGORITHM_THRESHOLD:
+                count = findOneStar(*trackingBox);
+                break;
+        }
+    }
+    /*else if (algorithm == ALGORITHM_GRADIENT)
+    {
+        QRect boundary(0,0, image_data->getWidth(), image_data->getHeight());
+        count = FITSData::findCannyStar(image_data, boundary);
+    }*/
+    else
+    {
+        count = findStars();
+    }
+
+    //If it is a temp search, we want it to search again after its done.
+    if(temp)
+        starsSearched = false;
+    else
+        starsSearched = true;
+
+    return count;
+}
+
 template <typename T>
 int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 {
@@ -2023,6 +2069,21 @@ void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, float image_min
             return;
             break;
     }
+}
+
+QList<Edge *> FITSData::getStarCentersInSubFrame(QRect subFrame)
+{
+    QList<Edge *> starCentersInSubFrame;
+    for (int i = 0; i < starCenters.count(); i++)
+    {
+        int x = starCenters[i]->x;
+        int y = starCenters[i]->y;
+        if(subFrame.contains(x,y))
+        {
+            starCentersInSubFrame.append(starCenters[i]);
+        }
+    }
+    return starCentersInSubFrame;
 }
 
 int FITSData::findStars(const QRectF &boundary, bool force)

@@ -71,10 +71,12 @@
         <Separator/>
         <Action name="view_crosshair" />
         <Action name="view_pixel_grid" />
+        <Action name="toggle_3D_graph" />
         <Separator/>
         <Action name="view_eq_grid" />
         <Action name="view_objects" />
         <Action name="center_telescope" />
+
 
         <Separator/>
 </ToolBar>

@@ -249,8 +249,6 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
         }
     }
 
-    starsSearched = false;
-
     setAlignment(Qt::AlignCenter);
 
     // Load WCS data now if selected and image contains valid WCS header
@@ -265,9 +263,9 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
     if (isVisible())
         emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
 
-    if(starProfile){
+    if(showStarProfile && floatingToolBar){
         toggleProfileAction->setChecked(true);
-        viewStarProfile();
+        QTimer::singleShot(100 , this , SLOT(viewStarProfile()));  //Need to wait till the Focus module finds stars, if its the Focus module.
     }
 
     return true;
@@ -1103,9 +1101,17 @@ void FITSView::setTrackingBox(const QRect &rect)
     {
         trackingBox        = rect;
         updateFrame();
-        if(starProfile)
+        if(showStarProfile)
             viewStarProfile();
     }
+}
+
+void FITSView::resizeTrackingBox(int newSize)
+{
+    int x = trackingBox.x() + trackingBox.width()/2;
+    int y = trackingBox.y() + trackingBox.height()/2;
+    int delta = newSize / 2;
+    setTrackingBox(QRect( x - delta, y - delta, newSize, newSize));
 }
 
 bool FITSView::isCrosshairShown()
@@ -1173,10 +1179,44 @@ void FITSView::toggleStars()
 
 void FITSView::toggleStarProfile()
 {
-    starProfile = !starProfile;
-    if(starProfile)
+    #ifdef HAVE_DATAVISUALIZATION
+    showStarProfile = !showStarProfile;
+    if(showStarProfile)
         viewStarProfile();
-    toggleProfileAction->setChecked(starProfile);
+    if(toggleProfileAction)
+        toggleProfileAction->setChecked(showStarProfile);
+    if(mode == FITS_NORMAL || mode == FITS_ALIGN)
+    {
+        if(showStarProfile)
+        {
+            setCursorMode(selectCursor);
+            connect(this, SIGNAL(trackingStarSelected(int,int)), this, SLOT(move3DTrackingBox(int,int)));
+            if(floatingToolBar && starProfileWidget)
+                connect(starProfileWidget, SIGNAL(rejected()) , this, SLOT(toggleStarProfile()));
+            if(starProfileWidget)
+                connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)) , this, SLOT(resizeTrackingBox(int)));
+            setTrackingBoxEnabled(true);
+            setTrackingBox(QRect(0, 0, 128, 128));
+        }
+        else
+        {
+            if(getCursorMode() == selectCursor)
+                setCursorMode(dragCursor);
+            disconnect(this, SIGNAL(trackingStarSelected(int,int)), this, SLOT(move3DTrackingBox(int,int)));
+            disconnect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)) , this, SLOT(resizeTrackingBox(int)));
+            if(floatingToolBar)
+                disconnect(starProfileWidget, SIGNAL(rejected()) , this, SLOT(toggleStarProfile()));
+            setTrackingBoxEnabled(false);
+        }
+    }
+    #endif
+}
+
+void FITSView::move3DTrackingBox(int x, int y)
+{
+    int boxSize = trackingBox.width();
+    QRect starRect = QRect(x - boxSize / 2 , y - boxSize / 2, boxSize, boxSize);
+    setTrackingBox(starRect);
 }
 
 void FITSView::viewStarProfile()
@@ -1185,35 +1225,36 @@ void FITSView::viewStarProfile()
     if(!trackingBoxEnabled)
     {
         setTrackingBoxEnabled(true);
-        setTrackingBox(QRect(0,0,imageData->getWidth(), imageData->getHeight()));
+        setTrackingBox(QRect(0, 0, 128, 128));
     }
-        if(!starProfileWidget)
-        {
-            starProfileWidget = new StarProfileViewer;
+    if(!starProfileWidget)
+    {
+        starProfileWidget = new StarProfileViewer(this);
+        if(floatingToolBar)
             connect(starProfileWidget, SIGNAL(rejected()) , this, SLOT(toggleStarProfile()));
-        }
-
-        if(starsSearched == false)
-            findStars(starAlgorithm);
-        QList<Edge *> starCenters = imageData->getStarCenters();
-        double HFR = 0;
-        for (int i = 0; i < starCenters.count(); i++)
+        if(mode == FITS_ALIGN || mode == FITS_NORMAL)
         {
-            int x1 = starCenters[i]->x;
-            int y1 = starCenters[i]->y;
-            if(trackingBox.contains(x1,y1)){
-               double newHFR = imageData->getHFR(x1,y1);
-               if(newHFR > HFR)
-                   HFR = newHFR;
-            }
+            starProfileWidget->enableTrackingBox(true);
+            connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)) , this, SLOT(resizeTrackingBox(int)));
         }
+    }
+    QList<Edge *> starCenters = imageData->getStarCentersInSubFrame(trackingBox);
+    if(starCenters.size() == 0)
+    {
+        imageData->findStars(&trackingBox, true);
+        starCenters = imageData->getStarCentersInSubFrame(trackingBox);
+    }
 
-        starProfileWidget->loadData(display_image->copy(trackingBox), HFR);
-        starProfileWidget->show();
-        starProfileWidget->raise();
+    starProfileWidget->loadData(imageData, trackingBox, starCenters);
+    starProfileWidget->show();
+    starProfileWidget->raise();
+    if(markStars)
+        updateFrame(); //this is to update for the marked stars
 
     #endif
 }
+
+
 
 void FITSView::togglePixelGrid()
 {
@@ -1225,36 +1266,10 @@ int FITSView::findStars(StarAlgorithm algorithm)
 {
     int count = 0;
 
-    if (trackingBoxEnabled)
-    {
-        switch (algorithm)
-        {
-            case ALGORITHM_GRADIENT:
-                count = FITSData::findCannyStar(imageData, trackingBox);
-                break;
-
-            case ALGORITHM_CENTROID:
-                count = imageData->findStars(trackingBox);
-                break;
-
-            case ALGORITHM_THRESHOLD:
-                count = imageData->findOneStar(trackingBox);
-                break;
-        }
-    }
-    /*else if (algorithm == ALGORITHM_GRADIENT)
-    {
-        QRect boundary(0,0, image_data->getWidth(), image_data->getHeight());
-        count = FITSData::findCannyStar(image_data, boundary);
-    }*/
+    if(trackingBoxEnabled)
+        count = imageData->findStars(algorithm, &trackingBox);
     else
-    {
-        count = imageData->findStars();
-    }
-
-    starAlgorithm = algorithm;
-
-    starsSearched = true;
+        count = imageData->findStars(algorithm);
 
     return count;
 }
@@ -1263,12 +1278,12 @@ void FITSView::toggleStars(bool enable)
 {
     markStars = enable;
 
-    if (markStars == true && starsSearched == false)
+    if (markStars == true && imageData->areStarsSearched() == false)
     {
         QApplication::setOverrideCursor(Qt::WaitCursor);
         emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
         qApp->processEvents();
-        int count = findStars(starAlgorithm);
+        int count = findStars();
 
         if (count >= 0 && isVisible())
             emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
@@ -1516,13 +1531,10 @@ void FITSView::createFloatingToolBar()
     toggleStarsAction->setCheckable(true);
 
     #ifdef HAVE_DATAVISUALIZATION
-    if (mode == FITS_FOCUS || mode == FITS_GUIDE)
-    {
-        toggleProfileAction =
-            floatingToolBar->addAction(QIcon::fromTheme("star-profile", QIcon(":/icons/star_profile.svg")),
+    toggleProfileAction =
+        floatingToolBar->addAction(QIcon::fromTheme("star-profile", QIcon(":/icons/star_profile.svg")),
                                    i18n("View Star Profile"), this, SLOT(toggleStarProfile()));
-        toggleProfileAction->setCheckable(true);
-    }
+    toggleProfileAction->setCheckable(true);
     #endif
 
     if (mode == FITS_NORMAL || mode == FITS_ALIGN)

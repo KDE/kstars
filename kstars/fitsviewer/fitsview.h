@@ -155,6 +155,8 @@ class FITSView : public QScrollArea
 
     void processPointSelection(int x, int y);
     void processMarkerSelection(int x, int y);
+    void move3DTrackingBox(int x, int y);
+    void resizeTrackingBox(int newSize);
 
   protected slots:
     /**
@@ -181,6 +183,7 @@ private:
 
 public:
     CursorMode lastMouseMode { selectCursor };
+    bool isStarProfileShown() { return showStarProfile; }
 
 protected:
     /// WCS Future Watcher
@@ -216,12 +219,11 @@ private:
 
     bool firstLoad { true };
     bool markStars { false };
-    bool starProfile { false };
+    bool showStarProfile { false };
     bool showCrosshair { false };
     bool showObjects { false };
     bool showEQGrid { false };
     bool showPixelGrid { false };
-    bool starsSearched { false };
 
     CursorMode cursorMode { selectCursor };
     bool zooming { false };
@@ -233,9 +235,6 @@ private:
     FITSScale filter;
 
     QStack<FITSScale> filterStack;
-
-    // Star selection algorithm
-    StarAlgorithm starAlgorithm { ALGORITHM_GRADIENT };
 
     // Tracking box
     bool trackingBoxEnabled { false };
