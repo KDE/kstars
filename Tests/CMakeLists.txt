@@ -6,7 +6,9 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/time
     )
 
-#include_directories( ${kstars_SOURCE_DIR} )
+if(WCSLIB_FOUND)
+  include_directories( ${WCSLIB_INCLUDE_DIR} )
+endif(WCSLIB_FOUND)
 
 FIND_PACKAGE(Qt5Test REQUIRED)
 
