@@ -162,6 +162,9 @@ class FITSData
     bool areStarsSearched() { return starsSearched; }
     void appendStar(Edge *newCenter) { starCenters.append(newCenter); }
     QList<Edge *> getStarCenters() { return starCenters; }
+    QList<Edge *> getStarCentersInSubFrame(QRect subFrame);
+    int findStars(QRect *trackingBox, bool temp);
+    int findStars(StarAlgorithm algorithm, QRect *trackingBox = nullptr, bool temp = false);
     int findStars(const QRectF &boundary = QRectF(), bool force = false);
     void findCentroid(const QRectF &boundary = QRectF(), int initStdDev = MINIMUM_STDVAR,
                       int minEdgeWidth = MINIMUM_PIXEL_RANGE);
@@ -336,6 +339,8 @@ class FITSData
     bool tempFile { false };
     /// Did we search for stars yet?
     bool starsSearched { false };
+    ///Star Selection Algorithm
+    StarAlgorithm starAlgorithm { ALGORITHM_GRADIENT };
     /// Do we have WCS keywords in this FITS data?
     bool HasWCS { false };
     /// Is WCS data loaded?
@@ -363,6 +368,7 @@ class FITSData
     struct wcsprm *wcs { nullptr };
     /// All the stars we detected, if any.
     QList<Edge *> starCenters;
+    QList<Edge *> localStarCenters;
     /// The biggest fattest star in the image.
     Edge *maxHFRStar { nullptr };
 
