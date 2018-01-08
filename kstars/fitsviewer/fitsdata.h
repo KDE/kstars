@@ -158,6 +158,7 @@ class FITSData
     double getADU();
 
     // Star Detection - Native KStars implementation
+    void setStarAlgorithm(StarAlgorithm algorithm){ starAlgorithm = algorithm; }
     int getDetectedStars() { return starCenters.count(); }
     bool areStarsSearched() { return starsSearched; }
     void appendStar(Edge *newCenter) { starCenters.append(newCenter); }

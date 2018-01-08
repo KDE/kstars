@@ -27,7 +27,6 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     m_yPixelAxis = m_graph->rowAxis();
 
     m_pixelValueAxis->setTitle("Pixel Values");
-    m_pixelValueAxis->setLabelFormat(QString(QStringLiteral("%.2f ")));
     m_pixelValueAxis->setLabelAutoRotation(30.0f);
     m_pixelValueAxis->setTitleVisible(true);
 
@@ -39,7 +38,7 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     m_yPixelAxis->setTitleVisible(true);
 
     m_3DPixelSeries = new QBar3DSeries;
-    m_3DPixelSeries->setItemLabelFormat(QStringLiteral("@valueLabel"));
+
     m_3DPixelSeries->setMesh(QAbstract3DSeries::MeshBevelBar);
     m_graph->addSeries(m_3DPixelSeries);
 
@@ -81,6 +80,11 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     cutoffValue=new QLabel(this);
     cutoffValue->setToolTip("Cuttoff Maximum for eliminating hot pixels and bright stars.");
 
+    QCheckBox *toggleEnableCutoff= new QCheckBox(this);
+    toggleEnableCutoff->setToolTip("Enable or Disable the Max Value Cutoff");
+    toggleEnableCutoff->setText("Toggle Cutoff");
+    toggleEnableCutoff->setChecked(false);
+
     blackPointSlider=new QSlider( Qt::Vertical, this);
     blackPointSlider->setToolTip("Sets the Minimum Value on the graph");
     sliderLayout->addWidget(blackPointSlider);
@@ -92,6 +96,7 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     cutoffSlider=new QSlider( Qt::Vertical, this);
     cutoffSlider->setToolTip("Sets the Cuttoff Maximum for eliminating hot pixels and bright stars.");
     sliderLayout->addWidget(cutoffSlider);
+    cutoffSlider->setEnabled(false);
 
     minValue = new QLabel(this);
     minValue->setToolTip("Minimum Value on the graph");
@@ -106,6 +111,7 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     showScaling->setToolTip("Hides and shows the scaling side panel");
     showScaling->setChecked(false);
 
+    rightLayout->addWidget(toggleEnableCutoff);
     rightLayout->addWidget(cutoffValue);
     rightLayout->addWidget(maxValue);
     rightLayout->addLayout(sliderLayout);
@@ -196,7 +202,6 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     selectorsVisible->setToolTip("Hides and shows the Vertical and Horizontal Selection Sliders");
     selectorsVisible->setChecked(false);
 
-
     bottomLayout->addWidget(sampleSize);
     bottomLayout->addWidget(selectionType);
     bottomLayout->addWidget(selectorsVisible);
@@ -224,7 +229,6 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     mainLayout->addWidget(verticalSelector);
     mainLayout->addWidget(horizontalSelector);
     mainLayout->addWidget(exploreMode);
-
 
     QObject::connect(selectionType,  SIGNAL(currentIndexChanged(int)),
                      this, SLOT(changeSelectionType(int)));
@@ -260,6 +264,8 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
                      verticalSelector, &QWidget::setVisible);
     QObject::connect(selectorsVisible,  &QCheckBox::toggled,
                      exploreMode, &QWidget::setVisible);
+    QObject::connect(toggleEnableCutoff,  &QCheckBox::toggled,
+                     this, &StarProfileViewer::toggleCutoffEnabled);
     QObject::connect(m_3DPixelSeries,  &QBar3DSeries::selectedBarChanged,
                      this, &StarProfileViewer::updateSelectorBars);
 
@@ -331,6 +337,13 @@ void StarProfileViewer::loadData(FITSData * data, QRect sub, QList<Edge *> cente
     }
 }
 
+void StarProfileViewer::toggleCutoffEnabled(bool enable)
+{
+    cutoffSlider->setEnabled(enable);
+    cutOffEnabled = enable;
+    updateDisplayData();
+}
+
 void StarProfileViewer::updateScale()
 {
 
@@ -379,9 +392,26 @@ void StarProfileViewer::updateScale()
 
     }
     m_pixelValueAxis->setRange(min, max);
-    maxValue->setText("Max: " + QString::number(max, 'f', 2));
-    minValue->setText("Min: " + QString::number(min, 'f', 2));
-    cutoffValue->setText("Cut: " + QString::number(max, 'f', 2));
+
+    if(cutOffEnabled)
+        cutoffValue->setText("Cut: " + QString::number(convertFromSliderValue(cutoffSlider->value()), 'f', 2));
+    else
+        cutoffValue->setText("Cut Disabled");
+
+    if(max < 10 )
+    {
+        m_pixelValueAxis->setLabelFormat(QString(QStringLiteral("%.3f ")));
+        m_3DPixelSeries->setItemLabelFormat(QString(QStringLiteral("%.3f ")));
+        maxValue->setText("Max: " + QString::number(max, 'f', 2));
+        minValue->setText("Min: " + QString::number(min, 'f', 2));
+    }
+    else
+    {
+        m_pixelValueAxis->setLabelFormat(QString(QStringLiteral("%.0f ")));
+        m_3DPixelSeries->setItemLabelFormat(QString(QStringLiteral("%.0f ")));
+        maxValue->setText("Max: " + QString::number(max));
+        minValue->setText("Min: " + QString::number(min));
+    }
 
     QObject::connect(blackPointSlider,  &QSlider::valueChanged,
                      this, &StarProfileViewer::updateVerticalAxis);
@@ -453,7 +483,7 @@ void StarProfileViewer::zoomViewTo(int where)
             float barValue = m_graph->selectedSeries()->dataProxy()->itemAt(selectedBar.x(),
                                                                             selectedBar.y())->value();
             float endAngleY = 60.0f;
-            float zoom = 150 * 1/qSqrt(barValue / whitePointSlider->value());
+            float zoom = 150 * 1/qSqrt(barValue / convertFromSliderValue(whitePointSlider->value()));
             m_graph->scene()->activeCamera()->setCameraPosition(endAngleX, endAngleY, zoom);
             m_graph->scene()->activeCamera()->setTarget(target);
 
@@ -531,7 +561,10 @@ void StarProfileViewer::enableTrackingBox(bool enable)
 
 void StarProfileViewer::updateDisplayData()
 {
-    cutoffValue->setText("Cut: " + QString::number(convertFromSliderValue(cutoffSlider->value()), 'f', 2));
+    if(cutOffEnabled)
+        cutoffValue->setText("Cut: " + QString::number(convertFromSliderValue(cutoffSlider->value()), 'f', 2));
+    else
+        cutoffValue->setText("Cut Disabled");
     if(dataSet != nullptr)
     {
         QBarDataArray *displayDataSet = new QBarDataArray;
@@ -544,7 +577,7 @@ void StarProfileViewer::updateDisplayData()
             newDataRow = new QBarDataRow(dataRow->size());
             for (int column = 0; column < dataRow->size(); column++)
             {
-                if(dataRow->value(column).value() > convertFromSliderValue(cutoffSlider->value()))
+                if(cutOffEnabled && dataRow->value(column).value() > convertFromSliderValue(cutoffSlider->value()))
                     (*newDataRow)[column].setValue(0.0f);
                 else
                     (*newDataRow)[column].setValue(dataRow->value(column).value());

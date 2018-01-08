@@ -40,7 +40,7 @@
 #include <fits_debug.h>
 
 #define INITIAL_W 785
-#define INITIAL_H 650
+#define INITIAL_H 640
 
 QStringList FITSViewer::filterTypes =
     QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast") << I18N_NOOP("Equalize")
@@ -250,6 +250,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     setWindowTitle(i18n("KStars FITS Viewer"));
 
     /* initially resize in accord with KDE rules */
+    show();
     resize(INITIAL_W, INITIAL_H);
 }
 
