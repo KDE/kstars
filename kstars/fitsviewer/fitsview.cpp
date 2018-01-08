@@ -1181,7 +1181,7 @@ void FITSView::toggleStarProfile()
 {
     #ifdef HAVE_DATAVISUALIZATION
     showStarProfile = !showStarProfile;
-    if(showStarProfile)
+    if(showStarProfile && trackingBoxEnabled)
         viewStarProfile();
     if(toggleProfileAction)
         toggleProfileAction->setChecked(showStarProfile);
@@ -1195,8 +1195,9 @@ void FITSView::toggleStarProfile()
                 connect(starProfileWidget, SIGNAL(rejected()) , this, SLOT(toggleStarProfile()));
             if(starProfileWidget)
                 connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)) , this, SLOT(resizeTrackingBox(int)));
-            setTrackingBoxEnabled(true);
-            setTrackingBox(QRect(0, 0, 128, 128));
+            trackingBox = QRect(0, 0, 128, 128);
+            trackingBoxEnabled = true;
+            updateFrame();
         }
         else
         {
@@ -1235,6 +1236,7 @@ void FITSView::viewStarProfile()
         if(mode == FITS_ALIGN || mode == FITS_NORMAL)
         {
             starProfileWidget->enableTrackingBox(true);
+            imageData->setStarAlgorithm(ALGORITHM_CENTROID);
             connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)) , this, SLOT(resizeTrackingBox(int)));
         }
     }

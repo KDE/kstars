@@ -62,12 +62,14 @@ public:
     void enableTrackingBox(bool enable);
     void changeSelection();
     void updateSelectorBars(QPoint position);
+    void toggleCutoffEnabled(bool enable);
 
 public slots:
     void changeSelectionType(int type);
     void zoomViewTo(int where);
     void updateSampleSize(const QString &text);
     void updateColor(int selection);
+
 
 signals:
     void sampleSizeUpdated(int size);
@@ -107,6 +109,8 @@ private:
     QSlider *verticalSelector;
     QSlider *horizontalSelector;
     QList<Edge *> starCenters;
+
+    bool cutOffEnabled;
 
     int convertToSliderValue(float value);
     float convertFromSliderValue(int value);
