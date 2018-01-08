@@ -360,15 +360,15 @@ void StarProfileViewer::updateScale()
     float min, max;
     getSubFrameMinMax(&subFrameMin, &subFrameMax, &dataMin, &dataMax);
 
-    int sliderDataMin = convertToSliderValue(dataMin);
-    int sliderDataMax = convertToSliderValue(dataMax);
+    int sliderDataMin = convertToSliderValue(dataMin) - 1; //Expands the slider range a little beyond the max and min values
+    int sliderDataMax = convertToSliderValue(dataMax) + 1;
 
     if(autoScale->isChecked())
     {
         min = subFrameMin;
         max = subFrameMax;
-        int sliderMin = convertToSliderValue(min);
-        int sliderMax = convertToSliderValue(max);
+        int sliderMin = convertToSliderValue(min) - 1; //Expands the slider range a little beyond the max and min values
+        int sliderMax = convertToSliderValue(max) + 1;
         blackPointSlider->setRange(sliderMin, sliderMax);
         blackPointSlider->setTickInterval((sliderMax - sliderMin) / 100);
         whitePointSlider->setRange(sliderMin, sliderMax);
