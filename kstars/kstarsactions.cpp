@@ -796,6 +796,8 @@ void KStars::slotINDITelescopeSlew(bool focused_object)
             return;
         }
     }
+#else
+Q_UNUSED(focused_object)
 #endif
 }
 
@@ -828,6 +830,8 @@ void KStars::slotINDITelescopeSync(bool focused_object)
             return;
         }
     }
+#else
+Q_UNUSED(focused_object)
 #endif
 }
 
