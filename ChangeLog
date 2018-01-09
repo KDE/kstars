@@ -4,6 +4,42 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.9.0 (Lancaster):
+=================================================================================================
+928bb5b 2018-01-08 Robert Lancaster     I was doing more testing, and the range on the sliders needs to be expanded just slightly so that it includes all the data.
+a55bfd0 2018-01-08 Jasem Mutlaq         Bump INDI dependency to v1.6.1
+307c222 2018-01-08 Robert Lancaster     In preparation for the OS X release of KStars 2.9.0, I hunted around for any bugs I could find and I made several small changes.
+85d69f5 2018-01-07 Jasem Mutlaq         Bump to 2.9.0
+72e37f4 2018-01-07 Robert Lancaster     Significant improvements to star profile viewer
+fd4b89f 2018-01-07 Jasem Mutlaq         Update INDI XML drivers file
+646c06b 2018-01-07 Jasem Mutlaq         Include WCS lib if it was detected
+83498b9 2018-01-04 Robert Lancaster     This patch is for KStars.  It will set the path in the environment variable for the DSI to function on Mac.  Second, I thought the environment varia..
+ac53973 2018-01-02 Jasem Mutlaq         Make Qt5DataVisualization optional
+a80201d 2018-01-02 Robert Lancaster     This patch and the accompanying files should create a 3D star profile plot that will be available in the guide and focus modules.  Note that current..
+bc16599 2018-01-02 Jasem Mutlaq         Try to make it compile for older Qt versions and minor refactor
+660266c 2017-12-31 Robert Lancaster     Just a few minor changes.
+b991d24 2017-12-31 Robert Lancaster     As I said, I would try to take care of the Dither issues with PHD2.  This patch should prevent the observed problems.
+064437e 2017-12-31 Jasem Mutlaq         Add min and max to the list
+43ecd47 2017-12-31 Robert Lancaster     This patch does several things:
+8ba4cd3 2017-12-29 Robert Lancaster     This patch should do the following:
+ead1b81 2017-12-27 Jasem Mutlaq         Dome toolbar is operational now and ready for testing
+b536337 2017-12-27 Jasem Mutlaq         Initial work for adding a dome toolbar
+625721e 2017-12-27 Jasem Mutlaq         This patch should fix two bugs I found with PHD2.
+3b61f05 2017-12-27 Jasem Mutlaq         + Fix issue with non-guide dithering blocking regular calibration. + Fix issue with non-guide dithering getting triggered while guiding. + Robert fi..
+25abb45 2017-12-27 Jasem Mutlaq         Fix small typo
+4e95346 2017-12-26 Robert Lancaster     This patch should add the pulse graphs for RA and DEC with settings to turn them off.  It includes a slider to adjust the height of the corrections ..
+41bfb77 2017-12-24 Robert Lancaster     This patch adds tooltips for the guide buttons I added in the last patch.  It also remembers 3 of the settings in the KStars config file.  And final..
+9f23a79 2017-12-23 Robert Lancaster     This patch will add the following items: 1.  A Time Slider for the guide plots, which also functions as a scrolling view for the drift graph. 2.  A ..
+a2731b1 2017-12-23 Jasem Mutlaq         Add defualt focuser option and make default devices selection more reliable and consistent across modules
+904ca5b 2017-12-23 Jasem Mutlaq         Add set as parking position option to simplify this process for end users
+38fc232 2017-12-22 Jasem Mutlaq         Remove lock policy from filter manager and let focus module handle it as it reduces complexity and fixes some corner issues. BUG:388129 FIXED-IN:2.9.0
+3ec398b 2017-12-22 Jasem Mutlaq         Make sure to set the ST4 and Guide drivers on explicit set since combobox index does not necessary trigger signal to setST4
+f28673e 2017-12-22 Jasem Mutlaq         Remove unused variables
+a2809ae 2017-11-17 Aleix Pol            Adapt the cmake buildsystem to be able to work with KDE CI
+0b5b265 2017-12-18 Robert Lancaster     This should make sure that the host and port get set correctly for PHD2 and linguider when switching profiles.
+098ecf2 2017-12-17 Jasem Mutlaq         2.8.9 changelog update
+06b1afd 2017-12-17 Jasem Mutlaq         Disable parity option by default as it could be problematic
+
 2.8.9 (Sarin):
 =================================================================================================
 bcf13d8 2017-12-16 Robert Lancaster     Add scatter plot in guide module                                                                                                                      
