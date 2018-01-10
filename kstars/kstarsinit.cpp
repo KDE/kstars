@@ -379,7 +379,7 @@ void KStars::initActions()
     actionCollection()->addAction("astrocalculator", this, SLOT(slotCalculator()))
         << i18n("Calculator")
         << QIcon::fromTheme("accessories-calculator", QIcon(":/icons/breeze/default/accessories-calculator.svg"))
-        << QKeySequence(Qt::CTRL + Qt::Key_C);
+        << QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_C);
 
     /* FIXME Enable once port to KF5 is complete for moonphasetool
      actionCollection()->addAction("moonphasetool", this, SLOT( slotMoonPhaseTool() ) )

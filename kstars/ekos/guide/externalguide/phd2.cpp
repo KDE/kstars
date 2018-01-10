@@ -398,8 +398,6 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             if(DECDirection == "South")
                 pulse_dec = -pulse_dec; //South Direction is Negative, North is Positive
 
-            qDebug() << pulse_ra << "," << pulse_dec << "," << RADirection << "," << DECDirection;
-
             //If the pixelScale is properly set from PHD2, the second block of code is not needed, but if not, we will attempt to calculate the ra and dec error without it.
             if(pixelScale!=0)
             {
