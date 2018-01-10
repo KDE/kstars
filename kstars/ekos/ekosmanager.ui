@@ -1502,6 +1502,27 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>toolsWidget</tabstop>
+  <tabstop>profileCombo</tabstop>
+  <tabstop>addProfileB</tabstop>
+  <tabstop>editProfileB</tabstop>
+  <tabstop>deleteProfileB</tabstop>
+  <tabstop>wizardProfileB</tabstop>
+  <tabstop>processINDIB</tabstop>
+  <tabstop>logsB</tabstop>
+  <tabstop>controlPanelB</tabstop>
+  <tabstop>optionsB</tabstop>
+  <tabstop>connectB</tabstop>
+  <tabstop>disconnectB</tabstop>
+  <tabstop>raOUT</tabstop>
+  <tabstop>decOUT</tabstop>
+  <tabstop>azOUT</tabstop>
+  <tabstop>altOUT</tabstop>
+  <tabstop>ekosLogOut</tabstop>
+  <tabstop>ekosOptionsB</tabstop>
+  <tabstop>clearB</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

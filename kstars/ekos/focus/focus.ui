@@ -958,7 +958,7 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>exposureIN</tabstop>
+  <tabstop>focuserCombo</tabstop>
   <tabstop>focusInB</tabstop>
   <tabstop>focusOutB</tabstop>
   <tabstop>absTicksLabel</tabstop>
@@ -970,7 +970,7 @@
   <tabstop>FocusSettleTime</tabstop>
   <tabstop>stopFocusB</tabstop>
   <tabstop>CCDCaptureCombo</tabstop>
-  <tabstop>focuserCombo</tabstop>
+  <tabstop>exposureIN</tabstop>
   <tabstop>toggleFullScreenB</tabstop>
   <tabstop>showFITSViewerB</tabstop>
   <tabstop>binningCombo</tabstop>
