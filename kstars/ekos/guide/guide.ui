@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>802</width>
-    <height>537</height>
+    <width>729</width>
+    <height>520</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="1,3">
@@ -1537,21 +1537,25 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>NonLinearDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>auxiliary/nonlineardoublespinbox.h</header>
+  </customwidget>
+  <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header>auxiliary/qcustomplot.h</header>
    <container>1</container>
   </customwidget>
-  <customwidget>
-   <class>NonLinearDoubleSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>auxiliary/nonlineardoublespinbox.h</header>
-  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>captureB</tabstop>
+  <tabstop>loopB</tabstop>
+  <tabstop>showFITSViewerB</tabstop>
   <tabstop>subFrameCheck</tabstop>
   <tabstop>darkFrameCheck</tabstop>
+  <tabstop>guideB</tabstop>
+  <tabstop>clearCalibrationB</tabstop>
   <tabstop>stopB</tabstop>
   <tabstop>guiderCombo</tabstop>
   <tabstop>ST4Combo</tabstop>
@@ -1559,21 +1563,40 @@
   <tabstop>binningCombo</tabstop>
   <tabstop>boxSizeCombo</tabstop>
   <tabstop>filterCombo</tabstop>
+  <tabstop>checkBox_DirRA</tabstop>
+  <tabstop>checkBox_DirDEC</tabstop>
+  <tabstop>swapCheck</tabstop>
+  <tabstop>eastControlCheck</tabstop>
+  <tabstop>westControlCheck</tabstop>
+  <tabstop>northControlCheck</tabstop>
+  <tabstop>southControlCheck</tabstop>
   <tabstop>externalConnectB</tabstop>
   <tabstop>externalDisconnectB</tabstop>
+  <tabstop>FOVScopeCombo</tabstop>
   <tabstop>spinBox_GuideRate</tabstop>
-  <tabstop>westControlCheck</tabstop>
-  <tabstop>spinBox_PropGainRA</tabstop>
+  <tabstop>showRAPlotCheck</tabstop>
+  <tabstop>showDECPlotCheck</tabstop>
+  <tabstop>showRACorrectionsCheck</tabstop>
+  <tabstop>showDECorrectionsCheck</tabstop>
+  <tabstop>guideSlider</tabstop>
+  <tabstop>correctionSlider</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>latestCheck</tabstop>
+  <tabstop>guideAutoScaleGraphB</tabstop>
+  <tabstop>guideSaveDataB</tabstop>
+  <tabstop>guideDataClearB</tabstop>
+  <tabstop>accuracyRadiusSpin</tabstop>
+  <tabstop>spinBox_AOLimit</tabstop>
+  <tabstop>spinBox_MaxPulseDEC</tabstop>
   <tabstop>spinBox_PropGainDEC</tabstop>
-  <tabstop>spinBox_IntGainRA</tabstop>
+  <tabstop>spinBox_MinPulseDEC</tabstop>
+  <tabstop>spinBox_MaxPulseRA</tabstop>
   <tabstop>spinBox_IntGainDEC</tabstop>
+  <tabstop>spinBox_PropGainRA</tabstop>
+  <tabstop>spinBox_IntGainRA</tabstop>
   <tabstop>spinBox_DerGainRA</tabstop>
   <tabstop>spinBox_DerGainDEC</tabstop>
-  <tabstop>spinBox_MaxPulseRA</tabstop>
-  <tabstop>spinBox_MaxPulseDEC</tabstop>
   <tabstop>spinBox_MinPulseRA</tabstop>
-  <tabstop>spinBox_MinPulseDEC</tabstop>
-  <tabstop>spinBox_AOLimit</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/kstars.qrc"/>

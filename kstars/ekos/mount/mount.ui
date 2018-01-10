@@ -640,6 +640,30 @@ font-weight:bold;
   <zorder></zorder>
   <zorder>verticalSpacer</zorder>
  </widget>
+ <tabstops>
+  <tabstop>primaryScopeApertureIN</tabstop>
+  <tabstop>primaryScopeFocalIN</tabstop>
+  <tabstop>guideScopeApertureIN</tabstop>
+  <tabstop>guideScopeFocalIN</tabstop>
+  <tabstop>scopeConfigCombo</tabstop>
+  <tabstop>scopeConfigNameEdit</tabstop>
+  <tabstop>saveB</tabstop>
+  <tabstop>mountToolBoxB</tabstop>
+  <tabstop>trackOnB</tabstop>
+  <tabstop>trackOffB</tabstop>
+  <tabstop>raOUT</tabstop>
+  <tabstop>decOUT</tabstop>
+  <tabstop>azOUT</tabstop>
+  <tabstop>altOUT</tabstop>
+  <tabstop>haOUT</tabstop>
+  <tabstop>lstOUT</tabstop>
+  <tabstop>minAltLimit</tabstop>
+  <tabstop>maxAltLimit</tabstop>
+  <tabstop>parkB</tabstop>
+  <tabstop>unparkB</tabstop>
+  <tabstop>clearAlignmentModelB</tabstop>
+  <tabstop>enableLimitsCheck</tabstop>
+ </tabstops>
  <resources>
   <include location="../../data/kstars.qrc"/>
  </resources>
