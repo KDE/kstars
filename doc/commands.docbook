@@ -397,7 +397,7 @@ object.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>C</keycap></keycombo>
 </shortcut>
 <guimenu>Tools</guimenu>
 <guimenuitem>Calculator</guimenuitem>
@@ -547,6 +547,9 @@ current simulation date.
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>K</keycap></keycombo>
+</shortcut>
 <guimenu>Tools</guimenu>
 <guimenuitem>Ekos</guimenuitem>
 </menuchoice></term>
