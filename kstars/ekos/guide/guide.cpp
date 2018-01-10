@@ -1856,6 +1856,9 @@ void Guide::setStatus(Ekos::GuideState newState)
             captureB->setEnabled(false);
             loopB->setEnabled(false);
             setBLOBEnabled(true);
+            #ifdef Q_OS_OSX
+            repaint(); //This is a band-aid for a bug in QT 5.10.0
+            #endif
             break;
 
         case GUIDE_CALIBRATION_SUCESS:

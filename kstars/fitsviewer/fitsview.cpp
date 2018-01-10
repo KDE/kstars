@@ -263,8 +263,9 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
     if (isVisible())
         emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
 
-    if(showStarProfile && floatingToolBar){
-        toggleProfileAction->setChecked(true);
+    if(showStarProfile){
+        if(floatingToolBar)
+            toggleProfileAction->setChecked(true);
         QTimer::singleShot(100 , this , SLOT(viewStarProfile()));  //Need to wait till the Focus module finds stars, if its the Focus module.
     }
 

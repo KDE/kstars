@@ -211,6 +211,14 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
         toolsWidget->setTabIcon(1, icon);
     }
 
+    //Note:  This is to prevent a button from being called the default button
+    //and then executing when the user hits the enter key such as when on a Text Box
+    #ifdef Q_OS_OSX
+    QList<QPushButton *> qButtons = findChildren<QPushButton *>();
+    for (auto &button : qButtons)
+        button->setAutoDefault(false);
+    #endif
+
     resize(Options::ekosWindowWidth(), Options::ekosWindowHeight());
 }
 
@@ -1631,6 +1639,11 @@ void EkosManager::updateLog()
         ekosLogOut->setPlainText(mountProcess->getLogText());
     if (currentWidget == schedulerProcess.get())
         ekosLogOut->setPlainText(schedulerProcess->getLogText());
+
+    #ifdef Q_OS_OSX
+    repaint(); //This is a band-aid for a bug in QT 5.10.0
+    #endif
+
 }
 
 void EkosManager::appendLogText(const QString &text)

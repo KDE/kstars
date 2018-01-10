@@ -2535,10 +2535,16 @@ bool Align::captureAndSolve()
         ObjNameReport->setTextAlignment(Qt::AlignHCenter);
         ObjNameReport->setFlags(Qt::ItemIsSelectable);
         solutionTable->setItem(currentRow, 2, ObjNameReport);
+        #ifdef Q_OS_OSX
+        repaint(); //This is a band-aid for a bug in QT 5.10.0
+        #endif
 
         QProgressIndicator *alignIndicator = new QProgressIndicator(this);
         solutionTable->setCellWidget(currentRow, 3, alignIndicator);
         alignIndicator->startAnimation();
+        #ifdef Q_OS_OSX
+        repaint(); //This is a band-aid for a bug in QT 5.10.0
+        #endif
     }
 
     return true;
