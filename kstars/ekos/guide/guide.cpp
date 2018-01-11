@@ -2718,10 +2718,24 @@ void Guide::refreshColorScheme()
     // Drift color legend
     if (driftGraph)
     {
-        if (driftGraph->graph(0) && driftGraph->graph(1))
+        if (driftGraph->graph(0) && driftGraph->graph(1) && driftGraph->graph(2) && driftGraph->graph(3) && driftGraph->graph(4) && driftGraph->graph(5))
         {
             driftGraph->graph(0)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
             driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+            driftGraph->graph(2)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+            driftGraph->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
+            driftGraph->graph(3)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+            driftGraph->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
+
+            QColor raPulseColor(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"));
+            raPulseColor.setAlpha(75);
+            driftGraph->graph(4)->setPen(QPen(raPulseColor));
+            driftGraph->graph(4)->setBrush(QBrush(raPulseColor, Qt::Dense4Pattern));
+
+            QColor dePulseColor(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"));
+            dePulseColor.setAlpha(75);
+            driftGraph->graph(5)->setPen(QPen(dePulseColor));
+            driftGraph->graph(5)->setBrush(QBrush(dePulseColor, Qt::Dense4Pattern));
         }
     }
 }
