@@ -281,16 +281,16 @@
   <url type="help">http://docs.kde.org/stable/en/kdeedu/kstars/index.html</url>
   <screenshots>
     <screenshot type="default">
-      <image width="1600" height="900">https://edu.kde.org/kstars/screens5.x/kstars_main.png</image>
+      <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_main.png</image>
     </screenshot>
     <screenshot>
-      <image width="1600" height="900">https://edu.kde.org/kstars/screens5.x/kstars_popup.png</image>
+      <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_interesting.png</image>
     </screenshot>
     <screenshot>
-      <image width="1600" height="900">https://edu.kde.org/kstars/screens5.x/kstars_ekos.png</image>
+      <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_ekos.png</image>
     </screenshot>
     <screenshot>
-      <image width="1600" height="900">https://edu.kde.org/kstars/screens5.x/kstars_observationplanner.png</image>
+      <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_planner.png</image>
     </screenshot>
   </screenshots>
   <project_group>KDE</project_group>
