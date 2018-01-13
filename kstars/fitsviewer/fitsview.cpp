@@ -1232,6 +1232,16 @@ void FITSView::viewStarProfile()
     if(!starProfileWidget)
     {
         starProfileWidget = new StarProfileViewer(this);
+
+        //This is a band-aid to fix a QT bug with createWindowContainer
+        //It will set the cursor of the Window containing the view that called the Star Profile method to the Arrow Cursor
+        //Note that Ekos Manager is a QDialog and FitsViewer is a KXmlGuiWindow
+        QWidget *superParent = this->parentWidget();
+        while(superParent->parentWidget()!=0 && !superParent->inherits("QDialog") && !superParent->inherits("KXmlGuiWindow"))
+            superParent=superParent->parentWidget();
+        superParent->setCursor(Qt::ArrowCursor);
+        //This is the end of the band-aid
+
         if(floatingToolBar)
             connect(starProfileWidget, SIGNAL(rejected()) , this, SLOT(toggleStarProfile()));
         if(mode == FITS_ALIGN || mode == FITS_NORMAL)
