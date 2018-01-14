@@ -108,6 +108,10 @@
          <label>Run Startup Wizard when KStars launches?</label>
          <default>true</default>
       </entry>
+      <entry name="CurrentTheme" type="String">
+         <label>Current application theme</label>
+         <default>Black Body</default>
+      </entry>
    </group>
 
    <group name="Catalogs">
