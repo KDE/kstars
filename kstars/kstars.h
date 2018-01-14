@@ -761,7 +761,6 @@ class KStars : public KXmlGuiWindow
     /// Pointer to an instance of KStars
     static KStars *pinstance;
 
-    KActionMenu *themeActionMenu { nullptr };
     KActionMenu *colorActionMenu { nullptr };
     KActionMenu *fovActionMenu { nullptr };
     KActionMenu *hipsActionMenu { nullptr };

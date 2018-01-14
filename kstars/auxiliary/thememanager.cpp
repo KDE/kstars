@@ -159,6 +159,10 @@ void ThemeManager::slotChangePalette()
 void ThemeManager::setThemeMenuAction(QMenu* const action)
 {
     d->themeMenuAction = action;
+
+    action->setStyleSheet("QMenu::icon:checked {background: gray;border: 1px inset gray;position: absolute;"
+                          "top: 1px;right: 1px;bottom: 1px;left: 1px;}");
+
     populateThemeMenu();
 }
 
@@ -175,7 +179,7 @@ void ThemeManager::registerThemeActions(KXmlGuiWindow* const win)
         return;
     }
 
-    win->actionCollection()->addAction(QLatin1String("theme_menu"), d->themeMenuAction->menuAction());
+    win->actionCollection()->addAction(QLatin1String("themes"), d->themeMenuAction->menuAction());
 }
 
 void ThemeManager::populateThemeMenu()

@@ -305,6 +305,8 @@ void KStars::initActions()
                     SLOT(slotShowGUIItem(bool)));
 
 
+    populateThemes();
+
     //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
     colorActionMenu = actionCollection()->add<KActionMenu>("colorschemes");
     colorActionMenu->setText(i18n("C&olor Schemes"));
