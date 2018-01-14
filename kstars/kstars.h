@@ -661,6 +661,11 @@ class KStars : public KXmlGuiWindow
          * Action which sent the activating signal.  */
     void slotColorScheme();
 
+    /**
+     * @brief slotThemeChanged save theme name in options
+     */
+    void slotThemeChanged();
+
     /** Select the Target symbol (a.k.a. field-of-view indicator) */
     void slotTargetSymbol(bool flag);
 
@@ -724,7 +729,12 @@ class KStars : public KXmlGuiWindow
 
   private:
     /** Load FOV information and repopulate menu. */
-    void repopulateFOV();    
+    void repopulateFOV();
+
+    /**
+     * @brief populateThemes Populate application themes
+     */
+    void populateThemes();
 
     /** Initialize Menu bar, toolbars and all Actions. */
     void initActions();
@@ -751,6 +761,7 @@ class KStars : public KXmlGuiWindow
     /// Pointer to an instance of KStars
     static KStars *pinstance;
 
+    KActionMenu *themeActionMenu { nullptr };
     KActionMenu *colorActionMenu { nullptr };
     KActionMenu *fovActionMenu { nullptr };
     KActionMenu *hipsActionMenu { nullptr };

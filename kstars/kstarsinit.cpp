@@ -29,6 +29,7 @@
 #include "widgets/timespinbox.h"
 #include "widgets/timestepbox.h"
 #include "hips/hipsmanager.h"
+#include "auxiliary/thememanager.h"
 
 #ifdef HAVE_INDI
 #include "indi/drivermanager.h"
@@ -302,6 +303,7 @@ void KStars::initActions()
     newToggleAction(actionCollection(), "show_sbRADec", i18n("Show RA/Dec Field"), this, SLOT(slotShowGUIItem(bool)));
     newToggleAction(actionCollection(), "show_sbJ2000RADec", i18n("Show J2000.0 RA/Dec Field"), this,
                     SLOT(slotShowGUIItem(bool)));
+
 
     //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
     colorActionMenu = actionCollection()->add<KActionMenu>("colorschemes");
@@ -874,4 +876,18 @@ void KStars::buildGUI()
         actionCollection()->action("zoom_in")->setEnabled(false);
     if (Options::zoomFactor() <= MINZOOM)
         actionCollection()->action("zoom_out")->setEnabled(false);
+}
+
+void KStars::populateThemes()
+{
+    ThemeManager::instance()->setThemeMenuAction(new QMenu(i18n("&Themes"), this));
+    ThemeManager::instance()->registerThemeActions(this);
+    ThemeManager::instance()->setCurrentTheme(Options::currentTheme());
+
+    connect(ThemeManager::instance(), SIGNAL(signalThemeChanged()), this, SLOT(slotThemeChanged()));
+}
+
+void KStars::slotThemeChanged()
+{
+    Options::setCurrentTheme(ThemeManager::instance()->currentThemeName());
 }

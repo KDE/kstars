@@ -612,6 +612,8 @@ set(kstars_projection_SRCS
     )
 
 set(kstars_extra_SRCS
+    auxiliary/thememanager.cpp
+    auxiliary/schememanager.cpp
     auxiliary/colorscheme.cpp
     auxiliary/dms.cpp
     auxiliary/cachingdms.cpp
