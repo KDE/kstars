@@ -1279,7 +1279,10 @@ void CCD::processBLOB(IBLOB *bp)
     bp->aux2 = BLOBFilename;
 
     if (targetChip->getCaptureMode() == FITS_NORMAL && targetChip->isBatchMode() == true)
+    {
         KStars::Instance()->statusBar()->showMessage(i18n("%1 file saved to %2", QString(fmt).toUpper(), filename), 0);
+        qCInfo(KSTARS_INDI) << QString(fmt).toUpper() << "file saved to" << filename;
+    }
 
     // FIXME: Why is this leaking memory in Valgrind??!
     KNotification::event(QLatin1String("FITSReceived"), i18n("Image file is received"));

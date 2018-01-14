@@ -443,6 +443,8 @@ int FITSData::saveFITS(const QString &newFilename)
 
     filename = newFilename;
 
+    qCInfo(KSTARS_FITS) << "Saved FITS file:" << filename;
+
     return status;
 }
 
