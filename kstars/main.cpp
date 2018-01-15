@@ -17,7 +17,6 @@
 
 #include <QDebug>
 #include <QPixmap>
-#include <QStyleFactory>
 
 #include <QApplication>
 #include <QScreen>
@@ -78,7 +77,6 @@ int main(int argc, char *argv[])
     }
 #endif
     app.setApplicationVersion(KSTARS_VERSION);
-    app.setStyle(QStyleFactory::create("Fusion"));
     /**
     * enable high dpi support
     */

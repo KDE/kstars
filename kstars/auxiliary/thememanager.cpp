@@ -26,6 +26,7 @@
 // Qt includes
 
 #include <QStringList>
+#include <QStyleFactory>
 #include <QFileInfo>
 #include <QPalette>
 #include <QColor>
@@ -139,6 +140,11 @@ void ThemeManager::slotChangePalette()
 
     QString theme(currentThemeName());
 
+    if(theme == "macintosh")
+        qApp->setStyle(QStyleFactory::create("macintosh"));
+    else
+        qApp->setStyle(QStyleFactory::create("Fusion"));
+
     if (theme == defaultThemeName() || theme.isEmpty())
     {
         theme = currentDesktopdefaultTheme();
@@ -197,6 +203,10 @@ void ThemeManager::populateThemeMenu()
     d->themeMenuActionGroup = new QActionGroup(d->themeMenuAction);
 
     connect(d->themeMenuActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotChangePalette()));
+
+    QAction* const macAction   = new QAction("macintosh", d->themeMenuActionGroup);
+    macAction->setCheckable(true);
+    d->themeMenuAction->addAction(macAction);
 
     QAction* const action   = new QAction(defaultThemeName(), d->themeMenuActionGroup);
     action->setCheckable(true);
