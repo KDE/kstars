@@ -140,7 +140,7 @@ void ThemeManager::slotChangePalette()
 
     QString theme(currentThemeName());
 
-    if(theme == "macintosh")
+    if(theme == "Macintosh")
         qApp->setStyle(QStyleFactory::create("macintosh"));
     else
         qApp->setStyle(QStyleFactory::create("Fusion"));
@@ -195,7 +195,7 @@ void ThemeManager::populateThemeMenu()
         return;
     }
 
-    QString theme(currentThemeName());
+    //QString theme(currentThemeName());
 
     d->themeMenuAction->clear();
     delete d->themeMenuActionGroup;
@@ -203,10 +203,6 @@ void ThemeManager::populateThemeMenu()
     d->themeMenuActionGroup = new QActionGroup(d->themeMenuAction);
 
     connect(d->themeMenuActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotChangePalette()));
-
-    QAction* const macAction   = new QAction("macintosh", d->themeMenuActionGroup);
-    macAction->setCheckable(true);
-    d->themeMenuAction->addAction(macAction);
 
     QAction* const action   = new QAction(defaultThemeName(), d->themeMenuActionGroup);
     action->setCheckable(true);
@@ -248,6 +244,14 @@ void ThemeManager::populateThemeMenu()
         ac->setCheckable(true);
         actionMap.insert(name, ac);
     }
+
+#ifdef Q_OS_MAC
+    QAction* const macAction   = new QAction(QLatin1String("Macintosh"), d->themeMenuActionGroup);
+    macAction->setCheckable(true);
+    //TODO Set appropiate icon
+    //macAction->setAction(..)
+    actionMap.insert(QLatin1String("Macintosh"), macAction);
+#endif
 
     // sort the list
     QStringList actionMapKeys = actionMap.keys();
