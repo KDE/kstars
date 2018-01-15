@@ -249,7 +249,7 @@ void ThemeManager::populateThemeMenu()
     }
 
     updateCurrentDesktopDefaultThemePreview();
-    setCurrentTheme(theme);
+    //setCurrentTheme(theme);
 }
 
 void ThemeManager::updateCurrentDesktopDefaultThemePreview()
