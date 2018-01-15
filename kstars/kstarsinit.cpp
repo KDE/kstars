@@ -763,6 +763,8 @@ void KStars::datainitFinished()
 
     //DEBUG
     qDebug() << "The current Date/Time is: " << KStarsDateTime::currentDateTime().toString();
+
+    ThemeManager::instance()->setCurrentTheme(Options::currentTheme());
 }
 
 void KStars::initFocus()
@@ -867,7 +869,7 @@ void KStars::buildGUI()
 
     setupGUI(StandardWindowOptions(Default & ~Create));
 
-    createGUI("kstarsui.rc");
+    createGUI(":/kxmlgui5/kstars/kstarsui.rc");
 
     //get focus of keyboard and mouse actions (for example zoom in with +)
     map()->QWidget::setFocus();
@@ -884,7 +886,6 @@ void KStars::populateThemes()
 {
     ThemeManager::instance()->setThemeMenuAction(new QMenu(i18n("&Themes"), this));
     ThemeManager::instance()->registerThemeActions(this);
-    ThemeManager::instance()->setCurrentTheme(Options::currentTheme());
 
     connect(ThemeManager::instance(), SIGNAL(signalThemeChanged()), this, SLOT(slotThemeChanged()));
 }
