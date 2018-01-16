@@ -132,13 +132,23 @@ QAction *newToggleAction(KActionCollection *col, QString name, QString text, QOb
 
 void KStars::initActions()
 {
-    //This will check if there is an icon for a very common action to see if a theme is loaded.
-    //If one is not detected, it tries to set the theme to the one specified here.
-    static const char *GENERIC_ICON_TO_CHECK = "document-open";
-    static const char *ICON_THEME            = "breeze";
-    if (!QIcon::hasThemeIcon(GENERIC_ICON_TO_CHECK))
+    // Check if we have this specific Breeze icon. If not, try to set the theme search path
+    // in each OS
+    if (!QIcon::hasThemeIcon(QLatin1String("kstars_flag")))
     {
-        QIcon::setThemeName(ICON_THEME);
+        QStringList themeSearchPaths = (QStringList() << QIcon::themeSearchPaths());
+        #ifdef Q_OS_OSX
+        themeSearchPaths = themeSearchPaths << QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons/").absolutePath());
+        #elif defined(Q_OS_WIN)
+        //TODO Find out the search path on Windows
+        //Drop icon dependency in Craft and manually
+        themeSearchPaths = themeSearchPaths;
+        #else
+        //TODO On Linux on non-KDE Distros, find out if the themes are installed or not and perhaps warn the user
+        #endif
+
+        QIcon::setThemeSearchPaths(themeSearchPaths);
+        QIcon::setThemeName(QLatin1String("breeze"));
     }
 
     QAction *ka;
