@@ -39,8 +39,8 @@ ObserverAdd::ObserverAdd()
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    ui.AddObserverB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
-    ui.RemoveObserverB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
+    ui.AddObserverB->setIcon(QIcon::fromTheme("list-add"));
+    ui.RemoveObserverB->setIcon(QIcon::fromTheme("list-remove"));
 
     // Load the observers list from the file
     loadObservers();

@@ -79,9 +79,9 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
             ld->DSTRuleBox->addItem(key);
     }
 
-    ld->AddCityButton->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
-    ld->RemoveButton->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
-    ld->UpdateButton->setIcon(QIcon::fromTheme("svn-update", QIcon(":/icons/breeze/default/svn-update.svg")));
+    ld->AddCityButton->setIcon(QIcon::fromTheme("list-add"));
+    ld->RemoveButton->setIcon(QIcon::fromTheme("list-remove"));
+    ld->UpdateButton->setIcon(QIcon::fromTheme("svn-update"));
 
     connect(ld->CityFilter, SIGNAL(textChanged(QString)), this, SLOT(enqueueFilterCity()));
     connect(ld->ProvinceFilter, SIGNAL(textChanged(QString)), this, SLOT(enqueueFilterCity()));

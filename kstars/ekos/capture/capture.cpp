@@ -72,12 +72,12 @@ Capture::Capture()
     connect(startB, SIGNAL(clicked()), this, SLOT(toggleSequence()));
     connect(pauseB, SIGNAL(clicked()), this, SLOT(pause()));
 
-    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    pauseB->setIcon(QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg")));
+    pauseB->setIcon(QIcon::fromTheme("media-playback-pause"));
     pauseB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    filterManagerB->setIcon(QIcon::fromTheme("view-filter", QIcon(":/icons/breeze/default/view-filter.svg")));
+    filterManagerB->setIcon(QIcon::fromTheme("view-filter"));
     filterManagerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     FilterDevicesCombo->addItem("--");
@@ -127,30 +127,30 @@ Capture::Capture()
     connect(calibrationB, SIGNAL(clicked()), this, SLOT(openCalibrationDialog()));
     connect(rotatorB, SIGNAL(clicked()), rotatorSettings.get(), SLOT(show()));
 
-    addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
+    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
     removeFromQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueUpB->setIcon(QIcon::fromTheme("go-up", QIcon(":/icons/breeze/default/go-up.svg")));
+    queueUpB->setIcon(QIcon::fromTheme("go-up"));
     queueUpB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueDownB->setIcon(QIcon::fromTheme("go-down", QIcon(":/icons/breeze/default/go-down.svg")));
+    queueDownB->setIcon(QIcon::fromTheme("go-down"));
     queueDownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectFITSDirB->setIcon(
-        QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")));
+        QIcon::fromTheme("document-open-folder"));
     selectFITSDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueLoadB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    queueLoadB->setIcon(QIcon::fromTheme("document-open"));
     queueLoadB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueSaveB->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")));
+    queueSaveB->setIcon(QIcon::fromTheme("document-save"));
     queueSaveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg")));
+    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
     queueSaveAsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    resetB->setIcon(QIcon::fromTheme("system-reboot", QIcon(":/icons/breeze/default/system-reboot.svg")));
+    resetB->setIcon(QIcon::fromTheme("system-reboot"));
     resetB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    resetFrameB->setIcon(QIcon::fromTheme("view-refresh", QIcon(":/icons/breeze/default/view-refresh.svg")));
+    resetFrameB->setIcon(QIcon::fromTheme("view-refresh"));
     resetFrameB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    calibrationB->setIcon(QIcon::fromTheme("run-build", QIcon(":/icons/breeze/default/run-build.svg")));
+    calibrationB->setIcon(QIcon::fromTheme("run-build"));
     calibrationB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    rotatorB->setIcon(QIcon::fromTheme("kstars_solarsystem", QIcon(":/icons/breeze/default/kstars_solarsystem.svg")));
+    rotatorB->setIcon(QIcon::fromTheme("kstars_solarsystem"));
     rotatorB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
@@ -179,7 +179,7 @@ Capture::Capture()
     connect(remoteDirIN, SIGNAL(editingFinished()), this, SLOT(setDirty()));
 
     observerName = Options::defaultObserver();
-    observerB->setIcon(QIcon::fromTheme("im-user", QIcon(":/icons/breeze/default/im-user.svg")));
+    observerB->setIcon(QIcon::fromTheme("im-user"));
     observerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(observerB, SIGNAL(clicked()), this, SLOT(showObserverDialog()));
 
@@ -277,7 +277,7 @@ void Capture::pause()
     appendLogText(i18n("Sequence shall be paused after current exposure is complete."));
     pauseB->setEnabled(false);
 
-    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setToolTip(i18n("Resume Sequence"));
 }
 
@@ -286,7 +286,7 @@ void Capture::toggleSequence()
     if (state == CAPTURE_PAUSED)
     {
         startB->setIcon(
-            QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+            QIcon::fromTheme("media-playback-stop"));
         startB->setToolTip(i18n("Stop Sequence"));
         pauseB->setEnabled(true);
 
@@ -400,7 +400,7 @@ void Capture::start()
     state = CAPTURE_PROGRESS;
     emit newStatus(Ekos::CAPTURE_PROGRESS);
 
-    startB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+    startB->setIcon(QIcon::fromTheme("media-playback-stop"));
     startB->setToolTip(i18n("Stop Sequence"));
     pauseB->setEnabled(true);
 
@@ -487,7 +487,7 @@ void Capture::stop(bool abort)
     if (abort)
     {
         startB->setIcon(
-            QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+            QIcon::fromTheme("media-playback-start"));
         startB->setToolTip(i18n("Start Sequence"));
         pauseB->setEnabled(false);
     }
@@ -2291,7 +2291,7 @@ void Capture::executeJob()
     if (activeJob->isPreview())
     {
         startB->setIcon(
-            QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+            QIcon::fromTheme("media-playback-stop"));
         startB->setToolTip(i18n("Stop"));
     }
 
@@ -3198,7 +3198,7 @@ void Capture::editJob(QModelIndex i)
 
     appendLogText(i18n("Editing job #%1...", i.row() + 1));
 
-    addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply", QIcon(":/icons/breeze/default/dialog-ok-apply.svg")));
+    addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
     addToQueueB->setToolTip(i18n("Apply job changes."));
     removeFromQueueB->setToolTip(i18n("Cancel job changes."));
 
@@ -3211,7 +3211,7 @@ void Capture::resetJobEdit()
         appendLogText(i18n("Editing job canceled."));
 
     jobUnderEdit = false;
-    addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
 
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
     removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
@@ -4574,7 +4574,7 @@ void Capture::showFilterOffsetDialog()
     QLabel *tipText = new QLabel(&filterOffsetDialog);
 
     tipIcon->setPixmap(
-        QIcon::fromTheme("kstars_flag", QIcon(":/icons/breeze/default/kstars_flag.svg")).pixmap(QSize(32, 32)));
+        QIcon::fromTheme("kstars_flag").pixmap(QSize(32, 32)));
     tipIcon->setFixedSize(32, 32);
 
     tipText->setText(i18n("Set <em>relative</em> filter focus offset in steps."));
@@ -4714,7 +4714,7 @@ void Capture::showObserverDialog()
 
     QPushButton manageObserver(&observersDialog);
     manageObserver.setFixedSize(QSize(32, 32));
-    manageObserver.setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/breeze/default/document-edit.svg")));
+    manageObserver.setIcon(QIcon::fromTheme("document-edit"));
     manageObserver.setAttribute(Qt::WA_LayoutUsesWidgetRect);
     manageObserver.setToolTip(i18n("Manage Observers"));
     connect(&manageObserver, &QPushButton::clicked, this, [&]() {

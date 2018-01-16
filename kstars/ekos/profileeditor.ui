@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>380</width>
-    <height>334</height>
+    <height>341</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -143,8 +143,7 @@
            <string>Web Manager</string>
           </property>
           <property name="icon">
-           <iconset resource="../data/kstars.qrc">
-            <normaloff>:/icons/breeze/default/kstars_xplanet.svg</normaloff>:/icons/breeze/default/kstars_xplanet.svg</iconset>
+           <iconset theme="applications-internet"/>
           </property>
           <property name="iconSize">
            <size>
@@ -707,8 +706,6 @@
   <tabstop>aux4Combo</tabstop>
   <tabstop>loadSiteCheck</tabstop>
  </tabstops>
- <resources>
-  <include location="../data/kstars.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

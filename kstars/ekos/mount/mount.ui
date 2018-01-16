@@ -402,14 +402,16 @@
           <string>Mount Control</string>
          </property>
          <property name="icon">
-          <iconset resource="../../data/kstars.qrc">
-           <normaloff>:/icons/breeze/default/kstars_telescope.svg</normaloff>:/icons/breeze/default/kstars_telescope.svg</iconset>
+          <iconset theme="kstars"/>
          </property>
          <property name="iconSize">
           <size>
-           <width>48</width>
-           <height>48</height>
+           <width>32</width>
+           <height>32</height>
           </size>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+S</string>
          </property>
         </widget>
        </item>
@@ -664,8 +666,6 @@ font-weight:bold;
   <tabstop>clearAlignmentModelB</tabstop>
   <tabstop>enableLimitsCheck</tabstop>
  </tabstops>
- <resources>
-  <include location="../../data/kstars.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -1009,37 +1009,37 @@ void KStars::slotViewOps()
     KPageWidgetItem *page;
 
     page = dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
-    page->setIcon(QIcon::fromTheme("kstars_catalog", QIcon(":/icons/breeze/default/kstars_catalog.svg")));
+    page->setIcon(QIcon::fromTheme("kstars_catalog"));
 
     page = dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
-    page->setIcon(QIcon::fromTheme("kstars_solarsystem", QIcon(":/icons/breeze/default/kstars_solarsystem.svg")));
+    page->setIcon(QIcon::fromTheme("kstars_solarsystem"));
 
     page = dialog->addPage(opssatellites, i18n("Satellites"), "kstars_satellites");
-    page->setIcon(QIcon::fromTheme("kstars_satellites", QIcon(":/icons/breeze/default/kstars_satellites.svg")));
+    page->setIcon(QIcon::fromTheme("kstars_satellites"));
 
     page = dialog->addPage(opssupernovae, i18n("Supernovae"), "kstars_supernovae");
-    page->setIcon(QIcon::fromTheme("kstars_supernovae", QIcon(":/icons/breeze/default/kstars_supernovae.svg")));
+    page->setIcon(QIcon::fromTheme("kstars_supernovae"));
 
     page = dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
-    page->setIcon(QIcon::fromTheme("kstars_guides", QIcon(":/icons/breeze/default/kstars_guides.svg")));
+    page->setIcon(QIcon::fromTheme("kstars_guides"));
 
     page = dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
-    page->setIcon(QIcon::fromTheme("kstars_colors", QIcon(":/icons/breeze/default/kstars_colors.svg")));
+    page->setIcon(QIcon::fromTheme("kstars_colors"));
 
 #ifdef HAVE_CFITSIO
     opsfits = new OpsFITS();
     page    = dialog->addPage(opsfits, i18n("FITS"), "kstars_fitsviewer");
-    page->setIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
+    page->setIcon(QIcon::fromTheme("kstars_fitsviewer"));
 #endif
 
 #ifdef HAVE_INDI
     opsindi = new OpsINDI();
     page    = dialog->addPage(opsindi, i18n("INDI"), "kstars_indi");
-    page->setIcon(QIcon::fromTheme("kstars_indi", QIcon(":/icons/breeze/default/kstars_indi.svg")));
+    page->setIcon(QIcon::fromTheme("kstars_indi"));
 #ifdef HAVE_CFITSIO
     opsekos                     = new OpsEkos();
     KPageWidgetItem *ekosOption = dialog->addPage(opsekos, i18n("Ekos"), "kstars_ekos");
-    ekosOption->setIcon(QIcon::fromTheme("kstars_ekos", QIcon(":/icons/breeze/default/kstars_ekos.svg")));
+    ekosOption->setIcon(QIcon::fromTheme("kstars_ekos"));
     if (m_EkosManager)
         m_EkosManager->setOptionsWidget(ekosOption);
 #endif
@@ -1049,11 +1049,11 @@ void KStars::slotViewOps()
 #ifdef HAVE_XPLANET
     opsxplanet = new OpsXplanet(this);
     page       = dialog->addPage(opsxplanet, i18n("Xplanet"), "kstars_xplanet");
-    page->setIcon(QIcon::fromTheme("kstars_xplanet", QIcon(":/icons/breeze/default/kstars_xplanet.svg")));
+    page->setIcon(QIcon::fromTheme("kstars_xplanet"));
 #endif
 
     page = dialog->addPage(opadvanced, i18n("Advanced"), "kstars_advanced");
-    page->setIcon(QIcon::fromTheme("kstars_advanced", QIcon(":/icons/breeze/default/kstars_advanced.svg")));
+    page->setIcon(QIcon::fromTheme("kstars_advanced"));
 
     dialog->show();
 }
@@ -1404,7 +1404,7 @@ void KStars::slotTrack()
         actionCollection()->action("track_object")->setText(i18n("Engage &Tracking"));
         actionCollection()
             ->action("track_object")
-            ->setIcon(QIcon::fromTheme("document-decrypt", QIcon(":/icons/breeze/default/document-encrypt.svg")));
+            ->setIcon(QIcon::fromTheme("document-decrypt"));
 
         KSPlanetBase *planet = dynamic_cast<KSPlanetBase *>(map()->focusObject());
         if (planet && data()->temporaryTrail)
@@ -1427,7 +1427,7 @@ void KStars::slotTrack()
         actionCollection()->action("track_object")->setText(i18n("Stop &Tracking"));
         actionCollection()
             ->action("track_object")
-            ->setIcon(QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.svg")));
+            ->setIcon(QIcon::fromTheme("document-encrypt"));
     }
 
     map()->forceUpdate();

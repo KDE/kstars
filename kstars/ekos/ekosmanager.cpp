@@ -64,7 +64,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     new EkosAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos", this);
 
-    setWindowIcon(QIcon::fromTheme("kstars_ekos", QIcon(":/icons/breeze/default/kstars_ekos.svg")));
+    setWindowIcon(QIcon::fromTheme("kstars_ekos"));
 
     profileModel.reset(new QStandardItemModel(0, 4));
     profileModel->setHorizontalHeaderLabels(QStringList() << "id"
@@ -109,7 +109,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     KConfigDialog *dialog = new KConfigDialog(this, "logssettings", Options::self());
     opsLogs = new Ekos::OpsLogs();
     KPageWidgetItem *page = dialog->addPage(opsLogs, i18n("Logging"));
-    page->setIcon(QIcon::fromTheme("configure", QIcon(":/icons/breeze/default/configure.svg")));
+    page->setIcon(QIcon::fromTheme("configure"));
     connect(logsB, SIGNAL(clicked()), dialog, SLOT(show()));
     connect(dialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(updateDebugInterfaces()));
     connect(dialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(updateDebugInterfaces()));
@@ -146,13 +146,13 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     deleteProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     // Set Profile icons
-    addProfileB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    addProfileB->setIcon(QIcon::fromTheme("list-add"));
     addProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    editProfileB->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/breeze/default/document-edit.svg")));
+    editProfileB->setIcon(QIcon::fromTheme("document-edit"));
     editProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    deleteProfileB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
+    deleteProfileB->setIcon(QIcon::fromTheme("list-remove"));
     deleteProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    wizardProfileB->setIcon(QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg")));
+    wizardProfileB->setIcon(QIcon::fromTheme("tools-wizard"));
     wizardProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     // Load all drivers
@@ -162,7 +162,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     loadProfiles();
 
     // INDI Control Panel and Ekos Options
-    controlPanelB->setIcon(QIcon::fromTheme("kstars_indi", QIcon(":/icons/breeze/default/kstars_indi.svg")));
+    controlPanelB->setIcon(QIcon::fromTheme("kstars_indi"));
     controlPanelB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     optionsB->setIcon(QIcon::fromTheme("configure", QIcon(":/icons/ekos_setup.png")));
     optionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);

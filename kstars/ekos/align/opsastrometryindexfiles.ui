@@ -19,7 +19,7 @@
      <property name="styleSheet">
       <string notr="true">li
 {
-background:  url(:/icons/breeze/default/security-high.svg) no-repeat left top;
+background:  url(:/icons/astrometry-required.svg) no-repeat left top;
 }</string>
      </property>
      <property name="text">
@@ -56,7 +56,7 @@ background:  url(:/icons/breeze/default/security-high.svg) no-repeat left top;
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../data/kstars.qrc">:/icons/breeze/default/security-high.svg</pixmap>
+        <pixmap resource="../../data/kstars.qrc">:/icons/astrometry-required.svg</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -110,7 +110,7 @@ background:  url(:/icons/breeze/default/security-high.svg) no-repeat left top;
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../data/kstars.qrc">:/icons/breeze/default/security-medium.svg</pixmap>
+        <pixmap resource="../../data/kstars.qrc">:/icons/astrometry-recommended.svg</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -164,7 +164,7 @@ background:  url(:/icons/breeze/default/security-high.svg) no-repeat left top;
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../data/kstars.qrc">:/icons/breeze/default/security-low.svg</pixmap>
+        <pixmap resource="../../data/kstars.qrc">:/icons/astrometry-optional.svg</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>

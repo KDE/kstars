@@ -107,7 +107,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     OutputList->horizontalHeader()->resizeSection(4, 120); //is it bad way to fix default size of columns ?
 
     //FilterEdit->showClearButton = true;
-    ClearFilterButton->setIcon(QIcon::fromTheme("edit-clear", QIcon(":/icons/breeze/default/edit-clear.svg")));
+    ClearFilterButton->setIcon(QIcon::fromTheme("edit-clear"));
 
     // signals and slots connections
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));

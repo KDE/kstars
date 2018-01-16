@@ -373,7 +373,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../../data/kstars.qrc">:/icons/breeze/default/security-medium.svg</pixmap>
+           <pixmap resource="../../data/kstars.qrc">:/icons/AlignWarning.svg</pixmap>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -636,7 +636,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../../data/kstars.qrc">:/icons/breeze/default/security-medium.svg</pixmap>
+           <pixmap resource="../../data/kstars.qrc">:/icons/AlignWarning.svg</pixmap>
           </property>
           <property name="scaledContents">
            <bool>true</bool>

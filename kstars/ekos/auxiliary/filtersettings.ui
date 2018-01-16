@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>432</width>
-    <height>337</height>
+    <width>436</width>
+    <height>296</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,22 +70,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="label_3">
-       <property name="minimumSize">
-        <size>
-         <width>22</width>
-         <height>22</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../../data/kstars.qrc">:/icons/breeze/default/flag-green.svg</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set &lt;span style=&quot; font-style:italic;&quot;&gt;relative&lt;/span&gt; filter focus offset in steps.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -119,9 +103,7 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../data/kstars.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

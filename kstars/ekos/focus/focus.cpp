@@ -58,12 +58,12 @@ Focus::Focus()
     FilterDevicesCombo->addItem("--");
 
     showFITSViewerB->setIcon(
-        QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
+        QIcon::fromTheme("kstars_fitsviewer"));
     showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(showFITSViewerB, SIGNAL(clicked()), this, SLOT(showFITSViewer()));
 
     toggleFullScreenB->setIcon(
-        QIcon::fromTheme("view-fullscreen", QIcon(":/icons/breeze/default/view-fullscreen.svg")));
+        QIcon::fromTheme("view-fullscreen"));
     toggleFullScreenB->setShortcut(Qt::Key_F4);
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(toggleFullScreenB, SIGNAL(clicked()), this, SLOT(toggleFocusingWidgetFullScreen()));

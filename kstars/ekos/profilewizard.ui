@@ -98,7 +98,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="introPage">
         <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -358,8 +358,7 @@ Tutorials</string>
 to this computer</string>
            </property>
            <property name="icon">
-            <iconset resource="../data/kstars.qrc">
-             <normaloff>:/icons/breeze/default/computer.svg</normaloff>:/icons/breeze/default/computer.svg</iconset>
+            <iconset theme="computer"/>
            </property>
            <property name="iconSize">
             <size>
@@ -402,8 +401,7 @@ to this computer</string>
 to a remote computer</string>
              </property>
              <property name="icon">
-              <iconset resource="../data/kstars.qrc">
-               <normaloff>:/icons/breeze/default/applications-internet.svg</normaloff>:/icons/breeze/default/applications-internet.svg</iconset>
+              <iconset theme="applications-internet"/>
              </property>
              <property name="iconSize">
               <size>
@@ -922,8 +920,7 @@ to StellarMate</string>
 Server</string>
            </property>
            <property name="icon">
-            <iconset resource="../data/kstars.qrc">
-             <normaloff>:/icons/breeze/default/kstars_indi.svg</normaloff>:/icons/breeze/default/kstars_indi.svg</iconset>
+            <iconset theme="kstars_indi"/>
            </property>
            <property name="iconSize">
             <size>
@@ -958,8 +955,7 @@ Server</string>
 Server</string>
            </property>
            <property name="icon">
-            <iconset resource="../data/kstars.qrc">
-             <normaloff>:/icons/breeze/default/draw-cuboid.svg</normaloff>:/icons/breeze/default/draw-cuboid.svg</iconset>
+            <iconset theme="draw-cuboid"/>
            </property>
            <property name="iconSize">
             <size>

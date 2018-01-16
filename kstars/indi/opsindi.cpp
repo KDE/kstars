@@ -34,10 +34,10 @@ OpsINDI::OpsINDI() : QFrame(KStars::Instance())
     m_ConfigDialog = KConfigDialog::exists("settings");
 
     selectFITSDirB->setIcon(
-        QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")));
+        QIcon::fromTheme("document-open-folder"));
     selectFITSDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectDriversDirB->setIcon(
-        QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")));
+        QIcon::fromTheme("document-open-folder"));
     selectDriversDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
 #ifdef Q_OS_OSX

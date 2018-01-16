@@ -1516,30 +1516,30 @@ void FITSView::createFloatingToolBar()
 
     QAction *action = nullptr;
 
-    floatingToolBar->addAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.svg")),
+    floatingToolBar->addAction(QIcon::fromTheme("zoom-in"),
                                i18n("Zoom In"), this, SLOT(ZoomIn()));
 
-    floatingToolBar->addAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/breeze/default/zoom-out.svg")),
+    floatingToolBar->addAction(QIcon::fromTheme("zoom-out"),
                                i18n("Zoom Out"), this, SLOT(ZoomOut()));
 
-    floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg")),
+    floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-best"),
                                i18n("Default Zoom"), this, SLOT(ZoomDefault()));
 
-    floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-width", QIcon(":/icons/breeze/default/zoom-fit-width.svg")),
+    floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-width"),
                                i18n("Zoom to Fit"), this, SLOT(ZoomToFit()));
 
     floatingToolBar->addSeparator();
 
-    action = floatingToolBar->addAction(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")),
+    action = floatingToolBar->addAction(QIcon::fromTheme("crosshairs"),
                                         i18n("Show Cross Hairs"), this, SLOT(toggleCrosshair()));
     action->setCheckable(true);
 
-    action = floatingToolBar->addAction(QIcon::fromTheme("map-flat", QIcon(":/icons/breeze/default/map-flat.svg")),
+    action = floatingToolBar->addAction(QIcon::fromTheme("map-flat"),
                                         i18n("Show Pixel Gridlines"), this, SLOT(togglePixelGrid()));
     action->setCheckable(true);
 
     toggleStarsAction =
-        floatingToolBar->addAction(QIcon::fromTheme("kstars_stars", QIcon(":/icons/breeze/default/kstars_stars.svg")),
+        floatingToolBar->addAction(QIcon::fromTheme("kstars_stars"),
                                    i18n("Detect Stars in Image"), this, SLOT(toggleStars()));
     toggleStarsAction->setCheckable(true);
 
@@ -1555,13 +1555,13 @@ void FITSView::createFloatingToolBar()
         floatingToolBar->addSeparator();
 
         toggleEQGridAction =
-            floatingToolBar->addAction(QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg")),
+            floatingToolBar->addAction(QIcon::fromTheme("kstars_grid"),
                                        i18n("Show Equatorial Gridlines"), this, SLOT(toggleEQGrid()));
         toggleEQGridAction->setCheckable(true);
         toggleEQGridAction->setEnabled(false);
 
         toggleObjectsAction =
-            floatingToolBar->addAction(QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")),
+            floatingToolBar->addAction(QIcon::fromTheme("help-hint"),
                                        i18n("Show Objects in Image"), this, SLOT(toggleObjects()));
         toggleObjectsAction->setCheckable(true);
         toggleEQGridAction->setEnabled(false);

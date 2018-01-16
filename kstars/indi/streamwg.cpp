@@ -47,7 +47,7 @@ RecordOptions::RecordOptions(QWidget *parent) : QDialog(parent)
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
     selectDirB->setIcon(
-        QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")));
+        QIcon::fromTheme("document-open-folder"));
     connect(selectDirB, SIGNAL(clicked()), this, SLOT(selectRecordDirectory()));
 }
 
@@ -84,11 +84,11 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
-    recordIcon = QIcon::fromTheme("media-record", QIcon(":/icons/breeze/default/media-record.svg"));
-    stopIcon   = QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg"));
+    recordIcon = QIcon::fromTheme("media-record");
+    stopIcon   = QIcon::fromTheme("media-playback-stop");
 
-    optionsB->setIcon(QIcon::fromTheme("run-build", QIcon(":/icons/breeze/default/run-build.svg")));
-    resetFrameB->setIcon(QIcon::fromTheme("view-restore", QIcon(":/icons/breeze/default/view-restore.svg")));
+    optionsB->setIcon(QIcon::fromTheme("run-build"));
+    resetFrameB->setIcon(QIcon::fromTheme("view-restore"));
 
     connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
 

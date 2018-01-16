@@ -590,7 +590,7 @@ void INDI_E::setupElementRead(int length)
 void INDI_E::setupBrowseButton()
 {
     browse_w = new QPushButton(guiProp->getGroup()->getContainer());
-    browse_w->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    browse_w->setIcon(QIcon::fromTheme("document-open"));
     browse_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     browse_w->setMinimumWidth(MIN_SET_WIDTH);
     browse_w->setMaximumWidth(MAX_SET_WIDTH);

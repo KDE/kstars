@@ -134,8 +134,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../../data/kstars.qrc">
-              <normaloff>:/icons/breeze/default/edit-delete.svg</normaloff>:/icons/breeze/default/edit-delete.svg</iconset>
+             <iconset theme="edit-delete"/>
             </property>
            </widget>
           </item>
@@ -1537,15 +1536,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>NonLinearDoubleSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>auxiliary/nonlineardoublespinbox.h</header>
-  </customwidget>
-  <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header>auxiliary/qcustomplot.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>NonLinearDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>auxiliary/nonlineardoublespinbox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -1598,8 +1597,6 @@
   <tabstop>spinBox_DerGainDEC</tabstop>
   <tabstop>spinBox_MinPulseRA</tabstop>
  </tabstops>
- <resources>
-  <include location="../../data/kstars.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

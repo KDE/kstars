@@ -156,47 +156,47 @@ void KStars::initActions()
     // ==== File menu ================
     ka = KNS3::standardAction(i18n("Download New Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data")
          << QKeySequence(Qt::CTRL + Qt::Key_N);
-    ka->setIcon(QIcon::fromTheme("favorites", QIcon(":/icons/breeze/default/favorites.svg")));
+    ka->setIcon(QIcon::fromTheme("favorites"));
     ka->setWhatsThis(i18n("Downloads new data"));
     ka->setToolTip(ka->whatsThis());
     ka->setStatusTip(ka->whatsThis());
 
 #ifdef HAVE_CFITSIO
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()))
-        << i18n("Open FITS...") << QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg"))
+        << i18n("Open FITS...") << QIcon::fromTheme("document-open")
         << QKeySequence(Qt::CTRL + Qt::Key_O);
 #endif
     actionCollection()->addAction("export_image", this, SLOT(slotExportImage()))
         << i18n("&Save Sky Image...")
-        << QIcon::fromTheme("document-export-image", QIcon(":/icons/breeze/default/document-export.svg"));
+        << QIcon::fromTheme("document-export-image");
 
 // 2017-09-17 Jasem: FIXME! Scripting does not work properly under non UNIX systems.
 // It must be updated to use DBus session bus from Qt (like scheduler)
 #ifndef Q_OS_WIN
     actionCollection()->addAction("run_script", this, SLOT(slotRunScript()))
-        << i18n("&Run Script...") << QIcon::fromTheme("system-run", QIcon(":/icons/breeze/default/system-run.svg"))
+        << i18n("&Run Script...") << QIcon::fromTheme("system-run")
         << QKeySequence(Qt::CTRL + Qt::Key_R);
 #endif
     actionCollection()->addAction("printing_wizard", this, SLOT(slotPrintingWizard()))
         << i18nc("start Printing Wizard", "Printing &Wizard");
     ka = actionCollection()->addAction(KStandardAction::Print, "print", this, SLOT(slotPrint()));
-    ka->setIcon(QIcon::fromTheme("document-print", QIcon(":/icons/breeze/default/document-print.svg")));
+    ka->setIcon(QIcon::fromTheme("document-print"));
     //actionCollection()->addAction( KStandardAction::Quit,  "quit",  this, SLOT(close) );
     ka = actionCollection()->addAction(KStandardAction::Quit, "quit", qApp, SLOT(closeAllWindows()));
-    ka->setIcon(QIcon::fromTheme("application-exit", QIcon(":/icons/breeze/default/application-exit.svg")));
+    ka->setIcon(QIcon::fromTheme("application-exit"));
 
     // ==== Time Menu ================
     actionCollection()->addAction("time_to_now", this, SLOT(slotSetTimeToNow()))
         << i18n("Set Time to &Now") << QKeySequence(Qt::CTRL + Qt::Key_E)
-        << QIcon::fromTheme("clock", QIcon(":/icons/breeze/default/clock.svg"));
+        << QIcon::fromTheme("clock");
 
     actionCollection()->addAction("time_dialog", this, SLOT(slotSetTime()))
         << i18nc("set Clock to New Time", "&Set Time...") << QKeySequence(Qt::CTRL + Qt::Key_S)
-        << QIcon::fromTheme("clock", QIcon(":/icons/breeze/default/clock.svg"));
+        << QIcon::fromTheme("clock");
 
     ka = actionCollection()->add<KToggleAction>("clock_startstop")
          << i18n("Stop &Clock")
-         << QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg"));
+         << QIcon::fromTheme("media-playback-pause");
     if (!StartClockRunning)
         ka->toggle();
     QObject::connect(ka, SIGNAL(triggered()), this, SLOT(slotToggleTimer()));
@@ -205,11 +205,11 @@ void KStars::initActions()
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), this, SLOT(updateTime()));
     actionCollection()->addAction("time_step_forward", this, SLOT(slotStepForward()))
         << i18n("Advance one step forward in time")
-        << QIcon::fromTheme("media-skip-forward", QIcon(":/icons/breeze/default/media-skip-forward.svg"))
+        << QIcon::fromTheme("media-skip-forward")
         << QKeySequence(Qt::Key_Greater);
     actionCollection()->addAction("time_step_backward", this, SLOT(slotStepBackward()))
         << i18n("Advance one step backward in time")
-        << QIcon::fromTheme("media-skip-backward", QIcon(":/icons/breeze/default/media-skip-backward.svg"))
+        << QIcon::fromTheme("media-skip-backward")
         << QKeySequence(Qt::Key_Less);
 
     // ==== Pointing Menu ================
@@ -220,11 +220,11 @@ void KStars::initActions()
     actionCollection()->addAction("west", this, SLOT(slotPointFocus())) << i18n("&West") << QKeySequence("W");
 
     actionCollection()->addAction("find_object", this, SLOT(slotFind()))
-        << i18n("&Find Object...") << QIcon::fromTheme("edit-find", QIcon(":/icons/breeze/default/edit-find.svg"))
+        << i18n("&Find Object...") << QIcon::fromTheme("edit-find")
         << QKeySequence(Qt::CTRL + Qt::Key_F);
     actionCollection()->addAction("track_object", this, SLOT(slotTrack()))
         << i18n("Engage &Tracking")
-        << QIcon::fromTheme("object-locked", QIcon(":/icons/breeze/default/object-locked.svg"))
+        << QIcon::fromTheme("object-locked")
         << QKeySequence(Qt::CTRL + Qt::Key_T);
     actionCollection()->addAction("manual_focus", this, SLOT(slotManualFocus()))
         << i18n("Set Coordinates &Manually...") << QKeySequence(Qt::CTRL + Qt::Key_M);
@@ -233,21 +233,21 @@ void KStars::initActions()
 
     // ==== View Menu ================
     action = actionCollection()->addAction(KStandardAction::ZoomIn, "zoom_in", map(), SLOT(slotZoomIn()));
-    action->setIcon(QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.svg")));
+    action->setIcon(QIcon::fromTheme("zoom-in"));
 
     action = actionCollection()->addAction(KStandardAction::ZoomOut, "zoom_out", map(), SLOT(slotZoomOut()));
-    action->setIcon(QIcon::fromTheme("zoom-out", QIcon(":/icons/breeze/default/zoom-out.svg")));
+    action->setIcon(QIcon::fromTheme("zoom-out"));
 
     actionCollection()->addAction("zoom_default", map(), SLOT(slotZoomDefault()))
-        << i18n("&Default Zoom") << QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg"))
+        << i18n("&Default Zoom") << QIcon::fromTheme("zoom-fit-best")
         << QKeySequence(Qt::CTRL + Qt::Key_Z);
     actionCollection()->addAction("zoom_set", this, SLOT(slotSetZoom()))
         << i18n("&Zoom to Angular Size...")
-        << QIcon::fromTheme("zoom-original", QIcon(":/icons/breeze/default/zoom-original.svg"))
+        << QIcon::fromTheme("zoom-original")
         << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z);
 
     action = actionCollection()->addAction(KStandardAction::FullScreen, this, SLOT(slotFullScreen()));
-    action->setIcon(QIcon::fromTheme("view-fullscreen", QIcon(":/icons/breeze/default/view-fullscreen.svg")));
+    action->setIcon(QIcon::fromTheme("view-fullscreen"));
 
     actionCollection()->addAction("coordsys", this, SLOT(slotCoordSys()))
         << (Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)") :
@@ -345,7 +345,7 @@ void KStars::initActions()
     fovActionMenu = actionCollection()->add<KActionMenu>("fovsymbols");
     fovActionMenu->setText(i18n("&FOV Symbols"));
     fovActionMenu->setDelayed(false);
-    fovActionMenu->setIcon(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")));
+    fovActionMenu->setIcon(QIcon::fromTheme("crosshairs"));
     FOVManager::readFOVs();
     repopulateFOV();
 
@@ -353,13 +353,13 @@ void KStars::initActions()
     hipsActionMenu = actionCollection()->add<KActionMenu>("hipssources");
     hipsActionMenu->setText(i18n("HiPS All Sky Overlay (Experimental)"));
     hipsActionMenu->setDelayed(false);
-    hipsActionMenu->setIcon(QIcon::fromTheme("view-preview", QIcon(":/icons/breeze/default/view-preview.svg")));
+    hipsActionMenu->setIcon(QIcon::fromTheme("view-preview"));
     HIPSManager::Instance()->readSources();
     repopulateHIPS();
 
     actionCollection()->addAction("geolocation", this, SLOT(slotGeoLocator()))
         << i18nc("Location on Earth", "&Geographic...")
-        << QIcon::fromTheme("kstars_xplanet", QIcon(":/icons/breeze/default/kstars_xplanet.svg"))
+        << QIcon::fromTheme("kstars_xplanet")
         << QKeySequence(Qt::CTRL + Qt::Key_G);
 
 // Configure Notifications
@@ -369,11 +369,11 @@ void KStars::initActions()
 
     ka = actionCollection()->addAction(KStandardAction::Preferences, "configure", this, SLOT(slotViewOps()));
     //I am not sure what icon preferences is supposed to be.
-    //ka->setIcon( QIcon::fromTheme("", QIcon(":/icons/breeze/default/.svg")));
+    //ka->setIcon( QIcon::fromTheme(""));
 
     actionCollection()->addAction("startwizard", this, SLOT(slotWizard()))
         << i18n("Startup Wizard...")
-        << QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg"));
+        << QIcon::fromTheme("tools-wizard");
 
     // Manual data entry
     actionCollection()->addAction("manual_add_dso", this, SLOT(slotAddDeepSkyObject()))
@@ -392,7 +392,7 @@ void KStars::initActions()
     //Tools Menu:
     actionCollection()->addAction("astrocalculator", this, SLOT(slotCalculator()))
         << i18n("Calculator")
-        << QIcon::fromTheme("accessories-calculator", QIcon(":/icons/breeze/default/accessories-calculator.svg"))
+        << QIcon::fromTheme("accessories-calculator")
         << QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_C);
 
     /* FIXME Enable once port to KF5 is complete for moonphasetool
@@ -468,11 +468,11 @@ void KStars::initActions()
 #ifndef Q_OS_WIN
     actionCollection()->addAction("telescope_wizard", this, SLOT(slotTelescopeWizard()))
         << i18n("Telescope Wizard...")
-        << QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg"));
+        << QIcon::fromTheme("tools-wizard");
 #endif
     actionCollection()->addAction("device_manager", this, SLOT(slotINDIDriver()))
         << i18n("Device Manager...")
-        << QIcon::fromTheme("network-server", QIcon(":/icons/breeze/default/network-server.svg"))
+        << QIcon::fromTheme("network-server")
         << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_D);
     ka = actionCollection()->addAction("indi_cpl", this, SLOT(slotINDIPanel()))
         << i18n("INDI Control Panel...")
@@ -488,7 +488,7 @@ void KStars::initActions()
     //Help Menu:
     ka = actionCollection()->addAction(KStandardAction::TipofDay, "help_tipofday", this, SLOT(slotTipOfDay()));
     ka->setWhatsThis(i18n("Displays the Tip of the Day"));
-    ka->setIcon(QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")));
+    ka->setIcon(QIcon::fromTheme("help-hint"));
     //	KStandardAction::help(this, SLOT( appHelpActivated() ), actionCollection(), "help_contents" );
 
     //Add timestep widget for toolbar
@@ -507,79 +507,79 @@ void KStars::initActions()
     // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle Stars in the display", "Stars")
-        << QIcon::fromTheme("kstars_stars", QIcon(":/icons/breeze/default/kstars_stars.svg"))
+        << QIcon::fromTheme("kstars_stars")
         << ToolTip(i18n("Toggle stars"));
     actionCollection()->add<KToggleAction>("show_deepsky", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle Deep Sky Objects in the display", "Deep Sky")
-        << QIcon::fromTheme("kstars_deepsky", QIcon(":/icons/breeze/default/kstars_deepsky.svg"))
+        << QIcon::fromTheme("kstars_deepsky")
         << ToolTip(i18n("Toggle deep sky objects"));
     actionCollection()->add<KToggleAction>("show_planets", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle Solar System objects in the display", "Solar System")
-        << QIcon::fromTheme("kstars_planets", QIcon(":/icons/breeze/default/kstars_planets.svg"))
+        << QIcon::fromTheme("kstars_planets")
         << ToolTip(i18n("Toggle Solar system objects"));
     actionCollection()->add<KToggleAction>("show_clines", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle Constellation Lines in the display", "Const. Lines")
-        << QIcon::fromTheme("kstars_clines", QIcon(":/icons/breeze/default/kstars_clines.svg"))
+        << QIcon::fromTheme("kstars_clines")
         << ToolTip(i18n("Toggle constellation lines"));
     actionCollection()->add<KToggleAction>("show_cnames", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle Constellation Names in the display", "Const. Names")
-        << QIcon::fromTheme("kstars_cnames", QIcon(":/icons/breeze/default/kstars_cnames.svg"))
+        << QIcon::fromTheme("kstars_cnames")
         << ToolTip(i18n("Toggle constellation names"));
     actionCollection()->add<KToggleAction>("show_cbounds", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle Constellation Boundaries in the display", "C. Boundaries")
-        << QIcon::fromTheme("kstars_cbound", QIcon(":/icons/breeze/default/kstars_cbound.svg"))
+        << QIcon::fromTheme("kstars_cbound")
         << ToolTip(i18n("Toggle constellation boundaries"));
     actionCollection()->add<KToggleAction>("show_constellationart", this, SLOT(slotViewToolBar()))
         << xi18nc("Toggle Constellation Art in the display", "C. Art (BETA)")
-        << QIcon::fromTheme("kstars_constellationart", QIcon(":/icons/breeze/default/kstars_constellationart.svg"))
+        << QIcon::fromTheme("kstars_constellationart")
         << ToolTip(xi18n("Toggle constellation art (BETA)"));
     actionCollection()->add<KToggleAction>("show_mw", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle Milky Way in the display", "Milky Way")
-        << QIcon::fromTheme("kstars_mw", QIcon(":/icons/breeze/default/kstars_mw.svg"))
+        << QIcon::fromTheme("kstars_mw")
         << ToolTip(i18n("Toggle milky way"));
     actionCollection()->add<KToggleAction>("show_equatorial_grid", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle Equatorial Coordinate Grid in the display", "Equatorial coord. grid")
-        << QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg"))
+        << QIcon::fromTheme("kstars_grid")
         << ToolTip(i18n("Toggle equatorial coordinate grid"));
     actionCollection()->add<KToggleAction>("show_horizontal_grid", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle Horizontal Coordinate Grid in the display", "Horizontal coord. grid")
-        << QIcon::fromTheme("kstars_hgrid", QIcon(":/icons/breeze/default/kstars_hgrid.svg"))
+        << QIcon::fromTheme("kstars_hgrid")
         << ToolTip(i18n("Toggle horizontal coordinate grid"));
     actionCollection()->add<KToggleAction>("show_horizon", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle the opaque fill of the ground polygon in the display", "Ground")
-        << QIcon::fromTheme("kstars_horizon", QIcon(":/icons/breeze/default/kstars_horizon.svg"))
+        << QIcon::fromTheme("kstars_horizon")
         << ToolTip(i18n("Toggle opaque ground"));
     actionCollection()->add<KToggleAction>("show_flags", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle flags in the display", "Flags")
-        << QIcon::fromTheme("kstars_flag", QIcon(":/icons/breeze/default/kstars_flag.svg"))
+        << QIcon::fromTheme("kstars_flag")
         << ToolTip(i18n("Toggle flags"));
     actionCollection()->add<KToggleAction>("show_satellites", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle satellites in the display", "Satellites")
-        << QIcon::fromTheme("kstars_satellites", QIcon(":/icons/breeze/default/kstars_satellites.svg"))
+        << QIcon::fromTheme("kstars_satellites")
         << ToolTip(i18n("Toggle satellites"));
     actionCollection()->add<KToggleAction>("show_supernovae", this, SLOT(slotViewToolBar()))
         << i18nc("Toggle supernovae in the display", "Supernovae")
-        << QIcon::fromTheme("kstars_supernovae", QIcon(":/icons/breeze/default/kstars_supernovae.svg"))
+        << QIcon::fromTheme("kstars_supernovae")
         << ToolTip(i18n("Toggle supernovae"));
     actionCollection()->add<KToggleAction>("show_whatsinteresting", this, SLOT(slotToggleWIView()))
         << i18nc("Toggle What's Interesting", "What's Interesting")
-        << QIcon::fromTheme("view-list-details", QIcon(":/icons/breeze/default/view-list-details.svg"))
+        << QIcon::fromTheme("view-list-details")
         << ToolTip(i18n("Toggle What's Interesting"));
 
 #ifdef HAVE_INDI
     // ==== INDIToolBar actions ================
     actionCollection()->add<KToggleAction>("show_ekos", this, SLOT(slotINDIToolBar()))
         << i18nc("Toggle Ekos in the display", "Ekos")
-        << QIcon::fromTheme("kstars_ekos", QIcon(":/icons/breeze/default/kstars_ekos.svg"))
+        << QIcon::fromTheme("kstars_ekos")
         << ToolTip(i18n("Toggle Ekos"));
     ka = actionCollection()->add<KToggleAction>("show_control_panel", this, SLOT(slotINDIToolBar()))
          << i18nc("Toggle the INDI Control Panel in the display", "INDI Control Panel")
-         << QIcon::fromTheme("kstars_indi", QIcon(":/icons/breeze/default/kstars_indi.svg"))
+         << QIcon::fromTheme("kstars_indi")
          << ToolTip(i18n("Toggle INDI Control Panel"));
     ka->setEnabled(false);
     ka = actionCollection()->add<KToggleAction>("show_fits_viewer", this, SLOT(slotINDIToolBar()))
          << i18nc("Toggle the FITS Viewer in the display", "FITS Viewer")
-         << QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg"))
+         << QIcon::fromTheme("kstars_fitsviewer")
          << ToolTip(i18n("Toggle FITS Viewer"));
     ka->setEnabled(false);
 
@@ -591,28 +591,28 @@ void KStars::initActions()
 
     ka = actionCollection()->add<KToggleAction>("telescope_track", this, SLOT(slotINDITelescopeTrack()))
             << i18n("Toggle Telescope Tracking")
-            << QIcon::fromTheme("object-locked", QIcon(":/icons/breeze/default/object-locked.svg"));
+            << QIcon::fromTheme("object-locked");
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_slew", this, SLOT(slotINDITelescopeSlew()))
             << i18n("Slew telescope to the focused object")
-            << QIcon::fromTheme("object-rotate-right", QIcon(":/icons/breeze/default/object-rotate-right.svg"));
+            << QIcon::fromTheme("object-rotate-right");
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_sync", this, SLOT(slotINDITelescopeSync()))
             << i18n("Sync telescope to the focused object")
-            << QIcon::fromTheme("media-record", QIcon(":/icons/breeze/default/media-record.svg"));
+            << QIcon::fromTheme("media-record");
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_abort", this, SLOT(slotINDITelescopeAbort()))
             << i18n("Abort telescope motions")
-            << QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg"));
+            << QIcon::fromTheme("process-stop");
     ka->setShortcutContext(Qt::ApplicationShortcut);
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_park", this, SLOT(slotINDITelescopePark()))
             << i18n("Park telescope")
-            << QIcon::fromTheme("flag-red", QIcon(":/icons/breeze/default/kstars_flag.svg"));
+            << QIcon::fromTheme("flag-red");
     telescopeGroup->addAction(ka);
     ka = actionCollection()->addAction("telescope_unpark", this, SLOT(slotINDITelescopeUnpark()))
             << i18n("Unpark telescope")
-            << QIcon::fromTheme("flag-green", QIcon(":/icons/breeze/default/flag-green.svg"));
+            << QIcon::fromTheme("flag-green");
     ka->setShortcutContext(Qt::ApplicationShortcut);
     telescopeGroup->addAction(ka);
 

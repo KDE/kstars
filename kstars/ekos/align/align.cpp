@@ -70,12 +70,12 @@ Align::Align()
     solverFOV->setColor(KStars::Instance()->data()->colorScheme()->colorNamed("SolverFOVColor").name());
 
     showFITSViewerB->setIcon(
-                QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
+                QIcon::fromTheme("kstars_fitsviewer"));
     showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(showFITSViewerB, SIGNAL(clicked()), this, SLOT(showFITSViewer()));
 
     toggleFullScreenB->setIcon(
-                QIcon::fromTheme("view-fullscreen", QIcon(":/icons/breeze/default/view-fullscreen.svg")));
+                QIcon::fromTheme("view-fullscreen"));
     toggleFullScreenB->setShortcut(Qt::Key_F4);
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(toggleFullScreenB, SIGNAL(clicked()), this, SLOT(toggleAlignWidgetFullScreen()));
@@ -130,7 +130,7 @@ Align::Align()
     currentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
     gotoModeButtonGroup->button(currentGotoMode)->setChecked(true);
 
-    editOptionsB->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/breeze/default/document-edit.svg")));
+    editOptionsB->setIcon(QIcon::fromTheme("document-edit"));
     editOptionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     KConfigDialog *dialog = new KConfigDialog(this, "alignsettings", Options::self());
 
@@ -145,18 +145,18 @@ Align::Align()
 
     opsAstrometry = new OpsAstrometry(this);
     page = dialog->addPage(opsAstrometry, i18n("Solver Options"));
-    page->setIcon(QIcon::fromTheme("configure", QIcon(":/icons/breeze/default/configure.svg")));
+    page->setIcon(QIcon::fromTheme("configure"));
 
 #ifdef Q_OS_OSX
     opsAstrometryCfg = new OpsAstrometryCfg(this);
     page = dialog->addPage(opsAstrometryCfg, i18n("Astrometry.cfg"));
-    page->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/breeze/default/document-edit.svg")));
+    page->setIcon(QIcon::fromTheme("document-edit"));
 #endif
 
 #ifndef Q_OS_WIN
     opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
     page = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
-    page->setIcon(QIcon::fromTheme("map-flat", QIcon(":/icons/breeze/default/map-flat.svg")));
+    page->setIcon(QIcon::fromTheme("map-flat"));
 #endif
 
     connect(editOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
@@ -334,17 +334,17 @@ Align::Align()
     solutionTable->setColumnWidth(5, 100);
 
     clearAllSolutionsB->setIcon(
-                QIcon::fromTheme("application-exit", QIcon(":/icons/breeze/default/application-exit.svg")));
+                QIcon::fromTheme("application-exit"));
     clearAllSolutionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    removeSolutionB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
+    removeSolutionB->setIcon(QIcon::fromTheme("list-remove"));
     removeSolutionB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     exportSolutionsCSV->setIcon(
-                QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg")));
+                QIcon::fromTheme("document-save-as"));
     exportSolutionsCSV->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    autoScaleGraphB->setIcon(QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg")));
+    autoScaleGraphB->setIcon(QIcon::fromTheme("zoom-fit-best"));
     autoScaleGraphB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     mountModel.setupUi(&mountModelDialog);
@@ -356,20 +356,20 @@ Align::Align()
     mountModel.alignTable->setColumnWidth(3, 30);
 
     mountModel.wizardAlignB->setIcon(
-                QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg")));
+                QIcon::fromTheme("tools-wizard"));
     mountModel.wizardAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     mountModel.clearAllAlignB->setIcon(
-                QIcon::fromTheme("application-exit", QIcon(":/icons/breeze/default/application-exit.svg")));
+                QIcon::fromTheme("application-exit"));
     mountModel.clearAllAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    mountModel.removeAlignB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
+    mountModel.removeAlignB->setIcon(QIcon::fromTheme("list-remove"));
     mountModel.removeAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    mountModel.addAlignB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    mountModel.addAlignB->setIcon(QIcon::fromTheme("list-add"));
     mountModel.addAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    mountModel.findAlignB->setIcon(QIcon::fromTheme("edit-find", QIcon(":/icons/breeze/default/edit-find.svg")));
+    mountModel.findAlignB->setIcon(QIcon::fromTheme("edit-find"));
     mountModel.findAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     mountModel.alignTable->verticalHeader()->setDragDropOverwriteMode(false);
@@ -380,30 +380,30 @@ Align::Align()
             SLOT(moveAlignPoint(int,int,int)));
 
     mountModel.loadAlignB->setIcon(
-                QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+                QIcon::fromTheme("document-open"));
     mountModel.loadAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     mountModel.saveAsAlignB->setIcon(
-                QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg")));
+                QIcon::fromTheme("document-save-as"));
     mountModel.saveAsAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     mountModel.saveAlignB->setIcon(
-                QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")));
+                QIcon::fromTheme("document-save"));
     mountModel.saveAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    mountModel.previewB->setIcon(QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg")));
+    mountModel.previewB->setIcon(QIcon::fromTheme("kstars_grid"));
     mountModel.previewB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     mountModel.previewB->setCheckable(true);
 
-    mountModel.sortAlignB->setIcon(QIcon::fromTheme("svn-update", QIcon(":/icons/breeze/default/svn-update.svg")));
+    mountModel.sortAlignB->setIcon(QIcon::fromTheme("svn-update"));
     mountModel.sortAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     mountModel.stopAlignB->setIcon(
-                QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+                QIcon::fromTheme("media-playback-stop"));
     mountModel.stopAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     mountModel.startAlignB->setIcon(
-                QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+                QIcon::fromTheme("media-playback-start"));
     mountModel.startAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     connect(clearAllSolutionsB, SIGNAL(clicked()), this, SLOT(slotClearAllSolutionPoints()));
@@ -1603,7 +1603,7 @@ void Align::resetAlignmentProcedure()
 
     appendLogText(i18n("The Mount Model Tool is Reset."));
     mountModel.startAlignB->setIcon(
-                QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+                QIcon::fromTheme("media-playback-start"));
     mountModelRunning     = false;
     currentAlignmentPoint = 0;
     abort();
@@ -1663,7 +1663,7 @@ void Align::startStopAlignmentProcedure()
                 }
             }
             mountModel.startAlignB->setIcon(
-                        QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg")));
+                        QIcon::fromTheme("media-playback-pause"));
             mountModelRunning = true;
             appendLogText(i18n("The Mount Model Tool is Starting."));
             startAlignmentPoint();
@@ -1672,7 +1672,7 @@ void Align::startStopAlignmentProcedure()
     else
     {
         mountModel.startAlignB->setIcon(
-                    QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+                    QIcon::fromTheme("media-playback-start"));
         mountModel.alignTable->setCellWidget(currentAlignmentPoint, 3, new QWidget());
         appendLogText(i18n("The Mount Model Tool is Paused."));
         abort();
@@ -1734,7 +1734,7 @@ void Align::finishAlignmentPoint(bool solverSucceeded)
         {
             mountModelRunning = false;
             mountModel.startAlignB->setIcon(
-                        QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+                        QIcon::fromTheme("media-playback-start"));
             appendLogText(i18n("The Mount Model Tool is Finished."));
             currentAlignmentPoint = 0;
         }
