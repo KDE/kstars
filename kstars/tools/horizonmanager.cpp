@@ -36,20 +36,20 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
 
     ui->setStyleSheet("QPushButton:checked { background-color: red; }");
 
-    ui->addRegionB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
-    ui->addPointB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
-    ui->removeRegionB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
-    ui->removePointB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
-    ui->clearPointsB->setIcon(QIcon::fromTheme("edit-clear", QIcon(":/icons/breeze/default/edit-clear.svg")));
-    ui->saveB->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")));
+    ui->addRegionB->setIcon(QIcon::fromTheme("list-add"));
+    ui->addPointB->setIcon(QIcon::fromTheme("list-add"));
+    ui->removeRegionB->setIcon(QIcon::fromTheme("list-remove"));
+    ui->removePointB->setIcon(QIcon::fromTheme("list-remove"));
+    ui->clearPointsB->setIcon(QIcon::fromTheme("edit-clear"));
+    ui->saveB->setIcon(QIcon::fromTheme("document-save"));
     ui->selectPointsB->setIcon(
-        QIcon::fromTheme("snap-orthogonal", QIcon(":/icons/breeze/default/snap-orthogonal.svg")));
+        QIcon::fromTheme("snap-orthogonal"));
 
     ui->tipLabel->setPixmap(
-        (QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")).pixmap(64, 64)));
+        (QIcon::fromTheme("help-hint").pixmap(64, 64)));
 
     ui->polygonValidatoin->setPixmap(
-        QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg")).pixmap(32, 32));
+        QIcon::fromTheme("process-stop").pixmap(32, 32));
     ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed and located at the horizon"));
     ui->polygonValidatoin->hide();
 
@@ -151,14 +151,14 @@ void HorizonManager::showRegion(int regionID)
             if (validatePolygon(regionID))
             {
                 ui->polygonValidatoin->setPixmap(
-                    QIcon::fromTheme("dialog-ok", QIcon(":/icons/breeze/default/dialog-ok.svg")).pixmap(32, 32));
+                    QIcon::fromTheme("dialog-ok").pixmap(32, 32));
                 ui->polygonValidatoin->setEnabled(true);
                 ui->polygonValidatoin->setToolTip(i18n("Region is valid"));
             }
             else
             {
                 ui->polygonValidatoin->setPixmap(
-                    QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg")).pixmap(32, 32));
+                    QIcon::fromTheme("process-stop").pixmap(32, 32));
                 ui->polygonValidatoin->setEnabled(false);
                 ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed"));
             }
@@ -407,14 +407,14 @@ void HorizonManager::processSkyPoint(QStandardItem *item, int row)
         if (validatePolygon(ui->regionsList->currentIndex().row()))
         {
             ui->polygonValidatoin->setPixmap(
-                QIcon::fromTheme("dialog-ok", QIcon(":/icons/breeze/default/dialog-ok.svg")).pixmap(32, 32));
+                QIcon::fromTheme("dialog-ok").pixmap(32, 32));
             ui->polygonValidatoin->setEnabled(true);
             ui->polygonValidatoin->setToolTip(i18n("Region is valid"));
         }
         else
         {
             ui->polygonValidatoin->setPixmap(
-                QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg")).pixmap(32, 32));
+                QIcon::fromTheme("process-stop").pixmap(32, 32));
             ui->polygonValidatoin->setEnabled(false);
             ui->polygonValidatoin->setToolTip(
                 i18n("Region is invalid. The polygon must be closed and located at the horizon"));
@@ -478,14 +478,14 @@ void HorizonManager::slotRemovePoint()
             if (validatePolygon(ui->regionsList->currentIndex().row()))
             {
                 ui->polygonValidatoin->setPixmap(
-                    QIcon::fromTheme("dialog-ok", QIcon(":/icons/breeze/default/dialog-ok.svg")).pixmap(32, 32));
+                    QIcon::fromTheme("dialog-ok").pixmap(32, 32));
                 ui->polygonValidatoin->setEnabled(true);
                 ui->polygonValidatoin->setToolTip(i18n("Region is valid"));
             }
             else
             {
                 ui->polygonValidatoin->setPixmap(
-                    QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg")).pixmap(32, 32));
+                    QIcon::fromTheme("process-stop").pixmap(32, 32));
                 ui->polygonValidatoin->setEnabled(false);
                 ui->polygonValidatoin->setToolTip(i18n("Region is invalid. The polygon must be closed"));
             }

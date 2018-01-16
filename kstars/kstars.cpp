@@ -333,7 +333,7 @@ void KStars::applyConfig(bool doApplyFocus)
         actionCollection()->action("track_object")->setText(i18n("Stop &Tracking"));
         actionCollection()
             ->action("track_object")
-            ->setIcon(QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.svg")));
+            ->setIcon(QIcon::fromTheme("document-encrypt"));
     }
 
     actionCollection()

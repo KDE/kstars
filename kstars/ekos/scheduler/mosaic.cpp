@@ -192,7 +192,7 @@ Mosaic::Mosaic()
     mosaicView->setScene(&scene);
 
     selectJobsDirB->setIcon(
-        QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")));
+        QIcon::fromTheme("document-open-folder"));
 
     //mosaicView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
 

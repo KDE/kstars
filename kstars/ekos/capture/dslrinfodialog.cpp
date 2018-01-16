@@ -27,7 +27,7 @@ DSLRInfo::DSLRInfo(QWidget *parent, ISD::CCD *ccd) : QDialog(parent)
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 
     DSLRIcon->setPixmap(
-        QIcon::fromTheme("camera-photo", QIcon(":/icons/breeze/default/camera-photo.svg")).pixmap(48, 48));
+        QIcon::fromTheme("camera-photo").pixmap(48, 48));
 }
 
 void DSLRInfo::save()

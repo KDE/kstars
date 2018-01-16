@@ -362,7 +362,7 @@ void SkyMap::slotCenter()
     {
         kstars->actionCollection()
             ->action("track_object")
-            ->setIcon(QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.svg")));
+            ->setIcon(QIcon::fromTheme("document-encrypt"));
         kstars->actionCollection()->action("track_object")->setText(i18n("Stop &Tracking"));
     }
 

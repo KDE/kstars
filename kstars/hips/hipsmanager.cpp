@@ -94,15 +94,15 @@ void HIPSManager::showSettings()
 
         displaySettings.reset(new OpsHIPSDisplay());
         KPageWidgetItem *page = dialog->addPage(displaySettings.get(), i18n("Display"));
-        page->setIcon(QIcon::fromTheme("computer", QIcon(":/icons/breeze/default/computer.svg")));
+        page->setIcon(QIcon::fromTheme("computer"));
 
         cacheSettings.reset(new OpsHIPSCache());
         page = dialog->addPage(cacheSettings.get(), i18n("Cache"));
-        page->setIcon(QIcon::fromTheme("preferences-web-browser-cache", QIcon(":/icons/breeze/default/preferences-web-browser-cache.svg")));
+        page->setIcon(QIcon::fromTheme("preferences-web-browser-cache"));
 
         sourceSettings.reset(new OpsHIPS());
         page = dialog->addPage(sourceSettings.get(), i18n("Sources"));
-        page->setIcon(QIcon::fromTheme("view-preview", QIcon(":/icons/breeze/default/view-preview.svg")));
+        page->setIcon(QIcon::fromTheme("view-preview"));
 
         dialog->resize(800,600);
     }

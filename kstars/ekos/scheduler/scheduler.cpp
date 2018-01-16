@@ -104,7 +104,7 @@ Scheduler::Scheduler()
     moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName("Moon"));
 
     sleepLabel->setPixmap(
-        QIcon::fromTheme("chronometer", QIcon(":/icons/breeze/default/chronometer.svg")).pixmap(QSize(32, 32)));
+        QIcon::fromTheme("chronometer").pixmap(QSize(32, 32)));
     sleepLabel->hide();
 
     schedulerTimer.setInterval(UPDATE_PERIOD_MS);
@@ -120,47 +120,47 @@ Scheduler::Scheduler()
 
     raBox->setDegType(false); //RA box should be HMS-style
 
-    addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     addToQueueB->setToolTip(i18n("Add observation job to list."));
     addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
+    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
     removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
     removeFromQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    evaluateOnlyB->setIcon(QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg")));
+    evaluateOnlyB->setIcon(QIcon::fromTheme("tools-wizard"));
     evaluateOnlyB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    mosaicB->setIcon(QIcon::fromTheme("zoom-draw", QIcon(":/icons/breeze/default/zoom-draw.svg")));
+    mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
     mosaicB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg")));
+    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
     queueSaveAsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueSaveB->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")));
+    queueSaveB->setIcon(QIcon::fromTheme("document-save"));
     queueSaveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueLoadB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    queueLoadB->setIcon(QIcon::fromTheme("document-open"));
     queueLoadB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    loadSequenceB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    loadSequenceB->setIcon(QIcon::fromTheme("document-open"));
     loadSequenceB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    selectStartupScriptB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    selectStartupScriptB->setIcon(QIcon::fromTheme("document-open"));
     selectStartupScriptB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectShutdownScriptB->setIcon(
-        QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+        QIcon::fromTheme("document-open"));
     selectShutdownScriptB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    selectFITSB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    selectFITSB->setIcon(QIcon::fromTheme("document-open"));
     selectFITSB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     startupB->setIcon(
-        QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+        QIcon::fromTheme("media-playback-start"));
     startupB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     shutdownB->setIcon(
-        QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+        QIcon::fromTheme("media-playback-start"));
     shutdownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     connect(startupB, SIGNAL(clicked()), this, SLOT(runStartupProcedure()));
     connect(shutdownB, SIGNAL(clicked()), this, SLOT(runShutdownProcedure()));
 
-    selectObjectB->setIcon(QIcon::fromTheme("edit-find", QIcon(":/icons/breeze/default/edit-find.svg")));
+    selectObjectB->setIcon(QIcon::fromTheme("edit-find"));
     connect(selectObjectB, SIGNAL(clicked()), this, SLOT(selectObject()));
     connect(selectFITSB, SIGNAL(clicked()), this, SLOT(selectFITS()));
     connect(loadSequenceB, SIGNAL(clicked()), this, SLOT(selectSequence()));
@@ -174,9 +174,9 @@ Scheduler::Scheduler()
     connect(queueTable, SIGNAL(clicked(QModelIndex)), this, SLOT(loadJob(QModelIndex)));
     connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(resetJobState(QModelIndex)));
 
-    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    pauseB->setIcon(QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg")));
+    pauseB->setIcon(QIcon::fromTheme("media-playback-pause"));
     pauseB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     connect(startB, SIGNAL(clicked()), this, SLOT(toggleScheduler()));
@@ -728,7 +728,7 @@ void Scheduler::loadJob(QModelIndex i)
 
     appendLogText(i18n("Editing job #%1...", i.row() + 1));
 
-    addToQueueB->setIcon(QIcon::fromTheme("edit-undo", QIcon(":/icons/breeze/default/edit-undo.svg")));
+    addToQueueB->setIcon(QIcon::fromTheme("edit-undo"));
     addToQueueB->setStyleSheet("background-color:orange;}");
     addToQueueB->setEnabled(true);
     startB->setEnabled(false);
@@ -751,7 +751,7 @@ void Scheduler::resetJobEdit()
 
     watchJobChanges(false);
 
-    addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     addToQueueB->setStyleSheet(QString());
     addToQueueB->setToolTip(i18n("Add observation job to list."));
     queueTable->clearSelection();
@@ -915,7 +915,7 @@ void Scheduler::stop()
     sleepLabel->hide();
     pi->stopAnimation();
 
-    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setToolTip(i18n("Start Scheduler"));
     pauseB->setEnabled(false);
     //startB->setText("Start Scheduler");
@@ -937,7 +937,7 @@ void Scheduler::start()
         appendLogText(i18n("Scheduler resumed."));
 
         startB->setIcon(
-            QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+            QIcon::fromTheme("media-playback-stop"));
         startB->setToolTip(i18n("Stop Scheduler"));
         return;
     }
@@ -963,7 +963,7 @@ void Scheduler::start()
     sleepLabel->hide();
 
     //startB->setText("Stop Scheduler");
-    startB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+    startB->setIcon(QIcon::fromTheme("media-playback-stop"));
     startB->setToolTip(i18n("Stop Scheduler"));
     pauseB->setEnabled(true);
 
@@ -1003,7 +1003,7 @@ void Scheduler::pause()
     appendLogText(i18n("Scheduler paused."));
     pauseB->setEnabled(false);
 
-    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setToolTip(i18n("Resume Scheduler"));
 }
 
@@ -1664,25 +1664,25 @@ void Scheduler::checkWeather()
 
             if (weatherStatus == IPS_OK)
                 weatherLabel->setPixmap(
-                    QIcon::fromTheme("security-high", QIcon(":/icons/breeze/default/security-high.svg"))
+                    QIcon::fromTheme("security-high")
                         .pixmap(QSize(32, 32)));
             else if (weatherStatus == IPS_BUSY)
             {
                 weatherLabel->setPixmap(
-                    QIcon::fromTheme("security-medium", QIcon(":/icons/breeze/default/security-medium.svg"))
+                    QIcon::fromTheme("security-medium")
                         .pixmap(QSize(32, 32)));
                 KNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"));
             }
             else if (weatherStatus == IPS_ALERT)
             {
                 weatherLabel->setPixmap(
-                    QIcon::fromTheme("security-low", QIcon(":/icons/breeze/default/security-low.svg"))
+                    QIcon::fromTheme("security-low")
                         .pixmap(QSize(32, 32)));
                 KNotification::event(QLatin1String("WeatherAlert"),
                                      i18n("Weather conditions are critical. Observatory shutdown is imminent"));
             }
             else
-                weatherLabel->setPixmap(QIcon::fromTheme("chronometer", QIcon(":/icons/breeze/default/chronometer.svg"))
+                weatherLabel->setPixmap(QIcon::fromTheme("chronometer")
                                             .pixmap(QSize(32, 32)));
 
             weatherLabel->show();
@@ -4655,7 +4655,7 @@ void Scheduler::checkStartupProcedure()
             appendLogText(i18n("Manual startup procedure terminated due to errors."));
 
         startupB->setIcon(
-            QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+            QIcon::fromTheme("media-playback-start"));
     }
 }
 
@@ -4674,7 +4674,7 @@ void Scheduler::runStartupProcedure()
         {
             appendLogText(i18n("Warning! Executing startup procedure manually..."));
             startupB->setIcon(
-                QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+                QIcon::fromTheme("media-playback-stop"));
             startupState = STARTUP_IDLE;
             checkStartupState();
             QTimer::singleShot(1000, this, SLOT(checkStartupProcedure()));
@@ -4743,7 +4743,7 @@ void Scheduler::checkShutdownProcedure()
 
         shutdownState = SHUTDOWN_IDLE;
         shutdownB->setIcon(
-            QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+            QIcon::fromTheme("media-playback-start"));
     }
 }
 
@@ -4756,7 +4756,7 @@ void Scheduler::runShutdownProcedure()
         {
             appendLogText(i18n("Warning! Executing shutdown procedure manually..."));
             shutdownB->setIcon(
-                QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+                QIcon::fromTheme("media-playback-stop"));
             shutdownState = SHUTDOWN_IDLE;
             checkShutdownState();
             QTimer::singleShot(1000, this, SLOT(checkShutdownProcedure()));

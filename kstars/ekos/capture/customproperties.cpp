@@ -13,13 +13,13 @@ CustomProperties::CustomProperties()
 {
     setupUi(this);
 
-    addB->setIcon(QIcon::fromTheme("go-next", QIcon(":/icons/breeze/default/go-next.svg")));
+    addB->setIcon(QIcon::fromTheme("go-next"));
     addB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    removeB->setIcon(QIcon::fromTheme("go-previous", QIcon(":/icons/breeze/default/go-previous.svg")));
+    removeB->setIcon(QIcon::fromTheme("go-previous"));
     removeB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    clearB->setIcon(QIcon::fromTheme("edit-clear", QIcon(":/icons/breeze/default/edit-clear.svg")));
+    clearB->setIcon(QIcon::fromTheme("edit-clear"));
     clearB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     connect(addB, SIGNAL(clicked()), this, SLOT(slotAdd()));

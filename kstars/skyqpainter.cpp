@@ -262,9 +262,9 @@ void SkyQPainter::initStarImages()
     starColorMode = Options::starColorMode();
 
     if (!visibleSatPixmap.get())
-        visibleSatPixmap.reset(new QPixmap(":/icons/breeze/default/kstars_satellites_visible.svg"));
+        visibleSatPixmap.reset(new QPixmap(":/icons/kstars_satellites_visible.svg"));
     if (!invisibleSatPixmap.get())
-        invisibleSatPixmap.reset(new QPixmap(":/icons/breeze/default/kstars_satellites_invisible.svg"));
+        invisibleSatPixmap.reset(new QPixmap(":/icons/kstars_satellites_invisible.svg"));
 }
 
 void SkyQPainter::drawSkyLine(SkyPoint *a, SkyPoint *b)

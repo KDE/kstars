@@ -89,22 +89,22 @@ Guide::Guide() : QWidget()
     controlLayout->addWidget(pi, 1, 2, 1, 1);
 
     showFITSViewerB->setIcon(
-        QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
+        QIcon::fromTheme("kstars_fitsviewer"));
     connect(showFITSViewerB, SIGNAL(clicked()), this, SLOT(showFITSViewer()));
     showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     guideAutoScaleGraphB->setIcon(
-        QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg")));
+        QIcon::fromTheme("zoom-fit-best"));
     connect(guideAutoScaleGraphB, SIGNAL(clicked()), this, SLOT(slotAutoScaleGraphs()));
     guideAutoScaleGraphB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     guideSaveDataB->setIcon(
-        QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")));
+        QIcon::fromTheme("document-save"));
     connect(guideSaveDataB, SIGNAL(clicked()), this, SLOT(exportGuideData()));
     guideSaveDataB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     guideDataClearB->setIcon(
-        QIcon::fromTheme("application-exit", QIcon(":/icons/breeze/default/application-exit.svg")));
+        QIcon::fromTheme("application-exit"));
     connect(guideDataClearB, SIGNAL(clicked()), this, SLOT(clearGuideGraphs()));
     guideDataClearB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
@@ -438,10 +438,10 @@ Guide::Guide() : QWidget()
     KConfigDialog *dialog = new KConfigDialog(this, "guidesettings", Options::self());
     opsCalibration        = new OpsCalibration(internalGuider);
     KPageWidgetItem *page = dialog->addPage(opsCalibration, i18n("Calibration"));
-    page->setIcon(QIcon::fromTheme("tool-measure", QIcon(":/icons/breeze/default/tool-measure.svg")));
+    page->setIcon(QIcon::fromTheme("tool-measure"));
     opsGuide = new OpsGuide();
     page = dialog->addPage(opsGuide, i18n("Guide"));
-    page->setIcon(QIcon::fromTheme("kstars_guides", QIcon(":/icons/breeze/default/kstars_guides.svg")));
+    page->setIcon(QIcon::fromTheme("kstars_guides"));
 
     internalGuider->setGuideView(guideView);
 

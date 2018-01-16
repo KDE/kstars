@@ -157,14 +157,14 @@ ObservingList::ObservingList()
     connect(ui->OALExport, SIGNAL(clicked()), this, SLOT(slotOALExport()));
     connect(ui->clearListB, SIGNAL(clicked()), this, SLOT(slotClearList()));
     //Add icons to Push Buttons
-    ui->OpenButton->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    ui->OpenButton->setIcon(QIcon::fromTheme("document-open"));
     ui->OpenButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    ui->SaveButton->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")));
+    ui->SaveButton->setIcon(QIcon::fromTheme("document-save"));
     ui->SaveButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ui->SaveAsButton->setIcon(
-        QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg")));
+        QIcon::fromTheme("document-save-as"));
     ui->SaveAsButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    ui->WizardButton->setIcon(QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg")));
+    ui->WizardButton->setIcon(QIcon::fromTheme("tools-wizard"));
     ui->WizardButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     noSelection = true;
     showScope   = false;    

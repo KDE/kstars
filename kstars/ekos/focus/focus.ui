@@ -431,8 +431,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../../data/kstars.qrc">
-                <normaloff>:/icons/breeze/default/view-filter.svg</normaloff>:/icons/breeze/default/view-filter.svg</iconset>
+               <iconset theme="view-filter"/>
               </property>
              </widget>
             </item>
@@ -998,8 +997,6 @@
   <tabstop>relativeProfileB</tabstop>
   <tabstop>clearDataB</tabstop>
  </tabstops>
- <resources>
-  <include location="../../data/kstars.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

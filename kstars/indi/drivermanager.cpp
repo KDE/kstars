@@ -48,13 +48,13 @@ DriverManagerUI::DriverManagerUI(QWidget *parent) : QFrame(parent)
 
     clientTreeWidget->setSortingEnabled(false);
 
-    runningPix = QIcon::fromTheme("system-run", QIcon(":/icons/breeze/default/system-run.svg"));
-    stopPix    = QIcon::fromTheme("dialog-cancel", QIcon(":/icons/breeze/default/dialog-cancel.svg"));
-    localMode  = QIcon::fromTheme("computer", QIcon(":/icons/breeze/default/computer.svg"));
-    serverMode = QIcon::fromTheme("network-server", QIcon(":/icons/breeze/default/network-server.svg"));
+    runningPix = QIcon::fromTheme("system-run");
+    stopPix    = QIcon::fromTheme("dialog-cancel");
+    localMode  = QIcon::fromTheme("computer");
+    serverMode = QIcon::fromTheme("network-server");
 
-    connected    = QIcon::fromTheme("network-connect", QIcon(":/icons/breeze/default/network-connect.svg"));
-    disconnected = QIcon::fromTheme("network-disconnect", QIcon(":/icons/breeze/default/network-disconnect.svg"));
+    connected    = QIcon::fromTheme("network-connect");
+    disconnected = QIcon::fromTheme("network-disconnect");
 
     connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this,
             SLOT(makePortEditable(QTreeWidgetItem*,int)));
@@ -1198,7 +1198,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     bool driverIsAvailable = checkDriverAvailability(driver);
 
     vMap.insert("LOCALLY_AVAILABLE", driverIsAvailable);
-    QIcon remoteIcon = QIcon::fromTheme("modem", QIcon(":/icons/breeze/default/modem.svg"));
+    QIcon remoteIcon = QIcon::fromTheme("modem");
 
     QTreeWidgetItem *device = new QTreeWidgetItem(DGroup);
 

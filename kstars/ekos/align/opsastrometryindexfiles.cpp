@@ -125,7 +125,7 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
     for (auto &checkBox : checkboxes)
     {
-        checkBox->setIcon(QIcon(":/icons/breeze/default/security-low.svg"));
+        checkBox->setIcon(QIcon::fromTheme("security-low.svg"));
         checkBox->setToolTip(i18n("Optional"));
     }
 
@@ -142,12 +142,12 @@ void OpsAstrometryIndexFiles::slotUpdate()
             QCheckBox *indexCheckBox2 = findChild<QCheckBox *>(indexName2);
             if (indexCheckBox1)
             {
-                indexCheckBox1->setIcon(QIcon(":/icons/breeze/default/security-high.svg"));
+                indexCheckBox1->setIcon(QIcon::fromTheme("security-high.svg"));
                 indexCheckBox1->setToolTip(i18n("Required"));
             }
             if (indexCheckBox2)
             {
-                indexCheckBox2->setIcon(QIcon(":/icons/breeze/default/security-high.svg"));
+                indexCheckBox2->setIcon(QIcon::fromTheme("security-high.svg"));
                 indexCheckBox2->setToolTip(i18n("Required"));
             }
         }
@@ -159,12 +159,12 @@ void OpsAstrometryIndexFiles::slotUpdate()
             QCheckBox *indexCheckBox2 = findChild<QCheckBox *>(indexName2);
             if (indexCheckBox1)
             {
-                indexCheckBox1->setIcon(QIcon(":/icons/breeze/default/security-medium.svg"));
+                indexCheckBox1->setIcon(QIcon::fromTheme("security-medium.svg"));
                 indexCheckBox1->setToolTip(i18n("Recommended"));
             }
             if (indexCheckBox2)
             {
-                indexCheckBox2->setIcon(QIcon(":/icons/breeze/default/security-medium.svg"));
+                indexCheckBox2->setIcon(QIcon::fromTheme("security-medium.svg"));
                 indexCheckBox2->setToolTip(i18n("Recommended"));
             }
         }

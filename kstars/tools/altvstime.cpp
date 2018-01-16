@@ -166,8 +166,7 @@ AltVsTime::AltVsTime(QWidget *parent) : QDialog(parent)
     topLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QPushButton *printB = new QPushButton(
-        QIcon::fromTheme("document-print", QIcon(":/icons/breeze/default/document-print.svg")), i18n("&Print..."));
+    QPushButton *printB = new QPushButton(QIcon::fromTheme("document-print"), i18n("&Print..."));
     printB->setToolTip(i18n("Print the Altitude vs. time plot"));
     buttonBox->addButton(printB, QDialogButtonBox::ActionRole);
     connect(printB, SIGNAL(clicked()), this, SLOT(slotPrint()));

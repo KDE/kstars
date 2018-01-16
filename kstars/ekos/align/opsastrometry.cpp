@@ -44,9 +44,9 @@ OpsAstrometry::OpsAstrometry(Align *parent) : QWidget(KStars::Instance())
 
     connect(updateScale, SIGNAL(clicked()), this, SLOT(slotUpdateScale()));
     connect(updatePosition, SIGNAL(clicked()), this, SLOT(slotUpdatePosition()));
-    updateScale->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
+    updateScale->setIcon(QIcon::fromTheme("edit-copy"));
     updateScale->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    updatePosition->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
+    updatePosition->setIcon(QIcon::fromTheme("edit-copy"));
     updatePosition->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 }
 
