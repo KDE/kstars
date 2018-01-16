@@ -150,6 +150,11 @@ void ThemeManager::slotChangePalette()
         theme = currentDesktopdefaultTheme();
     }
 
+    if(theme == "Macintosh" || theme == "White Balance" || theme == "High Key" || theme == "Default" || theme.isEmpty())
+        QIcon::setThemeName("breeze");
+    else
+        QIcon::setThemeName("breeze-dark");
+
     QString filename        = d->themeMap.value(theme);
     KSharedConfigPtr config = KSharedConfig::openConfig(filename);
     // hint for the style to synchronize the color scheme with the window manager/compositor
