@@ -1,0 +1,3 @@
+Note:  This theme folder should not be needed, but is apparently required to make the themes work on Macs 
+It was added because we want to load the themes from /Contents/Resources on Macs.
+For some reason, they were not loading unless there was a valid theme folder with a valid index.theme and at least one icon in the correct place in the qrc.

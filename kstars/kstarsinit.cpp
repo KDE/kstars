@@ -148,6 +148,7 @@ void KStars::initActions()
         #endif
 
         QIcon::setThemeSearchPaths(themeSearchPaths);
+        //Note: in order to get it to actually load breeze from resources on mac, we had to add the index.theme, and just one icon from breeze into the qrc.  Not sure why this was needed, but it works.
         QIcon::setThemeName(QLatin1String("breeze"));
     }
 
