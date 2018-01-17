@@ -138,7 +138,7 @@ void KStars::initActions()
     {
         QStringList themeSearchPaths = (QStringList() << QIcon::themeSearchPaths());
         #ifdef Q_OS_OSX
-        themeSearchPaths = themeSearchPaths << QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons/").absolutePath());
+        themeSearchPaths = themeSearchPaths << QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons").absolutePath();
         #elif defined(Q_OS_WIN)
         //TODO Find out the search path on Windows
         //Drop icon dependency in Craft and manually
