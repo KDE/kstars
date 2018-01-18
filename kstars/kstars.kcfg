@@ -854,12 +854,7 @@
          <label>The name of the color scheme</label>
          <whatsthis>The name of the color scheme</whatsthis>
          <default>moonless-night.colors</default>
-      </entry>
-      <entry name="DarkAppColors" type="Bool">
-         <label>Use Dark colors for KStars windows?</label>
-         <whatsthis>If true, then the application window colors will be switched to a dark red theme, for better night vision.</whatsthis>
-         <default>false</default>
-      </entry>
+      </entry>      
       <entry name="StarColorMode" type="UInt">
          <label>Mode for rendering stars</label>
          <whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"; 4="solid real colors"</whatsthis>

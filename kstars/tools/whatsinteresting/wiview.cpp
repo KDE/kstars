@@ -165,8 +165,8 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
     inspectOnClick = false;
 
     nightVision = m_BaseObj->findChild<QObject *>("nightVision");
-    if (Options::darkAppColors())
-        nightVision->setProperty("state", "active");
+    //if (Options::darkAppColors())
+    //    nightVision->setProperty("state", "active");
 }
 
 WIView::~WIView()
@@ -661,10 +661,13 @@ void WIView::updateWikipediaDescription(SkyObjItem *soitem)
 
         saveObjectInfoBoxText(soitem, "description", html);
 
+//TODO is this explicitly needed now with themes?
+#if 0
         QString color     = (Options::darkAppColors()) ? "red" : "white";
         QString linkColor = (Options::darkAppColors()) ? "red" : "yellow";
         html              = "<HTML><HEAD><style type=text/css>body {color:" + color +
                ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + html + "</BODY></HTML>";
+#endif
 
         if (soitem == m_CurSoItem)
             descTextObj->setProperty("text", html);
@@ -684,8 +687,10 @@ void WIView::loadObjectDescription(SkyObjItem *soitem)
         if (file.open(QIODevice::ReadOnly))
         {
             QTextStream in(&file);
-            QString color     = (Options::darkAppColors()) ? "red" : "white";
-            QString linkColor = (Options::darkAppColors()) ? "red" : "yellow";
+            bool isDarkTheme = (Options::currentTheme() == "Night Vision");
+            QString color     = (isDarkTheme) ? "red" : "white";
+            QString linkColor = (isDarkTheme) ? "red" : "yellow";
+
             QString line      = "<HTML><HEAD><style type=text/css>body {color:" + color +
                            ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY><BR>" +
                            in.readAll() + "</BODY></HTML>";
@@ -733,9 +738,10 @@ void WIView::loadObjectInfoBox(SkyObjItem *soitem)
                     QString imgURL = infoBoxHTML.mid(leftImg, rightImg);
                     infoBoxHTML.replace(imgURL, wikiImageName);
                 }
-                QString color     = (Options::darkAppColors()) ? "red" : "white";
-                QString linkColor = (Options::darkAppColors()) ? "red" : "yellow";
-                if (Options::darkAppColors())
+                bool isDarkTheme = (Options::currentTheme() == "Night Vision");
+                QString color     = (isDarkTheme) ? "red" : "white";
+                QString linkColor = (isDarkTheme) ? "red" : "yellow";
+                if (isDarkTheme)
                     infoBoxHTML.replace("color: white", "color: " + color);
                 infoBoxHTML = "<HTML><HEAD><style type=text/css>body {color:" + color +
                               ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" +
@@ -879,9 +885,10 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
         QString html = "<CENTER>" + infoText + "</table></CENTER>";
 
         saveObjectInfoBoxText(soitem, "infoText", html);
-        QString color     = (Options::darkAppColors()) ? "red" : "white";
-        QString linkColor = (Options::darkAppColors()) ? "red" : "yellow";
-        if (Options::darkAppColors())
+        bool isDarkTheme = (Options::currentTheme() == "Night Vision");
+        QString color     = (isDarkTheme) ? "red" : "white";
+        QString linkColor = (isDarkTheme) ? "red" : "yellow";
+        if (isDarkTheme)
             html.replace("color: white", "color: " + color);
         html = "<HTML><HEAD><style type=text/css>body {color:" + color +
                ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + html + "</BODY></HTML>";

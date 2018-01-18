@@ -37,8 +37,8 @@ install( FILES ${vsop87_files} DESTINATION ${KDE_INSTALL_DATADIR}/kstars)
 file(GLOB sound_files sounds/*)
 install( FILES ${sound_files} DESTINATION ${KDE_INSTALL_DATADIR}/sounds )
 
-file(GLOB scheme_files colorschemes/*)
-install( FILES ${scheme_files} DESTINATION ${KDE_INSTALL_DATADIR}/kstars/colorschemes )
+file(GLOB scheme_files themes/*)
+install( FILES ${scheme_files} DESTINATION ${KDE_INSTALL_DATADIR}/kstars/themes )
 
 install(FILES
     textures/star.png
