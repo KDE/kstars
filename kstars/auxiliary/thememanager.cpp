@@ -22,9 +22,11 @@
  * ============================================================ */
 
 #include "thememanager.h"
+#include "widgets/dmsbox.h"
 
 // Qt includes
-
+#include <QTabBar>
+#include <QPixmapCache>
 #include <QStringList>
 #include <QStyleFactory>
 #include <QFileInfo>
@@ -140,11 +142,6 @@ void ThemeManager::slotChangePalette()
 
     QString theme(currentThemeName());
 
-    if(theme == "Macintosh")
-        qApp->setStyle(QStyleFactory::create("macintosh"));
-    else
-        qApp->setStyle(QStyleFactory::create("Fusion"));
-
     if (theme == defaultThemeName() || theme.isEmpty())
     {
         theme = currentDesktopdefaultTheme();
@@ -159,7 +156,28 @@ void ThemeManager::slotChangePalette()
     KSharedConfigPtr config = KSharedConfig::openConfig(filename);
     // hint for the style to synchronize the color scheme with the window manager/compositor
     qApp->setProperty("KDE_COLOR_SCHEME_PATH", filename);
-    qApp->setPalette(SchemeManager::createApplicationPalette(config));
+    QPalette palette = SchemeManager::createApplicationPalette(config);
+
+    qApp->setPalette(palette);
+
+    QList<QWidget *> widgets = qApp->allWidgets();
+    foreach(QWidget *w, widgets)
+    {
+        dmsBox *box = qobject_cast<dmsBox *>(w);
+        if(box)
+            box->setPalette(palette);
+        QTabBar *bar = qobject_cast<QTabBar *>(w);
+        if(bar)
+            bar->setPalette(palette);
+    }
+
+    if(theme == "Macintosh")
+        qApp->setStyle(QStyleFactory::create("macintosh"));
+    else
+        qApp->setStyle(QStyleFactory::create("Fusion"));
+
+    QPixmapCache::clear();
+
     qApp->style()->polish(qApp);
 
     qCDebug(KSTARS) << theme << " :: " << filename;
