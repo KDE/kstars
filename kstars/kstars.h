@@ -821,7 +821,7 @@ class KStars : public KXmlGuiWindow
     bool StartClockRunning { false };
     QString StartDateString;
     QLabel AltAzField, RADecField, J2000RADecField;
-    QPalette OriginalPalette, DarkPalette;
+    //QPalette OriginalPalette, DarkPalette;
 
     OpsCatalog *opcatalog { nullptr };
     OpsGuides *opguides { nullptr };

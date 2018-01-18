@@ -23,6 +23,8 @@
 
 #include "thememanager.h"
 #include "widgets/dmsbox.h"
+#include "kstars.h"
+#include "Options.h"
 
 // Qt includes
 #include <QTabBar>
@@ -142,12 +144,12 @@ void ThemeManager::slotChangePalette()
 
     QString theme(currentThemeName());
 
-    if (theme == defaultThemeName() || theme.isEmpty())
+    /*if (theme == defaultThemeName() || theme.isEmpty())
     {
         theme = currentDesktopdefaultTheme();
-    }
+    }*/
 
-    if(theme == "Macintosh" || theme == "White Balance" || theme == "High Key" || theme == "Default" || theme.isEmpty())
+    if (theme == "Macintosh" || theme == "White Balance" || theme == "High Key" || theme == "Default" || theme.isEmpty())
         QIcon::setThemeName("breeze");
     else
         QIcon::setThemeName("breeze-dark");
@@ -175,6 +177,12 @@ void ThemeManager::slotChangePalette()
         qApp->setStyle(QStyleFactory::create("macintosh"));
     else
         qApp->setStyle(QStyleFactory::create("Fusion"));
+
+    // Special case. For Night Vision theme, we also change the Sky Color Scheme
+    if (theme == "Default" && Options::colorSchemeFile() == "night.colors")
+        KStars::Instance()->actionCollection()->action("cs_moonless-night")->setChecked(true);
+    else if (theme == "Night Vision")
+        KStars::Instance()->actionCollection()->action("cs_night")->setChecked(true);
 
     QPixmapCache::clear();
 
@@ -234,9 +242,9 @@ void ThemeManager::populateThemeMenu()
     QStringList schemeFiles;
     QStringList dirs;
 
-    // digiKam colors scheme
+    // kstars themes
     dirs << QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                      QString::fromLatin1("kstars/colorschemes"),
+                                      QString::fromLatin1("kstars/themes"),
                                       QStandardPaths::LocateDirectory);
 
     qCDebug(KSTARS) << "Paths to color scheme : " << dirs;

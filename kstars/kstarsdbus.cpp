@@ -559,9 +559,9 @@ void KStars::setColor(const QString &name, const QString &value)
 
 void KStars::loadColorScheme(const QString &name)
 {
-    bool ok = data()->colorScheme()->load(name);
-    //QString filename = data()->colorScheme()->fileName();
+    data()->colorScheme()->load(name);
 
+#if 0
     if (ok)
     {
         //set the application colors for the Night Vision scheme
@@ -619,6 +619,9 @@ void KStars::loadColorScheme(const QString &name)
             qDebug() << "stylesheet set";
 #endif
         }
+    }
+#endif
+
 #ifdef HAVE_INDI
         if (KStars::Instance()->ekosManager())
         {
@@ -632,7 +635,7 @@ void KStars::loadColorScheme(const QString &name)
         Options::setColorSchemeFile(name);
 
         map()->forceUpdate();
-    }
+
 }
 
 void KStars::exportImage(const QString &url, int w, int h, bool includeLegend)

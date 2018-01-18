@@ -222,6 +222,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
         connect(m_KStarsData, SIGNAL(progressText(QString)), m_KStarsData, SLOT(slotConsoleMessage(QString)));
     }
 
+    /*
     //set up Dark color scheme for application windows
     DarkPalette = QPalette(QColor("black"), QColor("black"));
     DarkPalette.setColor(QPalette::Inactive, QPalette::WindowText, QColor("red"));
@@ -234,6 +235,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     DarkPalette.setColor(QPalette::Inactive, QPalette::Base, QColor(30, 10, 10));
     //store original color scheme
     OriginalPalette = QApplication::palette();
+    */
 
     //Initialize data.  When initialization is complete, it will run dataInitFinished()
     if (!m_KStarsData->initialize())
@@ -366,7 +368,7 @@ void KStars::applyConfig(bool doApplyFocus)
 
     //color scheme
     m_KStarsData->colorScheme()->loadFromConfig();
-    QApplication::setPalette(Options::darkAppColors() ? DarkPalette : OriginalPalette);
+    //QApplication::setPalette(Options::darkAppColors() ? DarkPalette : OriginalPalette);
 
 //Note:  This uses style sheets to set the dark colors, this should be cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
 //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.

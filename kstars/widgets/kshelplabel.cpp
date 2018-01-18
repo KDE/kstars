@@ -40,11 +40,14 @@ void KSHelpLabel::setAnchor(const QString &anchor)
 
 void KSHelpLabel::updateText()
 {
+    //TODO This function probably needs to be removed since the theme setting stakes care already of link colors
+    /*
     QString linkcolor =
         (Options::darkAppColors() ?
              "red" :
              "blue"); // In night colors mode, use red links because blue links are black through a red filter.
     QLabel::setText("<a href=\"ai-" + m_anchor + "\" style=\"color: " + linkcolor + "\" >" + text() + "</a>");
+    */
 }
 
 void KSHelpLabel::slotShowDefinition(const QString &term)

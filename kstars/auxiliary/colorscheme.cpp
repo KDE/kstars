@@ -199,12 +199,14 @@ bool ColorScheme::load(const QString &name)
     }
 
     // Dark Palette
+#if 0
     if (modes.count() > 2)
     {
         int newintens = modes[2].toInt(&ok);
         if (ok)
             setDarkPalette(newintens == 1);
     }
+#endif
 
     //More flexible method for reading in color values.  Any order is acceptable, and
     //missing entries are ignored.
@@ -343,7 +345,7 @@ void ColorScheme::loadFromConfig()
         setColor(KeyName.at(i), cg.readEntry(KeyName.at(i).toUtf8().constData(), Default.at(i)));
 
     setStarColorModeIntensity(cg.readEntry("StarColorMode", 0), cg.readEntry("StarColorIntensity", 5));
-    setDarkPalette(cg.readEntry("DarkAppColors", false));
+    //setDarkPalette(cg.readEntry("DarkAppColors", false));
 
     FileName = cg.readEntry("ColorSchemeFile", "moonless-night.colors");
 }
@@ -372,6 +374,7 @@ void ColorScheme::setStarColorMode(int mode)
 #endif
 }
 
+#if 0
 void ColorScheme::setDarkPalette(bool enable)
 {
     DarkPalette = enable ? 1 : 0;
@@ -380,6 +383,7 @@ void ColorScheme::setDarkPalette(bool enable)
     SkyQPainter::initStarImages();
 #endif
 }
+#endif
 
 void ColorScheme::setStarColorIntensity(int intens)
 {
