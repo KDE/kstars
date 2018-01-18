@@ -147,12 +147,14 @@ void ThemeManager::slotChangePalette()
     /*if (theme == defaultThemeName() || theme.isEmpty())
     {
         theme = currentDesktopdefaultTheme();
-    }*/
+    }*/    
 
-    if (theme == "Macintosh" || theme == "White Balance" || theme == "High Key" || theme == "Default" || theme.isEmpty())
-        QIcon::setThemeName("breeze");
-    else
-        QIcon::setThemeName("breeze-dark");
+    QString themeIconName("breeze-dark");
+
+    if (theme == "Macintosh" || theme == "White Balance" || theme == "High Key" || (theme == "Default" && currentDesktopdefaultTheme().contains("Dark") == false))
+        themeIconName = "breeze";
+
+    QIcon::setThemeName(themeIconName);
 
     QString filename        = d->themeMap.value(theme);
     KSharedConfigPtr config = KSharedConfig::openConfig(filename);
