@@ -369,7 +369,7 @@ void KStars::applyConfig(bool doApplyFocus)
     //color scheme
     m_KStarsData->colorScheme()->loadFromConfig();
     //QApplication::setPalette(Options::darkAppColors() ? DarkPalette : OriginalPalette);
-
+/**
 //Note:  This uses style sheets to set the dark colors, this should be cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
 //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
 //This is also in KStarsDbus.cpp.  If you change it, change it in BOTH places.
@@ -407,6 +407,7 @@ void KStars::applyConfig(bool doApplyFocus)
     else
         qApp->setStyleSheet("");
 #endif
+**/
 
     //Set toolbar options from config file
     toolBar("kstarsToolBar")->applySettings(KSharedConfig::openConfig()->group("MainToolBar"));
