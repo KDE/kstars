@@ -61,15 +61,11 @@ LocalMeridianComponent::LocalMeridianComponent(SkyComposite *parent)
 
 bool LocalMeridianComponent::selected()
 {
-    if (Options::autoSelectGrid())
-        return (Options::useAltAz() && Options::showLocalMeridian());
-    else
-#ifndef KSTARS_LITE
-        return (Options::showHorizontalGrid() && Options::showLocalMeridian() &&
-                !(Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing()));
-#else
-        return (Options::showHorizontalGrid() &&
-                !(Options::hideOnSlew() && Options::hideGrids() && SkyMapLite::IsSlewing()));
+    return (Options::showLocalMeridian() && !(Options::hideOnSlew() &&
+    #ifndef KSTARS_LITE
+    SkyMap::IsSlewing()));
+    #else
+    SkyMapLite::IsSlewing()));
 #endif
 }
 
