@@ -14,7 +14,7 @@
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>2</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="generalTab">
    <attribute name="title">
@@ -226,6 +226,16 @@
       </property>
       <property name="text">
        <string>Shutdown Script Terminates INDI</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="kcfg_SortSchedulerJobs">
+      <property name="toolTip">
+       <string>High priority and altitude jobs are executed first</string>
+      </property>
+      <property name="text">
+       <string>Sort jobs by Altitude and Priority</string>
       </property>
      </widget>
     </item>

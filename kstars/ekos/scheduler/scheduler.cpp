@@ -1275,10 +1275,13 @@ void Scheduler::evaluateJobs()
 
     QList<SchedulerJob *> sortedJobs = jobs;
 
-    // Order by altitude first
-    qSort(sortedJobs.begin(), sortedJobs.end(), altitudeHigherThan);
-    // Then by priority
-    qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
+    if (Options::sortSchedulerJobs())
+    {
+        // Order by altitude first
+        qSort(sortedJobs.begin(), sortedJobs.end(), altitudeHigherThan);
+        // Then by priority
+        qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
+    }
 
     SchedulerJob *firstJob      = sortedJobs.first();
     QDateTime firstStartTime    = firstJob->getStartupTime();
@@ -1361,19 +1364,24 @@ void Scheduler::evaluateJobs()
         }
     }*/
 
-    // Order by score first
-    qSort(sortedJobs.begin(), sortedJobs.end(), scoreHigherThan);
-    // Then by priority
-    qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
-
-    foreach (SchedulerJob *job, sortedJobs)
+    if (Options::sortSchedulerJobs())
     {
-        if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getScore() <= 0)
-            continue;
+        // Order by score first
+        qSort(sortedJobs.begin(), sortedJobs.end(), scoreHigherThan);
+        // Then by priority
+        qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
 
-        bestCandidate = job;
-        break;
+        foreach (SchedulerJob *job, sortedJobs)
+        {
+            if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getScore() <= 0)
+                continue;
+
+            bestCandidate = job;
+            break;
+        }
     }
+    else
+        bestCandidate = sortedJobs.first();
 
     if (bestCandidate != nullptr)
     {
