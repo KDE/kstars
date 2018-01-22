@@ -480,12 +480,7 @@ Rectangle {
                 Layout.minimumHeight: 32
                 Layout.minimumWidth: 32
                 Layout.maximumWidth: 32
-
-                Image {
-                    id: image
-                    anchors.fill: parent
-                    source: "qrc:/icons/breeze/default/view-history.svg"
-                }
+                iconName: "view-history"
 
                 onClicked:
                 {
@@ -632,12 +627,7 @@ Rectangle {
                 Layout.maximumWidth: 32
                 Layout.minimumHeight: 32
                 Layout.minimumWidth: 32
-
-                Image {
-                    id: centerMountIcon
-                    anchors.fill: parent
-                    source: "qrc:/icons/breeze/default/crosshairs.svg"
-                }
+                iconName: "crosshairs"
 
                 onClicked:
                 {
