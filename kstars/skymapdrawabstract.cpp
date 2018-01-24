@@ -76,7 +76,8 @@ void SkyMapDrawAbstract::drawOverlays(QPainter &p, bool drawFov)
         //draw FOV symbol
         foreach (FOV *fov, m_KStarsData->getVisibleFOVs())
         {
-            if (fov->PA() != 0)
+            //if (fov->PA() != 0)
+            if (fov->shape() == FOV::SQUARE)
             {
                 SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(p.viewport().center(), KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
                 QPointF screenSkyPoint = p.viewport().center();
