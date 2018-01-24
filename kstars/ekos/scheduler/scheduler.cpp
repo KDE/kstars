@@ -1364,6 +1364,9 @@ void Scheduler::evaluateJobs()
         }
     }*/
 
+    sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(),[](SchedulerJob* job)
+    { return job->getState() > SchedulerJob::JOB_SCHEDULED;}), sortedJobs.end());
+
     if (Options::sortSchedulerJobs())
     {
         // Order by score first
