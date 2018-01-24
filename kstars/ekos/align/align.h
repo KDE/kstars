@@ -703,6 +703,9 @@ class Align : public QWidget, public Ui::Align
     // Which hemisphere are we located on?
     HemisphereType hemisphere;
 
+    // Differential Slewing
+    bool differentialSlewingActivated { false };
+
     // Astrometry Options
     OpsAstrometry *opsAstrometry { nullptr };
     OpsAlign *opsAlign { nullptr };
