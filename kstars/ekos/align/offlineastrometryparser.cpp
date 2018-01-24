@@ -299,7 +299,7 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
 
     solver->start(solverPath, solverArgs);
 
-    align->appendLogText(i18n("Starting solver->.."));
+    align->appendLogText(i18n("Starting solver..."));
 
     if (Options::astrometrySolverVerbose())
     {
