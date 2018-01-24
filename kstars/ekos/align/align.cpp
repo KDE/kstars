@@ -2486,6 +2486,8 @@ bool Align::captureAndSolve()
     stopB->setEnabled(true);
     pi->startAnimation();
 
+    differentialSlewingActivated = false;
+
     state = ALIGN_PROGRESS;
     emit newStatus(state);
 
@@ -3027,6 +3029,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         }
 
         appendLogText(i18n("Target is within acceptable range. Astrometric solver is successful."));
+
         if (mountModelRunning)
         {
             finishAlignmentPoint(true);
@@ -3309,12 +3312,12 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 }
                 else
                 {
-                    appendLogText(
-                                i18n("Mount is synced to solution coordinates. Astrometric solver is successful."));
+                    appendLogText(i18n("Mount is synced to solution coordinates. Astrometric solver is successful."));
                     KNotification::event(QLatin1String("AlignSuccessful"),
                                          i18n("Astrometry alignment completed successfully"));
                     state = ALIGN_COMPLETE;
                     emit newStatus(state);
+                    solverIterations = 0;
 
                     if (mountModelRunning)
                         finishAlignmentPoint(true);
@@ -3339,13 +3342,24 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
                     return;
                 }
+                else if (differentialSlewingActivated)
+                {
+                    appendLogText(i18n("Differential slewing complete. Astrometric solver is successful."));
+                    KNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"));
+                    state = ALIGN_COMPLETE;
+                    emit newStatus(state);
+                    solverIterations = 0;
+
+                    if (mountModelRunning)
+                        finishAlignmentPoint(true);
+                }
                 else if (currentGotoMode == GOTO_SLEW || mountModelRunning)
                 {
                     if (targetAccuracyNotMet)
-                        appendLogText(
-                                    i18n("Slew complete. Target accuracy is not met, running solver again..."));
+                        appendLogText(i18n("Slew complete. Target accuracy is not met, running solver again..."));
                     else
                         appendLogText(i18n("Slew complete. Solving Alignment Point. . ."));
+
                     targetAccuracyNotMet = false;
 
                     state = ALIGN_PROGRESS;
@@ -3533,6 +3547,7 @@ void Align::SlewToTarget()
 {
     if (canSync && loadSlewState == IPS_IDLE)
     {
+        // 2018-01-24 JM: This is ugly. Maybe use DBus? Signal/Slots? Ekos Manager usage like this should be avoided
         if (KStars::Instance()->ekosManager() &&
             !KStars::Instance()->ekosManager()->getCurrentJobName().isEmpty())
         {
@@ -3540,7 +3555,25 @@ void Align::SlewToTarget()
                                  i18n("Ekos job (%1) - Telescope synced",
                                       KStars::Instance()->ekosManager()->getCurrentJobName()));
         }
-        Sync();
+
+        // Do we perform a regular sync or use differential slewing?
+        if (Options::astrometryDifferentialSlewing())
+        {
+            double raDiff = alignCoord.ra().Degrees() - targetCoord.ra().Degrees();
+            double deDiff = alignCoord.dec().Degrees() - targetCoord.dec().Degrees();
+
+            targetCoord.setRA((targetCoord.ra().Degrees()-raDiff)/15.0);
+            targetCoord.setDec(targetCoord.dec().Degrees()-deDiff);
+
+            differentialSlewingActivated = true;
+
+            qCDebug(KSTARS_EKOS_ALIGN) << "Using differential slewing...";
+
+            Slew();
+        }
+        else
+            Sync();
+
         return;
     }
 
@@ -4024,7 +4057,8 @@ void Align::loadAndSlew(QString fileURL)
     QFileInfo fileInfo(fileURL);
     dirPath = fileInfo.absolutePath();
 
-    //loadSlewMode = true;
+    differentialSlewingActivated = false;
+
     loadSlewState = IPS_BUSY;
 
     restartPAHProcess();

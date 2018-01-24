@@ -1728,6 +1728,10 @@
          <label>Display received FITS images unto solver FOV rectangle in the sky map.</label>
          <default>false</default>
       </entry>
+      <entry name="AstrometryDifferentialSlewing" type="Bool">
+         <label>Do not use Sync when Slew to Target is selected. Use differential slewing to correct for discrepencies.</label>
+         <default>false</default>
+      </entry>
       <entry name="SolverAccuracyThreshold" type="UInt">
          <label>Accuracy threshold in arcseconds between solution and target coordinates.</label>
          <default>30</default>
