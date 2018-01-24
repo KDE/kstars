@@ -102,14 +102,11 @@ OpsColors::OpsColors() : QFrame(KStars::Instance())
     if (KStarsData::Instance()->colorScheme()->starColorMode() != 0) //mode is not "Real Colors"
         kcfg_StarColorIntensity->setEnabled(false);
     else
-        kcfg_StarColorIntensity->setEnabled(true);
-
-    kcfg_DarkAppColors->setChecked(KStarsData::Instance()->colorScheme()->useDarkPalette());
+        kcfg_StarColorIntensity->setEnabled(true);    
 
     connect(ColorPalette, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(newColor(QListWidgetItem*)));
     connect(kcfg_StarColorIntensity, SIGNAL(valueChanged(int)), this, SLOT(slotStarColorIntensity(int)));
-    connect(kcfg_StarColorMode, SIGNAL(activated(int)), this, SLOT(slotStarColorMode(int)));
-    connect(kcfg_DarkAppColors, SIGNAL(toggled(bool)), this, SLOT(slotDarkAppColors(bool)));
+    connect(kcfg_StarColorMode, SIGNAL(activated(int)), this, SLOT(slotStarColorMode(int)));    
     connect(PresetBox, SIGNAL(currentRowChanged(int)), this, SLOT(slotPreset(int)));
     connect(AddPreset, SIGNAL(clicked()), this, SLOT(slotAddPreset()));
     connect(RemovePreset, SIGNAL(clicked()), this, SLOT(slotRemovePreset()));
@@ -193,8 +190,7 @@ bool OpsColors::setColors(const QString &filename)
     qApp->processEvents();
 
     kcfg_StarColorMode->setCurrentIndex(KStarsData::Instance()->colorScheme()->starColorMode());
-    kcfg_StarColorIntensity->setValue(KStarsData::Instance()->colorScheme()->starColorIntensity());
-    kcfg_DarkAppColors->setChecked(KStarsData::Instance()->colorScheme()->useDarkPalette());
+    kcfg_StarColorIntensity->setValue(KStarsData::Instance()->colorScheme()->starColorIntensity());    
 
     for (unsigned int i = 0; i < KStarsData::Instance()->colorScheme()->numberOfColors(); ++i)
     {
@@ -330,11 +326,3 @@ void OpsColors::slotStarColorIntensity(int i)
 {
     KStarsData::Instance()->colorScheme()->setStarColorIntensity(i);
 }
-
-#if 0
-void OpsColors::slotDarkAppColors(bool enable)
-{
-    KStarsData::Instance()->colorScheme()->setDarkPalette(enable);
-    KStars::Instance()->loadColorScheme(KStars::Instance()->data()->colorScheme()->fileName());
-}
-#endif

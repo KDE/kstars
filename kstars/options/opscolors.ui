@@ -177,13 +177,6 @@
         </item>
        </layout>
       </item>
-      <item>
-       <widget class="QCheckBox" name="kcfg_DarkAppColors">
-        <property name="text">
-         <string>Use Dark Palette</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
