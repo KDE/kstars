@@ -86,16 +86,16 @@ private:
     float getImageDataValue(int x, int y);
     void getSubFrameMinMax(float *subFrameMin, float *subFrameMax, double *dataMin, double *dataMax);
 
-    QCheckBox *HFRReport;
-    QLabel *HFRReportBox;
-    QCheckBox *showPeakValues;
+    QPushButton *HFRReport;
+    QLabel *reportBox;
+    QPushButton *showPeakValues;
     QCheckBox *autoScale;
-    QCheckBox *showScaling;
+    QPushButton *showScaling;
     QComboBox *sampleSize;
     QComboBox *selectionType;
     QComboBox *zoomView;
     QCheckBox *exploreMode;
-    QLabel *peakValue;
+    QLabel *pixelReport;
     QLabel *maxValue;
     QLabel *minValue;
     QLabel *cutoffValue;
@@ -114,6 +114,7 @@ private:
 
     int convertToSliderValue(float value);
     float convertFromSliderValue(int value);
+    void updatePixelReport();
 
 };
 
