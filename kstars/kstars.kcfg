@@ -1729,7 +1729,7 @@
          <default>false</default>
       </entry>
       <entry name="AstrometryDifferentialSlewing" type="Bool">
-         <label>Do not use Sync when Slew to Target is selected. Use differential slewing to correct for discrepencies.</label>
+         <label>Do not use Sync when Slew to Target is selected. Use differential slewing to correct for discrepancies.</label>
          <default>false</default>
       </entry>
       <entry name="SolverAccuracyThreshold" type="UInt">
