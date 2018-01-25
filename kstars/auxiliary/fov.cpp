@@ -76,8 +76,9 @@ bool FOVManager::save()
     {
         ostream << fov->name() << ':' << fov->sizeX() << ':' << fov->sizeY() << ':' << fov->offsetX() << ':'
                 << fov->offsetY() << ':' << fov->PA() << ':' << QString::number(fov->shape())
-                << ':' //FIXME: is this needed???
-                << fov->color() << endl;
+                << ':' << fov->color()
+                << ':' << (fov->lockCelestialPole() ? 1 : 0)
+                << endl;
     }
     f.close();
 
@@ -108,8 +109,9 @@ const QList<FOV *> &FOVManager::readFOVs()
             bool ok;
             QString name, color;
             float sizeX, sizeY, xoffset, yoffset, rot;
+            bool lockedCP = false;
             FOV::Shape shape;
-            if (fields.count() == 8)
+            if (fields.count() >= 8)
             {
                 name  = fields[0];
                 sizeX = fields[1].toFloat(&ok);
@@ -146,13 +148,16 @@ const QList<FOV *> &FOVManager::readFOVs()
                     return m_FOVs;
                 }
                 color = fields[7];
+
+                if (fields.count() == 9)
+                    lockedCP = (fields[8].toInt(&ok) == 1);
             }
             else
             {
                 continue;
             }
 
-            m_FOVs.append(new FOV(name, sizeX, sizeY, xoffset, yoffset, rot, shape, color));
+            m_FOVs.append(new FOV(name, sizeX, sizeY, xoffset, yoffset, rot, shape, color, lockedCP));
         }
     }
     return m_FOVs;
@@ -169,7 +174,7 @@ FOV::Shape FOV::intToShape(int s)
     return (s >= FOV::UNKNOWN || s < 0) ? FOV::UNKNOWN : static_cast<FOV::Shape>(s);
 }
 
-FOV::FOV(const QString &n, float a, float b, float xoffset, float yoffset, float rot, Shape sh, const QString &col)
+FOV::FOV(const QString &n, float a, float b, float xoffset, float yoffset, float rot, Shape sh, const QString &col, bool useLockedCP)
 {
     m_name  = n;
     m_sizeX = a;
@@ -184,6 +189,7 @@ FOV::FOV(const QString &n, float a, float b, float xoffset, float yoffset, float
     m_center.setRA(0);
     m_center.setDec(0);
     m_imageDisplay = false;
+    m_lockCelestialPole = useLockedCP;
 }
 
 FOV::FOV()
@@ -195,6 +201,7 @@ FOV::FOV()
     m_shape           = SQUARE;
     m_offsetX = m_offsetY = m_PA = 0, m_northPA = 0;
     m_imageDisplay = false;
+    m_lockCelestialPole = false;
 }
 
 void FOV::draw(QPainter &p, float zoomFactor)
@@ -232,12 +239,8 @@ void FOV::draw(QPainter &p, float zoomFactor)
         {
             QRect targetRect(center.x() - pixelSizeX / 2, center.y() - pixelSizeY / 2, pixelSizeX, pixelSizeY);
             if (m_imageDisplay)
-            {
-                //QTransform imageT;
-                //imageT.rotate(m_rotation+m_northPA);
-                //p.drawImage(targetRect, m_image.transformed(imageT));
                 p.drawImage(targetRect, m_image);
-            }
+
             p.drawRect(targetRect);
             p.drawRect(center.x(), center.y() - (3 * pixelSizeY / 5), pixelSizeX / 40, pixelSizeX / 10);
             p.drawLine(center.x() - pixelSizeX / 30, center.y() - (3 * pixelSizeY / 5), center.x() + pixelSizeX / 20,
@@ -246,6 +249,18 @@ void FOV::draw(QPainter &p, float zoomFactor)
                        center.y() - (0.7 * pixelSizeY));
             p.drawLine(center.x() + pixelSizeX / 20, center.y() - (3 * pixelSizeY / 5), center.x() + pixelSizeX / 70,
                        center.y() - (0.7 * pixelSizeY));
+
+            QFont font = p.font();
+
+            font.setPixelSize(pixelSizeX / 15);
+            p.setFont(font);
+            QRect nameRect(targetRect.topLeft().x(), targetRect.topLeft().y()-(pixelSizeY/8), targetRect.width()/2, pixelSizeX / 10);
+            p.drawText(nameRect, Qt::AlignCenter, name());
+
+            font.setPixelSize(pixelSizeX / 15);
+            p.setFont(font);
+            QRect sizeRect(targetRect.center().x(), targetRect.topLeft().y()-(pixelSizeY/8), targetRect.width()/2, pixelSizeX / 10);
+            p.drawText(sizeRect, Qt::AlignCenter, QString("%1'x%2'").arg(QString::number(m_sizeX, 'f', 1)).arg(QString::number(m_sizeY, 'f', 1)));
         }
         break;
         case CIRCLE:
@@ -332,4 +347,14 @@ void FOV::setImage(const QImage &image)
 void FOV::setImageDisplay(bool value)
 {
     m_imageDisplay = value;
+}
+
+bool FOV::lockCelestialPole() const
+{
+    return m_lockCelestialPole;
+}
+
+void FOV::setLockCelestialPole(bool lockCelestialPole)
+{
+    m_lockCelestialPole = lockCelestialPole;
 }

@@ -48,7 +48,7 @@ class FOV
     /** Default constructor */
     FOV();
     FOV(const QString &name, float a, float b = -1, float xoffset = 0, float yoffset = 0, float rot = 0,
-        Shape shape = SQUARE, const QString &color = "#FFFFFF");
+        Shape shape = SQUARE, const QString &color = "#FFFFFF", bool useLockedCP = false);
 
     inline QString name() const { return m_name; }
     void setName(const QString &n) { m_name = n; }
@@ -103,18 +103,22 @@ class FOV
 
     void setImage(const QImage &image);
 
-    void setImageDisplay(bool value);
+    void setImageDisplay(bool value);   
 
-  private:
+    bool lockCelestialPole() const;
+    void setLockCelestialPole(bool lockCelestialPole);
+
+private:
     QString m_name, m_color;
     Shape m_shape;
     float m_sizeX { 0 }, m_sizeY { 0 };
     float m_offsetX { 0 }, m_offsetY { 0 };
     float m_PA { 0 };
-    float m_northPA { 0 };
+    float m_northPA { 0 };    
     SkyPoint m_center;
     QImage m_image;
     bool m_imageDisplay { false };
+    bool m_lockCelestialPole { false };
 };
 
 /**

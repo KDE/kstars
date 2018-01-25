@@ -96,6 +96,10 @@
          <whatsthis>Toggle display of the Equatorial coordinates of the mouse cursor at the standard epoch in the status bar.</whatsthis>
          <default>false</default>
       </entry>
+      <entry name="ShowSensorFOV" type="Bool">
+         <label>Display CCD sensor angular size on the sky map?</label>
+         <default>true</default>
+      </entry>
       <entry name="WindowWidth" type="UInt">
          <label>Width of main window, in pixels</label>
          <default>1024</default>

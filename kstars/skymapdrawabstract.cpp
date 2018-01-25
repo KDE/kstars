@@ -76,8 +76,7 @@ void SkyMapDrawAbstract::drawOverlays(QPainter &p, bool drawFov)
         //draw FOV symbol
         foreach (FOV *fov, m_KStarsData->getVisibleFOVs())
         {
-            //if (fov->PA() != 0)
-            if (fov->shape() == FOV::SQUARE)
+            if (fov->lockCelestialPole())
             {
                 SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(p.viewport().center(), KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
                 QPointF screenSkyPoint = p.viewport().center();
@@ -235,22 +234,40 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
 
     Ekos::Align *align = KStars::Instance()->ekosManager()->alignModule();
     //if (align && align->isSolverComplete())
-    if (align && (align->getStatus() == Ekos::ALIGN_COMPLETE || align->getStatus() == Ekos::ALIGN_PROGRESS))
+    if (align)
     {
-        bool isVisible = false;
-        FOV *fov       = align->fov();
-        if (fov == nullptr)
-            return;
+        if (Options::showSensorFOV())
+        {
+            FOV *fov       = align->getSensorFOV();
+            if (fov)
+            {
+                fov->setColor(KStars::Instance()->data()->colorScheme()->colorNamed("SensorFOVColor").name());
+                SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(psky.viewport().center(), KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+                QPointF screenSkyPoint = psky.viewport().center();
+                double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(), screenSkyPoint.y());
+                fov->setCenter(centerSkyPoint);
+                fov->setNorthPA(northRotation);
+                fov->draw(psky, Options::zoomFactor());
+            }
+        }
 
-        SkyPoint p = fov->center();
-        if (std::isnan(p.ra().Degrees()))
-            return;
+        if (align->getStatus() == Ekos::ALIGN_COMPLETE || align->getStatus() == Ekos::ALIGN_PROGRESS)
+        {
+            bool isVisible = false;
+            FOV *fov       = align->fov();
+            if (fov == nullptr)
+                return;
 
-        p.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-        QPointF point        = SkyMap::Instance()->projector()->toScreen(&p, true, &isVisible);
-        double northRotation = SkyMap::Instance()->projector()->findNorthPA(&p, point.x(), point.y());
-        fov->setNorthPA(northRotation);
-        fov->draw(psky, Options::zoomFactor());
+            SkyPoint p = fov->center();
+            if (std::isnan(p.ra().Degrees()))
+                return;
+
+            p.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+            QPointF point        = SkyMap::Instance()->projector()->toScreen(&p, true, &isVisible);
+            double northRotation = SkyMap::Instance()->projector()->findNorthPA(&p, point.x(), point.y());
+            fov->setNorthPA(northRotation);
+            fov->draw(psky, Options::zoomFactor());
+        }
     }
 
 #endif

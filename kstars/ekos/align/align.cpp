@@ -39,6 +39,7 @@
 #include <basedevice.h>
 
 #include <KConfigDialog>
+#include <KActionCollection>
 #include <KNotifications/KNotification>
 
 #include <memory>
@@ -67,7 +68,16 @@ Align::Align()
 
     //loadSlewMode = false;
     solverFOV.reset(new FOV());
+    solverFOV->setName(i18n("Solver FOV"));
+    solverFOV->setLockCelestialPole(true);
     solverFOV->setColor(KStars::Instance()->data()->colorScheme()->colorNamed("SolverFOVColor").name());
+
+    sensorFOV.reset(new FOV());
+    sensorFOV->setLockCelestialPole(true);
+
+    QAction *a = KStars::Instance()->actionCollection()->action("show_sensor_fov");
+    if (a)
+        a->setEnabled(true);
 
     showFITSViewerB->setIcon(
                 QIcon::fromTheme("kstars_fitsviewer"));
@@ -2091,6 +2101,9 @@ void Align::calculateFOV()
     fov_y /= 60.0;
 
     solverFOV->setSize(fov_x, fov_y);
+    sensorFOV->setSize(fov_x, fov_y);
+    if (currentCCD)
+        sensorFOV->setName(currentCCD->getDeviceName());
 
     FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));
 
@@ -2820,6 +2833,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     solverFOV->setCenter(alignCoord);
     solverFOV->setPA(solverPA);
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
+
+    sensorFOV->setPA(solverPA);
 
     QString ra_dms, dec_dms;
     getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);

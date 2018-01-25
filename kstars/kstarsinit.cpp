@@ -584,6 +584,13 @@ void KStars::initActions()
          << ToolTip(i18n("Toggle FITS Viewer"));
     ka->setEnabled(false);
 
+    ka = actionCollection()->add<KToggleAction>("show_sensor_fov", this, SLOT(slotINDIToolBar()))
+         << i18nc("Toggle the sensor Field of View", "Sensor FOV")
+         << QIcon::fromTheme("stateshape")
+         << ToolTip(i18n("Toggle Sensor FOV"));
+    ka->setEnabled(false);
+    ka->setChecked(Options::showSensorFOV());
+
     ka = actionCollection()->add<KToggleAction>("lock_telescope", this, SLOT(slotINDIToolBar()))
          << i18nc("Toggle the telescope center lock in display", "Center Telescope")
          << QIcon::fromTheme("center_telescope", QIcon(":/icons/center_telescope.svg"))
