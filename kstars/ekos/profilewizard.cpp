@@ -272,7 +272,7 @@ void ProfileWizard::detectStellarMate()
 
     stellarMateDetectDialog->show();
 
-    connect(stellarMateDetectDialog, &QProgressDialog::canceled, [&]()
+    connect(stellarMateDetectDialog.data(), &QProgressDialog::canceled, [&]()
     {
         qMDNS::getInstance()->disconnect();
     });

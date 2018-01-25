@@ -280,7 +280,7 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
     connect(solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
 
 #if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
-    connect(solver, &QProcess::errorOccurred, this, [&]() {
+    connect(solver.data(), &QProcess::errorOccurred, this, [&]() {
         align->appendLogText(i18n("Error starting solver: %1", solver->errorString()));
         emit solverFailed();
     });
