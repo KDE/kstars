@@ -210,6 +210,7 @@ NewFOV::NewFOV(QWidget *parent, const FOV *fov) : QDialog(parent), f()
         ui->FOVEditRotation->setText(toString(f.PA()));
         ui->ColorButton->setColor(QColor(f.color()));
         ui->ShapeBox->setCurrentIndex(f.shape());
+        ui->FOVLockCP->setChecked(f.lockCelestialPole());
 
         ui->TLength2->setValue(Options::telescopeFocalLength());
         ui->cameraWidth->setValue(Options::cameraWidth());
@@ -227,6 +228,7 @@ NewFOV::NewFOV(QWidget *parent, const FOV *fov) : QDialog(parent), f()
     connect(ui->FOVEditOffsetX, SIGNAL(textChanged(QString)), SLOT(slotUpdateFOV()));
     connect(ui->FOVEditOffsetY, SIGNAL(textChanged(QString)), SLOT(slotUpdateFOV()));
     connect(ui->FOVEditRotation, SIGNAL(textChanged(QString)), SLOT(slotUpdateFOV()));
+    connect(ui->FOVLockCP, SIGNAL(toggled(bool)), SLOT(slotUpdateFOV()));
     connect(ui->ColorButton, SIGNAL(changed(QColor)), SLOT(slotUpdateFOV()));
     connect(ui->ShapeBox, SIGNAL(activated(int)), SLOT(slotUpdateFOV()));
     connect(ui->ComputeEyeFOV, SIGNAL(clicked()), SLOT(slotComputeFOV()));
@@ -289,6 +291,7 @@ void NewFOV::slotUpdateFOV()
 
     f.setShape(ui->ShapeBox->currentIndex());
     f.setColor(ui->ColorButton->color().name());
+    f.setLockCelestialPole(ui->FOVLockCP->isChecked());
 
     okB->setEnabled(!f.name().isEmpty() && okX && okY);
 

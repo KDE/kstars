@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>708</width>
-    <height>398</height>
+    <height>394</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1082,19 +1082,6 @@ The computed HPBW angle (in arcminutes) will be displayed in the &quot;Field of 
        </property>
       </widget>
      </item>
-     <item row="2" column="3" colspan="3">
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>198</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
      <item row="2" column="2">
       <widget class="QLabel" name="label_7">
        <property name="text">
@@ -1106,6 +1093,18 @@ The computed HPBW angle (in arcminutes) will be displayed in the &quot;Field of 
       <widget class="QLabel" name="fieldoFviewLabel_4">
        <property name="text">
         <string>Rotation:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="FOVEditX">
+       <property name="toolTip">
+        <string>Desired field-of-view size, in arcminutes</string>
+       </property>
+       <property name="whatsThis">
+        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
+
+You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
        </property>
       </widget>
      </item>
@@ -1126,18 +1125,6 @@ The computed HPBW angle (in arcminutes) will be displayed in the &quot;Field of 
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="FOVEditX">
-       <property name="toolTip">
-        <string>Desired field-of-view size, in arcminutes</string>
-       </property>
-       <property name="whatsThis">
-        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
-
-You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
       <widget class="QLineEdit" name="FOVEditOffsetX">
        <property name="toolTip">
@@ -1148,6 +1135,19 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
        </property>
        <property name="text">
         <string>0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4" colspan="2">
+      <widget class="QCheckBox" name="FOVLockCP">
+       <property name="toolTip">
+        <string>Rotation is perform with respect to the celestial pole.</string>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>Lock to Celestial Pole</string>
        </property>
       </widget>
      </item>

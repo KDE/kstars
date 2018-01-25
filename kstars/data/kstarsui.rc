@@ -188,6 +188,7 @@
         <Action name="show_ekos" />
         <Action name="show_control_panel" />
         <Action name="show_fits_viewer" />
+        <Action name="show_sensor_fov" />
         <Action name="lock_telescope" />
 </ToolBar>
 
