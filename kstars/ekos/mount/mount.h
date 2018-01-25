@@ -253,7 +253,6 @@ class Mount : public QWidget, public Ui::Mount
 
     bool setScopeConfig(int index);
 
-  protected slots:
     void toggleMountToolBox();
 
   signals:

@@ -829,9 +829,19 @@ Mount::ParkingStatus Mount::getParkingStatus()
 void Mount::toggleMountToolBox()
 {
     if (m_BaseView->isVisible())
+    {
         m_BaseView->hide();
+        QAction *a = KStars::Instance()->actionCollection()->action("show_mount_box");
+        if (a)
+            a->setChecked(false);
+    }
     else
+    {
         m_BaseView->show();
+        QAction *a = KStars::Instance()->actionCollection()->action("show_mount_box");
+        if (a)
+            a->setChecked(true);
+    }
 }
 
 void Mount::findTarget()

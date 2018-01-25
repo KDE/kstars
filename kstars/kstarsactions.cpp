@@ -345,6 +345,10 @@ void KStars::slotINDIToolBar()
             }
         }
     }
+    else if (a == actionCollection()->action("show_mount_box"))
+    {
+       ekosManager()->mountModule()->toggleMountToolBox();
+    }
     else if (a == actionCollection()->action("show_sensor_fov"))
     {
         Options::setShowSensorFOV(a->isChecked());

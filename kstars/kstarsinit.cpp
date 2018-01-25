@@ -591,6 +591,12 @@ void KStars::initActions()
     ka->setEnabled(false);
     ka->setChecked(Options::showSensorFOV());
 
+    ka = actionCollection()->add<KToggleAction>("show_mount_box", this, SLOT(slotINDIToolBar()))
+         << i18nc("Toggle the Mount Control Panel", "Mount Control")
+         << QIcon::fromTheme("texlion")
+         << ToolTip(i18n("Toggle Mount Control Panel"));
+    telescopeGroup->addAction(ka);
+
     ka = actionCollection()->add<KToggleAction>("lock_telescope", this, SLOT(slotINDIToolBar()))
          << i18nc("Toggle the telescope center lock in display", "Center Telescope")
          << QIcon::fromTheme("center_telescope", QIcon(":/icons/center_telescope.svg"))
