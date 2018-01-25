@@ -80,7 +80,7 @@ ColorScheme::ColorScheme() : FileName()
     appendItem("RAGuideError", i18n("RA Guide Error"), "#00FF00");
     appendItem("DEGuideError", i18n("DEC Guide Error"), "#00A5FF");
     appendItem("SolverFOVColor", i18n("Solver FOV"), "#FFFFFF");
-    appendItem("SensorFOVColor", i18n("Sensor FOV"), "#660000");
+    appendItem("SensorFOVColor", i18n("Sensor FOV"), "#FFAA00");
     appendItem("HIPSGridColor", i18n("HiPS Grid"), "#FFFFFF");
     appendItem("FITSObjectLabelColor", i18n("FITS Image Object Label"), "#00FF00");
 
