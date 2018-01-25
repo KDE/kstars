@@ -568,7 +568,7 @@ void StarProfileViewer::updatePixelReport()
     x += subFrame.x();
     y = (subFrame.height() - 1 - y) + subFrame.y(); //Note: Y is in reverse order on the graph.
     float barValue = getImageDataValue(x, y);
-    pixelReport->setText("Pixel: (" + QString::number(x) + "," + QString::number(y) + "): " + QString::number(barValue, 'f', 2));
+    pixelReport->setText("Pixel: (" + QString::number(x + 1) + "," + QString::number(y + 1) + "): " + QString::number(barValue, 'f', 2)); //Have to add 1 because humans start counting at 1
 
 }
 
