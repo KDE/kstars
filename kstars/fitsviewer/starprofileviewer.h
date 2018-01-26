@@ -69,6 +69,7 @@ public slots:
     void zoomViewTo(int where);
     void updateSampleSize(const QString &text);
     void updateColor(int selection);
+    void updateBarSpacing(int value);
 
 
 signals:
@@ -89,12 +90,14 @@ private:
     QPushButton *HFRReport;
     QLabel *reportBox;
     QPushButton *showPeakValues;
+    QPushButton *showCoordinates;
     QCheckBox *autoScale;
     QPushButton *showScaling;
     QComboBox *sampleSize;
     QComboBox *selectionType;
     QComboBox *zoomView;
-    QCheckBox *exploreMode;
+    QComboBox *selectStar;
+    QPushButton *exploreMode;
     QLabel *pixelReport;
     QLabel *maxValue;
     QLabel *minValue;
