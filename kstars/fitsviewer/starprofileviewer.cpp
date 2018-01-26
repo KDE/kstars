@@ -63,7 +63,7 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     QHBoxLayout *topLayout = new QHBoxLayout();
-    QHBoxLayout *bottomLayout = new QHBoxLayout();
+    QHBoxLayout *controlsLayout = new QHBoxLayout();
     QWidget* rightWidget = new QWidget();
     rightWidget->setVisible(false);
     QVBoxLayout *rightLayout = new QVBoxLayout(rightWidget);
@@ -72,8 +72,8 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     topLayout->addWidget(container, 1);
     topLayout->addWidget(rightWidget);
     mainLayout->addLayout(topLayout);
-    mainLayout->addLayout(bottomLayout);
-    bottomLayout->setAlignment(Qt::AlignLeft);
+    mainLayout->addLayout(controlsLayout);
+    controlsLayout->setAlignment(Qt::AlignLeft);
 
     maxValue=new QLabel(this);
     maxValue->setToolTip("Maximum Value on the graph");
@@ -142,6 +142,14 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     sliceB->setEnabled(false);
     sliceB->setDefault(false);
 
+    showCoordinates = new QPushButton(this);
+    showCoordinates->setIcon(QIcon::fromTheme("coordinate"));
+    showCoordinates->setCheckable(true);
+    showCoordinates->setMaximumSize(22, 22);
+    showCoordinates->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    showCoordinates->setToolTip("Shows the x, y coordinates of star centers in the frame");
+    showCoordinates->setChecked(false);
+
     HFRReport = new QPushButton(this);
     HFRReport->setToolTip("Shows the HFR of stars in the frame");
     HFRReport->setIcon(QIcon::fromTheme("tool-measure"));
@@ -157,7 +165,7 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     showPeakValues->setCheckable(true);
     showPeakValues->setMaximumSize(22, 22);
     showPeakValues->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    showPeakValues->setToolTip("Shows the peak values of stars in the frame");
+    showPeakValues->setToolTip("Shows the peak values of star centers in the frame");
     showPeakValues->setChecked(true);
 
     sampleSize = new QComboBox(this);
@@ -170,6 +178,75 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     sampleSize->addItem(QString::number(512));
     sampleSize->setCurrentIndex(3);
     sampleSize->setVisible(false);
+
+    zoomView = new QComboBox(this);
+    zoomView->setToolTip("Zooms the view to preset locations.");
+    zoomView->addItem(QStringLiteral("ZoomTo:"));
+    zoomView->addItem(QStringLiteral("Front"));
+    zoomView->addItem(QStringLiteral("Front High"));
+    zoomView->addItem(QStringLiteral("Overhead"));
+    zoomView->addItem(QStringLiteral("Iso. L"));
+    zoomView->addItem(QStringLiteral("Iso. R"));
+    zoomView->addItem(QStringLiteral("Selected"));
+    zoomView->setCurrentIndex(0);
+
+    QPushButton *selectorsVisible = new QPushButton(this);
+    selectorsVisible->setIcon(QIcon::fromTheme("adjustlevels"));
+    selectorsVisible->setCheckable(true);
+    selectorsVisible->setMaximumSize(22, 22);
+    selectorsVisible->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    selectorsVisible->setToolTip("Hides and shows the Vertical and Horizontal Selection Sliders");
+    selectorsVisible->setChecked(false);
+
+    controlsLayout->addWidget(sampleSize);
+    controlsLayout->addWidget(selectionType);
+    controlsLayout->addWidget(selectorsVisible);
+    controlsLayout->addWidget(sliceB);
+    controlsLayout->addWidget(showScaling);
+    //bottomLayout->addWidget(barSpacing);
+    controlsLayout->addWidget(zoomView);
+    //bottomLayout->addWidget(color);
+    controlsLayout->addWidget(showCoordinates);
+    controlsLayout->addWidget(HFRReport);
+    controlsLayout->addWidget(showPeakValues);
+    controlsLayout->addWidget(reportBox);
+
+    QWidget *bottomSliderWidget= new QWidget(this);
+    QGridLayout *bottomSliders = new QGridLayout(bottomSliderWidget);
+    bottomSliderWidget->setLayout(bottomSliders);
+    mainLayout->addWidget(bottomSliderWidget);
+    bottomSliderWidget->setVisible(false);
+
+    verticalSelector = new QSlider(Qt::Horizontal, this);
+    verticalSelector->setToolTip("Selects the Vertical Value");
+    horizontalSelector = new QSlider(Qt::Horizontal, this);
+    horizontalSelector->setToolTip("Selects the Horizontal Value");
+
+    bottomSliders->addWidget(new QLabel("Vertical: "), 0, 0);
+    bottomSliders->addWidget(verticalSelector, 0, 1);
+    bottomSliders->addWidget(new QLabel("Horizontal: "), 1, 0);
+    bottomSliders->addWidget(horizontalSelector, 1, 1);
+
+    QWidget *bottomControlsWidget= new QWidget(this);
+    QHBoxLayout *bottomControlLayout = new QHBoxLayout(bottomControlsWidget);
+    mainLayout->addWidget(bottomControlsWidget);\
+    bottomControlsWidget->setVisible(false);
+
+    exploreMode = new QPushButton(this);
+    exploreMode->setIcon(QIcon::fromTheme("visibility"));
+    exploreMode->setCheckable(true);
+    exploreMode->setMaximumSize(22, 22);
+    exploreMode->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    exploreMode->setToolTip("Zooms automatically as the sliders change");
+    exploreMode->setChecked(true);
+
+    QDial *barSpacing=new QDial(this);
+    barSpacing->setMinimum(0);
+    barSpacing->setMaximum(100);
+    barSpacing->setValue(50);
+    barSpacing->setMaximumSize(32, 32);
+    barSpacing->setWrapping(false);
+    m_graph->setBarSpacing(QSizeF(0.5,0.5));
 
     QComboBox *color = new QComboBox(this);
     color->setToolTip("Changes the color scheme");
@@ -201,57 +278,12 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     color->setCurrentIndex(0);
     color->setMaximumWidth(80);
 
-    zoomView = new QComboBox(this);
-    zoomView->setToolTip("Zooms the view to preset locations.");
-    zoomView->addItem(QStringLiteral("ZoomTo:"));
-    zoomView->addItem(QStringLiteral("Front"));
-    zoomView->addItem(QStringLiteral("Front High"));
-    zoomView->addItem(QStringLiteral("Overhead"));
-    zoomView->addItem(QStringLiteral("Isometric L"));
-    zoomView->addItem(QStringLiteral("Isometric R"));
-    zoomView->addItem(QStringLiteral("Selected Item"));
-    zoomView->setCurrentIndex(0);
+    pixelReport = new QLabel("", bottomControlsWidget);
 
-    QPushButton *selectorsVisible = new QPushButton(this);
-    selectorsVisible->setIcon(QIcon::fromTheme("adjustlevels"));
-    selectorsVisible->setCheckable(true);
-    selectorsVisible->setMaximumSize(22, 22);
-    selectorsVisible->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    selectorsVisible->setToolTip("Hides and shows the Vertical and Horizontal Selection Sliders");
-    selectorsVisible->setChecked(false);
-
-    bottomLayout->addWidget(sampleSize);
-    bottomLayout->addWidget(selectionType);
-    bottomLayout->addWidget(selectorsVisible);
-    bottomLayout->addWidget(sliceB);
-    bottomLayout->addWidget(showScaling);
-    bottomLayout->addWidget(zoomView);
-    bottomLayout->addWidget(color);
-    bottomLayout->addWidget(HFRReport);
-    bottomLayout->addWidget(showPeakValues);
-    bottomLayout->addWidget(reportBox);
-
-    QWidget *bottomSliderWidget= new QWidget(this);
-    QGridLayout *bottomSliders = new QGridLayout(bottomSliderWidget);
-    bottomSliderWidget->setLayout(bottomSliders);
-    mainLayout->addWidget(bottomSliderWidget);
-    bottomSliderWidget->setVisible(false);
-
-    verticalSelector = new QSlider(Qt::Horizontal, this);
-    verticalSelector->setToolTip("Selects the Vertical Value");
-    horizontalSelector = new QSlider(Qt::Horizontal, this);
-    horizontalSelector->setToolTip("Selects the Horizontal Value");
-    exploreMode = new QCheckBox(this);
-    exploreMode->setText("Explore");
-    exploreMode->setToolTip("Zooms automatically as the sliders change");
-    exploreMode->setChecked(true);
-    pixelReport = new QLabel(this);
-    bottomSliders->addWidget(new QLabel("Vertical: "),0,0);
-    bottomSliders->addWidget(verticalSelector,0,1);
-    bottomSliders->addWidget(new QLabel("Horizontal: "),1,0);
-    bottomSliders->addWidget(horizontalSelector,1,1);
-    bottomSliders->addWidget(exploreMode,2,0);
-    bottomSliders->addWidget(pixelReport,2,1);
+    bottomControlLayout->addWidget(exploreMode);
+    bottomControlLayout->addWidget(barSpacing);
+    bottomControlLayout->addWidget(color);
+    bottomControlLayout->addWidget(pixelReport);
 
     QObject::connect(selectionType,  SIGNAL(currentIndexChanged(int)),
                      this, SLOT(changeSelectionType(int)));
@@ -259,6 +291,8 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
                      this, SLOT(zoomViewTo(int)));
     QObject::connect(sliceB,  &QPushButton::pressed,
                      this, &StarProfileViewer::toggleSlice);
+    QObject::connect(showCoordinates,  &QCheckBox::toggled,
+                     this, &StarProfileViewer::updateHFRandPeakSelection);
     QObject::connect(HFRReport,  &QCheckBox::toggled,
                      this, &StarProfileViewer::updateHFRandPeakSelection);
     QObject::connect(showPeakValues,  &QCheckBox::toggled,
@@ -283,10 +317,14 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
                      this, &StarProfileViewer::changeSelection);
     QObject::connect(selectorsVisible,  &QCheckBox::toggled,
                      bottomSliderWidget, &QWidget::setVisible);
+    QObject::connect(selectorsVisible,  &QCheckBox::toggled,
+                     bottomControlsWidget, &QWidget::setVisible);
     QObject::connect(toggleEnableCutoff,  &QCheckBox::toggled,
                      this, &StarProfileViewer::toggleCutoffEnabled);
     QObject::connect(m_3DPixelSeries,  &QBar3DSeries::selectedBarChanged,
                      this, &StarProfileViewer::updateSelectorBars);
+    QObject::connect(barSpacing,  &QSlider::valueChanged,
+                     this, &StarProfileViewer::updateBarSpacing);
 
     m_graph->activeTheme()->setType(Q3DTheme::Theme(3)); //Stone Moss
 
@@ -448,8 +486,23 @@ void StarProfileViewer::updateScale()
                      this, &StarProfileViewer::updateDisplayData);
 }
 
+void StarProfileViewer::updateBarSpacing(int value)
+{
+    float spacing = (float)value/100.0;
+    m_graph->setBarSpacing(QSizeF(spacing, spacing));
+}
+
 void StarProfileViewer::zoomViewTo(int where)
 {
+    if(where > 6) //One of the star centers
+    {
+        int star = where - 7;
+        int x = starCenters[star]->x - subFrame.x();
+        int y = subFrame.height() - (starCenters[star]->y - subFrame.y());
+        m_graph->primarySeries()->setSelectedBar(QPoint( y , x )); //Note row, column    y, x
+        where = 6; //This is so it will zoom to the target.
+    }
+
     switch (where) {
     case 0: //Zoom To
         break;
@@ -522,6 +575,7 @@ void StarProfileViewer::zoomViewTo(int where)
 
 
     default:
+        zoomView->setCurrentIndex(0);
         break;
     }
 }
@@ -568,7 +622,7 @@ void StarProfileViewer::updatePixelReport()
     x += subFrame.x();
     y = (subFrame.height() - 1 - y) + subFrame.y(); //Note: Y is in reverse order on the graph.
     float barValue = getImageDataValue(x, y);
-    pixelReport->setText("Pixel: (" + QString::number(x + 1) + "," + QString::number(y + 1) + "): " + QString::number(barValue, 'f', 2)); //Have to add 1 because humans start counting at 1
+    pixelReport->setText("Selected Pixel: (" + QString::number(x + 1) + "," + QString::number(y + 1) + "): " + QString::number(barValue, 'f', 2)); //Have to add 1 because humans start counting at 1
 
 }
 
@@ -746,41 +800,47 @@ void StarProfileViewer::updateHFRandPeakSelection()
     reportBox->setText("");
     QString reportString = "";
 
-    if(HFRReport->isChecked() || showPeakValues->isChecked())
+    //Removes all the stars from the combo box.
+    while(zoomView->count() > 7)
+        zoomView->removeItem(7);
+
+    for (int i = 0; i < starCenters.count(); i++)
     {
-
-        for (int i = 0; i < starCenters.count(); i++)
-        {
-            int x = starCenters[i]->x;
-            int row = x - subFrame.x();
-            int y = starCenters[i]->y;
-            int col = subFrame.height() - (y - subFrame.y());
-            if(subFrame.contains(x,y)){
-               double newHFR = imageData->getHFR(x,y);
-               int value = getImageDataValue(x, y);
-               QCustom3DLabel *label = new QCustom3DLabel();
-               label->setFacingCamera(true);
-               QString labelString = "Star " + QString::number(i + 1) + ": ";
-               if(HFRReport->isChecked())
-               {
-                   labelString = labelString + "HFR: " + QString::number(newHFR, 'f', 2) + "  ";
-               }
-               if(showPeakValues->isChecked())
-               {
-                   labelString = labelString + "Peak: " + QString::number(value);
-
-               }
-               if(HFRReport->isChecked()||showPeakValues->isChecked())
-               {
-                   if(reportString != "")
-                       reportString += "\n";
-                   reportString += labelString;
-                   label->setText(labelString);
-                   label->setPosition(QVector3D(row, value, col));
-                   label->setScaling(QVector3D(1.0f, 1.0f, 1.0f));
-                   m_graph->addCustomItem(label);
-               }
+        int x = starCenters[i]->x;
+        int row = x - subFrame.x();
+        int y = starCenters[i]->y;
+        int col = subFrame.height() - (y - subFrame.y());
+        if(subFrame.contains(x,y)){
+            double newHFR = imageData->getHFR(x,y);
+            int value = getImageDataValue(x, y);
+            QCustom3DLabel *label = new QCustom3DLabel();
+            label->setFacingCamera(true);
+            QString labelString = "Star " + QString::number(i + 1) + ": ";
+            if(showCoordinates->isChecked())
+            {
+                labelString = labelString + "(" + QString::number(x + 1) + ",  "+ QString::number(y + 1) + ") ";
             }
+            if(HFRReport->isChecked())
+            {
+                labelString = labelString + "HFR: " + QString::number(newHFR, 'f', 2) + "  ";
+            }
+            if(showPeakValues->isChecked())
+            {
+                labelString = labelString + "Peak: " + QString::number(value);
+
+            }
+            if(showCoordinates->isChecked() || HFRReport->isChecked() || showPeakValues->isChecked())
+            {
+                if(reportString != "")
+                    reportString += "\n";
+                reportString += labelString;
+                label->setText(labelString);
+                label->setPosition(QVector3D(row, value, col));
+                label->setScaling(QVector3D(1.0f, 1.0f, 1.0f));
+                m_graph->addCustomItem(label);
+            }
+            //Adds this star to the combo box.
+            zoomView->addItem("Star " + QString::number(i + 1));
         }
     }
     if(reportString != "")
