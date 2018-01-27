@@ -250,15 +250,17 @@ void FOV::draw(QPainter &p, float zoomFactor)
             p.drawLine(center.x() + pixelSizeX / 20, center.y() - (3 * pixelSizeY / 5), center.x() + pixelSizeX / 70,
                        center.y() - (0.7 * pixelSizeY));
 
-            QFont font = p.font();
+            int fontSize = pixelSizeX / 15;
+            if (fontSize <= 4)
+                break;
 
-            font.setPixelSize(pixelSizeX / 15);
+            QFont font = p.font();
+            font.setPixelSize(fontSize);
             p.setFont(font);
+
             QRect nameRect(targetRect.topLeft().x(), targetRect.topLeft().y()-(pixelSizeY/8), targetRect.width()/2, pixelSizeX / 10);
             p.drawText(nameRect, Qt::AlignCenter, name());
 
-            font.setPixelSize(pixelSizeX / 15);
-            p.setFont(font);
             QRect sizeRect(targetRect.center().x(), targetRect.topLeft().y()-(pixelSizeY/8), targetRect.width()/2, pixelSizeX / 10);
             p.drawText(sizeRect, Qt::AlignCenter, QString("%1'x%2'").arg(QString::number(m_sizeX, 'f', 1)).arg(QString::number(m_sizeY, 'f', 1)));
         }
