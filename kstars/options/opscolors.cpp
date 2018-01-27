@@ -28,6 +28,7 @@
 #include <QStandardPaths>
 #include <QColorDialog>
 #include <QInputDialog>
+#include "thememanager.h"
 
 #include <KActionCollection>
 #include <KLocalizedString>
@@ -51,6 +52,10 @@ static int ItemColorData = Qt::UserRole + 1;
 OpsColors::OpsColors() : QFrame(KStars::Instance())
 {
     setupUi(this);
+
+    //Populate list of Application Themes
+    ThemeManager::instance()->populateThemeQListWidget(themesWidget);
+    connect(themesWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotChangeTheme(QListWidgetItem*)));
 
     //Populate list of adjustable colors
     for (unsigned int i = 0; i < KStarsData::Instance()->colorScheme()->numberOfColors(); ++i)
@@ -119,6 +124,11 @@ OpsColors::OpsColors() : QFrame(KStars::Instance())
 //empty destructor
 OpsColors::~OpsColors()
 {
+}
+
+void OpsColors::slotChangeTheme(QListWidgetItem *item)
+{
+    ThemeManager::instance()->setCurrentTheme(item->text());
 }
 
 void OpsColors::newColor(QListWidgetItem *item)

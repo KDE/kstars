@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>486</width>
+    <width>568</width>
     <height>377</height>
    </rect>
   </property>
@@ -29,7 +29,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Current Colors</string>
+      <string>Current Scheme Colors</string>
      </property>
      <layout class="QVBoxLayout">
       <property name="spacing">
@@ -232,6 +232,16 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Application Themes</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QListWidget" name="themesWidget"/>
       </item>
      </layout>
     </widget>

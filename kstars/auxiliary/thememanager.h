@@ -29,6 +29,7 @@
 #include <QObject>
 #include <QPixmap>
 #include <QString>
+#include <QListWidget>
 
 // KDE includes
 
@@ -57,6 +58,7 @@ public:
 
     void    setThemeMenuAction(QMenu* const action);
     void    registerThemeActions(KXmlGuiWindow * const win);
+    void    populateThemeQListWidget(QListWidget *themeWidget);
 
 signals:
 
