@@ -1141,7 +1141,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
      <item row="2" column="4" colspan="2">
       <widget class="QCheckBox" name="FOVLockCP">
        <property name="toolTip">
-        <string>Rotation is perform with respect to the celestial pole.</string>
+        <string>Rotation is performed with respect to the celestial pole.</string>
        </property>
        <property name="statusTip">
         <string/>
