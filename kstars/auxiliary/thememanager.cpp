@@ -221,6 +221,22 @@ void ThemeManager::registerThemeActions(KXmlGuiWindow* const win)
     win->actionCollection()->addAction(QLatin1String("themes"), d->themeMenuAction->menuAction());
 }
 
+void ThemeManager::populateThemeQListWidget(QListWidget *themeWidget)
+{
+    themeWidget->clear();
+
+    QList<QAction*> list = d->themeMenuActionGroup->actions();
+
+    foreach(QAction* const action, list)
+    {
+        QListWidgetItem *item = new QListWidgetItem();
+        item->setText( action->text().remove("&") );
+        item->setIcon( action->icon() );
+        themeWidget->addItem(item);
+    }
+    themeWidget->sortItems();
+}
+
 void ThemeManager::populateThemeMenu()
 {
     if (!d->themeMenuAction)

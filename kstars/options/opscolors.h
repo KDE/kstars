@@ -54,6 +54,7 @@ class OpsColors : public QFrame, public Ui::OpsColors
     void slotRemovePreset();
     void slotStarColorMode(int);
     void slotStarColorIntensity(int);
+    void slotChangeTheme(QListWidgetItem *item);
 
   private:
     bool setColors(const QString &filename);
