@@ -69,13 +69,13 @@ bool ServerManager::start()
         QString gscDirPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "gsc";
         env.insert("GSCDAT", gscDirPath);
 
-        insertEnvironmentPath(&env, "IOLIBS", "/../PlugIns/libgphoto2_port");
-        insertEnvironmentPath(&env, "CAMLIBS", "/../PlugIns/libgphoto2");
-        insertEnvironmentPath(&env, "QHY_FIRMWARE_DIR","/../PlugIns/qhy");
-        insertEnvironmentPath(&env, "APOGEE_ETC_DIR", "/../PlugIns");
-        insertEnvironmentPath(&env, "DSI_FIRMWARE_DIR", "/../PlugIns/firmware");
+        insertEnvironmentPath(&env, "INDIPREFIX", "/../../");
+        insertEnvironmentPath(&env, "IOLIBS", "/../Resources/DriverSupport/gphoto/IOLIBS");
+        insertEnvironmentPath(&env, "CAMLIBS", "/../Resources/DriverSupport/gphoto/CAMLIBS");
+        //insertEnvironmentPath(&env, "QHY_FIRMWARE_DIR","/../PlugIns/qhy");
+        //insertEnvironmentPath(&env, "APOGEE_ETC_DIR", "/../PlugIns");
+        //insertEnvironmentPath(&env, "DSI_FIRMWARE_DIR", "/../PlugIns/firmware");
 
-        env.insert("INDIPREFIX", indiServerDir);
         serverProcess->setProcessEnvironment(env);
 #endif
     }
