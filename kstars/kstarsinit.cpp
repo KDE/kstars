@@ -140,9 +140,7 @@ void KStars::initActions()
         #ifdef Q_OS_OSX
         themeSearchPaths = themeSearchPaths << QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons").absolutePath();
         #elif defined(Q_OS_WIN)
-        //TODO Find out the search path on Windows
-        //Drop icon dependency in Craft and manually
-        themeSearchPaths = themeSearchPaths;
+        themeSearchPaths = themeSearchPaths << QStandardPaths::locate(QStandardPaths::GenericDataLocation, "icons", QStandardPaths::LocateDirectory);
         #else
         //TODO On Linux on non-KDE Distros, find out if the themes are installed or not and perhaps warn the user
         #endif
