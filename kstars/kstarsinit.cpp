@@ -586,7 +586,7 @@ void KStars::initActions()
 
     ka = actionCollection()->add<KToggleAction>("show_sensor_fov", this, SLOT(slotINDIToolBar()))
          << i18nc("Toggle the sensor Field of View", "Sensor FOV")
-         << QIcon::fromTheme("stateshape")
+         << QIcon::fromTheme("archive-extract")
          << ToolTip(i18n("Toggle Sensor FOV"));
     ka->setEnabled(false);
     ka->setChecked(Options::showSensorFOV());
