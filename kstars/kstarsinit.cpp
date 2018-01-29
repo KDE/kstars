@@ -591,7 +591,7 @@ void KStars::initActions()
 
     ka = actionCollection()->add<KToggleAction>("show_mount_box", this, SLOT(slotINDIToolBar()))
          << i18nc("Toggle the Mount Control Panel", "Mount Control")
-         << QIcon::fromTheme("texlion")
+         << QIcon::fromTheme("draw-text")
          << ToolTip(i18n("Toggle Mount Control Panel"));
     telescopeGroup->addAction(ka);
 
