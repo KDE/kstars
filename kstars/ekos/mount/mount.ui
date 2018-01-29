@@ -402,7 +402,8 @@
           <string>Mount Control</string>
          </property>
          <property name="icon">
-          <iconset theme="texlion"/>
+          <iconset theme="draw-text">
+           <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="iconSize">
           <size>
