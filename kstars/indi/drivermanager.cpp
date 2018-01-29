@@ -699,7 +699,7 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
 
     if (hostPortOk == false)
     {
-        KSNotification::error(i18n("Invalid host port %1").arg(dv->getPort()));
+        KSNotification::error(i18n("Invalid host port %1", dv->getPort()));
         return false;
     }
 
