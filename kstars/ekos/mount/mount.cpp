@@ -130,7 +130,8 @@ Mount::Mount()
 
 Mount::~Mount()
 {
-    delete(m_BaseView);
+    delete(m_Ctxt);
+    delete(m_BaseObj);
 }
 
 void Mount::setTelescope(ISD::GDInterface *newTelescope)
