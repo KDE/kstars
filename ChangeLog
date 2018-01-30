@@ -4,6 +4,57 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.9.2 (Titawin):
+=================================================================================================
+982e9ce 2018-01-29 Jasem Mutlaq         Fix crashing on older Qt systems when reloading QML sources by deleting context. BUGS:389583
+090a98d 2018-01-29 Jasem Mutlaq         Use older icon to be compatible with older distros until 18.04 is released at least
+502bc40 2018-01-29 Laurent Montel       Fix i18n usage
+69446fb 2018-01-29 Jasem Mutlaq         Use icons available in older breeze for backward compatibility in older distros
+11440de 2018-01-28 Jasem Mutlaq         Add windows theme search path
+263ec0f 2018-01-27 Jasem Mutlaq         Improve FOV text display limits
+aff1d2f 2018-01-27 Robert Lancaster     These should be the changes to KStars that would be needed to support the path change
+e7061cf 2018-01-27 Yuri Chornoivan      Fix minor typo
+09cbf6d 2018-01-27 Robert Lancaster     This patch will add the theme changing function to color options.
+967e453 2018-01-26 Robert Lancaster     This patch will add the found stars to the Zoom Menu.  It also adds the ability to change the spacing between bars.  It adds the ability to put the ..
+e720694 2018-01-26 Jasem Mutlaq         Add Mount Control Panel access to the telescope tool bar
+dbea952 2018-01-26 Jasem Mutlaq         Fix default color
+0d2076a 2018-01-26 Jasem Mutlaq         Add support to Sensor FOV that can be triggered from the Ekos tool bar. Color can be set from color scheme
+13c441a 2018-01-25 Wolfgang Bauer       Fix build with gcc 4.8
+a5fa75e 2018-01-25 Yuri Chornoivan      Fix minor typo
+38fcade 2018-01-25 Robert Lancaster     Human counting
+6764ceb 2018-01-25 Robert Lancaster     This patch will provide nicer icons for the Star Profile Viewer.  It also improves the display of the sliders, adding labels for them as well.  It a..
+86fe609 2018-01-24 Jasem Mutlaq         Only apply PA calculation on square FOVs
+29ac3cf 2018-01-24 Jasem Mutlaq         Adding experimental support for differential slewing in align module
+0b6303d 2018-01-24 Jasem Mutlaq         Fix typo
+d5b39cc 2018-01-24 Jasem Mutlaq         Sync INDI drivers list
+f54090f 2018-01-24 Jasem Mutlaq         Remove obsolete parameter
+201f3bc 2018-01-24 Jasem Mutlaq         Remove completed jobs from sorted jobs
+a7b71da 2018-01-22 Jasem Mutlaq         Use icon name since breeze was removed
+cff51e5 2018-01-22 Jasem Mutlaq         Display local meridian even if grids are off or in equatorial mode. BUGS:389289 FIXED-IN:2.9.2
+7c7e1dd 2018-01-22 Jasem Mutlaq         Add option to skip sorting jobs and run them as-is in the order they are added
+fea7fe2 2018-01-20 Robert Lancaster     When deleting the old night vision style, a remnant was left and is preventing the build on Mac.  This is a simple fix.
+7ce9d5f 2018-01-20 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
+142c7eb 2018-01-19 Robert Lancaster     Night vision improvements
+f4a2a4f 2018-01-18 Jasem Mutlaq         Fix proper settings of icon theme with respect to current theme and current default theme in case of a default theme
+cf01438 2018-01-18 Jasem Mutlaq         More work on color schemes and theme. Now nightvision theme triggers also the nigh color scheme as well. Setting it to default will restore color sc..
+812e091 2018-01-18 Robert Lancaster     After a bunch of work today and several failed approaches, I finally seem to have fixed the bugs with the changes in theme on Mac.   The issue was t..
+22cbd6b 2018-01-17 Robert Lancaster     Hack for loading theme icons on MacOS
+8bb0833 2018-01-17 Jasem Mutlaq         Fix typo
+706def5 2018-01-16 Jasem Mutlaq         Reset to correct page in wizard
+0ee4f5c 2018-01-16 Jasem Mutlaq         Remove Breeze icons and relying on install theme. Chaning some icon to look better with the default KStars theme
+fc7ad71 2018-01-16 Robert Lancaster     More work to set theme search paths for different OSes
+7b3b2b1 2018-01-15 Jasem Mutlaq         Limit Macintosh theme to Apple
+b8ed17f 2018-01-15 Robert Lancaster     This code will enable the Macintosh style theme.  I also move the setStyle to the theme manager since that seems to work now.
+665d808 2018-01-15 Robert Lancaster     Set Fusion style for all by default for now
+2a039f4 2018-01-15 Jasem Mutlaq         Do not set theme on populate
+2249102 2018-01-15 Jasem Mutlaq         Set current theme after everything else is init
+afbde64 2018-01-14 Jasem Mutlaq         More progress on theming
+6375811 2018-01-14 Jasem Mutlaq         Initial work for theming support. Nothing works.
+e703d30 2018-01-14 Jasem Mutlaq         Add logging when saving FITS to disk
+38b187e 2018-01-13 Jasem Mutlaq         Update appstream screenshots
+913faca 2018-01-13 Robert Lancaster     band-aid fix for cursor bug in FITS View
+1b8ac9c 2018-01-11 Robert Lancaster     Color scheme patch for guiding
+
 2.9.0 (Lancaster):
 =================================================================================================
 928bb5b 2018-01-08 Robert Lancaster     I was doing more testing, and the range on the sliders needs to be expanded just slightly so that it includes all the data.
