@@ -611,9 +611,7 @@ set(kstars_projection_SRCS
     projections/equirectangularprojector.cpp
     )
 
-set(kstars_extra_SRCS
-    auxiliary/thememanager.cpp
-    auxiliary/schememanager.cpp
+set(kstars_extra_SRCS    
     auxiliary/colorscheme.cpp
     auxiliary/dms.cpp
     auxiliary/cachingdms.cpp
@@ -644,6 +642,8 @@ set(kstars_extra_SRCS
 
 if(NOT BUILD_KSTARS_LITE)
     LIST(APPEND kstars_extra_SRCS
+        auxiliary/thememanager.cpp
+        auxiliary/schememanager.cpp
         auxiliary/imageviewer.cpp
         auxiliary/fov.cpp
         auxiliary/thumbnailpicker.cpp
@@ -1072,8 +1072,13 @@ if (CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.
     ADD_DEPENDENCIES(kstars extract_locale_o)
     target_link_libraries(kstars KStarsLib ${CMAKE_BINARY_DIR}/locale.o -lgnustl_static)
 else ()
-    add_executable(kstars ${KSTARS_APP_SRCS})
-    target_link_libraries(kstars KStarsLib)
+    if(BUILD_KSTARS_LITE)
+        add_executable(kstars_lite ${KSTARS_APP_SRCS})
+        target_link_libraries(kstars_lite KStarsLib)
+    else()
+        add_executable(kstars ${KSTARS_APP_SRCS})
+        target_link_libraries(kstars KStarsLib)
+    endif()
 endif ()
 
 if(NOT BUILD_KSTARS_LITE)
@@ -1088,4 +1093,6 @@ if(NOT BUILD_KSTARS_LITE)
     install(DIRECTORY ekos/mount/ DESTINATION ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml
             FILES_MATCHING PATTERN "*.png")
     endif()
-endif(NOT BUILD_KSTARS_LITE)
+elseif (NOT ANDROID)
+    install(TARGETS kstars_lite ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+endif()

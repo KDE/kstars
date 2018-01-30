@@ -194,7 +194,9 @@ void SkyMapComposite::update(KSNumbers *num)
     //2. Coordinate grid
     //m_EquatorialCoordinateGrid->update( num );
     m_HorizontalCoordinateGrid->update(num);
+    #ifndef KSTARS_LITE
     m_LocalMeridianComponent->update(num);
+    #endif
     //3. Constellation boundaries
     //m_CBounds->update( data, num );
     //4. Constellation lines
