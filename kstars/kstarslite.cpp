@@ -292,18 +292,13 @@ void KStarsLite::loadColorScheme(const QString &name)
     if (ok)
     {
         //set the application colors for the Night Vision scheme
-        if (Options::darkAppColors() == false && filename == "night.colors")
+        if (filename == "night.colors")
         {
-            Options::setDarkAppColors(true);
             OriginalPalette = QGuiApplication::palette();
             QGuiApplication::setPalette(DarkPalette);
         }
-
-        if (Options::darkAppColors() && filename != "night.colors")
-        {
-            Options::setDarkAppColors(false);
+        else
             QGuiApplication::setPalette(OriginalPalette);
-        }
 
         Options::setColorSchemeFile(name);
 
@@ -387,7 +382,7 @@ void KStarsLite::applyConfig(bool doApplyFocus)
     Q_UNUSED(doApplyFocus);
     //color scheme
     m_KStarsData->colorScheme()->loadFromConfig();
-    QGuiApplication::setPalette(Options::darkAppColors() ? DarkPalette : OriginalPalette);
+    QGuiApplication::setPalette(m_KStarsData->colorScheme()->useDarkPalette() ? DarkPalette : OriginalPalette);
 }
 
 void KStarsLite::setProjection(uint proj)
