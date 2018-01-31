@@ -406,6 +406,11 @@ void Capture::start()
 
     setBusy(true);
 
+    if (guideDeviationCheck->isChecked() && autoGuideReady == false)
+        appendLogText(i18n("Warning: Guide deviation is selected but autoguide process was not started."));
+    if (autofocusCheck->isChecked() && autoFocusReady == false)
+        appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
+
     prepareJob(first_job);
 }
 
@@ -1268,7 +1273,7 @@ bool Capture::resumeSequence()
     // Otherwise, let's prepare for next exposure after making sure in-sequence focus and dithering are complete if applicable.
     else
     {
-        isInSequenceFocus = (autofocusCheck->isEnabled() && autofocusCheck->isChecked()/* && HFRPixels->value() > 0*/);
+        isInSequenceFocus = (autoFocusReady && autofocusCheck->isChecked()/* && HFRPixels->value() > 0*/);
         if (isInSequenceFocus)
             requiredAutoFocusStarted = false;
 
@@ -1281,7 +1286,7 @@ bool Capture::resumeSequence()
         }
 
         // check if time for forced refocus
-        if (refocusEveryNCheck->isEnabled() && refocusEveryNCheck->isChecked())
+        if (autoFocusReady && refocusEveryNCheck->isChecked())
         {
             qCDebug(KSTARS_EKOS_CAPTURE) << "NFocus Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
             if (getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60)
@@ -2160,7 +2165,7 @@ void Capture::prepareJob(SequenceJob *job)
     }
 
     // If we haven't performed a single autofocus yet, we stop
-    if (!job->isPreview() && Options::enforceRefocusEveryN() && refocusEveryNCheck->isEnabled() && isInSequenceFocus == false && firstAutoFocus == true)
+    if (!job->isPreview() && Options::enforceRefocusEveryN() && autoFocusReady && isInSequenceFocus == false && firstAutoFocus == true)
     {
         appendLogText(i18n(
             "Manual scheduled focusing is not supported. Run Autofocus process before trying again."));
@@ -2432,12 +2437,7 @@ void Capture::setFocusStatus(FocusState state)
     if (focusState == FOCUS_COMPLETE)
     {
         // enable option to have a refocus event occur if HFR goes over threshold
-        autofocusCheck->setEnabled(true);
-        HFRPixels->setEnabled(true);
-
-        // also set scheduled refocus enabled
-        refocusEveryNCheck->setEnabled(true);
-        refocusEveryN->setEnabled(true);
+        autoFocusReady = true;
 
         if (focusHFR > 0 && firstAutoFocus && HFRPixels->value() == 0 && fileHFR == 0)
         {
@@ -2506,7 +2506,6 @@ void Capture::setTelescope(ISD::GDInterface *newTelescope)
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
             SLOT(processTelescopeNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
-    meridianCheck->setEnabled(true);
     meridianHours->setEnabled(true);
 
     syncTelescopeInfo();
@@ -3385,22 +3384,16 @@ int Capture::getActiveJobRemainingTime()
 
 void Capture::setMaximumGuidingDeviaiton(bool enable, double value)
 {
-    if (guideDeviationCheck->isEnabled())
-    {
-        guideDeviationCheck->setChecked(enable);
-        if (enable)
-            guideDeviation->setValue(value);
-    }
+    guideDeviationCheck->setChecked(enable);
+    if (enable)
+       guideDeviation->setValue(value);
 }
 
 void Capture::setInSequenceFocus(bool enable, double HFR)
 {
-    if (autofocusCheck->isEnabled())
-    {
-        autofocusCheck->setChecked(enable);
-        if (enable)
+    autofocusCheck->setChecked(enable);
+    if (enable)
             HFRPixels->setValue(HFR);
-    }
 }
 
 void Capture::setTemperature()
@@ -3599,7 +3592,7 @@ double Capture::getCurrentHA()
 
 bool Capture::checkMeridianFlip()
 {
-    if (meridianCheck->isEnabled() == false || meridianCheck->isChecked() == false || initialHA > 0)
+    if (currentTelescope == nullptr || meridianCheck->isChecked() == false || initialHA > 0)
         return false;
 
     double currentHA = getCurrentHA();
@@ -3737,13 +3730,11 @@ void Capture::setGuideStatus(GuideState state)
                 appendLogText(i18n("Autoguiding stopped. Aborting..."));
                 abort();
             }
-            //isAutoGuiding = false;
             break;
 
         case GUIDE_GUIDING:
         case GUIDE_CALIBRATION_SUCESS:
-            guideDeviationCheck->setEnabled(true);
-            guideDeviation->setEnabled(true);
+            autoGuideReady = true;
             break;
 
         case GUIDE_CALIBRATION_ERROR:
@@ -3761,6 +3752,7 @@ void Capture::setGuideStatus(GuideState state)
                     checkGuidingAfterFlip();
                 }
             }
+            autoGuideReady = false;
             break;
 
         case GUIDE_DITHERING_SUCCESS:
@@ -3771,7 +3763,6 @@ void Capture::setGuideStatus(GuideState state)
         case GUIDE_DITHERING_ERROR:
             appendLogText(i18n("Warning: Dithering failed. Resuming capture..."));
             resumeCapture();
-            //abort();
             break;
 
         default:
