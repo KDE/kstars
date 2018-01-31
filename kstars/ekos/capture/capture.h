@@ -549,6 +549,7 @@ class Capture : public QWidget, public Ui::Capture
     bool isBusy { false };
 
     bool useGuideHead { false };
+    bool autoGuideReady { false};
 
     QString targetName;
     QString observerName;
@@ -587,6 +588,7 @@ class Capture : public QWidget, public Ui::Capture
 
     // Autofocus
     bool isInSequenceFocus { false };
+    bool autoFocusReady { false };
     bool requiredAutoFocusStarted { false };
     bool firstAutoFocus { true };
     double focusHFR { 0 }; // HFR value as received from the Ekos focus module
