@@ -975,6 +975,8 @@ void Scheduler::start()
     currentJob        = nullptr;
     jobEvaluationOnly = false;
 
+    completedJobs.clear();
+
     // Reset all aborted jobs
     foreach (SchedulerJob *job, jobs)
     {
@@ -3917,7 +3919,20 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
         int completed = 0;
         if (rememberJobProgress)
+        {
             completed = getCompletedFiles(job->getLocalDir() + job->getDirectoryPostfix(), job->getFullPrefix());
+
+            QString signature = job->getLocalDir() + job->getDirectoryPostfix() + job->getFullPrefix();
+
+            // Subtract completed count from already completed jobs with the same signature
+            completed -= completedJobs[signature];
+
+            // Increment completed jobs for current signature accordingly
+            if (completed > job->getCount())
+                completedJobs[signature] += job->getCount();
+            else
+                completedJobs[signature] += completed;
+        }
 
         // Check if we still need any light frames. Because light frames changes the flow of the observatory startup
         // Without light frames, there is no need to do focusing, alignment, guiding...etc

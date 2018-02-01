@@ -631,5 +631,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
     QTime currentOperationTime;
 
     QUrl dirPath;
+
+    QMap<QString,uint16_t> completedJobs;
 };
 }
