@@ -1,7 +1,7 @@
 [Global]
 IconName=kstars
 Comment=KStars
-Comment[ar]=نجومك
+Comment[ar]=نجوم‌ك
 Comment[ast]=KStars
 Comment[ca]=KStars
 Comment[ca@valencia]=KStars
@@ -734,7 +734,7 @@ Sound=KDE-KStars-Alert.ogg
 Action=Sound
 [Event/SlewStarted]
 Name=Slew Started
-Name[ar]=بدأت الإدارة
+Name[ar]=بدأ تدوير الحامل
 Name[ca]=S'ha iniciat l'orientació
 Name[ca@valencia]=S'ha iniciat l'orientació
 Name[en_GB]=Slew Started
@@ -770,7 +770,7 @@ Comment[zh_TW]=正在旋轉到目標位置
 Action=None
 [Event/SlewCompleted]
 Name=Slew Completed
-Name[ar]=اكتملت الإدارة
+Name[ar]=اكتمل تدوير الحامل
 Name[ca]=S'ha completat l'orientació
 Name[ca@valencia]=S'ha completat l'orientació
 Name[en_GB]=Slew Completed
@@ -1174,7 +1174,7 @@ Name[zh_CN]=已停止录制视频
 Action=None
 [Event/MeridianFlipStarted]
 Name=Meridian Flip Started
-Name[ar]=بدأ العكس بسبب خطّ الزّوال السّماويّ
+Name[ar]=بدأ تدوير الحامل إلى الجهة الأخرى من خطّ الزّوال
 Name[ca]=S'ha iniciat la inversió del meridià
 Name[ca@valencia]=S'ha iniciat la inversió del meridià
 Name[en_GB]=Meridian Flip Started
@@ -1192,7 +1192,7 @@ Name[zh_CN]=过中天翻转开始
 Action=None
 [Event/MeridianFlipCompleted]
 Name=Meridian Flip Completed
-Name[ar]=اكتمل العكس بسبب خطّ الزّوال السّماويّ
+Name[ar]=اكتمل تدوير الحامل إلى الجهة الأخرى من خطّ الزّوال
 Name[ca]=S'ha completat la inversió del meridià
 Name[ca@valencia]=S'ha completat la inversió del meridià
 Name[en_GB]=Meridian Flip Completed
@@ -1210,7 +1210,7 @@ Name[zh_CN]=过中天翻转完毕
 Action=None
 [Event/MeridianFlipFailed]
 Name=Meridian Flip Failed
-Name[ar]=فشل العكس بسبب خطّ الزّوال السّماويّ
+Name[ar]=فشل تدوير الحامل إلى الجهة الأخرى من خطّ الزّوال
 Name[ca]=La inversió del meridià ha fallat
 Name[ca@valencia]=La inversió del meridià ha fallat
 Name[en_GB]=Meridian Flip Failed
