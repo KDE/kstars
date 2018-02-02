@@ -408,12 +408,15 @@ void Focus::syncCCDInfo()
             targetChip->getBinning(&binx, &biny);
             if (w > 0 && h > 0)
             {
+                int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
+                targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
+
                 QVariantMap settings;
 
-                settings["x"]    = x;
-                settings["y"]    = y;
-                settings["w"]    = w;
-                settings["h"]    = h;
+                settings["x"]    = useSubFrame->isChecked() ? x : minX;
+                settings["y"]    = useSubFrame->isChecked() ? y : minY;
+                settings["w"]    = useSubFrame->isChecked() ? w : maxW;
+                settings["h"]    = useSubFrame->isChecked() ? h : maxH;
                 settings["binx"] = binx;
                 settings["biny"] = biny;
 

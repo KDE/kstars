@@ -1030,12 +1030,15 @@ void Guide::updateGuideParams()
         {
             if (w > 0 && h > 0)
             {
+                int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
+                targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
+
                 QVariantMap settings;
 
-                settings["x"]    = x;
-                settings["y"]    = y;
-                settings["w"]    = w;
-                settings["h"]    = h;
+                settings["x"]    = Options::guideSubframeEnabled() ? x : minX;
+                settings["y"]    = Options::guideSubframeEnabled() ? y : minY;
+                settings["w"]    = Options::guideSubframeEnabled() ? w : maxW;
+                settings["h"]    = Options::guideSubframeEnabled() ? h : maxH;
                 settings["binx"] = subBinX;
                 settings["biny"] = subBinY;
 
