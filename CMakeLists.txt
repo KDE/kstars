@@ -230,6 +230,7 @@ add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_definitions(-DQT_STRICT_ITERATORS)
 endif()
+add_definitions(-DQT_NO_CAST_TO_ASCII)
 
 if (UNIX)
   add_definitions(-Dfexceptions)
