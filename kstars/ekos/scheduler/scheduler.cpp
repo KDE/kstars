@@ -3929,9 +3929,9 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
             // Increment completed jobs for current signature accordingly
             if (completed > job->getCount())
-                completedJobs[signature] += job->getCount();
-            else
-                completedJobs[signature] += completed;
+                completed = job->getCount();
+
+            completedJobs[signature] += completed;
         }
 
         // Check if we still need any light frames. Because light frames changes the flow of the observatory startup
