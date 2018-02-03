@@ -80,12 +80,13 @@ SkyCalendar::SkyCalendar(QWidget *parent) : QDialog(parent)
     scUI->CalendarView->setHorizon();
 
     plotButtonText = scUI->CreateButton->text();
-    connect(scUI->CreateButton, SIGNAL(clicked()), this, SLOT(slotFillCalendar()));
-    connect(scUI->LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
-}
+    connect(scUI->CreateButton, &QPushButton::clicked, [this]()
+    {
+        scUI->CreateButton->setText(i18n("Please Wait")+"...");
+        QtConcurrent::run(this, &SkyCalendar::slotFillCalendar);
+    });
 
-SkyCalendar::~SkyCalendar()
-{
+    connect(scUI->LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
 }
 
 int SkyCalendar::year()
@@ -94,10 +95,8 @@ int SkyCalendar::year()
 }
 
 void SkyCalendar::slotFillCalendar()
-{
-    calculating = true;
-    scUI->CreateButton->setEnabled(false);
-    QtConcurrent::run(this, &SkyCalendar::slotCalculating);
+{    
+    scUI->CreateButton->setEnabled(false);    
 
     scUI->CalendarView->resetPlot();
     scUI->CalendarView->setHorizon();
@@ -116,9 +115,14 @@ void SkyCalendar::slotFillCalendar()
         addPlanetEvents(KSPlanetBase::URANUS);
     if (scUI->checkBox_Neptune->isChecked())
         addPlanetEvents(KSPlanetBase::NEPTUNE);
+
+    scUI->CreateButton->setText(i18n("Plot Planetary Almanac"));
+    scUI->CreateButton->setEnabled(true);
+
     //if ( scUI->checkBox_Pluto->isChecked() )
     //addPlanetEvents( KSPlanetBase::PLUTO );
 
+/*
   {
     QMutexLocker locker(&calculationMutex);
 
@@ -126,13 +130,15 @@ void SkyCalendar::slotFillCalendar()
     scUI->CreateButton->setEnabled(true);
     scUI->CalendarView->update();
   }
+  */
 }
 
+#if 0
 void SkyCalendar::slotCalculating()
 {
   while (calculating)
   {
-    QMutexLocker locker(&calculationMutex);
+    //QMutexLocker locker(&calculationMutex);
 
     if (!calculating)
       continue;
@@ -143,12 +149,13 @@ void SkyCalendar::slotCalculating()
     scUI->CreateButton->setText(i18n("Please Wait")+".. ");
     scUI->CreateButton->repaint();
     QThread::msleep(200);
-    scUI->CreateButton->setText(i18n("Please Wait")+"...");
+
     scUI->CreateButton->repaint();
     QThread::msleep(200);
   }
   scUI->CreateButton->setText(plotButtonText);
 }
+#endif
 
 // FIXME: For the time being, adjust with dirty, cluttering labels that don't align to the line
 /*
