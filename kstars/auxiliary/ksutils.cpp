@@ -1255,7 +1255,7 @@ QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataField
     // Apply filters:
     for (int i = 0; i < filters.length(); i++)
     {
-        QString f = QString::number(i + 1);
+        QByteArray f = QByteArray::number(i + 1);
         query += "&c" + f + "_group=OBJ&c1_item=" + filters[i].item + "&c" + f + "_op=" + filters[i].op + "&c" + f +
                  "_value=" + filters[i].value;
     }
