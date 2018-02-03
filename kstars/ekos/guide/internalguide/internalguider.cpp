@@ -94,9 +94,14 @@ bool InternalGuider::abort()
         if (state == GUIDE_DITHERING)
             emit newStatus(GUIDE_DITHERING_ERROR);
         emit newStatus(GUIDE_ABORTED);
+
+        qCDebug(KSTARS_EKOS_GUIDE) << "Aborting" << getGuideStatusString(state);
     }
     else
+    {
         emit newStatus(GUIDE_IDLE);
+        qCDebug(KSTARS_EKOS_GUIDE) << "Stopping internal guider.";
+    }
 
     state = GUIDE_IDLE;
 
