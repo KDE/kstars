@@ -144,7 +144,10 @@ class SchedulerJob
     uint16_t getRepeatsRemaining() const;
     void setRepeatsRemaining(const uint16_t &value);
 
-  private:
+    QMap<QString, uint16_t> getCapturedFramesMap() const;
+    void setCapturedFramesMap(const QMap<QString, uint16_t> &value);
+
+private:
     QString name;
     SkyPoint targetCoords;
     JOBStatus state { JOB_IDLE };
@@ -183,4 +186,6 @@ class SchedulerJob
     QString dateTimeDisplayFormat;
 
     bool lightFramesRequired { false };
+
+    QMap<QString, uint16_t> capturedFramesMap;
 };

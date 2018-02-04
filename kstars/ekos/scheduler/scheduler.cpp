@@ -3817,6 +3817,23 @@ void Scheduler::startCapture()
     dbusargs.append(url);
     captureInterface->callWithArgumentList(QDBus::AutoDetect, "loadSequenceQueue", dbusargs);
 
+    QMap<QString,uint16_t> fMap = currentJob->getCapturedFramesMap();
+
+    for (auto e : fMap.keys())
+    {
+        QList<QVariant> dbusargs;
+        QDBusMessage reply;
+        dbusargs.append(e);
+        dbusargs.append(fMap.value(e));
+        if ((reply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesCount", dbusargs)).type() ==
+            QDBusMessage::ErrorMessage)
+        {
+            appendLogText(i18n("setCapturedFramesCount DBUS error: %1", reply.errorMessage()));
+            return;
+        }
+
+    }
+
     // If sequence is a loop, ignore sequence history
     if (currentJob->getCompletionCondition() != SchedulerJob::FINISH_SEQUENCE)
         captureInterface->call(QDBus::AutoDetect, "ignoreSequenceHistory");
@@ -3955,6 +3972,12 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         {
             QString signature = job->getLocalDir() + job->getDirectoryPostfix();
             completed = capturedFramesCount[signature];
+            if (completed < job->getCount())
+            {
+                QMap<QString, uint16_t> fMap = schedJob->getCapturedFramesMap();
+                fMap[signature] = completed;
+                schedJob->setCapturedFramesMap(fMap);
+            }
         }
 
         // Check if we still need any light frames. Because light frames changes the flow of the observatory startup

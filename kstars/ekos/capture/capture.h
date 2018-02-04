@@ -260,6 +260,15 @@ class Capture : public QWidget, public Ui::Capture
          */
     Q_SCRIPTABLE Q_NOREPLY void ignoreSequenceHistory();
 
+    /** DBUS interface function.
+         * Set count of already completed frames. This is required when we have identical external jobs
+         * with identical paths, but we need to continue where we left off. For example, if we have 3 identical
+         * jobs, each capturing 5 images. Let's suppose 9 images were captured before. If the count for this signature
+         * is set to 1, then we continue to capture frame #2 even though the number of completed images is already
+         * larger than required count (5). It is mostly used in conjunction with Ekos Scheduler.
+         */
+    Q_SCRIPTABLE Q_NOREPLY void setCapturedFramesMap(const QString &signature, int count);
+
     /** @}*/
 
     void addCCD(ISD::GDInterface *newCCD);
@@ -655,5 +664,8 @@ class Capture : public QWidget, public Ui::Capture
 
     // DSLR Infos
     QList<QMap<QString,QVariant>> DSLRInfos;
+
+    // Captured Frames Map
+    QMap<QString,int> capturedFramesMap;
 };
 }

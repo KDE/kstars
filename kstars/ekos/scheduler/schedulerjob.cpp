@@ -378,6 +378,16 @@ void SchedulerJob::setRepeatsRemaining(const uint16_t &value)
     repeatsRemaining = value;
 }
 
+QMap<QString, uint16_t> SchedulerJob::getCapturedFramesMap() const
+{
+    return capturedFramesMap;
+}
+
+void SchedulerJob::setCapturedFramesMap(const QMap<QString, uint16_t> &value)
+{
+    capturedFramesMap = value;
+}
+
 void SchedulerJob::setTargetCoords(dms& ra, dms& dec)
 {
     targetCoords.setRA0(ra);
