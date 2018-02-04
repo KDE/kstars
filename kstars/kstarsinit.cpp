@@ -891,7 +891,7 @@ void KStars::buildGUI()
 
     setupGUI(StandardWindowOptions(Default & ~Create));
 
-    createGUI(":/kxmlgui5/kstars/kstarsui.rc");
+    createGUI("kstarsui.rc");
 
     //get focus of keyboard and mouse actions (for example zoom in with +)
     map()->QWidget::setFocus();
