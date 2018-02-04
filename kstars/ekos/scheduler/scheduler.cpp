@@ -975,8 +975,6 @@ void Scheduler::start()
     currentJob        = nullptr;
     jobEvaluationOnly = false;
 
-    completedJobs.clear();
-
     // Reset all aborted jobs
     foreach (SchedulerJob *job, jobs)
     {
@@ -3881,8 +3879,43 @@ void Scheduler::setDirty()
         saveJob();
 }
 
+void Scheduler::updateCompletedJobsCount()
+{
+    QMap<QString,int> finishedFramesCount;
+    QList<SequenceJob *> seqjobs;
+    bool hasAutoFocus = false;
+
+    capturedFramesCount.clear();
+
+    for (SchedulerJob *oneJob : jobs)
+    {
+        if (loadSequenceQueue(oneJob->getSequenceFile().toLocalFile(), oneJob, seqjobs, hasAutoFocus) == false)
+            continue;
+
+        foreach (SequenceJob *oneSeqJob, seqjobs)
+        {
+            if (oneSeqJob->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+                continue;
+
+            QString signature = oneSeqJob->getLocalDir() + oneSeqJob->getDirectoryPostfix();
+
+            int completed = getCompletedFiles(signature, oneSeqJob->getFullPrefix());
+
+            capturedFramesCount[signature] = completed - finishedFramesCount[signature];
+
+            if (oneJob->getState() == SchedulerJob::JOB_COMPLETE)
+                finishedFramesCount[signature] = oneSeqJob->getCount();
+        }
+
+        qDeleteAll(seqjobs);
+        seqjobs.clear();
+    }
+}
+
 bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 {
+    updateCompletedJobsCount();
+
     QList<SequenceJob *> jobs;
     bool hasAutoFocus = false;
 
@@ -3920,18 +3953,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         int completed = 0;
         if (rememberJobProgress)
         {
-            completed = getCompletedFiles(job->getLocalDir() + job->getDirectoryPostfix(), job->getFullPrefix());
-
-            QString signature = job->getLocalDir() + job->getDirectoryPostfix() + job->getFullPrefix();
-
-            // Subtract completed count from already completed jobs with the same signature
-            completed -= completedJobs[signature];
-
-            // Increment completed jobs for current signature accordingly
-            if (completed > job->getCount())
-                completed = job->getCount();
-
-            completedJobs[signature] += completed;
+            QString signature = job->getLocalDir() + job->getDirectoryPostfix();
+            completed = capturedFramesCount[signature];
         }
 
         // Check if we still need any light frames. Because light frames changes the flow of the observatory startup
