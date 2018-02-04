@@ -535,6 +535,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
     bool isWeatherOK(SchedulerJob *job);
 
+    void updateCompletedJobsCount();
+
     SequenceJob *processJobInfo(XMLEle *root, SchedulerJob *schedJob);
     bool loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob *> &jobs,
                            bool &hasAutoFocus);
@@ -632,6 +634,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
     QUrl dirPath;
 
-    QMap<QString,uint16_t> completedJobs;
+    QMap<QString,uint16_t> capturedFramesCount;
 };
 }
