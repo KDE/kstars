@@ -2106,7 +2106,12 @@ void Capture::prepareJob(SequenceJob *job)
     // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system unless ignoreJobProgress is set to true
     if (ignoreJobProgress == false && activeJob->isPreview() == false)
     {
-        checkSeqBoundary(activeJob->getLocalDir() + activeJob->getDirectoryPostfix());
+        QString signature = activeJob->getLocalDir() + activeJob->getDirectoryPostfix();
+
+        checkSeqBoundary(signature);
+
+        if (capturedFramesMap.contains(signature))
+            seqFileCount = capturedFramesMap[signature];
 
         if (seqFileCount > 0)
         {
@@ -2566,6 +2571,8 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
 {
     QFile sFile;
     sFile.setFileName(fileURL);
+
+    capturedFramesMap.clear();
 
     if (!sFile.open(QIODevice::ReadOnly))
     {
@@ -4891,6 +4898,11 @@ void Capture::cullToCameraLimits()
             frameHIN->setMaximum((*pos)["Height"].toInt());
         }
     }
+}
+
+void Capture::setCapturedFramesMap(const QString &signature, int count)
+{
+    capturedFramesMap[signature] = count;
 }
 
 }

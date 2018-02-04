@@ -99,5 +99,10 @@
     <method name="ignoreSequenceHistory">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="setCapturedFramesMap">
+      <arg name="signature" type="s" direction="in"/>
+      <arg name="count" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
   </interface>
 </node>
