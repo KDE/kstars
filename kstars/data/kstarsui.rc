@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 
-<kpartgui name="KStars" version="5">
+<kpartgui name="KStars" version="6">
 <MenuBar noMerge="1">
         <Menu name="file" noMerge="1"><text>&amp;File</text>
                 <Action name="new_window" />
