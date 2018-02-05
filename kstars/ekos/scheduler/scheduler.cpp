@@ -3825,7 +3825,7 @@ void Scheduler::startCapture()
         QDBusMessage reply;
         dbusargs.append(e);
         dbusargs.append(fMap.value(e));
-        if ((reply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesCount", dbusargs)).type() ==
+        if ((reply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesMap", dbusargs)).type() ==
             QDBusMessage::ErrorMessage)
         {
             appendLogText(i18n("setCapturedFramesCount DBUS error: %1", reply.errorMessage()));
