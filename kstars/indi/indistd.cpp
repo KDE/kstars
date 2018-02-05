@@ -215,7 +215,8 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
         if (geo->name() != i18n("GPS Location"))
         {
             double TZ = geo->TZ();
-            geo = new GeoLocation(lng, lat, i18n("GPS Location"), "", "", TZ, new TimeZoneRule(), elev);
+            TimeZoneRule *rule = geo->tzrule();
+            geo = new GeoLocation(lng, lat, i18n("GPS Location"), "", "", TZ, rule, elev);
         }
         else
         {
