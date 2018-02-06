@@ -745,6 +745,9 @@ void FITSViewer::closeTab(int index)
 void FITSViewer::updateButtonStatus(const QString& action, const QString& item, bool showing)
 {
     QAction *a = actionCollection()->action(action);
+    if (a == nullptr)
+        return;
+
     if (showing)
     {
         a->setText("Hide " + item);
