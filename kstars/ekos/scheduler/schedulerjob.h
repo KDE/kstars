@@ -12,6 +12,7 @@
 #include "skypoint.h"
 
 #include <QUrl>
+#include <QMap>
 
 class QTableWidgetItem;
 
