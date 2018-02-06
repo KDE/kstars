@@ -3921,7 +3921,7 @@ void Scheduler::updateCompletedJobsCount()
             capturedFramesCount[signature] = completed - finishedFramesCount[signature];
 
             if (oneJob->getState() == SchedulerJob::JOB_COMPLETE)
-                finishedFramesCount[signature] = oneSeqJob->getCount();
+                finishedFramesCount[signature] += oneSeqJob->getCount();
         }
 
         qDeleteAll(seqjobs);
