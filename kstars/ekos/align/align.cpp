@@ -4309,11 +4309,32 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     solver_args = generateOptions(optionsMap);
 
     status = 0;
+#if 0
     if (fits_open_image(&fptr, filename.toLatin1(), READONLY, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        qWarning() << "Could not open file " << filename << "  Error: " << QString::fromUtf8(error_status);
+        qCritical(KSTARS_EKOS_ALIGN) << "Could not open file " << filename << "  Error: " << QString::fromUtf8(error_status);
+        return solver_args;
+    }
+#endif
+
+    // Use open diskfile as it does not use extended file names which has problems opening
+    // files with [ ] or ( ) in their names.
+    if (fits_open_diskfile(&fptr, filename.toLatin1(), READONLY, &status))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        qCCritical(KSTARS_EKOS_ALIGN) << QString::fromUtf8(error_status);
+        return solver_args;
+    }
+
+    status = 0;
+    if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        qCCritical(KSTARS_EKOS_ALIGN) << QString::fromUtf8(error_status);
         return solver_args;
     }
 
