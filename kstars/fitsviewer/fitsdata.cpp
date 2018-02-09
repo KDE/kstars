@@ -131,11 +131,37 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     else
         tempFile = false;
 
+#if 0
     if (fits_open_image(&fptr, filename.toLatin1(), READONLY, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
         errMessage = i18n("Could not open file %1. Error %2", filename, QString::fromUtf8(error_status));
+        if (silent == false)
+            KSNotification::error(errMessage, i18n("FITS Open"));
+        qCCritical(KSTARS_FITS) << errMessage;
+        return false;
+    }
+#endif
+
+    // Use open diskfile as it does not use extended file names which has problems opening
+    // files with [ ] or ( ) in their names.
+    if (fits_open_diskfile(&fptr, filename.toLatin1(), READONLY, &status))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        errMessage = i18n("Could not open file %1. Error %2", filename, QString::fromUtf8(error_status));
+        if (silent == false)
+            KSNotification::error(errMessage, i18n("FITS Open"));
+        qCCritical(KSTARS_FITS) << errMessage;
+        return false;
+    }
+
+    if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
+    {
+        fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+        errMessage = i18n("Could not locate image HDU. Error %2", QString::fromUtf8(error_status));
         if (silent == false)
             KSNotification::error(errMessage, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << errMessage;
@@ -318,7 +344,13 @@ int FITSData::saveFITS(const QString &newFilename)
 
         filename = finalFileName;
 
-        fits_open_image(&fptr, filename.toLatin1(), READONLY, &status);
+
+        //fits_open_image(&fptr, filename.toLatin1(), READONLY, &status);
+
+        // Use open diskfile as it does not use extended file names which has problems opening
+        // files with [ ] or ( ) in their names.
+        fits_open_diskfile(&fptr, filename.toLatin1(), READONLY, &status);
+        fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status);
 
         return 0;
     }
