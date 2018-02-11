@@ -475,6 +475,8 @@ int FITSData::saveFITS(const QString &newFilename)
 
     filename = newFilename;
 
+    fits_flush_file(fptr, &status);
+
     qCInfo(KSTARS_FITS) << "Saved FITS file:" << filename;
 
     return status;
