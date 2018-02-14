@@ -245,16 +245,9 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
     // Only attempt to set ROI and Binning if CCD transfer format is FITS
     if (activeCCD->getTransferFormat() == ISD::CCD::FORMAT_FITS)
     {
-        if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
-        {
-            status = JOB_ERROR;
-
-            if (preview == false && statusCell)
-                statusCell->setText(statusStrings[status]);
-
-            return CAPTURE_FRAME_ERROR;
-        }
-
+        // N.B. Always set binning _before_ setting frame because if the subframed image
+        // is problematic in 1x1 but works fine for 2x2, then it would fail it was set first
+        // So setting binning first always ensures this will work.
         if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
         {
             status = JOB_ERROR;
@@ -263,6 +256,16 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
                 statusCell->setText(statusStrings[status]);
 
             return CAPTURE_BIN_ERROR;
+        }
+
+        if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
+        {
+            status = JOB_ERROR;
+
+            if (preview == false && statusCell)
+                statusCell->setText(statusStrings[status]);
+
+            return CAPTURE_FRAME_ERROR;
         }
     }
 
