@@ -834,7 +834,7 @@ void Focus::capture()
         currentCCD->setBLOBEnabled(true);
     }
 
-    if (currentFilter != nullptr)
+    if (currentFilter != nullptr && FilterPosCombo->currentIndex() != -1)
     {
         if (currentFilter->isConnected() == false)
         {
@@ -850,11 +850,14 @@ void Focus::capture()
         // 2. Locked filter of CURRENT filter is a different filter.
         if (lockedFilter != "--" && lockedFilter != FilterPosCombo->currentText())
         {
-            // Go back to this filter one we are done
-            fallbackFilterPending = true;
-            fallbackFilterPosition = targetPosition;
-            targetPosition = FilterPosCombo->findText(lockedFilter) + 1;
-
+            int lockedFilterIndex = FilterPosCombo->findText(lockedFilter);
+            if (lockedFilterIndex >= 0)
+            {
+                // Go back to this filter one we are done
+                fallbackFilterPending = true;
+                fallbackFilterPosition = targetPosition;
+                targetPosition = lockedFilterIndex + 1;
+            }
         }
 
         filterPositionPending = (targetPosition != currentFilterPosition);
