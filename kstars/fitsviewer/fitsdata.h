@@ -177,6 +177,11 @@ class FITSData
     template <typename T>
     static int findCannyStar(FITSData *data, const QRect &boundary);
 
+    // Use SEP (Sextractor Library) to find stars
+    template <typename T>
+    void getFloatBuffer(float *buffer, int x, int y, int w, int h);
+    int findSEPStars(const QRect &boundary = QRect());
+
     // Half Flux Radius
     Edge *getMaxHFRStar() { return maxHFRStar; }
     double getHFR(HFRType type = HFR_AVERAGE);

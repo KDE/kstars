@@ -19,6 +19,8 @@
 
 #include "fitsdata.h"
 
+#include "sep/sep.h"
+
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "Options.h"
@@ -784,6 +786,10 @@ int FITSData::findStars(StarAlgorithm algorithm, QRect *trackingBox, bool temp)
             case ALGORITHM_THRESHOLD:
                 count = findOneStar(*trackingBox);
                 break;
+
+            case ALGORITHM_SEP:
+                count = findSEPStars(*trackingBox);
+                break;
         }
     }
     /*else if (algorithm == ALGORITHM_GRADIENT)
@@ -793,6 +799,7 @@ int FITSData::findStars(StarAlgorithm algorithm, QRect *trackingBox, bool temp)
     }*/
     else
     {
+        //count = findSEPStars();
         count = findStars();
     }
 
@@ -4018,4 +4025,166 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
 bool FITSData::contains(const QPointF &point) const
 {
     return (point.x() >= 0 && point.y() >= 0 && point.x() <= stats.width && point.y() <= stats.height);
+}
+
+int FITSData::findSEPStars(const QRect &boundary)
+{
+    int x=0,y=0,w=stats.width,h=stats.height;
+
+    if (boundary.isNull() == false)
+    {
+        x = boundary.x();
+        y = boundary.y();
+        w = boundary.width();
+        h = boundary.height();
+    }
+
+    float *data = new float[w*h];
+
+    switch (stats.bitpix)
+    {
+        case BYTE_IMG:
+            getFloatBuffer<uint8_t>(data, x, y, w, h);
+            break;
+        case SHORT_IMG:
+            getFloatBuffer<int16_t>(data, x, y, w, h);
+            break;
+        case USHORT_IMG:
+            getFloatBuffer<uint16_t>(data, x, y, w, h);
+            break;
+        case LONG_IMG:
+            getFloatBuffer<int32_t>(data, x, y, w, h);
+            break;
+        case ULONG_IMG:
+            getFloatBuffer<uint32_t>(data, x, y, w, h);
+            break;
+        case FLOAT_IMG:
+            delete [] data;
+            data = reinterpret_cast<float *>(imageBuffer);
+            break;
+        case LONGLONG_IMG:
+            getFloatBuffer<int64_t>(data, x, y, w, h);
+            break;
+        case DOUBLE_IMG:
+            getFloatBuffer<double>(data, x, y, w, h);
+            break;
+        default:
+            delete [] data;
+            return -1;
+            break;
+    }
+
+    qDeleteAll(starCenters);
+    starCenters.clear();
+
+    float *imback = nullptr;
+    double *flux= nullptr, *fluxerr= nullptr, *area= nullptr;
+    short *flag = nullptr;
+    int status = 0;
+    sep_bkg *bkg = nullptr;
+    double *flux_r = nullptr, *flux_rt = nullptr;
+    double flux_fraction = 0.5;
+    double complete_rad = 1.0;
+    short *flux_flag = nullptr, *flux_flagt = nullptr;
+    sep_catalog *catalog = nullptr;
+    float conv[] = {1,2,1, 2,4,2, 1,2,1};
+
+    // #0 Create SEP Image structure
+    sep_image im = {data, nullptr, nullptr, SEP_TFLOAT, 0, 0, w, h, 0.0, SEP_NOISE_NONE, 1.0, 0.0};
+
+    // #1 Background estimate
+    status = sep_background(&im, 64, 64, 3, 3, 0.0, &bkg);
+    if (status) goto exit;
+
+    // #2 Background evaluation
+    imback = (float *)malloc((w * h)*sizeof(float));
+    status = sep_bkg_array(bkg, imback, SEP_TFLOAT);
+    if (status) goto exit;
+
+    // #3 Background substraction
+    status = sep_bkg_subarray(bkg, im.data, im.dtype);
+    if (status) goto exit;
+
+    // #4 Source Extraction
+    // Note that we set deblend_cont = 1.0 to turn off deblending.
+    status = sep_extract(&im, 2*bkg->globalrms, SEP_THRESH_ABS, 5, conv, 3, 3, SEP_FILTER_CONV, 32, 1.0, 1, 1.0, &catalog);
+    if (status) goto exit;
+
+#if 0
+    // #4 Aperture photometry
+    im.noise = &(bkg->globalrms);  /* set image noise level */
+    im.ndtype = SEP_TFLOAT;
+    fluxt = flux = (double *)malloc(catalog->nobj * sizeof(double));
+    fluxerrt = fluxerr = (double *)malloc(catalog->nobj * sizeof(double));
+    areat = area = (double *)malloc(catalog->nobj * sizeof(double));
+    flagt = flag = (short *)malloc(catalog->nobj * sizeof(short));
+    for (int i=0; i<catalog->nobj; i++, fluxt++, fluxerrt++, flagt++, areat++)
+        sep_sum_circle(&im, catalog->x[i], catalog->y[i], 10.0, 5, 0, fluxt, fluxerrt, areat, flagt);
+#endif
+
+    flux_r = flux_rt = (double *)malloc(catalog->nobj * sizeof(double));
+    flux_flag = flux_flagt = (short *)malloc(catalog->nobj * sizeof(short));
+
+    // TODO
+    // Must detect edge detection
+    // Must limit to brightest 100 (by flux) centers
+    // Should probably use ellipse to draw instead of simple circle?
+    // Useful for galaxies and also elenogated stars.
+    for (int i=0; i<catalog->nobj; i++, flux_rt++, flux_flagt++)
+    {
+        Edge *center = new Edge;
+        center->x = catalog->x[i];
+        center->y = catalog->y[i];
+        double flux = catalog->flux[i];
+        sep_flux_radius(&im, catalog->x[i], catalog->y[i], 15.0, 5, 0, &flux, &flux_fraction, catalog->nobj, flux_rt, flux_flagt);
+        center->HFR = flux_r[i];
+        // JM: Is there a better way to get complete radius?
+        sep_flux_radius(&im, catalog->x[i], catalog->y[i], 15.0, 5, 0, &flux, &complete_rad, catalog->nobj, flux_rt, flux_flagt);
+        center->width = flux_r[i]*2;
+        appendStar(center);
+    }
+
+    qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << "#" << "#X" << "#Y" << "#Flux" << "#Radius";
+    for (int i=0; i<catalog->nobj; i++)
+          qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << catalog->x[i] << catalog->y[i] << catalog->flux[i] << flux_r[i];
+
+    exit:
+    if (stats.bitpix != FLOAT_IMG)
+        delete [] data;
+    sep_bkg_free(bkg);
+    sep_catalog_free(catalog);
+    free(flux);
+    free(fluxerr);
+    free(area);
+    free(flag);
+
+    free(flux_r);
+    free(flux_flag);
+
+    if (status)
+    {
+        char errorMessage[512];
+        sep_get_errmsg(status, errorMessage);
+        qCritical(KSTARS_FITS) << errorMessage;
+        return -1;
+    }
+
+    return starCenters.count();
+}
+
+template <typename T>
+void FITSData::getFloatBuffer(float *buffer, int x, int y, int w, int h)
+{
+   T *rawBuffer = reinterpret_cast<T *>(imageBuffer);
+
+   float *floatPtr = buffer;
+
+   for (int y1=y; y1 < h; y1++)
+   {
+       int offset = y1*stats.width;
+       for (int x1=x; x1 < w; x1++)
+       {
+           *floatPtr++ = rawBuffer[offset+x1];
+       }
+   }
 }
