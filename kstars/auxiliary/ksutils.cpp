@@ -1006,7 +1006,7 @@ void Logging::SyncFilterRules()
 {
     QString rules = QString("org.kde.kstars.ekos.debug=%1\n"
                             "org.kde.kstars.indi.debug=%2\n"
-                            "org.kde.kstars.ekos.mount.debug=%3\n"
+                            "org.kde.kstars.fits.debug=%3\n"
                             "org.kde.kstars.ekos.capture.debug=%4\n"
                             "org.kde.kstars.ekos.focus.debug=%5\n"
                             "org.kde.kstars.ekos.guide.debug=%6\n"

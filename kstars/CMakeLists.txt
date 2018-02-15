@@ -45,6 +45,18 @@ endif(BUILD_KSTARS_LITE)
 
 if(NOT BUILD_KSTARS_LITE)
     if (CFITSIO_FOUND)
+
+        set (sep_SRCS
+            fitsviewer/sep/analyse.c
+            fitsviewer/sep/aperture.c
+            fitsviewer/sep/background.c
+            fitsviewer/sep/convolve.c
+            fitsviewer/sep/deblend.c
+            fitsviewer/sep/extract.c
+            fitsviewer/sep/lutz.c
+            fitsviewer/sep/util.c
+            )
+
         set (fits_SRCS
             fitsviewer/fitshistogram.cpp
             fitsviewer/fitsdata.cpp
@@ -53,7 +65,7 @@ if(NOT BUILD_KSTARS_LITE)
             fitsviewer/fitsviewer.cpp
             fitsviewer/fitstab.cpp
             fitsviewer/fitsdebayer.cpp
-            fitsviewer/opsfits.cpp            
+            fitsviewer/opsfits.cpp
             )
 
         if (Qt5DataVisualization_FOUND)
@@ -839,6 +851,7 @@ endif(BUILD_KSTARS_LITE)
 
 set(kstars_SRCS
     ${indi_SRCS}
+    ${sep_SRCS}
     ${fits_SRCS}
     ${ekos_SRCS}
     ${onlineparser_SRCS}
