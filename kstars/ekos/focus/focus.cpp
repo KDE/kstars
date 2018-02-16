@@ -222,6 +222,8 @@ Focus::Focus()
     stepIN->setValue(Options::focusTicks());
     useAutoStar->setChecked(Options::focusAutoStarEnabled());
     focusBoxSize->setValue(Options::focusBoxSize());
+    if (Options::focusMaxTravel() > maxTravelIN->maximum())
+        maxTravelIN->setMaximum(Options::focusMaxTravel());
     maxTravelIN->setValue(Options::focusMaxTravel());
     useSubFrame->setChecked(Options::focusSubFrame());
     suspendGuideCheck->setChecked(Options::suspendGuiding());    
