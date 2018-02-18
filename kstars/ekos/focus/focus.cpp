@@ -222,6 +222,8 @@ Focus::Focus()
     stepIN->setValue(Options::focusTicks());
     useAutoStar->setChecked(Options::focusAutoStarEnabled());
     focusBoxSize->setValue(Options::focusBoxSize());
+    if (Options::focusMaxTravel() > maxTravelIN->maximum())
+        maxTravelIN->setMaximum(Options::focusMaxTravel());
     maxTravelIN->setValue(Options::focusMaxTravel());
     useSubFrame->setChecked(Options::focusSubFrame());
     suspendGuideCheck->setChecked(Options::suspendGuiding());    
@@ -834,7 +836,7 @@ void Focus::capture()
         currentCCD->setBLOBEnabled(true);
     }
 
-    if (currentFilter != nullptr)
+    if (currentFilter != nullptr && FilterPosCombo->currentIndex() != -1)
     {
         if (currentFilter->isConnected() == false)
         {
@@ -850,11 +852,14 @@ void Focus::capture()
         // 2. Locked filter of CURRENT filter is a different filter.
         if (lockedFilter != "--" && lockedFilter != FilterPosCombo->currentText())
         {
-            // Go back to this filter one we are done
-            fallbackFilterPending = true;
-            fallbackFilterPosition = targetPosition;
-            targetPosition = FilterPosCombo->findText(lockedFilter) + 1;
-
+            int lockedFilterIndex = FilterPosCombo->findText(lockedFilter);
+            if (lockedFilterIndex >= 0)
+            {
+                // Go back to this filter one we are done
+                fallbackFilterPending = true;
+                fallbackFilterPosition = targetPosition;
+                targetPosition = lockedFilterIndex + 1;
+            }
         }
 
         filterPositionPending = (targetPosition != currentFilterPosition);

@@ -82,9 +82,7 @@ bool ServerManager::start()
 
     QStringList args;
 
-    args << "-v"
-         << "-p" << port << "-m"
-         << "100";
+    args << "-v" << "-p" << port;
 
     QString fifoFile = QString("/tmp/indififo%1").arg(QUuid::createUuid().toString().mid(1, 8));
 
