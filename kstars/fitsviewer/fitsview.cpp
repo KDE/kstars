@@ -1275,14 +1275,14 @@ void FITSView::togglePixelGrid()
     updateFrame();
 }
 
-int FITSView::findStars(StarAlgorithm algorithm)
+int FITSView::findStars(StarAlgorithm algorithm, const QRect &searchBox)
 {
     int count = 0;
 
     if(trackingBoxEnabled)
-        count = imageData->findStars(algorithm, &trackingBox);
+        count = imageData->findStars(algorithm, trackingBox);
     else
-        count = imageData->findStars(algorithm);
+        count = imageData->findStars(algorithm, searchBox);
 
     return count;
 }
