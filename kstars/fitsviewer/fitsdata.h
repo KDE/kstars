@@ -33,7 +33,6 @@
 
 #include <QObject>
 #include <QRect>
-#include <QRectF>
 
 #ifndef KSTARS_LITE
 #include "fitshistogram.h"
@@ -163,14 +162,12 @@ class FITSData
     bool areStarsSearched() { return starsSearched; }
     void appendStar(Edge *newCenter) { starCenters.append(newCenter); }
     QList<Edge *> getStarCenters() { return starCenters; }
-    QList<Edge *> getStarCentersInSubFrame(QRect subFrame);
-    int findStars(QRect *trackingBox, bool temp);
-    int findStars(StarAlgorithm algorithm, QRect *trackingBox = nullptr, bool temp = false);
-    int findStars(const QRectF &boundary = QRectF(), bool force = false);
-    void findCentroid(const QRectF &boundary = QRectF(), int initStdDev = MINIMUM_STDVAR,
-                      int minEdgeWidth = MINIMUM_PIXEL_RANGE);
+    QList<Edge *> getStarCentersInSubFrame(QRect subFrame);    
+
+    int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &trackingBox = QRect());
+
     void getCenterSelection(int *x, int *y);
-    int findOneStar(const QRectF &boundary);
+    int findOneStar(const QRect &boundary);
 
     // Star Detection - Partially customized Canny edge detection algorithm
     static int findCannyStar(FITSData *data, const QRect &boundary = QRect());
@@ -300,10 +297,12 @@ class FITSData
     void applyFilter(FITSScale type, uint8_t *targetImage, float image_min, float image_max);
     // Star Detect - Centroid
     template <typename T>
-    void findCentroid(const QRectF &boundary, int initStdDev, int minEdgeWidth);
+    int findCentroid(const QRect &boundary, int initStdDev, int minEdgeWidth);
+    int findCentroid(const QRect &boundary = QRect(), int initStdDev = MINIMUM_STDVAR,
+                      int minEdgeWidth = MINIMUM_PIXEL_RANGE);
     // Star Detect - Threshold
     template <typename T>
-    int findOneStar(const QRectF &boundary);
+    int findOneStar(const QRect &boundary);
 
     template <typename T>
     void calculateMinMax();

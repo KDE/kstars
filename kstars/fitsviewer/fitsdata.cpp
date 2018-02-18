@@ -761,53 +761,34 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     return 0;
 }
 
-int FITSData::findStars(QRect *trackingBox, bool temp)
-{
-    return findStars(starAlgorithm, trackingBox, temp);
-}
-
-int FITSData::findStars(StarAlgorithm algorithm, QRect *trackingBox, bool temp)
+int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
 {
     int count = 0;
     starAlgorithm = algorithm;
 
-    if (trackingBox)
-    {
-        switch (algorithm)
-        {
-            case ALGORITHM_GRADIENT:
-                count = findCannyStar(this, *trackingBox);
-                break;
+    qDeleteAll(starCenters);
+    starCenters.clear();
 
-            case ALGORITHM_CENTROID:
-                count = findStars(*trackingBox, temp); //if it is a temp, we want it to search for stars, so yes force it.
-                break;
-
-            case ALGORITHM_THRESHOLD:
-                count = findOneStar(*trackingBox);
-                break;
-
-            case ALGORITHM_SEP:
-                count = findSEPStars(*trackingBox);
-                break;
-        }
-    }
-    /*else if (algorithm == ALGORITHM_GRADIENT)
+    switch (algorithm)
     {
-        QRect boundary(0,0, image_data->getWidth(), image_data->getHeight());
-        count = FITSData::findCannyStar(image_data, boundary);
-    }*/
-    else
-    {
-        //count = findSEPStars();
-        count = findStars();
+    case ALGORITHM_SEP:
+        count = findSEPStars(trackingBox);
+        break;
+
+    case ALGORITHM_GRADIENT:
+        count = findCannyStar(this, trackingBox);
+        break;
+
+    case ALGORITHM_CENTROID:
+        count = findCentroid(trackingBox);
+        break;
+
+    case ALGORITHM_THRESHOLD:
+        count = findOneStar(trackingBox);
+        break;
     }
 
-    //If it is a temp search, we want it to search again after its done.
-    if(temp)
-        starsSearched = false;
-    else
-        starsSearched = true;
+    starsSearched = true;
 
     return count;
 }
@@ -1052,7 +1033,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     return 1;
 }
 
-int FITSData::findOneStar(const QRectF &boundary)
+int FITSData::findOneStar(const QRect &boundary)
 {
     switch (data_type)
     {
@@ -1096,8 +1077,11 @@ int FITSData::findOneStar(const QRectF &boundary)
 }
 
 template <typename T>
-int FITSData::findOneStar(const QRectF &boundary)
+int FITSData::findOneStar(const QRect &boundary)
 {
+    if (boundary.isEmpty())
+        return -1;
+
     int subX = boundary.x();
     int subY = boundary.y();
     int subW = subX + boundary.width();
@@ -1241,49 +1225,49 @@ int FITSData::findOneStar(const QRectF &boundary)
 }
 
 /*** Find center of stars and calculate Half Flux Radius */
-void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeWidth)
+int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWidth)
 {
     switch (data_type)
     {
         case TBYTE:
-            findCentroid<uint8_t>(boundary, initStdDev, minEdgeWidth);
+            return findCentroid<uint8_t>(boundary, initStdDev, minEdgeWidth);
             break;
 
         case TSHORT:
-            findCentroid<int16_t>(boundary, initStdDev, minEdgeWidth);
+            return findCentroid<int16_t>(boundary, initStdDev, minEdgeWidth);
             break;
 
         case TUSHORT:
-            findCentroid<uint16_t>(boundary, initStdDev, minEdgeWidth);
+            return findCentroid<uint16_t>(boundary, initStdDev, minEdgeWidth);
             break;
 
         case TLONG:
-            findCentroid<int32_t>(boundary, initStdDev, minEdgeWidth);
+            return findCentroid<int32_t>(boundary, initStdDev, minEdgeWidth);
             break;
 
         case TULONG:
-            findCentroid<uint32_t>(boundary, initStdDev, minEdgeWidth);
+            return findCentroid<uint32_t>(boundary, initStdDev, minEdgeWidth);
             break;
 
         case TFLOAT:
-            findCentroid<float>(boundary, initStdDev, minEdgeWidth);
+            return findCentroid<float>(boundary, initStdDev, minEdgeWidth);
             break;
 
         case TLONGLONG:
-            findCentroid<int64_t>(boundary, initStdDev, minEdgeWidth);
+            return findCentroid<int64_t>(boundary, initStdDev, minEdgeWidth);
             break;
 
         case TDOUBLE:
-            findCentroid<double>(boundary, initStdDev, minEdgeWidth);
+            return findCentroid<double>(boundary, initStdDev, minEdgeWidth);
             break;
 
         default:
-            return;
+            return -1;
     }
 }
 
 template <typename T>
-void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeWidth)
+int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWidth)
 {
     double threshold = 0, sum = 0, avg = 0, min = 0;
     int starDiameter     = 0;
@@ -1455,7 +1439,7 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
         {
            qCWarning(KSTARS_FITS) << "Too many edges, aborting... " << edges.count();
            qDeleteAll(edges);
-           return;
+           return -1;
         }
 
         if (edges.count() >= minimumEdgeCount)
@@ -1635,6 +1619,8 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
 
     // Release memory
     qDeleteAll(edges);
+
+    return starCenters.count();
 }
 
 double FITSData::getHFR(HFRType type)
@@ -2127,24 +2113,6 @@ QList<Edge *> FITSData::getStarCentersInSubFrame(QRect subFrame)
         }
     }
     return starCentersInSubFrame;
-}
-
-int FITSData::findStars(const QRectF &boundary, bool force)
-{
-    //if (histogram == nullptr)
-    //return -1;
-
-    if (starsSearched == false || force)
-    {
-        qDeleteAll(starCenters);
-        starCenters.clear();
-        findCentroid(boundary);
-        getHFR();
-    }
-
-    starsSearched = true;
-
-    return starCenters.count();
 }
 
 void FITSData::getCenterSelection(int *x, int *y)
@@ -4029,7 +3997,7 @@ bool FITSData::contains(const QPointF &point) const
 
 int FITSData::findSEPStars(const QRect &boundary)
 {
-    int x=0,y=0,w=stats.width,h=stats.height;
+    int x=0,y=0,w=stats.width,h=stats.height, maxRadius=50;
 
     if (boundary.isNull() == false)
     {
@@ -4037,6 +4005,7 @@ int FITSData::findSEPStars(const QRect &boundary)
         y = boundary.y();
         w = boundary.width();
         h = boundary.height();
+        maxRadius = w;
     }
 
     float *data = new float[w*h];
@@ -4074,20 +4043,17 @@ int FITSData::findSEPStars(const QRect &boundary)
             break;
     }
 
-    qDeleteAll(starCenters);
-    starCenters.clear();
-
     float *imback = nullptr;
     double *flux= nullptr, *fluxerr= nullptr, *area= nullptr;
     short *flag = nullptr;
+    short flux_flag=0;
     int status = 0;
-    sep_bkg *bkg = nullptr;
-    double *flux_r = nullptr, *flux_rt = nullptr;
-    double flux_fraction = 0.5;
-    double complete_rad = 1.0;
-    short *flux_flag = nullptr, *flux_flagt = nullptr;
+    sep_bkg *bkg = nullptr;    
     sep_catalog *catalog = nullptr;
     float conv[] = {1,2,1, 2,4,2, 1,2,1};
+    double flux_fractions[2] = {0};
+    double requested_frac[2] = { 0.5, 1.0 };
+    QList<Edge*> edges;
 
     // #0 Create SEP Image structure
     sep_image im = {data, nullptr, nullptr, SEP_TFLOAT, 0, 0, w, h, 0.0, SEP_NOISE_NONE, 1.0, 0.0};
@@ -4122,31 +4088,43 @@ int FITSData::findSEPStars(const QRect &boundary)
         sep_sum_circle(&im, catalog->x[i], catalog->y[i], 10.0, 5, 0, fluxt, fluxerrt, areat, flagt);
 #endif
 
-    flux_r = flux_rt = (double *)malloc(catalog->nobj * sizeof(double));
-    flux_flag = flux_flagt = (short *)malloc(catalog->nobj * sizeof(short));
-
     // TODO
     // Must detect edge detection
     // Must limit to brightest 100 (by flux) centers
     // Should probably use ellipse to draw instead of simple circle?
     // Useful for galaxies and also elenogated stars.
-    for (int i=0; i<catalog->nobj; i++, flux_rt++, flux_flagt++)
+    for (int i=0; i<catalog->nobj; i++)
     {
-        Edge *center = new Edge;
-        center->x = catalog->x[i];
-        center->y = catalog->y[i];
         double flux = catalog->flux[i];
-        sep_flux_radius(&im, catalog->x[i], catalog->y[i], 15.0, 5, 0, &flux, &flux_fraction, catalog->nobj, flux_rt, flux_flagt);
-        center->HFR = flux_r[i];
-        // JM: Is there a better way to get complete radius?
-        sep_flux_radius(&im, catalog->x[i], catalog->y[i], 15.0, 5, 0, &flux, &complete_rad, catalog->nobj, flux_rt, flux_flagt);
-        center->width = flux_r[i]*2;
-        appendStar(center);
+        // Get HFR
+        sep_flux_radius(&im, catalog->x[i], catalog->y[i], maxRadius, 5, 0, &flux, requested_frac, 2, flux_fractions, &flux_flag);
+
+        Edge *center = new Edge();
+        center->x = catalog->x[i]+x+0.5;
+        center->y = catalog->y[i]+y+0.5;
+        center->val = catalog->peak[i];
+        center->sum = flux;
+        center->HFR = flux_fractions[0];
+        center->width = flux_fractions[1]*2;
+        edges.append(center);
     }
 
-    qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << "#" << "#X" << "#Y" << "#Flux" << "#Radius";
-    for (int i=0; i<catalog->nobj; i++)
-          qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << catalog->x[i] << catalog->y[i] << catalog->flux[i] << flux_r[i];
+    // Let's sort edges, starting with widest
+    qSort(edges.begin(), edges.end(), [](const Edge *edge1, const Edge *edge2) -> bool { return edge1->width > edge2->width;});
+
+    // Take only the first 100 stars
+    {
+        int starCount = qMin(100, edges.count());
+        for (int i=0; i < starCount; i++)
+            starCenters.append(edges[i]);
+    }
+
+    edges.clear();
+
+    qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << "#" << "#X" << "#Y" << "#Flux" << "#Width" << "#HFR";;
+    for (int i=0; i < starCenters.count(); i++)
+          qCDebug(KSTARS_FITS) << qSetFieldWidth(10) << i << starCenters[i]->x << starCenters[i]->y
+                               << starCenters[i]->sum << starCenters[i]->width << starCenters[i]->HFR;
 
     exit:
     if (stats.bitpix != FLOAT_IMG)
@@ -4157,9 +4135,6 @@ int FITSData::findSEPStars(const QRect &boundary)
     free(fluxerr);
     free(area);
     free(flag);
-
-    free(flux_r);
-    free(flux_flag);
 
     if (status)
     {
@@ -4179,10 +4154,13 @@ void FITSData::getFloatBuffer(float *buffer, int x, int y, int w, int h)
 
    float *floatPtr = buffer;
 
-   for (int y1=y; y1 < h; y1++)
+   int x2 = x+w;
+   int y2 = y+h;
+
+   for (int y1=y; y1 < y2; y1++)
    {
        int offset = y1*stats.width;
-       for (int x1=x; x1 < w; x1++)
+       for (int x1=x; x1 < x2; x1++)
        {
            *floatPtr++ = rawBuffer[offset+x1];
        }

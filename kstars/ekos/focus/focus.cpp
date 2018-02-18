@@ -952,12 +952,12 @@ bool Focus::focusIn(int ms)
     if (canAbsMove)
     {
         currentFocuser->moveAbs(currentPosition - ms);
-        appendLogText(i18n("Focusing inward..."));
+        appendLogText(i18n("Focusing inward by %1 steps...", ms));
     }
     else if (canRelMove)
     {
         currentFocuser->moveRel(ms);
-        appendLogText(i18n("Focusing inward..."));
+        appendLogText(i18n("Focusing inward by %1 steps...", ms));
     }
     else
     {
@@ -991,12 +991,12 @@ bool Focus::focusOut(int ms)
     if (canAbsMove)
     {
         currentFocuser->moveAbs(currentPosition + ms);
-        appendLogText(i18n("Focusing outward..."));
+        appendLogText(i18n("Focusing outward by %1 steps...", ms));
     }
     else if (canRelMove)
     {
         currentFocuser->moveRel(ms);
-        appendLogText(i18n("Focusing outward..."));
+        appendLogText(i18n("Focusing outward by %1 steps...", ms));
     }
     else
     {
@@ -1095,8 +1095,11 @@ void Focus::setCaptureComplete()
             currentHFR = -1;
 
             if (Options::focusUseFullField())
-            {
-                focusView->findStars(ALGORITHM_CENTROID);
+            {                
+                if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
+                    focusView->findStars(ALGORITHM_CENTROID);
+                else
+                    focusView->findStars(focusDetection);
                 focusView->updateFrame();
                 currentHFR = image_data->getHFR(HFR_AVERAGE);
             }
@@ -1110,7 +1113,10 @@ void Focus::setCaptureComplete()
                 }
                 else
                 {
-                    focusView->findStars(ALGORITHM_CENTROID);
+                    if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
+                        focusView->findStars(ALGORITHM_CENTROID);
+                    else
+                        focusView->findStars(focusDetection);
                     focusView->updateFrame();
                     currentHFR = image_data->getHFR(HFR_MAX);
                 }
@@ -2053,6 +2059,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (adjustFocus && nvp->s == IPS_OK)
         {
             adjustFocus = false;
+            lastFocusDirection = FOCUS_NONE;
             emit focusPositionAdjusted();
             return;
         }
@@ -2094,6 +2101,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (adjustFocus && nvp->s == IPS_OK)
         {
             adjustFocus = false;
+            lastFocusDirection = FOCUS_NONE;
             emit focusPositionAdjusted();
             return;
         }

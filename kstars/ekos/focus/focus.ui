@@ -431,7 +431,8 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset theme="view-filter"/>
+               <iconset theme="view-filter">
+                <normaloff>.</normaloff>.</iconset>
               </property>
              </widget>
             </item>
@@ -724,6 +725,11 @@
             </item>
             <item row="5" column="3">
              <widget class="QComboBox" name="focusDetectionCombo">
+              <item>
+               <property name="text">
+                <string>SEP</string>
+               </property>
+              </item>
               <item>
                <property name="text">
                 <string>Gradient</string>
