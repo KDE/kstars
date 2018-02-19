@@ -840,7 +840,7 @@ bool InternalGuider::processGuiding()
     // calc math. it tracks square
     pmath->performProcessing();
 
-    if (pmath->isStarLost() && ++m_lostStarTries > 2)
+    if (pmath->isStarLost() && ++m_lostStarTries > 10)
     {
         emit newLog(i18n("Lost track of the guide star. Try increasing the square size and check the mount."));
         abort();
