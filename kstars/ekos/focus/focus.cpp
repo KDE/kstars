@@ -645,7 +645,7 @@ void Focus::start()
     {
         appendLogText(i18n("No CCD connected."));
         return;
-    }
+    }    
 
     lastFocusDirection = FOCUS_NONE;
 
@@ -792,6 +792,9 @@ void Focus::stop(bool aborted)
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
 
+    if (rememberCCDExposureLooping)
+        currentCCD->setExposureLoopingEnabled(true);
+
     targetChip->abortExposure();
 
     //resetFrame();
@@ -877,6 +880,10 @@ void Focus::capture()
         rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
         currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
+
+    rememberCCDExposureLooping = currentCCD->isLooping();
+    if (rememberCCDExposureLooping)
+        currentCCD->setExposureLoopingEnabled(false);
 
     currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
 
@@ -1074,6 +1081,9 @@ void Focus::setCaptureComplete()
         stopFocusB->setEnabled(false);
         currentCCD->setUploadMode(rememberUploadMode);
     }
+
+    if (rememberCCDExposureLooping)
+        currentCCD->setExposureLoopingEnabled(true);
 
     captureInProgress = false;
 
@@ -1486,7 +1496,7 @@ void Focus::setCaptureComplete()
         state = Ekos::FOCUS_PROGRESS;
         qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
         emit newStatus(state);
-    }
+    }    
 
     if (canAbsMove || canRelMove)
         autoFocusAbs();

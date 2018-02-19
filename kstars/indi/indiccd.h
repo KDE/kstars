@@ -101,9 +101,9 @@ class CCDChip
     int getISOIndex() const;
     bool setISOIndex(int value);
 
-    QStringList getISOList() const;
+    QStringList getISOList() const;    
 
-  private:
+private:
     QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage, alignImage;
     FITSData *imageData { nullptr };
     FITSMode captureMode { FITS_NORMAL };
@@ -218,6 +218,9 @@ class CCD : public DeviceDecorator
     TransferFormat getTargetTransferFormat() const;
     void setTargetTransferFormat(const TransferFormat &value);
 
+    bool setExposureLoopingEnabled(bool enable);
+    bool isLooping() const { return IsLooping; }
+
   public slots:
     void FITSViewerDestroyed();
     void StreamWindowHidden();
@@ -242,6 +245,7 @@ class CCD : public DeviceDecorator
     bool HasCooler { false };
     bool HasCoolerControl { false };
     bool HasVideoStream { false };
+    bool IsLooping { false };
     QString seqPrefix;
     QString fitsDir;
     char BLOBFilename[MAXINDIFILENAME+1];
