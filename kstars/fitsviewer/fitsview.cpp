@@ -1254,7 +1254,10 @@ void FITSView::viewStarProfile()
     QList<Edge *> starCenters = imageData->getStarCentersInSubFrame(trackingBox);
     if(starCenters.size() == 0)
     {
-        imageData->findStars(&trackingBox, true);
+        // FIXME, the following does not work anymore.
+        //imageData->findStars(&trackingBox, true);
+        // FIXME replacing it with this
+        imageData->findStars(ALGORITHM_CENTROID, trackingBox);
         starCenters = imageData->getStarCentersInSubFrame(trackingBox);
     }
 
