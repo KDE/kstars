@@ -738,6 +738,9 @@ class Align : public QWidget, public Ui::Align
     double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
     bool domeReady = true;
 
+    // CCD Exposure Looping
+    bool rememberCCDExposureLooping = { false };
+
     // Filter Manager
     QSharedPointer<FilterManager> filterManager;
 };

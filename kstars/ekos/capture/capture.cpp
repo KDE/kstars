@@ -429,7 +429,7 @@ void Capture::stop(bool abort)
             KNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture failed with errors"));
             activeJob->abort();
             emit newStatus(Ekos::CAPTURE_ABORTED);
-        }
+        }        
 
         // In case of batch job
         if (activeJob->isPreview() == false)
@@ -479,6 +479,10 @@ void Capture::stop(bool abort)
                SLOT(setExposureProgress(ISD::CCDChip *, double, IPState)));
 
     currentCCD->setFITSDir("");
+
+    // In case of exposure looping, let's abort
+    if (currentCCD->isLooping())
+        targetChip->abortExposure();
 
     imgProgress->reset();
     imgProgress->setEnabled(false);
@@ -1091,28 +1095,31 @@ void Capture::newFITS(IBLOB *bp)
         if (QString(bp->bvp->device) != currentCCD->getDeviceName() || state == CAPTURE_IDLE)
             return;
 
-        disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
-        disconnect(currentCCD, SIGNAL(newImage(QImage *, ISD::CCDChip *)), this,
-                   SLOT(sendNewImage(QImage *, ISD::CCDChip *)));
-
-        if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
+        if (currentCCD->isLooping() == false)
         {
-            FITSView *currentImage = targetChip->getImageView(FITS_NORMAL);
-            FITSData *darkData     = DarkLibrary::Instance()->getDarkFrame(targetChip, activeJob->getExposure());
-            uint16_t offsetX       = activeJob->getSubX() / activeJob->getXBin();
-            uint16_t offsetY       = activeJob->getSubY() / activeJob->getYBin();
+            disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
+            disconnect(currentCCD, SIGNAL(newImage(QImage *, ISD::CCDChip *)), this,
+                       SLOT(sendNewImage(QImage *, ISD::CCDChip *)));
 
-            connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
-            connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+            if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
+            {
+                FITSView *currentImage = targetChip->getImageView(FITS_NORMAL);
+                FITSData *darkData     = DarkLibrary::Instance()->getDarkFrame(targetChip, activeJob->getExposure());
+                uint16_t offsetX       = activeJob->getSubX() / activeJob->getXBin();
+                uint16_t offsetY       = activeJob->getSubY() / activeJob->getYBin();
 
-            if (darkData)
-                DarkLibrary::Instance()->subtract(darkData, currentImage, activeJob->getCaptureFilter(), offsetX,
-                                                  offsetY);
-            else
-                DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, activeJob->getExposure(), offsetX,
-                                                            offsetY);
+                connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
+                connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
 
-            return;
+                if (darkData)
+                    DarkLibrary::Instance()->subtract(darkData, currentImage, activeJob->getCaptureFilter(), offsetX,
+                                                      offsetY);
+                else
+                    DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, activeJob->getExposure(), offsetX,
+                                                                offsetY);
+
+                return;
+            }
         }
     }
     else
@@ -1123,9 +1130,13 @@ void Capture::newFITS(IBLOB *bp)
 
 bool Capture::setCaptureComplete()
 {
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
-               SLOT(setExposureProgress(ISD::CCDChip *, double, IPState)));
-    DarkLibrary::Instance()->disconnect(this);
+    if (currentCCD->isLooping() == false)
+    {
+        disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
+                   SLOT(setExposureProgress(ISD::CCDChip *, double, IPState)));
+        DarkLibrary::Instance()->disconnect(this);
+    }
+
     secondsLabel->setText(i18n("Complete."));
 
     KNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"));
@@ -1269,7 +1280,7 @@ bool Capture::resumeSequence()
             qCDebug(KSTARS_EKOS_CAPTURE) << "All capture jobs complete.";
             return false;
         }
-    }
+    }            
     // Otherwise, let's prepare for next exposure after making sure in-sequence focus and dithering are complete if applicable.
     else
     {
@@ -1302,16 +1313,27 @@ bool Capture::resumeSequence()
             emit resumeGuiding();
         }
 
-        // Dither either when guiding or IF Non-Guide either option is enabled
-        // 2017-09-20 Jasem: No need to dither after post meridian flip guiding
-        if ( meridianFlipStage != MF_GUIDING && (guideState == GUIDE_GUIDING || Options::ditherNoGuiding()) && Options::ditherEnabled() && activeJob->getFrameType() == FRAME_LIGHT &&
-            --ditherCounter == 0)
-        {
+        // Dither either when guiding or IF Non-Guide either option is enabled        
+        if ( Options::ditherEnabled()
+             // 2017-09-20 Jasem: No need to dither after post meridian flip guiding
+             && meridianFlipStage != MF_GUIDING
+             // If CCD is looping, we cannot dither UNLESS a different camera and NOT a guide chip is doing the guiding for us.
+             && (currentCCD->isLooping() == false || guideChip == nullptr)
+             // We must be either in guide mode or if non-guide dither (via pulsing) is enabled
+             && (guideState == GUIDE_GUIDING || Options::ditherNoGuiding())
+             // Must be only done for light frames
+             && activeJob->getFrameType() == FRAME_LIGHT
+             // Check dither counter
+             && --ditherCounter == 0)
+        {            
             ditherCounter = Options::ditherFrames();
 
             secondsLabel->setText(i18n("Dithering..."));
 
             qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering...";
+
+            if (currentCCD->isLooping())
+                targetChip->abortExposure();
 
             state = CAPTURE_DITHERING;
             emit newStatus(Ekos::CAPTURE_DITHERING);
@@ -1321,6 +1343,9 @@ bool Capture::resumeSequence()
             appendLogText(i18n("Scheduled refocus started..."));
 
             secondsLabel->setText(i18n("Focusing..."));
+
+            if (currentCCD->isLooping())
+                targetChip->abortExposure();
 
             // force refocus
             emit checkFocus(0.1);
@@ -1345,6 +1370,10 @@ bool Capture::resumeSequence()
             }
 
             secondsLabel->setText(i18n("Focusing..."));
+
+            if (currentCCD->isLooping())
+                targetChip->abortExposure();
+
             if (HFRPixels->value() == 0)
                 emit checkFocus(0.1);
             else
@@ -1356,7 +1385,19 @@ bool Capture::resumeSequence()
             emit newStatus(Ekos::CAPTURE_FOCUSING);
         }
         else
-            startNextExposure();
+        {
+            // If looping, we just increment the file system image count
+            if (currentCCD->isLooping())
+            {
+                if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+                {
+                    checkSeqBoundary(activeJob->getLocalDir() + activeJob->getDirectoryPostfix());
+                    currentCCD->setNextSequenceID(nextSequenceID);
+                }
+            }
+            else
+                startNextExposure();
+        }
     }
 
     return true;
@@ -1482,14 +1523,20 @@ void Capture::captureImage()
     // If using DSLR, make sure it is set to correct transfer format
     currentCCD->setTransformFormat(activeJob->getTransforFormat());
 
+    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this,
+            SLOT(setExposureProgress(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
+
     rc = activeJob->capture(darkSubCheck->isChecked() ? true : false);
 
+    if (rc != SequenceJob::CAPTURE_OK)
+    {
+        disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this,
+                SLOT(setExposureProgress(ISD::CCDChip*,double,IPState)));
+    }
     switch (rc)
     {
         case SequenceJob::CAPTURE_OK:
-            connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this,
-                    SLOT(setExposureProgress(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
-            appendLogText(i18n("Capturing image..."));
+                appendLogText(i18n("Capturing image..."));
             break;
 
         case SequenceJob::CAPTURE_FRAME_ERROR:

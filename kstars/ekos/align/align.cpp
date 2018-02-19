@@ -2468,6 +2468,10 @@ bool Align::captureAndSolve()
         currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
+    rememberCCDExposureLooping = currentCCD->isLooping();
+    if (rememberCCDExposureLooping)
+        currentCCD->setExposureLoopingEnabled(false);
+
     // Remove temporary FITS files left before by the solver
     QDir dir(QDir::tempPath());
     dir.setNameFilters(QStringList() << "fits*"
@@ -2937,6 +2941,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
 
+    if (rememberCCDExposureLooping)
+        currentCCD->setExposureLoopingEnabled(true);
+
     //if (syncR->isChecked() || nothingR->isChecked() || targetDiff <= accuracySpin->value())
     // CONTINUE HERE
 
@@ -3153,6 +3160,9 @@ void Align::abort()
 
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
+
+    if (rememberCCDExposureLooping)
+        currentCCD->setExposureLoopingEnabled(true);
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 

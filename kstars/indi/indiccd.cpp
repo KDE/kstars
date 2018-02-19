@@ -872,6 +872,18 @@ void CCD::registerProperty(INDI::Property *prop)
                 transferFormat = FORMAT_FITS;
         }
     }
+    else if (!strcmp(prop->getName(), "CCD_EXPOSURE_LOOP"))
+    {
+        ISwitchVectorProperty *sp = prop->getSwitch();
+        if (sp)
+        {
+            ISwitch *looping = IUFindSwitch(sp, "LOOP_ON");
+            if (looping && looping->s == ISS_ON)
+                IsLooping = true;
+            else
+                IsLooping = false;
+        }
+    }
     else if (!strcmp(prop->getName(), "TELESCOPE_TYPE"))
     {
         ISwitchVectorProperty *sp = prop->getSwitch();
@@ -1080,6 +1092,14 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             telescopeType = TELESCOPE_PRIMARY;
         else
             telescopeType = TELESCOPE_GUIDE;
+    }
+    else if (!strcmp(svp->name, "CCD_EXPOSURE_LOOP"))
+    {
+        ISwitch *looping = IUFindSwitch(svp, "LOOP_ON");
+        if (looping && looping->s == ISS_ON)
+            IsLooping = true;
+         else
+            IsLooping = false;
     }
     else if (!strcmp(svp->name, "CONNECTION"))
     {
@@ -2317,4 +2337,20 @@ bool CCD::setBLOBEnabled(bool enable)
     return true;
 }
 
+bool CCD::setExposureLoopingEnabled(bool enable)
+{
+    // Set value immediately
+    IsLooping = enable;
+
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("CCD_EXPOSURE_LOOP");
+
+    if (svp == nullptr)
+        return false;
+
+    svp->sp[0].s = enable ? ISS_ON : ISS_OFF;
+    svp->sp[1].s = enable ? ISS_OFF : ISS_ON;
+    clientManager->sendNewSwitch(svp);
+
+    return true;
+}
 }

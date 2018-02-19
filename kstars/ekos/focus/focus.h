@@ -445,6 +445,8 @@ class Focus : public QWidget, public Ui::Focus
     int activeBin { 0 };
     /// HFR values for captured frames before averages
     QVector<double> HFRFrames;
+    // CCD Exposure Looping
+    bool rememberCCDExposureLooping = { false };
 
     QStringList logText;
     ITextVectorProperty *filterName { nullptr };
