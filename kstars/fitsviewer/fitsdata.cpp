@@ -4073,7 +4073,7 @@ int FITSData::findSEPStars(const QRect &boundary)
 
     // #4 Source Extraction
     // Note that we set deblend_cont = 1.0 to turn off deblending.
-    status = sep_extract(&im, 2*bkg->globalrms, SEP_THRESH_ABS, 5, conv, 3, 3, SEP_FILTER_CONV, 32, 1.0, 1, 1.0, &catalog);
+    status = sep_extract(&im, 2*bkg->globalrms, SEP_THRESH_ABS, 10, conv, 3, 3, SEP_FILTER_CONV, 32, 1.0, 1, 1.0, &catalog);
     if (status) goto exit;
 
 #if 0
