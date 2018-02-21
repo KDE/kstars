@@ -112,7 +112,7 @@ class FITSView : public QScrollArea
     QPoint getImagePoint(QPoint viewPortPoint);
 
     // Star Detection
-    int findStars(StarAlgorithm algorithm = ALGORITHM_SEP, const QRect &searchBox = QRect());
+    int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &searchBox = QRect());
     void toggleStars(bool enable);
     void setStarsEnabled(bool enable);
 
