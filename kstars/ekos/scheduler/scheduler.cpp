@@ -879,6 +879,11 @@ void Scheduler::stop()
 
         startupState = STARTUP_IDLE;
     }
+    // Reset startup state to unparking phase (dome -> mount -> cap)
+    // We do not want to run the startup script again but unparking should be checked
+    // whenever the scheduler is running again.
+    else if (startupState == STARTUP_COMPLETE)
+        startupState = STARTUP_UNPARKING_DOME;
 
     shutdownState = SHUTDOWN_IDLE;
 
