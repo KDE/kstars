@@ -73,15 +73,17 @@ bool OfflineAstrometryParser::init()
 
     astrometryFilesOK = true;
 
+    QString solverPath;
+
+    if (Options::astrometrySolverIsInternal())
+        solverPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/solve-field";
+    else
+        solverPath = Options::astrometrySolverBinary();
+
     QProcess solveField;
-#ifdef Q_OS_OSX
-    // Please check if this works!
+
     solveField.start("bash", QStringList() << "-c"
-                                           << "solve-field --help | grep Revision");
-#else
-    solveField.start("bash", QStringList() << "-c"
-                                           << "solve-field --help | grep Revision");
-#endif
+                                           << (solverPath + " --help | grep Revision"));
     solveField.waitForFinished();
     QString output = solveField.readAllStandardOutput();
     qCDebug(KSTARS_EKOS_ALIGN) << "solve-field Revision" << output;
