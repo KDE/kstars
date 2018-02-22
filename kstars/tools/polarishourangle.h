@@ -43,6 +43,7 @@ private:
   double m_polarisHourAngle;
 
   SkyObject *m_polaris = { nullptr };
-  std::unique_ptr<QPixmap> m_reticle;
+  std::unique_ptr<QPixmap> m_reticle12;
+  std::unique_ptr<QPixmap> m_reticle24;
 };
 
