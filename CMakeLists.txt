@@ -104,6 +104,7 @@ else(BUILD_KSTARS_LITE)
     MACRO_BOOL_TO_01(KF5NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
 
     find_package(KF5 REQUIRED COMPONENTS
+      Auth
       Config
       Crash
       DocTools
