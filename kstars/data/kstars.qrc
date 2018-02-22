@@ -36,6 +36,7 @@
     </qresource>
     <qresource prefix="/images">
         <file>noimage.png</file>
-        <file>reticle.png</file>
+        <file>reticle12.png</file>
+        <file>reticle24.png</file>
     </qresource>
 </RCC>

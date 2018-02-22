@@ -27,6 +27,9 @@
 #include <QPainter>
 #include <QPen>
 
+float hbase = 24;
+float vangle = 15;
+
 PolarisHourAngle::PolarisHourAngle(QWidget *parent) :
   QDialog(parent),
   m_polarisHourAngle(0)
@@ -38,10 +41,12 @@ PolarisHourAngle::PolarisHourAngle(QWidget *parent) :
   Q_ASSERT_X(polaris != nullptr, "PolarisHourAngle", "Unable to find Polaris!");
   m_polaris = polaris->clone();
 
-  m_reticle.reset(new QPixmap(":/images/reticle.png"));
+  m_reticle12.reset(new QPixmap(":/images/reticle12.png"));
+  m_reticle24.reset(new QPixmap(":/images/reticle24.png"));
 
   connect(dateTimeEdit, SIGNAL(dateTimeChanged(QDateTime)), this, SLOT(onTimeUpdated(QDateTime)));
   connect(currentTimeB, &QPushButton::clicked, this, [this]() { dateTimeEdit->setDateTime(KStarsData::Instance()->lt()); });
+  connect(twelveHourR, SIGNAL(toggled(bool)), this, SLOT(update()));
 
   dateTimeEdit->setDateTime(KStarsData::Instance()->lt());
 }
@@ -55,12 +60,13 @@ void PolarisHourAngle::paintEvent(QPaintEvent *)
   p.setRenderHint(QPainter::Antialiasing);
   p.setRenderHint(QPainter::SmoothPixmapTransform);
 
-  p.drawPixmap(frame->pos(), *(m_reticle.get()));
+  p.drawPixmap(frame->pos(), twelveHourR->isChecked() ? *(m_reticle12.get()) : *(m_reticle24.get()));
   p.setPen(Qt::yellow);
   p.setBrush(Qt::white);
   p.translate(frame->pos());
 
-  double angle = (24.0 - m_polarisHourAngle) * 15.0;
+//  double angle = (24.0 - m_polarisHourAngle) * 15.0;
+  double angle = (hbase - m_polarisHourAngle) * vangle;
   p.save();
 
   p.translate(center);
@@ -89,13 +95,20 @@ void PolarisHourAngle::onTimeUpdated(QDateTime newDateTime)
     KSNumbers num(lt.djd());
     m_polaris->updateCoords(&num, false);
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(lt.gst());
+/*
     m_polarisHourAngle = (lst.Degrees() - m_polaris->ra().Degrees())/15.0;
     while (m_polarisHourAngle > 24)
         m_polarisHourAngle -= 24;
     while (m_polarisHourAngle < 0)
         m_polarisHourAngle += 24;
+*/
+    m_polarisHourAngle = (lst.Degrees() - m_polaris->ra().Degrees())/vangle;
+    while (m_polarisHourAngle > hbase)
+        m_polarisHourAngle -= hbase;
+    while (m_polarisHourAngle < hbase)
+        m_polarisHourAngle += hbase;
 
-    labelPolarisHA->setText(dms(m_polarisHourAngle*15.0).toHMSString());
+    labelPolarisHA->setText(dms(m_polarisHourAngle*vangle).toHMSString());
     labelDate->setText(newDateTime.date().toString());
     labelTime->setText(newDateTime.time().toString());
 
