@@ -2119,6 +2119,19 @@ bool Guide::setGuiderType(int type)
 
             controlGroup->setEnabled(true);
             infoGroup->setEnabled(true);
+            label_6->setEnabled(true);
+            FOVScopeCombo->setEnabled(true);
+            l_3->setEnabled(true);
+            spinBox_GuideRate->setEnabled(true);
+            l_RecommendedGain->setEnabled(true);
+            l_5->setEnabled(true);
+            l_6->setEnabled(true);
+            l_7->setEnabled(true);
+            l_8->setEnabled(true);
+            l_Aperture->setEnabled(true);
+            l_FOV->setEnabled(true);
+            l_FbyD->setEnabled(true);
+            l_Focal->setEnabled(true);
             driftGraphicsGroup->setEnabled(true);
 
             guiderCombo->setToolTip(i18n("Select guide camera."));
@@ -2151,7 +2164,20 @@ bool Guide::setGuiderType(int type)
 
 
             controlGroup->setEnabled(false);
-            infoGroup->setEnabled(false);
+            infoGroup->setEnabled(true);
+            label_6->setEnabled(false);
+            FOVScopeCombo->setEnabled(false);
+            l_3->setEnabled(false);
+            spinBox_GuideRate->setEnabled(false);
+            l_RecommendedGain->setEnabled(false);
+            l_5->setEnabled(false);
+            l_6->setEnabled(false);
+            l_7->setEnabled(false);
+            l_8->setEnabled(false);
+            l_Aperture->setEnabled(false);
+            l_FOV->setEnabled(false);
+            l_FbyD->setEnabled(false);
+            l_Focal->setEnabled(false);
             driftGraphicsGroup->setEnabled(true);
 
             ST4Combo->setEnabled(false);
