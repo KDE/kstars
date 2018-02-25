@@ -224,7 +224,7 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
             geo->setLat(lat);
         }
 
-        qCInfo(KSTARS_INDI) << "Setting location from device. Longitude:" << lng.toDMSString() << "Latitude:" << lat.toDMSString();
+        qCInfo(KSTARS_INDI) << "Setting location from device:" << getDeviceName() << "Longitude:" << lng.toDMSString() << "Latitude:" << lat.toDMSString();
 
         KStars::Instance()->data()->setLocation(*geo);
     }
@@ -277,6 +277,8 @@ void GenericDevice::processText(ITextVectorProperty *tvp)
             return;
 
         sscanf(tp->text, "%f", &utcOffset);
+
+        qCInfo(KSTARS_INDI) << "Setting UTC time from device:" << getDeviceName() << indiDateTime.toString();
 
         KStars::Instance()->data()->changeDateTime(indiDateTime);
         KStars::Instance()->data()->syncLST();
