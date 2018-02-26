@@ -35,8 +35,8 @@ class DSLRInfo : public QDialog, public Ui::DSLRInfo
 
   private:
     ISD::CCD *currentCCD = nullptr;
-    int sensorMaxWidth, sensorMaxHeight;
-    double sensorPixelW,sensorPixelH;
+    int sensorMaxWidth=0, sensorMaxHeight=0;
+    double sensorPixelW=0,sensorPixelH=0;
 
   friend class Ekos::Capture;
 };

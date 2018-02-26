@@ -651,11 +651,21 @@ void Capture::checkCCD(int ccdNum)
 
             double pixelX = 0, pixelY = 0;
             bool rc = targetChip->getPixelSize(pixelX, pixelY);
-            if (rc == false || pixelX == 0 || pixelY == 0 || isModelinDSLRInfo(QString(currentCCD->getDeviceName())) == false)
+            bool isModelInDB = isModelinDSLRInfo(QString(currentCCD->getDeviceName()));
+            // If rc == true, then the propery has been defined by the driver already
+            // Only then we check if the pixels are zero
+            if (rc == true && (pixelX == 0 || pixelY == 0 || isModelInDB == false))
             {
-                DSLRInfo infoDialog(this, currentCCD);
-                infoDialog.exec();
-                addDSLRInfo(QString(currentCCD->getDeviceName()), infoDialog.sensorMaxWidth, infoDialog.sensorMaxHeight, infoDialog.sensorPixelW, infoDialog.sensorPixelH);
+                // If model is already in database, no need to show dialog
+                // The zeros above are the initial packets so we can safely ignore them
+                if (isModelInDB == false)
+                {
+                    DSLRInfo infoDialog(this, currentCCD);
+                    if (infoDialog.exec() == QDialog::Accepted)
+                    {
+                        addDSLRInfo(QString(currentCCD->getDeviceName()), infoDialog.sensorMaxWidth, infoDialog.sensorMaxHeight, infoDialog.sensorPixelW, infoDialog.sensorPixelH);
+                    }
+                }
             }
         }
 
@@ -833,7 +843,7 @@ void Capture::updateFrameProperties(int reset)
 
     // cull to camera limits, if there are any
     if (useGuideHead == false)
-        cullToCameraLimits();
+        cullToDSLRLimits();
 
     if (reset == 1 || frameSettings.contains(targetChip) == false)
     {
@@ -4937,7 +4947,24 @@ bool Capture::isModelinDSLRInfo(const QString &model)
     return (pos != DSLRInfos.end());
 }
 
-void Capture::cullToCameraLimits()
+#if 0
+void Capture::syncDriverToDSLRLimits()
+{
+    if (targetChip == nullptr)
+        return;
+
+    QString model(currentCCD->getDeviceName());
+
+    // Check if model already exists
+    auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString,QVariant> &oneDSLRInfo)
+    { return (oneDSLRInfo["Model"] == model);});
+
+    if (pos != DSLRInfos.end())
+        targetChip->setImageInfo((*pos)["Width"].toInt(), (*pos)["Height"].toInt(), (*pos)["PixelW"].toDouble(), (*pos)["PixelH"].toDouble(), 8);
+}
+#endif
+
+void Capture::cullToDSLRLimits()
 {
     QString model(currentCCD->getDeviceName());
 
