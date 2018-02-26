@@ -285,15 +285,16 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         fits_report_error(stderr, status);
         qCCritical(KSTARS_FITS) << errMessage;
         return false;
-    }
-
-    calculateStats();
+    }    
 
     if (Options::autoDebayer() && checkDebayer())
     {
         bayerBuffer = imageBuffer;
-        debayer();
+        if (debayer())
+            calculateStats();
     }
+    else
+        calculateStats();
 
     WCSLoaded = false;
 
@@ -535,12 +536,14 @@ void FITSData::calculateStats(bool refresh)
             return;
     }
 
+    // FIXME That's not really SNR, must implement a proper solution for this value
     stats.SNR = stats.mean[0] / stats.stddev[0];
 
     if (refresh && markStars)
         // Let's try to find star positions again after transformation
         starsSearched = false;
 }
+
 int FITSData::calculateMinMax(bool refresh)
 {
     int status, nfound = 0;
@@ -655,24 +658,73 @@ template <typename T>
 void FITSData::runningAverageStdDev()
 {
     T *buffer     = reinterpret_cast<T *>(imageBuffer);
-    int m_n       = 2;
-    double m_oldM = 0, m_newM = 0, m_oldS = 0, m_newS = 0;
 
-    m_oldM = m_newM = buffer[0];
-    for (unsigned int i = 1; i < stats.samples_per_channel; i++)
+    if (channels == 1)
     {
-        m_newM = m_oldM + (buffer[i] - m_oldM) / m_n;
-        m_newS = m_oldS + (buffer[i] - m_oldM) * (buffer[i] - m_newM);
+        int m_n       = 2;
+        double m_oldM = 0, m_newM = 0, m_oldS = 0, m_newS = 0;
 
-        m_oldM = m_newM;
-        m_oldS = m_newS;
-        m_n++;
+        for (unsigned int i = 1; i < stats.samples_per_channel; i++)
+        {
+            m_newM = m_oldM + (buffer[i] - m_oldM) / m_n;
+            m_newS = m_oldS + (buffer[i] - m_oldM) * (buffer[i] - m_newM);
+
+            m_oldM = m_newM;
+            m_oldS = m_newS;
+            m_n++;
+        }
+
+        double variance = (m_n == 2 ? 0 : m_newS / (m_n - 2));
+
+        stats.mean[0]   = m_newM;
+        stats.stddev[0] = sqrt(variance);
     }
+    else
+    {
+        int m_n[3]       = {2,2,2};
+        double m_oldM[3] = {0}, m_newM[3] = {0}, m_oldS[3] = {0}, m_newS[3] = {0};
 
-    double variance = (m_n == 2 ? 0 : m_newS / (m_n - 2));
+        T *rBuffer = buffer;
+        T *gBuffer = buffer + stats.samples_per_channel;
+        T *bBuffer = buffer + stats.samples_per_channel * 2;
 
-    stats.mean[0]   = m_newM;
-    stats.stddev[0] = sqrt(variance);
+        for (unsigned int i = 1; i < stats.samples_per_channel; i++)
+        {
+            m_newM[0] = m_oldM[0] + (rBuffer[i] - m_oldM[0]) / m_n[0];
+            m_newS[0] = m_oldS[0] + (rBuffer[i] - m_oldM[0]) * (rBuffer[i] - m_newM[0]);
+
+            m_oldM[0] = m_newM[0];
+            m_oldS[0] = m_newS[0];
+            m_n[0]++;
+
+            m_newM[1] = m_oldM[1] + (gBuffer[i] - m_oldM[1]) / m_n[1];
+            m_newS[1] = m_oldS[1] + (gBuffer[i] - m_oldM[1]) * (gBuffer[i] - m_newM[1]);
+
+            m_oldM[1] = m_newM[1];
+            m_oldS[1] = m_newS[1];
+            m_n[1]++;
+
+            m_newM[2] = m_oldM[2] + (bBuffer[i] - m_oldM[2]) / m_n[2];
+            m_newS[2] = m_oldS[2] + (bBuffer[i] - m_oldM[2]) * (bBuffer[i] - m_newM[2]);
+
+            m_oldM[2] = m_newM[2];
+            m_oldS[2] = m_newS[2];
+            m_n[2]++;
+
+        }
+
+        double variance = (m_n[0] == 2 ? 0 : m_newS[0] / (m_n[0] - 2));
+        stats.mean[0]   = m_newM[0];
+        stats.stddev[0] = sqrt(variance);
+
+        variance = (m_n[1] == 2 ? 0 : m_newS[1] / (m_n[1] - 2));
+        stats.mean[1]   = m_newM[1];
+        stats.stddev[1] = sqrt(variance);
+
+        variance = (m_n[2] == 2 ? 0 : m_newS[2] / (m_n[2] - 2));
+        stats.mean[2]   = m_newM[2];
+        stats.stddev[2] = sqrt(variance);
+    }
 }
 
 void FITSData::setMinMax(double newMin, double newMax, uint8_t channel)

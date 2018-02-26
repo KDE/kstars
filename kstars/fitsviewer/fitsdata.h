@@ -384,10 +384,10 @@ class FITSData
     /// Stats struct to hold statisical data about the FITS data
     struct
     {
-        double min[3], max[3];
-        double mean[3];
-        double stddev[3];
-        double median[3];
+        double min[3] = {0}, max[3] = {0};
+        double mean[3] = {0};
+        double stddev[3] = {0};
+        double median[3] = {0};
         double SNR { 0 };
         int bitpix { 8 };
         int bytesPerPixel { 1 };
