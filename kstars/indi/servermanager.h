@@ -16,6 +16,7 @@
 #include <QObject>
 #include <QProcess>
 #include <QTcpSocket>
+#include <QTemporaryFile>
 
 #include <memory>
 
@@ -39,7 +40,7 @@ class ServerManager : public QObject
     void stop();
     void terminate();
 
-    const QString &getLogBuffer() { return serverBuffer; }
+    QString getLogBuffer();
     const QString &getHost() { return host; }
     const QString &getPort() { return port; }
 
@@ -62,7 +63,7 @@ private:
     QTcpSocket serverSocket;
     QString host;
     QString port;
-    QString serverBuffer;
+    QTemporaryFile serverBuffer;
     std::unique_ptr<QProcess> serverProcess;
 
     void insertEnvironmentPath(QProcessEnvironment *env, QString variable, QString relativePath);

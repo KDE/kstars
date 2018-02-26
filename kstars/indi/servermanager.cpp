@@ -54,6 +54,8 @@ bool ServerManager::start()
 
     if (serverProcess.get() == nullptr)
     {
+        serverBuffer.open();
+
         serverProcess.reset(new QProcess(this));
 #ifdef Q_OS_OSX
         QString driversDir = Options::indiDriversDir();
@@ -248,11 +250,14 @@ void ServerManager::stop()
 
     serverProcess->disconnect(SIGNAL(error(QProcess::ProcessError)));
 
+    serverBuffer.close();
+
     serverProcess->terminate();
 
     serverProcess->waitForFinished();
 
     serverProcess.reset();
+
 }
 
 void ServerManager::terminate()
@@ -289,14 +294,12 @@ void ServerManager::processStandardError()
 #else
     QString stderr = serverProcess->readAllStandardError();
 
-    serverBuffer.append(stderr);
+    for (auto &msg : stderr.split('\n'))
+             qCDebug(KSTARS_INDI) << "INDI Server: " << msg;
 
-   for (auto &msg : stderr.split('\n'))
-            qCDebug(KSTARS_INDI) << "INDI Server: " << msg;
-
-    if (driverCrashed == false && (serverBuffer.contains("stdin EOF") || serverBuffer.contains("stderr EOF")))
+    if (driverCrashed == false && (stderr.contains("stdin EOF") || stderr.contains("stderr EOF")))
     {
-        QStringList parts = serverBuffer.split("Driver");
+        QStringList parts = stderr.split("Driver");
         for (auto &driver : parts)
         {
             if (driver.contains("stdin EOF") || driver.contains("stderr EOF"))
@@ -313,6 +316,8 @@ void ServerManager::processStandardError()
         }
     }
 
+    serverBuffer.write(stderr.toLatin1());
+
     emit newServerLog();
 #endif
 }
@@ -323,4 +328,13 @@ QString ServerManager::errorString()
         return serverProcess->errorString();
 
     return nullptr;
+}
+
+QString ServerManager::getLogBuffer()
+{
+    serverBuffer.flush();
+    serverBuffer.close();
+
+    serverBuffer.open();
+    return serverBuffer.readAll();
 }
