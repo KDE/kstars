@@ -125,7 +125,11 @@
      <item row="1" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QDoubleSpinBox" name="pixelX"/>
+        <widget class="QDoubleSpinBox" name="pixelX">
+         <property name="maximum">
+          <double>60.000000000000000</double>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_7">
@@ -138,7 +142,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="pixelY"/>
+        <widget class="QDoubleSpinBox" name="pixelY">
+         <property name="maximum">
+          <double>60.000000000000000</double>
+         </property>
+        </widget>
        </item>
        <item>
         <spacer name="horizontalSpacer_2">
