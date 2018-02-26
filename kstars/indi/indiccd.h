@@ -220,6 +220,7 @@ class CCD : public DeviceDecorator
 
     bool setExposureLoopingEnabled(bool enable);
     bool isLooping() const { return IsLooping; }
+    bool setExposureLoopCount(uint32_t count);
 
   public slots:
     void FITSViewerDestroyed();

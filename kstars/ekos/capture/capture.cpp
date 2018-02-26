@@ -1139,7 +1139,9 @@ bool Capture::setCaptureComplete()
 
     secondsLabel->setText(i18n("Complete."));
 
-    KNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"));
+    // Do not display notifications for very short captures
+    if (activeJob->getExposure() >= 1)
+        KNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"));
 
     // If it was initially set as preview job
     if (seqTotalCount <= 0)
@@ -1466,6 +1468,13 @@ void Capture::captureImage()
         activeJob->setCurrentTemperature(temperature);
     }
 
+    if (currentCCD->isLooping())
+    {
+        int remaining = activeJob->getCount() - activeJob->getCompleted();
+        if (remaining > 1)
+            currentCCD->setExposureLoopCount(remaining);
+    }
+
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
     connect(currentCCD, SIGNAL(newImage(QImage*,ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*,ISD::CCDChip*)),
             Qt::UniqueConnection);
@@ -1708,7 +1717,7 @@ void Capture::setExposureProgress(ISD::CCDChip *tChip, double value, IPState sta
         return;
     }
 
-    //qDebug() << "Exposure with value " << value;
+    //qDebug() << "Exposure with value " << value << "state" << pstateStr(state);
 
     if (activeJob != nullptr && state == IPS_OK)
     {

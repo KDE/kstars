@@ -2353,4 +2353,18 @@ bool CCD::setExposureLoopingEnabled(bool enable)
 
     return true;
 }
+
+bool CCD::setExposureLoopCount(uint32_t count)
+{
+    INumberVectorProperty *nvp = baseDevice->getNumber("CCD_EXPOSURE_LOOP_COUNT");
+
+    if (nvp == nullptr)
+        return false;
+
+    nvp->np[0].value = count;
+
+    clientManager->sendNewNumber(nvp);
+
+    return true;
+}
 }
