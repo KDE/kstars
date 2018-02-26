@@ -883,7 +883,14 @@ void Scheduler::stop()
     // We do not want to run the startup script again but unparking should be checked
     // whenever the scheduler is running again.
     else if (startupState == STARTUP_COMPLETE)
-        startupState = STARTUP_UNPARKING_DOME;
+    {
+        if (unparkDomeCheck->isChecked())
+            startupState = STARTUP_UNPARKING_DOME;
+        else if (unparkMountCheck->isChecked())
+            startupState = STARTUP_UNPARKING_MOUNT;
+        else if (uncapCheck->isChecked())
+            startupState = STARTUP_UNPARKING_CAP;
+    }
 
     shutdownState = SHUTDOWN_IDLE;
 
