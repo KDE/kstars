@@ -49,14 +49,12 @@ FlagComponent::FlagComponent(SkyComposite *parent) : PointListComponent(parent)
     // Add all other images found in user appdata directory
     for (auto &item : appDir.entryList())
     {
-        QString fileName =
-            item.replace(QRegExp("\\.[^.]*$"), QString()).replace(QRegExp("^flag"), QString()).replace('_', ' ');
+        QString path = appDir.absoluteFilePath(item);
+        m_Images.append(QImage(path));
+
+        QString fileName = item.replace(QRegExp("\\.[^.]*$"), QString()).replace(QRegExp("^flag"), QString()).replace('_', ' ');
 
         m_Names.append(fileName);
-
-        // FIXME need to append path??!
-        m_Images.append(QImage(item));
-        //m_Images.append( QImage( item.localPath() ));
     }
 
     loadFromFile();
