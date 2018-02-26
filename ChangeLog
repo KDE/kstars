@@ -4,6 +4,53 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.9.3 (Trappist):
+=================================================================================================
+c3dbe12 2018-02-26 Jasem Mutlaq         BUGS:390124 FIXED-IN:2.9.3
+fad13cc 2018-02-26 Jasem Mutlaq         BUGS:391085 FIXED-IN:2.9.3
+e4e132a 2018-02-26 Jasem Mutlaq         Use exposure looping count and do not trigger notifications for fast exposures
+e020d35 2018-02-25 Jasem Mutlaq         Add INFO debug for setting time and location from device
+001be87 2018-02-25 Robert Lancaster     Enable some elements when PHD2 is active
+7c0ab12 2018-02-25 Jasem Mutlaq         Update temma binary
+bbaab15 2018-02-22 Jasem Mutlaq         Add 24 and 12 hour format for polaris angle as suggested by Patrick
+5c02d03 2018-02-22 Pino Toscano         cmake: explicitly require the Auth Framework
+65c7e5d 2018-02-21 Jasem Mutlaq         BUGS:390124
+10437c9 2018-02-21 Jasem Mutlaq         Opps revert last change. Should be centroid by default
+546dfef 2018-02-21 Jasem Mutlaq         Use solver path in detection.
+c3bf4c5 2018-02-20 Jasem Mutlaq         Increase minimum area size to 10
+291c478 2018-02-20 Jasem Mutlaq         Reset order to Gradient -> Centroid -> Threshold -> SEP
+23c0483 2018-02-19 Jasem Mutlaq         Fix compile error
+95f4823 2018-02-19 Jasem Mutlaq         Initial experimental support for rapid looping
+aaf7823 2018-02-19 Jasem Mutlaq         Increase max count for captured images
+86ad796 2018-02-19 Jasem Mutlaq         Increase maximum lost star retries to 10 in case of passing clouds
+fe42271 2018-02-18 Jasem Mutlaq         Add SEP handling to focus module. Restructure findStars in FITSData.
+3e1bb98 2018-02-18 Jasem Mutlaq         Merge branch 'master' of git://anongit.kde.org/kstars
+7e7636c 2018-02-16 Jasem Mutlaq         Raise maximum value if saved maximum travel is higher than default maximum value of 50,000
+39f8769 2018-02-15 Jasem Mutlaq         Initial work for SEP integration
+4b6cd16 2018-02-14 Jasem Mutlaq         Always set binning before setFrame to ensure proper sequence of events in case subframed image dimensions can only work under binning
+409cd8a 2018-02-14 Jasem Mutlaq         Add more checks for filter current index
+926b21d 2018-02-14 Jasem Mutlaq         Remove -m 100 since it is already by default 128
+88537aa 2018-02-11 Jasem Mutlaq         Flush fits file when saving
+f79a51c 2018-02-09 Jasem Mutlaq         Use fits_open_diskfile to enable reading filename that may contain paranthesis and brackets.
+1f1ded1 2018-02-06 Jasem Mutlaq         Increment finishFramesCount in each job
+f32fdfb 2018-02-06 Jasem Mutlaq         Include QMap otherwise it fails to compile on some systems
+8cf30f4 2018-02-06 Jasem Mutlaq         Check for nullptr to prevent crash in FITS Viewer.
+6215c60 2018-02-06 Jasem Mutlaq         Update Max Travel to focuser limits.
+ed81f2a 2018-02-05 Jasem Mutlaq         use rule from last geo location
+42dabde 2018-02-05 Jasem Mutlaq         Fix typo
+6b2fb50 2018-02-04 Jasem Mutlaq         Increase version number due to GUI changes
+f2a834a 2018-02-04 Jasem Mutlaq         More progress to fix the identical jobs issue in scheduler and capture
+9a5ded0 2018-02-04 Csaba Kertesz        Don't use internal resource for the GUI because it breaks custom shortcut loading/saving
+f3daa23 2018-02-04 Jasem Mutlaq         More progress toward fixing multiple identical jobs in the scheduler queue
+b7e382f 2018-02-04 Jasem Mutlaq         Simplify completed jobs count
+576e77c 2018-02-04 Jasem Mutlaq         More debug statements
+1e7ba9c 2018-02-03 Jasem Mutlaq         Improve QtConcurrent location and remove existing mutexes to enhance performance.
+42c5353 2018-02-03 David Faure          Enable QT_NO_CAST_TO_ASCII and fix compilation
+8dc1817 2018-02-02 Jasem Mutlaq         If not subframed, set frame settings to the maximum image size even if the current frames upon connection are less than a full frame
+6b91b0c 2018-02-01 Jasem Mutlaq         Keep track of identical scheduler jobs with identical sequences to avoid marking all identical jobs as complete. BUGS:389738
+28bf635 2018-01-31 Jasem Mutlaq         Enable limits settings by default. Display warnings if they are selected but if the respective modules are not active yet
+83c8b08 2018-01-30 Jasem Mutlaq         Make another executable for KStars Lite on non-Android systems. Make sure this does not break Android build
+
 2.9.2 (Titawin):
 =================================================================================================
 982e9ce 2018-01-29 Jasem Mutlaq         Fix crashing on older Qt systems when reloading QML sources by deleting context. BUGS:389583
