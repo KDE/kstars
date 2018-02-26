@@ -4444,6 +4444,12 @@ bool Capture::processPostCaptureCalibrationStage()
     if (activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldDuration() == DURATION_ADU &&
         activeJob->getTargetADU() > 0)
     {
+        if (Options::useFITSViewer() == false)
+        {
+            Options::setUseFITSViewer(true);
+            qCInfo(KSTARS_EKOS_CAPTURE) << "Enabling FITS Viewer...";
+        }
+
         FITSData *image_data   = nullptr;
         FITSView *currentImage = targetChip->getImageView(FITS_NORMAL);
 
@@ -4451,7 +4457,6 @@ bool Capture::processPostCaptureCalibrationStage()
         {
             image_data        = currentImage->getImageData();
             double currentADU = image_data->getADU();
-            //double currentSlope = ADUSlope;
 
             double ADUDiff = fabs(currentADU - activeJob->getTargetADU());
 
