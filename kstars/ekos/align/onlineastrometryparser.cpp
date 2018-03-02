@@ -68,7 +68,9 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
 
     job_retries = 0;
 
-    if (networkManager->networkAccessible() == false)
+    // Only display error if the astrometry server is not located on the local host
+    if (networkManager->networkAccessible() == false && Options::astrometryAPIURL().contains("localhost") == false &&
+            Options::astrometryAPIURL().contains("127.0.0.1") == false)
     {
         align->appendLogText(i18n("Error: No connection to the internet."));
         emit solverFailed();
