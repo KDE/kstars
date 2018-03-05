@@ -57,10 +57,7 @@ OpsAdvanced::OpsAdvanced() : QFrame(KStars::Instance())
     //Get a pointer to the KConfigDialog
     KConfigDialog *m_ConfigDialog = KConfigDialog::exists("settings");
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
-    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
-
-    for (auto &b : modulesGroup->buttons())
-        b->setEnabled(kcfg_VerboseLogging->isChecked());
+    connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));    
 }
 
 OpsAdvanced::~OpsAdvanced()
@@ -83,13 +80,6 @@ void OpsAdvanced::slotToggleVerbosityOptions()
 {
     if (kcfg_DisableLogging->isChecked())
         KSUtils::Logging::Disable();
-
-    foreach (QAbstractButton *b, modulesGroup->buttons())
-    {
-        b->setEnabled(kcfg_VerboseLogging->isChecked());
-        // If verbose is not checked, CLEAR all selections
-        b->setChecked(kcfg_VerboseLogging->isChecked() ? b->isChecked() : false);
-    }
 }
 
 void OpsAdvanced::slotToggleOutputOptions()
