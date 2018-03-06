@@ -1250,7 +1250,7 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
 
 QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields, const QVector<JPLFilter> &filters)
 {
-    QByteArray query("obj_group=all&obj_kind=" + kind + "&obj_numbered=num&OBJ_field=0&ORB_field=0");
+    QByteArray query("obj_group=all&obj_kind=" + kind + "&obj_numbered=all&OBJ_field=0&ORB_field=0");
 
     // Apply filters:
     for (int i = 0; i < filters.length(); i++)
