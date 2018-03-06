@@ -244,8 +244,9 @@ void KSWizard::initGeoPage()
     //Sort alphabetically
     location->CityListBox->sortItems();
     //preset to current city
-    location->CityListBox->setCurrentItem(
-        location->CityListBox->findItems(QString(data->geo()->fullName()), Qt::MatchExactly).at(0));
+    QList<QListWidgetItem*> locations = location->CityListBox->findItems(QString(data->geo()->fullName()), Qt::MatchExactly);
+    if (locations.isEmpty() == false)
+        location->CityListBox->setCurrentItem(locations[0]);
 }
 
 void KSWizard::slotChangeCity()
