@@ -68,7 +68,11 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
 
     job_retries = 0;
 
-    if (networkManager->networkAccessible() == false)
+    //if (networkManager->networkAccessible() == false)
+    // 2018-03-08 JM: Multiple users reported that network accessible is now failing if there is no internet connection
+    // But LAN connectoin is established leading to failure of online solver with a local astrometry solver like ANSVR.
+    // Therefore I am adding the exception below to remedy this situation for now.
+    if (networkManager->networkAccessible() == false && Options::astrometryAPIURL().contains("127.0.0.1") == false)
     {
         align->appendLogText(i18n("Error: No connection to the internet."));
         emit solverFailed();
