@@ -4717,6 +4717,16 @@ void Capture::toggleVideoStream(bool enable)
     if (currentCCD == nullptr)
         return;
 
+    if (currentCCD->isBLOBEnabled() == false)
+    {
+
+        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(0, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
+            KMessageBox::Yes)
+            currentCCD->setBLOBEnabled(true);
+        else
+            return;
+    }
+
     currentCCD->setVideoStreamEnabled(enable);
 }
 
