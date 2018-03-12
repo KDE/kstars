@@ -3543,6 +3543,9 @@ void Scheduler::startSlew()
 {
     Q_ASSERT(currentJob != nullptr);
 
+    if (Options::resetMountModelBeforeJob())
+        mountInterface->call(QDBus::AutoDetect, "resetModel");
+
     SkyPoint target = currentJob->getTargetCoords();
     //target.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
 
