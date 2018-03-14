@@ -267,7 +267,10 @@ void KSMoon::findMagnitude(const KSNumbers *)
     int j = (i + 1 > 18) ? 18 : i + 1;
     i     = 18 - abs(i);
     j     = 18 - abs(j);
-    setMag(MagArray[i] + (MagArray[j] - MagArray[i]) * k / 10);
+    if (i >= 0 && j >= 0 && i <= 18 && j <= 18)
+    {
+        setMag(MagArray[i] + (MagArray[j] - MagArray[i]) * k / 10);
+    }
 }
 
 void KSMoon::findPhase(const KSSun *Sun)
