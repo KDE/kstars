@@ -91,6 +91,13 @@ endif(NOT BUILD_KSTARS_LITE)
 
 IF (CFITSIO_FOUND AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
     SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/analyse.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-pointer-arith")
+    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/background.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-incompatible-pointer-types-discards-qualifiers")
+    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/extract.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/lutz.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")
 ENDIF ()
 
 if (INDI_FOUND)
@@ -851,7 +858,6 @@ endif(BUILD_KSTARS_LITE)
 
 set(kstars_SRCS
     ${indi_SRCS}
-    ${sep_SRCS}
     ${fits_SRCS}
     ${ekos_SRCS}
     ${onlineparser_SRCS}
@@ -894,7 +900,7 @@ IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstars kstars_SRCS 10 cpp)
 ENDIF ()
 
-set(kstars_SRCS ${kstars_SRCS} ${fits_bayer_SRCS} ${hips_manager_SRCS} ${kstarslite_libtess_SRC})
+set(kstars_SRCS ${kstars_SRCS} ${fits_bayer_SRCS} ${sep_SRCS} ${hips_manager_SRCS} ${kstarslite_libtess_SRC})
 
 if(NOT BUILD_KSTARS_LITE)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
