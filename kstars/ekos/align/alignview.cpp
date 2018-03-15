@@ -11,6 +11,7 @@
 
 #include "alignview.h"
 
+#include "ekos_align_debug.h"
 #include "kstarsdata.h"
 #include "Options.h"
 #include "fitsviewer/fitsdata.h"
@@ -23,10 +24,6 @@
 #define ZOOM_MAX     400
 
 AlignView::AlignView(QWidget *parent, FITSMode mode, FITSScale filter) : FITSView(parent, mode, filter)
-{
-}
-
-AlignView::~AlignView()
 {
 }
 
@@ -49,6 +46,7 @@ bool AlignView::createWCSFile(const QString &newWCSFile, double orientation, dou
     // If file fails to load, then no WCS data
     if (rc == false)
     {
+        qCritical(KSTARS_EKOS_ALIGN) << "Error creating WCS file:" << imageData->getLastError();
         emit wcsToggled(false);
         return false;
     }

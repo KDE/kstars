@@ -22,7 +22,7 @@ class AlignView : public FITSView
     Q_OBJECT
   public:
     explicit AlignView(QWidget *parent = nullptr, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
-    ~AlignView();
+    ~AlignView() = default;
 
     /* Calculate WCS header info and update WCS info */
     bool createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale);
