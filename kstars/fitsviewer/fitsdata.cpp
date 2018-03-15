@@ -3861,8 +3861,8 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
     fitsfile *new_fptr;
     char errMsg[512];
 
-    qCInfo(KSTARS_FITS) << "Creating new WCS file: " << newWCSFile << " with parameters orientation: " << orientation
-                 << "ra: " << ra << "dec: " << dec << "Pixel scale: " << pixscale;
+    qCInfo(KSTARS_FITS) << "Creating new WCS file:" << newWCSFile << "with parameters Orientation:" << orientation
+                 << "RA:" << ra << "DE:" << dec << "Pixel Scale:" << pixscale;
 
     nelements = stats.samples_per_channel * channels;
 
@@ -3872,7 +3872,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
         fits_get_errstatus(status, errMsg);
         lastError = QString(errMsg);
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     if (fits_movabs_hdu(fptr, 1, &exttype, &status))
@@ -3880,7 +3880,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
         fits_get_errstatus(status, errMsg);
         lastError = QString(errMsg);
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     if (fits_copy_file(fptr, new_fptr, 1, 1, 1, &status))
@@ -3888,7 +3888,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
         fits_get_errstatus(status, errMsg);
         lastError = QString(errMsg);
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     /* close current file */
@@ -3897,7 +3897,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
         fits_get_errstatus(status, errMsg);
         lastError = QString(errMsg);
         fits_report_error(stderr, status);
-        return status;
+        return false;
     }
 
     status = 0;
