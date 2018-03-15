@@ -4810,7 +4810,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         if (Options::limitedResourcesMode() == false)
         {
             appendLogText(i18n("Please wait while WCS data is processed..."));
-            connect(alignView, SIGNAL(wcsToggled(bool)), this, SLOT(setWCSToggled(bool)));
+            connect(alignView, SIGNAL(wcsToggled(bool)), this, SLOT(setWCSToggled(bool)), Qt::UniqueConnection);
             alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
             return;
         }
@@ -4870,7 +4870,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         pahImageInfos.append(solution);
 
         appendLogText(i18n("Please wait while WCS data is processed..."));
-        connect(alignView, SIGNAL(wcsToggled(bool)), this, SLOT(setWCSToggled(bool)));
+        connect(alignView, SIGNAL(wcsToggled(bool)), this, SLOT(setWCSToggled(bool)), Qt::UniqueConnection);
         alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
         return;
     }
@@ -4942,8 +4942,7 @@ void Align::setWCSToggled(bool result)
                 return;
             }
             else
-                appendLogText(i18n("Warning: Celestial pole is located outside the field of view. Move the mount "
-                                   "closer to the celestial pole."));
+                appendLogText(i18n("Warning: Celestial pole is located outside the field of view. Move the mount closer to the celestial pole."));
         }
 
         pahStage = PAH_FIRST_ROTATE;
@@ -4951,18 +4950,18 @@ void Align::setWCSToggled(bool result)
     }
     else if (pahStage == PAH_THIRD_CAPTURE)
     {
+        FITSData *imageData = alignView->getImageData();
+
         // Critical error
         if (result == false)
         {
-            appendLogText(
-                        i18n("Error: Failed to load WCS data in file: %1", alignView->getImageData()->getLastError()));
+            appendLogText(i18n("Failed to process World Coordinate System: %1. Try again.", imageData->getLastError()));
             return;
         }
 
         // Find Celstial pole location
         SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
 
-        FITSData *imageData = alignView->getImageData();
         QPointF imagePoint;
 
         imageData->wcsToPixel(CP, celestialPolePoint, imagePoint);
