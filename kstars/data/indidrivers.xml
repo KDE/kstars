@@ -523,15 +523,19 @@
     <devGroup group="CCDs">
         <device label="Canon DSLR" mdpd="true">
             <driver name="Canon DSLR">indi_canon_ccd</driver>
-            <version>1.6</version>
+            <version>1.8</version>
         </device>
         <device label="Nikon DSLR" mdpd="true">
             <driver name="Nikon DSLR">indi_nikon_ccd</driver>
-            <version>1.6</version>
+            <version>1.8</version>
+        </device>
+        <device label="Pentax DSLR" mdpd="true">
+            <driver name="Pentax DSLR">indi_pentax_ccd</driver>
+            <version>1.8</version>
         </device>
         <device label="GPhoto CCD" mdpd="true">
             <driver name="GPhoto CCD">indi_gphoto_ccd</driver>
-            <version>1.6</version>
+            <version>1.8</version>
         </device>
     </devGroup>
 </driversList>
