@@ -120,8 +120,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
     /**
          * @brief startGuiding After ekos is fed the calibration options, we start the guiging process
+         * @param resetCalibration By default calibration is not reset until it is explicitly requested
          */
-    void startGuiding();
+    void startGuiding(bool resetCalibration = false);
 
     /**
          * @brief startCapture The current job file name is solved to an url which is fed to ekos. We then start the capture process
