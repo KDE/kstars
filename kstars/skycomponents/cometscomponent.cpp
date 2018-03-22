@@ -182,7 +182,7 @@ void CometsComponent::loadData()
         com->setEarthMOID(earth_moid);
         com->setOrbitClass(orbit_class);
         com->setAngularSize(0.005);
-        m_ObjectList.append(com);
+        appendListObject(com);
 
         // Add *short* name to the list of object names
         objectNames(SkyObject::COMET).append(com->name());

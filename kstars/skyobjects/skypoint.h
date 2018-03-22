@@ -264,7 +264,7 @@ class SkyPoint
          * @brief updateCoordsNow Shortcut for updateCoords( const KSNumbers *num, false, nullptr, nullptr, true)
          * @param num pointer to KSNumbers object containing current values of time-dependent variables.
          */
-    void updateCoordsNow(const KSNumbers *num) { updateCoords(num, false, nullptr, nullptr, true); }
+    virtual void updateCoordsNow(const KSNumbers *num) { updateCoords(num, false, nullptr, nullptr, true); }
 
     /** Computes the apparent coordinates for this SkyPoint for any epoch,
         	*accounting for the effects of precession, nutation, and aberration.

@@ -39,7 +39,6 @@ class SupernovaeComponent : public QObject, public ListComponent
     ~SupernovaeComponent() override;
     bool selected() override;
     void update(KSNumbers *num = nullptr) override;
-    SkyObject *findByName(const QString &name) override;
     SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
     /**

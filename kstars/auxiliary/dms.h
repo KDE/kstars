@@ -20,6 +20,7 @@
 #include "../nan.h"
 
 #include <QString>
+#include <QDataStream>
 
 #include <cmath>
 
@@ -402,6 +403,7 @@ class dms
     static long unsigned redundant_trig_function_calls; // counts number of redundant trig function calls
     static double seconds_in_trig;                      // accumulates number of seconds spent in trig function calls
 #endif
+
   protected:
     double D;
 
@@ -412,6 +414,8 @@ class dms
 
     friend dms operator+(dms, dms);
     friend dms operator-(dms, dms);
+    friend QDataStream &operator<<(QDataStream &out, const dms &d);
+    friend QDataStream &operator>>(QDataStream &in, dms &d);
 };
 
 /// Add two angles

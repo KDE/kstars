@@ -549,7 +549,7 @@ bool StarComponent::loadStaticData()
                 objectLists(SkyObject::STAR).append(QPair<QString, const SkyObject *>(gName, star));
             }
 
-            m_ObjectList.append(star);
+            appendListObject(star);
 
             m_starIndex->at(trixel)->append(star);
             double pm = star->pmMagnitude();
@@ -569,6 +569,16 @@ bool StarComponent::loadStaticData()
     return true;
 }
 
+void StarComponent::appendListObject(SkyObject *object)
+{
+    m_ObjectList.append(object);
+    m_ObjectHash.insert(object->name().toLower(), object);
+    m_ObjectHash.insert(object->longname().toLower(), object);
+    m_ObjectHash.insert(object->name2().toLower(), object);
+    m_ObjectHash.insert(object->name2().toLower(), object);
+    m_ObjectHash.insert(((StarObject *)object)->gname(false).toLower(), object);
+}
+
 SkyObject *StarComponent::findStarByGenetiveName(const QString name)
 {
     if (name.startsWith(QLatin1String("HD")))
@@ -580,30 +590,6 @@ SkyObject *StarComponent::findStarByGenetiveName(const QString name)
             return findByHDIndex(HDNum);
     }
     return m_genName.value(name);
-}
-
-// Overrides ListComponent::findByName() to include genetive name and HD index also in the search
-SkyObject *StarComponent::findByName(const QString &name)
-{
-#ifndef KSTARS_LITE
-    if (KStars::Closing)
-        return nullptr;
-#endif
-
-    foreach (SkyObject *o, m_ObjectList)
-    {
-#ifndef KSTARS_LITE
-        if (KStars::Closing)
-            return nullptr;
-#endif
-
-        if (QString::compare(o->name(), name, Qt::CaseInsensitive) == 0 ||
-            QString::compare(o->longname(), name, Qt::CaseInsensitive) == 0 ||
-            QString::compare(o->name2(), name, Qt::CaseInsensitive) == 0 ||
-            QString::compare(((StarObject *)o)->gname(false), name, Qt::CaseInsensitive) == 0)
-            return o;
-    }
-    return nullptr;
 }
 
 void StarComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion &region)
