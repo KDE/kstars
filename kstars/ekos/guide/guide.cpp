@@ -1797,7 +1797,7 @@ void Guide::startAutoCalibrateGuide()
     // A must for auto stuff
     Options::setGuideAutoStarEnabled(true);
 
-    clearCalibration();
+    //clearCalibration();
 
     guide();
 

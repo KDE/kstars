@@ -2922,7 +2922,7 @@ void Scheduler::checkJobStage()
                 if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
                     appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
-                    startGuiding();
+                    startGuiding(true);
                     return;
                 }
 
@@ -2964,7 +2964,7 @@ void Scheduler::checkJobStage()
                     {
                         appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
                         //currentJob->setStage(SchedulerJob::STAGE_GUIDING);
-                        startGuiding();
+                        startGuiding(true);
                         return;
                     }
                 }
@@ -3796,11 +3796,14 @@ void Scheduler::startAstrometry()
     currentJob->setStage(SchedulerJob::STAGE_ALIGNING);
 }
 
-void Scheduler::startGuiding()
+void Scheduler::startGuiding(bool resetCalibration)
 {
     // Make sure calibration is auto
     //QVariant arg(true);
     //guideInterface->call(QDBus::AutoDetect,"setCalibrationAutoStar", arg);
+
+    if (resetCalibration)
+        guideInterface->call(QDBus::AutoDetect, "clearCalibration");
 
     //QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"startAutoCalibrateGuide");
     guideInterface->call(QDBus::AutoDetect, "startAutoCalibrateGuide");
