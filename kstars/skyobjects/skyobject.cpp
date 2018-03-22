@@ -27,6 +27,7 @@
 #include "Options.h"
 #include "starobject.h"
 #include "skycomponents/skylabeler.h"
+#include "skymap.h"
 
 QString SkyObject::emptyString;
 QString SkyObject::unnamedString       = QString(I18N_NOOP("unnamed"));
@@ -551,4 +552,10 @@ AuxInfo *SkyObject::getAuxInfo()
 SkyObject::UID SkyObject::getUID() const
 {
     return invalidUID;
+}
+
+// as inline
+bool SkyObject::isFocused()
+{
+    return SkyMap::Instance()->focusObject() == this;
 }

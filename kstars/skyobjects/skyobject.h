@@ -369,6 +369,22 @@ class SkyObject : public SkyPoint
      */
     virtual UID getUID() const;
 
+    // TODO: (Valentin) have another think about onFocus handlers :)
+
+    /**
+     * @brief isFocused
+     * @return returns true, if the oject is focused in the skymap
+     */
+    bool isFocused();
+
+    /**
+     * @brief hashBeenUpdated
+     * @return wether the coordinates of the object have been updated
+     *
+     * This is used for faster filtering.
+     */
+    bool hashBeenUpdated() { return has_been_updated; }
+
   private:
     /**
      * Compute the UT time when the object will rise or set. It is an auxiliary
@@ -474,4 +490,10 @@ class SkyObject : public SkyPoint
     static QString unnamedString;
     static QString unnamedObjectString;
     static QString starString;
+
+    // Wether the coordinates of the object have been updated.
+    // The default value is chose for compatibility reasons.
+    // It primarily matters for objects which are filtered.
+    // See `KSAsteroid` for an example.
+    bool has_been_updated = true;
 };

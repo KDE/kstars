@@ -59,6 +59,16 @@ class ListComponent : public SkyComponent
 
     const QList<SkyObject *> &objectList() const { return m_ObjectList; }
 
+    /**
+     * @short Add an object to the Object list.
+     *
+     * This method is a handy wrapper, which automaticly appends the given
+     * SkyObject to m_ObjectList and inserts references with all common names (name,
+     * name2, longname) into the m_ObjectHash QHash to enable a faster findbyname.
+     */
+    void appendListObject(SkyObject * object);
+
   protected:
     QList<SkyObject *> m_ObjectList;
+    QHash<QString, SkyObject *> m_ObjectHash;
 };

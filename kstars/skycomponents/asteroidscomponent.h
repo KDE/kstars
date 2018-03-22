@@ -21,9 +21,11 @@
 #include <QList>
 #include <QPointer>
 
-#include "solarsystemlistcomponent.h"
+#include "binarylistcomponent.h"
 #include "ksparser.h"
 #include "typedef.h"
+#include "skyobjects/ksasteroid.h"
+#include "solarsystemlistcomponent.h"
 
 class FileDownloader;
 
@@ -33,10 +35,12 @@ class FileDownloader;
  * @author Thomas Kabelmann
  * @version 0.1
  */
-class AsteroidsComponent : public QObject, public SolarSystemListComponent
+class AsteroidsComponent : public QObject, public SolarSystemListComponent,
+       virtual public BinaryListComponent<KSAsteroid, AsteroidsComponent>
 {
     Q_OBJECT
 
+    friend class BinaryListComponent<KSAsteroid, AsteroidsComponent>;
   public:
     /** @short Default constructor.
          * @p parent pointer to the parent SolarSystemComposite
@@ -48,7 +52,7 @@ class AsteroidsComponent : public QObject, public SolarSystemListComponent
     bool selected() override;
     SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
-    void updateDataFile();
+    void updateDataFile() override;
 
     QString ans();
 
@@ -57,7 +61,7 @@ class AsteroidsComponent : public QObject, public SolarSystemListComponent
     void downloadError(const QString &errorString);
 
   private:
-    void loadData();
+    void loadDataFromText() override;
     FileDownloader *downloadJob;
 };
 

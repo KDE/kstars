@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include <QDataStream>
 #include "ksplanetbase.h"
 
 class dms;
@@ -69,6 +70,8 @@ class KSAsteroid : public KSPlanetBase
 
     KSAsteroid *clone() const override;
     SkyObject::UID getUID() const override;
+
+    static const SkyObject::TYPE TYPE = SkyObject::ASTEROID;
 
     /** Destructor (empty)*/
     ~KSAsteroid() override {}
@@ -184,6 +187,22 @@ class KSAsteroid : public KSPlanetBase
          */
     inline float getPeriod() const { return Period; }
 
+    // TODO: Add top level implementation
+    /**
+     * @brief toDraw
+     * @return whether to draw the asteroid
+     *
+     * Note that you'd check for other, older filtering methids
+     * upn implementing this on other types! (a.k.a find nearest)
+     */
+    inline bool toDraw() { return toCalculate(); }
+
+    /**
+     * @brief toCalculate
+     * @return whether to calculate the position
+     */
+    bool toCalculate();
+
   protected:
     /** Calculate the geocentric RA, Dec coordinates of the Asteroid.
         	*@note reimplemented from KSPlanetBase
@@ -203,7 +222,14 @@ class KSAsteroid : public KSPlanetBase
     void set_N(double newN) { N.setD(newN); }
     void setJD(long double jd) { JD = jd; }
 
+
   private:
+    /**
+     * Serializers
+     */
+    friend QDataStream &operator<<(QDataStream &out, const KSAsteroid &asteroid);
+    friend QDataStream &operator>>(QDataStream &in, KSAsteroid *&asteroid);
+
     void findMagnitude(const KSNumbers *) override;
 
     int catN { 0 };
