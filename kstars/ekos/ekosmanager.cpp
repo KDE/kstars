@@ -96,8 +96,17 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(connectB, SIGNAL(clicked()), this, SLOT(connectDevices()));
     connect(disconnectB, SIGNAL(clicked()), this, SLOT(disconnectDevices()));
 
+    ekosLiveClient.reset(new EkosLiveClient());
+
     // INDI Control Panel
-    connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
+    //connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
+    connect(ekosLiveB, &QPushButton::clicked, [this]()
+    {
+        ekosLiveClient->connectToServer(QUrl("ws://localhost:3000/socket.io/?EIO=3&transport=websocket"));
+        ekosLiveClient->sendMessage("Hello from KStars");
+
+    });
+
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
     // Save as above, but it appears in all modules
     connect(ekosOptionsB, SIGNAL(clicked()), SLOT(showEkosOptions()));
@@ -162,8 +171,8 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     loadProfiles();
 
     // INDI Control Panel and Ekos Options
-    controlPanelB->setIcon(QIcon::fromTheme("kstars_indi"));
-    controlPanelB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    ekosLiveB->setIcon(QIcon::fromTheme("redeyes"));
+    ekosLiveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     optionsB->setIcon(QIcon::fromTheme("configure", QIcon(":/icons/ekos_setup.png")));
     optionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
@@ -353,7 +362,7 @@ void EkosManager::reset()
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
-    controlPanelB->setEnabled(false);
+    //controlPanelB->setEnabled(false);
     processINDIB->setEnabled(true);
 
     mountGroup->setEnabled(false);
@@ -687,7 +696,7 @@ bool EkosManager::start()
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
-    controlPanelB->setEnabled(false);
+    //controlPanelB->setEnabled(false);
 
     profileGroup->setEnabled(false);
 
@@ -888,7 +897,7 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
 
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
-        controlPanelB->setEnabled(true);
+        //controlPanelB->setEnabled(true);
 
         if (localMode == false && nDevices == 0)
         {
