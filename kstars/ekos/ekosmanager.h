@@ -30,6 +30,7 @@
 #include "mount/mount.h"
 #include "scheduler/scheduler.h"
 #include "auxiliary/filtermanager.h"
+#include "ekoslive/ekosliveclient.h"
 // Can't use forward decleration with QPointer. QTBUG-29588
 #include "auxiliary/opslogs.h"
 
@@ -279,6 +280,8 @@ class EkosManager : public QDialog, public Ui::EkosManager
     std::unique_ptr<Ekos::Weather> weatherProcess;
     std::unique_ptr<Ekos::DustCap> dustCapProcess;
 
+    std::unique_ptr<EkosLiveClient> ekosLiveClient;
+
     bool localMode { true };
     bool isStarted { false };
     bool remoteManagerStart { false };
@@ -304,7 +307,6 @@ class EkosManager : public QDialog, public Ui::EkosManager
     QTime overallCountDown;
     QTime sequenceCountDown;
     QTimer countdownTimer;
-//    QPixmap *previewPixmap;
     QProgressIndicator *capturePI { nullptr };
     // Preview Frame
     std::unique_ptr<FITSView> summaryPreview;
@@ -312,16 +314,10 @@ class EkosManager : public QDialog, public Ui::EkosManager
     // Focus Summary
     QProgressIndicator *focusPI { nullptr };
     std::unique_ptr<QPixmap> focusStarPixmap;
-    //QPixmap *focusProfilePixmap;
-    //QTemporaryFile focusStarFile;
-    //QTemporaryFile focusProfileFile;
 
     // Guide Summary
     QProgressIndicator *guidePI { nullptr };
     std::unique_ptr<QPixmap> guideStarPixmap;
-    //QPixmap *guideProfilePixmap;
-    //QTemporaryFile guideStarFile;
-    //QTemporaryFile guideProfileFile;
 
     ProfileInfo *currentProfile { nullptr };
     bool profileWizardLaunched { false };
