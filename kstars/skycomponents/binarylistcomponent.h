@@ -154,7 +154,7 @@ protected:
 
 // Don't allow the children to mess with the Binary Version!
 private:
-    QDataStream::Version binversion = QDataStream::Qt_5_10;
+    QDataStream::Version binversion = QDataStream::Qt_5_5;
     Component* parent;
 };
 
