@@ -254,12 +254,6 @@ class Guide : public QWidget, public Ui::Guide
     Q_SCRIPTABLE bool capture();
 
     /** DBUS interface function.
-         * Attempts to automatically select a star from the current guide frame
-         * @return Returns true if a star is selected successfully, false otherwise
-         */
-    Q_SCRIPTABLE bool selectAutoStar();
-
-    /** DBUS interface function.
          * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
          * @param enable if true, it will select a subframe around the guide star depending on the boxSize size.
          */

@@ -37,6 +37,8 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
         if (Options::guideRemoteImagesEnabled() != kcfg_GuideRemoteImagesEnabled->isChecked())
             KSNotification::info(i18n("You must restart KStars for this change to take effect."));
     });
+
+    connect(m_ConfigDialog, SIGNAL(settingsChanged(QString)), this, SIGNAL(settingsUpdated()));
 }
 
 OpsGuide::~OpsGuide()
