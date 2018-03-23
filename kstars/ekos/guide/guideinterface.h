@@ -46,6 +46,7 @@ class GuideInterface : public QObject
     virtual bool abort()               = 0;
     virtual bool dither(double pixels) = 0;
     virtual bool clearCalibration()    = 0;
+    virtual bool reacquire() { return false; }
 
     virtual bool setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture,
                                  double mountFocalLength);

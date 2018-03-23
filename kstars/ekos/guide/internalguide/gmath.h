@@ -35,9 +35,10 @@ typedef struct
 } guide_square_t;
 
 #define SMART_THRESHOLD    0
-#define CENTROID_THRESHOLD 1
-#define AUTO_THRESHOLD     2
-#define NO_THRESHOLD       3
+#define SEP_THRESHOLD      1
+#define CENTROID_THRESHOLD 2
+#define AUTO_THRESHOLD     3
+#define NO_THRESHOLD       4
 
 typedef struct
 {
