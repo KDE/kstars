@@ -2111,7 +2111,6 @@ bool Guide::setGuiderType(int type)
                     SLOT(sendPulse(GuideDirection,int,GuideDirection,int)));
             connect(internalGuider, SIGNAL(DESwapChanged(bool)), swapCheck, SLOT(setChecked(bool)));
             connect(internalGuider, SIGNAL(newStarPixmap(QPixmap &)), this, SIGNAL(newStarPixmap(QPixmap&)));
-            connect(internalGuider, SIGNAL(newStarPoisiton(QVector3D,bool)), this, SLOT(setStarPosition(QVector3D,bool)));
 
             guider = internalGuider;
 
