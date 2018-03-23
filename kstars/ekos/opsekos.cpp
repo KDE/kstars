@@ -40,6 +40,7 @@ OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
     connect(openDarksFolderB, SIGNAL(clicked()), this, SLOT(openDarksFolder()));
     connect(clearAllB, SIGNAL(clicked()), this, SLOT(clearAll()));
     connect(clearRowB, SIGNAL(clicked()), this, SLOT(clearRow()));
+    connect(clearExpiredB, SIGNAL(clicked()), this, SLOT(clearExpired()));
     connect(refreshB, SIGNAL(clicked()), this, SLOT(refreshDarkData()));
 
     refreshDarkData();
@@ -50,8 +51,41 @@ OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
     });
 }
 
-OpsEkos::~OpsEkos()
+void OpsEkos::clearExpired()
 {
+    if (darkFramesModel->rowCount() == 0)
+        return;
+
+    // Anything before this must go
+    QDateTime expiredDate = QDateTime::currentDateTime().addDays(kcfg_DarkLibraryDuration->value()*-1);
+
+    QString darkFilesPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks";
+
+    QSqlDatabase userdb = QSqlDatabase::database("userdb");
+    userdb.open();
+    QSqlTableModel darkframe(nullptr, userdb);
+    darkframe.setEditStrategy(QSqlTableModel::OnManualSubmit);
+    darkframe.setTable("darkframe");
+    // Select all those that already expired.
+    darkframe.setFilter("timestamp < \'" + expiredDate.toString(Qt::ISODate) + "\'");
+
+    darkframe.select();
+
+    // Now remove all the expired files from disk
+    for (int i = 0; i < darkframe.rowCount(); ++i)
+    {
+        QString oneFile = darkframe.record(i).value("filename").toString();
+        QFile::remove(darkFilesPath + QDir::separator() + oneFile);
+    }
+
+    // And remove them from the database
+    darkframe.removeRows(0, darkframe.rowCount());
+    darkframe.submitAll();
+    userdb.close();
+
+    Ekos::DarkLibrary::Instance()->refreshFromDB();
+
+    refreshDarkData();
 }
 
 void OpsEkos::clearAll()
@@ -108,10 +142,18 @@ void OpsEkos::refreshDarkData()
     userdb.open();
 
     delete (darkFramesModel);
+    delete (sortFilter);
+
     darkFramesModel = new QSqlTableModel(this, userdb);
     darkFramesModel->setTable("darkframe");
     darkFramesModel->select();
-    darkTableView->setModel(darkFramesModel);
+
+    sortFilter = new QSortFilterProxyModel(this);
+    sortFilter->setSourceModel(darkFramesModel);
+    sortFilter->sort (0);
+    darkTableView->setModel (sortFilter);
+
+    //darkTableView->setModel(darkFramesModel);
     // Hide ID
     darkTableView->hideColumn(0);
     // Hide Chip
