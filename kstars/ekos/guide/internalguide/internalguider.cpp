@@ -14,6 +14,7 @@
 #include "gmath.h"
 #include "Options.h"
 #include "auxiliary/kspaths.h"
+#include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 
 #include "ekos_guide_debug.h"
