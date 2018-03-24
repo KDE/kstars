@@ -2381,6 +2381,7 @@ bool Align::captureAndSolve()
         {
             filterPositionPending    = true;
             filterManager->setFilterPosition(targetPosition);
+            state = ALIGN_PROGRESS;
             return true;
         }
     }
