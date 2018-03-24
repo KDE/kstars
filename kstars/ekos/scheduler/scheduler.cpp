@@ -1025,7 +1025,16 @@ void Scheduler::evaluateJobs()
     for(SchedulerJob *job : jobs)
     {
         if (job->getState() == SchedulerJob::JOB_SCHEDULED)
+        {
+            if (job->getFileStartupCondition() == SchedulerJob::START_ASAP)
+            {
+                job->setStartupCondition(SchedulerJob::START_ASAP);
+                job->setStartupTime(QDateTime());
+                job->setCompletionTime(QDateTime());
+            }
+
             job->setState(SchedulerJob::JOB_IDLE);
+        }
     }
 
     // Now evaluate all pending jobs per the conditions set in each
@@ -1331,9 +1340,11 @@ void Scheduler::evaluateJobs()
                 delayJob = Options::leadTime() * 60;
 
             QDateTime otherjob_time = lastStartTime.addSecs(delayJob);
-            // If other jobs starts after pre-dawn limit, then we scheduler it to the next day.
-            // FIXME: After changing time we are not evaluating job again when we should.
-            if (otherjob_time >= preDawnDateTime.addDays(daysCount))
+            QDateTime nextPreDawnTime = preDawnDateTime.addDays(daysCount);
+            // If other jobs starts after pre-dawn limit, then we schedule it to the next day.
+            // But we only take this action IF the job we are checking against starts _before_ dawn and our
+            // job therefore carry us after down, then there is an actual need to schedule it next day.
+            if (lastStartTime <  nextPreDawnTime &&  otherjob_time >= nextPreDawnTime)
             {
                 QDateTime date;
 
@@ -1405,8 +1416,18 @@ void Scheduler::evaluateJobs()
             break;
         }
     }
-    else if (sortedJobs.first()->getScore() > 0)
-        bestCandidate = sortedJobs.first();
+    else
+    {
+        // Get the first job that can run.
+        for (SchedulerJob *job : sortedJobs)
+        {
+            if (job->getScore() > 0)
+            {
+                bestCandidate = job;
+                break;
+            }
+        }
+    }
 
     if (bestCandidate != nullptr)
     {
@@ -1437,7 +1458,7 @@ void Scheduler::evaluateJobs()
 
             int timeLeft = KStarsData::Instance()->lt().secsTo(job->getStartupTime());
 
-            if (timeLeft < nextObservationTime)
+            if (timeLeft > 0 && timeLeft < nextObservationTime)
             {
                 nextObservationTime = timeLeft;
                 nextObservationJob  = job;
