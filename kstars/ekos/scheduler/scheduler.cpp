@@ -1021,14 +1021,24 @@ void Scheduler::pause()
 
 void Scheduler::evaluateJobs()
 {
+    // Reset ALL scheduler jobs to IDLE and re-evalute them always again
+    for(SchedulerJob *job : jobs)
+    {
+        if (job->getState() == SchedulerJob::JOB_SCHEDULED)
+            job->setState(SchedulerJob::JOB_IDLE);
+    }
+
+    // Now evaluate all pending jobs per the conditions set in each
     foreach (SchedulerJob *job, jobs)
     {
         if (job->getState() > SchedulerJob::JOB_SCHEDULED)
             continue;
 
+        // If job is idle, let's set it up for evaluation.
         if (job->getState() == SchedulerJob::JOB_IDLE)
             job->setState(SchedulerJob::JOB_EVALUATION);
 
+        // In case of a repeating jobs, let's make sure we have more runs left to go
         if (job->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
         {
             if (job->getRepeatsRemaining() == 0)
@@ -1395,7 +1405,7 @@ void Scheduler::evaluateJobs()
             break;
         }
     }
-    else
+    else if (sortedJobs.first()->getScore() > 0)
         bestCandidate = sortedJobs.first();
 
     if (bestCandidate != nullptr)
@@ -1420,7 +1430,7 @@ void Scheduler::evaluateJobs()
         int nextObservationTime          = 1e6;
         SchedulerJob *nextObservationJob = nullptr;
 
-        foreach (SchedulerJob *job, jobs)
+        foreach (SchedulerJob *job, sortedJobs)
         {
             if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getStartupCondition() != SchedulerJob::START_AT)
                 continue;
