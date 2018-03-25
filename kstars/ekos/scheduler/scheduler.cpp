@@ -1524,10 +1524,10 @@ void Scheduler::evaluateJobs()
                 // If mount was pre-emptivally parked OR if parking is not supported or if start up procedure is IDLE then go into
                 // sleep mode until next job is ready.
                 else if ((nextObservationTime > (Options::leadTime() * 60)) &&
-                         parkWaitState == PARKWAIT_PARKED ||
+                         (parkWaitState == PARKWAIT_PARKED ||
                          parkMountCheck->isEnabled() == false ||
                          parkMountCheck->isChecked() == false ||
-                         startupState == STARTUP_IDLE)
+                         startupState == STARTUP_IDLE))
                 {
                     appendLogText(i18n("Scheduler is going into sleep mode..."));
                     sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
