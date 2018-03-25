@@ -1072,12 +1072,12 @@ void Scheduler::evaluateJobs()
                 job->setState(SchedulerJob::JOB_INVALID);
                 continue;
             }
+        }
 
-            if (job->getEstimatedTime() == 0)
-            {
-                job->setState(SchedulerJob::JOB_COMPLETE);
-                continue;
-            }
+        if (job->getEstimatedTime() == 0)
+        {
+            job->setState(SchedulerJob::JOB_COMPLETE);
+            continue;
         }
 
         // #1 Check startup conditions
@@ -1441,6 +1441,7 @@ void Scheduler::evaluateJobs()
         appendLogText(
             i18n("Found candidate job %1 (Priority #%2).", bestCandidate->getName(), bestCandidate->getPriority()));
 
+        queueTable->selectRow(bestCandidate->getStartupCell()->row());
         currentJob = bestCandidate;
     }
     // If we already started, we check when the next object is scheduled at.
