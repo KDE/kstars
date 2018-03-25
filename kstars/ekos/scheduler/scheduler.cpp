@@ -1306,6 +1306,9 @@ void Scheduler::evaluateJobs()
 
     QList<SchedulerJob *> sortedJobs = jobs;
 
+    sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(),[](SchedulerJob* job)
+    { return job->getState() > SchedulerJob::JOB_SCHEDULED;}), sortedJobs.end());
+
     if (Options::sortSchedulerJobs())
     {
         // Order by altitude first
@@ -1314,6 +1317,8 @@ void Scheduler::evaluateJobs()
         qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
     }
 
+    // Our first job now takes priority over ALL others.
+    // So if any other jobs conflicts with ours, we re-schedule that job to another time.
     SchedulerJob *firstJob      = sortedJobs.first();
     QDateTime firstStartTime    = firstJob->getStartupTime();
     QDateTime lastStartTime     = firstJob->getStartupTime();
@@ -1362,8 +1367,9 @@ void Scheduler::evaluateJobs()
 
             job->setState(SchedulerJob::JOB_SCHEDULED);
 
-            appendLogText(i18n("Observation jobs %1 and %2 have close start up times. %2 is rescheduled to %3.",
-                               firstJob->getName(), job->getName(), job->getStartupTime().toString()));
+            qCInfo(KSTARS_EKOS_SCHEDULER) << "Observation jobs" << firstJob->getName() << "and" << job->getName() <<
+                                             "have close start up times." << job->getName() << "is rescheduled to" <<
+                                             job->getStartupTime().toString();
         }
 
         lastJobEstimatedTime = job->getEstimatedTime();
@@ -1395,11 +1401,9 @@ void Scheduler::evaluateJobs()
                     bestCandidate = job;
             }
         }
-    }*/
+    }*/    
 
-    sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(),[](SchedulerJob* job)
-    { return job->getState() > SchedulerJob::JOB_SCHEDULED;}), sortedJobs.end());
-
+#if 0
     if (Options::sortSchedulerJobs())
     {
         // Order by score first
@@ -1428,6 +1432,17 @@ void Scheduler::evaluateJobs()
             }
         }
     }
+#endif
+
+    // Get the first job that can run.
+    for (SchedulerJob *job : sortedJobs)
+    {
+        if (job->getScore() > 0)
+        {
+            bestCandidate = job;
+            break;
+        }
+    }
 
     if (bestCandidate != nullptr)
     {
@@ -1438,8 +1453,7 @@ void Scheduler::evaluateJobs()
             return;
         }
 
-        appendLogText(
-            i18n("Found candidate job %1 (Priority #%2).", bestCandidate->getName(), bestCandidate->getPriority()));
+        appendLogText(i18n("Found candidate job %1 (Priority #%2).", bestCandidate->getName(), bestCandidate->getPriority()));
 
         queueTable->selectRow(bestCandidate->getStartupCell()->row());
         currentJob = bestCandidate;
@@ -1481,18 +1495,25 @@ void Scheduler::evaluateJobs()
                 weatherLabel->hide();
                 checkShutdownState();
 
-                // Wake up 5 minutes before next job is ready
-                sleepTimer.setInterval((nextObservationTime * 1000 - (1000 * Options::leadTime() * 60)));
+                // Wake up when job is due
+                //sleepTimer.setInterval((nextObservationTime * 1000 - (1000 * Options::leadTime() * 60)));
+                sleepTimer.setInterval((nextObservationTime * 1000));
                 connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
                 sleepTimer.start();
             }
-            // Otherise, check if the next observation time exceeds the job lead time (default 5 minutes)
-            else if (nextObservationTime > (Options::leadTime() * 60))
+            // Otherise, sleep until job is ready
+            //else if (nextObservationTime > (Options::leadTime() * 60))
+            else if (nextObservationTime > 1)
             {
                 // If start up procedure is already complete, and we didn't issue any parking commands before and parking is checked and enabled
                 // Then we park the mount until next job is ready. But only if the job uses TRACK as its first step, otherwise we cannot get into position again.
-                if (startupState == STARTUP_COMPLETE && parkWaitState == PARKWAIT_IDLE &&
-                    (nextObservationJob->getStepPipeline() & SchedulerJob::USE_TRACK) && parkMountCheck->isEnabled() &&
+                // This is also only performed if next job is due more than the default lead time (5 minutes).
+                // If job is due sooner than that is not worth parking and we simply go into sleep or wait modes.
+                if ((nextObservationTime > (Options::leadTime() * 60)) &&
+                    startupState == STARTUP_COMPLETE &&
+                    parkWaitState == PARKWAIT_IDLE &&
+                    (nextObservationJob->getStepPipeline() & SchedulerJob::USE_TRACK) &&
+                    parkMountCheck->isEnabled() &&
                     parkMountCheck->isChecked())
                 {
                     appendLogText(i18n("%1 observation job is scheduled for execution at %2. Parking the mount until "
@@ -1500,21 +1521,39 @@ void Scheduler::evaluateJobs()
                                        nextObservationJob->getName(), nextObservationJob->getStartupTime().toString()));
                     parkWaitState = PARKWAIT_PARK;
                 }
-                // If mount was pre-emptivally parked OR if parking is not supported or if start up procedure is IDLE then go into sleep mode until next job is ready
-                else if (parkWaitState == PARKWAIT_PARKED || parkMountCheck->isEnabled() == false ||
-                         parkMountCheck->isChecked() == false || startupState == STARTUP_IDLE)
+                // If mount was pre-emptivally parked OR if parking is not supported or if start up procedure is IDLE then go into
+                // sleep mode until next job is ready.
+                else if ((nextObservationTime > (Options::leadTime() * 60)) &&
+                         parkWaitState == PARKWAIT_PARKED ||
+                         parkMountCheck->isEnabled() == false ||
+                         parkMountCheck->isChecked() == false ||
+                         startupState == STARTUP_IDLE)
                 {
                     appendLogText(i18n("Scheduler is going into sleep mode..."));
-                    schedulerTimer.stop();
-
                     sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
+                    schedulerTimer.stop();
                     sleepLabel->show();
 
-                    //weatherCheck->setEnabled(false);
-                    //weatherLabel->hide();
+                    // Wake up when job is ready.
+                    // N.B. Waking 5 minutes before is useless now because we evaluate ALL scheduled jobs each second
+                    // So just wake it up when it is exactly due
+                    sleepTimer.setInterval((nextObservationTime * 1000));
+                    connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
+                    sleepTimer.start();
+                }
+                // The only difference between sleep and wait modes is the time. If the time more than lead time (5 minutes by default)
+                // then we sleep, otherwise we wait. It's the same thing, just different labels.
+                else
+                {
+                    appendLogText(i18n("Waiting until next job is ready..."));
+                    sleepLabel->setToolTip(i18n("Scheduler is in wait mode"));
+                    schedulerTimer.stop();
+                    sleepLabel->show();
 
-                    // Wake up 5 minutes (default) before next job is ready
-                    sleepTimer.setInterval((nextObservationTime * 1000 - (1000 * Options::leadTime() * 60)));
+                    // Wake up when job is ready.
+                    // N.B. Waking 5 minutes before is useless now because we evaluate ALL scheduled jobs each second
+                    // So just wake it up when it is exactly due
+                    sleepTimer.setInterval((nextObservationTime * 1000));
                     connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
                     sleepTimer.start();
                 }
