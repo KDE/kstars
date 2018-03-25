@@ -111,8 +111,8 @@ KStarsDateTime KStarsDateTime::fromString(const QString &s)
     if (dtResult.isValid())
         return dtResult;
 
-    qCWarning(KSTARS) << i18n("Could not parse Date/Time string: ") << s;
-    qCWarning(KSTARS) << i18n("Valid date formats: ");
+    qCWarning(KSTARS) << "Could not parse Date/Time string:" << s;
+    qCWarning(KSTARS) << "Valid date formats:";
     qCWarning(KSTARS) << "  1950-02-25   ;  1950-02-25T05:30:00";
     qCWarning(KSTARS) << "  25 Feb 1950  ;  25 Feb 1950 05:30:00";
     qCWarning(KSTARS) << "  Sat Feb 25 1950  ;  Sat Feb 25 05:30:00 1950";
@@ -158,6 +158,7 @@ KStarsDateTime KStarsDateTime::addSecs(double s) const
 {
     long double ds = (long double)s / 86400.;
     KStarsDateTime kdt(djd() + ds);
+    kdt.setTimeSpec(timeSpec());
     return kdt;
 }
 
