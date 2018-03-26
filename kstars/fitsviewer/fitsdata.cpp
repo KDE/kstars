@@ -4104,7 +4104,7 @@ int FITSData::findSEPStars(const QRect &boundary)
     sep_catalog *catalog = nullptr;
     float conv[] = {1,2,1, 2,4,2, 1,2,1};
     double flux_fractions[2] = {0};
-    double requested_frac[2] = { 0.5, 1.0 };
+    double requested_frac[2] = { 0.5, 0.99 };
     QList<Edge*> edges;
 
     // #0 Create SEP Image structure

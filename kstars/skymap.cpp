@@ -20,6 +20,7 @@
 #endif
 
 #include "skymap.h"
+#include "ksasteroid.h"
 
 #include "fov.h"
 #include "imageviewer.h"
@@ -312,83 +313,90 @@ void SkyMap::setFocusObject(SkyObject *o)
 void SkyMap::slotCenter()
 {
     KStars *kstars        = KStars::Instance();
-    TrailObject *trailObj = dynamic_cast<TrailObject *>(focusObject());
+     TrailObject *trailObj = dynamic_cast<TrailObject *>(focusObject());
 
-    setFocusPoint(clickedPoint());
-    if (Options::useAltAz())
-    {
-        // JM 2016-09-12: Following call has problems when ra0/dec0 of an object are not valid for example
-        // because they're solar system bodies. So it creates a lot of issues. It is disabled and centering
-        // works correctly for all different body types as I tested.
-        DeepSkyObject *dso = dynamic_cast<DeepSkyObject *>(focusObject());
-        if (dso)
-            focusPoint()->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
-        focusPoint()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-    }
-    else
-        focusPoint()->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
-    qDebug() << "Centering on " << focusPoint()->ra().toHMSString() << " " << focusPoint()->dec().toDMSString();
+     SkyPoint *foc;
+     if(ClickedObject != nullptr)
+         foc = ClickedObject;
+     else
+         foc = &ClickedPoint;
 
-    //clear the planet trail of old focusObject, if it was temporary
-    if (trailObj && data->temporaryTrail)
-    {
-        trailObj->clearTrail();
-        data->temporaryTrail = false;
-    }
 
-    //If the requested object is below the opaque horizon, issue a warning message
-    //(unless user is already pointed below the horizon)
-    if (Options::useAltAz() && Options::showGround() && focus()->alt().Degrees() > -1.0 &&
-        focusPoint()->alt().Degrees() < -1.0)
-    {
-        QString caption = i18n("Requested Position Below Horizon");
-        QString message = i18n("The requested position is below the horizon.\nWould you like to go there anyway?");
-        if (KMessageBox::warningYesNo(this, message, caption, KGuiItem(i18n("Go Anyway")),
-                                      KGuiItem(i18n("Keep Position")), "dag_focus_below_horiz") == KMessageBox::No)
-        {
-            setClickedObject(nullptr);
-            setFocusObject(nullptr);
-            Options::setIsTracking(false);
+     if (Options::useAltAz())
+     {
+         // JM 2016-09-12: Following call has problems when ra0/dec0 of an object are not valid for example
+         // because they're solar system bodies. So it creates a lot of issues. It is disabled and centering
+         // works correctly for all different body types as I tested.
+         DeepSkyObject *dso = dynamic_cast<DeepSkyObject *>(focusObject());
+         if (dso)
+             foc->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
+         foc->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+     }
+     else
+         foc->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
+     qDebug() << "Centering on " << foc->ra().toHMSString() << " " << foc->dec().toDMSString();
 
-            return;
-        }
-    }
 
-    //set FocusObject before slewing.  Otherwise, KStarsData::updateTime() can reset
-    //destination to previous object...
-    setFocusObject(ClickedObject);
-    Options::setIsTracking(true);
-    if (kstars)
-    {
-        kstars->actionCollection()
-            ->action("track_object")
-            ->setIcon(QIcon::fromTheme("document-encrypt"));
-        kstars->actionCollection()->action("track_object")->setText(i18n("Stop &Tracking"));
-    }
+     //clear the planet trail of old focusObject, if it was temporary
+     if (trailObj && data->temporaryTrail)
+     {
+         trailObj->clearTrail();
+         data->temporaryTrail = false;
+     }
 
-    //If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
+     //If the requested object is below the opaque horizon, issue a warning message
+     //(unless user is already pointed below the horizon)
+     if (Options::useAltAz() && Options::showGround() && focus()->alt().Degrees() > -1.0 &&
+         foc->alt().Degrees() < -1.0)
+     {
+         QString caption = i18n("Requested Position Below Horizon");
+         QString message = i18n("The requested position is below the horizon.\nWould you like to go there anyway?");
+         if (KMessageBox::warningYesNo(this, message, caption, KGuiItem(i18n("Go Anyway")),
+                                       KGuiItem(i18n("Keep Position")), "dag_focus_below_horiz") == KMessageBox::No)
+         {
+             setClickedObject(nullptr);
+             setFocusObject(nullptr);
+             Options::setIsTracking(false);
 
-    if (Options::useAutoTrail() && trailObj && trailObj->hasTrail())
-    {
-        trailObj->addToTrail();
-        data->temporaryTrail = true;
-    }
+             return;
+         }
+     }
 
-    //update the destination to the selected coordinates
-    if (Options::useAltAz())
-    {
-        setDestinationAltAz(focusPoint()->altRefracted(), focusPoint()->az());
-    }
-    else
-    {
-        setDestination(*focusPoint());
-    }
+     //set FocusObject before slewing.  Otherwise, KStarsData::updateTime() can reset
+     //destination to previous object...
+     setFocusObject(ClickedObject);
+     Options::setIsTracking(true);
+     if (kstars)
+     {
+         kstars->actionCollection()
+             ->action("track_object")
+             ->setIcon(QIcon::fromTheme("document-encrypt"));
+         kstars->actionCollection()->action("track_object")->setText(i18n("Stop &Tracking"));
+     }
 
-    focusPoint()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+     //If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
 
-    //display coordinates in statusBar
-    emit mousePointChanged(focusPoint());
-    showFocusCoords(); //update FocusBox
+     if (Options::useAutoTrail() && trailObj && trailObj->hasTrail())
+     {
+         trailObj->addToTrail();
+         data->temporaryTrail = true;
+     }
+
+     //update the destination to the selected coordinates
+     if (Options::useAltAz())
+     {
+         setDestinationAltAz(foc->altRefracted(), foc->az());
+     }
+     else
+     {
+         setDestination(*foc);
+     }
+
+     foc->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+
+     //display coordinates in statusBar
+     emit mousePointChanged(foc);
+ showFocusCoords(); //update FocusBox
 }
 
 void SkyMap::slotUpdateSky(bool now)
@@ -400,7 +408,7 @@ void SkyMap::slotUpdateSky(bool now)
     if (now)
         QTimer::singleShot(
             0, this,
-            SLOT(forceUpdateNow())); // Why is it done this way rather than just calling forceUpdateNow()? -- asimha
+            SLOT(forceUpdateNow())); // Why is it done this way rather than just calling forceUpdateNow()? -- asimha // --> Opening a neww thread? -- Valentin
     else
         forceUpdate();
 }

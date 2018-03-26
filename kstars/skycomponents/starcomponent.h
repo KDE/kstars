@@ -94,17 +94,6 @@ class StarComponent : public ListComponent
     virtual SkyObject *findStarByGenetiveName(const QString name);
 
     /**
-     * @short Find stars by name (including genetive name)
-     *
-     * Overrides ListComponent::findByName() to include genetive names of stars as well.
-     *
-     * @param name Name to search for. Could be trivial name or genetive name
-     * @return Pointer to the star with the given name as a SkyObject, nullptr if
-     * no match was found
-     */
-    SkyObject *findByName(const QString &name) override;
-
-    /**
      * @short Searches the region(s) and appends the SkyObjects found to the list of sky objects
      *
      * Look for a SkyObject that is in one of the regions
@@ -122,6 +111,14 @@ class StarComponent : public ListComponent
      * the next findByHDIndex() call. If no match was found, returns nullptr.
      */
     StarObject *findByHDIndex(int HDnum);
+
+
+    /**
+     * @short Append a star to the Object List. (including genetive name)
+     *
+     * Overrides ListComponent::appendListObject() to include genetive names of stars as well.
+     */
+    void appendListObject(SkyObject * object);
 
     /**
      * @short Add to the given list, the stars from this component, that lie within the

@@ -107,6 +107,7 @@ Scheduler::Scheduler()
         QIcon::fromTheme("chronometer").pixmap(QSize(32, 32)));
     sleepLabel->hide();
 
+    connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
     schedulerTimer.setInterval(UPDATE_PERIOD_MS);
     jobTimer.setInterval(UPDATE_PERIOD_MS);
 
@@ -923,7 +924,7 @@ void Scheduler::stop()
         scriptProcess.terminate();
 
     sleepTimer.stop();
-    sleepTimer.disconnect();
+    //sleepTimer.disconnect();
     sleepLabel->hide();
     pi->stopAnimation();
 
@@ -1021,14 +1022,33 @@ void Scheduler::pause()
 
 void Scheduler::evaluateJobs()
 {
+    // Reset ALL scheduler jobs to IDLE and re-evalute them always again
+    for(SchedulerJob *job : jobs)
+    {
+        if (job->getState() == SchedulerJob::JOB_SCHEDULED)
+        {
+            if (job->getFileStartupCondition() == SchedulerJob::START_ASAP)
+            {
+                job->setStartupCondition(SchedulerJob::START_ASAP);
+                job->setStartupTime(QDateTime());
+                job->setCompletionTime(QDateTime());
+            }
+
+            job->setState(SchedulerJob::JOB_IDLE);
+        }
+    }
+
+    // Now evaluate all pending jobs per the conditions set in each
     foreach (SchedulerJob *job, jobs)
     {
         if (job->getState() > SchedulerJob::JOB_SCHEDULED)
             continue;
 
+        // If job is idle, let's set it up for evaluation.
         if (job->getState() == SchedulerJob::JOB_IDLE)
             job->setState(SchedulerJob::JOB_EVALUATION);
 
+        // In case of a repeating jobs, let's make sure we have more runs left to go
         if (job->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
         {
             if (job->getRepeatsRemaining() == 0)
@@ -1053,12 +1073,12 @@ void Scheduler::evaluateJobs()
                 job->setState(SchedulerJob::JOB_INVALID);
                 continue;
             }
+        }
 
-            if (job->getEstimatedTime() == 0)
-            {
-                job->setState(SchedulerJob::JOB_COMPLETE);
-                continue;
-            }
+        if (job->getEstimatedTime() == 0)
+        {
+            job->setState(SchedulerJob::JOB_COMPLETE);
+            continue;
         }
 
         // #1 Check startup conditions
@@ -1287,6 +1307,9 @@ void Scheduler::evaluateJobs()
 
     QList<SchedulerJob *> sortedJobs = jobs;
 
+    sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(),[](SchedulerJob* job)
+    { return job->getState() > SchedulerJob::JOB_SCHEDULED;}), sortedJobs.end());
+
     if (Options::sortSchedulerJobs())
     {
         // Order by altitude first
@@ -1295,6 +1318,8 @@ void Scheduler::evaluateJobs()
         qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
     }
 
+    // Our first job now takes priority over ALL others.
+    // So if any other jobs conflicts with ours, we re-schedule that job to another time.
     SchedulerJob *firstJob      = sortedJobs.first();
     QDateTime firstStartTime    = firstJob->getStartupTime();
     QDateTime lastStartTime     = firstJob->getStartupTime();
@@ -1321,9 +1346,11 @@ void Scheduler::evaluateJobs()
                 delayJob = Options::leadTime() * 60;
 
             QDateTime otherjob_time = lastStartTime.addSecs(delayJob);
-            // If other jobs starts after pre-dawn limit, then we scheduler it to the next day.
-            // FIXME: After changing time we are not evaluating job again when we should.
-            if (otherjob_time >= preDawnDateTime.addDays(daysCount))
+            QDateTime nextPreDawnTime = preDawnDateTime.addDays(daysCount);
+            // If other jobs starts after pre-dawn limit, then we schedule it to the next day.
+            // But we only take this action IF the job we are checking against starts _before_ dawn and our
+            // job therefore carry us after down, then there is an actual need to schedule it next day.
+            if (lastStartTime <  nextPreDawnTime &&  otherjob_time >= nextPreDawnTime)
             {
                 QDateTime date;
 
@@ -1341,8 +1368,9 @@ void Scheduler::evaluateJobs()
 
             job->setState(SchedulerJob::JOB_SCHEDULED);
 
-            appendLogText(i18n("Observation jobs %1 and %2 have close start up times. %2 is rescheduled to %3.",
-                               firstJob->getName(), job->getName(), job->getStartupTime().toString()));
+            qCInfo(KSTARS_EKOS_SCHEDULER) << "Observation jobs" << firstJob->getName() << "and" << job->getName() <<
+                                             "have close start up times." << job->getName() << "is rescheduled to" <<
+                                             job->getStartupTime().toString();
         }
 
         lastJobEstimatedTime = job->getEstimatedTime();
@@ -1374,11 +1402,9 @@ void Scheduler::evaluateJobs()
                     bestCandidate = job;
             }
         }
-    }*/
+    }*/    
 
-    sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(),[](SchedulerJob* job)
-    { return job->getState() > SchedulerJob::JOB_SCHEDULED;}), sortedJobs.end());
-
+#if 0
     if (Options::sortSchedulerJobs())
     {
         // Order by score first
@@ -1396,7 +1422,36 @@ void Scheduler::evaluateJobs()
         }
     }
     else
-        bestCandidate = sortedJobs.first();
+    {
+        // Get the first job that can run.
+        for (SchedulerJob *job : sortedJobs)
+        {
+            if (job->getScore() > 0)
+            {
+                bestCandidate = job;
+                break;
+            }
+        }
+    }
+#endif
+
+    if (Options::sortSchedulerJobs())
+    {
+        // Order by score first
+        qSort(sortedJobs.begin(), sortedJobs.end(), scoreHigherThan);
+        // Then by priority
+        qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
+    }
+
+    // Get the first job that can run.
+    for (SchedulerJob *job : sortedJobs)
+    {
+        if (job->getScore() > 0)
+        {
+            bestCandidate = job;
+            break;
+        }
+    }
 
     if (bestCandidate != nullptr)
     {
@@ -1407,9 +1462,9 @@ void Scheduler::evaluateJobs()
             return;
         }
 
-        appendLogText(
-            i18n("Found candidate job %1 (Priority #%2).", bestCandidate->getName(), bestCandidate->getPriority()));
+        appendLogText(i18n("Found candidate job %1 (Priority #%2).", bestCandidate->getName(), bestCandidate->getPriority()));
 
+        queueTable->selectRow(bestCandidate->getStartupCell()->row());
         currentJob = bestCandidate;
     }
     // If we already started, we check when the next object is scheduled at.
@@ -1420,14 +1475,14 @@ void Scheduler::evaluateJobs()
         int nextObservationTime          = 1e6;
         SchedulerJob *nextObservationJob = nullptr;
 
-        foreach (SchedulerJob *job, jobs)
+        foreach (SchedulerJob *job, sortedJobs)
         {
             if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getStartupCondition() != SchedulerJob::START_AT)
                 continue;
 
             int timeLeft = KStarsData::Instance()->lt().secsTo(job->getStartupTime());
 
-            if (timeLeft < nextObservationTime)
+            if (timeLeft > 0 && timeLeft < nextObservationTime)
             {
                 nextObservationTime = timeLeft;
                 nextObservationJob  = job;
@@ -1449,18 +1504,25 @@ void Scheduler::evaluateJobs()
                 weatherLabel->hide();
                 checkShutdownState();
 
-                // Wake up 5 minutes before next job is ready
-                sleepTimer.setInterval((nextObservationTime * 1000 - (1000 * Options::leadTime() * 60)));
-                connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
+                // Wake up when job is due
+                //sleepTimer.setInterval((nextObservationTime * 1000 - (1000 * Options::leadTime() * 60)));
+                sleepTimer.setInterval(( (nextObservationTime+1) * 1000));
+                //connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
                 sleepTimer.start();
             }
-            // Otherise, check if the next observation time exceeds the job lead time (default 5 minutes)
-            else if (nextObservationTime > (Options::leadTime() * 60))
+            // Otherise, sleep until job is ready
+            //else if (nextObservationTime > (Options::leadTime() * 60))
+            else if (nextObservationTime > 1)
             {
                 // If start up procedure is already complete, and we didn't issue any parking commands before and parking is checked and enabled
                 // Then we park the mount until next job is ready. But only if the job uses TRACK as its first step, otherwise we cannot get into position again.
-                if (startupState == STARTUP_COMPLETE && parkWaitState == PARKWAIT_IDLE &&
-                    (nextObservationJob->getStepPipeline() & SchedulerJob::USE_TRACK) && parkMountCheck->isEnabled() &&
+                // This is also only performed if next job is due more than the default lead time (5 minutes).
+                // If job is due sooner than that is not worth parking and we simply go into sleep or wait modes.
+                if ((nextObservationTime > (Options::leadTime() * 60)) &&
+                    startupState == STARTUP_COMPLETE &&
+                    parkWaitState == PARKWAIT_IDLE &&
+                    (nextObservationJob->getStepPipeline() & SchedulerJob::USE_TRACK) &&
+                    parkMountCheck->isEnabled() &&
                     parkMountCheck->isChecked())
                 {
                     appendLogText(i18n("%1 observation job is scheduled for execution at %2. Parking the mount until "
@@ -1468,22 +1530,43 @@ void Scheduler::evaluateJobs()
                                        nextObservationJob->getName(), nextObservationJob->getStartupTime().toString()));
                     parkWaitState = PARKWAIT_PARK;
                 }
-                // If mount was pre-emptivally parked OR if parking is not supported or if start up procedure is IDLE then go into sleep mode until next job is ready
-                else if (parkWaitState == PARKWAIT_PARKED || parkMountCheck->isEnabled() == false ||
-                         parkMountCheck->isChecked() == false || startupState == STARTUP_IDLE)
+                // If mount was pre-emptivally parked OR if parking is not supported or if start up procedure is IDLE then go into
+                // sleep mode until next job is ready.
+#if 0
+                else if ((nextObservationTime > (Options::leadTime() * 60)) &&
+                         (parkWaitState == PARKWAIT_PARKED ||
+                         parkMountCheck->isEnabled() == false ||
+                         parkMountCheck->isChecked() == false ||
+                         startupState == STARTUP_IDLE))
                 {
-                    appendLogText(i18n("Scheduler is going into sleep mode..."));
-                    schedulerTimer.stop();
-
+                    appendLogText(i18n("Sleeping until observation job %1 is ready at %2...", nextObservationJob->getName(),
+                                       KStars::Instance()->data()->lt().addSecs(nextObservationTime+1).toString()));
                     sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
+                    schedulerTimer.stop();
                     sleepLabel->show();
 
-                    //weatherCheck->setEnabled(false);
-                    //weatherLabel->hide();
+                    // Wake up when job is ready.
+                    // N.B. Waking 5 minutes before is useless now because we evaluate ALL scheduled jobs each second
+                    // So just wake it up when it is exactly due
+                    sleepTimer.setInterval(( (nextObservationTime+1) * 1000));
+                    sleepTimer.start();
+                }
+#endif
+                // The only difference between sleep and wait modes is the time. If the time more than lead time (5 minutes by default)
+                // then we sleep, otherwise we wait. It's the same thing, just different labels.
+                else
+                {
+                    appendLogText(i18n("Sleeping until observation job %1 is ready at %2...", nextObservationJob->getName(),
+                                       KStars::Instance()->data()->lt().addSecs(nextObservationTime+1).toString()));
+                    sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
+                    schedulerTimer.stop();
+                    sleepLabel->show();
 
-                    // Wake up 5 minutes (default) before next job is ready
-                    sleepTimer.setInterval((nextObservationTime * 1000 - (1000 * Options::leadTime() * 60)));
-                    connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
+                    // Wake up when job is ready.
+                    // N.B. Waking 5 minutes before is useless now because we evaluate ALL scheduled jobs each second
+                    // So just wake it up when it is exactly due
+                    sleepTimer.setInterval(( (nextObservationTime+1) * 1000));
+                    //connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
                     sleepTimer.start();
                 }
             }
@@ -1578,8 +1661,8 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
 
                 job->setStartupTime(startTime);
                 job->setStartupCondition(SchedulerJob::START_AT);
-                appendLogText(i18n("%1 is scheduled to start at %2 where its altitude is %3 degrees.", job->getName(),
-                                   startTime.toString(), QString::number(altitude, 'g', 3)));
+                qCInfo(KSTARS_EKOS_SCHEDULER) << job->getName() << "is scheduled to start at" << startTime.toString() <<
+                                                 "where its altitude is" << QString::number(altitude, 'g', 3) << "degrees.";
                 return true;
             }
         }
@@ -1771,7 +1854,7 @@ int16_t Scheduler::getDarkSkyScore(const QDateTime &observationDateTime)
     else
         score = BAD_SCORE;
 
-    appendLogText(i18n("Dark sky score is %1 for time %2", score, observationDateTime.toString()));
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Dark sky score is" << score << "for time" << observationDateTime.toString();
 
     return score;
 }
@@ -1804,14 +1887,17 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, QDateTime when)
             score = BAD_SCORE;
         else
         {
-            double HA = 0;
+            // Get HA of actual object, and not of the mount as was done below
+            double HA = KStars::Instance()->data()->lst()->Hours() - job->getTargetCoords().ra().Hours();
 
+#if 0
             if (indiState == INDI_READY)
             {
                 QDBusReply<double> haReply = mountInterface->call(QDBus::AutoDetect, "getHourAngle");
                 if (haReply.error().type() == QDBusError::NoError)
                     HA = haReply.value();
             }
+#endif
 
             // If already passed the merdian and setting we check if it is within setting alttidue cut off value (3 degrees default)
             // If it is within that value then it is useless to start the job which will end very soon so we better look for a better job.
@@ -1829,8 +1915,8 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, QDateTime when)
     else
         score = (1.5 * pow(1.06, currentAlt)) - (minAltitude->minimum() / 10.0);
 
-    appendLogText(i18n("%1 altitude at %2 is %3 degrees. %1 altitude score is %4.", job->getName(), when.toString(),
-                       QString::number(currentAlt, 'g', 3), score));
+    qCInfo(KSTARS_EKOS_SCHEDULER) << job->getName() << "altitude at" <<  when.toString() << "is" << QString::number(currentAlt, 'g', 3)
+                                  << "degrees with score of" << score;
 
     return score;
 }
@@ -1912,7 +1998,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
     // Limit to 0 to 20
     score /= 5.0;
 
-    appendLogText(i18n("%1 Moon score %2 (separation %3).", job->getName(), score, separation));
+    qCInfo(KSTARS_EKOS_SCHEDULER) << job->getName() << "Moon score is " << score << "with separation" << separation;
 
     return score;
 }
@@ -2322,7 +2408,7 @@ bool Scheduler::checkShutdownState()
             if (preemptiveShutdown == false)
             {
                 sleepTimer.stop();
-                sleepTimer.disconnect();
+                //sleepTimer.disconnect();
             }
 
             if (warmCCDCheck->isEnabled() && warmCCDCheck->isChecked())
@@ -2922,7 +3008,7 @@ void Scheduler::checkJobStage()
                 if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
                     appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
-                    startGuiding();
+                    startGuiding(true);
                     return;
                 }
 
@@ -2964,7 +3050,7 @@ void Scheduler::checkJobStage()
                     {
                         appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
                         //currentJob->setStage(SchedulerJob::STAGE_GUIDING);
-                        startGuiding();
+                        startGuiding(true);
                         return;
                     }
                 }
@@ -3796,11 +3882,14 @@ void Scheduler::startAstrometry()
     currentJob->setStage(SchedulerJob::STAGE_ALIGNING);
 }
 
-void Scheduler::startGuiding()
+void Scheduler::startGuiding(bool resetCalibration)
 {
     // Make sure calibration is auto
     //QVariant arg(true);
     //guideInterface->call(QDBus::AutoDetect,"setCalibrationAutoStar", arg);
+
+    if (resetCalibration)
+        guideInterface->call(QDBus::AutoDetect, "clearCalibration");
 
     //QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"startAutoCalibrateGuide");
     guideInterface->call(QDBus::AutoDetect, "startAutoCalibrateGuide");
@@ -4076,8 +4165,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
     dms estimatedTime;
     estimatedTime.setH(totalImagingTime / 3600.0);
-    appendLogText(i18n("%1 observation job is estimated to take %2 to complete.", schedJob->getName(),
-                       estimatedTime.toHMSString()));
+    qCInfo(KSTARS_EKOS_SCHEDULER) << schedJob->getName() << "observation job is estimated to take" << estimatedTime.toHMSString();
 
     schedJob->setEstimatedTime(totalImagingTime);
 

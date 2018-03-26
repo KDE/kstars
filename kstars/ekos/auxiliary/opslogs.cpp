@@ -36,6 +36,7 @@ OpsLogs::OpsLogs() : QFrame(KStars::Instance())
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(refreshInterface()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(refreshInterface()));
 
+    connect(clearLogsB, SIGNAL(clicked()), this, SLOT(slotClearLogs()));
     connect(kcfg_VerboseLogging, SIGNAL(toggled(bool)), this, SLOT(slotToggleVerbosityOptions()));
 
     connect(kcfg_LogToFile, SIGNAL(toggled(bool)), this, SLOT(slotToggleOutputOptions()));
@@ -49,6 +50,12 @@ OpsLogs::OpsLogs() : QFrame(KStars::Instance())
         b->setEnabled(kcfg_VerboseLogging->isChecked());
     for (auto &b : driversGroup->buttons())
         b->setEnabled(kcfg_VerboseLogging->isChecked());
+
+    qint64 totalSize = getDirSize(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs");
+    totalSize += getDirSize(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "autofocus");
+
+    clearLogsB->setToolTip(i18n("Clear all logs (%1)", KSUtils::formatSize(totalSize)));
+
 }
 
 void OpsLogs::slotToggleVerbosityOptions()
@@ -109,4 +116,41 @@ void OpsLogs::refreshInterface()
 
     m_SettingsChanged = (previousInterface != m_INDIDebugInterface);
 }
+
+// Following 2 functions from Stackoverflow #47854288
+qint64 OpsLogs::getDirSize(const QString &dirPath)
+{
+    qint64 size = 0;
+    QDir dir(dirPath);
+
+    QDir::Filters fileFilters = QDir::Files|QDir::System|QDir::Hidden;
+    for(QString filePath : dir.entryList(fileFilters))
+    {
+        QFileInfo fi(dir, filePath);
+        size+= fi.size();
+    }
+
+    QDir::Filters dirFilters = QDir::Dirs|QDir::NoDotAndDotDot|QDir::System|QDir::Hidden;
+    for(QString childDirPath : dir.entryList(dirFilters))
+        size+= getDirSize(dirPath + QDir::separator() + childDirPath);
+
+    return size;
+}
+
+void OpsLogs::slotClearLogs()
+{
+    if (KMessageBox::questionYesNo(nullptr, i18n("Are you sure you want to delete all logs?")) == KMessageBox::Yes)
+    {
+        QDir logDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs");
+        logDir.removeRecursively();
+        logDir.mkpath(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs");
+
+        QDir autoFocusDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "autofocus");
+        autoFocusDir.removeRecursively();
+        autoFocusDir.mkpath(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "autofocus");
+
+        clearLogsB->setToolTip(i18n("Clear all logs"));
+    }
+}
+
 }

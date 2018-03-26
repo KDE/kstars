@@ -17,6 +17,7 @@
 
 #include <QFile>
 #include <QPointer>
+#include <QTime>
 
 #include <memory>
 
@@ -65,6 +66,7 @@ class InternalGuider : public GuideInterface
     bool resume() override;
     bool dither(double pixels) override;
     bool clearCalibration() override { return true;}
+    bool reacquire() override;
 
     bool setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY) override;
     bool setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture,
@@ -79,6 +81,9 @@ class InternalGuider : public GuideInterface
     // Reticle Parameters
     void setReticleParameters(double x, double y, double angle);
     bool getReticleParameters(double *x, double *y, double *angle);
+
+    // Guide Square Box Size
+    void setGuideBoxSize(uint32_t value) { guideBoxSize = value; }
 
     // Guide View
     void setGuideView(FITSView *guideView);
@@ -106,6 +111,9 @@ class InternalGuider : public GuideInterface
 
     QList<Edge *> getGuideStars();
 
+    // Select a guide star automatically
+    bool selectAutoStar();
+
   public slots:
     void setDECSwap(bool enable);
 
@@ -116,6 +124,7 @@ class InternalGuider : public GuideInterface
   signals:
     void newPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
     void newPulse(GuideDirection dir, int msecs);
+    void newStarPosition(QVector3D, bool);
     void DESwapChanged(bool enable);
 
   private:
@@ -138,7 +147,7 @@ class InternalGuider : public GuideInterface
     bool isFirstFrame { false };
     bool first_subframe { false };
     bool imageGuideEnabled { false };
-    int m_lostStarTries { 0 };
+    int m_starLostCounter { 0 };
     bool m_useRapidGuide { false };
     QFile logFile;
     int auto_drift_time { 5 };
@@ -160,6 +169,11 @@ class InternalGuider : public GuideInterface
     int m_DETotalPulse { 0 };
     int m_BacklastCounter { 0 };
     double phi { 0 };
+    uint32_t guideBoxSize { 32 };
+
+    QTime reacquireTimer;
+    int m_highPulseCounter {0};
+
     Matrix ROT_Z;
     CalibrationStage calibrationStage { CAL_IDLE };
     CalibrationType calibrationType;

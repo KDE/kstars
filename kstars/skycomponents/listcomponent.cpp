@@ -30,6 +30,8 @@ ListComponent::~ListComponent()
 {
     qDeleteAll(m_ObjectList);
     m_ObjectList.clear();
+    m_ObjectHash.clear();
+
     clear();
 }
 
@@ -41,6 +43,17 @@ void ListComponent::clear()
         removeFromNames(o);
         delete o;
     }
+}
+
+void ListComponent::appendListObject(SkyObject *object)
+{
+    // Append to the Object List
+    m_ObjectList.append(object);
+
+    // Insert multiple Names
+    m_ObjectHash.insert(object->name().toLower(), object);
+    m_ObjectHash.insert(object->longname().toLower(), object);
+    m_ObjectHash.insert(object->name2().toLower(), object);
 }
 
 void ListComponent::update(KSNumbers *num)
@@ -58,15 +71,7 @@ void ListComponent::update(KSNumbers *num)
 
 SkyObject *ListComponent::findByName(const QString &name)
 {
-    foreach (SkyObject *o, m_ObjectList)
-    {
-        if (QString::compare(o->name(), name, Qt::CaseInsensitive) == 0 ||
-            QString::compare(o->longname(), name, Qt::CaseInsensitive) == 0 ||
-            QString::compare(o->name2(), name, Qt::CaseInsensitive) == 0)
-            return o;
-    }
-    //No object found
-    return nullptr;
+    return m_ObjectHash[name.toLower()]; // == nullptr if not found.
 }
 
 SkyObject *ListComponent::objectNearest(SkyPoint *p, double &maxrad)

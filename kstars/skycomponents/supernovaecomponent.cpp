@@ -140,20 +140,9 @@ void SupernovaeComponent::loadData()
 
         objectNames(SkyObject::SUPERNOVA).append(name);
 
-        m_ObjectList.append(sup);
+        appendListObject(sup);
         objectLists(SkyObject::SUPERNOVA).append(QPair<QString, const SkyObject *>(name, sup));
     }
-}
-
-SkyObject *SupernovaeComponent::findByName(const QString &name)
-{
-    foreach (SkyObject *o, m_ObjectList)
-    {
-        if (QString::compare(o->name(), name, Qt::CaseInsensitive) == 0)
-            return o;
-    }
-    //if no object is found then..
-    return nullptr;
 }
 
 SkyObject *SupernovaeComponent::objectNearest(SkyPoint *p, double &maxrad)

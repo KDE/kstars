@@ -18,16 +18,18 @@
 #include "ksasteroid.h"
 
 #include "dms.h"
+#include "skymap.h"
 #include "ksnumbers.h"
-
+#include "Options.h"
 #include <typeinfo>
+#include <qdebug.h>
 
 KSAsteroid::KSAsteroid(int _catN, const QString &s, const QString &imfile, long double _JD, double _a, double _e,
                        dms _i, dms _w, dms _Node, dms _M, double _H, double _G)
     : KSPlanetBase(s, imfile), catN(_catN), JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H), G(_G)
 {
     setType(SkyObject::ASTEROID);
-
+    setMag(H);
     //Compute the orbital Period from Kepler's 3rd law:
     P = 365.2568984 * pow(a, 1.5); //period in days
 }
@@ -41,6 +43,11 @@ KSAsteroid *KSAsteroid::clone() const
 
 bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Earth)
 {
+    // TODO: (Valentin) TOP LEVEL CONTROLL OF CALCULATION FOR ALL OBJECTS
+    if(!toCalculate()){
+        return false;
+    }
+
     //determine the mean anomaly for the desired date.  This is the mean anomaly for the
     //ephemeis epoch, plus the number of days between the desired date and ephemeris epoch,
     //times the asteroid's mean daily motion (360/P):
@@ -198,6 +205,58 @@ void KSAsteroid::setOrbitID(QString orbit_id)
 void KSAsteroid::setPeriod(float per)
 {
     Period = per;
+}
+
+bool KSAsteroid::toCalculate()
+{
+    // Filter by magnitude, but draw focused asteroids anyway :)
+    return ((mag() < Options::magLimitAsteroid())|| (std::isnan(mag()) != 0) || isFocused());
+}
+
+QDataStream &operator<<(QDataStream &out, const KSAsteroid &asteroid)
+{
+    out << asteroid.Name << asteroid.OrbitClass << asteroid.Dimensions << asteroid.OrbitID
+        << asteroid.catN << static_cast<double>(asteroid.JD) << asteroid.a
+        << asteroid.e << asteroid.i << asteroid.w << asteroid.N
+        << asteroid.M << asteroid.H << asteroid.G << asteroid.q
+        << asteroid.NEO << asteroid.Diameter
+        << asteroid.Albedo << asteroid.RotationPeriod
+        << asteroid.Period << asteroid.EarthMOID;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, KSAsteroid *&asteroid)
+{
+    QString name, orbit_id, orbit_class, dimensions;
+    double q, a, e, H, G, earth_moid;
+    dms i, w, N, M;
+    double JD;
+    float diameter, albedo, rot_period, period;
+    bool neo;
+    int catN;
+
+    in >> name;
+    in >> orbit_class;
+    in >> dimensions;
+    in >> orbit_id;
+
+    in >> catN >> JD >> a >> e >> i >> w >> N >> M >> H >> G >> q >> neo >> diameter
+            >> albedo >> rot_period >> period >> earth_moid;
+
+    asteroid = new KSAsteroid(catN, name, QString(), JD, a, e, i, w, N, M, H, G);
+    asteroid->setPerihelion(q);
+    asteroid->setOrbitID(orbit_id);
+    asteroid->setNEO(neo);
+    asteroid->setDiameter(diameter);
+    asteroid->setDimensions(dimensions);
+    asteroid->setAlbedo(albedo);
+    asteroid->setRotationPeriod(rot_period);
+    asteroid->setPeriod(period);
+    asteroid->setEarthMOID(earth_moid);
+    asteroid->setOrbitClass(orbit_class);
+    asteroid->setPhysicalSize(diameter);
+
+    return in;
 }
 
 void KSAsteroid::setRotationPeriod(float rot_per)

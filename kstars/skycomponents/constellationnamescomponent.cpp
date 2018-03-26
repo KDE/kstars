@@ -96,7 +96,7 @@ void ConstellationNamesComponent::loadData(CultureList *cultures)
 
             SkyObject *o = new SkyObject(SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev);
             o->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-            m_ObjectList.append(o);
+            appendListObject(o);
 
             //Add name to the list of object names
             objectNames(SkyObject::CONSTELLATION).append(name);

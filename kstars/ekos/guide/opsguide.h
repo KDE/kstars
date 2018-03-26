@@ -32,6 +32,9 @@ class OpsGuide : public QFrame, public Ui::OpsGuide
     explicit OpsGuide();
     ~OpsGuide();
 
+  signals:
+    void settingsUpdated();
+
   private:
     KConfigDialog *m_ConfigDialog;
 };

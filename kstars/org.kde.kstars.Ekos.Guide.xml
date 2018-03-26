@@ -22,9 +22,6 @@
     <method name="resume">
       <arg type="b" direction="out"/>
     </method>
-    <method name="selectAutoStar">
-      <arg type="b" direction="out"/>
-    </method>
     <method name="startAutoCalibrateGuide">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>

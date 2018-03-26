@@ -66,7 +66,7 @@ void fatalErrorMessage(QString fname)
 // Report non-fatal error during data loading to user and ask
 // whether he wants to continue.
 // Calls QApplication::exit if he don't
-#if 0
+#if 1
 bool nonFatalErrorMessage(QString fname)
 {
 #ifdef KSTARS_LITE
@@ -209,14 +209,14 @@ bool KStarsData::initialize()
     //On Android these 2 calls produce segfault. WARNING
     emit progressText(i18n("Loading Image URLs"));
 
-    //if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
-    //    return false;
-    QtConcurrent::run(this, &KStarsData::readURLData, QString("image_url.dat"), 0, false);
+    if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
+        return false;
+    //QtConcurrent::run(this, &KStarsData::readURLData, QString("image_url.dat"), 0, false);
 
     //Load Information URLs//
-    emit progressText(i18n("Loading Information URLs"));
-    //if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
-    //    return false;
+    //emit progressText(i18n("Loading Information URLs"));
+    if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
+        return false;
     QtConcurrent::run(this, &KStarsData::readURLData, QString("info_url.dat"), 1, false);
 
 //#endif
