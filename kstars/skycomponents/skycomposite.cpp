@@ -18,6 +18,7 @@
 #include "skycomposite.h"
 
 #include "skyobjects/skyobject.h"
+#include <qdebug.h>
 
 SkyComposite::SkyComposite(SkyComposite *parent) : SkyComponent(parent)
 {
@@ -89,7 +90,7 @@ SkyObject *SkyComposite::objectNearest(SkyPoint *p, double &maxrad)
     SkyObject *oBest = nullptr;
     foreach (SkyComponent *comp, components())
     {
-        // qDebug() << "Checking " << typeid( *comp ).name() <<" for oBest";
+        //qDebug() << "Checking " << typeid( *comp ).name() <<" for oBest";
         SkyObject *oTry = comp->objectNearest(p, maxrad);
         if (oTry)
         {

@@ -365,3 +365,17 @@ void dms::reduceToRange(enum dms::AngleRanges range)
     }
 }
 
+
+QDataStream &operator<<(QDataStream &out, const dms &d)
+{
+    out << d.D;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, dms &d){
+   double D;
+   in >> D;
+   d = dms(D);
+   return in;
+}
+

@@ -14,6 +14,7 @@
 #include "gmath.h"
 #include "Options.h"
 #include "auxiliary/kspaths.h"
+#include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 
 #include "ekos_guide_debug.h"
@@ -22,6 +23,8 @@
 #include <KNotification>
 
 #include <QTimer>
+
+#define MAX_GUIDE_STARS           10
 
 namespace Ekos
 {
@@ -51,7 +54,8 @@ bool InternalGuider::guide()
 
     pmath->start();
 
-    m_lostStarTries = 0;
+    m_starLostCounter = 0;
+    m_highPulseCounter= 0;
 
     // TODO re-enable rapid check later on
 #if 0
@@ -103,6 +107,10 @@ bool InternalGuider::abort()
         qCDebug(KSTARS_EKOS_GUIDE) << "Stopping internal guider.";
     }
 
+    m_starLostCounter=0;
+    m_highPulseCounter=0;
+
+    pmath->suspend(false);
     state = GUIDE_IDLE;
 
     return true;
@@ -820,8 +828,7 @@ bool InternalGuider::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t
 }
 
 bool InternalGuider::processGuiding()
-{
-    static int maxPulseCounter = 0;
+{    
     const cproc_out_params *out;
     uint32_t tick = 0;
 
@@ -840,35 +847,39 @@ bool InternalGuider::processGuiding()
     // calc math. it tracks square
     pmath->performProcessing();
 
-    if (pmath->isStarLost() && ++m_lostStarTries > 10)
-    {
-        emit newLog(i18n("Lost track of the guide star. Try increasing the square size and check the mount."));
-        abort();
-        return false;
-    }
+    if (pmath->isStarLost())
+        m_starLostCounter++;
     else
-        m_lostStarTries = 0;
+        m_starLostCounter=0;
 
     // do pulse
     out = pmath->getOutputParameters();
 
+    bool sendPulses = true;
+
     // If within 90% of max pulse repeatedly, let's abort
     if (out->pulse_length[GUIDE_RA] >= (0.9 * Options::rAMaximumPulse()) ||
             out->pulse_length[GUIDE_DEC] >= (0.9 * Options::dECMaximumPulse()))
-        maxPulseCounter++;
-    else
-        maxPulseCounter = 0;
-
-    if (maxPulseCounter >= 3)
     {
-        emit newLog(i18n("Lost track of the guide star. Aborting guiding..."));
-        abort();
-        maxPulseCounter = 0;
-        return false;
+        sendPulses = false;
+        m_highPulseCounter++;
+    }
+    else
+        m_highPulseCounter=0;
+
+    if (m_starLostCounter+m_highPulseCounter > 3)
+    {
+        emit newLog(i18n("Lost track of the guide star. Searching for guide stars..."));
+
+        reacquireTimer.start();
+        state = GUIDE_REACQUIRE;
+        emit newStatus(state);
+        return true;
     }
 
-    emit newPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC],
-                  out->pulse_length[GUIDE_DEC]);
+    if (sendPulses)
+        emit newPulse(out->pulse_dir[GUIDE_RA] , out->pulse_length[GUIDE_RA],
+                      out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC]);
 
     emit frameCaptureRequested();
 
@@ -918,14 +929,14 @@ bool InternalGuider::processImageGuiding()
     // calc math. it tracks square
     pmath->performProcessing();
 
-    if (pmath->isStarLost() && ++m_lostStarTries > 2)
+    if (pmath->isStarLost() && ++m_starLostCounter > 2)
     {
         emit newLog(i18n("Lost track of phase shift."));
         abort();
         return false;
     }
     else
-        m_lostStarTries = 0;
+        m_starLostCounter = 0;
 
     // do pulse
     out = pmath->getOutputParameters();
@@ -988,6 +999,154 @@ void InternalGuider::setRegionAxis(uint32_t value)
 QList<Edge *> InternalGuider::getGuideStars()
 {
     return pmath->PSFAutoFind();
+}
+
+bool InternalGuider::selectAutoStar()
+{
+        FITSData *imageData = guideFrame->getImageData();
+
+        if (imageData == nullptr)
+            return false;
+
+        bool useNativeDetection = false;
+
+        QList<Edge *> starCenters;
+
+        if (Options::guideAlgorithm() != SEP_THRESHOLD)
+            starCenters = pmath->PSFAutoFind();
+
+        if (starCenters.empty())
+        {
+            if (Options::guideAlgorithm() == SEP_THRESHOLD)
+                imageData->findStars(ALGORITHM_SEP);
+            else
+                imageData->findStars();
+
+            starCenters = imageData->getStarCenters();
+            if (starCenters.empty())
+                return false;
+
+            useNativeDetection = true;
+            // For SEP, prefer flux total
+            if (Options::guideAlgorithm() == SEP_THRESHOLD)
+                qSort(starCenters.begin(), starCenters.end(), [](const Edge *a, const Edge *b) { return a->val > b->val; });
+            else
+                qSort(starCenters.begin(), starCenters.end(), [](const Edge *a, const Edge *b) { return a->width > b->width; });
+
+            guideFrame->setStarsEnabled(true);
+            guideFrame->updateFrame();
+        }
+
+        int maxX = imageData->getWidth();
+        int maxY = imageData->getHeight();
+
+        int scores[MAX_GUIDE_STARS];
+
+        int maxIndex = MAX_GUIDE_STARS < starCenters.count() ? MAX_GUIDE_STARS : starCenters.count();
+
+        for (int i = 0; i < maxIndex; i++)
+        {
+            int score = 100;
+
+            Edge *center = starCenters.at(i);
+
+            if (useNativeDetection)
+            {
+                // Severely reject stars close to edges
+                if (center->x < (center->width * 5) || center->y < (center->width * 5) ||
+                    center->x > (maxX - center->width * 5) || center->y > (maxY - center->width * 5))
+                    score -= 1000;
+
+                // Reject stars bigger than square
+                if (center->width > guideBoxSize / subBinX)
+                    score -= 1000;
+                else
+                {
+                    if (Options::guideAlgorithm() == SEP_THRESHOLD)
+                        score += sqrt(center->val);
+                    else
+                        // Moderately favor brighter stars
+                        score += center->width * center->width;
+                }
+
+                // Moderately reject stars close to other stars
+                foreach (Edge *edge, starCenters)
+                {
+                    if (edge == center)
+                        continue;
+
+                    if (fabs(center->x - edge->x) < center->width * 2 && fabs(center->y - edge->y) < center->width * 2)
+                    {
+                        score -= 15;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                score = center->val;
+            }
+
+            scores[i] = score;
+        }
+
+        int maxScore      = -1;
+        int maxScoreIndex = -1;
+        for (int i = 0; i < maxIndex; i++)
+        {
+            if (scores[i] > maxScore)
+            {
+                maxScore      = scores[i];
+                maxScoreIndex = i;
+            }
+        }
+
+        if (maxScoreIndex < 0)
+        {
+            qCDebug(KSTARS_EKOS_GUIDE) << "No suitable star detected.";
+            return false;
+        }
+
+        /*if (ui.autoSquareSizeCheck->isEnabled() && ui.autoSquareSizeCheck->isChecked())
+        {
+            // Select appropriate square size
+            int idealSize = ceil(starCenters[maxScoreIndex]->width * 1.5);
+
+            if (Options::guideLogging())
+                qDebug() << "Guide: Ideal calibration box size for star width: " << starCenters[maxScoreIndex]->width << " is " << idealSize << " pixels";
+
+            // TODO Set square size in GuideModule
+        }*/
+
+        QVector3D newStarCenter(starCenters[maxScoreIndex]->x, starCenters[maxScoreIndex]->y, 0);
+
+        if (useNativeDetection == false)
+            qDeleteAll(starCenters);
+
+        emit newStarPosition(newStarCenter, true);
+
+    return true;
+}
+
+bool InternalGuider::reacquire()
+{
+    bool rc = selectAutoStar();
+    if (rc)
+    {
+        m_highPulseCounter=m_starLostCounter=0;
+        isFirstFrame = true;
+        state = GUIDE_GUIDING;
+        emit newStatus(state);
+    }
+    else if (reacquireTimer.elapsed() > static_cast<int>(Options::guideLostStarTimeout()*1000))
+    {
+        emit newLog(i18n("Failed to find any suitable guide stars. Aborting..."));
+        abort();
+        return false;
+    }
+
+    emit frameCaptureRequested();
+    return rc;
 }
 
 }

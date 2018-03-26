@@ -35,6 +35,7 @@ const guide_square_t guide_squares[] = {
 };
 
 const square_alg_t guide_square_alg[] = { { SMART_THRESHOLD, "Smart" },
+                                          { SEP_THRESHOLD, "SEP" },
                                           { CENTROID_THRESHOLD, "Fast" },
                                           { AUTO_THRESHOLD, "Auto" },
                                           { NO_THRESHOLD, "No thresh." },
@@ -824,6 +825,25 @@ Vector cgmath::findLocalStarPosition(void) const
     {
         qCWarning(KSTARS_EKOS_GUIDE) << "Cannot process a nullptr image.";
         return Vector(-1, -1, -1);
+    }
+
+    if (square_alg_idx == SEP_THRESHOLD)
+    {
+        int count = imageData->findStars(ALGORITHM_SEP, trackingBox);
+        if (count > 0)
+        {
+            imageData->getHFR(HFR_MAX);
+            Edge *star = imageData->getMaxHFRStar();
+            if (star)
+                ret = Vector(star->x, star->y, 0);
+            else
+                ret = Vector(-1, -1, -1);
+                //ret = Vector(star->x, star->y, 0) - Vector(trackingBox.x(), trackingBox.y(), 0);
+        }
+        else
+            ret = Vector(-1, -1, -1);
+
+        return ret;
     }
 
     T *pdata = reinterpret_cast<T *>(imageData->getImageBuffer());

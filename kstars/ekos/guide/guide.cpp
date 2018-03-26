@@ -31,7 +31,6 @@
 #include <ekos_guide_debug.h>
 
 #define CAPTURE_TIMEOUT_THRESHOLD 10000
-#define MAX_GUIDE_STARS           10
 
 namespace Ekos
 {
@@ -440,6 +439,12 @@ Guide::Guide() : QWidget()
     KPageWidgetItem *page = dialog->addPage(opsCalibration, i18n("Calibration"));
     page->setIcon(QIcon::fromTheme("tool-measure"));
     opsGuide = new OpsGuide();
+
+    connect(opsGuide, &OpsGuide::settingsUpdated, [this]()
+    {
+        onThresholdChanged(Options::guideAlgorithm());
+    });
+
     page = dialog->addPage(opsGuide, i18n("Guide"));
     page->setIcon(QIcon::fromTheme("kstars_guides"));
 
@@ -1416,6 +1421,10 @@ void Guide::setCaptureComplete()
                 guider->dither(Options::ditherPixels());
             break;
 
+        case GUIDE_REACQUIRE:
+                guider->reacquire();
+                break;
+
         case GUIDE_DITHERING_SETTLE:
             if (Options::ditherNoGuiding())
                 return;
@@ -1603,14 +1612,15 @@ bool Guide::calibrate()
 
     executeOperationStack();
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "Starting calibration via " << ST4Combo->currentText();
+    qCDebug(KSTARS_EKOS_GUIDE) << "Starting calibration using CCD:" << currentCCD->getDeviceName() << "via" << ST4Combo->currentText();
 
     return true;
 }
 
 bool Guide::guide()
 {
-    if(guiderType != GUIDE_PHD2){
+    if(guiderType != GUIDE_PHD2)
+    {
         if (calibrationComplete == false)
             return calibrate();
     }
@@ -1797,7 +1807,7 @@ void Guide::startAutoCalibrateGuide()
     // A must for auto stuff
     Options::setGuideAutoStarEnabled(true);
 
-    clearCalibration();
+    //clearCalibration();
 
     guide();
 
@@ -1912,6 +1922,10 @@ void Guide::setStatus(Ekos::GuideState newState)
             appendLogText(i18n("Guiding suspended."));
             break;
 
+        case GUIDE_REACQUIRE:
+            capture();
+            break;
+
         case GUIDE_DITHERING:
             appendLogText(i18n("Dithering in progress."));
             break;
@@ -1962,6 +1976,9 @@ void Guide::updateCCDBin(int index)
     settings["binx"]          = index + 1;
     settings["biny"]          = index + 1;
     frameSettings[targetChip] = settings;
+
+    guider->setFrameParams(settings["x"].toInt(), settings["y"].toInt(), settings["w"].toInt(), settings["h"].toInt(),
+            settings["binx"].toInt(), settings["biny"].toInt());
 }
 
 void Guide::processCCDNumber(INumberVectorProperty *nvp)
@@ -2098,6 +2115,7 @@ bool Guide::setGuiderType(int type)
 
             guider = internalGuider;
 
+            internalGuider->setSquareAlgorithm(opsGuide->kcfg_GuideAlgorithm->currentIndex());
             internalGuider->setRegionAxis(opsGuide->kcfg_GuideRegionAxis->currentText().toInt());
 
             clearCalibrationB->setEnabled(true);
@@ -2266,136 +2284,14 @@ void Guide::updateTrackingBoxSize(int currentIndex)
     if (currentIndex >= 0)
     {
         Options::setGuideSquareSizeIndex(currentIndex);
+
+        if (guiderType == GUIDE_INTERNAL)
+            dynamic_cast<InternalGuider *>(guider)->setGuideBoxSize(boxSizeCombo->currentText().toInt());
+
         syncTrackingBoxPosition();
     }
 }
 
-bool Guide::selectAutoStar()
-{
-    if (currentCCD == nullptr || guiderType != GUIDE_INTERNAL)
-        return false;
-
-
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-        if (targetChip == nullptr)
-            return false;
-
-        FITSView *targetImage = targetChip->getImageView(FITS_GUIDE);
-
-        if (targetImage == nullptr)
-            return false;
-
-        FITSData *imageData = targetImage->getImageData();
-
-        if (imageData == nullptr)
-            return false;
-
-        bool useNativeDetection = false;
-
-        QList<Edge *> starCenters = internalGuider->getGuideStars();
-
-        if (starCenters.empty())
-        {
-            imageData->findStars();
-            starCenters = imageData->getStarCenters();
-            if (starCenters.empty())
-                return false;
-
-            useNativeDetection = true;
-            qSort(starCenters.begin(), starCenters.end(), [](const Edge *a, const Edge *b) { return a->width > b->width; });
-
-            guideView->setStarsEnabled(true);
-            guideView->updateFrame();
-        }
-
-        int subBinX, subBinY;
-        targetChip->getBinning(&subBinX, &subBinY);
-
-        int maxX = imageData->getWidth();
-        int maxY = imageData->getHeight();
-
-        int scores[MAX_GUIDE_STARS];
-
-        int maxIndex = MAX_GUIDE_STARS < starCenters.count() ? MAX_GUIDE_STARS : starCenters.count();
-
-        for (int i = 0; i < maxIndex; i++)
-        {
-            int score = 100;
-
-            Edge *center = starCenters.at(i);
-
-            if (useNativeDetection)
-            {
-                // Severely reject stars close to edges
-                if (center->x < (center->width * 5) || center->y < (center->width * 5) ||
-                    center->x > (maxX - center->width * 5) || center->y > (maxY - center->width * 5))
-                    score -= 1000;
-
-                // Reject stars bigger than square
-                if (center->width > boxSizeCombo->currentText().toInt() / subBinX)
-                    score -= 1000;
-                else
-                    // Moderately favor brighter stars
-                    score += center->width * center->width;
-
-                // Moderately reject stars close to other stars
-                foreach (Edge *edge, starCenters)
-                {
-                    if (edge == center)
-                        continue;
-
-                    if (fabs(center->x - edge->x) < center->width * 2 && fabs(center->y - edge->y) < center->width * 2)
-                    {
-                        score -= 15;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                score = center->val;
-            }
-
-            scores[i] = score;
-        }
-
-        int maxScore      = -1;
-        int maxScoreIndex = -1;
-        for (int i = 0; i < maxIndex; i++)
-        {
-            if (scores[i] > maxScore)
-            {
-                maxScore      = scores[i];
-                maxScoreIndex = i;
-            }
-        }
-
-        if (maxScoreIndex < 0)
-        {
-            qCDebug(KSTARS_EKOS_GUIDE) << "No suitable star detected.";
-            return false;
-        }
-
-        /*if (ui.autoSquareSizeCheck->isEnabled() && ui.autoSquareSizeCheck->isChecked())
-        {
-            // Select appropriate square size
-            int idealSize = ceil(starCenters[maxScoreIndex]->width * 1.5);
-
-            if (Options::guideLogging())
-                qDebug() << "Guide: Ideal calibration box size for star width: " << starCenters[maxScoreIndex]->width << " is " << idealSize << " pixels";
-
-            // TODO Set square size in GuideModule
-        }*/
-
-        QVector3D newStarCenter(starCenters[maxScoreIndex]->x, starCenters[maxScoreIndex]->y, 0);
-        setStarPosition(newStarCenter, false);
-
-        if (useNativeDetection == false)
-            qDeleteAll(starCenters);
-
-    return true;
-}
 
 /*
 void Guide::onXscaleChanged( int i )
@@ -3077,7 +2973,7 @@ bool Guide::executeOneOperation(GuideState operation)
 
             if (Options::guideAutoStarEnabled())
             {
-                bool autoStarCaptured = selectAutoStar();
+                bool autoStarCaptured = internalGuider->selectAutoStar();
                 if (autoStarCaptured)
                 {
                     appendLogText(i18n("Auto star selected."));

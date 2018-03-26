@@ -12,6 +12,7 @@
 #include "ui_opsekos.h"
 
 class QSqlTableModel;
+class QSortFilterProxyModel;
 
 class KConfigDialog;
 
@@ -29,11 +30,12 @@ class OpsEkos : public QTabWidget, public Ui::OpsEkos
 
   public:
     explicit OpsEkos();
-    ~OpsEkos();
+    ~OpsEkos() = default;
 
   private slots:
     void clearAll();
     void clearRow();
+    void clearExpired();
     void openDarksFolder();
     void refreshDarkData();
     void loadDarkFITS(QModelIndex index);
@@ -41,4 +43,5 @@ class OpsEkos : public QTabWidget, public Ui::OpsEkos
   private:
     KConfigDialog *m_ConfigDialog;
     QSqlTableModel *darkFramesModel = nullptr;
+    QSortFilterProxyModel *sortFilter = nullptr;
 };
