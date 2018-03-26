@@ -1612,14 +1612,15 @@ bool Guide::calibrate()
 
     executeOperationStack();
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "Starting calibration via " << ST4Combo->currentText();
+    qCDebug(KSTARS_EKOS_GUIDE) << "Starting calibration using CCD:" << currentCCD->getDeviceName() << "via" << ST4Combo->currentText();
 
     return true;
 }
 
 bool Guide::guide()
 {
-    if(guiderType != GUIDE_PHD2){
+    if(guiderType != GUIDE_PHD2)
+    {
         if (calibrationComplete == false)
             return calibrate();
     }
