@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>454</width>
-    <height>261</height>
+    <height>283</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -418,6 +418,37 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="clearLogsB">
+       <property name="minimumSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Clear all logs</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="edit-delete"/>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
@@ -428,12 +459,12 @@
  <connections/>
  <buttongroups>
   <buttongroup name="verbosityButtonGroup"/>
-  <buttongroup name="modulesGroup">
+  <buttongroup name="driversGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="driversGroup">
+  <buttongroup name="modulesGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>

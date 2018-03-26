@@ -36,8 +36,11 @@ class OpsLogs : public QFrame, public Ui::OpsLogs
     void refreshInterface();
     void slotToggleVerbosityOptions();
     void slotToggleOutputOptions();
+    void slotClearLogs();
 
   private:
+    qint64 getDirSize(const QString &dirPath);
+
     uint16_t m_INDIDebugInterface = { 0 };
     bool m_SettingsChanged = { false };
 };
