@@ -198,6 +198,13 @@ QString constNameToAbbrev(const QString &fullName_);
 QString constGenetiveToAbbrev(const QString &genetive_);
 
 /**
+ * @brief formatSize Return size formatted with unit (e.g. 10.45 MB)
+ * @param size bytes
+ * @return formatted string
+ */
+QString formatSize(qint64 size);
+
+/**
 * Interface into Qt's logging system
 * @Author: Yale Dedis 2011
 * Adapted from DeDiS project.
