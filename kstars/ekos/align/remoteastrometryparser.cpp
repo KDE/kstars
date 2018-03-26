@@ -175,6 +175,11 @@ void RemoteAstrometryParser::setEnabled(bool enable)
 
 bool RemoteAstrometryParser::setCCD(const QString &ccd)
 {
+    targetCCD = ccd;
+
+    if (remoteAstrometry == nullptr)
+        return false;
+
     ITextVectorProperty *activeDevices = remoteAstrometry->getBaseDevice()->getText("ACTIVE_DEVICES");
 
     if (activeDevices == nullptr)
@@ -228,6 +233,9 @@ void RemoteAstrometryParser::setAstrometryDevice(ISD::GDInterface *device)
             SLOT(checkStatus(ISwitchVectorProperty*)));
     connect(remoteAstrometry, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
             SLOT(checkResults(INumberVectorProperty*)));
+
+    if (targetCCD.isEmpty() == false)
+        setCCD(targetCCD);
 }
 
 void RemoteAstrometryParser::checkStatus(ISwitchVectorProperty *svp)
