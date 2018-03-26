@@ -1783,6 +1783,8 @@ void Align::setSolverType(int type)
     if (sender() == nullptr && type >= 0 && type <= 2)
         solverTypeGroup->button(type)->setChecked(true);
 
+    Options::setSolverType(type);
+
     switch (type)
     {
     case SOLVER_ONLINE:
@@ -2735,7 +2737,6 @@ void Align::startSolving(const QString &filename, bool isGenerated)
 
     mountModelReset = false;
 
-    Options::setSolverType(solverTypeGroup->checkedId());
     //Options::setSolverOptions(solverOptions->text());
     //Options::setGuideScopeCCDs(guideScopeCCDs);
     Options::setSolverAccuracyThreshold(accuracySpin->value());

@@ -53,5 +53,6 @@ class RemoteAstrometryParser : public AstrometryParser
     Align *align { nullptr };
     QTime solverTimer;
     QString parity;
+    QString targetCCD;
 };
 }
