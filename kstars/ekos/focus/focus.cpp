@@ -2064,13 +2064,14 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         {
             currentPosition = pos->value;
             absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+            emit absolutePositionChanged(currentPosition);
         }
 
         if (adjustFocus && nvp->s == IPS_OK)
         {
             adjustFocus = false;
             lastFocusDirection = FOCUS_NONE;
-            emit focusPositionAdjusted(currentPosition);
+            emit focusPositionAdjusted();
             return;
         }
 
@@ -2106,13 +2107,14 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         {
             currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
             absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+            emit absolutePositionChanged(currentPosition);
         }
 
         if (adjustFocus && nvp->s == IPS_OK)
         {
             adjustFocus = false;
             lastFocusDirection = FOCUS_NONE;
-            emit focusPositionAdjusted(currentPosition);
+            emit focusPositionAdjusted();
             return;
         }
 

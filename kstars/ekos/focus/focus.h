@@ -322,7 +322,8 @@ class Focus : public QWidget, public Ui::Focus
     void newStarPixmap(QPixmap &);
     void newProfilePixmap(QPixmap &);
     void newHFR(double hfr);
-    void focusPositionAdjusted(int value);
+    void absolutePositionChanged(int value);
+    void focusPositionAdjusted();
 
   private:
     void drawHFRPlot();
