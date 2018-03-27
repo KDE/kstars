@@ -2509,7 +2509,11 @@ bool Align::captureAndSolve()
     differentialSlewingActivated = false;
 
     state = ALIGN_PROGRESS;
-    emit newStatus(state);
+    emit newStatus(state);    
+
+    // If we're just refreshing, then we're done
+    if (pahStage == PAH_REFRESH)
+        return true;
 
     appendLogText(i18n("Capturing image..."));
 
@@ -2580,12 +2584,19 @@ void Align::newFITS(IBLOB *bp)
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
     disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
-               SLOT(checkCCDExposureProgress(ISD::CCDChip *, double, IPState)));
-
-    appendLogText(i18n("Image received."));
+               SLOT(checkCCDExposureProgress(ISD::CCDChip *, double, IPState)));    
 
     blobType     = *(static_cast<ISD::CCD::BlobType *>(bp->aux1));
     blobFileName = QString(static_cast<char *>(bp->aux2));
+
+    // If it's Refresh, we're done
+    if (pahStage == PAH_REFRESH)
+    {
+        setCaptureComplete();
+        return;
+    }
+
+    appendLogText(i18n("Image received."));
 
     if (solverTypeGroup->checkedId() != SOLVER_REMOTE)
     {
