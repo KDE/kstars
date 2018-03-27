@@ -2070,7 +2070,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         {
             adjustFocus = false;
             lastFocusDirection = FOCUS_NONE;
-            emit focusPositionAdjusted();
+            emit focusPositionAdjusted(currentPosition);
             return;
         }
 
@@ -2112,7 +2112,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         {
             adjustFocus = false;
             lastFocusDirection = FOCUS_NONE;
-            emit focusPositionAdjusted();
+            emit focusPositionAdjusted(currentPosition);
             return;
         }
 
@@ -2652,14 +2652,21 @@ void Focus::showFITSViewer()
     }
 }
 
-void Focus::adjustRelativeFocus(int16_t offset)
+void Focus::adjustFocusOffset(int value, bool useAbsoluteOffset)
 {
     adjustFocus = true;
 
-    if (offset > 0)
-        focusOut(offset);
+    int relativeOffset = 0;
+
+    if (useAbsoluteOffset == false)
+        relativeOffset = value;
     else
-        focusIn(abs(offset));
+        relativeOffset = value - currentPosition;
+
+    if (relativeOffset > 0)
+        focusOut(relativeOffset);
+    else
+        focusIn(abs(relativeOffset));
 }
 
 void Focus::toggleFocusingWidgetFullScreen()
@@ -2828,6 +2835,14 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
          abort();
     }
     );
+
+    connect(this, &Focus::newStatus, [this](Ekos::FocusState state)
+    {
+        if (canAbsMove && state == Ekos::FOCUS_COMPLETE)
+        {
+            filterManager->setFilterAbsoluteFocusPosition(FilterPosCombo->currentIndex(), currentPosition);
+        }
+    });
 
     connect(exposureIN, &QDoubleSpinBox::editingFinished, [this]()
     {
