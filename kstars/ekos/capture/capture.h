@@ -511,7 +511,6 @@ class Capture : public QWidget, public Ui::Capture
     void newStatus(Ekos::CaptureState status);
     void newImage(QImage *image, Ekos::SequenceJob *job);
     void newExposureProgress(Ekos::SequenceJob *job);
-    void newFocusOffset(int16_t offset);
 
   private:
     void setBusy(bool enable);

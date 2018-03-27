@@ -279,8 +279,8 @@ class Focus : public QWidget, public Ui::Focus
     // Log
     void appendLogText(const QString &);
 
-    // Adjust relative focus position
-    void adjustRelativeFocus(int16_t offset);
+    // Adjust focuser offset, relative or absolute
+    void adjustFocusOffset(int value, bool useAbsoluteOffset);
 
     // Update Mount module status
     void setMountStatus(ISD::Telescope::TelescopeStatus newState);
@@ -322,7 +322,7 @@ class Focus : public QWidget, public Ui::Focus
     void newStarPixmap(QPixmap &);
     void newProfilePixmap(QPixmap &);
     void newHFR(double hfr);
-    void focusPositionAdjusted();
+    void focusPositionAdjusted(int value);
 
   private:
     void drawHFRPlot();

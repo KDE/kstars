@@ -280,14 +280,14 @@ class KSUserDB
      * @return void
      **/
     void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
-                             int offset, double exposure, bool useAutoFocus, const QString &lockedFilter);
+                             int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos);
     /**
      * @brief Replace a filter at given ID with new content
      *
      * @return void
      **/
     void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
-                             int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, const QString &id);
+                             int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos, const QString &id);
 #ifndef KSTARS_LITE
     /**
      * @brief Populate the reference passed with all filters

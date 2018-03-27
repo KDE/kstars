@@ -257,10 +257,25 @@ bool KSUserDB::Initialize()
                                     "'http://alaskybis.u-strasbg.fr/Fermi/Color', '1')"))
                         qCWarning(KSTARS) << query.lastError();
                 }
+            }            
+
+            // If prior to 2.8.7 create DSLR info table
+            if (currentDBVersion < "2.8.7")
+            {
+                QSqlQuery query(userdb_);
+
+                if (!query.exec("CREATE TABLE dslr ( "
+                           "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                           "Model TEXT DEFAULT NULL, "
+                           "Width INTEGER DEFAULT NULL, "
+                           "Height INTEGER DEFAULT NULL, "
+                           "PixelW REAL DEFAULT 5.0,"
+                           "PixelH REAL DEFAULT 5.0)"))
+                    qCWarning(KSTARS) << query.lastError();
             }
 
-            // If prior to 2.8.5 extend filters table
-            if (currentDBVersion < "2.8.5")
+            // If prior to 2.9.4 extend filters table
+            if (currentDBVersion < "2.9.4")
             {
                 QSqlQuery query(userdb_);
 
@@ -276,22 +291,8 @@ bool KSUserDB::Initialize()
                            "Exposure REAL DEFAULT 1.0,"
                            "Offset INTEGER DEFAULT 0,"
                            "UseAutoFocus INTEGER DEFAULT 0,"
-                           "LockedFilter TEXT DEFAULT '--')"))
-                    qCWarning(KSTARS) << query.lastError();
-            }
-
-            // If prior to 2.8.7 create DSLR info table
-            if (currentDBVersion < "2.8.7")
-            {
-                QSqlQuery query(userdb_);
-
-                if (!query.exec("CREATE TABLE dslr ( "
-                           "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                           "Model TEXT DEFAULT NULL, "
-                           "Width INTEGER DEFAULT NULL, "
-                           "Height INTEGER DEFAULT NULL, "
-                           "PixelW REAL DEFAULT 5.0,"
-                           "PixelH REAL DEFAULT 5.0)"))
+                           "LockedFilter TEXT DEFAULT '--',"
+                           "AbsoluteFocusPosition INTEGER DEFAULT 0)"))
                     qCWarning(KSTARS) << query.lastError();
             }
         }
@@ -365,13 +366,16 @@ bool KSUserDB::RebuildDB()
                   "FOVUnit TEXT NOT NULL  DEFAULT NULL)");
 
     tables.append("CREATE TABLE filter ( "
-                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                  "Vendor TEXT DEFAULT NULL, "
-                  "Model TEXT DEFAULT NULL, "
-                  "Type TEXT DEFAULT NULL, "
-                  "Offset TEXT DEFAULT NULL, "
-                  "Color TEXT DEFAULT NULL,"
-                  "Exposure TEXT DEFAULT '1')");
+               "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+               "Vendor TEXT DEFAULT NULL, "
+               "Model TEXT DEFAULT NULL, "
+               "Type TEXT DEFAULT NULL, "
+               "Color TEXT DEFAULT NULL,"
+               "Exposure REAL DEFAULT 1.0,"
+               "Offset INTEGER DEFAULT 0,"
+               "UseAutoFocus INTEGER DEFAULT 0,"
+               "LockedFilter TEXT DEFAULT '--',"
+               "AbsoluteFocusPosition INTEGER DEFAULT 0)");
 
     tables.append("CREATE TABLE wishlist ( "
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
@@ -1097,7 +1101,7 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list)
  *  filter section
  */
 void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
-                         int offset, double exposure, bool useAutoFocus, const QString &lockedFilter)
+                         int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos)
 {
     userdb_.open();
     QSqlTableModel equip(nullptr, userdb_);
@@ -1112,6 +1116,7 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QStr
     record.setValue("Exposure", exposure);
     record.setValue("UseAutoFocus", useAutoFocus ? 1 : 0);
     record.setValue("LockedFilter", lockedFilter);
+    record.setValue("AbsoluteFocusPosition", absFocusPos);
 
     if (equip.insertRecord(-1, record) == false)
         qCritical() << __FUNCTION__ << equip.lastError();
@@ -1136,7 +1141,7 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QStr
 }
 
 void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
-                         int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, const QString &id)
+                         int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos, const QString &id)
 {
     userdb_.open();
     QSqlTableModel equip(nullptr, userdb_);
@@ -1155,6 +1160,7 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QStr
         record.setValue("Exposure", exposure);
         record.setValue("UseAutoFocus", useAutoFocus ? 1 : 0);
         record.setValue("LockedFilter", lockedFilter);
+        record.setValue("AbsoluteFocusPosition", absFocusPos);
         equip.setRecord(0, record);
         if (equip.submitAll() == false)
             qCritical() << "AddFilter:" << equip.lastError();
@@ -1183,7 +1189,8 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list)
         double exposure   = record.value("Exposure").toDouble();
         QString lockedFilter  = record.value("LockedFilter").toString();
         bool useAutoFocus = record.value("UseAutoFocus").toInt() == 1;
-        OAL::Filter *o    = new OAL::Filter(id, model, vendor, type, color, exposure, offset, useAutoFocus, lockedFilter);
+        int absFocusPos   = record.value("AbsoluteFocusPosition").toInt();
+        OAL::Filter *o    = new OAL::Filter(id, model, vendor, type, color, exposure, offset, useAutoFocus, lockedFilter, absFocusPos);
         filter_list.append(o);
     }
 
@@ -1539,6 +1546,7 @@ void KSUserDB::readFilter()
     int offset = 0;
     double exposure = 1.0;
     bool useAutoFocus;
+    int absFocusPos=0;
     while (!reader_->atEnd())
     {
         reader_->readNext();
@@ -1580,9 +1588,13 @@ void KSUserDB::readFilter()
             {
                 useAutoFocus = (reader_->readElementText() == "1");
             }
+            else if (reader_->name() == "AbsoluteAutoFocus")
+            {
+                absFocusPos = (reader_->readElementText().toInt());
+            }
         }
     }
-    AddFilter(vendor, model, type, color, offset, exposure, useAutoFocus, lockedFilter);
+    AddFilter(vendor, model, type, color, offset, exposure, useAutoFocus, lockedFilter, absFocusPos);
 }
 
 QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()

@@ -257,7 +257,7 @@ void EquipmentWriter::slotAddFilter()
 {
     KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
                                                 ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
-                                                ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text());
+                                                ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text(), 0);
     loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();
@@ -294,12 +294,12 @@ void EquipmentWriter::slotSaveFilter()
     if (ui.f_Id->text().isEmpty())
         KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
                                                     ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
-                                                    ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text());
+                                                    ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text(), ui.f_AbsoluteFocusPosition->value());
     // Update Existing
     else
         KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
                                                     ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
-                                                    ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text(), ui.f_Id->text());
+                                                    ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text(), ui.f_AbsoluteFocusPosition->value(), ui.f_Id->text());
 
     loadEquipment();
 }
@@ -319,6 +319,7 @@ void EquipmentWriter::slotSetFilter(QString name)
         ui.f_Exposure->setValue(f->exposure());
         ui.f_LockedFilter->setText(f->lockedFilter());
         ui.f_UseAutoFocus->setChecked(f->useAutoFocus());
+        ui.f_AbsoluteFocusPosition->setValue(f->absoluteFocusPosition());
         newFilter = false;
     }
 }
@@ -335,6 +336,7 @@ void EquipmentWriter::slotNewFilter()
     ui.f_Exposure->setValue(1);
     ui.f_LockedFilter->clear();
     ui.f_UseAutoFocus->setChecked(false);
+    ui.f_AbsoluteFocusPosition->setValue(0);
     ui.FilterList->selectionModel()->clear();
     newFilter = true;
 }
