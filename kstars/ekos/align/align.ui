@@ -1663,15 +1663,21 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QSpinBox" name="PAHExposure">
+                    <widget class="QDoubleSpinBox" name="PAHExposure">
                      <property name="toolTip">
                       <string>Exposure duration in seconds during refresh phase</string>
                      </property>
+                     <property name="decimals">
+                      <number>4</number>
+                     </property>
                      <property name="minimum">
-                      <number>1</number>
+                      <double>0.000100000000000</double>
                      </property>
                      <property name="maximum">
-                      <number>30</number>
+                      <double>30.000000000000000</double>
+                     </property>
+                     <property name="value">
+                      <double>1.000000000000000</double>
                      </property>
                     </widget>
                    </item>
