@@ -484,10 +484,8 @@ bool FilterManager::executeOneOperation(FilterState operation)
     return actionRequired;
 }
 
-void FilterManager::setFocusOffsetComplete(int newAbsPosition)
+void FilterManager::setFocusOffsetComplete()
 {
-    m_FocusAbsPosition = newAbsPosition;
-
     if (state == FILTER_OFFSET)
         executeOperationQueue();
 }
@@ -602,7 +600,10 @@ void FilterManager::setFocusStatus(Ekos::FocusState focusState)
 bool FilterManager::syncAbsoluteFocusPosition(int index)
 {
     if (index < 0 || index > m_ActiveFilters.count())
+    {
+        qCWarning(KSTARS_INDI) << __FUNCTION__ << "index" << index << "is out of bounds.";
         return false;
+    }
 
     int absFocusPos = m_ActiveFilters[index]->absoluteFocusPosition();
 

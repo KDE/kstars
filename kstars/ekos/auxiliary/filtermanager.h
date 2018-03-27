@@ -91,14 +91,16 @@ public:
 public slots:
     // Position. if applyPolicy is true then all filter offsets and autofocus & lock policies are applied.
     bool setFilterPosition(uint8_t position, FilterPolicy policy = ALL_POLICIES);
-    // Offset
-    void setFocusOffsetComplete(int newAbsPosition);
+    // Offset Request completed
+    void setFocusOffsetComplete();
     // Remove Device
     void removeDevice(ISD::GDInterface *device);
     // Refresh Filters after model update
     void reloadFilters();
     // Focus Status
     void setFocusStatus(Ekos::FocusState focusState);
+    // Set absolute focus position
+    void setFocusAbsolutePosition(int value) { m_FocusAbsPosition = value; }
 
 signals:
     // Emitted only when there is a change in the filter slot number

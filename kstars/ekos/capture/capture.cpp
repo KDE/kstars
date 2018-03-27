@@ -4441,11 +4441,11 @@ IPState Capture::processPreCaptureCalibrationStage()
     // then the absolute focus position for Lum is recorded in the filter manager
     // when we take flats again, we always go back to the same focus position as the light frames to ensure
     // near identical focus for both frames.
-    if (activeJob->getFrameType() == FRAME_FLAT)
+    if (activeJob->getFrameType() == FRAME_FLAT && Options::flatSyncFocus())
     {
         if (currentFilter != nullptr)
         {
-            if (filterManager->syncAbsoluteFocusPosition(activeJob->getTargetFilter()) == false)
+            if (filterManager->syncAbsoluteFocusPosition(activeJob->getTargetFilter()-1) == false)
                 return IPS_BUSY;
         }
     }
