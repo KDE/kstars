@@ -149,12 +149,13 @@ void ThemeManager::slotChangePalette()
         theme = currentDesktopdefaultTheme();
     }*/    
 
-    QString themeIconName("breeze-dark");
+    //QString themeIconName("breeze-dark");
+    IconTheme themeIconType = BREEZE_DARK_THEME;
 
     if (theme == "Macintosh" || theme == "White Balance" || theme == "High Key" || (theme == "Default" && currentDesktopdefaultTheme().contains("Dark") == false))
-        themeIconName = "breeze";
+        themeIconType = BREEZE_THEME;
 
-    QIcon::setThemeName(themeIconName);
+    setIconTheme(themeIconType);
 
     QString filename        = d->themeMap.value(theme);
     KSharedConfigPtr config = KSharedConfig::openConfig(filename);
@@ -382,3 +383,29 @@ void ThemeManager::slotSettingsChanged()
     slotChangePalette();
 }
 
+void ThemeManager::setIconTheme(IconTheme theme)
+{
+    QString rccFile("breeze-icons.rcc");
+    QString iconTheme("breeze");
+
+    if (theme == BREEZE_DARK_THEME)
+    {
+        rccFile = "breeze-icons-dark.rcc";
+        iconTheme = "breeze-dark";
+    }
+
+    QStringList themeSearchPaths = (QStringList() << QIcon::themeSearchPaths());
+    #ifdef Q_OS_OSX
+    themeSearchPaths = themeSearchPaths << QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons").absolutePath();
+    #elif defined(Q_OS_WIN)
+    themeSearchPaths = themeSearchPaths << QStandardPaths::locate(QStandardPaths::GenericDataLocation, "icons", QStandardPaths::LocateDirectory);
+    QString resourcePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "icons", QStandardPaths::LocateDirectory) + QDir::separator() + iconTheme + QDir::separator() + rccFile;
+    QResource::registerResource(resourcePath, "/icons/" + iconTheme);
+    #else
+    //TODO On Linux on non-KDE Distros, find out if the themes are installed or not and perhaps warn the user
+    #endif
+
+    QIcon::setThemeSearchPaths(themeSearchPaths);
+    //Note: in order to get it to actually load breeze from resources on mac, we had to add the index.theme, and just one icon from breeze into the qrc.  Not sure why this was needed, but it works.
+    QIcon::setThemeName(iconTheme);
+}

@@ -135,20 +135,7 @@ void KStars::initActions()
     // Check if we have this specific Breeze icon. If not, try to set the theme search path
     // in each OS
     if (!QIcon::hasThemeIcon(QLatin1String("kstars_flag")))
-    {
-        QStringList themeSearchPaths = (QStringList() << QIcon::themeSearchPaths());
-        #ifdef Q_OS_OSX
-        themeSearchPaths = themeSearchPaths << QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons").absolutePath();
-        #elif defined(Q_OS_WIN)
-        themeSearchPaths = themeSearchPaths << QStandardPaths::locate(QStandardPaths::GenericDataLocation, "icons", QStandardPaths::LocateDirectory);
-        #else
-        //TODO On Linux on non-KDE Distros, find out if the themes are installed or not and perhaps warn the user
-        #endif
-
-        QIcon::setThemeSearchPaths(themeSearchPaths);
-        //Note: in order to get it to actually load breeze from resources on mac, we had to add the index.theme, and just one icon from breeze into the qrc.  Not sure why this was needed, but it works.
-        QIcon::setThemeName(QLatin1String("breeze"));
-    }
+        ThemeManager::instance()->setIconTheme(ThemeManager::BREEZE_DARK_THEME);
 
     QAction *ka;
 
