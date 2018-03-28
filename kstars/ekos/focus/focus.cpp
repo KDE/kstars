@@ -816,6 +816,12 @@ void Focus::stop(bool aborted)
 
 void Focus::capture()
 {
+    if (captureInProgress)
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Capture called while already in progress. Capture is ignored.";
+        return;
+    }
+
     if (currentCCD == nullptr)
     {
         appendLogText(i18n("No CCD connected."));
