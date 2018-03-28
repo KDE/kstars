@@ -44,6 +44,7 @@
 #include <QDirIterator>
 #include <QMenu>
 #include <QStyle>
+#include <QResource>
 
 // Desktop includes
 
