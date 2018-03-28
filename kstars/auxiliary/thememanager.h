@@ -48,6 +48,8 @@ class ThemeManager : public QObject
 
 public:
 
+    typedef enum { BREEZE_THEME, BREEZE_DARK_THEME } IconTheme;
+
     ~ThemeManager();
     static ThemeManager* instance();
 
@@ -59,6 +61,8 @@ public:
     void    setThemeMenuAction(QMenu* const action);
     void    registerThemeActions(KXmlGuiWindow * const win);
     void    populateThemeQListWidget(QListWidget *themeWidget);
+
+    void setIconTheme(IconTheme theme);
 
 signals:
 
