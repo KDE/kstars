@@ -132,7 +132,7 @@ QAction *newToggleAction(KActionCollection *col, QString name, QString text, QOb
 
 void KStars::initActions()
 {
-    // Check if we have this specific Breeze icon. If not, try to set the theme search path
+    // Check if we have this specific Breeze icon. If not, try to set the theme search path and if appropriate, the icon theme rcc file
     // in each OS
     if (!QIcon::hasThemeIcon(QLatin1String("kstars_flag")))
         ThemeManager::instance()->setIconTheme(ThemeManager::BREEZE_DARK_THEME);

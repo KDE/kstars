@@ -24,8 +24,6 @@
         <file>icons/astrometry-optional.svg</file>
         <file>icons/astrometry-recommended.svg</file>
         <file>icons/astrometry-required.svg</file>
-        <file>icons/breeze/index.theme</file>
-        <file>icons/breeze/actions/12/object-fill.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>
