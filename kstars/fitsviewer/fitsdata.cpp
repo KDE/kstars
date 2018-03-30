@@ -4156,8 +4156,9 @@ int FITSData::findSEPStars(const QRect &boundary)
         center->y = catalog->y[i]+y+0.5;
         center->val = catalog->peak[i];
         center->sum = flux;
-        center->HFR = flux_fractions[0];
-        center->width = flux_fractions[1]*2;
+        center->HFR = center->width = flux_fractions[0];
+        if (flux_fractions[1] < maxRadius)
+            center->width = flux_fractions[1]*2;
         edges.append(center);
     }
 
