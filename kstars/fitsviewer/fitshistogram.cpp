@@ -153,10 +153,10 @@ void FITSHistogram::constructHistogram()
 
     if (image_data->getNumOfChannels() == 1)
     {
-        for (uint32_t i = 0; i < samples; i++)
+        for (uint32_t i = 0; i < samples; i += 4)
         {
             r_id = round((buffer[i] - fits_min) / binWidth);
-            r_frequency[r_id >= binCount ? binCount - 1 : r_id]++;
+            r_frequency[r_id >= binCount ? binCount - 1 : r_id] += 4;
         }
     }
     else
@@ -166,22 +166,22 @@ void FITSHistogram::constructHistogram()
 
         int g_offset = samples;
         int b_offset = samples * 2;
-        for (uint32_t i = 0; i < samples; i++)
+        for (uint32_t i = 0; i < samples; i += 4)
         {
             uint16_t g_id = 0, b_id = 0;
 
             r_id = round((buffer[i] - fits_min) / binWidth);
-            r_frequency[r_id >= binCount ? binCount - 1 : r_id]++;
+            r_frequency[r_id >= binCount ? binCount - 1 : r_id] += 4;
 
             g_id = round((buffer[i + g_offset] - fits_min) / binWidth);
-            g_frequency[g_id >= binCount ? binCount - 1 : g_id]++;
+            g_frequency[g_id >= binCount ? binCount - 1 : g_id] += 4;
 
             b_id = round((buffer[i + b_offset] - fits_min) / binWidth);
-            b_frequency[b_id >= binCount ? binCount - 1 : b_id]++;
+            b_frequency[b_id >= binCount ? binCount - 1 : b_id] += 4;
         }
     }
 
-    // Cumuliative Frequency
+    // Cumulative Frequency
     for (int i = 0; i < binCount; i++)
         for (int j = 0; j <= i; j++)
             cumulativeFrequency[i] += r_frequency[j];

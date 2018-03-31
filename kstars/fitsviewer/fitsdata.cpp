@@ -661,69 +661,54 @@ void FITSData::runningAverageStdDev()
 
     if (channels == 1)
     {
-        int m_n       = 2;
-        double m_oldM = 0, m_newM = 0, m_oldS = 0, m_newS = 0;
+        long double mean = 0;
+
+        for (unsigned int i = 1; i < stats.samples_per_channel; i += 4)
+        {
+            mean += (long double)buffer[i] / stats.samples_per_channel*4;
+        }
+        long double stddev = 0;
 
         for (unsigned int i = 1; i < stats.samples_per_channel; i++)
         {
-            m_newM = m_oldM + (buffer[i] - m_oldM) / m_n;
-            m_newS = m_oldS + (buffer[i] - m_oldM) * (buffer[i] - m_newM);
+            long double temp = (long double)buffer[i]-mean;
 
-            m_oldM = m_newM;
-            m_oldS = m_newS;
-            m_n++;
+            stddev += temp*temp;
         }
-
-        double variance = (m_n == 2 ? 0 : m_newS / (m_n - 2));
-
-        stats.mean[0]   = m_newM;
-        stats.stddev[0] = sqrt(variance);
+        stats.mean[0]   = mean;
+        stats.stddev[0] = sqrt(stddev / stats.samples_per_channel);
     }
     else
     {
-        int m_n[3]       = {2,2,2};
-        double m_oldM[3] = {0}, m_newM[3] = {0}, m_oldS[3] = {0}, m_newS[3] = {0};
-
         T *rBuffer = buffer;
         T *gBuffer = buffer + stats.samples_per_channel;
         T *bBuffer = buffer + stats.samples_per_channel * 2;
+        long double meanR = 0, meanG = 0, meanB = 0;
+
+        for (unsigned int i = 1; i < stats.samples_per_channel; i += 4)
+        {
+            meanR += (long double)rBuffer[i] / stats.samples_per_channel*4;
+            meanG += (long double)gBuffer[i] / stats.samples_per_channel*4;
+            meanB += (long double)bBuffer[i] / stats.samples_per_channel*4;
+        }
+        long double stddevR = 0, stddevG = 0, stddevB = 0;
 
         for (unsigned int i = 1; i < stats.samples_per_channel; i++)
         {
-            m_newM[0] = m_oldM[0] + (rBuffer[i] - m_oldM[0]) / m_n[0];
-            m_newS[0] = m_oldS[0] + (rBuffer[i] - m_oldM[0]) * (rBuffer[i] - m_newM[0]);
+            long double temp = (long double)rBuffer[i]-meanR;
 
-            m_oldM[0] = m_newM[0];
-            m_oldS[0] = m_newS[0];
-            m_n[0]++;
-
-            m_newM[1] = m_oldM[1] + (gBuffer[i] - m_oldM[1]) / m_n[1];
-            m_newS[1] = m_oldS[1] + (gBuffer[i] - m_oldM[1]) * (gBuffer[i] - m_newM[1]);
-
-            m_oldM[1] = m_newM[1];
-            m_oldS[1] = m_newS[1];
-            m_n[1]++;
-
-            m_newM[2] = m_oldM[2] + (bBuffer[i] - m_oldM[2]) / m_n[2];
-            m_newS[2] = m_oldS[2] + (bBuffer[i] - m_oldM[2]) * (bBuffer[i] - m_newM[2]);
-
-            m_oldM[2] = m_newM[2];
-            m_oldS[2] = m_newS[2];
-            m_n[2]++;
-
+            stddevR += temp*temp;
+            temp = (long double)gBuffer[i]-meanG;
+            stddevG += temp*temp;
+            temp = (long double)bBuffer[i]-meanB;
+            stddevB += temp*temp;
         }
-
-        double variance = (m_n[0] == 2 ? 0 : m_newS[0] / (m_n[0] - 2));
-        stats.mean[0]   = m_newM[0];
-        stats.stddev[0] = sqrt(variance);
-
-        variance = (m_n[1] == 2 ? 0 : m_newS[1] / (m_n[1] - 2));
-        stats.mean[1]   = m_newM[1];
-        stats.stddev[1] = sqrt(variance);
-
-        variance = (m_n[2] == 2 ? 0 : m_newS[2] / (m_n[2] - 2));
-        stats.mean[2]   = m_newM[2];
-        stats.stddev[2] = sqrt(variance);
+        stats.mean[0]   = meanR;
+        stats.mean[1]   = meanG;
+        stats.mean[2]   = meanB;
+        stats.stddev[0] = sqrt(stddevR / stats.samples_per_channel);
+        stats.stddev[1] = sqrt(stddevG / stats.samples_per_channel);
+        stats.stddev[2] = sqrt(stddevB / stats.samples_per_channel);
     }
 }
 
