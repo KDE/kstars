@@ -1970,7 +1970,6 @@ void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, float image_min
                         image[k + row] = qBound(min, image[k + row], max);
                 }
             }
-
             if (calcStats)
             {
                 stats.min[0] = min;
