@@ -34,6 +34,7 @@
 #endif
 
 // forward declaration is enough. We only need pointers
+class QActionGroup;
 class QDockWidget;
 class QPalette;
 class KActionMenu;
