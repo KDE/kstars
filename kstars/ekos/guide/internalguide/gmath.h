@@ -117,7 +117,7 @@ class cgmath : public QObject
     int getSquareAlgorithmIndex(void) const;    
     void setSquareAlgorithm(int alg_idx);
 
-    Matrix getROTZ() { return ROT_Z; }
+    Ekos::Matrix getROTZ() { return ROT_Z; }
     const cproc_out_params *getOutputParameters() const { return &out_params; }
     info_params_t getInfoParameters(void) const;
     uint32_t getTicks(void) const;
@@ -204,7 +204,7 @@ class cgmath : public QObject
     double ccd_pixel_height { 0 };
     double aperture { 0 };
     double focal { 0 };
-    Matrix ROT_Z;
+    Ekos::Matrix ROT_Z;
     bool preview_mode { true };
     bool suspended { false };
     bool lost_star { false };

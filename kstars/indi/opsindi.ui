@@ -6,11 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>472</width>
-    <height>322</height>
+    <width>443</width>
+    <height>333</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <widget class="QGroupBox" name="generalGroup">
      <property name="title">
@@ -63,7 +78,7 @@
            <string>Default INDI video port</string>
           </property>
           <property name="text">
-           <string>INDI Drivers Directory:</string>
+           <string>INDI Drivers XML Directory:</string>
           </property>
          </widget>
         </item>

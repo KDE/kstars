@@ -174,7 +174,7 @@ class InternalGuider : public GuideInterface
     QTime reacquireTimer;
     int m_highPulseCounter {0};
 
-    Matrix ROT_Z;
+    Ekos::Matrix ROT_Z;
     CalibrationStage calibrationStage { CAL_IDLE };
     CalibrationType calibrationType;
 };
