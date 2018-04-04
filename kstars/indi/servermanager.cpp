@@ -60,7 +60,7 @@ bool ServerManager::start()
 #ifdef Q_OS_OSX
         QString driversDir = Options::indiDriversDir();
         if (Options::indiDriversAreInternal())
-            driversDir = QCoreApplication::applicationDirPath() + "/indi";
+            driversDir = QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
         QString indiServerDir = Options::indiServer();
         if (Options::indiServerIsInternal())
             indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
@@ -74,9 +74,6 @@ bool ServerManager::start()
         insertEnvironmentPath(&env, "INDIPREFIX", "/../../");
         insertEnvironmentPath(&env, "IOLIBS", "/../Resources/DriverSupport/gphoto/IOLIBS");
         insertEnvironmentPath(&env, "CAMLIBS", "/../Resources/DriverSupport/gphoto/CAMLIBS");
-        //insertEnvironmentPath(&env, "QHY_FIRMWARE_DIR","/../PlugIns/qhy");
-        //insertEnvironmentPath(&env, "APOGEE_ETC_DIR", "/../PlugIns");
-        //insertEnvironmentPath(&env, "DSI_FIRMWARE_DIR", "/../PlugIns/firmware");
 
         serverProcess->setProcessEnvironment(env);
 #endif
@@ -178,9 +175,9 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
 #ifdef Q_OS_OSX
     if (Options::indiServerIsInternal())
-        driversDir = QCoreApplication::applicationDirPath() + "/indi";
-    if (Options::indiDriversAreInternal())
         indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
+    if (Options::indiDriversAreInternal())
+         driversDir = QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
     else
         indiServerDir = QFileInfo(Options::indiServer()).dir().path();
 #endif

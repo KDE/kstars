@@ -17,6 +17,8 @@
 
 //---------------------------------------------------------------------------
 
+namespace Ekos
+{
 Matrix ::Matrix(double v)
 {
     for (int i = 0; i < 4; i++)
@@ -357,4 +359,5 @@ Matrix MirrorZ()
     Matrix res(1);
     res.x[2][2] = -1;
     return res;
+}
 }

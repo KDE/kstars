@@ -149,7 +149,7 @@ bool InternalGuider::dither(double pixels)
     double cur_x, cur_y, ret_angle;
     pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
     pmath->getStarScreenPosition(&cur_x, &cur_y);
-    Matrix ROT_Z = pmath->getROTZ();
+    Ekos::Matrix ROT_Z = pmath->getROTZ();
 
     //qDebug() << "Star Pos X " << cur_x << " Y " << cur_y;
 

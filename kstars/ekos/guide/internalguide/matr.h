@@ -15,6 +15,8 @@
 
 #include "vect.h"
 
+namespace Ekos
+{
 class Matrix
 {
   public:
@@ -45,5 +47,6 @@ Matrix Transform(const Vector &v1, const Vector &v2, const Vector &v3);
 Matrix MirrorX();
 Matrix MirrorY();
 Matrix MirrorZ();
+}
 //---------------------------------------------------------------------------
 #endif
