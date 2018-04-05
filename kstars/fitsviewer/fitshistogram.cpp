@@ -521,7 +521,7 @@ void FITSHistogramCommand::redo()
             }
 
             memcpy(buffer, image_buffer, size * channels * BBP);
-            float dataMin = min, dataMax = max;
+            double dataMin = min, dataMax = max;
 
             switch (type)
             {
