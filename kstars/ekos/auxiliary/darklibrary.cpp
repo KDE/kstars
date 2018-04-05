@@ -221,16 +221,26 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
 {
     FITSData *lightData = lightImage->getImageData();
 
-    T *darkBuffer  = reinterpret_cast<T *>(darkData->getImageBuffer());
+
     T *lightBuffer = reinterpret_cast<T *>(lightData->getImageBuffer());
-
-    int darkoffset = offsetX + offsetY * darkData->getWidth();
-    int darkW      = darkData->getWidth();
-
-    int lightOffset = 0;
     int lightW      = lightData->getWidth();
     int lightH      = lightData->getHeight();
 
+    int darkW      = darkData->getWidth();
+    int darkoffset = offsetX + offsetY * darkW;
+    T *darkBuffer  = reinterpret_cast<T *>(darkData->getImageBuffer()) + darkoffset;
+
+    for (int i = 0; i < lightH; i++)
+    {
+        for (int j = 0; j < lightW; j++)
+            lightBuffer[j] = (lightBuffer[j] > darkBuffer[j]) ? (lightBuffer[j] - darkBuffer[j]) : 0;
+
+        lightBuffer += lightW;
+        darkBuffer += darkW;
+    }
+
+#if 0
+    int lightOffset = 0;
     for (int i = 0; i < lightH; i++)
     {
         for (int j = 0; j < lightW; j++)
@@ -244,6 +254,7 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
         lightOffset += lightW;
         darkoffset += darkW;
     }
+#endif
 
     lightData->applyFilter(filter);
     if (filter == FITS_NONE)
