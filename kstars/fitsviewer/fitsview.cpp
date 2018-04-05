@@ -372,8 +372,6 @@ int FITSView::rescale(FITSZoom type)
 
     filter = filterStack.last();
 
-    QTime timer;
-    timer.start();
     if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V)))
     {
         image_buffer = new uint8_t[imageData->getSize() * imageData->getNumOfChannels() * BBP];
@@ -394,9 +392,6 @@ int FITSView::rescale(FITSZoom type)
         imageData->applyFilter(filter);
         imageData->getMinMax(&min, &max);
     }
-    qCInfo(KSTARS_FITS) << "rescale #1 took" << timer.elapsed() << "ms";
-
-    timer.start();
 
     T *buffer = reinterpret_cast<T *>(image_buffer);
 
@@ -428,15 +423,14 @@ int FITSView::rescale(FITSZoom type)
         if (imageData->getNumOfChannels() == 1)
         {
             QList<QFuture<void>> futures;
-            T *runningBuffer = buffer;
+
             /* Fill in pixel values using indexed map, linear scale */
             for (uint32_t j = 0; j < image_height; j++)
             {                
-                uint8_t *scanLine = display_image->scanLine(j);
-                runningBuffer += j*image_width;
-
-                futures.append(QtConcurrent::run([&]()
+                futures.append(QtConcurrent::run([=]()
                 {
+                    T *runningBuffer = buffer +j*image_width;
+                    uint8_t *scanLine = display_image->scanLine(j);
                     for (uint32_t i = 0; i < image_width; i++)
                     {
                         //scanLine[i] = qBound(0, static_cast<uint8_t>(runningBuffer[i] * bscale + bzero), 255);
@@ -453,14 +447,14 @@ int FITSView::rescale(FITSZoom type)
             QList<QFuture<void>> futures;
             /* Fill in pixel values using indexed map, linear scale */
             for (uint32_t j = 0; j < image_height; j++)
-            {
-                QRgb *scanLine = reinterpret_cast<QRgb *>((display_image->scanLine(j)));
-                T *runningBufferR = buffer + j*image_width;
-                T *runningBufferG = buffer + j*image_width + size;
-                T *runningBufferB = buffer + j*image_width + size*2;
-
-                futures.append(QtConcurrent::run([&]()
+            {                
+                futures.append(QtConcurrent::run([=]()
                 {
+                    QRgb *scanLine = reinterpret_cast<QRgb *>((display_image->scanLine(j)));
+                    T *runningBufferR = buffer + j*image_width;
+                    T *runningBufferG = buffer + j*image_width + size;
+                    T *runningBufferB = buffer + j*image_width + size*2;
+
                     for (uint32_t i = 0; i < image_width; i++)
                     {
                         scanLine[i] = qRgb(runningBufferR[i] * bscale + bzero,
@@ -473,10 +467,45 @@ int FITSView::rescale(FITSZoom type)
             for(QFuture<void> future : futures)
                 future.waitForFinished();
         }
-    }
-    qCInfo(KSTARS_FITS) << "rescale #2 took" << timer.elapsed() << "ms";
 
-    timer.start();
+#if 0
+        if (imageData->getNumOfChannels() == 1)
+               {
+                   /* Fill in pixel values using indexed map, linear scale */
+                   for (int j = 0; j < image_height; j++)
+                   {
+                       unsigned char *scanLine = display_image->scanLine(j);
+
+                       for (int i = 0; i < image_width; i++)
+                       {
+                           val         = buffer[j * image_width + i] * bscale + bzero;
+                           scanLine[i] = qBound(0.0, val, 255.0);
+                       }
+                   }
+               }
+               else
+               {
+                   double rval = 0, gval = 0, bval = 0;
+                   QRgb value;
+                   /* Fill in pixel values using indexed map, linear scale */
+                   for (int j = 0; j < image_height; j++)
+                   {
+                       QRgb *scanLine = reinterpret_cast<QRgb *>((display_image->scanLine(j)));
+
+                       for (int i = 0; i < image_width; i++)
+                       {
+                           rval = buffer[j * image_width + i];
+                           gval = buffer[j * image_width + i + size];
+                           bval = buffer[j * image_width + i + size * 2];
+
+                           value = qRgb(rval * bscale + bzero, gval * bscale + bzero, bval * bscale + bzero);
+
+                           scanLine[i] = value;
+                       }
+                   }
+               }
+#endif
+    }
 
     if (displayBuffer)
         delete[] image_buffer;
@@ -531,8 +560,6 @@ int FITSView::rescale(FITSZoom type)
 
     if (type != ZOOM_KEEP_LEVEL)
         emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
-
-    qCInfo(KSTARS_FITS) << "rescale #3 took" << timer.elapsed() << "ms";
 
     return 0;
 }

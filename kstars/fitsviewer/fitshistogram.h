@@ -36,9 +36,10 @@ class FITSHistogram : public QDialog
 
   public:
     explicit FITSHistogram(QWidget *parent);
-    ~FITSHistogram();
+    ~FITSHistogram() = default;
 
     void constructHistogram();
+    void syncGUI();
 
     void applyFilter(FITSScale ftype);
 
@@ -47,6 +48,9 @@ class FITSHistogram : public QDialog
     QVector<double> getCumulativeFrequency() const;
 
     double getJMIndex() const;
+
+  protected:
+    void showEvent(QShowEvent *);
 
   public slots:
     void applyScale();
@@ -73,7 +77,9 @@ class FITSHistogram : public QDialog
     double fits_min { 0 };
     double fits_max { 0 };
     uint16_t binCount { 0 };
+    int maxFrequency {0};
     FITSScale type { FITS_AUTO };
+    bool isGUISynced { false};
     QCustomPlot *customPlot { nullptr };
 };
 

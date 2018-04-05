@@ -25,6 +25,7 @@
 #include "ui_fitsheaderdialog.h"
 #include "ui_statform.h"
 
+#include <QtConcurrent>
 #include <KMessageBox>
 
 FITSTab::FITSTab(FITSViewer *parent) : QWidget()
@@ -102,12 +103,12 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
     {
         if (histogram == nullptr)
             histogram = new FITSHistogram(this);
-        else
-            histogram->constructHistogram();
 
         FITSData *image_data = view->getImageData();
-
         image_data->setHistogram(histogram);
+
+        QFuture<void> histoFuture = QtConcurrent::run([&]() {histogram->constructHistogram();});
+
         image_data->applyFilter(filter);
 
         if (filter != FITS_NONE)
@@ -117,6 +118,9 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
             view->toggleStars(true);
 
         view->updateFrame();
+
+        //histoFuture.waitForFinished();
+        //histogram->syncGUI();
     }
 
     return imageLoad;
