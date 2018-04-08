@@ -606,7 +606,7 @@ void KSPopupMenu::addINDI()
             if (dynamic_cast<ISD::Telescope*>(telescope)->canCustomPark())
             {
                 menuDevice->addSeparator();
-                QAction *a = menuDevice->addAction(i18n("Set As Parking Position"));
+                QAction *a = menuDevice->addAction(i18n("Slew && Set As Parking Position"));
 
                 QSignalMapper *scopeMapper = new QSignalMapper(this);
                 scopeMapper->setMapping(a, INDI_CUSTOM_PARKING);
