@@ -4,6 +4,64 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.9.4 (Emad):
+=================================================================================================
+d902275 2018-04-08 Jasem Mutlaq         Updated set as parking position message. Fixes D12033
+4801574 2018-04-05 Jasem Mutlaq         FITS improvements are complete and ready for testing.
+d77bff3 2018-04-05 Jasem Mutlaq         Initial work for parallelization in FITS classes
+89ea1e1 2018-04-04 Robert Lancaster     Few changes to make KStars compile on MacOS in addition to changes in INDI directory handling
+0b936a7 2018-04-03 David Faure          Fix compilation with Qt 5.11 - just a missing fwd decl
+4621ada 2018-03-31 Csaba Kertesz        Get some source files out of sanitizer support
+b97bf5b 2018-03-31 Csaba Kertesz        Optimize the FITS statistics and histogram calculations
+fb134e9 2018-03-30 Jasem Mutlaq         Set to first tab
+c033e62 2018-03-29 Robert Lancaster     Use RCC file to load icons on MacOS
+99d6100 2018-03-29 Jasem Mutlaq         Forgot to add resource header
+d7bc193 2018-03-29 Jasem Mutlaq         Load RCC resource on Windows
+a4dca10 2018-03-28 Jasem Mutlaq         Ignore capture if capture in progress flag is set but display a warning to the log nonetheless
+12b2fe2 2018-03-28 Jasem Mutlaq         Flat sync focus functionality now works but requires testing
+350f173 2018-03-27 Jasem Mutlaq         Bump to 2.9.4 and initial work for flat field frame synchronization with absolute focus position of corresponding light frames using the same filter
+36b4c30 2018-03-27 Jasem Mutlaq         Implement double spin box for PAH exposure and improve PAH refresh performance
+51bfe44 2018-03-26 Jasem Mutlaq         Add button to clear all logs including autofocus files. Add size format function to KSUtils
+2a58471 2018-03-26 Jasem Mutlaq         Improve debug statement when starting calibration
+8d6b80f 2018-03-26 Jasem Mutlaq         Save target CCD in case astrometry driver is not initiliazed yet. Save solver type immediately after changing selection
+5b4c22e 2018-03-25 Jasem Mutlaq         Use HA of actual object, not mount. More more messages to logging to simplify the default Ekos on-screen log. Restore the scoreHigh sorting if enabled
+4fefd47 2018-03-25 Jasem Mutlaq         Set time spec again after adding seconds since that resets timespecs to UTC by default
+dc8f560 2018-03-25 Jasem Mutlaq         Fix compile error
+2051486 2018-03-25 Jasem Mutlaq         More fixes to scheduler logic
+5e66547 2018-03-25 Jasem Mutlaq         Always re-check job estimated time. Select active job in the list to improve scheduler usability
+dab016e 2018-03-25 Jasem Mutlaq         Various scheduler fixes
+2077c8d 2018-03-24 Jasem Mutlaq         BUGS:392284
+1e7a4fa 2018-03-24 Jasem Mutlaq         Always restart evalutaion of all pending jobs. Do not set best candidate if it was an invalid job
+ab02aaf 2018-03-24 Jasem Mutlaq         Set state to progress on changing filter position
+4632d93 2018-03-24 Jasem Mutlaq         newStarPosition is already connected
+d342ab1 2018-03-23 Jasem Mutlaq         Minor reorganization and GUI improvements
+4f7b6d7 2018-03-23 Jasem Mutlaq         Integrate SEP with internal guider. Add support for reacquiring lost star automatically without aborting immediately
+4d8f8e7 2018-03-23 Jasem Mutlaq         Add functionality to clear expired dark frames. Small GUI improvements as well
+207fbc1 2018-03-23 Jasem Mutlaq         0.99 good enough and will reject out of band widths
+dd79e3c 2018-03-23 Jasem Mutlaq         Disable unnecessary debug
+5c52463 2018-03-22 Jasem Mutlaq         Only reset guiding calibration when there is error.
+cdfc4ac 2018-03-22 Jasem Mutlaq         Use Qt_5_5 as base for binary version
+24672b4 2018-03-22 Valentin Boettcher   + Implementing binary reader for asteroid data to make it loading of larger data sets faster and more efficient. + Using qHash for all components. T..
+1da9353 2018-03-17 Jasem Mutlaq         Sync INDI drivers list
+636634f 2018-03-17 Jasem Mutlaq         autoWCS should be enabled by default
+eda1639 2018-03-15 Jasem Mutlaq         Improve logging for alignment and WCS
+d0a3ad3 2018-03-15 Jasem Mutlaq         Return false and not status on error
+1be092d 2018-03-14 Csaba Kertesz        Make sure there is no out of bound access on moon calculations
+a1fc053 2018-03-14 Csaba Kertesz        Move 3rdparty photometry sources out of Unity Build and apply warning surpression on those files
+63b7317 2018-03-13 Jasem Mutlaq         Sync INDI drivers with upstream
+8a4f8f3 2018-03-12 Jasem Mutlaq         Opps first tab should be the active one
+d340153 2018-03-12 Jasem Mutlaq         Add option to reset mount model before each job
+e892b95 2018-03-11 Jasem Mutlaq         Enable BLOB when starting video stream in case it was disabled due to external guider usage
+dd72a7d 2018-03-08 Jasem Mutlaq         Add exception to networkAccessible() call in online astrometry parser
+87eb1fb 2018-03-06 Jasem Mutlaq         Get all objects as proposed by INDI forum user fehlfarbe
+4bc165b 2018-03-06 Jasem Mutlaq         Fix crash condition
+410fd45 2018-03-05 Jasem Mutlaq         Remove extra options not needed anymore
+df8432f 2018-03-02 Jasem Mutlaq         Do not display error of internet connection if astrometry URL is local
+79001ff 2018-02-27 Jasem Mutlaq         Improve handling of DSLR info dialog and only show when necessary
+cc9f2a6 2018-02-26 Jasem Mutlaq         BUGS:391114 FIXED-IN:2.9.4
+92f6cef 2018-02-26 Jasem Mutlaq         Calculate mean and stddev for multi-channel FITS
+a940457 2018-02-26 Jasem Mutlaq         Force use of FITS Viewer when we are doing ADU calculations
+
 2.9.3 (Trappist):
 =================================================================================================
 c3dbe12 2018-02-26 Jasem Mutlaq         BUGS:390124 FIXED-IN:2.9.3
