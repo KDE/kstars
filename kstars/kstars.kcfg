@@ -259,6 +259,18 @@
          <label>Enable INDI Auxiliary logging</label>
          <default>false</default>
       </entry>
+      <entry name="INDIRotatorLogging" type="Bool">
+         <label>Enable INDI Rotator logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDIGPSLogging" type="Bool">
+         <label>Enable INDI GPS logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDIAOLogging" type="Bool">
+         <label>Enable INDI Adaptive Optics logging</label>
+         <default>false</default>
+      </entry>
    </group>
 
    <group name="Location">
