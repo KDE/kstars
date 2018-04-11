@@ -21,6 +21,7 @@
 #include <QUndoStack>
 #include <QUrl>
 #include <QWidget>
+#include <QFuture>
 
 #include <memory>
 
@@ -93,6 +94,9 @@ class FITSTab : public QWidget
     bool mDirty { false };
     QString previewText;
     int uid { 0 };
+
+    QFuture<void> histogramFuture;
+
 
   signals:
     void debayerToggled(bool);
