@@ -39,7 +39,9 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget()
 
 FITSTab::~FITSTab()
 {
-    disconnect(0, 0, 0);
+    // Make sure it's done
+    histogramFuture.waitForFinished();
+    //disconnect();
 }
 
 void FITSTab::saveUnsaved()
@@ -50,7 +52,7 @@ void FITSTab::saveUnsaved()
     QString caption = i18n("Save Changes to FITS?");
     QString message = i18n("The current FITS file has unsaved changes.  Would you like to save before closing it?");
     int ans =
-        KMessageBox::warningYesNoCancel(0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
+        KMessageBox::warningYesNoCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
     if (ans == KMessageBox::Yes)
         saveFile();
     if (ans == KMessageBox::No)
@@ -62,7 +64,8 @@ void FITSTab::saveUnsaved()
 
 void FITSTab::closeEvent(QCloseEvent *ev)
 {
-    saveUnsaved();
+    saveUnsaved();    
+
     if (undoStack->isClean())
         ev->accept();
     else
@@ -99,6 +102,9 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
 
     bool imageLoad = view->loadFITS(imageURL->toLocalFile(), silent);
 
+    // If it was already running make sure it's done
+    histogramFuture.waitForFinished();
+
     if (imageLoad)
     {
         if (histogram == nullptr)
@@ -107,7 +113,7 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
         FITSData *image_data = view->getImageData();
         image_data->setHistogram(histogram);
 
-        QFuture<void> histoFuture = QtConcurrent::run([&]() {histogram->constructHistogram();});
+        histogramFuture = QtConcurrent::run([&]() {histogram->constructHistogram();});
 
         image_data->applyFilter(filter);
 
