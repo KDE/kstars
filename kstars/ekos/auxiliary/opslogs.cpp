@@ -14,6 +14,7 @@
 #include <QDesktopServices>
 
 #include <KConfigDialog>
+#include <KFormat>
 #include <KMessageBox>
 
 #include <basedevice.h>
@@ -54,7 +55,7 @@ OpsLogs::OpsLogs() : QFrame(KStars::Instance())
     qint64 totalSize = getDirSize(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs");
     totalSize += getDirSize(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "autofocus");
 
-    clearLogsB->setToolTip(i18n("Clear all logs (%1)", KSUtils::formatSize(totalSize)));
+    clearLogsB->setToolTip(i18n("Clear all logs (%1)", KFormat().formatByteSize(totalSize)));
 
 }
 
