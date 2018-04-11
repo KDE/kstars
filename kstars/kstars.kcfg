@@ -2118,6 +2118,10 @@
          <label>Reset mount model before starting each job.</label>
          <default>false</default>
       </entry>
+      <entry name="ResetGuideCalibration" type="Bool">
+         <label>Always Reset guiding calibration before starting each job.</label>
+         <default>true</default>
+      </entry>
       <entry name="PreemptiveShutdownTime" type="Double">
          <label>Maximum number of hours before the next job is due to trigger a pre-emptive shutdown.</label>
          <default>2</default>
