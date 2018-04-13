@@ -107,8 +107,12 @@ void InfoBoxWidget::slotGeoChanged()
 
     m_strings.clear();
     m_strings << geo->fullName();
-    m_strings << i18nc("Longitude", "Long:") + ' ' + QLocale().toString(geo->lng()->Degrees(), 3) + "   " +
-                     i18nc("Latitude", "Lat:") + ' ' + QLocale().toString(geo->lat()->Degrees(), 3);
+
+    //m_strings << i18nc("Longitude", "Long:") + ' ' + QLocale().toString(geo->lng()->Degrees(), 3) + "   " +
+    //                 i18nc("Latitude", "Lat:") + ' ' + QLocale().toString(geo->lat()->Degrees(), 3);
+
+    m_strings << i18nc("Longitude", "Long:") + ' ' + geo->lng()->toDMSString(true) + ' ' +
+                 i18nc("Latitude", "Lat:") + ' ' + geo->lat()->toDMSString(true);
     updateSize();
     update();
 }
