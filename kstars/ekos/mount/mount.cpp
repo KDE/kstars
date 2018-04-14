@@ -78,6 +78,8 @@ Mount::Mount()
 
     // QML Stuff
     m_BaseView = new QQuickView();
+
+#if 0
     QString MountBox_Location;
 #if defined(Q_OS_OSX)
     MountBox_Location = QCoreApplication::applicationDirPath() + "/../Resources/data/ekos/mount/qml/mountbox.qml";
@@ -90,6 +92,10 @@ Mount::Mount()
 #endif
 
     m_BaseView->setSource(QUrl::fromLocalFile(MountBox_Location));
+#endif
+
+    m_BaseView->setSource(QUrl("qrc:/qml/mount/mountbox.qml"));
+
     m_BaseView->setTitle(i18n("Mount Control"));
 #ifdef Q_OS_OSX
     m_BaseView->setFlags(Qt::Tool | Qt::WindowStaysOnTopHint);

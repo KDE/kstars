@@ -928,9 +928,12 @@ bool DriverManager::readXMLDrivers()
     QString driverName;
 
     // This is the XML file shipped with KStars that contains all supported INDI drivers.
-    QString indiDriversXML = KSPaths::locate(QStandardPaths::GenericDataLocation, "indidrivers.xml");
+    /*QString indiDriversXML = KSPaths::locate(QStandardPaths::GenericDataLocation, "indidrivers.xml");
     if (indiDriversXML.isEmpty() == false)
         processXMLDriver(indiDriversXML);
+    */
+
+    processXMLDriver(QLatin1Literal(":/indidrivers.xml"));
 
     QString driversDir = Options::indiDriversDir();
 #ifdef Q_OS_OSX
@@ -976,7 +979,7 @@ bool DriverManager::readXMLDrivers()
     return true;
 }
 
-void DriverManager::processXMLDriver(QString &driverName)
+void DriverManager::processXMLDriver(const QString &driverName)
 {
     QFile file(driverName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

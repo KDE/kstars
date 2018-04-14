@@ -85,7 +85,7 @@ class DriverManager : public QDialog
 
     bool readXMLDrivers();
     bool readINDIHosts();
-    void processXMLDriver(QString &driverName);
+    void processXMLDriver(const QString &driverName);
     bool buildDeviceGroup(XMLEle *root, char errmsg[]);
     bool buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, DeviceFamily groupType, char errmsg[]);
 

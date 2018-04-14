@@ -74,6 +74,7 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
     ///Use instead of KDeclarative
     m_Ctxt->setContextObject(new KLocalizedContext(m_BaseView));
 
+#if 0
     QString WI_Location;
 #if defined(Q_OS_OSX)
     WI_Location = QCoreApplication::applicationDirPath() + "/../Resources/data/tools/whatsinteresting/qml/wiview.qml";
@@ -86,6 +87,9 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
 #endif
 
     m_BaseView->setSource(QUrl::fromLocalFile(WI_Location));
+#endif
+
+    m_BaseView->setSource(QUrl("qrc:/qml/whatisinteresting/wiview.qml"));
 
     m_BaseObj = m_BaseView->rootObject();
 
