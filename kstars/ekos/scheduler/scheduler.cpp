@@ -428,12 +428,16 @@ void Scheduler::saveJob()
 
     if (raOk == false)
     {
+        if(jobUnderEdit < 0)
+            delete job;
         appendLogText(i18n("RA value %1 is invalid.", raBox->text()));
         return;
     }
 
     if (decOk == false)
     {
+        if(jobUnderEdit < 0)
+            delete job;
         appendLogText(i18n("DEC value %1 is invalid.", decBox->text()));
         return;
     }
