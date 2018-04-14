@@ -249,8 +249,13 @@ void Scheduler::watchJobChanges(bool enable)
 
 void Scheduler::appendLogText(const QString &text)
 {
-    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
-                            QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+    /* FIXME: user settings for log length */
+    int const max_log_count = 2000;
+    if (logText.size() > max_log_count)
+        logText.removeLast();
+
+    logText.prepend(i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+                          QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << text;
 
