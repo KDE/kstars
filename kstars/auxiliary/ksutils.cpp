@@ -1093,23 +1093,26 @@ QString getDefaultPath(QString option)
 }
 
 #ifdef Q_OS_OSX
+//Note that this will copy and will not overwrite, so that the user's changes in the files are preserved.
 void copyResourcesFolderFromAppBundle(QString folder){
     QString folderLocation = QStandardPaths::locate(QStandardPaths::GenericDataLocation, folder, QStandardPaths::LocateDirectory);
-    if (folderLocation.isEmpty())
+    QDir folderSourceDir;
+    if(folder=="kstars")
+        folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath();
+    else
+        folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/" + folder).absolutePath();
+    if (folderSourceDir.exists())
     {
-        QDir folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/"+folder).absolutePath();
-        if (folderSourceDir.exists())
-        {
-            folderLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/"+folder+"/";
-            QDir writableDir;
-            writableDir.mkdir(folderLocation);
-            copyRecursively(folderSourceDir.absolutePath(), folderLocation);
-        }
+        folderLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/"+folder;
+        QDir writableDir;
+        writableDir.mkdir(folderLocation);
+        copyRecursively(folderSourceDir.absolutePath(), folderLocation);
     }
 }
+
 bool copyDataFolderFromAppBundleIfNeeded() //The method returns true if the data directory is good to go.
 {
-    //This will copy the locale folder, the notifications folder, and the sounds folder to Application Support if needed.
+    //This will copy the locale folder, the notifications folder, and the sounds folder and any missing files in them to Application Support if needed.
     copyResourcesFolderFromAppBundle("locale");
     copyResourcesFolderFromAppBundle("knotifications5");
     copyResourcesFolderFromAppBundle("sounds");
@@ -1145,6 +1148,8 @@ bool copyDataFolderFromAppBundleIfNeeded() //The method returns true if the data
 
         return true; //This means the data directory is good to go now that we created it from the default.
     }
+    //This will copy any of the critical KStars files from the app bundle to application support if they are missing.
+    copyResourcesFolderFromAppBundle("kstars");
     return true; //This means the data directory was good to go from the start and the wizard did not run.
 }
 
@@ -1213,7 +1218,6 @@ void configureDefaultAstrometry()
 
 bool copyRecursively(QString sourceFolder, QString destFolder)
 {
-    bool success = false;
     QDir sourceDir(sourceFolder);
 
     if (!sourceDir.exists())
@@ -1228,9 +1232,7 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
     {
         QString srcName  = sourceFolder + QDir::separator() + files[i];
         QString destName = destFolder + QDir::separator() + files[i];
-        success          = QFile::copy(srcName, destName);
-        if (!success)
-            return false;
+        QFile::copy(srcName, destName); //Note this does not overwrite files
     }
 
     files.clear();
@@ -1239,9 +1241,7 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
     {
         QString srcName  = sourceFolder + QDir::separator() + files[i];
         QString destName = destFolder + QDir::separator() + files[i];
-        success          = copyRecursively(srcName, destName);
-        if (!success)
-            return false;
+        copyRecursively(srcName, destName);
     }
 
     return true;
