@@ -591,7 +591,7 @@ bool EkosManager::start()
         if (isRunning("indiserver"))
         {
             if (KMessageBox::Yes ==
-                (KMessageBox::questionYesNo(0,
+                (KMessageBox::questionYesNo(nullptr,
                                             i18n("Ekos detected an instance of INDI server running. Do you wish to "
                                                  "shut down the existing instance before starting a new one?"),
                                             i18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
