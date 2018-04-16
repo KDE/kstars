@@ -180,7 +180,7 @@
           <item>
            <layout class="QGridLayout" name="gridLayout">
             <item row="0" column="0">
-             <widget class="QRadioButton" name="kcfg_useComputerSource">
+             <widget class="QRadioButton" name="kcfg_useKStarsSource">
               <property name="toolTip">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;KStars is the master source for time and location settings. All INDI devices time and locations settings are synchronized to KStars settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -219,12 +219,12 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QRadioButton" name="kcfg_useDeviceSource">
+             <widget class="QRadioButton" name="kcfg_useMountSource">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GPS/Mount devices are the master source of time and location settings. KStars time and location settings are synchronized with GPS/Mount settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mount handset is the master source of time and location settings. KStars time and location settings are synchronized with controller settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>GPS &amp;&amp; Mount Updates KStars</string>
+               <string>Mount Updates KStars</string>
               </property>
              </widget>
             </item>
@@ -241,6 +241,16 @@
               </property>
               <property name="checked">
                <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QRadioButton" name="kcfg_useGPSSource">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GPS driver is the master source of time and location settings. KStars time and location settings are synchronized with GPS settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>GPS Updates KStars</string>
               </property>
              </widget>
             </item>

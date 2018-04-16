@@ -73,6 +73,7 @@ class GDInterface : public QObject
     virtual DriverInfo *getDriverInfo()             = 0;
     virtual DeviceInfo *getDeviceInfo()             = 0;
     virtual INDI::BaseDevice *getBaseDevice()       = 0;
+    virtual uint32_t getDriverInterface()           = 0;
 
     // Convenience functions
     virtual bool setConfig(INDIConfig tConfig)           = 0;
@@ -94,6 +95,7 @@ class GDInterface : public QObject
 
 protected:
     DeviceFamily dType { KSTARS_CCD };
+    uint32_t driverInterface { 0 };
     QList<INDI::Property *> properties;
 
 signals:
@@ -142,6 +144,7 @@ class GenericDevice : public GDInterface
     virtual DriverInfo *getDriverInfo() { return driverInfo; }
     virtual DeviceInfo *getDeviceInfo() { return deviceInfo; }
     virtual QList<INDI::Property *> getProperties() { return properties; }
+    virtual uint32_t getDriverInterface() { return driverInterface; }
 
     virtual bool setConfig(INDIConfig tConfig);
     virtual bool isConnected() { return connected; }
@@ -207,7 +210,9 @@ class DeviceDecorator : public GDInterface
     DriverInfo *getDriverInfo();
     DeviceInfo *getDeviceInfo();
     QList<INDI::Property *> getProperties();
+    uint32_t getDriverInterface();
     virtual INDI::BaseDevice *getBaseDevice();
+
 
     bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max, double *step);
     IPState getState(const QString &propName);
