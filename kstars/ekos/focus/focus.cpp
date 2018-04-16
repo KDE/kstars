@@ -2846,7 +2846,7 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
 
     connect(this, &Focus::newStatus, [this](Ekos::FocusState state)
     {
-        if (canAbsMove && state == Ekos::FOCUS_COMPLETE)
+        if (FilterPosCombo->currentIndex() != -1 && canAbsMove && state == Ekos::FOCUS_COMPLETE)
         {
             filterManager->setFilterAbsoluteFocusPosition(FilterPosCombo->currentIndex(), currentPosition);
         }

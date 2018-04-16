@@ -525,6 +525,9 @@ bool FilterManager::setFilterExposure(int index, double exposure)
 
 bool FilterManager::setFilterAbsoluteFocusPosition(int index, int absFocusPos)
 {
+    if (index < 0 || index >= m_currentFilterLabels.count())
+        return false;
+
     QString color = m_currentFilterLabels[index];
     for (int i=0; i < m_ActiveFilters.count(); i++)
     {
