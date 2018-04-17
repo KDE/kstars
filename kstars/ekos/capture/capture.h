@@ -59,7 +59,7 @@ class RotatorSettings;
  * interface to enable unattended scripting.
  *
  * @author Jasem Mutlaq
- * @version 1.5
+ * @version 1.6
  */
 namespace Ekos
 {
@@ -461,9 +461,6 @@ class Capture : public QWidget, public Ui::Capture
     void checkGuideDeviationTimeout();
 
     // Auto Focus
-    //void updateAutofocusStatus(bool status, double HFR);
-    //void startPostFilterAutoFocus();
-
     // Timed refocus
     void startRefocusEveryNTimer();
     void restartRefocusEveryNTimer();
@@ -596,11 +593,16 @@ class Capture : public QWidget, public Ui::Capture
     QTimer guideDeviationTimer;
 
     // Autofocus
+    /**
+     * @brief updateHFRThreshold calculate new HFR threshold based on median value for current selected filter
+     */
+    void updateHFRThreshold();
     bool isInSequenceFocus { false };
     bool autoFocusReady { false };
     bool requiredAutoFocusStarted { false };
     bool firstAutoFocus { true };
     double focusHFR { 0 }; // HFR value as received from the Ekos focus module
+    QMap<QString,QList<double>> HFRMap;
     double fileHFR { 0 };  // HFR value as loaded from the sequence file
 
     // Refocus every N minutes
