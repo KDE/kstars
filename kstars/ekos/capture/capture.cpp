@@ -2524,12 +2524,14 @@ void Capture::setFocusStatus(FocusState state)
                 // e.g. If current filter HA, but lock filter is L, then the HFR value is stored for L filter.
                 // If no lock filter exists, then we store as is (HA)
                 QString currentFilterText = FilterPosCombo->itemText(currentFilterPosition-1);
-                QString filterLock = filterManager.data()->getFilterLock(currentFilterText);
-                QString finalFilter = (filterLock == "--" ? currentFilterText : filterLock);
+                //QString filterLock = filterManager.data()->getFilterLock(currentFilterText);
+                //QString finalFilter = (filterLock == "--" ? currentFilterText : filterLock);
 
-                filterHFRList = HFRMap[finalFilter];
+                //filterHFRList = HFRMap[finalFilter];
+                filterHFRList = HFRMap[currentFilterText];
                 filterHFRList.append(focusHFR);
-                HFRMap[finalFilter] = filterHFRList;
+                //HFRMap[finalFilter] = filterHFRList;
+                HFRMap[currentFilterText] = filterHFRList;
             }
             // No filters
             else
