@@ -102,9 +102,12 @@ Capture::Capture()
             auxInfo[QString("%1_TC").arg(currentCCD->getDeviceName())] = toggled;
             currentCCD->getDriverInfo()->setAuxInfo(auxInfo);
         }
-
     });
 
+    connect(FilterPosCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), [=]()
+    {
+        updateHFRThreshold();
+    });
     connect(previewB, SIGNAL(clicked()), this, SLOT(captureOne()));
 
     //connect( seqWatcher, SIGNAL(dirty(QString)), this, SLOT(checkSeqFile(QString)));
@@ -1011,7 +1014,7 @@ void Capture::checkFilter(int filterNum)
 
     currentFilterPosition = filterManager->getFilterPosition();
 
-    FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
+    FilterPosCombo->setCurrentIndex(currentFilterPosition-1);    
 
 
     /*if (activeJob &&
@@ -2510,6 +2513,43 @@ void Capture::setFocusStatus(FocusState state)
         // enable option to have a refocus event occur if HFR goes over threshold
         autoFocusReady = true;
 
+        //if (HFRPixels->value() == 0.0 && fileHFR == 0.0)
+        if (fileHFR == 0.0)
+        {
+            QList<double> filterHFRList;
+            if (currentFilterPosition > 0)
+            {
+                // If we are using filters, then we retrieve which filter is currently active.
+                // We check if filter lock is used, and store that instead of the current filter.
+                // e.g. If current filter HA, but lock filter is L, then the HFR value is stored for L filter.
+                // If no lock filter exists, then we store as is (HA)
+                QString currentFilterText = FilterPosCombo->itemText(currentFilterPosition-1);
+                QString filterLock = filterManager.data()->getFilterLock(currentFilterText);
+                QString finalFilter = (filterLock == "--" ? currentFilterText : filterLock);
+
+                filterHFRList = HFRMap[finalFilter];
+                filterHFRList.append(focusHFR);
+                HFRMap[finalFilter] = filterHFRList;
+            }
+            // No filters
+            else
+            {
+                filterHFRList = HFRMap["--"];
+                filterHFRList.append(focusHFR);
+                HFRMap["--"] = filterHFRList;
+            }
+
+            double median = focusHFR;
+            int count = filterHFRList.size();
+            if (count > 1)
+                median = (count % 2) ? filterHFRList[count/2] : (filterHFRList[count/2-1] + filterHFRList[count/2])/2.0;
+
+            // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
+            // in case in-sequence-focusing is used.
+            HFRPixels->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
+        }
+
+#if 0
         if (focusHFR > 0 && firstAutoFocus && HFRPixels->value() == 0 && fileHFR == 0)
         {
             firstAutoFocus = false;
@@ -2517,6 +2557,7 @@ void Capture::setFocusStatus(FocusState state)
             // in case in-sequence-focusing is used.
             HFRPixels->setValue(focusHFR + (focusHFR * (Options::hFRThresholdPercentage() / 100.0)));
         }
+#endif
 
         // successful focus so reset elapsed time
         restartRefocusEveryNTimer();
@@ -2556,6 +2597,42 @@ void Capture::setFocusStatus(FocusState state)
             abort();
         }
     }
+}
+
+void Capture::updateHFRThreshold()
+{
+    if (fileHFR != 0.0)
+        return;
+
+    QList<double> filterHFRList;
+    if (FilterPosCombo->currentIndex() != -1)
+    {
+        // If we are using filters, then we retrieve which filter is currently active.
+        // We check if filter lock is used, and store that instead of the current filter.
+        // e.g. If current filter HA, but lock filter is L, then the HFR value is stored for L filter.
+        // If no lock filter exists, then we store as is (HA)
+        QString currentFilterText = FilterPosCombo->currentText();
+        QString filterLock = filterManager.data()->getFilterLock(currentFilterText);
+        QString finalFilter = (filterLock == "--" ? currentFilterText : filterLock);
+
+        filterHFRList = HFRMap[finalFilter];
+    }
+    // No filters
+    else
+    {
+        filterHFRList = HFRMap["--"];
+    }
+
+    double median = 0;
+    int count = filterHFRList.size();
+    if (count > 1)
+        median = (count % 2) ? filterHFRList[count/2] : (filterHFRList[count/2-1] + filterHFRList[count/2])/2.0;
+    else if (count == 1)
+        median = filterHFRList[0];
+
+    // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
+    // in case in-sequence-focusing is used.
+    HFRPixels->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
 }
 
 void Capture::setRotator(ISD::GDInterface *newRotator)
