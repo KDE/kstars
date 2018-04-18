@@ -31,6 +31,9 @@
 #include <QResizeEvent>
 #include <QStatusBar>
 #include <QTemporaryFile>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QApplication>
 
 QUrl ImageViewer::lastURL = QUrl::fromLocalFile(QDir::homePath());
 

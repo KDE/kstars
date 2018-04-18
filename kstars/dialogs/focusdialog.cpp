@@ -25,6 +25,7 @@
 
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <QPushButton>
 
 #include <QVBoxLayout>
 

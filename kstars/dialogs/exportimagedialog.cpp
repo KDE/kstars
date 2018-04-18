@@ -18,6 +18,7 @@
 #include <QtSvg/QSvgGenerator>
 #include <QDir>
 #include <QDesktopWidget>
+#include <QPushButton>
 
 #include <KMessageBox>
 
