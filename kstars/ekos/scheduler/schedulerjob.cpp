@@ -8,6 +8,7 @@
  */
 
 #include "schedulerjob.h"
+#include "scheduler.h"
 
 #include "dms.h"
 #include "kstarsdata.h"
@@ -30,7 +31,7 @@ void SchedulerJob::setName(const QString &value)
     name = value;
 }
 
-SkyPoint &SchedulerJob::getTargetCoords()
+SkyPoint const & SchedulerJob::getTargetCoords() const
 {
     return targetCoords;
 }
@@ -394,4 +395,20 @@ void SchedulerJob::setTargetCoords(dms& ra, dms& dec)
     targetCoords.setDec0(dec);
 
     targetCoords.updateCoordsNow(KStarsData::Instance()->updateNum());
+}
+
+bool SchedulerJob::decreasingScoreOrder(SchedulerJob const *job1, SchedulerJob const *job2)
+{
+    return job1->getScore() > job2->getScore();
+}
+
+bool SchedulerJob::increasingPriorityOrder(SchedulerJob const *job1, SchedulerJob const *job2)
+{
+    return job1->getPriority() < job2->getPriority();
+}
+
+bool SchedulerJob::decreasingAltitudeOrder(SchedulerJob const *job1, SchedulerJob const *job2)
+{
+    return  Ekos::Scheduler::findAltitude(job1->getTargetCoords(), job1->getStartupTime()) >
+            Ekos::Scheduler::findAltitude(job2->getTargetCoords(), job2->getStartupTime());
 }

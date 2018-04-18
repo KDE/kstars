@@ -66,8 +66,8 @@ class SchedulerJob
     QString getName() const;
     void setName(const QString &value);
 
+    SkyPoint const & getTargetCoords() const;
     void setTargetCoords(dms& ra, dms& dec);
-    SkyPoint &getTargetCoords();
 
     StartupCondition getStartupCondition() const;
     void setStartupCondition(const StartupCondition &value);
@@ -147,6 +147,27 @@ class SchedulerJob
 
     QMap<QString, uint16_t> getCapturedFramesMap() const;
     void setCapturedFramesMap(const QMap<QString, uint16_t> &value);
+
+    /** @brief Compare ::SchedulerJob instances based on score. This is a qSort predicate, deprecated in QT5.
+     * @arg a, b are ::SchedulerJob instances to compare.
+     * @return true if the score of b is lower than the score of a.
+     * @return false if the score of b is higher than or equal to the score of a.
+     */
+    static bool decreasingScoreOrder(SchedulerJob const *a, SchedulerJob const *b);
+
+    /** @brief Compare ::SchedulerJob instances based on priority. This is a qSort predicate, deprecated in QT5.
+     * @arg a, b are ::SchedulerJob instances to compare.
+     * @return true if the priority of a is lower than the priority of b.
+     * @return false if the priority of a is higher than or equal to the priority of b.
+     */
+    static bool increasingPriorityOrder(SchedulerJob const *a, SchedulerJob const *b);
+
+    /** @brief Compare ::SchedulerJob instances based on altitude. This is a qSort predicate, deprecated in QT5.
+     * @arg a, b are ::SchedulerJob instances to compare.
+     * @return true if the altitude of b is lower than the altitude of a.
+     * @return false if the altitude of b is higher than or equal to the altitude of a.
+     */
+    static bool decreasingAltitudeOrder(SchedulerJob const *a, SchedulerJob const *b);
 
 private:
     QString name;
