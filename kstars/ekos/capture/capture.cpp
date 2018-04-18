@@ -26,6 +26,7 @@
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
 #include "indi/clientmanager.h"
+#include "oal/observeradd.h"
 
 #include <basedevice.h>
 

@@ -21,6 +21,7 @@
 
 #include <QSplitter>
 #include <QTextEdit>
+#include <QPushButton>
 #include <QThread>
 
 extern const char *libindi_strings_context;

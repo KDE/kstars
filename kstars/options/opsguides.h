@@ -14,8 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OPSGUIDES_H_
-#define OPSGUIDES_H_
+#pragma once
 
 #include "ui_opsguides.h"
 
@@ -47,4 +46,3 @@ class OpsGuides : public QFrame, public Ui::OpsGuides
     bool isDirty = false;
 };
 
-#endif // OPSGUIDES_H_
