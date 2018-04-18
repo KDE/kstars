@@ -42,24 +42,6 @@
 
 namespace Ekos
 {
-bool scoreHigherThan(SchedulerJob *job1, SchedulerJob *job2)
-{
-    return job1->getScore() > job2->getScore();
-}
-
-bool priorityHigherThan(SchedulerJob *job1, SchedulerJob *job2)
-{
-    return job1->getPriority() < job2->getPriority();
-}
-
-bool altitudeHigherThan(SchedulerJob *job1, SchedulerJob *job2)
-{
-    double job1_altitude = Scheduler::findAltitude(job1->getTargetCoords(), job1->getStartupTime());
-    double job2_altitude = Scheduler::findAltitude(job2->getTargetCoords(), job2->getStartupTime());
-
-    return job1_altitude > job2_altitude;
-}
-
 Scheduler::Scheduler()
 {
     setupUi(this);
@@ -1319,12 +1301,14 @@ void Scheduler::evaluateJobs()
     sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(),[](SchedulerJob* job)
     { return job->getState() > SchedulerJob::JOB_SCHEDULED;}), sortedJobs.end());
 
+    /* FIXME: refactor so all sorts are using the same predicates */
+    /* FIXME: use std::sort as qSort is deprecated */
     if (Options::sortSchedulerJobs())
     {
-        // Order by altitude first
-        qSort(sortedJobs.begin(), sortedJobs.end(), altitudeHigherThan);
-        // Then by priority
-        qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
+        // Order by altitude, greater altitude first
+        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::decreasingAltitudeOrder);
+        // Then by priority, lower priority value first
+        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
     }
 
     // Our first job now takes priority over ALL others.
@@ -1414,12 +1398,14 @@ void Scheduler::evaluateJobs()
     }*/    
 
 #if 0
+    /* FIXME: refactor so all sorts are using the same predicates */
+    /* FIXME: use std::sort as qSort is deprecated */
     if (Options::sortSchedulerJobs())
     {
-        // Order by score first
-        qSort(sortedJobs.begin(), sortedJobs.end(), scoreHigherThan);
+        // Order by score score first
+        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::decreasingScoreOrder);
         // Then by priority
-        qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
+        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
 
         foreach (SchedulerJob *job, sortedJobs)
         {
@@ -1444,12 +1430,14 @@ void Scheduler::evaluateJobs()
     }
 #endif
 
+    /* FIXME: refactor so all sorts are using the same predicates */
+    /* FIXME: use std::sort as qSort is deprecated */
     if (Options::sortSchedulerJobs())
     {
         // Order by score first
-        qSort(sortedJobs.begin(), sortedJobs.end(), scoreHigherThan);
+        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::decreasingScoreOrder);
         // Then by priority
-        qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
+        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
     }
 
     // Get the first job that can run.
