@@ -135,7 +135,7 @@ void KStars::initActions()
     // Check if we have this specific Breeze icon. If not, try to set the theme search path and if appropriate, the icon theme rcc file
     // in each OS
     if (!QIcon::hasThemeIcon(QLatin1String("kstars_flag")))
-        ThemeManager::instance()->setIconTheme(ThemeManager::BREEZE_DARK_THEME);
+        KSTheme::Manager::instance()->setIconTheme(KSTheme::Manager::BREEZE_DARK_THEME);
 
     QAction *ka;
 
@@ -773,7 +773,7 @@ void KStars::datainitFinished()
     //DEBUG
     qDebug() << "The current Date/Time is: " << KStarsDateTime::currentDateTime().toString();
 
-    ThemeManager::instance()->setCurrentTheme(Options::currentTheme());
+    KSTheme::Manager::instance()->setCurrentTheme(Options::currentTheme());
 }
 
 void KStars::initFocus()
@@ -893,13 +893,13 @@ void KStars::buildGUI()
 
 void KStars::populateThemes()
 {
-    ThemeManager::instance()->setThemeMenuAction(new QMenu(i18n("&Themes"), this));
-    ThemeManager::instance()->registerThemeActions(this);
+    KSTheme::Manager::instance()->setThemeMenuAction(new QMenu(i18n("&Themes"), this));
+    KSTheme::Manager::instance()->registerThemeActions(this);
 
-    connect(ThemeManager::instance(), SIGNAL(signalThemeChanged()), this, SLOT(slotThemeChanged()));
+    connect(KSTheme::Manager::instance(), SIGNAL(signalThemeChanged()), this, SLOT(slotThemeChanged()));
 }
 
 void KStars::slotThemeChanged()
 {
-    Options::setCurrentTheme(ThemeManager::instance()->currentThemeName());
+    Options::setCurrentTheme(KSTheme::Manager::instance()->currentThemeName());
 }
