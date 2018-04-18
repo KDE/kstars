@@ -21,8 +21,7 @@
  *
  * ============================================================ */
 
-#ifndef THEME_MANAGER_H
-#define THEME_MANAGER_H
+#pragma once
 
 // Qt includes
 
@@ -40,9 +39,10 @@
 class QMenu;
 class KXmlGuiWindow;
 
-class Theme;
+namespace KSTheme
+{
 
-class ThemeManager : public QObject
+class Manager : public QObject
 {
     Q_OBJECT
 
@@ -50,8 +50,8 @@ public:
 
     typedef enum { BREEZE_THEME, BREEZE_DARK_THEME } IconTheme;
 
-    ~ThemeManager();
-    static ThemeManager* instance();
+    ~Manager();
+    static Manager* instance();
 
     QString currentThemeName() const;
     void    setCurrentTheme(const QString& name);
@@ -75,7 +75,7 @@ private Q_SLOTS:
 
 private:
 
-    ThemeManager();
+    Manager();
 
     void    populateThemeMenu();
     QPixmap createSchemePreviewIcon(const KSharedConfigPtr& config) const;
@@ -90,4 +90,4 @@ private:
     Private* const d;
 };
 
-#endif // THEME_MANAGER_H
+}

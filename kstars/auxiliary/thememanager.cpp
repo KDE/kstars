@@ -58,11 +58,14 @@
 #include "kstars_debug.h"
 #include "schememanager.h"
 
+namespace KSTheme
+{
+
 class ThemeManagerCreator
 {
 public:
 
-    ThemeManager object;
+    Manager object;
 };
 
 Q_GLOBAL_STATIC(ThemeManagerCreator, creator)
@@ -70,7 +73,7 @@ Q_GLOBAL_STATIC(ThemeManagerCreator, creator)
 // ---------------------------------------------------------------
 
 
-class ThemeManager::Private
+class Manager::Private
 {
 public:
 
@@ -88,27 +91,27 @@ public:
     QMenu*                 themeMenuAction;
 };
 
-ThemeManager::ThemeManager()
+Manager::Manager()
     : d(new Private)
 {
 }
 
-ThemeManager::~ThemeManager()
+Manager::~Manager()
 {
     delete d;
 }
 
-ThemeManager* ThemeManager::instance()
+Manager* Manager::instance()
 {
     return &creator->object;
 }
 
-QString ThemeManager::defaultThemeName() const
+QString Manager::defaultThemeName() const
 {
     return d->defaultThemeName;
 }
 
-QString ThemeManager::currentThemeName() const
+QString Manager::currentThemeName() const
 {
     if (!d->themeMenuAction || !d->themeMenuActionGroup)
     {
@@ -120,7 +123,7 @@ QString ThemeManager::currentThemeName() const
                     : action->text().remove(QLatin1Char('&')));
 }
 
-void ThemeManager::setCurrentTheme(const QString& name)
+void Manager::setCurrentTheme(const QString& name)
 {
     if (!d->themeMenuAction || !d->themeMenuActionGroup)
     {
@@ -139,7 +142,7 @@ void ThemeManager::setCurrentTheme(const QString& name)
     }
 }
 
-void ThemeManager::slotChangePalette()
+void Manager::slotChangePalette()
 {
     updateCurrentDesktopDefaultThemePreview();
 
@@ -197,7 +200,7 @@ void ThemeManager::slotChangePalette()
     emit signalThemeChanged();
 }
 
-void ThemeManager::setThemeMenuAction(QMenu* const action)
+void Manager::setThemeMenuAction(QMenu* const action)
 {
     d->themeMenuAction = action;
 
@@ -207,7 +210,7 @@ void ThemeManager::setThemeMenuAction(QMenu* const action)
     populateThemeMenu();
 }
 
-void ThemeManager::registerThemeActions(KXmlGuiWindow* const win)
+void Manager::registerThemeActions(KXmlGuiWindow* const win)
 {
     if (!win)
     {
@@ -223,7 +226,7 @@ void ThemeManager::registerThemeActions(KXmlGuiWindow* const win)
     win->actionCollection()->addAction(QLatin1String("themes"), d->themeMenuAction->menuAction());
 }
 
-void ThemeManager::populateThemeQListWidget(QListWidget *themeWidget)
+void Manager::populateThemeQListWidget(QListWidget *themeWidget)
 {
     themeWidget->clear();
 
@@ -239,7 +242,7 @@ void ThemeManager::populateThemeQListWidget(QListWidget *themeWidget)
     themeWidget->sortItems();
 }
 
-void ThemeManager::populateThemeMenu()
+void Manager::populateThemeMenu()
 {
     if (!d->themeMenuAction)
     {
@@ -317,7 +320,7 @@ void ThemeManager::populateThemeMenu()
     //setCurrentTheme(theme);
 }
 
-void ThemeManager::updateCurrentDesktopDefaultThemePreview()
+void Manager::updateCurrentDesktopDefaultThemePreview()
 {
     QList<QAction*> list = d->themeMenuActionGroup->actions();
 
@@ -332,7 +335,7 @@ void ThemeManager::updateCurrentDesktopDefaultThemePreview()
     }
 }
 
-QPixmap ThemeManager::createSchemePreviewIcon(const KSharedConfigPtr& config) const
+QPixmap Manager::createSchemePreviewIcon(const KSharedConfigPtr& config) const
 {
     const uchar bits1[] = { 0xff, 0xff, 0xff, 0x2c, 0x16, 0x0b };
     const uchar bits2[] = { 0x68, 0x34, 0x1a, 0xff, 0xff, 0xff };
@@ -371,20 +374,20 @@ QPixmap ThemeManager::createSchemePreviewIcon(const KSharedConfigPtr& config) co
     return pixmap;
 }
 
-QString ThemeManager::currentDesktopdefaultTheme() const
+QString Manager::currentDesktopdefaultTheme() const
 {
     KSharedConfigPtr config = KSharedConfig::openConfig(QLatin1String("kdeglobals"));
     KConfigGroup group(config, "General");
     return group.readEntry("ColorScheme");
 }
 
-void ThemeManager::slotSettingsChanged()
+void Manager::slotSettingsChanged()
 {
     populateThemeMenu();
     slotChangePalette();
 }
 
-void ThemeManager::setIconTheme(IconTheme theme)
+void Manager::setIconTheme(IconTheme theme)
 {
     QString rccFile("breeze-icons.rcc");
     QString iconTheme("breeze");
@@ -411,4 +414,6 @@ void ThemeManager::setIconTheme(IconTheme theme)
     QIcon::setThemeSearchPaths(themeSearchPaths);
     //Note: in order to get it to actually load breeze from resources on mac, we had to add the index.theme, and just one icon from breeze into the qrc.  Not sure why this was needed, but it works.
     QIcon::setThemeName(iconTheme);
+}
+
 }
