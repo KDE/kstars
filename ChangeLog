@@ -4,6 +4,27 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.9.5 (Cygni):
+=================================================================================================
+0ab9b26 2018-04-17 Jasem Mutlaq         No need to use lock filter explicitly, use it to whatever currently selected filter
+92e631b 2018-04-17 Jasem Mutlaq         Initial work for in-sequence median per-filter HFR thresholding
+5b40f1f 2018-04-16 Jasem Mutlaq         Separate device source into Mount and GPS sources to enable users to select which source they prefer most
+151f111 2018-04-16 Jasem Mutlaq         Do not set filter absolute focus position if there is no currently selected filter
+5440bfe 2018-04-15 Robert Lancaster     I realized one thing that will help the issue we were discussing yesterday about files being copied into Application Support.  So my current solutio..
+3d21a9f 2018-04-14 Jasem Mutlaq         Embed indidrivers.xml and QML files and their resources in the application qrc to avoid cross-platform search
+a4189c3 2018-04-14 Pino Toscano         tests: fix KStarsUiTests
+05e0dfc 2018-04-14 Eric Dejouhanet      Fix scheduler memory leak D12182
+f9cbc8d 2018-04-14 Eric Dejouhanet      Limit length of Scheduler log D12183
+bbda2f9 2018-04-13 Jasem Mutlaq         Use better display for longitude and latitude
+8dc8c58 2018-04-13 Jasem Mutlaq         Check explicitly for cooler switch name
+95314df 2018-04-12 Jasem Mutlaq         Bump to 1.7.1 since it contains the indiapi hotfix
+2be506a 2018-04-12 Jasem Mutlaq         Bump minimum requirement to INDI v1.7.0
+ef721ed 2018-04-12 Yuri Chornoivan      Fix minor typo
+431cc42 2018-04-11 Jasem Mutlaq         Make sure async future is finished before closing FITS Tab
+766e08d 2018-04-11 Jasem Mutlaq         Add option to reset guiding calibration which is true by default for the scheduler
+02183d4 2018-04-11 Pino Toscano         use KFormat::formatByteSize()
+d941819 2018-04-09 Jasem Mutlaq         Add Ekos logging support for more device classes
+
 2.9.4 (Emad):
 =================================================================================================
 d902275 2018-04-08 Jasem Mutlaq         Updated set as parking position message. Fixes D12033
