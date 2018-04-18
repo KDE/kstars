@@ -1105,7 +1105,7 @@
            <string>Abort sequence if guiding deviation exceed this value</string>
           </property>
           <property name="text">
-           <string>Guiding Deviation &lt;</string>
+           <string>Guiding Deviation &gt;</string>
           </property>
           <property name="checked">
            <bool>false</bool>
