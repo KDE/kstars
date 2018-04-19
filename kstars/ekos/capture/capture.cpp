@@ -105,7 +105,8 @@ Capture::Capture()
         }
     });
 
-    connect(FilterPosCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), [=]()
+    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+            [=]()
     {
         updateHFRThreshold();
     });
