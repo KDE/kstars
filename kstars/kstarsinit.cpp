@@ -186,7 +186,19 @@ void KStars::initActions()
     if (!StartClockRunning)
         ka->toggle();
     QObject::connect(ka, SIGNAL(triggered()), this, SLOT(slotToggleTimer()));
-    QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), ka, SLOT(setChecked(bool)));
+    //QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), ka, SLOT(setChecked(bool)));
+    QObject::connect(data()->clock(), &SimClock::clockToggled, [=](bool toggled)
+    {
+        QAction *a = actionCollection()->action("clock_startstop");
+        if (a)
+        {
+            a->setChecked(toggled);
+            // Many users forget to unpause KStars, so we are using run-build-install-root icon which is red
+            // and stands out from the rest of the icons so users are aware when KStars is paused visually
+            a->setIcon(toggled ? QIcon::fromTheme("run-build-install-root") : QIcon::fromTheme("media-playback-pause"));
+            a->setToolTip(toggled ? i18n("Resume Clock") : i18n("Stop Clock"));
+        }
+    });
     //UpdateTime() if clock is stopped (so hidden objects get drawn)
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), this, SLOT(updateTime()));
     actionCollection()->addAction("time_step_forward", this, SLOT(slotStepForward()))
