@@ -10,6 +10,7 @@
 #include <basedevice.h>
 #include <KActionCollection>
 #include <KNotification>
+#include <QAction>
 
 #include "indidome.h"
 #include "kstars.h"
