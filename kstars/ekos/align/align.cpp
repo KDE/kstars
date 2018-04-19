@@ -1813,7 +1813,7 @@ void Align::setSolverType(int type)
 
     case SOLVER_REMOTE:
         loadSlewB->setEnabled(true);
-        if (remoteParser.get() != nullptr)
+        if (remoteParser.get() != nullptr && remoteParserDevice != nullptr)
         {
             parser = remoteParser.get();
             (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
@@ -5230,7 +5230,12 @@ void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
     remoteSolverR->setEnabled(true);
 
     if (remoteParser.get() != nullptr)
+    {
         remoteParser->setAstrometryDevice(remoteParserDevice);
+        connect(remoteParser.get(), SIGNAL(solverFinished(double,double,double,double)), this,
+                SLOT(solverFinished(double,double,double,double)), Qt::UniqueConnection);
+        connect(remoteParser.get(), SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
+    }
 }
 
 void Align::setRotator(ISD::GDInterface *newRotator)
