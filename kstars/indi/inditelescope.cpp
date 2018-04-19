@@ -19,6 +19,7 @@
 
 #include <KNotification>
 #include <KActionCollection>
+#include <QAction>
 
 #include <indi_debug.h>
 

@@ -23,6 +23,7 @@
 #include <QTextEdit>
 #include <QPushButton>
 #include <QThread>
+#include <QAction>
 
 extern const char *libindi_strings_context;
 
