@@ -369,9 +369,10 @@ void Focus::checkCCD(int ccdNum)
                 ISOCombo->setCurrentIndex(targetChip->getISOIndex());
             }
 
-            gainLabel->setEnabled(currentCCD->hasGain());
-            gainIN->setEnabled(currentCCD->hasGain());
-            if (gainIN->isEnabled())
+            bool hasGain = currentCCD->hasGain();
+            gainLabel->setEnabled(hasGain);
+            gainIN->setEnabled(hasGain && currentCCD->getPermission("CCD_GAIN") != IP_RO);
+            if (hasGain)
             {
                 double gain = 0, min = 0, max = 0, step = 1;
                 currentCCD->getGainMinMaxStep(&min, &max, &step);
