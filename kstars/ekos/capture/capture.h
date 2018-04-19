@@ -600,7 +600,7 @@ class Capture : public QWidget, public Ui::Capture
     bool isInSequenceFocus { false };
     bool autoFocusReady { false };
     bool requiredAutoFocusStarted { false };
-    bool firstAutoFocus { true };
+    //bool firstAutoFocus { true };
     double focusHFR { 0 }; // HFR value as received from the Ekos focus module
     QMap<QString,QList<double>> HFRMap;
     double fileHFR { 0 };  // HFR value as loaded from the sequence file
