@@ -614,6 +614,16 @@
           </column>
           <column>
            <property name="text">
+            <string>Captures</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Score</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>Start Time</string>
            </property>
           </column>
