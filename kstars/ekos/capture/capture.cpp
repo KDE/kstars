@@ -1309,7 +1309,7 @@ bool Capture::resumeSequence()
         if (isInSequenceFocus && meridianFlipStage != MF_NONE)
         {
             qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
-            firstAutoFocus = true;
+            //firstAutoFocus = true;
             HFRPixels->setValue(fileHFR);
         }
 
@@ -2241,10 +2241,10 @@ void Capture::prepareJob(SequenceJob *job)
     }
 
     // If we haven't performed a single autofocus yet, we stop
-    if (!job->isPreview() && Options::enforceRefocusEveryN() && autoFocusReady && isInSequenceFocus == false && firstAutoFocus == true)
+    //if (!job->isPreview() && Options::enforceRefocusEveryN() && autoFocusReady && isInSequenceFocus == false && firstAutoFocus == true)
+    if (!job->isPreview() && Options::enforceRefocusEveryN() && autoFocusReady == false && isInSequenceFocus == false)
     {
-        appendLogText(i18n(
-            "Manual scheduled focusing is not supported. Run Autofocus process before trying again."));
+        appendLogText(i18n("Manual scheduled focusing is not supported. Run Autofocus process before trying again."));
         abort();
         return;
     }
@@ -4092,7 +4092,7 @@ void Capture::clearAutoFocusHFR()
         return;
 
     HFRPixels->setValue(0);
-    firstAutoFocus = true;
+    //firstAutoFocus = true;
 }
 
 void Capture::openCalibrationDialog()
