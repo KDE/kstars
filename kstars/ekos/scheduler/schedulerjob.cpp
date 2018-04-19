@@ -21,14 +21,10 @@ SchedulerJob::SchedulerJob()
 {
 }
 
-QString SchedulerJob::getName() const
-{
-    return name;
-}
-
 void SchedulerJob::setName(const QString &value)
 {
     name = value;
+    updateJobCell();
 }
 
 SkyPoint const & SchedulerJob::getTargetCoords() const
@@ -46,18 +42,12 @@ void SchedulerJob::setStartupCondition(const StartupCondition &value)
     startupCondition = value;
 }
 
-QDateTime SchedulerJob::getStartupTime() const
-{
-    return startupTime;
-}
-
 void SchedulerJob::setStartupTime(const QDateTime &value)
 {
     startupTime = value;
-
-    if (startupCell)
-        startupCell->setText(startupTime.toString(dateTimeDisplayFormat));
+    updateJobCell();
 }
+
 QUrl SchedulerJob::getSequenceFile() const
 {
     return sequenceFile;
@@ -133,68 +123,21 @@ void SchedulerJob::setStepPipeline(const StepPipeline &value)
     stepPipeline = value;
 }
 
-SchedulerJob::JOBStatus SchedulerJob::getState() const
-{
-    return state;
-}
-
 void SchedulerJob::setState(const JOBStatus &value)
 {
     state = value;
 
-    if (statusCell == NULL)
-        return;
+    /* FIXME: move this to Scheduler, SchedulerJob is mostly a model */
+    if (JOB_ERROR == state)
+        KNotification::event(QLatin1String("EkosSchedulerJobFail"), i18n("Ekos job failed (%1)", getName()));
 
-    switch (state)
-    {
-        case JOB_IDLE:
-            statusCell->setText(i18n("Idle"));
-            break;
-
-        case JOB_EVALUATION:
-            statusCell->setText(i18n("Evaluating"));
-            break;
-
-        case JOB_SCHEDULED:
-            statusCell->setText(i18n("Scheduled"));
-            break;
-
-        case JOB_BUSY:
-            statusCell->setText(i18n("Running"));
-            break;
-
-        case JOB_INVALID:
-            statusCell->setText(i18n("Invalid"));
-            break;
-
-        case JOB_COMPLETE:
-            statusCell->setText(i18n("Complete"));
-            break;
-
-        case JOB_ABORTED:
-            statusCell->setText(i18n("Aborted"));
-            break;
-
-        case JOB_ERROR:
-            KNotification::event(QLatin1String("EkosSchedulerJobFail"),
-                                 i18n("Ekos job failed (%1)", getName()));
-            statusCell->setText(i18n("Error"));
-            break;
-
-        default:
-            statusCell->setText(i18n("Unknown"));
-            break;
-    }
-}
-
-int SchedulerJob::getScore() const
-{
-    return score;
+    updateJobCell();
 }
 
 void SchedulerJob::setScore(int value)
 {
     score = value;
+    updateJobCell();
 }
 
 int16_t SchedulerJob::getCulminationOffset() const
@@ -207,79 +150,63 @@ void SchedulerJob::setCulminationOffset(const int16_t &value)
     culminationOffset = value;
 }
 
-QTableWidgetItem *SchedulerJob::getStartupCell() const
+void SchedulerJob::setSequenceCount(const int count)
 {
-    return startupCell;
+    sequenceCount = count;
+    updateJobCell();
+}
+
+void SchedulerJob::setNameCell(QTableWidgetItem *value)
+{
+    nameCell = value;
+    updateJobCell();
+}
+
+void SchedulerJob::setCompletedCount(const int count)
+{
+    completedCount = count;
+    updateJobCell();
+}
+
+void SchedulerJob::setStatusCell(QTableWidgetItem *value)
+{
+    statusCell = value;
+    updateJobCell();
 }
 
 void SchedulerJob::setStartupCell(QTableWidgetItem *value)
 {
     startupCell = value;
+    updateJobCell();
 }
+
+void SchedulerJob::setCompletionCell(QTableWidgetItem *value)
+{
+    completionCell = value;
+    updateJobCell();
+}
+
+void SchedulerJob::setCaptureCountCell(QTableWidgetItem *value)
+{
+    captureCountCell = value;
+    updateJobCell();
+}
+
+void SchedulerJob::setScoreCell(QTableWidgetItem *value)
+{
+    scoreCell = value;
+    updateJobCell();
+}
+
 void SchedulerJob::setDateTimeDisplayFormat(const QString &value)
 {
     dateTimeDisplayFormat = value;
 }
 
-SchedulerJob::JOBStage SchedulerJob::getStage() const
-{
-    return stage;
-}
-
 void SchedulerJob::setStage(const JOBStage &value)
 {
     stage = value;
-
-    switch (stage)
-    {
-        case STAGE_SLEWING:
-            statusCell->setText(i18n("Slewing"));
-            break;
-
-        case STAGE_SLEW_COMPLETE:
-            statusCell->setText(i18n("Slew complete"));
-            break;
-
-        case STAGE_FOCUSING:
-        case STAGE_POSTALIGN_FOCUSING:
-            statusCell->setText(i18n("Focusing"));
-            break;
-
-        case STAGE_FOCUS_COMPLETE:
-            statusCell->setText(i18n("Focus complete"));
-            break;
-
-        case STAGE_ALIGNING:
-            statusCell->setText(i18n("Aligning"));
-            break;
-
-        case STAGE_ALIGN_COMPLETE:
-            statusCell->setText(i18n("Align complete"));
-            break;
-
-        case STAGE_RESLEWING:
-            statusCell->setText(i18n("Repositioning"));
-            break;
-
-        case STAGE_RESLEWING_COMPLETE:
-            statusCell->setText(i18n("Repositioning complete"));
-            break;
-
-        /*case STAGE_CALIBRATING:
-            statusCell->setText(i18n("Calibrating"));
-            break;*/
-
-        case STAGE_GUIDING:
-            statusCell->setText(i18n("Guiding"));
-            break;
-
-        case STAGE_CAPTURING:
-            statusCell->setText(i18n("Capturing"));
-            break;
-
-        default:
-            break;
-    }
+    updateJobCell();
 }
 
 SchedulerJob::StartupCondition SchedulerJob::getFileStartupCondition() const
@@ -292,20 +219,100 @@ void SchedulerJob::setFileStartupCondition(const StartupCondition &value)
     fileStartupCondition = value;
 }
 
-int64_t SchedulerJob::getEstimatedTime() const
-{
-    return estimatedTime;
-}
-
 void SchedulerJob::setEstimatedTime(const int64_t &value)
 {
     estimatedTime = value;
+    updateJobCell();
+}
+
+/* FIXME: unrelated to model, move this in the view */
+void SchedulerJob::updateJobCell()
+{
+    if (nameCell)
+    {
+        nameCell->setText(name);
+    }
+
+    if (statusCell)
+    {
+        static QMap<JOBStatus, QString> stateStrings;
+        static QString stateStringUnknown;
+        if (stateStrings.isEmpty())
+        {
+            stateStrings[JOB_IDLE] = i18n("Idle");
+            stateStrings[JOB_EVALUATION] = i18n("Evaluating");
+            stateStrings[JOB_SCHEDULED] = i18n("Scheduled");
+            stateStrings[JOB_BUSY] = i18n("Running");
+            stateStrings[JOB_INVALID] = i18n("Invalid");
+            stateStrings[JOB_COMPLETE] = i18n("Complete");
+            stateStrings[JOB_ABORTED] = i18n("Aborted");
+            stateStrings[JOB_ERROR] =  i18n("Error");
+            stateStringUnknown = i18n("Unknown");
+        }
+        statusCell->setText(stateStrings.value(state, stateStringUnknown));
+    }
+
+    if (stageCell)
+    {
+        /* Translated string cache - overkill, probably, and doesn't warn about missing enums like switch/case shouldi ; also, not thread-safe */
+        /* FIXME: this should work with a static initializer in C++11, but QT versions are touchy on this, and perhaps i18n can't be used? */
+        static QMap<JOBStage, QString> stageStrings;
+        static QString stageStringUnknown;
+        if (stageStrings.isEmpty())
+        {
+            stageStrings[STAGE_IDLE] = "";
+            stageStrings[STAGE_SLEWING] = i18n("Slewing");
+            stageStrings[STAGE_SLEW_COMPLETE] = i18n("Slew complete");
+            stageStrings[STAGE_FOCUSING] =
+            stageStrings[STAGE_POSTALIGN_FOCUSING] = i18n("Focusing");
+            stageStrings[STAGE_FOCUS_COMPLETE] = i18n("Focus complete");
+            stageStrings[STAGE_ALIGNING] = i18n("Aligning");
+            stageStrings[STAGE_ALIGN_COMPLETE] = i18n("Align complete");
+            stageStrings[STAGE_RESLEWING] = i18n("Repositioning");
+            stageStrings[STAGE_RESLEWING_COMPLETE] = i18n("Repositioning complete");
+            /*stageStrings[STAGE_CALIBRATING] = i18n("Calibrating"); */
+            stageStrings[STAGE_GUIDING] = i18n("Guiding");
+            stageStrings[STAGE_CAPTURING] = i18n("Capturing");
+            stageStringUnknown = i18n("Unknown");
+        }
+        stageCell->setText(stageStrings.value(stage, stageStringUnknown));
+    }
+
+    if (startupCell)
+    {
+        startupCell->setText(startupTime.toString(dateTimeDisplayFormat));
+    }
+
+    if (completionCell)
+    {
+        completionCell->setText(completionTime.toString(dateTimeDisplayFormat));
+    }
 
     if (estimatedTimeCell)
     {
-        // Seconds to ms
-        QTime estimatedTime = QTime::fromMSecsSinceStartOfDay(value * 1000);
-        estimatedTimeCell->setText(estimatedTime.toString("HH:mm:ss"));
+        if (0 < estimatedTime)
+            /* Seconds to ms - this doesn't follow dateTimeDisplayFormat, which renders YMD too */
+            estimatedTimeCell->setText(QTime::fromMSecsSinceStartOfDay(estimatedTime*1000).toString("HH:mm:ss"));
+        else if(0 == estimatedTime)
+            /* FIXME: this special case could be merged with the previous, kept for future to indicate actual duration */
+            estimatedTimeCell->setText("00:00:00");
+        else
+            /* Invalid marker */
+            estimatedTimeCell->setText("-");
+    }
+
+    if (captureCountCell)
+    {
+        captureCountCell->setText(QString("%1/%2").arg(completedCount).arg(sequenceCount));
+    }
+
+    if (scoreCell)
+    {
+        if (0 <= score)
+            scoreCell->setText(QString("%1").arg(score));
+        else
+            /* FIXME: negative scores are just weird for the end-user */
+            scoreCell->setText(QString("<0"));
     }
 }
 
@@ -339,14 +346,10 @@ void SchedulerJob::setEnforceTwilight(bool value)
     enforceTwilight = value;
 }
 
-QTableWidgetItem *SchedulerJob::getEstimatedTimeCell() const
-{
-    return estimatedTimeCell;
-}
-
 void SchedulerJob::setEstimatedTimeCell(QTableWidgetItem *value)
 {
     estimatedTimeCell = value;
+    updateJobCell();
 }
 
 bool SchedulerJob::getLightFramesRequired() const
@@ -377,6 +380,7 @@ uint16_t SchedulerJob::getRepeatsRemaining() const
 void SchedulerJob::setRepeatsRemaining(const uint16_t &value)
 {
     repeatsRemaining = value;
+    updateJobCell();
 }
 
 QMap<QString, uint16_t> SchedulerJob::getCapturedFramesMap() const

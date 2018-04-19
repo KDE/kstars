@@ -508,55 +508,56 @@ void Scheduler::saveJob()
     else
         currentRow = queueTable->currentRow();
 
-    QTableWidgetItem *nameCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, 0) : new QTableWidgetItem();
-    nameCell->setText(job->getName());
-    nameCell->setTextAlignment(Qt::AlignHCenter);
-    nameCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    /* Reset job state to evaluate the changes - so this is equivalent to double-clicking the job */
+    /* FIXME: should we do that if no change was done to the job? */
+    /* FIXME: move this to SchedulerJob as a "reset" method */
+    job->setState(SchedulerJob::JOB_IDLE);
+    job->setEstimatedTime(-1);
 
-    QTableWidgetItem *statusCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
-    statusCell->setTextAlignment(Qt::AlignHCenter);
+    QTableWidgetItem *nameCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_NAME) : new QTableWidgetItem();
+    nameCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    nameCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    job->setNameCell(nameCell);
+
+    QTableWidgetItem *statusCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_STATUS) : new QTableWidgetItem();
+    statusCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     statusCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setStatusCell(statusCell);
-    // Refresh state
-    job->setState(job->getState());
 
-    QTableWidgetItem *startupCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
-    if (startupTimeConditionR->isChecked())
-        startupCell->setText(startupTimeEdit->text());
-    else
-        startupCell->setText(QString());
-    startupCell->setTextAlignment(Qt::AlignHCenter);
+    QTableWidgetItem *captureCount = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_CAPTURES) : new QTableWidgetItem();
+    captureCount->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    captureCount->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    job->setCaptureCountCell(captureCount);
+
+    QTableWidgetItem *scoreValue = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_SCORE) : new QTableWidgetItem();
+    scoreValue->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    scoreValue->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    job->setScoreCell(scoreValue);
+
+    QTableWidgetItem *startupCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_STARTTIME) : new QTableWidgetItem();
+    startupCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     startupCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setStartupCell(startupCell);
 
-    QTableWidgetItem *completionCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
-    if (timeCompletionR->isChecked())
-        completionCell->setText(completionTimeEdit->text());
-    else
-        completionCell->setText(QString());
-    completionCell->setTextAlignment(Qt::AlignHCenter);
+    QTableWidgetItem *completionCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_ENDTIME) : new QTableWidgetItem();
+    completionCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     completionCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    job->setCompletionCell(completionCell);
 
-    QTableWidgetItem *estimatedTimeCell =
-        (jobUnderEdit >= 0) ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
-    if (job->getEstimatedTime() > 0)
-    {
-        QTime estimatedTime = QTime::fromMSecsSinceStartOfDay(job->getEstimatedTime() * 3600);
-        estimatedTimeCell->setText(estimatedTime.toString("HH:mm:ss"));
-    }
-    else
-        estimatedTimeCell->setText(QString());
-    estimatedTimeCell->setTextAlignment(Qt::AlignHCenter);
+    QTableWidgetItem *estimatedTimeCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_DURATION) : new QTableWidgetItem();
+    estimatedTimeCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     estimatedTimeCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setEstimatedTimeCell(estimatedTimeCell);
 
     if (jobUnderEdit == -1)
     {
-        queueTable->setItem(currentRow, 0, nameCell);
-        queueTable->setItem(currentRow, 1, statusCell);
-        queueTable->setItem(currentRow, 2, startupCell);
-        queueTable->setItem(currentRow, 3, completionCell);
-        queueTable->setItem(currentRow, 4, estimatedTimeCell);
+        queueTable->setItem(currentRow, (int)SCHEDCOL_NAME, nameCell);
+        queueTable->setItem(currentRow, (int)SCHEDCOL_STATUS, statusCell);
+        queueTable->setItem(currentRow, (int)SCHEDCOL_CAPTURES, captureCount);
+        queueTable->setItem(currentRow, (int)SCHEDCOL_SCORE, scoreValue);
+        queueTable->setItem(currentRow, (int)SCHEDCOL_STARTTIME, startupCell);
+        queueTable->setItem(currentRow, (int)SCHEDCOL_ENDTIME, completionCell);
+        queueTable->setItem(currentRow, (int)SCHEDCOL_DURATION, estimatedTimeCell);
     }
 
     if (queueTable->rowCount() > 0)
@@ -595,10 +596,10 @@ void Scheduler::resetJobState(QModelIndex i)
     job->setStage(SchedulerJob::STAGE_IDLE);
 
     if (job->getFileStartupCondition() != SchedulerJob::START_AT)
-        queueTable->item(i.row(), 2)->setText(QString());
+        queueTable->item(i.row(), (int)SCHEDCOL_STARTTIME)->setText(QString());
 
     if (job->getCompletionCondition() != SchedulerJob::FINISH_AT)
-        queueTable->item(i.row(), 3)->setText(QString());
+        queueTable->item(i.row(), (int)SCHEDCOL_ENDTIME)->setText(QString());
 
     appendLogText(i18n("Job %1 status is reset.", job->getName()));
 }
@@ -781,12 +782,6 @@ void Scheduler::removeJob()
     {
         removeFromQueueB->setEnabled(false);
         evaluateOnlyB->setEnabled(false);
-    }
-
-    for (int i = 0; i < jobs.count(); i++)
-    {
-        jobs.at(i)->setStatusCell(queueTable->item(i, 1));
-        jobs.at(i)->setStartupCell(queueTable->item(i, 2));
     }
 
     queueTable->selectRow(queueTable->currentRow());
@@ -2714,6 +2709,7 @@ void Scheduler::checkJobStage()
 
         p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
 
+        /* FIXME: find a way to use altitude cutoff here, because the job can be scheduled when evaluating, then aborted when running */
         if (p.alt().Degrees() < currentJob->getMinAltitude())
         {
             // Only terminate job due to altitude limitation if mount is NOT parked.
@@ -4115,6 +4111,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     }
 
     schedJob->setLightFramesRequired(lightFramesRequired);
+    schedJob->setSequenceCount(totalSequenceCount);
+    schedJob->setCompletedCount(totalCompletedCount);
 
     qDeleteAll(jobs);
 

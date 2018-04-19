@@ -63,17 +63,8 @@ class SchedulerJob
         USE_GUIDE = 1 << 3
     } StepPipeline;
 
-    QString getName() const;
-    void setName(const QString &value);
-
     SkyPoint const & getTargetCoords() const;
     void setTargetCoords(dms& ra, dms& dec);
-
-    StartupCondition getStartupCondition() const;
-    void setStartupCondition(const StartupCondition &value);
-
-    QDateTime getStartupTime() const;
-    void setStartupTime(const QDateTime &value);
 
     QUrl getSequenceFile() const;
     void setSequenceFile(const QUrl &value);
@@ -90,39 +81,28 @@ class SchedulerJob
     bool getEnforceWeather() const;
     void setEnforceWeather(bool value);
 
-    QDateTime getCompletionTime() const;
-    void setCompletionTime(const QDateTime &value);
+    StepPipeline getStepPipeline() const;
+    void setStepPipeline(const StepPipeline &value);
+
+    StartupCondition getStartupCondition() const;
+    void setStartupCondition(const StartupCondition &value);
 
     CompletionCondition getCompletionCondition() const;
     void setCompletionCondition(const CompletionCondition &value);
 
-    StepPipeline getStepPipeline() const;
-    void setStepPipeline(const StepPipeline &value);
-
-    void setStatusCell(QTableWidgetItem *cell) { statusCell = cell; }
-
-    JOBStatus getState() const;
-    void setState(const JOBStatus &value);
-
-    int getScore() const;
-    void setScore(int value);
+    /** @brief Time after which the job is considered complete. */
+    /** @{ */
+    QDateTime getCompletionTime() const;
+    void setCompletionTime(const QDateTime &value);
+    /** @} */
 
     int16_t getCulminationOffset() const;
     void setCulminationOffset(const int16_t &value);
 
-    QTableWidgetItem *getStartupCell() const;
-    void setStartupCell(QTableWidgetItem *value);
-
     void setDateTimeDisplayFormat(const QString &value);
-
-    JOBStage getStage() const;
-    void setStage(const JOBStage &value);
 
     StartupCondition getFileStartupCondition() const;
     void setFileStartupCondition(const StartupCondition &value);
-
-    int64_t getEstimatedTime() const;
-    void setEstimatedTime(const int64_t &value);
 
     bool getInSequenceFocus() const;
     void setInSequenceFocus(bool value);
@@ -133,8 +113,101 @@ class SchedulerJob
     bool getEnforceTwilight() const;
     void setEnforceTwilight(bool value);
 
-    QTableWidgetItem *getEstimatedTimeCell() const;
+    /** @brief Current name of the scheduler job. */
+    /** @{ */
+    QString getName() const { return name; }
+    void setName(const QString &value);
+    /** @} */
+
+    /** @brief Shortcut to widget cell for job name in the job queue table. */
+    /** @{ */
+    QTableWidgetItem *getNameCell() const { return nameCell; }
+    void setNameCell(QTableWidgetItem *cell);
+    /** @} */
+
+    /** @brief Current state of the scheduler job. */
+    /** @{ */
+    JOBStatus getState() const { return state; }
+    void setState(const JOBStatus &value);
+    /** @} */
+
+    /** @brief Shortcut to widget cell for job state in the job queue table. */
+    /** @{ */
+    QTableWidgetItem *getStatusCell() const { return statusCell; }
+    void setStatusCell(QTableWidgetItem *cell);
+    /** @} */
+
+    /** @brief Current stage of the scheduler job. */
+    /** @{ */
+    JOBStage getStage() const { return stage; }
+    void setStage(const JOBStage &value);
+    /** @} */
+
+    /** @brief Shortcut to widget cell for job stage in the job queue table. */
+    /** @{ */
+    QTableWidgetItem *getStageCell() const { return stageCell; }
+    void setStageCell(QTableWidgetItem *cell);
+    /** @} */
+
+    /** @brief Number of captures required in the associated sequence. */
+    /** @{ */
+    int getSequenceCount() const { return sequenceCount; }
+    void setSequenceCount(const int count);
+    /** @} */
+
+    /** @brief Number of captures completed in the associated sequence. */
+    /** @{ */
+    int getCompletedCount() const { return completedCount; }
+    void setCompletedCount(const int count);
+    /** @} */
+
+    /** @brief Shortcut to widget cell for captures in the job queue table. */
+    /** @{ */
+    QTableWidgetItem *getCaptureCountCell() const { return captureCountCell; }
+    void setCaptureCountCell(QTableWidgetItem *value);
+    /** @} */
+
+    /** @brief Time at which the job must start. */
+    /** @{ */
+    QDateTime getStartupTime() const { return startupTime; }
+    void setStartupTime(const QDateTime &value);
+    /** @} */
+
+    /** @brief Shortcut to widget cell for startup time in the job queue table. */
+    /** @{ */
+    QTableWidgetItem *getStartupCell() const { return startupCell; }
+    void setStartupCell(QTableWidgetItem *value);
+    /** @} */
+
+    /** @brief Shortcut to widget cell for completion time in the job queue table. */
+    /** @{ */
+    QTableWidgetItem *getCompletionCell() const { return completionCell; }
+    void setCompletionCell(QTableWidgetItem *value);
+    /** @} */
+
+    /** @brief Estimation of the time the job will take to process. */
+    /** @{ */
+     int64_t getEstimatedTime() const { return estimatedTime; }
+    void setEstimatedTime(const int64_t &value);
+    /** @} */
+
+    /** @brief Shortcut to widget cell for estimated time in the job queue table. */
+    /** @{ */
+    QTableWidgetItem *getEstimatedTimeCell() const { return estimatedTimeCell; }
     void setEstimatedTimeCell(QTableWidgetItem *value);
+    /** @} */
+
+    /** @brief Current score of the scheduler job. */
+    /** @{ */
+    int getScore() const { return score; }
+    void setScore(int value);
+    /** @} */
+
+    /** @brief Shortcut to widget cell for job score in the job queue table. */
+    /** @{ */
+    QTableWidgetItem *getScoreCell() const { return scoreCell; }
+    void setScoreCell(QTableWidgetItem *value);
+    /** @} */
 
     bool getLightFramesRequired() const;
     void setLightFramesRequired(bool value);
@@ -179,6 +252,9 @@ private:
     StartupCondition startupCondition { START_ASAP };
     CompletionCondition completionCondition { FINISH_SEQUENCE };
 
+    int sequenceCount { 0 };
+    int completedCount { 0 };
+
     QDateTime startupTime;
     QDateTime completionTime;
 
@@ -193,9 +269,20 @@ private:
 
     StepPipeline stepPipeline { USE_NONE };
 
+    /** @internal Widget cell shortcuts. */
+    /** @{ */
+    QTableWidgetItem *nameCell { nullptr };
     QTableWidgetItem *statusCell { nullptr };
+    QTableWidgetItem *stageCell { nullptr };
     QTableWidgetItem *startupCell { nullptr };
+    QTableWidgetItem *completionCell { nullptr };
     QTableWidgetItem *estimatedTimeCell { nullptr };
+    QTableWidgetItem *captureCountCell { nullptr };
+    QTableWidgetItem *scoreCell { nullptr };
+    /** @} */
+
+    /** @internal General cell refresh. */
+    void updateJobCell();
 
     int score { 0 };
     int16_t culminationOffset { 0 };
