@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>607</width>
-    <height>482</height>
+    <height>503</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_19">
@@ -315,13 +315,13 @@
           <item row="3" column="1">
            <widget class="QLineEdit" name="FOVOut">
             <property name="toolTip">
-             <string>Field of View size in arcminutes</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Effective field of view size in arcminutes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string/>
             </property>
             <property name="readOnly">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -379,7 +379,7 @@
           <item row="3" column="0">
            <widget class="QLabel" name="label_8">
             <property name="toolTip">
-             <string>Field of View size in arcminutes</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Effective field of View size in arcminutes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>FOV:</string>

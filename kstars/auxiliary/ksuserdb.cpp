@@ -295,6 +295,24 @@ bool KSUserDB::Initialize()
                            "AbsoluteFocusPosition INTEGER DEFAULT 0)"))
                     qCWarning(KSTARS) << query.lastError();
             }
+
+            // If prior to 2.9.5 create fov table
+            if (currentDBVersion < "2.9.5")
+            {
+                QSqlQuery query(userdb_);
+
+                if (!query.exec("CREATE TABLE effectivefov ( "
+                           "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                           "Profile TEXT DEFAULT NULL, "
+                           "Width INTEGER DEFAULT NULL, "
+                           "Height INTEGER DEFAULT NULL, "
+                           "PixelW REAL DEFAULT 5.0,"
+                           "PixelH REAL DEFAULT 5.0,"
+                           "FocalLength REAL DEFAULT 0.0,"
+                           "FovW REAL DEFAULT 0.0,"
+                           "FovH REAL DEFAULT 0.0)"))
+                    qCWarning(KSTARS) << query.lastError();
+            }
         }
     }
     userdb_.close();
@@ -479,6 +497,18 @@ bool KSUserDB::RebuildDB()
                "PixelW REAL DEFAULT 5.0,"
                "PixelH REAL DEFAULT 5.0)");
 
+
+    tables.append("CREATE TABLE effectivefov ( "
+               "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+               "Profile TEXT DEFAULT NULL, "
+               "Width INTEGER DEFAULT NULL, "
+               "Height INTEGER DEFAULT NULL, "
+               "PixelW REAL DEFAULT 5.0,"
+               "PixelH REAL DEFAULT 5.0,"
+               "FocalLength REAL DEFAULT 0.0,"
+               "FovW REAL DEFAULT 0.0,"
+               "FovH REAL DEFAULT 0.0)");
+
     for (int i = 0; i < tables.count(); ++i)
     {
         QSqlQuery query(userdb_);
@@ -648,6 +678,70 @@ void KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
             recordMap[record.fieldName(j)] = record.value(j);
 
         darkFrames.append(recordMap);
+    }
+
+    userdb_.close();
+}
+
+
+/* Effective FOV Section */
+
+void KSUserDB::AddEffectiveFOV(const QVariantMap &oneFOV)
+{
+    userdb_.open();
+    QSqlTableModel effectivefov(nullptr, userdb_);
+    effectivefov.setTable("effectivefov");
+    effectivefov.select();
+
+    QSqlRecord record = effectivefov.record();
+
+    // Remove PK so that it gets auto-incremented later
+    record.remove(0);
+
+    for (QVariantMap::const_iterator iter = oneFOV.begin(); iter != oneFOV.end(); ++iter)
+        record.setValue(iter.key(), iter.value());
+
+    effectivefov.insertRecord(-1, record);
+
+    effectivefov.submitAll();
+
+    userdb_.close();
+}
+
+bool KSUserDB::DeleteEffectiveFOV(const QString &id)
+{
+    userdb_.open();
+    QSqlTableModel effectivefov(nullptr, userdb_);
+    effectivefov.setTable("effectivefov");
+    effectivefov.setFilter("id = \'" + id + "\'");
+
+    effectivefov.select();
+
+    effectivefov.removeRows(0, 1);
+    effectivefov.submitAll();
+
+    userdb_.close();
+
+    return true;
+}
+
+void KSUserDB::GetAllEffectiveFOVs(QList<QVariantMap> &effectiveFOVs)
+{
+    effectiveFOVs.clear();
+
+    userdb_.open();
+    QSqlTableModel effectivefov(nullptr, userdb_);
+    effectivefov.setTable("effectivefov");
+    effectivefov.select();
+
+    for (int i = 0; i < effectivefov.rowCount(); ++i)
+    {
+        QVariantMap recordMap;
+        QSqlRecord record = effectivefov.record(i);
+        for (int j = 1; j < record.count(); j++)
+            recordMap[record.fieldName(j)] = record.value(j);
+
+        effectiveFOVs.append(recordMap);
     }
 
     userdb_.close();
