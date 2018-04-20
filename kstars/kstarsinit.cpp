@@ -756,7 +756,15 @@ void KStars::datainitFinished()
 
     //Do not start the clock if "--paused" specified on the cmd line
     if (StartClockRunning)
+    {
+        // The initial time is set when KStars is first executed
+        // but until all data is loaded, some time elapsed already so we need to synchronize if no Start Date string
+        // was supplied to KStars
+        if (StartDateString.isEmpty())
+            data()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
+
         data()->clock()->start();
+    }
 
     // Connect cache function for Find dialog
     connect(data(), SIGNAL(clearCache()), this, SLOT(clearCachedFindDialog()));
