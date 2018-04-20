@@ -6,6 +6,28 @@ $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
 2.9.5 (Cygni):
 =================================================================================================
+1b0216a 2018-04-20 Jasem Mutlaq         Format and sync INDI drivers XML to INDI 1.7.1 release
+0ac707a 2018-04-20 Jasem Mutlaq         Use a less confusing question regarding shutters
+e754937 2018-04-20 Jasem Mutlaq         Add calculated FOV as a hint to users
+c9ccf73 2018-04-20 Jasem Mutlaq         Sync KStars time after initial splash loading phase since time already elapsed from initial startup time
+3af4419 2018-04-20 Jasem Mutlaq         Sync last indidrivers.xml
+ae3b768 2018-04-20 Jasem Mutlaq         Align module FOV shall default to zero on initial startup. Only after first solve is complete it gets filled from the actual plate solution that mig..
+d0a380b 2018-04-20 Jasem Mutlaq         Handle processing reponse from online solver. Follow the timeout set in options to determine when to call it quit
+0daadb4 2018-04-20 Jasem Mutlaq         Do not draw invisible FOVs
+37c3752 2018-04-20 Jasem Mutlaq         If solver was set to remote and current profile does not contain remote astrometry then reset option to online. This was for Windows only before but..
+290c02b 2018-04-19 Jasem Mutlaq         Use different icon when KStars is paused so it is visually clear to the user. The selected icon is red so it stands out among the rest
+f63ef75 2018-04-19 Jasem Mutlaq         OSX build fails without include of QApplication
+06f5b9d 2018-04-19 Jasem Mutlaq         firstAutoFocus is no longer required
+ea16be5 2018-04-19 Jasem Mutlaq         Only enable gain setting if it is writable
+788bc8a 2018-04-19 Jasem Mutlaq         Add missing #include <QAction> to compile on Qt 5.5
+ab2049c 2018-04-19 Eric Dejouhanet      + Added sequence completion column Added a column to the Scheduler list, with light frame currently captured, and required. These are connected to S..
+167b977 2018-04-19 Jasem Mutlaq         Fix complilation on Qt 5.5
+256c02c 2018-04-19 Jasem Mutlaq         Add one more connect statement when setting the remote parser to avoid race condition
+ea93804 2018-04-18 Jasem Mutlaq         Fix namespace conflict with QDataVisualization
+8d7db38 2018-04-18 Jasem Mutlaq         Clean up class includes
+833f41e 2018-04-18 Jasem Mutlaq         isFocused should not be in SkyObject
+441c12e 2018-04-18 Eric Dejouhanet      This change moves the score/altitude/priority comparisons to SchedulerJob, keeping the lessThan QT-style sort predicate implementation, but clarifyi..
+1dbf75d 2018-04-18 Jasem Mutlaq         Bump to 2.9.5
 0ab9b26 2018-04-17 Jasem Mutlaq         No need to use lock filter explicitly, use it to whatever currently selected filter
 92e631b 2018-04-17 Jasem Mutlaq         Initial work for in-sequence median per-filter HFR thresholding
 5b40f1f 2018-04-16 Jasem Mutlaq         Separate device source into Mount and GPS sources to enable users to select which source they prefer most
