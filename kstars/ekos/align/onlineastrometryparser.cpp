@@ -26,7 +26,6 @@
 #define JOB_RETRY_DURATION    2000 /* 2000 ms */
 #define JOB_RETRY_ATTEMPTS    90
 #define SOLVER_RETRY_DURATION 2000 /* 2000 ms */
-#define SOLVER_RETRY_ATTEMPTS 90
 #define INVALID_VALUE         -1000
 
 namespace Ekos
@@ -301,11 +300,11 @@ void OnlineAstrometryParser::checkJobCalibration()
 
 void OnlineAstrometryParser::onResult(QNetworkReply *reply)
 {
-    bool ok;
+    bool ok=false;
     QJsonParseError parseError;
     QString status;
     QList<QVariant> jsonArray;
-    int elapsed;
+    uint32_t elapsed=0;
 
     if (workflowStage == NO_STAGE)
     {
@@ -410,11 +409,13 @@ void OnlineAstrometryParser::onResult(QNetworkReply *reply)
 
         case JOB_STATUS_STAGE:
             status = result["status"].toString();
+            elapsed = static_cast<uint32_t>(round(solverTimer.elapsed() / 1000.0));
             if (status == "success")
                 emit jobFinished();
-            else if (status == "solving")
+            else if (status == "solving" || status == "processing")
             {
-                if (status == "solving" && solver_retries++ < SOLVER_RETRY_ATTEMPTS)
+                //if (status == "solving" && solver_retries++ < SOLVER_RETRY_ATTEMPTS)
+                if (elapsed < Options::astrometryTimeout())
                 {
                     QTimer::singleShot(SOLVER_RETRY_DURATION, this, SLOT(checkJobs()));
                     return;
@@ -428,8 +429,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply *reply)
                 }
             }
             else if (status == "failure")
-            {
-                elapsed = (int)round(solverTimer.elapsed() / 1000.0);
+            {                
                 align->appendLogText(
                     i18np("Solver failed after %1 second.", "Solver failed after %1 seconds.", elapsed));
                 emit solverFailed();
