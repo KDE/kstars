@@ -1580,7 +1580,7 @@ void EkosManager::processTabChange()
             {
                 if (alignProcess->isParserOK())
                     alignProcess->setEnabled(true);
-                #ifdef Q_OS_WIN
+                //#ifdef Q_OS_WIN
                 else
                 {
                     // If current setting is remote astrometry and profile doesn't contain
@@ -1596,7 +1596,7 @@ void EkosManager::processTabChange()
                         alignProcess->setEnabled(true);
                     }
                 }
-                #endif
+                //#endif
             }
         }
 
@@ -1779,7 +1779,7 @@ void EkosManager::initAlign()
     if (alignProcess.get() != nullptr)
         return;
 
-    alignProcess.reset(new Ekos::Align());
+    alignProcess.reset(new Ekos::Align(currentProfile));
 
     double primaryScopeFL=0, primaryScopeAperture=0, guideScopeFL=0, guideScopeAperture=0;
     getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
