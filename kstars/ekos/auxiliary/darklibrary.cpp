@@ -280,7 +280,9 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
     // If no information is available either way, then ask the user
     if (hasShutter == false && hasNoShutter == false)
     {
-        if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have mechanical or electronic shutter?", deviceName),
+        //if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have mechanical or electronic shutter?", deviceName),
+        //                               i18n("Dark Exposure")) == KMessageBox::Yes)
+        if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
                                        i18n("Dark Exposure")) == KMessageBox::Yes)
         {
             hasNoShutter = false;
