@@ -2125,7 +2125,7 @@ void Align::calculateFOV()
     fov_x /= 60.0;
     fov_y /= 60.0;
 
-
+    QString calculatedFOV = (QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));
     // JM 2018-04-20 Above calculations are for RAW FOV. Starting from 2.9.5, we are using EFFECTIVE FOV
     // Which is the real FOV as measured from the plate solution. The effective FOVs are stored in the database and are unique
     // per profile/pixel_size/focal_length combinations. It defaults to 0' x 0' and gets updated after the first successful solver is complete.
@@ -2134,7 +2134,7 @@ void Align::calculateFOV()
     if (fov_x == 0)
     {
         FOVOut->setReadOnly(false);
-        FOVOut->setToolTip(i18n("<p>Effective field of view size in arcminutes.</p><p>Please capture and solve once to measure the effective FOV or enter the values manually.</p>"));
+        FOVOut->setToolTip(i18n("<p>Effective field of view size in arcminutes.</p><p>Please capture and solve once to measure the effective FOV or enter the values manually.</p><p>Calculated FOV: %1</p>", calculatedFOV));
     }
     else
     {
