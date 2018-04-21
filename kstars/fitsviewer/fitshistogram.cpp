@@ -121,6 +121,9 @@ void FITSHistogram::constructHistogram()
         default:
             break;
     }
+
+    if (isVisible())
+        syncGUI();
 }
 
 template <typename T>
