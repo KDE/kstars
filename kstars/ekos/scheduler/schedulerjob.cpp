@@ -198,6 +198,11 @@ void SchedulerJob::setScoreCell(QTableWidgetItem *value)
     updateJobCell();
 }
 
+QString const & SchedulerJob::getDateTimeDisplayFormat()
+{
+    return dateTimeDisplayFormat;
+}
+
 void SchedulerJob::setDateTimeDisplayFormat(const QString &value)
 {
     dateTimeDisplayFormat = value;
