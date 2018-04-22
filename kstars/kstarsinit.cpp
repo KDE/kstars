@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "kstars.h"
+#include "kstars_debug.h"
 
 #include "fov.h"
 #include "kspaths.h"
@@ -790,8 +791,10 @@ void KStars::datainitFinished()
     //Show TotD
     KTipDialog::showTip(this, "kstars/tips");
 
-    //DEBUG
-    qDebug() << "The current Date/Time is: " << KStarsDateTime::currentDateTime().toString();
+    // Initial State
+    qCDebug(KSTARS) << "Date/Time is:" << data()->clock()->utc().toString();
+    qCDebug(KSTARS) << "Location:" << data()->geo()->fullName();
+    qCDebug(KSTARS) << "TZ0:" << data()->geo()->TZ0() << "TZ:" << data()->geo()->TZ();
 
     KSTheme::Manager::instance()->setCurrentTheme(Options::currentTheme());
 }
