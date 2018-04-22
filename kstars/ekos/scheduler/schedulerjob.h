@@ -99,6 +99,7 @@ class SchedulerJob
     int16_t getCulminationOffset() const;
     void setCulminationOffset(const int16_t &value);
 
+    QString const & getDateTimeDisplayFormat();
     void setDateTimeDisplayFormat(const QString &value);
 
     StartupCondition getFileStartupCondition() const;
@@ -288,8 +289,8 @@ private:
     int16_t culminationOffset { 0 };
     uint8_t priority { 10 };
     int64_t estimatedTime { -1 };
-    uint16_t repeatsRequired { 0 };
-    uint16_t repeatsRemaining { 0 };
+    uint16_t repeatsRequired { 1 };
+    uint16_t repeatsRemaining { 1 };
     bool inSequenceFocus { false };
 
     QString dateTimeDisplayFormat;
