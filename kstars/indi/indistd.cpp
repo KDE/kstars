@@ -227,11 +227,17 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
 
         GeoLocation *geo = KStars::Instance()->data()->geo();
 
-        if (geo->name() != i18n("GPS Location"))
+        QString newLocationName;
+        if (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE)
+            newLocationName = i18n("GPS Location");
+        else
+            newLocationName = i18n("Mount Location");
+
+        if (geo->name() != newLocationName)
         {
-            double TZ = geo->TZ();
+            double TZ0 = geo->TZ0();
             TimeZoneRule *rule = geo->tzrule();
-            geo = new GeoLocation(lng, lat, i18n("GPS Location"), "", "", TZ, rule, elev);
+            geo = new GeoLocation(lng, lat, newLocationName, "", "", TZ0, rule, elev);
         }
         else
         {
@@ -301,7 +307,12 @@ void GenericDevice::processText(ITextVectorProperty *tvp)
         KStars::Instance()->data()->syncLST();
 
         GeoLocation *geo = KStars::Instance()->data()->geo();
-        geo->setTZ(utcOffset);
+        if (geo->tzrule())
+            utcOffset -= geo->tzrule()->deltaTZ();
+
+        // TZ0 is the timezone WTIHOUT any DST offsets. Above, we take INDI UTC Offset (with DST already included)
+        // and subtract from it the deltaTZ from the current TZ rule.
+        geo->setTZ0(utcOffset);
     }
 
     emit textUpdated(tvp);

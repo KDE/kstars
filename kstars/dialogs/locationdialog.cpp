@@ -453,7 +453,7 @@ bool LocationDialog::updateCity(CityOperation operation)
             g->setCountry(country);
             g->setLat(lat);
             g->setLong(lng);
-            g->setTZ(TZ);
+            g->setTZ0(TZ);
             g->setTZRule(&KStarsData::Instance()->Rulebook[TZrule]);
             g->setElevation(height);
 
