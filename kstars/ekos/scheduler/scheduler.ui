@@ -732,6 +732,16 @@
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QLabel" name="jobStatus">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Idle</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>

@@ -15,6 +15,7 @@
 #include <QMap>
 
 class QTableWidgetItem;
+class QLabel;
 
 class dms;
 
@@ -23,6 +24,7 @@ class SchedulerJob
   public:
     SchedulerJob();
 
+    /** @brief States of a SchedulerJob. */
     typedef enum {
         JOB_IDLE,
         JOB_EVALUATION,
@@ -33,6 +35,8 @@ class SchedulerJob
         JOB_INVALID,
         JOB_COMPLETE
     } JOBStatus;
+
+    /** @brief Running stages of a SchedulerJob. */
     typedef enum {
         STAGE_IDLE,
         STAGE_SLEWING,
@@ -51,10 +55,24 @@ class SchedulerJob
         STAGE_COMPLETE
     } JOBStage;
 
-    typedef enum { START_ASAP, START_CULMINATION, START_AT } StartupCondition;
+    /** @brief Conditions under which a SchedulerJob may start. */
+    typedef enum {
+        START_ASAP,
+        START_CULMINATION,
+        START_AT
+    } StartupCondition;
 
-    typedef enum { FINISH_SEQUENCE, FINISH_REPEAT, FINISH_LOOP, FINISH_AT } CompletionCondition;
+    /** @brief Conditions under which a SchedulerJob may complete. */
+    typedef enum {
+        FINISH_SEQUENCE,
+        FINISH_REPEAT,
+        FINISH_LOOP,
+        FINISH_AT
+    } CompletionCondition;
 
+    /** @brief Actions that may be processed when running a SchedulerJob.
+     * FIXME: StepPipeLine is actually a mask, change this into a bitfield.
+     */
     typedef enum {
         USE_NONE  = 0,
         USE_TRACK = 1 << 0,
@@ -63,56 +81,92 @@ class SchedulerJob
         USE_GUIDE = 1 << 3
     } StepPipeline;
 
-    SkyPoint const & getTargetCoords() const;
-    void setTargetCoords(dms& ra, dms& dec);
-
-    QUrl getSequenceFile() const;
-    void setSequenceFile(const QUrl &value);
-
-    QUrl getFITSFile() const;
-    void setFITSFile(const QUrl &value);
-
-    double getMinAltitude() const;
-    void setMinAltitude(const double &value);
-
-    double getMinMoonSeparation() const;
-    void setMinMoonSeparation(const double &value);
-
-    bool getEnforceWeather() const;
-    void setEnforceWeather(bool value);
-
-    StepPipeline getStepPipeline() const;
-    void setStepPipeline(const StepPipeline &value);
-
-    StartupCondition getStartupCondition() const;
-    void setStartupCondition(const StartupCondition &value);
-
-    CompletionCondition getCompletionCondition() const;
-    void setCompletionCondition(const CompletionCondition &value);
-
-    /** @brief Time after which the job is considered complete. */
+    /** @brief Coordinates of the target of this job. */
     /** @{ */
-    QDateTime getCompletionTime() const;
-    void setCompletionTime(const QDateTime &value);
+    SkyPoint const & getTargetCoords() const { return targetCoords; }
+    void setTargetCoords(dms& ra, dms& dec);
     /** @} */
 
-    int16_t getCulminationOffset() const;
+    /** @brief Capture sequence this job uses while running. */
+    /** @{ */
+    QUrl getSequenceFile() const { return sequenceFile; }
+    void setSequenceFile(const QUrl &value);
+    /** @} */
+
+    /** @brief FITS file whose plate solve produces target coordinates. */
+    /** @{ */
+    QUrl getFITSFile() const { return fitsFile; }
+    void setFITSFile(const QUrl &value);
+    /** @} */
+
+    /** @brief Minimal target altitude to process this job */
+    /** @{ */
+    double getMinAltitude() const { return minAltitude; }
+    void setMinAltitude(const double &value);
+    /** @} */
+
+    /** @brief Minimal Moon separation to process this job. */
+    /** @{ */
+    double getMinMoonSeparation() const { return minMoonSeparation; }
+    void setMinMoonSeparation(const double &value);
+    /** @} */
+
+    /** @brief Whether to restrict this job to good weather. */
+    /** @{ */
+    bool getEnforceWeather() const { return enforceWeather; }
+    void setEnforceWeather(bool value);
+    /** @} */
+
+    /** @brief Mask of actions to process for this job. */
+    /** @{ */
+    StepPipeline getStepPipeline() const { return stepPipeline; }
+    void setStepPipeline(const StepPipeline &value);
+    /** @} */
+
+    /** @brief Condition under which this job starts. */
+    /** @{ */
+    StartupCondition getStartupCondition() const { return startupCondition; }
+    void setStartupCondition(const StartupCondition &value);
+    /** @} */
+
+    /** @brief Condition under which this job completes. */
+    /** @{ */
+    CompletionCondition getCompletionCondition() const { return completionCondition; }
+    void setCompletionCondition(const CompletionCondition &value);
+    /** @} */
+
+    /** @brief Target culmination proximity under which this job starts. */
+    /** @{ */
+    int16_t getCulminationOffset() const { return culminationOffset; }
     void setCulminationOffset(const int16_t &value);
+    /** @} */
 
-    QString const & getDateTimeDisplayFormat();
+    /** @brief Timestamp format to use when displaying information about this job. */
+    /** @{ */
+    QString const & getDateTimeDisplayFormat() const { return dateTimeDisplayFormat; }
     void setDateTimeDisplayFormat(const QString &value);
+    /** @} */
 
-    StartupCondition getFileStartupCondition() const;
+    StartupCondition getFileStartupCondition() const { return fileStartupCondition; }
     void setFileStartupCondition(const StartupCondition &value);
 
-    bool getInSequenceFocus() const;
+    /** @brief Whether this job requires re-focus while running its capture sequence. */
+    /** @{ */
+    bool getInSequenceFocus() const { return inSequenceFocus; }
     void setInSequenceFocus(bool value);
+    /** @} */
 
-    uint8_t getPriority() const;
+    /** @brief Job priority, low priority value means most prioritary. */
+    /** @{ */
+    uint8_t getPriority() const { return priority; }
     void setPriority(const uint8_t &value);
+    /** @} */
 
-    bool getEnforceTwilight() const;
+    /** @brief Whether to restrict job to night time. */
+    /** @{ */
+    bool getEnforceTwilight() const { return enforceTwilight; }
     void setEnforceTwilight(bool value);
+    /** @} */
 
     /** @brief Current name of the scheduler job. */
     /** @{ */
@@ -148,6 +202,8 @@ class SchedulerJob
     /** @{ */
     QTableWidgetItem *getStageCell() const { return stageCell; }
     void setStageCell(QTableWidgetItem *cell);
+    QLabel *getStageLabel() const { return stageLabel; }
+    void setStageLabel(QLabel *label);
     /** @} */
 
     /** @brief Number of captures required in the associated sequence. */
@@ -180,6 +236,12 @@ class SchedulerJob
     void setStartupCell(QTableWidgetItem *value);
     /** @} */
 
+    /** @brief Time after which the job is considered complete. */
+    /** @{ */
+    QDateTime getCompletionTime() const { return completionTime; }
+    void setCompletionTime(const QDateTime &value);
+    /** @} */
+
     /** @brief Shortcut to widget cell for completion time in the job queue table. */
     /** @{ */
     QTableWidgetItem *getCompletionCell() const { return completionCell; }
@@ -188,7 +250,7 @@ class SchedulerJob
 
     /** @brief Estimation of the time the job will take to process. */
     /** @{ */
-     int64_t getEstimatedTime() const { return estimatedTime; }
+    int64_t getEstimatedTime() const { return estimatedTime; }
     void setEstimatedTime(const int64_t &value);
     /** @} */
 
@@ -210,17 +272,37 @@ class SchedulerJob
     void setScoreCell(QTableWidgetItem *value);
     /** @} */
 
-    bool getLightFramesRequired() const;
+    /** @brief Whether this job requires light frames, or only calibration frames. */
+    /** @{ */
+    bool getLightFramesRequired() const { return lightFramesRequired; }
     void setLightFramesRequired(bool value);
+    /** @} */
 
-    uint16_t getRepeatsRequired() const;
+    /** @brief Number of times this job must be repeated (in terms of capture count). */
+    /** @{ */
+    uint16_t getRepeatsRequired() const { return repeatsRequired; }
     void setRepeatsRequired(const uint16_t &value);
+    /** @} */
 
-    uint16_t getRepeatsRemaining() const;
+    /** @brief Number of times this job still has to be repeated (in terms of capture count). */
+    /** @{ */
+    uint16_t getRepeatsRemaining() const { return repeatsRemaining; }
     void setRepeatsRemaining(const uint16_t &value);
+    /** @} */
 
-    QMap<QString, uint16_t> getCapturedFramesMap() const;
+    /** @brief The map of capture counts for this job, keyed by its capture storage signatures. */
+    /** @{ */
+    QMap<QString, uint16_t> getCapturedFramesMap() const { return capturedFramesMap; }
     void setCapturedFramesMap(const QMap<QString, uint16_t> &value);
+    /** @} */
+
+    /** @brief Resetting a job to original values:
+     * - idle state and stage
+     * - original startup, none if asap, else user original setting
+     * - duration not estimated
+     * - full repeat count
+     */
+    void reset();
 
     /** @brief Compare ::SchedulerJob instances based on score. This is a qSort predicate, deprecated in QT5.
      * @arg a, b are ::SchedulerJob instances to compare.
@@ -270,11 +352,13 @@ private:
 
     StepPipeline stepPipeline { USE_NONE };
 
-    /** @internal Widget cell shortcuts. */
+    /** @internal Widget cell/label shortcuts. */
     /** @{ */
     QTableWidgetItem *nameCell { nullptr };
+    QLabel *nameLabel { nullptr };
     QTableWidgetItem *statusCell { nullptr };
     QTableWidgetItem *stageCell { nullptr };
+    QLabel *stageLabel { nullptr };
     QTableWidgetItem *startupCell { nullptr };
     QTableWidgetItem *completionCell { nullptr };
     QTableWidgetItem *estimatedTimeCell { nullptr };
