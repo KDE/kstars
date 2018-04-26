@@ -542,6 +542,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
          */
     bool createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir);
 
+    /** @internal Change the current job, updating associated widgets.
+     * @param job is an existing SchedulerJob to set as current, or nullptr.
+     */
+    void setCurrentJob(SchedulerJob *job);
+
     void loadProfiles();
 
     XMLEle *getSequenceJobRoot();
