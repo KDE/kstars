@@ -93,14 +93,23 @@ void GenericDevice::registerProperty(INDI::Property *prop)
         }
     }
 
-    if (!strcmp(prop->getName(), "TIME_UTC") && Options::useTimeUpdate() && Options::useComputerSource())
+    if (!strcmp(prop->getName(), "DRIVER_INFO"))
+    {
+        ITextVectorProperty *tvp = prop->getText();
+        if (tvp)
+        {
+            IText *tp = IUFindText(tvp, "DRIVER_INTERFACE");
+            if (tp)
+                driverInterface = static_cast<uint32_t>(atoi(tp->text));
+        }
+    }
+    else if (!strcmp(prop->getName(), "TIME_UTC") && Options::useTimeUpdate() && Options::useKStarsSource())
     {
         ITextVectorProperty *tvp = prop->getText();
         if (tvp && tvp->p != IP_RO)
             updateTime();
     }
-    else if (!strcmp(prop->getName(), "GEOGRAPHIC_COORD") && Options::useGeographicUpdate() &&
-             Options::useComputerSource())
+    else if (!strcmp(prop->getName(), "GEOGRAPHIC_COORD") && Options::useGeographicUpdate() && Options::useKStarsSource())
     {
         INumberVectorProperty *nvp = prop->getNumber();
         if (nvp && nvp->p != IP_RO)
@@ -176,7 +185,13 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
 
 void GenericDevice::processNumber(INumberVectorProperty *nvp)
 {
-    if (Options::useDeviceSource() && !strcmp(nvp->name, "GEOGRAPHIC_COORD") && nvp->s == IPS_OK)
+    QString deviceName = getDeviceName();
+    uint32_t interface = getDriverInterface();
+    Q_UNUSED(interface);
+
+    if (!strcmp(nvp->name, "GEOGRAPHIC_COORD") && nvp->s == IPS_OK &&
+       ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
+         (Options::useGPSSource() && (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE))))
     {
         // Update KStars Location once we receive update from INDI, if the source is set to DEVICE
         dms lng, lat;
@@ -212,11 +227,17 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
 
         GeoLocation *geo = KStars::Instance()->data()->geo();
 
-        if (geo->name() != i18n("GPS Location"))
+        QString newLocationName;
+        if (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE)
+            newLocationName = i18n("GPS Location");
+        else
+            newLocationName = i18n("Mount Location");
+
+        if (geo->name() != newLocationName)
         {
-            double TZ = geo->TZ();
+            double TZ0 = geo->TZ0();
             TimeZoneRule *rule = geo->tzrule();
-            geo = new GeoLocation(lng, lat, i18n("GPS Location"), "", "", TZ, rule, elev);
+            geo = new GeoLocation(lng, lat, newLocationName, "", "", TZ0, rule, elev);
         }
         else
         {
@@ -251,7 +272,9 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
 void GenericDevice::processText(ITextVectorProperty *tvp)
 {
     // Update KStars time once we receive update from INDI, if the source is set to DEVICE
-    if (Options::useDeviceSource() && !strcmp(tvp->name, "TIME_UTC") && tvp->s == IPS_OK)
+    if (!strcmp(tvp->name, "TIME_UTC") && tvp->s == IPS_OK &&
+       ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
+         (Options::useGPSSource() && (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE))))
     {
         IText *tp = nullptr;
         int d, m, y, min, sec, hour;
@@ -284,7 +307,12 @@ void GenericDevice::processText(ITextVectorProperty *tvp)
         KStars::Instance()->data()->syncLST();
 
         GeoLocation *geo = KStars::Instance()->data()->geo();
-        geo->setTZ(utcOffset);
+        if (geo->tzrule())
+            utcOffset -= geo->tzrule()->deltaTZ();
+
+        // TZ0 is the timezone WTIHOUT any DST offsets. Above, we take INDI UTC Offset (with DST already included)
+        // and subtract from it the deltaTZ from the current TZ rule.
+        geo->setTZ0(utcOffset);
     }
 
     emit textUpdated(tvp);
@@ -846,6 +874,11 @@ const char *DeviceDecorator::getDeviceName()
 INDI::BaseDevice *DeviceDecorator::getBaseDevice()
 {
     return interfacePtr->getBaseDevice();
+}
+
+uint32_t DeviceDecorator::getDriverInterface()
+{
+    return interfacePtr->getDriverInterface();
 }
 
 QList<INDI::Property *> DeviceDecorator::getProperties()

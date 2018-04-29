@@ -600,7 +600,7 @@ bool EkosManager::start()
         if (isRunning("indiserver"))
         {
             if (KMessageBox::Yes ==
-                (KMessageBox::questionYesNo(0,
+                (KMessageBox::questionYesNo(nullptr,
                                             i18n("Ekos detected an instance of INDI server running. Do you wish to "
                                                  "shut down the existing instance before starting a new one?"),
                                             i18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
@@ -1589,7 +1589,7 @@ void EkosManager::processTabChange()
             {
                 if (alignProcess->isParserOK())
                     alignProcess->setEnabled(true);
-                #ifdef Q_OS_WIN
+                //#ifdef Q_OS_WIN
                 else
                 {
                     // If current setting is remote astrometry and profile doesn't contain
@@ -1605,7 +1605,7 @@ void EkosManager::processTabChange()
                         alignProcess->setEnabled(true);
                     }
                 }
-                #endif
+                //#endif
             }
         }
 
@@ -1788,7 +1788,7 @@ void EkosManager::initAlign()
     if (alignProcess.get() != nullptr)
         return;
 
-    alignProcess.reset(new Ekos::Align());
+    alignProcess.reset(new Ekos::Align(currentProfile));
 
     double primaryScopeFL=0, primaryScopeAperture=0, guideScopeFL=0, guideScopeAperture=0;
     getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
@@ -1863,9 +1863,11 @@ void EkosManager::initFocus()
     focusProcess->setFilterManager(filterManager);
     connect(filterManager.data(), SIGNAL(checkFocus(double)), focusProcess.get(), SLOT(checkFocus(double)), Qt::UniqueConnection);
     connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), filterManager.data(), SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
-    connect(filterManager.data(), SIGNAL(newFocusOffset(int16_t)), focusProcess.get(), SLOT(adjustRelativeFocus(int16_t)),
+    connect(filterManager.data(), SIGNAL(newFocusOffset(int, bool)), focusProcess.get(), SLOT(adjustFocusOffset(int,bool)),
             Qt::UniqueConnection);
     connect(focusProcess.get(), SIGNAL(focusPositionAdjusted()), filterManager.data(), SLOT(setFocusOffsetComplete()),
+            Qt::UniqueConnection);
+    connect(focusProcess.get(), SIGNAL(absolutePositionChanged(int)), filterManager.data(), SLOT(setFocusAbsolutePosition(int)),
             Qt::UniqueConnection);
 
     if (Options::ekosLeftIcons())

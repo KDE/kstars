@@ -39,10 +39,10 @@ class ArtificialHorizonEntity;
  * @brief Single class to delegate all User database I/O
  *
  * usage: Call QSqlDatabase::removeDatabase("userdb"); after the object
- * of this class is deallocated
+ * of this class is deallocated 
  * @author Rishab Arora
  * @author Jasem Mutlaq
- * @version 1.1
+ * @version 1.2
  **/
 // cppcheck-suppress noConstructor
 class KSUserDB
@@ -81,6 +81,15 @@ class KSUserDB
     void AddDarkFrame(const QVariantMap &oneFrame);
     bool DeleteDarkFrame(const QString &filename);
     void GetAllDarkFrames(QList<QVariantMap> &darkFrames);
+
+
+    /************************************************************************
+     ******************************* Effective FOVs *************************
+     ************************************************************************/
+
+    void AddEffectiveFOV(const QVariantMap &oneFOV);
+    bool DeleteEffectiveFOV(const QString &id);
+    void GetAllEffectiveFOVs(QList<QVariantMap> &effectiveFOVs);
 
     /************************************************************************
      *********************************** HiPS *******************************
@@ -280,14 +289,14 @@ class KSUserDB
      * @return void
      **/
     void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
-                             int offset, double exposure, bool useAutoFocus, const QString &lockedFilter);
+                             int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos);
     /**
      * @brief Replace a filter at given ID with new content
      *
      * @return void
      **/
     void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
-                             int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, const QString &id);
+                             int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos, const QString &id);
 #ifndef KSTARS_LITE
     /**
      * @brief Populate the reference passed with all filters

@@ -14,6 +14,7 @@
 #include <QDesktopServices>
 
 #include <KConfigDialog>
+#include <KFormat>
 #include <KMessageBox>
 
 #include <basedevice.h>
@@ -54,7 +55,7 @@ OpsLogs::OpsLogs() : QFrame(KStars::Instance())
     qint64 totalSize = getDirSize(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs");
     totalSize += getDirSize(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "autofocus");
 
-    clearLogsB->setToolTip(i18n("Clear all logs (%1)", KSUtils::formatSize(totalSize)));
+    clearLogsB->setToolTip(i18n("Clear all logs (%1)", KFormat().formatByteSize(totalSize)));
 
 }
 
@@ -109,6 +110,12 @@ void OpsLogs::refreshInterface()
         m_INDIDebugInterface |= INDI::BaseDevice::WEATHER_INTERFACE;
     if (Options::iNDIDetectorLogging())
         m_INDIDebugInterface |= INDI::BaseDevice::DETECTOR_INTERFACE;
+    if (Options::iNDIRotatorLogging())
+        m_INDIDebugInterface |= INDI::BaseDevice::ROTATOR_INTERFACE;
+    if (Options::iNDIGPSLogging())
+        m_INDIDebugInterface |= INDI::BaseDevice::GPS_INTERFACE;
+    if (Options::iNDIAOLogging())
+        m_INDIDebugInterface |= INDI::BaseDevice::AO_INTERFACE;
     if (Options::iNDIAuxiliaryLogging())
         m_INDIDebugInterface |= INDI::BaseDevice::AUX_INTERFACE;
 

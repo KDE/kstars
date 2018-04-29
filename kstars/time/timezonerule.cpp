@@ -16,10 +16,10 @@
  ***************************************************************************/
 
 #include "timezonerule.h"
+#include "kstars_debug.h"
 
 #include <KLocalizedString>
 
-#include <QDebug>
 #include <QString>
 
 TimeZoneRule::TimeZoneRule()
@@ -45,7 +45,7 @@ TimeZoneRule::TimeZoneRule(const QString &smonth, const QString &sday, const QTi
         }
         else
         {
-            qWarning() << i18n("Error parsing TimeZoneRule, setting to empty rule.");
+            qCWarning(KSTARS) << i18n("Error parsing TimeZoneRule, setting to empty rule.");
             setEmpty();
         }
     }
@@ -73,12 +73,12 @@ void TimeZoneRule::setDST(bool activate)
 {
     if (activate)
     {
-        qDebug() << "Daylight Saving Time active";
+        qCDebug(KSTARS) << "Daylight Saving Time active";
         dTZ = HourOffset;
     }
     else
     {
-        qDebug() << "Daylight Saving Time inactive";
+        qCDebug(KSTARS) << "Daylight Saving Time inactive";
         dTZ = 0.0;
     }
 }
@@ -112,7 +112,7 @@ int TimeZoneRule::initMonth(const QString &mn)
     else if (ml == "dec")
         return 12;
 
-    qWarning() << i18n("Could not parse %1 as a valid month code.", mn);
+    qCWarning(KSTARS) << i18n("Could not parse %1 as a valid month code.", mn);
     return 0;
 }
 
@@ -225,7 +225,7 @@ bool TimeZoneRule::initDay(const QString &dy, int &Day, int &Week)
         }
     }
 
-    qWarning() << i18n("Could not parse %1 as a valid day code.", dy);
+    qCWarning(KSTARS) << i18n("Could not parse %1 as a valid day code.", dy);
     return false;
 }
 
@@ -373,7 +373,7 @@ void TimeZoneRule::nextDSTChange_LTime(const KStarsDateTime &date)
         result = KStarsDateTime(QDate(y, StartMonth, findStartDay(result)), StartTime);
     }
 
-    qDebug() << "Next Daylight Savings Time change (Local Time): " << result.toString();
+    qCDebug(KSTARS) << "Next Daylight Savings Time change (Local Time): " << result.toString();
     next_change_ltime = result;
 }
 
@@ -412,7 +412,7 @@ void TimeZoneRule::previousDSTChange_LTime(const KStarsDateTime &date)
         result = KStarsDateTime(QDate(y, RevertMonth, findRevertDay(result)), RevertTime);
     }
 
-    qDebug() << "Previous Daylight Savings Time change (Local Time): " << result.toString();
+    qCDebug(KSTARS) << "Previous Daylight Savings Time change (Local Time): " << result.toString();
     next_change_ltime = result;
 }
 
@@ -422,7 +422,7 @@ void TimeZoneRule::nextDSTChange(const KStarsDateTime &local_date, const double 
     // just decrement timezone offset and hour offset
     KStarsDateTime result = local_date.addSecs(int((TZoffset + deltaTZ()) * -3600));
 
-    qDebug() << "Next Daylight Savings Time change (UTC): " << result.toString();
+    qCDebug(KSTARS) << "Next Daylight Savings Time change (UTC): " << result.toString();
     next_change_utc = result;
 }
 
@@ -436,7 +436,7 @@ void TimeZoneRule::previousDSTChange(const KStarsDateTime &local_date, const dou
     if (result.date().month() == RevertMonth)
         result = result.addSecs(int(HourOffset * -3600));
 
-    qDebug() << "Previous Daylight Savings Time change (UTC): " << result.toString();
+    qCDebug(KSTARS) << "Previous Daylight Savings Time change (UTC): " << result.toString();
     next_change_utc = result;
 }
 
@@ -479,7 +479,7 @@ void TimeZoneRule::reset_with_ltime(KStarsDateTime &ltime, const double TZoffset
     if (active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth)
     {
         // current time is the start time
-        qDebug() << "Current time = Starttime: invalid local time due to daylight saving time";
+        qCDebug(KSTARS) << "Current time = Starttime: invalid local time due to daylight saving time";
 
         // set a correct local time because the current time doesn't exists
         // if automatic DST change happend, new DST setting is the opposite of current setting
@@ -526,7 +526,7 @@ void TimeZoneRule::reset_with_ltime(KStarsDateTime &ltime, const double TZoffset
         if (active_with_houroffset != active_normal && RevertMonth == ValidLTime.date().month())
         {
             // current time is the revert time
-            qDebug() << "Current time = Reverttime";
+            qCDebug(KSTARS) << "Current time = Reverttime";
 
             // we don't kneed to change the local time, because local time always exists, but
             // some times exists twice, so we have to reset DST status

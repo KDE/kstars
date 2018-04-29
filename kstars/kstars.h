@@ -18,10 +18,9 @@
 
 #include "config-kstars.h"
 
-#include "oal/equipmentwriter.h"
-#include "oal/observeradd.h"
-
-#include <kxmlguiwindow.h>
+#include <KXmlGuiWindow>
+#include <KLocalizedString>
+#include <QLabel>
 
 #include <QDockWidget>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
@@ -34,6 +33,7 @@
 #endif
 
 // forward declaration is enough. We only need pointers
+class QActionGroup;
 class QDockWidget;
 class QPalette;
 class KActionMenu;
@@ -59,8 +59,6 @@ class PlanetViewer;
 //class JMoonTool;
 class MoonPhaseTool;
 class FlagManager;
-class EquipmentWriter;
-class ObserverAdd;
 class Execute;
 class ExportImageDialog;
 class PrintingWizard;

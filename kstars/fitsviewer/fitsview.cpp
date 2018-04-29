@@ -19,6 +19,7 @@
 #include "ksutils.h"
 #include "Options.h"
 #include "skymap.h"
+#include "fits_debug.h"
 
 #ifdef HAVE_INDI
 #include "basedevice.h"
@@ -357,8 +358,7 @@ void FITSView::leaveEvent(QEvent *)
 
 template <typename T>
 int FITSView::rescale(FITSZoom type)
-{
-    double val = 0;
+{    
     double min, max;
     bool displayBuffer = false;
 
@@ -379,8 +379,8 @@ int FITSView::rescale(FITSZoom type)
 
         displayBuffer = true;
 
-        float data_min = -1;
-        float data_max = -1;
+        double data_min = -1;
+        double data_max = -1;
 
         imageData->applyFilter(FITS_AUTO_STRETCH, image_buffer, &data_min, &data_max);
 
@@ -422,39 +422,89 @@ int FITSView::rescale(FITSZoom type)
 
         if (imageData->getNumOfChannels() == 1)
         {
-            /* Fill in pixel values using indexed map, linear scale */
-            for (int j = 0; j < image_height; j++)
-            {
-                unsigned char *scanLine = display_image->scanLine(j);
+            QList<QFuture<void>> futures;
 
-                for (int i = 0; i < image_width; i++)
+            /* Fill in pixel values using indexed map, linear scale */
+            for (uint32_t j = 0; j < image_height; j++)
+            {                
+                futures.append(QtConcurrent::run([=]()
                 {
-                    val         = buffer[j * image_width + i] * bscale + bzero;
-                    scanLine[i] = qBound(0.0, val, 255.0);
-                }
+                    T *runningBuffer = buffer +j*image_width;
+                    uint8_t *scanLine = display_image->scanLine(j);
+                    for (uint32_t i = 0; i < image_width; i++)
+                    {
+                        //scanLine[i] = qBound(0, static_cast<uint8_t>(runningBuffer[i] * bscale + bzero), 255);
+                        scanLine[i] = qBound(0.0, runningBuffer[i] * bscale + bzero, 255.0);
+                    }
+                }));
             }
+
+            for(QFuture<void> future : futures)
+                future.waitForFinished();
         }
         else
         {
-            double rval = 0, gval = 0, bval = 0;
-            QRgb value;
+            QList<QFuture<void>> futures;
             /* Fill in pixel values using indexed map, linear scale */
-            for (int j = 0; j < image_height; j++)
-            {
-                QRgb *scanLine = reinterpret_cast<QRgb *>((display_image->scanLine(j)));
-
-                for (int i = 0; i < image_width; i++)
+            for (uint32_t j = 0; j < image_height; j++)
+            {                
+                futures.append(QtConcurrent::run([=]()
                 {
-                    rval = buffer[j * image_width + i];
-                    gval = buffer[j * image_width + i + size];
-                    bval = buffer[j * image_width + i + size * 2];
+                    QRgb *scanLine = reinterpret_cast<QRgb *>((display_image->scanLine(j)));
+                    T *runningBufferR = buffer + j*image_width;
+                    T *runningBufferG = buffer + j*image_width + size;
+                    T *runningBufferB = buffer + j*image_width + size*2;
 
-                    value = qRgb(rval * bscale + bzero, gval * bscale + bzero, bval * bscale + bzero);
-
-                    scanLine[i] = value;
-                }
+                    for (uint32_t i = 0; i < image_width; i++)
+                    {
+                        scanLine[i] = qRgb(runningBufferR[i] * bscale + bzero,
+                                           runningBufferG[i] * bscale + bzero,
+                                           runningBufferB[i] * bscale + bzero);;
+                    }
+                }));
             }
+
+            for(QFuture<void> future : futures)
+                future.waitForFinished();
         }
+
+#if 0
+        if (imageData->getNumOfChannels() == 1)
+               {
+                   /* Fill in pixel values using indexed map, linear scale */
+                   for (int j = 0; j < image_height; j++)
+                   {
+                       unsigned char *scanLine = display_image->scanLine(j);
+
+                       for (int i = 0; i < image_width; i++)
+                       {
+                           val         = buffer[j * image_width + i] * bscale + bzero;
+                           scanLine[i] = qBound(0.0, val, 255.0);
+                       }
+                   }
+               }
+               else
+               {
+                   double rval = 0, gval = 0, bval = 0;
+                   QRgb value;
+                   /* Fill in pixel values using indexed map, linear scale */
+                   for (int j = 0; j < image_height; j++)
+                   {
+                       QRgb *scanLine = reinterpret_cast<QRgb *>((display_image->scanLine(j)));
+
+                       for (int i = 0; i < image_width; i++)
+                       {
+                           rval = buffer[j * image_width + i];
+                           gval = buffer[j * image_width + i + size];
+                           bval = buffer[j * image_width + i + size * 2];
+
+                           value = qRgb(rval * bscale + bzero, gval * bscale + bzero, bval * bscale + bzero);
+
+                           scanLine[i] = value;
+                       }
+                   }
+               }
+#endif
     }
 
     if (displayBuffer)

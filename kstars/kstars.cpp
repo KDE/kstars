@@ -104,48 +104,50 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
 
     QProcess dbusCheck;
     dbusCheck.setProcessEnvironment(env);
-    dbusCheck.start("launchctl list");
-    dbusCheck.waitForFinished();
-    QString output(dbusCheck.readAllStandardOutput());
 
     QString pluginsDir = QDir(QCoreApplication::applicationDirPath() + "/../PlugIns").absolutePath();
     QString dbusPlist  = pluginsDir + "/dbus/org.freedesktop.dbus-kstars.plist";
-    if (!output.contains("homebrew.mxcl.dbus") && !output.contains("org.freedesktop.dbus") &&
-        QFileInfo(dbusPlist).exists())
+    QFile file(dbusPlist);
+    if (file.open(QIODevice::ReadOnly))
     {
-        QFile file(dbusPlist);
-        if (file.open(QIODevice::ReadOnly))
+        QTextStream in(&file);
+        QString pListText = in.readAll();
+        file.close();
+        int programArgsLeft         = pListText.indexOf("<key>ProgramArguments</key>");
+        int programArgsRight        = pListText.indexOf("</array>", programArgsLeft) + 8 - programArgsLeft;
+        QString currentProgramArgs  = pListText.mid(programArgsLeft, programArgsRight);
+        QString newProgramArguments = ""
+                                      "<key>ProgramArguments</key>\n"
+                                      "    <array>\n"
+                                      "        <string>" +
+                QCoreApplication::applicationDirPath() +
+                "/dbus-daemon</string>\n"
+                "        <string>--nofork</string>\n"
+                "        <string>--config-file=" +
+                pluginsDir +
+                "/dbus/kstars.conf</string>\n"
+                "    </array>";
+        pListText.replace(currentProgramArgs, newProgramArguments);
+        if (file.open(QIODevice::WriteOnly))
         {
-            QTextStream in(&file);
-            QString pListText = in.readAll();
+            QTextStream stream(&file);
+            stream << pListText;
             file.close();
-            int programArgsLeft         = pListText.indexOf("<key>ProgramArguments</key>");
-            int programArgsRight        = pListText.indexOf("</array>", programArgsLeft) + 8 - programArgsLeft;
-            QString currentProgramArgs  = pListText.mid(programArgsLeft, programArgsRight);
-            QString newProgramArguments = ""
-                                          "<key>ProgramArguments</key>\n"
-                                          "    <array>\n"
-                                          "        <string>" +
-                                          QCoreApplication::applicationDirPath() +
-                                          "/dbus-daemon</string>\n"
-                                          "        <string>--nofork</string>\n"
-                                          "        <string>--config-file=" +
-                                          pluginsDir +
-                                          "/dbus/kstars.conf</string>\n"
-                                          "    </array>";
-            pListText.replace(currentProgramArgs, newProgramArguments);
-            if (file.open(QIODevice::WriteOnly))
-            {
-                QTextStream stream(&file);
-                stream << pListText;
-                file.close();
 
-                dbusCheck.start("chmod 775 " + dbusPlist);
-                dbusCheck.waitForFinished();
-                dbusCheck.start("launchctl load -w \"" + dbusPlist + "\"");
-                dbusCheck.waitForFinished();
-            }
+            dbusCheck.start("chmod 775 " + dbusPlist);
+            dbusCheck.waitForFinished();
+            dbusCheck.start("launchctl load -w \"" + dbusPlist + "\"");
+            dbusCheck.waitForFinished();
+            qDebug("Starting DBus");
         }
+        else
+        {
+            qDebug("DBus File Write Error");
+        }
+    }
+    else
+    {
+        qDebug("DBus File Read Error");
     }
 #endif
 

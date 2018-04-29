@@ -1734,9 +1734,13 @@ bool CCD::setCoolerControl(bool enable)
         return false;
 
     // Cooler ON/OFF
-    coolerSP->sp[0].s = enable ? ISS_ON : ISS_OFF;
-    coolerSP->sp[1].s = enable ? ISS_OFF : ISS_ON;
+    ISwitch *coolerON  = IUFindSwitch(coolerSP, "COOLER_ON");
+    ISwitch *coolerOFF = IUFindSwitch(coolerSP, "COOLER_OFF");
+    if (coolerON == nullptr || coolerOFF == nullptr)
+        return false;
 
+    coolerON->s = enable ? ISS_ON : ISS_OFF;
+    coolerOFF->s = enable ? ISS_OFF : ISS_ON;
     clientManager->sendNewSwitch(coolerSP);
 
     return true;

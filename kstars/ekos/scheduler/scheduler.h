@@ -92,6 +92,18 @@ class Scheduler : public QWidget, public Ui::Scheduler
         PARKWAIT_ERROR
     } ParkWaitStatus;
 
+    /** @brief Columns, in the same order as UI. */
+    typedef enum {
+        SCHEDCOL_NAME = 0,
+        SCHEDCOL_STATUS,
+        SCHEDCOL_CAPTURES,
+        SCHEDCOL_SCORE,
+        SCHEDCOL_STARTTIME,
+        SCHEDCOL_ENDTIME,
+        SCHEDCOL_DURATION,
+        SCHEDCOL_COUNT
+    } SchedulerColumns;
+
     Scheduler();
     ~Scheduler() = default;
 
@@ -529,6 +541,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @return True if new file is saved, false otherwise
          */
     bool createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir);
+
+    /** @internal Change the current job, updating associated widgets.
+     * @param job is an existing SchedulerJob to set as current, or nullptr.
+     */
+    void setCurrentJob(SchedulerJob *job);
 
     void loadProfiles();
 

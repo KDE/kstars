@@ -24,8 +24,32 @@
         <file>icons/astrometry-optional.svg</file>
         <file>icons/astrometry-recommended.svg</file>
         <file>icons/astrometry-required.svg</file>
-        <file>icons/breeze/index.theme</file>
-        <file>icons/breeze/actions/12/object-fill.svg</file>
+        <file>indidrivers.xml</file>
+        <file>qml/whatisinteresting/CategoryTitle.qml</file>
+        <file>qml/whatisinteresting/DetailsItem.qml</file>
+        <file>qml/whatisinteresting/downloadIcon.png</file>
+        <file>qml/whatisinteresting/favoriteIcon.png</file>
+        <file>qml/whatisinteresting/helpIcon.png</file>
+        <file>qml/whatisinteresting/iconcredits.dat</file>
+        <file>qml/whatisinteresting/inspectIcon.png</file>
+        <file>qml/whatisinteresting/leftArrow.png</file>
+        <file>qml/whatisinteresting/next.png</file>
+        <file>qml/whatisinteresting/previous.png</file>
+        <file>qml/whatisinteresting/reloadIcon.png</file>
+        <file>qml/whatisinteresting/ScrollBar.qml</file>
+        <file>qml/whatisinteresting/settingsIcon.png</file>
+        <file>qml/whatisinteresting/visibleIcon.png</file>
+        <file>qml/whatisinteresting/wiview.qml</file>
+        <file>qml/mount/go-east.png</file>
+        <file>qml/mount/go-north.png</file>
+        <file>qml/mount/go-northeast.png</file>
+        <file>qml/mount/go-northwest.png</file>
+        <file>qml/mount/go-south.png</file>
+        <file>qml/mount/go-southeast.png</file>
+        <file>qml/mount/go-southwest.png</file>
+        <file>qml/mount/go-west.png</file>
+        <file>qml/mount/mountbox.qml</file>
+        <file>qml/mount/stop.png</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>

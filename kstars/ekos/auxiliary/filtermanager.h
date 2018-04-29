@@ -57,6 +57,11 @@ public:
     int getTargetFilterPosition() { return targetFilterPosition; }
     int getTargetFilterOffset() { return targetFilterOffset; }
 
+    bool setFilterAbsoluteFocusPosition(int index, int absFocusPos);
+
+    // Set absolute focus position, if supported, to the current filter absolute focus position.
+    bool syncAbsoluteFocusPosition(int index);
+
     /**
      * @brief getFilterExposure Get optimal exposure time for the specified filter
      * @param name filter to obtain exposure time for
@@ -86,7 +91,7 @@ public:
 public slots:
     // Position. if applyPolicy is true then all filter offsets and autofocus & lock policies are applied.
     bool setFilterPosition(uint8_t position, FilterPolicy policy = ALL_POLICIES);
-    // Offset
+    // Offset Request completed
     void setFocusOffsetComplete();
     // Remove Device
     void removeDevice(ISD::GDInterface *device);
@@ -94,6 +99,8 @@ public slots:
     void reloadFilters();
     // Focus Status
     void setFocusStatus(Ekos::FocusState focusState);
+    // Set absolute focus position
+    void setFocusAbsolutePosition(int value) { m_FocusAbsPosition = value; }
 
 signals:
     // Emitted only when there is a change in the filter slot number
@@ -111,7 +118,7 @@ signals:
     // Check Focus
     void checkFocus(double);
     // New Focus offset requested
-    void newFocusOffset(int16_t);
+    void newFocusOffset(int value, bool useAbsoluteOffset);
 
 private slots:    
     void processText(ITextVectorProperty *tvp);
@@ -159,8 +166,12 @@ private:
 
     FilterState state = { FILTER_IDLE };
 
-    int targetFilterPosition = { -1 };
-    int targetFilterOffset = { - 1 };
+    int targetFilterPosition { -1 };
+    int targetFilterOffset { - 1 };
+
+
+    bool m_FocusAbsPositionPending { false};
+    int m_FocusAbsPosition { -1 };
 
     // Delegates
     QPointer<LockDelegate> lockDelegate;

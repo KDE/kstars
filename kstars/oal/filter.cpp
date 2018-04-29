@@ -19,7 +19,7 @@
 #include "oal/filter.h"
 
 OAL::Filter::Filter(const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &color,
-                          double exposure, int offset, bool useAutoFocus, const QString &lockedFilter)
+                          double exposure, int offset, bool useAutoFocus, const QString &lockedFilter, int absFocusPosition)
 {
     m_Id       = id;
     m_Model    = model;
@@ -31,4 +31,5 @@ OAL::Filter::Filter(const QString &id, const QString &model, const QString &vend
     m_Exposure = exposure;
     m_LockedFilter = lockedFilter;
     m_UseAutoFocus = useAutoFocus;
+    m_AbsoluteFocusPosition = absFocusPosition;
 }

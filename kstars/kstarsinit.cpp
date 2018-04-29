@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "kstars.h"
+#include "kstars_debug.h"
 
 #include "fov.h"
 #include "kspaths.h"
@@ -132,23 +133,10 @@ QAction *newToggleAction(KActionCollection *col, QString name, QString text, QOb
 
 void KStars::initActions()
 {
-    // Check if we have this specific Breeze icon. If not, try to set the theme search path
+    // Check if we have this specific Breeze icon. If not, try to set the theme search path and if appropriate, the icon theme rcc file
     // in each OS
     if (!QIcon::hasThemeIcon(QLatin1String("kstars_flag")))
-    {
-        QStringList themeSearchPaths = (QStringList() << QIcon::themeSearchPaths());
-        #ifdef Q_OS_OSX
-        themeSearchPaths = themeSearchPaths << QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons").absolutePath();
-        #elif defined(Q_OS_WIN)
-        themeSearchPaths = themeSearchPaths << QStandardPaths::locate(QStandardPaths::GenericDataLocation, "icons", QStandardPaths::LocateDirectory);
-        #else
-        //TODO On Linux on non-KDE Distros, find out if the themes are installed or not and perhaps warn the user
-        #endif
-
-        QIcon::setThemeSearchPaths(themeSearchPaths);
-        //Note: in order to get it to actually load breeze from resources on mac, we had to add the index.theme, and just one icon from breeze into the qrc.  Not sure why this was needed, but it works.
-        QIcon::setThemeName(QLatin1String("breeze"));
-    }
+        KSTheme::Manager::instance()->setIconTheme(KSTheme::Manager::BREEZE_DARK_THEME);
 
     QAction *ka;
 
@@ -199,7 +187,19 @@ void KStars::initActions()
     if (!StartClockRunning)
         ka->toggle();
     QObject::connect(ka, SIGNAL(triggered()), this, SLOT(slotToggleTimer()));
-    QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), ka, SLOT(setChecked(bool)));
+    //QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), ka, SLOT(setChecked(bool)));
+    QObject::connect(data()->clock(), &SimClock::clockToggled, [=](bool toggled)
+    {
+        QAction *a = actionCollection()->action("clock_startstop");
+        if (a)
+        {
+            a->setChecked(toggled);
+            // Many users forget to unpause KStars, so we are using run-build-install-root icon which is red
+            // and stands out from the rest of the icons so users are aware when KStars is paused visually
+            a->setIcon(toggled ? QIcon::fromTheme("run-build-install-root") : QIcon::fromTheme("media-playback-pause"));
+            a->setToolTip(toggled ? i18n("Resume Clock") : i18n("Stop Clock"));
+        }
+    });
     //UpdateTime() if clock is stopped (so hidden objects get drawn)
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), this, SLOT(updateTime()));
     actionCollection()->addAction("time_step_forward", this, SLOT(slotStepForward()))
@@ -757,7 +757,15 @@ void KStars::datainitFinished()
 
     //Do not start the clock if "--paused" specified on the cmd line
     if (StartClockRunning)
+    {
+        // The initial time is set when KStars is first executed
+        // but until all data is loaded, some time elapsed already so we need to synchronize if no Start Date string
+        // was supplied to KStars
+        if (StartDateString.isEmpty())
+            data()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
+
         data()->clock()->start();
+    }
 
     // Connect cache function for Find dialog
     connect(data(), SIGNAL(clearCache()), this, SLOT(clearCachedFindDialog()));
@@ -783,10 +791,12 @@ void KStars::datainitFinished()
     //Show TotD
     KTipDialog::showTip(this, "kstars/tips");
 
-    //DEBUG
-    qDebug() << "The current Date/Time is: " << KStarsDateTime::currentDateTime().toString();
+    // Initial State
+    qCDebug(KSTARS) << "Date/Time is:" << data()->clock()->utc().toString();
+    qCDebug(KSTARS) << "Location:" << data()->geo()->fullName();
+    qCDebug(KSTARS) << "TZ0:" << data()->geo()->TZ0() << "TZ:" << data()->geo()->TZ();
 
-    ThemeManager::instance()->setCurrentTheme(Options::currentTheme());
+    KSTheme::Manager::instance()->setCurrentTheme(Options::currentTheme());
 }
 
 void KStars::initFocus()
@@ -906,13 +916,13 @@ void KStars::buildGUI()
 
 void KStars::populateThemes()
 {
-    ThemeManager::instance()->setThemeMenuAction(new QMenu(i18n("&Themes"), this));
-    ThemeManager::instance()->registerThemeActions(this);
+    KSTheme::Manager::instance()->setThemeMenuAction(new QMenu(i18n("&Themes"), this));
+    KSTheme::Manager::instance()->registerThemeActions(this);
 
-    connect(ThemeManager::instance(), SIGNAL(signalThemeChanged()), this, SLOT(slotThemeChanged()));
+    connect(KSTheme::Manager::instance(), SIGNAL(signalThemeChanged()), this, SLOT(slotThemeChanged()));
 }
 
 void KStars::slotThemeChanged()
 {
-    Options::setCurrentTheme(ThemeManager::instance()->currentThemeName());
+    Options::setCurrentTheme(KSTheme::Manager::instance()->currentThemeName());
 }

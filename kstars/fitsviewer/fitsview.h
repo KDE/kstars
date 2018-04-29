@@ -203,8 +203,8 @@ private:
 
     std::unique_ptr<FITSLabel> image_frame;
 
-    int image_width { 0 };
-    int image_height { 0 };
+    uint32_t image_width { 0 };
+    uint32_t image_height { 0 };
 
     /// Current width due to zoom
     uint16_t currentWidth { 0 };
