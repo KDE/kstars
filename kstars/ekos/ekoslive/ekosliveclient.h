@@ -9,26 +9,32 @@
 
 #pragma once
 
-#include <QtCore/QObject>
+#include <QDialog>
 #include <QtWebSockets/QWebSocket>
 
-class EkosLiveClient : public QObject
+#include "ui_ekoslivedialog.h"
+
+class EkosLiveClient : public QDialog, public Ui::EkosLiveDialog
 {
     Q_OBJECT
 public:
-    EkosLiveClient();
+    EkosLiveClient(QWidget *parent = nullptr);
 
     void connectToServer(const QUrl &url);
     void sendMessage(const QString &msg);
 
 signals:
-    void closed();
+    void connected();
+    void disconnected();
 
 private slots:
     void onConnected();
-    void onTextMessageReceived(QString message);
+    void onDisconnected();
+    void onTextMessageReceived(const QString &message);
+    void onBinaryMessageReceived(const QByteArray &message);
 
 private:
     QWebSocket m_webSocket;
     QUrl m_url;
+    bool isConnected { false };
 };
