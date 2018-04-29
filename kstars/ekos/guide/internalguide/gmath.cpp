@@ -61,7 +61,7 @@ typedef struct
 cgmath::cgmath() : QObject()
 {
     // sys...
-    ROT_Z            = Matrix(0);
+    ROT_Z            = Ekos::Matrix(0);
 
     // sky coord. system vars.
     star_pos        = Vector(0);
@@ -186,7 +186,7 @@ bool cgmath::setReticleParameters(double x, double y, double ang)
     if (ang >= 0)
         reticle_angle = ang;
 
-    ROT_Z = RotateZ(-M_PI * reticle_angle / 180.0); // NOTE!!! sing '-' derotates star coordinate system
+    ROT_Z = Ekos::RotateZ(-M_PI * reticle_angle / 180.0); // NOTE!!! sing '-' derotates star coordinate system
 
     reticle_orts[0] = Vector(1, 0, 0) * 100;
     reticle_orts[1] = Vector(0, 1, 0) * 100;
@@ -370,8 +370,8 @@ bool cgmath::calculateAndSetReticle2D(double start_ra_x, double start_ra_y, doub
     Vector ra_vect  = Normalize(Vector(end_ra_x - start_ra_x, -(end_ra_y - start_ra_y), 0));
     Vector dec_vect = Normalize(Vector(end_dec_x - start_dec_x, -(end_dec_y - start_dec_y), 0));
 
-    Vector try_increase = dec_vect * RotateZ(M_PI / 2);
-    Vector try_decrease = dec_vect * RotateZ(-M_PI / 2);
+    Vector try_increase = dec_vect * Ekos::RotateZ(M_PI / 2);
+    Vector try_decrease = dec_vect * Ekos::RotateZ(-M_PI / 2);
 
     double cos_increase = try_increase & ra_vect;
     double cos_decrease = try_decrease & ra_vect;

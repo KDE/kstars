@@ -18,7 +18,13 @@
 #include "ksasteroid.h"
 
 #include "dms.h"
+
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
+#endif
+
 #include "ksnumbers.h"
 #include "Options.h"
 #include <typeinfo>
@@ -210,7 +216,13 @@ void KSAsteroid::setPeriod(float per)
 bool KSAsteroid::toCalculate()
 {
     // Filter by magnitude, but draw focused asteroids anyway :)
-    return ((mag() < Options::magLimitAsteroid())|| (std::isnan(mag()) != 0) || isFocused());
+    return ((mag() < Options::magLimitAsteroid())|| (std::isnan(mag()) != 0) ||
+#ifdef KSTARS_LITE
+            SkyMapLite::Instance()->focusObject() == this
+#else
+            SkyMap::Instance()->focusObject() == this
+#endif
+            );
 }
 
 QDataStream &operator<<(QDataStream &out, const KSAsteroid &asteroid)

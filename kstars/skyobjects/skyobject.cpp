@@ -20,14 +20,17 @@
 #include "geolocation.h"
 #include "ksnumbers.h"
 #include "kspaths.h"
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "kspopupmenu.h"
+#include "skymap.h"
 #endif
 #include "kstarsdata.h"
 #include "Options.h"
 #include "starobject.h"
 #include "skycomponents/skylabeler.h"
-#include "skymap.h"
+
 
 QString SkyObject::emptyString;
 QString SkyObject::unnamedString       = QString(I18N_NOOP("unnamed"));
@@ -552,10 +555,4 @@ AuxInfo *SkyObject::getAuxInfo()
 SkyObject::UID SkyObject::getUID() const
 {
     return invalidUID;
-}
-
-// as inline
-bool SkyObject::isFocused()
-{
-    return SkyMap::Instance()->focusObject() == this;
 }

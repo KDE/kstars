@@ -72,6 +72,13 @@ void OpsAstrometry::slotUpdateScale()
     // Values in arcmins. Scale in arcsec per pixel
     alignModule->getFOVScale(fov_w, fov_h, fov_pixscale);
 
+    if (fov_w == 0 || fov_h == 0)
+    {
+        kcfg_AstrometryImageScaleLow->setValue(0);
+        kcfg_AstrometryImageScaleHigh->setValue(0);
+        return;
+    }
+
     switch (kcfg_AstrometryImageScaleUnits->currentIndex())
     {
         case SCALE_DEGREES:
@@ -127,7 +134,7 @@ void OpsAstrometry::slotApply()
     if (kcfg_AstrometryUseNoFITS2FITS->isChecked())
         optionsMap["nofits2fits"] = true;
 
-    if (kcfg_AstrometryUseImageScale->isChecked())
+    if (kcfg_AstrometryUseImageScale->isChecked() && kcfg_AstrometryImageScaleLow->value() > 0 && kcfg_AstrometryImageScaleHigh->value() > 0)
     {
         optionsMap["scaleL"]     = kcfg_AstrometryImageScaleLow->value();
         optionsMap["scaleH"]     = kcfg_AstrometryImageScaleHigh->value();

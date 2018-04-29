@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "wiequipsettings.h"
-
+#include "oal/equipmentwriter.h"
 #include "kstars.h"
 #include "Options.h"
 

@@ -15,6 +15,7 @@
 #include "fov.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksuserdb.h"
 #include "offlineastrometryparser.h"
 #include "onlineastrometryparser.h"
 #include "opsalign.h"
@@ -35,6 +36,7 @@
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
+#include "profileinfo.h"
 
 #include <basedevice.h>
 
@@ -58,7 +60,7 @@ const double Align::RAMotion = 0.5;
 // Sidereal rate, degrees/s
 const float Align::SIDRATE = 0.004178;
 
-Align::Align()
+Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 {
     setupUi(this);
     new AlignAdaptor(this);
@@ -103,6 +105,27 @@ Align::Align()
     connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
     connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
     connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
+
+    // Effective FOV Edit
+    connect(FOVOut, &QLineEdit::editingFinished, [=]()
+    {
+        if (FOVOut->isReadOnly())
+            return;
+
+        QString newFOV = FOVOut->text();
+        QRegularExpression re("(\\d+\\.*\\d*)\\D*x\\D*(\\d+\\.*\\d*)");
+        QRegularExpressionMatch match = re.match(newFOV);
+        if (match.hasMatch())
+        {
+            double newFOVW = match.captured(1).toDouble();
+            double newFOVH = match.captured(2).toDouble();
+
+            if (newFOVW > 0 && newFOVH > 0)
+                saveNewEffectiveFOV(newFOVW, newFOVH);
+        }
+        else
+            KMessageBox::error(nullptr, i18n("Invalid FOV!"));
+    });
 
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
@@ -1813,7 +1836,7 @@ void Align::setSolverType(int type)
 
     case SOLVER_REMOTE:
         loadSlewB->setEnabled(true);
-        if (remoteParser.get() != nullptr)
+        if (remoteParser.get() != nullptr && remoteParserDevice != nullptr)
         {
             parser = remoteParser.get();
             (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
@@ -2102,6 +2125,23 @@ void Align::calculateFOV()
     fov_x /= 60.0;
     fov_y /= 60.0;
 
+    QString calculatedFOV = (QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));
+    // JM 2018-04-20 Above calculations are for RAW FOV. Starting from 2.9.5, we are using EFFECTIVE FOV
+    // Which is the real FOV as measured from the plate solution. The effective FOVs are stored in the database and are unique
+    // per profile/pixel_size/focal_length combinations. It defaults to 0' x 0' and gets updated after the first successful solver is complete.
+    getEffectiveFOV();
+
+    if (fov_x == 0)
+    {
+        FOVOut->setReadOnly(false);
+        FOVOut->setToolTip(i18n("<p>Effective field of view size in arcminutes.</p><p>Please capture and solve once to measure the effective FOV or enter the values manually.</p><p>Calculated FOV: %1</p>", calculatedFOV));
+    }
+    else
+    {
+        FOVOut->setToolTip(i18n("<p>Effective field of view size in arcminutes.</p>"));
+        FOVOut->setReadOnly(true);
+    }
+
     solverFOV->setSize(fov_x, fov_y);
     sensorFOV->setSize(fov_x, fov_y);
     if (currentCCD)
@@ -2271,7 +2311,7 @@ void Align::generateArgs()
     if (Options::astrometryUseDownsample())
         optionsMap["downsample"] = Options::astrometryDownsample();
 
-    if (Options::astrometryUseImageScale())
+    if (Options::astrometryUseImageScale() && fov_x > 0 && fov_y > 0)
     {
         QString units = ImageScales[Options::astrometryImageScaleUnits()];
         if (Options::astrometryAutoUpdateImageScale())
@@ -2509,7 +2549,11 @@ bool Align::captureAndSolve()
     differentialSlewingActivated = false;
 
     state = ALIGN_PROGRESS;
-    emit newStatus(state);
+    emit newStatus(state);    
+
+    // If we're just refreshing, then we're done
+    if (pahStage == PAH_REFRESH)
+        return true;
 
     appendLogText(i18n("Capturing image..."));
 
@@ -2580,12 +2624,19 @@ void Align::newFITS(IBLOB *bp)
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
     disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
-               SLOT(checkCCDExposureProgress(ISD::CCDChip *, double, IPState)));
-
-    appendLogText(i18n("Image received."));
+               SLOT(checkCCDExposureProgress(ISD::CCDChip *, double, IPState)));    
 
     blobType     = *(static_cast<ISD::CCD::BlobType *>(bp->aux1));
     blobFileName = QString(static_cast<char *>(bp->aux2));
+
+    // If it's Refresh, we're done
+    if (pahStage == PAH_REFRESH)
+    {
+        setCaptureComplete();
+        return;
+    }
+
+    appendLogText(i18n("Image received."));
 
     if (solverTypeGroup->checkedId() != SOLVER_REMOTE)
     {
@@ -2746,7 +2797,8 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     //m_isSolverComplete = false;
     //m_isSolverSuccessful = false;
 
-    parser->verifyIndexFiles(fov_x, fov_y);
+    if (fov_x > 0)
+        parser->verifyIndexFiles(fov_x, fov_y);
 
     solverTimer.start();
 
@@ -2795,6 +2847,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                            QString::number(dec, 'g', 5), QString::number(orientation, 'g', 5),
                            QString::number(pixscale, 'g', 5)));
 
+#if 0
     if (pixscale > 0 && loadSlewState == IPS_IDLE)
     {
         double solver_focal_length = (206.264 * ccd_hor_pixel) / pixscale * binx;
@@ -2802,6 +2855,15 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             appendLogText(i18n("Current focal length is %1 mm while computed focal length from the solver is %2 mm. "
                                "Please update the mount focal length to obtain accurate results.",
                                QString::number(focal_length, 'g', 5), QString::number(solver_focal_length, 'g', 5)));
+    }
+#endif
+
+    if (fov_x == 0 && pixscale > 0)
+    {
+        double newFOVW = ccd_width * pixscale / binx / 60.0;
+        double newFOVH = ccd_height * pixscale / biny / 60.0;
+
+        saveNewEffectiveFOV(newFOVW, newFOVH);
     }
 
     alignCoord.setRA0(ra / 15.0);
@@ -5219,7 +5281,12 @@ void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
     remoteSolverR->setEnabled(true);
 
     if (remoteParser.get() != nullptr)
+    {
         remoteParser->setAstrometryDevice(remoteParserDevice);
+        connect(remoteParser.get(), SIGNAL(solverFinished(double,double,double,double)), this,
+                SLOT(solverFinished(double,double,double,double)), Qt::UniqueConnection);
+        connect(remoteParser.get(), SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
+    }
 }
 
 void Align::setRotator(ISD::GDInterface *newRotator)
@@ -5284,6 +5351,60 @@ void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
 
     connect(filterManager.data(), &FilterManager::labelsChanged, this, [this]() { checkFilter(); });
     connect(filterManager.data(), &FilterManager::positionChanged, this, [this]() { checkFilter();});
+}
+
+QVariantMap Align::getEffectiveFOV()
+{
+    KStarsData::Instance()->userdb()->GetAllEffectiveFOVs(effectiveFOVs);
+
+    fov_x = fov_y = 0;
+
+    for (auto &map : effectiveFOVs)
+    {
+        if (map["Profile"].toString() == m_ActiveProfile->name)
+        {
+            if (map["Width"].toInt() == ccd_width &&
+                map["Height"].toInt() == ccd_height &&
+                map["PixelW"].toDouble() == ccd_hor_pixel &&
+                map["PixelH"].toDouble() == ccd_ver_pixel &&
+                map["FocalLength"].toDouble() == focal_length)
+            {
+                fov_x = map["FovW"].toDouble();
+                fov_y = map["FovH"].toDouble();
+                return map;
+            }
+        }
+    }
+
+    return QVariantMap();
+}
+
+void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
+{
+    if (newFOVW <= 0 || newFOVH <= 0 || (newFOVW == fov_x && newFOVH == fov_y))
+        return;
+
+    QVariantMap effectiveMap = getEffectiveFOV();
+
+    if (effectiveMap.isEmpty() == false)
+        KStarsData::Instance()->userdb()->DeleteEffectiveFOV(effectiveMap["id"].toString());
+    // Adding new map if FOV is different
+    else
+    {
+        effectiveMap["Profile"] = m_ActiveProfile->name;
+        effectiveMap["Width"] = ccd_width;
+        effectiveMap["Height"] = ccd_height;
+        effectiveMap["PixelW"] = ccd_hor_pixel;
+        effectiveMap["PixelH"] = ccd_ver_pixel;
+        effectiveMap["FocalLength"] = focal_length;
+        effectiveMap["FovW"] = newFOVW;
+        effectiveMap["FovH"] = newFOVH;
+    }
+
+    KStarsData::Instance()->userdb()->AddEffectiveFOV(effectiveMap);
+
+    calculateFOV();
+
 }
 
 }

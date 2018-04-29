@@ -4,9 +4,9 @@ add_subdirectory( htmesh )
 
 if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
     SET(HAVE_KF5WIT 1)
-    if(NOT BUILD_KSTARS_LITE)
-        add_subdirectory( tools/whatsinteresting/qml)
-    endif(NOT BUILD_KSTARS_LITE)
+#    if(NOT BUILD_KSTARS_LITE)
+#        add_subdirectory( tools/whatsinteresting/qml)
+#    endif(NOT BUILD_KSTARS_LITE)
 else()
     SET(HAVE_KF5WIT 0)
 endif()
@@ -58,9 +58,6 @@ if(NOT BUILD_KSTARS_LITE)
             )
 
         set (fits_SRCS
-            fitsviewer/fitshistogram.cpp
-            fitsviewer/fitsdata.cpp
-            fitsviewer/fitsview.cpp
             fitsviewer/fitslabel.cpp
             fitsviewer/fitsviewer.cpp
             fitsviewer/fitstab.cpp
@@ -72,8 +69,11 @@ if(NOT BUILD_KSTARS_LITE)
         set(fits_SRCS ${fits_SRCS} fitsviewer/starprofileviewer.cpp)
         endif()
 
-        set (fits_bayer_SRCS
+        set (fits2_SRCS
             fitsviewer/bayer.c
+            fitsviewer/fitshistogram.cpp
+            fitsviewer/fitsdata.cpp
+            fitsviewer/fitsview.cpp
             )
         set (fitsui_SRCS
             fitsviewer/fitsheaderdialog.ui
@@ -90,7 +90,14 @@ if(NOT BUILD_KSTARS_LITE)
 endif(NOT BUILD_KSTARS_LITE)
 
 IF (CFITSIO_FOUND AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
-    SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+    IF (SANITIZERS)
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -fno-sanitize=address,undefined -fomit-frame-pointer")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsdata.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitshistogram.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsview.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
+    ELSE ()
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+    ENDIF ()
     SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/analyse.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
     SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-pointer-arith")
     SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/background.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
@@ -105,7 +112,7 @@ if (INDI_FOUND)
             set (fits_SRCS
                 fitsviewer/fitsdata.cpp
                 )
-            set (fits_bayer_SRCS
+            set (fits2_SRCS
                 fitsviewer/bayer.c
                 )
                 include_directories(${CFITSIO_INCLUDE_DIR})
@@ -903,7 +910,7 @@ IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstars kstars_SRCS 10 cpp)
 ENDIF ()
 
-set(kstars_SRCS ${kstars_SRCS} ${fits_bayer_SRCS} ${sep_SRCS} ${hips_manager_SRCS} ${kstarslite_libtess_SRC})
+set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${hips_manager_SRCS} ${kstarslite_libtess_SRC})
 
 if(NOT BUILD_KSTARS_LITE)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
@@ -1112,9 +1119,9 @@ if(NOT BUILD_KSTARS_LITE)
     install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
     install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
     if(INDI_FOUND)
-    install(FILES ekos/mount/mountbox.qml DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml)
-    install(DIRECTORY ekos/mount/ DESTINATION ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml
-            FILES_MATCHING PATTERN "*.png")
+    #install(FILES ekos/mount/mountbox.qml DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml)
+    #install(DIRECTORY ekos/mount/ DESTINATION ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml
+    #        FILES_MATCHING PATTERN "*.png")
     endif()
 elseif (NOT ANDROID)
     install(TARGETS kstars_lite ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

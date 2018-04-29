@@ -31,6 +31,8 @@
 #include "dialogs/locationdialog.h"
 #include "dialogs/timedialog.h"
 #include "oal/execute.h"
+#include "oal/equipmentwriter.h"
+#include "oal/observeradd.h"
 #include "options/opsadvanced.h"
 #include "options/opscatalog.h"
 #include "options/opscolors.h"

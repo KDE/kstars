@@ -24,7 +24,9 @@
 #include "skyobjects/skypoint.h"
 
 #include <KLocalizedString>
+#include <QDoubleValidator>
 #include <KMessageBox>
+#include <QPushButton>
 
 #include <QVBoxLayout>
 

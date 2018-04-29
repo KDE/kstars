@@ -614,6 +614,16 @@
           </column>
           <column>
            <property name="text">
+            <string>Captures</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Score</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>Start Time</string>
            </property>
           </column>
@@ -721,6 +731,16 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="jobStatus">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Idle</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -1096,6 +1116,9 @@
             </property>
             <property name="maximum">
              <number>1000</number>
+            </property>
+            <property name="value">
+             <number>1</number>
             </property>
            </widget>
           </item>

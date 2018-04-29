@@ -31,7 +31,7 @@ class OAL::Filter
 {
   public:
     Filter(const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &color,
-           double exposure, int offset, bool useAutoFocus, const QString &lockedFilter);
+           double exposure, int offset, bool useAutoFocus, const QString &lockedFilter, int absFocusPosition);
 
     QString id() const { return m_Id; }
     QString name() const { return m_Name; }
@@ -53,10 +53,14 @@ class OAL::Filter
     bool useAutoFocus() const { return m_UseAutoFocus; }
     void setUseAutoFocus(bool enabled) { m_UseAutoFocus = enabled; }
 
+    int absoluteFocusPosition() { return m_AbsoluteFocusPosition; }
+    void setAbsoluteFocusPosition(int newAbsFocusPos) { m_AbsoluteFocusPosition = newAbsFocusPos; }
+
   private:
     QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name, m_LockedFilter;
-    int m_Offset = { 0 };
-    double m_Exposure = { 1.0 };
-    bool m_UseAutoFocus;
+    int m_Offset { 0 };
+    int m_AbsoluteFocusPosition { 0 };
+    double m_Exposure { 1.0 };
+    bool m_UseAutoFocus { false };
 };
 #endif

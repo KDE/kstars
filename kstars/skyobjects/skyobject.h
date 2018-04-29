@@ -369,13 +369,7 @@ class SkyObject : public SkyPoint
      */
     virtual UID getUID() const;
 
-    // TODO: (Valentin) have another think about onFocus handlers :)
-
-    /**
-     * @brief isFocused
-     * @return returns true, if the oject is focused in the skymap
-     */
-    bool isFocused();
+    // TODO: (Valentin) have another think about onFocus handlers :)    
 
     /**
      * @brief hashBeenUpdated

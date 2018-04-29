@@ -19,9 +19,12 @@
 #include <KActionCollection>
 #include <KMessageBox>
 
+#include <QApplication>
 #include <QSplitter>
 #include <QTextEdit>
+#include <QPushButton>
 #include <QThread>
+#include <QAction>
 
 extern const char *libindi_strings_context;
 

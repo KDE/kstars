@@ -71,17 +71,18 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
     connect(ui->minEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
     connect(ui->maxEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
     connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(checkRangeLimit(QCPRange)));
-
-    constructHistogram();
 }
 
-FITSHistogram::~FITSHistogram()
+void FITSHistogram::showEvent(QShowEvent *)
 {
+   syncGUI();
 }
 
 void FITSHistogram::constructHistogram()
 {
     FITSData *image_data = tab->getView()->getImageData();
+
+    isGUISynced = false;
 
     switch (image_data->getDataType())
     {
@@ -120,6 +121,9 @@ void FITSHistogram::constructHistogram()
         default:
             break;
     }
+
+    if (isVisible())
+        syncGUI();
 }
 
 template <typename T>
@@ -153,10 +157,10 @@ void FITSHistogram::constructHistogram()
 
     if (image_data->getNumOfChannels() == 1)
     {
-        for (uint32_t i = 0; i < samples; i++)
+        for (uint32_t i = 0; i < samples; i += 4)
         {
             r_id = round((buffer[i] - fits_min) / binWidth);
-            r_frequency[r_id >= binCount ? binCount - 1 : r_id]++;
+            r_frequency[r_id >= binCount ? binCount - 1 : r_id] += 4;
         }
     }
     else
@@ -166,22 +170,180 @@ void FITSHistogram::constructHistogram()
 
         int g_offset = samples;
         int b_offset = samples * 2;
-        for (uint32_t i = 0; i < samples; i++)
+        for (uint32_t i = 0; i < samples; i += 4)
         {
             uint16_t g_id = 0, b_id = 0;
 
             r_id = round((buffer[i] - fits_min) / binWidth);
-            r_frequency[r_id >= binCount ? binCount - 1 : r_id]++;
+            r_frequency[r_id >= binCount ? binCount - 1 : r_id] += 4;
 
             g_id = round((buffer[i + g_offset] - fits_min) / binWidth);
-            g_frequency[g_id >= binCount ? binCount - 1 : g_id]++;
+            g_frequency[g_id >= binCount ? binCount - 1 : g_id] += 4;
 
             b_id = round((buffer[i + b_offset] - fits_min) / binWidth);
-            b_frequency[b_id >= binCount ? binCount - 1 : b_id]++;
+            b_frequency[b_id >= binCount ? binCount - 1 : b_id] += 4;
         }
     }
 
-    // Cumuliative Frequency
+    // Cumulative Frequency
+    for (int i = 0; i < binCount; i++)
+        for (int j = 0; j <= i; j++)
+            cumulativeFrequency[i] += r_frequency[j];
+
+    if (image_data->getNumOfChannels() == 1)
+    {
+        for (int i = 0; i < binCount; i++)
+        {
+            if (r_frequency[i] > maxFrequency)
+                maxFrequency = r_frequency[i];
+        }
+    }
+    else
+    {
+        for (int i = 0; i < binCount; i++)
+        {
+            if (r_frequency[i] > maxFrequency)
+                maxFrequency = r_frequency[i];
+            if (g_frequency[i] > maxFrequency)
+                maxFrequency = g_frequency[i];
+            if (b_frequency[i] > maxFrequency)
+                maxFrequency = b_frequency[i];
+        }
+    }
+
+    double median      = 0;
+    int halfCumulative = cumulativeFrequency[binCount - 1] / 2;
+    for (int i = 0; i < binCount; i++)
+    {
+        if (cumulativeFrequency[i] >= halfCumulative)
+        {
+            median = i * binWidth + fits_min;
+            break;
+        }
+    }
+
+    // Custom index to indicate the overall constrast of the image
+    JMIndex = cumulativeFrequency[binCount / 8] / cumulativeFrequency[binCount / 4];
+    qCDebug(KSTARS_FITS) << "FITHistogram: JMIndex " << JMIndex;
+
+    image_data->setMedian(median);    
+}
+
+void FITSHistogram::syncGUI()
+{
+    if (isGUISynced)
+        return;
+
+    FITSData *image_data = tab->getView()->getImageData();
+
+    ui->meanEdit->setText(QString::number(image_data->getMean()));
+    ui->medianEdit->setText(QString::number(image_data->getMedian()));
+
+    ui->minEdit->setMinimum(fits_min);
+    ui->minEdit->setMaximum(fits_max - 1);
+    ui->minEdit->setSingleStep(fabs(fits_max - fits_min) / 20.0);
+    ui->minEdit->setValue(fits_min);
+
+    ui->maxEdit->setMinimum(fits_min + 1);
+    ui->maxEdit->setMaximum(fits_max);
+    ui->maxEdit->setSingleStep(fabs(fits_max - fits_min) / 20.0);
+    ui->maxEdit->setValue(fits_max);
+
+    r_graph->setData(intensity, r_frequency);
+    if (image_data->getNumOfChannels() > 1)
+    {
+        g_graph = customPlot->addGraph();
+        b_graph = customPlot->addGraph();
+
+        g_graph->setBrush(QBrush(QColor(40, 170, 80)));
+        b_graph->setBrush(QBrush(QColor(80, 40, 170)));
+
+        g_graph->setPen(QPen(Qt::green));
+        b_graph->setPen(QPen(Qt::blue));
+
+        g_graph->setData(intensity, g_frequency);
+        b_graph->setData(intensity, b_frequency);
+    }
+
+    customPlot->axisRect(0)->setRangeDrag(Qt::Horizontal);
+    customPlot->axisRect(0)->setRangeZoom(Qt::Horizontal);
+
+    customPlot->xAxis->setLabel(i18n("Intensity"));
+    customPlot->yAxis->setLabel(i18n("Frequency"));
+
+    customPlot->xAxis->setRange(fits_min, fits_max);
+    if (maxFrequency > 0)
+        customPlot->yAxis->setRange(0, maxFrequency);
+
+    customPlot->setInteraction(QCP::iRangeDrag, true);
+    customPlot->setInteraction(QCP::iRangeZoom, true);
+    customPlot->setInteraction(QCP::iSelectPlottables, true);
+
+    customPlot->replot();
+
+    isGUISynced = true;
+}
+#if 0
+template <typename T>
+void FITSHistogram::constructHistogram()
+{
+    uint16_t fits_w = 0, fits_h = 0;
+    FITSData *image_data = tab->getView()->getImageData();
+
+    T *buffer = reinterpret_cast<T *>(image_data->getImageBuffer());
+
+    image_data->getDimensions(&fits_w, &fits_h);
+    image_data->getMinMax(&fits_min, &fits_max);
+
+    uint32_t samples = fits_w * fits_h;
+
+    binCount = sqrt(samples);
+
+    intensity.fill(0, binCount);
+    r_frequency.fill(0, binCount);
+    cumulativeFrequency.fill(0, binCount);
+
+    double pixel_range = fits_max - fits_min;
+    binWidth           = pixel_range / (binCount - 1);
+
+    qCDebug(KSTARS_FITS) << "Histogram min:" << fits_min << ", max:" << fits_max << ", range:" << pixel_range << ", binW:" << binWidth << ", bin#:" << binCount;
+
+    for (int i = 0; i < binCount; i++)
+        intensity[i] = fits_min + (binWidth * i);
+
+    uint16_t r_id = 0;
+
+    if (image_data->getNumOfChannels() == 1)
+    {
+        for (uint32_t i = 0; i < samples; i += 4)
+        {
+            r_id = round((buffer[i] - fits_min) / binWidth);
+            r_frequency[r_id >= binCount ? binCount - 1 : r_id] += 4;
+        }
+    }
+    else
+    {
+        g_frequency.fill(0, binCount);
+        b_frequency.fill(0, binCount);
+
+        int g_offset = samples;
+        int b_offset = samples * 2;
+        for (uint32_t i = 0; i < samples; i += 4)
+        {
+            uint16_t g_id = 0, b_id = 0;
+
+            r_id = round((buffer[i] - fits_min) / binWidth);
+            r_frequency[r_id >= binCount ? binCount - 1 : r_id] += 4;
+
+            g_id = round((buffer[i + g_offset] - fits_min) / binWidth);
+            g_frequency[g_id >= binCount ? binCount - 1 : g_id] += 4;
+
+            b_id = round((buffer[i + b_offset] - fits_min) / binWidth);
+            b_frequency[b_id >= binCount ? binCount - 1 : b_id] += 4;
+        }
+    }
+
+    // Cumulative Frequency
     for (int i = 0; i < binCount; i++)
         for (int j = 0; j <= i; j++)
             cumulativeFrequency[i] += r_frequency[j];
@@ -270,7 +432,7 @@ void FITSHistogram::constructHistogram()
 
     customPlot->replot();
 }
-
+#endif
 void FITSHistogram::updateLimits(double value)
 {
     if (sender() == ui->minEdit)
@@ -521,7 +683,7 @@ void FITSHistogramCommand::redo()
             }
 
             memcpy(buffer, image_buffer, size * channels * BBP);
-            float dataMin = min, dataMax = max;
+            double dataMin = min, dataMax = max;
 
             switch (type)
             {

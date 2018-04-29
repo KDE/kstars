@@ -15,6 +15,7 @@
  ***************************************************************************/
 
 #include <KConfigDialog>
+#include <QPushButton>
 
 #include "opsguides.h"
 #include "ksfilereader.h"
@@ -32,6 +33,7 @@ OpsGuides::OpsGuides() : QFrame(KStars::Instance())
         kcfg_SkyCulture->addItem(i18nc("Sky Culture", item.toUtf8().constData()));
 
     m_ConfigDialog = KConfigDialog::exists("settings");
+
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 

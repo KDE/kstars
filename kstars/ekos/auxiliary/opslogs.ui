@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>454</width>
-    <height>283</height>
+    <height>284</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -78,16 +78,6 @@
         </property>
        </widget>
       </item>
-      <item row="10" column="5" colspan="2">
-       <widget class="QCheckBox" name="kcfg_INDICCDLogging">
-        <property name="text">
-         <string>CCD</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">driversGroup</string>
-        </attribute>
-       </widget>
-      </item>
       <item row="7" column="5" colspan="2">
        <widget class="QCheckBox" name="kcfg_GuideLogging">
         <property name="toolTip">
@@ -108,6 +98,19 @@
         </property>
         <attribute name="buttonGroup">
          <string notr="true">driversGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="7" column="2" colspan="3">
+       <widget class="QCheckBox" name="kcfg_AlignmentLogging">
+        <property name="toolTip">
+         <string>Log Ekos Alignment module activity</string>
+        </property>
+        <property name="text">
+         <string>Alignment</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">modulesGroup</string>
         </attribute>
        </widget>
       </item>
@@ -157,16 +160,13 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="2" colspan="3">
-       <widget class="QCheckBox" name="kcfg_AlignmentLogging">
-        <property name="toolTip">
-         <string>Log Ekos Alignment module activity</string>
-        </property>
+      <item row="10" column="9" colspan="3">
+       <widget class="QCheckBox" name="kcfg_INDIFilterWheelLogging">
         <property name="text">
-         <string>Alignment</string>
+         <string>Filter Wheel</string>
         </property>
         <attribute name="buttonGroup">
-         <string notr="true">modulesGroup</string>
+         <string notr="true">driversGroup</string>
         </attribute>
        </widget>
       </item>
@@ -177,13 +177,19 @@
         </property>
        </widget>
       </item>
-      <item row="10" column="9" colspan="3">
-       <widget class="QCheckBox" name="kcfg_INDIFilterWheelLogging">
+      <item row="0" column="8" colspan="3">
+       <widget class="QRadioButton" name="kcfg_DisableLogging">
+        <property name="toolTip">
+         <string>Disable all logging output</string>
+        </property>
         <property name="text">
-         <string>Filter Wheel</string>
+         <string>&amp;Disable</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
         </property>
         <attribute name="buttonGroup">
-         <string notr="true">driversGroup</string>
+         <string notr="true">verbosityButtonGroup</string>
         </attribute>
        </widget>
       </item>
@@ -250,7 +256,7 @@
         </attribute>
        </widget>
       </item>
-      <item row="10" column="1" rowspan="3">
+      <item row="10" column="1" rowspan="4">
        <widget class="QLabel" name="label_9">
         <property name="toolTip">
          <string>Have problems with INDI drivers? Turn on logging for drivers that exhibit issues.</string>
@@ -290,22 +296,6 @@
         </property>
         <attribute name="buttonGroup">
          <string notr="true">driversGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="0" column="8" colspan="3">
-       <widget class="QRadioButton" name="kcfg_DisableLogging">
-        <property name="toolTip">
-         <string>Disable all logging output</string>
-        </property>
-        <property name="text">
-         <string>&amp;Disable</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">verbosityButtonGroup</string>
         </attribute>
        </widget>
       </item>
@@ -369,6 +359,40 @@
         <attribute name="buttonGroup">
          <string notr="true">modulesGroup</string>
         </attribute>
+       </widget>
+      </item>
+      <item row="10" column="5">
+       <widget class="QCheckBox" name="kcfg_INDICCDLogging">
+        <property name="text">
+         <string>CCD</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="13" column="5">
+       <widget class="QCheckBox" name="kcfg_INDIGPSLogging">
+        <property name="text">
+         <string>GPS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="2">
+       <widget class="QCheckBox" name="kcfg_INDIRotatorLogging">
+        <property name="text">
+         <string>Rotator</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="7">
+       <widget class="QCheckBox" name="kcfg_INDIAOLogging">
+        <property name="toolTip">
+         <string>Adaptive Optics</string>
+        </property>
+        <property name="text">
+         <string>AO</string>
+        </property>
        </widget>
       </item>
      </layout>
@@ -439,7 +463,8 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset theme="edit-delete"/>
+        <iconset theme="edit-delete">
+         <normaloff>.</normaloff>.</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -455,16 +480,17 @@
  </widget>
  <resources>
   <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
   <buttongroup name="verbosityButtonGroup"/>
-  <buttongroup name="driversGroup">
+  <buttongroup name="modulesGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="modulesGroup">
+  <buttongroup name="driversGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>

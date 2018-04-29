@@ -34,6 +34,7 @@ class QProgressIndicator;
 class AlignView;
 class FOV;
 class StarObject;
+class ProfileInfo;
 
 namespace Ekos
 {
@@ -64,7 +65,7 @@ class Align : public QWidget, public Ui::Align
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Align")
 
   public:
-    Align();
+    explicit Align(ProfileInfo *activeProfile);
     virtual ~Align();
 
     typedef enum {
@@ -561,6 +562,16 @@ class Align : public QWidget, public Ui::Align
     int findClosestAlignmentPointToTelescope();
     void swapAlignPoints(int firstPt, int secondPt);
 
+    // Effective FOV
+
+    /**
+     * @brief getEffectiveFOV Search database for effective FOV that matches the current profile and settings
+     * @return Variant Map containing effect FOV data or empty variant map if none found
+     */
+    QVariantMap getEffectiveFOV();
+    void saveNewEffectiveFOV(double newFOVW, double newFOVH);
+    QList<QVariantMap> effectiveFOVs;
+
     /// Which chip should we invoke in the current CCD?
     bool useGuideHead { false };
     /// Can the mount sync its coordinates to those set by Ekos?
@@ -743,5 +754,8 @@ class Align : public QWidget, public Ui::Align
 
     // Filter Manager
     QSharedPointer<FilterManager> filterManager;
+
+    // Active Profile
+    ProfileInfo *m_ActiveProfile { nullptr };
 };
 }

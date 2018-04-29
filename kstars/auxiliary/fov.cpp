@@ -206,6 +206,10 @@ FOV::FOV()
 
 void FOV::draw(QPainter &p, float zoomFactor)
 {
+    // Do not draw empty FOVs
+    if (m_sizeX == 0 || m_sizeY == 0)
+        return;
+
     p.setPen(QColor(color()));
     p.setBrush(Qt::NoBrush);
 

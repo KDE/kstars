@@ -174,12 +174,16 @@
          <whatsthis>Show INDI messages as desktop notifications instead of dialogs.</whatsthis>
          <default>false</default>
       </entry>
-      <entry name="useComputerSource" type="Bool">
-         <label>Use computer time and location for synchronization?</label>
+      <entry name="useKStarsSource" type="Bool">
+         <label>Use KStars time and location for synchronization?</label>
          <default>true</default>
       </entry>
-      <entry name="useDeviceSource" type="Bool">
-         <label>Use device time and location for synchronization?</label>
+      <entry name="useMountSource" type="Bool">
+         <label>Use mount time and location for synchronization?</label>
+         <default>false</default>
+      </entry>
+      <entry name="useGPSSource" type="Bool">
+         <label>Use GPS time and location for synchronization?</label>
          <default>false</default>
       </entry>
       <entry name="fitsDir" type="String">
@@ -257,6 +261,18 @@
       </entry>
       <entry name="INDIAuxiliaryLogging" type="Bool">
          <label>Enable INDI Auxiliary logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDIRotatorLogging" type="Bool">
+         <label>Enable INDI Rotator logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDIGPSLogging" type="Bool">
+         <label>Enable INDI GPS logging</label>
+         <default>false</default>
+      </entry>
+      <entry name="INDIAOLogging" type="Bool">
+         <label>Enable INDI Adaptive Optics logging</label>
          <default>false</default>
       </entry>
    </group>
@@ -1571,6 +1587,10 @@
          <label>When starting a new capture job, check if files were previously captured and resume capture afterwards.</label>
          <default>true</default>
       </entry>
+      <entry name="FlatSyncFocus" type="Bool">
+         <label>Capture flat frames at the same focus position of light frames.</label>
+         <default>false</default>
+      </entry>
       <entry name="HFRThresholdPercentage" type="Double">
          <label>Increase autofocus HFR value by this percentage gain and store it in Capture Module.</label>
          <default>2.5</default>
@@ -2101,6 +2121,10 @@
       <entry name="ResetMountModelBeforeJob" type="Bool">
          <label>Reset mount model before starting each job.</label>
          <default>false</default>
+      </entry>
+      <entry name="ResetGuideCalibration" type="Bool">
+         <label>Always Reset guiding calibration before starting each job.</label>
+         <default>true</default>
       </entry>
       <entry name="PreemptiveShutdownTime" type="Double">
          <label>Maximum number of hours before the next job is due to trigger a pre-emptive shutdown.</label>

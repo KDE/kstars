@@ -245,7 +245,7 @@ class FITSData
 #endif
 
     // Filter
-    void applyFilter(FITSScale type, uint8_t *image = nullptr, float *min = nullptr, float *max = nullptr);
+    void applyFilter(FITSScale type, uint8_t *image = nullptr, double *min = nullptr, double *max = nullptr);
 
     // Rotation counter. We keep count to rotate WCS keywords on save
     int getRotCounter() const;
@@ -294,7 +294,7 @@ class FITSData
 
     // Apply Filter
     template <typename T>
-    void applyFilter(FITSScale type, uint8_t *targetImage, float image_min, float image_max);
+    void applyFilter(FITSScale type, uint8_t *targetImage, double image_min, double image_max);
     // Star Detect - Centroid
     template <typename T>
     int findCentroid(const QRect &boundary, int initStdDev, int minEdgeWidth);
@@ -306,9 +306,15 @@ class FITSData
 
     template <typename T>
     void calculateMinMax();
+
+    template <typename T>
+    QPair<T,T> getParitionMinMax(uint32_t start, uint32_t stride);
+
     /* Calculate running average & standard deviation using Welford’s method for computing variance */
     template <typename T>
     void runningAverageStdDev();
+    template <typename T>
+    QPair<double,double> getSquaredSumAndMean(uint32_t start, uint32_t stride);
 
     // Sobel detector by Gonzalo Exequiel Pedone
     template <typename T>
@@ -336,7 +342,7 @@ class FITSData
     /// FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
     int data_type { 0 };
     /// Number of channels
-    int channels { 1 };
+    uint8_t channels { 1 };
     /// Generic data image buffer
     uint8_t *imageBuffer { nullptr };
 

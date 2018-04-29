@@ -54,7 +54,7 @@ OpsColors::OpsColors() : QFrame(KStars::Instance())
     setupUi(this);
 
     //Populate list of Application Themes
-    ThemeManager::instance()->populateThemeQListWidget(themesWidget);
+    KSTheme::Manager::instance()->populateThemeQListWidget(themesWidget);
     connect(themesWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotChangeTheme(QListWidgetItem*)));
 
     //Populate list of adjustable colors
@@ -128,7 +128,7 @@ OpsColors::~OpsColors()
 
 void OpsColors::slotChangeTheme(QListWidgetItem *item)
 {
-    ThemeManager::instance()->setCurrentTheme(item->text());
+    KSTheme::Manager::instance()->setCurrentTheme(item->text());
 }
 
 void OpsColors::newColor(QListWidgetItem *item)

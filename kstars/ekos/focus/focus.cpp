@@ -369,9 +369,10 @@ void Focus::checkCCD(int ccdNum)
                 ISOCombo->setCurrentIndex(targetChip->getISOIndex());
             }
 
-            gainLabel->setEnabled(currentCCD->hasGain());
-            gainIN->setEnabled(currentCCD->hasGain());
-            if (gainIN->isEnabled())
+            bool hasGain = currentCCD->hasGain();
+            gainLabel->setEnabled(hasGain);
+            gainIN->setEnabled(hasGain && currentCCD->getPermission("CCD_GAIN") != IP_RO);
+            if (hasGain)
             {
                 double gain = 0, min = 0, max = 0, step = 1;
                 currentCCD->getGainMinMaxStep(&min, &max, &step);
@@ -816,6 +817,12 @@ void Focus::stop(bool aborted)
 
 void Focus::capture()
 {
+    if (captureInProgress)
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Capture called while already in progress. Capture is ignored.";
+        return;
+    }
+
     if (currentCCD == nullptr)
     {
         appendLogText(i18n("No CCD connected."));
@@ -2064,6 +2071,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         {
             currentPosition = pos->value;
             absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+            emit absolutePositionChanged(currentPosition);
         }
 
         if (adjustFocus && nvp->s == IPS_OK)
@@ -2106,6 +2114,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         {
             currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
             absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+            emit absolutePositionChanged(currentPosition);
         }
 
         if (adjustFocus && nvp->s == IPS_OK)
@@ -2652,14 +2661,21 @@ void Focus::showFITSViewer()
     }
 }
 
-void Focus::adjustRelativeFocus(int16_t offset)
+void Focus::adjustFocusOffset(int value, bool useAbsoluteOffset)
 {
     adjustFocus = true;
 
-    if (offset > 0)
-        focusOut(offset);
+    int relativeOffset = 0;
+
+    if (useAbsoluteOffset == false)
+        relativeOffset = value;
     else
-        focusIn(abs(offset));
+        relativeOffset = value - currentPosition;
+
+    if (relativeOffset > 0)
+        focusOut(relativeOffset);
+    else
+        focusIn(abs(relativeOffset));
 }
 
 void Focus::toggleFocusingWidgetFullScreen()
@@ -2828,6 +2844,14 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
          abort();
     }
     );
+
+    connect(this, &Focus::newStatus, [this](Ekos::FocusState state)
+    {
+        if (FilterPosCombo->currentIndex() != -1 && canAbsMove && state == Ekos::FOCUS_COMPLETE)
+        {
+            filterManager->setFilterAbsoluteFocusPosition(FilterPosCombo->currentIndex(), currentPosition);
+        }
+    });
 
     connect(exposureIN, &QDoubleSpinBox::editingFinished, [this]()
     {

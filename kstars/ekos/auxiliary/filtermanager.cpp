@@ -70,7 +70,7 @@ void FilterManager::refreshFilterModel()
     if (filterModel->rowCount() == 0)
     {
         for (QString filter : m_currentFilterLabels)
-            KStarsData::Instance()->userdb()->AddFilter(vendor, "", "", filter, 0, 1.0, false, "--");
+            KStarsData::Instance()->userdb()->AddFilter(vendor, "", "", filter, 0, 1.0, false, "--", 0);
 
         // Seems ->select() is not enough, have to create a new model.
         delete (filterModel);
@@ -163,7 +163,8 @@ void FilterManager::reloadFilters()
         int offset        = record.value("Offset").toInt();
         QString lockedFilter  = record.value("LockedFilter").toString();
         bool useAutoFocus = record.value("UseAutoFocus").toInt() == 1;
-        OAL::Filter *o    = new OAL::Filter(id, model, vendor, type, color, exposure, offset, useAutoFocus, lockedFilter);
+        int absFocusPos   = record.value("AbsoluteFocusPosition").toInt();
+        OAL::Filter *o    = new OAL::Filter(id, model, vendor, type, color, exposure, offset, useAutoFocus, lockedFilter, absFocusPos);
         m_ActiveFilters.append(o);
     }
 }
@@ -446,7 +447,7 @@ bool FilterManager::executeOperationQueue()
             actionRequired = false;
         else
         {
-            emit newFocusOffset(targetFilterOffset);
+            emit newFocusOffset(targetFilterOffset, false);
             emit newStatus(state);
         }
     }
@@ -522,6 +523,26 @@ bool FilterManager::setFilterExposure(int index, double exposure)
      return false;
 }
 
+bool FilterManager::setFilterAbsoluteFocusPosition(int index, int absFocusPos)
+{
+    if (index < 0 || index >= m_currentFilterLabels.count())
+        return false;
+
+    QString color = m_currentFilterLabels[index];
+    for (int i=0; i < m_ActiveFilters.count(); i++)
+    {
+        if (color == m_ActiveFilters[i]->color())
+        {
+            filterModel->setData(filterModel->index(i, 9), absFocusPos);
+            filterModel->submitAll();
+            refreshFilterModel();
+            return true;
+        }
+    }
+
+    return false;
+}
+
 QString FilterManager::getFilterLock(const QString &name) const
 {
     // Search for locked filter by filter color name
@@ -577,5 +598,29 @@ void FilterManager::setFocusStatus(Ekos::FocusState focusState)
 
         }
     }
+}
+
+bool FilterManager::syncAbsoluteFocusPosition(int index)
+{
+    if (index < 0 || index > m_ActiveFilters.count())
+    {
+        qCWarning(KSTARS_INDI) << __FUNCTION__ << "index" << index << "is out of bounds.";
+        return false;
+    }
+
+    int absFocusPos = m_ActiveFilters[index]->absoluteFocusPosition();
+
+    if (m_FocusAbsPosition == absFocusPos)
+    {
+        m_FocusAbsPositionPending = false;
+        return true;
+    }
+    else if (m_FocusAbsPositionPending == false)
+    {
+        m_FocusAbsPositionPending = true;
+        emit newFocusOffset(absFocusPos, true);
+    }
+
+    return false;
 }
 }

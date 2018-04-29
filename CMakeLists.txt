@@ -2,7 +2,7 @@ PROJECT(kstars CXX C)
 
 set (KStars_VERSION_MAJOR 2)
 set (KStars_VERSION_MINOR 9)
-set (KStars_VERSION_REVISION 3)
+set (KStars_VERSION_REVISION 5)
 set (CMAKE_CXX_STANDARD 11)
 #Build KStars Lite with -DKSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
@@ -169,7 +169,7 @@ if (ANDROID)
     set(INDI_INCLUDE_DIR ${CMAKE_BINARY_DIR}/android/indi/libindi/libs/indibase ${CMAKE_BINARY_DIR}/android/indi/libindi ${CMAKE_BINARY_DIR}/android/indi/libindi/libs)
     set(INDI_CLIENT_ANDROID_LIBRARIES ${CMAKE_BINARY_DIR}/android/indi/libindi/libindiclientqt.a)
 else ()
-    find_package(INDI 1.6.1)
+    find_package(INDI 1.7.1)
 endif ()
 MACRO_BOOL_TO_01(INDI_FOUND HAVE_INDI)
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "http://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
@@ -213,8 +213,7 @@ MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
 
 ## Astrometry.net
 find_package(AstrometryNet)
-MACRO_BOOL_TO_01(ASTROMETRYNET_FOUND HAVE_ASTROMETRYNET)
-set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE OPTIONAL PURPOSE "Support for plate solving in KStars.")
+set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE RUNTIME PURPOSE "Support for plate solving in KStars.")
 
 ## OpenGL
 find_package(OpenGL)

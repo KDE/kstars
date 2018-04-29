@@ -25,6 +25,7 @@
 #include "ui_fitsheaderdialog.h"
 #include "ui_statform.h"
 
+#include <QtConcurrent>
 #include <KMessageBox>
 
 FITSTab::FITSTab(FITSViewer *parent) : QWidget()
@@ -38,7 +39,9 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget()
 
 FITSTab::~FITSTab()
 {
-    disconnect(0, 0, 0);
+    // Make sure it's done
+    histogramFuture.waitForFinished();
+    //disconnect();
 }
 
 void FITSTab::saveUnsaved()
@@ -49,7 +52,7 @@ void FITSTab::saveUnsaved()
     QString caption = i18n("Save Changes to FITS?");
     QString message = i18n("The current FITS file has unsaved changes.  Would you like to save before closing it?");
     int ans =
-        KMessageBox::warningYesNoCancel(0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
+        KMessageBox::warningYesNoCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
     if (ans == KMessageBox::Yes)
         saveFile();
     if (ans == KMessageBox::No)
@@ -61,7 +64,8 @@ void FITSTab::saveUnsaved()
 
 void FITSTab::closeEvent(QCloseEvent *ev)
 {
-    saveUnsaved();
+    saveUnsaved();    
+
     if (undoStack->isClean())
         ev->accept();
     else
@@ -98,25 +102,34 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
 
     bool imageLoad = view->loadFITS(imageURL->toLocalFile(), silent);
 
+    // If it was already running make sure it's done
+    histogramFuture.waitForFinished();
+
     if (imageLoad)
     {
-        if (histogram == nullptr)
-            histogram = new FITSHistogram(this);
-        else
-            histogram->constructHistogram();
-
         FITSData *image_data = view->getImageData();
 
-        image_data->setHistogram(histogram);
-        image_data->applyFilter(filter);
+        if (histogram == nullptr)
+        {
+            histogram = new FITSHistogram(this);
+            image_data->setHistogram(histogram);
+        }
+
+        histogramFuture = QtConcurrent::run([&]() {histogram->constructHistogram();});
 
         if (filter != FITS_NONE)
+        {
+            image_data->applyFilter(filter);
             view->rescale(ZOOM_KEEP_LEVEL);
+        }
 
         if (viewer->isStarsMarked())
             view->toggleStars(true);
 
         view->updateFrame();
+
+        //histoFuture.waitForFinished();
+        //histogram->syncGUI();
     }
 
     return imageLoad;
