@@ -100,12 +100,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 
     // INDI Control Panel
     //connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
-    connect(ekosLiveB, &QPushButton::clicked, [this]()
-    {
-        ekosLiveClient->connectToServer(QUrl("ws://localhost:3000/socket.io/?EIO=3&transport=websocket"));
-        ekosLiveClient->sendMessage("Hello from KStars");
-
-    });
+    connect(ekosLiveB, SIGNAL(clicked()), ekosLiveClient.get(), SLOT(show()));
 
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
     // Save as above, but it appears in all modules

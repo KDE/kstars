@@ -198,6 +198,8 @@ if (INDI_FOUND)
                     # Auxiliary
                     ekos/auxiliary/filtersettings.ui
                     ekos/auxiliary/opslogs.ui
+                    # Ekos Live
+                    ekos/ekoslive/ekoslivedialog.ui
                 )
 
             set(ekos_SRCS
