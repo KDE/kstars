@@ -174,3 +174,9 @@ void LockDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewI
 {
     editor->setGeometry(option.rect);
 }
+
+void LockDelegate::setCurrentFilterList(const QStringList &list)
+{
+     m_FilterList = list;
+     m_FilterList.insert(0, "--");
+}
