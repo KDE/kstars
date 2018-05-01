@@ -2502,6 +2502,8 @@ bool Align::captureAndSolve()
             targetCoord.setDec(dec);
         }
         mountModelReset = false;
+
+        solverTimer.start();
     }
     //else
     //{
