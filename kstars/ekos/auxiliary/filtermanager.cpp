@@ -38,80 +38,15 @@ FilterManager::FilterManager() : QDialog(KStars::Instance())
 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(close()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
-}
 
+    //QSqlDatabase::removeDatabase("filter_db");
+    QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "filter_db");
+    userdb.open();
 
-void FilterManager::refreshFilterModel()
-{
-    if (m_currentFilterDevice == nullptr)
-        return;
+    //delete (filterModel);
 
-    QString vendor(m_currentFilterDevice->getDeviceName());
-
-    delete (filterModel);
-
-    filterModel = new QSqlTableModel(this, KStarsData::Instance()->userdb()->GetDatabase());
-    filterModel->setTable("filter");
-    filterModel->setFilter(QString("vendor='%1'").arg(vendor));
-    filterModel->select();
-    filterModel->setEditStrategy(QSqlTableModel::OnFieldChange);
-
-    // If we have an existing table but it doesn't match the number of current filters
-    // then we remove it.
-    if (filterModel->rowCount() > 0 && filterModel->rowCount() != m_currentFilterLabels.count())
-    {
-        for (int i=0; i < filterModel->rowCount(); i++)
-            filterModel->removeRow(i);
-
-        filterModel->select();
-    }
-
-    // If it is first time, let's populate data
-    if (filterModel->rowCount() == 0)
-    {
-        for (QString filter : m_currentFilterLabels)
-            KStarsData::Instance()->userdb()->AddFilter(vendor, "", "", filter, 0, 1.0, false, "--", 0);
-
-        // Seems ->select() is not enough, have to create a new model.
-        delete (filterModel);
-        filterModel = new QSqlTableModel(this, KStarsData::Instance()->userdb()->GetDatabase());
-        filterModel->setTable("filter");
-        filterModel->setFilter(QString("vendor='%1'").arg(m_currentFilterDevice->getDeviceName()));
-        filterModel->select();
-        filterModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    }
-    // Make sure all the filter colors match DB. If not update model to sync with INDI filter values
-    else
-    {
-        for (int i = 0; i < filterModel->rowCount(); ++i)
-        {
-            QModelIndex index = filterModel->index(i, 4);
-            if (filterModel->data(index).toString() != m_currentFilterLabels[i])
-            {
-                filterModel->setData(index, m_currentFilterLabels[i]);
-            }
-        }
-    }
-
-    filterModel->setHeaderData(4, Qt::Horizontal, i18n("Filter"));
-
-    filterModel->setHeaderData(5, Qt::Horizontal, i18n("Filter exposure time during focus"), Qt::ToolTipRole);
-    filterModel->setHeaderData(5, Qt::Horizontal, i18n("Exposure"));
-
-    filterModel->setHeaderData(6, Qt::Horizontal, i18n("Relative offset in steps"), Qt::ToolTipRole);
-    filterModel->setHeaderData(6, Qt::Horizontal, i18n("Offset"));
-
-    filterModel->setHeaderData(7, Qt::Horizontal, i18n("Start AutoFocus when filter is activated"), Qt::ToolTipRole);
-    filterModel->setHeaderData(7, Qt::Horizontal, i18n("AutoFocus"));
-
-    filterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock specific filter when running AutoFocus"), Qt::ToolTipRole);
-    filterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock Filter"));
-
+    filterModel = new QSqlTableModel(this, userdb);
     filterView->setModel(filterModel);
-    filterView->hideColumn(0);
-    filterView->hideColumn(1);
-    filterView->hideColumn(2);
-    filterView->hideColumn(3);
 
     // No Edit delegate
     noEditDelegate = new NotEditableDelegate(filterView);
@@ -133,7 +68,8 @@ void FilterManager::refreshFilterModel()
     lockDelegate = new LockDelegate(m_currentFilterLabels, filterView);
     filterView->setItemDelegateForColumn(8, lockDelegate);
 
-    reloadFilters();
+    // Absolute Focus Position
+    filterView->setItemDelegateForColumn(9, noEditDelegate);
 
     connect(filterModel, &QSqlTableModel::dataChanged, [this](const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &)
     {
@@ -141,6 +77,90 @@ void FilterManager::refreshFilterModel()
         if (topLeft.column() == 5)
             emit exposureChanged(filterModel->data(topLeft).toDouble());
     });
+}
+
+void FilterManager::refreshFilterModel()
+{
+    if (m_currentFilterDevice == nullptr)
+        return;
+
+    QString vendor(m_currentFilterDevice->getDeviceName());
+
+    //QSqlDatabase::removeDatabase("filter_db");
+    //QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "filter_db");
+    //userdb.open();
+
+    //delete (filterModel);
+
+    //filterModel = new QSqlTableModel(this, userdb);
+    filterModel->setTable("filter");
+    filterModel->setFilter(QString("vendor='%1'").arg(vendor));
+    filterModel->select();
+    filterModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+
+    // If we have an existing table but it doesn't match the number of current filters
+    // then we remove it.
+    if (filterModel->rowCount() > 0 && filterModel->rowCount() != m_currentFilterLabels.count())
+    {
+        for (int i=0; i < filterModel->rowCount(); i++)
+            filterModel->removeRow(i);
+
+        filterModel->select();
+    }
+
+    // If it is first time, let's populate data
+    if (filterModel->rowCount() == 0)
+    {
+        for (QString filter : m_currentFilterLabels)
+            KStarsData::Instance()->userdb()->AddFilter(vendor, "", "", filter, 0, 1.0, false, "--", 0);
+
+        filterModel->select();
+        // Seems ->select() is not enough, have to create a new model.
+        /*delete (filterModel);
+        filterModel = new QSqlTableModel(this, userdb);
+        filterModel->setTable("filter");
+        filterModel->setFilter(QString("vendor='%1'").arg(m_currentFilterDevice->getDeviceName()));
+        filterModel->select();
+        filterModel->setEditStrategy(QSqlTableModel::OnManualSubmit);*/
+    }
+    // Make sure all the filter colors match DB. If not update model to sync with INDI filter values
+    else
+    {
+        for (int i = 0; i < filterModel->rowCount(); ++i)
+        {
+            QModelIndex index = filterModel->index(i, 4);
+            if (filterModel->data(index).toString() != m_currentFilterLabels[i])
+            {
+                filterModel->setData(index, m_currentFilterLabels[i]);
+            }
+        }
+    }
+
+    lockDelegate->setCurrentFilterList(m_currentFilterLabels);
+
+    filterModel->setHeaderData(4, Qt::Horizontal, i18n("Filter"));
+
+    filterModel->setHeaderData(5, Qt::Horizontal, i18n("Filter exposure time during focus"), Qt::ToolTipRole);
+    filterModel->setHeaderData(5, Qt::Horizontal, i18n("Exposure"));
+
+    filterModel->setHeaderData(6, Qt::Horizontal, i18n("Relative offset in steps"), Qt::ToolTipRole);
+    filterModel->setHeaderData(6, Qt::Horizontal, i18n("Offset"));
+
+    filterModel->setHeaderData(7, Qt::Horizontal, i18n("Start Auto Focus when filter is activated"), Qt::ToolTipRole);
+    filterModel->setHeaderData(7, Qt::Horizontal, i18n("Auto Focus"));
+
+    filterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock specific filter when running Auto Focus"), Qt::ToolTipRole);
+    filterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock Filter"));
+
+    filterModel->setHeaderData(9, Qt::Horizontal, i18n("Flat frames are captured at this focus position. It is updated automatically by focus process if enabled."), Qt::ToolTipRole);
+    filterModel->setHeaderData(9, Qt::Horizontal, i18n("Flat Focus Position"));
+
+    filterView->hideColumn(0);
+    filterView->hideColumn(1);
+    filterView->hideColumn(2);
+    filterView->hideColumn(3);
+
+    reloadFilters();
 }
 
 void FilterManager::reloadFilters()
