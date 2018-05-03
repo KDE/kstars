@@ -324,4 +324,6 @@ class EkosManager : public QDialog, public Ui::EkosManager
 
     // Logs
     QPointer<Ekos::OpsLogs> opsLogs;
+
+    friend class EkosLiveClient;
 };
