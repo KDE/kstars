@@ -4688,6 +4688,15 @@ void Align::rotatePAH()
     bool westMeridian =
             (pahStage == PAH_FIRST_ROTATE) ? PAHFirstWestMeridianR->isChecked() : PAHSecondWestMeridianR->isChecked();
 
+    // West
+    if (westMeridian)
+        raDiff *= -1;
+    // East
+    else
+        raDiff *= 1;
+
+    // JM 2018-05-03: Hemispheres shouldn't affect rotation direction in RA
+#if 0
     // North
     if (hemisphere == NORTH_HEMISPHERE)
     {
@@ -4708,6 +4717,7 @@ void Align::rotatePAH()
         else
             raDiff *= -1;
     }
+#endif
 
     SkyPoint targetPAH;
 
