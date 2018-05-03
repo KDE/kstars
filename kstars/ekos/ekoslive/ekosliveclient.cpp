@@ -9,8 +9,13 @@
 
 #include "ekosliveclient.h"
 #include "ekos_debug.h"
+#include "ekos/ekosmanager.h"
+#include "profileinfo.h"
 
-EkosLiveClient::EkosLiveClient(QWidget *parent) : QDialog(parent)
+#include <QJsonDocument>
+#include <QJsonObject>
+
+EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
 {
     setupUi(this);
 
@@ -58,7 +63,8 @@ void EkosLiveClient::onConnected()
     connect(&m_webSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onTextMessageReceived);
     connect(&m_webSocket, &QWebSocket::binaryMessageReceived, this, &EkosLiveClient::onBinaryMessageReceived);
 
-    sendMessage(QLatin1Literal("##Ekos##"));
+    //sendMessage(QLatin1Literal("##Ekos##"));
+    //sendProfiles();
 
     emit connected();
 }
@@ -77,10 +83,35 @@ void EkosLiveClient::onDisconnected()
 
 void EkosLiveClient::onTextMessageReceived(const QString &message)
 {
-    qCInfo(KSTARS_EKOS) << "Websocket Message" << message;    
+    qCInfo(KSTARS_EKOS) << "Websocket Message" << message;
+    QJsonParseError error;
+    auto serverMessage = QJsonDocument::fromJson(message.toLatin1(), &error);
+    if (error.error != QJsonParseError::NoError)
+    {
+        qCWarning(KSTARS_EKOS) << "Ekos Live Parsing Error" << error.errorString();
+        return;
+    }
+
+    QString command = serverMessage.object().value("command").toString();
+
+    if (command == commands[GET_PROFILES])
+        sendProfiles();
 }
 
 void EkosLiveClient::onBinaryMessageReceived(const QByteArray &message)
 {
     qCInfo(KSTARS_EKOS) << "Websocket Message" << message;
+}
+
+void EkosLiveClient::sendProfiles()
+{
+    QJsonArray profileArray;
+
+    for (const auto &oneProfile: m_Manager->profiles)
+        profileArray.append(oneProfile->toJson());
+
+    QJsonObject profiles = {{"type", commands[GET_PROFILES]}, {"payload",profileArray}};
+    auto profileDoc = QJsonDocument(profiles);
+
+    sendMessage(profileDoc.toJson());
 }

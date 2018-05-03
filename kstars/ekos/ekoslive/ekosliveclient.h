@@ -14,14 +14,26 @@
 
 #include "ui_ekoslivedialog.h"
 
+class EkosManager;
+
 class EkosLiveClient : public QDialog, public Ui::EkosLiveDialog
 {
     Q_OBJECT
 public:
-    EkosLiveClient(QWidget *parent = nullptr);
+    explicit EkosLiveClient(EkosManager *manager);
 
     void connectToServer(const QUrl &url);
     void sendMessage(const QString &msg);
+
+    enum COMMANDS
+    {
+        GET_PROFILES
+    };
+
+    const QMap<COMMANDS, QString> commands =
+    {
+        {GET_PROFILES, "get_profiles"}
+    };
 
 signals:
     void connected();
@@ -34,7 +46,10 @@ private slots:
     void onBinaryMessageReceived(const QByteArray &message);
 
 private:
+    void sendProfiles();
+
     QWebSocket m_webSocket;
     QUrl m_url;
     bool isConnected { false };
+    EkosManager *m_Manager { nullptr };
 };

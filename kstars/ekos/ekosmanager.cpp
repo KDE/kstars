@@ -96,7 +96,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(connectB, SIGNAL(clicked()), this, SLOT(connectDevices()));
     connect(disconnectB, SIGNAL(clicked()), this, SLOT(disconnectDevices()));
 
-    ekosLiveClient.reset(new EkosLiveClient());
+    ekosLiveClient.reset(new EkosLiveClient(this));
 
     // INDI Control Panel
     //connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
