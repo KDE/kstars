@@ -115,6 +115,7 @@ else(BUILD_KSTARS_LITE)
       XmlGui
       Plotting
       Notifications
+      Wallet
     )
 endif(BUILD_KSTARS_LITE)
 

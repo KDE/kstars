@@ -30,6 +30,7 @@
 #include "indi/indilistener.h"
 #include "indi/indiproperty.h"
 #include "indi/indiwebmanager.h"
+#include "ekoslive/ekosliveclient.h"
 
 #include <basedevice.h>
 
@@ -166,7 +167,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     loadProfiles();
 
     // INDI Control Panel and Ekos Options
-    ekosLiveB->setIcon(QIcon::fromTheme("redeyes"));
+    ekosLiveB->setIcon(QIcon::fromTheme("folder-cloud"));
     ekosLiveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     optionsB->setIcon(QIcon::fromTheme("configure", QIcon(":/icons/ekos_setup.png")));
     optionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);

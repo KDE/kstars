@@ -30,7 +30,6 @@
 #include "mount/mount.h"
 #include "scheduler/scheduler.h"
 #include "auxiliary/filtermanager.h"
-#include "ekoslive/ekosliveclient.h"
 // Can't use forward decleration with QPointer. QTBUG-29588
 #include "auxiliary/opslogs.h"
 
@@ -41,7 +40,7 @@
 #include <memory>
 
 class QProgressIndicator;
-
+class EkosLiveClient;
 class DriverInfo;
 class ProfileInfo;
 class KPageWidgetItem;

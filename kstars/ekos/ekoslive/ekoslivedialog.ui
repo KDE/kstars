@@ -6,14 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
-    <height>242</height>
+    <width>393</width>
+    <height>208</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Ekos Live</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
@@ -42,7 +57,7 @@
             <item row="0" column="0">
              <widget class="QLabel" name="label">
               <property name="text">
-               <string>Email:</string>
+               <string>Username:</string>
               </property>
              </widget>
             </item>
@@ -64,9 +79,15 @@
              </widget>
             </item>
             <item row="2" column="0" colspan="2">
-             <widget class="QCheckBox" name="checkBox">
+             <widget class="QCheckBox" name="rememberCredentialsCheck">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="text">
                <string>Remember Credentials</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -78,11 +99,26 @@
            <property name="title">
             <string>Status</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <layout class="QGridLayout" name="gridLayout_2">
+            <property name="leftMargin">
+             <number>3</number>
+            </property>
+            <property name="topMargin">
+             <number>3</number>
+            </property>
+            <property name="rightMargin">
+             <number>3</number>
+            </property>
+            <property name="bottomMargin">
+             <number>3</number>
+            </property>
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item row="0" column="0">
+             <layout class="QHBoxLayout" name="statusLayout">
               <item>
-               <spacer name="horizontalSpacer_2">
+               <spacer name="leftSpacer">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -95,7 +131,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="QLabel" name="connectionLED">
+               <widget class="QLabel" name="connectionState">
                 <property name="minimumSize">
                  <size>
                   <width>64</width>
@@ -117,7 +153,7 @@
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer">
+               <spacer name="rightSpacer">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -130,13 +166,6 @@
                </spacer>
               </item>
              </layout>
-            </item>
-            <item>
-             <widget class="QPushButton" name="connectB">
-              <property name="text">
-               <string>Connect</string>
-              </property>
-             </widget>
             </item>
            </layout>
           </widget>
@@ -156,60 +185,48 @@
          </property>
         </spacer>
        </item>
+       <item>
+        <layout class="QHBoxLayout" name="bottomLayout">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="connectB">
+           <property name="text">
+            <string>Connect</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="closeB">
+           <property name="text">
+            <string>Close</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
       </layout>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
  <tabstops>
   <tabstop>username</tabstop>
   <tabstop>password</tabstop>
-  <tabstop>checkBox</tabstop>
+  <tabstop>rememberCredentialsCheck</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>EkosLiveDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>EkosLiveDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

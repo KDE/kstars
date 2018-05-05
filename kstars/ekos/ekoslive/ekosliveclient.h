@@ -15,6 +15,9 @@
 #include "ui_ekoslivedialog.h"
 
 class EkosManager;
+class QProgressIndicator;
+class QNetworkAccessManager;
+class QNetworkReply;
 
 class EkosLiveClient : public QDialog, public Ui::EkosLiveDialog
 {
@@ -22,7 +25,6 @@ class EkosLiveClient : public QDialog, public Ui::EkosLiveDialog
 public:
     explicit EkosLiveClient(EkosManager *manager);
 
-    void connectToServer(const QUrl &url);
     void sendMessage(const QString &msg);
 
     enum COMMANDS
@@ -39,17 +41,31 @@ signals:
     void connected();
     void disconnected();
 
+protected slots:
+    void authenticate();
+    void onResult(QNetworkReply *reply);
+
 private slots:
+    void connectServer();
+    void disconnectServer();
     void onConnected();
     void onDisconnected();
     void onTextMessageReceived(const QString &message);
     void onBinaryMessageReceived(const QByteArray &message);
 
 private:
+    void connectWebSocketServer();
+    void disconnectWebSocketServer();
     void sendProfiles();
 
-    QWebSocket m_webSocket;
-    QUrl m_url;
+    QWebSocket m_webSocket;    
     bool isConnected { false };
     EkosManager *m_Manager { nullptr };
+    QNetworkAccessManager *networkManager { nullptr };
+
+    QProgressIndicator *pi { nullptr };
+
+    QString token;
+
+    QUrl m_serviceURL, m_wsURL;
 };
