@@ -738,7 +738,7 @@ void KSUserDB::GetAllEffectiveFOVs(QList<QVariantMap> &effectiveFOVs)
     {
         QVariantMap recordMap;
         QSqlRecord record = effectivefov.record(i);
-        for (int j = 1; j < record.count(); j++)
+        for (int j = 0; j < record.count(); j++)
             recordMap[record.fieldName(j)] = record.value(j);
 
         effectiveFOVs.append(recordMap);
