@@ -830,6 +830,21 @@ void KSUserDB::AddDSLRInfo(const QMap<QString,QVariant> &oneInfo)
     userdb_.close();
 }
 
+bool KSUserDB::DeleteAllDSLRInfo()
+{
+    userdb_.open();
+    QSqlTableModel DSLRInfo(nullptr, userdb_);
+    DSLRInfo.setTable("dslr");
+    DSLRInfo.select();
+
+    DSLRInfo.removeRows(0, DSLRInfo.rowCount());
+    DSLRInfo.submitAll();
+
+    userdb_.close();
+
+    return true;
+}
+
 bool KSUserDB::DeleteDSLRInfo(const QString &model)
 {
     userdb_.open();
