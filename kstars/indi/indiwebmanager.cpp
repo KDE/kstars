@@ -186,15 +186,35 @@ bool syncProfile(ProfileInfo *pi)
     url = QUrl(QString("http://%1:%2/api/profiles/%3/drivers").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
     QJsonArray driverArray;
     QMapIterator<QString, QString> i(pi->drivers);
-    while (i.hasNext())
+
+    // In case both Guider + CCD are Multiple-Devices-Per-Driver type
+    // Then we should not define guider as a separate driver since that would start the driver executable twice
+    // when we only need it once
+    if (pi->drivers.contains("Guider"))
     {
-        QString name = i.next().value();
-        QJsonObject driver;
-        driver.insert("label", name);
-        driverArray.append(driver);
+        if (pi->drivers["Guider"] == pi->drivers["CCD"])
+        {
+            DriverInfo *guiderInfo = nullptr;
+            if ((guiderInfo = DriverManager::Instance()->findDriverByName(pi->drivers["Guider"])) == nullptr)
+            {
+                if ((guiderInfo = DriverManager::Instance()->findDriverByLabel(pi->drivers["Guider"])) == nullptr)
+                {
+                    guiderInfo = DriverManager::Instance()->findDriverByExec(pi->drivers["Guider"]);
+                }
+            }
+
+            if (guiderInfo && guiderInfo->getAuxInfo().value("mdpd", false).toBool())
+            {
+                pi->drivers.remove("Guider");
+                i = QMapIterator<QString, QString>(pi->drivers);
+            }
+        }
     }
-    jsonDoc = QJsonDocument(driverArray);
-    data    = jsonDoc.toJson();
+
+    while (i.hasNext())
+        driverArray.append(QJsonObject({{"label", i.next().value()}}));
+
+    data    = QJsonDocument(driverArray).toJson();
     getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data);
 
     return true;

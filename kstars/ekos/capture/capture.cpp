@@ -205,6 +205,19 @@ Capture::Capture()
     targetADU = Options::calibrationADUValue();
     targetADUTolerance = Options::calibrationADUValueTolerance();
 
+    fitsDir->setText(Options::captureDirectory());
+    connect(fitsDir, &QLineEdit::textChanged, [&]() { Options::setCaptureDirectory(fitsDir->text());});
+
+    // Keep track of TARGET transfer format when changing CCDs (FITS or NATIVE). Actual format is not changed until capture
+    connect(
+        transferFormatCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+        [&](int index)
+    {
+        if (currentCCD)
+            currentCCD->setTargetTransferFormat(static_cast<ISD::CCD::TransferFormat>(index));
+        Options::setCaptureFormatIndex(index);
+    });
+
     // Load FIlter Offets    
     //loadFilterOffsets();
 
@@ -648,11 +661,10 @@ void Capture::checkCCD(int ccdNum)
             // DSLRs have two transfer formats
             transferFormatCombo->addItem(i18n("FITS"));
             transferFormatCombo->addItem(i18n("Native"));
-            transferFormatCombo->setCurrentIndex(currentCCD->getTargetTransferFormat());
-            // Keep track of TARGET transfer format when changing CCDs (FITS or NATIVE). Actual format is not changed until capture
-            connect(
-                transferFormatCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
-                [&](int index) { currentCCD->setTargetTransferFormat(static_cast<ISD::CCD::TransferFormat>(index)); });
+
+            //transferFormatCombo->setCurrentIndex(currentCCD->getTargetTransferFormat());
+            // 2018-05-07 JM: Set value to the value in options
+            transferFormatCombo->setCurrentIndex(Options::captureFormatIndex());
 
             double pixelX = 0, pixelY = 0;
             bool rc = targetChip->getPixelSize(pixelX, pixelY);
