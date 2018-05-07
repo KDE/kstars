@@ -1615,6 +1615,14 @@
          <label>Display every image captured sequence image in the Ekos summary screen preview window.</label>
          <default>true</default>
       </entry>
+      <entry name="CaptureFormatIndex" type="UInt">
+         <label>Index of desired capture format (FITS or Native).</label>
+         <default>0</default>
+      </entry>
+      <entry name="CaptureDirectory" type="String">
+         <label>Path to capture directory to save images.</label>
+         <default code="true">KSUtils::getDefaultPath("fitsDir")</default>
+      </entry>
    </group>
    <group name="Focus">
       <entry name="DefaultFocusCCD" type="String">
