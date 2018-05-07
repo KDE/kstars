@@ -738,7 +738,7 @@ void KSUserDB::GetAllEffectiveFOVs(QList<QVariantMap> &effectiveFOVs)
     {
         QVariantMap recordMap;
         QSqlRecord record = effectivefov.record(i);
-        for (int j = 1; j < record.count(); j++)
+        for (int j = 0; j < record.count(); j++)
             recordMap[record.fieldName(j)] = record.value(j);
 
         effectiveFOVs.append(recordMap);
@@ -828,6 +828,21 @@ void KSUserDB::AddDSLRInfo(const QMap<QString,QVariant> &oneInfo)
     DSLRInfo.submitAll();
 
     userdb_.close();
+}
+
+bool KSUserDB::DeleteAllDSLRInfo()
+{
+    userdb_.open();
+    QSqlTableModel DSLRInfo(nullptr, userdb_);
+    DSLRInfo.setTable("dslr");
+    DSLRInfo.select();
+
+    DSLRInfo.removeRows(0, DSLRInfo.rowCount());
+    DSLRInfo.submitAll();
+
+    userdb_.close();
+
+    return true;
 }
 
 bool KSUserDB::DeleteDSLRInfo(const QString &model)

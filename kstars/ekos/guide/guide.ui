@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>729</width>
-    <height>520</height>
+    <height>529</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="1,3">
@@ -134,7 +134,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="edit-delete"/>
+             <iconset theme="edit-delete">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
           </item>
@@ -859,6 +860,19 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>

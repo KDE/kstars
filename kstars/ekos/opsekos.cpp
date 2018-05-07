@@ -43,6 +43,10 @@ OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
     connect(clearExpiredB, SIGNAL(clicked()), this, SLOT(clearExpired()));
     connect(refreshB, SIGNAL(clicked()), this, SLOT(refreshDarkData()));
 
+    connect(clearDSLRInfoB, &QPushButton::clicked, [=] () {
+        KStarsData::Instance()->userdb()->DeleteAllDSLRInfo();
+    });
+
     refreshDarkData();
 
     connect(kcfg_EkosTopIcons, &QRadioButton::toggled, this, [this]() {

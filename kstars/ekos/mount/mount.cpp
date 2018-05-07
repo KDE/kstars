@@ -129,6 +129,8 @@ Mount::Mount()
     m_targetText   = m_BaseObj->findChild<QQuickItem *>("targetTextObject");
     m_targetRAText = m_BaseObj->findChild<QQuickItem *>("targetRATextObject");
     m_targetDEText = m_BaseObj->findChild<QQuickItem *>("targetDETextObject");
+    m_J2000Check   = m_BaseObj->findChild<QQuickItem *>("j2000CheckObject");
+    m_JNowCheck    = m_BaseObj->findChild<QQuickItem *>("jnowCheckObject");
     m_Park         = m_BaseObj->findChild<QQuickItem *>("parkButtonObject");
     m_Unpark       = m_BaseObj->findChild<QQuickItem *>("unparkButtonObject");
     m_statusText   = m_BaseObj->findChild<QQuickItem *>("statusTextObject");
@@ -327,10 +329,26 @@ void Mount::updateTelescopeCoords()
         telescopeCoord.setDec(dec);
         telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
+        // Ekos Mount Tab coords are always in JNow
         raOUT->setText(telescopeCoord.ra().toHMSString());
-        m_raValue->setProperty("text", telescopeCoord.ra().toHMSString());
         decOUT->setText(telescopeCoord.dec().toDMSString());
-        m_deValue->setProperty("text", telescopeCoord.dec().toDMSString());
+
+        // Mount Control Panel coords depend on the switch
+        if (m_JNowCheck->property("checked").toBool())
+        {
+            m_raValue->setProperty("text", telescopeCoord.ra().toHMSString());
+            m_deValue->setProperty("text", telescopeCoord.dec().toDMSString());
+        }
+        else
+        {
+            SkyPoint J2000Coord(telescopeCoord.ra(), telescopeCoord.dec());
+            J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+            //J2000Coord.precessFromAnyEpoch(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+            telescopeCoord.setRA0(J2000Coord.ra());
+            telescopeCoord.setDec0(J2000Coord.dec());
+            m_raValue->setProperty("text", telescopeCoord.ra0().toHMSString());
+            m_deValue->setProperty("text", telescopeCoord.dec0().toDMSString());
+        }
 
         azOUT->setText(telescopeCoord.az().toDMSString());
         m_azValue->setProperty("text", telescopeCoord.az().toDMSString());
@@ -663,6 +681,18 @@ bool Mount::slew(const QString &RA, const QString &DEC)
     ra = dms::fromString(RA, false);
     de = dms::fromString(DEC, true);
 
+    if (m_J2000Check->property("checked").toBool())
+    {
+        // J2000 ---> JNow
+        SkyPoint J2000Coord(ra, de);
+        J2000Coord.setRA0(ra);
+        J2000Coord.setDec0(de);
+        J2000Coord.updateCoordsNow(KStarsData::Instance()->updateNum());
+
+        ra = J2000Coord.ra();
+        de = J2000Coord.dec();
+    }
+
     return slew(ra.Hours(), de.Degrees());
 }
 
@@ -680,6 +710,18 @@ bool Mount::sync(const QString &RA, const QString &DEC)
 
     ra = dms::fromString(RA, false);
     de = dms::fromString(DEC, true);
+
+    if (m_J2000Check->property("checked").toBool())
+    {
+        // J2000 ---> JNow
+        SkyPoint J2000Coord(ra, de);
+        J2000Coord.setRA0(ra);
+        J2000Coord.setDec0(de);
+        J2000Coord.updateCoordsNow(KStarsData::Instance()->updateNum());
+
+        ra = J2000Coord.ra();
+        de = J2000Coord.dec();
+    }
 
     return sync(ra.Hours(), de.Degrees());
 }
@@ -811,14 +853,14 @@ Mount::ParkingStatus Mount::getParkingStatus()
                 return UNPARKING_OK;
             else
                 return PARKING_IDLE;
-            break;
+            //break;
 
         case IPS_OK:
             if (parkSP->sp[0].s == ISS_ON)
                 return PARKING_OK;
             else
                 return UNPARKING_OK;
-            break;
+            //break;
 
         case IPS_BUSY:
             if (parkSP->sp[0].s == ISS_ON)
@@ -858,14 +900,23 @@ void Mount::findTarget()
     if (fd->exec() == QDialog::Accepted)
     {
         SkyObject *object = fd->targetObject();
-        if (object != 0)
+        if (object != nullptr)
         {
             SkyObject *o = object->clone();
             o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
 
             m_targetText->setProperty("text", o->name());
-            m_targetRAText->setProperty("text", o->ra().toHMSString());
-            m_targetDEText->setProperty("text", o->dec().toDMSString());
+
+            if (m_JNowCheck->property("checked").toBool())
+            {
+                m_targetRAText->setProperty("text", o->ra().toHMSString());
+                m_targetDEText->setProperty("text", o->dec().toDMSString());
+            }
+            else
+            {
+                m_targetRAText->setProperty("text", o->ra0().toHMSString());
+                m_targetDEText->setProperty("text", o->dec0().toDMSString());
+            }
         }
     }
     delete fd;

@@ -22,6 +22,7 @@
 #include "skymap.h"
 #include "ksasteroid.h"
 
+#include "kstars_debug.h"
 #include "fov.h"
 #include "imageviewer.h"
 #include "ksdssdownloader.h"
@@ -280,7 +281,7 @@ void SkyMap::slotTransientLabel()
     //(HoverTimer is restarted with every mouseMoveEvent; so if it times
     //out, that means there was no mouse movement for HOVER_INTERVAL msec.)
     if (hasFocus() && !slewing &&
-        !(Options::useAltAz() && Options::showGround() && SkyPoint::refract(m_MousePoint.alt()).Degrees() < 0.0))
+            !(Options::useAltAz() && Options::showGround() && SkyPoint::refract(m_MousePoint.alt()).Degrees() < 0.0))
     {
         double maxrad = 1000.0 / Options::zoomFactor();
         SkyObject *so = data->skyComposite()->objectNearest(&m_MousePoint, maxrad);
@@ -313,90 +314,95 @@ void SkyMap::setFocusObject(SkyObject *o)
 void SkyMap::slotCenter()
 {
     KStars *kstars        = KStars::Instance();
-     TrailObject *trailObj = dynamic_cast<TrailObject *>(focusObject());
+    TrailObject *trailObj = dynamic_cast<TrailObject *>(focusObject());
 
-     SkyPoint *foc;
-     if(ClickedObject != nullptr)
-         foc = ClickedObject;
-     else
-         foc = &ClickedPoint;
+    SkyPoint *foc;
+    if(ClickedObject != nullptr)
+        foc = ClickedObject;
+    else
+        foc = &ClickedPoint;
 
+    if (Options::useAltAz())
+    {
+        // JM 2016-09-12: Following call has problems when ra0/dec0 of an object are not valid for example
+        // because they're solar system bodies. So it creates a lot of issues. It is disabled and centering
+        // works correctly for all different body types as I tested.
+        //DeepSkyObject *dso = dynamic_cast<DeepSkyObject *>(focusObject());
+        //if (dso)
+        //    foc->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
 
-     if (Options::useAltAz())
-     {
-         // JM 2016-09-12: Following call has problems when ra0/dec0 of an object are not valid for example
-         // because they're solar system bodies. So it creates a lot of issues. It is disabled and centering
-         // works correctly for all different body types as I tested.
-         DeepSkyObject *dso = dynamic_cast<DeepSkyObject *>(focusObject());
-         if (dso)
-             foc->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
-         foc->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-     }
-     else
-         foc->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
-     qDebug() << "Centering on " << foc->ra().toHMSString() << " " << foc->dec().toDMSString();
+        // JM 2018-05-06: No need to do the above
+        foc->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+    }
+    else
+        foc->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
 
+    qCDebug(KSTARS) << "Centering on " << foc->ra().toHMSString() << foc->dec().toDMSString();
 
-     //clear the planet trail of old focusObject, if it was temporary
-     if (trailObj && data->temporaryTrail)
-     {
-         trailObj->clearTrail();
-         data->temporaryTrail = false;
-     }
+    //clear the planet trail of old focusObject, if it was temporary
+    if (trailObj && data->temporaryTrail)
+    {
+        trailObj->clearTrail();
+        data->temporaryTrail = false;
+    }
 
-     //If the requested object is below the opaque horizon, issue a warning message
-     //(unless user is already pointed below the horizon)
-     if (Options::useAltAz() && Options::showGround() && focus()->alt().Degrees() > -1.0 &&
-         foc->alt().Degrees() < -1.0)
-     {
-         QString caption = i18n("Requested Position Below Horizon");
-         QString message = i18n("The requested position is below the horizon.\nWould you like to go there anyway?");
-         if (KMessageBox::warningYesNo(this, message, caption, KGuiItem(i18n("Go Anyway")),
-                                       KGuiItem(i18n("Keep Position")), "dag_focus_below_horiz") == KMessageBox::No)
-         {
-             setClickedObject(nullptr);
-             setFocusObject(nullptr);
-             Options::setIsTracking(false);
+    //If the requested object is below the opaque horizon, issue a warning message
+    //(unless user is already pointed below the horizon)
+    if (Options::useAltAz() && Options::showGround() && focus()->alt().Degrees() > -1.0 &&
+            foc->alt().Degrees() < -1.0)
+    {
+        QString caption = i18n("Requested Position Below Horizon");
+        QString message = i18n("The requested position is below the horizon.\nWould you like to go there anyway?");
+        if (KMessageBox::warningYesNo(this, message, caption, KGuiItem(i18n("Go Anyway")),
+                                      KGuiItem(i18n("Keep Position")), "dag_focus_below_horiz") == KMessageBox::No)
+        {
+            setClickedObject(nullptr);
+            setFocusObject(nullptr);
+            Options::setIsTracking(false);
 
-             return;
-         }
-     }
+            return;
+        }
+    }
 
-     //set FocusObject before slewing.  Otherwise, KStarsData::updateTime() can reset
-     //destination to previous object...
-     setFocusObject(ClickedObject);
-     Options::setIsTracking(true);
-     if (kstars)
-     {
-         kstars->actionCollection()
-             ->action("track_object")
-             ->setIcon(QIcon::fromTheme("document-encrypt"));
-         kstars->actionCollection()->action("track_object")->setText(i18n("Stop &Tracking"));
-     }
+    //set FocusObject before slewing.  Otherwise, KStarsData::updateTime() can reset
+    //destination to previous object...
+    setFocusObject(ClickedObject);
+    if(ClickedObject == nullptr)
+        setFocusPoint(&ClickedPoint);
 
-     //If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
+    Options::setIsTracking(true);
 
-     if (Options::useAutoTrail() && trailObj && trailObj->hasTrail())
-     {
-         trailObj->addToTrail();
-         data->temporaryTrail = true;
-     }
+    if (kstars)
+    {
+        kstars->actionCollection()
+                ->action("track_object")
+                ->setIcon(QIcon::fromTheme("document-encrypt"));
+        kstars->actionCollection()->action("track_object")->setText(i18n("Stop &Tracking"));
+    }
 
-     //update the destination to the selected coordinates
-     if (Options::useAltAz())
-     {
-         setDestinationAltAz(foc->altRefracted(), foc->az());
-     }
-     else
-     {
-         setDestination(*foc);
-     }
+    //If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
 
-     foc->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+    if (Options::useAutoTrail() && trailObj && trailObj->hasTrail())
+    {
+        trailObj->addToTrail();
+        data->temporaryTrail = true;
+    }
 
-     //display coordinates in statusBar
-     emit mousePointChanged(foc);
- showFocusCoords(); //update FocusBox
+    //update the destination to the selected coordinates
+    if (Options::useAltAz())
+    {
+        setDestinationAltAz(foc->altRefracted(), foc->az());
+    }
+    else
+    {
+        setDestination(*foc);
+    }
+
+    foc->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+
+    //display coordinates in statusBar
+    emit mousePointChanged(foc);
+    showFocusCoords(); //update FocusBox
 }
 
 void SkyMap::slotUpdateSky(bool now)
@@ -407,8 +413,8 @@ void SkyMap::slotUpdateSky(bool now)
 
     if (now)
         QTimer::singleShot(
-            0, this,
-            SLOT(forceUpdateNow())); // Why is it done this way rather than just calling forceUpdateNow()? -- asimha // --> Opening a neww thread? -- Valentin
+                    0, this,
+                    SLOT(forceUpdateNow())); // Why is it done this way rather than just calling forceUpdateNow()? -- asimha // --> Opening a neww thread? -- Valentin
     else
         forceUpdate();
 }
@@ -438,8 +444,8 @@ void SkyMap::slotDSS()
     if (kstars)
     {
         new ImageViewer(
-            url, i18n("Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]."),
-            this);
+                    url, i18n("Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]."),
+                    this);
         //iv->show();
     }
 }
@@ -559,15 +565,16 @@ void SkyMap::slotEndRulerMode()
 
         const StarObject *p1 = dynamic_cast<const StarObject *>(m_rulerStartPoint);
         const StarObject *p2 = dynamic_cast<const StarObject *>(rulerEndPoint);
-        qDebug() << "Starobjects? " << p1 << p2;
+
+        qCDebug(KSTARS) << "Starobjects? " << p1 << p2;
         if (p1 && p2)
-            qDebug() << "Distances: " << p1->distance() << "pc; " << p2->distance() << "pc";
+            qCDebug(KSTARS) << "Distances: " << p1->distance() << "pc; " << p2->distance() << "pc";
         if (p1 && p2 && std::isfinite(p1->distance()) && std::isfinite(p2->distance()) && p1->distance() > 0 &&
-            p2->distance() > 0)
+                p2->distance() > 0)
         {
             double dist = sqrt(p1->distance() * p1->distance() + p2->distance() * p2->distance() -
                                2 * p1->distance() * p2->distance() * cos(angularDistance.radians()));
-            qDebug() << "Could calculate physical distance: " << dist << " pc";
+            qCDebug(KSTARS) << "Could calculate physical distance: " << dist << " pc";
             sbMessage += i18n("; Physical distance: %1 pc", QString::number(dist));
         }
 
@@ -613,15 +620,15 @@ void SkyMap::slotEndRulerMode()
         {
             // Ask the user to enter a field of view
             fov =
-                QInputDialog::getDouble(this, i18n("Star Hopper: Enter field-of-view to use"),
-                                        i18n("FOV to use for star hopping (in arcminutes):"), 60.0, 1.0, 600.0, 1, &ok);
+                    QInputDialog::getDouble(this, i18n("Star Hopper: Enter field-of-view to use"),
+                                            i18n("FOV to use for star hopping (in arcminutes):"), 60.0, 1.0, 600.0, 1, &ok);
         }
 
         Q_ASSERT(fov > 0.0);
 
         if (ok)
         {
-            qDebug() << "fov = " << fov;
+            qCDebug(KSTARS) << "fov = " << fov;
 
             shd->starHop(startHop, stopHop, fov / 60.0, 9.0); //FIXME: Hardcoded maglimit value
             shd->show();
@@ -712,11 +719,11 @@ void SkyMap::slotImage()
     }
     else
     {
-        qWarning() << "ImageList index out of bounds: " << index;
+        qCWarning(KSTARS) << "ImageList index out of bounds: " << index;
         if (index == -1)
         {
-            qWarning() << "Message string \"" << message << "\" not found in ImageTitle.";
-            qDebug() << clickedObject()->ImageTitle();
+            qCWarning(KSTARS) << "Message string \"" << message << "\" not found in ImageTitle.";
+            qCDebug(KSTARS) << clickedObject()->ImageTitle();
         }
     }
 
@@ -749,11 +756,11 @@ void SkyMap::slotInfo()
     }
     else
     {
-        qWarning() << "InfoList index out of bounds: " << index;
+        qCWarning(KSTARS) << "InfoList index out of bounds: " << index;
         if (index == -1)
         {
-            qWarning() << "Message string \"" << message << "\" not found in InfoTitle.";
-            qDebug() << clickedObject()->InfoTitle();
+            qCWarning(KSTARS) << "Message string \"" << message << "\" not found in InfoTitle.";
+            qCDebug(KSTARS) << clickedObject()->InfoTitle();
         }
     }
 
@@ -973,7 +980,7 @@ void SkyMap::slewFocus()
     if (!mouseButtonDown)
     {
         bool goSlew = (Options::useAnimatedSlewing() && !data->snapNextFocus()) &&
-                      !(data->clock()->isManualMode() && data->clock()->isActive());
+                !(data->clock()->isManualMode() && data->clock()->isActive());
         if (goSlew)
         {
             double dX, dY;
@@ -1150,26 +1157,26 @@ void SkyMap::setupProjector()
         delete m_proj;
         switch (Options::projection())
         {
-            case Gnomonic:
-                m_proj = new GnomonicProjector(p);
-                break;
-            case Stereographic:
-                m_proj = new StereographicProjector(p);
-                break;
-            case Orthographic:
-                m_proj = new OrthographicProjector(p);
-                break;
-            case AzimuthalEquidistant:
-                m_proj = new AzimuthalEquidistantProjector(p);
-                break;
-            case Equirectangular:
-                m_proj = new EquirectangularProjector(p);
-                break;
-            case Lambert:
-            default:
-                //TODO: implement other projection classes
-                m_proj = new LambertProjector(p);
-                break;
+        case Gnomonic:
+            m_proj = new GnomonicProjector(p);
+            break;
+        case Stereographic:
+            m_proj = new StereographicProjector(p);
+            break;
+        case Orthographic:
+            m_proj = new OrthographicProjector(p);
+            break;
+        case AzimuthalEquidistant:
+            m_proj = new AzimuthalEquidistantProjector(p);
+            break;
+        case Equirectangular:
+            m_proj = new EquirectangularProjector(p);
+            break;
+        case Lambert:
+        default:
+            //TODO: implement other projection classes
+            m_proj = new LambertProjector(p);
+            break;
         }
     }
 }
@@ -1309,60 +1316,60 @@ void SkyMap::startXplanet(const QString &outputFile)
     {
         switch (Options::xplanetProjection())
         {
-            case 1:
-                args << "-projection"
-                     << "ancient";
-                break;
-            case 2:
-                args << "-projection"
-                     << "azimuthal";
-                break;
-            case 3:
-                args << "-projection"
-                     << "bonne";
-                break;
-            case 4:
-                args << "-projection"
-                     << "gnomonic";
-                break;
-            case 5:
-                args << "-projection"
-                     << "hemisphere";
-                break;
-            case 6:
-                args << "-projection"
-                     << "lambert";
-                break;
-            case 7:
-                args << "-projection"
-                     << "mercator";
-                break;
-            case 8:
-                args << "-projection"
-                     << "mollweide";
-                break;
-            case 9:
-                args << "-projection"
-                     << "orthographic";
-                break;
-            case 10:
-                args << "-projection"
-                     << "peters";
-                break;
-            case 11:
-                args << "-projection"
-                     << "polyconic";
-                break;
-            case 12:
-                args << "-projection"
-                     << "rectangular";
-                break;
-            case 13:
-                args << "-projection"
-                     << "tsc";
-                break;
-            default:
-                break;
+        case 1:
+            args << "-projection"
+                 << "ancient";
+            break;
+        case 2:
+            args << "-projection"
+                 << "azimuthal";
+            break;
+        case 3:
+            args << "-projection"
+                 << "bonne";
+            break;
+        case 4:
+            args << "-projection"
+                 << "gnomonic";
+            break;
+        case 5:
+            args << "-projection"
+                 << "hemisphere";
+            break;
+        case 6:
+            args << "-projection"
+                 << "lambert";
+            break;
+        case 7:
+            args << "-projection"
+                 << "mercator";
+            break;
+        case 8:
+            args << "-projection"
+                 << "mollweide";
+            break;
+        case 9:
+            args << "-projection"
+                 << "orthographic";
+            break;
+        case 10:
+            args << "-projection"
+                 << "peters";
+            break;
+        case 11:
+            args << "-projection"
+                 << "polyconic";
+            break;
+        case 12:
+            args << "-projection"
+                 << "rectangular";
+            break;
+        case 13:
+            args << "-projection"
+                 << "tsc";
+            break;
+        default:
+            break;
         }
         if (Options::xplanetBackground())
         {
@@ -1397,7 +1404,7 @@ void SkyMap::startXplanet(const QString &outputFile)
         xplanetProc->waitForFinished(1000);
         new ImageViewer(QUrl::fromLocalFile(outputFile),
                         "XPlanet View: " + clickedObject()->name() + ",  " + data->lt().date().toString() + ",  " +
-                            data->lt().time().toString(),
+                        data->lt().time().toString(),
                         this);
         //iv->show();
     }
