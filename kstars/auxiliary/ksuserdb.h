@@ -105,6 +105,7 @@ class KSUserDB
 
     void AddDSLRInfo(const QMap<QString, QVariant> &oneInfo);
     bool DeleteDSLRInfo(const QString &model);
+    bool DeleteAllDSLRInfo();
     void GetAllDSLRInfos(QList<QMap<QString,QVariant>> &DSLRInfos);
 
     /************************************************************************

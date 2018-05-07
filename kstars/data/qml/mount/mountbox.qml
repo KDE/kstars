@@ -110,11 +110,7 @@ Rectangle {
                 }
             }
 
-
-
-
-
-            Button {
+         Button {
                 id: west
                 width: 52
                 height: 54
@@ -323,7 +319,7 @@ Rectangle {
             Label {
                 id: raLabel
                 text: qsTr("RA:")
-                font.bold: true                
+                font.bold: true
                 color: "white"
                 Layout.preferredWidth:15
                 fontSizeMode: Text.Fit
@@ -331,7 +327,7 @@ Rectangle {
 
             Label {
                 id: raValue
-                objectName: "raValueObject"                
+                objectName: "raValueObject"
                 color: coordsColor
                 text: "00:00:00"
                 Layout.preferredWidth:80
@@ -501,7 +497,7 @@ Rectangle {
             Label {
                 id: targetRALabel
                 color: "#ffffff"
-                text: qsTr("RA (JNOW):")
+                text: qsTr("RA:")
                 font.pointSize: 12
             }
 
@@ -519,7 +515,7 @@ Rectangle {
             Label {
                 id: targetDELabel
                 color: "#ffffff"
-                text: qsTr("DE (JNOW):")
+                text: qsTr("DE:")
                 font.pointSize: 12
             }
 
@@ -534,9 +530,30 @@ Rectangle {
                 Layout.fillWidth: true
             }
 
+            Label {
+                id: epochLabel
+                text: qsTr("Epoch:")
+            }
 
+            RowLayout
+            {
+                ExclusiveGroup { id: epochGroup }
+                RadioButton {
+                    id: jnowCheck
+                    objectName: "jnowCheckObject"
+                    checked: true
+                    text: qsTr("JNow")
+                    exclusiveGroup: epochGroup
+                }
+
+                RadioButton {
+                    id: j2000Check
+                    objectName: "j2000CheckObject"
+                    text: qsTr("J2000")
+                    exclusiveGroup: epochGroup
+                }
+            }
         }
-
 
         GridLayout {
             id: actionLayout

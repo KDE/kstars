@@ -109,9 +109,6 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     // Effective FOV Edit
     connect(FOVOut, &QLineEdit::editingFinished, [=]()
     {
-        if (FOVOut->isReadOnly())
-            return;
-
         QString newFOV = FOVOut->text();
         QRegularExpression re("(\\d+\\.*\\d*)\\D*x\\D*(\\d+\\.*\\d*)");
         QRegularExpressionMatch match = re.match(newFOV);
@@ -122,9 +119,14 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
             if (newFOVW > 0 && newFOVH > 0)
                 saveNewEffectiveFOV(newFOVW, newFOVH);
+
+            FOVOut->setStyleSheet(QString());
         }
         else
+        {
             KMessageBox::error(nullptr, i18n("Invalid FOV!"));
+            FOVOut->setStyleSheet("background-color:red");
+        }
     });
 
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
@@ -2133,13 +2135,13 @@ void Align::calculateFOV()
 
     if (fov_x == 0)
     {
-        FOVOut->setReadOnly(false);
+        //FOVOut->setReadOnly(false);
         FOVOut->setToolTip(i18n("<p>Effective field of view size in arcminutes.</p><p>Please capture and solve once to measure the effective FOV or enter the values manually.</p><p>Calculated FOV: %1</p>", calculatedFOV));
     }
     else
     {
         FOVOut->setToolTip(i18n("<p>Effective field of view size in arcminutes.</p>"));
-        FOVOut->setReadOnly(true);
+        //FOVOut->setReadOnly(true);
     }
 
     solverFOV->setSize(fov_x, fov_y);
@@ -5398,20 +5400,18 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
 
     QVariantMap effectiveMap = getEffectiveFOV();
 
+    // If ID exists, delete it first.
     if (effectiveMap.isEmpty() == false)
         KStarsData::Instance()->userdb()->DeleteEffectiveFOV(effectiveMap["id"].toString());
-    // Adding new map if FOV is different
-    else
-    {
-        effectiveMap["Profile"] = m_ActiveProfile->name;
-        effectiveMap["Width"] = ccd_width;
-        effectiveMap["Height"] = ccd_height;
-        effectiveMap["PixelW"] = ccd_hor_pixel;
-        effectiveMap["PixelH"] = ccd_ver_pixel;
-        effectiveMap["FocalLength"] = focal_length;
-        effectiveMap["FovW"] = newFOVW;
-        effectiveMap["FovH"] = newFOVH;
-    }
+
+    effectiveMap["Profile"] = m_ActiveProfile->name;
+    effectiveMap["Width"] = ccd_width;
+    effectiveMap["Height"] = ccd_height;
+    effectiveMap["PixelW"] = ccd_hor_pixel;
+    effectiveMap["PixelH"] = ccd_ver_pixel;
+    effectiveMap["FocalLength"] = focal_length;
+    effectiveMap["FovW"] = newFOVW;
+    effectiveMap["FovH"] = newFOVH;
 
     KStarsData::Instance()->userdb()->AddEffectiveFOV(effectiveMap);
 
