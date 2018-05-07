@@ -26,7 +26,8 @@ public:
     explicit EkosLiveClient(EkosManager *manager);
 
     void sendMessage(const QString &msg);
-    void sendResponse(const QString &command, const QString &payload);
+    void sendResponse(const QString &command, const QJsonObject &payload);
+    void sendResponse(const QString &command, const QJsonArray &payload);
 
     enum COMMANDS
     {

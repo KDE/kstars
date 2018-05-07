@@ -112,9 +112,14 @@ void EkosLiveClient::sendMessage(const QString &msg)
     m_webSocket.sendTextMessage(msg);
 }
 
-void EkosLiveClient::sendResponse(const QString &command, const QString &payload)
+void EkosLiveClient::sendResponse(const QString &command, const QJsonObject &payload)
 {
-    sendMessage(QJsonDocument({{"token", token}, {"type", command}, {"payload",payload}}).toJson(QJsonDocument::Compact));
+    sendMessage(QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
+}
+
+void EkosLiveClient::sendResponse(const QString &command, const QJsonArray &payload)
+{
+    sendMessage(QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
 }
 
 void EkosLiveClient::onConnected()
@@ -198,13 +203,12 @@ void EkosLiveClient::sendProfiles()
     QJsonArray profileArray;
 
     for (const auto &oneProfile: m_Manager->profiles)
-        profileArray.append(oneProfile->toJson());
+        profileArray.append(oneProfile->toJson());    
 
-    sendResponse(commands[GET_PROFILES], QJsonDocument(profileArray).toJson());
+    sendResponse(commands[GET_PROFILES], profileArray);
 
     //QJsonObject profiles = {{"token", token}, {"type", commands[GET_PROFILES]}, {"payload",profileArray}};
-    //auto profileDoc = QJsonDocument(profiles);
-    //sendMessage(profileDoc.toJson());
+    //sendMessage(QJsonDocument(profiles).toJson(QJsonDocument::Compact));
 }
 
 void EkosLiveClient::connectServer()
