@@ -112,6 +112,11 @@ void EkosLiveClient::sendMessage(const QString &msg)
     m_webSocket.sendTextMessage(msg);
 }
 
+void EkosLiveClient::sendResponse(const QString &command, const QString &payload)
+{
+    sendMessage(QJsonDocument({{"token", token}, {"type", command}, {"payload",payload}}).toJson(QJsonDocument::Compact));
+}
+
 void EkosLiveClient::onConnected()
 {
     qCInfo(KSTARS_EKOS) << "Connected to Websocket server at" << m_wsURL.toDisplayString();
@@ -195,10 +200,11 @@ void EkosLiveClient::sendProfiles()
     for (const auto &oneProfile: m_Manager->profiles)
         profileArray.append(oneProfile->toJson());
 
-    QJsonObject profiles = {{"token", token}, {"type", commands[GET_PROFILES]}, {"payload",profileArray}};
-    auto profileDoc = QJsonDocument(profiles);
+    sendResponse(commands[GET_PROFILES], QJsonDocument(profileArray).toJson());
 
-    sendMessage(profileDoc.toJson());
+    //QJsonObject profiles = {{"token", token}, {"type", commands[GET_PROFILES]}, {"payload",profileArray}};
+    //auto profileDoc = QJsonDocument(profiles);
+    //sendMessage(profileDoc.toJson());
 }
 
 void EkosLiveClient::connectServer()
