@@ -641,7 +641,7 @@ void Capture::checkCCD(int ccdNum)
         QStringList isoList = targetChip->getISOList();
         ISOCombo->clear();
 
-        transferFormatCombo->disconnect();
+        transferFormatCombo->blockSignals(true);
         transferFormatCombo->clear();
 
         if (isoList.isEmpty())
@@ -685,6 +685,8 @@ void Capture::checkCCD(int ccdNum)
                 }
             }
         }
+
+        transferFormatCombo->blockSignals(false);
 
         customPropertiesDialog->setCCD(currentCCD);
 
