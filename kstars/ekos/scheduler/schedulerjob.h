@@ -26,14 +26,14 @@ class SchedulerJob
 
     /** @brief States of a SchedulerJob. */
     typedef enum {
-        JOB_IDLE,
-        JOB_EVALUATION,
-        JOB_SCHEDULED,
-        JOB_BUSY,
-        JOB_ERROR,
-        JOB_ABORTED,
-        JOB_INVALID,
-        JOB_COMPLETE
+        JOB_IDLE,       /**< Job was just created, and is not evaluated yet */
+        JOB_EVALUATION, /**< Job is being evaluated */
+        JOB_SCHEDULED,  /**< Job was evaluated, and has a schedule */
+        JOB_BUSY,       /**< Job is being processed */
+        JOB_ERROR,      /**< Job encountered a fatal issue while processing, and must be reset manually */
+        JOB_ABORTED,    /**< Job encountered a transitory issue while processing, and will be rescheduled */
+        JOB_INVALID,    /**< Job has an incorrect configuration, and cannot proceed */
+        JOB_COMPLETE    /**< Job finished all required captures */
     } JOBStatus;
 
     /** @brief Running stages of a SchedulerJob. */
@@ -147,8 +147,17 @@ class SchedulerJob
     void setDateTimeDisplayFormat(const QString &value);
     /** @} */
 
+    /** @brief Original startup condition, as entered by the user. */
+    /** @{ */
     StartupCondition getFileStartupCondition() const { return fileStartupCondition; }
     void setFileStartupCondition(const StartupCondition &value);
+    /** @} */
+
+    /** @brief Original time at which the job must start, as entered by the user. */
+    /** @{ */
+    QDateTime getFileStartupTime() const { return fileStartupTime; }
+    void setFileStartupTime(const QDateTime &value);
+    /** @} */
 
     /** @brief Whether this job requires re-focus while running its capture sequence. */
     /** @{ */
@@ -180,7 +189,12 @@ class SchedulerJob
     void setNameCell(QTableWidgetItem *cell);
     /** @} */
 
-    /** @brief Current state of the scheduler job. */
+    /** @brief Current state of the scheduler job.
+     * Setting state to JOB_ABORTED automatically resets the startup characteristics.
+     * Setting state to JOB_INVALID automatically resets the startup characteristics and the duration estimation.
+     * @see SchedulerJob::setStartupCondition, SchedulerJob::setFileStartupCondition, SchedulerJob::setStartupTime
+     * and SchedulerJob::setFileStartupTime.
+     */
     /** @{ */
     JOBStatus getState() const { return state; }
     void setState(const JOBStatus &value);
@@ -304,6 +318,13 @@ class SchedulerJob
      */
     void reset();
 
+    /** @brief Determining whether a SchedulerJob is a duplicate of another.
+     * @param a_job is the other SchedulerJob to test duplication against.
+     * @return True if objects are different, but name and sequence file are identical, else false.
+     * @fixme This is a weak comparison, but that's what the scheduler looks at to decide completion. 
+     */
+    bool isDuplicateOf(SchedulerJob const *a_job) const { return this != a_job && name == a_job->name && sequenceFile == a_job->sequenceFile; }
+
     /** @brief Compare ::SchedulerJob instances based on score. This is a qSort predicate, deprecated in QT5.
      * @arg a, b are ::SchedulerJob instances to compare.
      * @return true if the score of b is lower than the score of a.
@@ -325,6 +346,13 @@ class SchedulerJob
      */
     static bool decreasingAltitudeOrder(SchedulerJob const *a, SchedulerJob const *b);
 
+    /** @brief Compare ::SchedulerJob instances based on startup time. This is a qSort predicate, deprecated in QT5.
+     * @arg a, b are ::SchedulerJob instances to compare.
+     * @return true if the startup time of a is sooner than the priority of b.
+     * @return false if the startup time of a is later than or equal to the priority of b.
+     */
+    static bool increasingStartupTimeOrder(SchedulerJob const *a, SchedulerJob const *b);
+
 private:
     QString name;
     SkyPoint targetCoords;
@@ -338,6 +366,7 @@ private:
     int sequenceCount { 0 };
     int completedCount { 0 };
 
+    QDateTime fileStartupTime;
     QDateTime startupTime;
     QDateTime completionTime;
 
