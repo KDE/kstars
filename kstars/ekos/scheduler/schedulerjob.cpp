@@ -38,9 +38,12 @@ void SchedulerJob::setStartupCondition(const StartupCondition &value)
 void SchedulerJob::setStartupTime(const QDateTime &value)
 {
     startupTime = value;
+
     if (value.isValid())
         startupCondition = START_AT;
-    updateJobCell();
+
+    /* Refresh estimated time - which update job cells */
+    setEstimatedTime(estimatedTime);
 }
 
 void SchedulerJob::setSequenceFile(const QUrl &value)
@@ -70,13 +73,26 @@ void SchedulerJob::setEnforceWeather(bool value)
 
 void SchedulerJob::setCompletionTime(const QDateTime &value)
 {
-    completionTime = value;
-    updateJobCell();
+    /* If argument completion time is valid, automatically switch condition to FINISH_AT */
+    if (value.isValid())
+    {
+        setCompletionCondition(FINISH_AT);
+        completionTime = value;
+    }
+    /* If completion time is not valid, but startup time is, deduce completion from startup and duration */
+    else if (startupTime.isValid())
+    {
+        completionTime = startupTime.addSecs(estimatedTime);
+    }
+
+    /* Refresh estimated time - which update job cells */
+    setEstimatedTime(estimatedTime);
 }
 
 void SchedulerJob::setCompletionCondition(const CompletionCondition &value)
 {
     completionCondition = value;
+    updateJobCell();
 }
 
 void SchedulerJob::setStepPipeline(const StepPipeline &value)
@@ -91,6 +107,21 @@ void SchedulerJob::setState(const JOBStatus &value)
     /* FIXME: move this to Scheduler, SchedulerJob is mostly a model */
     if (JOB_ERROR == state)
         KNotification::event(QLatin1String("EkosSchedulerJobFail"), i18n("Ekos job failed (%1)", getName()));
+
+    /* If job becomes invalid, automatically reset its startup characteristics, and force its duration to be reestimated */
+    if (JOB_INVALID == value)
+    {
+        setStartupCondition(fileStartupCondition);
+        setStartupTime(fileStartupTime);
+        setEstimatedTime(-1);
+    }
+
+    /* If job is aborted, automatically reset its startup characteristics */
+    if (JOB_ABORTED == value)
+    {
+        setStartupCondition(fileStartupCondition);
+        /* setStartupTime(fileStartupTime); */
+    }
 
     updateJobCell();
 }
@@ -128,30 +159,54 @@ void SchedulerJob::setStatusCell(QTableWidgetItem *value)
 {
     statusCell = value;
     updateJobCell();
+    if (statusCell)
+        statusCell->setToolTip(i18n("Current status of job '%1', managed by the Scheduler.\n"
+                                    "If invalid, the Scheduler was not able to find a proper observation time for the target.\n"
+                                    "If aborted, the Scheduler missed the scheduled time or encountered transitory issues and will reschedule the job.\n"
+                                    "If complete, the Scheduler verified that all sequence captures requested were stored, including repeats.",
+                                    name));
 }
 
 void SchedulerJob::setStartupCell(QTableWidgetItem *value)
 {
     startupCell = value;
     updateJobCell();
+    if (startupCell)
+        startupCell->setToolTip(i18n("Startup time for job '%1', as estimated by the Scheduler.\n"
+                                     "Fixed time from user or culmination time is marked with a chronometer symbol. ",
+                                     name));
 }
 
 void SchedulerJob::setCompletionCell(QTableWidgetItem *value)
 {
     completionCell = value;
     updateJobCell();
+    if (completionCell)
+        completionCell->setToolTip(i18n("Completion time for job '%1', as estimated by the Scheduler.\n"
+                                        "Can be specified by the user to limit duration of looping jobs.\n"
+                                        "Fixed time from user is marked with a chronometer symbol. ",
+                                        name));
 }
 
 void SchedulerJob::setCaptureCountCell(QTableWidgetItem *value)
 {
     captureCountCell = value;
     updateJobCell();
+    if (captureCountCell)
+        captureCountCell->setToolTip(i18n("Count of captures stored for job '%1', based on its sequence job.\n"
+                                          "This is a summary, additional specific frame types may be required to complete the job.",
+                                          name));
 }
 
 void SchedulerJob::setScoreCell(QTableWidgetItem *value)
 {
     scoreCell = value;
     updateJobCell();
+    if (scoreCell)
+        scoreCell->setToolTip(i18n("Current score for job '%1', from its altitude, moon separation and sky darkness.\n"
+                                   "Negative if adequate altitude is not achieved yet or if there is no proper observation time today.\n"
+                                   "The Scheduler will refresh scores when picking a new candidate job.",
+                                   name));
 }
 
 void SchedulerJob::setDateTimeDisplayFormat(const QString &value)
@@ -183,9 +238,34 @@ void SchedulerJob::setFileStartupCondition(const StartupCondition &value)
     fileStartupCondition = value;
 }
 
+void SchedulerJob::setFileStartupTime(const QDateTime &value)
+{
+    fileStartupTime = value;
+}
+
 void SchedulerJob::setEstimatedTime(const int64_t &value)
 {
-    estimatedTime = value;
+    /* If startup and completion times are fixed, estimated time cannot change */
+    if (START_AT == startupCondition && FINISH_AT == completionCondition)
+    {
+        estimatedTime = startupTime.secsTo(completionTime);
+    }
+    /* If startup time is fixed but not completion time, estimated time adjusts completion time */
+    else if (START_AT == startupCondition)
+    {
+        estimatedTime = value;
+        completionTime = startupTime.addSecs(value);
+    }
+    /* If completion time is fixed but not startup time, estimated time adjusts startup time */
+    /* FIXME: adjusting startup time will probably not work, because jobs are scheduled from first available altitude */
+    else if (FINISH_AT == completionCondition)
+    {
+        estimatedTime = value;
+        startupTime = completionTime.addSecs(-value);
+    }
+    /* Else estimated time is simply stored as is */
+    else estimatedTime = value;
+
     updateJobCell();
 }
 
@@ -208,6 +288,10 @@ void SchedulerJob::setEstimatedTimeCell(QTableWidgetItem *value)
 {
     estimatedTimeCell = value;
     updateJobCell();
+    if (estimatedTimeCell)
+        estimatedTimeCell->setToolTip(i18n("Duration job '%1' will take to complete when started, as estimated by the Scheduler.\n"
+                                       "Depends on the actions to be run, and the sequence job to be processed.",
+                                       name));
 }
 
 void SchedulerJob::setLightFramesRequired(bool value)
@@ -240,7 +324,6 @@ void SchedulerJob::setTargetCoords(dms& ra, dms& dec)
     targetCoords.updateCoordsNow(KStarsData::Instance()->updateNum());
 }
 
-/* FIXME: unrelated to model, move this in the view */
 void SchedulerJob::updateJobCell()
 {
     if (nameCell)
@@ -276,7 +359,7 @@ void SchedulerJob::updateJobCell()
 
     if (stageCell || stageLabel)
     {
-        /* Translated string cache - overkill, probably, and doesn't warn about missing enums like switch/case shouldi ; also, not thread-safe */
+        /* Translated string cache - overkill, probably, and doesn't warn about missing enums like switch/case should ; also, not thread-safe */
         /* FIXME: this should work with a static initializer in C++11, but QT versions are touchy on this, and perhaps i18n can't be used? */
         static QMap<JOBStage, QString> stageStrings;
         static QString stageStringUnknown;
@@ -312,13 +395,73 @@ void SchedulerJob::updateJobCell()
 
     if (startupCell)
     {
-        startupCell->setText(startupTime.toString(dateTimeDisplayFormat));
+        /* Display a startup time if job is running, scheduled to run or about to be re-scheduled */
+        if (JOB_SCHEDULED == state || JOB_BUSY == state || JOB_ABORTED == state) switch (fileStartupCondition)
+        {
+            /* If the original condition is START_AT/START_CULMINATION, startup time is fixed */
+            case START_AT:
+            case START_CULMINATION:
+                startupCell->setText(startupTime.toString(dateTimeDisplayFormat));
+                startupCell->setIcon(QIcon::fromTheme("chronometer"));
+                break;
+
+            /* If the original condition is START_ASAP, startup time is informational */
+            case START_ASAP:
+                startupCell->setText(startupTime.toString(dateTimeDisplayFormat));
+                startupCell->setIcon(QIcon());
+                break;
+
+            /* Else do not display any startup time */
+            default:
+                startupCell->setText(QString());
+                startupCell->setIcon(QIcon());
+                break;
+        }
+        /* Display a missed startup time if job is invalid */
+        else if (JOB_INVALID == state && START_AT == fileStartupCondition)
+        {
+            startupCell->setText(startupTime.toString(dateTimeDisplayFormat));
+            startupCell->setIcon(QIcon::fromTheme("chronometer"));
+        }
+        /* Else do not display any startup time */
+        else
+        {
+            startupCell->setText(QString());
+            startupCell->setIcon(QIcon());
+        }
+
         startupCell->tableWidget()->resizeColumnToContents(startupCell->column());
     }
 
     if (completionCell)
     {
-        completionCell->setText(completionTime.toString(dateTimeDisplayFormat));
+        /* Display a completion time if job is running, scheduled to run or about to be re-scheduled */
+        if (JOB_SCHEDULED == state || JOB_BUSY == state || JOB_ABORTED == state) switch (completionCondition)
+        {
+            case FINISH_LOOP:
+                completionCell->setText(QString("-"));
+                completionCell->setIcon(QIcon());
+                break;
+
+            case FINISH_AT:
+                completionCell->setText(completionTime.toString(dateTimeDisplayFormat));
+                completionCell->setIcon(QIcon::fromTheme("chronometer"));
+                break;
+
+            case FINISH_SEQUENCE:
+            case FINISH_REPEAT:
+            default:
+                completionCell->setText(completionTime.toString(dateTimeDisplayFormat));
+                completionCell->setIcon(QIcon());
+                break;
+        }
+        /* Else do not display any completion time */
+        else
+        {
+            completionCell->setText(QString());
+            completionCell->setIcon(QIcon());
+        }
+
         completionCell->tableWidget()->resizeColumnToContents(completionCell->column());
     }
 
@@ -361,7 +504,7 @@ void SchedulerJob::reset()
     stage = STAGE_IDLE;
     estimatedTime = -1;
     startupCondition = fileStartupCondition;
-    startupTime = fileStartupCondition == START_AT ? startupTime : QDateTime();
+    startupTime = fileStartupCondition == START_AT ? fileStartupTime : QDateTime();
     /* No change to culmination offset */
     repeatsRemaining = repeatsRequired;
 }
@@ -380,4 +523,9 @@ bool SchedulerJob::decreasingAltitudeOrder(SchedulerJob const *job1, SchedulerJo
 {
     return  Ekos::Scheduler::findAltitude(job1->getTargetCoords(), job1->getStartupTime()) >
             Ekos::Scheduler::findAltitude(job2->getTargetCoords(), job2->getStartupTime());
+}
+
+bool SchedulerJob::increasingStartupTimeOrder(SchedulerJob const *job1, SchedulerJob const *job2)
+{
+    return job1->getStartupTime() < job2->getStartupTime();
 }
