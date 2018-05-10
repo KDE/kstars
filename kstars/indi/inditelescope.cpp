@@ -254,6 +254,8 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
                 QAction *unParkAction = KStars::Instance()->actionCollection()->action("telescope_unpark");
                 if (unParkAction)
                     unParkAction->setEnabled(true);
+
+                emit newTarget(QString());
             }
             else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && parkStatus != PARK_UNPARKED)
             {
