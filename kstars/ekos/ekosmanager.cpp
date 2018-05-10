@@ -2334,20 +2334,7 @@ void EkosManager::updateMountStatus(ISD::Telescope::TelescopeStatus status)
             mountPI->stopAnimation();
     }
 
-    if (ekosLiveClient.get()->isConnected())
-    {
-        QJsonObject state =
-        {
-            { "status", mountStatus->text() },
-            { "target", mountTarget->text() },
-            { "ra" , dms::fromString(raOUT->text(), false).Degrees() },
-            { "de" , dms::fromString(decOUT->text(), true).Degrees() },
-            { "az" , dms::fromString(azOUT->text(), true).Degrees() },
-            { "at" , dms::fromString(altOUT->text(), true).Degrees() }
-        };
-
-        ekosLiveClient.get()->sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], state);
-    }
+    ekosLiveClient.get()->updateMountStatus();
 }
 
 void EkosManager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt)
@@ -2356,6 +2343,8 @@ void EkosManager::updateMountCoords(const QString &ra, const QString &dec, const
     decOUT->setText(dec);
     azOUT->setText(az);
     altOUT->setText(alt);
+
+    ekosLiveClient.get()->updateMountStatus();
 }
 
 void EkosManager::updateCaptureStatus(Ekos::CaptureState status)

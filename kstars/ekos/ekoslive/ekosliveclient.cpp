@@ -26,10 +26,10 @@
 #include <KWallet>
 
 QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
-   {
-       {GET_PROFILES, "get_profiles"},
-       {NEW_MOUNT_STATE, "new_mount_state"}
-   };
+{
+    {GET_PROFILES, "get_profiles"},
+    {NEW_MOUNT_STATE, "new_mount_state"}
+};
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
 {
@@ -209,7 +209,7 @@ void EkosLiveClient::sendProfiles()
     QJsonArray profileArray;
 
     for (const auto &oneProfile: m_Manager->profiles)
-        profileArray.append(oneProfile->toJson());    
+        profileArray.append(oneProfile->toJson());
 
     sendResponse(commands[GET_PROFILES], profileArray);
 
@@ -288,4 +288,22 @@ void EkosLiveClient::onResult(QNetworkReply *reply)
     token = json["token"].toString();
 
     connectWebSocketServer();
+}
+
+void EkosLiveClient::updateMountStatus()
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject state =
+    {
+        { "status", m_Manager->mountStatus->text() },
+        { "target", m_Manager->mountTarget->text() },
+        { "ra" , dms::fromString(m_Manager->raOUT->text(), false).Degrees() },
+        { "de" , dms::fromString(m_Manager->decOUT->text(), true).Degrees() },
+        { "az" , dms::fromString(m_Manager->azOUT->text(), true).Degrees() },
+        { "at" , dms::fromString(m_Manager->altOUT->text(), true).Degrees() }
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], state);
 }

@@ -30,6 +30,8 @@ public:
     void sendResponse(const QString &command, const QJsonObject &payload);
     void sendResponse(const QString &command, const QJsonArray &payload);
 
+    void updateMountStatus();
+
     enum COMMANDS
     {
         GET_PROFILES,
