@@ -25,19 +25,18 @@ class EkosLiveClient : public QDialog, public Ui::EkosLiveDialog
 public:
     explicit EkosLiveClient(EkosManager *manager);
 
+    bool isConnected() const { return m_isConnected; }
     void sendMessage(const QString &msg);
     void sendResponse(const QString &command, const QJsonObject &payload);
     void sendResponse(const QString &command, const QJsonArray &payload);
 
     enum COMMANDS
     {
-        GET_PROFILES
+        GET_PROFILES,
+        NEW_MOUNT_STATE,
     };
 
-    const QMap<COMMANDS, QString> commands =
-    {
-        {GET_PROFILES, "get_profiles"}
-    };
+    static QMap<COMMANDS, QString> const commands;
 
 signals:
     void connected();
@@ -61,7 +60,7 @@ private:
     void sendProfiles();
 
     QWebSocket m_webSocket;    
-    bool isConnected { false };
+    bool m_isConnected { false };
     EkosManager *m_Manager { nullptr };
     QNetworkAccessManager *networkManager { nullptr };
 
