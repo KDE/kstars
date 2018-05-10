@@ -2333,6 +2333,21 @@ void EkosManager::updateMountStatus(ISD::Telescope::TelescopeStatus status)
             if (mountPI->isAnimated())
                 mountPI->stopAnimation();
     }
+
+    if (ekosLiveClient.get()->isConnected())
+    {
+        QJsonObject state =
+        {
+            { "status", mountStatus->text() },
+            { "target", mountTarget->text() },
+            { "ra" , raOUT->text() },
+            { "da" , decOUT->text() },
+            { "az" , azOUT->text() },
+            { "alt" , altOUT->text() }
+        };
+
+        ekosLiveClient.get()->sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], state);
+    }
 }
 
 void EkosManager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt)

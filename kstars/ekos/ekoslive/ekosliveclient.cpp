@@ -25,6 +25,12 @@
 
 #include <KWallet>
 
+QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
+   {
+       {GET_PROFILES, "get_profiles"},
+       {NEW_MOUNT_STATE, "new_mount_state"}
+   };
+
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
 {
     setupUi(this);
@@ -45,7 +51,7 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
 
     connect(connectB, &QPushButton::clicked, [=]()
     {
-        if (isConnected)
+        if (m_isConnected)
             disconnectServer();
         else
             connectServer();
@@ -131,7 +137,7 @@ void EkosLiveClient::onConnected()
     connectB->setText(i18n("Disconnect"));
     connectionState->setPixmap(QIcon::fromTheme("state-ok").pixmap(QSize(64, 64)));
 
-    isConnected = true;
+    m_isConnected = true;
 
     connect(&m_webSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onTextMessageReceived);
     connect(&m_webSocket, &QWebSocket::binaryMessageReceived, this, &EkosLiveClient::onBinaryMessageReceived);
@@ -167,7 +173,7 @@ void EkosLiveClient::onDisconnected()
     qCInfo(KSTARS_EKOS) << "Disonnected to Websocket server at" << m_wsURL.toDisplayString();
 
     connectionState->setPixmap(QIcon::fromTheme("state-offline").pixmap(QSize(64, 64)));
-    isConnected = false;
+    m_isConnected = false;
     connectB->setText(i18n("Connect"));
 
     disconnect(&m_webSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onTextMessageReceived);
