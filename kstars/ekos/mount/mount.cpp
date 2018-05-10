@@ -321,10 +321,14 @@ bool Mount::setScopeConfig(int index)
 
 void Mount::updateTelescopeCoords()
 {
-    double ra, dec;
+    // No need to update coords if we are still parked.
+    if (lastStatus == ISD::Telescope::MOUNT_PARKED && lastStatus == currentTelescope->getStatus())
+        return;
 
+    double ra, dec;
     if (currentTelescope && currentTelescope->getEqCoords(&ra, &dec))
     {
+
         telescopeCoord.setRA(ra);
         telescopeCoord.setDec(dec);
         telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
