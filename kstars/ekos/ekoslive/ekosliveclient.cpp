@@ -16,6 +16,8 @@
 #include "kspaths.h"
 #include "filedownloader.h"
 #include "ksnotification.h"
+#include "fitsviewer/fitsview.h"
+#include "fitsviewer/fitsdata.h"
 #include "QProgressIndicator.h"
 
 #include <QJsonDocument>
@@ -28,7 +30,8 @@
 QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
 {
     {GET_PROFILES, "get_profiles"},
-    {NEW_MOUNT_STATE, "new_mount_state"}
+    {NEW_MOUNT_STATE, "new_mount_state"},
+    {NEW_PREVIEW_IMAGE, "new_preview_image"}
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -306,4 +309,28 @@ void EkosLiveClient::updateMountStatus()
     };
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], state);
+}
+
+void EkosLiveClient::sendPreviewImage(FITSView *view)
+{
+    if (m_isConnected == false)
+        return;
+
+    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
+    QTemporaryFile jpegFile;
+    jpegFile.open();
+    jpegFile.close();
+
+    scaledImage.save(jpegFile.fileName(), "jpg");
+
+    jpegFile.open();
+
+    QByteArray jpegData = jpegFile.readAll();
+
+    QJsonObject image =
+    {
+        {"data", QString(jpegData.toBase64()) }
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
 }

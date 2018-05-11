@@ -270,6 +270,8 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
         QTimer::singleShot(100 , this , SLOT(viewStarProfile()));  //Need to wait till the Focus module finds stars, if its the Focus module.
     }
 
+    emit imageLoaded();
+
     return true;
 }
 

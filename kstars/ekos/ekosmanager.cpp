@@ -199,6 +199,11 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     vlayout->addWidget(summaryPreview.get());
     previewWidget->setLayout(vlayout);
 
+    connect(summaryPreview.get(), &FITSView::imageLoaded, [&]()
+    {
+        ekosLiveClient.get()->sendPreviewImage(summaryPreview.get());
+    });
+
     if (Options::ekosLeftIcons())
     {
         toolsWidget->setTabPosition(QTabWidget::West);
