@@ -265,6 +265,7 @@ private:
     void wcsToggled(bool);
     void actionUpdated(const QString &name, bool enable);
     void trackingStarSelected(int x, int y);
+    void imageLoaded();
 
     friend class FITSLabel;
 };

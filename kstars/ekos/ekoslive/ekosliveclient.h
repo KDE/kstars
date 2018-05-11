@@ -18,6 +18,7 @@ class EkosManager;
 class QProgressIndicator;
 class QNetworkAccessManager;
 class QNetworkReply;
+class FITSView;
 
 class EkosLiveClient : public QDialog, public Ui::EkosLiveDialog
 {
@@ -31,11 +32,13 @@ public:
     void sendResponse(const QString &command, const QJsonArray &payload);
 
     void updateMountStatus();
+    void sendPreviewImage(FITSView *view);
 
     enum COMMANDS
     {
         GET_PROFILES,
         NEW_MOUNT_STATE,
+        NEW_PREVIEW_IMAGE,
     };
 
     static QMap<COMMANDS, QString> const commands;
