@@ -32,6 +32,8 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {GET_PROFILES, "get_profiles"},
     {NEW_MOUNT_STATE, "new_mount_state"},
     {NEW_CAPTURE_STATE, "new_capture_state"},
+    {NEW_GUIDE_STATE, "new_guide_state"},
+    {NEW_FOCUS_STATE, "new_focus_state"},
     {NEW_PREVIEW_IMAGE, "new_preview_image"}
 };
 
@@ -354,4 +356,31 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
     };
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
+}
+
+void EkosLiveClient::updateFocusStatus(double newHFR)
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject status = {{ "status", m_Manager->focusStatus->text() } };
+    if (newHFR > 0)
+        status.insert("hfr", newHFR);
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_FOCUS_STATE], status);
+}
+
+void EkosLiveClient::updateGuideStatus(double raRMS, double deRMS)
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject status =  {{ "status", m_Manager->guideStatus->text() }};
+
+    if (raRMS > 0)
+        status.insert("raRMS", raRMS);
+    if (deRMS > 0)
+        status.insert("deRMS", deRMS);
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_GUIDE_STATE], status);
 }

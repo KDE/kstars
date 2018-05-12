@@ -33,6 +33,8 @@ public:
 
     void updateMountStatus();
     void updateCaptureStatus();
+    void updateFocusStatus(double HFR=-1);
+    void updateGuideStatus(double raRMS=-1, double deRMS=-1);
     void sendPreviewImage(FITSView *view);
 
     enum COMMANDS
@@ -40,6 +42,8 @@ public:
         GET_PROFILES,
         NEW_MOUNT_STATE,
         NEW_CAPTURE_STATE,
+        NEW_GUIDE_STATE,
+        NEW_FOCUS_STATE,
         NEW_PREVIEW_IMAGE,
     };
 
