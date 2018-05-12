@@ -2363,7 +2363,7 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
     sequenceCountDown.setHMS(0, 0, 0);
     sequenceCountDown = sequenceCountDown.addSecs(captureProcess->getActiveJobRemainingTime());
 
-    if (status != Ekos::CAPTURE_ABORTED && status != Ekos::CAPTURE_COMPLETE)
+    if (status != Ekos::CAPTURE_ABORTED && status != Ekos::CAPTURE_COMPLETE && status != Ekos::CAPTURE_IDLE)
     {
         if (status == Ekos::CAPTURE_CAPTURING)
             capturePI->setColor(Qt::darkGreen);
@@ -2389,33 +2389,41 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
             }
 
             imageProgress->setValue(0);
+            sequenceLabel->setText(i18n("Sequence"));
             imageRemainingTime->setText("--:--:--");
             overallRemainingTime->setText("--:--:--");
             sequenceRemainingTime->setText("--:--:--");
         }
     }
+
+    ekosLiveClient.get()->updateCaptureStatus();
 }
 
 void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
 {
+    // Image is set to nullptr only on initial capture start up
+    int completed = 0;
+    if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+        completed = job->getCompleted() + 1;
+    else
+        completed = (image == nullptr) ? job->getCompleted() : job->getCompleted() + 1;
+
     if (job->isPreview() == false)
     {
-        // Image is set to nullptr only on initial capture start up
-        int completed = 0;
-        if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-            completed = job->getCompleted() + 1;
-        else
-            completed = (image == nullptr) ? job->getCompleted() : job->getCompleted() + 1;
-
         sequenceLabel->setText(QString("Job # %1/%2 %3 (%4/%5)")
                                .arg(captureProcess->getActiveJobID() + 1)
                                .arg(captureProcess->getJobCount())
                                .arg(job->getFullPrefix())
                                .arg(completed)
                                .arg(job->getCount()));
-        sequenceProgress->setRange(0, job->getCount());
-        sequenceProgress->setValue(completed);
     }
+    else
+        sequenceLabel->setText(i18n("Preview"));
+
+    sequenceProgress->setRange(0, job->getCount());
+    sequenceProgress->setValue(completed);
+
+    ekosLiveClient.get()->updateCaptureStatus();
 }
 
 void EkosManager::updateExposureProgress(Ekos::SequenceJob *job)
@@ -2429,6 +2437,8 @@ void EkosManager::updateExposureProgress(Ekos::SequenceJob *job)
     imageProgress->setValue(job->getExposeLeft());
 
     imageRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
+
+    ekosLiveClient.get()->updateCaptureStatus();
 }
 
 void EkosManager::updateCaptureCountDown()
@@ -2443,6 +2453,8 @@ void EkosManager::updateCaptureCountDown()
 
     overallRemainingTime->setText(overallCountDown.toString("hh:mm:ss"));
     sequenceRemainingTime->setText(sequenceCountDown.toString("hh:mm:ss"));
+
+    ekosLiveClient.get()->updateCaptureStatus();
 }
 
 void EkosManager::updateFocusStarPixmap(QPixmap &starPixmap)

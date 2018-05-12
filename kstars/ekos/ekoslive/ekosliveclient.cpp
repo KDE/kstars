@@ -31,6 +31,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
 {
     {GET_PROFILES, "get_profiles"},
     {NEW_MOUNT_STATE, "new_mount_state"},
+    {NEW_CAPTURE_STATE, "new_capture_state"},
     {NEW_PREVIEW_IMAGE, "new_preview_image"}
 };
 
@@ -309,6 +310,26 @@ void EkosLiveClient::updateMountStatus()
     };
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], state);
+}
+
+void EkosLiveClient::updateCaptureStatus()
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject state =
+    {
+        { "status", m_Manager->captureStatus->text() },
+        { "expr", m_Manager->imageProgress->maximum() },
+        { "expv" , m_Manager->imageProgress->value() },
+        { "seqr" , m_Manager->sequenceProgress->maximum() },
+        { "seqv" , m_Manager->sequenceProgress->value() },
+        { "seql" , m_Manager->sequenceLabel->text()},
+        { "seqt" , m_Manager->sequenceRemainingTime->text() },
+        { "ovt" , m_Manager->overallRemainingTime->text() }
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CAPTURE_STATE], state);
 }
 
 void EkosLiveClient::sendPreviewImage(FITSView *view)

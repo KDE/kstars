@@ -1184,6 +1184,11 @@ bool Capture::setCaptureComplete()
         abort();
         if (guideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
             emit resumeGuiding();
+        else
+        {
+            state = CAPTURE_IDLE;
+            emit newStatus(Ekos::CAPTURE_IDLE);
+        }
         return true;
     }
 
@@ -1542,8 +1547,9 @@ void Capture::captureImage()
 
     state = CAPTURE_CAPTURING;
 
-    if (activeJob->isPreview() == false)
-        emit newStatus(Ekos::CAPTURE_CAPTURING);
+    //if (activeJob->isPreview() == false)
+    // NOTE: Why we didn't emit this before for preview?
+    emit newStatus(Ekos::CAPTURE_CAPTURING);
 
     if (frameSettings.contains(activeJob->getActiveChip()))
     {

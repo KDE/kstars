@@ -32,12 +32,14 @@ public:
     void sendResponse(const QString &command, const QJsonArray &payload);
 
     void updateMountStatus();
+    void updateCaptureStatus();
     void sendPreviewImage(FITSView *view);
 
     enum COMMANDS
     {
         GET_PROFILES,
         NEW_MOUNT_STATE,
+        NEW_CAPTURE_STATE,
         NEW_PREVIEW_IMAGE,
     };
 
