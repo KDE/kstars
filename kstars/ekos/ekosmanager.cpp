@@ -1923,12 +1923,16 @@ void EkosManager::initFocus()
 void EkosManager::updateCurrentHFR(double newHFR)
 {
     currentHFR->setText(QString("%1").arg(newHFR, 0, 'f', 2) + " px");
+
+    ekosLiveClient.get()->updateFocusStatus(newHFR);
 }
 
 void EkosManager::updateSigmas(double ra, double de)
 {
     errRA->setText(QString::number(ra, 'f', 2) + "\"");
     errDEC->setText(QString::number(de, 'f', 2) + "\"");
+
+    ekosLiveClient.get()->updateGuideStatus(ra, de);
 }
 
 void EkosManager::initMount()
@@ -2496,6 +2500,8 @@ void EkosManager::setFocusStatus(Ekos::FocusState status)
         if (focusPI->isAnimated())
             focusPI->stopAnimation();
     }
+
+    ekosLiveClient.get()->updateFocusStatus();
 }
 
 void EkosManager::updateGuideStatus(Ekos::GuideState status)
@@ -2540,6 +2546,8 @@ void EkosManager::updateGuideStatus(Ekos::GuideState status)
             guidePI->stopAnimation();
         break;
     }
+
+    ekosLiveClient.get()->updateGuideStatus();
 }
 
 void EkosManager::updateGuideStarPixmap(QPixmap &starPix)
