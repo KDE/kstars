@@ -30,6 +30,7 @@
 QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
 {
     {GET_PROFILES, "get_profiles"},
+    {GET_STATES, "get_states"},
     {NEW_MOUNT_STATE, "new_mount_state"},
     {NEW_CAPTURE_STATE, "new_capture_state"},
     {NEW_GUIDE_STATE, "new_guide_state"},
@@ -204,6 +205,8 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
 
     if (command == commands[GET_PROFILES])
         sendProfiles();
+    else if (command == commands[GET_STATES])
+        sendStates();
 }
 
 void EkosLiveClient::onBinaryMessageReceived(const QByteArray &message)
@@ -297,32 +300,20 @@ void EkosLiveClient::onResult(QNetworkReply *reply)
     connectWebSocketServer();
 }
 
-void EkosLiveClient::updateMountStatus()
+void EkosLiveClient::updateMountStatus(const QJsonObject &status)
 {
     if (m_isConnected == false)
         return;
 
-    QJsonObject state =
-    {
-        { "status", m_Manager->mountStatus->text() },
-        { "target", m_Manager->mountTarget->text() },
-        { "ra" , dms::fromString(m_Manager->raOUT->text(), false).Degrees() },
-        { "de" , dms::fromString(m_Manager->decOUT->text(), true).Degrees() },
-        { "az" , dms::fromString(m_Manager->azOUT->text(), true).Degrees() },
-        { "at" , dms::fromString(m_Manager->altOUT->text(), true).Degrees() }
-    };
-
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], state);
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], status);
 }
 
-void EkosLiveClient::updateCaptureStatus(const QVariantMap &status)
+void EkosLiveClient::updateCaptureStatus(const QJsonObject &status)
 {
     if (m_isConnected == false)
-        return;
+        return;    
 
-    QJsonObject state = QJsonObject::fromVariantMap(status);
-
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CAPTURE_STATE], state);
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CAPTURE_STATE], status);
 }
 
 void EkosLiveClient::sendPreviewImage(FITSView *view)
@@ -330,6 +321,7 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
     if (m_isConnected == false)
         return;
 
+    // TODO 640 should be configurable later on
     QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
     QTemporaryFile jpegFile;
     jpegFile.open();
@@ -349,29 +341,36 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
 }
 
-void EkosLiveClient::updateFocusStatus(double newHFR)
+void EkosLiveClient::updateFocusStatus(const QJsonObject &status)
 {
     if (m_isConnected == false)
         return;
-
-    QJsonObject status = {{ "status", m_Manager->focusStatus->text() } };
-    if (newHFR > 0)
-        status.insert("hfr", newHFR);
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_FOCUS_STATE], status);
 }
 
-void EkosLiveClient::updateGuideStatus(double raRMS, double deRMS)
+void EkosLiveClient::updateGuideStatus(const QJsonObject &status)
 {
     if (m_isConnected == false)
         return;
 
-    QJsonObject status =  {{ "status", m_Manager->guideStatus->text() }};
-
-    if (raRMS > 0)
-        status.insert("raRMS", raRMS);
-    if (deRMS > 0)
-        status.insert("deRMS", deRMS);
-
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_GUIDE_STATE], status);
+}
+
+void EkosLiveClient::sendStates()
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject captureState = {{ "status", m_Manager->captureStatus->text()}};
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CAPTURE_STATE], captureState);
+
+    QJsonObject mountState = {{ "status", m_Manager->mountStatus->text()},{"target", m_Manager->mountTarget->text()}};
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], mountState);
+
+    QJsonObject focusState = {{ "status", m_Manager->focusStatus->text()}};
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_FOCUS_STATE], focusState);
+
+    QJsonObject guideState = {{ "status", m_Manager->guideStatus->text()}};
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_GUIDE_STATE], guideState);
 }
