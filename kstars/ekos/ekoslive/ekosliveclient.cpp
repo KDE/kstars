@@ -126,6 +126,7 @@ void EkosLiveClient::sendMessage(const QString &msg)
 
 void EkosLiveClient::sendResponse(const QString &command, const QJsonObject &payload)
 {
+    //qCDebug(KSTARS_EKOS) << QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact);
     sendMessage(QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
 }
 
@@ -314,22 +315,12 @@ void EkosLiveClient::updateMountStatus()
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], state);
 }
 
-void EkosLiveClient::updateCaptureStatus()
+void EkosLiveClient::updateCaptureStatus(const QVariantMap &status)
 {
     if (m_isConnected == false)
         return;
 
-    QJsonObject state =
-    {
-        { "status", m_Manager->captureStatus->text() },
-        { "expr", m_Manager->imageProgress->maximum() },
-        { "expv" , m_Manager->imageProgress->value() },
-        { "seqr" , m_Manager->sequenceProgress->maximum() },
-        { "seqv" , m_Manager->sequenceProgress->value() },
-        { "seql" , m_Manager->sequenceLabel->text()},
-        { "seqt" , m_Manager->sequenceRemainingTime->text() },
-        { "ovt" , m_Manager->overallRemainingTime->text() }
-    };
+    QJsonObject state = QJsonObject::fromVariantMap(status);
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CAPTURE_STATE], state);
 }

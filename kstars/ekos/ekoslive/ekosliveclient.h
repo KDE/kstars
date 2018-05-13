@@ -32,7 +32,7 @@ public:
     void sendResponse(const QString &command, const QJsonArray &payload);
 
     void updateMountStatus();
-    void updateCaptureStatus();
+    void updateCaptureStatus(const QVariantMap &status);
     void updateFocusStatus(double HFR=-1);
     void updateGuideStatus(double raRMS=-1, double deRMS=-1);
     void sendPreviewImage(FITSView *view);
