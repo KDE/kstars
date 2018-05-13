@@ -2400,7 +2400,12 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
         }
     }
 
-    ekosLiveClient.get()->updateCaptureStatus();
+    QVariantMap cStatus;
+    cStatus["status"] = captureStatus->text();
+    cStatus["seqt"] = sequenceRemainingTime->text();
+    cStatus["ovt"] = overallRemainingTime->text();
+
+    ekosLiveClient.get()->updateCaptureStatus(cStatus);
 }
 
 void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
@@ -2427,7 +2432,12 @@ void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
     sequenceProgress->setRange(0, job->getCount());
     sequenceProgress->setValue(completed);
 
-    ekosLiveClient.get()->updateCaptureStatus();
+    QVariantMap status;
+    status["seqv"] = completed;
+    status["seqr"] = job->getCount();
+    status["seql"] = sequenceLabel->text();
+
+    ekosLiveClient.get()->updateCaptureStatus(status);
 }
 
 void EkosManager::updateExposureProgress(Ekos::SequenceJob *job)
@@ -2442,7 +2452,10 @@ void EkosManager::updateExposureProgress(Ekos::SequenceJob *job)
 
     imageRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
 
-    ekosLiveClient.get()->updateCaptureStatus();
+    QVariantMap status;
+    status["expv"] = job->getExposeLeft();
+    status["expr"] = job->getExposure();
+    ekosLiveClient.get()->updateCaptureStatus(status);
 }
 
 void EkosManager::updateCaptureCountDown()
@@ -2458,7 +2471,10 @@ void EkosManager::updateCaptureCountDown()
     overallRemainingTime->setText(overallCountDown.toString("hh:mm:ss"));
     sequenceRemainingTime->setText(sequenceCountDown.toString("hh:mm:ss"));
 
-    ekosLiveClient.get()->updateCaptureStatus();
+    QVariantMap status;
+    status["seqt"] = sequenceRemainingTime->text();
+    status["ovt"] = overallRemainingTime->text();
+    ekosLiveClient.get()->updateCaptureStatus(status);
 }
 
 void EkosManager::updateFocusStarPixmap(QPixmap &starPixmap)
