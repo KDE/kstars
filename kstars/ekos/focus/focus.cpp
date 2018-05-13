@@ -1201,7 +1201,11 @@ void Focus::setCaptureComplete()
             return;
         }
 
-        emit newHFR(currentHFR);
+
+        if (canAbsMove)
+            emit newHFR(currentHFR, static_cast<int>(currentPosition));
+        else
+            emit newHFR(currentHFR, -1);
 
         QString HFRText = QString("%1").arg(currentHFR, 0, 'f', 2);
 
