@@ -321,7 +321,7 @@ class Focus : public QWidget, public Ui::Focus
     void newStatus(Ekos::FocusState state);
     void newStarPixmap(QPixmap &);
     void newProfilePixmap(QPixmap &);
-    void newHFR(double hfr);
+    void newHFR(double hfr, int position);
     void absolutePositionChanged(int value);
     void focusPositionAdjusted();
 

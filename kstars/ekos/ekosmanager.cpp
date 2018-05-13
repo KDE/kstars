@@ -1859,7 +1859,7 @@ void EkosManager::initFocus()
     connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(setFocusStatus(Ekos::FocusState)));
     connect(focusProcess.get(), SIGNAL(newStarPixmap(QPixmap&)), this, SLOT(updateFocusStarPixmap(QPixmap&)));
     connect(focusProcess.get(), SIGNAL(newProfilePixmap(QPixmap&)), this, SLOT(updateFocusProfilePixmap(QPixmap&)));
-    connect(focusProcess.get(), SIGNAL(newHFR(double)), this, SLOT(updateCurrentHFR(double)));
+    connect(focusProcess.get(), SIGNAL(newHFR(double,int)), this, SLOT(updateCurrentHFR(double,int)));
 
     focusProcess->setFilterManager(filterManager);
     connect(filterManager.data(), SIGNAL(checkFocus(double)), focusProcess.get(), SLOT(checkFocus(double)), Qt::UniqueConnection);
@@ -1920,12 +1920,13 @@ void EkosManager::initFocus()
                 SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
 }
 
-void EkosManager::updateCurrentHFR(double newHFR)
+void EkosManager::updateCurrentHFR(double newHFR, int position)
 {
     currentHFR->setText(QString("%1").arg(newHFR, 0, 'f', 2) + " px");
 
     QJsonObject cStatus = {
-      {"hfr", newHFR}
+      {"hfr", newHFR},
+      {"pos", position}
     };
 
     ekosLiveClient.get()->updateFocusStatus(cStatus);

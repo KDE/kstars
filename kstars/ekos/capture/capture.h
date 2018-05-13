@@ -414,7 +414,7 @@ class Capture : public QWidget, public Ui::Capture
 
     // Auto Focus
     void setFocusStatus(Ekos::FocusState state);
-    void setHFR(double newHFR) { focusHFR = newHFR; }
+    void setHFR(double newHFR, int) { focusHFR = newHFR; }
 
     // Guide
     void setGuideStatus(Ekos::GuideState state);

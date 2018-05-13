@@ -221,7 +221,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     void setFocusStatus(Ekos::FocusState status);
     void updateFocusStarPixmap(QPixmap &starPixmap);
     void updateFocusProfilePixmap(QPixmap &profilePixmap);
-    void updateCurrentHFR(double newHFR);
+    void updateCurrentHFR(double newHFR, int position);
 
     // Guide Summary
     void updateGuideStatus(Ekos::GuideState status);
