@@ -1924,7 +1924,11 @@ void EkosManager::updateCurrentHFR(double newHFR)
 {
     currentHFR->setText(QString("%1").arg(newHFR, 0, 'f', 2) + " px");
 
-    ekosLiveClient.get()->updateFocusStatus(newHFR);
+    QJsonObject cStatus = {
+      {"hfr", newHFR}
+    };
+
+    ekosLiveClient.get()->updateFocusStatus(cStatus);
 }
 
 void EkosManager::updateSigmas(double ra, double de)
@@ -1932,7 +1936,9 @@ void EkosManager::updateSigmas(double ra, double de)
     errRA->setText(QString::number(ra, 'f', 2) + "\"");
     errDEC->setText(QString::number(de, 'f', 2) + "\"");
 
-    ekosLiveClient.get()->updateGuideStatus(ra, de);
+    QJsonObject cStatus = { {"rarms", ra}, {"derms", de} };
+
+    ekosLiveClient.get()->updateGuideStatus(cStatus);
 }
 
 void EkosManager::initMount()
@@ -2343,7 +2349,11 @@ void EkosManager::updateMountStatus(ISD::Telescope::TelescopeStatus status)
             mountPI->stopAnimation();
     }
 
-    ekosLiveClient.get()->updateMountStatus();
+    QJsonObject cStatus = {
+      {"status", mountStatus->text()}
+    };
+
+    ekosLiveClient.get()->updateMountStatus(cStatus);
 }
 
 void EkosManager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt)
@@ -2353,7 +2363,14 @@ void EkosManager::updateMountCoords(const QString &ra, const QString &dec, const
     azOUT->setText(az);
     altOUT->setText(alt);
 
-    ekosLiveClient.get()->updateMountStatus();
+    QJsonObject cStatus = {
+      {"ra", dms::fromString(ra, false).Degrees()},
+      {"de", dms::fromString(dec, true).Degrees()},
+      {"az", dms::fromString(az, true).Degrees()},
+      {"at", dms::fromString(alt, true).Degrees()},
+    };
+
+    ekosLiveClient.get()->updateMountStatus(cStatus);
 }
 
 void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
@@ -2400,10 +2417,11 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
         }
     }
 
-    QVariantMap cStatus;
-    cStatus["status"] = captureStatus->text();
-    cStatus["seqt"] = sequenceRemainingTime->text();
-    cStatus["ovt"] = overallRemainingTime->text();
+    QJsonObject cStatus = {
+        {"status", captureStatus->text()},
+        {"seqt", sequenceRemainingTime->text()},
+        {"ovt", overallRemainingTime->text()}
+    };
 
     ekosLiveClient.get()->updateCaptureStatus(cStatus);
 }
@@ -2432,10 +2450,11 @@ void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
     sequenceProgress->setRange(0, job->getCount());
     sequenceProgress->setValue(completed);
 
-    QVariantMap status;
-    status["seqv"] = completed;
-    status["seqr"] = job->getCount();
-    status["seql"] = sequenceLabel->text();
+    QJsonObject status = {
+        {"seqv", completed},
+        {"seqr", job->getCount()},
+        {"seql", sequenceLabel->text()}
+    };
 
     ekosLiveClient.get()->updateCaptureStatus(status);
 }
@@ -2452,9 +2471,11 @@ void EkosManager::updateExposureProgress(Ekos::SequenceJob *job)
 
     imageRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
 
-    QVariantMap status;
-    status["expv"] = job->getExposeLeft();
-    status["expr"] = job->getExposure();
+    QJsonObject status {
+        {"expv", job->getExposeLeft()},
+        {"expr", job->getExposure()}
+    };
+
     ekosLiveClient.get()->updateCaptureStatus(status);
 }
 
@@ -2471,9 +2492,11 @@ void EkosManager::updateCaptureCountDown()
     overallRemainingTime->setText(overallCountDown.toString("hh:mm:ss"));
     sequenceRemainingTime->setText(sequenceCountDown.toString("hh:mm:ss"));
 
-    QVariantMap status;
-    status["seqt"] = sequenceRemainingTime->text();
-    status["ovt"] = overallRemainingTime->text();
+    QJsonObject status = {
+      {"seqt", sequenceRemainingTime->text()},
+      {"ovt", overallRemainingTime->text()}
+    };
+
     ekosLiveClient.get()->updateCaptureStatus(status);
 }
 
@@ -2517,7 +2540,11 @@ void EkosManager::setFocusStatus(Ekos::FocusState status)
             focusPI->stopAnimation();
     }
 
-    ekosLiveClient.get()->updateFocusStatus();
+    QJsonObject cStatus = {
+      {"status", focusStatus->text()}
+    };
+
+    ekosLiveClient.get()->updateFocusStatus(cStatus);
 }
 
 void EkosManager::updateGuideStatus(Ekos::GuideState status)
@@ -2563,7 +2590,11 @@ void EkosManager::updateGuideStatus(Ekos::GuideState status)
         break;
     }
 
-    ekosLiveClient.get()->updateGuideStatus();
+    QJsonObject cStatus = {
+      {"status", guideStatus->text()}
+    };
+
+    ekosLiveClient.get()->updateGuideStatus(cStatus);
 }
 
 void EkosManager::updateGuideStarPixmap(QPixmap &starPix)
@@ -2587,6 +2618,9 @@ void EkosManager::updateGuideProfilePixmap(QPixmap &profilePix)
 void EkosManager::setTarget(SkyObject *o)
 {
     mountTarget->setText(o->name());
+
+    QJsonObject target = {{"target", o->name()}};
+    ekosLiveClient.get()->updateMountStatus(target);
 }
 
 void EkosManager::showEkosOptions()

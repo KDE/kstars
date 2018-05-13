@@ -31,15 +31,16 @@ public:
     void sendResponse(const QString &command, const QJsonObject &payload);
     void sendResponse(const QString &command, const QJsonArray &payload);
 
-    void updateMountStatus();
-    void updateCaptureStatus(const QVariantMap &status);
-    void updateFocusStatus(double HFR=-1);
-    void updateGuideStatus(double raRMS=-1, double deRMS=-1);
+    void updateMountStatus(const QJsonObject &status);
+    void updateCaptureStatus(const QJsonObject &status);
+    void updateFocusStatus(const QJsonObject &status);
+    void updateGuideStatus(const QJsonObject &status);
     void sendPreviewImage(FITSView *view);
 
     enum COMMANDS
     {
         GET_PROFILES,
+        GET_STATES,
         NEW_MOUNT_STATE,
         NEW_CAPTURE_STATE,
         NEW_GUIDE_STATE,
@@ -69,6 +70,7 @@ private:
     void connectWebSocketServer();
     void disconnectWebSocketServer();
     void sendProfiles();
+    void sendStates();
 
     QWebSocket m_webSocket;    
     bool m_isConnected { false };
