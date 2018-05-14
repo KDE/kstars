@@ -29,7 +29,6 @@
 
 class QPoint;
 class GeoLocation;
-class KStarsDateTime;
 class KSPopupMenu;
 
 /**
