@@ -300,7 +300,7 @@ bool LocationDialogLite::editCity(const QString &fullName, const QString &city, 
         geo->setCountry(country);
         geo->setLat(lat);
         geo->setLong(lng);
-        geo->setTZ(TZ);
+        geo->setTZ0(TZ);
         geo->setTZRule(&KStarsData::Instance()->Rulebook[TZRule]);
 
         //If we are changing current location update it

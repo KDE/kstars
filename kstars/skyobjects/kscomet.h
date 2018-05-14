@@ -58,7 +58,6 @@ class KSComet : public KSPlanetBase
      * Constructor.
      * @param s the name of the comet
      * @param image_file the filename for an image of the comet
-     * @param JD the Julian Day for the orbital elements
      * @param q the perihelion distance of the comet's orbit (AU)
      * @param e the eccentricity of the comet's orbit
      * @param i the inclination angle of the comet's orbit
@@ -70,7 +69,7 @@ class KSComet : public KSPlanetBase
      * @param K1 the comet total magnitude slope parameter
      * @param K2 the comet nuclear magnitude slope parameter
      */
-    KSComet(const QString &s, const QString &image_file, long double JD, double q, double e, dms i, dms w, dms N,
+    KSComet(const QString &s, const QString &image_file, double q, double e, dms i, dms w, dms N,
             double Tp, float M1, float M2, float K1, float K2);
 
     KSComet *clone() const override;
@@ -196,7 +195,6 @@ class KSComet : public KSPlanetBase
   private:
     void findMagnitude(const KSNumbers *) override;
 
-    long double JD { 0 };
     long double JDp { 0 };
     double q { 0 };
     double e { 0 };

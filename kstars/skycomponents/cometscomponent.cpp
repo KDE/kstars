@@ -93,9 +93,7 @@ void CometsComponent::loadData()
 {
     QString name, orbit_id, orbit_class, dimensions;
     bool neo;
-    int mJD;
     double q, e, dble_i, dble_w, dble_N, Tp, earth_moid;
-    long double JD;
     float M1, M2, K1, K2, diameter, albedo, rot_period, period;
 
     emitProgressText(i18n("Loading comets"));
@@ -139,7 +137,6 @@ void CometsComponent::loadData()
         row_content  = cometParser.ReadNextRow();
         name         = row_content["full name"].toString();
         name         = name.trimmed();
-        mJD          = row_content["epoch_mjd"].toInt();
         q            = row_content["q"].toDouble();
         e            = row_content["e"].toDouble();
         dble_i       = row_content["i"].toDouble();
@@ -169,9 +166,7 @@ void CometsComponent::loadData()
         K1          = row_content["H"].toFloat();
         K2          = row_content["G"].toFloat();
 
-        JD = static_cast<double>(mJD) + 2400000.5;
-
-        com = new KSComet(name, QString(), JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp, M1, M2, K1, K2);
+        com = new KSComet(name, QString(), q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp, M1, M2, K1, K2);
         com->setOrbitID(orbit_id);
         com->setNEO(neo);
         com->setDiameter(diameter);

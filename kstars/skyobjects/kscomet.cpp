@@ -50,9 +50,9 @@ int letterDesigToN(QString s)
 QMap<QChar, qint64> cometType;
 }
 
-KSComet::KSComet(const QString &_s, const QString &imfile, long double _JD, double _q, double _e, dms _i, dms _w,
+KSComet::KSComet(const QString &_s, const QString &imfile, double _q, double _e, dms _i, dms _w,
                  dms _Node, double Tp, float _M1, float _M2, float _K1, float _K2)
-    : KSPlanetBase(_s, imfile), JD(_JD), q(_q), e(_e), M1(_M1), M2(_M2), K1(_K1), K2(_K2), i(_i), w(_w), N(_Node)
+    : KSPlanetBase(_s, imfile), q(_q), e(_e), M1(_M1), M2(_M2), K1(_K1), K2(_K2), i(_i), w(_w), N(_Node)
 {
     setType(SkyObject::COMET);
 
