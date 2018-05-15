@@ -443,7 +443,7 @@ void Capture::stop(bool abort)
         if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
         {
             //KNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture failed with errors"));
-            emit newEvent(QLatin1String("CaptureFailed"), i18n("CCD capture failed with errors"), Ekos::EVENT_ALERT);
+            KSNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture failed with errors"), KSNotification::EVENT_ALERT);
             activeJob->abort();
             emit newStatus(Ekos::CAPTURE_ABORTED);
         }        
@@ -1169,8 +1169,7 @@ bool Capture::setCaptureComplete()
 
     // Do not display notifications for very short captures
     if (activeJob->getExposure() >= 1)
-        //KNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"));
-        emit newEvent(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"), Ekos::EVENT_INFO);
+        KSNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"), KSNotification::EVENT_INFO);
 
     // If it was initially set as preview job
     if (seqTotalCount <= 0)
@@ -1258,7 +1257,7 @@ void Capture::processJobCompletion()
     else
     {
         //KNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"));
-        emit newEvent(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"), Ekos::EVENT_INFO);
+        KSNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"), KSNotification::EVENT_INFO);
 
         abort();
 
@@ -3690,7 +3689,7 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
             appendLogText(i18n("Telescope completed the meridian flip."));
 
             //KNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"));
-            emit newEvent(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"), Ekos::EVENT_INFO);
+            KSNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"), KSNotification::EVENT_INFO);
 
             if (resumeAlignmentAfterFlip == true)
             {
@@ -3784,7 +3783,7 @@ bool Capture::checkMeridianFlip()
         meridianFlipStage = MF_INITIATED;
 
         //KNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"));
-        emit newEvent(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"), Ekos::EVENT_INFO);
+        KSNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"), KSNotification::EVENT_INFO);
 
         // Suspend guiding first before commanding a meridian flip
         //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
@@ -3825,7 +3824,7 @@ void Capture::checkMeridianFlipTimeout()
         if (++retries == 3)
         {
             //KNotification::event(QLatin1String("MeridianFlipFailed"), i18n("Meridian flip failed"));
-            emit newEvent(QLatin1String("MeridianFlipFailed"), i18n("Meridian flip failed"), Ekos::EVENT_ALERT);
+            KSNotification::event(QLatin1String("MeridianFlipFailed"), i18n("Meridian flip failed"), KSNotification::EVENT_ALERT);
             abort();
         }
         else

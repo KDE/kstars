@@ -30,6 +30,7 @@
 #include "mount/mount.h"
 #include "scheduler/scheduler.h"
 #include "auxiliary/filtermanager.h"
+#include "ksnotification.h"
 // Can't use forward decleration with QPointer. QTBUG-29588
 #include "auxiliary/opslogs.h"
 
@@ -86,6 +87,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     Ekos::Mount *mountModule() { return mountProcess.get(); }
     FITSView *getSummaryPreview() { return summaryPreview.get(); }
     QString getCurrentJobName();
+    void announceEvent(const QString &message, KSNotification::EventType event);
 
     /**
      * @defgroup EkosDBusInterface Ekos DBus Interface
@@ -172,9 +174,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     void showEkosOptions();
 
     void updateLog();
-    void clearLog();
-
-    void announceEvent(QLatin1String, QString, Ekos::Event);
+    void clearLog();    
 
     void processTabChange();
 

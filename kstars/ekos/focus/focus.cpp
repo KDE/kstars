@@ -20,8 +20,7 @@
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
 #include "indi/indifilter.h"
-
-#include <KNotifications/KNotification>
+#include "ksnotification.h"
 
 #include <basedevice.h>
 
@@ -737,7 +736,7 @@ void Focus::start()
     // Denoise with median filter
     //defaultScale = FITS_MEDIAN;
 
-    KNotification::event(QLatin1String("FocusStarted"), i18n("Autofocus operation started"));
+    KSNotification::event(QLatin1String("FocusStarted"), i18n("Autofocus operation started"));
 
     capture();
 }
@@ -2519,12 +2518,12 @@ void Focus::setAutoFocusResult(bool status)
 
     if (status)
     {
-        KNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"));
+        KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"));
         state = Ekos::FOCUS_COMPLETE;
     }
     else
     {
-        KNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed with errors"));
+        KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed with errors"), KSNotification::EVENT_ALERT);
         state = Ekos::FOCUS_FAILED;
     }
 

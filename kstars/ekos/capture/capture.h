@@ -507,8 +507,7 @@ class Capture : public QWidget, public Ui::Capture
     void meridianFlipCompleted();
     void newStatus(Ekos::CaptureState status);
     void newImage(QImage *image, Ekos::SequenceJob *job);
-    void newExposureProgress(Ekos::SequenceJob *job);
-    void newEvent(QLatin1String, QString, Ekos::Event);
+    void newExposureProgress(Ekos::SequenceJob *job);    
 
   private:
     void setBusy(bool enable);
