@@ -12,6 +12,7 @@
 #include <QDialog>
 #include <QtWebSockets/QWebSocket>
 
+#include "ekos/ekos.h"
 #include "ui_ekoslivedialog.h"
 
 class EkosManager;
@@ -36,6 +37,7 @@ public:
     void updateFocusStatus(const QJsonObject &status);
     void updateGuideStatus(const QJsonObject &status);
     void sendPreviewImage(FITSView *view);
+    void sendEvent(Ekos::Event event, const QString &message);
 
     enum COMMANDS
     {
@@ -46,6 +48,7 @@ public:
         NEW_GUIDE_STATE,
         NEW_FOCUS_STATE,
         NEW_PREVIEW_IMAGE,
+        NEW_NOTIFICATION,
     };
 
     static QMap<COMMANDS, QString> const commands;

@@ -374,3 +374,12 @@ void EkosLiveClient::sendStates()
     QJsonObject guideState = {{ "status", m_Manager->guideStatus->text()}};
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_GUIDE_STATE], guideState);
 }
+
+void EkosLiveClient::sendEvent(Ekos::Event event, const QString &message)
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject newEvent = {{ "severity", event}, {"message", message}};
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_NOTIFICATION], newEvent);
+}
