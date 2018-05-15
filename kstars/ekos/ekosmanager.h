@@ -174,6 +174,8 @@ class EkosManager : public QDialog, public Ui::EkosManager
     void updateLog();
     void clearLog();
 
+    void announceEvent(QLatin1String, QString, Ekos::Event);
+
     void processTabChange();
 
     void processServerTermination(const QString &host, const QString &port);

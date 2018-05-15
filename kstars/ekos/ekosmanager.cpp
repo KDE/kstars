@@ -2756,3 +2756,10 @@ void EkosManager::watchDebugProperty(ISwitchVectorProperty *svp)
         }
     }
 }
+
+void EkosManager::announceEvent(QLatin1String type, QString message, Ekos::Event event)
+{
+    KNotification::event(type, message);
+
+    ekosLiveClient.get()->sendEvent(event, message);
+}
