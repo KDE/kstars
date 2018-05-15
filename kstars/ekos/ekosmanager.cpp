@@ -1708,8 +1708,7 @@ void EkosManager::initCapture()
         icon        = QIcon(pix.transformed(trans));
         toolsWidget->setTabIcon(index, icon);
     }
-    connect(captureProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));
-    connect(captureProcess.get(), &Ekos::Capture::newEvent, this, &EkosManager::announceEvent);
+    connect(captureProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));    
     connect(captureProcess.get(), SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(updateCaptureStatus(Ekos::CaptureState)));
     connect(captureProcess.get(), SIGNAL(newImage(QImage*,Ekos::SequenceJob*)), this,
             SLOT(updateCaptureProgress(QImage*,Ekos::SequenceJob*)));
@@ -2759,9 +2758,7 @@ void EkosManager::watchDebugProperty(ISwitchVectorProperty *svp)
     }
 }
 
-void EkosManager::announceEvent(QLatin1String type, QString message, Ekos::Event event)
+void EkosManager::announceEvent(const QString &message, KSNotification::EventType event)
 {
-    KNotification::event(type, message);
-
-    ekosLiveClient.get()->sendEvent(event, message);
+    ekosLiveClient.get()->sendEvent(message, event);
 }

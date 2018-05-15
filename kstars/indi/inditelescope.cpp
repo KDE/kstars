@@ -16,8 +16,8 @@
 #include "Options.h"
 #include "skymap.h"
 #include "skymapcomposite.h"
+#include "ksnotification.h"
 
-#include <KNotification>
 #include <KActionCollection>
 #include <QAction>
 
@@ -158,11 +158,11 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         if (nvp->s == IPS_BUSY && EqCoordPreviousState != IPS_BUSY)
         {
             if (getStatus() != MOUNT_PARKING)
-                KNotification::event(QLatin1String("SlewStarted"), i18n("Mount is slewing to target location"));
+                KSNotification::event(QLatin1String("SlewStarted"), i18n("Mount is slewing to target location"));
         }
         else if (EqCoordPreviousState == IPS_BUSY && nvp->s == IPS_OK)
         {
-            KNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"));
+            KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"));
 
             double maxrad = 1000.0 / Options::zoomFactor();
 
@@ -229,23 +229,23 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
                 else if (parkStatus == PARK_UNPARKING)
                     parkStatus = PARK_PARKED;
 
-                KNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"));
+                KSNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"), KSNotification::EVENT_ALERT);
             }
             else if (svp->s == IPS_BUSY && sp->s == ISS_ON && parkStatus != PARK_PARKING)
             {
                 parkStatus = PARK_PARKING;
-                KNotification::event(QLatin1String("MountParking"), i18n("Mount parking is in progress"));
+                KSNotification::event(QLatin1String("MountParking"), i18n("Mount parking is in progress"));
                 currentObject = nullptr;
             }
             else if (svp->s == IPS_BUSY && sp->s == ISS_OFF && parkStatus != PARK_UNPARKING)
             {
                 parkStatus = PARK_UNPARKING;
-                KNotification::event(QLatin1String("MountUnParking"), i18n("Mount unparking is in progress"));
+                KSNotification::event(QLatin1String("MountUnParking"), i18n("Mount unparking is in progress"));
             }
             else if (svp->s == IPS_OK && sp->s == ISS_ON && parkStatus != PARK_PARKED)
             {
                 parkStatus = PARK_PARKED;
-                KNotification::event(QLatin1String("MountParked"), i18n("Mount parked"));
+                KSNotification::event(QLatin1String("MountParked"), i18n("Mount parked"));
                 currentObject = nullptr;
 
                 QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
@@ -260,7 +260,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
             else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && parkStatus != PARK_UNPARKED)
             {
                 parkStatus = PARK_UNPARKED;
-                KNotification::event(QLatin1String("MountUnparked"), i18n("Mount unparked"));
+                KSNotification::event(QLatin1String("MountUnparked"), i18n("Mount unparked"));
                 currentObject = nullptr;
 
                 QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
@@ -277,7 +277,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
         if (svp->s == IPS_OK)
         {
             inCustomParking = false;
-            KNotification::event(QLatin1String("MountAborted"), i18n("Mount motion was aborted"));
+            KSNotification::event(QLatin1String("MountAborted"), i18n("Mount motion was aborted"), KSNotification::EVENT_WARN);
         }
     }
     else if (!strcmp(svp->name, "TELESCOPE_MOTION_NS"))
@@ -301,13 +301,13 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
                                             (WECurrentMotion == IPS_BUSY && WEPreviousState != IPS_BUSY)))
             {
                 inManualMotion = true;
-                KNotification::event(QLatin1String("MotionStarted"), i18n("Mount is manually moving"));
+                KSNotification::event(QLatin1String("MotionStarted"), i18n("Mount is manually moving"));
             }
             else if (inManualMotion && ((NSCurrentMotion != IPS_BUSY && NSPreviousState == IPS_BUSY) ||
                                         (WECurrentMotion != IPS_BUSY && WEPreviousState == IPS_BUSY)))
             {
                 inManualMotion = false;
-                KNotification::event(QLatin1String("MotionStopped"), i18n("Mount is manually moving"));
+                KSNotification::event(QLatin1String("MotionStopped"), i18n("Mount is manually moving"));
             }
 
             NSPreviousState = NSCurrentMotion;

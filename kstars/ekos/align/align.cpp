@@ -37,12 +37,12 @@
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
 #include "profileinfo.h"
+#include "ksnotification.h"
 
 #include <basedevice.h>
 
 #include <KConfigDialog>
 #include <KActionCollection>
-#include <KNotifications/KNotification>
 
 #include <memory>
 
@@ -2377,7 +2377,7 @@ bool Align::captureAndSolve()
     if (currentCCD->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to CCD."));
-        KNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"));
+        KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::EVENT_ALERT);
         return false;
     }
 
@@ -3143,7 +3143,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         break;
     }
 
-    KNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"));
+    KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"));
     state = ALIGN_COMPLETE;
     emit newStatus(state);
     solverIterations = 0;
@@ -3161,7 +3161,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
 void Align::solverFailed()
 {
-    KNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed with errors"));
+    KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed with errors"),KSNotification::EVENT_ALERT);
 
     pi->stopAnimation();
     stopB->setEnabled(false);
@@ -3406,7 +3406,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 else
                 {
                     appendLogText(i18n("Mount is synced to solution coordinates. Astrometric solver is successful."));
-                    KNotification::event(QLatin1String("AlignSuccessful"),
+                    KSNotification::event(QLatin1String("AlignSuccessful"),
                                          i18n("Astrometry alignment completed successfully"));
                     state = ALIGN_COMPLETE;
                     emit newStatus(state);
@@ -3438,7 +3438,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 else if (differentialSlewingActivated)
                 {
                     appendLogText(i18n("Differential slewing complete. Astrometric solver is successful."));
-                    KNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"));
+                    KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"));
                     state = ALIGN_COMPLETE;
                     emit newStatus(state);
                     solverIterations = 0;
@@ -3644,7 +3644,7 @@ void Align::SlewToTarget()
         if (KStars::Instance()->ekosManager() &&
             !KStars::Instance()->ekosManager()->getCurrentJobName().isEmpty())
         {
-            KNotification::event(QLatin1String("EkosSchedulerTelescopeSynced"),
+            KSNotification::event(QLatin1String("EkosSchedulerTelescopeSynced"),
                                  i18n("Ekos job (%1) - Telescope synced",
                                       KStars::Instance()->ekosManager()->getCurrentJobName()));
         }

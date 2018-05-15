@@ -13,7 +13,9 @@
 #include <QtWebSockets/QWebSocket>
 
 #include "ekos/ekos.h"
+#include "indi/indicommon.h"
 #include "ui_ekoslivedialog.h"
+#include "ksnotification.h"
 
 class EkosManager;
 class QProgressIndicator;
@@ -37,7 +39,7 @@ public:
     void updateFocusStatus(const QJsonObject &status);
     void updateGuideStatus(const QJsonObject &status);
     void sendPreviewImage(FITSView *view);
-    void sendEvent(Ekos::Event event, const QString &message);
+    void sendEvent(const QString &message, KSNotification::EventType event);
 
     enum COMMANDS
     {

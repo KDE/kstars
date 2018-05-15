@@ -15,7 +15,6 @@
 #include "profileinfo.h"
 #include "kspaths.h"
 #include "filedownloader.h"
-#include "ksnotification.h"
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
 #include "QProgressIndicator.h"
@@ -24,6 +23,7 @@
 #include <QJsonObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QUuid>
 
 #include <KWallet>
 
@@ -35,7 +35,8 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {NEW_CAPTURE_STATE, "new_capture_state"},
     {NEW_GUIDE_STATE, "new_guide_state"},
     {NEW_FOCUS_STATE, "new_focus_state"},
-    {NEW_PREVIEW_IMAGE, "new_preview_image"}
+    {NEW_PREVIEW_IMAGE, "new_preview_image"},
+    {NEW_NOTIFICATION, "new_notification"}
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -375,11 +376,11 @@ void EkosLiveClient::sendStates()
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_GUIDE_STATE], guideState);
 }
 
-void EkosLiveClient::sendEvent(Ekos::Event event, const QString &message)
+void EkosLiveClient::sendEvent(const QString &message, KSNotification::EventType event)
 {
     if (m_isConnected == false)
         return;
 
-    QJsonObject newEvent = {{ "severity", event}, {"message", message}};
+    QJsonObject newEvent = {{ "severity", event}, {"message", message},{"uuid",QUuid::createUuid().toString()}};
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_NOTIFICATION], newEvent);
 }
