@@ -103,6 +103,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     //connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
     connect(ekosLiveB, SIGNAL(clicked()), ekosLiveClient.get(), SLOT(show()));
 
+
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
     // Save as above, but it appears in all modules
     connect(ekosOptionsB, SIGNAL(clicked()), SLOT(showEkosOptions()));
@@ -1708,6 +1709,7 @@ void EkosManager::initCapture()
         toolsWidget->setTabIcon(index, icon);
     }
     connect(captureProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));
+    connect(captureProcess.get(), &Ekos::Capture::newEvent, this, &EkosManager::announceEvent);
     connect(captureProcess.get(), SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(updateCaptureStatus(Ekos::CaptureState)));
     connect(captureProcess.get(), SIGNAL(newImage(QImage*,Ekos::SequenceJob*)), this,
             SLOT(updateCaptureProgress(QImage*,Ekos::SequenceJob*)));
