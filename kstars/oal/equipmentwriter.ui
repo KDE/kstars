@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>398</width>
-    <height>333</height>
+    <height>348</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="_2">
@@ -20,7 +20,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -204,6 +204,16 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
+            <widget class="QPushButton" name="AddScope">
+             <property name="toolTip">
+              <string>Save telescope information</string>
+             </property>
+             <property name="text">
+              <string>Save</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <spacer name="horizontalSpacer">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -218,22 +228,27 @@
            </item>
            <item>
             <widget class="QPushButton" name="NewScope">
-             <property name="text">
-              <string>Add New...</string>
+             <property name="toolTip">
+              <string>Clear data and add a new telescope</string>
              </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="AddScope">
              <property name="text">
-              <string>Save Telescope</string>
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset theme="list-add"/>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QPushButton" name="RemoveScope">
+             <property name="toolTip">
+              <string>Remove current telescope</string>
+             </property>
              <property name="text">
-              <string>Remove</string>
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset theme="list-remove"/>
              </property>
             </widget>
            </item>
@@ -772,7 +787,6 @@
   <tabstop>Type</tabstop>
   <tabstop>Aperture</tabstop>
   <tabstop>FocalLength</tabstop>
-  <tabstop>NewScope</tabstop>
   <tabstop>AddScope</tabstop>
   <tabstop>RemoveScope</tabstop>
   <tabstop>EyepieceList</tabstop>
