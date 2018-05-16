@@ -1703,6 +1703,17 @@ void Guide::setCaptureStatus(CaptureState newState)
 
 void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
 {
+    // If we're guiding, and the mount either slews or parks, then we abort.
+    if ((state == GUIDE_GUIDING || state == GUIDE_DITHERING) && (newState == ISD::Telescope::MOUNT_PARKING || newState == ISD::Telescope::MOUNT_SLEWING))
+    {
+        if (newState == ISD::Telescope::MOUNT_PARKING)
+            appendLogText(i18n("Mount is parking! Aborting guide..."));
+        else
+            appendLogText(i18n("Mount is slewing! Aborting guide..."));
+
+        abort();
+    }
+
     if (guiderType != GUIDE_INTERNAL)
         return;
 
@@ -1713,9 +1724,7 @@ void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
         case ISD::Telescope::MOUNT_MOVING:
             captureB->setEnabled(false);
             loopB->setEnabled(false);
-            clearCalibrationB->setEnabled(false);
-            if (newState == ISD::Telescope::MOUNT_PARKING)
-                abort();
+            clearCalibrationB->setEnabled(false);            
             break;
 
         default:
