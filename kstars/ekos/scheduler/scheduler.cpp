@@ -1436,7 +1436,11 @@ void Scheduler::evaluateJobs()
 
     updatePreDawn();
 
-    /* If there jobs left to run in the filtered list, check reschedule */
+    /* Remove complete and invalid jobs that could have appeared during the last evaluation */
+    sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(),[](SchedulerJob* job)
+    { return SchedulerJob::JOB_ABORTED < job->getState(); }), sortedJobs.end());
+
+    /* If there are no jobs left to run in the filtered list, shutdown scheduler */
     if (sortedJobs.isEmpty())
     {
         if (startupState == STARTUP_COMPLETE)
@@ -1445,8 +1449,7 @@ void Scheduler::evaluateJobs()
             // Let's start shutdown procedure
             checkShutdownState();
         }
-        else
-            stop();
+        else stop();
 
         return;
     }
