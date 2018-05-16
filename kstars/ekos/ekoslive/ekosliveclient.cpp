@@ -36,7 +36,10 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {NEW_GUIDE_STATE, "new_guide_state"},
     {NEW_FOCUS_STATE, "new_focus_state"},
     {NEW_PREVIEW_IMAGE, "new_preview_image"},
-    {NEW_NOTIFICATION, "new_notification"}
+    {NEW_NOTIFICATION, "new_notification"},
+
+
+    {CAPTURE_PREVIEW, "capture_preview"}
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -202,12 +205,28 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
         return;
     }
 
-    QString command = serverMessage.object().value("command").toString();
+    // TODO add check to verify token!
+    const QString serverToken = serverMessage.object().value("token").toString();
+
+    if (serverToken != token)
+    {
+        qCWarning(KSTARS_EKOS) << "Invalid token received from server!" << serverToken;
+        return;
+    }
+
+    const QString command = serverMessage.object().value("type").toString();
 
     if (command == commands[GET_PROFILES])
         sendProfiles();
     else if (command == commands[GET_STATES])
         sendStates();
+    else if (command == commands[CAPTURE_PREVIEW])
+    {
+        QJsonObject payload = serverMessage.object().value("payload").toObject();
+
+        m_Manager->captureProcess.get()->setExposure(payload.value("exp").toDouble());
+        m_Manager->captureProcess.get()->captureOne();
+    }
 }
 
 void EkosLiveClient::onBinaryMessageReceived(const QByteArray &message)
