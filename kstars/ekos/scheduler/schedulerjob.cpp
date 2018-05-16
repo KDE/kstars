@@ -393,7 +393,7 @@ void SchedulerJob::updateJobCell()
         }
     }
 
-    if (startupCell)
+    if (startupCell && startupCell->tableWidget())
     {
         /* Display a startup time if job is running, scheduled to run or about to be re-scheduled */
         if (JOB_SCHEDULED == state || JOB_BUSY == state || JOB_ABORTED == state) switch (fileStartupCondition)
@@ -433,7 +433,7 @@ void SchedulerJob::updateJobCell()
         startupCell->tableWidget()->resizeColumnToContents(startupCell->column());
     }
 
-    if (completionCell)
+    if (completionCell && completionCell->tableWidget())
     {
         /* Display a completion time if job is running, scheduled to run or about to be re-scheduled */
         if (JOB_SCHEDULED == state || JOB_BUSY == state || JOB_ABORTED == state) switch (completionCondition)
@@ -465,7 +465,7 @@ void SchedulerJob::updateJobCell()
         completionCell->tableWidget()->resizeColumnToContents(completionCell->column());
     }
 
-    if (estimatedTimeCell)
+    if (estimatedTimeCell && estimatedTimeCell->tableWidget())
     {
         if (0 < estimatedTime)
             /* Seconds to ms - this doesn't follow dateTimeDisplayFormat, which renders YMD too */
@@ -480,13 +480,13 @@ void SchedulerJob::updateJobCell()
         estimatedTimeCell->tableWidget()->resizeColumnToContents(estimatedTimeCell->column());
     }
 
-    if (captureCountCell)
+    if (captureCountCell && captureCountCell->tableWidget())
     {
         captureCountCell->setText(QString("%1/%2").arg(completedCount).arg(sequenceCount));
         captureCountCell->tableWidget()->resizeColumnToContents(captureCountCell->column());
     }
 
-    if (scoreCell)
+    if (scoreCell && scoreCell->tableWidget())
     {
         if (0 <= score)
             scoreCell->setText(QString("%1").arg(score));

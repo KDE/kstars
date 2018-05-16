@@ -648,7 +648,7 @@ void LocationDialog::dataChanged()
         {
             ld->errorLabel->setText(i18n("Cannot add new location -- missing UTC Offset"));
         }
-        else if (SelectedCity->isReadOnly())
+        else if (SelectedCity && SelectedCity->isReadOnly())
         {
             ld->errorLabel->setText(i18n("City is Read Only. Change name to add new city."));
         }

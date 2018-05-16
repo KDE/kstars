@@ -441,7 +441,6 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
     else if (oBest)
         rBest *= 1.5;
 
-    rTry = maxrad;
     oTry = m_Satellites->objectNearest(p, rTry);
     if (rTry < rBest)
     {

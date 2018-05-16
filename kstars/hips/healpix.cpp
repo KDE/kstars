@@ -387,7 +387,7 @@ int HEALPix::ang2pix_nest_z_phi (qint32 nside_, double z, double phi)
 int HEALPix::getPix(int level, double ra, double dec)
 {
   int nside = 1 << level;
-  double polar[2];    
+  double polar[2] = { 0, 0 };
 
   if (HIPSManager::Instance()->getCurrentFrame() == HIPSManager::HIPS_EQUATORIAL_FRAME)
   {

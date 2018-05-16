@@ -345,11 +345,11 @@ void modCalcSidTime::processLines(QTextStream &istream)
                 ksdt    = geoBatch->UTtoLT(ksdt);
                 outTime = ksdt.time();
             }
-        }
 
-        //Write to output file
-        ostream << QLocale().toString(dt, QLocale::LongFormat) << "  \"" << geoBatch->fullName() << "\"  "
-                << QLocale().toString(inTime) << "  " << QLocale().toString(outTime) << endl;
+            //Write to output file
+            ostream << QLocale().toString(dt, QLocale::LongFormat) << "  \"" << geoBatch->fullName() << "\"  "
+                    << QLocale().toString(inTime) << "  " << QLocale().toString(outTime) << endl;
+        }
     }
 
     fOut.close();
