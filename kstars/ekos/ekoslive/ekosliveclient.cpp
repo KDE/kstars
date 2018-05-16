@@ -222,9 +222,10 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
         sendStates();
     else if (command == commands[CAPTURE_PREVIEW])
     {
-        QJsonObject payload = serverMessage.object().value("payload").toObject();
+        auto payload = serverMessage.object().value("payload").toObject();
 
-        m_Manager->captureProcess.get()->setExposure(payload.value("exp").toDouble());
+        double exp = payload.value("exp").toDouble();
+        m_Manager->captureProcess.get()->setExposure(exp);
         m_Manager->captureProcess.get()->captureOne();
     }
 }
