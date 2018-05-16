@@ -51,6 +51,9 @@ public:
         NEW_FOCUS_STATE,
         NEW_PREVIEW_IMAGE,
         NEW_NOTIFICATION,
+
+
+        CAPTURE_PREVIEW,
     };
 
     static QMap<COMMANDS, QString> const commands;

@@ -322,6 +322,12 @@ class Capture : public QWidget, public Ui::Capture
     void captureOne();
 
     /**
+     * @brief setExposure Set desired exposure value in seconds
+     * @param value exposure values in seconds
+     */
+    void setExposure(double value) { exposureIN->setValue(value);}
+
+    /**
          * @brief captureImage Initiates image capture in the active job.
          */
     void captureImage();
