@@ -129,7 +129,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     saveFileAction = KStandardAction::save(this, SLOT(saveFile()), actionCollection());
     saveFileAction->setIcon(QIcon::fromTheme("document-save"));
 
-    action = saveFileAsAction = KStandardAction::saveAs(this, SLOT(saveFileAs()), actionCollection());
+    saveFileAsAction = KStandardAction::saveAs(this, SLOT(saveFileAs()), actionCollection());
     saveFileAsAction->setIcon(
         QIcon::fromTheme("document-save_as"));
 

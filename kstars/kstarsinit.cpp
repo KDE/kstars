@@ -455,12 +455,12 @@ void KStars::initActions()
         << i18n("Artificial Horizon...");
 
     // ==== observation menu - execute ================
-    ka = actionCollection()->addAction("execute", this, SLOT(slotExecute()))
-         << i18n("Execute the session Plan...") << QKeySequence(Qt::CTRL + Qt::Key_2);
+    actionCollection()->addAction("execute", this, SLOT(slotExecute()))
+        << i18n("Execute the session Plan...") << QKeySequence(Qt::CTRL + Qt::Key_2);
 
     // ==== observation menu - polaris hour angle ================
-    ka = actionCollection()->addAction("polaris_hour_angle", this, SLOT(slotPolarisHourAngle()))
-         << i18n("Polaris Hour Angle...");
+    actionCollection()->addAction("polaris_hour_angle", this, SLOT(slotPolarisHourAngle()))
+        << i18n("Polaris Hour Angle...");
 
 // ==== devices Menu ================
 #ifdef HAVE_INDI
@@ -501,7 +501,7 @@ void KStars::initActions()
     m_TimeStepBox->tsbox()->setToolTip(TSBToolTip);
     QWidgetAction *wa = new QWidgetAction(this);
     wa->setDefaultWidget(m_TimeStepBox);
-    ka = actionCollection()->addAction("timestep_control", wa) << i18n("Time step control");
+    actionCollection()->addAction("timestep_control", wa) << i18n("Time step control");
 
     // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT(slotViewToolBar()))
@@ -628,10 +628,10 @@ void KStars::initActions()
     ka->setShortcutContext(Qt::ApplicationShortcut);
     telescopeGroup->addAction(ka);
 
-    ka = actionCollection()->addAction("telescope_slew_mouse", this, SLOT(slotINDITelescopeSlewMousePointer()))
+    actionCollection()->addAction("telescope_slew_mouse", this, SLOT(slotINDITelescopeSlewMousePointer()))
             << i18n("Slew the telescope to the mouse pointer position");
 
-    ka = actionCollection()->addAction("telescope_sync_mouse", this, SLOT(slotINDITelescopeSyncMousePointer()))
+    actionCollection()->addAction("telescope_sync_mouse", this, SLOT(slotINDITelescopeSyncMousePointer()))
             << i18n("Sync the telescope to the mouse pointer position");
 
     // Disable all telescope actions by default
