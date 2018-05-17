@@ -224,8 +224,10 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
     {
         auto payload = serverMessage.object().value("payload").toObject();
 
-        double exp = payload.value("exp").toDouble();
+        double exp = payload.value("exp").toDouble(1);
+        int bin = payload.value("bin").toInt(1);
         m_Manager->captureProcess.get()->setExposure(exp);
+        m_Manager->captureProcess.get()->setBinning(bin,bin);
         m_Manager->captureProcess.get()->captureOne();
     }
 }
