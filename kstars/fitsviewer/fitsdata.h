@@ -73,7 +73,7 @@ class FITSSkyObject : public QObject
 {
     Q_OBJECT
   public:
-    explicit FITSSkyObject(SkyObject *skyObject, int xPos, int yPos);
+    explicit FITSSkyObject(SkyObject *object, int xPos, int yPos);
     SkyObject *skyObject();
     int x();
     int y();
@@ -89,14 +89,14 @@ class FITSSkyObject : public QObject
 class FITSData
 {
   public:
-    explicit FITSData(FITSMode mode = FITS_NORMAL);
+    explicit FITSData(FITSMode fitsMode = FITS_NORMAL);
     explicit FITSData(const FITSData *other);
     ~FITSData();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
-    bool loadFITS(const QString &filename, bool silent = true);
+    bool loadFITS(const QString &inFilename, bool silent = true);
     /* Save FITS */
-    int saveFITS(const QString &filename);
+    int saveFITS(const QString &newFilename);
     /* Rescale image lineary from image_buffer, fit to window if desired */
     int rescale(FITSZoom type);
     /* Calculate stats */

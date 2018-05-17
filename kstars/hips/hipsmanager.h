@@ -50,6 +50,7 @@ private slots:
   void done()
   {
     emit remove(m_key);
+    deleteLater();
   }
 };
 
@@ -99,7 +100,7 @@ private:
   static HIPSManager * _HIPSManager;
 
   // Cache
-  PixCache       m_cache;
+  PixCache m_cache;
   QSet <pixCacheKey_t> m_downloadMap;
 
   void addToMemoryCache(pixCacheKey_t &key, pixCacheItem_t *item);

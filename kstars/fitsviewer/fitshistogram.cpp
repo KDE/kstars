@@ -31,7 +31,7 @@ histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
 FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
 {
     ui   = new histogramUI(this);
-    tab  = static_cast<FITSTab *>(parent);
+    tab  = dynamic_cast<FITSTab *>(parent);
 
     customPlot = ui->histogramPlot;
 
@@ -73,9 +73,10 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
     connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(checkRangeLimit(QCPRange)));
 }
 
-void FITSHistogram::showEvent(QShowEvent *)
+void FITSHistogram::showEvent(QShowEvent *event)
 {
-   syncGUI();
+    Q_UNUSED(event)
+    syncGUI();
 }
 
 void FITSHistogram::constructHistogram()
@@ -132,7 +133,7 @@ void FITSHistogram::constructHistogram()
     uint16_t fits_w = 0, fits_h = 0;
     FITSData *image_data = tab->getView()->getImageData();
 
-    T *buffer = reinterpret_cast<T *>(image_data->getImageBuffer());
+    auto *buffer = reinterpret_cast<T *>(image_data->getImageBuffer());
 
     image_data->getDimensions(&fits_w, &fits_h);
     image_data->getMinMax(&fits_min, &fits_max);
@@ -526,7 +527,7 @@ void FITSHistogram::updateValues(QMouseEvent *event)
 FITSHistogramCommand::FITSHistogramCommand(QWidget *parent, FITSHistogram *inHisto, FITSScale newType, double lmin,
                                            double lmax)
 {
-    tab       = static_cast<FITSTab*>(parent);
+    tab       = dynamic_cast<FITSTab*>(parent);
     type      = newType;
     histogram = inHisto;
     min       = lmin;
@@ -538,7 +539,7 @@ FITSHistogramCommand::~FITSHistogramCommand()
     delete[] delta;
 }
 
-bool FITSHistogramCommand::calculateDelta(uint8_t *buffer)
+bool FITSHistogramCommand::calculateDelta(const uint8_t *buffer)
 {
     FITSData *image_data = tab->getView()->getImageData();
 
@@ -546,7 +547,7 @@ bool FITSHistogramCommand::calculateDelta(uint8_t *buffer)
     int totalPixels          = image_data->getSize() * image_data->getNumOfChannels();
     unsigned long totalBytes = totalPixels * image_data->getBytesPerPixel();
 
-    uint8_t *raw_delta = new uint8_t[totalBytes];
+    auto *raw_delta = new uint8_t[totalBytes];
 
     if (raw_delta == nullptr)
     {
@@ -597,7 +598,7 @@ bool FITSHistogramCommand::reverseDelta()
     int totalPixels          = size * channels;
     unsigned long totalBytes = totalPixels * image_data->getBytesPerPixel();
 
-    uint8_t *output_image = new uint8_t[totalBytes];
+    auto *output_image = new uint8_t[totalBytes];
 
     if (output_image == nullptr)
     {
@@ -605,7 +606,7 @@ bool FITSHistogramCommand::reverseDelta()
         return false;
     }
 
-    uint8_t *raw_delta = new uint8_t[totalBytes];
+    auto *raw_delta = new uint8_t[totalBytes];
 
     if (raw_delta == nullptr)
     {
@@ -673,7 +674,7 @@ void FITSHistogramCommand::redo()
         }
         else
         {
-            uint8_t *buffer = new uint8_t[size * channels * BBP];
+            auto *buffer = new uint8_t[size * channels * BBP];
 
             if (buffer == nullptr)
             {

@@ -38,10 +38,7 @@ typedef struct
 class pixCacheItem_t
 {  
 public:
-   pixCacheItem_t()
-   {
-     image = nullptr;
-   }
+   pixCacheItem_t() = default;
 
   ~pixCacheItem_t()
    {
@@ -50,7 +47,7 @@ public:
      delete image;
    }
 
-  QImage *image;  
+  QImage *image { nullptr };
 };
 
 typedef struct
