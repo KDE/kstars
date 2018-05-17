@@ -36,7 +36,8 @@
 #include <wcsfix.h>
 #endif
 
-#include <float.h>
+#include <cfloat>
+#include <cmath>
 
 #include <fits_debug.h>
 
@@ -98,7 +99,7 @@ FITSData::~FITSData()
     if (objList.count() > 0)
         qDeleteAll(objList);
 
-    if (fptr)
+    if (fptr != nullptr)
     {
         fits_close_file(fptr, &status);
 
@@ -117,7 +118,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     qDeleteAll(starCenters);
     starCenters.clear();
 
-    if (fptr)
+    if (fptr != nullptr)
     {
         fits_close_file(fptr, &status);
 
@@ -154,7 +155,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
         errMessage = i18n("Could not open file %1. Error %2", filename, QString::fromUtf8(error_status));
-        if (silent == false)
+        if (!silent)
             KSNotification::error(errMessage, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << errMessage;
         return false;
@@ -165,7 +166,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
         errMessage = i18n("Could not locate image HDU. Error %2", QString::fromUtf8(error_status));
-        if (silent == false)
+        if (!silent)
             KSNotification::error(errMessage, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << errMessage;
         return false;
@@ -176,7 +177,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
         errMessage = i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status));
-        if (silent == false)
+        if (!silent)
             KSNotification::error(errMessage, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << errMessage;
         return false;
@@ -185,7 +186,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     if (stats.ndim < 2)
     {
         errMessage = i18n("1D FITS images are not supported in KStars.");
-        if (silent == false)
+        if (!silent)
             KSNotification::error(errMessage, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << errMessage;
         return false;
@@ -229,7 +230,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         break;
     default:
         errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
-        if (silent == false)
+        if (!silent)
             KSNotification::error(errMessage, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << errMessage;
         return false;
@@ -242,7 +243,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     if (naxes[0] == 0 || naxes[1] == 0)
     {
         errMessage = i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]);
-        if (silent == false)
+        if (!silent)
             KSNotification::error(errMessage, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << errMessage;
         return false;
@@ -257,7 +258,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     channels = naxes[2];
 
     // Channels always set to #1 if we are not required to process 3D Cubes
-    if (Options::auto3DCube() == false)
+    if (!Options::auto3DCube())
         channels = 1;
 
     //image_buffer = new float[stats.samples_per_channel * channels];
@@ -276,12 +277,12 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     flipVCounter   = 0;
     long nelements = stats.samples_per_channel * channels;
 
-    if (fits_read_img(fptr, data_type, 1, nelements, 0, imageBuffer, &anynull, &status))
+    if (fits_read_img(fptr, data_type, 1, nelements, nullptr, imageBuffer, &anynull, &status))
     {
         char errmsg[512];
         fits_get_errstatus(status, errmsg);
         errMessage = i18n("Error reading image: %1", QString(errmsg));
-        if (silent == false)
+        if (!silent)
             KSNotification::error(errMessage, i18n("FITS Open"));
         fits_report_error(stderr, status);
         qCCritical(KSTARS_FITS) << errMessage;
@@ -333,7 +334,7 @@ int FITSData::saveFITS(const QString &newFilename)
         // Remove first otherwise copy will fail below if file exists
         QFile::remove(finalFileName);
 
-        if (QFile::copy(filename, finalFileName) == false)
+        if (!QFile::copy(filename, finalFileName))
         {
             qCCritical(KSTARS_FITS()) << "FITS: Failed to copy " << filename << " to " << finalFileName;
             fptr = nullptr;
@@ -466,7 +467,7 @@ int FITSData::saveFITS(const QString &newFilename)
     if (flipHCounter % 2 != 0 || flipVCounter % 2 != 0)
         mirror = 1;
 
-    if (rot || mirror)
+    if ((rot != 0) || (mirror != 0))
         rotWCSFITS(rot, mirror);
 
     rotCounter = flipHCounter = flipVCounter = 0;
@@ -551,7 +552,7 @@ int FITSData::calculateMinMax(bool refresh)
 
     status = 0;
 
-    if (fptr && refresh == false)
+    if ((fptr != nullptr) && !refresh)
     {
         if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min[0]), nullptr, &status) == 0)
             nfound++;
@@ -618,7 +619,7 @@ int FITSData::calculateMinMax(bool refresh)
 template <typename T>
 QPair<T,T> FITSData::getParitionMinMax(uint32_t start, uint32_t stride)
 {
-    T *buffer = reinterpret_cast<T *>(imageBuffer);
+    auto *buffer = reinterpret_cast<T *>(imageBuffer);
     T min = std::numeric_limits<T>::max();
     T max = std::numeric_limits<T>::min();
 
@@ -735,7 +736,7 @@ QPair<double,double> FITSData::getSquaredSumAndMean(uint32_t start, uint32_t str
     uint32_t m_n       = 2;
     double m_oldM = 0, m_newM = 0, m_oldS = 0, m_newS = 0;
 
-    T *buffer = reinterpret_cast<T *>(imageBuffer);
+    auto *buffer = reinterpret_cast<T *>(imageBuffer);
     uint32_t end = start + stride;
 
     for (uint32_t i = start; i < end; i++)
@@ -1012,7 +1013,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     uint32_t offset = subX + subY * dataWidth;
 
     // #2 Create new buffer
-    uint8_t *buffer = new uint8_t[size * BBP];
+    auto *buffer = new uint8_t[size * BBP];
     // If there is no offset, copy whole buffer in one go
     if (offset == 0)
         memcpy(buffer, data->getImageBuffer(), size * BBP);
@@ -1031,7 +1032,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     }
 
     // #3 Create new FITSData to hold it
-    FITSData *boundedImage                  = new FITSData();
+    auto *boundedImage                      = new FITSData();
     boundedImage->stats.width               = subW;
     boundedImage->stats.height              = subH;
     boundedImage->stats.bitpix              = data->stats.bitpix;
@@ -1118,7 +1119,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     if (maxID > 10 && totalMassRatio < 1.5)
         return 0;
 
-    Edge *center  = new Edge;
+    auto *center  = new Edge;
     center->width = -1;
     center->x     = masses[maxRegionID].massX / masses[maxRegionID].totalMass + 0.5;
     center->y     = masses[maxRegionID].massY / masses[maxRegionID].totalMass + 0.5;
@@ -1133,8 +1134,8 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 
         for (float theta = 0; theta < 2 * M_PI; theta += (2 * M_PI) / 36.0)
         {
-            int testX = center->x + cos(theta) * r;
-            int testY = center->y + sin(theta) * r;
+            int testX = center->x + std::cos(theta) * r;
+            int testY = center->y + std::sin(theta) * r;
 
             // if out of bound, break;
             if (testX < 0 || testX >= subW || testY < 0 || testY >= subH)
@@ -1169,7 +1170,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     double FSum = 0, HF = 0, TF = 0;
     const double resolution = 1.0 / 20.0;
 
-    int cen_y = round(center->y);
+    int cen_y = std::round(center->y);
 
     double rightEdge = center->x + center->width / 2.0;
     double leftEdge  = center->x - center->width / 2.0;
@@ -1291,7 +1292,7 @@ int FITSData::findOneStar(const QRect &boundary)
 
     float massX = 0, massY = 0, totalMass = 0;
 
-    T *buffer = reinterpret_cast<T *>(imageBuffer);
+    auto *buffer = reinterpret_cast<T *>(imageBuffer);
 
     // TODO replace magic number with something more useful to understand
     double threshold = stats.mean[0] * Options::focusThreshold() / 100.0;
@@ -1312,7 +1313,7 @@ int FITSData::findOneStar(const QRect &boundary)
 
     qCDebug(KSTARS_FITS) << "FITS: Weighted Center is X: " << massX / totalMass << " Y: " << massY / totalMass;
 
-    Edge *center  = new Edge;
+    auto *center  = new Edge;
     center->width = -1;
     center->x     = massX / totalMass + 0.5;
     center->y     = massY / totalMass + 0.5;
@@ -1333,8 +1334,8 @@ int FITSData::findOneStar(const QRect &boundary)
 
             for (float theta = 0; theta < 2 * M_PI; theta += (2 * M_PI) / 10.0)
             {
-                int testX = center->x + cos(theta) * r;
-                int testY = center->y + sin(theta) * r;
+                int testX = center->x + std::cos(theta) * r;
+                int testY = center->y + std::sin(theta) * r;
 
                 // if out of bound, break;
                 if (testX < subX || testX > subW || testY < subY || testY > subH)
@@ -1375,7 +1376,7 @@ int FITSData::findOneStar(const QRect &boundary)
     double FSum = 0, HF = 0, TF = 0, min = stats.min[0];
     const double resolution = 1.0 / 20.0;
 
-    int cen_y = round(center->y);
+    int cen_y = std::round(center->y);
 
     double rightEdge = center->x + center->width / 2.0;
     double leftEdge  = center->x - center->width / 2.0;
@@ -1476,7 +1477,7 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
     int pixVal           = 0;
     int minimumEdgeCount = MINIMUM_EDGE_LIMIT;
 
-    T *buffer = reinterpret_cast<T *>(imageBuffer);
+    auto *buffer = reinterpret_cast<T *>(imageBuffer);
 
     double JMIndex = 100;
 #ifndef KSTARS_LITE
@@ -1589,7 +1590,7 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
                         float center = avg / sum + 0.5;
                         if (center > 0)
                         {
-                            int i_center = floor(center);
+                            int i_center = std::floor(center);
 
                             // Check if center is 10% or more brighter than edge, if not skip
                             if (((buffer[i_center + (i * stats.width)] - min) /
@@ -1607,7 +1608,7 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
                                            (buffer[i_center + (i * stats.width) - starDiameter / 2] - min))
                                         << " located at X: " << center << " Y: " << i + 0.5;
 
-                                Edge *newEdge = new Edge();
+                                auto *newEdge = new Edge();
 
                                 newEdge->x       = center;
                                 newEdge->y       = i + 0.5;
@@ -1735,7 +1736,7 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
         if (cen_count >= cen_limit)
         {
             // We detected a centroid, let's init it
-            Edge *rCenter = new Edge();
+            auto *rCenter = new Edge();
 
             rCenter->x = avg_x / sum;
             rCenter->y = avg_y / sum;
@@ -1749,8 +1750,8 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
             double HF   = 0;
             double FSum = 0;
 
-            cen_x = (int)floor(rCenter->x);
-            cen_y = (int)floor(rCenter->y);
+            cen_x = (int)std::floor(rCenter->x);
+            cen_y = (int)std::floor(rCenter->y);
 
             if (cen_x < 0 || cen_x > stats.width || cen_y < 0 || cen_y > stats.height)
             {
@@ -1808,7 +1809,7 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
         for (auto &center : starCenters)
             lsum += (center->width - width_avg) * (center->width - width_avg);
 
-        sdev = (sqrt(lsum / (starCenters.count() - 1))) * 4;
+        sdev = (std::sqrt(lsum / (starCenters.count() - 1))) * 4;
 
         // Reject stars > 4 * stddev
         foreach (Edge *center, starCenters)
@@ -1832,7 +1833,7 @@ double FITSData::getHFR(HFRType type)
     // It is more consistent.
     // TODO: Try to test this under using a real CCD.
 
-    if (starCenters.size() == 0)
+    if (starCenters.empty())
         return -1;
 
     if (type == HFR_MAX)
@@ -1874,13 +1875,13 @@ double FITSData::getHFR(HFRType type)
 
 double FITSData::getHFR(int x, int y)
 {
-    if (starCenters.size() == 0)
+    if (starCenters.empty())
         return -1;
 
     for (int i = 0; i < starCenters.count(); i++)
     {
-        if (fabs(starCenters[i]->x - x) <= starCenters[i]->width / 2 &&
-                fabs(starCenters[i]->y - y) <= starCenters[i]->width / 2)
+        if (std::fabs(starCenters[i]->x - x) <= starCenters[i]->width / 2 &&
+                std::fabs(starCenters[i]->y - y) <= starCenters[i]->width / 2)
         {
             return starCenters[i]->HFR;
         }
@@ -1896,9 +1897,9 @@ void FITSData::applyFilter(FITSScale type, uint8_t *image, double *min, double *
 
     double dataMin = stats.min[0], dataMax = stats.max[0];
 
-    if (min && *min != -1)
+    if ((min != nullptr) && *min != -1)
         dataMin = *min;
-    if (max && *max != -1)
+    if ((max != nullptr) && *max != -1)
         dataMax = *max;
 
     switch (type)
@@ -2000,9 +2001,9 @@ void FITSData::applyFilter(FITSScale type, uint8_t *image, double *min, double *
                 return;
         }
 
-    if (min)
+    if (min != nullptr)
         *min = dataMin;
-    if (max)
+    if (max != nullptr)
         *max = dataMax;
 }
 
@@ -2046,7 +2047,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, double image_mi
         double coeff = 0;
 
         if (type == FITS_LOG)
-            coeff = max / log(1 + max);
+            coeff = max / std::log(1 + max);
         else if (type == FITS_SQRT)
             coeff = max / sqrt(max);
 
@@ -2072,7 +2073,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, double image_mi
                     // Run threads
                     futures.append(QtConcurrent::map(runningBuffer, (runningBuffer+((i == (nThreads-1)) ? fStride : tStride)), [min,max,coeff](T & a)
                     {
-                        a = qBound(min,static_cast<T>(round(coeff * log(1 + qBound(min, a, max)))),max);
+                        a = qBound(min,static_cast<T>(round(coeff * std::log(1 + qBound(min, a, max)))),max);
                     }));
 
                     runningBuffer += tStride;
@@ -2156,7 +2157,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, double image_mi
     case FITS_MEDIAN:
     {
         uint8_t BBP      = stats.bytesPerPixel;
-        T *extension = new T[(width + 2) * (height + 2)];
+        auto *extension = new T[(width + 2) * (height + 2)];
         //   Check memory allocation
         if (!extension)
             return;
@@ -2531,7 +2532,7 @@ void FITSData::getCenterSelection(int *x, int *y)
     if (starCenters.count() == 0)
         return;
 
-    Edge *pEdge  = new Edge();
+    auto *pEdge  = new Edge();
     pEdge->x     = *x;
     pEdge->y     = *y;
     pEdge->width = 1;
@@ -2564,7 +2565,7 @@ bool FITSData::checkForWCS()
         return false;
     }
 
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)) != 0)
     {
         free(header);
         lastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
@@ -2573,7 +2574,7 @@ bool FITSData::checkForWCS()
 
     free(header);
 
-    if (wcs == 0)
+    if (wcs == nullptr)
     {
         //fprintf(stderr, "No world coordinate systems found.\n");
         lastError = i18n("No world coordinate systems found.");
@@ -2587,7 +2588,7 @@ bool FITSData::checkForWCS()
         return false;
     }
 
-    if ((status = wcsset(wcs)))
+    if ((status = wcsset(wcs)) != 0)
     {
         lastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
@@ -2628,7 +2629,7 @@ bool FITSData::loadWCS()
         return false;
     }
 
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)) != 0)
     {
         free(header);
         lastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
@@ -2637,7 +2638,7 @@ bool FITSData::loadWCS()
 
     free(header);
 
-    if (wcs == 0)
+    if (wcs == nullptr)
     {
         //fprintf(stderr, "No world coordinate systems found.\n");
         lastError = i18n("No world coordinate systems found.");
@@ -2651,7 +2652,7 @@ bool FITSData::loadWCS()
         return false;
     }
 
-    if ((status = wcsset(wcs)))
+    if ((status = wcsset(wcs)) != 0)
     {
         lastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
@@ -2676,7 +2677,7 @@ bool FITSData::loadWCS()
             pixcrd[0] = j;
             pixcrd[1] = i;
 
-            if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])))
+            if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
             {
                 lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
             }
@@ -2710,7 +2711,7 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
     int stat[2];
     double imgcrd[2], worldcrd[2], pixcrd[2], phi[2], theta[2];
 
-    if (wcs == 0)
+    if (wcs == nullptr)
     {
         lastError = i18n("No world coordinate systems found.");
         return false;
@@ -2719,7 +2720,7 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
     worldcrd[0] = wcsCoord.ra0().Degrees();
     worldcrd[1] = wcsCoord.dec0().Degrees();
 
-    if ((status = wcss2p(wcs, 1, 2, &worldcrd[0], &phi[0], &theta[0], &imgcrd[0], &pixcrd[0], &stat[0])))
+    if ((status = wcss2p(wcs, 1, 2, &worldcrd[0], &phi[0], &theta[0], &imgcrd[0], &pixcrd[0], &stat[0])) != 0)
     {
         lastError = QString("wcss2p error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
@@ -2747,7 +2748,7 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
     int stat[2];
     double imgcrd[2], phi, pixcrd[2], theta, world[2];
 
-    if (wcs == 0)
+    if (wcs == nullptr)
     {
         lastError = i18n("No world coordinate systems found.");
         return false;
@@ -2756,7 +2757,7 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
     pixcrd[0] = wcsPixelPoint.x();
     pixcrd[1] = wcsPixelPoint.y();
 
-    if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])))
+    if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])) != 0)
     {
         lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
@@ -2801,7 +2802,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
     SkyMapComposite *map = KStarsData::Instance()->skyComposite();
 
     wcs_point *wcs_coord = getWCSCoord();
-    if (wcs_coord)
+    if (wcs_coord != nullptr)
     {
         int size = width * height;
 
@@ -2833,7 +2834,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
             world[0] = object->ra0().Degrees();
             world[1] = object->dec0().Degrees();
 
-            if ((status = wcss2p(wcs, 1, 2, &world[0], &phi, &theta, &imgcrd[0], &pixcrd[0], &stat[0])))
+            if ((status = wcss2p(wcs, 1, 2, &world[0], &phi, &theta, &imgcrd[0], &pixcrd[0], &stat[0])) != 0)
             {
                 fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status, wcs_errmsg[status]);
             }
@@ -2955,8 +2956,8 @@ bool FITSData::rotFITS(int rotate, int mirror)
         return false;
     }
 
-    T *rotBuffer = reinterpret_cast<T *>(rotimage);
-    T *buffer    = reinterpret_cast<T *>(imageBuffer);
+    auto *rotBuffer = reinterpret_cast<T *>(rotimage);
+    auto *buffer    = reinterpret_cast<T *>(imageBuffer);
 
     /* Mirror image without rotation */
     if (rotate < 45 && rotate > -45)
@@ -3205,7 +3206,7 @@ void FITSData::rotWCSFITS(int angle, int mirror)
     status = 0;
 
     /* Negate rotation angle if mirrored */
-    if (mirror)
+    if (mirror != 0)
     {
         if (!fits_read_key_dbl(fptr, "CROTA1", &ctemp1, comment, &status))
             fits_update_key_dbl(fptr, "CROTA1", -ctemp1, WCS_DECIMALS, comment, &status);
@@ -3284,7 +3285,7 @@ void FITSData::rotWCSFITS(int angle, int mirror)
     if (!fits_read_key_dbl(fptr, "CRPIX1", &ctemp1, comment, &status) &&
             !fits_read_key_dbl(fptr, "CRPIX2", &ctemp2, comment, &status))
     {
-        if (mirror)
+        if (mirror != 0)
         {
             if (angle == 0)
                 fits_update_key_dbl(fptr, "CRPIX1", naxis1 - ctemp1, WCS_DECIMALS, comment, &status);
@@ -3330,7 +3331,7 @@ void FITSData::rotWCSFITS(int angle, int mirror)
     if (!fits_read_key_dbl(fptr, "CDELT1", &ctemp1, comment, &status) &&
             !fits_read_key_dbl(fptr, "CDELT2", &ctemp2, comment, &status))
     {
-        if (mirror)
+        if (mirror != 0)
         {
             if (angle == 0)
                 fits_update_key_dbl(fptr, "CDELT1", -ctemp1, WCS_DECIMALS, comment, &status);
@@ -3382,7 +3383,7 @@ void FITSData::rotWCSFITS(int angle, int mirror)
         fits_read_key_dbl(fptr, "CD2_1", &ctemp3, comment, &status);
         fits_read_key_dbl(fptr, "CD2_2", &ctemp4, comment, &status);
         status = 0;
-        if (mirror)
+        if (mirror != 0)
         {
             if (angle == 0)
             {
@@ -3457,7 +3458,6 @@ void FITSData::rotWCSFITS(int angle, int mirror)
         }
     }
 
-    return;
 }
 
 uint8_t *FITSData::getImageBuffer()
@@ -3535,7 +3535,7 @@ bool FITSData::debayer()
 
         bayerBuffer = imageBuffer;
 
-        if (fits_read_img(fptr, data_type, 1, stats.samples_per_channel, 0, bayerBuffer, &anynull, &status))
+        if (fits_read_img(fptr, data_type, 1, stats.samples_per_channel, nullptr, bayerBuffer, &anynull, &status))
         {
             char errmsg[512];
             fits_get_errstatus(status, errmsg);
@@ -3564,7 +3564,7 @@ bool FITSData::debayer_8bit()
     dc1394error_t error_code;
 
     int rgb_size               = stats.samples_per_channel * 3 * stats.bytesPerPixel;
-    uint8_t *destinationBuffer = new uint8_t[rgb_size];
+    auto *destinationBuffer = new uint8_t[rgb_size];
 
     if (destinationBuffer == nullptr)
     {
@@ -3635,10 +3635,10 @@ bool FITSData::debayer_16bit()
     dc1394error_t error_code;
 
     int rgb_size               = stats.samples_per_channel * 3 * stats.bytesPerPixel;
-    uint8_t *destinationBuffer = new uint8_t[rgb_size];
+    auto *destinationBuffer = new uint8_t[rgb_size];
 
-    uint16_t *buffer    = reinterpret_cast<uint16_t *>(bayerBuffer);
-    uint16_t *dstBuffer = reinterpret_cast<uint16_t *>(destinationBuffer);
+    auto *buffer    = reinterpret_cast<uint16_t *>(bayerBuffer);
+    auto *dstBuffer = reinterpret_cast<uint16_t *>(destinationBuffer);
 
     if (destinationBuffer == nullptr)
     {
@@ -4085,7 +4085,7 @@ void FITSData::convertToQImage(double dataMin, double dataMax, double scale, dou
 {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wcast-align"
-    T *buffer = (T*)getImageBuffer();
+    auto *buffer = (T*)getImageBuffer();
 #pragma GCC diagnostic pop
     const T limit   = std::numeric_limits<T>::max();
     T bMin    = dataMin < 0 ? 0 : dataMin;
@@ -4117,7 +4117,7 @@ void FITSData::convertToQImage(double dataMin, double dataMax, double scale, dou
         /* Fill in pixel values using indexed map, linear scale */
         for (int j = 0; j < h; j++)
         {
-            QRgb *scanLine = reinterpret_cast<QRgb *>((image.scanLine(j)));
+            auto *scanLine = reinterpret_cast<QRgb *>((image.scanLine(j)));
 
             for (int i = 0; i < w; i++)
             {
@@ -4141,7 +4141,7 @@ QImage FITSData::FITSToImage(const QString &filename)
     FITSData data;
 
     bool rc = data.loadFITS(filename);
-    if (rc == false)
+    if (!rc)
         return fitsImage;
 
     data.getMinMax(&min, &max);
@@ -4410,7 +4410,7 @@ int FITSData::findSEPStars(const QRect &boundary)
 {
     int x=0,y=0,w=stats.width,h=stats.height, maxRadius=50;
 
-    if (boundary.isNull() == false)
+    if (!boundary.isNull())
     {
         x = boundary.x();
         y = boundary.y();
@@ -4419,7 +4419,7 @@ int FITSData::findSEPStars(const QRect &boundary)
         maxRadius = w;
     }
 
-    float *data = new float[w*h];
+    auto *data = new float[w*h];
 
     switch (stats.bitpix)
     {
@@ -4471,21 +4471,21 @@ int FITSData::findSEPStars(const QRect &boundary)
 
     // #1 Background estimate
     status = sep_background(&im, 64, 64, 3, 3, 0.0, &bkg);
-    if (status) goto exit;
+    if (status != 0) goto exit;
 
     // #2 Background evaluation
     imback = (float *)malloc((w * h)*sizeof(float));
     status = sep_bkg_array(bkg, imback, SEP_TFLOAT);
-    if (status) goto exit;
+    if (status != 0) goto exit;
 
     // #3 Background substraction
     status = sep_bkg_subarray(bkg, im.data, im.dtype);
-    if (status) goto exit;
+    if (status != 0) goto exit;
 
     // #4 Source Extraction
     // Note that we set deblend_cont = 1.0 to turn off deblending.
     status = sep_extract(&im, 2*bkg->globalrms, SEP_THRESH_ABS, 10, conv, 3, 3, SEP_FILTER_CONV, 32, 1.0, 1, 1.0, &catalog);
-    if (status) goto exit;
+    if (status != 0) goto exit;
 
 #if 0
     // #4 Aperture photometry
@@ -4510,7 +4510,7 @@ int FITSData::findSEPStars(const QRect &boundary)
         // Get HFR
         sep_flux_radius(&im, catalog->x[i], catalog->y[i], maxRadius, 5, 0, &flux, requested_frac, 2, flux_fractions, &flux_flag);
 
-        Edge *center = new Edge();
+        auto *center = new Edge();
         center->x = catalog->x[i]+x+0.5;
         center->y = catalog->y[i]+y+0.5;
         center->val = catalog->peak[i];
@@ -4548,7 +4548,7 @@ exit:
     free(area);
     free(flag);
 
-    if (status)
+    if (status != 0)
     {
         char errorMessage[512];
         sep_get_errmsg(status, errorMessage);
@@ -4562,7 +4562,7 @@ exit:
 template <typename T>
 void FITSData::getFloatBuffer(float *buffer, int x, int y, int w, int h)
 {
-    T *rawBuffer = reinterpret_cast<T *>(imageBuffer);
+    auto *rawBuffer = reinterpret_cast<T *>(imageBuffer);
 
     float *floatPtr = buffer;
 
