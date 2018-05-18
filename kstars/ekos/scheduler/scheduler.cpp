@@ -1537,12 +1537,12 @@ void Scheduler::evaluateJobs()
 
     setCurrentJob(sortedJobs.first());
 
-    int nextObservationTime = now.secsTo(currentJob->getStartupTime());
-
     /* Check if job can be processed right now */
     if (currentJob->getFileStartupCondition() == SchedulerJob::START_ASAP)
         if( 0 < calculateJobScore(currentJob, now))
-            nextObservationTime = 0;
+            currentJob->setStartupTime(now);
+
+    int const nextObservationTime = now.secsTo(currentJob->getStartupTime());
 
     appendLogText(i18n("Job '%1' is selected for next observation with priority #%2 and score %3.",
                        currentJob->getName(), currentJob->getPriority(), currentJob->getScore()));
@@ -2140,7 +2140,9 @@ void Scheduler::executeJob(SchedulerJob *job)
     KNotification::event(QLatin1String("EkosSchedulerJobStart"),
                          i18n("Ekos job started (%1)", currentJob->getName()));
 
-    currentJob->setState(SchedulerJob::JOB_BUSY);
+    /* If job schedule allows it, start the job right now */
+    if (KStarsData::Instance()->lt().secsTo(currentJob->getStartupTime()) <= 0)
+        currentJob->setState(SchedulerJob::JOB_BUSY);
 
     updatePreDawn();
 
@@ -2798,14 +2800,26 @@ void Scheduler::checkJobStage()
     if (state == SCHEDULER_PAUSED)
         return;
 
-    Q_ASSERT(currentJob != nullptr);
+    Q_ASSERT_X(currentJob, __FUNCTION__, "Actual current job is required to check job stage");
+    if (!currentJob)
+        return;
+
+    QDateTime const now = KStarsData::Instance()->lt();
+
+    /* Refresh the score of the current job */
+    /* currentJob->setScore(calculateJobScore(currentJob, now)); */
+
+    /* If current job is scheduled and has not started yet, wait */
+    if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
+        if (now < currentJob->getStartupTime())
+            return;
 
     // #1 Check if we need to stop at some point
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT &&
         currentJob->getState() == SchedulerJob::JOB_BUSY)
     {
         // If the job reached it COMPLETION time, we stop it.
-        if (KStarsData::Instance()->lt().secsTo(currentJob->getCompletionTime()) <= 0)
+        if (now.secsTo(currentJob->getCompletionTime()) <= 0)
         {
             appendLogText(i18n("Job '%1' reached completion time %2, stopping.", currentJob->getName(),
                                currentJob->getCompletionTime().toString(currentJob->getDateTimeDisplayFormat())));
@@ -2867,7 +2881,7 @@ void Scheduler::checkJobStage()
     }
 
     // #4 Check if we're not at dawn
-    if (currentJob->getEnforceTwilight() && KStarsData::Instance()->lt() > KStarsDateTime(preDawnDateTime))
+    if (currentJob->getEnforceTwilight() && now > KStarsDateTime(preDawnDateTime))
     {
         // If either mount or dome are not parked, we shutdown if we approach dawn
         if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
@@ -3949,8 +3963,6 @@ void Scheduler::findNextJob()
         {
             /* FIXME: raise priority to allow other jobs to schedule in-between */
 
-            currentJob->setState(SchedulerJob::JOB_BUSY);
-
             /* If we are guiding, continue capturing */
             if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
             {
@@ -3979,7 +3991,6 @@ void Scheduler::findNextJob()
     }
     else if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
     {
-        currentJob->setState(SchedulerJob::JOB_BUSY);
         currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
         captureBatch++;
         startCapture();
@@ -4008,7 +4019,6 @@ void Scheduler::findNextJob()
         }
         else
         {
-            currentJob->setState(SchedulerJob::JOB_BUSY);
             currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
             captureBatch++;
             startCapture();
