@@ -45,12 +45,15 @@ public:
     {
         GET_PROFILES,
         GET_STATES,
+        GET_CAMERAS,
+        GET_FILTER_WHEELS,
         NEW_MOUNT_STATE,
         NEW_CAPTURE_STATE,
         NEW_GUIDE_STATE,
         NEW_FOCUS_STATE,
         NEW_PREVIEW_IMAGE,
         NEW_NOTIFICATION,
+        NEW_TEMPERATURE,
 
 
         CAPTURE_PREVIEW,
@@ -79,6 +82,9 @@ private:
     void disconnectWebSocketServer();
     void sendProfiles();
     void sendStates();
+    void sendCameras();
+    void sendFilterWheels();
+    void sendTemperature(double value);
 
     QWebSocket m_webSocket;    
     bool m_isConnected { false };
