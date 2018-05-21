@@ -14,7 +14,7 @@
 #include <QObject>
 #include <QVector3D>
 
-#include <stdint.h>
+#include <cstdint>
 
 class QString;
 

@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 #include <sys/types.h>
 
 #include "matr.h"
