@@ -11,6 +11,7 @@
 
 #include <QDialog>
 #include <QtWebSockets/QWebSocket>
+#include <memory>
 
 #include "ekos/ekos.h"
 #include "indi/indicommon.h"
@@ -57,6 +58,9 @@ public:
 
 
         CAPTURE_PREVIEW,
+        CAPTURE_TOGGLE_VIDEO,
+        CAPTURE_START,
+        CAPTURE_STOP,
     };
 
     static QMap<COMMANDS, QString> const commands;
@@ -76,16 +80,25 @@ private slots:
     void onDisconnected();
     void onTextMessageReceived(const QString &message);
     void onBinaryMessageReceived(const QByteArray &message);
+    void sendVideoFrame(std::unique_ptr<QImage> & frame);
 
 private:
     void connectWebSocketServer();
     void disconnectWebSocketServer();
+
+    // Capture
     void capturePreview(const QJsonObject &settings);
+    void sendTemperature(double value);
+    void toggleVideo(bool enabled);
+    void startSequence();
+    void stopSequence();
+
+    // Profiles
     void sendProfiles();
     void sendStates();
     void sendCameras();
     void sendFilterWheels();
-    void sendTemperature(double value);
+
 
     QWebSocket m_webSocket;    
     bool m_isConnected { false };
