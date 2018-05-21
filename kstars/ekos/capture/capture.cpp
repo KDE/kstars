@@ -123,7 +123,10 @@ Capture::Capture()
     connect(resetB, SIGNAL(clicked()), this, SLOT(resetJobs()));
     connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editJob(QModelIndex)));
     connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
-    connect(setTemperatureB, SIGNAL(clicked()), this, SLOT(setTemperature()));
+    connect(setTemperatureB, &QPushButton::clicked, [&]() {
+        if (currentCCD)
+            currentCCD->setTemperature(temperatureIN->value());
+    });
     connect(temperatureIN, SIGNAL(editingFinished()), setTemperatureB, SLOT(setFocus()));
     connect(frameTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkFrameType(int)));
     connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
@@ -976,7 +979,7 @@ void Capture::syncFrameType(ISD::GDInterface *ccd)
     }
 }
 
-bool Capture::setFilter(QString device, int filterSlot)
+bool Capture::setFilter(const QString &device, const QString &filter)
 {
     bool deviceFound = false;
 
@@ -991,10 +994,8 @@ bool Capture::setFilter(QString device, int filterSlot)
     if (deviceFound == false)
         return false;
 
-    if (filterSlot < FilterDevicesCombo->count())
-        FilterDevicesCombo->setCurrentIndex(filterSlot);
-
-    return true;
+   FilterPosCombo->setCurrentText(filter);
+   return true;
 }
 
 void Capture::checkFilter(int filterNum)
@@ -3568,10 +3569,9 @@ void Capture::setInSequenceFocus(bool enable, double HFR)
             HFRPixels->setValue(HFR);
 }
 
-void Capture::setTemperature()
+void Capture::setTargetTemperature(double temperature)
 {
-    if (currentCCD)
-        currentCCD->setTemperature(temperatureIN->value());
+    temperatureIN->setValue(temperature);
 }
 
 void Capture::clearSequenceQueue()

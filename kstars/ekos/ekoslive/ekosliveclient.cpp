@@ -234,13 +234,7 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
         sendFilterWheels();
     else if (command == commands[CAPTURE_PREVIEW])
     {
-        auto payload = serverMessage.object().value("payload").toObject();
-
-        double exp = payload.value("exp").toDouble(1);
-        int bin = payload.value("bin").toInt(1);
-        m_Manager->captureProcess.get()->setExposure(exp);
-        m_Manager->captureProcess.get()->setBinning(bin,bin);
-        m_Manager->captureProcess.get()->captureOne();
+        capturePreview(serverMessage.object().value("payload").toObject());
     }
 }
 
@@ -494,3 +488,30 @@ void EkosLiveClient::sendFilterWheels()
     sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_FILTER_WHEELS], filterList);
 }
 
+void EkosLiveClient::capturePreview(const QJsonObject &settings)
+{
+    QString camera = settings.value("camera").toString();
+    QString filterWheel = settings.value("fw").toString();
+    QString filter = settings.value("filter").toString();
+    QString frame = settings.value("frame").toString("Light");
+    double exp = settings.value("exp").toDouble(1);
+    int bin = settings.value("bin").toInt(1);
+    double temperature = settings.value("temperature").toDouble(-1000);
+
+
+    Ekos::Capture * capture = m_Manager->captureProcess.get();
+    capture->setCCD(camera);
+    if (filterWheel.isEmpty() == false)
+        capture->setFilter(filterWheel, filter);
+
+    if (temperature != -1000)
+    {
+        capture->setForceTemperature(true);
+        capture->setTargetTemperature(temperature);
+    }
+
+    capture->setFrameType(frame);
+    m_Manager->captureProcess.get()->setExposure(exp);
+    m_Manager->captureProcess.get()->setBinning(bin,bin);
+    m_Manager->captureProcess.get()->captureOne();
+}
