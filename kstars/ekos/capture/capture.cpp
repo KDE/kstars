@@ -86,7 +86,7 @@ Capture::Capture()
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
 
-    connect(liveVideoB, SIGNAL(clicked(bool)), this, SLOT(toggleVideoStream(bool)));
+    connect(liveVideoB, SIGNAL(clicked(bool)), this, SLOT(toggleVideo(bool)));
 
     guideDeviationTimer.setInterval(GD_TIMER_TIMEOUT);
     connect(&guideDeviationTimer, SIGNAL(timeout()), this, SLOT(checkGuideDeviationTimeout()));
@@ -4826,7 +4826,7 @@ void Capture::showFilterOffsetDialog()
 }
 #endif
 
-void Capture::toggleVideoStream(bool enable)
+void Capture::toggleVideo(bool enabled)
 {
     if (currentCCD == nullptr)
         return;
@@ -4834,14 +4834,14 @@ void Capture::toggleVideoStream(bool enable)
     if (currentCCD->isBLOBEnabled() == false)
     {
 
-        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(0, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
+        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
             KMessageBox::Yes)
             currentCCD->setBLOBEnabled(true);
         else
             return;
     }
 
-    currentCCD->setVideoStreamEnabled(enable);
+    currentCCD->setVideoStreamEnabled(enabled);
 }
 
 void Capture::setVideoStreamEnabled(bool enabled)

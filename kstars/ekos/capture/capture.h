@@ -289,7 +289,7 @@ class Capture : public QWidget, public Ui::Capture
     QString getLogText() { return logText.join("\n"); }
 
     /* Capture */
-    void updateSequencePrefix(const QString &newPrefix, const QString &dir);
+    void updateSequencePrefix(const QString &newPrefix, const QString &dir);       
 
   public slots:
 
@@ -314,6 +314,13 @@ class Capture : public QWidget, public Ui::Capture
          * Aborts all jobs. It simply calls stop(true)
          */
     Q_SCRIPTABLE Q_NOREPLY void abort() { stop(true); }
+
+
+    /** DBUS interface function.
+         * Toggle video streaming if supported by the device.
+         * @param enabled Set to true to start video streaming, false to stop it if active.
+         */
+    Q_SCRIPTABLE Q_NOREPLY void toggleVideo(bool enabled);
 
     /** @}*/
 
@@ -499,12 +506,6 @@ class Capture : public QWidget, public Ui::Capture
     // post capture script
     void postScriptFinished(int exitCode);
 
-    // Filter focus offset
-    //void showFilterOffsetDialog();
-    //void loadFilterOffsets();
-
-    // Live Video Preview
-    void toggleVideoStream(bool enable);
     void setVideoStreamEnabled(bool enabled);
 
     // Observer

@@ -97,7 +97,8 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     connect(recordB, SIGNAL(clicked()), this, SLOT(toggleRecord()));
     connect(ccd, SIGNAL(videoRecordToggled(bool)), this, SLOT(updateRecordStatus(bool)));
 
-    connect(videoFrame, SIGNAL(newSelection(QRect)), this, SLOT(setStreamingFrame(QRect)));
+    connect(videoFrame, &VideoWG::newSelection, this, &StreamWG::setStreamingFrame);
+    connect(videoFrame, &VideoWG::imageChanged, this, &StreamWG::imageChanged);
 
     resize(Options::streamWindowWidth(), Options::streamWindowHeight());
 
