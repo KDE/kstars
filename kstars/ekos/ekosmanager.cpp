@@ -1184,7 +1184,7 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 
 void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 {
-    managedDevices.insertMulti(KSTARS_FILTER, focuserDevice);
+    managedDevices.insertMulti(KSTARS_FOCUSER, focuserDevice);
 
     initCapture();
 

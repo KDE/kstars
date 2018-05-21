@@ -847,6 +847,7 @@ void CCD::registerProperty(INDI::Property *prop)
     {
         INumberVectorProperty *np = prop->getNumber();
         HasCooler                 = true;
+        CanCool                   = (np->p != IP_RO);
         if (np)
             emit newTemperatureValue(np->np[0].value);
     }
