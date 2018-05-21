@@ -80,6 +80,7 @@ private slots:
 private:
     void connectWebSocketServer();
     void disconnectWebSocketServer();
+    void capturePreview(const QJsonObject &settings);
     void sendProfiles();
     void sendStates();
     void sendCameras();
