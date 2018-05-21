@@ -13,7 +13,7 @@
 #ifndef vectH
 #define vectH
 
-#include <math.h>
+#include <cmath>
 
 class Vector
 {
