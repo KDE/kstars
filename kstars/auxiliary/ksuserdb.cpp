@@ -1654,8 +1654,9 @@ void KSUserDB::readFilter()
     QString model, vendor, type, color, lockedFilter;
     int offset = 0;
     double exposure = 1.0;
-    bool useAutoFocus;
-    int absFocusPos=0;
+    bool useAutoFocus = false;
+    int absFocusPos = 0;
+
     while (!reader_->atEnd())
     {
         reader_->readNext();

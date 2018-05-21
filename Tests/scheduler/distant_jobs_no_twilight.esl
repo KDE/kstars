@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SchedulerList version='1.4'>
+<Profile>Default</Profile>
+<Job>
+<Name>Enif</Name>
+<Priority>10</Priority>
+<Coordinates>
+<J2000RA>21.7364</J2000RA>
+<J2000DE>9.875</J2000DE>
+</Coordinates>
+<Sequence>/tmp/kstars_tests/1x1s_Lum.esq</Sequence>
+<StartupCondition>
+<Condition>ASAP</Condition>
+</StartupCondition>
+<Constraints>
+<Constraint value='15'>MinimumAltitude</Constraint>
+</Constraints>
+<CompletionCondition>
+<Condition>Sequence</Condition>
+</CompletionCondition>
+<Steps>
+<Step>Track</Step>
+</Steps>
+</Job>
+<Job>
+<Name>Regulus</Name>
+<Priority>10</Priority>
+<Coordinates>
+<J2000RA>10.1394</J2000RA>
+<J2000DE>11.9669</J2000DE>
+</Coordinates>
+<Sequence>/tmp/kstars_tests/1x1s_Lum.esq</Sequence>
+<StartupCondition>
+<Condition>ASAP</Condition>
+</StartupCondition>
+<Constraints>
+<Constraint value='15'>MinimumAltitude</Constraint>
+</Constraints>
+<CompletionCondition>
+<Condition>Sequence</Condition>
+</CompletionCondition>
+<Steps>
+<Step>Track</Step>
+</Steps>
+</Job>
+<StartupProcedure>
+<Procedure>UnparkMount</Procedure>
+</StartupProcedure>
+<ShutdownProcedure>
+<Procedure>WarmCCD</Procedure>
+<Procedure>ParkMount</Procedure>
+</ShutdownProcedure>
+</SchedulerList>
