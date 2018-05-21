@@ -328,6 +328,13 @@ class Capture : public QWidget, public Ui::Capture
     void setExposure(double value) { exposureIN->setValue(value);}
 
     /**
+     * @brief setBinning Set binning
+     * @param horBin Horizontal binning
+     * @param verBin Vertical binning
+     */
+    void setBinning(int horBin, int verBin) { binXIN->setValue(horBin); binYIN->setValue(verBin); }
+
+    /**
          * @brief captureImage Initiates image capture in the active job.
          */
     void captureImage();

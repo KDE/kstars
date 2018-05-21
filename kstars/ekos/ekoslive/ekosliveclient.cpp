@@ -12,12 +12,17 @@
 #include "ekosliveclient.h"
 #include "ekos_debug.h"
 #include "ekos/ekosmanager.h"
+#include "ekos/capture/capture.h"
 #include "profileinfo.h"
 #include "kspaths.h"
 #include "filedownloader.h"
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
 #include "QProgressIndicator.h"
+
+#include "indi/indilistener.h"
+#include "indi/indiccd.h"
+#include "indi/indifilter.h"
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -31,12 +36,15 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
 {
     {GET_PROFILES, "get_profiles"},
     {GET_STATES, "get_states"},
+    {GET_CAMERAS, "get_cameras"},
+    {GET_FILTER_WHEELS, "get_filter_wheels"},
     {NEW_MOUNT_STATE, "new_mount_state"},
     {NEW_CAPTURE_STATE, "new_capture_state"},
     {NEW_GUIDE_STATE, "new_guide_state"},
     {NEW_FOCUS_STATE, "new_focus_state"},
     {NEW_PREVIEW_IMAGE, "new_preview_image"},
     {NEW_NOTIFICATION, "new_notification"},
+    {NEW_TEMPERATURE, "new_temperature"},
 
 
     {CAPTURE_PREVIEW, "capture_preview"}
@@ -220,12 +228,18 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
         sendProfiles();
     else if (command == commands[GET_STATES])
         sendStates();
+    else if (command == commands[GET_CAMERAS])
+        sendCameras();
+    else if (command == commands[GET_FILTER_WHEELS])
+        sendFilterWheels();
     else if (command == commands[CAPTURE_PREVIEW])
     {
         auto payload = serverMessage.object().value("payload").toObject();
 
-        double exp = payload.value("exp").toDouble();
+        double exp = payload.value("exp").toDouble(1);
+        int bin = payload.value("bin").toInt(1);
         m_Manager->captureProcess.get()->setExposure(exp);
+        m_Manager->captureProcess.get()->setBinning(bin,bin);
         m_Manager->captureProcess.get()->captureOne();
     }
 }
@@ -404,3 +418,79 @@ void EkosLiveClient::sendEvent(const QString &message, KSNotification::EventType
     QJsonObject newEvent = {{ "severity", event}, {"message", message},{"uuid",QUuid::createUuid().toString()}};
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_NOTIFICATION], newEvent);
 }
+
+void EkosLiveClient::sendCameras()
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonArray cameraList;
+
+    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_CCD))
+    {
+        ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(gd);
+        connect(oneCCD, &ISD::CCD::newTemperatureValue, this, &EkosLiveClient::sendTemperature, Qt::UniqueConnection);
+        ISD::CCDChip *primaryChip = oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
+        double temperature=0;
+        oneCCD->getTemperature(&temperature);
+
+        QJsonObject oneCamera = {
+             {"name", oneCCD->getDeviceName()},
+             {"canBin", primaryChip->canBin()},
+             {"hasTemperature", oneCCD->hasCooler()},
+             {"temperature", temperature},
+             {"canCool", oneCCD->canCool()},
+             {"hasVideo", oneCCD->hasVideoStream()}
+        };
+
+        cameraList.append(oneCamera);
+    }
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_CAMERAS], cameraList);
+}
+
+void EkosLiveClient::sendTemperature(double value)
+{
+    ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(sender());
+
+    QJsonObject temperature = {
+        {"name", oneCCD->getDeviceName()},
+        {"value", value}
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_TEMPERATURE], temperature);
+}
+
+void EkosLiveClient::sendFilterWheels()
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonArray filterList;
+
+    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_FILTER))
+    {
+        INDI::Property *prop = gd->getProperty("FILTER_NAME");
+        if (prop == nullptr)
+            break;
+
+        ITextVectorProperty *filterNames = prop->getText();
+        if (filterNames == nullptr)
+            break;
+
+        QJsonArray filters;
+        for (int i=0; i < filterNames->ntp; i++)
+            filters.append(filterNames->tp[i].text);
+
+        QJsonObject oneFilter = {
+             {"name", gd->getDeviceName()},
+             {"filters", filters}
+        };
+
+        filterList.append(oneFilter);
+    }
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_FILTER_WHEELS], filterList);
+}
+
