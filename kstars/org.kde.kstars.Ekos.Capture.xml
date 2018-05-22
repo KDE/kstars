@@ -11,6 +11,10 @@
       <arg name="abort" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="toggleVideo">
+      <arg name="enabled" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="setCCD">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
@@ -18,7 +22,7 @@
     <method name="setFilter">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
-      <arg name="filterSlot" type="i" direction="in"/>
+      <arg name="filter" type="s" direction="in"/>
     </method>
     <method name="loadSequenceQueue">
       <arg type="b" direction="out"/>
