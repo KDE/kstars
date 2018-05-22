@@ -61,6 +61,16 @@ public:
         CAPTURE_TOGGLE_VIDEO,
         CAPTURE_START,
         CAPTURE_STOP,
+
+        MOUNT_PARK,
+        MOUNT_UNPARK,
+        MOUNT_SYNC_RADE,
+        MOUNT_SYNC_TARGET,
+        MOUNT_GOTO_RADE,
+        MOUNT_GOTO_TARGET,
+        MOUNT_SET_MOTION,
+        MOUNT_SET_TRACKING,
+        MOUNT_SET_SLEW_RATE
     };
 
     static QMap<COMMANDS, QString> const commands;
@@ -92,6 +102,9 @@ private:
     void toggleVideo(bool enabled);
     void startSequence();
     void stopSequence();
+
+    // Mount
+    void processMountCommands(const QString &command, const QJsonObject &mountCommand);
 
     // Profiles
     void sendProfiles();
