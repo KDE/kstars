@@ -275,15 +275,13 @@ if(NOT BUILD_KSTARS_LITE)
       include_directories( ${WCSLIB_INCLUDE_DIR} )
     endif(WCSLIB_FOUND)
 
-    if(XPLANET_FOUND)
-        set(xplanet_SRCS
-            xplanet/opsxplanet.cpp
-        )
+    set(xplanet_SRCS
+        xplanet/opsxplanet.cpp
+    )
 
-        set(xplanetui_SRCS
-            xplanet/opsxplanet.ui
-        )
-    endif(XPLANET_FOUND)
+    set(xplanetui_SRCS
+        xplanet/opsxplanet.ui
+    )
 
     ########### next target ###############
     set(libkstarstools_SRCS

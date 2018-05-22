@@ -448,13 +448,11 @@ class SkyMap : public QGraphicsView
     void slotToggleGL();
 #endif
 
-#ifdef HAVE_XPLANET
     /** Run Xplanet to print a view in a Window*/
     void slotXplanetToWindow();
 
     /** Run Xplanet to print a view in a file */
     void slotXplanetToFile();
-#endif
 
     /** Render eyepiece view */
     void slotEyepieceView();
@@ -609,13 +607,11 @@ class SkyMap : public QGraphicsView
 
     void beginRulerMode(bool starHopRuler); // TODO: Add docs
 
-#ifdef HAVE_XPLANET
     /**
      * @short Strart xplanet.
      * @param outputFile Output file path.
      */
     void startXplanet(const QString &outputFile = "");
-#endif
 
     bool mouseButtonDown { false };
     bool midMouseButtonDown { false };
