@@ -22,7 +22,7 @@
 #include <QUrl>
 #include <QtDBus/QtDBus>
 
-#include <stdint.h>
+#include <cstdint>
 
 class QProgressIndicator;
 

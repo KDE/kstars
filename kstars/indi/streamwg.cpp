@@ -28,7 +28,7 @@
 #include <QImageReader>
 #include <QIcon>
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <fcntl.h>
 
 #include "streamwg.h"

@@ -337,6 +337,10 @@
             <driver name="Pyxis">indi_pyxis_rotator</driver>
             <version>1.0</version>
         </device>
+        <device label="Arduino ST4">
+            <driver name="Arduino ST4">indi_arduinost4</driver>
+            <version>1.0</version>
+        </device>
         <device label="GPUSB">
             <driver name="GPUSB">indi_gpusb</driver>
             <version>0.1</version>
@@ -373,6 +377,10 @@
         </device>
     </devGroup>
     <devGroup group="Weather">
+        <device label="Weather Simulator">
+            <driver name="Weather Simulator">indi_simulator_weather</driver>
+            <version>1.0</version>
+        </device>
         <device label="SQM">
             <driver name="SQM">indi_sqm_weather</driver>
             <version>1.0</version>
@@ -391,6 +399,10 @@
         </device>
         <device label="Vantage">
             <driver name="Vantage">indi_vantage_weather</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Weather Watcher">
+            <driver name="Weather Watcher">indi_watcher_weather</driver>
             <version>1.0</version>
         </device>
     </devGroup>
@@ -607,7 +619,11 @@
     <devGroup group="CCDs">
         <device label="SBIG CCD">
             <driver name="SBIG CCD">indi_sbig_ccd</driver>
-            <version>1.7</version>
+            <version>1.9</version>
+        </device>
+        <device label="SBIG ST-I">
+            <driver name="SBIG CCD">indi_sbig_ccd</driver>
+            <version>1.9</version>
         </device>
     </devGroup>
 </driversList>
@@ -684,6 +700,14 @@
         <device label="Lacerta MGen Autoguider">
             <driver name="MGen Autoguider">indi_mgenautoguider</driver>
             <version>0.1</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="Meade Deep Sky Imager">
+            <driver name="DSI">indi_dsi_ccd</driver>
+            <version>0.3</version>
         </device>
     </devGroup>
 </driversList>
