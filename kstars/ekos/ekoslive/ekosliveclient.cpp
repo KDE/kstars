@@ -47,7 +47,10 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {NEW_TEMPERATURE, "new_temperature"},
 
 
-    {CAPTURE_PREVIEW, "capture_preview"}
+    {CAPTURE_PREVIEW, "capture_preview"},
+    {CAPTURE_TOGGLE_VIDEO, "capture_toggle_video"},
+    {CAPTURE_START, "capture_start"},
+    {CAPTURE_STOP, "capture_stop"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -234,14 +237,16 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
         sendFilterWheels();
     else if (command == commands[CAPTURE_PREVIEW])
     {
-        auto payload = serverMessage.object().value("payload").toObject();
-
-        double exp = payload.value("exp").toDouble(1);
-        int bin = payload.value("bin").toInt(1);
-        m_Manager->captureProcess.get()->setExposure(exp);
-        m_Manager->captureProcess.get()->setBinning(bin,bin);
-        m_Manager->captureProcess.get()->captureOne();
+        capturePreview(serverMessage.object().value("payload").toObject());
     }
+    else if (command == commands[CAPTURE_TOGGLE_VIDEO])
+    {
+        toggleVideo(serverMessage.object().value("payload").toObject().value("enabled").toBool());
+    }
+    else if (command == commands[CAPTURE_START])
+        startSequence();
+    else if (command == commands[CAPTURE_STOP])
+        stopSequence();
 }
 
 void EkosLiveClient::onBinaryMessageReceived(const QByteArray &message)
@@ -376,6 +381,31 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
 }
 
+void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
+{
+    if (m_isConnected == false || !frame)
+        return;
+
+    // TODO 640 should be configurable later on
+    QImage scaledImage =  frame.get()->scaledToWidth(640);
+    QTemporaryFile jpegFile;
+    jpegFile.open();
+    jpegFile.close();
+
+    scaledImage.save(jpegFile.fileName(), "jpg");
+
+    jpegFile.open();
+
+    QByteArray jpegData = jpegFile.readAll();
+
+    QJsonObject image =
+    {
+        {"data", QString(jpegData.toBase64()) }
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
+}
+
 void EkosLiveClient::updateFocusStatus(const QJsonObject &status)
 {
     if (m_isConnected == false)
@@ -430,6 +460,7 @@ void EkosLiveClient::sendCameras()
     {
         ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(gd);
         connect(oneCCD, &ISD::CCD::newTemperatureValue, this, &EkosLiveClient::sendTemperature, Qt::UniqueConnection);
+        connect(oneCCD, &ISD::CCD::newVideoFrame, this, &EkosLiveClient::sendVideoFrame, Qt::UniqueConnection);
         ISD::CCDChip *primaryChip = oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
         double temperature=0;
@@ -494,3 +525,45 @@ void EkosLiveClient::sendFilterWheels()
     sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_FILTER_WHEELS], filterList);
 }
 
+void EkosLiveClient::capturePreview(const QJsonObject &settings)
+{
+    QString camera = settings.value("camera").toString();
+    QString filterWheel = settings.value("fw").toString();
+    QString filter = settings.value("filter").toString();
+    QString frame = settings.value("frame").toString("Light");
+    double exp = settings.value("exp").toDouble(1);
+    int bin = settings.value("bin").toInt(1);
+    double temperature = settings.value("temperature").toDouble(-1000);
+
+
+    Ekos::Capture * capture = m_Manager->captureProcess.get();
+    capture->setCCD(camera);
+    if (filterWheel.isEmpty() == false)
+        capture->setFilter(filterWheel, filter);
+
+    if (temperature != -1000)
+    {
+        capture->setForceTemperature(true);
+        capture->setTargetTemperature(temperature);
+    }
+
+    capture->setFrameType(frame);
+    m_Manager->captureProcess.get()->setExposure(exp);
+    m_Manager->captureProcess.get()->setBinning(bin,bin);
+    m_Manager->captureProcess.get()->captureOne();
+}
+
+void EkosLiveClient::toggleVideo(bool enabled)
+{
+    m_Manager->captureProcess.get()->toggleVideo(enabled);
+}
+
+void EkosLiveClient::startSequence()
+{
+    m_Manager->captureProcess.get()->start();
+}
+
+void EkosLiveClient::stopSequence()
+{
+    m_Manager->captureProcess.get()->stop();
+}

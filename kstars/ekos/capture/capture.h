@@ -120,8 +120,9 @@ class Capture : public QWidget, public Ui::Capture
     /** DBUS interface function.
          * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.
          * @param device The filter device name
+         * @param filter the filter name
          */
-    Q_SCRIPTABLE bool setFilter(QString device, int filterSlot);
+    Q_SCRIPTABLE bool setFilter(const QString &device, const QString &filter);
 
     /** DBUS interface function.
          * Aborts any current jobs and remove all sequence queue jobs.
@@ -288,7 +289,7 @@ class Capture : public QWidget, public Ui::Capture
     QString getLogText() { return logText.join("\n"); }
 
     /* Capture */
-    void updateSequencePrefix(const QString &newPrefix, const QString &dir);
+    void updateSequencePrefix(const QString &newPrefix, const QString &dir);       
 
   public slots:
 
@@ -313,6 +314,13 @@ class Capture : public QWidget, public Ui::Capture
          * Aborts all jobs. It simply calls stop(true)
          */
     Q_SCRIPTABLE Q_NOREPLY void abort() { stop(true); }
+
+
+    /** DBUS interface function.
+         * Toggle video streaming if supported by the device.
+         * @param enabled Set to true to start video streaming, false to stop it if active.
+         */
+    Q_SCRIPTABLE Q_NOREPLY void toggleVideo(bool enabled);
 
     /** @}*/
 
@@ -410,14 +418,18 @@ class Capture : public QWidget, public Ui::Capture
     void updateCCDTemperature(double value);
 
     /**
-         * @brief setTemperature Set CCD temperature from the user GUI settings.
+         * @brief setTemperature Set the target CCD temperature in the GUI settings.
          */
-    void setTemperature();
+    void setTargetTemperature(double temperature);
+
+    void setForceTemperature(bool enabled) {temperatureCheck->setChecked(enabled);}
 
     /**
          * @brief preparePreCaptureActions Check if we need to update filter position or CCD temperature before starting capture process
          */
     void preparePreCaptureActions();
+
+    void setFrameType(const QString& type) {frameTypeCombo->setCurrentText(type);}
 
     // Pause Sequence Queue
     void pause();
@@ -494,12 +506,6 @@ class Capture : public QWidget, public Ui::Capture
     // post capture script
     void postScriptFinished(int exitCode);
 
-    // Filter focus offset
-    //void showFilterOffsetDialog();
-    //void loadFilterOffsets();
-
-    // Live Video Preview
-    void toggleVideoStream(bool enable);
     void setVideoStreamEnabled(bool enabled);
 
     // Observer

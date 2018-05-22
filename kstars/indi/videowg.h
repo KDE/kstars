@@ -28,7 +28,6 @@ class VideoWG : public QLabel
 
   public:
     explicit VideoWG(QWidget *parent = nullptr);
-    ~VideoWG();
 
     bool newFrame(IBLOB *bp);
 
@@ -44,6 +43,7 @@ class VideoWG : public QLabel
 
   signals:
     void newSelection(QRect);
+    void imageChanged(std::unique_ptr<QImage> & frame);
 
   private:
     uint16_t streamW { 0 };
