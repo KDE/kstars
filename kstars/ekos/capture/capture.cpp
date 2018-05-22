@@ -445,8 +445,8 @@ void Capture::stop(bool abort)
     {
         if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
         {
-            //KNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture failed with errors"));
-            KSNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture failed with errors"), KSNotification::EVENT_ALERT);
+            if (abort)
+                KSNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture failed with errors"), KSNotification::EVENT_ALERT);
             activeJob->abort();
             emit newStatus(Ekos::CAPTURE_ABORTED);
         }        
