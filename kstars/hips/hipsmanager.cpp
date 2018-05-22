@@ -170,7 +170,7 @@ QImage *HIPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
     key.pix = pix / 4;
     pixCacheItem_t *item = getCacheItem(key);
 
-    if (item)
+    if (item != nullptr)
     {
       QImage *cacheImage = item->image;
       int size = m_currentTileWidth >> 1;
@@ -189,7 +189,7 @@ QImage *HIPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
     return nullptr;
   }    
 
-  if (item)
+  if (item != nullptr)
   {        
     QImage *cacheImage = item->image;
 
@@ -338,7 +338,7 @@ void HIPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, 
   {
     m_downloadMap.remove(key);
 
-    pixCacheItem_t *item = new pixCacheItem_t;
+    auto *item = new pixCacheItem_t;
 
     item->image = new QImage();
     if (item->image->loadFromData(data))
@@ -349,7 +349,6 @@ void HIPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, 
     }
     else
     {
-      delete item->image;
       delete item;
       qCWarning(KSTARS) << "no image" << data;
     }
@@ -362,7 +361,7 @@ void HIPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, 
     }
     else
     {
-      RemoveTimer *timer = new RemoveTimer();
+      auto *timer = new RemoveTimer();
       timer->setKey(key);
       connect(timer, SIGNAL(remove(pixCacheKey_t&)), this, SLOT(removeTimer(pixCacheKey_t&)));
     }

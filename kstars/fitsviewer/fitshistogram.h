@@ -50,7 +50,7 @@ class FITSHistogram : public QDialog
     double getJMIndex() const;
 
   protected:
-    void showEvent(QShowEvent *);
+    void showEvent(QShowEvent *event);
 
   public slots:
     void applyScale();
@@ -109,7 +109,7 @@ class FITSHistogramCommand : public QUndoCommand
         long dim[2];
     } stats;
 
-    bool calculateDelta(uint8_t *buffer);
+    bool calculateDelta(const uint8_t *buffer);
     bool reverseDelta();
     void saveStats(double min, double max, double stddev, double mean, double median, double SNR);
     void restoreStats();

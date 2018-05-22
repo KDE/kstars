@@ -52,15 +52,15 @@ class FITSView : public QScrollArea
 {
     Q_OBJECT
   public:
-    explicit FITSView(QWidget *parent = nullptr, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
+    explicit FITSView(QWidget *parent = nullptr, FITSMode fitsMode = FITS_NORMAL, FITSScale filterType = FITS_NONE);
     ~FITSView();
 
     typedef enum {dragCursor, selectCursor, scopeCursor, crosshairCursor } CursorMode;
 
     // Loads FITS image, scales it, and displays it in the GUI
-    bool loadFITS(const QString &filename, bool silent = true);
+    bool loadFITS(const QString &inFilename, bool silent = true);
     // Save FITS
-    int saveFITS(const QString &filename);
+    int saveFITS(const QString &newFilename);
     // Rescale image lineary from image_buffer, fit to window if desired
     int rescale(FITSZoom type);
 
@@ -98,8 +98,8 @@ class FITSView : public QScrollArea
 
     bool isTelescopeActive();
 
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
     CursorMode getCursorMode();
     void setCursorMode(CursorMode mode);
     void updateMouseCursor();
@@ -117,7 +117,7 @@ class FITSView : public QScrollArea
     void setStarsEnabled(bool enable);
 
     // FITS Mode
-    void updateMode(FITSMode mode);
+    void updateMode(FITSMode fmode);
     FITSMode getMode() { return mode; }
 
     void setFilter(FITSScale newFilter) { filter = newFilter; }
