@@ -13,8 +13,11 @@
 #include "ekos_debug.h"
 #include "ekos/ekosmanager.h"
 #include "ekos/capture/capture.h"
+#include "ekos/mount/mount.h"
 #include "profileinfo.h"
 #include "kspaths.h"
+#include "skymapcomposite.h"
+#include "kstarsdata.h"
 #include "filedownloader.h"
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
@@ -51,6 +54,16 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {CAPTURE_TOGGLE_VIDEO, "capture_toggle_video"},
     {CAPTURE_START, "capture_start"},
     {CAPTURE_STOP, "capture_stop"},
+
+    {MOUNT_PARK, "mount_park}"},
+    {MOUNT_UNPARK, "mount_unpark"},
+    {MOUNT_SYNC_RADE, "mount_sync_rade"},
+    {MOUNT_SYNC_TARGET, "mount_sync_target"},
+    {MOUNT_GOTO_RADE, "mount_goto_rade"},
+    {MOUNT_GOTO_TARGET, "mount_goto_target"},
+    {MOUNT_SET_MOTION, "mount_set_motion"},
+    {MOUNT_SET_TRACKING, "mount_set_tracking"},
+    {MOUNT_SET_SLEW_RATE, "mount_set_slew_rate"}
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -247,6 +260,8 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
         startSequence();
     else if (command == commands[CAPTURE_STOP])
         stopSequence();
+    else if (command.startsWith("mount_"))
+        processMountCommands(command, serverMessage.object().value("payload").toObject());
 }
 
 void EkosLiveClient::onBinaryMessageReceived(const QByteArray &message)
@@ -566,4 +581,59 @@ void EkosLiveClient::startSequence()
 void EkosLiveClient::stopSequence()
 {
     m_Manager->captureProcess.get()->stop();
+}
+
+void EkosLiveClient::processMountCommands(const QString &command, const QJsonObject &mountCommand)
+{
+    Ekos::Mount *mount = m_Manager->mountModule();
+
+    if (command == commands[MOUNT_PARK])
+        mount->park();
+    else if (command == commands[MOUNT_UNPARK])
+        mount->unpark();
+    else if (command == commands[MOUNT_SYNC_RADE])
+    {
+        dms ra = dms::fromString(mountCommand["ra"].toString(), false);
+        dms de = dms::fromString(mountCommand["de"].toString(), true);
+
+        mount->sync(ra.Hours(), de.Degrees());
+    }
+    else if (command == commands[MOUNT_SYNC_TARGET])
+    {
+        QString target = mountCommand["target"].toString();
+        SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
+
+        if (object != nullptr)
+            mount->sync(object->ra().Hours(), object->dec().Degrees());
+    }
+    else if (command == commands[MOUNT_GOTO_RADE])
+    {
+        dms ra = dms::fromString(mountCommand["ra"].toString(), false);
+        dms de = dms::fromString(mountCommand["de"].toString(), true);
+
+        mount->slew(ra.Hours(), de.Degrees());
+    }
+    else if (command == commands[MOUNT_GOTO_TARGET])
+    {
+        QString target = mountCommand["target"].toString();
+        SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
+
+        if (object != nullptr)
+            mount->slew(object->ra().Hours(), object->dec().Degrees());
+    }
+    else if (command == commands[MOUNT_SET_MOTION])
+    {
+        QString direction = mountCommand["direction"].toString();
+        ISD::Telescope::TelescopeMotionCommand action = mountCommand["action"].toBool(false) ?
+                    ISD::Telescope::MOTION_START : ISD::Telescope::MOTION_STOP;
+
+        if (direction == "N")
+            mount->motionCommand(action, ISD::Telescope::MOTION_NORTH, -1);
+        else if (direction == "S")
+            mount->motionCommand(action, ISD::Telescope::MOTION_SOUTH, -1);
+        else if (direction == "E")
+            mount->motionCommand(action, -1, ISD::Telescope::MOTION_EAST);
+        else if (direction == "W")
+            mount->motionCommand(action, -1, ISD::Telescope::MOTION_WEST);
+    }
 }
