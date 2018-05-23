@@ -136,6 +136,17 @@ void Telescope::registerProperty(INDI::Property *prop)
         m_hasCustomTrackRate = true;
     else if (!strcmp(prop->getName(), "TELESCOPE_PARK_OPTION"))
         m_hasCustomParking = true;
+    else if (!strcmp(prop->getName(), "TELESCOPE_SLEW_RATE"))
+    {
+        m_hasSlewRates = true;
+        ISwitchVectorProperty *svp = prop->getSwitch();
+        if (svp)
+        {
+            m_slewRates.clear();
+            for (int i=0; i < svp->nsp; i++)
+                m_slewRates << svp->sp[i].label;
+        }
+    }
 
     DeviceDecorator::registerProperty(prop);
 }

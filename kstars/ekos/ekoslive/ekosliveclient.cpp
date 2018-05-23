@@ -40,6 +40,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {GET_PROFILES, "get_profiles"},
     {GET_STATES, "get_states"},
     {GET_CAMERAS, "get_cameras"},
+    {GET_MOUNTS, "get_mounts"},
     {GET_FILTER_WHEELS, "get_filter_wheels"},
     {NEW_MOUNT_STATE, "new_mount_state"},
     {NEW_CAPTURE_STATE, "new_capture_state"},
@@ -246,6 +247,8 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
         sendStates();
     else if (command == commands[GET_CAMERAS])
         sendCameras();
+    else if (command == commands[GET_MOUNTS])
+        sendMounts();
     else if (command == commands[GET_FILTER_WHEELS])
         sendFilterWheels();
     else if (command == commands[CAPTURE_PREVIEW])
@@ -494,6 +497,32 @@ void EkosLiveClient::sendCameras()
     }
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_CAMERAS], cameraList);
+}
+
+void EkosLiveClient::sendMounts()
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonArray mountList;
+
+    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_TELESCOPE))
+    {
+        ISD::Telescope *oneTelescope = dynamic_cast<ISD::Telescope*>(gd);
+
+        QJsonObject oneMount = {
+             {"name", oneTelescope->getDeviceName()},
+             {"canPark", oneTelescope->canPark()},
+             {"canSync", oneTelescope->canSync()},
+             {"canControlTrack", oneTelescope->canControlTrack()},
+             {"hasSlewRates", oneTelescope->hasSlewRates()},
+             {"slewRates", QJsonArray::fromStringList(oneTelescope->slewRates())}
+        };
+
+        mountList.append(oneMount);
+    }
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_MOUNTS], mountList);
 }
 
 void EkosLiveClient::sendTemperature(double value)
