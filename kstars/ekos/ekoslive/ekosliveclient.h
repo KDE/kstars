@@ -47,6 +47,7 @@ public:
         GET_PROFILES,
         GET_STATES,
         GET_CAMERAS,
+        GET_MOUNTS,
         GET_FILTER_WHEELS,
         NEW_MOUNT_STATE,
         NEW_CAPTURE_STATE,
@@ -110,6 +111,7 @@ private:
     void sendProfiles();
     void sendStates();
     void sendCameras();
+    void sendMounts();
     void sendFilterWheels();
 
 
