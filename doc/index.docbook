@@ -65,6 +65,7 @@
   <!ENTITY tools SYSTEM "tools.docbook">
   <!ENTITY utime SYSTEM "utime.docbook">
   <!ENTITY zenith SYSTEM "zenith.docbook">
+  <!ENTITY hips SYSTEM "hips.docbook">
   <!ENTITY % addindex "INCLUDE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
@@ -225,7 +226,7 @@ includes &DBus; functions that allow you to <link linkend="tool-scriptbuilder">w
 astronomical topics. Furthermore, any 3rd party tool or language with support of &DBus; can be used to write powerful scripts using <ulink url="http://api.kde.org/4.x-api/kdeedu-apidocs/kstars/html/classkstars.html">&kstars; &DBus; API</ulink>
 </para>
 <para>
-Enable <link linked="hips">HiPS</link> all-sky progressive overlay to fetch high-resolution images and display them directly in the sky map. You can select from numerous catalogs compiled from different earth and space based missions.
+Enable <link linkend="hips">HiPS all-sky progressive overlay</link> to fetch high-resolution images and display them directly in the sky map. You can select from numerous catalogs compiled from different earth and space based missions.
 This features requires a fast interenet connection in order to download the images. The image are cached locally to reduce bandwidth. You can optimize the caching options to best balance between disk space versus bandwidth.
 </para>
 <para>
