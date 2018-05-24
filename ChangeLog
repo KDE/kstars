@@ -4,6 +4,47 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.9.6 (Lalande):
+=================================================================================================
+3434dd0 2018-05-24 Jasem Mutlaq         Add HiPS documentation
+93e9dba 2018-05-24 Jasem Mutlaq         Bump to 2.9.6
+02e9508 2018-05-24 Robert Lancaster     Fix OSX Build
+4e4ea8a 2018-05-23 Robert Lancaster     Fix option dialog on MacoS. BUGS:394138
+8c880dc 2018-05-22 Pino Toscano         Make Xplanet an optional runtime-only dependency
+12f8e20 2018-05-21 Jasem Mutlaq         Sync driver list with INDI. BUGS:394522 FIXED-IN:2.9.6
+d9a526f 2018-05-21 Csaba Kertesz        Use modern headers
+e63bed3 2018-05-17 Csaba Kertesz        Update Clang Tidy script to Clang 6.0 and fix some findings
+503b140 2018-05-16 Csaba Kertesz        Fix the Clang Static Analyzer findings
+9c9c1fb 2018-05-14 Csaba Kertesz        Compilation fixes
+f8df59f 2018-05-14 Csaba Kertesz        Update the Clang Static Analyser script to Clang 6.0
+419bef1 2018-05-18 Eric Dejouhanet      Fix side-effect causing distant jobs to abort.
+69f2f99 2018-05-16 Eric Dejouhanet      Fix regression with completed jobs being rescheduled erroneously.
+ac40791 2018-05-14 Jasem Mutlaq         Use a more common-sense GUI for telescopes
+65afc9d 2018-05-14 Jasem Mutlaq         Abort guiding if mount is slewing or parking
+bb97b1d 2018-05-14 Jasem Mutlaq         No need to forward declare KStarsDateTime here
+0ecc72c 2018-05-09 Eric Dejouhanet      Summary of development branch 'schedule of asap jobs'
+d1e97c3 2018-05-08 Jasem Mutlaq         Block signals instead of disconnect for CCD transfer format
+5d4a4f9 2018-05-07 Jasem Mutlaq         When establishing a profile on the remote INDI web manager while we have both CCD and Guider of type multiple-device-per-driver, then we only start ..
+aa0bba3 2018-05-07 Jasem Mutlaq         Remember CCD capture format and FITS directory
+6e84f80 2018-05-06 Jasem Mutlaq         Fix centering and tracking of empty sky
+f708322 2018-05-06 Jasem Mutlaq         Add method to clear all DSLR info
+8771ace 2018-05-05 Jasem Mutlaq         Make the Ekos modules fully expand except for regular GUI controls as suggested by Jim on INDI forums
+6b0267e 2018-05-05 Jasem Mutlaq         Fix issue with deleting record from database since ID was missing in the map. On invalid FOV, color the background RED
+90dda3e 2018-05-04 Jasem Mutlaq         Add J2000 support to mount control panel
+629639b 2018-05-03 Jasem Mutlaq         Hemispheres should not affect rotation direction in RA
+1951ad5 2018-05-01 Jasem Mutlaq         Start timer for remote solver as well
+8f4ef60 2018-05-01 Jasem Mutlaq         Fix filter manager database issues since it was broken and worked on first update only. Now we clone database instead of using existing connection n..
+d72f271 2018-04-29 Pino Toscano         tests: do not add KStarsUiTests as autotest
+7a8c670 2018-04-28 Pino Toscano         cmake: demote AstrometryNet as runtime dependency
+870147b 2018-04-27 Robert Lancaster     This batch should fix a possible bug if DBus looks like it has started on Mac but hasn’t actually started.  It also provides more feedback in the ca..
+ea68c70 2018-04-26 Eric Dejouhanet      Scheduler adjustments and fixes
+093e671 2018-04-25 Andreas Sturmlechner Fix build with Qt 5.11 (missing QDoubleValidator)
+0111020 2018-04-23 Jasem Mutlaq         Fix TZ ambiguity. SetTZ was renamed to SetTZ0 since it sets the TimeZone WITHOUT DST correction. INDI Mount and GPS updates now account for that. Im..
+8d80f28 2018-04-22 Jasem Mutlaq         Add Eric as one of the active developers
+444843f 2018-04-22 Jasem Mutlaq         Logs, and reworking job count update and repeated jobs estimation
+58503e5 2018-04-21 Jasem Mutlaq         Minor cleanup
+9b91280 2018-04-21 Jasem Mutlaq         Sync GUI if widget is visible already
+
 2.9.5 (Cygni):
 =================================================================================================
 1b0216a 2018-04-20 Jasem Mutlaq         Format and sync INDI drivers XML to INDI 1.7.1 release
