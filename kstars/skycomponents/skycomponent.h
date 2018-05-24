@@ -111,8 +111,7 @@ class SkyComponent
      */
     explicit SkyComponent(SkyComposite *parent = nullptr);
 
-    /** @short Destructor */
-    virtual ~SkyComponent();
+    virtual ~SkyComponent() = default;
 
     /**
      * @short Draw the object on the SkyMap

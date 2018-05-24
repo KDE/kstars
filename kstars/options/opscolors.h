@@ -14,37 +14,37 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OPSCOLORS_H_
-#define OPSCOLORS_H_
-
-#include <qstringlist.h>
+#pragma once
 
 #include "ui_opscolors.h"
 
-/** @class OpsColors
-	*The Colors page allows the user to adjust all of the colors used to
-	*display the night sky.  The colors are presented as a list of
-	*colored rectangles and a description of its assignment in the map.
-	*Clicking on any color opens a KColorDialog for selecting a new color.
-	*
-	*The user can also load preset color schemes, or create new schemes
-	*from the current set of colors.
-	*
-	*@short The Colors page of the Options window.
-	*@author Jason Harris
-    *@author Jasem Mutlaq
-    *@version 1.1
-	*/
+#include <qstringlist.h>
 
 class KStars;
 
+/**
+ * @class OpsColors
+ *
+ * The Colors page allows the user to adjust all of the colors used to
+ * display the night sky.  The colors are presented as a list of
+ * colored rectangles and a description of its assignment in the map.
+ * Clicking on any color opens a KColorDialog for selecting a new color.
+ *
+ * The user can also load preset color schemes, or create new schemes
+ * from the current set of colors.
+ *
+ * @short The Colors page of the Options window.
+ * @author Jason Harris
+ * @author Jasem Mutlaq
+ * @version 1.1
+ */
 class OpsColors : public QFrame, public Ui::OpsColors
 {
     Q_OBJECT
 
   public:
     explicit OpsColors();
-    ~OpsColors() override;
+    virtual ~OpsColors() override = default;
 
   private slots:
     void newColor(QListWidgetItem *item);
@@ -58,7 +58,6 @@ class OpsColors : public QFrame, public Ui::OpsColors
 
   private:
     bool setColors(const QString &filename);
+
     QStringList PresetFileList;
 };
-
-#endif //OPSCOLORS_H_

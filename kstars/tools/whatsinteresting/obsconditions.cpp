@@ -42,10 +42,6 @@ ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, Teles
     qDebug() << "Aperture value being used:" << m_Aperture;
 }
 
-ObsConditions::~ObsConditions()
-{
-}
-
 QMap<int, double> ObsConditions::setLMMap()
 {
     QMap<int, double> LMMap;

@@ -43,7 +43,7 @@ class Satellite : public SkyObject
     Satellite *clone() const override;
 
     /** @short Destructor */
-    ~Satellite() override;
+    virtual ~Satellite() override = default;
 
     /** @short Update satellite position */
     int updatePos();

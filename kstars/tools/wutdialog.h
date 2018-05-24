@@ -30,6 +30,7 @@ class SkyObject;
 class WUTDialogUI : public QFrame, public Ui::WUTDialog
 {
     Q_OBJECT
+
   public:
     explicit WUTDialogUI(QWidget *p = nullptr);
 };
@@ -51,7 +52,7 @@ class WUTDialog : public QDialog
     /** Constructor */
     explicit WUTDialog(QWidget *ks, bool session = false, GeoLocation *geo = KStarsData::Instance()->geo(),
                        KStarsDateTime lt = KStarsData::Instance()->lt());
-    ~WUTDialog() override;
+    virtual ~WUTDialog() override = default;
 
     /**
      * @short Check visibility of object

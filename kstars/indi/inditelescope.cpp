@@ -39,10 +39,6 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     connect(centerLockTimer, &QTimer::timeout, this, [this]() { runCommand(INDI_CENTER_LOCK); });
 }
 
-Telescope::~Telescope()
-{
-}
-
 void Telescope::registerProperty(INDI::Property *prop)
 {
     if (!strcmp(prop->getName(), "TELESCOPE_INFO"))

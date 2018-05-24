@@ -475,7 +475,7 @@ class StateEffects
 public:
 
     explicit StateEffects(QPalette::ColorGroup state, const KSharedConfigPtr&);
-    ~StateEffects() {}
+    ~StateEffects() = default;
 
     QBrush brush(const QBrush& background) const;
     QBrush brush(const QBrush& foreground, const QBrush& background) const;
@@ -728,7 +728,7 @@ public:
 
     explicit SchemeManagerPrivate(const KSharedConfigPtr&, QPalette::ColorGroup, const char*, SetDefaultColors);
     explicit SchemeManagerPrivate(const KSharedConfigPtr&, QPalette::ColorGroup, const char*, SetDefaultColors, const QBrush&);
-    ~SchemeManagerPrivate() {}
+    ~SchemeManagerPrivate() = default;
 
     QBrush background(SchemeManager::BackgroundRole) const;
     QBrush foreground(SchemeManager::ForegroundRole) const;
@@ -901,8 +901,7 @@ qreal SchemeManagerPrivate::contrast() const
 
 // ------------------------------------------------------------------------------------
 
-SchemeManager::SchemeManager(const SchemeManager& other)
-    : d(other.d)
+SchemeManager::SchemeManager(const SchemeManager& other) : d(other.d)
 {
 }
 
@@ -910,10 +909,6 @@ SchemeManager& SchemeManager::operator=(const SchemeManager& other)
 {
     d = other.d;
     return *this;
-}
-
-SchemeManager::~SchemeManager()
-{
 }
 
 SchemeManager::SchemeManager(QPalette::ColorGroup state, ColorSet set, KSharedConfigPtr config)

@@ -8,6 +8,7 @@
  */
 
 #include "weather.h"
+
 #include "ekos/ekosmanager.h"
 #include "kstars.h"
 #include "weatheradaptor.h"
@@ -20,12 +21,6 @@ Weather::Weather()
 {
     new WeatherAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Weather", this);
-
-    currentWeather = nullptr;
-}
-
-Weather::~Weather()
-{
 }
 
 void Weather::setWeather(ISD::GDInterface *newWeather)

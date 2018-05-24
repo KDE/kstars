@@ -15,17 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QDebug>
-
 #include "planetmoons.h"
+
 #include "ksnumbers.h"
 #include "ksplanetbase.h"
 #include "kssun.h"
 #include "trailobject.h"
 
-PlanetMoons::PlanetMoons()
-{
-}
+#include <QDebug>
 
 PlanetMoons::~PlanetMoons()
 {

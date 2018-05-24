@@ -32,13 +32,9 @@
 #include "skyobjects/trailobject.h"
 #include "skyobjects/constellationsart.h"
 
-SkyPainter::SkyPainter() : m_sizeMagLim(10.)
+SkyPainter::SkyPainter()
 {
     m_sm = SkyMap::Instance();
-}
-
-SkyPainter::~SkyPainter()
-{
 }
 
 void SkyPainter::setSizeMagLimit(float sizeMagLim)

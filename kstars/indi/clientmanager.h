@@ -40,8 +40,8 @@ class ClientManager : public QObject, public INDI::BaseClient
     Q_OBJECT
 
   public:
-    ClientManager();
-    virtual ~ClientManager();
+    ClientManager() = default;
+    virtual ~ClientManager() override = default;
 
     /**
      * @brief appendManagedDriver Add driver to pool of managed drivers by this client manager.
@@ -69,23 +69,23 @@ class ClientManager : public QObject, public INDI::BaseClient
     QList<DriverInfo *> getManagedDrivers() const;
 
   protected:
-    virtual void newDevice(INDI::BaseDevice *dp);
-    virtual void newProperty(INDI::Property *prop);
-    virtual void removeProperty(INDI::Property *prop);
-    virtual void removeDevice(INDI::BaseDevice *dp);
-    virtual void newBLOB(IBLOB *bp);
-    virtual void newSwitch(ISwitchVectorProperty *svp);
-    virtual void newNumber(INumberVectorProperty *);
-    virtual void newText(ITextVectorProperty *);
-    virtual void newLight(ILightVectorProperty *);
-    virtual void newMessage(INDI::BaseDevice *dp, int messageID);
+    virtual void newDevice(INDI::BaseDevice *dp) override;
+    virtual void newProperty(INDI::Property *prop) override;
+    virtual void removeProperty(INDI::Property *prop) override;
+    virtual void removeDevice(INDI::BaseDevice *dp) override;
+    virtual void newBLOB(IBLOB *bp) override;
+    virtual void newSwitch(ISwitchVectorProperty *svp) override;
+    virtual void newNumber(INumberVectorProperty *) override;
+    virtual void newText(ITextVectorProperty *) override;
+    virtual void newLight(ILightVectorProperty *) override;
+    virtual void newMessage(INDI::BaseDevice *dp, int messageID) override;
 
 #if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
-    virtual void newUniversalMessage(std::string message);
+    virtual void newUniversalMessage(std::string message) override;
 #endif
 
-    virtual void serverConnected();
-    virtual void serverDisconnected(int exit_code);
+    virtual void serverConnected() override;
+    virtual void serverDisconnected(int exit_code) override;
 
   private:
     QList<DriverInfo *> managedDrivers;

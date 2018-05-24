@@ -14,16 +14,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <KConfigDialog>
-#include <QPushButton>
-
 #include "opsguides.h"
+
 #include "ksfilereader.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "Options.h"
 #include "skymap.h"
 #include "skycomponents/skymapcomposite.h"
-#include "Options.h"
+
+#include <KConfigDialog>
+
+#include <QPushButton>
 
 OpsGuides::OpsGuides() : QFrame(KStars::Instance())
 {
@@ -60,10 +62,6 @@ OpsGuides::OpsGuides() : QFrame(KStars::Instance())
             [&]() { isDirty = true; });
 
     isDirty = false;
-}
-
-OpsGuides::~OpsGuides()
-{
 }
 
 void OpsGuides::slotToggleConstellOptions(bool state)

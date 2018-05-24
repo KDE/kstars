@@ -62,10 +62,6 @@ void StarBlock::reset()
     nStars    = 0;
 }
 
-StarBlock::~StarBlock()
-{
-}
-
 #ifdef KSTARS_LITE
 StarNode *StarBlock::addStar(const StarData &data)
 {

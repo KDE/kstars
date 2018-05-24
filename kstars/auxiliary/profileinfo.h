@@ -17,7 +17,7 @@ class ProfileInfo
 {
   public:
     ProfileInfo(int id, const QString &name);
-    ~ProfileInfo() {}
+    ~ProfileInfo() = default;
 
     // Is connection local or remote
     bool isLocal() { return host.isEmpty(); }

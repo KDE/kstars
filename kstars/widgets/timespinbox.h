@@ -36,7 +36,7 @@ class TimeSpinBox : public QSpinBox
     /** Constructor */
     explicit TimeSpinBox(QWidget *parent, bool daysOnly = false);
     /** Destructor (empty) */
-    ~TimeSpinBox() override {}
+    ~TimeSpinBox() override = default;
 
     /**
      * Convert the internal value to a display string.

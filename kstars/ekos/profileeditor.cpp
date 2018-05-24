@@ -80,10 +80,6 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
     loadScopeEquipment();
 }
 
-ProfileEditor::~ProfileEditor()
-{
-}
-
 void ProfileEditor::loadScopeEquipment()
 {
     // Get all OAL equipment filter list

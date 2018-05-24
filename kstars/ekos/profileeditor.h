@@ -36,7 +36,7 @@ class ProfileEditor : public QDialog
     explicit ProfileEditor(QWidget *ks);
 
     /** @short Destructor */
-    ~ProfileEditor();
+    virtual ~ProfileEditor() override = default;
 
     void setPi(ProfileInfo *value);
 

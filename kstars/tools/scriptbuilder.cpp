@@ -69,10 +69,6 @@ OptionsTreeView::OptionsTreeView(QWidget *p) : QDialog(p)
     setModal(false);
 }
 
-OptionsTreeView::~OptionsTreeView()
-{
-}
-
 void OptionsTreeView::resizeColumns()
 {
     //Size each column to the maximum width of items in that column

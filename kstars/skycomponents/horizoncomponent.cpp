@@ -51,10 +51,6 @@ HorizonComponent::HorizonComponent(SkyComposite *parent) : PointListComponent(pa
     }
 }
 
-HorizonComponent::~HorizonComponent()
-{
-}
-
 bool HorizonComponent::selected()
 {
     return Options::showHorizon() || Options::showGround();

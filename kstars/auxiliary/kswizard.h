@@ -93,7 +93,8 @@ class KSWizard : public QDialog
      */
     explicit KSWizard(QWidget *parent = nullptr);
 
-    ~KSWizard() override;
+    // Do NOT delete members of filteredCityList! They are not created by KSWizard.
+    ~KSWizard() override = default;
 
     /** @return pointer to the geographic location selected by the user */
     const GeoLocation *geo() const { return Geo; }

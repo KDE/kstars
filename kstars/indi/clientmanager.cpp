@@ -19,14 +19,6 @@
 
 #include <indi_debug.h>
 
-ClientManager::ClientManager()
-{
-}
-
-ClientManager::~ClientManager()
-{
-}
-
 bool ClientManager::isDriverManaged(DriverInfo *di)
 {
     foreach (DriverInfo *dv, managedDrivers)

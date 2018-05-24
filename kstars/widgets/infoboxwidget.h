@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef INFOBOXWIDGET_H_
-#define INFOBOXWIDGET_H_
+#pragma once
 
 #include <QWidget>
 #include <QPoint>
@@ -34,9 +33,11 @@ class InfoBoxWidget;
 class InfoBoxes : public QWidget
 {
     Q_OBJECT
+
   public:
     explicit InfoBoxes(QWidget *parent = nullptr);
-    ~InfoBoxes() override;
+
+    virtual ~InfoBoxes() override = default;
 
     void addInfoBox(InfoBoxWidget *ibox);
     QList<InfoBoxWidget *> getInfoBoxes() const { return m_boxes; }
@@ -68,7 +69,7 @@ class InfoBoxWidget : public QWidget
     InfoBoxWidget(bool shade, const QPoint &pos, int anchor = 0, const QStringList &str = QStringList(),
                   QWidget *parent = nullptr);
     /** Destructor */
-    ~InfoBoxWidget() override;
+    virtual ~InfoBoxWidget() override = default;
 
     /** Check whether box is shaded. In this case only one line is shown. */
     bool shaded() const { return m_shaded; }
@@ -105,14 +106,17 @@ class InfoBoxWidget : public QWidget
     /** Recalculate size of widet */
     void updateSize();
 
-    QStringList m_strings; // list of string to show
-    bool m_adjusted;       // True if widget coordinates were adjusted
-    bool m_grabbed;        // True if widget is dragged around
-    bool m_shaded;         // True if widget if shaded
-    int m_anchor;          // Vertical alignment of widget
+    /// List of string to show
+    QStringList m_strings;
+    /// True if widget coordinates were adjusted
+    bool m_adjusted { true };
+    /// True if widget is dragged around
+    bool m_grabbed { true };
+    /// True if widget if shaded
+    bool m_shaded { true };
+    /// Vertical alignment of widget
+    int m_anchor { 0 };
 
     static const int padX;
     static const int padY;
 };
-
-#endif /* INFOBOXWIDGET_H_ */

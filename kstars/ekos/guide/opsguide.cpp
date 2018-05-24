@@ -8,20 +8,20 @@
 
  */
 
-#include <QPushButton>
-#include <QFileDialog>
-#include <QCheckBox>
-#include <QStringList>
-#include <QComboBox>
+#include "opsguide.h"
+
+#include "Options.h"
+#include "kstars.h"
+#include "auxiliary/ksnotification.h"
+#include "internalguide/internalguider.h"
 
 #include <KConfigDialog>
 
-#include "Options.h"
-#include "opsguide.h"
-#include "kstars.h"
-#include "auxiliary/ksnotification.h"
-
-#include "internalguide/internalguider.h"
+#include <QCheckBox>
+#include <QComboBox>
+#include <QFileDialog>
+#include <QPushButton>
+#include <QStringList>
 
 namespace Ekos
 {
@@ -40,9 +40,4 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
 
     connect(m_ConfigDialog, SIGNAL(settingsChanged(QString)), this, SIGNAL(settingsUpdated()));
 }
-
-OpsGuide::~OpsGuide()
-{
-}
-
 }

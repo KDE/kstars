@@ -47,7 +47,7 @@ class SequenceJob : public QObject
     } PrepareActions;
 
     SequenceJob();
-    ~SequenceJob() {}
+    ~SequenceJob() = default;
 
     CAPTUREResult capture(bool noCaptureFilter);
     void reset();

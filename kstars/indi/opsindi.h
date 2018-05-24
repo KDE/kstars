@@ -7,8 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef OPSINDI_H_
-#define OPSINDI_H_
+#pragma once
 
 #include "ui_opsindi.h"
 
@@ -18,7 +17,8 @@ class KConfigDialog;
 /**
  * @class OpsINDI
  *
- * Enables the user to change several INDI options including default ports for common devices, time and location source, and options pertnaning to FITSViewer tool.
+ * Enables the user to change several INDI options including default ports for common devices,
+ * time and location source, and options pertnaning to FITSViewer tool.
  *
  * @author Jasem Mutlaq
  */
@@ -28,7 +28,7 @@ class OpsINDI : public QFrame, public Ui::OpsINDI
 
   public:
     OpsINDI();
-    ~OpsINDI();
+    virtual ~OpsINDI() override = default;
 
   private slots:
     void saveFITSDirectory();
@@ -39,7 +39,5 @@ class OpsINDI : public QFrame, public Ui::OpsINDI
     void verifyINDIServer();
 
   private:
-    KConfigDialog *m_ConfigDialog;
+    KConfigDialog *m_ConfigDialog { nullptr };
 };
-
-#endif

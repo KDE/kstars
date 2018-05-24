@@ -25,7 +25,7 @@
 class PixCache
 {
 public:
-  PixCache();  
+  PixCache() = default;
 
   void add(pixCacheKey_t &key, pixCacheItem_t *item, int cost);
   pixCacheItem_t *get(pixCacheKey_t &key);

@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef THUMBNAILEDITOR_H_
-#define THUMBNAILEDITOR_H_
+#pragma once
 
 #include <QMouseEvent>
 #include <QPaintEvent>
@@ -39,7 +38,7 @@ class ThumbnailEditor : public QDialog
     Q_OBJECT
   public:
     ThumbnailEditor(ThumbnailPicker *_tp, double _w, double _h);
-    ~ThumbnailEditor() override;
+    ~ThumbnailEditor() override = default;
     QPixmap thumbnail();
 
   private slots:
@@ -50,5 +49,3 @@ class ThumbnailEditor : public QDialog
     ThumbnailPicker *tp;
     double w, h;
 };
-
-#endif

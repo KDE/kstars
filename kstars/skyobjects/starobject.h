@@ -93,7 +93,7 @@ class StarObject : public SkyObject
     StarObject(const StarObject &o);
 
     /** Destructor. (Empty) */
-    ~StarObject() override {}
+    ~StarObject() override = default;
 
     /**
          *@short  Initializes a StarObject to given data

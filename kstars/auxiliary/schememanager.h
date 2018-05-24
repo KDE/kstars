@@ -325,7 +325,7 @@ public:
     /**
      * Destructor
      */
-    virtual ~SchemeManager();
+    virtual ~SchemeManager() = default;
 
     /**
      * Standard assignment operator

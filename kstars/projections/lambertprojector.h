@@ -32,7 +32,7 @@ class LambertProjector : public Projector
 {
   public:
     explicit LambertProjector(const ViewParams &p);
-    ~LambertProjector() override {}
+    ~LambertProjector() override = default;
     Projection type() const override;
     double radius() const override;
     double projectionK(double x) const override;

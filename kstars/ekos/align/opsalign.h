@@ -8,12 +8,11 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef OPSALIGN_H
-#define OPSALIGN_H
-
-#include <QWidget>
+#pragma once
 
 #include "ui_opsalign.h"
+
+#include <QWidget>
 
 class KConfigDialog;
 
@@ -27,7 +26,7 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
 
   public:
     explicit OpsAlign(Align *parent);
-    ~OpsAlign();
+    virtual ~OpsAlign() override = default;
 
   protected:
   private slots:
@@ -40,9 +39,7 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
     void settingsUpdated();
 
   private:
-    KConfigDialog *m_ConfigDialog;
-    Align *alignModule;
+    KConfigDialog *m_ConfigDialog { nullptr };
+    Align *alignModule { nullptr };
 };
 }
-
-#endif // OpsAlign_H

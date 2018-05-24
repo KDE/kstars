@@ -17,20 +17,20 @@
 
 #include "modcalceclipticcoords.h"
 
-#include <QTextStream>
-#include <QFileDialog>
+#include "dms.h"
+#include "ksnumbers.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "dialogs/finddialog.h"
+#include "skyobjects/skypoint.h"
+#include "widgets/dmsbox.h"
 
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlRequester>
 
-#include "dms.h"
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "skyobjects/skypoint.h"
-#include "ksnumbers.h"
-#include "dialogs/finddialog.h"
-#include "widgets/dmsbox.h"
+#include <QTextStream>
+#include <QFileDialog>
 
 modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit) : QFrame(parentSplit)
 {
@@ -51,10 +51,6 @@ modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit) : QFrame(parentSplit)
     connect(EcLat, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
 
     this->show();
-}
-
-modCalcEclCoords::~modCalcEclCoords()
-{
 }
 
 void modCalcEclCoords::slotNow()
