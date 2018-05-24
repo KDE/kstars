@@ -1,6 +1,7 @@
 <sect1 id="hips">
 <title><acronym>HiPS</acronym> Progressive Overlay</title>
 <indexterm><primary>Views</primary>
+<secondary>HiPS Progressive Overlay</secondary>
 </indexterm>
 
 <para>&kstars; provides support for HiPS: Hierarchical Progressive Surveys. HiPS provides multi-resolution progressive surveys to be overlayed directly in client applications.
