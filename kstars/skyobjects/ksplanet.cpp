@@ -26,10 +26,6 @@
 
 KSPlanet::OrbitDataManager KSPlanet::odm;
 
-KSPlanet::OrbitDataColl::OrbitDataColl()
-{
-}
-
 KSPlanet::OrbitDataManager::OrbitDataManager()
 {
     //EMPTY

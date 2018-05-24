@@ -17,20 +17,20 @@
 
 #include "timedialog.h"
 
+#include "geolocation.h"
+#include "kstarsdata.h"
+#include "kstarsdatetime.h"
+#include "simclock.h"
+
 #include <KLocalizedString>
-#include <QPushButton>
 #include <KDatePicker>
 
 #include <QFrame>
-#include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QKeyEvent>
+#include <QPushButton>
 #include <QTimeEdit>
-
-#include "kstarsdatetime.h"
-#include "kstarsdata.h"
-#include "simclock.h"
-#include "geolocation.h"
+#include <QVBoxLayout>
 
 TimeDialog::TimeDialog(const KStarsDateTime &now, GeoLocation *_geo, QWidget *parent, bool UTCFrame)
     : QDialog(parent), geo(_geo)

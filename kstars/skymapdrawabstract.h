@@ -43,7 +43,7 @@ class SkyMapDrawAbstract
     /**
          *@short Virtual Destructor
          */
-    virtual ~SkyMapDrawAbstract() {}
+    virtual ~SkyMapDrawAbstract() = default;
 
   public:
     /**

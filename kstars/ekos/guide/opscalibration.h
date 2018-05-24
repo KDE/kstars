@@ -7,8 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef OpsCalibration_H_
-#define OpsCalibration_H_
+#pragma once
 
 #include "ui_opscalibration.h"
 
@@ -31,7 +30,7 @@ class OpsCalibration : public QFrame, public Ui::OpsCalibration
 
   public:
     explicit OpsCalibration(InternalGuider *guiderObject);
-    ~OpsCalibration();
+    virtual ~OpsCalibration() override = default;
 
   protected:
     void showEvent(QShowEvent *);
@@ -41,9 +40,7 @@ class OpsCalibration : public QFrame, public Ui::OpsCalibration
     void slotApply();
 
   private:
-    KConfigDialog *m_ConfigDialog;
-    InternalGuider *guider;
+    KConfigDialog *m_ConfigDialog { nullptr };
+    InternalGuider *guider { nullptr };
 };
 }
-
-#endif

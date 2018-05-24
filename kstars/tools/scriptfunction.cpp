@@ -17,8 +17,8 @@
 
 #include "scriptfunction.h"
 
-#include <QStringList>
 #include <QDebug>
+#include <QStringList>
 
 ScriptFunction::ScriptFunction(const QString &name, const QString &desc, bool clockfcn, const QString &at1,
                                const QString &an1, const QString &at2, const QString &an2, const QString &at3,
@@ -136,10 +136,6 @@ ScriptFunction::ScriptFunction(ScriptFunction *sf)
         // JM: Some default argument values might be passed from another object as well
         ArgVal[i] = sf->argVal(i);
     }
-}
-
-ScriptFunction::~ScriptFunction()
-{
 }
 
 QString ScriptFunction::DBusType(const QString &type)

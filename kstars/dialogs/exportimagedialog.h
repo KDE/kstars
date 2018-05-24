@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef EXPORTIMAGEDIALOG_H
-#define EXPORTIMAGEDIALOG_H
+#pragma once
 
 #include "ui_exportimagedialog.h"
 
@@ -54,8 +53,7 @@ class ExportImageDialog : public QDialog
           */
     ExportImageDialog(const QString &url, const QSize &size, ImageExporter *imgExporter = nullptr);
 
-    /** @short Default destructor. */
-    ~ExportImageDialog() override {}
+    ~ExportImageDialog() override = default;
 
     inline void setOutputUrl(const QString &url) { m_Url = url; }
     inline void setOutputSize(const QSize &size) { m_Size = size; }
@@ -75,5 +73,3 @@ class ExportImageDialog : public QDialog
     QSize m_Size;
     ImageExporter *m_ImageExporter;
 };
-
-#endif // EXPORTIMAGEDIALOG_H

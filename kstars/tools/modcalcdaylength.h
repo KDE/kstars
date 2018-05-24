@@ -38,10 +38,9 @@ class modCalcDayLength : public QFrame, public Ui::modCalcDayLengthDlg
     Q_OBJECT
 
   public:
-    /** Constructor */
     explicit modCalcDayLength(QWidget *p);
-    /** Destructor */
-    ~modCalcDayLength() override;
+
+    virtual ~modCalcDayLength() override = default;
 
   public slots:
     void slotLocation();

@@ -10,8 +10,8 @@
  */
 
 //---------------------------------------------------------------------------
-#ifndef vectH
-#define vectH
+
+#pragma once
 
 #include <cmath>
 
@@ -33,7 +33,7 @@ class Vector
         y = vy;
         z = vz;
     };
-    ~Vector(){};
+    ~Vector() = default;
 
     Vector &operator=(const Vector &v)
     {
@@ -157,4 +157,3 @@ inline Vector Normalize(const Vector &v)
 Vector RndVector();
 Vector &Clip(Vector &);
 //---------------------------------------------------------------------------
-#endif

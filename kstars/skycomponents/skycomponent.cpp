@@ -25,10 +25,6 @@ SkyComponent::SkyComponent(SkyComposite *parent) : m_parent(parent)
 {
 }
 
-SkyComponent::~SkyComponent()
-{
-}
-
 //Hand the message up to SkyMapComposite
 void SkyComponent::emitProgressText(const QString &message)
 {

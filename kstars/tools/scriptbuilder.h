@@ -46,7 +46,7 @@ class OptionsTreeView : public QDialog
     Q_OBJECT
   public:
     explicit OptionsTreeView(QWidget *p);
-    ~OptionsTreeView() override;
+    virtual ~OptionsTreeView() override = default;
 
     QTreeWidget *optionsList() { return otvw->OptionsList; }
     void resizeColumns();

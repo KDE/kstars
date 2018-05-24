@@ -41,7 +41,7 @@ class SkyPoint;
 class HEALPix
 {
 public:
-  HEALPix();
+  HEALPix() = default;
 
   void getCornerPoints(int level, int pix, SkyPoint *skyCoords);
   void neighbours(int nside, qint32 ipix, int *result);

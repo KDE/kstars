@@ -45,7 +45,7 @@ class OpsHIPS : public QFrame, public Ui::OpsHIPS
 
   public:
     explicit OpsHIPS();
-    ~OpsHIPS() override;
+    virtual ~OpsHIPS() override = default;
 
   public slots:
     void slotRefresh();    
@@ -61,10 +61,10 @@ class OpsHIPS : public QFrame, public Ui::OpsHIPS
 
     void setPreview(const QString &id, const QString &url);
 
-    KConfigDialog *m_ConfigDialog = nullptr;
-    FileDownloader *downloadJob = nullptr;
-    FileDownloader *previewJob = nullptr;
+    KConfigDialog *m_ConfigDialog { nullptr };
+    FileDownloader *downloadJob { nullptr };
+    FileDownloader *previewJob { nullptr };
 
     QList<QMap<QString,QString>> sources;
-    bool dirty=false;
+    bool dirty { false };
 };

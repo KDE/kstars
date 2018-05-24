@@ -16,7 +16,7 @@
 class ArtificialHorizonEntity
 {
   public:
-    ArtificialHorizonEntity();
+    ArtificialHorizonEntity() = default;
     ~ArtificialHorizonEntity();
 
     QString region() const;
@@ -49,12 +49,13 @@ class ArtificialHorizonComponent : public NoPrecessIndex
   public:
     /**
      * @short Constructor
+     *
      * @p parent pointer to the parent SkyComposite object
      * name is the name of the subclass
      */
     explicit ArtificialHorizonComponent(SkyComposite *parent);
 
-    ~ArtificialHorizonComponent() override;
+    virtual ~ArtificialHorizonComponent() override;
 
     bool selected() override;
     void draw(SkyPainter *skyp) override;

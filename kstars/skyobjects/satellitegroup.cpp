@@ -33,10 +33,6 @@ SatelliteGroup::SatelliteGroup(const QString& name, const QString& tle_filename,
     readTLE();
 }
 
-SatelliteGroup::~SatelliteGroup()
-{
-}
-
 void SatelliteGroup::readTLE()
 {
     QFile file;

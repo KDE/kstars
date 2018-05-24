@@ -76,7 +76,7 @@ class KSComet : public KSPlanetBase
     SkyObject::UID getUID() const override;
 
     /** Destructor (empty)*/
-    ~KSComet() override {}
+    ~KSComet() override = default;
 
     /**
      * Unused virtual function inherited from KSPlanetBase thus it's simply empty here.

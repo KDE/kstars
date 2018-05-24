@@ -34,10 +34,6 @@ LinGuider::LinGuider()
     connect(&deviationTimer, &QTimer::timeout, this, [&]() { sendCommand(GET_RA_DEC_DRIFT); });
 }
 
-LinGuider::~LinGuider()
-{
-}
-
 bool LinGuider::Connect()
 {
     if (connection == DISCONNECTED)

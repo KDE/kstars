@@ -8,9 +8,10 @@
  */
 
 #include "dustcap.h"
+
+#include "dustcapadaptor.h"
 #include "ekos/ekosmanager.h"
 #include "kstars.h"
-#include "dustcapadaptor.h"
 
 #include <basedevice.h>
 
@@ -20,12 +21,6 @@ DustCap::DustCap()
 {
     new DustCapAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/DustCap", this);
-
-    currentDustCap = nullptr;
-}
-
-DustCap::~DustCap()
-{
 }
 
 void DustCap::setDustCap(ISD::GDInterface *newDustCap)

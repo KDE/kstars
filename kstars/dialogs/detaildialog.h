@@ -85,7 +85,7 @@ class DetailDialog : public KPageDialog
     DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent = nullptr);
 
     /** Destructor */
-    ~DetailDialog() override;
+    ~DetailDialog() override = default;
 
     /** @return pointer to the QPixmap of the object's thumbnail image */
     inline QPixmap *thumbnail() { return Thumbnail.get(); }

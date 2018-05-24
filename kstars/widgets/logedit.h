@@ -15,23 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LOGEDIT_H
-#define LOGEDIT_H
+#pragma once
 
-#include <QTextEdit>
 #include <QFocusEvent>
+#include <QTextEdit>
 
-/** @class LogEdit is a simple derivative of QTextEdit, that just adds a
-	*focusOut() signal, emitted when the edit loses focus.
-	*@author Jason Harris
-	*@version 1.0
-	*/
+/**
+ * @class LogEdit is a simple derivative of QTextEdit, that just adds a
+ * focusOut() signal, emitted when the edit loses focus.
+ *
+ * @author Jason Harris
+ * @version 1.0
+ */
 class LogEdit : public QTextEdit
 {
     Q_OBJECT
+
   public:
     explicit LogEdit(QWidget *parent = nullptr);
-    ~LogEdit() override {}
+    virtual ~LogEdit() override = default;
 
   signals:
     void focusOut();
@@ -39,5 +41,3 @@ class LogEdit : public QTextEdit
   protected:
     void focusOutEvent(QFocusEvent *e) override;
 };
-
-#endif

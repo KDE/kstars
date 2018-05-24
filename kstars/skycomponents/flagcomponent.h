@@ -49,8 +49,7 @@ class FlagComponent : public QObject, public PointListComponent
     /** @short Constructor. */
     explicit FlagComponent(SkyComposite *);
 
-    /** @short Destructor. */
-    ~FlagComponent() override;
+    virtual ~FlagComponent() override = default;
 
     void draw(SkyPainter *skyp) override;
 

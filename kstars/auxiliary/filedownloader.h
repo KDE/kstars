@@ -29,7 +29,7 @@ class FileDownloader : public QObject
     Q_OBJECT
   public:
     explicit FileDownloader(QObject *parent = nullptr);
-    ~FileDownloader() override;
+    ~FileDownloader() override = default;
 
     void get(const QUrl &fileUrl);
     void post(const QUrl &fileUrl, QByteArray &data);

@@ -30,11 +30,9 @@ class ObsListPopupMenu : public QMenu
 {
     Q_OBJECT
   public:
-    /** Default constructor*/
     ObsListPopupMenu();
 
-    /** Destructor (empty)*/
-    ~ObsListPopupMenu() override;
+    virtual ~ObsListPopupMenu() override = default;
 
     /**
      * Initialize the popup menus.

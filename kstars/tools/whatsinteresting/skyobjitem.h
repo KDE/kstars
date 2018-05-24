@@ -64,7 +64,7 @@ class SkyObjItem
      * @param so Pointer to the SkyObject which the SkyObjItem represents.
      */
     explicit SkyObjItem(SkyObject *so = nullptr);
-    ~SkyObjItem();
+    ~SkyObjItem() = default;
 
     /**
      * @brief Get data associated with a particular role for the SkyObjItem

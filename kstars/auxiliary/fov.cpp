@@ -36,10 +36,6 @@
 
 QList<FOV *> FOVManager::m_FOVs;
 
-FOVManager::FOVManager()
-{
-}
-
 FOVManager::~FOVManager()
 {
     qDeleteAll(m_FOVs);

@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef THUMBIMAGE_H
-#define THUMBIMAGE_H
+#pragma once
 
 #include <QLabel>
 #include <QPixmap>
@@ -26,7 +25,7 @@ class ThumbImage : public QLabel
     Q_OBJECT
   public:
     explicit ThumbImage(QWidget *parent, const char *name = nullptr);
-    ~ThumbImage() override;
+    virtual ~ThumbImage() override = default;
 
     void setImage(QPixmap *pm)
     {
@@ -50,13 +49,14 @@ class ThumbImage : public QLabel
     void mouseMoveEvent(QMouseEvent *e) override;
 
   private:
-    QRect *CropRect;
-    QPoint *Anchor;
-    QPixmap *Image;
+    QRect *CropRect { nullptr };
+    QPoint *Anchor { nullptr };
+    QPixmap *Image { nullptr };
 
-    bool bMouseButtonDown;
-    bool bTopLeftGrab, bBottomLeftGrab, bTopRightGrab, bBottomRightGrab;
-    int HandleSize;
+    bool bMouseButtonDown { false };
+    bool bTopLeftGrab { false };
+    bool bBottomLeftGrab { false };
+    bool bTopRightGrab { false };
+    bool bBottomRightGrab { false };
+    int HandleSize { 0 };
 };
-
-#endif

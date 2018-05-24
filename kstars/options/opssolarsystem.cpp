@@ -15,13 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <KActionCollection>
-#include <KConfigDialog>
-
 #include "opssolarsystem.h"
+
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
+
+#include <KActionCollection>
+#include <KConfigDialog>
 
 OpsSolarSystem::OpsSolarSystem() : QFrame(KStars::Instance())
 {
@@ -56,10 +57,6 @@ OpsSolarSystem::OpsSolarSystem() : QFrame(KStars::Instance())
 
     connect(solarButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this,
             [&]() { isDirty = true; });
-}
-
-OpsSolarSystem::~OpsSolarSystem()
-{
 }
 
 void OpsSolarSystem::slotChangeMagDownload(double mag)

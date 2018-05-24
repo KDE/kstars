@@ -8,6 +8,13 @@
 
  */
 
+#include "opscalibration.h"
+
+#include "guide.h"
+#include "kstars.h"
+#include "Options.h"
+#include "internalguide/internalguider.h"
+
 #include <QPushButton>
 #include <QFileDialog>
 #include <QCheckBox>
@@ -15,13 +22,6 @@
 #include <QComboBox>
 
 #include <KConfigDialog>
-
-#include "Options.h"
-#include "opscalibration.h"
-#include "guide.h"
-#include "kstars.h"
-
-#include "internalguide/internalguider.h"
 
 namespace Ekos
 {
@@ -36,10 +36,6 @@ OpsCalibration::OpsCalibration(InternalGuider *guiderObject) : QFrame(KStars::In
 
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
-}
-
-OpsCalibration::~OpsCalibration()
-{
 }
 
 void OpsCalibration::showEvent(QShowEvent *)

@@ -49,10 +49,6 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit) : QFrame(parentSplit)
     show();
 }
 
-modCalcDayLength::~modCalcDayLength()
-{
-}
-
 void modCalcDayLength::showCurrentDate(void)
 {
     KStarsDateTime dt(KStarsDateTime::currentDateTime());
