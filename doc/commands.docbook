@@ -387,6 +387,14 @@ object.</para></listitem>
 <listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Gnomonic_projection">gnomonic</ulink> projection.</para></listitem>
 </varlistentry>
 
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>HiPS All Sky Overlay</guimenuitem>
+</menuchoice></term>
+<listitem><para>Select and configure &hips; sky overlays</para></listitem>
+</varlistentry>
+
 </variablelist>
 </sect2>
 
