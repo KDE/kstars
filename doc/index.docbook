@@ -159,22 +159,24 @@
 </authorgroup>
 
 <copyright>
-<year>2001-2017</year>
+<year>2001-2018</year>
 <holder>&Jason.Harris; and the &kstars; Team</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2018-01-10</date>
-<releaseinfo>2.9.1</releaseinfo>
+<date>2018-05-25</date>
+<releaseinfo>2.9.6</releaseinfo>
 
 <abstract>
 <para>
 &kstars; is free, open source, cross-platform Astronomy Software.
 
-It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites. 
+It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.
 
 For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the &kstars; Astrocalculator to predict conjunctions, and many common astronomical calculations. For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!
+
+HiPS all-sky progressive overlay provide stunning views from numerous surveys spanning the whole electromagnetic spectrum.
 
 Included with &kstars; is Ekos astrophotography suite, a complete astrophotography solution that can control all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus and autoguiding capabilities, and capture of single or multiple images using the powerful built in sequence manager.
 </para>
@@ -221,6 +223,10 @@ Our primary goal is to make &kstars; an interactive educational tool for learnin
 Project</link>, a series of short, hyperlinked articles on astronomical topics that can be explored with &kstars;.  In addition, &kstars;
 includes &DBus; functions that allow you to <link linkend="tool-scriptbuilder">write complex scripts</link>, making &kstars; a powerful "demo engine" for classroom use or general illustration of
 astronomical topics. Furthermore, any 3rd party tool or language with support of &DBus; can be used to write powerful scripts using <ulink url="http://api.kde.org/4.x-api/kdeedu-apidocs/kstars/html/classkstars.html">&kstars; &DBus; API</ulink>
+</para>
+<para>
+Enable <link linked="hips">HiPS</link> all-sky progressive overlay to fetch high-resolution images and display them directly in the sky map. You can select from numerous catalogs compiled from different earth and space based missions.
+This features requires a fast interenet connection in order to download the images. The image are cached locally to reduce bandwidth. You can optimize the caching options to best balance between disk space versus bandwidth.
 </para>
 <para>
 However, &kstars; is not just for students.  You can control telescopes and cameras with &kstars;, using the elegant and powerful <link linkend="indi">INDI</link> protocol.  &kstars; supports several popular 
