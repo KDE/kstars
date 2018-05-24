@@ -1220,7 +1220,11 @@ void SkyMap::startXplanet(const QString &outputFile)
 {
     QString year, month, day, hour, minute, seconde, fov;
 
-    const QString xPlanetLocation = Options::xplanetPath();
+    QString xPlanetLocation = Options::xplanetPath();
+#ifdef Q_OS_OSX
+    if (Options::xplanetIsInternal())
+        xPlanetLocation   = QCoreApplication::applicationDirPath() + "/xplanet/bin/xplanet";
+#endif
 
     // If Options::xplanetPath() is empty, return
     if (xPlanetLocation.isEmpty())
@@ -1398,7 +1402,6 @@ void SkyMap::startXplanet(const QString &outputFile)
 #ifdef Q_OS_OSX
     if (Options::xplanetIsInternal())
     {
-        xPlanetLocation   = QCoreApplication::applicationDirPath() + "/xplanet/bin/xplanet";
         QString searchDir = QCoreApplication::applicationDirPath() + "/xplanet/share/xplanet/";
         args << "-searchdir" << searchDir;
     }
