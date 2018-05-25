@@ -992,15 +992,15 @@ Scheme</guibutton> button.
     The left panel is for configuring FITS viewer itself.
 </para>
 <para>
-Check <guilabel></guilabel> item if you want automatically display received images in the FITS Viewer.
+Check the <guilabel>Use FITS Viewer</guilabel> item if you want automatically display received images in the FITS Viewer.
 </para>
 <para>The <guilabel>Single Preview Tab</guilabel> item is to display all captured FITS images in a single tab instead of multiple tabs 
 per image. The <guilabel>Single Window Capture</guilabel> item is to display captured FITS images from all cameras in a single FITS Viewer window 
 instead of a dedicated window to each camera. The <guilabel>Single Window Open</guilabel> item is to display opened FITS images in a single FITS Viewer window instead of a 
-dedicated window to each file and the <guilabel>Independent Window</guilabel> item is to Make FITS Viewer window independent from &kstars;.
+dedicated window to each file and the <guilabel>Independent Window</guilabel> item is to make FITS Viewer window independent from &kstars;.
 </para>
 <para>
-The right panel lists processing options. The <guilabel>Auto Stretch</guilabel> item is to always apply auto stretch to images in FITS Viewer, <guilabel>Limited Resources Mode</guilabel> is to enable limited resource mode to turn off any resource-intensive, namely: <guilabel>Auto Debayer</guilabel> (bayered images will not be debayered; only grayscale images are shown), <guilabel>Auto WCS</guilabel> (World Coordinate System data 
+The right panel lists processing options. The <guilabel>Auto Stretch</guilabel> item is to always apply auto stretch to images in FITS Viewer, <guilabel>Limited Resources Mode</guilabel> is to enable limited resource mode to turn off any resource-intensive operations, namely: <guilabel>Auto Debayer</guilabel> (bayered images will not be debayered; only grayscale images are shown), <guilabel>Auto WCS</guilabel> (World Coordinate System data 
 will not be processed; WCS maps sky coordinates to image coordinates; 
 equatorial grid lines, object identification, and telescope slew within an 
 image are disabled), and <guilabel>3D Cube</guilabel> (RGB images will not be 
