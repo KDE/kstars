@@ -227,7 +227,7 @@ astronomical topics. Furthermore, any 3rd party tool or language with support of
 </para>
 <para>
 Enable <link linkend="hips">HiPS all-sky progressive overlay</link> to fetch high-resolution images and display them directly in the sky map. You can select from numerous catalogs compiled from different earth and space based missions.
-This features requires a fast internet connection in order to download the images. The image are cached locally to reduce bandwidth. You can optimize the caching options to best balance between disk space versus bandwidth.
+This features requires a fast internet connection in order to download the images. The images are cached locally to reduce bandwidth. You can optimize the caching options to best balance between disk space versus bandwidth.
 </para>
 <para>
 However, &kstars; is not just for students.  You can control telescopes and cameras with &kstars;, using the elegant and powerful <link linkend="indi">INDI</link> protocol.  &kstars; supports several popular 
