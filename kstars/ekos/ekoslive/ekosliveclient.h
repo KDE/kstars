@@ -65,6 +65,7 @@ public:
 
         MOUNT_PARK,
         MOUNT_UNPARK,
+        MOUNT_ABORT,
         MOUNT_SYNC_RADE,
         MOUNT_SYNC_TARGET,
         MOUNT_GOTO_RADE,

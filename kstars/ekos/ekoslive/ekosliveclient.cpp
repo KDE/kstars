@@ -58,6 +58,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
 
     {MOUNT_PARK, "mount_park}"},
     {MOUNT_UNPARK, "mount_unpark"},
+    {MOUNT_ABORT, "mount_abort"},
     {MOUNT_SYNC_RADE, "mount_sync_rade"},
     {MOUNT_SYNC_TARGET, "mount_sync_target"},
     {MOUNT_GOTO_RADE, "mount_goto_rade"},
@@ -616,7 +617,9 @@ void EkosLiveClient::processMountCommands(const QString &command, const QJsonObj
 {
     Ekos::Mount *mount = m_Manager->mountModule();
 
-    if (command == commands[MOUNT_PARK])
+    if (command == commands[MOUNT_ABORT])
+        mount->abort();
+    else if (command == commands[MOUNT_PARK])
         mount->park();
     else if (command == commands[MOUNT_UNPARK])
         mount->unpark();
@@ -649,6 +652,12 @@ void EkosLiveClient::processMountCommands(const QString &command, const QJsonObj
 
         if (object != nullptr)
             mount->slew(object->ra().Hours(), object->dec().Degrees());
+    }
+    else if (command == commands[MOUNT_SET_SLEW_RATE])
+    {
+        int rate = mountCommand["rate"].toInt(-1);
+        if (rate >= 0)
+            mount->setSlewRate(rate);
     }
     else if (command == commands[MOUNT_SET_MOTION])
     {
