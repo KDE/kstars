@@ -24,19 +24,13 @@
 
 #include "schememanager.h"
 
-// C++ includes
-
-#include <cmath>
-
-// Qt includes
+#include <kconfig.h>
+#include <kconfiggroup.h>
 
 #include <QWidget>
 #include <QPainter>
 
-// KDE includes
-
-#include <kconfig.h>
-#include <kconfiggroup.h>
+#include <cmath>
 
 class HCYColorSpace
 {
@@ -902,6 +896,10 @@ qreal SchemeManagerPrivate::contrast() const
 // ------------------------------------------------------------------------------------
 
 SchemeManager::SchemeManager(const SchemeManager& other) : d(other.d)
+{
+}
+
+SchemeManager::~SchemeManager()
 {
 }
 
