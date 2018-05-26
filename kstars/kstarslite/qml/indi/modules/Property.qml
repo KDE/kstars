@@ -41,7 +41,7 @@ ColumnLayout {
 
     Rectangle {
         id: separator
-        height: num.dp
+        height: Num.dp
         color: "grey"
         Layout.fillWidth: true
     }

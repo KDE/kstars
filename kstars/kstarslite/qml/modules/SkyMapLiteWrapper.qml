@@ -109,7 +109,7 @@ Item {
         Rectangle {
             id: tapCircle
             z: 1
-            width: 20 * num.dp
+            width: 20 * Num.dp
             radius: width*0.5
             height: width
             color: "grey"

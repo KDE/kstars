@@ -21,7 +21,7 @@ Pane {
     padding: 0
 
     background: Rectangle {
-        color: num.sysPalette.base
+        color: Num.sysPalette.base
     }
 
     //contentItem is already used by Pane so be it rootItem
@@ -35,7 +35,7 @@ Pane {
         id: flickable
         anchors{
             fill: parent
-            margins: num.marginsKStab
+            margins: Num.marginsKStab
         }
         ScrollBar.vertical: ScrollBar { id: scrollBar }
         flickableDirection: Flickable.VerticalFlick

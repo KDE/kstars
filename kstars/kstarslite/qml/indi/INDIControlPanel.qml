@@ -52,7 +52,7 @@ KSPage {
     ColumnLayout {
         anchors.fill: parent
         id: cPanelColumn
-        spacing: 5 * num.dp
+        spacing: 5 * Num.dp
 
         ColumnLayout {
             visible: !indiPage.connected
@@ -249,7 +249,7 @@ KSPage {
 
             Rectangle {
                 Layout.fillWidth: true
-                height: 1 * num.dp
+                height: 1 * Num.dp
                 color: "gray"
             }
 

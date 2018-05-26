@@ -28,7 +28,7 @@ Popup {
     modal: true
 
     background: Rectangle {
-        color: num.sysPalette.base
+        color: Num.sysPalette.base
     }
 
     Column {

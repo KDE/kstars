@@ -30,10 +30,10 @@ KSPage {
 
     ColumnLayout {
         id: locationColumn
-        spacing: 5 * num.dp
+        spacing: 5 * Num.dp
         anchors{
             fill: parent
-            bottomMargin: 15 * num.dp
+            bottomMargin: 15 * Num.dp
         }
 
         Flow {
