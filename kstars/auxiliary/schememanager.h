@@ -22,21 +22,14 @@
  *
  * ============================================================ */
 
-#ifndef SCHEME_MANAGER_H
-#define SCHEME_MANAGER_H
+#pragma once
 
-// Qt includes
+#include <ksharedconfig.h>
 
 #include <QExplicitlySharedDataPointer>
 #include <QPalette>
 #include <QColor>
 #include <QBrush>
-
-// KDE includes
-
-#include <ksharedconfig.h>
-
-// Local includes
 
 class SchemeManagerPrivate;
 
@@ -322,10 +315,8 @@ public:
      */
     SchemeManager(const SchemeManager&);
 
-    /**
-     * Destructor
-     */
-    virtual ~SchemeManager() = default;
+    // Don't use dtor with default keyword here because it breaks the PIMPL pattern and refactoring is needed
+    virtual ~SchemeManager();
 
     /**
      * Standard assignment operator
@@ -460,5 +451,3 @@ private:
 
     QExplicitlySharedDataPointer<SchemeManagerPrivate> d;
 };
-
-#endif // SCHEME_MANAGER_H
