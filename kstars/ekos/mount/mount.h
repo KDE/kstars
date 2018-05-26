@@ -27,7 +27,7 @@ namespace Ekos
  *@class Mount
  *@short Supports controlling INDI telescope devices including setting/retrieving mount properties, slewing, motion and speed controls, in addition to enforcing altitude limits and parking/unparking.
  *@author Jasem Mutlaq
- *@version 1.1
+ *@version 1.2
  */
 class Mount : public QWidget, public Ui::Mount
 {
@@ -170,8 +170,9 @@ class Mount : public QWidget, public Ui::Mount
          */
     Q_INVOKABLE Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
+    Q_INVOKABLE bool setSlewRate(int index);    
 
-    Q_INVOKABLE bool setSlewRate(int index);
+    Q_INVOKABLE void setTrackEnabled(bool enabled);
 
     /** @}*/
 

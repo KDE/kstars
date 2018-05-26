@@ -1016,4 +1016,13 @@ void Mount::syncGPS()
         }
     }
 }
+
+void Mount::setTrackEnabled(bool enabled)
+{
+    if (enabled)
+        trackOnB->click();
+    else
+        trackOffB->click();
+}
+
 }
