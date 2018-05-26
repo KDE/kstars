@@ -24,7 +24,7 @@ Menu {
     property bool isReadOnly
     background: Rectangle {
         implicitWidth: 200
-        color: num.sysPalette.base
+        color: Num.sysPalette.base
         radius: 5
     }
 

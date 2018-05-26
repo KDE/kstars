@@ -21,7 +21,7 @@ SpinBox {
 
     background: Rectangle {
         implicitWidth: 160
-        color: num.sysPalette.base
+        color: Num.sysPalette.base
     }
 
     contentItem: Text {
@@ -30,7 +30,7 @@ SpinBox {
         anchors.verticalCenter: parent.verticalCenter
 
         font: control.font
-        color: num.sysPalette.text
+        color: Num.sysPalette.text
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
     }
@@ -50,15 +50,15 @@ SpinBox {
         anchors.verticalCenter: parent.verticalCenter
         implicitWidth: 37
         implicitHeight: 37
-        color: up.pressed || !enabled ? num.sysPalette.light : num.sysPalette.base
-        border.color: up.pressed || !enabled ? num.sysPalette.base : num.sysPalette.light
+        color: up.pressed || !enabled ? Num.sysPalette.light : Num.sysPalette.base
+        border.color: up.pressed || !enabled ? Num.sysPalette.base : Num.sysPalette.light
         radius: 5
 
         Text {
             z: 1
             text: "+"
             font.pixelSize: control.font.pixelSize * 2
-            color: up.pressed || !enabled ? num.sysPalette.dark : num.sysPalette.text
+            color: up.pressed || !enabled ? Num.sysPalette.dark : Num.sysPalette.text
             anchors.fill: parent
             fontSizeMode: Text.Fit
             horizontalAlignment: Text.AlignHCenter
@@ -72,14 +72,14 @@ SpinBox {
         anchors.verticalCenter: parent.verticalCenter
         implicitWidth: 37
         implicitHeight: 37
-        color: down.pressed || !enabled ? num.sysPalette.light : num.sysPalette.base
-        border.color: down.pressed || !enabled ? num.sysPalette.base : num.sysPalette.light
+        color: down.pressed || !enabled ? Num.sysPalette.light : Num.sysPalette.base
+        border.color: down.pressed || !enabled ? Num.sysPalette.base : Num.sysPalette.light
         radius: 5
 
         Text {
             text: "-"
             font.pixelSize: control.font.pixelSize * 2
-            color: down.pressed || !enabled ? num.sysPalette.dark : num.sysPalette.text
+            color: down.pressed || !enabled ? Num.sysPalette.dark : Num.sysPalette.text
             anchors.fill: parent
             fontSizeMode: Text.Fit
             horizontalAlignment: Text.AlignHCenter

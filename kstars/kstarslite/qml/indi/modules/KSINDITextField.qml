@@ -18,7 +18,7 @@ import "../../modules"
 
 Flow {
     id: textRow
-    spacing: 5 * num.dp
+    spacing: 5 * Num.dp
     anchors {
         left: parent.left
         right: parent.right

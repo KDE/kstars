@@ -165,7 +165,7 @@ KSPage {
                         height: 30
                         width: 30
                         color: "#00FFFFFF"
-                        property color highlightColor: num.sysPalette.highlight
+                        property color highlightColor: Num.sysPalette.highlight
                         property int selectedDay // Initialize with userDay
 
                         Connections {

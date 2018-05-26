@@ -27,7 +27,7 @@ ListView {
     implicitHeight: contentItem.height >= window.height ? window.height : contentItem.height
 
     //For some reason we can't use num constant inside states so we wrap sysPalette as property
-    property SystemPalette sysPalette: num.sysPalette
+    property SystemPalette sysPalette: Num.sysPalette
 
     onCountChanged: {
         for(var child in listView.contentItem.children) {
@@ -57,7 +57,7 @@ ListView {
         color: sysPalette.base
 
         border {
-            color: num.sysPalette.light//"#becad5"
+            color: Num.sysPalette.light//"#becad5"
             width: 1
         }
 

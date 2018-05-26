@@ -18,7 +18,7 @@ Column {
     id: columnTextProp
     Layout.fillHeight: true
     Layout.fillWidth: true
-    spacing: 5 * num.dp
+    spacing: 5 * Num.dp
     property string propLabel: ""
 
     KSLabel {
@@ -27,8 +27,8 @@ Column {
 
     Rectangle {
         id: separator
-        height: num.dp
-        color: num.sysPalette.light
+        height: Num.dp
+        color: Num.sysPalette.light
         width: parent.width
     }
 
