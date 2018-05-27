@@ -31,7 +31,7 @@ class OpsGuides : public QFrame, public Ui::OpsGuides
 
   public:
     explicit OpsGuides();
-    ~OpsGuides() override;
+    virtual ~OpsGuides() override = default;
 
   private slots:
     void slotApply();
@@ -42,7 +42,7 @@ class OpsGuides : public QFrame, public Ui::OpsGuides
     void slotToggleAutoSelectGrid(bool state);
 
   private:
-    KConfigDialog *m_ConfigDialog;
-    bool isDirty = false;
+    KConfigDialog *m_ConfigDialog { nullptr };
+    bool isDirty { false };
 };
 

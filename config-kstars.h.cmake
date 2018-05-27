@@ -4,9 +4,6 @@
 /* Define if you have indidevapi.h */
 #cmakedefine   HAVE_INDI 1
 
-/* Define if you have xplanet */
-#cmakedefine HAVE_XPLANET 1
-
 /* Define if you have wcslibt */
 #cmakedefine HAVE_WCSLIB 1
 

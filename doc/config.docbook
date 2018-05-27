@@ -141,10 +141,10 @@ The window is depicted below:
 </para>
 
 <para>
-The <guilabel>Configure &kstars;</guilabel> window is divided into nine pages:
+The <guilabel>Configure &kstars;</guilabel> window is divided into eleven pages:
 <guilabel>Catalogs</guilabel>, <guilabel>Solar System</guilabel>, <guilabel>Satellites</guilabel>,
-<guilabel>Supernovae</guilabel>, <guilabel>Guides</guilabel>, <guilabel>Colors</guilabel>,
-<guilabel>INDI</guilabel>, <guilabel>Ekos</guilabel> and <guilabel>Advanced</guilabel>.
+<guilabel>Supernovae</guilabel>, <guilabel>Guides</guilabel>, <guilabel>Colors</guilabel>, <guilabel>FITS</guilabel>,
+<guilabel>INDI</guilabel>, <guilabel>Ekos</guilabel>, <guilabel>Xplanet</guilabel> and <guilabel>Advanced</guilabel>.
 </para>
 
 <para>
@@ -191,12 +191,23 @@ The <guilabel>Colors</guilabel> page allows you to set the color scheme,
 and to define new custom color schemes.
 </para>
 
+<para>For detailed explanation of the options on the <guilabel>FITS</guilabel>
+page see the <link linkend="fits-configure">Configure FITS</link> section.
+</para>
+
 <para>For detailed explanation of the options on the <guilabel>INDI</guilabel>
 page see the <link linkend="indi-configure">Configure INDI</link> section.
 </para>
 
 <para>For detailed explanation of <guilabel>Ekos</guilabel> astrophotography suite,
 see the official <ulink url="http://www.indilib.org/about/ekos.html">Ekos</ulink> page.
+</para>
+
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>Xplanet page</secondary></indexterm>
+The <guilabel>Xplanet</guilabel> page provides fine-grained control
+over <ulink url="http://xplanet.sourceforge.net/">Solar system planet surface renderer Xplanet</ulink> (should be installed separately).
 </para>
 
 <para>
@@ -971,6 +982,32 @@ Scheme</guibutton> button.
 </para>
 </sect1>
 
+<sect1 id="fits-configure">
+<title>FITS</title>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>FITS page</secondary></indexterm>
+<para><abbrev>FITS</abbrev> (Flexible Image Transport System) is a popular open  standard for storage, transmission and processing of digital data. For the details, one is referred to the <ulink url="https://en.wikipedia.org/wiki/FITS">corresponding Wikipedia article</ulink>. This page allows you to configure presentation and processing of FITS data in &kstars;.
+</para>
+<para>
+    The left panel is for configuring FITS viewer itself.
+</para>
+<para>
+Check the <guilabel>Use FITS Viewer</guilabel> item if you want automatically display received images in the FITS Viewer.
+</para>
+<para>The <guilabel>Single Preview Tab</guilabel> item is to display all captured FITS images in a single tab instead of multiple tabs 
+per image. The <guilabel>Single Window Capture</guilabel> item is to display captured FITS images from all cameras in a single FITS Viewer window 
+instead of a dedicated window to each camera. The <guilabel>Single Window Open</guilabel> item is to display opened FITS images in a single FITS Viewer window instead of a 
+dedicated window to each file and the <guilabel>Independent Window</guilabel> item is to make FITS Viewer window independent from &kstars;.
+</para>
+<para>
+The right panel lists processing options. The <guilabel>Auto Stretch</guilabel> item is to always apply auto stretch to images in FITS Viewer, <guilabel>Limited Resources Mode</guilabel> is to enable limited resource mode to turn off any resource-intensive operations, namely: <guilabel>Auto Debayer</guilabel> (bayered images will not be debayered; only grayscale images are shown), <guilabel>Auto WCS</guilabel> (World Coordinate System data 
+will not be processed; WCS maps sky coordinates to image coordinates; 
+equatorial grid lines, object identification, and telescope slew within an 
+image are disabled), and <guilabel>3D Cube</guilabel> (RGB images will not be 
+processed; only grayscale images are shown). You can switch off some of these resource-greedy operations separately as well.
+</para>
+</sect1>
+
 <sect1 id="indi_tab">
 <title>INDI</title>
 <screenshot>
@@ -1180,5 +1217,7 @@ from the <menuchoice><guimenu>Settings</guimenu><guisubmenu>FOV Symbols</guisubm
 </itemizedlist>
 
 </sect1>
+
+&hips;
 
 </chapter>

@@ -36,10 +36,7 @@ class SatelliteGroup : public QList<Satellite *>
      */
     SatelliteGroup(const QString& name, const QString& tle_filename, const QUrl& update_url);
 
-    /**
-     * @short Destructor
-     */
-    ~SatelliteGroup();
+    virtual ~SatelliteGroup() = default;
 
     /**
      * Read TLE file of the group and create all satellites found in the file.

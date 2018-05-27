@@ -60,10 +60,6 @@ OpsAdvanced::OpsAdvanced() : QFrame(KStars::Instance())
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));    
 }
 
-OpsAdvanced::~OpsAdvanced()
-{
-}
-
 void OpsAdvanced::slotChangeTimeScale(float newScale)
 {
     Options::setSlewTimeScale(newScale);

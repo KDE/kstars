@@ -17,8 +17,11 @@
 
 #pragma once
 
-#include "skycomposite.h"
+#include "culturelist.h"
 #include "ksnumbers.h"
+#include "skycomposite.h"
+#include "skylabeler.h"
+#include "skymesh.h"
 #include "skyobject.h"
 
 #include <QList>
@@ -33,7 +36,6 @@ class ConstellationBoundaryLines;
 class ConstellationLines;
 class ConstellationNamesComponent;
 class ConstellationsArt;
-class CultureList;
 class DeepSkyComponent;
 class DeepSkyObject;
 class DeepStarComponent;
@@ -48,9 +50,7 @@ class KSPlanet;
 class KSPlanetBase;
 class MilkyWay;
 class SatellitesComponent;
-class SkyLabeler;
 class SkyMap;
-class SkyMesh;
 class SkyObject;
 class SolarSystemComposite;
 class StarComponent;
@@ -61,6 +61,7 @@ class HIPSComponent;
 
 /**
  * @class SkyMapComposite
+ *
  * SkyMapComposite is the root object in the object hierarchy of the sky map.
  * All requests to update, init, draw etc. will be done with this class.
  * The requests will be delegated to it's children.
@@ -80,7 +81,7 @@ class SkyMapComposite : public QObject, public SkyComposite
      */
     explicit SkyMapComposite(SkyComposite *parent = nullptr);
 
-    ~SkyMapComposite() override;
+    virtual ~SkyMapComposite() override = default;
 
     void update(KSNumbers *num = nullptr) override;
 

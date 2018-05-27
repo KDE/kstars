@@ -9,8 +9,14 @@
     2004-03-16: A class to handle video streaming.
  */
 
-#include <KMessageBox>
+#include "streamwg.h"
+
+#include "indistd.h"
+#include "kstars.h"
+#include "Options.h"
+
 #include <KLocalizedString>
+#include <KMessageBox>
 
 #include <QLocale>
 #include <QDebug>
@@ -30,11 +36,6 @@
 
 #include <cstdlib>
 #include <fcntl.h>
-
-#include "streamwg.h"
-#include "indistd.h"
-#include "kstars.h"
-#include "Options.h"
 
 RecordOptions::RecordOptions(QWidget *parent) : QDialog(parent)
 {
@@ -103,10 +104,6 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     resize(Options::streamWindowWidth(), Options::streamWindowHeight());
 
     connect(currentCCD, SIGNAL(newFPS(double,double)), this, SLOT(updateFPS(double,double)));
-}
-
-StreamWG::~StreamWG()
-{
 }
 
 QSize StreamWG::sizeHint() const

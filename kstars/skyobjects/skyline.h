@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYLINE_H_
-#define SKYLINE_H_
+#pragma once
 
 #include "skypoint.h"
 
@@ -38,20 +37,21 @@ class KStarsData;
 class SkyLine
 {
   public:
-    /** Default Constructor (empty). */
-    SkyLine();
+    SkyLine() = default;
 
-    /** Destructor */
     ~SkyLine();
 
-    /**Append a segment to the list by adding a new endpoint.
-         * @param p the new endpoint to be added
-         */
+    /**
+     * Append a segment to the list by adding a new endpoint.
+     *
+     * @param p the new endpoint to be added
+     */
     void append(SkyPoint *p);
 
-    /** @return a const pointer to a point in the SkyLine
-         * param i the index position of the point
-         */
+    /**
+     * @return a const pointer to a point in the SkyLine
+     * param i the index position of the point
+     */
     inline SkyPoint *point(int i) const { return m_pList[i]; }
 
     inline QList<SkyPoint *> &points() { return m_pList; }
@@ -59,16 +59,19 @@ class SkyLine
     /** Remove all points from list */
     void clear();
 
-    /**Set point i in the SkyLine
-         * @param i the index position of the point to modify
-         * @param p1 the new SkyPoint
-         */
+    /**
+     * Set point i in the SkyLine
+     *
+     * @param i the index position of the point to modify
+     * @param p1 the new SkyPoint
+     */
     void setPoint(int i, SkyPoint *p);
 
-    /** @return the angle subtended by any line segment along the SkyLine.
-         * @param i the index of the line segment to be measured.
-         * If no argument is given, the first segment is assumed.
-         */
+    /**
+     * @return the angle subtended by any line segment along the SkyLine.
+     * @param i the index of the line segment to be measured.
+     * If no argument is given, the first segment is assumed.
+     */
     dms angularSize(int i = 0) const;
 
     void update(KStarsData *data, KSNumbers *num = nullptr);
@@ -76,5 +79,3 @@ class SkyLine
   private:
     QList<SkyPoint *> m_pList;
 };
-
-#endif

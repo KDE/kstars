@@ -21,20 +21,20 @@
 #include "ui_modcalceclipticcoords.h"
 
 /**
-  * Class which implements the KStars calculator module to compute
-  * geocentric ecliptic coordinates to/from geocentric equatorial coordinates.
-  *
-  * Inherits QWidget
-  *
-  * @author Pablo de Vicente
-  */
+ * Class which implements the KStars calculator module to compute
+ * geocentric ecliptic coordinates to/from geocentric equatorial coordinates.
+ *
+ * Inherits QWidget
+ *
+ * @author Pablo de Vicente
+ */
 class modCalcEclCoords : public QFrame, public Ui::modCalcEclCoordsDlg
 {
-    Q_OBJECT
+  Q_OBJECT
 
   public:
     explicit modCalcEclCoords(QWidget *p);
-    ~modCalcEclCoords() override;
+    virtual ~modCalcEclCoords() override = default;
 
   public slots:
     void slotNow(void);

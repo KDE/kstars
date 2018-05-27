@@ -22,7 +22,7 @@ class dms;
 class SchedulerJob
 {
   public:
-    SchedulerJob();
+    SchedulerJob() = default;
 
     /** @brief States of a SchedulerJob. */
     typedef enum {

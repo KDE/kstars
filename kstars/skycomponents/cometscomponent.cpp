@@ -15,44 +15,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <cmath>
-#include <QStandardPaths>
-#include <QDebug>
-#include <QFile>
-#include <QPen>
-#include <QHttpMultiPart>
-
 #include "cometscomponent.h"
-#include "solarsystemcomposite.h"
 
-#include "Options.h"
-#include "skyobjects/kscomet.h"
-#include "ksutils.h"
 #ifndef KSTARS_LITE
 #include "kstars.h"
 #endif
-#include "kstarsdata.h"
 #include "ksfilereader.h"
-#include "auxiliary/kspaths.h"
+#include "kspaths.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #else
 #include "kstarslite.h"
 #endif
+#include "Options.h"
 #include "skylabeler.h"
 #include "skypainter.h"
-#include "projections/projector.h"
+#include "solarsystemcomposite.h"
 #include "auxiliary/filedownloader.h"
-#include "kspaths.h"
-#include "ksutils.h"
+#include "auxiliary/kspaths.h"
+#include "projections/projector.h"
+#include "skyobjects/kscomet.h"
+
+#include <QDebug>
+#include <QFile>
+#include <QHttpMultiPart>
+#include <QPen>
+#include <QStandardPaths>
+
+#include <cmath>
 
 CometsComponent::CometsComponent(SolarSystemComposite *parent) : SolarSystemListComponent(parent)
 {
     loadData();
-}
-
-CometsComponent::~CometsComponent()
-{
 }
 
 bool CometsComponent::selected()

@@ -32,7 +32,7 @@ class ScriptFunction
                    const QString &an4 = QString(), const QString &at5 = QString(), const QString &an5 = QString(),
                    const QString &at6 = QString(), const QString &an6 = QString());
     explicit ScriptFunction(ScriptFunction *sf);
-    ~ScriptFunction();
+    ~ScriptFunction() = default;
 
     QString name() const { return Name; }
     QString prototype() const;

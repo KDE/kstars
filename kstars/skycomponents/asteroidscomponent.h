@@ -15,11 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ASTEROIDSCOMPONENT_H
-#define ASTEROIDSCOMPONENT_H
-
-#include <QList>
-#include <QPointer>
+#pragma once
 
 #include "binarylistcomponent.h"
 #include "ksparser.h"
@@ -27,9 +23,13 @@
 #include "skyobjects/ksasteroid.h"
 #include "solarsystemlistcomponent.h"
 
+#include <QList>
+#include <QPointer>
+
 class FileDownloader;
 
-/** @class AsteroidsComponent
+/**
+ * @class AsteroidsComponent
  * Represents the asteroids on the sky map.
  *
  * @author Thomas Kabelmann
@@ -42,12 +42,14 @@ class AsteroidsComponent : public QObject, public SolarSystemListComponent,
 
     friend class BinaryListComponent<KSAsteroid, AsteroidsComponent>;
   public:
-    /** @short Default constructor.
-         * @p parent pointer to the parent SolarSystemComposite
-         */
+    /**
+     * @short Default constructor.
+     *
+     * @p parent pointer to the parent SolarSystemComposite
+     */
     explicit AsteroidsComponent(SolarSystemComposite *parent);
+    virtual ~AsteroidsComponent() override = default;
 
-    ~AsteroidsComponent() override;
     void draw(SkyPainter *skyp) override;
     bool selected() override;
     SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
@@ -62,7 +64,6 @@ class AsteroidsComponent : public QObject, public SolarSystemListComponent,
 
   private:
     void loadDataFromText() override;
-    FileDownloader *downloadJob;
-};
 
-#endif
+    FileDownloader *downloadJob { nullptr };
+};

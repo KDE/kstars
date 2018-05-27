@@ -8,25 +8,23 @@
 
 */
 
-#ifndef STREAMWG_H
-#define STREAMWG_H
+#pragma once
 
-#include <QPixmap>
-#include <QVBoxLayout>
-#include <QResizeEvent>
-#include <QPaintEvent>
-#include <QCloseEvent>
-#include <QVector>
-#include <QColor>
-#include <QIcon>
-#include <QImage>
-
-#include <indidevapi.h>
-
+#include "indi/indiccd.h"
 #include "ui_streamform.h"
 #include "ui_recordingoptions.h"
 
-#include "indi/indiccd.h"
+#include <indidevapi.h>
+
+#include <QCloseEvent>
+#include <QColor>
+#include <QIcon>
+#include <QImage>
+#include <QPaintEvent>
+#include <QPixmap>
+#include <QResizeEvent>
+#include <QVBoxLayout>
+#include <QVector>
 
 class RecordOptions : public QDialog, public Ui::recordingOptions
 {
@@ -50,7 +48,7 @@ class StreamWG : public QDialog, public Ui::streamForm
 
   public:
     explicit StreamWG(ISD::CCD *ccd);
-    ~StreamWG();
+    virtual ~StreamWG() override = default;
 
     void setColorFrame(bool color);
     void setSize(int wd, int ht);
@@ -64,8 +62,8 @@ class StreamWG : public QDialog, public Ui::streamForm
     int getStreamHeight() { return streamHeight; }
 
   protected:
-    void closeEvent(QCloseEvent *ev);
-    QSize sizeHint() const;
+    void closeEvent(QCloseEvent *ev) override;
+    QSize sizeHint() const override;
 
   public slots:
     void toggleRecord();
@@ -89,5 +87,3 @@ class StreamWG : public QDialog, public Ui::streamForm
 
     RecordOptions *options;
 };
-
-#endif

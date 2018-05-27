@@ -11,9 +11,6 @@
 
 #pragma once
 
-#include <cstdint>
-#include <sys/types.h>
-
 #include "matr.h"
 #include "vect.h"
 #include "indi/indicommon.h"
@@ -23,6 +20,9 @@
 #include <QTime>
 #include <QVector>
 #include <QFile>
+
+#include <cstdint>
+#include <sys/types.h>
 
 class FITSView;
 class FITSData;

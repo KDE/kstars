@@ -390,7 +390,6 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
     addAction(i18n("Simulate eyepiece view"), map, SLOT(slotEyepieceView()));
 
     addSeparator();
-#ifdef HAVE_XPLANET
     if (obj->isSolarSystem() &&
         obj->type() !=
             SkyObject::COMET) // FIXME: We now have asteroids -- so should this not be isMajorPlanet() || Pluto?
@@ -401,7 +400,6 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
         //xplanetSubmenu->addAction( i18n( "To file..." ), map, SLOT( slotXplanetToFile() ) );
         //addMenu( xplanetSubmenu );
     }
-#endif
     addSeparator();
     addINDI();
 

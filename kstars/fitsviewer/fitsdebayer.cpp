@@ -29,10 +29,6 @@ FITSDebayer::FITSDebayer(FITSViewer *parent) : QDialog(parent)
     connect(ui->buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(applyDebayer()));
 }
 
-FITSDebayer::~FITSDebayer()
-{
-}
-
 void FITSDebayer::applyDebayer()
 {
     FITSView *view = viewer->getCurrentView();

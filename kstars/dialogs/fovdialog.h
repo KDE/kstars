@@ -80,7 +80,7 @@ class NewFOV : public QDialog
          * @fov widget to copy data from. If it's empty will create empty one.
          */
     explicit NewFOV(QWidget *parent = nullptr, const FOV *fov = nullptr);
-    ~NewFOV() override {}
+    ~NewFOV() override = default;
     /** Return reference to FOV. */
     const FOV &getFOV() const { return f; }
 
@@ -113,7 +113,7 @@ class TelescopeFL : public QDialog
          */
     explicit TelescopeFL(QWidget *parent = nullptr);
 
-    ~TelescopeFL() override {}
+    ~TelescopeFL() override = default;
 
     /**
          * Compute and return the focal length in mm

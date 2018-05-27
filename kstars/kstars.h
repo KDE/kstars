@@ -78,9 +78,7 @@ class OpsINDI;
 class OpsEkos;
 class OpsFITS;
 
-#ifdef HAVE_XPLANET
 class OpsXplanet;
-#endif
 
 #ifdef HAVE_CFITSIO
 class FITSViewer;
@@ -831,7 +829,5 @@ class KStars : public KXmlGuiWindow
     OpsINDI *opsindi { nullptr };
     OpsEkos *opsekos { nullptr };
     OpsFITS *opsfits { nullptr };
-#ifdef HAVE_XPLANET
     OpsXplanet *opsxplanet { nullptr };
-#endif
 };

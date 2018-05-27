@@ -11,39 +11,31 @@
 
 #include "supernovaecomponent.h"
 
-#include <QtConcurrent>
-#include <QJsonDocument>
-#include <QJsonValue>
-
 #ifndef KSTARS_LITE
+#include "kstars.h"
 #include "skymap.h"
 #else
 #include "kstarslite.h"
 #endif
-#include "skypainter.h"
-#include "skymesh.h"
-#include "skylabeler.h"
-#include "projections/projector.h"
 #include "dms.h"
-#include "Options.h"
-#include "auxiliary/filedownloader.h"
 #include "ksnotification.h"
-//#include "notifyupdatesui.h"
-
-#ifndef KSTARS_LITE
-#include "kstars.h"
-#endif
 #include "kstarsdata.h"
+#include "Options.h"
+#include "skylabeler.h"
+#include "skymesh.h"
+#include "skypainter.h"
+#include "auxiliary/filedownloader.h"
+#include "projections/projector.h"
 #include "auxiliary/kspaths.h"
+
+#include <QtConcurrent>
+#include <QJsonDocument>
+#include <QJsonValue>
 
 SupernovaeComponent::SupernovaeComponent(SkyComposite *parent) : ListComponent(parent)
 {
     QtConcurrent::run(this, &SupernovaeComponent::loadData);
     //loadData();
-}
-
-SupernovaeComponent::~SupernovaeComponent()
-{
 }
 
 void SupernovaeComponent::update(KSNumbers *num)

@@ -50,7 +50,7 @@ class ConstellationBoundaryLines : public NoPrecessIndex
      * of boundary-line intervals that divide two particular constellations.
      */
     explicit ConstellationBoundaryLines(SkyComposite *parent);
-    ~ConstellationBoundaryLines() override;
+    virtual ~ConstellationBoundaryLines() override = default;
 
     QString constellationName(SkyPoint *p);
 

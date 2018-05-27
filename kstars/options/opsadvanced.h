@@ -39,7 +39,7 @@ class OpsAdvanced : public QFrame, public Ui::OpsAdvanced
 
   public:
     OpsAdvanced();
-    ~OpsAdvanced() override;
+    virtual ~OpsAdvanced() override = default;
 
   private slots:
     void slotChangeTimeScale(float newScale);

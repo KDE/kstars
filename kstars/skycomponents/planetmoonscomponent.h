@@ -40,12 +40,12 @@ class PlanetMoonsComponent : public SkyComponent
   public:
     /**
      * @short Constructor
+     *
      * @p parent pointer to the parent SkyComposite
      */
     PlanetMoonsComponent(SkyComposite *parent, SolarSystemSingleComponent *pla, KSPlanetBase::Planets& planet);
 
-    /** @short Destructor */
-    ~PlanetMoonsComponent() override;
+    virtual ~PlanetMoonsComponent() override = default;
 
     bool selected() override;
     void draw(SkyPainter *skyp) override;

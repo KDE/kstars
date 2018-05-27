@@ -47,7 +47,7 @@ class Supernova : public SkyObject
     Supernova *clone() const override;
 
     /** Destructor(Empty) */
-    ~Supernova() override {}
+    ~Supernova() override = default;
 
     /**
          * @return the type of the supernova

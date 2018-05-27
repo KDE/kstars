@@ -129,10 +129,6 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     }
 }
 
-HorizonManager::~HorizonManager()
-{
-}
-
 void HorizonManager::showRegion(int regionID)
 {
     if (regionID < 0 || regionID >= m_RegionsModel->rowCount())

@@ -15,21 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <cmath>
-#include <QDebug>
-#include <QStandardPaths>
-#include <QHttpMultiPart>
-#include <QPen>
-
-#include <KLocalizedString>
-
 #include "asteroidscomponent.h"
 
 #ifndef KSTARS_LITE
 #include "kstars.h"
 #endif
-#include "auxiliary/filedownloader.h"
-#include "projections/projector.h"
+#include "ksfilereader.h"
+#include "kstarsdata.h"
+#include "Options.h"
 #include "solarsystemcomposite.h"
 #include "skycomponent.h"
 #include "skylabeler.h"
@@ -39,20 +32,24 @@
 #include "kstarslite.h"
 #endif
 #include "skypainter.h"
-#include "Options.h"
-#include "kstarsdata.h"
-#include "ksfilereader.h"
 #include "auxiliary/kspaths.h"
 #include "auxiliary/ksnotification.h"
+#include "auxiliary/filedownloader.h"
+#include "projections/projector.h"
+
+#include <KLocalizedString>
+
+#include <QDebug>
+#include <QStandardPaths>
+#include <QHttpMultiPart>
+#include <QPen>
+
+#include <cmath>
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent) : BinaryListComponent(this, "asteroids"),
     SolarSystemListComponent(parent)
 {
     loadData();
-}
-
-AsteroidsComponent::~AsteroidsComponent()
-{
 }
 
 bool AsteroidsComponent::selected()

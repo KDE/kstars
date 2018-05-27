@@ -173,10 +173,6 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
     //    nightVision->setProperty("state", "active");
 }
 
-WIView::~WIView()
-{
-}
-
 void WIView::setNightVisionOn(bool on)
 {
     if (on)

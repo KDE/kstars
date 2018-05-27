@@ -9,13 +9,11 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef SUPERNOVAE_COMPONENT_H
-#define SUPERNOVAE_COMPONENT_H
-
-#include "listcomponent.h"
-#include "skyobjects/supernova.h"
+#pragma once
 
 #include "ksnumbers.h"
+#include "listcomponent.h"
+#include "skyobjects/supernova.h"
 
 #include <QList>
 
@@ -36,27 +34,24 @@ class SupernovaeComponent : public QObject, public ListComponent
 
   public:
     explicit SupernovaeComponent(SkyComposite *parent);
-    ~SupernovaeComponent() override;
+    virtual ~SupernovaeComponent() override = default;
+
     bool selected() override;
     void update(KSNumbers *num = nullptr) override;
     SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
     /**
-         * @note This should actually be implemented in a better manner.
-         * Possibly by checking if the host galaxy for the supernova is drawn.
-         */
+     * @note This should actually be implemented in a better manner.
+     * Possibly by checking if the host galaxy for the supernova is drawn.
+     */
     void draw(SkyPainter *skyp) override;
 
     //virtual void notifyNewSupernovae();
-    /**
-         * @note Basically copy pasted from StarComponent::zoomMagnitudeLimit()
-         */
+    /** @note Basically copy pasted from StarComponent::zoomMagnitudeLimit() */
     static float zoomMagnitudeLimit();
 
   public slots:
-    /**
-         * @short This initiates updating of the data file
-         */
+    /** @short This initiates updating of the data file */
     void slotTriggerDataFileUpdate();
 
   protected slots:
@@ -66,7 +61,5 @@ class SupernovaeComponent : public QObject, public ListComponent
   private:
     void loadData();
 
-    FileDownloader *downloadJob = nullptr;
+    FileDownloader *downloadJob { nullptr };
 };
-
-#endif

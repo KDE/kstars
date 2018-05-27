@@ -17,22 +17,22 @@
 
 #include "modcalcvlsr.h"
 
-#include <QPointer>
-#include <QFileDialog>
+#include "dms.h"
+#include "geolocation.h"
+#include "ksnumbers.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "kstarsdatetime.h"
+#include "dialogs/locationdialog.h"
+#include "dialogs/finddialog.h"
+#include "skyobjects/skypoint.h"
+#include "widgets/dmsbox.h"
 
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include "ksnumbers.h"
-#include "dms.h"
-#include "skyobjects/skypoint.h"
-#include "geolocation.h"
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "kstarsdatetime.h"
-#include "widgets/dmsbox.h"
-#include "dialogs/locationdialog.h"
-#include "dialogs/finddialog.h"
+#include <QPointer>
+#include <QFileDialog>
 
 modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFlag(0)
 {
@@ -62,10 +62,6 @@ modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFl
     connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
 
     show();
-}
-
-modCalcVlsr::~modCalcVlsr()
-{
 }
 
 void modCalcVlsr::initGeo(void)

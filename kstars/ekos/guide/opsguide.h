@@ -7,8 +7,7 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef OpsGuide_H_
-#define OpsGuide_H_
+#pragma once
 
 #include "ui_opsguide.h"
 #include "guide.h"
@@ -30,14 +29,12 @@ class OpsGuide : public QFrame, public Ui::OpsGuide
 
   public:
     explicit OpsGuide();
-    ~OpsGuide();
+    virtual ~OpsGuide() override = default;
 
   signals:
     void settingsUpdated();
 
   private:
-    KConfigDialog *m_ConfigDialog;
+    KConfigDialog *m_ConfigDialog { nullptr };
 };
 }
-
-#endif

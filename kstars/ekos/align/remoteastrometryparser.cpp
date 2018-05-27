@@ -8,9 +8,9 @@
 */
 
 #include "remoteastrometryparser.h"
-#include "ekos_align_debug.h"
 
 #include "align.h"
+#include "ekos_align_debug.h"
 #include "Options.h"
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
@@ -24,10 +24,6 @@
 namespace Ekos
 {
 RemoteAstrometryParser::RemoteAstrometryParser() : AstrometryParser()
-{
-}
-
-RemoteAstrometryParser::~RemoteAstrometryParser()
 {
 }
 

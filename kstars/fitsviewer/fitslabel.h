@@ -26,17 +26,17 @@ class FITSLabel : public QLabel
     Q_OBJECT
   public:
     explicit FITSLabel(FITSView *img, QWidget *parent = nullptr);
-    virtual ~FITSLabel();
+    virtual ~FITSLabel() override = default;
 
     void setSize(double w, double h);
     void centerTelescope(double raJ2000, double decJ2000);
     bool getMouseButtonDown();
 
   protected:
-    virtual void mouseMoveEvent(QMouseEvent *e);
-    virtual void mousePressEvent(QMouseEvent *e);
-    virtual void mouseReleaseEvent(QMouseEvent *e);
-    virtual void mouseDoubleClickEvent(QMouseEvent *e);
+    virtual void mouseMoveEvent(QMouseEvent *e) override;
+    virtual void mousePressEvent(QMouseEvent *e) override;
+    virtual void mouseReleaseEvent(QMouseEvent *e) override;
+    virtual void mouseDoubleClickEvent(QMouseEvent *e) override;
 
   private:
     bool mouseButtonDown { false };

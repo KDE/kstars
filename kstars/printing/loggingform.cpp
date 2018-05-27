@@ -22,10 +22,6 @@
 #include <QTextDocument>
 #include <QTextTable>
 
-LoggingForm::LoggingForm()
-{
-}
-
 void LoggingForm::createFinderChartLogger()
 {
     QTextCursor cursor(m_Document.get());

@@ -17,11 +17,12 @@
 
 #pragma once
 
+#include "skyobjitem.h"
+
 #include <QList>
 #include <QObject>
 
 class ObsConditions;
-class SkyObjItem;
 class SkyObjListModel;
 
 /**

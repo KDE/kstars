@@ -89,22 +89,28 @@ if(NOT BUILD_KSTARS_LITE)
     endif(CFITSIO_FOUND)
 endif(NOT BUILD_KSTARS_LITE)
 
-IF (CFITSIO_FOUND AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
-    IF (SANITIZERS)
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -fno-sanitize=address,undefined -fomit-frame-pointer")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsdata.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitshistogram.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsview.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
+IF (CFITSIO_FOUND)
+    IF (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
+        IF (SANITIZERS)
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -fno-sanitize=address,undefined -fomit-frame-pointer")
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsdata.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitshistogram.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsview.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
+        ELSE ()
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        ENDIF ()
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/analyse.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-pointer-arith")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/background.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-incompatible-pointer-types-discards-qualifiers")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/extract.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/lutz.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")
     ELSE ()
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-pointer-arith")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-discarded-qualifiers")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-discarded-qualifiers")
     ENDIF ()
-    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/analyse.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-pointer-arith")
-    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/background.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-incompatible-pointer-types-discards-qualifiers")
-    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/extract.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/lutz.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-    SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")
 ENDIF ()
 
 if (INDI_FOUND)
@@ -280,15 +286,13 @@ if(NOT BUILD_KSTARS_LITE)
       include_directories( ${WCSLIB_INCLUDE_DIR} )
     endif(WCSLIB_FOUND)
 
-    if(XPLANET_FOUND)
-        set(xplanet_SRCS
-            xplanet/opsxplanet.cpp
-        )
+    set(xplanet_SRCS
+        xplanet/opsxplanet.cpp
+    )
 
-        set(xplanetui_SRCS
-            xplanet/opsxplanet.ui
-        )
-    endif(XPLANET_FOUND)
+    set(xplanetui_SRCS
+        xplanet/opsxplanet.ui
+    )
 
     ########### next target ###############
     set(libkstarstools_SRCS

@@ -62,10 +62,8 @@
 #include <QInputDialog>
 #include <QDesktopServices>
 
-#ifdef HAVE_XPLANET
 #include <QProcess>
 #include <QFileDialog>
-#endif
 
 #include <cmath>
 
@@ -1218,15 +1216,28 @@ bool SkyMap::isSlewing() const
     return (slewing || (clockSlewing && data->clock()->isActive()));
 }
 
-#ifdef HAVE_XPLANET
 void SkyMap::startXplanet(const QString &outputFile)
 {
     QString year, month, day, hour, minute, seconde, fov;
 
+    QString xPlanetLocation = Options::xplanetPath();
+#ifdef Q_OS_OSX
+    if (Options::xplanetIsInternal())
+        xPlanetLocation   = QCoreApplication::applicationDirPath() + "/xplanet/bin/xplanet";
+#endif
+
     // If Options::xplanetPath() is empty, return
-    if (Options::xplanetPath().isEmpty())
+    if (xPlanetLocation.isEmpty())
     {
         KMessageBox::error(nullptr, i18n("Xplanet binary path is empty in config panel."));
+        return;
+    }
+
+    // If Options::xplanetPath() does not exist, return
+    const QFileInfo xPlanetLocationInfo(xPlanetLocation);
+    if (!xPlanetLocationInfo.exists() || !xPlanetLocationInfo.isExecutable())
+    {
+        KMessageBox::error(nullptr, i18n("The configured Xplanet binary does not exist or is not executable."));
         return;
     }
 
@@ -1388,12 +1399,9 @@ void SkyMap::startXplanet(const QString &outputFile)
     // Run xplanet
     //qDebug() << "Run:" << xplanetProc->program().join(" ");
 
-    QString xPlanetLocation = Options::xplanetPath();
-
 #ifdef Q_OS_OSX
     if (Options::xplanetIsInternal())
     {
-        xPlanetLocation   = QCoreApplication::applicationDirPath() + "/xplanet/bin/xplanet";
         QString searchDir = QCoreApplication::applicationDirPath() + "/xplanet/share/xplanet/";
         args << "-searchdir" << searchDir;
     }
@@ -1431,4 +1439,3 @@ void SkyMap::slotXplanetToFile()
         startXplanet(filename);
     }
 }
-#endif

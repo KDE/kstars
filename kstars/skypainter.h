@@ -20,10 +20,10 @@
 
 #pragma once
 
+#include "skycomponents/typedef.h"
+
 #include <QList>
 #include <QPainter>
-
-#include "skycomponents/typedef.h"
 
 class ConstellationsArt;
 class DeepSkyObject;
@@ -46,11 +46,9 @@ class Supernova;
 class SkyPainter
 {
   public:
-    /** @short Constructor. */
     SkyPainter();
 
-    /** @short Destructor */
-    virtual ~SkyPainter();
+    virtual ~SkyPainter() = default;
 
     /** @short Set the pen of the painter **/
     virtual void setPen(const QPen &pen) = 0;
@@ -181,5 +179,5 @@ class SkyPainter
     SkyMap *m_sm { nullptr };
 
   private:
-    float m_sizeMagLim;
+    float m_sizeMagLim { 10.0f };
 };

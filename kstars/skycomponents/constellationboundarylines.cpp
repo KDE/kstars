@@ -150,10 +150,6 @@ ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
         appendPoly(polyList, idxFile, verbose);
 }
 
-ConstellationBoundaryLines::~ConstellationBoundaryLines()
-{
-}
-
 bool ConstellationBoundaryLines::selected()
 {
 #ifndef KSTARS_LITE

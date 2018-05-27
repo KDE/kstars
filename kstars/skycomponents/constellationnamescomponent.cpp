@@ -35,10 +35,6 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, C
     QtConcurrent::run(this, &ConstellationNamesComponent::loadData, cultures);
 }
 
-ConstellationNamesComponent::~ConstellationNamesComponent()
-{
-}
-
 void ConstellationNamesComponent::loadData(CultureList *cultures)
 {
     uint i       = 0;

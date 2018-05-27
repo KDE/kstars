@@ -30,7 +30,7 @@
 
 #include <ekos_guide_debug.h>
 
-#define CAPTURE_TIMEOUT_THRESHOLD 10000
+#define CAPTURE_TIMEOUT_THRESHOLD 30000
 
 namespace Ekos
 {
