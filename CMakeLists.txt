@@ -2,7 +2,7 @@ PROJECT(kstars CXX C)
 
 set (KStars_VERSION_MAJOR 2)
 set (KStars_VERSION_MINOR 9)
-set (KStars_VERSION_REVISION 5)
+set (KStars_VERSION_REVISION 6)
 set (CMAKE_CXX_STANDARD 11)
 #Build KStars Lite with -DKSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
@@ -205,8 +205,7 @@ set_package_properties(WCSLIB PROPERTIES DESCRIPTION "World Coordinate System li
 
 ## XPlanet
 find_package(Xplanet)
-MACRO_BOOL_TO_01(XPLANET_FOUND HAVE_XPLANET)
-set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all the major planets and most satellites" URL "http://xplanet.sourceforge.net" TYPE OPTIONAL PURPOSE "Gives KStars support for xplanet.")
+set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all the major planets and most satellites" URL "http://xplanet.sourceforge.net" TYPE RUNTIME PURPOSE "Gives KStars support for xplanet.")
 
 # Qt5 Data Visualization
 find_package(Qt5DataVisualization)

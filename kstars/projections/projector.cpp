@@ -56,10 +56,6 @@ Projector::Projector(const ViewParams &p)
     updateClipPoly();
 }
 
-Projector::~Projector()
-{
-}
-
 void Projector::setViewParams(const ViewParams &p)
 {
     m_vp = p;

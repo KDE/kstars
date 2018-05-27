@@ -16,19 +16,21 @@
  ***************************************************************************/
 
 #include "thumbnaileditor.h"
-#include "ui_thumbnaileditor.h"
-#include "thumbnailpicker.h"
 
-#include <QPixmap>
-#include <QMouseEvent>
-#include <QLabel>
-#include <QHBoxLayout>
-#include <QPaintEvent>
+#include "thumbnailpicker.h"
+#include "ui_thumbnaileditor.h"
 
 #include <KLocalizedString>
+
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QMouseEvent>
+#include <QPaintEvent>
+#include <QPixmap>
+
 #include <QDebug>
-#include <QPushButton>
 #include <QDialogButtonBox>
+#include <QPushButton>
 
 ThumbnailEditorUI::ThumbnailEditorUI(QWidget *parent) : QFrame(parent)
 {
@@ -66,10 +68,6 @@ ThumbnailEditor::ThumbnailEditor(ThumbnailPicker *_tp, double _w, double _h) : Q
     slotUpdateCropLabel();
 
     update();
-}
-
-ThumbnailEditor::~ThumbnailEditor()
-{
 }
 
 QPixmap ThumbnailEditor::thumbnail()

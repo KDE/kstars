@@ -71,7 +71,7 @@ class KSPlanetBase : public TrailObject
                           const QColor &c = Qt::white, double pSize = 0);
 
     /** Destructor (empty) */
-    ~KSPlanetBase() override {}
+    ~KSPlanetBase() override = default;
 
     void init(const QString &s, const QString &image_file, const QColor &c, double pSize);
 

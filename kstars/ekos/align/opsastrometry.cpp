@@ -8,12 +8,13 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <KConfigDialog>
-
 #include "opsastrometry.h"
-#include "kstars.h"
+
 #include "align.h"
+#include "kstars.h"
 #include "Options.h"
+
+#include <KConfigDialog>
 
 namespace Ekos
 {
@@ -48,10 +49,6 @@ OpsAstrometry::OpsAstrometry(Align *parent) : QWidget(KStars::Instance())
     updateScale->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     updatePosition->setIcon(QIcon::fromTheme("edit-copy"));
     updatePosition->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-}
-
-OpsAstrometry::~OpsAstrometry()
-{
 }
 
 void OpsAstrometry::showEvent(QShowEvent *)

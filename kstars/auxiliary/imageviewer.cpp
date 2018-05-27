@@ -46,10 +46,6 @@ ImageLabel::ImageLabel(QWidget *parent) : QFrame(parent)
 #endif
 }
 
-ImageLabel::~ImageLabel()
-{
-}
-
 void ImageLabel::setImage(const QImage &img)
 {
 #ifndef KSTARS_LITE

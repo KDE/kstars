@@ -75,10 +75,6 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
     createLogTab();
 }
 
-DetailDialog::~DetailDialog()
-{
-}
-
 void DetailDialog::createGeneralTab()
 {
     Data = new DataWidget(this);

@@ -29,13 +29,13 @@ class RemoteAstrometryParser : public AstrometryParser
 
   public:
     RemoteAstrometryParser();
-    virtual ~RemoteAstrometryParser();
+    virtual ~RemoteAstrometryParser() override = default;
 
-    virtual void setAlign(Align *_align) { align = _align; }
-    virtual bool init();
-    virtual void verifyIndexFiles(double fov_x, double fov_y);
-    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true);
-    virtual bool stopSolver();
+    virtual void setAlign(Align *_align) override { align = _align; }
+    virtual bool init() override;
+    virtual void verifyIndexFiles(double fov_x, double fov_y) override;
+    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true) override;
+    virtual bool stopSolver() override;
 
     void setAstrometryDevice(ISD::GDInterface *device);
     void setEnabled(bool enable);

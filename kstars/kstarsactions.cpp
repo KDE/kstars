@@ -83,9 +83,7 @@
 #endif
 #endif
 
-#ifdef HAVE_XPLANET
 #include "xplanet/opsxplanet.h"
-#endif
 
 #ifdef HAVE_NOTIFYCONFIG
 #include <KNotifyConfigWidget>
@@ -1056,11 +1054,9 @@ void KStars::slotViewOps()
 
 #endif
 
-#ifdef HAVE_XPLANET
     opsxplanet = new OpsXplanet(this);
     page       = dialog->addPage(opsxplanet, i18n("Xplanet"), "kstars_xplanet");
     page->setIcon(QIcon::fromTheme("kstars_xplanet"));
-#endif
 
     page = dialog->addPage(opadvanced, i18n("Advanced"), "kstars_advanced");
     page->setIcon(QIcon::fromTheme("kstars_advanced"));

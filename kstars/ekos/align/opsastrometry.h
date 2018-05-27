@@ -8,12 +8,11 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef OPSASTROMETRY_H
-#define OPSASTROMETRY_H
-
-#include <QWidget>
+#pragma once
 
 #include "ui_opsastrometry.h"
+
+#include <QWidget>
 
 class KConfigDialog;
 
@@ -34,7 +33,7 @@ class OpsAstrometry : public QWidget, public Ui::OpsAstrometry
     };
 
     explicit OpsAstrometry(Align *parent);
-    ~OpsAstrometry();
+    virtual ~OpsAstrometry() override = default;
 
   protected:
     void showEvent(QShowEvent *);
@@ -45,9 +44,7 @@ class OpsAstrometry : public QWidget, public Ui::OpsAstrometry
     void slotApply();
 
   private:
-    KConfigDialog *m_ConfigDialog;
-    Align *alignModule;
+    KConfigDialog *m_ConfigDialog { nullptr };
+    Align *alignModule { nullptr };
 };
 }
-
-#endif // OPSASTROMETRY_H

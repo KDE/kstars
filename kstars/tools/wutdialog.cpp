@@ -87,10 +87,6 @@ WUTDialog::WUTDialog(QWidget *parent, bool _session, GeoLocation *_geo, KStarsDa
     QTimer::singleShot(0, this, SLOT(init()));
 }
 
-WUTDialog::~WUTDialog()
-{
-}
-
 void WUTDialog::makeConnections()
 {
     connect(WUT->DateButton, SIGNAL(clicked()), SLOT(slotChangeDate()));

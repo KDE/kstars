@@ -15,13 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FINDDIALOG_H_
-#define FINDDIALOG_H_
-
-#include <QKeyEvent>
-#include <QDialog>
+#pragma once
 
 #include "ui_finddialog.h"
+
+#include <QDialog>
+#include <QKeyEvent>
 
 class QTimer;
 class QStringListModel;
@@ -36,7 +35,8 @@ class FindDialogUI : public QFrame, public Ui::FindDialog
     explicit FindDialogUI(QWidget *parent = nullptr);
 };
 
-/** @class FindDialog
+/**
+ * @class FindDialog
  * Dialog window for finding SkyObjects by name.  The dialog contains
  * a QListBox showing the list of named objects, a QLineEdit for filtering
  * the list by name, and a QCombobox for filtering the list by object type.
@@ -49,39 +49,40 @@ class FindDialog : public QDialog
 {
     Q_OBJECT
   public:
-    /**Constructor. Creates all widgets and packs them in QLayouts.  Connects
-         * Signals and Slots.  Runs initObjectList().
-         */
+    /**
+     * Constructor. Creates all widgets and packs them in QLayouts. Connects
+     * Signals and Slots. Runs initObjectList().
+     */
     explicit FindDialog(QWidget *parent = nullptr);
 
-    /** Destructor */
-    ~FindDialog() override;
+    ~FindDialog() override = default;
 
     /**
-         * @return the target object (need not be the same as currently selected object!)
-         *
-         * @note Avoid using selectedObject()
-         */
+     * @return the target object (need not be the same as currently selected object!)
+     *
+     * @note Avoid using selectedObject()
+     */
     inline SkyObject *targetObject() { return m_targetObject; }
 
   public slots:
-    /**When Text is entered in the QLineEdit, filter the List of objects
-         * so that only objects which start with the filter text are shown.
-         */
+    /**
+     * When Text is entered in the QLineEdit, filter the List of objects
+     * so that only objects which start with the filter text are shown.
+     */
     void filterList();
 
-    //FIXME: Still valid for QDialog?  i.e., does QDialog have a slotOk() ?
+    // FIXME: Still valid for QDialog?  i.e., does QDialog have a slotOk() ?
     /**
-         *Overloading the Standard QDialogBase slotOk() to show a "sorry"
-         *message box if no object is selected and internet resolution was
-         *disabled/failed when the user presses Ok.  The window is not
-         *closed in this case.
-         */
+     * Overloading the Standard QDialogBase slotOk() to show a "sorry"
+     * message box if no object is selected and internet resolution was
+     * disabled/failed when the user presses Ok.  The window is not
+     * closed in this case.
+     */
     void slotOk();
 
     /**
-         * @short This slot resolves the object on the internet, ignoring the selection on the list
-         */
+     * @short This slot resolves the object on the internet, ignoring the selection on the list
+     */
     void slotResolve();
 
   private slots:
@@ -96,39 +97,36 @@ class FindDialog : public QDialog
     void slotDetails();
 
   protected:
-    /**Process Keystrokes.  The Up and Down arrow keys are used to select the
-         * Previous/Next item in the listbox of named objects.  The Esc key closes
-         * the window with no selection, using reject().
-         * @param e The QKeyEvent pointer
-         */
+    /**
+     * Process Keystrokes.  The Up and Down arrow keys are used to select the
+     * Previous/Next item in the listbox of named objects.  The Esc key closes
+     * the window with no selection, using reject().
+     * @param e The QKeyEvent pointer
+     */
     void keyPressEvent(QKeyEvent *e) override;
 
     /** @return the currently-selected item from the listbox of named objects */
     SkyObject *selectedObject() const;
 
   private:
-    /** @short Do some post processing on the search text to interpret what the user meant
-         * This could include replacing text like "m93" with "m 93"
-         */
+    /**
+     * @short Do some post processing on the search text to interpret what the user meant
+     * This could include replacing text like "m93" with "m 93"
+     */
     QString processSearchText();
 
-    /**
-         * @short Finishes the processing towards closing the dialog initiated by slotOk() or slotResolve()
-         */
+    /** @short Finishes the processing towards closing the dialog initiated by slotOk() or slotResolve() */
     void finishProcessing(SkyObject *selObj = nullptr, bool resolve = true);
 
-    /** @short pre-filter the list of objects according to the
-         * selected object type.
-         */
+    /** @short pre-filter the list of objects according to the selected object type. */
     void filterByType();
 
-    FindDialogUI *ui;
-    SkyObjectListModel *fModel;
-    QSortFilterProxyModel *sortModel;
-    QTimer *timer;
-    bool listFiltered;
-    QPushButton *okB;
-    SkyObject *m_targetObject;
+    FindDialogUI *ui { nullptr };
+    SkyObjectListModel *fModel { nullptr };
+    QSortFilterProxyModel *sortModel { nullptr };
+    QTimer *timer { nullptr };
+    bool listFiltered { false };
+    QPushButton *okB { nullptr };
+    SkyObject *m_targetObject { nullptr };
 };
 
-#endif

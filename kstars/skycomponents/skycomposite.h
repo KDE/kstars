@@ -17,10 +17,10 @@
 
 #pragma once
 
+#include "skycomponent.h"
+
 #include <QList>
 #include <QMap>
-
-#include "skycomponent.h"
 
 class KSNumbers;
 

@@ -8,13 +8,13 @@
 */
 
 #include "offlineastrometryparser.h"
-#include "ekos_align_debug.h"
+
 #include "align.h"
+#include "ekos_align_debug.h"
 #include "ksutils.h"
 #include "Options.h"
 
 #include <KMessageBox>
-
 
 namespace Ekos
 {
@@ -43,10 +43,6 @@ OfflineAstrometryParser::OfflineAstrometryParser() : AstrometryParser()
 
     // Reset parity on solver failure
     connect(this, &OfflineAstrometryParser::solverFailed, this, [&]() { parity = QString(); });
-}
-
-OfflineAstrometryParser::~OfflineAstrometryParser()
-{
 }
 
 bool OfflineAstrometryParser::init()

@@ -17,18 +17,18 @@
 
 #include "modcalcangdist.h"
 
-#include <QTextStream>
-#include <QPointer>
+#include "dms.h"
+#include "kstars.h"
+#include "dialogs/finddialog.h"
+#include "skyobjects/skyobject.h"
+#include "skyobjects/skypoint.h"
+#include "widgets/dmsbox.h"
 
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include "dms.h"
-#include "widgets/dmsbox.h"
-#include "skyobjects/skypoint.h"
-#include "skyobjects/skyobject.h"
-#include "dialogs/finddialog.h"
-#include "kstars.h"
+#include <QTextStream>
+#include <QPointer>
 
 modCalcAngDist::modCalcAngDist(QWidget *parentSplit) : QFrame(parentSplit)
 {
@@ -50,10 +50,6 @@ modCalcAngDist::modCalcAngDist(QWidget *parentSplit) : QFrame(parentSplit)
 
     show();
     slotValidatePositions();
-}
-
-modCalcAngDist::~modCalcAngDist()
-{
 }
 
 SkyPoint modCalcAngDist::getCoords(dmsBox *rBox, dmsBox *dBox, bool *ok)

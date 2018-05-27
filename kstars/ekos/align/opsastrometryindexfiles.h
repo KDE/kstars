@@ -23,7 +23,7 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
 
   public:
     explicit OpsAstrometryIndexFiles(Align *parent);
-    ~OpsAstrometryIndexFiles();
+    virtual ~OpsAstrometryIndexFiles() override = default;
 
   protected:
     void showEvent(QShowEvent *);
@@ -46,7 +46,7 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
     Align *alignModule { nullptr };
     QNetworkAccessManager *manager { nullptr };
     QMap<float, QString> astrometryIndex;
-    int downloadSpeed; //bytes per millisecond
-    int actualdownloadSpeed; //bytes per millisecond
+    int downloadSpeed { 0 }; //bytes per millisecond
+    int actualdownloadSpeed { 0 }; //bytes per millisecond
 };
 }

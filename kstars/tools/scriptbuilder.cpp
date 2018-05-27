@@ -48,9 +48,6 @@
 OptionsTreeViewWidget::OptionsTreeViewWidget(QWidget *p) : QFrame(p)
 {
     setupUi(this);
-#ifdef Q_OS_OSX
-    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
-#endif
 }
 
 OptionsTreeView::OptionsTreeView(QWidget *p) : QDialog(p)
@@ -70,10 +67,6 @@ OptionsTreeView::OptionsTreeView(QWidget *p) : QDialog(p)
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     setModal(false);
-}
-
-OptionsTreeView::~OptionsTreeView()
-{
 }
 
 void OptionsTreeView::resizeColumns()

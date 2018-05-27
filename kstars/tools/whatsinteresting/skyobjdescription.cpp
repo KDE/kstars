@@ -1,9 +1,9 @@
 
+#include "skyobjdescription.h"
+
 #include <QString>
 #include <QUrl>
 #include <QDebug>
-
-#include "skyobjdescription.h"
 
 SkyObjDescription::SkyObjDescription(const QString so_Name, const QString so_Type)
     : soName(so_Name), soType(so_Type), m_description(""), m_DownloadedData("")
@@ -16,10 +16,6 @@ SkyObjDescription::SkyObjDescription(const QString so_Name, const QString so_Typ
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(fileDownloaded(QNetworkReply*)));
     manager->get(request);
-}
-
-SkyObjDescription::~SkyObjDescription()
-{
 }
 
 void SkyObjDescription::fileDownloaded(QNetworkReply *reply)

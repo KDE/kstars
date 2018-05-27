@@ -46,11 +46,9 @@ class FlagManager : public QDialog
 {
     Q_OBJECT
   public:
-    /** @short Constructor */
     explicit FlagManager(QWidget *ks);
 
-    /** @short Destructor */
-    ~FlagManager() override;
+    virtual ~FlagManager() override = default;
 
     void setRaDec(const dms &ra, const dms &dec);
     void clearFields();

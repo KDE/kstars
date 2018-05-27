@@ -16,9 +16,6 @@
 
 #include "opssatellites.h"
 
-#include <QStandardItemModel>
-#include <QStatusBar>
-
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -26,6 +23,9 @@
 #include "skymapcomposite.h"
 #include "skycomponents/satellitescomponent.h"
 #include "skymap.h"
+
+#include <QStandardItemModel>
+#include <QStatusBar>
 
 static const char *satgroup_strings_context = "Satellite group name";
 
@@ -78,10 +78,6 @@ OpsSatellites::OpsSatellites() : QFrame(KStars::Instance())
             [&]() { isDirty = true; });
 
     isDirty = false;
-}
-
-OpsSatellites::~OpsSatellites()
-{
 }
 
 void OpsSatellites::slotUpdateTLEs()

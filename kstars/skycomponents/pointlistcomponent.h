@@ -17,18 +17,19 @@
 
 #pragma once
 
-#define NCIRCLE 360 //number of points used to define equator, ecliptic and horizon
-
 #include "skycomponent.h"
 
 #include <QList>
 
 #include <memory>
 
+#define NCIRCLE 360 //number of points used to define equator, ecliptic and horizon
+
 class SkyPoint;
 
 /**
  * @class PointListComponent
+ *
  * An abstract parent class, to be inherited by SkyComponents that store a QList of SkyPoints.
  *
  * @author Jason Harris
@@ -39,7 +40,7 @@ class PointListComponent : public SkyComponent
   public:
     explicit PointListComponent(SkyComposite *parent);
 
-    ~PointListComponent() override;
+    virtual ~PointListComponent() override = default;
 
     /**
      * @short Update the sky positions of this component.

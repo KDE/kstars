@@ -10,21 +10,18 @@
 
 #include "opsindi.h"
 
-#include <QPushButton>
-#include <QFileDialog>
-#include <QDesktopServices>
+#include "ksnotification.h"
+#include "kstars.h"
+#include "Options.h"
 
 #include <KConfigDialog>
 
 #include <QCheckBox>
-#include <QStringList>
 #include <QComboBox>
-
-#include "ksnotification.h"
-
-#include "Options.h"
-
-#include "kstars.h"
+#include <QDesktopServices>
+#include <QFileDialog>
+#include <QPushButton>
+#include <QStringList>
 
 OpsINDI::OpsINDI() : QFrame(KStars::Instance())
 {
@@ -64,10 +61,6 @@ OpsINDI::OpsINDI() : QFrame(KStars::Instance())
 #ifdef Q_OS_WIN
     kcfg_indiServer->setEnabled(false);
 #endif
-}
-
-OpsINDI::~OpsINDI()
-{
 }
 
 void OpsINDI::toggleINDIInternal()

@@ -18,16 +18,11 @@
 #include "obslistpopupmenu.h"
 
 #include "config-kstars.h"
-
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "observinglist.h"
 
 ObsListPopupMenu::ObsListPopupMenu() : QMenu(nullptr)
-{
-}
-
-ObsListPopupMenu::~ObsListPopupMenu()
 {
 }
 

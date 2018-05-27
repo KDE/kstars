@@ -43,10 +43,6 @@ inline bool operator==(const pixCacheKey_t &k1, const pixCacheKey_t &k2)
   return (k1.uid == k2.uid) && (k1.level == k2.level) && (k1.pix == k2.pix);
 }
 
-PixCache::PixCache()
-{
-}
-
 void PixCache::add(pixCacheKey_t &key, pixCacheItem_t *item, int cost)
 {
   Q_ASSERT(cost < m_cache.maxCost());

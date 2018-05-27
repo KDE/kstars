@@ -196,7 +196,3 @@ dms dmsBox::createDms(bool deg, bool *ok)
 
     return dmsAngle;
 }
-
-dmsBox::~dmsBox()
-{
-}

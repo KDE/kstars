@@ -15,25 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "infoboxwidget.h"
+
+#include "colorscheme.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
+
+#include <KLocalizedString>
+
 #include <QPainter>
 #include <QMouseEvent>
 #include <QFontMetrics>
 #include <QLocale>
 
-#include <KLocalizedString>
-
-#include "infoboxwidget.h"
-
-#include "kstarsdata.h"
-#include "colorscheme.h"
-#include "ksutils.h"
-
 const int InfoBoxWidget::padX = 6;
 const int InfoBoxWidget::padY = 2;
-
-InfoBoxes::~InfoBoxes()
-{
-}
 
 InfoBoxes::InfoBoxes(QWidget *parent) : QWidget(parent)
 {
@@ -59,10 +55,6 @@ InfoBoxWidget::InfoBoxWidget(bool shade, const QPoint &pos, int anchor, const QS
 {
     move(pos);
     updateSize();
-}
-
-InfoBoxWidget::~InfoBoxWidget()
-{
 }
 
 void InfoBoxWidget::updateSize()

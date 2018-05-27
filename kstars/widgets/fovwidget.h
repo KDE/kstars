@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FOVWIDGET_H_
-#define FOVWIDGET_H_
+#pragma once
 
 #include <QFrame>
 
@@ -27,7 +26,7 @@ class FOVWidget : public QFrame
     Q_OBJECT
   public:
     explicit FOVWidget(QWidget *parent = nullptr);
-    ~FOVWidget() override;
+    virtual ~FOVWidget() override = default;
 
     void setFOV(FOV *f);
 
@@ -35,7 +34,5 @@ class FOVWidget : public QFrame
     void paintEvent(QPaintEvent *e) override;
 
   private:
-    FOV *m_FOV;
+    FOV *m_FOV { nullptr };
 };
-
-#endif

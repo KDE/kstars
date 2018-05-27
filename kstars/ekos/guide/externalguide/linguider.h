@@ -9,10 +9,10 @@
 
 #pragma once
 
+#include "../guideinterface.h"
+
 #include <QAbstractSocket>
 #include <QTimer>
-
-#include "../guideinterface.h"
 
 class QTcpSocket;
 
@@ -50,7 +50,7 @@ class LinGuider : public GuideInterface
     typedef enum { DISCONNECTED, CONNECTING, CONNECTED } LinGuiderConnection;
 
     LinGuider();
-    ~LinGuider();
+    virtual ~LinGuider() override = default;
 
     bool Connect() override;
     bool Disconnect() override;

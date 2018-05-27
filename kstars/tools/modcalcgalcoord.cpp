@@ -48,10 +48,6 @@ modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit) : QFrame(parentSplit)
     show();
 }
 
-modCalcGalCoord::~modCalcGalCoord()
-{
-}
-
 void modCalcGalCoord::slotObject()
 {
     QPointer<FindDialog> fd = new FindDialog(this);

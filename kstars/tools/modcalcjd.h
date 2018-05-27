@@ -15,29 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCJD_H_
-#define MODCALCJD_H_
+#pragma once
 
 #include "ui_modcalcjd.h"
 
-class QWidget;
-class VBox;
 class QTextStream;
+class QWidget;
 
 /**
   * Class for KStars module which computes JD, MJD and Date/Time from the
   * any of the other entries.
   *
   * Inherits QVBox
-  *@author Pablo de Vicente
-	*@version 0.9
+  *
+  * @author Pablo de Vicente
+  * @version 0.9
   */
 class modCalcJD : public QFrame, public Ui::modCalcJdDlg
 {
     Q_OBJECT
   public:
     explicit modCalcJD(QWidget *p);
-    ~modCalcJD() override;
+    virtual ~modCalcJD() override = default;
 
   public slots:
     void slotUpdateCalendar();
@@ -55,5 +54,3 @@ class modCalcJD : public QFrame, public Ui::modCalcJdDlg
     /** Shows the modified Julian Day in the Box */
     void showMjd(long double mjd);
 };
-
-#endif

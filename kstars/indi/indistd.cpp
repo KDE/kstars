@@ -15,6 +15,7 @@
 #include "driverinfo.h"
 #include "deviceinfo.h"
 #include "imageviewer.h"
+#include "indi_debug.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -22,8 +23,6 @@
 
 #include <QImageReader>
 #include <QStatusBar>
-
-#include "indi_debug.h"
 
 namespace ISD
 {
@@ -45,10 +44,6 @@ GenericDevice::GenericDevice(DeviceInfo &idv)
     clientManager = driverInfo->getClientManager();
 
     dType = KSTARS_UNKNOWN;
-}
-
-GenericDevice::~GenericDevice()
-{
 }
 
 const char *GenericDevice::getDeviceName()
@@ -926,10 +921,6 @@ ST4::ST4(INDI::BaseDevice *bdv, ClientManager *cm)
 {
     baseDevice    = bdv;
     clientManager = cm;
-}
-
-ST4::~ST4()
-{
 }
 
 const char *ST4::getDeviceName()

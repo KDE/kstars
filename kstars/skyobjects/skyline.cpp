@@ -22,10 +22,6 @@
 
 #include <QDebug>
 
-SkyLine::SkyLine()
-{
-}
-
 SkyLine::~SkyLine()
 {
     clear();

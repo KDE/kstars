@@ -8,11 +8,12 @@
  */
 
 #include "dome.h"
-#include "ekos/ekosmanager.h"
-#include "kstars.h"
+
 #include "domeadaptor.h"
+#include "ekos/ekosmanager.h"
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"
+#include "kstars.h"
 
 #include <basedevice.h>
 
@@ -24,10 +25,6 @@ Dome::Dome()
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Dome", this);
 
     currentDome = nullptr;
-}
-
-Dome::~Dome()
-{
 }
 
 void Dome::setDome(ISD::GDInterface *newDome)

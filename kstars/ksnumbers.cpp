@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "ksnumbers.h"
+
 #include "kstarsdatetime.h" //for J2000 define
 
 // 63 elements
@@ -161,10 +162,6 @@ void KSNumbers::computeConstantValues()
     P2B(0, 2) = CXB * SYB;
     P2B(1, 2) = -1.0 * SXB * SYB;
     P2B(2, 2) = CYB;
-}
-
-KSNumbers::~KSNumbers()
-{
 }
 
 void KSNumbers::updateValues(long double jd)

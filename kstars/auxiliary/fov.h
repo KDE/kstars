@@ -151,7 +151,7 @@ class FOVManager
     static bool save();
 
   private:
-    FOVManager();
+    FOVManager() = default;
     ~FOVManager();
 
     /** @short Fill list with default FOVs*/

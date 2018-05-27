@@ -16,17 +16,14 @@
  ***************************************************************************/
 
 #include "fovwidget.h"
-#include "dialogs/fovdialog.h"
-#include "fov.h"
 
-#include <QPaintEvent>
+#include "fov.h"
+#include "dialogs/fovdialog.h"
+
 #include <QPainter>
+#include <QPaintEvent>
 
 FOVWidget::FOVWidget(QWidget *parent) : QFrame(parent), m_FOV(nullptr)
-{
-}
-
-FOVWidget::~FOVWidget()
 {
 }
 

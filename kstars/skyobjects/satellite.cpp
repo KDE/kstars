@@ -109,10 +109,6 @@ Satellite *Satellite::clone() const
     return new Satellite(*this);
 }
 
-Satellite::~Satellite()
-{
-}
-
 void Satellite::init()
 {
     double ao, cosio, sinio, cosio2, omeosq, posq, rp, rteosq, eccsq, con42, cnodm, snodm, cosim, sinim, cosomm, sinomm,

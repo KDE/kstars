@@ -17,10 +17,6 @@
 #include "skypainter.h"
 #include "projections/projector.h"
 
-ArtificialHorizonEntity::ArtificialHorizonEntity()
-{
-}
-
 ArtificialHorizonEntity::~ArtificialHorizonEntity()
 {
     clearList();

@@ -1,8 +1,9 @@
-#ifndef OPSASTROMETRYCFG_H
-#define OPSASTROMETRYCFG_H
+
+#pragma once
+
+#include "ui_opsastrometrycfg.h"
 
 #include <QDialog>
-#include "ui_opsastrometrycfg.h"
 
 class KConfigDialog;
 
@@ -16,7 +17,7 @@ class OpsAstrometryCfg : public QDialog, public Ui::OpsAstrometryCfg
 
   public:
     explicit OpsAstrometryCfg(Align *parent);
-    ~OpsAstrometryCfg();
+    virtual ~OpsAstrometryCfg() override = default;
 
   private slots:
     void slotLoadCFG();
@@ -24,10 +25,8 @@ class OpsAstrometryCfg : public QDialog, public Ui::OpsAstrometryCfg
     void slotCFGEditorUpdated();
 
   private:
-    KConfigDialog *m_ConfigDialog;
-    Align *alignModule;
+    KConfigDialog *m_ConfigDialog { nullptr };
+    Align *alignModule { nullptr };
     QString currentCFGText;
 };
 }
-
-#endif // OPSASTROMETRYCFG_H

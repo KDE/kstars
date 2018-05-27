@@ -70,11 +70,12 @@ class Projector
   public:
     /**
      * Constructor.
+     *
      * @param p the ViewParams for this projection
      */
     explicit Projector(const ViewParams &p);
 
-    virtual ~Projector();
+    virtual ~Projector() = default;
 
     /** Update cached values for projector */
     void setViewParams(const ViewParams &p);
