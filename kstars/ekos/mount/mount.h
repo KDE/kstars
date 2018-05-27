@@ -128,6 +128,12 @@ class Mount : public QWidget, public Ui::Mount
          */
     Q_INVOKABLE Q_SCRIPTABLE IPState getSlewStatus();
 
+
+    /** DBUS interface function.
+         * Get the mount slew rate index 0 to N-1, or -1 if slew rates are not supported.
+         */
+    Q_INVOKABLE Q_SCRIPTABLE int getSlewRate();
+
     /** DBUS interface function.
          * Get telescope and guide scope info. An array of doubles is returned in order.
          * Primary Telescope Focal Length (mm), Primary Telescope Aperture (mm), Guide Telescope Focal Length (mm), Guide Telescope Aperture (mm)
@@ -259,8 +265,9 @@ class Mount : public QWidget, public Ui::Mount
   signals:
     void newLog();
     void newCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
-    void newTarget(const QString &name);
+    void newTarget(const QString &name);    
     void newStatus(ISD::Telescope::TelescopeStatus status);
+    void slewRateChanged(int index);
 
   private:
     void syncGPS();

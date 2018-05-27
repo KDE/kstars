@@ -111,6 +111,7 @@ class Telescope : public DeviceDecorator
     // Slew Rates
     bool hasSlewRates() { return m_hasSlewRates; }
     QStringList slewRates() { return m_slewRates; }
+    int getSlewRate() const;
 
   protected:
     bool sendCoords(SkyPoint *ScopeTarget);
@@ -127,6 +128,7 @@ class Telescope : public DeviceDecorator
 
   signals:
     void newTarget(const QString &);
+    void slewRateChanged(int rate);
 
   private:
     SkyPoint currentCoord;
