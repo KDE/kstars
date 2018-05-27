@@ -1958,6 +1958,11 @@ void EkosManager::initMount()
     connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this,
             SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
     connect(mountProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
+    connect(mountProcess.get(), &Ekos::Mount::slewRateChanged, [&](int slewRate) {
+        QJsonObject status = { { "slewRate", slewRate} };
+        ekosLiveClient.get()->updateMountStatus(status);
+    }
+    );
 
     if (managedDevices.contains(KSTARS_GPS))
         mountProcess->setGPS(managedDevices[KSTARS_GPS]);

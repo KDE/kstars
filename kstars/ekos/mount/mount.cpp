@@ -165,6 +165,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     connect(currentTelescope, SIGNAL(textUpdated(ITextVectorProperty*)), this,
             SLOT(updateText(ITextVectorProperty*)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(newTarget(QString)), this, SIGNAL(newTarget(QString)), Qt::UniqueConnection);
+    connect(currentTelescope, &ISD::Telescope::slewRateChanged, this, &Mount::slewRateChanged);
     connect(currentTelescope, &ISD::Telescope::Disconnected, [this]()
     {
         updateTimer.stop();
@@ -1023,6 +1024,14 @@ void Mount::setTrackEnabled(bool enabled)
         trackOnB->click();
     else
         trackOffB->click();
+}
+
+int Mount::getSlewRate()
+{
+    if (currentTelescope == nullptr)
+        return -1;
+
+    return currentTelescope->getSlewRate();
 }
 
 }

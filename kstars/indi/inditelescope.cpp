@@ -903,7 +903,19 @@ bool Telescope::setSlewRate(int index)
 
     clientManager->sendNewSwitch(slewRateSP);
 
+    emit slewRateChanged(index);
+
     return true;
+}
+
+int Telescope::getSlewRate() const
+{
+    ISwitchVectorProperty *slewRateSP = baseDevice->getSwitch("TELESCOPE_SLEW_RATE");
+
+    if (slewRateSP == nullptr)
+        return -1;
+
+    return IUFindOnSwitchIndex(slewRateSP);
 }
 
 void Telescope::setAltLimits(double minAltitude, double maxAltitude)

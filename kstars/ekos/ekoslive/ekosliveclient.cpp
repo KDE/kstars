@@ -449,7 +449,12 @@ void EkosLiveClient::sendStates()
     QJsonObject captureState = {{ "status", m_Manager->captureStatus->text()}};
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CAPTURE_STATE], captureState);
 
-    QJsonObject mountState = {{ "status", m_Manager->mountStatus->text()},{"target", m_Manager->mountTarget->text()}};
+    QJsonObject mountState = {
+        {"status", m_Manager->mountStatus->text()},
+        {"target", m_Manager->mountTarget->text()},
+        {"slewRate", m_Manager->mountProcess.get()->getSlewRate()}
+    };
+
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], mountState);
 
     QJsonObject focusState = {{ "status", m_Manager->focusStatus->text()}};
@@ -517,13 +522,23 @@ void EkosLiveClient::sendMounts()
              {"canSync", oneTelescope->canSync()},
              {"canControlTrack", oneTelescope->canControlTrack()},
              {"hasSlewRates", oneTelescope->hasSlewRates()},
-             {"slewRates", QJsonArray::fromStringList(oneTelescope->slewRates())}
+             {"slewRates", QJsonArray::fromStringList(oneTelescope->slewRates())},
         };
 
         mountList.append(oneMount);
     }
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_MOUNTS], mountList);
+
+    // Also send initial slew rate
+    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_TELESCOPE))
+    {
+        ISD::Telescope *oneTelescope = dynamic_cast<ISD::Telescope*>(gd);
+
+        QJsonObject slewRate = {{"slewRate", oneTelescope->getSlewRate() }};
+
+        sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], slewRate);
+    }
 }
 
 void EkosLiveClient::sendTemperature(double value)
@@ -623,6 +638,8 @@ void EkosLiveClient::processMountCommands(const QString &command, const QJsonObj
         mount->park();
     else if (command == commands[MOUNT_UNPARK])
         mount->unpark();
+    else if (command == commands[MOUNT_SET_TRACKING])
+        mount->setTrackEnabled(mountCommand["enabled"].toBool());
     else if (command == commands[MOUNT_SYNC_RADE])
     {
         dms ra = dms::fromString(mountCommand["ra"].toString(), false);
