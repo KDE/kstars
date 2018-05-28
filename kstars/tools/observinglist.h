@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include "ksalmanac.h"
 #include "kstarsdatetime.h"
 #include "ui_observinglist.h"
 
@@ -36,7 +37,6 @@ class QStandardItemModel;
 class QTimer;
 
 class GeoLocation;
-class KSAlmanac;
 class KSDssDownloader;
 class KStars;
 class KStarsDateTime;
@@ -49,8 +49,6 @@ class ObservingListUI : public QFrame, public Ui::ObservingList
     Q_OBJECT
 
   public:
-    /** @short Cunstructor
-            */
     explicit ObservingListUI(QWidget *parent);
 };
 
@@ -89,12 +87,8 @@ class ObservingList : public QDialog
     Q_OBJECT
 
   public:
-    /** @short Constructor
-            */
     ObservingList();
-    /** @short Destuctor (empty)
-            */
-    ~ObservingList() override;
+    virtual ~ObservingList() override = default;
 
     /** @return reference to the current observing list
             */

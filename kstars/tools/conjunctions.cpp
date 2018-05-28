@@ -127,10 +127,6 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     show();
 }
 
-ConjunctionsTool::~ConjunctionsTool()
-{
-}
-
 void ConjunctionsTool::slotGoto()
 {
     int index      = m_SortModel->mapToSource(OutputList->currentIndex()).row(); // Get the number of the line

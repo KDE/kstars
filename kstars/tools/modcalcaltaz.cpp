@@ -17,20 +17,20 @@
 
 #include "modcalcaltaz.h"
 
-#include <QTextStream>
-#include <QFileDialog>
-
-#include <KLocalizedString>
-#include <KMessageBox>
-
-#include "skyobjects/skypoint.h"
 #include "geolocation.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
-#include "widgets/dmsbox.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/locationdialog.h"
+#include "skyobjects/skypoint.h"
+#include "widgets/dmsbox.h"
+
+#include <KLocalizedString>
+#include <KMessageBox>
+
+#include <QTextStream>
+#include <QFileDialog>
 
 modCalcAltAz::modCalcAltAz(QWidget *parentSplit) : QFrame(parentSplit)
 {
@@ -57,10 +57,6 @@ modCalcAltAz::modCalcAltAz(QWidget *parentSplit) : QFrame(parentSplit)
     connect(Alt, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
 
     show();
-}
-
-modCalcAltAz::~modCalcAltAz()
-{
 }
 
 void modCalcAltAz::slotNow()

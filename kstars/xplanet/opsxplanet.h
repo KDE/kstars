@@ -14,8 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OPSXPLANET_H_
-#define OPSXPLANET_H_
+#pragma once
 
 #include "ui_opsxplanet.h"
 
@@ -27,10 +26,10 @@ class OpsXplanet : public QFrame, public Ui::OpsXplanet
 
   public:
     explicit OpsXplanet(KStars *_ks);
-    ~OpsXplanet() override;
+    virtual ~OpsXplanet() override = default;
 
   private:
-    KStars *ksw;
+    KStars *ksw { nullptr };
 
   private slots:
     void slotUpdateWidgets(bool on);
@@ -44,5 +43,3 @@ class OpsXplanet : public QFrame, public Ui::OpsXplanet
     void slotBackgroundWidgets(bool on);
     void toggleXPlanetInternal();
 };
-
-#endif // OPSGUIDES_H_

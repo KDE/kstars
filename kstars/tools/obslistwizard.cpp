@@ -95,10 +95,6 @@ ObsListWizard::ObsListWizard(QWidget *ksparent) : QDialog(ksparent)
     initialize();
 }
 
-ObsListWizard::~ObsListWizard()
-{
-}
-
 void ObsListWizard::initialize()
 {
     KStarsData *data = KStarsData::Instance();

@@ -29,7 +29,7 @@ class Telescope : public DeviceDecorator
 
   public:
     explicit Telescope(GDInterface *iPtr);
-    ~Telescope();
+    virtual ~Telescope() override = default;
 
     typedef enum { MOTION_NORTH, MOTION_SOUTH } TelescopeMotionNS;
     typedef enum { MOTION_WEST, MOTION_EAST } TelescopeMotionWE;
@@ -46,12 +46,12 @@ class Telescope : public DeviceDecorator
     typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNPARKED } ParkStatus;
     typedef enum { PARK_OPTION_CURRENT, PARK_OPTION_DEFAULT, PARK_OPTION_WRITE_DATA } ParkOptionCommand;
 
-    void registerProperty(INDI::Property *prop);
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty *tvp);
-    void processNumber(INumberVectorProperty *nvp);
+    void registerProperty(INDI::Property *prop) override;
+    void processSwitch(ISwitchVectorProperty *svp) override;
+    void processText(ITextVectorProperty *tvp) override;
+    void processNumber(INumberVectorProperty *nvp) override;
 
-    DeviceFamily getType() { return dType; }
+    DeviceFamily getType() override { return dType; }
 
     // Coordinates
     bool getEqCoords(double *ra, double *dec);
@@ -66,7 +66,7 @@ class Telescope : public DeviceDecorator
     bool canSync();
 
     // Tracking
-    bool canControlTrack() const { return m_canControlTrack; }    
+    bool canControlTrack() const { return m_canControlTrack; }
     bool isTracking();
 
     // Track Mode
@@ -112,7 +112,7 @@ class Telescope : public DeviceDecorator
     bool sendCoords(SkyPoint *ScopeTarget);
 
   public slots:
-    virtual bool runCommand(int command, void *ptr = nullptr);
+    virtual bool runCommand(int command, void *ptr = nullptr) override;
     bool Abort();
     bool Park();
     bool UnPark();

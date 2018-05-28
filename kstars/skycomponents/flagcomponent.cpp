@@ -60,10 +60,6 @@ FlagComponent::FlagComponent(SkyComposite *parent) : PointListComponent(parent)
     loadFromFile();
 }
 
-FlagComponent::~FlagComponent()
-{
-}
-
 void FlagComponent::draw(SkyPainter *skyp)
 {
     // Return if flags must not be draw

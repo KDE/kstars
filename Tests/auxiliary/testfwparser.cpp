@@ -70,10 +70,6 @@ void TestFWParser::initTestCase()
     test_parser_ = new KSParser(test_file_name_, '#', sequence_, widths_);
 }
 
-TestFWParser::~TestFWParser()
-{
-}
-
 void TestFWParser::cleanupTestCase()
 {
     delete test_parser_;

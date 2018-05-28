@@ -74,7 +74,7 @@ class KSAsteroid : public KSPlanetBase
     static const SkyObject::TYPE TYPE = SkyObject::ASTEROID;
 
     /** Destructor (empty)*/
-    ~KSAsteroid() override {}
+    ~KSAsteroid() override = default;
 
     /** This is inherited from KSPlanetBase.  We don't use it in this class,
         	*so it is empty.

@@ -32,8 +32,8 @@ class GuideInterface : public QObject
     Q_OBJECT
 
   public:
-    GuideInterface();
-    virtual ~GuideInterface() {}
+    GuideInterface() = default;
+    virtual ~GuideInterface() override = default;
 
     virtual bool Connect()     = 0;
     virtual bool Disconnect()  = 0;

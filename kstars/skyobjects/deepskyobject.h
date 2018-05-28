@@ -79,7 +79,7 @@ class DeepSkyObject : public SkyObject
     SkyObject::UID getUID() const override;
 
     /** *Destructor */
-    ~DeepSkyObject() override {}
+    ~DeepSkyObject() override = default;
 
     /**
           *@enum CATALOG

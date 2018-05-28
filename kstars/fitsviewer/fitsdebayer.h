@@ -30,7 +30,7 @@ class FITSDebayer : public QDialog
   public:
     explicit FITSDebayer(FITSViewer *parent);
 
-    ~FITSDebayer();
+    virtual ~FITSDebayer() override = default;
 
     void setBayerParams(BayerParams *param);
 

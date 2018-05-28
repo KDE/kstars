@@ -15,12 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCVLSR_H_
-#define MODCALCVLSR_H_
-
-#include <QTextStream>
+#pragma once
 
 #include "ui_modcalcvlsr.h"
+
+#include <QTextStream>
 
 class QWidget;
 class SkyPoint;
@@ -28,18 +27,19 @@ class GeoLocation;
 class dms;
 
 /**
-  *@author Pablo de Vicente
-  *Module to compute the heliocentric radial velocity, geocentric radial velocity and
-  *topocentric radial velocity for a source, given its coordinates, its Vlsr and the date and
-  *location on the Earth.
-  */
+ * Module to compute the heliocentric radial velocity, geocentric radial velocity and
+ * topocentric radial velocity for a source, given its coordinates, its Vlsr and the date and
+ * location on the Earth.
+ *
+ * @author Pablo de Vicente
+ */
 class modCalcVlsr : public QFrame, public Ui::modCalcVlsrDlg
 {
     Q_OBJECT
 
   public:
     explicit modCalcVlsr(QWidget *p);
-    ~modCalcVlsr() override;
+    virtual ~modCalcVlsr() override = default;
 
   private slots:
     void slotNow();
@@ -61,21 +61,20 @@ class modCalcVlsr : public QFrame, public Ui::modCalcVlsrDlg
     void slotRunBatch();
 
   private:
-    /** @returns a SkyPoint constructed from the coordinates in the
-         * RA and Dec dmsBoxes. */
+    /**
+     * @returns a SkyPoint constructed from the coordinates in the
+     * RA and Dec dmsBoxes. */
     SkyPoint skypoint();
 
-    /* Constructs the a GeoLocation object (geoPlace) from the calling classes.
-         * This is for using as Geolocation the location setup in KStars
-         * */
+    /**
+     * Constructs the a GeoLocation object (geoPlace) from the calling classes.
+     * This is for using as Geolocation the location setup in KStars
+     */
     void initGeo(void);
 
-    /* Method to process the lines from a file
-         */
+    /** Method to process the lines from a file */
     void processLines(QTextStream &istream);
 
-    GeoLocation *geoPlace;
-    int velocityFlag;
+    GeoLocation *geoPlace { nullptr };
+    int velocityFlag { 0 };
 };
-
-#endif

@@ -17,10 +17,6 @@
 
 #include <QTableWidgetItem>
 
-SchedulerJob::SchedulerJob()
-{
-}
-
 void SchedulerJob::setName(const QString &value)
 {
     name = value;

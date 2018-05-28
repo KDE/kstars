@@ -44,10 +44,6 @@ ThumbImage::ThumbImage(QWidget *parent, const char *name) : QLabel(parent)
     Image    = new QPixmap();
 }
 
-ThumbImage::~ThumbImage()
-{
-}
-
 void ThumbImage::paintEvent(QPaintEvent *)
 {
     QPainter p;

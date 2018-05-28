@@ -38,8 +38,10 @@ class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
 
 /**
  * @class OpsSatellites
+ *
  * The Satellites Tab of the Options window.  In this Tab the user can configure
  * satellites options and select satellites that should be draw
+ *
  * @author Jérôme SONRIER
  * @version 1.0
  */
@@ -51,8 +53,7 @@ class OpsSatellites : public QFrame, public Ui::OpsSatellites
     /** Constructor */
     OpsSatellites();
 
-    /** Destructor */
-    ~OpsSatellites() override;
+    virtual ~OpsSatellites() override = default;
 
   private:
     /** Refresh satellites list */
@@ -63,11 +64,6 @@ class OpsSatellites : public QFrame, public Ui::OpsSatellites
      */
     void saveSatellitesList();
 
-    KConfigDialog *m_ConfigDialog;
-    QStandardItemModel *m_Model;
-    QSortFilterProxyModel *m_SortModel;
-    bool isDirty = false;
-
   private slots:
     void slotUpdateTLEs();
     void slotShowSatellites(bool on);
@@ -75,4 +71,10 @@ class OpsSatellites : public QFrame, public Ui::OpsSatellites
     void slotCancel();
     void slotFilterReg(const QString &);
     void slotItemChanged(QStandardItem *);
+
+private:
+  KConfigDialog *m_ConfigDialog { nullptr };
+  QStandardItemModel *m_Model { nullptr };
+  QSortFilterProxyModel *m_SortModel { nullptr };
+  bool isDirty { false };
 };

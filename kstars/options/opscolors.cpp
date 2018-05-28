@@ -17,35 +17,32 @@
 
 #include "opscolors.h"
 
-#include <config-kstars.h>
-
-#include <QFile>
-#include <QPixmap>
-#include <QTextStream>
-#include <QDoubleSpinBox>
-#include <QComboBox>
-#include <QPushButton>
-#include <QStandardPaths>
-#include <QColorDialog>
-#include <QInputDialog>
+#include "colorscheme.h"
+#include "config-kstars.h"
+#include "kspaths.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "skymap.h"
 #include "thememanager.h"
+#ifdef HAVE_CFITSIO
+#include "fitsviewer/fitsviewer.h"
+#include "fitsviewer/fitsview.h"
+#endif
+#include "skyobjects/starobject.h"
 
 #include <KActionCollection>
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include "kspaths.h"
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "skymap.h"
-#include "colorscheme.h"
-
-#ifdef HAVE_CFITSIO
-#include "fitsviewer/fitsviewer.h"
-#include "fitsviewer/fitsview.h"
-#endif
-
-#include "skyobjects/starobject.h"
+#include <QColorDialog>
+#include <QComboBox>
+#include <QDoubleSpinBox>
+#include <QFile>
+#include <QInputDialog>
+#include <QPixmap>
+#include <QPushButton>
+#include <QStandardPaths>
+#include <QTextStream>
 
 static int ItemColorData = Qt::UserRole + 1;
 
@@ -119,11 +116,6 @@ OpsColors::OpsColors() : QFrame(KStars::Instance())
 
     RemovePreset->setEnabled(false);
     SavePreset->setEnabled(false);
-}
-
-//empty destructor
-OpsColors::~OpsColors()
-{
 }
 
 void OpsColors::slotChangeTheme(QListWidgetItem *item)

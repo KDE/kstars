@@ -20,6 +20,7 @@
 
 #include "kspaths.h"
 #include "kstars.h"
+#include "kstars_debug.h"
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skymap.h"
@@ -37,8 +38,6 @@
 
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
-
-#include "kstars_debug.h"
 
 FlagManagerUI::FlagManagerUI(QWidget *p) : QFrame(p)
 {
@@ -122,10 +121,6 @@ FlagManager::FlagManager(QWidget *ks) : QDialog(ks)
     connect(ui->flagList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotCenterFlag()));
 
     connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(slotSaveChanges()));
-}
-
-FlagManager::~FlagManager()
-{
 }
 
 void FlagManager::setRaDec(const dms &ra, const dms &dec)

@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef HORIZONCOMPONENT_H
-#define HORIZONCOMPONENT_H
+#pragma once
 
 #include "pointlistcomponent.h"
 
@@ -25,31 +24,31 @@ class SkyMap;
 class KSNumbers;
 
 /**
-	*@class HorizonComponent
-	*Represents the horizon on the sky map.
-
-	*@author Thomas Kabelmann
-	*@version 0.1
-	*/
+ * @class HorizonComponent
+ *
+ * Represents the horizon on the sky map.
+ *
+ * @author Thomas Kabelmann
+ * @version 0.1
+ */
 class HorizonComponent : public PointListComponent
 {
   public:
     /**
-         *@short Constructor
-         *@p parent Pointer to the parent SkyComposite object
-         */
+     * @short Constructor
+     *
+     * @p parent Pointer to the parent SkyComposite object
+     */
     explicit HorizonComponent(SkyComposite *parent);
 
-    /**
-         *@short Destructor
-         */
-    ~HorizonComponent() override;
+    virtual ~HorizonComponent() override = default;
 
     /**
-         *@short Draw the Horizon on the Sky map
-         *@p map Pointer to the SkyMap object
-         *@p psky Reference to the QPainter on which to paint
-         */
+     * @short Draw the Horizon on the Sky map
+     *
+     * @p map Pointer to the SkyMap object
+     * @p psky Reference to the QPainter on which to paint
+     */
     void draw(SkyPainter *skyp) override;
 
     void update(KSNumbers *) override;
@@ -59,5 +58,3 @@ class HorizonComponent : public PointListComponent
   private:
     void drawCompassLabels();
 };
-
-#endif

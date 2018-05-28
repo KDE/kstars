@@ -24,10 +24,6 @@ PointListComponent::PointListComponent(SkyComposite *parent) : SkyComponent(pare
 {
 }
 
-PointListComponent::~PointListComponent()
-{
-}
-
 void PointListComponent::update(KSNumbers *num)
 {
     if (!selected())

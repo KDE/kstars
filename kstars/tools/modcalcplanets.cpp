@@ -53,10 +53,6 @@ modCalcPlanets::modCalcPlanets(QWidget *parentSplit) : QFrame(parentSplit)
     show();
 }
 
-modCalcPlanets::~modCalcPlanets()
-{
-}
-
 void modCalcPlanets::slotLocation()
 {
     QPointer<LocationDialog> ld = new LocationDialog(this);

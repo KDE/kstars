@@ -47,7 +47,7 @@ struct Peak
     int y;
     float val;
 
-    Peak() { }
+    Peak() = default;
     Peak(int x_, int y_, float val_) : x(x_), y(y_), val(val_) { }
     bool operator<(const Peak& rhs) const { return val < rhs.val; }
 };

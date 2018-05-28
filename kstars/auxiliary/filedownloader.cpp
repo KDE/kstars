@@ -31,10 +31,6 @@ FileDownloader::FileDownloader(QObject *parent) : QObject(parent)
     registerFileVerification([](const QString &) { return true;});
 }
 
-FileDownloader::~FileDownloader()
-{
-}
-
 void FileDownloader::get(const QUrl &fileUrl)
 {
     QNetworkRequest request(fileUrl);

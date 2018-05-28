@@ -28,7 +28,7 @@ class VideoWG : public QLabel
 
   public:
     explicit VideoWG(QWidget *parent = nullptr);
-    ~VideoWG();
+    virtual ~VideoWG() override = default;
 
     bool newFrame(IBLOB *bp);
 
@@ -37,10 +37,10 @@ class VideoWG : public QLabel
     void setSize(uint16_t w, uint16_t h);
 
   protected:
-    virtual void resizeEvent(QResizeEvent *ev);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *);
+    virtual void resizeEvent(QResizeEvent *ev) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
 
   signals:
     void newSelection(QRect);

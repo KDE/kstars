@@ -55,17 +55,16 @@ class KSNumbers
 {
   public:
     /**
-         * Constructor.
-         *@param jd  Julian Day for which the new instance is initialized
-         */
+     * Constructor.
+     * @param jd  Julian Day for which the new instance is initialized
+     */
     explicit KSNumbers(long double jd);
+    ~KSNumbers() = default;
 
-    /**Destructor (empty). */
-    ~KSNumbers();
-
-    /** @return the current Obliquity (the angle of inclination between
-        	*the celestial equator and the ecliptic)
-        	*/
+    /**
+     * @return the current Obliquity (the angle of inclination between
+     * the celestial equator and the ecliptic)
+     */
     inline const CachingDms *obliquity() const { return &Obliquity; }
 
     /** @return the constant of aberration (20.49 arcsec). */
@@ -125,18 +124,19 @@ class KSNumbers
     inline const Eigen::Matrix3d &p2b() const { return P2B; }
 
     /**
-         *@short compute constant values that need to be computed only once per instance of the application
-         */
+     * @short compute constant values that need to be computed only once per instance of the application
+     */
     void computeConstantValues();
 
-    /** @short update all values for the date given as an argument.
-        	*@param jd the Julian date for which to compute values
-        	*/
+    /**
+     * @short update all values for the date given as an argument.
+     * @param jd the Julian date for which to compute values
+     */
     void updateValues(long double jd);
 
     /**
-         *@return the JD for which these values hold (i.e. the last updated JD)
-         */
+     * @return the JD for which these values hold (i.e. the last updated JD)
+     */
     inline long double getJD() const { return days; }
 
     inline double vEarth(int i) const { return vearth[i]; }

@@ -16,11 +16,10 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
 {
     setupUi(this);
 
-    downloadSpeed=100;
-    actualdownloadSpeed=downloadSpeed;
-
-    alignModule = parent;
-    manager     = new QNetworkAccessManager();
+    downloadSpeed       = 100;
+    actualdownloadSpeed = downloadSpeed;
+    alignModule         = parent;
+    manager             = new QNetworkAccessManager();
 
     //Get a pointer to the KConfigDialog
     // m_ConfigDialog = KConfigDialog::exists( "alignsettings" );
@@ -78,10 +77,6 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
     }
 
 
-}
-
-OpsAstrometryIndexFiles::~OpsAstrometryIndexFiles()
-{
 }
 
 void OpsAstrometryIndexFiles::showEvent(QShowEvent *)

@@ -103,10 +103,6 @@ static double fmodulo(double v1, double v2)
 }
 
 
-HEALPix::HEALPix()
-{
-}
-
 void HEALPix::getCornerPoints(int level, int pix, SkyPoint *skyCoords)
 {
   QVector3D v[4];

@@ -7,22 +7,24 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <QPushButton>
-#include <QFileDialog>
-#include <QCheckBox>
-#include <QStringList>
-#include <QComboBox>
 
-#include <KConfigDialog>
-
-#include "Options.h"
 #include "opships.h"
+
 #include "kstars.h"
+#include "hipsmanager.h"
+#include "Options.h"
+#include "skymap.h"
 #include "auxiliary/ksnotification.h"
 #include "auxiliary/filedownloader.h"
 #include "auxiliary/kspaths.h"
-#include "skymap.h"
-#include "hipsmanager.h"
+
+#include <KConfigDialog>
+
+#include <QCheckBox>
+#include <QComboBox>
+#include <QFileDialog>
+#include <QPushButton>
+#include <QStringList>
 
 static const QStringList hipsKeys = { "ID", "obs_title", "obs_description", "hips_order", "hips_frame", "hips_tile_width", "hips_tile_format", "hips_service_url", "moc_sky_fraction"};
 
@@ -54,10 +56,6 @@ OpsHIPS::OpsHIPS() : QFrame(KStars::Instance())
 
     if (sourcesList->count() == 0)
         slotRefresh();
-}
-
-OpsHIPS::~OpsHIPS()
-{
 }
 
 void OpsHIPS::slotRefresh()

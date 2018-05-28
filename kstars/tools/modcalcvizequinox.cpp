@@ -54,10 +54,6 @@ modCalcEquinox::modCalcEquinox(QWidget *parentSplit) : QFrame(parentSplit), dSpr
     show();
 }
 
-modCalcEquinox::~modCalcEquinox()
-{
-}
-
 double modCalcEquinox::dmonth(int i)
 {
     Q_ASSERT(i >= 0 && i < 12 && "Month must be in 0 .. 11 range");
