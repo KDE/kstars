@@ -86,6 +86,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     Ekos::Align *alignModule() { return alignProcess.get(); }
     Ekos::Mount *mountModule() { return mountProcess.get(); }
     Ekos::Focus *focusModule() { return focusProcess.get(); }
+    Ekos::Capture *captureModule() { return captureProcess.get(); }
     FITSView *getSummaryPreview() { return summaryPreview.get(); }
     QString getCurrentJobName();
     void announceEvent(const QString &message, KSNotification::EventType event);

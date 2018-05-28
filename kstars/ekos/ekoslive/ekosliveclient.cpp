@@ -47,6 +47,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {NEW_GUIDE_STATE, "new_guide_state"},
     {NEW_FOCUS_STATE, "new_focus_state"},
     {NEW_PREVIEW_IMAGE, "new_preview_image"},
+    {NEW_VIDEO_FRAME, "new_video_frame"},
     {NEW_NOTIFICATION, "new_notification"},
     {NEW_TEMPERATURE, "new_temperature"},
 
@@ -69,6 +70,10 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
 
     {FOCUS_START, "focus_start"},
     {FOCUS_STOP, "focus_stop"},
+
+    {GUIDE_START, "guide_start"},
+    {GUIDE_STOP, "guide_stop"},
+    {GUIDE_CLEAR, "guide_clear"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -254,21 +259,15 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
     else if (command == commands[GET_MOUNTS])
         sendMounts();
     else if (command == commands[GET_FILTER_WHEELS])
-        sendFilterWheels();
-    else if (command == commands[CAPTURE_PREVIEW])
-    {
-        capturePreview(serverMessage.object().value("payload").toObject());
-    }
-    else if (command == commands[CAPTURE_TOGGLE_VIDEO])
-    {
-        toggleVideo(serverMessage.object().value("payload").toObject().value("enabled").toBool());
-    }
-    else if (command == commands[CAPTURE_START])
-        startSequence();
-    else if (command == commands[CAPTURE_STOP])
-        stopSequence();
+        sendFilterWheels();    
+    else if (command.startsWith("capture_"))
+        processCaptureCommands(command, serverMessage.object().value("payload").toObject());
     else if (command.startsWith("mount_"))
         processMountCommands(command, serverMessage.object().value("payload").toObject());
+    else if (command.startsWith("focus_"))
+        processFocusCommands(command, serverMessage.object().value("payload").toObject());
+    else if (command.startsWith("guide_"))
+        processGuideCommands(command, serverMessage.object().value("payload").toObject());
 }
 
 void EkosLiveClient::onBinaryMessageReceived(const QByteArray &message)
@@ -400,7 +399,7 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
         {"data", QString(jpegData.toBase64()) }
     };
 
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_VIDEO_FRAME], image);
 }
 
 void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
@@ -616,19 +615,37 @@ void EkosLiveClient::capturePreview(const QJsonObject &settings)
     m_Manager->captureProcess.get()->captureOne();
 }
 
-void EkosLiveClient::toggleVideo(bool enabled)
+void EkosLiveClient::processCaptureCommands(const QString &command, const QJsonObject &payload)
 {
-    m_Manager->captureProcess.get()->toggleVideo(enabled);
+    Ekos::Capture *capture = m_Manager->captureModule();
+
+    if (command == commands[CAPTURE_PREVIEW])
+    {
+        capturePreview(payload);
+    }
+    else if (command == commands[CAPTURE_TOGGLE_VIDEO])
+    {
+        capture->toggleVideo(payload["enabled"].toBool());
+    }
+    else if (command == commands[CAPTURE_START])
+        capture->start();
+    else if (command == commands[CAPTURE_STOP])
+        capture->stop();
 }
 
-void EkosLiveClient::startSequence()
+void EkosLiveClient::processGuideCommands(const QString &command, const QJsonObject &payload)
 {
-    m_Manager->captureProcess.get()->start();
-}
+    Ekos::Guide *guide = m_Manager->guideModule();
+    Q_UNUSED(payload);
 
-void EkosLiveClient::stopSequence()
-{
-    m_Manager->captureProcess.get()->stop();
+    if (command == commands[GUIDE_START])
+    {
+        guide->guide();
+    }
+    else if (command == commands[GUIDE_STOP])
+        guide->abort();
+    else if (command == commands[GUIDE_CLEAR])
+        guide->clearCalibration();
 }
 
 void EkosLiveClient::processFocusCommands(const QString &command, const QJsonObject &payload)
@@ -642,7 +659,7 @@ void EkosLiveClient::processFocusCommands(const QString &command, const QJsonObj
         focus->abort();
 }
 
-void EkosLiveClient::processMountCommands(const QString &command, const QJsonObject &mountCommand)
+void EkosLiveClient::processMountCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Mount *mount = m_Manager->mountModule();
 
@@ -653,35 +670,35 @@ void EkosLiveClient::processMountCommands(const QString &command, const QJsonObj
     else if (command == commands[MOUNT_UNPARK])
         mount->unpark();
     else if (command == commands[MOUNT_SET_TRACKING])
-        mount->setTrackEnabled(mountCommand["enabled"].toBool());
+        mount->setTrackEnabled(payload["enabled"].toBool());
     else if (command == commands[MOUNT_SYNC_RADE])
     {
-        mount->setJ2000Enabled(mountCommand["isJ2000"].toBool());
-        mount->sync(mountCommand["ra"].toString(), mountCommand["de"].toString());
+        mount->setJ2000Enabled(payload["isJ2000"].toBool());
+        mount->sync(payload["ra"].toString(), payload["de"].toString());
     }
     else if (command == commands[MOUNT_SYNC_TARGET])
     {
-        mount->syncTarget(mountCommand["target"].toString());
+        mount->syncTarget(payload["target"].toString());
     }
     else if (command == commands[MOUNT_GOTO_RADE])
     {
-        mount->setJ2000Enabled(mountCommand["isJ2000"].toBool());
-        mount->slew(mountCommand["ra"].toString(), mountCommand["de"].toString());
+        mount->setJ2000Enabled(payload["isJ2000"].toBool());
+        mount->slew(payload["ra"].toString(), payload["de"].toString());
     }
     else if (command == commands[MOUNT_GOTO_TARGET])
     {
-        mount->gotoTarget(mountCommand["target"].toString());
+        mount->gotoTarget(payload["target"].toString());
     }
     else if (command == commands[MOUNT_SET_SLEW_RATE])
     {
-        int rate = mountCommand["rate"].toInt(-1);
+        int rate = payload["rate"].toInt(-1);
         if (rate >= 0)
             mount->setSlewRate(rate);
     }
     else if (command == commands[MOUNT_SET_MOTION])
     {
-        QString direction = mountCommand["direction"].toString();
-        ISD::Telescope::TelescopeMotionCommand action = mountCommand["action"].toBool(false) ?
+        QString direction = payload["direction"].toString();
+        ISD::Telescope::TelescopeMotionCommand action = payload["action"].toBool(false) ?
                     ISD::Telescope::MOTION_START : ISD::Telescope::MOTION_STOP;
 
         if (direction == "N")
