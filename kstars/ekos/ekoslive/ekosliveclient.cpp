@@ -16,7 +16,6 @@
 #include "ekos/mount/mount.h"
 #include "profileinfo.h"
 #include "kspaths.h"
-#include "skymapcomposite.h"
 #include "kstarsdata.h"
 #include "filedownloader.h"
 #include "fitsviewer/fitsview.h"
@@ -56,7 +55,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {CAPTURE_START, "capture_start"},
     {CAPTURE_STOP, "capture_stop"},
 
-    {MOUNT_PARK, "mount_park}"},
+    {MOUNT_PARK, "mount_park"},
     {MOUNT_UNPARK, "mount_unpark"},
     {MOUNT_ABORT, "mount_abort"},
     {MOUNT_SYNC_RADE, "mount_sync_rade"},
@@ -642,33 +641,21 @@ void EkosLiveClient::processMountCommands(const QString &command, const QJsonObj
         mount->setTrackEnabled(mountCommand["enabled"].toBool());
     else if (command == commands[MOUNT_SYNC_RADE])
     {
-        dms ra = dms::fromString(mountCommand["ra"].toString(), false);
-        dms de = dms::fromString(mountCommand["de"].toString(), true);
-
-        mount->sync(ra.Hours(), de.Degrees());
+        mount->setJ2000Enabled(mountCommand["isJ2000"].toBool());
+        mount->sync(mountCommand["ra"].toString(), mountCommand["de"].toString());
     }
     else if (command == commands[MOUNT_SYNC_TARGET])
     {
-        QString target = mountCommand["target"].toString();
-        SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
-
-        if (object != nullptr)
-            mount->sync(object->ra().Hours(), object->dec().Degrees());
+        mount->syncTarget(mountCommand["target"].toString());
     }
     else if (command == commands[MOUNT_GOTO_RADE])
     {
-        dms ra = dms::fromString(mountCommand["ra"].toString(), false);
-        dms de = dms::fromString(mountCommand["de"].toString(), true);
-
-        mount->slew(ra.Hours(), de.Degrees());
+        mount->setJ2000Enabled(mountCommand["isJ2000"].toBool());
+        mount->slew(mountCommand["ra"].toString(), mountCommand["de"].toString());
     }
     else if (command == commands[MOUNT_GOTO_TARGET])
     {
-        QString target = mountCommand["target"].toString();
-        SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
-
-        if (object != nullptr)
-            mount->slew(object->ra().Hours(), object->dec().Degrees());
+        mount->gotoTarget(mountCommand["target"].toString());
     }
     else if (command == commands[MOUNT_SET_SLEW_RATE])
     {

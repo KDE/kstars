@@ -28,6 +28,7 @@
 #include "ekos/ekosmanager.h"
 
 #include "kstars.h"
+#include "skymapcomposite.h"
 #include "kspaths.h"
 #include "dialogs/finddialog.h"
 #include "kstarsdata.h"
@@ -677,6 +678,31 @@ void Mount::setAltitudeLimits(double minAltitude, double maxAltitude, bool enabl
 bool Mount::isLimitsEnabled()
 {
     return enableLimitsCheck->isChecked();
+}
+
+void Mount::setJ2000Enabled(bool enabled)
+{
+    m_J2000Check->setProperty("checked", enabled);
+}
+
+bool Mount::gotoTarget(const QString &target)
+{
+    SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
+
+    if (object != nullptr)
+        return slew(object->ra().Hours(), object->dec().Degrees());
+
+    return false;
+}
+
+bool Mount::syncTarget(const QString &target)
+{
+    SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
+
+    if (object != nullptr)
+        return sync(object->ra().Hours(), object->dec().Degrees());
+
+    return false;
 }
 
 bool Mount::slew(const QString &RA, const QString &DEC)

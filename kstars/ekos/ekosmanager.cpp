@@ -182,7 +182,11 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     toolsWidget->addTab(schedulerProcess.get(), QIcon(":/icons/ekos_scheduler.png"), "");
     toolsWidget->tabBar()->setTabToolTip(1, i18n("Scheduler"));
     connect(schedulerProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));
-    connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
+    //connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
+    connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString &target) {
+        mountTarget->setText(target);
+        ekosLiveClient.get()->updateMountStatus(QJsonObject({{"target", target}}));
+    });
 
     // Temporary fix. Not sure how to resize Ekos Dialog to fit contents of the various tabs in the QScrollArea which are added
     // dynamically. I used setMinimumSize() but it doesn't appear to make any difference.
@@ -1957,7 +1961,11 @@ void EkosManager::initMount()
             SLOT(updateMountCoords(QString,QString,QString,QString)));
     connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this,
             SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
-    connect(mountProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
+    //connect(mountProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
+    connect(mountProcess.get(), &Ekos::Mount::newTarget, [&](const QString &target) {
+        mountTarget->setText(target);
+        ekosLiveClient.get()->updateMountStatus(QJsonObject({{"target", target}}));
+    });
     connect(mountProcess.get(), &Ekos::Mount::slewRateChanged, [&](int slewRate) {
         QJsonObject status = { { "slewRate", slewRate} };
         ekosLiveClient.get()->updateMountStatus(status);
@@ -2624,10 +2632,8 @@ void EkosManager::updateGuideProfilePixmap(QPixmap &profilePix)
 
 void EkosManager::setTarget(SkyObject *o)
 {
-    mountTarget->setText(o->name());
-
-    QJsonObject target = {{"target", o->name()}};
-    ekosLiveClient.get()->updateMountStatus(target);
+    mountTarget->setText(o->name());    
+    ekosLiveClient.get()->updateMountStatus(QJsonObject({{"target", o->name()}}));
 }
 
 void EkosManager::showEkosOptions()

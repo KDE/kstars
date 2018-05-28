@@ -18,6 +18,14 @@
       <arg name="RA" type="d" direction="in"/>
       <arg name="DEC" type="d" direction="in"/>
     </method>
+    <method name="gotoTarget">
+      <arg type="b" direction="out"/>
+      <arg name="target" type="s" direction="in"/>
+    </method>
+    <method name="syncTarget">
+      <arg type="b" direction="out"/>
+      <arg name="target" type="s" direction="in"/>
+    </method>
     <method name="getEquatorialCoords">
     <arg type="ad" direction="out"/>
     <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>

@@ -87,7 +87,14 @@ class Mount : public QWidget, public Ui::Mount
     /**
           @brief Like above but RA and DEC are strings HH:MM:SS and DD:MM:SS
         */
-    Q_INVOKABLE bool slew(const QString &RA, const QString &DEC);
+    Q_INVOKABLE bool slew(const QString &RA, const QString &DEC);    
+
+    /** DBUS interface function.
+         * Slew the mount to the target. Target name must be valid in KStars.
+         * @param target name
+         * @return true if the command is sent successfully, false otherwise.
+         */
+    Q_INVOKABLE Q_SCRIPTABLE bool gotoTarget(const QString &target);
 
     /** DBUS interface function.
          * Sync the mount to the RA/DEC (JNow).
@@ -96,6 +103,13 @@ class Mount : public QWidget, public Ui::Mount
          * @return true if the command is sent successfully, false otherwise.
          */
     Q_INVOKABLE Q_SCRIPTABLE bool sync(double RA, double DEC);
+
+    /** DBUS interface function.
+         * Sync the mount to the target. Target name must be valid in KStars.
+         * @param target name
+         * @return true if the command is sent successfully, false otherwise.
+         */
+    Q_INVOKABLE Q_SCRIPTABLE bool syncTarget(const QString &target);
 
     /**
           @brief Like above but RA and DEC are strings HH:MM:SS and DD:MM:SS
@@ -179,6 +193,8 @@ class Mount : public QWidget, public Ui::Mount
     Q_INVOKABLE bool setSlewRate(int index);    
 
     Q_INVOKABLE void setTrackEnabled(bool enabled);
+
+    Q_INVOKABLE void setJ2000Enabled(bool enabled);
 
     /** @}*/
 
