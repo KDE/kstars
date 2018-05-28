@@ -72,7 +72,10 @@ public:
         MOUNT_GOTO_TARGET,
         MOUNT_SET_MOTION,
         MOUNT_SET_TRACKING,
-        MOUNT_SET_SLEW_RATE
+        MOUNT_SET_SLEW_RATE,
+
+        FOCUS_START,
+        FOCUS_STOP,
     };
 
     static QMap<COMMANDS, QString> const commands;
@@ -107,6 +110,9 @@ private:
 
     // Mount
     void processMountCommands(const QString &command, const QJsonObject &mountCommand);
+
+    // Focus
+    void processFocusCommands(const QString &command, const QJsonObject &payload);
 
     // Profiles
     void sendProfiles();

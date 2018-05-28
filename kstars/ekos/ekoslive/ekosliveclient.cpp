@@ -14,6 +14,7 @@
 #include "ekos/ekosmanager.h"
 #include "ekos/capture/capture.h"
 #include "ekos/mount/mount.h"
+#include "ekos/focus/focus.h"
 #include "profileinfo.h"
 #include "kspaths.h"
 #include "kstarsdata.h"
@@ -64,7 +65,10 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {MOUNT_GOTO_TARGET, "mount_goto_target"},
     {MOUNT_SET_MOTION, "mount_set_motion"},
     {MOUNT_SET_TRACKING, "mount_set_tracking"},
-    {MOUNT_SET_SLEW_RATE, "mount_set_slew_rate"}
+    {MOUNT_SET_SLEW_RATE, "mount_set_slew_rate"},
+
+    {FOCUS_START, "focus_start"},
+    {FOCUS_STOP, "focus_stop"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -625,6 +629,17 @@ void EkosLiveClient::startSequence()
 void EkosLiveClient::stopSequence()
 {
     m_Manager->captureProcess.get()->stop();
+}
+
+void EkosLiveClient::processFocusCommands(const QString &command, const QJsonObject &payload)
+{
+    Ekos::Focus *focus = m_Manager->focusModule();
+    Q_UNUSED(payload);
+
+    if (command == commands[FOCUS_START])
+        focus->start();
+    else if (command == commands[FOCUS_STOP])
+        focus->abort();
 }
 
 void EkosLiveClient::processMountCommands(const QString &command, const QJsonObject &mountCommand)
