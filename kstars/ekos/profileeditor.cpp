@@ -538,7 +538,7 @@ void ProfileEditor::loadDrivers()
         box->setMaxVisibleItems(20);
     }
 
-    QIcon remoteIcon = QIcon::fromTheme("modem");
+    QIcon remoteIcon = QIcon::fromTheme("network-modem");
 
     foreach (DriverInfo *dv, DriverManager::Instance()->getDrivers())
     {
