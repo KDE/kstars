@@ -310,7 +310,7 @@ void INDI_P::buildBLOBGUI()
     PHBox->addItem(horSpacer);
 
     enableBLOBC = new QCheckBox();
-    enableBLOBC->setIcon(QIcon::fromTheme("modem"));
+    enableBLOBC->setIcon(QIcon::fromTheme("network-modem"));
     enableBLOBC->setChecked(true);
     enableBLOBC->setToolTip(i18n("Enable binary data transfer from this property to KStars and vice-versa."));
 
