@@ -182,10 +182,6 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent), m
     connect(this, SIGNAL(progressText(QString)), KStarsData::Instance(), SIGNAL(progressText(QString)));
 }
 
-SkyMapComposite::~SkyMapComposite()
-{
-}
-
 void SkyMapComposite::update(KSNumbers *num)
 {
     //printf("updating SkyMapComposite\n");

@@ -14,8 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OPSCATALOG_H_
-#define OPSCATALOG_H_
+#pragma once
 
 #include "ui_opscatalog.h"
 
@@ -24,17 +23,17 @@ class QListWidgetItem;
 class KConfigDialog;
 
 /**
- *@class OpsCatalog
- *The Catalog page for the Options window.  This page allows the user
- *to modify display of the major object catalogs in KStars:
- *@li Hipparcos/Tycho Star Catalog
- *@li Messier Catalog
- *@li NGC/IC Catalogs
- *@li Any Custom catalogs added by the user.
+ * @class OpsCatalog
+ * The Catalog page for the Options window.  This page allows the user
+ * to modify display of the major object catalogs in KStars:
+ * @li Hipparcos/Tycho Star Catalog
+ * @li Messier Catalog
+ * @li NGC/IC Catalogs
+ * @li Any Custom catalogs added by the user.
  *
- *@short Catalog page of the Options window.
- *@author Jason Harris
- *@version 1.0
+ * @short Catalog page of the Options window.
+ * @author Jason Harris
+ * @version 1.0
  */
 class OpsCatalog : public QFrame, public Ui::OpsCatalog
 {
@@ -42,7 +41,7 @@ class OpsCatalog : public QFrame, public Ui::OpsCatalog
 
   public:
     explicit OpsCatalog();
-    ~OpsCatalog() override;
+    virtual ~OpsCatalog() override = default;
 
   private slots:
     void updateCustomCatalogs();
@@ -66,15 +65,19 @@ class OpsCatalog : public QFrame, public Ui::OpsCatalog
     void populateCustomCatalogs();
     QString getCatalogName(const QString &filename);
 
-    QListWidgetItem *showMessier, *showMessImages, *showNGC, *showIC;
+    QListWidgetItem *showMessier { nullptr };
+    QListWidgetItem *showMessImages { nullptr };
+    QListWidgetItem *showNGC { nullptr };
+    QListWidgetItem *showIC { nullptr };
 
-    KConfigDialog *m_ConfigDialog;
-    QStringList *m_CustomCatalogFile;
+    KConfigDialog *m_ConfigDialog { nullptr };
+    QStringList *m_CustomCatalogFile { nullptr };
     QStringList m_CheckedCatalogNames;
     QList<int> m_ShowCustomCatalog;
-    float m_StarDensity;
-    bool m_ShowMessier, m_ShowMessImages, m_ShowNGC, m_ShowIC;
-    bool isDirty = false;
+    float m_StarDensity { 0 };
+    bool m_ShowMessier { false };
+    bool m_ShowMessImages { false };
+    bool m_ShowNGC { false };
+    bool m_ShowIC { false };
+    bool isDirty { false };
 };
-
-#endif //OPSCATALOG_H_

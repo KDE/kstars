@@ -69,10 +69,6 @@ SkyObject *SkyObject::clone() const
     return new SkyObject(*this);
 }
 
-SkyObject::~SkyObject()
-{
-}
-
 void SkyObject::showPopupMenu(KSPopupMenu *pmenu, const QPoint &pos)
 {
 #if defined(KSTARS_LITE)

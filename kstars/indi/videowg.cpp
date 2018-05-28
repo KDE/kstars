@@ -25,10 +25,6 @@ VideoWG::VideoWG(QWidget *parent) : QLabel(parent)
         grayTable[i] = qRgb(i, i, i);
 }
 
-VideoWG::~VideoWG()
-{
-}
-
 bool VideoWG::newFrame(IBLOB *bp)
 {
     if (bp->size <= 0)

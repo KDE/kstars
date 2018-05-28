@@ -113,10 +113,6 @@ FindDialog::FindDialog(QWidget *parent) : QDialog(parent), timer(nullptr), m_tar
     listFiltered = false;
 }
 
-FindDialog::~FindDialog()
-{
-}
-
 void FindDialog::init()
 {
     ui->SearchBox->clear();

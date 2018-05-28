@@ -11,11 +11,8 @@
 
 namespace Ekos
 {
+// At least a dtor is needed for the correct mocing
 AstrometryParser::AstrometryParser()
-{
-}
-
-AstrometryParser::~AstrometryParser()
 {
 }
 }

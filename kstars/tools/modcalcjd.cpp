@@ -17,15 +17,15 @@
 
 #include "modcalcjd.h"
 
-#include <QTextStream>
-#include <QLineEdit>
-#include <QDebug>
+#include "kstarsdatetime.h"
 
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KLineEdit>
 
-#include "kstarsdatetime.h"
+#include <QDebug>
+#include <QLineEdit>
+#include <QTextStream>
 
 #define MJD0 2400000.5
 
@@ -49,10 +49,6 @@ modCalcJD::modCalcJD(QWidget *parentSplit) : QFrame(parentSplit)
     showCurrentTime();
     slotUpdateCalendar();
     show();
-}
-
-modCalcJD::~modCalcJD(void)
-{
 }
 
 void modCalcJD::slotUpdateCalendar()

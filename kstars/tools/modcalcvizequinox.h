@@ -25,17 +25,17 @@ class QTextStream;
 class KPlotObject;
 
 /**
-  * @class modCalcEquinox
-  *
-  * @author Jason Harris
-  */
+ * @class modCalcEquinox
+ *
+ * @author Jason Harris
+ */
 class modCalcEquinox : public QFrame, public Ui::modCalcEquinox
 {
     Q_OBJECT
 
   public:
     explicit modCalcEquinox(QWidget *p);
-    ~modCalcEquinox() override;
+    virtual ~modCalcEquinox() override = default;
 
     double dmonth(int imonth);
 

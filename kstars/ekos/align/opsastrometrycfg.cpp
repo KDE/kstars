@@ -1,9 +1,12 @@
+
 #include "opsastrometrycfg.h"
-#include "ui_opsastrometrycfg.h"
-#include <KConfigDialog>
-#include "kstars.h"
+
 #include "align.h"
+#include "kstars.h"
 #include "Options.h"
+#include "ui_opsastrometrycfg.h"
+
+#include <KConfigDialog>
 #include <KMessageBox>
 
 namespace Ekos
@@ -24,10 +27,6 @@ OpsAstrometryCfg::OpsAstrometryCfg(Align *parent) : QDialog(KStars::Instance())
     connect(loadCFG, SIGNAL(clicked()), this, SLOT(slotLoadCFG()));
 
     slotLoadCFG();
-}
-
-OpsAstrometryCfg::~OpsAstrometryCfg()
-{
 }
 
 void OpsAstrometryCfg::slotLoadCFG()

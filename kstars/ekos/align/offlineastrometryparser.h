@@ -33,7 +33,7 @@ class OfflineAstrometryParser : public AstrometryParser
 
   public:
     OfflineAstrometryParser();
-    virtual ~OfflineAstrometryParser();
+    virtual ~OfflineAstrometryParser() override = default;
 
     virtual void setAlign(Align *_align) { align = _align; }
     virtual bool init();

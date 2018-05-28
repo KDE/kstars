@@ -1144,14 +1144,12 @@ void Scheduler::evaluateJobs()
         }
 
         // In case of a repeating jobs, let's make sure we have more runs left to go
-        /* FIXME: if finding a repeated job with no repeats remaining, state this is a safeguard - Is it really? Set complete? */
         if (job->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
         {
             if (job->getRepeatsRemaining() == 0)
             {
                 appendLogText(i18n("Job '%1' has no more batches remaining.", job->getName()));
-                job->setState(SchedulerJob::JOB_INVALID);
-                continue;
+                job->setState(SchedulerJob::JOB_EVALUATION);
             }
         }
 
@@ -1169,6 +1167,7 @@ void Scheduler::evaluateJobs()
 
         if (job->getEstimatedTime() == 0)
         {
+            job->setRepeatsRemaining(0);
             job->setState(SchedulerJob::JOB_COMPLETE);
             continue;
         }
@@ -1278,8 +1277,6 @@ void Scheduler::evaluateJobs()
                                            job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat()), passedUp.toHMSString()));
                         job->setState(SchedulerJob::JOB_ABORTED);
                     }
-
-                    continue;
                 }
                 // Start scoring once we reach startup time
                 else if (timeUntil <= 0)
@@ -1305,8 +1302,6 @@ void Scheduler::evaluateJobs()
 
                         job->setState(SchedulerJob::JOB_ABORTED);
                         job->setScore(score);
-
-                        continue;
                     }
                     /* Positive score means job is already scheduled, so we check the weather, and if it is not OK, we set bad score until weather improves. */
                     else if (isWeatherOK(job) == false)
@@ -1316,7 +1311,12 @@ void Scheduler::evaluateJobs()
                         job->setScore(BAD_SCORE);
                     }
                     /* Else record current score */
-                    else job->setScore(score);
+                    else
+                    {
+                        appendLogText(i18n("Job '%1' will be run at %2.", job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
+                        job->setState(SchedulerJob::JOB_SCHEDULED);
+                        job->setScore(score);
+                    }
                 }
 #if 0
                 // If it is in the future and originally was designated as ASAP job
@@ -1348,15 +1348,23 @@ void Scheduler::evaluateJobs()
                     /*score += BAD_SCORE;*/
                 }
 #endif
+                /* Else simply refresh job score */
+                else
+                {
+                    appendLogText(i18n("Job '%1' unmodified, will be run at %2.", job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
+                    job->setState(SchedulerJob::JOB_SCHEDULED);
+                    job->setScore(calculateJobScore(job, now));
+                }
 
             }
             break;
         }
 
 
-        //if (score > 0 && job->getState() == SchedulerJob::JOB_EVALUATION)
         if (job->getState() == SchedulerJob::JOB_EVALUATION)
-            job->setState(SchedulerJob::JOB_SCHEDULED);
+        {
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "BUGBUG! Job '" << job->getName() << "' was unexpectedly not scheduled by evaluation.";
+        }
     }
 
     /*
@@ -1394,39 +1402,17 @@ void Scheduler::evaluateJobs()
         }
     }
 
-    if (upcomingJobs == 0)
+    /* And render some statistics */
+    if (upcomingJobs == 0 && jobEvaluationOnly == false)
     {
-        if (jobEvaluationOnly == false)
-        {
-            if (invalidJobs == jobs.count())
-            {
-                appendLogText(i18n("No valid jobs found, aborting schedule..."));
-                stop();
-                return;
-            }
+        if (invalidJobs > 0)
+            appendLogText(i18np("%1 job is invalid.", "%1 jobs are invalid.", invalidJobs));
 
-            if (invalidJobs > 0)
-                appendLogText(i18np("%1 job is invalid.", "%1 jobs are invalid.", invalidJobs));
+        if (abortedJobs > 0)
+            appendLogText(i18np("%1 job aborted.", "%1 jobs aborted", abortedJobs));
 
-            if (abortedJobs > 0)
-                appendLogText(i18np("%1 job aborted.", "%1 jobs aborted", abortedJobs));
-
-            if (completedJobs > 0)
-                appendLogText(i18np("%1 job completed.", "%1 jobs completed.", completedJobs));
-
-            if (startupState == STARTUP_COMPLETE)
-            {
-                appendLogText(i18n("Scheduler complete. Starting shutdown procedure..."));
-                // Let's start shutdown procedure
-                checkShutdownState();
-            }
-            else
-                stop();
-
-            return;
-        }
-        else if (jobs.isEmpty())
-            return;
+        if (completedJobs > 0)
+            appendLogText(i18np("%1 job completed.", "%1 jobs completed.", completedJobs));
     }
 
     /*
@@ -1440,16 +1426,24 @@ void Scheduler::evaluateJobs()
     sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(),[](SchedulerJob* job)
     { return SchedulerJob::JOB_ABORTED < job->getState(); }), sortedJobs.end());
 
-    /* If there are no jobs left to run in the filtered list, shutdown scheduler */
+    /* If there are no jobs left to run in the filtered list, shutdown scheduler and stop evaluation now */
     if (sortedJobs.isEmpty())
     {
-        if (startupState == STARTUP_COMPLETE)
+        if (!jobEvaluationOnly)
         {
-            appendLogText(i18n("No jobs left in the scheduler queue, starting shutdown procedure..."));
-            // Let's start shutdown procedure
-            checkShutdownState();
+            if (startupState == STARTUP_COMPLETE)
+            {
+                appendLogText(i18n("No jobs left in the scheduler queue, starting shutdown procedure..."));
+                // Let's start shutdown procedure
+                checkShutdownState();
+            }
+            else
+            {
+                appendLogText(i18n("No jobs left in the scheduler queue, scheduler is stopping."));
+                stop();
+            }
         }
-        else stop();
+        else jobEvaluationOnly = false;
 
         return;
     }
@@ -1520,7 +1514,7 @@ void Scheduler::evaluateJobs()
         lastJobEstimatedTime = job->getEstimatedTime();
     }
 
-    if (jobEvaluationOnly)
+    if (jobEvaluationOnly || state != SCHEDULER_RUNNIG)
     {
         appendLogText(i18n("Job evaluation complete."));
         jobEvaluationOnly = false;
@@ -2124,6 +2118,12 @@ void Scheduler::calculateDawnDusk()
 
 void Scheduler::executeJob(SchedulerJob *job)
 {
+    setCurrentJob(job);
+
+    /* If job schedule isn't now, postpone - else this will cancel a parking attempt */
+    if (0 < KStarsData::Instance()->lt().secsTo(currentJob->getStartupTime()))
+        return;
+
     if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
         QString targetName = job->getName().replace(' ', "");
@@ -2133,18 +2133,14 @@ void Scheduler::executeJob(SchedulerJob *job)
         captureInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetName", targetArgs);
     }
 
-    setCurrentJob(job);
+    updatePreDawn();
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Executing Job " << currentJob->getName();
 
+    currentJob->setState(SchedulerJob::JOB_BUSY);
+
     KNotification::event(QLatin1String("EkosSchedulerJobStart"),
                          i18n("Ekos job started (%1)", currentJob->getName()));
-
-    /* If job schedule allows it, start the job right now */
-    if (KStarsData::Instance()->lt().secsTo(currentJob->getStartupTime()) <= 0)
-        currentJob->setState(SchedulerJob::JOB_BUSY);
-
-    updatePreDawn();
 
     // No need to continue evaluating jobs as we already have one.
 
@@ -2786,6 +2782,10 @@ void Scheduler::checkStatus()
         if (checkINDIState() == false)
             return;
 
+        // #6.1 Check if park wait procedure is in progress - in the case we're waiting for a distant job
+        if (checkParkWaitState() == false)
+            return;
+
         // #7 Check if startup procedure Phase #2 is complete (Unparking phase)
         if (startupState > STARTUP_SCRIPT && startupState < STARTUP_ERROR && checkStartupState() == false)
             return;
@@ -2803,6 +2803,8 @@ void Scheduler::checkJobStage()
     Q_ASSERT_X(currentJob, __FUNCTION__, "Actual current job is required to check job stage");
     if (!currentJob)
         return;
+
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking job stage for" << currentJob->getName() << "startup" << currentJob->getStartupCondition() << currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()) << "state" << currentJob->getState();
 
     QDateTime const now = KStarsData::Instance()->lt();
 
@@ -3205,11 +3207,10 @@ void Scheduler::checkJobStage()
                 KNotification::event(QLatin1String("EkosScheduledImagingFinished"),
                                      i18n("Ekos job (%1) - Capture finished", currentJob->getName()));
 
-                /* Set evaluation state so that job is reevaluated for repeats or other things */
-                currentJob->setState(SchedulerJob::JOB_EVALUATION);
 
                 captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
 
+                currentJob->setState(SchedulerJob::JOB_COMPLETE);
                 findNextJob();
             }
             else
@@ -3899,6 +3900,11 @@ void Scheduler::startFocusing()
 
 void Scheduler::findNextJob()
 {
+    Q_ASSERT_X(currentJob->getState() == SchedulerJob::JOB_ERROR ||
+               currentJob->getState() == SchedulerJob::JOB_ABORTED ||
+               currentJob->getState() == SchedulerJob::JOB_COMPLETE,
+               __FUNCTION__, "Finding next job requires current to be in error, aborted or complete");
+
     jobTimer.stop();
 
     /* FIXME: Other debug logs in that function probably */
@@ -3923,14 +3929,15 @@ void Scheduler::findNextJob()
         setCurrentJob(nullptr);
         schedulerTimer.start();
     }
-    // Check completion criteria
-    // We're done whether the job completed successfully or not.
+    // Job is complete, so check completion criteria to optimize processing
+    // In any case, we're done whether the job completed successfully or not.
     else if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
     {
         /* Mark the job idle as well as all its duplicates for re-evaluation */
         foreach(SchedulerJob *a_job, jobs)
             if (a_job == currentJob || a_job->isDuplicateOf(currentJob))
                 a_job->setState(SchedulerJob::JOB_IDLE);
+
         captureBatch = 0;
         // Stop Guiding if it was used
         stopGuiding();
@@ -3941,15 +3948,21 @@ void Scheduler::findNextJob()
     }
     else if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
     {
-        currentJob->setRepeatsRemaining(currentJob->getRepeatsRemaining() - 1);
+        if (0 < currentJob->getRepeatsRemaining())
+            currentJob->setRepeatsRemaining(currentJob->getRepeatsRemaining() - 1);
 
-        // If we're done
+        /* Mark the job idle as well as all its duplicates for re-evaluation */
+        foreach(SchedulerJob *a_job, jobs)
+            if (a_job == currentJob || a_job->isDuplicateOf(currentJob))
+                a_job->setState(SchedulerJob::JOB_IDLE);
+
+        /* Re-evaluate all jobs, without selecting a new job */
+        jobEvaluationOnly = true;
+        evaluateJobs();
+
+        /* If current job is actually complete because of previous duplicates, prepare for next job */
         if (currentJob->getRepeatsRemaining() == 0)
         {
-            /* Mark the job idle as well as all its duplicates for re-evaluation */
-            foreach(SchedulerJob *a_job, jobs)
-                if (a_job == currentJob || a_job->isDuplicateOf(currentJob))
-                    a_job->setState(SchedulerJob::JOB_IDLE);
             stopCurrentJobAction();
             stopGuiding();
 
@@ -3959,9 +3972,11 @@ void Scheduler::findNextJob()
             setCurrentJob(nullptr);
             schedulerTimer.start();
         }
+        /* If job requires more work, continue current observation */
         else
         {
             /* FIXME: raise priority to allow other jobs to schedule in-between */
+            executeJob(currentJob);
 
             /* If we are guiding, continue capturing */
             if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
@@ -3969,7 +3984,7 @@ void Scheduler::findNextJob()
                 currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
                 startCapture();
             }
-            /* If we are using alignment, realign */
+            /* If we are not guiding, but using alignment, realign */
             else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
             {
                 currentJob->setStage(SchedulerJob::STAGE_ALIGNING);
@@ -3991,6 +4006,8 @@ void Scheduler::findNextJob()
     }
     else if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
     {
+        executeJob(currentJob);
+
         currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
         captureBatch++;
         startCapture();
@@ -4019,6 +4036,8 @@ void Scheduler::findNextJob()
         }
         else
         {
+            executeJob(currentJob);
+
             currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
             captureBatch++;
             startCapture();
@@ -4033,7 +4052,7 @@ void Scheduler::findNextJob()
     else
     {
         /* Unexpected situation, mitigate by resetting the job and restarting the scheduler timer */
-        appendLogText(i18n("BUGBUG: Job '%1' timer elapsed, but no action to be taken.", currentJob->getName()));
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "BUGBUG! Job '" << currentJob->getName() << "' timer elapsed, but no action to be taken.";
         setCurrentJob(nullptr);
         schedulerTimer.start();
     }
@@ -4258,10 +4277,10 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 {
     /* updateCompletedJobsCount(); */
 
-    QList<SequenceJob *> jobs;
+    QList<SequenceJob *> seqJobs;
     bool hasAutoFocus = false;
 
-    if (loadSequenceQueue(schedJob->getSequenceFile().toLocalFile(), schedJob, jobs, hasAutoFocus) == false)
+    if (loadSequenceQueue(schedJob->getSequenceFile().toLocalFile(), schedJob, seqJobs, hasAutoFocus) == false)
         return false;
 
     schedJob->setInSequenceFocus(hasAutoFocus);
@@ -4271,18 +4290,18 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     int totalSequenceCount = 0, totalCompletedCount = 0;
     double totalImagingTime  = 0;
     bool rememberJobProgress = Options::rememberJobProgress();
-    foreach (SequenceJob *job, jobs)
+    foreach (SequenceJob *seqJob, seqJobs)
     {
         /* FIXME: find a way to actually display the filter name */
-        QString seqName = i18n("Job '%1' %2x%3\" %4", schedJob->getName(), job->getCount(), job->getExposure(), job->getFilterName());
+        QString seqName = i18n("Job '%1' %2x%3\" %4", schedJob->getName(), seqJob->getCount(), seqJob->getExposure(), seqJob->getFilterName());
 
-        if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+        if (seqJob->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {
             appendLogText(i18n("%1 duration cannot be estimated time since the sequence saves the files remotely.", seqName));
             schedJob->setEstimatedTime(-2);
 
-            // Iterate over all jobs, if just one requires FRAME_LIGHT then we set it as is and return
-            foreach (SequenceJob *oneJob, jobs)
+            // Iterate over all sequence jobs, if just one requires FRAME_LIGHT then we set it as is and return
+            foreach (SequenceJob *oneJob, seqJobs)
             {
                 if (oneJob->getFrameType() == FRAME_LIGHT)
                 {
@@ -4292,59 +4311,103 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
             }
 
             schedJob->setLightFramesRequired(lightFramesRequired);
-            qDeleteAll(jobs);
+            qDeleteAll(seqJobs);
             return true;
         }
 
-        int completed = 0;
+        int const captures_required = seqJob->getCount()*schedJob->getRepeatsRequired();
+
+        int captures_completed = 0;
         if (rememberJobProgress)
         {
-            // Retrieve cached count of completed captures for the output folder of this job
-            QString signature = job->getLocalDir() + job->getDirectoryPostfix();
-            completed = capturedFramesCount[signature];
-            appendLogText(i18n("%1 matches %2 captures in output folder '%3'.", seqName, completed, signature));
+            /* Enumerate sequence jobs associated to this scheduler job, and assign them a completed count.
+             *
+             * The objective of this block is to fill the storage map of the scheduler job with completed counts for each capture storage.
+             *
+             * Sequence jobs capture to a storage folder, and are given a count of captures to store at that location.
+             * The tricky part is to make sure the repeat count of the scheduler job is properly transferred to each sequence job.
+             * 
+             * For instance, a scheduler job repeated three times must execute the full list of sequence jobs three times, thus
+             * has to tell each sequence job it misses all captures, three times. It cannot tell the sequence job three captures are
+             * missing, first because that's not how the sequence job is designed (completed count, not required count), and second
+             * because this would make the single sequence job repeat three times, instead of repeating the full list of sequence
+             * jobs three times.
+             *
+             * The consolidated storage map will be assigned to each sequence job based on their signature when the scheduler job executes them.
+             *
+             * For instance, consider a RGBL sequence of single captures. The map will store completed captures for R, G, B and L storages.
+             * If R and G have 1 file each, and B and L have no files, map[storage(R)] = map[storage(G)] = 1 and map[storage(B)] = map[storage(L)] = 0.
+             * When that scheduler job executes, only B and L captures will be processed.
+             * 
+             * In the case of a RGBLRGB sequence of single captures, the second R, G and B map items will count one less capture than what is really in storage.
+             * If R and G have 1 file each, and B and L have no files, map[storage(R1)] = map[storage(B1)] = 1, and all others will be 0.
+             * When that scheduler job executes, B1, L, R2, G2 and B2 will be processed.
+             *
+             * This doesn't handle the case of duplicated scheduler jobs, that is, scheduler jobs with the same storage for capture sets.
+             * Those scheduler jobs will all change state to completion at the same moment as they all target the same storage.
+             * This is why it is important to manage the repeat count of the scheduler job, as stated earlier.
+             */
 
-            // If we have multiple jobs storing their captures in the same output folder (duplicated jobs), we need to recalculate
-            // the completion count for the current scheduler job using sequence jobs which had the same signature earlier in the list
-            // This DOES NOT handle the case of duplicated Scheduler jobs having the same output folder
-            //int const overallCompleted = completed;
-            foreach (SequenceJob *prevJob, jobs)
+            // Retrieve cached count of captures_completed captures for the output folder of this seqJob
+            QString const signature = seqJob->getLocalDir() + seqJob->getDirectoryPostfix();
+            captures_completed = capturedFramesCount[signature];
+
+            appendLogText(i18n("%1 sees %2 captures in output folder '%3'.", seqName, captures_completed, signature));
+
+            // Enumerate sequence jobs to check how many captures are completed overall in the same storage as the current one
+            foreach (SequenceJob *prevSeqJob, seqJobs)
             {
-                // Enumerate jobs up to the current one
-                if (job == prevJob)
+                // Enumerate seqJobs up to the current one
+                if (seqJob == prevSeqJob)
                     break;
 
-                // If the previous job signature matches the current, reduce completion count to compare duplicates
-                if (!signature.compare(prevJob->getLocalDir() + prevJob->getDirectoryPostfix()))
+                // If the previous sequence signature matches the current, reduce completion count to take duplicates into account
+                if (!signature.compare(prevSeqJob->getLocalDir() + prevSeqJob->getDirectoryPostfix()))
                 {
-                    appendLogText(i18n("%1 has a previous duplicate sequence requiring %2 captures.", seqName, prevJob->getCount()));
-                    completed -= prevJob->getCount();
+                    int const previous_captures_required = prevSeqJob->getCount()*schedJob->getRepeatsRequired();
+                    appendLogText(i18n("%1 has a previous duplicate sequence job requiring %2 captures.", seqName, previous_captures_required));
+                    captures_completed -= previous_captures_required;
                 }
+
+                // Now completed count can be needlessly negative for this job, so clamp to zero
+                if (captures_completed < 0)
+                    captures_completed = 0;
+
+                // And break if no captures remain, this job has to execute
+                if (captures_completed == 0)
+                    break;
             }
 
-            // Now completed count can be needlessly negative for this job, so clamp to zero
-            if (completed < 0)
-                completed = 0;
+            // Finally we're only interested in the number of captures required for this sequence item
+            if (captures_required < captures_completed)
+                captures_completed = captures_required;
+
+            appendLogText(i18n("%1 has completed %2/%3 of its required captures in output folder '%4'.", seqName, captures_completed, captures_required, signature));
 
             // Update the completion count for this signature if we still have captures to take
+            // FIXME: setting the whole capture map each time is not very optimal
             QMap<QString, uint16_t> fMap = schedJob->getCapturedFramesMap();
-            fMap[signature] = completed < job->getCount() ? completed : job->getCount();
-            schedJob->setCapturedFramesMap(fMap);
+            if (fMap[signature] != captures_completed)
+            {
+                fMap[signature] = captures_completed;
+                schedJob->setCapturedFramesMap(fMap);
+            }
 
-            // From now on, 'completed' is the number of frames completed for the *current* sequence job
+            // From now on, 'captures_completed' is the number of frames completed for the *current* sequence job
         }
 
 
         // Check if we still need any light frames. Because light frames changes the flow of the observatory startup
         // Without light frames, there is no need to do focusing, alignment, guiding...etc
-        // We check if the frame type is LIGHT and if either the number of completed frames is less than required
+        // We check if the frame type is LIGHT and if either the number of captures_completed frames is less than required
         // OR if the completion condition is set to LOOP so it is never complete due to looping.
-        bool const areJobCapturesComplete = !(completed < job->getCount()*schedJob->getRepeatsRequired() || schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP);
-        if (job->getFrameType() == FRAME_LIGHT)
+        // FIXME: As it is implemented now, FINISH_LOOP may loop over a capture-complete, therefore inoperant, scheduler job.
+        bool const areJobCapturesComplete = !(captures_completed < captures_required || schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP);
+        if (seqJob->getFrameType() == FRAME_LIGHT)
         {
             if(areJobCapturesComplete)
             {
-                appendLogText(i18n("%1 completed its sequence of %2 light frames.", seqName, job->getCount()*schedJob->getRepeatsRequired()));
+                appendLogText(i18n("%1 completed its sequence of %2 light frames.", seqName, captures_required));
             }
             else
             {
@@ -4365,33 +4428,33 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
             appendLogText(i18n("%1 captures calibration frames.", seqName));
         }
 
-        totalSequenceCount += job->getCount()*schedJob->getRepeatsRequired();
-        totalCompletedCount += rememberJobProgress ? completed : 0;
+        totalSequenceCount += captures_required;
+        totalCompletedCount += rememberJobProgress ? captures_completed : 0;
 
         /* If captures are not complete, we have imaging time left */
         if (!areJobCapturesComplete)
         {
             /* if looping, consider we always have one capture left - currently this is discarded afterwards as -2 */
             if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
-                totalImagingTime += fabs((job->getExposure() + job->getDelay()) * 1);
+                totalImagingTime += fabs((seqJob->getExposure() + seqJob->getDelay()) * 1);
             else
-                totalImagingTime += fabs((job->getExposure() + job->getDelay()) * (job->getCount()*schedJob->getRepeatsRequired() - completed));
+                totalImagingTime += fabs((seqJob->getExposure() + seqJob->getDelay()) * (captures_required - captures_completed));
 
             /* If we have light frames to process, add focus/dithering delay */
-            if (job->getFrameType() == FRAME_LIGHT)
+            if (seqJob->getFrameType() == FRAME_LIGHT)
             {
                 // If inSequenceFocus is true
                 if (hasAutoFocus)
                 {
                     // Wild guess that each in sequence auto focus takes an average of 30 seconds. It can take any where from 2 seconds to 2+ minutes.
                     appendLogText(i18n("%1 requires a focus procedure.", seqName));
-                    totalImagingTime += (job->getCount()*schedJob->getRepeatsRequired() - completed) * 30;
+                    totalImagingTime += (captures_required - captures_completed) * 30;
                 }
                 // If we're dithering after each exposure, that's another 10-20 seconds
                 if (schedJob->getStepPipeline() & SchedulerJob::USE_GUIDE && Options::ditherEnabled())
                 {
                     appendLogText(i18n("%1 requires a dither procedure.", seqName));
-                    totalImagingTime += ((job->getCount()*schedJob->getRepeatsRequired() - completed) * 15) / Options::ditherFrames();
+                    totalImagingTime += ((captures_required - captures_completed) * 15) / Options::ditherFrames();
                 }
             }
         }
@@ -4401,7 +4464,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     schedJob->setSequenceCount(totalSequenceCount);
     schedJob->setCompletedCount(totalCompletedCount);
 
-    qDeleteAll(jobs);
+    qDeleteAll(seqJobs);
 
     // We can't estimate times that do not finish when sequence is done
     if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
@@ -4428,6 +4491,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     {
         if (lightFramesRequired)
         {
+            /* FIXME: estimation doesn't need to consider repeats, those will be optimized away by findNextJob (this is a regression) */
+            /* FIXME: estimation should base on actual measure of each step, eventually with preliminary data as what it used now */
             // Are we doing tracking? It takes about 30 seconds
             if (schedJob->getStepPipeline() & SchedulerJob::USE_TRACK)
                 totalImagingTime += 30*schedJob->getRepeatsRequired();

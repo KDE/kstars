@@ -7,21 +7,21 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef DOME_H
-#define DOME_H
-
-#include <QtDBus/QtDBus>
+#pragma once
 
 #include "indi/indistd.h"
 #include "indi/indidome.h"
 
+#include <QtDBus/QtDBus>
+
 namespace Ekos
 {
 /**
- *@class Dome
- *@short Supports basic dome functions
- *@author Jasem Mutlaq
- *@version 1.0
+ * @class Dome
+ * @short Supports basic dome functions
+ *
+ * @author Jasem Mutlaq
+ * @version 1.0
  */
 class Dome : public QObject
 {
@@ -30,52 +30,59 @@ class Dome : public QObject
 
   public:
     Dome();
-    ~Dome();
+    virtual ~Dome() override = default;
 
     typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
 
-    /** @defgroup DomeDBusInterface Ekos DBus Interface - Dome Interface
-         * Ekos::Dome interface provides advanced basic dome operations.
-        */
+    /**
+     * @defgroup DomeDBusInterface Ekos DBus Interface - Dome Interface
+     * Ekos::Dome interface provides advanced basic dome operations.
+     */
 
     /*@{*/
 
-    /** DBUS interface function.
-         * Abort dome
-         */
+    /**
+     * DBUS interface function.
+     * Abort dome
+     */
     Q_SCRIPTABLE bool abort();
 
-    /** DBUS interface function.
-         * Can dome park?
-         */
+    /**
+     * DBUS interface function.
+     * Can dome park?
+     */
     Q_SCRIPTABLE bool canPark();
 
-    /** DBUS interface function.
-         * Park dome
-         */
+    /**
+     * DBUS interface function.
+     * Park dome
+     */
     Q_SCRIPTABLE bool park();
 
-    /** DBUS interface function.
-         * Park dome
-         */
+    /**
+     * DBUS interface function.
+     * Park dome
+     */
     Q_SCRIPTABLE bool unpark();
 
-    /** DBUS interface function.
-         * Get the dome park status
-         */
+    /**
+     * DBUS interface function.
+     * Get the dome park status
+     */
     Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
-    /** DBUS interface function.
-         * Check if the dome is in motion
-         */
+    /**
+     * DBUS interface function.
+     * Check if the dome is in motion
+     */
     Q_SCRIPTABLE bool isMoving();
 
     /** @}*/
 
     /**
-         * @brief setDome set the dome device
-         * @param newDome pointer to Dome device.
-         */
+     * @brief setDome set the dome device
+     * @param newDome pointer to Dome device.
+     */
     void setDome(ISD::GDInterface *newDome);
 
     /**
@@ -89,5 +96,3 @@ class Dome : public QObject
     ISD::Dome *currentDome;
 };
 }
-
-#endif // Dome_H

@@ -63,10 +63,6 @@ SkyObjItem::SkyObjItem(SkyObject *so)
     setPosition(m_So);
 }
 
-SkyObjItem::~SkyObjItem()
-{
-}
-
 QVariant SkyObjItem::data(int role)
 {
     switch (role)

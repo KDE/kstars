@@ -182,11 +182,6 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
         initGeoPage();
 }
 
-//Do NOT delete members of filteredCityList!  They are not created by KSWizard.
-KSWizard::~KSWizard()
-{
-}
-
 void KSWizard::setButtonsEnabled()
 {
     nextB->setEnabled(wizardStack->currentIndex() < wizardStack->count() - 1);

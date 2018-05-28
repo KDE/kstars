@@ -50,8 +50,7 @@ class LineListIndex : public SkyComponent
      */
     explicit LineListIndex(SkyComposite *parent, const QString &name = "");
 
-    /** @short Destructor */
-    ~LineListIndex() override;
+    virtual ~LineListIndex() override = default;
 
     /**
      * @short The top level draw routine.  Draws all the LineLists for any

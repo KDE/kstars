@@ -33,7 +33,7 @@ class ImageLabel : public QFrame
     Q_OBJECT
   public:
     explicit ImageLabel(QWidget *parent);
-    ~ImageLabel() override;
+    ~ImageLabel() override = default;
     void setImage(const QImage &img);
     void invertPixels();
 

@@ -14,8 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OPSSOLARSYSTEM_H_
-#define OPSSOLARSYSTEM_H_
+#pragma once
 
 #include "ui_opssolarsystem.h"
 
@@ -35,7 +34,7 @@ class OpsSolarSystem : public QFrame, public Ui::OpsSolarSystem
 
   public:
     explicit OpsSolarSystem();
-    ~OpsSolarSystem() override;
+    virtual ~OpsSolarSystem() override = default;
 
   private slots:
     void slotChangeMagDownload(double mag);
@@ -46,8 +45,6 @@ class OpsSolarSystem : public QFrame, public Ui::OpsSolarSystem
     void slotApply();
 
   private:
-    bool isDirty = false;
-    KConfigDialog *m_ConfigDialog;
+    bool isDirty { false };
+    KConfigDialog *m_ConfigDialog { nullptr };
 };
-
-#endif

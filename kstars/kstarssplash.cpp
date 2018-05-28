@@ -29,10 +29,6 @@ KStarsSplash::KStarsSplash(const QString &customMessage) : QSplashScreen(QPixmap
     setMessage(customMessage.isEmpty() ? i18n("Welcome to KStars. Please stand by while loading...") : customMessage);
 }
 
-KStarsSplash::~KStarsSplash()
-{
-}
-
 void KStarsSplash::setMessage(const QString &message)
 {
     showMessage(message, Qt::AlignBottom | Qt::AlignHCenter, Qt::lightGray);

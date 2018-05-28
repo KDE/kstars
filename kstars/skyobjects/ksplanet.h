@@ -63,7 +63,7 @@ class KSPlanet : public KSPlanetBase
     KSPlanet *clone() const override;
     SkyObject::UID getUID() const override;
 
-    ~KSPlanet() override {}
+    ~KSPlanet() override = default;
 
     /**
      * @short return the untranslated name
@@ -133,7 +133,7 @@ class KSPlanet : public KSPlanetBase
     {
       public:
         /** Constructor */
-        OrbitDataColl();
+        OrbitDataColl() = default;
 
         OBArray Lon;
         OBArray Lat;

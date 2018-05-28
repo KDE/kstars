@@ -39,10 +39,6 @@ FITSLabel::FITSLabel(FITSView *view, QWidget *parent) : QLabel(parent)
     this->view = view;
 }
 
-FITSLabel::~FITSLabel()
-{
-}
-
 void FITSLabel::setSize(double w, double h)
 {
     width  = w;

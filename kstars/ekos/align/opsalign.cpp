@@ -8,13 +8,14 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <KConfigDialog>
-
-#include "fov.h"
 #include "opsalign.h"
-#include "kstars.h"
+
 #include "align.h"
+#include "fov.h"
+#include "kstars.h"
 #include "Options.h"
+
+#include <KConfigDialog>
 
 namespace Ekos
 {
@@ -56,10 +57,6 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
     kcfg_AstrometryWCSInfo->setEnabled(false);
     kcfg_AstrometryConfFile->setEnabled(false);
 #endif
-}
-
-OpsAlign::~OpsAlign()
-{
 }
 
 void OpsAlign::toggleSolverInternal()

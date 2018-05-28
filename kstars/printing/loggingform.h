@@ -32,7 +32,7 @@ class LoggingForm : public KStarsDocument
 {
   public:
     /** Constructor */
-    LoggingForm();
+    LoggingForm() = default;
 
     /** Create simple logging form for finder charts. */
     void createFinderChartLogger();

@@ -17,22 +17,22 @@
 
 #include "opscatalog.h"
 
-#include <QList>
-#include <QListWidgetItem>
-#include <QTextStream>
-#include <QFileDialog>
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#include "skymap.h"
+#include "dialogs/addcatdialog.h"
+#include "skycomponents/catalogcomponent.h"
+#include "skycomponents/skymapcomposite.h"
+#include "widgets/magnitudespinbox.h"
 
 #include <KActionCollection>
 #include <KConfigDialog>
 
-#include "Options.h"
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "skymap.h"
-#include "dialogs/addcatdialog.h"
-#include "widgets/magnitudespinbox.h"
-#include "skycomponents/catalogcomponent.h"
-#include "skycomponents/skymapcomposite.h"
+#include <QList>
+#include <QListWidgetItem>
+#include <QTextStream>
+#include <QFileDialog>
 
 OpsCatalog::OpsCatalog() : QFrame(KStars::Instance())
 {
@@ -100,11 +100,6 @@ OpsCatalog::OpsCatalog() : QFrame(KStars::Instance())
             [&]() { isDirty = true; });
 
     isDirty = false;
-}
-
-//empty destructor
-OpsCatalog::~OpsCatalog()
-{
 }
 
 void OpsCatalog::updateCustomCatalogs()

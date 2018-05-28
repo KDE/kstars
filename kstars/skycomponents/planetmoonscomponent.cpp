@@ -17,8 +17,8 @@
 
 #include "planetmoonscomponent.h"
 
-#include "Options.h"
 #include "kstarsdata.h"
+#include "Options.h"
 #include "skylabeler.h"
 #include "skypainter.h"
 #include "solarsystemcomposite.h"
@@ -46,10 +46,6 @@ PlanetMoonsComponent::PlanetMoonsComponent(SkyComposite *p, SolarSystemSingleCom
         //        objectNames(SkyObject::MOON).append( pmoons->name(i) );
         //        objectLists(SkyObject::MOON).append( QPair<QString, const SkyObject*>(pmoons->name(i),pmoons->moon(i)) );
 //    }
-}
-
-PlanetMoonsComponent::~PlanetMoonsComponent()
-{
 }
 
 bool PlanetMoonsComponent::selected()

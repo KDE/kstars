@@ -7,8 +7,7 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef ASTROMETRYPARSER_H
-#define ASTROMETRYPARSER_H
+#pragma once
 
 #include <QObject>
 
@@ -18,7 +17,7 @@ class Align;
 
 /**
  * @class AstrometryParser
- *  AstrometryParser is an interface for online and offline astrometry parsers.
+ * AstrometryParser is an interface for online and offline astrometry parsers.
  *
  * @authro Jasem Mutlaq
  */
@@ -29,7 +28,7 @@ class AstrometryParser : public QObject
 
   public:
     AstrometryParser();
-    virtual ~AstrometryParser();
+    virtual ~AstrometryParser() = default;
 
     virtual void setAlign(Align *align)                                                               = 0;
     virtual bool init()                                                                               = 0;
@@ -42,5 +41,3 @@ class AstrometryParser : public QObject
     void solverFailed();
 };
 }
-
-#endif // ASTROMETRYPARSER_H

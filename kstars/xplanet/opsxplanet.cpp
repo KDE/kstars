@@ -98,10 +98,6 @@ OpsXplanet::OpsXplanet(KStars *_ks) : QFrame(_ks), ksw(_ks)
         groupBoxBackground->setEnabled(false);
 }
 
-OpsXplanet::~OpsXplanet()
-{
-}
-
 void OpsXplanet::toggleXPlanetInternal()
 {
     kcfg_XplanetPath->setEnabled(!kcfg_xplanetIsInternal->isChecked());

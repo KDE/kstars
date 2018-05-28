@@ -52,8 +52,7 @@ class ConstellationNamesComponent : public ListComponent
      */
     ConstellationNamesComponent(SkyComposite *parent, CultureList *cultures);
 
-    /** @short Destructor.  Delete list members */
-    ~ConstellationNamesComponent() override;
+    virtual ~ConstellationNamesComponent() override = default;
 
     /**
      * @short Draw constellation names on the sky map.

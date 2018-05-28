@@ -221,12 +221,6 @@ ObservingList::ObservingList()
 #endif
 }
 
-ObservingList::~ObservingList()
-{
-}
-
-// Show Event
-
 void ObservingList::showEvent(QShowEvent *)
 {
     // ONLY run for first ever load

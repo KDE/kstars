@@ -49,10 +49,6 @@ LineListIndex::LineListIndex(SkyComposite *parent, const QString &name) : SkyCom
     m_polyIndex.reset(new LineListHash());
 }
 
-LineListIndex::~LineListIndex()
-{
-}
-
 // This is a callback for the indexLines() function below
 const IndexHash &LineListIndex::getIndexHash(LineList *lineList)
 {
