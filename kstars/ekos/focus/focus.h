@@ -27,7 +27,7 @@ namespace Ekos
  * @short Supports manual focusing and auto focusing using relative and absolute INDI focusers.
  *
  * @author Jasem Mutlaq
- * @version 1.3
+ * @version 1.4
  */
 class Focus : public QWidget, public Ui::Focus
 {
