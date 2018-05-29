@@ -106,6 +106,8 @@ FITSData::~FITSData()
         if (tempFile && autoRemoveTemporaryFITS)
             QFile::remove(filename);
     }
+
+    qDeleteAll(records);
 }
 
 bool FITSData::loadFITS(const QString &inFilename, bool silent)
@@ -147,6 +149,8 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         return false;
     }
 #endif
+
+    stats.size = QFile(filename).size();
 
     // Use open diskfile as it does not use extended file names which has problems opening
     // files with [ ] or ( ) in their names.
@@ -288,6 +292,8 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         qCCritical(KSTARS_FITS) << errMessage;
         return false;
     }
+
+    parseHeader();
 
     if (Options::autoDebayer() && checkDebayer())
     {
@@ -884,23 +890,59 @@ void FITSData::setMinMax(double newMin, double newMax, uint8_t channel)
     stats.max[channel] = newMax;
 }
 
-int FITSData::getFITSRecord(QString &recordList, int &nkeys)
+bool FITSData::parseHeader()
 {
     char *header = nullptr;
-    int status   = 0;
+    int status = 0, nkeys=0;
 
     if (fits_hdr2str(fptr, 0, nullptr, 0, &header, &nkeys, &status))
     {
         fits_report_error(stderr, status);
         free(header);
-        return -1;
+        return false;
     }
 
-    recordList = QString(header);
+    QString recordList = QString(header);
+
+    for (int i = 0; i < nkeys; i++)
+    {
+        Record *oneRecord = new Record;
+        QString record = recordList.mid(i * 80, 80);
+        QStringList properties = record.split(QRegExp("[=/]"));
+        // If it is only a comment
+        if (properties.size() == 1)
+        {
+          oneRecord->key = properties[0].mid(0, 7);
+          oneRecord->comment = properties[0].mid(8).simplified();
+        }
+        else
+        {
+            oneRecord->key = properties[0].simplified();
+            oneRecord->value = properties[1].simplified();
+            if (properties.size() > 2)
+                oneRecord->comment = properties[2].simplified();
+        }
+
+        records.append(oneRecord);
+    }
 
     free(header);
 
-    return 0;
+    return true;
+}
+
+bool FITSData::getRecordValue(const QString &key, QString &value) const
+{
+    for (Record *oneRecord : records)
+    {
+        if (oneRecord->key == key)
+        {
+            value = oneRecord->value;
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool FITSData::checkCollision(Edge *s1, Edge *s2)
@@ -1851,7 +1893,7 @@ double FITSData::getHFR(HFRType type)
         }
 
         maxHFRStar = starCenters[maxIndex];
-        return starCenters[maxIndex]->HFR;
+        return static_cast<double>(starCenters[maxIndex]->HFR);
     }
 
     double FSum   = 0;
@@ -1860,7 +1902,7 @@ double FITSData::getHFR(HFRType type)
     // Weighted average HFR
     for (int i = 0; i < starCenters.count(); i++)
     {
-        avgHFR += starCenters[i]->val * starCenters[i]->HFR;
+        avgHFR += static_cast<double>(starCenters[i]->val * starCenters[i]->HFR);
         FSum += starCenters[i]->val;
     }
 
@@ -2512,13 +2554,13 @@ qCInfo(KSTARS_FITS) << filename << "Apply Filter calculation took" << timer.elap
 #endif
 }
 
-QList<Edge *> FITSData::getStarCentersInSubFrame(QRect subFrame)
+QList<Edge *> FITSData::getStarCentersInSubFrame(QRect subFrame) const
 {
     QList<Edge *> starCentersInSubFrame;
     for (int i = 0; i < starCenters.count(); i++)
     {
-        int x = starCenters[i]->x;
-        int y = starCenters[i]->y;
+        int x = static_cast<int>(starCenters[i]->x);
+        int y = static_cast<int>(starCenters[i]->y);
         if(subFrame.contains(x,y))
         {
             starCentersInSubFrame.append(starCenters[i]);
@@ -2540,8 +2582,8 @@ void FITSData::getCenterSelection(int *x, int *y)
     foreach (Edge *center, starCenters)
         if (checkCollision(pEdge, center))
         {
-            *x = center->x;
-            *y = center->y;
+            *x = static_cast<int>(center->x);
+            *y = static_cast<int>(center->y);
             break;
         }
 
@@ -3706,13 +3748,13 @@ bool FITSData::debayer_16bit()
     return true;
 }
 
-double FITSData::getADU()
+double FITSData::getADU() const
 {
     double adu = 0;
     for (int i = 0; i < channels; i++)
         adu += stats.mean[i];
 
-    return (adu / (double)channels);
+    return (adu / static_cast<double>(channels));
 }
 
 /* CannyDetector, Implementation of Canny edge detector in Qt/C++.
@@ -4092,7 +4134,7 @@ void FITSData::convertToQImage(double dataMin, double dataMax, double scale, dou
     T bMax    = dataMax > limit ? limit : dataMax;
     uint16_t w    = getWidth();
     uint16_t h    = getHeight();
-    uint32_t size = getSize();
+    uint32_t size = getSamplesPerChannel();
     double val;
 
     if (getNumOfChannels() == 1)

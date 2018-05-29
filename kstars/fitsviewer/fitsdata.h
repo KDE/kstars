@@ -93,6 +93,13 @@ class FITSData
     explicit FITSData(const FITSData *other);
     ~FITSData();
 
+    typedef struct
+    {
+      QString key;
+      QString value;
+      QString comment;
+    } Record;
+
     /* Loads FITS image, scales it, and displays it in the GUI */
     bool loadFITS(const QString &inFilename, bool silent = true);
     /* Save FITS */
@@ -109,12 +116,12 @@ class FITSData
     void setImageBuffer(uint8_t *buffer);
     uint8_t *getImageBuffer();
 
-    int getDataType() { return data_type; }
+    int getDataType() const { return data_type; }
     void setDataType(int value) { data_type = value; }
 
     // Stats
-    unsigned int getSize() { return stats.samples_per_channel; }
-    void getDimensions(uint16_t *w, uint16_t *h)
+    uint32_t getSamplesPerChannel() const { return stats.samples_per_channel; }
+    void getDimensions(uint16_t *w, uint16_t *h) const
     {
         *w = stats.width;
         *h = stats.height;
@@ -129,40 +136,45 @@ class FITSData
         stats.height              = h;
         stats.samples_per_channel = stats.width * stats.height;
     }
-    uint16_t getWidth() { return stats.width; }
-    uint16_t getHeight() { return stats.height; }
+    uint16_t getWidth() const { return stats.width; }
+    uint16_t getHeight() const { return stats.height; }
 
     // Statistics
-    int getNumOfChannels() { return channels; }
+    int getNumOfChannels() const { return channels; }
     void setMinMax(double newMin, double newMax, uint8_t channel = 0);
-    void getMinMax(double *min, double *max, uint8_t channel = 0)
+    void getMinMax(double *min, double *max, uint8_t channel = 0) const
     {
         *min = stats.min[channel];
         *max = stats.max[channel];
     }
-    double getMin(uint8_t channel = 0) { return stats.min[channel]; }
-    double getMax(uint8_t channel = 0) { return stats.max[channel]; }
+    int64_t getSize() const { return stats.size; }
+    double getMin(uint8_t channel = 0) const { return stats.min[channel]; }
+    double getMax(uint8_t channel = 0) const { return stats.max[channel]; }
     void setStdDev(double value, uint8_t channel = 0) { stats.stddev[channel] = value; }
-    double getStdDev(uint8_t channel = 0) { return stats.stddev[channel]; }
+    double getStdDev(uint8_t channel = 0) const { return stats.stddev[channel]; }
     void setMean(double value, uint8_t channel = 0) { stats.mean[channel] = value; }
-    double getMean(uint8_t channel = 0) { return stats.mean[channel]; }
+    double getMean(uint8_t channel = 0) const { return stats.mean[channel]; }
     void setMedian(double val, uint8_t channel = 0) { stats.median[channel] = val; }
-    double getMedian(uint8_t channel = 0) { return stats.median[channel]; }
+    double getMedian(uint8_t channel = 0) const { return stats.median[channel]; }
 
-    int getBytesPerPixel() { return stats.bytesPerPixel; }
+    int getBytesPerPixel() const { return stats.bytesPerPixel; }
     void setSNR(double val) { stats.SNR = val; }
-    double getSNR() { return stats.SNR; }
+    double getSNR() const { return stats.SNR; }
     void setBPP(int value) { stats.bitpix = value; }
-    int getBPP() { return stats.bitpix; }
-    double getADU();
+    int getBPP() const { return stats.bitpix; }
+    double getADU() const;
+
+    // FITS Record
+    bool getRecordValue(const QString &key, QString &value) const;
+    const QList<Record*> & getRecords() const {return records;}
 
     // Star Detection - Native KStars implementation
     void setStarAlgorithm(StarAlgorithm algorithm){ starAlgorithm = algorithm; }
-    int getDetectedStars() { return starCenters.count(); }
-    bool areStarsSearched() { return starsSearched; }
+    int getDetectedStars() const { return starCenters.count(); }
+    bool areStarsSearched() const { return starsSearched; }
     void appendStar(Edge *newCenter) { starCenters.append(newCenter); }
-    QList<Edge *> getStarCenters() { return starCenters; }
-    QList<Edge *> getStarCentersInSubFrame(QRect subFrame);    
+    QList<Edge *> getStarCenters() const { return starCenters; }
+    QList<Edge *> getStarCentersInSubFrame(QRect subFrame) const;
 
     int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &trackingBox = QRect());
 
@@ -180,7 +192,7 @@ class FITSData
     int findSEPStars(const QRect &boundary = QRect());
 
     // Half Flux Radius
-    Edge *getMaxHFRStar() { return maxHFRStar; }
+    Edge *getMaxHFRStar() const { return maxHFRStar; }
     double getHFR(HFRType type = HFR_AVERAGE);
     double getHFR(int x, int y);
 
@@ -234,10 +246,7 @@ class FITSData
     bool debayer_8bit();
     bool debayer_16bit();
     void getBayerParams(BayerParams *param);
-    void setBayerParams(BayerParams *param);
-
-    // FITS Record
-    int getFITSRecord(QString &recordList, int &nkeys);
+    void setBayerParams(BayerParams *param);    
 
 // Histogram
 #ifndef KSTARS_LITE
@@ -284,6 +293,10 @@ class FITSData
     int calculateMinMax(bool refresh = false);
     bool checkDebayer();
     void readWCSKeys();
+
+    // FITS Record
+    bool parseHeader();
+    //int getFITSRecord(QString &recordList, int &nkeys);
 
     // Templated functions
     template <typename T>
@@ -398,10 +411,14 @@ class FITSData
         int bitpix { 8 };
         int bytesPerPixel { 1 };
         int ndim { 2 };
+        int64_t size { 0 };
         uint32_t samples_per_channel { 0 };
         uint16_t width { 0 };
         uint16_t height { 0 };
-    } stats;
+    } stats;        
+
+    // A list of header records
+    QList<Record*> records;
 
     /// Remove temproray files after closing
     bool autoRemoveTemporaryFITS { true };
