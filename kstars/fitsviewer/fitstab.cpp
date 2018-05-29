@@ -188,50 +188,27 @@ void FITSTab::statFITS()
 }
 
 void FITSTab::headerFITS()
-{
-    QString recordList;
-    int nkeys = 0;
-    int err_status = 0;
-
-    FITSData *image_data = view->getImageData();
-
-    if ((err_status = image_data->getFITSRecord(recordList, nkeys)) < 0)
-    {
-        char err_text[FLEN_STATUS];
-
-        fits_get_errstatus(err_status, err_text);
-        KMessageBox::error(0, i18n("FITS record error: %1", QString::fromUtf8(err_text)), i18n("FITS Header"));
-        return;
-    }
-
-    //FIXME: possible crash! Must use QPointer<...>!
+{    
+    FITSData *image_data = view->getImageData();       
     QDialog fitsHeaderDialog;
     Ui::fitsHeaderDialog header;
+
+    int nkeys = image_data->getRecords().size();
+    int counter=0;
     header.setupUi(&fitsHeaderDialog);
     header.tableWidget->setRowCount(nkeys);
-    for (int i = 0; i < nkeys; i++)
-    {
-        QString record = recordList.mid(i * 80, 80);
-        // I love regexp!
-        QStringList properties = record.split(QRegExp("[=/]"));
-
-        QTableWidgetItem *tempItem = new QTableWidgetItem(properties[0].simplified());
+    for (FITSData::Record *oneRecord : image_data->getRecords())
+    {        
+        QTableWidgetItem *tempItem = new QTableWidgetItem(oneRecord->key);
         tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-        header.tableWidget->setItem(i, 0, tempItem);
-
-        if (properties.size() > 1)
-        {
-            tempItem = new QTableWidgetItem(properties[1].simplified());
-            tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-            header.tableWidget->setItem(i, 1, tempItem);
-        }
-
-        if (properties.size() > 2)
-        {
-            tempItem = new QTableWidgetItem(properties[2].simplified());
-            tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-            header.tableWidget->setItem(i, 2, tempItem);
-        }
+        header.tableWidget->setItem(counter, 0, tempItem);
+        tempItem = new QTableWidgetItem(oneRecord->value);
+        tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        header.tableWidget->setItem(counter, 1, tempItem);
+        tempItem = new QTableWidgetItem(oneRecord->comment);
+        tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        header.tableWidget->setItem(counter, 2, tempItem);
+        counter++;
     }
 
     header.tableWidget->resizeColumnsToContents();

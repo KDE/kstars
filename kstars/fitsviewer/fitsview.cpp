@@ -376,15 +376,15 @@ int FITSView::rescale(FITSZoom type)
 
     uint8_t *image_buffer = imageData->getImageBuffer();
 
-    uint32_t size = imageData->getSize();
+    uint32_t size = imageData->getSamplesPerChannel();
     int BBP       = imageData->getBytesPerPixel();
 
     filter = filterStack.last();
 
     if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V)))
     {
-        image_buffer = new uint8_t[imageData->getSize() * imageData->getNumOfChannels() * BBP];
-        memcpy(image_buffer, imageData->getImageBuffer(), imageData->getSize() * imageData->getNumOfChannels() * BBP);
+        image_buffer = new uint8_t[imageData->getSamplesPerChannel() * imageData->getNumOfChannels() * BBP];
+        memcpy(image_buffer, imageData->getImageBuffer(), imageData->getSamplesPerChannel() * imageData->getNumOfChannels() * BBP);
 
         displayBuffer = true;
 
