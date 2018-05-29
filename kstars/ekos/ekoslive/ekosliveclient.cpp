@@ -27,6 +27,8 @@
 #include "indi/indiccd.h"
 #include "indi/indifilter.h"
 
+#include <KFormat>
+
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkAccessManager>
@@ -393,13 +395,29 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
     jpegFile.open();
 
     QByteArray jpegData = jpegFile.readAll();
+    const FITSData *imageData = view->getImageData();
+    QString resolution = QString("%1x%2").arg(imageData->getWidth()).arg(imageData->getHeight());
+    QString sizeBytes = KFormat().formatByteSize(imageData->getSize());
+    QString xbin("1"), ybin("1");
+    imageData->getRecordValue("XBINNING", xbin);
+    imageData->getRecordValue("YBINNING", ybin);
+    QString binning = QString("%1x%2").arg(xbin).arg(ybin);
+    QString bitDepth = QString::number(imageData->getBPP());
+
+    QJsonObject metadata = {
+      {"resolution",resolution},
+      {"size",sizeBytes},
+      {"bin",binning},
+      {"bpp",bitDepth},
+    };
 
     QJsonObject image =
     {
-        {"data", QString(jpegData.toBase64()) }
+        {"data", QString(jpegData.toBase64()) },
+        {"metadata", metadata},
     };
 
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_VIDEO_FRAME], image);
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
 }
 
 void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
@@ -421,10 +439,10 @@ void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
 
     QJsonObject image =
     {
-        {"data", QString(jpegData.toBase64()) }
+        {"data", QString(jpegData.toBase64()) }        
     };
 
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_VIDEO_FRAME], image);
 }
 
 void EkosLiveClient::updateFocusStatus(const QJsonObject &status)
