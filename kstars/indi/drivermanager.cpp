@@ -1201,7 +1201,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     bool driverIsAvailable = checkDriverAvailability(driver);
 
     vMap.insert("LOCALLY_AVAILABLE", driverIsAvailable);
-    QIcon remoteIcon = QIcon::fromTheme("modem");
+    QIcon remoteIcon = QIcon::fromTheme("network-modem");
 
     QTreeWidgetItem *device = new QTreeWidgetItem(DGroup);
 

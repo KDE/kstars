@@ -24,7 +24,7 @@ Popup {
 
     background: Rectangle {
         anchors.fill: parent
-        color: num.sysPalette.base
+        color: Num.sysPalette.base
     }
 
     KSListView {

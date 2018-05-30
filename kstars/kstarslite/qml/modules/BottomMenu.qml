@@ -132,10 +132,10 @@ ColumnLayout {
 
         background: Rectangle {
             id: menuRect
-            color: num.sysPalette.base
+            color: Num.sysPalette.base
             border {
                 width: 1
-                color: num.sysPalette.light
+                color: Num.sysPalette.light
             }
             radius: 10
         }
@@ -235,7 +235,7 @@ ColumnLayout {
                 Rectangle {
                     id: separatorSearchSmall
                     height: decreaseUnitLandscape.height*0.75
-                    color: num.sysPalette.shadow
+                    color: Num.sysPalette.shadow
                     width: 1
                     visible: isWindowWidthSmall
                 }
@@ -291,7 +291,7 @@ ColumnLayout {
                 Rectangle {
                     id: separator
                     height: decreaseUnitLandscape.height*0.75
-                    color: num.sysPalette.shadow
+                    color: Num.sysPalette.shadow
                     width: 1
                     visible: !isWindowWidthSmall
                 }
@@ -308,7 +308,7 @@ ColumnLayout {
                 Rectangle {
                     id: separatorSearchLarge
                     height: decreaseUnitLandscape.height*0.75
-                    color: num.sysPalette.shadow
+                    color: Num.sysPalette.shadow
                     width: 1
                     visible: !isWindowWidthSmall
                 }

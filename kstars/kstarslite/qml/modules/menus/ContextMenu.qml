@@ -22,7 +22,7 @@ Menu {
     padding: 5
     background: Rectangle {
         implicitWidth: 200
-        color: num.sysPalette.base
+        color: Num.sysPalette.base
         radius: 5
     }
 
@@ -55,7 +55,7 @@ Menu {
         }
 
         Rectangle {
-            color: num.sysPalette.light
+            color: Num.sysPalette.light
             width: parent.width - 10
             height: 1
             anchors {
@@ -122,7 +122,7 @@ Menu {
         }
 
         Rectangle {
-            color: num.sysPalette.light
+            color: Num.sysPalette.light
             visible: telescopeCol.isTelescope
             width: parent.width - 10
             height: 1

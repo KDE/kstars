@@ -34,7 +34,7 @@ KSPage {
             }
             background: Rectangle {
                 anchors.fill: parent
-                color: num.sysPalette.base
+                color: Num.sysPalette.base
             }
 
             KSTabButton {
@@ -81,7 +81,7 @@ KSPage {
 
                 background: Rectangle {
                     anchors.fill: parent
-                    color: num.sysPalette.base
+                    color: Num.sysPalette.base
                 }
 
                 Flickable {
@@ -224,7 +224,7 @@ KSPage {
 
                 background: Rectangle {
                     anchors.fill: parent
-                    color: num.sysPalette.base
+                    color: Num.sysPalette.base
                 }
 
                 Flickable {
@@ -335,7 +335,7 @@ KSPage {
 
                 background: Rectangle {
                     anchors.fill: parent
-                    color: num.sysPalette.base
+                    color: Num.sysPalette.base
                 }
 
                 GridLayout {
@@ -441,7 +441,7 @@ KSPage {
 
                 background: Rectangle {
                     anchors.fill: parent
-                    color: num.sysPalette.base
+                    color: Num.sysPalette.base
                 }
 
                 Flickable {
@@ -487,7 +487,7 @@ KSPage {
                                 implicitWidth: parent.width
                                 implicitHeight: 40
                                 border{
-                                    color: num.sysPalette.base
+                                    color: Num.sysPalette.base
                                     width: 2
                                 }
                             }

@@ -114,8 +114,8 @@ MouseArea {
             id: backgroundRect
             anchors.centerIn: parent
             radius: units.smallSpacing
-            color: num.sysPalette.base
-            border.color: num.sysPalette.light
+            color: Num.sysPalette.base
+            border.color: Num.sysPalette.light
             border.width: 1
             opacity: 0.6
             width: mainLayout.width + Math.round((height - mainLayout.height))
@@ -149,7 +149,7 @@ MouseArea {
             verticalOffset: 0
             radius: units.gridUnit
             samples: 32
-            color: num.sysPalette.shadow//Qt.rgba(0, 0, 0, 0.5)
+            color: Num.sysPalette.shadow//Qt.rgba(0, 0, 0, 0.5)
         }
     }
 }

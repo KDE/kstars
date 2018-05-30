@@ -23,7 +23,7 @@ Menu {
     property bool isImage: false
     background: Rectangle {
         implicitWidth: 200
-        color: num.sysPalette.base
+        color: Num.sysPalette.base
         radius: 5
     }
 

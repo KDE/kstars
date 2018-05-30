@@ -29,10 +29,10 @@ KSPage {
     ColumnLayout {
         id: findColumn
         anchors.fill: parent
-        spacing: 5 * num.dp
+        spacing: 5 * Num.dp
         anchors{
             bottom: parent.bottom
-            bottomMargin: 15 * num.dp
+            bottomMargin: 15 * Num.dp
         }
 
         RowLayout {
@@ -63,7 +63,7 @@ KSPage {
 
             Item {
                 //Spacer
-                Layout.minimumWidth: 30 * num.dp
+                Layout.minimumWidth: 30 * Num.dp
                 Layout.fillWidth: true
             }
 

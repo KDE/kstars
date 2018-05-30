@@ -29,7 +29,7 @@
 </Prefix>
 <Count>1</Count>
 <Delay>1</Delay>
-<FITSDirectory>/tmp/kstars_tests</FITSDirectory>
+<FITSDirectory>/var/tmp/kstars_tests</FITSDirectory>
 <UploadMode>0</UploadMode>
 <FormatIndex>0</FormatIndex>
 <Properties>
