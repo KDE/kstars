@@ -1305,7 +1305,6 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list)
 
     equip.clear();
     userdb_.close();
-    return;
 }
 #endif
 #if 0

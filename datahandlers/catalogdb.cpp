@@ -116,7 +116,6 @@ void CatalogDB::FirstRun()
             qCWarning(KSTARS_CATALOG) << query.lastError();
         }
     }
-    return;
 }
 
 CatalogDB::~CatalogDB()

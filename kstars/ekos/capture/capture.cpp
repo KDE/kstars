@@ -4064,8 +4064,6 @@ void Capture::llsq(QVector<double> x, QVector<double> y, double &a, double &b)
     a = top / bot;
 
     b = ybar - a * xbar;
-
-    return;
 }
 
 void Capture::setDirty()

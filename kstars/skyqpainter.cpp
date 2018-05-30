@@ -274,7 +274,6 @@ void SkyQPainter::drawSkyLine(SkyPoint *a, SkyPoint *b)
     QPointF bScreen = m_proj->toScreen(b, true, &bVisible);
 
     drawLine(aScreen, bScreen);
-    return;
 
     //THREE CASES:
 //    if (aVisible && bVisible)

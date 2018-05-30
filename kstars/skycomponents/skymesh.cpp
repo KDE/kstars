@@ -88,8 +88,6 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
 
     HTMesh::intersect(p1.ra().Degrees(), p1.dec().Degrees(), radius, (BufNum)bufNum);
     m_drawID++;
-
-    return;
 //    if (m_inDraw && bufNum != DRAW_BUF)
 //        printf("Warning: overlapping buffer: %d\n", bufNum);
 }
@@ -117,8 +115,6 @@ void SkyMesh::indexStar(StarObject *star1, StarObject *star2)
 void SkyMesh::index(const SkyPoint *p, double radius, MeshBufNum_t bufNum)
 {
     HTMesh::intersect(p->ra().Degrees(), p->dec().Degrees(), radius, (BufNum)bufNum);
-
-    return;
 //    if (m_inDraw && bufNum != DRAW_BUF)
 //        printf("Warning: overlapping buffer: %d\n", bufNum);
 }
