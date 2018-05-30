@@ -33,11 +33,11 @@ KSPage {
             anchors {
                 top: parent.top
                 left: parent.left
-             //   margins: 10 * num.dp
+             //   margins: 10 * Num.dp
             }
             Layout.fillWidth: true
 
-            spacing: 5 * num.dp
+            spacing: 5 * Num.dp
 
             Button {
                 text: "Save As"
@@ -59,7 +59,7 @@ KSPage {
                 right: parent.right
                 bottom: parent.bottom
 
-                margins: 15 * num.dp
+                margins: 15 * Num.dp
             }
         }
 

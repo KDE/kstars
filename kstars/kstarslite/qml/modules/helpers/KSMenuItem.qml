@@ -22,14 +22,14 @@ MenuItem {
     contentItem: Text {
         text: menuItem.text
         font: menuItem.font
-        color: num.sysPalette.text
+        color: Num.sysPalette.text
         opacity: enabled ? 1.0 : 0.3
     }
 
     Rectangle {
         width: parent.width - 10
         height: 1
-        color: num.sysPalette.light
+        color: Num.sysPalette.light
         anchors {
             bottom: parent.bottom
             bottomMargin: 5

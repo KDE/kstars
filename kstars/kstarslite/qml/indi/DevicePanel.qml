@@ -81,7 +81,7 @@ KSPage {
                 }
 
                 background: Rectangle {
-                    color: num.sysPalette.base
+                    color: Num.sysPalette.base
                 }
             }
         }

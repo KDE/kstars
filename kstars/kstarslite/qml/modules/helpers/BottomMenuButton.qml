@@ -21,8 +21,8 @@ AbstractButton {
     Image {
         id: icon
         source: iconSrc
-        width: sourceSize.width/num.pixelRatio
-        height: sourceSize.height/num.pixelRatio
+        width: sourceSize.width/Num.pixelRatio
+        height: sourceSize.height/Num.pixelRatio
         anchors.centerIn: iconRect
     }
 
@@ -35,7 +35,7 @@ AbstractButton {
         }
         color: "black"
         border {
-            color: num.sysPalette.light
+            color: Num.sysPalette.light
             width: 1
         }
     }

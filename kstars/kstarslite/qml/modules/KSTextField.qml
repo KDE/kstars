@@ -5,14 +5,14 @@ import "../constants/" 1.0
 TextField {
     id: control
 
-    color: num.sysPalette.text
-    selectedTextColor: num.sysPalette.highlightedText
-    selectionColor: num.sysPalette.highlight
+    color: Num.sysPalette.text
+    selectedTextColor: Num.sysPalette.highlightedText
+    selectionColor: Num.sysPalette.highlight
 
     background: Rectangle {
         y: control.height - height - control.bottomPadding / 2
         implicitWidth: 120
         height: control.activeFocus ? 2 : 1
-        color: control.activeFocus ? num.sysPalette.text : num.sysPalette.dark
+        color: control.activeFocus ? Num.sysPalette.text : Num.sysPalette.dark
     }
 }

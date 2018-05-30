@@ -98,10 +98,10 @@ ColumnLayout {
 
         background: Rectangle {
             id: menuRect
-            color: num.sysPalette.base
+            color: Num.sysPalette.base
             border {
                 width: 2
-                color: num.sysPalette.light
+                color: Num.sysPalette.light
             }
             radius: 10
         }

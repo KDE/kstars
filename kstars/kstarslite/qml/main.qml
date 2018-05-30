@@ -58,7 +58,7 @@ ApplicationWindow {
 
         /*background: Rectangle {
             anchors.fill: parent
-            color: num.sysPalette.dark
+            color: Num.sysPalette.dark
         }*/
 
         Behavior on height {
@@ -248,7 +248,7 @@ ApplicationWindow {
         dragMargin: isLoaded ? Qt.styleHints.startDragDistance : -Qt.styleHints.startDragDistance
         background: Rectangle {
             anchors.fill: parent
-            color: num.sysPalette.base
+            color: Num.sysPalette.base
         }
 
         onOpened: {
@@ -375,7 +375,7 @@ ApplicationWindow {
         edge: Qt.RightEdge
         background: Rectangle {
             anchors.fill: parent
-            color: num.sysPalette.base
+            color: Num.sysPalette.base
         }
 
         onOpened: {

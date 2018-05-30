@@ -64,8 +64,8 @@ AbstractButton {
     Image {
         id: icon
         source: iconSrc
-        width: sourceSize.width/num.pixelRatio //FIX /num.pixelRatio we don't need it here!
-        height: sourceSize.height/num.pixelRatio
+        width: sourceSize.width/Num.pixelRatio //FIX /Num.pixelRatio we don't need it here!
+        height: sourceSize.height/Num.pixelRatio
         anchors.centerIn: iconRect
     }
 
@@ -77,7 +77,7 @@ AbstractButton {
         }
         color: "black"
         border {
-            color: toggled ? num.sysPalette.highlight : "grey"
+            color: toggled ? Num.sysPalette.highlight : "grey"
             width: 1
         }
     }

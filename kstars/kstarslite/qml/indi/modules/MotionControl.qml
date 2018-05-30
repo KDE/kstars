@@ -20,9 +20,9 @@ ColumnLayout {
     id: motionCColumn
     anchors {
         fill: parent
-        margins: num.marginsKStab
+        margins: Num.marginsKStab
     }
-    spacing: 5 * num.dp
+    spacing: 5 * Num.dp
 
     enabled: buttonsEnabled
 

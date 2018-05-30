@@ -21,7 +21,7 @@ Flow {
     property string deviceName: ""
     property bool exclusive: false
     Layout.fillWidth: true
-    spacing: 10 * num.dp
+    spacing: 10 * Num.dp
 
     Connections {
         target: ClientManagerLite

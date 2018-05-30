@@ -27,8 +27,8 @@ Rectangle {
 
         fillMode: Image.PreserveAspectCrop
 
-        width: sourceSize.width/num.pixelRatio
-        height: sourceSize.height/num.pixelRatio
+        width: sourceSize.width/Num.pixelRatio
+        height: sourceSize.height/Num.pixelRatio
 
         Image {
             id: kdeLogo

@@ -33,7 +33,7 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QLabel" name="label_31">
+      <widget class="QLabel" name="required_legend">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -87,7 +87,7 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_34">
+      <widget class="QLabel" name="recommended_legend">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -141,7 +141,7 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_36">
+      <widget class="QLabel" name="optional_legend">
        <property name="enabled">
         <bool>false</bool>
        </property>
