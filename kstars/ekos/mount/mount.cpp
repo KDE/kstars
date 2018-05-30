@@ -1060,4 +1060,31 @@ int Mount::getSlewRate()
     return currentTelescope->getSlewRate();
 }
 
+QJsonArray Mount::getScopes() const
+{
+    QJsonArray scopes;
+    if (currentTelescope == nullptr)
+        return scopes;
+
+    QJsonObject primary = {
+      {"name", "Primary"},
+      {"mount", currentTelescope->getDeviceName()},
+      {"aperture", primaryScopeApertureIN->value()},
+      {"focalLength", primaryScopeFocalIN->value()},
+    };
+
+    scopes.append(primary);
+
+    QJsonObject guide = {
+      {"name", "Guide"},
+      {"mount", currentTelescope->getDeviceName()},
+      {"aperture", primaryScopeApertureIN->value()},
+      {"focalLength", primaryScopeFocalIN->value()},
+    };
+
+    scopes.append(guide);
+
+    return scopes;
+}
+
 }

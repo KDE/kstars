@@ -43,16 +43,18 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {GET_STATES, "get_states"},
     {GET_CAMERAS, "get_cameras"},
     {GET_MOUNTS, "get_mounts"},
+    {GET_SCOPES, "get_scopes"},
     {GET_FILTER_WHEELS, "get_filter_wheels"},
     {NEW_MOUNT_STATE, "new_mount_state"},
     {NEW_CAPTURE_STATE, "new_capture_state"},
     {NEW_GUIDE_STATE, "new_guide_state"},
     {NEW_FOCUS_STATE, "new_focus_state"},
+    {NEW_ALIGN_STATE, "new_align_state"},
     {NEW_PREVIEW_IMAGE, "new_preview_image"},
     {NEW_VIDEO_FRAME, "new_video_frame"},
+    {NEW_ALIGN_FRAME, "new_align_frame"},
     {NEW_NOTIFICATION, "new_notification"},
     {NEW_TEMPERATURE, "new_temperature"},
-
 
     {CAPTURE_PREVIEW, "capture_preview"},
     {CAPTURE_TOGGLE_VIDEO, "capture_toggle_video"},
@@ -76,6 +78,13 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {GUIDE_START, "guide_start"},
     {GUIDE_STOP, "guide_stop"},
     {GUIDE_CLEAR, "guide_clear"},
+
+    {ALIGN_SOLVE, "align_solve"},
+    {ALIGN_STOP, "align_stop"},
+    {ALIGN_LOAD_AND_SLEW, "align_load_and_slew"},
+    {ALIGN_SELECT_SCOPE, "align_select_scope"},
+    {ALIGN_SELECT_SOLVER_TYPE, "align_select_solver_type"},
+    {ALIGN_SELECT_SOLVER_ACTION, "align_select_solver_action"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -135,7 +144,6 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
 
         delete (localWallet);
     }
-
 }
 
 void EkosLiveClient::connectWebSocketServer()
@@ -260,6 +268,8 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
         sendCameras();
     else if (command == commands[GET_MOUNTS])
         sendMounts();
+    else if (command == commands[GET_SCOPES])
+        sendScopes();
     else if (command == commands[GET_FILTER_WHEELS])
         sendFilterWheels();    
     else if (command.startsWith("capture_"))
@@ -270,6 +280,8 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
         processFocusCommands(command, serverMessage.object().value("payload").toObject());
     else if (command.startsWith("guide_"))
         processGuideCommands(command, serverMessage.object().value("payload").toObject());
+    else if (command.startsWith("align_"))
+        processAlignCommands(command, serverMessage.object().value("payload").toObject());
 }
 
 void EkosLiveClient::onBinaryMessageReceived(const QByteArray &message)
@@ -419,6 +431,46 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
 }
+void EkosLiveClient::setAlignFrame(FITSView *view)
+{
+    if (m_isConnected == false)
+        return;
+
+    // TODO 640 should be configurable later on
+    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
+    QTemporaryFile jpegFile;
+    jpegFile.open();
+    jpegFile.close();
+
+    scaledImage.save(jpegFile.fileName(), "jpg");
+
+    jpegFile.open();
+
+    QByteArray jpegData = jpegFile.readAll();
+    const FITSData *imageData = view->getImageData();
+    QString resolution = QString("%1x%2").arg(imageData->getWidth()).arg(imageData->getHeight());
+    QString sizeBytes = KFormat().formatByteSize(imageData->getSize());
+    QString xbin("1"), ybin("1");
+    imageData->getRecordValue("XBINNING", xbin);
+    imageData->getRecordValue("YBINNING", ybin);
+    QString binning = QString("%1x%2").arg(xbin).arg(ybin);
+    QString bitDepth = QString::number(imageData->getBPP());
+
+    QJsonObject metadata = {
+      {"resolution",resolution},
+      {"size",sizeBytes},
+      {"bin",binning},
+      {"bpp",bitDepth},
+    };
+
+    QJsonObject image =
+    {
+        {"data", QString(jpegData.toBase64()) },
+        {"metadata", metadata},
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_FRAME], image);
+}
 
 void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
 {
@@ -482,6 +534,13 @@ void EkosLiveClient::sendStates()
 
     QJsonObject guideState = {{ "status", m_Manager->guideStatus->text()}};
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_GUIDE_STATE], guideState);
+
+    QJsonObject alignState = {
+        {"status", Ekos::alignStates[m_Manager->alignModule()->getStatus()]},
+        {"solvers", QJsonArray::fromStringList(m_Manager->alignModule()->getActiveSolvers())},
+        {"solverIndex", m_Manager->alignModule()->getActiveSolverIndex()},
+    };
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_STATE], alignState);
 }
 
 void EkosLiveClient::sendEvent(const QString &message, KSNotification::EventType event)
@@ -559,6 +618,15 @@ void EkosLiveClient::sendMounts()
 
         sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], slewRate);
     }
+}
+
+void EkosLiveClient::sendScopes()
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonArray scopeList = m_Manager->mountModule()->getScopes();
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_SCOPES], scopeList);
 }
 
 void EkosLiveClient::sendTemperature(double value)
@@ -728,4 +796,44 @@ void EkosLiveClient::processMountCommands(const QString &command, const QJsonObj
         else if (direction == "W")
             mount->motionCommand(action, -1, ISD::Telescope::MOTION_WEST);
     }
+}
+
+void EkosLiveClient::processAlignCommands(const QString &command, const QJsonObject &payload)
+{
+    Ekos::Align *align = m_Manager->alignModule();
+
+    if (command == commands[ALIGN_SOLVE])
+        align->captureAndSolve();
+    else if (command == commands[ALIGN_STOP])
+        align->abort();
+    else if (command == commands[ALIGN_SELECT_SCOPE])
+        align->setFOVTelescopeType(payload["value"].toInt());
+    else if (command == commands[ALIGN_SELECT_SOLVER_TYPE])
+        align->setSolverType(payload["value"].toInt());
+    else if (command == commands[ALIGN_SELECT_SOLVER_ACTION])
+        align->setSolverAction(payload["value"].toInt());
+}
+
+void EkosLiveClient::setAlignStatus(Ekos::AlignState newState)
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject alignState = {
+        {"status", Ekos::alignStates[newState]}
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_STATE], alignState);
+}
+
+void EkosLiveClient::setAlignSolution(const QJsonObject &solution)
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject alignState = {
+        {"solution", solution},
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_STATE], alignState);
 }
