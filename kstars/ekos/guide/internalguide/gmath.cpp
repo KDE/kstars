@@ -554,7 +554,7 @@ float *cgmath::createFloatImage(FITSData *target) const
 
     // #1 Convert to float array
     // We only process 1st plane if it is a color image
-    uint32_t imgSize = imageData->getSize();
+    uint32_t imgSize = imageData->getSamplesPerChannel();
     float *imgFloat  = new float[imgSize];
 
     if (imgFloat == nullptr)
@@ -1575,8 +1575,8 @@ QList<Edge*> cgmath::PSFAutoFind(int extraEdgeAllowance)
 
     // run the PSF convolution
     {
-        float *tmp = new float[smoothed->getSize()];
-        memset(tmp, 0, smoothed->getSize()*sizeof(float));
+        float *tmp = new float[smoothed->getSamplesPerChannel()];
+        memset(tmp, 0, smoothed->getSamplesPerChannel()*sizeof(float));
         psf_conv(tmp, conv, subW, subH);
         delete [] conv;
         // Swap

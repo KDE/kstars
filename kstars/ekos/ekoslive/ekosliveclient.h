@@ -54,15 +54,17 @@ public:
         NEW_GUIDE_STATE,
         NEW_FOCUS_STATE,
         NEW_PREVIEW_IMAGE,
+        NEW_VIDEO_FRAME,
         NEW_NOTIFICATION,
         NEW_TEMPERATURE,
 
-
+        // Capture
         CAPTURE_PREVIEW,
         CAPTURE_TOGGLE_VIDEO,
         CAPTURE_START,
         CAPTURE_STOP,
 
+        // Mount
         MOUNT_PARK,
         MOUNT_UNPARK,
         MOUNT_ABORT,
@@ -74,8 +76,14 @@ public:
         MOUNT_SET_TRACKING,
         MOUNT_SET_SLEW_RATE,
 
+        // Focus
         FOCUS_START,
         FOCUS_STOP,
+
+        // Guide
+        GUIDE_START,
+        GUIDE_STOP,
+        GUIDE_CLEAR,
     };
 
     static QMap<COMMANDS, QString> const commands;
@@ -102,17 +110,18 @@ private:
     void disconnectWebSocketServer();
 
     // Capture
+    void processCaptureCommands(const QString &command, const QJsonObject &payload);
     void capturePreview(const QJsonObject &settings);
     void sendTemperature(double value);
-    void toggleVideo(bool enabled);
-    void startSequence();
-    void stopSequence();
 
     // Mount
-    void processMountCommands(const QString &command, const QJsonObject &mountCommand);
+    void processMountCommands(const QString &command, const QJsonObject &payload);
 
     // Focus
     void processFocusCommands(const QString &command, const QJsonObject &payload);
+
+    // Guide
+    void processGuideCommands(const QString &command, const QJsonObject &payload);
 
     // Profiles
     void sendProfiles();
