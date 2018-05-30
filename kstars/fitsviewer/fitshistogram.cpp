@@ -544,7 +544,7 @@ bool FITSHistogramCommand::calculateDelta(const uint8_t *buffer)
     FITSData *image_data = tab->getView()->getImageData();
 
     uint8_t *image_buffer    = image_data->getImageBuffer();
-    int totalPixels          = image_data->getSize() * image_data->getNumOfChannels();
+    int totalPixels          = image_data->getSamplesPerChannel() * image_data->getNumOfChannels();
     unsigned long totalBytes = totalPixels * image_data->getBytesPerPixel();
 
     auto *raw_delta = new uint8_t[totalBytes];
@@ -592,7 +592,7 @@ bool FITSHistogramCommand::reverseDelta()
     FITSData *image_data  = image->getImageData();
     uint8_t *image_buffer = (image_data->getImageBuffer());
 
-    unsigned int size = image_data->getSize();
+    unsigned int size = image_data->getSamplesPerChannel();
     int channels      = image_data->getNumOfChannels();
 
     int totalPixels          = size * channels;
@@ -640,7 +640,7 @@ void FITSHistogramCommand::redo()
     FITSData *image_data = image->getImageData();
 
     uint8_t *image_buffer = image_data->getImageBuffer();
-    unsigned int size     = image_data->getSize();
+    unsigned int size     = image_data->getSamplesPerChannel();
     int channels          = image_data->getNumOfChannels();
     int BBP               = image_data->getBytesPerPixel();
 
