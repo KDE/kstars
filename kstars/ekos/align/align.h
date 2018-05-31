@@ -273,6 +273,7 @@ class Align : public QWidget, public Ui::Align
     // Ekos Live Client helper functions
     QStringList getActiveSolvers() const;
     int getActiveSolverIndex() const;
+    void setCaptureSettings(const QJsonObject &settings);
 
     /**
          * @brief generateOptions Generate astrometry.net option given the supplied map
