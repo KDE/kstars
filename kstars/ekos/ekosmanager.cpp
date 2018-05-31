@@ -1845,7 +1845,7 @@ void EkosManager::initAlign()
     {
         connect(alignProcess.get(), &Ekos::Align::newStatus, ekosLiveClient.get(), &EkosLiveClient::setAlignStatus);
         connect(alignProcess.get(), &Ekos::Align::newSolution, ekosLiveClient.get(), &EkosLiveClient::setAlignSolution);
-        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get(), &EkosLiveClient::setAlignFrame);
+        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get(), &EkosLiveClient::sendPreviewImage);
     }
 
     if (managedDevices.contains(KSTARS_DOME))

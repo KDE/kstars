@@ -120,7 +120,15 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
     connect(&m_webSocket, &QWebSocket::disconnected, this, &EkosLiveClient::onDisconnected);
     connect(&m_webSocket, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error), [=]()
     {
-        qCritical(KSTARS_EKOS) << "Websocked connection error" << m_webSocket.errorString();
+        qCritical(KSTARS_EKOS) << "Websocket connection error" << m_webSocket.errorString();
+    });
+
+
+    connect(&m_mediaSocket, &QWebSocket::connected, this, &EkosLiveClient::onMediaConnected);
+    connect(&m_mediaSocket, &QWebSocket::disconnected, this, &EkosLiveClient::onMediaDisconnected);
+    connect(&m_mediaSocket, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error), [=]()
+    {
+        qCritical(KSTARS_EKOS) << "Media Websocket connection error" << m_mediaSocket.errorString();
     });
 
     //m_serviceURL.setAuthority("https://live.stellarmate.com");
@@ -154,7 +162,7 @@ void EkosLiveClient::connectWebSocketServer()
     query.addQueryItem("username", username->text());
     query.addQueryItem("token", token);
 
-    requestURL.setPath("/ekos");
+    requestURL.setPath("/message/ekos");
     requestURL.setQuery(query);
 
 
@@ -166,6 +174,27 @@ void EkosLiveClient::connectWebSocketServer()
 void EkosLiveClient::disconnectWebSocketServer()
 {
     m_webSocket.close();
+}
+
+void EkosLiveClient::connectMediaSocketServer()
+{
+    QUrl requestURL(m_wsURL);
+
+    QUrlQuery query;
+    query.addQueryItem("username", username->text());
+    query.addQueryItem("token", token);
+
+    requestURL.setPath("/media/ekos");
+    requestURL.setQuery(query);
+
+    m_mediaSocket.open(requestURL);
+
+    qCInfo(KSTARS_EKOS) << "Connecting to Media Websocket server at" << requestURL.toDisplayString();
+}
+
+void EkosLiveClient::disconnectMediaSocketServer()
+{
+    m_mediaSocket.close();
 }
 
 void EkosLiveClient::sendMessage(const QString &msg)
@@ -236,6 +265,21 @@ void EkosLiveClient::onDisconnected()
     disconnect(&m_webSocket, &QWebSocket::binaryMessageReceived, this, &EkosLiveClient::onBinaryMessageReceived);
 
     emit disconnected();
+}
+
+void EkosLiveClient::onMediaConnected()
+{
+    qCInfo(KSTARS_EKOS) << "Connected to Media Websocket server at" << m_wsURL.toDisplayString();
+}
+
+void EkosLiveClient::onMediaDisconnected()
+{
+    qCInfo(KSTARS_EKOS) << "Disconnected from Media Websocket server at" << m_wsURL.toDisplayString();
+}
+
+void EkosLiveClient::onMediaBinaryMessageReceived(const QByteArray &message)
+{
+    Q_UNUSED(message);
 }
 
 void EkosLiveClient::onTextMessageReceived(const QString &message)
@@ -319,6 +363,7 @@ void EkosLiveClient::disconnectServer()
     token.clear();
 
     disconnectWebSocketServer();
+    disconnectMediaSocketServer();
 }
 
 void EkosLiveClient::authenticate()
@@ -373,6 +418,7 @@ void EkosLiveClient::onResult(QNetworkReply *reply)
     token = json["token"].toString();
 
     connectWebSocketServer();
+    connectMediaSocketServer();
 }
 
 void EkosLiveClient::updateMountStatus(const QJsonObject &status)
@@ -425,77 +471,77 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
 
     QJsonObject image =
     {
-        {"data", QString(jpegData.toBase64()) },
+        //{"data", QString(jpegData.toBase64()) },
         {"metadata", metadata},
     };
 
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
+    //sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
+
+    m_mediaSocket.sendTextMessage(QJsonDocument(metadata).toJson());
+    m_mediaSocket.sendBinaryMessage(jpegData);
 }
-void EkosLiveClient::setAlignFrame(FITSView *view)
-{
-    if (m_isConnected == false)
-        return;
 
-    // TODO 640 should be configurable later on
-    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
-    QTemporaryFile jpegFile;
-    jpegFile.open();
-    jpegFile.close();
+//void EkosLiveClient::setAlignFrame(FITSView *view)
+//{
+//    if (m_isConnected == false)
+//        return;
 
-    scaledImage.save(jpegFile.fileName(), "jpg");
+//    // TODO 640 should be configurable later on
+//    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
+//    QTemporaryFile jpegFile;
+//    jpegFile.open();
+//    jpegFile.close();
 
-    jpegFile.open();
+//    scaledImage.save(jpegFile.fileName(), "jpg");
 
-    QByteArray jpegData = jpegFile.readAll();
-    const FITSData *imageData = view->getImageData();
-    QString resolution = QString("%1x%2").arg(imageData->getWidth()).arg(imageData->getHeight());
-    QString sizeBytes = KFormat().formatByteSize(imageData->getSize());
-    QString xbin("1"), ybin("1");
-    imageData->getRecordValue("XBINNING", xbin);
-    imageData->getRecordValue("YBINNING", ybin);
-    QString binning = QString("%1x%2").arg(xbin).arg(ybin);
-    QString bitDepth = QString::number(imageData->getBPP());
+//    jpegFile.open();
 
-    QJsonObject metadata = {
-      {"resolution",resolution},
-      {"size",sizeBytes},
-      {"bin",binning},
-      {"bpp",bitDepth},
-    };
+//    QByteArray jpegData = jpegFile.readAll();
+//    const FITSData *imageData = view->getImageData();
+//    QString resolution = QString("%1x%2").arg(imageData->getWidth()).arg(imageData->getHeight());
+//    QString sizeBytes = KFormat().formatByteSize(imageData->getSize());
+//    QString xbin("1"), ybin("1");
+//    imageData->getRecordValue("XBINNING", xbin);
+//    imageData->getRecordValue("YBINNING", ybin);
+//    QString binning = QString("%1x%2").arg(xbin).arg(ybin);
+//    QString bitDepth = QString::number(imageData->getBPP());
 
-    QJsonObject image =
-    {
-        {"data", QString(jpegData.toBase64()) },
-        {"metadata", metadata},
-        {"uuid", QUuid::createUuid().toString()}
-    };
+//    QJsonObject metadata = {
+//      {"resolution",resolution},
+//      {"size",sizeBytes},
+//      {"bin",binning},
+//      {"bpp",bitDepth},
+//    };
 
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_FRAME], image);
-}
+//    QJsonObject image =
+//    {
+//        //{"data", QString(jpegData.toBase64()) },
+//        {"metadata", metadata},
+//        //{"uuid", QUuid::createUuid().toString()}
+//    };
+
+//    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_FRAME], image);
+
+//    m_mediaSocket.sendBinaryMessage(jpegData);
+//}
 
 void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
 {
     if (m_isConnected == false || !frame)
         return;
 
-    // TODO 640 should be configurable later on
+    // TODO Scale should be configurable
     QImage scaledImage =  frame.get()->scaledToWidth(640);
     QTemporaryFile jpegFile;
     jpegFile.open();
     jpegFile.close();
 
-    scaledImage.save(jpegFile.fileName(), "jpg");
+    // TODO Quality should be configurable
+    scaledImage.save(jpegFile.fileName(), "jpg", 50);
 
-    jpegFile.open();
+    jpegFile.open();    
 
-    QByteArray jpegData = jpegFile.readAll();
-
-    QJsonObject image =
-    {
-        {"data", QString(jpegData.toBase64()) }        
-    };
-
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_VIDEO_FRAME], image);
+    m_mediaSocket.sendBinaryMessage(jpegFile.readAll());
 }
 
 void EkosLiveClient::updateFocusStatus(const QJsonObject &status)
@@ -816,6 +862,14 @@ void EkosLiveClient::processAlignCommands(const QString &command, const QJsonObj
         align->setSolverType(payload["value"].toInt());
     else if (command == commands[ALIGN_SELECT_SOLVER_ACTION])
         align->setSolverAction(payload["value"].toInt());
+    else if (command == commands[ALIGN_LOAD_AND_SLEW])
+    {
+        QTemporaryFile file;
+        file.open();
+        file.write(QByteArray::fromBase64(payload["data"].toString().toLatin1()));
+        file.close();
+        align->loadAndSlew(file.fileName());
+    }
 }
 
 void EkosLiveClient::setAlignStatus(Ekos::AlignState newState)

@@ -103,7 +103,7 @@ public:
 public slots:
     void setAlignStatus(Ekos::AlignState newState);
     void setAlignSolution(const QJsonObject &solution);
-    void setAlignFrame(FITSView* view);
+    //void setAlignFrame(FITSView* view);
 
 signals:
     void connected();
@@ -122,9 +122,16 @@ private slots:
     void onBinaryMessageReceived(const QByteArray &message);
     void sendVideoFrame(std::unique_ptr<QImage> & frame);
 
+    void onMediaConnected();
+    void onMediaDisconnected();
+    void onMediaBinaryMessageReceived(const QByteArray &message);
+
 private:
     void connectWebSocketServer();
     void disconnectWebSocketServer();
+
+    void connectMediaSocketServer();
+    void disconnectMediaSocketServer();
 
     // Capture
     void processCaptureCommands(const QString &command, const QJsonObject &payload);
@@ -152,7 +159,7 @@ private:
     void sendFilterWheels();
 
 
-    QWebSocket m_webSocket;    
+    QWebSocket m_webSocket, m_mediaSocket;
     bool m_isConnected { false };
     EkosManager *m_Manager { nullptr };
     QNetworkAccessManager *networkManager { nullptr };
