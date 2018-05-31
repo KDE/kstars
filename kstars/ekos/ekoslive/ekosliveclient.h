@@ -48,13 +48,16 @@ public:
         GET_STATES,
         GET_CAMERAS,
         GET_MOUNTS,
+        GET_SCOPES,
         GET_FILTER_WHEELS,
         NEW_MOUNT_STATE,
         NEW_CAPTURE_STATE,
-        NEW_GUIDE_STATE,
+        NEW_GUIDE_STATE,        
         NEW_FOCUS_STATE,
+        NEW_ALIGN_STATE,
         NEW_PREVIEW_IMAGE,
         NEW_VIDEO_FRAME,
+        NEW_ALIGN_FRAME,
         NEW_NOTIFICATION,
         NEW_TEMPERATURE,
 
@@ -84,9 +87,23 @@ public:
         GUIDE_START,
         GUIDE_STOP,
         GUIDE_CLEAR,
+
+        // Align
+        ALIGN_SOLVE,
+        ALIGN_STOP,
+        ALIGN_LOAD_AND_SLEW,
+        ALIGN_SELECT_SCOPE,
+        ALIGN_SELECT_SOLVER_TYPE,
+        ALIGN_SELECT_SOLVER_ACTION,
+
     };
 
     static QMap<COMMANDS, QString> const commands;
+
+public slots:
+    void setAlignStatus(Ekos::AlignState newState);
+    void setAlignSolution(const QJsonObject &solution);
+    void setAlignFrame(FITSView* view);
 
 signals:
     void connected();
@@ -123,11 +140,15 @@ private:
     // Guide
     void processGuideCommands(const QString &command, const QJsonObject &payload);
 
+    // Align
+    void processAlignCommands(const QString &command, const QJsonObject &payload);
+
     // Profiles
     void sendProfiles();
     void sendStates();
     void sendCameras();
     void sendMounts();
+    void sendScopes();
     void sendFilterWheels();
 
 
