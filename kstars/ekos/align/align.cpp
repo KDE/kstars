@@ -3068,6 +3068,16 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     }
 
     emit newSolverResults(orientation, ra, dec, pixscale);
+    QJsonObject solution = {
+        {"ra", SolverRAOut->text()},
+        {"de", SolverDecOut->text()},
+        {"dRA", dRAOut->text()},
+        {"dDE", dDEOut->text()},
+        {"pix", pixscale},
+        {"rot", orientation},
+        {"fov", FOVOut->text()},
+    };
+    emit newSolution(solution);
 
     switch (currentGotoMode)
     {
@@ -5438,6 +5448,16 @@ QStringList Align::getActiveSolvers() const
 int Align::getActiveSolverIndex() const
 {
     return solverTypeGroup->checkedId();
+}
+
+void Align::setCaptureSettings(const QJsonObject &settings)
+{
+    CCDCaptureCombo->setCurrentText(settings["camera"].toString());
+    FilterDevicesCombo->setCurrentText(settings["fw"].toString());
+    FilterPosCombo->setCurrentText(settings["filter"].toString());
+    Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
+    exposureIN->setValue(settings["exp"].toDouble(1));
+    binningCombo->setCurrentIndex(settings["bin"].toInt()-1);
 }
 
 }

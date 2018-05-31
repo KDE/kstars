@@ -467,6 +467,7 @@ void EkosLiveClient::setAlignFrame(FITSView *view)
     {
         {"data", QString(jpegData.toBase64()) },
         {"metadata", metadata},
+        {"uuid", QUuid::createUuid().toString()}
     };
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_FRAME], image);
@@ -803,7 +804,10 @@ void EkosLiveClient::processAlignCommands(const QString &command, const QJsonObj
     Ekos::Align *align = m_Manager->alignModule();
 
     if (command == commands[ALIGN_SOLVE])
+    {
+        align->setCaptureSettings(payload);
         align->captureAndSolve();
+    }
     else if (command == commands[ALIGN_STOP])
         align->abort();
     else if (command == commands[ALIGN_SELECT_SCOPE])
