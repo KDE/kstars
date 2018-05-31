@@ -1841,6 +1841,13 @@ void EkosManager::initAlign()
         connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), alignProcess.get(),
                 SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
 
+    if (ekosLiveClient.get() != nullptr)
+    {
+        connect(alignProcess.get(), &Ekos::Align::newStatus, ekosLiveClient.get(), &EkosLiveClient::setAlignStatus);
+        connect(alignProcess.get(), &Ekos::Align::newSolution, ekosLiveClient.get(), &EkosLiveClient::setAlignSolution);
+        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get(), &EkosLiveClient::setAlignFrame);
+    }
+
     if (managedDevices.contains(KSTARS_DOME))
     {
         alignProcess->setDome(managedDevices[KSTARS_DOME]);

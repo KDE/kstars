@@ -205,13 +205,13 @@ class Align : public QWidget, public Ui::Align
 
     /**
          * @brief Set the current telescope
-         * @newTelescope pointer to telescope device.
+         * @param newTelescope pointer to telescope device.
          */
     void setTelescope(ISD::GDInterface *newTelescope);
 
     /**
          * @brief Set the current dome
-         * @newDome pointer to telescope device.
+         * @param ewDome pointer to telescope device.
          */
     void setDome(ISD::GDInterface *newDome);
 
@@ -270,6 +270,10 @@ class Align : public QWidget, public Ui::Align
 
     void setFilterManager(const QSharedPointer<FilterManager> &manager);
 
+    // Ekos Live Client helper functions
+    QStringList getActiveSolvers() const;
+    int getActiveSolverIndex() const;
+
     /**
          * @brief generateOptions Generate astrometry.net option given the supplied map
          * @param optionsMap List of key=value pairs for all astrometry.net options
@@ -282,13 +286,13 @@ class Align : public QWidget, public Ui::Align
 
     /**
          * @brief Process updated device properties
-         * @nvp pointer to updated property.
+         * @param nvp pointer to updated property.
          */
     void processNumber(INumberVectorProperty *nvp);
 
     /**
          * @brief Process updated device properties
-         * @svp pointer to updated property.
+         * @param svp pointer to updated property.
          */
     void processSwitch(ISwitchVectorProperty *svp);
 
@@ -463,8 +467,9 @@ class Align : public QWidget, public Ui::Align
   signals:
     void newLog();
     void newStatus(Ekos::AlignState state);
-    //void newSolutionDeviation(double ra_arcsecs, double de_arcsecs);
+    void newFrame(FITSView *view);
     void newSolverResults(double orientation, double ra, double dec, double pixscale);
+    void newSolution(const QJsonObject &solution);
 
   private:
     /**

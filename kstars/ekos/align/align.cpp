@@ -2683,6 +2683,8 @@ void Align::setCaptureComplete()
 {
     DarkLibrary::Instance()->disconnect(this);
 
+    emit newFrame(alignView);
+
     if (pahStage == PAH_REFRESH)
     {
         captureAndSolve();
@@ -5004,7 +5006,7 @@ void Align::setWCSToggled(bool result)
         {
             if (currentTelescope->canSync() &&
                     KMessageBox::questionYesNo(
-                        0, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew "
+                        nullptr, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew "
                                 "the telescope to the celestial pole? WARNING: Slewing near poles may cause your mount to "
                                 "end up in unsafe position. Proceed with caution.")) == KMessageBox::Yes)
             {
@@ -5417,6 +5419,25 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
 
     calculateFOV();
 
+}
+
+QStringList Align::getActiveSolvers() const
+{
+    QStringList solvers;
+
+    solvers << "Online";
+    #ifndef Q_OS_WIN
+    solvers << "Offline";
+    #endif
+    if (remoteParserDevice != nullptr)
+        solvers << "Remote";
+
+    return solvers;
+}
+
+int Align::getActiveSolverIndex() const
+{
+    return solverTypeGroup->checkedId();
 }
 
 }
