@@ -2752,7 +2752,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         KGuiItem existingItem(i18n("Use existing settings"), QString(),
                               i18n("Mount must be pointing close to the target location and current field of view must "
                                    "match the image's field of view."));
-        int rc = KMessageBox::questionYesNoCancel(0,
+        int rc = KMessageBox::questionYesNoCancel(nullptr,
                                                   i18n("No metadata is available in this image. Do you want to use the "
                                                        "blind solver or the existing solver settings?"),
                                                   i18n("Astrometry solver"), blindItem, existingItem,
