@@ -85,6 +85,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {ALIGN_SELECT_SCOPE, "align_select_scope"},
     {ALIGN_SELECT_SOLVER_TYPE, "align_select_solver_type"},
     {ALIGN_SELECT_SOLVER_ACTION, "align_select_solver_action"},
+    {ALIGN_SET_FILE_EXTENSION, "align_set_file_extension"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -108,27 +109,27 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
     connect(connectB, &QPushButton::clicked, [=]()
     {
         if (m_isConnected)
-            disconnectServer();
+            disconnectAuthServer();
         else
-            connectServer();
+            connectAuthServer();
     });
 
     rememberCredentialsCheck->setChecked(Options::rememberCredentials());
     connect(rememberCredentialsCheck, &QCheckBox::toggled, [=](bool toggled) { Options::setRememberCredentials(toggled);});
 
-    connect(&m_webSocket, &QWebSocket::connected, this, &EkosLiveClient::onConnected);
-    connect(&m_webSocket, &QWebSocket::disconnected, this, &EkosLiveClient::onDisconnected);
-    connect(&m_webSocket, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error), [=]()
+    connect(&m_messageWebSocket, &QWebSocket::connected, this, &EkosLiveClient::onMessageConnected);
+    connect(&m_messageWebSocket, &QWebSocket::disconnected, this, &EkosLiveClient::onMessageDisconnected);
+    connect(&m_messageWebSocket, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error), [=]()
     {
-        qCritical(KSTARS_EKOS) << "Websocket connection error" << m_webSocket.errorString();
+        qCritical(KSTARS_EKOS) << "Websocket connection error" << m_messageWebSocket.errorString();
     });
 
 
-    connect(&m_mediaSocket, &QWebSocket::connected, this, &EkosLiveClient::onMediaConnected);
-    connect(&m_mediaSocket, &QWebSocket::disconnected, this, &EkosLiveClient::onMediaDisconnected);
-    connect(&m_mediaSocket, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error), [=]()
+    connect(&m_mediaWebSocket, &QWebSocket::connected, this, &EkosLiveClient::onMediaConnected);
+    connect(&m_mediaWebSocket, &QWebSocket::disconnected, this, &EkosLiveClient::onMediaDisconnected);
+    connect(&m_mediaWebSocket, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error), [=]()
     {
-        qCritical(KSTARS_EKOS) << "Media Websocket connection error" << m_mediaSocket.errorString();
+        qCritical(KSTARS_EKOS) << "Media Websocket connection error" << m_mediaWebSocket.errorString();
     });
 
     //m_serviceURL.setAuthority("https://live.stellarmate.com");
@@ -154,7 +155,13 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
     }
 }
 
-void EkosLiveClient::connectWebSocketServer()
+EkosLiveClient::~EkosLiveClient()
+{
+    m_messageWebSocket.close();
+    m_mediaWebSocket.close();
+}
+
+void EkosLiveClient::connectMessageServer()
 {
     QUrl requestURL(m_wsURL);
 
@@ -166,17 +173,17 @@ void EkosLiveClient::connectWebSocketServer()
     requestURL.setQuery(query);
 
 
-    m_webSocket.open(requestURL);
+    m_messageWebSocket.open(requestURL);
 
     qCInfo(KSTARS_EKOS) << "Connecting to Websocket server at" << requestURL.toDisplayString();
 }
 
-void EkosLiveClient::disconnectWebSocketServer()
+void EkosLiveClient::disconnectMessageServer()
 {
-    m_webSocket.close();
+    m_messageWebSocket.close();
 }
 
-void EkosLiveClient::connectMediaSocketServer()
+void EkosLiveClient::connectMediaServer()
 {
     QUrl requestURL(m_wsURL);
 
@@ -187,37 +194,32 @@ void EkosLiveClient::connectMediaSocketServer()
     requestURL.setPath("/media/ekos");
     requestURL.setQuery(query);
 
-    m_mediaSocket.open(requestURL);
+    m_mediaWebSocket.open(requestURL);
 
     qCInfo(KSTARS_EKOS) << "Connecting to Media Websocket server at" << requestURL.toDisplayString();
 }
 
-void EkosLiveClient::disconnectMediaSocketServer()
+void EkosLiveClient::disconnectMediaServer()
 {
-    m_mediaSocket.close();
-}
-
-void EkosLiveClient::sendMessage(const QString &msg)
-{
-    m_webSocket.sendTextMessage(msg);
+    m_mediaWebSocket.close();
 }
 
 void EkosLiveClient::sendResponse(const QString &command, const QJsonObject &payload)
 {
     //qCDebug(KSTARS_EKOS) << QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact);
     //sendMessage(QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
-    sendMessage(QJsonDocument({{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
+    m_messageWebSocket.sendTextMessage(QJsonDocument({{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
 }
 
 void EkosLiveClient::sendResponse(const QString &command, const QJsonArray &payload)
 {
     //sendMessage(QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
-    sendMessage(QJsonDocument({{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
+    m_messageWebSocket.sendTextMessage(QJsonDocument({{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
 }
 
-void EkosLiveClient::onConnected()
+void EkosLiveClient::onMessageConnected()
 {
-    qCInfo(KSTARS_EKOS) << "Connected to Websocket server at" << m_wsURL.toDisplayString();
+    qCInfo(KSTARS_EKOS) << "Connected to Message Websocket server at" << m_wsURL.toDisplayString();
 
     pi->stopAnimation();
 
@@ -226,8 +228,7 @@ void EkosLiveClient::onConnected()
 
     m_isConnected = true;
 
-    connect(&m_webSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onTextMessageReceived);
-    connect(&m_webSocket, &QWebSocket::binaryMessageReceived, this, &EkosLiveClient::onBinaryMessageReceived);
+    connect(&m_messageWebSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onMessageTextReceived);
 
     //sendMessage(QLatin1Literal("##Ekos##"));
     //sendProfiles();
@@ -255,16 +256,15 @@ void EkosLiveClient::onConnected()
     }
 }
 
-void EkosLiveClient::onDisconnected()
+void EkosLiveClient::onMessageDisconnected()
 {
-    qCInfo(KSTARS_EKOS) << "Disonnected to Websocket server at" << m_wsURL.toDisplayString();
+    qCInfo(KSTARS_EKOS) << "Disonnected to Message Websocket server.";
 
     connectionState->setPixmap(QIcon::fromTheme("state-offline").pixmap(QSize(64, 64)));
     m_isConnected = false;
     connectB->setText(i18n("Connect"));
 
-    disconnect(&m_webSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onTextMessageReceived);
-    disconnect(&m_webSocket, &QWebSocket::binaryMessageReceived, this, &EkosLiveClient::onBinaryMessageReceived);
+    disconnect(&m_messageWebSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onMessageTextReceived);
 
     emit disconnected();
 }
@@ -272,19 +272,59 @@ void EkosLiveClient::onDisconnected()
 void EkosLiveClient::onMediaConnected()
 {
     qCInfo(KSTARS_EKOS) << "Connected to Media Websocket server at" << m_wsURL.toDisplayString();
+    connect(&m_mediaWebSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onMediaTextReceived);
+    connect(&m_mediaWebSocket, &QWebSocket::binaryMessageReceived, this, &EkosLiveClient::onMediaBinaryReceived);
 }
 
 void EkosLiveClient::onMediaDisconnected()
 {
-    qCInfo(KSTARS_EKOS) << "Disconnected from Media Websocket server at" << m_wsURL.toDisplayString();
+    qCInfo(KSTARS_EKOS) << "Disconnected from Media Websocket server";
+    disconnect(&m_mediaWebSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onMediaTextReceived);
+    disconnect(&m_mediaWebSocket, &QWebSocket::binaryMessageReceived, this, &EkosLiveClient::onMediaBinaryReceived);
+
+    for (const QString &oneFile : temporaryFiles)
+        QFile::remove(oneFile);
+    temporaryFiles.clear();
 }
 
-void EkosLiveClient::onMediaBinaryMessageReceived(const QByteArray &message)
+void EkosLiveClient::onMediaTextReceived(const QString &message)
 {
-    Q_UNUSED(message);
+    qCInfo(KSTARS_EKOS) << "Medua Text Websocket Message" << message;
+    QJsonParseError error;
+    auto serverMessage = QJsonDocument::fromJson(message.toLatin1(), &error);
+    if (error.error != QJsonParseError::NoError)
+    {
+        qCWarning(KSTARS_EKOS) << "Ekos Live Parsing Error" << error.errorString();
+        return;
+    }
+
+    const QJsonObject msgObj = serverMessage.object();
+    const QString command = msgObj["type"].toString();
+    const QJsonObject payload = msgObj["payload"].toObject();
+
+    if (command == commands[ALIGN_SET_FILE_EXTENSION])
+        extension = payload["ext"].toString();
 }
 
-void EkosLiveClient::onTextMessageReceived(const QString &message)
+void EkosLiveClient::onMediaBinaryReceived(const QByteArray &message)
+{
+    // For now, we are only receving binary image (jpg or FITS) for load and slew
+    QTemporaryFile file(QString("/tmp/XXXXXX.%1").arg(extension));
+    file.setAutoRemove(false);
+    file.open();
+    file.write(message);
+    file.close();
+
+    Ekos::Align *align = m_Manager->alignModule();
+
+    const QString filename = file.fileName();
+
+    temporaryFiles << filename;
+
+    align->loadAndSlew(filename);
+}
+
+void EkosLiveClient::onMessageTextReceived(const QString &message)
 {
     qCInfo(KSTARS_EKOS) << "Websocket Message" << message;
     QJsonParseError error;
@@ -294,6 +334,7 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
         qCWarning(KSTARS_EKOS) << "Ekos Live Parsing Error" << error.errorString();
         return;
     }
+
 
     // TODO add check to verify token!
 //    const QString serverToken = serverMessage.object().value("token").toString();
@@ -332,11 +373,6 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
         processAlignCommands(command, payload);
 }
 
-void EkosLiveClient::onBinaryMessageReceived(const QByteArray &message)
-{
-    qCInfo(KSTARS_EKOS) << "Websocket Message" << message;
-}
-
 void EkosLiveClient::sendProfiles()
 {
     QJsonArray profileArray;
@@ -350,7 +386,7 @@ void EkosLiveClient::sendProfiles()
     //sendMessage(QJsonDocument(profiles).toJson(QJsonDocument::Compact));
 }
 
-void EkosLiveClient::connectServer()
+void EkosLiveClient::connectAuthServer()
 {
     if (username->text().isEmpty() || password->text().isEmpty())
     {
@@ -362,12 +398,12 @@ void EkosLiveClient::connectServer()
     authenticate();
 }
 
-void EkosLiveClient::disconnectServer()
+void EkosLiveClient::disconnectAuthServer()
 {
     token.clear();
 
-    disconnectWebSocketServer();
-    disconnectMediaSocketServer();
+    disconnectMessageServer();
+    disconnectMediaServer();
 }
 
 void EkosLiveClient::authenticate()
@@ -421,8 +457,8 @@ void EkosLiveClient::onResult(QNetworkReply *reply)
 
     token = json["token"].toString();
 
-    connectWebSocketServer();
-    connectMediaSocketServer();
+    connectMessageServer();
+    connectMediaServer();
 }
 
 void EkosLiveClient::updateMountStatus(const QJsonObject &status)
@@ -473,8 +509,8 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
       {"bpp",bitDepth},
     };    
 
-    m_mediaSocket.sendTextMessage(QJsonDocument(metadata).toJson());
-    m_mediaSocket.sendBinaryMessage(jpegData);
+    m_mediaWebSocket.sendTextMessage(QJsonDocument(metadata).toJson());
+    m_mediaWebSocket.sendBinaryMessage(jpegData);
 }
 
 //void EkosLiveClient::setAlignFrame(FITSView *view)
@@ -537,7 +573,7 @@ void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
 
     jpegFile.open();    
 
-    m_mediaSocket.sendBinaryMessage(jpegFile.readAll());
+    m_mediaWebSocket.sendBinaryMessage(jpegFile.readAll());
 }
 
 void EkosLiveClient::updateFocusStatus(const QJsonObject &status)
