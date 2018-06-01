@@ -205,12 +205,14 @@ void EkosLiveClient::sendMessage(const QString &msg)
 void EkosLiveClient::sendResponse(const QString &command, const QJsonObject &payload)
 {
     //qCDebug(KSTARS_EKOS) << QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact);
-    sendMessage(QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
+    //sendMessage(QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
+    sendMessage(QJsonDocument({{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
 }
 
 void EkosLiveClient::sendResponse(const QString &command, const QJsonArray &payload)
 {
-    sendMessage(QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
+    //sendMessage(QJsonDocument({{"token",token},{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
+    sendMessage(QJsonDocument({{"type",command},{"payload",payload}}).toJson(QJsonDocument::Compact));
 }
 
 void EkosLiveClient::onConnected()
@@ -294,15 +296,17 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
     }
 
     // TODO add check to verify token!
-    const QString serverToken = serverMessage.object().value("token").toString();
+//    const QString serverToken = serverMessage.object().value("token").toString();
 
-    if (serverToken != token)
-    {
-        qCWarning(KSTARS_EKOS) << "Invalid token received from server!" << serverToken;
-        return;
-    }
+//    if (serverToken != token)
+//    {
+//        qCWarning(KSTARS_EKOS) << "Invalid token received from server!" << serverToken;
+//        return;
+//    }
 
-    const QString command = serverMessage.object().value("type").toString();
+    const QJsonObject msgObj = serverMessage.object();
+    const QString command = msgObj["type"].toString();
+    const QJsonObject payload = msgObj["payload"].toObject();
 
     if (command == commands[GET_PROFILES])
         sendProfiles();
@@ -317,15 +321,15 @@ void EkosLiveClient::onTextMessageReceived(const QString &message)
     else if (command == commands[GET_FILTER_WHEELS])
         sendFilterWheels();    
     else if (command.startsWith("capture_"))
-        processCaptureCommands(command, serverMessage.object().value("payload").toObject());
+        processCaptureCommands(command, payload);
     else if (command.startsWith("mount_"))
-        processMountCommands(command, serverMessage.object().value("payload").toObject());
+        processMountCommands(command, payload);
     else if (command.startsWith("focus_"))
-        processFocusCommands(command, serverMessage.object().value("payload").toObject());
+        processFocusCommands(command, payload);
     else if (command.startsWith("guide_"))
-        processGuideCommands(command, serverMessage.object().value("payload").toObject());
+        processGuideCommands(command, payload);
     else if (command.startsWith("align_"))
-        processAlignCommands(command, serverMessage.object().value("payload").toObject());
+        processAlignCommands(command, payload);
 }
 
 void EkosLiveClient::onBinaryMessageReceived(const QByteArray &message)
@@ -467,15 +471,7 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
       {"size",sizeBytes},
       {"bin",binning},
       {"bpp",bitDepth},
-    };
-
-    QJsonObject image =
-    {
-        //{"data", QString(jpegData.toBase64()) },
-        {"metadata", metadata},
-    };
-
-    //sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_PREVIEW_IMAGE], image);
+    };    
 
     m_mediaSocket.sendTextMessage(QJsonDocument(metadata).toJson());
     m_mediaSocket.sendBinaryMessage(jpegData);
