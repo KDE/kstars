@@ -4856,11 +4856,12 @@ void Align::setPAHRefreshComplete()
 void Align::processPAHStage(double orientation, double ra, double dec, double pixscale)
 {
     // Create temporary file to hold all WCS data
-    QTemporaryFile tmpFile(QDir::tempPath() + "/fitswcsXXXXXX");
-    tmpFile.setAutoRemove(false);
-    tmpFile.open();
-    QString newWCSFile = tmpFile.fileName();
-    tmpFile.close();
+//    QTemporaryFile tmpFile(QDir::tempPath() + "/fitswcsXXXXXX");
+//    tmpFile.setAutoRemove(false);
+//    tmpFile.open();
+//    QString newWCSFile = tmpFile.fileName();
+//    tmpFile.close();
+      QString newWCSFile = QDir::tempPath() + QString("/fitswcs%1").arg(QUuid::createUuid().toString().remove(QRegularExpression("[-{}]")));
 
     //alignView->setLoadWCSEnabled(true);
 

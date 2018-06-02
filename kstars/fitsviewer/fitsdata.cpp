@@ -4269,6 +4269,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
     }
 
     filename = newWCSFile;
+    tempFile = true;
 
     fptr = new_fptr;
 
