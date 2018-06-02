@@ -58,7 +58,21 @@ namespace Ekos
 // 30 arcmiutes RA movement
 const double Align::RAMotion = 0.5;
 // Sidereal rate, degrees/s
-const float Align::SIDRATE = 0.004178;
+const double Align::SIDRATE = 0.004178;
+
+const QMap<Align::PAHStage, QString> Align::PAHStages = {
+    {PAH_IDLE, I18N_NOOP("Idle")},
+    {PAH_FIRST_CAPTURE, I18N_NOOP("First Capture"}),
+    {PAH_FIND_CP, I18N_NOOP("Finding CP"}),
+    {PAH_FIRST_ROTATE, I18N_NOOP("First Rotation"}),
+    {PAH_SECOND_CAPTURE, I18N_NOOP("Second Capture"}),
+    {PAH_SECOND_ROTATE, I18N_NOOP("Second Rotation"}),
+    {PAH_THIRD_CAPTURE, I18N_NOOP("Third Capture"}),
+    {PAH_STAR_SELECT, I18N_NOOP("Select Star"}),
+    {PAH_PRE_REFRESH, I18N_NOOP("Pre Refresh"}),
+    {PAH_REFRESH, I18N_NOOP("Refreshing"}),
+    {PAH_ERROR, I18N_NOOP("Error")},
+};
 
 Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 {
@@ -2154,12 +2168,14 @@ void Align::calculateFOV()
     if (((fov_x + fov_y) / 2.0) > PAH_CUTOFF_FOV)
     {
         PAHWidgets->setEnabled(true);
+        emit PAHEnabled(true);
         PAHWidgets->setToolTip(QString());
         FOVDisabledLabel->hide();
     }
     else
     {
         PAHWidgets->setEnabled(false);
+        emit PAHEnabled(false);
         PAHWidgets->setToolTip(i18n(
                                    "<p>Polar Alignment Helper tool requires the following:</p><p>1. German Equatorial Mount</p><p>2. FOV &gt;"
                                    " 0.5 degrees</p><p>For small FOVs, use the Legacy Polar Alignment Tool.</p>"));
@@ -2553,7 +2569,7 @@ bool Align::captureAndSolve()
     differentialSlewingActivated = false;
 
     state = ALIGN_PROGRESS;
-    emit newStatus(state);    
+    emit newStatus(state);
 
     // If we're just refreshing, then we're done
     if (pahStage == PAH_REFRESH)
@@ -2605,16 +2621,16 @@ bool Align::captureAndSolve()
         ObjNameReport->setTextAlignment(Qt::AlignHCenter);
         ObjNameReport->setFlags(Qt::ItemIsSelectable);
         solutionTable->setItem(currentRow, 2, ObjNameReport);
-        #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
         repaint(); //This is a band-aid for a bug in QT 5.10.0
-        #endif
+#endif
 
         QProgressIndicator *alignIndicator = new QProgressIndicator(this);
         solutionTable->setCellWidget(currentRow, 3, alignIndicator);
         alignIndicator->startAnimation();
-        #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
         repaint(); //This is a band-aid for a bug in QT 5.10.0
-        #endif
+#endif
     }
 
     return true;
@@ -2628,7 +2644,7 @@ void Align::newFITS(IBLOB *bp)
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
     disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
-               SLOT(checkCCDExposureProgress(ISD::CCDChip *, double, IPState)));    
+               SLOT(checkCCDExposureProgress(ISD::CCDChip *, double, IPState)));
 
     blobType     = *(static_cast<ISD::CCD::BlobType *>(bp->aux1));
     blobFileName = QString(static_cast<char *>(bp->aux2));
@@ -3419,7 +3435,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 {
                     appendLogText(i18n("Mount is synced to solution coordinates. Astrometric solver is successful."));
                     KSNotification::event(QLatin1String("AlignSuccessful"),
-                                         i18n("Astrometry alignment completed successfully"));
+                                          i18n("Astrometry alignment completed successfully"));
                     state = ALIGN_COMPLETE;
                     emit newStatus(state);
                     solverIterations = 0;
@@ -3654,11 +3670,11 @@ void Align::SlewToTarget()
     {
         // 2018-01-24 JM: This is ugly. Maybe use DBus? Signal/Slots? Ekos Manager usage like this should be avoided
         if (KStars::Instance()->ekosManager() &&
-            !KStars::Instance()->ekosManager()->getCurrentJobName().isEmpty())
+                !KStars::Instance()->ekosManager()->getCurrentJobName().isEmpty())
         {
             KSNotification::event(QLatin1String("EkosSchedulerTelescopeSynced"),
-                                 i18n("Ekos job (%1) - Telescope synced",
-                                      KStars::Instance()->ekosManager()->getCurrentJobName()));
+                                  i18n("Ekos job (%1) - Telescope synced",
+                                       KStars::Instance()->ekosManager()->getCurrentJobName()));
         }
 
         // Do we perform a regular sync or use differential slewing?
@@ -5017,8 +5033,8 @@ void Align::setWCSToggled(bool result)
             if (currentTelescope->canSync() &&
                     KMessageBox::questionYesNo(
                         nullptr, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew "
-                                "the telescope to the celestial pole? WARNING: Slewing near poles may cause your mount to "
-                                "end up in unsafe position. Proceed with caution.")) == KMessageBox::Yes)
+                                      "the telescope to the celestial pole? WARNING: Slewing near poles may cause your mount to "
+                                      "end up in unsafe position. Proceed with caution.")) == KMessageBox::Yes)
             {
                 pahStage = PAH_FIND_CP;
                 targetCoord.setRA(KStarsData::Instance()->lst()->Hours());
@@ -5346,8 +5362,8 @@ void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
 
     connect(filterManager.data(), &FilterManager::failed, [this]()
     {
-         appendLogText(i18n("Filter operation failed."));
-         abort();
+        appendLogText(i18n("Filter operation failed."));
+        abort();
     }
     );
 
@@ -5357,19 +5373,19 @@ void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
         {
             switch (filterState)
             {
-                case FILTER_OFFSET:
-                    appendLogText(i18n("Changing focus offset by %1 steps...", filterManager->getTargetFilterOffset()));
-                    break;
+            case FILTER_OFFSET:
+                appendLogText(i18n("Changing focus offset by %1 steps...", filterManager->getTargetFilterOffset()));
+                break;
 
-                case FILTER_CHANGE:
-                    appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(filterManager->getTargetFilterPosition()-1)));
-                    break;
+            case FILTER_CHANGE:
+                appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(filterManager->getTargetFilterPosition()-1)));
+                break;
 
-                case FILTER_AUTOFOCUS:
-                    appendLogText(i18n("Auto focus on filter change..."));
-                    break;
+            case FILTER_AUTOFOCUS:
+                appendLogText(i18n("Auto focus on filter change..."));
+                break;
 
-                default:
+            default:
                 break;
             }
         }
@@ -5390,10 +5406,10 @@ QVariantMap Align::getEffectiveFOV()
         if (map["Profile"].toString() == m_ActiveProfile->name)
         {
             if (map["Width"].toInt() == ccd_width &&
-                map["Height"].toInt() == ccd_height &&
-                map["PixelW"].toDouble() == ccd_hor_pixel &&
-                map["PixelH"].toDouble() == ccd_ver_pixel &&
-                map["FocalLength"].toDouble() == focal_length)
+                    map["Height"].toInt() == ccd_height &&
+                    map["PixelW"].toDouble() == ccd_hor_pixel &&
+                    map["PixelH"].toDouble() == ccd_ver_pixel &&
+                    map["FocalLength"].toDouble() == focal_length)
             {
                 fov_x = map["FovW"].toDouble();
                 fov_y = map["FovH"].toDouble();
@@ -5436,9 +5452,9 @@ QStringList Align::getActiveSolvers() const
     QStringList solvers;
 
     solvers << "Online";
-    #ifndef Q_OS_WIN
+#ifndef Q_OS_WIN
     solvers << "Offline";
-    #endif
+#endif
     if (remoteParserDevice != nullptr)
         solvers << "Remote";
 
@@ -5458,6 +5474,36 @@ void Align::setCaptureSettings(const QJsonObject &settings)
     Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
     exposureIN->setValue(settings["exp"].toDouble(1));
     binningCombo->setCurrentIndex(settings["bin"].toInt()-1);
+}
+
+QString Align::getPAHMessage() const
+{
+    switch (pahStage)
+    {
+    case PAH_IDLE:
+    case PAH_FIND_CP:
+    default:
+        return introText->text();
+        break;
+    case PAH_FIRST_CAPTURE:
+        return firstCaptureText->text();
+    case PAH_FIRST_ROTATE:
+        return firstRotateText->text();
+    case PAH_SECOND_CAPTURE:
+        return secondCaptureText->text();
+    case PAH_SECOND_ROTATE:
+        return secondRotateText->text();
+    case PAH_THIRD_CAPTURE:
+        return thirdCaptureText->text();
+    case PAH_STAR_SELECT:
+        return correctionText->text();
+
+    case PAH_PRE_REFRESH:
+    case PAH_REFRESH:
+        return refreshText->text();
+    case PAH_ERROR:
+        return PAHErrorDescriptionLabel->text();
+    }
 }
 
 }

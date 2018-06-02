@@ -1104,7 +1104,7 @@
                 <enum>QFrame::NoFrame</enum>
                </property>
                <property name="currentIndex">
-                <number>0</number>
+                <number>6</number>
                </property>
                <widget class="QWidget" name="PAHIntroPage">
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1124,7 +1124,7 @@
                   <number>3</number>
                  </property>
                  <item>
-                  <widget class="QLabel" name="label_5">
+                  <widget class="QLabel" name="introText">
                    <property name="text">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Unpark&lt;/span&gt; your mount, &lt;span style=&quot; font-weight:600;&quot;&gt;Point&lt;/span&gt; toward the celestial pole, and &lt;span style=&quot; font-weight:600;&quot;&gt;Engage&lt;/span&gt; sidereal tracking.&lt;/p&gt;&lt;p&gt;Click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -1190,7 +1190,7 @@
                   <number>3</number>
                  </property>
                  <item>
-                  <widget class="QLabel" name="label">
+                  <widget class="QLabel" name="firstCaptureText">
                    <property name="text">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The assistant requires three images to find a solution. The first image shall now be captured and solved. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Capture&lt;/span&gt; to start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -1246,7 +1246,7 @@
                   <number>3</number>
                  </property>
                  <item>
-                  <widget class="QLabel" name="label_19">
+                  <widget class="QLabel" name="firstRotateText">
                    <property name="text">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select direction and range of &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation, then click &lt;span style=&quot; font-weight:600;&quot;&gt;Rotate&lt;/span&gt; to continue. To automate the rest of the process, check &lt;span style=&quot; font-weight:600;&quot;&gt;Auto Mode&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -1352,7 +1352,7 @@
                   <number>3</number>
                  </property>
                  <item>
-                  <widget class="QLabel" name="label_20">
+                  <widget class="QLabel" name="secondCaptureText">
                    <property name="text">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The second image shall now be captured and solved. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Capture&lt;/span&gt; to start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -1393,7 +1393,7 @@
                <widget class="QWidget" name="PAHSecondRotatePage">
                 <layout class="QVBoxLayout" name="verticalLayout_16">
                  <item>
-                  <widget class="QLabel" name="label_27">
+                  <widget class="QLabel" name="secondRotateText">
                    <property name="text">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select direction and range of final mount rotation, then click &lt;span style=&quot; font-weight:600;&quot;&gt;Rotate&lt;/span&gt; to continue.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -1474,7 +1474,7 @@
                <widget class="QWidget" name="PAHThirdCapturePage">
                 <layout class="QVBoxLayout" name="verticalLayout_17">
                  <item>
-                  <widget class="QLabel" name="label_28">
+                  <widget class="QLabel" name="thirdCaptureText">
                    <property name="text">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The final image shall now be captured and solved. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Capture&lt;/span&gt; to start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -1613,7 +1613,7 @@
                     <number>3</number>
                    </property>
                    <item>
-                    <widget class="QLabel" name="label_26">
+                    <widget class="QLabel" name="correctionText">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                        <horstretch>0</horstretch>
@@ -1657,7 +1657,7 @@
                   <number>3</number>
                  </property>
                  <item>
-                  <widget class="QLabel" name="label_24">
+                  <widget class="QLabel" name="refreshText">
                    <property name="text">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adjust mount's Altitude and Azimuth knobs until the selected star is centered within the crosshair. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Refresh&lt;/span&gt; to begin continuous capture. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Done&lt;/span&gt; when star is centered.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -1929,7 +1929,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="gotoModeButtonGroup"/>
   <buttongroup name="solverTypeGroup"/>
+  <buttongroup name="gotoModeButtonGroup"/>
  </buttongroups>
 </ui>
