@@ -391,6 +391,12 @@ class Align : public QWidget, public Ui::Align
     // Update Mount module status
     void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
+    // PAH Ekos Live
+    QString getPAHStage() const { return PAHStages[pahStage];}
+    bool isPAHEnabled() const { return PAHWidgets->isEnabled(); }
+    QString getPAHMessage() const;
+
+
   private slots:
 
     /* Polar Alignment */
@@ -471,6 +477,11 @@ class Align : public QWidget, public Ui::Align
     void newFrame(FITSView *view);
     void newSolverResults(double orientation, double ra, double dec, double pixscale);
     void newSolution(const QJsonObject &solution);
+
+    // Polar Assistant Tool
+    void newPAHStage(PAHStage stage);
+    void newPAHMessage(const QString &message);
+    void PAHEnabled(bool);
 
   private:
     /**
@@ -632,7 +643,7 @@ class Align : public QWidget, public Ui::Align
     double altDeviation { 0 };
     double decDeviation { 0 };
     static const double RAMotion;
-    static const float SIDRATE;
+    static const double SIDRATE;
 
     /// Have we slewed?
     bool isSlewDirty { false };
@@ -763,5 +774,8 @@ class Align : public QWidget, public Ui::Align
 
     // Active Profile
     ProfileInfo *m_ActiveProfile { nullptr };
+
+    // PAH Stage Map
+    static const QMap<PAHStage, QString> PAHStages;
 };
 }
