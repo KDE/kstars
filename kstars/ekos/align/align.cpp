@@ -280,35 +280,16 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setBinningIndex(int)));
 
-    // PAH Connections
-    connect(PAHRestartB, SIGNAL(clicked()), this, SLOT(restartPAHProcess()));
+    // PAH Connections    
+    connect(this, &Align::PAHEnabled, [&](bool enabled) {
+        PAHStartB->setEnabled(enabled);
+        directionLabel->setEnabled(enabled);
+        PAHDirectionCombo->setEnabled(enabled);
+        PAHRotationSpin->setEnabled(enabled);
+    });
     connect(PAHStartB, SIGNAL(clicked()), this, SLOT(startPAHProcess()));
-    connect(PAHFirstCaptureB, &QPushButton::clicked, this, [this]() {
-        // Do not load WCS unless requested
-        //alignView->setLoadWCSEnabled(false);
-        PAHFirstCaptureB->setEnabled(false);
-        captureAndSolve();
-    });
-    connect(PAHSecondCaptureB, &QPushButton::clicked, this, [this]() {
-        // Do not load WCS unless requested
-        //alignView->setLoadWCSEnabled(false);
-        PAHSecondCaptureB->setEnabled(false);
-        captureAndSolve();
-    });
-    connect(PAHThirdCaptureB, &QPushButton::clicked, this, [this]() {
-        // Do not load WCS unless requested
-        //alignView->setLoadWCSEnabled(false);
-        PAHThirdCaptureB->setEnabled(false);
-        captureAndSolve();
-    });
-    connect(PAHFirstRotateB, &QPushButton::clicked, this, [this]() {
-        PAHFirstRotateB->setEnabled(false);
-        rotatePAH();
-    });
-    connect(PAHSecondRotateB, &QPushButton::clicked, this, [this]() {
-        PAHSecondRotateB->setEnabled(false);
-        rotatePAH();
-    });
+    // PAH StopB is just a shortcut for the regular stop
+    connect(PAHStopB, &QPushButton::clicked, this, &Align::restartPAHProcess);
     connect(PAHCorrectionsNextB, SIGNAL(clicked()), this, SLOT(setPAHCorrectionSelectionComplete()));
     connect(PAHRefreshB, SIGNAL(clicked()), this, SLOT(startPAHRefreshProcess()));
     connect(PAHDoneB, SIGNAL(clicked()), this, SLOT(setPAHRefreshComplete()));
@@ -2174,7 +2155,7 @@ void Align::calculateFOV()
     }
     else
     {
-        PAHWidgets->setEnabled(false);
+        PAHWidgets->setEnabled(false);        
         emit PAHEnabled(false);
         PAHWidgets->setToolTip(i18n(
                                    "<p>Polar Alignment Helper tool requires the following:</p><p>1. German Equatorial Mount</p><p>2. FOV &gt;"
@@ -3201,10 +3182,7 @@ void Align::solverFailed()
     altStage = ALT_INIT;
 
     //loadSlewMode = false;
-    loadSlewState = IPS_IDLE;
-    PAHFirstCaptureB->setEnabled(true);
-    PAHSecondCaptureB->setEnabled(true);
-    PAHThirdCaptureB->setEnabled(true);
+    loadSlewState = IPS_IDLE;    
     solverIterations = 0;
     retries          = 0;
 
@@ -3241,10 +3219,7 @@ void Align::abort()
     altStage = ALT_INIT;
 
     //loadSlewMode = false;
-    loadSlewState = IPS_IDLE;
-    PAHFirstCaptureB->setEnabled(true);
-    PAHSecondCaptureB->setEnabled(true);
-    PAHThirdCaptureB->setEnabled(true);
+    loadSlewState = IPS_IDLE;    
     solverIterations = 0;
     retries          = 0;
     alignTimer.stop();
@@ -3378,8 +3353,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
             if (isSlewDirty && pahStage == PAH_FIND_CP)
             {
                 isSlewDirty = false;
-                appendLogText(i18n("Mount completed slewing near celestial pole. Capture again to verify."));
-                PAHFirstCaptureB->setEnabled(true);
+                appendLogText(i18n("Mount completed slewing near celestial pole. Capture again to verify."));                
                 setSolverAction(GOTO_NOTHING);
                 pahStage = PAH_FIRST_CAPTURE;
                 return;
@@ -3395,11 +3369,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                 PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
 
-                if (PAHAutoModeCheck->isChecked())
-                {
-                    PAHSecondCaptureB->setEnabled(true);
-                    PAHSecondCaptureB->click();
-                }
+                captureAndSolve();
             }
             else if (isSlewDirty && pahStage == PAH_SECOND_ROTATE)
             {
@@ -3411,11 +3381,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
                 PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
 
-                if (PAHAutoModeCheck->isChecked())
-                {
-                    PAHThirdCaptureB->setEnabled(true);
-                    PAHThirdCaptureB->click();
-                }
+                captureAndSolve();
             }
 
             switch (state)
@@ -4637,7 +4603,7 @@ void Align::toggleAlignWidgetFullScreen()
     }
     else
     {
-        alignWidget->setParent(0);
+        alignWidget->setParent(nullptr);
         alignWidget->setWindowTitle(i18n("Align Frame"));
         alignWidget->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
         alignWidget->showMaximized();
@@ -4671,7 +4637,11 @@ void Align::startPAHProcess()
     if (currentTelescope->canControlTrack() && currentTelescope->isTracking() == false)
         currentTelescope->setTrackEnabled(true);
 
+    PAHStartB->setEnabled(false);
+    PAHStopB->setEnabled(true);
     PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
+
+    captureAndSolve();
 }
 
 void Align::restartPAHProcess()
@@ -4680,22 +4650,22 @@ void Align::restartPAHProcess()
         return;
 
     // Only display dialog if user explicitly restarts
-    if ((static_cast<QPushButton *>(sender()) == PAHRestartB) &&
+    if ((static_cast<QPushButton *>(sender()) == PAHStopB) &&
             KMessageBox::questionYesNo(KStars::Instance(),
-                                       i18n("Are you sure you want to restart the polar alignment process?"),
+                                       i18n("Are you sure you want to stop the polar alignment process?"),
                                        i18n("Polar Alignment Assistant"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
                                        "restart_PAA_process_dialog") == KMessageBox::No)
         return;
 
+    stopB->click();
+    if (currentTelescope && currentTelescope->isInMotion())
+        currentTelescope->Abort();
+
     pahStage = PAH_IDLE;
 
-    PAHFirstCaptureB->setEnabled(true);
-    PAHSecondCaptureB->setEnabled(true);
-    PAHThirdCaptureB->setEnabled(true);
-    PAHFirstRotateB->setEnabled(true);
-    PAHSecondRotateB->setEnabled(true);
+    PAHStartB->setEnabled(true);
+    PAHStopB->setEnabled(false);
     PAHRefreshB->setEnabled(true);
-
     PAHWidgets->setCurrentWidget(PAHIntroPage);
 
     qDeleteAll(pahImageInfos);
@@ -4714,9 +4684,8 @@ void Align::restartPAHProcess()
 
 void Align::rotatePAH()
 {
-    double raDiff = (pahStage == PAH_FIRST_ROTATE) ? PAHFirstRotationSpin->value() : PAHSecondRotationSpin->value();
-    bool westMeridian =
-            (pahStage == PAH_FIRST_ROTATE) ? PAHFirstWestMeridianR->isChecked() : PAHSecondWestMeridianR->isChecked();
+    double raDiff = PAHRotationSpin->value();
+    bool westMeridian = PAHDirectionCombo->currentIndex() == 0;
 
     // West
     if (westMeridian)
@@ -4924,6 +4893,8 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
         pahStage = PAH_FIRST_ROTATE;
         PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
+
+        rotatePAH();
     }
     else if (pahStage == PAH_SECOND_CAPTURE)
     {
@@ -4950,20 +4921,11 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
         pahImageInfos.append(solution);
 
-        // Sync 2nd rotation value to be that of 1st in case
-        PAHSecondRotationSpin->setValue(PAHFirstRotationSpin->value());
-        PAHSecondWestMeridianR->setChecked(PAHFirstWestMeridianR->isChecked());
-        PAHSecondEastMeridianR->setChecked(PAHFirstEastMeridianR->isChecked());
 
         pahStage = PAH_SECOND_ROTATE;
         PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
 
-        if (PAHAutoModeCheck->isChecked())
-        {
-            // Now let's commence the move
-            PAHSecondRotateB->setEnabled(true);
-            PAHSecondRotateB->click();
-        }
+        rotatePAH();
     }
     else if (pahStage == PAH_THIRD_CAPTURE)
     {
@@ -5054,6 +5016,7 @@ void Align::setWCSToggled(bool result)
 
         pahStage = PAH_FIRST_ROTATE;
         PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
+        rotatePAH();
     }
     else if (pahStage == PAH_THIRD_CAPTURE)
     {
@@ -5299,20 +5262,18 @@ void Align::setMountStatus(ISD::Telescope::TelescopeStatus newState)
     case ISD::Telescope::MOUNT_MOVING:
         solveB->setEnabled(false);
         loadSlewB->setEnabled(false);
-        PAHFirstCaptureB->setEnabled(false);
-        PAHSecondCaptureB->setEnabled(false);
-        PAHThirdCaptureB->setEnabled(false);
+        PAHStartB->setEnabled(false);
         break;
 
     default:
         if (state != ALIGN_PROGRESS)
         {
-            solveB->setEnabled(true);
-            PAHFirstCaptureB->setEnabled(true);
-            PAHSecondCaptureB->setEnabled(true);
-            PAHThirdCaptureB->setEnabled(true);
+            solveB->setEnabled(true);            
             if (pahStage == PAH_IDLE)
+            {
+                PAHStartB->setEnabled(true);
                 loadSlewB->setEnabled(true);
+            }
         }
         break;
     }
@@ -5485,7 +5446,6 @@ QString Align::getPAHMessage() const
     case PAH_FIND_CP:
     default:
         return introText->text();
-        break;
     case PAH_FIRST_CAPTURE:
         return firstCaptureText->text();
     case PAH_FIRST_ROTATE:
@@ -5498,7 +5458,6 @@ QString Align::getPAHMessage() const
         return thirdCaptureText->text();
     case PAH_STAR_SELECT:
         return correctionText->text();
-
     case PAH_PRE_REFRESH:
     case PAH_REFRESH:
         return refreshText->text();
