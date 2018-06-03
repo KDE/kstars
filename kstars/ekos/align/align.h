@@ -189,6 +189,8 @@ class Align : public QWidget, public Ui::Align
          */
     Q_SCRIPTABLE Q_NOREPLY void setFOVTelescopeType(int index);
 
+    int getFOVTelescopeType() {return FOVScopeCombo->currentIndex();}
+
     /** @}*/
 
     /**
@@ -393,12 +395,15 @@ class Align : public QWidget, public Ui::Align
 
     // PAH Ekos Live
     QString getPAHStage() const { return PAHStages[pahStage];}
-    bool isPAHEnabled() const { return PAHWidgets->isEnabled(); }
+    bool isPAHEnabled() const { return isPAHReady; }
     QString getPAHMessage() const;
 
     void startPAHProcess();
-    void restartPAHProcess();
+    void stopPAHProcess();
     void setPAHCorrectionOffset(int x, int y);
+    void setPAHMountDirection(int index) { PAHDirectionCombo->setCurrentIndex(index);}
+    void setPAHMountRotation(int value) {PAHRotationSpin->setValue(value);}
+    void setPAHRefreshDuration(double value) { PAHExposure->setValue(value);}
     void startPAHRefreshProcess();
     void setPAHRefreshComplete();
 
@@ -481,7 +486,8 @@ class Align : public QWidget, public Ui::Align
 
     // Polar Assistant Tool
     void newPAHStage(PAHStage stage);
-    void newPAHMessage(const QString &message);
+    void newPAHMessage(const QString &message);    
+    void newFOVTelescopeType(int index);
     void PAHEnabled(bool);
 
   private:
@@ -712,6 +718,7 @@ class Align : public QWidget, public Ui::Align
 
     // Polar Alignment Helper
     PAHStage pahStage { PAH_IDLE };
+    bool isPAHReady { false };
 
     // keep track of autoWSC
     bool rememberAutoWCS { false };

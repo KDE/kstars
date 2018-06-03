@@ -14,6 +14,7 @@
 #include <memory>
 
 #include "ekos/ekos.h"
+#include "ekos/align/align.h"
 #include "indi/indicommon.h"
 #include "ui_ekoslivedialog.h"
 #include "ksnotification.h"
@@ -55,6 +56,7 @@ public:
         NEW_GUIDE_STATE,        
         NEW_FOCUS_STATE,
         NEW_ALIGN_STATE,
+        NEW_POLAR_STATE,
         NEW_PREVIEW_IMAGE,
         NEW_VIDEO_FRAME,
         NEW_ALIGN_FRAME,
@@ -96,6 +98,16 @@ public:
         ALIGN_SELECT_SOLVER_TYPE,
         ALIGN_SELECT_SOLVER_ACTION,
         ALIGN_SET_FILE_EXTENSION,
+        ALIGN_SET_CAPTURE_SETTINGS,
+
+        // Polar Assistant Helper
+        PAH_START,
+        PAH_STOP,
+        PAH_REFRESH,
+        PAH_SET_MOUNT_DIRECTION,
+        PAH_SET_MOUNT_ROTATION,
+        PAH_SET_CROSSHAIR
+
 
     };
 
@@ -104,6 +116,11 @@ public:
 public slots:
     void setAlignStatus(Ekos::AlignState newState);
     void setAlignSolution(const QJsonObject &solution);
+    void setPAHStage(Ekos::Align::PAHStage stage);
+    void setPAHMessage(const QString &message);
+    void setPAHEnabled(bool enabled);
+
+    void setFOVTelescopeType(int index);
     //void setAlignFrame(FITSView* view);
 
 signals:
@@ -152,6 +169,9 @@ private:
 
     // Align
     void processAlignCommands(const QString &command, const QJsonObject &payload);
+
+    // Polar
+    void processPolarCommands(const QString &command, const QJsonObject &payload);
 
     // Profiles
     void sendProfiles();
