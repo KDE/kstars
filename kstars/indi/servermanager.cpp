@@ -137,7 +137,7 @@ bool ServerManager::start()
 void ServerManager::insertEnvironmentPath(QProcessEnvironment *env, QString variable, QString relativePath)
 {
     QString environmentPath = QCoreApplication::applicationDirPath() + relativePath;
-    if (QFileInfo(environmentPath).exists() && Options::indiDriversAreInternal())
+    if (QFileInfo::exists(environmentPath) && Options::indiDriversAreInternal())
         env->insert(variable, QDir(environmentPath).absolutePath());
 }
 

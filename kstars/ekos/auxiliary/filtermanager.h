@@ -9,18 +9,17 @@
 
 #pragma once
 
-#include <QDialog>
-#include <QSqlDatabase>
-#include <QQueue>
-#include <QPointer>
+#include "ui_filtersettings.h"
+#include "ekos/ekos.h"
 
 #include <indi/indistd.h>
 #include <indi/indifocuser.h>
 #include <oal/filter.h>
 
-#include "ekos/ekos.h"
-
-#include "ui_filtersettings.h"
+#include <QDialog>
+#include <QSqlDatabase>
+#include <QQueue>
+#include <QPointer>
 
 class QSqlTableModel;
 class LockDelegate;
@@ -90,7 +89,7 @@ public:
 
 public slots:
     // Position. if applyPolicy is true then all filter offsets and autofocus & lock policies are applied.
-    bool setFilterPosition(uint8_t position, FilterPolicy policy = ALL_POLICIES);
+    bool setFilterPosition(uint8_t position, Ekos::FilterManager::FilterPolicy policy = ALL_POLICIES);
     // Offset Request completed
     void setFocusOffsetComplete();
     // Remove Device
@@ -114,7 +113,7 @@ signals:
     // Emitted when operation fails
     void failed();
     // Status signal
-    void newStatus(FilterState state);
+    void newStatus(Ekos::FilterState state);
     // Check Focus
     void checkFocus(double);
     // New Focus offset requested

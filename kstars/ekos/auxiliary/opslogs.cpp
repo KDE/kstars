@@ -9,20 +9,20 @@
 
 #include "opslogs.h"
 
-#include <QFrame>
-#include <QUrl>
-#include <QDesktopServices>
+#include "kstars.h"
+#include "Options.h"
+#include "auxiliary/kspaths.h"
+#include "indi/indilistener.h"
 
 #include <KConfigDialog>
 #include <KFormat>
 #include <KMessageBox>
 
-#include <basedevice.h>
+#include <QFrame>
+#include <QUrl>
+#include <QDesktopServices>
 
-#include "kstars.h"
-#include "auxiliary/kspaths.h"
-#include "indi/indilistener.h"
-#include "Options.h"
+#include <basedevice.h>
 
 namespace Ekos
 {
@@ -130,16 +130,19 @@ qint64 OpsLogs::getDirSize(const QString &dirPath)
     qint64 size = 0;
     QDir dir(dirPath);
 
-    QDir::Filters fileFilters = QDir::Files|QDir::System|QDir::Hidden;
-    for(QString filePath : dir.entryList(fileFilters))
+    QDir::Filters fileFilters = QDir::Files | QDir::System | QDir::Hidden;
+
+    for (QString &filePath : dir.entryList(fileFilters))
     {
         QFileInfo fi(dir, filePath);
-        size+= fi.size();
+
+        size += fi.size();
     }
 
-    QDir::Filters dirFilters = QDir::Dirs|QDir::NoDotAndDotDot|QDir::System|QDir::Hidden;
-    for(QString childDirPath : dir.entryList(dirFilters))
-        size+= getDirSize(dirPath + QDir::separator() + childDirPath);
+    QDir::Filters dirFilters = QDir::Dirs | QDir::NoDotAndDotDot | QDir::System | QDir::Hidden;
+
+    for (QString &childDirPath : dir.entryList(dirFilters))
+        size += getDirSize(dirPath + QDir::separator() + childDirPath);
 
     return size;
 }

@@ -8,10 +8,10 @@
  */
 
 #include "schedulerjob.h"
-#include "scheduler.h"
 
 #include "dms.h"
 #include "kstarsdata.h"
+#include "scheduler.h"
 
 #include <knotification.h>
 
@@ -385,7 +385,7 @@ void SchedulerJob::updateJobCell()
         }
         if (stageLabel)
         {
-            stageLabel->setText(QString("%1: %2").arg(name).arg(stageStrings.value(stage, stageStringUnknown)));
+            stageLabel->setText(QString("%1: %2").arg(name, stageStrings.value(stage, stageStringUnknown)));
         }
     }
 

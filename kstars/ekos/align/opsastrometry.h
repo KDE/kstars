@@ -36,7 +36,7 @@ class OpsAstrometry : public QWidget, public Ui::OpsAstrometry
     virtual ~OpsAstrometry() override = default;
 
   protected:
-    void showEvent(QShowEvent *);
+    void showEvent(QShowEvent *) override;
 
   private slots:
     void slotUpdatePosition();
