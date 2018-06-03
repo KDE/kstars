@@ -720,7 +720,7 @@ void EkosLiveClient::sendMounts()
 
 void EkosLiveClient::sendScopes()
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS )
         return;
 
     QJsonArray scopeList = m_Manager->mountModule()->getScopes();
@@ -741,7 +741,7 @@ void EkosLiveClient::sendTemperature(double value)
 
 void EkosLiveClient::sendFilterWheels()
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
         return;
 
     QJsonArray filterList;
@@ -924,7 +924,7 @@ void EkosLiveClient::processAlignCommands(const QString &command, const QJsonObj
 
 void EkosLiveClient::setAlignStatus(Ekos::AlignState newState)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
         return;
 
     QJsonObject alignState = {
@@ -936,7 +936,7 @@ void EkosLiveClient::setAlignStatus(Ekos::AlignState newState)
 
 void EkosLiveClient::setAlignSolution(const QJsonObject &solution)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
         return;
 
     QJsonObject alignState = {
@@ -979,7 +979,7 @@ void EkosLiveClient::processPolarCommands(const QString &command, const QJsonObj
 
 void EkosLiveClient::setPAHStage(Ekos::Align::PAHStage stage)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
         return;
 
     Q_UNUSED(stage);
@@ -994,7 +994,7 @@ void EkosLiveClient::setPAHStage(Ekos::Align::PAHStage stage)
 
 void EkosLiveClient::setPAHMessage(const QString &message)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
         return;
 
     QJsonObject polarState = {
@@ -1006,7 +1006,7 @@ void EkosLiveClient::setPAHMessage(const QString &message)
 
 void EkosLiveClient::setPAHEnabled(bool enabled)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
         return;
 
     QJsonObject polarState = {
@@ -1018,11 +1018,11 @@ void EkosLiveClient::setPAHEnabled(bool enabled)
 
 void EkosLiveClient::setFOVTelescopeType(int index)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
         return;
 
     QJsonObject alignState = {
-        {"scopeType", index}
+        {"scopeIndex", index}
     };
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_STATE], alignState);
