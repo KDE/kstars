@@ -1854,7 +1854,7 @@ void EkosManager::initFocus()
     focusProcess->setFilterManager(filterManager);
     connect(filterManager.data(), SIGNAL(checkFocus(double)), focusProcess.get(), SLOT(checkFocus(double)), Qt::UniqueConnection);
     connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), filterManager.data(), SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
-    connect(filterManager.data(), SIGNAL(newFocusOffset(int, bool)), focusProcess.get(), SLOT(adjustFocusOffset(int,bool)),
+    connect(filterManager.data(), SIGNAL(newFocusOffset(int,bool)), focusProcess.get(), SLOT(adjustFocusOffset(int,bool)),
             Qt::UniqueConnection);
     connect(focusProcess.get(), SIGNAL(focusPositionAdjusted()), filterManager.data(), SLOT(setFocusOffsetComplete()),
             Qt::UniqueConnection);

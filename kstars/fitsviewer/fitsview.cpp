@@ -429,7 +429,7 @@ int FITSView::rescale(FITSZoom type)
 
         if (imageData->getNumOfChannels() == 1)
         {
-            QList<QFuture<void>> futures;
+            QVector<QFuture<void>> futures;
 
             /* Fill in pixel values using indexed map, linear scale */
             for (uint32_t j = 0; j < image_height; j++)
@@ -451,7 +451,8 @@ int FITSView::rescale(FITSZoom type)
         }
         else
         {
-            QList<QFuture<void>> futures;
+            QVector<QFuture<void>> futures;
+
             /* Fill in pixel values using indexed map, linear scale */
             for (uint32_t j = 0; j < image_height; j++)
             {                
