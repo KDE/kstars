@@ -50,6 +50,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {NEW_GUIDE_STATE, "new_guide_state"},
     {NEW_FOCUS_STATE, "new_focus_state"},
     {NEW_ALIGN_STATE, "new_align_state"},
+    {NEW_POLAR_STATE, "new_polar_state"},
     {NEW_PREVIEW_IMAGE, "new_preview_image"},
     {NEW_VIDEO_FRAME, "new_video_frame"},
     {NEW_ALIGN_FRAME, "new_align_frame"},
@@ -86,6 +87,14 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {ALIGN_SELECT_SOLVER_TYPE, "align_select_solver_type"},
     {ALIGN_SELECT_SOLVER_ACTION, "align_select_solver_action"},
     {ALIGN_SET_FILE_EXTENSION, "align_set_file_extension"},
+    {ALIGN_SET_CAPTURE_SETTINGS, "align_set_capture_settings"},
+
+    {PAH_START, "polar_start"},
+    {PAH_STOP, "polar_stop"},
+    {PAH_REFRESH, "polar_refresh"},
+    {PAH_SET_MOUNT_DIRECTION, "polar_set_mount_direction"},
+    {PAH_SET_MOUNT_ROTATION, "polar_set_mount_rotation"},
+    {PAH_SET_CROSSHAIR, "polar_set_crosshair"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -371,6 +380,8 @@ void EkosLiveClient::onMessageTextReceived(const QString &message)
         processGuideCommands(command, payload);
     else if (command.startsWith("align_"))
         processAlignCommands(command, payload);
+    else if (command.startsWith("polar_"))
+        processPolarCommands(command, payload);
 }
 
 void EkosLiveClient::sendProfiles()
@@ -618,8 +629,16 @@ void EkosLiveClient::sendStates()
         {"status", Ekos::alignStates[m_Manager->alignModule()->getStatus()]},
         {"solvers", QJsonArray::fromStringList(m_Manager->alignModule()->getActiveSolvers())},
         {"solverIndex", m_Manager->alignModule()->getActiveSolverIndex()},
+        {"scopeIndex", m_Manager->alignModule()->getFOVTelescopeType()},
     };
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_STATE], alignState);
+
+    QJsonObject polarState = {
+        {"stage", m_Manager->alignModule()->getPAHStage()},
+        {"enabled", m_Manager->alignModule()->isPAHEnabled()},
+        {"message", m_Manager->alignModule()->getPAHMessage()},
+    };
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_POLAR_STATE], polarState);
 }
 
 void EkosLiveClient::sendEvent(const QString &message, KSNotification::EventType event)
@@ -882,10 +901,9 @@ void EkosLiveClient::processAlignCommands(const QString &command, const QJsonObj
     Ekos::Align *align = m_Manager->alignModule();
 
     if (command == commands[ALIGN_SOLVE])
-    {
-        align->setCaptureSettings(payload);
         align->captureAndSolve();
-    }
+    else if (command == commands[ALIGN_SET_CAPTURE_SETTINGS])
+        align->setCaptureSettings(payload);
     else if (command == commands[ALIGN_STOP])
         align->abort();
     else if (command == commands[ALIGN_SELECT_SCOPE])
@@ -927,3 +945,86 @@ void EkosLiveClient::setAlignSolution(const QJsonObject &solution)
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_STATE], alignState);
 }
+
+void EkosLiveClient::processPolarCommands(const QString &command, const QJsonObject &payload)
+{
+    Ekos::Align *align = m_Manager->alignModule();
+
+    if (command == commands[PAH_START])
+    {
+        align->startPAHProcess();
+    }
+    if (command == commands[PAH_STOP])
+    {
+        align->stopPAHProcess();
+    }
+    else if (command == commands[PAH_REFRESH])
+    {
+        align->setPAHRefreshDuration(payload["value"].toDouble());
+        align->startPAHRefreshProcess();
+    }
+    else if (command == commands[PAH_SET_MOUNT_DIRECTION])
+    {
+        align->setPAHMountDirection(payload["value"].toInt());
+    }
+    else if (command == commands[PAH_SET_MOUNT_ROTATION])
+    {
+        align->setPAHMountRotation(payload["value"].toInt());
+    }
+    else if (command == commands[PAH_SET_CROSSHAIR])
+    {
+        align->setPAHCorrectionOffset(payload["x"].toInt(), payload["y"].toInt());
+    }
+}
+
+void EkosLiveClient::setPAHStage(Ekos::Align::PAHStage stage)
+{
+    if (m_isConnected == false)
+        return;
+
+    Q_UNUSED(stage);
+    Ekos::Align *align = m_Manager->alignModule();
+
+    QJsonObject polarState = {
+        {"stage", align->getPAHStage()}
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_POLAR_STATE], polarState);
+}
+
+void EkosLiveClient::setPAHMessage(const QString &message)
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject polarState = {
+        {"message", message}
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_POLAR_STATE], polarState);
+}
+
+void EkosLiveClient::setPAHEnabled(bool enabled)
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject polarState = {
+        {"enabled", enabled}
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_POLAR_STATE], polarState);
+}
+
+void EkosLiveClient::setFOVTelescopeType(int index)
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject alignState = {
+        {"scopeType", index}
+    };
+
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_STATE], alignState);
+}
+
