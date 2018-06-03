@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
                           main.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Mon Feb  5 01:11:45 PST 2001
@@ -62,9 +62,7 @@ Q_DECL_EXPORT
 #endif
 int main(int argc, char *argv[])
 {
-#ifdef KSTARS_LITE
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
     QApplication app(argc, argv);
 
 #ifdef Q_OS_OSX
