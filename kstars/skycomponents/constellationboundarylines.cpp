@@ -230,9 +230,9 @@ PolyList *ConstellationBoundaryLines::ContainingPoly(SkyPoint *p)
 
         //printf("    size: %d\n", polyListList->size() );
 
-        for (int i = 0; i < polyListList->size(); i++)
+        for (const auto &item : *polyListList)
         {
-            polyHash.insert(polyListList->at(i).get(), true);
+            polyHash.insert(item.get(), true);
         }
     }
 

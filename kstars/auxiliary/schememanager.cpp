@@ -811,9 +811,9 @@ void SchemeManagerPrivate::init(const KSharedConfigPtr& config,
     {
         StateEffects effects(state, config);
 
-        for (int i = 0; i < 8; i++)
+        for (auto &brush : _brushes.fg)
         {
-            _brushes.fg[i] = effects.brush(_brushes.fg[i], _brushes.bg[0]);
+            brush = effects.brush(brush, _brushes.bg[0]);
         }
 
         _brushes.deco[0] = effects.brush(_brushes.deco[0], _brushes.bg[0]);
@@ -1092,9 +1092,8 @@ QPalette SchemeManager::createApplicationPalette(const KSharedConfigPtr& config)
     // TT thinks tooltips shouldn't use active, so we use our active colors for all states
     SchemeManager schemeTooltip(QPalette::Active, SchemeManager::Tooltip, config);
 
-    for (int i = 0; i < 3; i++)
+    for (auto &state : states)
     {
-        QPalette::ColorGroup state = states[i];
         SchemeManager schemeView(state,      SchemeManager::View,      config);
         SchemeManager schemeWindow(state,    SchemeManager::Window,    config);
         SchemeManager schemeButton(state,    SchemeManager::Button,    config);

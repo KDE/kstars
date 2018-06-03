@@ -12,8 +12,9 @@
 //---------------------------------------------------------------------------
 #include "matr.h"
 
-#include <cmath>
 #include "vect.h"
+
+#include <cmath>
 
 //---------------------------------------------------------------------------
 
@@ -29,9 +30,12 @@ Matrix ::Matrix(double v)
 
 Matrix ::Matrix()
 {
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            x[i][j] = 0.0;
+    for (auto &row : x)
+        for (double &item : row)
+        {
+            item = 0.0;
+        }
+
     x[3][3] = 1;
 }
 
@@ -108,9 +112,11 @@ Matrix &Matrix ::operator-=(const Matrix &A)
 
 Matrix &Matrix ::operator*=(double v)
 {
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            x[i][j] *= v;
+    for (auto &row : x)
+        for (double &item : row)
+        {
+            item *= v;
+        }
 
     return *this;
 }

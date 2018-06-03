@@ -250,11 +250,11 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
     QTreeWidgetItem *kstars_tree   = new QTreeWidgetItem(sb->FunctionTree, QStringList("KStars"));
     QTreeWidgetItem *simclock_tree = new QTreeWidgetItem(sb->FunctionTree, QStringList("SimClock"));
 
-    for (int i = 0; i < KStarsFunctionList.size(); ++i)
-        new QTreeWidgetItem(kstars_tree, QStringList(KStarsFunctionList[i]->prototype()));
+    for (auto &item : KStarsFunctionList)
+        new QTreeWidgetItem(kstars_tree, QStringList(item->prototype()));
 
-    for (int i = 0; i < SimClockFunctionList.size(); ++i)
-        new QTreeWidgetItem(simclock_tree, QStringList(SimClockFunctionList[i]->prototype()));
+    for (auto &item : SimClockFunctionList)
+        new QTreeWidgetItem(simclock_tree, QStringList(item->prototype()));
 
     kstars_tree->sortChildren(0, Qt::AscendingOrder);
     simclock_tree->sortChildren(0, Qt::AscendingOrder);

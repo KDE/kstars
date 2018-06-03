@@ -17,17 +17,6 @@
 
 #include "ksmoon.h"
 
-#include <typeinfo>
-
-#include <cstdlib>
-#include <cmath>
-#if defined(_MSC_VER)
-#include <float.h>
-#endif
-
-#include <QFile>
-#include <QTextStream>
-
 #include "ksnumbers.h"
 #include "ksutils.h"
 #include "kssun.h"
@@ -37,6 +26,17 @@
 #endif
 #include "skycomponents/skymapcomposite.h"
 #include "texturemanager.h"
+
+#include <QFile>
+#include <QTextStream>
+
+#include <cstdlib>
+#include <cmath>
+#if defined(_MSC_VER)
+#include <float.h>
+#endif
+
+#include <typeinfo>
 
 using namespace std;
 
@@ -197,11 +197,10 @@ bool KSMoon::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *)
     if (!loadData())
         return false;
 
-    for (int i = 0; i < LRData.size(); ++i)
+    for (const auto &mlrd : LRData)
     {
-        const MoonLRData &mlrd = LRData[i];
-
         double E = 1.0;
+
         if (mlrd.nm) //if M != 0, include changing eccentricity of Earth's orbit
         {
             E = Et;
@@ -213,11 +212,10 @@ bool KSMoon::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *)
     }
 
     sumB = 0.0;
-    for (int i = 0; i < BData.size(); ++i)
+    for (const auto &mbd : BData)
     {
-        const MoonBData &mbd = BData[i];
-
         double E = 1.0;
+
         if (mbd.nm) //if M != 0, include changing eccentricity of Earth's orbit
         {
             E = Et;

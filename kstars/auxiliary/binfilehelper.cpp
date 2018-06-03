@@ -308,11 +308,12 @@ QString BinFileHelper::getError()
 struct dataElement BinFileHelper::getField(const QString &fieldName) const
 {
     dataElement de;
-    for (int i = 0; i < fields.size(); ++i)
+
+    for (auto &field : fields)
     {
-        if (fields[i]->name == fieldName)
+        if (field->name == fieldName)
         {
-            de = *fields[i];
+            de = *field;
             return de;
         }
     }
@@ -321,9 +322,9 @@ struct dataElement BinFileHelper::getField(const QString &fieldName) const
 
 bool BinFileHelper::isField(const QString &fieldName) const
 {
-    for (int i = 0; i < fields.size(); ++i)
+    for (auto &field : fields)
     {
-        if (fields[i]->name == fieldName)
+        if (field->name == fieldName)
             return true;
     }
     return false;

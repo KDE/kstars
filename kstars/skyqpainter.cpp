@@ -352,9 +352,9 @@ void SkyQPainter::drawSkyPolygon(LineList *list, bool forceClip)
 
     if (forceClip == false)
     {
-        for (int i = 0; i < points->size(); ++i)
+        for (const auto &point : *points)
         {
-            polygon << m_proj->toScreen(points->at(i).get(), false, &isVisibleLast);
+            polygon << m_proj->toScreen(point.get(), false, &isVisibleLast);
             isVisible |= isVisibleLast;
         }
 
@@ -370,9 +370,9 @@ void SkyQPainter::drawSkyPolygon(LineList *list, bool forceClip)
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility(pLast);
 
-    for (int i = 0; i < points->size(); ++i)
+    for (const auto &point : *points)
     {
-        SkyPoint *pThis = points->at(i).get();
+        SkyPoint *pThis = point.get();
         QPointF oThis   = m_proj->toScreen(pThis, true, &isVisible);
         // & with the result of checkVisibility to clip away things below horizon
         isVisible &= m_proj->checkVisibility(pThis);

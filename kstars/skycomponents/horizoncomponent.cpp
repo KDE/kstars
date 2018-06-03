@@ -128,7 +128,7 @@ void HorizonComponent::drawCompassLabels()
     name[6] = i18nc("Northwest", "NW");
     name[7] = i18nc("North", "N");
 
-    for (int i = 0; i < 8; i++)
+    for (const auto &item : name)
     {
         az += 45.0;
         c.setAz(az);
@@ -141,7 +141,7 @@ void HorizonComponent::drawCompassLabels()
         cpoint = proj->toScreen(&c, false, &visible);
         if (visible && proj->onScreen(cpoint))
         {
-            skyLabeler->drawGuideLabel(cpoint, name[i], 0.0);
+            skyLabeler->drawGuideLabel(cpoint, item, 0.0);
         }
     }
 #endif
