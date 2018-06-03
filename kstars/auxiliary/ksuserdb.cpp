@@ -1807,12 +1807,13 @@ void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
 
     SkyList *skyList = horizon->list()->points();
 
-    for (int i = 0; i < skyList->size(); i++)
+    for (const auto &item : *skyList)
     {
         points.select();
         QSqlRecord rec(points.record());
-        rec.setValue("Az", skyList->at(i)->az().Degrees());
-        rec.setValue("Alt", skyList->at(i)->alt().Degrees());
+
+        rec.setValue("Az", item->az().Degrees());
+        rec.setValue("Alt", item->alt().Degrees());
         points.insertRecord(-1, rec);
     }
 

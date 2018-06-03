@@ -65,9 +65,10 @@ void CatalogComponent::_loadData(bool includeCatalogDesignation)
     QList<QPair<int, QString>> names;
 
     KStarsData::Instance()->catalogdb()->GetAllObjects(m_catName, m_ObjectList, names, this, includeCatalogDesignation);
-    for (int iter = 0; iter < names.size(); ++iter)
+
+    for (const auto &name : names)
     {
-        if (names.at(iter).first <= SkyObject::TYPE_UNKNOWN)
+        if (name.first <= SkyObject::TYPE_UNKNOWN)
         {
             //FIXME JM 2016-06-02: inefficient and costly check
             // Need better way around this
@@ -88,14 +89,13 @@ void CatalogComponent::_loadData(bool includeCatalogDesignation)
             // very large such that the filtering in Find Dialog takes
             // too long. -- AS
 
-            objectNames(names.at(iter).first).append(names.at(iter).second);
+            objectNames(name.first).append(name.second);
         }
     }
 
     //FIXME - get rid of objectNames completely. For now only KStars Lite uses objectLists
-    for (int iter = 0; iter < m_ObjectList.size(); ++iter)
+    for (auto obj : m_ObjectList)
     {
-        SkyObject *obj = m_ObjectList[iter];
         Q_ASSERT(obj);
         if (obj->type() <= SkyObject::TYPE_UNKNOWN)
         {
@@ -116,11 +116,11 @@ void CatalogComponent::_loadData(bool includeCatalogDesignation)
             // miscellaneous catalog), then disabling one catalog
             // removes the name entirely from the list.
 
-            for (int i = 0; i < objects.size(); ++i)
+            for (const auto &object : objects)
             {
-                if (name == objects.at(i).first)
+                if (name == object.first)
                     dupName = true;
-                if (longname == objects.at(i).first)
+                if (longname == object.first)
                     dupLongname = true;
             }
 

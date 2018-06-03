@@ -31,8 +31,9 @@ void NoPrecessIndex::JITupdate(LineList *lineList)
     KStarsData *data   = KStarsData::Instance();
     lineList->updateID = data->updateID();
     SkyList *points    = lineList->points();
-    for (int i = 0; i < points->size(); i++)
+
+    for (const auto &point : *points)
     {
-        points->at(i)->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+        point->EquatorialToHorizontal(data->lst(), data->geo()->lat());
     }
 }

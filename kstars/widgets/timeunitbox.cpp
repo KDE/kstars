@@ -45,8 +45,8 @@ TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly) : QWidget(parent)
     connect(UpButton, SIGNAL(clicked()), this, SLOT(increase()));
     connect(DownButton, SIGNAL(clicked()), this, SLOT(decrease()));
 
-    for (int i = 0; i < TUB_ALLUNITS; ++i)
-        UnitStep[i] = 0;
+    for (int &item : UnitStep)
+        item = 0;
 
     setDaysOnly(daysonly);
 }

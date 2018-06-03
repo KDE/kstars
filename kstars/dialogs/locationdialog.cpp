@@ -230,13 +230,13 @@ void LocationDialog::filterCity()
 void LocationDialog::changeCity()
 {
     KStarsData *data = KStarsData::Instance();
+
     //when the selected city changes, set newCity, and redraw map
     SelectedCity = nullptr;
     if (ld->GeoBox->currentItem())
     {
-        for (int i = 0; i < filteredCityList.size(); ++i)
+        for (auto &loc : filteredCityList)
         {
-            GeoLocation *loc = filteredCityList.at(i);
             if (loc->fullName() == ld->GeoBox->currentItem()->text())
             {
                 SelectedCity = loc;

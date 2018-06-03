@@ -9,8 +9,6 @@
 
 #include "indidbus.h"
 
-#include <basedevice.h>
-
 #include "indiadaptor.h"
 #include "nan.h"
 #include "indi/drivermanager.h"
@@ -21,6 +19,8 @@
 #include "indi/deviceinfo.h"
 
 #include "kstars_debug.h"
+
+#include <basedevice.h>
 
 INDIDBus::INDIDBus(QObject *parent) : QObject(parent)
 {
@@ -149,9 +149,9 @@ QStringList INDIDBus::getProperties(const QString &device)
             INDI::Property *prop;
 
             // Let's print a list of all device properties
-            for (unsigned int i = 0; i < pAll->size(); i++)
+            for (auto &property : *pAll)
             {
-                prop = pAll->at(i);
+                prop = property;
 
                 switch (prop->getType())
                 {

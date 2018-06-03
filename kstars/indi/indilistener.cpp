@@ -26,11 +26,10 @@
 
 #include "auxiliary/ksnotification.h"
 
-#include <basedevice.h>
-
-#include <indi_debug.h>
-
 #include <knotification.h>
+
+#include <basedevice.h>
+#include <indi_debug.h>
 
 #define NINDI_STD 35
 
@@ -106,9 +105,9 @@ INDIListener::~INDIListener()
 
 bool INDIListener::isStandardProperty(const QString &name)
 {
-    for (int i = 0; i < NINDI_STD; i++)
+    for (auto &item : indi_std)
     {
-        if (!strcmp(name.toLatin1().constData(), indi_std[i]))
+        if (!strcmp(name.toLatin1().constData(), item))
             return true;
     }
     return false;

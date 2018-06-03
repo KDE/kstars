@@ -248,11 +248,11 @@ void KSWizard::slotChangeCity()
 {
     if (location->CityListBox->currentItem())
     {
-        for (int i = 0; i < filteredCityList.size(); ++i)
+        for (auto &city : filteredCityList)
         {
-            if (filteredCityList[i]->fullName() == location->CityListBox->currentItem()->text())
+            if (city->fullName() == location->CityListBox->currentItem()->text())
             {
-                Geo = filteredCityList[i];
+                Geo = city;
                 break;
             }
         }

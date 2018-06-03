@@ -268,10 +268,10 @@ void SkyCalendar::addPlanetEvents(int nPlanet)
     bool needTransertLabel = false;
 
     float maxRiseTime = 0.0;
-    for (int i = 0; i < vRise.size(); ++i)
+    for (auto &item : vRise)
     {
-        if (vRise.at(i).x() >= maxRiseTime)
-            maxRiseTime = vRise.at(i).x();
+        if (item.x() >= maxRiseTime)
+            maxRiseTime = item.x();
     }
     maxRiseTime = qFloor(maxRiseTime) - 1.0;
 

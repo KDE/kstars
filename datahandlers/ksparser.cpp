@@ -172,13 +172,14 @@ QHash<QString, QVariant> KSParser::ReadFixedWidthRow()
             continue;
 
         int curr_width = 0;
-        for (int n_split = 0; n_split < width_sequence_.length(); n_split++)
+        for (int split : width_sequence_)
         {
             // Build separated stringlist. Then assign it afterwards.
             QString temp_split;
-            temp_split = next_line.mid(curr_width, width_sequence_[n_split]);
+
+            temp_split = next_line.mid(curr_width, split);
             // Don't use at(), because it crashes on invalid index
-            curr_width += width_sequence_[n_split];
+            curr_width += split;
             separated.append(temp_split.trimmed());
         }
         separated.append(next_line.mid(curr_width).trimmed()); // Append last segment
@@ -211,21 +212,22 @@ QHash<QString, QVariant> KSParser::DummyRow()
 {
     // qWarning() << "File named " << filename_ << " encountered an error while reading";
     QHash<QString, QVariant> newRow;
-    for (int i = 0; i < name_type_sequence_.length(); ++i)
+
+    for (auto &item : name_type_sequence_)
     {
-        switch (name_type_sequence_[i].second)
+        switch (item.second)
         {
             case D_QSTRING:
-                newRow[name_type_sequence_[i].first] = EBROKEN_QSTRING;
+                newRow[item.first] = EBROKEN_QSTRING;
                 break;
             case D_DOUBLE:
-                newRow[name_type_sequence_[i].first] = EBROKEN_DOUBLE;
+                newRow[item.first] = EBROKEN_DOUBLE;
                 break;
             case D_INT:
-                newRow[name_type_sequence_[i].first] = EBROKEN_INT;
+                newRow[item.first] = EBROKEN_INT;
                 break;
             case D_FLOAT:
-                newRow[name_type_sequence_[i].first] = EBROKEN_FLOAT;
+                newRow[item.first] = EBROKEN_FLOAT;
                 break;
             case D_SKIP:
             default:
