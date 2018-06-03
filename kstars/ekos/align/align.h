@@ -396,6 +396,11 @@ class Align : public QWidget, public Ui::Align
     bool isPAHEnabled() const { return PAHWidgets->isEnabled(); }
     QString getPAHMessage() const;
 
+    void startPAHProcess();
+    void restartPAHProcess();
+    void setPAHCorrectionOffset(int x, int y);
+    void startPAHRefreshProcess();
+    void setPAHRefreshComplete();
 
   private slots:
 
@@ -419,13 +424,9 @@ class Align : public QWidget, public Ui::Align
     void toggleAlignWidgetFullScreen();
 
     // Polar Alignment Helper slots
-    void startPAHProcess();
-    void restartPAHProcess();
-    void rotatePAH();
-    void setPAHCorrectionOffset(int x, int y);
-    void setPAHCorrectionSelectionComplete();
-    void startPAHRefreshProcess();
-    void setPAHRefreshComplete();
+
+    void rotatePAH();    
+    void setPAHCorrectionSelectionComplete();    
     void setWCSToggled(bool result);
 
     //Solutions Display slots

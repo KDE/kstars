@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>580</width>
-    <height>504</height>
+    <height>529</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_19">
@@ -27,7 +27,7 @@
     <number>3</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,2">
+    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,0">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
@@ -561,6 +561,9 @@
                 </property>
                </widget>
               </item>
+              <item row="0" column="1" colspan="3">
+               <widget class="QComboBox" name="CCDCaptureCombo"/>
+              </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_18">
                 <property name="toolTip">
@@ -593,8 +596,8 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="1" colspan="3">
-               <widget class="QComboBox" name="CCDCaptureCombo"/>
+              <item row="3" column="1">
+               <widget class="QComboBox" name="FilterDevicesCombo"/>
               </item>
               <item row="3" column="0">
                <widget class="QLabel" name="FilterCaptureLabel">
@@ -603,8 +606,8 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="1">
-               <widget class="QComboBox" name="FilterDevicesCombo"/>
+              <item row="3" column="3" colspan="2">
+               <widget class="QComboBox" name="FilterPosCombo"/>
               </item>
               <item row="3" column="2">
                <widget class="QLabel" name="FilterPosLabel">
@@ -612,9 +615,6 @@
                  <string>Filter:</string>
                 </property>
                </widget>
-              </item>
-              <item row="3" column="3" colspan="2">
-               <widget class="QComboBox" name="FilterPosCombo"/>
               </item>
              </layout>
             </item>
@@ -1076,7 +1076,7 @@
             <property name="title">
              <string>Polar Alignment Assistant</string>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
              <property name="spacing">
               <number>3</number>
              </property>
@@ -1104,10 +1104,10 @@
                 <enum>QFrame::NoFrame</enum>
                </property>
                <property name="currentIndex">
-                <number>6</number>
+                <number>0</number>
                </property>
                <widget class="QWidget" name="PAHIntroPage">
-                <layout class="QVBoxLayout" name="verticalLayout_3">
+                <layout class="QVBoxLayout" name="verticalLayout_6">
                  <property name="spacing">
                   <number>3</number>
                  </property>
@@ -1126,7 +1126,7 @@
                  <item>
                   <widget class="QLabel" name="introText">
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Unpark&lt;/span&gt; your mount, &lt;span style=&quot; font-weight:600;&quot;&gt;Point&lt;/span&gt; toward the celestial pole, and &lt;span style=&quot; font-weight:600;&quot;&gt;Engage&lt;/span&gt; sidereal tracking.&lt;/p&gt;&lt;p&gt;Click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Unpark&lt;/span&gt; your mount, &lt;span style=&quot; font-weight:600;&quot;&gt;Point&lt;/span&gt; toward the celestial pole. Select mount direction and magnitude and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
@@ -1134,22 +1134,74 @@
                   </widget>
                  </item>
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_10">
+                  <widget class="QLabel" name="FOVDisabledLabel">
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;Disabled: FOV must be 30 arcmins or wider.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="textFormat">
+                    <enum>Qt::RichText</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
                    <property name="spacing">
                     <number>3</number>
                    </property>
                    <item>
-                    <widget class="QLabel" name="FOVDisabledLabel">
-                     <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;Disabled: FOV must be 30 arcmins or wider.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <widget class="QLabel" name="directionLabel">
+                     <property name="enabled">
+                      <bool>false</bool>
                      </property>
-                     <property name="textFormat">
-                      <enum>Qt::RichText</enum>
+                     <property name="text">
+                      <string>Direction:</string>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <spacer name="horizontalSpacer_5">
+                    <widget class="QComboBox" name="PAHDirectionCombo">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="toolTip">
+                      <string>Mount direction</string>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>West</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>East</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="PAHRotationSpin">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="toolTip">
+                      <string>Rotation magnitude in degrees</string>
+                     </property>
+                     <property name="minimum">
+                      <number>15</number>
+                     </property>
+                     <property name="maximum">
+                      <number>60</number>
+                     </property>
+                     <property name="singleStep">
+                      <number>15</number>
+                     </property>
+                     <property name="value">
+                      <number>30</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_3">
                      <property name="orientation">
                       <enum>Qt::Horizontal</enum>
                      </property>
@@ -1160,13 +1212,6 @@
                       </size>
                      </property>
                     </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="PAHStartB">
-                     <property name="text">
-                      <string>Start</string>
-                     </property>
-                    </widget>
                    </item>
                   </layout>
                  </item>
@@ -1192,39 +1237,12 @@
                  <item>
                   <widget class="QLabel" name="firstCaptureText">
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The assistant requires three images to find a solution. The first image shall now be captured and solved. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Capture&lt;/span&gt; to start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The assistant requires three images to find a solution.  Ekos is now capturing the first image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
                    </property>
                   </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_2">
-                   <property name="spacing">
-                    <number>3</number>
-                   </property>
-                   <item>
-                    <spacer name="horizontalSpacer_2">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="PAHFirstCaptureB">
-                     <property name="text">
-                      <string>Capture</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
                  </item>
                 </layout>
                </widget>
@@ -1248,89 +1266,12 @@
                  <item>
                   <widget class="QLabel" name="firstRotateText">
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select direction and range of &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation, then click &lt;span style=&quot; font-weight:600;&quot;&gt;Rotate&lt;/span&gt; to continue. To automate the rest of the process, check &lt;span style=&quot; font-weight:600;&quot;&gt;Auto Mode&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Executing the &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
                    </property>
                   </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_4">
-                   <property name="spacing">
-                    <number>3</number>
-                   </property>
-                   <item>
-                    <widget class="QRadioButton" name="PAHFirstWestMeridianR">
-                     <property name="text">
-                      <string>West</string>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QRadioButton" name="PAHFirstEastMeridianR">
-                     <property name="text">
-                      <string>East</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="PAHFirstRotationSpin">
-                     <property name="minimum">
-                      <number>15</number>
-                     </property>
-                     <property name="maximum">
-                      <number>60</number>
-                     </property>
-                     <property name="singleStep">
-                      <number>15</number>
-                     </property>
-                     <property name="value">
-                      <number>30</number>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_11">
-                     <property name="text">
-                      <string>°</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <spacer name="horizontalSpacer_3">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QCheckBox" name="PAHAutoModeCheck">
-                     <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform the remaining steps automatically&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="text">
-                      <string>Auto Mode</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="PAHFirstRotateB">
-                     <property name="text">
-                      <string>Rotate</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
                  </item>
                 </layout>
                </widget>
@@ -1354,39 +1295,12 @@
                  <item>
                   <widget class="QLabel" name="secondCaptureText">
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The second image shall now be captured and solved. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Capture&lt;/span&gt; to start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Capturing the second image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
                    </property>
                   </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_7">
-                   <property name="spacing">
-                    <number>3</number>
-                   </property>
-                   <item>
-                    <spacer name="horizontalSpacer_4">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="PAHSecondCaptureB">
-                     <property name="text">
-                      <string>Capture</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
                  </item>
                 </layout>
                </widget>
@@ -1395,79 +1309,12 @@
                  <item>
                   <widget class="QLabel" name="secondRotateText">
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select direction and range of final mount rotation, then click &lt;span style=&quot; font-weight:600;&quot;&gt;Rotate&lt;/span&gt; to continue.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Executing the s&lt;span style=&quot; font-style:italic;&quot;&gt;econd &lt;/span&gt;mount rotation...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
                    </property>
                   </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_17">
-                   <property name="spacing">
-                    <number>3</number>
-                   </property>
-                   <item>
-                    <widget class="QRadioButton" name="PAHSecondWestMeridianR">
-                     <property name="text">
-                      <string>West</string>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QRadioButton" name="PAHSecondEastMeridianR">
-                     <property name="text">
-                      <string>East</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="PAHSecondRotationSpin">
-                     <property name="minimum">
-                      <number>15</number>
-                     </property>
-                     <property name="maximum">
-                      <number>60</number>
-                     </property>
-                     <property name="singleStep">
-                      <number>15</number>
-                     </property>
-                     <property name="value">
-                      <number>30</number>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_25">
-                     <property name="text">
-                      <string>°</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <spacer name="horizontalSpacer_9">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="PAHSecondRotateB">
-                     <property name="text">
-                      <string>Rotate</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
                  </item>
                 </layout>
                </widget>
@@ -1476,39 +1323,12 @@
                  <item>
                   <widget class="QLabel" name="thirdCaptureText">
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The final image shall now be captured and solved. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Capture&lt;/span&gt; to start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Capturing the &lt;span style=&quot; font-style:italic;&quot;&gt;third&lt;/span&gt; and final image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
                    </property>
                   </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_18">
-                   <property name="spacing">
-                    <number>3</number>
-                   </property>
-                   <item>
-                    <spacer name="horizontalSpacer_10">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="PAHThirdCaptureB">
-                     <property name="text">
-                      <string>Capture</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
                  </item>
                 </layout>
                </widget>
@@ -1538,33 +1358,6 @@
                     <bool>true</bool>
                    </property>
                   </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_13">
-                   <property name="spacing">
-                    <number>3</number>
-                   </property>
-                   <item>
-                    <spacer name="horizontalSpacer_6">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="pushButton">
-                     <property name="text">
-                      <string>Restart</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
                  </item>
                 </layout>
                </widget>
@@ -1724,14 +1517,50 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="PAHRestartB">
-               <property name="focusPolicy">
-                <enum>Qt::ClickFocus</enum>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <property name="spacing">
+                <number>3</number>
                </property>
-               <property name="text">
-                <string>Restart</string>
-               </property>
-              </widget>
+               <item>
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="PAHStartB">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Start</string>
+                 </property>
+                 <property name="text">
+                  <string>Start</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="PAHStopB">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Stop</string>
+                 </property>
+                 <property name="text">
+                  <string>Stop</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
               <widget class="QGroupBox" name="polarAlignmentGroup">
@@ -1742,6 +1571,21 @@
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                <property name="spacing">
+                 <number>3</number>
+                </property>
+                <property name="leftMargin">
+                 <number>3</number>
+                </property>
+                <property name="topMargin">
+                 <number>3</number>
+                </property>
+                <property name="rightMargin">
+                 <number>3</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>3</number>
+                </property>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_8">
                   <item>
@@ -1905,22 +1749,8 @@
   <tabstop>altError</tabstop>
   <tabstop>azError</tabstop>
   <tabstop>correctAzB</tabstop>
-  <tabstop>PAHStartB</tabstop>
   <tabstop>measureAzB</tabstop>
   <tabstop>measureAltB</tabstop>
-  <tabstop>PAHFirstCaptureB</tabstop>
-  <tabstop>PAHFirstWestMeridianR</tabstop>
-  <tabstop>PAHFirstEastMeridianR</tabstop>
-  <tabstop>PAHFirstRotationSpin</tabstop>
-  <tabstop>PAHAutoModeCheck</tabstop>
-  <tabstop>PAHFirstRotateB</tabstop>
-  <tabstop>PAHSecondCaptureB</tabstop>
-  <tabstop>PAHSecondWestMeridianR</tabstop>
-  <tabstop>PAHSecondEastMeridianR</tabstop>
-  <tabstop>PAHSecondRotationSpin</tabstop>
-  <tabstop>PAHSecondRotateB</tabstop>
-  <tabstop>PAHThirdCaptureB</tabstop>
-  <tabstop>pushButton</tabstop>
   <tabstop>PAHCorrectionsNextB</tabstop>
   <tabstop>PAHRefreshB</tabstop>
   <tabstop>PAHExposure</tabstop>
@@ -1929,7 +1759,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="solverTypeGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
+  <buttongroup name="solverTypeGroup"/>
  </buttongroups>
 </ui>
