@@ -253,7 +253,6 @@ void KSDssDownloader::downloadError(const QString &errorString)
     qDebug() << "Error " << errorString << " downloading DSS images!";
     emit downloadComplete(false);
     downloadJob->deleteLater();
-    return;
 }
 
 void KSDssDownloader::singleDownloadFinished()

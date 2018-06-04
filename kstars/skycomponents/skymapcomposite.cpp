@@ -444,10 +444,10 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
         oBest = oTry;
     }    
 
-    for (int i = 0; i < m_DeepStars.size(); ++i)
+    for (auto &star : m_DeepStars)
     {
         rTry = maxrad;
-        oTry = m_DeepStars.at(i)->objectNearest(p, rTry);
+        oTry = star->objectNearest(p, rTry);
         if (rTry < rBest)
         {
             rBest = rTry;

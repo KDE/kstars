@@ -81,7 +81,6 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
     DeviceInfo *devInfo = new DeviceInfo(deviceDriver, dp);
     deviceDriver->addDevice(devInfo);
     emit newINDIDevice(devInfo);
-    return;
 }
 
 void ClientManager::newProperty(INDI::Property *prop)

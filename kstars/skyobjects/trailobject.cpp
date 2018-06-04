@@ -55,8 +55,8 @@ TrailObject *TrailObject::clone() const
 
 void TrailObject::updateTrail(dms *LST, const dms *lat)
 {
-    for (int i = 0; i < Trail.size(); ++i)
-        Trail[i].EquatorialToHorizontal(LST, lat);
+    for (auto & item : Trail)
+        item.EquatorialToHorizontal(LST, lat);
 }
 
 void TrailObject::initPopupMenu(KSPopupMenu *pmenu)

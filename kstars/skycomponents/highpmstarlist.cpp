@@ -74,10 +74,10 @@ bool HighPMStarList::reindex(KSNumbers *num, StarIndex *starIndex)
 
     int cnt(0);
 
-    for (int i = 0; i < m_stars.size(); i++)
+    for (auto &HPStar : m_stars)
     {
-        HighPMStar *HPStar = m_stars.at(i);
-        Trixel trixel      = m_skyMesh->indexStar(HPStar->star);
+        Trixel trixel = m_skyMesh->indexStar(HPStar->star);
+
         if (trixel == HPStar->trixel)
             continue;
         cnt++;

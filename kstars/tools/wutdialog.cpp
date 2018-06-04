@@ -285,9 +285,10 @@ void WUTDialog::slotLoadList(const QString &c)
             starObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
             starObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
 
-            for (QVector<QPair<QString, const SkyObject *>>::ConstIterator it = starObjects.cbegin();it != starObjects.cend(); ++it)
+            for (const auto &object : starObjects)
             {
-               const SkyObject *o =  (*it).second;
+               const SkyObject *o =  object.second;
+
                if (checkVisibility(o) && o->mag() <= m_Mag)
                {
                    visibleObjects(c).insert(o);

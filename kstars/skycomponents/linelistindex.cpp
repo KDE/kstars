@@ -147,15 +147,16 @@ void LineListIndex::JITupdate(LineList *lineList)
     {
         lineList->updateNumID = data->updateNumID();
         KSNumbers *num        = data->updateNum();
-        for (int i = 0; i < points->size(); i++)
+
+        for (const auto &point : *points)
         {
-            points->at(i)->updateCoords(num);
+            point->updateCoords(num);
         }
     }
 
-    for (int i = 0; i < points->size(); i++)
+    for (const auto &point : *points)
     {
-        points->at(i)->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+        point->EquatorialToHorizontal(data->lst(), data->geo()->lat());
     }
 }
 
