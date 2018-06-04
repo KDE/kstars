@@ -156,9 +156,11 @@ bool StarComponent::reindex(KSNumbers *num)
     }
 
     bool highPM = true;
+
     // otherwise we just re-index fast movers as needed
-    for (int j = 0; j < m_highPMStars.size(); j++)
-        highPM &= !(m_highPMStars.at(j)->reindex(num, m_starIndex.get()));
+    for (auto &star : m_highPMStars)
+        highPM &= !(star->reindex(num, m_starIndex.get()));
+
     return !(highPM);
 }
 
@@ -181,24 +183,24 @@ void StarComponent::reindexAll(KSNumbers *num)
     m_skyMesh->setKSNumbers(num);
 
     // clear out the old index
-    for (int i = 0; i < m_starIndex->size(); i++)
+    for (auto &item : *m_starIndex)
     {
-        m_starIndex->at(i)->clear();
+        item->clear();
     }
 
     // re-populate it from the objectList
-    int size = m_ObjectList.size();
-    for (int i = 0; i < size; i++)
+    for (auto &object : m_ObjectList)
     {
-        StarObject *star = (StarObject *)m_ObjectList[i];
+        StarObject *star = (StarObject *)object;
         Trixel trixel    = m_skyMesh->indexStar(star);
+
         m_starIndex->at(trixel)->append(star);
     }
 
     // Let everyone else know we have re-indexed to num
-    for (int j = 0; j < m_highPMStars.size(); j++)
+    for (auto &star : m_highPMStars)
     {
-        m_highPMStars.at(j)->setIndexTime(num);
+        star->setIndexTime(num);
     }
 
     //delete m_reindexSplash;
@@ -210,10 +212,11 @@ void StarComponent::reindexAll(KSNumbers *num)
 float StarComponent::faintMagnitude() const
 {
     float faintmag = m_FaintMagnitude;
-    for (int i = 0; i < m_DeepStarComponents.size(); ++i)
+
+    for (auto &component : m_DeepStarComponents)
     {
-        if (faintmag < m_DeepStarComponents.at(i)->faintMagnitude())
-            faintmag = m_DeepStarComponents.at(i)->faintMagnitude();
+        if (faintmag < component->faintMagnitude())
+            faintmag = component->faintMagnitude();
     }
     return faintmag;
 }
@@ -317,26 +320,25 @@ void StarComponent::draw(SkyPainter *skyp)
         Trixel currentRegion = region.next();
         StarList *starList   = m_starIndex->at(currentRegion);
 
-        for (int i = 0; i < starList->size(); ++i)
+        for (auto &star : *starList)
         {
-            StarObject *curStar = starList->at(i);
-            if (!curStar)
+            if (!star)
                 continue;
 
-            float mag = curStar->mag();
+            float mag = star->mag();
 
             // break loop if maglim is reached
             if (mag > maglim)
                 break;
 
-            if (curStar->updateID != updateID)
-                curStar->JITupdate();
+            if (star->updateID != updateID)
+                star->JITupdate();
 
-            bool drawn = skyp->drawPointSource(curStar, mag, curStar->spchar());
+            bool drawn = skyp->drawPointSource(star, mag, star->spchar());
 
             //FIXME_SKYPAINTER: find a better way to do this.
             if (drawn && !(m_hideLabels || mag > labelMagLim))
-                addLabel(proj->toScreen(curStar), curStar);
+                addLabel(proj->toScreen(star), star);
         }
     }
 
@@ -350,9 +352,9 @@ void StarComponent::draw(SkyPainter *skyp)
     }
 
     // Now draw each of our DeepStarComponents
-    for (int i = 0; i < m_DeepStarComponents.size(); ++i)
+    for (auto &component : m_DeepStarComponents)
     {
-        m_DeepStarComponents.at(i)->draw(skyp);
+        component->draw(skyp);
     }
 #else
     Q_UNUSED(skyp)
@@ -386,9 +388,10 @@ void StarComponent::drawLabels()
     for (int i = 0; i <= max; i++)
     {
         LabelList *list = m_labelList[i];
-        for (int j = 0; j < list->size(); j++)
+
+        for (const auto &item : *list)
         {
-            labeler->drawNameLabel(list->at(j).obj, list->at(j).o);
+            labeler->drawNameLabel(item.obj, item.o);
         }
         list->clear();
     }
@@ -553,9 +556,9 @@ bool StarComponent::loadStaticData()
 
             m_starIndex->at(trixel)->append(star);
             double pm = star->pmMagnitude();
-            for (int z = 0; z < m_highPMStars.size(); z++)
+
+            for (auto &list : m_highPMStars)
             {
-                HighPMStarList *list = m_highPMStars.at(z);
                 if (list->append(trixel, star, pm))
                     break;
             }
@@ -670,15 +673,16 @@ SkyObject *StarComponent::objectNearest(SkyPoint *p, double &maxrad)
     {
         Trixel currentRegion = region.next();
         StarList *starList   = m_starIndex->at(currentRegion);
-        for (int i = 0; i < starList->size(); ++i)
+
+        for (auto &star : *starList)
         {
-            StarObject *star = starList->at(i);
             if (!star)
                 continue;
             if (star->mag() > m_zoomMagLimit)
                 continue;
 
             double r = star->angularDistanceTo(p).Degrees();
+
             if (r < maxrad)
             {
                 oBest  = star;
@@ -693,9 +697,9 @@ SkyObject *StarComponent::objectNearest(SkyPoint *p, double &maxrad)
     // JM 2016-03-30: Multiply rBest by a factor of 0.5 so that named stars are preferred to unnamed stars searched below
     rBest = maxrad * 0.5;
     rTry  = maxrad;
-    for (int i = 0; i < m_DeepStarComponents.size(); ++i)
+    for (auto &component : m_DeepStarComponents)
     {
-        oTry = m_DeepStarComponents.at(i)->objectNearest(p, rTry);
+        oTry = component->objectNearest(p, rTry);
         if (rTry < rBest)
         {
             rBest = rTry;
@@ -724,9 +728,9 @@ void StarComponent::starsInAperture(QList<StarObject *> &list, const SkyPoint &c
     {
         Trixel currentRegion = region.next();
         StarList *starList   = m_starIndex->at(currentRegion);
-        for (int i = 0; i < starList->size(); ++i)
+
+        for (auto &star : *starList)
         {
-            StarObject *star = starList->at(i);
             if (!star)
                 continue;
             if (star->mag() > m_FaintMagnitude)
@@ -737,9 +741,9 @@ void StarComponent::starsInAperture(QList<StarObject *> &list, const SkyPoint &c
     }
 
     // Add stars from the DeepStarComponents as well
-    for (int i = 0; i < m_DeepStarComponents.size(); ++i)
+    for (auto &component : m_DeepStarComponents)
     {
-        m_DeepStarComponents.at(i)->starsInAperture(list, center, radius, maglim);
+        component->starsInAperture(list, center, radius, maglim);
     }
 }
 

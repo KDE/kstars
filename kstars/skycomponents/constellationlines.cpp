@@ -18,6 +18,7 @@
 #include "constellationlines.h"
 
 #include "kstarsdata.h"
+#include "kstars_debug.h"
 #include "linelist.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
@@ -28,8 +29,6 @@
 #include "skypainter.h"
 #include "skycomponents/culturelist.h"
 #include "skycomponents/starcomponent.h"
-
-#include "kstars_debug.h"
 
 ConstellationLines::ConstellationLines(SkyComposite *parent, CultureList *cultures)
     : LineListIndex(parent, i18n("Constellation Lines")), m_reindexNum(J2000)
@@ -152,9 +151,11 @@ void ConstellationLines::JITupdate(LineList *lineList)
     lineList->updateID = data->updateID();
 
     SkyList *points = lineList->points();
-    for (int i = 0; i < points->size(); i++)
+
+    for (const auto &point : *points)
     {
-        StarObject *star = (StarObject *)points->at(i).get();
+        StarObject *star = (StarObject *)point.get();
+
         star->JITupdate();
     }
 }
