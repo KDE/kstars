@@ -101,8 +101,10 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 
     // INDI Control Panel
     //connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
-    connect(ekosLiveB, SIGNAL(clicked()), ekosLiveClient.get(), SLOT(show()));
-
+    connect(ekosLiveB, &QPushButton::clicked, [&]() {
+        ekosLiveClient.get()->show();
+        ekosLiveClient.get()->raise();
+    });
 
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
     // Save as above, but it appears in all modules
@@ -1845,7 +1847,8 @@ void EkosManager::initAlign()
     {
         connect(alignProcess.get(), &Ekos::Align::newStatus, ekosLiveClient.get(), &EkosLiveClient::setAlignStatus);
         connect(alignProcess.get(), &Ekos::Align::newSolution, ekosLiveClient.get(), &EkosLiveClient::setAlignSolution);
-        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get(), &EkosLiveClient::sendPreviewImage);
+        connect(alignProcess.get(), &Ekos::Align::newImage, ekosLiveClient.get(), &EkosLiveClient::sendPreviewImage);
+        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get(), &EkosLiveClient::sendUpdatedFrame);
         connect(alignProcess.get(), &Ekos::Align::newPAHStage, ekosLiveClient.get(), &EkosLiveClient::setPAHStage);
         connect(alignProcess.get(), &Ekos::Align::newPAHMessage, ekosLiveClient.get(), &EkosLiveClient::setPAHMessage);
         connect(alignProcess.get(), &Ekos::Align::PAHEnabled, ekosLiveClient.get(), &EkosLiveClient::setPAHEnabled);

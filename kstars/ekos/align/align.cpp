@@ -2686,7 +2686,7 @@ void Align::setCaptureComplete()
 {
     DarkLibrary::Instance()->disconnect(this);
 
-    emit newFrame(alignView);
+    emit newImage(alignView);
 
     if (pahStage == PAH_REFRESH)
     {
@@ -4700,6 +4700,8 @@ void Align::stopPAHProcess()
     alignView->setRefreshEnabled(false);
 
     disconnect(alignView, SIGNAL(trackingStarSelected(int, int)), this, SLOT(setPAHCorrectionOffset(int, int)));
+
+    emit newFrame(alignView);
 }
 
 void Align::rotatePAH()
@@ -4816,6 +4818,8 @@ void Align::calculatePAHError()
     alignView->setCorrectionParams(correctionVector);
 
     connect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
+
+    emit newFrame(alignView);
 }
 
 void Align::setPAHCorrectionOffset(int x, int y)
@@ -4824,6 +4828,8 @@ void Align::setPAHCorrectionOffset(int x, int y)
     correctionOffset.setY(y);
 
     alignView->setCorrectionOffset(correctionOffset);
+
+    emit newFrame(alignView);
 }
 
 void Align::setPAHCorrectionSelectionComplete()

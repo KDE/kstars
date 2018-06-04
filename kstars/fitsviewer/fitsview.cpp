@@ -82,7 +82,7 @@ FITSView::~FITSView()
     wcsWatcher.waitForFinished();
 
     delete (imageData);
-    delete (display_image);
+    delete (displayImage);
 }
 
 /**
@@ -273,6 +273,8 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
         QTimer::singleShot(100 , this , SLOT(viewStarProfile()));  //Need to wait till the Focus module finds stars, if its the Focus module.
     }
 
+    updateFrame();
+
     emit imageLoaded();
 
     return true;
@@ -371,7 +373,7 @@ int FITSView::rescale(FITSZoom type)
     double min, max;
     bool displayBuffer = false;
 
-    if (display_image == nullptr)
+    if (displayImage == nullptr)
         return -1;
 
     uint8_t *image_buffer = imageData->getImageBuffer();
@@ -406,7 +408,7 @@ int FITSView::rescale(FITSZoom type)
 
     if (min == max)
     {
-        display_image->fill(Qt::white);
+        displayImage->fill(Qt::white);
         emit newStatus(i18n("Image is saturated!"), FITS_MESSAGE);
     }
     else
@@ -426,8 +428,8 @@ int FITSView::rescale(FITSZoom type)
         }
 
         image_frame->setScaledContents(true);
-        currentWidth  = display_image->width();
-        currentHeight = display_image->height();
+        currentWidth  = displayImage->width();
+        currentHeight = displayImage->height();
 
         if (imageData->getNumOfChannels() == 1)
         {
@@ -439,7 +441,7 @@ int FITSView::rescale(FITSZoom type)
                 futures.append(QtConcurrent::run([=]()
                 {
                     T *runningBuffer = buffer +j*image_width;
-                    uint8_t *scanLine = display_image->scanLine(j);
+                    uint8_t *scanLine = displayImage->scanLine(j);
                     for (uint32_t i = 0; i < image_width; i++)
                     {
                         //scanLine[i] = qBound(0, static_cast<uint8_t>(runningBuffer[i] * bscale + bzero), 255);
@@ -459,7 +461,7 @@ int FITSView::rescale(FITSZoom type)
             {                
                 futures.append(QtConcurrent::run([=]()
                 {
-                    auto *scanLine = reinterpret_cast<QRgb *>((display_image->scanLine(j)));
+                    auto *scanLine = reinterpret_cast<QRgb *>((displayImage->scanLine(j)));
                     T *runningBufferR = buffer + j*image_width;
                     T *runningBufferG = buffer + j*image_width + size;
                     T *runningBufferB = buffer + j*image_width + size*2;
@@ -522,7 +524,7 @@ int FITSView::rescale(FITSZoom type)
     switch (type)
     {
         case ZOOM_FIT_WINDOW:
-            if ((display_image->width() > width() || display_image->height() > height()))
+            if ((displayImage->width() > width() || displayImage->height() > height()))
             {
                 double w = baseSize().width() - BASE_OFFSET;
                 double h = baseSize().height() - BASE_OFFSET;
@@ -626,7 +628,7 @@ void FITSView::ZoomOut()
 
 void FITSView::ZoomToFit()
 {
-    if (display_image != nullptr)
+    if (displayImage != nullptr)
     {
         rescale(ZOOM_FIT_WINDOW);
         updateFrame();
@@ -634,18 +636,17 @@ void FITSView::ZoomToFit()
 }
 
 void FITSView::updateFrame()
-{
-    QPixmap displayPixmap;
+{    
     bool ok = false;
 
-    if (display_image == nullptr)
+    if (displayImage == nullptr)
         return;
 
     if (currentZoom != ZOOM_DEFAULT)
         ok = displayPixmap.convertFromImage(
-            display_image->scaled(currentWidth, currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            displayImage->scaled(currentWidth, currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     else
-        ok = displayPixmap.convertFromImage(*display_image);
+        ok = displayPixmap.convertFromImage(*displayImage);
 
     if (!ok)
         return;
@@ -1464,20 +1465,20 @@ QPoint FITSView::getImagePoint(QPoint viewPortPoint)
 
 void FITSView::initDisplayImage()
 {
-    delete display_image;
-    display_image = nullptr;
+    delete displayImage;
+    displayImage = nullptr;
 
     if (imageData->getNumOfChannels() == 1)
     {
-        display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
+        displayImage = new QImage(image_width, image_height, QImage::Format_Indexed8);
 
-        display_image->setColorCount(256);
+        displayImage->setColorCount(256);
         for (int i = 0; i < 256; i++)
-            display_image->setColor(i, qRgb(i, i, i));
+            displayImage->setColor(i, qRgb(i, i, i));
     }
     else
     {
-        display_image = new QImage(image_width, image_height, QImage::Format_RGB32);
+        displayImage = new QImage(image_width, image_height, QImage::Format_RGB32);
     }
 }
 

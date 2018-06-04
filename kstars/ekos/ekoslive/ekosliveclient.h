@@ -41,6 +41,7 @@ public:
     void updateFocusStatus(const QJsonObject &status);
     void updateGuideStatus(const QJsonObject &status);
     void sendPreviewImage(FITSView *view);
+    void sendUpdatedFrame(FITSView *view);
     void sendEvent(const QString &message, KSNotification::EventType event);
 
     enum COMMANDS
