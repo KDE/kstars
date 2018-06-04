@@ -14,6 +14,7 @@
 #include <memory>
 
 #include "ekos/ekos.h"
+#include "ekos/align/align.h"
 #include "indi/indicommon.h"
 #include "ui_ekoslivedialog.h"
 #include "ksnotification.h"
@@ -29,9 +30,9 @@ class EkosLiveClient : public QDialog, public Ui::EkosLiveDialog
     Q_OBJECT
 public:
     explicit EkosLiveClient(EkosManager *manager);
+    ~EkosLiveClient();
 
-    bool isConnected() const { return m_isConnected; }
-    void sendMessage(const QString &msg);
+    bool isConnected() const { return m_isConnected; }    
     void sendResponse(const QString &command, const QJsonObject &payload);
     void sendResponse(const QString &command, const QJsonArray &payload);
 
@@ -55,6 +56,7 @@ public:
         NEW_GUIDE_STATE,        
         NEW_FOCUS_STATE,
         NEW_ALIGN_STATE,
+        NEW_POLAR_STATE,
         NEW_PREVIEW_IMAGE,
         NEW_VIDEO_FRAME,
         NEW_ALIGN_FRAME,
@@ -95,6 +97,17 @@ public:
         ALIGN_SELECT_SCOPE,
         ALIGN_SELECT_SOLVER_TYPE,
         ALIGN_SELECT_SOLVER_ACTION,
+        ALIGN_SET_FILE_EXTENSION,
+        ALIGN_SET_CAPTURE_SETTINGS,
+
+        // Polar Assistant Helper
+        PAH_START,
+        PAH_STOP,
+        PAH_REFRESH,
+        PAH_SET_MOUNT_DIRECTION,
+        PAH_SET_MOUNT_ROTATION,
+        PAH_SET_CROSSHAIR
+
 
     };
 
@@ -103,7 +116,12 @@ public:
 public slots:
     void setAlignStatus(Ekos::AlignState newState);
     void setAlignSolution(const QJsonObject &solution);
-    void setAlignFrame(FITSView* view);
+    void setPAHStage(Ekos::Align::PAHStage stage);
+    void setPAHMessage(const QString &message);
+    void setPAHEnabled(bool enabled);
+
+    void setFOVTelescopeType(int index);
+    //void setAlignFrame(FITSView* view);
 
 signals:
     void connected();
@@ -114,17 +132,26 @@ protected slots:
     void onResult(QNetworkReply *reply);
 
 private slots:
-    void connectServer();
-    void disconnectServer();
-    void onConnected();
-    void onDisconnected();
-    void onTextMessageReceived(const QString &message);
-    void onBinaryMessageReceived(const QByteArray &message);
+    void connectAuthServer();
+    void disconnectAuthServer();
+
+    void onMessageConnected();
+    void onMessageDisconnected();
+    void onMessageTextReceived(const QString &message);
+
+    void onMediaConnected();
+    void onMediaDisconnected();
+    void onMediaTextReceived(const QString &message);
+    void onMediaBinaryReceived(const QByteArray &message);
+
     void sendVideoFrame(std::unique_ptr<QImage> & frame);
 
 private:
-    void connectWebSocketServer();
-    void disconnectWebSocketServer();
+    void connectMessageServer();
+    void disconnectMessageServer();
+
+    void connectMediaServer();
+    void disconnectMediaServer();
 
     // Capture
     void processCaptureCommands(const QString &command, const QJsonObject &payload);
@@ -143,6 +170,9 @@ private:
     // Align
     void processAlignCommands(const QString &command, const QJsonObject &payload);
 
+    // Polar
+    void processPolarCommands(const QString &command, const QJsonObject &payload);
+
     // Profiles
     void sendProfiles();
     void sendStates();
@@ -152,7 +182,7 @@ private:
     void sendFilterWheels();
 
 
-    QWebSocket m_webSocket;    
+    QWebSocket m_messageWebSocket, m_mediaWebSocket;
     bool m_isConnected { false };
     EkosManager *m_Manager { nullptr };
     QNetworkAccessManager *networkManager { nullptr };
@@ -160,6 +190,7 @@ private:
     QProgressIndicator *pi { nullptr };
 
     QString token;
-
+    QString extension;
+    QStringList temporaryFiles;
     QUrl m_serviceURL, m_wsURL;
 };
