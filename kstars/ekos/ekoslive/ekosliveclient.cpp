@@ -298,7 +298,7 @@ void EkosLiveClient::onMediaDisconnected()
 
 void EkosLiveClient::onMediaTextReceived(const QString &message)
 {
-    qCInfo(KSTARS_EKOS) << "Medua Text Websocket Message" << message;
+    qCInfo(KSTARS_EKOS) << "Media Text Websocket Message" << message;
     QJsonParseError error;
     auto serverMessage = QJsonDocument::fromJson(message.toLatin1(), &error);
     if (error.error != QJsonParseError::NoError)
@@ -494,16 +494,24 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
         return;
 
     // TODO 640 should be configurable later on
+//    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
+//    QTemporaryFile jpegFile;
+//    jpegFile.open();
+//    jpegFile.close();
+
+//    scaledImage.save(jpegFile.fileName(), "jpg");
+
+//    jpegFile.open();
+
+//    QByteArray jpegData = jpegFile.readAll();
+
+    QByteArray jpegData;
+    QBuffer buffer(&jpegData);
+    buffer.open(QIODevice::WriteOnly);
     QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
-    QTemporaryFile jpegFile;
-    jpegFile.open();
-    jpegFile.close();
+    scaledImage.save(&buffer, "jpg", 50);
+    buffer.close();
 
-    scaledImage.save(jpegFile.fileName(), "jpg");
-
-    jpegFile.open();
-
-    QByteArray jpegData = jpegFile.readAll();
     const FITSData *imageData = view->getImageData();
     QString resolution = QString("%1x%2").arg(imageData->getWidth()).arg(imageData->getHeight());
     QString sizeBytes = KFormat().formatByteSize(imageData->getSize());
@@ -524,49 +532,20 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
     m_mediaWebSocket.sendBinaryMessage(jpegData);
 }
 
-//void EkosLiveClient::setAlignFrame(FITSView *view)
-//{
-//    if (m_isConnected == false)
-//        return;
+void EkosLiveClient::sendUpdatedFrame(FITSView *view)
+{
+    if (m_isConnected == false)
+        return;
 
-//    // TODO 640 should be configurable later on
-//    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
-//    QTemporaryFile jpegFile;
-//    jpegFile.open();
-//    jpegFile.close();
+    QByteArray jpegData;
+    QBuffer buffer(&jpegData);
+    buffer.open(QIODevice::WriteOnly);
+    //QPixmap scaledPixmap = view->getDisplayPixmap().scaledToWidth(640);
+    view->getDisplayPixmap().save(&buffer, "jpg", 70);
+    buffer.close();
 
-//    scaledImage.save(jpegFile.fileName(), "jpg");
-
-//    jpegFile.open();
-
-//    QByteArray jpegData = jpegFile.readAll();
-//    const FITSData *imageData = view->getImageData();
-//    QString resolution = QString("%1x%2").arg(imageData->getWidth()).arg(imageData->getHeight());
-//    QString sizeBytes = KFormat().formatByteSize(imageData->getSize());
-//    QString xbin("1"), ybin("1");
-//    imageData->getRecordValue("XBINNING", xbin);
-//    imageData->getRecordValue("YBINNING", ybin);
-//    QString binning = QString("%1x%2").arg(xbin).arg(ybin);
-//    QString bitDepth = QString::number(imageData->getBPP());
-
-//    QJsonObject metadata = {
-//      {"resolution",resolution},
-//      {"size",sizeBytes},
-//      {"bin",binning},
-//      {"bpp",bitDepth},
-//    };
-
-//    QJsonObject image =
-//    {
-//        //{"data", QString(jpegData.toBase64()) },
-//        {"metadata", metadata},
-//        //{"uuid", QUuid::createUuid().toString()}
-//    };
-
-//    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_FRAME], image);
-
-//    m_mediaSocket.sendBinaryMessage(jpegData);
-//}
+    m_mediaWebSocket.sendBinaryMessage(jpegData);
+}
 
 void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
 {

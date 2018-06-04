@@ -10,7 +10,10 @@
     <height>529</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_19">
+  <property name="cursor">
+   <cursorShape>CrossCursor</cursorShape>
+  </property>
+  <layout class="QHBoxLayout" name="primaryLayout" stretch="1,3">
    <property name="spacing">
     <number>3</number>
    </property>
@@ -27,623 +30,472 @@
     <number>3</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,0">
+    <layout class="QVBoxLayout" name="leftLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <property name="spacing">
-        <number>0</number>
+        <number>3</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <property name="spacing">
-          <number>3</number>
+        <widget class="QGroupBox" name="controlBox">
+         <property name="title">
+          <string>Solver Control</string>
          </property>
-         <item>
-          <widget class="QGroupBox" name="controlBox">
-           <property name="title">
-            <string>Solver Control</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <property name="spacing">
-             <number>3</number>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <property name="spacing">
+           <number>3</number>
+          </property>
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="solveB">
+            <property name="enabled">
+             <bool>true</bool>
             </property>
-            <property name="leftMargin">
-             <number>3</number>
+            <property name="text">
+             <string>Capture &amp;&amp; Solve</string>
             </property>
-            <property name="topMargin">
-             <number>3</number>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="loadSlewB">
+            <property name="toolTip">
+             <string>Load a FITS image and solve. Slew mount to image central coordinates.</string>
             </property>
-            <property name="rightMargin">
-             <number>3</number>
+            <property name="text">
+             <string>Load &amp;&amp; Slew...</string>
             </property>
-            <property name="bottomMargin">
-             <number>3</number>
-            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="stopLayout">
             <item>
-             <widget class="QPushButton" name="solveB">
+             <widget class="QPushButton" name="stopB">
               <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="text">
-               <string>Capture &amp;&amp; Solve</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="loadSlewB">
-              <property name="toolTip">
-               <string>Load a FITS image and solve. Slew mount to image central coordinates.</string>
-              </property>
-              <property name="text">
-               <string>Load &amp;&amp; Slew...</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="stopLayout">
-              <item>
-               <widget class="QPushButton" name="stopB">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Stop</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="gotoBox">
-           <property name="toolTip">
-            <string>Select which action to perform after the captured image is solved</string>
-           </property>
-           <property name="statusTip">
-            <string>Select what action to take once a solution is found.</string>
-           </property>
-           <property name="title">
-            <string>Solver Action</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_7">
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <property name="leftMargin">
-             <number>3</number>
-            </property>
-            <property name="topMargin">
-             <number>3</number>
-            </property>
-            <property name="rightMargin">
-             <number>3</number>
-            </property>
-            <property name="bottomMargin">
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QRadioButton" name="syncR">
-              <property name="toolTip">
-               <string>Synchronize the telescope to the solution coordinates</string>
-              </property>
-              <property name="statusTip">
-               <string/>
-              </property>
-              <property name="text">
-               <string>S&amp;ync</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">gotoModeButtonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="slewR">
-              <property name="toolTip">
-               <string>Synchronize the telescope to the solution coordinates and then slew to the target coordinates</string>
-              </property>
-              <property name="statusTip">
-               <string/>
-              </property>
-              <property name="text">
-               <string>S&amp;lew to Target</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">gotoModeButtonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="nothingR">
-              <property name="toolTip">
-               <string>Just solve</string>
-              </property>
-              <property name="statusTip">
-               <string/>
-              </property>
-              <property name="text">
-               <string>&amp;Nothing</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">gotoModeButtonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="title">
-          <string>Telescope Coordinates</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="3">
-           <widget class="QSpinBox" name="accuracySpin">
-            <property name="toolTip">
-             <string>Accuracy threshold in arcseconds between solution and target coordinates. Plate solver shall be repeatedly executed until the solution coordinates are below the accuracy threshold</string>
-            </property>
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <number>1200</number>
-            </property>
-            <property name="singleStep">
-             <number>10</number>
-            </property>
-            <property name="value">
-             <number>30</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_13">
-            <property name="text">
-             <string>DE:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="ScopeDecOut">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLabel" name="label_22">
-            <property name="toolTip">
-             <string>After telescope completes slewing, wait until it settles for this many milliseconds before capturing the next image.</string>
-            </property>
-            <property name="text">
-             <string>Settle</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="ScopeRAOut">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QSpinBox" name="delaySpin">
-            <property name="toolTip">
-             <string>After telescope completes slewing, wait until it settles for this many milliseconds before capturing the next image.</string>
-            </property>
-            <property name="maximum">
-             <number>15000</number>
-            </property>
-            <property name="singleStep">
-             <number>100</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>RA:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLabel" name="label_9">
-            <property name="toolTip">
-             <string>Accuracy threshold in arcseconds between solution and target coordinates. Plate solver shall be repeatedly executed until the solution coordinates are below the accuracy threshold</string>
-            </property>
-            <property name="text">
-             <string>Accuracy</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_4">
-         <property name="title">
-          <string>Solution Coordinates</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_2">
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
-          <property name="spacing">
-           <number>3</number>
-          </property>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="pixScaleOut">
-            <property name="toolTip">
-             <string>Image scale in arcsecs/pixel</string>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_17">
-            <property name="toolTip">
-             <string>Image scale in arcsecs/pixel</string>
-            </property>
-            <property name="text">
-             <string>Pix:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="FOVOut">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Effective field of view size in arcminutes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="readOnly">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QLineEdit" name="RotOut">
-            <property name="toolTip">
-             <string>Image rotation angle, East of North</string>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="SolverRAOut">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>RA:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLabel" name="dDE">
-            <property name="toolTip">
-             <string>Difference between telescope coordinates and solution coordinates in Declination</string>
-            </property>
-            <property name="text">
-             <string>dDE</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="dRA">
-            <property name="toolTip">
-             <string>Difference between telescope coordinates and solution coordinates in Right Ascension</string>
-            </property>
-            <property name="text">
-             <string>dRA:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <widget class="QLineEdit" name="SolverDecOut">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_8">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Effective field of View size in arcminutes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>FOV:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="label_10">
-            <property name="toolTip">
-             <string>Image rotation angle, East of North</string>
-            </property>
-            <property name="text">
-             <string>Rot:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QLineEdit" name="dDEOut">
-            <property name="toolTip">
-             <string>Difference between telescope coordinates and solution coordinates in Declination</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font-weight: bold;</string>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>DE:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="dRAOut">
-            <property name="toolTip">
-             <string>Difference between telescope coordinates and solution coordinates in Right Ascension</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font-weight: bold;</string>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2" colspan="2">
-           <widget class="QComboBox" name="FOVScopeCombo">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which telescope to use when performing Field of View calculations.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>Primary Scope</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Guide Scope</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="plateSolverOptionsGroup">
-         <property name="title">
-          <string>Solver Options</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <property name="spacing">
-           <number>3</number>
-          </property>
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <property name="spacing">
-             <number>1</number>
-            </property>
-            <item>
-             <layout class="QGridLayout" name="gridLayout_4">
-              <property name="spacing">
-               <number>1</number>
-              </property>
-              <item row="0" column="0">
-               <widget class="QLabel" name="textLabel1_6">
-                <property name="toolTip">
-                 <string/>
-                </property>
-                <property name="whatsThis">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string>CCD:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="7">
-               <widget class="QPushButton" name="toggleFullScreenB">
-                <property name="minimumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Toggle Full Screen</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" colspan="2">
-               <widget class="QDoubleSpinBox" name="exposureIN">
-                <property name="toolTip">
-                 <string>Exposure duration in seconds</string>
-                </property>
-                <property name="minimum">
-                 <double>0.100000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>60.000000000000000</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.500000000000000</double>
-                </property>
-                <property name="value">
-                 <double>3.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_7">
-                <property name="toolTip">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string>Exp:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QCheckBox" name="alignDarkFrameCheck">
-                <property name="toolTip">
-                 <string>Subtract dark frame. If no suitable dark frame is available, a dark frame shall be captured.</string>
-                </property>
-                <property name="text">
-                 <string>Dark</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1" colspan="2">
-               <widget class="QComboBox" name="binningCombo">
-                <property name="toolTip">
-                 <string>Camera binning</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1" colspan="3">
-               <widget class="QComboBox" name="CCDCaptureCombo"/>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_18">
-                <property name="toolTip">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string>Bin:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="7">
-               <widget class="QPushButton" name="showFITSViewerB">
-                <property name="minimumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Show in FITS Viewer</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QComboBox" name="FilterDevicesCombo"/>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="FilterCaptureLabel">
-                <property name="text">
-                 <string>FW:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="3" colspan="2">
-               <widget class="QComboBox" name="FilterPosCombo"/>
-              </item>
-              <item row="3" column="2">
-               <widget class="QLabel" name="FilterPosLabel">
-                <property name="text">
-                 <string>Filter:</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_14">
-              <property name="text">
-               <string>Options:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="solverOptions">
-              <property name="statusTip">
-               <string>Additional options to be the solver</string>
-              </property>
-              <property name="readOnly">
                <bool>false</bool>
               </property>
+              <property name="text">
+               <string>Stop</string>
+              </property>
              </widget>
             </item>
-            <item>
-             <widget class="QPushButton" name="editOptionsB">
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="gotoBox">
+         <property name="toolTip">
+          <string>Select which action to perform after the captured image is solved</string>
+         </property>
+         <property name="statusTip">
+          <string>Select what action to take once a solution is found.</string>
+         </property>
+         <property name="title">
+          <string>Solver Action</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <property name="spacing">
+           <number>3</number>
+          </property>
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
+          <item>
+           <widget class="QRadioButton" name="syncR">
+            <property name="toolTip">
+             <string>Synchronize the telescope to the solution coordinates</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="text">
+             <string>S&amp;ync</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">gotoModeButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="slewR">
+            <property name="toolTip">
+             <string>Synchronize the telescope to the solution coordinates and then slew to the target coordinates</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="text">
+             <string>S&amp;lew to Target</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">gotoModeButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="nothingR">
+            <property name="toolTip">
+             <string>Just solve</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="text">
+             <string>&amp;Nothing</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">gotoModeButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_5">
+       <property name="title">
+        <string>Telescope Coordinates</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="3">
+         <widget class="QSpinBox" name="accuracySpin">
+          <property name="toolTip">
+           <string>Accuracy threshold in arcseconds between solution and target coordinates. Plate solver shall be repeatedly executed until the solution coordinates are below the accuracy threshold</string>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>1200</number>
+          </property>
+          <property name="singleStep">
+           <number>10</number>
+          </property>
+          <property name="value">
+           <number>30</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>DE:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="ScopeDecOut">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_22">
+          <property name="toolTip">
+           <string>After telescope completes slewing, wait until it settles for this many milliseconds before capturing the next image.</string>
+          </property>
+          <property name="text">
+           <string>Settle</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="ScopeRAOut">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QSpinBox" name="delaySpin">
+          <property name="toolTip">
+           <string>After telescope completes slewing, wait until it settles for this many milliseconds before capturing the next image.</string>
+          </property>
+          <property name="maximum">
+           <number>15000</number>
+          </property>
+          <property name="singleStep">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>RA:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_9">
+          <property name="toolTip">
+           <string>Accuracy threshold in arcseconds between solution and target coordinates. Plate solver shall be repeatedly executed until the solution coordinates are below the accuracy threshold</string>
+          </property>
+          <property name="text">
+           <string>Accuracy</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_4">
+       <property name="title">
+        <string>Solution Coordinates</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="pixScaleOut">
+          <property name="toolTip">
+           <string>Image scale in arcsecs/pixel</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_17">
+          <property name="toolTip">
+           <string>Image scale in arcsecs/pixel</string>
+          </property>
+          <property name="text">
+           <string>Pix:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="FOVOut">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Effective field of view size in arcminutes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="readOnly">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLineEdit" name="RotOut">
+          <property name="toolTip">
+           <string>Image rotation angle, East of North</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="SolverRAOut">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>RA:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="dDE">
+          <property name="toolTip">
+           <string>Difference between telescope coordinates and solution coordinates in Declination</string>
+          </property>
+          <property name="text">
+           <string>dDE</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="dRA">
+          <property name="toolTip">
+           <string>Difference between telescope coordinates and solution coordinates in Right Ascension</string>
+          </property>
+          <property name="text">
+           <string>dRA:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLineEdit" name="SolverDecOut">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Effective field of View size in arcminutes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>FOV:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_10">
+          <property name="toolTip">
+           <string>Image rotation angle, East of North</string>
+          </property>
+          <property name="text">
+           <string>Rot:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLineEdit" name="dDEOut">
+          <property name="toolTip">
+           <string>Difference between telescope coordinates and solution coordinates in Declination</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-weight: bold;</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>DE:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="dRAOut">
+          <property name="toolTip">
+           <string>Difference between telescope coordinates and solution coordinates in Right Ascension</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-weight: bold;</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2" colspan="2">
+         <widget class="QComboBox" name="FOVScopeCombo">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which telescope to use when performing Field of View calculations.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Primary Scope</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Guide Scope</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="plateSolverOptionsGroup">
+       <property name="title">
+        <string>Solver Options</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <property name="spacing">
+             <number>1</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="textLabel1_6">
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>CCD:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="7">
+             <widget class="QPushButton" name="toggleFullScreenB">
               <property name="minimumSize">
                <size>
                 <width>22</width>
@@ -657,363 +509,1176 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Edit solver options</string>
+               <string>Toggle Full Screen</string>
               </property>
               <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_12">
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_21">
-              <property name="text">
-               <string>Solver:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="onlineSolverR">
+            <item row="1" column="1" colspan="2">
+             <widget class="QDoubleSpinBox" name="exposureIN">
               <property name="toolTip">
-               <string>Use online astrometry.net solver to solve the image. You must have an internet connection and a valid API key.</string>
+               <string>Exposure duration in seconds</string>
               </property>
-              <property name="text">
-               <string>Online</string>
+              <property name="minimum">
+               <double>0.100000000000000</double>
               </property>
-              <property name="checked">
-               <bool>true</bool>
+              <property name="maximum">
+               <double>60.000000000000000</double>
               </property>
-              <attribute name="buttonGroup">
-               <string notr="true">solverTypeGroup</string>
-              </attribute>
+              <property name="singleStep">
+               <double>0.500000000000000</double>
+              </property>
+              <property name="value">
+               <double>3.000000000000000</double>
+              </property>
              </widget>
             </item>
-            <item>
-             <widget class="QRadioButton" name="offlineSolverR">
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_7">
               <property name="toolTip">
-               <string>Use offline astrometry.net solver. You must install all the necessary index files for your field of view.</string>
+               <string/>
               </property>
               <property name="text">
-               <string>Offline</string>
+               <string>Exp:</string>
               </property>
-              <attribute name="buttonGroup">
-               <string notr="true">solverTypeGroup</string>
-              </attribute>
              </widget>
             </item>
-            <item>
-             <widget class="QRadioButton" name="remoteSolverR">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
+            <item row="1" column="3">
+             <widget class="QCheckBox" name="alignDarkFrameCheck">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use astrometry solver on remote machine running INDI server. You must select &lt;b&gt;Astrometry&lt;/b&gt; driver from Auxiliary drivers in your Ekos devices profile for this option to be enabled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>Subtract dark frame. If no suitable dark frame is available, a dark frame shall be captured.</string>
               </property>
               <property name="text">
-               <string>Remote</string>
+               <string>Dark</string>
               </property>
-              <attribute name="buttonGroup">
-               <string notr="true">solverTypeGroup</string>
-              </attribute>
              </widget>
             </item>
-            <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+            <item row="2" column="1" colspan="2">
+             <widget class="QComboBox" name="binningCombo">
+              <property name="toolTip">
+               <string>Camera binning</string>
               </property>
-              <property name="sizeHint" stdset="0">
+             </widget>
+            </item>
+            <item row="0" column="1" colspan="3">
+             <widget class="QComboBox" name="CCDCaptureCombo"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_18">
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Bin:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="7">
+             <widget class="QPushButton" name="showFITSViewerB">
+              <property name="minimumSize">
                <size>
-                <width>40</width>
-                <height>20</height>
+                <width>22</width>
+                <height>22</height>
                </size>
               </property>
-             </spacer>
+              <property name="maximumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Show in FITS Viewer</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QComboBox" name="FilterDevicesCombo"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="FilterCaptureLabel">
+              <property name="text">
+               <string>FW:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="3" colspan="2">
+             <widget class="QComboBox" name="FilterPosCombo"/>
+            </item>
+            <item row="3" column="2">
+             <widget class="QLabel" name="FilterPosLabel">
+              <property name="text">
+               <string>Filter:</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <property name="spacing">
+           <number>3</number>
+          </property>
           <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+           <widget class="QLabel" name="label_14">
+            <property name="text">
+             <string>Options:</string>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::MinimumExpanding</enum>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="solverOptions">
+            <property name="statusTip">
+             <string>Additional options to be the solver</string>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="editOptionsB">
+            <property name="minimumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Edit solver options</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <property name="spacing">
+           <number>3</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_21">
+            <property name="text">
+             <string>Solver:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="onlineSolverR">
+            <property name="toolTip">
+             <string>Use online astrometry.net solver to solve the image. You must have an internet connection and a valid API key.</string>
+            </property>
+            <property name="text">
+             <string>Online</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">solverTypeGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="offlineSolverR">
+            <property name="toolTip">
+             <string>Use offline astrometry.net solver. You must install all the necessary index files for your field of view.</string>
+            </property>
+            <property name="text">
+             <string>Offline</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">solverTypeGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="remoteSolverR">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use astrometry solver on remote machine running INDI server. You must select &lt;b&gt;Astrometry&lt;/b&gt; driver from Auxiliary drivers in your Ekos devices profile for this option to be enabled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Remote</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">solverTypeGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>20</width>
-              <height>1</height>
+              <width>40</width>
+              <height>20</height>
              </size>
             </property>
            </spacer>
           </item>
          </layout>
-        </widget>
-       </item>
-      </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::MinimumExpanding</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>1</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
      </item>
-     <item>
-      <widget class="QSplitter" name="rightLayout">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <widget class="QWidget" name="alignWidget" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+    </layout>
+   </item>
+   <item>
+    <widget class="QSplitter" name="rightLayout">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <widget class="QWidget" name="alignWidget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>320</width>
+        <height>240</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="solutionResults">
+       <attribute name="title">
+        <string>Solution Results</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <property name="spacing">
+         <number>5</number>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>320</width>
-          <height>240</height>
-         </size>
-        </property>
-       </widget>
-       <widget class="QTabWidget" name="tabWidget">
-        <property name="currentIndex">
+        <property name="leftMargin">
          <number>0</number>
         </property>
-        <widget class="QWidget" name="solutionResults">
-         <attribute name="title">
-          <string>Solution Results</string>
-         </attribute>
-         <layout class="QVBoxLayout" name="verticalLayout_11">
-          <property name="spacing">
-           <number>5</number>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_15">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="leftMargin">
-           <number>0</number>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The results from Astrometric Solutions from the Capture and Solve Tool, the Load and Slew Tool, and the Mount Model Tool will be displayed below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
-          <property name="topMargin">
-           <number>0</number>
+          <property name="wordWrap">
+           <bool>true</bool>
           </property>
-          <property name="rightMargin">
-           <number>0</number>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSplitter" name="alignSplitter">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="bottomMargin">
-           <number>0</number>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
-          <item>
-           <widget class="QLabel" name="label_15">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+          <widget class="QWidget" name="verticalLayoutWidget">
+           <layout class="QVBoxLayout" name="verticalLayout_20">
+            <property name="spacing">
+             <number>0</number>
             </property>
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The results from Astrometric Solutions from the Capture and Solve Tool, the Load and Slew Tool, and the Mount Model Tool will be displayed below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <property name="rightMargin">
+             <number>0</number>
             </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSplitter" name="alignSplitter">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <widget class="QWidget" name="verticalLayoutWidget">
-             <layout class="QVBoxLayout" name="verticalLayout_20">
-              <property name="spacing">
-               <number>0</number>
+            <item>
+             <widget class="QTableWidget" name="solutionTable">
+              <property name="columnCount">
+               <number>6</number>
               </property>
-              <property name="rightMargin">
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>75</number>
+              </attribute>
+              <column>
+               <property name="text">
+                <string>RA</string>
+               </property>
+               <property name="textAlignment">
+                <set>AlignCenter</set>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>DEC</string>
+               </property>
+               <property name="textAlignment">
+                <set>AlignCenter</set>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Obj Name</string>
+               </property>
+               <property name="textAlignment">
+                <set>AlignCenter</set>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>~~</string>
+               </property>
+               <property name="textAlignment">
+                <set>AlignCenter</set>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>dRA</string>
+               </property>
+               <property name="textAlignment">
+                <set>AlignCenter</set>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>dDE</string>
+               </property>
+               <property name="textAlignment">
+                <set>AlignCenter</set>
+               </property>
+              </column>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_19">
+              <property name="topMargin">
                <number>0</number>
               </property>
               <item>
-               <widget class="QTableWidget" name="solutionTable">
-                <property name="columnCount">
-                 <number>6</number>
+               <widget class="QPushButton" name="clearAllSolutionsB">
+                <property name="minimumSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
                 </property>
-                <attribute name="horizontalHeaderDefaultSectionSize">
-                 <number>75</number>
-                </attribute>
-                <column>
-                 <property name="text">
-                  <string>RA</string>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignCenter</set>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>DEC</string>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignCenter</set>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Obj Name</string>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignCenter</set>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>~~</string>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignCenter</set>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>dRA</string>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignCenter</set>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>dDE</string>
-                 </property>
-                 <property name="textAlignment">
-                  <set>AlignCenter</set>
-                 </property>
-                </column>
+                <property name="maximumSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Clear all of the solutions from the solutions table.  Be careful because you cannot get them back.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_19">
-                <property name="topMargin">
-                 <number>0</number>
+               <widget class="QPushButton" name="removeSolutionB">
+                <property name="minimumSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>32</width>
+                  <height>33</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove the selected row from the solutions table.  This can be useful for getting rid of results that did not actually solve from the table and/or results that you do not need any more.  It can clean up clutter on both the graph and table.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="exportSolutionsCSV">
+                <property name="minimumSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>32</width>
+                  <height>33</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Export all of the solutions in the Solution Results table to CSV file of your choosing for further analysis in a spreadsheet.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="autoScaleGraphB">
+                <property name="minimumSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>32</width>
+                  <height>33</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Auto scale and center the Solution Results graph.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_11">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="mountModelB">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Launch the mount model tool. This tool enables you to create pre-programmed list of points to go to and solve. It can aid in building a pointing model for better accuracy.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string>Mount Model</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QCustomPlot" name="alignPlot" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>100</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>190</width>
+             <height>190</height>
+            </size>
+           </property>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="polarAlignment">
+       <attribute name="title">
+        <string>Polar Alignment</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_18">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QGroupBox" name="polarAlignmentHelperGroup">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>150</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Polar Alignment Assistant</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="spacing">
+            <number>3</number>
+           </property>
+           <property name="leftMargin">
+            <number>3</number>
+           </property>
+           <property name="topMargin">
+            <number>3</number>
+           </property>
+           <property name="rightMargin">
+            <number>3</number>
+           </property>
+           <property name="bottomMargin">
+            <number>3</number>
+           </property>
+           <item>
+            <widget class="QStackedWidget" name="PAHWidgets">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>&lt;p&gt;Polar Alignment Helper tool requires the following:&lt;/p&gt;&lt;p&gt;1. German Equatorial Mount&lt;/p&gt;&lt;p&gt;2. Wide FOV &amp;gt; 1 degrees&lt;/p&gt;&lt;p&gt;For small FOVs, use the Legacy Polar Alignment Tool.&lt;/p&gt;</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="PAHIntroPage">
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="introText">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Unpark&lt;/span&gt; your mount, &lt;span style=&quot; font-weight:600;&quot;&gt;Point&lt;/span&gt; toward the celestial pole. Select mount direction and magnitude and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="FOVDisabledLabel">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;Disabled: FOV must be 30 arcmins or wider.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="textFormat">
+                  <enum>Qt::RichText</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="directionLabel">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Direction:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="PAHDirectionCombo">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="toolTip">
+                    <string>Mount direction</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>West</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>East</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="PAHRotationSpin">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="toolTip">
+                    <string>Rotation magnitude in degrees</string>
+                   </property>
+                   <property name="minimum">
+                    <number>15</number>
+                   </property>
+                   <property name="maximum">
+                    <number>60</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>15</number>
+                   </property>
+                   <property name="value">
+                    <number>30</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_3">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="PAHFirstCapturePage">
+              <layout class="QVBoxLayout" name="verticalLayout_5">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="firstCaptureText">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The assistant requires three images to find a solution.  Ekos is now capturing the first image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="PAHFirstRotatePage">
+              <layout class="QVBoxLayout" name="verticalLayout_9">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="firstRotateText">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Executing the &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="PAHSecondCapturePage">
+              <layout class="QVBoxLayout" name="verticalLayout_12">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="secondCaptureText">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Capturing the second image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="PAHSecondRotatePage">
+              <layout class="QVBoxLayout" name="verticalLayout_16">
+               <item>
+                <widget class="QLabel" name="secondRotateText">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Executing the s&lt;span style=&quot; font-style:italic;&quot;&gt;econd &lt;/span&gt;mount rotation...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="PAHThirdCapturePage">
+              <layout class="QVBoxLayout" name="verticalLayout_17">
+               <item>
+                <widget class="QLabel" name="thirdCaptureText">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Capturing the &lt;span style=&quot; font-style:italic;&quot;&gt;third&lt;/span&gt; and final image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="PAHErrorPage">
+              <layout class="QVBoxLayout" name="verticalLayout_13">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="PAHErrorDescriptionLabel">
+                 <property name="text">
+                  <string>Error Occurred</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="PAHCorrectionPage">
+              <layout class="QVBoxLayout" name="verticalLayout_14">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_14">
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_23">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Angle between expected perfectly aligned mount center and the actual center&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="text">
+                    <string>Polar Error:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="PAHErrorLabel">
+                   <property name="text">
+                    <string>0</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_8">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_16">
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="correctionText">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Correction vector is plotted above. Select a bright star to reposition the correction vector. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; when done.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="PAHCorrectionsNextB">
+                   <property name="text">
+                    <string>Next</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="PAHRefreshPage">
+              <layout class="QVBoxLayout" name="verticalLayout_15">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>3</number>
+               </property>
+               <property name="topMargin">
+                <number>3</number>
+               </property>
+               <property name="rightMargin">
+                <number>3</number>
+               </property>
+               <property name="bottomMargin">
+                <number>3</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="refreshText">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adjust mount's Altitude and Azimuth knobs until the selected star is centered within the crosshair. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Refresh&lt;/span&gt; to begin continuous capture. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Done&lt;/span&gt; when star is centered.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_15">
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="PAHRefreshB">
+                   <property name="text">
+                    <string>Refresh</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="PAHExposure">
+                   <property name="toolTip">
+                    <string>Exposure duration in seconds during refresh phase</string>
+                   </property>
+                   <property name="decimals">
+                    <number>4</number>
+                   </property>
+                   <property name="minimum">
+                    <double>0.000100000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>30.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>1.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_7">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="PAHDoneB">
+                   <property name="text">
+                    <string>Done</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <property name="spacing">
+              <number>3</number>
+             </property>
+             <item>
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="PAHStartB">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="toolTip">
+                <string>Start</string>
+               </property>
+               <property name="text">
+                <string>Start</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="PAHStopB">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="toolTip">
+                <string>Stop</string>
+               </property>
+               <property name="text">
+                <string>Stop</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="polarAlignmentGroup">
+             <property name="title">
+              <string>Legacy Polar Alignment Tool</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <property name="leftMargin">
+               <number>3</number>
+              </property>
+              <property name="topMargin">
+               <number>3</number>
+              </property>
+              <property name="rightMargin">
+               <number>3</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
+              </property>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
                 <item>
-                 <widget class="QPushButton" name="clearAllSolutionsB">
-                  <property name="minimumSize">
-                   <size>
-                    <width>32</width>
-                    <height>32</height>
-                   </size>
+                 <layout class="QHBoxLayout" name="horizontalLayout_6">
+                  <property name="spacing">
+                   <number>3</number>
                   </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>32</width>
-                    <height>32</height>
-                   </size>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Clear all of the solutions from the solutions table.  Be careful because you cannot get them back.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <item>
+                   <widget class="QLabel" name="label_3">
+                    <property name="text">
+                     <string>Az Error:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="azError">
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="measureAzB">
+                  <property name="enabled">
+                   <bool>true</bool>
                   </property>
                   <property name="text">
-                   <string/>
+                   <string>Measure Az Error</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="removeSolutionB">
-                  <property name="minimumSize">
-                   <size>
-                    <width>32</width>
-                    <height>32</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>32</width>
-                    <height>33</height>
-                   </size>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove the selected row from the solutions table.  This can be useful for getting rid of results that did not actually solve from the table and/or results that you do not need any more.  It can clean up clutter on both the graph and table.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <widget class="QPushButton" name="correctAzB">
+                  <property name="enabled">
+                   <bool>false</bool>
                   </property>
                   <property name="text">
-                   <string/>
+                   <string>Correct Az Error</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="Line" name="line_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_10">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                  <property name="spacing">
+                   <number>3</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label_4">
+                    <property name="text">
+                     <string>Alt Error:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="altError">
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="measureAltB">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="text">
+                   <string>Measure Alt Error</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="exportSolutionsCSV">
-                  <property name="minimumSize">
-                   <size>
-                    <width>32</width>
-                    <height>32</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>32</width>
-                    <height>33</height>
-                   </size>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Export all of the solutions in the Solution Results table to CSV file of your choosing for further analysis in a spreadsheet.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <widget class="QPushButton" name="correctAltB">
+                  <property name="enabled">
+                   <bool>false</bool>
                   </property>
                   <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="autoScaleGraphB">
-                  <property name="minimumSize">
-                   <size>
-                    <width>32</width>
-                    <height>32</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>32</width>
-                    <height>33</height>
-                   </size>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Auto scale and center the Solution Results graph.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_11">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="mountModelB">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Launch the mount model tool. This tool enables you to create pre-programmed list of points to go to and solve. It can aid in building a pointing model for better accuracy.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="text">
-                   <string>Mount Model</string>
+                   <string>Correct Alt Error</string>
                   </property>
                  </widget>
                 </item>
@@ -1021,680 +1686,14 @@
               </item>
              </layout>
             </widget>
-            <widget class="QCustomPlot" name="alignPlot" native="true">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>100</height>
-              </size>
-             </property>
-             <property name="baseSize">
-              <size>
-               <width>190</width>
-               <height>190</height>
-              </size>
-             </property>
-            </widget>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="polarAlignment">
-         <attribute name="title">
-          <string>Polar Alignment</string>
-         </attribute>
-         <layout class="QVBoxLayout" name="verticalLayout_18">
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QGroupBox" name="polarAlignmentHelperGroup">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>150</height>
-             </size>
-            </property>
-            <property name="title">
-             <string>Polar Alignment Assistant</string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <property name="spacing">
-              <number>3</number>
-             </property>
-             <property name="leftMargin">
-              <number>3</number>
-             </property>
-             <property name="topMargin">
-              <number>3</number>
-             </property>
-             <property name="rightMargin">
-              <number>3</number>
-             </property>
-             <property name="bottomMargin">
-              <number>3</number>
-             </property>
-             <item>
-              <widget class="QStackedWidget" name="PAHWidgets">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="toolTip">
-                <string>&lt;p&gt;Polar Alignment Helper tool requires the following:&lt;/p&gt;&lt;p&gt;1. German Equatorial Mount&lt;/p&gt;&lt;p&gt;2. Wide FOV &amp;gt; 1 degrees&lt;/p&gt;&lt;p&gt;For small FOVs, use the Legacy Polar Alignment Tool.&lt;/p&gt;</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <widget class="QWidget" name="PAHIntroPage">
-                <layout class="QVBoxLayout" name="verticalLayout_6">
-                 <property name="spacing">
-                  <number>3</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
-                 <item>
-                  <widget class="QLabel" name="introText">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Unpark&lt;/span&gt; your mount, &lt;span style=&quot; font-weight:600;&quot;&gt;Point&lt;/span&gt; toward the celestial pole. Select mount direction and magnitude and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="wordWrap">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="FOVDisabledLabel">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;Disabled: FOV must be 30 arcmins or wider.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="textFormat">
-                    <enum>Qt::RichText</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_4">
-                   <property name="spacing">
-                    <number>3</number>
-                   </property>
-                   <item>
-                    <widget class="QLabel" name="directionLabel">
-                     <property name="enabled">
-                      <bool>false</bool>
-                     </property>
-                     <property name="text">
-                      <string>Direction:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="PAHDirectionCombo">
-                     <property name="enabled">
-                      <bool>false</bool>
-                     </property>
-                     <property name="toolTip">
-                      <string>Mount direction</string>
-                     </property>
-                     <item>
-                      <property name="text">
-                       <string>West</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>East</string>
-                      </property>
-                     </item>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="PAHRotationSpin">
-                     <property name="enabled">
-                      <bool>false</bool>
-                     </property>
-                     <property name="toolTip">
-                      <string>Rotation magnitude in degrees</string>
-                     </property>
-                     <property name="minimum">
-                      <number>15</number>
-                     </property>
-                     <property name="maximum">
-                      <number>60</number>
-                     </property>
-                     <property name="singleStep">
-                      <number>15</number>
-                     </property>
-                     <property name="value">
-                      <number>30</number>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <spacer name="horizontalSpacer_3">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                  </layout>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="PAHFirstCapturePage">
-                <layout class="QVBoxLayout" name="verticalLayout_5">
-                 <property name="spacing">
-                  <number>3</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
-                 <item>
-                  <widget class="QLabel" name="firstCaptureText">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The assistant requires three images to find a solution.  Ekos is now capturing the first image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="wordWrap">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="PAHFirstRotatePage">
-                <layout class="QVBoxLayout" name="verticalLayout_9">
-                 <property name="spacing">
-                  <number>3</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
-                 <item>
-                  <widget class="QLabel" name="firstRotateText">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Executing the &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="wordWrap">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="PAHSecondCapturePage">
-                <layout class="QVBoxLayout" name="verticalLayout_12">
-                 <property name="spacing">
-                  <number>3</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
-                 <item>
-                  <widget class="QLabel" name="secondCaptureText">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Capturing the second image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="wordWrap">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="PAHSecondRotatePage">
-                <layout class="QVBoxLayout" name="verticalLayout_16">
-                 <item>
-                  <widget class="QLabel" name="secondRotateText">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Executing the s&lt;span style=&quot; font-style:italic;&quot;&gt;econd &lt;/span&gt;mount rotation...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="wordWrap">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="PAHThirdCapturePage">
-                <layout class="QVBoxLayout" name="verticalLayout_17">
-                 <item>
-                  <widget class="QLabel" name="thirdCaptureText">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Capturing the &lt;span style=&quot; font-style:italic;&quot;&gt;third&lt;/span&gt; and final image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="wordWrap">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="PAHErrorPage">
-                <layout class="QVBoxLayout" name="verticalLayout_13">
-                 <property name="spacing">
-                  <number>3</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
-                 <item>
-                  <widget class="QLabel" name="PAHErrorDescriptionLabel">
-                   <property name="text">
-                    <string>Error Occurred</string>
-                   </property>
-                   <property name="wordWrap">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="PAHCorrectionPage">
-                <layout class="QVBoxLayout" name="verticalLayout_14">
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_14">
-                   <property name="spacing">
-                    <number>3</number>
-                   </property>
-                   <item>
-                    <widget class="QLabel" name="label_23">
-                     <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Angle between expected perfectly aligned mount center and the actual center&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="text">
-                      <string>Polar Error:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="PAHErrorLabel">
-                     <property name="text">
-                      <string>0</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <spacer name="horizontalSpacer_8">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_16">
-                   <property name="spacing">
-                    <number>3</number>
-                   </property>
-                   <item>
-                    <widget class="QLabel" name="correctionText">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Correction vector is plotted above. Select a bright star to reposition the correction vector. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; when done.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="wordWrap">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="PAHCorrectionsNextB">
-                     <property name="text">
-                      <string>Next</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="PAHRefreshPage">
-                <layout class="QVBoxLayout" name="verticalLayout_15">
-                 <property name="spacing">
-                  <number>3</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
-                 <item>
-                  <widget class="QLabel" name="refreshText">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adjust mount's Altitude and Azimuth knobs until the selected star is centered within the crosshair. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Refresh&lt;/span&gt; to begin continuous capture. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Done&lt;/span&gt; when star is centered.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="wordWrap">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_15">
-                   <property name="spacing">
-                    <number>3</number>
-                   </property>
-                   <item>
-                    <widget class="QPushButton" name="PAHRefreshB">
-                     <property name="text">
-                      <string>Refresh</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QDoubleSpinBox" name="PAHExposure">
-                     <property name="toolTip">
-                      <string>Exposure duration in seconds during refresh phase</string>
-                     </property>
-                     <property name="decimals">
-                      <number>4</number>
-                     </property>
-                     <property name="minimum">
-                      <double>0.000100000000000</double>
-                     </property>
-                     <property name="maximum">
-                      <double>30.000000000000000</double>
-                     </property>
-                     <property name="value">
-                      <double>1.000000000000000</double>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <spacer name="horizontalSpacer_7">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="PAHDoneB">
-                     <property name="text">
-                      <string>Done</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                </layout>
-               </widget>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <property name="spacing">
-                <number>3</number>
-               </property>
-               <item>
-                <spacer name="horizontalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QPushButton" name="PAHStartB">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="toolTip">
-                  <string>Start</string>
-                 </property>
-                 <property name="text">
-                  <string>Start</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="PAHStopB">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="toolTip">
-                  <string>Stop</string>
-                 </property>
-                 <property name="text">
-                  <string>Stop</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QGroupBox" name="polarAlignmentGroup">
-               <property name="title">
-                <string>Legacy Polar Alignment Tool</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_9">
-                <property name="spacing">
-                 <number>3</number>
-                </property>
-                <property name="leftMargin">
-                 <number>3</number>
-                </property>
-                <property name="topMargin">
-                 <number>3</number>
-                </property>
-                <property name="rightMargin">
-                 <number>3</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>3</number>
-                </property>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_8">
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_6">
-                    <property name="spacing">
-                     <number>3</number>
-                    </property>
-                    <item>
-                     <widget class="QLabel" name="label_3">
-                      <property name="text">
-                       <string>Az Error:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="azError">
-                      <property name="readOnly">
-                       <bool>true</bool>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="measureAzB">
-                    <property name="enabled">
-                     <bool>true</bool>
-                    </property>
-                    <property name="text">
-                     <string>Measure Az Error</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="correctAzB">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
-                    <property name="text">
-                     <string>Correct Az Error</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_2">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_10">
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_8">
-                    <property name="spacing">
-                     <number>3</number>
-                    </property>
-                    <item>
-                     <widget class="QLabel" name="label_4">
-                      <property name="text">
-                       <string>Alt Error:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="altError">
-                      <property name="readOnly">
-                       <bool>true</bool>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="measureAltB">
-                    <property name="enabled">
-                     <bool>true</bool>
-                    </property>
-                    <property name="text">
-                     <string>Measure Alt Error</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="correctAltB">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
-                    <property name="text">
-                     <string>Correct Alt Error</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
       </widget>
-     </item>
-    </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -1759,7 +1758,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="gotoModeButtonGroup"/>
   <buttongroup name="solverTypeGroup"/>
+  <buttongroup name="gotoModeButtonGroup"/>
  </buttongroups>
 </ui>

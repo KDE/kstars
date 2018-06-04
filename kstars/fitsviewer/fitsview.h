@@ -67,7 +67,8 @@ class FITSView : public QScrollArea
     // Access functions
     FITSData *getImageData() { return imageData; }
     double getCurrentZoom() { return currentZoom; }
-    QImage *getDisplayImage() { return display_image; }
+    QImage *getDisplayImage() { return displayImage; }
+    const QPixmap &getDisplayPixmap() const { return displayPixmap; }
 
     // Tracking square
     void setTrackingBoxEnabled(bool enable);
@@ -214,7 +215,10 @@ private:
     const double zoomFactor;
 
     /// FITS image that is displayed in the GUI
-    QImage *display_image { nullptr };
+    QImage *displayImage { nullptr };
+    // Actual pixmap after all the overlays
+    QPixmap displayPixmap;
+    // Histogram
     FITSHistogram *histogram { nullptr };
 
     bool firstLoad { true };

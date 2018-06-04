@@ -480,6 +480,9 @@ class Align : public QWidget, public Ui::Align
   signals:
     void newLog();
     void newStatus(Ekos::AlignState state);
+    // This is sent when we load an image in the view
+    void newImage(FITSView *view);
+    // This is sent when the pixmap is updated within the view
     void newFrame(FITSView *view);
     void newSolverResults(double orientation, double ra, double dec, double pixscale);
     void newSolution(const QJsonObject &solution);
