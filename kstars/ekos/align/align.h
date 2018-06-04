@@ -400,12 +400,14 @@ class Align : public QWidget, public Ui::Align
 
     void startPAHProcess();
     void stopPAHProcess();
-    void setPAHCorrectionOffset(int x, int y);
+    void setPAHCorrectionOffsetPercentage(double dx, double dy);
     void setPAHMountDirection(int index) { PAHDirectionCombo->setCurrentIndex(index);}
     void setPAHMountRotation(int value) {PAHRotationSpin->setValue(value);}
     void setPAHRefreshDuration(double value) { PAHExposure->setValue(value);}
     void startPAHRefreshProcess();
     void setPAHRefreshComplete();
+    void setPAHCorrectionSelectionComplete();
+    void zoomAlignView();
 
   private slots:
 
@@ -430,8 +432,8 @@ class Align : public QWidget, public Ui::Align
 
     // Polar Alignment Helper slots
 
-    void rotatePAH();    
-    void setPAHCorrectionSelectionComplete();    
+    void rotatePAH();
+    void setPAHCorrectionOffset(int x, int y);
     void setWCSToggled(bool result);
 
     //Solutions Display slots

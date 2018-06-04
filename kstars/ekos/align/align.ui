@@ -1127,7 +1127,7 @@
                <item>
                 <widget class="QLabel" name="introText">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Unpark&lt;/span&gt; your mount, &lt;span style=&quot; font-weight:600;&quot;&gt;Point&lt;/span&gt; toward the celestial pole. Select mount direction and magnitude and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Unpark&lt;/span&gt; your mount, &lt;span style=&quot; font-weight:600;&quot;&gt;Point&lt;/span&gt; toward the celestial pole. Select mount direction and magnitude and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1238,7 +1238,7 @@
                <item>
                 <widget class="QLabel" name="firstCaptureText">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The assistant requires three images to find a solution.  Ekos is now capturing the first image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;p&gt;The assistant requires three images to find a solution.  Ekos is now capturing the first image...&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1267,7 +1267,7 @@
                <item>
                 <widget class="QLabel" name="firstRotateText">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Executing the &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;p&gt;Executing the &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation...&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1296,7 +1296,7 @@
                <item>
                 <widget class="QLabel" name="secondCaptureText">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Capturing the second image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;p&gt;Capturing the second image...&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1310,7 +1310,7 @@
                <item>
                 <widget class="QLabel" name="secondRotateText">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Executing the s&lt;span style=&quot; font-style:italic;&quot;&gt;econd &lt;/span&gt;mount rotation...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;p&gt;Executing the &lt;i&gt;second &lt;/i&gt;mount rotation...&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1324,7 +1324,7 @@
                <item>
                 <widget class="QLabel" name="thirdCaptureText">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Capturing the &lt;span style=&quot; font-style:italic;&quot;&gt;third&lt;/span&gt; and final image...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;p&gt;Capturing the &lt;i&gt;third&lt;/i&gt; and final image...&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1415,7 +1415,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Correction vector is plotted above. Select a bright star to reposition the correction vector. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; when done.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;p&gt;Correction vector is plotted above. &lt;b&gt;Select&lt;/b&gt; a bright star to reposition the correction vector. Proceed next when done.&lt;/p&gt;</string>
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
@@ -1453,7 +1453,7 @@
                <item>
                 <widget class="QLabel" name="refreshText">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adjust mount's Altitude and Azimuth knobs until the selected star is centered within the crosshair. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Refresh&lt;/span&gt; to begin continuous capture. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Done&lt;/span&gt; when star is centered.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;p&gt;Adjust mount's Altitude and Azimuth knobs until the selected star is centered within the crosshair. Click &lt;b&gt;Refresh&lt;/b&gt; to begin continuous capture. You are &lt;b&gt;Done&lt;/b&gt; when star is centered.&lt;/p&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
