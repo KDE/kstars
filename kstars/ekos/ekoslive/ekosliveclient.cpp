@@ -95,6 +95,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {PAH_SET_MOUNT_DIRECTION, "polar_set_mount_direction"},
     {PAH_SET_MOUNT_ROTATION, "polar_set_mount_rotation"},
     {PAH_SET_CROSSHAIR, "polar_set_crosshair"},
+    {PAH_SELECT_STAR_DONE, "polar_star_select_done"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -952,7 +953,11 @@ void EkosLiveClient::processPolarCommands(const QString &command, const QJsonObj
     }
     else if (command == commands[PAH_SET_CROSSHAIR])
     {
-        align->setPAHCorrectionOffset(payload["x"].toInt(), payload["y"].toInt());
+        align->setPAHCorrectionOffsetPercentage(payload["x"].toDouble(), payload["y"].toDouble());
+    }
+    else if (command == commands[PAH_SELECT_STAR_DONE])
+    {
+        align->setPAHCorrectionSelectionComplete();
     }
 }
 
@@ -967,6 +972,12 @@ void EkosLiveClient::setPAHStage(Ekos::Align::PAHStage stage)
     QJsonObject polarState = {
         {"stage", align->getPAHStage()}
     };
+
+    // Increase size so that when we send STAR_SELECT image, it is sizable enough
+    // for Ekos Live clients. By default it would be pretty small and usually the user controls it by
+    // zooming in and out but for EkosLive, we zoom in at this stage.
+    if (stage == Ekos::Align::PAH_THIRD_CAPTURE)
+        align->zoomAlignView();
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_POLAR_STATE], polarState);
 }
