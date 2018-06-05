@@ -11,13 +11,12 @@
 
 #include "internalguider.h"
 
+#include "ekos_guide_debug.h"
 #include "gmath.h"
 #include "Options.h"
 #include "auxiliary/kspaths.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
-
-#include "ekos_guide_debug.h"
 
 #include <KMessageBox>
 #include <KNotification>
@@ -1058,7 +1057,7 @@ bool InternalGuider::selectAutoStar()
                     score -= 1000;
 
                 // Reject stars bigger than square
-                if (center->width > guideBoxSize / subBinX)
+                if (center->width > float(guideBoxSize) / subBinX)
                     score -= 1000;
                 else
                 {

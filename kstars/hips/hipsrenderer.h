@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include <memory>
-
-#include "hipsmanager.h"
 #include "healpix.h"
+#include "hipsmanager.h"
 #include "scanrender.h"
+
+#include <memory>
 
 class Projector;
 
@@ -43,14 +43,12 @@ signals:
 public slots:
 
 private:  
-  int         m_blocks;
-  int         m_rendered;
-  int         m_size;
-  QSet <int>  m_renderedMap;
+  int m_blocks { 0 };
+  int m_rendered { 0 };
+  int m_size { 0 };
+  QSet<int>  m_renderedMap;
   std::unique_ptr<HEALPix> m_HEALpix;
   std::unique_ptr<ScanRender> m_scanRender;
-  const Projector   *m_projector;  
+  const Projector *m_projector;
   QColor gridColor;
 };
-
-

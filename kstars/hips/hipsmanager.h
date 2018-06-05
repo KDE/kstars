@@ -18,15 +18,15 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef HIPSMANAGER_H
-#define HIPSMANAGER_H
+#pragma once
 
-#include "urlfiledownload.h"
 #include "hips.h"
-#include "pixcache.h"
 #include "opships.h"
+#include "pixcache.h"
+#include "urlfiledownload.h"
 
 #include <QObject>
+
 #include <memory>
 
 class RemoveTimer : public QTimer
@@ -41,7 +41,7 @@ public:
 
   void setKey(const pixCacheKey_t &key);
 
-  pixCacheKey_t m_key;
+  pixCacheKey_t m_key { 0, 0, 0 };
 
 signals:
   void remove(pixCacheKey_t &key);
@@ -95,7 +95,7 @@ private slots:
   void removeTimer(pixCacheKey_t &key);  
 
 private:
-  explicit HIPSManager();
+  HIPSManager();
 
   static HIPSManager * _HIPSManager;
 
@@ -117,12 +117,10 @@ private:
   std::unique_ptr<OpsHIPSDisplay> displaySettings;
 
   // Handy shortcuts
-  qint64 m_uid;
+  qint64 m_uid { 0 };
   QString m_currentFormat;
-  HIPSFrame m_currentFrame = HIPS_OTHER_FRAME;
-  uint8_t m_currentOrder;
-  uint16_t m_currentTileWidth;
+  HIPSFrame m_currentFrame { HIPS_OTHER_FRAME };
+  uint8_t m_currentOrder { 0 };
+  uint16_t m_currentTileWidth { 0 };
   QUrl m_currentURL;
 };
-
-#endif // HIPSMANAGER_H

@@ -28,11 +28,11 @@
 #include "indi/clientmanager.h"
 #include "oal/observeradd.h"
 
-#include <basedevice.h>
-
 #include <KNotifications/KNotification>
 
 #include <ekos_capture_debug.h>
+
+#include <basedevice.h>
 
 #define INVALID_VALUE -1e6
 #define MF_TIMER_TIMEOUT    90000
@@ -1392,7 +1392,7 @@ bool Capture::resumeSequence()
             // as it could have changed for whatever reason (e.g. alignment used a different filter).
             // Then when focus process begins with the _target_ filter in place, it should take all the necessary actions to make it
             // work for the next set of captures. This is direct reset to the filter device, not via Filter Manager.
-            if (meridianFlipStage != MF_NONE && activeJob && currentFilter)
+            if (meridianFlipStage != MF_NONE && currentFilter)
             {
                 int targetFilterPosition = activeJob->getTargetFilter();
                 int currentFilterPosition= filterManager->getFilterPosition();
