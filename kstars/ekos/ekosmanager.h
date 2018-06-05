@@ -139,6 +139,9 @@ class EkosManager : public QDialog, public Ui::EkosManager
      */
     Q_SCRIPTABLE bool stop();
 
+ signals:
+    void newEkosStartingStatus(CommunicationStatus status);
+
   protected:
     void closeEvent(QCloseEvent *);
     void hideEvent(QHideEvent *);

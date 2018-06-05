@@ -14,12 +14,12 @@
 #include <memory>
 
 #include "ekos/ekos.h"
+#include "ekos/ekosmanager.h"
 #include "ekos/align/align.h"
 #include "indi/indicommon.h"
 #include "ui_ekoslivedialog.h"
 #include "ksnotification.h"
 
-class EkosManager;
 class QProgressIndicator;
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -45,13 +45,13 @@ public:
     void sendEvent(const QString &message, KSNotification::EventType event);
 
     enum COMMANDS
-    {
-        GET_PROFILES,
+    {        
         GET_STATES,
         GET_CAMERAS,
         GET_MOUNTS,
         GET_SCOPES,
         GET_FILTER_WHEELS,
+        NEW_CONNECTION_STATE,
         NEW_MOUNT_STATE,
         NEW_CAPTURE_STATE,
         NEW_GUIDE_STATE,        
@@ -63,6 +63,14 @@ public:
         NEW_ALIGN_FRAME,
         NEW_NOTIFICATION,
         NEW_TEMPERATURE,
+
+        // Profiles
+        GET_PROFILES,
+        START_PROFILE,
+        STOP_PROFILE,
+
+        // Configuration
+        SET_BANDWIDTH,
 
         // Capture
         CAPTURE_PREVIEW,
@@ -109,6 +117,7 @@ public:
         PAH_SET_MOUNT_ROTATION,
         PAH_SET_CROSSHAIR,
         PAH_SELECT_STAR_DONE,
+        PAH_REFRESHING_DONE,
     };
 
     static QMap<COMMANDS, QString> const commands;
@@ -121,6 +130,8 @@ public slots:
     void setPAHEnabled(bool enabled);
 
     void setFOVTelescopeType(int index);
+
+    void setEkosStatingStatus(EkosManager::CommunicationStatus status);
     //void setAlignFrame(FITSView* view);
 
 signals:
@@ -172,6 +183,9 @@ private:
 
     // Polar
     void processPolarCommands(const QString &command, const QJsonObject &payload);
+
+    // Profile
+    void processProfileCommands(const QString &command, const QJsonObject &payload);
 
     // Profiles
     void sendProfiles();
