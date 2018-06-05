@@ -111,6 +111,8 @@ class FITSView : public QScrollArea
     // Zoom related
     void cleanUpZoom(QPoint viewCenter);
     QPoint getImagePoint(QPoint viewPortPoint);
+    uint16_t zoomedWidth() { return currentWidth; }
+    uint16_t zoomedHeight() { return currentHeight; }
 
     // Star Detection
     int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &searchBox = QRect());

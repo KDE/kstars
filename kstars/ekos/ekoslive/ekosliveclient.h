@@ -107,9 +107,8 @@ public:
         PAH_REFRESH,
         PAH_SET_MOUNT_DIRECTION,
         PAH_SET_MOUNT_ROTATION,
-        PAH_SET_CROSSHAIR
-
-
+        PAH_SET_CROSSHAIR,
+        PAH_SELECT_STAR_DONE,
     };
 
     static QMap<COMMANDS, QString> const commands;
