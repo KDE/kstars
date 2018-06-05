@@ -149,7 +149,7 @@ bool areDriversRunning(ProfileInfo *pi)
         }
 
         // Make sure all the profile drivers are running there
-        for (auto oneDriverExec : piExecDrivers)
+        for (auto &oneDriverExec : piExecDrivers)
         {
             if (webManagerDrivers.contains(oneDriverExec) == false)
             {

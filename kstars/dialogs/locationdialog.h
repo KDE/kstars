@@ -155,7 +155,7 @@ class LocationDialog : public QDialog
      * @param operation Add, update, or remove city
      * @return true on success
      */
-    bool updateCity(CityOperation operation);
+    bool updateCity(LocationDialog::CityOperation operation);
 
     /**
      * @brief getNameFromCoordinates Given the current latitude and longitude, use Google Location API services to reverse lookup

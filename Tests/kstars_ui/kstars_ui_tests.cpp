@@ -146,7 +146,7 @@ void addEkosProfileTest()
     QThread::msleep(500);
     QCOMPARE(ccdCBox->currentIndex() != 0, true);
     // Save the profile
-    buttons->accepted();
+    emit buttons->accepted();
     QThread::msleep(2000);
     // Hide Ekos Manager by clicking on the toolbar icon
     action->trigger();

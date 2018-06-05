@@ -16,11 +16,11 @@
  ***************************************************************************/
 
 #include "kstars.h"
-#include "kstars_debug.h"
 
 #include "fov.h"
 #include "kspaths.h"
 #include "kstarsdata.h"
+#include "kstars_debug.h"
 #include "Options.h"
 #include "skymap.h"
 #include "texturemanager.h"
@@ -682,8 +682,12 @@ void KStars::repopulateFOV()
 void KStars::repopulateHIPS()
 {
     // Iterate through actions
-    hipsActionMenu->menu()->clear();    
-    hipsGroup->actions().clear();    
+    hipsActionMenu->menu()->clear();
+    // Remove all actions
+    QList<QAction*> actions = hipsGroup->actions();
+
+    for (auto &action : actions)
+      hipsGroup->removeAction(action);
 
     QAction *ka = actionCollection()->addAction(i18n("None"), this, SLOT(slotHIPSSource()))
         << i18n("None") << AddToGroup(hipsGroup)

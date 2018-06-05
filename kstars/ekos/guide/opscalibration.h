@@ -33,7 +33,7 @@ class OpsCalibration : public QFrame, public Ui::OpsCalibration
     virtual ~OpsCalibration() override = default;
 
   protected:
-    void showEvent(QShowEvent *);
+    void showEvent(QShowEvent *) override;
 
   private slots:
 

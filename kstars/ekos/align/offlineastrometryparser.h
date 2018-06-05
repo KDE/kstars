@@ -35,11 +35,11 @@ class OfflineAstrometryParser : public AstrometryParser
     OfflineAstrometryParser();
     virtual ~OfflineAstrometryParser() override = default;
 
-    virtual void setAlign(Align *_align) { align = _align; }
-    virtual bool init();
-    virtual void verifyIndexFiles(double fov_x, double fov_y);
-    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true);
-    virtual bool stopSolver();
+    virtual void setAlign(Align *_align) override { align = _align; }
+    virtual bool init() override;
+    virtual void verifyIndexFiles(double fov_x, double fov_y) override;
+    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated = true) override;
+    virtual bool stopSolver() override;
 
   public slots:
     void solverComplete(int exist_status);
