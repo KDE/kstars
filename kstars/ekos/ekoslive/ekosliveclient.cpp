@@ -45,6 +45,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {GET_MOUNTS, "get_mounts"},
     {GET_SCOPES, "get_scopes"},
     {GET_FILTER_WHEELS, "get_filter_wheels"},
+    {NEW_CONNECTION_STATE, "new_connection_state"},
     {NEW_MOUNT_STATE, "new_mount_state"},
     {NEW_CAPTURE_STATE, "new_capture_state"},
     {NEW_GUIDE_STATE, "new_guide_state"},
@@ -56,6 +57,10 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {NEW_ALIGN_FRAME, "new_align_frame"},
     {NEW_NOTIFICATION, "new_notification"},
     {NEW_TEMPERATURE, "new_temperature"},
+
+
+    {START_PROFILE, "profile_start"},
+    {STOP_PROFILE, "profile_stop"},
 
     {CAPTURE_PREVIEW, "capture_preview"},
     {CAPTURE_TOGGLE_VIDEO, "capture_toggle_video"},
@@ -96,6 +101,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {PAH_SET_MOUNT_ROTATION, "polar_set_mount_rotation"},
     {PAH_SET_CROSSHAIR, "polar_set_crosshair"},
     {PAH_SELECT_STAR_DONE, "polar_star_select_done"},
+    {PAH_REFRESHING_DONE, "polar_refreshing_done"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -361,7 +367,13 @@ void EkosLiveClient::onMessageTextReceived(const QString &message)
 
     if (command == commands[GET_PROFILES])
         sendProfiles();
-    else if (command == commands[GET_STATES])
+    else if (command.startsWith("profile_"))
+        processProfileCommands(command, payload);
+
+    if (m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
+        return;
+
+    if (command == commands[GET_STATES])
         sendStates();
     else if (command == commands[GET_CAMERAS])
         sendCameras();
@@ -392,10 +404,11 @@ void EkosLiveClient::sendProfiles()
     for (const auto &oneProfile: m_Manager->profiles)
         profileArray.append(oneProfile->toJson());
 
-    sendResponse(commands[GET_PROFILES], profileArray);
-
-    //QJsonObject profiles = {{"token", token}, {"type", commands[GET_PROFILES]}, {"payload",profileArray}};
-    //sendMessage(QJsonDocument(profiles).toJson(QJsonDocument::Compact));
+    QJsonObject profiles = {
+        {"selectedProfile", m_Manager->getCurrentProfile()->name},
+        {"profiles", profileArray}
+    };
+    sendResponse(commands[GET_PROFILES], profiles);
 }
 
 void EkosLiveClient::connectAuthServer()
@@ -587,6 +600,9 @@ void EkosLiveClient::sendStates()
 {
     if (m_isConnected == false)
         return;
+
+    QJsonObject connectionState = {{"online", m_Manager->getEkosStartingStatus() == EkosManager::EKOS_STATUS_SUCCESS}};
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CONNECTION_STATE], connectionState);
 
     QJsonObject captureState = {{ "status", m_Manager->captureStatus->text()}};
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CAPTURE_STATE], captureState);
@@ -959,6 +975,10 @@ void EkosLiveClient::processPolarCommands(const QString &command, const QJsonObj
     {
         align->setPAHCorrectionSelectionComplete();
     }
+    else if (command == commands[PAH_REFRESHING_DONE])
+    {
+        align->setPAHRefreshComplete();
+    }
 }
 
 void EkosLiveClient::setPAHStage(Ekos::Align::PAHStage stage)
@@ -1018,3 +1038,24 @@ void EkosLiveClient::setFOVTelescopeType(int index)
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_STATE], alignState);
 }
 
+void EkosLiveClient::processProfileCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[START_PROFILE])
+    {
+        m_Manager->setProfile(payload["name"].toString());
+        m_Manager->start();
+    }
+    else if (command == commands[START_PROFILE])
+    {
+        m_Manager->stop();
+    }
+}
+
+void EkosLiveClient::setEkosStatingStatus(EkosManager::CommunicationStatus status)
+{
+    if (status == EkosManager::EKOS_STATUS_PENDING)
+        return;
+
+    QJsonObject connectionState = {{"online", status == EkosManager::EKOS_STATUS_SUCCESS}};
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CONNECTION_STATE], connectionState);
+}

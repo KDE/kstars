@@ -4878,10 +4878,7 @@ void Align::startPAHRefreshProcess()
 }
 
 void Align::setPAHRefreshComplete()
-{
-    pahStage = PAH_REFRESH;
-    emit newPAHStage(pahStage);
-
+{    
     abort();
 
     Options::setAstrometrySolverWCS(rememberSolverWCS);
