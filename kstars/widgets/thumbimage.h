@@ -20,6 +20,8 @@
 #include <QLabel>
 #include <QPixmap>
 
+#include <memory>
+
 class ThumbImage : public QLabel
 {
     Q_OBJECT
@@ -29,14 +31,14 @@ class ThumbImage : public QLabel
 
     void setImage(QPixmap *pm)
     {
-        Image = pm;
+        *Image = *pm;
         setFixedSize(Image->width(), Image->height());
     }
-    QPixmap *image() { return Image; }
+    QPixmap *image() { return Image.get(); }
     QPixmap croppedImage();
 
     void setCropRect(int x, int y, int w, int h) { CropRect->setRect(x, y, w, h); }
-    QRect *cropRect() const { return CropRect; }
+    QRect *cropRect() const { return CropRect.get(); }
 
   signals:
     void cropRegionModified();
@@ -49,14 +51,14 @@ class ThumbImage : public QLabel
     void mouseMoveEvent(QMouseEvent *e) override;
 
   private:
-    QRect *CropRect { nullptr };
-    QPoint *Anchor { nullptr };
-    QPixmap *Image { nullptr };
+    std::unique_ptr<QRect> CropRect;
+    std::unique_ptr<QPoint> Anchor;
+    std::unique_ptr<QPixmap> Image;
 
     bool bMouseButtonDown { false };
     bool bTopLeftGrab { false };
     bool bBottomLeftGrab { false };
     bool bTopRightGrab { false };
     bool bBottomRightGrab { false };
-    int HandleSize { 0 };
+    int HandleSize { 10 };
 };
