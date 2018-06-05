@@ -240,7 +240,7 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
             geo->setLat(lat);
         }
 
-        qCInfo(KSTARS_INDI) << "Setting location from device:" << getDeviceName() << "Longitude:" << lng.toDMSString() << "Latitude:" << lat.toDMSString();
+        qCInfo(KSTARS_INDI) << "Setting location from device:" << deviceName << "Longitude:" << lng.toDMSString() << "Latitude:" << lat.toDMSString();
 
         KStars::Instance()->data()->setLocation(*geo);
     }

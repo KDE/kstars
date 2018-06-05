@@ -26,7 +26,7 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
     virtual ~OpsAstrometryIndexFiles() override = default;
 
   protected:
-    void showEvent(QShowEvent *);
+    void showEvent(QShowEvent *) override;
 
   public slots:
     void slotUpdate();

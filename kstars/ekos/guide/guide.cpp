@@ -24,10 +24,9 @@
 #include "fitsviewer/fitsviewer.h"
 #include "internalguide/internalguider.h"
 
-#include <basedevice.h>
-
 #include <KConfigDialog>
 
+#include <basedevice.h>
 #include <ekos_guide_debug.h>
 
 #define CAPTURE_TIMEOUT_THRESHOLD 30000
@@ -1435,7 +1434,7 @@ void Guide::setCaptureComplete()
             break;
     }
 
-    newStarPixmap(guideView->getTrackingBoxPixmap());
+    emit newStarPixmap(guideView->getTrackingBoxPixmap());
 }
 
 void Guide::appendLogText(const QString &text)
@@ -2121,7 +2120,7 @@ bool Guide::setGuiderType(int type)
             connect(internalGuider, SIGNAL(newPulse(GuideDirection,int,GuideDirection,int)), this,
                     SLOT(sendPulse(GuideDirection,int,GuideDirection,int)));
             connect(internalGuider, SIGNAL(DESwapChanged(bool)), swapCheck, SLOT(setChecked(bool)));
-            connect(internalGuider, SIGNAL(newStarPixmap(QPixmap &)), this, SIGNAL(newStarPixmap(QPixmap&)));
+            connect(internalGuider, SIGNAL(newStarPixmap(QPixmap&)), this, SIGNAL(newStarPixmap(QPixmap&)));
 
             guider = internalGuider;
 
@@ -2175,7 +2174,7 @@ bool Guide::setGuiderType(int type)
             guider = phd2Guider;
             phd2Guider->setGuideView(guideView);
 
-            connect(phd2Guider, SIGNAL(newStarPixmap(QPixmap &)), this, SIGNAL(newStarPixmap(QPixmap&)));
+            connect(phd2Guider, SIGNAL(newStarPixmap(QPixmap&)), this, SIGNAL(newStarPixmap(QPixmap&)));
 
             clearCalibrationB->setEnabled(true);
             captureB->setEnabled(false);

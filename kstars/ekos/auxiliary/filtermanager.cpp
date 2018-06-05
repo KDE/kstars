@@ -9,21 +9,21 @@
 
 #include "filtermanager.h"
 
-#include <QSqlTableModel>
-#include <QSqlDatabase>
-#include <QSqlRecord>
-#include <algorithm>
-
-#include <basedevice.h>
-
+#include "indi_debug.h"
 #include "kstarsdata.h"
 #include "kstars.h"
+#include "Options.h"
 #include "auxiliary/kspaths.h"
 #include "ekos/auxiliary/filterdelegate.h"
 
-#include "indi_debug.h"
 
-#include "Options.h"
+#include <QSqlTableModel>
+#include <QSqlDatabase>
+#include <QSqlRecord>
+
+#include <basedevice.h>
+
+#include <algorithm>
 
 namespace Ekos
 {
@@ -111,7 +111,7 @@ void FilterManager::refreshFilterModel()
     // If it is first time, let's populate data
     if (filterModel->rowCount() == 0)
     {
-        for (QString filter : m_currentFilterLabels)
+        for (QString &filter : m_currentFilterLabels)
             KStarsData::Instance()->userdb()->AddFilter(vendor, "", "", filter, 0, 1.0, false, "--", 0);
 
         filterModel->select();

@@ -16,23 +16,24 @@
  ***************************************************************************/
 
 #include "fov.h"
-#include "Options.h"
+
+#include "geolocation.h"
+#include "kspaths.h"
 #ifndef KSTARS_LITE
 #include "kstars.h"
 #endif
 #include "kstarsdata.h"
-#include "geolocation.h"
+#include "Options.h"
 #include "skymap.h"
 #include "projections/projector.h"
-
-#include <algorithm>
 
 #include <QPainter>
 #include <QTextStream>
 #include <QFile>
 #include <QDebug>
 #include <QStandardPaths>
-#include "kspaths.h"
+
+#include <algorithm>
 
 QList<FOV *> FOVManager::m_FOVs;
 
@@ -262,7 +263,7 @@ void FOV::draw(QPainter &p, float zoomFactor)
             p.drawText(nameRect, Qt::AlignCenter, name());
 
             QRect sizeRect(targetRect.center().x(), targetRect.topLeft().y()-(pixelSizeY/8), targetRect.width()/2, pixelSizeX / 10);
-            p.drawText(sizeRect, Qt::AlignCenter, QString("%1'x%2'").arg(QString::number(m_sizeX, 'f', 1)).arg(QString::number(m_sizeY, 'f', 1)));
+            p.drawText(sizeRect, Qt::AlignCenter, QString("%1'x%2'").arg(QString::number(m_sizeX, 'f', 1), QString::number(m_sizeY, 'f', 1)));
         }
         break;
         case CIRCLE:
