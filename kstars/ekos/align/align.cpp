@@ -2684,15 +2684,16 @@ void Align::newFITS(IBLOB *bp)
 
 void Align::setCaptureComplete()
 {
-    DarkLibrary::Instance()->disconnect(this);
-
-    emit newImage(alignView);
+    DarkLibrary::Instance()->disconnect(this);    
 
     if (pahStage == PAH_REFRESH)
     {
+        newFrame(alignView);
         captureAndSolve();
         return;
     }
+
+    emit newImage(alignView);
 
     if (solverTypeGroup->checkedId() == SOLVER_ONLINE && Options::astrometryUseJPEG())
     {
@@ -4822,6 +4823,15 @@ void Align::calculatePAHError()
     emit newFrame(alignView);
 }
 
+void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
+{
+  double x = dx * alignView->zoomedWidth();
+  double y = dy * alignView->zoomedHeight();
+
+  setPAHCorrectionOffset(static_cast<int>(round(x)), static_cast<int>(round(y)));
+
+}
+
 void Align::setPAHCorrectionOffset(int x, int y)
 {
     correctionOffset.setX(x);
@@ -5508,6 +5518,11 @@ QString Align::getPAHMessage() const
     case PAH_ERROR:
         return PAHErrorDescriptionLabel->text();
     }
+}
+
+void Align::zoomAlignView()
+{
+    alignView->ZoomDefault();
 }
 
 }
