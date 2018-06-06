@@ -20,14 +20,12 @@
 
 #include "hipsrenderer.h"
 
+#include "colorscheme.h"
+#include "kstars_debug.h"
 #include "Options.h"
-
-#include "projections/projector.h"
 #include "skymap.h"
 #include "skyqpainter.h"
-#include "colorscheme.h"
-
-#include "kstars_debug.h"
+#include "projections/projector.h"
 
 HIPSRenderer::HIPSRenderer()
 {
