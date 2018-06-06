@@ -271,6 +271,9 @@ void EkosLiveClient::onMessageConnected()
             delete (localWallet);
         }
     }
+
+    sendConnection();
+    sendProfiles();
 }
 
 void EkosLiveClient::onMessageDisconnected()
@@ -354,13 +357,13 @@ void EkosLiveClient::onMessageTextReceived(const QString &message)
 
 
     // TODO add check to verify token!
-//    const QString serverToken = serverMessage.object().value("token").toString();
+    //    const QString serverToken = serverMessage.object().value("token").toString();
 
-//    if (serverToken != token)
-//    {
-//        qCWarning(KSTARS_EKOS) << "Invalid token received from server!" << serverToken;
-//        return;
-//    }
+    //    if (serverToken != token)
+    //    {
+    //        qCWarning(KSTARS_EKOS) << "Invalid token received from server!" << serverToken;
+    //        return;
+    //    }
 
     const QJsonObject msgObj = serverMessage.object();
     const QString command = msgObj["type"].toString();
@@ -378,14 +381,14 @@ void EkosLiveClient::onMessageTextReceived(const QString &message)
 
     if (command == commands[GET_STATES])
         sendStates();
-    else if (command == commands[GET_CAMERAS])
-        sendCameras();
-    else if (command == commands[GET_MOUNTS])
-        sendMounts();
-    else if (command == commands[GET_SCOPES])
-        sendScopes();
-    else if (command == commands[GET_FILTER_WHEELS])
-        sendFilterWheels();    
+        else if (command == commands[GET_CAMERAS])
+            sendCameras();
+        else if (command == commands[GET_MOUNTS])
+            sendMounts();
+        else if (command == commands[GET_SCOPES])
+            sendScopes();
+        else if (command == commands[GET_FILTER_WHEELS])
+            sendFilterWheels();
     else if (command.startsWith("capture_"))
         processCaptureCommands(command, payload);
     else if (command.startsWith("mount_"))
@@ -500,7 +503,7 @@ void EkosLiveClient::updateMountStatus(const QJsonObject &status)
 void EkosLiveClient::updateCaptureStatus(const QJsonObject &status)
 {
     if (m_isConnected == false)
-        return;    
+        return;
 
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CAPTURE_STATE], status);
 }
@@ -511,16 +514,16 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
         return;
 
     // TODO 640 should be configurable later on
-//    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
-//    QTemporaryFile jpegFile;
-//    jpegFile.open();
-//    jpegFile.close();
+    //    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
+    //    QTemporaryFile jpegFile;
+    //    jpegFile.open();
+    //    jpegFile.close();
 
-//    scaledImage.save(jpegFile.fileName(), "jpg");
+    //    scaledImage.save(jpegFile.fileName(), "jpg");
 
-//    jpegFile.open();
+    //    jpegFile.open();
 
-//    QByteArray jpegData = jpegFile.readAll();
+    //    QByteArray jpegData = jpegFile.readAll();
 
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
@@ -539,11 +542,11 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
     QString bitDepth = QString::number(imageData->getBPP());
 
     QJsonObject metadata = {
-      {"resolution",resolution},
-      {"size",sizeBytes},
-      {"bin",binning},
-      {"bpp",bitDepth},
-    };    
+        {"resolution",resolution},
+        {"size",sizeBytes},
+        {"bin",binning},
+        {"bpp",bitDepth},
+    };
 
     m_mediaWebSocket.sendTextMessage(QJsonDocument(metadata).toJson());
     m_mediaWebSocket.sendBinaryMessage(jpegData);
@@ -578,7 +581,7 @@ void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
     // TODO Quality should be configurable
     scaledImage.save(jpegFile.fileName(), "jpg", 50);
 
-    jpegFile.open();    
+    jpegFile.open();
 
     m_mediaWebSocket.sendBinaryMessage(jpegFile.readAll());
 }
@@ -601,7 +604,13 @@ void EkosLiveClient::updateGuideStatus(const QJsonObject &status)
 
 void EkosLiveClient::sendConnection()
 {
-    QJsonObject connectionState = {{"online", m_Manager->getEkosStartingStatus() == EkosManager::EKOS_STATUS_SUCCESS}};
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject connectionState = {
+        {"connected", true},
+        {"online", m_Manager->getEkosStartingStatus() == EkosManager::EKOS_STATUS_SUCCESS}
+    };
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CONNECTION_STATE], connectionState);
 }
 
@@ -676,12 +685,12 @@ void EkosLiveClient::sendCameras()
         oneCCD->getTemperature(&temperature);
 
         QJsonObject oneCamera = {
-             {"name", oneCCD->getDeviceName()},
-             {"canBin", primaryChip->canBin()},
-             {"hasTemperature", oneCCD->hasCooler()},
-             {"temperature", temperature},
-             {"canCool", oneCCD->canCool()},
-             {"hasVideo", oneCCD->hasVideoStream()}
+            {"name", oneCCD->getDeviceName()},
+            {"canBin", primaryChip->canBin()},
+            {"hasTemperature", oneCCD->hasCooler()},
+            {"temperature", temperature},
+            {"canCool", oneCCD->canCool()},
+            {"hasVideo", oneCCD->hasVideoStream()}
         };
 
         cameraList.append(oneCamera);
@@ -692,7 +701,7 @@ void EkosLiveClient::sendCameras()
 
 void EkosLiveClient::sendMounts()
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
         return;
 
     QJsonArray mountList;
@@ -702,12 +711,12 @@ void EkosLiveClient::sendMounts()
         ISD::Telescope *oneTelescope = dynamic_cast<ISD::Telescope*>(gd);
 
         QJsonObject oneMount = {
-             {"name", oneTelescope->getDeviceName()},
-             {"canPark", oneTelescope->canPark()},
-             {"canSync", oneTelescope->canSync()},
-             {"canControlTrack", oneTelescope->canControlTrack()},
-             {"hasSlewRates", oneTelescope->hasSlewRates()},
-             {"slewRates", QJsonArray::fromStringList(oneTelescope->slewRates())},
+            {"name", oneTelescope->getDeviceName()},
+            {"canPark", oneTelescope->canPark()},
+            {"canSync", oneTelescope->canSync()},
+            {"canControlTrack", oneTelescope->canControlTrack()},
+            {"hasSlewRates", oneTelescope->hasSlewRates()},
+            {"slewRates", QJsonArray::fromStringList(oneTelescope->slewRates())},
         };
 
         mountList.append(oneMount);
@@ -728,18 +737,13 @@ void EkosLiveClient::sendMounts()
 
 void EkosLiveClient::sendScopes()
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS )
+    if (m_isConnected == false ||
+        m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS ||
+        m_Manager->mountModule() == nullptr)
         return;
 
-    // If not initilized yet, return empty array
-    if (m_Manager->mountModule() == nullptr)
-        sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_SCOPES], QJsonArray());
-    else
-    {
-        QJsonArray scopeList = m_Manager->mountModule()->getScopes();
-        sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_SCOPES], scopeList);
-    }
-
+    QJsonArray scopeList = m_Manager->mountModule()->getScopes();
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_SCOPES], scopeList);
 }
 
 void EkosLiveClient::sendTemperature(double value)
@@ -776,8 +780,8 @@ void EkosLiveClient::sendFilterWheels()
             filters.append(filterNames->tp[i].text);
 
         QJsonObject oneFilter = {
-             {"name", gd->getDeviceName()},
-             {"filters", filters}
+            {"name", gd->getDeviceName()},
+            {"filters", filters}
         };
 
         filterList.append(oneFilter);
@@ -1064,7 +1068,7 @@ void EkosLiveClient::processProfileCommands(const QString &command, const QJsonO
         m_Manager->setProfile(payload["name"].toString());
         m_Manager->start();
     }
-    else if (command == commands[START_PROFILE])
+    else if (command == commands[STOP_PROFILE])
     {
         m_Manager->stop();
     }
@@ -1075,6 +1079,9 @@ void EkosLiveClient::setEkosStatingStatus(EkosManager::CommunicationStatus statu
     if (status == EkosManager::EKOS_STATUS_PENDING)
         return;
 
-    QJsonObject connectionState = {{"online", status == EkosManager::EKOS_STATUS_SUCCESS}};
+    QJsonObject connectionState = {
+        {"connected", true},
+        {"online", status == EkosManager::EKOS_STATUS_SUCCESS}
+    };
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CONNECTION_STATE], connectionState);
 }
