@@ -630,6 +630,7 @@ bool EkosManager::start()
             qDeleteAll(managedDrivers);
             managedDrivers.clear();
             ekosStartingStatus = EKOS_STATUS_ERROR;
+            emit newEkosStartingStatus(ekosStartingStatus);
             return false;
         }
 
@@ -637,6 +638,7 @@ bool EkosManager::start()
                 SLOT(processServerTermination(QString,QString)));
 
         ekosStartingStatus = EKOS_STATUS_PENDING;
+        emit newEkosStartingStatus(ekosStartingStatus);
 
         if (currentProfile->autoConnect)
             appendLogText(i18n("INDI services started on port %1.", managedDrivers.first()->getPort()));
@@ -686,6 +688,7 @@ bool EkosManager::start()
             qDeleteAll(managedDrivers);
             managedDrivers.clear();
             ekosStartingStatus = EKOS_STATUS_ERROR;
+            emit newEkosStartingStatus(ekosStartingStatus);
             QApplication::restoreOverrideCursor();
             return false;
         }
@@ -695,6 +698,7 @@ bool EkosManager::start()
 
         QApplication::restoreOverrideCursor();
         ekosStartingStatus = EKOS_STATUS_PENDING;
+        emit newEkosStartingStatus(ekosStartingStatus);
 
         appendLogText(
                     i18n("INDI services started. Connection to remote INDI server is successful. Waiting for devices..."));
@@ -723,6 +727,7 @@ void EkosManager::checkINDITimeout()
     if (nDevices <= 0)
     {
         ekosStartingStatus = EKOS_STATUS_SUCCESS;
+        emit newEkosStartingStatus(ekosStartingStatus);
         return;
     }
 
@@ -902,6 +907,7 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
     if (nDevices <= 0)
     {
         ekosStartingStatus = EKOS_STATUS_SUCCESS;
+        emit newEkosStartingStatus(ekosStartingStatus);
 
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
