@@ -32,16 +32,10 @@ ThumbImage::ThumbImage(QWidget *parent, const char *name) : QLabel(parent)
     //	setBackgroundMode( Qt::WA_NoBackground );
 
     setObjectName(name);
-    bMouseButtonDown = false;
-    bTopLeftGrab     = false;
-    bTopRightGrab    = false;
-    bBottomLeftGrab  = false;
-    bBottomRightGrab = false;
-    HandleSize       = 10;
 
-    CropRect = new QRect();
-    Anchor   = new QPoint();
-    Image    = new QPixmap();
+    CropRect.reset(new QRect());
+    Anchor.reset(new QPoint());
+    Image.reset(new QPixmap());
 }
 
 void ThumbImage::paintEvent(QPaintEvent *)

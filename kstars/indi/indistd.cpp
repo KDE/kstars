@@ -221,6 +221,7 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
             elev = np->value;
 
         GeoLocation *geo = KStars::Instance()->data()->geo();
+        std::unique_ptr<GeoLocation> tempGeo;
 
         QString newLocationName;
         if (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE)
@@ -232,7 +233,8 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
         {
             double TZ0 = geo->TZ0();
             TimeZoneRule *rule = geo->tzrule();
-            geo = new GeoLocation(lng, lat, newLocationName, "", "", TZ0, rule, elev);
+            tempGeo.reset(new GeoLocation(lng, lat, newLocationName, "", "", TZ0, rule, elev));
+            geo = tempGeo.get();
         }
         else
         {

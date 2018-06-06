@@ -56,11 +56,11 @@ class ScanRender
     void setOpacity(float opacity);
 
 private:
-    float    m_opacity;
-    int      plMinY;
-    int      plMaxY;
-    int      m_sx;
-    int      m_sy;
+    float    m_opacity { 1.0f };
+    int      plMinY { 0 };
+    int      plMaxY { 0 };
+    int      m_sx { 0 };
+    int      m_sy { 0 };
     bkScan_t scLR[MAX_BK_SCANLINES];
-    bool     bBilinear;
+    bool     bBilinear { false };
 };
