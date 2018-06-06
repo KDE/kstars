@@ -46,7 +46,8 @@ public:
 
     enum COMMANDS
     {        
-        GET_STATES,
+        GET_CONNECTION,
+        GET_STATES,        
         GET_CAMERAS,
         GET_MOUNTS,
         GET_SCOPES,
@@ -156,6 +157,7 @@ private slots:
     void onMediaBinaryReceived(const QByteArray &message);
 
     void sendVideoFrame(std::unique_ptr<QImage> & frame);
+    void sendConnection();
 
 private:
     void connectMessageServer();
