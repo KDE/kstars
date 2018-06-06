@@ -106,6 +106,8 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
         ekosLiveClient.get()->raise();
     });
 
+    connect(this, &EkosManager::newEkosStartingStatus, ekosLiveClient.get(), &EkosLiveClient::setEkosStatingStatus);
+
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
     // Save as above, but it appears in all modules
     connect(ekosOptionsB, SIGNAL(clicked()), SLOT(showEkosOptions()));

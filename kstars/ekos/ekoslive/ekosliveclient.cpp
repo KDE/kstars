@@ -39,6 +39,7 @@
 
 QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
 {
+    {GET_CONNECTION, "get_connection"},
     {GET_PROFILES, "get_profiles"},
     {GET_STATES, "get_states"},
     {GET_CAMERAS, "get_cameras"},
@@ -365,7 +366,9 @@ void EkosLiveClient::onMessageTextReceived(const QString &message)
     const QString command = msgObj["type"].toString();
     const QJsonObject payload = msgObj["payload"].toObject();
 
-    if (command == commands[GET_PROFILES])
+    if (command == commands[GET_CONNECTION])
+        sendConnection();
+    else if (command == commands[GET_PROFILES])
         sendProfiles();
     else if (command.startsWith("profile_"))
         processProfileCommands(command, payload);
@@ -596,24 +599,30 @@ void EkosLiveClient::updateGuideStatus(const QJsonObject &status)
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_GUIDE_STATE], status);
 }
 
+void EkosLiveClient::sendConnection()
+{
+    QJsonObject connectionState = {{"online", m_Manager->getEkosStartingStatus() == EkosManager::EKOS_STATUS_SUCCESS}};
+    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CONNECTION_STATE], connectionState);
+}
+
 void EkosLiveClient::sendStates()
 {
     if (m_isConnected == false)
         return;
 
-    QJsonObject connectionState = {{"online", m_Manager->getEkosStartingStatus() == EkosManager::EKOS_STATUS_SUCCESS}};
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CONNECTION_STATE], connectionState);
-
     QJsonObject captureState = {{ "status", m_Manager->captureStatus->text()}};
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CAPTURE_STATE], captureState);
 
-    QJsonObject mountState = {
-        {"status", m_Manager->mountStatus->text()},
-        {"target", m_Manager->mountTarget->text()},
-        {"slewRate", m_Manager->mountProcess.get()->getSlewRate()}
-    };
+    if (m_Manager->mountModule())
+    {
+        QJsonObject mountState = {
+            {"status", m_Manager->mountStatus->text()},
+            {"target", m_Manager->mountTarget->text()},
+            {"slewRate", m_Manager->mountModule()->getSlewRate()}
+        };
 
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], mountState);
+        sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_MOUNT_STATE], mountState);
+    }
 
     QJsonObject focusState = {{ "status", m_Manager->focusStatus->text()}};
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_FOCUS_STATE], focusState);
@@ -621,20 +630,23 @@ void EkosLiveClient::sendStates()
     QJsonObject guideState = {{ "status", m_Manager->guideStatus->text()}};
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_GUIDE_STATE], guideState);
 
-    QJsonObject alignState = {
-        {"status", Ekos::alignStates[m_Manager->alignModule()->getStatus()]},
-        {"solvers", QJsonArray::fromStringList(m_Manager->alignModule()->getActiveSolvers())},
-        {"solverIndex", m_Manager->alignModule()->getActiveSolverIndex()},
-        {"scopeIndex", m_Manager->alignModule()->getFOVTelescopeType()},
-    };
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_STATE], alignState);
+    if (m_Manager->alignModule())
+    {
+        QJsonObject alignState = {
+            {"status", Ekos::alignStates[m_Manager->alignModule()->getStatus()]},
+            {"solvers", QJsonArray::fromStringList(m_Manager->alignModule()->getActiveSolvers())},
+            {"solverIndex", m_Manager->alignModule()->getActiveSolverIndex()},
+            {"scopeIndex", m_Manager->alignModule()->getFOVTelescopeType()},
+        };
+        sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_ALIGN_STATE], alignState);
 
-    QJsonObject polarState = {
-        {"stage", m_Manager->alignModule()->getPAHStage()},
-        {"enabled", m_Manager->alignModule()->isPAHEnabled()},
-        {"message", m_Manager->alignModule()->getPAHMessage()},
-    };
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_POLAR_STATE], polarState);
+        QJsonObject polarState = {
+            {"stage", m_Manager->alignModule()->getPAHStage()},
+            {"enabled", m_Manager->alignModule()->isPAHEnabled()},
+            {"message", m_Manager->alignModule()->getPAHMessage()},
+        };
+        sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_POLAR_STATE], polarState);
+    }
 }
 
 void EkosLiveClient::sendEvent(const QString &message, KSNotification::EventType event)
@@ -719,8 +731,15 @@ void EkosLiveClient::sendScopes()
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS )
         return;
 
-    QJsonArray scopeList = m_Manager->mountModule()->getScopes();
-    sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_SCOPES], scopeList);
+    // If not initilized yet, return empty array
+    if (m_Manager->mountModule() == nullptr)
+        sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_SCOPES], QJsonArray());
+    else
+    {
+        QJsonArray scopeList = m_Manager->mountModule()->getScopes();
+        sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_SCOPES], scopeList);
+    }
+
 }
 
 void EkosLiveClient::sendTemperature(double value)
