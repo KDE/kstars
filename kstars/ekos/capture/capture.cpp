@@ -1930,6 +1930,8 @@ bool Capture::addJob(bool preview)
             return true;
     }
 
+    QJsonObject jsonJob = {{"Status", "Idle"}};
+
     QString directoryPostfix;
 
     if (targetName.isEmpty())
@@ -1959,12 +1961,16 @@ bool Capture::addJob(bool preview)
 
     QTableWidgetItem *filter = jobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
     filter->setText("--");
+    jsonJob.insert("Filter", "--");
     /*if (frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
             frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive) &&
             FilterPosCombo->count() > 0)*/
     if (FilterPosCombo->count() > 0 &&
         (frameTypeCombo->currentIndex() == FRAME_LIGHT || frameTypeCombo->currentIndex() == FRAME_FLAT))
+    {
         filter->setText(FilterPosCombo->currentText());
+        jsonJob.insert("Filter", FilterPosCombo->currentText());
+    }
 
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -1973,22 +1979,31 @@ bool Capture::addJob(bool preview)
     type->setText(frameTypeCombo->currentText());
     type->setTextAlignment(Qt::AlignHCenter);
     type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Type", type->text());
 
     QTableWidgetItem *bin = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
     bin->setText(QString("%1x%2").arg(binXIN->value()).arg(binYIN->value()));
     bin->setTextAlignment(Qt::AlignHCenter);
     bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Type", bin->text());
 
     QTableWidgetItem *exp = jobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
     exp->setText(QString::number(exposureIN->value()));
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Exp", exp->text());
 
     QTableWidgetItem *iso = jobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
     if (ISOCombo->currentIndex() != -1)
+    {
         iso->setText(ISOCombo->currentText());
+        jsonJob.insert("ISO", iso->text());
+    }
     else
+    {
         iso->setText("--");
+        jsonJob.insert("ISO", "--");
+    }
     iso->setTextAlignment(Qt::AlignHCenter);
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
@@ -1996,6 +2011,7 @@ bool Capture::addJob(bool preview)
     count->setText(QString::number(countIN->value()));
     count->setTextAlignment(Qt::AlignHCenter);
     count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Count", count->text());
 
     if (jobUnderEdit == false)
     {
@@ -2006,6 +2022,9 @@ bool Capture::addJob(bool preview)
         queueTable->setItem(currentRow, 4, exp);
         queueTable->setItem(currentRow, 5, iso);
         queueTable->setItem(currentRow, 6, count);
+
+        m_SequenceArray.append(jsonJob);
+        emit sequenceChanged(m_SequenceArray);
     }
 
     removeFromQueueB->setEnabled(true);
@@ -2029,12 +2048,15 @@ bool Capture::addJob(bool preview)
         jobUnderEdit = false;
         resetJobEdit();
         appendLogText(i18n("Job #%1 changes applied.", currentRow + 1));
+
+        m_SequenceArray.replace(currentRow, jsonJob);
+        emit sequenceChanged(m_SequenceArray);
     }
 
     return true;
 }
 
-void Capture::removeJob()
+void Capture::removeJob(int index)
 {
     if (jobUnderEdit)
     {
@@ -2043,6 +2065,8 @@ void Capture::removeJob()
     }
 
     int currentRow = queueTable->currentRow();
+    if (index >= 0)
+        currentRow = index;
 
     if (currentRow < 0)
     {
@@ -2052,6 +2076,9 @@ void Capture::removeJob()
     }
 
     queueTable->removeRow(currentRow);
+
+    m_SequenceArray.removeAt(currentRow);
+    emit sequenceChanged(m_SequenceArray);
 
     SequenceJob *job = jobs.at(currentRow);
     jobs.removeOne(job);
@@ -2109,6 +2136,11 @@ void Capture::moveJobUp()
     jobs.removeOne(job);
     jobs.insert(destinationRow, job);
 
+    QJsonObject currentJob = m_SequenceArray[currentRow].toObject();
+    m_SequenceArray.replace(currentRow, m_SequenceArray[destinationRow]);
+    m_SequenceArray.replace(destinationRow, currentJob);
+    emit sequenceChanged(m_SequenceArray);
+
     queueTable->selectRow(destinationRow);
 
     for (int i = 0; i < jobs.count(); i++)
@@ -2141,6 +2173,11 @@ void Capture::moveJobDown()
 
     jobs.removeOne(job);
     jobs.insert(destinationRow, job);
+
+    QJsonObject currentJob = m_SequenceArray[currentRow].toObject();
+    m_SequenceArray.replace(currentRow, m_SequenceArray[destinationRow]);
+    m_SequenceArray.replace(destinationRow, currentJob);
+    emit sequenceChanged(m_SequenceArray);
 
     queueTable->selectRow(destinationRow);
 
