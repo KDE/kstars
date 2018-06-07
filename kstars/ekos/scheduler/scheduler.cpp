@@ -622,7 +622,7 @@ void Scheduler::saveJob()
         mDirty = true;
     }
 
-    removeFromQueueB->setEnabled(true);
+    removeFromQueueB->setEnabled(false);
 
     if (jobUnderEdit == -1)
     {
@@ -631,6 +631,8 @@ void Scheduler::saveJob()
     }
 
     watchJobChanges(true);
+    jobEvaluationOnly = true;
+    evaluateJobs();
 }
 
 void Scheduler::resetJobState(QModelIndex i)
@@ -768,15 +770,16 @@ void Scheduler::loadJob(QModelIndex i)
             break;
     }
 
-    addToQueueB->setIcon(QIcon::fromTheme("edit-undo"));
-    addToQueueB->setStyleSheet("background-color:orange;}");
+    addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
+    addToQueueB->setToolTip(i18n("Apply job changes."));
+    //addToQueueB->setStyleSheet("background-color:orange;}");
     addToQueueB->setEnabled(true);
     startB->setEnabled(false);
     evaluateOnlyB->setEnabled(false);
-    addToQueueB->setToolTip(i18n("Exit edit mode"));
+    removeFromQueueB->setEnabled(true);
 
     jobUnderEdit = i.row();
-    appendLogText(i18n("Job '%1' at row #%2 is currently edited.", job->getName(), jobUnderEdit+1));
+    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is currently edited.").arg(job->getName()).arg(jobUnderEdit+1);
 
     watchJobChanges(true);
 }
@@ -787,8 +790,9 @@ void Scheduler::resetJobEdit()
         return;
 
     SchedulerJob * const job = jobs.at(jobUnderEdit);
+    Q_ASSERT_X(job != nullptr,__FUNCTION__,"Edited job must be valid");
 
-    appendLogText(i18n("Job '%1' at row #%2 is not longer edited.", job->getName(), jobUnderEdit+1));
+    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is not longer edited.").arg(job->getName()).arg(jobUnderEdit+1);
 
     jobUnderEdit = -1;
 
@@ -797,66 +801,55 @@ void Scheduler::resetJobEdit()
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     addToQueueB->setStyleSheet(QString());
     addToQueueB->setToolTip(i18n("Add observation job to list."));
+    removeFromQueueB->setEnabled(false);
     queueTable->clearSelection();
 
     evaluateOnlyB->setEnabled(true);
     startB->setEnabled(true);
 
-
-    //removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
-    jobEvaluationOnly = true;
-    evaluateJobs();
+    Q_ASSERT_X(jobUnderEdit == -1,__FUNCTION__,"No more edited/selected job after exiting edit mode");
 }
 
 void Scheduler::removeJob()
 {
-    /*if (jobUnderEdit)
-    {
-        resetJobEdit();
-        return;
-    }*/
-
     int currentRow = queueTable->currentRow();
 
+    /* Don't remove a row that is not selected */
     if (currentRow < 0)
-    {
-        currentRow = queueTable->rowCount() - 1;
-        if (currentRow < 0)
-            return;
-    }
+        return;
 
-    queueTable->removeRow(currentRow);
-    queueTable->resizeColumnsToContents();
-
+    /* Grab the job currently selected */
     SchedulerJob * const job = jobs.at(currentRow);
+    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is being deleted.").arg(job->getName()).arg(currentRow+1);
 
-    appendLogText(i18n("Job '%1' at row #%2 is being deleted.", job->getName(), currentRow+1));
+    /* Remove the job from the table */
+    queueTable->removeRow(currentRow);
 
-    jobs.removeOne(job);
-    delete (job);
-
+    /* If there are no job rows left, update UI buttons */
     if (queueTable->rowCount() == 0)
     {
         removeFromQueueB->setEnabled(false);
         evaluateOnlyB->setEnabled(false);
-    }
-
-    queueTable->selectRow(queueTable->currentRow());
-
-    if (queueTable->rowCount() == 0)
-    {
         queueSaveAsB->setEnabled(false);
         queueSaveB->setEnabled(false);
         startB->setEnabled(false);
         pauseB->setEnabled(false);
-
-        if (jobUnderEdit >= 0)
-            resetJobEdit();
+        removeFromQueueB->setEnabled(false);
     }
-    else
-        loadJob(queueTable->currentIndex());
+    /* Else load the settings of the job that was just deleted */
+    else loadJob(queueTable->currentIndex());
+
+    /* If needed, reset edit mode to clean up UI */
+    if (jobUnderEdit >= 0)
+        resetJobEdit();
+
+    /* And remove the job object */
+    jobs.removeOne(job);
+    delete (job);
 
     mDirty = true;
+    jobEvaluationOnly = true;
+    evaluateJobs();
 }
 
 void Scheduler::toggleScheduler()
@@ -5091,10 +5084,16 @@ void Scheduler::startMosaicTool()
         delXMLEle(root);
 
         // Delete any prior jobs before saving
-        for (int i = 0; i < currentJobsCount; i++)
+        if (0 < currentJobsCount)
         {
-            delete (jobs.takeFirst());
-            queueTable->removeRow(0);
+            if (KMessageBox::questionYesNo(nullptr, i18n("Do you want to keep the existing jobs in the mosaic schedule?")) == KMessageBox::No)
+            {
+                for (int i = 0; i < currentJobsCount; i++)
+                {
+                    delete (jobs.takeFirst());
+                    queueTable->removeRow(0);
+                }
+            }
         }
 
         QUrl mosaicURL = QUrl::fromLocalFile((QString("%1/%2_mosaic.esl").arg(outputDir, targetName)));
