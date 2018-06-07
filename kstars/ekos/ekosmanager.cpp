@@ -1446,7 +1446,7 @@ void EkosManager::processNewProperty(INDI::Property *prop)
         ekosLiveClient.get()->sendScopes();
     }
 
-    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "CCD_TEMPERATURE"))
+    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "CCD_TEMPERATURE") || !strcmp(prop->getName(), "CCD_ISO"))
     {
         ekosLiveClient.get()->sendCameras();
     }

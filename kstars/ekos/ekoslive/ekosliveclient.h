@@ -84,6 +84,9 @@ public:
         CAPTURE_TOGGLE_VIDEO,
         CAPTURE_START,
         CAPTURE_STOP,
+        CAPTURE_GET_SEQUENCES,
+        CAPTURE_ADD_SEQUENCE,
+        CAPTURE_REMOVE_SEQUENCE,
 
         // Mount
         MOUNT_PARK,
@@ -174,7 +177,7 @@ private:
 
     // Capture
     void processCaptureCommands(const QString &command, const QJsonObject &payload);
-    void capturePreview(const QJsonObject &settings);
+    void setCaptureSettings(const QJsonObject &settings);
     void sendTemperature(double value);
 
     // Mount
