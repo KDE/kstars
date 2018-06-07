@@ -1104,9 +1104,9 @@ void Scheduler::evaluateJobs()
 
     /* Then reorder jobs by priority */
     /* FIXME: refactor so all sorts are using the same predicates */
-    /* FIXME: use std::sort as qSort is deprecated */
+    /* FIXME: use std::stable_sort as qStableSort is deprecated */
     if (Options::sortSchedulerJobs())
-        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
+        qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
 
     /* Then enumerate SchedulerJobs, scheduling only what is required */
     foreach (SchedulerJob *job, sortedJobs)
@@ -1456,9 +1456,12 @@ void Scheduler::evaluateJobs()
     /* Now that jobs are scheduled, possibly at the same time, reorder by altitude and priority again */
     if (Options::sortSchedulerJobs())
     {
-        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::decreasingAltitudeOrder);
-        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
+        qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::decreasingAltitudeOrder);
+        qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
     }
+
+    /* Reorder jobs by schedule time */
+    qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingStartupTimeOrder);
 
     // Our first job now takes priority over ALL others.
     // So if any other jobs conflicts with ours, we re-schedule that job to another time.
@@ -1467,6 +1470,9 @@ void Scheduler::evaluateJobs()
     QDateTime lastStartTime     = firstJob->getStartupTime();
     double lastJobEstimatedTime = firstJob->getEstimatedTime();
     int daysCount               = 0;
+
+    qCInfo(KSTARS_EKOS_SCHEDULER) << "Option to sort jobs based on priority and altitude is" << Options::sortSchedulerJobs();
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "First job after sort is" << firstJob->getName() << "starting at" << firstJob->getStartupTime().toString(firstJob->getDateTimeDisplayFormat());
 
     // Make sure no two jobs have the same scheduled time or overlap with other jobs
     foreach (SchedulerJob *job, sortedJobs)
@@ -1477,7 +1483,11 @@ void Scheduler::evaluateJobs()
             job->getStartupCondition() != SchedulerJob::START_AT)
             continue;
 
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Examining job" << job->getName() << "starting at" << job->getStartupTime().toString(job->getDateTimeDisplayFormat());
+
         double timeBetweenJobs = (double)std::abs(firstStartTime.secsTo(job->getStartupTime()));
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Job starts in" << timeBetweenJobs << "seconds (lead time" << Options::leadTime()*60 << ")";
 
         // If there are within 5 minutes of each other, try to advance scheduling time of the lower altitude one
         if (timeBetweenJobs < (Options::leadTime()) * 60)
@@ -1532,7 +1542,7 @@ void Scheduler::evaluateJobs()
      */
 
     // Sort again by schedule, sooner first, as some jobs may have shifted during the last step
-    qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingStartupTimeOrder);
+    qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingStartupTimeOrder);
 
     setCurrentJob(sortedJobs.first());
 
