@@ -1094,6 +1094,9 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
     if (domeProcess.get() != nullptr)
         domeProcess->setTelescope(scopeDevice);
+
+    ekosLiveClient->sendMounts();
+    ekosLiveClient->sendScopes();
 }
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
@@ -1193,7 +1196,7 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     alignProcess->addFilter(filterDevice);
 
     if (Options::defaultAlignFW().isEmpty() == false)
-        alignProcess->setFilter(Options::defaultAlignFW(), -1);
+        alignProcess->setFilter(Options::defaultAlignFW(), -1);    
 }
 
 void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
@@ -1334,6 +1337,8 @@ void EkosManager::processNewText(ITextVectorProperty *tvp)
 
         if (alignProcess.get() != nullptr)
             alignProcess->checkFilter();*/
+
+        ekosLiveClient.get()->sendFilterWheels();
     }
 }
 
@@ -1357,7 +1362,7 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
         {
             mountProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
             //mountProcess->syncTelescopeInfo();
-        }
+        }        
 
         return;
     }
@@ -1432,6 +1437,20 @@ void EkosManager::processNewProperty(INDI::Property *prop)
             deviceInterface->getDriverInfo()->getClientManager()->sendNewSwitch(debugLevel);
         }
     }
+
+    if (!strcmp(prop->getName(), "TELESCOPE_INFO") || !strcmp(prop->getName(), "TELESCOPE_SLEW_RATE"))
+    {
+        ekosLiveClient.get()->sendMounts();
+        ekosLiveClient.get()->sendScopes();
+    }
+
+    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "CCD_TEMPERATURE"))
+    {
+        ekosLiveClient.get()->sendCameras();
+    }
+
+    if (!strcmp(prop->getName(), "FILTER_SLOT"))
+        ekosLiveClient.get()->sendFilterWheels();
 
     if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDER_INFO"))
     {
