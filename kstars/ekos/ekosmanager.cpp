@@ -368,6 +368,7 @@ void EkosManager::reset()
     dustCapProcess.reset();
 
     ekosStartingStatus   = EKOS_STATUS_IDLE;
+    emit newEkosStartingStatus(ekosStartingStatus);
     indiConnectionStatus = EKOS_STATUS_IDLE;
 
     connectB->setEnabled(false);
@@ -1438,7 +1439,8 @@ void EkosManager::processNewProperty(INDI::Property *prop)
         }
     }
 
-    if (!strcmp(prop->getName(), "TELESCOPE_INFO") || !strcmp(prop->getName(), "TELESCOPE_SLEW_RATE"))
+    if (!strcmp(prop->getName(), "TELESCOPE_INFO") || !strcmp(prop->getName(), "TELESCOPE_SLEW_RATE")
+            || !strcmp(prop->getName(), "TELESCOPE_PARK"))
     {
         ekosLiveClient.get()->sendMounts();
         ekosLiveClient.get()->sendScopes();
