@@ -729,6 +729,8 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
     {
         clients.append(clientManager);
         updateMenuActions();
+
+        KSNotification::event(QLatin1String("ConnectionSuccessful"), i18n("Connected to INDI server"), KSNotification::EVENT_ALERT);
     }
     else
     {
@@ -742,6 +744,7 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
         msgBox->setWindowTitle(i18n("Error"));
         msgBox->setText(
             i18n("Connection to INDI server at host %1 with port %2 failed.", dv->getHost(), dv->getPort()));
+        KSNotification::event(QLatin1String("ConnectionFailed"), msgBox->text(), KSNotification::EVENT_ALERT);
         msgBox->setModal(false);
         msgBox->setIcon(QMessageBox::Critical);
         msgBox->show();

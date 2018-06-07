@@ -44,10 +44,16 @@ public:
     void sendUpdatedFrame(FITSView *view);
     void sendEvent(const QString &message, KSNotification::EventType event);
 
+    // Send devices as they come
+    void sendCameras();
+    void sendMounts();
+    void sendScopes();
+    void sendFilterWheels();
+
     enum COMMANDS
-    {        
+    {
         GET_CONNECTION,
-        GET_STATES,        
+        GET_STATES,
         GET_CAMERAS,
         GET_MOUNTS,
         GET_SCOPES,
@@ -191,11 +197,7 @@ private:
 
     // Profiles
     void sendProfiles();
-    void sendStates();
-    void sendCameras();
-    void sendMounts();
-    void sendScopes();
-    void sendFilterWheels();
+    void sendStates();    
 
 
     QWebSocket m_messageWebSocket, m_mediaWebSocket;
