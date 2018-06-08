@@ -11,23 +11,22 @@
 
 #include "guider.h"
 
-#include <math.h>
-#include <stdlib.h>
-#include <assert.h>
+#include "gmath.h"
+#include "kstars.h"
+#include "kspaths.h"
+#include "Options.h"
+#include "scroll_graph.h"
+#include "../phd2.h"
+#include "../ekosmanager.h"
+#include "fitsviewer/fitsview.h"
 
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <KNotifications/KNotification>
 
-#include "scroll_graph.h"
-#include "gmath.h"
-#include "fitsviewer/fitsview.h"
-#include "../phd2.h"
-#include "../ekosmanager.h"
-#include "kstars.h"
-#include "kspaths.h"
-
-#include "Options.h"
+#include <cmath>
+#include <cstdlib>
+#include <cassert>
 
 internalGuider::internalGuider(cgmath *mathObject, Ekos::Guide *parent) : QWidget(parent)
 {
@@ -203,7 +202,7 @@ bool internalGuider::start()
     Options::setDECMinimumPulse(ui.spinBox_MinPulseDEC->value());
 
     if (guideFrame)
-        disconnect(guideFrame, SIGNAL(trackingStarSelected(int, int)), 0, 0);
+        disconnect(guideFrame, SIGNAL(trackingStarSelected(int,int)), 0, 0);
 
     // Let everyone know about dither option status
     emit ditherToggled(ui.ditherCheck->isChecked());
@@ -274,7 +273,7 @@ bool internalGuider::stop()
     }
 
     if (guideFrame)
-        connect(guideFrame, SIGNAL(trackingStarSelected(int, int)), this, SLOT(trackingStarSelected(int, int)),
+        connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int,int)),
                 Qt::UniqueConnection);
     ui.pushButton_StartStop->setText(i18n("Start Autoguide"));
     guideModule->appendLogText(i18n("Autoguiding stopped."));
@@ -493,7 +492,7 @@ void internalGuider::setImageView(FITSView *image)
     guideFrame = image;
 
     if (m_isReady && guideFrame && m_isStarted == false)
-        connect(guideFrame, SIGNAL(trackingStarSelected(int, int)), this, SLOT(trackingStarSelected(int, int)),
+        connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int,int)),
                 Qt::UniqueConnection);
 }
 

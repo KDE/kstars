@@ -76,8 +76,8 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
     connected    = QIcon::fromTheme("network-connect");
     disconnected = QIcon::fromTheme("network-disconnect");
 
-    connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this,
-            SLOT(makePortEditable(QTreeWidgetItem *, int)));
+    connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this,
+            SLOT(makePortEditable(QTreeWidgetItem*,int)));
 }
 
 void DeviceManagerUI::makePortEditable(QTreeWidgetItem *selectedItem, int column)
@@ -120,9 +120,9 @@ INDIDriver::INDIDriver(KStars *_ks) : QDialog(_ks), ksw(_ks)
     QObject::connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
     QObject::connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
     QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
-    QObject::connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateLocalTab()));
-    QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientTab()));
-    QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
+    QObject::connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(updateLocalTab()));
+    QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(updateClientTab()));
+    QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex&)), this, SLOT(resizeDeviceColumn()));
 
     readXMLDrivers();
 }

@@ -4952,7 +4952,7 @@ void Scheduler::checkCapParkingStatus()
 
 void Scheduler::startJobEvaluation()
 {
-    // Reset ALL scheduler jobs to IDLE and re-evalute them all again
+    // Reset ALL scheduler jobs to IDLE and re-evaluate them all again
     for(SchedulerJob *job : jobs)
         job->reset();
 

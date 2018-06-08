@@ -685,7 +685,7 @@ void PHD2::setGuideView(FITSView *guideView)
 
 void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
 {
-    //The width and height of the recieved PHD2 Star Image
+    //The width and height of the received PHD2 Star Image
    int width =  jsonStarFrame["width"].toInt();
    int height = jsonStarFrame["height"].toInt();
 
@@ -697,7 +697,7 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
    int status=0;
    long  fpixel = 1, naxis = 2, nelements, exposure;
    long naxes[2] = { width, height };
-   fits_create_file(&fptr, QString("!"+filename).toLatin1().data(), &status);
+   fits_create_file(&fptr, QString('!' + filename).toLatin1().data(), &status);
    fits_create_img(fptr, USHORT_IMG, naxis, naxes, &status);
     //Note, this is made up.  If you want the actual exposure time, you have to request it from PHD2
    exposure = 1;

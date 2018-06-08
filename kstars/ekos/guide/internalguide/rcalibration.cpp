@@ -10,26 +10,24 @@
  */
 
 #include "rcalibration.h"
-#include "Options.h"
 
-#include <time.h>
-#include <assert.h>
+#include "gmath.h"
+#include "vect.h"
+
+#include "kspaths.h"
+#include "kstars.h"
+#include "Options.h"
+#include "../ekosmanager.h"
+#include "../guide.h"
+#include "../fitsviewer/fitsviewer.h"
+#include "../fitsviewer/fitsview.h"
 
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <KNotifications/KNotification>
 
-#include "gmath.h"
-#include "vect.h"
-
-#include "../guide.h"
-#include "../fitsviewer/fitsviewer.h"
-#include "../fitsviewer/fitsview.h"
-#include "kspaths.h"
-
-#include "../ekosmanager.h"
-
-#include "kstars.h"
+#include <time.h>
+#include <assert.h>
 
 #undef MIN
 #undef MAX
@@ -264,8 +262,8 @@ bool internalCalibration::startCalibration()
     }
 
     if (pmath->getImageView())
-        disconnect(pmath->getImageView(), SIGNAL(trackingStarSelected(int, int)), this,
-                   SLOT(trackingStarSelected(int, int)));
+        disconnect(pmath->getImageView(), SIGNAL(trackingStarSelected(int,int)), this,
+                   SLOT(trackingStarSelected(int,int)));
 
     ui.captureLED->setColor(okColor);
     ui.selectStarLED->setColor(okColor);
@@ -357,7 +355,7 @@ void internalCalibration::reset()
     ui.pushButton_StartCalibration->setText(i18n("Start"));
     ui.startCalibrationLED->setColor(idleColor);
     ui.progressBar->setVisible(false);
-    connect(pmath->getImageView(), SIGNAL(trackingStarSelected(int, int)), this, SLOT(trackingStarSelected(int, int)),
+    connect(pmath->getImageView(), SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int,int)),
             Qt::UniqueConnection);
 }
 
@@ -929,8 +927,8 @@ bool internalCalibration::setImageView(FITSView *image)
                 {
                     guideModule->appendLogText(
                         i18n("Failed to automatically select a guide star. Please select a guide star..."));
-                    connect(guideFrame, SIGNAL(trackingStarSelected(int, int)), this,
-                            SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
+                    connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this,
+                            SLOT(trackingStarSelected(int,int)), Qt::UniqueConnection);
                     return true;
                 }
                 else
@@ -939,7 +937,7 @@ bool internalCalibration::setImageView(FITSView *image)
             }
             else
             {
-                connect(guideFrame, SIGNAL(trackingStarSelected(int, int)), this, SLOT(trackingStarSelected(int, int)),
+                connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int,int)),
                         Qt::UniqueConnection);
             }
         }

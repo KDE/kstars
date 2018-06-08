@@ -51,7 +51,7 @@ GenericCalendarWidget::GenericCalendarWidget(KDateTable &datetable, QWidget *par
     }
 
     // Connects
-    connect(&m_DateTable, SIGNAL(dateChanged(const QDate &)), SLOT(dateChangedSlot(const QDate &)));
+    connect(&m_DateTable, SIGNAL(dateChanged(const QDate&)), SLOT(dateChangedSlot(const QDate&)));
     connect(nextMonth, SIGNAL(clicked()), SLOT(nextMonthClicked()));
     connect(previousMonth, SIGNAL(clicked()), SLOT(previousMonthClicked()));
     connect(nextYear, SIGNAL(clicked()), SLOT(nextYearClicked()));

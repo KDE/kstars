@@ -9,16 +9,15 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef RCALIBRATION_H
-#define RCALIBRATION_H
-
-#include <QPointer>
-
-#include "fitsviewer/fitsview.h"
+#pragma once
 
 #include "gmath.h"
+
 #include "../guide.h"
 #include "ui_rcalibration.h"
+#include "fitsviewer/fitsview.h"
+
+#include <QPointer>
 
 typedef struct
 {
@@ -85,5 +84,3 @@ class internalCalibration : public QWidget
   private:
     Ui::rcalibrationClass ui;
 };
-
-#endif // RETICLE_CALIBRATION_H

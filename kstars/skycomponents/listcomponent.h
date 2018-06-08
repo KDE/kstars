@@ -62,7 +62,7 @@ class ListComponent : public SkyComponent
     /**
      * @short Add an object to the Object list.
      *
-     * This method is a handy wrapper, which automaticly appends the given
+     * This method is a handy wrapper, which automatically appends the given
      * SkyObject to m_ObjectList and inserts references with all common names (name,
      * name2, longname) into the m_ObjectHash QHash to enable a faster findbyname.
      */

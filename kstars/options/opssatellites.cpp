@@ -250,7 +250,7 @@ void OpsSatellites::slotItemChanged(QStandardItem *item)
     QModelIndex sat_index;
     QStandardItem *sat_item;
 
-    disconnect(m_Model, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(slotItemChanged(QStandardItem *)));
+    disconnect(m_Model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(slotItemChanged(QStandardItem*)));
 
     // If a group has been (un)checked, (un)check all satellites of the group
     // else a satellite has been (un)checked, (un)check his group

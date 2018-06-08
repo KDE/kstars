@@ -272,7 +272,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
     if(indexDownloadInfo){
         if (indexDownloadProgress && maxIndex > 0)
             indexDownloadProgress->setValue(currentIndex*100 / maxIndex);
-        indexDownloadInfo->setText("(" + QString::number(currentIndex) + "/" + QString::number(maxIndex + 1) + ") ");
+        indexDownloadInfo->setText("(" + QString::number(currentIndex) + '/' + QString::number(maxIndex + 1) + ") ");
     }
 
     QString indexURL = URL;
@@ -301,7 +301,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
                 indexDownloadProgress->setValue(bytesReceived);
                 indexDownloadProgress->setMaximum(bytesTotal);
             }
-            indexDownloadPerc->setText(QString::number(bytesReceived*100/bytesTotal)+"%");
+            indexDownloadPerc->setText(QString::number(bytesReceived * 100 / bytesTotal) + '%');
         });
 
     }

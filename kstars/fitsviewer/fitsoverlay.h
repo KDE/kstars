@@ -1,6 +1,3 @@
-#ifndef FITSOVERLAY_H
-#define FITSOVERLAY_H
-
 /*  FITS Overlay
     Copyright (C) 2012 Jasem Mutlaq (mutlaqja@ikarustech.com)
 
@@ -8,8 +5,9 @@
     modify it under the terms of the GNU General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
+*/
 
- */
+#pragma once
 
 #include <QPixmap>
 #include <KIO/Job>
@@ -34,7 +32,6 @@ class FITSOverlay : public QObject
 
   public:
     FITSOverlay();
-
     ~FITSOverlay();
 
     void addFITSOverlay(const dms &ra, const dms &dec, const QUrl &imageURL);
@@ -52,7 +49,7 @@ class FITSOverlay : public QObject
     void openImage();
 
     QUrl m_ImageUrl;
-    KIO::Job *downloadJob; // download job of image -> 0 == no job is running
+    KIO::Job *downloadJob { nullptr }; // download job of image -> 0 == no job is running
     QString filename;
     QFile file;
     dms ra, dec;
@@ -63,5 +60,3 @@ class FITSOverlay : public QObject
     /**Make sure download has finished, then make sure file exists, then save the image */
     void downloadReady(KJob *);
 };
-
-#endif // FITSOVERLAY_H
