@@ -148,7 +148,7 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
   }  
 
   //if (SKPLANECheckFrustumToPolygon(trfGetFrustum(), pts, 4))
-  // Is the the right way to do this?
+  // Is the right way to do this?
 
   if (isVisible)
   {

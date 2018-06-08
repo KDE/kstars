@@ -23,18 +23,12 @@
 
 #pragma once
 
-// Qt includes
+#include <ksharedconfig.h>
 
 #include <QObject>
 #include <QPixmap>
 #include <QString>
 #include <QListWidget>
-
-// KDE includes
-
-#include <ksharedconfig.h>
-
-// Local includes
 
 class QMenu;
 class KXmlGuiWindow;

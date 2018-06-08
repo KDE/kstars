@@ -587,7 +587,8 @@ QString WIView::getWikipediaName(SkyObjItem *soitem)
         name = soitem->getName().toLower().replace("ic", "IC_").remove(' ');
     else if (soitem->getType() == SkyObjItem::Constellation)
     {
-        QStringList words = soitem->getName().split(" ");
+        QStringList words = soitem->getName().split(' ');
+
         for (int i = 0; i < words.size(); i++)
         {
             QString temp = words.at(i).toLower();

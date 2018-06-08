@@ -490,11 +490,11 @@ void Capture::stop(bool abort)
     }
 
     secondsLabel->clear();
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
-    disconnect(currentCCD, SIGNAL(newImage(QImage *, ISD::CCDChip *)), this,
-               SLOT(sendNewImage(QImage *, ISD::CCDChip *)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
-               SLOT(setExposureProgress(ISD::CCDChip *, double, IPState)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this,
+               SLOT(sendNewImage(QImage*, ISD::CCDChip*)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*, double, IPState)), this,
+               SLOT(setExposureProgress(ISD::CCDChip*, double, IPState)));
 
     currentCCD->setFITSDir("");
 
@@ -556,8 +556,8 @@ void Capture::checkCCD(int ccdNum)
 
     foreach (ISD::CCD *ccd, CCDs)
     {
-        disconnect(ccd, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-                   SLOT(processCCDNumber(INumberVectorProperty *)));
+        disconnect(ccd, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+                   SLOT(processCCDNumber(INumberVectorProperty*)));
         disconnect(ccd, SIGNAL(newTemperatureValue(double)), this, SLOT(updateCCDTemperature(double)));
         disconnect(ccd, SIGNAL(newRemoteFile(QString)), this, SLOT(setNewRemoteFile(QString)));
         disconnect(ccd, SIGNAL(videoStreamToggled(bool)), this, SLOT(setVideoStreamEnabled(bool)));
@@ -1126,8 +1126,8 @@ void Capture::newFITS(IBLOB *bp)
 
         if (currentCCD->isLooping() == false)
         {
-            disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
-            disconnect(currentCCD, SIGNAL(newImage(QImage *, ISD::CCDChip *)), this,
+            disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+            disconnect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this,
                        SLOT(sendNewImage(QImage *, ISD::CCDChip *)));
 
             if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
@@ -1161,8 +1161,8 @@ bool Capture::setCaptureComplete()
 {
     if (currentCCD->isLooping() == false)
     {
-        disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
-                   SLOT(setExposureProgress(ISD::CCDChip *, double, IPState)));
+        disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*, double, IPState)), this,
+                   SLOT(setExposureProgress(ISD::CCDChip*, double, IPState)));
         DarkLibrary::Instance()->disconnect(this);
     }
 

@@ -9,8 +9,7 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef NONLINEARDOUBLESPINBOX_H
-#define NONLINEARDOUBLESPINBOX_H
+#pragma once
 
 #include <QDoubleSpinBox>
 
@@ -18,7 +17,7 @@ class NonLinearDoubleSpinBox : public QDoubleSpinBox
 {
     Q_OBJECT
     public:
-        NonLinearDoubleSpinBox(QWidget *parent = Q_NULLPTR);
+        explicit NonLinearDoubleSpinBox(QWidget *parent = Q_NULLPTR);
 
         void stepBy(int steps);
         void setRecommendedValues(QList<double> values);
@@ -28,8 +27,6 @@ class NonLinearDoubleSpinBox : public QDoubleSpinBox
 
     private:
         QList<double> m_Values;
-        int m_idx = -1;
+        int m_idx { -1 };
         void updateRecommendedValues();
 };
-
-#endif // NONLINEARDOUBLESPINBOX_H

@@ -226,7 +226,7 @@ class SkyObject : public SkyPoint
      */
     virtual void initPopupMenu(KSPopupMenu *pmenu);
 
-    /** Show Type-specific popup menu. Oveloading is done in the function initPopupMenu */
+    /** Show Type-specific popup menu. Overloading is done in the function initPopupMenu */
     void showPopupMenu(KSPopupMenu *pmenu, const QPoint &pos);
 
     /**
@@ -372,7 +372,7 @@ class SkyObject : public SkyPoint
 
     /**
      * @brief hashBeenUpdated
-     * @return wether the coordinates of the object have been updated
+     * @return whether the coordinates of the object have been updated
      *
      * This is used for faster filtering.
      */
@@ -484,7 +484,7 @@ class SkyObject : public SkyPoint
     static QString unnamedObjectString;
     static QString starString;
 
-    // Wether the coordinates of the object have been updated.
+    // Whether the coordinates of the object have been updated.
     // The default value is chose for compatibility reasons.
     // It primarily matters for objects which are filtered.
     // See `KSAsteroid` for an example.

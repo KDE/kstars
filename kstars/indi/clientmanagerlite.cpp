@@ -240,7 +240,7 @@ void ClientManagerLite::webManagerReplyFinished()
             // INDI Server is running (online)
             indiControlPage->setProperty("webMStatusText", QString(i18n("Web Manager Status:")+' '+i18n("Online")));
             indiControlPage->setProperty("webMActiveProfileText",
-                                         QString(i18n("Active Profile:")+" "+activeProfileStr));
+                                         QString(i18n("Active Profile:")+' '+activeProfileStr));
             indiControlPage->setProperty("webMActiveProfileLayoutVisible", true);
             indiControlPage->setProperty("webMProfileListVisible", false);
         } else {

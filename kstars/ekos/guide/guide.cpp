@@ -1342,7 +1342,7 @@ void Guide::newFITS(IBLOB *bp)
     captureTimeout.stop();
     captureTimeoutCounter = 0;
 
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Received guide frame.";
 
@@ -2837,8 +2837,8 @@ bool Guide::executeOperationStack()
             if (guider->calibrate())
             {
                 if (guiderType == GUIDE_INTERNAL)
-                    disconnect(guideView, SIGNAL(trackingStarSelected(int, int)), this,
-                               SLOT(setTrackingStar(int, int)));
+                    disconnect(guideView, SIGNAL(trackingStarSelected(int,int)), this,
+                               SLOT(setTrackingStar(int,int)));
                 setBusy(true);
             }
             else

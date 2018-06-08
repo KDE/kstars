@@ -980,7 +980,7 @@ void FITSView::drawEQGrid(QPainter *painter)
                         if (maxDec > 50 || maxDec < -50)
                             painter->drawText(pt.x(), pt.y(),
                                               QString::number(dms(target).hour()) + "h " +
-                                                  QString::number(dms(target).minute()) + "'");
+                                                  QString::number(dms(target).minute()) + '\'');
                         else
                             painter->drawText(pt.x() - 20, pt.y(),
                                               QString::number(dms(target).hour()) + "h " +
@@ -1019,7 +1019,7 @@ void FITSView::drawEQGrid(QPainter *painter)
                     if (pt.x() != -100)
                         painter->drawText(pt.x(), pt.y(),
                                           QString::number(dms(target).degree()) + "° " +
-                                              QString::number(dms(target).arcmin()) + "'");
+                                              QString::number(dms(target).arcmin()) + '\'');
                 }
             }
 

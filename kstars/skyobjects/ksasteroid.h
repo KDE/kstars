@@ -17,8 +17,9 @@
 
 #pragma once
 
-#include <QDataStream>
 #include "ksplanetbase.h"
+
+#include <QDataStream>
 
 class dms;
 class KSNumbers;

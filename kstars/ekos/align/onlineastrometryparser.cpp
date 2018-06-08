@@ -145,7 +145,7 @@ bool OnlineAstrometryParser::stopSolver()
     workflowStage  = NO_STAGE;
     solver_retries = 0;
 
-    disconnect(networkManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onResult(QNetworkReply *)));
+    disconnect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onResult(QNetworkReply*)));
 
     return true;
 }
