@@ -694,7 +694,7 @@ void EkosLiveClient::sendCameras()
             {"temperature", temperature},
             {"canCool", oneCCD->canCool()},
             {"isoList", QJsonArray::fromStringList(oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOList())},
-            {"isoIndex", oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOIndex()},
+            {"iso", oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOIndex()},
             {"hasVideo", oneCCD->hasVideoStream()}
         };
 
