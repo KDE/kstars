@@ -1749,6 +1749,7 @@ void EkosManager::initCapture()
             SLOT(updateCaptureProgress(QImage*,Ekos::SequenceJob*)));
     connect(captureProcess.get(), SIGNAL(newExposureProgress(Ekos::SequenceJob*)), this,
             SLOT(updateExposureProgress(Ekos::SequenceJob*)));
+    connect(captureProcess.get(), &Ekos::Capture::sequenceChanged, ekosLiveClient.get(), &EkosLiveClient::sendCaptureSequence);
     captureGroup->setEnabled(true);
     sequenceProgress->setEnabled(true);
     captureProgress->setEnabled(true);

@@ -625,6 +625,10 @@ void EkosLiveClient::sendStates()
     QJsonObject captureState = {{ "status", m_Manager->captureStatus->text()}};
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CAPTURE_STATE], captureState);
 
+    // Send capture sequence if one exists
+    if (m_Manager->captureModule())
+        sendCaptureSequence(m_Manager->captureModule()->getSequence());
+
     if (m_Manager->mountModule())
     {
         QJsonObject mountState = {
@@ -850,7 +854,7 @@ void EkosLiveClient::processCaptureCommands(const QString &command, const QJsonO
         capture->stop();
     else if (command == commands[CAPTURE_GET_SEQUENCES])
     {
-        sendResponse(commands[CAPTURE_GET_SEQUENCES], capture->getSequence());
+        sendCaptureSequence(capture->getSequence());
     }
     else if (command == commands[CAPTURE_ADD_SEQUENCE])
     {
@@ -869,6 +873,11 @@ void EkosLiveClient::processCaptureCommands(const QString &command, const QJsonO
     {
         capture->removeJob(payload["index"].toInt());
     }
+}
+
+void EkosLiveClient::sendCaptureSequence(const QJsonArray &sequenceArray)
+{
+    sendResponse(commands[CAPTURE_GET_SEQUENCES], sequenceArray);
 }
 
 void EkosLiveClient::processGuideCommands(const QString &command, const QJsonObject &payload)
