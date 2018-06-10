@@ -450,6 +450,14 @@ void Capture::stop(bool abort)
             if (abort)
                 KSNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture failed with errors"), KSNotification::EVENT_ALERT);
             activeJob->abort();
+            if (activeJob->isPreview() == false)
+            {
+                int index = jobs.indexOf(activeJob);
+                QJsonObject oneSequence = m_SequenceArray[index].toObject();
+                oneSequence["Status"] = "Aborted";
+                m_SequenceArray.replace(index, oneSequence);
+                emit sequenceChanged(m_SequenceArray);
+            }
             emit newStatus(Ekos::CAPTURE_ABORTED);
         }        
 
@@ -1246,6 +1254,15 @@ void Capture::processJobCompletion()
 {
     activeJob->done();
 
+    if (activeJob->isPreview() == false)
+    {
+        int index = jobs.indexOf(activeJob);
+        QJsonObject oneSequence = m_SequenceArray[index].toObject();
+        oneSequence["Status"] = "Complete";
+        m_SequenceArray.replace(index, oneSequence);
+        emit sequenceChanged(m_SequenceArray);
+    }
+
     stop();
 
     // Check if meridian condition is met IF there are more pending jobs in the queue
@@ -1581,7 +1598,17 @@ void Capture::captureImage()
     switch (rc)
     {
         case SequenceJob::CAPTURE_OK:
+        {
                 appendLogText(i18n("Capturing image..."));
+                if (activeJob->isPreview() == false)
+                {
+                    int index = jobs.indexOf(activeJob);
+                    QJsonObject oneSequence = m_SequenceArray[index].toObject();
+                    oneSequence["Status"] = "In Progress";
+                    m_SequenceArray.replace(index, oneSequence);
+                    emit sequenceChanged(m_SequenceArray);
+                }
+        }
             break;
 
         case SequenceJob::CAPTURE_FRAME_ERROR:
@@ -1819,6 +1846,9 @@ void Capture::updateRotatorNumber(INumberVectorProperty *nvp)
 
 bool Capture::addJob(bool preview)
 {
+    if (state != CAPTURE_IDLE && state != CAPTURE_ABORTED && state != CAPTURE_COMPLETE)
+        return false;
+
     SequenceJob *job = nullptr;
     QString imagePrefix;
 
@@ -1985,7 +2015,7 @@ bool Capture::addJob(bool preview)
     bin->setText(QString("%1x%2").arg(binXIN->value()).arg(binYIN->value()));
     bin->setTextAlignment(Qt::AlignHCenter);
     bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    jsonJob.insert("Type", bin->text());
+    jsonJob.insert("Bin", bin->text());
 
     QTableWidgetItem *exp = jobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
     exp->setText(QString::number(exposureIN->value()));
@@ -2058,6 +2088,9 @@ bool Capture::addJob(bool preview)
 
 void Capture::removeJob(int index)
 {
+    if (state != CAPTURE_IDLE && state != CAPTURE_ABORTED && state != CAPTURE_COMPLETE)
+        return;
+
     if (jobUnderEdit)
     {
         resetJobEdit();

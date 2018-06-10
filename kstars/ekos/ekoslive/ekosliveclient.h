@@ -41,7 +41,7 @@ public:
     void updateFocusStatus(const QJsonObject &status);
     void updateGuideStatus(const QJsonObject &status);
     void sendPreviewImage(FITSView *view);
-    void sendUpdatedFrame(FITSView *view);
+    void sendUpdatedFrame(FITSView *view);    
     void sendEvent(const QString &message, KSNotification::EventType event);
 
     // Send devices as they come
@@ -143,6 +143,8 @@ public slots:
 
     void setEkosStatingStatus(EkosManager::CommunicationStatus status);
     //void setAlignFrame(FITSView* view);
+
+    void sendCaptureSequence(const QJsonArray &sequenceArray);
 
 signals:
     void connected();
