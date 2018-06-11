@@ -158,8 +158,11 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
     //m_serviceURL.setAuthority("https://live.stellarmate.com");
     //m_wsURL.setAuthority("wws://live.stellarmate.com");
 
-    m_serviceURL.setUrl("http://localhost:3000");
-    m_wsURL.setUrl("ws://localhost:3000");
+    m_serviceURL.setAuthority("http://live.stellarmate.com");
+    m_wsURL.setAuthority("ws://live.stellarmate.com");
+
+//    m_serviceURL.setUrl("http://localhost:3000");
+//    m_wsURL.setUrl("ws://localhost:3000");
 
     QMap<QString,QString> credentials;
     KWallet::Wallet *localWallet = KWallet::Wallet::openWallet(KWallet::Wallet::LocalWallet(), 0);
