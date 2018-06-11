@@ -971,7 +971,7 @@ void Scheduler::stop()
 
     queueLoadB->setEnabled(true);
     addToQueueB->setEnabled(true);
-    removeFromQueueB->setEnabled(true);
+    removeFromQueueB->setEnabled(false);
     mosaicB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
 }
