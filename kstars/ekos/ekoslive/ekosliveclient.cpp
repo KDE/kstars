@@ -106,6 +106,9 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {PAH_SET_CROSSHAIR, "polar_set_crosshair"},
     {PAH_SELECT_STAR_DONE, "polar_star_select_done"},
     {PAH_REFRESHING_DONE, "polar_refreshing_done"},
+
+    {OPTION_SET_HIGH_BANDWIDTH, "option_set_high_bandwidth"},
+    {OPTION_SET_IMAGE_TRANSFER, "option_set_image_transfer"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -404,6 +407,8 @@ void EkosLiveClient::onMessageTextReceived(const QString &message)
         processAlignCommands(command, payload);
     else if (command.startsWith("polar_"))
         processPolarCommands(command, payload);
+    else if (command.startsWith("option_"))
+        processOptionsCommands(command, payload);
 }
 
 void EkosLiveClient::sendProfiles()
@@ -513,26 +518,14 @@ void EkosLiveClient::updateCaptureStatus(const QJsonObject &status)
 
 void EkosLiveClient::sendPreviewImage(FITSView *view)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_transferImages == false)
         return;
-
-    // TODO 640 should be configurable later on
-    //    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
-    //    QTemporaryFile jpegFile;
-    //    jpegFile.open();
-    //    jpegFile.close();
-
-    //    scaledImage.save(jpegFile.fileName(), "jpg");
-
-    //    jpegFile.open();
-
-    //    QByteArray jpegData = jpegFile.readAll();
 
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
-    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
-    scaledImage.save(&buffer, "jpg", 50);
+    QImage scaledImage = view->getDisplayImage()->scaledToWidth(m_highBandwidth ? HB_WIDTH : HB_WIDTH/2);
+    scaledImage.save(&buffer, "jpg", m_highBandwidth ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
     buffer.close();
 
     const FITSData *imageData = view->getImageData();
@@ -557,14 +550,14 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
 
 void EkosLiveClient::sendUpdatedFrame(FITSView *view)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_transferImages == false)
         return;
 
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
     //QPixmap scaledPixmap = view->getDisplayPixmap().scaledToWidth(640);
-    view->getDisplayPixmap().save(&buffer, "jpg", 70);
+    view->getDisplayPixmap().save(&buffer, "jpg", m_highBandwidth ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
     buffer.close();
 
     m_mediaWebSocket.sendBinaryMessage(jpegData);
@@ -572,17 +565,17 @@ void EkosLiveClient::sendUpdatedFrame(FITSView *view)
 
 void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
 {
-    if (m_isConnected == false || !frame)
+    if (m_isConnected == false || m_transferImages == false || !frame)
         return;
 
     // TODO Scale should be configurable
-    QImage scaledImage =  frame.get()->scaledToWidth(640);
+    QImage scaledImage =  frame.get()->scaledToWidth(m_highBandwidth ? HB_WIDTH : HB_WIDTH/2);
     QTemporaryFile jpegFile;
     jpegFile.open();
     jpegFile.close();
 
     // TODO Quality should be configurable
-    scaledImage.save(jpegFile.fileName(), "jpg", 50);
+    scaledImage.save(jpegFile.fileName(), "jpg", m_highBandwidth ? HB_VIDEO_QUALITY : HB_VIDEO_QUALITY/2);
 
     jpegFile.open();
 
@@ -1128,4 +1121,12 @@ void EkosLiveClient::setEkosStatingStatus(EkosManager::CommunicationStatus statu
         {"online", status == EkosManager::EKOS_STATUS_SUCCESS}
     };
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CONNECTION_STATE], connectionState);
+}
+
+void EkosLiveClient::processOptionsCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[OPTION_SET_HIGH_BANDWIDTH])
+        m_highBandwidth = payload["value"].toBool(true);
+    else if (command == commands[OPTION_SET_IMAGE_TRANSFER])
+        m_transferImages = payload["value"].toBool(true);
 }

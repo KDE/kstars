@@ -128,6 +128,10 @@ public:
         PAH_SET_CROSSHAIR,
         PAH_SELECT_STAR_DONE,
         PAH_REFRESHING_DONE,
+
+        // Options
+        OPTION_SET_HIGH_BANDWIDTH,
+        OPTION_SET_IMAGE_TRANSFER,
     };
 
     static QMap<COMMANDS, QString> const commands;
@@ -200,6 +204,9 @@ private:
     // Profile
     void processProfileCommands(const QString &command, const QJsonObject &payload);
 
+    // Options
+    void processOptionsCommands(const QString &command, const QJsonObject &payload);
+
     // Profiles
     void sendProfiles();
     void sendStates();    
@@ -207,6 +214,8 @@ private:
 
     QWebSocket m_messageWebSocket, m_mediaWebSocket;
     bool m_isConnected { false };
+    bool m_highBandwidth { true};
+    bool m_transferImages { true};
     EkosManager *m_Manager { nullptr };
     QNetworkAccessManager *networkManager { nullptr };
 
@@ -216,4 +225,8 @@ private:
     QString extension;
     QStringList temporaryFiles;
     QUrl m_serviceURL, m_wsURL;
+
+    static const uint16_t HB_WIDTH = 640;
+    static const uint8_t HB_IMAGE_QUALITY = 76;
+    static const uint8_t HB_VIDEO_QUALITY = 64;
 };
