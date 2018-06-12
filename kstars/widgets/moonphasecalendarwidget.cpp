@@ -17,28 +17,28 @@
 
 #include "moonphasecalendarwidget.h"
 
-#include "skyobjects/ksmoon.h"
-#include "skyobjects/kssun.h"
-#include "skyobjects/ksplanet.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
 #include "ksutils.h"
 #include "texturemanager.h"
+#include "skyobjects/ksmoon.h"
+#include "skyobjects/ksplanet.h"
+#include "skyobjects/kssun.h"
 
+#include <kcalendarsystem.h>
 #include <kcolorscheme.h>
 #include <kglobal.h>
 #include <kglobalsettings.h>
-#include <QDebug>
-#include <kcalendarsystem.h>
+#include <KLocale>
 
 #include <QActionEvent>
+#include <QDebug>
+#include <QFontDatabase>
 #include <QPainter>
 #include <QStyle>
 #include <QtGui/QStyleOptionViewItem>
 
 #include <cmath>
-#include <KLocale>
-#include <QFontDatabase>
 
 MoonPhaseCalendar::MoonPhaseCalendar(KSMoon &moon, KSSun &sun, QWidget *parent)
     : KDateTable(parent), m_Moon(moon), m_Sun(sun)

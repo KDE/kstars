@@ -30,7 +30,6 @@ class LineListIndex;
  * @author Artem Fedoskin
  * @version 1.0
  */
-
 class EquatorItem : public SkyItem
 {
   public:

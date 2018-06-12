@@ -1,11 +1,11 @@
-/** *************************************************************************
+/***************************************************************************
                           constellationnamesitem.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 10/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
-/** *************************************************************************
+/***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -13,16 +13,16 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #include "constellationnamesitem.h"
+
 #include "constellationnamescomponent.h"
+#include "labelsitem.h"
+#include "Options.h"
+#include "rootnode.h"
 #include "skymaplite.h"
 #include "projections/projector.h"
-
-#include "rootnode.h"
-#include "labelsitem.h"
 #include "skynodes/labelnode.h"
-
-#include "Options.h"
 
 ConstellationName::ConstellationName(SkyObject *skyObj) : obj(skyObj), latin(0), secondary(0)
 {

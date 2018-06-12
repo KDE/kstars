@@ -17,13 +17,13 @@
 
 #include "draglistbox.h"
 
+#include <KLocalizedString>
+
 #include <QDrag>
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMimeData>
 #include <QMouseEvent>
-
-#include <KLocalizedString>
 
 DragListBox::DragListBox(QWidget *parent, const char *name) : QListWidget(parent)
 {

@@ -27,7 +27,6 @@ class SupernovaeComponent;
  * @author Artem Fedoskin
  * @version 1.0
  */
-
 class SupernovaeItem : public SkyItem
 {
   public:

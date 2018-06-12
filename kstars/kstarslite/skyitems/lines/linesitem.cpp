@@ -84,12 +84,6 @@ void LinesItem::update()
 {
     QMap<LineIndexNode *, LineListIndex *>::iterator i = m_lineIndexes.begin();
 
-    SkyMapLite *map = SkyMapLite::Instance();
-
-    double radius = map->projector()->fov();
-    if (radius > 90.0)
-        radius = 90.0;
-
     UpdateID updateID = KStarsData::Instance()->updateID();
 
     while (i != m_lineIndexes.end())

@@ -15,17 +15,15 @@
  ***************************************************************************/
 
 #include "supernovaeitem.h"
-#include "satellitescomponent.h"
 
-#include "Options.h"
-#include "projections/projector.h"
 #include "kscomet.h"
-
-#include "rootnode.h"
 #include "labelsitem.h"
+#include "Options.h"
+#include "rootnode.h"
+#include "satellitescomponent.h"
 #include "skylabeler.h"
 #include "supernovaecomponent.h"
-
+#include "projections/projector.h"
 #include "skynodes/supernovanode.h"
 
 SupernovaeItem::SupernovaeItem(SupernovaeComponent *snovaComp, RootNode *rootNode)
@@ -58,7 +56,9 @@ void SupernovaeItem::recreateList()
 {
     foreach (SkyObject *so, m_snovaComp->objectList())
     {
-        Supernova *sup = (Supernova *)so;
-        appendChildNode(new SupernovaNode(sup));
+        Supernova *sup = static_cast<Supernova*>(so);
+
+        if (sup)
+            appendChildNode(new SupernovaNode(sup));
     }
 }

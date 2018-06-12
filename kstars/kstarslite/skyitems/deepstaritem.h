@@ -20,6 +20,11 @@
 
 #include <memory>
 
+class DeepStarComponent;
+class SkyMesh;
+class StarBlockFactory;
+class StarBlockList;
+
 /**
  * @class DeepStarItem
  *
@@ -28,12 +33,6 @@
  * @author Artem Fedoskin
  * @version 1.0
  */
-
-class DeepStarComponent;
-class SkyMesh;
-class StarBlockFactory;
-class StarBlockList;
-
 class DeepStarItem : public SkyItem
 {
   public:
