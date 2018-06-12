@@ -831,8 +831,9 @@ void StarProfileViewer::updateHFRandPeakSelection()
             }
             if(showCoordinates->isChecked() || HFRReport->isChecked() || showPeakValues->isChecked())
             {
-                if (!reportString.empty())
+                if (!reportString.isEmpty())
                     reportString += '\n';
+
                 reportString += labelString;
                 label->setText(labelString);
                 label->setPosition(QVector3D(row, value, col));
@@ -843,7 +844,7 @@ void StarProfileViewer::updateHFRandPeakSelection()
             zoomView->addItem("Star " + QString::number(i + 1));
         }
     }
-    if (!reportString.empty())
+    if (!reportString.isEmpty())
     {
         reportBox->setText(reportString);
     }
