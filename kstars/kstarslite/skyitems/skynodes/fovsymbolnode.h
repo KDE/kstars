@@ -1,11 +1,11 @@
-/** *************************************************************************
+/***************************************************************************
                           fovsymbolnode.h  -  K Desktop Planetarium
                              -------------------
     begin                : 20/08/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
-/** *************************************************************************
+/***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -13,41 +13,38 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef FOVSYMBOLNODE_H_
-#define FOVSYMBOLNODE_H_
 
-#include <QSGTransformNode>
-#include <QSGSimpleRectNode>
+#pragma once
+
 #include "../fovitem.h"
+
+#include <QSGSimpleRectNode>
+#include <QSGTransformNode>
 
 class EllipseNode;
 class RectNode;
 
-/** @class FOVSymbolBase
+/**
+ * @class FOVSymbolBase
  *
  * FOVSymbolBase is a virtual class that should be subclassed by every type of FOV symbol. It is derived
  * from QSGTransformNode to provide transform matrix for updating coordinates of FOV symbol.
  *
- *@short A QSGTransformNode derived base class of every type of FOV symbol
- *@author Artem Fedoskin
- *@version 1.0
+ * @short A QSGTransformNode derived base class of every type of FOV symbol
+ * @author Artem Fedoskin
+ * @version 1.0
  */
-
 class FOVSymbolBase : public QSGTransformNode
 {
   public:
-    /**
-         * @short updates geometry (position, size) of elements of this FOV symbol
-         */
+    /** @short updates geometry (position, size) of elements of this FOV symbol */
     virtual void updateSymbol(QColor color, float pixelSizeX, float pixelSizeY) = 0;
 
     /** @short return type of this FOV symbol **/
     FOVItem::Shape type() { return m_shape; }
 
   protected:
-    /**
-         * @param shape of the symbol. Each subclass sets its own type. Returned in type()
-         */
+    /** @param shape of the symbol. Each subclass sets its own type. Returned in type() */
     FOVSymbolBase(FOVItem::Shape shape);
     /*    QImage m_image; //Not supported yet
             bool m_imageDisplay;*/
@@ -61,9 +58,9 @@ class SquareFOV : public FOVSymbolBase
     virtual void updateSymbol(QColor color, float pixelSizeX, float pixelSizeY);
 
   private:
-    RectNode *rect1;
-    RectNode *rect2;
-    QSGGeometryNode *lines;
+    RectNode *rect1 { nullptr };
+    RectNode *rect2 { nullptr };
+    QSGGeometryNode *lines { nullptr };
 };
 class CircleFOV : public FOVSymbolBase
 {
@@ -72,7 +69,7 @@ class CircleFOV : public FOVSymbolBase
     virtual void updateSymbol(QColor color, float pixelSizeX, float pixelSizeY);
 
   private:
-    EllipseNode *el;
+    EllipseNode *el { nullptr };
 };
 
 class CrosshairFOV : public FOVSymbolBase
@@ -82,9 +79,9 @@ class CrosshairFOV : public FOVSymbolBase
     virtual void updateSymbol(QColor color, float pixelSizeX, float pixelSizeY);
 
   private:
-    QSGGeometryNode *lines;
-    EllipseNode *el1;
-    EllipseNode *el2;
+    QSGGeometryNode *lines { nullptr };
+    EllipseNode *el1 { nullptr };
+    EllipseNode *el2 { nullptr };
 };
 
 class BullsEyeFOV : public FOVSymbolBase
@@ -94,9 +91,9 @@ class BullsEyeFOV : public FOVSymbolBase
     virtual void updateSymbol(QColor color, float pixelSizeX, float pixelSizeY);
 
   private:
-    EllipseNode *el1;
-    EllipseNode *el2;
-    EllipseNode *el3;
+    EllipseNode *el1 { nullptr };
+    EllipseNode *el2 { nullptr };
+    EllipseNode *el3 { nullptr };
 };
 
 class SolidCircleFOV : public FOVSymbolBase
@@ -106,44 +103,42 @@ class SolidCircleFOV : public FOVSymbolBase
     virtual void updateSymbol(QColor color, float pixelSizeX, float pixelSizeY);
 
   private:
-    EllipseNode *el;
+    EllipseNode *el { nullptr };
 };
 
-/** @class FOVSymbolNode
+/**
+ * @class FOVSymbolNode
  *
  * A SkyNode derived class used for displaying FOV symbol. FOVSymbolNade handles creation of FOVSymbolBase
  * and its update.
  *
- *@short A SkyNode derived class that is used for displaying FOV symbol
- *@author Artem Fedoskin
- *@version 1.0
+ * @short A SkyNode derived class that is used for displaying FOV symbol
+ * @author Artem Fedoskin
+ * @version 1.0
  */
-
 class FOVSymbolNode : public SkyNode
 {
   public:
     /**
-         * @short Constructor. Initialize m_symbol according to shape
-         * @param name - name of the FOV symbol (used to switch it on/off through SkyMapLite from QML)
-         */
+     * @short Constructor. Initialize m_symbol according to shape
+     * @param name - name of the FOV symbol (used to switch it on/off through SkyMapLite from QML)
+     */
     FOVSymbolNode(const QString &name, float a, float b, float xoffset, float yoffset, float rot,
                   FOVItem::Shape shape = FOVItem::SQUARE, const QString &color = "#FFFFFF");
-    /**
-         * @short Update this FOV symbol according to the zoomFactor
-         */
+    /** @short Update this FOV symbol according to the zoomFactor */
     void update(float zoomFactor);
 
     QString getName() { return m_name; }
 
   private:
-    QString m_name, m_color;
-    float m_sizeX, m_sizeY;
-    float m_offsetX, m_offsetY;
-    float m_rotation;
-    float m_northPA;
+    QString m_name;
+    QString m_color;
+    float m_sizeX { 0 };
+    float m_sizeY { 0 };
+    float m_offsetX { 0 };
+    float m_offsetY { 0 };
+    float m_rotation { 0 };
+    float m_northPA { 0 };
     SkyPoint m_center;
-
-    FOVSymbolBase *m_symbol;
+    FOVSymbolBase *m_symbol { nullptr };
 };
-
-#endif

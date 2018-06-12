@@ -17,12 +17,11 @@
 #include "horizonitem.h"
 
 #include "horizoncomponent.h"
-#include "skynodes/horizonnode.h"
 #include "labelsitem.h"
-#include "skynodes/labelnode.h"
-
-#include "rootnode.h"
 #include "Options.h"
+#include "rootnode.h"
+#include "skynodes/horizonnode.h"
+#include "skynodes/labelnode.h"
 
 HorizonItem::HorizonItem(HorizonComponent *hComp, RootNode *rootNode)
     : SkyItem(LabelsItem::label_t::HORIZON_LABEL, rootNode), m_horizonComp(hComp)
@@ -91,7 +90,7 @@ void HorizonItem::update()
             {
                 compass->hide();
             }
-            i++;
+            ++i;
         }
 
         hNode->update();
@@ -101,5 +100,4 @@ void HorizonItem::update()
         hNode->hide();
         rootNode()->labelsItem()->hideLabels(LabelsItem::label_t::HORIZON_LABEL);
     }
-    n = n->nextSibling();
 }

@@ -122,7 +122,7 @@ void EclipticItem::update()
             {
                 compass->hide();
             }
-            i++;
+            ++i;
         }
     }
     else

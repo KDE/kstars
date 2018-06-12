@@ -1,11 +1,11 @@
-/** *************************************************************************
+/***************************************************************************
                           kstarslite.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 30/04/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
-/** *************************************************************************
+/***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,30 +15,27 @@
  ***************************************************************************/
 
 #include "kstarslite.h"
-#include "skymaplite.h"
-#include "kstarsdata.h"
-#include <QQmlContext>
-#include <QGuiApplication>
-#include <QQuickStyle>
-#include <QSurfaceFormat>
-#include "kstarslite/imageprovider.h"
+
 #include "klocalizedcontext.h"
-#include "ksplanetbase.h"
-#include <QScreen>
-
-#include "indi/clientmanagerlite.h"
-
 #include "kspaths.h"
-
-//Dialogs
+#include "ksplanetbase.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
+#include "Options.h"
+#include "skymaplite.h"
+#include "indi/clientmanagerlite.h"
+#include "kstarslite/imageprovider.h"
 #include "kstarslite/dialogs/finddialoglite.h"
 #include "kstarslite/dialogs/detaildialoglite.h"
 #include "kstarslite/dialogs/locationdialoglite.h"
 
-#include "Options.h"
-#include "ksutils.h"
+#include <QGuiApplication>
+#include <QQmlContext>
+#include <QQuickStyle>
+#include <QScreen>
+#include <QSurfaceFormat>
 
-KStarsLite *KStarsLite::pinstance = 0;
+KStarsLite *KStarsLite::pinstance = nullptr;
 
 KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateString)
 {
@@ -111,8 +108,8 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
     m_SkyMapLite->initialize(skyMapLiteWrapper);
     m_detailDialogLite->initialize();
 
-    m_imgProvider = new ImageProvider;
-    m_Engine.addImageProvider(QLatin1String("images"), m_imgProvider);
+    m_imgProvider.reset(new ImageProvider);
+    m_Engine.addImageProvider(QLatin1String("images"), m_imgProvider.get());
 
 #ifdef Q_OS_ANDROID
     QQuickWindow *mainWindow = static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
@@ -161,7 +158,6 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
 
 KStarsLite::~KStarsLite()
 {
-    delete m_imgProvider;
 }
 
 QQuickWindow *KStarsLite::getMainWindow()

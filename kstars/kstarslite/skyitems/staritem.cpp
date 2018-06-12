@@ -202,8 +202,6 @@ void StarItem::update()
             }
         }
 
-        bool hide = false;
-
         if (trixelID != regionID)
         {
             trixel->hide();
@@ -225,8 +223,8 @@ void StarItem::update()
             }
 
             QLinkedList<QPair<SkyObject *, SkyNode *>> *nodes = &trixel->m_nodes;
-
             QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = nodes->begin();
+            bool hide = false;
 
             while (i != nodes->end())
             {
@@ -285,13 +283,13 @@ void StarItem::update()
                         }
                     }
                 }
-                i++;
+                ++i;
             }
         }
         trixel = static_cast<TrixelNode *>(trixel->nextSibling());
         label  = static_cast<TrixelNode *>(label->nextSibling());
 
-        trixelID++;
+        ++trixelID;
     }
 
     // Draw focusStar if not null

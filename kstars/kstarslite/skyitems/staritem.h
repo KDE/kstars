@@ -18,6 +18,11 @@
 
 #include "skyitem.h"
 
+class SkyMesh;
+class SkyOpacityNode;
+class StarBlockFactory;
+class StarComponent;
+
 /**
  * @class StarItem
  *
@@ -25,12 +30,6 @@
  * @author Artem Fedoskin
  * @version 1.0
  */
-
-class SkyMesh;
-class SkyOpacityNode;
-class StarBlockFactory;
-class StarComponent;
-
 class StarItem : public SkyItem
 {
   public:

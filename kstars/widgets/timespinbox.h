@@ -28,7 +28,6 @@
  * @author Jason Harris
  * @version 1.0
  */
-
 class TimeSpinBox : public QSpinBox
 {
     Q_OBJECT
@@ -70,7 +69,7 @@ class TimeSpinBox : public QSpinBox
     void reportChange();
 
   private:
-    bool DaysOnly;
+    bool DaysOnly { false };
     float TimeScale[43];
     QStringList TimeString;
 };

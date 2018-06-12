@@ -1,11 +1,11 @@
-/** *************************************************************************
+/***************************************************************************
                           fovsymbolnode.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 20/08/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
-/** *************************************************************************
+/***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -13,6 +13,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #include "fovsymbolnode.h"
 
 #include "nodes/rectnode.h"

@@ -38,7 +38,7 @@ void TrixelNode::deleteAllChildNodes()
 
             *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
         }
-        i++;
+        ++i;
     }
 }
 
