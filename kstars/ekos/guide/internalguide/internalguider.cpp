@@ -871,6 +871,7 @@ bool InternalGuider::processGuiding()
         emit newLog(i18n("Lost track of the guide star. Searching for guide stars..."));
 
         reacquireTimer.start();
+        rememberState = state;
         state = GUIDE_REACQUIRE;
         emit newStatus(state);
         return true;
@@ -1134,8 +1135,23 @@ bool InternalGuider::reacquire()
     {
         m_highPulseCounter=m_starLostCounter=0;
         isFirstFrame = true;
-        state = GUIDE_GUIDING;
-        emit newStatus(state);
+        // If we were in the process of dithering, wait until settle and resume
+        if (rememberState == GUIDE_DITHERING)
+        {
+            if (Options::ditherSettle() > 0)
+            {
+                state = GUIDE_DITHERING_SETTLE;
+                emit newStatus(state);
+            }
+
+            QTimer::singleShot(Options::ditherSettle()* 1000, this, SLOT(setDitherSettled()));
+        }
+        else
+        {
+            state = GUIDE_GUIDING;
+            emit newStatus(state);
+        }
+
     }
     else if (reacquireTimer.elapsed() > static_cast<int>(Options::guideLostStarTimeout()*1000))
     {
