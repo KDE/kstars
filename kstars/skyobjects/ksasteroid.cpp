@@ -18,17 +18,17 @@
 #include "ksasteroid.h"
 
 #include "dms.h"
-
+#include "ksnumbers.h"
+#include "Options.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
 #else
 #include "skymap.h"
 #endif
 
-#include "ksnumbers.h"
-#include "Options.h"
-#include <typeinfo>
 #include <qdebug.h>
+
+#include <typeinfo>
 
 KSAsteroid::KSAsteroid(int _catN, const QString &s, const QString &imfile, long double _JD, double _a, double _e,
                        dms _i, dms _w, dms _Node, dms _M, double _H, double _G)
@@ -49,7 +49,7 @@ KSAsteroid *KSAsteroid::clone() const
 
 bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Earth)
 {
-    // TODO: (Valentin) TOP LEVEL CONTROLL OF CALCULATION FOR ALL OBJECTS
+    // TODO: (Valentin) TOP LEVEL CONTROL OF CALCULATION FOR ALL OBJECTS
     if(!toCalculate()){
         return false;
     }

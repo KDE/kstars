@@ -552,8 +552,8 @@ void Focus::checkFocuser(int FocuserNum)
     // Disconnect all focusers
     foreach (ISD::Focuser *oneFocuser, Focusers)
     {
-        disconnect(oneFocuser, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
-                   SLOT(processFocusNumber(INumberVectorProperty *)));
+        disconnect(oneFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
+                   SLOT(processFocusNumber(INumberVectorProperty*)));
         //disconnect(oneFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(registerFocusProperty(INDI::Property*)));
     }
 
@@ -787,7 +787,7 @@ void Focus::stop(bool aborted)
     HFRFrames.clear();
     //maxHFR=1;
 
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
@@ -1033,7 +1033,7 @@ void Focus::newFITS(IBLOB *bp)
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     if (darkFrameCheck->isChecked())
     {

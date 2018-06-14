@@ -139,13 +139,13 @@ void LineNode::updateGeometry()
 
     QLinkedList<QPointF>::const_iterator i = newPoints.constBegin();
     int c                                  = 0;
+
     while (i != newPoints.constEnd())
     {
         vertex[c].x = (*i).x();
         vertex[c].y = (*i).y();
-        c++;
-        i++;
+        ++c;
+        ++i;
     }
-
     m_geometryNode->markDirty(QSGNode::DirtyGeometry);
 }

@@ -19,6 +19,7 @@
 #include "ksnotification.h"
 
 #include <KActionCollection>
+
 #include <QAction>
 
 #include <indi_debug.h>
@@ -211,7 +212,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
         if (conSP)
         {
             // TODO We must allow for multiple mount drivers to be online, not just one
-            // For the actions taken, the user should be able to specifiy which mounts shall receive the commands. It could be one
+            // For the actions taken, the user should be able to specify which mounts shall receive the commands. It could be one
             // or more. For now, we enable/disable telescope group on the assumption there is only one mount present.
             if (isConnected() == false && conSP->s == ISS_ON)
                 KStars::Instance()->slotSetTelescopeEnabled(true);

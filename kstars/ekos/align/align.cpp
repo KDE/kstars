@@ -39,10 +39,10 @@
 #include "profileinfo.h"
 #include "ksnotification.h"
 
-#include <basedevice.h>
-
 #include <KConfigDialog>
 #include <KActionCollection>
+
+#include <basedevice.h>
 
 #include <memory>
 
@@ -2629,9 +2629,9 @@ void Align::newFITS(IBLOB *bp)
     if (!strcmp(bp->name, "CCD2"))
         return;
 
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
-               SLOT(checkCCDExposureProgress(ISD::CCDChip *, double, IPState)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*, double, IPState)), this,
+               SLOT(checkCCDExposureProgress(ISD::CCDChip*, double, IPState)));
 
     blobType     = *(static_cast<ISD::CCD::BlobType *>(bp->aux1));
     blobFileName = QString(static_cast<char *>(bp->aux2));
@@ -3232,9 +3232,9 @@ void Align::abort()
     alignTimer.stop();
 
     //currentCCD->disconnect(this);
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *, double, IPState)), this,
-               SLOT(checkCCDExposureProgress(ISD::CCDChip *, double, IPState)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*, double, IPState)), this,
+               SLOT(checkCCDExposureProgress(ISD::CCDChip*, double, IPState)));
 
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
@@ -4700,9 +4700,8 @@ void Align::stopPAHProcess()
     alignView->setRACircle(QVector3D());
     alignView->setRefreshEnabled(false);
 
-    disconnect(alignView, SIGNAL(trackingStarSelected(int, int)), this, SLOT(setPAHCorrectionOffset(int, int)));
-
     emit newFrame(alignView);
+    disconnect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
 }
 
 void Align::rotatePAH()

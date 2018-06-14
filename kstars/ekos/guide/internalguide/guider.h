@@ -9,24 +9,22 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef GUIDER_H
-#define GUIDER_H
-
-#include <QtGui>
+#pragma once
 
 #include "common.h"
 #include "ui_guider.h"
 #include "scroll_graph.h"
 #include "gmath.h"
-
 #include "../guide.h"
+
+#include <QtGui>
 
 class internalGuider : public QWidget
 {
     Q_OBJECT
 
   public:
-    explicit internalGuider(cgmath *mathObject, Ekos::Guide *parent = 0);
+    explicit internalGuider(cgmath *mathObject, Ekos::Guide *parent = nullptr);
     ~internalGuider();
 
     void guide(void);
@@ -91,30 +89,34 @@ class internalGuider : public QWidget
     void newStarPosition(QVector3D, bool);
 
   private:
-    cgmath *pmath;
-    Ekos::Guide *guideModule;
-    Ekos::PHD2 *phd2;
+    cgmath *pmath { nullptr };
+    Ekos::Guide *guideModule { nullptr };
+    Ekos::PHD2 *phd2 { nullptr };
 
-    custom_drawer *pDriftOut;
-    ScrollGraph *driftGraph;
+    custom_drawer *pDriftOut { nullptr };
+    ScrollGraph *driftGraph { nullptr };
 
     QPointer<FITSView> guideFrame;
-    bool m_isStarted;
-    bool m_isReady;
-    bool m_isSubFramed;
-    bool first_frame, first_subframe;
-    bool half_refresh_rate;
-    int m_lostStarTries;
-    bool m_useRapidGuide;
-    ISD::CCDChip *targetChip;
-    int fx, fy, fw, fh;
-    double ret_x, ret_y, ret_angle;
-    bool m_isDithering;
+    bool m_isStarted { false };
+    bool m_isReady { false };
+    bool m_isSubFramed { false };
+    bool first_frame { false };
+    bool first_subframe { false };
+    bool half_refresh_rate { false };
+    int m_lostStarTries { 0 };
+    bool m_useRapidGuide { false };
+    ISD::CCDChip *targetChip { nullptr };
+    int fx { 0 };
+    int fy { 0 };
+    int fw { 0 };
+    int fh { 0 };
+    double ret_x { 0 };
+    double ret_y { 0 };
+    double ret_angle { 0 };
+    bool m_isDithering { false };
     QFile logFile;
     QPixmap profilePixmap;
 
   private:
     Ui::guiderClass ui;
 };
-
-#endif // GUIDER_H

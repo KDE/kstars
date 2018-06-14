@@ -1,7 +1,7 @@
 /*  HiPS : Hierarchical Progressive Surveys
     HiPS is the hierarchical tiling mechanism which allows one to access, visualize and browse seamlessly image, catalogue and cube data.
 
-    The KStars HiPS compoenent is used to load and overlay progress surverys from various online catalogs.
+    The KStars HiPS compoenent is used to load and overlay progress surveys from various online catalogs.
 
     Copyright (C) 2017 Jasem Mutlaq <mutlaqja@ikarustech.com>
 

@@ -622,7 +622,7 @@ void StarProfileViewer::updatePixelReport()
     x += subFrame.x();
     y = (subFrame.height() - 1 - y) + subFrame.y(); //Note: Y is in reverse order on the graph.
     float barValue = getImageDataValue(x, y);
-    pixelReport->setText("Selected Pixel: (" + QString::number(x + 1) + "," + QString::number(y + 1) + "): " + QString::number(barValue, 'f', 2)); //Have to add 1 because humans start counting at 1
+    pixelReport->setText("Selected Pixel: (" + QString::number(x + 1) + ',' + QString::number(y + 1) + "): " + QString::number(barValue, 'f', 2)); //Have to add 1 because humans start counting at 1
 
 }
 
@@ -818,7 +818,7 @@ void StarProfileViewer::updateHFRandPeakSelection()
             QString labelString = "Star " + QString::number(i + 1) + ": ";
             if(showCoordinates->isChecked())
             {
-                labelString = labelString + "(" + QString::number(x + 1) + ",  "+ QString::number(y + 1) + ") ";
+                labelString = labelString + '(' + QString::number(x + 1) + ",  "+ QString::number(y + 1) + ") ";
             }
             if(HFRReport->isChecked())
             {
@@ -831,8 +831,9 @@ void StarProfileViewer::updateHFRandPeakSelection()
             }
             if(showCoordinates->isChecked() || HFRReport->isChecked() || showPeakValues->isChecked())
             {
-                if(reportString != "")
-                    reportString += "\n";
+                if (!reportString.isEmpty())
+                    reportString += '\n';
+
                 reportString += labelString;
                 label->setText(labelString);
                 label->setPosition(QVector3D(row, value, col));
@@ -843,7 +844,7 @@ void StarProfileViewer::updateHFRandPeakSelection()
             zoomView->addItem("Star " + QString::number(i + 1));
         }
     }
-    if(reportString != "")
+    if (!reportString.isEmpty())
     {
         reportBox->setText(reportString);
     }

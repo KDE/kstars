@@ -89,7 +89,7 @@ void OpsHIPS::downloadReady()
             continue;
         }
 
-        QStringList keyvalue = line.split("=", QString::KeepEmptyParts);
+        QStringList keyvalue = line.split('=', QString::KeepEmptyParts);
         QString key   = keyvalue[0].simplified();
         if (hipsKeys.contains(key) == false)
             continue;

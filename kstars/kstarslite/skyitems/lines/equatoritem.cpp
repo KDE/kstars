@@ -115,7 +115,7 @@ void EquatorItem::update()
             {
                 compass->hide();
             }
-            i++;
+            ++i;
         }
     }
     else
