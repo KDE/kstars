@@ -41,7 +41,7 @@ public:
     void updateFocusStatus(const QJsonObject &status);
     void updateGuideStatus(const QJsonObject &status);
     void sendPreviewImage(FITSView *view);
-    void sendUpdatedFrame(FITSView *view);
+    void sendUpdatedFrame(FITSView *view);    
     void sendEvent(const QString &message, KSNotification::EventType event);
 
     // Send devices as they come
@@ -84,6 +84,9 @@ public:
         CAPTURE_TOGGLE_VIDEO,
         CAPTURE_START,
         CAPTURE_STOP,
+        CAPTURE_GET_SEQUENCES,
+        CAPTURE_ADD_SEQUENCE,
+        CAPTURE_REMOVE_SEQUENCE,
 
         // Mount
         MOUNT_PARK,
@@ -125,6 +128,10 @@ public:
         PAH_SET_CROSSHAIR,
         PAH_SELECT_STAR_DONE,
         PAH_REFRESHING_DONE,
+
+        // Options
+        OPTION_SET_HIGH_BANDWIDTH,
+        OPTION_SET_IMAGE_TRANSFER,
     };
 
     static QMap<COMMANDS, QString> const commands;
@@ -140,6 +147,8 @@ public slots:
 
     void setEkosStatingStatus(EkosManager::CommunicationStatus status);
     //void setAlignFrame(FITSView* view);
+
+    void sendCaptureSequence(const QJsonArray &sequenceArray);
 
 signals:
     void connected();
@@ -174,7 +183,7 @@ private:
 
     // Capture
     void processCaptureCommands(const QString &command, const QJsonObject &payload);
-    void capturePreview(const QJsonObject &settings);
+    void setCaptureSettings(const QJsonObject &settings);
     void sendTemperature(double value);
 
     // Mount
@@ -195,6 +204,9 @@ private:
     // Profile
     void processProfileCommands(const QString &command, const QJsonObject &payload);
 
+    // Options
+    void processOptionsCommands(const QString &command, const QJsonObject &payload);
+
     // Profiles
     void sendProfiles();
     void sendStates();    
@@ -202,6 +214,8 @@ private:
 
     QWebSocket m_messageWebSocket, m_mediaWebSocket;
     bool m_isConnected { false };
+    bool m_highBandwidth { true};
+    bool m_transferImages { true};
     EkosManager *m_Manager { nullptr };
     QNetworkAccessManager *networkManager { nullptr };
 
@@ -211,4 +225,8 @@ private:
     QString extension;
     QStringList temporaryFiles;
     QUrl m_serviceURL, m_wsURL;
+
+    static const uint16_t HB_WIDTH = 640;
+    static const uint8_t HB_IMAGE_QUALITY = 76;
+    static const uint8_t HB_VIDEO_QUALITY = 64;
 };

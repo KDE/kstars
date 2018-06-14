@@ -1446,7 +1446,7 @@ void EkosManager::processNewProperty(INDI::Property *prop)
         ekosLiveClient.get()->sendScopes();
     }
 
-    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "CCD_TEMPERATURE"))
+    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "CCD_TEMPERATURE") || !strcmp(prop->getName(), "CCD_ISO"))
     {
         ekosLiveClient.get()->sendCameras();
     }
@@ -1749,6 +1749,7 @@ void EkosManager::initCapture()
             SLOT(updateCaptureProgress(QImage*,Ekos::SequenceJob*)));
     connect(captureProcess.get(), SIGNAL(newExposureProgress(Ekos::SequenceJob*)), this,
             SLOT(updateExposureProgress(Ekos::SequenceJob*)));
+    connect(captureProcess.get(), &Ekos::Capture::sequenceChanged, ekosLiveClient.get(), &EkosLiveClient::sendCaptureSequence);
     captureGroup->setEnabled(true);
     sequenceProgress->setEnabled(true);
     captureProgress->setEnabled(true);

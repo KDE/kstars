@@ -67,6 +67,9 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {CAPTURE_TOGGLE_VIDEO, "capture_toggle_video"},
     {CAPTURE_START, "capture_start"},
     {CAPTURE_STOP, "capture_stop"},
+    {CAPTURE_GET_SEQUENCES, "capture_get_sequences"},
+    {CAPTURE_ADD_SEQUENCE, "capture_add_sequence"},
+    {CAPTURE_REMOVE_SEQUENCE, "capture_remove_sequence"},
 
     {MOUNT_PARK, "mount_park"},
     {MOUNT_UNPARK, "mount_unpark"},
@@ -103,6 +106,9 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {PAH_SET_CROSSHAIR, "polar_set_crosshair"},
     {PAH_SELECT_STAR_DONE, "polar_star_select_done"},
     {PAH_REFRESHING_DONE, "polar_refreshing_done"},
+
+    {OPTION_SET_HIGH_BANDWIDTH, "option_set_high_bandwidth"},
+    {OPTION_SET_IMAGE_TRANSFER, "option_set_image_transfer"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -152,8 +158,11 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
     //m_serviceURL.setAuthority("https://live.stellarmate.com");
     //m_wsURL.setAuthority("wws://live.stellarmate.com");
 
-    m_serviceURL.setUrl("http://localhost:3000");
-    m_wsURL.setUrl("ws://localhost:3000");
+    m_serviceURL.setAuthority("http://live.stellarmate.com");
+    m_wsURL.setAuthority("ws://live.stellarmate.com");
+
+//    m_serviceURL.setUrl("http://localhost:3000");
+//    m_wsURL.setUrl("ws://localhost:3000");
 
     QMap<QString,QString> credentials;
     KWallet::Wallet *localWallet = KWallet::Wallet::openWallet(KWallet::Wallet::LocalWallet(), 0);
@@ -381,14 +390,14 @@ void EkosLiveClient::onMessageTextReceived(const QString &message)
 
     if (command == commands[GET_STATES])
         sendStates();
-        else if (command == commands[GET_CAMERAS])
-            sendCameras();
-        else if (command == commands[GET_MOUNTS])
-            sendMounts();
-        else if (command == commands[GET_SCOPES])
-            sendScopes();
-        else if (command == commands[GET_FILTER_WHEELS])
-            sendFilterWheels();
+    else if (command == commands[GET_CAMERAS])
+        sendCameras();
+    else if (command == commands[GET_MOUNTS])
+        sendMounts();
+    else if (command == commands[GET_SCOPES])
+        sendScopes();
+    else if (command == commands[GET_FILTER_WHEELS])
+        sendFilterWheels();
     else if (command.startsWith("capture_"))
         processCaptureCommands(command, payload);
     else if (command.startsWith("mount_"))
@@ -401,6 +410,8 @@ void EkosLiveClient::onMessageTextReceived(const QString &message)
         processAlignCommands(command, payload);
     else if (command.startsWith("polar_"))
         processPolarCommands(command, payload);
+    else if (command.startsWith("option_"))
+        processOptionsCommands(command, payload);
 }
 
 void EkosLiveClient::sendProfiles()
@@ -510,26 +521,14 @@ void EkosLiveClient::updateCaptureStatus(const QJsonObject &status)
 
 void EkosLiveClient::sendPreviewImage(FITSView *view)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_transferImages == false)
         return;
-
-    // TODO 640 should be configurable later on
-    //    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
-    //    QTemporaryFile jpegFile;
-    //    jpegFile.open();
-    //    jpegFile.close();
-
-    //    scaledImage.save(jpegFile.fileName(), "jpg");
-
-    //    jpegFile.open();
-
-    //    QByteArray jpegData = jpegFile.readAll();
 
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
-    QImage scaledImage = view->getDisplayImage()->scaledToWidth(640);
-    scaledImage.save(&buffer, "jpg", 50);
+    QImage scaledImage = view->getDisplayImage()->scaledToWidth(m_highBandwidth ? HB_WIDTH : HB_WIDTH/2);
+    scaledImage.save(&buffer, "jpg", m_highBandwidth ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
     buffer.close();
 
     const FITSData *imageData = view->getImageData();
@@ -554,14 +553,14 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
 
 void EkosLiveClient::sendUpdatedFrame(FITSView *view)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_transferImages == false)
         return;
 
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
     //QPixmap scaledPixmap = view->getDisplayPixmap().scaledToWidth(640);
-    view->getDisplayPixmap().save(&buffer, "jpg", 70);
+    view->getDisplayPixmap().save(&buffer, "jpg", m_highBandwidth ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
     buffer.close();
 
     m_mediaWebSocket.sendBinaryMessage(jpegData);
@@ -569,17 +568,17 @@ void EkosLiveClient::sendUpdatedFrame(FITSView *view)
 
 void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
 {
-    if (m_isConnected == false || !frame)
+    if (m_isConnected == false || m_transferImages == false || !frame)
         return;
 
     // TODO Scale should be configurable
-    QImage scaledImage =  frame.get()->scaledToWidth(640);
+    QImage scaledImage =  frame.get()->scaledToWidth(m_highBandwidth ? HB_WIDTH : HB_WIDTH/2);
     QTemporaryFile jpegFile;
     jpegFile.open();
     jpegFile.close();
 
     // TODO Quality should be configurable
-    scaledImage.save(jpegFile.fileName(), "jpg", 50);
+    scaledImage.save(jpegFile.fileName(), "jpg", m_highBandwidth ? HB_VIDEO_QUALITY : HB_VIDEO_QUALITY/2);
 
     jpegFile.open();
 
@@ -621,6 +620,10 @@ void EkosLiveClient::sendStates()
 
     QJsonObject captureState = {{ "status", m_Manager->captureStatus->text()}};
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CAPTURE_STATE], captureState);
+
+    // Send capture sequence if one exists
+    if (m_Manager->captureModule())
+        sendCaptureSequence(m_Manager->captureModule()->getSequence());
 
     if (m_Manager->mountModule())
     {
@@ -690,6 +693,8 @@ void EkosLiveClient::sendCameras()
             {"hasTemperature", oneCCD->hasCooler()},
             {"temperature", temperature},
             {"canCool", oneCCD->canCool()},
+            {"isoList", QJsonArray::fromStringList(oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOList())},
+            {"iso", oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOIndex()},
             {"hasVideo", oneCCD->hasVideoStream()}
         };
 
@@ -738,8 +743,8 @@ void EkosLiveClient::sendMounts()
 void EkosLiveClient::sendScopes()
 {
     if (m_isConnected == false ||
-        m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS ||
-        m_Manager->mountModule() == nullptr)
+            m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS ||
+            m_Manager->mountModule() == nullptr)
         return;
 
     QJsonArray scopeList = m_Manager->mountModule()->getScopes();
@@ -790,32 +795,40 @@ void EkosLiveClient::sendFilterWheels()
     sendResponse(EkosLiveClient::commands[EkosLiveClient::GET_FILTER_WHEELS], filterList);
 }
 
-void EkosLiveClient::capturePreview(const QJsonObject &settings)
+void EkosLiveClient::setCaptureSettings(const QJsonObject &settings)
 {
-    QString camera = settings.value("camera").toString();
-    QString filterWheel = settings.value("fw").toString();
-    QString filter = settings.value("filter").toString();
-    QString frame = settings.value("frame").toString("Light");
-    double exp = settings.value("exp").toDouble(1);
-    int bin = settings.value("bin").toInt(1);
-    double temperature = settings.value("temperature").toDouble(-1000);
+    Ekos::Capture * capture = m_Manager->captureModule();
 
+    // Camera Name
+    capture->setCCD(settings["camera"].toString());
 
-    Ekos::Capture * capture = m_Manager->captureProcess.get();
-    capture->setCCD(camera);
+    // Filter Wheel
+    QString filterWheel = settings["fw"].toString();
     if (filterWheel.isEmpty() == false)
-        capture->setFilter(filterWheel, filter);
+        capture->setFilter(filterWheel, settings["filter"].toString());
 
+    // Temperature
+    double temperature = settings["temperature"].toDouble(-1000);
     if (temperature != -1000)
     {
         capture->setForceTemperature(true);
         capture->setTargetTemperature(temperature);
     }
 
-    capture->setFrameType(frame);
-    m_Manager->captureProcess.get()->setExposure(exp);
-    m_Manager->captureProcess.get()->setBinning(bin,bin);
-    m_Manager->captureProcess.get()->captureOne();
+    // Frame Type
+    capture->setFrameType(settings["frame"].toString("Light"));
+
+    // Exposure Duration
+    capture->setExposure(settings["exp"].toDouble(1));
+
+    // Binning
+    int bin = settings.value("bin").toInt(1);
+    capture->setBinning(bin,bin);
+
+    // ISO
+    int isoIndex = settings["iso"].toInt(-1);
+    if (isoIndex >= 0)
+        capture->setISO(isoIndex);
 }
 
 void EkosLiveClient::processCaptureCommands(const QString &command, const QJsonObject &payload)
@@ -824,7 +837,8 @@ void EkosLiveClient::processCaptureCommands(const QString &command, const QJsonO
 
     if (command == commands[CAPTURE_PREVIEW])
     {
-        capturePreview(payload);
+        setCaptureSettings(payload);
+        capture->captureOne();
     }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
     {
@@ -834,6 +848,32 @@ void EkosLiveClient::processCaptureCommands(const QString &command, const QJsonO
         capture->start();
     else if (command == commands[CAPTURE_STOP])
         capture->stop();
+    else if (command == commands[CAPTURE_GET_SEQUENCES])
+    {
+        sendCaptureSequence(capture->getSequence());
+    }
+    else if (command == commands[CAPTURE_ADD_SEQUENCE])
+    {
+        // Set capture settings first
+        setCaptureSettings(payload);
+
+        // Then sequence settings
+        capture->setCount(static_cast<uint16_t>(payload["count"].toInt()));
+        capture->setDelay(static_cast<uint16_t>(payload["delay"].toInt()));
+        capture->setPrefix(payload["prefix"].toString());
+
+        // Now add job
+        capture->addJob();
+    }
+    else if (command == commands[CAPTURE_REMOVE_SEQUENCE])
+    {
+        capture->removeJob(payload["index"].toInt());
+    }
+}
+
+void EkosLiveClient::sendCaptureSequence(const QJsonArray &sequenceArray)
+{
+    sendResponse(commands[CAPTURE_GET_SEQUENCES], sequenceArray);
 }
 
 void EkosLiveClient::processGuideCommands(const QString &command, const QJsonObject &payload)
@@ -1084,4 +1124,12 @@ void EkosLiveClient::setEkosStatingStatus(EkosManager::CommunicationStatus statu
         {"online", status == EkosManager::EKOS_STATUS_SUCCESS}
     };
     sendResponse(EkosLiveClient::commands[EkosLiveClient::NEW_CONNECTION_STATE], connectionState);
+}
+
+void EkosLiveClient::processOptionsCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[OPTION_SET_HIGH_BANDWIDTH])
+        m_highBandwidth = payload["value"].toBool(true);
+    else if (command == commands[OPTION_SET_IMAGE_TRANSFER])
+        m_transferImages = payload["value"].toBool(true);
 }
