@@ -109,6 +109,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
 
     {OPTION_SET_HIGH_BANDWIDTH, "option_set_high_bandwidth"},
     {OPTION_SET_IMAGE_TRANSFER, "option_set_image_transfer"},
+    {OPTION_SET_NOTIFICATIONS, "option_set_notifications"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -678,7 +679,7 @@ void EkosLiveClient::sendStates()
 
 void EkosLiveClient::sendEvent(const QString &message, KSNotification::EventType event)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_notifications == false)
         return;
 
     QJsonObject newEvent = {{ "severity", event}, {"message", message},{"uuid",QUuid::createUuid().toString()}};
@@ -1147,4 +1148,6 @@ void EkosLiveClient::processOptionsCommands(const QString &command, const QJsonO
         m_highBandwidth = payload["value"].toBool(true);
     else if (command == commands[OPTION_SET_IMAGE_TRANSFER])
         m_transferImages = payload["value"].toBool(true);
+    else if (command == commands[OPTION_SET_NOTIFICATIONS])
+        m_notifications = payload["value"].toBool(true);
 }
