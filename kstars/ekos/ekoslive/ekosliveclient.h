@@ -76,9 +76,6 @@ public:
         START_PROFILE,
         STOP_PROFILE,
 
-        // Configuration
-        SET_BANDWIDTH,
-
         // Capture
         CAPTURE_PREVIEW,
         CAPTURE_TOGGLE_VIDEO,
@@ -132,6 +129,7 @@ public:
         // Options
         OPTION_SET_HIGH_BANDWIDTH,
         OPTION_SET_IMAGE_TRANSFER,
+        OPTION_SET_NOTIFICATIONS,
     };
 
     static QMap<COMMANDS, QString> const commands;
@@ -218,6 +216,7 @@ private:
     bool m_isConnected { false };
     bool m_highBandwidth { true};
     bool m_transferImages { true};
+    bool m_notifications { true};
     EkosManager *m_Manager { nullptr };
     QNetworkAccessManager *networkManager { nullptr };
 
