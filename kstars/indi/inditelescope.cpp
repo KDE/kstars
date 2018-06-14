@@ -315,7 +315,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
                                         (WECurrentMotion != IPS_BUSY && WEPreviousState == IPS_BUSY)))
             {
                 inManualMotion = false;
-                KSNotification::event(QLatin1String("MotionStopped"), i18n("Mount is manually moving"));
+                KSNotification::event(QLatin1String("MotionStopped"), i18n("Mount motion stopped"));
             }
 
             NSPreviousState = NSCurrentMotion;
