@@ -162,11 +162,16 @@ private slots:
     void connectAuthServer();
     void disconnectAuthServer();
 
+    void connectMessageServer();
+    void disconnectMessageServer();
+
     void onMessageConnected();
+    void onMessageError(QAbstractSocket::SocketError error);
     void onMessageDisconnected();
     void onMessageTextReceived(const QString &message);
 
     void onMediaConnected();
+    void onMediaError(QAbstractSocket::SocketError error);
     void onMediaDisconnected();
     void onMediaTextReceived(const QString &message);
     void onMediaBinaryReceived(const QByteArray &message);
@@ -175,9 +180,6 @@ private slots:
     void sendConnection();
 
 private:
-    void connectMessageServer();
-    void disconnectMessageServer();
-
     void connectMediaServer();
     void disconnectMediaServer();
 
@@ -226,7 +228,18 @@ private:
     QStringList temporaryFiles;
     QUrl m_serviceURL, m_wsURL;
 
+    uint16_t m_MessageReconnectTries {0};
+    uint16_t m_MediaReconnectTries {0};
+
+    // Image width for high-bandwidth setting
     static const uint16_t HB_WIDTH = 640;
+    // Image high bandwidth image quality (jpg)
     static const uint8_t HB_IMAGE_QUALITY = 76;
+    // Video high bandwidth video quality (jpg)
     static const uint8_t HB_VIDEO_QUALITY = 64;
+
+    // Retry every 5 seconds in case remote server is down
+    static const uint16_t RECONNECT_INTERVAL = 5000;
+    // Retry for 1 hour before giving up
+    static const uint16_t RECONNECT_MAX_TRIES = 720;
 };

@@ -142,27 +142,20 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
 
     connect(&m_messageWebSocket, &QWebSocket::connected, this, &EkosLiveClient::onMessageConnected);
     connect(&m_messageWebSocket, &QWebSocket::disconnected, this, &EkosLiveClient::onMessageDisconnected);
-    connect(&m_messageWebSocket, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error), [=]()
-    {
-        qCritical(KSTARS_EKOS) << "Websocket connection error" << m_messageWebSocket.errorString();
-    });
-
+    connect(&m_messageWebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &EkosLiveClient::onMessageError);
 
     connect(&m_mediaWebSocket, &QWebSocket::connected, this, &EkosLiveClient::onMediaConnected);
     connect(&m_mediaWebSocket, &QWebSocket::disconnected, this, &EkosLiveClient::onMediaDisconnected);
-    connect(&m_mediaWebSocket, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error), [=]()
-    {
-        qCritical(KSTARS_EKOS) << "Media Websocket connection error" << m_mediaWebSocket.errorString();
-    });
+    connect(&m_mediaWebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &EkosLiveClient::onMediaError);
 
     //m_serviceURL.setAuthority("https://live.stellarmate.com");
     //m_wsURL.setAuthority("wws://live.stellarmate.com");
 
-    m_serviceURL.setAuthority("http://live.stellarmate.com");
-    m_wsURL.setAuthority("ws://live.stellarmate.com");
+    //m_serviceURL.setAuthority("http://live.stellarmate.com");
+    //m_wsURL.setAuthority("ws://live.stellarmate.com");
 
-//    m_serviceURL.setUrl("http://localhost:3000");
-//    m_wsURL.setUrl("ws://localhost:3000");
+    m_serviceURL.setUrl("http://localhost:3000");
+    m_wsURL.setUrl("ws://localhost:3000");
 
     QMap<QString,QString> credentials;
     KWallet::Wallet *localWallet = KWallet::Wallet::openWallet(KWallet::Wallet::LocalWallet(), 0);
@@ -253,6 +246,7 @@ void EkosLiveClient::onMessageConnected()
     connectionState->setPixmap(QIcon::fromTheme("state-ok").pixmap(QSize(64, 64)));
 
     m_isConnected = true;
+    m_MessageReconnectTries=0;
 
     connect(&m_messageWebSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onMessageTextReceived);
 
@@ -293,9 +287,18 @@ void EkosLiveClient::onMessageDisconnected()
     m_isConnected = false;
     connectB->setText(i18n("Connect"));
 
-    disconnect(&m_messageWebSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onMessageTextReceived);
+    disconnect(&m_messageWebSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onMessageTextReceived);        
+}
 
-    emit disconnected();
+void EkosLiveClient::onMessageError(QAbstractSocket::SocketError error)
+{
+    qCritical(KSTARS_EKOS) << "Websocket connection error" << m_messageWebSocket.errorString();
+    if (error == QAbstractSocket::RemoteHostClosedError ||
+        error == QAbstractSocket::ConnectionRefusedError)
+    {
+        if (m_MessageReconnectTries++ < RECONNECT_MAX_TRIES)
+            QTimer::singleShot(RECONNECT_INTERVAL, this, SLOT(connectMessageServer()));
+    }
 }
 
 void EkosLiveClient::onMediaConnected()
@@ -308,12 +311,24 @@ void EkosLiveClient::onMediaConnected()
 void EkosLiveClient::onMediaDisconnected()
 {
     qCInfo(KSTARS_EKOS) << "Disconnected from Media Websocket server";
+    m_MediaReconnectTries=0;
     disconnect(&m_mediaWebSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onMediaTextReceived);
     disconnect(&m_mediaWebSocket, &QWebSocket::binaryMessageReceived, this, &EkosLiveClient::onMediaBinaryReceived);
 
     for (const QString &oneFile : temporaryFiles)
         QFile::remove(oneFile);
     temporaryFiles.clear();
+}
+
+void EkosLiveClient::onMediaError(QAbstractSocket::SocketError error)
+{
+    qCritical(KSTARS_EKOS) << "Media Websocket connection error" << m_mediaWebSocket.errorString();
+    if (error == QAbstractSocket::RemoteHostClosedError ||
+        error == QAbstractSocket::ConnectionRefusedError)
+    {
+        if (m_MediaReconnectTries++ < RECONNECT_MAX_TRIES)
+            QTimer::singleShot(RECONNECT_INTERVAL, this, SLOT(connectMediaServer()));
+    }
 }
 
 void EkosLiveClient::onMediaTextReceived(const QString &message)
