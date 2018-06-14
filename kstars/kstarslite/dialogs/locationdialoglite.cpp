@@ -47,7 +47,7 @@ LocationDialogLite::LocationDialogLite()
     connect(data, SIGNAL(geoChanged()), this, SLOT(updateCurrentLocation()));
 
     nam = new QNetworkAccessManager(this);
-    connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(processLocationNameData(QNetworkReply *)));
+    connect(nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(processLocationNameData(QNetworkReply*)));
 }
 
 void LocationDialogLite::getNameFromCoordinates(double latitude, double longitude)
@@ -63,7 +63,7 @@ void LocationDialogLite::getNameFromCoordinates(double latitude, double longitud
     qDebug() << "submitting request";
 
     nam->get(QNetworkRequest(url));
-    connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(processLocationNameData(QNetworkReply *)));
+    connect(nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(processLocationNameData(QNetworkReply*)));
 }
 
 void LocationDialogLite::processLocationNameData(QNetworkReply *networkReply)

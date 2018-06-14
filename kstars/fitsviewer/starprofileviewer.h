@@ -10,8 +10,10 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#ifndef STARPROFILEVIEWER_H
-#define STARPROFILEVIEWER_H
+#pragma once
+
+#include "fitsdata.h"
+
 #include <QtDataVisualization/qbar3dseries.h>
 #include <QtDataVisualization/qbardataproxy.h>
 #include <QtDataVisualization/q3dbars.h>
@@ -38,7 +40,6 @@
 #include <QtGui/QImage>
 #include <QtCore/qmath.h>
 #include <QMessageBox>
-#include "fitsdata.h"
 
 using namespace QtDataVisualization;
 
@@ -71,54 +72,51 @@ public slots:
     void updateColor(int selection);
     void updateBarSpacing(int value);
 
-
 signals:
     void sampleSizeUpdated(int size);
 private:
-    Q3DBars *m_graph;
-    QValue3DAxis *m_pixelValueAxis;
-    QCategory3DAxis *m_xPixelAxis;
-    QCategory3DAxis *m_yPixelAxis;
-    QBar3DSeries *m_3DPixelSeries;
+    Q3DBars *m_graph { nullptr };
+    QValue3DAxis *m_pixelValueAxis { nullptr };
+    QCategory3DAxis *m_xPixelAxis { nullptr };
+    QCategory3DAxis *m_yPixelAxis { nullptr };
+    QBar3DSeries *m_3DPixelSeries { nullptr };
 
-    QBarDataArray *dataSet = nullptr;
+    QBarDataArray *dataSet { nullptr };
 
     template <typename T>
     float getImageDataValue(int x, int y);
     void getSubFrameMinMax(float *subFrameMin, float *subFrameMax, double *dataMin, double *dataMax);
 
-    QPushButton *HFRReport;
-    QLabel *reportBox;
-    QPushButton *showPeakValues;
-    QPushButton *showCoordinates;
-    QCheckBox *autoScale;
-    QPushButton *showScaling;
-    QComboBox *sampleSize;
-    QComboBox *selectionType;
-    QComboBox *zoomView;
-    QComboBox *selectStar;
-    QPushButton *exploreMode;
-    QLabel *pixelReport;
-    QLabel *maxValue;
-    QLabel *minValue;
-    QLabel *cutoffValue;
-    QPushButton *sliceB;
-    FITSData * imageData;
+    QPushButton *HFRReport { nullptr };
+    QLabel *reportBox { nullptr };
+    QPushButton *showPeakValues { nullptr };
+    QPushButton *showCoordinates { nullptr };
+    QCheckBox *autoScale { nullptr };
+    QPushButton *showScaling { nullptr };
+    QComboBox *sampleSize { nullptr };
+    QComboBox *selectionType { nullptr };
+    QComboBox *zoomView { nullptr };
+    QComboBox *selectStar { nullptr };
+    QPushButton *exploreMode { nullptr };
+    QLabel *pixelReport { nullptr };
+    QLabel *maxValue { nullptr };
+    QLabel *minValue { nullptr };
+    QLabel *cutoffValue { nullptr };
+    QPushButton *sliceB { nullptr };
+    FITSData * imageData { nullptr };
     QRect subFrame;
 
-    QSlider *blackPointSlider;
-    QSlider *whitePointSlider;
-    QSlider *cutoffSlider;
-    QSlider *verticalSelector;
-    QSlider *horizontalSelector;
+    QSlider *blackPointSlider { nullptr };
+    QSlider *whitePointSlider { nullptr };
+    QSlider *cutoffSlider { nullptr };
+    QSlider *verticalSelector { nullptr };
+    QSlider *horizontalSelector { nullptr };
     QList<Edge *> starCenters;
 
-    bool cutOffEnabled;
+    bool cutOffEnabled { false };
 
     int convertToSliderValue(float value);
     float convertFromSliderValue(int value);
     void updatePixelReport();
 
 };
-
-#endif // STARPROFILEVIEWER_H

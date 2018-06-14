@@ -22,11 +22,18 @@
  * ============================================================ */
 
 #include "thememanager.h"
-#include "widgets/dmsbox.h"
-#include "kstars.h"
-#include "Options.h"
 
-// Qt includes
+#include "kstars.h"
+#include "kstars_debug.h"
+#include "Options.h"
+#include "schememanager.h"
+#include "widgets/dmsbox.h"
+
+#include <KLocalizedString>
+#include <KActionCollection>
+#include <KConfigGroup>
+#include <KXmlGuiWindow>
+
 #include <QTabBar>
 #include <QPixmapCache>
 #include <QStringList>
@@ -45,18 +52,6 @@
 #include <QMenu>
 #include <QStyle>
 #include <QResource>
-
-// Desktop includes
-
-#include <KLocalizedString>
-#include <KActionCollection>
-#include <KConfigGroup>
-#include <KXmlGuiWindow>
-
-// Local includes
-
-#include "kstars_debug.h"
-#include "schememanager.h"
 
 namespace KSTheme
 {
@@ -235,7 +230,7 @@ void Manager::populateThemeQListWidget(QListWidget *themeWidget)
     foreach(QAction* const action, list)
     {
         QListWidgetItem *item = new QListWidgetItem();
-        item->setText( action->text().remove("&") );
+        item->setText( action->text().remove('&') );
         item->setIcon( action->icon() );
         themeWidget->addItem(item);
     }

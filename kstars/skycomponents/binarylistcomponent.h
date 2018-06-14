@@ -15,9 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-
-#ifndef BINARYLISTCOMPONENT_H
-#define BINARYLISTCOMPONENT_H
+#pragma once
 
 #include <QDataStream>
 
@@ -39,10 +37,10 @@
  * This class is an abstract Template which requires that the type `T` is some child of
  * `SkyObject` and the type `Component` is some child of `ListComponent`. The class `T`
  * must provide a static `TYPE` property of the type `SkyObject::TYPE`. This is required
- * because acces to the `type()` method are inconvenient here!
+ * because access to the `type()` method are inconvenient here!
  *
  * The derived class must provide a `void loadFromText()` method, which loads the component
- * via `addListObject` or similar. (This method implements parsing etc, and connot be
+ * via `addListObject` or similar. (This method implements parsing etc, and cannot be
  * abstracted by this class.)
  *
  * To make this template work, one has to add it as a friend class upon deriving it.
@@ -82,9 +80,9 @@ protected:
     /**
      * @brief loadData
      * @short Load the component data from binary (if available) or from text
-     * @param dropBinaryFile wether to drop the current binary (and to recreate it)
+     * @param dropBinaryFile whether to drop the current binary (and to recreate it)
      *
-     * Tipp: If you want to reload the data and recreate the binfile, just call
+     * Tip: If you want to reload the data and recreate the binfile, just call
      * loadData(true).
      */
     virtual void loadData(bool dropBinaryFile);
@@ -271,7 +269,3 @@ void  BinaryListComponent<T, Component>::clearData()
     parent->objectLists(T::TYPE).clear();
     parent->objectNames(T::TYPE).clear();
 }
-
-
-#endif // BINARYLISTCOMPONENT_H
-

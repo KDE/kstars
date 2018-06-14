@@ -16,18 +16,19 @@
  ***************************************************************************/
 
 #include "solarsystemlistcomponent.h"
-#include "solarsystemcomposite.h"
 
-#include <QPen>
-#include <KLocalizedString>
-
-#include "Options.h"
-#include "skyobjects/ksplanet.h"
-#include "skyobjects/ksplanetbase.h"
 #include "kstarsdata.h"
+#include "Options.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
+#include "solarsystemcomposite.h"
+#include "skyobjects/ksplanet.h"
+#include "skyobjects/ksplanetbase.h"
+
+#include <KLocalizedString>
+
+#include <QPen>
 
 SolarSystemListComponent::SolarSystemListComponent(SolarSystemComposite *p) : ListComponent(p), m_Earth(p->earth())
 {
@@ -43,11 +44,13 @@ void SolarSystemListComponent::update(KSNumbers *)
     if (selected())
     {
         KStarsData *data = KStarsData::Instance();
+
         foreach (SkyObject *o, m_ObjectList)
         {
-            // FIXME: get rid of cast.
-            KSPlanetBase *p = (KSPlanetBase *)o;
-            p->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+            KSPlanetBase *p = dynamic_cast<KSPlanetBase*>(o);
+
+            if (p)
+                p->EquatorialToHorizontal(data->lst(), data->geo()->lat());
         }
     }
 }

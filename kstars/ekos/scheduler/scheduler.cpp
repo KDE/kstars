@@ -622,7 +622,7 @@ void Scheduler::saveJob()
         mDirty = true;
     }
 
-    removeFromQueueB->setEnabled(true);
+    removeFromQueueB->setEnabled(false);
 
     if (jobUnderEdit == -1)
     {
@@ -631,6 +631,8 @@ void Scheduler::saveJob()
     }
 
     watchJobChanges(true);
+    jobEvaluationOnly = true;
+    evaluateJobs();
 }
 
 void Scheduler::resetJobState(QModelIndex i)
@@ -768,15 +770,16 @@ void Scheduler::loadJob(QModelIndex i)
             break;
     }
 
-    addToQueueB->setIcon(QIcon::fromTheme("edit-undo"));
-    addToQueueB->setStyleSheet("background-color:orange;}");
+    addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
+    addToQueueB->setToolTip(i18n("Apply job changes."));
+    //addToQueueB->setStyleSheet("background-color:orange;}");
     addToQueueB->setEnabled(true);
     startB->setEnabled(false);
     evaluateOnlyB->setEnabled(false);
-    addToQueueB->setToolTip(i18n("Exit edit mode"));
+    removeFromQueueB->setEnabled(true);
 
     jobUnderEdit = i.row();
-    appendLogText(i18n("Job '%1' at row #%2 is currently edited.", job->getName(), jobUnderEdit+1));
+    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is currently edited.").arg(job->getName()).arg(jobUnderEdit+1);
 
     watchJobChanges(true);
 }
@@ -787,8 +790,9 @@ void Scheduler::resetJobEdit()
         return;
 
     SchedulerJob * const job = jobs.at(jobUnderEdit);
+    Q_ASSERT_X(job != nullptr,__FUNCTION__,"Edited job must be valid");
 
-    appendLogText(i18n("Job '%1' at row #%2 is not longer edited.", job->getName(), jobUnderEdit+1));
+    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is not longer edited.").arg(job->getName()).arg(jobUnderEdit+1);
 
     jobUnderEdit = -1;
 
@@ -797,66 +801,55 @@ void Scheduler::resetJobEdit()
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     addToQueueB->setStyleSheet(QString());
     addToQueueB->setToolTip(i18n("Add observation job to list."));
+    removeFromQueueB->setEnabled(false);
     queueTable->clearSelection();
 
     evaluateOnlyB->setEnabled(true);
     startB->setEnabled(true);
 
-
-    //removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
-    jobEvaluationOnly = true;
-    evaluateJobs();
+    Q_ASSERT_X(jobUnderEdit == -1,__FUNCTION__,"No more edited/selected job after exiting edit mode");
 }
 
 void Scheduler::removeJob()
 {
-    /*if (jobUnderEdit)
-    {
-        resetJobEdit();
-        return;
-    }*/
-
     int currentRow = queueTable->currentRow();
 
+    /* Don't remove a row that is not selected */
     if (currentRow < 0)
-    {
-        currentRow = queueTable->rowCount() - 1;
-        if (currentRow < 0)
-            return;
-    }
+        return;
 
-    queueTable->removeRow(currentRow);
-    queueTable->resizeColumnsToContents();
-
+    /* Grab the job currently selected */
     SchedulerJob * const job = jobs.at(currentRow);
+    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is being deleted.").arg(job->getName()).arg(currentRow+1);
 
-    appendLogText(i18n("Job '%1' at row #%2 is being deleted.", job->getName(), currentRow+1));
+    /* Remove the job from the table */
+    queueTable->removeRow(currentRow);
 
-    jobs.removeOne(job);
-    delete (job);
-
+    /* If there are no job rows left, update UI buttons */
     if (queueTable->rowCount() == 0)
     {
         removeFromQueueB->setEnabled(false);
         evaluateOnlyB->setEnabled(false);
-    }
-
-    queueTable->selectRow(queueTable->currentRow());
-
-    if (queueTable->rowCount() == 0)
-    {
         queueSaveAsB->setEnabled(false);
         queueSaveB->setEnabled(false);
         startB->setEnabled(false);
         pauseB->setEnabled(false);
-
-        if (jobUnderEdit >= 0)
-            resetJobEdit();
+        removeFromQueueB->setEnabled(false);
     }
-    else
-        loadJob(queueTable->currentIndex());
+    /* Else load the settings of the job that was just deleted */
+    else loadJob(queueTable->currentIndex());
+
+    /* If needed, reset edit mode to clean up UI */
+    if (jobUnderEdit >= 0)
+        resetJobEdit();
+
+    /* And remove the job object */
+    jobs.removeOne(job);
+    delete (job);
 
     mDirty = true;
+    jobEvaluationOnly = true;
+    evaluateJobs();
 }
 
 void Scheduler::toggleScheduler()
@@ -978,7 +971,7 @@ void Scheduler::stop()
 
     queueLoadB->setEnabled(true);
     addToQueueB->setEnabled(true);
-    removeFromQueueB->setEnabled(true);
+    removeFromQueueB->setEnabled(false);
     mosaicB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
 }
@@ -1104,9 +1097,9 @@ void Scheduler::evaluateJobs()
 
     /* Then reorder jobs by priority */
     /* FIXME: refactor so all sorts are using the same predicates */
-    /* FIXME: use std::sort as qSort is deprecated */
+    /* FIXME: use std::stable_sort as qStableSort is deprecated */
     if (Options::sortSchedulerJobs())
-        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
+        qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
 
     /* Then enumerate SchedulerJobs, scheduling only what is required */
     foreach (SchedulerJob *job, sortedJobs)
@@ -1456,9 +1449,12 @@ void Scheduler::evaluateJobs()
     /* Now that jobs are scheduled, possibly at the same time, reorder by altitude and priority again */
     if (Options::sortSchedulerJobs())
     {
-        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::decreasingAltitudeOrder);
-        qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
+        qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::decreasingAltitudeOrder);
+        qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
     }
+
+    /* Reorder jobs by schedule time */
+    qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingStartupTimeOrder);
 
     // Our first job now takes priority over ALL others.
     // So if any other jobs conflicts with ours, we re-schedule that job to another time.
@@ -1467,6 +1463,9 @@ void Scheduler::evaluateJobs()
     QDateTime lastStartTime     = firstJob->getStartupTime();
     double lastJobEstimatedTime = firstJob->getEstimatedTime();
     int daysCount               = 0;
+
+    qCInfo(KSTARS_EKOS_SCHEDULER) << "Option to sort jobs based on priority and altitude is" << Options::sortSchedulerJobs();
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "First job after sort is" << firstJob->getName() << "starting at" << firstJob->getStartupTime().toString(firstJob->getDateTimeDisplayFormat());
 
     // Make sure no two jobs have the same scheduled time or overlap with other jobs
     foreach (SchedulerJob *job, sortedJobs)
@@ -1477,7 +1476,11 @@ void Scheduler::evaluateJobs()
             job->getStartupCondition() != SchedulerJob::START_AT)
             continue;
 
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Examining job" << job->getName() << "starting at" << job->getStartupTime().toString(job->getDateTimeDisplayFormat());
+
         double timeBetweenJobs = (double)std::abs(firstStartTime.secsTo(job->getStartupTime()));
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Job starts in" << timeBetweenJobs << "seconds (lead time" << Options::leadTime()*60 << ")";
 
         // If there are within 5 minutes of each other, try to advance scheduling time of the lower altitude one
         if (timeBetweenJobs < (Options::leadTime()) * 60)
@@ -1532,7 +1535,7 @@ void Scheduler::evaluateJobs()
      */
 
     // Sort again by schedule, sooner first, as some jobs may have shifted during the last step
-    qSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingStartupTimeOrder);
+    qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingStartupTimeOrder);
 
     setCurrentJob(sortedJobs.first());
 
@@ -4949,7 +4952,7 @@ void Scheduler::checkCapParkingStatus()
 
 void Scheduler::startJobEvaluation()
 {
-    // Reset ALL scheduler jobs to IDLE and re-evalute them all again
+    // Reset ALL scheduler jobs to IDLE and re-evaluate them all again
     for(SchedulerJob *job : jobs)
         job->reset();
 
@@ -5081,10 +5084,16 @@ void Scheduler::startMosaicTool()
         delXMLEle(root);
 
         // Delete any prior jobs before saving
-        for (int i = 0; i < currentJobsCount; i++)
+        if (0 < currentJobsCount)
         {
-            delete (jobs.takeFirst());
-            queueTable->removeRow(0);
+            if (KMessageBox::questionYesNo(nullptr, i18n("Do you want to keep the existing jobs in the mosaic schedule?")) == KMessageBox::No)
+            {
+                for (int i = 0; i < currentJobsCount; i++)
+                {
+                    delete (jobs.takeFirst());
+                    queueTable->removeRow(0);
+                }
+            }
         }
 
         QUrl mosaicURL = QUrl::fromLocalFile((QString("%1/%2_mosaic.esl").arg(outputDir, targetName)));

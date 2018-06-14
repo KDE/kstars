@@ -217,7 +217,9 @@ QImage *HIPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
   if (!allsky)
   {
     int dir = (pix / 10000) * 10000;
-    path = "/Norder" + QString::number(level) + "/Dir" + QString::number(dir) + "/Npix" + QString::number(pix) + "." + m_currentFormat;
+
+    path = "/Norder" + QString::number(level) + "/Dir" + QString::number(dir) + "/Npix" + QString::number(pix) +
+           '.' + m_currentFormat;
   }
   else
   {

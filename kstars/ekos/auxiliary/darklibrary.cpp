@@ -305,7 +305,7 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
                 "dark_exposure_dialog_notification", KMessageBox::WindowModal|KMessageBox::Notify) == KMessageBox::Cancel)
         {
             emit newLog(i18n("Dark frame capture cancelled."));
-            disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
+            disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
             emit darkFrameCompleted(false);
             return false;
         }
@@ -336,7 +336,7 @@ void DarkLibrary::newFITS(IBLOB *bp)
 
     Q_ASSERT(subtractParams.targetChip);
 
-    disconnect(subtractParams.targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
+    disconnect(subtractParams.targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     FITSView *calibrationView = subtractParams.targetChip->getImageView(FITS_CALIBRATE);
 

@@ -1,11 +1,11 @@
-/** *************************************************************************
+/***************************************************************************
                           kstarslite.h  -  K Desktop Planetarium
                              -------------------
     begin                : 30/04/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
-/** *************************************************************************
+/***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,13 +18,15 @@
 
 #include "config-kstars.h"
 
+//Needed for Projection enum
+#include "projections/projector.h"
+
 #include <QQuickWindow>
 #include <QPalette>
 #include <QString>
 #include <QtQml/QQmlApplicationEngine>
 
-//Needed for Projection enum
-#include "projections/projector.h"
+#include <memory>
 
 // forward declaration is enough. We only need pointers
 class KStarsData;
@@ -65,6 +67,7 @@ class KStarsLite : public QObject
      * @param startDateString date (in string representation) to start running from.
      */
     explicit KStarsLite(bool doSplash, bool startClockRunning = true, const QString &startDateString = QString());
+    virtual ~KStarsLite();
 
     static KStarsLite *pinstance; // Pointer to an instance of KStarsLite
 
@@ -83,9 +86,6 @@ class KStarsLite : public QObject
     /** @return a pointer to the instance of this class */
     inline static KStarsLite *Instance() { return pinstance; }
 
-    /** Destructor. Does nothing yet */
-    virtual ~KStarsLite();
-
     /** @return pointer to SkyMapLite object which draws SkyMap. */
     inline SkyMapLite *map() const { return m_SkyMapLite; }
 
@@ -96,7 +96,7 @@ class KStarsLite : public QObject
     inline KStarsData *data() const { return m_KStarsData; }
 
     /** @return pointer to ImageProvider that is used in QML to display image fetched from CCD **/
-    inline ImageProvider *imageProvider() const { return m_imgProvider; }
+    inline ImageProvider *imageProvider() const { return m_imgProvider.get(); }
 
     /** @return pointer to QQmlApplicationEngine that runs QML **/
     inline QQmlApplicationEngine *qmlEngine() { return &m_Engine; }
@@ -120,7 +120,7 @@ class KStarsLite : public QObject
      * @defgroup kconfigwrappers QML wrappers around KConfig
      * @{
      */
-    enum ObjectsToToggle
+    enum class ObjectsToToggle
     {
         Stars,
         DeepSky,
@@ -228,19 +228,19 @@ class KStarsLite : public QObject
     void initFocus();
 
     QQmlApplicationEngine m_Engine;
-    SkyMapLite *m_SkyMapLite;
+    SkyMapLite *m_SkyMapLite { nullptr };
     QPalette OriginalPalette, DarkPalette;
 
-    QObject *m_RootObject;
-    bool StartClockRunning;
+    QObject *m_RootObject { nullptr };
+    bool StartClockRunning { false };
 
-    KStarsData *m_KStarsData;
-    ImageProvider *m_imgProvider;
+    KStarsData *m_KStarsData { nullptr };
+    std::unique_ptr<ImageProvider> m_imgProvider;
 
     //Dialogs
-    FindDialogLite *m_findDialogLite;
-    DetailDialogLite *m_detailDialogLite;
-    LocationDialogLite *m_locationDialogLite;
+    FindDialogLite *m_findDialogLite { nullptr };
+    DetailDialogLite *m_detailDialogLite { nullptr };
+    LocationDialogLite *m_locationDialogLite { nullptr };
 
-    ClientManagerLite *m_clientManager;
+    ClientManagerLite *m_clientManager { nullptr };
 };

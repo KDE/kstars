@@ -314,7 +314,7 @@ class Guide : public QWidget, public Ui::Guide
          */
     void setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture);
 
-    //This Funciton will allow PHD2 to update the exposure values to the recommended ones.
+    // This Function will allow PHD2 to update the exposure values to the recommended ones.
     QString setRecommendedExposureValues(QList<double> values);
 
     // Append Log entry

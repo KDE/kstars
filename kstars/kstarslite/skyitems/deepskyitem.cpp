@@ -66,7 +66,7 @@ void DSOTrixelNode::deleteAllChildNodes()
 
             *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
         }
-        i++;
+        ++i;
     }
 }
 
@@ -335,7 +335,7 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, Me
                         }
                     }
                 }
-                i++;
+                ++i;
             }
         }
         trixel = static_cast<DSOTrixelNode *>(trixel->nextSibling());

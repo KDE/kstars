@@ -18,10 +18,10 @@
 
 #include "skynode.h"
 
+class QSGFlatColorMaterial;
+class PointNode;
 class PolyNode;
 class Supernova;
-class PointNode;
-class QSGFlatColorMaterial;
 
 /**
  * @class SupernovaNode
@@ -30,7 +30,6 @@ class QSGFlatColorMaterial;
  * @author Artem Fedoskin
  * @version 1.0
  */
-
 class SupernovaNode : public SkyNode
 {
   public:
@@ -50,7 +49,7 @@ class SupernovaNode : public SkyNode
     inline Supernova *snova() { return m_snova; }
 
   private:
-    Supernova *m_snova;
+    Supernova *m_snova { nullptr };
 
     QSGGeometryNode *m_lines { nullptr };
 

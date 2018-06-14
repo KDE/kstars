@@ -192,12 +192,12 @@ void DeepStarItem::update()
 
                                 *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
                             }
-                            i++;
+                            ++i;
                         }
                     }
 
                     trixel = static_cast<TrixelNode *>(trixel->nextSibling());
-                    trixelID++;
+                    ++trixelID;
                     continue;
                 }
                 else
@@ -271,7 +271,7 @@ void DeepStarItem::update()
                                 }
                             }
                         }
-                        i++;
+                        ++i;
                     }
                 }
             }

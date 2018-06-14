@@ -8,12 +8,12 @@
  */
 
 #include "sequencejob.h"
-#include "indi/driverinfo.h"
-#include "indi/clientmanager.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "indi/driverinfo.h"
+#include "indi/clientmanager.h"
 
 #include <KNotifications/KNotification>
 
@@ -478,7 +478,7 @@ QString SequenceJob::getRemoteDir() const
 void SequenceJob::setRemoteDir(const QString &value)
 {
     remoteDirectory = value;
-    if (remoteDirectory.endsWith("/"))
+    if (remoteDirectory.endsWith('/'))
         remoteDirectory.chop(1);
 }
 

@@ -1103,7 +1103,7 @@ void copyResourcesFolderFromAppBundle(QString folder){
         folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/" + folder).absolutePath();
     if (folderSourceDir.exists())
     {
-        folderLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/"+folder;
+        folderLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + '/' + folder;
         QDir writableDir;
         writableDir.mkdir(folderLocation);
         copyRecursively(folderSourceDir.absolutePath(), folderLocation);

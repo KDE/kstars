@@ -165,9 +165,6 @@ void DarkNebulaSymbol::updateSymbol(float x, float y, float e, float size)
 {
     SymbolNode::updateSymbol(x, y, e, size);
 
-    if (size < 2.)
-        size = 2.;
-
     QSGGeometry::Point2D *vertex = lines->geometry()->vertexDataAsPoint2D();
     //First line
     vertex[0].set(dx1, dy1);
@@ -259,10 +256,9 @@ SupernovaRemnantSymbol::SupernovaRemnantSymbol(const QColor &color)
 void SupernovaRemnantSymbol::updateSymbol(float x, float y, float e, float size)
 {
     SymbolNode::updateSymbol(x, y, e, size);
-    if (size < 2.)
-        size = 2.;
 
     QSGGeometry::Point2D *vertex = lines->geometry()->vertexDataAsPoint2D();
+
     //First line
     vertex[0].set(0., dy1);
     vertex[1].set(dx2, 0.);

@@ -2831,7 +2831,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
     if (fits_read_keyword(fptr, "DATE-OBS", date, nullptr, &status) == 0)
     {
         QString tsString(date);
-        tsString = tsString.remove("'").trimmed();
+        tsString = tsString.remove('\'').trimmed();
 
         QDateTime ts = QDateTime::fromString(tsString, Qt::ISODate);
 
@@ -3528,7 +3528,7 @@ bool FITSData::checkDebayer()
         return false;
     }
     QString pattern(bayerPattern);
-    pattern = pattern.remove("'").trimmed();
+    pattern = pattern.remove('\'').trimmed();
 
     if (pattern == "RGGB")
         debayerParams.filter = DC1394_COLOR_FILTER_RGGB;
@@ -4268,7 +4268,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
     nelements = stats.samples_per_channel * channels;
 
     /* Create a new File, overwriting existing*/
-    if (fits_create_file(&new_fptr, QString("!" + newWCSFile).toLatin1(), &status))
+    if (fits_create_file(&new_fptr, QString('!' + newWCSFile).toLatin1(), &status))
     {
         fits_get_errstatus(status, errMsg);
         lastError = QString(errMsg);
@@ -4521,7 +4521,7 @@ int FITSData::findSEPStars(const QRect &boundary)
     status = sep_bkg_array(bkg, imback, SEP_TFLOAT);
     if (status != 0) goto exit;
 
-    // #3 Background substraction
+    // #3 Background subtraction
     status = sep_bkg_subarray(bkg, im.data, im.dtype);
     if (status != 0) goto exit;
 

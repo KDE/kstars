@@ -17,14 +17,15 @@
 
 #include "dmsbox.h"
 
-#include <cstdlib>
+#include <QApplication>
+#include <QFocusEvent>
+#include <QRegExp>
 
-#include <QDebug>
 #include <KLocalizedString>
 
-#include <QRegExp>
-#include <QFocusEvent>
-#include <QApplication>
+#include <QDebug>
+
+#include <cstdlib>
 
 dmsBox::dmsBox(QWidget *parent, bool dg) : QLineEdit(parent), EmptyFlag(true)
 {

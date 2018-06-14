@@ -177,5 +177,6 @@ class InternalGuider : public GuideInterface
     Ekos::Matrix ROT_Z;
     CalibrationStage calibrationStage { CAL_IDLE };
     CalibrationType calibrationType;
+    Ekos::GuideState rememberState { GUIDE_IDLE };
 };
 }

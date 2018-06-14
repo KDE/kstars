@@ -13,40 +13,36 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef ECLIPTICITEM_H_
-#define ECLIPTICITEM_H_
+
+#pragma once
 
 #include "../skyitem.h"
 
 class Ecliptic;
 
-/** @class EclipticItem
+/**
+ * @class EclipticItem
  *
- *@short Represents Ecliptic in SkyMapLite
- *@author Artem Fedoskin
- *@version 1.0
+ * @short Represents Ecliptic in SkyMapLite
+ * @author Artem Fedoskin
+ * @version 1.0
  */
-
 class EclipticItem : public SkyItem
 {
   public:
     /**
-         * @short Constructor. Creates TrixelNodes for lines and LabelNodes for compass labels
-         * @param eclipticComp Ecliptic that needs to be represented in SkyMapLite
-         * @param rootNode parent RootNode that instantiated this object
-         */
-
+     * @short Constructor. Creates TrixelNodes for lines and LabelNodes for compass labels
+     * @param eclipticComp Ecliptic that needs to be represented in SkyMapLite
+     * @param rootNode parent RootNode that instantiated this object
+     */
     EclipticItem(Ecliptic *eclipticComp, RootNode *rootNode);
 
-    /**
-         * @short updates positions of lines and compass labels
-         */
-    virtual void update();
+    /** @short updates positions of lines and compass labels */
+    virtual void update() override;
 
   private:
-    Ecliptic *m_eclipticComp;
+    Ecliptic *m_eclipticComp { nullptr };
 
     //Holds compass labels each associated with SkyPoint that is coordinate of this label
     QMap<SkyPoint *, LabelNode *> m_compassLabels;
 };
-#endif
