@@ -857,8 +857,8 @@ bool InternalGuider::processGuiding()
     bool sendPulses = true;
 
     // If within 90% of max pulse repeatedly, let's abort
-    if (out->pulse_length[GUIDE_RA] >= (0.9 * Options::rAMaximumPulse()) ||
-            out->pulse_length[GUIDE_DEC] >= (0.9 * Options::dECMaximumPulse()))
+    if (out->pulse_length[GUIDE_RA] >= (0.95 * Options::rAMaximumPulse()) ||
+        out->pulse_length[GUIDE_DEC] >= (0.95 * Options::dECMaximumPulse()))
     {
         sendPulses = false;
         m_highPulseCounter++;
@@ -868,6 +868,8 @@ bool InternalGuider::processGuiding()
 
     if (m_starLostCounter+m_highPulseCounter > 3)
     {
+        qCDebug(KSTARS_EKOS_GUIDE) << "m_starLostCounter" << m_starLostCounter
+                                   << "m_highPulseCounter" << m_highPulseCounter;
         emit newLog(i18n("Lost track of the guide star. Searching for guide stars..."));
 
         reacquireTimer.start();
