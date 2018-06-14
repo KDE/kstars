@@ -165,6 +165,9 @@ private slots:
     void connectMessageServer();
     void disconnectMessageServer();
 
+    void connectMediaServer();
+    void disconnectMediaServer();
+
     void onMessageConnected();
     void onMessageError(QAbstractSocket::SocketError error);
     void onMessageDisconnected();
@@ -180,9 +183,6 @@ private slots:
     void sendConnection();
 
 private:
-    void connectMediaServer();
-    void disconnectMediaServer();
-
     // Capture
     void processCaptureCommands(const QString &command, const QJsonObject &payload);
     void setCaptureSettings(const QJsonObject &settings);
