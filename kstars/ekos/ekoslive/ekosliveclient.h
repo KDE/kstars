@@ -100,6 +100,7 @@ public:
         // Focus
         FOCUS_START,
         FOCUS_STOP,
+        FOCUS_RESET,
 
         // Guide
         GUIDE_START,
@@ -212,6 +213,7 @@ private:
     void sendStates();    
 
 
+    QJsonObject authResponse;
     QWebSocket m_messageWebSocket, m_mediaWebSocket;
     bool m_isConnected { false };
     bool m_highBandwidth { true};

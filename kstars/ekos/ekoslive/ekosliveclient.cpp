@@ -84,6 +84,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
 
     {FOCUS_START, "focus_start"},
     {FOCUS_STOP, "focus_stop"},
+    {FOCUS_STOP, "focus_reset"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_STOP, "guide_stop"},
@@ -149,14 +150,12 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
     connect(&m_mediaWebSocket, &QWebSocket::disconnected, this, &EkosLiveClient::onMediaDisconnected);
     connect(&m_mediaWebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &EkosLiveClient::onMediaError);
 
-    //m_serviceURL.setAuthority("https://live.stellarmate.com");
-    //m_wsURL.setAuthority("wws://live.stellarmate.com");
 
-    //m_serviceURL.setAuthority("http://live.stellarmate.com");
-    //m_wsURL.setAuthority("ws://live.stellarmate.com");
+    m_serviceURL.setUrl("https://live.stellarmate.com");
+    m_wsURL.setUrl("wss://live.stellarmate.com");
 
-    m_serviceURL.setUrl("http://localhost:3000");
-    m_wsURL.setUrl("ws://localhost:3000");
+    //m_serviceURL.setUrl("http://localhost:3000");
+    //m_wsURL.setUrl("ws://localhost:3000");
 
     QMap<QString,QString> credentials;
     KWallet::Wallet *localWallet = KWallet::Wallet::openWallet(KWallet::Wallet::LocalWallet(), 0);
@@ -188,6 +187,10 @@ void EkosLiveClient::connectMessageServer()
     QUrlQuery query;
     query.addQueryItem("username", username->text());
     query.addQueryItem("token", token);
+    query.addQueryItem("email", authResponse["email"].toString());
+    query.addQueryItem("from_date", authResponse["from_date"].toString());
+    query.addQueryItem("to_date", authResponse["to_date"].toString());
+    query.addQueryItem("plan_id", authResponse["plan_id"].toString());
 
     requestURL.setPath("/message/ekos");
     requestURL.setQuery(query);
@@ -503,17 +506,17 @@ void EkosLiveClient::onResult(QNetworkReply *reply)
         return;
     }
 
-    auto json = response.object();
+    authResponse = response.object();
 
-    if (json["success"].toBool() == false)
+    if (authResponse["success"].toBool() == false)
     {
         pi->stopAnimation();
         connectionState->setPixmap(QIcon::fromTheme("state-error").pixmap(QSize(64, 64)));
-        KSNotification::error(json["message"].toString());
+        KSNotification::error(authResponse["message"].toString());
         return;
     }
 
-    token = json["token"].toString();
+    token = authResponse["token"].toString();
 
     connectMessageServer();
     connectMediaServer();
@@ -916,6 +919,8 @@ void EkosLiveClient::processFocusCommands(const QString &command, const QJsonObj
         focus->start();
     else if (command == commands[FOCUS_STOP])
         focus->abort();
+    else if (command == commands[FOCUS_RESET])
+        focus->resetFrame();
 }
 
 void EkosLiveClient::processMountCommands(const QString &command, const QJsonObject &payload)
