@@ -84,7 +84,7 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
 
     {FOCUS_START, "focus_start"},
     {FOCUS_STOP, "focus_stop"},
-    {FOCUS_STOP, "focus_reset"},
+    {FOCUS_RESET, "focus_reset"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_STOP, "guide_stop"},
