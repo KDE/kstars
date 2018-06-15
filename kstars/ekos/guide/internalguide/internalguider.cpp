@@ -880,10 +880,22 @@ bool InternalGuider::processGuiding()
     }
 
     if (sendPulses)
+    {
         emit newPulse(out->pulse_dir[GUIDE_RA] , out->pulse_length[GUIDE_RA],
                       out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC]);
 
-    emit frameCaptureRequested();
+        // Wait until pulse is over before capturing an image
+        const int waitMS = qMax(out->pulse_length[GUIDE_RA], out->pulse_length[GUIDE_DEC]);
+        // If less than 250ms, then capture immediately
+        if (waitMS > 250)
+            // Issue frame requests 50ms before timeout to account for
+            // propogation delays
+            QTimer::singleShot(waitMS - 50, [&]() {emit frameCaptureRequested();});
+        else
+            emit frameCaptureRequested();
+    }
+    else
+        emit frameCaptureRequested();
 
     if (state == GUIDE_DITHERING)
         return true;
