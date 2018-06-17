@@ -1838,7 +1838,8 @@ void Capture::updateRotatorNumber(INumberVectorProperty *nvp)
         // Update widget rotator position
         rotatorSettings->setCurrentAngle(nvp->np[0].value);
 
-        if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
+        //if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
+        if (activeJob)
             activeJob->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
     }
 }
