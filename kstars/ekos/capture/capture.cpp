@@ -447,8 +447,7 @@ void Capture::stop(bool abort)
     {
         if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
         {
-            if (abort)
-                KSNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture failed with errors"), KSNotification::EVENT_ALERT);
+            KSNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture aborted"));
             activeJob->abort();
             if (activeJob->isPreview() == false)
             {
@@ -1791,7 +1790,7 @@ void Capture::setExposureProgress(ISD::CCDChip *tChip, double value, IPState sta
         {
             if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
             {
-                newFITS(0);
+                newFITS(nullptr);
                 return;
             }
         }
@@ -2305,7 +2304,7 @@ void Capture::prepareJob(SequenceJob *job)
     if (currentCCD->isBLOBEnabled() == false)
     {
 
-        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(0, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
+        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
             KMessageBox::Yes)
         {
             currentCCD->setBLOBEnabled(true);
@@ -2411,6 +2410,14 @@ void Capture::preparePreCaptureActions()
         activeJob->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
 
     setBusy(true);
+
+    if (activeJob->isPreview())
+    {
+        startB->setIcon(
+            QIcon::fromTheme("media-playback-stop"));
+        startB->setToolTip(i18n("Stop"));
+    }
+
     connect(activeJob, SIGNAL(prepareState(Ekos::CaptureState)), this, SLOT(updatePrepareState(Ekos::CaptureState)));
     connect(activeJob, SIGNAL(prepareComplete()), this, SLOT(executeJob()));
 
@@ -2459,13 +2466,6 @@ void Capture::executeJob()
 
     // Update button status
     setBusy(true);
-
-    if (activeJob->isPreview())
-    {
-        startB->setIcon(
-            QIcon::fromTheme("media-playback-stop"));
-        startB->setToolTip(i18n("Stop"));
-    }
 
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 

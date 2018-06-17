@@ -72,7 +72,10 @@ void SequenceJob::done()
 
 void SequenceJob::prepareCapture()
 {
+    status = JOB_BUSY;
+
     prepareReady = false;
+
     // Reset all prepare actions
     setAllActionsReady();
 
@@ -281,7 +284,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
     if (activeFilter && activeFilter != activeCCD)
         activeCCD->setFilter(filter);
 
-    status = JOB_BUSY;
+    //status = JOB_BUSY;
 
     if (preview == false && statusCell)
         statusCell->setText(statusStrings[status]);
@@ -343,7 +346,8 @@ void SequenceJob::setCurrentTemperature(double value)
     if (enforceTemperature == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
         prepareActions[ACTION_TEMPERATURE] = true;
 
-    if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
+    //if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && areActionsReady())
     {
         prepareReady = true;
         emit prepareComplete();
@@ -534,7 +538,8 @@ void SequenceJob::setCurrentFilter(int value)
     if (currentFilter == targetFilter)
         prepareActions[ACTION_FILTER] = true;
 
-    if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
+    //if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && areActionsReady())
     {
         prepareReady = true;
         emit prepareComplete();
@@ -550,7 +555,8 @@ void SequenceJob::setCurrentRotation(double value)
     if (fabs(currentRotation - targetRotation)*60 <= Options::astrometryRotatorThreshold())
         prepareActions[ACTION_ROTATOR] = true;
 
-    if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
+    //if (prepareReady == false && areActionsReady() && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && areActionsReady())
     {
         prepareReady = true;
         emit prepareComplete();
