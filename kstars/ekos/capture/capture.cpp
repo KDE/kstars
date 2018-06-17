@@ -1793,8 +1793,8 @@ void Capture::updateCCDTemperature(double value)
     if (temperatureIN->cleanText().isEmpty())
         temperatureIN->setValue(value);
 
-    if (activeJob &&
-        (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
+    //if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
+    if (activeJob)
         activeJob->setCurrentTemperature(value);
 }
 
