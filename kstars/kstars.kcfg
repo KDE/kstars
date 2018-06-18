@@ -1446,6 +1446,10 @@
        <label>Ekos modules icons are placed to the left of pages</label>
        <default>false</default>
     </entry>
+    <entry name="RememberCredentials" type="Bool">
+       <label>Remember Ekos Live credentials.</label>
+       <default>true</default>
+    </entry>
       <entry name="independentWindowEkos" type="Bool">
          <label>Make Ekos window independent of KStars main window</label>
          <default>false</default>

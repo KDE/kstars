@@ -27,7 +27,7 @@ namespace Ekos
  *@class Mount
  *@short Supports controlling INDI telescope devices including setting/retrieving mount properties, slewing, motion and speed controls, in addition to enforcing altitude limits and parking/unparking.
  *@author Jasem Mutlaq
- *@version 1.1
+ *@version 1.3
  */
 class Mount : public QWidget, public Ui::Mount
 {
@@ -87,7 +87,14 @@ class Mount : public QWidget, public Ui::Mount
     /**
           @brief Like above but RA and DEC are strings HH:MM:SS and DD:MM:SS
         */
-    Q_INVOKABLE bool slew(const QString &RA, const QString &DEC);
+    Q_INVOKABLE bool slew(const QString &RA, const QString &DEC);    
+
+    /** DBUS interface function.
+         * Slew the mount to the target. Target name must be valid in KStars.
+         * @param target name
+         * @return true if the command is sent successfully, false otherwise.
+         */
+    Q_INVOKABLE Q_SCRIPTABLE bool gotoTarget(const QString &target);
 
     /** DBUS interface function.
          * Sync the mount to the RA/DEC (JNow).
@@ -96,6 +103,13 @@ class Mount : public QWidget, public Ui::Mount
          * @return true if the command is sent successfully, false otherwise.
          */
     Q_INVOKABLE Q_SCRIPTABLE bool sync(double RA, double DEC);
+
+    /** DBUS interface function.
+         * Sync the mount to the target. Target name must be valid in KStars.
+         * @param target name
+         * @return true if the command is sent successfully, false otherwise.
+         */
+    Q_INVOKABLE Q_SCRIPTABLE bool syncTarget(const QString &target);
 
     /**
           @brief Like above but RA and DEC are strings HH:MM:SS and DD:MM:SS
@@ -127,6 +141,12 @@ class Mount : public QWidget, public Ui::Mount
          * Get the mount slew status ("Idle","Complete", "Busy", "Error")
          */
     Q_INVOKABLE Q_SCRIPTABLE IPState getSlewStatus();
+
+
+    /** DBUS interface function.
+         * Get the mount slew rate index 0 to N-1, or -1 if slew rates are not supported.
+         */
+    Q_INVOKABLE Q_SCRIPTABLE int getSlewRate();
 
     /** DBUS interface function.
          * Get telescope and guide scope info. An array of doubles is returned in order.
@@ -170,8 +190,11 @@ class Mount : public QWidget, public Ui::Mount
          */
     Q_INVOKABLE Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
+    Q_INVOKABLE bool setSlewRate(int index);    
 
-    Q_INVOKABLE bool setSlewRate(int index);
+    Q_INVOKABLE void setTrackEnabled(bool enabled);
+
+    Q_INVOKABLE void setJ2000Enabled(bool enabled);
 
     /** @}*/
 
@@ -179,6 +202,9 @@ class Mount : public QWidget, public Ui::Mount
 
     // Center mount in Sky Map
     Q_INVOKABLE void centerMount();
+
+    // Get list of scopes
+    QJsonArray getScopes() const;
 
   public slots:
 
@@ -258,8 +284,9 @@ class Mount : public QWidget, public Ui::Mount
   signals:
     void newLog();
     void newCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
-    void newTarget(const QString &name);
+    void newTarget(const QString &name);    
     void newStatus(ISD::Telescope::TelescopeStatus status);
+    void slewRateChanged(int index);
 
   private:
     void syncGPS();

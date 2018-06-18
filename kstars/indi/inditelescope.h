@@ -108,6 +108,11 @@ class Telescope : public DeviceDecorator
     bool clearAlignmentModel();
     bool hasAlignmentModel() { return m_hasAlignmentModel; }
 
+    // Slew Rates
+    bool hasSlewRates() { return m_hasSlewRates; }
+    QStringList slewRates() { return m_slewRates; }
+    int getSlewRate() const;
+
   protected:
     bool sendCoords(SkyPoint *ScopeTarget);
 
@@ -123,6 +128,7 @@ class Telescope : public DeviceDecorator
 
   signals:
     void newTarget(const QString &);
+    void slewRateChanged(int rate);
 
   private:
     SkyPoint currentCoord;
@@ -141,6 +147,8 @@ class Telescope : public DeviceDecorator
     bool m_hasTrackModes { false};
     bool m_hasCustomTrackRate { false};
     bool m_hasCustomParking { false };
+    bool m_hasSlewRates { false };
+    QStringList m_slewRates;
 
 
 };

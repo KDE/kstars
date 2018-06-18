@@ -9,12 +9,21 @@
 */
 
 #include "ksnotification.h"
+#include "config-kstars.h"
 
 #ifdef KSTARS_LITE
 #include "kstarslite.h"
 #else
 #include <QPointer>
 #include <KMessageBox>
+#include <KNotification>
+#endif
+
+#ifdef HAVE_INDI
+#ifdef HAVE_CFITSIO
+#include "kstars.h"
+#include "ekos/ekosmanager.h"
+#endif
 #endif
 
 namespace KSNotification
@@ -62,6 +71,22 @@ void transient(const QString &message, const QString &title)
     msgBox->setModal(false);
     msgBox->setIcon(QMessageBox::Warning);
     msgBox->show();
+#endif
+}
+
+void event(const QLatin1String &name, const QString &message, EventType type)
+{
+#ifndef KSTARS_LITE
+    KNotification::event(name, message);
+
+#ifdef HAVE_INDI
+#ifdef HAVE_CFITSIO
+    EkosManager *manager = KStars::Instance()->ekosManager();
+    if (manager)
+        manager->announceEvent(message, type);
+#endif
+#endif
+
 #endif
 }
 

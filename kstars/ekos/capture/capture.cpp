@@ -28,7 +28,7 @@
 #include "indi/clientmanager.h"
 #include "oal/observeradd.h"
 
-#include <KNotifications/KNotification>
+#include <basedevice.h>
 
 #include <ekos_capture_debug.h>
 
@@ -88,7 +88,7 @@ Capture::Capture()
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
 
-    connect(liveVideoB, SIGNAL(clicked(bool)), this, SLOT(toggleVideoStream(bool)));
+    connect(liveVideoB, SIGNAL(clicked(bool)), this, SLOT(toggleVideo(bool)));
 
     guideDeviationTimer.setInterval(GD_TIMER_TIMEOUT);
     connect(&guideDeviationTimer, SIGNAL(timeout()), this, SLOT(checkGuideDeviationTimeout()));
@@ -125,7 +125,10 @@ Capture::Capture()
     connect(resetB, SIGNAL(clicked()), this, SLOT(resetJobs()));
     connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editJob(QModelIndex)));
     connect(queueTable, SIGNAL(itemSelectionChanged()), this, SLOT(resetJobEdit()));
-    connect(setTemperatureB, SIGNAL(clicked()), this, SLOT(setTemperature()));
+    connect(setTemperatureB, &QPushButton::clicked, [&]() {
+        if (currentCCD)
+            currentCCD->setTemperature(temperatureIN->value());
+    });
     connect(temperatureIN, SIGNAL(editingFinished()), setTemperatureB, SLOT(setFocus()));
     connect(frameTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkFrameType(int)));
     connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
@@ -444,8 +447,16 @@ void Capture::stop(bool abort)
     {
         if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
         {
-            KNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture aborted"));
+            KSNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture aborted"));
             activeJob->abort();
+            if (activeJob->isPreview() == false)
+            {
+                int index = jobs.indexOf(activeJob);
+                QJsonObject oneSequence = m_SequenceArray[index].toObject();
+                oneSequence["Status"] = "Aborted";
+                m_SequenceArray.replace(index, oneSequence);
+                emit sequenceChanged(m_SequenceArray);
+            }
             emit newStatus(Ekos::CAPTURE_ABORTED);
         }        
 
@@ -977,7 +988,7 @@ void Capture::syncFrameType(ISD::GDInterface *ccd)
     }
 }
 
-bool Capture::setFilter(QString device, int filterSlot)
+bool Capture::setFilter(const QString &device, const QString &filter)
 {
     bool deviceFound = false;
 
@@ -992,10 +1003,8 @@ bool Capture::setFilter(QString device, int filterSlot)
     if (deviceFound == false)
         return false;
 
-    if (filterSlot < FilterDevicesCombo->count())
-        FilterDevicesCombo->setCurrentIndex(filterSlot);
-
-    return true;
+   FilterPosCombo->setCurrentText(filter);
+   return true;
 }
 
 void Capture::checkFilter(int filterNum)
@@ -1170,7 +1179,7 @@ bool Capture::setCaptureComplete()
 
     // Do not display notifications for very short captures
     if (activeJob->getExposure() >= 1)
-        KNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"));
+        KSNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"), KSNotification::EVENT_INFO);
 
     // If it was initially set as preview job
     if (seqTotalCount <= 0)
@@ -1184,6 +1193,9 @@ bool Capture::setCaptureComplete()
         abort();
         if (guideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
             emit resumeGuiding();
+
+        state = CAPTURE_IDLE;
+        emit newStatus(Ekos::CAPTURE_IDLE);
         return true;
     }
 
@@ -1241,6 +1253,15 @@ void Capture::processJobCompletion()
 {
     activeJob->done();
 
+    if (activeJob->isPreview() == false)
+    {
+        int index = jobs.indexOf(activeJob);
+        QJsonObject oneSequence = m_SequenceArray[index].toObject();
+        oneSequence["Status"] = "Complete";
+        m_SequenceArray.replace(index, oneSequence);
+        emit sequenceChanged(m_SequenceArray);
+    }
+
     stop();
 
     // Check if meridian condition is met IF there are more pending jobs in the queue
@@ -1254,7 +1275,8 @@ void Capture::processJobCompletion()
     // Otherwise, we're done. We park if required and resume guiding if no parking is done and autoguiding was engaged before.
     else
     {
-        KNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"));
+        //KNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"));
+        KSNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"), KSNotification::EVENT_INFO);
 
         abort();
 
@@ -1542,8 +1564,9 @@ void Capture::captureImage()
 
     state = CAPTURE_CAPTURING;
 
-    if (activeJob->isPreview() == false)
-        emit newStatus(Ekos::CAPTURE_CAPTURING);
+    //if (activeJob->isPreview() == false)
+    // NOTE: Why we didn't emit this before for preview?
+    emit newStatus(Ekos::CAPTURE_CAPTURING);
 
     if (frameSettings.contains(activeJob->getActiveChip()))
     {
@@ -1574,7 +1597,17 @@ void Capture::captureImage()
     switch (rc)
     {
         case SequenceJob::CAPTURE_OK:
+        {
                 appendLogText(i18n("Capturing image..."));
+                if (activeJob->isPreview() == false)
+                {
+                    int index = jobs.indexOf(activeJob);
+                    QJsonObject oneSequence = m_SequenceArray[index].toObject();
+                    oneSequence["Status"] = "In Progress";
+                    m_SequenceArray.replace(index, oneSequence);
+                    emit sequenceChanged(m_SequenceArray);
+                }
+        }
             break;
 
         case SequenceJob::CAPTURE_FRAME_ERROR:
@@ -1813,6 +1846,9 @@ void Capture::updateRotatorNumber(INumberVectorProperty *nvp)
 
 bool Capture::addJob(bool preview)
 {
+    if (state != CAPTURE_IDLE && state != CAPTURE_ABORTED && state != CAPTURE_COMPLETE)
+        return false;
+
     SequenceJob *job = nullptr;
     QString imagePrefix;
 
@@ -1924,6 +1960,8 @@ bool Capture::addJob(bool preview)
             return true;
     }
 
+    QJsonObject jsonJob = {{"Status", "Idle"}};
+
     QString directoryPostfix;
 
     if (targetName.isEmpty())
@@ -1953,12 +1991,16 @@ bool Capture::addJob(bool preview)
 
     QTableWidgetItem *filter = jobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
     filter->setText("--");
+    jsonJob.insert("Filter", "--");
     /*if (frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
             frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive) &&
             FilterPosCombo->count() > 0)*/
     if (FilterPosCombo->count() > 0 &&
         (frameTypeCombo->currentIndex() == FRAME_LIGHT || frameTypeCombo->currentIndex() == FRAME_FLAT))
+    {
         filter->setText(FilterPosCombo->currentText());
+        jsonJob.insert("Filter", FilterPosCombo->currentText());
+    }
 
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -1967,22 +2009,31 @@ bool Capture::addJob(bool preview)
     type->setText(frameTypeCombo->currentText());
     type->setTextAlignment(Qt::AlignHCenter);
     type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Type", type->text());
 
     QTableWidgetItem *bin = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
     bin->setText(QString("%1x%2").arg(binXIN->value()).arg(binYIN->value()));
     bin->setTextAlignment(Qt::AlignHCenter);
     bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Bin", bin->text());
 
     QTableWidgetItem *exp = jobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
     exp->setText(QString::number(exposureIN->value()));
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Exp", exp->text());
 
     QTableWidgetItem *iso = jobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
     if (ISOCombo->currentIndex() != -1)
+    {
         iso->setText(ISOCombo->currentText());
+        jsonJob.insert("ISO", iso->text());
+    }
     else
+    {
         iso->setText("--");
+        jsonJob.insert("ISO", "--");
+    }
     iso->setTextAlignment(Qt::AlignHCenter);
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
@@ -1990,6 +2041,7 @@ bool Capture::addJob(bool preview)
     count->setText(QString::number(countIN->value()));
     count->setTextAlignment(Qt::AlignHCenter);
     count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    jsonJob.insert("Count", count->text());
 
     if (jobUnderEdit == false)
     {
@@ -2000,6 +2052,9 @@ bool Capture::addJob(bool preview)
         queueTable->setItem(currentRow, 4, exp);
         queueTable->setItem(currentRow, 5, iso);
         queueTable->setItem(currentRow, 6, count);
+
+        m_SequenceArray.append(jsonJob);
+        emit sequenceChanged(m_SequenceArray);
     }
 
     removeFromQueueB->setEnabled(true);
@@ -2023,13 +2078,19 @@ bool Capture::addJob(bool preview)
         jobUnderEdit = false;
         resetJobEdit();
         appendLogText(i18n("Job #%1 changes applied.", currentRow + 1));
+
+        m_SequenceArray.replace(currentRow, jsonJob);
+        emit sequenceChanged(m_SequenceArray);
     }
 
     return true;
 }
 
-void Capture::removeJob()
+void Capture::removeJob(int index)
 {
+    if (state != CAPTURE_IDLE && state != CAPTURE_ABORTED && state != CAPTURE_COMPLETE)
+        return;
+
     if (jobUnderEdit)
     {
         resetJobEdit();
@@ -2037,6 +2098,8 @@ void Capture::removeJob()
     }
 
     int currentRow = queueTable->currentRow();
+    if (index >= 0)
+        currentRow = index;
 
     if (currentRow < 0)
     {
@@ -2046,6 +2109,9 @@ void Capture::removeJob()
     }
 
     queueTable->removeRow(currentRow);
+
+    m_SequenceArray.removeAt(currentRow);
+    emit sequenceChanged(m_SequenceArray);
 
     SequenceJob *job = jobs.at(currentRow);
     jobs.removeOne(job);
@@ -2103,6 +2169,11 @@ void Capture::moveJobUp()
     jobs.removeOne(job);
     jobs.insert(destinationRow, job);
 
+    QJsonObject currentJob = m_SequenceArray[currentRow].toObject();
+    m_SequenceArray.replace(currentRow, m_SequenceArray[destinationRow]);
+    m_SequenceArray.replace(destinationRow, currentJob);
+    emit sequenceChanged(m_SequenceArray);
+
     queueTable->selectRow(destinationRow);
 
     for (int i = 0; i < jobs.count(); i++)
@@ -2135,6 +2206,11 @@ void Capture::moveJobDown()
 
     jobs.removeOne(job);
     jobs.insert(destinationRow, job);
+
+    QJsonObject currentJob = m_SequenceArray[currentRow].toObject();
+    m_SequenceArray.replace(currentRow, m_SequenceArray[destinationRow]);
+    m_SequenceArray.replace(destinationRow, currentJob);
+    emit sequenceChanged(m_SequenceArray);
 
     queueTable->selectRow(destinationRow);
 
@@ -3566,10 +3642,9 @@ void Capture::setInSequenceFocus(bool enable, double HFR)
             HFRPixels->setValue(HFR);
 }
 
-void Capture::setTemperature()
+void Capture::setTargetTemperature(double temperature)
 {
-    if (currentCCD)
-        currentCCD->setTemperature(temperatureIN->value());
+    temperatureIN->setValue(temperature);
 }
 
 void Capture::clearSequenceQueue()
@@ -3686,8 +3761,8 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
 
             appendLogText(i18n("Telescope completed the meridian flip."));
 
-            KNotification::event(QLatin1String("MeridianFlipCompleted"),
-                                 i18n("Meridian flip is successfully completed"));
+            //KNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"));
+            KSNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"), KSNotification::EVENT_INFO);
 
             if (resumeAlignmentAfterFlip == true)
             {
@@ -3780,7 +3855,8 @@ bool Capture::checkMeridianFlip()
             QString::number(currentHA, 'f', 2), meridianHours->value()));
         meridianFlipStage = MF_INITIATED;
 
-        KNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"));
+        //KNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"));
+        KSNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"), KSNotification::EVENT_INFO);
 
         // Suspend guiding first before commanding a meridian flip
         //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
@@ -3820,7 +3896,8 @@ void Capture::checkMeridianFlipTimeout()
 
         if (++retries == 3)
         {
-            KNotification::event(QLatin1String("MeridianFlipFailed"), i18n("Meridian flip failed"));
+            //KNotification::event(QLatin1String("MeridianFlipFailed"), i18n("Meridian flip failed"));
+            KSNotification::event(QLatin1String("MeridianFlipFailed"), i18n("Meridian flip failed"), KSNotification::EVENT_ALERT);
             abort();
         }
         else
@@ -4820,7 +4897,7 @@ void Capture::showFilterOffsetDialog()
 }
 #endif
 
-void Capture::toggleVideoStream(bool enable)
+void Capture::toggleVideo(bool enabled)
 {
     if (currentCCD == nullptr)
         return;
@@ -4828,14 +4905,14 @@ void Capture::toggleVideoStream(bool enable)
     if (currentCCD->isBLOBEnabled() == false)
     {
 
-        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(0, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
+        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
             KMessageBox::Yes)
             currentCCD->setBLOBEnabled(true);
         else
             return;
     }
 
-    currentCCD->setVideoStreamEnabled(enable);
+    currentCCD->setVideoStreamEnabled(enabled);
 }
 
 void Capture::setVideoStreamEnabled(bool enabled)

@@ -17,9 +17,9 @@
 #include "auxiliary/kspaths.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
+#include "ksnotification.h"
 
 #include <KMessageBox>
-#include <KNotification>
 
 #include <QTimer>
 
@@ -435,7 +435,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
-            KNotification::event(QLatin1String("CalibrationFailed"), i18n("Guiding calibration failed with errors"));
+            KSNotification::event(QLatin1String("CalibrationFailed"), i18n("Guiding calibration failed with errors"), KSNotification::EVENT_ALERT);
 
             reset();
         }
@@ -521,7 +521,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                               "backlash problems...",
                               ra_iterations));
 
-            KNotification::event(QLatin1String("CalibrationFailed"), i18n("Guiding calibration failed with errors"));
+            KSNotification::event(QLatin1String("CalibrationFailed"), i18n("Guiding calibration failed with errors"), KSNotification::EVENT_ALERT);
             reset();
             break;
         }
@@ -551,7 +551,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
 
-            KNotification::event(QLatin1String("CalibrationSuccessful"),
+            KSNotification::event(QLatin1String("CalibrationSuccessful"),
                                  i18n("Guiding calibration completed successfully"));
         }
         else
@@ -562,8 +562,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
-            KNotification::event(QLatin1String("CalibrationFailed"),
-                                 i18n("Guiding calibration failed with errors"));
+            KSNotification::event(QLatin1String("CalibrationFailed"),
+                                 i18n("Guiding calibration failed with errors"), KSNotification::EVENT_ALERT);
         }
 
         reset();
@@ -614,8 +614,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                               "or backlash problems...",
                               dec_iterations));
 
-            KNotification::event(QLatin1String("CalibrationFailed"),
-                                 i18n("Guiding calibration failed with errors"));
+            KSNotification::event(QLatin1String("CalibrationFailed"),
+                                 i18n("Guiding calibration failed with errors"), KSNotification::EVENT_ALERT);
             reset();
         }
         else
@@ -695,8 +695,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
                               "or backlash problems...",
                               dec_iterations));
 
-            KNotification::event(QLatin1String("CalibrationFailed"),
-                                 i18n("Guiding calibration failed with errors"));
+            KSNotification::event(QLatin1String("CalibrationFailed"),
+                                 i18n("Guiding calibration failed with errors"),KSNotification::EVENT_ALERT);
             reset();
             break;
         }
@@ -717,7 +717,7 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             emit DESwapChanged(swap_dec);
 
-            KNotification::event(QLatin1String("CalibrationSuccessful"),
+            KSNotification::event(QLatin1String("CalibrationSuccessful"),
                                  i18n("Guiding calibration completed successfully"));
 
             //if (ui.autoStarCheck->isChecked())
@@ -731,8 +731,8 @@ void InternalGuider::calibrateRADECRecticle(bool ra_only)
 
             //ui.startCalibrationLED->setColor(alertColor);
             calibrationStage = CAL_ERROR;
-            KNotification::event(QLatin1String("CalibrationFailed"),
-                                 i18n("Guiding calibration failed with errors"));
+            KSNotification::event(QLatin1String("CalibrationFailed"),
+                                 i18n("Guiding calibration failed with errors"),KSNotification::EVENT_ALERT);
         }
 
         reset();

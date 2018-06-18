@@ -55,6 +55,8 @@ bool VideoWG::newFrame(IBLOB *bp)
         setPixmap(kPix);
     }
 
+    emit imageChanged(streamImage);
+
     return rc;
 }
 

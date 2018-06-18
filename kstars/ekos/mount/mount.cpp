@@ -28,6 +28,7 @@
 #include "ekos/ekosmanager.h"
 
 #include "kstars.h"
+#include "skymapcomposite.h"
 #include "kspaths.h"
 #include "dialogs/finddialog.h"
 #include "kstarsdata.h"
@@ -165,6 +166,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     connect(currentTelescope, SIGNAL(textUpdated(ITextVectorProperty*)), this,
             SLOT(updateText(ITextVectorProperty*)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(newTarget(QString)), this, SIGNAL(newTarget(QString)), Qt::UniqueConnection);
+    connect(currentTelescope, &ISD::Telescope::slewRateChanged, this, &Mount::slewRateChanged);
     connect(currentTelescope, &ISD::Telescope::Disconnected, [this]()
     {
         updateTimer.stop();
@@ -180,6 +182,10 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     updateTimer.start();
 
     syncTelescopeInfo();
+
+    // Send inital status
+    lastStatus = currentTelescope->getStatus();
+    emit newStatus(lastStatus);
 }
 
 void Mount::syncTelescopeInfo()
@@ -321,10 +327,14 @@ bool Mount::setScopeConfig(int index)
 
 void Mount::updateTelescopeCoords()
 {
-    double ra, dec;
+    // No need to update coords if we are still parked.
+    if (lastStatus == ISD::Telescope::MOUNT_PARKED && lastStatus == currentTelescope->getStatus())
+        return;
 
+    double ra, dec;
     if (currentTelescope && currentTelescope->getEqCoords(&ra, &dec))
     {
+
         telescopeCoord.setRA(ra);
         telescopeCoord.setDec(dec);
         telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -674,6 +684,31 @@ bool Mount::isLimitsEnabled()
     return enableLimitsCheck->isChecked();
 }
 
+void Mount::setJ2000Enabled(bool enabled)
+{
+    m_J2000Check->setProperty("checked", enabled);
+}
+
+bool Mount::gotoTarget(const QString &target)
+{
+    SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
+
+    if (object != nullptr)
+        return slew(object->ra().Hours(), object->dec().Degrees());
+
+    return false;
+}
+
+bool Mount::syncTarget(const QString &target)
+{
+    SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
+
+    if (object != nullptr)
+        return sync(object->ra().Hours(), object->dec().Degrees());
+
+    return false;
+}
+
 bool Mount::slew(const QString &RA, const QString &DEC)
 {
     dms ra, de;
@@ -1012,4 +1047,48 @@ void Mount::syncGPS()
         }
     }
 }
+
+void Mount::setTrackEnabled(bool enabled)
+{
+    if (enabled)
+        trackOnB->click();
+    else
+        trackOffB->click();
+}
+
+int Mount::getSlewRate()
+{
+    if (currentTelescope == nullptr)
+        return -1;
+
+    return currentTelescope->getSlewRate();
+}
+
+QJsonArray Mount::getScopes() const
+{
+    QJsonArray scopes;
+    if (currentTelescope == nullptr)
+        return scopes;
+
+    QJsonObject primary = {
+      {"name", "Primary"},
+      {"mount", currentTelescope->getDeviceName()},
+      {"aperture", primaryScopeApertureIN->value()},
+      {"focalLength", primaryScopeFocalIN->value()},
+    };
+
+    scopes.append(primary);
+
+    QJsonObject guide = {
+      {"name", "Guide"},
+      {"mount", currentTelescope->getDeviceName()},
+      {"aperture", primaryScopeApertureIN->value()},
+      {"focalLength", primaryScopeFocalIN->value()},
+    };
+
+    scopes.append(guide);
+
+    return scopes;
+}
+
 }

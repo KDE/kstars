@@ -67,7 +67,8 @@ class FITSView : public QScrollArea
     // Access functions
     FITSData *getImageData() { return imageData; }
     double getCurrentZoom() { return currentZoom; }
-    QImage *getDisplayImage() { return display_image; }
+    QImage *getDisplayImage() { return displayImage; }
+    const QPixmap &getDisplayPixmap() const { return displayPixmap; }
 
     // Tracking square
     void setTrackingBoxEnabled(bool enable);
@@ -110,6 +111,8 @@ class FITSView : public QScrollArea
     // Zoom related
     void cleanUpZoom(QPoint viewCenter);
     QPoint getImagePoint(QPoint viewPortPoint);
+    uint16_t zoomedWidth() { return currentWidth; }
+    uint16_t zoomedHeight() { return currentHeight; }
 
     // Star Detection
     int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &searchBox = QRect());
@@ -214,7 +217,10 @@ private:
     const double zoomFactor;
 
     /// FITS image that is displayed in the GUI
-    QImage *display_image { nullptr };
+    QImage *displayImage { nullptr };
+    // Actual pixmap after all the overlays
+    QPixmap displayPixmap;
+    // Histogram
     FITSHistogram *histogram { nullptr };
 
     bool firstLoad { true };
@@ -265,6 +271,7 @@ private:
     void wcsToggled(bool);
     void actionUpdated(const QString &name, bool enable);
     void trackingStarSelected(int x, int y);
+    void imageLoaded();
 
     friend class FITSLabel;
 };
