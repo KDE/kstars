@@ -269,6 +269,9 @@ if (INDI_FOUND)
                        # External Guide
                        ekos/guide/externalguide/phd2.cpp
                        ekos/guide/externalguide/linguider.cpp
+
+                       # Ekos Live
+                       ekos/ekoslive/ekosliveclient.cpp
            )
             endif(CFITSIO_FOUND)
     endif(BUILD_KSTARS_LITE)
@@ -992,9 +995,10 @@ else(BUILD_KSTARS_LITE)
         Qt5::Svg
         Qt5::Qml
         Qt5::Quick
-        Qt5::Network
+        Qt5::Network        
         #Qt5::Positioning
-        Qt5::Concurrent        
+        Qt5::Concurrent
+        Qt5::WebSockets
         ${ZLIB_LIBRARIES}
         )
 
