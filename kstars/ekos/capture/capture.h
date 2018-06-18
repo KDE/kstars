@@ -120,8 +120,9 @@ class Capture : public QWidget, public Ui::Capture
     /** DBUS interface function.
          * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.
          * @param device The filter device name
+         * @param filter the filter name
          */
-    Q_SCRIPTABLE bool setFilter(QString device, int filterSlot);
+    Q_SCRIPTABLE bool setFilter(const QString &device, const QString &filter);
 
     /** DBUS interface function.
          * Aborts any current jobs and remove all sequence queue jobs.
@@ -290,6 +291,12 @@ class Capture : public QWidget, public Ui::Capture
     /* Capture */
     void updateSequencePrefix(const QString &newPrefix, const QString &dir);
 
+    /**
+     * @brief getSequence Return the JSON representation of the current sequeue queue
+     * @return Reference to JSON array containing sequence queue jobs.
+     */
+    const QJsonArray &getSequence() const { return m_SequenceArray;}
+
   public slots:
 
     /** \addtogroup CaptureDBusInterface
@@ -314,12 +321,56 @@ class Capture : public QWidget, public Ui::Capture
          */
     Q_SCRIPTABLE Q_NOREPLY void abort() { stop(true); }
 
+
+    /** DBUS interface function.
+         * Toggle video streaming if supported by the device.
+         * @param enabled Set to true to start video streaming, false to stop it if active.
+         */
+    Q_SCRIPTABLE Q_NOREPLY void toggleVideo(bool enabled);
+
     /** @}*/
 
     /**
          * @brief captureOne Capture one preview image
          */
     void captureOne();
+
+    /**
+     * @brief setExposure Set desired exposure value in seconds
+     * @param value exposure values in seconds
+     */
+    void setExposure(double value) { exposureIN->setValue(value);}
+
+    /**
+     * @brief seqCount Set required number of images to capture in one sequence job
+     * @param count number of images to capture
+     */
+    void setCount(uint16_t count) { countIN->setValue(count); }
+
+    /**
+     * @brief setDelay Set delay between capturing images within a sequence in seconds
+     * @param delay numbers of seconds to wait before starting the next image.
+     */
+    void setDelay(uint16_t delay) { delayIN->setValue(delay);}
+
+    /**
+     * @brief setPrefix Set target or prefix name used in constructing the generated file name
+     * @param prefix Leading text of the generated image name.
+     */
+    void setPrefix(const QString &prefix) { prefixIN->setText(prefix);}
+
+    /**
+     * @brief setBinning Set binning
+     * @param horBin Horizontal binning
+     * @param verBin Vertical binning
+     */
+    void setBinning(int horBin, int verBin) { binXIN->setValue(horBin); binYIN->setValue(verBin); }
+
+    /**
+     * @brief setISO Set index of ISO list.
+     * @param index index of ISO list.
+     */
+    void setISO(int index) { ISOCombo->setCurrentIndex(index);}
 
     /**
          * @brief captureImage Initiates image capture in the active job.
@@ -364,9 +415,11 @@ class Capture : public QWidget, public Ui::Capture
     bool addJob(bool preview = false);
 
     /**
-         * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.
-         */
-    void removeJob();
+     * @brief removeJob Remove a job sequence from the queue
+     * @param index Row index for job to remove, if left as -1 (default), the currently selected row will be removed.
+     *        if no row is selected, the last job shall be removed.
+     */
+    void removeJob(int index=-1);
 
     /**
          * @brief moveJobUp Move the job in the sequence queue one place up.
@@ -397,14 +450,18 @@ class Capture : public QWidget, public Ui::Capture
     void updateCCDTemperature(double value);
 
     /**
-         * @brief setTemperature Set CCD temperature from the user GUI settings.
+         * @brief setTemperature Set the target CCD temperature in the GUI settings.
          */
-    void setTemperature();
+    void setTargetTemperature(double temperature);
+
+    void setForceTemperature(bool enabled) {temperatureCheck->setChecked(enabled);}
 
     /**
          * @brief preparePreCaptureActions Check if we need to update filter position or CCD temperature before starting capture process
          */
     void preparePreCaptureActions();
+
+    void setFrameType(const QString& type) {frameTypeCombo->setCurrentText(type);}
 
     // Pause Sequence Queue
     void pause();
@@ -414,7 +471,7 @@ class Capture : public QWidget, public Ui::Capture
 
     // Auto Focus
     void setFocusStatus(Ekos::FocusState state);
-    void setHFR(double newHFR) { focusHFR = newHFR; }
+    void setHFR(double newHFR, int) { focusHFR = newHFR; }
 
     // Guide
     void setGuideStatus(Ekos::GuideState state);
@@ -481,12 +538,6 @@ class Capture : public QWidget, public Ui::Capture
     // post capture script
     void postScriptFinished(int exitCode);
 
-    // Filter focus offset
-    //void showFilterOffsetDialog();
-    //void loadFilterOffsets();
-
-    // Live Video Preview
-    void toggleVideoStream(bool enable);
     void setVideoStreamEnabled(bool enabled);
 
     // Observer
@@ -508,6 +559,7 @@ class Capture : public QWidget, public Ui::Capture
     void newStatus(Ekos::CaptureState status);
     void newImage(QImage *image, Ekos::SequenceJob *job);
     void newExposureProgress(Ekos::SequenceJob *job);
+    void sequenceChanged(const QJsonArray &sequence);
 
   private:
     void setBusy(bool enable);
@@ -637,6 +689,7 @@ class Capture : public QWidget, public Ui::Capture
     // Misc
     bool ignoreJobProgress { true };
     bool suspendGuideOnDownload { false };
+    QJsonArray m_SequenceArray;
 
     // State
     CaptureState state { CAPTURE_IDLE };

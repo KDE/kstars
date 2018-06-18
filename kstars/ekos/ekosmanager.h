@@ -30,7 +30,7 @@
 #include "mount/mount.h"
 #include "scheduler/scheduler.h"
 #include "auxiliary/filtermanager.h"
-#include "ekoslive/ekosliveclient.h"
+#include "ksnotification.h"
 // Can't use forward decleration with QPointer. QTBUG-29588
 #include "auxiliary/opslogs.h"
 
@@ -41,7 +41,7 @@
 #include <memory>
 
 class QProgressIndicator;
-
+class EkosLiveClient;
 class DriverInfo;
 class ProfileInfo;
 class KPageWidgetItem;
@@ -85,8 +85,11 @@ class EkosManager : public QDialog, public Ui::EkosManager
     Ekos::Guide *guideModule() { return guideProcess.get(); }
     Ekos::Align *alignModule() { return alignProcess.get(); }
     Ekos::Mount *mountModule() { return mountProcess.get(); }
+    Ekos::Focus *focusModule() { return focusProcess.get(); }
+    Ekos::Capture *captureModule() { return captureProcess.get(); }
     FITSView *getSummaryPreview() { return summaryPreview.get(); }
     QString getCurrentJobName();
+    void announceEvent(const QString &message, KSNotification::EventType event);
 
     /**
      * @defgroup EkosDBusInterface Ekos DBus Interface
@@ -136,6 +139,9 @@ class EkosManager : public QDialog, public Ui::EkosManager
      */
     Q_SCRIPTABLE bool stop();
 
+ signals:
+    void newEkosStartingStatus(CommunicationStatus status);
+
   protected:
     void closeEvent(QCloseEvent *);
     void hideEvent(QHideEvent *);
@@ -173,7 +179,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     void showEkosOptions();
 
     void updateLog();
-    void clearLog();
+    void clearLog();    
 
     void processTabChange();
 
@@ -222,7 +228,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     void setFocusStatus(Ekos::FocusState status);
     void updateFocusStarPixmap(QPixmap &starPixmap);
     void updateFocusProfilePixmap(QPixmap &profilePixmap);
-    void updateCurrentHFR(double newHFR);
+    void updateCurrentHFR(double newHFR, int position);
 
     // Guide Summary
     void updateGuideStatus(Ekos::GuideState status);
@@ -324,4 +330,6 @@ class EkosManager : public QDialog, public Ui::EkosManager
 
     // Logs
     QPointer<Ekos::OpsLogs> opsLogs;
+
+    friend class EkosLiveClient;
 };

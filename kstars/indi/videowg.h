@@ -44,6 +44,7 @@ class VideoWG : public QLabel
 
   signals:
     void newSelection(QRect);
+    void imageChanged(std::unique_ptr<QImage> & frame);
 
   private:
     uint16_t streamW { 0 };

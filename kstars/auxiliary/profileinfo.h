@@ -12,6 +12,7 @@
 
 #include <QMap>
 #include <QString>
+#include <QJsonObject>
 
 class ProfileInfo
 {
@@ -21,6 +22,10 @@ class ProfileInfo
 
     // Is connection local or remote
     bool isLocal() { return host.isEmpty(); }
+    QJsonObject toJson() const
+    {
+        return {{"name", name}, {"isLocal", host.isEmpty()}};
+    }
 
     QString mount();
     QString ccd();

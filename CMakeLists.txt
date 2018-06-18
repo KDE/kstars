@@ -214,6 +214,10 @@ MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
 find_package(AstrometryNet)
 set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE RUNTIME PURPOSE "Support for plate solving in KStars.")
 
+## Key Chain
+find_package(Qt5Keychain)
+MACRO_BOOL_TO_01(Qt5Keychain_FOUND HAVE_KEYCHAIN)
+
 ## OpenGL
 find_package(OpenGL)
 set_package_properties(OpenGL PROPERTIES DESCRIPTION "Open Graphics Library" URL "http://www.opengl.org" TYPE OPTIONAL PURPOSE "Support for hardware rendering in KStars.")
