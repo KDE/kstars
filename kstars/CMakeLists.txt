@@ -990,8 +990,7 @@ else(BUILD_KSTARS_LITE)
         KF5::KIOFileWidgets
         KF5::WidgetsAddons
         KF5::Plotting
-        KF5::Notifications
-        KF5::Wallet
+        KF5::Notifications        
         Qt5::Gui
         Qt5::PrintSupport
         Qt5::Sql
@@ -1001,9 +1000,14 @@ else(BUILD_KSTARS_LITE)
         Qt5::Network        
         #Qt5::Positioning
         Qt5::Concurrent
-        Qt5::WebSockets
+        Qt5::WebSockets        
         ${ZLIB_LIBRARIES}
         )
+
+    if (Qt5Keychain_FOUND)
+        include_directories(KStarsLib PUBLIC ${QTKEYCHAIN_INCLUDE_DIRS})
+        target_link_libraries(KStarsLib ${QTKEYCHAIN_LIBRARIES})
+    endif(Qt5Keychain_FOUND)
 
     if (Qt5DataVisualization_FOUND)
         target_link_libraries(KStarsLib Qt5::DataVisualization)

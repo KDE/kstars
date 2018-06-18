@@ -29,13 +29,20 @@
 
 #include <KFormat>
 
+#include <config-kstars.h>
+
+#ifdef HAVE_KEYCHAIN
+#include <qt5keychain/keychain.h>
+#endif
+
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QUuid>
 
-#include <KWallet>
+
+//#include <KWallet>
 
 QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
 {
@@ -157,6 +164,22 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
     //m_serviceURL.setUrl("http://localhost:3000");
     //m_wsURL.setUrl("ws://localhost:3000");
 
+    #ifdef HAVE_KEYCHAIN
+    QKeychain::ReadPasswordJob *job = new QKeychain::ReadPasswordJob(QLatin1String("kstars"));
+    job->setAutoDelete(false);
+    job->setKey(QLatin1String("ekoslive"));
+    connect(job, &QKeychain::Job::finished, [&](QKeychain::Job* job) {
+        if (job->error() == false)
+        {
+            QJsonObject data = QJsonDocument::fromJson(dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1()).object();
+            username->setText(data["username"].toString());
+            password->setText(data["password"].toString());
+        }
+        job->deleteLater();
+    });
+    job->start();
+    #endif
+#if 0
     QMap<QString,QString> credentials;
     KWallet::Wallet *localWallet = KWallet::Wallet::openWallet(KWallet::Wallet::LocalWallet(), 0);
 
@@ -172,6 +195,7 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
 
         delete (localWallet);
     }
+#endif
 }
 
 EkosLiveClient::~EkosLiveClient()
@@ -261,6 +285,20 @@ void EkosLiveClient::onMessageConnected()
 
     if (rememberCredentialsCheck->isChecked())
     {
+        #ifdef HAVE_KEYCHAIN
+        QJsonObject credentials = {
+            {"username", username->text()},
+            {"password", password->text()}
+        };
+
+        QKeychain::WritePasswordJob *job = new QKeychain::WritePasswordJob(QLatin1String("kstars"));
+        job->setAutoDelete(true);
+        job->setKey(QLatin1String("ekoslive"));
+        job->setTextData(QJsonDocument(credentials).toJson());
+        job->start();
+        #endif
+
+        #if 0
         QMap<QString,QString> credentials;
 
         credentials["username"] = username->text();
@@ -277,6 +315,7 @@ void EkosLiveClient::onMessageConnected()
             localWallet->writeMap(m_serviceURL.toString(), credentials);
             delete (localWallet);
         }
+        #endif
     }
 
     sendConnection();
