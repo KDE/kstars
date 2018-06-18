@@ -115,7 +115,6 @@ else(BUILD_KSTARS_LITE)
       XmlGui
       Plotting
       Notifications
-      Wallet
     )
 endif(BUILD_KSTARS_LITE)
 
@@ -214,6 +213,10 @@ MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
 ## Astrometry.net
 find_package(AstrometryNet)
 set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE RUNTIME PURPOSE "Support for plate solving in KStars.")
+
+## Key Chain
+find_package(Qt5Keychain)
+MACRO_BOOL_TO_01(Qt5Keychain_FOUND HAVE_KEYCHAIN)
 
 ## OpenGL
 find_package(OpenGL)
