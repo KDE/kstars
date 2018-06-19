@@ -20,7 +20,7 @@
 #include "ksparser.h"
 
 #include <KLocalizedString>
-#ifndef KSTARS_LITE
+#if !defined(ANDROID)
 #include <KMessageBox>
 #endif
 

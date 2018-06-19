@@ -6,9 +6,6 @@ set (KStars_VERSION_REVISION 6)
 set (CMAKE_CXX_STANDARD 11)
 #Build KStars Lite with -DKSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
-if(BUILD_KSTARS_LITE)
-    add_definitions(-DKSTARS_LITE)
-endif(BUILD_KSTARS_LITE)
 # minimal requirements
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 
@@ -67,8 +64,10 @@ if(BUILD_KSTARS_LITE)
     else()
         if(ANDROID)
             list(APPEND QT_EXTRA_COMPONENTS AndroidExtras)
+        else()
+            list(APPEND QT_EXTRA_COMPONENTS PrintSupport)
         endif()
-        find_package(Qt5 5.7 REQUIRED COMPONENTS Gui Qml Quick QuickControls2 Xml Svg Sql Network Positioning Concurrent ${QT_EXTRA_COMPONENTS})
+        find_package(Qt5 5.7 REQUIRED COMPONENTS Gui Qml Quick QuickControls2 Xml Svg Sql Network Positioning Concurrent WebSockets ${QT_EXTRA_COMPONENTS})
     endif()
 else()
     #find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport Positioning Concurrent)
@@ -96,7 +95,11 @@ if(BUILD_KSTARS_LITE)
         include(${CMAKE_BINARY_DIR}/kf5/kde/install/lib/cmake/KF5I18n/KF5I18nConfig.cmake)
         include(${CMAKE_BINARY_DIR}/kf5/kde/install/lib/cmake/KF5Plotting/KF5PlottingConfig.cmake)
     else()
-        find_package(KF5 REQUIRED COMPONENTS Config I18n Plotting)
+        # Find Optional package NotifyConfig for desktop notifications
+        find_package(KF5 COMPONENTS NotifyConfig)
+        MACRO_BOOL_TO_01(KF5NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
+
+        find_package(KF5 REQUIRED COMPONENTS Auth Config Crash DocTools WidgetsAddons NewStuff I18n KIO XmlGui Plotting Notifications)
     endif()
 else(BUILD_KSTARS_LITE)
     # Find Optional package NotifyConfig for desktop notifications
@@ -394,7 +397,7 @@ install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 # Only build k5auth for Linux
-if (NOT BUILD_KSTARS_LITE AND ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     # This helper file is generated to download astrometry.net index files.
     add_executable(kauth_kstars_helper kstars/auxiliary/downloadhelper.cpp  ${helper_mocs})
     target_link_libraries(kauth_kstars_helper Qt5::Core)

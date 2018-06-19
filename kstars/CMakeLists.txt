@@ -31,63 +31,51 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/skycomponents
     ${kstars_SOURCE_DIR}/kstars/auxiliary
     ${kstars_SOURCE_DIR}/kstars/time
+    ${kstars_SOURCE_DIR}/kstars/tools
 )
 
-if(BUILD_KSTARS_LITE)
-    include_directories(
-        ${kstars_SOURCE_DIR}/kstars/triangle
-    )
-else(BUILD_KSTARS_LITE)
-    include_directories(
-        ${kstars_SOURCE_DIR}/kstars/tools
-    )
-endif(BUILD_KSTARS_LITE)
+if (CFITSIO_FOUND)
+    set (sep_SRCS
+        fitsviewer/sep/analyse.c
+        fitsviewer/sep/aperture.c
+        fitsviewer/sep/background.c
+        fitsviewer/sep/convolve.c
+        fitsviewer/sep/deblend.c
+        fitsviewer/sep/extract.c
+        fitsviewer/sep/lutz.c
+        fitsviewer/sep/util.c
+        )
 
-if(NOT BUILD_KSTARS_LITE)
-    if (CFITSIO_FOUND)
+    set (fits_SRCS
+        fitsviewer/fitslabel.cpp
+        fitsviewer/fitsviewer.cpp
+        fitsviewer/fitstab.cpp
+        fitsviewer/fitsdebayer.cpp
+        fitsviewer/opsfits.cpp
+        )
 
-        set (sep_SRCS
-            fitsviewer/sep/analyse.c
-            fitsviewer/sep/aperture.c
-            fitsviewer/sep/background.c
-            fitsviewer/sep/convolve.c
-            fitsviewer/sep/deblend.c
-            fitsviewer/sep/extract.c
-            fitsviewer/sep/lutz.c
-            fitsviewer/sep/util.c
-            )
-
-        set (fits_SRCS
-            fitsviewer/fitslabel.cpp
-            fitsviewer/fitsviewer.cpp
-            fitsviewer/fitstab.cpp
-            fitsviewer/fitsdebayer.cpp
-            fitsviewer/opsfits.cpp
-            )
-
-        if (Qt5DataVisualization_FOUND)
+    if (Qt5DataVisualization_FOUND)
         set(fits_SRCS ${fits_SRCS} fitsviewer/starprofileviewer.cpp)
-        endif()
+    endif()
 
-        set (fits2_SRCS
-            fitsviewer/bayer.c
-            fitsviewer/fitshistogram.cpp
-            fitsviewer/fitsdata.cpp
-            fitsviewer/fitsview.cpp
-            )
-        set (fitsui_SRCS
-            fitsviewer/fitsheaderdialog.ui
-            fitsviewer/statform.ui
-            fitsviewer/fitsdebayer.ui
-            indi/streamform.ui
-            indi/recordingoptions.ui
-            fitsviewer/fitshistogramui.ui
-            fitsviewer/opsfits.ui
-            )
-        include_directories(${CFITSIO_INCLUDE_DIR})
+    set (fits2_SRCS
+        fitsviewer/bayer.c
+        fitsviewer/fitshistogram.cpp
+        fitsviewer/fitsview.cpp
+        fitsviewer/fitsdata.cpp
+        )
+    set (fitsui_SRCS
+        fitsviewer/fitsheaderdialog.ui
+        fitsviewer/statform.ui
+        fitsviewer/fitsdebayer.ui
+        indi/streamform.ui
+        indi/recordingoptions.ui
+        fitsviewer/fitshistogramui.ui
+        fitsviewer/opsfits.ui
+        )
+    include_directories(${CFITSIO_INCLUDE_DIR})
 
-    endif(CFITSIO_FOUND)
-endif(NOT BUILD_KSTARS_LITE)
+endif(CFITSIO_FOUND)
 
 IF (CFITSIO_FOUND)
     IF (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
@@ -115,449 +103,444 @@ ENDIF ()
 
 if (INDI_FOUND)
     if(BUILD_KSTARS_LITE)
-            set (fits_SRCS
+            set (fits_klite_SRCS
                 fitsviewer/fitsdata.cpp
                 )
-            set (fits2_SRCS
+            set (fits2_klite_SRCS
                 fitsviewer/bayer.c
                 )
                 include_directories(${CFITSIO_INCLUDE_DIR})
                 include_directories(${NOVA_INCLUDE_DIR})
 
-            set (indi_SRCS
+            set (indi_klite_SRCS
                 indi/clientmanagerlite.cpp
                 indi/inditelescopelite.cpp
                 kstarslite/skyitems/skynodes/crosshairnode.cpp
                 kstarslite/skyitems/telescopesymbolsitem.cpp
             )
-    else(BUILD_KSTARS_LITE)
-            set(indiui_SRCS
-                indi/streamform.ui
-                indi/drivermanager.ui
-                indi/opsindi.ui
-                indi/indihostconf.ui
-                indi/telescopewizard.ui
-            )
+    endif ()
 
-            set(indi_SRCS
-                indi/drivermanager.cpp
-                indi/servermanager.cpp
-                indi/clientmanager.cpp
-                indi/guimanager.cpp
-                indi/driverinfo.cpp
-                indi/deviceinfo.cpp
-                indi/indidevice.cpp
-                indi/indigroup.cpp
-                indi/indiproperty.cpp
-                indi/indielement.cpp
-                indi/indistd.cpp
-                indi/indilistener.cpp
-                indi/inditelescope.cpp
-                indi/indiccd.cpp
-                indi/indifocuser.cpp
-                indi/indifilter.cpp
-                indi/indidome.cpp
-                indi/indiweather.cpp
-                indi/indicap.cpp
-                indi/indilightbox.cpp
-                indi/indidbus.cpp
-                indi/opsindi.cpp
-                indi/telescopewizardprocess.cpp
-                indi/streamwg.cpp
-                indi/videowg.cpp
-                indi/indiwebmanager.cpp
-            )
+    set(indiui_SRCS
+        indi/streamform.ui
+        indi/drivermanager.ui
+        indi/opsindi.ui
+        indi/indihostconf.ui
+        indi/telescopewizard.ui
+    )
 
-            if (CFITSIO_FOUND)
-                set(ekosui_SRCS
-                    ekos/opsekos.ui
-                    ekos/ekosmanager.ui
-                    ekos/profileeditor.ui
-                    ekos/profilewizard.ui
-                    # Scheduler
-                    ekos/scheduler/scheduler.ui
-                    ekos/scheduler/mosaic.ui
-                    # Capture
-                    ekos/capture/capture.ui
-                    ekos/capture/calibrationoptions.ui
-                    ekos/capture/dslrinfo.ui
-                    ekos/capture/rotatorsettings.ui
-                    ekos/capture/customproperties.ui
-                    # Align
-                    ekos/align/align.ui
-                    ekos/align/opsastrometry.ui
-                    ekos/align/opsalign.ui
-                    ekos/align/opsastrometrycfg.ui
-                    ekos/align/opsastrometryindexfiles.ui
-                    ekos/align/mountmodel.ui
-                    # Focus
-                    ekos/focus/focus.ui
-                    # Mount
-                    ekos/mount/mount.ui                    
-                    # Guide
-                    ekos/guide/guide.ui
-                    ekos/guide/opscalibration.ui
-                    ekos/guide/opsguide.ui
-                    #TODO remove from GIT
-                    #ekos/guide/guider.ui
-                    #ekos/guide/rcalibration.ui
-                    # Auxiliary
-                    ekos/auxiliary/filtersettings.ui
-                    ekos/auxiliary/opslogs.ui
-                    # Ekos Live
-                    ekos/ekoslive/ekoslivedialog.ui
-                )
+    set(indi_SRCS
+        indi/drivermanager.cpp
+        indi/servermanager.cpp
+        indi/clientmanager.cpp
+        indi/guimanager.cpp
+        indi/driverinfo.cpp
+        indi/deviceinfo.cpp
+        indi/indidevice.cpp
+        indi/indigroup.cpp
+        indi/indiproperty.cpp
+        indi/indielement.cpp
+        indi/indistd.cpp
+        indi/indilistener.cpp
+        indi/inditelescope.cpp
+        indi/indiccd.cpp
+        indi/indifocuser.cpp
+        indi/indifilter.cpp
+        indi/indidome.cpp
+        indi/indiweather.cpp
+        indi/indicap.cpp
+        indi/indilightbox.cpp
+        indi/indidbus.cpp
+        indi/opsindi.cpp
+        indi/telescopewizardprocess.cpp
+        indi/streamwg.cpp
+        indi/videowg.cpp
+        indi/indiwebmanager.cpp
+    )
 
-            set(ekos_SRCS
-                       ekos/ekos.cpp
-                       ekos/ekosmanager.cpp
-                       ekos/profileeditor.cpp
-                       ekos/profilewizard.cpp
-                       ekos/qMDNS.cpp
-                       ekos/opsekos.cpp                       
+    if (CFITSIO_FOUND)
+        set(ekosui_SRCS
+            ekos/opsekos.ui
+            ekos/ekosmanager.ui
+            ekos/profileeditor.ui
+            ekos/profilewizard.ui
+            # Scheduler
+            ekos/scheduler/scheduler.ui
+            ekos/scheduler/mosaic.ui
+            # Capture
+            ekos/capture/capture.ui
+            ekos/capture/calibrationoptions.ui
+            ekos/capture/dslrinfo.ui
+            ekos/capture/rotatorsettings.ui
+            ekos/capture/customproperties.ui
+            # Align
+            ekos/align/align.ui
+            ekos/align/opsastrometry.ui
+            ekos/align/opsalign.ui
+            ekos/align/opsastrometrycfg.ui
+            ekos/align/opsastrometryindexfiles.ui
+            ekos/align/mountmodel.ui
+            # Focus
+            ekos/focus/focus.ui
+            # Mount
+            ekos/mount/mount.ui
+            # Guide
+            ekos/guide/guide.ui
+            ekos/guide/opscalibration.ui
+            ekos/guide/opsguide.ui
+            #TODO remove from GIT
+            #ekos/guide/guider.ui
+            #ekos/guide/rcalibration.ui
+            # Auxiliary
+            ekos/auxiliary/filtersettings.ui
+            ekos/auxiliary/opslogs.ui
+            # Ekos Live
+            ekos/ekoslive/ekoslivedialog.ui
+        )
 
-                       # Auxiliary
-                       ekos/auxiliary/dome.cpp
-                       ekos/auxiliary/weather.cpp
-                       ekos/auxiliary/dustcap.cpp
-                       ekos/auxiliary/darklibrary.cpp
-                       ekos/auxiliary/filtermanager.cpp
-                       ekos/auxiliary/filterdelegate.cpp
-                       ekos/auxiliary/opslogs.cpp
+        set(ekos_SRCS
+            ekos/ekos.cpp
+            ekos/ekosmanager.cpp
+            ekos/profileeditor.cpp
+            ekos/profilewizard.cpp
+            ekos/qMDNS.cpp
+            ekos/opsekos.cpp
 
-                       # Capture
-                       ekos/capture/capture.cpp
-                       ekos/capture/sequencejob.cpp
-                       ekos/capture/dslrinfodialog.cpp
-                       ekos/capture/rotatorsettings.cpp
-                       ekos/capture/customproperties.cpp
+            # Auxiliary
+            ekos/auxiliary/dome.cpp
+            ekos/auxiliary/weather.cpp
+            ekos/auxiliary/dustcap.cpp
+            ekos/auxiliary/darklibrary.cpp
+            ekos/auxiliary/filtermanager.cpp
+            ekos/auxiliary/filterdelegate.cpp
+            ekos/auxiliary/opslogs.cpp
 
-                       # Scheduler
-                       ekos/scheduler/schedulerjob.cpp
-                       ekos/scheduler/scheduler.cpp
-                       ekos/scheduler/mosaic.cpp
+            # Capture
+            ekos/capture/capture.cpp
+            ekos/capture/sequencejob.cpp
+            ekos/capture/dslrinfodialog.cpp
+            ekos/capture/rotatorsettings.cpp
+            ekos/capture/customproperties.cpp
 
-                       # Focus
-                       ekos/focus/focus.cpp
+            # Scheduler
+            ekos/scheduler/schedulerjob.cpp
+            ekos/scheduler/scheduler.cpp
+            ekos/scheduler/mosaic.cpp
 
-                       # Mount
-                       ekos/mount/mount.cpp
+            # Focus
+            ekos/focus/focus.cpp
 
-                       # Align
-                       ekos/align/align.cpp
-                       ekos/align/alignview.cpp
-                       ekos/align/astrometryparser.cpp
-                       ekos/align/opsastrometry.cpp
-                       ekos/align/opsalign.cpp
-                       ekos/align/opsastrometrycfg.cpp
-                       ekos/align/opsastrometryindexfiles.cpp
-                       ekos/align/offlineastrometryparser.cpp
-                       ekos/align/onlineastrometryparser.cpp
-                       ekos/align/remoteastrometryparser.cpp
+            # Mount
+            ekos/mount/mount.cpp
 
-                       # Guide
-                       ekos/guide/guide.cpp
-                       ekos/guide/guideinterface.cpp                       
-                       ekos/guide/opscalibration.cpp
-                       ekos/guide/opsguide.cpp
-                       # Internal Guide                       
-                       ekos/guide/internalguide/gmath.cpp
-                       ekos/guide/internalguide/internalguider.cpp
-                       #ekos/guide/internalguide/guider.cpp
-                       ekos/guide/internalguide/matr.cpp
-                       #ekos/guide/internalguide/rcalibration.cpp
-                       ekos/guide/internalguide/vect.cpp
-                       ekos/guide/internalguide/imageautoguiding.cpp
-                       # External Guide
-                       ekos/guide/externalguide/phd2.cpp
-                       ekos/guide/externalguide/linguider.cpp
+            # Align
+            ekos/align/align.cpp
+            ekos/align/alignview.cpp
+            ekos/align/astrometryparser.cpp
+            ekos/align/opsastrometry.cpp
+            ekos/align/opsalign.cpp
+            ekos/align/opsastrometrycfg.cpp
+            ekos/align/opsastrometryindexfiles.cpp
+            ekos/align/offlineastrometryparser.cpp
+            ekos/align/onlineastrometryparser.cpp
+            ekos/align/remoteastrometryparser.cpp
 
-                       # Ekos Live
-                       ekos/ekoslive/ekosliveclient.cpp
-                       ekos/ekoslive/message.cpp
-                       ekos/ekoslive/media.cpp
+            # Guide
+            ekos/guide/guide.cpp
+            ekos/guide/guideinterface.cpp
+            ekos/guide/opscalibration.cpp
+            ekos/guide/opsguide.cpp
+            # Internal Guide
+            ekos/guide/internalguide/gmath.cpp
+            ekos/guide/internalguide/internalguider.cpp
+            #ekos/guide/internalguide/guider.cpp
+            ekos/guide/internalguide/matr.cpp
+            #ekos/guide/internalguide/rcalibration.cpp
+            ekos/guide/internalguide/vect.cpp
+            ekos/guide/internalguide/imageautoguiding.cpp
+            # External Guide
+            ekos/guide/externalguide/phd2.cpp
+            ekos/guide/externalguide/linguider.cpp
 
-           )
-            endif(CFITSIO_FOUND)
-    endif(BUILD_KSTARS_LITE)
+            # Ekos Live
+            ekos/ekoslive/ekosliveclient.cpp
+            ekos/ekoslive/message.cpp
+            ekos/ekoslive/media.cpp
+       )
+    endif(CFITSIO_FOUND)
 
     include_directories(${INDI_INCLUDE_DIR})
 endif (INDI_FOUND)
 
-if(NOT BUILD_KSTARS_LITE)
-    if(WCSLIB_FOUND)
-      include_directories( ${WCSLIB_INCLUDE_DIR} )
-    endif(WCSLIB_FOUND)
+if(WCSLIB_FOUND)
+    include_directories( ${WCSLIB_INCLUDE_DIR} )
+endif(WCSLIB_FOUND)
 
-    set(xplanet_SRCS
-        xplanet/opsxplanet.cpp
-    )
+set(xplanet_SRCS
+    xplanet/opsxplanet.cpp
+)
 
-    set(xplanetui_SRCS
-        xplanet/opsxplanet.ui
-    )
+set(xplanetui_SRCS
+    xplanet/opsxplanet.ui
+)
 
-    ########### next target ###############
+########### next target ###############
+set(libkstarstools_SRCS
+    tools/altvstime.cpp
+    tools/avtplotwidget.cpp
+    tools/calendarwidget.cpp
+    tools/conjunctions.cpp
+#    tools/jmoontool.cpp
+    tools/ksconjunct.cpp
+    tools/eqplotwidget.cpp
+    tools/astrocalc.cpp
+    tools/modcalcangdist.cpp
+    tools/modcalcapcoord.cpp
+    tools/modcalcaltaz.cpp
+    tools/modcalcdaylength.cpp
+    tools/modcalceclipticcoords.cpp
+    tools/modcalcvizequinox.cpp
+    tools/modcalcgalcoord.cpp
+    tools/modcalcgeodcoord.cpp
+    tools/modcalcjd.cpp
+    tools/modcalcplanets.cpp
+    tools/modcalcsidtime.cpp
+    tools/modcalcvlsr.cpp
+    tools/observinglist.cpp
+    tools/obslistpopupmenu.cpp
+    tools/sessionsortfilterproxymodel.cpp
+    tools/obslistwizard.cpp
+    tools/planetviewer.cpp
+    tools/pvplotwidget.cpp
+    tools/scriptargwidgets.cpp
+    tools/scriptbuilder.cpp
+    tools/scriptfunction.cpp
+    tools/skycalendar.cpp
+    tools/wutdialog.cpp
+    tools/flagmanager.cpp
+    tools/horizonmanager.cpp
+    tools/nameresolver.cpp
+    tools/polarishourangle.cpp
+    #FIXME Port to KF5
+    #tools/moonphasetool.cpp
+
+    tools/starhopper.cpp
+    tools/eyepiecefield.cpp
+    tools/exporteyepieceview.cpp
+    tools/starhopperdialog.cpp
+    tools/adddeepskyobject.cpp
+)
+
+if(${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
     set(libkstarstools_SRCS
-        tools/altvstime.cpp
-        tools/avtplotwidget.cpp
-        tools/calendarwidget.cpp
-        tools/conjunctions.cpp
-#        tools/jmoontool.cpp
-        tools/ksconjunct.cpp
-        tools/eqplotwidget.cpp
-        tools/astrocalc.cpp
-        tools/modcalcangdist.cpp
-        tools/modcalcapcoord.cpp
-        tools/modcalcaltaz.cpp
-        tools/modcalcdaylength.cpp
-        tools/modcalceclipticcoords.cpp
-        tools/modcalcvizequinox.cpp
-        tools/modcalcgalcoord.cpp
-        tools/modcalcgeodcoord.cpp
-        tools/modcalcjd.cpp
-        tools/modcalcplanets.cpp
-        tools/modcalcsidtime.cpp
-        tools/modcalcvlsr.cpp
-        tools/observinglist.cpp
-        tools/obslistpopupmenu.cpp
-        tools/sessionsortfilterproxymodel.cpp
-        tools/obslistwizard.cpp
-        tools/planetviewer.cpp
-        tools/pvplotwidget.cpp
-        tools/scriptargwidgets.cpp
-        tools/scriptbuilder.cpp
-        tools/scriptfunction.cpp
-        tools/skycalendar.cpp
-        tools/wutdialog.cpp
-        tools/flagmanager.cpp
-        tools/horizonmanager.cpp
-        tools/nameresolver.cpp
-        tools/polarishourangle.cpp
-
-        #FIXME Port to KF5
-        #tools/moonphasetool.cpp
-
-        tools/starhopper.cpp
-        tools/eyepiecefield.cpp
-        tools/exporteyepieceview.cpp
-        tools/starhopperdialog.cpp
-        tools/adddeepskyobject.cpp
+        ${libkstarstools_SRCS}
+        tools/whatsinteresting/skyobjlistmodel.cpp
+        tools/whatsinteresting/wiview.cpp
+        tools/whatsinteresting/modelmanager.cpp
+        tools/whatsinteresting/skyobjitem.cpp
+        tools/whatsinteresting/wilpsettings.cpp
+        tools/whatsinteresting/wiequipsettings.cpp
+        tools/whatsinteresting/obsconditions.cpp
+        tools/whatsinteresting/skyobjdescription.cpp
     )
+endif()
 
-    if(${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
-        set(libkstarstools_SRCS
-            ${libkstarstools_SRCS}
-            tools/whatsinteresting/skyobjlistmodel.cpp
-            tools/whatsinteresting/wiview.cpp
-            tools/whatsinteresting/modelmanager.cpp
-            tools/whatsinteresting/skyobjitem.cpp
-            tools/whatsinteresting/wilpsettings.cpp
-            tools/whatsinteresting/wiequipsettings.cpp
-            tools/whatsinteresting/obsconditions.cpp
-            tools/whatsinteresting/skyobjdescription.cpp
-        )
-    endif()
+ki18n_wrap_ui(libkstarstools_ui_SRCS
+    tools/altvstime.ui
+    tools/argchangeviewoption.ui
+    tools/argexportimage.ui
+    tools/argloadcolorscheme.ui
+    tools/arglooktoward.ui
+    tools/argfindobject.ui
+    tools/argprintimage.ui
+    tools/argsetaltaz.ui
+    tools/argsetcolor.ui
+    tools/argsetgeolocation.ui
+    tools/argsetlocaltime.ui
+    tools/argsetradec.ui
+    tools/argsettrack.ui
+    tools/argtimescale.ui
+    tools/argwaitfor.ui
+    tools/argwaitforkey.ui
+    tools/argzoom.ui
+    tools/conjunctions.ui
 
+    tools/modcalcangdist.ui
+    tools/modcalcapcoord.ui
+    tools/modcalcaltaz.ui
+    tools/modcalcdaylength.ui
+    tools/modcalceclipticcoords.ui
+    tools/modcalcvizequinox.ui
+    tools/modcalcgalcoord.ui
+    tools/modcalcgeod.ui
+    tools/modcalcjd.ui
+    tools/modcalcplanets.ui
+    tools/modcalcsidtime.ui
+    tools/modcalcvlsr.ui
+    tools/observinglist.ui
+    tools/obslistwizard.ui
+    tools/optionstreeview.ui
+    tools/planetviewer.ui
+    tools/scriptbuilder.ui
+    tools/scriptnamedialog.ui
+    tools/skycalendar.ui
+    tools/wutdialog.ui
+    tools/flagmanager.ui
+    tools/starhopperdialog.ui
+    tools/horizonmanager.ui
+    tools/adddeepskyobject.ui
+    tools/polarishourangle.ui
+)
+
+if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
     ki18n_wrap_ui(libkstarstools_ui_SRCS
-        tools/altvstime.ui
-        tools/argchangeviewoption.ui
-        tools/argexportimage.ui
-        tools/argloadcolorscheme.ui
-        tools/arglooktoward.ui
-        tools/argfindobject.ui
-        tools/argprintimage.ui
-        tools/argsetaltaz.ui
-        tools/argsetcolor.ui
-        tools/argsetgeolocation.ui
-        tools/argsetlocaltime.ui
-        tools/argsetradec.ui
-        tools/argsettrack.ui
-        tools/argtimescale.ui
-        tools/argwaitfor.ui
-        tools/argwaitforkey.ui
-        tools/argzoom.ui
-        tools/conjunctions.ui
-
-        tools/modcalcangdist.ui
-        tools/modcalcapcoord.ui
-        tools/modcalcaltaz.ui
-        tools/modcalcdaylength.ui
-        tools/modcalceclipticcoords.ui
-        tools/modcalcvizequinox.ui
-        tools/modcalcgalcoord.ui
-        tools/modcalcgeod.ui
-        tools/modcalcjd.ui
-        tools/modcalcplanets.ui
-        tools/modcalcsidtime.ui
-        tools/modcalcvlsr.ui
-
-        tools/observinglist.ui
-        tools/obslistwizard.ui
-        tools/optionstreeview.ui
-        tools/planetviewer.ui
-        tools/scriptbuilder.ui
-        tools/scriptnamedialog.ui
-        tools/skycalendar.ui
-        tools/wutdialog.ui
-        tools/flagmanager.ui
-        tools/starhopperdialog.ui
-        tools/horizonmanager.ui
-        tools/adddeepskyobject.ui
-        tools/polarishourangle.ui
+        tools/whatsinteresting/wilpsettings.ui
+        tools/whatsinteresting/wiequipsettings.ui
     )
+endif()
 
-    if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
-        ki18n_wrap_ui(libkstarstools_ui_SRCS
-            tools/whatsinteresting/wilpsettings.ui
-            tools/whatsinteresting/wiequipsettings.ui
-        )
-    endif()
+set(libkstarswidgets_SRCS
+    widgets/clicklabel.cpp
+    widgets/dmsbox.cpp
+    widgets/draglistbox.cpp
+    widgets/fovwidget.cpp
+    widgets/logedit.cpp
+    widgets/magnitudespinbox.cpp
+    widgets/mapcanvas.cpp
+    widgets/thumbimage.cpp
+    widgets/timespinbox.cpp
+    widgets/timestepbox.cpp
+    widgets/timeunitbox.cpp
+    widgets/infoboxwidget.cpp
+#    widgets/genericcalendarwidget.cpp
+#    widgets/moonphasecalendarwidget.cpp
+    widgets/kshelplabel.cpp
+    widgets/unitspinboxwidget.cpp
+)
 
-    set(libkstarswidgets_SRCS
-        widgets/clicklabel.cpp
-        widgets/dmsbox.cpp
-        widgets/draglistbox.cpp
-        widgets/fovwidget.cpp
-        widgets/logedit.cpp
-        widgets/magnitudespinbox.cpp
-        widgets/mapcanvas.cpp
-        widgets/thumbimage.cpp
-        widgets/timespinbox.cpp
-        widgets/timestepbox.cpp
-        widgets/timeunitbox.cpp
-        widgets/infoboxwidget.cpp
-    #    widgets/genericcalendarwidget.cpp
-    #    widgets/moonphasecalendarwidget.cpp
-        widgets/kshelplabel.cpp
-        widgets/unitspinboxwidget.cpp
-    )
+ki18n_wrap_ui(libkstarswidgets_ui_SRCS
+#    widgets/genericcalendarwidget.ui
+    widgets/unitspinboxwidget.ui
+)
 
-    ki18n_wrap_ui(libkstarswidgets_ui_SRCS
-    #    widgets/genericcalendarwidget.ui
-        widgets/unitspinboxwidget.ui
-    )
+set(kstars_KCFG_SRCS Options.kcfgc)
 
-    set(kstars_KCFG_SRCS Options.kcfgc)
+set(kstars_options_SRCS
+    options/opsadvanced.cpp
+    options/opscatalog.cpp
+    options/opscolors.cpp
+    options/opsguides.cpp
+    options/opssolarsystem.cpp
+    options/opssatellites.cpp
+    options/opssupernovae.cpp
+)
 
-    set(kstars_options_SRCS
-        options/opsadvanced.cpp
-        options/opscatalog.cpp
-        options/opscolors.cpp
-        options/opsguides.cpp
-        options/opssolarsystem.cpp
-        options/opssatellites.cpp
-        options/opssupernovae.cpp
-    )
+set(kstars_optionsui_SRCS
+    options/opsadvanced.ui
+    options/opscatalog.ui
+    options/opscolors.ui
+    options/opsguides.ui
+    options/opssolarsystem.ui
+    options/opssatellites.ui
+    options/opssupernovae.ui
+)
 
-    set(kstars_optionsui_SRCS
-        options/opsadvanced.ui
-        options/opscatalog.ui
-        options/opscolors.ui
-        options/opsguides.ui
-        options/opssolarsystem.ui
-        options/opssatellites.ui
-        options/opssupernovae.ui
-    )
+set(kstars_dialogs_SRCS
+    dialogs/addcatdialog.cpp
+    dialogs/addlinkdialog.cpp
+    dialogs/detaildialog.cpp
+    dialogs/finddialog.cpp
+    dialogs/focusdialog.cpp
+    dialogs/fovdialog.cpp
+    dialogs/locationdialog.cpp
+    dialogs/timedialog.cpp
+    dialogs/exportimagedialog.cpp
+)
 
-    set(kstars_dialogs_SRCS
-        dialogs/addcatdialog.cpp
-        dialogs/addlinkdialog.cpp
-        dialogs/detaildialog.cpp
-        dialogs/finddialog.cpp
-        dialogs/focusdialog.cpp
-        dialogs/fovdialog.cpp
-        dialogs/locationdialog.cpp
-        dialogs/timedialog.cpp
-        dialogs/exportimagedialog.cpp
-    )
+set(kstars_dialogsui_SRCS
+    dialogs/addcatdialog.ui
+    dialogs/addlinkdialog.ui
+    dialogs/details_database.ui
+    dialogs/details_data.ui
+    dialogs/details_data_comet.ui
+    dialogs/details_links.ui
+    dialogs/details_log.ui
+    dialogs/details_position.ui
+    dialogs/finddialog.ui
+    dialogs/focusdialog.ui
+    dialogs/fovdialog.ui
+    dialogs/locationdialog.ui
+    dialogs/wizwelcome.ui
+    dialogs/wizlocation.ui
+    dialogs/wizdownload.ui
+    dialogs/wizdata.ui
+    dialogs/wizastrometry.ui
+    dialogs/newfov.ui
+    dialogs/exportimagedialog.ui
+)
 
-    set(kstars_dialogsui_SRCS
-        dialogs/addcatdialog.ui
-        dialogs/addlinkdialog.ui
-        dialogs/details_database.ui
-        dialogs/details_data.ui
-        dialogs/details_data_comet.ui
-        dialogs/details_links.ui
-        dialogs/details_log.ui
-        dialogs/details_position.ui
-        dialogs/finddialog.ui
-        dialogs/focusdialog.ui
-        dialogs/fovdialog.ui
-        dialogs/locationdialog.ui
-        dialogs/wizwelcome.ui
-        dialogs/wizlocation.ui
-        dialogs/wizdownload.ui
-        dialogs/wizdata.ui
-        dialogs/wizastrometry.ui
-        dialogs/newfov.ui
-        dialogs/exportimagedialog.ui
-    )
+set(hips_SRCS
+    hips/healpix.cpp
+    hips/hipsrenderer.cpp
+    hips/scanrender.cpp
+    hips/pixcache.cpp
+    hips/urlfiledownload.cpp
+    hips/opships.cpp
+)
 
-    set(hips_SRCS
-        hips/healpix.cpp
-        hips/hipsrenderer.cpp
-        hips/scanrender.cpp
-        hips/pixcache.cpp
-        hips/urlfiledownload.cpp
-        hips/opships.cpp
-        )
+set(hips_manager_SRCS
+    hips/hipsmanager.cpp
+)
 
-    set(hips_manager_SRCS
-        hips/hipsmanager.cpp
-        )
+set(oal_SRCS
+    oal/log.cpp
+    oal/observer.cpp
+    oal/site.cpp
+    oal/session.cpp
+    oal/scope.cpp
+    oal/eyepiece.cpp
+    oal/filter.cpp
+    oal/observation.cpp
+    oal/lens.cpp
+    oal/equipmentwriter.cpp
+    oal/observeradd.cpp
+    oal/execute.cpp
+)
 
-    set(oal_SRCS
-        oal/log.cpp
-        oal/observer.cpp
-        oal/site.cpp
-        oal/session.cpp
-        oal/scope.cpp
-        oal/eyepiece.cpp
-        oal/filter.cpp
-        oal/observation.cpp
-        oal/lens.cpp
-        oal/equipmentwriter.cpp
-        oal/observeradd.cpp
-        oal/execute.cpp
-        )
+set(printing_SRCS
+    printing/detailstable.cpp
+    printing/finderchart.cpp
+    printing/foveditordialog.cpp
+    printing/fovsnapshot.cpp
+    printing/kstarsdocument.cpp
+    printing/legend.cpp
+    printing/loggingform.cpp
+    printing/printingwizard.cpp
+    printing/pwizchartconfig.cpp
+    printing/pwizchartcontents.cpp
+    printing/pwizfovbrowse.cpp
+    printing/pwizfovconfig.cpp
+    printing/pwizfovmanual.cpp
+    printing/pwizfovsh.cpp
+    printing/pwizfovtypeselection.cpp
+    printing/pwizobjectselection.cpp
+    printing/pwizprint.cpp
+    printing/shfovexporter.cpp
+    printing/simplefovexporter.cpp
+)
 
-    set(printing_SRCS
-        printing/detailstable.cpp
-        printing/finderchart.cpp
-        printing/foveditordialog.cpp
-        printing/fovsnapshot.cpp
-        printing/kstarsdocument.cpp
-        printing/legend.cpp
-        printing/loggingform.cpp
-        printing/printingwizard.cpp
-        printing/pwizchartconfig.cpp
-        printing/pwizchartcontents.cpp
-        printing/pwizfovbrowse.cpp
-        printing/pwizfovconfig.cpp
-        printing/pwizfovmanual.cpp
-        printing/pwizfovsh.cpp
-        printing/pwizfovtypeselection.cpp
-        printing/pwizobjectselection.cpp
-        printing/pwizprint.cpp
-        printing/shfovexporter.cpp
-        printing/simplefovexporter.cpp
-        )
-
-    set(printingui_SRCS
-        printing/foveditordialog.ui
-        printing/pwizchartconfig.ui
-        printing/pwizchartcontents.ui
-        printing/pwizfovbrowse.ui
-        printing/pwizfovconfig.ui
-        printing/pwizfovmanual.ui
-        printing/pwizfovsh.ui
-        printing/pwizfovtypeselection.ui
-        printing/pwizobjectselection.ui
-        printing/pwizprint.ui
-        printing/pwizwelcome.ui
-        )
-endif(NOT BUILD_KSTARS_LITE)
+set(printingui_SRCS
+    printing/foveditordialog.ui
+    printing/pwizchartconfig.ui
+    printing/pwizchartcontents.ui
+    printing/pwizfovbrowse.ui
+    printing/pwizfovconfig.ui
+    printing/pwizfovmanual.ui
+    printing/pwizfovsh.ui
+    printing/pwizfovtypeselection.ui
+    printing/pwizobjectselection.ui
+    printing/pwizprint.ui
+    printing/pwizwelcome.ui
+)
 
 set( kstars_KCFG_SRCS Options.kcfgc )
 set(libkstarscomponents_SRCS
@@ -607,15 +590,15 @@ set(libkstarscomponents_SRCS
     skycomponents/targetlistcomponent.cpp
     )
 
-if(NOT BUILD_KSTARS_LITE)
-    LIST(APPEND libkstarscomponents_SRCS
-        #skycomponents/notifyupdatesui.cpp
-        )
-else(NOT BUILD_KSTARS_LITE)
-    set(libkstarstools_ui_SRCS
+#LIST(APPEND libkstarscomponents_SRCS
+#    #skycomponents/notifyupdatesui.cpp
+#    )
+
+IF (BUILD_KSTARS_LITE)
+    set(libkstarstools_ui_klite_SRCS
         tools/nameresolver.cpp
         )
-endif(NOT BUILD_KSTARS_LITE)
+ENDIF ()
 
 set(kstars_skyobjects_SRCS
     skyobjects/constellationsart.cpp
@@ -649,7 +632,7 @@ set(kstars_projection_SRCS
     projections/equirectangularprojector.cpp
     )
 
-set(kstars_extra_SRCS    
+set(kstars_extra_SRCS
     auxiliary/colorscheme.cpp
     auxiliary/dms.cpp
     auxiliary/cachingdms.cpp
@@ -678,227 +661,232 @@ set(kstars_extra_SRCS
     skypainter.cpp
     )
 
-if(NOT BUILD_KSTARS_LITE)
-    LIST(APPEND kstars_extra_SRCS
-        auxiliary/thememanager.cpp
-        auxiliary/schememanager.cpp
-        auxiliary/imageviewer.cpp
-        auxiliary/fov.cpp
-        auxiliary/thumbnailpicker.cpp
-        auxiliary/thumbnaileditor.cpp
-        auxiliary/imageexporter.cpp
-        auxiliary/kswizard.cpp
-        auxiliary/qcustomplot.cpp
-        kstarsdbus.cpp
-        kspopupmenu.cpp
-        ksalmanac.cpp
-        kstarsactions.cpp
-        kstarsinit.cpp
-        kstars.cpp
-        kstarssplash.cpp
-        skymap.cpp
-        skymapdrawabstract.cpp
-        skymapqdraw.cpp
-        skymapevents.cpp
-        skyqpainter.cpp
-        )
-endif(NOT BUILD_KSTARS_LITE)
+SET(kstars_extra_kstars_SRCS
+    auxiliary/thememanager.cpp
+    auxiliary/schememanager.cpp
+    auxiliary/imageviewer.cpp
+    auxiliary/fov.cpp
+    auxiliary/thumbnailpicker.cpp
+    auxiliary/thumbnaileditor.cpp
+    auxiliary/imageexporter.cpp
+    auxiliary/kswizard.cpp
+    auxiliary/qcustomplot.cpp
+    kstarsdbus.cpp
+    kspopupmenu.cpp
+    ksalmanac.cpp
+    kstarsactions.cpp
+    kstarsinit.cpp
+    kstars.cpp
+    kstarssplash.cpp
+    skymap.cpp
+    skymapdrawabstract.cpp
+    skymapqdraw.cpp
+    skymapevents.cpp
+    skyqpainter.cpp
+    )
 
-if(BUILD_KSTARS_LITE)
-    #Temporary solution to allow use of qml files from source dir DELETE
-    add_definitions( -DSOURCE_DIR=\"${kstars_SOURCE_DIR}\" )
-    add_definitions(-DQML_IMPORT="${CMAKE_CURRENT_SOURCE_DIR}")
+# Temporary solution to allow use of qml files from source dir DELETE
+SET(KSTARSLITE_CPP_OPTIONS -DSOURCE_DIR=\"${kstars_SOURCE_DIR}\" -DQML_IMPORT="${CMAKE_CURRENT_SOURCE_DIR}")
 
-    set(kstarslite_SRCS
-        kstarslite.cpp
-        kstarsliteinit.cpp
-        skymaplite.cpp
-        skymapliteevents.cpp
-        #Wrappers
-        kstarslite/skypointlite.cpp
-        kstarslite/skyobjectlite.cpp
-        #ImageProvider
-        kstarslite/imageprovider.cpp
-        #Dialogs
-        kstarslite/dialogs/detaildialoglite.cpp
-        kstarslite/dialogs/finddialoglite.cpp
-        kstarslite/dialogs/locationdialoglite.cpp
-        #RootNode
-        kstarslite/skyitems/rootnode.cpp
-        kstarslite/skyitems/skyopacitynode.cpp
-        kstarslite/skyitems/typedeflite.h
-        #SkyItems
-        kstarslite/skyitems/skyitem.cpp
-        kstarslite/skyitems/planetsitem.cpp
-        kstarslite/skyitems/asteroidsitem.cpp
-        kstarslite/skyitems/cometsitem.cpp
-        kstarslite/skyitems/horizonitem.cpp
-        kstarslite/skyitems/labelsitem.cpp
-        kstarslite/skyitems/constellationnamesitem.cpp
-        kstarslite/skyitems/staritem.cpp
-        kstarslite/skyitems/deepstaritem.cpp
-        kstarslite/skyitems/deepskyitem.cpp
-        kstarslite/skyitems/constellationartitem.cpp
-        kstarslite/skyitems/satellitesitem.cpp
-        kstarslite/skyitems/supernovaeitem.cpp
-        kstarslite/skyitems/fovitem.cpp
-        kstarslite/skyitems/syncedcatalogitem.cpp
-        #Line
-        kstarslite/skyitems/lines/linesitem.cpp
-        kstarslite/skyitems/lines/equatoritem.cpp
-        kstarslite/skyitems/lines/eclipticitem.cpp
-        kstarslite/skyitems/lines/milkywayitem.cpp
-        #SkyNodes
-        kstarslite/skyitems/skynodes/planetnode.cpp
-        kstarslite/skyitems/skynodes/skynode.cpp
-        kstarslite/skyitems/skynodes/pointsourcenode.cpp
-        kstarslite/skyitems/skynodes/planetmoonsnode.cpp
-        kstarslite/skyitems/skynodes/horizonnode.cpp
-        kstarslite/skyitems/skynodes/labelnode.cpp
-        kstarslite/skyitems/skynodes/guidelabelnode.cpp
-        kstarslite/skyitems/skynodes/deepskynode.cpp
-        kstarslite/skyitems/skynodes/dsosymbolnode.cpp
-        kstarslite/skyitems/skynodes/skypolygonnode.cpp
-        kstarslite/skyitems/skynodes/constellationartnode.cpp
-        kstarslite/skyitems/skynodes/satellitenode.cpp
-        kstarslite/skyitems/skynodes/supernovanode.cpp
-        kstarslite/skyitems/skynodes/trixelnode.cpp
-        kstarslite/skyitems/skynodes/fovsymbolnode.cpp
-        #Nodes
-        kstarslite/skyitems/skynodes/nodes/pointnode.cpp
-        kstarslite/skyitems/skynodes/nodes/polynode.cpp
-        kstarslite/skyitems/skynodes/nodes/linenode.cpp
-        kstarslite/skyitems/skynodes/nodes/ellipsenode.cpp
-        kstarslite/skyitems/skynodes/nodes/rectnode.cpp
-        #Other
-        kstarslite/deviceorientation.cpp
-        )
+set(klite_SRCS
+    kstarslite.cpp
+    kstarsliteinit.cpp
+    skymaplite.cpp
+    skymapliteevents.cpp
+    #Wrappers
+    kstarslite/skypointlite.cpp
+    kstarslite/skyobjectlite.cpp
+    #ImageProvider
+    kstarslite/imageprovider.cpp
+    #Dialogs
+    kstarslite/dialogs/detaildialoglite.cpp
+    kstarslite/dialogs/finddialoglite.cpp
+    kstarslite/dialogs/locationdialoglite.cpp
+    #RootNode
+    kstarslite/skyitems/rootnode.cpp
+    kstarslite/skyitems/skyopacitynode.cpp
+    kstarslite/skyitems/typedeflite.h
+    #SkyItems
+    kstarslite/skyitems/skyitem.cpp
+    kstarslite/skyitems/planetsitem.cpp
+    kstarslite/skyitems/asteroidsitem.cpp
+    kstarslite/skyitems/cometsitem.cpp
+    kstarslite/skyitems/horizonitem.cpp
+    kstarslite/skyitems/labelsitem.cpp
+    kstarslite/skyitems/constellationnamesitem.cpp
+    kstarslite/skyitems/staritem.cpp
+    kstarslite/skyitems/deepstaritem.cpp
+    kstarslite/skyitems/deepskyitem.cpp
+    kstarslite/skyitems/constellationartitem.cpp
+    kstarslite/skyitems/satellitesitem.cpp
+    kstarslite/skyitems/supernovaeitem.cpp
+    kstarslite/skyitems/fovitem.cpp
+    kstarslite/skyitems/syncedcatalogitem.cpp
+    #Line
+    kstarslite/skyitems/lines/linesitem.cpp
+    kstarslite/skyitems/lines/equatoritem.cpp
+    kstarslite/skyitems/lines/eclipticitem.cpp
+    kstarslite/skyitems/lines/milkywayitem.cpp
+    #SkyNodes
+    kstarslite/skyitems/skynodes/planetnode.cpp
+    kstarslite/skyitems/skynodes/skynode.cpp
+    kstarslite/skyitems/skynodes/pointsourcenode.cpp
+    kstarslite/skyitems/skynodes/planetmoonsnode.cpp
+    kstarslite/skyitems/skynodes/horizonnode.cpp
+    kstarslite/skyitems/skynodes/labelnode.cpp
+    kstarslite/skyitems/skynodes/guidelabelnode.cpp
+    kstarslite/skyitems/skynodes/deepskynode.cpp
+    kstarslite/skyitems/skynodes/dsosymbolnode.cpp
+    kstarslite/skyitems/skynodes/skypolygonnode.cpp
+    kstarslite/skyitems/skynodes/constellationartnode.cpp
+    kstarslite/skyitems/skynodes/satellitenode.cpp
+    kstarslite/skyitems/skynodes/supernovanode.cpp
+    kstarslite/skyitems/skynodes/trixelnode.cpp
+    kstarslite/skyitems/skynodes/fovsymbolnode.cpp
+    #Nodes
+    kstarslite/skyitems/skynodes/nodes/pointnode.cpp
+    kstarslite/skyitems/skynodes/nodes/polynode.cpp
+    kstarslite/skyitems/skynodes/nodes/linenode.cpp
+    kstarslite/skyitems/skynodes/nodes/ellipsenode.cpp
+    kstarslite/skyitems/skynodes/nodes/rectnode.cpp
+    #Other
+    kstarslite/deviceorientation.cpp
+    )
 
-    set(kstarslite_libtess_SRC
-        #libtess
-        libtess/gluos.h
-        libtess/priorityq-sort.h
-        libtess/sweep.c
-        libtess/tessmono.c
-        libtess/dict-list.h
-        libtess/glu.h
-        libtess/tessellate.c
-        libtess/dict.c
-        libtess/geom.c
-        libtess/memalloc.c
-        libtess/mesh.c
-        libtess/normal.c
-        libtess/priorityq.c
-        libtess/priorityq-heap.c
-        libtess/render.c
-        libtess/tess.c
-        )
+set(kstarslite_libtess_SRC
+    #libtess
+    libtess/gluos.h
+    libtess/priorityq-sort.h
+    libtess/sweep.c
+    libtess/tessmono.c
+    libtess/dict-list.h
+    libtess/glu.h
+    libtess/tessellate.c
+    libtess/dict.c
+    libtess/geom.c
+    libtess/memalloc.c
+    libtess/mesh.c
+    libtess/normal.c
+    libtess/priorityq.c
+    libtess/priorityq-heap.c
+    libtess/render.c
+    libtess/tess.c
+    )
 
-    IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        SET_SOURCE_FILES_PROPERTIES(${kstarslite_libtess_SRC} PROPERTIES COMPILE_FLAGS "-Wno-error")
-    ENDIF ()
+IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    SET_SOURCE_FILES_PROPERTIES(${kstarslite_libtess_SRC} PROPERTIES COMPILE_FLAGS "-Wno-error")
+ENDIF ()
 
-    #Qml files will be probably moved to user's data dir, but for use
-    #with QtCreator it is more convenient to have them here
-    set(kstarsliteqml_SRCS
-        kstarslite/qml/main.qml
-        kstarslite/qml/constants/Constants.qml
-        kstarslite/qml/modules/SkyMapLiteWrapper.qml
-        kstarslite/qml/modules/BottomMenu.qml
-        kstarslite/qml/modules/KSPage.qml
-        kstarslite/qml/modules/KSListView.qml
-        kstarslite/qml/modules/KSLabel.qml
-        kstarslite/qml/modules/KSText.qml
-        kstarslite/qml/modules/KSTabButton.qml
-        kstarslite/qml/modules/KSTab.qml
-        kstarslite/qml/modules/KSTabBarArrow.qml
-        kstarslite/qml/modules/KSTextField.qml
-        kstarslite/qml/modules/KSButton.qml
-        kstarslite/qml/modules/TopMenu.qml
-        kstarslite/qml/modules/helpers/TopMenuButton.qml
-        kstarslite/qml/modules/helpers/BottomMenuButton.qml
-        kstarslite/qml/modules/Splash.qml
-        kstarslite/qml/modules/helpers/TimeSpinBox.qml
-        kstarslite/qml/modules/TimePage.qml
-        #Popups
-        kstarslite/qml/modules/popups/ProjectionsPopup.qml
-        kstarslite/qml/modules/popups/FOVPopup.qml
-        kstarslite/qml/modules/popups/ColorSchemePopup.qml
-        #Menus
-        kstarslite/qml/modules/menus/ContextMenu.qml
-        #Helpers
-        kstarslite/qml/modules/helpers/PassiveNotification.qml
-        kstarslite/qml/modules/helpers/KSMenuItem.qml
-        kstarslite/qml/modules/helpers/TelescopeControl.qml
-        #Dialogs
-        kstarslite/qml/dialogs/FindDialog.qml
-        kstarslite/qml/dialogs/LocationDialog.qml
-        kstarslite/qml/dialogs/DetailsDialog.qml
+#Qml files will be probably moved to user's data dir, but for use
+#with QtCreator it is more convenient to have them here
+set(kstarsliteqml_SRCS
+    kstarslite/qml/main.qml
+    kstarslite/qml/constants/Constants.qml
+    kstarslite/qml/modules/SkyMapLiteWrapper.qml
+    kstarslite/qml/modules/BottomMenu.qml
+    kstarslite/qml/modules/KSPage.qml
+    kstarslite/qml/modules/KSListView.qml
+    kstarslite/qml/modules/KSLabel.qml
+    kstarslite/qml/modules/KSText.qml
+    kstarslite/qml/modules/KSTabButton.qml
+    kstarslite/qml/modules/KSTab.qml
+    kstarslite/qml/modules/KSTabBarArrow.qml
+    kstarslite/qml/modules/KSTextField.qml
+    kstarslite/qml/modules/KSButton.qml
+    kstarslite/qml/modules/TopMenu.qml
+    kstarslite/qml/modules/helpers/TopMenuButton.qml
+    kstarslite/qml/modules/helpers/BottomMenuButton.qml
+    kstarslite/qml/modules/Splash.qml
+    kstarslite/qml/modules/helpers/TimeSpinBox.qml
+    kstarslite/qml/modules/TimePage.qml
+    #Popups
+    kstarslite/qml/modules/popups/ProjectionsPopup.qml
+    kstarslite/qml/modules/popups/FOVPopup.qml
+    kstarslite/qml/modules/popups/ColorSchemePopup.qml
+    #Menus
+    kstarslite/qml/modules/menus/ContextMenu.qml
+    #Helpers
+    kstarslite/qml/modules/helpers/PassiveNotification.qml
+    kstarslite/qml/modules/helpers/KSMenuItem.qml
+    kstarslite/qml/modules/helpers/TelescopeControl.qml
+    #Dialogs
+    kstarslite/qml/dialogs/FindDialog.qml
+    kstarslite/qml/dialogs/LocationDialog.qml
+    kstarslite/qml/dialogs/DetailsDialog.qml
 
-        kstarslite/qml/dialogs/helpers/DetailsItem.qml
-        kstarslite/qml/dialogs/helpers/DetailsAddLink.qml
-        kstarslite/qml/dialogs/helpers/LocationEdit.qml
-        kstarslite/qml/dialogs/helpers/LocationLoading.qml
+    kstarslite/qml/dialogs/helpers/DetailsItem.qml
+    kstarslite/qml/dialogs/helpers/DetailsAddLink.qml
+    kstarslite/qml/dialogs/helpers/LocationEdit.qml
+    kstarslite/qml/dialogs/helpers/LocationLoading.qml
 
-        kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml
-        kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml
-        #INDI
-        kstarslite/qml/indi/INDIControlPanel.qml
-        kstarslite/qml/indi/DevicePanel.qml
-        kstarslite/qml/indi/ImagePreview.qml
-        kstarslite/qml/indi/modules/MotionControl.qml
-        kstarslite/qml/indi/modules/Led.qml
-        kstarslite/qml/indi/modules/KSLed.qml
-        kstarslite/qml/indi/modules/Property.qml
-        kstarslite/qml/indi/modules/KSComboBox.qml
-        kstarslite/qml/indi/modules/KSButtonSwitch.qml
-        kstarslite/qml/indi/modules/KSCheckBox.qml
-        kstarslite/qml/indi/modules/KSINDIText.qml
-        kstarslite/qml/indi/modules/KSINDITextField.qml
-        kstarslite/qml/indi/modules/KSButtonsSwitchRow.qml
-        #Tutorial
-        kstarslite/qml/modules/tutorial/TutorialPopup.qml
-        kstarslite/qml/modules/tutorial/TutorialExitPopup.qml
-        kstarslite/qml/modules/tutorial/TutorialStep1.qml
-        kstarslite/qml/modules/tutorial/TutorialStep2.qml
-        kstarslite/qml/modules/tutorial/TutorialStep3.qml
-        kstarslite/qml/modules/tutorial/TutorialStep4.qml
-        kstarslite/qml/modules/tutorial/TutorialStep5.qml
-        kstarslite/qml/modules/tutorial/TutorialPane.qml
-        )
-    add_subdirectory(kstarslite/qml)
-    ADD_CUSTOM_TARGET(kstarsliteqml SOURCES ${kstarsliteqml_SRCS})
+    kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml
+    kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml
+    #INDI
+    kstarslite/qml/indi/INDIControlPanel.qml
+    kstarslite/qml/indi/DevicePanel.qml
+    kstarslite/qml/indi/ImagePreview.qml
+    kstarslite/qml/indi/modules/MotionControl.qml
+    kstarslite/qml/indi/modules/Led.qml
+    kstarslite/qml/indi/modules/KSLed.qml
+    kstarslite/qml/indi/modules/Property.qml
+    kstarslite/qml/indi/modules/KSComboBox.qml
+    kstarslite/qml/indi/modules/KSButtonSwitch.qml
+    kstarslite/qml/indi/modules/KSCheckBox.qml
+    kstarslite/qml/indi/modules/KSINDIText.qml
+    kstarslite/qml/indi/modules/KSINDITextField.qml
+    kstarslite/qml/indi/modules/KSButtonsSwitchRow.qml
+    #Tutorial
+    kstarslite/qml/modules/tutorial/TutorialPopup.qml
+    kstarslite/qml/modules/tutorial/TutorialExitPopup.qml
+    kstarslite/qml/modules/tutorial/TutorialStep1.qml
+    kstarslite/qml/modules/tutorial/TutorialStep2.qml
+    kstarslite/qml/modules/tutorial/TutorialStep3.qml
+    kstarslite/qml/modules/tutorial/TutorialStep4.qml
+    kstarslite/qml/modules/tutorial/TutorialStep5.qml
+    kstarslite/qml/modules/tutorial/TutorialPane.qml
+    )
+add_subdirectory(kstarslite/qml)
+ADD_CUSTOM_TARGET(kstarsliteqml SOURCES ${kstarsliteqml_SRCS})
 
-    if(ANDROID)
-        add_subdirectory(kstarslite/res)
-    endif(ANDROID)
-
-endif(BUILD_KSTARS_LITE)
+if(ANDROID)
+    add_subdirectory(kstarslite/res)
+endif(ANDROID)
 
 set(kstars_SRCS
     ${indi_SRCS}
     ${fits_SRCS}
     ${ekos_SRCS}
-    ${onlineparser_SRCS}
     ${libkstarswidgets_SRCS}
     ${libkstarscomponents_SRCS}
     ${libkstarstools_SRCS}
     ${kstars_extra_SRCS}
-    ${kstars_gl_SRCS}
+    ${kstars_extra_kstars_SRCS}
     ${kstars_projection_SRCS}
     ${xplanet_SRCS}
     ${kstars_options_SRCS}
     ${kstars_skyobjects_SRCS}
     ${kstars_dialogs_SRCS}
     ${hips_SRCS}
-    ${oal_SRCS}    
+    ${oal_SRCS}
     ${printing_SRCS}
     #KStars Lite
     ${kstarslite_SRCS}
-    ${indi_lite_SRCS}
     # Generated files
     ${libkstarstools_ui_SRCS}
     ${libkstarswidgets_ui_SRCS}
+)
+
+set(kstarslite_SRCS
+    ${indi_klite_SRCS}
+    ${libkstarscomponents_SRCS}
+    ${kstars_extra_SRCS}
+    ${kstars_projection_SRCS}
+    ${kstars_skyobjects_SRCS}
+
+    # KStars Lite sources
+    ${klite_SRCS}
+    # Generated files
+    ${libkstarstools_ui_klite_SRCS}
 )
 
 # Generate all the necessary QLoggingCategory files
@@ -915,55 +903,61 @@ ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_scheduler_debug.h IDENTI
 
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
+ecm_qt_declare_logging_category(kstarslite_SRCS HEADER kstars_debug.h IDENTIFIER KSTARS CATEGORY_NAME org.kde.kstars)
+ecm_qt_declare_logging_category(kstarslite_SRCS HEADER fits_debug.h IDENTIFIER KSTARS_FITS CATEGORY_NAME org.kde.kstars.fits)
+
+kconfig_add_kcfg_files(kstarslite_SRCS ${kstars_KCFG_SRCS})
+
 IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstars kstars_SRCS 10 cpp)
+    ENABLE_UNITY_BUILD(kstarslite kstarslite_SRCS 10 cpp)
 ENDIF ()
 
-set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${hips_manager_SRCS} ${kstarslite_libtess_SRC})
+set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${hips_manager_SRCS})
+set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${fits2_klite_SRCS} ${kstarslite_libtess_SRC})
 
-if(NOT BUILD_KSTARS_LITE)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
+qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
 
-    if (INDI_FOUND)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/ekosmanager.h EkosManager)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture/capture.h Ekos::Capture)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus/focus.h Ekos::Focus)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide/guide.h Ekos::Guide)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/auxiliary/dome.h Ekos::Dome)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/auxiliary/weather.h Ekos::Weather)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/auxiliary/dustcap.h Ekos::DustCap)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/scheduler.h Ekos::Scheduler)
-    endif(INDI_FOUND)
+if (INDI_FOUND)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/ekosmanager.h EkosManager)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture/capture.h Ekos::Capture)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus/focus.h Ekos::Focus)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide/guide.h Ekos::Guide)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/auxiliary/dome.h Ekos::Dome)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/auxiliary/weather.h Ekos::Weather)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/auxiliary/dustcap.h Ekos::DustCap)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/scheduler.h Ekos::Scheduler)
+endif(INDI_FOUND)
 
-    ki18n_wrap_ui(kstars_SRCS
-        ${indiui_SRCS}
-        ${ui_SRCS}
-        ${fitsui_SRCS}
-        ${ekosui_SRCS}
-        ${xplanetui_SRCS}
-        ${kstars_optionsui_SRCS}
-        ${kstars_dialogsui_SRCS}
-        ${printingui_SRCS}
-        auxiliary/thumbnailpicker.ui
-        auxiliary/thumbnaileditor.ui
-        oal/observeradd.ui
-        oal/equipmentwriter.ui
-        oal/execute.ui
-        hips/opships.ui
-        hips/opshipsdisplay.ui
-        hips/opshipscache.ui
-        #skycomponents/notifyupdatesui.ui
-    )
-endif(NOT BUILD_KSTARS_LITE)
+ki18n_wrap_ui(kstars_SRCS
+    ${indiui_SRCS}
+    ${ui_SRCS}
+    ${fitsui_SRCS}
+    ${ekosui_SRCS}
+    ${xplanetui_SRCS}
+    ${kstars_optionsui_SRCS}
+    ${kstars_dialogsui_SRCS}
+    ${printingui_SRCS}
+    auxiliary/thumbnailpicker.ui
+    auxiliary/thumbnaileditor.ui
+    oal/observeradd.ui
+    oal/equipmentwriter.ui
+    oal/execute.ui
+    hips/opships.ui
+    hips/opshipsdisplay.ui
+    hips/opshipscache.ui
+    #skycomponents/notifyupdatesui.ui
+)
 
 add_library(KStarsLib STATIC ${kstars_SRCS})
 
-if(BUILD_KSTARS_LITE)
-    target_link_libraries(KStarsLib
+if (BUILD_KSTARS_LITE)
+    add_library(KStarsLiteLib STATIC ${kstarslite_SRCS})
+    target_link_libraries(KStarsLiteLib
         LibKSDataHandlers
         htmesh
         KF5::I18n
@@ -980,46 +974,47 @@ if(BUILD_KSTARS_LITE)
         )
 
     if (ANDROID)
-        target_link_libraries(KStarsLib Qt5::AndroidExtras)
+        target_link_libraries(KStarsLiteLib Qt5::AndroidExtras)
     endif ()
 
-else(BUILD_KSTARS_LITE)
-    target_link_libraries(KStarsLib
-        LibKSDataHandlers
-        htmesh
-        KF5::Crash
-        KF5::I18n
-        KF5::NewStuff
-        KF5::KIOFileWidgets
-        KF5::WidgetsAddons
-        KF5::Plotting
-        KF5::Notifications        
-        Qt5::Gui
-        Qt5::PrintSupport
-        Qt5::Sql
-        Qt5::Svg
-        Qt5::Qml
-        Qt5::Quick
-        Qt5::Network        
-        #Qt5::Positioning
-        Qt5::Concurrent
-        Qt5::WebSockets        
-        ${ZLIB_LIBRARIES}
-        )
+endif ()
 
-    if (Qt5Keychain_FOUND)
-        include_directories(KStarsLib PUBLIC ${QTKEYCHAIN_INCLUDE_DIRS})
-        target_link_libraries(KStarsLib ${QTKEYCHAIN_LIBRARIES})
-    endif(Qt5Keychain_FOUND)
+target_link_libraries(KStarsLib
+    LibKSDataHandlers
+    htmesh
+    KF5::Crash
+    KF5::I18n
+    KF5::NewStuff
+    KF5::KIOFileWidgets
+    KF5::WidgetsAddons
+    KF5::Plotting
+    KF5::Notifications
+    Qt5::Gui
+    Qt5::PrintSupport
+    Qt5::Sql
+    Qt5::Svg
+    Qt5::Qml
+    Qt5::Quick
+    Qt5::Network
+    #Qt5::Positioning
+    Qt5::Concurrent
+    Qt5::WebSockets
+    ${ZLIB_LIBRARIES}
+    )
 
-    if (Qt5DataVisualization_FOUND)
-        target_link_libraries(KStarsLib Qt5::DataVisualization)
-    endif(Qt5DataVisualization_FOUND)
+if (Qt5Keychain_FOUND)
+    include_directories(KStarsLib PUBLIC ${QTKEYCHAIN_INCLUDE_DIRS})
+    target_link_libraries(KStarsLib ${QTKEYCHAIN_LIBRARIES})
+endif(Qt5Keychain_FOUND)
 
-    if (KF5NotifyConfig_FOUND)
-        target_link_libraries(KStarsLib KF5::NotifyConfig)
-    endif(KF5NotifyConfig_FOUND)
-endif(BUILD_KSTARS_LITE)
+
+if (Qt5DataVisualization_FOUND)
+    target_link_libraries(KStarsLib Qt5::DataVisualization)
+endif(Qt5DataVisualization_FOUND)
+
+if (KF5NotifyConfig_FOUND)
+    target_link_libraries(KStarsLib KF5::NotifyConfig)
+endif(KF5NotifyConfig_FOUND)
 
 if(NOT WIN32)
     target_link_libraries(KStarsLib m)
@@ -1028,6 +1023,10 @@ endif(NOT WIN32)
 if (CFITSIO_FOUND)
     target_include_directories(KStarsLib PUBLIC ${CFITSIO_INCLUDE_DIR})
     target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
+    if (BUILD_KSTARS_LITE)
+        target_include_directories(KStarsLiteLib PUBLIC ${CFITSIO_INCLUDE_DIR})
+        target_link_libraries(KStarsLiteLib ${CFITSIO_LIBRARIES})
+    endif()
 endif(CFITSIO_FOUND)
 
 if(INDI_FOUND)
@@ -1042,39 +1041,39 @@ if(INDI_FOUND)
     ## Linux + MacOS Desktop: Requires INDI Client + GSL
     ## Linux + MacOS Lite: Requires INDI Qt5 Client
     ## Android: Requires INDI Qt5 Client built for Android
-    #if(BUILD_KSTARS_LITE)
-        #target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT})
-    #else(BUILD_KSTARS_LITE)
-    if(NOT BUILD_KSTARS_LITE)
-        find_package(GSL REQUIRED)
-        include_directories(${GSL_INCLUDE_DIRS})
-        target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
-    endif(NOT BUILD_KSTARS_LITE)
+    find_package(GSL REQUIRED)
+    include_directories(${GSL_INCLUDE_DIRS})
+    target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
 
     if(WIN32 OR ANDROID)
         if(ANDROID)
-            add_definitions(-DUSE_QT5_INDI)
-            target_link_libraries(KStarsLib ${INDI_CLIENT_ANDROID_LIBRARIES} ${CFITSIO_LIBRARIES} ${LIBRAW_LIBRARIES})
+            target_link_libraries(KStarsLiteLib ${INDI_CLIENT_ANDROID_LIBRARIES} ${CFITSIO_LIBRARIES} ${LIBRAW_LIBRARIES})
+            target_compile_options(KStarsLiteLib PRIVATE ${KSTARSLITE_CPP_OPTIONS} -DUSE_QT5_INDI -DKSTARS_LITE)
         else(ANDROID)
             target_link_libraries(KStarsLib ${INDI_CLIENT_LIBRARIES} ${NOVA_LIBRARIES})
         endif(ANDROID)
     else(WIN32 OR ANDROID)
-        if(BUILD_KSTARS_LITE)
-            add_definitions(-DUSE_QT5_INDI)
-            target_link_libraries(KStarsLib ${INDI_CLIENT_QT_LIBRARIES} ${NOVA_LIBRARIES} z)
-        else(BUILD_KSTARS_LITE)
-            target_link_libraries(KStarsLib ${INDI_CLIENT_LIBRARIES} ${NOVA_LIBRARIES} z)
+        if (BUILD_KSTARS_LITE)
+            target_link_libraries(KStarsLiteLib ${INDI_CLIENT_QT_LIBRARIES} ${NOVA_LIBRARIES} z)
+            target_compile_options(KStarsLiteLib PRIVATE ${KSTARSLITE_CPP_OPTIONS} -DUSE_QT5_INDI -DKSTARS_LITE)
         endif(BUILD_KSTARS_LITE)
+        target_link_libraries(KStarsLib ${INDI_CLIENT_LIBRARIES} ${NOVA_LIBRARIES} z)
     endif(WIN32 OR ANDROID)
 
 endif(INDI_FOUND)
 
 if(WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})
+    if (BUILD_KSTARS_LITE)
+        target_link_libraries(KStarsLiteLib ${WCSLIB_LIBRARIES})
+    endif()
 endif (WCSLIB_FOUND)
 
 if(LibRaw_FOUND)
     target_link_libraries(KStarsLib ${LibRaw_LIBRARIES})
+    if (BUILD_KSTARS_LITE)
+        target_link_libraries(KStarsLiteLib ${LibRaw_LIBRARIES})
+    endif()
 endif (LibRaw_FOUND)
 
 #FIXME Enable OpenGL Later
@@ -1089,7 +1088,6 @@ set (KSTARS_APP_SRCS
     main.cpp
 )
 
-if(NOT BUILD_KSTARS_LITE)
 # add icon to application sources
 ecm_add_app_icon(KSTARS_APP_SRCS ICONS
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-kstars.png
@@ -1100,7 +1098,6 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
 )
 
 qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
-endif(NOT BUILD_KSTARS_LITE)
 
 if (CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
     add_library(kstars SHARED ${KSTARS_APP_SRCS})
@@ -1114,29 +1111,29 @@ if (CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.
                           COMMAND ar -xv ${ANDROID_NDK}/platforms/android-24/arch-arm/usr/lib/libc.a locale.o
                           WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
     ADD_DEPENDENCIES(kstars extract_locale_o)
-    target_link_libraries(kstars KStarsLib ${CMAKE_BINARY_DIR}/locale.o -lgnustl_static)
+    target_link_libraries(kstars KStarsLiteLib ${CMAKE_BINARY_DIR}/locale.o -lgnustl_static)
 else ()
-    if(BUILD_KSTARS_LITE)
+    if (BUILD_KSTARS_LITE)
         add_executable(kstars_lite ${KSTARS_APP_SRCS})
-        target_link_libraries(kstars_lite KStarsLib)
-    else()
-        add_executable(kstars ${KSTARS_APP_SRCS})
-        target_link_libraries(kstars KStarsLib)
+        target_compile_options(kstars_lite PRIVATE ${KSTARSLITE_CPP_OPTIONS} -DUSE_QT5_INDI -DKSTARS_LITE)
+        target_link_libraries(kstars_lite KStarsLiteLib)
     endif()
+    add_executable(kstars ${KSTARS_APP_SRCS})
+    target_link_libraries(kstars KStarsLib)
 endif ()
 
-if(NOT BUILD_KSTARS_LITE)
-    install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
-    ########### install files ###############
-    install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
-    install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-    install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
-    if(INDI_FOUND)
-    #install(FILES ekos/mount/mountbox.qml DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml)
-    #install(DIRECTORY ekos/mount/ DESTINATION ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml
-    #        FILES_MATCHING PATTERN "*.png")
-    endif()
-elseif (NOT ANDROID)
+########### install files ###############
+install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+if(INDI_FOUND)
+#install(FILES ekos/mount/mountbox.qml DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml)
+#install(DIRECTORY ekos/mount/ DESTINATION ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml
+#        FILES_MATCHING PATTERN "*.png")
+endif()
+
+if (NOT ANDROID AND BUILD_KSTARS_LITE)
     install(TARGETS kstars_lite ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 endif()

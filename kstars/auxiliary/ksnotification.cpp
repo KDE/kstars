@@ -17,7 +17,6 @@
 #include <QPointer>
 #include <KMessageBox>
 #include <KNotification>
-#endif
 
 #ifdef HAVE_INDI
 #ifdef HAVE_CFITSIO
@@ -25,6 +24,7 @@
 #include "ekos/ekosmanager.h"
 #endif
 #endif
+#endif // KSTARS_LITE
 
 namespace KSNotification
 {
@@ -76,6 +76,9 @@ void transient(const QString &message, const QString &title)
 
 void event(const QLatin1String &name, const QString &message, EventType type)
 {
+    Q_UNUSED(name);
+    Q_UNUSED(message);
+    Q_UNUSED(type);
 #ifndef KSTARS_LITE
     KNotification::event(name, message);
 
