@@ -23,9 +23,9 @@ ecm_qt_declare_logging_category(LibKSDataHandlers_SRC HEADER catalog_debug.h IDE
 add_library(LibKSDataHandlers STATIC ${LibKSDataHandlers_SRC})
 
 # Added this because includedir was missing, is this required?
-if(BUILD_KSTARS_LITE)
+if (ANDROID)
     target_link_libraries(LibKSDataHandlers KF5::I18n Qt5::Sql Qt5::Core Qt5::Gui)
-else(BUILD_KSTARS_LITE)
+else ()
     target_link_libraries(LibKSDataHandlers KF5::WidgetsAddons KF5::I18n Qt5::Sql Qt5::Core Qt5::Gui)
-endif(BUILD_KSTARS_LITE)
+endif ()
 

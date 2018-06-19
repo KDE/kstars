@@ -21,13 +21,21 @@ SET( TEST_LIBRARIES
         KStarsLib
 )
 
+SET( TEST_KSLITE_LIBRARIES
+        Qt5::Core
+        Qt5::Test
+        LibKSDataHandlers
+        htmesh
+        ${ZLIB_LIBRARIES}
+        KStarsLiteLib
+)
+
 add_subdirectory(auxiliary)
 add_subdirectory(skyobjects)
 
 IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
     IF (BUILD_KSTARS_LITE)
         add_subdirectory(kstars_lite_ui)
-    ELSE ()
-        add_subdirectory(kstars_ui)
     ENDIF ()
+    add_subdirectory(kstars_ui)
 ENDIF ()

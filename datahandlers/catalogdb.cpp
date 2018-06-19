@@ -771,7 +771,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
                                                             "; assuming 2000."));
             catEpoch = 2000.;
         }
-#ifndef KSTARS_LITE
+#if !defined(ANDROID)
         // Detect a duplicate catalog name
         if (FindCatalog(catalog_name) != -1)
         {
