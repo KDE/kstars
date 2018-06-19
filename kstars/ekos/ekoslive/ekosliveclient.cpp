@@ -118,6 +118,8 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {OPTION_SET_HIGH_BANDWIDTH, "option_set_high_bandwidth"},
     {OPTION_SET_IMAGE_TRANSFER, "option_set_image_transfer"},
     {OPTION_SET_NOTIFICATIONS, "option_set_notifications"},
+
+    {SET_BLOBS, "set_blobs"},
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -456,6 +458,8 @@ void EkosLiveClient::onMessageTextReceived(const QString &message)
         sendScopes();
     else if (command == commands[GET_FILTER_WHEELS])
         sendFilterWheels();
+    else if (command == commands[SET_BLOBS])
+        m_sendBlobs = msgObj["payload"].toBool();
     else if (command.startsWith("capture_"))
         processCaptureCommands(command, payload);
     else if (command.startsWith("mount_"))
@@ -579,7 +583,7 @@ void EkosLiveClient::updateCaptureStatus(const QJsonObject &status)
 
 void EkosLiveClient::sendPreviewImage(FITSView *view)
 {
-    if (m_isConnected == false || m_transferImages == false)
+    if (m_isConnected == false || m_transferImages == false || m_sendBlobs == false)
         return;
 
     QByteArray jpegData;
@@ -611,7 +615,7 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
 
 void EkosLiveClient::sendUpdatedFrame(FITSView *view)
 {
-    if (m_isConnected == false || m_transferImages == false)
+    if (m_isConnected == false || m_transferImages == false || m_sendBlobs == false)
         return;
 
     QByteArray jpegData;
@@ -626,7 +630,7 @@ void EkosLiveClient::sendUpdatedFrame(FITSView *view)
 
 void EkosLiveClient::sendVideoFrame(std::unique_ptr<QImage> & frame)
 {
-    if (m_isConnected == false || m_transferImages == false || !frame)
+    if (m_isConnected == false || m_transferImages == false || m_sendBlobs == false || !frame)
         return;
 
     // TODO Scale should be configurable
