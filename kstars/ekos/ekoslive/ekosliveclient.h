@@ -131,6 +131,9 @@ public:
         OPTION_SET_HIGH_BANDWIDTH,
         OPTION_SET_IMAGE_TRANSFER,
         OPTION_SET_NOTIFICATIONS,
+
+        // Blobs
+        SET_BLOBS,
     };
 
     static QMap<COMMANDS, QString> const commands;
@@ -219,6 +222,7 @@ private:
     bool m_highBandwidth { true};
     bool m_transferImages { true};
     bool m_notifications { true};
+    bool m_sendBlobs { true};
     EkosManager *m_Manager { nullptr };
     QNetworkAccessManager *networkManager { nullptr };
 
