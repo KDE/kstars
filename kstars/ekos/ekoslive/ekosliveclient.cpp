@@ -160,11 +160,11 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
     connect(&m_mediaWebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &EkosLiveClient::onMediaError);
 
 
-    m_serviceURL.setUrl("https://live.stellarmate.com");
-    m_wsURL.setUrl("wss://live.stellarmate.com");
+    //m_serviceURL.setUrl("https://live.stellarmate.com");
+    //m_wsURL.setUrl("wss://live.stellarmate.com");
 
-    //m_serviceURL.setUrl("http://localhost:3000");
-    //m_wsURL.setUrl("ws://localhost:3000");
+    m_serviceURL.setUrl("http://localhost:3000");
+    m_wsURL.setUrl("ws://localhost:3000");
 
     #ifdef HAVE_KEYCHAIN
     QKeychain::ReadPasswordJob *job = new QKeychain::ReadPasswordJob(QLatin1String("kstars"));
@@ -239,6 +239,10 @@ void EkosLiveClient::connectMediaServer()
     QUrlQuery query;
     query.addQueryItem("username", username->text());
     query.addQueryItem("token", token);
+    query.addQueryItem("email", authResponse["email"].toString());
+    query.addQueryItem("from_date", authResponse["from_date"].toString());
+    query.addQueryItem("to_date", authResponse["to_date"].toString());
+    query.addQueryItem("plan_id", authResponse["plan_id"].toString());
 
     requestURL.setPath("/media/ekos");
     requestURL.setQuery(query);
@@ -360,6 +364,8 @@ void EkosLiveClient::onMediaDisconnected()
     disconnect(&m_mediaWebSocket, &QWebSocket::textMessageReceived,  this, &EkosLiveClient::onMediaTextReceived);
     disconnect(&m_mediaWebSocket, &QWebSocket::binaryMessageReceived, this, &EkosLiveClient::onMediaBinaryReceived);
 
+    m_sendBlobs = true;
+
     for (const QString &oneFile : temporaryFiles)
         QFile::remove(oneFile);
     temporaryFiles.clear();
@@ -393,6 +399,8 @@ void EkosLiveClient::onMediaTextReceived(const QString &message)
 
     if (command == commands[ALIGN_SET_FILE_EXTENSION])
         extension = payload["ext"].toString();
+    else if (command == commands[SET_BLOBS])
+        m_sendBlobs = msgObj["payload"].toBool();
 }
 
 void EkosLiveClient::onMediaBinaryReceived(const QByteArray &message)
@@ -457,9 +465,7 @@ void EkosLiveClient::onMessageTextReceived(const QString &message)
     else if (command == commands[GET_SCOPES])
         sendScopes();
     else if (command == commands[GET_FILTER_WHEELS])
-        sendFilterWheels();
-    else if (command == commands[SET_BLOBS])
-        m_sendBlobs = msgObj["payload"].toBool();
+        sendFilterWheels();    
     else if (command.startsWith("capture_"))
         processCaptureCommands(command, payload);
     else if (command.startsWith("mount_"))
