@@ -261,7 +261,7 @@ class FITSData
     void setRotCounter(int value);
 
     // Filename
-    const QString &getFilename() { return filename; }
+    const QString &getFilename() const { return filename; }
 
     // Horizontal flip counter. We keep count to rotate WCS keywords on save
     int getFlipHCounter() const;
