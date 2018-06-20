@@ -274,6 +274,9 @@ if (INDI_FOUND)
 
                        # Ekos Live
                        ekos/ekoslive/ekosliveclient.cpp
+                       ekos/ekoslive/message.cpp
+                       ekos/ekoslive/media.cpp
+
            )
             endif(CFITSIO_FOUND)
     endif(BUILD_KSTARS_LITE)
