@@ -118,8 +118,9 @@ QMap<EkosLiveClient::COMMANDS, QString> const EkosLiveClient::commands =
     {OPTION_SET_HIGH_BANDWIDTH, "option_set_high_bandwidth"},
     {OPTION_SET_IMAGE_TRANSFER, "option_set_image_transfer"},
     {OPTION_SET_NOTIFICATIONS, "option_set_notifications"},
+    {OPTION_SET_CLOUD_STORAGE, "option_set_cloud_storage"},
 
-    {SET_BLOBS, "set_blobs"},
+    {SET_BLOBS, "set_blobs"},    
 };
 
 EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manager(manager)
@@ -163,8 +164,11 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
     m_serviceURL.setUrl("https://live.stellarmate.com");
     m_wsURL.setUrl("wss://live.stellarmate.com");
 
-    //m_serviceURL.setUrl("http://localhost:3000");
-    //m_wsURL.setUrl("ws://localhost:3000");
+    if (getenv("LOCAL_EKOSLIVE_SERVER"))
+    {
+        m_serviceURL.setUrl("http://localhost:3000");
+        m_wsURL.setUrl("ws://localhost:3000");
+    }
 
     #ifdef HAVE_KEYCHAIN
     QKeychain::ReadPasswordJob *job = new QKeychain::ReadPasswordJob(QLatin1String("kstars"));
@@ -617,6 +621,26 @@ void EkosLiveClient::sendPreviewImage(FITSView *view)
 
     m_mediaWebSocket.sendTextMessage(QJsonDocument(metadata).toJson());
     m_mediaWebSocket.sendBinaryMessage(jpegData);
+
+    if (m_cloudStorage)
+    {
+        // Send complete metadata
+        // Add file name and size
+        QJsonArray metadataList;
+        for (FITSData::Record *oneRecord : imageData->getRecords())
+            metadataList.append(QJsonObject({{oneRecord->key, oneRecord->value}}));
+
+        // Add filename and size as wells
+        metadataList.append(QJsonObject({{"filename", imageData->getFilename()}}));
+        metadataList.append(QJsonObject({{"filesize", static_cast<int>(imageData->getSize())}}));
+        m_mediaWebSocket.sendTextMessage(QJsonDocument(metadataList).toJson());
+
+        QByteArray fitsData;
+        QFile buffer(imageData->getFilename());
+        buffer.open(QIODevice::ReadOnly);
+        m_mediaWebSocket.sendBinaryMessage(buffer.readAll());
+        buffer.close();
+    }
 }
 
 void EkosLiveClient::sendUpdatedFrame(FITSView *view)
@@ -1204,4 +1228,6 @@ void EkosLiveClient::processOptionsCommands(const QString &command, const QJsonO
         m_transferImages = payload["value"].toBool(true);
     else if (command == commands[OPTION_SET_NOTIFICATIONS])
         m_notifications = payload["value"].toBool(true);
+    else if (command == commands[OPTION_SET_CLOUD_STORAGE])
+        m_cloudStorage = payload["value"].toBool(false);
 }

@@ -131,8 +131,9 @@ public:
         OPTION_SET_HIGH_BANDWIDTH,
         OPTION_SET_IMAGE_TRANSFER,
         OPTION_SET_NOTIFICATIONS,
+        OPTION_SET_CLOUD_STORAGE,
 
-        // Blobs
+        // Storage Options
         SET_BLOBS,
     };
 
@@ -223,6 +224,7 @@ private:
     bool m_transferImages { true};
     bool m_notifications { true};
     bool m_sendBlobs { true};
+    bool m_cloudStorage { false };
     EkosManager *m_Manager { nullptr };
     QNetworkAccessManager *networkManager { nullptr };
 
