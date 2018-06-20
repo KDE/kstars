@@ -160,11 +160,11 @@ EkosLiveClient::EkosLiveClient(EkosManager *manager) : QDialog(manager), m_Manag
     connect(&m_mediaWebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &EkosLiveClient::onMediaError);
 
 
-    //m_serviceURL.setUrl("https://live.stellarmate.com");
-    //m_wsURL.setUrl("wss://live.stellarmate.com");
+    m_serviceURL.setUrl("https://live.stellarmate.com");
+    m_wsURL.setUrl("wss://live.stellarmate.com");
 
-    m_serviceURL.setUrl("http://localhost:3000");
-    m_wsURL.setUrl("ws://localhost:3000");
+    //m_serviceURL.setUrl("http://localhost:3000");
+    //m_wsURL.setUrl("ws://localhost:3000");
 
     #ifdef HAVE_KEYCHAIN
     QKeychain::ReadPasswordJob *job = new QKeychain::ReadPasswordJob(QLatin1String("kstars"));
