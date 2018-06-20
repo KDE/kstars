@@ -262,6 +262,7 @@ class FITSData
 
     // Filename
     const QString &getFilename() const { return filename; }
+    bool isTempFile() const {return tempFile;}
 
     // Horizontal flip counter. We keep count to rotate WCS keywords on save
     int getFlipHCounter() const;
