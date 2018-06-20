@@ -30,7 +30,11 @@
 #include "indi/indilistener.h"
 #include "indi/indiproperty.h"
 #include "indi/indiwebmanager.h"
+
+
 #include "ekoslive/ekosliveclient.h"
+#include "ekoslive/message.h"
+#include "ekoslive/media.h"
 
 #include <basedevice.h>
 
@@ -97,7 +101,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(connectB, SIGNAL(clicked()), this, SLOT(connectDevices()));
     connect(disconnectB, SIGNAL(clicked()), this, SLOT(disconnectDevices()));
 
-    ekosLiveClient.reset(new EkosLiveClient(this));
+    ekosLiveClient.reset(new EkosLive::Client(this));
 
     // INDI Control Panel
     //connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
@@ -106,7 +110,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
         ekosLiveClient.get()->raise();
     });
 
-    connect(this, &EkosManager::newEkosStartingStatus, ekosLiveClient.get(), &EkosLiveClient::setEkosStatingStatus);
+    connect(this, &EkosManager::newEkosStartingStatus, ekosLiveClient.get()->message(), &EkosLive::Message::setEkosStatingStatus);
 
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
     // Save as above, but it appears in all modules
@@ -189,7 +193,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     //connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
     connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString &target) {
         mountTarget->setText(target);
-        ekosLiveClient.get()->updateMountStatus(QJsonObject({{"target", target}}));
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
     });
 
     // Temporary fix. Not sure how to resize Ekos Dialog to fit contents of the various tabs in the QScrollArea which are added
@@ -210,7 +214,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 
     connect(summaryPreview.get(), &FITSView::imageLoaded, [&]()
     {
-        ekosLiveClient.get()->sendPreviewImage(summaryPreview.get());
+        ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get());
     });
 
     if (Options::ekosLeftIcons())
@@ -1096,8 +1100,8 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
     if (domeProcess.get() != nullptr)
         domeProcess->setTelescope(scopeDevice);
 
-    ekosLiveClient->sendMounts();
-    ekosLiveClient->sendScopes();
+    ekosLiveClient->message()->sendMounts();
+    ekosLiveClient->message()->sendScopes();
 }
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
@@ -1328,18 +1332,7 @@ void EkosManager::processNewText(ITextVectorProperty *tvp)
 {
     if (!strcmp(tvp->name, "FILTER_NAME"))
     {
-        //filterManager->updateFilterNames();
-
-        /*if (captureProcess.get() != nullptr)
-            captureProcess->checkFilter();
-
-        if (focusProcess.get() != nullptr)
-            focusProcess->checkFilter();
-
-        if (alignProcess.get() != nullptr)
-            alignProcess->checkFilter();*/
-
-        ekosLiveClient.get()->sendFilterWheels();
+        ekosLiveClient.get()->message()->sendFilterWheels();
     }
 }
 
@@ -1442,17 +1435,18 @@ void EkosManager::processNewProperty(INDI::Property *prop)
     if (!strcmp(prop->getName(), "TELESCOPE_INFO") || !strcmp(prop->getName(), "TELESCOPE_SLEW_RATE")
             || !strcmp(prop->getName(), "TELESCOPE_PARK"))
     {
-        ekosLiveClient.get()->sendMounts();
-        ekosLiveClient.get()->sendScopes();
+        ekosLiveClient.get()->message()->sendMounts();
+        ekosLiveClient.get()->message()->sendScopes();
     }
 
     if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "CCD_TEMPERATURE") || !strcmp(prop->getName(), "CCD_ISO"))
     {
-        ekosLiveClient.get()->sendCameras();
+        ekosLiveClient.get()->message()->sendCameras();
+        ekosLiveClient.get()->media()->registerCameras();
     }
 
     if (!strcmp(prop->getName(), "FILTER_SLOT"))
-        ekosLiveClient.get()->sendFilterWheels();
+        ekosLiveClient.get()->message()->sendFilterWheels();
 
     if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDER_INFO"))
     {
@@ -1749,7 +1743,7 @@ void EkosManager::initCapture()
             SLOT(updateCaptureProgress(QImage*,Ekos::SequenceJob*)));
     connect(captureProcess.get(), SIGNAL(newExposureProgress(Ekos::SequenceJob*)), this,
             SLOT(updateExposureProgress(Ekos::SequenceJob*)));
-    connect(captureProcess.get(), &Ekos::Capture::sequenceChanged, ekosLiveClient.get(), &EkosLiveClient::sendCaptureSequence);
+    connect(captureProcess.get(), &Ekos::Capture::sequenceChanged, ekosLiveClient.get()->message(), &EkosLive::Message::sendCaptureSequence);
     captureGroup->setEnabled(true);
     sequenceProgress->setEnabled(true);
     captureProgress->setEnabled(true);
@@ -1875,14 +1869,15 @@ void EkosManager::initAlign()
 
     if (ekosLiveClient.get() != nullptr)
     {
-        connect(alignProcess.get(), &Ekos::Align::newStatus, ekosLiveClient.get(), &EkosLiveClient::setAlignStatus);
-        connect(alignProcess.get(), &Ekos::Align::newSolution, ekosLiveClient.get(), &EkosLiveClient::setAlignSolution);
-        connect(alignProcess.get(), &Ekos::Align::newImage, ekosLiveClient.get(), &EkosLiveClient::sendPreviewImage);
-        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get(), &EkosLiveClient::sendUpdatedFrame);
-        connect(alignProcess.get(), &Ekos::Align::newPAHStage, ekosLiveClient.get(), &EkosLiveClient::setPAHStage);
-        connect(alignProcess.get(), &Ekos::Align::newPAHMessage, ekosLiveClient.get(), &EkosLiveClient::setPAHMessage);
-        connect(alignProcess.get(), &Ekos::Align::PAHEnabled, ekosLiveClient.get(), &EkosLiveClient::setPAHEnabled);
-        connect(alignProcess.get(), &Ekos::Align::newFOVTelescopeType, ekosLiveClient.get(), &EkosLiveClient::setFOVTelescopeType);
+        connect(alignProcess.get(), &Ekos::Align::newStatus, ekosLiveClient.get()->message(), &EkosLive::Message::setAlignStatus);
+        connect(alignProcess.get(), &Ekos::Align::newSolution, ekosLiveClient.get()->message(), &EkosLive::Message::setAlignSolution);
+        connect(alignProcess.get(), &Ekos::Align::newPAHStage, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHStage);
+        connect(alignProcess.get(), &Ekos::Align::newPAHMessage, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHMessage);
+        connect(alignProcess.get(), &Ekos::Align::PAHEnabled, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHEnabled);
+        connect(alignProcess.get(), &Ekos::Align::newFOVTelescopeType, ekosLiveClient.get()->message(), &EkosLive::Message::setFOVTelescopeType);
+
+        connect(alignProcess.get(), &Ekos::Align::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendPreviewImage);
+        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame);
 
     }
 
@@ -1979,7 +1974,7 @@ void EkosManager::updateCurrentHFR(double newHFR, int position)
       {"pos", position}
     };
 
-    ekosLiveClient.get()->updateFocusStatus(cStatus);
+    ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
 }
 
 void EkosManager::updateSigmas(double ra, double de)
@@ -1989,7 +1984,7 @@ void EkosManager::updateSigmas(double ra, double de)
 
     QJsonObject cStatus = { {"rarms", ra}, {"derms", de} };
 
-    ekosLiveClient.get()->updateGuideStatus(cStatus);
+    ekosLiveClient.get()->message()->updateGuideStatus(cStatus);
 }
 
 void EkosManager::initMount()
@@ -2009,11 +2004,11 @@ void EkosManager::initMount()
     //connect(mountProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
     connect(mountProcess.get(), &Ekos::Mount::newTarget, [&](const QString &target) {
         mountTarget->setText(target);
-        ekosLiveClient.get()->updateMountStatus(QJsonObject({{"target", target}}));
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
     });
     connect(mountProcess.get(), &Ekos::Mount::slewRateChanged, [&](int slewRate) {
         QJsonObject status = { { "slewRate", slewRate} };
-        ekosLiveClient.get()->updateMountStatus(status);
+        ekosLiveClient.get()->message()->updateMountStatus(status);
     }
     );
 
@@ -2413,7 +2408,7 @@ void EkosManager::updateMountStatus(ISD::Telescope::TelescopeStatus status)
       {"status", mountStatus->text()}
     };
 
-    ekosLiveClient.get()->updateMountStatus(cStatus);
+    ekosLiveClient.get()->message()->updateMountStatus(cStatus);
 }
 
 void EkosManager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt)
@@ -2430,7 +2425,7 @@ void EkosManager::updateMountCoords(const QString &ra, const QString &dec, const
       {"at", dms::fromString(alt, true).Degrees()},
     };
 
-    ekosLiveClient.get()->updateMountStatus(cStatus);
+    ekosLiveClient.get()->message()->updateMountStatus(cStatus);
 }
 
 void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
@@ -2483,7 +2478,7 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
         {"ovt", overallRemainingTime->text()}
     };
 
-    ekosLiveClient.get()->updateCaptureStatus(cStatus);
+    ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
 }
 
 void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
@@ -2516,7 +2511,7 @@ void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
         {"seql", sequenceLabel->text()}
     };
 
-    ekosLiveClient.get()->updateCaptureStatus(status);
+    ekosLiveClient.get()->message()->updateCaptureStatus(status);
 }
 
 void EkosManager::updateExposureProgress(Ekos::SequenceJob *job)
@@ -2536,7 +2531,7 @@ void EkosManager::updateExposureProgress(Ekos::SequenceJob *job)
         {"expr", job->getExposure()}
     };
 
-    ekosLiveClient.get()->updateCaptureStatus(status);
+    ekosLiveClient.get()->message()->updateCaptureStatus(status);
 }
 
 void EkosManager::updateCaptureCountDown()
@@ -2557,7 +2552,7 @@ void EkosManager::updateCaptureCountDown()
       {"ovt", overallRemainingTime->text()}
     };
 
-    ekosLiveClient.get()->updateCaptureStatus(status);
+    ekosLiveClient.get()->message()->updateCaptureStatus(status);
 }
 
 void EkosManager::updateFocusStarPixmap(QPixmap &starPixmap)
@@ -2604,7 +2599,7 @@ void EkosManager::setFocusStatus(Ekos::FocusState status)
       {"status", focusStatus->text()}
     };
 
-    ekosLiveClient.get()->updateFocusStatus(cStatus);
+    ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
 }
 
 void EkosManager::updateGuideStatus(Ekos::GuideState status)
@@ -2654,7 +2649,7 @@ void EkosManager::updateGuideStatus(Ekos::GuideState status)
       {"status", guideStatus->text()}
     };
 
-    ekosLiveClient.get()->updateGuideStatus(cStatus);
+    ekosLiveClient.get()->message()->updateGuideStatus(cStatus);
 }
 
 void EkosManager::updateGuideStarPixmap(QPixmap &starPix)
@@ -2678,7 +2673,7 @@ void EkosManager::updateGuideProfilePixmap(QPixmap &profilePix)
 void EkosManager::setTarget(SkyObject *o)
 {
     mountTarget->setText(o->name());    
-    ekosLiveClient.get()->updateMountStatus(QJsonObject({{"target", o->name()}}));
+    ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", o->name()}}));
 }
 
 void EkosManager::showEkosOptions()
@@ -2816,5 +2811,5 @@ void EkosManager::watchDebugProperty(ISwitchVectorProperty *svp)
 
 void EkosManager::announceEvent(const QString &message, KSNotification::EventType event)
 {
-    ekosLiveClient.get()->sendEvent(message, event);
+    ekosLiveClient.get()->message()->sendEvent(message, event);
 }

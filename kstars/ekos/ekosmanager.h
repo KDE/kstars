@@ -40,8 +40,13 @@
 
 #include <memory>
 
+namespace EkosLive {
+  class Client;
+  class Message;
+  class Media;
+}
+
 class QProgressIndicator;
-class EkosLiveClient;
 class DriverInfo;
 class ProfileInfo;
 class KPageWidgetItem;
@@ -286,7 +291,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     std::unique_ptr<Ekos::Weather> weatherProcess;
     std::unique_ptr<Ekos::DustCap> dustCapProcess;
 
-    std::unique_ptr<EkosLiveClient> ekosLiveClient;
+    std::unique_ptr<EkosLive::Client> ekosLiveClient;
 
     bool localMode { true };
     bool isStarted { false };
@@ -331,5 +336,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     // Logs
     QPointer<Ekos::OpsLogs> opsLogs;
 
-    friend class EkosLiveClient;
+    friend class EkosLive::Client;
+    friend class EkosLive::Message;
+    friend class EkosLive::Media;
 };
