@@ -108,14 +108,14 @@ void Cloud::onTextReceived(const QString &message)
         return;
     }
 
-    //    const QJsonObject msgObj = serverMessage.object();
-    //    const QString command = msgObj["type"].toString();
+        const QJsonObject msgObj = serverMessage.object();
+        const QString command = msgObj["type"].toString();
     //    const QJsonObject payload = msgObj["payload"].toObject();
 
     //    if (command == commands[ALIGN_SET_FILE_EXTENSION])
     //        extension = payload["ext"].toString();
-    //    else if (command == commands[SET_BLOBS])
-    //        m_sendBlobs = msgObj["payload"].toBool();
+    if (command == commands[SET_BLOBS])
+         m_sendBlobs = msgObj["payload"].toBool();
 }
 
 void Cloud::sendPreviewImage(FITSView *view)
@@ -123,26 +123,30 @@ void Cloud::sendPreviewImage(FITSView *view)
     const FITSData *imageData = view->getImageData();
 
     if (m_isConnected == false || m_Options[OPTION_SET_CLOUD_STORAGE] == false
-                               /** TODO: Must detect sendBlobs === false as well **/
-                               || imageData->isTempFile() == false)
+                               || m_sendBlobs == false
+                               || imageData->isTempFile())
         return;
 
     // Send complete metadata
     // Add file name and size
-    QJsonArray metadataList;
+    QJsonObject metadata;
     for (FITSData::Record *oneRecord : imageData->getRecords())
-        metadataList.append(QJsonObject({{oneRecord->key, oneRecord->value}}));
+    {
+        if (oneRecord->key == "EXTEND" || oneRecord->key == "SIMPLE" || oneRecord->key == "COMMENT" ||
+            oneRecord->key.isEmpty() || oneRecord->value.isEmpty())
+            continue;
+        metadata.insert(QStringLiteral("x-amz-meta-") + oneRecord->key.toLower(), oneRecord->value);
+    }
 
     // Add filename and size as wells
-    metadataList.append(QJsonObject({{"filename", QFileInfo(imageData->getFilename()).fileName()}}));
-    metadataList.append(QJsonObject({{"filesize", static_cast<int>(imageData->getSize())}}));
-    m_WebSocket.sendTextMessage(QJsonDocument(metadataList).toJson(QJsonDocument::Compact));
+    metadata.insert("x-amz-meta-filename", QFileInfo(imageData->getFilename()).fileName());
+    metadata.insert("x-amz-meta-filesize", static_cast<int>(imageData->getSize()));
+    m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
 
-    QByteArray fitsData;
-    QFile buffer(imageData->getFilename());
-    buffer.open(QIODevice::ReadOnly);
-    m_WebSocket.sendBinaryMessage(buffer.readAll());
-    buffer.close();
+    QFile image(imageData->getFilename());
+    if (image.open(QIODevice::ReadOnly))
+        m_WebSocket.sendBinaryMessage(image.readAll());
+    image.close();
 }
 
 
