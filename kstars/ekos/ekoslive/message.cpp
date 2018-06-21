@@ -630,13 +630,15 @@ void Message::setEkosStatingStatus(EkosManager::CommunicationStatus status)
 void Message::processOptionsCommands(const QString &command, const QJsonObject &payload)
 {
     if (command == commands[OPTION_SET_HIGH_BANDWIDTH])
-        m_highBandwidth = payload["value"].toBool(true);
+        m_Options[OPTION_SET_HIGH_BANDWIDTH] = payload["value"].toBool(true);
     else if (command == commands[OPTION_SET_IMAGE_TRANSFER])
-        m_transferImages = payload["value"].toBool(true);
+        m_Options[OPTION_SET_IMAGE_TRANSFER] = payload["value"].toBool(true);
     else if (command == commands[OPTION_SET_NOTIFICATIONS])
-        m_notifications = payload["value"].toBool(true);
+        m_Options[OPTION_SET_NOTIFICATIONS] = payload["value"].toBool(true);
     else if (command == commands[OPTION_SET_CLOUD_STORAGE])
-        m_cloudStorage = payload["value"].toBool(false);
+        m_Options[OPTION_SET_CLOUD_STORAGE] = payload["value"].toBool(false);
+
+    emit optionsChanged(m_Options);
 }
 
 void Message::sendResponse(const QString &command, const QJsonObject &payload)
@@ -743,7 +745,7 @@ void Message::sendStates()
 
 void Message::sendEvent(const QString &message, KSNotification::EventType event)
 {
-    if (m_isConnected == false || m_notifications == false)
+    if (m_isConnected == false || m_Options[OPTION_SET_NOTIFICATIONS] == false)
         return;
 
     QJsonObject newEvent = {{ "severity", event}, {"message", message},{"uuid",QUuid::createUuid().toString()}};

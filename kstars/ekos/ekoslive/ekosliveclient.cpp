@@ -105,13 +105,19 @@ Client::Client(EkosManager *manager) : QDialog(manager), m_Manager(manager)
     });
 
     m_Media = new Media(m_Manager);
+    connect(m_Message, &Message::optionsChanged, m_Media, &Media::setOptions);
     m_Media->setURL(m_wsURL);
+
+    m_Cloud = new Cloud(m_Manager);
+    connect(m_Message, &Message::optionsChanged, m_Cloud, &Cloud::setOptions);
+    m_Cloud->setURL(m_wsURL);
 }
 
 Client::~Client()
 {
     m_Message->disconnectServer();
     m_Media->disconnectServer();
+    m_Cloud->disconnectServer();
 }
 
 void Client::onConnected()
@@ -165,6 +171,7 @@ void Client::disconnectAuthServer()
 
     m_Message->disconnectServer();
     m_Media->disconnectServer();
+    m_Cloud->disconnectServer();
 }
 
 void Client::authenticate()
@@ -223,6 +230,9 @@ void Client::onResult(QNetworkReply *reply)
 
     m_Media->setAuthResponse(authResponse);
     m_Media->connectServer();
+
+    m_Cloud->setAuthResponse(authResponse);
+    m_Cloud->connectServer();
 }
 
 }

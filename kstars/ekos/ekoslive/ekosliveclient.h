@@ -22,6 +22,7 @@
 // Ekos Live Communication Channels
 #include "message.h"
 #include "media.h"
+#include "cloud.h"
 
 #include "ui_ekoslivedialog.h"
 
@@ -42,6 +43,7 @@ public:
 
     const QPointer<Message> & message() { return m_Message; }
     const QPointer<Media> & media() { return m_Media; }
+    const QPointer<Cloud> & cloud() { return m_Cloud; }
 
 signals:
     void connected();
@@ -75,6 +77,7 @@ private:
 
     QPointer<Message> m_Message;
     QPointer<Media> m_Media;
+    QPointer<Cloud> m_Cloud;
 
     // Retry every 5 seconds in case remote server is down
     static const uint16_t RECONNECT_INTERVAL = 5000;

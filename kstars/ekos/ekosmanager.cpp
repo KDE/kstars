@@ -215,6 +215,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(summaryPreview.get(), &FITSView::imageLoaded, [&]()
     {
         ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get());
+        ekosLiveClient.get()->cloud()->sendPreviewImage(summaryPreview.get());
     });
 
     if (Options::ekosLeftIcons())

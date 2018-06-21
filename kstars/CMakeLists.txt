@@ -265,6 +265,7 @@ if (INDI_FOUND)
             ekos/ekoslive/ekosliveclient.cpp
             ekos/ekoslive/message.cpp
             ekos/ekoslive/media.cpp
+            ekos/ekoslive/cloud.cpp
        )
     endif(CFITSIO_FOUND)
 

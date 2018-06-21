@@ -51,6 +51,7 @@ signals:
     void connected();
     void disconnected();
     void expired();
+    void optionsChanged(QMap<int,bool> options);
 
 public slots:
     void connectServer();
@@ -122,12 +123,10 @@ private:
     EkosManager *m_Manager { nullptr };
     QUrl m_URL;
 
-    bool m_isConnected { false };
-    bool m_highBandwidth { true};
-    bool m_transferImages { true};
-    bool m_notifications { true};
+    bool m_isConnected { false };    
     bool m_sendBlobs { true};
-    bool m_cloudStorage { false };
+
+    QMap<int,bool> m_Options;
 
     // Retry every 5 seconds in case remote server is down
     static const uint16_t RECONNECT_INTERVAL = 5000;
