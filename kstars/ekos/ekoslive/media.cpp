@@ -30,8 +30,6 @@ Media::Media(EkosManager *manager): m_Manager(manager)
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Media::onDisconnected);
     connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &Media::onError);
 
-    connect(&m_WebSocket, &QWebSocket::textMessageReceived, this, &Media::onTextReceived);
-    connect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &Media::onBinaryReceived);
 }
 
 void Media::connectServer()
@@ -64,10 +62,11 @@ void Media::onConnected()
 {
     qCInfo(KSTARS_EKOS) << "Connected to media Websocket server at" << m_URL.toDisplayString();
 
+    connect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Media::onTextReceived);
+    connect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &Media::onBinaryReceived);
+
     m_isConnected = true;
     m_ReconnectTries=0;
-
-    connect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Media::onTextReceived);
 
     emit connected();
 }
@@ -76,6 +75,7 @@ void Media::onDisconnected()
 {
     qCInfo(KSTARS_EKOS) << "Disonnected from media Websocket server.";
     m_isConnected = false;
+
     disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Media::onTextReceived);
     disconnect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &Media::onBinaryReceived);
 
@@ -140,14 +140,14 @@ void Media::onBinaryReceived(const QByteArray &message)
 
 void Media::sendPreviewImage(FITSView *view)
 {
-    if (m_isConnected == false || m_transferImages == false || m_sendBlobs == false)
+    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
         return;
 
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
-    QImage scaledImage = view->getDisplayImage()->scaledToWidth(m_highBandwidth ? HB_WIDTH : HB_WIDTH/2);
-    scaledImage.save(&buffer, "jpg", m_highBandwidth ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
+    QImage scaledImage = view->getDisplayImage()->scaledToWidth(m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH/2);
+    scaledImage.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
     buffer.close();
 
     const FITSData *imageData = view->getImageData();
@@ -168,38 +168,18 @@ void Media::sendPreviewImage(FITSView *view)
 
     m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
     m_WebSocket.sendBinaryMessage(jpegData);
-
-    if (m_cloudStorage && imageData->isTempFile() == false)
-    {
-        // Send complete metadata
-        // Add file name and size
-        QJsonArray metadataList;
-        for (FITSData::Record *oneRecord : imageData->getRecords())
-            metadataList.append(QJsonObject({{oneRecord->key, oneRecord->value}}));
-
-        // Add filename and size as wells
-        metadataList.append(QJsonObject({{"filename", QFileInfo(imageData->getFilename()).fileName()}}));
-        metadataList.append(QJsonObject({{"filesize", static_cast<int>(imageData->getSize())}}));
-        m_WebSocket.sendTextMessage(QJsonDocument(metadataList).toJson(QJsonDocument::Compact));
-
-        QByteArray fitsData;
-        QFile buffer(imageData->getFilename());
-        buffer.open(QIODevice::ReadOnly);
-        m_WebSocket.sendBinaryMessage(buffer.readAll());
-        buffer.close();
-    }
 }
 
 void Media::sendUpdatedFrame(FITSView *view)
 {
-    if (m_isConnected == false || m_transferImages == false || m_sendBlobs == false)
+    if (m_isConnected == false || m_Options[OPTION_SET_HIGH_BANDWIDTH] == false || m_sendBlobs == false)
         return;
 
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
     //QPixmap scaledPixmap = view->getDisplayPixmap().scaledToWidth(640);
-    view->getDisplayPixmap().save(&buffer, "jpg", m_highBandwidth ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
+    view->getDisplayPixmap().save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
     buffer.close();
 
     m_WebSocket.sendBinaryMessage(jpegData);
@@ -207,17 +187,17 @@ void Media::sendUpdatedFrame(FITSView *view)
 
 void Media::sendVideoFrame(std::unique_ptr<QImage> & frame)
 {
-    if (m_isConnected == false || m_transferImages == false || m_sendBlobs == false || !frame)
+    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false || !frame)
         return;
 
     // TODO Scale should be configurable
-    QImage scaledImage =  frame.get()->scaledToWidth(m_highBandwidth ? HB_WIDTH : HB_WIDTH/2);
+    QImage scaledImage =  frame.get()->scaledToWidth(m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH/2);
     QTemporaryFile jpegFile;
     jpegFile.open();
     jpegFile.close();
 
     // TODO Quality should be configurable
-    scaledImage.save(jpegFile.fileName(), "jpg", m_highBandwidth ? HB_VIDEO_QUALITY : HB_VIDEO_QUALITY/2);
+    scaledImage.save(jpegFile.fileName(), "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_VIDEO_QUALITY : HB_VIDEO_QUALITY/2);
 
     jpegFile.open();
 

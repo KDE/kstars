@@ -2,7 +2,7 @@
 
     Copyright (C) 2018 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
-    Media Channel
+    Cloud Channel
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public
@@ -22,13 +22,13 @@ class FITSView;
 
 namespace EkosLive
 {
-class Media : public QObject
+class Cloud : public QObject
 {
     Q_OBJECT
 
 public:
-    Media(EkosManager *manager);
-    virtual ~Media() = default;
+    Cloud(EkosManager *manager);
+    virtual ~Cloud() = default;
 
     void sendResponse(const QString &command, const QJsonObject &payload);
     void sendResponse(const QString &command, const QJsonArray &payload);
@@ -38,9 +38,8 @@ public:
 
     void registerCameras();
 
-    // Ekos Media Message to User
-    void sendPreviewImage(FITSView *view);
-    void sendUpdatedFrame(FITSView *view);
+    // Ekos Cloud Message to User
+    void sendPreviewImage(FITSView *view);    
 
 signals:
     void connected();
@@ -49,23 +48,16 @@ signals:
 public slots:
     void connectServer();
     void disconnectServer();
-
-    // Capture
-    void sendVideoFrame(std::unique_ptr<QImage> & frame);
-
-    // Options
     void setOptions(QMap<int,bool> options) {m_Options = options;}
 
 private slots:
-
     // Connection
     void onConnected();
     void onDisconnected();
     void onError(QAbstractSocket::SocketError error);
 
     // Communication
-    void onTextReceived(const QString &message);
-    void onBinaryReceived(const QByteArray &message);
+    void onTextReceived(const QString &message);    
 
 private:    
     QWebSocket m_WebSocket;
@@ -74,13 +66,13 @@ private:
     EkosManager *m_Manager { nullptr };
     QUrl m_URL;
 
-    QMap<int,bool> m_Options;
-
     QString extension;
     QStringList temporaryFiles;
 
-    bool m_isConnected { false };
-    bool m_sendBlobs { true};
+    bool m_isConnected {false};
+    bool m_sendBlobs {true};
+
+    QMap<int,bool> m_Options;
 
     // Image width for high-bandwidth setting
     static const uint16_t HB_WIDTH = 640;
