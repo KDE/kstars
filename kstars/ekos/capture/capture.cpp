@@ -407,7 +407,6 @@ void Capture::start()
                                          << "DE:" << initialMountCoords.dec().toDMSString();
         }
 
-
         // start timer to measure time until next forced refocus
         startRefocusEveryNTimer();
     }
@@ -1353,10 +1352,7 @@ bool Capture::resumeSequence()
         if (autoFocusReady && refocusEveryNCheck->isChecked())
         {
             qCDebug(KSTARS_EKOS_CAPTURE) << "NFocus Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
-            if (getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60)
-                isRefocus = true;
-            else
-                isRefocus = false;
+            isRefocus = getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60;
         }
 
         // If we suspended guiding due to primary chip download, resume guide chip guiding now
@@ -1393,7 +1389,7 @@ bool Capture::resumeSequence()
         }
         else if (isRefocus && activeJob->getFrameType() == FRAME_LIGHT)
         {
-            appendLogText(i18n("Scheduled refocus started..."));
+            appendLogText(i18n("Scheduled refocus starting after %1 seconds...",getRefocusEveryNTimerElapsedSec()));
 
             secondsLabel->setText(i18n("Focusing..."));
 
@@ -1641,6 +1637,13 @@ bool Capture::resumeCapture()
         secondsLabel->setText(i18n("Paused..."));
         return false;
     }    
+
+    /* Refresh isRefocus when resuming */
+    if (autoFocusReady && refocusEveryNCheck->isChecked())
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "NFocus Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
+        isRefocus = getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60;
+    }
 
     // FIXME ought to be able to combine these - only different is value passed
     //       to checkFocus()
@@ -2331,6 +2334,7 @@ void Capture::prepareJob(SequenceJob *job)
             calibrationStage = CAL_NONE;
     }
 
+    /* FIXME: this locks up the scheduler when it starts without any prior focus procedure done */
     // If we haven't performed a single autofocus yet, we stop
     //if (!job->isPreview() && Options::enforceRefocusEveryN() && autoFocusReady && isInSequenceFocus == false && firstAutoFocus == true)
     if (!job->isPreview() && Options::enforceRefocusEveryN() && autoFocusReady == false && isInSequenceFocus == false)
@@ -5012,19 +5016,31 @@ void Capture::showObserverDialog()
 }
 
 
-void Capture::startRefocusEveryNTimer()
+void Capture::startRefocusTimer(bool forced)
 {
-    refocusEveryNTimer.restart();
-}
-
-void Capture::restartRefocusEveryNTimer()
-{
-    refocusEveryNTimer.restart();
+    /* If refocus is requested, only restart timer if not already running in order to keep current elapsed time since last refocus */
+    if (refocusEveryNCheck->isChecked())
+    {
+        if (!refocusEveryNTimer.isValid() || forced)
+        {
+            appendLogText(i18n("Ekos will refocus in %1 seconds.", refocusEveryN->value()*60));
+            refocusEveryNTimer.restart();
+        }
+        else if (refocusEveryNTimer.elapsed()/1000 < refocusEveryN->value()*60)
+        {
+            appendLogText(i18n("Ekos will refocus in %1 seconds, last procedure was %2 seconds ago.", refocusEveryNTimer.elapsed()/1000-refocusEveryNTimer.elapsed()*60, refocusEveryNTimer.elapsed()/1000));
+        }
+        else
+        {
+            appendLogText(i18n("Ekos will refocus as soon as possible, last procedure was %1 seconds ago.", refocusEveryNTimer.elapsed()/1000));
+        }
+    }
 }
 
 int Capture::getRefocusEveryNTimerElapsedSec()
 {
-    return refocusEveryNTimer.elapsed()/1000;
+    /* If timer isn't valid, consider there is no focus to be done, that is, that focus was just done */
+    return refocusEveryNTimer.isValid() ? refocusEveryNTimer.elapsed()/1000 : 0;
 }
 
 void Capture::setAlignResults(double orientation, double ra, double de, double pixscale)

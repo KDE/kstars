@@ -519,8 +519,8 @@ class Capture : public QWidget, public Ui::Capture
 
     // Auto Focus
     // Timed refocus
-    void startRefocusEveryNTimer();
-    void restartRefocusEveryNTimer();
+    void startRefocusEveryNTimer() { startRefocusTimer(false); }
+    void restartRefocusEveryNTimer() { startRefocusTimer(true); }
     int getRefocusEveryNTimerElapsedSec();
 
     // Flat field
@@ -593,6 +593,9 @@ class Capture : public QWidget, public Ui::Capture
     int getJobRemainingTime(SequenceJob *job);
 
     void resetFrameToZero();
+
+    /* Refocus */
+    void startRefocusTimer(bool forced = false);
 
     /* Capture */
     double seqExpose { 0 };
