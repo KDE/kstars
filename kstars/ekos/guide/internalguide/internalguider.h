@@ -178,5 +178,13 @@ class InternalGuider : public GuideInterface
     CalibrationStage calibrationStage { CAL_IDLE };
     CalibrationType calibrationType;
     Ekos::GuideState rememberState { GUIDE_IDLE };
+
+    // How many high pulses and lost stars before we stop
+    static const uint8_t MAX_COMBINTED_PULSE_LIMITS = 3;
+    // Maximum pulse time limit for immediate capture. Any pulses longer that this
+    // will be delayed until pulse is over
+    static const uint16_t MAX_IMMEDIATE_CAPTURE = 250;
+    // When to start capture before pulse delay is over
+    static const uint16_t PROPAGATION_DELAY = 100;
 };
 }
