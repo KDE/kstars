@@ -856,17 +856,20 @@ bool InternalGuider::processGuiding()
 
     bool sendPulses = true;
 
-    // If within 90% of max pulse repeatedly, let's abort
+    // If within 95% of max pulse repeatedly, let's abort
     if (out->pulse_length[GUIDE_RA] >= (0.95 * Options::rAMaximumPulse()) ||
         out->pulse_length[GUIDE_DEC] >= (0.95 * Options::dECMaximumPulse()))
     {
-        sendPulses = false;
+        // Stop sending pulses in case we are guiding and we already sent one high pulse before
+        // since we do not want to stray too much off the target to purse the guiding star
+        if (state == GUIDE_GUIDING && m_highPulseCounter > 0)
+            sendPulses = false;
         m_highPulseCounter++;
     }
     else
         m_highPulseCounter=0;
 
-    if (m_starLostCounter+m_highPulseCounter > 3)
+    if (m_starLostCounter+m_highPulseCounter > MAX_COMBINTED_PULSE_LIMITS)
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "m_starLostCounter" << m_starLostCounter
                                    << "m_highPulseCounter" << m_highPulseCounter;
@@ -886,11 +889,14 @@ bool InternalGuider::processGuiding()
 
         // Wait until pulse is over before capturing an image
         const int waitMS = qMax(out->pulse_length[GUIDE_RA], out->pulse_length[GUIDE_DEC]);
-        // If less than 250ms, then capture immediately
-        if (waitMS > 250)
-            // Issue frame requests 50ms before timeout to account for
+        // If less than MAX_IMMEDIATE_CAPTURE ms, then capture immediately
+        if (waitMS > MAX_IMMEDIATE_CAPTURE)
+            // Issue frame requests MAX_IMMEDIATE_CAPTURE ms before timeout to account for
             // propogation delays
-            QTimer::singleShot(waitMS - 50, [&]() {emit frameCaptureRequested();});
+            QTimer::singleShot(waitMS - PROPAGATION_DELAY, [&]()
+            {
+                emit frameCaptureRequested();
+            });
         else
             emit frameCaptureRequested();
     }
