@@ -1,6 +1,6 @@
 [KSLABEL]Simbad
-General:http://simbad.harvard.edu/sim-id.pl?protocol=html&Ident=KSOBJ&NbIdent=1&Radius=10&Radius.unit=arcmin&CooFrame=FK5&CooEpoch=2000&CooEqui=2000&output.max=all&o.catall=on&output.mesdisp=N&Bibyear1=1983&Bibyear2=2002&Frame1=FK5&Frame2=FK4&Frame3=G&Equi1=2000.0&Equi2=1950.0&Equi3=2000.0&Epoch1=2000.0&Epoch2=1950.0&Epoch3=2000.0
-References:http://simbad.harvard.edu/sim-id.pl?protocol=html&Ident=KSOBJ&keywords=&Radius=10&CooEqui=2000&output.mes=o.catall%2C&output.mesdisp=N&Equi1=2000.0&Epoch1=2000.0&Frame1=FK5&Equi2=1950.0&Epoch2=1950.0&Frame2=FK4&Equi3=2000.0&Epoch3=2000.0&Frame3=G&FrameList=FK5&EquiList=2000.0&EpochList=2000.0&output.bib=b.ref&Bibyear1=1983&Bibyear2=2002
+General:http://simbad.cfa.harvard.edu/simbad/sim-id?protocol=html&Ident=KSOBJ&NbIdent=1&Radius=10&Radius.unit=arcmin&CooFrame=FK5&CooEpoch=2000&CooEqui=2000&output.max=all&o.catall=on&output.mesdisp=N&Bibyear1=1983&Bibyear2=2002&Frame1=FK5&Frame2=FK4&Frame3=G&Equi1=2000.0&Equi2=1950.0&Equi3=2000.0&Epoch1=2000.0&Epoch2=1950.0&Epoch3=2000.0
+References:http://simbad.cfa.harvard.edu/simbad/sim-id?protocol=html&Ident=KSOBJ&keywords=&Radius=10&CooEqui=2000&output.mes=o.catall%2C&output.mesdisp=N&Equi1=2000.0&Epoch1=2000.0&Frame1=FK5&Equi2=1950.0&Epoch2=1950.0&Frame2=FK4&Equi3=2000.0&Epoch3=2000.0&Frame3=G&FrameList=FK5&EquiList=2000.0&EpochList=2000.0&output.bib=b.ref&Bibyear1=1983&Bibyear2=2002
 [KSLABEL]Aladin
 Aladin previewer:http://aladin.u-strasbg.fr/AladinPreview?KSRA%20KSDEC
 Aladin Java applet:http://aladin.u-strasbg.fr/java/nph-aladin.pl?-c=KSRA%20KSDEC&-rm=11&-server=Aladin%2CSimbad
