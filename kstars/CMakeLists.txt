@@ -94,7 +94,8 @@ IF (CFITSIO_FOUND)
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/extract.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/lutz.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")
-        #SET_SOURCE_FILES_PROPERTIES(ekos/ekoslive/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-implicit-function-decleration")
+        SET_SOURCE_FILES_PROPERTIES(ekos/ekoslive/fpack.c PROPERTIES COMPILE_FLAGS "-Wno-error")
+        SET_SOURCE_FILES_PROPERTIES(ekos/ekoslive/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-error")
     ELSEIF (NOT WIN32)
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-pointer-arith")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-discarded-qualifiers")
@@ -267,9 +268,13 @@ if (INDI_FOUND)
             ekos/ekoslive/message.cpp
             ekos/ekoslive/media.cpp
             ekos/ekoslive/cloud.cpp
+        )
+
+        set(ekos_C_SRCS
             ekos/ekoslive/fpack.c
             ekos/ekoslive/fpackutil.c
-       )
+        )
+
     endif(CFITSIO_FOUND)
 
     include_directories(${INDI_INCLUDE_DIR})
@@ -917,47 +922,90 @@ IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstarslite kstarslite_SRCS 10 cpp)
 ENDIF ()
 
-set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${hips_manager_SRCS})
-set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${fits2_klite_SRCS} ${kstarslite_libtess_SRC})
+set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${hips_manager_SRCS} ${ekos_C_SRCS})
+set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${sep_SRCS} ${fits2_klite_SRCS} ${kstarslite_libtess_SRC})
 
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
-qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
+IF (NOT ANDROID)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
 
-if (INDI_FOUND)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/ekosmanager.h EkosManager)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture/capture.h Ekos::Capture)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus/focus.h Ekos::Focus)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide/guide.h Ekos::Guide)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/auxiliary/dome.h Ekos::Dome)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/auxiliary/weather.h Ekos::Weather)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/auxiliary/dustcap.h Ekos::DustCap)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/scheduler.h Ekos::Scheduler)
-endif(INDI_FOUND)
+    IF (INDI_FOUND)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/ekosmanager.h EkosManager)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture/capture.h Ekos::Capture)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus/focus.h Ekos::Focus)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide/guide.h Ekos::Guide)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/auxiliary/dome.h Ekos::Dome)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/auxiliary/weather.h Ekos::Weather)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/auxiliary/dustcap.h Ekos::DustCap)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/scheduler.h Ekos::Scheduler)
+    ENDIF ()
 
-ki18n_wrap_ui(kstars_SRCS
-    ${indiui_SRCS}
-    ${ui_SRCS}
-    ${fitsui_SRCS}
-    ${ekosui_SRCS}
-    ${xplanetui_SRCS}
-    ${kstars_optionsui_SRCS}
-    ${kstars_dialogsui_SRCS}
-    ${printingui_SRCS}
-    auxiliary/thumbnailpicker.ui
-    auxiliary/thumbnaileditor.ui
-    oal/observeradd.ui
-    oal/equipmentwriter.ui
-    oal/execute.ui
-    hips/opships.ui
-    hips/opshipsdisplay.ui
-    hips/opshipscache.ui
-    #skycomponents/notifyupdatesui.ui
-)
+    ki18n_wrap_ui(kstars_SRCS
+        ${indiui_SRCS}
+        ${ui_SRCS}
+        ${fitsui_SRCS}
+        ${ekosui_SRCS}
+        ${xplanetui_SRCS}
+        ${kstars_optionsui_SRCS}
+        ${kstars_dialogsui_SRCS}
+        ${printingui_SRCS}
+        auxiliary/thumbnailpicker.ui
+        auxiliary/thumbnaileditor.ui
+        oal/observeradd.ui
+        oal/equipmentwriter.ui
+        oal/execute.ui
+        hips/opships.ui
+        hips/opshipsdisplay.ui
+        hips/opshipscache.ui
+        #skycomponents/notifyupdatesui.ui
+    )
 
-add_library(KStarsLib STATIC ${kstars_SRCS})
+    add_library(KStarsLib STATIC ${kstars_SRCS})
+
+    target_link_libraries(KStarsLib
+        LibKSDataHandlers
+        htmesh
+        KF5::Crash
+        KF5::I18n
+        KF5::NewStuff
+        KF5::KIOFileWidgets
+        KF5::WidgetsAddons
+        KF5::Plotting
+        KF5::Notifications
+        Qt5::Gui
+        Qt5::PrintSupport
+        Qt5::Sql
+        Qt5::Svg
+        Qt5::Qml
+        Qt5::Quick
+        Qt5::Network
+        #Qt5::Positioning
+        Qt5::Concurrent
+        Qt5::WebSockets
+        ${ZLIB_LIBRARIES}
+        )
+
+    if (Qt5Keychain_FOUND)
+        include_directories(KStarsLib PUBLIC ${QTKEYCHAIN_INCLUDE_DIRS})
+        target_link_libraries(KStarsLib ${QTKEYCHAIN_LIBRARIES})
+    endif(Qt5Keychain_FOUND)
+
+
+    if (Qt5DataVisualization_FOUND)
+        target_link_libraries(KStarsLib Qt5::DataVisualization)
+    endif(Qt5DataVisualization_FOUND)
+
+    if (KF5NotifyConfig_FOUND)
+        target_link_libraries(KStarsLib KF5::NotifyConfig)
+    endif(KF5NotifyConfig_FOUND)
+
+    if(NOT WIN32)
+        target_link_libraries(KStarsLib m)
+    endif(NOT WIN32)
+ENDIF ()
 
 if (BUILD_KSTARS_LITE)
     add_library(KStarsLiteLib STATIC ${kstarslite_SRCS})
@@ -983,50 +1031,12 @@ if (BUILD_KSTARS_LITE)
 
 endif ()
 
-target_link_libraries(KStarsLib
-    LibKSDataHandlers
-    htmesh
-    KF5::Crash
-    KF5::I18n
-    KF5::NewStuff
-    KF5::KIOFileWidgets
-    KF5::WidgetsAddons
-    KF5::Plotting
-    KF5::Notifications
-    Qt5::Gui
-    Qt5::PrintSupport
-    Qt5::Sql
-    Qt5::Svg
-    Qt5::Qml
-    Qt5::Quick
-    Qt5::Network
-    #Qt5::Positioning
-    Qt5::Concurrent
-    Qt5::WebSockets
-    ${ZLIB_LIBRARIES}
-    )
-
-if (Qt5Keychain_FOUND)
-    include_directories(KStarsLib PUBLIC ${QTKEYCHAIN_INCLUDE_DIRS})
-    target_link_libraries(KStarsLib ${QTKEYCHAIN_LIBRARIES})
-endif(Qt5Keychain_FOUND)
-
-
-if (Qt5DataVisualization_FOUND)
-    target_link_libraries(KStarsLib Qt5::DataVisualization)
-endif(Qt5DataVisualization_FOUND)
-
-if (KF5NotifyConfig_FOUND)
-    target_link_libraries(KStarsLib KF5::NotifyConfig)
-endif(KF5NotifyConfig_FOUND)
-
-if(NOT WIN32)
-    target_link_libraries(KStarsLib m)
-endif(NOT WIN32)
 
 if (CFITSIO_FOUND)
-    target_include_directories(KStarsLib PUBLIC ${CFITSIO_INCLUDE_DIR})
-    target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
+    if (NOT ANDROID)
+        target_include_directories(KStarsLib PUBLIC ${CFITSIO_INCLUDE_DIR})
+        target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
+    endif()
     if (BUILD_KSTARS_LITE)
         target_include_directories(KStarsLiteLib PUBLIC ${CFITSIO_INCLUDE_DIR})
         target_link_libraries(KStarsLiteLib ${CFITSIO_LIBRARIES})
@@ -1045,9 +1055,11 @@ if(INDI_FOUND)
     ## Linux + MacOS Desktop: Requires INDI Client + GSL
     ## Linux + MacOS Lite: Requires INDI Qt5 Client
     ## Android: Requires INDI Qt5 Client built for Android
-    find_package(GSL REQUIRED)
-    include_directories(${GSL_INCLUDE_DIRS})
-    target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
+    if (NOT ANDROID)
+        find_package(GSL REQUIRED)
+        include_directories(${GSL_INCLUDE_DIRS})
+        target_link_libraries(KStarsLib ${GSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
+    endif ()
 
     if(WIN32 OR ANDROID)
         if(ANDROID)
@@ -1074,7 +1086,9 @@ if(WCSLIB_FOUND)
 endif (WCSLIB_FOUND)
 
 if(LibRaw_FOUND)
-    target_link_libraries(KStarsLib ${LibRaw_LIBRARIES})
+    if (NOT ANDROID)
+        target_link_libraries(KStarsLib ${LibRaw_LIBRARIES})
+    endif()
     if (BUILD_KSTARS_LITE)
         target_link_libraries(KStarsLiteLib ${LibRaw_LIBRARIES})
     endif()
@@ -1103,19 +1117,11 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
 
 qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
 
-if (CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
+if ("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
     add_library(kstars SHARED ${KSTARS_APP_SRCS})
-    add_dependencies(KStarsLib cfitsio indi raw)
-    set(ANDROID_NDK $ENV{ANDROID_NDK})
-    # This hack is needed by a strange NDK bug. Some symbols are missing in locale.o (libc.a) at linking stage. But
-    # if we force-link with a working libc.a from android-24, there will be duplicated symbols, some symbols will
-    # conflict with libandroid_support.a what is also needed.
-    # Workaround: Extract the needed locale.o from libc.a of android-24 and link KStars Lite with it.
-    ADD_CUSTOM_TARGET(extract_locale_o
-                          COMMAND ar -xv ${ANDROID_NDK}/platforms/android-24/arch-arm/usr/lib/libc.a locale.o
-                          WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-    ADD_DEPENDENCIES(kstars extract_locale_o)
-    target_link_libraries(kstars KStarsLiteLib ${CMAKE_BINARY_DIR}/locale.o -lgnustl_static)
+    target_compile_options(kstars PRIVATE ${KSTARSLITE_CPP_OPTIONS} -DUSE_QT5_INDI -DKSTARS_LITE)
+    add_dependencies(KStarsLiteLib cfitsio indi raw)
+    target_link_libraries(kstars KStarsLiteLib)
 else ()
     if (BUILD_KSTARS_LITE)
         add_executable(kstars_lite ${KSTARS_APP_SRCS})

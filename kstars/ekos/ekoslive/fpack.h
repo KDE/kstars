@@ -3,6 +3,8 @@
  * W. Pence, NASA/GSFC
  */
 
+#pragma once
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>

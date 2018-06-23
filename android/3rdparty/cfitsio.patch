@@ -6,7 +6,7 @@ index c749abb..051960d 100644
  
  #add_subdirectory (src)
  
-+IF(${CMAKE_TOOLCHAIN_FILE} MATCHES ".*toolchain-android.cmake")
++IF("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
 +    include(${CMAKE_TOOLCHAIN_FILE})
 +ENDIF()
 +

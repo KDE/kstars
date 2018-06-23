@@ -6,7 +6,7 @@ index 47f3869..f5df332 100644
  INCLUDE(MacroOptionalFindPackage)
  INCLUDE(MacroJPEG)
  
-+IF(${CMAKE_TOOLCHAIN_FILE} MATCHES ".*toolchain-android.cmake")
++IF("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
 +    include(${CMAKE_TOOLCHAIN_FILE})
 +ENDIF()
 +INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/android-hack)
@@ -14,53 +14,34 @@ index 47f3869..f5df332 100644
  # Math library check
  
 -IF(NOT WIN32)
-+IF(${CMAKE_TOOLCHAIN_FILE} MATCHES ".*toolchain-android.cmake")
++IF("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
 +    set(MATH_LIBRARY -lm) # toolchain-android.cmake can't find libm.so
 +ELSEIF(NOT WIN32)
      FIND_LIBRARY(MATH_LIBRARY m)
  ENDIF()
  
+@@ -183,6 +183,8 @@
+ # For registration to libraw_config.h
+ MACRO_BOOL_TO_01(JPEG8_FOUND LIBRAW_USE_DNGLOSSYCODEC)
+ 
++SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c++11-narrowing")
++
+ # OpenMP library check
+ 
+ SET(OPENMP_FOUND false)
 diff --git a/android-hack/swab.h b/android-hack/swab.h
 new file mode 100644
 index 0000000..061c61e
 --- /dev/null
 +++ b/android-hack/swab.h
-@@ -0,0 +1,6 @@
+@@ -0,0 +1,7 @@
 +
 +#pragma once
 +
 +#include <stdint.h>
++#include <sys/types.h>
 +
 +void swab(const void *from, void*to, ssize_t n);
-diff --git a/internal/dcraw_common.cpp b/internal/dcraw_common.cpp
-index 608641a..0f991e4 100644
---- a/internal/dcraw_common.cpp
-+++ b/internal/dcraw_common.cpp
-@@ -19,6 +19,24 @@ it under the terms of the one of two licenses as you choose:
- */
- 
- 
-+#ifdef ANDROID
-+#include <swab.h>
-+
-+#include <stdint.h>
-+#include <asm/byteorder.h>
-+
-+void swab(const void *from, void*to, ssize_t n)
-+{
-+  ssize_t i;
-+
-+  if (n < 0)
-+    return;
-+
-+  for (i = 0; i < (n/2)*2; i += 2)
-+    *((uint16_t*)to+i) = __arch__swab16(*((uint16_t*)from+i));
-+}
-+#endif
-+
- #include <math.h>
- #define CLASS LibRaw::
- #include "libraw/libraw_types.h"
 diff --git a/src/libraw_cxx.cpp b/src/libraw_cxx.cpp
 index c977302..2112ba8 100644
 --- a/src/libraw_cxx.cpp
@@ -76,3 +57,32 @@ index c977302..2112ba8 100644
  #include <math.h>
  #include <errno.h>
  #include <float.h>
+diff --git a/internal/dcraw_common.cpp b/internal/dcraw_common.cpp
+index 608641a..0f991e4 100644
+--- a/internal/dcraw_common.cpp
++++ b/internal/dcraw_common.cpp
+@@ -19,6 +19,24 @@ it under the terms of the one of two licenses as you choose:
+ */
+ 
+ 
++#ifdef ANDROID
++
++#include <sys/types.h>
++#include <stdint.h>
++#include <asm/byteorder.h>
++
++void swab(const void *p_src_, void *p_dst_, ssize_t n) {
++  const uint8_t *p_src = (const uint8_t *)p_src_;
++  uint8_t *p_dst = (uint8_t *)p_dst_; uint8_t tmp;  ssize_t i;
++
++  if (n < 0) return;
++  for (i = 0; i < n - 1; i += 2) {
++    tmp = p_src[i + 0];  p_dst[i + 0] = p_src[i + 1];
++    p_dst[i + 1] = tmp;
++  }
++}
++#endif
++
+ #include <math.h>
+ #define CLASS LibRaw::
+ #include "libraw/libraw_types.h"

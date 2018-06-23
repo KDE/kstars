@@ -12,7 +12,7 @@ Prerequisites:
 Set the following environmental variables before building:
 
 export QT_ANDROID=Qt SDK for Android target (e.g. /opt/Qt/5.9.2/android_armv7"}
-export ANDROID_NDK=Android NDK path
+export CMAKE_ANDROID_NDK=Android NDK path
 export ANDROID_SDK_ROOT=Android SDK path
 export ANDROID_API_LEVEL=Android API level (currently the minimum is 17)
 
@@ -24,9 +24,9 @@ export KSTARS_ROOT=KStars Path (e.g. /home/jasem/Projects/kstars)
 
 First build the KF5 dependencies separately:
 
-1. Make a build directory in a separate location form source (e.g. /home/jasem/build/kstars-android):
+- Make a build directory in a separate location form source (e.g. /home/jasem/build/kstars-android):
 
-3. Run build_kf5.sh and verify that the script builds everything without any problem.
+- Run build_kf5.sh and verify that the script builds everything without any problem.
 
 $KSTARS_ROOT/android/build_kf5.sh
 
@@ -35,8 +35,9 @@ When KF5 are ready, build KStars Lite for Android:
 - Install Eigen3, git and other dependencies
 - Configure out-of-source build (MinSizeRel build type is recommended for Android):
 
-cmake -B. -H$KSTARS_ROOT -DBUILD_KSTARS_LITE=ON -DCMAKE_TOOLCHAIN_FILE=$KSTARS_ROOT/android/toolchain-android.cmake \
+cmake -B. -H$KSTARS_ROOT -DBUILD_KSTARS_LITE=ON -DCMAKE_TOOLCHAIN_FILE=$CMAKE_ANDROID_NDK/build/cmake/android.toolchain.cmake \
       -DEIGEN3_INCLUDE_DIR=/usr/include/eigen3/ -DCMAKE_INSTALL_PREFIX=$(pwd)/android/export -DCMAKE_BUILD_TYPE=MinSizeRel \
+      -DECM_DIR=/usr/share/ECM/cmake/ -DCMAKE_PREFIX_PATH=$QT_ANDROID \
       -DCMAKE_AR=${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
 
 - Compile:
@@ -46,6 +47,12 @@ make -j4
 - Install:
 
 make -j4 install
+
+- Qt does not work with the newest SDK Tools, you must use v25 as suggested here:
+  https://stackoverflow.com/questions/42754878/qt-creator-wont-list-any-available-android-build-sdks/42811774#42811774
+
+  Basically, download https://dl.google.com/android/repository/tools_r25.2.5-linux.zip and replace the ANDROID_SDK_DIR/tools directory or
+  just use the Android SDK download tool to use this version.
 
 - Generate the Android debug and release packages:
 

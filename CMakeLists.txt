@@ -37,7 +37,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Android)
     set(ANDROID TRUE)
 endif()
 
-if(CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
+if("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
     include(${CMAKE_BINARY_DIR}/kf5/kde/install/share/ECM/cmake/ECMConfig.cmake)
 endif()
 
@@ -46,8 +46,14 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
 if(BUILD_KSTARS_LITE)
-    if(CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
+    if("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
         set(QT_ANDROID $ENV{QT_ANDROID})
+        set(Qt5Core_DIR "${QT_ANDROID}/lib/cmake/Qt5Core")
+        set(Qt5Gui_DIR "${QT_ANDROID}/lib/cmake/Qt5Gui")
+        set(Qt5Network_DIR "${QT_ANDROID}/lib/cmake/Qt5Network")
+        set(Qt5Qml_DIR "${QT_ANDROID}/lib/cmake/Qt5Qml")
+        set(Qt5Quick_DIR "${QT_ANDROID}/lib/cmake/Qt5Quick")
+        set(Qt5Widgets_DIR "${QT_ANDROID}/lib/cmake/Qt5Widgets")
         include(${QT_ANDROID}/lib/cmake/Qt5/Qt5Config.cmake)
         include(${QT_ANDROID}/lib/cmake/Qt5Core/Qt5CoreConfig.cmake)
         include(${QT_ANDROID}/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake)
@@ -79,7 +85,7 @@ include(ECMAddAppIcon)
 include(KDEInstallDirs)
 include(MacroBoolTo01)
 include(ECMQtDeclareLoggingCategory)
-if(NOT CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
+if (NOT "${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
     #We get error "could not find main method" with this module
     include(KDECompilerSettings NO_POLICY_SCOPE)
 endif()
@@ -88,7 +94,7 @@ include(FeatureSummary)
 
 # Load the frameworks we need
 if(BUILD_KSTARS_LITE)
-    if(CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
+    if("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
         set(KF5_VERSION 5.28.0)
         set(KF5_HOST_TOOLING /usr/lib/x86_64-linux-gnu/cmake/)
         include(${CMAKE_BINARY_DIR}/kf5/kde/install/lib/cmake/KF5Config/KF5ConfigConfig.cmake)
@@ -128,7 +134,7 @@ include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
 
 ## CFITSIO Library
 if(ANDROID)
-    if(CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
+    if("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
         set(extra_cmake "-DM_LIB=-lm")
     endif()
     externalproject_add(cfitsio SOURCE_DIR "${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio"
@@ -155,8 +161,8 @@ set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "htt
 ## INDI Library
 if (ANDROID)
     set(QT_ANDROID $ENV{QT_ANDROID})
-    if(CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
-        set(extra_cmake -DCMAKE_AR=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar)
+    if("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
+        set(extra_cmake -DCMAKE_AR=${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar)
     endif()
     externalproject_add(indi SOURCE_DIR "${CMAKE_BINARY_DIR}/android/indi"
         URL https://github.com/indilib/indi/archive/master.zip
@@ -409,7 +415,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 ENDIF ()
 
 # Final package generation
-if (CMAKE_TOOLCHAIN_FILE STREQUAL ${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake)
+if ("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
     set(EXPORT_DIR "${CMAKE_BINARY_DIR}/android/kstars_build_apk/")
     set(ANDROID_APK_DIR "${CMAKE_SOURCE_DIR}/android/apk/")
     set(EXECUTABLE_DESTINATION_PATH "${EXPORT_DIR}/libs/armeabi-v7a/libkstars.so")
