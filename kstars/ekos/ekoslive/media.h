@@ -39,7 +39,7 @@ public:
     void registerCameras();
 
     // Ekos Media Message to User
-    void sendPreviewImage(FITSView *view);
+    void sendPreviewImage(FITSView *view, const QString &uuid);
     void sendUpdatedFrame(FITSView *view);
 
 signals:

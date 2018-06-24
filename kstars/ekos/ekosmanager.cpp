@@ -214,8 +214,11 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 
     connect(summaryPreview.get(), &FITSView::imageLoaded, [&]()
     {
-        ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get());
-        ekosLiveClient.get()->cloud()->sendPreviewImage(summaryPreview.get());
+        // UUID binds the cloud & preview frames by a common key
+        QString uuid = QUuid::createUuid().toString();
+        uuid = uuid.remove(QRegularExpression("[-{}]"));
+        ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get(), uuid);
+        ekosLiveClient.get()->cloud()->sendPreviewImage(summaryPreview.get(), uuid);
     });
 
     if (Options::ekosLeftIcons())
@@ -1877,7 +1880,10 @@ void EkosManager::initAlign()
         connect(alignProcess.get(), &Ekos::Align::PAHEnabled, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHEnabled);
         connect(alignProcess.get(), &Ekos::Align::newFOVTelescopeType, ekosLiveClient.get()->message(), &EkosLive::Message::setFOVTelescopeType);
 
-        connect(alignProcess.get(), &Ekos::Align::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendPreviewImage);
+        connect(alignProcess.get(), &Ekos::Align::newImage, [&](FITSView *view)
+        {
+            ekosLiveClient.get()->media()->sendPreviewImage(view, QString());
+        });
         connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame);
 
     }
