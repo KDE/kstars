@@ -17,6 +17,8 @@
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
 
+#include "fpack.h"
+
 #include "ekos_debug.h"
 
 #include <KFormat>
@@ -118,7 +120,7 @@ void Cloud::onTextReceived(const QString &message)
          m_sendBlobs = msgObj["payload"].toBool();
 }
 
-void Cloud::sendPreviewImage(FITSView *view)
+void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
 {
     const FITSData *imageData = view->getImageData();
 
@@ -130,6 +132,7 @@ void Cloud::sendPreviewImage(FITSView *view)
     // Send complete metadata
     // Add file name and size
     QJsonObject metadata;
+    // Skip empty or useless metadata
     for (FITSData::Record *oneRecord : imageData->getRecords())
     {
         if (oneRecord->key == "EXTEND" || oneRecord->key == "SIMPLE" || oneRecord->key == "COMMENT" ||
@@ -139,14 +142,39 @@ void Cloud::sendPreviewImage(FITSView *view)
     }
 
     // Add filename and size as wells
+    metadata.insert("x-amz-meta-uuid", uuid);
     metadata.insert("x-amz-meta-filename", QFileInfo(imageData->getFilename()).fileName());
     metadata.insert("x-amz-meta-filesize", static_cast<int>(imageData->getSize()));
     m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
 
-    QFile image(imageData->getFilename());
+    // Use cfitsio pack to compress the file first
+    QString filename = QDir::tempPath() + QString("/ekoslivecloud%1").arg(uuid);
+
+    fpstate	fpvar;
+    std::vector<std::string> arguments = {"fpack", imageData->getFilename().toLatin1().data()};
+    std::vector<char *> arglist;
+    for (const auto& arg : arguments)
+        arglist.push_back((char*)arg.data());
+    arglist.push_back(nullptr);
+
+    int argc = arglist.size() - 1;
+    char **argv = arglist.data();
+
+    // TODO: Check for errors
+    fp_init (&fpvar);
+    fp_get_param (argc, argv, &fpvar);
+    fp_preflight (argc, argv, FPACK, &fpvar);
+    fp_loop (argc, argv, FPACK, filename.toLatin1().data(), fpvar);
+
+    QString newCompressedFile = filename + ".fz";
+    // Upload the compressed image
+    QFile image(newCompressedFile);
     if (image.open(QIODevice::ReadOnly))
         m_WebSocket.sendBinaryMessage(image.readAll());
     image.close();
+
+    // Remove from disk
+    QFile::remove(newCompressedFile);
 }
 
 

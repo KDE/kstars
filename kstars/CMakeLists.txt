@@ -94,6 +94,7 @@ IF (CFITSIO_FOUND)
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/extract.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/lutz.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")
+        #SET_SOURCE_FILES_PROPERTIES(ekos/ekoslive/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-implicit-function-decleration")
     ELSEIF (NOT WIN32)
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-pointer-arith")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-discarded-qualifiers")
@@ -266,6 +267,8 @@ if (INDI_FOUND)
             ekos/ekoslive/message.cpp
             ekos/ekoslive/media.cpp
             ekos/ekoslive/cloud.cpp
+            ekos/ekoslive/fpack.c
+            ekos/ekoslive/fpackutil.c
        )
     endif(CFITSIO_FOUND)
 

@@ -138,7 +138,7 @@ void Media::onBinaryReceived(const QByteArray &message)
     align->loadAndSlew(filename);
 }
 
-void Media::sendPreviewImage(FITSView *view)
+void Media::sendPreviewImage(FITSView *view, const QString &uuid)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
         return;
@@ -164,6 +164,7 @@ void Media::sendPreviewImage(FITSView *view)
         {"size",sizeBytes},
         {"bin",binning},
         {"bpp",bitDepth},
+        {"uuid", imageData->isTempFile() ? "" : uuid},
     };
 
     m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));

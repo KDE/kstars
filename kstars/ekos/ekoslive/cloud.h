@@ -39,7 +39,7 @@ public:
     void registerCameras();
 
     // Ekos Cloud Message to User
-    void sendPreviewImage(FITSView *view);    
+    void sendPreviewImage(FITSView *view, const QString &uuid);
 
 signals:
     void connected();
