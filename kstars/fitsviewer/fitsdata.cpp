@@ -907,7 +907,8 @@ bool FITSData::parseHeader()
     for (int i = 0; i < nkeys; i++)
     {
         Record *oneRecord = new Record;
-        QString record = recordList.mid(i * 80, 80);
+        // Quotes cause issues for simplified below so we're removing them.
+        QString record = recordList.mid(i * 80, 80).remove("'");
         QStringList properties = record.split(QRegExp("[=/]"));
         // If it is only a comment
         if (properties.size() == 1)

@@ -179,6 +179,7 @@ class CCD : public DeviceDecorator
     // Gain controls
     bool hasGain() { return gainN != nullptr; }
     bool getGain(double *value);
+    IPerm getGainPermission() const {return gainPerm;}
     bool setGain(double value);
     bool getGainMinMaxStep(double *min, double *max, double *step);
 
@@ -278,6 +279,7 @@ class CCD : public DeviceDecorator
 
     // Gain, since it is spread among different vector properties, let's try to find the property itself.
     INumber *gainN { nullptr };
+    IPerm gainPerm { IP_RO };
 
     QPointer<FITSViewer> fv;
     QPointer<ImageViewer> imageViewer;
