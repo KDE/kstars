@@ -913,6 +913,7 @@ void CCD::registerProperty(INDI::Property *prop)
                 if (name == "gain" || label == "gain")
                 {
                     gainN = gainNP->np + i;
+                    gainPerm = gainNP->p;
                     break;
                 }
             }

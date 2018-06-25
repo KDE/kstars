@@ -370,7 +370,7 @@ void Focus::checkCCD(int ccdNum)
 
             bool hasGain = currentCCD->hasGain();
             gainLabel->setEnabled(hasGain);
-            gainIN->setEnabled(hasGain && currentCCD->getPermission("CCD_GAIN") != IP_RO);
+            gainIN->setEnabled(hasGain && currentCCD->getGainPermission() != IP_RO);
             if (hasGain)
             {
                 double gain = 0, min = 0, max = 0, step = 1;
