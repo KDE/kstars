@@ -186,5 +186,10 @@ class InternalGuider : public GuideInterface
     static const uint16_t MAX_IMMEDIATE_CAPTURE = 250;
     // When to start capture before pulse delay is over
     static const uint16_t PROPAGATION_DELAY = 100;
+
+    // How many 'random' pixels can we move before we have to force direction reversal?
+    static const uint8_t MAX_DITHER_TRAVEL = 25;
+
+    QPair<double,double> accumulator;
 };
 }

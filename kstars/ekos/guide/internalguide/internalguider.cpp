@@ -108,6 +108,7 @@ bool InternalGuider::abort()
 
     m_starLostCounter=0;
     m_highPulseCounter=0;
+    accumulator.first = accumulator.second = 0;
 
     pmath->suspend(false);
     state = GUIDE_IDLE;
@@ -156,21 +157,25 @@ bool InternalGuider::dither(double pixels)
     {
         retries = 0;
 
-        // JM 2016-05-8: CCD would abort if required.
-        //targetChip->abortExposure();
+        auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::default_random_engine generator(seed);
+        std::uniform_real_distribution<double> angleMagnitude(0, 360);
 
-        int polarity  = (rand() % 2 == 0) ? 1 : -1;
-        double angle  = ((double)rand() / RAND_MAX) * M_PI / 2.0;
+        double angle  = angleMagnitude(generator) * dms::DegToRad;
         double diff_x = pixels * cos(angle);
         double diff_y = pixels * sin(angle);
 
         if (pmath->declinationSwapEnabled())
             diff_y *= -1;
 
-        if (polarity > 0)
-            target_pos = Vector(cur_x, cur_y, 0) + Vector(diff_x, diff_y, 0);
-        else
-            target_pos = Vector(cur_x, cur_y, 0) - Vector(diff_x, diff_y, 0);
+        if (fabs(diff_x + accumulator.first) > MAX_DITHER_TRAVEL)
+            diff_x *= -1;
+        accumulator.first += diff_x;
+        if (fabs(diff_y + accumulator.second) > MAX_DITHER_TRAVEL)
+            diff_y *= -1;
+        accumulator.second += diff_y;
+
+        target_pos = Vector(cur_x, cur_y, 0) + Vector(diff_x, diff_y, 0);
 
         qCDebug(KSTARS_EKOS_GUIDE) << "Dithering process started.. Reticle Target Pos X " << target_pos.x << " Y " << target_pos.y;
 
