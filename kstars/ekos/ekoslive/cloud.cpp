@@ -138,13 +138,13 @@ void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
         if (oneRecord->key == "EXTEND" || oneRecord->key == "SIMPLE" || oneRecord->key == "COMMENT" ||
             oneRecord->key.isEmpty() || oneRecord->value.isEmpty())
             continue;
-        metadata.insert(QStringLiteral("x-amz-meta-") + oneRecord->key.toLower(), oneRecord->value);
+        metadata.insert(oneRecord->key.toLower(), oneRecord->value);
     }
 
     // Add filename and size as wells
-    metadata.insert("x-amz-meta-uuid", uuid);
-    metadata.insert("x-amz-meta-filename", QFileInfo(imageData->getFilename()).fileName());
-    metadata.insert("x-amz-meta-filesize", static_cast<int>(imageData->getSize()));
+    metadata.insert("uuid", uuid);
+    metadata.insert("filename", QFileInfo(imageData->getFilename()).fileName());
+    metadata.insert("filesize", static_cast<int>(imageData->getSize()));
     m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
 
     // Use cfitsio pack to compress the file first
