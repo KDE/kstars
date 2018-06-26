@@ -21,6 +21,7 @@
 
 #include <KMessageBox>
 
+#include <random>
 #include <QTimer>
 
 #define MAX_GUIDE_STARS           10
