@@ -58,7 +58,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Welcome to the KStars Setup Wizard</string>
+        <string>Welcome to the KStars Startup Wizard</string>
        </property>
       </widget>
      </item>

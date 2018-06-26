@@ -502,7 +502,7 @@ class KStars : public KXmlGuiWindow
     /** Show the add deep-sky object dialog */
     void slotAddDeepSkyObject();
 
-    /** action slot: open KStars setup wizard */
+    /** action slot: open KStars startup wizard */
     void slotWizard();
 
     void updateLocationFromWizard(const GeoLocation& geo);

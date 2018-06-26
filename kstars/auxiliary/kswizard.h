@@ -75,7 +75,7 @@ class WizDownloadUI : public QFrame, public Ui::WizDownload
 
 /**
  * @class KSWizard
- * The Setup Wizard will be automatically opened when KStars runs
+ * The Startup Wizard will be automatically opened when KStars runs
  * for the first time.  It allows the user to set up some basic parameters:
  * @li Geographic Location
  * @li Download extra data files

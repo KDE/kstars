@@ -80,7 +80,7 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     wizardStack = new QStackedWidget(this);
     adjustSize();
 
-    setWindowTitle(i18n("Setup Wizard"));
+    setWindowTitle(i18n("Startup Wizard"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(wizardStack);
