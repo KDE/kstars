@@ -1169,7 +1169,7 @@ void KStars::slotOpenFITS()
 
     static QUrl path = QUrl::fromLocalFile(QDir::homePath());
     QUrl fileURL =
-        QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open FITS"), path, "FITS (*.fits *.fit *.fts)");
+        QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open FITS"), path, "FITS (*.fits *.fits.fz *.fit *.fts)");
 
     if (fileURL.isEmpty())
         return;
