@@ -141,14 +141,19 @@ void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
         metadata.insert(oneRecord->key.toLower(), oneRecord->value);
     }
 
+    // Filename only without path
+    QString filename = QFileInfo(imageData->getFilename()).fileName();
+
     // Add filename and size as wells
     metadata.insert("uuid", uuid);
-    metadata.insert("filename", QFileInfo(imageData->getFilename()).fileName());
+    metadata.insert("filename", filename);
     metadata.insert("filesize", static_cast<int>(imageData->getSize()));
+    // Must set Content-Disposition so
+    metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filename));
     m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
 
     // Use cfitsio pack to compress the file first
-    QString filename = QDir::tempPath() + QString("/ekoslivecloud%1").arg(uuid);
+    filename = QDir::tempPath() + QString("/ekoslivecloud%1").arg(uuid);
 
     fpstate	fpvar;
     std::vector<std::string> arguments = {"fpack", imageData->getFilename().toLatin1().data()};
