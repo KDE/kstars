@@ -262,7 +262,8 @@ class FITSData
 
     // Filename
     const QString &getFilename() const { return filename; }
-    bool isTempFile() const {return tempFile;}
+    bool isTempFile() const {return m_isTemporary;}
+    bool isCompressed() const {return m_isCompressed;}
 
     // Horizontal flip counter. We keep count to rotate WCS keywords on save
     int getFlipHCounter() const;
@@ -361,7 +362,9 @@ class FITSData
     uint8_t *imageBuffer { nullptr };
 
     /// Is this a tempoprary file or one loaded from disk?
-    bool tempFile { false };
+    bool m_isTemporary { false };
+    /// is this file compress (.fits.fz)?
+    bool m_isCompressed { false };
     /// Did we search for stars yet?
     bool starsSearched { false };
     ///Star Selection Algorithm

@@ -16,8 +16,7 @@
 
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
-
-#include "fpack.h"
+#include "fitsviewer/fpack.h"
 
 #include "ekos_debug.h"
 

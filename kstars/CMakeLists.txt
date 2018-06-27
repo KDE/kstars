@@ -60,6 +60,8 @@ if (CFITSIO_FOUND)
 
     set (fits2_SRCS
         fitsviewer/bayer.c
+        fitsviewer/fpack.c
+        fitsviewer/fpackutil.c
         fitsviewer/fitshistogram.cpp
         fitsviewer/fitsview.cpp
         fitsviewer/fitsdata.cpp
@@ -93,10 +95,10 @@ IF (CFITSIO_FOUND)
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-incompatible-pointer-types-discards-qualifiers")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/extract.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/lutz.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")
-        SET_SOURCE_FILES_PROPERTIES(ekos/ekoslive/fpack.c PROPERTIES COMPILE_FLAGS "-Wno-error")
-        SET_SOURCE_FILES_PROPERTIES(ekos/ekoslive/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-error")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")        
     ELSEIF (NOT WIN32)
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpack.c PROPERTIES COMPILE_FLAGS "-Wno-error")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-error")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-pointer-arith")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-discarded-qualifiers")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-discarded-qualifiers")
@@ -268,12 +270,7 @@ if (INDI_FOUND)
             ekos/ekoslive/message.cpp
             ekos/ekoslive/media.cpp
             ekos/ekoslive/cloud.cpp
-        )
-
-        set(ekos_C_SRCS
-            ekos/ekoslive/fpack.c
-            ekos/ekoslive/fpackutil.c
-        )
+        )        
 
     endif(CFITSIO_FOUND)
 
@@ -922,7 +919,7 @@ IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstarslite kstarslite_SRCS 10 cpp)
 ENDIF ()
 
-set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${hips_manager_SRCS} ${ekos_C_SRCS})
+set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${hips_manager_SRCS})
 set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${sep_SRCS} ${fits2_klite_SRCS} ${kstarslite_libtess_SRC})
 
 IF (NOT ANDROID)

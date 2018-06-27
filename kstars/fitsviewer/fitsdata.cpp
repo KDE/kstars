@@ -20,6 +20,7 @@
 #include "fitsdata.h"
 
 #include "sep/sep.h"
+#include "fpack.h"
 
 #include "kstarsdata.h"
 #include "ksutils.h"
@@ -103,7 +104,7 @@ FITSData::~FITSData()
     {
         fits_close_file(fptr, &status);
 
-        if (tempFile && autoRemoveTemporaryFITS)
+        if (m_isTemporary && autoRemoveTemporaryFITS)
             QFile::remove(filename);
     }
 
@@ -124,7 +125,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     {
         fits_close_file(fptr, &status);
 
-        if (tempFile && autoRemoveTemporaryFITS)
+        if (m_isTemporary && autoRemoveTemporaryFITS)
             QFile::remove(filename);
     }
 
@@ -133,24 +134,32 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     qCInfo(KSTARS_FITS) << "Loading FITS file " << filename;
 
     if (filename.startsWith(QLatin1String("/tmp/")) || filename.contains("/Temp"))
-        tempFile = true;
+        m_isTemporary = true;
     else
-        tempFile = false;
+        m_isTemporary = false;
 
-#if 0
-    if (fits_open_image(&fptr, filename.toLatin1(), READONLY, &status))
+    if (filename.endsWith(".fz"))
     {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        errMessage = i18n("Could not open file %1. Error %2", filename, QString::fromUtf8(error_status));
-        if (silent == false)
-            KSNotification::error(errMessage, i18n("FITS Open"));
-        qCCritical(KSTARS_FITS) << errMessage;
-        return false;
-    }
-#endif
+        QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(QRegularExpression("[-{}]")));
+        m_isTemporary = true;
+        fpstate	fpvar;
+        std::vector<std::string> arguments = {"funpack", filename.toLatin1().toStdString()};
+        std::vector<char *> arglist;
+        for (const auto& arg : arguments)
+            arglist.push_back((char*)arg.data());
+        arglist.push_back(nullptr);
 
-    stats.size = QFile(filename).size();
+        int argc = arglist.size() - 1;
+        char **argv = arglist.data();
+
+        // TODO: Check for errors
+        fp_init (&fpvar);
+        fp_get_param (argc, argv, &fpvar);
+        fp_preflight (argc, argv, FUNPACK, &fpvar);
+        fp_loop (argc, argv, FUNPACK, uncompressedFile.toLatin1().data(), fpvar);
+
+        filename = uncompressedFile;
+    }
 
     // Use open diskfile as it does not use extended file names which has problems opening
     // files with [ ] or ( ) in their names.
@@ -164,6 +173,8 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
         qCCritical(KSTARS_FITS) << errMessage;
         return false;
     }
+
+    stats.size = QFile(filename).size();
 
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
     {
@@ -319,6 +330,12 @@ int FITSData::saveFITS(const QString &newFilename)
     if (newFilename == filename)
         return 0;
 
+    if (m_isCompressed)
+    {
+        KSNotification::error(i18n("Saving compressed files is not supported."));
+        return -1;
+    }
+
     int status = 0, exttype = 0;
     long nelements;
     fitsfile *new_fptr;
@@ -347,10 +364,10 @@ int FITSData::saveFITS(const QString &newFilename)
             return -1;
         }
 
-        if (tempFile && autoRemoveTemporaryFITS)
+        if (m_isTemporary && autoRemoveTemporaryFITS)
         {
             QFile::remove(filename);
-            tempFile = false;
+            m_isTemporary = false;
         }
 
         filename = finalFileName;
@@ -478,10 +495,10 @@ int FITSData::saveFITS(const QString &newFilename)
 
     rotCounter = flipHCounter = flipVCounter = 0;
 
-    if (tempFile && autoRemoveTemporaryFITS)
+    if (m_isTemporary && autoRemoveTemporaryFITS)
     {
         QFile::remove(filename);
-        tempFile = false;
+        m_isTemporary = false;
     }
 
     filename = newFilename;
@@ -913,8 +930,8 @@ bool FITSData::parseHeader()
         // If it is only a comment
         if (properties.size() == 1)
         {
-          oneRecord->key = properties[0].mid(0, 7);
-          oneRecord->comment = properties[0].mid(8).simplified();
+            oneRecord->key = properties[0].mid(0, 7);
+            oneRecord->comment = properties[0].mid(8).simplified();
         }
         else
         {
@@ -1973,76 +1990,76 @@ void FITSData::applyFilter(FITSScale type, uint8_t *image, double *min, double *
 
 
     switch (data_type)
-        {
-            case TBYTE:
-            {
-                dataMin = dataMin < 0 ? 0 : dataMin;
-                dataMax = dataMax > UINT8_MAX ? UINT8_MAX : dataMax;
-                applyFilter<uint8_t>(type, image, dataMin, dataMax);
-            }
-            break;
+    {
+    case TBYTE:
+    {
+        dataMin = dataMin < 0 ? 0 : dataMin;
+        dataMax = dataMax > UINT8_MAX ? UINT8_MAX : dataMax;
+        applyFilter<uint8_t>(type, image, dataMin, dataMax);
+    }
+        break;
 
-            case TSHORT:
-            {
-                dataMin = dataMin < INT16_MIN ? INT16_MIN : dataMin;
-                dataMax = dataMax > INT16_MAX ? INT16_MAX : dataMax;
-                applyFilter<uint16_t>(type, image, dataMin, dataMax);
-            }
+    case TSHORT:
+    {
+        dataMin = dataMin < INT16_MIN ? INT16_MIN : dataMin;
+        dataMax = dataMax > INT16_MAX ? INT16_MAX : dataMax;
+        applyFilter<uint16_t>(type, image, dataMin, dataMax);
+    }
 
-            break;
+        break;
 
-            case TUSHORT:
-            {
-                dataMin = dataMin < 0 ? 0 : dataMin;
-                dataMax = dataMax > UINT16_MAX ? UINT16_MAX : dataMax;
-                applyFilter<uint16_t>(type, image, dataMin, dataMax);
-            }
-            break;
+    case TUSHORT:
+    {
+        dataMin = dataMin < 0 ? 0 : dataMin;
+        dataMax = dataMax > UINT16_MAX ? UINT16_MAX : dataMax;
+        applyFilter<uint16_t>(type, image, dataMin, dataMax);
+    }
+        break;
 
-            case TLONG:
-            {
-                dataMin = dataMin < INT_MIN ? INT_MIN : dataMin;
-                dataMax = dataMax > INT_MAX ? INT_MAX : dataMax;
-                applyFilter<uint16_t>(type, image, dataMin, dataMax);
-            }
-            break;
+    case TLONG:
+    {
+        dataMin = dataMin < INT_MIN ? INT_MIN : dataMin;
+        dataMax = dataMax > INT_MAX ? INT_MAX : dataMax;
+        applyFilter<uint16_t>(type, image, dataMin, dataMax);
+    }
+        break;
 
-            case TULONG:
-            {
-                dataMin = dataMin < 0 ? 0 : dataMin;
-                dataMax = dataMax > UINT_MAX ? UINT_MAX : dataMax;
-                applyFilter<uint16_t>(type, image, dataMin, dataMax);
-            }
-            break;
+    case TULONG:
+    {
+        dataMin = dataMin < 0 ? 0 : dataMin;
+        dataMax = dataMax > UINT_MAX ? UINT_MAX : dataMax;
+        applyFilter<uint16_t>(type, image, dataMin, dataMax);
+    }
+        break;
 
-            case TFLOAT:
-            {
-                dataMin = dataMin < FLT_MIN ? FLT_MIN : dataMin;
-                dataMax = dataMax > FLT_MAX ? FLT_MAX : dataMax;
-                applyFilter<float>(type, image, dataMin, dataMax);
-            }
-            break;
+    case TFLOAT:
+    {
+        dataMin = dataMin < FLT_MIN ? FLT_MIN : dataMin;
+        dataMax = dataMax > FLT_MAX ? FLT_MAX : dataMax;
+        applyFilter<float>(type, image, dataMin, dataMax);
+    }
+        break;
 
-            case TLONGLONG:
-            {
-                dataMin = dataMin < LLONG_MIN ? LLONG_MIN : dataMin;
-                dataMax = dataMax > LLONG_MAX ? LLONG_MAX : dataMax;
-                applyFilter<long>(type, image, dataMin, dataMax);
-            }
-            break;
+    case TLONGLONG:
+    {
+        dataMin = dataMin < LLONG_MIN ? LLONG_MIN : dataMin;
+        dataMax = dataMax > LLONG_MAX ? LLONG_MAX : dataMax;
+        applyFilter<long>(type, image, dataMin, dataMax);
+    }
+        break;
 
-            case TDOUBLE:
-            {
-                dataMin = dataMin < DBL_MIN ? DBL_MIN : dataMin;
-                dataMax = dataMax > DBL_MAX ? DBL_MAX : dataMax;
-                applyFilter<double>(type, image, dataMin, dataMax);
-            }
+    case TDOUBLE:
+    {
+        dataMin = dataMin < DBL_MIN ? DBL_MIN : dataMin;
+        dataMax = dataMax > DBL_MAX ? DBL_MAX : dataMax;
+        applyFilter<double>(type, image, dataMin, dataMax);
+    }
 
-            break;
+        break;
 
-            default:
-                return;
-        }
+    default:
+        return;
+    }
 
     if (min != nullptr)
         *min = dataMin;
@@ -2287,7 +2304,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, double image_mi
         break;
     }
 #if 0
-    }
+}
 else
 {
 uint32_t index = 0, row=0, offset=0;
@@ -4304,15 +4321,15 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
 
     status = 0;
 
-    if (tempFile && autoRemoveTemporaryFITS)
+    if (m_isTemporary && autoRemoveTemporaryFITS)
     {
         QFile::remove(filename);
-        tempFile = false;
+        m_isTemporary = false;
         qCDebug(KSTARS_FITS) << "Removing FITS File: " << filename;
     }
 
     filename = newWCSFile;
-    tempFile = true;
+    m_isTemporary = true;
 
     fptr = new_fptr;
 
