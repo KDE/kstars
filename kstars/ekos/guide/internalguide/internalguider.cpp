@@ -22,6 +22,7 @@
 #include <KMessageBox>
 
 #include <random>
+#include <chrono>
 #include <QTimer>
 
 #define MAX_GUIDE_STARS           10
