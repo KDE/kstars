@@ -17,10 +17,12 @@
 
 /* Project Includes */
 #include "syncedcatalogcomponent.h"
-#include "kstarsdata.h"
-#include "deepskyobject.h"
-#include "Options.h"
+
 #include "catalogdata.h"
+#include "deepskyobject.h"
+#include "kstarsdata.h"
+#include "Options.h"
+#include "tools/nameresolver.h"
 
 /* KDE Includes */
 
@@ -95,7 +97,7 @@ DeepSkyObject *SyncedCatalogComponent::addObject(CatalogEntryData catalogEntry)
         this); // FIXME: What about stars? Are they treated as DeepSkyObjects, type CATALOG_STAR? -- asimha
     Q_ASSERT(newObj);
 
-    qDebug() << "Created new DSO for " << catalogEntry.long_name;
+    qDebug() << "Created new DSO for " << catalogEntry.long_name << " - type: " << newObj->type();
     if (newObj->hasLongName())
     {
         //        newObj->setName( newObj->longname() );
@@ -112,4 +114,54 @@ DeepSkyObject *SyncedCatalogComponent::addObject(CatalogEntryData catalogEntry)
     qDebug() << "Added new SkyObject " << newObj->name() << " to synced catalog " << m_catName << " which now contains "
              << m_ObjectList.count() << " objects.";
     return newObj;
+}
+
+bool SyncedCatalogComponent::hasObject(SkyObject &object)
+{
+    if (object.hasLongName())
+    {
+        if (objectNames()[object.type()].contains(object.longname()))
+            return true;
+    } else
+    if (objectNames()[object.type()].contains(object.name()))
+    {
+        return true;
+    }
+    return false;
+}
+
+bool SyncedCatalogComponent::removeObject(SkyObject &object)
+{
+    QString name;
+
+    if (object.hasLongName())
+    {
+        name = object.longname();
+    } else {
+        name = object.name();
+    }
+    if (objectNames()[object.type()].contains(name))
+    {
+        objectNames()[object.type()].removeAll(name);
+        objectLists()[object.type()].removeAll(QPair<QString, const SkyObject *>(name, &object));
+    } else {
+        qWarning() << "Can't find SkyObject " << name << " in the synced catalog " << m_catName;
+        return false;
+    }
+    m_ObjectList.removeAll(&object);
+    qDebug() << "Remove SkyObject " << name << " from synced catalog " << m_catName;
+    // Remove the catalog entry
+    CatalogEntryData cedata = NameResolver::resolveName(name);
+
+    if (!std::isnan(cedata.ra) && !std::isnan(cedata.dec))
+    {
+        CatalogDB *db = KStarsData::Instance()->catalogdb();
+
+        if (!db->RemoveCustomEntry(name))
+        {
+            qWarning() << "Can't find SkyObject " << name << " in the CatalogDB";
+            return false;
+        }
+    }
+    return true;
 }

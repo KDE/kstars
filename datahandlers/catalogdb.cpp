@@ -397,6 +397,29 @@ bool CatalogDB::_AddEntry(const CatalogEntryData &catalog_entry, int catid)
     return retVal;
 }
 
+bool CatalogDB::RemoveCustomEntry(const QString &entry_long_name)
+{
+    if (!skydb_.open())
+    {
+        qCWarning(KSTARS_CATALOG) << "Failed to open database to remove catalog entry!";
+        qCWarning(KSTARS_CATALOG) << LastError();
+        return false;
+    }
+    QSqlQuery remove_od(skydb_);
+
+    remove_od.prepare("DELETE FROM ObjectDesignation WHERE LongName = :long_name;");
+    remove_od.bindValue(":long_name", entry_long_name);
+    if (!remove_od.exec())
+    {
+        qWarning() << "Query exec failed:";
+        qWarning() << remove_od.lastQuery();
+        qWarning() << skydb_.lastError();
+        return false;
+    }
+    skydb_.close();
+    return true;
+}
+
 QString CatalogDB::GetCatalogName(const QString &fname)
 {
     QDir::setCurrent(QDir::homePath()); // for files with relative path

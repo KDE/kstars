@@ -22,6 +22,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
+#include "syncedcatalogcomponent.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/trailobject.h"
@@ -498,6 +499,12 @@ void KSPopupMenu::addLinksToMenu(SkyObject *obj, bool showDSS)
             ++itTitle;
         }
         addMenu(imageLinkSubMenu);
+    }
+
+    // Look for a custom object
+    if (KStarsData::Instance()->skyComposite()->internetResolvedComponent()->hasObject(*obj))
+    {
+        addAction(i18n("Remove From Local Catalog"), ks->map(), SLOT(slotRemoveCustomObject()));
     }
 
     if (showDSS)

@@ -96,6 +96,8 @@ IF (CFITSIO_FOUND)
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/extract.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/lutz.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")        
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpack.c PROPERTIES COMPILE_FLAGS "-Wno-error")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-error")
     ELSEIF (NOT WIN32)
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpack.c PROPERTIES COMPILE_FLAGS "-Wno-error")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-error")
@@ -112,6 +114,8 @@ if (INDI_FOUND)
                 )
             set (fits2_klite_SRCS
                 fitsviewer/bayer.c
+                fitsviewer/fpack.c
+                fitsviewer/fpackutil.c
                 )
                 include_directories(${CFITSIO_INCLUDE_DIR})
                 include_directories(${NOVA_INCLUDE_DIR})

@@ -195,7 +195,6 @@ class SkyComponent
 
     inline QVector<QPair<QString, const SkyObject *>> &objectLists(int type) { return getObjectLists()[type]; }
 
-  protected:
     void removeFromNames(const SkyObject *obj);
     void removeFromLists(const SkyObject *obj);
 

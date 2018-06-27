@@ -14,15 +14,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYOBJECTLISTMODEL_H_
-#define SKYOBJECTLISTMODEL_H_
+#pragma once
 
 #include <QAbstractListModel>
 #include <QDebug>
 
 class SkyObject;
 
-/** @class SkyObjectListModel
+/**
+ * @class SkyObjectListModel
  * A model used in Find Object Dialog in QML. Each entry is a QString (name of object) and pointer to
  * SkyObject itself
  *
@@ -47,22 +47,23 @@ class SkyObjectListModel : public QAbstractListModel
     QHash<int, QByteArray> roleNames() const override;
 
     /**
-         * @return index of object from skyObjects with name objectName. -1 if object with such
-         * name was not found
-         */
-    int indexOf(QString objectName) const;
+     * @return index of object from skyObjects with name objectName. -1 if object with such
+     * name was not found
+     */
+    int indexOf(const QString &objectName) const;
 
     /**
-         * @short filter
-         * @param regEx
-         * @return
-         */
-    QStringList filter(QRegExp regEx);
+     * @short Filter the model
+     * @param regEx Regex
+     * @return Filtered string list
+     */
+    QStringList filter(const QRegExp &regEx);
 
     void setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects);
+
+  public slots:
+    void removeSkyObject(SkyObject *object);
 
   private:
     QVector<QPair<QString, const SkyObject *>> skyObjects;
 };
-
-#endif

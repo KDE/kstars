@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SYNCEDCATALOGCOMPONENT_H
-#define SYNCEDCATALOGCOMPONENT_H
+#pragma once
 
 #include "catalogcomponent.h"
 #include "catalogentrydata.h"
 
 class DeepSkyObject;
 class SkyComposite;
+
 /**
  * @class SyncedCatalogComponent
  *
@@ -36,23 +36,44 @@ class SyncedCatalogComponent : public CatalogComponent
 {
   public:
     /**
-         * @short Constructor
-         */
+     * @short Constructor
+     *
+     * @param parent Parent item
+     * @param catname Catalog name
+     * @param showerrs Show errors
+     * @param index Index
+     */
     SyncedCatalogComponent(SkyComposite *parent, const QString &catname, bool showerrs, int index);
 
     //    virtual void draw( SkyPainter *skyp );
 
     /**
-         * @short Create and insert a SkyObject from the given CatalogEntryData
-         * @return 0 upon failure, a valid SkyObject pointer otherwise.
-         */
+     * @short Create and insert a SkyObject from the given CatalogEntryData
+     *
+     * @return 0 upon failure, a valid SkyObject pointer otherwise.
+     */
     DeepSkyObject *addObject(CatalogEntryData catalogEntry);
 
     /**
-         * @short Edit an existing skyobject
-         * @note Will implement when required.
-         * @note Question: How do we match the object? Probably by internal catalog id.
-         */
+     * @short Whether an object is in the database
+     *
+     * @return True if the object is in this database otherwise false.
+     */
+    bool hasObject(SkyObject &object);
+
+    /**
+     * @short Remove an object from the database
+     *
+     * @return True if the object is removed otherwise false.
+     */
+    bool removeObject(SkyObject &object);
+
+    /**
+     * @short Edit an existing skyobject
+     *
+     * @note Will implement when required.
+     * @note Question: How do we match the object? Probably by internal catalog id.
+     */
     // bool editObject( SkyObject *object );
 
     void loadData() override { _loadData(false); }
@@ -60,8 +81,6 @@ class SyncedCatalogComponent : public CatalogComponent
     //    virtual bool selected();
 
   private:
-    int m_catId;
-    int m_catCount;
+    int m_catId { 0 };
+    int m_catCount { 0 };
 };
-
-#endif

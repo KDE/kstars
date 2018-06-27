@@ -25,12 +25,13 @@ SkyObjectListModel::SkyObjectListModel(QObject *parent) : QAbstractListModel(par
 QHash<int, QByteArray> SkyObjectListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
+
     roles[Qt::DisplayRole] = "name";
     roles[SkyObjectRole]   = "skyobject";
     return roles;
 }
 
-int SkyObjectListModel::indexOf(QString objectName) const
+int SkyObjectListModel::indexOf(const QString &objectName) const
 {
     for (int i = 0; i < skyObjects.size(); ++i)
     {
@@ -59,7 +60,7 @@ QVariant SkyObjectListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QStringList SkyObjectListModel::filter(QRegExp regEx)
+QStringList SkyObjectListModel::filter(const QRegExp &regEx)
 {
     QStringList filteredList;
 
@@ -78,4 +79,16 @@ void SkyObjectListModel::setSkyObjectsList(QVector<QPair<QString, const SkyObjec
     beginResetModel();
     skyObjects = sObjects;
     endResetModel();
+}
+
+void SkyObjectListModel::removeSkyObject(SkyObject *object)
+{
+    for (int i = 0; i < skyObjects.size(); ++i)
+    {
+        if (skyObjects[i].second == object)
+        {
+            skyObjects.remove(i);
+            return;
+        }
+    }
 }
