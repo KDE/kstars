@@ -20,8 +20,8 @@
 #endif
 
 #include "skymap.h"
-#include "ksasteroid.h"
 
+#include "ksasteroid.h"
 #include "kstars_debug.h"
 #include "fov.h"
 #include "imageviewer.h"
@@ -38,6 +38,7 @@
 #include "skymapqdraw.h"
 #include "starhopperdialog.h"
 #include "starobject.h"
+#include "syncedcatalogcomponent.h"
 #include "texturemanager.h"
 #include "dialogs/detaildialog.h"
 #include "printing/printingwizard.h"
@@ -786,6 +787,18 @@ void SkyMap::slotRemoveObjectLabel()
 {
     data->skyComposite()->removeNameLabel(clickedObject());
     forceUpdate();
+}
+
+void SkyMap::slotRemoveCustomObject()
+{
+    SkyObject* object = clickedObject();
+
+    // The object must be removed from the catalog...
+    data->skyComposite()->internetResolvedComponent()->removeObject(*object);
+    // ...and then in the rest of the places.
+    emit removeSkyObject(object);
+    data->skyComposite()->removeFromNames(object);
+    data->skyComposite()->removeFromLists(object);
 }
 
 void SkyMap::slotAddObjectLabel()

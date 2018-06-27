@@ -21,6 +21,7 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "detaildialog.h"
+#include "skymap.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/deepskyobject.h"
 #include "skycomponents/starcomponent.h"
@@ -87,7 +88,8 @@ FindDialog::FindDialog(QWidget *parent) : QDialog(parent), timer(nullptr), m_tar
 
     ui->FilterType->setCurrentIndex(0); // show all types of objects
 
-    fModel    = new SkyObjectListModel(this);
+    fModel = new SkyObjectListModel(this);
+    connect(KStars::Instance()->map(), &SkyMap::removeSkyObject, fModel, &SkyObjectListModel::removeSkyObject);
     sortModel = new QSortFilterProxyModel(ui->SearchList);
     sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     sortModel->setSourceModel(fModel);

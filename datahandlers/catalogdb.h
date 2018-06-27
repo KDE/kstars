@@ -153,6 +153,15 @@ class CatalogDB
     bool AddEntry(const CatalogEntryData &catalog_entry, int catid);
 
     /**
+     * @brief Remove an entry from the database
+     *
+     * @note This public method opens and closes the database.
+     *
+     * @param entry_long_name Long name of the entry
+     **/
+    bool RemoveCustomEntry(const QString &entry_long_name);
+
+    /**
      * @brief Returns database ID of the required catalog.
      * Returns -1 if not found.
      *

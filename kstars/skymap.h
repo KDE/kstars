@@ -387,6 +387,9 @@ class SkyMap : public QGraphicsView
          */
     void slotRemoveObjectLabel();
 
+    /** Remove custom object from internet search in the local catalog */
+    void slotRemoveCustomObject();
+
     /** @short Add a Planet Trail to ClickedObject.
          * @note Trails are added simply by calling KSPlanetBase::addToTrail() to add the first point.
          * as long as the trail is not empty, new points will be automatically appended to it.
@@ -501,6 +504,9 @@ class SkyMap : public QGraphicsView
 
     /** Emitted when a position is clicked */
     void objectClicked(SkyObject *);
+
+    /** Emitted when a sky object is removed from the database */
+    void removeSkyObject(SkyObject *object);
 
   protected:
     /** Process keystrokes:
