@@ -129,7 +129,7 @@ if (INDI_FOUND)
         indi/drivermanager.ui
         indi/opsindi.ui
         indi/indihostconf.ui
-        indi/telescopewizard.ui
+        #indi/telescopewizard.ui
     )
 
     set(indi_SRCS
@@ -155,7 +155,7 @@ if (INDI_FOUND)
         indi/indilightbox.cpp
         indi/indidbus.cpp
         indi/opsindi.cpp
-        indi/telescopewizardprocess.cpp
+        #indi/telescopewizardprocess.cpp
         indi/streamwg.cpp
         indi/videowg.cpp
         indi/indiwebmanager.cpp
