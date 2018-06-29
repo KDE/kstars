@@ -573,8 +573,10 @@ class KStars : public KXmlGuiWindow
     /** action slot: open Moon Phase Calendar tool */
     void slotMoonPhaseTool();
 
+    #if 0
     /** action slot: open Telescope wizard */
     void slotTelescopeWizard();
+    #endif
 
     /** action slot: open INDI driver panel */
     void slotINDIDriver();

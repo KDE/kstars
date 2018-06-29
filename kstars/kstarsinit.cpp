@@ -465,9 +465,11 @@ void KStars::initActions()
 // ==== devices Menu ================
 #ifdef HAVE_INDI
 #ifndef Q_OS_WIN
+#if 0
     actionCollection()->addAction("telescope_wizard", this, SLOT(slotTelescopeWizard()))
         << i18n("Telescope Wizard...")
         << QIcon::fromTheme("tools-wizard");
+#endif
 #endif
     actionCollection()->addAction("device_manager", this, SLOT(slotINDIDriver()))
         << i18n("Device Manager...")

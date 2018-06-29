@@ -68,7 +68,7 @@
 
 #ifdef HAVE_INDI
 #include <basedevice.h>
-#include "indi/telescopewizardprocess.h"
+//#include "indi/telescopewizardprocess.h"
 #include "indi/opsindi.h"
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
@@ -608,6 +608,7 @@ void KStars::slotFlagManager()
     m_FlagManager->show();
 }
 
+#if 0
 void KStars::slotTelescopeWizard()
 {
 #ifdef HAVE_INDI
@@ -642,6 +643,7 @@ void KStars::slotTelescopeWizard()
     delete twiz;
 #endif
 }
+#endif
 
 void KStars::slotINDIPanel()
 {

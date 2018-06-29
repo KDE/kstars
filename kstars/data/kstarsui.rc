@@ -61,7 +61,7 @@
         <Menu name="tools" noMerge="1"><text>&amp;Tools</text>
                 <Action name="astrocalculator" />
         <Menu name="devices" noMerge="1"><text>&amp;Devices</text>
-                <Action name="telescope_wizard" />
+                <!-- <Action name="telescope_wizard" /> -->
                 <Action name="device_manager" />
                 <Separator />
                 <Action name="indi_cpl" />
