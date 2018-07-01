@@ -96,7 +96,7 @@ class FITSData
     typedef struct
     {
       QString key;
-      QString value;
+      QVariant value;
       QString comment;
     } Record;
 
@@ -165,7 +165,7 @@ class FITSData
     double getADU() const;
 
     // FITS Record
-    bool getRecordValue(const QString &key, QString &value) const;
+    bool getRecordValue(const QString &key, QVariant &value) const;
     const QList<Record*> & getRecords() const {return records;}
 
     // Star Detection - Native KStars implementation

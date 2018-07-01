@@ -135,9 +135,9 @@ void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
     for (FITSData::Record *oneRecord : imageData->getRecords())
     {
         if (oneRecord->key == "EXTEND" || oneRecord->key == "SIMPLE" || oneRecord->key == "COMMENT" ||
-            oneRecord->key.isEmpty() || oneRecord->value.isEmpty())
+            oneRecord->key.isEmpty() || oneRecord->value.toString().isEmpty())
             continue;
-        metadata.insert(oneRecord->key.toLower(), oneRecord->value);
+        metadata.insert(oneRecord->key.toLower(), QJsonValue::fromVariant(oneRecord->value));
     }
 
     // Filename only without path
