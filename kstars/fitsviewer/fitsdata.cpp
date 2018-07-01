@@ -939,6 +939,33 @@ bool FITSData::parseHeader()
             oneRecord->value = properties[1].simplified();
             if (properties.size() > 2)
                 oneRecord->comment = properties[2].simplified();
+
+            char type[2] = {0};
+            // Convert the variant to its type in the FITS header
+            if (fits_get_keytype(oneRecord->value.toString().toLatin1().data(), type, &status) == 0)
+            {
+                switch(type[0])
+                {
+                // Logical
+                case 'L':
+                    oneRecord->value.convert(QMetaType::Bool);
+                    break;
+
+                    // Integer
+                case 'I':
+                    oneRecord->value.convert(QMetaType::Int);
+                    break;
+
+                case 'F':
+                    oneRecord->value.convert(QMetaType::Float);
+                    break;
+
+                default:
+                case 'C':
+                    break;
+                }
+            }
+
         }
 
         records.append(oneRecord);
@@ -949,7 +976,7 @@ bool FITSData::parseHeader()
     return true;
 }
 
-bool FITSData::getRecordValue(const QString &key, QString &value) const
+bool FITSData::getRecordValue(const QString &key, QVariant &value) const
 {
     for (Record *oneRecord : records)
     {

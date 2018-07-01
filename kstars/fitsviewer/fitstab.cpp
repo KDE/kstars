@@ -202,7 +202,7 @@ void FITSTab::headerFITS()
         QTableWidgetItem *tempItem = new QTableWidgetItem(oneRecord->key);
         tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         header.tableWidget->setItem(counter, 0, tempItem);
-        tempItem = new QTableWidgetItem(oneRecord->value);
+        tempItem = new QTableWidgetItem(oneRecord->value.toString());
         tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         header.tableWidget->setItem(counter, 1, tempItem);
         tempItem = new QTableWidgetItem(oneRecord->comment);
@@ -269,7 +269,7 @@ bool FITSTab::saveFile()
 
             fits_get_errstatus(err_status, err_text);
             // Use KMessageBox or something here
-            KMessageBox::error(0, i18n("FITS file save error: %1", QString::fromUtf8(err_text)), i18n("FITS Save"));
+            KMessageBox::error(nullptr, i18n("FITS file save error: %1", QString::fromUtf8(err_text)), i18n("FITS Save"));
             return false;
         }
 
@@ -282,7 +282,7 @@ bool FITSTab::saveFile()
     else
     {
         QString message = i18n("Invalid URL: %1", currentURL.url());
-        KMessageBox::sorry(0, message, i18n("Invalid URL"));
+        KMessageBox::sorry(nullptr, message, i18n("Invalid URL"));
         return false;
     }
 }
