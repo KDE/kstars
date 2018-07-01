@@ -940,32 +940,21 @@ bool FITSData::parseHeader()
             if (properties.size() > 2)
                 oneRecord->comment = properties[2].simplified();
 
-            char type[2] = {0};
-            // Convert the variant to its type in the FITS header
-            if (fits_get_keytype(oneRecord->value.toString().toLatin1().data(), type, &status) == 0)
+            // Try to guess the value.
+            // Test for integer & double. If neither, then leave it as "string".
+            bool ok = false;
+
+            // Is it Integer?
+            oneRecord->value.toInt(&ok);
+            if (ok)
+                oneRecord->value.convert(QMetaType::Int);
+            else
             {
-                switch(type[0])
-                {
-                // Logical
-                case 'L':
-                    oneRecord->value.convert(QMetaType::Bool);
-                    break;
-
-                    // Integer
-                case 'I':
-                    oneRecord->value.convert(QMetaType::Int);
-                    break;
-
-                case 'F':
-                    oneRecord->value.convert(QMetaType::Float);
-                    break;
-
-                default:
-                case 'C':
-                    break;
-                }
+                // Is it double?
+                oneRecord->value.toDouble(&ok);
+                if (ok)
+                    oneRecord->value.convert(QMetaType::Double);
             }
-
         }
 
         records.append(oneRecord);
