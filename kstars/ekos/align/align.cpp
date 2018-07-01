@@ -4629,6 +4629,8 @@ void Align::toggleAlignWidgetFullScreen()
 
 void Align::startPAHProcess()
 {
+    qCInfo(KSTARS_EKOS_ALIGN) << "Starting Polar Alignment Assistant process...";
+
     pahStage = PAH_FIRST_CAPTURE;
     emit newPAHStage(pahStage);
 
@@ -4667,6 +4669,8 @@ void Align::stopPAHProcess()
 {
     if (pahStage == PAH_IDLE)
         return;
+
+    qCInfo(KSTARS_EKOS_ALIGN) << "Stopping Polar Alignment Assistant process...";
 
     // Only display dialog if user explicitly restarts
     if ((static_cast<QPushButton *>(sender()) == PAHStopB) &&
@@ -4858,6 +4862,8 @@ void Align::setPAHCorrectionSelectionComplete()
 
 void Align::startPAHRefreshProcess()
 {
+    qCInfo(KSTARS_EKOS_ALIGN) << "Starting Polar Alignment Assistant refreshing...";
+
     pahStage = PAH_REFRESH;
     emit newPAHStage(pahStage);
 
