@@ -1022,6 +1022,7 @@ if (BUILD_KSTARS_LITE)
         Qt5::Quick
         Qt5::QuickControls2
         Qt5::Positioning
+        Qt5::PositioningQuick
         Qt5::Concurrent
         ${ZLIB_LIBRARIES}
         )
