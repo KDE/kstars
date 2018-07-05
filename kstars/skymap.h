@@ -25,6 +25,7 @@
 #include "skyobjects/skyline.h"
 
 #include <QGraphicsView>
+#include <QtGlobal>
 #include <QTimer>
 
 class QPainter;
@@ -509,6 +510,8 @@ class SkyMap : public QGraphicsView
     void removeSkyObject(SkyObject *object);
 
   protected:
+    bool event(QEvent *event) override;
+
     /** Process keystrokes:
          * @li arrow keys  Slew the map
          * @li +/- keys  Zoom in and out
@@ -670,6 +673,10 @@ class SkyMap : public QGraphicsView
 
     bool m_objPointingMode { false };
     bool m_fovCaptureMode { false };
+    bool m_touchMode { false };
+    bool m_pinchMode { false };
+    bool m_tapAndHoldMode { false };
+    qreal m_pinchScale { 0.0 };
 
     QWidget *m_SkyMapDraw { nullptr }; // Can be dynamic_cast<> to SkyMapDrawAbstract
 

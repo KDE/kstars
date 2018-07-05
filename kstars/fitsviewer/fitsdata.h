@@ -33,6 +33,7 @@
 
 #include <QObject>
 #include <QRect>
+#include <QVariant>
 
 #ifndef KSTARS_LITE
 #include "fitshistogram.h"
