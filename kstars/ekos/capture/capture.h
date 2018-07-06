@@ -560,6 +560,7 @@ class Capture : public QWidget, public Ui::Capture
     void newImage(QImage *image, Ekos::SequenceJob *job);
     void newExposureProgress(Ekos::SequenceJob *job);
     void sequenceChanged(const QJsonArray &sequence);
+    void settingsUpdated(const QJsonObject &settings);
 
   private:
     void setBusy(bool enable);

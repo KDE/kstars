@@ -361,6 +361,11 @@ void Message::sendCaptureSequence(const QJsonArray &sequenceArray)
     sendResponse(commands[CAPTURE_GET_SEQUENCES], sequenceArray);
 }
 
+void Message::sendCaptureSettings(const QJsonObject &settings)
+{
+    sendResponse(commands[CAPTURE_SET_SETTINGS], settings);
+}
+
 void Message::processGuideCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Guide *guide = m_Manager->guideModule();

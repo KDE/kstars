@@ -74,7 +74,8 @@ public slots:
     void setPAHEnabled(bool enabled);
 
     // Capture
-    void sendCaptureSequence(const QJsonArray &sequenceArray);    
+    void sendCaptureSequence(const QJsonArray &sequenceArray);
+    void sendCaptureSettings(const QJsonObject &settings);
 
 private slots:
 

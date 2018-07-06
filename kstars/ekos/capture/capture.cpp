@@ -3408,6 +3408,8 @@ void Capture::syncGUIToJob(SequenceJob *job)
 
     // Temperature Options
     temperatureCheck->setChecked(job->getEnforceTemperature());
+    if (job->getEnforceTemperature())
+        temperatureIN->setValue(job->getTargetTemperature());
 
     // Flat field options
     calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
@@ -3434,6 +3436,18 @@ void Capture::syncGUIToJob(SequenceJob *job)
     }
     else
         rotatorSettings->setRotationEnforced(false);
+
+    QJsonObject settings;
+
+    settings.insert("camera", CCDCaptureCombo->currentText());
+    settings.insert("fw", FilterDevicesCombo->currentText());
+    settings.insert("filter", FilterPosCombo->currentText());
+    settings.insert("exp", exposureIN->value());
+    settings.insert("bin", binXIN->value());
+    settings.insert("frameType", frameTypeCombo->currentIndex()+1);
+    settings.insert("targetTemperature", temperatureIN->value());
+
+    emit settingsUpdated(settings);
 }
 
 void Capture::editJob(QModelIndex i)
