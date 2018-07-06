@@ -32,6 +32,7 @@
 #include "skycomponents/starcomponent.h"
 #include "widgets/infoboxwidget.h"
 
+#include <QGestureEvent>
 #include <QStatusBar>
 #include <QToolTip>
 
@@ -396,9 +397,74 @@ void SkyMap::keyPressEvent(QKeyEvent *e)
 void SkyMap::stopTracking()
 {
     KStars *kstars = KStars::Instance();
+
     emit positionChanged(focus());
     if (kstars && Options::isTracking())
         kstars->slotTrack();
+}
+
+bool SkyMap::event(QEvent *event)
+{
+#if !defined(KSTARS_LITE)
+    if (event->type() == QEvent::TouchBegin)
+    {
+        m_touchMode = true;
+        m_pinchScale = -1;
+    }
+
+    if (event->type() == QEvent::Gesture)
+    {
+        QGestureEvent* gestureEvent = static_cast<QGestureEvent*>(event);
+
+        if (QPinchGesture *pinch = static_cast<QPinchGesture*>(gestureEvent->gesture(Qt::PinchGesture)))
+        {
+            QPinchGesture::ChangeFlags changeFlags = pinch->changeFlags();
+
+            m_pinchMode = true;
+            if (changeFlags & QPinchGesture::ScaleFactorChanged)
+            {
+                if (m_pinchScale == -1)
+                {
+                    m_pinchScale = pinch->totalScaleFactor();
+                    return true;
+                }
+                if (pinch->totalScaleFactor()-m_pinchScale > 0.1)
+                {
+                    m_pinchScale = pinch->totalScaleFactor();
+                    zoomInOrMagStep(0);
+                    return true;
+                }
+                if (pinch->totalScaleFactor()-m_pinchScale < -0.1)
+                {
+                    m_pinchScale = pinch->totalScaleFactor();
+                    zoomOutOrMagStep(0);
+                    return true;
+                }
+            }
+        }
+        if (QTapAndHoldGesture *tapAndHold = static_cast<QTapAndHoldGesture*>(gestureEvent->gesture(Qt::TapAndHoldGesture)))
+        {
+            m_tapAndHoldMode = true;
+            if (tapAndHold->state() == Qt::GestureFinished)
+            {
+                if (clickedObject())
+                {
+                    clickedObject()->showPopupMenu(pmenu, tapAndHold->position().toPoint());
+                }
+                else
+                {
+                    pmenu->createEmptyMenu(clickedPoint());
+                    pmenu->popup(tapAndHold->position().toPoint());
+                }
+                m_touchMode = false;
+                m_pinchMode = false;
+                m_tapAndHoldMode = false;
+            }
+        }
+        return true;
+    }
+#endif
+    return QGraphicsView::event(event);
 }
 
 void SkyMap::keyReleaseEvent(QKeyEvent *e)
@@ -429,6 +495,12 @@ void SkyMap::keyReleaseEvent(QKeyEvent *e)
 
 void SkyMap::mouseMoveEvent(QMouseEvent *e)
 {
+#if !defined(KSTARS_LITE)
+    // Skip touch points
+    if (m_pinchMode || m_tapAndHoldMode || (m_touchMode && e->globalX() == 0 && e->globalY() == 0))
+        return;
+#endif
+
     if (Options::useHoverLabel())
     {
         //Start a single-shot timer to monitor whether we are currently hovering.
@@ -552,6 +624,15 @@ void SkyMap::wheelEvent(QWheelEvent *e)
 
 void SkyMap::mouseReleaseEvent(QMouseEvent *)
 {
+#if !defined(KSTARS_LITE)
+    if (m_touchMode)
+    {
+        m_touchMode = false;
+        m_pinchMode = false;
+        m_tapAndHoldMode = false;
+    }
+#endif
+
     if (ZoomRect.isValid())
     {
         stopTracking();

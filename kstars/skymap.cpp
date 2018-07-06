@@ -125,6 +125,10 @@ SkyMap::SkyMap()
     : QGraphicsView(KStars::Instance()), computeSkymap(true), rulerMode(false), data(KStarsData::Instance()), pmenu(nullptr),
       ClickedObject(nullptr), FocusObject(nullptr), m_proj(nullptr), m_previewLegend(false), m_objPointingMode(false)
 {
+#if !defined(KSTARS_LITE)
+    grabGesture(Qt::PinchGesture);
+    grabGesture(Qt::TapAndHoldGesture);
+#endif
     m_Scale = 1.0;
 
     ZoomRect = QRect();
