@@ -4795,7 +4795,8 @@ void Align::calculatePAHError()
 
     RACenter.setRA(RACenter.ra0());
     RACenter.setDec(RACenter.dec0());
-    dms polarError = RACenter.angularDistanceTo(&CP);
+    double PA=0;
+    dms polarError = RACenter.angularDistanceTo(&CP, &PA);
 
     if (Options::alignmentLogging())
     {
@@ -4803,7 +4804,8 @@ void Align::calculatePAHError()
                                    << " Radius: " << RACircle.z();
         qCDebug(KSTARS_EKOS_ALIGN) << "RA Axis Location RA: " << RACenter.ra0().toHMSString()
                                    << "DE: " << RACenter.dec0().toDMSString();
-        qCDebug(KSTARS_EKOS_ALIGN) << "RA Axis Offset: " << polarError.toDMSString();
+        qCDebug(KSTARS_EKOS_ALIGN) << "RA Axis Offset: " << polarError.toDMSString() << "PA:" << PA;
+        qCDebug(KSTARS_EKOS_ALIGN) << "CP Axis Location X:" << celestialPolePoint.x() << "Y:" << celestialPolePoint.y();
     }
 
     PAHErrorLabel->setText(polarError.toDMSString());
