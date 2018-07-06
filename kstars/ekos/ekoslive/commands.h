@@ -52,6 +52,7 @@ enum COMMANDS
     CAPTURE_GET_SEQUENCES,
     CAPTURE_ADD_SEQUENCE,
     CAPTURE_REMOVE_SEQUENCE,
+    CAPTURE_SET_SETTINGS,
 
     // Mount
     MOUNT_PARK,
@@ -138,6 +139,7 @@ static QMap<COMMANDS, QString> const commands =
     {CAPTURE_START, "capture_start"},
     {CAPTURE_STOP, "capture_stop"},
     {CAPTURE_GET_SEQUENCES, "capture_get_sequences"},
+    {CAPTURE_SET_SETTINGS, "capture_set_settings"},
     {CAPTURE_ADD_SEQUENCE, "capture_add_sequence"},
     {CAPTURE_REMOVE_SEQUENCE, "capture_remove_sequence"},
 

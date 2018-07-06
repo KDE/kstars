@@ -1110,6 +1110,11 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 {
+    // No duplicates
+    for (auto oneCCD : findDevices(KSTARS_CCD))
+        if (oneCCD == ccdDevice)
+            return;
+
     managedDevices.insertMulti(KSTARS_CCD, ccdDevice);
 
     initCapture();
@@ -1183,6 +1188,11 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
 void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 {
+    // No duplicates
+    for (auto oneFilter : findDevices(KSTARS_FILTER))
+        if (oneFilter == filterDevice)
+            return;
+
     managedDevices.insertMulti(KSTARS_FILTER, filterDevice);
 
     appendLogText(i18n("%1 filter is online.", filterDevice->getDeviceName()));
@@ -1210,6 +1220,11 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 
 void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 {
+    // No duplicates
+    for (auto oneFocuser : findDevices(KSTARS_FOCUSER))
+        if (oneFocuser == focuserDevice)
+            return;
+
     managedDevices.insertMulti(KSTARS_FOCUSER, focuserDevice);
 
     initCapture();
@@ -1748,6 +1763,7 @@ void EkosManager::initCapture()
     connect(captureProcess.get(), SIGNAL(newExposureProgress(Ekos::SequenceJob*)), this,
             SLOT(updateExposureProgress(Ekos::SequenceJob*)));
     connect(captureProcess.get(), &Ekos::Capture::sequenceChanged, ekosLiveClient.get()->message(), &EkosLive::Message::sendCaptureSequence);
+    connect(captureProcess.get(), &Ekos::Capture::settingsUpdated, ekosLiveClient.get()->message(), &EkosLive::Message::sendCaptureSettings);
     captureGroup->setEnabled(true);
     sequenceProgress->setEnabled(true);
     captureProgress->setEnabled(true);
