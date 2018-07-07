@@ -1894,13 +1894,15 @@ void EkosManager::initAlign()
         connect(alignProcess.get(), &Ekos::Align::newPAHStage, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHStage);
         connect(alignProcess.get(), &Ekos::Align::newPAHMessage, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHMessage);
         connect(alignProcess.get(), &Ekos::Align::PAHEnabled, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHEnabled);
-        connect(alignProcess.get(), &Ekos::Align::newFOVTelescopeType, ekosLiveClient.get()->message(), &EkosLive::Message::setFOVTelescopeType);
+        //connect(alignProcess.get(), &Ekos::Align::newFOVTelescopeType, ekosLiveClient.get()->message(), &EkosLive::Message::setFOVTelescopeType);
 
         connect(alignProcess.get(), &Ekos::Align::newImage, [&](FITSView *view)
         {
             ekosLiveClient.get()->media()->sendPreviewImage(view, QString());
         });
         connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame);
+
+        connect(alignProcess.get(), &Ekos::Align::settingsUpdated, ekosLiveClient.get()->message(), &EkosLive::Message::sendAlignSettings);
 
     }
 

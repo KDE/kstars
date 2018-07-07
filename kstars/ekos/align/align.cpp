@@ -154,6 +154,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(FilterDevicesCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
             [=](const QString &text)
     {
+        syncSettings();
         Options::setDefaultAlignFW(text);
     });
 
@@ -162,6 +163,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
             [=](int index)
     {
+        syncSettings();
         Options::setLockAlignFilterIndex(index);
     }
     );
@@ -217,6 +219,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     stopLayout->addWidget(pi.get());
 
     exposureIN->setValue(Options::alignExposure());
+    connect(exposureIN, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&]() { syncSettings();});
 
     altStage = ALT_INIT;
     azStage  = AZ_INIT;
@@ -271,7 +274,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     //guideScopeCCDs = Options::guideScopeCCDs();
     FOVScopeCombo->setCurrentIndex(Options::solverScopeType());
     connect(FOVScopeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTelescopeType(int)));
-    connect(FOVScopeCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(newFOVTelescopeType(int)));
+    //connect(FOVScopeCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(newFOVTelescopeType(int)));
 
     accuracySpin->setValue(Options::solverAccuracyThreshold());
     alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
@@ -1804,6 +1807,8 @@ void Align::setSolverType(int type)
     if (sender() == nullptr && type >= 0 && type <= 2)
         solverTypeGroup->button(type)->setChecked(true);
 
+    syncSettings();
+
     Options::setSolverType(type);
 
     switch (type)
@@ -1875,6 +1880,7 @@ bool Align::setCCD(const QString & device)
 
 void Align::setDefaultCCD(QString ccd)
 {
+    syncSettings();
     Options::setDefaultAlignCCD(ccd);
 }
 
@@ -4183,6 +4189,7 @@ void Align::setExposure(double value)
 
 void Align::setBinningIndex(int binIndex)
 {
+    syncSettings();
     Options::setSolverBinningIndex(binIndex);
 
     // If sender is not our combo box, then we need to update the combobox itself
@@ -5127,6 +5134,8 @@ void Align::updateTelescopeType(int index)
     if (currentCCD == nullptr)
         return;
 
+    syncSettings();
+
     /*
     bool rc = currentCCD->setTelescopeType(static_cast<ISD::CCD::TelescopeType>(index));
 
@@ -5486,16 +5495,6 @@ int Align::getActiveSolverIndex() const
     return solverTypeGroup->checkedId();
 }
 
-void Align::setCaptureSettings(const QJsonObject &settings)
-{
-    CCDCaptureCombo->setCurrentText(settings["camera"].toString());
-    FilterDevicesCombo->setCurrentText(settings["fw"].toString());
-    FilterPosCombo->setCurrentText(settings["filter"].toString());
-    Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
-    exposureIN->setValue(settings["exp"].toDouble(1));
-    binningCombo->setCurrentIndex(settings["bin"].toInt()-1);
-}
-
 QString Align::getPAHMessage() const
 {
     switch (pahStage)
@@ -5527,6 +5526,61 @@ QString Align::getPAHMessage() const
 void Align::zoomAlignView()
 {
     alignView->ZoomDefault();
+}
+
+QJsonObject Align::getSettings() const
+{
+    QJsonObject settings;
+
+    settings.insert("camera", CCDCaptureCombo->currentText());
+    settings.insert("fw", FilterDevicesCombo->currentText());
+    settings.insert("filter", FilterPosCombo->currentText());
+    settings.insert("exp", exposureIN->value());
+    settings.insert("bin", binningCombo->currentIndex()+1);
+    settings.insert("solverAction", gotoModeButtonGroup->checkedId());
+    settings.insert("solverType", solverTypeGroup->checkedId());
+    settings.insert("scopeType", FOVScopeCombo->currentIndex());
+
+    return settings;
+}
+
+void Align::setSettings(const QJsonObject &settings)
+{
+    CCDCaptureCombo->setCurrentText(settings["camera"].toString());
+    FilterDevicesCombo->setCurrentText(settings["fw"].toString());
+    FilterPosCombo->setCurrentText(settings["filter"].toString());
+    Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
+    exposureIN->setValue(settings["exp"].toDouble(1));
+    binningCombo->setCurrentIndex(settings["bin"].toInt()-1);
+
+    gotoModeButtonGroup->button(settings["solverAction"].toInt(1))->setChecked(true);
+    solverTypeGroup->button(settings["solverType"].toInt(1))->setChecked(true);
+    FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
+}
+
+void Align::syncSettings()
+{
+    emit settingsUpdated(getSettings());
+}
+
+QJsonObject Align::getPAHSettings() const
+{
+    QJsonObject settings = getSettings();
+
+    settings.insert("mountDirection", PAHDirectionCombo->currentIndex());
+    settings.insert("mountRotation", PAHRotationSpin->value());
+    settings.insert("refresh", PAHExposure->value());
+
+    return settings;
+}
+
+void Align::setPAHSettings(const QJsonObject &settings)
+{
+    setSettings(settings);
+
+    PAHDirectionCombo->setCurrentIndex(settings["mountDirection"].toInt(0));
+    PAHRotationSpin->setValue(settings["mountRotation"].toInt(30));
+    PAHExposure->setValue(settings["refresh"].toDouble(1));
 }
 
 }
