@@ -366,6 +366,11 @@ void Message::sendCaptureSettings(const QJsonObject &settings)
     sendResponse(commands[CAPTURE_SET_SETTINGS], settings);
 }
 
+void Message::sendAlignSettings(const QJsonObject &settings)
+{
+    sendResponse(commands[ALIGN_SET_SETTINGS], settings);
+}
+
 void Message::processGuideCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Guide *guide = m_Manager->guideModule();
@@ -453,16 +458,10 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
 
     if (command == commands[ALIGN_SOLVE])
         align->captureAndSolve();
-    else if (command == commands[ALIGN_SET_CAPTURE_SETTINGS])
-        align->setCaptureSettings(payload);
-    else if (command == commands[ALIGN_STOP])
-        align->abort();
-    else if (command == commands[ALIGN_SELECT_SCOPE])
-        align->setFOVTelescopeType(payload["value"].toInt());
-    else if (command == commands[ALIGN_SELECT_SOLVER_TYPE])
-        align->setSolverType(payload["value"].toInt());
-    else if (command == commands[ALIGN_SELECT_SOLVER_ACTION])
-        align->setSolverAction(payload["value"].toInt());
+    else if (command == commands[ALIGN_SET_SETTINGS])
+        align->setSettings(payload);
+    else if (command == commands[ALIGN_STOP])        
+        align->abort();    
     else if (command == commands[ALIGN_LOAD_AND_SLEW])
     {
         QTemporaryFile file;
@@ -509,19 +508,15 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     {
         align->stopPAHProcess();
     }
+    if (command == commands[PAH_SET_SETTINGS])
+    {
+        align->setPAHSettings(payload);
+    }
     else if (command == commands[PAH_REFRESH])
     {
         align->setPAHRefreshDuration(payload["value"].toDouble());
         align->startPAHRefreshProcess();
-    }
-    else if (command == commands[PAH_SET_MOUNT_DIRECTION])
-    {
-        align->setPAHMountDirection(payload["value"].toInt());
-    }
-    else if (command == commands[PAH_SET_MOUNT_ROTATION])
-    {
-        align->setPAHMountRotation(payload["value"].toInt());
-    }
+    }    
     else if (command == commands[PAH_SET_CROSSHAIR])
     {
         align->setPAHCorrectionOffsetPercentage(payload["x"].toDouble(), payload["y"].toDouble());
@@ -579,18 +574,6 @@ void Message::setPAHEnabled(bool enabled)
     };
 
     sendResponse(commands[NEW_POLAR_STATE], polarState);
-}
-
-void Message::setFOVTelescopeType(int index)
-{
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
-        return;
-
-    QJsonObject alignState = {
-        {"scopeIndex", index}
-    };
-
-    sendResponse(commands[NEW_ALIGN_STATE], alignState);
 }
 
 void Message::processProfileCommands(const QString &command, const QJsonObject &payload)
@@ -731,20 +714,26 @@ void Message::sendStates()
 
     if (m_Manager->alignModule())
     {
+        // Align State
         QJsonObject alignState = {
             {"status", Ekos::alignStates[m_Manager->alignModule()->getStatus()]},
-            {"solvers", QJsonArray::fromStringList(m_Manager->alignModule()->getActiveSolvers())},
-            {"solverIndex", m_Manager->alignModule()->getActiveSolverIndex()},
-            {"scopeIndex", m_Manager->alignModule()->getFOVTelescopeType()},
+            {"solvers", QJsonArray::fromStringList(m_Manager->alignModule()->getActiveSolvers())}
         };
         sendResponse(commands[NEW_ALIGN_STATE], alignState);
 
+        // Align settings
+        sendResponse(commands[ALIGN_SET_SETTINGS], m_Manager->alignModule()->getSettings());
+
+        // Polar State
         QJsonObject polarState = {
             {"stage", m_Manager->alignModule()->getPAHStage()},
             {"enabled", m_Manager->alignModule()->isPAHEnabled()},
             {"message", m_Manager->alignModule()->getPAHMessage()},
         };
         sendResponse(commands[NEW_POLAR_STATE], polarState);
+
+        // Polar settings
+        sendResponse(commands[PAH_SET_SETTINGS], m_Manager->alignModule()->getPAHSettings());
     }
 }
 

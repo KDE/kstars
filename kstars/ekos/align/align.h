@@ -409,6 +409,14 @@ class Align : public QWidget, public Ui::Align
     void setPAHCorrectionSelectionComplete();
     void zoomAlignView();
 
+    // Align Settings
+    QJsonObject getSettings() const;
+    void setSettings(const QJsonObject &settings);
+
+    // PAH Settings. PAH should be in separate class
+    QJsonObject getPAHSettings() const;
+    void setPAHSettings(const QJsonObject &settings);
+
   private slots:
 
     /* Polar Alignment */
@@ -466,7 +474,10 @@ class Align : public QWidget, public Ui::Align
     void alignTypeChanged(const QString alignType);
     void togglePreviewAlignPoints();
     void slotSortAlignmentPoints();
-    void slotAutoScaleGraph();  
+    void slotAutoScaleGraph();
+
+    // Settings
+    void syncSettings();
 
   protected slots:
     /**
@@ -494,6 +505,9 @@ class Align : public QWidget, public Ui::Align
     void newPAHMessage(const QString &message);    
     void newFOVTelescopeType(int index);
     void PAHEnabled(bool);
+
+    // Settings
+    void settingsUpdated(const QJsonObject &settings);
 
   private:
     /**
@@ -658,7 +672,7 @@ class Align : public QWidget, public Ui::Align
     static const double SIDRATE;
 
     /// Have we slewed?
-    bool isSlewDirty { false };
+    bool isSlewDirty { false };    
 
     // Online and Offline parsers
     AstrometryParser* parser { nullptr };

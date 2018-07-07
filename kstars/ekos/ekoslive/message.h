@@ -66,7 +66,7 @@ public slots:
     // Alignment
     void setAlignStatus(Ekos::AlignState newState);
     void setAlignSolution(const QJsonObject &solution);
-    void setFOVTelescopeType(int index);
+    void sendAlignSettings(const QJsonObject &settings);
 
     // Polar
     void setPAHStage(Ekos::Align::PAHStage stage);
