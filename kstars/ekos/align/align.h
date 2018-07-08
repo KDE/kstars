@@ -497,6 +497,7 @@ class Align : public QWidget, public Ui::Align
     void newImage(FITSView *view);
     // This is sent when the pixmap is updated within the view
     void newFrame(FITSView *view);
+    void newCorrectionVector(QLineF correctionVector);
     void newSolverResults(double orientation, double ra, double dec, double pixscale);
     void newSolution(const QJsonObject &solution);
 
