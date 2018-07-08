@@ -4457,13 +4457,16 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     char objectra_str[32];
     if (fits_read_key(fptr, TSTRING, "OBJCTRA", objectra_str, comment, &status))
     {
-        if (fits_read_key(fptr, TDOUBLE, "OBJCTRA", &ra, comment, &status))
+        if (fits_read_key(fptr, TDOUBLE, "RA", &ra, comment, &status))
         {
             fits_report_error(stderr, status);
             fits_get_errstatus(status, error_status);
             coord_ok = false;
             appendLogText(i18n("FITS header: Cannot find OBJCTRA (%1).", QString(error_status)));
         }
+        else
+            // Degrees to hours
+            ra /= 15;
     }
     else
     {
@@ -4475,7 +4478,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     char objectde_str[32];
     if (coord_ok && fits_read_key(fptr, TSTRING, "OBJCTDEC", objectde_str, comment, &status))
     {
-        if (fits_read_key(fptr, TDOUBLE, "OBJCTDEC", &dec, comment, &status))
+        if (fits_read_key(fptr, TDOUBLE, "DEC", &dec, comment, &status))
         {
             fits_report_error(stderr, status);
             fits_get_errstatus(status, error_status);
@@ -4499,6 +4502,21 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
         solver_args << "-3" << QString::number(ra * 15.0) << "-4" << QString::number(dec) << "-5 15";
 
     status = 0;
+    double pixelScale=0;
+    // If we have pixel scale in arcsecs per pixel then lets use that directly
+    // instead of calculating it from FOCAL length and other information
+    if (fits_read_key(fptr, TDOUBLE, "SCALE", &pixelScale, comment, &status) == 0)
+    {
+        fov_low  = QString::number(0.9 * pixelScale);
+        fov_high = QString::number(1.1 * pixelScale);
+
+        if (Options::astrometryUseImageScale())
+            solver_args << "-L" << fov_low << "-H" << fov_high << "-u"
+                        << "app";
+
+        return solver_args;
+    }
+
     if (fits_read_key(fptr, TDOUBLE, "FOCALLEN", &fits_focal_length, comment, &status))
     {
         int integer_focal_length = -1;
@@ -4826,19 +4844,20 @@ void Align::calculatePAHError()
 
     if (RAAxisInside == false && CPPointInside == false)
         appendLogText(i18n("Warning: Mount axis and celestial pole are outside the field of view. Correction vector may be inaccurate."));
-    */
-
-    alignView->setCorrectionParams(correctionVector);
+    */    
 
     connect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
 
+    emit newCorrectionVector(correctionVector);
     emit newFrame(alignView);
+
+    alignView->setCorrectionParams(correctionVector);
 }
 
 void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
 {
-  double x = dx * alignView->zoomedWidth();
-  double y = dy * alignView->zoomedHeight();
+  double x = dx * alignView->zoomedWidth() * (alignView->getCurrentZoom() / 100);
+  double y = dy * alignView->zoomedHeight() * (alignView->getCurrentZoom() / 100);
 
   setPAHCorrectionOffset(static_cast<int>(round(x)), static_cast<int>(round(y)));
 
