@@ -1902,6 +1902,7 @@ void EkosManager::initAlign()
         });
         connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame);
 
+        connect(alignProcess.get(), &Ekos::Align::newCorrectionVector, ekosLiveClient.get()->message(), &EkosLive::Message::setCorrectionVector);
         connect(alignProcess.get(), &Ekos::Align::settingsUpdated, ekosLiveClient.get()->message(), &EkosLive::Message::sendAlignSettings);
 
     }

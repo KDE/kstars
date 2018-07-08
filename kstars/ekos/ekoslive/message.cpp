@@ -564,6 +564,26 @@ void Message::setPAHMessage(const QString &message)
     sendResponse(commands[NEW_POLAR_STATE], polarState);
 }
 
+void Message::setCorrectionVector(QLineF correctionVector)
+{
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
+        return;
+
+    QJsonObject vector = {
+        {"x1", correctionVector.p1().x()},
+        {"y1", correctionVector.p1().y()},
+        {"x2", correctionVector.p2().x()},
+        {"y2", correctionVector.p2().y()}
+    };
+
+    QJsonObject polarState = {
+        {"vector", vector}
+    };
+
+    sendResponse(commands[NEW_POLAR_STATE], polarState);
+}
+
+
 void Message::setPAHEnabled(bool enabled)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)

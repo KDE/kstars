@@ -71,6 +71,7 @@ public slots:
     // Polar
     void setPAHStage(Ekos::Align::PAHStage stage);
     void setPAHMessage(const QString &message);
+    void setCorrectionVector(QLineF correctionVector);
     void setPAHEnabled(bool enabled);
 
     // Capture
