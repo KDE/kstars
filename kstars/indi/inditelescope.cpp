@@ -897,6 +897,8 @@ bool Telescope::setSlewRate(int index)
 
     if (index < 0 || index > slewRateSP->nsp)
         return false;
+    else if (IUFindOnSwitchIndex(slewRateSP) == index)
+        return true;
 
     IUResetSwitch(slewRateSP);
 
