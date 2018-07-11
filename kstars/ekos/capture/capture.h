@@ -612,6 +612,7 @@ class Capture : public QWidget, public Ui::Capture
 
     bool useGuideHead { false };
     bool autoGuideReady { false};
+    bool autoGuideAbortedCapture { false };
 
     QString targetName;
     QString observerName;
