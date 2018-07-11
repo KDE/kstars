@@ -320,7 +320,7 @@ void Capture::toggleSequence()
         if (pauseFunction)
             (this->*pauseFunction)();
     }
-    else if (state == CAPTURE_IDLE || state == CAPTURE_COMPLETE)
+    else if (state == CAPTURE_IDLE || state == CAPTURE_ABORTED || state == CAPTURE_COMPLETE)
     {
         start();
     }
@@ -485,7 +485,7 @@ void Capture::stop(bool abort)
     }
 
     calibrationStage = CAL_NONE;
-    state            = CAPTURE_IDLE;
+    state            = abort ? CAPTURE_ABORTED : CAPTURE_IDLE;
 
     // Turn off any calibration light, IF they were turned on by Capture module
     if (dustCap && dustCapLightEnabled)
@@ -1129,7 +1129,7 @@ void Capture::newFITS(IBLOB *bp)
 
         // If the FITS is not for our device, simply ignore
         //if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
-        if (QString(bp->bvp->device) != currentCCD->getDeviceName() || state == CAPTURE_IDLE)
+        if (QString(bp->bvp->device) != currentCCD->getDeviceName() || state == CAPTURE_IDLE || state == CAPTURE_ABORTED)
             return;
 
         if (currentCCD->isLooping() == false)
@@ -3991,15 +3991,24 @@ void Capture::setGuideStatus(GuideState state)
             // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
             if (guideState == GUIDE_GUIDING && meridianFlipStage == MF_NONE && activeJob &&
                 activeJob->getStatus() == SequenceJob::JOB_BUSY)
-            {
+            {                
                 appendLogText(i18n("Autoguiding stopped. Aborting..."));
                 abort();
+                autoGuideAbortedCapture = true;
             }
             break;
 
         case GUIDE_GUIDING:
         case GUIDE_CALIBRATION_SUCESS:
-            autoGuideReady = true;
+        // If capture was aborted due to guide abort
+        // then let's resume capture once we are guiding again.
+        if (autoGuideAbortedCapture && guideState == GUIDE_ABORTED && this->state == CAPTURE_ABORTED)
+        {
+            start();
+            autoGuideAbortedCapture = false;
+        }
+
+        autoGuideReady = true;
             break;
 
         case GUIDE_CALIBRATION_ERROR:
