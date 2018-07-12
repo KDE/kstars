@@ -180,7 +180,7 @@ void Media::sendUpdatedFrame(FITSView *view)
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
     //QPixmap scaledPixmap = view->getDisplayPixmap().scaledToWidth(640);
-    view->getDisplayPixmap().save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
+    view->getDisplayPixmap().save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_PAH_IMAGE_QUALITY : HB_PAH_IMAGE_QUALITY/2);
     buffer.close();
 
     m_WebSocket.sendBinaryMessage(jpegData);

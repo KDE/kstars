@@ -570,10 +570,8 @@ void Message::setCorrectionVector(QLineF correctionVector)
         return;
 
     QJsonObject vector = {
-        {"x1", correctionVector.p1().x()},
-        {"y1", correctionVector.p1().y()},
-        {"x2", correctionVector.p2().x()},
-        {"y2", correctionVector.p2().y()}
+        {"mag", correctionVector.length()},
+        {"pa", correctionVector.angle()}
     };
 
     QJsonObject polarState = {
