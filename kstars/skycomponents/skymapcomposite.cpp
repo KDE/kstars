@@ -361,12 +361,7 @@ void SkyMapComposite::draw(SkyPainter *skyp)
     m_DeepSky->drawLabels();
 
     m_ObservingList->pen = QPen(QColor(data->colorScheme()->colorNamed("ObsListColor")), 1.);
-    if (KStars::Instance() && !m_ObservingList->list)
-        m_ObservingList->list.reset(new SkyObjectList(KSUtils::makeVanillaPointerList(
-            KStarsData::Instance()
-                ->observingList()
-                ->sessionList()))); // Make sure we never delete the pointers in m_ObservingList->list!
-
+    m_ObservingList->list2 = KStarsData::Instance()->observingList()->sessionList();
     m_ObservingList->draw(skyp);
 
     m_Flags->draw(skyp);

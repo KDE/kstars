@@ -21,6 +21,7 @@
 #include "skymap.h"
 #endif
 #include "skypainter.h"
+#include "auxiliary/ksutils.h"
 
 TargetListComponent::TargetListComponent(SkyComposite *parent) : SkyComponent(parent)
 {
@@ -48,9 +49,16 @@ void TargetListComponent::draw(SkyPainter *skyp)
 {
     if (drawSymbols && !(*drawSymbols)())
         return;
-    if (!list || list->count() <= 0)
-        return;
 
     skyp->setPen(pen);
-    skyp->drawObservingList(*list);
+    if (list && list->count() > 0)
+    {
+        skyp->drawObservingList(*list);
+    }
+    if (list2.count() > 0)
+    {
+        SkyObjectList newList = KSUtils::makeVanillaPointerList(list2);
+
+        skyp->drawObservingList(newList);
+    }
 }
