@@ -88,6 +88,10 @@ private:
     static const uint8_t HB_IMAGE_QUALITY = 76;
     // Video high bandwidth video quality (jpg)
     static const uint8_t HB_VIDEO_QUALITY = 64;
+    // Image high bandwidth image quality (jpg) for PAH
+    static const uint8_t HB_PAH_IMAGE_QUALITY = 50;
+    // Video high bandwidth video quality (jpg) for PAH
+    static const uint8_t HB_PAH_VIDEO_QUALITY = 25;
 
     // Retry every 5 seconds in case remote server is down
     static const uint16_t RECONNECT_INTERVAL = 5000;
