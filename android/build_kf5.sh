@@ -33,7 +33,7 @@ sed -i -- 's/make-options -j8/make-options -j4 VERBOSE=1/g' kdesrc-conf-android/
 
 if [ -e $qt_android_libs ]
 then
-    sed -E -i "s|-DCMAKE_PREFIX_PATH=.*?\\ |-DCMAKE_PREFIX_PATH=$QT_ANDROID -DECM_ADDITIONAL_FIND_ROOT_PATH=$QT_ANDROID\;$CURDIR/kf5/kde/install -DANDROID_STL=gnustl_static |g" kdesrc-conf-android/kdesrc-buildrc
+    sed -E -i "s|-DCMAKE_PREFIX_PATH=.*?\\ |-DCMAKE_PREFIX_PATH=$QT_ANDROID- -DCMAKE_ANDROID_NDK=$CMAKE_ANDROID_NDK -DECM_ADDITIONAL_FIND_ROOT_PATH=$QT_ANDROID\;$CURDIR/kf5/kde/install -DANDROID_STL=gnustl_static |g" kdesrc-conf-android/kdesrc-buildrc
 else
     echo "Qt Android libraries path doesn't exist. Exiting."
     exit
@@ -47,7 +47,6 @@ sed -i -- 's/target_link_libraries(ktranscript PRIVATE Qt5::Script Qt5::Core)/ta
 ./kdesrc-build libintl-lite extra-cmake-modules frameworks-android
 
 # Fix some config files
-sed -i '/find_package(Gettext/ s/^/#/' kde/install/lib/cmake/KFke
 sed -i '/find_package(PythonInterp/ s/^/#/' kde/install/lib/cmake/KF5I18n/KF5I18NMacros.cmake
 sed -i '/find_dependency(Qt5Xml/ s/^/#/' kde/install/lib/cmake/KF5Config/KF5ConfigConfig.cmake
 #sed -i '/cxx_decltype/ s/^/#/' ${QT_ANDROID}/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake
