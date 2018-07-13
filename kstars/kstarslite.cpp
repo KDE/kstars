@@ -23,6 +23,7 @@
 #include "ksutils.h"
 #include "Options.h"
 #include "skymaplite.h"
+#include "version.h"
 #include "indi/clientmanagerlite.h"
 #include "kstarslite/imageprovider.h"
 #include "kstarslite/dialogs/finddialoglite.h"
@@ -102,6 +103,14 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
 
     m_RootObject = m_Engine.rootObjects()[0];
     m_clientManager->setIndiControlPage(*m_RootObject->findChild<QObject*>("indiControlPanel"));
+
+    // Set the About information
+    QObject *aboutDialog = m_RootObject->findChild<QObject*>("aboutDialog");
+
+    aboutDialog->setProperty("versionText", i18n("Version: %1", KSTARS_VERSION));
+    aboutDialog->setProperty("buildText", i18n("Build: %1", KSTARS_BUILD_TS));
+    aboutDialog->setProperty("teamText", QString("2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team")));
+    aboutDialog->setProperty("licenseText", i18n("License: GPLv2"));
 
     QQuickItem *skyMapLiteWrapper = m_RootObject->findChild<QQuickItem *>("skyMapLiteWrapper");
 

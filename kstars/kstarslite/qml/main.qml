@@ -167,6 +167,10 @@ ApplicationWindow {
         id: locationLoading
     }
 
+    AboutDialog {
+        id: aboutDialog
+    }
+
     //Pages
     INDIControlPanel {
         id: indiControlPanel
@@ -320,6 +324,7 @@ ApplicationWindow {
                     append({objID: indiControlPanel});
                     append({objID: findDialog});
                     append({objID: locationDialog});
+                    append({objID: aboutDialog});
                 }
             }
 

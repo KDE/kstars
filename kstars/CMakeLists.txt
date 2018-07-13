@@ -823,6 +823,7 @@ set(kstarsliteqml_SRCS
     kstarslite/qml/dialogs/FindDialog.qml
     kstarslite/qml/dialogs/LocationDialog.qml
     kstarslite/qml/dialogs/DetailsDialog.qml
+    kstarslite/qml/dialogs/AboutDialog.qml
 
     kstarslite/qml/dialogs/helpers/DetailsItem.qml
     kstarslite/qml/dialogs/helpers/DetailsAddLink.qml

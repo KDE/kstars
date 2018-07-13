@@ -25,6 +25,7 @@ install( FILES modules/BottomMenu.qml
 install( FILES dialogs/FindDialog.qml
     dialogs/LocationDialog.qml
     dialogs/DetailsDialog.qml
+    dialogs/AboutDialog.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/dialogs )
 
 install( FILES dialogs/helpers/DetailsAddLink.qml
