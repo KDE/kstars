@@ -120,6 +120,10 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
     connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
 
+    alignTimer.setInterval(10000);
+    alignTimer.setSingleShot(true);
+    connect(&alignTimer, &QTimer::timeout, this, &Align::captureAndSolve);
+
     // Effective FOV Edit
     connect(FOVOut, &QLineEdit::editingFinished, [=]()
     {
@@ -2378,7 +2382,7 @@ void Align::generateArgs()
 
 bool Align::captureAndSolve()
 {
-    //m_isSolverComplete = false;
+    alignTimer.stop();
 
     if (currentCCD == nullptr)
         return false;
@@ -2460,15 +2464,15 @@ bool Align::captureAndSolve()
 
     if (focusState >= FOCUS_PROGRESS)
     {
-        appendLogText(i18n("Cannot capture while focus module is busy! Retrying..."));
-        QTimer::singleShot(5000, this, SLOT(captureAndSolve()));
+        appendLogText(i18n("Cannot capture while focus module is busy! Retrying in 10 seconds..."));
+        alignTimer.start();
         return false;
     }
 
     if (targetChip->isCapturing())
     {
-        appendLogText(i18n("Cannot capture while CCD exposure is in progress! Retrying..."));
-        QTimer::singleShot(1000, this, SLOT(captureAndSolve()));
+        appendLogText(i18n("Cannot capture while CCD exposure is in progress! Retrying in 10 seconds..."));
+        alignTimer.start();
         return false;
     }
 
@@ -4830,8 +4834,14 @@ void Align::calculatePAHError()
         qCDebug(KSTARS_EKOS_ALIGN) << "RA Axis Location RA: " << RACenter.ra0().toHMSString()
                                    << "DE: " << RACenter.dec0().toDMSString();
         qCDebug(KSTARS_EKOS_ALIGN) << "RA Axis Offset: " << polarError.toDMSString() << "PA:" << PA;
-        qCDebug(KSTARS_EKOS_ALIGN) << "CP Axis Location X:" << celestialPolePoint.x() << "Y:" << celestialPolePoint.y();
+        qCDebug(KSTARS_EKOS_ALIGN) << "CP Axis Location X:" << celestialPolePoint.x() << "Y:" << celestialPolePoint.y();        
     }
+
+    RACenter.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    QString azDirection = RACenter.az().Degrees() < 30 ? "Right" : "Left";
+    QString atDirection = RACenter.alt().Degrees() < KStarsData::Instance()->geo()->lat()->Degrees() ? "Bottom" : "Top";
+    // FIXME should this be reversed for southern hemisphere?
+    appendLogText(i18n("Mount axis is to the %1 %2 of the celestial pole", atDirection, azDirection));
 
     PAHErrorLabel->setText(polarError.toDMSString());
 
