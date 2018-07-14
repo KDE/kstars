@@ -1129,10 +1129,15 @@ void Focus::setCaptureComplete()
                 }
                 else
                 {
+                   focusView->setTrackingBoxEnabled(false);
+
                     if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
                         focusView->findStars(ALGORITHM_CENTROID);
                     else
                         focusView->findStars(focusDetection);
+
+                   focusView->setTrackingBoxEnabled(true);
+
                     focusView->updateFrame();
                     currentHFR = image_data->getHFR(HFR_MAX);
                 }
