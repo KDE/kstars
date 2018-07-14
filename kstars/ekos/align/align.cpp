@@ -4848,7 +4848,7 @@ void Align::calculatePAHError()
 
     connect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
 
-    emit newCorrectionVector(correctionVector);
+    emit polarResultUpdated(correctionVector, polarError.toDMSString());
     emit newFrame(alignView);
 
     alignView->setCorrectionParams(correctionVector);

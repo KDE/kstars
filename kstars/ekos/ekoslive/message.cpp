@@ -514,7 +514,7 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[PAH_REFRESH])
     {
-        align->setPAHRefreshDuration(payload["value"].toDouble());
+        align->setPAHRefreshDuration(payload["value"].toDouble(1));
         align->startPAHRefreshProcess();
     }    
     else if (command == commands[PAH_SET_CROSSHAIR])
@@ -564,14 +564,15 @@ void Message::setPAHMessage(const QString &message)
     sendResponse(commands[NEW_POLAR_STATE], polarState);
 }
 
-void Message::setCorrectionVector(QLineF correctionVector)
+void Message::setPolarResults(QLineF correctionVector, QString polarError)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
         return;
 
     QJsonObject vector = {
         {"mag", correctionVector.length()},
-        {"pa", correctionVector.angle()}
+        {"pa", correctionVector.angle()},
+        {"error", polarError}
     };
 
     QJsonObject polarState = {
