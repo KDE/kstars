@@ -288,7 +288,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setBinningIndex(int)));
 
-    // PAH Connections    
+    // PAH Connections
     connect(this, &Align::PAHEnabled, [&](bool enabled) {
         PAHStartB->setEnabled(enabled);
         directionLabel->setEnabled(enabled);
@@ -2170,7 +2170,7 @@ void Align::calculateFOV()
     }
     else if (PAHWidgets->isEnabled())
     {
-        PAHWidgets->setEnabled(false);        
+        PAHWidgets->setEnabled(false);
         isPAHReady = false;
         emit PAHEnabled(false);
         PAHWidgets->setToolTip(i18n(
@@ -2694,7 +2694,7 @@ void Align::newFITS(IBLOB *bp)
 
 void Align::setCaptureComplete()
 {
-    DarkLibrary::Instance()->disconnect(this);    
+    DarkLibrary::Instance()->disconnect(this);
 
     if (pahStage == PAH_REFRESH)
     {
@@ -3199,7 +3199,7 @@ void Align::solverFailed()
     altStage = ALT_INIT;
 
     //loadSlewMode = false;
-    loadSlewState = IPS_IDLE;    
+    loadSlewState = IPS_IDLE;
     solverIterations = 0;
     retries          = 0;
 
@@ -3236,7 +3236,7 @@ void Align::abort()
     altStage = ALT_INIT;
 
     //loadSlewMode = false;
-    loadSlewState = IPS_IDLE;    
+    loadSlewState = IPS_IDLE;
     solverIterations = 0;
     retries          = 0;
     alignTimer.stop();
@@ -3370,7 +3370,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
             if (isSlewDirty && pahStage == PAH_FIND_CP)
             {
                 isSlewDirty = false;
-                appendLogText(i18n("Mount completed slewing near celestial pole. Capture again to verify."));                
+                appendLogText(i18n("Mount completed slewing near celestial pole. Capture again to verify."));
                 setSolverAction(GOTO_NOTHING);
                 pahStage = PAH_FIRST_CAPTURE;
                 emit newPAHStage(pahStage);
@@ -4735,6 +4735,10 @@ void Align::stopPAHProcess()
 
     emit newFrame(alignView);
     disconnect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
+    disconnect(alignView, SIGNAL(newCorrectionVector(QLineF)), this, SIGNAL(newCorrectionVector(QLineF)));
+
+    state = ALIGN_IDLE;
+    emit newStatus(state);
 }
 
 void Align::rotatePAH()
@@ -4834,7 +4838,7 @@ void Align::calculatePAHError()
         qCDebug(KSTARS_EKOS_ALIGN) << "RA Axis Location RA: " << RACenter.ra0().toHMSString()
                                    << "DE: " << RACenter.dec0().toDMSString();
         qCDebug(KSTARS_EKOS_ALIGN) << "RA Axis Offset: " << polarError.toDMSString() << "PA:" << PA;
-        qCDebug(KSTARS_EKOS_ALIGN) << "CP Axis Location X:" << celestialPolePoint.x() << "Y:" << celestialPolePoint.y();        
+        qCDebug(KSTARS_EKOS_ALIGN) << "CP Axis Location X:" << celestialPolePoint.x() << "Y:" << celestialPolePoint.y();
     }
 
     RACenter.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -4854,14 +4858,16 @@ void Align::calculatePAHError()
 
     if (RAAxisInside == false && CPPointInside == false)
         appendLogText(i18n("Warning: Mount axis and celestial pole are outside the field of view. Correction vector may be inaccurate."));
-    */    
+    */
 
     connect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
-
     emit polarResultUpdated(correctionVector, polarError.toDMSString());
-    emit newFrame(alignView);
 
+    connect(alignView, SIGNAL(newCorrectionVector(QLineF)), this, SIGNAL(newCorrectionVector(QLineF)), Qt::UniqueConnection);
+    emit newCorrectionVector(correctionVector);
     alignView->setCorrectionParams(correctionVector);
+
+    emit newFrame(alignView);
 }
 
 void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
@@ -4921,7 +4927,7 @@ void Align::startPAHRefreshProcess()
 }
 
 void Align::setPAHRefreshComplete()
-{    
+{
     abort();
 
     Options::setAstrometrySolverWCS(rememberSolverWCS);
@@ -5035,7 +5041,8 @@ void Align::setWCSToggled(bool result)
 {
     appendLogText(i18n("WCS data processing is complete."));
 
-    alignView->disconnect(this);
+    //alignView->disconnect(this);
+    disconnect(alignView, SIGNAL(wcsToggled(bool)), this, SLOT(setWCSToggled(bool)));
 
     if (pahStage == PAH_FIRST_CAPTURE)
     {
@@ -5364,7 +5371,7 @@ void Align::setMountStatus(ISD::Telescope::TelescopeStatus newState)
     default:
         if (state != ALIGN_PROGRESS)
         {
-            solveB->setEnabled(true);            
+            solveB->setEnabled(true);
             if (pahStage == PAH_IDLE)
             {
                 PAHStartB->setEnabled(true);
@@ -5555,6 +5562,8 @@ QString Align::getPAHMessage() const
 void Align::zoomAlignView()
 {
     alignView->ZoomDefault();
+
+    emit newFrame(alignView);
 }
 
 QJsonObject Align::getSettings() const

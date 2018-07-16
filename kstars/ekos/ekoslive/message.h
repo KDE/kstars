@@ -53,6 +53,8 @@ signals:
     void expired();
     void optionsChanged(QMap<int,bool> options);
 
+    void resetPolarView();
+
 public slots:
     void connectServer();
     void disconnectServer();
@@ -71,8 +73,9 @@ public slots:
     // Polar
     void setPAHStage(Ekos::Align::PAHStage stage);
     void setPAHMessage(const QString &message);
-    void setPolarResults(QLineF correctionVector, QString polarError);
-    void setPAHEnabled(bool enabled);
+    void setPolarResults(QLineF correctionVector, QString polarError);    
+    void setPAHEnabled(bool enabled);    
+    void setBoundingRect(QRect rect, QSize view);
 
     // Capture
     void sendCaptureSequence(const QJsonArray &sequenceArray);
@@ -129,6 +132,9 @@ private:
     bool m_sendBlobs { true};
 
     QMap<int,bool> m_Options;
+    QLineF correctionVector;
+    QRect boundingRect;
+    QSize viewSize;
 
     // Retry every 5 seconds in case remote server is down
     static const uint16_t RECONNECT_INTERVAL = 5000;

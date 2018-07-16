@@ -45,4 +45,7 @@ class AlignView : public FITSView
     QLineF correctionLine;
     QPointF correctionOffset, celestialPolePoint;
     QVector3D RACircle;
+
+signals:
+    void newCorrectionVector(QLineF correctionVector);
 };

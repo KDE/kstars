@@ -46,6 +46,8 @@ signals:
     void connected();
     void disconnected();
 
+    void newBoundingRect(QRect rect, QSize view);
+
 public slots:
     void connectServer();
     void disconnectServer();
@@ -55,6 +57,12 @@ public slots:
 
     // Options
     void setOptions(QMap<int,bool> options) {m_Options = options;}
+
+    // Correction Vector
+    void setCorrectionVector(QLineF correctionVector) { this->correctionVector = correctionVector;}
+
+    // Polar View
+    void resetPolarView();
 
 private slots:
 
@@ -78,6 +86,7 @@ private:
 
     QString extension;
     QStringList temporaryFiles;
+    QLineF correctionVector;
 
     bool m_isConnected { false };
     bool m_sendBlobs { true};
