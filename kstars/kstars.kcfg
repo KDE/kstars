@@ -1587,6 +1587,10 @@
          <label>Maximum acceptable difference between requested and measured temperature set point.</label>
          <default>0.1</default>
       </entry>
+      <entry name="GuidingSettle" type="Double">
+         <label>Wait this many seconds after guiding is resumed before starting capture.</label>
+         <default>0</default>
+      </entry>
       <entry name="RememberJobProgress" type="Bool">
          <label>When starting a new capture job, check if files were previously captured and resume capture afterwards.</label>
          <default>true</default>

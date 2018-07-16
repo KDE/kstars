@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>421</width>
-    <height>304</height>
+    <height>330</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -314,8 +314,8 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
           <widget class="QLabel" name="label">
            <property name="toolTip">
             <string>Maximum acceptable difference between requested and measured temperature set point. When the temperature threshold is below this value, the temperature set point request is deemed successful.</string>
@@ -325,7 +325,7 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="1">
           <widget class="QDoubleSpinBox" name="kcfg_MaxTemperatureDiff">
            <property name="minimum">
             <double>0.100000000000000</double>
@@ -341,25 +341,46 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="2">
           <widget class="QLabel" name="label_3">
            <property name="text">
             <string>° C</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="3" rowspan="2">
           <spacer name="horizontalSpacer_4">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
-             <height>20</height>
+             <width>163</width>
+             <height>13</height>
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_13">
+           <property name="text">
+            <string>Guiding Settle:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDoubleSpinBox" name="kcfg_GuidingSettle">
+           <property name="toolTip">
+            <string>Wait this many seconds after guiding is resumed before starting capture</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>Seconds</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
