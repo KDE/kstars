@@ -179,8 +179,26 @@ void Media::sendUpdatedFrame(FITSView *view)
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
-    //QPixmap scaledPixmap = view->getDisplayPixmap().scaledToWidth(640);
-    view->getDisplayPixmap().save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_PAH_IMAGE_QUALITY : HB_PAH_IMAGE_QUALITY/2);
+    QPixmap displayPixmap = view->getDisplayPixmap();
+    if (correctionVector.isNull() == false)
+    {
+        QPointF center = correctionVector.center();
+        double length = correctionVector.length();
+        QRect boundingRectable;
+        boundingRectable.setSize(QSize(static_cast<int>(length*2), static_cast<int>(length*2)));
+
+        QPoint topLeft = (center - QPointF(length, length)).toPoint();
+        boundingRectable.moveTo(topLeft);
+
+        boundingRectable = boundingRectable.intersected(displayPixmap.rect());
+
+        emit newBoundingRect(boundingRectable, displayPixmap.size());
+
+        displayPixmap = displayPixmap.copy(boundingRectable);
+    }
+    else
+        emit newBoundingRect(QRect(), QSize());
+    displayPixmap.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_PAH_IMAGE_QUALITY : HB_PAH_IMAGE_QUALITY/2);
     buffer.close();
 
     m_WebSocket.sendBinaryMessage(jpegData);
@@ -215,6 +233,13 @@ void Media::registerCameras()
         ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(gd);
         connect(oneCCD, &ISD::CCD::newVideoFrame, this, &Media::sendVideoFrame, Qt::UniqueConnection);
     }
+}
+
+void Media::resetPolarView()
+{
+    this->correctionVector = QLineF();
+
+    m_Manager->alignModule()->zoomAlignView();
 }
 
 }

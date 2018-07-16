@@ -516,10 +516,30 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     {
         align->setPAHRefreshDuration(payload["value"].toDouble(1));
         align->startPAHRefreshProcess();
-    }    
+    }
+    else if (command == commands[PAH_RESET_VIEW])
+    {
+        emit resetPolarView();
+    }
     else if (command == commands[PAH_SET_CROSSHAIR])
     {
-        align->setPAHCorrectionOffsetPercentage(payload["x"].toDouble(), payload["y"].toDouble());
+        double x = payload["x"].toDouble();
+        double y = payload["y"].toDouble();
+
+        if (boundingRect.isNull() == false)
+        {
+            // #1 Find actual dimension inside the bounding rectangle
+            // since if we have bounding rectable then x,y fractions are INSIDE it
+            double boundX = x * boundingRect.width();
+            double boundY = y * boundingRect.height();
+
+            // #2 Find fraction of the dimensions above the the full image size
+            // Add to it the bounding rect top left offsets
+            x = (boundX+boundingRect.x()) / viewSize.width();
+            y = (boundY+boundingRect.y()) / viewSize.height();
+        }
+
+        align->setPAHCorrectionOffsetPercentage(x,y);
     }
     else if (command == commands[PAH_SELECT_STAR_DONE])
     {
@@ -543,10 +563,9 @@ void Message::setPAHStage(Ekos::Align::PAHStage stage)
         {"stage", align->getPAHStage()}
     };
 
-    // Increase size so that when we send STAR_SELECT image, it is sizable enough
-    // for Ekos Live Messages. By default it would be pretty small and usually the user controls it by
-    // zooming in and out but for EkosLive, we zoom in at this stage.
-    if (stage == Ekos::Align::PAH_THIRD_CAPTURE)
+
+    // Increase size when select star
+    if (stage == Ekos::Align::PAH_STAR_SELECT)
         align->zoomAlignView();
 
     sendResponse(commands[NEW_POLAR_STATE], polarState);
@@ -569,6 +588,8 @@ void Message::setPolarResults(QLineF correctionVector, QString polarError)
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
         return;
 
+    this->correctionVector = correctionVector;
+
     QJsonObject vector = {
         {"center_x", correctionVector.center().x()},
         {"center_y", correctionVector.center().y()},
@@ -583,7 +604,6 @@ void Message::setPolarResults(QLineF correctionVector, QString polarError)
 
     sendResponse(commands[NEW_POLAR_STATE], polarState);
 }
-
 
 void Message::setPAHEnabled(bool enabled)
 {
@@ -767,4 +787,9 @@ void Message::sendEvent(const QString &message, KSNotification::EventType event)
     sendResponse(commands[NEW_NOTIFICATION], newEvent);
 }
 
+void Message::setBoundingRect(QRect rect, QSize view)
+{
+    boundingRect = rect;
+    viewSize = view;
+}
 }

@@ -96,13 +96,17 @@ void AlignView::setCorrectionOffset(QPointF &newOffset)
         QLineF offsetLine = correctionLine;
         offsetLine.translate(offset);
         markerCrosshair = offsetLine.p2();
+
+        emit newCorrectionVector(offsetLine);
     }
     // Clear points
     else
     {
         correctionOffset = newOffset;
         markerCrosshair  = newOffset;
-    }
+
+        emit newCorrectionVector(correctionLine);
+    }    
 
     updateFrame();
 }
