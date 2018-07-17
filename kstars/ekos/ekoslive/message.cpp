@@ -576,8 +576,10 @@ void Message::setPAHMessage(const QString &message)
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != EkosManager::EKOS_STATUS_SUCCESS)
         return;
 
+    QTextDocument doc;
+    doc.setHtml(message);
     QJsonObject polarState = {
-        {"message", message}
+        {"message", doc.toPlainText()}
     };
 
     sendResponse(commands[NEW_POLAR_STATE], polarState);
@@ -766,10 +768,12 @@ void Message::sendStates()
         sendResponse(commands[ALIGN_SET_SETTINGS], m_Manager->alignModule()->getSettings());
 
         // Polar State
+        QTextDocument doc;
+        doc.setHtml(m_Manager->alignModule()->getPAHMessage());
         QJsonObject polarState = {
             {"stage", m_Manager->alignModule()->getPAHStage()},
             {"enabled", m_Manager->alignModule()->isPAHEnabled()},
-            {"message", m_Manager->alignModule()->getPAHMessage()},
+            {"message", doc.toPlainText()},
         };
         sendResponse(commands[NEW_POLAR_STATE], polarState);
 
