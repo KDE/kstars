@@ -2096,7 +2096,16 @@ void Align::syncCCDInfo()
         for (int i = 0; i < binx; i++)
             binningCombo->addItem(QString("%1x%2").arg(i + 1).arg(i + 1));
 
-        binningCombo->setCurrentIndex(Options::solverBinningIndex());
+        // By default, set to maximum binning since the solver behaves better this way
+        // solverBinningIndex is set by default to 4, but as soon as the user changes the binning, it changes
+        // to whatever value the user selected.
+        if (Options::solverBinningIndex() == 4 && binningCombo->count() <= 4)
+        {
+            binningCombo->setCurrentIndex(binningCombo->count()-1);
+            Options::setSolverBinningIndex(binningCombo->count()-1);
+        }
+        else
+            binningCombo->setCurrentIndex(Options::solverBinningIndex());
 
         binningCombo->blockSignals(false);
     }
@@ -2116,6 +2125,20 @@ void Align::getFOVScale(double &fov_w, double &fov_h, double &fov_scale)
     fov_w     = fov_x;
     fov_h     = fov_y;
     fov_scale = fov_pixscale;
+}
+
+void Align::getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scale)
+{
+    // FOV in arcsecs
+    fov_w = 206264.8062470963552 * ccd_width * ccd_hor_pixel / 1000.0 / focal_length;
+    fov_h = 206264.8062470963552 * ccd_height * ccd_ver_pixel / 1000.0 / focal_length;
+
+    // Pix Scale
+    fov_scale = (fov_w * (Options::solverBinningIndex() + 1)) / ccd_width;
+
+    // FOV in arcmins
+    fov_w /= 60.0;
+    fov_h /= 60.0;
 }
 
 void Align::calculateFOV()

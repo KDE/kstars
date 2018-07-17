@@ -1733,8 +1733,8 @@
       </entry>
       <entry name="SolverBinningIndex" type="UInt">
          <label>Default CCD binning index while in alignment mode</label>
-         <whatsthis>Set binning index of CCD camera while in alignment mode. Default values 0-3 corresponding to 1x1 to 4x4 binning</whatsthis>
-         <default>0</default>
+         <whatsthis>Set binning index of CCD camera while in alignment mode. Default values 0-3 corresponding to 1x1 to 4x4 binning. 4 is max binning.</whatsthis>
+         <default>4</default>
       </entry>
       <entry name="AstrometrySolverVerbose" type="Bool">
          <whatsthis>Display detailed verbose messages of the astrometry solver process while in progress.</whatsthis>

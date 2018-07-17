@@ -67,7 +67,7 @@ void OpsAstrometry::slotUpdateScale()
     double fov_w, fov_h, fov_pixscale;
 
     // Values in arcmins. Scale in arcsec per pixel
-    alignModule->getFOVScale(fov_w, fov_h, fov_pixscale);
+    alignModule->getCalculatedFOVScale(fov_w, fov_h, fov_pixscale);
 
     if (fov_w == 0 || fov_h == 0)
     {
