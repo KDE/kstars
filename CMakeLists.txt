@@ -107,7 +107,7 @@ if(BUILD_KSTARS_LITE)
         find_package(KF5 COMPONENTS NotifyConfig)
         MACRO_BOOL_TO_01(KF5NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
 
-        find_package(KF5 REQUIRED COMPONENTS Auth Config Crash DocTools WidgetsAddons NewStuff I18n KIO XmlGui Plotting Notifications)
+        find_package(KF5 REQUIRED COMPONENTS Auth Config Crash WidgetsAddons NewStuff I18n KIO XmlGui Plotting Notifications)
     endif()
 else(BUILD_KSTARS_LITE)
     # Find Optional package NotifyConfig for desktop notifications
@@ -139,9 +139,15 @@ if(ANDROID)
     if("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
         set(extra_cmake "-DM_LIB=-lm")
     endif()
+
+    find_program(DOS2UNIX dos2unix)
+    if (NOT DOS2UNIX)
+        message(FATAL_ERROR "Could not find dos2unix")
+    endif()
+
     externalproject_add(cfitsio SOURCE_DIR "${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio"
         URL https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio3370.tar.gz
-        PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio && dos2unix ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio/CMakeLists.txt && patch -p1 < ${CMAKE_SOURCE_DIR}/android/3rdparty/cfitsio.patch"
+        PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio && ${DOS2UNIX} ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio/CMakeLists.txt && patch -p1 < ${CMAKE_SOURCE_DIR}/android/3rdparty/cfitsio.patch"
         CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} ${extra_cmake}
         BUILD_COMMAND make cfitsio
         BUILD_IN_SOURCE 1

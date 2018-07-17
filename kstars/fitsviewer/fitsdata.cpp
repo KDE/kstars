@@ -1246,7 +1246,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     double FSum = 0, HF = 0, TF = 0;
     const double resolution = 1.0 / 20.0;
 
-    int cen_y = std::round(center->y);
+    int cen_y = qRound(center->y);
 
     double rightEdge = center->x + center->width / 2.0;
     double leftEdge  = center->x - center->width / 2.0;
@@ -1452,7 +1452,7 @@ int FITSData::findOneStar(const QRect &boundary)
     double FSum = 0, HF = 0, TF = 0, min = stats.min[0];
     const double resolution = 1.0 / 20.0;
 
-    int cen_y = std::round(center->y);
+    int cen_y = qRound(center->y);
 
     double rightEdge = center->x + center->width / 2.0;
     double leftEdge  = center->x - center->width / 2.0;

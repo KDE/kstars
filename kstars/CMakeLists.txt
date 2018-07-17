@@ -1120,7 +1120,7 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
 
 qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
 
-if ("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
+if (ANDROID)
     add_library(kstars SHARED ${KSTARS_APP_SRCS})
     target_compile_options(kstars PRIVATE ${KSTARSLITE_CPP_OPTIONS} -DUSE_QT5_INDI -DKSTARS_LITE)
     add_dependencies(KStarsLiteLib cfitsio indi raw)

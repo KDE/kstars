@@ -107,8 +107,8 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
     // Set the About information
     QObject *aboutDialog = m_RootObject->findChild<QObject*>("aboutDialog");
 
-    aboutDialog->setProperty("versionText", i18n("Version: %1", KSTARS_VERSION));
-    aboutDialog->setProperty("buildText", i18n("Build: %1", KSTARS_BUILD_TS));
+    aboutDialog->setProperty("versionText", i18n("Version: %1", QStringLiteral(KSTARS_VERSION)));
+    aboutDialog->setProperty("buildText", i18n("Build: %1", QStringLiteral(KSTARS_BUILD_TS)));
     aboutDialog->setProperty("teamText", QString("2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team")));
     aboutDialog->setProperty("licenseText", i18n("License: GPLv2"));
 
