@@ -50,7 +50,7 @@ index c977302..2112ba8 100644
  
   */
  
-+#if ANDROID
++#ifdef __ANDROID__
 +#include <swab.h>
 +#endif
 +
@@ -65,7 +65,7 @@ index 608641a..0f991e4 100644
  */
  
  
-+#ifdef ANDROID
++#ifdef __ANDROID__
 +
 +#include <sys/types.h>
 +#include <stdint.h>
