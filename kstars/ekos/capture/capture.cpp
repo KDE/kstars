@@ -1028,7 +1028,7 @@ void Capture::checkFilter(int filterNum)
     if (filterNum <= Filters.count())
         currentFilter = Filters.at(filterNum-1);
 
-    filterManager->setCurrentFilter(currentFilter);
+    filterManager->setCurrentFilterWheel(currentFilter);
 
     syncFilterInfo();
 
