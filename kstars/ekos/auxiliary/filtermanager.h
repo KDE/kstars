@@ -79,7 +79,17 @@ public:
      */
     QString getFilterLock(const QString &name) const;
 
-    void setCurrentFilter(ISD::GDInterface *filter);    
+    /**
+     * @brief setCurrentFilterWheel Set the FilterManager active filter wheel.
+     * @param filter pointer to filter wheel device
+     */
+    void setCurrentFilterWheel(ISD::GDInterface *filter);
+
+    /**
+     * @brief setFocusReady Set whether a focuser device is active and in use.
+     * @param enabled true if focus is ready, false otherwise.
+     */
+    void setFocusReady(bool enabled) { m_FocusReady = enabled;}
 
 
     /**
@@ -169,6 +179,7 @@ private:
     int targetFilterOffset { - 1 };
 
 
+    bool m_FocusReady { false };
     bool m_FocusAbsPositionPending { false};
     int m_FocusAbsPosition { -1 };
 

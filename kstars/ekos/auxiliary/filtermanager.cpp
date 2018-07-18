@@ -189,7 +189,7 @@ void FilterManager::reloadFilters()
     }
 }
 
-void FilterManager::setCurrentFilter(ISD::GDInterface *filter)
+void FilterManager::setCurrentFilterWheel(ISD::GDInterface *filter)
 {
     if (m_currentFilterDevice == filter)
         return;
@@ -413,11 +413,11 @@ void FilterManager::buildOperationQueue(FilterState operation)
         if (m_useTargetFilter)
         {            
             operationQueue.enqueue(FILTER_CHANGE);
-            if (m_Policy & OFFSET_POLICY)
+            if (m_FocusReady && (m_Policy & OFFSET_POLICY))
                 operationQueue.enqueue(FILTER_OFFSET);
         }
 
-        if ( (m_Policy & AUTOFOCUS_POLICY) && targetFilter->useAutoFocus())
+        if (m_FocusReady && (m_Policy & AUTOFOCUS_POLICY) && targetFilter->useAutoFocus())
             operationQueue.enqueue(FILTER_AUTOFOCUS);
     }
         break;
