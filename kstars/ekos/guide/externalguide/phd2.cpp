@@ -693,12 +693,24 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
    QString filename = KSPaths::writableLocation(QStandardPaths::TempLocation) + QLatin1Literal("phd2.fits");
 
    //This section sets up the FITS File
-   fitsfile *fptr;
+   fitsfile *fptr = nullptr;
    int status=0;
    long  fpixel = 1, naxis = 2, nelements, exposure;
    long naxes[2] = { width, height };
-   fits_create_file(&fptr, QString('!' + filename).toLatin1().data(), &status);
-   fits_create_img(fptr, USHORT_IMG, naxis, naxes, &status);
+   char error_status[512] = {0};
+
+   if (fits_create_file(&fptr, QString('!' + filename).toLatin1().data(), &status))
+   {
+       qCWarning(KSTARS_EKOS_GUIDE) << "fits_create_file failed:" << error_status;
+       return;
+   }
+
+   if (fits_create_img(fptr, USHORT_IMG, naxis, naxes, &status))
+   {
+       qCWarning(KSTARS_EKOS_GUIDE) << "fits_create_img failed:" << error_status;
+       return;
+   }
+
     //Note, this is made up.  If you want the actual exposure time, you have to request it from PHD2
    exposure = 1;
    fits_update_key(fptr, TLONG, "EXPOSURE", &exposure,"Total Exposure Time", &status);
@@ -710,9 +722,26 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
 
    //This finishes up and closes the FITS file
    nelements = naxes[0] * naxes[1];
-   fits_write_img(fptr, TUSHORT, fpixel, nelements, converted.data(), &status);
-   fits_close_file(fptr, &status);
-   fits_report_error(stderr, status);
+   if (fits_write_img(fptr, TUSHORT, fpixel, nelements, converted.data(), &status))
+   {
+       fits_get_errstatus(status, error_status);
+       qCWarning(KSTARS_EKOS_GUIDE) << "fits_write_img failed:" << error_status;
+       return;
+   }
+
+   if (fits_flush_file(fptr, &status))
+   {
+       fits_get_errstatus(status, error_status);
+       qCWarning(KSTARS_EKOS_GUIDE) << "fits_flush_file failed:" << error_status;
+       return;
+   }
+
+   if (fits_close_file(fptr, &status))
+   {
+       fits_get_errstatus(status, error_status);
+       qCWarning(KSTARS_EKOS_GUIDE) << "fits_close_file failed:" << error_status;
+       return;
+   }
 
    //This loads the FITS file in the Guide FITSView
    //Then it updates the Summary Screen
@@ -723,7 +752,6 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
        guideFrame->setTrackingBox(QRect(0,0,width,height));
        emit newStarPixmap(guideFrame->getTrackingBoxPixmap());
    }
-
 }
 
 void PHD2::setEquipmentConnected()
