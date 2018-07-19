@@ -2221,6 +2221,9 @@ bool Guide::setGuiderType(int type)
             else
                 guiderCombo->setEnabled(false);
 
+            if (Options::resetGuideCalibration())
+                appendLogText(i18n("Warning: Reset Guiding Calibration is enabled. It is recommended to turn this option off for PHD2."));
+
             updateGuideParams();
             break;
 
