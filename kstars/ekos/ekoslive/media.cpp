@@ -184,6 +184,8 @@ void Media::sendUpdatedFrame(FITSView *view)
     {
         QPointF center = correctionVector.center();
         double length = correctionVector.length();
+        if (length < 100)
+            length = 100;
         QRect boundingRectable;
         boundingRectable.setSize(QSize(static_cast<int>(length*2), static_cast<int>(length*2)));
 
