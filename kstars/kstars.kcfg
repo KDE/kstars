@@ -2142,6 +2142,10 @@
          <label>Always Reset guiding calibration before starting each job.</label>
          <default>true</default>
       </entry>
+      <entry name="RealignAfterCalibrationFailure" type="Bool">
+         <label>If guiding calibration fails, run alignment process again before proceeding to recalibration.</label>
+         <default>false</default>
+      </entry>
       <entry name="PreemptiveShutdownTime" type="Double">
          <label>Maximum number of hours before the next job is due to trigger a pre-emptive shutdown.</label>
          <default>2</default>
