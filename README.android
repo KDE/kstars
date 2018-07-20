@@ -44,6 +44,17 @@ cmake -B. -H$KSTARS_ROOT -DBUILD_KSTARS_LITE=ON -DCMAKE_TOOLCHAIN_FILE=$CMAKE_AN
 
 make -j4
 
+- Download and convert the translations:
+
+make convert_translations_to_android
+
+If the above command dies with the error message:
+
+releaseme/lib/releaseme/l10n.rb:195:in `verify_pot': l10n pot appears to be a variable. cannot resolve $potfile.pot (RuntimeError)
+
+...then comment out this line in the Ruby script and the execution will be fine next time.
+
+
 - Install:
 
 make -j4 install
@@ -54,15 +65,23 @@ make -j4 install
   Basically, download https://dl.google.com/android/repository/tools_r25.2.5-linux.zip and replace the ANDROID_SDK_DIR/tools directory or
   just use the Android SDK download tool to use this version.
 
-- Generate the Android debug and release packages:
+- Generate the Android debug package:
 
-make create-apk-kstars
+make create-apk-debug-kstars
+
+- Install the Android debug package to your phone:
+
+make install-apk-debug-kstars
+
+- Generate the Android release package:
+
+make create-apk-release-kstars
 
 - To sign a release package:
 
 make sign-apk-kstars
 
 - The debug package location: android/kstars_build_apk/bin/QtApp-debug.apk
-  Install: adb install android/kstars_build_apk/bin/QtApp-debug.apk
+  Manual installation: adb install android/kstars_build_apk/bin/QtApp-debug.apk
 - The release package location: android/kstars_build_apk/bin/kstars-release-signed.apk
-  Install: adb install android/kstars_build_apk/bin/kstars-signed.apk
+  Manual installation: adb install android/kstars_build_apk/bin/kstars-signed.apk

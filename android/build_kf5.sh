@@ -48,9 +48,8 @@ sed -i -- 's/target_link_libraries(ktranscript PRIVATE Qt5::Script Qt5::Core)/ta
 ./kdesrc-build libintl-lite extra-cmake-modules frameworks-android
 
 # Fix some config files
-sed -i '/find_package(PythonInterp/ s/^/#/' kde/install/lib/cmake/KF5I18n/KF5I18NMacros.cmake
+sed -i '/find_package(PythonInterp/ s/^/#/' kde/install/lib/cmake/KF5I18n/KF5I18nMacros.cmake
 sed -i '/find_dependency(Qt5Xml/ s/^/#/' kde/install/lib/cmake/KF5Config/KF5ConfigConfig.cmake
-#sed -i '/cxx_decltype/ s/^/#/' ${QT_ANDROID}/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake
 
 cp /usr/lib/x86_64-linux-gnu/libexec/kf5/kconfig_compiler_kf5 $CURDIR/kf5/kde/install/lib/libexec/kf5/kconfig_compiler_kf5
 
