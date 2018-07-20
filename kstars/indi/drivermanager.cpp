@@ -125,6 +125,8 @@ DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
 
     updateCustomDrivers();
 
+    m_DriverAlias = new DriverAlias(this, driversList);
+
 #ifdef Q_OS_WIN
     ui->localTreeWidget->setEnabled(false);
 #endif
@@ -1064,22 +1066,22 @@ bool DriverManager::buildDeviceGroup(XMLEle *root, char errmsg[])
         groupType = KSTARS_TELESCOPE;
     else if (groupName.indexOf("CCDs") != -1)
         groupType = KSTARS_CCD;
-    else if (groupName.indexOf("Filter") != -1)
-        groupType = KSTARS_FILTER;
-    else if (groupName.indexOf("Video") != -1)
-        groupType = KSTARS_VIDEO;
+    else if (groupName.indexOf("Filter Wheels") != -1)
+        groupType = KSTARS_FILTER;    
     else if (groupName.indexOf("Focusers") != -1)
         groupType = KSTARS_FOCUSER;
     else if (groupName.indexOf("Adaptive Optics") != -1)
         groupType = KSTARS_ADAPTIVE_OPTICS;
     else if (groupName.indexOf("Domes") != -1)
         groupType = KSTARS_DOME;
-    else if (groupName.indexOf("Receivers") != -1)
-        groupType = KSTARS_RECEIVERS;
-    else if (groupName.indexOf("GPS") != -1)
-        groupType = KSTARS_GPS;
+    else if (groupName.indexOf("Detectors") != -1)
+        groupType = KSTARS_DETECTORS;
     else if (groupName.indexOf("Auxiliary") != -1)
         groupType = KSTARS_AUXILIARY;
+    else if (groupName.indexOf("Agent") != -1)
+        groupType = KSTARS_AGENT;
+    else if (groupName.indexOf("Rotators") != -1)
+        groupType = KSTARS_ROTATOR;
     else if (groupName.indexOf("Weather") != -1)
         groupType = KSTARS_WEATHER;
     else

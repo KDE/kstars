@@ -313,6 +313,20 @@ bool KSUserDB::Initialize()
                            "FovH REAL DEFAULT 0.0)"))
                     qCWarning(KSTARS) << query.lastError();
             }
+
+            if (userdb_.tables().contains("driveralias") == false)
+            {
+                QSqlQuery query(userdb_);
+
+                if (!query.exec("CREATE TABLE driveralias ( "
+                           "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                           "Name TEXT DEFAULT NULL, "
+                           "Label TEXT DEFAULT NULL, "
+                           "Family TEXT DEFAULT NULL, "
+                           "Exec TEXT DEFAULT NULL, "
+                           "Version TEXT DEFAULT 1.0)"))
+                    qCWarning(KSTARS) << query.lastError();
+            }
         }
     }
     userdb_.close();
@@ -508,6 +522,14 @@ bool KSUserDB::RebuildDB()
                "FocalLength REAL DEFAULT 0.0,"
                "FovW REAL DEFAULT 0.0,"
                "FovH REAL DEFAULT 0.0)");
+
+    tables.append("CREATE TABLE driveralias ( "
+               "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+               "Name TEXT DEFAULT NULL, "
+               "Label TEXT DEFAULT NULL, "
+               "Family TEXT DEFAULT NULL, "
+               "Exec TEXT DEFAULT NULL, "
+               "Version TEXT DEFAULT 1.0)");
 
     for (int i = 0; i < tables.count(); ++i)
     {
@@ -747,6 +769,68 @@ void KSUserDB::GetAllEffectiveFOVs(QList<QVariantMap> &effectiveFOVs)
     userdb_.close();
 }
 
+/* Driver Alias Section */
+
+void KSUserDB::AddDriverAlias(const QVariantMap &oneAlias)
+{
+    userdb_.open();
+    QSqlTableModel DriverAlias(nullptr, userdb_);
+    DriverAlias.setTable("driveralias");
+    DriverAlias.select();
+
+    QSqlRecord record = DriverAlias.record();
+
+    // Remove PK so that it gets auto-incremented later
+    record.remove(0);
+
+    for (QVariantMap::const_iterator iter = oneAlias.begin(); iter != oneAlias.end(); ++iter)
+        record.setValue(iter.key(), iter.value());
+
+    DriverAlias.insertRecord(-1, record);
+
+    DriverAlias.submitAll();
+
+    userdb_.close();
+}
+
+bool KSUserDB::DeleteDriverAlias(const QString &id)
+{
+    userdb_.open();
+    QSqlTableModel DriverAlias(nullptr, userdb_);
+    DriverAlias.setTable("driveralias");
+    DriverAlias.setFilter("id = \'" + id + "\'");
+
+    DriverAlias.select();
+
+    DriverAlias.removeRows(0, 1);
+    DriverAlias.submitAll();
+
+    userdb_.close();
+
+    return true;
+}
+
+void KSUserDB::GetAllDriverAliass(QList<QVariantMap> &driverAliases)
+{
+    driverAliases.clear();
+
+    userdb_.open();
+    QSqlTableModel DriverAlias(nullptr, userdb_);
+    DriverAlias.setTable("driveralias");
+    DriverAlias.select();
+
+    for (int i = 0; i < DriverAlias.rowCount(); ++i)
+    {
+        QVariantMap recordMap;
+        QSqlRecord record = DriverAlias.record(i);
+        for (int j = 0; j < record.count(); j++)
+            recordMap[record.fieldName(j)] = record.value(j);
+
+        driverAliases.append(recordMap);
+    }
+
+    userdb_.close();
+}
 
 /* HiPS Section */
 

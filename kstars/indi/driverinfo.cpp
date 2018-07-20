@@ -72,7 +72,7 @@ void DriverInfo::reset()
     clientManager = nullptr;
 }
 
-QString DriverInfo::getServerBuffer()
+QString DriverInfo::getServerBuffer() const
 {
     if (serverManager != nullptr)
         return serverManager->getLogBuffer();
@@ -129,7 +129,7 @@ void DriverInfo::removeDevice(DeviceInfo *idv)
     delete (idv);
 }
 
-DeviceInfo *DriverInfo::getDevice(const QString &deviceName)
+DeviceInfo *DriverInfo::getDevice(const QString &deviceName) const
 {
     foreach (DeviceInfo *idv, devices)
     {

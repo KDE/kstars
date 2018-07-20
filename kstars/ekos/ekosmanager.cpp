@@ -1600,7 +1600,7 @@ void EkosManager::processNewProperty(INDI::Property *prop)
 
     if (!strcmp(prop->getName(), "GPS_REFRESH"))
     {
-        managedDevices[KSTARS_GPS] = deviceInterface;
+        managedDevices.insertMulti(KSTARS_AUXILIARY, deviceInterface);
         if (mountProcess.get() != nullptr)
             mountProcess->setGPS(deviceInterface);
     }
@@ -2043,8 +2043,11 @@ void EkosManager::initMount()
     }
     );
 
-    if (managedDevices.contains(KSTARS_GPS))
-        mountProcess->setGPS(managedDevices[KSTARS_GPS]);
+    foreach (ISD::GDInterface *device, findDevices(KSTARS_AUXILIARY))
+    {
+        if (device->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE)
+            mountProcess->setGPS(device);
+    }
 
     if (Options::ekosLeftIcons())
     {

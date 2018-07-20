@@ -91,6 +91,15 @@ class KSUserDB
     bool DeleteEffectiveFOV(const QString &id);
     void GetAllEffectiveFOVs(QList<QVariantMap> &effectiveFOVs);
 
+
+    /************************************************************************
+     ******************************* Driver Alias *************************
+     ************************************************************************/
+
+    void AddDriverAlias(const QVariantMap &oneAlias);
+    bool DeleteDriverAlias(const QString &id);
+    void GetAllDriverAliass(QList<QVariantMap> &driverAliases);
+
     /************************************************************************
      *********************************** HiPS *******************************
      ************************************************************************/
