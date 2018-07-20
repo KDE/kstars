@@ -125,7 +125,12 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     {
         fits_close_file(fptr, &status);
 
-        if (m_isTemporary && autoRemoveTemporaryFITS)
+        // If current file is temporary AND
+        // Auto Remove Temporary File is Set AND
+        // New filename is different from existing filename
+        // THen remove it. We have to check for name since we cannot delete
+        // the same filename and try to open it below!
+        if (m_isTemporary && autoRemoveTemporaryFITS && inFilename != filename)
             QFile::remove(filename);
     }
 
