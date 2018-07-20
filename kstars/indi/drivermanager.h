@@ -11,12 +11,14 @@
 #pragma once
 
 #include "indicommon.h"
+#include "driveralias.h"
 #include "ui_drivermanager.h"
 
 #include <QDialog>
 #include <QFrame>
 #include <QIcon>
 #include <QString>
+#include <QPointer>
 
 #include <lilxml.h>
 
@@ -141,6 +143,7 @@ class DriverManager : public QDialog
     QList<ServerManager *> servers;
     QList<ClientManager *> clients;
     QStringList driversStringList;
+    QPointer<DriverAlias> m_DriverAlias;
 
   public slots:
     //void enableDevice(INDI_D *device);
@@ -166,6 +169,8 @@ class DriverManager : public QDialog
     void processServerTermination(ServerManager *server);
 
     void processDeviceStatus(DriverInfo *dv);
+
+    void showDriverAlias() { m_DriverAlias->show(); }
 
   signals:
     void clientTerminated(ClientManager *);

@@ -57,48 +57,48 @@ class DriverInfo : public QObject
 
     void reset();
     void resetDevices() { devices.clear(); }
-    QString getServerBuffer();
+    QString getServerBuffer() const;
 
-    bool isEmpty() { return devices.isEmpty(); }
+    bool isEmpty() const { return devices.isEmpty(); }
 
-    const QString &getName() { return name; }
+    const QString &getName() const { return name; }
     void setName(const QString &newName) { name = newName; }
 
     void setTreeLabel(const QString &inTreeLabel) { treeLabel = inTreeLabel; }
-    const QString &getTreeLabel() { return treeLabel; }
+    const QString &getTreeLabel() const { return treeLabel; }
 
     void setUniqueLabel(const QString &inUniqueLabel);
-    const QString &getUniqueLabel() { return uniqueLabel; }
+    const QString &getUniqueLabel() const { return uniqueLabel; }
 
     void setDriver(const QString &newDriver) { driver = newDriver; }
-    const QString &getDriver() { return driver; }
+    const QString &getDriver() const { return driver; }
 
     void setVersion(const QString &newVersion) { version = newVersion; }
-    const QString &getVersion() { return version; }
+    const QString &getVersion() const { return version; }
 
     void setType(DeviceFamily newType) { type = newType; }
-    DeviceFamily getType() { return type; }
+    DeviceFamily getType() const { return type; }
 
     void setDriverSource(DriverSource newDriverSource) { driverSource = newDriverSource; }
-    DriverSource getDriverSource() { return driverSource; }
+    DriverSource getDriverSource() const { return driverSource; }
 
     void setServerManager(ServerManager *newServerManager) { serverManager = newServerManager; }
-    ServerManager *getServerManager() { return serverManager; }
+    ServerManager *getServerManager() const { return serverManager; }
 
     void setClientManager(ClientManager *newClientManager) { clientManager = newClientManager; }
-    ClientManager *getClientManager() { return clientManager; }
+    ClientManager *getClientManager() const { return clientManager; }
 
     void setUserPort(const QString &inUserPort);
-    const QString &getUserPort() { return userPort; }
+    const QString &getUserPort() const { return userPort; }
 
     void setSkeletonFile(const QString &inSkeleton) { skelFile = inSkeleton; }
-    const QString &getSkeletonFile() { return skelFile; }
+    const QString &getSkeletonFile() const { return skelFile; }
 
     void setServerState(bool inState);
-    bool getServerState() { return serverState; }
+    bool getServerState() const { return serverState; }
 
     void setClientState(bool inState);
-    bool getClientState() { return clientState; }
+    bool getClientState() const { return clientState; }
 
     void setHostParameters(const QString &inHost, const QString &inPort)
     {
@@ -107,16 +107,16 @@ class DriverInfo : public QObject
     }
     void setPort(const QString &inPort) { port = inPort; }
     void setHost(const QString &inHost) { hostname = inHost; }
-    const QString &getHost() { return hostname; }
-    const QString &getPort() { return port; }
+    const QString &getHost() const { return hostname; }
+    const QString &getPort() const { return port; }
 
     //void setBaseDevice(INDI::BaseDevice *idv) { baseDevice = idv;}
     //INDI::BaseDevice* getBaseDevice() { return baseDevice; }
 
     void addDevice(DeviceInfo *idv);
     void removeDevice(DeviceInfo *idv);
-    DeviceInfo *getDevice(const QString &deviceName);
-    QList<DeviceInfo *> getDevices() { return devices; }
+    DeviceInfo *getDevice(const QString &deviceName) const;
+    QList<DeviceInfo *> getDevices() const { return devices; }
 
     QVariantMap getAuxInfo() const;
     void setAuxInfo(const QVariantMap &value);

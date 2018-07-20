@@ -56,7 +56,6 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 
     connect(ui->guideTypeCombo, SIGNAL(activated(int)), this, SLOT(updateGuiderSelection(int)));
 
-    ui->addScopeB->setIcon(QIcon::fromTheme("list-add"));
     connect(ui->addScopeB, &QPushButton::clicked, this, [this]()
     {
         QPointer<EquipmentWriter> equipmentdlg = new EquipmentWriter();

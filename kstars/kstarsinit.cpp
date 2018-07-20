@@ -475,6 +475,9 @@ void KStars::initActions()
         << i18n("Device Manager...")
         << QIcon::fromTheme("network-server")
         << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_D);
+    actionCollection()->addAction("driver_alias", DriverManager::Instance(), SLOT(showDriverAlias()))
+        << i18n("Driver Alias...")
+        << QIcon::fromTheme("address-book-new");
     ka = actionCollection()->addAction("indi_cpl", this, SLOT(slotINDIPanel()))
         << i18n("INDI Control Panel...")
         << QKeySequence(Qt::CTRL + Qt::Key_I);
