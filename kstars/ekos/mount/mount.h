@@ -281,6 +281,12 @@ class Mount : public QWidget, public Ui::Mount
 
     void toggleMountToolBox();
 
+private slots:
+
+    void startParkTimer();
+    void stopParkTimer();
+    void startAutoPark();
+
   signals:
     void newLog();
     void newCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
@@ -297,6 +303,7 @@ class Mount : public QWidget, public Ui::Mount
     SkyPoint telescopeCoord;
     QString lastNotificationMessage;
     QTimer updateTimer;
+    QTimer autoParkTimer;
     double lastAlt;
     int abortDispatch;
     bool altLimitEnabled;
