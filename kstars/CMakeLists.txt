@@ -785,6 +785,17 @@ set(kstarslite_libtess_SRC
     libtess/tess.c
     )
 
+IF (BUILD_KSTARS_LITE)
+    ADD_CUSTOM_TARGET(convert_translations ${CMAKE_SOURCE_DIR}/tools/convert_translations.sh ${CMAKE_BINARY_DIR}
+                      WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+    ADD_DEPENDENCIES(convert_translations fetch-translations)
+    IF (ANDROID)
+        ADD_CUSTOM_TARGET(convert_translations_to_android ${CMAKE_SOURCE_DIR}/tools/convert_translations.sh ${CMAKE_BINARY_DIR}/android/export/share/kstars
+                          WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+        ADD_DEPENDENCIES(convert_translations_to_android fetch-translations)
+    ENDIF ()
+ENDIF ()
+
 IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     SET_SOURCE_FILES_PROPERTIES(${kstarslite_libtess_SRC} PROPERTIES COMPILE_FLAGS "-Wno-error")
 ENDIF ()

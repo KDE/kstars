@@ -15,46 +15,45 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QDebug>
-#include <QPixmap>
-
-#include <QApplication>
-#include <QScreen>
-#include <QtGlobal>
-
-#ifdef KSTARS_LITE
+#include "ksnumbers.h"
+#include "kspaths.h"
+#include "kstars_debug.h"
+#include "kstarsdata.h"
+#include "kstarsdatetime.h"
+#if defined(KSTARS_LITE)
 #include "kstarslite.h"
-#include <KLocalizedString>
-#else
-#include <QCommandLineParser>
-#include <QCommandLineOption>
-
-#include <KAboutData>
-#include <KCrash>
-#include <KLocalizedString>
-
+#endif
+#include "ksutils.h"
+#include "Options.h"
+#include "simclock.h"
+#include "version.h"
+#if !defined(KSTARS_LITE)
 #include "kstars.h"
 #include "skymap.h"
 #endif
-//DELETE!
-#include "projections/projector.h"
 
-#include "kspaths.h"
+#if !defined(KSTARS_LITE)
+#include <KAboutData>
+#include <KCrash>
+#endif
+#include <KLocalizedString>
 
-#include "kstarsdata.h"
-#include "ksutils.h"
-#include "kstarsdatetime.h"
-#include "simclock.h"
-#include "ksnumbers.h"
-#include "version.h"
-#include "Options.h"
-#include "kstars_debug.h"
+#include <QApplication>
+#if !defined(KSTARS_LITE)
+#include <QCommandLineParser>
+#include <QCommandLineOption>
+#endif
+#include <QDebug>
+#include <QPixmap>
+#include <QScreen>
+#include <QtGlobal>
+#include <QTranslator>
+
 
 #ifndef KSTARS_LITE
 static const char description[] = I18N_NOOP("Desktop Planetarium");
 static const char notice[] = I18N_NOOP("Some images in KStars are for non-commercial use only. See README.images.");
 #endif
-
 
 #if defined(Q_OS_ANDROID)
 // __attribute__ is needed because clang-based linking removes the main() symbol from the shared library on Android
@@ -83,7 +82,16 @@ int main(int argc, char *argv[])
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
     KLocalizedString::setApplicationDomain("kstars");
+#if defined(KSTARS_LITE)
+#if defined(__ANDROID__)
+    KLocalizedString::addDomainLocaleDir("kstars", "/data/data/org.kde.kstars.lite/qt-reserved-files/share/kstars/locale");
+#else
+    KLocalizedString::addDomainLocaleDir("kstars", "locale");
+#endif
+#endif
+
 #ifndef KSTARS_LITE
+
     KCrash::initialize();
 
     KAboutData aboutData("kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
