@@ -77,6 +77,17 @@ Mount::Mount()
     updateTimer.setInterval(UPDATE_DELAY);
     connect(&updateTimer, SIGNAL(timeout()), this, SLOT(updateTelescopeCoords()));
 
+    QDateTime now = KStarsData::Instance()->lt();
+    // Set seconds to zero
+    now = now.addSecs(now.time().second()*-1);
+    startupTimeEdit->setDateTime(now);
+
+    connect(&autoParkTimer, &QTimer::timeout, this, &Mount::startAutoPark);
+    connect(startTimerB, &QPushButton::clicked, this, &Mount::startParkTimer);
+    connect(stopTimerB, &QPushButton::clicked, this, &Mount::stopParkTimer);
+
+    stopTimerB->setEnabled(false);
+
     // QML Stuff
     m_BaseView = new QQuickView();
 
@@ -334,7 +345,6 @@ void Mount::updateTelescopeCoords()
     double ra, dec;
     if (currentTelescope && currentTelescope->getEqCoords(&ra, &dec))
     {
-
         telescopeCoord.setRA(ra);
         telescopeCoord.setDec(dec);
         telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -452,6 +462,14 @@ void Mount::updateTelescopeCoords()
             updateTimer.stop();
         else if (updateTimer.isActive() == false)
             updateTimer.start();
+
+        // Auto Park Timer
+        if (autoParkTimer.isActive())
+        {
+            QTime remainingTime(0,0,0);
+            remainingTime = remainingTime.addMSecs(autoParkTimer.remainingTime());
+            countdownLabel->setText(remainingTime.toString("hh:mm:ss"));
+        }
     }
     else
         updateTimer.stop();
@@ -1089,6 +1107,67 @@ QJsonArray Mount::getScopes() const
     scopes.append(guide);
 
     return scopes;
+}
+
+void Mount::startParkTimer()
+{
+    if (currentTelescope == nullptr)
+        return;
+
+    if (currentTelescope->isParked())
+    {
+        appendLogText("Mount already parked.");
+        return;
+    }
+
+    QDateTime parkTime = startupTimeEdit->dateTime();
+    qint64 parkSeconds = parkTime.msecsTo(KStarsData::Instance()->lt());
+    if (parkSeconds > 0)
+    {
+        appendLogText(i18n("Parking time cannot be in the past!"));
+        return;
+    }
+
+    parkSeconds = std::abs(parkSeconds);
+
+    if (parkSeconds > 24*60*60*1000)
+    {
+        appendLogText(i18n("Parking time must be within 24 hours of current time."));
+        return;
+    }
+
+    appendLogText(i18n("Caution! Do not use Auto Park while scheduler is active."));
+
+    autoParkTimer.setInterval(parkSeconds);
+    autoParkTimer.start();
+
+    startTimerB->setEnabled(false);
+    stopTimerB->setEnabled(true);
+}
+
+void Mount::stopParkTimer()
+{
+    autoParkTimer.stop();
+    countdownLabel->setText("00:00:00");
+    stopTimerB->setEnabled(false);
+    startTimerB->setEnabled(true);
+}
+
+void Mount::startAutoPark()
+{
+    appendLogText(i18n("Parking timer is up."));
+    autoParkTimer.stop();
+    startTimerB->setEnabled(true);
+    stopTimerB->setEnabled(false);
+    countdownLabel->setText("00:00:00");
+    if (currentTelescope)
+    {
+        if (currentTelescope->isParked() == false)
+        {
+            appendLogText(i18n("Starting auto park..."));
+            park();
+        }
+    }
 }
 
 }
