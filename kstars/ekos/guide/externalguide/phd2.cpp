@@ -12,9 +12,10 @@
 #include "Options.h"
 #include "kspaths.h"
 #include "kstars.h"
-#include "fitsio.h"
+
 #include "ekos/ekosmanager.h"
 
+#include <fitsio.h>
 #include <KMessageBox>
 #include <QImage>
 
