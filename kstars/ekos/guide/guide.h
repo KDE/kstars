@@ -469,6 +469,8 @@ class Guide : public QWidget, public Ui::Guide
      */
     void setBLOBEnabled(bool enable, const QString &ccd = QString());
 
+    void handleManualDither();
+
     // Operation stack
     void buildOperationStack(GuideState operation);
     bool executeOperationStack();

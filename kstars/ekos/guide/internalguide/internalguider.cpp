@@ -140,24 +140,32 @@ bool InternalGuider::resume()
     return true;
 }
 
-bool InternalGuider::dither(double pixels)
+bool InternalGuider::ditherXY(int x, int y)
 {
-    static Vector target_pos;
-    static unsigned int retries = 0;
+    ditherRetries=0;
+    double cur_x, cur_y, ret_angle;
+    pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
+    ditherTargetPosition = Vector(x, y, 0);
+    pmath->setReticleParameters(ditherTargetPosition.x, ditherTargetPosition.y, ret_angle);
 
-    //if (ui.ditherCheck->isChecked() == false)
-    //return false;
+    state = GUIDE_DITHERING;
+    emit newStatus(state);
 
+    processGuiding();
+
+    return true;
+}
+
+bool InternalGuider::dither(double pixels)
+{        
     double cur_x, cur_y, ret_angle;
     pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
     pmath->getStarScreenPosition(&cur_x, &cur_y);
-    Ekos::Matrix ROT_Z = pmath->getROTZ();
-
-    //qDebug() << "Star Pos X " << cur_x << " Y " << cur_y;
+    Ekos::Matrix ROT_Z = pmath->getROTZ();   
 
     if (state != GUIDE_DITHERING)
     {
-        retries = 0;
+        ditherRetries = 0;
 
         auto seed = std::chrono::system_clock::now().time_since_epoch().count();
         std::default_random_engine generator(seed);
@@ -177,11 +185,11 @@ bool InternalGuider::dither(double pixels)
             diff_y *= -1;
         accumulator.second += diff_y;
 
-        target_pos = Vector(cur_x, cur_y, 0) + Vector(diff_x, diff_y, 0);
+        ditherTargetPosition = Vector(cur_x, cur_y, 0) + Vector(diff_x, diff_y, 0);
 
-        qCDebug(KSTARS_EKOS_GUIDE) << "Dithering process started.. Reticle Target Pos X " << target_pos.x << " Y " << target_pos.y;
+        qCDebug(KSTARS_EKOS_GUIDE) << "Dithering process started.. Reticle Target Pos X " << ditherTargetPosition.x << " Y " << ditherTargetPosition.y;
 
-        pmath->setReticleParameters(target_pos.x, target_pos.y, ret_angle);
+        pmath->setReticleParameters(ditherTargetPosition.x, ditherTargetPosition.y, ret_angle);
 
         state = GUIDE_DITHERING;
         emit newStatus(state);
@@ -191,7 +199,7 @@ bool InternalGuider::dither(double pixels)
         return true;
     }
 
-    Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(target_pos.x, target_pos.y, 0);
+    Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(ditherTargetPosition.x, ditherTargetPosition.y, 0);
     star_pos.y      = -star_pos.y;
     star_pos        = star_pos * ROT_Z;
 
@@ -212,7 +220,7 @@ bool InternalGuider::dither(double pixels)
     }
     else
     {
-        if (++retries > Options::ditherMaxIterations())
+        if (++ditherRetries > Options::ditherMaxIterations())
         {
             if (Options::ditherFailAbortsAutoGuide())
             {
@@ -876,7 +884,8 @@ bool InternalGuider::processGuiding()
     else
         m_highPulseCounter=0;
 
-    if (m_starLostCounter+m_highPulseCounter > MAX_COMBINTED_PULSE_LIMITS)
+    uint8_t abortThreshold = (state == GUIDE_DITHERING) ? MAX_COMBINTED_PULSE_LIMITS * 3 : MAX_COMBINTED_PULSE_LIMITS;
+    if (m_starLostCounter+m_highPulseCounter > abortThreshold)
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "m_starLostCounter" << m_starLostCounter
                                    << "m_highPulseCounter" << m_highPulseCounter;
