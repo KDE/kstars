@@ -64,7 +64,10 @@ class InternalGuider : public GuideInterface
     bool abort() override;
     bool suspend() override;
     bool resume() override;
+
     bool dither(double pixels) override;
+    bool ditherXY(int x, int y);
+
     bool clearCalibration() override { return true;}
     bool reacquire() override;
 
@@ -170,6 +173,9 @@ class InternalGuider : public GuideInterface
     int m_BacklastCounter { 0 };
     double phi { 0 };
     uint32_t guideBoxSize { 32 };
+
+    Vector ditherTargetPosition;
+    uint8_t ditherRetries {0};
 
     QTime reacquireTimer;
     int m_highPulseCounter {0};

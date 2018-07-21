@@ -197,6 +197,7 @@ if (INDI_FOUND)
             ekos/guide/guide.ui
             ekos/guide/opscalibration.ui
             ekos/guide/opsguide.ui
+            ekos/guide/manualdither.ui
             #TODO remove from GIT
             #ekos/guide/guider.ui
             #ekos/guide/rcalibration.ui

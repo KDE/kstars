@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>729</width>
+    <width>730</width>
     <height>529</height>
    </rect>
   </property>
@@ -137,6 +137,12 @@
              <iconset theme="edit-delete">
               <normaloff>.</normaloff>.</iconset>
             </property>
+            <property name="iconSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
            </widget>
           </item>
           <item row="2" column="0" colspan="2">
@@ -159,6 +165,40 @@
             </property>
            </widget>
           </item>
+          <item row="3" column="2">
+           <widget class="QPushButton" name="manualDitherB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Manual Dither</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="speaker"/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -169,21 +209,41 @@
           <property name="verticalSpacing">
            <number>3</number>
           </property>
-          <item row="4" column="1">
-           <widget class="QCheckBox" name="checkBox_DirRA">
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_3">
             <property name="toolTip">
-             <string>Guide Right Ascention Axis</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
+             <string>Exposure time in seconds</string>
             </property>
             <property name="text">
-             <string>RA</string>
+             <string>Exp:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QComboBox" name="binningCombo"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="toolTip">
+             <string>Select which device receives the guiding correction commands.</string>
+            </property>
+            <property name="text">
+             <string>Via:</string>
             </property>
            </widget>
           </item>
           <item row="0" column="1" colspan="3">
            <widget class="QComboBox" name="guiderCombo"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="toolTip">
+             <string>Guide star tracking box size. Box size must be set in accordance to the selected star size.</string>
+            </property>
+            <property name="text">
+             <string>Box:</string>
+            </property>
+           </widget>
           </item>
           <item row="6" column="2" colspan="2">
            <widget class="QPushButton" name="externalDisconnectB">
@@ -198,38 +258,21 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="label_8">
+          <item row="4" column="3">
+           <widget class="QCheckBox" name="swapCheck">
             <property name="toolTip">
-             <string>Apply filter to image after capture to enhance it</string>
+             <string>Swap DEC direction pulses. This value is determined automatically from the calibration procedure, only override if necessary.</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
             </property>
             <property name="text">
-             <string>Effects</string>
+             <string>Swap</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="toolTip">
-             <string>Exposure time in seconds</string>
-            </property>
-            <property name="text">
-             <string>Exp:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="label_4">
-            <property name="toolTip">
-             <string>Guide camera binning. It is recommended to set binning to 2x2 or higher.</string>
-            </property>
-            <property name="text">
-             <string>Bin:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
+          <item row="1" column="1" colspan="3">
+           <widget class="QComboBox" name="ST4Combo"/>
           </item>
           <item row="3" column="1">
            <widget class="QComboBox" name="boxSizeCombo">
@@ -260,36 +303,16 @@
             </item>
            </widget>
           </item>
-          <item row="1" column="1" colspan="3">
-           <widget class="QComboBox" name="ST4Combo"/>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Guider:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_5">
+          <item row="2" column="2">
+           <widget class="QLabel" name="label_4">
             <property name="toolTip">
-             <string>Guide star tracking box size. Box size must be set in accordance to the selected star size.</string>
+             <string>Guide camera binning. It is recommended to set binning to 2x2 or higher.</string>
             </property>
             <property name="text">
-             <string>Box:</string>
+             <string>Bin:</string>
             </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="NonLinearDoubleSpinBox" name="exposureIN">
-            <property name="decimals">
-             <number>3</number>
-            </property>
-            <property name="maximum">
-             <double>60.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>1.000000000000000</double>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -300,93 +323,15 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="2">
-           <widget class="QCheckBox" name="checkBox_DirDEC">
+          <item row="3" column="2">
+           <widget class="QLabel" name="label_8">
             <property name="toolTip">
-             <string>Guide Declination Axis</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
+             <string>Apply filter to image after capture to enhance it</string>
             </property>
             <property name="text">
-             <string>DEC</string>
+             <string>Effects</string>
             </property>
            </widget>
-          </item>
-          <item row="4" column="3">
-           <widget class="QCheckBox" name="swapCheck">
-            <property name="toolTip">
-             <string>Swap DEC direction pulses. This value is determined automatically from the calibration procedure, only override if necessary.</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string>Swap</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0" colspan="2">
-           <widget class="QPushButton" name="externalConnectB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Connect to external guiding application.</string>
-            </property>
-            <property name="text">
-             <string>Connect</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="toolTip">
-             <string>Select which device receives the guiding correction commands.</string>
-            </property>
-            <property name="text">
-             <string>Via:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="3">
-           <widget class="QComboBox" name="filterCombo">
-            <item>
-             <property name="text">
-              <string>--</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QComboBox" name="binningCombo"/>
-          </item>
-          <item row="5" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <property name="spacing">
-             <number>2</number>
-            </property>
-            <item>
-             <widget class="QCheckBox" name="eastControlCheck">
-              <property name="toolTip">
-               <string>East Direction Guiding</string>
-              </property>
-              <property name="text">
-               <string>+</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="westControlCheck">
-              <property name="toolTip">
-               <string>West Direction Guiding</string>
-              </property>
-              <property name="text">
-               <string>-</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
           </item>
           <item row="5" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_10">
@@ -407,6 +352,101 @@
              <widget class="QCheckBox" name="southControlCheck">
               <property name="toolTip">
                <string>South Direction Guiding</string>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="4" column="2">
+           <widget class="QCheckBox" name="checkBox_DirDEC">
+            <property name="toolTip">
+             <string>Guide Declination Axis</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>DEC</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QCheckBox" name="checkBox_DirRA">
+            <property name="toolTip">
+             <string>Guide Right Ascention Axis</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>RA</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Guider:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="NonLinearDoubleSpinBox" name="exposureIN">
+            <property name="decimals">
+             <number>3</number>
+            </property>
+            <property name="maximum">
+             <double>60.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QComboBox" name="filterCombo">
+            <item>
+             <property name="text">
+              <string>--</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="6" column="0" colspan="2">
+           <widget class="QPushButton" name="externalConnectB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Connect to external guiding application.</string>
+            </property>
+            <property name="text">
+             <string>Connect</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <item>
+             <widget class="QCheckBox" name="eastControlCheck">
+              <property name="toolTip">
+               <string>East Direction Guiding</string>
+              </property>
+              <property name="text">
+               <string>+</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="westControlCheck">
+              <property name="toolTip">
+               <string>West Direction Guiding</string>
               </property>
               <property name="text">
                <string>-</string>
