@@ -1928,6 +1928,8 @@ void Align::addCCD(ISD::GDInterface *newCCD)
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
 
     checkCCD();
+
+    syncSettings();
 }
 
 void Align::setTelescope(ISD::GDInterface *newTelescope)
@@ -4329,6 +4331,8 @@ void Align::checkFilter(int filterNum)
     currentFilterPosition = filterManager->getFilterPosition();
 
     FilterPosCombo->setCurrentIndex(Options::lockAlignFilterIndex());
+
+    syncSettings();
 }
 
 void Align::setWCSEnabled(bool enable)
