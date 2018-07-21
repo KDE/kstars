@@ -3444,7 +3444,8 @@ void Capture::syncGUIToJob(SequenceJob *job)
     settings.insert("filter", FilterPosCombo->currentText());
     settings.insert("exp", exposureIN->value());
     settings.insert("bin", binXIN->value());
-    settings.insert("frameType", frameTypeCombo->currentIndex()+1);
+    settings.insert("iso", ISOCombo->currentIndex());
+    settings.insert("frameType", frameTypeCombo->currentIndex());
     settings.insert("targetTemperature", temperatureIN->value());
 
     emit settingsUpdated(settings);
@@ -5244,6 +5245,31 @@ if (pos != DSLRInfos.end())
 void Capture::setCapturedFramesMap(const QString &signature, int count)
 {
     capturedFramesMap[signature] = count;
+}
+
+void Capture::setSettings(const QJsonObject &settings)
+{
+    CCDCaptureCombo->setCurrentText(settings["camera"].toString());
+    FilterDevicesCombo->setCurrentText(settings["fw"].toString());
+    FilterPosCombo->setCurrentText(settings["filter"].toString());
+    exposureIN->setValue(settings["exp"].toDouble(1));
+
+    int bin = settings["bin"].toInt(1);
+    setBinning(bin,bin);
+
+    double temperature = settings["temperature"].toDouble(-1000);
+    if (temperature != -1000)
+    {
+        setForceTemperature(true);
+        setTargetTemperature(temperature);
+    }
+
+    frameTypeCombo->setCurrentIndex(settings["frameType"].toInt(0));
+
+    // ISO
+    int isoIndex = settings["iso"].toInt(-1);
+    if (isoIndex >= 0)
+        setISO(isoIndex);
 }
 
 }

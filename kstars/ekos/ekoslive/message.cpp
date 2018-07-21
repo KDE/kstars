@@ -282,38 +282,7 @@ void Message::sendFilterWheels()
 
 void Message::setCaptureSettings(const QJsonObject &settings)
 {
-    Ekos::Capture * capture = m_Manager->captureModule();
-
-    // Camera Name
-    capture->setCCD(settings["camera"].toString());
-
-    // Filter Wheel
-    QString filterWheel = settings["fw"].toString();
-    if (filterWheel.isEmpty() == false)
-        capture->setFilter(filterWheel, settings["filter"].toString());
-
-    // Temperature
-    double temperature = settings["temperature"].toDouble(-1000);
-    if (temperature != -1000)
-    {
-        capture->setForceTemperature(true);
-        capture->setTargetTemperature(temperature);
-    }
-
-    // Frame Type
-    capture->setFrameType(settings["frame"].toString("Light"));
-
-    // Exposure Duration
-    capture->setExposure(settings["exp"].toDouble(1));
-
-    // Binning
-    int bin = settings.value("bin").toInt(1);
-    capture->setBinning(bin,bin);
-
-    // ISO
-    int isoIndex = settings["iso"].toInt(-1);
-    if (isoIndex >= 0)
-        capture->setISO(isoIndex);
+   m_Manager->captureModule()->setSettings(settings);
 }
 
 void Message::processCaptureCommands(const QString &command, const QJsonObject &payload)

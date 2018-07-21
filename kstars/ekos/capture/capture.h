@@ -297,6 +297,12 @@ class Capture : public QWidget, public Ui::Capture
      */
     const QJsonArray &getSequence() const { return m_SequenceArray;}
 
+    /**
+     * @brief setSettings Set capture settings
+     * @param settings list of settings
+     */
+    void setSettings(const QJsonObject &settings);
+
   public slots:
 
     /** \addtogroup CaptureDBusInterface
