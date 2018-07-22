@@ -711,3 +711,19 @@
         </device>
     </devGroup>
 </driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="INDI Webcam">
+            <driver name="INDI Webcam">indi_webcam_ccd</driver>
+            <version>0.2</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="Nightscape 8300 CCD" mdpd="true">
+            <driver name="Nightscape CCD">indi_nightscape_ccd</driver>
+            <version>@1@.@0@</version>
+        </device>
+    </devGroup>
+</driversList>
