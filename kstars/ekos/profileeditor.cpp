@@ -555,106 +555,106 @@ void ProfileEditor::loadDrivers()
                 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the corresponding driver.<nobr/>");
         else
             toolTipText = i18n("<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: %3<nobr/>",
-                               dv->getTreeLabel(), dv->getName(), dv->getDriver());
+                               dv->getLabel(), dv->getName(), dv->getExecutable());
 
         switch (dv->getType())
         {
             case KSTARS_TELESCOPE:
             {
-                ui->mountCombo->addItem(icon, dv->getTreeLabel());
+                ui->mountCombo->addItem(icon, dv->getLabel());
                 ui->mountCombo->setItemData(ui->mountCombo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_CCD:
             {
-                ui->ccdCombo->addItem(icon, dv->getTreeLabel());
+                ui->ccdCombo->addItem(icon, dv->getLabel());
                 ui->ccdCombo->setItemData(ui->ccdCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->guiderCombo->addItem(icon, dv->getTreeLabel());
+                ui->guiderCombo->addItem(icon, dv->getLabel());
                 ui->guiderCombo->setItemData(ui->guiderCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux1Combo->addItem(icon, dv->getLabel());
                 ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux2Combo->addItem(icon, dv->getLabel());
                 ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux3Combo->addItem(icon, dv->getLabel());
                 ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux4Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux4Combo->addItem(icon, dv->getLabel());
                 ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_ADAPTIVE_OPTICS:
             {
-                ui->AOCombo->addItem(icon, dv->getTreeLabel());
+                ui->AOCombo->addItem(icon, dv->getLabel());
                 ui->AOCombo->setItemData(ui->AOCombo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_FOCUSER:
             {
-                ui->focuserCombo->addItem(icon, dv->getTreeLabel());
+                ui->focuserCombo->addItem(icon, dv->getLabel());
                 ui->focuserCombo->setItemData(ui->focuserCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux1Combo->addItem(icon, dv->getLabel());
                 ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux2Combo->addItem(icon, dv->getLabel());
                 ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux3Combo->addItem(icon, dv->getLabel());
                 ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux4Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux4Combo->addItem(icon, dv->getLabel());
                 ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_FILTER:
             {
-                ui->filterCombo->addItem(icon, dv->getTreeLabel());
+                ui->filterCombo->addItem(icon, dv->getLabel());
                 ui->filterCombo->setItemData(ui->filterCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux1Combo->addItem(icon, dv->getLabel());
                 ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux2Combo->addItem(icon, dv->getLabel());
                 ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux3Combo->addItem(icon, dv->getLabel());
                 ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux4Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux4Combo->addItem(icon, dv->getLabel());
                 ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_DOME:
             {
-                ui->domeCombo->addItem(icon, dv->getTreeLabel());
+                ui->domeCombo->addItem(icon, dv->getLabel());
                 ui->domeCombo->setItemData(ui->domeCombo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_WEATHER:
             {
-                ui->weatherCombo->addItem(icon, dv->getTreeLabel());
+                ui->weatherCombo->addItem(icon, dv->getLabel());
                 ui->weatherCombo->setItemData(ui->weatherCombo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux1Combo->addItem(icon, dv->getLabel());
                 ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux2Combo->addItem(icon, dv->getLabel());
                 ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux3Combo->addItem(icon, dv->getLabel());
                 ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux4Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux4Combo->addItem(icon, dv->getLabel());
                 ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
@@ -663,16 +663,16 @@ void ProfileEditor::loadDrivers()
             case KSTARS_SPECTROGRAPHS:
             case KSTARS_DETECTORS:
             {
-                ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux1Combo->addItem(icon, dv->getLabel());
                 ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux2Combo->addItem(icon, dv->getLabel());
                 ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux3Combo->addItem(icon, dv->getLabel());
                 ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
 
-                ui->aux4Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux4Combo->addItem(icon, dv->getLabel());
                 ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;

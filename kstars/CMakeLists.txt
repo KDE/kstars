@@ -133,7 +133,7 @@ if (INDI_FOUND)
         indi/drivermanager.ui
         indi/opsindi.ui
         indi/indihostconf.ui
-        indi/driveralias.ui
+        indi/customdrivers.ui
         #indi/telescopewizard.ui
     )
 
@@ -164,7 +164,7 @@ if (INDI_FOUND)
         indi/streamwg.cpp
         indi/videowg.cpp
         indi/indiwebmanager.cpp
-        indi/driveralias.cpp
+        indi/customdrivers.cpp
     )
 
     if (CFITSIO_FOUND)

@@ -314,14 +314,14 @@ bool KSUserDB::Initialize()
                     qCWarning(KSTARS) << query.lastError();
             }
 
-            if (userdb_.tables().contains("driveralias") == false)
+            if (userdb_.tables().contains("customdrivers") == false)
             {
                 QSqlQuery query(userdb_);
 
-                if (!query.exec("CREATE TABLE driveralias ( "
+                if (!query.exec("CREATE TABLE customdrivers ( "
                            "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                            "Name TEXT DEFAULT NULL, "
-                           "Label TEXT DEFAULT NULL, "
+                           "Label TEXT DEFAULT NULL UNIQUE, "
                            "Family TEXT DEFAULT NULL, "
                            "Exec TEXT DEFAULT NULL, "
                            "Version TEXT DEFAULT 1.0)"))
@@ -523,10 +523,10 @@ bool KSUserDB::RebuildDB()
                "FovW REAL DEFAULT 0.0,"
                "FovH REAL DEFAULT 0.0)");
 
-    tables.append("CREATE TABLE driveralias ( "
+    tables.append("CREATE TABLE customdrivers ( "
                "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                "Name TEXT DEFAULT NULL, "
-               "Label TEXT DEFAULT NULL, "
+               "Label TEXT DEFAULT NULL UNIQUE, "
                "Family TEXT DEFAULT NULL, "
                "Exec TEXT DEFAULT NULL, "
                "Version TEXT DEFAULT 1.0)");
@@ -771,62 +771,66 @@ void KSUserDB::GetAllEffectiveFOVs(QList<QVariantMap> &effectiveFOVs)
 
 /* Driver Alias Section */
 
-void KSUserDB::AddDriverAlias(const QVariantMap &oneAlias)
+bool KSUserDB::AddCustomDriver(const QVariantMap &oneDriver)
 {
     userdb_.open();
-    QSqlTableModel DriverAlias(nullptr, userdb_);
-    DriverAlias.setTable("driveralias");
-    DriverAlias.select();
+    QSqlTableModel CustomDriver(nullptr, userdb_);
+    CustomDriver.setTable("customdrivers");
+    CustomDriver.select();
 
-    QSqlRecord record = DriverAlias.record();
+    QSqlRecord record = CustomDriver.record();
 
     // Remove PK so that it gets auto-incremented later
     record.remove(0);
 
-    for (QVariantMap::const_iterator iter = oneAlias.begin(); iter != oneAlias.end(); ++iter)
+    for (QVariantMap::const_iterator iter = oneDriver.begin(); iter != oneDriver.end(); ++iter)
         record.setValue(iter.key(), iter.value());
 
-    DriverAlias.insertRecord(-1, record);
+    bool rc = CustomDriver.insertRecord(-1, record);
+    if (rc == false)
+        return rc;
 
-    DriverAlias.submitAll();
+    rc = CustomDriver.submitAll();
 
     userdb_.close();
+
+    return rc;
 }
 
-bool KSUserDB::DeleteDriverAlias(const QString &id)
+bool KSUserDB::DeleteCustomDriver(const QString &id)
 {
     userdb_.open();
-    QSqlTableModel DriverAlias(nullptr, userdb_);
-    DriverAlias.setTable("driveralias");
-    DriverAlias.setFilter("id = \'" + id + "\'");
+    QSqlTableModel CustomDriver(nullptr, userdb_);
+    CustomDriver.setTable("customdrivers");
+    CustomDriver.setFilter("id = \'" + id + "\'");
 
-    DriverAlias.select();
+    CustomDriver.select();
 
-    DriverAlias.removeRows(0, 1);
-    DriverAlias.submitAll();
+    CustomDriver.removeRows(0, 1);
+    CustomDriver.submitAll();
 
     userdb_.close();
 
     return true;
 }
 
-void KSUserDB::GetAllDriverAliass(QList<QVariantMap> &driverAliases)
+void KSUserDB::GetAllCustomDrivers(QList<QVariantMap> &CustomDrivers)
 {
-    driverAliases.clear();
+    CustomDrivers.clear();
 
     userdb_.open();
-    QSqlTableModel DriverAlias(nullptr, userdb_);
-    DriverAlias.setTable("driveralias");
-    DriverAlias.select();
+    QSqlTableModel CustomDriver(nullptr, userdb_);
+    CustomDriver.setTable("customdrivers");
+    CustomDriver.select();
 
-    for (int i = 0; i < DriverAlias.rowCount(); ++i)
+    for (int i = 0; i < CustomDriver.rowCount(); ++i)
     {
         QVariantMap recordMap;
-        QSqlRecord record = DriverAlias.record(i);
+        QSqlRecord record = CustomDriver.record(i);
         for (int j = 0; j < record.count(); j++)
             recordMap[record.fieldName(j)] = record.value(j);
 
-        driverAliases.append(recordMap);
+        CustomDrivers.append(recordMap);
     }
 
     userdb_.close();

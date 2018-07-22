@@ -96,9 +96,9 @@ class KSUserDB
      ******************************* Driver Alias *************************
      ************************************************************************/
 
-    void AddDriverAlias(const QVariantMap &oneAlias);
-    bool DeleteDriverAlias(const QString &id);
-    void GetAllDriverAliass(QList<QVariantMap> &driverAliases);
+    bool AddCustomDriver(const QVariantMap &oneDriver);
+    bool DeleteCustomDriver(const QString &id);
+    void GetAllCustomDrivers(QList<QVariantMap> &CustomDrivers);
 
     /************************************************************************
      *********************************** HiPS *******************************

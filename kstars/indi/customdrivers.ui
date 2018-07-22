@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DriverAlias</class>
- <widget class="QDialog" name="DriverAlias">
+ <class>CustomDrivers</class>
+ <widget class="QDialog" name="CustomDrivers">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>535</width>
-    <height>236</height>
+    <width>534</width>
+    <height>254</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Driver Alias</string>
+   <string>Custom Drivers</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -30,12 +30,12 @@
     <number>3</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="mainLayout" stretch="2,1">
-     <property name="spacing">
-      <number>3</number>
+    <layout class="QHBoxLayout" name="mainLayout" stretch="3,1">
+     <property name="rightMargin">
+      <number>0</number>
      </property>
      <item>
-      <widget class="QTableView" name="aliasView">
+      <widget class="QTableView" name="driversView">
        <property name="selectionBehavior">
         <enum>QAbstractItemView::SelectRows</enum>
        </property>
@@ -43,6 +43,12 @@
      </item>
      <item>
       <layout class="QFormLayout" name="formLayout">
+       <property name="horizontalSpacing">
+        <number>3</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>3</number>
+       </property>
        <item row="0" column="0">
         <widget class="QLabel" name="label_8">
          <property name="text">
@@ -74,12 +80,32 @@
         <widget class="QComboBox" name="familyCombo">
          <item>
           <property name="text">
-           <string>Telescopes</string>
+           <string>Adaptive Optics</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Agent</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Auxiliary</string>
           </property>
          </item>
          <item>
           <property name="text">
            <string>CCDs</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Detectors</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Domes</string>
           </property>
          </item>
          <item>
@@ -94,32 +120,17 @@
          </item>
          <item>
           <property name="text">
-           <string>Adaptive Optics</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Domes</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Auxiliary</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Detectors</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
            <string>Rotators</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Agent</string>
+           <string>Spectrographs</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Telescopes</string>
           </property>
          </item>
          <item>
@@ -150,14 +161,31 @@
         <widget class="QLineEdit" name="nameIN"/>
        </item>
        <item row="4" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Alias</string>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="spacing">
+          <number>3</number>
          </property>
-        </widget>
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Label</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="styleSheet">
+            <string notr="true">color:red</string>
+           </property>
+           <property name="text">
+            <string>*</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item row="4" column="1">
-        <widget class="QLineEdit" name="aliasIN"/>
+        <widget class="QLineEdit" name="labelIN"/>
        </item>
       </layout>
      </item>
@@ -165,15 +193,14 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <item>
-      <widget class="QPushButton" name="clearAllB_2">
-       <property name="text">
-        <string>Clear All</string>
+      <widget class="QPushButton" name="removeDriverB">
+       <property name="enabled">
+        <bool>false</bool>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="removeAliasB_2">
        <property name="text">
         <string>Remove</string>
        </property>
@@ -193,9 +220,48 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="addDriverB">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>Add</string>
+        <string>Add New</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>3</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="tipLabel">
+       <property name="minimumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To create an &lt;span style=&quot; font-weight:600;&quot;&gt;Alias&lt;/span&gt; from an existing driver, select an existing driver and then only change the &lt;span style=&quot; font-weight:600;&quot;&gt;Label &lt;/span&gt;then press&lt;span style=&quot; font-weight:600;&quot;&gt; Add.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -218,7 +284,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DriverAlias</receiver>
+   <receiver>CustomDrivers</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -234,7 +300,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DriverAlias</receiver>
+   <receiver>CustomDrivers</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

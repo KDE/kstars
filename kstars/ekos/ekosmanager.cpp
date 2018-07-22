@@ -348,7 +348,7 @@ void EkosManager::loadDrivers()
     foreach (DriverInfo *dv, DriverManager::Instance()->getDrivers())
     {
         if (dv->getDriverSource() != HOST_SOURCE)
-            driversList[dv->getTreeLabel()] = dv;
+            driversList[dv->getLabel()] = dv;
     }
 }
 
@@ -500,7 +500,7 @@ bool EkosManager::start()
                 }
                 else
                 {
-                    drv->setUniqueLabel(drv->getTreeLabel() + " Guide");
+                    drv->setUniqueLabel(drv->getLabel() + " Guide");
                 }
             }
 
