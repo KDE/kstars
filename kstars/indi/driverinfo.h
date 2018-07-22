@@ -61,17 +61,23 @@ class DriverInfo : public QObject
 
     bool isEmpty() const { return devices.isEmpty(); }
 
+    // Actual name of the driver
+    // i.e. what getDefaultName() returns
     const QString &getName() const { return name; }
     void setName(const QString &newName) { name = newName; }
 
-    void setTreeLabel(const QString &inTreeLabel) { treeLabel = inTreeLabel; }
-    const QString &getTreeLabel() const { return treeLabel; }
+    // Driver executable
+    void setExecutable(const QString &newDriver) { exec = newDriver; }
+    const QString &getExecutable() const { return exec; }
+
+    // Driver Label/Alias. We _rename_ the INDI driver in _runtime_ to the label
+    // Internally INDI server changes the actual driver "name" above to the label value
+    // It's a method of running multiple instances of the same driver with multiple names.
+    void setLabel(const QString &inTreeLabel) { treeLabel = inTreeLabel; }
+    const QString &getLabel() const { return treeLabel; }
 
     void setUniqueLabel(const QString &inUniqueLabel);
     const QString &getUniqueLabel() const { return uniqueLabel; }
-
-    void setDriver(const QString &newDriver) { driver = newDriver; }
-    const QString &getDriver() const { return driver; }
 
     void setVersion(const QString &newVersion) { version = newVersion; }
     const QString &getVersion() const { return version; }
@@ -130,7 +136,7 @@ class DriverInfo : public QObject
     /// How it appears in INDI Menu in case tree_label above is taken by another device
     QString uniqueLabel;
     /// Exec for the driver
-    QString driver;
+    QString exec;
     /// Version of the driver (optional)
     QString version;
     /// INDI server port as the user wants it.
