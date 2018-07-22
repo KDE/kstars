@@ -660,6 +660,7 @@ void ProfileEditor::loadDrivers()
             break;
 
             case KSTARS_AUXILIARY:
+            case KSTARS_SPECTROGRAPHS:
             {
                 ui->aux1Combo->addItem(icon, dv->getTreeLabel());
                 ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
@@ -677,7 +678,6 @@ void ProfileEditor::loadDrivers()
 
             default:
                 continue;
-                break;
         }
     }
 

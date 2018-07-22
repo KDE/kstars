@@ -1078,6 +1078,8 @@ bool DriverManager::buildDeviceGroup(XMLEle *root, char errmsg[])
         groupType = KSTARS_DETECTORS;
     else if (groupName.indexOf("Auxiliary") != -1)
         groupType = KSTARS_AUXILIARY;
+    else if (groupName.indexOf("Spectrographs") != -1)
+        groupType = KSTARS_SPECTROGRAPHS;
     else if (groupName.indexOf("Agent") != -1)
         groupType = KSTARS_AGENT;
     else if (groupName.indexOf("Rotators") != -1)
