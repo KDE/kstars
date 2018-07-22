@@ -187,9 +187,13 @@ void FITSHistogram::constructHistogram()
     }
 
     // Cumulative Frequency
-    for (int i = 0; i < binCount; i++)
-        for (int j = 0; j <= i; j++)
-            cumulativeFrequency[i] += r_frequency[j];
+    int j = 0;
+    double val = 0;
+    for (int i = 0; i < binCount; i++) {
+        val += r_frequency[j++];
+        cumulativeFrequency.replace(i, val);
+    }
+
 
     if (image_data->getNumOfChannels() == 1)
     {
