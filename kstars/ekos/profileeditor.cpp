@@ -661,6 +661,7 @@ void ProfileEditor::loadDrivers()
 
             case KSTARS_AUXILIARY:
             case KSTARS_SPECTROGRAPHS:
+            case KSTARS_DETECTORS:
             {
                 ui->aux1Combo->addItem(icon, dv->getTreeLabel());
                 ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
