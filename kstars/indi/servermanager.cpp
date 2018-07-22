@@ -146,8 +146,8 @@ bool ServerManager::startDriver(DriverInfo *dv)
     QTextStream out(&indiFIFO);
 
     // Check for duplicates within existing clients
-    if (dv->getUniqueLabel().isEmpty() && dv->getTreeLabel().isEmpty() == false)
-        dv->setUniqueLabel(DriverManager::Instance()->getUniqueDeviceLabel(dv->getTreeLabel()));
+    if (dv->getUniqueLabel().isEmpty() && dv->getLabel().isEmpty() == false)
+        dv->setUniqueLabel(DriverManager::Instance()->getUniqueDeviceLabel(dv->getLabel()));
 
     // Check for duplicates within managed drivers
     if (dv->getUniqueLabel().isEmpty() == false)
@@ -186,20 +186,20 @@ bool ServerManager::startDriver(DriverInfo *dv)
     paths << "/usr/bin"
           << "/usr/local/bin" << driversDir << indiServerDir;
 
-    if (QStandardPaths::findExecutable(dv->getDriver()).isEmpty())
+    if (QStandardPaths::findExecutable(dv->getExecutable()).isEmpty())
     {
-        if (QStandardPaths::findExecutable(dv->getDriver(), paths).isEmpty())
+        if (QStandardPaths::findExecutable(dv->getExecutable(), paths).isEmpty())
         {
             KMessageBox::error(nullptr, i18n("Driver %1 was not found on the system. Please make sure the package that "
                                              "provides the '%1' binary is installed.",
-                                             dv->getDriver()));
+                                             dv->getExecutable()));
             return false;
         }
     }
 
-    qCDebug(KSTARS_INDI) << "Starting INDI Driver " << dv->getDriver();
+    qCDebug(KSTARS_INDI) << "Starting INDI Driver " << dv->getExecutable();
 
-    out << "start " << dv->getDriver();
+    out << "start " << dv->getExecutable();
     if (dv->getUniqueLabel().isEmpty() == false)
         out << " -n \"" << dv->getUniqueLabel() << "\"";
     if (dv->getSkeletonFile().isEmpty() == false)
@@ -221,12 +221,12 @@ void ServerManager::stopDriver(DriverInfo *dv)
 
     managedDrivers.removeOne(dv);
 
-    qCDebug(KSTARS_INDI) << "Stopping INDI Driver " << dv->getDriver();
+    qCDebug(KSTARS_INDI) << "Stopping INDI Driver " << dv->getExecutable();
 
     if (dv->getUniqueLabel().isEmpty() == false)
-        out << "stop " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
+        out << "stop " << dv->getExecutable() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
     else
-        out << "stop " << dv->getDriver() << endl;
+        out << "stop " << dv->getExecutable() << endl;
 
     out.flush();
     dv->setServerState(false);

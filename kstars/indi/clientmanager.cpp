@@ -243,7 +243,7 @@ DriverInfo *ClientManager::findDriverInfoByLabel(const QString &label)
 {
     foreach (DriverInfo *dv, managedDrivers)
     {
-        if (dv->getTreeLabel() == label)
+        if (dv->getLabel() == label)
             return dv;
     }
 

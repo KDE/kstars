@@ -151,18 +151,18 @@ enum stdProperties
 
 /* Devices families that we explicitly support (i.e. with std properties) */
 typedef enum {
-    KSTARS_TELESCOPE,
+    KSTARS_ADAPTIVE_OPTICS,
+    KSTARS_AGENT,
+    KSTARS_AUXILIARY,
     KSTARS_CCD,
+    KSTARS_DETECTORS,
+    KSTARS_DOME,
     KSTARS_FILTER,
     KSTARS_FOCUSER,
     KSTARS_ROTATOR,
-    KSTARS_DOME,
-    KSTARS_ADAPTIVE_OPTICS,
-    KSTARS_DETECTORS,
-    KSTARS_WEATHER,
-    KSTARS_AUXILIARY,
     KSTARS_SPECTROGRAPHS,
-    KSTARS_AGENT,
+    KSTARS_TELESCOPE,
+    KSTARS_WEATHER,
     KSTARS_UNKNOWN
 } DeviceFamily;
 

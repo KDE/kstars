@@ -42,8 +42,8 @@ bool INDIDBus::start(const QString &port, const QStringList &drivers)
         DriverInfo *di = new DriverInfo(QString("%1").arg(driver));
         di->setHostParameters("localhost", port.isEmpty() ? "7624" : port);
         di->setDriverSource(EM_XML);
-        di->setDriver(driver);
-        di->setUniqueLabel(drv->getUniqueLabel().isEmpty() ? drv->getTreeLabel() : drv->getUniqueLabel());
+        di->setExecutable(driver);
+        di->setUniqueLabel(drv->getUniqueLabel().isEmpty() ? drv->getLabel() : drv->getUniqueLabel());
 
         DriverManager::Instance()->addDriver(di);
         newDrivers.append(di);

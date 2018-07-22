@@ -11,35 +11,41 @@
 
 #include <QDialog>
 #include <QVariantMap>
+#include <QSqlTableModel>
+#include <QPointer>
 
-#include "ui_driveralias.h"
+#include "ui_customdrivers.h"
 
 class DriverInfo;
 
 /**
- * @class DriverAlias
+ * @class CustomDrivers
  * @short Handles adding new drivers to database. This would enable to add arbitrary aliases of existing drivers.
  *
  * @author Jasem Mutlaq
  * @version 1.0
  */
-class DriverAlias : public QDialog, public Ui::DriverAlias
+class CustomDrivers : public QDialog, public Ui::CustomDrivers
 {
     Q_OBJECT
 
   public:
-    explicit DriverAlias(QWidget *parent, const QList<DriverInfo *> &driversList);
-    ~DriverAlias();
+    explicit CustomDrivers(QWidget *parent, const QList<DriverInfo *> &driversList);
+    ~CustomDrivers();
 
     void refreshFromDB();
 
-  signals:
-
-  public slots:    
+  protected slots:
+    void syncDriver();
+    void addDriver();
+    void removeDriver();
 
   private:            
 
-    QList<QVariantMap> driverAliases;
+    QList<QVariantMap> m_CustomDrivers;
     const QList<DriverInfo *> &m_DriversList;
+
+    QSqlDatabase userdb;
+    QPointer<QSqlTableModel> model;
 };
 

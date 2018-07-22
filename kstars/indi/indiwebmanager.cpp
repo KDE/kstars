@@ -134,7 +134,7 @@ bool areDriversRunning(ProfileInfo *pi)
             if (driver == nullptr)
                 driver = DriverManager::Instance()->findDriverByLabel(name);
             if (driver)
-                piExecDrivers << driver->getDriver();
+                piExecDrivers << driver->getExecutable();
         }
 
         if (array.count() < piExecDrivers.count())

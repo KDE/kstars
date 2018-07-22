@@ -125,7 +125,7 @@ DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
 
     updateCustomDrivers();
 
-    m_DriverAlias = new DriverAlias(this, driversList);
+    m_CustomDrivers = new CustomDrivers(this, driversList);
 
 #ifdef Q_OS_WIN
     ui->localTreeWidget->setEnabled(false);
@@ -157,7 +157,7 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
         if (ui->localTreeWidget->currentItem())
             currentDriver = ui->localTreeWidget->currentItem()->text(LOCAL_NAME_COLUMN);
 
-        for (auto &item : ui->localTreeWidget->findItems(dv->getTreeLabel(), Qt::MatchExactly | Qt::MatchRecursive))
+        for (auto &item : ui->localTreeWidget->findItems(dv->getLabel(), Qt::MatchExactly | Qt::MatchRecursive))
         {
             item->setText(LOCAL_VERSION_COLUMN, dv->getVersion());
 
@@ -230,7 +230,7 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
             }
 
             // Only update the log if the current driver is selected
-            if (currentDriver == dv->getTreeLabel())
+            if (currentDriver == dv->getLabel())
             {
                 ui->serverLogText->clear();
                 ui->serverLogText->append(dv->getServerBuffer());
@@ -273,7 +273,7 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<Drive
                 if (dv->getClientState() || dv->getServerState())
                 {
                     int ans = KMessageBox::warningContinueCancel(
-                        0, i18n("Driver %1 is already running, do you want to restart it?", dv->getTreeLabel()));
+                        0, i18n("Driver %1 is already running, do you want to restart it?", dv->getLabel()));
                     if (ans == KMessageBox::Cancel)
                         continue;
                     else
@@ -532,7 +532,7 @@ void DriverManager::updateLocalTab()
 
     foreach (DriverInfo *device, driversList)
     {
-        if (currentDriver == device->getTreeLabel())
+        if (currentDriver == device->getLabel())
         {
             processDeviceStatus(device);
             break;
@@ -576,7 +576,7 @@ void DriverManager::processLocalTree(bool dState)
             port = -1;
 
             //device->state = (dev_request == DriverInfo::DEV_TERMINATE) ? DriverInfo::DEV_START : DriverInfo::DEV_TERMINATE;
-            if (item->text(LOCAL_NAME_COLUMN) == device->getTreeLabel() && device->getServerState() != dState)
+            if (item->text(LOCAL_NAME_COLUMN) == device->getLabel() && device->getServerState() != dState)
             {
                 processed_devices.append(device);
 
@@ -1226,9 +1226,9 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
 
     dv = new DriverInfo(name);
 
-    dv->setTreeLabel(label);
+    dv->setLabel(label);
     dv->setVersion(version);
-    dv->setDriver(driver);
+    dv->setExecutable(driver);
     dv->setSkeletonFile(skel);
     dv->setType(groupType);
     dv->setDriverSource(driverSource);
@@ -1295,7 +1295,7 @@ void DriverManager::updateCustomDrivers()
                 drv->setAuxInfo(vMap);
             }
 
-            drv->setDriver(s->driver());
+            drv->setExecutable(s->driver());
 
             continue;
         }
@@ -1310,8 +1310,8 @@ void DriverManager::updateCustomDrivers()
 
         DriverInfo *dv = new DriverInfo(name);
 
-        dv->setTreeLabel(label);
-        dv->setDriver(driver);
+        dv->setLabel(label);
+        dv->setExecutable(driver);
         dv->setVersion(version);
         dv->setType(KSTARS_TELESCOPE);
         dv->setDriverSource(EM_XML);
@@ -1339,7 +1339,7 @@ void DriverManager::updateCustomDrivers()
 
         // Find if the group already exists
         QList<QTreeWidgetItem *> devList =
-            ui->localTreeWidget->findItems(dev->getTreeLabel(), Qt::MatchExactly | Qt::MatchRecursive);
+            ui->localTreeWidget->findItems(dev->getLabel(), Qt::MatchExactly | Qt::MatchRecursive);
         if (!devList.isEmpty())
         {
             widgetDev = devList[0];
@@ -1526,7 +1526,7 @@ DriverInfo *DriverManager::findDriverByLabel(const QString &label)
 {
     for (auto &dv : driversList)
     {
-        if (dv->getTreeLabel() == label)
+        if (dv->getLabel() == label)
             return dv;
     }
 
@@ -1537,7 +1537,7 @@ DriverInfo *DriverManager::findDriverByExec(const QString &exec)
 {
     for (auto &dv : driversList)
     {
-        if (dv->getDriver() == exec)
+        if (dv->getExecutable() == exec)
             return dv;
     }
 

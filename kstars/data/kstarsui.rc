@@ -63,7 +63,7 @@
         <Menu name="devices" noMerge="1"><text>&amp;Devices</text>
                 <!-- <Action name="telescope_wizard" /> -->
                 <Action name="device_manager" />
-                <Action name="driver_alias" />
+                <Action name="custom_drivers" />
                 <Separator />
                 <Action name="indi_cpl" />
         </Menu>
