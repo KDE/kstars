@@ -33,6 +33,7 @@ class CustomDrivers : public QDialog, public Ui::CustomDrivers
     explicit CustomDrivers(QWidget *parent, const QList<DriverInfo *> &driversList);
     ~CustomDrivers();
 
+    const QList<QVariantMap> & customDrivers() const { return m_CustomDrivers; }
     void refreshFromDB();
 
   protected slots:

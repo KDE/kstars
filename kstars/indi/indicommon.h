@@ -10,6 +10,9 @@
 #ifndef INDICOMMON_H
 #define INDICOMMON_H
 
+#include <QString>
+#include <QMap>
+
 /*!
 \page INDI "INDI Overview"
 \tableofcontents
@@ -87,7 +90,7 @@ the decorator classes implements extended functionlity, but the basic class is s
 
 #define INDIVERSION 1.7 /* we support this or less */
 
-typedef enum { PRIMARY_XML, THIRD_PARTY_XML, EM_XML, HOST_SOURCE, GENERATED_SOURCE } DriverSource;
+typedef enum { PRIMARY_XML, THIRD_PARTY_XML, EM_XML, HOST_SOURCE, CUSTOM_SOURCE, GENERATED_SOURCE } DriverSource;
 
 typedef enum { SERVER_CLIENT, SERVER_ONLY } ServerMode;
 
@@ -165,6 +168,22 @@ typedef enum {
     KSTARS_WEATHER,
     KSTARS_UNKNOWN
 } DeviceFamily;
+
+const QMap<DeviceFamily, QString> DeviceFamilyLabels = {
+    {KSTARS_ADAPTIVE_OPTICS, "Adaptive Optics"},
+    {KSTARS_AGENT, "Agent"},
+    {KSTARS_AUXILIARY, "Auxiliary"},
+    {KSTARS_CCD, "CCDs"},
+    {KSTARS_DETECTORS, "Detectors"},
+    {KSTARS_DOME, "Domes"},
+    {KSTARS_FILTER, "Filter Wheels"},
+    {KSTARS_FOCUSER, "Focusers"},
+    {KSTARS_ROTATOR, "Rotators"},
+    {KSTARS_SPECTROGRAPHS, "Spectrographs"},
+    {KSTARS_TELESCOPE, "Telescopes"},
+    {KSTARS_WEATHER, "Weather"},
+    {KSTARS_UNKNOWN, "Unknown"},
+};
 
 typedef enum { FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, FRAME_FLAT } CCDFrameType;
 

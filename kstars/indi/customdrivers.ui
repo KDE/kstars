@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>534</width>
-    <height>254</height>
+    <width>553</width>
+    <height>306</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -77,68 +77,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QComboBox" name="familyCombo">
-         <item>
-          <property name="text">
-           <string>Adaptive Optics</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Agent</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Auxiliary</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CCDs</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Detectors</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Domes</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Filter Wheels</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Focusers</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Rotators</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Spectrographs</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Telescopes</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Weather</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="familyCombo"/>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_7">
@@ -232,7 +171,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
      <property name="spacing">
       <number>3</number>
      </property>
@@ -259,6 +198,42 @@
       <widget class="QLabel" name="label">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To create an &lt;span style=&quot; font-weight:600;&quot;&gt;Alias&lt;/span&gt; from an existing driver, select an existing driver and then only change the &lt;span style=&quot; font-weight:600;&quot;&gt;Label &lt;/span&gt;then press&lt;span style=&quot; font-weight:600;&quot;&gt; Add.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>3</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="cautionLabel">
+       <property name="minimumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;KStars must be restarted for new drivers to take effect.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

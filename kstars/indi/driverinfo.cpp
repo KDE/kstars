@@ -30,7 +30,7 @@ DriverInfo::DriverInfo(const QString &inName)
 DriverInfo::DriverInfo(DriverInfo *di)
 {
     name          = di->getName();
-    treeLabel     = di->getLabel();
+    label     = di->getLabel();
     uniqueLabel   = di->getUniqueLabel();
     exec        = di->getExecutable();
     version       = di->getVersion();
