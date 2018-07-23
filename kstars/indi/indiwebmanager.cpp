@@ -112,6 +112,45 @@ bool isOnline(ProfileInfo *pi)
         return false;
 }
 
+bool syncCustomDrivers(ProfileInfo *pi)
+{
+    QNetworkAccessManager manager;
+    QUrl url(QString("http://%1:%2/api/profiles/custom").arg(pi->host).arg(pi->INDIWebManagerPort));
+
+    QStringList customDriversLabels;
+    QMapIterator<QString, QString> i(pi->drivers);
+    while (i.hasNext())
+    {
+        QString name       = i.next().value();
+        DriverInfo *driver = DriverManager::Instance()->findDriverByName(name);
+
+        if (driver == nullptr)
+            driver = DriverManager::Instance()->findDriverByLabel(name);
+        if (driver && driver->getDriverSource() == CUSTOM_SOURCE)
+            customDriversLabels << driver->getLabel();
+    }
+
+    // Search for locked filter by filter color name
+    const QList<QVariantMap> &customDrivers = DriverManager::Instance()->getCustomDrivers();
+
+    for (auto label : customDriversLabels)
+    {
+        auto pos = std::find_if(customDrivers.begin(), customDrivers.end(), [label](QVariantMap oneDriver)
+        {return (oneDriver["Label"] == label);});
+
+        if (pos == customDrivers.end())
+            continue;
+
+        QVariantMap driver = (*pos);
+        QJsonObject jsonDriver = QJsonObject::fromVariantMap(driver);
+
+        QByteArray data    = QJsonDocument(jsonDriver).toJson();
+        getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data);
+    }
+
+    return true;
+}
+
 bool areDriversRunning(ProfileInfo *pi)
 {
     QUrl url(QString("http://%1:%2/api/server/drivers").arg(pi->host).arg(pi->INDIWebManagerPort));
