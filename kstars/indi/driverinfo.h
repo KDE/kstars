@@ -73,8 +73,8 @@ class DriverInfo : public QObject
     // Driver Label/Alias. We _rename_ the INDI driver in _runtime_ to the label
     // Internally INDI server changes the actual driver "name" above to the label value
     // It's a method of running multiple instances of the same driver with multiple names.
-    void setLabel(const QString &inTreeLabel) { treeLabel = inTreeLabel; }
-    const QString &getLabel() const { return treeLabel; }
+    void setLabel(const QString &inlabel) { label = inlabel; }
+    const QString &getLabel() const { return label; }
 
     void setUniqueLabel(const QString &inUniqueLabel);
     const QString &getUniqueLabel() const { return uniqueLabel; }
@@ -132,7 +132,7 @@ class DriverInfo : public QObject
     /// Actual device name as defined by INDI server
     QString name;
     /// How it appears in the GUI initially as read from source
-    QString treeLabel;
+    QString label;
     /// How it appears in INDI Menu in case tree_label above is taken by another device
     QString uniqueLabel;
     /// Exec for the driver

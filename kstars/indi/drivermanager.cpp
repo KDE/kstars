@@ -123,9 +123,9 @@ DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
 
     readINDIHosts();
 
-    updateCustomDrivers();
-
     m_CustomDrivers = new CustomDrivers(this, driversList);
+
+    updateCustomDrivers();    
 
 #ifdef Q_OS_WIN
     ui->localTreeWidget->setEnabled(false);
@@ -273,7 +273,7 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<Drive
                 if (dv->getClientState() || dv->getServerState())
                 {
                     int ans = KMessageBox::warningContinueCancel(
-                        0, i18n("Driver %1 is already running, do you want to restart it?", dv->getLabel()));
+                        nullptr, i18n("Driver %1 is already running, do you want to restart it?", dv->getLabel()));
                     if (ans == KMessageBox::Cancel)
                         continue;
                     else
@@ -1061,33 +1061,7 @@ bool DriverManager::buildDeviceGroup(XMLEle *root, char errmsg[])
     }
 
     groupName = valuXMLAtt(ap);
-
-    if (groupName.indexOf("Telescopes") != -1)
-        groupType = KSTARS_TELESCOPE;
-    else if (groupName.indexOf("CCDs") != -1)
-        groupType = KSTARS_CCD;
-    else if (groupName.indexOf("Filter Wheels") != -1)
-        groupType = KSTARS_FILTER;    
-    else if (groupName.indexOf("Focusers") != -1)
-        groupType = KSTARS_FOCUSER;
-    else if (groupName.indexOf("Adaptive Optics") != -1)
-        groupType = KSTARS_ADAPTIVE_OPTICS;
-    else if (groupName.indexOf("Domes") != -1)
-        groupType = KSTARS_DOME;
-    else if (groupName.indexOf("Detectors") != -1)
-        groupType = KSTARS_DETECTORS;
-    else if (groupName.indexOf("Auxiliary") != -1)
-        groupType = KSTARS_AUXILIARY;
-    else if (groupName.indexOf("Spectrographs") != -1)
-        groupType = KSTARS_SPECTROGRAPHS;
-    else if (groupName.indexOf("Agent") != -1)
-        groupType = KSTARS_AGENT;
-    else if (groupName.indexOf("Rotators") != -1)
-        groupType = KSTARS_ROTATOR;
-    else if (groupName.indexOf("Weather") != -1)
-        groupType = KSTARS_WEATHER;
-    else
-        groupType = KSTARS_UNKNOWN;
+    groupType = DeviceFamilyLabels.key(groupName);
 
 #ifndef HAVE_CFITSIO
     // We do not create these groups if we don't have CFITSIO support
@@ -1232,10 +1206,8 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     dv->setSkeletonFile(skel);
     dv->setType(groupType);
     dv->setDriverSource(driverSource);
-    dv->setUserPort(port);
-
-    if (vMap.isEmpty() == false)
-        dv->setAuxInfo(vMap);
+    dv->setUserPort(port);    
+    dv->setAuxInfo(vMap);
 
     connect(dv, SIGNAL(deviceStateChanged(DriverInfo*)), this, SLOT(processDeviceStatus(DriverInfo*)));
 
@@ -1257,6 +1229,30 @@ bool DriverManager::checkDriverAvailability(const QString &driver)
     return driverFile.exists();
 }
 
+void DriverManager::updateCustomDrivers()
+{
+    for (const QVariantMap & oneDriver : m_CustomDrivers->customDrivers())
+    {
+        DriverInfo *dv = new DriverInfo(oneDriver["Name"].toString());
+        dv->setLabel(oneDriver["Label"].toString());
+        dv->setUniqueLabel(dv->getLabel());
+        dv->setExecutable(oneDriver["Exec"].toString());
+        dv->setVersion(oneDriver["Version"].toString());
+        dv->setType(DeviceFamilyLabels.key(oneDriver["Family"].toString()));
+        dv->setDriverSource(CUSTOM_SOURCE);
+
+        bool driverIsAvailable = checkDriverAvailability(oneDriver["Exec"].toString());
+        QVariantMap vMap;
+        vMap.insert("LOCALLY_AVAILABLE", driverIsAvailable);
+        dv->setAuxInfo(vMap);
+
+        driversList.append(dv);
+    }
+}
+
+
+// JM 2018-07-23: Disabling the old custom drivers method
+#if 0
 void DriverManager::updateCustomDrivers()
 {
     QString label;
@@ -1352,6 +1348,7 @@ void DriverManager::updateCustomDrivers()
         delete (dev);
     }
 }
+#endif
 
 void DriverManager::addINDIHost()
 {
@@ -1456,7 +1453,7 @@ void DriverManager::removeINDIHost()
                 return;
             }
 
-            if (KMessageBox::warningContinueCancel(0,
+            if (KMessageBox::warningContinueCancel(nullptr,
                                                    i18n("Are you sure you want to remove the %1 client?",
                                                         ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN)),
                                                    i18n("Delete Confirmation"),

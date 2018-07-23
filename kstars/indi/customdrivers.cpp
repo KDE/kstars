@@ -33,6 +33,9 @@ CustomDrivers::CustomDrivers(QWidget *parent, const QList<DriverInfo *> &drivers
     refreshFromDB();
 
     tipLabel->setPixmap((QIcon::fromTheme("help-hint").pixmap(32, 32)));
+    cautionLabel->setPixmap((QIcon::fromTheme("emblem-warning").pixmap(32, 32)));
+
+    familyCombo->addItems(DeviceFamilyLabels.values());
 
     for (const DriverInfo *oneDriver : driversList)
     {
