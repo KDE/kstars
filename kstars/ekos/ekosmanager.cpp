@@ -671,6 +671,8 @@ bool EkosManager::start()
             remoteManagerStart = false;
             if (INDI::WebManager::isOnline(currentProfile))
             {
+                INDI::WebManager::syncCustomDrivers(currentProfile);
+
                 if (INDI::WebManager::areDriversRunning(currentProfile) == false)
                 {
                     INDI::WebManager::stopProfile(currentProfile);

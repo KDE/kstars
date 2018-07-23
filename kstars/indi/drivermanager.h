@@ -105,7 +105,8 @@ class DriverManager : public QDialog
 
     ClientManager *getClientManager(DriverInfo *dv);
 
-    const QList<DriverInfo *> &getDrivers() { return driversList; }
+    const QList<DriverInfo *> &getDrivers() const { return driversList; }
+    const QList<QVariantMap> &getCustomDrivers() const { return m_CustomDrivers->customDrivers(); }
 
     const QStringList &getDriversStringList() { return driversStringList; }
 
