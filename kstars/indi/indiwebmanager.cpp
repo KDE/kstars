@@ -183,8 +183,13 @@ bool areDriversRunning(ProfileInfo *pi)
         QStringList webManagerDrivers;
         for (auto value : array)
         {
-            QJsonObject obj = value.toObject();
-            webManagerDrivers << obj.value("driver").toString();
+            QJsonObject driver = value.toObject();
+            // Old Web Manager API API
+            QString exec = driver["driver"].toString();
+            if (exec.isEmpty())
+                // New v0.1.5+ Web Manager API
+                exec = driver["binary"].toString();
+            webManagerDrivers << exec;
         }
 
         // Make sure all the profile drivers are running there
