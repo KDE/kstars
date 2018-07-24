@@ -2374,4 +2374,31 @@ bool CCD::setExposureLoopCount(uint32_t count)
 
     return true;
 }
+
+bool CCD::setStreamExposure(double duration)
+{
+    INumberVectorProperty *nvp = baseDevice->getNumber("STREAMING_EXPOSURE");
+
+    if (nvp == nullptr)
+        return false;
+
+    nvp->np[0].value = duration;
+
+    clientManager->sendNewNumber(nvp);
+
+    return true;
+}
+
+bool CCD::getStreamExposure(double *duration)
+{
+    INumberVectorProperty *nvp = baseDevice->getNumber("STREAMING_EXPOSURE");
+
+    if (nvp == nullptr)
+        return false;
+
+    *duration = nvp->np[0].value;
+
+    return true;
+}
+
 }
