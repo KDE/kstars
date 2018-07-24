@@ -30,14 +30,16 @@ DriverInfo::DriverInfo(const QString &inName)
 DriverInfo::DriverInfo(DriverInfo *di)
 {
     name          = di->getName();
-    label     = di->getLabel();
+    label         = di->getLabel();
     uniqueLabel   = di->getUniqueLabel();
-    exec        = di->getExecutable();
+    exec          = di->getExecutable();
     version       = di->getVersion();
     userPort      = di->getUserPort();
     skelFile      = di->getSkeletonFile();
     port          = di->getPort();
     hostname      = di->getHost();
+    remotePort    = di->getRemotePort();
+    remoteHostname= di->getRemoteHost();
     type          = di->getType();
     serverState   = di->getServerState();
     clientState   = di->getClientState();

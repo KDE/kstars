@@ -548,12 +548,42 @@ bool EkosManager::start()
         if (drv != nullptr)
             managedDrivers.append(drv->clone());
 
+        // Add remote drivers if we have any
+        if (currentProfile->remotedrivers.isEmpty() == false && currentProfile->remotedrivers.contains("@"))
+        {
+            for (auto remoteDriver : currentProfile->remotedrivers.split(","))
+            {
+                QString name, label, host("localhost"), port("7624");
+                QStringList properties = remoteDriver.split(QRegExp("[@:]"));
+                if (properties.length() > 1)
+                {
+                    name = properties[0];
+                    host = properties[1];
+
+                    if (properties.length() > 2)
+                        port = properties[2];
+                }
+
+                DriverInfo *dv = new DriverInfo(name);
+                dv->setRemoteHost(host);
+                dv->setRemotePort(port);
+
+                label = name;
+                // Remove extra quotes
+                label.remove("\"");
+                dv->setLabel(label);
+                dv->setUniqueLabel(label);
+                managedDrivers.append(dv);
+            }
+        }
+
+
         if (haveCCD == false && haveGuider == false)
         {
             KMessageBox::error(this, i18n("Ekos requires at least one CCD or Guider to operate."));
             managedDrivers.clear();
             return false;
-        }
+        }                
 
         nDevices = managedDrivers.count();
     }
@@ -642,7 +672,7 @@ bool EkosManager::start()
 
         appendLogText(i18n("Starting INDI services..."));
 
-        if (DriverManager::Instance()->startDevices(managedDrivers, currentProfile->remotedrivers.split(",")) == false)
+        if (DriverManager::Instance()->startDevices(managedDrivers) == false)
         {
             INDIListener::Instance()->disconnect(this);
             qDeleteAll(managedDrivers);

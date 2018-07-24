@@ -110,12 +110,20 @@ class DriverManager : public QDialog
 
     const QStringList &getDriversStringList() { return driversStringList; }
 
+    /**
+     * @brief getUniqueHosts Given a list of DriverInfos, extract all the host:port information from all the drivers.
+     * and then consolidate each groups of drivers that belong to the same server & port to a specific list
+     * e.g. If we have driver1 (localhost:7624), driver2(192.168.1.90:7624), driver3(localhost:7624) then this would create
+     * two lists. First list contains [driver1,driver3] and second list contains [driver2] making each list _unique_ in terms of host params.
+     * @param dList list of driver to examine
+     * @param uHosts List of unique hosts, each with a group of drivers that belong to it.
+     */
     void getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<DriverInfo *>> &uHosts);
 
     void addDriver(DriverInfo *di) { driversList.append(di); }
     void removeDriver(DriverInfo *di) { driversList.removeOne(di); }
 
-    bool startDevices(QList<DriverInfo *> &dList, QStringList remoteDrivers = QStringList());
+    bool startDevices(QList<DriverInfo *> &dList);
     void stopDevices(const QList<DriverInfo *> &dList);
     void stopAllDevices() { stopDevices(driversList); }
 

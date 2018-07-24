@@ -116,6 +116,11 @@ class DriverInfo : public QObject
     const QString &getHost() const { return hostname; }
     const QString &getPort() const { return port; }
 
+    void setRemotePort(const QString &inPort) { remotePort = inPort; }
+    void setRemoteHost(const QString &inHost) { remoteHostname = inHost; }
+    const QString &getRemoteHost() const { return remoteHostname; }
+    const QString &getRemotePort() const { return remotePort; }
+
     //void setBaseDevice(INDI::BaseDevice *idv) { baseDevice = idv;}
     //INDI::BaseDevice* getBaseDevice() { return baseDevice; }
 
@@ -147,6 +152,10 @@ class DriverInfo : public QObject
     QString port;
     /// INDI Host hostname
     QString hostname;
+    // INDI Remote Hostname (for remote drivers)
+    QString remoteHostname;
+    // INDI remote port (for remote drivers)
+    QString remotePort;
     /// Device type (Telescope, CCD..etc), if known (optional)
     DeviceFamily type { KSTARS_UNKNOWN };
     /// Is the driver in the server running?

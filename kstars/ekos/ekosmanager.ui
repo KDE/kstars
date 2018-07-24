@@ -1567,26 +1567,26 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>toolsWidget</tabstop>
+  <tabstop>processINDIB</tabstop>
+  <tabstop>connectB</tabstop>
+  <tabstop>disconnectB</tabstop>
   <tabstop>profileCombo</tabstop>
   <tabstop>addProfileB</tabstop>
   <tabstop>editProfileB</tabstop>
   <tabstop>deleteProfileB</tabstop>
   <tabstop>customDriversB</tabstop>
   <tabstop>wizardProfileB</tabstop>
-  <tabstop>processINDIB</tabstop>
   <tabstop>logsB</tabstop>
   <tabstop>ekosLiveB</tabstop>
   <tabstop>optionsB</tabstop>
-  <tabstop>connectB</tabstop>
-  <tabstop>disconnectB</tabstop>
   <tabstop>ekosOptionsB</tabstop>
   <tabstop>clearB</tabstop>
   <tabstop>ekosLogOut</tabstop>
   <tabstop>raOUT</tabstop>
-  <tabstop>azOUT</tabstop>
   <tabstop>decOUT</tabstop>
+  <tabstop>azOUT</tabstop>
   <tabstop>altOUT</tabstop>
+  <tabstop>toolsWidget</tabstop>
  </tabstops>
  <resources/>
  <connections/>

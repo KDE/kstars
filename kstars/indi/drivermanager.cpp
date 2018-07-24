@@ -261,13 +261,16 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<Drive
 {
     bool found = false;
 
+    // Iterate over all drivers
     for (DriverInfo *dv : dList)
     {
         QList<DriverInfo *> uList;
 
+        // Let's see for drivers with idential hosts and ports
         for (DriverInfo *idv : dList)
         {
-            if (dv->getHost() == idv->getHost() && dv->getPort() == idv->getPort())
+            // If we get a match between port and hostname, we add it to the list
+            if ( (dv->getHost() == idv->getHost() && dv->getPort() == idv->getPort()))
             {
                 // Check if running already
                 if (dv->getClientState() || dv->getServerState())
@@ -286,6 +289,7 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<Drive
 
                 found = false;
 
+                // Check to see if the driver already been added elsewhere
                 for (auto &qdi : uHosts)
                 {
                     for (DriverInfo *di : qdi)
@@ -308,7 +312,7 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<Drive
     }
 }
 
-bool DriverManager::startDevices(QList<DriverInfo *> &dList, QStringList remoteDrivers)
+bool DriverManager::startDevices(QList<DriverInfo *> &dList)
 {
     ServerManager *serverManager = nullptr;
     ClientManager *clientManager = nullptr;
@@ -372,11 +376,6 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList, QStringList remoteD
                 return false;
             }
         }
-
-        // Only start remote drivers if we are managing a single server
-        // as we cannot know where the remote drivers are supposed to be chained to
-        if (remoteDrivers.empty() == false && uHosts.count() == 1)
-            serverManager->startRemoteDrivers(remoteDrivers);
 
         // Nothing to do more if SERVER ONLY
         if (connectionMode == SERVER_ONLY)

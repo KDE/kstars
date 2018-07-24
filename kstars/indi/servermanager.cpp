@@ -141,22 +141,6 @@ void ServerManager::insertEnvironmentPath(QProcessEnvironment *env, QString vari
         env->insert(variable, QDir(environmentPath).absolutePath());
 }
 
-bool ServerManager::startRemoteDrivers(QStringList remoteDrivers)
-{
-    QTextStream out(&indiFIFO);
-
-    for (auto remoteDriver : remoteDrivers)
-    {
-        qCDebug(KSTARS_INDI) << "Starting INDI Remote Driver" << remoteDriver;
-        remoteDriver.replace("\"", "\\\"");
-        out << "start " << remoteDriver << endl;
-    }
-
-    out.flush();
-
-    return true;
-}
-
 bool ServerManager::startDriver(DriverInfo *dv)
 {
     QTextStream out(&indiFIFO);
@@ -198,35 +182,45 @@ bool ServerManager::startDriver(DriverInfo *dv)
         indiServerDir = QFileInfo(Options::indiServer()).dir().path();
 #endif
 
-    QStringList paths;
-    paths << "/usr/bin"
-          << "/usr/local/bin" << driversDir << indiServerDir;
-
-    if (QStandardPaths::findExecutable(dv->getExecutable()).isEmpty())
+    if (dv->getRemoteHost().isEmpty() == false)
     {
-        if (QStandardPaths::findExecutable(dv->getExecutable(), paths).isEmpty())
-        {
-            KMessageBox::error(nullptr, i18n("Driver %1 was not found on the system. Please make sure the package that "
-                                             "provides the '%1' binary is installed.",
-                                             dv->getExecutable()));
-            return false;
-        }
+        QString driverString = dv->getName() + "@" + dv->getRemoteHost() + ":" + dv->getRemotePort();
+        qCDebug(KSTARS_INDI) << "Starting Remote INDI Driver" << driverString;
+        out << "start " << driverString << endl;
+        out.flush();
     }
+    else
+    {
+        QStringList paths;
+        paths << "/usr/bin"
+              << "/usr/local/bin" << driversDir << indiServerDir;
 
-    qCDebug(KSTARS_INDI) << "Starting INDI Driver " << dv->getExecutable();
+        if (QStandardPaths::findExecutable(dv->getExecutable()).isEmpty())
+        {
+            if (QStandardPaths::findExecutable(dv->getExecutable(), paths).isEmpty())
+            {
+                KMessageBox::error(nullptr, i18n("Driver %1 was not found on the system. Please make sure the package that "
+                                                 "provides the '%1' binary is installed.",
+                                                 dv->getExecutable()));
+                return false;
+            }
+        }
 
-    out << "start " << dv->getExecutable();
-    if (dv->getUniqueLabel().isEmpty() == false)
-        out << " -n \"" << dv->getUniqueLabel() << "\"";
-    if (dv->getSkeletonFile().isEmpty() == false)
-        out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
-    out << endl;
+        qCDebug(KSTARS_INDI) << "Starting INDI Driver " << dv->getExecutable();
 
-    out.flush();
+        out << "start " << dv->getExecutable();
+        if (dv->getUniqueLabel().isEmpty() == false)
+            out << " -n \"" << dv->getUniqueLabel() << "\"";
+        if (dv->getSkeletonFile().isEmpty() == false)
+            out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
+        out << endl;
 
-    dv->setServerState(true);
+        out.flush();
 
-    dv->setPort(port);
+        dv->setServerState(true);
+
+        dv->setPort(port);
+    }
 
     return true;
 }
