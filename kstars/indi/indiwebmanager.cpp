@@ -255,11 +255,21 @@ bool syncProfile(ProfileInfo *pi)
         }
     }
 
+    // Regular Drivers
     while (i.hasNext())
         driverArray.append(QJsonObject({{"label", i.next().value()}}));
 
+    // Remote Drivers
+    if (pi->remotedrivers.isEmpty() == false)
+    {
+        for (auto remoteDriver : pi->remotedrivers.split(","))
+        {
+            driverArray.append(QJsonObject({{"remote", remoteDriver}}));
+        }
+    }
+
     data    = QJsonDocument(driverArray).toJson();
-    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data);
+    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data);        
 
     return true;
 }

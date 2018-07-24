@@ -157,6 +157,12 @@
                <property name="text">
                 <string/>
                </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
+               </property>
               </widget>
              </item>
              <item>
@@ -187,6 +193,12 @@
                </property>
                <property name="text">
                 <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
                </property>
               </widget>
              </item>
@@ -219,6 +231,40 @@
                <property name="text">
                 <string/>
                </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="customDriversB">
+               <property name="minimumSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Custom Drivers</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
+               </property>
               </widget>
              </item>
              <item>
@@ -240,6 +286,12 @@
                </property>
                <property name="text">
                 <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
                </property>
               </widget>
              </item>
@@ -334,6 +386,12 @@
                  <property name="text">
                   <string/>
                  </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>22</width>
+                   <height>22</height>
+                  </size>
+                 </property>
                 </widget>
                </item>
                <item>
@@ -352,6 +410,12 @@
                  </property>
                  <property name="text">
                   <string/>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>22</width>
+                   <height>22</height>
+                  </size>
                  </property>
                 </widget>
                </item>
@@ -1508,6 +1572,7 @@
   <tabstop>addProfileB</tabstop>
   <tabstop>editProfileB</tabstop>
   <tabstop>deleteProfileB</tabstop>
+  <tabstop>customDriversB</tabstop>
   <tabstop>wizardProfileB</tabstop>
   <tabstop>processINDIB</tabstop>
   <tabstop>logsB</tabstop>
@@ -1515,13 +1580,13 @@
   <tabstop>optionsB</tabstop>
   <tabstop>connectB</tabstop>
   <tabstop>disconnectB</tabstop>
-  <tabstop>raOUT</tabstop>
-  <tabstop>decOUT</tabstop>
-  <tabstop>azOUT</tabstop>
-  <tabstop>altOUT</tabstop>
-  <tabstop>ekosLogOut</tabstop>
   <tabstop>ekosOptionsB</tabstop>
   <tabstop>clearB</tabstop>
+  <tabstop>ekosLogOut</tabstop>
+  <tabstop>raOUT</tabstop>
+  <tabstop>azOUT</tabstop>
+  <tabstop>decOUT</tabstop>
+  <tabstop>altOUT</tabstop>
  </tabstops>
  <resources/>
  <connections/>

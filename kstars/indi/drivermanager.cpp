@@ -308,7 +308,7 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<Drive
     }
 }
 
-bool DriverManager::startDevices(QList<DriverInfo *> &dList)
+bool DriverManager::startDevices(QList<DriverInfo *> &dList, QStringList remoteDrivers)
 {
     ServerManager *serverManager = nullptr;
     ClientManager *clientManager = nullptr;
@@ -372,6 +372,11 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
                 return false;
             }
         }
+
+        // Only start remote drivers if we are managing a single server
+        // as we cannot know where the remote drivers are supposed to be chained to
+        if (remoteDrivers.empty() == false && uHosts.count() == 1)
+            serverManager->startRemoteDrivers(remoteDrivers);
 
         // Nothing to do more if SERVER ONLY
         if (connectionMode == SERVER_ONLY)
