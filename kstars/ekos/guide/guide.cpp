@@ -1440,7 +1440,7 @@ void Guide::setCaptureComplete()
             break;
     }
 
-    emit newStarPixmap(guideView->getTrackingBoxPixmap());
+    emit newStarPixmap(guideView->getTrackingBoxPixmap(10));
 }
 
 void Guide::appendLogText(const QString &text)
@@ -2635,7 +2635,7 @@ void Guide::setAxisDelta(double ra, double de)
 
     emit newAxisDelta(ra, de);
 
-    profilePixmap = driftGraph->grab(QRect(QPoint(0, 50), QSize(driftGraph->width(), 150)));
+    profilePixmap = driftGraph->grab();
     emit newProfilePixmap(profilePixmap);
 }
 

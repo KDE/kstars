@@ -1142,15 +1142,15 @@ void FITSView::setFirstLoad(bool value)
     firstLoad = value;
 }
 
-QPixmap &FITSView::getTrackingBoxPixmap()
+QPixmap &FITSView::getTrackingBoxPixmap(uint8_t margin)
 {
     if (trackingBox.isNull())
         return trackingBoxPixmap;
 
-    int x1 = trackingBox.x() * (currentZoom / ZOOM_DEFAULT);
-    int y1 = trackingBox.y() * (currentZoom / ZOOM_DEFAULT);
-    int w  = trackingBox.width() * (currentZoom / ZOOM_DEFAULT);
-    int h  = trackingBox.height() * (currentZoom / ZOOM_DEFAULT);
+    int x1 = (trackingBox.x() - margin) * (currentZoom / ZOOM_DEFAULT);
+    int y1 = (trackingBox.y() - margin) * (currentZoom / ZOOM_DEFAULT);
+    int w  = (trackingBox.width() + margin*2) * (currentZoom / ZOOM_DEFAULT);
+    int h  = (trackingBox.height() + margin*2) * (currentZoom / ZOOM_DEFAULT);
 
     trackingBoxPixmap = image_frame->grab(QRect(x1, y1, w, h));
 

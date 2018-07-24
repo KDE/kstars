@@ -475,7 +475,6 @@ class Focus : public QWidget, public Ui::Focus
     QVector<double> hfr_position, hfr_value;
 
     // Pixmaps
-    QPixmap starPixmap;
     QPixmap profilePixmap;
 
     /// State

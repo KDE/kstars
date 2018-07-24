@@ -1097,8 +1097,7 @@ void Focus::setCaptureComplete()
 
     FITSData *image_data = focusView->getImageData();
 
-    starPixmap = focusView->getTrackingBoxPixmap();
-    emit newStarPixmap(starPixmap);
+    emit newStarPixmap(focusView->getTrackingBoxPixmap(10));
 
     // If we're not framing, let's try to detect stars
     //if (inFocusLoop == false || (inFocusLoop && focusView->isTrackingBoxEnabled()))
