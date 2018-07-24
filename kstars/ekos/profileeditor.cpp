@@ -63,7 +63,7 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
         equipmentdlg->exec();
         delete equipmentdlg;
         loadScopeEquipment();
-    });
+    });    
 
 #ifdef Q_OS_WIN
     ui->remoteMode->setChecked(true);
@@ -278,6 +278,8 @@ void ProfileEditor::saveProfile()
     else
         pi->drivers["Aux4"] = ui->aux4Combo->currentText();
 
+    pi->remotedrivers = ui->remoteDrivers->text();
+
     KStarsData::Instance()->userdb()->SaveProfile(pi);
 
     // Ekos manager will reload and new profiles will be created
@@ -356,6 +358,9 @@ void ProfileEditor::setPi(ProfileInfo *value)
             ui->INDIWebManagerPort->setText("8624");
         }
     }
+
+    if (pi->remotedrivers.isEmpty() == false)
+        ui->remoteDrivers->setText(pi->remotedrivers);
 
     ui->guideTypeCombo->setCurrentIndex(pi->guidertype);
     updateGuiderSelection(ui->guideTypeCombo->currentIndex());
@@ -774,6 +779,7 @@ void ProfileEditor::setConnectionOptionsEnabled(bool enable)
     ui->INDIWebManagerPortLabel->setEnabled(enable);
     ui->guidingTypeLabel->setEnabled(enable);
     ui->guideTypeCombo->setEnabled(enable);
+    ui->remoteDrivers->setEnabled(enable);
 
     updateGuiderSelection(ui->guideTypeCombo->currentIndex());
 

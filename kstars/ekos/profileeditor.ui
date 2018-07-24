@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>380</width>
-    <height>353</height>
+    <height>370</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -332,31 +332,8 @@
       <string>Select Devices</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="4">
-       <widget class="QLabel" name="label_15">
-        <property name="toolTip">
-         <string>Auxliary #3</string>
-        </property>
-        <property name="text">
-         <string>Aux 3:</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="3">
        <widget class="QComboBox" name="AOCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="5">
-       <widget class="QComboBox" name="aux4Combo">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -378,143 +355,10 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="label_12">
-        <property name="toolTip">
-         <string>Adaptive Optics</string>
-        </property>
-        <property name="text">
-         <string>AO:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <widget class="QLabel" name="label_14">
-        <property name="toolTip">
-         <string>Auxliary #2</string>
-        </property>
-        <property name="text">
-         <string>Aux 2:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>CCD:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="mountCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_10">
         <property name="text">
          <string>Focuser:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QComboBox" name="focuserCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLabel" name="label_11">
-        <property name="toolTip">
-         <string>Weather Station</string>
-        </property>
-        <property name="text">
-         <string>Weather:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Mount:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>Guider:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QComboBox" name="guiderCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="label_13">
-        <property name="text">
-         <string>Dome:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="label_16">
-        <property name="toolTip">
-         <string>Auxliary #1</string>
-        </property>
-        <property name="text">
-         <string>Aux 1:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QComboBox" name="domeCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QComboBox" name="aux1Combo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -528,21 +372,15 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="5">
-       <widget class="QComboBox" name="aux3Combo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Guider:</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="5">
-       <widget class="QComboBox" name="aux2Combo">
+      <item row="2" column="5">
+       <widget class="QComboBox" name="aux3Combo">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -567,6 +405,29 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="4">
+       <widget class="QLabel" name="label_15">
+        <property name="toolTip">
+         <string>Auxliary #3</string>
+        </property>
+        <property name="text">
+         <string>Aux 3:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="mountCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
       <item row="3" column="3">
        <widget class="QComboBox" name="weatherCombo">
         <property name="sizePolicy">
@@ -580,6 +441,109 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="5">
+       <widget class="QComboBox" name="aux2Combo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="label_11">
+        <property name="toolTip">
+         <string>Weather Station</string>
+        </property>
+        <property name="text">
+         <string>Weather:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QComboBox" name="aux1Combo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Dome:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_12">
+        <property name="toolTip">
+         <string>Adaptive Optics</string>
+        </property>
+        <property name="text">
+         <string>AO:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="guiderCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Mount:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>CCD:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="focuserCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_16">
+        <property name="toolTip">
+         <string>Auxliary #1</string>
+        </property>
+        <property name="text">
+         <string>Aux 1:</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="3">
        <widget class="QComboBox" name="filterCombo">
         <property name="sizePolicy">
@@ -590,6 +554,59 @@
         </property>
         <property name="editable">
          <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="5">
+       <widget class="QComboBox" name="aux4Combo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="label_14">
+        <property name="toolTip">
+         <string>Auxliary #2</string>
+        </property>
+        <property name="text">
+         <string>Aux 2:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QComboBox" name="domeCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify Remote drivers to chain with. Remote INDI server must be already established. If port is different from default 7624 port, then it must be specified. For example, to connect to ZWO ASI120MC driver running on 192.168.1.50 on port 8000, the connection string is:&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&amp;quot;ZWO ASI120MC&amp;quot;@192.168.1.50:8000&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Remote:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" colspan="5">
+       <widget class="QLineEdit" name="remoteDrivers">
+        <property name="placeholderText">
+         <string>driver1@remotehost:port,driver2@remotehost:port</string>
         </property>
        </widget>
       </item>
@@ -666,7 +683,8 @@
          </size>
         </property>
         <property name="icon">
-         <iconset theme="list-add"/>
+         <iconset theme="list-add">
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
