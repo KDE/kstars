@@ -39,6 +39,7 @@ class ProfileInfo
     QString aux2();
     QString aux3();
     QString aux4();
+    QString remoteDrivers();
 
     QString name;
     QString host;
@@ -49,6 +50,7 @@ class ProfileInfo
     int guiderport { 0 };
     int primaryscope { 0 };
     int guidescope { 0 };
+    QString remotedrivers;
     QString guiderhost;
     int id { 0 };
     int port { -1 };
