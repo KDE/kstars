@@ -126,7 +126,7 @@ bool ServerManager::start()
         emit started();
     }
     else
-        KMessageBox::error(0, i18n("INDI server failed to start: %1", serverProcess->errorString()));
+        KMessageBox::error(nullptr, i18n("INDI server failed to start: %1", serverProcess->errorString()));
 
     qCDebug(KSTARS_INDI) << "INDI Server Started? " << connected;
 
@@ -139,6 +139,22 @@ void ServerManager::insertEnvironmentPath(QProcessEnvironment *env, QString vari
     QString environmentPath = QCoreApplication::applicationDirPath() + relativePath;
     if (QFileInfo::exists(environmentPath) && Options::indiDriversAreInternal())
         env->insert(variable, QDir(environmentPath).absolutePath());
+}
+
+bool ServerManager::startRemoteDrivers(QStringList remoteDrivers)
+{
+    QTextStream out(&indiFIFO);
+
+    for (auto remoteDriver : remoteDrivers)
+    {
+        qCDebug(KSTARS_INDI) << "Starting INDI Remote Driver" << remoteDriver;
+        remoteDriver.replace("\"", "\\\"");
+        out << "start " << remoteDriver << endl;
+    }
+
+    out.flush();
+
+    return true;
 }
 
 bool ServerManager::startDriver(DriverInfo *dv)
@@ -305,7 +321,7 @@ void ServerManager::processStandardError()
                 QString driverName = driver.left(driver.indexOf(':')).trimmed();
                 qCCritical(KSTARS_INDI) << "INDI driver " << driverName << " crashed!";
                 KMessageBox::information(
-                    0,
+                    nullptr,
                     i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.",
                          driverName));
                 break;

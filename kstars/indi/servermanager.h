@@ -47,6 +47,8 @@ class ServerManager : public QObject
     bool startDriver(DriverInfo *dv);
     void stopDriver(DriverInfo *dv);
 
+    bool startRemoteDrivers(QStringList remoteDrivers);
+
     void setMode(ServerMode inMode) { mode = inMode; }
     ServerMode getMode() { return mode; }
 

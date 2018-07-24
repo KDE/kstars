@@ -171,6 +171,10 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     deleteProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     wizardProfileB->setIcon(QIcon::fromTheme("tools-wizard"));
     wizardProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    customDriversB->setIcon(QIcon::fromTheme("roll"));
+    customDriversB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    connect(customDriversB, &QPushButton::clicked, DriverManager::Instance(), &DriverManager::showCustomDrivers);
 
     // Load all drivers
     loadDrivers();
@@ -638,7 +642,7 @@ bool EkosManager::start()
 
         appendLogText(i18n("Starting INDI services..."));
 
-        if (DriverManager::Instance()->startDevices(managedDrivers) == false)
+        if (DriverManager::Instance()->startDevices(managedDrivers, currentProfile->remotedrivers.split(",")) == false)
         {
             INDIListener::Instance()->disconnect(this);
             qDeleteAll(managedDrivers);

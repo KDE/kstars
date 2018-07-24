@@ -115,7 +115,7 @@ class DriverManager : public QDialog
     void addDriver(DriverInfo *di) { driversList.append(di); }
     void removeDriver(DriverInfo *di) { driversList.removeOne(di); }
 
-    bool startDevices(QList<DriverInfo *> &dList);
+    bool startDevices(QList<DriverInfo *> &dList, QStringList remoteDrivers = QStringList());
     void stopDevices(const QList<DriverInfo *> &dList);
     void stopAllDevices() { stopDevices(driversList); }
 
