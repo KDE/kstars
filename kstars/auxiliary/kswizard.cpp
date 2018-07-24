@@ -65,10 +65,6 @@ WizDataUI::WizDataUI(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
 }
-WizAstrometryUI::WizAstrometryUI(QWidget *parent) : QFrame(parent)
-{
-    setupUi(this);
-}
 #endif
 
 KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
@@ -100,7 +96,6 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     welcome = new WizWelcomeUI(wizardStack);
 #ifdef Q_OS_OSX
     data       = new WizDataUI(wizardStack);
-    astrometry = new WizAstrometryUI(wizardStack);
 #endif
     location                = new WizLocationUI(wizardStack);
     WizDownloadUI *download = new WizDownloadUI(wizardStack);
@@ -108,7 +103,6 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     wizardStack->addWidget(welcome);
 #ifdef Q_OS_OSX
     wizardStack->addWidget(data);
-    wizardStack->addWidget(astrometry);
 #endif
     wizardStack->addWidget(location);
     wizardStack->addWidget(download);
@@ -137,23 +131,13 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath() +
                      "/wzdownload.png"))
         data->Banner->setPixmap(im);
-    if (im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzdownload.png")))
-        astrometry->Banner->setPixmap(im);
-    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath() +
-                     "/wzdownload.png"))
-        astrometry->Banner->setPixmap(im);
 
     data->dataPath->setText(
         QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString(), QStandardPaths::LocateDirectory) +
         "kstars");
     slotUpdateDataButtons();
-    astrometry->astrometryPath->setText(
-        QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString(), QStandardPaths::LocateDirectory) +
-        "Astrometry");
-    updateAstrometryButtons();
 
     connect(data->copyKStarsData, SIGNAL(clicked()), this, SLOT(slotOpenOrCopyKStarsDataDirectory()));
-    connect(astrometry->astrometryButton, SIGNAL(clicked()), this, SLOT(slotOpenOrCreateAstrometryFolder()));
     connect(data->installGSC, SIGNAL(clicked()), this, SLOT(slotInstallGSC()));
     connect(this, SIGNAL(accepted()), this, SLOT(slotFinishWizard()));
 
@@ -340,25 +324,6 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
 #endif
 }
 
-void KSWizard::slotOpenOrCreateAstrometryFolder()
-{
-#ifdef Q_OS_OSX
-    QString astrometryLocation =
-        QStandardPaths::locate(QStandardPaths::GenericDataLocation, "Astrometry", QStandardPaths::LocateDirectory);
-    if (astrometryLocation.isEmpty())
-    {
-        KSUtils::configureDefaultAstrometry();
-        updateAstrometryButtons();
-    }
-    else
-    {
-        QUrl path = QUrl::fromLocalFile(
-            QStandardPaths::locate(QStandardPaths::GenericDataLocation, "Astrometry", QStandardPaths::LocateDirectory));
-        QDesktopServices::openUrl(path);
-    }
-#endif
-}
-
 void KSWizard::slotInstallGSC()
 {
 #ifdef Q_OS_OSX
@@ -435,19 +400,6 @@ bool KSWizard::dataDirExists()
     return !dataLocation.isEmpty();
 }
 
-bool KSWizard::astrometryDirExists()
-{
-    QString astrometryLocation =
-        QStandardPaths::locate(QStandardPaths::GenericDataLocation, "Astrometry", QStandardPaths::LocateDirectory);
-    return !astrometryLocation.isEmpty();
-}
-
-bool KSWizard::pythonExists()
-{
-    return QFileInfo("/usr/local/bin/python").exists()||
-            QFileInfo("/usr/bin/python").exists()||
-            QFileInfo(QCoreApplication::applicationDirPath() + "/python/bin/python").exists();
-}
 bool KSWizard::GSCExists()
 {
     QString GSCLocation =
@@ -455,28 +407,6 @@ bool KSWizard::GSCExists()
     return !GSCLocation.isEmpty();
 }
 
-bool KSWizard::pyfitsExists()
-{
-    return QFileInfo("/usr/local/lib/python2.7/site-packages/pyfits").exists()||
-            QFileInfo("/usr/lib/python2.7/site-packages/pyfits").exists()||
-            QFileInfo(QCoreApplication::applicationDirPath() + "/python/bin/site-packages/pyfits").exists();
-
-}
-
-bool KSWizard::netpbmExists()
-{
-    return QFileInfo("/usr/local/bin/jpegtopnm").exists()||
-            QFileInfo("/usr/bin/jpegtopnm").exists()||
-            QFileInfo(QCoreApplication::applicationDirPath() + "/netpbm/bin/jpegtopnm").exists();
-}
-
-void KSWizard::updateAstrometryButtons()
-{
-    astrometry->astrometryFound->setChecked(astrometryDirExists());
-    astrometry->pythonFound->setChecked(pythonExists());
-    astrometry->pyfitsFound->setChecked(pyfitsExists());
-    astrometry->netpbmFound->setChecked(netpbmExists());
-}
 #endif
 
 void KSWizard::slotUpdateDataButtons()

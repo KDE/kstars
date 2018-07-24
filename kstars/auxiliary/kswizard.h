@@ -27,7 +27,6 @@
 #include "ui_wizlocation.h"
 #include "ui_wizdownload.h"
 #include "ui_wizdata.h"
-#include "ui_wizastrometry.h"
 #include "QProgressIndicator.h"
 
 class GeoLocation;
@@ -55,14 +54,6 @@ class WizDataUI : public QFrame, public Ui::WizData
 
   public:
     explicit WizDataUI(QWidget *parent = nullptr);
-};
-
-class WizAstrometryUI : public QFrame, public Ui::WizAstrometry
-{
-    Q_OBJECT
-
-  public:
-    explicit WizAstrometryUI(QWidget *parent = nullptr);
 };
 
 class WizDownloadUI : public QFrame, public Ui::WizDownload
@@ -120,8 +111,6 @@ class KSWizard : public QDialog
 
     void slotFinishWizard();
 
-    void slotOpenOrCreateAstrometryFolder();
-
     void slotInstallGSC();
 
     void slotExtractGSC();
@@ -146,15 +135,9 @@ class KSWizard : public QDialog
 
 #ifdef Q_OS_OSX
 
-    bool pythonExists();
     bool GSCExists();
-    bool pyfitsExists();
-    bool netpbmExists();
-
     bool dataDirExists();
-    bool astrometryDirExists();
 
-    void updateAstrometryButtons();
 
     QProgressIndicator *gscMonitor { nullptr };
     QTimer *downloadMonitor { nullptr };
@@ -166,7 +149,6 @@ class KSWizard : public QDialog
     WizWelcomeUI *welcome { nullptr };
     WizLocationUI *location { nullptr };
     WizDataUI *data { nullptr };
-    WizAstrometryUI *astrometry { nullptr };
     QPushButton *nextB { nullptr };
     QPushButton *backB { nullptr };
     QDialogButtonBox *buttonBox { nullptr };
