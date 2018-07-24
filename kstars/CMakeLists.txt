@@ -486,7 +486,6 @@ set(kstars_dialogsui_SRCS
     dialogs/wizlocation.ui
     dialogs/wizdownload.ui
     dialogs/wizdata.ui
-    dialogs/wizastrometry.ui
     dialogs/newfov.ui
     dialogs/exportimagedialog.ui
 )
