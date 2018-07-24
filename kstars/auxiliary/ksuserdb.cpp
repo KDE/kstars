@@ -75,207 +75,21 @@ bool KSUserDB::Initialize()
             QSqlRecord record = version.record(0);
             version.clear();
 
-            QString currentDBVersion = record.value("Version").toString();
+            // Old version had 2.9.5 ..etc, so we remove them
+            // Starting with 2.9.7, we are using SCHEMA_VERSION which now decoupled from KStars Version and starts at 300
+            int currentDBVersion = record.value("Version").toString().remove(".").toInt();
 
             // Update database version to current KStars version
-            if (currentDBVersion != KSTARS_VERSION)
+            if (currentDBVersion != SCHEMA_VERSION)
             {
                 QSqlQuery query(userdb_);
-                QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
+                QString versionQuery = QString("UPDATE Version SET Version=%1").arg(SCHEMA_VERSION);
                 if (!query.exec(versionQuery))
-                    qCWarning(KSTARS) << query.lastError();
-            }
-
-            // If prior to 2.4.0 upgrade database for horizon table
-            if (currentDBVersion < "2.4.0")
-            {
-                QSqlQuery query(userdb_);
-                if (!query.exec("CREATE TABLE IF NOT EXISTS horizons (id INTEGER DEFAULT NULL PRIMARY KEY "
-                                "AUTOINCREMENT, name TEXT NOT NULL, label TEXT NOT NULL, enabled INTEGER NOT NULL)"))
-                    qCWarning(KSTARS) << query.lastError();
-            }
-
-            // If prior to 2.6.0 upgrade database for profiles tables
-            if (currentDBVersion < "2.6.0")
-            {
-                QSqlQuery query(userdb_);
-                QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
-
-                if (!query.exec(versionQuery))
-                    qCWarning(KSTARS) << query.lastError();
-
-                // Profiles
-                if (!query.exec("CREATE TABLE IF NOT EXISTS profile (id INTEGER DEFAULT NULL PRIMARY KEY "
-                                "AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, "
-                                "country TEXT, indiwebmanagerport INTEGER DEFAULT NULL)"))
-                    qCWarning(KSTARS) << query.lastError();
-
-                // Drivers
-                if (!query.exec("CREATE TABLE IF NOT EXISTS driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                                "label TEXT NOT NULL, role TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN "
-                                "KEY(profile) REFERENCES profile(id))"))
-                    qCWarning(KSTARS) << query.lastError();
-
-// Custom Drivers
-//if (!query.exec("CREATE TABLE IF NOT EXISTS custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))"))
-//qDebug() << query.lastError();
-
-// Add sample profile
-#ifdef Q_OS_WIN
-                if (!query.exec("INSERT INTO profile (name, host, port) VALUES ('Simulators', 'localhost', 7624)"))
-                    qDebug() << query.lastError();
-#else
-                if (!query.exec("INSERT INTO profile (name) VALUES ('Simulators')"))
-                    qCWarning(KSTARS) << query.lastError();
-#endif
-
-                // Add sample profile drivers
-                if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('Telescope Simulator', 'Mount', 1)"))
-                    qCWarning(KSTARS) << query.lastError();
-                if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('CCD Simulator', 'CCD', 1)"))
-                    qCWarning(KSTARS) << query.lastError();
-                if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('Focuser Simulator', 'Focuser', 1)"))
-                    qCWarning(KSTARS) << query.lastError();
-            }
-
-            // If prior to 2.6.1 upgrade database for dark library tables
-            if (currentDBVersion < "2.6.1")
-            {
-                QSqlQuery query(userdb_);
-                QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
-
-                if (!query.exec(versionQuery))
-                    qCWarning(KSTARS) << query.lastError();
-
-                // Dark Frame
-                if (!query.exec("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY "
-                                "AUTOINCREMENT, ccd TEXT NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, "
-                                "temperature REAL, duration REAL, filename TEXT NOT NULL, timestamp DATETIME DEFAULT "
-                                "CURRENT_TIMESTAMP)"))
-                    qCWarning(KSTARS) << query.lastError();
-            }
-
-            // If prior to 2.7.3 upgrade database to add column for focus offset
-            if (currentDBVersion < "2.7.3")
-            {
-                QSqlQuery query(userdb_);
-                QString columnQuery = QString("ALTER TABLE filter ADD COLUMN Offset TEXT");
-
-                query.exec(columnQuery);
-            }
-
-            // If prior to 2.7.5 upgrade database to add column for autoconnect
-            if (currentDBVersion < "2.7.5")
-            {
-                QSqlQuery query(userdb_);
-                QString columnQuery = QString("ALTER TABLE profile ADD COLUMN autoconnect INTEGER");
-
-                query.exec(columnQuery);
-            }
-
-            // If prior to 2.7.6 upgrade database to add column for filter exposure
-            if (currentDBVersion < "2.7.6")
-            {
-                QSqlQuery query(userdb_);
-                QString columnQuery = QString("ALTER TABLE filter ADD COLUMN Exposure TEXT DEFAULT '1'");
-
-                query.exec(columnQuery);
-            }
-
-            // If prior to 2.7.9 upgrade database to add guider app selection
-            if (currentDBVersion < "2.7.9")
-            {
-                QSqlQuery query(userdb_);
-                QString columnQuery = QString("ALTER TABLE profile ADD COLUMN guidertype INTEGER DEFAULT 0");
-                query.exec(columnQuery);
-                columnQuery = QString("ALTER TABLE profile ADD COLUMN guiderhost TEXT");
-                query.exec(columnQuery);
-                columnQuery = QString("ALTER TABLE profile ADD COLUMN guiderport INTEGER");
-                query.exec(columnQuery);
-            }
-
-            // If prior to 2.8.0 upgrade database to add telescope selection
-            if (currentDBVersion < "2.8.0")
-            {
-                QSqlQuery query(userdb_);
-                QString columnQuery = QString("ALTER TABLE profile ADD COLUMN primaryscope INTEGER DEFAULT 0");
-                query.exec(columnQuery);
-                columnQuery = QString("ALTER TABLE profile ADD COLUMN guidescope INTEGER DEFAULT 0");
-                query.exec(columnQuery);
-            }
-
-            // If prior to 2.8.2 upgrade database to add HIPS sources
-            if (currentDBVersion < "2.8.2")
-            {
-                // To get all lists
-                // http://alasky.unistra.fr/MocServer/query?hips_service_url=*&dataproduct_type=!catalog&dataproduct_type=!cube&&moc_sky_fraction=1&get=record
-                QSqlQuery query(userdb_);
-                query.exec("DROP TABLE hips");
-                if (!query.exec("CREATE TABLE hips (ID TEXT NOT NULL UNIQUE,"
-                                "obs_title TEXT NOT NULL, obs_description TEXT NOT NULL, hips_order TEXT NOT NULL,"
-                                "hips_frame TEXT NOT NULL, hips_tile_width TEXT NOT NULL, hips_tile_format TEXT NOT NULL,"
-                                "hips_service_url TEXT NOT NULL, moc_sky_fraction TEXT NOT NULL)"))
-                    qCWarning(KSTARS) << query.lastError();
-                // Add default data
-                else
-                {
-                    if (!query.exec("INSERT INTO hips (ID, obs_title, obs_description, hips_order, hips_frame, hips_tile_width, hips_tile_format, hips_service_url, moc_sky_fraction)"
-                                    "VALUES ('CDS/P/DSS2/color', 'DSS colored', 'Color composition generated by CDS. This HiPS survey is based on 2 others HiPS surveys,"
-                                    " respectively DSS2-red and DSS2-blue HiPS, both of them directly generated from original scanned plates downloaded"
-                                    " from STScI site. The red component has been built from POSS-II F, AAO-SES,SR and SERC-ER plates. The blue component"
-                                    " has been build from POSS-II J and SERC-J,EJ. The green component is based on the mean of other components. Three"
-                                    " missing plates from red survey (253, 260, 359) has been replaced by pixels from the DSSColor STScI jpeg survey."
-                                    " The 11 missing blue plates (mainly in galactic plane) have not been replaced (only red component).',"
-                                    "'9', 'equatorial', '512', 'jpeg fits', 'http://alasky.u-strasbg.fr/DSS/DSSColor','1')"))
-                        qCWarning(KSTARS) << query.lastError();
-
-                    if (!query.exec("INSERT INTO hips (ID, obs_title, obs_description, hips_order, hips_frame, hips_tile_width, hips_tile_format, hips_service_url, moc_sky_fraction)"
-                                    "VALUES ('CDS/P/2MASS/color', '2MASS color J (1.23 microns), H (1.66 microns), K (2.16 microns)',"
-                                    "'2MASS has uniformly scanned the entire sky in three near-infrared bands to detect and characterize point sources"
-                                    " brighter than about 1 mJy in each band, with signal-to-noise ratio (SNR) greater than 10, using a pixel size of"
-                                    " 2.0\". This has achieved an 80,000-fold improvement in sensitivity relative to earlier surveys. 2MASS used two"
-                                    " highly-automated 1.3-m telescopes, one at Mt. Hopkins, AZ, and one at CTIO, Chile. Each telescope was equipped with"
-                                    " a three-channel camera, each channel consisting of a 256x256 array of HgCdTe detectors, capable of observing the"
-                                    " sky simultaneously at J (1.25 microns), H (1.65 microns), and Ks (2.17 microns). The University of Massachusetts"
-                                    " (UMass) was responsible for the overall management of the project, and for developing the infrared cameras and"
-                                    " on-site computing systems at both facilities. The Infrared Processing and Analysis Center (IPAC) is responsible"
-                                    " for all data processing through the Production Pipeline, and construction and distribution of the data products."
-                                    " Funding is provided primarily by NASA and the NSF',"
-                                    "'9', 'equatorial', '512', 'jpeg fits', 'http://alaskybis.u-strasbg.fr/2MASS/Color', '1')"))
-                        qCWarning(KSTARS) << query.lastError();
-
-                    if (!query.exec("INSERT INTO hips (ID, obs_title, obs_description, hips_order, hips_frame, hips_tile_width, hips_tile_format, hips_service_url, moc_sky_fraction)"
-                                    "VALUES ('CDS/P/Fermi/color', 'Fermi Color HEALPix survey', 'Launched on June 11, 2008, the Fermi Gamma-ray Space Telescope observes the cosmos using the"
-                                    " highest-energy form of light. This survey sums all data observed by the Fermi mission up to week 396. This version"
-                                    " of the Fermi survey are intensity maps where the summed counts maps are divided by the exposure for each pixel"
-                                    ". We anticipate using the HEASARC Hera capabilities to update this survey on a roughly quarterly basis. Data is"
-                                    " broken into 5 energy bands : 30-100 MeV Band 1, 100-300 MeV Band 2, 300-1000 MeV Band 3, 1-3 GeV Band 4 ,"
-                                    " 3-300 GeV Band 5. The SkyView data are based upon a Cartesian projection of the counts divided by the exposure maps."
-                                    " In the Cartesian projection pixels near the pole have a much smaller area than pixels on the equator, so these"
-                                    " pixels have smaller integrated flux. When creating large scale images in other projections users may wish to make"
-                                    " sure to compensate for this effect the flux conserving clip-resampling option.', '9', 'equatorial', '512', 'jpeg fits',"
-                                    "'http://alaskybis.u-strasbg.fr/Fermi/Color', '1')"))
-                        qCWarning(KSTARS) << query.lastError();
-                }
-            }            
-
-            // If prior to 2.8.7 create DSLR info table
-            if (currentDBVersion < "2.8.7")
-            {
-                QSqlQuery query(userdb_);
-
-                if (!query.exec("CREATE TABLE dslr ( "
-                           "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                           "Model TEXT DEFAULT NULL, "
-                           "Width INTEGER DEFAULT NULL, "
-                           "Height INTEGER DEFAULT NULL, "
-                           "PixelW REAL DEFAULT 5.0,"
-                           "PixelH REAL DEFAULT 5.0)"))
                     qCWarning(KSTARS) << query.lastError();
             }
 
             // If prior to 2.9.4 extend filters table
-            if (currentDBVersion < "2.9.4")
+            if (currentDBVersion < 294)
             {
                 QSqlQuery query(userdb_);
 
@@ -283,49 +97,57 @@ bool KSUserDB::Initialize()
                 if (!query.exec("DROP table filter"))
                     qCWarning(KSTARS) << query.lastError();
                 if (!query.exec("CREATE TABLE filter ( "
-                           "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                           "Vendor TEXT DEFAULT NULL, "
-                           "Model TEXT DEFAULT NULL, "
-                           "Type TEXT DEFAULT NULL, "
-                           "Color TEXT DEFAULT NULL,"
-                           "Exposure REAL DEFAULT 1.0,"
-                           "Offset INTEGER DEFAULT 0,"
-                           "UseAutoFocus INTEGER DEFAULT 0,"
-                           "LockedFilter TEXT DEFAULT '--',"
-                           "AbsoluteFocusPosition INTEGER DEFAULT 0)"))
+                                "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                                "Vendor TEXT DEFAULT NULL, "
+                                "Model TEXT DEFAULT NULL, "
+                                "Type TEXT DEFAULT NULL, "
+                                "Color TEXT DEFAULT NULL,"
+                                "Exposure REAL DEFAULT 1.0,"
+                                "Offset INTEGER DEFAULT 0,"
+                                "UseAutoFocus INTEGER DEFAULT 0,"
+                                "LockedFilter TEXT DEFAULT '--',"
+                                "AbsoluteFocusPosition INTEGER DEFAULT 0)"))
                     qCWarning(KSTARS) << query.lastError();
             }
 
             // If prior to 2.9.5 create fov table
-            if (currentDBVersion < "2.9.5")
+            if (currentDBVersion < 295)
             {
                 QSqlQuery query(userdb_);
 
                 if (!query.exec("CREATE TABLE effectivefov ( "
-                           "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                           "Profile TEXT DEFAULT NULL, "
-                           "Width INTEGER DEFAULT NULL, "
-                           "Height INTEGER DEFAULT NULL, "
-                           "PixelW REAL DEFAULT 5.0,"
-                           "PixelH REAL DEFAULT 5.0,"
-                           "FocalLength REAL DEFAULT 0.0,"
-                           "FovW REAL DEFAULT 0.0,"
-                           "FovH REAL DEFAULT 0.0)"))
+                                "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                                "Profile TEXT DEFAULT NULL, "
+                                "Width INTEGER DEFAULT NULL, "
+                                "Height INTEGER DEFAULT NULL, "
+                                "PixelW REAL DEFAULT 5.0,"
+                                "PixelH REAL DEFAULT 5.0,"
+                                "FocalLength REAL DEFAULT 0.0,"
+                                "FovW REAL DEFAULT 0.0,"
+                                "FovH REAL DEFAULT 0.0)"))
                     qCWarning(KSTARS) << query.lastError();
             }
 
-            if (userdb_.tables().contains("customdrivers") == false)
+            if (currentDBVersion < 300)
             {
                 QSqlQuery query(userdb_);
-
-                if (!query.exec("CREATE TABLE customdrivers ( "
-                           "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                           "Name TEXT DEFAULT NULL, "
-                           "Label TEXT DEFAULT NULL UNIQUE, "
-                           "Family TEXT DEFAULT NULL, "
-                           "Exec TEXT DEFAULT NULL, "
-                           "Version TEXT DEFAULT 1.0)"))
+                QString columnQuery = QString("ALTER TABLE profile ADD COLUMN remotedrivers TEXT DEFAULT NULL");
+                if (!query.exec(columnQuery))
                     qCWarning(KSTARS) << query.lastError();
+
+                if (userdb_.tables().contains("customdrivers") == false)
+                {
+                    QSqlQuery query(userdb_);
+
+                    if (!query.exec("CREATE TABLE customdrivers ( "
+                                    "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                                    "Name TEXT DEFAULT NULL, "
+                                    "Label TEXT DEFAULT NULL UNIQUE, "
+                                    "Family TEXT DEFAULT NULL, "
+                                    "Exec TEXT DEFAULT NULL, "
+                                    "Version TEXT DEFAULT 1.0)"))
+                        qCWarning(KSTARS) << query.lastError();
+                }
             }
         }
     }
@@ -398,16 +220,16 @@ bool KSUserDB::RebuildDB()
                   "FOVUnit TEXT NOT NULL  DEFAULT NULL)");
 
     tables.append("CREATE TABLE filter ( "
-               "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-               "Vendor TEXT DEFAULT NULL, "
-               "Model TEXT DEFAULT NULL, "
-               "Type TEXT DEFAULT NULL, "
-               "Color TEXT DEFAULT NULL,"
-               "Exposure REAL DEFAULT 1.0,"
-               "Offset INTEGER DEFAULT 0,"
-               "UseAutoFocus INTEGER DEFAULT 0,"
-               "LockedFilter TEXT DEFAULT '--',"
-               "AbsoluteFocusPosition INTEGER DEFAULT 0)");
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                  "Vendor TEXT DEFAULT NULL, "
+                  "Model TEXT DEFAULT NULL, "
+                  "Type TEXT DEFAULT NULL, "
+                  "Color TEXT DEFAULT NULL,"
+                  "Exposure REAL DEFAULT 1.0,"
+                  "Offset INTEGER DEFAULT 0,"
+                  "UseAutoFocus INTEGER DEFAULT 0,"
+                  "LockedFilter TEXT DEFAULT '--',"
+                  "AbsoluteFocusPosition INTEGER DEFAULT 0)");
 
     tables.append("CREATE TABLE wishlist ( "
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
@@ -444,10 +266,11 @@ bool KSUserDB::RebuildDB()
 
     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host "
                   "TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT "
-                  "NULL, autoconnect INTEGER DEFAULT 1, guidertype INTEGER DEFAULT 0, guiderhost TEXT, guiderport INTEGER, primaryscope INTEGER DEFAULT 0, guidescope INTEGER DEFAULT 0)");
+                  "NULL, autoconnect INTEGER DEFAULT 1, guidertype INTEGER DEFAULT 0, guiderhost TEXT, guiderport INTEGER,"
+                  "primaryscope INTEGER DEFAULT 0, guidescope INTEGER DEFAULT 0, remotedrivers TEXT DEFAULT NULL)");
     tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role "
                   "TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
-//tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
+    //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
 
 #ifdef Q_OS_WIN
     tables.append("INSERT INTO profile (name, host, port) VALUES ('Simulators', 'localhost', 7624)");
@@ -505,31 +328,31 @@ bool KSUserDB::RebuildDB()
 
 
     tables.append("CREATE TABLE dslr (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-               "Model TEXT DEFAULT NULL, "
-               "Width INTEGER DEFAULT NULL, "
-               "Height INTEGER DEFAULT NULL, "
-               "PixelW REAL DEFAULT 5.0,"
-               "PixelH REAL DEFAULT 5.0)");
+                  "Model TEXT DEFAULT NULL, "
+                  "Width INTEGER DEFAULT NULL, "
+                  "Height INTEGER DEFAULT NULL, "
+                  "PixelW REAL DEFAULT 5.0,"
+                  "PixelH REAL DEFAULT 5.0)");
 
 
     tables.append("CREATE TABLE effectivefov ( "
-               "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-               "Profile TEXT DEFAULT NULL, "
-               "Width INTEGER DEFAULT NULL, "
-               "Height INTEGER DEFAULT NULL, "
-               "PixelW REAL DEFAULT 5.0,"
-               "PixelH REAL DEFAULT 5.0,"
-               "FocalLength REAL DEFAULT 0.0,"
-               "FovW REAL DEFAULT 0.0,"
-               "FovH REAL DEFAULT 0.0)");
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                  "Profile TEXT DEFAULT NULL, "
+                  "Width INTEGER DEFAULT NULL, "
+                  "Height INTEGER DEFAULT NULL, "
+                  "PixelW REAL DEFAULT 5.0,"
+                  "PixelH REAL DEFAULT 5.0,"
+                  "FocalLength REAL DEFAULT 0.0,"
+                  "FovW REAL DEFAULT 0.0,"
+                  "FovH REAL DEFAULT 0.0)");
 
     tables.append("CREATE TABLE customdrivers ( "
-               "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-               "Name TEXT DEFAULT NULL, "
-               "Label TEXT DEFAULT NULL UNIQUE, "
-               "Family TEXT DEFAULT NULL, "
-               "Exec TEXT DEFAULT NULL, "
-               "Version TEXT DEFAULT 1.0)");
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                  "Name TEXT DEFAULT NULL, "
+                  "Label TEXT DEFAULT NULL UNIQUE, "
+                  "Family TEXT DEFAULT NULL, "
+                  "Exec TEXT DEFAULT NULL, "
+                  "Version TEXT DEFAULT 1.0)");
 
     for (int i = 0; i < tables.count(); ++i)
     {
@@ -1958,7 +1781,7 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     if (!query.exec(QString("UPDATE profile SET "
                             "host=null,port=null,city=null,province=null,country=null,indiwebmanagerport=NULL,"
                             "autoconnect=NULL,primaryscope=0,guidescope=0 WHERE id=%1")
-                        .arg(pi->id)))
+                    .arg(pi->id)))
         qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
     // Update Name
@@ -1969,14 +1792,14 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     if (pi->host.isEmpty() == false)
     {
         if (!query.exec(
-                QString("UPDATE profile SET host='%1',port=%2 WHERE id=%3").arg(pi->host).arg((pi->port)).arg(pi->id)))
+                    QString("UPDATE profile SET host='%1',port=%2 WHERE id=%3").arg(pi->host).arg((pi->port)).arg(pi->id)))
             qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
         if (pi->INDIWebManagerPort != -1)
         {
             if (!query.exec(QString("UPDATE profile SET indiwebmanagerport='%1' WHERE id=%2")
-                                .arg(pi->INDIWebManagerPort)
-                                .arg(pi->id)))
+                            .arg(pi->INDIWebManagerPort)
+                            .arg(pi->id)))
                 qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
         }
     }
@@ -1985,8 +1808,8 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     if (pi->city.isEmpty() == false)
     {
         if (!query.exec(QString("UPDATE profile SET city='%1',province='%2',country='%3' WHERE id=%4")
-                            .arg(pi->city, pi->province, pi->country)
-                            .arg(pi->id)))
+                        .arg(pi->city, pi->province, pi->country)
+                        .arg(pi->id)))
         {
             qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
         }
@@ -2015,13 +1838,17 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     if (!query.exec(QString("UPDATE profile SET guidescope=%1 WHERE id=%2").arg(pi->guidescope).arg(pi->id)))
         qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
+    // Update remote drivers
+    if (!query.exec(QString("UPDATE profile SET remotedrivers='%1' WHERE id=%2").arg(pi->remotedrivers).arg(pi->id)))
+        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
+
     QMapIterator<QString, QString> i(pi->drivers);
     while (i.hasNext())
     {
         i.next();
         if (!query.exec(QString("INSERT INTO driver (label, role, profile) VALUES('%1','%2',%3)")
-                            .arg(i.value(), i.key())
-                            .arg(pi->id)))
+                        .arg(i.value(), i.key())
+                        .arg(pi->id)))
         {
             qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
         }
@@ -2069,6 +1896,8 @@ void KSUserDB::GetAllProfiles(QList<std::shared_ptr<ProfileInfo>> &profiles)
 
         pi->primaryscope = record.value("primaryscope").toInt();
         pi->guidescope = record.value("guidescope").toInt();
+
+        pi->remotedrivers = record.value("remotedrivers").toString();
 
         GetProfileDrivers(pi.get());
         //GetProfileCustomDrivers(pi);
