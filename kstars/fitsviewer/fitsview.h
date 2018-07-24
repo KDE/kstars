@@ -73,7 +73,7 @@ class FITSView : public QScrollArea
     // Tracking square
     void setTrackingBoxEnabled(bool enable);
     bool isTrackingBoxEnabled() { return trackingBoxEnabled; }
-    QPixmap &getTrackingBoxPixmap();
+    QPixmap &getTrackingBoxPixmap(uint8_t margin=0);
     void setTrackingBox(const QRect &rect);
     const QRect &getTrackingBox() { return trackingBox; }
 
