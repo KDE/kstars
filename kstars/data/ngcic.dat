@@ -3,7 +3,7 @@
 # Converted for KStars by: Christian Dersch <lupinix at mailbox dot org>
 # License: CC-BY-SA-4.0
 #
-# Created using 82e1339ae99339366f69003bdf6d6f4504b16cf7 from
+# Created using 2f609e628961bce1c24047e1bafb57a41d994f44 from
 # https://github.com/mattiaverga/OpenNGC
 # Conversion script: https://github.com/lupinix/kstars-openngc
 #
@@ -6908,7 +6908,7 @@ N1434 034612.8 -094057 15.53 8 00.79 00.48 163  13804
 N1435 034610.0 +234553       5 30.00 30.00                                  Merope Nebula
 N1436 034337.0 -355110 12.49 8 02.97 02.08 152  13687                       
 N1437 034337.0 -355110                                                      
-N1437B034554.8         13.98 8 02.87 00.86   2  13794                       
+N1437B034554.8 -362125 13.98 8 02.87 00.86   2  13794                       
 N1438 034517.2 -230008 13.28 8 02.04 00.93  67  13760                       
 N1439 034449.9 -215514 12.23 8 02.96 02.83  10  13738                       
 N1440 034502.9 -181557 12.48 8 02.62 01.99  23  13752                       
