@@ -23,6 +23,10 @@
 #include <QPlainTextEdit>
 #include <QtCore/qsystemdetection.h>
 
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+
 #include "ui_wizwelcome.h"
 #include "ui_wizlocation.h"
 #include "ui_wizdownload.h"
@@ -114,8 +118,6 @@ class KSWizard : public QDialog
     void slotInstallGSC();
 
     void slotExtractGSC();
-
-    void slotCheckDownloadProgress();
 
     void slotGSCInstallerFinished();
 

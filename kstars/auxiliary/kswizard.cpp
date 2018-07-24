@@ -144,8 +144,12 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     gscMonitor = new QProgressIndicator(data);
     data->GSCLayout->addWidget(gscMonitor);
     data->downloadProgress->setValue(0);
+
     data->downloadProgress->setEnabled(false);
     data->downloadProgress->setVisible(false);
+
+    data->gscInstallCancel->setVisible(false);
+    data->gscInstallCancel->setEnabled(false);
 
 #endif
 
@@ -327,27 +331,104 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
 void KSWizard::slotInstallGSC()
 {
 #ifdef Q_OS_OSX
+
+    QNetworkAccessManager *manager= new QNetworkAccessManager();
+
     QString location =
         QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     gscZipPath            = location + "/gsc.zip";
-    QProcess *downloadGSC = new QProcess();
-    downloadGSC->setWorkingDirectory(location);
-    connect(downloadGSC, SIGNAL(finished(int)), this, SLOT(slotExtractGSC()));
-    connect(downloadGSC, SIGNAL(finished(int)), this, SLOT(downloadGSC.deleteLater()));
-    downloadGSC->start("curl", QStringList() << "-L"
-                                             << "-o"
-                                             << "gsc.zip"
-                                             << "http://www.indilib.org/jdownloads/Mac/gsc.zip");
-    data->GSCFeedback->setText("downloading GSC . . .");
 
-    downloadMonitor = new QTimer(this);
-    connect(downloadMonitor, SIGNAL(timeout()), this, SLOT(slotCheckDownloadProgress()));
-    downloadMonitor->start(1000);
-    gscMonitor->startAnimation();
     data->downloadProgress->setVisible(true);
     data->downloadProgress->setEnabled(true);
-    data->downloadProgress->setMaximum(240);
-    data->downloadProgress->setValue(0);
+
+    data->gscInstallCancel->setVisible(true);
+    data->gscInstallCancel->setEnabled(true);
+
+    QString gscURL = "http://www.indilib.org/jdownloads/Mac/gsc.zip";
+
+    QNetworkReply *response = manager->get(QNetworkRequest(QUrl(gscURL)));
+
+    QMetaObject::Connection *cancelConnection = new QMetaObject::Connection();
+    QMetaObject::Connection *replyConnection = new QMetaObject::Connection();
+    QMetaObject::Connection *percentConnection = new QMetaObject::Connection();
+
+    *percentConnection=connect(response,&QNetworkReply::downloadProgress,
+    [=](qint64 bytesReceived, qint64 bytesTotal){
+        data->downloadProgress->setValue(bytesReceived);
+        data->downloadProgress->setMaximum(bytesTotal);
+    });
+
+    *cancelConnection=connect(data->gscInstallCancel, &QPushButton::clicked,
+    [=](){
+        qDebug() << "Download Cancelled.";
+
+        if(cancelConnection)
+            disconnect(*cancelConnection);
+        if(replyConnection)
+            disconnect(*replyConnection);
+
+        if(response){
+            response->abort();
+            response->deleteLater();
+        }
+
+        data->downloadProgress->setVisible(false);
+        data->downloadProgress->setEnabled(false);
+
+        data->gscInstallCancel->setVisible(false);
+        data->gscInstallCancel->setEnabled(false);
+
+        if(manager)
+            manager->deleteLater();
+
+    });
+
+    *replyConnection=connect(response, &QNetworkReply::finished, this,
+    [=]() {
+        if(response){
+
+            if(cancelConnection)
+                disconnect(*cancelConnection);
+            if(replyConnection)
+                disconnect(*replyConnection);
+
+            data->downloadProgress->setVisible(false);
+            data->downloadProgress->setEnabled(false);
+
+            data->gscInstallCancel->setVisible(false);
+            data->gscInstallCancel->setEnabled(false);
+
+
+            response->deleteLater();
+            if(manager)
+                manager->deleteLater();
+            if (response->error() != QNetworkReply::NoError)
+                return;
+
+            QByteArray responseData = response->readAll();
+
+            QFile file(gscZipPath);
+            if (QFileInfo(QFileInfo(file).path()).isWritable())
+            {
+                if (!file.open(QIODevice::WriteOnly))
+                {
+                    KMessageBox::error(0, i18n("File Write Error"));
+                    return;
+                }
+                else
+                {
+                    file.write(responseData.data(), responseData.size());
+                    file.close();
+                    slotExtractGSC();
+                }
+            }
+            else
+            {
+                KMessageBox::error(0, i18n("Data Folder Permissions Error"));
+            }
+        }
+    });
+
 #endif
 }
 
@@ -363,14 +444,6 @@ void KSWizard::slotExtractGSC()
     gscExtractor->start("unzip", QStringList() << "-ao"
                                                << "gsc.zip");
     gscMonitor->startAnimation();
-#endif
-}
-
-void KSWizard::slotCheckDownloadProgress()
-{
-#ifdef Q_OS_OSX
-    if (QFileInfo(gscZipPath).exists())
-        data->downloadProgress->setValue(QFileInfo(gscZipPath).size() / 1048576);
 #endif
 }
 
