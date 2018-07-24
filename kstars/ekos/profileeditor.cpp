@@ -52,7 +52,10 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
         QDesktopServices::openUrl(url);
     });
 
-    connect(ui->INDIWebManagerCheck, SIGNAL(toggled(bool)), ui->openWebManagerB, SLOT(setEnabled(bool)));
+    connect(ui->INDIWebManagerCheck, &QCheckBox::toggled, [&](bool enabled) {
+        ui->openWebManagerB->setEnabled(enabled);
+        ui->remoteDrivers->setEnabled(enabled || ui->localMode->isChecked());
+    });
 
     connect(ui->guideTypeCombo, SIGNAL(activated(int)), this, SLOT(updateGuiderSelection(int)));
 
@@ -313,6 +316,8 @@ void ProfileEditor::setRemoteMode(bool enable)
     ui->aux2Combo->setEditable(enable);
     ui->aux3Combo->setEditable(enable);
     ui->aux4Combo->setEditable(enable);
+
+    ui->remoteDrivers->setEnabled(!enable);
 
     ui->loadSiteCheck->setEnabled(enable);
 
