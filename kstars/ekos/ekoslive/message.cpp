@@ -561,9 +561,10 @@ void Message::setPolarResults(QLineF correctionVector, QString polarError)
 
     this->correctionVector = correctionVector;
 
+    QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
     QJsonObject vector = {
-        {"center_x", correctionVector.center().x()},
-        {"center_y", correctionVector.center().y()},
+        {"center_x", center.x()},
+        {"center_y", center.y()},
         {"mag", correctionVector.length()},
         {"pa", correctionVector.angle()},
         {"error", polarError}
