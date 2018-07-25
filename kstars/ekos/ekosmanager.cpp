@@ -101,6 +101,8 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(connectB, SIGNAL(clicked()), this, SLOT(connectDevices()));
     connect(disconnectB, SIGNAL(clicked()), this, SLOT(disconnectDevices()));
 
+    ekosLiveB->setIcon(QIcon::fromTheme("folder-cloud"));
+    ekosLiveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ekosLiveClient.reset(new EkosLive::Client(this));
 
     // INDI Control Panel
@@ -111,7 +113,8 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     });
 
     connect(this, &EkosManager::newEkosStartingStatus, ekosLiveClient.get()->message(), &EkosLive::Message::setEkosStatingStatus);
-
+    connect(ekosLiveClient.get()->message(), &EkosLive::Message::connected, [&]() {ekosLiveB->setIcon(QIcon(":/icons/cloud-online.svg"));});
+    connect(ekosLiveClient.get()->message(), &EkosLive::Message::disconnected, [&]() {ekosLiveB->setIcon(QIcon::fromTheme("folder-cloud"));});
     connect(ekosLiveClient.get()->media(), &EkosLive::Media::newBoundingRect, ekosLiveClient.get()->message(), &EkosLive::Message::setBoundingRect);
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::resetPolarView, ekosLiveClient.get()->media(), &EkosLive::Media::resetPolarView);
 
@@ -182,9 +185,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     // Load add driver profiles
     loadProfiles();
 
-    // INDI Control Panel and Ekos Options
-    ekosLiveB->setIcon(QIcon::fromTheme("folder-cloud"));
-    ekosLiveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    // INDI Control Panel and Ekos Options    
     optionsB->setIcon(QIcon::fromTheme("configure", QIcon(":/icons/ekos_setup.png")));
     optionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
