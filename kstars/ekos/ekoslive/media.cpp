@@ -182,7 +182,7 @@ void Media::sendUpdatedFrame(FITSView *view)
     QPixmap displayPixmap = view->getDisplayPixmap();
     if (correctionVector.isNull() == false)
     {
-        QPointF center = correctionVector.center();
+        QPointF center = 0.5 * correctionVector.p1() + 0.5 * correctionVector.p2();
         double length = correctionVector.length();
         if (length < 100)
             length = 100;
