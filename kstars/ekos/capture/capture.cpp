@@ -439,6 +439,7 @@ void Capture::stop(bool abort)
     retries         = 0;
     seqTotalCount   = 0;
     seqCurrentCount = 0;
+
     ADURaw.clear();
     ExpRaw.clear();
 
@@ -1106,7 +1107,7 @@ void Capture::newFITS(IBLOB *bp)
     {
         if (bp == nullptr)
         {
-            appendLogText(i18n("Failed to save file to %1", activeJob->getLocalDir() + activeJob->getDirectoryPostfix()));
+            appendLogText(i18n("Failed to save file to %1", activeJob->getSignature()));
             abort();
             return;
         }
@@ -1219,7 +1220,7 @@ bool Capture::setCaptureComplete()
     activeJob->setCompleted(seqCurrentCount);
     imgProgress->setValue(seqCurrentCount);
 
-    appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
+    appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, getTotalFramesCount(activeJob->getSignature())));
 
     state = CAPTURE_IMAGE_RECEIVED;
     emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
@@ -1440,7 +1441,7 @@ bool Capture::resumeSequence()
             {
                 if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
                 {
-                    checkSeqBoundary(activeJob->getLocalDir() + activeJob->getDirectoryPostfix());
+                    checkSeqBoundary(activeJob->getSignature());
                     currentCCD->setNextSequenceID(nextSequenceID);
                 }
             }
@@ -1554,7 +1555,7 @@ void Capture::captureImage()
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
-        checkSeqBoundary(activeJob->getLocalDir() + activeJob->getDirectoryPostfix());
+        checkSeqBoundary(activeJob->getSignature());
         currentCCD->setNextSequenceID(nextSequenceID);
     }
 
@@ -2265,13 +2266,13 @@ void Capture::prepareJob(SequenceJob *job)
         imgProgress->setValue(seqCurrentCount);
 
         if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
-            updateSequencePrefix(activeJob->getFullPrefix(), activeJob->getLocalDir() + activeJob->getDirectoryPostfix());
+            updateSequencePrefix(activeJob->getFullPrefix(), activeJob->getSignature());
     }
 
     // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system unless ignoreJobProgress is set to true
     if (ignoreJobProgress == false && activeJob->isPreview() == false)
     {
-        QString signature = activeJob->getLocalDir() + activeJob->getDirectoryPostfix();
+        QString signature = activeJob->getSignature();
 
         checkSeqBoundary(signature);
 
@@ -2281,11 +2282,10 @@ void Capture::prepareJob(SequenceJob *job)
         if (seqFileCount > 0)
         {
             // Fully complete
-            if (seqFileCount >= seqTotalCount)
+            if (seqFileCount >= getTotalFramesCount(signature))
             {
-                seqCurrentCount = seqTotalCount;
-                activeJob->setCompleted(seqCurrentCount);
-                imgProgress->setValue(seqCurrentCount);
+                activeJob->setCompleted(seqFileCount);
+                imgProgress->setValue(getTotalFramesCount(signature));
                 qCDebug(KSTARS_EKOS_CAPTURE) << "Job" << job->getFullPrefix() << "already complete.";
                 processJobCompletion();
                 return;
@@ -2734,6 +2734,30 @@ void Capture::updateHFRThreshold()
     // in case in-sequence-focusing is used.
     HFRPixels->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
 }
+
+int Capture::getTotalFramesCount(QString signature)
+{
+
+    int  result = 0;
+    bool found  = false;
+
+    foreach (SequenceJob *job, jobs)
+    {
+        // FIXME: this should be part of SequenceJob
+        QString sig = job->getSignature();
+        if (sig == signature)
+        {
+            result += job->getCount();
+            found = true;
+        }
+    }
+
+    if (found)
+        return result;
+    else
+        return -1;
+}
+
 
 void Capture::setRotator(ISD::GDInterface *newRotator)
 {
@@ -4810,7 +4834,7 @@ void Capture::postScriptFinished(int exitCode)
     appendLogText(i18n("Post capture script finished with code %1.", exitCode));
 
     // if we're done
-    if (seqCurrentCount >= seqTotalCount)
+    if (seqCurrentCount >= getTotalFramesCount(activeJob->getSignature()))
     {
         processJobCompletion();
         return;
