@@ -23,9 +23,12 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
 }</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Offline&lt;/span&gt; astrometry.net solver requires index files in order to solve an image. The following list provides a complete list of the index files, along with recommended index files to install given current CCD Field of View. Installed index files are checked. Next to each index file is an icon that represents the following:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Offline&lt;/span&gt; astrometry.net solver requires index files in order to solve an image.  Please see the Astrometrty.net &lt;a href=&quot;http://astrometry.net/doc/readme.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;README&lt;/span&gt;&lt;/a&gt; for details. The following list provides a complete list of the index files, along with recommended index files to install given the current CCD Field of View. Installed index files are checked. Next to each index file is an icon that represents the following:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="openExternalLinks">
       <bool>true</bool>
      </property>
     </widget>

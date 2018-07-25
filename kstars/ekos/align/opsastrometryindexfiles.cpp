@@ -59,13 +59,19 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
 
     for (auto &bar : progressBars)
     {
-        bar->setVisible(false);
-        bar->setTextVisible(false);
+        if(bar->objectName().contains("progress"))
+        {
+            bar->setVisible(false);
+            bar->setTextVisible(false);
+        }
     }
 
     for (auto &button : qButtons)
     {
-        button->setVisible(false);
+        if(button->objectName().contains("cancel"))
+        {
+            button->setVisible(false);
+        }
     }
 
     for (QLabel * label: qLabels)
