@@ -78,6 +78,7 @@ class SequenceJob : public QObject
 
     void setLocalDir(const QString &dir) { localDirectory = dir; }
     const QString &getLocalDir() { return localDirectory; }
+    QString getSignature() { return getLocalDir() + getDirectoryPostfix(); }
 
     void setTargetFilter(int pos, const QString &name);
     int getTargetFilter() { return targetFilter; }

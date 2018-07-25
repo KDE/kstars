@@ -605,8 +605,18 @@ class Capture : public QWidget, public Ui::Capture
     void startRefocusTimer(bool forced = false);
 
     /* Capture */
+
+    /**
+     * @brief Determine the overall number of target frames with the same signature.
+     *        Assume capturing RGBLRGB, where in each sequence job there is only one frame.
+     *        For "L" the result will be 1, for "R" it will be 2 etc.
+     * @param frame signature (typically the filter name)
+     * @return
+     */
+    int getTotalFramesCount(QString signature);
+
     double seqExpose { 0 };
-    int seqTotalCount { 0 };
+    int seqTotalCount;
     int seqCurrentCount { 0 };
     int seqDelay { 0 };
     int retries { 0 };
