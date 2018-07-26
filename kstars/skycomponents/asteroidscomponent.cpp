@@ -196,10 +196,11 @@ void AsteroidsComponent::draw(SkyPainter *skyp)
     Q_UNUSED(skyp)
 #ifndef KSTARS_LITE
     if (!selected())
-        return;
+        return;        
 
     bool hideLabels = !Options::showAsteroidNames() || (SkyMap::Instance()->isSlewing() && Options::hideLabels());
 
+    double showLimit     = Options::magLimitAsteroid();
     double lgmin         = log10(MINZOOM);
     double lgmax         = log10(MAXZOOM);
     double lgz           = log10(Options::zoomFactor());
@@ -209,14 +210,13 @@ void AsteroidsComponent::draw(SkyPainter *skyp)
         labelMagLimit = 10.0;
     //printf("labelMagLim = %.1f\n", labelMagLimit );
 
-    skyp->setBrush(QBrush(QColor("gray")));
+    skyp->setBrush(QBrush(QColor("gray")));        
 
     foreach (SkyObject *so, m_ObjectList)
     {
-        // FIXME: God help us!
-        KSAsteroid *ast = (KSAsteroid *)so;
+        KSAsteroid *ast = dynamic_cast<KSAsteroid *>(so);
 
-        if (!ast->toDraw())
+        if (!ast->toDraw() || std::isnan(ast->mag()) || ast->mag() > showLimit)
             continue;
 
         bool drawn = false;
