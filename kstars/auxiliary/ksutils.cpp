@@ -1164,7 +1164,7 @@ void configureDefaultAstrometry()
             QStandardPaths::locate(QStandardPaths::GenericDataLocation, "Astrometry", QStandardPaths::LocateDirectory);
         if (astrometryPath.isEmpty())
             KMessageBox::sorry(
-                0, i18n("Error!  The Astrometry Index File Directory does not exist and was not able to be created."));
+                0, i18n("The Astrometry Index File Directory does not exist and was not able to be created."));
         else
         {
             QString confPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";

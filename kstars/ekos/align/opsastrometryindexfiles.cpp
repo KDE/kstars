@@ -314,7 +314,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
 
     QTimer::singleShot(timeout, response,
     [=]() {
-        KMessageBox::error(0, i18n("Download Timed out.  Either the network is not fast enough, the file is not accessible, or you aren't connected."));
+        KMessageBox::error(0, i18n("Download Timed out.  Either the network is not fast enough, the file is not accessible, or you are not connected."));
         disconnectDownload(cancelConnection,replyConnection,percentConnection);
         if(response){
             response->abort();
@@ -467,7 +467,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
         else
         {
             if (KMessageBox::Continue == KMessageBox::warningContinueCancel(
-                                             NULL, "Are you sure you want to delete these index files? " + indexSeriesName,
+                                             NULL, i18n("Are you sure you want to delete these index files? %1", indexSeriesName),
                                              i18n("Delete File(s)"), KStandardGuiItem::cont(),
                                              KStandardGuiItem::cancel(), "delete_index_files_warning"))
             {

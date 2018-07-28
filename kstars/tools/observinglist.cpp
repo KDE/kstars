@@ -1051,7 +1051,7 @@ void ObservingList::slotSaveSession(bool nativeSave)
 {
     if (sessionList().isEmpty())
     {
-        KMessageBox::error(nullptr, i18n("Cannot save an empty session list!"));
+        KMessageBox::error(nullptr, i18n("Cannot save an empty session list."));
         return;
     }
 
@@ -1283,7 +1283,7 @@ void ObservingList::downloadReady(bool success)
 
     if (!success)
     {
-        KMessageBox::sorry(nullptr, i18n("Failed to download DSS/SDSS image!"));
+        KMessageBox::sorry(nullptr, i18n("Failed to download DSS/SDSS image."));
     }
     else
     {

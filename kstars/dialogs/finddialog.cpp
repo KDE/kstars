@@ -250,7 +250,7 @@ void FindDialog::filterList()
 {
     QString SearchText = processSearchText();
     sortModel->setFilterFixedString(SearchText);
-    ui->InternetSearchButton->setText(i18n("or search the internet for %1", SearchText));
+    ui->InternetSearchButton->setText(i18n("or search the Internet for %1", SearchText));
     filterByType();
     initSelection();
 

@@ -142,7 +142,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         }
         else
         {
-            KMessageBox::error(nullptr, i18n("Invalid FOV!"));
+            KMessageBox::error(nullptr, i18n("Invalid FOV."));
             FOVOut->setStyleSheet("background-color:red");
         }
     });
@@ -774,7 +774,7 @@ void Align::slotWizardAlignmentPoints()
 
         if (raIncrement == -1 || decIncrement == -1)
         {
-            KMessageBox::sorry(0, i18n("Point Calculation Error."));
+            KMessageBox::sorry(0, i18n("Point calculation error."));
             return;
         }
 
@@ -1685,7 +1685,7 @@ void Align::startStopAlignmentProcedure()
                             0,
                             i18n("In the Align Module, \"Nothing\" is Selected for the Solver Action.  This means that the "
                                  "mount model tool will not sync/align your mount but will only report the pointing model "
-                                 "errors.  Do you wish to Continue?"),
+                                 "errors.  Do you wish to continue?"),
                             i18n("Pointing Model Report Only?"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                             "nothing_selected_warning");
                 if (r == KMessageBox::Cancel)
@@ -2414,7 +2414,7 @@ bool Align::captureAndSolve()
 
     if (currentCCD->isConnected() == false)
     {
-        appendLogText(i18n("Error: Lost connection to CCD."));
+        appendLogText(i18n("Error: lost connection to CCD."));
         KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::EVENT_ALERT);
         return false;
     }
@@ -2453,7 +2453,7 @@ bool Align::captureAndSolve()
     {
         if (currentFilter->isConnected() == false)
         {
-            appendLogText(i18n("Error: Lost connection to filter wheel."));
+            appendLogText(i18n("Error: lost connection to filter wheel."));
             return false;
         }
 
@@ -2489,14 +2489,14 @@ bool Align::captureAndSolve()
 
     if (focusState >= FOCUS_PROGRESS)
     {
-        appendLogText(i18n("Cannot capture while focus module is busy! Retrying in 10 seconds..."));
+        appendLogText(i18n("Cannot capture while focus module is busy. Retrying in 10 seconds..."));
         alignTimer.start();
         return false;
     }
 
     if (targetChip->isCapturing())
     {
-        appendLogText(i18n("Cannot capture while CCD exposure is in progress! Retrying in 10 seconds..."));
+        appendLogText(i18n("Cannot capture while CCD exposure is in progress. Retrying in 10 seconds..."));
         alignTimer.start();
         return false;
     }
@@ -3526,9 +3526,9 @@ void Align::processNumber(INumberVectorProperty *nvp)
             if (state == ALIGN_SYNCING || state == ALIGN_SLEWING)
             {
                 if (state == ALIGN_SYNCING)
-                    appendLogText(i18n("Syncing failed!"));
+                    appendLogText(i18n("Syncing failed."));
                 else
-                    appendLogText(i18n("Slewing failed!"));
+                    appendLogText(i18n("Slewing failed."));
 
                 if (++retries == 3)
                 {
@@ -3767,8 +3767,8 @@ void Align::measureAzError()
         if (KMessageBox::warningContinueCancel(
                     0,
                     hemisphere == NORTH_HEMISPHERE ?
-                    i18n("Point the telescope at the southern meridian. Press continue when ready.") :
-                    i18n("Point the telescope at the northern meridian. Press continue when ready."),
+                    i18n("Point the telescope at the southern meridian. Press Continue when ready.") :
+                    i18n("Point the telescope at the northern meridian. Press Continue when ready."),
                     i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                     "ekos_measure_az_error") != KMessageBox::Continue)
             return;
@@ -4380,7 +4380,7 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
     {
         if (++retries == 3 && pahStage != PAH_REFRESH)
         {
-            appendLogText(i18n("Capture error! Aborting..."));
+            appendLogText(i18n("Capture error. Aborting..."));
 
             abort();
             return;
@@ -4469,7 +4469,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Cannot find NAXIS1."));
+        appendLogText(i18n("FITS header: cannot find NAXIS1."));
         return solver_args;
     }
 
@@ -4478,7 +4478,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Cannot find NAXIS2."));
+        appendLogText(i18n("FITS header: cannot find NAXIS2."));
         return solver_args;
     }
 
@@ -4493,7 +4493,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
             fits_report_error(stderr, status);
             fits_get_errstatus(status, error_status);
             coord_ok = false;
-            appendLogText(i18n("FITS header: Cannot find OBJCTRA (%1).", QString(error_status)));
+            appendLogText(i18n("FITS header: cannot find OBJCTRA (%1).", QString(error_status)));
         }
         else
             // Degrees to hours
@@ -4514,7 +4514,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
             fits_report_error(stderr, status);
             fits_get_errstatus(status, error_status);
             coord_ok = false;
-            appendLogText(i18n("FITS header: Cannot find OBJCTDEC (%1).", QString(error_status)));
+            appendLogText(i18n("FITS header: cannot find OBJCTDEC (%1).", QString(error_status)));
         }
     }
     else
@@ -4555,7 +4555,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
         {
             fits_report_error(stderr, status);
             fits_get_errstatus(status, error_status);
-            appendLogText(i18n("FITS header: Cannot find FOCALLEN (%1).", QString(error_status)));
+            appendLogText(i18n("FITS header: cannot find FOCALLEN (%1).", QString(error_status)));
             return solver_args;
         }
         else
@@ -4567,7 +4567,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Cannot find PIXSIZE1 (%1).", QString(error_status)));
+        appendLogText(i18n("FITS header: cannot find PIXSIZE1 (%1).", QString(error_status)));
         return solver_args;
     }
 
@@ -4576,7 +4576,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        appendLogText(i18n("FITS header: Cannot find PIXSIZE2 (%1).", QString(error_status)));
+        appendLogText(i18n("FITS header: cannot find PIXSIZE2 (%1).", QString(error_status)));
         return solver_args;
     }
 
@@ -5087,7 +5087,7 @@ void Align::setWCSToggled(bool result)
         if (result == false)
         {
             appendLogText(
-                i18n("Warning: Failed to load WCS data in file: %1", alignView->getImageData()->getLastError()));
+                i18n("Warning: failed to load WCS data in file: %1", alignView->getImageData()->getLastError()));
             pahStage = PAH_FIRST_ROTATE;
             PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
             return;

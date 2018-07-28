@@ -40,7 +40,7 @@ Popup {
             width: parent.width
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
-            text: xi18n("Welcome to KStars Lite!")
+            text: xi18n("Welcome to KStars Lite")
             font.pointSize: 20
         }
 

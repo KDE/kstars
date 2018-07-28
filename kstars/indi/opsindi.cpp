@@ -39,9 +39,9 @@ OpsINDI::OpsINDI() : QFrame(KStars::Instance())
 
 #ifdef Q_OS_OSX
     connect(kcfg_indiServerIsInternal, SIGNAL(clicked()), this, SLOT(toggleINDIInternal()));
-    kcfg_indiServerIsInternal->setToolTip(i18n("Internal or External INDI Server?"));
+    kcfg_indiServerIsInternal->setToolTip(i18n("Internal or external INDI server?"));
     connect(kcfg_indiDriversAreInternal, SIGNAL(clicked()), this, SLOT(toggleDriversInternal()));
-    kcfg_indiDriversAreInternal->setToolTip(i18n("Internal or External INDI Drivers?"));
+    kcfg_indiDriversAreInternal->setToolTip(i18n("Internal or external INDI drivers?"));
 
     if (Options::indiServerIsInternal())
         kcfg_indiServer->setEnabled(false);
@@ -122,5 +122,5 @@ void OpsINDI::verifyINDIServer()
     if (indiserver.exists() && indiserver.isFile() && indiserver.baseName() == "indiserver")
         return;
 
-    KSNotification::error(i18n("%1 is not a valid INDI server binary!", kcfg_indiServer->text()));
+    KSNotification::error(i18n("%1 is not a valid INDI server binary.", kcfg_indiServer->text()));
 }

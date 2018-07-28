@@ -93,7 +93,7 @@ void FileDownloader::dataFinished(QNetworkReply *pReply)
 
     if (m_verifyData(m_DownloadedData) == false)
     {
-        emit error(i18n("Data verification failed!"));
+        emit error(i18n("Data verification failed"));
         pReply->deleteLater();
         return;
     }
@@ -104,7 +104,7 @@ void FileDownloader::dataFinished(QNetworkReply *pReply)
 
         if (m_verifyFile(m_downloadTemporaryFile.fileName()) == false)
         {
-            emit error(i18n("File verification failed!"));
+            emit error(i18n("File verification failed"));
             pReply->deleteLater();
             return;
         }

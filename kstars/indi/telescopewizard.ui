@@ -154,7 +154,7 @@
           </sizepolicy>
          </property>
          <property name="text" >
-          <string>Welcome to the &lt;b>KStars Telescope Setup Wizard!&lt;/b>
+          <string>Welcome to the &lt;b>KStars Telescope Setup Wizard&lt;/b>
 &lt;br>&lt;br>
 This Wizard will help you to connect to your telescope and control it from KStars. You will be asked to verify some basic information.
 &lt;br>

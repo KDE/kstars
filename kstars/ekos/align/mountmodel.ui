@@ -32,7 +32,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool can help your mount build a better pointing model by moving the mount to different points in the sky and solving captured images. This can increase the accuracy of your GOTOs. To qualify, your mount must be capable of improving its internal pointing model after each &lt;b&gt;Sync&lt;/b&gt;  commanded by Ekos. If this is not the case, then this tool is not suitable for your mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;p&gt;This tool can help your mount build a better pointing model by moving the mount to different points in the sky and solving captured images. This can increase the accuracy of your GOTOs. To qualify, your mount must be capable of improving its internal pointing model after each &lt;b&gt;Sync&lt;/b&gt;  commanded by Ekos. If this is not the case, then this tool is not suitable for your mount.&lt;/p&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignJustify|Qt::AlignVCenter</set>
@@ -48,108 +48,6 @@
       <string>Mount Model Wizard</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Alignment Points:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QSpinBox" name="alignPtNum">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Number of points the wizard should generate. If this number is less than 5, it will generate them at the same DEC. After that they will be evenly distributed over RA and DEC. Note, if Fixed DEC is selected, all of the points will be at the same DEC.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="minimum">
-         <number>2</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3" colspan="2">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>171</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="5">
-       <widget class="QPushButton" name="wizardAlignB">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically generate the specified number of alignment points in the table below. They will be generated based on the options selected in this wizard.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Generate</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Minimum Alt:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QSpinBox" name="minAltBox">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the minimum altitude above the horizon to use in generating points with the wizard.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="maximum">
-         <number>80</number>
-        </property>
-        <property name="value">
-         <number>30</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>Declination:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <widget class="QSpinBox" name="alignDec">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Declination of the points that will be generated.  This option only applies to the Fixed DEC Option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="minimum">
-         <number>-89</number>
-        </property>
-        <property name="maximum">
-         <number>89</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="5">
-       <spacer name="horizontalSpacer_5">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>77</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
@@ -197,6 +95,65 @@
         </item>
        </widget>
       </item>
+      <item row="0" column="5">
+       <widget class="QPushButton" name="wizardAlignB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Automatically generate the specified number of alignment points in the table below. They will be generated based on the options selected in this wizard.</string>
+        </property>
+        <property name="text">
+         <string>Generate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QSpinBox" name="alignDec">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string>The Declination of the points that will be generated.  This option only applies to the Fixed DEC Option.</string>
+        </property>
+        <property name="minimum">
+         <number>-89</number>
+        </property>
+        <property name="maximum">
+         <number>89</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Minimum Alt:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QSpinBox" name="minAltBox">
+        <property name="toolTip">
+         <string>This is the minimum altitude above the horizon to use in generating points with the wizard.</string>
+        </property>
+        <property name="maximum">
+         <number>80</number>
+        </property>
+        <property name="value">
+         <number>30</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Alignment Points:</string>
+        </property>
+       </widget>
+      </item>
       <item row="2" column="5">
        <spacer name="horizontalSpacer_6">
         <property name="orientation">
@@ -205,6 +162,49 @@
         <property name="sizeHint" stdset="0">
          <size>
           <width>77</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Declination:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>77</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="2">
+       <widget class="QSpinBox" name="alignPtNum">
+        <property name="toolTip">
+         <string>The Number of points the wizard should generate. If this number is less than 5, it will generate them at the same DEC. After that they will be evenly distributed over RA and DEC. Note, if Fixed DEC is selected, all of the points will be at the same DEC.</string>
+        </property>
+        <property name="minimum">
+         <number>2</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3" colspan="2">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>171</width>
           <height>20</height>
          </size>
         </property>
@@ -247,7 +247,7 @@
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;These are the common names for the named stars that are currently up at your location.  If you select a star, it will be added to the table below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>These are the common names for the named stars that are currently up at your location.  If you select a star, it will be added to the table below.</string>
         </property>
        </widget>
       </item>
@@ -280,7 +280,7 @@
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;These are the Greek names for the brighter stars that are currently up at your location.  If you select a star, it will be added to the table below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>These are the Greek names for the brighter stars that are currently up at your location.  If you select a star, it will be added to the table below.</string>
         </property>
        </widget>
       </item>
@@ -328,7 +328,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Clear the entire table of alignment points below.  Note that this will not affect your mount in any way.  It will not clear your pointing model.  It just clears the list of points so that if you run the mount model routine again, these points will not be included.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Clear the entire table of alignment points below.  Note that this will not affect your mount in any way.  It will not clear your pointing model.  It just clears the list of points so that if you run the mount model routine again, these points will not be included.</string>
           </property>
           <property name="text">
            <string/>
@@ -350,7 +350,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove the selected row from the alignment point table below. Note that it does &lt;b&gt;not&lt;/b&gt; command your mount to clear that point from the model, it just means that if you run the mount model routine, that point will not be included in the list.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;p&gt;Remove the selected row from the alignment point table below. Note that it does &lt;b&gt;not&lt;/b&gt; command your mount to clear that point from the model, it just means that if you run the mount model routine, that point will not be included in the list.&lt;/p&gt;</string>
           </property>
           <property name="text">
            <string/>
@@ -372,7 +372,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add an empty row to the alignment list so that you can manually add an RA and DE for a position you would like the telescope to slew to when doing the mount model routine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Add an empty row to the alignment list so that you can manually add an RA and DE for a position you would like the telescope to slew to when doing the mount model routine.</string>
           </property>
           <property name="text">
            <string/>
@@ -394,7 +394,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Open the Find Object dialog so that you can select an object to get an RA and DEC automatically that you would like the telescope to slew to when doing the mount model routine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Open the Find Object dialog so that you can select an object to get an RA and DEC automatically that you would like the telescope to slew to when doing the mount model routine.</string>
           </property>
           <property name="text">
            <string/>
@@ -416,7 +416,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sort the alignment points, starting with the point closest to the current telescope position, to try to minimize the distance between each slew.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Sort the alignment points, starting with the point closest to the current telescope position, to try to minimize the distance between each slew.</string>
           </property>
           <property name="text">
            <string/>
@@ -441,7 +441,7 @@
       <item>
        <widget class="QTableWidget" name="alignTable">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is a table of alignment points that you would like the mount model routine to use in aligning your telescope.  If you would like to add or remove points, you may use the buttons above.  If you would like to run, pause, or stop the mount model routine, you may use the buttons below.  You can directly edit an RA or DE for a particular point directly in the cells.  Just be sure to follow the format hh:mm:ss. The object name is just provided for convenience and is not used.  If you want to change the order of the alignment points, you can drag the row up or down using the vertical header for that row on the left.  &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>This is a table of alignment points that you would like the mount model routine to use in aligning your telescope.  If you would like to add or remove points, you may use the buttons above.  If you would like to run, pause, or stop the mount model routine, you may use the buttons below.  You can directly edit an RA or DE for a particular point directly in the cells.  Just be sure to follow the format hh:mm:ss. The object name is just provided for convenience and is not used.  If you want to change the order of the alignment points, you can drag the row up or down using the vertical header for that row on the left.</string>
         </property>
         <column>
          <property name="text">
@@ -500,7 +500,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load a saved alignment point list so that you can run the same alignment you ran on a previous occasion.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Load a saved alignment point list so that you can run the same alignment you ran on a previous occasion.</string>
        </property>
        <property name="text">
         <string/>
@@ -522,7 +522,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save the alignment list so that you can run this alignment again in the future.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Save the alignment list so that you can run this alignment again in the future.</string>
        </property>
        <property name="text">
         <string/>
@@ -544,7 +544,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save the alignment list so that you can run this alignment again in the future.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Save the alignment list so that you can run this alignment again in the future.</string>
        </property>
        <property name="text">
         <string/>
@@ -566,7 +566,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display the alignment points on the skymap as flags.  Clicking it again will remove the flags.  The flags will not be saved.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Display the alignment points on the skymap as flags.  Clicking it again will remove the flags.  The flags will not be saved.</string>
        </property>
        <property name="text">
         <string/>
@@ -601,7 +601,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start or pause the mount model routine.  It will slew to and astrometrically solve the list of points in the table above using the settings in the align module.  If the routine was previously paused, it will pick up where it left off.  If it was stopped or it had finished it will start the routine over again.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Start or pause the mount model routine.  It will slew to and astrometrically solve the list of points in the table above using the settings in the align module.  If the routine was previously paused, it will pick up where it left off.  If it was stopped or it had finished it will start the routine over again.</string>
        </property>
        <property name="text">
         <string/>
@@ -623,7 +623,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stop the mount model routine.  It will &lt;b&gt;not&lt;/b&gt; clear any points from your telescope's pointing model.  It will stop the routine and any points currently being solved. If you run the mount model again after hitting stop, it will start the routine over again with the first point.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;p&gt;Stop the mount model routine.  It will &lt;b&gt;not&lt;/b&gt; clear any points from your telescope's pointing model.  It will stop the routine and any points currently being solved. If you run the mount model again after hitting stop, it will start the routine over again with the first point.&lt;/p&gt;</string>
        </property>
        <property name="text">
         <string/>

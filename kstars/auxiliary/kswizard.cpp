@@ -295,7 +295,7 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
         QDir dataSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/data").absolutePath();
         if (! dataSourceDir.exists()) //If there is no default data directory in the app bundle
         {
-            KMessageBox::sorry(0, i18n("Error! There was no default data directory found in the app bundle!"));
+            KMessageBox::sorry(0, i18n("There was no default data directory found in the app bundle."));
             return;
         }
         QDir writableDir;
@@ -305,7 +305,7 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
         if (dataLocation.isEmpty()) //If there *still* is not a kstars data directory
         {
             KMessageBox::sorry(
-                0, i18n("Error! There was a problem creating the data directory ~/Library/Application Support/ !"));
+                0, i18n("There was a problem creating the data directory ~/Library/Application Support/."));
             return;
         }
         KSUtils::copyRecursively(dataSourceDir.absolutePath(), dataLocation);
@@ -412,7 +412,7 @@ void KSWizard::slotInstallGSC()
             {
                 if (!file.open(QIODevice::WriteOnly))
                 {
-                    KMessageBox::error(0, i18n("File Write Error"));
+                    KMessageBox::error(0, i18n("File write error."));
                     return;
                 }
                 else
@@ -424,7 +424,7 @@ void KSWizard::slotInstallGSC()
             }
             else
             {
-                KMessageBox::error(0, i18n("Data Folder Permissions Error"));
+                KMessageBox::error(0, i18n("Data folder permissions error."));
             }
         }
     });

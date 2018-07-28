@@ -163,7 +163,7 @@ KSPage {
                         width: webMStatusLabel.width
                         height: webMConnectButton.height
                         KSLabel {
-                            text: xi18n("Profile:")+" "+modelData
+                            text: xi18n("Profile: %1", modelData)
                         }
                     }
 
@@ -222,7 +222,7 @@ KSPage {
                             if(ClientManagerLite.setHost(ipHost.text, parseInt(portHost.text))) {
                                 notification.showNotification(xi18n("Successfully connected to the server"))
                             } else {
-                                notification.showNotification(xi18n("Couldn't connect to the server"))
+                                notification.showNotification(xi18n("Could not connect to the server"))
                             }
                         } else {
 
@@ -238,7 +238,7 @@ KSPage {
         KSLabel {
             id: connectedTo
             visible: indiPage.connected
-            text: xi18n("Connected to ") + ClientManagerLite.connectedHost
+            text: xi18n("Connected to %1", ClientManagerLite.connectedHost)
         }
 
 

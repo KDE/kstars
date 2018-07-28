@@ -45,7 +45,7 @@ class CatalogEntryData NameResolver::resolveName(const QString &name)
     data.long_name = name;
     if (!NameResolverInternals::sesameResolver(data, name))
     {
-        QString msg = xi18n("Error: sesameResolver failed. Could not resolve name on CDS Sesame!");
+        QString msg = xi18n("Error: sesameResolver failed. Could not resolve name on CDS Sesame.");
         qCDebug(KSTARS) << msg;
 
 #ifdef KSTARS_LITE
@@ -93,7 +93,7 @@ bool NameResolver::NameResolverInternals::sesameResolver(class CatalogEntryData 
     if (xml.atEnd())
     {
         // file is empty
-        msg = xi18n("Empty result instead of expected XML from CDS Sesame! Maybe bad internet connection?");
+        msg = xi18n("Empty result instead of expected XML from CDS Sesame. Maybe bad Internet connection?");
         qCDebug(KSTARS) << msg;
 
 #ifdef KSTARS_LITE
@@ -228,7 +228,7 @@ bool NameResolver::NameResolverInternals::sesameResolver(class CatalogEntryData 
         return false;
     }
 
-    msg = xi18n("Resolved %1 successfully!", name);
+    msg = xi18n("Resolved %1 successfully.", name);
     qCDebug(KSTARS) << msg;
 
 #ifdef KSTARS_LITE
