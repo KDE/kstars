@@ -409,7 +409,7 @@ int FITSView::rescale(FITSZoom type)
     if (min == max)
     {
         displayImage->fill(Qt::white);
-        emit newStatus(i18n("Image is saturated!"), FITS_MESSAGE);
+        emit newStatus(i18n("Image is saturated."), FITS_MESSAGE);
     }
     else
     {

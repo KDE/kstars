@@ -96,7 +96,7 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
     }
     else
     {
-        qWarning() << i18n("Could not parse image format of %1; assuming PNG.", fileName);
+        qWarning() << "Could not parse image format of" << fileName << "assuming PNG";
     }
 
     SkyMap *map = SkyMap::Instance();
@@ -169,7 +169,7 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
 
     if (!outimage.save(fileName, format))
     {
-        m_lastErrorMessage = i18n("Error: Unable to save image: %1 ", fileName);
+        m_lastErrorMessage = i18n("Error: Unable to save image: %1", fileName);
         qDebug() << m_lastErrorMessage;
         return false;
     }

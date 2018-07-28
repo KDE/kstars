@@ -67,7 +67,7 @@
    <item>
      <widget class="QPushButton" name="InternetSearchButton">
        <property name="text">
-         <string>or search internet for (nothing)</string>
+         <string>or search Internet for (nothing)</string>
        </property>
      </widget>
    </item>

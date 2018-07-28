@@ -65,7 +65,7 @@
      <item>
       <widget class="QLabel" name="foundFeedback1">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The KStars Data Directory called kstars should be located at:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>The KStars Data Directory called kstars should be located at:</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -99,7 +99,7 @@
      <item>
       <widget class="QLabel" name="foundFeedback2">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Your data directory was not found.  You can click the button below to copy a default KStars data directory to the correct location, or if you have a KStars directory already some place else, you can exit KStars and copy it to that location yourself.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Your data directory was not found.  You can click the button below to copy a default KStars data directory to the correct location, or if you have a KStars directory already some place else, you can exit KStars and copy it to that location yourself.</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

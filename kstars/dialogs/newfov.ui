@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>708</width>
-    <height>394</height>
+    <width>818</width>
+    <height>430</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1045,7 +1045,7 @@ The computed HPBW angle (in arcminutes) will be displayed in the &quot;Field of 
      <item row="2" column="1">
       <widget class="QLineEdit" name="FOVEditRotation">
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Frame rotation with respect to Celestial Pole. Zero degrees indicates that &lt;span style=&quot; font-weight:600;&quot;&gt;UP&lt;/span&gt; is pointing directly at the pole. 90 degrees indicates that &lt;span style=&quot; font-weight:600;&quot;&gt;UP&lt;/span&gt; is rotated 90 degrees clockwise with respect to the pole.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;p&gt;Frame rotation with respect to Celestial Pole. Zero degrees indicates that &lt;b&gt;UP&lt;/b&gt; is pointing directly at the pole. 90 degrees indicates that &lt;b&gt;UP&lt;/b&gt; is rotated 90 degrees clockwise with respect to the pole.&lt;/p&gt;</string>
        </property>
        <property name="whatsThis">
         <string/>
@@ -1231,7 +1231,7 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
            <property name="text">
             <string/>
            </property>
-           <property name="color" stdset="0">
+           <property name="color">
             <color>
              <red>255</red>
              <green>255</green>
@@ -1342,15 +1342,15 @@ Circle, Square, Crosshairs, Bullseye.</string>
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
+  </customwidget>
+  <customwidget>
    <class>FOVWidget</class>
    <extends>QFrame</extends>
    <header>widgets/fovwidget.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

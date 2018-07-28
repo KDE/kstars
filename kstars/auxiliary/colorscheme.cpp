@@ -104,7 +104,7 @@ QColor ColorScheme::colorNamed(const QString &name) const
 {
     if (!hasColorNamed(name))
     {
-        qWarning() << i18n("No color named \"%1\" found in color scheme.", name);
+        qWarning() << "No color named" << name << "found in color scheme.";
         // Return white if no color found
         return QColor(Qt::white);
     }

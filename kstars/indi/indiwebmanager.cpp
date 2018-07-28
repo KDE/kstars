@@ -197,7 +197,7 @@ bool areDriversRunning(ProfileInfo *pi)
         {
             if (webManagerDrivers.contains(oneDriverExec) == false)
             {
-                KSNotification::error(i18n("Driver %1 failed to start on the remote INDI server!", oneDriverExec));
+                KSNotification::error(i18n("Driver %1 failed to start on the remote INDI server.", oneDriverExec));
                 qCritical(KSTARS_EKOS) << "Driver" << oneDriverExec << "failed to start on the remote INDI server!";
                 return false;
             }

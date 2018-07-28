@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>427</width>
-    <height>418</height>
+    <width>536</width>
+    <height>480</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -25,7 +25,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_AstrometryUseNoFITS2FITS">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This option should &lt;span style=&quot; font-weight:600;&quot;&gt;ONLY&lt;/span&gt; be checked if your astrometry.net version is 0.67 or earlier. Uncheck for any versions greater than 0.67&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;p&gt;This option should &lt;b&gt;ONLY&lt;/b&gt; be checked if your astrometry.net version is 0.67 or earlier. Uncheck for any versions greater than 0.67&lt;/p&gt;</string>
           </property>
           <property name="text">
            <string>--no-fits2fits</string>
@@ -35,7 +35,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_AstrometryUseResort">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check this option if your image does not have much nebulosity. If it does have strong nebulosity, uncheck it.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Check this option if your image does not have much nebulosity. If it does have strong nebulosity, uncheck it.</string>
           </property>
           <property name="text">
            <string>--resort</string>
@@ -48,7 +48,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_AstrometryUseNoVerify">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will prevent the solver from looking at an already existing WCS Header before blindly trying to solve the image. It is recommended to keep it checked.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>This will prevent the solver from looking at an already existing WCS Header before blindly trying to solve the image. It is recommended to keep it checked.</string>
           </property>
           <property name="text">
            <string>--no-verify</string>
@@ -61,7 +61,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_AstrometryDetectParity">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Detect parity and reuse it to speed up solver.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Detect parity and reuse it to speed up solver.</string>
           </property>
           <property name="text">
            <string>parity</string>
@@ -74,7 +74,7 @@
            <bool>false</bool>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Prevents creation of unnecessary files unused by Ekos.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Prevents creation of unnecessary files unused by Ekos.</string>
           </property>
           <property name="text">
            <string>--no-plots</string>
@@ -96,7 +96,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Overwrite already generated files. It must be checked to prevent solver failure.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Overwrite already generated files. It must be checked to prevent solver failure.</string>
           </property>
           <property name="text">
            <string>-O</string>
@@ -150,7 +150,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Update Image Scale Bounds from the currently active camera &amp;amp; telescope combination.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Update Image Scale Bounds from the currently active camera and telescope combination.</string>
         </property>
         <property name="text">
          <string/>
@@ -169,7 +169,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The high end of the imager scale, calculated as a little bigger than the longer dimension of the image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The high end of the imager scale, calculated as a little bigger than the longer dimension of the image.</string>
         </property>
         <property name="text">
          <string>H</string>
@@ -228,7 +228,7 @@
       <item row="3" column="0">
        <widget class="QCheckBox" name="kcfg_AstrometryUseDownsample">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Downsample the image to shrink its size and speed up the solver.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Downsample the image to shrink its size and speed up the solver.</string>
         </property>
         <property name="text">
          <string>Down Sample</string>
@@ -241,7 +241,7 @@
       <item row="0" column="0">
        <widget class="QCheckBox" name="kcfg_AstrometryUseImageScale">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set image scale to speed up solver as it does not have to search index files of different image scales.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Set image scale to speed up solver as it does not have to search index files of different image scales.</string>
         </property>
         <property name="text">
          <string>Use Scale</string>
@@ -263,7 +263,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The lower end of the imager scale, calculated as a little smaller than the shorter dimension of the image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The lower end of the imager scale, calculated as a little smaller than the shorter dimension of the image.</string>
         </property>
         <property name="text">
          <string>L</string>
@@ -292,7 +292,7 @@
          <bool>false</bool>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Downsample the image to shrink its size and speed up the solver.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Downsample the image to shrink its size and speed up the solver.</string>
         </property>
         <property name="text">
          <string>downsample</string>
@@ -321,7 +321,7 @@
       <item row="1" column="1">
        <widget class="QLabel" name="label_13">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The high end of the imager scale, calculated as a little bigger than the longer dimension of the image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The high end of the imager scale, calculated as a little bigger than the longer dimension of the image.</string>
         </property>
         <property name="text">
          <string>High</string>
@@ -367,7 +367,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;nobr&gt;Image Scale Auto Update is turned off!&lt;/nobr&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Image Scale Auto Update is turned off.</string>
           </property>
           <property name="text">
            <string/>
@@ -397,7 +397,11 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;&lt;p&gt;dw: degree width&lt;/p&gt;&lt;p&gt;aw: arcminute width&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;dw: degree width&lt;/li&gt;
+&lt;li&gt;aw: arcminute width&lt;/li&gt;
+&lt;/ul&gt;</string>
         </property>
         <property name="text">
          <string>u</string>
@@ -407,7 +411,7 @@
       <item row="0" column="1">
        <widget class="QLabel" name="label_12">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The lower end of the imager scale, calculated as a little smaller than the shorter dimension of the image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The lower end of the imager scale, calculated as a little smaller than the shorter dimension of the image.</string>
         </property>
         <property name="text">
          <string>Low</string>
@@ -442,7 +446,7 @@
       <item row="1" column="0">
        <widget class="QCheckBox" name="kcfg_AstrometryUsePosition">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set estimated position to speed up astrometry solver as it does not have to search in other areas of the sky.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Set estimated position to speed up astrometry solver as it does not have to search in other areas of the sky.</string>
         </property>
         <property name="text">
          <string>Use Position</string>
@@ -464,7 +468,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Search Radius for the Estimated Telescope/Image Field Position in degrees.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The Search Radius for the Estimated Telescope/Image Field Position in degrees.</string>
         </property>
         <property name="text">
          <string>5</string>
@@ -496,7 +500,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The RA of the Estimated Telescope/Image Field Position in hh:mm:ss notation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The RA of the Estimated Telescope/Image Field Position in hh:mm:ss notation</string>
         </property>
         <property name="text">
          <string>3</string>
@@ -506,7 +510,7 @@
       <item row="2" column="1">
        <widget class="QLabel" name="label_15">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The DEC of the Estimated Telescope/Image Field Position in dd:mm:ss notation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The DEC of the Estimated Telescope/Image Field Position in dd:mm:ss notation</string>
         </property>
         <property name="text">
          <string>DEC</string>
@@ -519,14 +523,14 @@
          <bool>true</bool>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The RA of the Estimated Telescope/Image Field Position in hh:mm:ss notation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The RA of the Estimated Telescope/Image Field Position in hh:mm:ss notation</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
        <widget class="QLabel" name="label_14">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The RA of the Estimated Telescope/Image Field Position in hh:mm:ss notation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The RA of the Estimated Telescope/Image Field Position in hh:mm:ss notation</string>
         </property>
         <property name="text">
          <string>RA</string>
@@ -548,7 +552,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Update coordinates to the current telescope position&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Update coordinates to the current telescope position</string>
         </property>
         <property name="text">
          <string/>
@@ -571,7 +575,7 @@
       <item row="3" column="1">
        <widget class="QLabel" name="label_8">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Search Radius for the Estimated Telescope/Image Field Position in degrees.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The Search Radius for the Estimated Telescope/Image Field Position in degrees.</string>
         </property>
         <property name="text">
          <string>Radius</string>
@@ -590,7 +594,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The DEC of the Estimated Telescope/Image Field Position in dd:mm:ss notation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The DEC of the Estimated Telescope/Image Field Position in dd:mm:ss notation</string>
         </property>
        </widget>
       </item>
@@ -613,7 +617,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The DEC of the Estimated Telescope/Image Field Position in dd:mm:ss notation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>The DEC of the Estimated Telescope/Image Field Position in dd:mm:ss notation</string>
         </property>
         <property name="text">
          <string>4</string>
@@ -656,7 +660,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;nobr&gt;Position Auto Update is turned off!&lt;/nobr&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Position Auto Update is turned off.</string>
           </property>
           <property name="text">
            <string/>
@@ -677,7 +681,7 @@
       <item row="0" column="0" colspan="6">
        <widget class="QCheckBox" name="kcfg_AstrometryDifferentialSlewing">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not use Sync when Slew to Target is selected. Use differential slewing to correct for discrepancies. This is useful on some mounts (e.g. Paramount).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Do not use Sync when Slew to Target is selected. Use differential slewing to correct for discrepancies. This is useful on some mounts (e.g. Paramount).</string>
         </property>
         <property name="text">
          <string>Use differential slewing instead of syncing</string>
@@ -713,7 +717,7 @@
      <item row="0" column="1">
       <widget class="QLineEdit" name="kcfg_AstrometryCustomOptions">
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Additional optional astrometry.net options.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Additional optional astrometry.net options.</string>
        </property>
       </widget>
      </item>

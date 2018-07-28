@@ -56,7 +56,7 @@ FlagManager::FlagManager(QWidget *ks) : QDialog(ks)
 
     ui = new FlagManagerUI(this);
 
-    setWindowTitle(i18n("Flag manager"));
+    setWindowTitle(i18n("Flag Manager"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
@@ -181,7 +181,7 @@ bool FlagManager::validatePoint()
     //check if ra & dec values were successfully converted
     if (!raOk || !decOk)
     {
-        KMessageBox::error(KStars::Instance(), i18n("Invalid coordinates!"));
+        KMessageBox::error(KStars::Instance(), i18n("Invalid coordinates."));
         return false;
     }
 
