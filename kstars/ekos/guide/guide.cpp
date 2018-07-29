@@ -1166,7 +1166,7 @@ bool Guide::captureOneFrame()
 
     if (currentCCD->isConnected() == false)
     {
-        appendLogText(i18n("Error: Lost connection to CCD."));
+        appendLogText(i18n("Error: lost connection to CCD."));
         return false;
     }
 
@@ -1712,9 +1712,9 @@ void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
     if ((state == GUIDE_GUIDING || state == GUIDE_DITHERING) && (newState == ISD::Telescope::MOUNT_PARKING || newState == ISD::Telescope::MOUNT_SLEWING))
     {
         if (newState == ISD::Telescope::MOUNT_PARKING)
-            appendLogText(i18n("Mount is parking! Aborting guide..."));
+            appendLogText(i18n("Mount is parking. Aborting guide..."));
         else
-            appendLogText(i18n("Mount is slewing! Aborting guide..."));
+            appendLogText(i18n("Mount is slewing. Aborting guide..."));
 
         abort();
     }
@@ -1954,7 +1954,7 @@ void Guide::setStatus(Ekos::GuideState newState)
         break;
 
         case GUIDE_DITHERING_ERROR:
-            appendLogText(i18n("Dithering failed!"));
+            appendLogText(i18n("Dithering failed."));
             // LinGuider guide continue after dithering failure
             if (guiderType != GUIDE_LINGUIDER)
             {
@@ -2856,7 +2856,7 @@ bool Guide::executeOperationStack()
             {
                 emit newStatus(GUIDE_CALIBRATION_ERROR);
                 state = GUIDE_IDLE;
-                appendLogText(i18n("Calibration failed to start!"));
+                appendLogText(i18n("Calibration failed to start."));
                 setBusy(false);
             }
             break;

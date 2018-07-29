@@ -106,7 +106,7 @@ EyepieceField::EyepieceField(QWidget *parent) : QDialog(parent)
     m_rotationSlider->setTickInterval(30);
     m_rotationSlider->setPageStep(30);
 
-    QLabel *sliderLabel = new QLabel(i18n("Rotation: "), this);
+    QLabel *sliderLabel = new QLabel(i18n("Rotation:"), this);
 
     m_presetCombo = new QComboBox(this);
     m_presetCombo->addItem(i18n("None"));
@@ -115,7 +115,7 @@ EyepieceField::EyepieceField(QWidget *parent) : QDialog(parent)
     m_presetCombo->addItem(i18n("Refractor"));
     m_presetCombo->addItem(i18n("Dobsonian"));
 
-    QLabel *presetLabel = new QLabel(i18n("Preset: "), this);
+    QLabel *presetLabel = new QLabel(i18n("Preset:"), this);
 
     QHBoxLayout *rotationLayout = new QHBoxLayout;
     rotationLayout->addWidget(sliderLabel);
@@ -579,7 +579,7 @@ void EyepieceField::slotDssDownloaded(bool success)
 {
     if (!success)
     {
-        KMessageBox::sorry(nullptr, i18n("Failed to download DSS/SDSS image!"));
+        KMessageBox::sorry(nullptr, i18n("Failed to download DSS/SDSS image."));
         return;
     }
     else

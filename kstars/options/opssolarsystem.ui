@@ -346,7 +346,7 @@
            <string notr="true">color:red; font-weight:bold;</string>
           </property>
           <property name="text">
-           <string>This value might result in a big data file and reduced performance!</string>
+           <string>This value might result in a big data file and reduced performance.</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>

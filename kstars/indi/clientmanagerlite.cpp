@@ -149,28 +149,28 @@ void ClientManagerLite::webManagerReplyError(QNetworkReply::NetworkError code)
     if (webMProfilesReply.get() != nullptr)
     {
         qWarning("Web Manager profile query error: %d", (int)code);
-        KStarsLite::Instance()->notificationMessage(i18n("Couldn't connect to the Web Manager"));
+        KStarsLite::Instance()->notificationMessage(i18n("Could not connect to the Web Manager"));
         webMProfilesReply.release()->deleteLater();
         return;
     }
     if (webMStatusReply.get() != nullptr)
     {
         qWarning("Web Manager status query error: %d", (int)code);
-        KStarsLite::Instance()->notificationMessage(i18n("Couldn't connect to the Web Manager"));
+        KStarsLite::Instance()->notificationMessage(i18n("Could not connect to the Web Manager"));
         webMStatusReply.release()->deleteLater();
         return;
     }
     if (webMStopProfileReply.get() != nullptr)
     {
         qWarning("Web Manager stop active profile error: %d", (int)code);
-        KStarsLite::Instance()->notificationMessage(i18n("Couldn't connect to the Web Manager"));
+        KStarsLite::Instance()->notificationMessage(i18n("Could not connect to the Web Manager"));
         webMStopProfileReply.release()->deleteLater();
         return;
     }
     if (webMStartProfileReply.get() != nullptr)
     {
         qWarning("Web Manager start active profile error: %d", (int)code);
-        KStarsLite::Instance()->notificationMessage(i18n("Couldn't connect to the Web Manager"));
+        KStarsLite::Instance()->notificationMessage(i18n("Could not connect to the Web Manager"));
         webMStartProfileReply.release()->deleteLater();
         return;
     }
@@ -238,14 +238,14 @@ void ClientManagerLite::webManagerReplyFinished()
         if (statusStr == "True")
         {
             // INDI Server is running (online)
-            indiControlPage->setProperty("webMStatusText", QString(i18n("Web Manager Status:")+' '+i18n("Online")));
+            indiControlPage->setProperty("webMStatusText", i18n("Web Manager Status: Online"));
             indiControlPage->setProperty("webMActiveProfileText",
-                                         QString(i18n("Active Profile:")+' '+activeProfileStr));
+                                         i18n("Active Profile: %1", activeProfileStr));
             indiControlPage->setProperty("webMActiveProfileLayoutVisible", true);
             indiControlPage->setProperty("webMProfileListVisible", false);
         } else {
             // INDI Server is not running (offline)
-            indiControlPage->setProperty("webMStatusText", QString(i18n("Web Manager Status:")+' '+i18n("Offline")));
+            indiControlPage->setProperty("webMStatusText", i18n("Web Manager Status: Offline"));
             indiControlPage->setProperty("webMActiveProfileLayoutVisible", false);
             context.setContextProperty("webMProfileModel", QVariant::fromValue(webMProfiles));
             indiControlPage->setProperty("webMProfileListVisible", true);

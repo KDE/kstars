@@ -734,7 +734,7 @@ bool EkosManager::start()
 
         if (DriverManager::Instance()->connectRemoteHost(managedDrivers.first()) == false)
         {
-            appendLogText(i18n("Failed to connect to remote INDI server!"));
+            appendLogText(i18n("Failed to connect to remote INDI server."));
             INDIListener::Instance()->disconnect(this);
             qDeleteAll(managedDrivers);
             managedDrivers.clear();

@@ -43,7 +43,7 @@ bool RemoteAstrometryParser::startSovler(const QString &filename, const QStringL
     QFile fp(filename);
     if (fp.open(QIODevice::ReadOnly) == false)
     {
-        align->appendLogText(i18n("Cannot open file %1 for reading!", filename));
+        align->appendLogText(i18n("Cannot open file %1 for reading.", filename));
         emit solverFailed();
         return false;
     }
@@ -76,7 +76,7 @@ bool RemoteAstrometryParser::startSovler(const QString &filename, const QStringL
     bp->blob = (uint8_t *)realloc(bp->blob, bp->size);
     if (bp->blob == nullptr)
     {
-        align->appendLogText(i18n("Not enough memory for file %1", filename));
+        align->appendLogText(i18n("Not enough memory for file %1.", filename));
         fp.close();
         emit solverFailed();
         return false;

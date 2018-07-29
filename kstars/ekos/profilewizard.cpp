@@ -122,13 +122,13 @@ void ProfileWizard::processRemoteEquipment()
 
     if (portOK == false)
     {
-        KSNotification::error(i18n("Invalid port!"));
+        KSNotification::error(i18n("Invalid port."));
         return;
     }
 
     if (remoteHostEdit->text().isEmpty())
     {
-        KSNotification::error(i18n("Host name cannot be empty!"));
+        KSNotification::error(i18n("Host name cannot be empty."));
         return;
     }
 
@@ -159,7 +159,7 @@ void ProfileWizard::processStellarMateEquipment()
 {
     if (stellarMateHost->text().isEmpty())
     {
-        KSNotification::error(i18n("Host name cannot be empty!"));
+        KSNotification::error(i18n("Host name cannot be empty."));
         return;
     }
 
@@ -215,7 +215,7 @@ void ProfileWizard::createProfile()
 {
     if (profileNameEdit->text().isEmpty())
     {
-        KSNotification::error(i18n("Profile name cannot be empty!"));
+        KSNotification::error(i18n("Profile name cannot be empty."));
         return;
     }
 

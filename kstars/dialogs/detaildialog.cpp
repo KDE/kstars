@@ -121,7 +121,7 @@ void DetailDialog::createGeneralTab()
                 Data->Names->setText(s->longname());
             }
 
-            objecttyp = s->sptype() + ' ' + i18n("star");
+            objecttyp = i18n("%1 star", s->sptype());
             Data->Magnitude->setText(i18nc("number in magnitudes", "%1 mag",
                                            QLocale().toString(s->mag(), 'f', 2))); //show to hundredth place
 
@@ -1283,7 +1283,7 @@ void DetailDialog::updateThumbnail()
             bool rc = Data->Image->pixmap()->save(fname, "PNG");
             if (rc == false)
             {
-                KMessageBox::error(nullptr, i18n("Error: Unable to save image to %1", fname), i18n("Save Thumbnail"));
+                KMessageBox::error(nullptr, i18n("Unable to save image to %1", fname), i18n("Save Thumbnail"));
             }
             else
                 *Thumbnail = *(Data->Image->pixmap());

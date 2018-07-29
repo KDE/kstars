@@ -1304,7 +1304,7 @@
       </entry>
       <entry name="DefaultDSSImageSize" type="Double">
          <label>Default size for DSS images</label>
-         <whatsthis>The default size for DSS images downloaded from the internet.</whatsthis>
+         <whatsthis>The default size for DSS images downloaded from the Internet.</whatsthis>
          <default>15.0</default>
       </entry>
       <entry name="DSSPadding" type="Double">
