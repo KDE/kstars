@@ -138,7 +138,7 @@ void ProfileEditor::saveProfile()
 
     if (ui->profileIN->text().isEmpty())
     {
-        KMessageBox::error(this, i18n("Cannot save an empty profile!"));
+        KMessageBox::error(this, i18n("Cannot save an empty profile."));
         return;
     }
 

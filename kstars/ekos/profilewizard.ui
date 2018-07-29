@@ -116,7 +116,7 @@
             </font>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Welcome to the &lt;span style=&quot; font-weight:600;&quot;&gt;Ekos Profile Wizard!&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Ekos is the premier observatory control and automation platform. With Ekos, you can capture images and gather scientific data with ease. This Wizard will help you create your equipment profile. You will be asked to verify some basic information. &lt;/p&gt;&lt;p&gt;Please click &lt;span style=&quot; font-weight:600;&quot;&gt;next&lt;/span&gt; to continue. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Welcome to the &lt;span style=&quot; font-weight:600;&quot;&gt;Ekos Profile Wizard&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Ekos is the premier observatory control and automation platform. With Ekos, you can capture images and gather scientific data with ease. This Wizard will help you create your equipment profile. You will be asked to verify some basic information. &lt;/p&gt;&lt;p&gt;Please click &lt;span style=&quot; font-weight:600;&quot;&gt;next&lt;/span&gt; to continue. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>

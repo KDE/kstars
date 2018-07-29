@@ -65,7 +65,7 @@
         </font>
        </property>
        <property name="text">
-        <string>New supernova(e) discovered!</string>
+        <string>New supernova(e) discovered</string>
        </property>
       </widget>
      </item>

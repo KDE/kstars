@@ -72,13 +72,13 @@ void OpsAstrometryCfg::slotApply()
 
         QFile confFile(confPath);
         if (confFile.open(QIODevice::WriteOnly) == false)
-            KMessageBox::error(0, i18n("Internal Astrometry Configuration File Write Error."));
+            KMessageBox::error(0, i18n("Internal Astrometry configuration file write error."));
         else
         {
             QTextStream out(&confFile);
             out << astrometryCFGDisplay->toPlainText();
             confFile.close();
-            KMessageBox::error(0, i18n("Astrometry.cfg successfully saved!"));
+            KMessageBox::information(0, i18n("Astrometry.cfg successfully saved."));
             currentCFGText = astrometryCFGDisplay->toPlainText();
         }
     }

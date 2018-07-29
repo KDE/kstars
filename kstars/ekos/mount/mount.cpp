@@ -1124,7 +1124,7 @@ void Mount::startParkTimer()
     qint64 parkSeconds = parkTime.msecsTo(KStarsData::Instance()->lt());
     if (parkSeconds > 0)
     {
-        appendLogText(i18n("Parking time cannot be in the past!"));
+        appendLogText(i18n("Parking time cannot be in the past."));
         return;
     }
 
@@ -1136,7 +1136,7 @@ void Mount::startParkTimer()
         return;
     }
 
-    appendLogText(i18n("Caution! Do not use Auto Park while scheduler is active."));
+    appendLogText(i18n("Caution: do not use Auto Park while scheduler is active."));
 
     autoParkTimer.setInterval(parkSeconds);
     autoParkTimer.start();

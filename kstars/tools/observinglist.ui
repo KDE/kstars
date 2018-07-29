@@ -638,7 +638,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Replace from internet</string>
+                    <string>Replace from Internet</string>
                    </property>
                   </widget>
                  </item>

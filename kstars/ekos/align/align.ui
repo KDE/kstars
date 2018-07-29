@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>580</width>
-    <height>529</height>
+    <width>680</width>
+    <height>532</height>
    </rect>
   </property>
   <property name="cursor">
@@ -316,7 +316,7 @@
         <item row="3" column="1">
          <widget class="QLineEdit" name="FOVOut">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Effective field of view size in arcminutes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Effective field of view size in arcminutes.</string>
           </property>
           <property name="text">
            <string/>
@@ -380,7 +380,7 @@
         <item row="3" column="0">
          <widget class="QLabel" name="label_8">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Effective field of View size in arcminutes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Effective field of view size in arcminutes.</string>
           </property>
           <property name="text">
            <string>FOV:</string>
@@ -433,7 +433,7 @@
         <item row="3" column="2" colspan="2">
          <widget class="QComboBox" name="FOVScopeCombo">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which telescope to use when performing Field of View calculations.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Select which telescope to use when performing Field of View calculations.</string>
           </property>
           <item>
            <property name="text">
@@ -483,12 +483,6 @@
             </property>
             <item row="0" column="0">
              <widget class="QLabel" name="textLabel1_6">
-              <property name="toolTip">
-               <string/>
-              </property>
-              <property name="whatsThis">
-               <string/>
-              </property>
               <property name="text">
                <string>CCD:</string>
               </property>
@@ -509,7 +503,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Toggle Full Screen</string>
+               <string>Toggle full screen</string>
               </property>
               <property name="text">
                <string/>
@@ -537,9 +531,6 @@
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_7">
-              <property name="toolTip">
-               <string/>
-              </property>
               <property name="text">
                <string>Exp:</string>
               </property>
@@ -567,9 +558,6 @@
             </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_18">
-              <property name="toolTip">
-               <string/>
-              </property>
               <property name="text">
                <string>Bin:</string>
               </property>
@@ -682,10 +670,10 @@
           <item>
            <widget class="QRadioButton" name="onlineSolverR">
             <property name="toolTip">
-             <string>Use online astrometry.net solver to solve the image. You must have an internet connection and a valid API key.</string>
+             <string>Use online astrometry.net solver to solve the image. You must have an Internet connection and a valid API key.</string>
             </property>
             <property name="text">
-             <string>Online</string>
+             <string>Onl&amp;ine</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -714,10 +702,10 @@
              <bool>false</bool>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use astrometry solver on remote machine running INDI server. You must select &lt;b&gt;Astrometry&lt;/b&gt; driver from Auxiliary drivers in your Ekos devices profile for this option to be enabled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;p&gt;Use astrometry solver on remote machine running INDI server. You must select &lt;b&gt;Astrometry&lt;/b&gt; driver from Auxiliary drivers in your Ekos devices profile for this option to be enabled.&lt;/p&gt;</string>
             </property>
             <property name="text">
-             <string>Remote</string>
+             <string>Re&amp;mote</string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">solverTypeGroup</string>
@@ -818,7 +806,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The results from Astrometric Solutions from the Capture and Solve Tool, the Load and Slew Tool, and the Mount Model Tool will be displayed below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>The results from Astrometric Solutions from the Capture and Solve Tool, the Load and Slew Tool, and the Mount Model Tool will be displayed below.</string>
           </property>
           <property name="wordWrap">
            <bool>true</bool>
@@ -922,7 +910,7 @@
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Clear all of the solutions from the solutions table.  Be careful because you cannot get them back.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>Clear all of the solutions from the solutions table.  Be careful because you cannot get them back.</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -944,7 +932,7 @@
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove the selected row from the solutions table.  This can be useful for getting rid of results that did not actually solve from the table and/or results that you do not need any more.  It can clean up clutter on both the graph and table.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>Remove the selected row from the solutions table.  This can be useful for getting rid of results that did not actually solve from the table and/or results that you do not need any more.  It can clean up clutter on both the graph and table.</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -966,7 +954,7 @@
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Export all of the solutions in the Solution Results table to CSV file of your choosing for further analysis in a spreadsheet.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>Export all of the solutions in the Solution Results table to CSV file of your choosing for further analysis in a spreadsheet.</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -988,7 +976,7 @@
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Auto scale and center the Solution Results graph.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>Auto scale and center the Solution Results graph.</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -1011,7 +999,7 @@
               <item>
                <widget class="QPushButton" name="mountModelB">
                 <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Launch the mount model tool. This tool enables you to create pre-programmed list of points to go to and solve. It can aid in building a pointing model for better accuracy.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>Launch the mount model tool. This tool enables you to create pre-programmed list of points to go to and solve. It can aid in building a pointing model for better accuracy.</string>
                 </property>
                 <property name="text">
                  <string>Mount Model</string>
@@ -1372,7 +1360,7 @@
                  <item>
                   <widget class="QLabel" name="label_23">
                    <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Angle between expected perfectly aligned mount center and the actual center&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>Angle between expected perfectly aligned mount center and the actual center</string>
                    </property>
                    <property name="text">
                     <string>Polar Error:</string>
@@ -1758,7 +1746,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="solverTypeGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
+  <buttongroup name="solverTypeGroup"/>
  </buttongroups>
 </ui>

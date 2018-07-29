@@ -440,7 +440,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Looks like you haven't listed out your observers / equipment. Please hit Ctrl + 0 and Ctrl + 1 to fix this situation and come back here.</string>
+              <string>Looks like you have not listed out your observers / equipment. Please hit Ctrl + 0 and Ctrl + 1 to fix this situation and come back here.</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>

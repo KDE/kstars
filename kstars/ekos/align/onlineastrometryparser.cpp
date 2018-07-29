@@ -77,7 +77,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
     #if 0
     if (networkManager->networkAccessible() == false && Options::astrometryAPIURL().contains("127.0.0.1") == false)
     {
-        align->appendLogText(i18n("Error: No connection to the internet."));
+        align->appendLogText(i18n("Error: no connection to the Internet."));
         emit solverFailed();
         return false;
     }
@@ -186,7 +186,7 @@ void OnlineAstrometryParser::uploadFile()
     bool rc         = fitsFile->open(QIODevice::ReadOnly);
     if (rc == false)
     {
-        align->appendLogText(i18n("Failed to open file %1. %2", filename, fitsFile->errorString()));
+        align->appendLogText(i18n("Failed to open the file %1: %2", filename, fitsFile->errorString()));
         delete (fitsFile);
         emit solverFailed();
         return;
@@ -330,7 +330,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply *reply)
 
     if (parseError.error != QJsonParseError::NoError)
     {
-        align->appendLogText(i18n("JSon error during parsing (%1).", parseError.errorString()));
+        align->appendLogText(i18n("JSON error during parsing (%1).", parseError.errorString()));
         emit solverFailed();
         return;
     }

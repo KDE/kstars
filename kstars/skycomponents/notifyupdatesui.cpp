@@ -29,7 +29,7 @@
 NotifyUpdatesUI::NotifyUpdatesUI(QWidget *parent) : QDialog(parent), ui(new Ui::NotifyUpdatesUI)
 {
     ui->setupUi(this);
-    setWindowTitle(i18n("New Supernova(e) discovered!"));
+    setWindowTitle(i18n("New Supernova(e) Discovered"));
     connect(ui->centrePushButton, SIGNAL(clicked()), SLOT(slotCenter()));
 }
 
