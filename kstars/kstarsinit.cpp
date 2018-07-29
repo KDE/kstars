@@ -791,6 +791,13 @@ void KStars::datainitFinished()
     data()->setFullTimeUpdate();
     updateTime();
 
+    // Initial State
+    qCDebug(KSTARS) << "Date/Time is:" << data()->clock()->utc().toString();
+    qCDebug(KSTARS) << "Location:" << data()->geo()->fullName();
+    qCDebug(KSTARS) << "TZ0:" << data()->geo()->TZ0() << "TZ:" << data()->geo()->TZ();
+
+    KSTheme::Manager::instance()->setCurrentTheme(Options::currentTheme());
+
     //If this is the first startup, show the wizard
     if (Options::runStartupWizard())
     {
@@ -799,13 +806,6 @@ void KStars::datainitFinished()
 
     //Show TotD
     KTipDialog::showTip(this, "kstars/tips");
-
-    // Initial State
-    qCDebug(KSTARS) << "Date/Time is:" << data()->clock()->utc().toString();
-    qCDebug(KSTARS) << "Location:" << data()->geo()->fullName();
-    qCDebug(KSTARS) << "TZ0:" << data()->geo()->TZ0() << "TZ:" << data()->geo()->TZ();
-
-    KSTheme::Manager::instance()->setCurrentTheme(Options::currentTheme());
 }
 
 void KStars::initFocus()
