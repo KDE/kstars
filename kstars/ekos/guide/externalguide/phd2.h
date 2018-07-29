@@ -11,10 +11,11 @@
 
 #include "../guideinterface.h"
 #include "fitsviewer/fitsview.h"
-#include <QPointer>
 
 #include <QAbstractSocket>
 #include <QJsonArray>
+#include <QJsonObject>
+#include <QPointer>
 #include <QTimer>
 
 class QTcpSocket;
@@ -33,7 +34,7 @@ class PHD2 : public GuideInterface
     Q_OBJECT
 
   public:
-    typedef enum {
+    enum PHD2Event {
         Version,
         LockPositionSet,
         CalibrationComplete,
@@ -57,36 +58,32 @@ class PHD2 : public GuideInterface
         LockPositionLost,
         Alert,
         GuideParamChange
-    } PHD2Event;
-    typedef enum {
+    };
+    enum PHD2State {
+        // these are the states exposed by phd2
         STOPPED,
         SELECTED,
+        CALIBRATING,
+        GUIDING,
         LOSTLOCK,
         PAUSED,
         LOOPING,
-        CALIBRATING,
-        CALIBRATION_FAILED,
-        CALIBRATION_SUCCESSFUL,
-        GUIDING,
-        DITHERING,
-        DITHER_FAILED,
-        DITHER_SUCCESSFUL
-    } PHD2State;
-    typedef enum {
+    };
+    enum PHD2Connection {
         DISCONNECTED,
         CONNECTED,
         EQUIPMENT_DISCONNECTED,
         EQUIPMENT_CONNECTED
-    } PHD2Connection;
-    typedef enum {
+    };
+    enum PHD2MessageType {
         PHD2_UNKNOWN,
         PHD2_RESULT,
         PHD2_EVENT,
         PHD2_ERROR,
-    } PHD2MessageType;
+    };
 
-    //These are the PHD2 Results and the commands they are associated with
-    typedef enum {
+    // These are the PHD2 Results and the commands they are associated with
+    enum PHD2ResultType {
         NO_RESULT,
             //capture_single_frame
         CLEAR_CALIBRATION_COMMAND_RECEIVED,     //clear_calibration
@@ -130,7 +127,7 @@ class PHD2 : public GuideInterface
             //set_profile
             //shutdown
         STOP_CAPTURE_COMMAND_RECEIVED           //stop_capture
-    } PHD2ResultType;
+    };
 
     PHD2();
     ~PHD2();
@@ -199,32 +196,47 @@ class PHD2 : public GuideInterface
 
     QVector<QPointF> errorLog;
 
-    void sendPHD2Request(const QString &method, const QJsonArray args = QJsonArray());
-    void sendJSONRPCRequest(const QString &method, const QJsonArray args = QJsonArray());
-    bool blockLine2=false;
+    void sendPHD2Request(const QString &method, const QJsonArray &args = QJsonArray());
+    void sendRpcCall(QJsonObject &call, PHD2ResultType resultType);
+    void sendNextRpcCall();
 
-    void processPHD2Event(const QJsonObject &jsonEvent);
-    void processPHD2Result(const QJsonObject &jsonObj, QString rawString);
+    void processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &rawResult);
+    void processPHD2Result(const QJsonObject &jsonObj, const QByteArray &rawResult);
     void processStarImage(const QJsonObject &jsonStarFrame);
     void processPHD2State(const QString &phd2State);
-    void processPHD2Error(const QJsonObject &jsonError);
+    void processPHD2Error(const QJsonObject &jsonError, const QByteArray &rawResult);
+
+    PHD2ResultType takeRequestFromList(const QJsonObject &response);
 
     QTcpSocket *tcpSocket { nullptr };
-    qint64 methodID { 1 };
+    int nextRpcId { 1 };
 
-    QHash<QString, PHD2Event> events;
-    QHash<QString, PHD2ResultType> methodResults;
-    QVector<QPair<int, QString>> resultRequests;
+    QHash<QString, PHD2Event> events;                     // maps event name to event type
+    QHash<QString, PHD2ResultType> methodResults;         // maps method name to result type
+
+    int pendingRpcId;                         // ID of outstanding RPC call
+    PHD2ResultType pendingRpcResultType { NO_RESULT };      // result type of outstanding RPC call
+    bool starImageRequested { false };        // true when there is an outstanding star image request
+
+    struct RpcCall
+    {
+        QJsonObject call;
+        PHD2ResultType resultType;
+        RpcCall() = default;
+        RpcCall(const QJsonObject& call_, PHD2ResultType resultType_) : call(call_), resultType(resultType_) { }
+    };
+    QVector<RpcCall> rpcRequestQueue;
 
     PHD2State state { STOPPED };
+    bool isDitherActive { false };
+    bool isSettling { false };
     PHD2Connection connection { DISCONNECTED };
     PHD2Event event { Alert };
-    PHD2ResultType takeRequestFromList(const QJsonObject &jsonObj);
-    void removeBrokenRequestFromList(QString rawString);
     uint8_t setConnectedRetries { 0 };
 
     void setEquipmentConnected();
     void updateGuideParameters();
+    void ResetConnectionState();
 
     QTimer *abortTimer;
     QTimer *ditherTimer;
@@ -234,4 +246,5 @@ class PHD2 : public GuideInterface
 
     QString logValidExposureTimes;
 };
+
 }
