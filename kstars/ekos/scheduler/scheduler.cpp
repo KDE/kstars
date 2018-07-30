@@ -3145,7 +3145,10 @@ void Scheduler::checkJobStage()
                 currentJob->setStage(SchedulerJob::STAGE_GUIDING_COMPLETE);
                 getNextAction();
             }
-            else if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR || guideStatus == Ekos::GUIDE_ABORTED)
+            // JM 2018-07-30: GUIDE_IDLE is also a failure
+            else if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR ||
+                     guideStatus == Ekos::GUIDE_ABORTED ||
+                     guideStatus == Ekos::GUIDE_IDLE)
             {
                 if (guideStatus == Ekos::GUIDE_ABORTED)
                     appendLogText(i18n("Warning: job '%1' guiding failed.", currentJob->getName()));
@@ -3932,6 +3935,9 @@ void Scheduler::findNextJob()
                __FUNCTION__, "Finding next job requires current to be in error, aborted or complete");
 
     jobTimer.stop();
+
+    // Reset failed count
+    alignFailureCount = guideFailureCount = 0;
 
     /* FIXME: Other debug logs in that function probably */
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Find next job...";
