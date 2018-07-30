@@ -3,6 +3,7 @@
 Type=Application
 Exec=kstars %U
 Icon=kstars
+StartupWMClass=kstars
 X-DocPath=kstars/index.html
 Comment=Desktop Planetarium
 Comment[af]=Werkskerm Planetarium
