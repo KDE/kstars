@@ -626,6 +626,7 @@ class Align : public QWidget, public Ui::Align
     QVariantMap getEffectiveFOV();
     void saveNewEffectiveFOV(double newFOVW, double newFOVH);
     QList<QVariantMap> effectiveFOVs;
+    void syncFOV();
 
     /// Which chip should we invoke in the current CCD?
     bool useGuideHead { false };

@@ -125,27 +125,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(&alignTimer, &QTimer::timeout, this, &Align::captureAndSolve);
 
     // Effective FOV Edit
-    connect(FOVOut, &QLineEdit::editingFinished, [=]()
-    {
-        QString newFOV = FOVOut->text();
-        QRegularExpression re("(\\d+\\.*\\d*)\\D*x\\D*(\\d+\\.*\\d*)");
-        QRegularExpressionMatch match = re.match(newFOV);
-        if (match.hasMatch())
-        {
-            double newFOVW = match.captured(1).toDouble();
-            double newFOVH = match.captured(2).toDouble();
-
-            if (newFOVW > 0 && newFOVH > 0)
-                saveNewEffectiveFOV(newFOVW, newFOVH);
-
-            FOVOut->setStyleSheet(QString());
-        }
-        else
-        {
-            KMessageBox::error(nullptr, i18n("Invalid FOV."));
-            FOVOut->setStyleSheet("background-color:red");
-        }
-    });
+    connect(FOVOut, &QLineEdit::editingFinished, this, &Align::syncFOV);
 
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
     connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
@@ -5515,7 +5495,7 @@ QVariantMap Align::getEffectiveFOV()
 
 void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
 {
-    if (newFOVW <= 0 || newFOVH <= 0 || (newFOVW == fov_x && newFOVH == fov_y))
+    if (newFOVW < 0 || newFOVH < 0 || (newFOVW == fov_x && newFOVH == fov_y))
         return;
 
     QVariantMap effectiveMap = getEffectiveFOV();
@@ -5523,6 +5503,13 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
     // If ID exists, delete it first.
     if (effectiveMap.isEmpty() == false)
         KStarsData::Instance()->userdb()->DeleteEffectiveFOV(effectiveMap["id"].toString());
+
+    // If FOV is 0x0, then we just remove existing effective FOV
+    if (newFOVW == 0.0 && newFOVH == 0.0)
+    {
+        calculateFOV();
+        return;
+    }
 
     effectiveMap["Profile"] = m_ActiveProfile->name;
     effectiveMap["Width"] = ccd_width;
@@ -5646,6 +5633,28 @@ void Align::setPAHSettings(const QJsonObject &settings)
     PAHDirectionCombo->setCurrentIndex(settings["mountDirection"].toInt(0));
     PAHRotationSpin->setValue(settings["mountRotation"].toInt(30));
     PAHExposure->setValue(settings["refresh"].toDouble(1));
+}
+
+void Align::syncFOV()
+{
+    QString newFOV = FOVOut->text();
+    QRegularExpression re("(\\d+\\.*\\d*)\\D*x\\D*(\\d+\\.*\\d*)");
+    QRegularExpressionMatch match = re.match(newFOV);
+    if (match.hasMatch())
+    {
+        double newFOVW = match.captured(1).toDouble();
+        double newFOVH = match.captured(2).toDouble();
+
+        //if (newFOVW > 0 && newFOVH > 0)
+        saveNewEffectiveFOV(newFOVW, newFOVH);
+
+        FOVOut->setStyleSheet(QString());
+    }
+    else
+    {
+        KMessageBox::error(nullptr, i18n("Invalid FOV."));
+        FOVOut->setStyleSheet("background-color:red");
+    }
 }
 
 }
