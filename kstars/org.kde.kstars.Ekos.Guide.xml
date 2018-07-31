@@ -21,10 +21,7 @@
     </method>
     <method name="resume">
       <arg type="b" direction="out"/>
-    </method>
-    <method name="startAutoCalibrateGuide">
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
+    </method>    
     <method name="clearCalibration">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
