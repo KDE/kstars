@@ -260,11 +260,6 @@ class Guide : public QWidget, public Ui::Guide
     Q_SCRIPTABLE Q_NOREPLY void setSubFrameEnabled(bool enable);
 
     /** DBUS interface function.
-         * @brief startAutoCalibrateGuide Start calibration with auto star selected followed immediately by guiding.
-         */
-    Q_SCRIPTABLE Q_NOREPLY void startAutoCalibrateGuide();
-
-    /** DBUS interface function.
          * Selects which guiding process to utilize for calibration & guiding.
          * @param type Type of guider process to use. 0 for internal guider, 1 for external PHD2, 2 for external lin_guider. Pass -1 to select default guider in options.
          * @return True if guiding is switched to the new requested type. False otherwise.

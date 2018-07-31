@@ -4132,26 +4132,20 @@ void Scheduler::startAstrometry()
 
 void Scheduler::startGuiding(bool resetCalibration)
 {
-    // Make sure calibration is auto
-    //QVariant arg(true);
-    //guideInterface->call(QDBus::AutoDetect,"setCalibrationAutoStar", arg);
+    // Set Auto Star to true
+    QVariant arg(true);
+    guideInterface->call(QDBus::AutoDetect,"setCalibrationAutoStar", arg);
 
-    if (resetCalibration)
+    // Only reset calibration on trouble
+    // and if we are allowed to reset calibration (true by default)
+    if (resetCalibration && Options::resetGuideCalibration())
         guideInterface->call(QDBus::AutoDetect, "clearCalibration");
 
-    //QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"startAutoCalibrateGuide");
-    guideInterface->call(QDBus::AutoDetect, "startAutoCalibrateGuide");
-    /*if (guideReply.value() == false)
-    {
-        appendLogText(i18n("Starting guide calibration failed. If using external guide application, ensure it is up and running."));
-        currentJob->setState(SchedulerJob::JOB_ERROR);
-    }
-    else
-    {*/
+    guideInterface->call(QDBus::AutoDetect, "guide");
+
     currentJob->setStage(SchedulerJob::STAGE_GUIDING);
 
     appendLogText(i18n("Starting guiding procedure for %1 ...", currentJob->getName()));
-    //}
 }
 
 void Scheduler::startCapture()

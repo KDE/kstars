@@ -1816,6 +1816,7 @@ QList<double> Guide::getGuidingDeviation()
     return deviation;
 }
 
+#if 0
 void Guide::startAutoCalibrateGuide()
 {
     // A must for auto stuff
@@ -1841,6 +1842,7 @@ void Guide::startAutoCalibrateGuide()
     }
 #endif
 }
+#endif
 
 void Guide::clearCalibration()
 {
