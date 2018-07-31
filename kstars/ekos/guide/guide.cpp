@@ -1624,6 +1624,13 @@ bool Guide::calibrate()
 
 bool Guide::guide()
 {
+    if (Options::defaultCaptureCCD() == guiderCombo->currentText())
+    {
+        if (KMessageBox::questionYesNo(nullptr, i18n("The guide camera is identical to the capture camera. Are you sure you want to continue?"))==
+                KMessageBox::No)
+            return false;
+    }
+
     if(guiderType != GUIDE_PHD2)
     {
         if (calibrationComplete == false)
