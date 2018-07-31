@@ -87,10 +87,7 @@ include(ECMAddAppIcon)
 include(KDEInstallDirs)
 include(MacroBoolTo01)
 include(ECMQtDeclareLoggingCategory)
-if (NOT "${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
-    #We get error "could not find main method" with this module
-    include(KDECompilerSettings NO_POLICY_SCOPE)
-endif()
+include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
 include(FeatureSummary)
 
@@ -252,8 +249,10 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 add_definitions(-DQT_NO_CAST_TO_ASCII)
 
+# Needed for htmesh, and libraw
+kde_enable_exceptions()
+
 if (UNIX)
-  add_definitions(-Dfexceptions)
 
   # TEMPORARY: To disable QCustomPlot warning until 2.0.0 is released which fixes these warnings
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-virtual-dtor")
