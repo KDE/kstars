@@ -116,7 +116,7 @@ void INDI_P::initGUI()
 
     //labelW->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     labelW->setFrameShape(QFrame::StyledPanel);
-    labelW->setFixedWidth(PROPERTY_LABEL_WIDTH);
+    labelW->setFixedWidth(PROPERTY_LABEL_WIDTH * KStars::Instance()->devicePixelRatio());
     labelW->setTextFormat(Qt::RichText);
     labelW->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     labelW->setWordWrap(true);
@@ -523,8 +523,8 @@ void INDI_P::setupSetButton(const QString &caption)
 {
     setB.reset(new QPushButton(caption, pg->getContainer()));
     setB->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    setB->setMinimumWidth(MIN_SET_WIDTH);
-    setB->setMaximumWidth(MAX_SET_WIDTH);
+    setB->setMinimumWidth(MIN_SET_WIDTH * KStars::Instance()->devicePixelRatio());
+    setB->setMaximumWidth(MAX_SET_WIDTH * KStars::Instance()->devicePixelRatio());
 
     connect(setB.get(), SIGNAL(clicked()), this, SLOT(processSetButton()));
 

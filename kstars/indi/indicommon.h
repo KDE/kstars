@@ -111,9 +111,6 @@ typedef enum { NO_DIR = 0, RA_INC_DIR, RA_DEC_DIR, DEC_INC_DIR, DEC_DEC_DIR } Gu
 #define MED_INDI_FONT        2
 #define MAX_LABEL_LENGTH     20
 
-// Pulse tracking
-#define INDI_PULSE_TRACKING 15000
-
 typedef enum { PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS, PG_RADIO, PG_MENU, PG_LIGHTS, PG_BLOB } PGui;
 
 /* new versions of glibc define TIME_UTC as a macro */

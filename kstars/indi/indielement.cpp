@@ -15,6 +15,8 @@
 #include "indigroup.h"
 #include "indidevice.h"
 
+#include "kstars.h"
+
 #include <indicom.h>
 
 #include <KSqueezedTextLabel>
@@ -147,17 +149,17 @@ void INDI_E::buildText(IText *itp)
     switch (dataProp->getPermission())
     {
         case IP_RW:
-            setupElementRead(ELEMENT_READ_WIDTH);
-            setupElementWrite(ELEMENT_WRITE_WIDTH);
+            setupElementRead(ELEMENT_READ_WIDTH  * KStars::Instance()->devicePixelRatio());
+            setupElementWrite(ELEMENT_WRITE_WIDTH  * KStars::Instance()->devicePixelRatio());
 
             break;
 
         case IP_RO:
-            setupElementRead(ELEMENT_FULL_WIDTH);
+            setupElementRead(ELEMENT_FULL_WIDTH * KStars::Instance()->devicePixelRatio());
             break;
 
         case IP_WO:
-            setupElementWrite(ELEMENT_FULL_WIDTH);
+            setupElementWrite(ELEMENT_FULL_WIDTH * KStars::Instance()->devicePixelRatio());
             break;
     }
 
@@ -170,8 +172,8 @@ void INDI_E::setupElementLabel()
     QPalette palette;
 
     label_w = new KSqueezedTextLabel(guiProp->getGroup()->getContainer());
-    label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH);
-    label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
+    label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH * KStars::Instance()->devicePixelRatio());
+    label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH * KStars::Instance()->devicePixelRatio());
     label_w->setFrameShape(KSqueezedTextLabel::Box);
 
     palette.setColor(label_w->backgroundRole(), QColor(224, 232, 238));
@@ -353,17 +355,17 @@ void INDI_E::buildBLOB(IBLOB *ibp)
     switch (dataProp->getPermission())
     {
         case IP_RW:
-            setupElementRead(ELEMENT_READ_WIDTH);
-            setupElementWrite(ELEMENT_WRITE_WIDTH);
+            setupElementRead(ELEMENT_READ_WIDTH * KStars::Instance()->devicePixelRatio());
+            setupElementWrite(ELEMENT_WRITE_WIDTH * KStars::Instance()->devicePixelRatio());
             setupBrowseButton();
             break;
 
         case IP_RO:
-            setupElementRead(ELEMENT_FULL_WIDTH);
+            setupElementRead(ELEMENT_FULL_WIDTH * KStars::Instance()->devicePixelRatio());
             break;
 
         case IP_WO:
-            setupElementWrite(ELEMENT_FULL_WIDTH);
+            setupElementWrite(ELEMENT_FULL_WIDTH * KStars::Instance()->devicePixelRatio());
             setupBrowseButton();
             break;
     }
@@ -401,25 +403,25 @@ void INDI_E::buildNumber(INumber *inp)
     switch (dataProp->getPermission())
     {
         case IP_RW:
-            setupElementRead(ELEMENT_READ_WIDTH);
+            setupElementRead(ELEMENT_READ_WIDTH * KStars::Instance()->devicePixelRatio());
             if (scale)
-                setupElementScale(ELEMENT_WRITE_WIDTH);
+                setupElementScale(ELEMENT_WRITE_WIDTH * KStars::Instance()->devicePixelRatio());
             else
-                setupElementWrite(ELEMENT_WRITE_WIDTH);
+                setupElementWrite(ELEMENT_WRITE_WIDTH * KStars::Instance()->devicePixelRatio());
 
             guiProp->addLayout(EHBox);
             break;
 
         case IP_RO:
-            setupElementRead(ELEMENT_READ_WIDTH);
+            setupElementRead(ELEMENT_READ_WIDTH * KStars::Instance()->devicePixelRatio());
             guiProp->addLayout(EHBox);
             break;
 
         case IP_WO:
             if (scale)
-                setupElementScale(ELEMENT_FULL_WIDTH);
+                setupElementScale(ELEMENT_FULL_WIDTH * KStars::Instance()->devicePixelRatio());
             else
-                setupElementWrite(ELEMENT_FULL_WIDTH);
+                setupElementWrite(ELEMENT_FULL_WIDTH * KStars::Instance()->devicePixelRatio());
 
             guiProp->addLayout(EHBox);
 
@@ -504,7 +506,7 @@ void INDI_E::setupElementScale(int length)
     connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double)));
     connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int)));
 
-    if (length == ELEMENT_FULL_WIDTH)
+    if (length == ELEMENT_FULL_WIDTH  * KStars::Instance()->devicePixelRatio())
         spin_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     else
         spin_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -592,8 +594,8 @@ void INDI_E::setupBrowseButton()
     browse_w = new QPushButton(guiProp->getGroup()->getContainer());
     browse_w->setIcon(QIcon::fromTheme("document-open"));
     browse_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    browse_w->setMinimumWidth(MIN_SET_WIDTH);
-    browse_w->setMaximumWidth(MAX_SET_WIDTH);
+    browse_w->setMinimumWidth(MIN_SET_WIDTH  * KStars::Instance()->devicePixelRatio());
+    browse_w->setMaximumWidth(MAX_SET_WIDTH  * KStars::Instance()->devicePixelRatio());
 
     EHBox->addWidget(browse_w);
     QObject::connect(browse_w, SIGNAL(clicked()), this, SLOT(browseBlob()));
