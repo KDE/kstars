@@ -4027,7 +4027,9 @@ void Capture::setGuideStatus(GuideState state)
     case GUIDE_CALIBRATION_SUCESS:
         // If capture was aborted due to guide abort
         // then let's resume capture once we are guiding again.
-        if (autoGuideAbortedCapture && guideState == GUIDE_ABORTED && this->state == CAPTURE_ABORTED)
+        if (autoGuideAbortedCapture &&
+           (guideState == GUIDE_ABORTED || guideState == GUIDE_IDLE) &&
+           this->state == CAPTURE_ABORTED)
         {
             start();
             autoGuideAbortedCapture = false;
