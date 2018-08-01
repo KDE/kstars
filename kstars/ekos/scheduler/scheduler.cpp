@@ -200,9 +200,9 @@ void Scheduler::watchJobChanges(bool enable)
 
         connect(culminationOffset, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
         connect(startupTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        connect(minAltitude, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
+        connect(minAltitude, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
         connect(repeatsSpin, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
-        connect(minMoonSeparation, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
+        connect(minMoonSeparation, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
         connect(completionTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(prioritySpin, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
     }
@@ -227,9 +227,9 @@ void Scheduler::watchJobChanges(bool enable)
 
         disconnect(culminationOffset, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
         disconnect(startupTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        disconnect(minAltitude, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
+        disconnect(minAltitude, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
         disconnect(repeatsSpin, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
-        disconnect(minMoonSeparation, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
+        disconnect(minMoonSeparation, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
         disconnect(completionTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(prioritySpin, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
     }
@@ -3147,8 +3147,7 @@ void Scheduler::checkJobStage()
             }
             // JM 2018-07-30: GUIDE_IDLE is also a failure
             else if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR ||
-                     guideStatus == Ekos::GUIDE_ABORTED ||
-                     guideStatus == Ekos::GUIDE_IDLE)
+                     guideStatus == Ekos::GUIDE_ABORTED)
             {
                 if (guideStatus == Ekos::GUIDE_ABORTED)
                     appendLogText(i18n("Warning: job '%1' guiding failed.", currentJob->getName()));
