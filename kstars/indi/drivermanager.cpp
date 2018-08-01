@@ -958,7 +958,7 @@ bool DriverManager::readXMLDrivers()
         return false;
     }
 
-    indiDir.setNameFilters(QStringList("*.xml"));
+    indiDir.setNameFilters(QStringList() << "indi_*.xml" << "drivers.xml");
     indiDir.setFilter(QDir::Files | QDir::NoSymLinks);
     QFileInfoList list = indiDir.entryInfoList();
 
@@ -968,21 +968,20 @@ bool DriverManager::readXMLDrivers()
         if (fileInfo.fileName().endsWith(QLatin1String("_sk.xml")))
             continue;
 
-        if (fileInfo.fileName() == "drivers.xml")
-        {
-            // Let first attempt to load the local version of drivers.xml
-            driverName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "drivers.xml";
+//        if (fileInfo.fileName() == "drivers.xml")
+//        {
+//            // Let first attempt to load the local version of drivers.xml
+//            driverName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "drivers.xml";
 
-            // If found, we continue, otherwise, we load the system file
-            if (driverName.isEmpty() == false && QFile(driverName).exists())
-            {
-                processXMLDriver(driverName);
-                continue;
-            }
-        }
+//            // If found, we continue, otherwise, we load the system file
+//            if (driverName.isEmpty() == false && QFile(driverName).exists())
+//            {
+//                processXMLDriver(driverName);
+//                continue;
+//            }
+//        }
 
-        driverName = QString("%1/%2").arg(driversDir, fileInfo.fileName());
-        processXMLDriver(driverName);
+        processXMLDriver(fileInfo.absoluteFilePath());
     }
 
     return true;
