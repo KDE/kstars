@@ -983,7 +983,7 @@ void EkosManager::deviceConnected()
 
     if (Options::verboseLogging())
     {
-        ISD::GDInterface *device = (ISD::GDInterface *)sender();
+        ISD::GDInterface *device = qobject_cast<ISD::GDInterface *>(sender());
         qCInfo(KSTARS_EKOS) << device->getDeviceName() << "is connected.";
     }
 
@@ -2202,13 +2202,18 @@ void EkosManager::initGuide()
                 SLOT(setGuideChip(ISD::CCDChip*)));
 
         // Meridian Flip
-        connect(captureProcess.get(), SIGNAL(meridianFlipStarted()), guideProcess.get(), SLOT(abort()), Qt::UniqueConnection);
-        connect(captureProcess.get(), SIGNAL(meridianFlipCompleted()), guideProcess.get(), SLOT(startAutoCalibrateGuide()),
-                Qt::UniqueConnection);
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, guideProcess.get(), &Ekos::Guide::abort);
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, guideProcess.get(), [&]() {
+            if (Options::resetGuideCalibration())
+                guideProcess->clearCalibration();
+            guideProcess->guide();
+        });
     }
 
     if (mountProcess.get() != nullptr)
     {
+        mountProcess.get()->disconnect(guideProcess.get());
+
         // Parking
         connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), guideProcess.get(),
                 SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
@@ -2216,6 +2221,8 @@ void EkosManager::initGuide()
 
     if (focusProcess.get() != nullptr)
     {
+        focusProcess->disconnect(guideProcess.get());
+
         // Suspend
         connect(focusProcess.get(), SIGNAL(suspendGuiding()), guideProcess.get(), SLOT(suspend()), Qt::UniqueConnection);
         connect(focusProcess.get(), SIGNAL(resumeGuiding()), guideProcess.get(), SLOT(resume()), Qt::UniqueConnection);
