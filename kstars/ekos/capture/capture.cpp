@@ -1220,6 +1220,9 @@ bool Capture::setCaptureComplete()
     activeJob->setCompleted(seqCurrentCount);
     imgProgress->setValue(seqCurrentCount);
 
+    // FIXME JM 2018-08-02: This doesn't make sense? getTotalFramesCount(signature) would return ALL counts
+    // for a particular signature. For LRGBRGB, and suppose 5 frames each, then total frame count is 10
+    // when job count is 5
     appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, getTotalFramesCount(activeJob->getSignature())));
 
     state = CAPTURE_IMAGE_RECEIVED;
@@ -2272,20 +2275,40 @@ void Capture::prepareJob(SequenceJob *job)
     // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system unless ignoreJobProgress is set to true
     if (ignoreJobProgress == false && activeJob->isPreview() == false)
     {
+        // The signature is the unique identification path in the system for a particular job
+        // e.g. /home/jasem/M45/Light_Red
         QString signature = activeJob->getSignature();
 
+        // Now check on the file system ALL the files that exist with the above signature
+        // If 29 files exist for example, then nextSequenceID would be the NEXT file number (30)
+        // Therefore, we know how to number the next file.
         checkSeqBoundary(signature);
 
+        // Captured Frames Map contains a list of signatures:count of _already_ captured files in the file system.
+        // This is usually set by the scheduler in case we have duplicate signatures.
+        // Eg. Simple Sequence = LRGB
+        // Scheduler wants to run job 3 times, with each sequence capture 5 frames per filter.
+        // When the first scheduler job is complete. On the file system, we have 20 images (5 for each filter)
+        // When the SECOND job scheduler starts. It already finds 20 images on the filter system, so it sets
+        // the signatures of L,R,G, and B to ZERO (seqFileCount) even though seqFileCount is set to 5 by the
+        // checkSeqBoundary function since this is what exists on the filter system for this signature.
+        // Therefore, we continue to capture the SECOND scheduler job without issues.
+        // This is the purpose of capturedFramesMap
         if (capturedFramesMap.contains(signature))
             seqFileCount = capturedFramesMap[signature];
 
         if (seqFileCount > 0)
         {
+            // Get the TOTAL count of frames for a particular signature
+            // e.g. Suppose Sequnce is LRGBRGB each 5 frames
+            // getTotalFramesCount("R") = 10
+            int totalSignatureFrameCount = getTotalFramesCount(signature);
+
             // Fully complete
-            if (seqFileCount >= getTotalFramesCount(signature))
+            if (seqFileCount >= totalSignatureFrameCount)
             {
                 activeJob->setCompleted(seqFileCount);
-                imgProgress->setValue(getTotalFramesCount(signature));
+                imgProgress->setValue(totalSignatureFrameCount);
                 qCDebug(KSTARS_EKOS_CAPTURE) << "Job" << job->getFullPrefix() << "already complete.";
                 processJobCompletion();
                 return;
@@ -2737,7 +2760,6 @@ void Capture::updateHFRThreshold()
 
 int Capture::getTotalFramesCount(QString signature)
 {
-
     int  result = 0;
     bool found  = false;
 
@@ -4836,6 +4858,7 @@ void Capture::postScriptFinished(int exitCode)
     appendLogText(i18n("Post capture script finished with code %1.", exitCode));
 
     // if we're done
+    // FIXME getTotalFramesCount is problematic elsewhere. Check here
     if (seqCurrentCount >= getTotalFramesCount(activeJob->getSignature()))
     {
         processJobCompletion();
@@ -5090,18 +5113,24 @@ void Capture::startRefocusTimer(bool forced)
     /* If refocus is requested, only restart timer if not already running in order to keep current elapsed time since last refocus */
     if (refocusEveryNCheck->isChecked())
     {
+        // How much time passed since we last started the time
+        uint32_t elapsedSecs = refocusEveryNTimer.elapsed()/1000;
+        // How many seconds do we wait for between focusing (60 mins ==> 3600 secs)
+        uint32_t totalSecs   = refocusEveryN->value()*60;
+
         if (!refocusEveryNTimer.isValid() || forced)
         {
-            appendLogText(i18n("Ekos will refocus in %1 seconds.", refocusEveryN->value()*60));
+            appendLogText(i18n("Ekos will refocus in %1 seconds.", totalSecs));
             refocusEveryNTimer.restart();
         }
-        else if (refocusEveryNTimer.elapsed()/1000 < refocusEveryN->value()*60)
+        else if (elapsedSecs < totalSecs)
         {
-            appendLogText(i18n("Ekos will refocus in %1 seconds, last procedure was %2 seconds ago.", refocusEveryNTimer.elapsed()/1000-refocusEveryNTimer.elapsed()*60, refocusEveryNTimer.elapsed()/1000));
+            //appendLogText(i18n("Ekos will refocus in %1 seconds, last procedure was %2 seconds ago.", refocusEveryNTimer.elapsed()/1000-refocusEveryNTimer.elapsed()*60, refocusEveryNTimer.elapsed()/1000));
+            appendLogText(i18n("Ekos will refocus in %1 seconds, last procedure was %2 seconds ago.", totalSecs - elapsedSecs, elapsedSecs));
         }
         else
         {
-            appendLogText(i18n("Ekos will refocus as soon as possible, last procedure was %1 seconds ago.", refocusEveryNTimer.elapsed()/1000));
+            appendLogText(i18n("Ekos will refocus as soon as possible, last procedure was %1 seconds ago.", elapsedSecs));
         }
     }
 }
