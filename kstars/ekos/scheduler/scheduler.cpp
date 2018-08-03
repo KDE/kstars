@@ -326,6 +326,8 @@ void Scheduler::addObject(SkyObject *object)
 
         addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
         mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
+
+        setDirty();
     }
 }
 
