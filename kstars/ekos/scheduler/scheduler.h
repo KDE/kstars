@@ -205,6 +205,26 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
     /** @}*/
 
+    /** @{ */
+  private:
+    /** @internal Safeguard flag to avoid registering signals from widgets multiple times.
+     */
+    bool jobChangesAreWatched { false };
+
+  protected:
+    /** @internal Enables signal watch on SchedulerJob form values in order to apply changes to current job.
+      * @param enable is the toggle flag, true to watch for changes, false to ignore them.
+      */
+    void watchJobChanges(bool enable);
+
+    /** @internal Marks the currently selected SchedulerJob as modified change.
+     *
+     * This triggers job re-evaluation.
+     * Next time save button is invoked, the complete content is written to disk.
+      */
+    void setDirty();
+    /** @} */
+
   protected slots:
 
     /**
@@ -294,16 +314,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @param exitCode exit code from the script process. Depending on the exist code, the status of startup/shutdown procedure is set accordingly.
          */
     void checkProcessExit(int exitCode);
-
-    /**
-         * @brief watchJobChanges Watch any changes in form values and apply changes to current job selection or ignore any changes
-         * @param enable True to watch changes and apply them to current job, false to ignore changes
-         */
-    void watchJobChanges(bool enable);
-    /**
-         * @brief setDirty Call it to mark the Ekos Scheduler List for change. Next time save button is invoked, the complete content is written to disk.
-         */
-    void setDirty();
 
     /**
          * @brief resumeCheckStatus If the scheduler primary loop was suspended due to weather or sleep event, resume it again.

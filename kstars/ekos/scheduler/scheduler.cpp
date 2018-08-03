@@ -89,12 +89,12 @@ Scheduler::Scheduler()
         QIcon::fromTheme("chronometer").pixmap(QSize(32, 32)));
     sleepLabel->hide();
 
-    connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
+    connect(&sleepTimer, &QTimer::timeout, this, &Scheduler::wakeUpScheduler);
     schedulerTimer.setInterval(UPDATE_PERIOD_MS);
     jobTimer.setInterval(UPDATE_PERIOD_MS);
 
-    connect(&schedulerTimer, SIGNAL(timeout()), this, SLOT(checkStatus()));
-    connect(&jobTimer, SIGNAL(timeout()), this, SLOT(checkJobStage()));
+    connect(&schedulerTimer, &QTimer::timeout, this, &Scheduler::checkStatus);
+    connect(&jobTimer, &QTimer::timeout, this, &Scheduler::checkJobStage);
 
     pi = new QProgressIndicator(this);
     bottomLayout->addWidget(pi, 0, 0);
@@ -140,38 +140,40 @@ Scheduler::Scheduler()
         QIcon::fromTheme("media-playback-start"));
     shutdownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    connect(startupB, SIGNAL(clicked()), this, SLOT(runStartupProcedure()));
-    connect(shutdownB, SIGNAL(clicked()), this, SLOT(runShutdownProcedure()));
+    connect(startupB, &QPushButton::clicked, this, &Scheduler::runStartupProcedure);
+    connect(shutdownB, &QPushButton::clicked, this, &Scheduler::runShutdownProcedure);
 
     selectObjectB->setIcon(QIcon::fromTheme("edit-find"));
-    connect(selectObjectB, SIGNAL(clicked()), this, SLOT(selectObject()));
-    connect(selectFITSB, SIGNAL(clicked()), this, SLOT(selectFITS()));
-    connect(loadSequenceB, SIGNAL(clicked()), this, SLOT(selectSequence()));
-    connect(selectStartupScriptB, SIGNAL(clicked()), this, SLOT(selectStartupScript()));
-    connect(selectShutdownScriptB, SIGNAL(clicked()), this, SLOT(selectShutdownScript()));
+    connect(selectObjectB, &QPushButton::clicked, this, &Scheduler::selectObject);
+    connect(selectFITSB, &QPushButton::clicked, this, &Scheduler::selectFITS);
+    connect(loadSequenceB, &QPushButton::clicked, this, &Scheduler::selectSequence);
+    connect(selectStartupScriptB, &QPushButton::clicked, this, &Scheduler::selectStartupScript);
+    connect(selectShutdownScriptB, &QPushButton::clicked, this, &Scheduler::selectShutdownScript);
 
-    connect(mosaicB, SIGNAL(clicked()), this, SLOT(startMosaicTool()));
-    connect(addToQueueB, SIGNAL(clicked()), this, SLOT(addJob()));
-    connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
-    connect(evaluateOnlyB, SIGNAL(clicked()), this, SLOT(startJobEvaluation()));
-    connect(queueTable, SIGNAL(clicked(QModelIndex)), this, SLOT(loadJob(QModelIndex)));
-    connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(resetJobState(QModelIndex)));
+    connect(mosaicB, &QPushButton::clicked, this, &Scheduler::startMosaicTool);
+    connect(addToQueueB, &QPushButton::clicked, this, &Scheduler::addJob);
+    connect(removeFromQueueB, &QPushButton::clicked, this, &Scheduler::removeJob);
+    connect(evaluateOnlyB, &QPushButton::clicked, this, &Scheduler::startJobEvaluation);
+    connect(queueTable, &QAbstractItemView::clicked, this, &Scheduler::loadJob);
+    connect(queueTable, &QAbstractItemView::doubleClicked, this, &Scheduler::resetJobState);
 
     startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     pauseB->setIcon(QIcon::fromTheme("media-playback-pause"));
     pauseB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    connect(startB, SIGNAL(clicked()), this, SLOT(toggleScheduler()));
-    connect(pauseB, SIGNAL(clicked()), this, SLOT(pause()));
+    connect(startB, &QPushButton::clicked, this, &Scheduler::toggleScheduler);
+    connect(pauseB, &QPushButton::clicked, this, &Scheduler::pause);
 
-    connect(queueSaveAsB, SIGNAL(clicked()), this, SLOT(saveAs()));
-    connect(queueSaveB, SIGNAL(clicked()), this, SLOT(save()));
-    connect(queueLoadB, SIGNAL(clicked()), this, SLOT(load()));
+    connect(queueSaveAsB, &QPushButton::clicked, this, &Scheduler::saveAs);
+    connect(queueSaveB, &QPushButton::clicked, this, &Scheduler::save);
+    connect(queueLoadB, &QPushButton::clicked, this, &Scheduler::load);
 
-    connect(twilightCheck, SIGNAL(toggled(bool)), this, SLOT(checkTwilightWarning(bool)));
+    connect(twilightCheck, &QCheckBox::toggled, this, &Scheduler::checkTwilightWarning);
 
     loadProfiles();
+
+    watchJobChanges(true);
 }
 
 QString Scheduler::getCurrentJobName()
@@ -181,58 +183,94 @@ QString Scheduler::getCurrentJobName()
 
 void Scheduler::watchJobChanges(bool enable)
 {
+    /* Don't double watch, this will cause multiple signals to be connected */
+    if (enable == jobChangesAreWatched)
+        return;
+
+    /* These are the widgets we want to connect, per signal function, to listen for modifications */
+    QLineEdit * const lineEdits[] = {
+        nameEdit,
+        fitsEdit,
+        sequenceEdit,
+        startupScript,
+        shutdownScript
+    };
+
+    QDateTimeEdit * const dateEdits[] = {
+        startupTimeEdit,
+        completionTimeEdit
+    };
+
+    QComboBox * const comboBoxes[] = {
+        schedulerProfileCombo
+    };
+
+    QButtonGroup * const buttonGroups[] = {
+        stepsButtonGroup,
+        startupButtonGroup,
+        constraintButtonGroup,
+        completionButtonGroup,
+        startupProcedureButtonGroup,
+        shutdownProcedureGroup
+    };
+
+    QSpinBox * const spinBoxes[] = {
+        culminationOffset,
+        repeatsSpin,
+        prioritySpin
+    };
+
+    QDoubleSpinBox * const dspinBoxes[] = {
+       minMoonSeparation,
+       minAltitude
+    };
+
     if (enable)
     {
-        connect(nameEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        connect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        connect(sequenceEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));        
-        connect(schedulerProfileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
-
-        connect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-        connect(startupButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-        connect(constraintButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-        connect(completionButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-
-        connect(startupProcedureButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-        connect(shutdownProcedureGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-
-        connect(culminationOffset, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
-        connect(startupTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        connect(minAltitude, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
-        connect(repeatsSpin, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
-        connect(minMoonSeparation, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
-        connect(completionTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        connect(prioritySpin, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
+        /* Connect the relevant signal to setDirty. Note that we are not keeping the connection object: we will
+         * only use that signal once, and there will be no leaks. If we were connecting multiple receiver functions
+         * to the same signal, we would have to be selective when disconnecting. We also use a lambda to absorb the
+         * excess arguments which cannot be passed to setDirty, and limit captured arguments to 'this'.
+         * The main problem with this implementation compared to the macro method is that it is now possible to
+         * stack signal connections. That is, multiple calls to WatchJobChanges will cause multiple signal-to-slot
+         * instances to be registered. As a result, one click will produce N signals, with N*=2 for each call to
+         * WatchJobChanges(true) missing its WatchJobChanges(false) counterpart.
+         */
+        for (auto * const control: lineEdits)
+            connect(control, &QLineEdit::editingFinished, this, [this](){setDirty();});
+        for (auto * const control: dateEdits)
+            connect(control, &QDateTimeEdit::editingFinished, this, [this](){setDirty();});
+        for (auto * const control: comboBoxes)
+            connect(control, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int){setDirty();});
+        for (auto * const control: buttonGroups)
+            connect(control, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, [this](int, bool e){if (e) setDirty();});
+        for (auto * const control: spinBoxes)
+            connect(control, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int){setDirty();});
+        for (auto * const control: dspinBoxes)
+            connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [this](double){setDirty();});
     }
     else
     {
-        //disconnect(this, SLOT(setDirty()));
-
-        disconnect(nameEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        disconnect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        disconnect(sequenceEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        disconnect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        disconnect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        disconnect(schedulerProfileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
-
-        disconnect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-        disconnect(startupButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-        disconnect(constraintButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-        disconnect(completionButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-
-        disconnect(startupProcedureButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-        disconnect(shutdownProcedureGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
-
-        disconnect(culminationOffset, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
-        disconnect(startupTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        disconnect(minAltitude, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
-        disconnect(repeatsSpin, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
-        disconnect(minMoonSeparation, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
-        disconnect(completionTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
-        disconnect(prioritySpin, SIGNAL(valueChanged(int)), this, SLOT(setDirty()));
+        /* Disconnect the relevant signal from each widget. Actually, this method removes all signals from the widgets,
+         * because we did not take care to keep the connection object when connecting. No problem in our case, we do not
+         * expect other signals to be connected. Because we used a lambda, we cannot use the same function object to
+         * disconnect selectively.
+         */
+        for (auto * const control: lineEdits)
+            disconnect(control, &QLineEdit::editingFinished, this, nullptr);
+        for (auto * const control: dateEdits)
+            disconnect(control, &QDateTimeEdit::editingFinished, this, nullptr);
+        for (auto * const control: comboBoxes)
+            disconnect(control, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, nullptr);
+        for (auto * const control: buttonGroups)
+            disconnect(control, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, nullptr);
+        for (auto * const control: spinBoxes)
+            disconnect(control, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, nullptr);
+        for (auto * const control: dspinBoxes)
+            disconnect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, nullptr);
     }
+
+    jobChangesAreWatched = enable;
 }
 
 void Scheduler::appendLogText(const QString &text)
@@ -375,7 +413,42 @@ void Scheduler::saveJob()
 {
     if (state == SCHEDULER_RUNNIG)
     {
-        appendLogText(i18n("You cannot add or modify a job while the scheduler is running."));
+        appendLogText(i18n("Warning: You cannot add or modify a job while the scheduler is running."));
+        return;
+    }
+
+    if (nameEdit->text().isEmpty())
+    {
+        appendLogText(i18n("Warning: Target name is required."));
+        return;
+    }
+
+    if (sequenceEdit->text().isEmpty())
+    {
+        appendLogText(i18n("Warning: Sequence file is required."));
+        return;
+    }
+
+    // Coordinates are required unless it is a FITS file
+    if ((raBox->isEmpty() || decBox->isEmpty()) && fitsURL.isEmpty())
+    {
+        appendLogText(i18n("Warning: Target coordinates are required."));
+        return;
+    }
+
+    bool raOk = false, decOk = false;
+    dms /*const*/ ra(raBox->createDms(false, &raOk)); //false means expressed in hours
+    dms /*const*/ dec(decBox->createDms(true, &decOk));
+
+    if (raOk == false)
+    {
+        appendLogText(i18n("Warning: RA value %1 is invalid.", raBox->text()));
+        return;
+    }
+
+    if (decOk == false)
+    {
+        appendLogText(i18n("Warning: DEC value %1 is invalid.", decBox->text()));
         return;
     }
 
@@ -385,28 +458,7 @@ void Scheduler::saveJob()
     /* FIXME: alter looping job priorities so that they are rescheduled later */
     foreach(SchedulerJob * job, jobs)
         if(SchedulerJob::FINISH_LOOP == job->getCompletionCondition())
-            appendLogText(i18n("Warning: job '%1' has completion condition set to infinite repeat, other jobs may not execute.", job->getName()));
-
-    if (nameEdit->text().isEmpty())
-    {
-        appendLogText(i18n("Target name is required."));
-        return;
-    }
-
-    if (sequenceEdit->text().isEmpty())
-    {
-        appendLogText(i18n("Sequence file is required."));
-        return;
-    }
-
-    // Coordinates are required unless it is a FITS file
-    if ((raBox->isEmpty() || decBox->isEmpty()) && fitsURL.isEmpty())
-    {
-        appendLogText(i18n("Target coordinates are required."));
-        return;
-    }
-
-    /* FIXME: verify associated sequence when saving? */
+            appendLogText(i18n("Warning: Job '%1' has completion condition set to infinite repeat, other jobs may not execute.",job->getName()));
 
     // Create or Update a scheduler job
     SchedulerJob *job = nullptr;
@@ -417,31 +469,8 @@ void Scheduler::saveJob()
         job = new SchedulerJob();
 
     job->setName(nameEdit->text());
-
     job->setPriority(prioritySpin->value());
-
-    bool raOk = false, decOk = false;
-    dms ra(raBox->createDms(false, &raOk)); //false means expressed in hours
-    dms dec(decBox->createDms(true, &decOk));
-
-    if (raOk == false)
-    {
-        if(jobUnderEdit < 0)
-            delete job;
-        appendLogText(i18n("RA value %1 is invalid.", raBox->text()));
-        return;
-    }
-
-    if (decOk == false)
-    {
-        if(jobUnderEdit < 0)
-            delete job;
-        appendLogText(i18n("DEC value %1 is invalid.", decBox->text()));
-        return;
-    }
-
     job->setTargetCoords(ra, dec);
-
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
     job->setSequenceFile(sequenceURL);
 
@@ -1578,7 +1607,7 @@ void Scheduler::evaluateJobs()
         // Wake up when job is due
         //sleepTimer.setInterval((nextObservationTime * 1000 - (1000 * Options::leadTime() * 60)));
         sleepTimer.setInterval(( (nextObservationTime+1) * 1000));
-        //connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
+        //connect(&sleepTimer, &QTimer::timeout, this, &Scheduler::wakeUpScheduler);
         sleepTimer.start();
     }
     // Otherise, sleep until job is ready
@@ -1640,7 +1669,7 @@ void Scheduler::evaluateJobs()
             // N.B. Waking 5 minutes before is useless now because we evaluate ALL scheduled jobs each second
             // So just wake it up when it is exactly due
             sleepTimer.setInterval(( (nextObservationTime+1) * 1000));
-            //connect(&sleepTimer, SIGNAL(timeout()), this, SLOT(wakeUpScheduler()));
+            //connect(&sleepTimer, &QTimer::timeout, this, &Scheduler::wakeUpScheduler);
             sleepTimer.start();
         }
     }
@@ -1897,7 +1926,7 @@ void Scheduler::checkWeather()
                 currentJob->setStage(SchedulerJob::STAGE_IDLE);
             }
             checkShutdownState();
-            //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
+            //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), &Scheduler::Qt::UniqueConnection);
         }
     }
 }
@@ -2345,7 +2374,7 @@ bool Scheduler::checkINDIState()
                 if (updateReply.value() > 0)
                 {
                     weatherTimer.setInterval(updateReply.value() * 1000);
-                    connect(&weatherTimer, SIGNAL(timeout()), this, SLOT(checkWeather()));
+                    connect(&weatherTimer, &QTimer::timeout, this, &Scheduler::checkWeather);
                     weatherTimer.start();
 
                     // Check weather initially
@@ -2670,9 +2699,9 @@ void Scheduler::executeScript(const QString &filename)
 {
     appendLogText(i18n("Executing script %1...", filename));
 
-    connect(&scriptProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readProcessOutput()));
+    connect(&scriptProcess, &QProcess::readyReadStandardOutput, this, &Scheduler::readProcessOutput);
 
-    connect(&scriptProcess, SIGNAL(finished(int)), this, SLOT(checkProcessExit(int)));
+    connect(&scriptProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, [this](int exitCode, QProcess::ExitStatus){checkProcessExit(exitCode);});
 
     scriptProcess.start(filename);
 }
@@ -4239,6 +4268,21 @@ void Scheduler::setDirty()
 
     if (jobUnderEdit >= 0 && state != SCHEDULER_RUNNIG && queueTable->selectedItems().isEmpty() == false)
         saveJob();
+
+    // For object selection, all fields must be filled
+    bool const nameSelectionOK = !raBox->isEmpty()  && !decBox->isEmpty() && !nameEdit->text().isEmpty();
+
+    // For FITS selection, only the name and fits URL should be filled.
+    bool const fitsSelectionOK = !nameEdit->text().isEmpty() && !fitsURL.isEmpty();
+
+    // Sequence selection is required
+    bool const seqSelectionOK = !sequenceEdit->text().isEmpty();
+
+    // Finally, adding is allowed upon object/FITS and sequence selection
+    bool const addingOK = (nameSelectionOK || fitsSelectionOK) && seqSelectionOK;
+
+    addToQueueB->setEnabled(addingOK);
+    mosaicB->setEnabled(addingOK);
 }
 
 void Scheduler::updateCompletedJobsCount()
@@ -4994,7 +5038,7 @@ bool Scheduler::isWeatherOK(SchedulerJob *job)
     {
         appendLogText(i18n("%1 observation job delayed due to bad weather.", job->getName()));
         schedulerTimer.stop();
-        connect(this, SIGNAL(weatherChanged(IPState)), this, SLOT(resumeCheckStatus()));
+        connect(this, &Scheduler::weatherChanged, this, &Scheduler::resumeCheckStatus);
     }*/
 
     return false;
@@ -5002,7 +5046,7 @@ bool Scheduler::isWeatherOK(SchedulerJob *job)
 
 void Scheduler::resumeCheckStatus()
 {
-    disconnect(this, SIGNAL(weatherChanged(IPState)), this, SLOT(resumeCheckStatus()));
+    disconnect(this, &Scheduler::weatherChanged, this, &Scheduler::resumeCheckStatus);
     schedulerTimer.start();
 }
 
