@@ -100,7 +100,9 @@ SkyLabeler::SkyLabeler()
 
 //For some reason there is no point size in default font on Android
 #ifdef ANDROID
-    m_stdFont.setPointSize(10);
+    m_stdFont.setPointSize(16);
+#else
+    m_stdFont.setPointSize(m_stdFont.pointSize()+2);
 #endif
 
 #endif
