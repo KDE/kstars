@@ -240,7 +240,6 @@ class PHD2 : public GuideInterface
 
     QTimer *abortTimer;
     QTimer *ditherTimer;
-    int starReAcquisitionTime=5000;
 
     double pixelScale=0;
 
