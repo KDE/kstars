@@ -113,7 +113,11 @@ PHD2::PHD2()
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::TempLocation));
 
     abortTimer = new QTimer(this);
-    connect(abortTimer, &QTimer::timeout, this, [=]{abort();});
+    connect(abortTimer, &QTimer::timeout, this, [=]
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "Lost Star timeout expired";
+        abort();
+    });
 
     ditherTimer = new QTimer(this);
     connect(ditherTimer, &QTimer::timeout, this, [=]
@@ -379,7 +383,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             if (state != LOSTLOCK)
             {
                 state = LOSTLOCK;
-                abortTimer->start(starReAcquisitionTime);
+                abortTimer->start(Options::guideLostStarTimeout() * 1000);
             }
             break;
 
