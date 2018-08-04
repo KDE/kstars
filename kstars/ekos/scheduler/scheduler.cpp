@@ -243,7 +243,7 @@ void Scheduler::watchJobChanges(bool enable)
         for (auto * const control: comboBoxes)
             connect(control, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int){setDirty();});
         for (auto * const control: buttonGroups)
-            connect(control, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, [this](int, bool e){if (e) setDirty();});
+            connect(control, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, [this](int, bool){setDirty();});
         for (auto * const control: spinBoxes)
             connect(control, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int){setDirty();});
         for (auto * const control: dspinBoxes)
@@ -1011,74 +1011,66 @@ void Scheduler::stop()
 
 void Scheduler::start()
 {
-    if (state == SCHEDULER_RUNNIG)
-        return;
-
-    else if (state == SCHEDULER_PAUSED)
+    switch (state)
     {
-        state = SCHEDULER_RUNNIG;
-        appendLogText(i18n("Scheduler resumed."));
+        case SCHEDULER_IDLE:
+            /* FIXME: Manage the non-validity of the startup script earlier, and make it a warning only when the scheduler starts */
+            startupScriptURL = QUrl::fromUserInput(startupScript->text());
+            if (!startupScript->text().isEmpty() && !startupScriptURL.isValid())
+            {
+                appendLogText(i18n("Warning: startup script URL %1 is not valid.", startupScript->text()));
+                return;
+            }
 
-        startB->setIcon(
-            QIcon::fromTheme("media-playback-stop"));
-        startB->setToolTip(i18n("Stop Scheduler"));
-        return;
+            /* FIXME: Manage the non-validity of the shutdown script earlier, and make it a warning only when the scheduler starts */
+            shutdownScriptURL = QUrl::fromUserInput(shutdownScript->text());
+            if (!shutdownScript->text().isEmpty() && !shutdownScriptURL.isValid())
+            {
+                appendLogText(i18n("Warning: shutdown script URL %1 is not valid.", shutdownScript->text()));
+                return;
+            }
+
+            qCInfo(KSTARS_EKOS_SCHEDULER) << "Scheduler is starting...";
+
+            /* Update UI to reflect startup */
+            pi->startAnimation();
+            sleepLabel->hide();
+            startB->setIcon(QIcon::fromTheme("media-playback-stop"));
+            startB->setToolTip(i18n("Stop Scheduler"));
+            pauseB->setEnabled(true);
+
+            /* Disable edit-related buttons */
+            queueLoadB->setEnabled(false);
+            addToQueueB->setEnabled(false);
+            removeFromQueueB->setEnabled(false);
+            mosaicB->setEnabled(false);
+            evaluateOnlyB->setEnabled(false);
+            startupB->setEnabled(false);
+            shutdownB->setEnabled(false);
+
+            /* Reset and re-evaluate all scheduler jobs, then start the Scheduler */
+            startJobEvaluation();
+            state = SCHEDULER_RUNNIG;
+            schedulerTimer.start();
+
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler started.";
+            break;
+
+        case SCHEDULER_PAUSED:
+            /* Update UI to reflect resume */
+            startB->setIcon(QIcon::fromTheme("media-playback-stop"));
+            startB->setToolTip(i18n("Stop Scheduler"));
+
+            /* Edit-related buttons are still disabled */
+
+            /* The end-user cannot update the schedule, don't re-evaluate jobs. Timer schedulerTimer is already running. */
+            state = SCHEDULER_RUNNIG;
+
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler paused.";
+            break;
+
+        default: break;
     }
-
-    startupScriptURL = QUrl::fromUserInput(startupScript->text());
-    if (startupScript->text().isEmpty() == false && startupScriptURL.isValid() == false)
-    {
-        appendLogText(i18n("Warning: startup script URL %1 is not valid.", startupScript->text()));
-        return;
-    }
-
-    shutdownScriptURL = QUrl::fromUserInput(shutdownScript->text());
-    if (shutdownScript->text().isEmpty() == false && shutdownScriptURL.isValid() == false)
-    {
-        appendLogText(i18n("Warning: shutdown script URL %1 is not valid.", shutdownScript->text()));
-        return;
-    }
-
-    qCInfo(KSTARS_EKOS_SCHEDULER) << "Scheduler is starting...";
-
-    pi->startAnimation();
-
-    sleepLabel->hide();
-
-    //startB->setText("Stop Scheduler");
-    startB->setIcon(QIcon::fromTheme("media-playback-stop"));
-    startB->setToolTip(i18n("Stop Scheduler"));
-    pauseB->setEnabled(true);
-
-    /* Recalculate dawn and dusk astronomical times - unconditionally in case date changed */
-    calculateDawnDusk();
-
-    state = SCHEDULER_RUNNIG;
-
-    setCurrentJob(nullptr);
-    jobEvaluationOnly = false;
-
-    /* Reset all aborted jobs when starting the Scheduler.
-     * When the Scheduler is stopped manually, all scheduled and running jobs do abort.
-     * This snippet essentially has the same effect as double-clicking all aborted jobs before restarting.
-     */
-    foreach (SchedulerJob *job, jobs)
-        if (job->getState() == SchedulerJob::JOB_ABORTED)
-            job->reset();
-
-    /* Run a unconditional storage update */
-    updateCompletedJobsCount(true);
-
-    queueLoadB->setEnabled(false);
-    addToQueueB->setEnabled(false);
-    removeFromQueueB->setEnabled(false);
-    mosaicB->setEnabled(false);
-    evaluateOnlyB->setEnabled(false);
-
-    startupB->setEnabled(false);
-    shutdownB->setEnabled(false);
-
-    schedulerTimer.start();
 }
 
 void Scheduler::pause()
@@ -5003,11 +4995,17 @@ void Scheduler::checkCapParkingStatus()
 
 void Scheduler::startJobEvaluation()
 {
+    // Reset current job
+    setCurrentJob(nullptr);
+
+    // Unconditionally update the capture storage
+    updateCompletedJobsCount(true);
+
     // Reset ALL scheduler jobs to IDLE and re-evaluate them all again
-    for(SchedulerJob *job : jobs)
+    for (SchedulerJob * job: jobs)
         job->reset();
 
-    // Now evaluate all pending jobs per the conditions set in each
+    // And evaluate all pending jobs per the conditions set in each
     jobEvaluationOnly = true;
     evaluateJobs();
 }
@@ -5252,8 +5250,8 @@ void Scheduler::resetAllJobs()
     if (state == SCHEDULER_RUNNIG)
         return;
 
-    foreach (SchedulerJob *job, jobs)
-        job->reset();
+    // Evaluate all jobs, this refreshes storage and resets job states
+    startJobEvaluation();
 }
 
 void Scheduler::checkTwilightWarning(bool enabled)
