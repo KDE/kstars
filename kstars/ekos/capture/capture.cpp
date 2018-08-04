@@ -1220,10 +1220,7 @@ bool Capture::setCaptureComplete()
     activeJob->setCompleted(seqCurrentCount);
     imgProgress->setValue(seqCurrentCount);
 
-    // FIXME JM 2018-08-02: This doesn't make sense? getTotalFramesCount(signature) would return ALL counts
-    // for a particular signature. For LRGBRGB, and suppose 5 frames each, then total frame count is 10
-    // when job count is 5
-    appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, getTotalFramesCount(activeJob->getSignature())));
+    appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
 
     state = CAPTURE_IMAGE_RECEIVED;
     emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
