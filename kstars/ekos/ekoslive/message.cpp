@@ -502,7 +502,7 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
             double boundX = x * boundingRect.width();
             double boundY = y * boundingRect.height();
 
-            // #2 Find fraction of the dimensions above the the full image size
+            // #2 Find fraction of the dimensions above the full image size
             // Add to it the bounding rect top left offsets
             x = (boundX+boundingRect.x()) / viewSize.width();
             y = (boundY+boundingRect.y()) / viewSize.height();

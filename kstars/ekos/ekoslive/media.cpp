@@ -122,7 +122,7 @@ void Media::onTextReceived(const QString &message)
 
 void Media::onBinaryReceived(const QByteArray &message)
 {
-    // For now, we are only receving binary image (jpg or FITS) for load and slew
+    // For now, we are only receiving binary image (jpg or FITS) for load and slew
     QTemporaryFile file(QString("/tmp/XXXXXX.%1").arg(extension));
     file.setAutoRemove(false);
     file.open();

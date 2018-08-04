@@ -32,8 +32,6 @@
 
 #include <ekos_capture_debug.h>
 
-#include <basedevice.h>
-
 #define INVALID_VALUE -1e6
 #define MF_TIMER_TIMEOUT    90000
 #define GD_TIMER_TIMEOUT    60000

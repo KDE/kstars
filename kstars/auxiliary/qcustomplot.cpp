@@ -11194,7 +11194,7 @@ bool QCPAbstractPlottable::addToLegend()
 
 /*! \overload
 
-  Removes the plottable from the specifed \a legend. This means the \ref QCPPlottableLegendItem
+  Removes the plottable from the specified \a legend. This means the \ref QCPPlottableLegendItem
   that is associated with this plottable is removed.
 
   Returns true on success, i.e. if the legend exists and a legend item associated with this
@@ -18882,7 +18882,7 @@ bool QCPLegend::hasItemWithPlottable(const QCPAbstractPlottable *plottable) cons
   Adds \a item to the legend, if it's not present already. The element is arranged according to the
   current fill order (\ref setFillOrder) and wrapping (\ref setWrap).
 
-  Returns true on sucess, i.e. if the item wasn't in the list already and has been successfuly added.
+  Returns true on success, i.e. if the item wasn't in the list already and has been successfuly added.
 
   The legend takes ownership of the item.
 
@@ -30597,7 +30597,7 @@ QPen QCPItemPixmap::mainPen() const
   the coordinate axes of the graph and update its \a position to be on the graph's data. This means
   the key stays controllable via \ref setGraphKey, but the value will follow the graph data. If a
   QCPGraph is connected, note that setting the coordinates of the tracer item directly via \a
-  position will have no effect because they will be overriden in the next redraw (this is when the
+  position will have no effect because they will be overridden in the next redraw (this is when the
   coordinate update happens).
 
   If the specified key in \ref setGraphKey is outside the key bounds of the graph, the tracer will

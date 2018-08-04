@@ -20,9 +20,6 @@
 #include <QDataStream>
 
 #include "listcomponent.h"
-#include "listcomponent.h"
-#include "binarylistcomponent.h"
-#include "auxiliary/kspaths.h"
 #include "binarylistcomponent.h"
 #include "auxiliary/kspaths.h"
 

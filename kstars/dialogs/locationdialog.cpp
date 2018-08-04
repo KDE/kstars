@@ -36,7 +36,6 @@
 #include <QNetworkReply>
 #include <QNetworkSession>
 #include <QQmlContext>
-#include <QSqlQuery>
 #include <QUrlQuery>
 #include <QPlainTextEdit>
 

@@ -26,7 +26,6 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
-#include <QtWidgets/QSlider>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLabel>
