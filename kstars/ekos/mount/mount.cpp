@@ -194,7 +194,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
     syncTelescopeInfo();
 
-    // Send inital status
+    // Send initial status
     lastStatus = currentTelescope->getStatus();
     emit newStatus(lastStatus);
 }

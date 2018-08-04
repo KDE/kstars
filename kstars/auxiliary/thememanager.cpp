@@ -297,7 +297,7 @@ void Manager::populateThemeMenu()
 #ifdef Q_OS_MAC
     QAction* const macAction   = new QAction(QLatin1String("Macintosh"), d->themeMenuActionGroup);
     macAction->setCheckable(true);
-    //TODO Set appropiate icon
+    //TODO Set appropriate icon
     //macAction->setAction(..)
     actionMap.insert(QLatin1String("Macintosh"), macAction);
 #endif
