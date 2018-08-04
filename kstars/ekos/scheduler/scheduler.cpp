@@ -1013,6 +1013,7 @@ void Scheduler::start()
 {
     if (state == SCHEDULER_RUNNIG)
         return;
+
     else if (state == SCHEDULER_PAUSED)
     {
         state = SCHEDULER_RUNNIG;
@@ -1064,6 +1065,9 @@ void Scheduler::start()
     foreach (SchedulerJob *job, jobs)
         if (job->getState() == SchedulerJob::JOB_ABORTED)
             job->reset();
+
+    /* Run a unconditional storage update */
+    updateCompletedJobsCount(true);
 
     queueLoadB->setEnabled(false);
     addToQueueB->setEnabled(false);
@@ -4287,10 +4291,14 @@ void Scheduler::setDirty()
     mosaicB->setEnabled(addingOK);
 }
 
-void Scheduler::updateCompletedJobsCount()
+void Scheduler::updateCompletedJobsCount(bool forced)
 {
     /* Use a temporary map in order to limit the number of file searches */
     QMap<QString, uint16_t> newFramesCount;
+
+    /* If update is forced, clear the frame map */
+    if (forced)
+        capturedFramesCount.clear();
 
     /* Enumerate SchedulerJobs to count captures that are already stored */
     for (SchedulerJob *oneJob : jobs)
