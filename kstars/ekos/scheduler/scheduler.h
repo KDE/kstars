@@ -563,7 +563,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
     bool isWeatherOK(SchedulerJob *job);
 
-    void updateCompletedJobsCount();
+    /**
+        * @brief updateCompletedJobsCount For each scheduler job, examine sequence job storage and count captures.
+        * @param forced forces recounting captures unconditionally if true, else only IDLE, EVALUATION or new jobs are examined.
+        */
+    void updateCompletedJobsCount(bool forced = false);
 
     SequenceJob *processJobInfo(XMLEle *root, SchedulerJob *schedJob);
     bool loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob *> &jobs,
