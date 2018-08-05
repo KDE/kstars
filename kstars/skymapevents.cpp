@@ -412,7 +412,7 @@ bool SkyMap::event(QEvent *event)
         m_pinchScale = -1;
     }
 
-    if (event->type() == QEvent::Gesture)
+    if (event->type() == QEvent::Gesture && m_touchMode)
     {
         QGestureEvent* gestureEvent = static_cast<QGestureEvent*>(event);
 
