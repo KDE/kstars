@@ -278,7 +278,8 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     channels = naxes[2];
 
     // Channels always set to #1 if we are not required to process 3D Cubes
-    if (!Options::auto3DCube())
+    // Or if mode is not FITS_NORMAL (guide, focus..etc)
+    if (mode != FITS_NORMAL || !Options::auto3DCube())
         channels = 1;
 
     //image_buffer = new float[stats.samples_per_channel * channels];
@@ -3705,7 +3706,8 @@ bool FITSData::debayer_8bit()
         *bBuff++ = destinationBuffer[i + 2];
     }
 
-    channels = 3;
+    channels = (mode == FITS_NORMAL) ? 3 : 1;
+
     delete[] destinationBuffer;
     bayerBuffer = nullptr;
     return true;
@@ -3781,7 +3783,7 @@ bool FITSData::debayer_16bit()
         *bBuff++ = dstBuffer[i + 2];
     }
 
-    channels = 3;
+    channels = (mode == FITS_NORMAL) ? 3 : 1;
     delete[] destinationBuffer;
     bayerBuffer = nullptr;
     return true;
