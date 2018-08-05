@@ -390,7 +390,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
         case GuidingStopped:
             state = STOPPED;
             emit newLog(i18n("PHD2: Guiding Stopped."));
-            emit newStatus(Ekos::GUIDE_IDLE);
+            emit newStatus(Ekos::GUIDE_ABORTED);
             break;
 
         case Resumed:
@@ -406,12 +406,14 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
                 abortTimer->stop();  
                 state = GUIDING;
             }
-            else if (state != GUIDING)
-            {
-                emit newLog(i18n("PHD2: Guiding started up again."));
-                emit newStatus(Ekos::GUIDE_GUIDING);
-                state = GUIDING;
-            }
+            // JM 2018-08-05: GuideStep does not necessary mean we're guiding
+            // It could be that we're settling. This needs to be double-checked.
+//            else if (state != GUIDING)
+//            {
+//                emit newLog(i18n("PHD2: Guiding started up again."));
+//                emit newStatus(Ekos::GUIDE_GUIDING);
+//                state = GUIDING;
+//            }
             if (isDitherActive)
                 return;
             double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs, pulse_ra, pulse_dec;
