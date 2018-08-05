@@ -1971,6 +1971,10 @@
          <label>When star tracking is lost, wait this many seconds before aborting.</label>
          <default>60</default>
       </entry>
+      <entry name="GuideMaxDeltaRMS" type="Double">
+         <label>Maximum delta RMS permitted while guiding before aborting.</label>
+         <default>10</default>
+      </entry>
       <entry name="TwoAxisEnabled" type="Bool">
          <label>Use both axes to perform calibration.</label>
          <default>true</default>
