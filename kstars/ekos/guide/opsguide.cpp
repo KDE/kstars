@@ -38,6 +38,14 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
             KSNotification::info(i18n("You must restart KStars for this change to take effect."));
     });
 
+    connect(kcfg_DitherNoGuiding, &QCheckBox::toggled, this, [&](bool checked) {
+        if (checked && kcfg_DitherEnabled->isChecked())
+        {
+            KSNotification::error("Guided dithering cannot be used along with non-guided dithering.");
+            kcfg_DitherEnabled->setChecked(false);
+        }
+    });
+
     connect(m_ConfigDialog, SIGNAL(settingsChanged(QString)), this, SIGNAL(settingsUpdated()));
 }
 }

@@ -56,7 +56,7 @@ bool InternalGuider::guide()
     pmath->start();
 
     m_starLostCounter = 0;
-    m_highPulseCounter= 0;
+    m_highRMSCounter= 0;
 
     // TODO re-enable rapid check later on
 #if 0
@@ -109,7 +109,7 @@ bool InternalGuider::abort()
     }
 
     m_starLostCounter=0;
-    m_highPulseCounter=0;
+    m_highRMSCounter=0;
     accumulator.first = accumulator.second = 0;
 
     pmath->suspend(false);
@@ -872,24 +872,42 @@ bool InternalGuider::processGuiding()
     bool sendPulses = true;
 
     // If within 95% of max pulse repeatedly, let's abort
-    if (out->pulse_length[GUIDE_RA] >= (0.95 * Options::rAMaximumPulse()) ||
-        out->pulse_length[GUIDE_DEC] >= (0.95 * Options::dECMaximumPulse()))
+//    if (out->pulse_length[GUIDE_RA] >= (0.95 * Options::rAMaximumPulse()) ||
+//        out->pulse_length[GUIDE_DEC] >= (0.95 * Options::dECMaximumPulse()))
+//    {
+//        // Stop sending pulses in case we are guiding and we already sent one high pulse before
+//        // since we do not want to stray too much off the target to purse the guiding star
+//        if (state == GUIDE_GUIDING && m_highPulseCounter > 0)
+//            sendPulses = false;
+//        m_highPulseCounter++;
+//    }
+//    else
+//        m_highPulseCounter=0;
+
+    double delta_rms = sqrt(out->delta[GUIDE_RA]*out->delta[GUIDE_RA] + out->delta[GUIDE_DEC]*out->delta[GUIDE_DEC]);
+    if (delta_rms > Options::guideMaxDeltaRMS())
     {
-        // Stop sending pulses in case we are guiding and we already sent one high pulse before
-        // since we do not want to stray too much off the target to purse the guiding star
-        if (state == GUIDE_GUIDING && m_highPulseCounter > 0)
+        // Stop sending pulses on the 3rd time the delta RMS is high
+        // so that we don't stray too far off the main target.
+        if (state == GUIDE_GUIDING && m_highRMSCounter > 2)
             sendPulses = false;
-        m_highPulseCounter++;
+        m_highRMSCounter++;
     }
     else
-        m_highPulseCounter=0;
+        m_highRMSCounter=0;
 
-    uint8_t abortThreshold = (state == GUIDE_DITHERING) ? MAX_COMBINTED_PULSE_LIMITS * 3 : MAX_COMBINTED_PULSE_LIMITS;
-    if (m_starLostCounter+m_highPulseCounter > abortThreshold)
+    uint8_t abortStarLostThreshold = (state == GUIDE_DITHERING) ? MAX_LOST_STAR_THRESHOLD * 3 : MAX_LOST_STAR_THRESHOLD;
+    uint8_t abortRMSThreshold = (state == GUIDE_DITHERING) ? MAX_RMS_THRESHOLD * 3 : MAX_RMS_THRESHOLD;
+    if (m_starLostCounter > abortStarLostThreshold || m_highRMSCounter > abortRMSThreshold)
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "m_starLostCounter" << m_starLostCounter
-                                   << "m_highPulseCounter" << m_highPulseCounter;
-        emit newLog(i18n("Lost track of the guide star. Searching for guide stars..."));
+                                   << "m_highRMSCounter" << m_highRMSCounter
+                                   << "delta_rms" << delta_rms;
+
+        if (m_starLostCounter > abortStarLostThreshold)
+            emit newLog(i18n("Lost track of the guide star. Searching for guide stars..."));
+        else
+            emit newLog(i18n("Delta RMS threshold value exceeded. Searching for guide stars..."));
 
         reacquireTimer.start();
         rememberState = state;
@@ -1169,7 +1187,7 @@ bool InternalGuider::reacquire()
     bool rc = selectAutoStar();
     if (rc)
     {
-        m_highPulseCounter=m_starLostCounter=0;
+        m_highRMSCounter=m_starLostCounter=0;
         isFirstFrame = true;
         // If we were in the process of dithering, wait until settle and resume
         if (rememberState == GUIDE_DITHERING)

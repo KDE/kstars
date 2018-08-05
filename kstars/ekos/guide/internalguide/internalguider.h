@@ -178,15 +178,18 @@ class InternalGuider : public GuideInterface
     uint8_t ditherRetries {0};
 
     QTime reacquireTimer;
-    int m_highPulseCounter {0};
+    int m_highRMSCounter {0};
 
     Ekos::Matrix ROT_Z;
     CalibrationStage calibrationStage { CAL_IDLE };
     CalibrationType calibrationType;
     Ekos::GuideState rememberState { GUIDE_IDLE };
 
-    // How many high pulses and lost stars before we stop
-    static const uint8_t MAX_COMBINTED_PULSE_LIMITS = 3;
+    // How many high RMS pulses before we stop
+    static const uint8_t MAX_RMS_THRESHOLD = 5;
+    // How many lost stars before we stop
+    static const uint8_t MAX_LOST_STAR_THRESHOLD = 5;
+
     // Maximum pulse time limit for immediate capture. Any pulses longer that this
     // will be delayed until pulse is over
     static const uint16_t MAX_IMMEDIATE_CAPTURE = 250;
