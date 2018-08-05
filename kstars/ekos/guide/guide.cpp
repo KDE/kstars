@@ -1912,19 +1912,8 @@ void Guide::setStatus(Ekos::GuideState newState)
                 guide();
             break;
 
-        case GUIDE_CALIBRATION_ERROR:
-            setBusy(false);
-            manualDitherB->setEnabled(false);
-            break;
-
         case GUIDE_IDLE:
-            // JM 2018-08-01: In case of PHD2, it resets to IDLE after calibration error
-            // But we need to keep GUIDE_CALIBRATION_ERROR as the state as other processes
-            // need to know about the error.
-            // TODO: If this is implemeted as DBus signal, then we don't have to do
-            // this hack
-            if (guiderType == GUIDE_PHD2 && previousState == GUIDE_CALIBRATION_ERROR)
-                state = GUIDE_CALIBRATION_ERROR;
+        case GUIDE_CALIBRATION_ERROR:
             setBusy(false);
             manualDitherB->setEnabled(false);
             break;
