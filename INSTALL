@@ -1,24 +1,50 @@
-This file assumes you have already downloaded the KStars source since
-you are reading it, otherwise get it from KDE git repo at git://anongit.kde.org/kstars.git
+###############
+# KStars 3.0.0
+###############
 
-After that you need to do only a handful of steps
+1. Dependencies
 
-mkdir build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=/path/to/your/kde5/install/dir ..
-make
-make install
+KStars can be built on any C++11 compliant modern Linux/BSD/Mac system. Dependencies fall under
+required and optional.
 
-Obviously /path/to/your/kde5/install/dir is not a real path, you need to choose what you want to do:
- * Use the value returned by kf5-config --prefix
-   - Will install it in the same prefix than your system kdelibs is installed
-   - Will overwrite your distribution KStars if you have it installed
-   - Will probably need administrator password
- * Use a random subdirectory in your home, e.g. /home/myuser/kstars_install
-   - You will need to run 
- 	export KDEDIRS=/home/myuser/kstars_install:$(kf5-config --prefix)
-	kbuildsycoca5
-   - You will need to make sure the /home/myuser/kstars_install/bin is in your PATH environment variable
+1.1 Required
+    + CMake
+    + Qt (> 5.6)
+    + KF5
+    + ZLib
+    + Eigen3
 
+1.2 Optional
+    + INDI
+    + CFitsio
+    + libnova
+    + libraw
+    + libgsl
+    + wcslib
 
-Happy hacking!
+2. Installing Dependecies
+
+2.1 Ubuntu
+
+KStars requires 16.04+. Install the prerequisites:
+
+sudo apt-get install build-essential cmake git libeigen3-dev libcfitsio-dev zlib1g-dev libindi-dev
+extra-cmake-modules libkf5plotting-dev libqt5svg5-dev libkf5xmlgui-dev kio-dev kinit-dev
+libkf5newstuff-dev kdoctools-dev libkf5notifications-dev qtdeclarative5-dev libkf5crash-dev
+gettext libnova-dev libgsl-dev libraw-dev libkf5notifyconfig-dev wcslib-dev libqt5websockets5-dev
+
+2.2 Other Systems
+
+Please refer to your system for how to install required packages.
+
+3. Building KStars
+
+$ mkdir ~/Projects/build/kstars
+$ cd ~/Projects
+$ git clone git://anongit.kde.org/kstars.git
+$ cd build/kstars
+$ cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Debug ~/Projects/kstars
+$ make
+$ sudo make install
+
+This would override any KStars installation in your system path.
