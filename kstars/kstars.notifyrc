@@ -527,7 +527,7 @@ Comment[uk]=Отримано файл FITS
 Comment[x-test]=xxFITS file is receivedxx
 Comment[zh_CN]=收到 FITS 文件
 Comment[zh_TW]=FITS 檔已接收
-Sound=KDE-KStars-FITS-Recieved.ogg
+Sound=KDE-KStars-FITS-Received.ogg
 Action=Sound
 [Event/WeatherWarning]
 Name=Weather Warning
