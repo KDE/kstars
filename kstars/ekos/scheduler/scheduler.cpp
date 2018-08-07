@@ -203,6 +203,8 @@ void Scheduler::watchJobChanges(bool enable)
     /* These are the widgets we want to connect, per signal function, to listen for modifications */
     QLineEdit * const lineEdits[] = {
         nameEdit,
+        raBox,
+        decBox,
         fitsEdit,
         sequenceEdit,
         startupScript,
