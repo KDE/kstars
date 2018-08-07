@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CATALOGENTRYDATA_H
-#define CATALOGENTRYDATA_H
+#pragma once
 
 #include <QString>
 
@@ -72,5 +71,3 @@ class CatalogEntryData
     float minor_axis;
     float flux;
 };
-
-#endif // CATALOGENTRYDATA_H

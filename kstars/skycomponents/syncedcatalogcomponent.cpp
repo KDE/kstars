@@ -72,7 +72,7 @@ void SyncedCatalogComponent::draw( SkyPainter *skyp ) {
 }
 */
 
-DeepSkyObject *SyncedCatalogComponent::addObject(CatalogEntryData catalogEntry)
+DeepSkyObject *SyncedCatalogComponent::addObject(CatalogEntryData &catalogEntry)
 {
     if (std::isnan(catalogEntry.major_axis))
         catalogEntry.major_axis = 0.0;
@@ -118,12 +118,18 @@ DeepSkyObject *SyncedCatalogComponent::addObject(CatalogEntryData catalogEntry)
 
 bool SyncedCatalogComponent::hasObject(SkyObject &object)
 {
+    QString name;
+
     if (object.hasLongName())
     {
-        if (objectNames()[object.type()].contains(object.longname()))
-            return true;
-    } else
-    if (objectNames()[object.type()].contains(object.name()))
+        name = object.longname();
+    } else {
+        name = object.name();
+    }
+
+    CatalogDB *db = KStarsData::Instance()->catalogdb();
+
+    if (db->CheckCustomEntry(name, m_catId))
     {
         return true;
     }
@@ -157,7 +163,7 @@ bool SyncedCatalogComponent::removeObject(SkyObject &object)
     {
         CatalogDB *db = KStarsData::Instance()->catalogdb();
 
-        if (!db->RemoveCustomEntry(name))
+        if (!db->RemoveCustomEntry(name, m_catId))
         {
             qWarning() << "Can't find SkyObject " << name << " in the CatalogDB";
             return false;

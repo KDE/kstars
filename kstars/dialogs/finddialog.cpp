@@ -355,9 +355,9 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
 {
     if (!selObj && resolve)
     {
-        CatalogEntryData cedata;
-        cedata             = NameResolver::resolveName(processSearchText());
+        CatalogEntryData cedata = NameResolver::resolveName(processSearchText());
         DeepSkyObject *dso = nullptr;
+
         if (!std::isnan(cedata.ra) && !std::isnan(cedata.dec))
         {
             dso = KStarsData::Instance()->skyComposite()->internetResolvedComponent()->addObject(cedata);

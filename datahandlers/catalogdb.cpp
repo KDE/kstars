@@ -25,9 +25,10 @@
 #include "deepskyobject.h"
 #include "skycomponent.h"
 
-#include <QSqlTableModel>
-#include <QSqlRecord>
+#include <QSqlField>
 #include <QSqlQuery>
+#include <QSqlRecord>
+#include <QSqlTableModel>
 
 #include <catalog_debug.h>
 
@@ -397,7 +398,40 @@ bool CatalogDB::_AddEntry(const CatalogEntryData &catalog_entry, int catid)
     return retVal;
 }
 
-bool CatalogDB::RemoveCustomEntry(const QString &entry_long_name)
+bool CatalogDB::CheckCustomEntry(const QString &entry_long_name, int catid)
+{
+    if (!skydb_.open())
+    {
+        qCWarning(KSTARS_CATALOG) << "Failed to open database to remove catalog entry!";
+        qCWarning(KSTARS_CATALOG) << LastError();
+        return false;
+    }
+    QSqlQuery query_od(skydb_);
+
+    query_od.prepare("SELECT LongName FROM ObjectDesignation WHERE LongName = :long_name AND id_Catalog = :catid;");
+    query_od.bindValue(":long_name", entry_long_name);
+    query_od.bindValue(":catid", catid);
+    if (!query_od.exec())
+    {
+        qWarning() << "Query exec failed:";
+        qWarning() << query_od.lastQuery();
+        qWarning() << skydb_.lastError();
+        skydb_.close();
+        return false;
+    }
+    query_od.next();
+    QSqlRecord result = query_od.record();
+
+    if (result.count() != 1 || result.value(0).toString().isEmpty())
+    {
+        skydb_.close();
+        return false;
+    }
+    skydb_.close();
+    return true;
+}
+
+bool CatalogDB::RemoveCustomEntry(const QString &entry_long_name, int catid)
 {
     if (!skydb_.open())
     {
@@ -407,13 +441,15 @@ bool CatalogDB::RemoveCustomEntry(const QString &entry_long_name)
     }
     QSqlQuery remove_od(skydb_);
 
-    remove_od.prepare("DELETE FROM ObjectDesignation WHERE LongName = :long_name;");
+    remove_od.prepare("DELETE FROM ObjectDesignation WHERE LongName = :long_name AND id_Catalog = :catid;");
     remove_od.bindValue(":long_name", entry_long_name);
+    remove_od.bindValue(":catid", catid);
     if (!remove_od.exec())
     {
         qWarning() << "Query exec failed:";
         qWarning() << remove_od.lastQuery();
         qWarning() << skydb_.lastError();
+        skydb_.close();
         return false;
     }
     skydb_.close();

@@ -52,7 +52,7 @@ class SyncedCatalogComponent : public CatalogComponent
      *
      * @return 0 upon failure, a valid SkyObject pointer otherwise.
      */
-    DeepSkyObject *addObject(CatalogEntryData catalogEntry);
+    DeepSkyObject *addObject(CatalogEntryData &catalogEntry);
 
     /**
      * @short Whether an object is in the database
