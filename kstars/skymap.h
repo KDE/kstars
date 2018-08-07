@@ -365,6 +365,11 @@ class SkyMap : public QGraphicsView
          */
     void slotSDSS();
 
+    /**
+     * @brief slotCopyCoordinates Copies J2000 and JNow equatorial coordinates to the clipboard in addition to horizontal coords.
+     */
+    void slotCopyCoordinates();
+
     /** @short Popup menu function: Show webpage about ClickedObject
          * (only available for some objects).
          */

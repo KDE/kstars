@@ -358,6 +358,9 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
     //Insert item for Showing details dialog
     if (showDetails)
         addAction(i18nc("Show Detailed Information Dialog", "Details"), map, SLOT(slotDetail()));
+
+    addAction(i18n("Copy Coordinates"), map, &SkyMap::slotCopyCoordinates);
+
     //Insert "Add/Remove Label" item
     if (showLabel)
     {
@@ -405,6 +408,8 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
     addINDI();
 
     addAction(i18n("View in What's Interesting"), this, SLOT(slotViewInWI()));
+
+
 }
 
 void KSPopupMenu::initFlagActions(SkyObject *obj)
