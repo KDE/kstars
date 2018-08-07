@@ -60,6 +60,7 @@
 
 #include <QBitmap>
 #include <QToolTip>
+#include <QClipboard>
 #include <QInputDialog>
 #include <QDesktopServices>
 
@@ -451,6 +452,40 @@ void SkyMap::slotDSS()
                     this);
         //iv->show();
     }
+}
+
+void SkyMap::slotCopyCoordinates()
+{
+    dms J2000RA(0.0), J2000DE(0.0), JNowRA(0.0), JNowDE(0.0), Az, Alt;
+    if (clickedObject())
+    {
+        J2000RA  = clickedObject()->ra0();
+        J2000DE = clickedObject()->dec0();
+        JNowRA = clickedObject()->ra();
+        JNowDE = clickedObject()->dec();
+        Az = clickedObject()->az();
+        Alt = clickedObject()->alt();
+    }
+    else
+    {
+        SkyPoint deprecessedPoint = clickedPoint()->deprecess(data->updateNum());
+        deprecessedPoint.EquatorialToHorizontal(data->lst(), data->geo()->lat());
+
+        J2000RA = deprecessedPoint.ra0();
+        J2000DE = deprecessedPoint.dec0();
+        JNowRA = deprecessedPoint.ra();
+        JNowDE = deprecessedPoint.dec();
+        Az = deprecessedPoint.az();
+        Alt = deprecessedPoint.alt();
+    }
+
+    QApplication::clipboard()->setText(i18nc("Equatorial & Horizontal Coordinates", "JNow:\t%1\t%2\nJ2000:\t%3\t%4\nAzAlt:\t%5\t%6",
+                                       JNowRA.toHMSString(),
+                                       JNowDE.toHMSString(),
+                                       J2000RA.toHMSString(),
+                                       J2000DE.toDMSString(),
+                                       Az.toDMSString(),
+                                       Alt.toDMSString()));
 }
 
 void SkyMap::slotSDSS()
