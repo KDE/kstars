@@ -481,7 +481,7 @@ void SkyMap::slotCopyCoordinates()
 
     QApplication::clipboard()->setText(i18nc("Equatorial & Horizontal Coordinates", "JNow:\t%1\t%2\nJ2000:\t%3\t%4\nAzAlt:\t%5\t%6",
                                        JNowRA.toHMSString(),
-                                       JNowDE.toHMSString(),
+                                       JNowDE.toDMSString(),
                                        J2000RA.toHMSString(),
                                        J2000DE.toDMSString(),
                                        Az.toDMSString(),
