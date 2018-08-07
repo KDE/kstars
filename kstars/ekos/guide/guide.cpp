@@ -955,7 +955,7 @@ void Guide::setTelescopeInfo(double primaryFocalLength, double primaryAperture, 
 
 void Guide::syncTelescopeInfo()
 {
-    if (currentTelescope == nullptr)
+    if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
         return;
 
     INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");

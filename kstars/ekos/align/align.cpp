@@ -1931,7 +1931,7 @@ void Align::setDome(ISD::GDInterface *newDome)
 
 void Align::syncTelescopeInfo()
 {
-    if (currentTelescope == nullptr)
+    if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
         return;
 
     canSync = currentTelescope->canSync();
