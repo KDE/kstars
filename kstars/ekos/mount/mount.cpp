@@ -201,6 +201,9 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
 void Mount::syncTelescopeInfo()
 {
+    if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
+        return;
+
     INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
     if (nvp)
