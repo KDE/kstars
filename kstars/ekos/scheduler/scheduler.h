@@ -225,6 +225,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
     void setDirty();
     /** @} */
 
+  protected:
+    /** @internal Associate job table cells on a row to the corresponding SchedulerJob.
+     * @param row is an integer indexing the row to associate cells from, and also the index of the job in the job list..
+     */
+    void setJobStatusCells(int row);
+
   protected slots:
 
     /**
@@ -274,13 +280,36 @@ class Scheduler : public QWidget, public Ui::Scheduler
          */
     void removeJob();
 
+    /**
+         * @brief setJobAddApply Set first button state to add new job or apply changes.
+         */
+    void setJobAddApply(bool add_mode);
+
+    /**
+         * @brief setJobManipulation Enable or disable job manipulation buttons.
+         */
+    void setJobManipulation(bool enable);
+
+    /**
+         * @brief clickQueueTable Update UI state when the job list is clicked once.
+         */
+    void clickQueueTable(QModelIndex index);
+
+    /**
+         * @brief moveJobUp Move the selected job up in the job list.
+         */
+    void moveJobUp();
+
+    /**
+        * @brief moveJobDown Move the selected job down in the list.
+        */
+    void moveJobDown();
+
     void toggleScheduler();
     void pause();
     void save();
     void saveAs();
     void load();
-
-    void resetJobState(QModelIndex i);
 
     void resetJobEdit();
 

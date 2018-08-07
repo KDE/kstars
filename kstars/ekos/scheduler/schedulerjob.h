@@ -310,6 +310,9 @@ class SchedulerJob
     void setCapturedFramesMap(const QMap<QString, uint16_t> &value);
     /** @} */
 
+    /** @brief Refresh all cells connected to this SchedulerJob. */
+    void updateJobCell();
+
     /** @brief Resetting a job to original values:
      * - idle state and stage
      * - original startup, none if asap, else user original setting
@@ -394,9 +397,6 @@ private:
     QTableWidgetItem *captureCountCell { nullptr };
     QTableWidgetItem *scoreCell { nullptr };
     /** @} */
-
-    /** @internal General cell refresh. */
-    void updateJobCell();
 
     int score { 0 };
     int16_t culminationOffset { 0 };

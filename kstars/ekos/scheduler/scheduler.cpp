@@ -103,15 +103,26 @@ Scheduler::Scheduler()
 
     raBox->setDegType(false); //RA box should be HMS-style
 
-    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
-    addToQueueB->setToolTip(i18n("Add observation job to list."));
-    addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    /* FIXME: Find a way to have multi-line tooltips in the .ui file, then move the widget configuration there - what about i18n? */
+
+    queueTable->setToolTip(i18n("Job scheduler list.\nClick to select a job in the list.\nDouble click to edit a job with the left-hand fields."));
+
+    /* Set first button mode to add observation job from left-hand fields */
+    setJobAddApply(true);
 
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
-    removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
+    removeFromQueueB->setToolTip(i18n("Remove selected job from the observation list.\nJob properties are copied in the edition fields before removal."));
     removeFromQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    evaluateOnlyB->setIcon(QIcon::fromTheme("tools-wizard"));
+    queueUpB->setIcon(QIcon::fromTheme("go-up"));
+    queueUpB->setToolTip(i18n("Move selected job one line up in the list.\nOrder only affect observation jobs that are scheduled to start at the same time."));
+    queueUpB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    queueDownB->setIcon(QIcon::fromTheme("go-down"));
+    queueDownB->setToolTip(i18n("Move selected job one line down in the list.\nOrder only affect observation jobs that are scheduled to start at the same time."));
+    queueDownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    evaluateOnlyB->setIcon(QIcon::fromTheme("system-reboot"));
+    evaluateOnlyB->setToolTip(i18n("Reset state and force reevaluation of all observation jobs."));
     evaluateOnlyB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
     mosaicB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -153,9 +164,11 @@ Scheduler::Scheduler()
     connect(mosaicB, &QPushButton::clicked, this, &Scheduler::startMosaicTool);
     connect(addToQueueB, &QPushButton::clicked, this, &Scheduler::addJob);
     connect(removeFromQueueB, &QPushButton::clicked, this, &Scheduler::removeJob);
+    connect(queueUpB, &QPushButton::clicked, this, &Scheduler::moveJobUp);
+    connect(queueDownB, &QPushButton::clicked, this, &Scheduler::moveJobDown);
     connect(evaluateOnlyB, &QPushButton::clicked, this, &Scheduler::startJobEvaluation);
-    connect(queueTable, &QAbstractItemView::clicked, this, &Scheduler::loadJob);
-    connect(queueTable, &QAbstractItemView::doubleClicked, this, &Scheduler::resetJobState);
+    connect(queueTable, &QAbstractItemView::clicked, this, &Scheduler::clickQueueTable);
+    connect(queueTable, &QAbstractItemView::doubleClicked, this, &Scheduler::loadJob);
 
     startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -399,16 +412,19 @@ void Scheduler::selectShutdownScript()
 
 void Scheduler::addJob()
 {
-    if (jobUnderEdit >= 0)
+    if (0 <= jobUnderEdit)
     {
+        /* If a job is being edited, reset edition mode as all fields are already transferred to the job */
         resetJobEdit();
-        return;
     }
-
-    //jobUnderEdit = false;
-    saveJob();
-    jobEvaluationOnly = true;
-    evaluateJobs();
+    else
+    {
+        /* If a job is being added, save fields into a new job */
+        saveJob();
+        /* There is now an evaluation for each change, so don't duplicate the evaluation now */
+        // jobEvaluationOnly = true;
+        // evaluateJobs();
+    }
 }
 
 void Scheduler::saveJob()
@@ -462,13 +478,35 @@ void Scheduler::saveJob()
         if(SchedulerJob::FINISH_LOOP == job->getCompletionCondition())
             appendLogText(i18n("Warning: Job '%1' has completion condition set to infinite repeat, other jobs may not execute.",job->getName()));
 
-    // Create or Update a scheduler job
-    SchedulerJob *job = nullptr;
+    /* Create or Update a scheduler job */
+    int currentRow = queueTable->currentRow();
+    SchedulerJob * job = nullptr;
 
-    if (jobUnderEdit >= 0)
-        job = jobs.at(queueTable->currentRow());
+    /* If no row is selected for insertion, append at end of list. */
+    if (currentRow < 0)
+        currentRow = queueTable->rowCount();
+
+    /* Add job to queue only if it is new, else reuse current row.
+     * Make sure job is added at the right index, now that queueTable may have a line selected without being edited.
+     */
+    if (0 <= jobUnderEdit)
+    {
+        /* FIXME: jobUnderEdit is a parallel variable that may cause issues if it desyncs from queueTable->currentRow(). */
+        if (jobUnderEdit != currentRow)
+            qCWarning(KSTARS_EKOS_SCHEDULER) << "BUG: the observation job under edit does not match the selected row in the job table.";
+
+        /* Use the job in the row currently edited */
+        job = jobs.at(currentRow);
+    }
     else
+    {
+        /* Instantiate a new job, insert it in the job list and add a row in the table for it just after the row currently selected. */
         job = new SchedulerJob();
+        jobs.insert(currentRow, job);
+        queueTable->insertRow(currentRow);
+    }
+
+    /* Configure or reconfigure the observation job */
 
     job->setName(nameEdit->text());
     job->setPriority(prioritySpin->value());
@@ -566,18 +604,8 @@ void Scheduler::saveJob()
     if (guideStepCheck->isChecked())
         job->setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job->getStepPipeline() | SchedulerJob::USE_GUIDE));
 
-    // Add job to queue if it is new
-    if (jobUnderEdit == -1)
-        jobs.append(job);
-
-    int currentRow = 0;
-    if (jobUnderEdit == -1)
-    {
-        currentRow = queueTable->rowCount();
-        queueTable->insertRow(currentRow);
-    }
-    else
-        currentRow = queueTable->currentRow();
+    /* Reset job state to evaluate the changes */
+    job->reset();
 
     // Warn user if a duplicated job is in the list - same target, same sequence
     foreach (SchedulerJob *a_job, jobs)
@@ -598,12 +626,7 @@ void Scheduler::saveJob()
         }
     }
 
-    /* Reset job state to evaluate the changes - so this is equivalent to double-clicking the job */
-    /* FIXME: should we do that if no change was done to the job? */
-    /* FIXME: move this to SchedulerJob as a "reset" method */
-    job->setState(SchedulerJob::JOB_IDLE);
-    job->setStage(SchedulerJob::STAGE_IDLE);
-    job->setEstimatedTime(-1);
+    /* FIXME: Move part of the new job cell-wiring to setJobStatusCells */
 
     QTableWidgetItem *nameCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_NAME) : new QTableWidgetItem();
     if (jobUnderEdit == -1) queueTable->setItem(currentRow, (int)SCHEDCOL_NAME, nameCell);
@@ -647,45 +670,18 @@ void Scheduler::saveJob()
     estimatedTimeCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setEstimatedTimeCell(estimatedTimeCell);
 
-    if (queueTable->rowCount() > 0)
-    {
-        queueSaveAsB->setEnabled(true);
-        queueSaveB->setEnabled(true);
-        startB->setEnabled(true);
-        mDirty = true;
-    }
+    /* We just added or saved a job, so we have a job in the list - enable relevant buttons */
+    queueSaveAsB->setEnabled(true);
+    queueSaveB->setEnabled(true);
+    startB->setEnabled(true);
+    evaluateOnlyB->setEnabled(true);
+    setJobManipulation(true);
 
-    removeFromQueueB->setEnabled(false);
-
-    if (jobUnderEdit == -1)
-    {
-        startB->setEnabled(true);
-        evaluateOnlyB->setEnabled(true);
-    }
+    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 was saved.").arg(job->getName()).arg(currentRow+1);
 
     watchJobChanges(true);
     jobEvaluationOnly = true;
     evaluateJobs();
-}
-
-void Scheduler::resetJobState(QModelIndex i)
-{
-    if (state == SCHEDULER_RUNNIG)
-    {
-        appendLogText(i18n("Warning: you cannot reset a job while the scheduler is running."));
-        return;
-    }
-
-    SchedulerJob * const job = jobs.at(i.row());
-
-    if (job == nullptr)
-        return;
-
-    job->setState(SchedulerJob::JOB_IDLE);
-    job->setStage(SchedulerJob::STAGE_IDLE);
-    job->setEstimatedTime(-1);
-
-    appendLogText(i18n("Job '%1' status was reset.", job->getName()));
 }
 
 void Scheduler::loadJob(QModelIndex i)
@@ -803,13 +799,15 @@ void Scheduler::loadJob(QModelIndex i)
             break;
     }
 
-    addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
-    addToQueueB->setToolTip(i18n("Apply job changes."));
-    //addToQueueB->setStyleSheet("background-color:orange;}");
-    addToQueueB->setEnabled(true);
+    /* Turn the add button into an apply button */
+    setJobAddApply(false);
+
+    /* Disable scheduler start/evaluate buttons */
     startB->setEnabled(false);
     evaluateOnlyB->setEnabled(false);
-    removeFromQueueB->setEnabled(true);
+
+    /* Don't let the end-user remove a job being edited */
+    setJobManipulation(false);
 
     jobUnderEdit = i.row();
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is currently edited.").arg(job->getName()).arg(jobUnderEdit+1);
@@ -817,9 +815,131 @@ void Scheduler::loadJob(QModelIndex i)
     watchJobChanges(true);
 }
 
+void Scheduler::clickQueueTable(QModelIndex index)
+{
+    setJobManipulation(index.isValid());
+}
+
+void Scheduler::setJobAddApply(bool add_mode)
+{
+    if (add_mode)
+    {
+        addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+        addToQueueB->setToolTip(i18n("Use edition fields to create a new job in the observation list."));
+        //addToQueueB->setStyleSheet(QString());
+        addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    }
+    else
+    {
+        addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
+        addToQueueB->setToolTip(i18n("Apply job changes."));
+        //addToQueueB->setStyleSheet("background-color:orange;}");
+        addToQueueB->setEnabled(true);
+    }
+}
+
+void Scheduler::setJobManipulation(bool can_manipulate)
+{
+    if (can_manipulate)
+    {
+        int const currentRow = queueTable->currentRow();
+        queueUpB->setEnabled(0 < currentRow);
+        queueDownB->setEnabled(currentRow < queueTable->rowCount() - 1);
+        removeFromQueueB->setEnabled(true);
+    }
+    else
+    {
+        queueUpB->setEnabled(false);
+        queueDownB->setEnabled(false);
+        removeFromQueueB->setEnabled(false);
+    }
+}
+
+void Scheduler::moveJobUp()
+{
+    int const rowCount = queueTable->rowCount();
+    int const currentRow = queueTable->currentRow();
+    int const destinationRow = currentRow - 1;
+
+    /* No move if no job selected, if table has one line or less or if destination is out of table */
+    if (currentRow < 0 || rowCount <= 1 || destinationRow < 0)
+        return;
+
+    /* Swap jobs in the list */
+    jobs.swap(currentRow, destinationRow);
+
+    /* Reassign status cells */
+    setJobStatusCells(currentRow);
+    setJobStatusCells(destinationRow);
+
+    /* Move selection to destination row */
+    queueTable->selectRow(destinationRow);
+    setJobManipulation(true);
+
+    /* Make list modified */
+    setDirty();
+
+    /* Reset all jobs starting from the one moved */
+    for (int i = currentRow; i < jobs.size(); i++)
+        jobs.at(i)->reset();
+
+    /* Run evaluation as jobs that can run now changed order - saveJob will only evaluate if a job is edited */
+    jobEvaluationOnly = true;
+    evaluateJobs();
+}
+
+void Scheduler::moveJobDown()
+{
+    int const rowCount = queueTable->rowCount();
+    int const currentRow = queueTable->currentRow();
+    int const destinationRow = currentRow + 1;
+
+    /* No move if no job selected, if table has one line or less or if destination is out of table */
+    if (currentRow < 0 || rowCount <= 1 || destinationRow == rowCount)
+        return;
+
+    /* Swap jobs in the list */
+    jobs.swap(currentRow, destinationRow);
+
+    /* Reassign status cells */
+    setJobStatusCells(currentRow);
+    setJobStatusCells(destinationRow);
+
+    /* Move selection to destination row */
+    queueTable->selectRow(destinationRow);
+    setJobManipulation(true);
+
+    /* Make list modified */
+    setDirty();
+
+    /* Reset all jobs starting from the one moved */
+    for (int i = currentRow; i < jobs.size(); i++)
+        jobs.at(i)->reset();
+
+    /* Run evaluation as jobs that can run now changed order - saveJob will only evaluate if a job is edited */
+    jobEvaluationOnly = true;
+    evaluateJobs();
+}
+
+void Scheduler::setJobStatusCells(int row)
+{
+    if (row < 0 || jobs.size() <= row)
+        return;
+
+    SchedulerJob * const job = jobs.at(row);
+
+    job->setNameCell(queueTable->item(row, (int)SCHEDCOL_NAME));
+    job->setStatusCell(queueTable->item(row, (int)SCHEDCOL_STATUS));
+    job->setCaptureCountCell(queueTable->item(row, (int)SCHEDCOL_CAPTURES));
+    job->setScoreCell(queueTable->item(row, (int)SCHEDCOL_SCORE));
+    job->setStartupCell(queueTable->item(row, (int)SCHEDCOL_STARTTIME));
+    job->setCompletionCell(queueTable->item(row, (int)SCHEDCOL_ENDTIME));
+    job->setEstimatedTimeCell(queueTable->item(row, (int)SCHEDCOL_DURATION));
+}
+
 void Scheduler::resetJobEdit()
 {
-    if (jobUnderEdit == -1)
+    if (jobUnderEdit < 0)
         return;
 
     SchedulerJob * const job = jobs.at(jobUnderEdit);
@@ -831,12 +951,13 @@ void Scheduler::resetJobEdit()
 
     watchJobChanges(false);
 
-    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
-    addToQueueB->setStyleSheet(QString());
-    addToQueueB->setToolTip(i18n("Add observation job to list."));
-    removeFromQueueB->setEnabled(false);
-    queueTable->clearSelection();
+    /* Revert apply button to add */
+    setJobAddApply(true);
 
+    /* Refresh state of job manipulation buttons */
+    setJobManipulation(true);
+
+    /* Restore scheduler operation buttons */
     evaluateOnlyB->setEnabled(true);
     startB->setEnabled(true);
 
@@ -861,13 +982,12 @@ void Scheduler::removeJob()
     /* If there are no job rows left, update UI buttons */
     if (queueTable->rowCount() == 0)
     {
-        removeFromQueueB->setEnabled(false);
+        setJobManipulation(false);
         evaluateOnlyB->setEnabled(false);
         queueSaveAsB->setEnabled(false);
         queueSaveB->setEnabled(false);
         startB->setEnabled(false);
         pauseB->setEnabled(false);
-        removeFromQueueB->setEnabled(false);
     }
     /* Else load the settings of the job that was just deleted */
     else loadJob(queueTable->currentIndex());
@@ -1004,7 +1124,7 @@ void Scheduler::stop()
 
     queueLoadB->setEnabled(true);
     addToQueueB->setEnabled(true);
-    removeFromQueueB->setEnabled(false);
+    setJobManipulation(false);
     mosaicB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
 }
@@ -1042,7 +1162,7 @@ void Scheduler::start()
             /* Disable edit-related buttons */
             queueLoadB->setEnabled(false);
             addToQueueB->setEnabled(false);
-            removeFromQueueB->setEnabled(false);
+            setJobManipulation(false);
             mosaicB->setEnabled(false);
             evaluateOnlyB->setEnabled(false);
             startupB->setEnabled(false);
@@ -4264,7 +4384,7 @@ void Scheduler::setDirty()
     if (sender() == startupProcedureButtonGroup || sender() == shutdownProcedureGroup)
         return;
 
-    if (jobUnderEdit >= 0 && state != SCHEDULER_RUNNIG && queueTable->selectedItems().isEmpty() == false)
+    if (0 <= jobUnderEdit && state != SCHEDULER_RUNNIG && !queueTable->selectedItems().isEmpty())
         saveJob();
 
     // For object selection, all fields must be filled
