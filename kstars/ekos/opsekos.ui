@@ -373,6 +373,9 @@
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_13">
+           <property name="toolTip">
+            <string>Wait this many seconds after guiding is resumed to stablize the guiding performance before capture.</string>
+           </property>
            <property name="text">
             <string>Guiding Settle:</string>
            </property>
