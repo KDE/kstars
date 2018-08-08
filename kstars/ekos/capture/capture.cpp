@@ -4077,7 +4077,7 @@ void Capture::setGuideStatus(GuideState state)
         if (Options::guidingSettle() > 0)
         {
             // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-            appendLogText(i18n("Dither complete. Resuming capture in %1 seconds...", Options::guidingRate()));
+            appendLogText(i18n("Dither complete. Resuming capture in %1 seconds...", Options::guidingSettle()));
             QTimer::singleShot(Options::guidingSettle()*1000, this, SLOT(resumeCapture()));
         }
         else
@@ -4091,7 +4091,7 @@ void Capture::setGuideStatus(GuideState state)
         if (Options::guidingSettle() > 0)
         {
             // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-            appendLogText(i18n("Warning: Dithering failed. Resuming capture in %1 seconds...", Options::guidingRate()));
+            appendLogText(i18n("Warning: Dithering failed. Resuming capture in %1 seconds...", Options::guidingSettle()));
             QTimer::singleShot(Options::guidingSettle()*1000, this, SLOT(resumeCapture()));
         }
         else
