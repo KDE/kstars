@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SchedulerList version='1.4'>
+<Profile>Default</Profile>
+<Job>
+<Name>Eastern Veil</Name>
+<Priority>10</Priority>
+<Coordinates>
+<J2000RA>20.9453</J2000RA>
+<J2000DE>31.5906</J2000DE>
+</Coordinates>
+<Sequence>/var/tmp/LRGB.esq</Sequence>
+<StartupCondition>
+<Condition>ASAP</Condition>
+</StartupCondition>
+<Constraints>
+<Constraint value='35'>MinimumAltitude</Constraint>
+<Constraint>EnforceTwilight</Constraint>
+</Constraints>
+<CompletionCondition>
+<Condition>Sequence</Condition>
+</CompletionCondition>
+<Steps>
+<Step>Track</Step>
+<Step>Focus</Step>
+<Step>Align</Step>
+<Step>Guide</Step>
+</Steps>
+</Job>
+<Job>
+<Name>Eastern Veil</Name>
+<Priority>10</Priority>
+<Coordinates>
+<J2000RA>20.9453</J2000RA>
+<J2000DE>31.5906</J2000DE>
+</Coordinates>
+<Sequence>/var/tmp/LSOH_SO.esq</Sequence>
+<StartupCondition>
+<Condition>ASAP</Condition>
+</StartupCondition>
+<Constraints>
+<Constraint value='35'>MinimumAltitude</Constraint>
+<Constraint>EnforceTwilight</Constraint>
+</Constraints>
+<CompletionCondition>
+<Condition value='2'>Repeat</Condition>
+</CompletionCondition>
+<Steps>
+<Step>Track</Step>
+<Step>Focus</Step>
+<Step>Align</Step>
+<Step>Guide</Step>
+</Steps>
+</Job>
+<Job>
+<Name>Eastern Veil</Name>
+<Priority>10</Priority>
+<Coordinates>
+<J2000RA>20.9453</J2000RA>
+<J2000DE>31.5906</J2000DE>
+</Coordinates>
+<Sequence>/var/tmp/LRGB.esq</Sequence>
+<StartupCondition>
+<Condition>ASAP</Condition>
+</StartupCondition>
+<Constraints>
+<Constraint value='35'>MinimumAltitude</Constraint>
+<Constraint>EnforceTwilight</Constraint>
+</Constraints>
+<CompletionCondition>
+<Condition>Sequence</Condition>
+</CompletionCondition>
+<Steps>
+<Step>Track</Step>
+<Step>Focus</Step>
+<Step>Align</Step>
+<Step>Guide</Step>
+</Steps>
+</Job>
+<StartupProcedure>
+<Procedure>UnparkMount</Procedure>
+</StartupProcedure>
+<ShutdownProcedure>
+<Procedure>ParkMount</Procedure>
+</ShutdownProcedure>
+</SchedulerList>
