@@ -1189,6 +1189,7 @@ bool InternalGuider::reacquire()
     {
         m_highRMSCounter=m_starLostCounter=0;
         isFirstFrame = true;
+        pmath->reset();
         // If we were in the process of dithering, wait until settle and resume
         if (rememberState == GUIDE_DITHERING)
         {
