@@ -736,7 +736,7 @@ void Guide::exportGuideData()
 
     if (QFile::exists(path))
     {
-        int r = KMessageBox::warningContinueCancel(0,
+        int r = KMessageBox::warningContinueCancel(nullptr,
                                                    i18n("A file named \"%1\" already exists. "
                                                         "Overwrite it?",
                                                         exportFile.fileName()),

@@ -249,13 +249,25 @@ void cgmath::getStarScreenPosition(double *dx, double *dy) const
 
 bool cgmath::reset(void)
 {
-    square_alg_idx = AUTO_THRESHOLD;
+//    square_alg_idx = AUTO_THRESHOLD;
 
-    // sky coord. system vars.
-    star_pos     = Vector(0);
-    scr_star_pos = Vector(0);
+//    // sky coord. system vars.
+//    star_pos     = Vector(0);
+//    scr_star_pos = Vector(0);
 
-    setReticleParameters(video_width / 2, video_height / 2, 0.0);
+//    setReticleParameters(video_width / 2, video_height / 2, 0.0);
+
+    ticks = 0;
+    channel_ticks[GUIDE_RA] = channel_ticks[GUIDE_DEC] = 0;
+    accum_ticks[GUIDE_RA] = accum_ticks[GUIDE_DEC] = 0;
+    drift_integral[GUIDE_RA] = drift_integral[GUIDE_DEC] = 0;
+    out_params.reset();
+
+    memset(drift[GUIDE_RA], 0, sizeof(double) * MAX_ACCUM_CNT);
+    memset(drift[GUIDE_DEC], 0, sizeof(double) * MAX_ACCUM_CNT);
+
+    // cleanup stat vars.
+    sum = 0;
 
     return true;
 }
