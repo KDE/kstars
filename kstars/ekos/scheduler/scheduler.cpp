@@ -565,12 +565,12 @@ void Scheduler::saveJob()
     {
         /* Warn if appending a job which startup time doesn't allow proper score */
         if (calculateJobScore(job, job->getStartupTime()) < 0)
-            appendLogText(i18n("Warning: job '%1' has startup time %1 resulting in a negative score, and will be marked invalid when processed.",
+            appendLogText(i18n("Warning: job '%1' has startup time %2 resulting in a negative score, and will be marked invalid when processed.",
                                job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
 
         /* Warn if appending a job with a startup time that is in the past */
         if (job->getStartupTime() < KStarsData::Instance()->lt())
-            appendLogText(i18n("Warning: job '%1' has fixed startup time %1 set in the past, and will be marked invalid when evaluated.",
+            appendLogText(i18n("Warning: job '%1' has fixed startup time %2 set in the past, and will be marked invalid when evaluated.",
                                job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
     }
 

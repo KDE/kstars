@@ -185,7 +185,7 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        errMessage = i18n("Could not locate image HDU. Error %2", QString::fromUtf8(error_status));
+        errMessage = i18n("Could not locate image HDU. Error %1", QString::fromUtf8(error_status));
         if (!silent)
             KSNotification::error(errMessage, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << errMessage;
