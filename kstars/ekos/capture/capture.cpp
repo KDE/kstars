@@ -2533,8 +2533,24 @@ void Capture::updatePreCaptureCalibrationStatus()
 
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
-    if (activeJob == nullptr)
-        return;
+//    if (activeJob == nullptr)
+//    {
+//        if (deviationDetected == false)
+//            return;
+
+//        // Try to find first job that was aborted due to deviation
+//        for(SequenceJob *job : jobs)
+//        {
+//            if (job->getStatus() == SequenceJob::JOB_ABORTED)
+//            {
+//                activeJob = job;
+//                break;
+//            }
+//        }
+
+//        if (activeJob == nullptr)
+//            return;
+//    }
 
     // If guiding is started after a meridian flip we will start getting guide deviations again
     // if the guide deviations are within our limits, we resume the sequence
@@ -2555,14 +2571,16 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     }
 
     // We don't enforce limit on previews
-    if (guideDeviationCheck->isChecked() == false || activeJob->isPreview() || activeJob->getExposeLeft() == 0)
+    if (guideDeviationCheck->isChecked() == false || (activeJob && (activeJob->isPreview() || activeJob->getExposeLeft() == 0)))
         return;
 
     double deviation_rms = sqrt(delta_ra * delta_ra + delta_dec * delta_dec);
 
     QString deviationText = QString("%1").arg(deviation_rms, 0, 'g', 3);
 
-    if (activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT)
+    // If we have an active busy job, let's abort it if guiding deviation is exceeded.
+    // And we accounted for the spike
+    if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT)
     {
         if (deviation_rms > guideDeviation->value())
         {
@@ -2590,7 +2608,18 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         return;
     }
 
-    if (activeJob->getStatus() == SequenceJob::JOB_ABORTED && deviationDetected)
+    // Find the first aborted job
+    SequenceJob * abortedJob = nullptr;
+    for(SequenceJob *job : jobs)
+    {
+        if (job->getStatus() == SequenceJob::JOB_ABORTED)
+        {
+            abortedJob = job;
+            break;
+        }
+    }
+
+    if (abortedJob && deviationDetected)
     {
         if (deviation_rms <= guideDeviation->value())
         {
@@ -2604,8 +2633,6 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                 appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
                                    "exposure in %3 seconds.",
                                    deviationText, guideDeviation->value(), seqDelay / 1000.0));
-
-            activeJob = nullptr;
 
             QTimer::singleShot(seqDelay, this, SLOT(start()));
             return;
