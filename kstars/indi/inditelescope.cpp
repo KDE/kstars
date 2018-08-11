@@ -150,7 +150,7 @@ void Telescope::registerProperty(INDI::Property *prop)
 
 void Telescope::processNumber(INumberVectorProperty *nvp)
 {
-    if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD"))
+    if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD") || !strcmp(nvp->name, "EQUATORIAL_COORD"))
     {
         INumber *RA  = IUFindNumber(nvp, "RA");
         INumber *DEC = IUFindNumber(nvp, "DEC");
@@ -160,6 +160,15 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
 
         currentCoord.setRA(RA->value);
         currentCoord.setDec(DEC->value);
+
+        // If J2000, connvert it to JNow
+        if (!strcmp(nvp->name, "EQUATORIAL_COORD"))
+        {
+            currentCoord.setRA0(RA->value);
+            currentCoord.setDec0(DEC->value);
+            currentCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+        }
+
         currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(),
                                             KStars::Instance()->data()->geo()->lat());
 
