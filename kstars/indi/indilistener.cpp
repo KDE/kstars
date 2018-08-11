@@ -241,19 +241,28 @@ void INDIListener::registerProperty(INDI::Property *prop)
     {
         if (!strcmp(gd->getDeviceName(), prop->getDeviceName()))
         {
-            if (gd->getType() == KSTARS_UNKNOWN &&
-                (!strcmp(prop->getName(), "EQUATORIAL_EOD_COORD") || !strcmp(prop->getName(), "HORIZONTAL_COORD")))
+            if (!strcmp(prop->getName(), "EQUATORIAL_EOD_COORD") ||
+                !strcmp(prop->getName(), "EQUATORIAL_COORD") ||
+                !strcmp(prop->getName(), "HORIZONTAL_COORD"))
             {
-                devices.removeOne(gd);
-                gd = new ISD::Telescope(gd);
-                devices.append(gd);
+                if (gd->getType() == KSTARS_UNKNOWN)
+                {
+                    devices.removeOne(gd);
+                    gd = new ISD::Telescope(gd);
+                    devices.append(gd);
+                }
+
                 emit newTelescope(gd);
             }
-            else if (gd->getType() == KSTARS_UNKNOWN && (!strcmp(prop->getName(), "CCD_EXPOSURE")))
+            else if (!strcmp(prop->getName(), "CCD_EXPOSURE"))
             {
-                devices.removeOne(gd);
-                gd = new ISD::CCD(gd);
-                devices.append(gd);
+                if (gd->getType() == KSTARS_UNKNOWN)
+                {
+                    devices.removeOne(gd);
+                    gd = new ISD::CCD(gd);
+                    devices.append(gd);
+                }
+
                 emit newCCD(gd);
             }
             else if (!strcmp(prop->getName(), "FILTER_SLOT"))
