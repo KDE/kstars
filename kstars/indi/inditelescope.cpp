@@ -574,8 +574,8 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         if (!DecEle)
             return false;
 
-        if (useJ2000)
-            ScopeTarget->apparentCoord(KStars::Instance()->data()->ut().djd(), (long double)J2000);
+        //if (useJ2000)
+            //ScopeTarget->apparentCoord( KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
 
         currentRA  = RAEle->value;
         currentDEC = DecEle->value;
@@ -640,12 +640,37 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
 
     if (EqProp)
     {
-        RAEle->value  = ScopeTarget->ra().Hours();
-        DecEle->value = ScopeTarget->dec().Degrees();
+        dms ra, de;
+
+        if (useJ2000)
+        {
+            // If we have invalid DEC, then convert coords to J2000
+            if (ScopeTarget->dec0().Degrees() == 180.0)
+            {
+               ScopeTarget->setRA0(ScopeTarget->ra());
+               ScopeTarget->setDec0(ScopeTarget->dec());
+               ScopeTarget->apparentCoord( KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+               ra = ScopeTarget->ra();
+               de = ScopeTarget->dec();
+            }
+            else
+            {
+                ra = ScopeTarget->ra0();
+                de = ScopeTarget->dec0();
+            }
+        }
+        else
+        {
+            ra = ScopeTarget->ra();
+            de = ScopeTarget->dec();
+        }
+
+        RAEle->value  = ra.Hours();
+        DecEle->value = de.Degrees();
         clientManager->sendNewNumber(EqProp);
 
-        qCDebug(KSTARS_INDI) << "ISD:Telescope sending coords RA:" << ScopeTarget->ra().toHMSString() <<
-                                "(" << RAEle->value << ") DE:" << ScopeTarget->dec().toDMSString() <<
+        qCDebug(KSTARS_INDI) << "ISD:Telescope sending coords RA:" << ra.toHMSString() <<
+                                "(" << RAEle->value << ") DE:" << de.toDMSString() <<
                                 "(" << DecEle->value << ")";
 
         RAEle->value  = currentRA;
