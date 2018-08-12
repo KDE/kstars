@@ -23,7 +23,7 @@
 <Filter>Luminance</Filter>
 <Type>Light</Type>
 <Prefix>
-<RawPrefix>EasternVeil</RawPrefix>
+<RawPrefix></RawPrefix>
 <FilterEnabled>1</FilterEnabled>
 <ExpEnabled>1</ExpEnabled>
 <TimeStampEnabled>1</TimeStampEnabled>
@@ -62,7 +62,7 @@
 <Filter>Red</Filter>
 <Type>Light</Type>
 <Prefix>
-<RawPrefix>EasternVeil</RawPrefix>
+<RawPrefix></RawPrefix>
 <FilterEnabled>1</FilterEnabled>
 <ExpEnabled>1</ExpEnabled>
 <TimeStampEnabled>1</TimeStampEnabled>
@@ -101,7 +101,7 @@
 <Filter>Green</Filter>
 <Type>Light</Type>
 <Prefix>
-<RawPrefix>EasternVeil</RawPrefix>
+<RawPrefix></RawPrefix>
 <FilterEnabled>1</FilterEnabled>
 <ExpEnabled>1</ExpEnabled>
 <TimeStampEnabled>1</TimeStampEnabled>
@@ -140,7 +140,7 @@
 <Filter>Blue</Filter>
 <Type>Light</Type>
 <Prefix>
-<RawPrefix>EasternVeil</RawPrefix>
+<RawPrefix></RawPrefix>
 <FilterEnabled>1</FilterEnabled>
 <ExpEnabled>1</ExpEnabled>
 <TimeStampEnabled>1</TimeStampEnabled>
