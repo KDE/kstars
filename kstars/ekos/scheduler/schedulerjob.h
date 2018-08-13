@@ -306,8 +306,9 @@ class SchedulerJob
 
     /** @brief The map of capture counts for this job, keyed by its capture storage signatures. */
     /** @{ */
-    QMap<QString, uint16_t> getCapturedFramesMap() const { return capturedFramesMap; }
-    void setCapturedFramesMap(const QMap<QString, uint16_t> &value);
+    typedef QMap<QString, uint16_t> CapturedFramesMap;
+    const CapturedFramesMap& getCapturedFramesMap() const { return capturedFramesMap; }
+    void setCapturedFramesMap(const CapturedFramesMap &value);
     /** @} */
 
     /** @brief Refresh all cells connected to this SchedulerJob. */

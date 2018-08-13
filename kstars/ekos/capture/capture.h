@@ -19,6 +19,7 @@
 #include "indi/indilightbox.h"
 #include "indi/inditelescope.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "ekos/scheduler/schedulerjob.h"
 
 #include <QTimer>
 #include <QUrl>
@@ -742,6 +743,6 @@ class Capture : public QWidget, public Ui::Capture
     QList<QMap<QString,QVariant>> DSLRInfos;
 
     // Captured Frames Map
-    QMap<QString,int> capturedFramesMap;
+    SchedulerJob::CapturedFramesMap capturedFramesMap;
 };
 }
