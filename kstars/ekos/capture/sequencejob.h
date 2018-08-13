@@ -46,6 +46,8 @@ class SequenceJob : public QObject
         ACTION_ROTATOR
     } PrepareActions;
 
+    static QString const & ISOMarker;
+
     SequenceJob();
     ~SequenceJob() = default;
 
@@ -60,7 +62,7 @@ class SequenceJob : public QObject
     bool isPreview() { return preview; }
     int getDelay() { return delay; }
     int getCount() { return count; }
-    unsigned int getCompleted() { return completed; }
+    int getCompleted() { return completed; }
     const QString &getRawPrefix() { return rawPrefix; }
     double getExposure() const { return exposure; }
 
@@ -78,7 +80,7 @@ class SequenceJob : public QObject
 
     void setLocalDir(const QString &dir) { localDirectory = dir; }
     const QString &getLocalDir() { return localDirectory; }
-    QString getSignature() { return getLocalDir() + getDirectoryPostfix(); }
+    QString getSignature() { return QString(getLocalDir() + getDirectoryPostfix() + '/' + getFullPrefix()).remove(ISOMarker); }
 
     void setTargetFilter(int pos, const QString &name);
     int getTargetFilter() { return targetFilter; }
@@ -123,7 +125,7 @@ class SequenceJob : public QObject
     void setCount(int in_count) { count = in_count; }
     void setExposure(double duration) { exposure = duration; }
     void setStatusCell(QTableWidgetItem *cell) { statusCell = cell; }
-    void setCompleted(unsigned int in_completed) { completed = in_completed; }
+    void setCompleted(int in_completed) { completed = in_completed; }
     int getISOIndex() const;
     void setISOIndex(int value);
 

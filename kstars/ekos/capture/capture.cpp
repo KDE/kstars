@@ -435,8 +435,8 @@ void Capture::start()
 void Capture::stop(bool abort)
 {
     retries         = 0;
-    seqTotalCount   = 0;
-    seqCurrentCount = 0;
+    //seqTotalCount   = 0;
+    //seqCurrentCount = 0;
 
     ADURaw.clear();
     ExpRaw.clear();
@@ -445,7 +445,9 @@ void Capture::stop(bool abort)
     {
         if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
         {
-            KSNotification::event(QLatin1String("CaptureFailed"), i18n("CCD capture aborted"));
+            QString const abort_text = i18n("CCD capture aborted");
+            KSNotification::event(QLatin1String("CaptureFailed"), abort_text);
+            appendLogText(abort_text);
             activeJob->abort();
             if (activeJob->isPreview() == false)
             {
@@ -532,6 +534,8 @@ void Capture::stop(bool abort)
     //button->setEnabled(true);
 
     seqTimer->stop();
+
+    activeJob = nullptr;
 }
 
 void Capture::sendNewImage(QImage *image, ISD::CCDChip *myChip)
@@ -1180,7 +1184,7 @@ bool Capture::setCaptureComplete()
         KSNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"), KSNotification::EVENT_INFO);
 
     // If it was initially set as preview job
-    if (seqTotalCount <= 0)
+    if (activeJob->isPreview())
     {
         jobs.removeOne(activeJob);
         // Reset upload mode if it was changed by preview
@@ -1205,6 +1209,14 @@ bool Capture::setCaptureComplete()
         return false;
     }
 
+    /* Increase the sequence's current capture count */
+    activeJob->setCompleted(activeJob->getCompleted() + 1);
+
+    /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
+    SchedulerJob::CapturedFramesMap::iterator frame_item = capturedFramesMap.find(activeJob->getSignature());
+    if (capturedFramesMap.end() != frame_item)
+        frame_item.value()++;
+
     if (activeJob->getFrameType() != FRAME_LIGHT)
     {
         if (processPostCaptureCalibrationStage() == false)
@@ -1214,16 +1226,15 @@ bool Capture::setCaptureComplete()
             calibrationStage = CAL_CAPTURING;
     }
 
-    seqCurrentCount++;
-    activeJob->setCompleted(seqCurrentCount);
-    imgProgress->setValue(seqCurrentCount);
+    /* The image progress has now one more capture */
+    imgProgress->setValue(activeJob->getCompleted());
 
-    appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
+    appendLogText(i18n("Received image %1 out of %2.", activeJob->getCompleted(), activeJob->getCount()));
 
     state = CAPTURE_IMAGE_RECEIVED;
     emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
 
-    currentImgCountOUT->setText(QString::number(seqCurrentCount));
+    currentImgCountOUT->setText(QString::number(activeJob->getCompleted()));
 
     // Check if we need to execute post capture script first
     if (activeJob->getPostCaptureScript().isEmpty() == false)
@@ -1234,7 +1245,7 @@ bool Capture::setCaptureComplete()
     }
 
     // if we're done
-    if (seqCurrentCount >= seqTotalCount)
+    if (activeJob->getCount() <= activeJob->getCompleted())
     {
         processJobCompletion();
         return true;
@@ -1298,8 +1309,8 @@ bool Capture::resumeSequence()
         return false;
     }
 
-    // If seqTotalCount is zero, we have to find if there are more pending jobs in the queue
-    if (seqTotalCount == 0)
+    // If no job is active, we have to find if there are more pending jobs in the queue
+    if (!activeJob)
     {
         SequenceJob *next_job = nullptr;
 
@@ -1593,7 +1604,7 @@ void Capture::captureImage()
     {
     case SequenceJob::CAPTURE_OK:
     {
-        appendLogText(i18n("Capturing image..."));
+        appendLogText(i18n("Capturing %1-second %2 image...", QString::number(activeJob->getExposure(),'g',3), activeJob->getFilterName()));
         if (activeJob->isPreview() == false)
         {
             int index = jobs.indexOf(activeJob);
@@ -1694,7 +1705,7 @@ void Capture::checkSeqBoundary(const QString &path)
 {
     int newFileIndex = -1;
     QString tempName;
-    seqFileCount = 0;
+    // seqFileCount = 0;
 
     // No updates during meridian flip
     if (meridianFlipStage >= MF_ALIGNING)
@@ -1710,12 +1721,16 @@ void Capture::checkSeqBoundary(const QString &path)
         tempName = info.completeBaseName();
 
         QString finalSeqPrefix = seqPrefix;
-        finalSeqPrefix.remove("_ISO8601");
+        finalSeqPrefix.remove(SequenceJob::ISOMarker);
         // find the prefix first
         if (tempName.startsWith(finalSeqPrefix, Qt::CaseInsensitive) == false)
             continue;
 
-        seqFileCount++;
+        /* Do not change the number of captures.
+         * - If the sequence is required by the end-user, unconditionally run what each sequence item is requiring.
+         * - If the sequence is required by the scheduler, use capturedFramesMap to determine when to stop capturing.
+         */
+        //seqFileCount++;
 
         int lastUnderScoreIndex = tempName.lastIndexOf("_");
         if (lastUnderScoreIndex > 0)
@@ -1966,6 +1981,7 @@ bool Capture::addJob(bool preview)
 
     QString directoryPostfix;
 
+    /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in scheduler.cpp */
     if (targetName.isEmpty())
         directoryPostfix = QLatin1Literal("/") + frameTypeCombo->currentText();
     else
@@ -2237,95 +2253,119 @@ void Capture::prepareJob(SequenceJob *job)
 {
     activeJob = job;
 
-    qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing capture job" << job->getFullPrefix() << "for execution.";
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing capture job" << job->getSignature() << "for execution.";
 
     if (activeJob->getActiveCCD() != currentCCD)
     {
         setCCD(activeJob->getActiveCCD()->getDeviceName());
     }
 
-    if (activeJob->isPreview())
+    /*if (activeJob->isPreview())
         seqTotalCount = -1;
     else
-        seqTotalCount = activeJob->getCount();
+        seqTotalCount = activeJob->getCount();*/
 
     seqDelay = activeJob->getDelay();
 
-    seqCurrentCount = activeJob->getCompleted();
+    // seqCurrentCount = activeJob->getCompleted();
 
     if (activeJob->isPreview() == false)
     {
-        fullImgCountOUT->setText(QString::number(seqTotalCount));
-        currentImgCountOUT->setText(QString::number(seqCurrentCount));
+        fullImgCountOUT->setText(QString::number(activeJob->getCount()));
+        currentImgCountOUT->setText(QString::number(activeJob->getCompleted()));
 
         // set the progress info
         imgProgress->setEnabled(true);
-        imgProgress->setMaximum(seqTotalCount);
-        imgProgress->setValue(seqCurrentCount);
+        imgProgress->setMaximum(activeJob->getCount());
+        imgProgress->setValue(activeJob->getCompleted());
 
         if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
             updateSequencePrefix(activeJob->getFullPrefix(), activeJob->getSignature());
     }
 
-    // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system unless ignoreJobProgress is set to true
-    if (ignoreJobProgress == false && activeJob->isPreview() == false)
+    // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system
+    if (activeJob->isPreview() == false)
     {
-        // The signature is the unique identification path in the system for a particular job
-        // e.g. /home/jasem/M45/Light_Red
+        // The signature is the unique identification path in the system for a particular job. Format is "<storage path>/<target>/<frame type>/<filter name>".
+        // If the Scheduler is requesting the Capture tab to process a sequence job, a target name will be inserted after the sequence file storage field (e.g. /path/to/storage/target/Light/...)
+        // If the end-user is requesting the Capture tab to process a sequence job, the sequence file storage will be used as is (e.g. /path/to/storage/Light/...)
         QString signature = activeJob->getSignature();
 
         // Now check on the file system ALL the files that exist with the above signature
         // If 29 files exist for example, then nextSequenceID would be the NEXT file number (30)
         // Therefore, we know how to number the next file.
+        // However, we do not deduce the number of captures to process from this function.
         checkSeqBoundary(signature);
 
         // Captured Frames Map contains a list of signatures:count of _already_ captured files in the file system.
-        // This is usually set by the scheduler in case we have duplicate signatures.
-        // Eg. Simple Sequence = LRGB
-        // Scheduler wants to run job 3 times, with each sequence capture 5 frames per filter.
-        // When the first scheduler job is complete. On the file system, we have 20 images (5 for each filter)
-        // When the SECOND job scheduler starts. It already finds 20 images on the filter system, so it sets
-        // the signatures of L,R,G, and B to ZERO (seqFileCount) even though seqFileCount is set to 5 by the
-        // checkSeqBoundary function since this is what exists on the filter system for this signature.
-        // Therefore, we continue to capture the SECOND scheduler job without issues.
-        // This is the purpose of capturedFramesMap
+        // This map is set by the Scheduler in order to complete efficiently the required captures.
+        // When the end-user requests a sequence to be processed, that map is empty.
+        //
+        // Example with a 5xL-5xR-5xG-5xB sequence
+        //
+        // When the end-user loads and runs this sequence, each filter gets to capture 5 frames, then the procedure stops.
+        // When the Scheduler executes a job with this sequence, the procedure depends on what is in the storage.
+        // 
+        // Let's consider the Scheduler has 3 instances of this job to run.
+        // 
+        // When the first job completes the sequence, there are 20 images in the file system (5 for each filter).
+        // When the second job starts, Scheduler finds those 20 images but requires 20 more images, thus sets the frames map counters to 0 for all LRGB frames.
+        // When the third job starts, Scheduler now has 40 images, but still requires 20 more, thus again sets the frames map counters to 0 for all LRGB frames.
+        // 
+        // Now let's consider something went wrong, and the third job was aborted before getting to 60 images, say we have full LRG, but only 1xB.
+        // When Scheduler attempts to run the aborted job again, it will count captures in storage, substract previous job requirements, and set the frames map counters to 0 for LRG, and 4 for B.
+        // When the sequence runs, the procedure will bypass LRG and proceed to capture 4xB.
         if (capturedFramesMap.contains(signature))
-            seqFileCount = capturedFramesMap[signature];
-
-        if (seqFileCount > 0)
         {
-            // Get the TOTAL count of frames for a particular signature
-            // e.g. Suppose Sequnce is LRGBRGB each 5 frames
-            // getTotalFramesCount("R") = 10
-            int totalSignatureFrameCount = getTotalFramesCount(signature);
+            // Get the current capture count from the map
+            int count = capturedFramesMap[signature];
 
-            // Fully complete
-            if (seqFileCount >= totalSignatureFrameCount)
-            {
-                activeJob->setCompleted(seqFileCount);
-                imgProgress->setValue(totalSignatureFrameCount);
-                qCDebug(KSTARS_EKOS_CAPTURE) << "Job" << job->getFullPrefix() << "already complete.";
-                processJobCompletion();
-                return;
-            }
+            // Count how many captures this job has to process, given that previous jobs may have done some work already
+            foreach (SequenceJob *a_job, jobs)
+                if (a_job == activeJob)
+                    break;
+                else if (a_job->getSignature() == activeJob->getSignature())
+                    count -= a_job->getCompleted();
 
-            // Partially complete
-            seqCurrentCount = seqFileCount;
-            activeJob->setCompleted(seqCurrentCount);
-            currentImgCountOUT->setText(QString::number(seqCurrentCount));
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Job" << job->getFullPrefix() << seqCurrentCount << "out of" << seqTotalCount << "is complete.";
-            imgProgress->setValue(seqCurrentCount);
-
-            // Emit progress update
-            emit newImage(nullptr, activeJob);
+            // This is the current completion count of the current job
+            activeJob->setCompleted(count);
+        }
+        else
+        {
+            // No preliminary information, we reset the job count and run the job unconditionally to clarify the behavior
+            activeJob->setCompleted(0);
         }
 
-        currentCCD->setNextSequenceID(nextSequenceID);
+        // Check whether active job is complete by comparing required captures to what is already available
+        if (activeJob->getCount() <= activeJob->getCompleted())
+        {
+            activeJob->setCompleted(activeJob->getCount());
+            appendLogText(i18n("Job requires %1-second %2 images, has already %3/%4 captures and does not need to run.",
+                    QString::number(job->getExposure(),'g',3), job->getFilterName(),
+                    activeJob->getCompleted(), activeJob->getCount()));
+            processJobCompletion();
+
+            /* FIXME: find a clearer way to exit here */
+            return;
+        }
+        else
+        {
+            // There are captures to process
+            currentImgCountOUT->setText(QString::number(activeJob->getCompleted()));
+            appendLogText(i18n("Job requires %1-second %2 images, has %3/%4 frames captured and will be processed.",
+                    QString::number(job->getExposure(),'g',3), job->getFilterName(),
+                    activeJob->getCompleted(), activeJob->getCount()));
+
+            // Emit progress update - done a few lines below
+            // emit newImage(nullptr, activeJob);
+
+            currentCCD->setNextSequenceID(nextSequenceID);
+        }
     }
 
     if (currentCCD->isBLOBEnabled() == false)
     {
-
+        // FIXME: Move this warning pop-up elsewhere, it will interfere with automation.
         if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
                 KMessageBox::Yes)
         {
@@ -2591,8 +2631,11 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                 return;
             }
 
-            appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting exposure.",
-                               deviationText, guideDeviation->value()));
+            appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, "
+                               "aborting exposure and waiting for guider up to %3 seconds.",
+                               deviationText, guideDeviation->value(),
+                               QString::number((double)guideDeviationTimer.interval()/1000.0f,'g',3)));
+
             abort();
 
             spikeDetected     = false;
@@ -2626,17 +2669,19 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             guideDeviationTimer.stop();
 
             if (seqDelay == 0)
-                appendLogText(
-                            i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.",
-                                 deviationText, guideDeviation->value()));
+                appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
+                                   "resuming exposure.",
+                                   deviationText, guideDeviation->value()));
             else
-                appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
-                                   "exposure in %3 seconds.",
+                appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
+                                   "resuming exposure in %3 seconds.",
                                    deviationText, guideDeviation->value(), seqDelay / 1000.0));
 
             QTimer::singleShot(seqDelay, this, SLOT(start()));
             return;
         }
+        else appendLogText(i18n("Guiding deviation %1 is still higher than limit value of %2 arcsecs.",
+                                deviationText, guideDeviation->value()));
     }
 }
 
@@ -3439,6 +3484,7 @@ void Capture::resetJobs()
     stop();
 
     ignoreJobProgress = true;
+    capturedFramesMap.clear();
 }
 
 void Capture::ignoreSequenceHistory()
@@ -3581,7 +3627,7 @@ void Capture::constructPrefix(QString &imagePrefix)
     }
     if (ISOCheck->isChecked())
     {
-        imagePrefix += "_ISO8601";
+        imagePrefix += SequenceJob::ISOMarker;
     }
 }
 
@@ -3909,6 +3955,10 @@ double Capture::getCurrentHA()
         appendLogText(i18n("Failed to retrieve telescope coordinates. Unable to calculate telescope's hour angle."));
         return INVALID_VALUE;
     }
+
+    /* Edge case: undefined HA at poles */
+    if (90.0f == currentDEC || -90.0f == currentDEC)
+        return INVALID_VALUE;
 
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
 
@@ -4747,10 +4797,9 @@ IPState Capture::processPreCaptureCalibrationStage()
 bool Capture::processPostCaptureCalibrationStage()
 {
     // If there are no more images to capture, do not bother calculating next exposure
-    if (calibrationStage == CAL_CALIBRATION_COMPLETE && (seqCurrentCount + 1) >= seqTotalCount)
-    {
-        return true;
-    }
+    if (calibrationStage == CAL_CALIBRATION_COMPLETE)
+        if (activeJob && activeJob->getCount() <= activeJob->getCompleted())
+            return true;
 
     // Check if we need to do flat field slope calculation if the user specified a desired ADU value
     if (activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldDuration() == DURATION_ADU &&
@@ -4879,21 +4928,22 @@ void Capture::postScriptFinished(int exitCode)
 {
     appendLogText(i18n("Post capture script finished with code %1.", exitCode));
 
-    // if we're done
-    // FIXME getTotalFramesCount is problematic elsewhere. Check here
-    if (seqCurrentCount >= getTotalFramesCount(activeJob->getSignature()))
+    // If we're done, proceed to completion.
+    if (activeJob->getCount() <= activeJob->getCompleted())
     {
         processJobCompletion();
-        return;
     }
-
-    // Check if meridian condition is met
-    if (checkMeridianFlip())
-        return;
-
-    appendLogText(i18n("Resuming sequence..."));
-    // Then just resume sequence.
-    resumeSequence();
+    // Else check if meridian condition is met.
+    else if (checkMeridianFlip())
+    {
+        appendLogText(i18n("Processing meridian flip..."));
+    }
+    // Then if nothing else, just resume sequence.
+    else
+    {
+        appendLogText(i18n("Resuming sequence..."));
+        resumeSequence();
+    }
 }
 
 // FIXME Migrate to Filter Manager
@@ -5322,6 +5372,10 @@ if (pos != DSLRInfos.end())
 void Capture::setCapturedFramesMap(const QString &signature, int count)
 {
     capturedFramesMap[signature] = count;
+    qCDebug(KSTARS_EKOS_CAPTURE) << QString("Client module indicates that storage '%1' has already %2 captures processed.").arg(signature).arg(count);
+    //capturedFramesMap = map;
+    //for (auto key: map.keys())
+    //    qCDebug(KSTARS_EKOS_CAPTURE) << QString("Captured frame '%1' already has %2 captures stored.").arg(key).arg(map[key]);
 }
 
 void Capture::setSettings(const QJsonObject &settings)

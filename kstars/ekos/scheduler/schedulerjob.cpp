@@ -307,7 +307,7 @@ void SchedulerJob::setRepeatsRemaining(const uint16_t &value)
     updateJobCell();
 }
 
-void SchedulerJob::setCapturedFramesMap(const QMap<QString, uint16_t> &value)
+void SchedulerJob::setCapturedFramesMap(const CapturedFramesMap &value)
 {
     capturedFramesMap = value;
 }

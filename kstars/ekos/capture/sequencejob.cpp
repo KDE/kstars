@@ -23,6 +23,8 @@
 
 namespace Ekos
 {
+QString const & SequenceJob::ISOMarker("_ISO8601");
+
 SequenceJob::SequenceJob()
 {
     statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted")

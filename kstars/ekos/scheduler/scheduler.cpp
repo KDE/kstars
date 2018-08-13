@@ -514,6 +514,9 @@ void Scheduler::saveJob()
     job->setPriority(prioritySpin->value());
     job->setTargetCoords(ra, dec);
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
+
+    /* Consider sequence file is new, and clear captured frames map */
+    job->setCapturedFramesMap(SchedulerJob::CapturedFramesMap());
     job->setSequenceFile(sequenceURL);
 
     fitsURL = QUrl::fromLocalFile(fitsEdit->text());
@@ -610,21 +613,35 @@ void Scheduler::saveJob()
     job->reset();
 
     // Warn user if a duplicated job is in the list - same target, same sequence
+    // FIXME: Those duplicated jobs are not necessarily processed in the order they appear in the list!
     foreach (SchedulerJob *a_job, jobs)
     {
-        if(a_job == job)
+        if (a_job == job)
         {
             break;
         }
-        else if(a_job->getName() == job->getName() && a_job->getSequenceFile() == job->getSequenceFile())
+        else if (a_job->getName() == job->getName())
         {
-            appendLogText(i18n("Warning: job '%1' at row %2 has a duplicate at row %3 (same target, same sequence file), "
-                               "the scheduler will consider the same storage for captures.",
-                               job->getName(), currentRow,
-                               a_job->getNameCell()? a_job->getNameCell()->row()+1 : 0));
-            appendLogText(i18n("Warning: job '%1' at row %2 requires a specific startup time or a different priority, "
-                               "and a greater repeat count (or disable option 'Remember job progress')",
-                               job->getName(), currentRow));
+            int const a_job_row = a_job->getNameCell()? a_job->getNameCell()->row()+1 : 0;
+
+            /* FIXME: Warning about duplicate jobs only checks the target name, doing it properly would require checking storage for each sequence job of each scheduler job. */
+            appendLogText(i18n("Warning: job '%1' at row %2 has a duplicate target at row %3, "
+                               "the scheduler may consider the same storage for captures.",
+                               job->getName(), currentRow, a_job_row));
+
+            /* Warn the user in case the two jobs are really identical */
+            if (a_job->getSequenceFile() == job->getSequenceFile())
+            {
+                if (a_job->getRepeatsRequired() == job->getRepeatsRequired() && Options::rememberJobProgress())
+                    appendLogText(i18n("Warning: jobs '%1' at row %2 and %3 probably require a different repeat count "
+                                       "as currently they will complete simultaneously after %4 batches (or disable option 'Remember job progress')",
+                                       job->getName(), currentRow, a_job_row, job->getRepeatsRequired()));
+
+                if (a_job->getStartupTime() == a_job->getStartupTime() && a_job->getPriority() == job->getPriority())
+                    appendLogText(i18n("Warning: job '%1' at row %2 and %3 might require a specific startup time or a different priority, "
+                                       "as currently they will start in order of insertion in the table",
+                                       job->getName(), currentRow));
+            }
         }
     }
 
@@ -2107,7 +2124,10 @@ int16_t Scheduler::calculateJobScore(SchedulerJob *job, QDateTime when)
     if (job->getEnforceTwilight())
         total += getDarkSkyScore(when);
 
-    if (0 <= total && job->getStepPipeline() != SchedulerJob::USE_NONE)
+    /* We still enforce altitude if the job is neither required to track nor guide, because this is too confusing for the end-user.
+     * If we bypass calculation here, it must also be bypassed when checking job constraints in checkJobStage.
+     */
+    if (0 <= total /*&& ((job->getStepPipeline() & SchedulerJob::USE_TRACK) || (job->getStepPipeline() & SchedulerJob::USE_GUIDE))*/)
         total += getAltitudeScore(job, when);
 
     if (0 <= total)
@@ -4170,11 +4190,17 @@ void Scheduler::findNextJob()
                 currentJob->setStage(SchedulerJob::STAGE_ALIGNING);
                 startAstrometry();
             }
-            /* Else just slew back to target - no-op probably, but having only 'track' checked is an edge case */
-            else
+            /* Else if we are neither guiding nor using alignment, slew back to target */
+            else if (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK)
             {
                 currentJob->setStage(SchedulerJob::STAGE_SLEWING);
                 startSlew();
+            }
+            /* Else just start capturing */
+            else
+            {
+                currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
+                startCapture();
             }
 
             appendLogText(i18np("Job '%1' is repeating, #%2 batch remaining.",
@@ -4311,7 +4337,7 @@ void Scheduler::startCapture()
     dbusargs.append(url);
     captureInterface->callWithArgumentList(QDBus::AutoDetect, "loadSequenceQueue", dbusargs);
 
-    QMap<QString,uint16_t> fMap = currentJob->getCapturedFramesMap();
+    SchedulerJob::CapturedFramesMap fMap = currentJob->getCapturedFramesMap();
 
     for (auto &e : fMap.keys())
     {
@@ -4408,7 +4434,7 @@ void Scheduler::setDirty()
 void Scheduler::updateCompletedJobsCount(bool forced)
 {
     /* Use a temporary map in order to limit the number of file searches */
-    QMap<QString, uint16_t> newFramesCount;
+    SchedulerJob::CapturedFramesMap newFramesCount;
 
     /* If update is forced, clear the frame map */
     if (forced)
@@ -4438,7 +4464,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
 
             /* FIXME: refactor signature determination in a separate function in order to support multiple backends */
             /* FIXME: this signature path is incoherent when there is no filter wheel on the setup - bugfix should be elsewhere though */
-            QString const signature = oneSeqJob->getLocalDir() + oneSeqJob->getDirectoryPostfix();
+            QString const signature = oneSeqJob->getSignature();
 
             /* Bypass this SchedulerJob if we already checked its signature */
             switch(oneJob->getState())
@@ -4464,26 +4490,46 @@ void Scheduler::updateCompletedJobsCount(bool forced)
     }
 
     capturedFramesCount = newFramesCount;
+
+    //if (forced)
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Frame map summary:";
+        QMap<QString, uint16_t>::const_iterator it = capturedFramesCount.constBegin();
+        for (; it != capturedFramesCount.constEnd(); it++)
+            qCDebug(KSTARS_EKOS_SCHEDULER) << " " << it.key() << ':' << it.value();
+    }
 }
 
 bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 {
     /* updateCompletedJobsCount(); */
 
+    // Load the sequence job associated with the argument scheduler job.
     QList<SequenceJob *> seqJobs;
     bool hasAutoFocus = false;
-
     if (loadSequenceQueue(schedJob->getSequenceFile().toLocalFile(), schedJob, seqJobs, hasAutoFocus) == false)
+    {
+        qCWarning(KSTARS_EKOS_SCHEDULER) << QString("Warning: Failed estimating the duration of job '%1', its sequence file is invalid.").arg(schedJob->getSequenceFile().toLocalFile());
         return false;
+    }
 
+    // FIXME: setting in-sequence focus should be done in XML processing.
     schedJob->setInSequenceFocus(hasAutoFocus);
+
+    /* This is the map of captured frames for this scheduler job, keyed per storage signature.
+     * It will be forwarded to the Capture module in order to capture only what frames are required.
+     * If option "Remember Job Progress" is disabled, this map will be empty, and the Capture module will process all requested captures unconditionally.
+     */
+    SchedulerJob::CapturedFramesMap capture_map;
+    bool const rememberJobProgress = Options::rememberJobProgress();
 
     int totalSequenceCount = 0, totalCompletedCount = 0;
     double totalImagingTime  = 0;
-    bool rememberJobProgress = Options::rememberJobProgress();
+
+    // Loop through sequence jobs to calculate the number of required frames and estimate duration.
     foreach (SequenceJob *seqJob, seqJobs)
     {
-        /* FIXME: find a way to actually display the filter name */
+        // FIXME: find a way to actually display the filter name.
         QString seqName = i18n("Job '%1' %2x%3\" %4", schedJob->getName(), seqJob->getCount(), seqJob->getExposure(), seqJob->getFilterName());
 
         if (seqJob->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
@@ -4527,8 +4573,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
              * This is why it is important to manage the repeat count of the scheduler job, as stated earlier.
              */
 
-            // Retrieve cached count of captures_completed captures for the output folder of this seqJob
-            QString const signature = seqJob->getLocalDir() + seqJob->getDirectoryPostfix();
+            // Retrieve cached count of completed captures for the output folder of this seqJob
+            QString const signature = seqJob->getSignature();
             captures_completed = capturedFramesCount[signature];
 
             qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 sees %2 captures in output folder '%3'.").arg(seqName).arg(captures_completed).arg(signature);
@@ -4563,14 +4609,23 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
             qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 has completed %2/%3 of its required captures in output folder '%4'.").arg(seqName).arg(captures_completed).arg(captures_required).arg(signature);
 
-            // Update the completion count for this signature if we still have captures to take
-            // FIXME: setting the whole capture map each time is not very optimal
-            QMap<QString, uint16_t> fMap = schedJob->getCapturedFramesMap();
-            if (fMap[signature] != captures_completed)
+            // Update the completion count for this signature in the frame map if we still have captures to take.
+            // That frame map will be transferred to the Capture module, for which the sequence is a single batch of the scheduler job.
+            // For instance, consider a scheduler job repeated 3 times and using a 3xLum sequence, so we want 9xLum in the end.
+            // - If no captures are already processed, the frame map contains Lum=0
+            // - If 1xLum are already processed, the frame map contains Lum=0 when the batch executes, so that 3xLum may be taken.
+            // - If 3xLum are already processed, the frame map contains Lum=0 when the batch executes, as we still need more than what the sequence provides.
+            // - If 7xLum are already processed, the frame map contains Lum=1 when the batch executes, because we now only need 2xLum to finish the job.
+            // Therefore we need to specify a number of existing captures only for the last batch of the scheduler job.
+            // In the last batch, we only need the remainder of frames to get to the required total.
+            if (captures_completed < captures_required)
             {
-                fMap[signature] = captures_completed;
-                schedJob->setCapturedFramesMap(fMap);
+                if (captures_required - captures_completed < seqJob->getCount())
+                    capture_map[signature] = captures_completed % seqJob->getCount();
+                else
+                    capture_map[signature] = 0;
             }
+            else capture_map[signature] = captures_required;
 
             // From now on, 'captures_completed' is the number of frames completed for the *current* sequence job
         }
@@ -4626,6 +4681,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         }
     }
 
+    schedJob->setCapturedFramesMap(capture_map);
     schedJob->setSequenceCount(totalSequenceCount);
     schedJob->setCompletedCount(totalCompletedCount);
 
@@ -4728,39 +4784,54 @@ void Scheduler::parkMount()
 void Scheduler::unParkMount()
 {
     QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Mount::ParkingStatus status = (Mount::ParkingStatus)mountReply.value();
 
     if (mountReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
-        status = Mount::PARKING_ERROR;
+        parkWaitState = PARKWAIT_ERROR;
     }
-
-    if (status != Mount::UNPARKING_OK)
+    else switch ((Mount::ParkingStatus) mountReply.value())
     {
-        if (status == Mount::UNPARKING_BUSY)
-            appendLogText(i18n("Unparking mount in progress..."));
-        else
-        {
-            mountInterface->call(QDBus::AutoDetect, "unpark");
-            appendLogText(i18n("Unparking mount..."));
+        case Mount::UNPARKING_OK:
+            if (startupState == STARTUP_UNPARK_MOUNT)
+                startupState = STARTUP_UNPARK_CAP;
+            else if (parkWaitState == PARKWAIT_UNPARK)
+                parkWaitState = PARKWAIT_UNPARKED;
 
-            currentOperationTime.start();
-        }
+            appendLogText(i18n("Mount already unparked."));
+            break;
 
-        if (startupState == STARTUP_UNPARK_MOUNT)
-            startupState = STARTUP_UNPARKING_MOUNT;
-        else if (parkWaitState == PARKWAIT_UNPARK)
-            parkWaitState = PARKWAIT_UNPARKING;
-    }
-    else
-    {
-        appendLogText(i18n("Mount already unparked."));
+        case Mount::PARKING_BUSY:
+            /* FIXME: Handle the situation where we request unparking but a parking procedure is running. */
 
-        if (startupState == STARTUP_UNPARK_MOUNT)
-            startupState = STARTUP_UNPARK_CAP;
-        else if (parkWaitState == PARKWAIT_UNPARK)
-            parkWaitState = PARKWAIT_UNPARKED;
+        case Mount::PARKING_IDLE:
+        case Mount::PARKING_OK:
+        case Mount::PARKING_ERROR:
+            {
+                QDBusReply<bool> const mountReply = mountInterface->call(QDBus::AutoDetect, "unpark");
+
+                if (mountReply.error().type() != QDBusError::NoError)
+                {
+                    qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount unpark request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
+                    parkWaitState = PARKWAIT_ERROR;
+                }
+                else currentOperationTime.start();
+            }
+
+            /* no-break */
+            [[fallthrough]];
+
+        case Mount::UNPARKING_BUSY:
+            if (startupState == STARTUP_UNPARK_MOUNT)
+                startupState = STARTUP_UNPARKING_MOUNT;
+            else if (parkWaitState == PARKWAIT_UNPARK)
+                parkWaitState = PARKWAIT_UNPARKING;
+
+            qCInfo(KSTARS_EKOS_SCHEDULER) << "Unparking mount in progress...";
+            break;
+
+        default:
+            qCWarning(KSTARS_EKOS_SCHEDULER) << QString("BUG: Parking state %1 not managed while unparking mount.").arg(mountReply.value());
     }
 }
 
@@ -4768,49 +4839,76 @@ void Scheduler::checkMountParkingStatus()
 {
     static int parkingFailureCount = 0;
     QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Mount::ParkingStatus status = (Mount::ParkingStatus)mountReply.value();
 
     if (mountReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
-        status = Mount::PARKING_ERROR;
+        parkWaitState = PARKWAIT_ERROR;
     }
-
-    switch (status)
+    else switch ((Mount::ParkingStatus)mountReply.value())
     {
         case Mount::PARKING_OK:
             appendLogText(i18n("Mount parked."));
-            if (shutdownState == SHUTDOWN_PARKING_MOUNT)
+
+            if (startupState == STARTUP_UNPARKING_MOUNT)
+                startupState = STARTUP_UNPARK_CAP;
+            else if (shutdownState == SHUTDOWN_PARKING_MOUNT)
                 shutdownState = SHUTDOWN_PARK_DOME;
             else if (parkWaitState == PARKWAIT_PARKING)
                 parkWaitState = PARKWAIT_PARKED;
+
             parkingFailureCount = 0;
             break;
 
         case Mount::UNPARKING_OK:
             appendLogText(i18n("Mount unparked."));
+
             if (startupState == STARTUP_UNPARKING_MOUNT)
                 startupState = STARTUP_UNPARK_CAP;
+            else if (shutdownState == SHUTDOWN_PARKING_MOUNT)
+                shutdownState = SHUTDOWN_PARK_DOME;
             else if (parkWaitState == PARKWAIT_UNPARKING)
                 parkWaitState = PARKWAIT_UNPARKED;
+
             parkingFailureCount = 0;
             break;
 
-        case Mount::PARKING_BUSY:
+        // FIXME: Create an option for the parking/unparking timeout.
+
         case Mount::UNPARKING_BUSY:
-            // TODO make the timeouts configurable by the user
             if (currentOperationTime.elapsed() > (60 * 1000))
             {
-                if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                if (++parkingFailureCount < MAX_FAILURE_ATTEMPTS)
                 {
-                    appendLogText(i18n("Operation timeout. Restarting operation..."));
-                    if (status == Mount::PARKING_BUSY)
-                        parkMount();
-                    else
-                        unParkMount();
-                    break;
+                    appendLogText(i18n("Warning: mount unpark operation timed out on attempt %1/%2. Restarting operation...", parkingFailureCount, MAX_FAILURE_ATTEMPTS));
+                    unParkMount();
+                }
+                else
+                {
+                    appendLogText(i18n("Warning: mount unpark operation timed out on last attempt."));
+                    parkWaitState = PARKWAIT_ERROR;
                 }
             }
+            else qCInfo(KSTARS_EKOS_SCHEDULER) << "Unparking mount in progress...";
+
+            break;
+
+        case Mount::PARKING_BUSY:
+            if (currentOperationTime.elapsed() > (60 * 1000))
+            {
+                if (++parkingFailureCount < MAX_FAILURE_ATTEMPTS)
+                {
+                    appendLogText(i18n("Warning: mount park operation timed out on attempt %1/%2. Restarting operation...", parkingFailureCount, MAX_FAILURE_ATTEMPTS));
+                    parkMount();
+                }
+                else
+                {
+                    appendLogText(i18n("Warning: mount park operation timed out on last attempt."));
+                    parkWaitState = PARKWAIT_ERROR;
+                }
+            }
+            else qCInfo(KSTARS_EKOS_SCHEDULER) << "Parking mount in progress...";
+
             break;
 
         case Mount::PARKING_ERROR:
@@ -4834,11 +4932,12 @@ void Scheduler::checkMountParkingStatus()
                 appendLogText(i18n("Mount unparking error."));
                 parkWaitState = PARKWAIT_ERROR;
             }
+
             parkingFailureCount = 0;
             break;
 
         default:
-            break;
+            qCWarning(KSTARS_EKOS_SCHEDULER) << QString("BUG: Parking state %1 not managed while checking progress.").arg(mountReply.value());
     }
 }
 
@@ -5734,7 +5833,11 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
     // Directory postfix
     QString directoryPostfix;
 
-    directoryPostfix = QLatin1Literal("/") + targetName + QLatin1Literal("/") + frameType;
+    /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in capture.cpp */
+    if (targetName.isEmpty())
+        directoryPostfix = QLatin1Literal("/") + frameType;
+    else
+        directoryPostfix = QLatin1Literal("/") + targetName + QLatin1Literal("/") + frameType;
     if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && filterType.isEmpty() == false)
         directoryPostfix += QLatin1Literal("/") + filterType;
 
@@ -5746,9 +5849,12 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
 int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
 {
     int seqFileCount = 0;
+    QFileInfo const path_info(path);
+    QString const sig_dir(path_info.dir().path());
+    QString const sig_file(path_info.baseName());
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Searching in '%1' for prefix '%2'...").arg(path, seqPrefix);
-    QDirIterator it(path, QDir::Files);
+    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Searching in path '%1', files '%2*' for prefix '%3'...").arg(sig_dir, sig_file, seqPrefix);
+    QDirIterator it(sig_dir, QDir::Files);
 
     /* FIXME: this counts all files with prefix in the storage location, not just captures. DSS analysis files are counted in, for instance. */
     while (it.hasNext())
