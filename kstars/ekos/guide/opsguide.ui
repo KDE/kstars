@@ -230,6 +230,9 @@
           <property name="minimum">
            <number>1</number>
           </property>
+          <property name="maximum">
+           <number>60</number>
+          </property>
          </widget>
         </item>
         <item row="0" column="4">
@@ -253,6 +256,9 @@
          <widget class="QDoubleSpinBox" name="kcfg_DitherThreshold">
           <property name="toolTip">
            <string>Maximum allowable distance for guiding to be considered settled.</string>
+          </property>
+          <property name="maximum">
+           <double>50.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -278,6 +284,9 @@
           <property name="toolTip">
            <string>After dither is successful, wait for this many seconds before proceeding.</string>
           </property>
+          <property name="maximum">
+           <number>360</number>
+          </property>
          </widget>
         </item>
         <item row="2" column="2">
@@ -299,6 +308,9 @@
           <property name="toolTip">
            <string>time limit for successful dither settling</string>
           </property>
+          <property name="maximum">
+           <number>360</number>
+          </property>
          </widget>
         </item>
         <item row="3" column="2">
@@ -314,7 +326,7 @@
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum dithering iteration attempts before giving up&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
-           <string>Max, Iterations</string>
+           <string>Max. Iterations</string>
           </property>
          </widget>
         </item>
