@@ -4,6 +4,73 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+2.9.8 (Pelican):
+=================================================================================================
+eb4aa89dc 2018-08-13 Jasem Mutlaq         Fix upper limits for some guide settings
+b7e3810b1 2018-08-13 Eric Dejouhanet      Fixes for the Scheduler and Capture modules
+27ae34f2b 2018-08-12 Jasem Mutlaq         Bit of code refactoring. Keep track of axis distance when reversing guide calibration direction. If we are still not moving toward the starting poin..
+e8cb5f3a9 2018-08-12 Jasem Mutlaq         Revert "Remove prefix from test to be the same for all"
+c2fef9880 2018-08-12 Jasem Mutlaq         Remove prefix from test to be the same for all
+6dfb66d01 2018-08-11 Jasem Mutlaq         Fix J2000 in sendCoords
+054fb21cd 2018-08-11 Jasem Mutlaq         Handle EQUATORIAL_COORD when the property is updated
+2587c4f6f 2018-08-11 Jasem Mutlaq         Draw J2000 coords
+d1cb70fbe 2018-08-11 Jasem Mutlaq         ALso accept EQUATORIAL_COORD for telescope coordinates
+b455bd581 2018-08-10 Yuri Chornoivan      Fix minor EBN issues
+9816f3521 2018-08-10 Jasem Mutlaq         In guiding deviation handler, search for aborted jobs and resume one since activeJob is always nullptr when abort is now called
+cb856ddf5 2018-08-09 Yuri Chornoivan      Fix minor typo
+9cd9341e0 2018-08-09 Jasem Mutlaq         Reset RMS value when reacquiring a star
+0d65fa060 2018-08-08 Jasem Mutlaq         Add complex job test
+23ec2283e 2018-08-08 Jasem Mutlaq         Fix message using the wrong variable
+ac502664b 2018-08-08 Jasem Mutlaq         Add helpful tooltip for guide settle
+e1a3f1369 2018-08-07 Eric Dejouhanet      Add RA/DEC fields to the list of controls which trigger a save.
+da7c8a6bc 2018-08-07 Csaba Kertesz        Fix the custom sky object removal
+9c7bebf84 2018-08-07 Jasem Mutlaq         Fix typo
+7f915094e 2018-08-07 Jasem Mutlaq         Check if telescope is connected before accepting sync
+6da8bb68e 2018-08-07 Jasem Mutlaq         Add Copy Coordinates action to the popup menu
+1d45a9c07 2018-08-07 Eric Dejouhanet      Edit scheduler jobs with double-click and update icon to match Capture module.
+610a79ed9 2018-08-06 Jasem Mutlaq         Fix typo
+068ef057a 2018-08-05 Csaba Kertesz        Fix for touch support to avoid closing popups in the skymap
+a5e515663 2018-08-05 Jasem Mutlaq         IDLE --> ABORTED so that scheduler acknowleged that. Disabling GuideStep --> Guiding transition since we have a case now where the transition is inc..
+617703f09 2018-08-05 Jasem Mutlaq         Update INSTALL file to reflect current state of affairs
+07a0d3eb3 2018-08-05 Jasem Mutlaq         Looksl like we will release 2.9.8 hotfix first before moving to 3.0.0
+5b7990ead 2018-08-05 Csaba Kertesz        Increase the font size in KStars Lite
+1fa13a932 2018-08-05 Jasem Mutlaq         Using Delta Max RMS as the threshold value to abort instead of just pulse length since it is a more reliable measure of guiding performance and also..
+bb27336ca 2018-08-05 Jasem Mutlaq         Always process images in Guide, Focus, and Align as Mono images
+45777dfd4 2018-08-04 Andy Galasso         The PHD2 external guider was not honoring the Lost Star timeout setting, it was using a hard-coded value of 5 seconds which is much too aggressive.
+a6b9780d2 2018-08-04 Yuri Chornoivan      Fix some EBN issues
+0abaa846a 2018-08-04 Wolfgang Reissenberger Summary: Logging output in Capture corrected, considering only the counts of a single sequence job
+46523bed3 2018-08-04 Eric Dejouhanet      Rework scheduler startup to merge execution paths.
+3e5f9f055 2018-08-04 Eric Dejouhanet      Update frame map unconditionally when starting scheduler.
+c774401a8 2018-08-04 Eric Dejouhanet      Mark scheduler job dirty when succesfully changing its target.
+bf4ac1e6a 2018-07-21 Csaba Kertesz        Use localization for KStars Lite
+5cec05783 2018-07-17 Csaba Kertesz        Further fixes for the Android build
+f83aed485 2018-08-03 Eric Dejouhanet      Adjust job editing algorithm
+723c1bcf9 2018-08-03 Jasem Mutlaq         Fix focus timer in capture module. Add more comments to explain some of the complex counting
+3bfa544de 2018-08-02 Jasem Mutlaq         After meridian flip, clear calibration is required and then guide
+c4dd86424 2018-08-02 Aleix Pol            Add the file to integrate with phabricator
+3ba2c1a27 2018-08-01 Jasem Mutlaq         Add GUIDE_IDLE to accepted previous state before restarting capture
+f3982dbf5 2018-08-01 Jasem Mutlaq         When PHD2 reports idle after calibration error, keep the error so that it is picked up by other processes until DBus signals are implemented
+424f4b03d 2018-08-01 Jasem Mutlaq         Fix slots connections. Remove prior hack used to identify aborted guide state
+499669f86 2018-08-01 Jasem Mutlaq         Limit reading for drivers XML files to those starting with indi_*
+25630e41c 2018-07-31 Pino Toscano         cmake: fix enabling of exceptions
+7676c91eb 2018-07-31 Jasem Mutlaq         Add warning if the guide camera is the same as the capture capture
+8e1034e54 2018-07-31 Jasem Mutlaq         Adapt INDI control panel to high DPI screens
+0132cd73c 2018-07-31 Jasem Mutlaq         Simplify scheduler calls to Guide module by remote the startAutoCalibrate and calling individual commands to have more control
+ac36a20c1 2018-07-30 Jasem Mutlaq         Reset align and guide fail counts when finding next job. Add GUIDE_IDLE as a fail condition since PHD2 resets to IDLE after it fails calibration
+d42df697c 2018-07-30 Jasem Mutlaq         When user edit FOV and reset it to 0x0, remove the effective FOV if one is saved so that the alignment process re-measures it again
+895cf1480 2018-07-30 Jasem Mutlaq         Remove cross cursor it was added before by mistake somehow
+26cd35278 2018-07-30 Jasem Mutlaq         Add StartupWMClass for better compatibility in other desktop environments
+6654b2fd2 2018-07-29 Jasem Mutlaq         Show tip of the day dialog after applying themes.
+9be2169dc 2018-07-29 Andy Galasso         PHD2: honor the "Receive external guide frames" setting. Also, only log event messages from PHD2 when verbose logging is enabled PHD2: only request ..
+0e259fb08 2018-07-28 Pino Toscano         i18n fixes
+cde98d293 2018-07-26 Jasem Mutlaq         Fix crash due to NaN asteroid magnitude. Also enforce show limit as per the options.
+fc5b8e237 2018-07-26 Eric Dejouhanet      Fix FINISH_AT management in Scheduler.
+40578b139 2018-07-25 Jasem Mutlaq         FIx another center issue with older Qt
+e5656839e 2018-07-25 Jasem Mutlaq         QPointF.center requires Qt 5.8 so we are going for the simpler version to make this compile on 16.04
+fadd47d9b 2018-07-25 Wolfgang Reissenberger Handling multiple occurrence of the same sequence job corrected
+4f100e322 2018-07-25 Robert Lancaster     Improving the Astrometry Index File configuration tab to include a button to open files and a link to the Readme
+0176721b0 2018-07-25 Jasem Mutlaq         Add green cloud to indicate EkosLive is online
+
 2.9.7 (Luna):
 =================================================================================================
 fadd47d 2018-07-25 Wolfgang Reissenberger Handling multiple occurrence of the same sequence job corrected
