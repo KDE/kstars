@@ -2280,7 +2280,7 @@ void Capture::prepareJob(SequenceJob *job)
         imgProgress->setValue(activeJob->getCompleted());
 
         if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
-            updateSequencePrefix(activeJob->getFullPrefix(), activeJob->getSignature());
+            updateSequencePrefix(activeJob->getFullPrefix(), QFileInfo(activeJob->getSignature()).path());
     }
 
     // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system
@@ -5372,7 +5372,7 @@ if (pos != DSLRInfos.end())
 void Capture::setCapturedFramesMap(const QString &signature, int count)
 {
     capturedFramesMap[signature] = count;
-    qCDebug(KSTARS_EKOS_CAPTURE) << QString("Client module indicates that storage '%1' has already %2 captures processed.").arg(signature).arg(count);
+    qCDebug(KSTARS_EKOS_CAPTURE) << QString("Client module indicates that storage for '%1' has already %2 captures processed.").arg(signature).arg(count);
     //capturedFramesMap = map;
     //for (auto key: map.keys())
     //    qCDebug(KSTARS_EKOS_CAPTURE) << QString("Captured frame '%1' already has %2 captures stored.").arg(key).arg(map[key]);

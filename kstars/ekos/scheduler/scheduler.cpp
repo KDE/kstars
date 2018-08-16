@@ -4462,7 +4462,6 @@ void Scheduler::updateCompletedJobsCount(bool forced)
             if (oneSeqJob->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
                 continue;
 
-            /* FIXME: refactor signature determination in a separate function in order to support multiple backends */
             /* FIXME: this signature path is incoherent when there is no filter wheel on the setup - bugfix should be elsewhere though */
             QString const signature = oneSeqJob->getSignature();
 
@@ -4575,9 +4574,10 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
             // Retrieve cached count of completed captures for the output folder of this seqJob
             QString const signature = seqJob->getSignature();
+            QString const signature_path = QFileInfo(signature).path();
             captures_completed = capturedFramesCount[signature];
 
-            qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 sees %2 captures in output folder '%3'.").arg(seqName).arg(captures_completed).arg(signature);
+            qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 sees %2 captures in output folder '%3'.").arg(seqName).arg(captures_completed).arg(signature_path);
 
             // Enumerate sequence jobs to check how many captures are completed overall in the same storage as the current one
             foreach (SequenceJob *prevSeqJob, seqJobs)
@@ -4607,7 +4607,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
             if (captures_required < captures_completed)
                 captures_completed = captures_required;
 
-            qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 has completed %2/%3 of its required captures in output folder '%4'.").arg(seqName).arg(captures_completed).arg(captures_required).arg(signature);
+            qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 has completed %2/%3 of its required captures in output folder '%4'.").arg(seqName).arg(captures_completed).arg(captures_required).arg(signature_path);
 
             // Update the completion count for this signature in the frame map if we still have captures to take.
             // That frame map will be transferred to the Capture module, for which the sequence is a single batch of the scheduler job.
