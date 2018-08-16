@@ -4819,7 +4819,7 @@ void Scheduler::unParkMount()
             }
 
             /* no-break */
-            [[fallthrough]];
+            //[[fallthrough]];
 
         case Mount::UNPARKING_BUSY:
             if (startupState == STARTUP_UNPARK_MOUNT)
