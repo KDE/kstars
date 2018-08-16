@@ -1704,6 +1704,9 @@ void Capture::updateSequencePrefix(const QString &newPrefix, const QString &dir)
 void Capture::checkSeqBoundary(const QString &path)
 {
     int newFileIndex = -1;
+    QFileInfo const path_info(path);
+    QString const sig_dir(path_info.dir().path());
+    QString const sig_file(path_info.baseName());
     QString tempName;
     // seqFileCount = 0;
 
@@ -1711,7 +1714,7 @@ void Capture::checkSeqBoundary(const QString &path)
     if (meridianFlipStage >= MF_ALIGNING)
         return;
 
-    QDirIterator it(path, QDir::Files);
+    QDirIterator it(sig_dir, QDir::Files);
 
     while (it.hasNext())
     {
