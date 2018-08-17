@@ -1762,7 +1762,7 @@
       </entry>
       <entry name="AstrometrySolverWCS" type="Bool">
          <label>World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</label>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="AstrometrySolverOverlay" type="Bool">
          <label>Display received FITS images unto solver FOV rectangle in the sky map.</label>
