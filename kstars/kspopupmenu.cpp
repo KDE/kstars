@@ -359,7 +359,7 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
     if (showDetails)
         addAction(i18nc("Show Detailed Information Dialog", "Details"), map, SLOT(slotDetail()));
 
-    addAction(i18n("Copy Coordinates"), map, &SkyMap::slotCopyCoordinates);
+    addAction(i18n("Copy Coordinates"), map, SLOT(slotCopyCoordinates()));
 
     //Insert "Add/Remove Label" item
     if (showLabel)
