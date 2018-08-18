@@ -282,7 +282,10 @@ void GenericDevice::processText(ITextVectorProperty *tvp)
         tp = IUFindText(tvp, "UTC");
 
         if (!tp)
+        {
+            qCWarning(KSTARS_INDI) << "UTC property missing from TIME_UTC";
             return;
+        }
 
         sscanf(tp->text, "%d%*[^0-9]%d%*[^0-9]%dT%d%*[^0-9]%d%*[^0-9]%d", &y, &m, &d, &hour, &min, &sec);
         indiDate.setDate(y, m, d);
@@ -293,7 +296,10 @@ void GenericDevice::processText(ITextVectorProperty *tvp)
         tp = IUFindText(tvp, "OFFSET");
 
         if (!tp)
+        {
+            qCWarning(KSTARS_INDI) << "Offset property missing from TIME_UTC";
             return;
+        }
 
         sscanf(tp->text, "%f", &utcOffset);
 
