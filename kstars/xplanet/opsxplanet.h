@@ -32,7 +32,7 @@ class OpsXplanet : public QFrame, public Ui::OpsXplanet
     KStars *ksw { nullptr };
 
   private slots:
-    void slotUpdateWidgets(bool on);
+    void showXPlanetMapsDirectory();
     void slotConfigFileWidgets(bool on);
     void slotStarmapFileWidgets(bool on);
     void slotArcFileWidgets(bool on);

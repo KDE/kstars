@@ -398,11 +398,7 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
         obj->type() !=
             SkyObject::COMET) // FIXME: We now have asteroids -- so should this not be isMajorPlanet() || Pluto?
     {
-        //QMenu *xplanetSubmenu = new QMenu();
-        //xplanetSubmenu->setTitle( i18n( "Print Xplanet view" ) );
-        addAction(i18n("View in XPlanet"), map, SLOT(slotXplanetToWindow()));
-        //xplanetSubmenu->addAction( i18n( "To file..." ), map, SLOT( slotXplanetToFile() ) );
-        //addMenu( xplanetSubmenu );
+        addAction(i18n("View in XPlanet"), map, SLOT(slotStartXplanetViewer()));
     }
     addSeparator();
     addINDI();

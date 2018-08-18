@@ -457,11 +457,8 @@ class SkyMap : public QGraphicsView
     void slotToggleGL();
 #endif
 
-    /** Run Xplanet to print a view in a Window*/
-    void slotXplanetToWindow();
-
-    /** Run Xplanet to print a view in a file */
-    void slotXplanetToFile();
+    /** Run Xplanet Viewer to display images of the planets*/
+    void slotStartXplanetViewer();
 
     /** Render eyepiece view */
     void slotEyepieceView();

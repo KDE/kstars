@@ -1073,10 +1073,20 @@
          <whatsthis>Xplanet binary path</whatsthis>
          <default code="true">KSUtils::getDefaultPath("XplanetPath")</default>
       </entry>
-      <entry name="XplanetTitle" type="String">
-         <label>Window title</label>
-         <whatsthis>Set the window’s title.</whatsthis>
-         <default></default>
+      <entry name="XplanetUseFIFO" type="Bool">
+         <label>Use FIFO file</label>
+         <whatsthis>Option to use a FIFO file instead of saving to the hard disk</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="XplanetTimeout" type="String">
+         <label>XPlanet Timeout</label>
+         <whatsthis>How long to wait for XPlanet before giving up in milliseconds</whatsthis>
+         <default>1000</default>
+      </entry>
+      <entry name="XplanetAnimationDelay" type="String">
+         <label>XPlanet Animation Delay</label>
+         <whatsthis>How long to pause between frames in the XPlanet Animation</whatsthis>
+         <default>100</default>
       </entry>
       <entry name="XplanetWidth" type="String">
          <label>Width of xplanet window</label>
@@ -1168,16 +1178,6 @@
          <label>Projection</label>
          <whatsthis>The default is no projection. Multiple bodies will not be shown if this option is specified, although shadows will still be drawn.</whatsthis>
          <default>0</default>
-      </entry>
-      <entry name="XplanetWait" type="Bool">
-         <label>Update view</label>
-         <whatsthis>If true, update view.</whatsthis>
-         <default>false</default>
-      </entry>
-      <entry name="XplanetWaitValue" type="String">
-         <label>Number of seconds to wait before updating</label>
-         <whatsthis>Number of seconds to wait before updating</whatsthis>
-         <default>60</default>
       </entry>
       <entry name="XplanetBackground" type="Bool">
          <label>Use background</label>
