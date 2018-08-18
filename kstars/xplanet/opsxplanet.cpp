@@ -19,6 +19,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include <QDesktopServices>
 
 OpsXplanet::OpsXplanet(KStars *_ks) : QFrame(_ks), ksw(_ks)
 {
@@ -52,7 +53,6 @@ OpsXplanet::OpsXplanet(KStars *_ks) : QFrame(_ks), ksw(_ks)
     kcfg_XplanetProjection->addItem(i18nc("Map projection method", "TSC"), "tsc");
 
     // Enable/Disable somme widgets
-    connect(kcfg_XplanetWait, SIGNAL(toggled(bool)), SLOT(slotUpdateWidgets(bool)));
     connect(kcfg_XplanetConfigFile, SIGNAL(toggled(bool)), SLOT(slotConfigFileWidgets(bool)));
     connect(kcfg_XplanetStarmap, SIGNAL(toggled(bool)), SLOT(slotStarmapFileWidgets(bool)));
     connect(kcfg_XplanetArcFile, SIGNAL(toggled(bool)), SLOT(slotArcFileWidgets(bool)));
@@ -62,8 +62,6 @@ OpsXplanet::OpsXplanet(KStars *_ks) : QFrame(_ks), ksw(_ks)
     connect(kcfg_XplanetProjection, SIGNAL(currentIndexChanged(int)), SLOT(slotProjectionWidgets(int)));
     connect(kcfg_XplanetBackground, SIGNAL(toggled(bool)), SLOT(slotBackgroundWidgets(bool)));
 
-    kcfg_XplanetWaitValue->setEnabled(Options::xplanetWait());
-    textLabelXplanetSecondes->setEnabled(Options::xplanetWait());
     kcfg_XplanetConfigFilePath->setEnabled(Options::xplanetConfigFile());
     kcfg_XplanetStarmapPath->setEnabled(Options::xplanetStarmap());
     kcfg_XplanetArcFilePath->setEnabled(Options::xplanetArcFile());
@@ -96,6 +94,20 @@ OpsXplanet::OpsXplanet(KStars *_ks) : QFrame(_ks), ksw(_ks)
     kcfg_XplanetBackgroundColorValue->setEnabled(Options::xplanetBackgroundImage());
     if (Options::xplanetProjection() == 0)
         groupBoxBackground->setEnabled(false);
+
+    connect(openXPlanetMaps, SIGNAL(clicked()),this,SLOT(showXPlanetMapsDirectory()));
+}
+
+void OpsXplanet::showXPlanetMapsDirectory()
+{
+
+    QString xplanetMapsDir;
+    if (Options::xplanetIsInternal())
+        xplanetMapsDir = QCoreApplication::applicationDirPath() + "/xplanet/share/xplanet/images";
+    else
+        xplanetMapsDir = Options::xplanetPath() + "../share/xplanet/images";
+    QUrl path = QUrl::fromLocalFile(xplanetMapsDir);
+    QDesktopServices::openUrl(path);
 }
 
 void OpsXplanet::toggleXPlanetInternal()
@@ -105,12 +117,6 @@ void OpsXplanet::toggleXPlanetInternal()
         kcfg_XplanetPath->setText("*Internal XPlanet*");
     else
         kcfg_XplanetPath->setText(KSUtils::getDefaultPath("XplanetPath"));
-}
-
-void OpsXplanet::slotUpdateWidgets(bool on)
-{
-    kcfg_XplanetWaitValue->setEnabled(on);
-    textLabelXplanetSecondes->setEnabled(on);
 }
 
 void OpsXplanet::slotConfigFileWidgets(bool on)

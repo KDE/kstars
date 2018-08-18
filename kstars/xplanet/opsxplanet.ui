@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>621</width>
+    <width>622</width>
     <height>647</height>
    </rect>
   </property>
@@ -31,15 +31,32 @@
            <property name="formAlignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
-           <item row="2" column="0">
-            <widget class="QLabel" name="textLabelXplanetTitle">
-             <property name="text">
-              <string>Window title:</string>
+           <item row="0" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
+             <property name="topMargin">
+              <number>0</number>
              </property>
-            </widget>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QCheckBox" name="kcfg_xplanetIsInternal">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="textLabelXplanetPath">
+               <property name="text">
+                <string>Xplanet path:</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="kcfg_XplanetTitle">
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="kcfg_XplanetPath">
              <property name="sizePolicy">
               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -47,10 +64,10 @@
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>Title of xplanet window</string>
+              <string>Xplanet binary path</string>
              </property>
              <property name="whatsThis">
-              <string>Set the window’s title.</string>
+              <string>Enter here the path of xplanet binary.</string>
              </property>
             </widget>
            </item>
@@ -84,7 +101,7 @@
                 <string>Set the width of window</string>
                </property>
                <property name="whatsThis">
-                <string>Set the width of window</string>
+                <string>Set the width of the xplanet image</string>
                </property>
               </widget>
              </item>
@@ -110,7 +127,7 @@
                 <string>Set the height of window</string>
                </property>
                <property name="whatsThis">
-                <string>Set the height of window</string>
+                <string>Set the height of the xplanet image</string>
                </property>
               </widget>
              </item>
@@ -136,45 +153,33 @@
              </item>
             </layout>
            </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="kcfg_XplanetPath">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="kcfg_XplanetTimeout">
              <property name="toolTip">
-              <string>Xplanet binary path</string>
-             </property>
-             <property name="whatsThis">
-              <string>Enter here the path of xplanet binary.</string>
+              <string>The time KStars will wait for XPlanet to complete before giving up.</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_12">
-             <property name="topMargin">
-              <number>0</number>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>XPlanet Timeout</string>
              </property>
-             <property name="rightMargin">
-              <number>0</number>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Animation Delay</string>
              </property>
-             <item>
-              <widget class="QCheckBox" name="kcfg_xplanetIsInternal">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="textLabelXplanetPath">
-               <property name="text">
-                <string>Xplanet path:</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="kcfg_XplanetAnimationDelay">
+             <property name="toolTip">
+              <string>The delay between frames for the animation</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -202,7 +207,7 @@
            <property name="labelAlignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QCheckBox" name="kcfg_XplanetFOV">
              <property name="toolTip">
               <string>Use kstars's FOV?</string>
@@ -215,51 +220,17 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QCheckBox" name="kcfg_XplanetWait">
-             <property name="toolTip">
-              <string>Update?</string>
-             </property>
-             <property name="whatsThis">
-              <string>If checked, update view.</string>
-             </property>
-             <property name="text">
-              <string>Update every</string>
-             </property>
-            </widget>
+           <item row="4" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_3"/>
            </item>
-           <item row="2" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QSpinBox" name="kcfg_XplanetWaitValue">
-               <property name="toolTip">
-                <string>Number of seconds to wait before updating</string>
-               </property>
-               <property name="whatsThis">
-                <string>Number of seconds to wait before updating</string>
-               </property>
-               <property name="maximum">
-                <number>99999</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="textLabelXplanetSecondes">
-               <property name="text">
-                <string>seconds</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="3" column="0">
+           <item row="6" column="0">
             <widget class="QLabel" name="textLabelXplanetGlare">
              <property name="text">
               <string>Glare of Sun:</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="6" column="1">
             <widget class="QSpinBox" name="kcfg_XplanetGlare">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -275,14 +246,14 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
+           <item row="7" column="0">
             <widget class="QLabel" name="textLabelXplanetMagnitude">
              <property name="text">
               <string>Base magnitude:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
+           <item row="7" column="1">
             <widget class="QSpinBox" name="kcfg_XplanetMagnitude">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -298,7 +269,7 @@
              </property>
             </widget>
            </item>
-           <item row="6" column="0">
+           <item row="9" column="0">
             <widget class="QCheckBox" name="kcfg_XplanetStarmap">
              <property name="toolTip">
               <string>Use custom star map?</string>
@@ -311,7 +282,7 @@
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
+           <item row="9" column="1">
             <widget class="QLineEdit" name="kcfg_XplanetStarmapPath">
              <property name="sizePolicy">
               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -327,7 +298,7 @@
              </property>
             </widget>
            </item>
-           <item row="7" column="1">
+           <item row="10" column="1">
             <widget class="QLineEdit" name="kcfg_XplanetArcFilePath">
              <property name="sizePolicy">
               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -343,7 +314,7 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
+           <item row="8" column="1">
             <widget class="QLineEdit" name="kcfg_XplanetConfigFilePath">
              <property name="sizePolicy">
               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -359,17 +330,37 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="0">
+           <item row="8" column="0">
             <widget class="QCheckBox" name="kcfg_XplanetConfigFile">
              <property name="text">
               <string>Config file:</string>
              </property>
             </widget>
            </item>
-           <item row="7" column="0">
+           <item row="10" column="0">
             <widget class="QCheckBox" name="kcfg_XplanetArcFile">
              <property name="text">
               <string>Arc file:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="kcfg_XplanetUseFIFO">
+             <property name="toolTip">
+              <string>Use kstars's FOV?</string>
+             </property>
+             <property name="whatsThis">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked, XPlanet will use a FIFO file in the /tmp directory to temporarily save the XPlanet image for KStars to load them and update the view.  If not checked, XPlanet will actually save the files to the XPlanet folder in the KStars data directory.  Using a FIFO file should save the hard disk from excessive reads/writes and may offer a performance enhancement.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>Use FIFO File</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>(saves to memory instead of a hard disk)</string>
              </property>
             </widget>
            </item>
@@ -433,6 +424,26 @@
             </spacer>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>XPlanet Requires Maps in order to function properly.  It does not ship with a lot of planetary maps.  You need to download some in order to get the full benefits of XPlanet.  This is a good place to start: &lt;a href =http://xplanet.sourceforge.net/maps.php&gt;http://xplanet.sourceforge.net/maps.php&lt;/a&gt; </string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+           <property name="openExternalLinks">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="openXPlanetMaps">
+           <property name="text">
+            <string>XPlanet Planet Maps</string>
+           </property>
+          </widget>
          </item>
          <item>
           <spacer name="verticalSpacer_2">
@@ -1012,12 +1023,9 @@
  <tabstops>
   <tabstop>tab</tabstop>
   <tabstop>kcfg_XplanetPath</tabstop>
-  <tabstop>kcfg_XplanetTitle</tabstop>
   <tabstop>kcfg_XplanetWidth</tabstop>
   <tabstop>kcfg_XplanetHeight</tabstop>
   <tabstop>kcfg_XplanetFOV</tabstop>
-  <tabstop>kcfg_XplanetWait</tabstop>
-  <tabstop>kcfg_XplanetWaitValue</tabstop>
   <tabstop>kcfg_XplanetGlare</tabstop>
   <tabstop>kcfg_XplanetMagnitude</tabstop>
   <tabstop>kcfg_XplanetConfigFile</tabstop>

@@ -414,6 +414,9 @@ void KStars::initActions()
         << i18n("What's Interesting...") << QKeySequence(Qt::CTRL + Qt::Key_W);
     //#endif
 
+    actionCollection()->addAction("XPlanet", map(), SLOT(slotStartXplanetViewer()))
+        << i18n("XPlanet Solar System Simulator") << QKeySequence(Qt::CTRL + Qt::Key_X);
+
     actionCollection()->addAction("skycalendar", this, SLOT(slotCalendar())) << i18n("Sky Calendar");
 
 #ifdef HAVE_INDI
