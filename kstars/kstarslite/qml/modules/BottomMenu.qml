@@ -13,8 +13,9 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Controls.Universal 2.0
-
 import QtQuick.Window 2.2
+
+import TelescopeLiteEnums 1.0
 import "../constants" 1.0
 import "helpers"
 
@@ -22,6 +23,9 @@ ColumnLayout {
     id: bottomMenu
     objectName: "bottomMenu"
     property int padding: 10
+    property bool telescope: false
+    property int slewCount: 1
+    property alias sliderValue: slider.value
 
     property double openOffset: bottomMenu.height - bottomBar.background.radius //Hide bottom round corners
     property double closedOffset: arrowUp.height + padding
@@ -126,6 +130,40 @@ ColumnLayout {
         }
     }
 
+    RowLayout {
+        anchors {
+            bottom: bottomBar.top
+            horizontalCenter: parent.horizontalCenter
+        }
+        visible: bottomMenu.telescope
+
+        Slider {
+            id: slider
+            value: 0
+            stepSize: 1
+            from: 1
+            to: bottomMenu.slewCount-1
+            wheelEnabled: false
+            snapMode: Slider.SnapOnRelease
+
+            onValueChanged: {
+                slewLabel.text = ClientManagerLite.getTelescope().getSlewRateLabels()[slider.value]
+            }
+
+            onPressedChanged: {
+                if (slider.pressed) return
+
+                ClientManagerLite.getTelescope().setSlewRate(slider.value)
+            }
+        }
+
+        KSLabel {
+            id: slewLabel
+            width: 100
+            text: ""
+        }
+    }
+
     Pane {
         id: bottomBar
         anchors.horizontalCenter: parent.horizontalCenter
@@ -163,6 +201,30 @@ ColumnLayout {
                 anchors {
                     left: parent.left
                     right: parent.right
+                }
+
+                BottomMenuButton {
+                    id: telescopeLeft
+                    iconSrc: "../../images/telescope-left.png"
+                    visible: bottomMenu.telescope
+                    onPressed: {
+                        ClientManagerLite.getTelescope().moveWE(TelescopeNS.MOTION_WEST, TelescopeCommand.MOTION_START)
+                    }
+                    onClicked: {
+                        ClientManagerLite.getTelescope().moveWE(TelescopeNS.MOTION_WEST, TelescopeCommand.MOTION_STOP)
+                    }
+                }
+
+                BottomMenuButton {
+                    id: telescopeDown1
+                    iconSrc: "../../images/telescope-down.png"
+                    visible: bottomMenu.telescope && menuGrid.rows == 1
+                    onPressed: {
+                        ClientManagerLite.getTelescope().moveNS(TelescopeNS.MOTION_SOUTH, TelescopeCommand.MOTION_START)
+                    }
+                    onClicked: {
+                        ClientManagerLite.getTelescope().moveNS(TelescopeNS.MOTION_SOUTH, TelescopeCommand.MOTION_STOP)
+                    }
                 }
 
                 BottomMenuButton {
@@ -223,31 +285,44 @@ ColumnLayout {
 
                 RowLayout {
                     anchors.right: parent.right
-                BottomMenuButton {
-                    onClicked: {
-                        stackView.push(timePage)
+
+                    BottomMenuButton {
+                        onClicked: {
+                            stackView.push(timePage)
+                        }
+                        visible: isWindowWidthSmall
+
+                        iconSrc: "../../images/appointment-new.png"
                     }
-                    visible: isWindowWidthSmall
 
-                    iconSrc: "../../images/appointment-new.png"
-                }
-
-                Rectangle {
-                    id: separatorSearchSmall
-                    height: decreaseUnitLandscape.height*0.75
-                    color: Num.sysPalette.shadow
-                    width: 1
-                    visible: isWindowWidthSmall
-                }
-
-                BottomMenuButton {
-                    onClicked: {
-                        stackView.push(findDialog)
+                    Rectangle {
+                        id: separatorSearchSmall
+                        height: decreaseUnitLandscape.height*0.75
+                        color: Num.sysPalette.shadow
+                        width: 1
+                        visible: isWindowWidthSmall
                     }
-                    visible: isWindowWidthSmall
 
-                    iconSrc: "../../images/edit-find.png"
-                }
+                    BottomMenuButton {
+                        onClicked: {
+                            stackView.push(findDialog)
+                        }
+                        visible: isWindowWidthSmall
+
+                        iconSrc: "../../images/edit-find.png"
+                    }
+
+                    BottomMenuButton {
+                        id: telescopeRight1
+                        iconSrc: "../../images/telescope-right.png"
+                        visible: bottomMenu.telescope && menuGrid.rows == 2
+                        onPressed: {
+                            ClientManagerLite.getTelescope().moveWE(TelescopeNS.MOTION_EAST, TelescopeCommand.MOTION_START)
+                        }
+                        onClicked: {
+                            ClientManagerLite.getTelescope().moveWE(TelescopeNS.MOTION_EAST, TelescopeCommand.MOTION_STOP)
+                        }
+                    }
                 }
             }
 
@@ -255,6 +330,18 @@ ColumnLayout {
                 id: secondRow
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+
+                BottomMenuButton {
+                    id: telescopeDown2
+                    iconSrc: "../../images/telescope-down.png"
+                    visible: bottomMenu.telescope && menuGrid.rows == 2
+                    onPressed: {
+                        ClientManagerLite.getTelescope().moveNS(TelescopeNS.MOTION_SOUTH, TelescopeCommand.MOTION_START)
+                    }
+                    onClicked: {
+                        ClientManagerLite.getTelescope().moveNS(TelescopeNS.MOTION_SOUTH, TelescopeCommand.MOTION_STOP)
+                    }
+                }
 
                 BottomMenuButton {
                     onClicked: {
@@ -320,6 +407,30 @@ ColumnLayout {
                     visible: !isWindowWidthSmall
 
                     iconSrc: "../../images/edit-find.png"
+                }
+
+                BottomMenuButton {
+                    id: telescopeUp
+                    iconSrc: "../../images/telescope-up.png"
+                    visible: bottomMenu.telescope
+                    onPressed: {
+                        ClientManagerLite.getTelescope().moveNS(TelescopeNS.MOTION_NORTH, TelescopeCommand.MOTION_START)
+                    }
+                    onClicked: {
+                        ClientManagerLite.getTelescope().moveNS(TelescopeNS.MOTION_NORTH, TelescopeCommand.MOTION_STOP)
+                    }
+                }
+
+                BottomMenuButton {
+                    id: telescopeRight2
+                    iconSrc: "../../images/telescope-right.png"
+                    visible: bottomMenu.telescope && menuGrid.rows == 1
+                    onPressed: {
+                        ClientManagerLite.getTelescope().moveWE(TelescopeNS.MOTION_EAST, TelescopeCommand.MOTION_START)
+                    }
+                    onClicked: {
+                        ClientManagerLite.getTelescope().moveWE(TelescopeNS.MOTION_EAST, TelescopeCommand.MOTION_STOP)
+                    }
                 }
             }
         }

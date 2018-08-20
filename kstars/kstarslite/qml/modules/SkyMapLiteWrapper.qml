@@ -10,12 +10,15 @@
 
 import QtQuick 2.6
 import QtQuick.Controls 2.0
+
 import "../constants" 1.0
+import "helpers"
 import "tutorial"
 
 Item {
     id: skyMapLiteItem
     visible: isLoaded
+    property alias notification: notification
 
     Rectangle {
         id: skyMapLiteWrapper
@@ -147,6 +150,24 @@ Item {
     TutorialStep3 {
         anchors {
             top: topMenu.bottom
+        }
+    }
+
+    PassiveNotification {
+        z: 2
+        height: 10
+        id: notification
+        visible: true
+            anchors {
+                bottom: bottomMenu.top
+            horizontalCenter: parent.horizontalCenter
+            }
+
+        Connections {
+            target: KStarsLite
+            onNotificationMessage: {
+                skyMapLite.notification.showNotification(msg)
+            }
         }
     }
 

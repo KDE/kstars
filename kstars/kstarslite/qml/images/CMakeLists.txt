@@ -155,5 +155,13 @@ install( FILES
          lock-open.png
          lock-open@2x.png
          lock-open@3x.png
-         lock-open@4x.png         
+         lock-open@4x.png
+         telescope-down.png
+         telescope-down@2x.png
+         telescope-up.png
+         telescope-up@2x.png
+         telescope-left.png
+         telescope-left@2x.png
+         telescope-right.png
+         telescope-right@2x.png
          DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/images )

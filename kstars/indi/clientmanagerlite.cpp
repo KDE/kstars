@@ -46,7 +46,7 @@ const char *libindi_strings_context = "string from libindi, used in the config d
 #include "libraw/libraw.h"
 #endif
 
-DeviceInfoLite::DeviceInfoLite(INDI::BaseDevice *dev) : device(dev), telescope(nullptr)
+DeviceInfoLite::DeviceInfoLite(INDI::BaseDevice *dev) : device(dev)
 {
 }
 
@@ -284,11 +284,11 @@ void ClientManagerLite::webManagerReplyFinished()
     }
 }
 
-TelescopeLite *ClientManagerLite::getTelescope(const QString &deviceName)
+TelescopeLite *ClientManagerLite::getTelescope()
 {
     for (auto& devInfo : m_devices)
     {
-        if (devInfo->device->getDeviceName() == deviceName)
+        if (devInfo->telescope.get())
         {
             return devInfo->telescope.get();
         }
@@ -906,6 +906,13 @@ void ClientManagerLite::newProperty(INDI::Property *property)
         {
             devInfo->telescope.reset(new TelescopeLite(devInfo->device));
             emit telescopeAdded(devInfo->telescope.get());
+            // The connected signal must be emitted for already connected scopes otherwise
+            // the motion control page remains disabled.
+            if (devInfo->telescope->isConnected())
+            {
+                emit deviceConnected(devInfo->telescope->getDeviceName(), true);
+                emit telescopeConnected(devInfo->telescope.get());
+            }
         }
     }
 
@@ -1149,6 +1156,15 @@ void ClientManagerLite::newSwitch(ISwitchVectorProperty *svp)
         if (QString(sw->name) == QString("CONNECT"))
         {
             emit deviceConnected(svp->device, sw->s == ISS_ON);
+            if (m_telescope->getDeviceName() == svp->device)
+            {
+                if (sw->s == ISS_ON)
+                {
+                    emit telescopeConnected(m_telescope);
+                } else {
+                    emit telescopeDisconnected();
+                }
+            }
         }
         if (sw != nullptr)
         {

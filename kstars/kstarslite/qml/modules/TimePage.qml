@@ -546,7 +546,7 @@ KSPage {
                     onClicked: {
                         var date = new Date(userYear, userMonth, userDay, userHour, userMinutes)
                         KStarsLite.slotSetTime(date)
-                        notification.showNotification("Setting time to " + date)
+                        skyMapLite.notification.showNotification("Setting time to " + date)
                         stackView.pop()
                     }
                 }
@@ -561,7 +561,7 @@ KSPage {
                         onClicked: {
                             var date = new Date(userYear, userMonth, userDay, userHour, userMinutes)
                             KStarsLite.slotSetTime(date)
-                            notification.showNotification("Setting time to " + date)
+                            skyMapLite.notification.showNotification("Setting time to " + date)
                             stackView.pop()
                         }
                     }

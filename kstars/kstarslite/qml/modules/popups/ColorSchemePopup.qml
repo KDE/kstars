@@ -84,7 +84,7 @@ Popup {
             var item = colorsModel.get(colorsList.currentIndex)
 
             KStarsLite.loadColorScheme(formatColorScheme(item.scheme));
-            notification.showNotification("Set color scheme to " + item.name)
+            skyMapLite.notification.showNotification("Set color scheme to " + item.name)
 
             colorSchemeChanged()
             close()

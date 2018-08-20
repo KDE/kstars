@@ -57,7 +57,7 @@ Popup {
         onClicked: {
             var item = projModel.get(projList.currentIndex)
             KStarsLite.setProjection(item.proj)
-            notification.showNotification("Set projection system to "
+            skyMapLite.notification.showNotification("Set projection system to "
                                           + item.name)
             close()
         }
