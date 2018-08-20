@@ -68,7 +68,7 @@ class TelescopeLite : public QObject
     INDI::BaseDevice *getDevice() { return baseDevice; }
     //deviceName
     QString getDeviceName() { return m_deviceName; }
-    void setDeviceName(QString deviceName);
+    void setDeviceName(const QString &deviceName);
 
     bool isSlewDecreasable() { return m_slewDecreasable; }
     bool isSlewIncreasable() { return m_slewIncreasable; }
@@ -78,7 +78,7 @@ class TelescopeLite : public QObject
     void setSlewDecreasable(bool slewDecreasable);
     void setSlewIncreasable(bool slewIncreasable);
 
-    void setSlewRateLabel(QString slewRateLabel);
+    void setSlewRateLabel(const QString &slewRateLabel);
 
     Q_INVOKABLE bool decreaseSlewRate();
     Q_INVOKABLE bool increaseSlewRate();
@@ -103,6 +103,7 @@ class TelescopeLite : public QObject
     bool getEqCoords(double *ra, double *dec);
     void setAltLimits(double minAltitude, double maxAltitude);
     Q_INVOKABLE bool isConnected() { return baseDevice->isConnected(); }
+    Q_INVOKABLE QStringList getSlewRateLabels() { return m_slewRateLabels; };
 
   protected:
     bool sendCoords(SkyPoint *ScopeTarget);
@@ -112,7 +113,7 @@ class TelescopeLite : public QObject
     bool park();
     bool unPark();
     bool setSlewRate(int index);
-    void updateSlewRate(QString deviceName, QString propName);
+    void updateSlewRate(const QString &deviceName, const QString &propName);
 
   signals:
     void slewDecreasableChanged(bool);
@@ -120,6 +121,7 @@ class TelescopeLite : public QObject
     void slewRateLabelChanged(QString);
     void deviceNameChanged(QString);
     void newTelescopeLiteCreated(TelescopeLite *);
+    void slewRateUpdate(int index, int count);
 
   private:
     SkyPoint currentCoord;
@@ -133,4 +135,5 @@ class TelescopeLite : public QObject
     bool m_slewDecreasable { false };
     bool m_slewIncreasable { false };
     QString m_slewRateLabel;
+    QStringList m_slewRateLabels;
 };

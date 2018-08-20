@@ -25,6 +25,7 @@
 #include "skymaplite.h"
 #include "version.h"
 #include "indi/clientmanagerlite.h"
+#include "indi/inditelescopelite.h"
 #include "kstarslite/imageprovider.h"
 #include "kstarslite/dialogs/finddialoglite.h"
 #include "kstarslite/dialogs/detaildialoglite.h"
@@ -103,6 +104,19 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
 
     m_RootObject = m_Engine.rootObjects()[0];
     m_clientManager->setIndiControlPage(*m_RootObject->findChild<QObject*>("indiControlPanel"));
+    connect(m_clientManager, &ClientManagerLite::telescopeConnected,
+            [=](TelescopeLite *telescope) {
+                m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("telescope", true);
+                connect(telescope, &TelescopeLite::slewRateUpdate,
+                        [=](int index, int count) {
+                            m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("slewCount", count);
+                            m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("sliderValue", index);
+                        } );
+            } );
+    connect(m_clientManager, &ClientManagerLite::telescopeDisconnected,
+            [=]() {
+                m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("telescope", false);
+            } );
 
     // Set the About information
     QObject *aboutDialog = m_RootObject->findChild<QObject*>("aboutDialog");

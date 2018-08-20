@@ -95,7 +95,7 @@ KSPage {
                 text: editMode ? xi18n("Save") : xi18n("Add")
                 onClicked: {
                     if(descField.text == "" || urlField.text == "") {
-                        notification.showNotification(xi18n("Please, fill in URL and Description"))
+                        skyMapLite.notification.showNotification(xi18n("Please, fill in URL and Description"))
                         return
                     }
 

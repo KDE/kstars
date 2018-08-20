@@ -27,20 +27,16 @@ ColumnLayout {
     enabled: buttonsEnabled
 
     property string deviceName
-    property var telescope: ClientManagerLite.getTelescope(deviceName)
-    property bool buttonsEnabled: telescope.isConnected()
+    property var telescope: ClientManagerLite.getTelescope()
+    property bool buttonsEnabled: ClientManagerLite.getTelescope().isConnected()
 
     Connections {
         target: ClientManagerLite
         onDeviceConnected: {
-            if(motionCColumn.deviceName == deviceName) {
-                buttonsEnabled = isConnected
-            }
+            buttonsEnabled = ClientManagerLite.getTelescope().isConnected()
         }
         onTelescopeAdded: {
-            if(newTelescope.getDeviceName() === motionCColumn.deviceName) {
-                telescope = newTelescope
-            }
+            telescope = newTelescope
         }
     }
 

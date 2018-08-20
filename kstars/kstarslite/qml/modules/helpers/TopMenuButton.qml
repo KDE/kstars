@@ -32,15 +32,15 @@ AbstractButton {
         if(isLoaded) { //Disable while loading
             if(toggled) {
                 if(titlePlural) {
-                    notification.showNotification(xi18n("%1 are toggled on", title))
+                    skyMapLite.notification.showNotification(xi18n("%1 are toggled on", title))
                 } else {
-                    notification.showNotification(xi18n("%1 is toggled on", title))
+                    skyMapLite.notification.showNotification(xi18n("%1 is toggled on", title))
                 }
             } else {
                 if(titlePlural) {
-                    notification.showNotification(xi18n("%1 are toggled off", title))
+                    skyMapLite.notification.showNotification(xi18n("%1 are toggled off", title))
                 } else {
-                    notification.showNotification(xi18n("%1 is toggled off", title))
+                    skyMapLite.notification.showNotification(xi18n("%1 is toggled off", title))
                 }
             }
         }

@@ -118,18 +118,6 @@ ApplicationWindow {
         initialItem: initPage
     }
 
-    PassiveNotification {
-        z: 2
-        id: notification
-
-        Connections {
-            target: KStarsLite
-            onNotificationMessage: {
-                notification.showNotification(msg)
-            }
-        }
-    }
-
     Units {
         id: units
     }

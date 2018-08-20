@@ -27,7 +27,7 @@ TelescopeLite::TelescopeLite(INDI::BaseDevice *device)
     connect(clientManager, &ClientManagerLite::newINDISwitch, this, &TelescopeLite::updateSlewRate);
 }
 
-void TelescopeLite::updateSlewRate(QString deviceName, QString propName)
+void TelescopeLite::updateSlewRate(const QString &deviceName, const QString &propName)
 {
     if (deviceName == baseDevice->getDeviceName() && propName == "TELESCOPE_SLEW_RATE")
     {
@@ -41,6 +41,12 @@ void TelescopeLite::updateSlewRate(QString deviceName, QString propName)
                 break;
             }
         }
+        m_slewRateLabels.clear();
+        for (int i = 0; i < slewRateSP->nsp; ++i)
+        {
+            m_slewRateLabels.push_back(slewRateSP->sp[i].label);
+        }
+        emit slewRateUpdate(index, m_slewRateLabels.size());
         setSlewRate(index);
     }
 }
@@ -67,7 +73,7 @@ void TelescopeLite::setSlewIncreasable(bool slewIncreasable)
     }
 }
 
-void TelescopeLite::setSlewRateLabel(QString slewRateLabel)
+void TelescopeLite::setSlewRateLabel(const QString &slewRateLabel)
 {
     if (m_slewRateLabel != slewRateLabel)
     {
@@ -76,7 +82,7 @@ void TelescopeLite::setSlewRateLabel(QString slewRateLabel)
     }
 }
 
-void TelescopeLite::setDeviceName(QString deviceName)
+void TelescopeLite::setDeviceName(const QString &deviceName)
 {
     if (m_deviceName != deviceName)
     {
@@ -552,6 +558,14 @@ bool TelescopeLite::moveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd)
             motionSouth->s = ISS_ON;
     }
 
+    if (cmd == MOTION_STOP)
+    {
+        if (dir == MOTION_NORTH)
+            motionNorth->s = ISS_OFF;
+        else
+            motionSouth->s = ISS_OFF;
+    }
+
     clientManager->sendNewSwitch(motionSP);
 
     return true;
@@ -585,6 +599,14 @@ bool TelescopeLite::moveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd)
             motionWest->s = ISS_ON;
         else
             motionEast->s = ISS_ON;
+    }
+
+    if (cmd == MOTION_STOP)
+    {
+        if (dir == MOTION_WEST)
+            motionWest->s = ISS_OFF;
+        else
+            motionEast->s = ISS_OFF;
     }
 
     clientManager->sendNewSwitch(motionSP);

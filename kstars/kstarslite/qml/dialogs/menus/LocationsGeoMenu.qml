@@ -65,9 +65,9 @@ Menu {
         text: xi18n("Set as my location")
         onTriggered: {
             if(LocationDialogLite.setLocation(locName)) {
-                notification.showNotification(xi18n("Set %1 as the current location", locName))
+                skyMapLite.notification.showNotification(xi18n("Set %1 as the current location", locName))
             } else {
-                notification.showNotification(xi18n("Could not set as the current location", locName))
+                skyMapLite.notification.showNotification(xi18n("Could not set as the current location", locName))
             }
             locationDialog.filterCities()
         }
@@ -89,7 +89,7 @@ Menu {
         text: xi18n("Delete")
         onTriggered: {
             LocationDialogLite.deleteCity(locName)
-            notification.showNotification(xi18n("Deleted location %1", locName))
+            skyMapLite.notification.showNotification(xi18n("Deleted location %1", locName))
             locationDialog.filterCities()
         }
     }

@@ -45,7 +45,7 @@ KSPage {
                 stackView.pop(indiPage)
             }
             devicesModel.clear()
-            notification.showNotification("Disconnected from the server")
+            skyMapLite.notification.showNotification("Disconnected from the server")
         }
     }
 
@@ -220,9 +220,9 @@ KSPage {
                     onClicked: {
                         if (!indiPage.connected) {
                             if(ClientManagerLite.setHost(ipHost.text, parseInt(portHost.text))) {
-                                notification.showNotification(xi18n("Successfully connected to the server"))
+                                skyMapLite.notification.showNotification(xi18n("Successfully connected to the server"))
                             } else {
-                                notification.showNotification(xi18n("Could not connect to the server"))
+                                skyMapLite.notification.showNotification(xi18n("Could not connect to the server"))
                             }
                         } else {
 
@@ -260,7 +260,7 @@ KSPage {
 
             ListModel {
                 id: devicesModel
-            }            
+            }
 
             Connections {
                 target: ClientManagerLite
@@ -279,7 +279,7 @@ KSPage {
                     }
                 }
                 onNewINDIMessage: {
-                    notification.showNotification(message)
+                    skyMapLite.notification.showNotification(message)
                 }
             }
         }
