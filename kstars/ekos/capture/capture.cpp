@@ -2316,7 +2316,7 @@ void Capture::prepareJob(SequenceJob *job)
         // When the third job starts, Scheduler now has 40 images, but still requires 20 more, thus again sets the frames map counters to 0 for all LRGB frames.
         // 
         // Now let's consider something went wrong, and the third job was aborted before getting to 60 images, say we have full LRG, but only 1xB.
-        // When Scheduler attempts to run the aborted job again, it will count captures in storage, substract previous job requirements, and set the frames map counters to 0 for LRG, and 4 for B.
+        // When Scheduler attempts to run the aborted job again, it will count captures in storage, subtract previous job requirements, and set the frames map counters to 0 for LRG, and 4 for B.
         // When the sequence runs, the procedure will bypass LRG and proceed to capture 4xB.
         if (capturedFramesMap.contains(signature))
         {

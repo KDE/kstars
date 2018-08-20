@@ -638,7 +638,7 @@ void Scheduler::saveJob()
                                        job->getName(), currentRow, a_job_row, job->getRepeatsRequired()));
 
                 if (a_job->getStartupTime() == a_job->getStartupTime() && a_job->getPriority() == job->getPriority())
-                    appendLogText(i18n("Warning: job '%1' at row %2 and %3 might require a specific startup time or a different priority, "
+                    appendLogText(i18n("Warning: job '%1' at row %2 might require a specific startup time or a different priority, "
                                        "as currently they will start in order of insertion in the table",
                                        job->getName(), currentRow));
             }
