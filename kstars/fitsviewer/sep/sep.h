@@ -170,7 +170,7 @@ float sep_bkg_pix(sep_bkg *bkg, int x, int y);
 /* sep_bkg_[sub,rms]line()
  * 
  * Evaluate the background or RMS at line `y`.
- * Uses bicubic spline interpolation between background map verticies.
+ * Uses bicubic spline interpolation between background map vertices.
  * The second function subtracts the background from the input array.
  * Line must be an array with same width as original image.
  */
@@ -182,7 +182,7 @@ int sep_bkg_rmsline(sep_bkg *bkg, int y, void *line, int dtype);
 /* sep_bkg_[sub,rms]array()
  * 
  * Evaluate the background or RMS for entire image.
- * Uses bicubic spline interpolation between background map verticies.
+ * Uses bicubic spline interpolation between background map vertices.
  * The second function subtracts the background from the input array.
  * `arr` must be an array of the same size as original image.
  */

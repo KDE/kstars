@@ -21,7 +21,7 @@ static double area_arc(double x1, double y1, double x2, double y2,
   return 0.5 * r * r * (theta - sin(theta));
 }
 
-/* Area of a triangle defined by three verticies */
+/* Area of a triangle defined by three vertices */
 static double area_triangle(double x1, double y1, double x2, double y2,
 				   double x3, double y3)
 {
