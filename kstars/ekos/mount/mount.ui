@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>496</width>
-    <height>317</height>
+    <width>498</width>
+    <height>319</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -480,7 +480,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="media-playback-start"/>
+             <iconset theme="media-playback-start">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -508,7 +509,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="media-playback-stop"/>
+             <iconset theme="media-playback-stop">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -551,6 +553,12 @@
          </property>
          <property name="shortcut">
           <string>Ctrl+S</string>
+         </property>
+         <property name="autoDefault">
+          <bool>true</bool>
+         </property>
+         <property name="default">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

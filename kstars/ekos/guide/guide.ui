@@ -153,6 +153,12 @@
             <property name="text">
              <string>Guide</string>
             </property>
+            <property name="autoDefault">
+             <bool>true</bool>
+            </property>
+            <property name="default">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="3" column="0" colspan="2">
@@ -189,7 +195,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="speaker"/>
+             <iconset theme="speaker">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1590,15 +1597,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>NonLinearDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>auxiliary/nonlineardoublespinbox.h</header>
+  </customwidget>
+  <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header>auxiliary/qcustomplot.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>NonLinearDoubleSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>auxiliary/nonlineardoublespinbox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

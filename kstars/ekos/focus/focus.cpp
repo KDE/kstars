@@ -255,6 +255,12 @@ Focus::Focus()
             focusView->setTrackingBox(QRect());
         }
     });
+
+    //Note:  This is to prevent a button from being called the default button
+    //and then executing when the user hits the enter key such as when on a Text Box
+    QList<QPushButton *> qButtons = findChildren<QPushButton *>();
+    for (auto &button : qButtons)
+        button->setAutoDefault(false);
 }
 
 Focus::~Focus()
