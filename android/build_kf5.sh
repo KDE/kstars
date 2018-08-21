@@ -44,7 +44,7 @@ rm -rf ${kf5_android_path}/kde/build/${android_architecture}/* # clean build fol
 # Build ki18n first to get the sources, it needs to be patched
 ./kdesrc-build libintl-lite ki18n
 sed -i -- 's/check_cxx_source_compiles/#check_cxx_source_compiles/g' kde/src/frameworks/ki18n/cmake/FindLibIntl.cmake
-sed -i -- 's/target_link_libraries(ktranscript PRIVATE Qt5::Script Qt5::Core)/target_link_libraries(ktranscript PRIVATE Qt5::Script Qt5::Core -l:libc.a -Wl,--exclude-libs=ALL)/g' $CURDIR/kf5/kde/src/frameworks/ki18n/src/CMakeLists.txt
+sed -i -- 's/target_link_libraries(ktranscript PRIVATE Qt5::Qml Qt5::Core)/target_link_libraries(ktranscript PRIVATE Qt5::Qml Qt5::Core -l:libc.a -Wl,--exclude-libs=ALL)/g' $CURDIR/kf5/kde/src/frameworks/ki18n/src/CMakeLists.txt
 ./kdesrc-build libintl-lite extra-cmake-modules frameworks-android
 
 # Fix some config files
