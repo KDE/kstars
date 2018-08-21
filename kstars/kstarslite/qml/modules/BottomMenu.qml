@@ -139,6 +139,22 @@ ColumnLayout {
 
         Slider {
             id: slider
+            background: Rectangle {
+                    y: 11
+                    implicitWidth: 200
+                    implicitHeight: 4
+                    width: control.availableWidth
+                    height: implicitHeight
+                    radius: 2
+                    color: "#bdbebf"
+
+                    Rectangle {
+                        width: control.visualPosition * parent.width
+                        height: parent.height
+                        color: "#21be2b"
+                        radius: 2
+                    }
+                }
             value: 0
             stepSize: 1
             from: 1
@@ -157,8 +173,9 @@ ColumnLayout {
             }
         }
 
-        KSLabel {
+        Label {
             id: slewLabel
+            color: "#d0d0d0"
             width: 100
             text: ""
         }
