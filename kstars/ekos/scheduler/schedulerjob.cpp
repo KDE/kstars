@@ -317,7 +317,7 @@ void SchedulerJob::setTargetCoords(dms& ra, dms& dec)
     targetCoords.setRA0(ra);
     targetCoords.setDec0(dec);
 
-    targetCoords.updateCoordsNow(KStarsData::Instance()->updateNum());
+    targetCoords.apparentCoord(static_cast<long double>(J2000), KStarsData::Instance()->ut().djd());
 }
 
 void SchedulerJob::updateJobCell()

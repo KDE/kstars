@@ -3992,8 +3992,6 @@ void Scheduler::startSlew()
         mountInterface->call(QDBus::AutoDetect, "resetModel");
 
     SkyPoint target = currentJob->getTargetCoords();
-    //target.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
-
     QList<QVariant> telescopeSlew;
     telescopeSlew.append(target.ra().Hours());
     telescopeSlew.append(target.dec().Degrees());
