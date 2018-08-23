@@ -1106,6 +1106,7 @@ void Scheduler::stop()
     setCurrentJob(nullptr);
     captureBatch            = 0;
     indiConnectFailureCount = 0;
+    ekosConnectFailureCount = 0;
     focusFailureCount       = 0;
     guideFailureCount       = 0;
     alignFailureCount       = 0;
@@ -2056,11 +2057,10 @@ void Scheduler::checkWeather()
             appendLogText(i18n("Starting shutdown procedure due to severe weather."));
             if (currentJob)
             {
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
                 stopCurrentJobAction();
                 stopGuiding();
                 jobTimer.stop();
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                currentJob->setStage(SchedulerJob::STAGE_IDLE);
             }
             checkShutdownState();
             //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), &Scheduler::Qt::UniqueConnection);
@@ -2368,6 +2368,13 @@ bool Scheduler::checkEkosState()
             }
             else if (isEkosStarted.value() == EkosManager::EKOS_STATUS_ERROR)
             {
+                if (ekosConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                {
+                    appendLogText(i18n("Ekos failed to connect. Retrying..."));
+                    ekosInterface->call(QDBus::AutoDetect, "start");
+                    return false;
+                }
+
                 appendLogText(i18n("Ekos failed to start."));
                 stop();
                 return false;
@@ -2375,6 +2382,13 @@ bool Scheduler::checkEkosState()
             // If a minute passed, give up
             else if (currentOperationTime.elapsed() > (60 * 1000))
             {
+                if (ekosConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                {
+                    appendLogText(i18n("Ekos failed to connect. Retrying..."));
+                    ekosInterface->call(QDBus::AutoDetect, "start");
+                    return false;
+                }
+
                 appendLogText(i18n("Ekos timed out."));
                 stop();
                 return false;
@@ -2699,23 +2713,29 @@ bool Scheduler::checkShutdownState()
                 captureInterface->call(QDBus::AutoDetect, "setCoolerControl", arg);
             }
 
-            if (capCheck->isEnabled() && capCheck->isChecked())
+            // The following steps require a connection to the INDI server
+            if (indiState == INDI_READY)
             {
-                shutdownState = SHUTDOWN_PARK_CAP;
-                return false;
-            }
+                if (capCheck->isEnabled() && capCheck->isChecked())
+                {
+                    shutdownState = SHUTDOWN_PARK_CAP;
+                    return false;
+                }
 
-            if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
-            {
-                shutdownState = SHUTDOWN_PARK_MOUNT;
-                return false;
-            }
+                if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
+                {
+                    shutdownState = SHUTDOWN_PARK_MOUNT;
+                    return false;
+                }
 
-            if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
-            {
-                shutdownState = SHUTDOWN_PARK_DOME;
-                return false;
+                if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
+                {
+                    shutdownState = SHUTDOWN_PARK_DOME;
+                    return false;
+                }
             }
+            else appendLogText(i18n("Warning: Bypassing parking procedures, no INDI connection."));
+
             if (shutdownScriptURL.isEmpty() == false)
             {
                 shutdownState = SHUTDOWN_SCRIPT;
@@ -2727,7 +2747,12 @@ bool Scheduler::checkShutdownState()
             break;
 
         case SHUTDOWN_PARK_CAP:
-            if (capCheck->isEnabled() && capCheck->isChecked())
+            if (indiState != INDI_READY)
+            {
+                qCInfo(KSTARS_EKOS_SCHEDULER) << "Bypassing shutdown step 'park cap', no INDI connection.";
+                shutdownState = SHUTDOWN_SCRIPT;
+            }
+            else if (capCheck->isEnabled() && capCheck->isChecked())
                 parkCap();
             else
                 shutdownState = SHUTDOWN_PARK_MOUNT;
@@ -2738,7 +2763,12 @@ bool Scheduler::checkShutdownState()
             break;
 
         case SHUTDOWN_PARK_MOUNT:
-            if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
+            if (indiState != INDI_READY)
+            {
+                qCInfo(KSTARS_EKOS_SCHEDULER) << "Bypassing shutdown step 'park cap', no INDI connection.";
+                shutdownState = SHUTDOWN_SCRIPT;
+            }
+            else if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
                 parkMount();
             else
                 shutdownState = SHUTDOWN_PARK_DOME;
@@ -2749,7 +2779,12 @@ bool Scheduler::checkShutdownState()
             break;
 
         case SHUTDOWN_PARK_DOME:
-            if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
+            if (indiState != INDI_READY)
+            {
+                qCInfo(KSTARS_EKOS_SCHEDULER) << "Bypassing shutdown step 'park cap', no INDI connection.";
+                shutdownState = SHUTDOWN_SCRIPT;
+            }
+            else if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
                 parkDome();
             else
                 shutdownState = SHUTDOWN_SCRIPT;
@@ -3074,17 +3109,18 @@ void Scheduler::checkJobStage()
             appendLogText(i18n(
                 "Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), marking aborted.",
                 preDawnDateTime.toString(), Options::preDawnTime(), currentJob->getName()));
-
             currentJob->setState(SchedulerJob::JOB_ABORTED);
-            stopCurrentJobAction();
-            stopGuiding();
-            checkShutdownState();
-
-            //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
-            //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
             return;
         }
     }
+
+    // Check Ekos state
+    if (!checkEkosState())
+        return;
+
+    // Check INDI state
+    if (!checkINDIState())
+        return;
 
     switch (currentJob->getStage())
     {
@@ -3106,9 +3142,9 @@ void Scheduler::checkJobStage()
 
             if (slewStatus.error().type() == QDBusError::UnknownObject)
             {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI while slewing, marking aborted.", currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
+                appendLogText(i18n("Warning: job '%1' lost connection to INDI while slewing, attempting to reconnect.", currentJob->getName()));
+                if (!manageConnectionLoss())
+                    currentJob->setState(SchedulerJob::JOB_ERROR);
                 return;
             }
 
@@ -3144,9 +3180,9 @@ void Scheduler::checkJobStage()
 
             if (focusReply.error().type() == QDBusError::UnknownObject)
             {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while focusing, marking aborted.", currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
+                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while focusing, attempting to reconnect.", currentJob->getName()));
+                if (!manageConnectionLoss())
+                    currentJob->setState(SchedulerJob::JOB_ERROR);
                 return;
             }
 
@@ -3204,9 +3240,9 @@ void Scheduler::checkJobStage()
 
             if (alignReply.error().type() == QDBusError::UnknownObject)
             {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while aligning, marking aborted.", currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
+                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while aligning, attempting to reconnect.", currentJob->getName()));
+                if (!manageConnectionLoss())
+                    currentJob->setState(SchedulerJob::JOB_ERROR);
                 return;
             }
 
@@ -3262,9 +3298,9 @@ void Scheduler::checkJobStage()
 
             if (slewStatus.error().type() == QDBusError::UnknownObject)
             {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while reslewing, marking aborted.",currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
+                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while reslewing, attempting to reconnect.",currentJob->getName()));
+                if (!manageConnectionLoss())
+                    currentJob->setState(SchedulerJob::JOB_ERROR);
             }
             else if (slewStatus.value() == IPS_OK && isDomeMoving == false)
             {
@@ -3297,9 +3333,9 @@ void Scheduler::checkJobStage()
 
             if (guideReply.error().type() == QDBusError::UnknownObject)
             {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while guiding, marking aborted.",currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
+                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while guiding, attempting to reconnect.",currentJob->getName()));
+                if (!manageConnectionLoss())
+                    currentJob->setState(SchedulerJob::JOB_ERROR);
                 return;
             }
 
@@ -3358,9 +3394,9 @@ void Scheduler::checkJobStage()
 
             if (captureReply.error().type() == QDBusError::UnknownObject)
             {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while capturing, marking aborted.",currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                checkShutdownState();
+                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while capturing, attempting to reconnect.",currentJob->getName()));
+                if (!manageConnectionLoss())
+                    currentJob->setState(SchedulerJob::JOB_ERROR);
             }
             else if (captureReply.value().toStdString() == "Aborted" || captureReply.value().toStdString() == "Error")
             {
@@ -3548,6 +3584,61 @@ void Scheduler::stopCurrentJobAction()
         /* Reset interrupted job stage */
         currentJob->setStage(SchedulerJob::STAGE_IDLE);
     }
+}
+
+bool Scheduler::manageConnectionLoss()
+{
+    if (SCHEDULER_RUNNIG != state)
+        return false;
+
+    // Don't manage loss if Ekos is actually down in the state machine
+    switch (ekosState)
+    {
+        case EKOS_IDLE:
+        case EKOS_STOPPING:
+            return false;
+
+        default: break;
+    }
+
+    // Don't manage loss if INDI is actually down in the state machine
+    switch (indiState)
+    {
+        case INDI_IDLE:
+        case INDI_DISCONNECTING:
+            return false;
+
+        default: break;
+    }
+
+    // If Ekos is assumed to be up, check its state
+    QDBusReply<int> const isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
+    if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Ekos is currently connected, checking INDI before mitigating connection loss.");
+
+        // If INDI is assumed to be up, check its state
+        QDBusReply<int> const isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
+        if (isINDIConnected.value() == EkosManager::EKOS_STATUS_SUCCESS)
+        {
+            // If both Ekos and INDI are assumed up, and are actually up, no mitigation needed, this is a DBus interface error
+            qCDebug(KSTARS_EKOS_SCHEDULER) << QString("INDI is currently connected, no connection loss mitigation needed.");
+            return false;
+        }
+    }
+
+    // Stop actions of the current job
+    stopCurrentJobAction();
+
+    // Stop guiding, in case we are using it
+    stopGuiding();
+
+    // Acknowledge INDI and Ekos disconnections
+    disconnectINDI();
+    stopEkos();
+
+    // Let the Scheduler attempt to connect INDI again
+    return true;
 }
 
 void Scheduler::load()
@@ -3980,14 +4071,6 @@ void Scheduler::startSlew()
 {
     Q_ASSERT(currentJob != nullptr);
 
-    if (isMountParked())
-    {
-        appendLogText(i18n("Warning: job '%1' found mount parked unexpectedly, attempting to unpark.", currentJob->getName()));
-        startupState = STARTUP_UNPARK_MOUNT;
-        unParkMount();
-        return;
-    }
-
     if (Options::resetMountModelBeforeJob())
         mountInterface->call(QDBus::AutoDetect, "resetModel");
 
@@ -3996,17 +4079,18 @@ void Scheduler::startSlew()
     telescopeSlew.append(target.ra().Hours());
     telescopeSlew.append(target.dec().Degrees());
 
-    appendLogText(i18n("Job '%1' is slewing to target.", currentJob->getName()));
-
     QDBusReply<bool> const slewModeReply = mountInterface->callWithArgumentList(QDBus::AutoDetect, "slew", telescopeSlew);
     if (slewModeReply.error().type() != QDBusError::NoError)
     {
-        /* FIXME: manage error */
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' slew request received DBUS error: %2").arg(currentJob->getName(), QDBusError::errorString(slewModeReply.error().type()));
-        return;
+        if (!manageConnectionLoss())
+            currentJob->setState(SchedulerJob::JOB_ERROR);
     }
-
-    currentJob->setStage(SchedulerJob::STAGE_SLEWING);
+    else
+    {
+       currentJob->setStage(SchedulerJob::STAGE_SLEWING);
+       appendLogText(i18n("Job '%1' is slewing to target.", currentJob->getName()));
+    }
 }
 
 void Scheduler::startFocusing()
@@ -4032,6 +4116,8 @@ void Scheduler::startFocusing()
     if (focusModeReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' canAutoFocus request received DBUS error: %2").arg(currentJob->getName(), QDBusError::errorString(focusModeReply.error().type()));
+        if (!manageConnectionLoss())
+            currentJob->setState(SchedulerJob::JOB_ERROR);
         return;
     }
 
@@ -4054,6 +4140,8 @@ void Scheduler::startFocusing()
     if ((reply = focusInterface->call(QDBus::AutoDetect, "resetFrame")).type() == QDBusMessage::ErrorMessage)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' resetFrame request received DBUS error: %2").arg(currentJob->getName(), reply.errorMessage());
+        if (!manageConnectionLoss())
+            currentJob->setState(SchedulerJob::JOB_ERROR);
         return;
     }
 
@@ -4066,6 +4154,8 @@ void Scheduler::startFocusing()
             QDBusMessage::ErrorMessage)
         {
             qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setAutoFocusStar request received DBUS error: %1").arg(currentJob->getName(), reply.errorMessage());
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
             return;
         }
     }
@@ -4074,6 +4164,8 @@ void Scheduler::startFocusing()
     if ((reply = focusInterface->call(QDBus::AutoDetect, "start")).type() == QDBusMessage::ErrorMessage)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' startFocus request received DBUS error: %2").arg(currentJob->getName(), reply.errorMessage());
+        if (!manageConnectionLoss())
+            currentJob->setState(SchedulerJob::JOB_ERROR);
         return;
     }    
 
@@ -4281,6 +4373,8 @@ void Scheduler::startAstrometry()
             QDBusMessage::ErrorMessage)
         {
             qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' loadAndSlew request received DBUS error: %2").arg(currentJob->getName(), reply.errorMessage());
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
             return;
         }
 
@@ -4292,6 +4386,8 @@ void Scheduler::startAstrometry()
         if ((reply = alignInterface->call(QDBus::AutoDetect, "captureAndSolve")).type() == QDBusMessage::ErrorMessage)
         {
             qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' captureAndSolve request received DBUS error: %2").arg(currentJob->getName(), reply.errorMessage());
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
             return;
         }
 
@@ -4347,7 +4443,9 @@ void Scheduler::startCapture()
         if ((reply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesMap", dbusargs)).type() ==
             QDBusMessage::ErrorMessage)
         {
-            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(currentJob->getName(), reply.errorMessage());
+            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(currentJob->getName()).arg(reply.errorMessage());
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
             return;
         }
     }
@@ -4399,7 +4497,8 @@ void Scheduler::disconnectINDI()
 void Scheduler::stopEkos()
 {
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Stopping Ekos...";
-    ekosState = EKOS_STOPPING;
+    ekosState               = EKOS_STOPPING;
+    ekosConnectFailureCount = 0;
     ekosInterface->call(QDBus::AutoDetect, "stop");
 }
 
@@ -4786,7 +4885,8 @@ void Scheduler::unParkMount()
     if (mountReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
-        parkWaitState = PARKWAIT_ERROR;
+        if (!manageConnectionLoss())
+            parkWaitState = PARKWAIT_ERROR;
     }
     else switch ((Mount::ParkingStatus) mountReply.value())
     {
@@ -4811,7 +4911,8 @@ void Scheduler::unParkMount()
                 if (mountReply.error().type() != QDBusError::NoError)
                 {
                     qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount unpark request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
-                    parkWaitState = PARKWAIT_ERROR;
+                    if (!manageConnectionLoss())
+                        parkWaitState = PARKWAIT_ERROR;
                 }
                 else currentOperationTime.start();
             }
@@ -4840,7 +4941,8 @@ void Scheduler::checkMountParkingStatus()
     if (mountReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
-        parkWaitState = PARKWAIT_ERROR;
+        if (!manageConnectionLoss())
+            parkWaitState = PARKWAIT_ERROR;
     }
     else switch ((Mount::ParkingStatus)mountReply.value())
     {
@@ -4940,16 +5042,42 @@ void Scheduler::checkMountParkingStatus()
 
 bool Scheduler::isMountParked()
 {
-    QDBusReply<int> const mountReply  = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Mount::ParkingStatus status = (Mount::ParkingStatus)mountReply.value();
-
-    if (mountReply.error().type() != QDBusError::NoError)
+    // First check if the mount is able to park - if it isn't, getParkingStatus will reply PARKING_ERROR and status won't be clear
+    QDBusReply<bool> const parkCapableReply = mountInterface->call(QDBus::AutoDetect, "canPark");
+    if (parkCapableReply.error().type() != QDBusError::NoError)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
-        status = Mount::PARKING_ERROR;
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount canPark request received DBUS error: %1").arg(QDBusError::errorString(parkCapableReply.error().type()));
+        manageConnectionLoss();
+        return false;
     }
+    else if (true == parkCapableReply.value())
+    {
+        // If it is able to park, obtain its current status
+        QDBusReply<int> const mountReply  = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
+        if (mountReply.error().type() != QDBusError::NoError)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
+            manageConnectionLoss();
+            return false;
+        }
 
-    return status == Mount::PARKING_OK || status == Mount::PARKING_IDLE;
+        // Deduce state of mount - see getParkingStatus in mount.cpp
+        switch ((Mount::ParkingStatus)mountReply.value())
+        {
+            case Mount::PARKING_OK:     // INDI switch ok, and parked
+            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
+                return true;
+
+            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
+            case Mount::PARKING_ERROR:  // INDI switch error
+            case Mount::PARKING_BUSY:   // INDI switch busy
+            case Mount::UNPARKING_BUSY: // INDI switch busy
+            default:
+                return false;
+        }
+    }
+    // If the mount is not able to park, consider it not parked
+    else return false;
 }
 
 void Scheduler::parkDome()
@@ -4960,7 +5088,8 @@ void Scheduler::parkDome()
     if (domeReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(domeReply.error().type()));
-        status = Dome::PARKING_ERROR;
+        if (!manageConnectionLoss())
+            status = Dome::PARKING_ERROR;
     }
 
     if (status != Dome::PARKING_OK)
@@ -4986,7 +5115,8 @@ void Scheduler::unParkDome()
     if (domeReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(domeReply.error().type()));
-        status = Dome::PARKING_ERROR;
+        if (!manageConnectionLoss())
+            status = Dome::PARKING_ERROR;
     }
 
     if (status != Dome::UNPARKING_OK)
@@ -5015,7 +5145,8 @@ void Scheduler::checkDomeParkingStatus()
     if (domeReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(domeReply.error().type()));
-        status = Dome::PARKING_ERROR;
+        if (!manageConnectionLoss())
+            status = Dome::PARKING_ERROR;
     }
 
     switch (status)
@@ -5083,7 +5214,8 @@ bool Scheduler::isDomeParked()
     if (domeReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(domeReply.error().type()));
-        status = Dome::PARKING_ERROR;
+        if (!manageConnectionLoss())
+            status = Dome::PARKING_ERROR;
     }
 
     return status == Dome::PARKING_OK || status == Dome::PARKING_IDLE;
@@ -5097,7 +5229,8 @@ void Scheduler::parkCap()
     if (capReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(capReply.error().type()));
-        status = DustCap::PARKING_ERROR;
+        if (!manageConnectionLoss())
+            status = DustCap::PARKING_ERROR;
     }
 
     if (status != DustCap::PARKING_OK)
@@ -5123,7 +5256,8 @@ void Scheduler::unParkCap()
     if (capReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(capReply.error().type()));
-        status = DustCap::PARKING_ERROR;
+        if (!manageConnectionLoss())
+            status = DustCap::PARKING_ERROR;
     }
 
     if (status != DustCap::UNPARKING_OK)
@@ -5152,7 +5286,8 @@ void Scheduler::checkCapParkingStatus()
     if (capReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(capReply.error().type()));
-        status = DustCap::PARKING_ERROR;
+        if (!manageConnectionLoss())
+            status = DustCap::PARKING_ERROR;
     }
 
     switch (status)

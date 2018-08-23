@@ -334,6 +334,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
     void stopCurrentJobAction();
 
     /**
+         * @brief manageConnectionLoss Mitigate loss of connection with the INDI server.
+         * @return true if connection to Ekos/INDI should be attempted again, false if not mitigation is available or needed.
+         */
+    bool manageConnectionLoss();
+
+    /**
          * @brief readProcessOutput read running script process output and display it in Ekos
          */
     void readProcessOutput();
@@ -673,6 +679,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
     bool autofocusCompleted { false };
     /// Keep track of INDI connection failures
     uint8_t indiConnectFailureCount { 0 };
+    /// Keep track of Ekos connection failures
+    uint8_t ekosConnectFailureCount { 0 };
     /// Keep track of Ekos focus module failures
     uint8_t focusFailureCount { 0 };
     /// Keep track of Ekos guide module failures
