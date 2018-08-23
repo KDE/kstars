@@ -1078,22 +1078,22 @@
          <whatsthis>Option to use a FIFO file instead of saving to the hard disk</whatsthis>
          <default>true</default>
       </entry>
-      <entry name="XplanetTimeout" type="String">
+      <entry name="XplanetTimeout" type="UInt">
          <label>XPlanet Timeout</label>
          <whatsthis>How long to wait for XPlanet before giving up in milliseconds</whatsthis>
          <default>1000</default>
       </entry>
-      <entry name="XplanetAnimationDelay" type="String">
+      <entry name="XplanetAnimationDelay" type="UInt">
          <label>XPlanet Animation Delay</label>
          <whatsthis>How long to pause between frames in the XPlanet Animation</whatsthis>
          <default>100</default>
       </entry>
-      <entry name="XplanetWidth" type="String">
+      <entry name="XplanetWidth" type="UInt">
          <label>Width of xplanet window</label>
          <whatsthis>Width of xplanet window</whatsthis>
          <default>640</default>
       </entry>
-      <entry name="XplanetHeight" type="String">
+      <entry name="XplanetHeight" type="UInt">
          <label>Height of xplanet window</label>
          <whatsthis>Height of xplanet window</whatsthis>
          <default>480</default>

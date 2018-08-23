@@ -95,6 +95,13 @@ OpsXplanet::OpsXplanet(KStars *_ks) : QFrame(_ks), ksw(_ks)
     if (Options::xplanetProjection() == 0)
         groupBoxBackground->setEnabled(false);
 
+    #ifdef Q_OS_WIN
+        kcfg_XplanetUseFIFO->setChecked(false);
+        kcfg_XplanetUseFIFO->setDisabled(true);
+        kcfg_XplanetUseFIFO->setToolTip(i18n("FIFO files are not supported on Windows"));
+    #endif
+
+
     connect(openXPlanetMaps, SIGNAL(clicked()),this,SLOT(showXPlanetMapsDirectory()));
 }
 
