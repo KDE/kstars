@@ -428,7 +428,7 @@
          <item>
           <widget class="QLabel" name="label_6">
            <property name="text">
-            <string>XPlanet Requires Maps in order to function properly.  It does not ship with a lot of planetary maps.  You need to download some in order to get the full benefits of XPlanet.  This is a good place to start: &lt;a href =http://xplanet.sourceforge.net/maps.php&gt;http://xplanet.sourceforge.net/maps.php&lt;/a&gt; </string>
+            <string>XPlanet requires maps in order to function properly.  It does not ship with a lot of planetary maps.  You need to download some in order to get the full benefits of XPlanet.  This is a good place to start: &lt;a href=&quot;http://xplanet.sourceforge.net/maps.php&quot;&gt;http://xplanet.sourceforge.net/maps.php&lt;/a&gt; </string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>

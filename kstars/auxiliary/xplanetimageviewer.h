@@ -28,7 +28,6 @@
 #include <QFrame>
 #include <QImage>
 #include <QPixmap>
-#include <QUrl>
 #include "kstarsdata.h"
 #include <QEvent>
 #include <QGestureEvent>
@@ -73,12 +72,12 @@ class XPlanetImageLabel : public QFrame
 
   private:
     //Image related
-    QPixmap pix;
+    QPixmap m_Pix;
     QImage m_Image;
 
     //Mouse related
-    bool mouseButtonDown = false;
-    QPoint lastMousePoint;
+    bool m_MouseButtonDown = false;
+    QPoint m_LastMousePoint;
     bool event(QEvent *event) override;
     bool gestureEvent(QGestureEvent *event);
     void pinchTriggered(QPinchGesture *gesture);
@@ -120,82 +119,88 @@ class XPlanetImageViewer : public QDialog
     void startXplanet();
 
   private:
-    /**
-     * Display the downloaded image.  Resize the window to fit the image,  If the image is
-     * larger than the screen, make the image as large as possible while preserving the
-     * original aspect ratio
-     */
-    bool showImage();
+
 
     /** prepares the output file**/
     bool setupOutputFile();
 
-    QImage image;
+    QImage m_Image;
 
     /** Save the downloaded image to a local file. */
-    void saveFile(QUrl &url);
+    void saveFile(const QString & fileName);
 
-    QFile file;
-
-    QString filename;
-
-    FileDownloader downloadJob;
+    QFile m_File;
 
     XPlanetImageLabel *m_View { nullptr };
     QLabel *m_Caption { nullptr };
 
-    QUrl lastURL;
+    QString m_LastFile;
+
+    QStringList m_ObjectNames;
 
     typedef enum { YEARS, MONTHS, DAYS, HOURS, MINS, SECS } timeUnits;
 
     void setXPlanetDate(KStarsDateTime time);
 
     //XPlanet strings
-    QString object;
-    QString origin;
-    QString date;
-    QString dateText;
+    QString m_ObjectName;
+    QString m_OriginName;
+    QString m_Date;
+    QString m_DateText;
 
     //XPlanet numbers
-    int rotation;
-    int timeUnit;
-    int radius;
-    double FOV;
-    double lat;
-    double lon;
+    int m_CurrentObjectIndex { 0 };
+    int m_CurrentOriginIndex { 0 };
+    int m_Rotation { 0 };
+    int m_CurrentTimeUnitIndex { 0 };
+    uint32_t m_Radius { 0 };
+    double m_FOV { 0 };
+    double m_lat { 0 };
+    double m_lon { 0 };
+
+#ifndef Q_OS_WIN
+    QFutureWatcher<bool> fifoImageLoadWatcher;
+    QTimer watcherTimeout;
+#endif
 
     // Time
-    KStarsDateTime xplanetTime;
-    bool xplanetRunning = false;
+    KStarsDateTime m_XPlanetTime {};
+    bool m_XPlanetRunning = false;
 
-    QComboBox *originSelector {nullptr};
+    QComboBox *m_OriginSelector {nullptr};
 
     // Field of view controls
-    QPushButton *kstarsFOV  {nullptr};
-    QPushButton *noFOV  {nullptr};
-    NonLinearDoubleSpinBox *FOVEdit {nullptr};
+    QPushButton *m_KStarsFOV  {nullptr};
+    QPushButton *m_NoFOV  {nullptr};
+    NonLinearDoubleSpinBox *m_FOVEdit {nullptr};
 
     // Rotation controls
-    QSpinBox *rotateEdit {nullptr};
+    QSpinBox *m_RotateEdit {nullptr};
 
     // Free rotation controls
-    QLabel *latDisplay {nullptr};
-    QLabel *lonDisplay {nullptr};
-    QLabel *radDisplay {nullptr};
-    QPushButton *freeRotate {nullptr};
+    QLabel *m_PositionDisplay {nullptr};
+    QPushButton *m_FreeRotate {nullptr};
+    bool m_ImageLoadSucceeded = false;
 
     // Time controls
-    QLabel *XPlanetTimeDisplay {nullptr};
-    QSlider *timeSlider {nullptr};
-    QSpinBox *timeEdit {nullptr};
-    QComboBox *timeUnitsSelect {nullptr};
+    QLabel *m_XPlanetTimeDisplay {nullptr};
+    QSlider *m_TimeSlider {nullptr};
+    QSpinBox *m_TimeEdit {nullptr};
+    QComboBox *m_TimeUnitsSelect {nullptr};
 
     //Animation controls
-    QPushButton *runTime {nullptr};
-    QTimer *XPlanetTimer {nullptr};
+    QPushButton *m_RunTime {nullptr};
+    QTimer *m_XPlanetTimer {nullptr};
 
 
   private slots:
+
+    /**
+     * Display the downloaded image.  Resize the window to fit the image,  If the image is
+     * larger than the screen, make the image as large as possible while preserving the
+     * original aspect ratio
+     */
+    bool showImage();
 
     // Saves file to disk.
     void saveFileToDisk();
@@ -212,6 +217,7 @@ class XPlanetImageViewer : public QDialog
     void changeXPlanetPosition(QPoint delta);
     void slotFreeRotate();
     void updateStates();
+    void updatePositionDisplay();
 
     // Field of View slots
     void zoomInXPlanetFOV();
@@ -222,8 +228,8 @@ class XPlanetImageViewer : public QDialog
 
     // Time slots
     void updateXPlanetTime(int timeShift);
-    void updateXPlanetObject(const QString & obj);
-    void updateXPlanetOrigin(const QString & obj);
+    void updateXPlanetObject(int objectIndex);
+    void updateXPlanetOrigin(int originIndex);
     void updateXPlanetTimeUnits(int units);
     void updateXPlanetTimeEdit();
     void setXPlanetTime();
@@ -233,5 +239,6 @@ class XPlanetImageViewer : public QDialog
     // Animation slots
     void incrementXPlanetTime();
     void toggleXPlanetRun();
+    void timeSliderDisplay(int timeShift);
 
 };
