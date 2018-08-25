@@ -41,9 +41,11 @@
 #include <QtWidgets/QSlider>
 #include "skymap.h"
 #include "kspaths.h"
+#include "fov.h"
 
 #include <QUuid>
 #include <sys/stat.h>
+#include <QInputDialog>
 
 typedef enum {
 SUN,MERCURY,VENUS,
@@ -188,8 +190,6 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     setWindowTitle(i18n("XPlanet Solar System Simulator: %1", obj));
 
     setXPlanetDate(KStarsData::Instance()->ut());
-    if (Options::xplanetFOV())
-        m_FOV = KStars::Instance()->map()->fov();
 
     // Create widget
     QFrame *page = new QFrame(this);
@@ -204,13 +204,20 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     selectorsLayout->setMargin(0);
     mainLayout->addWidget(selectorsWidget);
 
-    m_ObjectNames << i18n("Sun") << i18n("Mercury") << i18n("Venus");
-    m_ObjectNames << i18n("Earth") << i18n("Moon");
-    m_ObjectNames << i18n("Mars") << i18n("Phobos") << i18n("Deimos");
-    m_ObjectNames << i18n("Jupiter") << i18n("Ganymede") << i18n("Io") << i18n("Callisto") << i18n("Europa");
-    m_ObjectNames << i18n("Saturn") << i18n("Titan") << i18n("Mimas") << i18n("Enceladus") << i18n("Tethys") << i18n("Dione") << i18n("Rhea") << i18n("Hyperion") << i18n("Iapetus") << i18n("Phoebe");
-    m_ObjectNames << i18n("Uranus") << i18n("Umbriel") << i18n("Ariel") << i18n("Miranda") << i18n("Titania") << i18n("Oberon");
-    m_ObjectNames << i18n("Neptune") << i18n("Triton");
+    m_ObjectNames       << i18n("Sun")      << i18n("Mercury")  << i18n("Venus");
+    m_objectDefaultFOVs << 0.74818          << 0.004          << 0.02;
+    m_ObjectNames       << i18n("Earth")    << i18n("Moon");
+    m_objectDefaultFOVs << 1.0              << 0.74818;
+    m_ObjectNames       << i18n("Mars")     << i18n("Phobos")   << i18n("Deimos");
+    m_objectDefaultFOVs << 0.00865          << 0.00002          << 0.00002;
+    m_ObjectNames       << i18n("Jupiter")  << i18n("Ganymede") << i18n("Io")       << i18n("Callisto") << i18n("Europa");
+    m_objectDefaultFOVs << 0.02             << 0.0005           << 0.0004           << 0.0005           << 0.0003;
+    m_ObjectNames       << i18n("Saturn")   << i18n("Titan")    << i18n("Mimas")    << i18n("Enceladus")<< i18n("Tethys")   << i18n("Dione")    << i18n("Rhea")     << i18n("Hyperion") << i18n("Iapetus")  << i18n("Phoebe");
+    m_objectDefaultFOVs << 0.02             << 0.0003            << 0.00002            << 0.00003            << 0.00007            << 0.00007            << 0.0001            << 0.00002            << 0.0001            << 0.00002;
+    m_ObjectNames       << i18n("Uranus")   << i18n("Umbriel")  << i18n("Ariel")    << i18n("Miranda")  << i18n("Titania")  << i18n("Oberon");
+    m_objectDefaultFOVs << 0.00256          << 0.00004            << 0.00004            << 0.00002            << 0.00005            << 0.00005;
+    m_ObjectNames       << i18n("Neptune")  << i18n("Triton");
+    m_objectDefaultFOVs << 0.00114          << 0.0001;
 
     m_CurrentObjectIndex = m_ObjectNames.indexOf(obj);
     m_ObjectName = m_ObjectNames.at(m_CurrentObjectIndex);
@@ -272,15 +279,21 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     viewControlsLayout->addWidget(new QLabel(i18n("FOV:"), this));
 
     m_FOVEdit = new NonLinearDoubleSpinBox();
-    m_FOVEdit->setDecimals(4);
+    m_FOVEdit->setDecimals(5);
     QList<double> possibleValues;
     possibleValues << 0;
-    for(double i=.001;i<100;i*=1.5)
+    for(double i=.0001;i<100;i*=1.5)
         possibleValues << i;
     m_FOVEdit->setRecommendedValues(possibleValues);
-    m_FOVEdit->setValue(0);
     m_FOVEdit->setToolTip(i18n("Sets the FOV to the Specified value.   Note: has no effect if hovering over object."));
     viewControlsLayout->addWidget(m_FOVEdit);
+
+    if (Options::xplanetFOV())
+        m_FOV = KStars::Instance()->map()->fov();
+    else
+        m_FOV = m_objectDefaultFOVs.at( m_CurrentObjectIndex);
+    m_FOVEdit->setValue(m_FOV);
+
     connect(m_FOVEdit,  SIGNAL(valueChanged(double)), this, SLOT(updateXPlanetFOVEdit()));
 
     m_KStarsFOV = new QPushButton(this);
@@ -292,6 +305,15 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     viewControlsLayout->addWidget(m_KStarsFOV);
     connect(m_KStarsFOV, SIGNAL(clicked()), this, SLOT(setKStarsXPlanetFOV()));
 
+    m_setFOV = new QPushButton(this);
+    m_setFOV->setIcon(QIcon::fromTheme("view-list-details"));
+    m_setFOV->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    m_setFOV->setMaximumSize(QSize(32,32));
+    m_setFOV->setMinimumSize(QSize(32,32));
+    m_setFOV->setToolTip(i18n("Zoom to a specific FOV. This has no effect when hovering over an object"));
+    viewControlsLayout->addWidget(m_setFOV);
+    connect(m_setFOV, SIGNAL(clicked()), this, SLOT(setFOVfromList()));
+
     m_NoFOV = new QPushButton(this);
     m_NoFOV->setIcon(QIcon::fromTheme("system-reboot"));
     m_NoFOV->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -299,7 +321,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_NoFOV->setMinimumSize(QSize(32,32));
     m_NoFOV->setToolTip(i18n("Optimum FOV for the target, FOV parameter not specified.  Note: has no effect if hovering over object."));
     viewControlsLayout->addWidget(m_NoFOV);
-    connect(m_NoFOV, SIGNAL(clicked()), this, SLOT(clearXPlanetFOV()));
+    connect(m_NoFOV, SIGNAL(clicked()), this, SLOT(resetXPlanetFOV()));
 
     m_Rotation = 0;
 
@@ -843,8 +865,10 @@ void XPlanetImageViewer::updateXPlanetObject(int objectIndex){
     setWindowTitle(i18n("XPlanet Solar System Simulator: %1", m_ObjectName));
     if(m_FreeRotate->isChecked())
             m_OriginSelector->setCurrentIndex(m_CurrentObjectIndex);
-
-    startXplanet();
+    if(m_CurrentObjectIndex == m_CurrentOriginIndex)
+        startXplanet();
+    else
+        resetXPlanetFOV();
 }
 
 void XPlanetImageViewer::updateXPlanetOrigin(int originIndex)
@@ -1017,10 +1041,10 @@ void XPlanetImageViewer::updateXPlanetFOVEdit()
     startXplanet();
 }
 
-void XPlanetImageViewer::clearXPlanetFOV()
+void XPlanetImageViewer::resetXPlanetFOV()
 {
-    m_FOV = 0;
-    m_FOVEdit->setValue(0);
+    m_FOV = m_objectDefaultFOVs.at(m_CurrentObjectIndex);
+    m_FOVEdit->setValue(m_FOV);
     startXplanet();
 }
 
@@ -1029,6 +1053,29 @@ void XPlanetImageViewer::setKStarsXPlanetFOV()
     m_FOV = KStars::Instance()->map()->fov();
     m_FOVEdit->setValue(m_FOV);
     startXplanet();
+}
+void XPlanetImageViewer::setFOVfromList()
+{
+    if (!KStarsData::Instance()->getAvailableFOVs().isEmpty())
+    {
+        // Ask the user to choose from a list of available FOVs.
+        QMap<QString, const FOV *> nameToFovMap;
+        for (const FOV *f : KStarsData::Instance()->getAvailableFOVs())
+        {
+            nameToFovMap.insert(f->name(), f);
+        }
+        bool ok = false;
+        const FOV *fov = nullptr;
+        fov = nameToFovMap[QInputDialog::getItem(this, i18n("Choose a field-of-view"),
+                                                 i18n("FOV to render in XPlanet:"), nameToFovMap.uniqueKeys(), 0,
+                                                 false, &ok)];
+        if (ok)
+        {
+            m_FOV = fov->sizeX() / 60 ; //Converting from arcmin to degrees
+            m_FOVEdit->setValue(m_FOV);
+            startXplanet();
+        }
+    }
 }
 
 void XPlanetImageViewer::updateXPlanetRotationEdit()
