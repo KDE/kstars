@@ -23,7 +23,7 @@
 
 #include <QFuture>
 #include <QtConcurrentRun>
-#include <QtTest/QtTest>
+#include <QtTest>
 
 #include <ctime>
 #include <unistd.h>

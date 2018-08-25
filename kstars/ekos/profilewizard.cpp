@@ -8,12 +8,13 @@
     version 2 of the License, or (at your option) any later version.
 */
 
+#include "profilewizard.h"
+
 #include <QDesktopServices>
 #include <QUrl>
 #include <QTcpSocket>
 #include <QTimer>
 
-#include "profilewizard.h"
 #include "kstars.h"
 #include "auxiliary/kspaths.h"
 #include "ksnotification.h"

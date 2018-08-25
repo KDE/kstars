@@ -8,10 +8,11 @@
 
 */
 
+#include "dslrinfodialog.h"
+
 #include <KMessageBox>
 #include <KLocalizedString>
 
-#include "dslrinfodialog.h"
 #include "Options.h"
 
 DSLRInfo::DSLRInfo(QWidget *parent, ISD::CCD *ccd) : QDialog(parent)

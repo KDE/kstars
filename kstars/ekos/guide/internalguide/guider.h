@@ -17,8 +17,6 @@
 #include "gmath.h"
 #include "../guide.h"
 
-#include <QtGui>
-
 class internalGuider : public QWidget
 {
     Q_OBJECT

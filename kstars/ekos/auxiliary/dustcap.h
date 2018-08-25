@@ -12,7 +12,7 @@
 #include "indi/indistd.h"
 #include "indi/indicap.h"
 
-#include <QtDBus/QtDBus>
+#include <QtDBus>
 
 namespace Ekos
 {

@@ -21,7 +21,7 @@
 #include <QDialogButtonBox>
 #include <QProcess>
 #include <QPlainTextEdit>
-#include <QtCore/qsystemdetection.h>
+#include <qsystemdetection.h>
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>

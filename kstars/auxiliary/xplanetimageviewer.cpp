@@ -38,7 +38,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QApplication>
-#include <QtWidgets/QSlider>
+#include <QSlider>
 #include "skymap.h"
 #include "kspaths.h"
 #include "fov.h"

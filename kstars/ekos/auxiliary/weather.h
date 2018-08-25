@@ -12,7 +12,7 @@
 #include "indi/indistd.h"
 #include "indi/indiweather.h"
 
-#include <QtDBus/QtDBus>
+#include <QtDBus>
 
 namespace Ekos
 {

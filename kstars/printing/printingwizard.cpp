@@ -18,7 +18,7 @@
 #include "printingwizard.h"
 
 #include <QStackedWidget>
-#include <QtPrintSupport/QPrinter>
+#include <QPrinter>
 #include <QStandardPaths>
 
 #include "finderchart.h"

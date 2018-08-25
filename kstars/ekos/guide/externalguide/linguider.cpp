@@ -14,7 +14,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include <QtNetwork/QNetworkReply>
+#include <QNetworkReply>
 
 namespace Ekos
 {

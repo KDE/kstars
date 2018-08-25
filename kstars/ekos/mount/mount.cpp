@@ -7,14 +7,15 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <QtQuick/QQuickView>
-#include <QtQuick/QQuickItem>
+#include "mount.h"
+
+#include <QQuickView>
+#include <QQuickItem>
 
 #include <KNotifications/KNotification>
 #include <KLocalizedContext>
 #include <KActionCollection>
 
-#include "mount.h"
 #include "Options.h"
 
 #include "indi/driverinfo.h"

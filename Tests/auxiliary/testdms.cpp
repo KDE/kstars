@@ -11,7 +11,7 @@
 
 #include "auxiliary/dms.h"
 
-#include <QtTest/QtTest>
+#include <QtTest>
 
 TestDMS::TestDMS() : QObject()
 {
