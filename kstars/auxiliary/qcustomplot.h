@@ -44,48 +44,48 @@
 #define QCP_DEVICEPIXELRATIO_SUPPORTED
 #endif
 
-#include <QtCore/QObject>
-#include <QtCore/QPointer>
-#include <QtCore/QSharedPointer>
-#include <QtCore/QTimer>
-#include <QtGui/QPainter>
-#include <QtGui/QPaintEvent>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QWheelEvent>
-#include <QtGui/QPixmap>
-#include <QtCore/QVector>
-#include <QtCore/QString>
-#include <QtCore/QDateTime>
-#include <QtCore/QMultiMap>
-#include <QtCore/QFlags>
-#include <QtCore/QDebug>
-#include <QtCore/QStack>
-#include <QtCore/QCache>
-#include <QtCore/QMargins>
+#include <QObject>
+#include <QPointer>
+#include <QSharedPointer>
+#include <QTimer>
+#include <QPainter>
+#include <QPaintEvent>
+#include <QMouseEvent>
+#include <QWheelEvent>
+#include <QPixmap>
+#include <QVector>
+#include <QString>
+#include <QDateTime>
+#include <QMultiMap>
+#include <QFlags>
+#include <QDebug>
+#include <QStack>
+#include <QCache>
+#include <QMargins>
 #include <qmath.h>
 #include <limits>
 #include <algorithm>
 #ifdef QCP_OPENGL_FBO
-#include <QtGui/QOpenGLContext>
-#include <QtGui/QOpenGLFramebufferObject>
+#include <QOpenGLContext>
+#include <QOpenGLFramebufferObject>
 #ifdef QCP_OPENGL_OFFSCREENSURFACE
-#include <QtGui/QOffscreenSurface>
+#include <QOffscreenSurface>
 #else
-#include <QtGui/QWindow>
+#include <QWindow>
 #endif
 #endif
 #ifdef QCP_OPENGL_PBUFFER
-#include <QtOpenGL/QGLPixelBuffer>
+#include <QGLPixelBuffer>
 #endif
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 #include <qnumeric.h>
-#include <QtGui/QWidget>
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintEngine>
+#include <QWidget>
+#include <QPrinter>
+#include <QPrintEngine>
 #else
 #include <QtNumeric>
-#include <QtWidgets/QWidget>
-#include <QtPrintSupport/QtPrintSupport>
+#include <QWidget>
+#include <QtPrintSupport>
 #endif
 
 class QCPPainter;

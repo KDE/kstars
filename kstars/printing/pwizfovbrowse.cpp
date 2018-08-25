@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QPointer>
-
 #include "pwizfovbrowse.h"
+
+#include <QPointer>
 #include "foveditordialog.h"
 
 PWizFovBrowseUI::PWizFovBrowseUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent), m_ParentWizard(wizard)

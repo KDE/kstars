@@ -11,7 +11,7 @@
 #define MOUNT_H
 
 #include <QQmlContext>
-#include <QtDBus/QtDBus>
+#include <QtDBus>
 #include "ui_mount.h"
 
 #include "indi/indistd.h"

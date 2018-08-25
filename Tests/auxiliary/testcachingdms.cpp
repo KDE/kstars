@@ -19,7 +19,7 @@
 
 #include "auxiliary/cachingdms.h"
 
-#include <QtTest/QtTest>
+#include <QtTest>
 
 #include <ctime>
 #include <cstdlib>

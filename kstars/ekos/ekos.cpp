@@ -7,14 +7,14 @@
     version 2 of the License, or (at your option) any later version.
 */
 
+#include "ekos.h"
+
 #include <gsl/gsl_fit.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_multifit.h>
 
 #include <QDebug>
-
-#include "ekos.h"
 
 namespace Ekos
 {

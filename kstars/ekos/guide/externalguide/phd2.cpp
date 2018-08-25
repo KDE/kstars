@@ -22,7 +22,7 @@
 #include <QImage>
 
 #include <QJsonDocument>
-#include <QtNetwork/QNetworkReply>
+#include <QNetworkReply>
 
 #include <ekos_guide_debug.h>
 

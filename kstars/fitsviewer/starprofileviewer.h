@@ -18,26 +18,26 @@
 #include <QtDataVisualization/qbardataproxy.h>
 #include <QtDataVisualization/q3dbars.h>
 #include <QtDataVisualization/QCustom3DLabel>
-#include <QtWidgets/QSlider>
+#include <QSlider>
 #include <QDialog>
 
-#include <QtWidgets/QWidget>
-#include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QRadioButton>
-#include <QtWidgets/QGroupBox>
-#include <QtWidgets/QComboBox>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QMessageBox>
-#include <QtGui/QPainter>
-#include <QtGui/QScreen>
+#include <QWidget>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QGroupBox>
+#include <QComboBox>
+#include <QLabel>
+#include <QMessageBox>
+#include <QPainter>
+#include <QScreen>
 
 #include <QtDataVisualization/QValue3DAxis>
 #include <QtDataVisualization/Q3DTheme>
 #include <QtDataVisualization/qabstract3dseries.h>
-#include <QtGui/QImage>
-#include <QtCore/qmath.h>
+#include <QImage>
+#include <qmath.h>
 #include <QMessageBox>
 
 using namespace QtDataVisualization;

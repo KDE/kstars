@@ -16,7 +16,7 @@
 
 #include <QTime>
 #include <QTimer>
-#include <QtDBus/QtDBus>
+#include <QtDBus>
 
 class QProgressIndicator;
 class QTabWidget;

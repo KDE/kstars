@@ -26,9 +26,9 @@
 
 #include <QFileDialog>
 #include <QTemporaryFile>
-#include <QtPrintSupport/QPrintPreviewDialog>
-#include <QtPrintSupport/QPrinter>
-#include <QtPrintSupport/QPrintDialog>
+#include <QPrintPreviewDialog>
+#include <QPrinter>
+#include <QPrintDialog>
 #include <QPointer>
 
 PWizPrintUI::PWizPrintUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent), m_ParentWizard(wizard)
