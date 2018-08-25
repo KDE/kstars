@@ -137,6 +137,7 @@ class XPlanetImageViewer : public QDialog
     QString m_LastFile;
 
     QStringList m_ObjectNames;
+    QList<double> m_objectDefaultFOVs;
 
     typedef enum { YEARS, MONTHS, DAYS, HOURS, MINS, SECS } timeUnits;
 
@@ -171,6 +172,7 @@ class XPlanetImageViewer : public QDialog
 
     // Field of view controls
     QPushButton *m_KStarsFOV  {nullptr};
+    QPushButton *m_setFOV  {nullptr};
     QPushButton *m_NoFOV  {nullptr};
     NonLinearDoubleSpinBox *m_FOVEdit {nullptr};
 
@@ -223,8 +225,9 @@ class XPlanetImageViewer : public QDialog
     void zoomInXPlanetFOV();
     void zoomOutXPlanetFOV();
     void updateXPlanetFOVEdit();
-    void clearXPlanetFOV();
+    void resetXPlanetFOV();
     void setKStarsXPlanetFOV();
+    void setFOVfromList();
 
     // Time slots
     void updateXPlanetTime(int timeShift);
