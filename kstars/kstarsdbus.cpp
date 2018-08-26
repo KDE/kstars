@@ -37,7 +37,7 @@
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
 #ifdef HAVE_INDI
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #endif
 #endif
 

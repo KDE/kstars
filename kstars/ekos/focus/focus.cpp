@@ -14,7 +14,7 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "auxiliary/kspaths.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitstab.h"

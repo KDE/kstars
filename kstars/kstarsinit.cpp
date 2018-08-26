@@ -35,7 +35,7 @@
 #ifdef HAVE_INDI
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #endif
 
 #include <KActionCollection>

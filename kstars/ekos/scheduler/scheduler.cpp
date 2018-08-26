@@ -23,7 +23,7 @@
 #include "skymapcomposite.h"
 #include "auxiliary/QProgressIndicator.h"
 #include "dialogs/finddialog.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "ekos/capture/sequencejob.h"
 #include "skyobjects/starobject.h"
 
@@ -82,6 +82,8 @@ Scheduler::Scheduler()
                                           QDBusConnection::sessionBus(), this);
     capInterface     = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/DustCap", "org.kde.kstars.Ekos.DustCap",
                                       QDBusConnection::sessionBus(), this);
+
+    connect(ekosInterface, SIGNAL(indiStatusChanged(uint)), this, SLOT(pause()));
 
     moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName("Moon"));
 
@@ -2339,7 +2341,7 @@ bool Scheduler::checkEkosState()
             // Even if state is IDLE, check if Ekos is already started. If not, start it.
             QDBusReply<int> isEkosStarted;
             isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
-            if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
+            if (isEkosStarted.value() == Ekos::STATUS_SUCCESS)
             {
                 ekosState = EKOS_READY;
                 return true;
@@ -2360,13 +2362,13 @@ bool Scheduler::checkEkosState()
         {
             QDBusReply<int> isEkosStarted;
             isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
-            if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
+            if (isEkosStarted.value() == Ekos::STATUS_SUCCESS)
             {
                 appendLogText(i18n("Ekos started."));
                 ekosState = EKOS_READY;
                 return true;
             }
-            else if (isEkosStarted.value() == EkosManager::EKOS_STATUS_ERROR)
+            else if (isEkosStarted.value() == Ekos::STATUS_ERROR)
             {
                 if (ekosConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
@@ -2400,7 +2402,7 @@ bool Scheduler::checkEkosState()
         {
             QDBusReply<int> isEkosStarted;
             isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
-            if (isEkosStarted.value() == EkosManager::EKOS_STATUS_IDLE)
+            if (isEkosStarted.value() == Ekos::STATUS_IDLE)
             {
                 appendLogText(i18n("Ekos stopped."));
                 ekosState = EKOS_IDLE;
@@ -2430,7 +2432,7 @@ bool Scheduler::checkINDIState()
         {
             // Even in idle state, we make sure that INDI is not already connected.
             QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
-            if (isINDIConnected.value() == EkosManager::EKOS_STATUS_SUCCESS)
+            if (isINDIConnected.value() == Ekos::STATUS_SUCCESS)
             {
                 indiState = INDI_PROPERTY_CHECK;
 
@@ -2455,13 +2457,13 @@ bool Scheduler::checkINDIState()
         case INDI_CONNECTING:
         {
             QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
-            if (isINDIConnected.value() == EkosManager::EKOS_STATUS_SUCCESS)
+            if (isINDIConnected.value() == Ekos::STATUS_SUCCESS)
             {
                 appendLogText(i18n("INDI devices connected."));
                 indiState = INDI_PROPERTY_CHECK;
                 return false;
             }
-            else if (isINDIConnected.value() == EkosManager::EKOS_STATUS_ERROR)
+            else if (isINDIConnected.value() == Ekos::STATUS_ERROR)
             {
                 if (indiConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
@@ -2496,7 +2498,7 @@ bool Scheduler::checkINDIState()
         case INDI_DISCONNECTING:
         {
             QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
-            if (isINDIConnected.value() == EkosManager::EKOS_STATUS_IDLE)
+            if (isINDIConnected.value() == Ekos::STATUS_IDLE)
             {
                 appendLogText(i18n("INDI devices disconnected."));
                 indiState = INDI_IDLE;
@@ -2581,7 +2583,7 @@ bool Scheduler::checkStartupState()
             // unless we do not have light frames, then we skip all
             QDBusReply<int> isEkosStarted;
             isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
-            if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
+            if (isEkosStarted.value() == Ekos::STATUS_SUCCESS)
             {
                 if (startupScriptURL.isEmpty() == false)
                     appendLogText(i18n("Ekos is already started, skipping startup script..."));
@@ -3613,13 +3615,13 @@ bool Scheduler::manageConnectionLoss()
 
     // If Ekos is assumed to be up, check its state
     QDBusReply<int> const isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
-    if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
+    if (isEkosStarted.value() == Ekos::STATUS_SUCCESS)
     {
         qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Ekos is currently connected, checking INDI before mitigating connection loss.");
 
         // If INDI is assumed to be up, check its state
         QDBusReply<int> const isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
-        if (isINDIConnected.value() == EkosManager::EKOS_STATUS_SUCCESS)
+        if (isINDIConnected.value() == Ekos::STATUS_SUCCESS)
         {
             // If both Ekos and INDI are assumed up, and are actually up, no mitigation needed, this is a DBus interface error
             qCDebug(KSTARS_EKOS_SCHEDULER) << QString("INDI is currently connected, no connection loss mitigation needed.");

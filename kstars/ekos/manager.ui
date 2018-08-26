@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>EkosManager</class>
- <widget class="QWidget" name="EkosManager">
+ <class>Manager</class>
+ <widget class="QWidget" name="Manager">
   <property name="geometry">
    <rect>
     <x>0</x>

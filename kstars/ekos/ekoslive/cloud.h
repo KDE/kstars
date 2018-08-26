@@ -16,7 +16,7 @@
 #include <memory>
 
 #include "ekos/ekos.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 
 class FITSView;
 
@@ -27,7 +27,7 @@ class Cloud : public QObject
     Q_OBJECT
 
 public:
-    Cloud(EkosManager *manager);
+    Cloud(Ekos::Manager *manager);
     virtual ~Cloud() = default;
 
     void sendResponse(const QString &command, const QJsonObject &payload);
@@ -63,7 +63,7 @@ private:
     QWebSocket m_WebSocket;
     QJsonObject m_AuthResponse;
     uint16_t m_ReconnectTries {0};
-    EkosManager *m_Manager { nullptr };
+    Ekos::Manager *m_Manager { nullptr };
     QUrl m_URL;
 
     QString extension;

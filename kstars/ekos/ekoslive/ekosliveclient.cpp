@@ -11,7 +11,7 @@
 
 #include "ekosliveclient.h"
 #include "ekos_debug.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "ekos/capture/capture.h"
 #include "ekos/mount/mount.h"
 #include "ekos/focus/focus.h"
@@ -38,7 +38,7 @@
 
 namespace EkosLive
 {
-Client::Client(EkosManager *manager) : QDialog(manager), m_Manager(manager)
+Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
 {
     setupUi(this);
 

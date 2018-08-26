@@ -13,7 +13,7 @@
 #include "Options.h"
 #include "scheduler.h"
 #include "skymap.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "projections/projector.h"
 
 #include "ekos_scheduler_debug.h"

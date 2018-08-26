@@ -19,7 +19,7 @@
 #include "skymap.h"
 #include "ui_calibrationoptions.h"
 #include "auxiliary/QProgressIndicator.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"

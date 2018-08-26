@@ -25,7 +25,7 @@
 namespace EkosLive
 {
 
-Cloud::Cloud(EkosManager *manager): m_Manager(manager)
+Cloud::Cloud(Ekos::Manager *manager): m_Manager(manager)
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &Cloud::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Cloud::onDisconnected);

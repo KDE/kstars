@@ -51,7 +51,7 @@
 #include "indi/indilistener.h"
 #include "indi/driverinfo.h"
 #include "indi/indistd.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "ekos/align/align.h"
 #endif
 

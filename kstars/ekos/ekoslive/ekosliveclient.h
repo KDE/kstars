@@ -14,7 +14,7 @@
 #include <memory>
 
 #include "ekos/ekos.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "ekos/align/align.h"
 #include "indi/indicommon.h"
 #include "ksnotification.h"
@@ -36,7 +36,7 @@ class Client : public QDialog, public Ui::EkosLiveDialog
 {
     Q_OBJECT
 public:
-    explicit Client(EkosManager *manager);
+    explicit Client(Ekos::Manager *manager);
     ~Client();
 
     bool isConnected() const { return m_isConnected; }    
@@ -65,7 +65,7 @@ private:
     QJsonObject authResponse;
     QWebSocket m_mediaWebSocket;
     bool m_isConnected { false };
-    EkosManager *m_Manager { nullptr };
+    Ekos::Manager *m_Manager { nullptr };
     QNetworkAccessManager *networkManager { nullptr };
 
     QProgressIndicator *pi { nullptr };

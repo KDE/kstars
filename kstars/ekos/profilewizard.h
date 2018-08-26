@@ -17,6 +17,11 @@
 #include <QHostInfo>
 #include <QPointer>
 
+namespace Ekos
+{
+    class Manager;
+}
+
 class ProfileWizard : public QDialog, public Ui::ProfileWizard
 {
     Q_OBJECT
@@ -63,7 +68,7 @@ class ProfileWizard : public QDialog, public Ui::ProfileWizard
     QString profileName, host, port;
     QPointer<QProgressDialog> stellarMateDetectDialog;
 
-    friend class EkosManager;
+    friend class Ekos::Manager;
 };
 
 #endif

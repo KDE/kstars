@@ -56,7 +56,7 @@ class RotatorSettings;
  * - Integrate with all INDI native devices.
  * - Powerful scripting capabilities via \ref EkosDBusInterface "DBus."
  *
- * The primary class is EkosManager. It handles startup and shutdown of local and remote INDI devices, manages and orchesterates the various Ekos modules, and provides advanced DBus
+ * The primary class is Ekos::Manager. It handles startup and shutdown of local and remote INDI devices, manages and orchesterates the various Ekos modules, and provides advanced DBus
  * interface to enable unattended scripting.
  *
  * @author Jasem Mutlaq

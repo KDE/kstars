@@ -26,7 +26,7 @@
 
 #include "mountadaptor.h"
 
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 
 #include "kstars.h"
 #include "skymapcomposite.h"

@@ -34,7 +34,7 @@
 #include "dialogs/exportimagedialog.h"
 #include "skycomponents/starblockfactory.h"
 #ifdef HAVE_INDI
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
 #endif
@@ -159,7 +159,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
 #endif
 
 #ifdef HAVE_INDI
-    m_EkosManager.clear();
+    m_Ekos::Manager.clear();
 #endif
 
     // Set pinstance to yourself
@@ -305,8 +305,8 @@ void KStars::releaseResources()
     FOVManager::releaseCache();
 
 #ifdef HAVE_INDI
-    delete m_EkosManager;
-    m_EkosManager = nullptr;
+    delete m_Ekos::Manager;
+    m_Ekos::Manager = nullptr;
 //    GUIManager::Instance()->close();
 #endif
 
@@ -624,12 +624,12 @@ FITSViewer *KStars::genericFITSViewer()
 #endif
 
 #ifdef HAVE_INDI
-EkosManager *KStars::ekosManager()
+Ekos::Manager *KStars::ekosManager()
 {
-    if (m_EkosManager.isNull())
-        m_EkosManager = new EkosManager(Options::independentWindowEkos() ? nullptr : this);
+    if (m_Ekos::Manager.isNull())
+        m_Ekos::Manager = new Ekos::Manager(Options::independentWindowEkos() ? nullptr : this);
 
-    return m_EkosManager;
+    return m_Ekos::Manager;
 }
 
 #endif

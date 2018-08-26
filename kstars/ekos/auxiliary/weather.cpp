@@ -9,7 +9,7 @@
 
 #include "weather.h"
 
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "kstars.h"
 #include "weatheradaptor.h"
 
