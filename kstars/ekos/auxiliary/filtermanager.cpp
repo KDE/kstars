@@ -210,6 +210,13 @@ void FilterManager::setCurrentFilterWheel(ISD::GDInterface *filter)
     connect(filter, SIGNAL(textUpdated(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));
     connect(filter, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
     connect(filter, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
+    connect(filter, &ISD::GDInterface::Disconnected, [&]() {
+        m_currentFilterLabels.clear();
+        m_currentFilterPosition = -1;
+        m_currentFilterDevice = nullptr;
+        m_FilterNameProperty = nullptr;
+        m_FilterPositionProperty = nullptr;
+    });
 
     if (m_currentFilterLabels.isEmpty() == false)
         refreshFilterModel();
