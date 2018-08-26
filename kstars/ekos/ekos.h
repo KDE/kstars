@@ -144,4 +144,6 @@ const QString &getFilterStatusString(FilterState state);
 
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
                                        const int order, double &chisq);
+
+enum CommunicationStatus { STATUS_IDLE, STATUS_PENDING, STATUS_SUCCESS, STATUS_ERROR };
 }

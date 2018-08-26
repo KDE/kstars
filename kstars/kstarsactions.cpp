@@ -79,7 +79,7 @@
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/opsfits.h"
 #ifdef HAVE_INDI
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "ekos/opsekos.h"
 #endif
 #endif
@@ -1049,8 +1049,8 @@ void KStars::slotViewOps()
     opsekos                     = new OpsEkos();
     KPageWidgetItem *ekosOption = dialog->addPage(opsekos, i18n("Ekos"), "kstars_ekos");
     ekosOption->setIcon(QIcon::fromTheme("kstars_ekos"));
-    if (m_EkosManager)
-        m_EkosManager->setOptionsWidget(ekosOption);
+    if (m_Ekos::Manager)
+        m_Ekos::Manager->setOptionsWidget(ekosOption);
 #endif
 
 #endif

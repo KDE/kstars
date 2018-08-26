@@ -10,7 +10,7 @@
 
 #include "opsekos.h"
 
-#include "ekosmanager.h"
+#include "manager.h"
 #include "kspaths.h"
 #include "kstars.h"
 #include "kstarsdata.h"

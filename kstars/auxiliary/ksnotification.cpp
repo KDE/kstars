@@ -21,7 +21,7 @@
 #ifdef HAVE_INDI
 #ifdef HAVE_CFITSIO
 #include "kstars.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #endif
 #endif
 #endif // KSTARS_LITE
@@ -84,7 +84,7 @@ void event(const QLatin1String &name, const QString &message, EventType type)
 
 #ifdef HAVE_INDI
 #ifdef HAVE_CFITSIO
-    EkosManager *manager = KStars::Instance()->ekosManager();
+    Ekos::Manager *manager = KStars::Instance()->ekosManager();
     if (manager)
         manager->announceEvent(message, type);
 #endif

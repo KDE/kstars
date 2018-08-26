@@ -51,7 +51,7 @@
 #include "indi/indilistener.h"
 #include "indi/drivermanager.h"
 #include "indi/driverinfo.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #endif
 
 #include <KPlotting/KPlotAxis>

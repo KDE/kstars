@@ -16,7 +16,7 @@
 #include <memory>
 
 #include "ekos/ekos.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 
 namespace EkosLive
 {
@@ -25,7 +25,7 @@ class Message : public QObject
     Q_OBJECT
 
 public:
-    Message(EkosManager *manager);
+    Message(Ekos::Manager *manager);
     virtual ~Message() = default;
 
     void sendResponse(const QString &command, const QJsonObject &payload);
@@ -63,7 +63,7 @@ public slots:
     void sendConnection();
 
     // Ekos
-    void setEkosStatingStatus(EkosManager::CommunicationStatus status);
+    void setEkosStatingStatus(Ekos::CommunicationStatus status);
 
     // Alignment
     void setAlignStatus(Ekos::AlignState newState);
@@ -125,7 +125,7 @@ private:
     QWebSocket m_WebSocket;
     QJsonObject m_AuthResponse;
     uint16_t m_ReconnectTries {0};
-    EkosManager *m_Manager { nullptr };
+    Ekos::Manager *m_Manager { nullptr };
     QUrl m_URL;
 
     bool m_isConnected { false };    

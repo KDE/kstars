@@ -10,7 +10,7 @@
 #include "dome.h"
 
 #include "domeadaptor.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"
 #include "kstars.h"

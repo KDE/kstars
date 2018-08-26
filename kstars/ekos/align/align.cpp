@@ -29,7 +29,7 @@
 #include "starobject.h"
 #include "auxiliary/QProgressIndicator.h"
 #include "dialogs/finddialog.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitstab.h"
@@ -3614,7 +3614,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
         }
     }
 
-    // N.B. EkosManager already mananges TELESCOPE_INFO, why here again?
+    // N.B. Ekos::Manager already mananges TELESCOPE_INFO, why here again?
     //if (!strcmp(coord->name, "TELESCOPE_INFO"))
     //syncTelescopeInfo();
 }

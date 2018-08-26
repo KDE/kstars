@@ -10,7 +10,7 @@
 #include "dustcap.h"
 
 #include "dustcapadaptor.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "kstars.h"
 
 #include <basedevice.h>

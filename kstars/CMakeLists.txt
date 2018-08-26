@@ -170,7 +170,7 @@ if (INDI_FOUND)
     if (CFITSIO_FOUND)
         set(ekosui_SRCS
             ekos/opsekos.ui
-            ekos/ekosmanager.ui
+            ekos/manager.ui
             ekos/profileeditor.ui
             ekos/profilewizard.ui
             # Scheduler
@@ -210,7 +210,7 @@ if (INDI_FOUND)
 
         set(ekos_SRCS
             ekos/ekos.cpp
-            ekos/ekosmanager.cpp
+            ekos/manager.cpp
             ekos/profileeditor.cpp
             ekos/profilewizard.cpp
             ekos/qMDNS.cpp
@@ -947,7 +947,7 @@ IF (NOT ANDROID)
 
     IF (INDI_FOUND)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/ekosmanager.h EkosManager)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/manager.h Ekos::Manager)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture/capture.h Ekos::Capture)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus/focus.h Ekos::Focus)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide/guide.h Ekos::Guide)

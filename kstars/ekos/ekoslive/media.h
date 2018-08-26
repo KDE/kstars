@@ -16,7 +16,7 @@
 #include <memory>
 
 #include "ekos/ekos.h"
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 
 class FITSView;
 
@@ -27,7 +27,7 @@ class Media : public QObject
     Q_OBJECT
 
 public:
-    Media(EkosManager *manager);
+    Media(Ekos::Manager *manager);
     virtual ~Media() = default;
 
     void sendResponse(const QString &command, const QJsonObject &payload);
@@ -79,7 +79,7 @@ private:
     QWebSocket m_WebSocket;
     QJsonObject m_AuthResponse;
     uint16_t m_ReconnectTries {0};
-    EkosManager *m_Manager { nullptr };
+    Ekos::Manager *m_Manager { nullptr };
     QUrl m_URL;
 
     QMap<int,bool> m_Options;

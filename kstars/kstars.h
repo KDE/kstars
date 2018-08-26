@@ -62,7 +62,6 @@ class FlagManager;
 class Execute;
 class ExportImageDialog;
 class PrintingWizard;
-class EkosManager;
 class HorizonManager;
 class EyepieceField;
 class AddDeepSkyObject;
@@ -77,8 +76,11 @@ class OpsAdvanced;
 class OpsINDI;
 class OpsEkos;
 class OpsFITS;
-
 class OpsXplanet;
+
+namespace Ekos {
+class Manager;
+}
 
 #ifdef HAVE_CFITSIO
 class FITSViewer;
@@ -147,7 +149,7 @@ class KStars : public KXmlGuiWindow
 #endif
 
 #ifdef HAVE_INDI
-    EkosManager *ekosManager();
+    Ekos::Manager *ekosManager();
 #endif
 
     /** Add an item to the color-scheme action manu
@@ -795,7 +797,7 @@ class KStars : public KXmlGuiWindow
 #endif
 
 #ifdef HAVE_INDI
-    QPointer<EkosManager> m_EkosManager;
+    QPointer<Ekos::Manager> m_EkosManager;
 #endif
 
     AddDeepSkyObject *m_addDSODialog { nullptr };

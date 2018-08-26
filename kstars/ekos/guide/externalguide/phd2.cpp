@@ -13,7 +13,7 @@
 #include "kspaths.h"
 #include "kstars.h"
 
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "fitsviewer/fitsdata.h"
 
 #include <cassert>

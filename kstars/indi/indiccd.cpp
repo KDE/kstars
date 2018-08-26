@@ -21,7 +21,7 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "streamwg.h"
-#include "ekos/ekosmanager.h"
+//#include "ekos/manager.h"
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsdata.h"
 #endif
@@ -1456,6 +1456,10 @@ void CCD::processBLOB(IBLOB *bp)
             case FITS_NORMAL:
             {
                 // Get a pointer to the Ekos summary preview if it exsist
+
+                // FIXME
+                // A signal should be used as we shouldn't access Ekos Manager here in INDI at all
+                #if 0
                 FITSView *summaryFITSPreview = KStars::Instance()->ekosManager()->getSummaryPreview();
                 // Only load preview in Ekos Summary screen if limited resources mode is off
                 // and if useSummaryPreview is enabled and if the target chip belongs to the primary chip of the camera
@@ -1466,6 +1470,7 @@ void CCD::processBLOB(IBLOB *bp)
                     if (imageLoad)
                         summaryFITSPreview->updateFrame();
                 }
+                #endif
                 if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
                 {
                     if (normalTabID == -1 || Options::singlePreviewFITS() == false)
@@ -1494,11 +1499,13 @@ void CCD::processBLOB(IBLOB *bp)
                 }
                 // If we used Ekos summary preview to load the FITS image
                 // Then set it as the default image view for the target chip
+                #if 0
                 else if (summaryFITSPreview)
                 {
                   targetChip->setImageView(summaryFITSPreview, FITS_NORMAL);
                   emit newImage(summaryFITSPreview->getDisplayImage(), targetChip);
                 }
+                #endif
             }
             break;
 

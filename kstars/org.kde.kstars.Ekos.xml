@@ -1,6 +1,8 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos">
+    <property name="indiStatus" type="u" access="read"/>
+    <property name="ekosStatus" type="u" access="read"/>
     <method name="connectDevices">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
@@ -26,5 +28,13 @@
       <arg name="profileName" type="s" direction="in"/>
       <arg type="b" direction="out"/>
     </method>
+    <signal name="indiStatusChanged">
+        <arg name="status" type="u" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CommunicationStatus"/>
+    </signal>
+    <signal name="ekosStatusChanged">
+        <arg name="status" type="u" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CommunicationStatus"/>
+    </signal>
   </interface>
 </node>

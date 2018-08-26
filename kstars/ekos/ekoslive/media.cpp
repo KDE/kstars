@@ -24,7 +24,7 @@
 namespace EkosLive
 {
 
-Media::Media(EkosManager *manager): m_Manager(manager)
+Media::Media(Ekos::Manager *manager): m_Manager(manager)
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &Media::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Media::onDisconnected);
