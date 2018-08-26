@@ -159,7 +159,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
 #endif
 
 #ifdef HAVE_INDI
-    m_Ekos::Manager.clear();
+    m_EkosManager.clear();
 #endif
 
     // Set pinstance to yourself
@@ -305,8 +305,8 @@ void KStars::releaseResources()
     FOVManager::releaseCache();
 
 #ifdef HAVE_INDI
-    delete m_Ekos::Manager;
-    m_Ekos::Manager = nullptr;
+    delete m_EkosManager;
+    m_EkosManager = nullptr;
 //    GUIManager::Instance()->close();
 #endif
 
@@ -626,10 +626,10 @@ FITSViewer *KStars::genericFITSViewer()
 #ifdef HAVE_INDI
 Ekos::Manager *KStars::ekosManager()
 {
-    if (m_Ekos::Manager.isNull())
-        m_Ekos::Manager = new Ekos::Manager(Options::independentWindowEkos() ? nullptr : this);
+    if (m_EkosManager.isNull())
+        m_EkosManager = new Ekos::Manager(Options::independentWindowEkos() ? nullptr : this);
 
-    return m_Ekos::Manager;
+    return m_EkosManager;
 }
 
 #endif

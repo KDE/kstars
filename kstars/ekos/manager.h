@@ -85,7 +85,7 @@ class Manager : public QDialog, public Ui::Manager
     explicit Manager(QWidget *parent);
     ~Manager();
 
-    Q_ENUM(CommunicationStatus)
+    //Q_ENUM(CommunicationStatus)
 
     void appendLogText(const QString &);
     //void refreshRemoteDrivers();
@@ -156,8 +156,9 @@ class Manager : public QDialog, public Ui::Manager
     Q_SCRIPTABLE bool stop();
 
  signals:
-    Q_SCRIPTABLE void ekosStatusChanged(CommunicationStatus status);
-    Q_SCRIPTABLE void indiStatusChanged(CommunicationStatus status);
+    // Have to use full Ekos::CommunicationStatus for DBus signal to work
+    void ekosStatusChanged(Ekos::CommunicationStatus status);
+    void indiStatusChanged(Ekos::CommunicationStatus status);
 
   protected:
     void closeEvent(QCloseEvent *);

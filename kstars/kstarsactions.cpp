@@ -1049,8 +1049,8 @@ void KStars::slotViewOps()
     opsekos                     = new OpsEkos();
     KPageWidgetItem *ekosOption = dialog->addPage(opsekos, i18n("Ekos"), "kstars_ekos");
     ekosOption->setIcon(QIcon::fromTheme("kstars_ekos"));
-    if (m_Ekos::Manager)
-        m_Ekos::Manager->setOptionsWidget(ekosOption);
+    if (m_EkosManager)
+        m_EkosManager->setOptionsWidget(ekosOption);
 #endif
 
 #endif
