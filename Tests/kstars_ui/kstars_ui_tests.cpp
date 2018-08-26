@@ -12,7 +12,7 @@
 
 #include "auxiliary/kspaths.h"
 #if defined(HAVE_INDI)
-#include "ekos/ekosmanager.h"
+#include "ekos/manager.h"
 #include "ekos/profileeditor.h"
 #endif
 #include "kstars.h"
@@ -110,7 +110,7 @@ void addEkosProfileTest()
     QCOMPARE(action != nullptr, true);
     action->trigger();
     QThread::msleep(500);
-    EkosManager *ekos = kstarsInstance->ekosManager();
+    Ekos::Manager *ekos = kstarsInstance->ekosManager();
 
     QCOMPARE(ekos != nullptr, true);
     QCOMPARE(ekos->isVisible(), true);
@@ -175,7 +175,7 @@ void verifyEkosProfileTest()
     QCOMPARE(action != nullptr, true);
     action->trigger();
     QThread::msleep(1000);
-    EkosManager *ekos = kstarsInstance->ekosManager();
+    Ekos::Manager *ekos = kstarsInstance->ekosManager();
 
     QCOMPARE(ekos != nullptr, true);
     QCOMPARE(ekos->isVisible(), true);
@@ -238,7 +238,7 @@ void removeEkosProfileTest()
     QCOMPARE(action != nullptr, true);
     action->trigger();
     QThread::msleep(500);
-    EkosManager *ekos = kstarsInstance->ekosManager();
+    Ekos::Manager *ekos = kstarsInstance->ekosManager();
 
     QCOMPARE(ekos != nullptr, true);
     QCOMPARE(ekos->isVisible(), true);

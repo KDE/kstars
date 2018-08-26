@@ -69,8 +69,6 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
 #endif
     setupUi(this);
 
-    qRegisterMetaType<Ekos::CommunicationStatus>("Ekos::CommunicationStatus");
-
     new EkosAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos", this);
 
