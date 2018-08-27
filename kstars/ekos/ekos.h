@@ -11,6 +11,8 @@
 
 #include <KLocalizedString>
 
+#include <QMetaType>
+#include <QDBusArgument>
 #include <QStringList>
 #include <QString>
 
@@ -147,3 +149,7 @@ std::vector<double> gsl_polynomial_fit(const double *const data_x, const double 
 
 enum CommunicationStatus { STATUS_IDLE, STATUS_PENDING, STATUS_SUCCESS, STATUS_ERROR };
 }
+
+Q_DECLARE_METATYPE(Ekos::CommunicationStatus)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::CommunicationStatus& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::CommunicationStatus &dest);
