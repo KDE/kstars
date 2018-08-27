@@ -88,3 +88,23 @@ std::vector<double> gsl_polynomial_fit(const double *const data_x, const double 
     return vc;
 }
 }
+
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::CommunicationStatus& source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::CommunicationStatus &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+
+    dest = static_cast<Ekos::CommunicationStatus>(a);
+
+    return argument;
+}

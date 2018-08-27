@@ -69,6 +69,9 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
 #endif
     setupUi(this);
 
+    qRegisterMetaType<Ekos::CommunicationStatus>("Ekos::CommunicationStatus");
+    qDBusRegisterMetaType<Ekos::CommunicationStatus>();
+
     new EkosAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos", this);
 
@@ -362,7 +365,7 @@ void Manager::loadDrivers()
 
 void Manager::reset()
 {
-    qCDebug(KSTARS_EKOS) << "Resetting Ekos Manager...";
+    qCDebug(KSTARS_EKOS) << "Resetting Ekos Manager...";       
 
     // Filter Manager
     filterManager.reset(new Ekos::FilterManager());
@@ -386,10 +389,15 @@ void Manager::reset()
     weatherProcess.reset();
     dustCapProcess.reset();
 
+    Ekos::CommunicationStatus previousStatus = m_ekosStatus;
     m_ekosStatus   = Ekos::STATUS_IDLE;
-    emit ekosStatusChanged(m_ekosStatus);
+    if (previousStatus != m_ekosStatus)
+        emit ekosStatusChanged(m_ekosStatus);
+
+    previousStatus = m_indiStatus;
     m_indiStatus = Ekos::STATUS_IDLE;
-    emit indiStatusChanged(m_indiStatus);
+    if (previousStatus != m_indiStatus)
+        emit indiStatusChanged(m_indiStatus);
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
