@@ -1181,8 +1181,8 @@ bool Capture::setCaptureComplete()
     if (activeJob->getExposure() >= 1)
         KSNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"), KSNotification::EVENT_INFO);
 
-    // If it was initially set as preview job
-    if (activeJob->isPreview())
+    // If it was initially set as pure preview job and NOT as preview for calibration
+    if (activeJob->isPreview() && calibrationStage != CAL_CALIBRATION)
     {
         jobs.removeOne(activeJob);
         // Reset upload mode if it was changed by preview
@@ -1208,7 +1208,8 @@ bool Capture::setCaptureComplete()
     }
 
     /* Increase the sequence's current capture count */
-    activeJob->setCompleted(activeJob->getCompleted() + 1);
+    if (! activeJob->isPreview())
+        activeJob->setCompleted(activeJob->getCompleted() + 1);
 
     /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
     SchedulerJob::CapturedFramesMap::iterator frame_item = capturedFramesMap.find(activeJob->getSignature());
