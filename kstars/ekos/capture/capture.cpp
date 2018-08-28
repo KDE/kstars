@@ -396,8 +396,17 @@ void Capture::start()
         {
             double initialRA, initialDE;
             currentTelescope->getEqCoords(&initialRA, &initialDE);
-            initialMountCoords.setRA(initialRA);
-            initialMountCoords.setDec(initialDE);
+            if (currentTelescope->isJ2000())
+            {
+                initialMountCoords.setRA0(initialRA);
+                initialMountCoords.setDec0(initialDE);
+                initialMountCoords.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+            }
+            else
+            {
+                initialMountCoords.setRA(initialRA);
+                initialMountCoords.setDec(initialDE);
+            }
 
             qCDebug(KSTARS_EKOS_CAPTURE) << "Initial mount coordinates RA:" << initialMountCoords.ra().toHMSString()
                                          << "DE:" << initialMountCoords.dec().toDMSString();

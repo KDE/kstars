@@ -152,6 +152,7 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
 {
     if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD") || !strcmp(nvp->name, "EQUATORIAL_COORD"))
     {
+        m_isJ2000 = false;
         INumber *RA  = IUFindNumber(nvp, "RA");
         INumber *DEC = IUFindNumber(nvp, "DEC");
 
@@ -164,6 +165,7 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         // If J2000, connvert it to JNow
         if (!strcmp(nvp->name, "EQUATORIAL_COORD"))
         {
+            m_isJ2000 = true;
             currentCoord.setRA0(RA->value);
             currentCoord.setDec0(DEC->value);
             currentCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
@@ -837,7 +839,11 @@ bool Telescope::getEqCoords(double *ra, double *dec)
 
     EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
     if (EqProp == nullptr)
-        return false;
+    {
+        EqProp = baseDevice->getNumber("EQUATORIAL_COORD");
+        if (EqProp == nullptr)
+            return false;
+    }
 
     RAEle = IUFindNumber(EqProp, "RA");
     if (!RAEle)
