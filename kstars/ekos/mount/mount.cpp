@@ -900,8 +900,12 @@ bool Mount::unpark()
 
 Mount::ParkingStatus Mount::getParkingStatus()
 {
-    if (currentTelescope == nullptr || currentTelescope->canPark() == false)
+    if (currentTelescope == nullptr)
         return PARKING_ERROR;
+
+    // In the case mount can't park, return mount is unparked
+    if (currentTelescope->canPark() == false)
+        return UNPARKING_OK;
 
     ISwitchVectorProperty *parkSP = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_PARK");
 
@@ -932,7 +936,12 @@ Mount::ParkingStatus Mount::getParkingStatus()
                 return UNPARKING_BUSY;
 
         case IPS_ALERT:
-            return PARKING_ERROR;
+            // If mount replied with an error to the last un/park request,
+            // assume state did not change in order to return a clear state
+            if (parkSP->sp[0].s == ISS_ON)
+                return PARKING_OK;
+            else
+                return UNPARKING_OK;
     }
 
     return PARKING_ERROR;
