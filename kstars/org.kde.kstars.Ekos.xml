@@ -3,17 +3,12 @@
   <interface name="org.kde.kstars.Ekos">
     <property name="indiStatus" type="u" access="read"/>
     <property name="ekosStatus" type="u" access="read"/>
+    <property name="logText" type="as" access="read"/>
     <method name="connectDevices">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="disconnectDevices">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="getINDIConnectionStatus">
-      <arg type="i" direction="out"/>
-    </method>
-    <method name="getEkosStartingStatus">
-      <arg type="i" direction="out"/>
     </method>
     <method name="start">
       <arg type="b" direction="out"/>
@@ -35,6 +30,9 @@
     <signal name="ekosStatusChanged">
         <arg name="status" type="(i)" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CommunicationStatus"/>
+    </signal>
+    <signal name="newLog">
+        <arg name="text" type="s" direction="out"/>
     </signal>
   </interface>
 </node>

@@ -427,13 +427,13 @@ void Manager::reset()
     if (guidePI)
         guidePI->stopAnimation();
 
-    isStarted = false;
+    m_isStarted = false;
     processINDIB->setText(i18n("Start INDI"));
 }
 
 void Manager::processINDI()
 {
-    if (isStarted == false)
+    if (m_isStarted == false)
         start();
     else
         stop();
@@ -450,7 +450,7 @@ bool Manager::stop()
 
 bool Manager::start()
 {
-    if (localMode)
+    if (m_LocalMode)
         qDeleteAll(managedDrivers);
     managedDrivers.clear();
 
@@ -464,7 +464,7 @@ bool Manager::start()
     reset();
 
     currentProfile = getCurrentProfile();
-    localMode      = currentProfile->isLocal();
+    m_LocalMode      = currentProfile->isLocal();
 
     // Load profile location if one exists
     updateProfileLocation(currentProfile);
@@ -482,7 +482,7 @@ bool Manager::start()
         Options::setLinGuiderPort(currentProfile->guiderport);
     }
 
-    if (localMode)
+    if (m_LocalMode)
     {
         DriverInfo *drv = driversList.value(currentProfile->mount());
 
@@ -657,7 +657,7 @@ bool Manager::start()
         }
     }
 #endif
-    if (localMode)
+    if (m_LocalMode)
     {
         if (isRunning("indiserver"))
         {
@@ -708,7 +708,7 @@ bool Manager::start()
         if (currentProfile->INDIWebManagerPort > 0)
         {
             appendLogText(i18n("Establishing communication with remote INDI Web Manager..."));
-            remoteManagerStart = false;
+            m_RemoteManagerStart = false;
             if (INDI::WebManager::isOnline(currentProfile))
             {
                 INDI::WebManager::syncCustomDrivers(currentProfile);
@@ -724,7 +724,7 @@ bool Manager::start()
                     }
 
                     appendLogText(i18n("Starting profile on remote INDI Web Manager..."));
-                    remoteManagerStart = true;
+                    m_RemoteManagerStart = true;
                 }
             }
             else
@@ -768,7 +768,7 @@ bool Manager::start()
 
     profileGroup->setEnabled(false);
 
-    isStarted = true;
+    m_isStarted = true;
     processINDIB->setText(i18n("Stop INDI"));
 
     return true;
@@ -787,7 +787,7 @@ void Manager::checkINDITimeout()
         return;
     }
 
-    if (localMode)
+    if (m_LocalMode)
     {
         QStringList remainingDevices;
         foreach (DriverInfo *drv, managedDrivers)
@@ -899,7 +899,7 @@ void Manager::disconnectDevices()
 
 void Manager::processServerTermination(const QString &host, const QString &port)
 {
-    if ((localMode && managedDrivers.first()->getPort() == port) ||
+    if ((m_LocalMode && managedDrivers.first()->getPort() == port) ||
             (currentProfile->host == host && currentProfile->port == port.toInt()))
     {
         cleanDevices(false);
@@ -916,7 +916,7 @@ void Manager::cleanDevices(bool stopDrivers)
 
     if (managedDrivers.isEmpty() == false)
     {
-        if (localMode)
+        if (m_LocalMode)
         {
             if (stopDrivers)
                 DriverManager::Instance()->stopDevices(managedDrivers);
@@ -926,10 +926,10 @@ void Manager::cleanDevices(bool stopDrivers)
             if (stopDrivers)
                 DriverManager::Instance()->disconnectRemoteHost(managedDrivers.first());
 
-            if (remoteManagerStart && currentProfile->INDIWebManagerPort != -1)
+            if (m_RemoteManagerStart && currentProfile->INDIWebManagerPort != -1)
             {
                 INDI::WebManager::stopProfile(currentProfile);
-                remoteManagerStart = false;
+                m_RemoteManagerStart = false;
             }
         }
     }
@@ -978,7 +978,7 @@ void Manager::processNewDevice(ISD::GDInterface *devInterface)
         disconnectB->setEnabled(false);
         //controlPanelB->setEnabled(true);
 
-        if (localMode == false && nDevices == 0)
+        if (m_LocalMode == false && nDevices == 0)
         {
             if (currentProfile->autoConnect)
                 appendLogText(i18n("Remote devices established."));
@@ -1748,7 +1748,7 @@ void Manager::updateLog()
     QWidget *currentWidget = toolsWidget->currentWidget();
 
     if (currentWidget == setupTab)
-        ekosLogOut->setPlainText(logText.join("\n"));
+        ekosLogOut->setPlainText(m_LogText.join("\n"));
     else if (currentWidget == alignProcess.get())
         ekosLogOut->setPlainText(alignProcess->getLogText());
     else if (currentWidget == captureProcess.get())
@@ -1770,10 +1770,12 @@ void Manager::updateLog()
 
 void Manager::appendLogText(const QString &text)
 {
-    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+    m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                             QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS) << text;
+
+    emit newLog(text);
 
     updateLog();
 }
@@ -1784,7 +1786,7 @@ void Manager::clearLog()
 
     if (currentWidget == setupTab)
     {
-        logText.clear();
+        m_LogText.clear();
         updateLog();
     }
     else if (currentWidget == alignProcess.get())
