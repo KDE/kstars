@@ -83,7 +83,7 @@ Scheduler::Scheduler()
     capInterface     = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/DustCap", "org.kde.kstars.Ekos.DustCap",
                                       QDBusConnection::sessionBus(), this);
 
-    connect(ekosInterface, SIGNAL(indiStatusChanged(uint)), this, SLOT(pause()));
+    connect(ekosInterface, SIGNAL(indiStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setINDICommunicationStatus(Ekos::CommunicationStatus)));
 
     moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName("Moon"));
 
@@ -6004,4 +6004,10 @@ int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
 
     return seqFileCount;
 }
+
+void Scheduler::setINDICommunicationStatus(Ekos::CommunicationStatus status)
+{
+    qDebug() << "Scheduler INDI status is" << status;
+}
+
 }

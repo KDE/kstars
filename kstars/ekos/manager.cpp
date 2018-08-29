@@ -92,27 +92,27 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     imageProgress->setFormat("%v");
     imageProgress->setBarStyle(QRoundProgressBar::StyleLine);
     countdownTimer.setInterval(1000);
-    connect(&countdownTimer, SIGNAL(timeout()), this, SLOT(updateCaptureCountDown()));
+    connect(&countdownTimer, &QTimer::timeout, this, &Ekos::Manager::updateCaptureCountDown);
 
     toolsWidget->setIconSize(QSize(48, 48));
-    connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
+    connect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange);
 
     // Enable scheduler Tab
     toolsWidget->setTabEnabled(1, false);
 
     // Start/Stop INDI Server
-    connect(processINDIB, SIGNAL(clicked()), this, SLOT(processINDI()));
+    connect(processINDIB, &QPushButton::clicked, this, &Ekos::Manager::processINDI);
 
     // Connect/Disconnect INDI devices
-    connect(connectB, SIGNAL(clicked()), this, SLOT(connectDevices()));
-    connect(disconnectB, SIGNAL(clicked()), this, SLOT(disconnectDevices()));
+    connect(connectB, &QPushButton::clicked, this, &Ekos::Manager::connectDevices);
+    connect(disconnectB, &QPushButton::clicked, this, &Ekos::Manager::disconnectDevices);
 
     ekosLiveB->setIcon(QIcon::fromTheme("folder-cloud"));
     ekosLiveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ekosLiveClient.reset(new EkosLive::Client(this));
 
     // INDI Control Panel
-    //connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
+    //connect(controlPanelB, &QPushButton::clicked, GUIManager::Instance(), SLOT(show()));
     connect(ekosLiveB, &QPushButton::clicked, [&]() {
         ekosLiveClient.get()->show();
         ekosLiveClient.get()->raise();
@@ -124,29 +124,29 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     connect(ekosLiveClient.get()->media(), &EkosLive::Media::newBoundingRect, ekosLiveClient.get()->message(), &EkosLive::Message::setBoundingRect);
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::resetPolarView, ekosLiveClient.get()->media(), &EkosLive::Media::resetPolarView);
 
-    connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
+    //connect(optionsB, &QPushButton::clicked, KStars::Instance(), KStars::slotViewOps()));
     // Save as above, but it appears in all modules
-    connect(ekosOptionsB, SIGNAL(clicked()), SLOT(showEkosOptions()));
+    connect(ekosOptionsB, &QPushButton::clicked, this, &Ekos::Manager::showEkosOptions);
 
     // Clear Ekos Log
-    connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
+    connect(clearB, &QPushButton::clicked, this, &Ekos::Manager::clearLog);
 
     // Logs
     KConfigDialog *dialog = new KConfigDialog(this, "logssettings", Options::self());
     opsLogs = new Ekos::OpsLogs();
     KPageWidgetItem *page = dialog->addPage(opsLogs, i18n("Logging"));
     page->setIcon(QIcon::fromTheme("configure"));
-    connect(logsB, SIGNAL(clicked()), dialog, SLOT(show()));
-    connect(dialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(updateDebugInterfaces()));
-    connect(dialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(updateDebugInterfaces()));
+    connect(logsB, &QPushButton::clicked, dialog, &KConfigDialog::show);
+    connect(dialog->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, &Ekos::Manager::updateDebugInterfaces);
+    connect(dialog->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &Ekos::Manager::updateDebugInterfaces);
 
     // Summary
     // previewPixmap = new QPixmap(QPixmap(":/images/noimage.png"));
 
     // Profiles
-    connect(addProfileB, SIGNAL(clicked()), this, SLOT(addProfile()));
-    connect(editProfileB, SIGNAL(clicked()), this, SLOT(editProfile()));
-    connect(deleteProfileB, SIGNAL(clicked()), this, SLOT(deleteProfile()));
+    connect(addProfileB, &QPushButton::clicked, this, &Ekos::Manager::addProfile);
+    connect(editProfileB, &QPushButton::clicked, this, &Ekos::Manager::editProfile);
+    connect(deleteProfileB, &QPushButton::clicked, this, &Ekos::Manager::deleteProfile);
     connect(profileCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
             [=](const QString &text)
     {
@@ -165,7 +165,7 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
 
 
     // Ekos Wizard
-    connect(wizardProfileB, SIGNAL(clicked()), this, SLOT(wizardProfile()));
+    connect(wizardProfileB, &QPushButton::clicked, this, &Ekos::Manager::wizardProfile);
 
     addProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     editProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -203,7 +203,7 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     schedulerProcess.reset(new Ekos::Scheduler());
     toolsWidget->addTab(schedulerProcess.get(), QIcon(":/icons/ekos_scheduler.png"), "");
     toolsWidget->tabBar()->setTabToolTip(1, i18n("Scheduler"));
-    connect(schedulerProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));
+    connect(schedulerProcess.get(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
     //connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
     connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString &target) {
         mountTarget->setText(target);
@@ -626,24 +626,17 @@ bool Manager::start()
         nDevices = currentProfile->drivers.count();
     }
 
-    connect(INDIListener::Instance(), SIGNAL(newDevice(ISD::GDInterface*)), this,
-            SLOT(processNewDevice(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newTelescope(ISD::GDInterface*)), this,
-            SLOT(setTelescope(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newCCD(ISD::GDInterface*)), this, SLOT(setCCD(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newFilter(ISD::GDInterface*)), this, SLOT(setFilter(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newFocuser(ISD::GDInterface*)), this,
-            SLOT(setFocuser(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newDome(ISD::GDInterface*)), this, SLOT(setDome(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newWeather(ISD::GDInterface*)), this,
-            SLOT(setWeather(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newDustCap(ISD::GDInterface*)), this,
-            SLOT(setDustCap(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newLightBox(ISD::GDInterface*)), this,
-            SLOT(setLightBox(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
-    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this,
-            SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);
+    connect(INDIListener::Instance(), &INDIListener::newDevice, this, &Ekos::Manager::processNewDevice);
+    connect(INDIListener::Instance(), &INDIListener::newTelescope, this, &Ekos::Manager::setTelescope);
+    connect(INDIListener::Instance(), &INDIListener::newCCD, this, &Ekos::Manager::setCCD);
+    connect(INDIListener::Instance(), &INDIListener::newFilter, this, &Ekos::Manager::setFilter);
+    connect(INDIListener::Instance(), &INDIListener::newFocuser, this, &Ekos::Manager::setFocuser);
+    connect(INDIListener::Instance(), &INDIListener::newDome, this, &Ekos::Manager::setDome);
+    connect(INDIListener::Instance(), &INDIListener::newWeather, this, &Ekos::Manager::setWeather);
+    connect(INDIListener::Instance(), &INDIListener::newDustCap, this, &Ekos::Manager::setDustCap);
+    connect(INDIListener::Instance(), &INDIListener::newLightBox, this, &Ekos::Manager::setLightBox);
+    connect(INDIListener::Instance(), &INDIListener::newST4, this, &Ekos::Manager::setST4);
+    connect(INDIListener::Instance(), &INDIListener::deviceRemoved, this, &Ekos::Manager::removeDevice, Qt::DirectConnection);
 
 #ifdef Q_OS_OSX
     if (localMode||currentProfile->host=="localhost")
@@ -707,7 +700,7 @@ bool Manager::start()
             appendLogText(
                         i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
 
-        QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
+        QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, &Ekos::Manager::checkINDITimeout);
     }
     else
     {
@@ -766,7 +759,7 @@ bool Manager::start()
         appendLogText(
                     i18n("INDI services started. Connection to remote INDI server is successful. Waiting for devices..."));
 
-        QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
+        QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, &Ekos::Manager::checkINDITimeout);
     }
 
     connectB->setEnabled(false);
@@ -972,9 +965,9 @@ void Manager::processNewDevice(ISD::GDInterface *devInterface)
 
     nDevices--;
 
-    connect(devInterface, SIGNAL(Connected()), this, SLOT(deviceConnected()));
-    connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
-    connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
+    connect(devInterface, &ISD::GDInterface::Connected, this, &Ekos::Manager::deviceConnected);
+    connect(devInterface, &ISD::GDInterface::Disconnected, this, &Ekos::Manager::deviceDisconnected);
+    connect(devInterface, &ISD::GDInterface::propertyDefined, this, &Ekos::Manager::processNewProperty);
 
     if (nDevices <= 0)
     {
@@ -1073,7 +1066,7 @@ void Manager::deviceConnected()
     {
         if (device == dev)
         {
-            connect(dev, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(watchDebugProperty(ISwitchVectorProperty*)));
+            connect(dev, &ISD::GDInterface::switchUpdated, this, &Ekos::Manager::watchDebugProperty);
 
             ISwitchVectorProperty *configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
             if (configProp && configProp->s == IPS_IDLE)
@@ -1826,12 +1819,12 @@ void Manager::initCapture()
         icon        = QIcon(pix.transformed(trans));
         toolsWidget->setTabIcon(index, icon);
     }
-    connect(captureProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));    
-    connect(captureProcess.get(), SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(updateCaptureStatus(Ekos::CaptureState)));
-    connect(captureProcess.get(), SIGNAL(newImage(QImage*,Ekos::SequenceJob*)), this,
-            SLOT(updateCaptureProgress(QImage*,Ekos::SequenceJob*)));
-    connect(captureProcess.get(), SIGNAL(newExposureProgress(Ekos::SequenceJob*)), this,
-            SLOT(updateExposureProgress(Ekos::SequenceJob*)));
+    connect(captureProcess.get(), &Ekos::Capture::newLog, this, &Ekos::Manager::updateLog);
+    connect(captureProcess.get(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
+    connect(captureProcess.get(), &Ekos::Capture::newImage, this,
+            &Ekos::Manager::updateCaptureProgress);
+    connect(captureProcess.get(), &Ekos::Capture::newExposureProgress, this,
+            &Ekos::Manager::updateExposureProgress);
     connect(captureProcess.get(), &Ekos::Capture::sequenceChanged, ekosLiveClient.get()->message(), &EkosLive::Message::sendCaptureSequence);
     connect(captureProcess.get(), &Ekos::Capture::settingsUpdated, ekosLiveClient.get()->message(), &EkosLive::Message::sendCaptureSettings);
     captureGroup->setEnabled(true);
@@ -1855,46 +1848,6 @@ void Manager::initCapture()
             captureProcess->setLightBox(device);
     }
 
-    if (focusProcess.get() != nullptr)
-    {
-        // Autofocus
-        connect(captureProcess.get(), SIGNAL(checkFocus(double)), focusProcess.get(), SLOT(checkFocus(double)),
-                Qt::UniqueConnection);
-        connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), captureProcess.get(),
-                SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
-        connect(focusProcess.get(), &Ekos::Focus::newHFR, captureProcess.get(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
-
-        // Meridian Flip
-        connect(captureProcess.get(), SIGNAL(meridianFlipStarted()), focusProcess.get(), SLOT(resetFrame()), Qt::UniqueConnection);
-    }
-
-    if (alignProcess.get() != nullptr)
-    {
-        // Alignment flag
-        connect(alignProcess.get(), SIGNAL(newStatus(Ekos::AlignState)), captureProcess.get(),
-                SLOT(setAlignStatus(Ekos::AlignState)), Qt::UniqueConnection);
-
-        // Solver data
-        connect(alignProcess.get(), SIGNAL(newSolverResults(double,double,double,double)), captureProcess.get(),
-                SLOT(setAlignResults(double,double,double,double)), Qt::UniqueConnection);
-
-        // Capture Status
-        connect(captureProcess.get(), SIGNAL(newStatus(Ekos::CaptureState)), alignProcess.get(),
-                SLOT(setCaptureStatus(Ekos::CaptureState)), Qt::UniqueConnection);
-    }
-
-    if (mountProcess.get() != nullptr)
-    {
-        // Meridian Flip
-        connect(captureProcess.get(), SIGNAL(meridianFlipStarted()), mountProcess.get(), SLOT(disableAltLimits()),
-                Qt::UniqueConnection);
-        connect(captureProcess.get(), SIGNAL(meridianFlipCompleted()), mountProcess.get(), SLOT(enableAltLimits()),
-                Qt::UniqueConnection);
-
-        connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), captureProcess.get(),
-                SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
-    }
-
     if (managedDevices.contains(KSTARS_DOME))
     {
         captureProcess->setDome(managedDevices[KSTARS_DOME]);
@@ -1903,6 +1856,8 @@ void Manager::initCapture()
     {
         captureProcess->setRotator(managedDevices[KSTARS_ROTATOR]);
     }
+
+    connectModules();
 }
 
 void Manager::initAlign()
@@ -1919,7 +1874,7 @@ void Manager::initAlign()
     alignProcess->setEnabled(false);
     int index = toolsWidget->addTab(alignProcess.get(), QIcon(":/icons/ekos_align.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Align"));
-    connect(alignProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));
+    connect(alignProcess.get(), &Ekos::Align::newLog, this, &Ekos::Manager::updateLog);
     if (Options::ekosLeftIcons())
     {
         QTransform trans;
@@ -1932,53 +1887,6 @@ void Manager::initAlign()
 
     alignProcess->setFilterManager(filterManager);
 
-    if (captureProcess.get() != nullptr)
-    {
-        // Align Status
-        connect(alignProcess.get(), SIGNAL(newStatus(Ekos::AlignState)), captureProcess.get(),
-                SLOT(setAlignStatus(Ekos::AlignState)), Qt::UniqueConnection);
-
-        // Solver data
-        connect(alignProcess.get(), SIGNAL(newSolverResults(double,double,double,double)), captureProcess.get(),
-                SLOT(setAlignResults(double,double,double,double)), Qt::UniqueConnection);
-
-        // Capture Status
-        connect(captureProcess.get(), SIGNAL(newStatus(Ekos::CaptureState)), alignProcess.get(),
-                SLOT(setCaptureStatus(Ekos::CaptureState)), Qt::UniqueConnection);
-    }
-
-    if (focusProcess.get() != nullptr)
-    {
-        connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), alignProcess.get(), SLOT(setFocusStatus(Ekos::FocusState)),
-                Qt::UniqueConnection);
-    }
-
-    if (mountProcess.get() != nullptr)
-        connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), alignProcess.get(),
-                SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
-
-    if (ekosLiveClient.get() != nullptr)
-    {
-        connect(alignProcess.get(), &Ekos::Align::newStatus, ekosLiveClient.get()->message(), &EkosLive::Message::setAlignStatus);
-        connect(alignProcess.get(), &Ekos::Align::newSolution, ekosLiveClient.get()->message(), &EkosLive::Message::setAlignSolution);
-        connect(alignProcess.get(), &Ekos::Align::newPAHStage, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHStage);
-        connect(alignProcess.get(), &Ekos::Align::newPAHMessage, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHMessage);
-        connect(alignProcess.get(), &Ekos::Align::PAHEnabled, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHEnabled);
-        //connect(alignProcess.get(), &Ekos::Align::newFOVTelescopeType, ekosLiveClient.get()->message(), &EkosLive::Message::setFOVTelescopeType);
-
-        connect(alignProcess.get(), &Ekos::Align::newImage, [&](FITSView *view)
-        {
-            ekosLiveClient.get()->media()->sendPreviewImage(view, QString());
-        });
-        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame);
-
-        connect(alignProcess.get(), &Ekos::Align::polarResultUpdated, ekosLiveClient.get()->message(), &EkosLive::Message::setPolarResults);        
-        connect(alignProcess.get(), &Ekos::Align::settingsUpdated, ekosLiveClient.get()->message(), &EkosLive::Message::sendAlignSettings);
-
-        connect(alignProcess.get(), &Ekos::Align::newCorrectionVector, ekosLiveClient.get()->media(), &EkosLive::Media::setCorrectionVector);
-
-    }
-
     if (managedDevices.contains(KSTARS_DOME))
     {
         alignProcess->setDome(managedDevices[KSTARS_DOME]);
@@ -1987,6 +1895,8 @@ void Manager::initAlign()
     {
         alignProcess->setRotator(managedDevices[KSTARS_ROTATOR]);
     }
+
+    connectModules();
 }
 
 void Manager::initFocus()
@@ -1998,21 +1908,21 @@ void Manager::initFocus()
     int index    = toolsWidget->addTab(focusProcess.get(), QIcon(":/icons/ekos_focus.png"), "");
 
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Focus"));
-    connect(focusProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));
-    connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(setFocusStatus(Ekos::FocusState)));
-    connect(focusProcess.get(), SIGNAL(newStarPixmap(QPixmap&)), this, SLOT(updateFocusStarPixmap(QPixmap&)));
-    connect(focusProcess.get(), SIGNAL(newProfilePixmap(QPixmap&)), this, SLOT(updateFocusProfilePixmap(QPixmap&)));
-    connect(focusProcess.get(), SIGNAL(newHFR(double,int)), this, SLOT(updateCurrentHFR(double,int)));
 
+    // Focus <---> Manager connections
+    connect(focusProcess.get(), &Ekos::Focus::newLog, this, &Ekos::Manager::updateLog);
+    connect(focusProcess.get(), &Ekos::Focus::newStatus, this, &Ekos::Manager::setFocusStatus);
+    connect(focusProcess.get(), &Ekos::Focus::newStarPixmap, this, &Ekos::Manager::updateFocusStarPixmap);
+    connect(focusProcess.get(), &Ekos::Focus::newProfilePixmap, this, &Ekos::Manager::updateFocusProfilePixmap);
+    connect(focusProcess.get(), &Ekos::Focus::newHFR, this, &Ekos::Manager::updateCurrentHFR);
+
+    // Focus <---> Filter Manager connections
     focusProcess->setFilterManager(filterManager);
-    connect(filterManager.data(), SIGNAL(checkFocus(double)), focusProcess.get(), SLOT(checkFocus(double)), Qt::UniqueConnection);
-    connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), filterManager.data(), SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
-    connect(filterManager.data(), SIGNAL(newFocusOffset(int,bool)), focusProcess.get(), SLOT(adjustFocusOffset(int,bool)),
-            Qt::UniqueConnection);
-    connect(focusProcess.get(), SIGNAL(focusPositionAdjusted()), filterManager.data(), SLOT(setFocusOffsetComplete()),
-            Qt::UniqueConnection);
-    connect(focusProcess.get(), SIGNAL(absolutePositionChanged(int)), filterManager.data(), SLOT(setFocusAbsolutePosition(int)),
-            Qt::UniqueConnection);
+    connect(filterManager.data(), &Ekos::FilterManager::checkFocus, focusProcess.get(), &Ekos::Focus::checkFocus, Qt::UniqueConnection);
+    connect(focusProcess.get(), &Ekos::Focus::newStatus, filterManager.data(), &Ekos::FilterManager::setFocusStatus, Qt::UniqueConnection);
+    connect(filterManager.data(), &Ekos::FilterManager::newFocusOffset, focusProcess.get(), &Ekos::Focus::adjustFocusOffset, Qt::UniqueConnection);
+    connect(focusProcess.get(), &Ekos::Focus::focusPositionAdjusted, filterManager.data(), &Ekos::FilterManager::setFocusOffsetComplete, Qt::UniqueConnection);
+    connect(focusProcess.get(), &Ekos::Focus::absolutePositionChanged, filterManager.data(), &Ekos::FilterManager::setFocusAbsolutePosition, Qt::UniqueConnection);
 
     if (Options::ekosLeftIcons())
     {
@@ -2032,35 +1942,7 @@ void Manager::initFocus()
         focusStatusLayout->insertWidget(0, focusPI);
     }
 
-    if (captureProcess.get() != nullptr)
-    {
-        // Autofocus
-        connect(captureProcess.get(), SIGNAL(checkFocus(double)), focusProcess.get(), SLOT(checkFocus(double)),
-                Qt::UniqueConnection);
-        connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), captureProcess.get(),
-                SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
-        connect(focusProcess.get(), &Ekos::Focus::newHFR, captureProcess.get(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
-
-        // Meridian Flip
-        connect(captureProcess.get(), SIGNAL(meridianFlipStarted()), focusProcess.get(), SLOT(resetFrame()), Qt::UniqueConnection);
-    }
-
-    if (guideProcess.get() != nullptr)
-    {
-        // Suspend
-        connect(focusProcess.get(), SIGNAL(suspendGuiding()), guideProcess.get(), SLOT(suspend()), Qt::UniqueConnection);
-        connect(focusProcess.get(), SIGNAL(resumeGuiding()), guideProcess.get(), SLOT(resume()), Qt::UniqueConnection);
-    }
-
-    if (alignProcess.get() != nullptr)
-    {
-        connect(focusProcess.get(), SIGNAL(newStatus(Ekos::FocusState)), alignProcess.get(), SLOT(setFocusStatus(Ekos::FocusState)),
-                Qt::UniqueConnection);
-    }
-
-    if (mountProcess.get() != nullptr)
-        connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), focusProcess.get(),
-                SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
+    connectModules();
 }
 
 void Manager::updateCurrentHFR(double newHFR, int position)
@@ -2094,12 +1976,9 @@ void Manager::initMount()
     int index    = toolsWidget->addTab(mountProcess.get(), QIcon(":/icons/ekos_mount.png"), "");
 
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Mount"));
-    connect(mountProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));
-    connect(mountProcess.get(), SIGNAL(newCoords(QString,QString,QString,QString)), this,
-            SLOT(updateMountCoords(QString,QString,QString,QString)));
-    connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this,
-            SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
-    //connect(mountProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
+    connect(mountProcess.get(), &Ekos::Mount::newLog, this, &Ekos::Manager::updateLog);
+    connect(mountProcess.get(), &Ekos::Mount::newCoords, this, &Ekos::Manager::updateMountCoords);
+    connect(mountProcess.get(), &Ekos::Mount::newStatus, this, &Ekos::Manager::updateMountStatus);
     connect(mountProcess.get(), &Ekos::Mount::newTarget, [&](const QString &target) {
         mountTarget->setText(target);
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
@@ -2134,32 +2013,7 @@ void Manager::initMount()
 
     mountGroup->setEnabled(true);
 
-    if (captureProcess.get() != nullptr)
-    {
-        // Meridian Flip
-        connect(captureProcess.get(), SIGNAL(meridianFlipStarted()), mountProcess.get(), SLOT(disableAltLimits()),
-                Qt::UniqueConnection);
-        connect(captureProcess.get(), SIGNAL(meridianFlipCompleted()), mountProcess.get(), SLOT(enableAltLimits()),
-                Qt::UniqueConnection);
-
-        // Mount Status
-        connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), captureProcess.get(),
-                SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
-    }
-
-    if (alignProcess.get() != nullptr)
-        connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), alignProcess.get(),
-                SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
-
-    if (focusProcess.get() != nullptr)
-        connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), focusProcess.get(),
-                SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
-
-    if (guideProcess.get() != nullptr)
-    {
-        connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), guideProcess.get(),
-                SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
-    }
+    connectModules();
 }
 
 void Manager::initGuide()
@@ -2184,7 +2038,7 @@ void Manager::initGuide()
 
         int index = toolsWidget->addTab(guideProcess.get(), QIcon(":/icons/ekos_guide.png"), "");
         toolsWidget->tabBar()->setTabToolTip(index, i18n("Guide"));
-        connect(guideProcess.get(), SIGNAL(newLog()), this, SLOT(updateLog()));
+        connect(guideProcess.get(), &Ekos::Guide::newLog, this, &Ekos::Manager::updateLog);
         guideGroup->setEnabled(true);
 
         if (!guidePI)
@@ -2193,10 +2047,10 @@ void Manager::initGuide()
             guideStatusLayout->insertWidget(0, guidePI);
         }
 
-        connect(guideProcess.get(), SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(updateGuideStatus(Ekos::GuideState)));
-        connect(guideProcess.get(), SIGNAL(newStarPixmap(QPixmap&)), this, SLOT(updateGuideStarPixmap(QPixmap&)));
-        connect(guideProcess.get(), SIGNAL(newProfilePixmap(QPixmap&)), this, SLOT(updateGuideProfilePixmap(QPixmap&)));
-        connect(guideProcess.get(), SIGNAL(sigmasUpdated(double,double)), this, SLOT(updateSigmas(double,double)));
+        connect(guideProcess.get(), &Ekos::Guide::newStatus, this, &Ekos::Manager::updateGuideStatus);
+        connect(guideProcess.get(), &Ekos::Guide::newStarPixmap, this, &Ekos::Manager::updateGuideStarPixmap);
+        connect(guideProcess.get(), &Ekos::Guide::newProfilePixmap, this, &Ekos::Manager::updateGuideProfilePixmap);
+        connect(guideProcess.get(), &Ekos::Guide::sigmasUpdated, this, &Ekos::Manager::updateSigmas);
 
         if (Options::ekosLeftIcons())
         {
@@ -2209,54 +2063,7 @@ void Manager::initGuide()
         }
     }
 
-    if (captureProcess.get() != nullptr)
-    {
-        guideProcess->disconnect(captureProcess.get());
-        captureProcess->disconnect(guideProcess.get());
-
-        // Guide Limits
-        //connect(guideProcess.get(), SIGNAL(guideReady()), captureProcess, SLOT(enableGuideLimits()));
-        connect(guideProcess.get(), SIGNAL(newStatus(Ekos::GuideState)), captureProcess.get(),
-                SLOT(setGuideStatus(Ekos::GuideState)));
-        connect(guideProcess.get(), SIGNAL(newAxisDelta(double,double)), captureProcess.get(),
-                SLOT(setGuideDeviation(double,double)));
-
-        // Dithering
-        connect(captureProcess.get(), SIGNAL(newStatus(Ekos::CaptureState)), guideProcess.get(),
-                SLOT(setCaptureStatus(Ekos::CaptureState)), Qt::UniqueConnection);
-
-        // Guide Head
-        connect(captureProcess.get(), SIGNAL(suspendGuiding()), guideProcess.get(), SLOT(suspend()));
-        connect(captureProcess.get(), SIGNAL(resumeGuiding()), guideProcess.get(), SLOT(resume()));
-        connect(guideProcess.get(), SIGNAL(guideChipUpdated(ISD::CCDChip*)), captureProcess.get(),
-                SLOT(setGuideChip(ISD::CCDChip*)));
-
-        // Meridian Flip
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, guideProcess.get(), &Ekos::Guide::abort);
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, guideProcess.get(), [&]() {
-            if (Options::resetGuideCalibration())
-                guideProcess->clearCalibration();
-            guideProcess->guide();
-        });
-    }
-
-    if (mountProcess.get() != nullptr)
-    {
-        mountProcess.get()->disconnect(guideProcess.get());
-
-        // Parking
-        connect(mountProcess.get(), SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), guideProcess.get(),
-                SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
-    }
-
-    if (focusProcess.get() != nullptr)
-    {
-        focusProcess->disconnect(guideProcess.get());
-
-        // Suspend
-        connect(focusProcess.get(), SIGNAL(suspendGuiding()), guideProcess.get(), SLOT(suspend()), Qt::UniqueConnection);
-        connect(focusProcess.get(), SIGNAL(resumeGuiding()), guideProcess.get(), SLOT(resume()), Qt::UniqueConnection);
-    }
+    connectModules();
 }
 
 void Manager::initDome()
@@ -2299,7 +2106,7 @@ void Manager::setST4(ISD::ST4 *st4Driver)
 
 void Manager::removeTabs()
 {
-    disconnect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
+    disconnect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange);
 
     for (int i = 2; i < toolsWidget->count(); i++)
         toolsWidget->removeTab(i);
@@ -2315,7 +2122,7 @@ void Manager::removeTabs()
 
     managedDevices.clear();
 
-    connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
+    connect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange);
 }
 
 bool Manager::isRunning(const QString &process)
@@ -2922,4 +2729,131 @@ void Manager::announceEvent(const QString &message, KSNotification::EventType ev
     ekosLiveClient.get()->message()->sendEvent(message, event);
 }
 
+void Manager::connectModules()
+{
+    // Guide <---> Capture connections
+    if (captureProcess.get() && guideProcess.get())
+    {
+        captureProcess.get()->disconnect(guideProcess.get());
+        guideProcess.get()->disconnect(captureProcess.get());
+
+        // Guide Limits
+        connect(guideProcess.get(), &Ekos::Guide::newStatus, captureProcess.get(), &Ekos::Capture::setGuideStatus, Qt::UniqueConnection);
+        connect(guideProcess.get(), &Ekos::Guide::newAxisDelta, captureProcess.get(), &Ekos::Capture::setGuideDeviation);
+
+        // Dithering
+        connect(captureProcess.get(), &Ekos::Capture::newStatus, guideProcess.get(), &Ekos::Guide::setCaptureStatus, Qt::UniqueConnection);
+
+        // Guide Head
+        connect(captureProcess.get(), &Ekos::Capture::suspendGuiding, guideProcess.get(), &Ekos::Guide::suspend, Qt::UniqueConnection);
+        connect(captureProcess.get(), &Ekos::Capture::resumeGuiding, guideProcess.get(), &Ekos::Guide::resume, Qt::UniqueConnection);
+        connect(guideProcess.get(), &Ekos::Guide::guideChipUpdated, captureProcess.get(), &Ekos::Capture::setGuideChip, Qt::UniqueConnection);
+
+        // Meridian Flip
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, guideProcess.get(), &Ekos::Guide::abort, Qt::UniqueConnection);
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, guideProcess.get(), [&]() {
+            if (Options::resetGuideCalibration())
+                guideProcess->clearCalibration();
+            guideProcess->guide();
+        });
+    }
+
+    // Guide <---> Mount connections
+    if (guideProcess.get() && mountProcess.get())
+    {
+        // Parking
+        connect(mountProcess.get(), &Ekos::Mount::newStatus, guideProcess.get(), &Ekos::Guide::setMountStatus, Qt::UniqueConnection);
+    }
+
+    // Focus <---> Guide connections
+    if (guideProcess.get() && focusProcess.get())
+    {
+        // Suspend
+        connect(focusProcess.get(), &Ekos::Focus::suspendGuiding, guideProcess.get(), &Ekos::Guide::suspend, Qt::UniqueConnection);
+        connect(focusProcess.get(), &Ekos::Focus::resumeGuiding, guideProcess.get(), &Ekos::Guide::resume, Qt::UniqueConnection);
+    }
+
+    // Capture <---> Focus connections
+    if (captureProcess.get() && focusProcess.get())
+    {
+        // Check focus HFR value
+        connect(captureProcess.get(), &Ekos::Capture::checkFocus, focusProcess.get(), &Ekos::Focus::checkFocus, Qt::UniqueConnection);
+        // Meridian Flip
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, focusProcess.get(), &Ekos::Focus::resetFrame, Qt::UniqueConnection);
+
+        // New Focus Status
+        connect(focusProcess.get(), &Ekos::Focus::newStatus, captureProcess.get(), &Ekos::Capture::setFocusStatus, Qt::UniqueConnection);
+        // New Focus HFR
+        connect(focusProcess.get(), &Ekos::Focus::newHFR, captureProcess.get(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
+    }
+
+    // Capture <---> Align connections
+    if (captureProcess.get() && alignProcess.get())
+    {
+        // Alignment flag
+        connect(alignProcess.get(), &Ekos::Align::newStatus, captureProcess.get(), &Ekos::Capture::setAlignStatus, Qt::UniqueConnection);
+        // Solver data
+        connect(alignProcess.get(), &Ekos::Align::newSolverResults, captureProcess.get(),  &Ekos::Capture::setAlignResults, Qt::UniqueConnection);
+        // Capture Status
+        connect(captureProcess.get(), &Ekos::Capture::newStatus, alignProcess.get(), &Ekos::Align::setCaptureStatus, Qt::UniqueConnection);
+    }
+
+    // Capture <---> Mount connections
+    if (captureProcess.get() && mountProcess.get())
+    {
+        // Meridian Flip states
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, mountProcess.get(), &Ekos::Mount::disableAltLimits, Qt::UniqueConnection);
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, mountProcess.get(), &Ekos::Mount::enableAltLimits, Qt::UniqueConnection);
+
+        // Mount Status
+        connect(mountProcess.get(), &Ekos::Mount::newStatus, captureProcess.get(), &Ekos::Capture::setMountStatus, Qt::UniqueConnection);
+    }
+
+    // Focus <---> Align connections
+    if (focusProcess.get() && alignProcess.get())
+    {
+        connect(focusProcess.get(), &Ekos::Focus::newStatus, alignProcess.get(), &Ekos::Align::setFocusStatus, Qt::UniqueConnection);
+    }
+
+    // Focus <---> Mount connections
+    if (focusProcess.get() && mountProcess.get())
+    {
+        connect(mountProcess.get(), &Ekos::Mount::newStatus, focusProcess.get(), &Ekos::Focus::setMountStatus, Qt::UniqueConnection);
+    }
+
+    // Mount <---> Align connections
+    if (mountProcess.get() && alignProcess.get())
+    {
+        connect(mountProcess.get(), &Ekos::Mount::newStatus, alignProcess.get(), &Ekos::Align::setMountStatus, Qt::UniqueConnection);
+    }
+
+    // Focus <---> Align connections
+    if (focusProcess.get() && alignProcess.get())
+    {
+        connect(focusProcess.get(), &Ekos::Focus::newStatus, alignProcess.get(), &Ekos::Align::setFocusStatus, Qt::UniqueConnection);
+    }
+
+    // Align <--> EkosLive connectoins
+    if (alignProcess.get() && ekosLiveClient.get())
+    {
+        alignProcess.get()->disconnect(ekosLiveClient.get());
+
+        connect(alignProcess.get(), &Ekos::Align::newStatus, ekosLiveClient.get()->message(), &EkosLive::Message::setAlignStatus);
+        connect(alignProcess.get(), &Ekos::Align::newSolution, ekosLiveClient.get()->message(), &EkosLive::Message::setAlignSolution);
+        connect(alignProcess.get(), &Ekos::Align::newPAHStage, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHStage);
+        connect(alignProcess.get(), &Ekos::Align::newPAHMessage, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHMessage);
+        connect(alignProcess.get(), &Ekos::Align::PAHEnabled, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHEnabled);
+
+        connect(alignProcess.get(), &Ekos::Align::newImage, [&](FITSView *view)
+        {
+            ekosLiveClient.get()->media()->sendPreviewImage(view, QString());
+        });
+        connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame);
+
+        connect(alignProcess.get(), &Ekos::Align::polarResultUpdated, ekosLiveClient.get()->message(), &EkosLive::Message::setPolarResults);
+        connect(alignProcess.get(), &Ekos::Align::settingsUpdated, ekosLiveClient.get()->message(), &EkosLive::Message::sendAlignSettings);
+
+        connect(alignProcess.get(), &Ekos::Align::newCorrectionVector, ekosLiveClient.get()->media(), &EkosLive::Media::setCorrectionVector);
+    }
+}
 }
