@@ -386,6 +386,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
     void runShutdownProcedure();
     void checkShutdownProcedure();
 
+    void setINDICommunicationStatus(Ekos::CommunicationStatus status);
+
   signals:
     void newLog();
     void weatherChanged(IPState state);

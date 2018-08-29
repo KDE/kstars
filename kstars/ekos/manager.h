@@ -83,9 +83,7 @@ class Manager : public QDialog, public Ui::Manager
 
   public:
     explicit Manager(QWidget *parent);
-    ~Manager();
-
-    //Q_ENUM(CommunicationStatus)
+    ~Manager();    
 
     void appendLogText(const QString &);
     //void refreshRemoteDrivers();
@@ -268,6 +266,8 @@ class Manager : public QDialog, public Ui::Manager
 
     void loadDrivers();
     void loadProfiles();
+
+    void connectModules();
 
     bool isRunning(const QString &process);
 

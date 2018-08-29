@@ -488,6 +488,8 @@ class Capture : public QWidget, public Ui::Capture
     // Update Mount module status
     void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
+    void setGuideChip(ISD::CCDChip *chip);
+
   private slots:
 
     /**
@@ -504,7 +506,6 @@ class Capture : public QWidget, public Ui::Capture
     void saveFITSDirectory();
     void setDefaultCCD(QString ccd);
     void setNewRemoteFile(QString file);
-    void setGuideChip(ISD::CCDChip *chip);
 
     // Sequence Queue
     void loadSequenceQueue();
