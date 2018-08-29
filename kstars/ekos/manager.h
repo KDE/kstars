@@ -80,6 +80,7 @@ class Manager : public QDialog, public Ui::Manager
 
     Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus indiStatus READ indiStatus NOTIFY indiStatusChanged)
     Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus ekosStatus READ ekosStatus NOTIFY ekosStatusChanged)
+    Q_SCRIPTABLE Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
   public:
     explicit Manager(QWidget *parent);
@@ -153,10 +154,13 @@ class Manager : public QDialog, public Ui::Manager
      */
     Q_SCRIPTABLE bool stop();
 
+    Q_SCRIPTABLE QStringList logText() { return m_LogText; }
+
  signals:
     // Have to use full Ekos::CommunicationStatus for DBus signal to work
     void ekosStatusChanged(Ekos::CommunicationStatus status);
     void indiStatusChanged(Ekos::CommunicationStatus status);
+    void newLog(const QString &text);
 
   protected:
     void closeEvent(QCloseEvent *);
@@ -267,10 +271,13 @@ class Manager : public QDialog, public Ui::Manager
     void loadDrivers();
     void loadProfiles();
 
+    // Connect Signals/Slots of Ekos modules
     void connectModules();
 
+    // Check if INDI server is already running
     bool isRunning(const QString &process);
 
+    // Find List of devices of specific family type
     QList<ISD::GDInterface *> findDevices(DeviceFamily type);
 
     ProfileInfo *getCurrentProfile();
@@ -288,12 +295,13 @@ class Manager : public QDialog, public Ui::Manager
     // All managed drivers
     QList<DriverInfo *> managedDrivers;
 
-    // All generic devices
+    // All generic devices (i.e. those define by INDI server)
     QList<ISD::GDInterface *> genericDevices;
 
-    // All Managed devices
+    // All Managed devices (ie. those explicitly defined in the profile)
     QMap<DeviceFamily, ISD::GDInterface *> managedDevices;
 
+    // Smart pointers for the various Ekos Modules
     std::unique_ptr<Capture> captureProcess;
     std::unique_ptr<Focus> focusProcess;
     std::unique_ptr<Guide> guideProcess;
@@ -303,16 +311,15 @@ class Manager : public QDialog, public Ui::Manager
     std::unique_ptr<Dome> domeProcess;
     std::unique_ptr<Weather> weatherProcess;
     std::unique_ptr<DustCap> dustCapProcess;
-
     std::unique_ptr<EkosLive::Client> ekosLiveClient;
 
-    bool localMode { true };
-    bool isStarted { false };
-    bool remoteManagerStart { false };
+    bool m_LocalMode { true };
+    bool m_isStarted { false };
+    bool m_RemoteManagerStart { false };
 
     int nDevices { 0 };
 
-    QStringList logText;
+    QStringList m_LogText;
     KPageWidgetItem *ekosOptionsWidget { nullptr };
 
     CommunicationStatus m_ekosStatus { STATUS_IDLE };
