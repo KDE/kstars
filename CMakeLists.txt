@@ -145,17 +145,17 @@ if(ANDROID)
         message(FATAL_ERROR "Could not find dos2unix")
     endif()
 
-    externalproject_add(cfitsio SOURCE_DIR "${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio"
+    externalproject_add(cfitsio SOURCE_DIR "${CMAKE_BINARY_DIR}/packaging/android/3rdparty/cfitsio"
         URL https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio3370.tar.gz
-        PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio && ${DOS2UNIX} ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio/CMakeLists.txt && patch -p1 < ${CMAKE_SOURCE_DIR}/android/3rdparty/cfitsio.patch"
+        PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/packaging/android/3rdparty/cfitsio && ${DOS2UNIX} ${CMAKE_BINARY_DIR}/packaging/android/3rdparty/cfitsio/CMakeLists.txt && patch -p1 < ${CMAKE_SOURCE_DIR}/packaging/android/3rdparty/cfitsio.patch"
         CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} ${extra_cmake}
         BUILD_COMMAND make cfitsio
         BUILD_IN_SOURCE 1
         INSTALL_COMMAND "")
 
     set(CFITSIO_FOUND TRUE)
-    set(CFITSIO_INCLUDE_DIR PUBLIC ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio)
-    set(CFITSIO_LIBRARIES ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio/libcfitsio.a)
+    set(CFITSIO_INCLUDE_DIR PUBLIC ${CMAKE_BINARY_DIR}/packaging/android/3rdparty/cfitsio)
+    set(CFITSIO_LIBRARIES ${CMAKE_BINARY_DIR}/packaging/android/3rdparty/cfitsio/libcfitsio.a)
 else()
     if(BUILD_KSTARS_LITE)
         find_package(CFitsio REQUIRED)
@@ -172,19 +172,19 @@ if (ANDROID)
     if("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
         set(extra_cmake -DCMAKE_AR=${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar)
     endif()
-    externalproject_add(indi SOURCE_DIR "${CMAKE_BINARY_DIR}/android/indi"
+    externalproject_add(indi SOURCE_DIR "${CMAKE_BINARY_DIR}/packaging/android/indi"
         URL https://github.com/indilib/indi/archive/master.zip
         CONFIGURE_COMMAND cd libindi && cmake . -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\
              -DINDI_BUILD_POSIX_CLIENT=OFF -DINDI_BUILD_SERVER=OFF -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_UNITTESTS=OFF \\
              -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_QT5_CLIENT=ON -DINDI_CALCULATE_MINMAX=ON \\
-             -DCFITSIO_DIR=${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio -DQT_ANDROID=${QT_ANDROID} -DCMAKE_PREFIX_PATH=${QT_ANDROID} ${extra_cmake}
+             -DCFITSIO_DIR=${CMAKE_BINARY_DIR}/packaging/android/3rdparty/cfitsio -DQT_ANDROID=${QT_ANDROID} -DCMAKE_PREFIX_PATH=${QT_ANDROID} ${extra_cmake}
         BUILD_COMMAND make -C libindi
         BUILD_IN_SOURCE 1
         INSTALL_COMMAND "")
 
     set(INDI_FOUND TRUE)
-    set(INDI_INCLUDE_DIR ${CMAKE_BINARY_DIR}/android/indi/libindi/libs/indibase ${CMAKE_BINARY_DIR}/android/indi/libindi ${CMAKE_BINARY_DIR}/android/indi/libindi/libs)
-    set(INDI_CLIENT_ANDROID_LIBRARIES ${CMAKE_BINARY_DIR}/android/indi/libindi/libindiclientqt.a)
+    set(INDI_INCLUDE_DIR ${CMAKE_BINARY_DIR}/packaging/android/indi/libindi/libs/indibase ${CMAKE_BINARY_DIR}/packaging/android/indi/libindi ${CMAKE_BINARY_DIR}/packaging/android/indi/libindi/libs)
+    set(INDI_CLIENT_ANDROID_LIBRARIES ${CMAKE_BINARY_DIR}/packaging/android/indi/libindi/libindiclientqt.a)
 else ()
     find_package(INDI 1.7.1)
 endif ()
@@ -198,15 +198,15 @@ if(BUILD_KSTARS_LITE AND ANDROID)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -DLIBRAW_USE_OPENMP")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgomp")
 
-    externalproject_add(raw SOURCE_DIR "${CMAKE_BINARY_DIR}/android/3rdparty/libraw"
+    externalproject_add(raw SOURCE_DIR "${CMAKE_BINARY_DIR}/packaging/android/3rdparty/libraw"
         URL https://www.libraw.org/data/LibRaw-0.17.2.tar.gz
-        PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/libraw && wget -qO- https://github.com/LibRaw/LibRaw-cmake/archive/master.zip | jar xvf /dev/stdin && rm -rf cmake && mv -f LibRaw-cmake-master/CMakeLists.txt LibRaw-cmake-master/cmake . && patch -p1 < ${CMAKE_SOURCE_DIR}/android/3rdparty/libraw.patch"
+        PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/packaging/android/3rdparty/libraw && wget -qO- https://github.com/LibRaw/LibRaw-cmake/archive/master.zip | jar xvf /dev/stdin && rm -rf cmake && mv -f LibRaw-cmake-master/CMakeLists.txt LibRaw-cmake-master/cmake . && patch -p1 < ${CMAKE_SOURCE_DIR}/packaging/android/3rdparty/libraw.patch"
         CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DENABLE_OPENMP=OFF -DENABLE_LCMS=OFF
         BUILD_COMMAND make raw
         BUILD_IN_SOURCE 1
         INSTALL_COMMAND "")
-    include_directories(${CMAKE_BINARY_DIR}/android/3rdparty/libraw)
-    set(LIBRAW_LIBRARIES ${CMAKE_BINARY_DIR}/android/3rdparty/libraw/libraw.a)
+    include_directories(${CMAKE_BINARY_DIR}/packaging/android/3rdparty/libraw)
+    set(LIBRAW_LIBRARIES ${CMAKE_BINARY_DIR}/packaging/android/3rdparty/libraw/libraw.a)
     set(LibRaw_FOUND true)
 else()
     find_package(LibRaw)
@@ -432,8 +432,8 @@ ENDIF ()
 
 # Final package generation
 if ("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
-    set(EXPORT_DIR "${CMAKE_BINARY_DIR}/android/kstars_build_apk/")
-    set(ANDROID_APK_DIR "${CMAKE_SOURCE_DIR}/android/apk/")
+    set(EXPORT_DIR "${CMAKE_BINARY_DIR}/packaging/android/kstars_build_apk/")
+    set(ANDROID_APK_DIR "${CMAKE_SOURCE_DIR}/packaging/android/apk/")
     set(EXECUTABLE_DESTINATION_PATH "${EXPORT_DIR}/libs/armeabi-v7a/libkstars.so")
     set(ANDROID_NDK $ENV{CMAKE_ANDROID_NDK})
     set(ANDROID_SDK_ROOT $ENV{ANDROID_SDK_ROOT})
@@ -446,34 +446,34 @@ if ("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
     set(ANDROID_SDK_BUILD_TOOLS_REVISION 21.1.1)
     set(ANDROID_KEYSTORE $ENV{ANDROID_KEYSTORE})
     set(ANDROID_KEYSTORE_ALIAS $ENV{ANDROID_KEYSTORE_ALIAS})
-    configure_file("${CMAKE_SOURCE_DIR}/android/deployment-file.json.in" "${CMAKE_BINARY_DIR}/android/kstars-deployment.json.in")
+    configure_file("${CMAKE_SOURCE_DIR}/packaging/android/deployment-file.json.in" "${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json.in")
 
 
     add_custom_target(create-apk-debug-kstars
-        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt"
+        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE_DIR:Qt5::qmake>/packaging/androiddeployqt"
         COMMAND cmake -E remove_directory "${EXPORT_DIR}"
-        COMMAND cmake -E copy_directory "${CMAKE_SOURCE_DIR}/android/apk" "${EXPORT_DIR}"
+        COMMAND cmake -E copy_directory "${CMAKE_SOURCE_DIR}/packaging/android/apk" "${EXPORT_DIR}"
         COMMAND cmake -E copy "$<TARGET_FILE:kstars>" "${EXECUTABLE_DESTINATION_PATH}"
-        COMMAND cmake -DINPUT_FILE="${CMAKE_BINARY_DIR}/android/kstars-deployment.json.in" -DOUTPUT_FILE="${CMAKE_BINARY_DIR}/android/kstars-deployment.json" "-DTARGET_DIR=${CMAKE_BINARY_DIR}/kstars" "-DTARGET_NAME=kstars" "-DEXPORT_DIR=${CMAKE_INSTALL_PREFIX}" -P ${CMAKE_SOURCE_DIR}/android/specifydependencies.cmake
-        COMMAND $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt --input "${CMAKE_BINARY_DIR}/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --debug --deployment bundled "\\$(ARGS)"
+        COMMAND cmake -DINPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json.in" -DOUTPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" "-DTARGET_DIR=${CMAKE_BINARY_DIR}/kstars" "-DTARGET_NAME=kstars" "-DEXPORT_DIR=${CMAKE_INSTALL_PREFIX}" -P ${CMAKE_SOURCE_DIR}/packaging/android/specifydependencies.cmake
+        COMMAND $<TARGET_FILE_DIR:Qt5::qmake>/packaging/androiddeployqt --input "${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --debug --deployment bundled "\\$(ARGS)"
         )
     add_custom_target(create-apk-release-kstars
-        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt"
+        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE_DIR:Qt5::qmake>/packaging/androiddeployqt"
         COMMAND cmake -E remove_directory "${EXPORT_DIR}"
-        COMMAND cmake -E copy_directory "${CMAKE_SOURCE_DIR}/android/apk" "${EXPORT_DIR}"
+        COMMAND cmake -E copy_directory "${CMAKE_SOURCE_DIR}/packaging/android/apk" "${EXPORT_DIR}"
         COMMAND cmake -E copy "$<TARGET_FILE:kstars>" "${EXECUTABLE_DESTINATION_PATH}"
-        COMMAND cmake -DINPUT_FILE="${CMAKE_BINARY_DIR}/android/kstars-deployment.json.in" -DOUTPUT_FILE="${CMAKE_BINARY_DIR}/android/kstars-deployment.json" "-DTARGET_DIR=${CMAKE_BINARY_DIR}/kstars" "-DTARGET_NAME=kstars" "-DEXPORT_DIR=${CMAKE_INSTALL_PREFIX}" -P ${CMAKE_SOURCE_DIR}/android/specifydependencies.cmake
-        COMMAND $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt --input "${CMAKE_BINARY_DIR}/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --release --deployment bundled "\\$(ARGS)"
+        COMMAND cmake -DINPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json.in" -DOUTPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" "-DTARGET_DIR=${CMAKE_BINARY_DIR}/kstars" "-DTARGET_NAME=kstars" "-DEXPORT_DIR=${CMAKE_INSTALL_PREFIX}" -P ${CMAKE_SOURCE_DIR}/packaging/android/specifydependencies.cmake
+        COMMAND $<TARGET_FILE_DIR:Qt5::qmake>/packaging/androiddeployqt --input "${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --release --deployment bundled "\\$(ARGS)"
         )
     add_custom_target(install-apk-debug-kstars
-        COMMAND adb install -r ${CMAKE_BINARY_DIR}/android/kstars_build_apk//bin/QtApp-debug.apk
+        COMMAND adb install -r ${CMAKE_BINARY_DIR}/packaging/android/kstars_build_apk//bin/QtApp-debug.apk
         )
 
     if (ANDROID_KEYSTORE AND ANDROID_KEYSTORE_ALIAS)
         add_custom_target(sign-apk-kstars
-            COMMAND jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${ANDROID_KEYSTORE} ${CMAKE_BINARY_DIR}/android/kstars_build_apk/bin/QtApp-release-unsigned.apk ${ANDROID_KEYSTORE_ALIAS}
-            COMMAND rm -rf ${CMAKE_BINARY_DIR}/android/kstars_build_apk/bin/kstars-signed.apk
-            COMMAND zipalign -v 4 ${CMAKE_BINARY_DIR}/android/kstars_build_apk/bin/QtApp-release-unsigned.apk ${CMAKE_BINARY_DIR}/android/kstars_build_apk/bin/kstars-signed.apk
+            COMMAND jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${ANDROID_KEYSTORE} ${CMAKE_BINARY_DIR}/packaging/android/kstars_build_apk/bin/QtApp-release-unsigned.apk ${ANDROID_KEYSTORE_ALIAS}
+            COMMAND rm -rf ${CMAKE_BINARY_DIR}/packaging/android/kstars_build_apk/bin/kstars-signed.apk
+            COMMAND zipalign -v 4 ${CMAKE_BINARY_DIR}/packaging/android/kstars_build_apk/bin/QtApp-release-unsigned.apk ${CMAKE_BINARY_DIR}/packaging/android/kstars_build_apk/bin/kstars-signed.apk
             )
     endif ()
 endif ()
