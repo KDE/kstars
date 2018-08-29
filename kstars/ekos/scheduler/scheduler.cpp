@@ -4935,8 +4935,7 @@ void Scheduler::unParkMount()
                 else currentOperationTime.start();
             }
 
-            //Q_FALLTHROUGH();
-
+            // Fall through
         case Mount::UNPARKING_BUSY:
             if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARKING_MOUNT;
