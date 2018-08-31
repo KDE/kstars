@@ -439,7 +439,7 @@ void Capture::start()
     prepareJob(first_job);
 }
 
-void Capture::stop(bool abort)
+void Capture::stop(CaptureState targetState)
 {
     retries         = 0;
     //seqTotalCount   = 0;
@@ -452,9 +452,23 @@ void Capture::stop(bool abort)
     {
         if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
         {
-            QString const abort_text = i18n("CCD capture aborted");
-            KSNotification::event(QLatin1String("CaptureFailed"), abort_text);
-            appendLogText(abort_text);
+            QString stopText;
+            switch (targetState)
+            {
+                case CAPTURE_IDLE:
+                    stopText = i18n("CCD capture stopped");
+                break;
+
+                case CAPTURE_SUSPENDED:
+                   stopText = i18n("CCD capture suspended");
+                break;
+
+               default:
+                stopText = i18n("CCD capture aborted");
+            break;
+            }
+            KSNotification::event(QLatin1String("CaptureFailed"), stopText);
+            appendLogText(stopText);
             activeJob->abort();
             if (activeJob->isPreview() == false)
             {
@@ -464,7 +478,7 @@ void Capture::stop(bool abort)
                 m_SequenceArray.replace(index, oneSequence);
                 emit sequenceChanged(m_SequenceArray);
             }
-            emit newStatus(Ekos::CAPTURE_ABORTED);
+            emit newStatus(targetState);
         }
 
         // In case of batch job
@@ -493,7 +507,7 @@ void Capture::stop(bool abort)
     }
 
     calibrationStage = CAL_NONE;
-    state            = abort ? CAPTURE_ABORTED : CAPTURE_IDLE;
+    state            = targetState;
 
     // Turn off any calibration light, IF they were turned on by Capture module
     if (dustCap && dustCapLightEnabled)
@@ -529,7 +543,7 @@ void Capture::stop(bool abort)
 
     setBusy(false);
 
-    if (abort)
+    if (state == CAPTURE_ABORTED || state == CAPTURE_SUSPENDED)
     {
         startB->setIcon(
                     QIcon::fromTheme("media-playback-start"));
@@ -2643,11 +2657,11 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             }
 
             appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, "
-                               "aborting exposure and waiting for guider up to %3 seconds.",
+                               "suspending exposure and waiting for guider up to %3 seconds.",
                                deviationText, guideDeviation->value(),
-                               QString::number((double)guideDeviationTimer.interval()/1000.0f,'g',3)));
+                               QString::number(guideDeviationTimer.interval()/1000.0,'g',3)));
 
-            abort();
+            suspend();
 
             spikeDetected     = false;
 
@@ -4065,6 +4079,13 @@ void Capture::checkGuideDeviationTimeout()
     {
         appendLogText(i18n("Guide module timed out."));
         deviationDetected = false;
+
+        // If capture was suspended, it should be aborted (failed) now.
+        if (state == CAPTURE_SUSPENDED)
+        {
+            state = CAPTURE_ABORTED;
+            emit newStatus(state);
+        }
     }
 }
 
@@ -4134,7 +4155,7 @@ void Capture::setGuideStatus(GuideState state)
         // then let's resume capture once we are guiding again.
         if (autoGuideAbortedCapture &&
            (guideState == GUIDE_ABORTED || guideState == GUIDE_IDLE) &&
-           this->state == CAPTURE_ABORTED)
+           (this->state == CAPTURE_ABORTED || this->state == CAPTURE_SUSPENDED))
         {
             start();
             autoGuideAbortedCapture = false;
