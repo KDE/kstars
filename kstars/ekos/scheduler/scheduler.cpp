@@ -97,7 +97,7 @@ Scheduler::Scheduler()
     connect(&jobTimer, &QTimer::timeout, this, &Scheduler::checkJobStage);
 
     pi = new QProgressIndicator(this);
-    bottomLayout->addWidget(pi, 0, 0);
+    bottomLayout->addWidget(pi, 0, nullptr);
 
     geo = KStarsData::Instance()->geo();
 
@@ -329,15 +329,15 @@ void Scheduler::addObject(SkyObject *object)
 
         if (object->name() == "star")
         {
-            StarObject *s = (StarObject *)object;
+            StarObject *s = dynamic_cast<StarObject *>(object);
 
             if (s->getHDIndex() != 0)
                 finalObjectName = QString("HD %1").arg(QString::number(s->getHDIndex()));
         }
 
         nameEdit->setText(finalObjectName);
-        raBox->setText(object->ra0().toHMSString());
-        decBox->setText(object->dec0().toDMSString());
+        raBox->setText(object->ra0().toHMSString(false, true));
+        decBox->setText(object->dec0().toDMSString(false, false, true));
 
         addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
         mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
@@ -3806,10 +3806,18 @@ bool Scheduler::processJobInfo(XMLEle *root)
         {
             subEP = findXMLEle(ep, "J2000RA");
             if (subEP)
-                raBox->setDMS(pcdataXMLEle(subEP));
+            {
+                dms ra;
+                ra.setH(atof(pcdataXMLEle(subEP)));
+                raBox->showInHours(ra);
+            }
             subEP = findXMLEle(ep, "J2000DE");
             if (subEP)
-                decBox->setDMS(pcdataXMLEle(subEP));
+            {
+                dms de;
+                de.setD(atof(pcdataXMLEle(subEP)));
+                decBox->showInDegrees(de);
+            }
         }
         else if (!strcmp(tagXMLEle(ep), "Sequence"))
         {
