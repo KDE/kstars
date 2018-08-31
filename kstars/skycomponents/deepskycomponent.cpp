@@ -189,7 +189,7 @@ void DeepSkyComponent::loadData()
         //coordinates
         int rah     = row_content["RA_H"].toInt();
         int ram     = row_content["RA_M"].toInt();
-        float ras   = row_content["RA_S"].toFloat();
+        double ras  = row_content["RA_S"].toDouble();
         QString sgn = row_content["D_Sign"].toString();
         int dd      = row_content["Dec_d"].toInt();
         int dm      = row_content["Dec_m"].toInt();
@@ -264,7 +264,8 @@ void DeepSkyComponent::loadData()
         longname = row_content["Longname"].toString();
 
         dms r;
-        r.setH(rah, ram, int(ras));
+        //r.setH(rah, ram, int(ras));
+        r.setH(rah+ram/60.0+ras/3600.0);
         dms d(dd, dm, ds);
 
         if (sgn == "-")
