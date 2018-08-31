@@ -321,13 +321,21 @@ class Capture : public QWidget, public Ui::Capture
          * sequence is resumed or restarted.
          * @param abort abort jobs if in progress
          */
-    Q_SCRIPTABLE Q_NOREPLY void stop(bool abort = false);
+    Q_SCRIPTABLE Q_NOREPLY void stop(CaptureState targetState = CAPTURE_IDLE);
 
     /** DBUS interface function.
-         * Aborts all jobs. It simply calls stop(true)
+         * Aborts all jobs and mark current state as ABORTED. It simply calls stop(CAPTURE_ABORTED)
          */
-    Q_SCRIPTABLE Q_NOREPLY void abort() { stop(true); }
+    Q_SCRIPTABLE Q_NOREPLY void abort() { stop(CAPTURE_ABORTED); }
 
+    /** DBUS interface function.
+         * Aborts all jobs and mark current state as SUSPENDED. It simply calls stop(CAPTURE_SUSPENDED)
+         * The only difference between SUSPENDED and ABORTED it that capture module can automatically resume a suspended
+         * state on its own without external trigger once the right conditions are met. When whatever reason caused the module
+         * to go into suspended state ceases to exist, the capture module automatically resumes. On the other hand, ABORTED state
+         * must be started via an external programmatic or user trigger (e.g. click the start button again).
+         */
+    Q_SCRIPTABLE Q_NOREPLY void suspend() { stop(CAPTURE_SUSPENDED); }
 
     /** DBUS interface function.
          * Toggle video streaming if supported by the device.
