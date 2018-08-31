@@ -386,7 +386,7 @@ void Capture::start()
     // Record initialHA and initialMount position when we are starting fresh
     // If recovering from deviation error, these values should not be recorded.
     // Refocus timer should not be reset on deviation error
-    if (deviationDetected == false)
+    if (deviationDetected == false && state != CAPTURE_SUSPENDED)
     {
         initialHA         = getCurrentHA();
         qCDebug(KSTARS_EKOS_CAPTURE) << "Initial hour angle:" << initialHA;
