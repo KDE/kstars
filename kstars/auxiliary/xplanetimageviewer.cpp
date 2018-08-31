@@ -693,6 +693,11 @@ void XPlanetImageViewer::startXplanet()
     }
 #endif
 
+#ifdef Q_OS_WIN
+        QString searchDir = xPlanetLocationInfo.dir().absolutePath() + QDir::separator() + "xplanet";
+        args << "-searchdir" << searchDir;
+#endif
+
     //This prevents it from running forever.
     args << "-num_times" << "1";
 
