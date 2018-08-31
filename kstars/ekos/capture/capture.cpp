@@ -3875,7 +3875,7 @@ QString Capture::getSequenceQueueStatus()
 void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
 {
     // If it is not ours, return.
-    if (strcmp(nvp->device, currentTelescope->getDeviceName()) || strcmp(nvp->name, "EQUATORIAL_EOD_COORD"))
+    if (strcmp(nvp->device, currentTelescope->getDeviceName()) || strstr(nvp->name, "EQUATORIAL_") == nullptr)
         return;
 
     switch (meridianFlipStage)

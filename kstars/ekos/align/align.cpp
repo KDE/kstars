@@ -3334,22 +3334,40 @@ void Align::processSwitch(ISwitchVectorProperty *svp)
             domeReady = true;
             // trigger process number for mount so that it proceeds with normal workflow since
             // it was stopped by dome not being ready
-            INumberVectorProperty *nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_EOD_COORD");
-            processNumber(nvp);
+            INumberVectorProperty *nvp = nullptr;
+
+            if (currentTelescope->isJ2000())
+                nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_COORD");
+            else
+                nvp = currentTelescope->getBaseDevice()->getNumber("EQUATORIAL_EOD_COORD");
+
+            if (nvp)
+                processNumber(nvp);
         }
     }
 }
 
 void Align::processNumber(INumberVectorProperty *nvp)
 {
-    if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD"))
+    if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD") || !strcmp(nvp->name, "EQUATORIAL_COORD"))
     {
         QString ra_dms, dec_dms;
 
-        getFormattedCoords(nvp->np[0].value, nvp->np[1].value, ra_dms, dec_dms);
+        if (!strcmp(nvp->name, "EQUATORIAL_COORD"))
+        {
+            telescopeCoord.setRA0(nvp->np[0].value);
+            telescopeCoord.setDec0(nvp->np[1].value);
+            // Get JNow as well
+            telescopeCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+        }
+        else
+        {
+            telescopeCoord.setRA(nvp->np[0].value);
+            telescopeCoord.setDec(nvp->np[1].value);
+        }
 
-        telescopeCoord.setRA(nvp->np[0].value);
-        telescopeCoord.setDec(nvp->np[1].value);
+        getFormattedCoords(telescopeCoord.ra().Hours(), telescopeCoord.dec().Degrees(), ra_dms, dec_dms);
+
         telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
         ScopeRAOut->setText(ra_dms);
