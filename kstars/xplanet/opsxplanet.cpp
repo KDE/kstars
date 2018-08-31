@@ -113,6 +113,12 @@ void OpsXplanet::showXPlanetMapsDirectory()
         xplanetMapsDir = QCoreApplication::applicationDirPath() + "/xplanet/share/xplanet/images";
     else
         xplanetMapsDir = Options::xplanetPath() + "../share/xplanet/images";
+
+    #ifdef Q_OS_WIN
+        const QFileInfo xPlanetLocationInfo(Options::xplanetPath());
+        xplanetMapsDir = xPlanetLocationInfo.dir().absolutePath() + QDir::separator() + "xplanet" + QDir::separator() + "images";
+    #endif
+
     QUrl path = QUrl::fromLocalFile(xplanetMapsDir);
     QDesktopServices::openUrl(path);
 }
