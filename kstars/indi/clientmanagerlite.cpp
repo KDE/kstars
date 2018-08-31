@@ -902,10 +902,13 @@ void ClientManagerLite::newProperty(INDI::Property *property)
 
     if (devInfo)
     {
-        if ((!strcmp(property->getName(), "EQUATORIAL_EOD_COORD") || !strcmp(property->getName(), "HORIZONTAL_COORD")))
+        if ((!strcmp(property->getName(), "EQUATORIAL_EOD_COORD") ||
+             !strcmp(property->getName(), "EQUATORIAL_COORD") ||
+             !strcmp(property->getName(), "HORIZONTAL_COORD")))
         {
             devInfo->telescope.reset(new TelescopeLite(devInfo->device));
-            emit telescopeAdded(devInfo->telescope.get());
+            m_telescope = devInfo->telescope.get();
+            emit telescopeAdded(m_telescope);
             // The connected signal must be emitted for already connected scopes otherwise
             // the motion control page remains disabled.
             if (devInfo->telescope->isConnected())

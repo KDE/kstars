@@ -77,6 +77,7 @@ KSPage {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.maximumWidth: parent.width*0.8
                     Layout.fillWidth: true
+                    font.capitalization: Font.AllLowercase
                     //text: ClientManagerLite.lastUsedServer
                     text: "localhost"
 
