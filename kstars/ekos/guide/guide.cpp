@@ -800,19 +800,32 @@ void Guide::addCCD(ISD::GDInterface *newCCD)
 
     if (CCDs.contains(ccd))
         return;
+    if (guiderType != GUIDE_INTERNAL)
+    {
+        ccd->setBLOBEnabled(Options::guideRemoteImagesEnabled());
+        guiderCombo->clear();
+        guiderCombo->setEnabled(false);
+        if (guiderType == GUIDE_PHD2)
+            guiderCombo->addItem("PHD2");
+        else
+            guiderCombo->addItem("LinGuider");
+        return;
+    }
+    else
+        guiderCombo->setEnabled(true);
 
     CCDs.append(ccd);
 
     guiderCombo->addItem(ccd->getDeviceName());
-
-    if (guiderType != GUIDE_INTERNAL && guider)
-        setBLOBEnabled(false);
 
     checkCCD();
 }
 
 void Guide::addGuideHead(ISD::GDInterface *newCCD)
 {
+    if (guiderType != GUIDE_INTERNAL)
+        return;
+
     ISD::CCD *ccd = static_cast<ISD::CCD *>(newCCD);
 
     CCDs.append(ccd);
@@ -833,13 +846,16 @@ void Guide::addGuideHead(ISD::GDInterface *newCCD)
 
 void Guide::setTelescope(ISD::GDInterface *newTelescope)
 {
-    currentTelescope = (ISD::Telescope *)newTelescope;
+    currentTelescope = dynamic_cast<ISD::Telescope *>(newTelescope);
 
     syncTelescopeInfo();
 }
 
 bool Guide::setCCD(const QString &device)
 {
+    if (guiderType != GUIDE_INTERNAL)
+        return true;
+
     for (int i = 0; i < guiderCombo->count(); i++)
         if (device == guiderCombo->itemText(i))
         {
@@ -853,6 +869,9 @@ bool Guide::setCCD(const QString &device)
 
 void Guide::checkCCD(int ccdNum)
 {
+    if (guiderType != GUIDE_INTERNAL)
+        return;
+
     if (ccdNum == -1)
     {
         ccdNum = guiderCombo->currentIndex();
@@ -1114,6 +1133,9 @@ void Guide::updateGuideParams()
 
 void Guide::addST4(ISD::ST4 *newST4)
 {
+    if (guiderType != GUIDE_INTERNAL)
+        return;
+
     foreach (ISD::ST4 *guidePort, ST4List)
     {
         if (!strcmp(guidePort->getDeviceName(), newST4->getDeviceName()))
@@ -1129,6 +1151,9 @@ void Guide::addST4(ISD::ST4 *newST4)
 
 bool Guide::setST4(const QString &device)
 {
+    if (guiderType != GUIDE_INTERNAL)
+        return true;
+
     for (int i = 0; i < ST4List.count(); i++)
         if (ST4List.at(i)->getDeviceName() == device)
         {
@@ -1142,7 +1167,7 @@ bool Guide::setST4(const QString &device)
 
 void Guide::setST4(int index)
 {
-    if (ST4List.empty() || index >= ST4List.count())
+    if (ST4List.empty() || index >= ST4List.count() || guiderType != GUIDE_INTERNAL)
         return;
 
     ST4Driver = ST4List.at(index);
