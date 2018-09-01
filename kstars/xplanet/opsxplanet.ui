@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>622</width>
-    <height>647</height>
+    <height>665</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -207,143 +207,6 @@
            <property name="labelAlignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
-           <item row="2" column="0">
-            <widget class="QCheckBox" name="kcfg_XplanetFOV">
-             <property name="toolTip">
-              <string>Use kstars's FOV?</string>
-             </property>
-             <property name="whatsThis">
-              <string>If checked, use kstars's FOV.</string>
-             </property>
-             <property name="text">
-              <string>Use kstars's FOV</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_3"/>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="textLabelXplanetGlare">
-             <property name="text">
-              <string>Glare of Sun:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1">
-            <widget class="QSpinBox" name="kcfg_XplanetGlare">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>Radius of the glare around the Sun.</string>
-             </property>
-             <property name="whatsThis">
-              <string>Draw a glare around the sun with a radius of the specified value larger than the Sun.  The default value is 28.</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="textLabelXplanetMagnitude">
-             <property name="text">
-              <string>Base magnitude:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="1">
-            <widget class="QSpinBox" name="kcfg_XplanetMagnitude">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>A star of the specified magnitude will have a pixel brightness of 1</string>
-             </property>
-             <property name="whatsThis">
-              <string>A star of the specified magnitude will have a pixel brightness of 1. The default value is 10. Stars will be drawn more brightly if this number is larger.</string>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="0">
-            <widget class="QCheckBox" name="kcfg_XplanetStarmap">
-             <property name="toolTip">
-              <string>Use custom star map?</string>
-             </property>
-             <property name="whatsThis">
-              <string>If checked, use star map file to draw the background stars.</string>
-             </property>
-             <property name="text">
-              <string>Star map:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="1">
-            <widget class="QLineEdit" name="kcfg_XplanetStarmapPath">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>Star map file path</string>
-             </property>
-             <property name="whatsThis">
-              <string>Star map file path</string>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="1">
-            <widget class="QLineEdit" name="kcfg_XplanetArcFilePath">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>Arc file path</string>
-             </property>
-             <property name="whatsThis">
-              <string>Specify an arc file to be plotted against the background stars.</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="1">
-            <widget class="QLineEdit" name="kcfg_XplanetConfigFilePath">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>Config file path</string>
-             </property>
-             <property name="whatsThis">
-              <string>Use the specified configuration file</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="0">
-            <widget class="QCheckBox" name="kcfg_XplanetConfigFile">
-             <property name="text">
-              <string>Config file:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="0">
-            <widget class="QCheckBox" name="kcfg_XplanetArcFile">
-             <property name="text">
-              <string>Arc file:</string>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="0">
             <widget class="QCheckBox" name="kcfg_XplanetUseFIFO">
              <property name="toolTip">
@@ -361,6 +224,239 @@
             <widget class="QLabel" name="label_5">
              <property name="text">
               <string>(saves to memory instead of a hard disk)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QCheckBox" name="kcfg_XplanetFOV">
+             <property name="toolTip">
+              <string>Use kstars's FOV?</string>
+             </property>
+             <property name="whatsThis">
+              <string>If checked, use kstars's FOV.</string>
+             </property>
+             <property name="text">
+              <string>Use kstars's FOV</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="textLabelXplanetMagnitude">
+             <property name="text">
+              <string>Base magnitude:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QSpinBox" name="kcfg_XplanetMagnitude">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>A star of the specified magnitude will have a pixel brightness of 1</string>
+             </property>
+             <property name="whatsThis">
+              <string>A star of the specified magnitude will have a pixel brightness of 1. The default value is 10. Stars will be drawn more brightly if this number is larger.</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1">
+            <widget class="QWidget" name="widget" native="true"/>
+           </item>
+           <item row="10" column="0">
+            <widget class="QCheckBox" name="kcfg_XplanetConfigFile">
+             <property name="text">
+              <string>Config file:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="10" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetMaximumSize</enum>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="kcfg_XplanetConfigFilePath">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Config file path</string>
+               </property>
+               <property name="whatsThis">
+                <string>Use the specified configuration file</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="configFileB">
+               <property name="minimumSize">
+                <size>
+                 <width>28</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>28</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="11" column="0">
+            <widget class="QCheckBox" name="kcfg_XplanetStarmap">
+             <property name="toolTip">
+              <string>Use custom star map?</string>
+             </property>
+             <property name="whatsThis">
+              <string>If checked, use star map file to draw the background stars.</string>
+             </property>
+             <property name="text">
+              <string>Star map:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,0">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetMaximumSize</enum>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="kcfg_XplanetStarmapPath">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Star map file path</string>
+               </property>
+               <property name="whatsThis">
+                <string>Star map file path</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="starmapFileB">
+               <property name="minimumSize">
+                <size>
+                 <width>28</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>28</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="12" column="0">
+            <widget class="QCheckBox" name="kcfg_XplanetArcFile">
+             <property name="text">
+              <string>Arc file:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="12" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetMaximumSize</enum>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="kcfg_XplanetArcFilePath">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Arc file path</string>
+               </property>
+               <property name="whatsThis">
+                <string>Specify an arc file to be plotted against the background stars.</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="arcFileB">
+               <property name="minimumSize">
+                <size>
+                 <width>28</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>28</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="5" column="1">
+            <widget class="QSpinBox" name="kcfg_XplanetGlare">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Radius of the glare around the Sun.</string>
+             </property>
+             <property name="whatsThis">
+              <string>Draw a glare around the sun with a radius of the specified value larger than the Sun.  The default value is 28.</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="textLabelXplanetGlare">
+             <property name="text">
+              <string>Glare of Sun:</string>
              </property>
             </widget>
            </item>
@@ -1029,11 +1125,8 @@
   <tabstop>kcfg_XplanetGlare</tabstop>
   <tabstop>kcfg_XplanetMagnitude</tabstop>
   <tabstop>kcfg_XplanetConfigFile</tabstop>
-  <tabstop>kcfg_XplanetConfigFilePath</tabstop>
   <tabstop>kcfg_XplanetStarmap</tabstop>
-  <tabstop>kcfg_XplanetStarmapPath</tabstop>
   <tabstop>kcfg_XplanetArcFile</tabstop>
-  <tabstop>kcfg_XplanetArcFilePath</tabstop>
   <tabstop>kcfg_XplanetQuality</tabstop>
   <tabstop>kcfg_XplanetLabel</tabstop>
   <tabstop>kcfg_XplanetLabelLocalTime</tabstop>
