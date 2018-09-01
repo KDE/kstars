@@ -65,6 +65,7 @@ class XPlanetImageLabel : public QFrame
     void zoomIn();
     void zoomOut();
     void changePosition(QPoint);
+    void changeLocation(QPoint);
 
   protected:
     void paintEvent(QPaintEvent *e) override;
@@ -158,6 +159,7 @@ class XPlanetImageViewer : public QDialog
     double m_FOV { 0 };
     double m_lat { 0 };
     double m_lon { 0 };
+    QPoint center;
 
 #ifndef Q_OS_WIN
     QFutureWatcher<bool> fifoImageLoadWatcher;
@@ -215,11 +217,15 @@ class XPlanetImageViewer : public QDialog
     void resetXPlanetRotation();
     void invertXPlanetRotation();
 
+    void reCenterXPlanet();
+
     // Free Rotation slots
     void changeXPlanetPosition(QPoint delta);
+    void changeXPlanetLocation(QPoint delta);
     void slotFreeRotate();
     void updateStates();
     void updatePositionDisplay();
+    void resetLocation();
 
     // Field of View slots
     void zoomInXPlanetFOV();
