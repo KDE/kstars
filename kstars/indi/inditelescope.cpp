@@ -702,8 +702,16 @@ bool Telescope::Slew(double ra, double dec)
 {
     SkyPoint target;
 
-    target.setRA(ra);
-    target.setDec(dec);
+    if (m_isJ2000)
+    {
+        target.setRA0(ra);
+        target.setDec0(dec);
+    }
+    else
+    {
+        target.setRA(ra);
+        target.setDec(dec);
+    }
 
     return Slew(&target);
 }
