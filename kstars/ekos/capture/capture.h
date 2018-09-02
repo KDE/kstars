@@ -673,15 +673,15 @@ class Capture : public QWidget, public Ui::Capture
     ISD::Dome *dome { nullptr };
 
     QStringList m_LogText;
-    QUrl sequenceURL;
-    bool mDirty { false };
-    bool jobUnderEdit { false };
-    int currentFilterPosition { -1 };
+    QUrl m_SequenceURL;
+    bool m_Dirty { false };
+    bool m_JobUnderEdit { false };
+    int m_CurrentFilterPosition { -1 };
     QProgressIndicator *pi { nullptr };
 
     // Guide Deviation
-    bool deviationDetected { false };
-    bool spikeDetected { false };
+    bool m_DeviationDetected { false };
+    bool m_SpikeDetected { false };
     QTimer guideDeviationTimer;
 
     // Autofocus

@@ -399,7 +399,7 @@ void Capture::start()
     // Record initialHA and initialMount position when we are starting fresh
     // If recovering from deviation error, these values should not be recorded.
     // Refocus timer should not be reset on deviation error
-    if (deviationDetected == false && m_State != CAPTURE_SUSPENDED)
+    if (m_DeviationDetected == false && m_State != CAPTURE_SUSPENDED)
     {
         initialHA         = getCurrentHA();
         qCDebug(KSTARS_EKOS_CAPTURE) << "Initial hour angle:" << initialHA;
@@ -429,8 +429,8 @@ void Capture::start()
         startRefocusEveryNTimer();
     }
 
-    deviationDetected = false;
-    spikeDetected     = false;
+    m_DeviationDetected = false;
+    m_SpikeDetected     = false;
 
     ditherCounter     = Options::ditherFrames();
     inSequenceFocusCounter = Options::inSequenceCheckFrames();
@@ -1086,7 +1086,7 @@ void Capture::checkFilter(int filterNum)
     if (filterNum == 0)
     {
         currentFilter = nullptr;
-        currentFilterPosition=-1;
+        m_CurrentFilterPosition=-1;
         FilterPosCombo->clear();
         syncFilterInfo();
         return;
@@ -1103,9 +1103,9 @@ void Capture::checkFilter(int filterNum)
 
     FilterPosCombo->addItems(filterManager->getFilterLabels());
 
-    currentFilterPosition = filterManager->getFilterPosition();
+    m_CurrentFilterPosition = filterManager->getFilterPosition();
 
-    FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
+    FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition-1);
 
 
     /*if (activeJob &&
@@ -1577,8 +1577,8 @@ void Capture::captureImage()
 
     if (currentFilter != nullptr)
     {
-        currentFilterPosition = filterManager->getFilterPosition();
-        activeJob->setCurrentFilter(currentFilterPosition);
+        m_CurrentFilterPosition = filterManager->getFilterPosition();
+        activeJob->setCurrentFilter(m_CurrentFilterPosition);
     }
 
     if (currentCCD->hasCooler())
@@ -1950,7 +1950,7 @@ bool Capture::addJob(bool preview)
         return false;
     }
 
-    if (jobUnderEdit)
+    if (m_JobUnderEdit)
         job = jobs.at(queueTable->currentRow());
     else
     {
@@ -2031,7 +2031,7 @@ bool Capture::addJob(bool preview)
     job->setRemoteDir(remoteDirIN->text());
     job->setLocalDir(fitsDir->text());
 
-    if (jobUnderEdit == false)
+    if (m_JobUnderEdit == false)
     {
         jobs.append(job);
 
@@ -2055,7 +2055,7 @@ bool Capture::addJob(bool preview)
     job->setDirectoryPostfix(directoryPostfix);
 
     int currentRow = 0;
-    if (jobUnderEdit == false)
+    if (m_JobUnderEdit == false)
     {
         currentRow = queueTable->rowCount();
         queueTable->insertRow(currentRow);
@@ -2063,14 +2063,14 @@ bool Capture::addJob(bool preview)
     else
         currentRow = queueTable->currentRow();
 
-    QTableWidgetItem *status = jobUnderEdit ? queueTable->item(currentRow, 0) : new QTableWidgetItem();
+    QTableWidgetItem *status = m_JobUnderEdit ? queueTable->item(currentRow, 0) : new QTableWidgetItem();
     status->setText(job->getStatusString());
     status->setTextAlignment(Qt::AlignHCenter);
     status->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     job->setStatusCell(status);
 
-    QTableWidgetItem *filter = jobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
+    QTableWidgetItem *filter = m_JobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
     filter->setText("--");
     jsonJob.insert("Filter", "--");
     /*if (frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
@@ -2086,25 +2086,25 @@ bool Capture::addJob(bool preview)
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *type = jobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
+    QTableWidgetItem *type = m_JobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
     type->setText(frameTypeCombo->currentText());
     type->setTextAlignment(Qt::AlignHCenter);
     type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Type", type->text());
 
-    QTableWidgetItem *bin = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
+    QTableWidgetItem *bin = m_JobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
     bin->setText(QString("%1x%2").arg(binXIN->value()).arg(binYIN->value()));
     bin->setTextAlignment(Qt::AlignHCenter);
     bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Bin", bin->text());
 
-    QTableWidgetItem *exp = jobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
+    QTableWidgetItem *exp = m_JobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
     exp->setText(QString::number(exposureIN->value()));
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Exp", exp->text());
 
-    QTableWidgetItem *iso = jobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
+    QTableWidgetItem *iso = m_JobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
     if (ISOCombo->currentIndex() != -1)
     {
         iso->setText(ISOCombo->currentText());
@@ -2118,13 +2118,13 @@ bool Capture::addJob(bool preview)
     iso->setTextAlignment(Qt::AlignHCenter);
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *count = jobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
+    QTableWidgetItem *count = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
     count->setText(QString::number(countIN->value()));
     count->setTextAlignment(Qt::AlignHCenter);
     count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Count", count->text());
 
-    if (jobUnderEdit == false)
+    if (m_JobUnderEdit == false)
     {
         queueTable->setItem(currentRow, 0, status);
         queueTable->setItem(currentRow, 1, filter);
@@ -2145,7 +2145,7 @@ bool Capture::addJob(bool preview)
         queueSaveAsB->setEnabled(true);
         queueSaveB->setEnabled(true);
         resetB->setEnabled(true);
-        mDirty = true;
+        m_Dirty = true;
     }
 
     if (queueTable->rowCount() > 1)
@@ -2154,9 +2154,9 @@ bool Capture::addJob(bool preview)
         queueDownB->setEnabled(true);
     }
 
-    if (jobUnderEdit)
+    if (m_JobUnderEdit)
     {
-        jobUnderEdit = false;
+        m_JobUnderEdit = false;
         resetJobEdit();
         appendLogText(i18n("Job #%1 changes applied.", currentRow + 1));
 
@@ -2172,7 +2172,7 @@ void Capture::removeJob(int index)
     if (m_State != CAPTURE_IDLE && m_State != CAPTURE_ABORTED && m_State != CAPTURE_COMPLETE)
         return;
 
-    if (jobUnderEdit)
+    if (m_JobUnderEdit)
     {
         resetJobEdit();
         return;
@@ -2222,7 +2222,7 @@ void Capture::removeJob(int index)
         resetB->setEnabled(false);
     }
 
-    mDirty = true;
+    m_Dirty = true;
 }
 
 void Capture::moveJobUp()
@@ -2260,7 +2260,7 @@ void Capture::moveJobUp()
     for (int i = 0; i < jobs.count(); i++)
         jobs.at(i)->setStatusCell(queueTable->item(i, 0));
 
-    mDirty = true;
+    m_Dirty = true;
 }
 
 void Capture::moveJobDown()
@@ -2298,7 +2298,7 @@ void Capture::moveJobDown()
     for (int i = 0; i < jobs.count(); i++)
         jobs.at(i)->setStatusCell(queueTable->item(i, 0));
 
-    mDirty = true;
+    m_Dirty = true;
 }
 
 void Capture::setBusy(bool enable)
@@ -2520,8 +2520,8 @@ void Capture::prepareJob(SequenceJob *job)
 void Capture::preparePreCaptureActions()
 {
     // Update position
-    if (currentFilterPosition > 0)
-        activeJob->setCurrentFilter(currentFilterPosition);
+    if (m_CurrentFilterPosition > 0)
+        activeJob->setCurrentFilter(m_CurrentFilterPosition);
 
     // update temperature
     if (currentCCD->hasCooler() && activeJob->getEnforceTemperature())
@@ -2688,9 +2688,9 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         if (deviation_rms > guideDeviation->value())
         {
             // Ignore spikes ONCE
-            if (spikeDetected == false)
+            if (m_SpikeDetected == false)
             {
-                spikeDetected = true;
+                m_SpikeDetected = true;
                 return;
             }
 
@@ -2701,13 +2701,13 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
             suspend();
 
-            spikeDetected     = false;
+            m_SpikeDetected     = false;
 
             // Check if we need to start meridian flip
             if (checkMeridianFlip())
                 return;
 
-            deviationDetected = true;
+            m_DeviationDetected = true;
 
             guideDeviationTimer.start();
         }
@@ -2725,7 +2725,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         }
     }
 
-    if (abortedJob && deviationDetected)
+    if (abortedJob && m_DeviationDetected)
     {
         if (deviation_rms <= guideDeviation->value())
         {
@@ -2768,13 +2768,13 @@ void Capture::setFocusStatus(FocusState state)
         if (fileHFR == 0.0)
         {
             QList<double> filterHFRList;
-            if (currentFilterPosition > 0)
+            if (m_CurrentFilterPosition > 0)
             {
                 // If we are using filters, then we retrieve which filter is currently active.
                 // We check if filter lock is used, and store that instead of the current filter.
                 // e.g. If current filter HA, but lock filter is L, then the HFR value is stored for L filter.
                 // If no lock filter exists, then we store as is (HA)
-                QString currentFilterText = FilterPosCombo->itemText(currentFilterPosition-1);
+                QString currentFilterText = FilterPosCombo->itemText(m_CurrentFilterPosition-1);
                 //QString filterLock = filterManager.data()->getFilterLock(currentFilterText);
                 //QString finalFilter = (filterLock == "--" ? currentFilterText : filterLock);
 
@@ -3110,8 +3110,8 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
         }
     }
 
-    sequenceURL = QUrl::fromLocalFile(fileURL);
-    mDirty      = false;
+    m_SequenceURL = QUrl::fromLocalFile(fileURL);
+    m_Dirty      = false;
     delLilXML(xmlParser);
 
     ignoreJobProgress = !(Options::rememberJobProgress());
@@ -3328,30 +3328,30 @@ bool Capture::processJobInfo(XMLEle *root)
 
 void Capture::saveSequenceQueue()
 {
-    QUrl backupCurrent = sequenceURL;
+    QUrl backupCurrent = m_SequenceURL;
 
-    if (sequenceURL.toLocalFile().startsWith(QLatin1String("/tmp/")) || sequenceURL.toLocalFile().contains("/Temp"))
-        sequenceURL.clear();
+    if (m_SequenceURL.toLocalFile().startsWith(QLatin1String("/tmp/")) || m_SequenceURL.toLocalFile().contains("/Temp"))
+        m_SequenceURL.clear();
 
     // If no changes made, return.
-    if (mDirty == false && !sequenceURL.isEmpty())
+    if (m_Dirty == false && !m_SequenceURL.isEmpty())
         return;
 
-    if (sequenceURL.isEmpty())
+    if (m_SequenceURL.isEmpty())
     {
-        sequenceURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Ekos Sequence Queue"), dirPath,
+        m_SequenceURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Ekos Sequence Queue"), dirPath,
                                                   "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
-        if (sequenceURL.isEmpty())
+        if (m_SequenceURL.isEmpty())
         {
-            sequenceURL = backupCurrent;
+            m_SequenceURL = backupCurrent;
             return;
         }
 
-        dirPath = QUrl(sequenceURL.url(QUrl::RemoveFilename));
+        dirPath = QUrl(m_SequenceURL.url(QUrl::RemoveFilename));
 
-        if (sequenceURL.toLocalFile().endsWith(QLatin1String(".esq")) == false)
-            sequenceURL.setPath(sequenceURL.toLocalFile() + ".esq");
+        if (m_SequenceURL.toLocalFile().endsWith(QLatin1String(".esq")) == false)
+            m_SequenceURL.setPath(m_SequenceURL.toLocalFile() + ".esq");
 
         /*if (QFile::exists(sequenceURL.toLocalFile()))
         {
@@ -3365,26 +3365,26 @@ void Capture::saveSequenceQueue()
         }*/
     }
 
-    if (sequenceURL.isValid())
+    if (m_SequenceURL.isValid())
     {
-        if ((saveSequenceQueue(sequenceURL.toLocalFile())) == false)
+        if ((saveSequenceQueue(m_SequenceURL.toLocalFile())) == false)
         {
             KMessageBox::error(KStars::Instance(), i18n("Failed to save sequence queue"), i18n("Save"));
             return;
         }
 
-        mDirty = false;
+        m_Dirty = false;
     }
     else
     {
-        QString message = i18n("Invalid URL: %1", sequenceURL.url());
+        QString message = i18n("Invalid URL: %1", m_SequenceURL.url());
         KMessageBox::sorry(KStars::Instance(), message, i18n("Invalid URL"));
     }
 }
 
 void Capture::saveSequenceQueueAs()
 {
-    sequenceURL.clear();
+    m_SequenceURL.clear();
     saveSequenceQueue();
 }
 
@@ -3641,15 +3641,15 @@ void Capture::editJob(QModelIndex i)
     addToQueueB->setToolTip(i18n("Apply job changes."));
     removeFromQueueB->setToolTip(i18n("Cancel job changes."));
 
-    jobUnderEdit = true;
+    m_JobUnderEdit = true;
 }
 
 void Capture::resetJobEdit()
 {
-    if (jobUnderEdit)
+    if (m_JobUnderEdit)
         appendLogText(i18n("Editing job canceled."));
 
-    jobUnderEdit = false;
+    m_JobUnderEdit = false;
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
 
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
@@ -4112,10 +4112,10 @@ void Capture::checkMeridianFlipTimeout()
 
 void Capture::checkGuideDeviationTimeout()
 {
-    if (activeJob && activeJob->getStatus() == SequenceJob::JOB_ABORTED && deviationDetected)
+    if (activeJob && activeJob->getStatus() == SequenceJob::JOB_ABORTED && m_DeviationDetected)
     {
         appendLogText(i18n("Guide module timed out."));
-        deviationDetected = false;
+        m_DeviationDetected = false;
 
         // If capture was suspended, it should be aborted (failed) now.
         if (m_State == CAPTURE_SUSPENDED)
@@ -4383,7 +4383,7 @@ void Capture::llsq(QVector<double> x, QVector<double> y, double &a, double &b)
 
 void Capture::setDirty()
 {
-    mDirty = true;
+    m_Dirty = true;
 }
 
 void Capture::setMeridianFlip(bool enable)
@@ -5307,11 +5307,11 @@ void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
 
     connect(filterManager.data(), &FilterManager::ready, [this]()
     {
-        currentFilterPosition = filterManager->getFilterPosition();
+        m_CurrentFilterPosition = filterManager->getFilterPosition();
         // Due to race condition,
         focusState = FOCUS_IDLE;
         if (activeJob)
-            activeJob->setCurrentFilter(currentFilterPosition);
+            activeJob->setCurrentFilter(m_CurrentFilterPosition);
 
     }
     );
@@ -5356,13 +5356,13 @@ void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
     {
         FilterPosCombo->clear();
         FilterPosCombo->addItems(filterManager->getFilterLabels());
-        currentFilterPosition = filterManager->getFilterPosition();
-        FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
+        m_CurrentFilterPosition = filterManager->getFilterPosition();
+        FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition-1);
     });
     connect(filterManager.data(), &FilterManager::positionChanged, this, [this]()
     {
-        currentFilterPosition = filterManager->getFilterPosition();
-        FilterPosCombo->setCurrentIndex(currentFilterPosition-1);
+        m_CurrentFilterPosition = filterManager->getFilterPosition();
+        FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition-1);
     });
 }
 
