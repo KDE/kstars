@@ -244,7 +244,7 @@ class CCD : public DeviceDecorator
     void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
     void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
     void newRemoteFile(QString);
-    void newImage(QImage *image, ISD::CCDChip *targetChip);
+    void newImage(QImage *image, const QString &filename, ISD::CCDChip *targetChip);
     void videoStreamToggled(bool enabled);
     void videoRecordToggled(bool enabled);
     void newFPS(double instantFPS, double averageFPS);

@@ -28,7 +28,7 @@ First build the KF5 dependencies separately:
 
 - Run build_kf5.sh and verify that the script builds everything without any problem.
 
-$KSTARS_ROOT/android/build_kf5.sh
+$KSTARS_ROOT/packaging/android/build_kf5.sh
 
 When KF5 are ready, build KStars Lite for Android:
 

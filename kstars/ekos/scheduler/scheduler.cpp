@@ -99,7 +99,7 @@ Scheduler::Scheduler()
     connect(&jobTimer, &QTimer::timeout, this, &Scheduler::checkJobStage);
 
     pi = new QProgressIndicator(this);
-    bottomLayout->addWidget(pi, 0, 0);
+    bottomLayout->addWidget(pi, 0, nullptr);
 
     geo = KStarsData::Instance()->geo();
 
@@ -331,15 +331,15 @@ void Scheduler::addObject(SkyObject *object)
 
         if (object->name() == "star")
         {
-            StarObject *s = (StarObject *)object;
+            StarObject *s = dynamic_cast<StarObject *>(object);
 
             if (s->getHDIndex() != 0)
                 finalObjectName = QString("HD %1").arg(QString::number(s->getHDIndex()));
         }
 
         nameEdit->setText(finalObjectName);
-        raBox->setText(object->ra0().toHMSString());
-        decBox->setText(object->dec0().toDMSString());
+        raBox->setText(object->ra0().toHMSString(false, true));
+        decBox->setText(object->dec0().toDMSString(false, false, true));
 
         addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
         mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
@@ -1431,7 +1431,7 @@ void Scheduler::evaluateJobs()
                 // If starting time already passed by 5 minutes (default), we mark the job as invalid or aborted
                 if (timeUntil < (-1 * Options::leadTime() * 60))
                 {
-                    dms const passedUp(-timeUntil / 3600.0);
+                    dms const passedUp(-timeUntil * 15.0  / 3600.0);
 
                     /* Mark the job invalid only if its startup time was a user request, else just abort it for later reschedule */
                     if (job->getFileStartupCondition() == SchedulerJob::START_AT)
@@ -1708,111 +1708,18 @@ void Scheduler::evaluateJobs()
     // Sort again by schedule, sooner first, as some jobs may have shifted during the last step
     qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingStartupTimeOrder);
 
-    setCurrentJob(sortedJobs.first());
+    SchedulerJob * const job_to_execute = sortedJobs.first();
 
     /* Check if job can be processed right now */
-    if (currentJob->getFileStartupCondition() == SchedulerJob::START_ASAP)
-        if( 0 < calculateJobScore(currentJob, now))
-            currentJob->setStartupTime(now);
-
-    int const nextObservationTime = now.secsTo(currentJob->getStartupTime());
+    if (job_to_execute->getFileStartupCondition() == SchedulerJob::START_ASAP)
+        if( 0 < calculateJobScore(job_to_execute, now))
+            job_to_execute->setStartupTime(now);
 
     appendLogText(i18n("Job '%1' is selected for next observation with priority #%2 and score %3.",
-                       currentJob->getName(), currentJob->getPriority(), currentJob->getScore()));
+                       job_to_execute->getName(), job_to_execute->getPriority(), job_to_execute->getScore()));
 
-    // If mount was previously parked awaiting job activation, we unpark it.
-    if (parkWaitState == PARKWAIT_PARKED)
-    {
-        parkWaitState = PARKWAIT_UNPARK;
-        return;
-    }
-
-    // If we already started, we check when the next object is scheduled at.
-    // If it is more than 30 minutes in the future, we park the mount if that is supported
-    // and we unpark when it is due to start.
-
-    // If start up procedure is complete and the user selected pre-emptive shutdown, let us check if the next observation time exceed
-    // the pre-emptive shutdown time in hours (default 2). If it exceeds that, we perform complete shutdown until next job is ready
-    if (startupState == STARTUP_COMPLETE && Options::preemptiveShutdown() &&
-            nextObservationTime > (Options::preemptiveShutdownTime() * 3600))
-    {
-        appendLogText(i18n("Job '%1' scheduled for execution at %2. Observatory scheduled for "
-                           "shutdown until next job is ready.",
-                           currentJob->getName(), currentJob->getStartupTime().toString()));
-        preemptiveShutdown = true;
-        weatherCheck->setEnabled(false);
-        weatherLabel->hide();
-        checkShutdownState();
-
-        // Wake up when job is due
-        //sleepTimer.setInterval((nextObservationTime * 1000 - (1000 * Options::leadTime() * 60)));
-        sleepTimer.setInterval(( (nextObservationTime+1) * 1000));
-        //connect(&sleepTimer, &QTimer::timeout, this, &Scheduler::wakeUpScheduler);
-        sleepTimer.start();
-    }
-    // Otherise, sleep until job is ready
-    /* FIXME: if not parking, stop tracking maybe? this would prevent crashes or scheduler stops from leaving the mount to track and bump the pier */
-    //else if (nextObservationTime > (Options::leadTime() * 60))
-    else if (nextObservationTime > 1)
-    {
-        // If start up procedure is already complete, and we didn't issue any parking commands before and parking is checked and enabled
-        // Then we park the mount until next job is ready. But only if the job uses TRACK as its first step, otherwise we cannot get into position again.
-        // This is also only performed if next job is due more than the default lead time (5 minutes).
-        // If job is due sooner than that is not worth parking and we simply go into sleep or wait modes.
-        if ((nextObservationTime > (Options::leadTime() * 60)) &&
-                startupState == STARTUP_COMPLETE &&
-                parkWaitState == PARKWAIT_IDLE &&
-                (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK) &&
-                parkMountCheck->isEnabled() &&
-                parkMountCheck->isChecked())
-        {
-            appendLogText(i18n("Job '%1' scheduled for execution at %2. Parking the mount until "
-                               "the job is ready.",
-                               currentJob->getName(), currentJob->getStartupTime().toString()));
-            parkWaitState = PARKWAIT_PARK;
-        }
-        // If mount was pre-emptivally parked OR if parking is not supported or if start up procedure is IDLE then go into
-        // sleep mode until next job is ready.
-#if 0
-        else if ((nextObservationTime > (Options::leadTime() * 60)) &&
-                 (parkWaitState == PARKWAIT_PARKED ||
-                  parkMountCheck->isEnabled() == false ||
-                  parkMountCheck->isChecked() == false ||
-                  startupState == STARTUP_IDLE))
-        {
-            appendLogText(i18n("Sleeping until observation job %1 is ready at %2...", currentJob->getName(),
-                               now.addSecs(nextObservationTime+1).toString()));
-            sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
-            schedulerTimer.stop();
-            sleepLabel->show();
-
-            // Wake up when job is ready.
-            // N.B. Waking 5 minutes before is useless now because we evaluate ALL scheduled jobs each second
-            // So just wake it up when it is exactly due
-            sleepTimer.setInterval(( (nextObservationTime+1) * 1000));
-            sleepTimer.start();
-        }
-#endif
-        // The only difference between sleep and wait modes is the time. If the time more than lead time (5 minutes by default)
-        // then we sleep, otherwise we wait. It's the same thing, just different labels.
-        else
-        {
-            appendLogText(i18n("Sleeping until observation job %1 is ready at %2...", currentJob->getName(),
-                               now.addSecs(nextObservationTime+1).toString()));
-            sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
-            schedulerTimer.stop();
-            sleepLabel->show();
-
-            /* FIXME: stop tracking now */
-
-            // Wake up when job is ready.
-            // N.B. Waking 5 minutes before is useless now because we evaluate ALL scheduled jobs each second
-            // So just wake it up when it is exactly due
-            sleepTimer.setInterval(( (nextObservationTime+1) * 1000));
-            //connect(&sleepTimer, &QTimer::timeout, this, &Scheduler::wakeUpScheduler);
-            sleepTimer.start();
-        }
-    }
+    // Set the current job, and let the status timer execute it when ready
+    setCurrentJob(job_to_execute);
 }
 
 void Scheduler::wakeUpScheduler()
@@ -2299,11 +2206,101 @@ void Scheduler::calculateDawnDusk()
 
 void Scheduler::executeJob(SchedulerJob *job)
 {
+    // Don't execute the current job if it is already busy
+    if (currentJob == job && SchedulerJob::JOB_BUSY == currentJob->getState())
+        return;
+
     setCurrentJob(job);
 
-    /* If job schedule isn't now, postpone - else this will cancel a parking attempt */
-    if (0 < KStarsData::Instance()->lt().secsTo(currentJob->getStartupTime()))
+    QDateTime const now = KStarsData::Instance()->lt();
+
+    // If we already started, we check when the next object is scheduled at.
+    // If it is more than 30 minutes in the future, we park the mount if that is supported
+    // and we unpark when it is due to start.
+    int const nextObservationTime = now.secsTo(currentJob->getStartupTime());
+
+    // If start up procedure is complete and the user selected pre-emptive shutdown, let us check if the next observation time exceed
+    // the pre-emptive shutdown time in hours (default 2). If it exceeds that, we perform complete shutdown until next job is ready
+    if (startupState == STARTUP_COMPLETE &&
+            Options::preemptiveShutdown() &&
+            nextObservationTime > (Options::preemptiveShutdownTime() * 3600))
+    {
+        appendLogText(i18n(
+                    "Job '%1' scheduled for execution at %2. "
+                    "Observatory scheduled for shutdown until next job is ready.",
+                    currentJob->getName(), currentJob->getStartupTime().toString()));
+        preemptiveShutdown = true;
+        weatherCheck->setEnabled(false);
+        weatherLabel->hide();
+        checkShutdownState();
+
+        schedulerTimer.stop();
+
+        // Wake up when job is due.
+        // FIXME: Implement waking up periodically before job is due for weather check.
+        // int const nextWakeup = nextObservationTime < 60 ? nextObservationTime : 60;
+        sleepTimer.setInterval( (nextObservationTime+1) * 1000);
+        sleepTimer.start();
+
         return;
+    }
+    // Otherise, sleep until job is ready
+    /* FIXME: if not parking, stop tracking maybe? this would prevent crashes or scheduler stops from leaving the mount to track and bump the pier */
+    // If start up procedure is already complete, and we didn't issue any parking commands before and parking is checked and enabled
+    // Then we park the mount until next job is ready. But only if the job uses TRACK as its first step, otherwise we cannot get into position again.
+    // This is also only performed if next job is due more than the default lead time (5 minutes).
+    // If job is due sooner than that is not worth parking and we simply go into sleep or wait modes.
+    else if (nextObservationTime > Options::leadTime() * 60 &&
+            startupState == STARTUP_COMPLETE &&
+            parkWaitState == PARKWAIT_IDLE &&
+            (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK) &&
+            parkMountCheck->isEnabled() &&
+            parkMountCheck->isChecked())
+    {
+        appendLogText(i18n(
+                    "Job '%1' scheduled for execution at %2. "
+                    "Parking the mount until the job is ready.",
+                    currentJob->getName(), currentJob->getStartupTime().toString()));
+
+        parkWaitState = PARKWAIT_PARK;
+
+        return;
+    }
+    // If the time to wait is greater than the lead time (5 minutes by default)
+    // then we sleep, otherwise we wait. It's the same thing, just different labels.
+    else if (nextObservationTime > Options::leadTime() * 60)
+    {
+        appendLogText(i18n("Sleeping until observation job %1 is ready at %2...", currentJob->getName(),
+                    now.addSecs(nextObservationTime+1).toString()));
+        sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
+        sleepLabel->show();
+
+        // Warn the user if the next job is really far away - 60/5 = 12 times the lead time
+        if (nextObservationTime > Options::leadTime() * 60 * 12)
+        {
+            dms delay((double) nextObservationTime * 15.0 / 3600.0);
+            appendLogText(i18n(
+                        "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive Shutdown.",
+                        currentJob->getName(), delay.toHMSString()));
+        }
+
+        /* FIXME: stop tracking now */
+
+        schedulerTimer.stop();
+
+        // Wake up when job is due.
+        // FIXME: Implement waking up periodically before job is due for weather check.
+        // int const nextWakeup = nextObservationTime < 60 ? nextObservationTime : 60;
+        sleepTimer.setInterval(( (nextObservationTime+1) * 1000));
+        sleepTimer.start();
+
+        return;
+    }
+    // If job schedule isn't now, wait - continuing to execute would cancel a parking attempt
+    else if (0 < KStarsData::Instance()->lt().secsTo(currentJob->getStartupTime()))
+        return;
+
+    // From this point job can be executed now
 
     if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
@@ -2321,7 +2318,7 @@ void Scheduler::executeJob(SchedulerJob *job)
     currentJob->setState(SchedulerJob::JOB_BUSY);
 
     KNotification::event(QLatin1String("EkosSchedulerJobStart"),
-                         i18n("Ekos job started (%1)", currentJob->getName()));
+            i18n("Ekos job started (%1)", currentJob->getName()));
 
     // No need to continue evaluating jobs as we already have one.
 
@@ -2419,6 +2416,18 @@ bool Scheduler::checkEkosState()
     return false;
 }
 
+bool Scheduler::isINDIConnected()
+{
+    QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
+
+    if (isINDIConnected.error().type() != QDBusError::NoError)
+        return false;
+    else if (isINDIConnected.value() == Ekos::STATUS_SUCCESS)
+        return true;
+    else // ERROR or IDLE
+        return false;
+}
+
 bool Scheduler::checkINDIState()
 {
     if (state == SCHEDULER_PAUSED)
@@ -2431,8 +2440,7 @@ bool Scheduler::checkINDIState()
         case INDI_IDLE:
         {
             // Even in idle state, we make sure that INDI is not already connected.
-            QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
-            if (isINDIConnected.value() == Ekos::STATUS_SUCCESS)
+            if (isINDIConnected())
             {
                 indiState = INDI_PROPERTY_CHECK;
 
@@ -2716,7 +2724,7 @@ bool Scheduler::checkShutdownState()
             }
 
             // The following steps require a connection to the INDI server
-            if (indiState == INDI_READY)
+            if (isINDIConnected())
             {
                 if (capCheck->isEnabled() && capCheck->isChecked())
                 {
@@ -2749,7 +2757,7 @@ bool Scheduler::checkShutdownState()
             break;
 
         case SHUTDOWN_PARK_CAP:
-            if (indiState != INDI_READY)
+            if (!isINDIConnected())
             {
                 qCInfo(KSTARS_EKOS_SCHEDULER) << "Bypassing shutdown step 'park cap', no INDI connection.";
                 shutdownState = SHUTDOWN_SCRIPT;
@@ -2765,7 +2773,7 @@ bool Scheduler::checkShutdownState()
             break;
 
         case SHUTDOWN_PARK_MOUNT:
-            if (indiState != INDI_READY)
+            if (!isINDIConnected())
             {
                 qCInfo(KSTARS_EKOS_SCHEDULER) << "Bypassing shutdown step 'park cap', no INDI connection.";
                 shutdownState = SHUTDOWN_SCRIPT;
@@ -2781,7 +2789,7 @@ bool Scheduler::checkShutdownState()
             break;
 
         case SHUTDOWN_PARK_DOME:
-            if (indiState != INDI_READY)
+            if (!isINDIConnected())
             {
                 qCInfo(KSTARS_EKOS_SCHEDULER) << "Bypassing shutdown step 'park cap', no INDI connection.";
                 shutdownState = SHUTDOWN_SCRIPT;
@@ -2914,10 +2922,10 @@ void Scheduler::checkProcessExit(int exitCode)
     }
 }
 
-void Scheduler::checkStatus()
+bool Scheduler::checkStatus()
 {
     if (state == SCHEDULER_PAUSED)
-        return;
+        return true;
 
     // #1 If no current job selected, let's check if we need to shutdown or evaluate jobs
     if (currentJob == nullptr)
@@ -2927,24 +2935,24 @@ void Scheduler::checkStatus()
         {
             // If INDI is not done disconnecting, try again later
             if (indiState == INDI_DISCONNECTING && checkINDIState() == false)
-                return;
+                return false;
 
             // Disconnect INDI if required first
             if (indiState != INDI_IDLE && Options::stopEkosAfterShutdown())
             {
                 disconnectINDI();
-                return;
+                return false;
             }
 
             // If Ekos is not done stopping, try again later
             if (ekosState == EKOS_STOPPING && checkEkosState() == false)
-                return;
+                return false;
 
             // Stop Ekos if required.
             if (ekosState != EKOS_IDLE && Options::stopEkosAfterShutdown())
             {
                 stopEkos();
-                return;
+                return false;
             }
 
             if (shutdownState == SHUTDOWN_COMPLETE)
@@ -2955,7 +2963,7 @@ void Scheduler::checkStatus()
             // Stop Scheduler
             stop();
 
-            return;
+            return true;
         }
 
         // #2.2  Check if shutdown is in progress
@@ -2963,15 +2971,15 @@ void Scheduler::checkStatus()
         {
             // If Ekos is not done stopping, try again later
             if (ekosState == EKOS_STOPPING && checkEkosState() == false)
-                return;
+                return false;
 
             checkShutdownState();
-            return;
+            return false;
         }
 
         // #2.3 Check if park wait procedure is in progress
         if (checkParkWaitState() == false)
-            return;
+            return false;
 
         // #2.4 If not in shutdown state, evaluate the jobs
         evaluateJobs();
@@ -2983,32 +2991,34 @@ void Scheduler::checkStatus()
         {
             // Stop Scheduler
             stop();
-            return;
+            return true;
         }
 
         // #4 Check if startup procedure Phase #1 is complete (Startup script)
         if ((startupState == STARTUP_IDLE && checkStartupState() == false) || startupState == STARTUP_SCRIPT)
-            return;
+            return false;
 
         // #5 Check if Ekos is started
         if (checkEkosState() == false)
-            return;
+            return false;
 
         // #6 Check if INDI devices are connected.
         if (checkINDIState() == false)
-            return;
+            return false;
 
         // #6.1 Check if park wait procedure is in progress - in the case we're waiting for a distant job
         if (checkParkWaitState() == false)
-            return;
+            return false;
 
         // #7 Check if startup procedure Phase #2 is complete (Unparking phase)
         if (startupState > STARTUP_SCRIPT && startupState < STARTUP_ERROR && checkStartupState() == false)
-            return;
+            return false;
 
         // #8 Execute the job
         executeJob(currentJob);
     }
+
+    return true;
 }
 
 void Scheduler::checkJobStage()
@@ -3116,12 +3126,9 @@ void Scheduler::checkJobStage()
         }
     }
 
-    // Check Ekos state
-    if (!checkEkosState())
-        return;
-
-    // Check INDI state
-    if (!checkINDIState())
+    // #5 Check system status to improve robustness
+    // This handles external events such as disconnections or end-user manipulating INDI panel
+    if (!checkStatus())
         return;
 
     switch (currentJob->getStage())
@@ -3545,7 +3552,7 @@ void Scheduler::getNextAction()
 
 void Scheduler::stopCurrentJobAction()
 {
-    if (currentJob)
+    if (nullptr != currentJob)
     {
         qCDebug(KSTARS_EKOS_SCHEDULER) << "Job '" << currentJob->getName() << "' is stopping current action..." << currentJob->getStage();
 
@@ -3620,8 +3627,7 @@ bool Scheduler::manageConnectionLoss()
         qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Ekos is currently connected, checking INDI before mitigating connection loss.");
 
         // If INDI is assumed to be up, check its state
-        QDBusReply<int> const isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
-        if (isINDIConnected.value() == Ekos::STATUS_SUCCESS)
+        if (isINDIConnected())
         {
             // If both Ekos and INDI are assumed up, and are actually up, no mitigation needed, this is a DBus interface error
             qCDebug(KSTARS_EKOS_SCHEDULER) << QString("INDI is currently connected, no connection loss mitigation needed.");
@@ -3802,10 +3808,18 @@ bool Scheduler::processJobInfo(XMLEle *root)
         {
             subEP = findXMLEle(ep, "J2000RA");
             if (subEP)
-                raBox->setDMS(pcdataXMLEle(subEP));
+            {
+                dms ra;
+                ra.setH(atof(pcdataXMLEle(subEP)));
+                raBox->showInHours(ra);
+            }
             subEP = findXMLEle(ep, "J2000DE");
             if (subEP)
-                decBox->setDMS(pcdataXMLEle(subEP));
+            {
+                dms de;
+                de.setD(atof(pcdataXMLEle(subEP)));
+                decBox->showInDegrees(de);
+            }
         }
         else if (!strcmp(tagXMLEle(ep), "Sequence"))
         {
@@ -4072,6 +4086,13 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 void Scheduler::startSlew()
 {
     Q_ASSERT(currentJob != nullptr);
+
+    // If the mount was parked by a pause or the end-user, unpark
+    if (isMountParked())
+    {
+        parkWaitState = PARKWAIT_UNPARK;
+        return;
+    }
 
     if (Options::resetMountModelBeforeJob())
         mountInterface->call(QDBus::AutoDetect, "resetModel");
@@ -4472,13 +4493,19 @@ void Scheduler::startCapture()
 
 void Scheduler::stopGuiding()
 {
-    if ((currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) &&
-        (currentJob->getStage() == SchedulerJob::STAGE_GUIDING_COMPLETE ||
-         currentJob->getStage() == SchedulerJob::STAGE_CAPTURING))
+    if (nullptr != currentJob && (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE))
     {
-        qCInfo(KSTARS_EKOS_SCHEDULER) << "Stopping guiding...";
-        guideInterface->call(QDBus::AutoDetect, "abort");
-        guideFailureCount = 0;
+        switch (currentJob->getStage())
+        {
+            case SchedulerJob::STAGE_GUIDING_COMPLETE:
+            case SchedulerJob::STAGE_CAPTURING:
+                qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is stopping guiding...").arg(currentJob->getName());
+                guideInterface->call(QDBus::AutoDetect, "abort");
+                guideFailureCount = 0;
+                break;
+
+            default: break;
+        }
     }
 }
 
@@ -4798,7 +4825,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
     {
         qint64 const diff = schedJob->getStartupTime().secsTo(schedJob->getCompletionTime());
-        appendLogText(i18n("Job '%1' will run for %2.", schedJob->getName(), dms(diff / 3600.0f).toHMSString()));
+        appendLogText(i18n("Job '%1' will run for %2.", schedJob->getName(), dms(diff * 15.0 / 3600.0f).toHMSString()));
         schedJob->setEstimatedTime(diff);
     }
     // If we know finish time only, we can roughly estimate the time considering the job starts now
@@ -4806,7 +4833,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
     {
         qint64 const diff = KStarsData::Instance()->lt().secsTo(schedJob->getCompletionTime());
-        appendLogText(i18n("Job '%1' will run for %2 if started now.", schedJob->getName(), dms(diff / 3600.0f).toHMSString()));
+        appendLogText(i18n("Job '%1' will run for %2 if started now.", schedJob->getName(), dms(diff * 15.0 / 3600.0f).toHMSString()));
         schedJob->setEstimatedTime(diff);
     }
     // Rely on the estimated imaging time to determine whether this job is complete or not - this makes the estimated time null
@@ -4835,8 +4862,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
                 totalImagingTime += 120*schedJob->getRepeatsRequired();
         }
 
-        dms estimatedTime;
-        estimatedTime.setH(totalImagingTime / 3600.0);
+        dms const estimatedTime(totalImagingTime * 15.0 / 3600.0);
         qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' estimated to take %2 to complete.").arg(schedJob->getName(), estimatedTime.toHMSString());
 
         schedJob->setEstimatedTime(totalImagingTime);
@@ -4919,8 +4945,7 @@ void Scheduler::unParkMount()
                 else currentOperationTime.start();
             }
 
-            //Q_FALLTHROUGH();
-
+            // Fall through
         case Mount::UNPARKING_BUSY:
             if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARKING_MOUNT;
@@ -4949,28 +4974,30 @@ void Scheduler::checkMountParkingStatus()
     else switch ((Mount::ParkingStatus)mountReply.value())
     {
         case Mount::PARKING_OK:
-            appendLogText(i18n("Mount parked."));
-
-            if (startupState == STARTUP_UNPARKING_MOUNT)
-                startupState = STARTUP_UNPARK_CAP;
-            else if (shutdownState == SHUTDOWN_PARKING_MOUNT)
+            // If we are starting up, we will unpark the mount in checkParkWaitState soon
+            // If we are shutting down and mount is parked, proceed to next step
+            if (shutdownState == SHUTDOWN_PARKING_MOUNT)
                 shutdownState = SHUTDOWN_PARK_DOME;
-            else if (parkWaitState == PARKWAIT_PARKING)
+
+            // Update parking engine state
+            if (parkWaitState == PARKWAIT_PARKING)
                 parkWaitState = PARKWAIT_PARKED;
 
+            appendLogText(i18n("Mount parked."));
             parkingFailureCount = 0;
             break;
 
         case Mount::UNPARKING_OK:
-            appendLogText(i18n("Mount unparked."));
-
+            // If we are starting up and mount is unparked, proceed to next step
+            // If we are shutting down, we will park the mount in checkParkWaitState soon
             if (startupState == STARTUP_UNPARKING_MOUNT)
                 startupState = STARTUP_UNPARK_CAP;
-            else if (shutdownState == SHUTDOWN_PARKING_MOUNT)
-                shutdownState = SHUTDOWN_PARK_DOME;
-            else if (parkWaitState == PARKWAIT_UNPARKING)
+
+            // Update parking engine state
+            if (parkWaitState == PARKWAIT_UNPARKING)
                 parkWaitState = PARKWAIT_UNPARKED;
 
+            appendLogText(i18n("Mount unparked."));
             parkingFailureCount = 0;
             break;
 
@@ -5033,6 +5060,24 @@ void Scheduler::checkMountParkingStatus()
                 appendLogText(i18n("Mount unparking error."));
                 parkWaitState = PARKWAIT_ERROR;
             }
+
+            parkingFailureCount = 0;
+            break;
+
+        case Mount::PARKING_IDLE:
+            // Last parking action did not result in an action, so proceed to next step
+            if (shutdownState == SHUTDOWN_PARKING_MOUNT)
+                shutdownState = SHUTDOWN_PARK_DOME;
+
+            // Last unparking action did not result in an action, so proceed to next step
+            if (startupState == STARTUP_UNPARKING_MOUNT)
+                startupState = STARTUP_UNPARK_CAP;
+
+            // Update parking engine state
+            if (parkWaitState == PARKWAIT_PARKING)
+                parkWaitState = PARKWAIT_PARKED;
+            else if (parkWaitState == PARKWAIT_UNPARKING)
+                parkWaitState = PARKWAIT_UNPARKED;
 
             parkingFailureCount = 0;
             break;

@@ -314,9 +314,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
     void resetJobEdit();
 
     /**
-         * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it call evaluateJobs();
+         * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it calls evaluateJobs() when no job is current or executeJob() if a job is selected.
+         * @return False if this function needs to be called again later, true if situation is stable and operations may continue.
          */
-    void checkStatus();
+    bool checkStatus();
 
     /**
          * @brief checkJobStage Check the progress of the job states and make DBUS call to start the next stage until the job is complete.
@@ -467,6 +468,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @return True if Ekos is running, false if Ekos start up is in progress.
          */
     bool checkEkosState();
+
+    /**
+         * @brief isINDIConnected Determines the status of the INDI connection.
+         * @return True if INDI connection is up and usable, else false.
+         */
+    bool isINDIConnected();
 
     /**
          * @brief checkINDIState Check INDI startup stages and take whatever action necessary to get INDI devices connected.

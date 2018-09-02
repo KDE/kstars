@@ -1488,7 +1488,7 @@ void CCD::processBLOB(IBLOB *bp)
                         normalTabID = tabRC;
                         targetChip->setImageView(fv->getView(normalTabID), FITS_NORMAL);
 
-                        emit newImage(fv->getView(normalTabID)->getDisplayImage(), targetChip);
+                        emit newImage(fv->getView(normalTabID)->getDisplayImage(), filename, targetChip);
                     }
                     else
                     {
@@ -1519,7 +1519,7 @@ void CCD::processBLOB(IBLOB *bp)
                         if (imageLoad)
                         {
                             focusView->updateFrame();
-                            emit newImage(focusView->getDisplayImage(), targetChip);
+                            emit newImage(focusView->getDisplayImage(), filename, targetChip);
                         }
                         else
                         {
@@ -1540,7 +1540,7 @@ void CCD::processBLOB(IBLOB *bp)
                         if (imageLoad)
                         {
                             guideView->updateFrame();
-                            emit newImage(guideView->getDisplayImage(), targetChip);
+                            emit newImage(guideView->getDisplayImage(), filename, targetChip);
                         }
                         else
                         {
@@ -1588,7 +1588,7 @@ void CCD::processBLOB(IBLOB *bp)
                         if (imageLoad)
                         {
                             alignView->updateFrame();
-                            emit newImage(alignView->getDisplayImage(), targetChip);
+                            emit newImage(alignView->getDisplayImage(), filename, targetChip);
                         }
                         else
                         {

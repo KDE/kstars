@@ -144,6 +144,10 @@ void Telescope::registerProperty(INDI::Property *prop)
                 m_slewRates << svp->sp[i].label;
         }
     }
+    else if (!strcmp(prop->getName(), "EQUATORIAL_EOD_COORD"))
+        m_isJ2000 = false;
+    else if (!strcmp(prop->getName(), "EQUATORIAL_COORD"))
+        m_isJ2000 = true;
 
     DeviceDecorator::registerProperty(prop);
 }
@@ -837,7 +841,11 @@ bool Telescope::getEqCoords(double *ra, double *dec)
 
     EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
     if (EqProp == nullptr)
-        return false;
+    {
+        EqProp = baseDevice->getNumber("EQUATORIAL_COORD");
+        if (EqProp == nullptr)
+            return false;
+    }
 
     RAEle = IUFindNumber(EqProp, "RA");
     if (!RAEle)

@@ -1,0 +1,95 @@
+name: kstars
+version: 3.0.0
+summary: KStars is a desktop planetarium for amateur and professional astronomers.
+description: KStars is free, open source, cross-platform Astronomy Software. It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites. For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations. For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe! Included with KStars is Ekos astrophotography suite, a complete astrophotography solution that can control all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus and autoguiding capabilities, and capture of single or multiple images using the powerful built in sequence manager.
+confinement: devmode
+grade: devel
+
+apps:
+  kstars:
+    command: kf5-launch kstars
+    plugs:
+      - kde-frameworks-5-plug # content share itself
+      - home # give us a dir in the user home
+      - x11 # we run with xcb Qt platform for now
+      - opengl # Qt/QML uses opengl
+      - network # gethotnewstuff needs network IO
+      - network-bind # gethotnewstuff needs network IO
+      - unity7 # notifications
+      - pulseaudio # sound notifications
+      # Follow are needed for INDI hardware support
+      - serial-port
+      - camera
+      - gpio
+      - hardware-observe
+      - hidraw
+      - i2c
+      - location-control
+      - location-observe
+      - raw-usb
+
+slots:
+  session-dbus-interface:
+    interface: dbus
+    name: org.kde.kstars
+    bus: session
+
+plugs:
+  kde-frameworks-5-plug:
+    interface: content
+    content: kde-frameworks-5-all
+    default-provider: kde-frameworks-5
+    target: kf5
+
+parts:
+  kde-frameworks-5-dev:
+    plugin: dump
+    prime: [-*]
+    source: http://build.neon.kde.org/job/kde-frameworks-5-release_amd64.snap/lastSuccessfulBuild/artifact/kde-frameworks-5-dev_amd64.tar.xz
+  kde-frameworks-5-env:
+    plugin: dump
+    prime: [kf5-launch, kf5]
+    source: http://github.com/apachelogger/kf5-snap-env.git
+  runime:
+    plugin: stage-debs
+    debs: [indi-bin, libindi1, libindi-data, libusb-1.0.0, indi-full]
+    exclude-debs: [libgnutls30, libkrb5-dbg, nettle-dbg, libkrb5support0]
+  kstars:
+    after: [kde-frameworks-5-dev]
+    plugin: cmake
+    build-packages:
+        - extra-cmake-modules
+        - libeigen3-dev
+        - zlib1g-dev
+        - libcfitsio3-dev
+        - libnova-dev
+        - libgsl-dev
+        - libindi-dev
+        - wcslib-dev
+        - kdoctools-dev
+        - libpulse0
+    filesets:
+        exclusion:
+            - "-usr/lib/*/cmake/*"
+            - "-usr/lib/*/libgnutls.so.*"
+            - "-usr/lib/*/libgssapi_krb5.so.*"
+            - "-usr/lib/*/libhogweed.so.*"
+            - "-usr/lib/*/libk5crypto.so.*"
+            - "-usr/lib/*/libkrb5.so.*"
+            - "-usr/lib/*/libkrb5support.so.*"
+            - "-usr/lib/*/libnettle.so.*"
+            - "-usr/include/*"
+            - "-usr/share/ECM/*"
+            - "-usr/share/doc/*"
+            - "-usr/share/man/*"
+    prime:
+        - "$exclusion"
+    source: git://anongit.kde.org/kstars.git
+    #source: /home/jasem/Projects/kstars
+    configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"

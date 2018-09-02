@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SequenceQueue version='2'>
+<CCD>CCD Simulator</CCD>
+<FilterWheel>CCD Simulator</FilterWheel>
+<GuideDeviation enabled='false'>4</GuideDeviation>
+<Autofocus enabled='false'>0</Autofocus>
+<RefocusEveryN enabled='false'>60</RefocusEveryN>
+<MeridianFlip enabled='false'>0</MeridianFlip>
+<Job>
+<Exposure>0.5</Exposure>
+<Binning>
+<X>1</X>
+<Y>1</Y>
+</Binning>
+<Frame>
+<X>0</X>
+<Y>0</Y>
+<W>1280</W>
+<H>1024</H>
+</Frame>
+<Temperature force='false'>0</Temperature>
+<Filter>Luminance</Filter>
+<Type>Flat</Type>
+<Prefix>
+<RawPrefix></RawPrefix>
+<FilterEnabled>0</FilterEnabled>
+<ExpEnabled>0</ExpEnabled>
+<TimeStampEnabled>0</TimeStampEnabled>
+</Prefix>
+<Count>3</Count>
+<Delay>0</Delay>
+<FITSDirectory>/var/tmp/kstars_tests</FITSDirectory>
+<UploadMode>0</UploadMode>
+<FormatIndex>0</FormatIndex>
+<Properties>
+</Properties>
+<Calibration>
+<FlatSource>
+<Type>Manual</Type>
+</FlatSource>
+<FlatDuration>
+<Type>ADU</Type>
+<Value>10000</Value>
+<Tolerance>2000</Tolerance>
+</FlatDuration>
+<PreMountPark>False</PreMountPark>
+<PreDomePark>False</PreDomePark>
+</Calibration>
+</Job>
+</SequenceQueue>

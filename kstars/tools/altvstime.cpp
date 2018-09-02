@@ -674,52 +674,30 @@ void AltVsTime::slotClearBoxes()
 
 void AltVsTime::slotComputeAltitudeByTime()
 {
-// FIXME Migrate to QCustomPlot 2.0
-#if 0
-    // check if at least one graph exists in the plot
-    if( avtUI->View->graphCount() > 0 )
+    SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
+    if (selectedObject == nullptr)
     {
-        // get the time from the time spin box
-        QTime timeFormat = avtUI->timeSpin->time();
-        double hours = timeFormat.hour();
-        double minutes = timeFormat.minute();
-        // convert the hours over 24 to correct their values
-        if( hours < 12 )
-            hours += 24;
-        double timeValue = hours * 3600 + minutes * 60;
-        QCPGraph * selectedGraph;
-        // get the graph's name from the name box
-        QString graphName = avtUI->nameBox->text();
-        // find the graph index
-        int graphIndex = 0;
-        for( int i=0; i<avtUI->View->graphCount(); i++ )
-            if( avtUI->View->graph(i)->name().compare(graphName) == 0 )
-            {
-                graphIndex = i;
-                break;
-            }
-        selectedGraph = avtUI->View->graph(graphIndex);
-        // get the data from the selected graph
-        QCPDataMap * dataMap = selectedGraph->data();
-        double averageAltitude = 0;
-        double altitude1 = dataMap->lowerBound(timeValue-899).value().value;
-        double altitude2 = dataMap->lowerBound(timeValue).value().value;
-        double time1 = dataMap->lowerBound(timeValue-899).value().key;
-        averageAltitude = (altitude1+altitude2)/2;
-        // short algorithm to compute the right altitude for a certain time
-        if( timeValue > time1 )
-        {
-            if( timeValue - time1 < 225 )
-                averageAltitude = altitude1;
-            else if( timeValue - time1 < 675 )
-                averageAltitude = (altitude1+altitude2)/2;
-            else
-                averageAltitude = altitude2;
-        }
-        // set the altitude in the altitude box
-        avtUI->altitudeBox->setText( QString::number(averageAltitude, 'f', 2) );
+        qCWarning(KSTARS) << "slotComputeAltitudeByTime: Unable to find" << avtUI->PlotList->currentItem()->text();
+        return;
     }
-#endif
+
+    // Get Local Date & Time
+    KStarsDateTime lt = KStarsDateTime(avtUI->DateWidget->date(), avtUI->timeSpin->time(), Qt::LocalTime);
+    // Convert to UT
+    KStarsDateTime ut = geo->LTtoUT(lt);
+    // Get LST from GST
+    CachingDms LST = geo->GSTtoLST(ut.gst());
+    SkyObject *tempObject = selectedObject->clone();
+    // Update coords
+    KSNumbers num(ut.djd());
+    tempObject->updateCoords(&num, true, geo->lat(), &LST);
+    // Find Horizontal coordindates from LST & Latitude
+    selectedObject->EquatorialToHorizontal(&LST, geo->lat());
+
+    // Set altitude
+    avtUI->altitudeBox->setText(selectedObject->altRefracted().toDMSString(true));
+
+    delete (tempObject);
 }
 
 void AltVsTime::slotMarkRiseTime()
@@ -1357,7 +1335,7 @@ void AltVsTime::drawGradient()
     // Label this vertical line with the current time
     p.save();
     p.setFont(largeFont);
-    p.translate(ix + 10, pH - 20);
+    p.translate(ix + 15, pH - 20);
     p.rotate(-90);
     // Short format necessary to avoid false time-zone labeling
     p.drawText(0, 0, QLocale().toString(t, QLocale::ShortFormat));
