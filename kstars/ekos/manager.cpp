@@ -1202,9 +1202,9 @@ void Manager::setCCD(ISD::GDInterface *ccdDevice)
 
     bool rc = false;
     if (Options::defaultCaptureCCD().isEmpty() == false)
-        rc = captureProcess->setCCD(Options::defaultCaptureCCD());
+        rc = captureProcess->setCamera(Options::defaultCaptureCCD());
     if (rc == false && primaryCCD.isEmpty() == false)
-        captureProcess->setCCD(primaryCCD);
+        captureProcess->setCamera(primaryCCD);
 
     initFocus();
 

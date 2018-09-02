@@ -1250,7 +1250,7 @@ void DetailDialog::showThumbnail()
     //Try to load the object's image from disk
     //If no image found, load "no image" image
     QFile file;
-    QString fname = "thumb-" + selectedObject->name().toLower().remove(' ') + ".png";
+    QString fname = "thumb-" + selectedObject->name().toLower().remove(' ').remove('/') + ".png";
     if (KSUtils::openDataFile(file, fname))
     {
         file.close();
@@ -1272,7 +1272,7 @@ void DetailDialog::updateThumbnail()
     if (tp->exec() == QDialog::Accepted)
     {
         QString fname = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "thumb-" +
-                        selectedObject->name().toLower().remove(' ') + ".png";
+                        selectedObject->name().toLower().remove(' ').remove('/') + ".png";
 
         Data->Image->setPixmap(*(tp->image()));
 

@@ -171,7 +171,10 @@ void XPlanetImageLabel::mouseMoveEvent(QMouseEvent *e)
         QPoint newPoint = e->globalPos();
         int dx = newPoint.x() - m_LastMousePoint.x();
         int dy = newPoint.y() - m_LastMousePoint.y();
-        emit changePosition(QPoint(dx, dy));
+        if(e->buttons() & Qt::RightButton)
+            emit changeLocation(QPoint(dx, dy));
+        if(e->buttons() & Qt::LeftButton)
+            emit changePosition(QPoint(dx, dy));
         m_LastMousePoint = newPoint;
     }
     e->accept();
@@ -252,6 +255,15 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_PositionDisplay->setDisabled(true);
     selectorsLayout->addWidget(m_PositionDisplay);
 
+    QPushButton *resetXPlanetLocation = new QPushButton(this);
+    resetXPlanetLocation->setIcon(QIcon::fromTheme("system-reboot"));
+    resetXPlanetLocation->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    resetXPlanetLocation->setMaximumSize(QSize(32,32));
+    resetXPlanetLocation->setMinimumSize(QSize(32,32));
+    resetXPlanetLocation->setToolTip(i18n("Reset XPlanet Location to the location specified in the XPlanet Options"));
+    selectorsLayout->addWidget(resetXPlanetLocation);
+    connect(resetXPlanetLocation, SIGNAL(clicked()), this, SLOT(resetLocation()));
+
     m_FreeRotate = new QPushButton(this);
     m_FreeRotate->setIcon(QIcon::fromTheme("object-rotate-left"));
     m_FreeRotate->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -261,6 +273,15 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_FreeRotate->setToolTip(i18n("Hover over target and freely rotate view with mouse in XPlanet Viewer"));
     selectorsLayout->addWidget(m_FreeRotate);
     connect(m_FreeRotate, SIGNAL(clicked()), this, SLOT(slotFreeRotate()));
+
+    QPushButton *reCenterB = new QPushButton(this);
+    reCenterB->setIcon(QIcon::fromTheme("snap-bounding-box-center"));
+    reCenterB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    reCenterB->setMaximumSize(QSize(32,32));
+    reCenterB->setMinimumSize(QSize(32,32));
+    reCenterB->setToolTip(i18n("Recenters the XPlanet image once it has been moved"));
+    selectorsLayout->addWidget(reCenterB);
+    connect(reCenterB, SIGNAL(clicked()), this, SLOT(reCenterXPlanet()));
 
     QPushButton *saveB = new QPushButton(this);
     saveB->setIcon(QIcon::fromTheme("document-save"));
@@ -472,6 +493,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     connect(m_View, SIGNAL(zoomIn()), this, SLOT(zoomInXPlanetFOV()));
     connect(m_View, SIGNAL(zoomOut()), this, SLOT(zoomOutXPlanetFOV()));
     connect(m_View, SIGNAL(changePosition(QPoint)), this, SLOT(changeXPlanetPosition(QPoint)));
+    connect(m_View, SIGNAL(changeLocation(QPoint)), this, SLOT(changeXPlanetLocation(QPoint)));
 
     //Reverse colors
     QPalette p = palette();
@@ -615,6 +637,11 @@ void XPlanetImageViewer::startXplanet()
     else
         args << "-origin" << m_OriginName;
 
+    //Centering
+    //This allows you to recenter the xplanet view
+
+    args << "-center" << "+" + QString::number(Options::xplanetWidth() / 2 + center.x()) + "+" + QString::number(Options::xplanetHeight() / 2 + center.y());
+
     // Projection
     if (Options::xplanetProjection())
     {
@@ -691,6 +718,11 @@ void XPlanetImageViewer::startXplanet()
         QString searchDir = QCoreApplication::applicationDirPath() + "/xplanet/share/xplanet/";
         args << "-searchdir" << searchDir;
     }
+#endif
+
+#ifdef Q_OS_WIN
+        QString searchDir = xPlanetLocationInfo.dir().absolutePath() + QDir::separator() + "xplanet";
+        args << "-searchdir" << searchDir;
 #endif
 
     //This prevents it from running forever.
@@ -859,6 +891,7 @@ void XPlanetImageViewer::updateXPlanetTime(int timeShift){
 }
 
 void XPlanetImageViewer::updateXPlanetObject(int objectIndex){
+    center = QPoint(0,0);
     m_CurrentObjectIndex = objectIndex;
     m_ObjectName = m_ObjectNames.at(objectIndex);
 
@@ -873,6 +906,7 @@ void XPlanetImageViewer::updateXPlanetObject(int objectIndex){
 
 void XPlanetImageViewer::updateXPlanetOrigin(int originIndex)
 {
+    center = QPoint(0,0);
     m_CurrentOriginIndex = originIndex;
     m_OriginName = m_ObjectNames.at(originIndex);
     if(m_CurrentObjectIndex == m_CurrentOriginIndex)
@@ -883,7 +917,7 @@ void XPlanetImageViewer::updateXPlanetOrigin(int originIndex)
     startXplanet();
 }
 
-void XPlanetImageViewer::changeXPlanetPosition(QPoint delta)
+void XPlanetImageViewer::changeXPlanetLocation(QPoint delta)
 {
     if(m_CurrentObjectIndex == m_CurrentOriginIndex)
     {
@@ -898,6 +932,28 @@ void XPlanetImageViewer::changeXPlanetPosition(QPoint delta)
         updatePositionDisplay();
         startXplanet();
     }
+}
+
+void XPlanetImageViewer::changeXPlanetPosition(QPoint delta)
+{
+    center.setX(center.x() + delta.x());
+    center.setY(center.y() + delta.y());
+    startXplanet();
+}
+
+void XPlanetImageViewer::reCenterXPlanet()
+{
+    center = QPoint(0,0);
+    startXplanet();
+}
+
+void XPlanetImageViewer::resetLocation()
+{
+    m_lat = Options::xplanetLatitude().toDouble();
+    m_lon = Options::xplanetLongitude().toDouble();
+    m_Radius = 45;
+    updatePositionDisplay();
+    startXplanet();
 }
 
 void XPlanetImageViewer::slotFreeRotate()

@@ -67,11 +67,11 @@ const QString &getGuideStatusString(GuideState state);
 
 // Capture States
 static const QStringList captureStates = {
-    I18N_NOOP("Idle"),     I18N_NOOP("In Progress"),  I18N_NOOP("Capturing"),       I18N_NOOP("Paused"),
-    I18N_NOOP("Aborted"),  I18N_NOOP("Waiting"),      I18N_NOOP("Image Received"),  I18N_NOOP("Dithering"),
-    I18N_NOOP("Focusing"), I18N_NOOP("Filter Focus"), I18N_NOOP("Changing Filter"), I18N_NOOP("Setting Temperature"),
-    I18N_NOOP("Setting Rotator"), I18N_NOOP("Aligning"), I18N_NOOP("Calibrating"),  I18N_NOOP("Meridian Flip"),
-    I18N_NOOP("Complete")
+    I18N_NOOP("Idle"), I18N_NOOP("In Progress"), I18N_NOOP("Capturing"), I18N_NOOP("Paused"),
+    I18N_NOOP("Suspended"), I18N_NOOP("Aborted"), I18N_NOOP("Waiting"), I18N_NOOP("Image Received"),
+    I18N_NOOP("Dithering"),I18N_NOOP("Focusing"), I18N_NOOP("Filter Focus"), I18N_NOOP("Changing Filter"),
+    I18N_NOOP("Setting Temperature"), I18N_NOOP("Setting Rotator"), I18N_NOOP("Aligning"), I18N_NOOP("Calibrating"),
+    I18N_NOOP("Meridian Flip"), I18N_NOOP("Complete")
 };
 
 typedef enum {
@@ -79,6 +79,7 @@ typedef enum {
     CAPTURE_PROGRESS,
     CAPTURE_CAPTURING,
     CAPTURE_PAUSED,
+    CAPTURE_SUSPENDED,
     CAPTURE_ABORTED,
     CAPTURE_WAITING,
     CAPTURE_IMAGE_RECEIVED,
@@ -150,6 +151,14 @@ std::vector<double> gsl_polynomial_fit(const double *const data_x, const double 
 enum CommunicationStatus { STATUS_IDLE, STATUS_PENDING, STATUS_SUCCESS, STATUS_ERROR };
 }
 
+// Communication Status
 Q_DECLARE_METATYPE(Ekos::CommunicationStatus)
 QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::CommunicationStatus& source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::CommunicationStatus &dest);
+
+// Capture Status
+// FIXME is there a way to avoid unnecessary duplicating code? The solution suggested in KDE WiKi is to use Boost
+// which we do not have to add as dependency
+Q_DECLARE_METATYPE(Ekos::CaptureState)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::CaptureState& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::CaptureState &dest);

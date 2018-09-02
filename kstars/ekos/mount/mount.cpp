@@ -352,12 +352,21 @@ void Mount::updateTelescopeCoords()
     if (lastStatus == ISD::Telescope::MOUNT_PARKED && lastStatus == currentTelescope->getStatus())
         return;
 
-    double ra, dec;
+    double ra=0, dec=0;
     if (currentTelescope && currentTelescope->getEqCoords(&ra, &dec))
     {
-        telescopeCoord.setRA(ra);
-        telescopeCoord.setDec(dec);
-        telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+        if (currentTelescope->isJ2000())
+        {
+            telescopeCoord.setRA0(ra);
+            telescopeCoord.setDec0(dec);
+            // Get JNow as well
+            telescopeCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+        }
+        else
+        {
+            telescopeCoord.setRA(ra);
+            telescopeCoord.setDec(dec);
+        }
 
         // Ekos Mount Tab coords are always in JNow
         raOUT->setText(telescopeCoord.ra().toHMSString());
@@ -371,15 +380,22 @@ void Mount::updateTelescopeCoords()
         }
         else
         {
-            SkyPoint J2000Coord(telescopeCoord.ra(), telescopeCoord.dec());
-            J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
-            //J2000Coord.precessFromAnyEpoch(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
-            telescopeCoord.setRA0(J2000Coord.ra());
-            telescopeCoord.setDec0(J2000Coord.dec());
+            // If epoch is already J2000, then we don't need to convert to JNow
+            if (currentTelescope->isJ2000() == false)
+            {
+                SkyPoint J2000Coord(telescopeCoord.ra(), telescopeCoord.dec());
+                J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+                //J2000Coord.precessFromAnyEpoch(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+                telescopeCoord.setRA0(J2000Coord.ra());
+                telescopeCoord.setDec0(J2000Coord.dec());
+            }
+
             m_raValue->setProperty("text", telescopeCoord.ra0().toHMSString());
             m_deValue->setProperty("text", telescopeCoord.dec0().toDMSString());
         }
 
+        // Get horizontal coords
+        telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
         azOUT->setText(telescopeCoord.az().toDMSString());
         m_azValue->setProperty("text", telescopeCoord.az().toDMSString());
         altOUT->setText(telescopeCoord.alt().toDMSString());
@@ -900,8 +916,12 @@ bool Mount::unpark()
 
 Mount::ParkingStatus Mount::getParkingStatus()
 {
-    if (currentTelescope == nullptr || currentTelescope->canPark() == false)
+    if (currentTelescope == nullptr)
         return PARKING_ERROR;
+
+    // In the case mount can't park, return mount is unparked
+    if (currentTelescope->canPark() == false)
+        return UNPARKING_OK;
 
     ISwitchVectorProperty *parkSP = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_PARK");
 
@@ -932,7 +952,12 @@ Mount::ParkingStatus Mount::getParkingStatus()
                 return UNPARKING_BUSY;
 
         case IPS_ALERT:
-            return PARKING_ERROR;
+            // If mount replied with an error to the last un/park request,
+            // assume state did not change in order to return a clear state
+            if (parkSP->sp[0].s == ISS_ON)
+                return PARKING_OK;
+            else
+                return UNPARKING_OK;
     }
 
     return PARKING_ERROR;

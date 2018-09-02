@@ -139,6 +139,25 @@ void TelescopeLite::processNumber(INumberVectorProperty *nvp)
         return;
     }
 
+    if (!strcmp(nvp->name, "EQUATORIAL_COORD"))
+    {
+        INumber *RA  = IUFindNumber(nvp, "RA");
+        INumber *DEC = IUFindNumber(nvp, "DEC");
+
+        if (RA == nullptr || DEC == nullptr)
+            return;
+
+        currentCoord.setRA0(RA->value);
+        currentCoord.setDec0(DEC->value);
+        currentCoord.apparentCoord(static_cast<long double>(J2000), KStarsLite::Instance()->data()->ut().djd());
+
+        //KStarsLite::Instance()->map()->update();
+
+        //emit numberUpdated(nvp);
+
+        return;
+    }
+
     if (!strcmp(nvp->name, "HORIZONTAL_COORD"))
     {
         INumber *Az  = IUFindNumber(nvp, "AZ");
@@ -245,10 +264,14 @@ bool TelescopeLite::isInMotion()
 
 bool TelescopeLite::sendCoords(SkyPoint *ScopeTarget)
 {
-    INumber *RAEle = nullptr, *DecEle = nullptr, *AzEle = nullptr, *AltEle = nullptr;
-    INumberVectorProperty *EqProp(nullptr), *HorProp(nullptr);
+    INumber *RAEle                 = nullptr;
+    INumber *DecEle                = nullptr;
+    INumber *AzEle                 = nullptr;
+    INumber *AltEle                = nullptr;
+    INumberVectorProperty *EqProp  = nullptr;
+    INumberVectorProperty *HorProp = nullptr;
     double currentRA = 0, currentDEC = 0, currentAlt = 0, currentAz = 0, targetAlt = 0;
-    bool useJ2000 = false;
+    bool useJ2000(false);
 
     EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
     if (EqProp == nullptr)
@@ -278,8 +301,8 @@ bool TelescopeLite::sendCoords(SkyPoint *ScopeTarget)
         if (!DecEle)
             return false;
 
-        if (useJ2000)
-            ScopeTarget->apparentCoord(KStarsLite::Instance()->data()->ut().djd(), (long double)J2000);
+        //if (useJ2000)
+            //ScopeTarget->apparentCoord( KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
 
         currentRA  = RAEle->value;
         currentDEC = DecEle->value;
@@ -306,48 +329,41 @@ bool TelescopeLite::sendCoords(SkyPoint *ScopeTarget)
 
     //targetAz = ScopeTarget->az().Degrees();
     targetAlt = ScopeTarget->altRefracted().Degrees();
-
-    if (minAlt != -1 && maxAlt != -1)
-    {
-        if (targetAlt < minAlt || targetAlt > maxAlt)
-        {
-            //KMessageBox::error(nullptr, i18n("Requested altitude %1 is outside the specified altitude limit boundary (%2,%3).", QString::number(targetAlt, 'g', 3), QString::number(minAlt, 'g', 3), QString::number(maxAlt, 'g', 3)),
-            //                 i18n("Telescope Motion"));
-            return false;
-        }
-    }
-
     if (targetAlt < 0)
     {
-        if (false
-            /*KMessageBox::warningContinueCancel(nullptr, i18n("Requested altitude is below the horizon. Are you sure you want to proceed?"),
-                                                 i18n("Telescope Motion"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                                                 QString("telescope_coordintes_below_horizon_warning")) == KMessageBox::Cancel*/
-        )
-        {
-            if (EqProp)
-            {
-                RAEle->value  = currentRA;
-                DecEle->value = currentDEC;
-            }
-            if (HorProp)
-            {
-                AzEle->value  = currentAz;
-                AltEle->value = currentAlt;
-            }
-
-            return false;
-        }
+       return false;
     }
 
     if (EqProp)
     {
-        RAEle->value  = ScopeTarget->ra().Hours();
-        DecEle->value = ScopeTarget->dec().Degrees();
-        clientManager->sendNewNumber(EqProp);
+        dms ra, de;
 
-        if (Options::iNDILogging())
-            qDebug() << "ISD:Telescope: Sending coords RA " << RAEle->value << " DEC " << DecEle->value;
+        if (useJ2000)
+        {
+            // If we have invalid DEC, then convert coords to J2000
+            if (ScopeTarget->dec0().Degrees() == 180.0)
+            {
+               ScopeTarget->setRA0(ScopeTarget->ra());
+               ScopeTarget->setDec0(ScopeTarget->dec());
+               ScopeTarget->apparentCoord( KStarsLite::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+               ra = ScopeTarget->ra();
+               de = ScopeTarget->dec();
+            }
+            else
+            {
+                ra = ScopeTarget->ra0();
+                de = ScopeTarget->dec0();
+            }
+        }
+        else
+        {
+            ra = ScopeTarget->ra();
+            de = ScopeTarget->dec();
+        }
+
+        RAEle->value  = ra.Hours();
+        DecEle->value = de.Degrees();
+        clientManager->sendNewNumber(EqProp);
 
         RAEle->value  = currentRA;
         DecEle->value = currentDEC;

@@ -103,8 +103,24 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::Communicati
     argument.beginStructure();
     argument >> a;
     argument.endStructure();
-
     dest = static_cast<Ekos::CommunicationStatus>(a);
+    return argument;
+}
 
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::CaptureState& source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::CaptureState &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+    dest = static_cast<Ekos::CaptureState>(a);
     return argument;
 }

@@ -791,7 +791,7 @@ IF (BUILD_KSTARS_LITE)
                       WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
     ADD_DEPENDENCIES(convert_translations fetch-translations)
     IF (ANDROID)
-        ADD_CUSTOM_TARGET(convert_translations_to_android ${CMAKE_SOURCE_DIR}/tools/convert_translations.sh ${CMAKE_BINARY_DIR}/android/export/share/kstars
+        ADD_CUSTOM_TARGET(convert_translations_to_android ${CMAKE_SOURCE_DIR}/tools/convert_translations.sh ${CMAKE_BINARY_DIR}/packaging/android/export/share/kstars
                           WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
         ADD_DEPENDENCIES(convert_translations_to_android fetch-translations)
     ENDIF ()

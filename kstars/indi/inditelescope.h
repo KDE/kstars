@@ -55,6 +55,7 @@ class Telescope : public DeviceDecorator
 
     // Coordinates
     bool getEqCoords(double *ra, double *dec);
+    bool isJ2000() { return m_isJ2000; }
 
     // Slew
     bool Slew(SkyPoint *ScopeTarget);
@@ -148,8 +149,7 @@ class Telescope : public DeviceDecorator
     bool m_hasCustomTrackRate { false};
     bool m_hasCustomParking { false };
     bool m_hasSlewRates { false };
+    bool m_isJ2000 { false };
     QStringList m_slewRates;
-
-
 };
 }
