@@ -83,7 +83,7 @@ KSPage {
 
                     Settings
                     {
-                        property alias text : ipHost.text
+                        property alias ipHostText : ipHost.text
                     }
                 }
             }
@@ -109,7 +109,7 @@ KSPage {
 
                     Settings
                     {
-                        property alias text : portWebManager.text
+                        property alias portWebManagerText : portWebManager.text
                     }
                 }
 
@@ -210,7 +210,7 @@ KSPage {
 
                     Settings
                     {
-                        property alias text : portHost.text
+                        property alias portHostText : portHost.text
                     }
                 }
 
