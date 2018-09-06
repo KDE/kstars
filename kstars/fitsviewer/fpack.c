@@ -30,6 +30,12 @@ int main(int argc, char *argv[])
 	exit (0);
 }
 ================================================================== */
+int _fp_msg (const char *msg)
+{
+        printf ("%s", msg);
+        return(0);
+}
+
 int fp_get_param (int argc, char *argv[], fpstate *fpptr)
 {
 	int	gottype=0, gottile=0, wholetile=0, iarg, len, ndim, ii, doffset;
