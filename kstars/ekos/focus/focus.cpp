@@ -43,6 +43,9 @@ Focus::Focus()
 {
     setupUi(this);
 
+    qRegisterMetaType<Ekos::FocusState>("Ekos::FocusState");
+    qDBusRegisterMetaType<Ekos::FocusState>();
+
     new FocusAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Focus", this);
 
@@ -303,7 +306,7 @@ void Focus::resetFrame()
     }
 }
 
-bool Focus::setCCD(const QString &device)
+bool Focus::setCamera(const QString &device)
 {
     for (int i = 0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
@@ -324,6 +327,14 @@ void Focus::setDefaultCCD(QString ccd)
 void Focus::setDefaultFocuser(QString focuser)
 {
     Options::setDefaultFocusFocuser(focuser);
+}
+
+QString Focus::camera()
+{
+     if (currentCCD)
+         return currentCCD->getDeviceName();
+
+     return QString();
 }
 
 void Focus::checkCCD(int ccdNum)
@@ -457,11 +468,11 @@ void Focus::addFilter(ISD::GDInterface *newFilter)
     FilterDevicesCombo->setCurrentIndex(1);
 }
 
-bool Focus::setFilter(QString device, int filterSlot)
+bool Focus::setFilterWheel(const QString &device)
 {
     bool deviceFound = false;
 
-    for (int i = 0; i < FilterDevicesCombo->count(); i++)
+    for (int i = 1; i < FilterDevicesCombo->count(); i++)
         if (device == FilterDevicesCombo->itemText(i))
         {
             checkFilter(i);
@@ -472,11 +483,33 @@ bool Focus::setFilter(QString device, int filterSlot)
     if (deviceFound == false)
         return false;
 
-    if (filterSlot < FilterDevicesCombo->count())
-        FilterDevicesCombo->setCurrentIndex(filterSlot);
-
     return true;
 }
+
+QString Focus::filterWheel()
+{
+    if (FilterDevicesCombo->currentIndex() >= 1)
+        return FilterDevicesCombo->currentText();
+
+    return QString();
+}
+
+bool Focus::setFilter(const QString &filter)
+{
+    if (FilterDevicesCombo->currentIndex() >= 1)
+    {
+        FilterPosCombo->setCurrentText(filter);
+        return true;
+    }
+
+    return false;
+}
+
+QString Focus::filter()
+{
+    return FilterPosCombo->currentText();
+}
+
 
 void Focus::checkFilter(int filterNum)
 {
@@ -539,6 +572,14 @@ bool Focus::setFocuser(const QString & device)
         }
 
     return false;
+}
+
+QString Focus::focuser()
+{
+    if (currentFocuser)
+        return currentFocuser->getDeviceName();
+
+    return QString();
 }
 
 void Focus::checkFocuser(int FocuserNum)
@@ -2192,7 +2233,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
 
 void Focus::appendLogText(const QString &text)
 {
-    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+    m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                             QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_FOCUS) << text;
@@ -2202,7 +2243,7 @@ void Focus::appendLogText(const QString &text)
 
 void Focus::clearLog()
 {
-    logText.clear();
+    m_LogText.clear();
     emit newLog();
 }
 

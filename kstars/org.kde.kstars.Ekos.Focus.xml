@@ -1,9 +1,15 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Focus">
-    <method name="getStatus">
-      <arg type="i" direction="out"/>
-    </method>
+  <property name="camera" type="s" access="readwrite"/>
+  <property name="filterWheel" type="s" access="readwrite"/>
+  <property name="filter" type="s" access="readwrite"/>
+  <property name="focuser" type="s" access="readwrite"/>
+  <property name="HFR" type="d" access="read"/>
+  <property name="logText" type="as" access="read"/>
+  <property name="status" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::FocusState"/>
+  </property>
     <method name="start">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
@@ -26,27 +32,7 @@
     </method>
     <method name="canAutoFocus">
       <arg type="b" direction="out"/>
-    </method>
-    <method name="setCCD">
-      <arg type="b" direction="out"/>
-      <arg name="device" type="s" direction="in"/>
-    </method>
-    <method name="setFocuser">
-      <arg type="b" direction="out"/>
-      <arg name="device" type="s" direction="in"/>
-    </method>
-    <method name="setFilter">
-      <arg type="b" direction="out"/>
-      <arg name="device" type="s" direction="in"/>
-      <arg name="filterSlot" type="i" direction="in"/>
-    </method>
-    <method name="getHFR">
-      <arg type="d" direction="out"/>
     </method>    
-    <method name="setExposure">
-      <arg name="value" type="d" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
     <method name="setBinning">
       <arg name="binX" type="i" direction="in"/>
       <arg name="binY" type="i" direction="in"/>
@@ -73,6 +59,17 @@
     </method>
     <method name="resetFrame">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>    
+    </method>
+    <signal name="newStatus">
+        <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::FocusState"/>
+    </signal>
+    <signal name="newLog">
+        <arg name="text" type="s" direction="out"/>
+    </signal>
+    <signal name="newHFR">
+        <arg name="HFR" type="d" direction="out"/>
+        <arg name="position" type="i" direction="out"/>
+    </signal>
   </interface>
 </node>

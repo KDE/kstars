@@ -124,3 +124,21 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::CaptureStat
     dest = static_cast<Ekos::CaptureState>(a);
     return argument;
 }
+
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::FocusState& source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::FocusState &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+    dest = static_cast<Ekos::FocusState>(a);
+    return argument;
+}

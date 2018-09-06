@@ -87,7 +87,7 @@ class Capture : public QWidget, public Ui::Capture
     Q_PROPERTY(QString filterWheel READ filterWheel WRITE setFilterWheel)
     Q_PROPERTY(QString filter READ filter WRITE setFilter)
     Q_PROPERTY(bool coolerControl READ hasCoolerControl WRITE setCoolerControl)
-    Q_SCRIPTABLE Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
+    Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
   public:
     typedef enum { MF_NONE, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_ALIGNING, MF_GUIDING } MFStage;
@@ -131,7 +131,7 @@ class Capture : public QWidget, public Ui::Capture
          * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.
          * @param device The filter device name
          */
-    Q_SCRIPTABLE bool setFilterWheel(const QString &filterWheel);
+    Q_SCRIPTABLE bool setFilterWheel(const QString &device);
     Q_SCRIPTABLE QString filterWheel();
 
     /** DBUS interface function.
