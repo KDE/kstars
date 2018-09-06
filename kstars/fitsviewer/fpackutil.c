@@ -47,11 +47,9 @@ FILE *outreport;
 int XSAMPLE = 4100;
 int YSAMPLE = 4100;
 
-int fp_msg (char *msg)
-{
-        printf ("%s", msg);
-        return(0);
-}
+#define UNUSED(x) (void)(x)
+#define fp_tmpnam(suffix, rootname, tmpnam) _fp_tmpnam((char *)suffix, (char *)rootname, (char *)tmpnam)
+
 /*--------------------------------------------------------------------------*/
 int fp_noop (void)
 {
@@ -120,7 +118,7 @@ int fp_access (char *filename)
 	}
 }
 /*--------------------------------------------------------------------------*/
-int fp_tmpnam(char *suffix, char *rootname, char *tmpnam)
+int _fp_tmpnam(char *suffix, char *rootname, char *tmpnam)
 {
 	/* create temporary file name */
 
@@ -1582,6 +1580,8 @@ printf("    HDU %d does not meet noise criteria to be quantized, so losslessly c
 /*--------------------------------------------------------------------------*/
 int fp_unpack_hdu (fitsfile *infptr, fitsfile *outfptr, fpstate fpvar, int *status)
 {
+	UNUSED(fpvar);
+
 	int hdutype, lval;
 
         if (*status > 0) return(0);
@@ -1914,6 +1914,8 @@ int fp_test_table (fitsfile *infptr, fitsfile *outfptr, fitsfile *outfptr2,
 	fpstate fpvar, int *status)
 {
 /* this routine is for performance testing of the table compression methods */
+	UNUSED(fpvar);
+	UNUSED(outfptr2);
 
 	int stat = 0, hdutype, tstatus = 0;
         char fzalgor[FLEN_VALUE];
@@ -2366,8 +2368,9 @@ int fp_i4rescale(fitsfile *infptr, int naxis, long *naxes, double rescale,
  */
 void abort_fpack(int sig)
 {
-     /* clean up by deleting temporary files */
-     
+	/* clean up by deleting temporary files */
+	UNUSED(sig);
+
       if (tempfilename[0]) {
          remove(tempfilename);
       }
