@@ -49,6 +49,7 @@ void FileDownloader::get(const QUrl &fileUrl)
 void FileDownloader::post(const QUrl &fileUrl, QByteArray &data)
 {
     QNetworkRequest request(fileUrl);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/x-www-form-urlencoded"));
     m_DownloadedData.clear();
     isCancelled = false;
     m_Reply     = m_WebCtrl.post(request, data);
@@ -64,6 +65,7 @@ void FileDownloader::post(const QUrl &fileUrl, QByteArray &data)
 void FileDownloader::post(const QUrl &fileUrl, QHttpMultiPart *parts)
 {
     QNetworkRequest request(fileUrl);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/x-www-form-urlencoded"));
     m_DownloadedData.clear();
     isCancelled = false;
     m_Reply     = m_WebCtrl.post(request, parts);
@@ -137,7 +139,7 @@ void FileDownloader::slotError()
         {
             m_downloadTemporaryFile.close();
             m_downloadTemporaryFile.remove();
-        }        
+        }
         emit canceled();
     }
     else
@@ -172,7 +174,7 @@ bool FileDownloader::setDownloadedFileURL(const QUrl &DownloadedFile)
     m_DownloadedFileURL = DownloadedFile;
 
     if (m_DownloadedFileURL.isEmpty() == false)
-    {        
+    {
         bool rc= m_downloadTemporaryFile.open();
 
         if (rc == false)
