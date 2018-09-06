@@ -33,6 +33,14 @@ class Focus : public QWidget, public Ui::Focus
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Focus")
+    Q_PROPERTY(Ekos::FocusState status READ status NOTIFY newStatus)
+    Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
+    Q_PROPERTY(QString camera READ camera WRITE setCamera)
+    Q_PROPERTY(QString focuser READ focuser WRITE setFocuser)
+    Q_PROPERTY(QString filterWheel READ filterWheel WRITE setFilterWheel)
+    Q_PROPERTY(QString filter READ filter WRITE setFilter)
+    Q_PROPERTY(double HFR READ getHFR NOTIFY newHFR)
+    Q_PROPERTY(double exposure READ exposure WRITE setExposure)
 
   public:
     Focus();
@@ -53,7 +61,8 @@ class Focus : public QWidget, public Ui::Focus
          * @param device The CCD device name
          * @return Returns true if CCD device is found and set, false otherwise.
          */
-    Q_SCRIPTABLE bool setCCD(const QString &device);
+    Q_SCRIPTABLE bool setCamera(const QString &device);
+    Q_SCRIPTABLE QString camera();
 
     /** DBUS interface function.
          * select the focuser device from the available focuser drivers. The focuser device can be the same as the CCD driver if the focuser functionality was embedded within the driver.
@@ -61,18 +70,28 @@ class Focus : public QWidget, public Ui::Focus
          * @return Returns true if focuser device is found and set, false otherwise.
          */
     Q_SCRIPTABLE bool setFocuser(const QString &device);
+    Q_SCRIPTABLE QString focuser();
 
     /** DBUS interface function.
          * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.
          * @param device The filter device name
          * @return Returns true if filter device is found and set, false otherwise.
          */
-    Q_SCRIPTABLE bool setFilter(QString device, int filterSlot);
+    Q_SCRIPTABLE bool setFilterWheel(const QString &device);
+    Q_SCRIPTABLE QString filterWheel();
+
+    /** DBUS interface function.
+         * select the filter from the available filters.
+         * @param The filter name
+         * @return Returns true if filter is found and set, false otherwise.
+         */
+    Q_SCRIPTABLE bool setFilter(const QString &filter);
+    Q_SCRIPTABLE QString filter();
 
     /** DBUS interface function.
          * @return Returns True if current focuser supports auto-focusing
          */
-    bool canAutoFocus() { return (focusType == FOCUS_AUTO); }
+    Q_SCRIPTABLE bool canAutoFocus() { return (focusType == FOCUS_AUTO); }
 
     /** DBUS interface function.
          * @return Returns Half-Flux-Radius in pixels.
@@ -84,6 +103,7 @@ class Focus : public QWidget, public Ui::Focus
          * @param value exposure value in seconds.
          */
     Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
+    Q_SCRIPTABLE double exposure() { return exposureIN->value(); }
 
     /** DBUS interface function.
          * Set CCD binning
@@ -129,7 +149,7 @@ class Focus : public QWidget, public Ui::Focus
         * Return state of Focuser modue (Ekos::FocusState)
         */
 
-    Q_SCRIPTABLE int getStatus() { return state; }
+    Q_SCRIPTABLE Ekos::FocusState status() { return state; }
 
     /** @}*/
 
@@ -160,7 +180,8 @@ class Focus : public QWidget, public Ui::Focus
     void setFilterManager(const QSharedPointer<FilterManager> &manager);
 
     void clearLog();
-    QString getLogText() { return logText.join("\n"); }
+    QStringList logText() { return m_LogText; }
+    QString getLogText() { return m_LogText.join("\n"); }
 
   public slots:
 
@@ -449,7 +470,7 @@ class Focus : public QWidget, public Ui::Focus
     // CCD Exposure Looping
     bool rememberCCDExposureLooping = { false };
 
-    QStringList logText;
+    QStringList m_LogText;
     ITextVectorProperty *filterName { nullptr };
     INumberVectorProperty *filterSlot { nullptr };
 

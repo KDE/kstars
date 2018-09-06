@@ -1212,9 +1212,9 @@ void Manager::setCCD(ISD::GDInterface *ccdDevice)
 
     rc = false;
     if (Options::defaultFocusCCD().isEmpty() == false)
-        rc = focusProcess->setCCD(Options::defaultFocusCCD());
+        rc = focusProcess->setCamera(Options::defaultFocusCCD());
     if (rc == false && primaryCCD.isEmpty() == false)
-        focusProcess->setCCD(primaryCCD);
+        focusProcess->setCamera(primaryCCD);
 
     initAlign();
 

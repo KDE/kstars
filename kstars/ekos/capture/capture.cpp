@@ -1031,12 +1031,12 @@ void Capture::syncFrameType(ISD::GDInterface *ccd)
     }
 }
 
-bool Capture::setFilterWheel(const QString &filterWheel)
+bool Capture::setFilterWheel(const QString &device)
 {
     bool deviceFound = false;
 
     for (int i = 1; i < FilterDevicesCombo->count(); i++)
-        if (filterWheel == FilterDevicesCombo->itemText(i))
+        if (device == FilterDevicesCombo->itemText(i))
         {
             checkFilter(i);
             deviceFound = true;

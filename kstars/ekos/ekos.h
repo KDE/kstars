@@ -162,3 +162,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::Communicati
 Q_DECLARE_METATYPE(Ekos::CaptureState)
 QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::CaptureState& source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::CaptureState &dest);
+
+Q_DECLARE_METATYPE(Ekos::FocusState)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::FocusState& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::FocusState &dest);
