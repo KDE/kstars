@@ -4452,26 +4452,41 @@ void Scheduler::startCapture()
     dbusargs.append(url);
     captureInterface->callWithArgumentList(QDBus::AutoDetect, "loadSequenceQueue", dbusargs);
 
-    SchedulerJob::CapturedFramesMap fMap = currentJob->getCapturedFramesMap();
-
-    for (auto &e : fMap.keys())
+    switch (currentJob->getCompletionCondition())
     {
-        QList<QVariant> dbusargs;
-        QDBusMessage reply;
+    case SchedulerJob::FINISH_LOOP:
+    case SchedulerJob::FINISH_AT:
+        // In these cases, we leave the captured frames map empty
+        // to ensure, that the capture sequence is executed in any case.
+        break;
 
-        dbusargs.append(e);
-        dbusargs.append(fMap.value(e));
-        if ((reply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesMap", dbusargs)).type() ==
-            QDBusMessage::ErrorMessage)
+    default:
+        // hand over the map of captured frames so that the capture
+        // process knows about existing frames
+        SchedulerJob::CapturedFramesMap fMap = currentJob->getCapturedFramesMap();
+
+        for (auto &e : fMap.keys())
         {
-            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(currentJob->getName()).arg(reply.errorMessage());
-            if (!manageConnectionLoss())
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-            return;
+            QList<QVariant> dbusargs;
+            QDBusMessage reply;
+
+            dbusargs.append(e);
+            dbusargs.append(fMap.value(e));
+            if ((reply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesMap", dbusargs)).type() ==
+                QDBusMessage::ErrorMessage)
+            {
+                qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(currentJob->getName()).arg(reply.errorMessage());
+                if (!manageConnectionLoss())
+                    currentJob->setState(SchedulerJob::JOB_ERROR);
+                return;
+            }
         }
+        break;
     }
 
+
     // If sequence is a loop, ignore sequence history
+    // FIXME: set, but never used.
     if (currentJob->getCompletionCondition() != SchedulerJob::FINISH_SEQUENCE)
         captureInterface->call(QDBus::AutoDetect, "ignoreSequenceHistory");
 
