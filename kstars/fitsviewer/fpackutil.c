@@ -786,8 +786,7 @@ int fp_loop (int argc, char *argv[], int unpack, char *output_filename, fpstate 
 		    fp_msg (infits); 
 		    fp_msg ("\nwas compressed with a LOSSY method.  Overwrite the\n");
 		    fp_msg ("original file with the compressed version? (Y/N) ");
-		    fgets(answer, 29, stdin);
-		    if (answer[0] != 'Y' && answer[0] != 'y') {
+		    if (fgets(answer, 29, stdin) && answer[0] != 'Y' && answer[0] != 'y') {
 		        fp_msg ("\noriginal file NOT overwritten!\n");
 			remove(outfits);
                         continue;
@@ -826,8 +825,7 @@ int fp_loop (int argc, char *argv[], int unpack, char *output_filename, fpstate 
 		    fp_msg (infits); 
 		    fp_msg ("\nwas compressed with a LOSSY method.  \n");
 		    fp_msg ("Delete the original file? (Y/N) ");
-		    fgets(answer, 29, stdin);
-		    if (answer[0] != 'Y' && answer[0] != 'y') {  /* user abort */
+		    if (fgets(answer, 29, stdin) && answer[0] != 'Y' && answer[0] != 'y') {  /* user abort */
 		        fp_msg ("\noriginal file NOT deleted!\n");
 		    } else {
 			if (iraf_infile) {  /* special case of deleting an IRAF format header and pixel file */
@@ -871,7 +869,8 @@ int fp_loop (int argc, char *argv[], int unpack, char *output_filename, fpstate 
                    }
                 }                
 		strcat(temp,outfits);
-                system(temp);
+                int rc = system(temp);
+		UNUSED(rc);
 	        strcat(outfits, ".gz");    /* only possibible with funpack */
 	    }
 
@@ -1108,7 +1107,7 @@ int fp_test (char *infits, char *outfits, char *outfits2, fpstate fpvar)
 
 	long	naxes[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
 	int	stat=0, totpix=0, naxis=0, ii, hdutype, bitpix = 0, extnum = 0, len;
-	int     tstatus = 0, hdunum, rescale_flag, bpix, ncols;
+	int     tstatus = 0, hdunum, rescale_flag, bpix = 8, ncols;
 	char	dtype[8], dimen[100];
 	double  bscale, rescale, noisemin;
 	long headstart, datastart, dataend;
