@@ -52,7 +52,7 @@ Focus::Focus()
     //frameModified     = false;
 
     waitStarSelectTimer.setInterval(AUTO_STAR_TIMEOUT);
-    connect(&waitStarSelectTimer, SIGNAL(timeout()), this, SLOT(checkAutoStarTimeout()));
+    connect(&waitStarSelectTimer, &QTimer::timeout, this, &Ekos::Focus::checkAutoStarTimeout);
 
     //fy=fw=fh=0;
     HFRFrames.clear();
@@ -62,30 +62,30 @@ Focus::Focus()
     showFITSViewerB->setIcon(
         QIcon::fromTheme("kstars_fitsviewer"));
     showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(showFITSViewerB, SIGNAL(clicked()), this, SLOT(showFITSViewer()));
+    connect(showFITSViewerB, &QPushButton::clicked, this, &Ekos::Focus::showFITSViewer);
 
     toggleFullScreenB->setIcon(
         QIcon::fromTheme("view-fullscreen"));
     toggleFullScreenB->setShortcut(Qt::Key_F4);
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(toggleFullScreenB, SIGNAL(clicked()), this, SLOT(toggleFocusingWidgetFullScreen()));
+    connect(toggleFullScreenB, &QPushButton::clicked, this, &Ekos::Focus::toggleFocusingWidgetFullScreen);
 
-    connect(startFocusB, SIGNAL(clicked()), this, SLOT(start()));
-    connect(stopFocusB, SIGNAL(clicked()), this, SLOT(checkStopFocus()));
+    connect(startFocusB, &QPushButton::clicked, this, &Ekos::Focus::start);
+    connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::checkStopFocus);
 
-    connect(focusOutB, SIGNAL(clicked()), this, SLOT(focusOut()));
-    connect(focusInB, SIGNAL(clicked()), this, SLOT(focusIn()));
+    connect(focusOutB, &QPushButton::clicked, this, &Ekos::Focus::focusOut);
+    connect(focusInB, &QPushButton::clicked, this, &Ekos::Focus::focusIn);
 
-    connect(captureB, SIGNAL(clicked()), this, SLOT(capture()));
+    connect(captureB, &QPushButton::clicked, this, &Ekos::Focus::capture);
 
-    connect(startLoopB, SIGNAL(clicked()), this, SLOT(startFraming()));
+    connect(startLoopB, &QPushButton::clicked, this, &Ekos::Focus::startFraming);
 
-    connect(useSubFrame, SIGNAL(toggled(bool)), this, SLOT(toggleSubframe(bool)));
+    connect(useSubFrame, &QCheckBox::toggled, this, &Ekos::Focus::toggleSubframe);
 
-    connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
+    connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Focus::resetFrame);
 
-    connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
-    connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultCCD);
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkCCD);
 
     connect(useFullField, &QCheckBox::toggled, [&](bool toggled)
     {
@@ -101,13 +101,13 @@ Focus::Focus()
     connect(FocusSettleTime, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
          [=](double d) { Options::setFocusSettleTime(d); });
 
-    connect(focuserCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultFocuser(QString)));
-    connect(focuserCombo, SIGNAL(activated(int)), this, SLOT(checkFocuser(int)));
+    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultFocuser);
+    connect(focuserCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFocuser);
 
-    connect(FilterDevicesCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
-    connect(setAbsTicksB, SIGNAL(clicked()), this, SLOT(setAbsoluteFocusTicks()));
-    connect(binningCombo, SIGNAL(activated(int)), this, SLOT(setActiveBinning(int)));
-    connect(focusBoxSize, SIGNAL(valueChanged(int)), this, SLOT(updateBoxSize(int)));
+    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFilter);
+    connect(setAbsTicksB, &QPushButton::clicked, this, &Ekos::Focus::setAbsoluteFocusTicks);
+    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::setActiveBinning);
+    connect(focusBoxSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Ekos::Focus::updateBoxSize);
 
     focusDetection = static_cast<StarAlgorithm>(Options::focusDetection());
     focusDetectionCombo->setCurrentIndex(focusDetection);
@@ -131,7 +131,7 @@ Focus::Focus()
 
     focusFramesSpin->setValue(Options::focusFramesCount());
 
-    connect(clearDataB, SIGNAL(clicked()), this, SLOT(clearDataPoints()));
+    connect(clearDataB, &QPushButton::clicked, this, &Ekos::Focus::clearDataPoints);
 
     profileDialog = new QDialog(this);
     profileDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -162,7 +162,7 @@ Focus::Focus()
     profileDialog->setLayout(profileLayout);
     profileDialog->resize(400, 300);
 
-    connect(relativeProfileB, SIGNAL(clicked()), profileDialog, SLOT(show()));
+    connect(relativeProfileB, &QPushButton::clicked, profileDialog, &QDialog::show);
 
     currentGaus = profilePlot->addGraph();
     currentGaus->setLineStyle(QCPGraph::lsLine);
@@ -217,7 +217,7 @@ Focus::Focus()
 
     filterCombo->setCurrentIndex(Options::focusEffect());
     defaultScale = static_cast<FITSScale>(Options::focusEffect());
-    connect(filterCombo, SIGNAL(activated(int)), this, SLOT(filterChangeWarning(int)));
+    connect(filterCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::filterChangeWarning);
 
     exposureIN->setValue(Options::focusExposure());
     toleranceIN->setValue(Options::focusTolerance());
@@ -234,8 +234,7 @@ Focus::Focus()
     useFullField->setChecked(Options::focusUseFullField());
     //focusFramesSpin->setValue(Options::focusFrames());
 
-    connect(thresholdSpin, SIGNAL(valueChanged(double)), this, SLOT(setThreshold(double)));
-    //connect(focusFramesSpin, SIGNAL(valueChanged(int)), this, SLOT(setFrames(int)));
+    connect(thresholdSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::setThreshold);
 
     focusView = new FITSView(focusingWidget, FITS_FOCUS);
     focusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -244,8 +243,7 @@ Focus::Focus()
     QVBoxLayout *vlayout = new QVBoxLayout();
     vlayout->addWidget(focusView);
     focusingWidget->setLayout(vlayout);
-    connect(focusView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int,int)),
-            Qt::UniqueConnection);
+    connect(focusView, &FITSView::trackingStarSelected, this, &Ekos::Focus::focusStarSelected, Qt::UniqueConnection);
 
     focusView->setStarsEnabled(true);
 
@@ -600,9 +598,7 @@ void Focus::checkFocuser(int FocuserNum)
     // Disconnect all focusers
     foreach (ISD::Focuser *oneFocuser, Focusers)
     {
-        disconnect(oneFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-                   SLOT(processFocusNumber(INumberVectorProperty*)));
-        //disconnect(oneFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(registerFocusProperty(INDI::Property*)));
+        disconnect(oneFocuser, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processFocusNumber);
     }
 
     canAbsMove = currentFocuser->canAbsMove();
@@ -640,9 +636,8 @@ void Focus::checkFocuser(int FocuserNum)
 
     focusType = (canRelMove || canAbsMove || canTimerMove) ? FOCUS_AUTO : FOCUS_MANUAL;
 
-    connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-            SLOT(processFocusNumber(INumberVectorProperty*)), Qt::UniqueConnection);
-    //connect(currentFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(registerFocusProperty(INDI::Property*)), Qt::UniqueConnection);
+    connect(currentFocuser, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processFocusNumber, Qt::UniqueConnection);
+    //connect(currentFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, &Ekos::Focus::(registerFocusProperty(INDI::Property*)), Qt::UniqueConnection);
 
     resetButtons();
 
@@ -835,7 +830,7 @@ void Focus::stop(bool aborted)
     HFRFrames.clear();
     //maxHFR=1;
 
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Focus::newFITS);
 
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
@@ -958,7 +953,7 @@ void Focus::capture()
     if (gainIN->isEnabled())
         currentCCD->setGain(gainIN->value());
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Focus::newFITS);
 
     targetChip->setFrameType(FRAME_LIGHT);
 
@@ -1081,7 +1076,7 @@ void Focus::newFITS(IBLOB *bp)
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Focus::newFITS);
 
     if (darkFrameCheck->isChecked())
     {
@@ -1090,8 +1085,8 @@ void Focus::newFITS(IBLOB *bp)
         uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
         uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
 
-        connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
-        connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+        connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, &Ekos::Focus::setCaptureComplete);
+        connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Focus::appendLogText);
 
         targetChip->setCaptureFilter(defaultScale);
 
@@ -1124,7 +1119,7 @@ void Focus::setCaptureComplete()
 
     syncTrackingBoxPosition();
 
-    //connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
+    //connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, &Ekos::Focus::(focusStarSelected(int, int)), Qt::UniqueConnection);
 
     if (inFocusLoop == false)
         appendLogText(i18n("Image received."));
@@ -1492,7 +1487,7 @@ void Focus::setCaptureComplete()
             emit newStatus(state);
 
             waitStarSelectTimer.start();
-            //connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
+            //connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, &Ekos::Focus::(focusStarSelected(int, int)), Qt::UniqueConnection);
             return;
         }
     }
@@ -2147,7 +2142,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (canAbsMove && inAutoFocus)
         {
             if (nvp->s == IPS_OK && captureInProgress == false)
-                QTimer::singleShot(FocusSettleTime->value()*1000, this, SLOT(capture()));
+                QTimer::singleShot(FocusSettleTime->value()*1000, this, &Ekos::Focus::capture);
                 //capture();
             else if (nvp->s == IPS_ALERT)
             {
@@ -2190,7 +2185,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (canRelMove && inAutoFocus)
         {
             if (nvp->s == IPS_OK && captureInProgress == false)
-                QTimer::singleShot(FocusSettleTime->value()*1000, this, SLOT(capture()));
+                QTimer::singleShot(FocusSettleTime->value()*1000, this, &Ekos::Focus::capture);
             else if (nvp->s == IPS_ALERT)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
@@ -2217,7 +2212,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         if (canAbsMove == false && canRelMove == false && inAutoFocus)
         {
             if (nvp->s == IPS_OK && captureInProgress == false)
-                QTimer::singleShot(FocusSettleTime->value()*1000, this, SLOT(capture()));
+                QTimer::singleShot(FocusSettleTime->value()*1000, this, &Ekos::Focus::capture);
             else if (nvp->s == IPS_ALERT)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
