@@ -142,3 +142,39 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::FocusState 
     dest = static_cast<Ekos::FocusState>(a);
     return argument;
 }
+
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::GuideState& source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::GuideState &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+    dest = static_cast<Ekos::GuideState>(a);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::AlignState& source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::AlignState &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+    dest = static_cast<Ekos::AlignState>(a);
+    return argument;
+}

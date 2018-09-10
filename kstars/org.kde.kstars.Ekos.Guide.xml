@@ -1,6 +1,19 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Guide">
+  <property name="camera" type="s" access="readwrite"/>
+  <property name="st4" type="s" access="readwrite"/>
+  <property name="logText" type="as" access="read"/>
+  <property name="exposure" type="d" access="readwrite"/>
+  <property name="status" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::GuideState"/>
+  </property>
+  <property name="axisDelta" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+  </property>
+  <property name="axisSigma" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+  </property>
     <method name="guide">
       <arg type="b" direction="out"/>
     </method>
@@ -24,29 +37,10 @@
     </method>    
     <method name="clearCalibration">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setCCD">
-      <arg type="b" direction="out"/>
-      <arg name="device" type="s" direction="in"/>
-    </method>
-    <method name="setST4">
-      <arg type="b" direction="out"/>
-      <arg name="device" type="s" direction="in"/>
-    </method>
+    </method>   
     <method name="getST4Devices">
       <arg type="as" direction="out"/>
-    </method>    
-    <method name="getStatus">
-      <arg type="i" direction="out"/>
-    </method>
-    <method name="getGuidingDeviation">
-      <arg type="ad" direction="out"/>
-      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
-    </method>
-    <method name="setExposure">
-      <arg name="value" type="d" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
+    </method>        
     <method name="setImageFilter">
       <arg name="value" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
@@ -98,5 +92,20 @@
       <arg name="guideType" type="i" direction="in"/>
       <arg type="b" direction="out"/>
     </method>
+    <signal name="newStatus">
+        <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::GuideState"/>
+    </signal>
+    <signal name="newAxisDelta">
+        <arg name="ra" type="d" direction="out"/>
+        <arg name="de" type="d" direction="out"/>
+    </signal>
+    <signal name="newAxisSigma">
+        <arg name="ra" type="d" direction="out"/>
+        <arg name="de" type="d" direction="out"/>
+    </signal>
+    <signal name="newLog">
+        <arg name="text" type="s" direction="out"/>
+    </signal>
   </interface>
 </node>

@@ -510,7 +510,6 @@ QString Focus::filter()
     return FilterPosCombo->currentText();
 }
 
-
 void Focus::checkFilter(int filterNum)
 {
     if (filterNum == -1)
@@ -2238,13 +2237,13 @@ void Focus::appendLogText(const QString &text)
 
     qCInfo(KSTARS_EKOS_FOCUS) << text;
 
-    emit newLog();
+    emit newLog(text);
 }
 
 void Focus::clearLog()
 {
     m_LogText.clear();
-    emit newLog();
+    emit newLog(QString());
 }
 
 void Focus::startFraming()

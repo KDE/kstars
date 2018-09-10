@@ -1222,19 +1222,19 @@ void Manager::setCCD(ISD::GDInterface *ccdDevice)
 
     rc = false;
     if (Options::defaultAlignCCD().isEmpty() == false)
-        rc = alignProcess->setCCD(Options::defaultAlignCCD());
+        rc = alignProcess->setCamera(Options::defaultAlignCCD());
     if (rc == false && primaryCCD.isEmpty() == false)
-        alignProcess->setCCD(primaryCCD);
+        alignProcess->setCamera(primaryCCD);
 
     initGuide();
 
-    guideProcess->addCCD(ccdDevice);
+    guideProcess->addCamera(ccdDevice);
 
     rc = false;
     if (Options::defaultGuideCCD().isEmpty() == false)
-        rc = guideProcess->setCCD(Options::defaultGuideCCD());
+        rc = guideProcess->setCamera(Options::defaultGuideCCD());
     if (rc == false && guiderCCD.isEmpty() == false)
-        guideProcess->setCCD(guiderCCD);
+        guideProcess->setCamera(guiderCCD);
 
     appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
 
@@ -1278,7 +1278,7 @@ void Manager::setFilter(ISD::GDInterface *filterDevice)
     alignProcess->addFilter(filterDevice);
 
     if (Options::defaultAlignFW().isEmpty() == false)
-        alignProcess->setFilter(Options::defaultAlignFW(), -1);    
+        alignProcess->setFilterWheel(Options::defaultAlignFW());
 }
 
 void Manager::setFocuser(ISD::GDInterface *focuserDevice)
@@ -1581,9 +1581,9 @@ void Manager::processNewProperty(INDI::Property *prop)
 
                 bool rc = false;
                 if (Options::defaultGuideCCD().isEmpty() == false)
-                    rc = guideProcess->setCCD(Options::defaultGuideCCD());
+                    rc = guideProcess->setCamera(Options::defaultGuideCCD());
                 if (rc == false)
-                    guideProcess->setCCD(QString(device->getDeviceName()) + QString(" Guider"));
+                    guideProcess->setCamera(QString(device->getDeviceName()) + QString(" Guider"));
                 return;
             }
         }
@@ -2052,7 +2052,7 @@ void Manager::initGuide()
         connect(guideProcess.get(), &Ekos::Guide::newStatus, this, &Ekos::Manager::updateGuideStatus);
         connect(guideProcess.get(), &Ekos::Guide::newStarPixmap, this, &Ekos::Manager::updateGuideStarPixmap);
         connect(guideProcess.get(), &Ekos::Guide::newProfilePixmap, this, &Ekos::Manager::updateGuideProfilePixmap);
-        connect(guideProcess.get(), &Ekos::Guide::sigmasUpdated, this, &Ekos::Manager::updateSigmas);
+        connect(guideProcess.get(), &Ekos::Guide::newAxisSigma, this, &Ekos::Manager::updateSigmas);
 
         if (Options::ekosLeftIcons())
         {
