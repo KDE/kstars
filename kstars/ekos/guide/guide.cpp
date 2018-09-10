@@ -911,10 +911,8 @@ void Guide::checkCCD(int ccdNum)
         }
 
         //connect(currentCCD, SIGNAL(FITSViewerClosed()), this, &Ekos::Guide::viewerClosed()), Qt::UniqueConnection);
-        connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-                SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
-        connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this,
-                SLOT(checkExposureValue(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
+        connect(currentCCD, &ISD::CCD::numberUpdated, this, &Ekos::Guide::processCCDNumber, Qt::UniqueConnection);
+        connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Guide::checkExposureValue, Qt::UniqueConnection);
 
 // If guider is external and already connected and remote images option was disabled AND it was already
 // disabled, then let's go ahead and disable it.
