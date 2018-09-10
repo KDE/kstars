@@ -77,6 +77,10 @@ const QMap<Align::PAHStage, QString> Align::PAHStages = {
 Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 {
     setupUi(this);
+
+    qRegisterMetaType<Ekos::AlignState>("Ekos::AlignState");
+    qDBusRegisterMetaType<Ekos::AlignState>();
+
     new AlignAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Align", this);
 
@@ -1855,7 +1859,7 @@ void Align::setSolverType(int type)
         parser->disconnect();
 }
 
-bool Align::setCCD(const QString & device)
+bool Align::setCamera(const QString & device)
 {
     for (int i = 0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
@@ -1866,6 +1870,14 @@ bool Align::setCCD(const QString & device)
         }
 
     return false;
+}
+
+QString Align::camera()
+{
+     if (currentCCD)
+         return currentCCD->getDeviceName();
+
+     return QString();
 }
 
 void Align::setDefaultCCD(QString ccd)
@@ -2113,6 +2125,15 @@ void Align::getFOVScale(double &fov_w, double &fov_h, double &fov_scale)
     fov_w     = fov_x;
     fov_h     = fov_y;
     fov_scale = fov_pixscale;
+}
+
+QList<double> Align::fov()
+{
+    QList<double> result;
+
+    result << fov_x << fov_y << fov_pixscale;
+
+    return result;
 }
 
 void Align::getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scale)
@@ -2729,8 +2750,8 @@ void Align::setCaptureComplete()
         }
     }
 
-    if (fov())
-        fov()->setImageDisplay(alignView->getDisplayImage());
+    if (getSolverFOV())
+        getSolverFOV()->setImageDisplay(alignView->getDisplayImage());
 
     startSolving(blobFileName);
 }
@@ -3310,18 +3331,18 @@ QList<double> Align::getSolutionResult()
 
 void Align::appendLogText(const QString &text)
 {
-    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+    m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                             QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_ALIGN) << text;
 
-    emit newLog();
+    emit newLog(text);
 }
 
 void Align::clearLog()
 {
-    logText.clear();
-    emit newLog();
+    m_LogText.clear();
+    emit newLog(QString());
 }
 
 void Align::processSwitch(ISwitchVectorProperty *svp)
@@ -4246,7 +4267,7 @@ void Align::setSolverArguments(const QString &value)
     solverOptions->setText(value);
 }
 
-QString Align::getSolverArguments()
+QString Align::solverArguments()
 {
     return solverOptions->text();
 }
@@ -4256,7 +4277,7 @@ void Align::setFOVTelescopeType(int index)
     FOVScopeCombo->setCurrentIndex(index);
 }
 
-FOV *Align::fov()
+FOV *Align::getSolverFOV()
 {
     if (sOrientation == -1)
         return nullptr;
@@ -4286,14 +4307,14 @@ void Align::addFilter(ISD::GDInterface *newFilter)
     FilterDevicesCombo->setCurrentIndex(1);
 }
 
-bool Align::setFilter(QString device, int filterSlot)
+bool Align::setFilterWheel(const QString &device)
 {
     bool deviceFound = false;
 
-    for (int i = 0; i < FilterDevicesCombo->count(); i++)
+    for (int i = 1; i < FilterDevicesCombo->count(); i++)
         if (device == FilterDevicesCombo->itemText(i))
         {
-            FilterDevicesCombo->setCurrentIndex(i);
+            checkFilter(i);
             deviceFound = true;
             break;
         }
@@ -4301,11 +4322,33 @@ bool Align::setFilter(QString device, int filterSlot)
     if (deviceFound == false)
         return false;
 
-    if (filterSlot >=0 && filterSlot < FilterDevicesCombo->count())
-        FilterDevicesCombo->setCurrentIndex(filterSlot);
-
     return true;
 }
+
+QString Align::filterWheel()
+{
+    if (FilterDevicesCombo->currentIndex() >= 1)
+        return FilterDevicesCombo->currentText();
+
+    return QString();
+}
+
+bool Align::setFilter(const QString &filter)
+{
+    if (FilterDevicesCombo->currentIndex() >= 1)
+    {
+        FilterPosCombo->setCurrentText(filter);
+        return true;
+    }
+
+    return false;
+}
+
+QString Align::filter()
+{
+    return FilterPosCombo->currentText();
+}
+
 
 void Align::checkFilter(int filterNum)
 {
@@ -5435,8 +5478,8 @@ void Align::setRotator(ISD::GDInterface *newRotator)
 
 void Align::refreshAlignOptions()
 {
-    if (fov())
-        fov()->setImageDisplay(Options::astrometrySolverWCS());
+    if (getSolverFOV())
+        getSolverFOV()->setImageDisplay(Options::astrometrySolverWCS());
 
     alignTimer.setInterval(Options::astrometryTimeout() * 1000);
 }

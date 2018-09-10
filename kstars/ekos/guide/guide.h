@@ -47,6 +47,13 @@ class Guide : public QWidget, public Ui::Guide
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Guide")
+    Q_PROPERTY(Ekos::GuideState status READ status NOTIFY newStatus)
+    Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
+    Q_PROPERTY(QString camera READ camera WRITE setCamera)
+    Q_PROPERTY(QString st4 READ st4 WRITE setST4)
+    Q_PROPERTY(double exposure READ exposure WRITE setExposure)
+    Q_PROPERTY(QList<double> axisDelta READ axisDelta NOTIFY newAxisDelta)
+    Q_PROPERTY(QList<double> axisSigma READ axisSigma NOTIFY newAxisSigma)
 
   public:
     Guide();
@@ -75,7 +82,8 @@ class Guide : public QWidget, public Ui::Guide
          * @param device The CCD device name
          * @return Returns true if CCD device is found and set, false otherwise.
          */
-    Q_SCRIPTABLE bool setCCD(const QString &device);
+    Q_SCRIPTABLE bool setCamera(const QString &device);
+    Q_SCRIPTABLE QString camera();
 
     /** DBUS interface function.
          * select the ST4 device from the available ST4 drivers.
@@ -83,6 +91,7 @@ class Guide : public QWidget, public Ui::Guide
          * @return Returns true if ST4 device is found and set, false otherwise.
          */
     Q_SCRIPTABLE bool setST4(const QString &device);
+    Q_SCRIPTABLE QString st4();
 
     /** DBUS interface function.
          * @return Returns List of registered ST4 devices.
@@ -93,18 +102,14 @@ class Guide : public QWidget, public Ui::Guide
          * @brief getStatus Return guide module status
          * @return state of guide module from Ekos::GuideState
          */
-    Q_SCRIPTABLE uint getStatus() { return state; }
-
-    /** DBUS interface function.
-         * @return Returns guiding deviation from guide star in arcsecs. First elemenet is RA guiding deviation, second element is DEC guiding deviation.
-         */
-    Q_SCRIPTABLE QList<double> getGuidingDeviation();
+    Q_SCRIPTABLE Ekos::GuideState status() { return state; }
 
     /** DBUS interface function.
          * Set CCD exposure value
          * @value exposure value in seconds.
          */
     Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
+    double exposure() { return exposureIN->value(); }
 
     /** DBUS interface function.
          * Set image filter to apply to the image after capture.
@@ -169,7 +174,7 @@ class Guide : public QWidget, public Ui::Guide
 
     /** @}*/
 
-    void addCCD(ISD::GDInterface *newCCD);
+    void addCamera(ISD::GDInterface *newCCD);
     void setTelescope(ISD::GDInterface *newTelescope);
     void addST4(ISD::ST4 *setST4);
     void setAO(ISD::ST4 *newAO);
@@ -184,11 +189,12 @@ class Guide : public QWidget, public Ui::Guide
          * @brief clearLog As the name suggests
          */
     void clearLog();
+    QStringList logText() { return m_LogText; }
 
     /**
          * @return Return curent log text of guide module
          */
-    QString getLogText() { return logText.join("\n"); }
+    QString getLogText() { return m_LogText.join("\n"); }
 
     /**
          * @brief getStarPosition Return star center as selected by the user or auto-detected by KStars
@@ -265,6 +271,18 @@ class Guide : public QWidget, public Ui::Guide
          * @return True if guiding is switched to the new requested type. False otherwise.
          */
     Q_SCRIPTABLE bool setGuiderType(int type);
+
+    /** DBUS interface function.
+     * @brief axisDelta returns the last immediate axis delta deviation in arcseconds. This is the deviation of locked star position when guiding started.
+     * @return List of doubles. First member is RA deviation. Second member is DE deviation.
+     */
+    Q_SCRIPTABLE QList<double> axisDelta();
+
+    /** DBUS interface function.
+     * @brief axisSigma return axis sigma deviation in arcseconds RMS. This is the RMS deviation of locked star position when guiding started.
+     * @return List of doubles. First member is RA deviation. Second member is DE deviation.
+     */
+    Q_SCRIPTABLE QList<double> axisSigma();
 
     /**
           * @brief checkCCD Check all CCD parameters and ensure all variables are updated to reflect the selected CCD
@@ -413,14 +431,18 @@ class Guide : public QWidget, public Ui::Guide
     void ditherDirectly();
 
   signals:
-    void newLog();
+    void newLog(const QString &text);
     void newStatus(Ekos::GuideState status);
 
     void newStarPixmap(QPixmap &);
     void newProfilePixmap(QPixmap &);
 
-    void newAxisDelta(double delta_ra, double delta_dec);
-    void sigmasUpdated(double ra, double dec);
+    // Immediate deviations in arcsecs
+    void newAxisDelta(double ra, double de);
+    // Sigma deviations in arcsecs RMS
+    void newAxisSigma(double ra, double de);
+
+
     void guideChipUpdated(ISD::CCDChip *);
 
   private slots:
@@ -521,7 +543,7 @@ class Guide : public QWidget, public Ui::Guide
     QTimer pulseTimer;
 
     // Log
-    QStringList logText;
+    QStringList m_LogText;
 
     // Misc
     bool useGuideHead { false };

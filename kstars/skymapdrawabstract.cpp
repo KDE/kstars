@@ -251,10 +251,10 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
             }
         }
 
-        if (align->getStatus() == Ekos::ALIGN_COMPLETE || align->getStatus() == Ekos::ALIGN_PROGRESS)
+        if (align->status() == Ekos::ALIGN_COMPLETE || align->status() == Ekos::ALIGN_PROGRESS)
         {
             bool isVisible = false;
-            FOV *fov       = align->fov();
+            FOV *fov       = align->getSolverFOV();
             if (fov == nullptr)
                 return;
 

@@ -39,6 +39,9 @@ Guide::Guide() : QWidget()
 {
     setupUi(this);
 
+    qRegisterMetaType<Ekos::GuideState>("Ekos::GuideState");
+    qDBusRegisterMetaType<Ekos::GuideState>();
+
     new GuideAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Guide", this);
 
@@ -794,7 +797,7 @@ QString Guide::setRecommendedExposureValues(QList<double> values)
     return exposureIN->getRecommendedValuesString();
 }
 
-void Guide::addCCD(ISD::GDInterface *newCCD)
+void Guide::addCamera(ISD::GDInterface *newCCD)
 {
     ISD::CCD *ccd = static_cast<ISD::CCD *>(newCCD);
 
@@ -851,7 +854,7 @@ void Guide::setTelescope(ISD::GDInterface *newTelescope)
     syncTelescopeInfo();
 }
 
-bool Guide::setCCD(const QString &device)
+bool Guide::setCamera(const QString &device)
 {
     if (guiderType != GUIDE_INTERNAL)
         return true;
@@ -865,6 +868,14 @@ bool Guide::setCCD(const QString &device)
         }
 
     return false;
+}
+
+QString Guide::camera()
+{
+     if (currentCCD)
+         return currentCCD->getDeviceName();
+
+     return QString();
 }
 
 void Guide::checkCCD(int ccdNum)
@@ -1163,6 +1174,14 @@ bool Guide::setST4(const QString &device)
         }
 
     return false;
+}
+
+QString Guide::st4()
+{
+    if (guiderType != GUIDE_INTERNAL || ST4Combo->currentIndex() == -1)
+        return QString();
+
+    return ST4Combo->currentText();
 }
 
 void Guide::setST4(int index)
@@ -1476,18 +1495,18 @@ void Guide::setCaptureComplete()
 
 void Guide::appendLogText(const QString &text)
 {
-    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+    m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                             QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_GUIDE) << text;
 
-    emit newLog();
+    emit newLog(text);
 }
 
 void Guide::clearLog()
 {
-    logText.clear();
-    emit newLog();
+    m_LogText.clear();
+    emit newLog(QString());
 }
 
 void Guide::setDECSwap(bool enable)
@@ -1843,15 +1862,6 @@ void Guide::setDitherSettings(bool enable, double value)
 {
     Options::setDitherEnabled(enable);
     Options::setDitherPixels(value);
-}
-
-QList<double> Guide::getGuidingDeviation()
-{
-    QList<double> deviation;
-
-    deviation << guideDeviationRA << guideDeviationDEC;
-
-    return deviation;
 }
 
 #if 0
@@ -2684,7 +2694,25 @@ void Guide::setAxisSigma(double ra, double de)
     l_ErrRA->setText(QString::number(ra, 'f', 2));
     l_ErrDEC->setText(QString::number(de, 'f', 2));
     l_TotalRMS->setText(QString::number(sqrt(ra*ra+de*de), 'f', 2));
-    emit sigmasUpdated(ra, de);
+    emit newAxisSigma(ra, de);
+}
+
+QList<double> Guide::axisDelta()
+{
+    QList<double> delta;
+
+    delta << l_DeltaRA->text().toDouble() << l_DeltaDEC->text().toDouble();
+
+    return delta;
+}
+
+QList<double> Guide::axisSigma()
+{
+    QList<double> sigma;
+
+    sigma << l_ErrRA->text().toDouble() << l_ErrDEC->text().toDouble();
+
+    return sigma;
 }
 
 void Guide::setAxisPulse(double ra, double de)

@@ -335,16 +335,17 @@ class Focus : public QWidget, public Ui::Focus
     void toggleFocusingWidgetFullScreen();
 
   signals:
-    void newLog();
-    //void autoFocusFinished(bool status, double finalHFR);
-    void suspendGuiding();
-    void resumeGuiding();
+    void newLog(const QString &text);
     void newStatus(Ekos::FocusState state);
-    void newStarPixmap(QPixmap &);
-    void newProfilePixmap(QPixmap &);
     void newHFR(double hfr, int position);
+
     void absolutePositionChanged(int value);
     void focusPositionAdjusted();
+
+    void suspendGuiding();
+    void resumeGuiding();
+    void newStarPixmap(QPixmap &);
+    void newProfilePixmap(QPixmap &);
 
   private:
     void drawHFRPlot();

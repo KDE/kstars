@@ -166,3 +166,11 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::CaptureStat
 Q_DECLARE_METATYPE(Ekos::FocusState)
 QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::FocusState& source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::FocusState &dest);
+
+Q_DECLARE_METATYPE(Ekos::GuideState)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::GuideState& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::GuideState &dest);
+
+Q_DECLARE_METATYPE(Ekos::AlignState)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::AlignState& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::AlignState &dest);

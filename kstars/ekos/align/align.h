@@ -63,6 +63,14 @@ class Align : public QWidget, public Ui::Align
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Align")
+    Q_PROPERTY(Ekos::AlignState status READ status NOTIFY newStatus)
+    Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
+    Q_PROPERTY(QString camera READ camera WRITE setCamera)
+    Q_PROPERTY(QString filterWheel READ filterWheel WRITE setFilterWheel)
+    Q_PROPERTY(QString filter READ filter WRITE setFilter)
+    Q_PROPERTY(double exposure READ exposure WRITE setExposure)
+    Q_PROPERTY(QList<double> fov READ fov)
+    Q_PROPERTY(QString solverArguments READ solverArguments WRITE setSolverArguments)
 
   public:
     explicit Align(ProfileInfo *activeProfile);
@@ -125,14 +133,24 @@ class Align : public QWidget, public Ui::Align
          * @param device CCD device name
          * @return Returns true if device if found and selected, false otherwise.
          */
-    Q_SCRIPTABLE bool setCCD(const QString &device);
+    Q_SCRIPTABLE bool setCamera(const QString &device);
+    Q_SCRIPTABLE QString camera();
 
     /** DBUS interface function.
          * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.
          * @param device The filter device name
          * @return Returns true if filter device is found and set, false otherwise.
          */
-    Q_SCRIPTABLE bool setFilter(QString device, int filterSlot);
+    Q_SCRIPTABLE bool setFilterWheel(const QString &device);
+    Q_SCRIPTABLE QString filterWheel();
+
+    /** DBUS interface function.
+         * select the filter from the available filters.
+         * @param The filter name
+         * @return Returns true if filter is found and set, false otherwise.
+         */
+    Q_SCRIPTABLE bool setFilter(const QString &filter);
+    Q_SCRIPTABLE QString filter();
 
     /** DBUS interface function.
          * Start the plate-solving process given the passed image file.
@@ -158,7 +176,7 @@ class Align : public QWidget, public Ui::Align
          * Returns the solver's current status
          * @return Returns solver status (Ekos::AlignState)
          */
-    Q_SCRIPTABLE int getStatus() { return state; }
+    Q_SCRIPTABLE Ekos::AlignState status() { return state; }
 
     /** DBUS interface function.
          * @return Returns State of load slew procedure. Idle if not started. Busy if in progress. Ok if complete. Alert if procedure failed.
@@ -170,6 +188,7 @@ class Align : public QWidget, public Ui::Align
          * @param value Exposure value in seconds
          */
     Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
+    Q_SCRIPTABLE double exposure() { return exposureIN->value(); }
 
     /** DBUS interface function.
          * Sets the arguments that gets passed to the astrometry.net offline solver.
@@ -181,15 +200,14 @@ class Align : public QWidget, public Ui::Align
          * Get existing solver options.
          * @return String containing all arguments.
          */
-    Q_SCRIPTABLE QString getSolverArguments();
+    Q_SCRIPTABLE QString solverArguments();
 
     /** DBUS interface function.
          * Sets the telescope type (PRIMARY or GUIDE) that should be used for FOV calculations. This value is loaded form driver settings by default.
          * @param index 0 for PRIMARY telescope, 1 for GUIDE telescope
          */
     Q_SCRIPTABLE Q_NOREPLY void setFOVTelescopeType(int index);
-
-    int getFOVTelescopeType() {return FOVScopeCombo->currentIndex();}
+    int FOVTelescopeType() {return FOVScopeCombo->currentIndex();}
 
     /** @}*/
 
@@ -249,13 +267,14 @@ class Align : public QWidget, public Ui::Align
     bool isParserOK();
 
     // Log
-    QString getLogText() { return logText.join("\n"); }
+    QStringList logText() { return m_LogText; }
+    QString getLogText() { return m_LogText.join("\n"); }
     void clearLog();
 
     /**
          * @brief Return FOV object used to represent the solved image orientation on the sky map.
          */
-    FOV *fov();
+    FOV *getSolverFOV();
 
     /**
          * @brief Return FOV object used to represent the current CCD/Telescope combination.
@@ -269,6 +288,7 @@ class Align : public QWidget, public Ui::Align
          * @param fov_scale FOV scale in arcsec per pixel
          */
     void getFOVScale(double &fov_w, double &fov_h, double &fov_scale);
+    QList<double> fov();
 
     /**
      * @brief getCalculatedFOVScale Get calculated FOV scales from the current CCD+Telescope combination.
@@ -501,16 +521,18 @@ class Align : public QWidget, public Ui::Align
     void refreshAlignOptions();
 
   signals:
-    void newLog();
+    void newLog(const QString &text);
     void newStatus(Ekos::AlignState state);
+    void newSolution(const QJsonObject &solution);
+
     // This is sent when we load an image in the view
     void newImage(FITSView *view);
     // This is sent when the pixmap is updated within the view
     void newFrame(FITSView *view);
+
     void polarResultUpdated(QLineF correctionVector, QString polarError);
     void newCorrectionVector(QLineF correctionVector);
     void newSolverResults(double orientation, double ra, double dec, double pixscale);
-    void newSolution(const QJsonObject &solution);
 
     // Polar Assistant Tool
     void newPAHStage(PAHStage stage);
@@ -719,7 +741,7 @@ class Align : public QWidget, public Ui::Align
     bool m_wcsSynced { false };
 
     /// Log
-    QStringList logText;
+    QStringList m_LogText;
 
     /// Capture retries
     int retries { 0 };
