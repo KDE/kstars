@@ -4579,6 +4579,13 @@ void Scheduler::updateCompletedJobsCount(bool forced)
     /* Use a temporary map in order to limit the number of file searches */
     SchedulerJob::CapturedFramesMap newFramesCount;
 
+    /* FIXME: Capture storage cache is refreshed too often, feature requires rework. */
+
+    /* Check if one job is idle or requires evaluation - if so, force refresh */
+    forced |= std::any_of(jobs.begin(), jobs.end(), [](SchedulerJob *oneJob) -> bool {
+            SchedulerJob::JOBStatus const state = oneJob->getState();
+            return state == SchedulerJob::JOB_IDLE || state == SchedulerJob::JOB_EVALUATION;});
+
     /* If update is forced, clear the frame map */
     if (forced)
         capturedFramesCount.clear();
@@ -4608,25 +4615,19 @@ void Scheduler::updateCompletedJobsCount(bool forced)
             /* FIXME: this signature path is incoherent when there is no filter wheel on the setup - bugfix should be elsewhere though */
             QString const signature = oneSeqJob->getSignature();
 
-            /* Bypass this SchedulerJob if we already checked its signature */
-            switch(oneJob->getState())
-            {
-            case SchedulerJob::JOB_IDLE:
-            case SchedulerJob::JOB_EVALUATION:
-                /* We recount idle/evaluated jobs systematically */
-                break;
+            /* If signature was processed during this run, keep it */
+            if (newFramesCount.constEnd() != newFramesCount.constFind(signature))
+                continue;
 
-            default:
-                /* We recount other jobs if somehow we don't have any count for their signature, else we reuse the previous count */
-                QMap<QString, uint16_t>::iterator const sigCount = capturedFramesCount.find(signature);
-                if (capturedFramesCount.end() != sigCount)
-                {
-                    newFramesCount[signature] = sigCount.value();
-                    continue;
-                }
+            /* If signature was processed during an earlier run, use the earlier count */
+            QMap<QString, uint16_t>::const_iterator const earlierRunIterator = capturedFramesCount.constFind(signature);
+            if (capturedFramesCount.constEnd() != earlierRunIterator)
+            {
+                newFramesCount[signature] = earlierRunIterator.value();
+                continue;
             }
 
-            /* Count captures already stored */
+            /* Else recount captures already stored */
             newFramesCount[signature] = getCompletedFiles(signature, oneSeqJob->getFullPrefix());
         }
     }
