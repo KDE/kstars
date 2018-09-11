@@ -1094,11 +1094,11 @@ void Scheduler::stop()
     else if (startupState == STARTUP_COMPLETE)
     {
         if (unparkDomeCheck->isChecked())
-            startupState = STARTUP_UNPARKING_DOME;
+            startupState = STARTUP_UNPARK_DOME;
         else if (unparkMountCheck->isChecked())
-            startupState = STARTUP_UNPARKING_MOUNT;
+            startupState = STARTUP_UNPARK_MOUNT;
         else if (uncapCheck->isChecked())
-            startupState = STARTUP_UNPARKING_CAP;
+            startupState = STARTUP_UNPARK_CAP;
     }
 
     shutdownState = SHUTDOWN_IDLE;
@@ -2204,6 +2204,10 @@ void Scheduler::calculateDawnDusk()
 
 void Scheduler::executeJob(SchedulerJob *job)
 {
+    // Some states have executeJob called after current job is cancelled - checkStatus does this
+    if (job == nullptr)
+        return;
+
     // Don't execute the current job if it is already busy
     if (currentJob == job && SchedulerJob::JOB_BUSY == currentJob->getState())
         return;
@@ -2575,7 +2579,7 @@ bool Scheduler::checkStartupState()
     if (state == SCHEDULER_PAUSED)
         return false;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking Startup State...";
+    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Checking Startup State (%1)...").arg(startupState);
 
     switch (startupState)
     {
@@ -4886,36 +4890,53 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
 void Scheduler::parkMount()
 {
-    QDBusReply<int> MountReply  = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Mount::ParkingStatus status = (Mount::ParkingStatus)MountReply.value();
+    QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
 
-    if (status != Mount::PARKING_OK)
+    if (mountReply.error().type() != QDBusError::NoError)
     {
-        if (status == Mount::PARKING_BUSY)
-        {
-            appendLogText(i18n("Parking mount in progress..."));
-        }
-        else
-        {
-            mountInterface->call(QDBus::AutoDetect, "park");
-            appendLogText(i18n("Parking mount..."));
-
-            currentOperationTime.start();
-        }
-
-        if (shutdownState == SHUTDOWN_PARK_MOUNT)
-            shutdownState = SHUTDOWN_PARKING_MOUNT;
-        else if (parkWaitState == PARKWAIT_PARK)
-            parkWaitState = PARKWAIT_PARKING;
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
+        if (!manageConnectionLoss())
+            parkWaitState = PARKWAIT_ERROR;
     }
-    else
+    else switch ((Mount::ParkingStatus) mountReply.value())
     {
-        appendLogText(i18n("Mount already parked."));
+        case Mount::PARKING_OK:
+            if (shutdownState == SHUTDOWN_PARK_MOUNT)
+                shutdownState = SHUTDOWN_PARK_DOME;
 
-        if (shutdownState == SHUTDOWN_PARK_MOUNT)
-            shutdownState = SHUTDOWN_PARK_DOME;
-        else if (parkWaitState == PARKWAIT_PARK)
             parkWaitState = PARKWAIT_PARKED;
+            appendLogText(i18n("Mount already parked."));
+            break;
+
+        case Mount::UNPARKING_BUSY:
+            /* FIXME: Handle the situation where we request parking but an unparking procedure is running. */
+
+        case Mount::PARKING_IDLE:
+        case Mount::UNPARKING_OK:
+        case Mount::PARKING_ERROR:
+            {
+                QDBusReply<bool> const mountReply = mountInterface->call(QDBus::AutoDetect, "park");
+
+                if (mountReply.error().type() != QDBusError::NoError)
+                {
+                    qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount park request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
+                    if (!manageConnectionLoss())
+                        parkWaitState = PARKWAIT_ERROR;
+                }
+                else currentOperationTime.start();
+            }
+
+            // Fall through
+        case Mount::PARKING_BUSY:
+            if (shutdownState == SHUTDOWN_PARK_MOUNT)
+                shutdownState = SHUTDOWN_PARKING_MOUNT;
+
+            parkWaitState = PARKWAIT_PARKING;
+            appendLogText(i18n("Parking mount in progress..."));
+            break;
+
+        default:
+            qCWarning(KSTARS_EKOS_SCHEDULER) << QString("BUG: Parking state %1 not managed while parking mount.").arg(mountReply.value());
     }
 }
 
@@ -4934,9 +4955,8 @@ void Scheduler::unParkMount()
         case Mount::UNPARKING_OK:
             if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARK_CAP;
-            else if (parkWaitState == PARKWAIT_UNPARK)
-                parkWaitState = PARKWAIT_UNPARKED;
 
+            parkWaitState = PARKWAIT_UNPARKED;
             appendLogText(i18n("Mount already unparked."));
             break;
 
@@ -4962,9 +4982,8 @@ void Scheduler::unParkMount()
         case Mount::UNPARKING_BUSY:
             if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARKING_MOUNT;
-            else if (parkWaitState == PARKWAIT_UNPARK)
-                parkWaitState = PARKWAIT_UNPARKING;
 
+            parkWaitState = PARKWAIT_UNPARKING;
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Unparking mount in progress...";
             break;
 
@@ -5068,7 +5087,7 @@ void Scheduler::checkMountParkingStatus()
                 appendLogText(i18n("Mount parking error."));
                 parkWaitState = PARKWAIT_ERROR;
             }
-            else if (parkWaitState == PARKWAIT_UNPARK)
+            else if (parkWaitState == PARKWAIT_UNPARKING)
             {
                 appendLogText(i18n("Mount unparking error."));
                 parkWaitState = PARKWAIT_ERROR;
