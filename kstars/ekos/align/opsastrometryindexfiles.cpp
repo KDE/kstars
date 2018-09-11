@@ -81,8 +81,6 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
             label->setVisible(false);
         }
     }
-
-
 }
 
 void OpsAstrometryIndexFiles::showEvent(QShowEvent *)
@@ -209,7 +207,7 @@ bool OpsAstrometryIndexFiles::getAstrometryDataDir(QString &dataDir)
 
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KMessageBox::error(0, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
+        KMessageBox::error(nullptr, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
                                    "configuration file full path in INDI options.",
                                    Options::astrometryConfFile()));
         return false;
@@ -231,7 +229,7 @@ bool OpsAstrometryIndexFiles::getAstrometryDataDir(QString &dataDir)
         }
     }
 
-    KMessageBox::error(0, i18n("Unable to find data dir in astrometry configuration file."));
+    KMessageBox::error(nullptr, i18n("Unable to find data dir in astrometry configuration file."));
     return false;
 }
 
@@ -288,7 +286,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
     QNetworkReply *response = manager->get(QNetworkRequest(QUrl(indexURL)));
 
     //Shut it down after too much time elapses.
-    //If the filesize is less  than 4 MB, it sets the timeout for 1 minute or 60000 s.
+    //If the filesize is less  than 4 MB, it sets the timeout for 1 minute or 60000 ms.
     //If it's larger, it assumes a bad download rate of 1 Mbps (100 bytes/ms)
     //and the calculation estimates the time in milliseconds it would take to download.
     int timeout=60000;
@@ -312,9 +310,9 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
 
     }
 
-    QTimer::singleShot(timeout, response,
-    [=]() {
-        KMessageBox::error(0, i18n("Download Timed out.  Either the network is not fast enough, the file is not accessible, or you are not connected."));
+    timeoutTimer.disconnect();
+    connect(&timeoutTimer, &QTimer::timeout, [&]() {
+        KMessageBox::error(nullptr, i18n("Download Timed out.  Either the network is not fast enough, the file is not accessible, or you are not connected."));
         disconnectDownload(cancelConnection,replyConnection,percentConnection);
         if(response){
             response->abort();
@@ -322,10 +320,12 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
         }
         setDownloadInfoVisible(indexSeriesName, checkBox, false);
     });
+    timeoutTimer.start(timeout);
 
     *cancelConnection=connect(indexDownloadCancel, &QPushButton::clicked,
     [=](){
         qDebug() << "Download Cancelled.";
+        timeoutTimer.stop();
         disconnectDownload(cancelConnection,replyConnection,percentConnection);
         if(response){
             response->abort();
@@ -336,6 +336,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
 
     *replyConnection=connect(response, &QNetworkReply::finished, this,
     [=]() {
+        timeoutTimer.stop();
         if(response){
             disconnectDownload(cancelConnection,replyConnection,percentConnection);
             setDownloadInfoVisible(indexSeriesName, checkBox, false);
@@ -353,7 +354,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
             {
                 if (!file.open(QIODevice::WriteOnly))
                 {
-                    KMessageBox::error(0, i18n("File Write Error"));
+                    KMessageBox::error(nullptr, i18n("File Write Error"));
                     slotUpdate();
                     return;
                 }
@@ -375,6 +376,8 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
 #else
                 KAuth::Action action(QStringLiteral("org.kde.kf5auth.kstars.saveindexfile"));
                 action.setHelperId(QStringLiteral("org.kde.kf5auth.kstars"));
+                // Wait 15mins before timing out in the auth dialog.
+                action.setTimeout(900000);
                 action.setArguments(QVariantMap({ { "filename", indexFileN }, { "contents", responseData } }));
                 KAuth::ExecuteJob *job = action.execute();
                 if (!job->exec())
@@ -424,7 +427,7 @@ void OpsAstrometryIndexFiles::disconnectDownload(QMetaObject::Connection *cancel
 
 void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
 {
-    QCheckBox *checkBox = (QCheckBox *)QObject::sender();
+    QCheckBox *checkBox = qobject_cast<QCheckBox *>(QObject::sender());
 
     QString astrometryDataDir;
     if (getAstrometryDataDir(astrometryDataDir) == false)
@@ -461,13 +464,13 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
             }
             else
             {
-                KMessageBox::sorry(0, i18n("Could not contact Astrometry Index Server: broiler.astrometry.net"));
+                KMessageBox::sorry(nullptr, i18n("Could not contact Astrometry Index Server: broiler.astrometry.net"));
             }
         }
         else
         {
             if (KMessageBox::Continue == KMessageBox::warningContinueCancel(
-                                             NULL, i18n("Are you sure you want to delete these index files? %1", indexSeriesName),
+                                             nullptr, i18n("Are you sure you want to delete these index files? %1", indexSeriesName),
                                              i18n("Delete File(s)"), KStandardGuiItem::cont(),
                                              KStandardGuiItem::cancel(), "delete_index_files_warning"))
             {
@@ -482,7 +485,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                         {
                             if (!directory.remove(fileName))
                             {
-                                KMessageBox::error(0, i18n("File Delete Error"));
+                                KMessageBox::error(nullptr, i18n("File Delete Error"));
                                 slotUpdate();
                                 return;
                             }
@@ -497,6 +500,8 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
 #else
                     KAuth::Action action(QStringLiteral("org.kde.kf5auth.kstars.removeindexfileset"));
                     action.setHelperId(QStringLiteral("org.kde.kf5auth.kstars"));
+                    // Wait 15mins before timing out in the auth dialog.
+                    action.setTimeout(900000);
                     action.setArguments(
                         QVariantMap({ { "indexSetName", indexSeriesName }, { "astrometryDataDir", astrometryDataDir } }));
                     KAuth::ExecuteJob *job = action.execute();
