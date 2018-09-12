@@ -34,7 +34,7 @@ class Mount : public QWidget, public Ui::Mount
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Mount")
     Q_PROPERTY(ISD::Telescope::Status status READ status NOTIFY newStatus)
-    Q_PROPERTY(ISD::Telescope::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
+    Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
     Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
     Q_PROPERTY(QList<double> altitudeLimits READ altitudeLimits WRITE setAltitudeLimits)
     Q_PROPERTY(bool altitudeLimitsEnabled READ altitudeLimitsEnabled WRITE setAltitudeLimitsEnabled)
@@ -43,6 +43,7 @@ class Mount : public QWidget, public Ui::Mount
     Q_PROPERTY(QList<double> telescopeInfo READ telescopeInfo WRITE setTelescopeInfo)
     Q_PROPERTY(double hourAngle READ hourAngle)
     Q_PROPERTY(int slewRate READ slewRate WRITE setSlewRate)
+    Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
   public:
     Mount();
@@ -66,7 +67,7 @@ class Mount : public QWidget, public Ui::Mount
     QString getLogText() { return m_LogText.join("\n"); }
 
     ISD::Telescope::Status status() {return m_Status;}
-    ISD::Telescope::ParkStatus parkStatus() {return m_ParkStatus;}
+    ISD::ParkStatus parkStatus() {return m_ParkStatus;}
 
     /** @defgroup MountDBusInterface Ekos Mount DBus Interface
          * Mount interface provides advanced scripting capabilities to control INDI mounts.
@@ -309,11 +310,11 @@ private slots:
     void startAutoPark();
 
   signals:
-    void newLog();
+    void newLog(const QString &text);
     void newCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
     void newTarget(const QString &name);    
     void newStatus(ISD::Telescope::Status status);
-    void newParkStatus(ISD::Telescope::ParkStatus status);
+    void newParkStatus(ISD::ParkStatus status);
     void slewRateChanged(int index);
 
   private:
@@ -332,7 +333,7 @@ private slots:
     bool GPSInitialized = {false};
 
     ISD::Telescope::Status m_Status = ISD::Telescope::MOUNT_IDLE;
-    ISD::Telescope::ParkStatus m_ParkStatus = ISD::Telescope::PARK_UNKNOWN;
+    ISD::ParkStatus m_ParkStatus = ISD::PARK_UNKNOWN;
 
     QQuickView *m_BaseView = nullptr;
     QQuickItem *m_BaseObj  = nullptr;

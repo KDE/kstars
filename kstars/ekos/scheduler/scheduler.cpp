@@ -4899,9 +4899,9 @@ void Scheduler::parkMount()
         if (!manageConnectionLoss())
             parkWaitState = PARKWAIT_ERROR;
     }
-    else switch (static_cast<ISD::Telescope::ParkStatus>(mountReply.value()))
+    else switch (static_cast<ISD::ParkStatus>(mountReply.value()))
     {
-        case ISD::Telescope::PARK_PARKED:
+        case ISD::PARK_PARKED:
             if (shutdownState == SHUTDOWN_PARK_MOUNT)
                 shutdownState = SHUTDOWN_PARK_DOME;
 
@@ -4909,15 +4909,15 @@ void Scheduler::parkMount()
             appendLogText(i18n("Mount already parked."));
             break;
 
-        case ISD::Telescope::PARK_UNPARKING:
+        case ISD::PARK_UNPARKING:
         //case Mount::UNPARKING_BUSY:
             /* FIXME: Handle the situation where we request parking but an unparking procedure is running. */
 
 //        case Mount::PARKING_IDLE:
 //        case Mount::UNPARKING_OK:
-          case ISD::Telescope::PARK_ERROR:
-          case ISD::Telescope::PARK_UNKNOWN:
-          case ISD::Telescope::PARK_UNPARKED:
+          case ISD::PARK_ERROR:
+          case ISD::PARK_UNKNOWN:
+          case ISD::PARK_UNPARKED:
             {
                 QDBusReply<bool> const mountReply = mountInterface->call(QDBus::AutoDetect, "park");
 
@@ -4931,7 +4931,7 @@ void Scheduler::parkMount()
             }
 
             // Fall through
-    case ISD::Telescope::PARK_PARKING:
+    case ISD::PARK_PARKING:
         //case Mount::PARKING_BUSY:
             if (shutdownState == SHUTDOWN_PARK_MOUNT)
                 shutdownState = SHUTDOWN_PARKING_MOUNT;
@@ -4958,10 +4958,10 @@ void Scheduler::unParkMount()
         if (!manageConnectionLoss())
             parkWaitState = PARKWAIT_ERROR;
     }
-    else switch (static_cast<ISD::Telescope::ParkStatus>(mountReply.value()))
+    else switch (static_cast<ISD::ParkStatus>(mountReply.value()))
     {
         //case Mount::UNPARKING_OK:
-          case ISD::Telescope::PARK_UNPARKED:
+          case ISD::PARK_UNPARKED:
             if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARK_CAP;
 
@@ -4970,15 +4970,15 @@ void Scheduler::unParkMount()
             break;
 
         //case Mount::PARKING_BUSY:
-         case ISD::Telescope::PARK_PARKING:
+         case ISD::PARK_PARKING:
             /* FIXME: Handle the situation where we request unparking but a parking procedure is running. */
 
 //        case Mount::PARKING_IDLE:
 //        case Mount::PARKING_OK:
 //        case Mount::PARKING_ERROR:
-          case ISD::Telescope::PARK_ERROR:
-          case ISD::Telescope::PARK_UNKNOWN:
-          case ISD::Telescope::PARK_PARKED:
+          case ISD::PARK_ERROR:
+          case ISD::PARK_UNKNOWN:
+          case ISD::PARK_PARKED:
             {
                 QDBusReply<bool> const mountReply = mountInterface->call(QDBus::AutoDetect, "unpark");
 
@@ -4993,7 +4993,7 @@ void Scheduler::unParkMount()
 
             // Fall through
         //case Mount::UNPARKING_BUSY:
-        case ISD::Telescope::PARK_UNPARKING:
+        case ISD::PARK_UNPARKING:
             if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARKING_MOUNT;
 
@@ -5019,10 +5019,10 @@ void Scheduler::checkMountParkingStatus()
         if (!manageConnectionLoss())
             parkWaitState = PARKWAIT_ERROR;
     }
-    else switch (static_cast<ISD::Telescope::ParkStatus>(mountReply.value()))
+    else switch (static_cast<ISD::ParkStatus>(mountReply.value()))
     {
         //case Mount::PARKING_OK:
-        case ISD::Telescope::PARK_PARKED:
+        case ISD::PARK_PARKED:
             // If we are starting up, we will unpark the mount in checkParkWaitState soon
             // If we are shutting down and mount is parked, proceed to next step
             if (shutdownState == SHUTDOWN_PARKING_MOUNT)
@@ -5037,7 +5037,7 @@ void Scheduler::checkMountParkingStatus()
             break;
 
         //case Mount::UNPARKING_OK:
-          case ISD::Telescope::PARK_UNPARKED:
+          case ISD::PARK_UNPARKED:
             // If we are starting up and mount is unparked, proceed to next step
             // If we are shutting down, we will park the mount in checkParkWaitState soon
             if (startupState == STARTUP_UNPARKING_MOUNT)
@@ -5054,7 +5054,7 @@ void Scheduler::checkMountParkingStatus()
         // FIXME: Create an option for the parking/unparking timeout.
 
         //case Mount::UNPARKING_BUSY:
-          case ISD::Telescope::PARK_UNPARKING:
+          case ISD::PARK_UNPARKING:
             if (currentOperationTime.elapsed() > (60 * 1000))
             {
                 if (++parkingFailureCount < MAX_FAILURE_ATTEMPTS)
@@ -5073,7 +5073,7 @@ void Scheduler::checkMountParkingStatus()
             break;
 
         //case Mount::PARKING_BUSY:
-          case ISD::Telescope::PARK_PARKING:
+          case ISD::PARK_PARKING:
             if (currentOperationTime.elapsed() > (60 * 1000))
             {
                 if (++parkingFailureCount < MAX_FAILURE_ATTEMPTS)
@@ -5092,7 +5092,7 @@ void Scheduler::checkMountParkingStatus()
             break;
 
         //case Mount::PARKING_ERROR:
-          case ISD::Telescope::PARK_ERROR:
+          case ISD::PARK_ERROR:
             if (startupState == STARTUP_UNPARKING_MOUNT)
             {
                 appendLogText(i18n("Mount unparking error."));
@@ -5119,7 +5119,7 @@ void Scheduler::checkMountParkingStatus()
 
         //case Mount::PARKING_IDLE:
             // FIXME Does this work as intended? check!
-          case ISD::Telescope::PARK_UNKNOWN:
+          case ISD::PARK_UNKNOWN:
             // Last parking action did not result in an action, so proceed to next step
             if (shutdownState == SHUTDOWN_PARKING_MOUNT)
                 shutdownState = SHUTDOWN_PARK_DOME;
@@ -5165,11 +5165,11 @@ bool Scheduler::isMountParked()
         }
 
         // Deduce state of mount - see getParkingStatus in mount.cpp
-        switch (static_cast<ISD::Telescope::ParkStatus>(mountReply.value()))
+        switch (static_cast<ISD::ParkStatus>(mountReply.value()))
         {
 //            case Mount::PARKING_OK:     // INDI switch ok, and parked
 //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
-              case ISD::Telescope::PARK_PARKED:
+              case ISD::PARK_PARKED:
                 return true;
 
 //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
@@ -5327,17 +5327,18 @@ bool Scheduler::isDomeParked()
 
 void Scheduler::parkCap()
 {
-    QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    DustCap::ParkingStatus status = static_cast<DustCap::ParkingStatus>(capReply.value());
+    // FIXME There is no method, only property and signal for this
+    QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "parkingStatus");
+    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(capReply.value());
 
     if (capReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(capReply.error().type()));
         if (!manageConnectionLoss())
-            status = DustCap::PARKING_ERROR;
+            status = ISD::PARK_ERROR;
     }
 
-    if (status != DustCap::PARKING_OK)
+    if (status != ISD::PARK_PARKED)
     {
         shutdownState = SHUTDOWN_PARKING_CAP;
         capInterface->call(QDBus::AutoDetect, "park");
@@ -5354,17 +5355,18 @@ void Scheduler::parkCap()
 
 void Scheduler::unParkCap()
 {
-    QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    DustCap::ParkingStatus status = static_cast<DustCap::ParkingStatus>(capReply.value());
+    // FIXME There is no method, only property and signal for this
+    QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "parkingStatus");
+    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(capReply.value());
 
     if (capReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(capReply.error().type()));
         if (!manageConnectionLoss())
-            status = DustCap::PARKING_ERROR;
+            status = ISD::PARK_ERROR;
     }
 
-    if (status != DustCap::UNPARKING_OK)
+    if (status != ISD::PARK_UNPARKED)
     {
         startupState = STARTUP_UNPARKING_CAP;
         capInterface->call(QDBus::AutoDetect, "unpark");
@@ -5384,19 +5386,20 @@ void Scheduler::checkCapParkingStatus()
     /* FIXME: move this elsewhere */
     static int parkingFailureCount = 0;
 
-    QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    DustCap::ParkingStatus status  = static_cast<DustCap::ParkingStatus>(capReply.value());
+    // FIXME There is no method, only property and signal for this
+    QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "parkingStatus");
+    ISD::ParkStatus status  = static_cast<ISD::ParkStatus>(capReply.value());
 
     if (capReply.error().type() != QDBusError::NoError)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(capReply.error().type()));
         if (!manageConnectionLoss())
-            status = DustCap::PARKING_ERROR;
+            status = ISD::PARK_ERROR;
     }
 
     switch (status)
     {
-        case DustCap::PARKING_OK:
+        case ISD::PARK_PARKED:
             if (shutdownState == SHUTDOWN_PARKING_CAP)
             {
                 appendLogText(i18n("Cap parked."));
@@ -5405,7 +5408,7 @@ void Scheduler::checkCapParkingStatus()
             parkingFailureCount = 0;
             break;
 
-        case DustCap::UNPARKING_OK:
+        case ISD::PARK_UNPARKED:
             if (startupState == STARTUP_UNPARKING_CAP)
             {
                 startupState = STARTUP_COMPLETE;
@@ -5414,15 +5417,15 @@ void Scheduler::checkCapParkingStatus()
             parkingFailureCount = 0;
             break;
 
-        case DustCap::PARKING_BUSY:
-        case DustCap::UNPARKING_BUSY:
+        case ISD::PARK_PARKING:
+        case ISD::PARK_UNPARKING:
             // TODO make the timeouts configurable by the user
             if (currentOperationTime.elapsed() > (60 * 1000))
             {
                 if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
                     appendLogText(i18n("Operation timeout. Restarting operation..."));
-                    if (status == DustCap::PARKING_BUSY)
+                    if (status == ISD::PARK_PARKING)
                         parkCap();
                     else
                         unParkCap();
@@ -5431,7 +5434,7 @@ void Scheduler::checkCapParkingStatus()
             }
             break;
 
-        case DustCap::PARKING_ERROR:
+        case ISD::PARK_ERROR:
             if (shutdownState == SHUTDOWN_PARKING_CAP)
             {
                 appendLogText(i18n("Cap parking error."));

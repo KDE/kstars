@@ -21,8 +21,8 @@
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::Status"/>
   </property>
   <property name="parkStatus" type="(i)" access="read">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::ParkStatus"/>
-  </property>    
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::ParkStatus"/>
+  </property>
     <method name="slew">
       <arg type="b" direction="out"/>
       <arg name="RA" type="d" direction="in"/>
@@ -54,5 +54,13 @@
     <method name="resetModel">
       <arg type="b" direction="out"/>
     </method>
+    <signal name="newStatus">
+        <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::Telescope::Status"/>
+    </signal>
+    <signal name="newParkStatus">
+        <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::ParkStatus"/>
+    </signal>
   </interface>
 </node>

@@ -27,6 +27,11 @@ class Dome : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Dome")
+    Q_PROPERTY(ISD::Dome::Status status READ status NOTIFY newStatus)
+    Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
+    Q_PROPERTY(bool canPark READ canPark)
+    Q_PROPERTY(bool canAbsoluteMove READ canAbsoluteMove)
+    Q_PROPERTY(double azimuthPosition READ azimuthPosition WRITE setAzimuthPosition NOTIFY azimuthPositionChanged)
 
   public:
     Dome();
@@ -55,6 +60,12 @@ class Dome : public QObject
 
     /**
      * DBUS interface function.
+     * Can dome move to an absolute azimuth position?
+     */
+    Q_SCRIPTABLE bool canAbsoluteMove();
+
+    /**
+     * DBUS interface function.
      * Park dome
      */
     Q_SCRIPTABLE bool park();
@@ -69,13 +80,17 @@ class Dome : public QObject
      * DBUS interface function.
      * Get the dome park status
      */
-    Q_SCRIPTABLE ParkingStatus getParkingStatus();
+    //Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
     /**
      * DBUS interface function.
      * Check if the dome is in motion
      */
     Q_SCRIPTABLE bool isMoving();
+
+
+    Q_SCRIPTABLE double azimuthPosition();
+    Q_SCRIPTABLE void setAzimuthPosition(double position);
 
     /** @}*/
 
@@ -91,8 +106,19 @@ class Dome : public QObject
      */
     void setTelescope(ISD::GDInterface *newTelescope);
 
+    ISD::Dome::Status status() { return m_Status; }
+    ISD::ParkStatus parkStatus() { return m_ParkStatus; }
+
+  signals:
+    void newStatus(ISD::Dome::Status status);
+    void newParkStatus(ISD::ParkStatus status);
+    void azimuthPositionChanged(double position);
+
   private:
     // Devices needed for Dome operation
-    ISD::Dome *currentDome;
+    ISD::Dome *currentDome { nullptr };
+
+    ISD::Dome::Status m_Status { ISD::Dome::DOME_IDLE };
+    ISD::ParkStatus m_ParkStatus { ISD::PARK_UNKNOWN };
 };
 }

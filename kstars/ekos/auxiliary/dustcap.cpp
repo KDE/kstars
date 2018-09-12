@@ -25,42 +25,57 @@ DustCap::DustCap()
 
 void DustCap::setDustCap(ISD::GDInterface *newDustCap)
 {
+    if (newDustCap == currentDustCap)
+        return;
+
     currentDustCap = static_cast<ISD::DustCap *>(newDustCap);
+
+    currentDustCap->disconnect(this);
+
+    connect(currentDustCap, &ISD::GDInterface::switchUpdated, this, &DustCap::processSwitch);
 }
 
-DustCap::ParkingStatus DustCap::getParkingStatus()
+void DustCap::processSwitch(ISwitchVectorProperty *svp)
 {
-    if (currentDustCap == nullptr)
-        return PARKING_ERROR;
+    if (strcmp(svp->name, "CAP_PARK"))
+        return;
 
-    ISwitchVectorProperty *parkSP = currentDustCap->getBaseDevice()->getSwitch("CAP_PARK");
+    ISD::ParkStatus newStatus;
 
-    if (parkSP == nullptr)
-        return PARKING_ERROR;
-
-    switch (parkSP->s)
+    switch (svp->s)
     {
-        case IPS_IDLE:
-            return PARKING_IDLE;
+    case IPS_IDLE:
+        if (svp->sp[0].s == ISS_ON)
+            newStatus = ISD::PARK_PARKED;
+        else if (svp->sp[1].s == ISS_ON)
+            newStatus = ISD::PARK_UNPARKED;
+        else
+            newStatus = ISD::PARK_UNKNOWN;
+        break;
 
-        case IPS_OK:
-            if (parkSP->sp[0].s == ISS_ON)
-                return PARKING_OK;
-            else
-                return UNPARKING_OK;
-            break;
+    case IPS_OK:
+        if (svp->sp[0].s == ISS_ON)
+            newStatus = ISD::PARK_PARKED;
+        else
+            newStatus = ISD::PARK_UNPARKED;
+        break;
 
-        case IPS_BUSY:
-            if (parkSP->sp[0].s == ISS_ON)
-                return PARKING_BUSY;
-            else
-                return UNPARKING_BUSY;
+    case IPS_BUSY:
+        if (svp->sp[0].s == ISS_ON)
+            newStatus = ISD::PARK_PARKING;
+        else
+            newStatus = ISD::PARK_UNPARKING;
+        break;
 
-        case IPS_ALERT:
-            return PARKING_ERROR;
+    case IPS_ALERT:
+        newStatus = ISD::PARK_ERROR;
     }
 
-    return PARKING_ERROR;
+    if (newStatus != m_ParkStatus)
+    {
+        m_ParkStatus = newStatus;
+        emit newParkStatus(newStatus);
+    }
 }
 
 bool DustCap::park()

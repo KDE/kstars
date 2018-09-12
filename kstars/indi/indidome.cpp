@@ -11,6 +11,7 @@
 #include <KActionCollection>
 #include <KNotification>
 #include <QAction>
+#include <QtDBus/qdbusmetatype.h>
 
 #include "indidome.h"
 #include "kstars.h"
@@ -19,11 +20,20 @@
 namespace ISD
 {
 
+Dome::Dome(GDInterface *iPtr) : DeviceDecorator(iPtr)
+{
+    dType = KSTARS_DOME;
+    qRegisterMetaType<ISD::Dome::Status>("ISD::Dome::Status");
+    qDBusRegisterMetaType<ISD::Dome::Status>();
+}
+
 void Dome::registerProperty(INDI::Property *prop)
 {
     if (!strcmp(prop->getName(), "DOME_PARK"))
     {
         ISwitchVectorProperty *svp = prop->getSwitch();
+
+        m_CanPark = true;
 
         if (svp)
         {
@@ -32,7 +42,8 @@ void Dome::registerProperty(INDI::Property *prop)
             {
                 if ((sp->s == ISS_ON) && svp->s == IPS_OK)
                 {
-                    parkStatus = PARK_PARKED;
+                    m_ParkStatus = PARK_PARKED;
+                    emit newParkStatus(m_ParkStatus);
 
                     QAction *parkAction = KStars::Instance()->actionCollection()->action("dome_park");
                     if (parkAction)
@@ -43,7 +54,8 @@ void Dome::registerProperty(INDI::Property *prop)
                 }
                 else if ((sp->s == ISS_OFF) && svp->s == IPS_OK)
                 {
-                    parkStatus = PARK_UNPARKED;
+                    m_ParkStatus = PARK_UNPARKED;
+                    emit newParkStatus(m_ParkStatus);
 
                     QAction *parkAction = KStars::Instance()->actionCollection()->action("dome_park");
                     if (parkAction)
@@ -54,6 +66,10 @@ void Dome::registerProperty(INDI::Property *prop)
                 }
             }
         }
+    }
+    else if (!strcmp(prop->getName(), "ABS_DOME_POSITION"))
+    {
+        m_CanAbsMove = true;
     }
 
     DeviceDecorator::registerProperty(prop);
@@ -66,6 +82,11 @@ void Dome::processLight(ILightVectorProperty *lvp)
 
 void Dome::processNumber(INumberVectorProperty *nvp)
 {
+    if (!strcmp(nvp->name, "ABS_DOME_POSITION"))
+    {
+        emit azimuthPositionChanged(nvp->np[0].value);
+    }
+
     DeviceDecorator::processNumber(nvp);
 }
 
@@ -81,6 +102,9 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
             else if (isConnected() && conSP->s == ISS_OFF)
             {
                 KStars::Instance()->slotSetDomeEnabled(false);
+
+                m_CanAbsMove = false;
+                m_CanPark = false;
             }
         }
     }
@@ -91,28 +115,47 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
         {
             if (svp->s == IPS_ALERT)
             {
+                emit newParkStatus(PARK_ERROR);
+
                 // If alert, set park status to whatever it was opposite to. That is, if it was parking and failed
                 // then we set status to unparked since it did not successfully complete parking.
-                if (parkStatus == PARK_PARKING)
-                    parkStatus = PARK_UNPARKED;
-                else if (parkStatus == PARK_UNPARKING)
-                    parkStatus = PARK_PARKED;
+                if (m_ParkStatus == PARK_PARKING)
+                    m_ParkStatus = PARK_UNPARKED;
+                else if (m_ParkStatus == PARK_UNPARKING)
+                    m_ParkStatus = PARK_PARKED;
+
+                emit newParkStatus(m_ParkStatus);
 
             }
-            else if (svp->s == IPS_BUSY && sp->s == ISS_ON && parkStatus != PARK_PARKING)
+            else if (svp->s == IPS_BUSY && sp->s == ISS_ON && m_ParkStatus != PARK_PARKING)
             {
-                parkStatus = PARK_PARKING;
+                m_ParkStatus = PARK_PARKING;
                 KNotification::event(QLatin1String("DomeParking"), i18n("Dome parking is in progress"));
+                emit newParkStatus(m_ParkStatus);
+
+                if (m_Status != DOME_PARKING)
+                {
+                    m_Status = DOME_PARKING;
+                    emit newStatus(m_Status);
+                }
             }
-            else if (svp->s == IPS_BUSY && sp->s == ISS_OFF && parkStatus != PARK_UNPARKING)
+            else if (svp->s == IPS_BUSY && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKING)
             {
-                parkStatus = PARK_UNPARKING;
+                m_ParkStatus = PARK_UNPARKING;
                 KNotification::event(QLatin1String("DomeUnparking"), i18n("Dome unparking is in progress"));
+                emit newParkStatus(m_ParkStatus);
+
+                if (m_Status != DOME_UNPARKING)
+                {
+                    m_Status = DOME_UNPARKING;
+                    emit newStatus(m_Status);
+                }
             }
-            else if (svp->s == IPS_OK && sp->s == ISS_ON && parkStatus != PARK_PARKED)
+            else if (svp->s == IPS_OK && sp->s == ISS_ON && m_ParkStatus != PARK_PARKED)
             {
-                parkStatus = PARK_PARKED;
+                m_ParkStatus = PARK_PARKED;
                 KNotification::event(QLatin1String("DomeParked"), i18n("Dome parked"));
+                emit newParkStatus(m_ParkStatus);
 
                 QAction *parkAction = KStars::Instance()->actionCollection()->action("dome_park");
                 if (parkAction)
@@ -120,10 +163,17 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
                 QAction *unParkAction = KStars::Instance()->actionCollection()->action("dome_unpark");
                 if (unParkAction)
                     unParkAction->setEnabled(true);
+
+                if (m_Status != DOME_PARKED)
+                {
+                    m_Status = DOME_PARKED;
+                    emit newStatus(m_Status);
+                }
+
             }
-            else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && parkStatus != PARK_UNPARKED)
+            else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKED)
             {
-                parkStatus = PARK_UNPARKED;
+                m_ParkStatus = PARK_UNPARKED;
                 KNotification::event(QLatin1String("DomeUnparked"), i18n("Dome unparked"));
 
                 QAction *parkAction = KStars::Instance()->actionCollection()->action("dome_park");
@@ -132,7 +182,35 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
                 QAction *unParkAction = KStars::Instance()->actionCollection()->action("dome_unpark");
                 if (unParkAction)
                     unParkAction->setEnabled(false);
+
+                emit newParkStatus(m_ParkStatus);
+
+                if (m_Status != DOME_IDLE)
+                {
+                    m_Status = DOME_IDLE;
+                    emit newStatus(m_Status);
+                }
             }
+        }
+    }
+    else if (!strcmp(svp->name, "DOME_MOTION"))
+    {
+        Status lastStatus = m_Status;
+
+        if (svp->s == IPS_BUSY && lastStatus != DOME_MOVING)
+        {
+            m_Status = DOME_MOVING;
+            emit newStatus(m_Status);
+        }
+        else if (svp->s == IPS_OK && lastStatus == DOME_MOVING)
+        {
+            m_Status = DOME_TRACKING;
+            emit newStatus(m_Status);
+        }
+        else if (svp->s == IPS_IDLE && lastStatus != DOME_IDLE)
+        {
+            m_Status = DOME_IDLE;
+            emit newStatus(m_Status);
         }
     }
 
@@ -144,21 +222,9 @@ void Dome::processText(ITextVectorProperty *tvp)
     DeviceDecorator::processText(tvp);
 }
 
-bool Dome::canPark()
-{
-    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("DOME_PARK");
-
-    if (parkSP == nullptr)
-        return false;
-
-    ISwitch *parkSW = IUFindSwitch(parkSP, "PARK");
-
-    return (parkSW != nullptr);
-}
-
 bool Dome::Abort()
 {
-    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_ABORT_MOTION");
+    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("DOME_ABORT_MOTION");
 
     if (motionSP == nullptr)
         return false;
@@ -221,4 +287,45 @@ bool Dome::isMoving()
 
     return false;
 }
+
+double Dome::azimuthPosition()
+{
+    INumberVectorProperty *az = baseDevice->getNumber("ABS_DOME_POSITION");
+
+    if (az == nullptr)
+        return -1;
+    else
+        return az->np[0].value;
+}
+
+bool Dome::setAzimuthPosition(double position)
+{
+    INumberVectorProperty *az = baseDevice->getNumber("ABS_DOME_POSITION");
+
+    if (az == nullptr)
+        return false;
+
+    az->np[0].value = position;
+    clientManager->sendNewNumber(az);
+    return true;
+}
+
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Dome::Status& source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Dome::Status &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+    dest = static_cast<ISD::Dome::Status>(a);
+    return argument;
 }

@@ -1,12 +1,9 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.DustCap">
-    <method name="getParkingStatus">
-        <arg type="i" direction="out"/>
-    </method>
-    <method name="canPark">
-        <arg type="b" direction="out"/>
-    </method>
+  <property name="parkStatus" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::ParkStatus"/>
+  </property>
     <method name="park">
         <arg type="b" direction="out"/>
     </method>
@@ -24,5 +21,9 @@
         <arg type="i" direction="in"/>
         <arg type="b" direction="out"/>
     </method>
+    <signal name="newParkStatus">
+        <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::ParkStatus"/>
+    </signal>
   </interface>
 </node>

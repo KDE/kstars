@@ -40,10 +40,7 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     connect(centerLockTimer, &QTimer::timeout, this, [this]() { runCommand(INDI_CENTER_LOCK); });
 
     qRegisterMetaType<ISD::Telescope::Status>("ISD::Telescope::Status");
-    qDBusRegisterMetaType<ISD::Telescope::Status>();
-
-    qRegisterMetaType<ISD::Telescope::ParkStatus>("ISD::Telescope::ParkStatus");
-    qDBusRegisterMetaType<ISD::Telescope::ParkStatus>();
+    qDBusRegisterMetaType<ISD::Telescope::Status>();    
 }
 
 void Telescope::registerProperty(INDI::Property *prop)
@@ -1293,24 +1290,6 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::S
     argument >> a;
     argument.endStructure();
     dest = static_cast<ISD::Telescope::Status>(a);
-    return argument;
-}
-
-QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Telescope::ParkStatus& source)
-{
-    argument.beginStructure();
-    argument << static_cast<int>(source);
-    argument.endStructure();
-    return argument;
-}
-
-const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::ParkStatus &dest)
-{
-    int a;
-    argument.beginStructure();
-    argument >> a;
-    argument.endStructure();
-    dest = static_cast<ISD::Telescope::ParkStatus>(a);
     return argument;
 }
 

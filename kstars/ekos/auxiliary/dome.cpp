@@ -29,7 +29,16 @@ Dome::Dome()
 
 void Dome::setDome(ISD::GDInterface *newDome)
 {
+    if (newDome == currentDome)
+        return;
+
     currentDome = static_cast<ISD::Dome *>(newDome);
+
+    currentDome->disconnect(this);
+
+    connect(currentDome, &ISD::Dome::newStatus, this, &Dome::newStatus);
+    connect(currentDome, &ISD::Dome::newParkStatus, this, &Dome::newParkStatus);
+    connect(currentDome, &ISD::Dome::azimuthPositionChanged, this, &Dome::azimuthPositionChanged);
 }
 
 void Dome::setTelescope(ISD::GDInterface *newTelescope)
@@ -89,6 +98,28 @@ bool Dome::isMoving()
     return currentDome->isMoving();
 }
 
+bool Dome::canAbsoluteMove()
+{
+    if (currentDome)
+        return currentDome->canAbsMove();
+
+    return false;
+}
+
+double Dome::azimuthPosition()
+{
+    if (currentDome)
+        return currentDome->azimuthPosition();
+    return -1;
+}
+
+void Dome::setAzimuthPosition(double position)
+{
+    if (currentDome)
+        currentDome->setAzimuthPosition(position);
+}
+
+#if 0
 Dome::ParkingStatus Dome::getParkingStatus()
 {
     if (currentDome == nullptr || currentDome->canPark() == false)
@@ -109,7 +140,6 @@ Dome::ParkingStatus Dome::getParkingStatus()
                 return PARKING_OK;
             else
                 return UNPARKING_OK;
-            break;
 
         case IPS_BUSY:
             if (parkSP->sp[0].s == ISS_ON)
@@ -123,4 +153,5 @@ Dome::ParkingStatus Dome::getParkingStatus()
 
     return PARKING_ERROR;
 }
+#endif
 }
