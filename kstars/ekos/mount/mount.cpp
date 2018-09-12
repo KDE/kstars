@@ -48,10 +48,7 @@ namespace Ekos
 {
 Mount::Mount()
 {
-    setupUi(this);
-
-    qRegisterMetaType<Ekos::MountState>("Ekos::MountState");
-    qDBusRegisterMetaType<Ekos::MountState>();
+    setupUi(this);    
 
     new MountAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount", this);
@@ -725,10 +722,10 @@ QList<double> Mount::altitudeLimits()
     return limits;
 }
 
-void Mount::setAltitudeLimits(double minAltitude, double maxAltitude)
+void Mount::setAltitudeLimits(QList<double> limits)
 {
-    minAltLimit->setValue(minAltitude);
-    maxAltLimit->setValue(maxAltitude);
+    minAltLimit->setValue(limits[0]);
+    maxAltLimit->setValue(limits[1]);
 }
 
 void Mount::setAltitudeLimitsEnabled(bool enable)

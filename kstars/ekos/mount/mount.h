@@ -82,8 +82,9 @@ class Mount : public QWidget, public Ui::Mount
 
     /** DBUS interface function.
          * Sets the mount altitude limits, and whether they are enabled or disabled.
+         * @param limits is a list of double values. 2 values are expected: minAltitude & maxAltitude
          */
-    Q_SCRIPTABLE Q_NOREPLY void setAltitudeLimits(double minAltitude, double maxAltitude);
+    Q_SCRIPTABLE Q_NOREPLY void setAltitudeLimits(QList<double> limits);
 
     /** DBUS interface function.
          * Enable or disable mount altitude limits.
