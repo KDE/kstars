@@ -22,19 +22,7 @@
   </property>
   <property name="parkStatus" type="(i)" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::ParkStatus"/>
-  </property>
-    <method name="getAltitudeLimits">
-    <arg type="ad" direction="out"/>
-    <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
-    </method>   
-    <method name="setAltitudeLimits">
-      <arg name="minAltitude" type="d" direction="in"/>
-      <arg name="maxAltitude" type="d" direction="in"/>
-      <arg name="enabled" type="b" direction="in"/>
-    </method>
-     <method name="isLimitsEnabled">
-      <arg type="b" direction="out"/>
-    </method>    
+  </property>    
     <method name="slew">
       <arg type="b" direction="out"/>
       <arg name="RA" type="d" direction="in"/>

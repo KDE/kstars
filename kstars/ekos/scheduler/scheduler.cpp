@@ -4915,7 +4915,7 @@ void Scheduler::parkMount()
 
 //        case Mount::PARKING_IDLE:
 //        case Mount::UNPARKING_OK:
-//        case Mount::PARKING_ERROR:
+          case ISD::Telescope::PARK_ERROR:
           case ISD::Telescope::PARK_UNKNOWN:
           case ISD::Telescope::PARK_UNPARKED:
             {
@@ -4976,6 +4976,7 @@ void Scheduler::unParkMount()
 //        case Mount::PARKING_IDLE:
 //        case Mount::PARKING_OK:
 //        case Mount::PARKING_ERROR:
+          case ISD::Telescope::PARK_ERROR:
           case ISD::Telescope::PARK_UNKNOWN:
           case ISD::Telescope::PARK_PARKED:
             {
