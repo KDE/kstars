@@ -5430,7 +5430,7 @@ bool Align::calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, 
     return true;
 }
 
-void Align::setMountStatus(ISD::Telescope::TelescopeStatus newState)
+void Align::setMountStatus(ISD::Telescope::Status newState)
 {
     switch (newState)
     {

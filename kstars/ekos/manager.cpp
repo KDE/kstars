@@ -1150,7 +1150,7 @@ void Manager::setTelescope(ISD::GDInterface *scopeDevice)
     double primaryScopeFL=0, primaryScopeAperture=0, guideScopeFL=0, guideScopeAperture=0;
     getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
     // Save telescope info in mount driver
-    mountProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+    mountProcess->setTelescopeInfo(QList<double>() << primaryScopeFL << primaryScopeAperture << guideScopeFL << guideScopeAperture);
 
     if (guideProcess.get() != nullptr)
     {
@@ -2288,9 +2288,9 @@ void Manager::updateProfileLocation(ProfileInfo *pi)
     }
 }
 
-void Manager::updateMountStatus(ISD::Telescope::TelescopeStatus status)
+void Manager::updateMountStatus(ISD::Telescope::Status status)
 {
-    static ISD::Telescope::TelescopeStatus lastStatus = ISD::Telescope::MOUNT_IDLE;
+    static ISD::Telescope::Status lastStatus = ISD::Telescope::MOUNT_IDLE;
 
     if (status == lastStatus)
         return;

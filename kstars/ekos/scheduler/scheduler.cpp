@@ -46,6 +46,9 @@ Scheduler::Scheduler()
 {
     setupUi(this);
 
+    qRegisterMetaType<Ekos::SchedulerState>("Ekos::SchedulerState");
+    qDBusRegisterMetaType<Ekos::SchedulerState>();
+
     new SchedulerAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler", this);
 
@@ -83,7 +86,9 @@ Scheduler::Scheduler()
     capInterface     = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/DustCap", "org.kde.kstars.Ekos.DustCap",
                                       QDBusConnection::sessionBus(), this);
 
+    // Example of connecting DBus signals
     connect(ekosInterface, SIGNAL(indiStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setINDICommunicationStatus(Ekos::CommunicationStatus)));
+    connect(ekosInterface, SIGNAL(ekosStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setEkosCommunicationStatus(Ekos::CommunicationStatus)));
 
     moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName("Moon"));
 
@@ -258,11 +263,11 @@ void Scheduler::watchJobChanges(bool enable)
         for (auto * const control: dateEdits)
             connect(control, &QDateTimeEdit::editingFinished, this, [this](){setDirty();});
         for (auto * const control: comboBoxes)
-            connect(control, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int){setDirty();});
+            connect(control, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](){setDirty();});
         for (auto * const control: buttonGroups)
             connect(control, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, [this](int, bool){setDirty();});
         for (auto * const control: spinBoxes)
-            connect(control, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int){setDirty();});
+            connect(control, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](){setDirty();});
         for (auto * const control: dspinBoxes)
             connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [this](double){setDirty();});
     }
@@ -294,21 +299,21 @@ void Scheduler::appendLogText(const QString &text)
 {
     /* FIXME: user settings for log length */
     int const max_log_count = 2000;
-    if (logText.size() > max_log_count)
-        logText.removeLast();
+    if (m_LogText.size() > max_log_count)
+        m_LogText.removeLast();
 
-    logText.prepend(i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+    m_LogText.prepend(i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                           QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << text;
 
-    emit newLog();
+    emit newLog(text);
 }
 
 void Scheduler::clearLog()
 {
-    logText.clear();
-    emit newLog();
+    m_LogText.clear();
+    emit newLog(QString());
 }
 
 void Scheduler::selectObject()
@@ -649,44 +654,44 @@ void Scheduler::saveJob()
 
     /* FIXME: Move part of the new job cell-wiring to setJobStatusCells */
 
-    QTableWidgetItem *nameCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_NAME) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, (int)SCHEDCOL_NAME, nameCell);
+    QTableWidgetItem *nameCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_NAME)) : new QTableWidgetItem();
+    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_NAME), nameCell);
     nameCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     nameCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setNameCell(nameCell);
 
-    QTableWidgetItem *statusCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_STATUS) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, (int)SCHEDCOL_STATUS, statusCell);
+    QTableWidgetItem *statusCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_STATUS)) : new QTableWidgetItem();
+    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_STATUS), statusCell);
     statusCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     statusCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setStatusCell(statusCell);
 
-    QTableWidgetItem *captureCount = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_CAPTURES) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, (int)SCHEDCOL_CAPTURES, captureCount);
+    QTableWidgetItem *captureCount = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_CAPTURES)) : new QTableWidgetItem();
+    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_CAPTURES), captureCount);
     captureCount->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     captureCount->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setCaptureCountCell(captureCount);
 
-    QTableWidgetItem *scoreValue = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_SCORE) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, (int)SCHEDCOL_SCORE, scoreValue);
+    QTableWidgetItem *scoreValue = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_SCORE)) : new QTableWidgetItem();
+    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_SCORE), scoreValue);
     scoreValue->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     scoreValue->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setScoreCell(scoreValue);
 
-    QTableWidgetItem *startupCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_STARTTIME) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, (int)SCHEDCOL_STARTTIME, startupCell);
+    QTableWidgetItem *startupCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_STARTTIME)) : new QTableWidgetItem();
+    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_STARTTIME), startupCell);
     startupCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     startupCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setStartupCell(startupCell);
 
-    QTableWidgetItem *completionCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_ENDTIME) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, (int)SCHEDCOL_ENDTIME, completionCell);
+    QTableWidgetItem *completionCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_ENDTIME)) : new QTableWidgetItem();
+    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_ENDTIME), completionCell);
     completionCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     completionCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setCompletionCell(completionCell);
 
-    QTableWidgetItem *estimatedTimeCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, (int)SCHEDCOL_DURATION) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, (int)SCHEDCOL_DURATION, estimatedTimeCell);
+    QTableWidgetItem *estimatedTimeCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_DURATION)) : new QTableWidgetItem();
+    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_DURATION), estimatedTimeCell);
     estimatedTimeCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     estimatedTimeCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setEstimatedTimeCell(estimatedTimeCell);
@@ -949,13 +954,13 @@ void Scheduler::setJobStatusCells(int row)
 
     SchedulerJob * const job = jobs.at(row);
 
-    job->setNameCell(queueTable->item(row, (int)SCHEDCOL_NAME));
-    job->setStatusCell(queueTable->item(row, (int)SCHEDCOL_STATUS));
-    job->setCaptureCountCell(queueTable->item(row, (int)SCHEDCOL_CAPTURES));
-    job->setScoreCell(queueTable->item(row, (int)SCHEDCOL_SCORE));
-    job->setStartupCell(queueTable->item(row, (int)SCHEDCOL_STARTTIME));
-    job->setCompletionCell(queueTable->item(row, (int)SCHEDCOL_ENDTIME));
-    job->setEstimatedTimeCell(queueTable->item(row, (int)SCHEDCOL_DURATION));
+    job->setNameCell(queueTable->item(row, static_cast<int>(SCHEDCOL_NAME)));
+    job->setStatusCell(queueTable->item(row, static_cast<int>(SCHEDCOL_STATUS)));
+    job->setCaptureCountCell(queueTable->item(row, static_cast<int>(SCHEDCOL_CAPTURES)));
+    job->setScoreCell(queueTable->item(row, static_cast<int>(SCHEDCOL_SCORE)));
+    job->setStartupCell(queueTable->item(row, static_cast<int>(SCHEDCOL_STARTTIME)));
+    job->setCompletionCell(queueTable->item(row, static_cast<int>(SCHEDCOL_ENDTIME)));
+    job->setEstimatedTimeCell(queueTable->item(row, static_cast<int>(SCHEDCOL_DURATION)));
 }
 
 void Scheduler::resetJobEdit()
@@ -1073,6 +1078,7 @@ void Scheduler::stop()
     jobTimer.stop();
 
     state     = SCHEDULER_IDLE;
+    emit newStatus(state);
     ekosState = EKOS_IDLE;
     indiState = INDI_IDLE;
 
@@ -1193,6 +1199,7 @@ void Scheduler::start()
             /* Reset and re-evaluate all scheduler jobs, then start the Scheduler */
             startJobEvaluation();
             state = SCHEDULER_RUNNIG;
+            emit newStatus(state);
             schedulerTimer.start();
 
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler started.";
@@ -1207,6 +1214,7 @@ void Scheduler::start()
 
             /* The end-user cannot update the schedule, don't re-evaluate jobs. Timer schedulerTimer is already running. */
             state = SCHEDULER_RUNNIG;
+            emit newStatus(state);
 
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler paused.";
             break;
@@ -1218,6 +1226,7 @@ void Scheduler::start()
 void Scheduler::pause()
 {
     state = SCHEDULER_PAUSED;
+    emit newStatus(state);
     appendLogText(i18n("Scheduler paused."));
     pauseB->setEnabled(false);
 
@@ -1308,7 +1317,6 @@ void Scheduler::evaluateJobs()
 
             /* Else evaluate */
             case SchedulerJob::JOB_EVALUATION:
-            default:
                 break;
         }
 
@@ -1649,7 +1657,7 @@ void Scheduler::evaluateJobs()
 
         qCDebug(KSTARS_EKOS_SCHEDULER) << "Examining job" << job->getName() << "starting at" << job->getStartupTime().toString(job->getDateTimeDisplayFormat());
 
-        double timeBetweenJobs = (double)std::abs(firstStartTime.secsTo(job->getStartupTime()));
+        double timeBetweenJobs = static_cast<double>(std::abs(firstStartTime.secsTo(job->getStartupTime())));
 
         qCDebug(KSTARS_EKOS_SCHEDULER) << "Job starts in" << timeBetweenJobs << "seconds (lead time" << Options::leadTime()*60 << ")";
 
@@ -1898,7 +1906,7 @@ void Scheduler::checkWeather()
     QDBusReply<int> weatherReply = weatherInterface->call(QDBus::AutoDetect, "getWeatherStatus");
     if (weatherReply.error().type() == QDBusError::NoError)
     {
-        newStatus = (IPState)weatherReply.value();
+        newStatus = static_cast<IPState>(weatherReply.value());
 
         switch (newStatus)
         {
@@ -2282,7 +2290,7 @@ void Scheduler::executeJob(SchedulerJob *job)
         // Warn the user if the next job is really far away - 60/5 = 12 times the lead time
         if (nextObservationTime > Options::leadTime() * 60 * 12)
         {
-            dms delay((double) nextObservationTime * 15.0 / 3600.0);
+            dms delay(static_cast<double>(nextObservationTime * 15.0 / 3600.0));
             appendLogText(i18n(
                         "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive Shutdown.",
                         currentJob->getName(), delay.toHMSString()));
@@ -2356,8 +2364,7 @@ bool Scheduler::checkEkosState()
 
                 return false;
             }
-        }
-        break;
+        }        
 
         case EKOS_STARTING:
         {
@@ -2413,8 +2420,7 @@ bool Scheduler::checkEkosState()
         break;
 
         case EKOS_READY:
-            return true;
-            break;
+            return true;            
     }
 
     return false;
@@ -2463,8 +2469,7 @@ bool Scheduler::checkINDIState()
 
                 return false;
             }
-        }
-        break;
+        }        
 
         case INDI_CONNECTING:
         {
@@ -2504,8 +2509,7 @@ bool Scheduler::checkINDIState()
             }
             else
                 return false;
-        }
-        break;
+        }        
 
         case INDI_DISCONNECTING:
         {
@@ -2566,8 +2570,7 @@ bool Scheduler::checkINDIState()
 
             indiState = INDI_READY;
             return true;
-        }
-        break;
+        }        
 
         case INDI_READY:
             return true;
@@ -2623,12 +2626,10 @@ bool Scheduler::checkStartupState()
 
             startupState = STARTUP_UNPARK_DOME;
             return false;
-        }
-        break;
+        }        
 
         case STARTUP_SCRIPT:
             return false;
-            break;
 
         case STARTUP_UNPARK_DOME:
             // If there is no job in case of manual startup procedure,
@@ -2680,8 +2681,7 @@ bool Scheduler::checkStartupState()
 
         case STARTUP_ERROR:
             stop();
-            return true;
-            break;
+            return true;            
     }
 
     return false;
@@ -2757,8 +2757,7 @@ bool Scheduler::checkShutdownState()
             }
 
             shutdownState = SHUTDOWN_COMPLETE;
-            return true;
-            break;
+            return true;            
 
         case SHUTDOWN_PARK_CAP:
             if (!isINDIConnected())
@@ -2833,8 +2832,7 @@ bool Scheduler::checkShutdownState()
 
         case SHUTDOWN_ERROR:
             stop();
-            return true;
-            break;
+            return true;            
     }
 
     return false;
@@ -2877,8 +2875,7 @@ bool Scheduler::checkParkWaitState()
         case PARKWAIT_ERROR:
             appendLogText(i18n("park/unpark wait procedure failed, aborting..."));
             stop();
-            return true;
-            break;
+            return true;            
     }
 
     return false;
@@ -3663,7 +3660,7 @@ void Scheduler::load()
     if (fileURL.isValid() == false)
     {
         QString message = i18n("Invalid URL: %1", fileURL.toLocalFile());
-        KMessageBox::sorry(0, message, i18n("Invalid URL"));
+        KMessageBox::sorry(nullptr, message, i18n("Invalid URL"));
         return;
     }
 
@@ -3682,7 +3679,7 @@ bool Scheduler::loadScheduler(const QString &fileURL)
     if (!sFile.open(QIODevice::ReadOnly))
     {
         QString message = i18n("Unable to open file %1", fileURL);
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
         return false;
     }
 
@@ -3982,7 +3979,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
     if (!file.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Unable to write to file %1", fileURL.toLocalFile());
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
         return false;
     }
 
@@ -4893,7 +4890,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
 void Scheduler::parkMount()
 {
-    QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    // FIXME there is no method, just property
+    QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "parkingStatus");
 
     if (mountReply.error().type() != QDBusError::NoError)
     {
@@ -4901,9 +4899,9 @@ void Scheduler::parkMount()
         if (!manageConnectionLoss())
             parkWaitState = PARKWAIT_ERROR;
     }
-    else switch ((Mount::ParkingStatus) mountReply.value())
+    else switch (static_cast<ISD::Telescope::ParkStatus>(mountReply.value()))
     {
-        case Mount::PARKING_OK:
+        case ISD::Telescope::PARK_PARKED:
             if (shutdownState == SHUTDOWN_PARK_MOUNT)
                 shutdownState = SHUTDOWN_PARK_DOME;
 
@@ -4911,12 +4909,15 @@ void Scheduler::parkMount()
             appendLogText(i18n("Mount already parked."));
             break;
 
-        case Mount::UNPARKING_BUSY:
+        case ISD::Telescope::PARK_UNPARKING:
+        //case Mount::UNPARKING_BUSY:
             /* FIXME: Handle the situation where we request parking but an unparking procedure is running. */
 
-        case Mount::PARKING_IDLE:
-        case Mount::UNPARKING_OK:
-        case Mount::PARKING_ERROR:
+//        case Mount::PARKING_IDLE:
+//        case Mount::UNPARKING_OK:
+//        case Mount::PARKING_ERROR:
+          case ISD::Telescope::PARK_UNKNOWN:
+          case ISD::Telescope::PARK_UNPARKED:
             {
                 QDBusReply<bool> const mountReply = mountInterface->call(QDBus::AutoDetect, "park");
 
@@ -4930,7 +4931,8 @@ void Scheduler::parkMount()
             }
 
             // Fall through
-        case Mount::PARKING_BUSY:
+    case ISD::Telescope::PARK_PARKING:
+        //case Mount::PARKING_BUSY:
             if (shutdownState == SHUTDOWN_PARK_MOUNT)
                 shutdownState = SHUTDOWN_PARKING_MOUNT;
 
@@ -4938,14 +4940,17 @@ void Scheduler::parkMount()
             appendLogText(i18n("Parking mount in progress..."));
             break;
 
-        default:
-            qCWarning(KSTARS_EKOS_SCHEDULER) << QString("BUG: Parking state %1 not managed while parking mount.").arg(mountReply.value());
+        // All cases covered above so no need for default
+        //default:
+        //    qCWarning(KSTARS_EKOS_SCHEDULER) << QString("BUG: Parking state %1 not managed while parking mount.").arg(mountReply.value());
     }
 }
 
 void Scheduler::unParkMount()
 {
-    QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    // FIXME use signal/slot
+    // FIXME there is no method, must use property
+    QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "parkingStatus");
 
     if (mountReply.error().type() != QDBusError::NoError)
     {
@@ -4953,9 +4958,10 @@ void Scheduler::unParkMount()
         if (!manageConnectionLoss())
             parkWaitState = PARKWAIT_ERROR;
     }
-    else switch ((Mount::ParkingStatus) mountReply.value())
+    else switch (static_cast<ISD::Telescope::ParkStatus>(mountReply.value()))
     {
-        case Mount::UNPARKING_OK:
+        //case Mount::UNPARKING_OK:
+          case ISD::Telescope::PARK_UNPARKED:
             if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARK_CAP;
 
@@ -4963,12 +4969,15 @@ void Scheduler::unParkMount()
             appendLogText(i18n("Mount already unparked."));
             break;
 
-        case Mount::PARKING_BUSY:
+        //case Mount::PARKING_BUSY:
+         case ISD::Telescope::PARK_PARKING:
             /* FIXME: Handle the situation where we request unparking but a parking procedure is running. */
 
-        case Mount::PARKING_IDLE:
-        case Mount::PARKING_OK:
-        case Mount::PARKING_ERROR:
+//        case Mount::PARKING_IDLE:
+//        case Mount::PARKING_OK:
+//        case Mount::PARKING_ERROR:
+          case ISD::Telescope::PARK_UNKNOWN:
+          case ISD::Telescope::PARK_PARKED:
             {
                 QDBusReply<bool> const mountReply = mountInterface->call(QDBus::AutoDetect, "unpark");
 
@@ -4982,7 +4991,8 @@ void Scheduler::unParkMount()
             }
 
             // Fall through
-        case Mount::UNPARKING_BUSY:
+        //case Mount::UNPARKING_BUSY:
+        case ISD::Telescope::PARK_UNPARKING:
             if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARKING_MOUNT;
 
@@ -4990,15 +5000,17 @@ void Scheduler::unParkMount()
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Unparking mount in progress...";
             break;
 
-        default:
-            qCWarning(KSTARS_EKOS_SCHEDULER) << QString("BUG: Parking state %1 not managed while unparking mount.").arg(mountReply.value());
+        // All cases covered above
+        //default:
+        //    qCWarning(KSTARS_EKOS_SCHEDULER) << QString("BUG: Parking state %1 not managed while unparking mount.").arg(mountReply.value());
     }
 }
 
 void Scheduler::checkMountParkingStatus()
 {
     static int parkingFailureCount = 0;
-    QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    // FIXME there is no method, must use property
+    QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "parkingStatus");
 
     if (mountReply.error().type() != QDBusError::NoError)
     {
@@ -5006,9 +5018,10 @@ void Scheduler::checkMountParkingStatus()
         if (!manageConnectionLoss())
             parkWaitState = PARKWAIT_ERROR;
     }
-    else switch ((Mount::ParkingStatus)mountReply.value())
+    else switch (static_cast<ISD::Telescope::ParkStatus>(mountReply.value()))
     {
-        case Mount::PARKING_OK:
+        //case Mount::PARKING_OK:
+        case ISD::Telescope::PARK_PARKED:
             // If we are starting up, we will unpark the mount in checkParkWaitState soon
             // If we are shutting down and mount is parked, proceed to next step
             if (shutdownState == SHUTDOWN_PARKING_MOUNT)
@@ -5022,7 +5035,8 @@ void Scheduler::checkMountParkingStatus()
             parkingFailureCount = 0;
             break;
 
-        case Mount::UNPARKING_OK:
+        //case Mount::UNPARKING_OK:
+          case ISD::Telescope::PARK_UNPARKED:
             // If we are starting up and mount is unparked, proceed to next step
             // If we are shutting down, we will park the mount in checkParkWaitState soon
             if (startupState == STARTUP_UNPARKING_MOUNT)
@@ -5038,7 +5052,8 @@ void Scheduler::checkMountParkingStatus()
 
         // FIXME: Create an option for the parking/unparking timeout.
 
-        case Mount::UNPARKING_BUSY:
+        //case Mount::UNPARKING_BUSY:
+          case ISD::Telescope::PARK_UNPARKING:
             if (currentOperationTime.elapsed() > (60 * 1000))
             {
                 if (++parkingFailureCount < MAX_FAILURE_ATTEMPTS)
@@ -5056,7 +5071,8 @@ void Scheduler::checkMountParkingStatus()
 
             break;
 
-        case Mount::PARKING_BUSY:
+        //case Mount::PARKING_BUSY:
+          case ISD::Telescope::PARK_PARKING:
             if (currentOperationTime.elapsed() > (60 * 1000))
             {
                 if (++parkingFailureCount < MAX_FAILURE_ATTEMPTS)
@@ -5074,7 +5090,8 @@ void Scheduler::checkMountParkingStatus()
 
             break;
 
-        case Mount::PARKING_ERROR:
+        //case Mount::PARKING_ERROR:
+          case ISD::Telescope::PARK_ERROR:
             if (startupState == STARTUP_UNPARKING_MOUNT)
             {
                 appendLogText(i18n("Mount unparking error."));
@@ -5099,7 +5116,9 @@ void Scheduler::checkMountParkingStatus()
             parkingFailureCount = 0;
             break;
 
-        case Mount::PARKING_IDLE:
+        //case Mount::PARKING_IDLE:
+            // FIXME Does this work as intended? check!
+          case ISD::Telescope::PARK_UNKNOWN:
             // Last parking action did not result in an action, so proceed to next step
             if (shutdownState == SHUTDOWN_PARKING_MOUNT)
                 shutdownState = SHUTDOWN_PARK_DOME;
@@ -5117,8 +5136,9 @@ void Scheduler::checkMountParkingStatus()
             parkingFailureCount = 0;
             break;
 
-        default:
-            qCWarning(KSTARS_EKOS_SCHEDULER) << QString("BUG: Parking state %1 not managed while checking progress.").arg(mountReply.value());
+        // All cases covered above
+        //default:
+        //    qCWarning(KSTARS_EKOS_SCHEDULER) << QString("BUG: Parking state %1 not managed while checking progress.").arg(mountReply.value());
     }
 }
 
@@ -5144,28 +5164,29 @@ bool Scheduler::isMountParked()
         }
 
         // Deduce state of mount - see getParkingStatus in mount.cpp
-        switch ((Mount::ParkingStatus)mountReply.value())
+        switch (static_cast<ISD::Telescope::ParkStatus>(mountReply.value()))
         {
-            case Mount::PARKING_OK:     // INDI switch ok, and parked
-            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
+//            case Mount::PARKING_OK:     // INDI switch ok, and parked
+//            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
+              case ISD::Telescope::PARK_PARKED:
                 return true;
 
-            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
-            case Mount::PARKING_ERROR:  // INDI switch error
-            case Mount::PARKING_BUSY:   // INDI switch busy
-            case Mount::UNPARKING_BUSY: // INDI switch busy
+//            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
+//            case Mount::PARKING_ERROR:  // INDI switch error
+//            case Mount::PARKING_BUSY:   // INDI switch busy
+//            case Mount::UNPARKING_BUSY: // INDI switch busy
             default:
                 return false;
         }
     }
     // If the mount is not able to park, consider it not parked
-    else return false;
+    return false;
 }
 
 void Scheduler::parkDome()
 {
     QDBusReply<int> const domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Dome::ParkingStatus status = (Dome::ParkingStatus)domeReply.value();
+    Dome::ParkingStatus status = static_cast<Dome::ParkingStatus>(domeReply.value());
 
     if (domeReply.error().type() != QDBusError::NoError)
     {
@@ -5192,7 +5213,7 @@ void Scheduler::parkDome()
 void Scheduler::unParkDome()
 {
     QDBusReply<int> const domeReply  = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Dome::ParkingStatus status = (Dome::ParkingStatus)domeReply.value();
+    Dome::ParkingStatus status = static_cast<Dome::ParkingStatus>(domeReply.value());
 
     if (domeReply.error().type() != QDBusError::NoError)
     {
@@ -5222,7 +5243,7 @@ void Scheduler::checkDomeParkingStatus()
     static int parkingFailureCount = 0;
 
     QDBusReply<int> const domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Dome::ParkingStatus status = (Dome::ParkingStatus)domeReply.value();
+    Dome::ParkingStatus status = static_cast<Dome::ParkingStatus>(domeReply.value());
 
     if (domeReply.error().type() != QDBusError::NoError)
     {
@@ -5291,7 +5312,7 @@ void Scheduler::checkDomeParkingStatus()
 bool Scheduler::isDomeParked()
 {
     QDBusReply<int> const domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Dome::ParkingStatus status = (Dome::ParkingStatus)domeReply.value();
+    Dome::ParkingStatus status = static_cast<Dome::ParkingStatus>(domeReply.value());
 
     if (domeReply.error().type() != QDBusError::NoError)
     {
@@ -5306,7 +5327,7 @@ bool Scheduler::isDomeParked()
 void Scheduler::parkCap()
 {
     QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    DustCap::ParkingStatus status = (DustCap::ParkingStatus)capReply.value();
+    DustCap::ParkingStatus status = static_cast<DustCap::ParkingStatus>(capReply.value());
 
     if (capReply.error().type() != QDBusError::NoError)
     {
@@ -5333,7 +5354,7 @@ void Scheduler::parkCap()
 void Scheduler::unParkCap()
 {
     QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    DustCap::ParkingStatus status = (DustCap::ParkingStatus)capReply.value();
+    DustCap::ParkingStatus status = static_cast<DustCap::ParkingStatus>(capReply.value());
 
     if (capReply.error().type() != QDBusError::NoError)
     {
@@ -5363,7 +5384,7 @@ void Scheduler::checkCapParkingStatus()
     static int parkingFailureCount = 0;
 
     QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    DustCap::ParkingStatus status  = (DustCap::ParkingStatus)capReply.value();
+    DustCap::ParkingStatus status  = static_cast<DustCap::ParkingStatus>(capReply.value());
 
     if (capReply.error().type() != QDBusError::NoError)
     {
@@ -5668,7 +5689,7 @@ bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QSt
     if (outputFile == nullptr)
     {
         QString message = i18n("Unable to write to file %1", filename);
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
         return false;
     }
 
@@ -5695,7 +5716,7 @@ void Scheduler::checkTwilightWarning(bool enabled)
         return;
 
     if (KMessageBox::warningContinueCancel(
-            NULL,
+            nullptr,
             i18n("Turning off astronomial twilight check may cause the observatory "
                  "to run during daylight. This can cause irreversible damage to your equipment!"),
             i18n("Astronomial Twilight Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
@@ -5898,7 +5919,7 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
     if (!sFile.open(QIODevice::ReadOnly))
     {
         QString message = i18n("Unable to open sequence queue file '%1'", fileURL);
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
         return false;
     }
 
@@ -6088,6 +6109,11 @@ int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
 void Scheduler::setINDICommunicationStatus(Ekos::CommunicationStatus status)
 {
     qDebug() << "Scheduler INDI status is" << status;
+}
+
+void Scheduler::setEkosCommunicationStatus(Ekos::CommunicationStatus status)
+{
+    qDebug() << "Scheduler Ekos status is" << status;
 }
 
 }

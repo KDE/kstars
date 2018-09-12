@@ -49,6 +49,10 @@ namespace Ekos
 Mount::Mount()
 {
     setupUi(this);
+
+    qRegisterMetaType<Ekos::MountState>("Ekos::MountState");
+    qDBusRegisterMetaType<Ekos::MountState>();
+
     new MountAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount", this);
 
@@ -177,18 +181,21 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
     currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
 
-    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-            SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
-    connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this,
-            SLOT(updateSwitch(ISwitchVectorProperty*)), Qt::UniqueConnection);
-    connect(currentTelescope, SIGNAL(textUpdated(ITextVectorProperty*)), this,
-            SLOT(updateText(ITextVectorProperty*)), Qt::UniqueConnection);
-    connect(currentTelescope, SIGNAL(newTarget(QString)), this, SIGNAL(newTarget(QString)), Qt::UniqueConnection);
+    currentTelescope->disconnect(this);
+
+    connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Mount::updateNumber);
+    connect(currentTelescope, &ISD::GDInterface::switchUpdated, this, &Mount::updateSwitch);
+    connect(currentTelescope, &ISD::GDInterface::textUpdated, this, &Mount::updateText);
+    connect(currentTelescope, &ISD::Telescope::newTarget, this, &Mount::newTarget);
     connect(currentTelescope, &ISD::Telescope::slewRateChanged, this, &Mount::slewRateChanged);
     connect(currentTelescope, &ISD::Telescope::Disconnected, [this]()
     {
         updateTimer.stop();
         m_BaseView->hide();
+    });
+    connect(currentTelescope, &ISD::Telescope::newParkStatus, [&](ISD::Telescope::ParkStatus status) {
+        m_ParkStatus = status;
+        emit newParkStatus(status);
     });
 
     //Disable this for now since ALL INDI drivers now log their messages to verbose output
@@ -202,8 +209,11 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     syncTelescopeInfo();
 
     // Send initial status
-    lastStatus = currentTelescope->getStatus();
-    emit newStatus(lastStatus);
+    m_Status = currentTelescope->status();
+    emit newStatus(m_Status);
+
+    m_ParkStatus = currentTelescope->parkStatus();
+    emit newParkStatus(m_ParkStatus);
 }
 
 void Mount::syncTelescopeInfo()
@@ -349,7 +359,7 @@ bool Mount::setScopeConfig(int index)
 void Mount::updateTelescopeCoords()
 {
     // No need to update coords if we are still parked.
-    if (lastStatus == ISD::Telescope::MOUNT_PARKED && lastStatus == currentTelescope->getStatus())
+    if (m_Status == ISD::Telescope::MOUNT_PARKED && m_Status == currentTelescope->status())
         return;
 
     double ra=0, dec=0;
@@ -458,10 +468,10 @@ void Mount::updateTelescopeCoords()
 
         emit newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text());
 
-        ISD::Telescope::TelescopeStatus currentStatus = currentTelescope->getStatus();
-        if (lastStatus != currentStatus)
+        ISD::Telescope::Status currentStatus = currentTelescope->status();
+        if (m_Status != currentStatus)
         {
-            lastStatus = currentStatus;
+            m_Status = currentStatus;
             parkB->setEnabled(!currentTelescope->isParked());
             unparkB->setEnabled(currentTelescope->isParked());
 
@@ -474,7 +484,7 @@ void Mount::updateTelescopeCoords()
             if (a != nullptr)
                 a->setChecked(currentStatus == ISD::Telescope::MOUNT_TRACKING);
 
-            emit newStatus(lastStatus);
+            emit newStatus(m_Status);
         }
 
         if (trackingGroup->isEnabled())
@@ -564,7 +574,7 @@ void Mount::updateSwitch(ISwitchVectorProperty *svp)
 
 void Mount::appendLogText(const QString &text)
 {
-    logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+    m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
                             QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_MOUNT) << text;
@@ -578,14 +588,14 @@ void Mount::updateLog(int messageID)
 
     QString message = QString::fromStdString(dv->messageQueue(messageID));
 
-    logText.insert(0, i18nc("Message shown in Ekos Mount module", "%1", message));
+    m_LogText.insert(0, i18nc("Message shown in Ekos Mount module", "%1", message));
 
     emit newLog();
 }
 
 void Mount::clearLog()
 {
-    logText.clear();
+    m_LogText.clear();
     emit newLog();
 }
 
@@ -705,7 +715,7 @@ void Mount::disableAltLimits()
     enableAltitudeLimits(false);
 }
 
-QList<double> Mount::getAltitudeLimits()
+QList<double> Mount::altitudeLimits()
 {
     QList<double> limits;
 
@@ -715,15 +725,18 @@ QList<double> Mount::getAltitudeLimits()
     return limits;
 }
 
-void Mount::setAltitudeLimits(double minAltitude, double maxAltitude, bool enabled)
+void Mount::setAltitudeLimits(double minAltitude, double maxAltitude)
 {
     minAltLimit->setValue(minAltitude);
     maxAltLimit->setValue(maxAltitude);
-
-    enableLimitsCheck->setChecked(enabled);
 }
 
-bool Mount::isLimitsEnabled()
+void Mount::setAltitudeLimitsEnabled(bool enable)
+{
+    enableLimitsCheck->setChecked(enable);
+}
+
+bool Mount::altitudeLimitsEnabled()
 {
     return enableLimitsCheck->isChecked();
 }
@@ -828,7 +841,7 @@ IPState Mount::getSlewStatus()
     return currentTelescope->getState("EQUATORIAL_EOD_COORD");
 }
 
-QList<double> Mount::getEquatorialCoords()
+QList<double> Mount::equatorialCoords()
 {
     double ra, dec;
     QList<double> coords;
@@ -840,7 +853,7 @@ QList<double> Mount::getEquatorialCoords()
     return coords;
 }
 
-QList<double> Mount::getHorizontalCoords()
+QList<double> Mount::horizontalCoords()
 {
     QList<double> coords;
 
@@ -850,7 +863,7 @@ QList<double> Mount::getHorizontalCoords()
     return coords;
 }
 
-double Mount::getHourAngle()
+double Mount::hourAngle()
 {
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
     dms ha(lst.Degrees() - telescopeCoord.ra().Degrees());
@@ -862,7 +875,7 @@ double Mount::getHourAngle()
         return HA;
 }
 
-QList<double> Mount::getTelescopeInfo()
+QList<double> Mount::telescopeInfo()
 {
     QList<double> info;
 
@@ -874,17 +887,16 @@ QList<double> Mount::getTelescopeInfo()
     return info;
 }
 
-void Mount::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength,
-                             double guideAperture)
+void Mount::setTelescopeInfo(const QList<double> &info)
 {
-    if (primaryFocalLength > 0)
-        primaryScopeFocalIN->setValue(primaryFocalLength);
-    if (primaryAperture > 0)
-        primaryScopeApertureIN->setValue(primaryAperture);
-    if (guideFocalLength > 0)
-        guideScopeFocalIN->setValue(guideFocalLength);
-    if (guideAperture > 0)
-        guideScopeApertureIN->setValue(guideAperture);
+    if (info[0] > 0)
+        primaryScopeFocalIN->setValue(info[0]);
+    if (info[1] > 0)
+        primaryScopeApertureIN->setValue(info[1]);
+    if (info[2] > 0)
+        guideScopeFocalIN->setValue(info[2]);
+    if (info[3] > 0)
+        guideScopeApertureIN->setValue(info[3]);
 
     if (scopeConfigNameEdit->text().isEmpty() == false)
         appendLogText(i18n("Warning: Overriding %1 configuration.", scopeConfigNameEdit->text()));
@@ -916,6 +928,7 @@ bool Mount::unpark()
     return currentTelescope->UnPark();
 }
 
+#if 0
 Mount::ParkingStatus Mount::getParkingStatus()
 {
     if (currentTelescope == nullptr)
@@ -964,6 +977,7 @@ Mount::ParkingStatus Mount::getParkingStatus()
 
     return PARKING_ERROR;
 }
+#endif
 
 void Mount::toggleMountToolBox()
 {
@@ -1111,7 +1125,7 @@ void Mount::setTrackEnabled(bool enabled)
         trackOffB->click();
 }
 
-int Mount::getSlewRate()
+int Mount::slewRate()
 {
     if (currentTelescope == nullptr)
         return -1;

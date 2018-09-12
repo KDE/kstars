@@ -38,6 +38,10 @@ const QString &getFilterStatusString(FilterState state)
 {
     return filterStates[state];
 }
+const QString &getSchedulerStatusString(FilterState state)
+{
+    return schedulerStates[state];
+}
 
 /* Taken from http://codereview.stackexchange.com/questions/71300/wrapper-function-to-do-polynomial-fits-with-gsl */
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
@@ -176,5 +180,23 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::AlignState 
     argument >> a;
     argument.endStructure();
     dest = static_cast<Ekos::AlignState>(a);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::SchedulerState& source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::SchedulerState &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+    dest = static_cast<Ekos::SchedulerState>(a);
     return argument;
 }

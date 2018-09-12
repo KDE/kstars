@@ -421,7 +421,7 @@ class Align : public QWidget, public Ui::Align
     // Update Capture Module status
     void setCaptureStatus(Ekos::CaptureState newState);
     // Update Mount module status
-    void setMountStatus(ISD::Telescope::TelescopeStatus newState);
+    void setMountStatus(ISD::Telescope::Status newState);
 
     // PAH Ekos Live
     QString getPAHStage() const { return PAHStages[pahStage];}

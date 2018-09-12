@@ -33,12 +33,23 @@ class Mount : public QWidget, public Ui::Mount
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Mount")
+    Q_PROPERTY(ISD::Telescope::Status status READ status NOTIFY newStatus)
+    Q_PROPERTY(ISD::Telescope::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
+    Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
+    Q_PROPERTY(QList<double> altitudeLimits READ altitudeLimits WRITE setAltitudeLimits)
+    Q_PROPERTY(bool altitudeLimitsEnabled READ altitudeLimitsEnabled WRITE setAltitudeLimitsEnabled)
+    Q_PROPERTY(QList<double> equtorialCoords READ equatorialCoords)
+    Q_PROPERTY(QList<double> horizontalCoords READ horizontalCoords)
+    Q_PROPERTY(QList<double> telescopeInfo READ telescopeInfo WRITE setTelescopeInfo)
+    Q_PROPERTY(double hourAngle READ hourAngle)
+    Q_PROPERTY(int slewRate READ slewRate WRITE setSlewRate)
 
   public:
     Mount();
     ~Mount();
 
-    typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
+    //typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
+
 
     /**
          * @brief setTelescope Sets the mount module telescope interface
@@ -51,7 +62,11 @@ class Mount : public QWidget, public Ui::Mount
     // Log functions
     void appendLogText(const QString &);
     void clearLog();
-    QString getLogText() { return logText.join("\n"); }
+    QStringList logText() { return m_LogText; }
+    QString getLogText() { return m_LogText.join("\n"); }
+
+    ISD::Telescope::Status status() {return m_Status;}
+    ISD::Telescope::ParkStatus parkStatus() {return m_ParkStatus;}
 
     /** @defgroup MountDBusInterface Ekos Mount DBus Interface
          * Mount interface provides advanced scripting capabilities to control INDI mounts.
@@ -63,18 +78,23 @@ class Mount : public QWidget, public Ui::Mount
          * Returns the mount altitude limits.
          * @return Returns array of doubles. First item is minimum altititde in degrees. Second item is maximum altitude limit in degrees.
          */
-    Q_SCRIPTABLE QList<double> getAltitudeLimits();
+    Q_SCRIPTABLE QList<double> altitudeLimits();
 
     /** DBUS interface function.
          * Sets the mount altitude limits, and whether they are enabled or disabled.
          */
-    Q_SCRIPTABLE Q_NOREPLY void setAltitudeLimits(double minAltitude, double maxAltitude, bool enabled);
+    Q_SCRIPTABLE Q_NOREPLY void setAltitudeLimits(double minAltitude, double maxAltitude);
+
+    /** DBUS interface function.
+         * Enable or disable mount altitude limits.
+         */
+    Q_SCRIPTABLE void setAltitudeLimitsEnabled(bool enable);
 
     /** DBUS interface function.
          * Returns whether the mount limits are enabled or disabled.
          * @return True if enabled, false otherwise.
          */
-    Q_SCRIPTABLE bool isLimitsEnabled();
+    Q_SCRIPTABLE bool altitudeLimitsEnabled();
 
     /** DBUS interface function.
          * Slew the mount to the RA/DEC (JNow).
@@ -119,17 +139,17 @@ class Mount : public QWidget, public Ui::Mount
     /** DBUS interface function.
          * Get equatorial coords (JNow). An array of doubles is returned. First element is RA in hours. Second elements is DEC in degrees.
          */
-    Q_INVOKABLE Q_SCRIPTABLE QList<double> getEquatorialCoords();
+    Q_INVOKABLE Q_SCRIPTABLE QList<double> equatorialCoords();
 
     /** DBUS interface function.
          * Get Horizontal coords. An array of doubles is returned. First element is Azimuth in degrees. Second elements is Altitude in degrees.
          */
-    Q_SCRIPTABLE QList<double> getHorizontalCoords();
+    Q_SCRIPTABLE QList<double> horizontalCoords();
 
     /** DBUS interface function.
          * Get mount hour angle in hours (-12 to +12).
          */
-    Q_SCRIPTABLE double getHourAngle();
+    Q_SCRIPTABLE double hourAngle();
 
     /** DBUS interface function.
          * Aborts the mount motion
@@ -146,23 +166,25 @@ class Mount : public QWidget, public Ui::Mount
     /** DBUS interface function.
          * Get the mount slew rate index 0 to N-1, or -1 if slew rates are not supported.
          */
-    Q_INVOKABLE Q_SCRIPTABLE int getSlewRate();
+    Q_INVOKABLE Q_SCRIPTABLE int slewRate();
+
+    Q_INVOKABLE Q_SCRIPTABLE bool setSlewRate(int index);
 
     /** DBUS interface function.
          * Get telescope and guide scope info. An array of doubles is returned in order.
          * Primary Telescope Focal Length (mm), Primary Telescope Aperture (mm), Guide Telescope Focal Length (mm), Guide Telescope Aperture (mm)
          */
-    Q_INVOKABLE Q_SCRIPTABLE QList<double> getTelescopeInfo();
+    Q_INVOKABLE Q_SCRIPTABLE QList<double> telescopeInfo();
 
     /** DBUS interface function.
          * Set telescope and guide scope info and save them in INDI mount driver. All measurements is in millimeters.
-         * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
-         * @param primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
-         * @param guideFocalLength Guide Telescope Focal Length. Set to 0 to skip setting this value.
-         * @param guideAperture Guide Telescope Aperture. Set to 0 to skip setting this value.
+         * @param info. An ordered 4-item list as following:
+         * primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
+         * primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
+         * guideFocalLength Guide Telescope Focal Length. Set to 0 to skip setting this value.
+         * guideAperture Guide Telescope Aperture. Set to 0 to skip setting this value.
          */
-    Q_SCRIPTABLE Q_NOREPLY void setTelescopeInfo(double primaryFocalLength, double primaryAperture,
-                                                 double guideFocalLength, double guideAperture);
+    Q_SCRIPTABLE Q_NOREPLY void setTelescopeInfo(const QList<double> &info);
 
     /** DBUS interface function.
          * Reset mount model if supported by the mount.
@@ -188,9 +210,7 @@ class Mount : public QWidget, public Ui::Mount
     /** DBUS interface function.
          * Return parking status of the mount.
          */
-    Q_INVOKABLE Q_SCRIPTABLE ParkingStatus getParkingStatus();
-
-    Q_INVOKABLE bool setSlewRate(int index);    
+    //Q_INVOKABLE Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
     Q_INVOKABLE void setTrackEnabled(bool enabled);
 
@@ -291,7 +311,8 @@ private slots:
     void newLog();
     void newCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
     void newTarget(const QString &name);    
-    void newStatus(ISD::Telescope::TelescopeStatus status);
+    void newStatus(ISD::Telescope::Status status);
+    void newParkStatus(ISD::Telescope::ParkStatus status);
     void slewRateChanged(int index);
 
   private:
@@ -299,7 +320,7 @@ private slots:
 
     ISD::Telescope *currentTelescope = nullptr;
     ISD::GDInterface *currentGPS = nullptr;
-    QStringList logText;
+    QStringList m_LogText;
     SkyPoint telescopeCoord;
     QString lastNotificationMessage;
     QTimer updateTimer;
@@ -308,7 +329,9 @@ private slots:
     int abortDispatch;
     bool altLimitEnabled;
     bool GPSInitialized = {false};
-    ISD::Telescope::TelescopeStatus lastStatus = ISD::Telescope::MOUNT_IDLE;
+
+    ISD::Telescope::Status m_Status = ISD::Telescope::MOUNT_IDLE;
+    ISD::Telescope::ParkStatus m_ParkStatus = ISD::Telescope::PARK_UNKNOWN;
 
     QQuickView *m_BaseView = nullptr;
     QQuickItem *m_BaseObj  = nullptr;

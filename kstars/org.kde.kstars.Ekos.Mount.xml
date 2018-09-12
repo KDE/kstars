@@ -1,6 +1,28 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Mount">
+  <property name="logText" type="as" access="read"/>
+  <property name="altitudeLimits" type="(i)" access="readwrite">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+  </property>
+  <property name="altitudeLimitsEnabled" type="b" access="readwrite"/>
+  <property name="equatorialCoords" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+  </property>
+  <property name="horizontalCoords" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+  </property>
+  <property name="slewRate" type="i" access="readwrite"/>
+  <property name="telescopeInfo" type="(i)" access="readwrite">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+  </property>
+  <property name="hourAngle" type="d" access="read"/>
+  <property name="status" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::Status"/>
+  </property>
+  <property name="parkStatus" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::ParkStatus"/>
+  </property>
     <method name="getAltitudeLimits">
     <arg type="ad" direction="out"/>
     <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
@@ -26,39 +48,14 @@
       <arg type="b" direction="out"/>
       <arg name="target" type="s" direction="in"/>
     </method>
-    <method name="getEquatorialCoords">
-    <arg type="ad" direction="out"/>
-    <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
-    </method>
-    <method name="getHorizontalCoords">
-    <arg type="ad" direction="out"/>
-    <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
-    </method>
-    <method name="getHourAngle">
-    <arg type="d" direction="out"/>
-    </method>
     <method name="abort">
       <arg type="b" direction="out"/>
     </method>
     <method name="getSlewStatus">
       <arg type="i" direction="out"/>
     </method>    
-    <method name="getTelescopeInfo">
-    <arg type="ad" direction="out"/>
-    <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
-    </method>
-    <method name="setTelescopeInfo">
-      <arg name="primaryFocalLength" type="d" direction="in"/>
-      <arg name="primaryAperture" type="d" direction="in"/>
-      <arg name="guideFocalLength" type="d" direction="in"/>
-      <arg name="guideAperture" type="d" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
     <method name="canPark">
       <arg type="b" direction="out"/>
-    </method>
-    <method name="getParkingStatus">
-      <arg type="i" direction="out"/>
     </method>
     <method name="park">
       <arg type="b" direction="out"/>

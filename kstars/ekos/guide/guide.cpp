@@ -1763,7 +1763,7 @@ void Guide::setCaptureStatus(CaptureState newState)
     }
 }
 
-void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
+void Guide::setMountStatus(ISD::Telescope::Status newState)
 {
     // If we're guiding, and the mount either slews or parks, then we abort.
     if ((state == GUIDE_GUIDING || state == GUIDE_DITHERING) && (newState == ISD::Telescope::MOUNT_PARKING || newState == ISD::Telescope::MOUNT_SLEWING))
