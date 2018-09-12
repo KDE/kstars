@@ -41,6 +41,7 @@ KStarsLite *KStarsLite::pinstance = nullptr;
 
 KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateString)
 {
+    QCoreApplication::setOrganizationName("KStarsLite");
     // Initialize logging settings
     /*if (Options::disableLogging())
         KSUtils::Logging::Disable();

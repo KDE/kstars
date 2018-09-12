@@ -185,7 +185,8 @@ int fp_i2rescale(fitsfile *infptr, int naxis, long *naxes, double rescale,
 int fp_i4rescale(fitsfile *infptr, int naxis, long *naxes, double rescale,
     fitsfile *outfptr, int *status);
     
-int fp_msg (char *msg);
+#define fp_msg(msg) _fp_msg((const char *)msg)
+int _fp_msg (const char *msg);
 int fp_version (void);
 int fp_noop (void);
 

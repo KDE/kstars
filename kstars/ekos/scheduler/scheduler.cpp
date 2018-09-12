@@ -1096,11 +1096,11 @@ void Scheduler::stop()
     else if (startupState == STARTUP_COMPLETE)
     {
         if (unparkDomeCheck->isChecked())
-            startupState = STARTUP_UNPARKING_DOME;
+            startupState = STARTUP_UNPARK_DOME;
         else if (unparkMountCheck->isChecked())
-            startupState = STARTUP_UNPARKING_MOUNT;
+            startupState = STARTUP_UNPARK_MOUNT;
         else if (uncapCheck->isChecked())
-            startupState = STARTUP_UNPARKING_CAP;
+            startupState = STARTUP_UNPARK_CAP;
     }
 
     shutdownState = SHUTDOWN_IDLE;
@@ -2206,6 +2206,10 @@ void Scheduler::calculateDawnDusk()
 
 void Scheduler::executeJob(SchedulerJob *job)
 {
+    // Some states have executeJob called after current job is cancelled - checkStatus does this
+    if (job == nullptr)
+        return;
+
     // Don't execute the current job if it is already busy
     if (currentJob == job && SchedulerJob::JOB_BUSY == currentJob->getState())
         return;
@@ -2577,7 +2581,7 @@ bool Scheduler::checkStartupState()
     if (state == SCHEDULER_PAUSED)
         return false;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking Startup State...";
+    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Checking Startup State (%1)...").arg(startupState);
 
     switch (startupState)
     {
@@ -4454,26 +4458,41 @@ void Scheduler::startCapture()
     dbusargs.append(url);
     captureInterface->callWithArgumentList(QDBus::AutoDetect, "loadSequenceQueue", dbusargs);
 
-    SchedulerJob::CapturedFramesMap fMap = currentJob->getCapturedFramesMap();
-
-    for (auto &e : fMap.keys())
+    switch (currentJob->getCompletionCondition())
     {
-        QList<QVariant> dbusargs;
-        QDBusMessage reply;
+    case SchedulerJob::FINISH_LOOP:
+    case SchedulerJob::FINISH_AT:
+        // In these cases, we leave the captured frames map empty
+        // to ensure, that the capture sequence is executed in any case.
+        break;
 
-        dbusargs.append(e);
-        dbusargs.append(fMap.value(e));
-        if ((reply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesMap", dbusargs)).type() ==
-            QDBusMessage::ErrorMessage)
+    default:
+        // hand over the map of captured frames so that the capture
+        // process knows about existing frames
+        SchedulerJob::CapturedFramesMap fMap = currentJob->getCapturedFramesMap();
+
+        for (auto &e : fMap.keys())
         {
-            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(currentJob->getName()).arg(reply.errorMessage());
-            if (!manageConnectionLoss())
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-            return;
+            QList<QVariant> dbusargs;
+            QDBusMessage reply;
+
+            dbusargs.append(e);
+            dbusargs.append(fMap.value(e));
+            if ((reply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesMap", dbusargs)).type() ==
+                QDBusMessage::ErrorMessage)
+            {
+                qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(currentJob->getName()).arg(reply.errorMessage());
+                if (!manageConnectionLoss())
+                    currentJob->setState(SchedulerJob::JOB_ERROR);
+                return;
+            }
         }
+        break;
     }
 
+
     // If sequence is a loop, ignore sequence history
+    // FIXME: set, but never used.
     if (currentJob->getCompletionCondition() != SchedulerJob::FINISH_SEQUENCE)
         captureInterface->call(QDBus::AutoDetect, "ignoreSequenceHistory");
 
@@ -4562,6 +4581,13 @@ void Scheduler::updateCompletedJobsCount(bool forced)
     /* Use a temporary map in order to limit the number of file searches */
     SchedulerJob::CapturedFramesMap newFramesCount;
 
+    /* FIXME: Capture storage cache is refreshed too often, feature requires rework. */
+
+    /* Check if one job is idle or requires evaluation - if so, force refresh */
+    forced |= std::any_of(jobs.begin(), jobs.end(), [](SchedulerJob *oneJob) -> bool {
+            SchedulerJob::JOBStatus const state = oneJob->getState();
+            return state == SchedulerJob::JOB_IDLE || state == SchedulerJob::JOB_EVALUATION;});
+
     /* If update is forced, clear the frame map */
     if (forced)
         capturedFramesCount.clear();
@@ -4591,25 +4617,19 @@ void Scheduler::updateCompletedJobsCount(bool forced)
             /* FIXME: this signature path is incoherent when there is no filter wheel on the setup - bugfix should be elsewhere though */
             QString const signature = oneSeqJob->getSignature();
 
-            /* Bypass this SchedulerJob if we already checked its signature */
-            switch(oneJob->getState())
-            {
-            case SchedulerJob::JOB_IDLE:
-            case SchedulerJob::JOB_EVALUATION:
-                /* We recount idle/evaluated jobs systematically */
-                break;
+            /* If signature was processed during this run, keep it */
+            if (newFramesCount.constEnd() != newFramesCount.constFind(signature))
+                continue;
 
-            default:
-                /* We recount other jobs if somehow we don't have any count for their signature, else we reuse the previous count */
-                QMap<QString, uint16_t>::iterator const sigCount = capturedFramesCount.find(signature);
-                if (capturedFramesCount.end() != sigCount)
-                {
-                    newFramesCount[signature] = sigCount.value();
-                    continue;
-                }
+            /* If signature was processed during an earlier run, use the earlier count */
+            QMap<QString, uint16_t>::const_iterator const earlierRunIterator = capturedFramesCount.constFind(signature);
+            if (capturedFramesCount.constEnd() != earlierRunIterator)
+            {
+                newFramesCount[signature] = earlierRunIterator.value();
+                continue;
             }
 
-            /* Count captures already stored */
+            /* Else recount captures already stored */
             newFramesCount[signature] = getCompletedFiles(signature, oneSeqJob->getFullPrefix());
         }
     }
@@ -4873,36 +4893,53 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
 void Scheduler::parkMount()
 {
-    QDBusReply<int> MountReply  = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Mount::ParkingStatus status = (Mount::ParkingStatus)MountReply.value();
+    QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
 
-    if (status != Mount::PARKING_OK)
+    if (mountReply.error().type() != QDBusError::NoError)
     {
-        if (status == Mount::PARKING_BUSY)
-        {
-            appendLogText(i18n("Parking mount in progress..."));
-        }
-        else
-        {
-            mountInterface->call(QDBus::AutoDetect, "park");
-            appendLogText(i18n("Parking mount..."));
-
-            currentOperationTime.start();
-        }
-
-        if (shutdownState == SHUTDOWN_PARK_MOUNT)
-            shutdownState = SHUTDOWN_PARKING_MOUNT;
-        else if (parkWaitState == PARKWAIT_PARK)
-            parkWaitState = PARKWAIT_PARKING;
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
+        if (!manageConnectionLoss())
+            parkWaitState = PARKWAIT_ERROR;
     }
-    else
+    else switch ((Mount::ParkingStatus) mountReply.value())
     {
-        appendLogText(i18n("Mount already parked."));
+        case Mount::PARKING_OK:
+            if (shutdownState == SHUTDOWN_PARK_MOUNT)
+                shutdownState = SHUTDOWN_PARK_DOME;
 
-        if (shutdownState == SHUTDOWN_PARK_MOUNT)
-            shutdownState = SHUTDOWN_PARK_DOME;
-        else if (parkWaitState == PARKWAIT_PARK)
             parkWaitState = PARKWAIT_PARKED;
+            appendLogText(i18n("Mount already parked."));
+            break;
+
+        case Mount::UNPARKING_BUSY:
+            /* FIXME: Handle the situation where we request parking but an unparking procedure is running. */
+
+        case Mount::PARKING_IDLE:
+        case Mount::UNPARKING_OK:
+        case Mount::PARKING_ERROR:
+            {
+                QDBusReply<bool> const mountReply = mountInterface->call(QDBus::AutoDetect, "park");
+
+                if (mountReply.error().type() != QDBusError::NoError)
+                {
+                    qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount park request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
+                    if (!manageConnectionLoss())
+                        parkWaitState = PARKWAIT_ERROR;
+                }
+                else currentOperationTime.start();
+            }
+
+            // Fall through
+        case Mount::PARKING_BUSY:
+            if (shutdownState == SHUTDOWN_PARK_MOUNT)
+                shutdownState = SHUTDOWN_PARKING_MOUNT;
+
+            parkWaitState = PARKWAIT_PARKING;
+            appendLogText(i18n("Parking mount in progress..."));
+            break;
+
+        default:
+            qCWarning(KSTARS_EKOS_SCHEDULER) << QString("BUG: Parking state %1 not managed while parking mount.").arg(mountReply.value());
     }
 }
 
@@ -4921,9 +4958,8 @@ void Scheduler::unParkMount()
         case Mount::UNPARKING_OK:
             if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARK_CAP;
-            else if (parkWaitState == PARKWAIT_UNPARK)
-                parkWaitState = PARKWAIT_UNPARKED;
 
+            parkWaitState = PARKWAIT_UNPARKED;
             appendLogText(i18n("Mount already unparked."));
             break;
 
@@ -4949,9 +4985,8 @@ void Scheduler::unParkMount()
         case Mount::UNPARKING_BUSY:
             if (startupState == STARTUP_UNPARK_MOUNT)
                 startupState = STARTUP_UNPARKING_MOUNT;
-            else if (parkWaitState == PARKWAIT_UNPARK)
-                parkWaitState = PARKWAIT_UNPARKING;
 
+            parkWaitState = PARKWAIT_UNPARKING;
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Unparking mount in progress...";
             break;
 
@@ -5055,7 +5090,7 @@ void Scheduler::checkMountParkingStatus()
                 appendLogText(i18n("Mount parking error."));
                 parkWaitState = PARKWAIT_ERROR;
             }
-            else if (parkWaitState == PARKWAIT_UNPARK)
+            else if (parkWaitState == PARKWAIT_UNPARKING)
             {
                 appendLogText(i18n("Mount unparking error."));
                 parkWaitState = PARKWAIT_ERROR;

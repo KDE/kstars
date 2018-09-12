@@ -1159,7 +1159,7 @@ void ClientManagerLite::newSwitch(ISwitchVectorProperty *svp)
         if (QString(sw->name) == QString("CONNECT"))
         {
             emit deviceConnected(svp->device, sw->s == ISS_ON);
-            if (m_telescope->getDeviceName() == svp->device)
+            if (m_telescope && m_telescope->getDeviceName() == svp->device)
             {
                 if (sw->s == ISS_ON)
                 {
