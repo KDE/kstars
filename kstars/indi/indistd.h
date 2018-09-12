@@ -17,6 +17,7 @@
 
 #include <QObject>
 #include <QVariant>
+#include <QDBusArgument>
 
 #define MAXINDIFILENAME 512
 
@@ -28,6 +29,9 @@ class QTimer;
 // INDI Standard Device Namespace
 namespace ISD
 {
+
+typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNPARKED, PARK_ERROR } ParkStatus;
+
 class GDSetCommand : public QObject
 {
     Q_OBJECT
@@ -170,6 +174,7 @@ class GenericDevice : public GDInterface
     void updateLocation();
 
   private:
+    static void registerDBusType();
     bool connected { false };
     DriverInfo *driverInfo { nullptr };
     DeviceInfo *deviceInfo { nullptr };
@@ -257,3 +262,8 @@ class ST4
     bool swapDEC { false };
 };
 }
+
+Q_DECLARE_METATYPE(ISD::ParkStatus)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::ParkStatus& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::ParkStatus &dest);
+

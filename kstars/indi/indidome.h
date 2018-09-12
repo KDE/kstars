@@ -23,10 +23,17 @@ class Dome : public DeviceDecorator
 {
     Q_OBJECT
 
-  public:
-    typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNPARKED } ParkStatus;
-
-    explicit Dome(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_DOME; }
+  public:    
+    explicit Dome(GDInterface *iPtr);
+    typedef enum {
+        DOME_IDLE,
+        DOME_MOVING,
+        DOME_TRACKING,
+        DOME_PARKING,
+        DOME_UNPARKING,
+        DOME_PARKED,
+        DOME_ERROR
+    } Status;
 
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
@@ -36,16 +43,34 @@ class Dome : public DeviceDecorator
 
     DeviceFamily getType() { return dType; }
 
-    bool canPark();
-    bool isParked() { return parkStatus == PARK_PARKED; }
-    bool isMoving();
+    bool canPark() { return m_CanPark; }
+    bool canAbsMove() { return m_CanAbsMove; }
+    bool isParked() { return m_ParkStatus == PARK_PARKED; }
+    bool isMoving();    
+
+    double azimuthPosition();
+    bool setAzimuthPosition(double position);
 
   public slots:
     bool Abort();
     bool Park();
     bool UnPark();
 
+  signals:
+    void newStatus(Status status);
+    void newParkStatus(ParkStatus status);
+    void azimuthPositionChanged(double Az);
+
   private:
-    ParkStatus parkStatus = PARK_UNKNOWN;
+    ParkStatus m_ParkStatus = PARK_UNKNOWN;
+    Status m_Status = DOME_IDLE;
+    bool m_CanAbsMove { false };
+    bool m_CanPark { false };
+
 };
 }
+
+Q_DECLARE_METATYPE(ISD::Dome::Status)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Dome::Status& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Dome::Status &dest);
+

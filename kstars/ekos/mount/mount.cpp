@@ -190,7 +190,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
         updateTimer.stop();
         m_BaseView->hide();
     });
-    connect(currentTelescope, &ISD::Telescope::newParkStatus, [&](ISD::Telescope::ParkStatus status) {
+    connect(currentTelescope, &ISD::Telescope::newParkStatus, [&](ISD::ParkStatus status) {
         m_ParkStatus = status;
         emit newParkStatus(status);
     });
@@ -576,7 +576,7 @@ void Mount::appendLogText(const QString &text)
 
     qCInfo(KSTARS_EKOS_MOUNT) << text;
 
-    emit newLog();
+    emit newLog(text);
 }
 
 void Mount::updateLog(int messageID)
@@ -587,13 +587,13 @@ void Mount::updateLog(int messageID)
 
     m_LogText.insert(0, i18nc("Message shown in Ekos Mount module", "%1", message));
 
-    emit newLog();
+    emit newLog(message);
 }
 
 void Mount::clearLog()
 {
     m_LogText.clear();
-    emit newLog();
+    emit newLog(QString());
 }
 
 void Mount::motionCommand(int command, int NS, int WE)

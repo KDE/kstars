@@ -44,8 +44,7 @@ class Telescope : public DeviceDecorator
         MOUNT_PARKING,
         MOUNT_PARKED,
         MOUNT_ERROR
-    } Status;
-    typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNPARKED, PARK_ERROR } ParkStatus;
+    } Status;    
     typedef enum { PARK_OPTION_CURRENT, PARK_OPTION_DEFAULT, PARK_OPTION_WRITE_DATA } ParkOptionCommand;
 
     void registerProperty(INDI::Property *prop) override;
@@ -131,7 +130,7 @@ class Telescope : public DeviceDecorator
 
   signals:
     void newTarget(const QString &);
-    void newParkStatus(ISD::Telescope::ParkStatus status);
+    void newParkStatus(ISD::ParkStatus status);
     void slewRateChanged(int rate);
 
   private:
@@ -160,7 +159,3 @@ class Telescope : public DeviceDecorator
 Q_DECLARE_METATYPE(ISD::Telescope::Status)
 QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Telescope::Status& source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::Status &dest);
-
-Q_DECLARE_METATYPE(ISD::Telescope::ParkStatus)
-QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Telescope::ParkStatus& source);
-const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::ParkStatus &dest);
