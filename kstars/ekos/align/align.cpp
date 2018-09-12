@@ -102,13 +102,13 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     showFITSViewerB->setIcon(
                 QIcon::fromTheme("kstars_fitsviewer"));
     showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(showFITSViewerB, SIGNAL(clicked()), this, SLOT(showFITSViewer()));
+    connect(showFITSViewerB, &QPushButton::clicked, this, &Ekos::Align::showFITSViewer);
 
     toggleFullScreenB->setIcon(
                 QIcon::fromTheme("view-fullscreen"));
     toggleFullScreenB->setShortcut(Qt::Key_F4);
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(toggleFullScreenB, SIGNAL(clicked()), this, SLOT(toggleAlignWidgetFullScreen()));
+    connect(toggleFullScreenB, &QPushButton::clicked, this, &Ekos::Align::toggleAlignWidgetFullScreen);
 
     alignView = new AlignView(alignWidget, FITS_ALIGN);
     alignView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -119,10 +119,10 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     vlayout->addWidget(alignView);
     alignWidget->setLayout(vlayout);
 
-    connect(solveB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
-    connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
-    connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
-    connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
+    connect(solveB, &QPushButton::clicked, this, &Ekos::Align::captureAndSolve);
+    connect(stopB, &QPushButton::clicked, this, &Ekos::Align::abort);
+    connect(measureAltB, &QPushButton::clicked, this, &Ekos::Align::measureAltError);
+    connect(measureAzB, &QPushButton::clicked, this, &Ekos::Align::measureAzError);
 
     alignTimer.setInterval(10000);
     alignTimer.setSingleShot(true);
@@ -131,12 +131,14 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     // Effective FOV Edit
     connect(FOVOut, &QLineEdit::editingFinished, this, &Align::syncFOV);
 
-    connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
-    connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::activated), this, &Ekos::Align::setDefaultCCD);
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::checkCCD);
 
-    connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
-    connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
-    connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));
+    connect(correctAltB, &QPushButton::clicked, this, &Ekos::Align::correctAltError);
+    connect(correctAzB, &QPushButton::clicked, this, &Ekos::Align::correctAzError);
+    connect(loadSlewB, &QPushButton::clicked, [&]() {
+        loadAndSlew();
+    });
 
     FilterDevicesCombo->addItem("--");
     connect(FilterDevicesCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
@@ -146,7 +148,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         Options::setDefaultAlignFW(text);
     });
 
-    connect(FilterDevicesCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
+    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::checkFilter);
 
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
             [=](int index)
@@ -164,7 +166,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
             [=](int id) { this->currentGotoMode = static_cast<GotoMode>(id); });
 
     alignTimer.setInterval(Options::astrometryTimeout() * 1000);
-    connect(&alignTimer, SIGNAL(timeout()), this, SLOT(checkAlignmentTimeout()));
+    connect(&alignTimer, &QTimer::timeout, this, &Ekos::Align::checkAlignmentTimeout);
 
     currentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
     gotoModeButtonGroup->button(currentGotoMode)->setChecked(true);
@@ -178,7 +180,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 #endif
 
     opsAlign = new OpsAlign(this);
-    connect(opsAlign, SIGNAL(settingsUpdated()), this, SLOT(refreshAlignOptions()));
+    connect(opsAlign, &OpsAlign::settingsUpdated, this, &Ekos::Align::refreshAlignOptions);
     KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("Astrometry.net"));
     page->setIcon(QIcon(":/icons/astrometry.svg"));
 
@@ -198,7 +200,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     page->setIcon(QIcon::fromTheme("map-flat"));
 #endif
 
-    connect(editOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
+    connect(editOptionsB, &QPushButton::clicked, dialog, &QDialog::show);
 
     appendLogText(i18n("Idle."));
 
@@ -250,9 +252,8 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         setEnabled(false);
     else
     {
-        connect(parser, SIGNAL(solverFinished(double,double,double,double)), this,
-                SLOT(solverFinished(double,double,double,double)), Qt::UniqueConnection);
-        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
+        connect(parser, &Ekos::AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
+        connect(parser, &Ekos::AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
     }
 
     //solverOptions->setText(Options::solverOptions());
@@ -261,16 +262,16 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     //kcfg_solverOTA->setChecked(Options::solverOTA());
     //guideScopeCCDs = Options::guideScopeCCDs();
     FOVScopeCombo->setCurrentIndex(Options::solverScopeType());
-    connect(FOVScopeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTelescopeType(int)));
+    connect(FOVScopeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Align::updateTelescopeType);
     //connect(FOVScopeCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(newFOVTelescopeType(int)));
 
     accuracySpin->setValue(Options::solverAccuracyThreshold());
     alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
 
     delaySpin->setValue(Options::settlingTime());
-    connect(delaySpin, SIGNAL(editingFinished()), this, SLOT(saveSettleTime()));
+    connect(delaySpin, &QSpinBox::editingFinished, this, &Ekos::Align::saveSettleTime);
 
-    connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setBinningIndex(int)));
+    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Ekos::Align::setBinningIndex);
 
     // PAH Connections
     connect(this, &Align::PAHEnabled, [&](bool enabled) {
@@ -279,12 +280,12 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         PAHDirectionCombo->setEnabled(enabled);
         PAHRotationSpin->setEnabled(enabled);
     });
-    connect(PAHStartB, SIGNAL(clicked()), this, SLOT(startPAHProcess()));
+    connect(PAHStartB, &QPushButton::clicked, this, &Ekos::Align::startPAHProcess);
     // PAH StopB is just a shortcut for the regular stop
     connect(PAHStopB, &QPushButton::clicked, this, &Align::stopPAHProcess);
-    connect(PAHCorrectionsNextB, SIGNAL(clicked()), this, SLOT(setPAHCorrectionSelectionComplete()));
-    connect(PAHRefreshB, SIGNAL(clicked()), this, SLOT(startPAHRefreshProcess()));
-    connect(PAHDoneB, SIGNAL(clicked()), this, SLOT(setPAHRefreshComplete()));
+    connect(PAHCorrectionsNextB, &QPushButton::clicked, this, &Ekos::Align::setPAHCorrectionSelectionComplete);
+    connect(PAHRefreshB, &QPushButton::clicked, this, &Ekos::Align::startPAHRefreshProcess);
+    connect(PAHDoneB, &QPushButton::clicked, this, &Ekos::Align::setPAHRefreshComplete);
 
     if (solverOptions->text().contains("no-fits2fits"))
         appendLogText(i18n(
@@ -340,10 +341,10 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     buildTarget();
 
-    connect(alignPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(handlePointTooltip(QMouseEvent*)));
-    connect(rightLayout, SIGNAL(splitterMoved(int,int)), this, SLOT(handleVerticalPlotSizeChange()));
-    connect(alignSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(handleHorizontalPlotSizeChange()));
-    connect(accuracySpin, SIGNAL(valueChanged(int)), this, SLOT(buildTarget()));
+    connect(alignPlot, &QCustomPlot::mouseMove, this, &Ekos::Align::handlePointTooltip);
+    connect(rightLayout, &QSplitter::splitterMoved, this, &Ekos::Align::handleVerticalPlotSizeChange);
+    connect(alignSplitter, &QSplitter::splitterMoved, this, &Ekos::Align::handleHorizontalPlotSizeChange);
+    connect(accuracySpin, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Ekos::Align::buildTarget);
 
     alignPlot->resize(190, 190);
     alignPlot->replot();
@@ -428,34 +429,34 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
                 QIcon::fromTheme("media-playback-start"));
     mountModel.startAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    connect(clearAllSolutionsB, SIGNAL(clicked()), this, SLOT(slotClearAllSolutionPoints()));
-    connect(removeSolutionB, SIGNAL(clicked()), this, SLOT(slotRemoveSolutionPoint()));
-    connect(exportSolutionsCSV, SIGNAL(clicked()), this, SLOT(exportSolutionPoints()));
-    connect(autoScaleGraphB, SIGNAL(clicked()), this, SLOT(slotAutoScaleGraph()));
-    connect(mountModelB, SIGNAL(clicked()), this, SLOT(slotMountModel()));
-    connect(solutionTable, SIGNAL(cellClicked(int,int)), this, SLOT(selectSolutionTableRow(int,int)));
+    connect(clearAllSolutionsB, &QPushButton::clicked, this, &Ekos::Align::slotClearAllSolutionPoints);
+    connect(removeSolutionB, &QPushButton::clicked, this, &Ekos::Align::slotRemoveSolutionPoint);
+    connect(exportSolutionsCSV, &QPushButton::clicked, this, &Ekos::Align::exportSolutionPoints);
+    connect(autoScaleGraphB, &QPushButton::clicked, this, &Ekos::Align::slotAutoScaleGraph);
+    connect(mountModelB, &QPushButton::clicked, this, &Ekos::Align::slotMountModel);
+    connect(solutionTable, &QTableWidget::cellClicked, this, &Ekos::Align::selectSolutionTableRow);
 
-    connect(mountModel.wizardAlignB, SIGNAL(clicked()), this, SLOT(slotWizardAlignmentPoints()));
-    connect(mountModel.alignTypeBox, SIGNAL(currentIndexChanged(QString)), this,
-            SLOT(alignTypeChanged(QString)));
+    connect(mountModel.wizardAlignB, &QPushButton::clicked, this, &Ekos::Align::slotWizardAlignmentPoints);
+    connect(mountModel.alignTypeBox, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Align::alignTypeChanged);
 
-    connect(mountModel.starListBox, SIGNAL(currentIndexChanged(QString)), this,
-            SLOT(slotStarSelected(QString)));
-    connect(mountModel.greekStarListBox, SIGNAL(currentIndexChanged(QString)), this,
-            SLOT(slotStarSelected(QString)));
+    connect(mountModel.starListBox, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Align::slotStarSelected);
+    connect(mountModel.greekStarListBox, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Align::slotStarSelected);
 
-    connect(mountModel.loadAlignB, SIGNAL(clicked()), this, SLOT(slotLoadAlignmentPoints()));
-    connect(mountModel.saveAsAlignB, SIGNAL(clicked()), this, SLOT(slotSaveAsAlignmentPoints()));
-    connect(mountModel.saveAlignB, SIGNAL(clicked()), this, SLOT(slotSaveAlignmentPoints()));
-    connect(mountModel.clearAllAlignB, SIGNAL(clicked()), this, SLOT(slotClearAllAlignPoints()));
-    connect(mountModel.removeAlignB, SIGNAL(clicked()), this, SLOT(slotRemoveAlignPoint()));
-    connect(mountModel.addAlignB, SIGNAL(clicked()), this, SLOT(slotAddAlignPoint()));
-    connect(mountModel.findAlignB, SIGNAL(clicked()), this, SLOT(slotFindAlignObject()));
-    connect(mountModel.sortAlignB, SIGNAL(clicked()), this, SLOT(slotSortAlignmentPoints()));
+    connect(mountModel.loadAlignB, &QPushButton::clicked, this, &Ekos::Align::slotLoadAlignmentPoints);
+    connect(mountModel.saveAsAlignB, &QPushButton::clicked, this, &Ekos::Align::slotSaveAsAlignmentPoints);
+    connect(mountModel.saveAlignB, &QPushButton::clicked, this, &Ekos::Align::slotSaveAlignmentPoints);
+    connect(mountModel.clearAllAlignB, &QPushButton::clicked, this, &Ekos::Align::slotClearAllAlignPoints);
+    connect(mountModel.removeAlignB, &QPushButton::clicked, this, &Ekos::Align::slotRemoveAlignPoint);
+    connect(mountModel.addAlignB, &QPushButton::clicked, this, &Ekos::Align::slotAddAlignPoint);
+    connect(mountModel.findAlignB, &QPushButton::clicked, this, &Ekos::Align::slotFindAlignObject);
+    connect(mountModel.sortAlignB, &QPushButton::clicked, this, &Ekos::Align::slotSortAlignmentPoints);
 
-    connect(mountModel.previewB, SIGNAL(clicked()), this, SLOT(togglePreviewAlignPoints()));
-    connect(mountModel.stopAlignB, SIGNAL(clicked()), this, SLOT(resetAlignmentProcedure()));
-    connect(mountModel.startAlignB, SIGNAL(clicked()), this, SLOT(startStopAlignmentProcedure()));
+    connect(mountModel.previewB, &QPushButton::clicked, this, &Ekos::Align::togglePreviewAlignPoints);
+    connect(mountModel.stopAlignB, &QPushButton::clicked, this, &Ekos::Align::resetAlignmentProcedure);
+    connect(mountModel.startAlignB, &QPushButton::clicked, this, &Ekos::Align::startStopAlignmentProcedure);
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -529,7 +530,7 @@ void Align::resizeEvent(QResizeEvent *event)
     }
     else
     {
-        QTimer::singleShot(10, this, SLOT(handleHorizontalPlotSizeChange()));
+        QTimer::singleShot(10, this, &Ekos::Align::handleHorizontalPlotSizeChange);
     }
 }
 
@@ -602,13 +603,13 @@ void Align::buildTarget()
     int circleRingPt = 0;
     for (int i = 0; i < pointCount; i++)
     {
-        double theta = i / (double)(pointCount)*2 * M_PI;
+        double theta = i / static_cast<double>(pointCount)*2 * M_PI;
 
         for (double ring = 1; ring < 8; ring++)
         {
             if (ring != 4 && ring != 6)
             {
-                if (i % (9 - (int)ring) == 0) //This causes fewer points to draw on the inner circles.
+                if (i % (9 - static_cast<int>(ring)) == 0) //This causes fewer points to draw on the inner circles.
                 {
                     circleRings[circleRingPt] = QCPCurveData(circleRingPt, accuracyRadius * ring * 0.25 * qCos(theta),
                                                              accuracyRadius * ring * 0.25 * qSin(theta));
@@ -677,7 +678,7 @@ void Align::slotWizardAlignmentPoints()
         {
             if (decAngle < lat - 90 + minAlt) //Min altitude possible at minAlt deg above horizon
             {
-                KMessageBox::sorry(0, i18n("DEC is below the altitude limit"));
+                KMessageBox::sorry(nullptr, i18n("DEC is below the altitude limit"));
                 return;
             }
         }
@@ -685,7 +686,7 @@ void Align::slotWizardAlignmentPoints()
         {
             if (decAngle > lat + 90 - minAlt) //Max altitude possible at minAlt deg above horizon
             {
-                KMessageBox::sorry(0, i18n("DEC is below the altitude limit"));
+                KMessageBox::sorry(nullptr, i18n("DEC is below the altitude limit"));
                 return;
             }
         }
@@ -764,7 +765,7 @@ void Align::slotWizardAlignmentPoints()
 
         if (raIncrement == -1 || decIncrement == -1)
         {
-            KMessageBox::sorry(0, i18n("Point calculation error."));
+            KMessageBox::sorry(nullptr, i18n("Point calculation error."));
             return;
         }
 
@@ -1109,7 +1110,7 @@ void Align::slotLoadAlignmentPoints()
     if (fileURL.isValid() == false)
     {
         QString message = i18n("Invalid URL: %1", fileURL.toLocalFile());
-        KMessageBox::sorry(0, message, i18n("Invalid URL"));
+        KMessageBox::sorry(nullptr, message, i18n("Invalid URL"));
         return;
     }
 
@@ -1128,7 +1129,7 @@ bool Align::loadAlignmentPoints(const QString &fileURL)
     if (!sFile.open(QIODevice::ReadOnly))
     {
         QString message = i18n("Unable to open file %1", fileURL);
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
         return false;
     }
 
@@ -1234,7 +1235,7 @@ void Align::slotSaveAlignmentPoints()
 
         if (QFile::exists(alignURL.toLocalFile()))
         {
-            int r = KMessageBox::warningContinueCancel(0,
+            int r = KMessageBox::warningContinueCancel(nullptr,
                                                        i18n("A file named \"%1\" already exists. "
                                                             "Overwrite it?",
                                                             alignURL.fileName()),
@@ -1266,7 +1267,7 @@ bool Align::saveAlignmentPoints(const QString &path)
     if (!file.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Unable to write to file %1", path);
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
         return false;
     }
 
@@ -1401,7 +1402,7 @@ void Align::exportSolutionPoints()
 
     if (QFile::exists(path))
     {
-        int r = KMessageBox::warningContinueCancel(0,
+        int r = KMessageBox::warningContinueCancel(nullptr,
                                                    i18n("A file named \"%1\" already exists. "
                                                         "Overwrite it?",
                                                         exportFile.fileName()),
@@ -1422,7 +1423,7 @@ void Align::exportSolutionPoints()
     if (!file.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Unable to write to file %1", path);
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
         return;
     }
 
@@ -1443,7 +1444,7 @@ void Align::exportSolutionPoints()
 
         if (!raCell || !deCell || !objNameCell || !raErrorCell || !deErrorCell)
         {
-            KMessageBox::sorry(0, i18n("Error in table structure."));
+            KMessageBox::sorry(nullptr, i18n("Error in table structure."));
             return;
         }
         dms raDMS = dms::fromString(raCell->text(), false);
@@ -1532,12 +1533,10 @@ void Align::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIn
 
         mountModel.alignTable->setItem(newVisualIndex, i, oldItem);
         mountModel.alignTable->setItem(oldVisualIndex, i, newItem);
-    }
-    disconnect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int,int,int)), this,
-               SLOT(moveAlignPoint(int,int,int)));
-    mountModel.alignTable->verticalHeader()->moveSection(newVisualIndex, oldVisualIndex);
-    connect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int,int,int)), this,
-            SLOT(moveAlignPoint(int,int,int)));
+    }    
+    mountModel.alignTable->verticalHeader()->blockSignals(true);
+    mountModel.alignTable->verticalHeader()->moveSection(newVisualIndex, oldVisualIndex);    
+    mountModel.alignTable->verticalHeader()->blockSignals(false);
 
     if (previewShowing)
         updatePreviewAlignPoints();
@@ -1564,7 +1563,7 @@ void Align::slotMountModel()
     spWest.setAz(270);
     spWest.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
 
-    mountModel.alignDec->setValue((int)spWest.dec().Degrees());
+    mountModel.alignDec->setValue(static_cast<int>(spWest.dec().Degrees()));
 
     mountModelDialog.show();
 }
@@ -1586,7 +1585,7 @@ void Align::slotFindAlignObject()
     if (fd->exec() == QDialog::Accepted)
     {
         SkyObject *object = fd->targetObject();
-        if (object != 0)
+        if (object != nullptr)
         {
             SkyObject *o = object->clone();
             o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
@@ -1666,13 +1665,13 @@ void Align::startStopAlignmentProcedure()
         {
             if (alignmentPointsAreBad())
             {
-                KMessageBox::error(0, i18n("Please Check the Alignment Points."));
+                KMessageBox::error(nullptr, i18n("Please Check the Alignment Points."));
                 return;
             }
             if (currentGotoMode == GOTO_NOTHING)
             {
                 int r = KMessageBox::warningContinueCancel(
-                            0,
+                            nullptr,
                             i18n("In the Align Module, \"Nothing\" is Selected for the Solver Action.  This means that the "
                                  "mount model tool will not sync/align your mount but will only report the pointing model "
                                  "errors.  Do you wish to continue?"),
@@ -1775,9 +1774,8 @@ bool Align::isParserOK()
 
     if (rc)
     {
-        connect(parser, SIGNAL(solverFinished(double,double,double,double)), this,
-                SLOT(solverFinished(double,double,double,double)), Qt::UniqueConnection);
-        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
+        connect(parser, &AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
+        connect(parser, &AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
     }
 
     return rc;
@@ -1851,9 +1849,8 @@ void Align::setSolverType(int type)
     parser->setAlign(this);
     if (parser->init())
     {
-        connect(parser, SIGNAL(solverFinished(double,double,double,double)), this,
-                SLOT(solverFinished(double,double,double,double)), Qt::UniqueConnection);
-        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
+        connect(parser, &AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
+        connect(parser, &AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
     }
     else
         parser->disconnect();
@@ -1934,8 +1931,7 @@ void Align::setTelescope(ISD::GDInterface *newTelescope)
 {
     currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
 
-    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-            SLOT(processNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+    connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
 
     syncTelescopeInfo();
 }
@@ -1943,8 +1939,7 @@ void Align::setTelescope(ISD::GDInterface *newTelescope)
 void Align::setDome(ISD::GDInterface *newDome)
 {
     currentDome = static_cast<ISD::Dome *>(newDome);
-    connect(currentDome, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this,
-            SLOT(processSwitch(ISwitchVectorProperty*)), Qt::UniqueConnection);
+    connect(currentDome, &ISD::GDInterface::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
 }
 
 void Align::syncTelescopeInfo()
@@ -2445,14 +2440,14 @@ bool Align::captureAndSolve()
     if (focal_length == -1 || aperture == -1)
     {
         KMessageBox::error(
-                    0,
+                    nullptr,
                     i18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
         return false;
     }
 
     if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
     {
-        KMessageBox::error(0, i18n("CCD pixel size is missing. Please check your driver settings and try again."));
+        KMessageBox::error(nullptr, i18n("CCD pixel size is missing. Please check your driver settings and try again."));
         return false;
     }
 
@@ -2478,7 +2473,7 @@ bool Align::captureAndSolve()
     if (currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName(), "CCD1") == B_NEVER)
     {
         if (KMessageBox::questionYesNo(
-                    0, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
+                    nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
                 KMessageBox::Yes)
         {
             currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
@@ -2510,9 +2505,8 @@ bool Align::captureAndSolve()
 
     alignView->setBaseSize(alignWidget->size());
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this,
-            SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
+    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Align::newFITS);
+    connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
 
     // In case of remote solver, check if we need to update active CCD
     if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
@@ -2671,9 +2665,8 @@ void Align::newFITS(IBLOB *bp)
     if (!strcmp(bp->name, "CCD2"))
         return;
 
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*, double, IPState)), this,
-               SLOT(checkCCDExposureProgress(ISD::CCDChip*, double, IPState)));
+    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Align::newFITS);
+    disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
 
     blobType     = *(static_cast<ISD::CCD::BlobType *>(bp->aux1));
     blobFileName = QString(static_cast<char *>(bp->aux2));
@@ -2704,8 +2697,8 @@ void Align::newFITS(IBLOB *bp)
                 uint16_t offsetY = y / biny;
                 FITSData *darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
 
-                connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
-                connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, &Ekos::Align::setCaptureComplete);
+                connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Align::appendLogText);
 
                 if (darkData)
                     DarkLibrary::Instance()->subtract(darkData, alignView, FITS_NONE, offsetX, offsetY);
@@ -2923,7 +2916,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     RotOut->setText(QString::number(orientation, 'g', 5));
 
     // Convert to JNow
-    alignCoord.apparentCoord((long double)J2000, KStars::Instance()->data()->ut().djd());
+    alignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
     // Get horizontal coords
     alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
@@ -3140,7 +3133,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         break;
 
     case GOTO_SLEW:
-        if (loadSlewState == IPS_BUSY || targetDiff > (double)accuracySpin->value())
+        if (loadSlewState == IPS_BUSY || targetDiff > static_cast<double>(accuracySpin->value()))
         {
             if (loadSlewState == IPS_IDLE && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
             {
@@ -3274,9 +3267,8 @@ void Align::abort()
     alignTimer.stop();
 
     //currentCCD->disconnect(this);
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*, double, IPState)), this,
-               SLOT(checkCCDExposureProgress(ISD::CCDChip*, double, IPState)));
+    disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Align::newFITS);
+    disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
 
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
@@ -3303,7 +3295,7 @@ void Align::abort()
         }
         else
         {
-            int elapsed = (int)round(solverTimer.elapsed() / 1000.0);
+            int elapsed = static_cast<int>(round(solverTimer.elapsed() / 1000.0));
             appendLogText(i18np("Solver aborted after %1 second.", "Solver aborted after %1 seconds", elapsed));
         }
     }
@@ -3500,7 +3492,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     state = ALIGN_PROGRESS;
                     emit newStatus(state);
 
-                    QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
+                    QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
                     return;
                 }
                 else if (differentialSlewingActivated)
@@ -3526,7 +3518,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                     state = ALIGN_PROGRESS;
                     emit newStatus(state);
 
-                    QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
+                    QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
                     return;
                 }
                 break;
@@ -3649,7 +3641,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
             appendLogText(i18n("Rotator reached target position angle."));
             targetAccuracyNotMet = true;
             loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
-            QTimer::singleShot(Options::settlingTime(), this, SLOT(executeGOTO()));
+            QTimer::singleShot(Options::settlingTime(), this, &Ekos::Align::executeGOTO);
         }
     }
 
@@ -3790,7 +3782,7 @@ void Align::measureAzError()
         // Display message box confirming user point scope near meridian and south
 
         if (KMessageBox::warningContinueCancel(
-                    0,
+                    nullptr,
                     hemisphere == NORTH_HEMISPHERE ?
                     i18n("Point the telescope at the southern meridian. Press Continue when ready.") :
                     i18n("Point the telescope at the northern meridian. Press Continue when ready."),
@@ -3891,7 +3883,7 @@ void Align::measureAltError()
 
         // Display message box confirming user point scope near meridian and south
 
-        if (KMessageBox::warningContinueCancel(0,
+        if (KMessageBox::warningContinueCancel(nullptr,
                                                i18n("Point the telescope to the eastern or western horizon with a "
                                                     "minimum altitude of 20 degrees. Press continue when ready."),
                                                i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(),
@@ -4672,7 +4664,7 @@ void Align::setCaptureStatus(CaptureState newState)
             qCDebug(KSTARS_EKOS_ALIGN) << "Post meridian flip mount model reset" << (mountModelReset ? "successful." : "failed.");
         }
 
-        QTimer::singleShot(Options::settlingTime(), this, SLOT(captureAndSolve()));
+        QTimer::singleShot(Options::settlingTime(), this, &Ekos::Align::captureAndSolve);
         break;
 
     default:
@@ -4808,8 +4800,8 @@ void Align::stopPAHProcess()
     alignView->setRefreshEnabled(false);
 
     emit newFrame(alignView);
-    disconnect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
-    disconnect(alignView, SIGNAL(newCorrectionVector(QLineF)), this, SIGNAL(newCorrectionVector(QLineF)));
+    disconnect(alignView, &AlignView::trackingStarSelected, this, &Ekos::Align::setPAHCorrectionOffset);
+    disconnect(alignView, &AlignView::newCorrectionVector, this, &Ekos::Align::newCorrectionVector);
 
     state = ALIGN_IDLE;
     emit newStatus(state);
@@ -4934,10 +4926,10 @@ void Align::calculatePAHError()
         appendLogText(i18n("Warning: Mount axis and celestial pole are outside the field of view. Correction vector may be inaccurate."));
     */
 
-    connect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
+    connect(alignView, &AlignView::trackingStarSelected, this, &Ekos::Align::setPAHCorrectionOffset);
     emit polarResultUpdated(correctionVector, polarError.toDMSString());
 
-    connect(alignView, SIGNAL(newCorrectionVector(QLineF)), this, SIGNAL(newCorrectionVector(QLineF)), Qt::UniqueConnection);
+    connect(alignView, &AlignView::newCorrectionVector, this, &Ekos::Align::newCorrectionVector, Qt::UniqueConnection);
     emit newCorrectionVector(correctionVector);
     alignView->setCorrectionParams(correctionVector);
 
@@ -5047,7 +5039,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         if (Options::limitedResourcesMode() == false)
         {
             appendLogText(i18n("Please wait while WCS data is processed..."));
-            connect(alignView, SIGNAL(wcsToggled(bool)), this, SLOT(setWCSToggled(bool)), Qt::UniqueConnection);
+            connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
             alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
             return;
         }
@@ -5105,7 +5097,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         pahImageInfos.append(solution);
 
         appendLogText(i18n("Please wait while WCS data is processed..."));
-        connect(alignView, SIGNAL(wcsToggled(bool)), this, SLOT(setWCSToggled(bool)), Qt::UniqueConnection);
+        connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
         alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
         return;
     }
@@ -5116,7 +5108,7 @@ void Align::setWCSToggled(bool result)
     appendLogText(i18n("WCS data processing is complete."));
 
     //alignView->disconnect(this);
-    disconnect(alignView, SIGNAL(wcsToggled(bool)), this, SLOT(setWCSToggled(bool)));
+    disconnect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled);
 
     if (pahStage == PAH_FIRST_CAPTURE)
     {
@@ -5464,16 +5456,15 @@ void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
     if (remoteParser.get() != nullptr)
     {
         remoteParser->setAstrometryDevice(remoteParserDevice);
-        connect(remoteParser.get(), SIGNAL(solverFinished(double,double,double,double)), this,
-                SLOT(solverFinished(double,double,double,double)), Qt::UniqueConnection);
-        connect(remoteParser.get(), SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
+        connect(remoteParser.get(), &AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
+        connect(remoteParser.get(), &AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
     }
 }
 
 void Align::setRotator(ISD::GDInterface *newRotator)
 {
     currentRotator = newRotator;
-    connect(currentRotator, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+    connect(currentRotator, &ISD::GDInterface::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
 }
 
 void Align::refreshAlignOptions()
