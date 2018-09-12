@@ -44,16 +44,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Scheduler")
+    Q_PROPERTY(Ekos::SchedulerState status READ status NOTIFY newStatus)
+    Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
+    Q_PROPERTY(QString profile READ profile WRITE setProfile)
 
-  public:
-    typedef enum {
-        SCHEDULER_IDLE,
-        SCHEDULER_STARTUP,
-        SCHEDULER_RUNNIG,
-        SCHEDULER_PAUSED,
-        SCHEDULER_SHUTDOWN,
-        SCHEDULER_ABORTED
-    } SchedulerState;
+  public:    
     typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_STOPPING, EKOS_READY } EkosState;
     typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_DISCONNECTING, INDI_PROPERTY_CHECK, INDI_READY } INDIState;
     typedef enum {
@@ -109,7 +104,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
     QString getCurrentJobName();
     void appendLogText(const QString &);
-    QString getLogText() { return logText.join("\n"); }
+    QStringList logText() { return m_LogText; }
+    QString getLogText() { return m_LogText.join("\n"); }
     void clearLog();
 
     void addObject(SkyObject *object);
@@ -202,6 +198,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @brief Resets all jobs to IDLE
          */
     Q_SCRIPTABLE void resetAllJobs();
+
+    Ekos::SchedulerState status() { return state; }
+
+    void setProfile(const QString &profile) {schedulerProfileCombo->setCurrentText(profile);}
+    QString profile() {return schedulerProfileCombo->currentText();}
 
     /** @}*/
 
@@ -388,9 +389,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
     void checkShutdownProcedure();
 
     void setINDICommunicationStatus(Ekos::CommunicationStatus status);
+    void setEkosCommunicationStatus(Ekos::CommunicationStatus status);
 
   signals:
-    void newLog();
+    void newLog(const QString &text);
+    void newStatus(Ekos::SchedulerState state);
     void weatherChanged(IPState state);
     void newTarget(const QString &);
 
@@ -651,7 +654,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
     /// Shutdown script URL
     QUrl shutdownScriptURL;
     /// Store all log strings
-    QStringList logText;
+    QStringList m_LogText;
     /// Busy indicator widget
     QProgressIndicator *pi { nullptr };
     /// Are we editing a job right now? Job row index

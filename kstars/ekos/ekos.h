@@ -143,6 +143,22 @@ typedef enum
     FILTER_AUTOFOCUS
 } FilterState;
 
+// Scheduler states
+
+const QString &getSchedulerStatusString(AlignState state);
+
+static const QStringList schedulerStates = { I18N_NOOP("Idle"), I18N_NOOP("Startup"), I18N_NOOP("Running"),
+                                          I18N_NOOP("Paused"), I18N_NOOP("Shutdown"), I18N_NOOP("Aborted")};
+
+typedef enum {
+    SCHEDULER_IDLE,
+    SCHEDULER_STARTUP,
+    SCHEDULER_RUNNIG,
+    SCHEDULER_PAUSED,
+    SCHEDULER_SHUTDOWN,
+    SCHEDULER_ABORTED
+} SchedulerState;
+
 const QString &getFilterStatusString(FilterState state);
 
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
@@ -163,14 +179,22 @@ Q_DECLARE_METATYPE(Ekos::CaptureState)
 QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::CaptureState& source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::CaptureState &dest);
 
+// Focus
 Q_DECLARE_METATYPE(Ekos::FocusState)
 QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::FocusState& source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::FocusState &dest);
 
+// Guide
 Q_DECLARE_METATYPE(Ekos::GuideState)
 QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::GuideState& source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::GuideState &dest);
 
+// Align
 Q_DECLARE_METATYPE(Ekos::AlignState)
 QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::AlignState& source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::AlignState &dest);
+
+// Scheduler
+Q_DECLARE_METATYPE(Ekos::SchedulerState)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::SchedulerState& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::SchedulerState &dest);

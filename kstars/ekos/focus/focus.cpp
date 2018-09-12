@@ -2751,7 +2751,7 @@ void Focus::toggleFocusingWidgetFullScreen()
     }
 }
 
-void Focus::setMountStatus(ISD::Telescope::TelescopeStatus newState)
+void Focus::setMountStatus(ISD::Telescope::Status newState)
 {
     switch (newState)
     {

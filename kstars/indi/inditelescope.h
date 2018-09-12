@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <QDBusArgument>
+
 #include "indistd.h"
 #include "skypoint.h"
 
@@ -42,8 +44,8 @@ class Telescope : public DeviceDecorator
         MOUNT_PARKING,
         MOUNT_PARKED,
         MOUNT_ERROR
-    } TelescopeStatus;
-    typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNPARKED } ParkStatus;
+    } Status;
+    typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNPARKED, PARK_ERROR } ParkStatus;
     typedef enum { PARK_OPTION_CURRENT, PARK_OPTION_DEFAULT, PARK_OPTION_WRITE_DATA } ParkOptionCommand;
 
     void registerProperty(INDI::Property *prop) override;
@@ -92,14 +94,14 @@ class Telescope : public DeviceDecorator
 
     // Parking
     bool canPark();
-    bool isParked() { return parkStatus == PARK_PARKED; }
+    bool isParked() { return m_ParkStatus == PARK_PARKED; }
     bool canCustomPark() { return m_hasCustomParking; }
     bool sendParkingOptionCommand(ParkOptionCommand command);
 
     // Status
-    ParkStatus getParkStatus() { return parkStatus; }
-    TelescopeStatus getStatus();
-    const QString getStatusString(TelescopeStatus status);
+    ParkStatus parkStatus() { return m_ParkStatus; }
+    Status status();
+    const QString getStatusString(Status status);
 
     // Altitude Limits
     void setAltLimits(double minAltitude, double maxAltitude);
@@ -129,12 +131,13 @@ class Telescope : public DeviceDecorator
 
   signals:
     void newTarget(const QString &);
+    void newParkStatus(ISD::Telescope::ParkStatus status);
     void slewRateChanged(int rate);
 
   private:
     SkyPoint currentCoord;
-    double minAlt, maxAlt;
-    ParkStatus parkStatus = PARK_UNKNOWN;
+    double minAlt=0, maxAlt=90;
+    ParkStatus m_ParkStatus = PARK_UNKNOWN;
     IPState EqCoordPreviousState;
     QTimer *centerLockTimer  = nullptr;
     SkyObject *currentObject = nullptr;
@@ -153,3 +156,11 @@ class Telescope : public DeviceDecorator
     QStringList m_slewRates;
 };
 }
+
+Q_DECLARE_METATYPE(ISD::Telescope::Status)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Telescope::Status& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::Status &dest);
+
+Q_DECLARE_METATYPE(ISD::Telescope::ParkStatus)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Telescope::ParkStatus& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::ParkStatus &dest);

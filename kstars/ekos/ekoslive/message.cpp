@@ -713,7 +713,7 @@ void Message::sendStates()
         QJsonObject mountState = {
             {"status", m_Manager->mountStatus->text()},
             {"target", m_Manager->mountTarget->text()},
-            {"slewRate", m_Manager->mountModule()->getSlewRate()}
+            {"slewRate", m_Manager->mountModule()->slewRate()}
         };
 
         sendResponse(commands[NEW_MOUNT_STATE], mountState);

@@ -1,6 +1,11 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Scheduler">
+  <property name="profile" type="s" access="readwrite"/>
+  <property name="logText" type="as" access="read"/>
+  <property name="status" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::SchedulerState"/>
+  </property>
     <method name="start">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>

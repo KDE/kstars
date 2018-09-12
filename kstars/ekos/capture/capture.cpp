@@ -5167,7 +5167,7 @@ void Capture::setVideoStreamEnabled(bool enabled)
     }
 }
 
-void Capture::setMountStatus(ISD::Telescope::TelescopeStatus newState)
+void Capture::setMountStatus(ISD::Telescope::Status newState)
 {
     switch (newState)
     {

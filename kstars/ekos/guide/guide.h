@@ -339,7 +339,7 @@ class Guide : public QWidget, public Ui::Guide
     // Update Capture Module status
     void setCaptureStatus(Ekos::CaptureState newState);
     // Update Mount module status
-    void setMountStatus(ISD::Telescope::TelescopeStatus newState);
+    void setMountStatus(ISD::Telescope::Status newState);
 
     // Star Position
     void setStarPosition(const QVector3D &newCenter, bool updateNow);

@@ -304,7 +304,7 @@ class Focus : public QWidget, public Ui::Focus
     void adjustFocusOffset(int value, bool useAbsoluteOffset);
 
     // Update Mount module status
-    void setMountStatus(ISD::Telescope::TelescopeStatus newState);
+    void setMountStatus(ISD::Telescope::Status newState);
 
   private slots:
     /**
