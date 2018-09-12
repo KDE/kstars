@@ -47,11 +47,9 @@ FILE *outreport;
 int XSAMPLE = 4100;
 int YSAMPLE = 4100;
 
-int fp_msg (char *msg)
-{
-        printf ("%s", msg);
-        return(0);
-}
+#define UNUSED(x) (void)(x)
+#define fp_tmpnam(suffix, rootname, tmpnam) _fp_tmpnam((char *)suffix, (char *)rootname, (char *)tmpnam)
+
 /*--------------------------------------------------------------------------*/
 int fp_noop (void)
 {
@@ -120,7 +118,7 @@ int fp_access (char *filename)
 	}
 }
 /*--------------------------------------------------------------------------*/
-int fp_tmpnam(char *suffix, char *rootname, char *tmpnam)
+int _fp_tmpnam(char *suffix, char *rootname, char *tmpnam)
 {
 	/* create temporary file name */
 
@@ -788,8 +786,7 @@ int fp_loop (int argc, char *argv[], int unpack, char *output_filename, fpstate 
 		    fp_msg (infits); 
 		    fp_msg ("\nwas compressed with a LOSSY method.  Overwrite the\n");
 		    fp_msg ("original file with the compressed version? (Y/N) ");
-		    fgets(answer, 29, stdin);
-		    if (answer[0] != 'Y' && answer[0] != 'y') {
+		    if (fgets(answer, 29, stdin) && answer[0] != 'Y' && answer[0] != 'y') {
 		        fp_msg ("\noriginal file NOT overwritten!\n");
 			remove(outfits);
                         continue;
@@ -828,8 +825,7 @@ int fp_loop (int argc, char *argv[], int unpack, char *output_filename, fpstate 
 		    fp_msg (infits); 
 		    fp_msg ("\nwas compressed with a LOSSY method.  \n");
 		    fp_msg ("Delete the original file? (Y/N) ");
-		    fgets(answer, 29, stdin);
-		    if (answer[0] != 'Y' && answer[0] != 'y') {  /* user abort */
+		    if (fgets(answer, 29, stdin) && answer[0] != 'Y' && answer[0] != 'y') {  /* user abort */
 		        fp_msg ("\noriginal file NOT deleted!\n");
 		    } else {
 			if (iraf_infile) {  /* special case of deleting an IRAF format header and pixel file */
@@ -873,7 +869,8 @@ int fp_loop (int argc, char *argv[], int unpack, char *output_filename, fpstate 
                    }
                 }                
 		strcat(temp,outfits);
-                system(temp);
+                int rc = system(temp);
+		UNUSED(rc);
 	        strcat(outfits, ".gz");    /* only possibible with funpack */
 	    }
 
@@ -1110,7 +1107,7 @@ int fp_test (char *infits, char *outfits, char *outfits2, fpstate fpvar)
 
 	long	naxes[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
 	int	stat=0, totpix=0, naxis=0, ii, hdutype, bitpix = 0, extnum = 0, len;
-	int     tstatus = 0, hdunum, rescale_flag, bpix, ncols;
+	int     tstatus = 0, hdunum, rescale_flag, bpix = 8, ncols;
 	char	dtype[8], dimen[100];
 	double  bscale, rescale, noisemin;
 	long headstart, datastart, dataend;
@@ -1582,6 +1579,8 @@ printf("    HDU %d does not meet noise criteria to be quantized, so losslessly c
 /*--------------------------------------------------------------------------*/
 int fp_unpack_hdu (fitsfile *infptr, fitsfile *outfptr, fpstate fpvar, int *status)
 {
+	UNUSED(fpvar);
+
 	int hdutype, lval;
 
         if (*status > 0) return(0);
@@ -1914,6 +1913,8 @@ int fp_test_table (fitsfile *infptr, fitsfile *outfptr, fitsfile *outfptr2,
 	fpstate fpvar, int *status)
 {
 /* this routine is for performance testing of the table compression methods */
+	UNUSED(fpvar);
+	UNUSED(outfptr2);
 
 	int stat = 0, hdutype, tstatus = 0;
         char fzalgor[FLEN_VALUE];
@@ -2366,8 +2367,9 @@ int fp_i4rescale(fitsfile *infptr, int naxis, long *naxes, double rescale,
  */
 void abort_fpack(int sig)
 {
-     /* clean up by deleting temporary files */
-     
+	/* clean up by deleting temporary files */
+	UNUSED(sig);
+
       if (tempfilename[0]) {
          remove(tempfilename);
       }

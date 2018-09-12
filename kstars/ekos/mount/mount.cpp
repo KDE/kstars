@@ -760,13 +760,15 @@ bool Mount::slew(const QString &RA, const QString &DEC)
     ra = dms::fromString(RA, false);
     de = dms::fromString(DEC, true);
 
-    if (m_J2000Check->property("checked").toBool())
+    // If J2000 was checked and the Mount is _not_ already using native J2000 coordinates
+    // then we need to convert J2000 to JNow. Otherwise, we send J2000 as is.
+    if (m_J2000Check->property("checked").toBool() && currentTelescope && currentTelescope->isJ2000() == false)
     {
         // J2000 ---> JNow
         SkyPoint J2000Coord(ra, de);
         J2000Coord.setRA0(ra);
         J2000Coord.setDec0(de);
-        J2000Coord.updateCoordsNow(KStarsData::Instance()->updateNum());
+        J2000Coord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
 
         ra = J2000Coord.ra();
         de = J2000Coord.dec();
