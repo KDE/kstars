@@ -2,6 +2,8 @@
 <node>
   <interface name="org.kde.kstars.Ekos.Mount">
   <property name="logText" type="as" access="read"/>
+  <property name="canPark" type="b" access="read"/>
+  <property name="slewStatus" type="i" access="read"/>
   <property name="altitudeLimits" type="(i)" access="readwrite">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
   </property>
@@ -37,12 +39,6 @@
       <arg name="target" type="s" direction="in"/>
     </method>
     <method name="abort">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="getSlewStatus">
-      <arg type="i" direction="out"/>
-    </method>    
-    <method name="canPark">
       <arg type="b" direction="out"/>
     </method>
     <method name="park">

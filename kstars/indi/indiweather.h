@@ -24,7 +24,7 @@ class Weather : public DeviceDecorator
     Q_OBJECT
 
   public:
-    explicit Weather(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_WEATHER; }
+    explicit Weather(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_WEATHER; }    
 
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
@@ -36,5 +36,11 @@ class Weather : public DeviceDecorator
     IPState getWeatherStatus();
 
     uint16_t getUpdatePeriod();
+
+signals:
+    void newStatus(IPState status);
+
+private:
+    IPState m_WeatherStatus { IPS_IDLE };
 };
 }

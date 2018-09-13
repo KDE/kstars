@@ -27,6 +27,8 @@ class Weather : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Weather")
+    Q_PROPERTY(uint32_t status READ getWeatherStatus)
+    Q_PROPERTY(uint16_t updatePeriod READ getUpdatePeriod)
 
   public:
     Weather();
@@ -60,6 +62,9 @@ class Weather : public QObject
      * @param newWeather pointer to Weather device.
      */
     void setWeather(ISD::GDInterface *newWeather);
+
+  signals:
+    void newStatus(IPState status);
 
   private:
     // Devices needed for Weather operation

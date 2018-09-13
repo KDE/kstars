@@ -25,7 +25,12 @@ Weather::Weather()
 
 void Weather::setWeather(ISD::GDInterface *newWeather)
 {
+    if (newWeather == currentWeather)
+        return;
+
     currentWeather = static_cast<ISD::Weather *>(newWeather);
+    currentWeather->disconnect(this);
+    connect(currentWeather, &ISD::Weather::newStatus, this, &Weather::newStatus);
 }
 
 IPState Weather::getWeatherStatus()
