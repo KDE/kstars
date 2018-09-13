@@ -830,7 +830,7 @@ bool Mount::abort()
     return currentTelescope->Abort();
 }
 
-IPState Mount::getSlewStatus()
+IPState Mount::slewStatus()
 {
     if (currentTelescope == nullptr)
         return IPS_ALERT;

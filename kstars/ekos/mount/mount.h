@@ -38,12 +38,14 @@ class Mount : public QWidget, public Ui::Mount
     Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
     Q_PROPERTY(QList<double> altitudeLimits READ altitudeLimits WRITE setAltitudeLimits)
     Q_PROPERTY(bool altitudeLimitsEnabled READ altitudeLimitsEnabled WRITE setAltitudeLimitsEnabled)
-    Q_PROPERTY(QList<double> equtorialCoords READ equatorialCoords)
+    Q_PROPERTY(QList<double> equatorialCoords READ equatorialCoords)
     Q_PROPERTY(QList<double> horizontalCoords READ horizontalCoords)
     Q_PROPERTY(QList<double> telescopeInfo READ telescopeInfo WRITE setTelescopeInfo)
     Q_PROPERTY(double hourAngle READ hourAngle)
     Q_PROPERTY(int slewRate READ slewRate WRITE setSlewRate)
+    Q_PROPERTY(int slewStatus READ slewStatus)
     Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
+    Q_PROPERTY(bool canPark READ canPark)
 
   public:
     Mount();
@@ -141,7 +143,7 @@ class Mount : public QWidget, public Ui::Mount
     /** DBUS interface function.
          * Get equatorial coords (JNow). An array of doubles is returned. First element is RA in hours. Second elements is DEC in degrees.
          */
-    Q_INVOKABLE Q_SCRIPTABLE QList<double> equatorialCoords();
+    Q_SCRIPTABLE QList<double> equatorialCoords();
 
     /** DBUS interface function.
          * Get Horizontal coords. An array of doubles is returned. First element is Azimuth in degrees. Second elements is Altitude in degrees.
@@ -162,7 +164,7 @@ class Mount : public QWidget, public Ui::Mount
     /** DBUS interface function.
          * Get the mount slew status ("Idle","Complete", "Busy", "Error")
          */
-    Q_INVOKABLE Q_SCRIPTABLE IPState getSlewStatus();
+    Q_INVOKABLE Q_SCRIPTABLE IPState slewStatus();
 
 
     /** DBUS interface function.
