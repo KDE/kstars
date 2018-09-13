@@ -69,26 +69,10 @@ Scheduler::Scheduler()
     ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
                                        QDBusConnection::sessionBus(), this);
 
-    focusInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Focus", "org.kde.kstars.Ekos.Focus",
-                                        QDBusConnection::sessionBus(), this);
-    captureInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Capture", "org.kde.kstars.Ekos.Capture",
-                                          QDBusConnection::sessionBus(), this);
-    mountInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount", "org.kde.kstars.Ekos.Mount",
-                                        QDBusConnection::sessionBus(), this);
-    alignInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Align", "org.kde.kstars.Ekos.Align",
-                                        QDBusConnection::sessionBus(), this);
-    guideInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Guide", "org.kde.kstars.Ekos.Guide",
-                                        QDBusConnection::sessionBus(), this);
-    domeInterface    = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Dome", "org.kde.kstars.Ekos.Dome",
-                                       QDBusConnection::sessionBus(), this);
-    weatherInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Weather", "org.kde.kstars.Ekos.Weather",
-                                          QDBusConnection::sessionBus(), this);
-    capInterface     = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/DustCap", "org.kde.kstars.Ekos.DustCap",
-                                      QDBusConnection::sessionBus(), this);
-
     // Example of connecting DBus signals
     connect(ekosInterface, SIGNAL(indiStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setINDICommunicationStatus(Ekos::CommunicationStatus)));
     connect(ekosInterface, SIGNAL(ekosStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setEkosCommunicationStatus(Ekos::CommunicationStatus)));
+    connect(ekosInterface, SIGNAL(newModule(const QString &)), this, SLOT(registerNewModule(const QString &)));
 
     moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName("Moon"));
 
@@ -2653,49 +2637,6 @@ bool Scheduler::checkINDIState()
 
         case INDI_PROPERTY_CHECK:
         {
-            for (int i=0; i < mountInterface->metaObject()->propertyCount(); i++)
-                qCDebug(KSTARS_EKOS_SCHEDULER) << "#" << i << ": Property " << mountInterface->metaObject()->property(i).name()
-                                               << " Value:" << mountInterface->metaObject()->property(i).typeName();
-            QVariant canMountPark = mountInterface->property("canPark");
-            unparkMountCheck->setEnabled(canMountPark.toBool());
-            parkMountCheck->setEnabled(canMountPark.toBool());
-
-            QVariant canDomePark = domeInterface->property("canPark");
-            unparkDomeCheck->setEnabled(canDomePark.toBool());
-            parkDomeCheck->setEnabled(canDomePark.toBool());
-
-            QVariant hasCoolerControl = captureInterface->property("coolerControl");
-            warmCCDCheck->setEnabled(hasCoolerControl.toBool());
-
-            QVariant canCapPark = capInterface->property("canPark");
-            if (canCapPark.isValid())
-            {
-                capCheck->setEnabled(canCapPark.toBool());
-                uncapCheck->setEnabled(canCapPark.toBool());
-            }
-            else
-            {
-                capCheck->setEnabled(false);
-                uncapCheck->setEnabled(false);
-            }
-
-            QVariant updatePeriod = weatherInterface->property("updatePeriod");
-            if (updatePeriod.isValid())
-            {
-                weatherCheck->setEnabled(true);
-                if (updatePeriod.toInt() > 0)
-                {
-                    weatherTimer.setInterval(updatePeriod.toInt() * 1000);
-                    connect(&weatherTimer, &QTimer::timeout, this, &Scheduler::checkWeather);
-                    weatherTimer.start();
-
-                    // Check weather initially
-                    checkWeather();
-                }
-            }
-            else
-                weatherCheck->setEnabled(true);
-
             indiState = INDI_READY;
             return true;
 
@@ -6292,7 +6233,7 @@ void Scheduler::setINDICommunicationStatus(Ekos::CommunicationStatus status)
 {
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler INDI status is" << status;
 
-    m_INDICommunicationStatus = status;
+    m_INDICommunicationStatus = status;    
 }
 
 void Scheduler::setEkosCommunicationStatus(Ekos::CommunicationStatus status)
@@ -6302,4 +6243,107 @@ void Scheduler::setEkosCommunicationStatus(Ekos::CommunicationStatus status)
     m_EkosCommunicationStatus = status;
 }
 
+void Scheduler::registerNewModule(const QString &name)
+{
+    if (name == "Focus")
+    {
+        focusInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Focus", "org.kde.kstars.Ekos.Focus",
+                                            QDBusConnection::sessionBus(), this);
+    }
+    else if (name == "Capture")
+    {
+        captureInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Capture", "org.kde.kstars.Ekos.Capture",
+                                              QDBusConnection::sessionBus(), this);
+
+        connect(captureInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
+    }
+    else if (name == "Mount")
+    {
+        mountInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount", "org.kde.kstars.Ekos.Mount",
+                                            QDBusConnection::sessionBus(), this);
+
+        connect(mountInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
+    }
+    else if (name == "Align")
+    {
+        alignInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Align", "org.kde.kstars.Ekos.Align",
+                                            QDBusConnection::sessionBus(), this);
+    }
+    else if (name == "Guide")
+    {
+        guideInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Guide", "org.kde.kstars.Ekos.Guide",
+                                            QDBusConnection::sessionBus(), this);
+    }
+    else if (name == "Dome")
+    {
+        domeInterface    = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Dome", "org.kde.kstars.Ekos.Dome",
+                                           QDBusConnection::sessionBus(), this);
+    }
+    else if (name == "Weather")
+    {
+        weatherInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Weather", "org.kde.kstars.Ekos.Weather",
+                                              QDBusConnection::sessionBus(), this);
+    }
+    else if (name == "DustCap")
+    {
+        capInterface     = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/DustCap", "org.kde.kstars.Ekos.DustCap",
+                                          QDBusConnection::sessionBus(), this);
+    }
+}
+
+void Scheduler::syncProperties()
+{
+    QDBusInterface *iface = qobject_cast<QDBusInterface*>(sender());
+
+    if (iface == mountInterface)
+    {
+        QVariant canMountPark = mountInterface->property("canPark");
+        unparkMountCheck->setEnabled(canMountPark.toBool());
+        parkMountCheck->setEnabled(canMountPark.toBool());
+    }
+    else if (iface == capInterface)
+    {
+        QVariant canCapPark = capInterface->property("canPark");
+        if (canCapPark.isValid())
+        {
+            capCheck->setEnabled(canCapPark.toBool());
+            uncapCheck->setEnabled(canCapPark.toBool());
+        }
+        else
+        {
+            capCheck->setEnabled(false);
+            uncapCheck->setEnabled(false);
+        }
+    }
+    else if (iface == weatherInterface)
+    {
+        QVariant updatePeriod = weatherInterface->property("updatePeriod");
+        if (updatePeriod.isValid())
+        {
+            weatherCheck->setEnabled(true);
+            if (updatePeriod.toInt() > 0)
+            {
+                weatherTimer.setInterval(updatePeriod.toInt() * 1000);
+                connect(&weatherTimer, &QTimer::timeout, this, &Scheduler::checkWeather, Qt::UniqueConnection);
+                weatherTimer.start();
+
+                // Check weather initially
+                checkWeather();
+            }
+        }
+        else
+            weatherCheck->setEnabled(true);
+    }
+    else if (iface == domeInterface)
+    {
+        QVariant canDomePark = domeInterface->property("canPark");
+        unparkDomeCheck->setEnabled(canDomePark.toBool());
+        parkDomeCheck->setEnabled(canDomePark.toBool());
+    }
+    else if (iface == captureInterface)
+    {
+        QVariant hasCoolerControl = captureInterface->property("coolerControl");
+        warmCCDCheck->setEnabled(hasCoolerControl.toBool());
+    }
+}
 }

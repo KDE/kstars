@@ -235,6 +235,15 @@ class Scheduler : public QWidget, public Ui::Scheduler
   protected slots:
 
     /**
+     * @brief registerNewModule Register an Ekos module as it arrives via DBus
+     * and create the appropiate DBus interface to communicate with it.
+     * @param name of module
+     */
+    void registerNewModule(const QString &name);
+
+    void syncProperties();
+
+    /**
          * @brief select object from KStars's find dialog.
          */
     void selectObject();
@@ -602,7 +611,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
     /** @internal Change the current job, updating associated widgets.
      * @param job is an existing SchedulerJob to set as current, or nullptr.
      */
-    void setCurrentJob(SchedulerJob *job);
+    void setCurrentJob(SchedulerJob *job);    
 
     void loadProfiles();
 
@@ -623,15 +632,15 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
     Ekos::Scheduler *ui { nullptr };
     //DBus interfaces
-    QDBusInterface *focusInterface { nullptr };
-    QDBusInterface *ekosInterface { nullptr };
-    QDBusInterface *captureInterface { nullptr };
-    QDBusInterface *mountInterface { nullptr };
-    QDBusInterface *alignInterface { nullptr };
-    QDBusInterface *guideInterface { nullptr };
-    QDBusInterface *domeInterface { nullptr };
-    QDBusInterface *weatherInterface { nullptr };
-    QDBusInterface *capInterface { nullptr };
+    QPointer<QDBusInterface> focusInterface { nullptr };
+    QPointer<QDBusInterface> ekosInterface { nullptr };
+    QPointer<QDBusInterface> captureInterface { nullptr };
+    QPointer<QDBusInterface> mountInterface { nullptr };
+    QPointer<QDBusInterface> alignInterface { nullptr };
+    QPointer<QDBusInterface> guideInterface { nullptr };
+    QPointer<QDBusInterface> domeInterface { nullptr };
+    QPointer<QDBusInterface> weatherInterface { nullptr };
+    QPointer<QDBusInterface> capInterface { nullptr };
     // Scheduler and job state and stages
     SchedulerState state { SCHEDULER_IDLE };
     EkosState ekosState { EKOS_IDLE };

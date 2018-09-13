@@ -34,5 +34,8 @@
     <signal name="newLog">
         <arg name="text" type="s" direction="out"/>
     </signal>
+    <signal name="newModule">
+        <arg name="name" type="s" direction="out"/>
+    </signal>
   </interface>
 </node>

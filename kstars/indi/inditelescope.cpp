@@ -33,18 +33,25 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     maxAlt               = -1;
     EqCoordPreviousState = IPS_IDLE;
 
-    centerLockTimer = new QTimer(this);
     // Set it for 5 seconds for now as not to spam the display update
-    centerLockTimer->setInterval(5000);
-    centerLockTimer->setSingleShot(true);
-    connect(centerLockTimer, &QTimer::timeout, this, [this]() { runCommand(INDI_CENTER_LOCK); });
+    centerLockTimer.setInterval(5000);
+    centerLockTimer.setSingleShot(true);
+    connect(&centerLockTimer, &QTimer::timeout, this, [this]() { runCommand(INDI_CENTER_LOCK); });
+
+    // If after 250ms no new properties are registered then emit ready
+    readyTimer.setInterval(250);
+    readyTimer.setSingleShot(true);
+    connect(&readyTimer, &QTimer::timeout, this, &Telescope::ready);
 
     qRegisterMetaType<ISD::Telescope::Status>("ISD::Telescope::Status");
-    qDBusRegisterMetaType<ISD::Telescope::Status>();    
+    qDBusRegisterMetaType<ISD::Telescope::Status>();
 }
 
 void Telescope::registerProperty(INDI::Property *prop)
 {
+    if (isConnected())
+        readyTimer.start();
+
     if (!strcmp(prop->getName(), "TELESCOPE_INFO"))
     {
         INumberVectorProperty *ti = prop->getNumber();
@@ -237,7 +244,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
             else if (isConnected() && conSP->s == ISS_OFF)
             {
                 KStars::Instance()->slotSetTelescopeEnabled(false);
-                centerLockTimer->stop();
+                centerLockTimer.stop();
             }
         }
     }
@@ -515,7 +522,7 @@ bool Telescope::runCommand(int command, void *ptr)
         case INDI_ENGAGE_TRACKING:
         {
             SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
-            J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), (long double)J2000);
+            J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
             currentCoord.setRA0(J2000Coord.ra());
             currentCoord.setDec0(J2000Coord.dec());
             KStars::Instance()->map()->setDestination(currentCoord);
@@ -529,7 +536,7 @@ bool Telescope::runCommand(int command, void *ptr)
                 currentCoord.angularDistanceTo(KStars::Instance()->map()->focus()).Degrees() > 0.5)
             {
                 SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
-                J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), (long double)J2000);
+                J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
                 currentCoord.setRA0(J2000Coord.ra());
                 currentCoord.setDec0(J2000Coord.dec());
                 //KStars::Instance()->map()->setClickedPoint(&currentCoord);
@@ -540,13 +547,13 @@ bool Telescope::runCommand(int command, void *ptr)
                 KStars::Instance()->map()->setFocusObject(nullptr);
                 Options::setIsTracking(true);
             }
-            centerLockTimer->start();
+            centerLockTimer.start();
         }
         break;
 
         case INDI_CENTER_UNLOCK:
             KStars::Instance()->map()->stopTracking();
-            centerLockTimer->stop();
+            centerLockTimer.stop();
             break;
 
         default:

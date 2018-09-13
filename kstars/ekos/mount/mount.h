@@ -318,6 +318,7 @@ private slots:
     void newStatus(ISD::Telescope::Status status);
     void newParkStatus(ISD::ParkStatus status);
     void slewRateChanged(int index);
+    void ready();
 
   private:
     void syncGPS();

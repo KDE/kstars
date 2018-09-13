@@ -579,6 +579,8 @@ class Capture : public QWidget, public Ui::Capture
     Q_SCRIPTABLE void newStatus(Ekos::CaptureState status);
     Q_SCRIPTABLE void newSequenceImage(const QString &filename);
 
+    void ready();
+
     void checkFocus(double);
     void suspendGuiding();
     void resumeGuiding();    
