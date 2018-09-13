@@ -22,7 +22,7 @@
 
 class FITSData;
 class FITSView;
-
+class QTimer;
 class StreamWG;
 
 /**
@@ -249,6 +249,7 @@ class CCD : public DeviceDecorator
     void videoRecordToggled(bool enabled);
     void newFPS(double instantFPS, double averageFPS);
     void newVideoFrame(std::unique_ptr<QImage> & frame);
+    void ready();
 
   private:
     void addFITSKeywords(const QString& filename);
@@ -273,6 +274,7 @@ class CCD : public DeviceDecorator
     int focusTabID { -1 };
     int guideTabID { -1 };
     int alignTabID { -1 };
+    std::unique_ptr<QTimer> readyTimer;
     std::unique_ptr<CCDChip> primaryChip;
     std::unique_ptr<CCDChip> guideChip;
     TransferFormat transferFormat { FORMAT_FITS };

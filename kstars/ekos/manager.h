@@ -161,6 +161,7 @@ class Manager : public QDialog, public Ui::Manager
     void ekosStatusChanged(Ekos::CommunicationStatus status);
     void indiStatusChanged(Ekos::CommunicationStatus status);
     void newLog(const QString &text);
+    void newModule(const QString &name);
 
   protected:
     void closeEvent(QCloseEvent *);

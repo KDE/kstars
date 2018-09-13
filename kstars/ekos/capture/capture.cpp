@@ -538,6 +538,7 @@ void Capture::stop(CaptureState targetState)
     disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
     disconnect(currentCCD, &ISD::CCD::newImage, this,  &Ekos::Capture::sendNewImage);
     disconnect(currentCCD, &ISD::CCD::newExposureValue, this,  &Ekos::Capture::setExposureProgress);
+    disconnect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
 
     currentCCD->setFITSDir("");
 
@@ -617,6 +618,7 @@ void Capture::checkCCD(int ccdNum)
         disconnect(ccd, &ISD::CCD::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature);
         disconnect(ccd, &ISD::CCD::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
         disconnect(ccd, &ISD::CCD::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
+        disconnect(ccd, &ISD::CCD::ready, this, &Ekos::Capture::ready);
     }
 
     if (ccdNum <= CCDs.count())
@@ -753,6 +755,7 @@ void Capture::checkCCD(int ccdNum)
         connect(currentCCD, &ISD::CCD::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature,   Qt::UniqueConnection);
         connect(currentCCD, &ISD::CCD::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
         connect(currentCCD, &ISD::CCD::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
+        connect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
     }
 }
 

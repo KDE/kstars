@@ -194,6 +194,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
         m_ParkStatus = status;
         emit newParkStatus(status);
     });
+    connect(currentTelescope, &ISD::Telescope::ready, this, &Mount::ready);
 
     //Disable this for now since ALL INDI drivers now log their messages to verbose output
     //connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);

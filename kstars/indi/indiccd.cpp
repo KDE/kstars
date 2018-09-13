@@ -784,6 +784,11 @@ bool CCDChip::setBinning(int bin_x, int bin_y)
 CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
 {
     primaryChip.reset(new CCDChip(this, CCDChip::PRIMARY_CCD));
+
+    readyTimer.reset(new QTimer());
+    readyTimer.get()->setInterval(250);
+    readyTimer.get()->setSingleShot(true);
+    connect(readyTimer.get(), &QTimer::timeout, this, &CCD::ready);
 }
 
 CCD::~CCD()
@@ -793,6 +798,9 @@ CCD::~CCD()
 
 void CCD::registerProperty(INDI::Property *prop)
 {
+    if (isConnected())
+        readyTimer.get()->start();
+
     if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
     {
         HasGuideHead = true;

@@ -10,6 +10,7 @@
 #pragma once
 
 #include <QDBusArgument>
+#include <QTimer>
 
 #include "indistd.h"
 #include "skypoint.h"
@@ -132,13 +133,15 @@ class Telescope : public DeviceDecorator
     void newTarget(const QString &);
     void newParkStatus(ISD::ParkStatus status);
     void slewRateChanged(int rate);
+    void ready();
 
   private:
     SkyPoint currentCoord;
     double minAlt=0, maxAlt=90;
     ParkStatus m_ParkStatus = PARK_UNKNOWN;
     IPState EqCoordPreviousState;
-    QTimer *centerLockTimer  = nullptr;
+    QTimer centerLockTimer;
+    QTimer readyTimer;
     SkyObject *currentObject = nullptr;
     bool inManualMotion      = false;
     bool inCustomParking     = false;

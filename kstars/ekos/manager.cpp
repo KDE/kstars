@@ -1860,6 +1860,8 @@ void Manager::initCapture()
     }
 
     connectModules();
+
+    emit newModule("Capture");
 }
 
 void Manager::initAlign()
@@ -1899,6 +1901,8 @@ void Manager::initAlign()
     }
 
     connectModules();
+
+    emit newModule("Align");
 }
 
 void Manager::initFocus()
@@ -1945,6 +1949,8 @@ void Manager::initFocus()
     }
 
     connectModules();
+
+    emit newModule("Focus");
 }
 
 void Manager::updateCurrentHFR(double newHFR, int position)
@@ -2016,6 +2022,8 @@ void Manager::initMount()
     mountGroup->setEnabled(true);
 
     connectModules();
+
+    emit newModule("Mount");
 }
 
 void Manager::initGuide()
@@ -2066,6 +2074,8 @@ void Manager::initGuide()
     }
 
     connectModules();
+
+    emit newModule("Guide");
 }
 
 void Manager::initDome()
@@ -2074,6 +2084,8 @@ void Manager::initDome()
         return;
 
     domeProcess.reset(new Ekos::Dome());
+
+    emit newModule("Dome");
 }
 
 void Manager::initWeather()
@@ -2082,6 +2094,8 @@ void Manager::initWeather()
         return;
 
     weatherProcess.reset(new Ekos::Weather());
+
+    emit newModule("Weather");
 }
 
 void Manager::initDustCap()
@@ -2090,6 +2104,8 @@ void Manager::initDustCap()
         return;
 
     dustCapProcess.reset(new Ekos::DustCap());
+
+    emit newModule("DustCap");
 }
 
 void Manager::setST4(ISD::ST4 *st4Driver)
