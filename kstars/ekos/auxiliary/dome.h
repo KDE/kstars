@@ -113,6 +113,7 @@ class Dome : public QObject
     void newStatus(ISD::Dome::Status status);
     void newParkStatus(ISD::ParkStatus status);
     void azimuthPositionChanged(double position);
+    void ready();
 
   private:
     // Devices needed for Dome operation

@@ -1119,7 +1119,8 @@ void Scheduler::stop()
     }
 
     // Clear target name in capture interface upon stopping
-    captureInterface->call(QDBus::AutoDetect, "setTargetName", QString());
+    if (captureInterface.isNull() == false)
+        captureInterface->setProperty("setTargetName", QString());
 
     if (scriptProcess.state() == QProcess::Running)
         scriptProcess.terminate();
@@ -1879,96 +1880,6 @@ bool Scheduler::calculateCulmination(SchedulerJob *job)
     return true;
 }
 
-void Scheduler::checkWeather()
-{
-    if (weatherCheck->isEnabled() == false || weatherCheck->isChecked() == false)
-        return;
-
-    IPState newStatus;
-    QString statusString;
-
-    QDBusReply<int> weatherReply = weatherInterface->call(QDBus::AutoDetect, "getWeatherStatus");
-    if (weatherReply.error().type() == QDBusError::NoError)
-    {
-        newStatus = static_cast<IPState>(weatherReply.value());
-
-        switch (newStatus)
-        {
-            case IPS_OK:
-                statusString = i18n("Weather conditions are OK.");
-                break;
-
-            case IPS_BUSY:
-                statusString = i18n("Warning: weather conditions are in the WARNING zone.");
-                break;
-
-            case IPS_ALERT:
-                statusString = i18n("Caution: weather conditions are in the DANGER zone!");
-                break;
-
-            default:
-                if (noWeatherCounter++ >= MAX_FAILURE_ATTEMPTS)
-                {
-                    noWeatherCounter = 0;
-                    appendLogText(i18n("Warning: Ekos did not receive any weather updates for the last %1 minutes.",
-                                       weatherTimer.interval() / (60000.0)));
-                }
-                break;
-        }
-
-        if (newStatus != weatherStatus)
-        {
-            weatherStatus = newStatus;
-
-            qCDebug(KSTARS_EKOS_SCHEDULER) << statusString;
-
-            if (weatherStatus == IPS_OK)
-                weatherLabel->setPixmap(
-                    QIcon::fromTheme("security-high")
-                        .pixmap(QSize(32, 32)));
-            else if (weatherStatus == IPS_BUSY)
-            {
-                weatherLabel->setPixmap(
-                    QIcon::fromTheme("security-medium")
-                        .pixmap(QSize(32, 32)));
-                KNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"));
-            }
-            else if (weatherStatus == IPS_ALERT)
-            {
-                weatherLabel->setPixmap(
-                    QIcon::fromTheme("security-low")
-                        .pixmap(QSize(32, 32)));
-                KNotification::event(QLatin1String("WeatherAlert"),
-                                     i18n("Weather conditions are critical. Observatory shutdown is imminent"));
-            }
-            else
-                weatherLabel->setPixmap(QIcon::fromTheme("chronometer")
-                                            .pixmap(QSize(32, 32)));
-
-            weatherLabel->show();
-            weatherLabel->setToolTip(statusString);
-
-            appendLogText(statusString);
-
-            emit weatherChanged(weatherStatus);
-        }
-
-        if (weatherStatus == IPS_ALERT)
-        {
-            appendLogText(i18n("Starting shutdown procedure due to severe weather."));
-            if (currentJob)
-            {
-                currentJob->setState(SchedulerJob::JOB_ABORTED);
-                stopCurrentJobAction();
-                stopGuiding();
-                jobTimer.stop();
-            }
-            checkShutdownState();
-            //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), &Scheduler::Qt::UniqueConnection);
-        }
-    }
-}
-
 int16_t Scheduler::getWeatherScore()
 {
     if (weatherCheck->isEnabled() == false || weatherCheck->isChecked() == false)
@@ -2637,6 +2548,22 @@ bool Scheduler::checkINDIState()
 
         case INDI_PROPERTY_CHECK:
         {
+            // If dome unparking is required then we wait for dome interface
+            if (unparkDomeCheck->isChecked() && m_DomeReady == false)
+                return false;
+
+            // If mount unparking is required then we wait for mount interface
+            if (unparkMountCheck->isChecked() && m_MountReady == false)
+                return false;
+
+            // If cap unparking is required then we wait for cap interface
+            if (uncapCheck->isChecked() && m_CapReady == false)
+                return false;
+
+            // capture interface is required at all times to proceed.
+            if (captureInterface.isNull() || m_CaptureReady == false)
+                return false;
+
             indiState = INDI_READY;
             return true;
 
@@ -2687,7 +2614,8 @@ bool Scheduler::checkINDIState()
             indiState = INDI_READY;
             return true;
 #endif
-        }        
+        }
+        break;
 
         case INDI_READY:
             return true;
@@ -2819,8 +2747,8 @@ bool Scheduler::checkShutdownState()
 
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Starting shutdown process...";
 
-            weatherTimer.stop();
-            weatherTimer.disconnect();
+//            weatherTimer.stop();
+//            weatherTimer.disconnect();
             weatherLabel->hide();
 
             jobTimer.stop();
@@ -3257,6 +3185,7 @@ void Scheduler::checkJobStage()
             getNextAction();
             break;
 
+#if 0
         case SchedulerJob::STAGE_SLEWING:
         {
             QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect, "getSlewStatus");
@@ -3302,7 +3231,9 @@ void Scheduler::checkJobStage()
             }
         }
         break;
+#endif
 
+#if 0
         case SchedulerJob::STAGE_FOCUSING:        
         {
             QDBusReply<int> focusReply = focusInterface->call(QDBus::AutoDetect, "getStatus");
@@ -3352,6 +3283,7 @@ void Scheduler::checkJobStage()
             }
         }
         break;
+#endif
 
         /*case SchedulerJob::STAGE_POSTALIGN_FOCUSING:
         focusInterface->call(QDBus::AutoDetect,"resetFrame");
@@ -3359,6 +3291,7 @@ void Scheduler::checkJobStage()
         getNextAction();
         break;*/
 
+#if 0
         case SchedulerJob::STAGE_ALIGNING:
         {
             QDBusReply<int> alignReply;
@@ -3410,41 +3343,34 @@ void Scheduler::checkJobStage()
             }
         }
         break;
+#endif
 
         case SchedulerJob::STAGE_RESLEWING:
         {
-            QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect, "getSlewStatus");
-            bool isDomeMoving          = false;
+            QVariant isDomeMoving = false;
 
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Re-slewing stage...";
 
-            if (parkDomeCheck->isEnabled())
-            {
-                QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isMoving");
-                if (domeReply.error().type() == QDBusError::NoError && domeReply.value() == true)
-                    isDomeMoving = true;
-            }
+            if (m_DomeReady)
+                isDomeMoving = domeInterface->property("isMoving");
 
-            if (slewStatus.error().type() == QDBusError::UnknownObject)
-            {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while reslewing, attempting to reconnect.",currentJob->getName()));
-                if (!manageConnectionLoss())
-                    currentJob->setState(SchedulerJob::JOB_ERROR);
-            }
-            else if (slewStatus.value() == IPS_OK && isDomeMoving == false)
+            QVariant mountStatus = mountInterface->property("status");
+            ISD::Telescope::Status status = static_cast<ISD::Telescope::Status>(mountStatus.toInt());
+
+            if (status == ISD::Telescope::MOUNT_TRACKING && isDomeMoving == false)
             {
                 appendLogText(i18n("Job '%1' repositioning is complete.", currentJob->getName()));
                 currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
                 getNextAction();
             }
-            else if (slewStatus.value() == IPS_ALERT)
+            else if (status == ISD::Telescope::MOUNT_ERROR)
             {
                 appendLogText(i18n("Warning: job '%1' repositioning failed, marking terminated due to errors.", currentJob->getName()));
                 currentJob->setState(SchedulerJob::JOB_ERROR);
 
                 findNextJob();
             }
-            else if (slewStatus.value() == IPS_IDLE)
+            else if (status == ISD::Telescope::MOUNT_IDLE)
             {
                 appendLogText(i18n("Warning: job '%1' found not repositioning, restarting.", currentJob->getName()));
                 currentJob->setStage(SchedulerJob::STAGE_IDLE);
@@ -3454,6 +3380,7 @@ void Scheduler::checkJobStage()
         }
         break;
 
+#if 0
         case SchedulerJob::STAGE_GUIDING:
         {
             QDBusReply<int> guideReply = guideInterface->call(QDBus::AutoDetect, "getStatus");
@@ -3516,7 +3443,9 @@ void Scheduler::checkJobStage()
             }
         }
         break;
+#endif
 
+#if 0
         case SchedulerJob::STAGE_CAPTURING:
         {
             QDBusReply<QString> captureReply = captureInterface->call(QDBus::AutoDetect, "getSequenceQueueStatus");
@@ -3582,6 +3511,7 @@ void Scheduler::checkJobStage()
             }
         }
         break;
+#endif
 
         default:
             break;
@@ -3741,8 +3671,8 @@ bool Scheduler::manageConnectionLoss()
     }
 
     // If Ekos is assumed to be up, check its state
-    QDBusReply<int> const isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
-    if (isEkosStarted.value() == Ekos::STATUS_SUCCESS)
+    //QDBusReply<int> const isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
+    if (m_EkosCommunicationStatus == Ekos::STATUS_SUCCESS)
     {
         qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Ekos is currently connected, checking INDI before mitigating connection loss.");
 
@@ -4503,8 +4433,8 @@ void Scheduler::startAstrometry()
     setSolverAction(Align::GOTO_SLEW);
 
     // Always turn update coords on
-    QVariant arg(true);
-    alignInterface->call(QDBus::AutoDetect, "setUpdateCoords", arg);
+    //QVariant arg(true);
+    //alignInterface->call(QDBus::AutoDetect, "setUpdateCoords", arg);
 
     // If FITS file is specified, then we use load and slew
     if (currentJob->getFITSFile().isEmpty() == false)
@@ -4655,7 +4585,7 @@ void Scheduler::disconnectINDI()
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Disconnecting INDI...";
     indiState               = INDI_DISCONNECTING;
     indiConnectFailureCount = 0;
-    ekosInterface->call(QDBus::AutoDetect, "disconnectDevices");
+    ekosInterface->call(QDBus::AutoDetect, "disconnectDevices");    
 }
 
 void Scheduler::stopEkos()
@@ -4664,6 +4594,7 @@ void Scheduler::stopEkos()
     ekosState               = EKOS_STOPPING;
     ekosConnectFailureCount = 0;
     ekosInterface->call(QDBus::AutoDetect, "stop");
+    m_MountReady = m_CapReady = m_CaptureReady = m_DomeReady = false;
 }
 
 void Scheduler::setDirty()
@@ -4714,6 +4645,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
         QList<SequenceJob*> seqjobs;
         bool hasAutoFocus = false;
 
+        oneJob->setLightFramesRequired(false);
         /* Look into the sequence requirements, bypass if invalid */
         if (loadSequenceQueue(oneJob->getSequenceFile().toLocalFile(), oneJob, seqjobs, hasAutoFocus) == false)
         {
@@ -5009,16 +4941,18 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
 void Scheduler::parkMount()
 {
-    // FIXME there is no method, just property
-    QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "parkingStatus");
+    QVariant parkingStatus = mountInterface->property("parkStatus");
 
-    if (mountReply.error().type() != QDBusError::NoError)
+    if (parkingStatus.isValid() == false)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount parkStatus request received DBUS error: %1").arg(mountInterface->lastError().type());
         if (!manageConnectionLoss())
             parkWaitState = PARKWAIT_ERROR;
     }
-    else switch (static_cast<ISD::ParkStatus>(mountReply.value()))
+
+    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
+
+    switch (status)
     {
         case ISD::PARK_PARKED:
             if (shutdownState == SHUTDOWN_PARK_MOUNT)
@@ -5067,17 +5001,21 @@ void Scheduler::parkMount()
 
 void Scheduler::unParkMount()
 {
-    // FIXME use signal/slot
-    // FIXME there is no method, must use property
-    QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "parkingStatus");
+    if (mountInterface.isNull())
+        return;
 
-    if (mountReply.error().type() != QDBusError::NoError)
+    QVariant parkingStatus = mountInterface->property("parkStatus");
+
+    if (parkingStatus.isValid() == false)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount parkStatus request received DBUS error: %1").arg(mountInterface->lastError().type());
         if (!manageConnectionLoss())
             parkWaitState = PARKWAIT_ERROR;
     }
-    else switch (static_cast<ISD::ParkStatus>(mountReply.value()))
+
+    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
+
+    switch (status)
     {
         //case Mount::UNPARKING_OK:
           case ISD::PARK_UNPARKED:
@@ -5128,17 +5066,23 @@ void Scheduler::unParkMount()
 
 void Scheduler::checkMountParkingStatus()
 {
-    static int parkingFailureCount = 0;
-    // FIXME there is no method, must use property
-    QDBusReply<int> const mountReply = mountInterface->call(QDBus::AutoDetect, "parkingStatus");
+    if (mountInterface.isNull())
+        return;
 
-    if (mountReply.error().type() != QDBusError::NoError)
+    static int parkingFailureCount = 0;
+
+    QVariant parkingStatus = mountInterface->property("parkStatus");
+
+    if (parkingStatus.isValid() == false)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount parkStatus request received DBUS error: %1").arg(mountInterface->lastError().type());
         if (!manageConnectionLoss())
             parkWaitState = PARKWAIT_ERROR;
     }
-    else switch (static_cast<ISD::ParkStatus>(mountReply.value()))
+
+    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
+
+    switch (status)
     {
         //case Mount::PARKING_OK:
         case ISD::PARK_PARKED:
@@ -5264,27 +5208,32 @@ void Scheduler::checkMountParkingStatus()
 
 bool Scheduler::isMountParked()
 {
+    if (mountInterface.isNull())
+        return false;
     // First check if the mount is able to park - if it isn't, getParkingStatus will reply PARKING_ERROR and status won't be clear
-    QDBusReply<bool> const parkCapableReply = mountInterface->call(QDBus::AutoDetect, "canPark");
-    if (parkCapableReply.error().type() != QDBusError::NoError)
+    //QDBusReply<bool> const parkCapableReply = mountInterface->call(QDBus::AutoDetect, "canPark");
+    QVariant canPark = mountInterface->property("canPark");
+
+    if (canPark.isValid() == false)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount canPark request received DBUS error: %1").arg(QDBusError::errorString(parkCapableReply.error().type()));
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount canPark request received DBUS error: %1").arg(mountInterface->lastError().type());
         manageConnectionLoss();
         return false;
     }
-    else if (true == parkCapableReply.value())
+    else if (canPark.toBool() == true)
     {
         // If it is able to park, obtain its current status
-        QDBusReply<int> const mountReply  = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
-        if (mountReply.error().type() != QDBusError::NoError)
+        //QDBusReply<int> const mountReply  = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
+        QVariant parkingStatus = mountInterface->property("parkStatus");
+        if (parkingStatus.isValid() == false)
         {
-            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(mountReply.error().type()));
+            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount parking status property is invalid %1.").arg(mountInterface->lastError().type());
             manageConnectionLoss();
             return false;
         }
 
         // Deduce state of mount - see getParkingStatus in mount.cpp
-        switch (static_cast<ISD::ParkStatus>(mountReply.value()))
+        switch (static_cast<ISD::ParkStatus>(parkingStatus.toInt()))
         {
 //            case Mount::PARKING_OK:     // INDI switch ok, and parked
 //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
@@ -5305,17 +5254,22 @@ bool Scheduler::isMountParked()
 
 void Scheduler::parkDome()
 {
-    QDBusReply<int> const domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Dome::ParkingStatus status = static_cast<Dome::ParkingStatus>(domeReply.value());
+    if (domeInterface.isNull())
+        return;
 
-    if (domeReply.error().type() != QDBusError::NoError)
+    //QDBusReply<int> const domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
+    //Dome::ParkingStatus status = static_cast<Dome::ParkingStatus>(domeReply.value());
+    QVariant parkingStatus = domeInterface->property("parkStatus");
+
+    if (parkingStatus.isValid() == false)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(domeReply.error().type()));
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome parkStatus request received DBUS error: %1").arg(mountInterface->lastError().type());
         if (!manageConnectionLoss())
-            status = Dome::PARKING_ERROR;
+            parkingStatus = ISD::PARK_ERROR;
     }
 
-    if (status != Dome::PARKING_OK)
+    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
+    if (status != ISD::PARK_PARKED)
     {
         shutdownState = SHUTDOWN_PARKING_DOME;
         domeInterface->call(QDBus::AutoDetect, "park");
@@ -5332,17 +5286,19 @@ void Scheduler::parkDome()
 
 void Scheduler::unParkDome()
 {
-    QDBusReply<int> const domeReply  = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Dome::ParkingStatus status = static_cast<Dome::ParkingStatus>(domeReply.value());
+    if (domeInterface.isNull())
+        return;
 
-    if (domeReply.error().type() != QDBusError::NoError)
+    QVariant parkingStatus = domeInterface->property("parkStatus");
+
+    if (parkingStatus.isValid() == false)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(domeReply.error().type()));
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome parkStatus request received DBUS error: %1").arg(mountInterface->lastError().type());
         if (!manageConnectionLoss())
-            status = Dome::PARKING_ERROR;
+            parkingStatus = ISD::PARK_ERROR;
     }
 
-    if (status != Dome::UNPARKING_OK)
+    if (static_cast<ISD::ParkStatus>(parkingStatus.toInt()) != ISD::PARK_UNPARKED)
     {
         startupState = STARTUP_UNPARKING_DOME;
         domeInterface->call(QDBus::AutoDetect, "unpark");
@@ -5359,22 +5315,26 @@ void Scheduler::unParkDome()
 
 void Scheduler::checkDomeParkingStatus()
 {
+    if (domeInterface.isNull())
+        return;
+
     /* FIXME: move this elsewhere */
     static int parkingFailureCount = 0;
 
-    QDBusReply<int> const domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Dome::ParkingStatus status = static_cast<Dome::ParkingStatus>(domeReply.value());
+    QVariant parkingStatus = domeInterface->property("parkStatus");
 
-    if (domeReply.error().type() != QDBusError::NoError)
+    if (parkingStatus.isValid() == false)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(domeReply.error().type()));
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome parkStatus request received DBUS error: %1").arg(mountInterface->lastError().type());
         if (!manageConnectionLoss())
-            status = Dome::PARKING_ERROR;
+             parkWaitState = PARKWAIT_ERROR;
     }
+
+    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
 
     switch (status)
     {
-        case Dome::PARKING_OK:
+        case ISD::PARK_PARKED:
             if (shutdownState == SHUTDOWN_PARKING_DOME)
             {
                 appendLogText(i18n("Dome parked."));
@@ -5384,7 +5344,7 @@ void Scheduler::checkDomeParkingStatus()
             parkingFailureCount = 0;
             break;
 
-        case Dome::UNPARKING_OK:
+        case ISD::PARK_UNPARKED:
             if (startupState == STARTUP_UNPARKING_DOME)
             {
                 startupState = STARTUP_UNPARK_MOUNT;
@@ -5393,15 +5353,15 @@ void Scheduler::checkDomeParkingStatus()
             parkingFailureCount = 0;
             break;
 
-        case Dome::PARKING_BUSY:
-        case Dome::UNPARKING_BUSY:
+        case ISD::PARK_PARKING:
+        case ISD::PARK_UNPARKING:
             // TODO make the timeouts configurable by the user
             if (currentOperationTime.elapsed() > (120 * 1000))
             {
                 if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
                     appendLogText(i18n("Operation timeout. Restarting operation..."));
-                    if (status == Dome::PARKING_BUSY)
+                    if (status == ISD::PARK_PARKING)
                         parkDome();
                     else
                         unParkDome();
@@ -5410,7 +5370,7 @@ void Scheduler::checkDomeParkingStatus()
             }
             break;
 
-        case Dome::PARKING_ERROR:
+        case ISD::PARK_ERROR:
             if (shutdownState == SHUTDOWN_PARKING_DOME)
             {
                 appendLogText(i18n("Dome parking error."));
@@ -5431,31 +5391,38 @@ void Scheduler::checkDomeParkingStatus()
 
 bool Scheduler::isDomeParked()
 {
-    QDBusReply<int> const domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
-    Dome::ParkingStatus status = static_cast<Dome::ParkingStatus>(domeReply.value());
+    if (domeInterface.isNull())
+        return false;
 
-    if (domeReply.error().type() != QDBusError::NoError)
+    QVariant parkingStatus = domeInterface->property("parkStatus");
+
+    if (parkingStatus.isValid() == false)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(domeReply.error().type()));
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome parkStatus request received DBUS error: %1").arg(mountInterface->lastError().type());
         if (!manageConnectionLoss())
-            status = Dome::PARKING_ERROR;
+            parkingStatus = ISD::PARK_ERROR;
     }
 
-    return status == Dome::PARKING_OK || status == Dome::PARKING_IDLE;
+    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
+
+    return status == ISD::PARK_PARKED;
 }
 
 void Scheduler::parkCap()
 {
-    // FIXME There is no method, only property and signal for this
-    QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "parkingStatus");
-    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(capReply.value());
+    if (capInterface.isNull())
+        return;
 
-    if (capReply.error().type() != QDBusError::NoError)
+    QVariant parkingStatus = capInterface->property("parkStatus");
+
+    if (parkingStatus.isValid() == false)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(capReply.error().type()));
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap parkStatus request received DBUS error: %1").arg(mountInterface->lastError().type());
         if (!manageConnectionLoss())
-            status = ISD::PARK_ERROR;
+            parkingStatus = ISD::PARK_ERROR;
     }
+
+    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
 
     if (status != ISD::PARK_PARKED)
     {
@@ -5474,16 +5441,19 @@ void Scheduler::parkCap()
 
 void Scheduler::unParkCap()
 {
-    // FIXME There is no method, only property and signal for this
-    QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "parkingStatus");
-    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(capReply.value());
+    if (capInterface.isNull())
+        return;
 
-    if (capReply.error().type() != QDBusError::NoError)
+    QVariant parkingStatus = capInterface->property("parkStatus");
+
+    if (parkingStatus.isValid() == false)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(capReply.error().type()));
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap parkStatus request received DBUS error: %1").arg(mountInterface->lastError().type());
         if (!manageConnectionLoss())
-            status = ISD::PARK_ERROR;
+            parkingStatus = ISD::PARK_ERROR;
     }
+
+    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
 
     if (status != ISD::PARK_UNPARKED)
     {
@@ -5502,19 +5472,22 @@ void Scheduler::unParkCap()
 
 void Scheduler::checkCapParkingStatus()
 {
+    if (capInterface.isNull())
+        return;
+
     /* FIXME: move this elsewhere */
     static int parkingFailureCount = 0;
 
-    // FIXME There is no method, only property and signal for this
-    QDBusReply<int> const capReply = capInterface->call(QDBus::AutoDetect, "parkingStatus");
-    ISD::ParkStatus status  = static_cast<ISD::ParkStatus>(capReply.value());
+    QVariant parkingStatus = capInterface->property("parkStatus");
 
-    if (capReply.error().type() != QDBusError::NoError)
+    if (parkingStatus.isValid() == false)
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap getParkingStatus request received DBUS error: %1").arg(QDBusError::errorString(capReply.error().type()));
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap parkStatus request received DBUS error: %1").arg(mountInterface->lastError().type());
         if (!manageConnectionLoss())
-            status = ISD::PARK_ERROR;
+            parkingStatus = ISD::PARK_ERROR;
     }
+
+    ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
 
     switch (status)
     {
@@ -6094,8 +6067,11 @@ SequenceJob *Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
     bool filterEnabled = false, expEnabled = false, tsEnabled = false;
 
     /* Reset light frame presence flag before enumerating */
-    if (nullptr != schedJob)
-        schedJob->setLightFramesRequired(false);
+    // JM 2018-09-14: If last sequence job is not LIGHT
+    // then scheduler job light frame is set to whatever last sequence job is
+    // so if it was non-LIGHT, this value is set to false which is wrong.
+    //if (nullptr != schedJob)
+    //    schedJob->setLightFramesRequired(false);
 
     for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
     {
@@ -6233,7 +6209,7 @@ void Scheduler::setINDICommunicationStatus(Ekos::CommunicationStatus status)
 {
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler INDI status is" << status;
 
-    m_INDICommunicationStatus = status;    
+    m_INDICommunicationStatus = status;
 }
 
 void Scheduler::setEkosCommunicationStatus(Ekos::CommunicationStatus status)
@@ -6249,6 +6225,7 @@ void Scheduler::registerNewModule(const QString &name)
     {
         focusInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Focus", "org.kde.kstars.Ekos.Focus",
                                             QDBusConnection::sessionBus(), this);
+        connect(focusInterface, SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
     }
     else if (name == "Capture")
     {
@@ -6256,6 +6233,7 @@ void Scheduler::registerNewModule(const QString &name)
                                               QDBusConnection::sessionBus(), this);
 
         connect(captureInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
+        connect(captureInterface, SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(setCaptureStatus(Ekos::CaptureState)), Qt::UniqueConnection);
     }
     else if (name == "Mount")
     {
@@ -6263,31 +6241,41 @@ void Scheduler::registerNewModule(const QString &name)
                                             QDBusConnection::sessionBus(), this);
 
         connect(mountInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
+        connect(mountInterface, SIGNAL(newStatus(ISD::Telescope::Status)), this, SLOT(setMountStatus(ISD::Telescope::Status)), Qt::UniqueConnection);
     }
     else if (name == "Align")
     {
         alignInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Align", "org.kde.kstars.Ekos.Align",
                                             QDBusConnection::sessionBus(), this);
+        connect(alignInterface, SIGNAL(newStatus(Ekos::AlignState)), this, SLOT(setAlignStatus(Ekos::AlignState)), Qt::UniqueConnection);
     }
     else if (name == "Guide")
     {
         guideInterface   = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Guide", "org.kde.kstars.Ekos.Guide",
                                             QDBusConnection::sessionBus(), this);
+        connect(guideInterface, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setGuideStatus(Ekos::GuideState)), Qt::UniqueConnection);
     }
     else if (name == "Dome")
     {
         domeInterface    = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Dome", "org.kde.kstars.Ekos.Dome",
                                            QDBusConnection::sessionBus(), this);
+
+        connect(domeInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
     }
     else if (name == "Weather")
     {
         weatherInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Weather", "org.kde.kstars.Ekos.Weather",
                                               QDBusConnection::sessionBus(), this);
+
+        connect(weatherInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
+        connect(weatherInterface, SIGNAL(newStatus(uint32_t)), this, SLOT(setWeatherStatus(uint32_t)));
     }
     else if (name == "DustCap")
     {
-        capInterface     = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/DustCap", "org.kde.kstars.Ekos.DustCap",
+        capInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/DustCap", "org.kde.kstars.Ekos.DustCap",
                                           QDBusConnection::sessionBus(), this);
+
+        connect(capInterface, SIGNAL(ready()), this, SLOT(syncProperties()), Qt::UniqueConnection);
     }
 }
 
@@ -6300,6 +6288,7 @@ void Scheduler::syncProperties()
         QVariant canMountPark = mountInterface->property("canPark");
         unparkMountCheck->setEnabled(canMountPark.toBool());
         parkMountCheck->setEnabled(canMountPark.toBool());
+        m_MountReady = true;
     }
     else if (iface == capInterface)
     {
@@ -6308,6 +6297,7 @@ void Scheduler::syncProperties()
         {
             capCheck->setEnabled(canCapPark.toBool());
             uncapCheck->setEnabled(canCapPark.toBool());
+            m_CapReady = true;
         }
         else
         {
@@ -6321,15 +6311,19 @@ void Scheduler::syncProperties()
         if (updatePeriod.isValid())
         {
             weatherCheck->setEnabled(true);
-            if (updatePeriod.toInt() > 0)
-            {
-                weatherTimer.setInterval(updatePeriod.toInt() * 1000);
-                connect(&weatherTimer, &QTimer::timeout, this, &Scheduler::checkWeather, Qt::UniqueConnection);
-                weatherTimer.start();
 
-                // Check weather initially
-                checkWeather();
-            }
+            QVariant status = weatherInterface->property("status");
+            setWeatherStatus(status.toInt());
+
+//            if (updatePeriod.toInt() > 0)
+//            {
+//                weatherTimer.setInterval(updatePeriod.toInt() * 1000);
+//                connect(&weatherTimer, &QTimer::timeout, this, &Scheduler::checkWeather, Qt::UniqueConnection);
+//                weatherTimer.start();
+
+//                // Check weather initially
+//                checkWeather();
+//            }
         }
         else
             weatherCheck->setEnabled(true);
@@ -6339,11 +6333,412 @@ void Scheduler::syncProperties()
         QVariant canDomePark = domeInterface->property("canPark");
         unparkDomeCheck->setEnabled(canDomePark.toBool());
         parkDomeCheck->setEnabled(canDomePark.toBool());
+        m_DomeReady = true;
     }
     else if (iface == captureInterface)
     {
         QVariant hasCoolerControl = captureInterface->property("coolerControl");
         warmCCDCheck->setEnabled(hasCoolerControl.toBool());
+        m_CaptureReady = true;
+    }
+}
+
+void Scheduler::setAlignStatus(Ekos::AlignState status)
+{
+    if (state == SCHEDULER_PAUSED || currentJob == nullptr)
+        return;
+
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Align State" << Ekos::getAlignStatusString(status);
+
+    /* If current job is scheduled and has not started yet, wait */
+    if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
+    {
+        QDateTime const now = KStarsData::Instance()->lt();
+        if (now < currentJob->getStartupTime())
+            return;
+    }
+
+    if (currentJob->getStage() == SchedulerJob::STAGE_ALIGNING)
+    {
+        // Is solver complete?
+        if (status == Ekos::ALIGN_COMPLETE)
+        {
+            appendLogText(i18n("Job '%1' alignment is complete.", currentJob->getName()));
+            alignFailureCount = 0;
+
+            currentJob->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
+            getNextAction();
+        }
+        else if (status == Ekos::ALIGN_FAILED || status == Ekos::ALIGN_ABORTED)
+        {
+            appendLogText(i18n("Warning: job '%1' alignment failed.", currentJob->getName()));
+
+            if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                if (Options::resetMountModelOnAlignFail() && MAX_FAILURE_ATTEMPTS-1 < alignFailureCount)
+                {
+                    appendLogText(i18n("Warning: job '%1' forcing mount model reset after failing alignment #%2.", currentJob->getName(), alignFailureCount));
+                    mountInterface->call(QDBus::AutoDetect, "resetModel");
+                }
+                appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
+                startAstrometry();
+            }
+            else
+            {
+                appendLogText(i18n("Warning: job '%1' alignment procedure failed, aborting job.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
+
+                findNextJob();
+            }
+        }
+    }
+}
+
+void Scheduler::setGuideStatus(Ekos::GuideState status)
+{
+    if (state == SCHEDULER_PAUSED || currentJob == nullptr)
+        return;
+
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Guide State" << Ekos::getGuideStatusString(status);
+
+    /* If current job is scheduled and has not started yet, wait */
+    if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
+    {
+        QDateTime const now = KStarsData::Instance()->lt();
+        if (now < currentJob->getStartupTime())
+            return;
+    }
+
+    if (currentJob->getStage() == SchedulerJob::STAGE_GUIDING)
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Calibration & Guide stage...";
+
+        // If calibration stage complete?
+        if (status == Ekos::GUIDE_GUIDING)
+        {
+            appendLogText(i18n("Job '%1' guiding is in progress.", currentJob->getName()));
+            guideFailureCount = 0;
+
+            currentJob->setStage(SchedulerJob::STAGE_GUIDING_COMPLETE);
+            getNextAction();
+        }
+        else if (status == Ekos::GUIDE_CALIBRATION_ERROR ||
+                 status == Ekos::GUIDE_ABORTED)
+        {
+            if (status == Ekos::GUIDE_ABORTED)
+                appendLogText(i18n("Warning: job '%1' guiding failed.", currentJob->getName()));
+            else
+                appendLogText(i18n("Warning: job '%1' calibration failed.", currentJob->getName()));
+
+            if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                if (status == Ekos::GUIDE_CALIBRATION_ERROR &&
+                    Options::realignAfterCalibrationFailure())
+                {
+                    appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
+                    // JM: We have to go back to startSlew() since if we just call startAstrometry()
+                    // It would captureAndSolve at the _current_ coords which could be way off center if the calibration
+                    // process took a wild ride search for a suitable guide star and then failed. So startSlew() would ensure
+                    // we're back on our target and then it proceed to alignment (focus is skipped since it is done if it was checked anyway).
+                    startSlew();
+                }
+                else
+                {
+                    appendLogText(i18n("Job '%1' is guiding, and is restarting its guiding procedure.", currentJob->getName()));
+                    startGuiding(true);
+                }
+            }
+            else
+            {
+                appendLogText(i18n("Warning: job '%1' guiding procedure failed, marking terminated due to errors.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+
+                findNextJob();
+            }
+        }
+    }
+}
+
+void Scheduler::setCaptureStatus(Ekos::CaptureState status)
+{
+    if (state == SCHEDULER_PAUSED || currentJob == nullptr)
+        return;
+
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Capture State" << Ekos::getCaptureStatusString(status);
+
+    /* If current job is scheduled and has not started yet, wait */
+    if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
+    {
+        QDateTime const now = KStarsData::Instance()->lt();
+        if (now < currentJob->getStartupTime())
+            return;
+    }
+
+    if (currentJob->getStage() == SchedulerJob::STAGE_CAPTURING)
+    {
+        if (status == Ekos::CAPTURE_ABORTED)
+        {
+            appendLogText(i18n("Warning: job '%1' failed to capture target.", currentJob->getName()));
+
+            if (captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                // If capture failed due to guiding error, let's try to restart that
+                if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
+                {
+                    // Check if it is guiding related.
+                    QVariant guideStatus = guideInterface->property("status");
+                    Ekos::GuideState gStatus = static_cast<Ekos::GuideState>(guideStatus.toInt());
+                    if (gStatus == Ekos::GUIDE_ABORTED ||
+                        gStatus == Ekos::GUIDE_CALIBRATION_ERROR ||
+                        gStatus == GUIDE_DITHERING_ERROR)
+                    {
+                        appendLogText(i18n("Job '%1' is capturing, and is restarting its guiding procedure.", currentJob->getName()));
+                        startGuiding(true);
+                        return;
+                    }
+                }
+
+                /* FIXME: it's not clear whether it is actually possible to continue capturing when capture fails this way */
+                appendLogText(i18n("Warning: job '%1' failed its capture procedure, restarting capture.", currentJob->getName()));
+                startCapture();
+            }
+            else
+            {
+                /* FIXME: it's not clear whether this situation can be recovered at all */
+                appendLogText(i18n("Warning: job '%1' failed its capture procedure, marking aborted.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
+
+                findNextJob();
+            }
+        }
+        else if (status == Ekos::CAPTURE_COMPLETE)
+        {
+            KNotification::event(QLatin1String("EkosScheduledImagingFinished"),
+                                 i18n("Ekos job (%1) - Capture finished", currentJob->getName()));
+
+
+            captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
+
+            currentJob->setState(SchedulerJob::JOB_COMPLETE);
+            findNextJob();
+        }
+        else
+        {
+            captureFailureCount = 0;
+            /* currentJob->setCompletedCount(currentJob->getCompletedCount() + 1); */
+        }
+    }
+}
+
+void Scheduler::setFocusStatus(Ekos::FocusState status)
+{
+    if (state == SCHEDULER_PAUSED || currentJob == nullptr)
+        return;
+
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus State" << Ekos::getFocusStatusString(status);
+
+    /* If current job is scheduled and has not started yet, wait */
+    if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
+    {
+        QDateTime const now = KStarsData::Instance()->lt();
+        if (now < currentJob->getStartupTime())
+            return;
+    }
+
+    if (currentJob->getStage() == SchedulerJob::STAGE_FOCUSING)
+    {
+        // Is focus complete?
+        if (status == Ekos::FOCUS_COMPLETE)
+        {
+            appendLogText(i18n("Job '%1' focusing is complete.", currentJob->getName()));
+
+            autofocusCompleted = true;
+
+            currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
+
+            getNextAction();
+        }
+        else if (status == Ekos::FOCUS_FAILED || status == Ekos::FOCUS_ABORTED)
+        {
+            appendLogText(i18n("Warning: job '%1' focusing failed.", currentJob->getName()));
+
+            if (focusFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                appendLogText(i18n("Job '%1' is restarting its focusing procedure.", currentJob->getName()));
+                // Reset frame to original size.
+                focusInterface->call(QDBus::AutoDetect, "resetFrame");
+                // Restart focusing
+                startFocusing();
+            }
+            else
+            {
+                appendLogText(i18n("Warning: job '%1' focusing procedure failed, marking terminated due to errors.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+
+                findNextJob();
+            }
+        }
+    }
+}
+
+void Scheduler::setMountStatus(ISD::Telescope::Status status)
+{
+    if (state == SCHEDULER_PAUSED || currentJob == nullptr)
+        return;
+
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Mount State" << status;
+
+    /* If current job is scheduled and has not started yet, wait */
+    if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
+    {
+        QDateTime const now = KStarsData::Instance()->lt();
+        if (now < currentJob->getStartupTime())
+            return;
+    }
+
+    switch (currentJob->getStage())
+    {
+        case SchedulerJob::STAGE_SLEWING:
+        {
+            QVariant isDomeMoving = false;
+
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Slewing stage...";
+
+            if (m_DomeReady)
+                isDomeMoving = domeInterface->property("isMoving");
+
+            if (status == ISD::Telescope::MOUNT_TRACKING && isDomeMoving == false)
+            {
+                appendLogText(i18n("Job '%1' slew is complete.", currentJob->getName()));
+                currentJob->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
+                getNextAction();
+            }
+            else if (status == ISD::Telescope::MOUNT_ERROR)
+            {
+                appendLogText(i18n("Warning: job '%1' slew failed, marking terminated due to errors.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+
+                findNextJob();
+            }
+            else if (status == ISD::Telescope::MOUNT_IDLE)
+            {
+                appendLogText(i18n("Warning: job '%1' found not slewing, restarting.", currentJob->getName()));
+                currentJob->setStage(SchedulerJob::STAGE_IDLE);
+
+                getNextAction();
+            }
+        }
+        break;
+
+        case SchedulerJob::STAGE_RESLEWING:
+        {
+            QVariant isDomeMoving = false;
+
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Re-slewing stage...";
+
+            if (m_DomeReady)
+                isDomeMoving = domeInterface->property("isMoving");
+
+            if (status == ISD::Telescope::MOUNT_TRACKING && isDomeMoving == false)
+            {
+                appendLogText(i18n("Job '%1' repositioning is complete.", currentJob->getName()));
+                currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
+                getNextAction();
+            }
+            else if (status == ISD::Telescope::MOUNT_ERROR)
+            {
+                appendLogText(i18n("Warning: job '%1' repositioning failed, marking terminated due to errors.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+
+                findNextJob();
+            }
+            else if (status == ISD::Telescope::MOUNT_IDLE)
+            {
+                appendLogText(i18n("Warning: job '%1' found not repositioning, restarting.", currentJob->getName()));
+                currentJob->setStage(SchedulerJob::STAGE_IDLE);
+
+                getNextAction();
+            }
+        }
+        break;
+
+    default:
+        break;
+    }
+}
+
+void Scheduler::setWeatherStatus(uint32_t status)
+{
+    IPState newStatus = static_cast<IPState>(status);
+    QString statusString;
+
+    switch (newStatus)
+    {
+    case IPS_OK:
+        statusString = i18n("Weather conditions are OK.");
+        break;
+
+    case IPS_BUSY:
+        statusString = i18n("Warning: weather conditions are in the WARNING zone.");
+        break;
+
+    case IPS_ALERT:
+        statusString = i18n("Caution: weather conditions are in the DANGER zone!");
+        break;
+
+    default:
+        break;
+    }
+
+    if (newStatus != weatherStatus)
+    {
+        weatherStatus = newStatus;
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << statusString;
+
+        if (weatherStatus == IPS_OK)
+            weatherLabel->setPixmap(
+                        QIcon::fromTheme("security-high")
+                        .pixmap(QSize(32, 32)));
+        else if (weatherStatus == IPS_BUSY)
+        {
+            weatherLabel->setPixmap(
+                        QIcon::fromTheme("security-medium")
+                        .pixmap(QSize(32, 32)));
+            KNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"));
+        }
+        else if (weatherStatus == IPS_ALERT)
+        {
+            weatherLabel->setPixmap(
+                        QIcon::fromTheme("security-low")
+                        .pixmap(QSize(32, 32)));
+            KNotification::event(QLatin1String("WeatherAlert"),
+                                 i18n("Weather conditions are critical. Observatory shutdown is imminent"));
+        }
+        else
+            weatherLabel->setPixmap(QIcon::fromTheme("chronometer")
+                                    .pixmap(QSize(32, 32)));
+
+        weatherLabel->show();
+        weatherLabel->setToolTip(statusString);
+
+        appendLogText(statusString);
+
+        emit weatherChanged(weatherStatus);
+    }
+
+    if (weatherStatus == IPS_ALERT)
+    {
+        appendLogText(i18n("Starting shutdown procedure due to severe weather."));
+        if (currentJob)
+        {
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            stopCurrentJobAction();
+            stopGuiding();
+            jobTimer.stop();
+        }
+        checkShutdownState();
+        //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), &Scheduler::Qt::UniqueConnection);
     }
 }
 }
