@@ -241,7 +241,18 @@ class Scheduler : public QWidget, public Ui::Scheduler
      */
     void registerNewModule(const QString &name);
 
+    /**
+     * @brief syncProperties Sync startup properties from the various device to enable/disable features in the scheduler
+     * like the ability to park/unpark..etc
+     */
     void syncProperties();
+
+    void setAlignStatus(Ekos::AlignState status);
+    void setGuideStatus(Ekos::GuideState status);
+    void setCaptureStatus(Ekos::CaptureState status);
+    void setFocusStatus(Ekos::FocusState status);
+    void setMountStatus(ISD::Telescope::Status status);
+    void setWeatherStatus(uint32_t status);
 
     /**
          * @brief select object from KStars's find dialog.
@@ -369,7 +380,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
     /**
          * @brief checkWeather Check weather status and act accordingly depending on the current status of the scheduler and running jobs.
          */
-    void checkWeather();
+    //void checkWeather();
 
     /**
          * @brief wakeUpScheduler Wake up scheduler from sleep state
@@ -713,7 +724,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
     /// Keep track of Ekos capture module failures
     uint8_t captureFailureCount { 0 };
     /// Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
-    QTimer weatherTimer;
+    //QTimer weatherTimer;
     /// Timer to put the scheduler into sleep mode until a job is ready
     QTimer sleepTimer;
     /// To call checkStatus
@@ -727,5 +738,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
     QUrl dirPath;
 
     QMap<QString,uint16_t> capturedFramesCount;
+
+    bool m_MountReady { false };
+    bool m_CaptureReady { false };
+    bool m_DomeReady { false };
+    bool m_CapReady { false };
 };
 }

@@ -33,5 +33,6 @@
     <signal name="azimuthPositionChanged">
         <arg name="position" type="d" direction="out"/>
     </signal>
+    <signal name="ready"/>
   </interface>
 </node>

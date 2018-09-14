@@ -25,10 +25,18 @@ Dome::Dome(GDInterface *iPtr) : DeviceDecorator(iPtr)
     dType = KSTARS_DOME;
     qRegisterMetaType<ISD::Dome::Status>("ISD::Dome::Status");
     qDBusRegisterMetaType<ISD::Dome::Status>();
+
+    readyTimer.reset(new QTimer());
+    readyTimer.get()->setInterval(250);
+    readyTimer.get()->setSingleShot(true);
+    connect(readyTimer.get(), &QTimer::timeout, this, &Dome::ready);
 }
 
 void Dome::registerProperty(INDI::Property *prop)
 {
+    if (isConnected())
+        readyTimer.get()->start();
+
     if (!strcmp(prop->getName(), "DOME_PARK"))
     {
         ISwitchVectorProperty *svp = prop->getSwitch();

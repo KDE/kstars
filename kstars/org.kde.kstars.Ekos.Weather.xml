@@ -6,5 +6,6 @@
     <signal name="newStatus">
         <arg name="status" type="u" direction="out"/>
     </signal>
+    <signal name="ready">
   </interface>
 </node>

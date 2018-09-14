@@ -9,6 +9,9 @@
 
 #pragma once
 
+#include <memory>
+#include <QTimer>
+
 #include "indistd.h"
 
 namespace ISD
@@ -60,13 +63,14 @@ class Dome : public DeviceDecorator
     void newStatus(Status status);
     void newParkStatus(ParkStatus status);
     void azimuthPositionChanged(double Az);
+    void ready();
 
   private:
     ParkStatus m_ParkStatus = PARK_UNKNOWN;
     Status m_Status = DOME_IDLE;
     bool m_CanAbsMove { false };
     bool m_CanPark { false };
-
+    std::unique_ptr<QTimer> readyTimer;
 };
 }
 

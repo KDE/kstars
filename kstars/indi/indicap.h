@@ -9,6 +9,9 @@
 
 #pragma once
 
+#include <memory>
+#include <QTimer>
+
 #include "indistd.h"
 
 namespace ISD
@@ -24,8 +27,9 @@ class DustCap : public DeviceDecorator
     Q_OBJECT
 
   public:
-    explicit DustCap(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_AUXILIARY; }
+    explicit DustCap(GDInterface *iPtr);
 
+    void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
     void processNumber(INumberVectorProperty *nvp);
@@ -67,5 +71,11 @@ class DustCap : public DeviceDecorator
      * @return True if operation is successful, false otherwise.
      */
     bool UnPark();
+
+signals:
+    void ready();
+
+private:
+    std::unique_ptr<QTimer> readyTimer;
 };
 }

@@ -13,6 +13,25 @@
 
 namespace ISD
 {
+
+Weather::Weather(GDInterface *iPtr) : DeviceDecorator(iPtr)
+{
+    dType = KSTARS_WEATHER;
+
+    readyTimer.reset(new QTimer());
+    readyTimer.get()->setInterval(250);
+    readyTimer.get()->setSingleShot(true);
+    connect(readyTimer.get(), &QTimer::timeout, this, &Weather::ready);
+}
+
+void Weather::registerProperty(INDI::Property *prop)
+{
+    if (isConnected())
+        readyTimer.get()->start();
+
+    DeviceDecorator::registerProperty(prop);
+}
+
 void Weather::processLight(ILightVectorProperty *lvp)
 {
     if (!strcmp(lvp->name, "WEATHER_STATUS"))

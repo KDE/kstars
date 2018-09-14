@@ -100,6 +100,7 @@ class DustCap : public QObject
 
   signals:
     void newParkStatus(ISD::ParkStatus status);
+    void ready();
 
   private:
     void processSwitch(ISwitchVectorProperty *svp);

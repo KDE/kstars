@@ -33,6 +33,7 @@ void DustCap::setDustCap(ISD::GDInterface *newDustCap)
     currentDustCap->disconnect(this);
 
     connect(currentDustCap, &ISD::GDInterface::switchUpdated, this, &DustCap::processSwitch);
+    connect(currentDustCap, &ISD::DustCap::ready, this, &DustCap::ready);
 }
 
 void DustCap::processSwitch(ISwitchVectorProperty *svp)

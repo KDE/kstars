@@ -13,6 +13,25 @@
 
 namespace ISD
 {
+
+DustCap::DustCap(GDInterface *iPtr): DeviceDecorator(iPtr)
+{
+    dType = KSTARS_AUXILIARY;
+
+    readyTimer.reset(new QTimer());
+    readyTimer.get()->setInterval(250);
+    readyTimer.get()->setSingleShot(true);
+    connect(readyTimer.get(), &QTimer::timeout, this, &DustCap::ready);
+}
+
+void DustCap::registerProperty(INDI::Property *prop)
+{
+    if (isConnected())
+        readyTimer.get()->start();
+
+    DeviceDecorator::registerProperty(prop);
+}
+
 void DustCap::processLight(ILightVectorProperty *lvp)
 {
     DeviceDecorator::processLight(lvp);

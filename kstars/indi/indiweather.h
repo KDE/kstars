@@ -9,6 +9,9 @@
 
 #pragma once
 
+#include <memory>
+#include <QTimer>
+
 #include "indistd.h"
 
 namespace ISD
@@ -24,8 +27,9 @@ class Weather : public DeviceDecorator
     Q_OBJECT
 
   public:
-    explicit Weather(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_WEATHER; }    
+    explicit Weather(GDInterface *iPtr);
 
+    void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
     void processNumber(INumberVectorProperty *nvp);
@@ -39,8 +43,10 @@ class Weather : public DeviceDecorator
 
 signals:
     void newStatus(IPState status);
+    void ready();
 
 private:
     IPState m_WeatherStatus { IPS_IDLE };
+    std::unique_ptr<QTimer> readyTimer;
 };
 }
