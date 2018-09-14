@@ -1038,6 +1038,7 @@ void Logging::SyncFilterRules()
 QString getDefaultPath(QString option)
 {
     QString snap = QProcessEnvironment::systemEnvironment().value("SNAP");
+    QString flat = QProcessEnvironment::systemEnvironment().value("FLATPAK_DEST");
 
     if (option == "fitsDir")
     {
@@ -1048,14 +1049,20 @@ QString getDefaultPath(QString option)
 #ifdef Q_OS_OSX
         return "/usr/local/bin/indiserver";
 #endif
-        return snap + "/usr/bin/indiserver";
+        if (flat.isEmpty() == false)
+            return flat + "/bin/indiserver";
+        else
+            return snap + "/usr/bin/indiserver";
     }
     else if (option == "indiDriversDir")
     {
 #ifdef Q_OS_OSX
         return "/usr/local/share/indi";
 #elif defined(Q_OS_LINUX)
-        return snap + "/usr/share/indi";
+        if (flat.isEmpty() == false)
+            return flat + "/share/indi";
+        else
+            return snap + "/usr/share/indi";
 #else
         return QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory);
 #endif
@@ -1065,28 +1072,40 @@ QString getDefaultPath(QString option)
 #ifdef Q_OS_OSX
         return "/usr/local/bin/solve-field";
 #endif
-        return snap + "/usr/bin/solve-field";
+        if (flat.isEmpty() == false)
+            return flat + "/bin/solve-field";
+        else
+            return snap + "/usr/bin/solve-field";
     }
     else if (option == "AstrometryWCSInfo")
     {
 #ifdef Q_OS_OSX
         return "/usr/local/bin/wcsinfo";
 #endif
-        return snap + "/usr/bin/wcsinfo";
+        if (flat.isEmpty() == false)
+            return flat + "/bin/wcsinfo";
+        else
+            return snap + "/usr/bin/wcsinfo";
     }
     else if (option == "AstrometryConfFile")
     {
 #ifdef Q_OS_OSX
         return "/usr/local/etc/astrometry.cfg";
 #endif
-        return snap + "/etc/astrometry.cfg";
+        if (flat.isEmpty() == false)
+            return flat + "/etc/astrometry.cfg";
+        else
+            return snap + "/etc/astrometry.cfg";
     }
     else if (option == "XplanetPath")
     {
 #ifdef Q_OS_OSX
         return "/usr/local/bin/xplanet";
 #endif
-        return snap + "/usr/bin/xplanet";
+        if (flat.isEmpty() == false)
+            return flat + "/bin/xplanet";
+        else
+            return snap + "/usr/bin/xplanet";
     }
 
     return QString();
