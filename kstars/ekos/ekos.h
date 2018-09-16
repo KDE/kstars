@@ -143,6 +143,8 @@ typedef enum
     FILTER_AUTOFOCUS
 } FilterState;
 
+const QString &getFilterStatusString(FilterState state);
+
 // Scheduler states
 
 const QString &getSchedulerStatusString(AlignState state);
@@ -159,12 +161,15 @@ typedef enum {
     SCHEDULER_ABORTED
 } SchedulerState;
 
-const QString &getFilterStatusString(FilterState state);
+typedef enum {
+    Idle,
+    Pending,
+    Success,
+    Error
+} CommunicationStatus;
 
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
                                        const int order, double &chisq);
-
-enum CommunicationStatus { STATUS_IDLE, STATUS_PENDING, STATUS_SUCCESS, STATUS_ERROR };
 }
 
 // Communication Status

@@ -390,12 +390,12 @@ void Manager::reset()
     dustCapProcess.reset();
 
     Ekos::CommunicationStatus previousStatus = m_ekosStatus;
-    m_ekosStatus   = Ekos::STATUS_IDLE;
+    m_ekosStatus   = Ekos::Idle;
     if (previousStatus != m_ekosStatus)
         emit ekosStatusChanged(m_ekosStatus);
 
     previousStatus = m_indiStatus;
-    m_indiStatus = Ekos::STATUS_IDLE;
+    m_indiStatus = Ekos::Idle;
     if (previousStatus != m_indiStatus)
         emit indiStatusChanged(m_indiStatus);
 
@@ -683,7 +683,7 @@ bool Manager::start()
             INDIListener::Instance()->disconnect(this);
             qDeleteAll(managedDrivers);
             managedDrivers.clear();
-            m_ekosStatus = Ekos::STATUS_ERROR;
+            m_ekosStatus = Ekos::Error;
             emit ekosStatusChanged(m_ekosStatus);
             return false;
         }
@@ -691,7 +691,7 @@ bool Manager::start()
         connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this,
                 SLOT(processServerTermination(QString,QString)));
 
-        m_ekosStatus = Ekos::STATUS_PENDING;
+        m_ekosStatus = Ekos::Pending;
         emit ekosStatusChanged(m_ekosStatus);
 
         if (currentProfile->autoConnect)
@@ -743,7 +743,7 @@ bool Manager::start()
             INDIListener::Instance()->disconnect(this);
             qDeleteAll(managedDrivers);
             managedDrivers.clear();
-            m_ekosStatus = Ekos::STATUS_ERROR;
+            m_ekosStatus = Ekos::Error;
             emit ekosStatusChanged(m_ekosStatus);
             QApplication::restoreOverrideCursor();
             return false;
@@ -753,7 +753,7 @@ bool Manager::start()
                 SLOT(processServerTermination(QString,QString)));
 
         QApplication::restoreOverrideCursor();
-        m_ekosStatus = Ekos::STATUS_PENDING;
+        m_ekosStatus = Ekos::Pending;
         emit ekosStatusChanged(m_ekosStatus);
 
         appendLogText(
@@ -777,12 +777,12 @@ bool Manager::start()
 void Manager::checkINDITimeout()
 {
     // Don't check anything unless we're still pending
-    if (m_ekosStatus != Ekos::STATUS_PENDING)
+    if (m_ekosStatus != Ekos::Pending)
         return;
 
     if (nDevices <= 0)
     {
-        m_ekosStatus = Ekos::STATUS_SUCCESS;
+        m_ekosStatus = Ekos::Success;
         emit ekosStatusChanged(m_ekosStatus);
         return;
     }
@@ -848,7 +848,7 @@ void Manager::checkINDITimeout()
         }
     }
 
-    m_ekosStatus = Ekos::STATUS_ERROR;
+    m_ekosStatus = Ekos::Error;
 }
 
 void Manager::connectDevices()
@@ -865,12 +865,12 @@ void Manager::connectDevices()
     }
     if (genericDevices.count() == nConnected)
     {
-        m_indiStatus = Ekos::STATUS_SUCCESS;
+        m_indiStatus = Ekos::Success;
         emit indiStatusChanged(m_indiStatus);
         return;
     }
 
-    m_indiStatus = Ekos::STATUS_PENDING;
+    m_indiStatus = Ekos::Pending;
     if (previousStatus != m_indiStatus)
         emit indiStatusChanged(m_indiStatus);
 
@@ -908,7 +908,7 @@ void Manager::processServerTermination(const QString &host, const QString &port)
 
 void Manager::cleanDevices(bool stopDrivers)
 {
-    if (m_ekosStatus == Ekos::STATUS_IDLE)
+    if (m_ekosStatus == Ekos::Idle)
         return;
 
     INDIListener::Instance()->disconnect(this);
@@ -957,7 +957,7 @@ void Manager::processNewDevice(ISD::GDInterface *devInterface)
     }
 
     // Always reset INDI Connection status if we receive a new device
-    m_indiStatus = Ekos::STATUS_IDLE;
+    m_indiStatus = Ekos::Idle;
     if (previousStatus != m_indiStatus)
         emit indiStatusChanged(m_indiStatus);
 
@@ -971,7 +971,7 @@ void Manager::processNewDevice(ISD::GDInterface *devInterface)
 
     if (nDevices <= 0)
     {
-        m_ekosStatus = Ekos::STATUS_SUCCESS;
+        m_ekosStatus = Ekos::Success;
         emit ekosStatusChanged(m_ekosStatus);
 
         connectB->setEnabled(true);
@@ -1015,11 +1015,11 @@ void Manager::deviceConnected()
     //if (nConnectedDevices >= pi->drivers.count())
     if (nConnectedDevices >= genericDevices.count())
     {
-        m_indiStatus = Ekos::STATUS_SUCCESS;
+        m_indiStatus = Ekos::Success;
         qCInfo(KSTARS_EKOS)<< "All INDI devices are now connected.";
     }
     else
-        m_indiStatus = Ekos::STATUS_PENDING;
+        m_indiStatus = Ekos::Pending;
 
     if (previousStatus != m_indiStatus)
         emit indiStatusChanged(m_indiStatus);
@@ -1085,11 +1085,11 @@ void Manager::deviceDisconnected()
     if (dev != nullptr)
     {
         if (dev->getState("CONNECTION") == IPS_ALERT)
-            m_indiStatus = Ekos::STATUS_ERROR;
+            m_indiStatus = Ekos::Error;
         else if (dev->getState("CONNECTION") == IPS_BUSY)
-            m_indiStatus = Ekos::STATUS_PENDING;
+            m_indiStatus = Ekos::Pending;
         else
-            m_indiStatus = Ekos::STATUS_IDLE;
+            m_indiStatus = Ekos::Idle;
 
         if (Options::verboseLogging())
             qCDebug(KSTARS_EKOS) << dev->getDeviceName() << " is disconnected.";
@@ -1097,7 +1097,7 @@ void Manager::deviceDisconnected()
         appendLogText(i18n("%1 is disconnected.", dev->getDeviceName()));
     }
     else
-        m_indiStatus = Ekos::STATUS_IDLE;
+        m_indiStatus = Ekos::Idle;
 
     if (previousStatus != m_indiStatus)
         emit indiStatusChanged(m_indiStatus);

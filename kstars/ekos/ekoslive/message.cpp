@@ -127,7 +127,7 @@ void Message::onTextReceived(const QString &message)
     else if (command.startsWith("profile_"))
         processProfileCommands(command, payload);
 
-    if (m_Manager->getEkosStartingStatus() != Ekos::STATUS_SUCCESS)
+    if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     if (command == commands[GET_STATES])
@@ -191,7 +191,7 @@ void Message::sendCameras()
 
 void Message::sendMounts()
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::STATUS_SUCCESS)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonArray mountList;
@@ -228,7 +228,7 @@ void Message::sendMounts()
 void Message::sendScopes()
 {
     if (m_isConnected == false ||
-            m_Manager->getEkosStartingStatus() != Ekos::STATUS_SUCCESS ||
+            m_Manager->getEkosStartingStatus() != Ekos::Success ||
             m_Manager->mountModule() == nullptr)
         return;
 
@@ -250,7 +250,7 @@ void Message::sendTemperature(double value)
 
 void Message::sendFilterWheels()
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::STATUS_SUCCESS)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonArray filterList;
@@ -443,7 +443,7 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
 
 void Message::setAlignStatus(Ekos::AlignState newState)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::STATUS_SUCCESS)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonObject alignState = {
@@ -455,7 +455,7 @@ void Message::setAlignStatus(Ekos::AlignState newState)
 
 void Message::setAlignSolution(const QJsonObject &solution)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::STATUS_SUCCESS)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonObject alignState = {
@@ -522,7 +522,7 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
 
 void Message::setPAHStage(Ekos::Align::PAHStage stage)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::STATUS_SUCCESS)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     Q_UNUSED(stage);
@@ -542,7 +542,7 @@ void Message::setPAHStage(Ekos::Align::PAHStage stage)
 
 void Message::setPAHMessage(const QString &message)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::STATUS_SUCCESS)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QTextDocument doc;
@@ -556,7 +556,7 @@ void Message::setPAHMessage(const QString &message)
 
 void Message::setPolarResults(QLineF correctionVector, QString polarError)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::STATUS_SUCCESS)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     this->correctionVector = correctionVector;
@@ -579,7 +579,7 @@ void Message::setPolarResults(QLineF correctionVector, QString polarError)
 
 void Message::setPAHEnabled(bool enabled)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::STATUS_SUCCESS)
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonObject polarState = {
@@ -618,12 +618,12 @@ void Message::sendProfiles()
 
 void Message::setEkosStatingStatus(Ekos::CommunicationStatus status)
 {
-    if (status == Ekos::STATUS_PENDING)
+    if (status == Ekos::Pending)
         return;
 
     QJsonObject connectionState = {
         {"connected", true},
-        {"online", status == Ekos::STATUS_SUCCESS}
+        {"online", status == Ekos::Success}
     };
     sendResponse(commands[NEW_CONNECTION_STATE], connectionState);
 }
@@ -691,7 +691,7 @@ void Message::sendConnection()
 
     QJsonObject connectionState = {
         {"connected", true},
-        {"online", m_Manager->getEkosStartingStatus() == Ekos::STATUS_SUCCESS}
+        {"online", m_Manager->getEkosStartingStatus() == Ekos::Success}
     };
     sendResponse(commands[NEW_CONNECTION_STATE], connectionState);
 }
