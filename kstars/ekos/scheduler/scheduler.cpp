@@ -2285,7 +2285,7 @@ bool Scheduler::checkEkosState()
                 ekosState = EKOS_READY;
                 return true;
             }
-            else if (m_EkosCommunicationStatus == ERROR)
+            else if (m_EkosCommunicationStatus == Ekos::Error)
             {
                 if (ekosConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
