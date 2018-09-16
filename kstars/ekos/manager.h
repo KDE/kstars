@@ -323,8 +323,8 @@ class Manager : public QDialog, public Ui::Manager
     QStringList m_LogText;
     KPageWidgetItem *ekosOptionsWidget { nullptr };
 
-    CommunicationStatus m_ekosStatus { STATUS_IDLE };
-    CommunicationStatus m_indiStatus { STATUS_IDLE };
+    CommunicationStatus m_ekosStatus { Ekos::Idle };
+    CommunicationStatus m_indiStatus { Ekos::Idle };
 
     std::unique_ptr<QStandardItemModel> profileModel;
     QList<std::shared_ptr<ProfileInfo>> profiles;

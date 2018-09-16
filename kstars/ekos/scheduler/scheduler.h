@@ -659,8 +659,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
     StartupState startupState { STARTUP_IDLE };
     ShutdownState shutdownState { SHUTDOWN_IDLE };
     ParkWaitStatus parkWaitState { PARKWAIT_IDLE };
-    Ekos::CommunicationStatus m_EkosCommunicationStatus { STATUS_IDLE };
-    Ekos::CommunicationStatus m_INDICommunicationStatus { STATUS_IDLE };
+    Ekos::CommunicationStatus m_EkosCommunicationStatus { Ekos::Idle };
+    Ekos::CommunicationStatus m_INDICommunicationStatus { Ekos::Idle };
     /// List of all jobs as entered by the user or file
     QList<SchedulerJob *> jobs;
     /// Active job
