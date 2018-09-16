@@ -37,8 +37,6 @@ class Dome : public QObject
     Dome();
     virtual ~Dome() override = default;
 
-    typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
-
     /**
      * @defgroup DomeDBusInterface Ekos DBus Interface - Dome Interface
      * Ekos::Dome interface provides advanced basic dome operations.
