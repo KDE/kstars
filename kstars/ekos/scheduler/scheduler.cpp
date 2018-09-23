@@ -4709,6 +4709,9 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     // FIXME: setting in-sequence focus should be done in XML processing.
     schedJob->setInSequenceFocus(hasAutoFocus);
 
+    if (hasAutoFocus && !(schedJob->getStepPipeline() & SchedulerJob::USE_FOCUS))
+        appendLogText(i18n("Warning: Job '%1' has its focus step disabled, periodic and/or HFR procedures currently set in its sequence will not occur.", schedJob->getName()));
+
     /* This is the map of captured frames for this scheduler job, keyed per storage signature.
      * It will be forwarded to the Capture module in order to capture only what frames are required.
      * If option "Remember Job Progress" is disabled, this map will be empty, and the Capture module will process all requested captures unconditionally.
