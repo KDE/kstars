@@ -639,7 +639,7 @@ bool Manager::start()
     connect(INDIListener::Instance(), &INDIListener::deviceRemoved, this, &Ekos::Manager::removeDevice, Qt::DirectConnection);
 
 #ifdef Q_OS_OSX
-    if (localMode||currentProfile->host=="localhost")
+    if (m_LocalMode||currentProfile->host=="localhost")
     {
         if (isRunning("PTPCamera"))
         {
