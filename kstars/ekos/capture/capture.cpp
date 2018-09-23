@@ -2465,7 +2465,16 @@ void Capture::prepareJob(SequenceJob *job)
             calibrationStage = CAL_NONE;
     }
 
-    /* FIXME: this locks up the scheduler when it starts without any prior focus procedure done */
+    /* Disable this restriction, let the sequence run even if focus did not run prior to the capture.
+     * Besides, this locks up the Scheduler when the Capture module starts a sequence without any prior focus procedure done.
+     * This is quite an old code block. The message "Manual scheduled" seems to even refer to some manual intervention?
+     * With the new HFR threshold, it might be interesting to prevent the execution because we actually need an HFR value to
+     * begin capturing, but even there, on one hand it makes sense for the end-user to know what HFR to put in the edit box,
+     * and on the other hand the focus procedure will deduce the next HFR automatically.
+     * But in the end, it's not entirely clear what the intent was. Note there is still a warning that a preliminary autofocus
+     * procedure is important to avoid any surprise that could make the whole schedule ineffective.
+     */
+#if 0
     // If we haven't performed a single autofocus yet, we stop
     //if (!job->isPreview() && Options::enforceRefocusEveryN() && autoFocusReady && isInSequenceFocus == false && firstAutoFocus == true)
     if (!job->isPreview() && Options::enforceRefocusEveryN() && autoFocusReady == false && isInSequenceFocus == false)
@@ -2474,6 +2483,7 @@ void Capture::prepareJob(SequenceJob *job)
         abort();
         return;
     }
+#endif
 
 #if 0
     if (currentFilterPosition > 0)
