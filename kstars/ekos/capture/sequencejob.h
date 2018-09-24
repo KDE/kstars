@@ -197,7 +197,10 @@ class SequenceJob : public QObject
     void setCustomProperties(const QMap<QString, QMap<QString, double> > &value);
 
     QString getDirectoryPostfix() const;
-    void setDirectoryPostfix(const QString &value);    
+    void setDirectoryPostfix(const QString &value);
+
+    bool getJobProgressIgnored() const;
+    void setJobProgressIgnored(bool JobProgressIgnored);
 
 signals:
     void prepareComplete();
@@ -232,6 +235,7 @@ private:
     bool preview { false };
     bool prepareReady { true };
     bool enforceTemperature { false };
+    bool m_JobProgressIgnored { false };
     int isoIndex { -1 };
     int captureRetires { 0 };
     unsigned int completed { 0 };
