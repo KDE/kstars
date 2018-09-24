@@ -2043,11 +2043,16 @@ bool Capture::addJob(bool preview)
 
     if (m_JobUnderEdit == false)
     {
+        // JM 2018-09-24: If this is the first job added
+        // We always ignore job progress by default.
+        if (jobs.isEmpty() && preview == false)
+            ignoreJobProgress = true;
+
         jobs.append(job);
 
         // Nothing more to do if preview
         if (preview)
-            return true;
+            return true;        
     }
 
     QJsonObject jsonJob = {{"Status", "Idle"}};
@@ -2403,10 +2408,31 @@ void Capture::prepareJob(SequenceJob *job)
             // This is the current completion count of the current job
             activeJob->setCompleted(count);
         }
-        else
+        // JM 2018-09-24: Only set completed jobs to 0 IF the scheduler set captured frames map to beging with
+        // If the map is empty, then no scheduler is used and it should proceed as normal.
+        else if (capturedFramesMap.count() > 0)
         {
             // No preliminary information, we reset the job count and run the job unconditionally to clarify the behavior
             activeJob->setCompleted(0);
+        }
+        // JM 2018-09-24: In case ignoreJobProgress is enabled
+        // We check if this particular job progress ignore flag is set. If not,
+        // then we set it and reset completed to zero. Next time it is evaluated here again
+        // It will maintain its count regardless
+        else if (ignoreJobProgress && activeJob->getJobProgressIgnored() == false)
+        {
+            activeJob->setJobProgressIgnored(true);
+            activeJob->setCompleted(0);
+        }
+        // If we cannot ignore job progress, then we set completed job number according to what
+        // was found on the file system.
+        else if (ignoreJobProgress == false)
+        {
+            int count = nextSequenceID - 1;
+            if (count < activeJob->getCount())
+                activeJob->setCompleted(count);
+            else
+                activeJob->setCompleted(activeJob->getCount());
         }
 
         // Check whether active job is complete by comparing required captures to what is already available
@@ -3006,11 +3032,7 @@ void Capture::loadSequenceQueue()
 
 bool Capture::loadSequenceQueue(const QString &fileURL)
 {
-    QFile sFile;
-    sFile.setFileName(fileURL);
-
-    capturedFramesMap.clear();
-
+    QFile sFile(fileURL);
     if (!sFile.open(QIODevice::ReadOnly))
     {
         QString message = i18n("Unable to open file %1", fileURL);
@@ -3018,12 +3040,8 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
         return false;
     }
 
-    //QTextStream instream(&sFile);
-
-    qDeleteAll(jobs);
-    jobs.clear();
-    while (queueTable->rowCount() > 0)
-        queueTable->removeRow(0);
+    capturedFramesMap.clear();
+    clearSequenceQueue();
 
     LilXML *xmlParser = newLilXML();
 
@@ -3341,7 +3359,7 @@ bool Capture::processJobInfo(XMLEle *root)
         }
     }
 
-    addJob(false);
+    addJob(false);    
 
     return true;
 }
@@ -3564,8 +3582,9 @@ void Capture::resetJobs()
 
     stop();
 
-    ignoreJobProgress = true;
     capturedFramesMap.clear();
+
+    ignoreJobProgress = true;
 }
 
 void Capture::ignoreSequenceHistory()
@@ -3864,13 +3883,12 @@ void Capture::setTargetTemperature(double temperature)
 void Capture::clearSequenceQueue()
 {
     activeJob = nullptr;
-    m_TargetName.clear();
-    stop();
+    //m_TargetName.clear();
+    //stop();
+    qDeleteAll(jobs);
+    jobs.clear();
     while (queueTable->rowCount() > 0)
         queueTable->removeRow(0);
-    jobs.clear();
-    qDeleteAll(jobs);
-    ignoreJobProgress = true;
 }
 
 QString Capture::getSequenceQueueStatus()

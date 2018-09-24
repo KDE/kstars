@@ -50,6 +50,7 @@ void SequenceJob::resetStatus()
     completed      = 0;
     exposeLeft     = 0;
     captureRetires = 0;
+    m_JobProgressIgnored = false;
     if (preview == false && statusCell)
         statusCell->setText(statusStrings[status]);
 }
@@ -190,6 +191,16 @@ void SequenceJob::setAllActionsReady()
         i.next();
         i.setValue(true);
     }
+}
+
+bool SequenceJob::getJobProgressIgnored() const
+{
+    return m_JobProgressIgnored;
+}
+
+void SequenceJob::setJobProgressIgnored(bool JobProgressIgnored)
+{
+    m_JobProgressIgnored = JobProgressIgnored;
 }
 
 QString SequenceJob::getDirectoryPostfix() const
