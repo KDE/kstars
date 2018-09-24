@@ -134,8 +134,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
     /**
          * @brief startCapture The current job file name is solved to an url which is fed to ekos. We then start the capture process
+         * @param restart Set to true if the goal to restart an existing sequence. The only difference is that when a sequence is restarted, sequence file
+         * is not loaded from disk again since that results in erasing all the history of the capture process.
          */
-    void startCapture();
+    void startCapture(bool restart = false);
 
     /**
          * @brief getNextAction Checking for the next appropriate action regarding the current state of the scheduler  and execute it
