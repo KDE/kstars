@@ -64,7 +64,7 @@ class GuideInterface : public QObject
     void newAxisDelta(double delta_ra, double delta_dec);
     void newAxisSigma(double sigma_ra, double sigma_dec);
     void newAxisPulse(double pulse_ra, double pulse_dec);
-    void newStarPosition(QVector3D, bool);
+    void newStarPosition(const QVector3D &newCenter, bool updateNow);
     void newStarPixmap(QPixmap &);
 
     void frameCaptureRequested();
