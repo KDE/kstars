@@ -72,16 +72,16 @@
           <property name="spacing">
            <number>2</number>
           </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="textLabel1_6">
-            <property name="toolTip">
-             <string/>
+          <item row="1" column="5">
+           <widget class="QPushButton" name="setTemperatureB">
+            <property name="enabled">
+             <bool>false</bool>
             </property>
-            <property name="whatsThis">
-             <string/>
+            <property name="toolTip">
+             <string>Set CCD temperature</string>
             </property>
             <property name="text">
-             <string>CCD:</string>
+             <string>Set</string>
             </property>
            </widget>
           </item>
@@ -89,6 +89,37 @@
            <widget class="QComboBox" name="CCDCaptureCombo"/>
           </item>
           <item row="0" column="2">
+           <widget class="QPushButton" name="clearCameraConfigB">
+            <property name="minimumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Clear all camera configuration</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="delete"/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
            <widget class="QLabel" name="textLabel1_5_3">
             <property name="toolTip">
              <string>Filter Wheel</string>
@@ -101,11 +132,67 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item row="0" column="4">
+           <widget class="QComboBox" name="FilterDevicesCombo">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Cooler:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="4">
+           <layout class="QHBoxLayout" name="coolerLayout">
             <property name="spacing">
              <number>2</number>
             </property>
+            <item>
+             <widget class="QPushButton" name="coolerOnB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Turn cooler on</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+              </property>
+              <property name="text">
+               <string>On</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="coolerOffB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+              </property>
+              <property name="text">
+               <string>Off</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QCheckBox" name="temperatureCheck">
               <property name="toolTip">
@@ -153,32 +240,34 @@
             </item>
            </layout>
           </item>
-          <item row="0" column="3">
-           <widget class="QComboBox" name="FilterDevicesCombo">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+          <item row="0" column="0">
+           <widget class="QLabel" name="textLabel1_6">
+            <property name="toolTip">
+             <string/>
             </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label">
+            <property name="whatsThis">
+             <string/>
+            </property>
             <property name="text">
-             <string>Cooler:</string>
+             <string>CCD:</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="4">
+          <item row="0" column="5">
            <widget class="QPushButton" name="filterManagerB">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="minimumSize">
              <size>
-              <width>32</width>
-              <height>32</height>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
              </size>
             </property>
             <property name="toolTip">
@@ -190,18 +279,11 @@
             <property name="text">
              <string/>
             </property>
-           </widget>
-          </item>
-          <item row="1" column="2" colspan="3">
-           <widget class="QPushButton" name="setTemperatureB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Set CCD temperature</string>
-            </property>
-            <property name="text">
-             <string>Set</string>
+            <property name="iconSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
             </property>
            </widget>
           </item>

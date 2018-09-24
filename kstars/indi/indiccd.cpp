@@ -52,26 +52,18 @@ FITSView *CCDChip::getImageView(FITSMode imageType)
     {
         case FITS_NORMAL:
             return normalImage;
-            break;
 
         case FITS_FOCUS:
             return focusImage;
-            break;
 
         case FITS_GUIDE:
             return guideImage;
-            break;
 
         case FITS_CALIBRATE:
             return calibrationImage;
-            break;
 
         case FITS_ALIGN:
             return alignImage;
-            break;
-
-        default:
-            break;
     }
 
     return nullptr;
@@ -99,9 +91,6 @@ void CCDChip::setImageView(FITSView *image, FITSMode imageType)
 
         case FITS_ALIGN:
             alignImage = image;
-            break;
-
-        default:
             break;
     }
 
@@ -1021,6 +1010,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     {
         // Can turn cooling on/off
         HasCoolerControl = true;
+        emit coolerToggled(svp->sp[0].s == ISS_ON);
     }
     else if (QString(svp->name).endsWith("VIDEO_STREAM"))
     {
@@ -2414,6 +2404,16 @@ bool CCD::getStreamExposure(double *duration)
     *duration = nvp->np[0].value;
 
     return true;
+}
+
+bool CCD::isCoolerOn()
+{
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("CCD_COOLER");
+
+    if (svp == nullptr)
+        return false;
+
+    return (svp->sp[0].s == ISS_ON);
 }
 
 }
