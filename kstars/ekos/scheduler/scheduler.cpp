@@ -1120,7 +1120,7 @@ void Scheduler::stop()
 
     // Clear target name in capture interface upon stopping
     if (captureInterface.isNull() == false)
-        captureInterface->setProperty("setTargetName", QString());
+        captureInterface->setProperty("targetName", QString());
 
     if (scriptProcess.state() == QProcess::Running)
         scriptProcess.terminate();
@@ -2211,11 +2211,7 @@ void Scheduler::executeJob(SchedulerJob *job)
 
     if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
-        QString targetName = job->getName().replace(' ', "");
-        QList<QVariant> targetArgs;
-
-        targetArgs.append(targetName);
-        captureInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetName", targetArgs);
+        captureInterface->setProperty("targetName", job->getName().replace(' ', ""));
     }
 
     updatePreDawn();
@@ -4489,20 +4485,19 @@ void Scheduler::startGuiding(bool resetCalibration)
     appendLogText(i18n("Starting guiding procedure for %1 ...", currentJob->getName()));
 }
 
-void Scheduler::startCapture()
-{
-    captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
-
-    QString targetName = currentJob->getName().replace(' ', "");
-    QList<QVariant> targetArgs;
-    targetArgs.append(targetName);
-    captureInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetName", targetArgs);
+void Scheduler::startCapture(bool restart)
+{    
+    captureInterface->setProperty("targetName", currentJob->getName().replace(' ', ""));
 
     QString url = currentJob->getSequenceFile().toLocalFile();
 
-    QList<QVariant> dbusargs;
-    dbusargs.append(url);
-    captureInterface->callWithArgumentList(QDBus::AutoDetect, "loadSequenceQueue", dbusargs);
+    if (restart == false)
+    {
+        QList<QVariant> dbusargs;
+        dbusargs.append(url);
+        captureInterface->callWithArgumentList(QDBus::AutoDetect, "loadSequenceQueue", dbusargs);
+    }
+
 
     switch (currentJob->getCompletionCondition())
     {
@@ -4513,6 +4508,10 @@ void Scheduler::startCapture()
         break;
 
     default:
+        // JM 2018-09-24: If job is looping, no need to set captured frame maps.
+        if (currentJob->getCompletionCondition() != SchedulerJob::FINISH_SEQUENCE)
+            break;
+
         // hand over the map of captured frames so that the capture
         // process knows about existing frames
         SchedulerJob::CapturedFramesMap fMap = currentJob->getCapturedFramesMap();
@@ -6503,7 +6502,7 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
 
                 /* FIXME: it's not clear whether it is actually possible to continue capturing when capture fails this way */
                 appendLogText(i18n("Warning: job '%1' failed its capture procedure, restarting capture.", currentJob->getName()));
-                startCapture();
+                startCapture(true);
             }
             else
             {
@@ -6520,7 +6519,7 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
                                  i18n("Ekos job (%1) - Capture finished", currentJob->getName()));
 
 
-            captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
+            //captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
 
             currentJob->setState(SchedulerJob::JOB_COMPLETE);
             findNextJob();
