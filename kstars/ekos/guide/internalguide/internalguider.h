@@ -127,7 +127,7 @@ class InternalGuider : public GuideInterface
   signals:
     void newPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
     void newPulse(GuideDirection dir, int msecs);
-    void newStarPosition(QVector3D, bool);
+    //void newStarPosition(QVector3D, bool);
     void DESwapChanged(bool enable);
 
   private:

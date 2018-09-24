@@ -2176,8 +2176,6 @@ bool Guide::setGuiderType(int type)
         case GUIDE_INTERNAL:
         {       
             connect(internalGuider, SIGNAL(newPulse(GuideDirection,int)), this, SLOT(sendPulse(GuideDirection,int)));
-            //connect(internalGuider.data(), static_cast<void(Ekos::InternalGuider::*)(GuideDirection dir, int msecs)>(&Ekos::InternalGuider::newPulse),
-            //this, static_cast<void(Ekos::Guide::*)(GuideDirection dir, int msecs)>(&Ekos::Guide::sendPulse));
             connect(internalGuider, SIGNAL(newPulse(GuideDirection,int,GuideDirection,int)), this,
                     SLOT(sendPulse(GuideDirection,int,GuideDirection,int)));
             connect(internalGuider, SIGNAL(DESwapChanged(bool)), swapCheck, SLOT(setChecked(bool)));
