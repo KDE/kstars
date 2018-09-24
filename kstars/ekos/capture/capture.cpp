@@ -129,7 +129,15 @@ Capture::Capture()
     connect(setTemperatureB, &QPushButton::clicked, [&]() {
         if (currentCCD)
             currentCCD->setTemperature(temperatureIN->value());
-    });   
+    });
+    connect(coolerOnB, &QPushButton::clicked, [&]() {
+        if (currentCCD)
+            currentCCD->setCoolerControl(true);
+    });
+    connect(coolerOffB, &QPushButton::clicked, [&]() {
+        if (currentCCD)
+            currentCCD->setCoolerControl(false);
+    });
     connect(temperatureIN, &QDoubleSpinBox::editingFinished, setTemperatureB, static_cast<void (QPushButton::*)()>(&QPushButton::setFocus));
     connect(frameTypeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkFrameType);
     connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Capture::resetFrame);
@@ -637,6 +645,24 @@ void Capture::checkCCD(int ccdNum)
             targetChip   = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
             useGuideHead = false;
         }
+
+        coolerOnB->setEnabled(currentCCD->hasCoolerControl());
+        coolerOffB->setEnabled(currentCCD->hasCoolerControl());
+        if (currentCCD->hasCoolerControl())
+        {
+            coolerOnB->setEnabled(true);
+            coolerOffB->setEnabled(true);
+            coolerOnB->setChecked(currentCCD->isCoolerOn());
+            coolerOffB->setChecked(!currentCCD->isCoolerOn());
+        }
+        else
+        {
+            coolerOnB->setEnabled(true);
+            coolerOnB->setChecked(false);
+            coolerOffB->setEnabled(true);
+            coolerOffB->setChecked(false);
+        }
+
 
         if (currentCCD->hasCooler())
         {

@@ -163,6 +163,7 @@ class CCD : public DeviceDecorator
     // Does it have active cooler on/off controls?
     bool hasCoolerControl();
     bool setCoolerControl(bool enable);
+    bool isCoolerOn();
     // Does it have a video stream?
     bool hasVideoStream() { return HasVideoStream; }    
 
@@ -249,6 +250,7 @@ class CCD : public DeviceDecorator
     void videoRecordToggled(bool enabled);
     void newFPS(double instantFPS, double averageFPS);
     void newVideoFrame(std::unique_ptr<QImage> & frame);
+    void coolerToggled(bool enabled);
     void ready();
 
   private:
