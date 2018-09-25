@@ -290,7 +290,7 @@ void INDI_E::updateTP()
     if (tp == nullptr)
         return;
 
-    IUSaveText(tp, write_w->text().toLatin1().constData());
+    IUSaveText(tp, write_w->text().toHtmlEscaped().toLatin1().constData());
 }
 
 void INDI_E::updateNP()
