@@ -60,7 +60,7 @@ class RotatorSettings;
  * interface to enable unattended scripting.
  *
  * @author Jasem Mutlaq
- * @version 1.6
+ * @version 1.7
  */
 namespace Ekos
 {
@@ -505,6 +505,9 @@ class Capture : public QWidget, public Ui::Capture
 
     void setGuideChip(ISD::CCDChip *chip);
 
+    // Clear Camera Configuration
+    void clearCameraConfiguration();
+
   private slots:
 
     /**
@@ -571,6 +574,9 @@ class Capture : public QWidget, public Ui::Capture
 
     // Rotator
     void updateRotatorNumber(INumberVectorProperty *nvp);
+
+    // Cooler
+    void setCoolerToggled(bool enabled);
 
   signals:
     Q_SCRIPTABLE void newLog(const QString &text);

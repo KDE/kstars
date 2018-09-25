@@ -94,6 +94,8 @@ Capture::Capture()
     guideDeviationTimer.setInterval(GD_TIMER_TIMEOUT);
     connect(&guideDeviationTimer, &QTimer::timeout, this, &Ekos::Capture::checkGuideDeviationTimeout);
 
+    connect(clearConfigurationB, &QPushButton::clicked, this, &Ekos::Capture::clearCameraConfiguration);
+
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkFilter);
 
     connect(temperatureCheck, &QCheckBox::toggled, [this](bool toggled)
@@ -624,6 +626,7 @@ void Capture::checkCCD(int ccdNum)
     {
         disconnect(ccd, &ISD::CCD::numberUpdated, this, &Ekos::Capture::processCCDNumber);
         disconnect(ccd, &ISD::CCD::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature);
+        disconnect(ccd, &ISD::CCD::coolerToggled, this, &Ekos::Capture::setCoolerToggled);
         disconnect(ccd, &ISD::CCD::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
         disconnect(ccd, &ISD::CCD::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
         disconnect(ccd, &ISD::CCD::ready, this, &Ekos::Capture::ready);
@@ -778,7 +781,8 @@ void Capture::checkCCD(int ccdNum)
         setVideoStreamEnabled(currentCCD->isStreamingEnabled());
 
         connect(currentCCD, &ISD::CCD::numberUpdated, this, &Ekos::Capture::processCCDNumber, Qt::UniqueConnection);
-        connect(currentCCD, &ISD::CCD::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature,   Qt::UniqueConnection);
+        connect(currentCCD, &ISD::CCD::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature, Qt::UniqueConnection);
+        connect(currentCCD, &ISD::CCD::coolerToggled, this, &Ekos::Capture::setCoolerToggled, Qt::UniqueConnection);
         connect(currentCCD, &ISD::CCD::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
         connect(currentCCD, &ISD::CCD::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
         connect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
@@ -5535,6 +5539,29 @@ void Capture::setSettings(const QJsonObject &settings)
     int isoIndex = settings["iso"].toInt(-1);
     if (isoIndex >= 0)
         setISO(isoIndex);
+}
+
+void Capture::clearCameraConfiguration()
+{
+    if (KMessageBox::questionYesNo(nullptr, i18n("Reset %1 configuration to default?", currentCCD->getDeviceName()), i18n("Confirmation")) == KMessageBox::No)
+        return;
+
+    currentCCD->setConfig(LOAD_DEFAULT_CONFIG);
+    KStarsData::Instance()->userdb()->DeleteDSLRInfo(currentCCD->getDeviceName());
+
+}
+
+void Capture::setCoolerToggled(bool enabled)
+{
+    coolerOnB->blockSignals(true);
+    coolerOnB->setChecked(enabled);
+    coolerOnB->blockSignals(false);
+
+    coolerOffB->blockSignals(true);
+    coolerOffB->setChecked(!enabled);
+    coolerOffB->blockSignals(false);
+
+    appendLogText(enabled ? i18n("Cooler is on") : i18n("Cooler is off"));
 }
 
 }
