@@ -696,7 +696,7 @@ void Capture::checkCCD(int ccdNum)
             double temperature = 0;
             if (currentCCD->getTemperature(&temperature))
             {
-                temperatureOUT->setText(QString::number(temperature, 'f', 2));
+                temperatureOUT->setText(QString("%L1").arg(temperature, 0, 'f', 2));
                 if (temperatureIN->cleanText().isEmpty())
                     temperatureIN->setValue(temperature);
             }
@@ -875,7 +875,7 @@ void Capture::updateFrameProperties(int reset)
         }
 
         if (step == 0)
-            xstep = (int)max * 0.05;
+            xstep = static_cast<int>(max * 0.05);
         else
             xstep = step;
 
@@ -898,7 +898,7 @@ void Capture::updateFrameProperties(int reset)
         }
 
         if (step == 0)
-            ystep = (int)max * 0.05;
+            ystep = static_cast<int>(max * 0.05);
         else
             ystep = step;
 
@@ -1337,7 +1337,7 @@ bool Capture::setCaptureComplete()
     m_State = CAPTURE_IMAGE_RECEIVED;
     emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
 
-    currentImgCountOUT->setText(QString::number(activeJob->getCompleted()));
+    currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
 
     // Check if we need to execute post capture script first
     if (activeJob->getPostCaptureScript().isEmpty() == false)
@@ -1704,7 +1704,7 @@ void Capture::captureImage()
     {
     case SequenceJob::CAPTURE_OK:
     {
-        appendLogText(i18n("Capturing %1-second %2 image...", QString::number(activeJob->getExposure(),'g',3), activeJob->getFilterName()));
+        appendLogText(i18n("Capturing %1-second %2 image...", QString("%L1").arg(activeJob->getExposure(), 0, 'f', 3), activeJob->getFilterName()));
         if (activeJob->isPreview() == false)
         {
             int index = jobs.indexOf(activeJob);
@@ -1868,7 +1868,7 @@ void Capture::setExposureProgress(ISD::CCDChip *tChip, double value, IPState sta
     if (targetChip != tChip || targetChip->getCaptureMode() != FITS_NORMAL || meridianFlipStage >= MF_ALIGNING)
         return;
 
-    exposeOUT->setText(QString::number(value, 'd', 2));
+    exposeOUT->setText(QString("%L1").arg(value, 0, 'd', 2));
 
     if (activeJob)
     {
@@ -1941,7 +1941,7 @@ void Capture::updateCCDTemperature(double value)
             checkCCD();
     }
 
-    temperatureOUT->setText(QString::number(value, 'f', 2));
+    temperatureOUT->setText(QString("%L1").arg(value, 0, 'f', 2));
 
     if (temperatureIN->cleanText().isEmpty())
         temperatureIN->setValue(value);
@@ -2020,7 +2020,7 @@ bool Capture::addJob(bool preview)
         job->setCurrentTemperature(currentTemperature);
     }
 
-    job->setCaptureFilter((FITSScale)filterCombo->currentIndex());
+    job->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
 
     job->setUploadMode(static_cast<ISD::CCD::UploadMode>(uploadModeCombo->currentIndex()));
     job->setPostCaptureScript(postCaptureScriptIN->text());
@@ -2144,7 +2144,7 @@ bool Capture::addJob(bool preview)
     jsonJob.insert("Bin", bin->text());
 
     QTableWidgetItem *exp = m_JobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
-    exp->setText(QString::number(exposureIN->value()));
+    exp->setText(QString("%L1").arg(exposureIN->value(), 0, 'f', exposureIN->decimals()));
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Exp", exp->text());
@@ -2164,7 +2164,7 @@ bool Capture::addJob(bool preview)
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QTableWidgetItem *count = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
-    count->setText(QString::number(countIN->value()));
+    count->setText(QString("%L1").arg(countIN->value()));
     count->setTextAlignment(Qt::AlignHCenter);
     count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Count", count->text());
@@ -2379,8 +2379,8 @@ void Capture::prepareJob(SequenceJob *job)
 
     if (activeJob->isPreview() == false)
     {
-        fullImgCountOUT->setText(QString::number(activeJob->getCount()));
-        currentImgCountOUT->setText(QString::number(activeJob->getCompleted()));
+        fullImgCountOUT->setText(QString("%L1").arg(activeJob->getCount()));
+        currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
 
         // set the progress info
         imgProgress->setEnabled(true);
@@ -2470,7 +2470,7 @@ void Capture::prepareJob(SequenceJob *job)
         {
             activeJob->setCompleted(activeJob->getCount());
             appendLogText(i18n("Job requires %1-second %2 images, has already %3/%4 captures and does not need to run.",
-                    QString::number(job->getExposure(),'g',3), job->getFilterName(),
+                    QString("%L1").arg(job->getExposure(), 0, 'f', 3), job->getFilterName(),
                     activeJob->getCompleted(), activeJob->getCount()));
             processJobCompletion();
 
@@ -2480,9 +2480,9 @@ void Capture::prepareJob(SequenceJob *job)
         else
         {
             // There are captures to process
-            currentImgCountOUT->setText(QString::number(activeJob->getCompleted()));
+            currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
             appendLogText(i18n("Job requires %1-second %2 images, has %3/%4 frames captured and will be processed.",
-                    QString::number(job->getExposure(),'g',3), job->getFilterName(),
+                    QString("%L1").arg(job->getExposure(), 0, 'f', 3), job->getFilterName(),
                     activeJob->getCompleted(), activeJob->getCount()));
 
             // Emit progress update - done a few lines below
@@ -2755,7 +2755,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
     double deviation_rms = sqrt(delta_ra * delta_ra + delta_dec * delta_dec);
 
-    QString deviationText = QString("%1").arg(deviation_rms, 0, 'g', 3);
+    QString deviationText = QString("%1").arg(deviation_rms, 0, 'f', 3);
 
     // If we have an active busy job, let's abort it if guiding deviation is exceeded.
     // And we accounted for the spike
@@ -2773,7 +2773,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, "
                                "suspending exposure and waiting for guider up to %3 seconds.",
                                deviationText, guideDeviation->value(),
-                               QString::number(guideDeviationTimer.interval()/1000.0,'g',3)));
+                               QString("%L1").arg(guideDeviationTimer.interval()/1000.0,0,'f',3)));
 
             suspend();
 
@@ -3080,13 +3080,16 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
     XMLEle *ep   = nullptr;
     char c;
 
+    // We expect all data read from the XML to be in the C locale - QLocale::c().
+    QLocale cLocale = QLocale::c();
+
     while (sFile.getChar(&c))
     {
         root = readXMLEle(xmlParser, c, errmsg);
 
         if (root)
         {
-            double sqVersion = atof(findXMLAttValu(root, "version"));
+            double sqVersion = cLocale.toFloat(findXMLAttValu(root, "version"));
             if (sqVersion < SQ_COMPAT_VERSION)
             {
                 appendLogText(i18n("Deprecated sequence file format version %1. Please construct a new sequence file.",
@@ -3102,61 +3105,36 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 }
                 else if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
                 {
-                    if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
-                    {
-                        guideDeviationCheck->setChecked(true);
-                        guideDeviation->setValue(atof(pcdataXMLEle(ep)));
-                    }
-                    else
-                        guideDeviationCheck->setChecked(false);
+                    guideDeviationCheck->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    guideDeviation->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
                 }
                 else if (!strcmp(tagXMLEle(ep), "Autofocus"))
                 {
-                    if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
-                    {
-                        autofocusCheck->setChecked(true);
-                        float HFRValue = atof(pcdataXMLEle(ep));
-                        if (HFRValue > 0)
-                        {
-                            fileHFR = HFRValue;
-                            HFRPixels->setValue(HFRValue);
-                        }
-                        else
-                            fileHFR = 0;
-                    }
-                    else
-                        autofocusCheck->setChecked(false);
+                    autofocusCheck->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    double const HFRValue = cLocale.toDouble(pcdataXMLEle(ep));
+                    // Set the HFR value from XML, or reset it to zero, don't let another unrelated older HFR be used
+                    // Note that HFR value will only be serialized to XML when option "Save Sequence HFR to File" is enabled
+                    fileHFR = HFRValue > 0.0 ? HFRValue : 0.0;
+                    HFRPixels->setValue(fileHFR);
                 }
                 else if (!strcmp(tagXMLEle(ep), "RefocusEveryN"))
                 {
-                    if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
-                    {
-                        refocusEveryNCheck->setChecked(true);
-                        int minutesValue = atof(pcdataXMLEle(ep));
-                        if (minutesValue > 0)
-                        {
-                            refocusEveryNMinutesValue = minutesValue;
-                            refocusEveryN->setValue(refocusEveryNMinutesValue);
-                        }
-                        else
-                            refocusEveryNMinutesValue = 0;
-                    }
-                    else
-                        refocusEveryNCheck->setChecked(false);
+                    refocusEveryNCheck->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    int const minutesValue = cLocale.toInt(pcdataXMLEle(ep));
+                    // Set the refocus period from XML, or reset it to zero, don't let another unrelated older refocus period be used.
+                    refocusEveryNMinutesValue = minutesValue > 0 ? minutesValue : 0;
+                    refocusEveryN->setValue(refocusEveryNMinutesValue);
                 }
                 else if (!strcmp(tagXMLEle(ep), "MeridianFlip"))
                 {
-                    if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
-                    {
-                        meridianCheck->setChecked(true);
-                        meridianHours->setValue(atof(pcdataXMLEle(ep)));
-                    }
-                    else
-                        meridianCheck->setChecked(false);
+                    meridianCheck->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    meridianHours->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
                 }
                 else if (!strcmp(tagXMLEle(ep), "CCD"))
                 {
                     CCDCaptureCombo->setCurrentText(pcdataXMLEle(ep));
+                    // Signal "activated" of QComboBox does not fire when changing the text programmatically
+                    setCamera(pcdataXMLEle(ep));
                 }
                 else if (!strcmp(tagXMLEle(ep), "FilterWheel"))
                 {
@@ -3193,38 +3171,40 @@ bool Capture::processJobInfo(XMLEle *root)
     XMLEle *subEP;
     rotatorSettings->setRotationEnforced(false);
 
+    QLocale cLocale = QLocale::c();
+
     for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
     {
         if (!strcmp(tagXMLEle(ep), "Exposure"))
-            exposureIN->setValue(atof(pcdataXMLEle(ep)));
+            exposureIN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
         else if (!strcmp(tagXMLEle(ep), "Binning"))
         {
             subEP = findXMLEle(ep, "X");
             if (subEP)
-                binXIN->setValue(atoi(pcdataXMLEle(subEP)));
+                binXIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "Y");
             if (subEP)
-                binYIN->setValue(atoi(pcdataXMLEle(subEP)));
+                binYIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
         }
         else if (!strcmp(tagXMLEle(ep), "Frame"))
         {
             subEP = findXMLEle(ep, "X");
             if (subEP)
-                frameXIN->setValue(atoi(pcdataXMLEle(subEP)));
+                frameXIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "Y");
             if (subEP)
-                frameYIN->setValue(atoi(pcdataXMLEle(subEP)));
+                frameYIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "W");
             if (subEP)
-                frameWIN->setValue(atoi(pcdataXMLEle(subEP)));
+                frameWIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
             subEP = findXMLEle(ep, "H");
             if (subEP)
-                frameHIN->setValue(atoi(pcdataXMLEle(subEP)));
+                frameHIN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
         }
         else if (!strcmp(tagXMLEle(ep), "Temperature"))
         {
             if (temperatureIN->isEnabled())
-                temperatureIN->setValue(atof(pcdataXMLEle(ep)));
+                temperatureIN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
 
             // If force attribute exist, we change temperatureCheck, otherwise do nothing.
             if (!strcmp(findXMLAttValu(ep, "force"), "true"))
@@ -3258,11 +3238,11 @@ bool Capture::processJobInfo(XMLEle *root)
         }
         else if (!strcmp(tagXMLEle(ep), "Count"))
         {
-            countIN->setValue(atoi(pcdataXMLEle(ep)));
+            countIN->setValue(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Delay"))
         {
-            delayIN->setValue(atoi(pcdataXMLEle(ep)));
+            delayIN->setValue(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "PostCaptureScript"))
         {
@@ -3278,21 +3258,21 @@ bool Capture::processJobInfo(XMLEle *root)
         }
         else if (!strcmp(tagXMLEle(ep), "UploadMode"))
         {
-            uploadModeCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+            uploadModeCombo->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "ISOIndex"))
         {
             if (ISOCombo->isEnabled())
-                ISOCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+                ISOCombo->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "FormatIndex"))
         {
-            transferFormatCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+            transferFormatCombo->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Rotation"))
         {
             rotatorSettings->setRotationEnforced(true);
-            rotatorSettings->setTargetRotationPA(atof(pcdataXMLEle(ep)));
+            rotatorSettings->setTargetRotationPA(cLocale.toDouble(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Properties"))
         {
@@ -3305,7 +3285,7 @@ bool Capture::processJobInfo(XMLEle *root)
                 for (oneNumber = nextXMLEle(subEP, 1); oneNumber != nullptr; oneNumber = nextXMLEle(subEP, 0))
                 {
                     const char *name = findXMLAttValu(oneNumber, "name");
-                    numbers[name] = atof(pcdataXMLEle(oneNumber));
+                    numbers[name] = cLocale.toDouble(pcdataXMLEle(oneNumber));
                 }
 
                 const char *name = findXMLAttValu(subEP, "name");
@@ -3336,8 +3316,8 @@ bool Capture::processJobInfo(XMLEle *root)
                         if (azEP && altEP)
                         {
                             flatFieldSource = SOURCE_WALL;
-                            wallCoord.setAz(atof(pcdataXMLEle(azEP)));
-                            wallCoord.setAlt(atof(pcdataXMLEle(altEP)));
+                            wallCoord.setAz(cLocale.toDouble(pcdataXMLEle(azEP)));
+                            wallCoord.setAlt(cLocale.toDouble(pcdataXMLEle(altEP)));
                         }
                     }
                     else
@@ -3359,13 +3339,13 @@ bool Capture::processJobInfo(XMLEle *root)
                 if (aduEP)
                 {
                     flatFieldDuration = DURATION_ADU;
-                    targetADU         = atof(pcdataXMLEle(aduEP));
+                    targetADU         = cLocale.toDouble(pcdataXMLEle(aduEP));
                 }
 
                 aduEP = findXMLEle(subEP, "Tolerance");
                 if (aduEP)
                 {
-                    targetADUTolerance = atof(pcdataXMLEle(aduEP));
+                    targetADUTolerance = cLocale.toDouble(pcdataXMLEle(aduEP));
                 }
             }
 
@@ -3470,11 +3450,14 @@ bool Capture::saveSequenceQueue(const QString &path)
     if (!file.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Unable to write to file %1", path);
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        KMessageBox::sorry(nullptr, message, i18n("Could not open file"));
         return false;
     }
 
     QTextStream outstream(&file);
+
+    // We serialize sequence data to XML using the C locale
+    QLocale cLocale = QLocale::c();
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
     outstream << "<SequenceQueue version='" << SQ_FORMAT_VERSION << "'>" << endl;
@@ -3483,33 +3466,38 @@ bool Capture::saveSequenceQueue(const QString &path)
     outstream << "<CCD>" << CCDCaptureCombo->currentText() << "</CCD>" << endl;
     outstream << "<FilterWheel>" << FilterDevicesCombo->currentText() << "</FilterWheel>" << endl;
     outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>"
-              << guideDeviation->value() << "</GuideDeviation>" << endl;
+              << cLocale.toString(guideDeviation->value()) << "</GuideDeviation>" << endl;
+    // Issue a warning when autofocus is enabled but Ekos options prevent HFR value from being written
+    if (autofocusCheck->isChecked() && !Options::saveHFRToFile())
+        appendLogText(i18n(
+                    "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to File\" is not enabled. "
+                    "Current HFR value will not be written to sequence file."));
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>"
-              << (Options::saveHFRToFile() ? HFRPixels->value() : 0) << "</Autofocus>" << endl;
+              << cLocale.toString(Options::saveHFRToFile() ? HFRPixels->value() : 0) << "</Autofocus>" << endl;
     outstream << "<RefocusEveryN enabled='" << (refocusEveryNCheck->isChecked() ? "true" : "false") << "'>"
-              << refocusEveryN->value() << "</RefocusEveryN>" << endl;
+              << cLocale.toString(refocusEveryN->value()) << "</RefocusEveryN>" << endl;
     outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>"
-              << meridianHours->value() << "</MeridianFlip>" << endl;
+              << cLocale.toString(meridianHours->value()) << "</MeridianFlip>" << endl;
     foreach (SequenceJob *job, jobs)
     {
         job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
 
         outstream << "<Job>" << endl;
 
-        outstream << "<Exposure>" << job->getExposure() << "</Exposure>" << endl;
+        outstream << "<Exposure>" << cLocale.toString(job->getExposure()) << "</Exposure>" << endl;
         outstream << "<Binning>" << endl;
-        outstream << "<X>" << job->getXBin() << "</X>" << endl;
-        outstream << "<Y>" << job->getXBin() << "</Y>" << endl;
+        outstream << "<X>" << cLocale.toString(job->getXBin()) << "</X>" << endl;
+        outstream << "<Y>" << cLocale.toString(job->getXBin()) << "</Y>" << endl;
         outstream << "</Binning>" << endl;
         outstream << "<Frame>" << endl;
-        outstream << "<X>" << job->getSubX() << "</X>" << endl;
-        outstream << "<Y>" << job->getSubY() << "</Y>" << endl;
-        outstream << "<W>" << job->getSubW() << "</W>" << endl;
-        outstream << "<H>" << job->getSubH() << "</H>" << endl;
+        outstream << "<X>" << cLocale.toString(job->getSubX()) << "</X>" << endl;
+        outstream << "<Y>" << cLocale.toString(job->getSubY()) << "</Y>" << endl;
+        outstream << "<W>" << cLocale.toString(job->getSubW()) << "</W>" << endl;
+        outstream << "<H>" << cLocale.toString(job->getSubH()) << "</H>" << endl;
         outstream << "</Frame>" << endl;
         if (job->getTargetTemperature() != INVALID_VALUE)
             outstream << "<Temperature force='" << (job->getEnforceTemperature() ? "true" : "false") << "'>"
-                      << job->getTargetTemperature() << "</Temperature>" << endl;
+                      << cLocale.toString(job->getTargetTemperature()) << "</Temperature>" << endl;
         if (job->getTargetFilter() >= 0)
             //outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
             outstream << "<Filter>" << job->getFilterName() << "</Filter>" << endl;
@@ -3521,9 +3509,9 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << endl;
         outstream << "<TimeStampEnabled>" << (tsEnabled ? 1 : 0) << "</TimeStampEnabled>" << endl;
         outstream << "</Prefix>" << endl;
-        outstream << "<Count>" << job->getCount() << "</Count>" << endl;
+        outstream << "<Count>" << cLocale.toString(job->getCount()) << "</Count>" << endl;
         // ms to seconds
-        outstream << "<Delay>" << job->getDelay() / 1000 << "</Delay>" << endl;
+        outstream << "<Delay>" << cLocale.toString(job->getDelay() / 1000.0) << "</Delay>" << endl;
         if (job->getPostCaptureScript().isEmpty() == false)
             outstream << "<PostCaptureScript>" << job->getPostCaptureScript() << "</PostCaptureScript>" << endl;
         outstream << "<FITSDirectory>" << job->getLocalDir() << "</FITSDirectory>" << endl;
@@ -3546,7 +3534,8 @@ bool Capture::saveSequenceQueue(const QString &path)
             while (numberIter.hasNext())
             {
                 numberIter.next();
-                outstream << "<OneNumber name='" << numberIter.key() << "'>" << numberIter.value() << "</OneNumber>" << endl;
+                outstream << "<OneNumber name='" << numberIter.key()
+                    << "'>" << cLocale.toString(numberIter.value()) << "</OneNumber>" << endl;
             }
             outstream << "</NumberVector>" << endl;
         }
@@ -3563,8 +3552,8 @@ bool Capture::saveSequenceQueue(const QString &path)
         else if (job->getFlatFieldSource() == SOURCE_WALL)
         {
             outstream << "<Type>Wall</Type>" << endl;
-            outstream << "<Az>" << job->getWallCoord().az().Degrees() << "</Az>" << endl;
-            outstream << "<Alt>" << job->getWallCoord().alt().Degrees() << "</Alt>" << endl;
+            outstream << "<Az>" << cLocale.toString(job->getWallCoord().az().Degrees()) << "</Az>" << endl;
+            outstream << "<Alt>" << cLocale.toString(job->getWallCoord().alt().Degrees()) << "</Alt>" << endl;
         }
         else
             outstream << "<Type>DawnDust</Type>" << endl;
@@ -3576,8 +3565,8 @@ bool Capture::saveSequenceQueue(const QString &path)
         else
         {
             outstream << "<Type>ADU</Type>" << endl;
-            outstream << "<Value>" << job->getTargetADU() << "</Value>" << endl;
-            outstream << "<Tolerance>" << job->getTargetADUTolerance() << "</Tolerance>" << endl;
+            outstream << "<Value>" << cLocale.toString(job->getTargetADU()) << "</Value>" << endl;
+            outstream << "<Tolerance>" << cLocale.toString(job->getTargetADUTolerance()) << "</Tolerance>" << endl;
         }
         outstream << "</FlatDuration>" << endl;
 
@@ -3748,11 +3737,12 @@ void Capture::constructPrefix(QString &imagePrefix)
 
         double exposureValue = exposureIN->value();
 
+        // Don't use the locale for exposure value in the capture file name, so that we get a "." as decimal separator
         if (exposureValue == static_cast<int>(exposureValue))
             // Whole number
             imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
-        // Decimal
         else
+            // Decimal
             imagePrefix += QString::number(exposureIN->value(), 'f', 3) + QString("_secs");
     }
     if (ISOCheck->isChecked())
@@ -3773,7 +3763,7 @@ double Capture::getProgressPercentage()
     }
 
     if (totalImageCount != 0)
-        return (((double)totalImageCompleted / totalImageCount) * 100.0);
+        return ((static_cast<double>(totalImageCompleted) / totalImageCount) * 100.0);
     else
         return -1;
 }
@@ -4117,9 +4107,9 @@ bool Capture::checkMeridianFlip()
     if (currentHA > meridianHours->value())
     {
         //NOTE: DO NOT make the follow sentence PLURAL as the value is in double
-        appendLogText(i18n(
-                          "Current hour angle %1 hours exceeds meridian flip limit of %2 hours. Auto meridian flip is initiated.",
-                          QString::number(currentHA, 'f', 2), meridianHours->value()));
+        appendLogText(
+                i18n("Current hour angle %1 hours exceeds meridian flip limit of %2 hours. Auto meridian flip is initiated.",
+                    QString("%L1").arg(currentHA, 0, 'f', 2), QString("%L1").arg(meridianHours->value(), 0, 'f', 2)));
         meridianFlipStage = MF_INITIATED;
 
         //KNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"));
@@ -4431,8 +4421,8 @@ void Capture::llsq(QVector<double> x, QVector<double> y, double &a, double &b)
         xbar = xbar + x[i];
         ybar = ybar + y[i];
     }
-    xbar = xbar / (double)n;
-    ybar = ybar / (double)n;
+    xbar = xbar / static_cast<double>(n);
+    ybar = ybar / static_cast<double>(n);
     //
     //  Compute Beta.
     //
@@ -5008,7 +4998,7 @@ bool Capture::processPostCaptureCalibrationStage()
             nextExposure = qBound(exposureIN->minimum(), nextExposure, exposureIN->maximum());
 
             appendLogText(i18n("Current ADU is %1 Next exposure is %2 seconds.", QString::number(currentADU, 'f', 0),
-                               QString::number(nextExposure, 'f', 3)));
+                               QString("%L1").arg(nextExposure, 0, 'f', 3)));
 
             calibrationStage = CAL_CALIBRATION;
             activeJob->setExposure(nextExposure);
@@ -5518,6 +5508,7 @@ void Capture::setCapturedFramesMap(const QString &signature, int count)
 
 void Capture::setSettings(const QJsonObject &settings)
 {
+    // FIXME: QComboBox signal "activated" does not trigger when setting text programmatically.
     CCDCaptureCombo->setCurrentText(settings["camera"].toString());
     FilterDevicesCombo->setCurrentText(settings["fw"].toString());
     FilterPosCombo->setCurrentText(settings["filter"].toString());
