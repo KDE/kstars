@@ -4,9 +4,8 @@
 #include "align.h"
 #include "kstars.h"
 #include "Options.h"
+#include "kspaths.h"
 
-#include <kauthaction.h>
-#include <kauthexecutejob.h>
 #include <KConfigDialog>
 #include <KMessageBox>
 
@@ -110,9 +109,21 @@ void OpsAstrometryIndexFiles::slotUpdate()
     QDir directory(astrometryDataDir);
     QStringList indexList = directory.entryList(nameFilter);
 
+    // JM 2018-09-26: Also add locally stored indexes.
+#ifdef Q_OS_LINUX
+    QDir localAstrometry(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry"));
+    indexList << localAstrometry.entryList(nameFilter);
+#endif
+
     for (auto &indexName : indexList)
     {
-        if(fileCountMatches(directory,indexName)){
+        #ifdef Q_OS_LINUX
+        if (fileCountMatches(directory,indexName) || fileCountMatches(localAstrometry,indexName))
+        #else
+        if (fileCountMatches(directory,indexName))
+        #endif
+
+        {
             indexName                = indexName.replace('-', '_').left(10);
             QCheckBox *indexCheckBox = findChild<QCheckBox *>(indexName);
             if (indexCheckBox)
@@ -172,7 +183,8 @@ void OpsAstrometryIndexFiles::slotUpdate()
     }
 }
 
-bool OpsAstrometryIndexFiles::fileCountMatches(QDir directory, QString indexName){
+bool OpsAstrometryIndexFiles::fileCountMatches(QDir directory, QString indexName)
+{
     QString indexNameMatch = indexName.left(10) + "*.fits";
     QStringList list = directory.entryList(QStringList(indexNameMatch));
     int count=0;
@@ -371,24 +383,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
             }
             else
             {
-#ifdef Q_OS_OSX
-                KMessageBox::error(0, i18n("Astrometry Folder Permissions Error"));
-#else
-                KAuth::Action action(QStringLiteral("org.kde.kf5auth.kstars.saveindexfile"));
-                action.setHelperId(QStringLiteral("org.kde.kf5auth.kstars"));
-                // Wait 15mins before timing out in the auth dialog.
-                action.setTimeout(900000);
-                action.setArguments(QVariantMap({ { "filename", indexFileN }, { "contents", responseData } }));
-                KAuth::ExecuteJob *job = action.execute();
-                if (!job->exec())
-                {
-                    QMessageBox::information(
-                                this, "Error",
-                                QString("KAuth returned an error code: %1 %2").arg(job->error()).arg(job->errorString()));
-                    slotUpdate();
-                    return;
-                }
-#endif
+                KMessageBox::error(nullptr, i18n("Astrometry Folder Permissions Error"));
             }
 
             if (currentIndex == maxIndex)
@@ -436,7 +431,11 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
     if (checkBox)
     {
         QString indexSeriesName = checkBox->text().remove('&');
+        #ifdef Q_OS_LINUX
+        QString filePath        = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry")+ '/' + indexSeriesName;
+        #else
         QString filePath        = astrometryDataDir + '/' + indexSeriesName;
+        #endif
         QString fileNumString   = indexSeriesName.mid(8, 2);
         int indexFileNum        = fileNumString.toInt();
 
@@ -474,7 +473,8 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                                              i18n("Delete File(s)"), KStandardGuiItem::cont(),
                                              KStandardGuiItem::cancel(), "delete_index_files_warning"))
             {
-                if (QFileInfo(astrometryDataDir).isWritable())
+                bool filesDeleted=false;
+                // Try to delete local files first
                 {
                     QStringList nameFilter("*.fits");
                     QDir directory(astrometryDataDir);
@@ -489,27 +489,37 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                                 slotUpdate();
                                 return;
                             }
+
+                            filesDeleted = true;
                         }
                     }
                 }
-                else
+
+                if (filesDeleted)
                 {
-#ifdef Q_OS_OSX
-                    KMessageBox::error(0, i18n("Astrometry Folder Permissions Error"));
-                    slotUpdate();
-#else
-                    KAuth::Action action(QStringLiteral("org.kde.kf5auth.kstars.removeindexfileset"));
-                    action.setHelperId(QStringLiteral("org.kde.kf5auth.kstars"));
-                    // Wait 15mins before timing out in the auth dialog.
-                    action.setTimeout(900000);
-                    action.setArguments(
-                        QVariantMap({ { "indexSetName", indexSeriesName }, { "astrometryDataDir", astrometryDataDir } }));
-                    KAuth::ExecuteJob *job = action.execute();
-                    if (!job->exec())
-                        QMessageBox::information(
-                            this, "Error",
-                            QString("KAuth returned an error code: %1 %2").arg(job->error()).arg(job->errorString()));
-#endif
+                    if (QFileInfo(astrometryDataDir).isWritable())
+                    {
+                        QStringList nameFilter("*.fits");
+                        QDir directory(astrometryDataDir);
+                        QStringList indexList = directory.entryList(nameFilter);
+                        for (auto &fileName : indexList)
+                        {
+                            if (fileName.contains(indexSeriesName.left(10)))
+                            {
+                                if (!directory.remove(fileName))
+                                {
+                                    KMessageBox::error(nullptr, i18n("File Delete Error"));
+                                    slotUpdate();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        KMessageBox::error(nullptr, i18n("Astrometry Folder Permissions Error"));
+                        slotUpdate();
+                    }
                 }
             }
         }
