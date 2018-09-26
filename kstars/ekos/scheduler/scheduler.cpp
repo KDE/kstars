@@ -1433,7 +1433,8 @@ void Scheduler::evaluateJobs()
                                            job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat()), passedUp.toHMSString()));
                         job->setState(SchedulerJob::JOB_INVALID);
                     }
-                    else
+                    /* Don't abort a job that is repeating because it started long ago, that delay is expected */
+                    else if (job->getRepeatsRequired() <= 1)
                     {
                         appendLogText(i18n("Job '%1' startup time was %2, and is already passed by %3, marking aborted.",
                                            job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat()), passedUp.toHMSString()));
