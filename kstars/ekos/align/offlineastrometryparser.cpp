@@ -13,6 +13,7 @@
 #include "ekos_align_debug.h"
 #include "ksutils.h"
 #include "Options.h"
+#include "kspaths.h"
 
 #include <KMessageBox>
 
@@ -43,6 +44,7 @@ OfflineAstrometryParser::OfflineAstrometryParser() : AstrometryParser()
 
     // Reset parity on solver failure
     connect(this, &OfflineAstrometryParser::solverFailed, this, [&]() { parity = QString(); });
+
 }
 
 bool OfflineAstrometryParser::init()
@@ -118,6 +120,12 @@ bool OfflineAstrometryParser::astrometryNetOK()
     {
         QFileInfo solverFileInfo(Options::astrometrySolverBinary());
         solverOK = solverFileInfo.exists() && solverFileInfo.isFile();
+
+#ifdef Q_OS_LINUX
+        QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry")+ QLatin1Literal("/astrometry.cfg");
+        if (QFileInfo(confPath).exists() == false)
+            createLocalAstrometryConf();
+#endif
     }
 
     if (Options::astrometryWCSIsInternal())
@@ -155,6 +163,13 @@ void OfflineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
     QStringList nameFilter("*.fits");
     QDir directory(astrometryDataDir);
     QStringList indexList = directory.entryList(nameFilter);
+
+    // JM 2018-09-26: Also add locally stored indexes.
+#ifdef Q_OS_LINUX
+    QDir localAstrometry(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry"));
+    indexList << localAstrometry.entryList(nameFilter);
+#endif
+
     QString indexSearch   = indexList.join(" ");
     QString startIndex, lastIndex;
     unsigned int missingIndexes = 0;
@@ -207,7 +222,7 @@ bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
 
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KMessageBox::error(0, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
+        KMessageBox::error(nullptr, i18n("Astrometry configuration file corrupted or missing: %1\nPlease set the "
                                    "configuration file full path in INDI options.",
                                    Options::astrometryConfFile()));
         return false;
@@ -229,7 +244,7 @@ bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
         }
     }
 
-    KMessageBox::error(0, i18n("Unable to find data dir in astrometry configuration file."));
+    KMessageBox::error(nullptr, i18n("Unable to find data dir in astrometry configuration file."));
     return false;
 }
 
@@ -248,7 +263,14 @@ bool OfflineAstrometryParser::startSovler(const QString &filename, const QString
     if (Options::astrometryConfFileIsInternal())
         confPath = QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
     else
+    {
+        // JM 2018-09-26: On Linux, load the local config file.
+        #ifdef Q_OS_LINUX
+        confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry")+ QLatin1Literal("/astrometry.cfg");
+        #else
         confPath = Options::astrometryConfFile();
+        #endif
+    }
     solverArgs << "--config" << confPath;
 
     QString solutionFile = QDir::tempPath() + "/solution.wcs";
@@ -386,7 +408,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
         }
     }
 
-    int elapsed = (int)round(solverTimer.elapsed() / 1000.0);
+    int elapsed = static_cast<int>(round(solverTimer.elapsed() / 1000.0));
     align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
 
     emit solverFinished(orientation, ra, dec, pixscale);
@@ -396,5 +418,65 @@ void OfflineAstrometryParser::logSolver()
 {
     if (Options::astrometrySolverVerbose())
         align->appendLogText(solver->readAll().trimmed());
+}
+
+bool OfflineAstrometryParser::createLocalAstrometryConf()
+{
+    bool rc = false;
+
+    QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry") + QLatin1Literal("/astrometry.cfg");
+    QString systemConfPath = Options::astrometryConfFile();
+
+    // Check if directory already exists, if it doesn't create one
+    QDir writableDir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry"));
+    if (writableDir.exists() == false)
+    {
+        rc = writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1Literal("astrometry"));
+
+        if (rc == false)
+        {
+            qCCritical(KSTARS_EKOS_ALIGN) << "Failed to create local astrometry directory";
+            return false;
+        }
+    }
+
+    // Now copy system astrometry.cfg to local directory
+    rc = QFile(systemConfPath).copy(confPath);
+
+    if (rc == false)
+    {
+        qCCritical(KSTARS_EKOS_ALIGN) << "Failed to copy" << systemConfPath << "to" << confPath;
+        return false;
+    }
+
+    QFile localConf(confPath);
+
+    // Open file and add our own path to it
+    if (localConf.open(QFile::ReadWrite))
+    {
+        QString all = localConf.readAll();
+        QStringList lines = all.split("\n");
+        for (int i=0; i < lines.count(); i++)
+        {
+            if (lines[i].startsWith("add_path"))
+            {
+               lines.insert(i+1, QString("add_path %1astrometry").arg(KSPaths::writableLocation(QStandardPaths::GenericDataLocation)));
+               break;
+           }
+       }
+
+        // Clear contents
+        localConf.resize(0);
+
+        // Now write back all the lines including our own inserted above
+        QTextStream out(&localConf);
+        for(const QString &line : lines)
+            out << line << endl;
+        localConf.close();
+        return true;
+    }
+
+    qCCritical(KSTARS_EKOS_ALIGN) << "Failed to open local astrometry config" << confPath;
+    return false;
 }
 }

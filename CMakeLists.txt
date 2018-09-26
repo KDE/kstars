@@ -419,16 +419,17 @@ install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 # Only build k5auth for Linux
-if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    # This helper file is generated to download astrometry.net index files.
-    add_executable(kauth_kstars_helper kstars/auxiliary/downloadhelper.cpp  ${helper_mocs})
-    target_link_libraries(kauth_kstars_helper Qt5::Core)
-    target_link_libraries(kauth_kstars_helper Qt5::Widgets)
-    target_link_libraries(kauth_kstars_helper KF5::Auth)
-    install(TARGETS kauth_kstars_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
-    kauth_install_helper_files(kauth_kstars_helper org.kde.kf5auth.kstars root)
-    kauth_install_actions(org.kde.kf5auth.kstars org.kde.kf5auth.kstars.actions)
-ENDIF ()
+# JM 2018-09-26: KAuth is disabled due to reliability issues.
+#if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+#    # This helper file is generated to download astrometry.net index files.
+#    add_executable(kauth_kstars_helper kstars/auxiliary/downloadhelper.cpp  ${helper_mocs})
+#    target_link_libraries(kauth_kstars_helper Qt5::Core)
+#    target_link_libraries(kauth_kstars_helper Qt5::Widgets)
+#    target_link_libraries(kauth_kstars_helper KF5::Auth)
+#    install(TARGETS kauth_kstars_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
+#    kauth_install_helper_files(kauth_kstars_helper org.kde.kf5auth.kstars root)
+#    kauth_install_actions(org.kde.kf5auth.kstars org.kde.kf5auth.kstars.actions)
+#ENDIF ()
 
 # Final package generation
 if ("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
