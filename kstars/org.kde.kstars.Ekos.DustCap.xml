@@ -24,6 +24,7 @@
     </method>
     <signal name="newParkStatus">
         <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::ParkStatus"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::ParkStatus"/>
     </signal>
     <signal name="ready"/>

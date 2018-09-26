@@ -37,6 +37,7 @@
     </method>
     <method name="getSolutionResult">
       <arg type="ad" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QList&lt;double&gt;"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
     </method>    
     <method name="getLoadAndSlewStatus">
@@ -52,10 +53,12 @@
     </method>
     <signal name="newStatus">
         <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::AlignState"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::AlignState"/>
     </signal>
     <signal name="newSolution">
         <arg name="solution" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QJsonObject"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QJsonObject"/>
     </signal>
     <signal name="newLog">
