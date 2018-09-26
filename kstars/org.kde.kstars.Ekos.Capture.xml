@@ -110,6 +110,7 @@
     <signal name="meridianFlipCompleted"/>
     <signal name="newStatus">
         <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CaptureState"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CaptureState"/>
     </signal>
     <signal name="ready"/>

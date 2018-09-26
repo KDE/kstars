@@ -25,10 +25,12 @@
     </method>
     <signal name="indiStatusChanged">
         <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CommunicationStatus"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CommunicationStatus"/>
     </signal>
     <signal name="ekosStatusChanged">
         <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CommunicationStatus"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CommunicationStatus"/>
     </signal>
     <signal name="newLog">
