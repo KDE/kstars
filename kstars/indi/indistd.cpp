@@ -51,6 +51,7 @@ GenericDevice::GenericDevice(DeviceInfo &idv)
 
 void GenericDevice::registerDBusType()
 {
+#ifndef KSTARS_LITE
     static bool isRegistered = false;
 
     if (isRegistered == false)
@@ -59,6 +60,7 @@ void GenericDevice::registerDBusType()
         qDBusRegisterMetaType<ISD::ParkStatus>();
         isRegistered = true;
     }
+#endif
 }
 
 const char *GenericDevice::getDeviceName()
@@ -1038,6 +1040,7 @@ bool ST4::doPulse(GuideDirection dir, int msecs)
 }
 }
 
+#ifndef KSTARS_LITE
 QDBusArgument &operator<<(QDBusArgument &argument, const ISD::ParkStatus& source)
 {
     argument.beginStructure();
@@ -1055,3 +1058,4 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::ParkStatus &
     dest = static_cast<ISD::ParkStatus>(a);
     return argument;
 }
+#endif
