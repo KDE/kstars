@@ -17,7 +17,10 @@
 
 #include <QObject>
 #include <QVariant>
+
+#ifndef KSTARS_LITE
 #include <QDBusArgument>
+#endif
 
 #define MAXINDIFILENAME 512
 
@@ -263,7 +266,9 @@ class ST4
 };
 }
 
+#ifndef KSTARS_LITE
 Q_DECLARE_METATYPE(ISD::ParkStatus)
 QDBusArgument &operator<<(QDBusArgument &argument, const ISD::ParkStatus& source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::ParkStatus &dest);
+#endif
 
