@@ -107,7 +107,6 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     connect(connectB, &QPushButton::clicked, this, &Ekos::Manager::connectDevices);
     connect(disconnectB, &QPushButton::clicked, this, &Ekos::Manager::disconnectDevices);
 
-    ekosLiveB->setIcon(QIcon::fromTheme("folder-cloud"));
     ekosLiveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ekosLiveClient.reset(new EkosLive::Client(this));
 
@@ -124,7 +123,17 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     connect(ekosLiveClient.get()->media(), &EkosLive::Media::newBoundingRect, ekosLiveClient.get()->message(), &EkosLive::Message::setBoundingRect);
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::resetPolarView, ekosLiveClient.get()->media(), &EkosLive::Media::resetPolarView);
 
-    //connect(optionsB, &QPushButton::clicked, KStars::Instance(), KStars::slotViewOps()));
+
+    connect(this, &Ekos::Manager::ekosStatusChanged, [&](Ekos::CommunicationStatus status)
+    {
+        indiControlPanelB->setEnabled(status == Ekos::Success);
+    });
+    connect(indiControlPanelB, &QPushButton::clicked, [&]() {
+        KStars::Instance()->actionCollection()->action("show_control_panel")->trigger();
+    });
+    connect(optionsB, &QPushButton::clicked, [&]() {
+        KStars::Instance()->actionCollection()->action("configure")->trigger();
+    });
     // Save as above, but it appears in all modules
     connect(ekosOptionsB, &QPushButton::clicked, this, &Ekos::Manager::showEkosOptions);
 
