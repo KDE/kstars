@@ -2476,8 +2476,8 @@ bool Align::captureAndSolve()
                     nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
                 KMessageBox::Yes)
         {
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, currentCCD->getDeviceName(), "CCD1");
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, currentCCD->getDeviceName(), "CCD2");
         }
         else
         {

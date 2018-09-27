@@ -141,6 +141,7 @@ if (INDI_FOUND)
         indi/drivermanager.cpp
         indi/servermanager.cpp
         indi/clientmanager.cpp
+        indi/blobmanager.cpp
         indi/guimanager.cpp
         indi/driverinfo.cpp
         indi/deviceinfo.cpp

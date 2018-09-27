@@ -32,7 +32,10 @@ bool ClientManager::isDriverManaged(DriverInfo *di)
 
 void ClientManager::newDevice(INDI::BaseDevice *dp)
 {
-    setBLOBMode(B_ALSO, dp->getDeviceName());
+    //setBLOBMode(B_ALSO, dp->getDeviceName());
+    // JM 2018.09.27: ClientManager will no longer handle BLOB, just messages.
+    // We relay the BLOB handling to BLOB Manager to better manage concurrent connections with large data
+    setBLOBMode(B_NEVER, dp->getDeviceName());
 
     DriverInfo *deviceDriver = nullptr;
 
@@ -87,6 +90,14 @@ void ClientManager::newProperty(INDI::Property *prop)
 {
     //IDLog("Received new property %s for device %s\n", prop->getName(), prop->getgetDeviceName());
     emit newINDIProperty(prop);
+
+    // Only handle RW and RO BLOB properties
+    if (prop->getType() == INDI_BLOB && prop->getPermission() != IP_WO)
+    {
+        QPointer<BlobManager> bm = new BlobManager(getHost(), getPort(), prop->getBaseDevice()->getDeviceName(), prop->getName());
+        connect(bm.data(), &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
+        blobManagers.append(bm);
+    }
 }
 
 void ClientManager::removeProperty(INDI::Property *prop)
@@ -248,4 +259,29 @@ DriverInfo *ClientManager::findDriverInfoByLabel(const QString &label)
     }
 
     return nullptr;
+}
+
+void ClientManager::setBLOBEnabled(bool enabled, const QString &device, const QString &property)
+{
+    for(QPointer<BlobManager> bm : blobManagers)
+    {
+        if (bm->property("device") == device && bm->property("property") == property)
+        {
+            setBLOBMode(enabled ? B_ONLY : B_NEVER, device.toLatin1().constData(), property.toLatin1().constData());
+            break;
+        }
+    }
+}
+
+bool ClientManager::isBLOBEnabled(const QString &device, const QString &property)
+{
+    for(QPointer<BlobManager> bm : blobManagers)
+    {
+        if (bm->property("device") == device && bm->property("property") == property)
+        {
+            return (getBLOBMode(device.toLatin1().constData(), property.toLatin1().constData()) != B_NEVER);
+        }
+    }
+
+    return false;
 }
