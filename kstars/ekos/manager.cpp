@@ -1540,7 +1540,7 @@ void Manager::processNewProperty(INDI::Property *prop)
         ekosLiveClient.get()->message()->sendFilterWheels();
 
     if (!strcmp(prop->getName(), "FILTER_NAME"))
-        filterManager.get()->initFilterProperties();
+        filterManager.data()->initFilterProperties();
 
     if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDER_INFO"))
     {
