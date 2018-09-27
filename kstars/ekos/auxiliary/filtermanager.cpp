@@ -198,13 +198,6 @@ void FilterManager::setCurrentFilterWheel(ISD::GDInterface *filter)
 
     m_currentFilterDevice = filter;
 
-    initFilterProperties();
-
-    connect(filter, &ISD::GDInterface::propertyDefined, [&](INDI::Property *prop)
-    {
-       if (!strcmp(prop->getName(), "FILTER_NAME"))
-           initFilterProperties();
-    });
     connect(filter, SIGNAL(textUpdated(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));
     connect(filter, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
     connect(filter, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
@@ -214,12 +207,16 @@ void FilterManager::setCurrentFilterWheel(ISD::GDInterface *filter)
         //m_currentFilterDevice = nullptr;
         m_FilterNameProperty = nullptr;
         m_FilterPositionProperty = nullptr;
-    });    
+    });
 
+    initFilterProperties();
 }
 
 void FilterManager::initFilterProperties()
 {
+    if (m_FilterNameProperty && m_FilterPositionProperty)
+        return;
+
     filterNameLabel->setText(m_currentFilterDevice->getDeviceName());
 
     m_currentFilterLabels.clear();
