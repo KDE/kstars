@@ -3342,38 +3342,12 @@ void Scheduler::checkJobStage()
         break;
 #endif
 
+        case SchedulerJob::STAGE_SLEWING:
         case SchedulerJob::STAGE_RESLEWING:
-        {
-            QVariant isDomeMoving = false;
-
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Re-slewing stage...";
-
-            if (m_DomeReady)
-                isDomeMoving = domeInterface->property("isMoving");
-
+        {            
             QVariant mountStatus = mountInterface->property("status");
             ISD::Telescope::Status status = static_cast<ISD::Telescope::Status>(mountStatus.toInt());
-
-            if (status == ISD::Telescope::MOUNT_TRACKING && isDomeMoving == false)
-            {
-                appendLogText(i18n("Job '%1' repositioning is complete.", currentJob->getName()));
-                currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
-                getNextAction();
-            }
-            else if (status == ISD::Telescope::MOUNT_ERROR)
-            {
-                appendLogText(i18n("Warning: job '%1' repositioning failed, marking terminated due to errors.", currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                findNextJob();
-            }
-            else if (status == ISD::Telescope::MOUNT_IDLE)
-            {
-                appendLogText(i18n("Warning: job '%1' found not repositioning, restarting.", currentJob->getName()));
-                currentJob->setStage(SchedulerJob::STAGE_IDLE);
-
-                getNextAction();
-            }
+            setMountStatus(status);
         }
         break;
 
