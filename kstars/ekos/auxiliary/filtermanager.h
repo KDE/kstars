@@ -110,6 +110,8 @@ public slots:
     void setFocusStatus(Ekos::FocusState focusState);
     // Set absolute focus position
     void setFocusAbsolutePosition(int value) { m_FocusAbsPosition = value; }
+    // Inti filter property after connection
+    void initFilterProperties();
 
 signals:
     // Emitted only when there is a change in the filter slot number
@@ -132,7 +134,7 @@ signals:
 private slots:    
     void processText(ITextVectorProperty *tvp);
     void processNumber(INumberVectorProperty *nvp);
-    void processSwitch(ISwitchVectorProperty *svp);
+    void processSwitch(ISwitchVectorProperty *svp);    
 
 private:
 

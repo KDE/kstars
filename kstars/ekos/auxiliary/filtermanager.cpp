@@ -16,7 +16,7 @@
 #include "auxiliary/kspaths.h"
 #include "ekos/auxiliary/filterdelegate.h"
 
-
+#include <QTimer>
 #include <QSqlTableModel>
 #include <QSqlDatabase>
 #include <QSqlRecord>
@@ -196,27 +196,39 @@ void FilterManager::setCurrentFilterWheel(ISD::GDInterface *filter)
     else
         m_currentFilterDevice->disconnect(this);
 
-    filterNameLabel->setText(filter->getDeviceName());
-
     m_currentFilterDevice = filter;
-    m_currentFilterLabels.clear();
 
-    m_FilterNameProperty = filter->getBaseDevice()->getText("FILTER_NAME");
-    m_FilterPositionProperty = filter->getBaseDevice()->getNumber("FILTER_SLOT");
+    initFilterProperties();
 
-    m_currentFilterPosition = getFilterPosition(true);
-    m_currentFilterLabels = getFilterLabels(true);
-
+    connect(filter, &ISD::GDInterface::propertyDefined, [&](INDI::Property *prop)
+    {
+       if (!strcmp(prop->getName(), "FILTER_NAME"))
+           initFilterProperties();
+    });
     connect(filter, SIGNAL(textUpdated(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));
     connect(filter, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
     connect(filter, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
     connect(filter, &ISD::GDInterface::Disconnected, [&]() {
         m_currentFilterLabels.clear();
         m_currentFilterPosition = -1;
-        m_currentFilterDevice = nullptr;
+        //m_currentFilterDevice = nullptr;
         m_FilterNameProperty = nullptr;
         m_FilterPositionProperty = nullptr;
-    });
+    });    
+
+}
+
+void FilterManager::initFilterProperties()
+{
+    filterNameLabel->setText(m_currentFilterDevice->getDeviceName());
+
+    m_currentFilterLabels.clear();
+
+    m_FilterNameProperty = m_currentFilterDevice->getBaseDevice()->getText("FILTER_NAME");
+    m_FilterPositionProperty = m_currentFilterDevice->getBaseDevice()->getNumber("FILTER_SLOT");
+
+    m_currentFilterPosition = getFilterPosition(true);
+    m_currentFilterLabels = getFilterLabels(true);
 
     if (m_currentFilterLabels.isEmpty() == false)
         refreshFilterModel();
