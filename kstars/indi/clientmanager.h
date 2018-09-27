@@ -10,12 +10,16 @@
 
 #pragma once
 
+#include <QPointer>
+
 #ifdef USE_QT5_INDI
 #include <baseclientqt.h>
 #else
 #include <baseclient.h>
 #include <QObject>
 #endif
+
+#include "blobmanager.h"
 
 class DeviceInfo;
 class DriverInfo;
@@ -59,6 +63,9 @@ class ClientManager : public QObject, public INDI::BaseClient
 
     int count() { return managedDrivers.count(); }
 
+    bool isBLOBEnabled(const QString &device, const QString &property);
+    void setBLOBEnabled(bool enabled, const QString &device, const QString &property);
+
     ServerManager *getServerManager() { return sManager; }
 
     DriverInfo *findDriverInfoByName(const QString &name);
@@ -89,6 +96,7 @@ class ClientManager : public QObject, public INDI::BaseClient
 
   private:
     QList<DriverInfo *> managedDrivers;
+    QList<QPointer<BlobManager>> blobManagers;
     ServerManager *sManager { nullptr };
 
   signals:

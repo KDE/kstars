@@ -265,7 +265,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
                 emit newCCD(gd);
             }
-            else if (!strcmp(prop->getName(), "FILTER_SLOT"))
+            else if (!strcmp(prop->getName(), "FILTER_NAME"))
             {
                 if (gd->getType() == KSTARS_UNKNOWN)
                 {

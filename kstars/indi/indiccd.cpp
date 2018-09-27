@@ -2330,20 +2330,20 @@ bool CCD::getGainMinMaxStep(double *min, double *max, double *step)
 
 bool CCD::isBLOBEnabled()
 {
-    return (clientManager->getBLOBMode(getDeviceName(), "CCD1") != B_NEVER);
+    return (clientManager->isBLOBEnabled(getDeviceName(), "CCD1"));
 }
 
 bool CCD::setBLOBEnabled(bool enable)
 {
     if (enable)
     {
-        clientManager->setBLOBMode(B_ALSO, getDeviceName(), "CCD1");
-        clientManager->setBLOBMode(B_ALSO, getDeviceName(), "CCD2");
+        clientManager->setBLOBEnabled(true, getDeviceName(), "CCD1");
+        clientManager->setBLOBEnabled(true, getDeviceName(), "CCD2");
     }
     else
     {
-        clientManager->setBLOBMode(B_NEVER, getDeviceName(), "CCD1");
-        clientManager->setBLOBMode(B_NEVER, getDeviceName(), "CCD2");
+        clientManager->setBLOBEnabled(false, getDeviceName(), "CCD1");
+        clientManager->setBLOBEnabled(false, getDeviceName(), "CCD2");
     }
 
     return true;

@@ -324,10 +324,7 @@ void INDI_P::buildBLOBGUI()
 
 void INDI_P::setBLOBOption(int state)
 {
-    if (state == Qt::Checked)
-        pg->getDevice()->getClientManager()->setBLOBMode(B_ALSO, dataProp->getDeviceName(), dataProp->getName());
-    else
-        pg->getDevice()->getClientManager()->setBLOBMode(B_NEVER, dataProp->getDeviceName(), dataProp->getName());
+    pg->getDevice()->getClientManager()->setBLOBEnabled(state == Qt::Checked, dataProp->getDeviceName(), dataProp->getName());
 }
 
 void INDI_P::newSwitch(QAbstractButton *button)

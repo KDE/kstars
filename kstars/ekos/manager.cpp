@@ -1536,8 +1536,11 @@ void Manager::processNewProperty(INDI::Property *prop)
         ekosLiveClient.get()->media()->registerCameras();
     }
 
-    if (!strcmp(prop->getName(), "FILTER_SLOT"))
+    if (!strcmp(prop->getName(), "FILTER_NAME"))
         ekosLiveClient.get()->message()->sendFilterWheels();
+
+    if (!strcmp(prop->getName(), "FILTER_NAME"))
+        filterManager.get()->initFilterProperties();
 
     if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDER_INFO"))
     {
