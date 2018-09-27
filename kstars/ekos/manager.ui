@@ -386,6 +386,37 @@
                  <property name="text">
                   <string/>
                  </property>
+                 <property name="icon">
+                  <iconset theme="folder-cloud"/>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>22</width>
+                   <height>22</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="indiControlPanelB">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>32</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>INDI Control Panel</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset theme="kstars_indi"/>
+                 </property>
                  <property name="iconSize">
                   <size>
                    <width>22</width>
@@ -410,6 +441,9 @@
                  </property>
                  <property name="text">
                   <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset theme="configure"/>
                  </property>
                  <property name="iconSize">
                   <size>
