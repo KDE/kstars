@@ -250,7 +250,7 @@ void KStars::slotViewToolBar()
 void KStars::slotINDIToolBar()
 {
 #ifdef HAVE_INDI
-    KToggleAction *a = (KToggleAction *)sender();
+    KToggleAction *a = qobject_cast<KToggleAction *>(sender());
 
     if (a == actionCollection()->action("show_control_panel"))
     {
@@ -278,7 +278,7 @@ void KStars::slotINDIToolBar()
     {
         if (INDIListener::Instance()->size() == 0)
         {
-            KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+            KMessageBox::sorry(nullptr, i18n("KStars did not find any active telescopes."));
             return;
         }
 
@@ -297,7 +297,7 @@ void KStars::slotINDIToolBar()
             if (bd->isConnected() == false)
             {
                 KMessageBox::error(
-                    0, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+                    nullptr, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
                 return;
             }
 
