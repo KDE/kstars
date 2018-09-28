@@ -649,8 +649,6 @@ void Capture::checkCCD(int ccdNum)
             useGuideHead = false;
         }
 
-        coolerOnB->setEnabled(currentCCD->hasCoolerControl());
-        coolerOffB->setEnabled(currentCCD->hasCoolerControl());
         if (currentCCD->hasCoolerControl())
         {
             coolerOnB->setEnabled(true);
@@ -660,9 +658,9 @@ void Capture::checkCCD(int ccdNum)
         }
         else
         {
-            coolerOnB->setEnabled(true);
+            coolerOnB->setEnabled(false);
             coolerOnB->setChecked(false);
-            coolerOffB->setEnabled(true);
+            coolerOffB->setEnabled(false);
             coolerOffB->setChecked(false);
         }
 
