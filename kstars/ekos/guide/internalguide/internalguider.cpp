@@ -1104,8 +1104,8 @@ bool InternalGuider::selectAutoStar()
             guideFrame->updateFrame();
         }
 
-        int maxX = imageData->getWidth();
-        int maxY = imageData->getHeight();
+        int maxX = imageData->width();
+        int maxY = imageData->height();
 
         int scores[MAX_GUIDE_STARS];
 

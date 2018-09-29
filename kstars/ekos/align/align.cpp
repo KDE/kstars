@@ -4678,7 +4678,7 @@ void Align::showFITSViewer()
 
     if (data)
     {
-        QUrl url = QUrl::fromLocalFile(data->getFilename());
+        QUrl url = QUrl::fromLocalFile(data->filename());
 
         if (fv.isNull())
         {
@@ -5149,8 +5149,8 @@ void Align::setWCSToggled(bool result)
         }
 
         // If celestial pole out of range, ask the user if they want to move to it
-        if (pixelPoint.x() < (-1 * imageData->getWidth()) || pixelPoint.x() > (imageData->getWidth() * 2) ||
-                pixelPoint.y() < (-1 * imageData->getHeight()) || pixelPoint.y() > (imageData->getHeight() * 2))
+        if (pixelPoint.x() < (-1 * imageData->width()) || pixelPoint.x() > (imageData->width() * 2) ||
+                pixelPoint.y() < (-1 * imageData->height()) || pixelPoint.y() > (imageData->height() * 2))
         {
             if (currentTelescope->canSync() &&
                     KMessageBox::questionYesNo(

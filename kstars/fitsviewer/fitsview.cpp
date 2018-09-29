@@ -216,7 +216,8 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
 
     emit debayerToggled(imageData->hasDebayer());
 
-    imageData->getDimensions(&currentWidth, &currentHeight);
+    currentWidth = imageData->width();
+    currentHeight = imageData->height();
 
     image_width  = currentWidth;
     image_height = currentHeight;
@@ -287,7 +288,7 @@ int FITSView::saveFITS(const QString &newFilename)
 
 int FITSView::rescale(FITSZoom type)
 {
-    switch (imageData->getDataType())
+    switch (imageData->property("dataType").toInt())
     {
         case TBYTE:
             return rescale<uint8_t>(type);
@@ -378,15 +379,15 @@ int FITSView::rescale(FITSZoom type)
 
     uint8_t *image_buffer = imageData->getImageBuffer();
 
-    uint32_t size = imageData->getSamplesPerChannel();
+    uint32_t size = imageData->width() * imageData->height();
     int BBP       = imageData->getBytesPerPixel();
 
     filter = filterStack.last();
 
     if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V)))
     {
-        image_buffer = new uint8_t[imageData->getSamplesPerChannel() * imageData->getNumOfChannels() * BBP];
-        memcpy(image_buffer, imageData->getImageBuffer(), imageData->getSamplesPerChannel() * imageData->getNumOfChannels() * BBP);
+        image_buffer = new uint8_t[size * imageData->channels() * BBP];
+        memcpy(image_buffer, imageData->getImageBuffer(), size * imageData->channels() * BBP);
 
         displayBuffer = true;
 
@@ -416,10 +417,10 @@ int FITSView::rescale(FITSZoom type)
         double bscale = 255. / (max - min);
         double bzero  = (-min) * (255. / (max - min));
 
-        if (image_height != imageData->getHeight() || image_width != imageData->getWidth())
+        if (image_height != imageData->height() || image_width != imageData->width())
         {
-            image_width  = imageData->getWidth();
-            image_height = imageData->getHeight();
+            image_width  = imageData->width();
+            image_height = imageData->height();
 
             initDisplayImage();
 
@@ -431,7 +432,7 @@ int FITSView::rescale(FITSZoom type)
         currentWidth  = displayImage->width();
         currentHeight = displayImage->height();
 
-        if (imageData->getNumOfChannels() == 1)
+        if (imageData->channels() == 1)
         {
             QVector<QFuture<void>> futures;
 
@@ -1469,7 +1470,7 @@ void FITSView::initDisplayImage()
     delete displayImage;
     displayImage = nullptr;
 
-    if (imageData->getNumOfChannels() == 1)
+    if (imageData->channels() == 1)
     {
         displayImage = new QImage(image_width, image_height, QImage::Format_Indexed8);
 

@@ -85,7 +85,7 @@ void FITSHistogram::constructHistogram()
 
     isGUISynced = false;
 
-    switch (image_data->getDataType())
+    switch (image_data->property("dataType").toInt())
     {
         case TBYTE:
             constructHistogram<uint8_t>();
@@ -129,13 +129,12 @@ void FITSHistogram::constructHistogram()
 
 template <typename T>
 void FITSHistogram::constructHistogram()
-{
-    uint16_t fits_w = 0, fits_h = 0;
+{    
     FITSData *image_data = tab->getView()->getImageData();
+    uint16_t fits_w = image_data->width(), fits_h = image_data->height();
 
     auto *buffer = reinterpret_cast<T *>(image_data->getImageBuffer());
 
-    image_data->getDimensions(&fits_w, &fits_h);
     image_data->getMinMax(&fits_min, &fits_max);
 
     uint32_t samples = fits_w * fits_h;
@@ -156,7 +155,7 @@ void FITSHistogram::constructHistogram()
 
     uint16_t r_id = 0;
 
-    if (image_data->getNumOfChannels() == 1)
+    if (image_data->channels() == 1)
     {
         for (uint32_t i = 0; i < samples; i += 4)
         {
@@ -195,7 +194,7 @@ void FITSHistogram::constructHistogram()
     }
 
 
-    if (image_data->getNumOfChannels() == 1)
+    if (image_data->channels() == 1)
     {
         for (int i = 0; i < binCount; i++)
         {
@@ -255,7 +254,7 @@ void FITSHistogram::syncGUI()
     ui->maxEdit->setValue(fits_max);
 
     r_graph->setData(intensity, r_frequency);
-    if (image_data->getNumOfChannels() > 1)
+    if (image_data->channels() > 1)
     {
         g_graph = customPlot->addGraph();
         b_graph = customPlot->addGraph();
@@ -548,7 +547,7 @@ bool FITSHistogramCommand::calculateDelta(const uint8_t *buffer)
     FITSData *image_data = tab->getView()->getImageData();
 
     uint8_t *image_buffer    = image_data->getImageBuffer();
-    int totalPixels          = image_data->getSamplesPerChannel() * image_data->getNumOfChannels();
+    int totalPixels          = image_data->width() * image_data->height() * image_data->channels();
     unsigned long totalBytes = totalPixels * image_data->getBytesPerPixel();
 
     auto *raw_delta = new uint8_t[totalBytes];
@@ -596,10 +595,7 @@ bool FITSHistogramCommand::reverseDelta()
     FITSData *image_data  = image->getImageData();
     uint8_t *image_buffer = (image_data->getImageBuffer());
 
-    unsigned int size = image_data->getSamplesPerChannel();
-    int channels      = image_data->getNumOfChannels();
-
-    int totalPixels          = size * channels;
+    int totalPixels          = image_data->width() * image_data->height() * image_data->channels();
     unsigned long totalBytes = totalPixels * image_data->getBytesPerPixel();
 
     auto *output_image = new uint8_t[totalBytes];
@@ -644,8 +640,7 @@ void FITSHistogramCommand::redo()
     FITSData *image_data = image->getImageData();
 
     uint8_t *image_buffer = image_data->getImageBuffer();
-    unsigned int size     = image_data->getSamplesPerChannel();
-    int channels          = image_data->getNumOfChannels();
+    unsigned int size     = image_data->width() * image_data->height() * image_data->channels();
     int BBP               = image_data->getBytesPerPixel();
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -678,7 +673,7 @@ void FITSHistogramCommand::redo()
         }
         else
         {
-            auto *buffer = new uint8_t[size * channels * BBP];
+            auto *buffer = new uint8_t[size * BBP];
 
             if (buffer == nullptr)
             {
@@ -687,7 +682,7 @@ void FITSHistogramCommand::redo()
                 return;
             }
 
-            memcpy(buffer, image_buffer, size * channels * BBP);
+            memcpy(buffer, image_buffer, size * BBP);
             double dataMin = min, dataMax = max;
 
             switch (type)

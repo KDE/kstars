@@ -108,7 +108,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
     QString stringValue;
 
-    switch (view_data->getDataType())
+    switch (view_data->property("dataType").toInt())
     {
         case TBYTE:
             stringValue = QLocale().toString(buffer[(int)(y * width + x)]);
@@ -320,7 +320,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
 
     if (INDIListener::Instance()->size() == 0)
     {
-        KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+        KMessageBox::sorry(nullptr, i18n("KStars did not find any active telescopes."));
         return;
     }
 
@@ -336,8 +336,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
 
         if (bd->isConnected() == false)
         {
-            KMessageBox::error(0,
-                               i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            KMessageBox::error(nullptr, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
             return;
         }
 
@@ -356,7 +355,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
         return;
     }
 
-    KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+    KMessageBox::sorry(nullptr, i18n("KStars did not find any active telescopes."));
 
 #else
 

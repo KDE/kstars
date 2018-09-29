@@ -72,7 +72,7 @@ void AlignView::setCorrectionParams(QLineF &line)
     // If points are outside, let's translate the line to be within the frame
     if (RAAxisInside == false || CPPointInside == false)
     {
-        QPointF center(imageData->getWidth() / 2, imageData->getHeight() / 2);
+        QPointF center(imageData->width() / 2, imageData->height() / 2);
         QPointF offset(center - line.p1());
         line.translate(offset);
     }

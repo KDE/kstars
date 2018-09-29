@@ -141,12 +141,12 @@ void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
     }
 
     // Filename only without path
-    QString filename = QFileInfo(imageData->getFilename()).fileName();
+    QString filename = QFileInfo(imageData->filename()).fileName();
 
     // Add filename and size as wells
     metadata.insert("uuid", uuid);
     metadata.insert("filename", filename);
-    metadata.insert("filesize", static_cast<int>(imageData->getSize()));
+    metadata.insert("filesize", static_cast<int>(imageData->size()));
     // Must set Content-Disposition so
     metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filename));
     m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
@@ -155,7 +155,7 @@ void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
     filename = QDir::tempPath() + QString("/ekoslivecloud%1").arg(uuid);
 
     fpstate	fpvar;
-    std::vector<std::string> arguments = {"fpack", imageData->getFilename().toLatin1().data()};
+    std::vector<std::string> arguments = {"fpack", imageData->filename().toLatin1().data()};
     std::vector<char *> arglist;
     for (const auto& arg : arguments)
         arglist.push_back((char*)arg.data());
