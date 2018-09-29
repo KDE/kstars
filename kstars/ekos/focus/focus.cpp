@@ -2687,7 +2687,7 @@ void Focus::showFITSViewer()
     FITSData *data = focusView->getImageData();
     if (data)
     {
-        QUrl url = QUrl::fromLocalFile(data->getFilename());
+        QUrl url = QUrl::fromLocalFile(data->filename());
 
         if (fv.isNull())
         {
@@ -2738,7 +2738,7 @@ void Focus::toggleFocusingWidgetFullScreen()
     }
     else
     {
-        focusingWidget->setParent(0);
+        focusingWidget->setParent(nullptr);
         focusingWidget->setWindowTitle(i18n("Focus Frame"));
         focusingWidget->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
         focusingWidget->showMaximized();

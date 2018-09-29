@@ -36,8 +36,8 @@ DarkLibrary::DarkLibrary(QObject *parent) : QObject(parent)
     subtractParams.duration    = 0;
     subtractParams.offsetX     = 0;
     subtractParams.offsetY     = 0;
-    subtractParams.targetChip  = 0;
-    subtractParams.targetImage = 0;
+    subtractParams.targetChip  = nullptr;
+    subtractParams.targetImage = nullptr;
 
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks");
@@ -174,7 +174,7 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
     Q_ASSERT(darkData);
     Q_ASSERT(lightImage);
 
-    switch (darkData->getDataType())
+    switch (darkData->property("dataType").toInt())
     {
         case TBYTE:
             return subtract<uint8_t>(darkData, lightImage, filter, offsetX, offsetY);
@@ -223,10 +223,10 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
 
 
     T *lightBuffer = reinterpret_cast<T *>(lightData->getImageBuffer());
-    int lightW      = lightData->getWidth();
-    int lightH      = lightData->getHeight();
+    int lightW      = lightData->width();
+    int lightH      = lightData->height();
 
-    int darkW      = darkData->getWidth();
+    int darkW      = darkData->width();
     int darkoffset = offsetX + offsetY * darkW;
     T *darkBuffer  = reinterpret_cast<T *>(darkData->getImageBuffer()) + darkoffset;
 
@@ -351,7 +351,7 @@ void DarkLibrary::newFITS(IBLOB *bp)
     FITSData *calibrationData = new FITSData();
 
     // Deep copy of the data
-    if (calibrationData->loadFITS(calibrationView->getImageData()->getFilename()))
+    if (calibrationData->loadFITS(calibrationView->getImageData()->filename()))
     {
         saveDarkFile(calibrationData);
         subtract(calibrationData, subtractParams.targetImage, subtractParams.targetChip->getCaptureFilter(),
@@ -361,7 +361,7 @@ void DarkLibrary::newFITS(IBLOB *bp)
     {
         delete calibrationData;
         emit darkFrameCompleted(false);
-        emit newLog(i18n("Warning: Cannot load calibration file %1", calibrationView->getImageData()->getFilename()));
+        emit newLog(i18n("Warning: Cannot load calibration file %1", calibrationView->getImageData()->filename()));
     }
 }
 }

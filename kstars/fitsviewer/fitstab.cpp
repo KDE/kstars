@@ -173,9 +173,9 @@ void FITSTab::statFITS()
 
     FITSData *image_data = view->getImageData();
 
-    stat.widthOUT->setText(QString::number(image_data->getWidth()));
-    stat.heightOUT->setText(QString::number(image_data->getHeight()));
-    stat.bitpixOUT->setText(QString::number(image_data->getBPP()));
+    stat.widthOUT->setText(QString::number(image_data->width()));
+    stat.heightOUT->setText(QString::number(image_data->height()));
+    stat.bitpixOUT->setText(QString::number(image_data->bpp()));
     stat.maxOUT->setText(QString::number(image_data->getMax(), 'f', 3));
     stat.minOUT->setText(QString::number(image_data->getMin(), 'f', 3));
     stat.meanOUT->setText(QString::number(image_data->getMean(), 'f', 3));
@@ -318,6 +318,6 @@ void FITSTab::tabPositionUpdated()
 {
     undoStack->setActive(true);
     emit newStatus(QString("%1%").arg(view->getCurrentZoom()), FITS_ZOOM);
-    emit newStatus(QString("%1x%2").arg(view->getImageData()->getWidth()).arg(view->getImageData()->getHeight()),
+    emit newStatus(QString("%1x%2").arg(view->getImageData()->width()).arg(view->getImageData()->height()),
                    FITS_RESOLUTION);
 }

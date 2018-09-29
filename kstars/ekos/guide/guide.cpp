@@ -770,7 +770,7 @@ void Guide::exportGuideData()
     if (!file.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Unable to write to file %1", path);
-        KMessageBox::sorry(0, message, i18n("Could Not Open File"));
+        KMessageBox::sorry(nullptr, message, i18n("Could Not Open File"));
         return;
     }
 
@@ -3105,7 +3105,7 @@ void Guide::showFITSViewer()
     FITSData *data = guideView->getImageData();
     if (data)
     {
-        QUrl url = QUrl::fromLocalFile(data->getFilename());
+        QUrl url = QUrl::fromLocalFile(data->filename());
 
         if (fv.isNull())
         {

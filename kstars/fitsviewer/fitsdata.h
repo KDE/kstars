@@ -87,13 +87,37 @@ class FITSSkyObject : public QObject
     int yLoc;
 };
 
-class FITSData
+class FITSData : public QObject
 {
+  Q_OBJECT
+
+  // Name of FITS file
+  Q_PROPERTY(QString filename READ filename)
+  // Size of file in bytes
+  Q_PROPERTY(qint64 size READ size)
+  // Width in pixels
+  Q_PROPERTY(quint16 width READ width)
+  // Height in pixels
+  Q_PROPERTY(quint16 height READ height)
+  // FITS MODE --> Normal, Focus, Guide..etc
+  Q_PROPERTY(FITSMode mode MEMBER m_Mode)
+  // 1 channel (grayscale) or 3 channels (RGB)
+  Q_PROPERTY(quint8 channels READ channels)
+  // Data type (BYTE, SHORT, INT..etc)
+  Q_PROPERTY(quint32 dataType MEMBER m_DataType)
+  // Bits per pixel
+  Q_PROPERTY(quint8 bpp READ bpp WRITE setBPP)
+  // Does FITS have WSC header?
+  Q_PROPERTY(bool hasWCS READ hasWCS)
+  // Does FITS have bayer data?
+  Q_PROPERTY(bool hasDebyaer READ hasDebayer)
+
   public:
     explicit FITSData(FITSMode fitsMode = FITS_NORMAL);
     explicit FITSData(const FITSData *other);
     ~FITSData();
 
+    /** Structure to hold FITS Header records */
     typedef struct
     {
       QString key;
@@ -109,48 +133,27 @@ class FITSData
     int rescale(FITSZoom type);
     /* Calculate stats */
     void calculateStats(bool refresh = false);
-
+    /* Check if a paricular point exists within the image */
     bool contains(const QPointF &point) const;
 
     // Access functions
     void clearImageBuffers();
     void setImageBuffer(uint8_t *buffer);
-    uint8_t *getImageBuffer();
-
-    int getDataType() const { return data_type; }
-    void setDataType(int value) { data_type = value; }
-
-    // Stats
-    uint32_t getSamplesPerChannel() const { return stats.samples_per_channel; }
-    void getDimensions(uint16_t *w, uint16_t *h) const
-    {
-        *w = stats.width;
-        *h = stats.height;
-    }
-    void setWidth(uint16_t w)
-    {
-        stats.width               = w;
-        stats.samples_per_channel = stats.width * stats.height;
-    }
-    void setHeight(uint16_t h)
-    {
-        stats.height              = h;
-        stats.samples_per_channel = stats.width * stats.height;
-    }
-    uint16_t getWidth() const { return stats.width; }
-    uint16_t getHeight() const { return stats.height; }
+    uint8_t *getImageBuffer();    
 
     // Statistics
-    int getNumOfChannels() const { return channels; }
+    uint16_t width() const { return stats.width;}
+    uint16_t height() const { return stats.height;}
+    int64_t size() const { return stats.size; }
+    int channels() const { return m_Channels; }
+    double getMin(uint8_t channel = 0) const { return stats.min[channel]; }
+    double getMax(uint8_t channel = 0) const { return stats.max[channel]; }
     void setMinMax(double newMin, double newMax, uint8_t channel = 0);
     void getMinMax(double *min, double *max, uint8_t channel = 0) const
     {
         *min = stats.min[channel];
         *max = stats.max[channel];
     }
-    int64_t getSize() const { return stats.size; }
-    double getMin(uint8_t channel = 0) const { return stats.min[channel]; }
-    double getMax(uint8_t channel = 0) const { return stats.max[channel]; }
     void setStdDev(double value, uint8_t channel = 0) { stats.stddev[channel] = value; }
     double getStdDev(uint8_t channel = 0) const { return stats.stddev[channel]; }
     void setMean(double value, uint8_t channel = 0) { stats.mean[channel] = value; }
@@ -161,8 +164,8 @@ class FITSData
     int getBytesPerPixel() const { return stats.bytesPerPixel; }
     void setSNR(double val) { stats.SNR = val; }
     double getSNR() const { return stats.SNR; }
-    void setBPP(int value) { stats.bitpix = value; }
-    int getBPP() const { return stats.bitpix; }
+    void setBPP(uint8_t value) { stats.bitpix = value; }
+    uint32_t bpp() const { return stats.bitpix; }
     double getADU() const;
 
     // FITS Record
@@ -196,9 +199,6 @@ class FITSData
     Edge *getMaxHFRStar() const { return maxHFRStar; }
     double getHFR(HFRType type = HFR_AVERAGE);
     double getHFR(int x, int y);
-
-    // FITS Mode (Normal, Guide, Focus..etc).
-    FITSMode getMode() { return mode; }
 
     // WCS
     // Check if image has valid WCS header information and set HasWCS accordingly. Call in loadFITS()
@@ -262,7 +262,7 @@ class FITSData
     void setRotCounter(int value);
 
     // Filename
-    const QString &getFilename() const { return filename; }
+    const QString &filename() const { return m_Filename; }
     bool isTempFile() const {return m_isTemporary;}
     bool isCompressed() const {return m_isCompressed;}
 
@@ -283,7 +283,7 @@ class FITSData
     QList<FITSSkyObject *> objList; //Does this need to be public??
 
     // Create autostretch image from FITS File
-    static QImage FITSToImage(const QString &filename);
+    static QImage FITSToImage(const QString &m_Filename);
 
     bool getAutoRemoveTemporaryFITS() const;
     void setAutoRemoveTemporaryFITS(bool value);
@@ -356,12 +356,11 @@ class FITSData
     fitsfile *fptr { nullptr };
 
     /// FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
-    int data_type { 0 };
+    int m_DataType { 0 };
     /// Number of channels
-    uint8_t channels { 1 };
+    uint8_t m_Channels { 1 };
     /// Generic data image buffer
-    uint8_t *imageBuffer { nullptr };
-
+    uint8_t *m_ImageBuffer { nullptr };
     /// Is this a tempoprary file or one loaded from disk?
     bool m_isTemporary { false };
     /// is this file compress (.fits.fz)?
@@ -372,17 +371,18 @@ class FITSData
     StarAlgorithm starAlgorithm { ALGORITHM_GRADIENT };
     /// Do we have WCS keywords in this FITS data?
     bool HasWCS { false };
+    /// Is the image debayarable?
+    bool HasDebayer { false };
     /// Is WCS data loaded?
     bool WCSLoaded { false };
     /// Do we need to mark stars for the user?
     bool markStars { false };
-    /// Is the image debayarable?
-    bool HasDebayer { false };
+
 
     /// Our very own file name
-    QString filename;
+    QString m_Filename;
     /// FITS Mode (Normal, WCS, Guide, Focus..etc)
-    FITSMode mode;
+    FITSMode m_Mode;
 
     /// How many times the image was rotated? Useful for WCS keywords rotation on save.
     int rotCounter { 0 };

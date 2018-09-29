@@ -151,13 +151,13 @@ void Media::sendPreviewImage(FITSView *view, const QString &uuid)
     buffer.close();
 
     const FITSData *imageData = view->getImageData();
-    QString resolution = QString("%1x%2").arg(imageData->getWidth()).arg(imageData->getHeight());
-    QString sizeBytes = KFormat().formatByteSize(imageData->getSize());
+    QString resolution = QString("%1x%2").arg(imageData->width()).arg(imageData->height());
+    QString sizeBytes = KFormat().formatByteSize(imageData->size());
     QVariant xbin(1), ybin(1);
     imageData->getRecordValue("XBINNING", xbin);
     imageData->getRecordValue("YBINNING", ybin);
     QString binning = QString("%1x%2").arg(xbin.toString()).arg(ybin.toString());
-    QString bitDepth = QString::number(imageData->getBPP());
+    QString bitDepth = QString::number(imageData->bpp());
 
     QJsonObject metadata = {
         {"resolution",resolution},

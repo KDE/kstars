@@ -566,7 +566,7 @@ float *cgmath::createFloatImage(FITSData *target) const
 
     // #1 Convert to float array
     // We only process 1st plane if it is a color image
-    uint32_t imgSize = imageData->getSamplesPerChannel();
+    uint32_t imgSize = imageData->width() * imageData->height();
     float *imgFloat  = new float[imgSize];
 
     if (imgFloat == nullptr)
@@ -575,7 +575,7 @@ float *cgmath::createFloatImage(FITSData *target) const
         return nullptr;
     }
 
-    switch (imageData->getDataType())
+    switch (imageData->property("dataType").toInt())
     {
         case TBYTE:
         {
@@ -660,8 +660,8 @@ QVector<float *> cgmath::partitionImage() const
     if (imgFloat == nullptr)
         return regions;
 
-    const uint32_t width  = imageData->getWidth();
-    const uint32_t height = imageData->getHeight();
+    const uint16_t width  = imageData->width();
+    const uint16_t height = imageData->height();
 
     uint8_t xRegions = floor(width / regionAxis);
     uint8_t yRegions = floor(height / regionAxis);
@@ -772,7 +772,7 @@ Vector cgmath::findLocalStarPosition(void) const
         return Vector(median_x, median_y, -1);
     }
 
-    switch (imageData->getDataType())
+    switch (imageData->property("dataType").toInt())
     {
         case TBYTE:
             return findLocalStarPosition<uint8_t>();
@@ -1579,16 +1579,17 @@ QList<Edge*> cgmath::PSFAutoFind(int extraEdgeAllowance)
 
     int searchRegion = guideView->getTrackingBox().width();
 
-    int subW = smoothed->getWidth();
-    int subH = smoothed->getHeight();
+    int subW = smoothed->width();
+    int subH = smoothed->height();
+    int size = subW*subH;
 
     // convert to floating point
     float *conv = createFloatImage(smoothed);
 
     // run the PSF convolution
     {
-        float *tmp = new float[smoothed->getSamplesPerChannel()];
-        memset(tmp, 0, smoothed->getSamplesPerChannel()*sizeof(float));
+        float *tmp = new float[size];
+        memset(tmp, 0, size*sizeof(float));
         psf_conv(tmp, conv, subW, subH);
         delete [] conv;
         // Swap
