@@ -19,8 +19,7 @@
     <method name="unpark">
       <arg type="b" direction="out"/>
     </method>
-    <method name="isMoving">
-      <arg type="b" direction="out"/>
+  <property name="isMoving" type="b" access="read"/>
     </method>
     <signal name="newStatus">
         <arg name="status" type="(i)" direction="out"/>
