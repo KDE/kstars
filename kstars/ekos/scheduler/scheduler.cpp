@@ -2397,7 +2397,7 @@ bool Scheduler::checkINDIState()
     if (state == SCHEDULER_PAUSED)
         return false;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking INDI State...";
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking INDI State" << indiState;
 
     switch (indiState)
     {
@@ -2408,8 +2408,6 @@ bool Scheduler::checkINDIState()
                 indiState = INDI_PROPERTY_CHECK;
 
                 qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking INDI Properties...";
-
-                return false;
             }
             else
             {
@@ -2419,32 +2417,9 @@ bool Scheduler::checkINDIState()
                 currentOperationTime.start();
 
                 qCDebug(KSTARS_EKOS_SCHEDULER) << "Connecting INDI Devices";
-
-                return false;
             }
-#if 0
-            // Even in idle state, we make sure that INDI is not already connected.
-            if (isINDIConnected())
-            {
-                indiState = INDI_PROPERTY_CHECK;
-
-                qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking INDI Properties...";
-
-                return false;
-            }
-            else
-            {
-                ekosInterface->call(QDBus::AutoDetect, "connectDevices");
-                indiState = INDI_CONNECTING;
-
-                currentOperationTime.start();
-
-                qCDebug(KSTARS_EKOS_SCHEDULER) << "Connecting INDI Devices";
-
-                return false;
-            }
-#endif
         }        
+        break;
 
         case INDI_CONNECTING:
         {
@@ -2452,7 +2427,6 @@ bool Scheduler::checkINDIState()
             {
                 appendLogText(i18n("INDI devices connected."));
                 indiState = INDI_PROPERTY_CHECK;
-                return false;
             }
             else if (m_INDICommunicationStatus == Ekos::Error)
             {
@@ -2460,12 +2434,12 @@ bool Scheduler::checkINDIState()
                 {
                     appendLogText(i18n("One or more INDI devices failed to connect. Retrying..."));
                     ekosInterface->call(QDBus::AutoDetect, "connectDevices");
-                    return false;
                 }
-
-                appendLogText(i18n("INDI devices failed to connect. Check INDI control panel for details."));
-                stop();
-                return false;
+                else
+                {
+                    appendLogText(i18n("INDI devices failed to connect. Check INDI control panel for details."));
+                    stop();
+                }
             }
             // If 30 seconds passed, we retry
             else if (currentOperationTime.elapsed() > (30 * 1000))
@@ -2474,54 +2448,15 @@ bool Scheduler::checkINDIState()
                 {
                     appendLogText(i18n("One or more INDI devices failed to connect. Retrying..."));
                     ekosInterface->call(QDBus::AutoDetect, "connectDevices");
-                    return false;
                 }
-
-                appendLogText(i18n("INDI devices connection timed out. Check INDI control panel for details."));
-                stop();
-                return false;
-            }
-            else
-                return false;
-#if 0
-            QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
-            if (isINDIConnected.value() == Ekos::Success)
-            {
-                appendLogText(i18n("INDI devices connected."));
-                indiState = INDI_PROPERTY_CHECK;
-                return false;
-            }
-            else if (isINDIConnected.value() == Ekos::Error)
-            {
-                if (indiConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                else
                 {
-                    appendLogText(i18n("One or more INDI devices failed to connect. Retrying..."));
-                    ekosInterface->call(QDBus::AutoDetect, "connectDevices");
-                    return false;
+                    appendLogText(i18n("INDI devices connection timed out. Check INDI control panel for details."));
+                    stop();
                 }
-
-                appendLogText(i18n("INDI devices failed to connect. Check INDI control panel for details."));
-                stop();
-                return false;
             }
-            // If 30 seconds passed, we retry
-            else if (currentOperationTime.elapsed() > (30 * 1000))
-            {
-                if (indiConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("One or more INDI devices failed to connect. Retrying..."));
-                    ekosInterface->call(QDBus::AutoDetect, "connectDevices");
-                    return false;
-                }
-
-                appendLogText(i18n("INDI devices connection timed out. Check INDI control panel for details."));
-                stop();
-                return false;
-            }
-            else
-                return false;
-#endif
         }        
+        break;
 
         case INDI_DISCONNECTING:
         {
@@ -2531,15 +2466,6 @@ bool Scheduler::checkINDIState()
                 indiState = INDI_IDLE;
                 return true;
             }
-#if 0
-            QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect, "getINDIConnectionStatus");
-            if (isINDIConnected.value() == Ekos::Idle)
-            {
-                appendLogText(i18n("INDI devices disconnected."));
-                indiState = INDI_IDLE;
-                return true;
-            }
-#endif
         }
         break;
 
@@ -2547,21 +2473,49 @@ bool Scheduler::checkINDIState()
         {
             // If dome unparking is required then we wait for dome interface
             if (unparkDomeCheck->isChecked() && m_DomeReady == false)
+            {
+                if (currentOperationTime.elapsed() > (30 * 1000))
+                {
+                    appendLogText(i18n("Warning: dome device not ready after timeout, attempting to recover..."));
+                    disconnectINDI();
+                    stopEkos();
+                }
+
                 return false;
+            }
 
             // If mount unparking is required then we wait for mount interface
             if (unparkMountCheck->isChecked() && m_MountReady == false)
+            {
+                if (currentOperationTime.elapsed() > (30 * 1000))
+                {
+                    appendLogText(i18n("Warning: mount device not ready after timeout, attempting to recover..."));
+                    disconnectINDI();
+                    stopEkos();
+                }
+
                 return false;
+            }
 
             // If cap unparking is required then we wait for cap interface
             if (uncapCheck->isChecked() && m_CapReady == false)
+            {
+                if (currentOperationTime.elapsed() > (30 * 1000))
+                {
+                    appendLogText(i18n("Warning: cap device not ready after timeout, attempting to recover..."));
+                    disconnectINDI();
+                    stopEkos();
+                }
+
                 return false;
+            }
 
             // capture interface is required at all times to proceed.
             if (captureInterface.isNull() || m_CaptureReady == false)
                 return false;
 
             indiState = INDI_READY;
+            indiConnectFailureCount = 0;
             return true;
 
 #if 0
@@ -3176,60 +3130,57 @@ void Scheduler::checkJobStage()
     if (!checkStatus())
         return;
 
+    // #6 Check each stage is processing properly
+    // FIXME: Vanishing property should trigger a call to its event callback
     switch (currentJob->getStage())
     {
         case SchedulerJob::STAGE_IDLE:
             getNextAction();
             break;
 
-#if 0
         case SchedulerJob::STAGE_SLEWING:
-        {
-            QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect, "getSlewStatus");
-            bool isDomeMoving          = false;
-
-            if (parkDomeCheck->isEnabled())
+        case SchedulerJob::STAGE_RESLEWING:
+            // While slewing or re-slewing, check slew status can still be obtained
             {
-                QDBusReply<bool> domeReply = domeInterface->call(QDBus::AutoDetect, "isMoving");
-                if (domeReply.error().type() == QDBusError::NoError && domeReply.value() == true)
-                    isDomeMoving = true;
-            }
+                QVariant const slewStatus = mountInterface->property("status");
 
-            if (slewStatus.error().type() == QDBusError::UnknownObject)
+                if (slewStatus.isValid())
+                {
+                    // Send the slew status periodically to avoid the situation where the mount is already at location and does not send any event
+                    // FIXME: in that case, filter TRACKING events only?
+                    ISD::Telescope::Status const status = static_cast<ISD::Telescope::Status>(slewStatus.toInt());
+                    setMountStatus(status);
+                }
+                else
+                {
+                    appendLogText(i18n("Warning: job '%1' lost connection to the mount, attempting to reconnect.", currentJob->getName()));
+                    if (!manageConnectionLoss())
+                        currentJob->setState(SchedulerJob::JOB_ERROR);
+                    return;
+                }
+            }
+            break;
+
+        case SchedulerJob::STAGE_SLEW_COMPLETE:
+        case SchedulerJob::STAGE_RESLEWING_COMPLETE:
+            // When done slewing or re-slewing and we use a dome, only shift to the next action when the dome is done moving
+            if (m_DomeReady)
             {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI while slewing, attempting to reconnect.", currentJob->getName()));
-                if (!manageConnectionLoss())
-                    currentJob->setState(SchedulerJob::JOB_ERROR);
-                return;
+                QVariant const isDomeMoving = domeInterface->property("isMoving");
+
+                if (!isDomeMoving.isValid())
+                {
+                    appendLogText(i18n("Warning: job '%1' lost connection to the dome, attempting to reconnect.", currentJob->getName()));
+                    if (!manageConnectionLoss())
+                        currentJob->setState(SchedulerJob::JOB_ERROR);
+                    return;
+                }
+
+                if (!isDomeMoving.value<bool>())
+                    getNextAction();
             }
-
-            qCDebug(KSTARS_EKOS_SCHEDULER)
-                << "Slewing Stage... Slew Status is " << pstateStr(static_cast<IPState>(slewStatus.value()));
-
-            if (slewStatus.value() == IPS_OK && isDomeMoving == false)
-            {
-                appendLogText(i18n("Job '%1' slew is complete.", currentJob->getName()));
-                currentJob->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
-                getNextAction();
-            }
-            else if (slewStatus.value() == IPS_ALERT)
-            {
-                appendLogText(i18n("Warning: job '%1' slew failed, marking terminated due to errors.", currentJob->getName()));
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                findNextJob();
-            }
-            else if (slewStatus.value() == IPS_IDLE)
-            {
-                appendLogText(i18n("Warning: job '%1' found not slewing, restarting.", currentJob->getName()));
-                currentJob->setStage(SchedulerJob::STAGE_IDLE);
-
-                getNextAction();
-            }
-        }
-        break;
-#endif
-
+            else getNextAction();
+            break;
 #if 0
         case SchedulerJob::STAGE_FOCUSING:        
         {
@@ -3341,15 +3292,6 @@ void Scheduler::checkJobStage()
         }
         break;
 #endif
-
-        case SchedulerJob::STAGE_SLEWING:
-        case SchedulerJob::STAGE_RESLEWING:
-        {            
-            QVariant mountStatus = mountInterface->property("status");
-            ISD::Telescope::Status status = static_cast<ISD::Telescope::Status>(mountStatus.toInt());
-            setMountStatus(status);
-        }
-        break;
 
 #if 0
         case SchedulerJob::STAGE_GUIDING:
@@ -4557,8 +4499,7 @@ void Scheduler::setSolverAction(Align::GotoMode mode)
 void Scheduler::disconnectINDI()
 {
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Disconnecting INDI...";
-    indiState               = INDI_DISCONNECTING;
-    indiConnectFailureCount = 0;
+    indiState = INDI_DISCONNECTING;
     ekosInterface->call(QDBus::AutoDetect, "disconnectDevices");    
 }
 
@@ -6563,45 +6504,35 @@ void Scheduler::setMountStatus(ISD::Telescope::Status status)
     if (state == SCHEDULER_PAUSED || currentJob == nullptr)
         return;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Mount State" << status;
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Mount State changed to" << status;
 
     /* If current job is scheduled and has not started yet, wait */
     if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
-    {
-        QDateTime const now = KStarsData::Instance()->lt();
-        if (now < currentJob->getStartupTime())
+        if (static_cast<QDateTime const>(KStarsData::Instance()->lt()) < currentJob->getStartupTime())
             return;
-    }
 
     switch (currentJob->getStage())
     {
         case SchedulerJob::STAGE_SLEWING:
         {
-            QVariant isDomeMoving = false;
-
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Slewing stage...";
 
-            if (m_DomeReady)
-                isDomeMoving = domeInterface->property("isMoving");
-
-            if (status == ISD::Telescope::MOUNT_TRACKING && isDomeMoving == false)
+            if (status == ISD::Telescope::MOUNT_TRACKING)
             {
                 appendLogText(i18n("Job '%1' slew is complete.", currentJob->getName()));
                 currentJob->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
-                getNextAction();
+                /* getNextAction is deferred to checkJobStage for dome support */
             }
             else if (status == ISD::Telescope::MOUNT_ERROR)
             {
                 appendLogText(i18n("Warning: job '%1' slew failed, marking terminated due to errors.", currentJob->getName()));
                 currentJob->setState(SchedulerJob::JOB_ERROR);
-
                 findNextJob();
             }
             else if (status == ISD::Telescope::MOUNT_IDLE)
             {
                 appendLogText(i18n("Warning: job '%1' found not slewing, restarting.", currentJob->getName()));
                 currentJob->setStage(SchedulerJob::STAGE_IDLE);
-
                 getNextAction();
             }
         }
@@ -6609,38 +6540,30 @@ void Scheduler::setMountStatus(ISD::Telescope::Status status)
 
         case SchedulerJob::STAGE_RESLEWING:
         {
-            QVariant isDomeMoving = false;
-
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Re-slewing stage...";
 
-            if (m_DomeReady)
-                isDomeMoving = domeInterface->property("isMoving");
-
-            if (status == ISD::Telescope::MOUNT_TRACKING && isDomeMoving == false)
+            if (status == ISD::Telescope::MOUNT_TRACKING)
             {
                 appendLogText(i18n("Job '%1' repositioning is complete.", currentJob->getName()));
                 currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
-                getNextAction();
+                /* getNextAction is deferred to checkJobStage for dome support */
             }
             else if (status == ISD::Telescope::MOUNT_ERROR)
             {
                 appendLogText(i18n("Warning: job '%1' repositioning failed, marking terminated due to errors.", currentJob->getName()));
                 currentJob->setState(SchedulerJob::JOB_ERROR);
-
                 findNextJob();
             }
             else if (status == ISD::Telescope::MOUNT_IDLE)
             {
                 appendLogText(i18n("Warning: job '%1' found not repositioning, restarting.", currentJob->getName()));
                 currentJob->setStage(SchedulerJob::STAGE_IDLE);
-
                 getNextAction();
             }
         }
         break;
 
-    default:
-        break;
+        default: break;
     }
 }
 

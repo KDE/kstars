@@ -31,6 +31,7 @@ class Dome : public QObject
     Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
     Q_PROPERTY(bool canPark READ canPark)
     Q_PROPERTY(bool canAbsoluteMove READ canAbsoluteMove)
+    Q_PROPERTY(bool isMoving READ isMoving)
     Q_PROPERTY(double azimuthPosition READ azimuthPosition WRITE setAzimuthPosition NOTIFY azimuthPositionChanged)
 
   public:
