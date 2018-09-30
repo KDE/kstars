@@ -111,13 +111,9 @@ FITSData::~FITSData()
     qDeleteAll(records);
 }
 
-bool FITSData::loadFITS(const QString &inFilename, bool silent)
+QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
 {
-    int status = 0, anynull = 0;
-    long naxes[3];
-    char error_status[512];
-    QString errMessage;
-
+    int status = 0;
     qDeleteAll(starCenters);
     starCenters.clear();
 
@@ -138,10 +134,17 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
 
     qCInfo(KSTARS_FITS) << "Loading FITS file " << m_Filename;
 
-    if (m_Filename.startsWith(QLatin1String("/tmp/")) || m_Filename.contains("/Temp"))
-        m_isTemporary = true;
-    else
-        m_isTemporary = false;
+    QFuture<bool> result = QtConcurrent::run(this, &FITSData::privateLoad, silent);
+
+    return result;
+}
+
+bool FITSData::privateLoad(bool silent)
+{
+    int status = 0, anynull = 0;
+    long naxes[3];
+    char error_status[512];
+    QString errMessage;
 
     if (m_Filename.endsWith(".fz"))
     {
@@ -254,7 +257,6 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
             KSNotification::error(errMessage, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << errMessage;
         return false;
-        break;
     }
 
     if (stats.ndim < 3)
@@ -4223,8 +4225,11 @@ QImage FITSData::FITSToImage(const QString &filename)
 
     FITSData data;
 
-    bool rc = data.loadFITS(filename);
-    if (!rc)
+    QFuture<bool> future = data.loadFITS(filename);
+
+    // Wait synchronously
+    future.waitForFinished();
+    if (future.result() == false)
         return fitsImage;
 
     data.getMinMax(&min, &max);
