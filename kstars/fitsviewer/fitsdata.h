@@ -120,13 +120,18 @@ class FITSData : public QObject
     /** Structure to hold FITS Header records */
     typedef struct
     {
-      QString key;
-      QVariant value;
-      QString comment;
+      QString key;      /** FITS Header Key */
+      QVariant value;   /** FITS Header Value */
+      QString comment;  /** FITS Header Comment, if any */
     } Record;
 
-    /* Loads FITS image, scales it, and displays it in the GUI */
-    bool loadFITS(const QString &inFilename, bool silent = true);
+    /**
+     * @brief loadFITS Loading FITS file asynchronously.
+     * @param inFilename Path to FITS file (or compressed fits.gz)
+     * @param silent If set, error messages are ignored. If set to false, the error message will get displayed in a popup.
+     * @return A QFuture that can be watched until the async operation is complete.
+     */
+    QFuture<bool> loadFITS(const QString &inFilename, bool silent = true);
     /* Save FITS */
     int saveFITS(const QString &newFilename);
     /* Rescale image lineary from image_buffer, fit to window if desired */
@@ -290,7 +295,11 @@ class FITSData : public QObject
 
     QString getLastError() const;
 
+  signals:
+    void converted(QImage);
+
   private:
+    bool privateLoad(bool silent);
     void rotWCSFITS(int angle, int mirror);
     bool checkCollision(Edge *s1, Edge *s2);
     int calculateMinMax(bool refresh = false);
@@ -356,7 +365,7 @@ class FITSData : public QObject
     fitsfile *fptr { nullptr };
 
     /// FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
-    int m_DataType { 0 };
+    uint32_t m_DataType { 0 };
     /// Number of channels
     uint8_t m_Channels { 1 };
     /// Generic data image buffer
