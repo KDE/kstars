@@ -378,7 +378,7 @@ void StarProfileViewer::loadData(FITSData * data, QRect sub, QList<Edge *> cente
                     columnLabels << QString::number(i);
                 else
                     columnLabels << "";
-                if( i > 0 && i < imageData->getWidth() && j > 0 && j < imageData->getHeight())
+                if( i > 0 && i < imageData->width() && j > 0 && j < imageData->height())
                     (*dataRow)[x].setValue(getImageDataValue(i, j));
                 x++;
             }
@@ -698,7 +698,7 @@ void StarProfileViewer::getSubFrameMinMax(float *subFrameMin, float *subFrameMax
     {
         for (int x = subFrame.x(); x < subFrame.x() + subFrame.width(); x++)
         {
-            if( x > 0 && x < imageData->getWidth() && y > 0 && y < imageData->getHeight())
+            if( x > 0 && x < imageData->width() && y > 0 && y < imageData->height())
             {
                 float value = getImageDataValue(x, y);
                 if(value < *subFrameMin)
@@ -717,14 +717,14 @@ float StarProfileViewer::getImageDataValue(int x, int y)
         return 0;
     uint8_t *image_buffer = imageData->getImageBuffer();
     T *buffer = reinterpret_cast<T *>(image_buffer);
-    return (float) buffer[y * imageData->getWidth() + x];
+    return (float) buffer[y * imageData->width() + x];
 }
 
 
 
 float StarProfileViewer::getImageDataValue(int x, int y)
 {
-    switch (imageData->getDataType())
+    switch (imageData->property("dataType").toInt())
     {
         case TBYTE:
             return getImageDataValue<uint8_t>(x, y);
