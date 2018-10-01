@@ -609,7 +609,7 @@ void KStars::updateTime(const bool automaticDSTchange)
 }
 
 #ifdef HAVE_CFITSIO
-FITSViewer *KStars::genericFITSViewer()
+QPointer<FITSViewer> KStars::genericFITSViewer()
 {
     if (m_GenericFITSViewer.isNull())
     {

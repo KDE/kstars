@@ -144,8 +144,8 @@ class KStars : public KXmlGuiWindow
     inline PrintingWizard *printingWizard() const { return m_PrintingWizard; }
 
 #ifdef HAVE_CFITSIO
-    FITSViewer *genericFITSViewer();
-    QList<FITSViewer *> &getFITSViewersList() { return m_FITSViewers; }
+    QPointer<FITSViewer> genericFITSViewer();
+    QList<QPointer<FITSViewer>> &getFITSViewersList() { return m_FITSViewers; }
 #endif
 
 #ifdef HAVE_INDI
@@ -791,7 +791,7 @@ class KStars : public KXmlGuiWindow
     EyepieceField *m_EyepieceView { nullptr };
 #ifdef HAVE_CFITSIO
     QPointer<FITSViewer> m_GenericFITSViewer;
-    QList<FITSViewer *> m_FITSViewers;
+    QList<QPointer<FITSViewer>> m_FITSViewers;
 #endif
 
 #ifdef HAVE_INDI

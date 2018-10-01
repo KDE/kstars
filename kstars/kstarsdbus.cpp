@@ -971,7 +971,7 @@ void KStars::openFITS(const QUrl &imageURL)
     qWarning() << "KStars does not support loading FITS. Please recompile KStars with FITS support.";
     return false;
 #else
-    FITSViewer *fv = nullptr;
+    QPointer<FITSViewer> fv;
     if (Options::singleWindowOpenedFITS())
         fv = genericFITSViewer();
     else
@@ -992,6 +992,6 @@ void KStars::openFITS(const QUrl &imageURL)
         QObject::disconnect(m_Failed);
     });
 
-    fv->addFITS(&imageURL);
+    fv->addFITS(imageURL);
 #endif
 }

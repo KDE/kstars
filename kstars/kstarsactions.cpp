@@ -326,7 +326,7 @@ void KStars::slotINDIToolBar()
 
         if (a->isChecked())
         {
-            foreach (FITSViewer *view, m_FITSViewers)
+            for (QPointer<FITSViewer> view : m_FITSViewers)
             {
                 if (view->getTabs().empty() == false)
                 {
@@ -338,7 +338,7 @@ void KStars::slotINDIToolBar()
         }
         else
         {
-            foreach (FITSViewer *view, m_FITSViewers)
+            for (QPointer<FITSViewer> view : m_FITSViewers)
             {
                 view->hide();
             }
@@ -1179,19 +1179,14 @@ void KStars::slotOpenFITS()
     // Remember last directory
     path.setUrl(fileURL.url(QUrl::RemoveFilename));
 
-    FITSViewer *fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
+    QPointer<FITSViewer> fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
 
-    connect(fv, &FITSViewer::failed, [&]() {
-       if (fv->empty())
-           delete(fv);
-    });
-
-    connect(fv, &FITSViewer::loaded, [&]() {
+    connect(fv, &FITSViewer::loaded, [&,fv]() {
         m_FITSViewers.append(fv);
         fv->show();
     });
 
-    fv->addFITS(&fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
+    fv->addFITS(fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
 #endif
 }
 

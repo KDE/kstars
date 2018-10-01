@@ -1450,30 +1450,31 @@ void CCD::processBLOB(IBLOB *bp)
             case FITS_CALIBRATE:
             {
                 int *tabID = (captureMode == FITS_NORMAL) ? &normalTabID : &calibrationTabID;
-                // Check if we need to display the image
+                // Check if we need to display the image                
                 if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
                 {
-                    QMetaObject::Connection m_Loaded = connect(fv, &FITSViewer::loaded, [&](int tabIndex) {
+                    fv->disconnect(this);
+                    connect(fv, &FITSViewer::loaded, this, [=](int tabIndex) {
                         *tabID = tabIndex;
                         targetChip->setImageView(fv->getView(tabIndex), FITS_NORMAL);
                         emit newImage(fv->getView(tabIndex)->getDisplayImage(), filename, targetChip);
                         emit BLOBUpdated(bp);
 
-                        QObject::disconnect(m_Loaded);
+                        //QObject::disconnect(m_Loaded);
                     });
 
-                    QMetaObject::Connection m_Failed = connect(fv, &FITSViewer::failed, [&]() {
+                    connect(fv, &FITSViewer::failed, this, [=]() {
                         // If opening file fails, we treat it the same as exposure failure and recapture again if possible
                         emit newExposureValue(targetChip, 0, IPS_ALERT);
 
-                        QObject::disconnect(m_Failed);
+                        //QObject::disconnect(m_Failed);
                         return;
                     });
 
                     if (*tabID == -1 || Options::singlePreviewFITS() == false)
-                        fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+                        fv->addFITS(fileURL, captureMode, captureFilter, previewTitle);
                     else
-                        fv->updateFITS(&fileURL, *tabID, captureFilter);
+                        fv->updateFITS(fileURL, *tabID, captureFilter);
                 }
                 // Otherwise just emit blob notification
                 else
@@ -1494,27 +1495,27 @@ void CCD::processBLOB(IBLOB *bp)
 
 void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip)
 {
-    FITSView *view = targetChip->getImageView(targetChip->getCaptureMode());
+    FITSMode mode = targetChip->getCaptureMode();
+    FITSView *view = targetChip->getImageView(mode);
     QString filename = QString(static_cast<const char *>(bp->aux2));
 
     if (view)
     {
-        QMetaObject::Connection m_Loaded, m_Failed;
-        m_Loaded = connect(view, &FITSView::loaded, [&]() {
+        //QMetaObject::Connection m_Loaded, m_Failed;
+        view->disconnect(this);
+        connect(view, &FITSView::loaded, this, [=]() {
             view->updateFrame();
             emit newImage(view->getDisplayImage(), filename, targetChip);
             // FITSViewer is shown if:
             // Image in preview mode, or useFITSViewre is true; AND
             // Image type is either NORMAL or CALIBRATION since the rest have their dedicated windows.
             // NORMAL is used for raw INDI drivers without Ekos.
-            if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) && (targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE))
+            if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) && (mode == FITS_NORMAL || mode == FITS_CALIBRATE))
                     fv->show();
             emit BLOBUpdated(bp);
-            QObject::disconnect(m_Loaded);
         });
-        m_Failed = connect(view, &FITSView::failed, [&]() {
+        connect(view, &FITSView::failed, [=]() {
             emit newExposureValue(targetChip, 0, IPS_ALERT);
-            QObject::disconnect(m_Failed);
             return;
         });
 

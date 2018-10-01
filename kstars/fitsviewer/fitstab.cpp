@@ -81,7 +81,7 @@ void FITSTab::setPreviewText(const QString &value)
     previewText = value;
 }
 
-void FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bool silent)
+void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
 {
     if (view.get() == nullptr)
     {
@@ -99,7 +99,7 @@ void FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
         connect(view.get(), &FITSView::failed, this, &FITSTab::failed);
 
         // On Success loading image
-        connect(view.get(), &FITSView::loaded, [&]() {
+        connect(view.get(), &FITSView::loaded, [&,filter]() {
 
             // If it was already running make sure it's done
             histogramFuture.waitForFinished();
@@ -129,11 +129,11 @@ void FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
         });
     }
 
-    currentURL = *imageURL;
+    currentURL = imageURL;
 
     view->setFilter(filter);
 
-    view->loadFITS(imageURL->toLocalFile(), silent);
+    view->loadFITS(imageURL.toLocalFile(), silent);
 }
 
 void FITSTab::modifyFITSState(bool clean)
