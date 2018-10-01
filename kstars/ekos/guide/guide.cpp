@@ -1316,6 +1316,8 @@ bool Guide::abort()
         case GUIDE_GUIDING:
         case GUIDE_LOOPING:
             guider->abort();
+            break;
+
         default:
             break;
     }
@@ -2839,28 +2841,51 @@ void Guide::buildOperationStack(GuideState operation)
 
         case GUIDE_CALIBRATING:
             operationStack.push(GUIDE_CALIBRATING);
-            if (guiderType == GUIDE_INTERNAL && (starCenter.isNull() || (Options::guideAutoStarEnabled())))
+            if (guiderType == GUIDE_INTERNAL)
             {
                 if (Options::guideDarkFrameEnabled())
                     operationStack.push(GUIDE_DARK);
 
-                // If subframe is enabled and we need to auto select a star, then we need to make the final capture
-                // of the subframed image. This is only done if we aren't already subframed.
-                if (subFramed == false && Options::guideSubframeEnabled() && Options::guideAutoStarEnabled())
+                // Auto Star Selected Path
+                if (Options::guideAutoStarEnabled())
+                {
+                    // If subframe is enabled and we need to auto select a star, then we need to make the final capture
+                    // of the subframed image. This is only done if we aren't already subframed.
+                    if (subFramed == false && Options::guideSubframeEnabled())
+                        operationStack.push(GUIDE_CAPTURE);
+
+                    // Do not subframe and auto-select star on Image Guiding mode
+                    if (Options::imageGuidingEnabled() == false)
+                    {
+                        operationStack.push(GUIDE_SUBFRAME);
+                        operationStack.push(GUIDE_STAR_SELECT);
+                    }
+
                     operationStack.push(GUIDE_CAPTURE);
 
-                // Do not subframe and auto-select star on Image Guiding mode
-                if (Options::imageGuidingEnabled() == false)
+                    // If we are being ask to go full frame, let's do that first
+                    if (subFramed == true && Options::guideSubframeEnabled() == false)
+                        operationStack.push(GUIDE_SUBFRAME);
+                }
+                // Manual Star Selection Path
+                else
                 {
-                    operationStack.push(GUIDE_SUBFRAME);
-                    operationStack.push(GUIDE_STAR_SELECT);
+                    // In Image Guiding, we never need to subframe
+                    if (Options::imageGuidingEnabled() == false)
+                    {
+                        // Final capture before we start calibrating
+                        if (subFramed == false && Options::guideSubframeEnabled())
+                            operationStack.push(GUIDE_CAPTURE);
+
+                        // Subframe if required
+                        operationStack.push(GUIDE_SUBFRAME);
+
+                    }
+
+                    // First capture an image
+                    operationStack.push(GUIDE_CAPTURE);
                 }
 
-                operationStack.push(GUIDE_CAPTURE);
-
-                // If we are being ask to go full frame, let's do that first
-                if (subFramed == true && Options::guideSubframeEnabled() == false)
-                    operationStack.push(GUIDE_SUBFRAME);
             }
             break;
 
@@ -2955,7 +2980,7 @@ bool Guide::executeOneOperation(GuideState operation)
     {
         case GUIDE_SUBFRAME:
         {
-            // Do not subframe if we are capturing calibration frame
+            // Check if we need and can subframe
             if (subFramed == false && Options::guideSubframeEnabled() == true && targetChip->canSubframe())
             {
                 int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
@@ -2996,6 +3021,8 @@ bool Guide::executeOneOperation(GuideState operation)
                 starCenter.setX(w / (2 * subBinX));
                 starCenter.setY(h / (2 * subBinX));
             }
+            // Otherwise check if we are already subframed
+            // and we need to go back to full frame
             else if (subFramed && Options::guideSubframeEnabled() == false)
             {
                 targetChip->resetFrame();
