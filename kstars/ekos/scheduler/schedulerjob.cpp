@@ -478,14 +478,14 @@ void SchedulerJob::updateJobCell()
 
     if (captureCountCell && captureCountCell->tableWidget())
     {
-        captureCountCell->setText(QString("%1/%2").arg(completedCount).arg(sequenceCount));
+        captureCountCell->setText(QString("%L1/%L2").arg(completedCount).arg(sequenceCount));
         captureCountCell->tableWidget()->resizeColumnToContents(captureCountCell->column());
     }
 
     if (scoreCell && scoreCell->tableWidget())
     {
         if (0 <= score)
-            scoreCell->setText(QString("%1").arg(score));
+            scoreCell->setText(QString("%L1").arg(score));
         else
             /* FIXME: negative scores are just weird for the end-user */
             scoreCell->setText(QString("<0"));
