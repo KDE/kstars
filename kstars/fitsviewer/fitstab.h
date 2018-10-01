@@ -42,7 +42,7 @@ class FITSTab : public QWidget
     explicit FITSTab(FITSViewer *parent);
     virtual ~FITSTab();
 
-    bool loadFITS(const QUrl *imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE, bool silent = true);
+    void loadFITS(const QUrl *imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE, bool silent = true);
     int saveFITS(const QString &filename);
 
     inline QUndoStack *getUndoStack() { return undoStack; }
@@ -102,4 +102,6 @@ class FITSTab : public QWidget
     void debayerToggled(bool);
     void newStatus(const QString &msg, FITSBar id);
     void changeStatus(bool clean);
+    void loaded();
+    void failed();
 };

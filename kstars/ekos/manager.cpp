@@ -235,7 +235,7 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     vlayout->addWidget(summaryPreview.get());
     previewWidget->setLayout(vlayout);
 
-    connect(summaryPreview.get(), &FITSView::imageLoaded, [&]()
+    connect(summaryPreview.get(), &FITSView::loaded, [&]()
     {
         // UUID binds the cloud & preview frames by a common key
         QString uuid = QUuid::createUuid().toString();

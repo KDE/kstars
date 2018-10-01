@@ -57,6 +57,8 @@ FITSView::FITSView(QWidget *parent, FITSMode fitsMode, FITSScale filterType) : Q
     connect(image_frame.get(), SIGNAL(markerSelected(int,int)), this, SLOT(processMarkerSelection(int,int)));
     connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(syncWCSState()));
 
+    connect(&fitsWatcher, &QFutureWatcher<bool>::finished, this, &FITSView::loadInFrame);
+
     image_frame->setMouseTracking(true);
     setCursorMode(
         selectCursor); //This is the default mode because the Focus and Align FitsViews should not be in dragMouse mode
@@ -152,10 +154,7 @@ void FITSView::resizeEvent(QResizeEvent *event)
     QScrollArea::resizeEvent(event);
 }
 
-/*void FITSView::setLoadWCSEnabled(bool value)
-{
-    loadWCSEnabled = value;
-}*/
+#if 0
 
 bool FITSView::loadFITS(const QString &inFilename, bool silent)
 {
@@ -280,53 +279,157 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
 
     return true;
 }
+#endif
+
+void FITSView::loadFITS(const QString &inFilename, bool silent)
+{
+    if (floatingToolBar != nullptr)
+    {
+        floatingToolBar->setVisible(true);
+    }
+
+    bool setBayerParams = false;
+
+    BayerParams param;
+    if ((imageData != nullptr) && imageData->hasDebayer())
+    {
+        setBayerParams = true;
+        imageData->getBayerParams(&param);
+    }
+
+    // In case loadWCS is still running for previous image data, let's wait until it's over
+    wcsWatcher.waitForFinished();
+
+    delete imageData;
+    imageData = nullptr;
+
+    filterStack.clear();
+    filterStack.push(FITS_NONE);
+    if (filter != FITS_NONE)
+        filterStack.push(filter);
+
+    imageData = new FITSData(mode);
+
+    if (setBayerParams)
+        imageData->setBayerParams(&param);
+
+    fitsWatcher.setFuture(imageData->loadFITS(inFilename, silent));
+}
+
+void FITSView::loadInFrame()
+{
+    // Check if the loading was OK
+    if (fitsWatcher.result() == false)
+    {
+        m_LastError = imageData->getLastError();
+        emit failed();
+        return;
+    }
+
+    // Notify if there is debayer data.
+    emit debayerToggled(imageData->hasDebayer());
+
+    // Set current width and height
+    currentWidth = imageData->width();
+    currentHeight = imageData->height();
+
+    image_width  = currentWidth;
+    image_height = currentHeight;
+
+    image_frame->setSize(image_width, image_height);
+
+    // Init the display image
+    initDisplayImage();
+
+    // Rescale to fits window on first load
+    if (firstLoad)
+    {
+        currentZoom = 100;
+
+        if (rescale(ZOOM_FIT_WINDOW) != 0)
+        {
+            m_LastError = i18n("Rescaling image failed.");
+            emit failed();
+            return;
+        }
+
+        firstLoad = false;
+    }
+    else
+    {
+        if (rescale(ZOOM_KEEP_LEVEL) != 0)
+        {
+            m_LastError = i18n("Rescaling image failed.");
+            emit failed();
+            return;
+        }
+    }
+
+    setAlignment(Qt::AlignCenter);
+
+    // Load WCS data now if selected and image contains valid WCS header
+    if (imageData->hasWCS() && Options::autoWCS() && (mode == FITS_NORMAL || mode == FITS_ALIGN) && !wcsWatcher.isRunning())
+    {
+        QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
+        wcsWatcher.setFuture(future);
+    }
+    else
+        syncWCSState();
+
+    if (isVisible())
+        emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
+
+    if (showStarProfile)
+    {
+        if(floatingToolBar != nullptr)
+            toggleProfileAction->setChecked(true);
+        //Need to wait till the Focus module finds stars, if its the Focus module.
+        QTimer::singleShot(100 , this , SLOT(viewStarProfile()));
+    }
+
+    updateFrame();
+
+    emit loaded();
+}
 
 int FITSView::saveFITS(const QString &newFilename)
 {
     return imageData->saveFITS(newFilename);
 }
 
-int FITSView::rescale(FITSZoom type)
+bool FITSView::rescale(FITSZoom type)
 {
     switch (imageData->property("dataType").toInt())
     {
         case TBYTE:
             return rescale<uint8_t>(type);
-            break;
 
         case TSHORT:
             return rescale<int16_t>(type);
-            break;
 
         case TUSHORT:
             return rescale<uint16_t>(type);
-            break;
 
         case TLONG:
             return rescale<int32_t>(type);
-            break;
 
         case TULONG:
             return rescale<uint32_t>(type);
-            break;
 
         case TFLOAT:
-            return rescale<float>(type);
-            break;
+            return rescale<float>(type);            
 
         case TLONGLONG:
             return rescale<int64_t>(type);
-            break;
 
         case TDOUBLE:
             return rescale<double>(type);
-            break;
 
         default:
             break;
     }
 
-    return 0;
+    return false;
 }
 
 FITSView::CursorMode FITSView::getCursorMode()
@@ -369,13 +472,13 @@ void FITSView::leaveEvent(QEvent *event)
 }
 
 template <typename T>
-int FITSView::rescale(FITSZoom type)
+bool FITSView::rescale(FITSZoom type)
 {    
     double min, max;
     bool displayBuffer = false;
 
     if (displayImage == nullptr)
-        return -1;
+        return false;
 
     uint8_t *image_buffer = imageData->getImageBuffer();
 
@@ -574,7 +677,7 @@ int FITSView::rescale(FITSZoom type)
     if (type != ZOOM_KEEP_LEVEL)
         emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 
-    return 0;
+    return true;
 }
 
 void FITSView::ZoomIn()
