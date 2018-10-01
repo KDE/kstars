@@ -2699,13 +2699,13 @@ void Focus::showFITSViewer()
                 KStars::Instance()->getFITSViewersList().append(fv.data());
             }
 
-            fv->addFITS(&url);
+            fv->addFITS(url);
             FITSView *currentView = fv->getCurrentView();
             if (currentView)
                 currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
         }
         else
-            fv->updateFITS(&url, 0);
+            fv->updateFITS(url, 0);
 
         fv->show();
     }

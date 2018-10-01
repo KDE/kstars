@@ -60,19 +60,19 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     }
 #endif
 
-    fitsTab   = new QTabWidget(this);
+    fitsTabWidget   = new QTabWidget(this);
     undoGroup = new QUndoGroup(this);
 
     lastURL = QUrl(QDir::homePath());
 
-    fitsTab->setTabsClosable(true);
+    fitsTabWidget->setTabsClosable(true);
 
     setWindowIcon(QIcon::fromTheme("kstars_fitsviewer"));
 
-    setCentralWidget(fitsTab);
+    setCentralWidget(fitsTabWidget);
 
-    connect(fitsTab, SIGNAL(currentChanged(int)), this, SLOT(tabFocusUpdated(int)));
-    connect(fitsTab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+    connect(fitsTabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabFocusUpdated(int)));
+    connect(fitsTabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 
 //These two connections will enable or disable the scope button if a scope is available or not.
 //Of course this is also dependent on the presence of WCS data in the image.
@@ -271,7 +271,7 @@ FITSViewer::~FITSViewer()
     if (KStars::Instance())
         KStars::Instance()->getFITSViewersList().removeOne(this);
 
-    fitsTab->disconnect();
+    fitsTabWidget->disconnect();
 
     qDeleteAll(fitsTabs);
     fitsTabs.clear();
@@ -321,7 +321,7 @@ void FITSViewer::showEvent(QShowEvent * /*event*/)
     }
 }
 
-void FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
+void FITSViewer::addFITS(const QUrl &imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
 {
     led.setColor(Qt::yellow);
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -340,8 +340,8 @@ void FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter,
         emit failed();
     });
 
-    connect(tab, &FITSTab::loaded, [&]() {
-        lastURL = QUrl(imageName->url(QUrl::RemoveFilename));
+    connect(tab, &FITSTab::loaded, [=]() {
+        lastURL = QUrl(imageName.url(QUrl::RemoveFilename));
 
         QApplication::restoreOverrideCursor();
         tab->setPreviewText(previewText);
@@ -349,7 +349,7 @@ void FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter,
         // Connect tab signals
         connect(tab, &FITSTab::newStatus, this, &FITSViewer::updateStatusBar);
         connect(tab, &FITSTab::changeStatus, this, &FITSViewer::updateTabStatus);
-        connect(tab, &FITSTab::debayerToggled, this, &FITSViewer::setDebayerAction);
+        connect(tab, &FITSTab::debayerToggled, this, &FITSViewer::setDebayerAction);        
         // Connect tab view signals
         connect(tab->getView(), &FITSView::actionUpdated, this, &FITSViewer::updateAction);
         connect(tab->getView(), &FITSView::wcsToggled, this, &FITSViewer::updateWCSFunctions);
@@ -357,25 +357,25 @@ void FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter,
         switch (mode)
         {
             case FITS_NORMAL:
-                fitsTab->addTab(tab, previewText.isEmpty() ? imageName->fileName() : previewText);
+                fitsTabWidget->addTab(tab, previewText.isEmpty() ? imageName.fileName() : previewText);
                 break;
 
             case FITS_CALIBRATE:
-                fitsTab->addTab(tab, i18n("Calibrate"));
+                fitsTabWidget->addTab(tab, i18n("Calibrate"));
                 break;
 
             case FITS_FOCUS:
-                fitsTab->addTab(tab, i18n("Focus"));
+                fitsTabWidget->addTab(tab, i18n("Focus"));
                 break;
 
             case FITS_GUIDE:
-                fitsTab->addTab(tab, i18n("Guide"));
+                fitsTabWidget->addTab(tab, i18n("Guide"));
                 break;
 
             case FITS_ALIGN:
-                fitsTab->addTab(tab, i18n("Align"));
+                fitsTabWidget->addTab(tab, i18n("Align"));
                 break;
-        }
+        }        
 
         saveFileAction->setEnabled(true);
         saveFileAsAction->setEnabled(true);
@@ -386,7 +386,7 @@ void FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter,
 
         fitsMap[fitsID] = tab;
 
-        fitsTab->setCurrentWidget(tab);
+        fitsTabWidget->setCurrentWidget(tab);
 
         actionCollection()->action("fits_debayer")->setEnabled(tab->getView()->getImageData()->hasDebayer());
 
@@ -398,7 +398,8 @@ void FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter,
 
         updateStatusBar(i18n("Ready."), FITS_MESSAGE);
 
-        updateWCSFunctions();
+        //updateWCSFunctions();
+
         tab->getView()->setCursorMode(FITSView::dragCursor);
 
         emit loaded(fitsID++);
@@ -428,7 +429,7 @@ bool FITSViewer::removeFITS(int fitsUID)
     return false;
 }
 
-void FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter, bool silent)
+void FITSViewer::updateFITS(const QUrl &imageName, int fitsUID, FITSScale filter, bool silent)
 {
     FITSTab *tab = fitsMap.value(fitsUID);
 
@@ -443,17 +444,18 @@ void FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
         led.setColor(Qt::yellow);
 
     // On tab load success
-    QMetaObject::Connection m_Loaded = connect(tab, &FITSTab::loaded, [&]() {
+    tab
+    connect(tab, &FITSTab::loaded, this, [=]() {
 
-        int tabIndex = fitsTab->indexOf(tab);
+        int tabIndex = fitsTabWidget->indexOf(tab);
         if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
         {
-            if ((imageName->path().startsWith(QLatin1String("/tmp")) || imageName->path().contains("/Temp")) &&
+            if ((imageName.path().startsWith(QLatin1String("/tmp")) || imageName.path().contains("/Temp")) &&
                 Options::singlePreviewFITS())
-                fitsTab->setTabText(tabIndex,
+                fitsTabWidget->setTabText(tabIndex,
                                     tab->getPreviewText().isEmpty() ? i18n("Preview") : tab->getPreviewText());
             else
-                fitsTab->setTabText(tabIndex, imageName->fileName());
+                fitsTabWidget->setTabText(tabIndex, imageName.fileName());
         }
 
         tab->getUndoStack()->clear();
@@ -467,7 +469,7 @@ void FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
         });
 
     // On Tab load failure
-    QMetaObject::Connection m_Failed = connect(tab, &FITSTab::failed, [&]() {
+    QMetaObject::Connection m_Failed = connect(tab, &FITSTab::failed, [=]() {
         if (tab->isVisible())
             led.setColor(Qt::red);
 
@@ -540,17 +542,17 @@ void FITSViewer::openFile()
         cpath = tab->getCurrentURL()->path();
         if (fpath == cpath)
         {
-            fitsTab->setCurrentWidget(tab);
+            fitsTabWidget->setCurrentWidget(tab);
             return;
         }
     }
 
-    addFITS(&fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
+    addFITS(fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
 }
 
 void FITSViewer::saveFile()
 {
-    fitsTabs[fitsTab->currentIndex()]->saveFile();
+    fitsTabs[fitsTabWidget->currentIndex()]->saveFile();
 }
 
 void FITSViewer::saveFileAs()
@@ -558,9 +560,9 @@ void FITSViewer::saveFileAs()
     if (fitsTabs.empty())
         return;
 
-    if (fitsTabs[fitsTab->currentIndex()]->saveFileAs() &&
-        fitsTabs[fitsTab->currentIndex()]->getView()->getMode() == FITS_NORMAL)
-        fitsTab->setTabText(fitsTab->currentIndex(), fitsTabs[fitsTab->currentIndex()]->getCurrentURL()->fileName());
+    if (fitsTabs[fitsTabWidget->currentIndex()]->saveFileAs() &&
+        fitsTabs[fitsTabWidget->currentIndex()]->getView()->getMode() == FITS_NORMAL)
+        fitsTabWidget->setTabText(fitsTabWidget->currentIndex(), fitsTabs[fitsTabWidget->currentIndex()]->getCurrentURL()->fileName());
 }
 
 void FITSViewer::copyFITS()
@@ -568,7 +570,7 @@ void FITSViewer::copyFITS()
     if (fitsTabs.empty())
         return;
 
-    fitsTabs[fitsTab->currentIndex()]->copyFITS();
+    fitsTabs[fitsTabWidget->currentIndex()]->copyFITS();
 }
 
 void FITSViewer::histoFITS()
@@ -576,7 +578,7 @@ void FITSViewer::histoFITS()
     if (fitsTabs.empty())
         return;
 
-    fitsTabs[fitsTab->currentIndex()]->histoFITS();
+    fitsTabs[fitsTabWidget->currentIndex()]->histoFITS();
 }
 
 void FITSViewer::statFITS()
@@ -584,7 +586,7 @@ void FITSViewer::statFITS()
     if (fitsTabs.empty())
         return;
 
-    fitsTabs[fitsTab->currentIndex()]->statFITS();
+    fitsTabs[fitsTabWidget->currentIndex()]->statFITS();
 }
 
 void FITSViewer::stretchFITS()
@@ -617,7 +619,7 @@ void FITSViewer::headerFITS()
     if (fitsTabs.empty())
         return;
 
-    fitsTabs[fitsTab->currentIndex()]->headerFITS();
+    fitsTabs[fitsTabWidget->currentIndex()]->headerFITS();
 }
 
 void FITSViewer::debayerFITS()
@@ -673,7 +675,7 @@ void FITSViewer::ZoomIn()
     if (fitsTabs.empty())
         return;
 
-    fitsTabs[fitsTab->currentIndex()]->ZoomIn();
+    fitsTabs[fitsTabWidget->currentIndex()]->ZoomIn();
 }
 
 void FITSViewer::ZoomOut()
@@ -681,7 +683,7 @@ void FITSViewer::ZoomOut()
     if (fitsTabs.empty())
         return;
 
-    fitsTabs[fitsTab->currentIndex()]->ZoomOut();
+    fitsTabs[fitsTabWidget->currentIndex()]->ZoomOut();
 }
 
 void FITSViewer::ZoomDefault()
@@ -689,7 +691,7 @@ void FITSViewer::ZoomDefault()
     if (fitsTabs.empty())
         return;
 
-    fitsTabs[fitsTab->currentIndex()]->ZoomDefault();
+    fitsTabs[fitsTabWidget->currentIndex()]->ZoomDefault();
 }
 
 void FITSViewer::ZoomToFit()
@@ -710,17 +712,17 @@ void FITSViewer::updateAction(const QString &name, bool enable)
 
 void FITSViewer::updateTabStatus(bool clean)
 {
-    if (fitsTabs.empty() || (fitsTab->currentIndex() >= fitsTabs.size()))
+    if (fitsTabs.empty() || (fitsTabWidget->currentIndex() >= fitsTabs.size()))
         return;
 
-    if (fitsTabs[fitsTab->currentIndex()]->getView()->getMode() != FITS_NORMAL)
+    if (fitsTabs[fitsTabWidget->currentIndex()]->getView()->getMode() != FITS_NORMAL)
         return;
 
     //QString tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
 
-    QString tabText = fitsTab->tabText(fitsTab->currentIndex());
+    QString tabText = fitsTabWidget->tabText(fitsTabWidget->currentIndex());
 
-    fitsTab->setTabText(fitsTab->currentIndex(), clean ? tabText.remove('*') : tabText + '*');
+    fitsTabWidget->setTabText(fitsTabWidget->currentIndex(), clean ? tabText.remove('*') : tabText + '*');
 }
 
 void FITSViewer::closeTab(int index)
@@ -902,9 +904,9 @@ void FITSViewer::applyFilter(int ftype)
     QApplication::setOverrideCursor(Qt::WaitCursor);
     updateStatusBar(i18n("Processing %1...", filterTypes[ftype - 1]), FITS_MESSAGE);
     qApp->processEvents();
-    fitsTabs[fitsTab->currentIndex()]->getHistogram()->applyFilter((FITSScale)ftype);
+    fitsTabs[fitsTabWidget->currentIndex()]->getHistogram()->applyFilter(static_cast<FITSScale>(ftype));
     qApp->processEvents();
-    fitsTabs[fitsTab->currentIndex()]->getView()->updateFrame();
+    fitsTabs[fitsTabWidget->currentIndex()]->getView()->updateFrame();
     QApplication::restoreOverrideCursor();
     updateStatusBar(i18n("Ready."), FITS_MESSAGE);
 }
@@ -921,10 +923,10 @@ FITSView *FITSViewer::getView(int fitsUID)
 
 FITSView *FITSViewer::getCurrentView()
 {
-    if (fitsTabs.empty() || fitsTab->currentIndex() >= fitsTabs.count())
+    if (fitsTabs.empty() || fitsTabWidget->currentIndex() >= fitsTabs.count())
         return nullptr;
 
-    return fitsTabs[fitsTab->currentIndex()]->getView();
+    return fitsTabs[fitsTabWidget->currentIndex()]->getView();
 }
 
 void FITSViewer::setDebayerAction(bool enable)

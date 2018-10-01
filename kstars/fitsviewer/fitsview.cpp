@@ -81,7 +81,8 @@ FITSView::FITSView(QWidget *parent, FITSMode fitsMode, FITSScale filterType) : Q
 
 FITSView::~FITSView()
 {
-    wcsWatcher.waitForFinished();
+    fitsWatcher.waitForFinished();
+    wcsWatcher.waitForFinished();    
 
     delete (imageData);
     delete (displayImage);
@@ -346,7 +347,7 @@ void FITSView::loadInFrame()
     {
         currentZoom = 100;
 
-        if (rescale(ZOOM_FIT_WINDOW) != 0)
+        if (rescale(ZOOM_FIT_WINDOW) == false)
         {
             m_LastError = i18n("Rescaling image failed.");
             emit failed();
@@ -357,7 +358,7 @@ void FITSView::loadInFrame()
     }
     else
     {
-        if (rescale(ZOOM_KEEP_LEVEL) != 0)
+        if (rescale(ZOOM_KEEP_LEVEL) == false)
         {
             m_LastError = i18n("Rescaling image failed.");
             emit failed();
