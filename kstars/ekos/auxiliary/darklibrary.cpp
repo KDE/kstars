@@ -178,35 +178,27 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
     {
         case TBYTE:
             return subtract<uint8_t>(darkData, lightImage, filter, offsetX, offsetY);
-            break;
 
         case TSHORT:
             return subtract<int16_t>(darkData, lightImage, filter, offsetX, offsetY);
-            break;
 
         case TUSHORT:
             return subtract<uint16_t>(darkData, lightImage, filter, offsetX, offsetY);
-            break;
 
         case TLONG:
             return subtract<int32_t>(darkData, lightImage, filter, offsetX, offsetY);
-            break;
 
         case TULONG:
             return subtract<uint32_t>(darkData, lightImage, filter, offsetX, offsetY);
-            break;
 
         case TFLOAT:
             return subtract<float>(darkData, lightImage, filter, offsetX, offsetY);
-            break;
 
         case TLONGLONG:
             return subtract<int64_t>(darkData, lightImage, filter, offsetX, offsetY);
-            break;
 
         case TDOUBLE:
-            return subtract<double>(darkData, lightImage, filter, offsetX, offsetY);
-            break;
+            return subtract<double>(darkData, lightImage, filter, offsetX, offsetY);            
 
         default:
             break;
