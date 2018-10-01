@@ -788,14 +788,16 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
 
    //This loads the FITS file in the Guide FITSView
    //Then it updates the Summary Screen
-   bool imageLoaded = guideFrame->loadFITS(filename, true);
-   if (imageLoaded)
-   {
+   QMetaObject::Connection m_Loaded = connect(guideFrame, &FITSView::loaded, [&]() {
        guideFrame->getImageData()->setAutoRemoveTemporaryFITS(false); // we'll take care of deleting the temp file
        guideFrame->updateFrame();
        guideFrame->setTrackingBox(QRect(0,0,width,height));
        emit newStarPixmap(guideFrame->getTrackingBoxPixmap());
-   }
+
+       QObject::disconnect(m_Loaded);
+   });
+
+   guideFrame->loadFITS(filename, true);
 }
 
 void PHD2::setEquipmentConnected()

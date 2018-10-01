@@ -1180,14 +1180,18 @@ void KStars::slotOpenFITS()
     path.setUrl(fileURL.url(QUrl::RemoveFilename));
 
     FITSViewer *fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
-    // Error opening file
-    if (fv->addFITS(&fileURL, FITS_NORMAL, FITS_NONE, QString(), false) == -2)
-        delete (fv);
-    else
-    {
+
+    connect(fv, &FITSViewer::failed, [&]() {
+       if (fv->empty())
+           delete(fv);
+    });
+
+    connect(fv, &FITSViewer::loaded, [&]() {
         m_FITSViewers.append(fv);
         fv->show();
-    }
+    });
+
+    fv->addFITS(&fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
 #endif
 }
 
@@ -1704,7 +1708,7 @@ void KStars::slotEyepieceView(SkyPoint *sp, const QString &imagePath)
         {
             nameToFovMap.insert(f->name(), f);
         }
-        nameToFovMap.insert(i18n("Attempt to determine from image"), 0);
+        nameToFovMap.insert(i18n("Attempt to determine from image"), nullptr);
         fov = nameToFovMap[QInputDialog::getItem(this, i18n("Eyepiece View: Choose a field-of-view"),
                                                  i18n("FOV to render eyepiece view for:"), nameToFovMap.uniqueKeys(), 0,
                                                  false, &ok)];

@@ -181,9 +181,10 @@
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="openFITS">
-      <arg type="b" direction="out"/>
-      <arg name="imageURL" type="s" direction="in"/>
+      <arg name="imageURL" type="(i)" direction="in"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QUrl"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
   </interface>
 </node>

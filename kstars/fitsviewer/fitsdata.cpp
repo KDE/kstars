@@ -63,10 +63,8 @@ bool greaterThan(Edge *s1, Edge *s2)
     return s1->sum > s2->sum;
 }
 
-FITSData::FITSData(FITSMode fitsMode)
+FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
 {
-    m_Mode          = fitsMode;
-
     debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
     debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
     debayerParams.offsetX = debayerParams.offsetY = 0;
@@ -1011,38 +1009,30 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     {
     case TBYTE:
         return FITSData::findCannyStar<uint8_t>(data, boundary);
-        break;
 
     case TSHORT:
         return FITSData::findCannyStar<int16_t>(data, boundary);
-        break;
 
     case TUSHORT:
         return FITSData::findCannyStar<uint16_t>(data, boundary);
-        break;
 
     case TLONG:
         return FITSData::findCannyStar<int32_t>(data, boundary);
-        break;
 
     case TULONG:
         return FITSData::findCannyStar<uint16_t>(data, boundary);
-        break;
 
     case TFLOAT:
         return FITSData::findCannyStar<float>(data, boundary);
-        break;
 
     case TLONGLONG:
         return FITSData::findCannyStar<int64_t>(data, boundary);
-        break;
 
     case TDOUBLE:
         return FITSData::findCannyStar<double>(data, boundary);
-        break;
 
     default:
-        return 0;
+        break;
     }
 
     return 0;
@@ -1518,35 +1508,27 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
     {
     case TBYTE:
         return findCentroid<uint8_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TSHORT:
         return findCentroid<int16_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TUSHORT:
         return findCentroid<uint16_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TLONG:
         return findCentroid<int32_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TULONG:
         return findCentroid<uint32_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TFLOAT:
         return findCentroid<float>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TLONGLONG:
         return findCentroid<int64_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TDOUBLE:
         return findCentroid<double>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     default:
         return -1;

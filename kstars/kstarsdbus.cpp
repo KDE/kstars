@@ -965,13 +965,7 @@ void KStars::printImage(bool usePrintDialog, bool useChartColors)
     }
 }
 
-bool KStars::openFITS(const QString &imageURL)
-{
-    QUrl url(imageURL);
-    return openFITS(url);
-}
-
-bool KStars::openFITS(const QUrl &imageURL)
+void KStars::openFITS(const QUrl &imageURL)
 {
 #ifndef HAVE_CFITSIO
     qWarning() << "KStars does not support loading FITS. Please recompile KStars with FITS support.";
@@ -985,16 +979,19 @@ bool KStars::openFITS(const QUrl &imageURL)
         fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
         KStars::Instance()->getFITSViewersList().append(fv);
     }
-    // Error opening file
-    if (fv->addFITS(&imageURL) == -2)
-    {
-        delete (fv);
-        return false;
-    }
-    else
-    {
+
+    QMetaObject::Connection m_Loaded = connect(fv, &FITSViewer::loaded, [&]() {
         fv->show();
-        return true;
-    }
+
+        QObject::disconnect(m_Loaded);
+    });
+
+    QMetaObject::Connection m_Failed = connect(fv, &FITSViewer::failed, [&]() {
+        delete (fv);
+
+        QObject::disconnect(m_Failed);
+    });
+
+    fv->addFITS(&imageURL);
 #endif
 }

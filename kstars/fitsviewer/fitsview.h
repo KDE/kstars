@@ -57,12 +57,18 @@ class FITSView : public QScrollArea
 
     typedef enum {dragCursor, selectCursor, scopeCursor, crosshairCursor } CursorMode;
 
-    // Loads FITS image, scales it, and displays it in the GUI
-    bool loadFITS(const QString &inFilename, bool silent = true);
+    /**
+     * @brief loadFITS Loads FITS data and display it in FITSView frame
+     * @param inFilename FITS File name
+     * @param silent if set, error popups are suppressed.
+     * @note If image is successfully, loaded() signal is emitted, otherwise failed() signal is emitted.
+     * Obtain error by calling lastError()
+     */
+    void loadFITS(const QString &inFilename, bool silent = true);
     // Save FITS
     int saveFITS(const QString &newFilename);
     // Rescale image lineary from image_buffer, fit to window if desired
-    int rescale(FITSZoom type);
+    bool rescale(FITSZoom type);
 
     // Access functions
     FITSData *getImageData() { return imageData; }
@@ -76,6 +82,9 @@ class FITSView : public QScrollArea
     QPixmap &getTrackingBoxPixmap(uint8_t margin=0);
     void setTrackingBox(const QRect &rect);
     const QRect &getTrackingBox() { return trackingBox; }
+
+    // last error
+    const QString &lastError() const { return m_LastError; }
 
     // Overlay
     virtual void drawOverlay(QPainter *);
@@ -165,8 +174,7 @@ class FITSView : public QScrollArea
     /**
          * @brief syncWCSState Update toolbar and actions depending on whether WCS is available or not
          */
-    void syncWCSState();
-    //void handleWCSCompletion();
+    void syncWCSState();    
 
 private:
     bool event(QEvent *event);
@@ -174,7 +182,7 @@ private:
     void pinchTriggered(QPinchGesture *gesture);
 
     template <typename T>
-    int rescale(FITSZoom type);
+    bool rescale(FITSZoom type);
 
     double average();
     double stddev();
@@ -184,6 +192,8 @@ private:
     QPointF getPointForGridLabel();
     bool pointIsInImage(QPointF pt, bool scaled);
 
+    void loadInFrame();
+
 public:
     CursorMode lastMouseMode { selectCursor };
     bool isStarProfileShown() { return showStarProfile; }
@@ -191,6 +201,8 @@ public:
 protected:
     /// WCS Future Watcher
     QFutureWatcher<bool> wcsWatcher;
+    /// FITS Future Watcher
+    QFutureWatcher<bool> fitsWatcher;
     /// Cross hair
     QPointF markerCrosshair;
     /// Pointer to FITSData object
@@ -239,6 +251,7 @@ private:
     QString filename;
     FITSMode mode;
     FITSScale filter;
+    QString m_LastError;
 
     QStack<FITSScale> filterStack;
 
@@ -271,7 +284,8 @@ private:
     void wcsToggled(bool);
     void actionUpdated(const QString &name, bool enable);
     void trackingStarSelected(int x, int y);
-    void imageLoaded();
+    void loaded();
+    void failed();
 
     friend class FITSLabel;
 };
