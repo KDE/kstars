@@ -323,12 +323,12 @@ void Scheduler::addObject(SkyObject *object)
             StarObject *s = dynamic_cast<StarObject *>(object);
 
             if (s->getHDIndex() != 0)
-                finalObjectName = QString("HD %1").arg(QString::number(s->getHDIndex()));
+                finalObjectName = QString("HD %1").arg(s->getHDIndex());
         }
 
         nameEdit->setText(finalObjectName);
-        raBox->setText(object->ra0().toHMSString(false, true));
-        decBox->setText(object->dec0().toDMSString(false, false, true));
+        raBox->showInHours(object->ra0());
+        decBox->showInDegrees(object->dec0());
 
         addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
         mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
@@ -719,8 +719,8 @@ void Scheduler::loadJob(QModelIndex i)
 
     prioritySpin->setValue(job->getPriority());
 
-    raBox->setText(job->getTargetCoords().ra0().toHMSString());
-    decBox->setText(job->getTargetCoords().dec0().toDMSString());
+    raBox->showInHours(job->getTargetCoords().ra0());
+    decBox->showInDegrees(job->getTargetCoords().dec0());
 
     if (job->getFITSFile().isEmpty() == false)
     {
@@ -1801,7 +1801,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
             {
                 appendLogText(i18n("Warning: job '%1' reaches an altitude of %2 degrees at %3 but will not be scheduled due to "
                             "close proximity to astronomical twilight rise.",
-                            job->getName(), QString::number(minAltitude, 'g', 3), startTime.toString(job->getDateTimeDisplayFormat())));
+                            job->getName(), QString("%L1").arg(minAltitude, 0, 'f', 3), startTime.toString(job->getDateTimeDisplayFormat())));
                 return false;
             }
 
@@ -1813,7 +1813,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
             job->setStartupTime(startTime);
             /* Kept the informative log because of the reschedule of aborted jobs */
             appendLogText(i18n("Job '%1' is scheduled to start at %2 where its altitude is %3 degrees.", job->getName(),
-                        startTime.toString(job->getDateTimeDisplayFormat()), QString::number(altitude, 'g', 3)));
+                        startTime.toString(job->getDateTimeDisplayFormat()), QString("%L1").arg(altitude, 0, 'f', 3)));
             return true;
         }
     }
@@ -1824,15 +1824,15 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
         if (job->getEnforceTwilight())
         {
             appendLogText(i18n("Warning: job '%1' has no night time with an altitude above %2 degrees during the next 24 hours, marking invalid.",
-                               job->getName(), QString::number(minAltitude, 'g', 3)));
+                               job->getName(), QString("%L1").arg(minAltitude, 0, 'f', 3)));
         }
         else appendLogText(i18n("Warning: job '%1' cannot rise to an altitude above %2 degrees in the next 24 hours, marking invalid.",
-                                job->getName(), QString::number(minAltitude, 'g', 3)));
+                                job->getName(), QString("%L1").arg(minAltitude, 0, 'f', 3)));
     }
     else appendLogText(i18n("Warning: job '%1' cannot be scheduled with an altitude above %2 degrees with minimum moon "
                             "separation of %3 degrees in the next 24 hours, marking invalid.",
-                            job->getName(), QString::number(minAltitude, 'g', 3),
-                            QString::number(minMoonAngle, 'g', 3)));
+                            job->getName(), QString("%L1").arg(minAltitude, 0, 'f', 3),
+                            QString("%L1").arg(minMoonAngle, 0, 'f', 3)));
     return false;
 }
 
@@ -2003,7 +2003,7 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, QDateTime when)
 
     /* Kept the informative log now that scores are displayed */
     appendLogText(i18n("Job '%1' target altitude is %3 degrees at %2 (score %4).", job->getName(), when.toString(job->getDateTimeDisplayFormat()),
-                       QString::number(currentAlt, 'g', 3), QString::asprintf("%+d", score)));
+                       QString("%L1").arg(currentAlt, 0, 'f', 3), QString::asprintf("%+d", score)));
 
     return score;
 }
@@ -3761,6 +3761,9 @@ bool Scheduler::processJobInfo(XMLEle *root)
     minAltitude->setValue(minAltitude->minimum());
     minMoonSeparation->setValue(minMoonSeparation->minimum());
 
+    // We expect all data read from the XML to be in the C locale - QLocale::c()
+    QLocale cLocale = QLocale::c();
+
     for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
     {
         if (!strcmp(tagXMLEle(ep), "Name"))
@@ -3773,14 +3776,14 @@ bool Scheduler::processJobInfo(XMLEle *root)
             if (subEP)
             {
                 dms ra;
-                ra.setH(atof(pcdataXMLEle(subEP)));
+                ra.setH(cLocale.toDouble(pcdataXMLEle(subEP)));
                 raBox->showInHours(ra);
             }
             subEP = findXMLEle(ep, "J2000DE");
             if (subEP)
             {
                 dms de;
-                de.setD(atof(pcdataXMLEle(subEP)));
+                de.setD(cLocale.toDouble(pcdataXMLEle(subEP)));
                 decBox->showInDegrees(de);
             }
         }
@@ -3803,7 +3806,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
                 else if (!strcmp("Culmination", pcdataXMLEle(subEP)))
                 {
                     culminationConditionR->setChecked(true);
-                    culminationOffset->setValue(atof(findXMLAttValu(subEP, "value")));
+                    culminationOffset->setValue(cLocale.toDouble(findXMLAttValu(subEP, "value")));
                 }
                 else if (!strcmp("At", pcdataXMLEle(subEP)))
                 {
@@ -3819,12 +3822,12 @@ bool Scheduler::processJobInfo(XMLEle *root)
                 if (!strcmp("MinimumAltitude", pcdataXMLEle(subEP)))
                 {
                     altConstraintCheck->setChecked(true);
-                    minAltitude->setValue(atof(findXMLAttValu(subEP, "value")));
+                    minAltitude->setValue(cLocale.toDouble(findXMLAttValu(subEP, "value")));
                 }
                 else if (!strcmp("MoonSeparation", pcdataXMLEle(subEP)))
                 {
                     moonSeparationCheck->setChecked(true);
-                    minMoonSeparation->setValue(atof(findXMLAttValu(subEP, "value")));
+                    minMoonSeparation->setValue(cLocale.toDouble(findXMLAttValu(subEP, "value")));
                 }
                 else if (!strcmp("EnforceWeather", pcdataXMLEle(subEP)))
                     weatherCheck->setChecked(true);
@@ -3841,7 +3844,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
                 else if (!strcmp("Repeat", pcdataXMLEle(subEP)))
                 {
                     repeatCompletionR->setChecked(true);
-                    repeatsSpin->setValue(atoi(findXMLAttValu(subEP, "value")));
+                    repeatsSpin->setValue(cLocale.toInt(findXMLAttValu(subEP, "value")));
                 }
                 else if (!strcmp("Loop", pcdataXMLEle(subEP)))
                     loopCompletionR->setChecked(true);
@@ -3947,6 +3950,9 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
     QTextStream outstream(&file);
 
+    // We serialize sequence data to XML using the C locale
+    QLocale cLocale = QLocale::c();
+
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
     outstream << "<SchedulerList version='1.4'>" << endl;
     outstream << "<Profile>" << schedulerProfileCombo->currentText() << "</Profile>" << endl;
@@ -3958,8 +3964,8 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         outstream << "<Name>" << job->getName() << "</Name>" << endl;
         outstream << "<Priority>" << job->getPriority() << "</Priority>" << endl;
         outstream << "<Coordinates>" << endl;
-        outstream << "<J2000RA>" << job->getTargetCoords().ra0().Hours() << "</J2000RA>" << endl;
-        outstream << "<J2000DE>" << job->getTargetCoords().dec0().Degrees() << "</J2000DE>" << endl;
+        outstream << "<J2000RA>" << cLocale.toString(job->getTargetCoords().ra0().Hours()) << "</J2000RA>" << endl;
+        outstream << "<J2000DE>" << cLocale.toString(job->getTargetCoords().dec0().Degrees()) << "</J2000DE>" << endl;
         outstream << "</Coordinates>" << endl;
 
         if (job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
@@ -3971,7 +3977,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         if (job->getFileStartupCondition() == SchedulerJob::START_ASAP)
             outstream << "<Condition>ASAP</Condition>" << endl;
         else if (job->getFileStartupCondition() == SchedulerJob::START_CULMINATION)
-            outstream << "<Condition value='" << job->getCulminationOffset() << "'>Culmination</Condition>" << endl;
+            outstream << "<Condition value='" << cLocale.toString(job->getCulminationOffset()) << "'>Culmination</Condition>" << endl;
         else if (job->getFileStartupCondition() == SchedulerJob::START_AT)
             outstream << "<Condition value='" << job->getFileStartupTime().toString(Qt::ISODate) << "'>At</Condition>"
                       << endl;
@@ -3979,9 +3985,9 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
         outstream << "<Constraints>" << endl;
         if (job->getMinAltitude() > 0)
-            outstream << "<Constraint value='" << job->getMinAltitude() << "'>MinimumAltitude</Constraint>" << endl;
+            outstream << "<Constraint value='" << cLocale.toString(job->getMinAltitude()) << "'>MinimumAltitude</Constraint>" << endl;
         if (job->getMinMoonSeparation() > 0)
-            outstream << "<Constraint value='" << job->getMinMoonSeparation() << "'>MoonSeparation</Constraint>"
+            outstream << "<Constraint value='" << cLocale.toString(job->getMinMoonSeparation()) << "'>MoonSeparation</Constraint>"
                       << endl;
         if (job->getEnforceWeather())
             outstream << "<Constraint>EnforceWeather</Constraint>" << endl;
@@ -3993,7 +3999,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
             outstream << "<Condition>Sequence</Condition>" << endl;
         else if (job->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
-            outstream << "<Condition value='" << job->getRepeatsRequired() << "'>Repeat</Condition>" << endl;
+            outstream << "<Condition value='" << cLocale.toString(job->getRepeatsRequired()) << "'>Repeat</Condition>" << endl;
         else if (job->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
             outstream << "<Condition>Loop</Condition>" << endl;
         else if (job->getCompletionCondition() == SchedulerJob::FINISH_AT)
@@ -5594,8 +5600,8 @@ void Scheduler::startMosaicTool()
             sequenceEdit->setText(filename);
             sequenceURL = QUrl::fromLocalFile(filename);
 
-            raBox->setText(oneJob->skyCenter.ra0().toHMSString());
-            decBox->setText(oneJob->skyCenter.dec0().toDMSString());
+            raBox->showInHours(oneJob->skyCenter.ra0());
+            decBox->showInDegrees(oneJob->skyCenter.dec0());
 
             saveJob();
         }
