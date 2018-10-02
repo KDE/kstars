@@ -4,18 +4,23 @@ set (KStars_VERSION_MAJOR 3)
 set (KStars_VERSION_MINOR 0)
 set (KStars_VERSION_REVISION 0)
 set (CMAKE_CXX_STANDARD 11)
-#Build KStars Lite with -DKSTARS_LITE=ON
+# Build KStars Lite with -DBUILD_KSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
+# Fetch translations with -DFETCH_TRANSLATIONS=ON
+option(FETCH_TRANSLATIONS "Fetch Translations" OFF)
 # minimal requirements
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 
 string(TIMESTAMP KSTARS_BUILD_TS UTC)
 
+if (FETCH_TRANSLATIONS)
+SET(KDE_L10N_AUTO_TRANSLATIONS ON)
+SET(KDE_L10N_BRANCH "trunk")
+endif()
+
 if(BUILD_KSTARS_LITE)
     set (QT_MIN_VERSION "5.7.0") #QtQuickControls 2 is available only in the Qt 5.7.0
     # Download the translations if KStars Lite is built
-    SET(KDE_L10N_AUTO_TRANSLATIONS ON)
-    SET(KDE_L10N_BRANCH "trunk")
 else()
     set (QT_MIN_VERSION "5.4.0")
 endif()
