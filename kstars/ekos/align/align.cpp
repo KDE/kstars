@@ -4687,7 +4687,7 @@ void Align::showFITSViewer()
             else
             {
                 fv = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
-                KStars::Instance()->getFITSViewersList().append(fv);
+                KStars::Instance()->addFITSViewer(fv);
             }
 
             fv->addFITS(url);

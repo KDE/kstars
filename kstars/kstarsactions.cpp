@@ -307,7 +307,7 @@ void KStars::slotINDIToolBar()
 
         if (oneScope == nullptr)
         {
-            KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+            KMessageBox::sorry(nullptr, i18n("KStars did not find any active telescopes."));
             return;
         }
 
@@ -1182,7 +1182,7 @@ void KStars::slotOpenFITS()
     QPointer<FITSViewer> fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
 
     connect(fv, &FITSViewer::loaded, [&,fv]() {
-        m_FITSViewers.append(fv);
+        addFITSViewer(fv);
         fv->show();
     });
 

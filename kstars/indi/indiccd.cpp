@@ -1417,7 +1417,7 @@ void CCD::processBLOB(IBLOB *bp)
                 else
                 {
                     fv = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
-                    KStars::Instance()->getFITSViewersList().append(fv);
+                    KStars::Instance()->addFITSViewer(fv);
                 }
 
                 //connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));

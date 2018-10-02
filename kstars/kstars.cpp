@@ -626,7 +626,17 @@ QPointer<FITSViewer> KStars::genericFITSViewer()
 }
 #endif
 
+#ifdef HAVE_CFITSIO
+void KStars::addFITSViewer(QPointer<FITSViewer> fv)
+{
+    m_FITSViewers.append(fv);
+    connect(fv.data(), &FITSViewer::destroyed, [&,fv]() {
+        m_FITSViewers.removeOne(fv);
+    });
+}
+#endif
 #ifdef HAVE_INDI
+
 Ekos::Manager *KStars::ekosManager()
 {
     if (m_EkosManager.isNull())

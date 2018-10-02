@@ -145,7 +145,7 @@ class KStars : public KXmlGuiWindow
 
 #ifdef HAVE_CFITSIO
     QPointer<FITSViewer> genericFITSViewer();
-    QList<QPointer<FITSViewer>> &getFITSViewersList() { return m_FITSViewers; }
+    void addFITSViewer(QPointer<FITSViewer> fv);
 #endif
 
 #ifdef HAVE_INDI
