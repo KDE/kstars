@@ -306,6 +306,12 @@ class Focus : public QWidget, public Ui::Focus
     // Update Mount module status
     void setMountStatus(ISD::Telescope::Status newState);
 
+    /**
+     * @brief toggleVideo Turn on and off video streaming if supported by the camera.
+     * @param enabled Set to true to start video streaming, false to stop it if active.
+     */
+    void toggleVideo(bool enabled);
+
   private slots:
     /**
          * @brief toggleSubframe Process enabling and disabling subfrag.
@@ -333,6 +339,8 @@ class Focus : public QWidget, public Ui::Focus
     void showFITSViewer();
 
     void toggleFocusingWidgetFullScreen();
+
+    void setVideoStreamEnabled(bool enabled);
 
   signals:
     void newLog(const QString &text);

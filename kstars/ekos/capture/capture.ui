@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>625</width>
-    <height>536</height>
+    <height>547</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,2">
@@ -871,7 +871,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="checkmark"/>
+             <iconset theme="checkmark">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -902,7 +903,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="view-filter"/>
+             <iconset theme="view-filter">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1043,7 +1045,8 @@ font-weight:bold;
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="delete"/>
+             <iconset theme="delete">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1702,15 +1705,33 @@ font-weight:bold;
            </property>
            <property name="minimumSize">
             <size>
-             <width>0</width>
+             <width>32</width>
              <height>32</height>
             </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Live Video</string>
            </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>Live Video</string>
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset theme="camera-off"/>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
            </property>
            <property name="checkable">
             <bool>true</bool>
