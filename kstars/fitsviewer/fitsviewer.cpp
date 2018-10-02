@@ -268,8 +268,17 @@ void FITSViewer::changeAlwaysOnTop(Qt::ApplicationState state)
 
 FITSViewer::~FITSViewer()
 {
-    if (KStars::Instance())
-        KStars::Instance()->getFITSViewersList().removeOne(this);
+//    if (KStars::Instance())
+//    {
+//        for (QPointer<FITSViewer> fv : KStars::Instance()->getFITSViewersList())
+//        {
+//            if (fv.data() == this)
+//            {
+//                KStars::Instance()->getFITSViewersList().removeOne(this);
+//                break;
+//            }
+//        }
+//    }
 
     fitsTabWidget->disconnect();
 

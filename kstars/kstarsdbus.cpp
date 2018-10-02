@@ -977,7 +977,7 @@ void KStars::openFITS(const QUrl &imageURL)
     else
     {
         fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
-        KStars::Instance()->getFITSViewersList().append(fv);
+        KStars::Instance()->addFITSViewer(fv);
     }
 
     auto m_Loaded = std::make_shared<QMetaObject::Connection>();

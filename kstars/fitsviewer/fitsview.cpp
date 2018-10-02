@@ -761,9 +761,7 @@ void FITSView::updateFrame()
 
     drawOverlay(&painter);
 
-    image_frame->setPixmap(displayPixmap);
-
-    qCDebug(KSTARS_FITS) << "Resizing to W:" << currentWidth << "H:" << currentHeight;
+    image_frame->setPixmap(displayPixmap);    
 
     image_frame->resize(currentWidth, currentHeight);
 }
