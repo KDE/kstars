@@ -2660,12 +2660,10 @@ bool FITSData::checkForWCS()
         return false;
     }
 
-    HasWCS = true;
+    HasWCS = true;    
+#endif
+#endif
     return HasWCS;
-#endif
-#endif
-
-    return false;
 }
 
 bool FITSData::loadWCS()

@@ -28,7 +28,7 @@
 #include <QtConcurrent>
 #include <KMessageBox>
 
-FITSTab::FITSTab(FITSViewer *parent) : QWidget()
+FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
 {
     viewer    = parent;
     undoStack = new QUndoStack(this);

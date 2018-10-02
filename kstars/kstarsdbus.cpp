@@ -980,16 +980,18 @@ void KStars::openFITS(const QUrl &imageURL)
         KStars::Instance()->getFITSViewersList().append(fv);
     }
 
-    QMetaObject::Connection m_Loaded = connect(fv, &FITSViewer::loaded, [&]() {
+    auto m_Loaded = std::make_shared<QMetaObject::Connection>();
+    *m_Loaded = connect(fv, &FITSViewer::loaded, [&]() {
         fv->show();
 
-        QObject::disconnect(m_Loaded);
+        QObject::disconnect(*m_Loaded);
     });
 
-    QMetaObject::Connection m_Failed = connect(fv, &FITSViewer::failed, [&]() {
+    auto m_Failed = std::make_shared<QMetaObject::Connection>();
+    *m_Failed = connect(fv, &FITSViewer::failed, [&]() {
         delete (fv);
 
-        QObject::disconnect(m_Failed);
+        QObject::disconnect(*m_Failed);
     });
 
     fv->addFITS(imageURL);

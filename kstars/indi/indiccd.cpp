@@ -1454,20 +1454,22 @@ void CCD::processBLOB(IBLOB *bp)
                 if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
                 {
                     fv->disconnect(this);
-                    connect(fv, &FITSViewer::loaded, this, [=](int tabIndex) {
+                    auto m_Loaded = std::make_shared<QMetaObject::Connection>();
+                    *m_Loaded = connect(fv, &FITSViewer::loaded, [=](int tabIndex) {
                         *tabID = tabIndex;
                         targetChip->setImageView(fv->getView(tabIndex), FITS_NORMAL);
                         emit newImage(fv->getView(tabIndex)->getDisplayImage(), filename, targetChip);
                         emit BLOBUpdated(bp);
 
-                        //QObject::disconnect(m_Loaded);
+                        QObject::disconnect(*m_Loaded);
                     });
 
-                    connect(fv, &FITSViewer::failed, this, [=]() {
+                    auto m_Failed = std::make_shared<QMetaObject::Connection>();
+                    *m_Failed = connect(fv, &FITSViewer::failed, [=]() {
                         // If opening file fails, we treat it the same as exposure failure and recapture again if possible
                         emit newExposureValue(targetChip, 0, IPS_ALERT);
 
-                        //QObject::disconnect(m_Failed);
+                        QObject::disconnect(*m_Failed);
                         return;
                     });
 
@@ -1501,9 +1503,8 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip)
 
     if (view)
     {
-        //QMetaObject::Connection m_Loaded, m_Failed;
-        view->disconnect(this);
-        connect(view, &FITSView::loaded, this, [=]() {
+        auto m_Loaded = std::make_shared<QMetaObject::Connection>();
+        *m_Loaded = connect(view, &FITSView::loaded, [=]() {
             view->updateFrame();
             emit newImage(view->getDisplayImage(), filename, targetChip);
             // FITSViewer is shown if:
@@ -1512,9 +1513,13 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip)
             // NORMAL is used for raw INDI drivers without Ekos.
             if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) && (mode == FITS_NORMAL || mode == FITS_CALIBRATE))
                     fv->show();
+
+            QObject::disconnect(*m_Loaded);
             emit BLOBUpdated(bp);
         });
-        connect(view, &FITSView::failed, [=]() {
+        auto m_Failed = std::make_shared<QMetaObject::Connection>();
+        *m_Failed = connect(view, &FITSView::failed, [=]() {
+            QObject::disconnect(*m_Failed);
             emit newExposureValue(targetChip, 0, IPS_ALERT);
             return;
         });
