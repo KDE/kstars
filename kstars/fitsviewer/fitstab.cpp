@@ -28,7 +28,7 @@
 #include <QtConcurrent>
 #include <KMessageBox>
 
-FITSTab::FITSTab(FITSViewer *parent) : QWidget()
+FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
 {
     viewer    = parent;
     undoStack = new QUndoStack(this);
@@ -81,7 +81,7 @@ void FITSTab::setPreviewText(const QString &value)
     previewText = value;
 }
 
-bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bool silent)
+void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
 {
     if (view.get() == nullptr)
     {
@@ -92,47 +92,48 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
         vlayout->addWidget(view.get());
 
         setLayout(vlayout);
-        connect(view.get(), SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
-        connect(view.get(), SIGNAL(debayerToggled(bool)), this, SIGNAL(debayerToggled(bool)));
+        connect(view.get(), &FITSView::newStatus, this, &FITSTab::newStatus);
+        connect(view.get(), &FITSView::debayerToggled, this, &FITSTab::debayerToggled);
+
+        // On Failure to load
+        connect(view.get(), &FITSView::failed, this, &FITSTab::failed);
+
+        // On Success loading image
+        connect(view.get(), &FITSView::loaded, [&,filter]() {
+
+            // If it was already running make sure it's done
+            histogramFuture.waitForFinished();
+
+            FITSData *image_data = view->getImageData();
+
+            if (histogram == nullptr)
+            {
+                histogram = new FITSHistogram(this);
+                image_data->setHistogram(histogram);
+            }
+
+            histogramFuture = QtConcurrent::run([&]() {histogram->constructHistogram();});
+
+            if (filter != FITS_NONE)
+            {
+                image_data->applyFilter(filter);
+                view->rescale(ZOOM_KEEP_LEVEL);
+            }
+
+            if (viewer->isStarsMarked())
+                view->toggleStars(true);
+
+            view->updateFrame();
+
+            emit loaded();
+        });
     }
 
-    currentURL = *imageURL;
+    currentURL = imageURL;
 
     view->setFilter(filter);
 
-    bool imageLoad = view->loadFITS(imageURL->toLocalFile(), silent);
-
-    // If it was already running make sure it's done
-    histogramFuture.waitForFinished();
-
-    if (imageLoad)
-    {
-        FITSData *image_data = view->getImageData();
-
-        if (histogram == nullptr)
-        {
-            histogram = new FITSHistogram(this);
-            image_data->setHistogram(histogram);
-        }
-
-        histogramFuture = QtConcurrent::run([&]() {histogram->constructHistogram();});
-
-        if (filter != FITS_NONE)
-        {
-            image_data->applyFilter(filter);
-            view->rescale(ZOOM_KEEP_LEVEL);
-        }
-
-        if (viewer->isStarsMarked())
-            view->toggleStars(true);
-
-        view->updateFrame();
-
-        //histoFuture.waitForFinished();
-        //histogram->syncGUI();
-    }
-
-    return imageLoad;
+    view->loadFITS(imageURL.toLocalFile(), silent);
 }
 
 void FITSTab::modifyFITSState(bool clean)

@@ -63,10 +63,8 @@ bool greaterThan(Edge *s1, Edge *s2)
     return s1->sum > s2->sum;
 }
 
-FITSData::FITSData(FITSMode fitsMode)
+FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
 {
-    m_Mode          = fitsMode;
-
     debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
     debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
     debayerParams.offsetX = debayerParams.offsetY = 0;
@@ -111,13 +109,9 @@ FITSData::~FITSData()
     qDeleteAll(records);
 }
 
-bool FITSData::loadFITS(const QString &inFilename, bool silent)
+QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
 {
-    int status = 0, anynull = 0;
-    long naxes[3];
-    char error_status[512];
-    QString errMessage;
-
+    int status = 0;
     qDeleteAll(starCenters);
     starCenters.clear();
 
@@ -138,10 +132,17 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
 
     qCInfo(KSTARS_FITS) << "Loading FITS file " << m_Filename;
 
-    if (m_Filename.startsWith(QLatin1String("/tmp/")) || m_Filename.contains("/Temp"))
-        m_isTemporary = true;
-    else
-        m_isTemporary = false;
+    QFuture<bool> result = QtConcurrent::run(this, &FITSData::privateLoad, silent);
+
+    return result;
+}
+
+bool FITSData::privateLoad(bool silent)
+{
+    int status = 0, anynull = 0;
+    long naxes[3];
+    char error_status[512];
+    QString errMessage;
 
     if (m_Filename.endsWith(".fz"))
     {
@@ -254,7 +255,6 @@ bool FITSData::loadFITS(const QString &inFilename, bool silent)
             KSNotification::error(errMessage, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << errMessage;
         return false;
-        break;
     }
 
     if (stats.ndim < 3)
@@ -1009,38 +1009,30 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     {
     case TBYTE:
         return FITSData::findCannyStar<uint8_t>(data, boundary);
-        break;
 
     case TSHORT:
         return FITSData::findCannyStar<int16_t>(data, boundary);
-        break;
 
     case TUSHORT:
         return FITSData::findCannyStar<uint16_t>(data, boundary);
-        break;
 
     case TLONG:
         return FITSData::findCannyStar<int32_t>(data, boundary);
-        break;
 
     case TULONG:
         return FITSData::findCannyStar<uint16_t>(data, boundary);
-        break;
 
     case TFLOAT:
         return FITSData::findCannyStar<float>(data, boundary);
-        break;
 
     case TLONGLONG:
         return FITSData::findCannyStar<int64_t>(data, boundary);
-        break;
 
     case TDOUBLE:
         return FITSData::findCannyStar<double>(data, boundary);
-        break;
 
     default:
-        return 0;
+        break;
     }
 
     return 0;
@@ -1516,35 +1508,27 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
     {
     case TBYTE:
         return findCentroid<uint8_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TSHORT:
         return findCentroid<int16_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TUSHORT:
         return findCentroid<uint16_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TLONG:
         return findCentroid<int32_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TULONG:
         return findCentroid<uint32_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TFLOAT:
         return findCentroid<float>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TLONGLONG:
         return findCentroid<int64_t>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     case TDOUBLE:
         return findCentroid<double>(boundary, initStdDev, minEdgeWidth);
-        break;
 
     default:
         return -1;
@@ -2676,12 +2660,10 @@ bool FITSData::checkForWCS()
         return false;
     }
 
-    HasWCS = true;
+    HasWCS = true;    
+#endif
+#endif
     return HasWCS;
-#endif
-#endif
-
-    return false;
 }
 
 bool FITSData::loadWCS()
@@ -4223,8 +4205,11 @@ QImage FITSData::FITSToImage(const QString &filename)
 
     FITSData data;
 
-    bool rc = data.loadFITS(filename);
-    if (!rc)
+    QFuture<bool> future = data.loadFITS(filename);
+
+    // Wait synchronously
+    future.waitForFinished();
+    if (future.result() == false)
         return fitsImage;
 
     data.getMinMax(&min, &max);

@@ -103,6 +103,21 @@ void ClientManager::newProperty(INDI::Property *prop)
 void ClientManager::removeProperty(INDI::Property *prop)
 {
     emit removeINDIProperty(prop);
+
+    // If BLOB property is removed, remove its corresponding property if one exists.
+    if (blobManagers.empty() == false && prop->getType() == INDI_BLOB && prop->getPermission() != IP_WO)
+    {
+        for (QPointer<BlobManager> bm : blobManagers)
+        {
+            if (bm.data()->property("property").toString() == QString(prop->getName()))
+            {
+                blobManagers.removeOne(bm);
+                bm.data()->disconnectServer();
+                delete (bm);
+                break;
+            }
+        }
+    }
 }
 
 void ClientManager::removeDevice(INDI::BaseDevice *dp)
@@ -125,6 +140,9 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
                 if (driverInfo->isEmpty())
                     managedDrivers.removeOne(driverInfo);
 
+                qDeleteAll(blobManagers);
+                blobManagers.clear();
+
                 return;
             }
         }
@@ -137,7 +155,7 @@ void ClientManager::newBLOB(IBLOB *bp)
 }
 
 void ClientManager::newSwitch(ISwitchVectorProperty *svp)
-{
+{    
     emit newINDISwitch(svp);
 }
 

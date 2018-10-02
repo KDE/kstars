@@ -255,6 +255,7 @@ class CCD : public DeviceDecorator
 
   private:
     void addFITSKeywords(const QString& filename);
+    void loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip);
 
     QString filter;
     bool ISOMode { true };

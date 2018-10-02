@@ -175,7 +175,7 @@ void OpsEkos::loadDarkFITS(QModelIndex index)
     if (filename.isEmpty() == false)
     {
         QUrl url = QUrl::fromLocalFile(filename);
-        KStars::Instance()->genericFITSViewer()->addFITS(&url);
+        KStars::Instance()->genericFITSViewer()->addFITS(url);
         KStars::Instance()->genericFITSViewer()->show();
     }
 }

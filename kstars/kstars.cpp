@@ -70,6 +70,9 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
 
     setWindowTitle(i18n("KStars"));
 
+    // Set thread stack size to 32MB
+    QThreadPool::globalInstance()->setStackSize(33554432);
+
     // Initialize logging settings
     if (Options::disableLogging())
         KSUtils::Logging::Disable();
@@ -609,7 +612,7 @@ void KStars::updateTime(const bool automaticDSTchange)
 }
 
 #ifdef HAVE_CFITSIO
-FITSViewer *KStars::genericFITSViewer()
+QPointer<FITSViewer> KStars::genericFITSViewer()
 {
     if (m_GenericFITSViewer.isNull())
     {
@@ -623,7 +626,17 @@ FITSViewer *KStars::genericFITSViewer()
 }
 #endif
 
+#ifdef HAVE_CFITSIO
+void KStars::addFITSViewer(QPointer<FITSViewer> fv)
+{
+    m_FITSViewers.append(fv);
+    connect(fv.data(), &FITSViewer::destroyed, [&,fv]() {
+        m_FITSViewers.removeOne(fv);
+    });
+}
+#endif
 #ifdef HAVE_INDI
+
 Ekos::Manager *KStars::ekosManager()
 {
     if (m_EkosManager.isNull())

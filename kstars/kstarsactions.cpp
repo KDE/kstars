@@ -307,7 +307,7 @@ void KStars::slotINDIToolBar()
 
         if (oneScope == nullptr)
         {
-            KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+            KMessageBox::sorry(nullptr, i18n("KStars did not find any active telescopes."));
             return;
         }
 
@@ -326,7 +326,7 @@ void KStars::slotINDIToolBar()
 
         if (a->isChecked())
         {
-            foreach (FITSViewer *view, m_FITSViewers)
+            for (QPointer<FITSViewer> view : m_FITSViewers)
             {
                 if (view->getTabs().empty() == false)
                 {
@@ -338,7 +338,7 @@ void KStars::slotINDIToolBar()
         }
         else
         {
-            foreach (FITSViewer *view, m_FITSViewers)
+            for (QPointer<FITSViewer> view : m_FITSViewers)
             {
                 view->hide();
             }
@@ -1179,15 +1179,14 @@ void KStars::slotOpenFITS()
     // Remember last directory
     path.setUrl(fileURL.url(QUrl::RemoveFilename));
 
-    FITSViewer *fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
-    // Error opening file
-    if (fv->addFITS(&fileURL, FITS_NORMAL, FITS_NONE, QString(), false) == -2)
-        delete (fv);
-    else
-    {
-        m_FITSViewers.append(fv);
+    QPointer<FITSViewer> fv = new FITSViewer((Options::independentWindowFITS()) ? nullptr : this);
+
+    connect(fv, &FITSViewer::loaded, [&,fv]() {
+        addFITSViewer(fv);
         fv->show();
-    }
+    });
+
+    fv->addFITS(fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
 #endif
 }
 
@@ -1704,7 +1703,7 @@ void KStars::slotEyepieceView(SkyPoint *sp, const QString &imagePath)
         {
             nameToFovMap.insert(f->name(), f);
         }
-        nameToFovMap.insert(i18n("Attempt to determine from image"), 0);
+        nameToFovMap.insert(i18n("Attempt to determine from image"), nullptr);
         fov = nameToFovMap[QInputDialog::getItem(this, i18n("Eyepiece View: Choose a field-of-view"),
                                                  i18n("FOV to render eyepiece view for:"), nameToFovMap.uniqueKeys(), 0,
                                                  false, &ok)];
