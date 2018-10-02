@@ -341,6 +341,11 @@ void FITSViewer::addFITS(const QUrl &imageName, FITSMode mode, FITSScale filter,
     });
 
     connect(tab, &FITSTab::loaded, [=]() {
+
+        int tabIndex = fitsTabWidget->indexOf(tab);
+        if (tabIndex != -1)
+            return;
+
         lastURL = QUrl(imageName.url(QUrl::RemoveFilename));
 
         QApplication::restoreOverrideCursor();
@@ -349,33 +354,33 @@ void FITSViewer::addFITS(const QUrl &imageName, FITSMode mode, FITSScale filter,
         // Connect tab signals
         connect(tab, &FITSTab::newStatus, this, &FITSViewer::updateStatusBar);
         connect(tab, &FITSTab::changeStatus, this, &FITSViewer::updateTabStatus);
-        connect(tab, &FITSTab::debayerToggled, this, &FITSViewer::setDebayerAction);        
+        connect(tab, &FITSTab::debayerToggled, this, &FITSViewer::setDebayerAction);
         // Connect tab view signals
         connect(tab->getView(), &FITSView::actionUpdated, this, &FITSViewer::updateAction);
         connect(tab->getView(), &FITSView::wcsToggled, this, &FITSViewer::updateWCSFunctions);
 
         switch (mode)
         {
-            case FITS_NORMAL:
-                fitsTabWidget->addTab(tab, previewText.isEmpty() ? imageName.fileName() : previewText);
-                break;
+        case FITS_NORMAL:
+            fitsTabWidget->addTab(tab, previewText.isEmpty() ? imageName.fileName() : previewText);
+            break;
 
-            case FITS_CALIBRATE:
-                fitsTabWidget->addTab(tab, i18n("Calibrate"));
-                break;
+        case FITS_CALIBRATE:
+            fitsTabWidget->addTab(tab, i18n("Calibrate"));
+            break;
 
-            case FITS_FOCUS:
-                fitsTabWidget->addTab(tab, i18n("Focus"));
-                break;
+        case FITS_FOCUS:
+            fitsTabWidget->addTab(tab, i18n("Focus"));
+            break;
 
-            case FITS_GUIDE:
-                fitsTabWidget->addTab(tab, i18n("Guide"));
-                break;
+        case FITS_GUIDE:
+            fitsTabWidget->addTab(tab, i18n("Guide"));
+            break;
 
-            case FITS_ALIGN:
-                fitsTabWidget->addTab(tab, i18n("Align"));
-                break;
-        }        
+        case FITS_ALIGN:
+            fitsTabWidget->addTab(tab, i18n("Align"));
+            break;
+        }
 
         saveFileAction->setEnabled(true);
         saveFileAsAction->setEnabled(true);
@@ -398,9 +403,9 @@ void FITSViewer::addFITS(const QUrl &imageName, FITSMode mode, FITSScale filter,
 
         updateStatusBar(i18n("Ready."), FITS_MESSAGE);
 
-        //updateWCSFunctions();
-
         tab->getView()->setCursorMode(FITSView::dragCursor);
+
+        updateWCSFunctions();
 
         emit loaded(fitsID++);
     });
@@ -444,11 +449,13 @@ void FITSViewer::updateFITS(const QUrl &imageName, int fitsUID, FITSScale filter
         led.setColor(Qt::yellow);
 
     // On tab load success
-    tab
-    connect(tab, &FITSTab::loaded, this, [=]() {
-
+    auto conn = std::make_shared<QMetaObject::Connection>();
+    *conn = connect(tab, &FITSTab::loaded, this, [=]() {
         int tabIndex = fitsTabWidget->indexOf(tab);
-        if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
+        if (tabIndex == -1)
+            return;
+
+        if (tab->getView()->getMode() == FITS_NORMAL)
         {
             if ((imageName.path().startsWith(QLatin1String("/tmp")) || imageName.path().contains("/Temp")) &&
                 Options::singlePreviewFITS())
@@ -463,20 +470,11 @@ void FITSViewer::updateFITS(const QUrl &imageName, int fitsUID, FITSScale filter
         if (tab->isVisible())
             led.setColor(Qt::green);
 
-        QObject::disconnect(m_Loaded);
+        QObject::disconnect(*conn);
 
         emit loaded(tabIndex);
+
         });
-
-    // On Tab load failure
-    QMetaObject::Connection m_Failed = connect(tab, &FITSTab::failed, [=]() {
-        if (tab->isVisible())
-            led.setColor(Qt::red);
-
-        QObject::disconnect(m_Failed);
-
-        emit failed();
-    });
 
     tab->loadFITS(imageName, tab->getView()->getMode(), filter, silent);
 }
