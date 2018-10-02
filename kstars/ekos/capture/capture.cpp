@@ -776,7 +776,10 @@ void Capture::checkCCD(int ccdNum)
         customPropertiesDialog->setCCD(currentCCD);
 
         liveVideoB->setEnabled(currentCCD->hasVideoStream());
-        setVideoStreamEnabled(currentCCD->isStreamingEnabled());
+        if (currentCCD->hasVideoStream())
+            setVideoStreamEnabled(currentCCD->isStreamingEnabled());
+        else
+            liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
 
         connect(currentCCD, &ISD::CCD::numberUpdated, this, &Ekos::Capture::processCCDNumber, Qt::UniqueConnection);
         connect(currentCCD, &ISD::CCD::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature, Qt::UniqueConnection);
@@ -5214,12 +5217,14 @@ void Capture::setVideoStreamEnabled(bool enabled)
     if (enabled)
     {
         liveVideoB->setChecked(true);
-        liveVideoB->setStyleSheet("color:red;");
+        liveVideoB->setIcon(QIcon::fromTheme("camera-on"));
+        //liveVideoB->setStyleSheet("color:red;");
     }
     else
     {
         liveVideoB->setChecked(false);
-        liveVideoB->setStyleSheet(QString());
+        liveVideoB->setIcon(QIcon::fromTheme("camera-ready"));
+        //liveVideoB->setStyleSheet(QString());
     }
 }
 

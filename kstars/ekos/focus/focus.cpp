@@ -54,6 +54,8 @@ Focus::Focus()
     waitStarSelectTimer.setInterval(AUTO_STAR_TIMEOUT);
     connect(&waitStarSelectTimer, &QTimer::timeout, this, &Ekos::Focus::checkAutoStarTimeout);
 
+    connect(liveVideoB, &QPushButton::clicked, this, &Ekos::Focus::toggleVideo);
+
     //fy=fw=fh=0;
     HFRFrames.clear();
 
@@ -382,6 +384,17 @@ void Focus::checkCCD(int ccdNum)
                 ISOCombo->addItems(isoList);
                 ISOCombo->setCurrentIndex(targetChip->getISOIndex());
             }
+
+            currentCCD->disconnect(this);
+
+            connect(currentCCD, &ISD::CCD::videoStreamToggled, this, &Ekos::Focus::setVideoStreamEnabled);
+
+            liveVideoB->setEnabled(currentCCD->hasVideoStream());
+            if (currentCCD->hasVideoStream())
+                setVideoStreamEnabled(currentCCD->isStreamingEnabled());
+            else
+                liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
+
 
             bool hasGain = currentCCD->hasGain();
             gainLabel->setEnabled(hasGain);
@@ -2935,5 +2948,38 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
     }
     );
 }
+
+void Focus::toggleVideo(bool enabled)
+{
+    if (currentCCD == nullptr)
+        return;
+
+    if (currentCCD->isBLOBEnabled() == false)
+    {
+
+        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
+                KMessageBox::Yes)
+            currentCCD->setBLOBEnabled(true);
+        else
+            return;
+    }
+
+    currentCCD->setVideoStreamEnabled(enabled);
+}
+
+void Focus::setVideoStreamEnabled(bool enabled)
+{
+    if (enabled)
+    {
+        liveVideoB->setChecked(true);
+        liveVideoB->setIcon(QIcon::fromTheme("camera-on"));
+    }
+    else
+    {
+        liveVideoB->setChecked(false);
+        liveVideoB->setIcon(QIcon::fromTheme("camera-ready"));
+    }
+}
+
 
 }
