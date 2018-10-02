@@ -597,16 +597,12 @@ bool CCDChip::setBinning(CCDBinType binType)
     {
         case SINGLE_BIN:
             return setBinning(1, 1);
-            break;
         case DOUBLE_BIN:
             return setBinning(2, 2);
-            break;
         case TRIPLE_BIN:
             return setBinning(3, 3);
-            break;
         case QUADRAPLE_BIN:
             return setBinning(4, 4);
-            break;
     }
 
     return false;
@@ -1421,7 +1417,7 @@ void CCD::processBLOB(IBLOB *bp)
                 else
                 {
                     fv = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
-                    KStars::Instance()->getFITSViewersList().append(fv);
+                    KStars::Instance()->addFITSViewer(fv);
                 }
 
                 //connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
@@ -1430,6 +1426,7 @@ void CCD::processBLOB(IBLOB *bp)
         }
 
         FITSScale captureFilter = targetChip->getCaptureFilter();
+        FITSMode captureMode = targetChip->getCaptureMode();
 
         QString previewTitle;
 
@@ -1447,170 +1444,90 @@ void CCD::processBLOB(IBLOB *bp)
                 previewTitle = i18n("Preview");
         }
 
-        int tabRC = -1;
-
-        switch (targetChip->getCaptureMode())
+        switch (captureMode)
         {
             case FITS_NORMAL:
+            case FITS_CALIBRATE:
             {
-                // Get a pointer to the Ekos summary preview if it exsist
-
-                // FIXME
-                // A signal should be used as we shouldn't access Ekos Manager here in INDI at all
-                #if 0
-                FITSView *summaryFITSPreview = KStars::Instance()->ekosManager()->getSummaryPreview();
-                // Only load preview in Ekos Summary screen if limited resources mode is off
-                // and if useSummaryPreview is enabled and if the target chip belongs to the primary chip of the camera
-                if (Options::useSummaryPreview() && Options::limitedResourcesMode() == false && targetChip == primaryChip.get() && summaryFITSPreview)
-                {
-                    summaryFITSPreview->setFilter(captureFilter);
-                    bool imageLoad = summaryFITSPreview->loadFITS(filename, true);
-                    if (imageLoad)
-                        summaryFITSPreview->updateFrame();
-                }
-                #endif
+                int *tabID = (captureMode == FITS_NORMAL) ? &normalTabID : &calibrationTabID;
+                // Check if we need to display the image                
                 if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
                 {
-                    if (normalTabID == -1 || Options::singlePreviewFITS() == false)
-                        tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
-                    else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
-                    {
-                        fv->removeFITS(normalTabID);
-                        tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
-                    }
-                    else
-                        tabRC = normalTabID;
+                    fv->disconnect(this);
+                    auto m_Loaded = std::make_shared<QMetaObject::Connection>();
+                    *m_Loaded = connect(fv, &FITSViewer::loaded, [=](int tabIndex) {
+                        *tabID = tabIndex;
+                        targetChip->setImageView(fv->getView(tabIndex), FITS_NORMAL);
+                        emit newImage(fv->getView(tabIndex)->getDisplayImage(), filename, targetChip);
+                        emit BLOBUpdated(bp);
 
-                    if (tabRC >= 0)
-                    {
-                        normalTabID = tabRC;
-                        targetChip->setImageView(fv->getView(normalTabID), FITS_NORMAL);
+                        QObject::disconnect(*m_Loaded);
+                    });
 
-                        emit newImage(fv->getView(normalTabID)->getDisplayImage(), filename, targetChip);
-                    }
-                    else
-                    {
+                    auto m_Failed = std::make_shared<QMetaObject::Connection>();
+                    *m_Failed = connect(fv, &FITSViewer::failed, [=]() {
                         // If opening file fails, we treat it the same as exposure failure and recapture again if possible
                         emit newExposureValue(targetChip, 0, IPS_ALERT);
+
+                        QObject::disconnect(*m_Failed);
                         return;
-                    }
+                    });
+
+                    if (*tabID == -1 || Options::singlePreviewFITS() == false)
+                        fv->addFITS(fileURL, captureMode, captureFilter, previewTitle);
+                    else
+                        fv->updateFITS(fileURL, *tabID, captureFilter);
                 }
-                // If we used Ekos summary preview to load the FITS image
-                // Then set it as the default image view for the target chip
-                #if 0
-                else if (summaryFITSPreview)
-                {
-                  targetChip->setImageView(summaryFITSPreview, FITS_NORMAL);
-                  emit newImage(summaryFITSPreview->getDisplayImage(), targetChip);
-                }
-                #endif
+                // Otherwise just emit blob notification
+                else
+                    emit BLOBUpdated(bp);
             }
             break;
 
-            case FITS_FOCUS:
-                {
-                    FITSView *focusView = targetChip->getImageView(FITS_FOCUS);
-                    if (focusView)
-                    {
-                        focusView->setFilter(captureFilter);
-                        bool imageLoad = focusView->loadFITS(filename, true);
-                        if (imageLoad)
-                        {
-                            focusView->updateFrame();
-                            emit newImage(focusView->getDisplayImage(), filename, targetChip);
-                        }
-                        else
-                        {
-                            emit newExposureValue(targetChip, 0, IPS_ALERT);
-                            return;
-                        }
-                    }
-                }
-                break;
-
+            case FITS_FOCUS:                
             case FITS_GUIDE:
-                {
-                    FITSView *guideView = targetChip->getImageView(FITS_GUIDE);
-                    if (guideView)
-                    {
-                        guideView->setFilter(captureFilter);
-                        bool imageLoad = guideView->loadFITS(filename, true);
-                        if (imageLoad)
-                        {
-                            guideView->updateFrame();
-                            emit newImage(guideView->getDisplayImage(), filename, targetChip);
-                        }
-                        else
-                        {
-                            emit newExposureValue(targetChip, 0, IPS_ALERT);
-                            return;
-                        }
-                    }
-                }
-                break;
-
-            case FITS_CALIBRATE:
-            // FIXME should use FITSData, no need for FITSView
-            //if (Options::useFITSViewer())
-                //{
-                    if (calibrationTabID == -1)
-                        tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
-                    else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
-                    {
-                        fv->removeFITS(calibrationTabID);
-                        tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
-                    }
-                    else
-                        tabRC = calibrationTabID;
-
-                    if (tabRC >= 0)
-                    {
-                        calibrationTabID = tabRC;
-                        targetChip->setImageView(fv->getView(calibrationTabID), FITS_CALIBRATE);
-                    }
-                    else
-                    {
-                        emit newExposureValue(targetChip, 0, IPS_ALERT);
-                        return;
-                    }
-                //}
-                break;
-
             case FITS_ALIGN:
-                {
-                    FITSView *alignView = targetChip->getImageView(FITS_ALIGN);
-                    if (alignView)
-                    {
-                        alignView->setFilter(captureFilter);
-                        bool imageLoad = alignView->loadFITS(filename, true);
-                        if (imageLoad)
-                        {
-                            alignView->updateFrame();
-                            emit newImage(alignView->getDisplayImage(), filename, targetChip);
-                        }
-                        else
-                        {
-                            emit newExposureValue(targetChip, 0, IPS_ALERT);
-                            return;
-                        }
-                    }
-                }
-                break;
-
-            default:
+                loadImageInView(bp, targetChip);
                 break;
         }
-
-        // FITSViewer is shown if:
-        // Image in preview mode, or useFITSViewre is true; AND
-        // Image type is either NORMAL or CALIBRATION since the rest have their dedicated windows.
-        // NORMAL is used for raw INDI drivers without Ekos.
-        if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) && (targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE))
-                fv->show();
     }
-#endif
+    else emit BLOBUpdated(bp);
+#endif    
+}
 
-    emit BLOBUpdated(bp);
+void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip)
+{
+    FITSMode mode = targetChip->getCaptureMode();
+    FITSView *view = targetChip->getImageView(mode);
+    QString filename = QString(static_cast<const char *>(bp->aux2));
+
+    if (view)
+    {
+        auto m_Loaded = std::make_shared<QMetaObject::Connection>();
+        *m_Loaded = connect(view, &FITSView::loaded, [=]() {
+            view->updateFrame();
+            emit newImage(view->getDisplayImage(), filename, targetChip);
+            // FITSViewer is shown if:
+            // Image in preview mode, or useFITSViewre is true; AND
+            // Image type is either NORMAL or CALIBRATION since the rest have their dedicated windows.
+            // NORMAL is used for raw INDI drivers without Ekos.
+            if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) && (mode == FITS_NORMAL || mode == FITS_CALIBRATE))
+                    fv->show();
+
+            QObject::disconnect(*m_Loaded);
+            emit BLOBUpdated(bp);
+        });
+        auto m_Failed = std::make_shared<QMetaObject::Connection>();
+        *m_Failed = connect(view, &FITSView::failed, [=]() {
+            QObject::disconnect(*m_Failed);
+            emit newExposureValue(targetChip, 0, IPS_ALERT);
+            return;
+        });
+
+        view->setFilter(targetChip->getCaptureFilter());
+        view->loadFITS(filename, true);
+    }
+
 }
 
 void CCD::addFITSKeywords(const QString& filename)

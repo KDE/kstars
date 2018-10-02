@@ -144,8 +144,8 @@ class KStars : public KXmlGuiWindow
     inline PrintingWizard *printingWizard() const { return m_PrintingWizard; }
 
 #ifdef HAVE_CFITSIO
-    FITSViewer *genericFITSViewer();
-    QList<FITSViewer *> &getFITSViewersList() { return m_FITSViewers; }
+    QPointer<FITSViewer> genericFITSViewer();
+    void addFITSViewer(QPointer<FITSViewer> fv);
 #endif
 
 #ifdef HAVE_INDI
@@ -437,10 +437,8 @@ class KStars : public KXmlGuiWindow
     /** DBUS interface function.  Open FITS image.
          * @param imageURL URL of FITS image to load. For a local file the prefix must be file:// For example
          * if the file is located at /home/john/m42.fits then the full URL is file:///home/john/m42.fits
-         * @return True if successful, false otherwise.
          */
-    Q_SCRIPTABLE bool openFITS(const QString &imageURL); // for DBus
-    bool openFITS(const QUrl &imageUrl);                 // for C++ code
+    Q_SCRIPTABLE Q_NOREPLY void openFITS(const QUrl &imageUrl);
 
     /** @}*/
 
@@ -793,7 +791,7 @@ class KStars : public KXmlGuiWindow
     EyepieceField *m_EyepieceView { nullptr };
 #ifdef HAVE_CFITSIO
     QPointer<FITSViewer> m_GenericFITSViewer;
-    QList<FITSViewer *> m_FITSViewers;
+    QList<QPointer<FITSViewer>> m_FITSViewers;
 #endif
 
 #ifdef HAVE_INDI

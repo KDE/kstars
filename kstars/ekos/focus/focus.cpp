@@ -2696,16 +2696,16 @@ void Focus::showFITSViewer()
             else
             {
                 fv = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
-                KStars::Instance()->getFITSViewersList().append(fv.data());
+                KStars::Instance()->addFITSViewer(fv);
             }
 
-            fv->addFITS(&url);
+            fv->addFITS(url);
             FITSView *currentView = fv->getCurrentView();
             if (currentView)
                 currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
         }
         else
-            fv->updateFITS(&url, 0);
+            fv->updateFITS(url, 0);
 
         fv->show();
     }
