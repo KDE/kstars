@@ -20,6 +20,8 @@ endif()
 
 if(BUILD_KSTARS_LITE)
     set (QT_MIN_VERSION "5.7.0") #QtQuickControls 2 is available only in the Qt 5.7.0
+    SET(KDE_L10N_AUTO_TRANSLATIONS ON)
+    SET(KDE_L10N_BRANCH "trunk")
     # Download the translations if KStars Lite is built
 else()
     set (QT_MIN_VERSION "5.4.0")
