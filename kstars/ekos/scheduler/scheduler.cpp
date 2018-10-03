@@ -1248,8 +1248,9 @@ void Scheduler::evaluateJobs()
     /* FIXME: it is possible to evaluate jobs while KStars has a time offset, so warn the user about this */
     QDateTime const now = KStarsData::Instance()->lt();
 
-    /* Start by refreshing the number of captures already present */
-    updateCompletedJobsCount();
+    /* Start by refreshing the number of captures already present - unneded if not remembering job progress */
+    if (Options::rememberJobProgress())
+        updateCompletedJobsCount();
 
     /* Update dawn and dusk astronomical times - unconditionally in case date changed */
     calculateDawnDusk();
@@ -1306,12 +1307,22 @@ void Scheduler::evaluateJobs()
         }
 
         // In case of a repeating jobs, let's make sure we have more runs left to go
+        // If we don't, re-estimate imaging time for the scheduler job before concluding
         if (job->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
         {
             if (job->getRepeatsRemaining() == 0)
             {
                 appendLogText(i18n("Job '%1' has no more batches remaining.", job->getName()));
-                job->setState(SchedulerJob::JOB_EVALUATION);
+                if (Options::rememberJobProgress())
+                {
+                    job->setState(SchedulerJob::JOB_EVALUATION);
+                    job->setEstimatedTime(-1);
+                }
+                else
+                {
+                    job->setState(SchedulerJob::JOB_COMPLETE);
+                    job->setEstimatedTime(0);
+                }
             }
         }
 
@@ -4215,10 +4226,13 @@ void Scheduler::findNextJob()
     // In any case, we're done whether the job completed successfully or not.
     else if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
     {
-        /* Mark the job idle as well as all its duplicates for re-evaluation */
-        foreach(SchedulerJob *a_job, jobs)
-            if (a_job == currentJob || a_job->isDuplicateOf(currentJob))
-                a_job->setState(SchedulerJob::JOB_IDLE);
+        /* If we remember job progress, mark the job idle as well as all its duplicates for re-evaluation */
+        if (Options::rememberJobProgress())
+        {
+            foreach(SchedulerJob *a_job, jobs)
+                if (a_job == currentJob || a_job->isDuplicateOf(currentJob))
+                    a_job->setState(SchedulerJob::JOB_IDLE);
+        }
 
         captureBatch = 0;
         // Stop Guiding if it was used
@@ -4657,6 +4671,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
             return true;
         }
 
+        // Note that looping jobs will have zero repeats required.
         int const captures_required = seqJob->getCount()*schedJob->getRepeatsRequired();
 
         int captures_completed = 0;
@@ -4707,6 +4722,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
                 // If the previous sequence signature matches the current, reduce completion count to take duplicates into account
                 if (!signature.compare(prevSeqJob->getLocalDir() + prevSeqJob->getDirectoryPostfix()))
                 {
+                    // Note that looping jobs will have zero repeats required.
                     int const previous_captures_required = prevSeqJob->getCount()*schedJob->getRepeatsRequired();
                     qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 has a previous duplicate sequence job requiring %2 captures.").arg(seqName).arg(previous_captures_required);
                     captures_completed -= previous_captures_required;
@@ -4722,7 +4738,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
             }
 
             // Finally we're only interested in the number of captures required for this sequence item
-            if (captures_required < captures_completed)
+            if (0 < captures_required && captures_required < captures_completed)
                 captures_completed = captures_required;
 
             qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 has completed %2/%3 of its required captures in output folder '%4'.").arg(seqName).arg(captures_completed).arg(captures_required).arg(signature_path);
@@ -4747,14 +4763,17 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
             // From now on, 'captures_completed' is the number of frames completed for the *current* sequence job
         }
+        // Else rely on the captures done during this session
+        else captures_completed = schedJob->getCompletedCount();
 
 
         // Check if we still need any light frames. Because light frames changes the flow of the observatory startup
         // Without light frames, there is no need to do focusing, alignment, guiding...etc
         // We check if the frame type is LIGHT and if either the number of captures_completed frames is less than required
         // OR if the completion condition is set to LOOP so it is never complete due to looping.
+        // Note that looping jobs will have zero repeats required.
         // FIXME: As it is implemented now, FINISH_LOOP may loop over a capture-complete, therefore inoperant, scheduler job.
-        bool const areJobCapturesComplete = !(captures_completed < captures_required || schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP);
+        bool const areJobCapturesComplete = !(captures_completed < captures_required || 0 == captures_required);
         if (seqJob->getFrameType() == FRAME_LIGHT)
         {
             if(areJobCapturesComplete)
@@ -4768,16 +4787,14 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         }
 
         totalSequenceCount += captures_required;
-        totalCompletedCount += rememberJobProgress ? captures_completed : 0;
+        totalCompletedCount += captures_completed;
 
         /* If captures are not complete, we have imaging time left */
         if (!areJobCapturesComplete)
         {
-            /* if looping, consider we always have one capture left - currently this is discarded afterwards as -2 */
-            if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
-                totalImagingTime += fabs((seqJob->getExposure() + seqJob->getDelay()) * 1);
-            else
-                totalImagingTime += fabs((seqJob->getExposure() + seqJob->getDelay()) * (captures_required - captures_completed));
+            /* if looping, consider we always have one capture left */
+            unsigned int const captures_to_go = 0 < captures_required ? captures_required - captures_completed : 1;
+            totalImagingTime += fabs((seqJob->getExposure() + seqJob->getDelay()) * captures_to_go);
 
             /* If we have light frames to process, add focus/dithering delay */
             if (seqJob->getFrameType() == FRAME_LIGHT)
@@ -4786,14 +4803,15 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
                 if (hasAutoFocus)
                 {
                     // Wild guess that each in sequence auto focus takes an average of 30 seconds. It can take any where from 2 seconds to 2+ minutes.
+                    // FIXME: estimating one focus per capture is probably not realistic.
                     qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 requires a focus procedure.").arg(seqName);
-                    totalImagingTime += (captures_required - captures_completed) * 30;
+                    totalImagingTime += captures_to_go * 30;
                 }
                 // If we're dithering after each exposure, that's another 10-20 seconds
                 if (schedJob->getStepPipeline() & SchedulerJob::USE_GUIDE && Options::ditherEnabled())
                 {
                     qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 requires a dither procedure.").arg(seqName);
-                    totalImagingTime += ((captures_required - captures_completed) * 15) / Options::ditherFrames();
+                    totalImagingTime += (captures_to_go * 15) / Options::ditherFrames();
                 }
             }
         }
@@ -6440,16 +6458,24 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
             KNotification::event(QLatin1String("EkosScheduledImagingFinished"),
                                  i18n("Ekos job (%1) - Capture finished", currentJob->getName()));
 
-
-            //captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
-
             currentJob->setState(SchedulerJob::JOB_COMPLETE);
             findNextJob();
         }
-        else
+        else if (status == Ekos::CAPTURE_IMAGE_RECEIVED)
         {
+            // We received a new image, but we don't know precisely where so update the storage map and re-estimate job times.
+            // FIXME: rework this once capture storage is reworked
+            if (Options::rememberJobProgress())
+            {
+                updateCompletedJobsCount(true);
+
+                for (SchedulerJob * job: jobs)
+                    estimateJobTime(job);
+            }
+            // Else if we don't remember the progress on jobs, increase the completed count for the current job only - no cross-checks
+            else currentJob->setCompletedCount(currentJob->getCompletedCount() + 1);
+
             captureFailureCount = 0;
-            /* currentJob->setCompletedCount(currentJob->getCompletedCount() + 1); */
         }
     }
 }

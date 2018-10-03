@@ -88,6 +88,29 @@ void SchedulerJob::setCompletionTime(const QDateTime &value)
 void SchedulerJob::setCompletionCondition(const CompletionCondition &value)
 {
     completionCondition = value;
+
+    // Update repeats requirement, looping jobs have none
+    switch (completionCondition)
+    {
+        case FINISH_AT:
+        case FINISH_LOOP:
+            if (0 < getRepeatsRequired())
+                setRepeatsRequired(0);
+            break;
+
+        case FINISH_SEQUENCE:
+            if (1 != getRepeatsRequired())
+                setRepeatsRequired(1);
+            break;
+
+        case FINISH_REPEAT:
+            if (0 == getRepeatsRequired())
+                setRepeatsRequired(1);
+            break;
+
+        default: break;
+    }
+
     updateJobCell();
 }
 
@@ -298,6 +321,24 @@ void SchedulerJob::setLightFramesRequired(bool value)
 void SchedulerJob::setRepeatsRequired(const uint16_t &value)
 {
     repeatsRequired = value;
+
+    // Update completion condition to be compatible
+    if (1 < repeatsRequired)
+    {
+        if (FINISH_REPEAT != completionCondition)
+            setCompletionCondition(FINISH_REPEAT);
+    }
+    else if (0 < repeatsRequired)
+    {
+        if (FINISH_SEQUENCE != completionCondition)
+            setCompletionCondition(FINISH_SEQUENCE);
+    }
+    else
+    {
+        if (FINISH_LOOP != completionCondition)
+            setCompletionCondition(FINISH_LOOP);
+    }
+
     updateJobCell();
 }
 
@@ -478,7 +519,21 @@ void SchedulerJob::updateJobCell()
 
     if (captureCountCell && captureCountCell->tableWidget())
     {
-        captureCountCell->setText(QString("%L1/%L2").arg(completedCount).arg(sequenceCount));
+        switch (completionCondition)
+        {
+            case FINISH_LOOP:
+            case FINISH_AT:
+                // If looping, display the count of completed frames
+                captureCountCell->setText(QString("%L1").arg(completedCount));
+                break;
+
+            case FINISH_SEQUENCE:
+            case FINISH_REPEAT:
+            default:
+                // If repeating, display the count of completed frames to the count of requested frames
+                captureCountCell->setText(QString("%L1/%L2").arg(completedCount).arg(sequenceCount));
+                break;
+        }
         captureCountCell->tableWidget()->resizeColumnToContents(captureCountCell->column());
     }
 
