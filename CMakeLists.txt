@@ -4,15 +4,24 @@ set (KStars_VERSION_MAJOR 3)
 set (KStars_VERSION_MINOR 0)
 set (KStars_VERSION_REVISION 0)
 set (CMAKE_CXX_STANDARD 11)
+
 # Build KStars Lite with -DBUILD_KSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
 # Fetch translations with -DFETCH_TRANSLATIONS=ON
 option(FETCH_TRANSLATIONS "Fetch Translations" OFF)
+
 # minimal requirements
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 
+# KStars Timestap build
 string(TIMESTAMP KSTARS_BUILD_TS UTC)
 
+# For KStars Lite, we ALWAYS need to fetch translations
+if(BUILD_KSTARS_LITE)
+    SET(FETCH_TRANSLATIONS ON)
+endif()
+
+# Set options for fetching translations
 if (FETCH_TRANSLATIONS)
 SET(KDE_L10N_AUTO_TRANSLATIONS ON)
 SET(KDE_L10N_BRANCH "trunk")
@@ -20,9 +29,6 @@ endif()
 
 if(BUILD_KSTARS_LITE)
     set (QT_MIN_VERSION "5.7.0") #QtQuickControls 2 is available only in the Qt 5.7.0
-    SET(KDE_L10N_AUTO_TRANSLATIONS ON)
-    SET(KDE_L10N_BRANCH "trunk")
-    # Download the translations if KStars Lite is built
 else()
     set (QT_MIN_VERSION "5.4.0")
 endif()
@@ -418,7 +424,15 @@ IF (NOT ANDROID)
     add_subdirectory(Tests)
     ENDIF()
     # Make it possible to use the po files fetched by the fetch-translations step
-    ki18n_install("${CMAKE_CURRENT_BINARY_DIR}/po")
+    if (FETCH_TRANSLATIONS)
+        ki18n_install("${CMAKE_CURRENT_BINARY_DIR}/po")
+    else()
+        ki18n_install(po)
+        find_package(KF5DocTools CONFIG)
+        if(KF5DocTools_FOUND)
+            kdoctools_install(po)
+        endif()
+    endif()
 ENDIF ()
 
 install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
