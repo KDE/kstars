@@ -2854,6 +2854,8 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
     {
         QString tsString(date);
         tsString = tsString.remove('\'').trimmed();
+        // Add Zulu time to indicate UTC
+        tsString += "Z";
 
         QDateTime ts = QDateTime::fromString(tsString, Qt::ISODate);
 
