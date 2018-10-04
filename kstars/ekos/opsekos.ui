@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>421</width>
+    <width>426</width>
     <height>330</height>
    </rect>
   </property>
@@ -436,6 +436,16 @@
            </property>
            <property name="text">
             <string>Summary Screen Preview</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="kcfg_useDSLRImageViewer">
+           <property name="toolTip">
+            <string>Display received DSLR images in the Image Viewer</string>
+           </property>
+           <property name="text">
+            <string>DSLR Image Viewer</string>
            </property>
           </widget>
          </item>
