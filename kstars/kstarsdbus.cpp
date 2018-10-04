@@ -969,7 +969,6 @@ void KStars::openFITS(const QUrl &imageURL)
 {
 #ifndef HAVE_CFITSIO
     qWarning() << "KStars does not support loading FITS. Please recompile KStars with FITS support.";
-    return false;
 #else
     QPointer<FITSViewer> fv;
     if (Options::singleWindowOpenedFITS())
