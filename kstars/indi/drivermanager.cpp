@@ -1099,11 +1099,12 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     QString label;
     QString driver;
     QString version;
+    QString manufacturer;
     QString name;
     QString port;
     QString skel;
     QVariantMap vMap;
-    double focal_length(-1), aperture(-1);
+    //double focal_length(-1), aperture(-1);
 
     ap = findXMLAtt(root, "label");
     if (!ap)
@@ -1118,6 +1119,10 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     if (findDriverByLabel(label) != nullptr)
         return true;
 
+    ap = findXMLAtt(root, "manufacturer");
+    if (ap)
+        manufacturer = valuXMLAtt(ap);
+
     // Search for optional port attribute
     ap = findXMLAtt(root, "port");
     if (ap)
@@ -1130,13 +1135,13 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
         skel = valuXMLAtt(ap);
 
     // Let's look for telescope-specific attributes: focal length and aperture
-    ap = findXMLAtt(root, "focal_length");
-    if (ap)
-    {
-        focal_length = QString(valuXMLAtt(ap)).toDouble();
-        if (focal_length > 0)
-            vMap.insert("TELESCOPE_FOCAL_LENGTH", focal_length);
-    }
+//    ap = findXMLAtt(root, "focal_length");
+//    if (ap)
+//    {
+//        focal_length = QString(valuXMLAtt(ap)).toDouble();
+//        if (focal_length > 0)
+//            vMap.insert("TELESCOPE_FOCAL_LENGTH", focal_length);
+//    }
 
     // Find MDPD: Multiple Devices Per Driver
     ap = findXMLAtt(root, "mdpd");
@@ -1147,13 +1152,13 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
         vMap.insert("mdpd", mdpd);
     }
 
-    ap = findXMLAtt(root, "aperture");
-    if (ap)
-    {
-        aperture = QString(valuXMLAtt(ap)).toDouble();
-        if (aperture > 0)
-            vMap.insert("TELESCOPE_APERTURE", aperture);
-    }
+//    ap = findXMLAtt(root, "aperture");
+//    if (ap)
+//    {
+//        aperture = QString(valuXMLAtt(ap)).toDouble();
+//        if (aperture > 0)
+//            vMap.insert("TELESCOPE_APERTURE", aperture);
+//    }
 
     el = findXMLEle(root, "driver");
 
@@ -1206,6 +1211,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     dv->setLabel(label);
     dv->setVersion(version);
     dv->setExecutable(driver);
+    dv->setManufacturer(manufacturer);
     dv->setSkeletonFile(skel);
     dv->setType(groupType);
     dv->setDriverSource(driverSource);

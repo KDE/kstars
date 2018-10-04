@@ -46,6 +46,7 @@ class ServerManager;
  */
 class DriverInfo : public QObject
 {
+    Q_PROPERTY(QString manufacturer READ manufacturer WRITE setManufacturer)
     Q_OBJECT
 
   public:
@@ -133,7 +134,10 @@ class DriverInfo : public QObject
     void setAuxInfo(const QVariantMap &value);
     void addAuxInfo(const QString &key, const QVariant &value);
 
-  private:
+    QString manufacturer() const;
+    void setManufacturer(const QString &Manufacturer);
+
+private:
     /// Actual device name as defined by INDI server
     QString name;
     /// How it appears in the GUI initially as read from source
@@ -156,6 +160,8 @@ class DriverInfo : public QObject
     QString remoteHostname;
     // INDI remote port (for remote drivers)
     QString remotePort;
+    // Manufacturer
+    QString m_Manufacturer;
     /// Device type (Telescope, CCD..etc), if known (optional)
     DeviceFamily type { KSTARS_UNKNOWN };
     /// Is the driver in the server running?
