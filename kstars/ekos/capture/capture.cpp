@@ -4343,9 +4343,9 @@ double Capture::setCurrentADU(double value)
             double chisq = 0;
 
             coeff = gsl_polynomial_fit(ADURaw.data(), ExpRaw.data(), ExpRaw.count(), 2, chisq);
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture: Running polynomial fitting. Found " << coeff.size() << " coefficients.";
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Running polynomial fitting. Found " << coeff.size() << " coefficients.";
             for (size_t i = 0; i < coeff.size(); i++)
-                qCDebug(KSTARS_EKOS_CAPTURE) << "Capture: Coeff #" << i << "=" << coeff[i];
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Coeff #" << i << "=" << coeff[i];
         }
 
         bool looping = false;
@@ -4354,7 +4354,7 @@ double Capture::setCurrentADU(double value)
             int size = ExpRaw.count();
             looping  = (ExpRaw[size - 1] == ExpRaw[size - 2]) && (ExpRaw[size - 2] == ExpRaw[size - 3]);
             if (looping)
-                qWarning(KSTARS_EKOS_CAPTURE) << "Capture: Detected looping in polynomial results. Falling back to llsqr.";
+                qWarning(KSTARS_EKOS_CAPTURE) << "Detected looping in polynomial results. Falling back to llsqr.";
         }
 
         // If we get invalid data, let's fall back to llsq
@@ -4365,7 +4365,7 @@ double Capture::setCurrentADU(double value)
             double a = 0, b = 0;
             llsq(ExpRaw, ADURaw, a, b);
 
-            qWarning(KSTARS_EKOS_CAPTURE) << "Capture: polynomial fitting invalid, faling back to llsq. a=" << a << " b=" << b;
+            qWarning(KSTARS_EKOS_CAPTURE) << "Polynomial fitting invalid, faling back to llsq. a=" << a << " b=" << b;
 
             // If we have valid results, let's calculate next exposure
             if (a != 0)
@@ -4377,7 +4377,17 @@ double Capture::setCurrentADU(double value)
             }
         }
         else if (coeff.size() == 3)
+        {
             nextExposure = coeff[0] + (coeff[1] * targetADU) + (coeff[2] * pow(targetADU, 2));
+            // If we get invalid exposure time, let's try to capture again and discard last point.
+            if (nextExposure < 0)
+            {
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Invalid polynomial exposure" << nextExposure << "Will discard last result.";
+                ExpRaw.removeLast();
+                ADURaw.removeLast();
+                nextExposure = activeJob->getExposure();
+            }
+        }
     }
 
     if (nextExposure == 0)
@@ -4388,13 +4398,12 @@ double Capture::setCurrentADU(double value)
             nextExposure = activeJob->getExposure() * .75;
     }
 
-    qCDebug(KSTARS_EKOS_CAPTURE) << "Capture: next FLAT exposure is " << nextExposure;
+    qCDebug(KSTARS_EKOS_CAPTURE) << "next flat exposure is" << nextExposure;
 
     return nextExposure;
 }
 
 //  Based on  John Burkardt LLSQ (LGPL)
-
 void Capture::llsq(QVector<double> x, QVector<double> y, double &a, double &b)
 {
     double bot;
