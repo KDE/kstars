@@ -1391,10 +1391,13 @@ void CCD::processBLOB(IBLOB *bp)
         bp->aux1 = &BType;
         bp->aux2 = BLOBFilename;
 
-        if (imageViewer.isNull())
-            imageViewer = new ImageViewer(getDeviceName(), KStars::Instance());
+        if (Options::useDSLRImageViewer())
+        {
+            if (imageViewer.isNull())
+                imageViewer = new ImageViewer(getDeviceName(), KStars::Instance());
 
-        imageViewer->loadImage(filename);
+            imageViewer->loadImage(filename);
+        }
     }
 // Unless we have cfitsio, we're done.
 #ifdef HAVE_CFITSIO
