@@ -156,6 +156,16 @@ void DriverInfo::addAuxInfo(const QString &key, const QVariant &value)
     auxInfo[key] = value;
 }
 
+QString DriverInfo::manufacturer() const
+{
+    return m_Manufacturer;
+}
+
+void DriverInfo::setManufacturer(const QString &Manufacturer)
+{
+    m_Manufacturer = Manufacturer;
+}
+
 void DriverInfo::setUniqueLabel(const QString &inUniqueLabel)
 {
     // N.B. We NEVER set unique label for multiple devices per driver "driver"
