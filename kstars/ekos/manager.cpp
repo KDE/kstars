@@ -459,6 +459,13 @@ bool Manager::stop()
 
 bool Manager::start()
 {
+    // Don't start if it is already started before
+    if (m_ekosStatus == Ekos::Pending || m_ekosStatus == Ekos::Success)
+    {
+        qCDebug(KSTARS_EKOS) << "Ekos Manager start called but current Ekos Status is" << m_ekosStatus << "Ignoring request.";
+        return true;
+    }
+
     if (m_LocalMode)
         qDeleteAll(managedDrivers);
     managedDrivers.clear();
