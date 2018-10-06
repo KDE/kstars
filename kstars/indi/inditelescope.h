@@ -47,6 +47,7 @@ class Telescope : public DeviceDecorator
         MOUNT_ERROR
     } Status;    
     typedef enum { PARK_OPTION_CURRENT, PARK_OPTION_DEFAULT, PARK_OPTION_WRITE_DATA } ParkOptionCommand;
+    typedef enum { TRACK_SIDEREAL, TRACK_SOLAR, TRACK_LUNAR, TRACK_CUSTOM } TrackModes;
 
     void registerProperty(INDI::Property *prop) override;
     void processSwitch(ISwitchVectorProperty *svp) override;
@@ -147,6 +148,9 @@ class Telescope : public DeviceDecorator
     bool inCustomParking     = false;
     IPState NSPreviousState  = IPS_IDLE;
     IPState WEPreviousState  = IPS_IDLE;
+
+    QMap<TrackModes, uint8_t> TrackMap;
+    TrackModes currentTrackMode { TRACK_SIDEREAL };
 
     bool m_hasAlignmentModel = { false };
     bool m_canControlTrack = { false };
