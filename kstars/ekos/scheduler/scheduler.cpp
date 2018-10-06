@@ -2296,7 +2296,11 @@ bool Scheduler::checkEkosState()
                 if (ekosConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
                     appendLogText(i18n("Starting Ekos timed out. Retrying..."));
-                    ekosInterface->call(QDBus::AutoDetect, "start");
+                    ekosInterface->call(QDBus::AutoDetect, "stop");
+                    QTimer::singleShot(1000, this, [&]() {
+                        ekosInterface->call(QDBus::AutoDetect, "start");
+                        currentOperationTime.restart();
+                    });
                     return false;
                 }
 
@@ -2385,6 +2389,7 @@ bool Scheduler::checkINDIState()
                 {
                     appendLogText(i18n("One or more INDI devices timed out. Retrying..."));
                     ekosInterface->call(QDBus::AutoDetect, "connectDevices");
+                    currentOperationTime.restart();
                 }
                 else
                 {
@@ -2414,6 +2419,7 @@ bool Scheduler::checkINDIState()
             {
                 if (currentOperationTime.elapsed() > (30 * 1000))
                 {
+                    currentOperationTime.restart();
                     appendLogText(i18n("Warning: dome device not ready after timeout, attempting to recover..."));
                     disconnectINDI();
                     stopEkos();
@@ -2427,6 +2433,7 @@ bool Scheduler::checkINDIState()
             {
                 if (currentOperationTime.elapsed() > (30 * 1000))
                 {
+                    currentOperationTime.restart();
                     appendLogText(i18n("Warning: mount device not ready after timeout, attempting to recover..."));
                     disconnectINDI();
                     stopEkos();
@@ -2440,6 +2447,7 @@ bool Scheduler::checkINDIState()
             {
                 if (currentOperationTime.elapsed() > (30 * 1000))
                 {
+                    currentOperationTime.restart();
                     appendLogText(i18n("Warning: cap device not ready after timeout, attempting to recover..."));
                     disconnectINDI();
                     stopEkos();
