@@ -140,7 +140,21 @@ void Telescope::registerProperty(INDI::Property *prop)
     else if (!strcmp(prop->getName(), "TELESCOPE_TRACK_STATE"))
         m_canControlTrack = true;
     else if (!strcmp(prop->getName(), "TELESCOPE_TRACK_MODE"))
+    {
         m_hasTrackModes = true;
+        ISwitchVectorProperty *svp = prop->getSwitch();
+        for (int i=0; i < svp->nsp; i++)
+        {
+            if (!strcmp(svp->sp[i].name, "TRACK_SIDEREAL"))
+                TrackMap[TRACK_SIDEREAL] = i;
+            else if (!strcmp(svp->sp[i].name, "TRACK_SOLAR"))
+                TrackMap[TRACK_SOLAR] = i;
+            else if (!strcmp(svp->sp[i].name, "TRACK_LUNAR"))
+                TrackMap[TRACK_LUNAR] = i;
+            else if (!strcmp(svp->sp[i].name, "TRACK_CUSTOM"))
+                TrackMap[TRACK_CUSTOM] = i;
+        }
+    }
     else if (!strcmp(prop->getName(), "TELESCOPE_TRACK_RATE"))
         m_hasCustomTrackRate = true;
     else if (!strcmp(prop->getName(), "TELESCOPE_PARK_OPTION"))
@@ -324,6 +338,21 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
         {
             inCustomParking = false;
             KSNotification::event(QLatin1String("MountAborted"), i18n("Mount motion was aborted"), KSNotification::EVENT_WARN);
+        }
+    }
+    else if (!strcmp(svp->name, "TELESCOPE_TRACK_MODE"))
+    {
+        ISwitch *sp = IUFindOnSwitch(svp);
+        if (sp)
+        {
+            if (!strcmp(sp->name, "TRACK_SIDEREAL"))
+                currentTrackMode = TRACK_SIDEREAL;
+            else if (!strcmp(sp->name, "TRACK_SOLAR"))
+                currentTrackMode = TRACK_SOLAR;
+            else if (!strcmp(sp->name, "TRACK_LUNAR"))
+                currentTrackMode = TRACK_LUNAR;
+            else
+                currentTrackMode = TRACK_CUSTOM;
         }
     }
     else if (!strcmp(svp->name, "TELESCOPE_MOTION_NS"))
@@ -666,6 +695,45 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         }
     }
 
+    double maxrad = 1000.0 / Options::zoomFactor();
+    currentObject = KStarsData::Instance()->skyComposite()->objectNearest(ScopeTarget, maxrad);
+    if (currentObject)
+    {
+        // Sun Warning
+        if (currentObject->name() == i18n("Sun"))
+        {
+            if (KMessageBox::warningContinueCancel(
+                    nullptr, i18n("Warning! Looking at the Sun without proper protection can lead to irreversible eye damage!"),
+                    i18n("Sun Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                    QString("telescope_ignore_sun_warning")) == KMessageBox::Cancel)
+                        return false;
+        }
+
+        if (m_hasTrackModes)
+        {
+            // Tracking Moon
+            if (currentObject->type() == SkyObject::MOON)
+            {
+                if (currentTrackMode != TRACK_LUNAR && TrackMap.contains(TRACK_LUNAR))
+                setTrackMode(TrackMap.value(TRACK_LUNAR));
+            }
+            // Trackin Sun
+            else if (currentObject->name() == i18n("Sun"))
+            {
+                if (currentTrackMode != TRACK_SOLAR && TrackMap.contains(TRACK_SOLAR))
+                    setTrackMode(TrackMap.value(TRACK_SOLAR));
+            }
+            // If Last track mode was either set to SOLAR or LUNAR but now we are slewing to a different object
+            // then we automatically fallback to sidereal. If the current track mode is CUSTOM or something else, nothing
+            // changes.
+            else if (currentTrackMode == TRACK_SOLAR || currentTrackMode == TRACK_LUNAR)
+                setTrackMode(TRACK_SIDEREAL);
+
+        }
+
+        emit newTarget(currentObject->name());
+    }
+
     if (EqProp)
     {
         dms ra, de;
@@ -713,11 +781,6 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         AzEle->value  = currentAz;
         AltEle->value = currentAlt;
     }
-
-    double maxrad = 1000.0 / Options::zoomFactor();
-    currentObject = KStarsData::Instance()->skyComposite()->objectNearest(ScopeTarget, maxrad);
-    if (currentObject)
-        emit newTarget(currentObject->name());
 
     return true;
 }
