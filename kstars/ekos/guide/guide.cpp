@@ -1253,7 +1253,7 @@ bool Guide::captureOneFrame()
     {
         case GUIDE_GUIDING:
             if (Options::rapidGuideEnabled() == false)
-                connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, &Ekos::Guide::newFITS(IBLOB *)), Qt::UniqueConnection);
+                connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, &Ekos::Guide::newFITS(IBLOB *)), Qt::UniqueConnection);
             targetChip->capture(seqExpose);
             return true;
             break;
@@ -1622,7 +1622,7 @@ void Guide::startRapidGuide()
 
     pmath->setRapidGuide(true);
     currentCCD->configureRapidGuide(targetChip, true);
-    connect(currentCCD, SIGNAL(newGuideStarData(ISD::CCDChip *,double,double,double)), this, &Ekos::Guide::processRapidStarData(ISD::CCDChip *,double,double,double)));
+    connect(currentCCD, SIGNAL(newGuideStarData(ISD::CCDChip*,double,double,double)), this, &Ekos::Guide::processRapidStarData(ISD::CCDChip *,double,double,double)));
 }
 
 void Guide::stopRapidGuide()
@@ -1633,7 +1633,7 @@ void Guide::stopRapidGuide()
 
     rapidGuideReticleSet = false;
 
-    currentCCD->disconnect(SIGNAL(newGuideStarData(ISD::CCDChip *,double,double,double)));
+    currentCCD->disconnect(SIGNAL(newGuideStarData(ISD::CCDChip*,double,double,double)));
 
     currentCCD->configureRapidGuide(targetChip, false, false, false);
 

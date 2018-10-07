@@ -572,7 +572,7 @@ void DetailDialogLite::createLogTab()
     }
 
     /*//Automatically save the log contents when the widget loses focus
-    connect( Log->UserLog, SIGNAL( focusOut() ), this, SLOT( saveLogData() ) );*/
+    connect( Log->UserLog, SIGNAL(focusOut()), this, SLOT(saveLogData()) );*/
 }
 
 void DetailDialogLite::createLinksTab()

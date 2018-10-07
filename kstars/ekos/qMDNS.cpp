@@ -217,7 +217,7 @@ void qMDNS::lookup (const QString& name) {
 
     /* Check if we are dealing with a normal DNS address */
     if (!address.endsWith (".local", Qt::CaseInsensitive)) {
-        QHostInfo::lookupHost (address, this, SIGNAL (hostFound (QHostInfo)));
+        QHostInfo::lookupHost (address, this, SIGNAL (hostFound(QHostInfo)));
         return;
     }
 

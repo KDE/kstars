@@ -122,7 +122,7 @@ INDIDriver::INDIDriver(KStars *_ks) : QDialog(_ks), ksw(_ks)
     QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
     QObject::connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(updateLocalTab()));
     QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(updateClientTab()));
-    QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex&)), this, SLOT(resizeDeviceColumn()));
+    QObject::connect(ui->localTreeWidget, SIGNAL(expanded(QModelIndex)), this, SLOT(resizeDeviceColumn()));
 
     readXMLDrivers();
 }
