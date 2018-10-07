@@ -3287,4 +3287,14 @@ void Guide::handleManualDither()
     }
 }
 
+bool Guide::connectGuider()
+{
+    return guider->Connect();
+}
+
+bool Guide::disconnectGuider()
+{
+    return guider->Disconnect();
+}
+
 }

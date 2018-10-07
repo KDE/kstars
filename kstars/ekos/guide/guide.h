@@ -98,6 +98,18 @@ class Guide : public QWidget, public Ui::Guide
          */
     Q_SCRIPTABLE QStringList getST4Devices();
 
+    /** DBUS interface function.
+     * @brief connectGuider Establish connection to guider application. For internal guider, this always returns true.
+     * @return True if successfully connected, false otherwise.
+     */
+    Q_SCRIPTABLE bool connectGuider();
+
+    /** DBUS interface function.
+     * @brief disconnectGuider Disconnect from guider application. For internal guider, this always returns true.
+     * @return True if successfully disconnected, false otherwise.
+     */
+    Q_SCRIPTABLE bool disconnectGuider();
+
     /**
          * @brief getStatus Return guide module status
          * @return state of guide module from Ekos::GuideState

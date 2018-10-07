@@ -14,6 +14,12 @@
   <property name="axisSigma" type="(i)" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
   </property>
+    <method name="connectGuider">
+        <arg type="b" direction="out"/>
+    </method>
+    <method name="disconnectGuider">
+      <arg type="b" direction="out"/>
+    </method>
     <method name="guide">
       <arg type="b" direction="out"/>
     </method>
