@@ -4443,6 +4443,9 @@ void Scheduler::startAstrometry()
 
 void Scheduler::startGuiding(bool resetCalibration)
 {
+    // Connect Guider
+    guideInterface->call(QDBus::AutoDetect,"connectGuider");
+
     // Set Auto Star to true
     QVariant arg(true);
     guideInterface->call(QDBus::AutoDetect,"setCalibrationAutoStar", arg);
