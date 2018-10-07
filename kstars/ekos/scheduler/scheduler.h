@@ -745,5 +745,13 @@ class Scheduler : public QWidget, public Ui::Scheduler
     bool m_CaptureReady { false };
     bool m_DomeReady { false };
     bool m_CapReady { false };
+
+    // When a module is commanded to perform an action, wait this many milliseconds
+    // before check its state again. If State is still IDLE, then it either didn't recieved the command
+    // or there is another problem.
+    static const uint16_t ALIGN_INACTIVITY_TIMEOUT      = 60000;
+    static const uint16_t GUIDE_INACTIVITY_TIMEOUT      = 60000;
+    static const uint16_t FOCUS_INACTIVITY_TIMEOUT      = 60000;
+    static const uint16_t CAPTURE_INACTIVITY_TIMEOUT    = 60000;
 };
 }
