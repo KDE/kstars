@@ -2989,7 +2989,7 @@ void Scheduler::checkJobStage()
 
     // #1 Check if we need to stop at some point
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT &&
-        currentJob->getState() == SchedulerJob::JOB_BUSY)
+            currentJob->getState() == SchedulerJob::JOB_BUSY)
     {
         // If the job reached it COMPLETION time, we stop it.
         if (now.secsTo(currentJob->getCompletionTime()) <= 0)
@@ -3064,8 +3064,8 @@ void Scheduler::checkJobStage()
         {
             // Minute is a DOUBLE value, do not use i18np
             appendLogText(i18n(
-                "Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), marking aborted.",
-                preDawnDateTime.toString(), Options::preDawnTime(), currentJob->getName()));
+                              "Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), marking aborted.",
+                              preDawnDateTime.toString(), Options::preDawnTime(), currentJob->getName()));
             currentJob->setState(SchedulerJob::JOB_ABORTED);
             return;
         }
@@ -3080,102 +3080,202 @@ void Scheduler::checkJobStage()
     // FIXME: Vanishing property should trigger a call to its event callback
     switch (currentJob->getStage())
     {
-        case SchedulerJob::STAGE_IDLE:
-            getNextAction();
-            break;
+    case SchedulerJob::STAGE_IDLE:
+        getNextAction();
+        break;
 
-        case SchedulerJob::STAGE_SLEWING:
-        case SchedulerJob::STAGE_RESLEWING:
-            // While slewing or re-slewing, check slew status can still be obtained
+    case SchedulerJob::STAGE_ALIGNING:
+        // Let's make sure align module does not become unresponsive
+        if (currentOperationTime.elapsed() > ALIGN_INACTIVITY_TIMEOUT)
+        {
+            QVariant const status = alignInterface->property("status");
+            Ekos::AlignState alignStatus = static_cast<Ekos::AlignState>(status.toInt());
+
+            if (alignStatus == Ekos::ALIGN_IDLE)
             {
-                QVariant const slewStatus = mountInterface->property("status");
-
-                if (slewStatus.isValid())
+                if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
                 {
-                    // Send the slew status periodically to avoid the situation where the mount is already at location and does not send any event
-                    // FIXME: in that case, filter TRACKING events only?
-                    ISD::Telescope::Status const status = static_cast<ISD::Telescope::Status>(slewStatus.toInt());
-                    setMountStatus(status);
+                    qCDebug(KSTARS_EKOS_SCHEDULER) << "Align module timed out. Restarting request...";
+                    startAstrometry();
                 }
                 else
                 {
-                    appendLogText(i18n("Warning: job '%1' lost connection to the mount, attempting to reconnect.", currentJob->getName()));
-                    if (!manageConnectionLoss())
-                        currentJob->setState(SchedulerJob::JOB_ERROR);
-                    return;
+                    appendLogText(i18n("Warning: job '%1' alignment procedure failed, aborting job.", currentJob->getName()));
+                    currentJob->setState(SchedulerJob::JOB_ABORTED);
+                    findNextJob();
                 }
             }
-            break;
+            else currentOperationTime.restart();
+        }
+        break;
 
-        case SchedulerJob::STAGE_SLEW_COMPLETE:
-        case SchedulerJob::STAGE_RESLEWING_COMPLETE:
-            // When done slewing or re-slewing and we use a dome, only shift to the next action when the dome is done moving
-            if (m_DomeReady)
-            {
-                QVariant const isDomeMoving = domeInterface->property("isMoving");
-
-                if (!isDomeMoving.isValid())
-                {
-                    appendLogText(i18n("Warning: job '%1' lost connection to the dome, attempting to reconnect.", currentJob->getName()));
-                    if (!manageConnectionLoss())
-                        currentJob->setState(SchedulerJob::JOB_ERROR);
-                    return;
-                }
-
-                if (!isDomeMoving.value<bool>())
-                    getNextAction();
-            }
-            else getNextAction();
-            break;
-#if 0
-        case SchedulerJob::STAGE_FOCUSING:        
+    case SchedulerJob::STAGE_CAPTURING:
+        // Let's make sure capture module does not become unresponsive
+        if (currentOperationTime.elapsed() > CAPTURE_INACTIVITY_TIMEOUT)
         {
-            QDBusReply<int> focusReply = focusInterface->call(QDBus::AutoDetect, "getStatus");
+            QVariant const status = captureInterface->property("status");
+            Ekos::CaptureState captureStatus = static_cast<Ekos::CaptureState>(status.toInt());
 
-            if (focusReply.error().type() == QDBusError::UnknownObject)
+            if (captureStatus == Ekos::CAPTURE_IDLE)
             {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while focusing, attempting to reconnect.", currentJob->getName()));
+                if (captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                {
+                    qCDebug(KSTARS_EKOS_SCHEDULER) << "capture module timed out. Restarting request...";
+                    startCapture();
+                }
+                else
+                {
+                    appendLogText(i18n("Warning: job '%1' capture procedure failed, aborting job.", currentJob->getName()));
+                    currentJob->setState(SchedulerJob::JOB_ABORTED);
+                    findNextJob();
+                }
+            }
+            else currentOperationTime.restart();
+        }
+        break;
+
+    case SchedulerJob::STAGE_FOCUSING:
+        // Let's make sure focus module does not become unresponsive
+        if (currentOperationTime.elapsed() > FOCUS_INACTIVITY_TIMEOUT)
+        {
+            QVariant const status = focusInterface->property("status");
+            Ekos::FocusState focusStatus = static_cast<Ekos::FocusState>(status.toInt());
+
+            if (focusStatus == Ekos::FOCUS_IDLE || focusStatus == Ekos::FOCUS_WAITING)
+            {
+                if (focusFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                {
+                    qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus module timed out. Restarting request...";
+                    startFocusing();
+                }
+                else
+                {
+                    appendLogText(i18n("Warning: job '%1' focusing procedure failed, aborting job.", currentJob->getName()));
+                    currentJob->setState(SchedulerJob::JOB_ABORTED);
+                    findNextJob();
+                }
+            }
+            else currentOperationTime.restart();
+        }
+        break;
+
+    case SchedulerJob::STAGE_GUIDING:
+        // Let's make sure guide module does not become unresponsive
+        if (currentOperationTime.elapsed() > GUIDE_INACTIVITY_TIMEOUT)
+        {
+            QVariant const status = guideInterface->property("status");
+            Ekos::GuideState guideStatus = static_cast<Ekos::GuideState>(status.toInt());
+
+            if (guideStatus == Ekos::GUIDE_IDLE || guideStatus == Ekos::GUIDE_CONNECTED || guideStatus == Ekos::GUIDE_DISCONNECTED)
+            {
+                if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                {
+                    qCDebug(KSTARS_EKOS_SCHEDULER) << "guide module timed out. Restarting request...";
+                    startGuiding();
+                }
+                else
+                {
+                    appendLogText(i18n("Warning: job '%1' guideing procedure failed, aborting job.", currentJob->getName()));
+                    currentJob->setState(SchedulerJob::JOB_ABORTED);
+                    findNextJob();
+                }
+            }
+            else currentOperationTime.restart();
+        }
+        break;
+
+    case SchedulerJob::STAGE_SLEWING:
+    case SchedulerJob::STAGE_RESLEWING:
+        // While slewing or re-slewing, check slew status can still be obtained
+    {
+        QVariant const slewStatus = mountInterface->property("status");
+
+        if (slewStatus.isValid())
+        {
+            // Send the slew status periodically to avoid the situation where the mount is already at location and does not send any event
+            // FIXME: in that case, filter TRACKING events only?
+            ISD::Telescope::Status const status = static_cast<ISD::Telescope::Status>(slewStatus.toInt());
+            setMountStatus(status);
+        }
+        else
+        {
+            appendLogText(i18n("Warning: job '%1' lost connection to the mount, attempting to reconnect.", currentJob->getName()));
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+            return;
+        }
+    }
+        break;
+
+    case SchedulerJob::STAGE_SLEW_COMPLETE:
+    case SchedulerJob::STAGE_RESLEWING_COMPLETE:
+        // When done slewing or re-slewing and we use a dome, only shift to the next action when the dome is done moving
+        if (m_DomeReady)
+        {
+            QVariant const isDomeMoving = domeInterface->property("isMoving");
+
+            if (!isDomeMoving.isValid())
+            {
+                appendLogText(i18n("Warning: job '%1' lost connection to the dome, attempting to reconnect.", currentJob->getName()));
                 if (!manageConnectionLoss())
                     currentJob->setState(SchedulerJob::JOB_ERROR);
                 return;
             }
 
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus stage...";
-
-            Ekos::FocusState focusStatus = static_cast<Ekos::FocusState>(focusReply.value());
-
-            // Is focus complete?
-            if (focusStatus == Ekos::FOCUS_COMPLETE)
-            {
-                appendLogText(i18n("Job '%1' focusing is complete.", currentJob->getName()));
-
-                autofocusCompleted = true;
-
-                currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
-
+            if (!isDomeMoving.value<bool>())
                 getNextAction();
-            }
-            else if (focusStatus == Ekos::FOCUS_FAILED || focusStatus == Ekos::FOCUS_ABORTED)
+        }
+        else getNextAction();
+        break;
+#if 0
+    case SchedulerJob::STAGE_FOCUSING:
+    {
+        QDBusReply<int> focusReply = focusInterface->call(QDBus::AutoDetect, "getStatus");
+
+        if (focusReply.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Warning: job '%1' lost connection to INDI server while focusing, attempting to reconnect.", currentJob->getName()));
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+            return;
+        }
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus stage...";
+
+        Ekos::FocusState focusStatus = static_cast<Ekos::FocusState>(focusReply.value());
+
+        // Is focus complete?
+        if (focusStatus == Ekos::FOCUS_COMPLETE)
+        {
+            appendLogText(i18n("Job '%1' focusing is complete.", currentJob->getName()));
+
+            autofocusCompleted = true;
+
+            currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
+
+            getNextAction();
+        }
+        else if (focusStatus == Ekos::FOCUS_FAILED || focusStatus == Ekos::FOCUS_ABORTED)
+        {
+            appendLogText(i18n("Warning: job '%1' focusing failed.", currentJob->getName()));
+
+            if (focusFailureCount++ < MAX_FAILURE_ATTEMPTS)
             {
-                appendLogText(i18n("Warning: job '%1' focusing failed.", currentJob->getName()));
+                appendLogText(i18n("Job '%1' is restarting its focusing procedure.", currentJob->getName()));
+                // Reset frame to original size.
+                focusInterface->call(QDBus::AutoDetect, "resetFrame");
+                // Restart focusing
+                startFocusing();
+            }
+            else
+            {
+                appendLogText(i18n("Warning: job '%1' focusing procedure failed, marking terminated due to errors.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ERROR);
 
-                if (focusFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    appendLogText(i18n("Job '%1' is restarting its focusing procedure.", currentJob->getName()));
-                    // Reset frame to original size.
-                    focusInterface->call(QDBus::AutoDetect, "resetFrame");
-                    // Restart focusing
-                    startFocusing();
-                }
-                else
-                {
-                    appendLogText(i18n("Warning: job '%1' focusing procedure failed, marking terminated due to errors.", currentJob->getName()));
-                    currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                    findNextJob();
-                }
+                findNextJob();
             }
         }
+    }
         break;
 #endif
 
@@ -3186,194 +3286,194 @@ void Scheduler::checkJobStage()
         break;*/
 
 #if 0
-        case SchedulerJob::STAGE_ALIGNING:
+    case SchedulerJob::STAGE_ALIGNING:
+    {
+        QDBusReply<int> alignReply;
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Alignment stage...";
+
+        alignReply = alignInterface->call(QDBus::AutoDetect, "getStatus");
+
+        if (alignReply.error().type() == QDBusError::UnknownObject)
         {
-            QDBusReply<int> alignReply;
-
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Alignment stage...";
-
-            alignReply = alignInterface->call(QDBus::AutoDetect, "getStatus");
-
-            if (alignReply.error().type() == QDBusError::UnknownObject)
-            {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while aligning, attempting to reconnect.", currentJob->getName()));
-                if (!manageConnectionLoss())
-                    currentJob->setState(SchedulerJob::JOB_ERROR);
-                return;
-            }
-
-            Ekos::AlignState alignStatus = static_cast<Ekos::AlignState>(alignReply.value());
-
-            // Is solver complete?
-            if (alignStatus == Ekos::ALIGN_COMPLETE)
-            {
-                appendLogText(i18n("Job '%1' alignment is complete.", currentJob->getName()));
-                alignFailureCount = 0;
-
-                currentJob->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
-                getNextAction();
-            }
-            else if (alignStatus == Ekos::ALIGN_FAILED || alignStatus == Ekos::ALIGN_ABORTED)
-            {
-                appendLogText(i18n("Warning: job '%1' alignment failed.", currentJob->getName()));
-
-                if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    if (Options::resetMountModelOnAlignFail() && MAX_FAILURE_ATTEMPTS-1 < alignFailureCount)
-                    {
-                        appendLogText(i18n("Warning: job '%1' forcing mount model reset after failing alignment #%2.", currentJob->getName(), alignFailureCount));
-                        mountInterface->call(QDBus::AutoDetect, "resetModel");
-                    }
-                    appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
-                    startAstrometry();
-                }
-                else
-                {
-                    appendLogText(i18n("Warning: job '%1' alignment procedure failed, aborting job.", currentJob->getName()));
-                    currentJob->setState(SchedulerJob::JOB_ABORTED);
-
-                    findNextJob();
-                }
-            }
+            appendLogText(i18n("Warning: job '%1' lost connection to INDI server while aligning, attempting to reconnect.", currentJob->getName()));
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+            return;
         }
-        break;
-#endif
 
-#if 0
-        case SchedulerJob::STAGE_GUIDING:
+        Ekos::AlignState alignStatus = static_cast<Ekos::AlignState>(alignReply.value());
+
+        // Is solver complete?
+        if (alignStatus == Ekos::ALIGN_COMPLETE)
         {
-            QDBusReply<int> guideReply = guideInterface->call(QDBus::AutoDetect, "getStatus");
+            appendLogText(i18n("Job '%1' alignment is complete.", currentJob->getName()));
+            alignFailureCount = 0;
 
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Calibration & Guide stage...";
-
-            if (guideReply.error().type() == QDBusError::UnknownObject)
-            {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while guiding, attempting to reconnect.",currentJob->getName()));
-                if (!manageConnectionLoss())
-                    currentJob->setState(SchedulerJob::JOB_ERROR);
-                return;
-            }
-
-            Ekos::GuideState guideStatus = static_cast<Ekos::GuideState>(guideReply.value());
-
-            // If calibration stage complete?
-            if (guideStatus == Ekos::GUIDE_GUIDING)
-            {
-                appendLogText(i18n("Job '%1' guiding is in progress.", currentJob->getName()));
-                guideFailureCount = 0;
-
-                currentJob->setStage(SchedulerJob::STAGE_GUIDING_COMPLETE);
-                getNextAction();
-            }
-            // JM 2018-07-30: GUIDE_IDLE is also a failure
-            else if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR ||
-                     guideStatus == Ekos::GUIDE_ABORTED)
-            {
-                if (guideStatus == Ekos::GUIDE_ABORTED)
-                    appendLogText(i18n("Warning: job '%1' guiding failed.", currentJob->getName()));
-                else
-                    appendLogText(i18n("Warning: job '%1' calibration failed.", currentJob->getName()));
-
-                if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
-                {
-                    if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR &&
-                        Options::realignAfterCalibrationFailure())
-                    {
-                        appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
-                        // JM: We have to go back to startSlew() since if we just call startAstrometry()
-                        // It would captureAndSolve at the _current_ coords which could be way off center if the calibration
-                        // process took a wild ride search for a suitable guide star and then failed. So startSlew() would ensure
-                        // we're back on our target and then it proceed to alignment (focus is skipped since it is done if it was checked anyway).
-                        startSlew();
-                    }
-                    else
-                    {
-                        appendLogText(i18n("Job '%1' is guiding, and is restarting its guiding procedure.", currentJob->getName()));
-                        startGuiding(true);
-                    }
-                }
-                else
-                {
-                    appendLogText(i18n("Warning: job '%1' guiding procedure failed, marking terminated due to errors.", currentJob->getName()));
-                    currentJob->setState(SchedulerJob::JOB_ERROR);
-
-                    findNextJob();
-                }
-            }
+            currentJob->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
+            getNextAction();
         }
-        break;
-#endif
-
-#if 0
-        case SchedulerJob::STAGE_CAPTURING:
+        else if (alignStatus == Ekos::ALIGN_FAILED || alignStatus == Ekos::ALIGN_ABORTED)
         {
-            QDBusReply<QString> captureReply = captureInterface->call(QDBus::AutoDetect, "getSequenceQueueStatus");
+            appendLogText(i18n("Warning: job '%1' alignment failed.", currentJob->getName()));
 
-            if (captureReply.error().type() == QDBusError::UnknownObject)
+            if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
             {
-                appendLogText(i18n("Warning: job '%1' lost connection to INDI server while capturing, attempting to reconnect.",currentJob->getName()));
-                if (!manageConnectionLoss())
-                    currentJob->setState(SchedulerJob::JOB_ERROR);
-            }
-            else if (captureReply.value().toStdString() == "Aborted" || captureReply.value().toStdString() == "Error")
-            {
-                appendLogText(i18n("Warning: job '%1' failed to capture target (%2).", currentJob->getName(), captureReply.value()));
-
-                if (captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                if (Options::resetMountModelOnAlignFail() && MAX_FAILURE_ATTEMPTS-1 < alignFailureCount)
                 {
-                    // If capture failed due to guiding error, let's try to restart that
-                    if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                    {
-                        // Check if it is guiding related.
-                        QDBusReply<int> guideReply = guideInterface->call(QDBus::AutoDetect, "getStatus");
-                        if (guideReply.value() == Ekos::GUIDE_ABORTED ||
-                                guideReply.value() == Ekos::GUIDE_CALIBRATION_ERROR ||
-                                guideReply.value() == GUIDE_DITHERING_ERROR)
-                            // If guiding failed, let's restart it
-                            //if(guideReply.value() == false)
-                        {
-                            appendLogText(i18n("Job '%1' is capturing, and is restarting its guiding procedure.", currentJob->getName()));
-                            //currentJob->setStage(SchedulerJob::STAGE_GUIDING);
-                            startGuiding(true);
-                            return;
-                        }
-                    }
-
-                    /* FIXME: it's not clear whether it is actually possible to continue capturing when capture fails this way */
-                    appendLogText(i18n("Warning: job '%1' failed its capture procedure, restarting capture.", currentJob->getName()));
-                    startCapture();
+                    appendLogText(i18n("Warning: job '%1' forcing mount model reset after failing alignment #%2.", currentJob->getName(), alignFailureCount));
+                    mountInterface->call(QDBus::AutoDetect, "resetModel");
                 }
-                else
-                {
-                    /* FIXME: it's not clear whether this situation can be recovered at all */
-                    appendLogText(i18n("Warning: job '%1' failed its capture procedure, marking aborted.", currentJob->getName()));
-                    currentJob->setState(SchedulerJob::JOB_ABORTED);
-
-                    findNextJob();
-                }
-            }
-            else if (captureReply.value().toStdString() == "Complete")
-            {
-                KNotification::event(QLatin1String("EkosScheduledImagingFinished"),
-                                     i18n("Ekos job (%1) - Capture finished", currentJob->getName()));
-
-
-                captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
-
-                currentJob->setState(SchedulerJob::JOB_COMPLETE);
-                findNextJob();
+                appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
+                startAstrometry();
             }
             else
             {
-                captureFailureCount = 0;
-                /* currentJob->setCompletedCount(currentJob->getCompletedCount() + 1); */
+                appendLogText(i18n("Warning: job '%1' alignment procedure failed, aborting job.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
+
+                findNextJob();
             }
         }
+    }
         break;
 #endif
 
-        default:
-            break;
+#if 0
+    case SchedulerJob::STAGE_GUIDING:
+    {
+        QDBusReply<int> guideReply = guideInterface->call(QDBus::AutoDetect, "getStatus");
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Calibration & Guide stage...";
+
+        if (guideReply.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Warning: job '%1' lost connection to INDI server while guiding, attempting to reconnect.",currentJob->getName()));
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+            return;
+        }
+
+        Ekos::GuideState guideStatus = static_cast<Ekos::GuideState>(guideReply.value());
+
+        // If calibration stage complete?
+        if (guideStatus == Ekos::GUIDE_GUIDING)
+        {
+            appendLogText(i18n("Job '%1' guiding is in progress.", currentJob->getName()));
+            guideFailureCount = 0;
+
+            currentJob->setStage(SchedulerJob::STAGE_GUIDING_COMPLETE);
+            getNextAction();
+        }
+        // JM 2018-07-30: GUIDE_IDLE is also a failure
+        else if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR ||
+                 guideStatus == Ekos::GUIDE_ABORTED)
+        {
+            if (guideStatus == Ekos::GUIDE_ABORTED)
+                appendLogText(i18n("Warning: job '%1' guiding failed.", currentJob->getName()));
+            else
+                appendLogText(i18n("Warning: job '%1' calibration failed.", currentJob->getName()));
+
+            if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR &&
+                        Options::realignAfterCalibrationFailure())
+                {
+                    appendLogText(i18n("Restarting %1 alignment procedure...", currentJob->getName()));
+                    // JM: We have to go back to startSlew() since if we just call startAstrometry()
+                    // It would captureAndSolve at the _current_ coords which could be way off center if the calibration
+                    // process took a wild ride search for a suitable guide star and then failed. So startSlew() would ensure
+                    // we're back on our target and then it proceed to alignment (focus is skipped since it is done if it was checked anyway).
+                    startSlew();
+                }
+                else
+                {
+                    appendLogText(i18n("Job '%1' is guiding, and is restarting its guiding procedure.", currentJob->getName()));
+                    startGuiding(true);
+                }
+            }
+            else
+            {
+                appendLogText(i18n("Warning: job '%1' guiding procedure failed, marking terminated due to errors.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+
+                findNextJob();
+            }
+        }
+    }
+        break;
+#endif
+
+#if 0
+    case SchedulerJob::STAGE_CAPTURING:
+    {
+        QDBusReply<QString> captureReply = captureInterface->call(QDBus::AutoDetect, "getSequenceQueueStatus");
+
+        if (captureReply.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Warning: job '%1' lost connection to INDI server while capturing, attempting to reconnect.",currentJob->getName()));
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+        }
+        else if (captureReply.value().toStdString() == "Aborted" || captureReply.value().toStdString() == "Error")
+        {
+            appendLogText(i18n("Warning: job '%1' failed to capture target (%2).", currentJob->getName(), captureReply.value()));
+
+            if (captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                // If capture failed due to guiding error, let's try to restart that
+                if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
+                {
+                    // Check if it is guiding related.
+                    QDBusReply<int> guideReply = guideInterface->call(QDBus::AutoDetect, "getStatus");
+                    if (guideReply.value() == Ekos::GUIDE_ABORTED ||
+                            guideReply.value() == Ekos::GUIDE_CALIBRATION_ERROR ||
+                            guideReply.value() == GUIDE_DITHERING_ERROR)
+                        // If guiding failed, let's restart it
+                        //if(guideReply.value() == false)
+                    {
+                        appendLogText(i18n("Job '%1' is capturing, and is restarting its guiding procedure.", currentJob->getName()));
+                        //currentJob->setStage(SchedulerJob::STAGE_GUIDING);
+                        startGuiding(true);
+                        return;
+                    }
+                }
+
+                /* FIXME: it's not clear whether it is actually possible to continue capturing when capture fails this way */
+                appendLogText(i18n("Warning: job '%1' failed its capture procedure, restarting capture.", currentJob->getName()));
+                startCapture();
+            }
+            else
+            {
+                /* FIXME: it's not clear whether this situation can be recovered at all */
+                appendLogText(i18n("Warning: job '%1' failed its capture procedure, marking aborted.", currentJob->getName()));
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
+
+                findNextJob();
+            }
+        }
+        else if (captureReply.value().toStdString() == "Complete")
+        {
+            KNotification::event(QLatin1String("EkosScheduledImagingFinished"),
+                                 i18n("Ekos job (%1) - Capture finished", currentJob->getName()));
+
+
+            captureInterface->call(QDBus::AutoDetect, "clearSequenceQueue");
+
+            currentJob->setState(SchedulerJob::JOB_COMPLETE);
+            findNextJob();
+        }
+        else
+        {
+            captureFailureCount = 0;
+            /* currentJob->setCompletedCount(currentJob->getCompletedCount() + 1); */
+        }
+    }
+        break;
+#endif
+
+    default:
+        break;
     }
 }
 
@@ -4121,6 +4221,7 @@ void Scheduler::startFocusing()
 
     currentJob->setStage(SchedulerJob::STAGE_FOCUSING);
     appendLogText(i18n("Job '%1' is focusing.", currentJob->getName()));
+    currentOperationTime.restart();
 }
 
 void Scheduler::findNextJob()
@@ -4133,7 +4234,7 @@ void Scheduler::findNextJob()
     jobTimer.stop();
 
     // Reset failed count
-    alignFailureCount = guideFailureCount = 0;
+    alignFailureCount = guideFailureCount = focusFailureCount = captureFailureCount = 0;
 
     /* FIXME: Other debug logs in that function probably */
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Find next job...";
@@ -4337,6 +4438,7 @@ void Scheduler::startAstrometry()
 
     /* FIXME: not supposed to modify the job */
     currentJob->setStage(SchedulerJob::STAGE_ALIGNING);
+    currentOperationTime.restart();
 }
 
 void Scheduler::startGuiding(bool resetCalibration)
@@ -4352,9 +4454,11 @@ void Scheduler::startGuiding(bool resetCalibration)
 
     guideInterface->call(QDBus::AutoDetect, "guide");
 
-    currentJob->setStage(SchedulerJob::STAGE_GUIDING);
+    currentJob->setStage(SchedulerJob::STAGE_GUIDING);    
 
     appendLogText(i18n("Starting guiding procedure for %1 ...", currentJob->getName()));
+
+    currentOperationTime.restart();
 }
 
 void Scheduler::startCapture(bool restart)
@@ -4425,6 +4529,8 @@ void Scheduler::startCapture(bool restart)
         appendLogText(i18n("Job '%1' capture is in progress (batch #%2)...", currentJob->getName(), captureBatch + 1));
     else
         appendLogText(i18n("Job '%1' capture is in progress...", currentJob->getName()));
+
+    currentOperationTime.restart();
 }
 
 void Scheduler::stopGuiding()
