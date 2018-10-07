@@ -13297,19 +13297,19 @@ void QCustomPlot::setSelectionRectMode(QCP::SelectionRectMode mode)
 
         // disconnect old connections:
         if (mSelectionRectMode == QCP::srmSelect)
-            disconnect(mSelectionRect, SIGNAL(accepted(QRect, QMouseEvent *)), this,
-                       SLOT(processRectSelection(QRect, QMouseEvent *)));
+            disconnect(mSelectionRect, SIGNAL(accepted(QRect,QMouseEvent*)), this,
+                       SLOT(processRectSelection(QRect,QMouseEvent*)));
         else if (mSelectionRectMode == QCP::srmZoom)
-            disconnect(mSelectionRect, SIGNAL(accepted(QRect, QMouseEvent *)), this,
-                       SLOT(processRectZoom(QRect, QMouseEvent *)));
+            disconnect(mSelectionRect, SIGNAL(accepted(QRect,QMouseEvent*)), this,
+                       SLOT(processRectZoom(QRect,QMouseEvent*)));
 
         // establish new ones:
         if (mode == QCP::srmSelect)
-            connect(mSelectionRect, SIGNAL(accepted(QRect, QMouseEvent *)), this,
-                    SLOT(processRectSelection(QRect, QMouseEvent *)));
+            connect(mSelectionRect, SIGNAL(accepted(QRect,QMouseEvent*)), this,
+                    SLOT(processRectSelection(QRect,QMouseEvent*)));
         else if (mode == QCP::srmZoom)
-            connect(mSelectionRect, SIGNAL(accepted(QRect, QMouseEvent *)), this,
-                    SLOT(processRectZoom(QRect, QMouseEvent *)));
+            connect(mSelectionRect, SIGNAL(accepted(QRect,QMouseEvent*)), this,
+                    SLOT(processRectZoom(QRect,QMouseEvent*)));
     }
 
     mSelectionRectMode = mode;
@@ -13336,11 +13336,11 @@ void QCustomPlot::setSelectionRect(QCPSelectionRect *selectionRect)
     {
         // establish connections with new selection rect:
         if (mSelectionRectMode == QCP::srmSelect)
-            connect(mSelectionRect, SIGNAL(accepted(QRect, QMouseEvent *)), this,
-                    SLOT(processRectSelection(QRect, QMouseEvent *)));
+            connect(mSelectionRect, SIGNAL(accepted(QRect,QMouseEvent*)), this,
+                    SLOT(processRectSelection(QRect,QMouseEvent*)));
         else if (mSelectionRectMode == QCP::srmZoom)
-            connect(mSelectionRect, SIGNAL(accepted(QRect, QMouseEvent *)), this,
-                    SLOT(processRectZoom(QRect, QMouseEvent *)));
+            connect(mSelectionRect, SIGNAL(accepted(QRect,QMouseEvent*)), this,
+                    SLOT(processRectZoom(QRect,QMouseEvent*)));
     }
 }
 
@@ -20029,9 +20029,9 @@ QCPColorScaleAxisRectPrivate::QCPColorScaleAxisRectPrivate(QCPColorScale *parent
 
     // make layer transfers of color scale transfer to axis rect and axes
     // the axes must be set after axis rect, such that they appear above color gradient drawn by axis rect:
-    connect(parentColorScale, SIGNAL(layerChanged(QCPLayer *)), this, SLOT(setLayer(QCPLayer *)));
+    connect(parentColorScale, SIGNAL(layerChanged(QCPLayer*)), this, SLOT(setLayer(QCPLayer*)));
     foreach (QCPAxis::AxisType type, allAxisTypes)
-        connect(parentColorScale, SIGNAL(layerChanged(QCPLayer *)), axis(type), SLOT(setLayer(QCPLayer *)));
+        connect(parentColorScale, SIGNAL(layerChanged(QCPLayer*)), axis(type), SLOT(setLayer(QCPLayer*)));
 }
 
 /*! \internal

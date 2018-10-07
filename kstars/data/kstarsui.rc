@@ -194,7 +194,7 @@
         <Action name="lock_telescope" />
 </ToolBar>
 
-<ToolBar hidden="1" noMerge="1" name="TelescopeToolBar" iconText="icononly" hidden="true">
+<ToolBar noMerge="1" name="TelescopeToolBar" iconText="icononly" hidden="true">
         <text>Telescope Toolbar</text>
         <Action name="show_mount_box" />
         <Action name="telescope_track" />
@@ -205,7 +205,7 @@
         <Action name="telescope_abort" />
 </ToolBar>
 
-<ToolBar hidden="1" noMerge="1" name="DomeToolBar" iconText="icononly" hidden="true">
+<ToolBar noMerge="1" name="DomeToolBar" iconText="icononly" hidden="true">
         <text>Dome Toolbar</text>
         <Action name="dome_park" />
         <Action name="dome_unpark" />

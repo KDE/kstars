@@ -38,7 +38,6 @@
 #include <QtDataVisualization/qabstract3dseries.h>
 #include <QImage>
 #include <qmath.h>
-#include <QMessageBox>
 
 using namespace QtDataVisualization;
 

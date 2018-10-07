@@ -205,7 +205,7 @@ void KSDssDownloader::initiateSingleDownloadAttempt(QUrl srcUrl)
     QUrl fileUrl = QUrl::fromLocalFile(m_TempFile.fileName());
     qDebug() << "Attempt #" << m_attempt << "downloading DSS Image. URL: " << srcUrl << " to " << fileUrl;
     //m_DownloadJob = KIO::copy( srcUrl, fileUrl, KIO::Overwrite ) ; // FIXME: Can be done with pure Qt
-    //connect ( m_DownloadJob, SIGNAL ( result (KJob *) ), SLOT ( downloadAttemptFinished() ) );
+    //connect ( m_DownloadJob, SIGNAL (result(KJob*)), SLOT (downloadAttemptFinished()) );
 
     downloadJob = new FileDownloader();
 
@@ -233,7 +233,7 @@ void KSDssDownloader::startSingleDownload(const QUrl srcUrl, const QString &dest
     QUrl fileUrl = QUrl::fromLocalFile(m_TempFile.fileName());
     qDebug() << "Downloading DSS Image from URL: " << srcUrl << " to " << fileUrl;
     //m_DownloadJob = KIO::copy( srcUrl, fileUrl, KIO::Overwrite ) ; // FIXME: Can be done with pure Qt
-    //connect ( m_DownloadJob, SIGNAL ( result (KJob *) ), SLOT ( singleDownloadFinished() ) );
+    //connect ( m_DownloadJob, SIGNAL (result(KJob*)), SLOT (singleDownloadFinished()) );
 
     downloadJob = new FileDownloader();
 

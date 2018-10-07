@@ -395,7 +395,7 @@ void KStars::initActions()
         << QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_C);
 
     /* FIXME Enable once port to KF5 is complete for moonphasetool
-     actionCollection()->addAction("moonphasetool", this, SLOT( slotMoonPhaseTool() ) )
+     actionCollection()->addAction("moonphasetool", this, SLOT(slotMoonPhaseTool()) )
          << i18n("Moon Phase Calendar");
     */
 
@@ -429,7 +429,7 @@ void KStars::initActions()
     //     ka = actionCollection()->addAction("glossary");
     //     ka->setText( i18n("Glossary...") );
     //     ka->setShortcuts( QKeySequence(Qt::CTRL+Qt::Key_K ) );
-    //     connect( ka, SIGNAL( triggered() ), this, SLOT( slotGlossary() ) );
+    //     connect( ka, SIGNAL(triggered()), this, SLOT(slotGlossary()) );
 
     // 2017-09-17 Jasem: FIXME! Scripting does not work properly under non UNIX systems.
     // It must be updated to use DBus session bus from Qt (like scheduler)
@@ -442,7 +442,7 @@ void KStars::initActions()
         << i18n("Solar System") << QKeySequence(Qt::CTRL + Qt::Key_Y);
 
     // Disabled until fixed later
-    /*actionCollection()->addAction("jmoontool", this, SLOT( slotJMoonTool() ) )
+    /*actionCollection()->addAction("jmoontool", this, SLOT(slotJMoonTool()) )
         << i18n("Jupiter's Moons")
         << QKeySequence(Qt::CTRL+Qt::Key_J );*/
 
@@ -496,7 +496,7 @@ void KStars::initActions()
     ka = actionCollection()->addAction(KStandardAction::TipofDay, "help_tipofday", this, SLOT(slotTipOfDay()));
     ka->setWhatsThis(i18n("Displays the Tip of the Day"));
     ka->setIcon(QIcon::fromTheme("help-hint"));
-    //	KStandardAction::help(this, SLOT( appHelpActivated() ), actionCollection(), "help_contents" );
+    //	KStandardAction::help(this, SLOT(appHelpActivated()), actionCollection(), "help_contents" );
 
     //Add timestep widget for toolbar
     m_TimeStepBox = new TimeStepBox(toolBar("kstarsToolBar"));

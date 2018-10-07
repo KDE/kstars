@@ -72,7 +72,7 @@ Scheduler::Scheduler()
     // Example of connecting DBus signals
     connect(ekosInterface, SIGNAL(indiStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setINDICommunicationStatus(Ekos::CommunicationStatus)));
     connect(ekosInterface, SIGNAL(ekosStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setEkosCommunicationStatus(Ekos::CommunicationStatus)));
-    connect(ekosInterface, SIGNAL(newModule(const QString &)), this, SLOT(registerNewModule(const QString &)));
+    connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
 
     moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName("Moon"));
 

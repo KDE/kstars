@@ -291,7 +291,7 @@ bool FilterManager::setFilterPosition(uint8_t position, FilterPolicy policy)
 
 void FilterManager::processNumber(INumberVectorProperty *nvp)
 {
-    if (nvp->s != IPS_OK || strcmp(nvp->name, "FILTER_SLOT") || m_currentFilterDevice == nullptr || strcmp(nvp->device, m_currentFilterDevice->getDeviceName()))
+    if (nvp->s != IPS_OK || strcmp(nvp->name, "FILTER_SLOT") || m_currentFilterDevice == nullptr || strcmp(nvp->device,m_currentFilterDevice->getDeviceName()))
         return;
 
     m_FilterPositionProperty = nvp;
