@@ -16,6 +16,7 @@
 
 #include "ekos_debug.h"
 
+#include <basedevice.h>
 #include <QUuid>
 
 namespace EkosLive
@@ -140,6 +141,10 @@ void Message::onTextReceived(const QString &message)
         sendScopes();
     else if (command == commands[GET_FILTER_WHEELS])
         sendFilterWheels();
+    else if (command == commands[GET_DOMES])
+        sendDomes();
+    else if (command == commands[GET_CAPS])
+        sendCaps();
     else if (command.startsWith("capture_"))
         processCaptureCommands(command, payload);
     else if (command.startsWith("mount_"))
@@ -152,6 +157,10 @@ void Message::onTextReceived(const QString &message)
         processAlignCommands(command, payload);
     else if (command.startsWith("polar_"))
         processPolarCommands(command, payload);
+    else if (command.startsWith("dome_"))
+        processDomeCommands(command, payload);
+    else if (command.startsWith("cap_"))
+        processCapCommands(command, payload);
     else if (command.startsWith("option_"))
         processOptionsCommands(command, payload);
 }
@@ -223,6 +232,55 @@ void Message::sendMounts()
 
         sendResponse(commands[NEW_MOUNT_STATE], slewRate);
     }
+}
+
+void Message::sendDomes()
+{
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+        return;
+
+    QJsonArray domeList;
+
+    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_DOME))
+    {
+        ISD::Dome *dome = dynamic_cast<ISD::Dome*>(gd);
+
+        QJsonObject oneDome = {
+            {"name", dome->getDeviceName()},
+            {"canPark", dome->canPark()},
+            {"canGoto", dome->canAbsMove()},
+        };
+
+        domeList.append(oneDome);
+    }
+
+    sendResponse(commands[GET_DOMES], domeList);
+}
+
+void Message::sendCaps()
+{
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+        return;
+
+    QJsonArray capList;
+
+    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_AUXILIARY))
+    {
+        if (gd->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
+        {
+            ISD::DustCap *dustCap = dynamic_cast<ISD::DustCap*>(gd);
+
+            QJsonObject oneCap = {
+                {"name", dustCap->getDeviceName()},
+                {"canPark", dustCap->canPark()},
+                {"hasLight", dustCap->hasLight()},
+            };
+
+            capList.append(oneCap);
+        }
+    }
+
+    sendResponse(commands[GET_CAPS], capList);
 }
 
 void Message::sendScopes()
@@ -419,6 +477,36 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
         else if (direction == "W")
             mount->motionCommand(action, -1, ISD::Telescope::MOTION_WEST);
     }
+}
+
+void Message::processDomeCommands(const QString &command, const QJsonObject &payload)
+{
+    Ekos::Dome *dome = m_Manager->domeModule();
+
+    Q_ASSERT_X(dome != nullptr, __FUNCTION__, "Dome module is not valid");
+
+    if (command == commands[DOME_PARK])
+        dome->park();
+    else if (command == commands[DOME_UNPARK])
+        dome->unpark();
+    else if (command == commands[DOME_STOP])
+        dome->abort();
+    else if (command == commands[DOME_GOTO])
+        dome->setAzimuthPosition(payload["az"].toDouble());
+}
+
+void Message::processCapCommands(const QString &command, const QJsonObject &payload)
+{
+    Ekos::DustCap *cap = m_Manager->capModule();
+
+    Q_ASSERT_X(cap != nullptr, __FUNCTION__, "Dust cap module is not valid");
+
+    if (command == commands[CAP_PARK])
+        cap->park();
+    else if (command == commands[CAP_UNPARK])
+        cap->unpark();
+    else if (command == commands[CAP_SET_LIGHT])
+        cap->setLightEnabled(payload["enabled"].toBool());
 }
 
 void Message::processAlignCommands(const QString &command, const QJsonObject &payload)
@@ -682,6 +770,22 @@ void Message::updateGuideStatus(const QJsonObject &status)
         return;
 
     sendResponse(commands[NEW_GUIDE_STATE], status);
+}
+
+void Message::updateDomeStatus(const QJsonObject &status)
+{
+    if (m_isConnected == false)
+        return;
+
+    sendResponse(commands[NEW_DOME_STATE], status);
+}
+
+void Message::updateCapStatus(const QJsonObject &status)
+{
+    if (m_isConnected == false)
+        return;
+
+    sendResponse(commands[NEW_CAP_STATE], status);
 }
 
 void Message::sendConnection()

@@ -24,6 +24,8 @@ enum COMMANDS
     GET_MOUNTS,
     GET_SCOPES,
     GET_FILTER_WHEELS,
+    GET_DOMES,
+    GET_CAPS,
     NEW_CONNECTION_STATE,
     NEW_MOUNT_STATE,
     NEW_CAPTURE_STATE,
@@ -31,6 +33,8 @@ enum COMMANDS
     NEW_FOCUS_STATE,
     NEW_ALIGN_STATE,
     NEW_POLAR_STATE,
+    NEW_DOME_STATE,
+    NEW_CAP_STATE,
     NEW_PREVIEW_IMAGE,
     NEW_VIDEO_FRAME,
     NEW_ALIGN_FRAME,
@@ -65,6 +69,17 @@ enum COMMANDS
     MOUNT_SET_MOTION,
     MOUNT_SET_TRACKING,
     MOUNT_SET_SLEW_RATE,
+
+    // Dome
+    DOME_PARK,
+    DOME_UNPARK,
+    DOME_GOTO,
+    DOME_STOP,
+
+    // Cap
+    CAP_PARK,
+    CAP_UNPARK,
+    CAP_SET_LIGHT,
 
     // Focus
     FOCUS_START,
@@ -112,6 +127,8 @@ static QMap<COMMANDS, QString> const commands =
     {GET_MOUNTS, "get_mounts"},
     {GET_SCOPES, "get_scopes"},
     {GET_FILTER_WHEELS, "get_filter_wheels"},
+    {GET_DOMES, "get_domes"},
+    {GET_CAPS, "get_caps"},
     {NEW_CONNECTION_STATE, "new_connection_state"},
     {NEW_MOUNT_STATE, "new_mount_state"},
     {NEW_CAPTURE_STATE, "new_capture_state"},
@@ -119,14 +136,15 @@ static QMap<COMMANDS, QString> const commands =
     {NEW_FOCUS_STATE, "new_focus_state"},
     {NEW_ALIGN_STATE, "new_align_state"},
     {NEW_POLAR_STATE, "new_polar_state"},
+    {NEW_DOME_STATE, "new_dome_state"},
+    {NEW_CAP_STATE, "new_cap_state"},
     {NEW_PREVIEW_IMAGE, "new_preview_image"},
     {NEW_VIDEO_FRAME, "new_video_frame"},
     {NEW_ALIGN_FRAME, "new_align_frame"},
     {NEW_NOTIFICATION, "new_notification"},
-    {NEW_TEMPERATURE, "new_temperature"},
+    {NEW_TEMPERATURE, "new_temperature"},    
 
     {LOGOUT, "logout"},
-
 
     {START_PROFILE, "profile_start"},
     {STOP_PROFILE, "profile_stop"},
@@ -150,6 +168,15 @@ static QMap<COMMANDS, QString> const commands =
     {MOUNT_SET_MOTION, "mount_set_motion"},
     {MOUNT_SET_TRACKING, "mount_set_tracking"},
     {MOUNT_SET_SLEW_RATE, "mount_set_slew_rate"},
+
+    {DOME_PARK, "dome_park"},
+    {DOME_PARK, "dome_park"},
+    {DOME_PARK, "dome_park"},
+    {DOME_PARK, "dome_park"},
+
+    {CAP_PARK, "cap_park"},
+    {CAP_UNPARK, "cap_unpark"},
+    {CAP_SET_LIGHT, "cap_set_light"},
 
     {FOCUS_START, "focus_start"},
     {FOCUS_STOP, "focus_stop"},

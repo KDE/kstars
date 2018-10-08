@@ -31,7 +31,6 @@
 #include "indi/indiproperty.h"
 #include "indi/indiwebmanager.h"
 
-
 #include "ekoslive/ekosliveclient.h"
 #include "ekoslive/message.h"
 #include "ekoslive/media.h"
@@ -2108,6 +2107,16 @@ void Manager::initDome()
 
     domeProcess.reset(new Ekos::Dome());
 
+    connect(domeProcess.get(), &Ekos::Dome::newStatus, [&](ISD::Dome::Status newStatus) {
+        QJsonObject status = { { "status", ISD::Dome::getStatusString(newStatus)} };
+        ekosLiveClient.get()->message()->updateDomeStatus(status);
+    });
+
+    connect(domeProcess.get(), &Ekos::Dome::azimuthPositionChanged, [&](double pos) {
+        QJsonObject status = { { "az", pos} };
+        ekosLiveClient.get()->message()->updateDomeStatus(status);
+    });
+
     emit newModule("Dome");
 }
 
@@ -2127,6 +2136,11 @@ void Manager::initDustCap()
         return;
 
     dustCapProcess.reset(new Ekos::DustCap());
+
+    connect(dustCapProcess.get(), &Ekos::DustCap::newStatus, [&](ISD::DustCap::Status newStatus) {
+        QJsonObject status = { { "status", ISD::DustCap::getStatusString(newStatus)} };
+        ekosLiveClient.get()->message()->updateCapStatus(status);
+    });
 
     emit newModule("DustCap");
 }

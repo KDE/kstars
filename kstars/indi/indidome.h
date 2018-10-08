@@ -54,6 +54,9 @@ class Dome : public DeviceDecorator
     double azimuthPosition();
     bool setAzimuthPosition(double position);
 
+    Status status() const { return m_Status; }
+    static const QString getStatusString (Status status);
+
   public slots:
     bool Abort();
     bool Park();
