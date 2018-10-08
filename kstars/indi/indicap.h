@@ -89,7 +89,7 @@ signals:
 
 private:
     std::unique_ptr<QTimer> readyTimer;
-    Status m_Status { CAP_ERROR };
+    Status m_Status { CAP_IDLE };
 };
 
 }
