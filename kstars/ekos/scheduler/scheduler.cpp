@@ -3175,7 +3175,7 @@ void Scheduler::checkJobStage()
                 }
                 else
                 {
-                    appendLogText(i18n("Warning: job '%1' guideing procedure failed, aborting job.", currentJob->getName()));
+                    appendLogText(i18n("Warning: job '%1' guiding procedure failed, aborting job.", currentJob->getName()));
                     currentJob->setState(SchedulerJob::JOB_ABORTED);
                     findNextJob();
                 }
