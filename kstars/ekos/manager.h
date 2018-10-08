@@ -95,6 +95,8 @@ class Manager : public QDialog, public Ui::Manager
     Align *alignModule() { return alignProcess.get(); }
     Mount *mountModule() { return mountProcess.get(); }
     Focus *focusModule() { return focusProcess.get(); }
+    Dome  *domeModule() { return domeProcess.get(); }
+    DustCap *capModule() { return dustCapProcess.get(); }
     Capture *captureModule() { return captureProcess.get(); }
     FITSView *getSummaryPreview() { return summaryPreview.get(); }
     QString getCurrentJobName();

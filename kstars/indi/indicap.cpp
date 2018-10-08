@@ -8,6 +8,9 @@
  */
 
 #include <basedevice.h>
+#include <KLocalizedString>
+#include <QtDBus/qdbusmetatype.h>
+
 #include "indicap.h"
 #include "clientmanager.h"
 
@@ -17,6 +20,9 @@ namespace ISD
 DustCap::DustCap(GDInterface *iPtr): DeviceDecorator(iPtr)
 {
     dType = KSTARS_AUXILIARY;
+
+    qRegisterMetaType<ISD::DustCap::Status>("ISD::DustCap::Status");
+    qDBusRegisterMetaType<ISD::DustCap::Status>();
 
     readyTimer.reset(new QTimer());
     readyTimer.get()->setInterval(250);
@@ -44,6 +50,44 @@ void DustCap::processNumber(INumberVectorProperty *nvp)
 
 void DustCap::processSwitch(ISwitchVectorProperty *svp)
 {
+    if (!strcmp(svp->name, "CAP_PARK"))
+    {
+        Status currentStatus = CAP_ERROR;
+
+        switch (svp->s)
+        {
+        case IPS_IDLE:
+            if (svp->sp[0].s == ISS_ON)
+                currentStatus = CAP_PARKED;
+            else if (svp->sp[1].s == ISS_ON)
+                currentStatus = CAP_IDLE;
+            break;
+
+        case IPS_OK:
+            if (svp->sp[0].s == ISS_ON)
+                currentStatus = CAP_PARKED;
+            else
+                currentStatus = CAP_IDLE;
+            break;
+
+        case IPS_BUSY:
+            if (svp->sp[0].s == ISS_ON)
+                currentStatus = CAP_PARKING;
+            else
+                currentStatus = CAP_UNPARKING;
+            break;
+
+        case IPS_ALERT:
+            currentStatus = CAP_ERROR;
+        }
+
+        if (currentStatus != m_Status)
+        {
+            m_Status = currentStatus;
+            emit newStatus(m_Status);
+        }
+    }
+
     DeviceDecorator::processSwitch(svp);
 }
 
@@ -182,4 +226,46 @@ bool DustCap::SetBrightness(uint16_t val)
 
     return false;
 }
+
+const QString DustCap::getStatusString(DustCap::Status status)
+{
+    switch (status)
+    {
+        case ISD::DustCap::CAP_IDLE:
+            return i18n("Idle");
+
+        case ISD::DustCap::CAP_PARKED:
+            return i18n("Parked");
+
+        case ISD::DustCap::CAP_PARKING:
+            return i18n("Parking");
+
+        case ISD::DustCap::CAP_UNPARKING:
+            return i18n("UnParking");
+
+        case ISD::DustCap::CAP_ERROR:
+            return i18n("Error");
+    }
+
+    return i18n("Error");
+}
+
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::DustCap::Status& source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::DustCap::Status &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+    dest = static_cast<ISD::DustCap::Status>(a);
+    return argument;
 }

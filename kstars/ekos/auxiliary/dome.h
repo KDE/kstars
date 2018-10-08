@@ -105,7 +105,7 @@ class Dome : public QObject
      */
     void setTelescope(ISD::GDInterface *newTelescope);
 
-    ISD::Dome::Status status() { return m_Status; }
+    ISD::Dome::Status status() { return currentDome->status(); }
     ISD::ParkStatus parkStatus() { return m_ParkStatus; }
 
   signals:
@@ -121,4 +121,5 @@ class Dome : public QObject
     ISD::Dome::Status m_Status { ISD::Dome::DOME_IDLE };
     ISD::ParkStatus m_ParkStatus { ISD::PARK_UNKNOWN };
 };
+
 }

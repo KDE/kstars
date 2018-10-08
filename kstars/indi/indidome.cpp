@@ -318,6 +318,36 @@ bool Dome::setAzimuthPosition(double position)
     return true;
 }
 
+const QString Dome::getStatusString(Dome::Status status)
+{
+    switch (status)
+    {
+        case ISD::Dome::DOME_IDLE:
+            return i18n("Idle");
+
+        case ISD::Dome::DOME_PARKED:
+            return i18n("Parked");
+
+        case ISD::Dome::DOME_PARKING:
+            return i18n("Parking");
+
+        case ISD::Dome::DOME_UNPARKING:
+            return i18n("UnParking");
+
+        case ISD::Dome::DOME_MOVING:
+            return i18n("Moving");
+
+        case ISD::Dome::DOME_TRACKING:
+            return i18n("Tracking");
+
+        case ISD::Dome::DOME_ERROR:
+            return i18n("Error");
+    }
+
+    return i18n("Error");
+}
+
+
 }
 
 QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Dome::Status& source)

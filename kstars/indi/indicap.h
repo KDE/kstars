@@ -28,14 +28,22 @@ class DustCap : public DeviceDecorator
 
   public:
     explicit DustCap(GDInterface *iPtr);
+    virtual ~DustCap() override = default;
+    typedef enum {
+        CAP_IDLE,
+        CAP_PARKING,
+        CAP_UNPARKING,
+        CAP_PARKED,
+        CAP_ERROR
+    } Status;
 
-    void registerProperty(INDI::Property *prop);
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty *tvp);
-    void processNumber(INumberVectorProperty *nvp);
-    void processLight(ILightVectorProperty *lvp);
+    void registerProperty(INDI::Property *prop) override;
+    void processSwitch(ISwitchVectorProperty *svp) override;
+    void processText(ITextVectorProperty *tvp) override;
+    void processNumber(INumberVectorProperty *nvp) override;
+    void processLight(ILightVectorProperty *lvp) override;
 
-    DeviceFamily getType() { return dType; }
+    DeviceFamily getType() override { return dType; }
 
     virtual bool hasLight();
     virtual bool canPark();
@@ -72,10 +80,20 @@ class DustCap : public DeviceDecorator
      */
     bool UnPark();
 
+    Status status() { return m_Status; }
+    static const QString getStatusString(Status status);
+
 signals:
+    void newStatus(Status status);
     void ready();
 
 private:
     std::unique_ptr<QTimer> readyTimer;
+    Status m_Status { CAP_ERROR };
 };
+
 }
+
+Q_DECLARE_METATYPE(ISD::DustCap::Status)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::DustCap::Status& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::DustCap::Status &dest);

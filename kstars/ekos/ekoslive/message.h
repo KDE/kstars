@@ -39,6 +39,8 @@ public:
     void updateCaptureStatus(const QJsonObject &status);
     void updateFocusStatus(const QJsonObject &status);
     void updateGuideStatus(const QJsonObject &status);
+    void updateDomeStatus(const QJsonObject &status);
+    void updateCapStatus(const QJsonObject &status);
 
     // Send devices as they come
     void sendEvent(const QString &message, KSNotification::EventType event);
@@ -46,6 +48,8 @@ public:
     void sendMounts();
     void sendScopes();
     void sendFilterWheels();
+    void sendDomes();
+    void sendCaps();
 
 signals:
     void connected();
@@ -115,6 +119,12 @@ private:
 
     // Polar
     void processPolarCommands(const QString &command, const QJsonObject &payload);
+
+    // Dome
+    void processDomeCommands(const QString &command, const QJsonObject &payload);
+
+    // Cap
+    void processCapCommands(const QString &command, const QJsonObject &payload);
 
     // Profile
     void processProfileCommands(const QString &command, const QJsonObject &payload);

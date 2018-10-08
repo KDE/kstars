@@ -27,7 +27,8 @@ class DustCap : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.DustCap")
-    Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
+    Q_PROPERTY(ISD::DustCap::Status status READ status NOTIFY newStatus)
+    Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)    
     Q_PROPERTY(bool canPark READ canPark)
 
   public:
@@ -98,7 +99,10 @@ class DustCap : public QObject
      */
     void setDustCap(ISD::GDInterface *newDustCap);
 
+    ISD::DustCap::Status status() { return currentDustCap->status(); }
+
   signals:
+    void newStatus(ISD::DustCap::Status status);
     void newParkStatus(ISD::ParkStatus status);
     void ready();
 
