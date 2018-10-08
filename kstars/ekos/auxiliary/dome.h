@@ -117,8 +117,6 @@ class Dome : public QObject
   private:
     // Devices needed for Dome operation
     ISD::Dome *currentDome { nullptr };
-
-    ISD::Dome::Status m_Status { ISD::Dome::DOME_IDLE };
     ISD::ParkStatus m_ParkStatus { ISD::PARK_UNKNOWN };
 };
 

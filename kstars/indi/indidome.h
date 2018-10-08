@@ -69,8 +69,8 @@ class Dome : public DeviceDecorator
     void ready();
 
   private:
-    ParkStatus m_ParkStatus = PARK_UNKNOWN;
-    Status m_Status = DOME_IDLE;
+    ParkStatus m_ParkStatus { PARK_UNKNOWN };
+    Status m_Status { DOME_IDLE };
     bool m_CanAbsMove { false };
     bool m_CanPark { false };
     std::unique_ptr<QTimer> readyTimer;
