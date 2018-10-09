@@ -75,8 +75,12 @@ Focus::Focus()
     connect(startFocusB, &QPushButton::clicked, this, &Ekos::Focus::start);
     connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::checkStopFocus);
 
-    connect(focusOutB, &QPushButton::clicked, this, &Ekos::Focus::focusOut);
-    connect(focusInB, &QPushButton::clicked, this, &Ekos::Focus::focusIn);
+    connect(focusOutB, &QPushButton::clicked, [&]() {
+        focusOut();
+    });
+    connect(focusInB, &QPushButton::clicked, [&]() {
+        focusIn();
+    });
 
     connect(captureB, &QPushButton::clicked, this, &Ekos::Focus::capture);
 
