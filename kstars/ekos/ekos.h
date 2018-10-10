@@ -153,12 +153,13 @@ static const QStringList schedulerStates = { I18N_NOOP("Idle"), I18N_NOOP("Start
                                           I18N_NOOP("Paused"), I18N_NOOP("Shutdown"), I18N_NOOP("Aborted")};
 
 typedef enum {
-    SCHEDULER_IDLE,
-    SCHEDULER_STARTUP,
-    SCHEDULER_RUNNIG,
-    SCHEDULER_PAUSED,
-    SCHEDULER_SHUTDOWN,
-    SCHEDULER_ABORTED
+    SCHEDULER_IDLE,     /*< Scheduler is stopped. */
+    SCHEDULER_STARTUP,  /*< Scheduler is starting the observatory up. */
+    SCHEDULER_RUNNIG,   /*< Scheduler is running. */
+    SCHEDULER_PAUSED,   /*< Scheduler is paused by the end-user. */
+    SCHEDULER_SHUTDOWN, /*< Scheduler is shutting the observatory down. */
+    SCHEDULER_ABORTED,  /*< Scheduler is stopped in error. */
+    SCHEDULER_LOADING   /*< Scheduler is loading a schedule. */
 } SchedulerState;
 
 typedef enum {
