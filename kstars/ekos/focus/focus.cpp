@@ -30,6 +30,7 @@
 
 #include <ekos_focus_debug.h>
 
+#define FOCUS_TIMEOUT_THRESHOLD  30000
 #define MAXIMUM_ABS_ITERATIONS   30
 #define MAXIMUM_RESET_ITERATIONS 2
 #define AUTO_STAR_TIMEOUT        45000
@@ -71,6 +72,10 @@ Focus::Focus()
     toggleFullScreenB->setShortcut(Qt::Key_F4);
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(toggleFullScreenB, &QPushButton::clicked, this, &Ekos::Focus::toggleFocusingWidgetFullScreen);
+
+    // Exposure Timeout
+    captureTimeout.setSingleShot(true);
+    connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Focus::processCaptureTimeout);
 
     connect(startFocusB, &QPushButton::clicked, this, &Ekos::Focus::start);
     connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::checkStopFocus);
@@ -829,6 +834,8 @@ void Focus::stop(bool aborted)
 {
     qCDebug(KSTARS_EKOS_FOCUS) << "Stopppig Focus";
 
+    captureTimeout.stop();
+
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
     inAutoFocus        = false;
@@ -876,6 +883,8 @@ void Focus::stop(bool aborted)
 
 void Focus::capture()
 {
+    captureTimeout.stop();
+
     if (captureInProgress)
     {
         qCWarning(KSTARS_EKOS_FOCUS) << "Capture called while already in progress. Capture is ignored.";
@@ -988,6 +997,9 @@ void Focus::capture()
 
     focusView->setBaseSize(focusingWidget->size());
 
+    // Timeout is exposure duration + timeout threshold in seconds
+    captureTimeout.start(seqExpose * 1000 + FOCUS_TIMEOUT_THRESHOLD);
+
     targetChip->capture(seqExpose);
 
     if (inFocusLoop == false)
@@ -1091,6 +1103,9 @@ void Focus::newFITS(IBLOB *bp)
     // Ignore guide head if there is any.
     if (!strcmp(bp->name, "CCD2"))
         return;
+
+    captureTimeout.stop();
+    captureTimeoutCounter = 0;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Focus::newFITS);
@@ -2985,5 +3000,23 @@ void Focus::setVideoStreamEnabled(bool enabled)
     }
 }
 
+void Focus::processCaptureTimeout()
+{
+    captureTimeoutCounter++;
+
+    if (captureTimeoutCounter >= 3)
+    {
+        captureTimeoutCounter = 0;
+        appendLogText(i18n("Exposure timeout. Aborting..."));
+        abort();
+        return;
+    }
+
+    appendLogText(i18n("Exposure timeout. Restarting exposure..."));
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    targetChip->abortExposure();
+    targetChip->capture(exposureIN->value());
+    captureTimeout.start(exposureIN->value() * 1000 + FOCUS_TIMEOUT_THRESHOLD);
+}
 
 }
