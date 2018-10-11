@@ -1388,8 +1388,9 @@ void CCD::processBLOB(IBLOB *bp)
 
         // store file name in
         strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
+        bp->aux0 = targetChip;
         bp->aux1 = &BType;
-        bp->aux2 = BLOBFilename;
+        bp->aux2 = BLOBFilename;        
 
         if (Options::useDSLRImageViewer())
         {
@@ -1461,9 +1462,6 @@ void CCD::processBLOB(IBLOB *bp)
                     *m_Loaded = connect(fv, &FITSViewer::loaded, [=](int tabIndex) {
                         *tabID = tabIndex;
                         targetChip->setImageView(fv->getView(tabIndex), FITS_NORMAL);
-                        emit newImage(fv->getView(tabIndex)->getDisplayImage(), filename, targetChip);
-                        emit BLOBUpdated(bp);
-
                         QObject::disconnect(*m_Loaded);
                     });
 
@@ -1481,9 +1479,6 @@ void CCD::processBLOB(IBLOB *bp)
                     else
                         fv->updateFITS(fileURL, *tabID, captureFilter);
                 }
-                // Otherwise just emit blob notification
-                else
-                    emit BLOBUpdated(bp);
             }
             break;
 
@@ -1494,7 +1489,8 @@ void CCD::processBLOB(IBLOB *bp)
                 break;
         }
     }
-    else emit BLOBUpdated(bp);
+
+    emit BLOBUpdated(bp);
 #endif    
 }
 
@@ -1508,8 +1504,7 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip)
     {
         auto m_Loaded = std::make_shared<QMetaObject::Connection>();
         *m_Loaded = connect(view, &FITSView::loaded, [=]() {
-            view->updateFrame();
-            emit newImage(view->getDisplayImage(), filename, targetChip);
+            view->updateFrame();            
             // FITSViewer is shown if:
             // Image in preview mode, or useFITSViewre is true; AND
             // Image type is either NORMAL or CALIBRATION since the rest have their dedicated windows.
@@ -1518,7 +1513,6 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip)
                     fv->show();
 
             QObject::disconnect(*m_Loaded);
-            emit BLOBUpdated(bp);
         });
         auto m_Failed = std::make_shared<QMetaObject::Connection>();
         *m_Failed = connect(view, &FITSView::failed, [=]() {
