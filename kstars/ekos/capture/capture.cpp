@@ -546,7 +546,6 @@ void Capture::stop(CaptureState targetState)
 
     secondsLabel->clear();
     disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
-    disconnect(currentCCD, &ISD::CCD::newImage, this,  &Ekos::Capture::sendNewImage);
     disconnect(currentCCD, &ISD::CCD::newExposureValue, this,  &Ekos::Capture::setExposureProgress);
     disconnect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
 
@@ -581,12 +580,12 @@ void Capture::stop(CaptureState targetState)
     activeJob = nullptr;
 }
 
-void Capture::sendNewImage(QImage *image, const QString &filename, ISD::CCDChip *myChip)
+void Capture::sendNewImage(const QString &filename, ISD::CCDChip *myChip)
 {
     if (activeJob && myChip == targetChip)
     {
-        emit newImage(image, activeJob);
-        if (image && activeJob->isPreview() == false)
+        emit newImage(activeJob);
+        if (activeJob->isPreview() == false)
             emit newSequenceImage(filename);
     }
 }
@@ -1242,8 +1241,7 @@ void Capture::newFITS(IBLOB *bp)
 
         if (currentCCD->isLooping() == false)
         {
-            disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
-            disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::sendNewImage);
+            disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);            
 
             if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
             {
@@ -1265,9 +1263,13 @@ void Capture::newFITS(IBLOB *bp)
                 return;
             }
         }
+
+        sendNewImage(QString(), activeJob->getActiveChip());
     }
     else
-        sendNewImage(nullptr, QString(), activeJob->getActiveChip());
+        sendNewImage(QString(static_cast<const char *>(bp->aux2)), static_cast<ISD::CCDChip*>(bp->aux0));
+
+
 
     setCaptureComplete();
 }
@@ -1636,8 +1638,7 @@ void Capture::captureImage()
             currentCCD->setExposureLoopCount(remaining);
     }
 
-    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS, Qt::UniqueConnection);
-    connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::sendNewImage, Qt::UniqueConnection);
+    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS, Qt::UniqueConnection);    
 
     if (activeJob->getFrameType() == FRAME_FLAT)
     {
@@ -2509,7 +2510,7 @@ void Capture::prepareJob(SequenceJob *job)
     }
 
     // Just notification of active job stating up
-    emit newImage(nullptr, activeJob);
+    emit newImage(activeJob);
 
     //connect(job, SIGNAL(checkFocus()), this, &Ekos::Capture::startPostFilterAutoFocus()));
 

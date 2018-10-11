@@ -556,7 +556,7 @@ class Capture : public QWidget, public Ui::Capture
     void updatePreCaptureCalibrationStatus();
 
     // Send image info
-    void sendNewImage(QImage *image, const QString &filename, ISD::CCDChip *myChip);
+    void sendNewImage(const QString &filename, ISD::CCDChip *myChip);
 
     // Capture
     bool setCaptureComplete();
@@ -590,7 +590,7 @@ class Capture : public QWidget, public Ui::Capture
     void checkFocus(double);
     void suspendGuiding();
     void resumeGuiding();    
-    void newImage(QImage *image, Ekos::SequenceJob *job);
+    void newImage(Ekos::SequenceJob *job);
     void newExposureProgress(Ekos::SequenceJob *job);
     void sequenceChanged(const QJsonArray &sequence);
     void settingsUpdated(const QJsonObject &settings);

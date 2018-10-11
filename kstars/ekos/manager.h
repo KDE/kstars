@@ -243,7 +243,7 @@ class Manager : public QDialog, public Ui::Manager
 
     // Capture Summary
     void updateCaptureStatus(CaptureState status);
-    void updateCaptureProgress(QImage *image, SequenceJob *job);
+    void updateCaptureProgress(SequenceJob *job);
     void updateExposureProgress(SequenceJob *job);
     void updateCaptureCountDown();
 

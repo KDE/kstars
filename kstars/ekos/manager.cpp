@@ -2451,14 +2451,14 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
     ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
 }
 
-void Manager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
+void Manager::updateCaptureProgress(Ekos::SequenceJob *job)
 {
     // Image is set to nullptr only on initial capture start up
     int completed = 0;
     if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         completed = job->getCompleted() + 1;
     else
-        completed = (image == nullptr) ? job->getCompleted() : job->getCompleted() + 1;
+        completed = job->isPreview() ? job->getCompleted() : job->getCompleted() + 1;
 
     if (job->isPreview() == false)
     {
