@@ -332,7 +332,7 @@ class Focus : public QWidget, public Ui::Focus
 
     void setThreshold(double value);
 
-    //void setFrames(int value);
+    void processCaptureTimeout();
 
     void setCaptureComplete();
 
@@ -541,6 +541,10 @@ class Focus : public QWidget, public Ui::Focus
     /// Polynomial fitting coefficients
     std::vector<double> coeff;
     int polySolutionFound { 0 };
+
+    // Capture timeout timer
+    QTimer captureTimeout;
+    uint8_t captureTimeoutCounter { 0 };
 
     // Filter Manager
     QSharedPointer<FilterManager> filterManager;
