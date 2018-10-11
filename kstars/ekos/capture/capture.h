@@ -666,6 +666,9 @@ class Capture : public QWidget, public Ui::Capture
 
     ISD::CCDChip *targetChip { nullptr };
     ISD::CCDChip *guideChip { nullptr };
+    ISD::CCDChip *blobChip { nullptr };
+    QString blobFilename;
+
 
     // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
     QList<ISD::GDInterface *> Filters;
