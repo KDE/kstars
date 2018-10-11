@@ -1843,7 +1843,7 @@ void Manager::initCapture()
     connect(captureProcess.get(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
     connect(captureProcess.get(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
     connect(captureProcess.get(), &Ekos::Capture::newSequenceImage, [&](const QString &filename) {
-       if (Options::useSummaryPreview())
+       if (Options::useSummaryPreview() && QFile::exists(filename))
        {
            summaryPreview->loadFITS(filename);
        }
@@ -2454,11 +2454,11 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
 void Manager::updateCaptureProgress(Ekos::SequenceJob *job)
 {
     // Image is set to nullptr only on initial capture start up
-    int completed = 0;
-    if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-        completed = job->getCompleted() + 1;
-    else
-        completed = job->isPreview() ? job->getCompleted() : job->getCompleted() + 1;
+    int completed = job->getCompleted();
+//    if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+//        completed = job->getCompleted() + 1;
+//    else
+//        completed = job->isPreview() ? job->getCompleted() : job->getCompleted() + 1;
 
     if (job->isPreview() == false)
     {

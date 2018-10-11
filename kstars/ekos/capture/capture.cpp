@@ -582,10 +582,11 @@ void Capture::stop(CaptureState targetState)
 
 void Capture::sendNewImage(const QString &filename, ISD::CCDChip *myChip)
 {
-    if (activeJob && myChip == targetChip)
+    if (activeJob && (myChip == nullptr || myChip == targetChip))
     {
         emit newImage(activeJob);
-        if (activeJob->isPreview() == false)
+        // We only emit this for client/both images since remote images already send this automatically
+        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL && activeJob->isPreview() == false)
             emit newSequenceImage(filename);
     }
 }
@@ -1254,22 +1255,17 @@ void Capture::newFITS(IBLOB *bp)
                 connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Capture::appendLogText);
 
                 if (darkData)
-                    DarkLibrary::Instance()->subtract(darkData, currentImage, activeJob->getCaptureFilter(), offsetX,
-                                                      offsetY);
+                    DarkLibrary::Instance()->subtract(darkData, currentImage, activeJob->getCaptureFilter(), offsetX, offsetY);
                 else
-                    DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, activeJob->getExposure(), offsetX,
-                                                                offsetY);
+                    DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, activeJob->getExposure(), offsetX, offsetY);
 
                 return;
             }
-        }
-
-        sendNewImage(QString(), activeJob->getActiveChip());
+        }        
     }
-    else
-        sendNewImage(QString(static_cast<const char *>(bp->aux2)), static_cast<ISD::CCDChip*>(bp->aux0));
 
-
+    blobChip    = bp ? static_cast<ISD::CCDChip*>(bp->aux0) : nullptr;
+    blobFilename= bp ? static_cast<const char *>(bp->aux2) : QString();
 
     setCaptureComplete();
 }
@@ -1291,6 +1287,7 @@ bool Capture::setCaptureComplete()
     // If it was initially set as pure preview job and NOT as preview for calibration
     if (activeJob->isPreview() && calibrationStage != CAL_CALIBRATION)
     {
+        sendNewImage(blobFilename, blobChip);
         jobs.removeOne(activeJob);
         // Reset upload mode if it was changed by preview
         currentCCD->setUploadMode(rememberUploadMode);
@@ -1317,6 +1314,8 @@ bool Capture::setCaptureComplete()
     /* Increase the sequence's current capture count */
     if (! activeJob->isPreview())
         activeJob->setCompleted(activeJob->getCompleted() + 1);
+
+    sendNewImage(blobFilename, blobChip);
 
     /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
     SchedulerJob::CapturedFramesMap::iterator frame_item = capturedFramesMap.find(activeJob->getSignature());

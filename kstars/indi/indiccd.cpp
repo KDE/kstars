@@ -1292,6 +1292,7 @@ void CCD::processBLOB(IBLOB *bp)
 
     // store file name
     strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
+    bp->aux0 = targetChip;
     bp->aux1 = &BType;
     bp->aux2 = BLOBFilename;
 
