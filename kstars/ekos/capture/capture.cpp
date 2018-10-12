@@ -365,6 +365,9 @@ void Capture::start()
     Options::setAutoMeridianFlip(meridianCheck->isChecked());
     Options::setAutoMeridianHours(meridianHours->value());
 
+    // Reset progress option if there is no captured frame map set at the time of start - fixes the end-user setting the option just before starting
+    ignoreJobProgress = !capturedFramesMap.count() && Options::alwaysResetSequenceWhenStarting();
+
     if (queueTable->rowCount() == 0)
     {
         if (addJob() == false)
@@ -382,8 +385,11 @@ void Capture::start()
         }
     }
 
+    // If there are no idle nor aborted jobs, question is whether to reset and restart
+    // Scheduler will start a non-empty new job each time and doesn't use this execution path
     if (first_job == nullptr)
     {
+        // If we have at least one job that are in error, bail out, even if ignoring job progress
         foreach (SequenceJob *job, jobs)
         {
             if (job->getStatus() != SequenceJob::JOB_DONE)
@@ -393,17 +399,28 @@ void Capture::start()
             }
         }
 
-        if (KMessageBox::warningContinueCancel(
-                    nullptr,
-                    i18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
-                    i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                    "reset_job_complete_status_warning") != KMessageBox::Continue)
-            return;
+        // If we only have completed jobs and we don't ignore job progress, ask the end-user what to do
+        if (!ignoreJobProgress)
+            if(KMessageBox::warningContinueCancel(
+                        nullptr,
+                        i18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
+                        i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                        "reset_job_complete_status_warning") != KMessageBox::Continue)
+                return;
 
+        // If the end-user accepted to reset, reset all jobs and restart
         foreach (SequenceJob *job, jobs)
             job->resetStatus();
 
         first_job = jobs.first();
+    }
+    // If we need to ignore job progress, systematically reset all jobs and restart
+    // Scheduler will never ignore job progress and doesn't use this path
+    else if (ignoreJobProgress)
+    {
+        appendLogText(i18n("Warning: option \"Always Reset Sequence When Starting\" is enabled and resets the sequence counts."));
+        foreach (SequenceJob *job, jobs)
+            job->resetStatus();
     }
 
     // Record initialHA and initialMount position when we are starting fresh
@@ -2110,10 +2127,6 @@ bool Capture::addJob(bool preview)
         currentRow = queueTable->currentRow();
 
     QTableWidgetItem *status = m_JobUnderEdit ? queueTable->item(currentRow, 0) : new QTableWidgetItem();
-    status->setText(job->getStatusString());
-    status->setTextAlignment(Qt::AlignHCenter);
-    status->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
     job->setStatusCell(status);
 
     QTableWidgetItem *filter = m_JobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
@@ -2165,9 +2178,7 @@ bool Capture::addJob(bool preview)
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QTableWidgetItem *count = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
-    count->setText(QString("%L1").arg(countIN->value()));
-    count->setTextAlignment(Qt::AlignHCenter);
-    count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    job->setCountCell(count);
     jsonJob.insert("Count", count->text());
 
     if (m_JobUnderEdit == false)
@@ -2455,6 +2466,8 @@ void Capture::prepareJob(SequenceJob *job)
             activeJob->setJobProgressIgnored(true);
             activeJob->setCompleted(0);
         }
+        // We cannot rely on sequenceID to give us a count - if we don't ignore job progress, we leave the count as it was originally
+#if 0
         // If we cannot ignore job progress, then we set completed job number according to what
         // was found on the file system.
         else if (ignoreJobProgress == false)
@@ -2465,6 +2478,7 @@ void Capture::prepareJob(SequenceJob *job)
             else
                 activeJob->setCompleted(activeJob->getCount());
         }
+#endif
 
         // Check whether active job is complete by comparing required captures to what is already available
         if (activeJob->getCount() <= activeJob->getCompleted())
@@ -3161,8 +3175,6 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
     m_Dirty      = false;
     delLilXML(xmlParser);
 
-    ignoreJobProgress = !(Options::rememberJobProgress());
-
     return true;
 }
 
@@ -3587,28 +3599,39 @@ bool Capture::saveSequenceQueue(const QString &path)
 
 void Capture::resetJobs()
 {
-    if (KMessageBox::warningContinueCancel(
-                nullptr, i18n("Are you sure you want to reset status of all jobs?"), i18n("Reset job status"),
-                KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "reset_job_status_warning") != KMessageBox::Continue)
-    {
-        return;
-    }
-
-    foreach (SequenceJob *job, jobs)
-        job->resetStatus();
-
-    // Reset active job pointer
-    activeJob = nullptr;
-
+    // Stop any running capture
     stop();
 
+    // If a job is selected for edit, reset only that job
+    if (m_JobUnderEdit == true)
+    {
+        SequenceJob * job = jobs.at(queueTable->currentRow());
+        if (nullptr != job)
+            job->resetStatus();
+    }
+    else
+    {
+        if (KMessageBox::warningContinueCancel(
+                    nullptr, i18n("Are you sure you want to reset status of all jobs?"), i18n("Reset job status"),
+                    KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "reset_job_status_warning") != KMessageBox::Continue)
+        {
+            return;
+        }
+
+        foreach (SequenceJob *job, jobs)
+            job->resetStatus();
+    }
+
+    // Also reset the storage count for all jobs
     capturedFramesMap.clear();
 
-    ignoreJobProgress = true;
+    // We're not controlled by the Scheduler, restore progress option
+    ignoreJobProgress = Options::alwaysResetSequenceWhenStarting();
 }
 
 void Capture::ignoreSequenceHistory()
 {
+    // This function is called independently from the Scheduler or the UI, so honor the change
     ignoreJobProgress = true;
 }
 
@@ -5513,9 +5536,8 @@ void Capture::setCapturedFramesMap(const QString &signature, int count)
 {
     capturedFramesMap[signature] = count;
     qCDebug(KSTARS_EKOS_CAPTURE) << QString("Client module indicates that storage for '%1' has already %2 captures processed.").arg(signature).arg(count);
-    //capturedFramesMap = map;
-    //for (auto key: map.keys())
-    //    qCDebug(KSTARS_EKOS_CAPTURE) << QString("Captured frame '%1' already has %2 captures stored.").arg(key).arg(map[key]);
+    // Scheduler's captured frame map overrides the progress option of the Capture module
+    ignoreJobProgress = false;
 }
 
 void Capture::setSettings(const QJsonObject &settings)

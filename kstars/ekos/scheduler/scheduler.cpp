@@ -4511,9 +4511,12 @@ void Scheduler::startCapture(bool restart)
         break;
 
     default:
+        // Scheduler always sets captured frame map when starting a sequence - count may be different, robustness, dynamic priority
+#if 0
         // JM 2018-09-24: If job is looping, no need to set captured frame maps.
         if (currentJob->getCompletionCondition() != SchedulerJob::FINISH_SEQUENCE)
             break;
+#endif
 
         // hand over the map of captured frames so that the capture
         // process knows about existing frames
@@ -4538,11 +4541,13 @@ void Scheduler::startCapture(bool restart)
         break;
     }
 
-
+    // Never ignore sequence history in the Capture module, it is unrelated to storage
+#if 0
     // If sequence is a loop, ignore sequence history
     // FIXME: set, but never used.
     if (currentJob->getCompletionCondition() != SchedulerJob::FINISH_SEQUENCE)
         captureInterface->call(QDBus::AutoDetect, "ignoreSequenceHistory");
+#endif
 
     // Start capture process
     captureInterface->call(QDBus::AutoDetect, "start");

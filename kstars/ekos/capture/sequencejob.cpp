@@ -46,20 +46,16 @@ void SequenceJob::reset()
 
 void SequenceJob::resetStatus()
 {
-    status         = JOB_IDLE;    
-    completed      = 0;
+    setStatus(JOB_IDLE);
+    setCompleted(0);
     exposeLeft     = 0;
     captureRetires = 0;
     m_JobProgressIgnored = false;
-    if (preview == false && statusCell)
-        statusCell->setText(statusStrings[status]);
 }
 
 void SequenceJob::abort()
 {
-    status = JOB_ABORTED;
-    if (preview == false && statusCell)
-        statusCell->setText(statusStrings[status]);
+    setStatus(JOB_ABORTED);
     if (activeChip->canAbort())
         activeChip->abortExposure();
     activeChip->setBatchMode(false);
@@ -67,10 +63,7 @@ void SequenceJob::abort()
 
 void SequenceJob::done()
 {
-    status = JOB_DONE;
-
-    if (statusCell)
-        statusCell->setText(statusStrings[status]);
+    setStatus(JOB_DONE);
 }
 
 void SequenceJob::prepareCapture()
@@ -193,6 +186,49 @@ void SequenceJob::setAllActionsReady()
     }
 }
 
+void SequenceJob::setStatus(JOBStatus const in_status)
+{
+    status = in_status;
+    if( !preview && nullptr != statusCell)
+        statusCell->setText(statusStrings[in_status]);
+}
+
+void SequenceJob::setStatusCell(QTableWidgetItem* cell)
+{
+    statusCell = cell;
+    if (nullptr != cell)
+    {
+        cell->setTextAlignment(Qt::AlignHCenter);
+        cell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        setStatus(getStatus());
+    }
+}
+
+void SequenceJob::setCount(int in_count)
+{
+    count = in_count;
+    if( !preview && nullptr != countCell)
+        countCell->setText(QString("%L1/%L2").arg(completed).arg(in_count));
+}
+
+void SequenceJob::setCompleted(int in_completed)
+{
+    completed = in_completed;
+    if( !preview && nullptr != countCell)
+        countCell->setText(QString("%L1/%L2").arg(in_completed).arg(count));
+}
+
+void SequenceJob::setCountCell(QTableWidgetItem* cell)
+{
+    countCell = cell;
+    if (nullptr != cell)
+    {
+        cell->setTextAlignment(Qt::AlignHCenter);
+        cell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        setCount(getCount());
+    }
+}
+
 bool SequenceJob::getJobProgressIgnored() const
 {
     return m_JobProgressIgnored;
@@ -266,21 +302,13 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
         // So setting binning first always ensures this will work.
         if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
         {
-            status = JOB_ERROR;
-
-            if (preview == false && statusCell)
-                statusCell->setText(statusStrings[status]);
-
+            setStatus(JOB_ERROR);
             return CAPTURE_BIN_ERROR;
         }
 
         if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
         {
-            status = JOB_ERROR;
-
-            if (preview == false && statusCell)
-                statusCell->setText(statusStrings[status]);
-
+            setStatus(JOB_ERROR);
             return CAPTURE_FRAME_ERROR;
         }
     }
@@ -298,9 +326,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
         activeCCD->setFilter(filter);
 
     //status = JOB_BUSY;
-
-    if (preview == false && statusCell)
-        statusCell->setText(statusStrings[status]);
+    setStatus(getStatus());
 
     exposeLeft = exposure;
 
