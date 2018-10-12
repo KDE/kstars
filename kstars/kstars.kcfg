@@ -1591,9 +1591,9 @@
          <label>Wait this many seconds after guiding is resumed before starting capture.</label>
          <default>0</default>
       </entry>
-      <entry name="RememberJobProgress" type="Bool">
-         <label>When starting a new capture job, check if files were previously captured and resume capture afterwards.</label>
-         <default>true</default>
+      <entry name="AlwaysResetSequenceWhenStarting" type="Bool">
+         <label>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When starting to process a sequence list, reset all capture counts to zero. Scheduler overrides this option when Remember Job Progress is enabled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</label>
+         <default>false</default>
       </entry>
       <entry name="FlatSyncFocus" type="Bool">
          <label>Capture flat frames at the same focus position of light frames.</label>
@@ -2157,6 +2157,10 @@
       <entry name="PreemptiveShutdownTime" type="Double">
          <label>Maximum number of hours before the next job is due to trigger a pre-emptive shutdown.</label>
          <default>2</default>
+      </entry>
+      <entry name="RememberJobProgress" type="Bool">
+         <label>When processing a scheduled job, resume the sequence starting from the last image present in storage.</label>
+         <default>true</default>
       </entry>
       <entry name="LeadTime" type="Double">
          <label>Minimum time between jobs in minutes.</label>

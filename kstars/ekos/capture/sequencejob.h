@@ -122,10 +122,11 @@ class SequenceJob : public QObject
     int getYBin() { return binY; }
 
     void setDelay(int in_delay) { delay = in_delay; }
-    void setCount(int in_count) { count = in_count; }
+    void setCount(int in_count);
     void setExposure(double duration) { exposure = duration; }
-    void setStatusCell(QTableWidgetItem *cell) { statusCell = cell; }
-    void setCompleted(int in_completed) { completed = in_completed; }
+    void setStatusCell(QTableWidgetItem *cell);
+    void setCountCell(QTableWidgetItem *cell);
+    void setCompleted(int in_completed);
     int getISOIndex() const;
     void setISOIndex(int value);
 
@@ -210,6 +211,7 @@ signals:
 private:
     bool areActionsReady();
     void setAllActionsReady();
+    void setStatus(JOBStatus const);
 
     QStringList statusStrings;
     ISD::CCDChip *activeChip { nullptr };
@@ -248,6 +250,7 @@ private:
     double currentRotation { 0 };
     FITSScale captureFilter { FITS_NONE };
     QTableWidgetItem *statusCell { nullptr };    
+    QTableWidgetItem *countCell { nullptr };
     QString postCaptureScript;
 
     ISD::CCD::UploadMode uploadMode { ISD::CCD::UPLOAD_CLIENT };
