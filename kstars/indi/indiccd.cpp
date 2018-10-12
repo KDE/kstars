@@ -1462,15 +1462,15 @@ void CCD::processBLOB(IBLOB *bp)
                     auto m_Loaded = std::make_shared<QMetaObject::Connection>();
                     *m_Loaded = connect(fv, &FITSViewer::loaded, [=](int tabIndex) {
                         *tabID = tabIndex;
-                        targetChip->setImageView(fv->getView(tabIndex), FITS_NORMAL);
+                        targetChip->setImageView(fv->getView(tabIndex), captureMode);
                         QObject::disconnect(*m_Loaded);
+                        emit BLOBUpdated(bp);
                     });
 
                     auto m_Failed = std::make_shared<QMetaObject::Connection>();
                     *m_Failed = connect(fv, &FITSViewer::failed, [=]() {
                         // If opening file fails, we treat it the same as exposure failure and recapture again if possible
                         emit newExposureValue(targetChip, 0, IPS_ALERT);
-
                         QObject::disconnect(*m_Failed);
                         return;
                     });
@@ -1480,6 +1480,9 @@ void CCD::processBLOB(IBLOB *bp)
                     else
                         fv->updateFITS(fileURL, *tabID, captureFilter);
                 }
+                else
+                    // If not displayed in FITS Viewer then we just inform that a blob was received.
+                    emit BLOBUpdated(bp);
             }
             break;
 
@@ -1490,8 +1493,8 @@ void CCD::processBLOB(IBLOB *bp)
                 break;
         }
     }
-
-    emit BLOBUpdated(bp);
+    else
+        emit BLOBUpdated(bp);
 #endif    
 }
 
@@ -1514,6 +1517,7 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip)
                     fv->show();
 
             QObject::disconnect(*m_Loaded);
+            emit BLOBUpdated(bp);
         });
         auto m_Failed = std::make_shared<QMetaObject::Connection>();
         *m_Failed = connect(view, &FITSView::failed, [=]() {
