@@ -689,7 +689,7 @@ void Scheduler::saveJob()
     queueSaveB->setEnabled(true);
     startB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
-    setJobManipulation(!Options::sortSchedulerJobs());
+    setJobManipulation(!Options::sortSchedulerJobs(), true);
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 was saved.").arg(job->getName()).arg(currentRow+1);
 
@@ -825,7 +825,7 @@ void Scheduler::loadJob(QModelIndex i)
     evaluateOnlyB->setEnabled(false);
 
     /* Don't let the end-user remove a job being edited */
-    setJobManipulation(false);
+    setJobManipulation(false, false);
 
     jobUnderEdit = i.row();
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is currently edited.").arg(job->getName()).arg(jobUnderEdit+1);
@@ -835,7 +835,7 @@ void Scheduler::loadJob(QModelIndex i)
 
 void Scheduler::clickQueueTable(QModelIndex index)
 {
-    setJobManipulation(!Options::sortSchedulerJobs() && index.isValid());
+    setJobManipulation(!Options::sortSchedulerJobs() && index.isValid(), index.isValid());
 }
 
 void Scheduler::setJobAddApply(bool add_mode)
@@ -856,21 +856,20 @@ void Scheduler::setJobAddApply(bool add_mode)
     }
 }
 
-void Scheduler::setJobManipulation(bool can_manipulate)
+void Scheduler::setJobManipulation(bool can_reorder, bool can_delete)
 {
-    if (can_manipulate)
+    if (can_reorder)
     {
         int const currentRow = queueTable->currentRow();
         queueUpB->setEnabled(0 < currentRow);
         queueDownB->setEnabled(currentRow < queueTable->rowCount() - 1);
-        removeFromQueueB->setEnabled(true);
     }
     else
     {
         queueUpB->setEnabled(false);
         queueDownB->setEnabled(false);
-        removeFromQueueB->setEnabled(false);
     }
+    removeFromQueueB->setEnabled(can_delete);
 }
 
 void Scheduler::moveJobUp()
@@ -892,7 +891,7 @@ void Scheduler::moveJobUp()
 
     /* Move selection to destination row */
     queueTable->selectRow(destinationRow);
-    setJobManipulation(!Options::sortSchedulerJobs());
+    setJobManipulation(!Options::sortSchedulerJobs(), true);
 
     /* Make list modified */
     setDirty();
@@ -925,7 +924,7 @@ void Scheduler::moveJobDown()
 
     /* Move selection to destination row */
     queueTable->selectRow(destinationRow);
-    setJobManipulation(!Options::sortSchedulerJobs());
+    setJobManipulation(!Options::sortSchedulerJobs(), true);
 
     /* Make list modified */
     setDirty();
@@ -973,7 +972,7 @@ void Scheduler::resetJobEdit()
     setJobAddApply(true);
 
     /* Refresh state of job manipulation buttons */
-    setJobManipulation(!Options::sortSchedulerJobs());
+    setJobManipulation(!Options::sortSchedulerJobs(), true);
 
     /* Restore scheduler operation buttons */
     evaluateOnlyB->setEnabled(true);
@@ -1000,7 +999,7 @@ void Scheduler::removeJob()
     /* If there are no job rows left, update UI buttons */
     if (queueTable->rowCount() == 0)
     {
-        setJobManipulation(false);
+        setJobManipulation(false, false);
         evaluateOnlyB->setEnabled(false);
         queueSaveAsB->setEnabled(false);
         queueSaveB->setEnabled(false);
@@ -1145,7 +1144,7 @@ void Scheduler::stop()
 
     queueLoadB->setEnabled(true);
     addToQueueB->setEnabled(true);
-    setJobManipulation(false);
+    setJobManipulation(false, false);
     mosaicB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
 }
@@ -1183,7 +1182,7 @@ void Scheduler::start()
             /* Disable edit-related buttons */
             queueLoadB->setEnabled(false);
             addToQueueB->setEnabled(false);
-            setJobManipulation(false);
+            setJobManipulation(false, false);
             mosaicB->setEnabled(false);
             evaluateOnlyB->setEnabled(false);
             startupB->setEnabled(false);

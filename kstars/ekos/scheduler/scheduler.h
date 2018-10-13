@@ -311,7 +311,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
     /**
          * @brief setJobManipulation Enable or disable job manipulation buttons.
          */
-    void setJobManipulation(bool enable);
+    void setJobManipulation(bool can_reorder, bool can_delete);
 
     /**
          * @brief clickQueueTable Update UI state when the job list is clicked once.
