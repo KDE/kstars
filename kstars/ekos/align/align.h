@@ -381,7 +381,7 @@ class Align : public QWidget, public Ui::Align
          * the telescope is pointing to the same coordinates of the image.
          * @param fileURL URL to the image to solve
          */
-    Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QString fileURL = QString());
+    Q_SCRIPTABLE bool loadAndSlew(QString fileURL = QString());
 
     /** DBUS interface function.
          * Sets the binning of the selected CCD device.
