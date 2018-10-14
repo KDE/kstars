@@ -749,9 +749,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
     // When a module is commanded to perform an action, wait this many milliseconds
     // before check its state again. If State is still IDLE, then it either didn't recieved the command
     // or there is another problem.
-    static const uint16_t ALIGN_INACTIVITY_TIMEOUT      = 60000;
+    static const uint32_t ALIGN_INACTIVITY_TIMEOUT      = 120000;
+    static const uint32_t FOCUS_INACTIVITY_TIMEOUT      = 120000;
+    static const uint32_t CAPTURE_INACTIVITY_TIMEOUT    = 120000;
     static const uint16_t GUIDE_INACTIVITY_TIMEOUT      = 60000;
-    static const uint16_t FOCUS_INACTIVITY_TIMEOUT      = 60000;
-    static const uint16_t CAPTURE_INACTIVITY_TIMEOUT    = 60000;
+
 };
 }
