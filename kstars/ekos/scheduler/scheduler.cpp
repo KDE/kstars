@@ -4445,7 +4445,7 @@ void Scheduler::startAstrometry()
         }
 
         loadAndSlewProgress = true;
-        appendLogText(i18n("Job '%1' is plate solving capture %2.", currentJob->getName(), currentJob->getFITSFile().fileName()));
+        appendLogText(i18n("Job '%1' is plate solving %2.", currentJob->getName(), currentJob->getFITSFile().fileName()));
     }
     else
     {

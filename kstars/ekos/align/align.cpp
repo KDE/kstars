@@ -4193,7 +4193,7 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
                 .arg(dec_s.arcsec(), 2, 10, QChar('0'));
 }
 
-void Align::loadAndSlew(QString fileURL)
+bool Align::loadAndSlew(QString fileURL)
 {
     /*if (solverTypeGroup->checkedId() == SOLVER_REMOTE)
     {
@@ -4207,7 +4207,7 @@ void Align::loadAndSlew(QString fileURL)
                                                "Images (*.fits *.fit *.jpg *.jpeg)");
 
     if (fileURL.isEmpty())
-        return;
+        return false;
 
     QFileInfo fileInfo(fileURL);
     dirPath = fileInfo.absolutePath();
@@ -4226,6 +4226,8 @@ void Align::loadAndSlew(QString fileURL)
     pi->startAnimation();
 
     startSolving(fileURL, false);
+
+    return true;
 }
 
 void Align::setExposure(double value)
