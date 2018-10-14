@@ -6,7 +6,7 @@
   <property name="filter" type="s" access="readwrite"/>
   <property name="logText" type="as" access="read"/>
   <property name="status" type="(i)" access="read">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::FocusState"/>
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::AlignState"/>
   </property>
   <property name="fov" type="(i)" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
