@@ -472,20 +472,20 @@ if ("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
 
 
     add_custom_target(create-apk-debug-kstars
-        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE_DIR:Qt5::qmake>/packaging/androiddeployqt"
+        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt"
         COMMAND cmake -E remove_directory "${EXPORT_DIR}"
         COMMAND cmake -E copy_directory "${CMAKE_SOURCE_DIR}/packaging/android/apk" "${EXPORT_DIR}"
         COMMAND cmake -E copy "$<TARGET_FILE:kstars>" "${EXECUTABLE_DESTINATION_PATH}"
         COMMAND cmake -DINPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json.in" -DOUTPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" "-DTARGET_DIR=${CMAKE_BINARY_DIR}/kstars" "-DTARGET_NAME=kstars" "-DEXPORT_DIR=${CMAKE_INSTALL_PREFIX}" -P ${CMAKE_SOURCE_DIR}/packaging/android/specifydependencies.cmake
-        COMMAND $<TARGET_FILE_DIR:Qt5::qmake>/packaging/androiddeployqt --input "${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --debug --deployment bundled "\\$(ARGS)"
+        COMMAND $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt --input "${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --debug --deployment bundled "\\$(ARGS)"
         )
     add_custom_target(create-apk-release-kstars
-        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE_DIR:Qt5::qmake>/packaging/androiddeployqt"
+        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt"
         COMMAND cmake -E remove_directory "${EXPORT_DIR}"
         COMMAND cmake -E copy_directory "${CMAKE_SOURCE_DIR}/packaging/android/apk" "${EXPORT_DIR}"
         COMMAND cmake -E copy "$<TARGET_FILE:kstars>" "${EXECUTABLE_DESTINATION_PATH}"
         COMMAND cmake -DINPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json.in" -DOUTPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" "-DTARGET_DIR=${CMAKE_BINARY_DIR}/kstars" "-DTARGET_NAME=kstars" "-DEXPORT_DIR=${CMAKE_INSTALL_PREFIX}" -P ${CMAKE_SOURCE_DIR}/packaging/android/specifydependencies.cmake
-        COMMAND $<TARGET_FILE_DIR:Qt5::qmake>/packaging/androiddeployqt --input "${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --release --deployment bundled "\\$(ARGS)"
+        COMMAND $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt --input "${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --release --deployment bundled "\\$(ARGS)"
         )
     add_custom_target(install-apk-debug-kstars
         COMMAND adb install -r ${CMAKE_BINARY_DIR}/packaging/android/kstars_build_apk//bin/QtApp-debug.apk
