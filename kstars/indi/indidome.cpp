@@ -79,6 +79,10 @@ void Dome::registerProperty(INDI::Property *prop)
     {
         m_CanAbsMove = true;
     }
+    else if (!strcmp(prop->getName(), "DOME_ABORT_MOTION"))
+    {
+        m_CanAbort = true;
+    }
 
     DeviceDecorator::registerProperty(prop);
 }
@@ -205,7 +209,7 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
     {
         Status lastStatus = m_Status;
 
-        if (svp->s == IPS_BUSY && lastStatus != DOME_MOVING)
+        if (svp->s == IPS_BUSY && lastStatus != DOME_MOVING && lastStatus != DOME_PARKING && lastStatus != DOME_UNPARKING)
         {
             m_Status = DOME_MOVING;
             emit newStatus(m_Status);
@@ -232,6 +236,9 @@ void Dome::processText(ITextVectorProperty *tvp)
 
 bool Dome::Abort()
 {
+    if (m_CanAbort == false)
+        return false;
+
     ISwitchVectorProperty *motionSP = baseDevice->getSwitch("DOME_ABORT_MOTION");
 
     if (motionSP == nullptr)
@@ -286,7 +293,7 @@ bool Dome::UnPark()
     return true;
 }
 
-bool Dome::isMoving()
+bool Dome::isMoving() const
 {
     ISwitchVectorProperty *motionSP = baseDevice->getSwitch("DOME_MOTION");
 
@@ -296,7 +303,7 @@ bool Dome::isMoving()
     return false;
 }
 
-double Dome::azimuthPosition()
+double Dome::azimuthPosition() const
 {
     INumberVectorProperty *az = baseDevice->getNumber("ABS_DOME_POSITION");
 

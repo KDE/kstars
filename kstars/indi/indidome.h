@@ -46,12 +46,13 @@ class Dome : public DeviceDecorator
 
     DeviceFamily getType() { return dType; }
 
-    bool canPark() { return m_CanPark; }
-    bool canAbsMove() { return m_CanAbsMove; }
-    bool isParked() { return m_ParkStatus == PARK_PARKED; }
-    bool isMoving();    
+    bool canPark() const { return m_CanPark; }
+    bool canAbsMove() const { return m_CanAbsMove; }
+    bool canAbort() const { return m_CanAbort; }
+    bool isParked() const { return m_ParkStatus == PARK_PARKED; }
+    bool isMoving() const;
 
-    double azimuthPosition();
+    double azimuthPosition() const;
     bool setAzimuthPosition(double position);
 
     Status status() const { return m_Status; }
@@ -73,6 +74,7 @@ class Dome : public DeviceDecorator
     Status m_Status { DOME_IDLE };
     bool m_CanAbsMove { false };
     bool m_CanPark { false };
+    bool m_CanAbort { false };
     std::unique_ptr<QTimer> readyTimer;
 };
 }

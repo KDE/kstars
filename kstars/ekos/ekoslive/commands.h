@@ -170,9 +170,9 @@ static QMap<COMMANDS, QString> const commands =
     {MOUNT_SET_SLEW_RATE, "mount_set_slew_rate"},
 
     {DOME_PARK, "dome_park"},
-    {DOME_PARK, "dome_park"},
-    {DOME_PARK, "dome_park"},
-    {DOME_PARK, "dome_park"},
+    {DOME_UNPARK, "dome_unpark"},
+    {DOME_GOTO, "dome_goto"},
+    {DOME_STOP, "dome_stop"},
 
     {CAP_PARK, "cap_park"},
     {CAP_UNPARK, "cap_unpark"},

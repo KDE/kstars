@@ -249,12 +249,26 @@ void Message::sendDomes()
             {"name", dome->getDeviceName()},
             {"canPark", dome->canPark()},
             {"canGoto", dome->canAbsMove()},
+            {"canAbort", dome->canAbort()},
         };
 
         domeList.append(oneDome);
     }
 
     sendResponse(commands[GET_DOMES], domeList);
+
+    // Also send initial azimuth
+    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_DOME))
+    {
+        ISD::Dome *oneDome = dynamic_cast<ISD::Dome*>(gd);
+
+        if (oneDome->canAbsMove())
+        {
+            QJsonObject status = {{"az", oneDome->azimuthPosition() }};
+            sendResponse(commands[NEW_DOME_STATE], status);
+            break;
+        }
+    }
 }
 
 void Message::sendCaps()
