@@ -4362,7 +4362,7 @@ double Capture::setCurrentADU(double value)
     // But DSLRs can exhibit non-linear response curve and so a 2nd degree polynomial is more appropriate
     if (ExpRaw.count() >= 2)
     {
-        if (ExpRaw.count() >= 4)
+        if (ExpRaw.count() >= 5)
         {
             double chisq = 0;
 
@@ -4382,9 +4382,9 @@ double Capture::setCurrentADU(double value)
         }
 
         // If we get invalid data, let's fall back to llsq
-        // Since polyfit can be unreliable at low counts, let's only use it at the 4th exposure
+        // Since polyfit can be unreliable at low counts, let's only use it at the 5th exposure
         // if we don't have results already.
-        if (looping || ExpRaw.count() < 4 || std::isnan(coeff[0]) || std::isinf(coeff[0]))
+        if (looping || ExpRaw.count() < 5 || std::isnan(coeff[0]) || std::isinf(coeff[0]))
         {
             double a = 0, b = 0;
             llsq(ExpRaw, ADURaw, a, b);
@@ -5012,6 +5012,7 @@ bool Capture::processPostCaptureCalibrationStage()
             {
                 appendLogText(i18n("Flat calibration failed. Captured image is only %1-bit while requested ADU is %2.", QString::number(image_data->bpp())
                                    , QString::number(activeJob->getTargetADU(), 'f', 2)));
+                abort();
                 return false;
             }
             else if (saturated)
