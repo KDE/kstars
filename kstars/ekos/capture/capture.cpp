@@ -4351,6 +4351,7 @@ double Capture::setCurrentADU(double value)
     double targetADU    = activeJob->getTargetADU();
     std::vector<double> coeff;
 
+    // Check if saturated, then take shorter capture and discard value
     ExpRaw.append(activeJob->getExposure());
     ADURaw.append(value);
 
@@ -4978,6 +4979,57 @@ bool Capture::processPostCaptureCalibrationStage()
         {
             image_data        = currentImage->getImageData();
             double currentADU = image_data->getADU();
+            bool outOfRange=false, saturated=false;
+
+            switch (image_data->bpp())
+            {
+                case 8:
+                 if (activeJob->getTargetADU() > UINT8_MAX)
+                     outOfRange = true;
+                 else if (currentADU/UINT8_MAX > 0.95)
+                     saturated = true;
+                break;
+
+                case 16:
+                if (activeJob->getTargetADU() > UINT16_MAX)
+                    outOfRange = true;
+                else if (currentADU/UINT16_MAX > 0.95)
+                    saturated = true;
+                break;
+
+                case 32:
+                if (activeJob->getTargetADU() > UINT32_MAX)
+                    outOfRange = true;
+                else if (currentADU/UINT32_MAX > 0.95)
+                    saturated = true;
+                break;
+
+            default:
+                break;
+            }
+
+            if (outOfRange)
+            {
+                appendLogText(i18n("Flat calibration failed. Captured image is only %1-bit while requested ADU is %2.", QString::number(image_data->bpp())
+                                   , QString::number(activeJob->getTargetADU(), 'f', 2)));
+                return false;
+            }
+            else if (saturated)
+            {
+                double nextExposure = activeJob->getExposure() * 0.1;
+                nextExposure = qBound(exposureIN->minimum(), nextExposure, exposureIN->maximum());
+
+                appendLogText(i18n("Current image is saturated (%1). Next exposure is %2 seconds.",
+                                   QString::number(currentADU, 'f', 0), QString("%L1").arg(nextExposure, 0, 'f', 6)));
+
+                calibrationStage = CAL_CALIBRATION;
+                activeJob->setExposure(nextExposure);
+                activeJob->setPreview(true);
+                rememberUploadMode = activeJob->getUploadMode();
+                currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+                startNextExposure();
+                return false;
+            }
 
             double ADUDiff = fabs(currentADU - activeJob->getTargetADU());
 
@@ -5012,7 +5064,7 @@ bool Capture::processPostCaptureCalibrationStage()
             double nextExposure = -1;
 
             // If value is saturdated, try to reduce it to valid range first
-            if (image_data->getMax(0) == image_data->getMin(0))
+            if (std::fabs(image_data->getMax(0) - image_data->getMin(0)) < 10)
                 nextExposure = activeJob->getExposure() * 0.5;
             else
                 nextExposure = setCurrentADU(currentADU);
@@ -5031,7 +5083,7 @@ bool Capture::processPostCaptureCalibrationStage()
             nextExposure = qBound(exposureIN->minimum(), nextExposure, exposureIN->maximum());
 
             appendLogText(i18n("Current ADU is %1 Next exposure is %2 seconds.", QString::number(currentADU, 'f', 0),
-                               QString("%L1").arg(nextExposure, 0, 'f', 3)));
+                               QString("%L1").arg(nextExposure, 0, 'f', 6)));
 
             calibrationStage = CAL_CALIBRATION;
             activeJob->setExposure(nextExposure);
