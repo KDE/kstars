@@ -122,11 +122,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(solveB, &QPushButton::clicked, this, &Ekos::Align::captureAndSolve);
     connect(stopB, &QPushButton::clicked, this, &Ekos::Align::abort);
     connect(measureAltB, &QPushButton::clicked, this, &Ekos::Align::measureAltError);
-    connect(measureAzB, &QPushButton::clicked, this, &Ekos::Align::measureAzError);
-
-    alignTimer.setInterval(10000);
-    alignTimer.setSingleShot(true);
-    connect(&alignTimer, &QTimer::timeout, this, &Align::captureAndSolve);
+    connect(measureAzB, &QPushButton::clicked, this, &Ekos::Align::measureAzError);    
 
     // Effective FOV Edit
     connect(FOVOut, &QLineEdit::editingFinished, this, &Align::syncFOV);
@@ -165,6 +161,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
             [=](int id) { this->currentGotoMode = static_cast<GotoMode>(id); });
 
+    alignTimer.setSingleShot(true);
     alignTimer.setInterval(Options::astrometryTimeout() * 1000);
     connect(&alignTimer, &QTimer::timeout, this, &Ekos::Align::checkAlignmentTimeout);
 
@@ -1787,7 +1784,7 @@ void Align::checkAlignmentTimeout()
         abort();
     else if (loadSlewState == IPS_IDLE)
     {
-        appendLogText(i18n("Solver timed out"));
+        appendLogText(i18n("Solver timed out."));
         parser->stopSolver();
         captureAndSolve();
     }
