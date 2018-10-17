@@ -238,7 +238,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
     /**
      * @brief registerNewModule Register an Ekos module as it arrives via DBus
-     * and create the appropiate DBus interface to communicate with it.
+     * and create the appropriate DBus interface to communicate with it.
      * @param name of module
      */
     void registerNewModule(const QString &name);
@@ -747,7 +747,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
     bool m_CapReady { false };
 
     // When a module is commanded to perform an action, wait this many milliseconds
-    // before check its state again. If State is still IDLE, then it either didn't recieved the command
+    // before check its state again. If State is still IDLE, then it either didn't received the command
     // or there is another problem.
     static const uint32_t ALIGN_INACTIVITY_TIMEOUT      = 120000;
     static const uint32_t FOCUS_INACTIVITY_TIMEOUT      = 120000;
