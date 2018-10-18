@@ -1141,21 +1141,19 @@ void Focus::setCaptureComplete()
 {
     DarkLibrary::Instance()->disconnect(this);
 
+    // Get Binning
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     int subBinX = 1, subBinY = 1;
     targetChip->getBinning(&subBinX, &subBinY);
 
-    // Always reset capture mode to NORMAL
-    // JM 2016-09-28: Disable setting back to FITS_NORMAL as it might be causing issues. Each module should set capture module separately.
-    //targetChip->setCaptureMode(FITS_NORMAL);
+    // If we have a box, sync the bounding box to its position.
+    syncTrackingBoxPosition();    
 
-    syncTrackingBoxPosition();
-
-    //connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, &Ekos::Focus::(focusStarSelected(int, int)), Qt::UniqueConnection);
-
+    // Notify user if we're not looping
     if (inFocusLoop == false)
         appendLogText(i18n("Image received."));
 
+    // If we're not looping and not in autofocus, enable user to capture again.
     if (captureInProgress && inFocusLoop == false && inAutoFocus == false)
     {
         captureB->setEnabled(true);
@@ -1168,22 +1166,28 @@ void Focus::setCaptureComplete()
 
     captureInProgress = false;
 
+    // Get handle to the image data
     FITSData *image_data = focusView->getImageData();
 
+    // Emit the tracking (bounding) box view
     emit newStarPixmap(focusView->getTrackingBoxPixmap(10));
 
-    // If we're not framing, let's try to detect stars
-    //if (inFocusLoop == false || (inFocusLoop && focusView->isTrackingBoxEnabled()))
+    // If we are not looping; OR
+    // If we are looping but we already have tracking box enabled; OR
+    // If we are asked to analyze _all_ the stars within the field
+    // THEN let's find stars in the image and get current HFR
     if (inFocusLoop == false || (inFocusLoop && (focusView->isTrackingBoxEnabled() || Options::focusUseFullField())))
     {
+        // First check that we haven't already search for stars
+        // Since star-searching algorithm are time-consuming, we should only search when necessary
         if (image_data->areStarsSearched() == false)
-        {
-            //if (starSelected == false && autoStarCheck->isChecked() && subFramed == false)
-            //if (autoStarCheck->isChecked() && subFramed == false)
-            //focusView->findStars(ALGORITHM_CENTROID);
-
+        {            
+            // Reset current HFR
             currentHFR = -1;
 
+            // When we're using FULL field view, we always use either CENTROID algorithm which is the default
+            // standard algorithm in KStars, or SEP. The other algorithms are too inefficient to run on full frames and require
+            // a bounding box for them to be effective in near real-time application.
             if (Options::focusUseFullField())
             {                
                 if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
@@ -1191,10 +1195,13 @@ void Focus::setCaptureComplete()
                 else
                     focusView->findStars(focusDetection);
                 focusView->updateFrame();
+
+                // Get the average HFR of the whole frame
                 currentHFR = image_data->getHFR(HFR_AVERAGE);
             }
             else
             {
+                // If star is already selected then use whatever algorithm currently selected.
                 if (starSelected)
                 {
                     focusView->findStars(focusDetection);
@@ -1203,23 +1210,31 @@ void Focus::setCaptureComplete()
                 }
                 else
                 {
+                   // Disable tracking box
                    focusView->setTrackingBoxEnabled(false);
 
-                    if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
-                        focusView->findStars(ALGORITHM_CENTROID);
-                    else
-                        focusView->findStars(focusDetection);
+                   // If algorithm is set something other than Centeroid or SEP, then force Centroid
+                   // Since it is the most reliable detector when nothing was selected before.
+                   if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
+                       focusView->findStars(ALGORITHM_CENTROID);
+                   else
+                   // Otherwise, continue to find use using the selected algorithm
+                       focusView->findStars(focusDetection);
 
+                   // Reenable tracking box
                    focusView->setTrackingBoxEnabled(true);
 
-                    focusView->updateFrame();
-                    currentHFR = image_data->getHFR(HFR_MAX);
+                   focusView->updateFrame();
+
+                   // Get maximum HFR in the frame
+                   currentHFR = image_data->getHFR(HFR_MAX);
                 }
             }
         }
 
+        // Let's now report the current HFR
         qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR;
-
+        // Add it to existing frames in case we need to take an average
         HFRFrames.append(currentHFR);
 
         // Check if we need to average more than a single frame
@@ -1275,26 +1290,30 @@ void Focus::setCaptureComplete()
         }
         else
         {
+            // If we need to capture more frames to average the HFR, let's do that now.
             capture();
             return;
         }
 
 
+        // Let signal the current HFR now depending on whether the focuser is absolte or relative
         if (canAbsMove)
             emit newHFR(currentHFR, static_cast<int>(currentPosition));
         else
             emit newHFR(currentHFR, -1);
 
+        // Format the HFR value into a string
         QString HFRText = QString("%1").arg(currentHFR, 0, 'f', 2);
-
-        if (/*focusType == FOCUS_MANUAL && */ lastHFR == -1)
-            appendLogText(i18n("FITS received. No stars detected."));
-
         HFROut->setText(HFRText);
 
+        // Display message in case _last_ HFR was negeative
+        if (lastHFR == -1)
+            appendLogText(i18n("FITS received. No stars detected."));
+
+        // If we have a valid HFR value
         if (currentHFR > 0)
         {
-            // Check if we're done
+            // Check if we're done from polynomail fitting algorithm
             if (focusAlgorithm == FOCUS_POLYNOMIAL && polySolutionFound == MINIMUM_POLY_SOLUTIONS)
             {
                 polySolutionFound = 0;
@@ -1306,25 +1325,29 @@ void Focus::setCaptureComplete()
             }
             Edge *maxStarHFR = nullptr;
 
-            // Center tracking box around selected star
-            //if (starSelected && inAutoFocus)
+            // Center tracking box around selected star (if it valid) either in:
+            // 1. Autofocus
+            // 2. CheckFocus (minimumHFRCheck)
+            // The starCenter _must_ already be defined, otherwise, we proceed until
+            // the latter half of the function searches for a star and define it.
             if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0) &&
                 (maxStarHFR = image_data->getMaxHFRStar()) != nullptr)
             {
+                // Now we have star selected in the frame
                 starSelected = true;
                 starCenter.setX(qMax(0, static_cast<int>(maxStarHFR->x)));
                 starCenter.setY(qMax(0, static_cast<int>(maxStarHFR->y)));
 
                 syncTrackingBoxPosition();
 
-                // Record information to know if we have bogus results
+                // Record the star information (X, Y, currentHFR)
                 QVector3D oneStar = starCenter;
                 oneStar.setZ(currentHFR);
                 starsHFR.append(oneStar);
             }
             else
             {
-                // Record information to know if we have bogus results
+                // Record the star information (X, Y, currentHFR)
                 QVector3D oneStar(starCenter.x(), starCenter.y(), currentHFR);
                 starsHFR.append(oneStar);
             }
@@ -1332,6 +1355,8 @@ void Focus::setCaptureComplete()
             if (currentHFR > maxHFR)
                 maxHFR = currentHFR;
 
+            // Append point to the #Iterations vs #HFR chart in case of looping or in case in autofocus with a focus
+            // that does not support position feedback.
             if (inFocusLoop || (inAutoFocus && canAbsMove == false && canRelMove == false))
             {
                 if (hfr_position.empty())
@@ -1345,6 +1370,7 @@ void Focus::setCaptureComplete()
         }
         else
         {
+            // Let's record an invalid star result
             QVector3D oneStar(starCenter.x(), starCenter.y(), -1);
             starsHFR.append(oneStar);
         }
@@ -1379,17 +1405,23 @@ void Focus::setCaptureComplete()
         }
     }
 
-    // If just framing, let's capture again
+    // If we are just framing, let's capture again
     if (inFocusLoop)
     {
         capture();
         return;
     }
 
+    // If star is NOT yet selected in a non-full-frame situation
+    // then let's now try to find the star. This step is skipped for full frames
+    // since there isn't a single star to select as we are only interested in the overall average HFR.
+    // We need to check if we can find the star right away, or if we need to _subframe_ around the
+    // selected star.
     if (Options::focusUseFullField() == false && starCenter.isNull())
     {
         int x = 0, y = 0, w = 0, h = 0;
 
+        // Let's get the stored frame settings for this particular chip
         if (frameSettings.contains(targetChip))
         {
             QVariantMap settings = frameSettings[targetChip];
@@ -1399,34 +1431,37 @@ void Focus::setCaptureComplete()
             h                    = settings["h"].toInt();
         }
         else
+            // Otherwise let's get the target chip frame coordinates.
             targetChip->getFrame(&x, &y, &w, &h);
 
+        // In case auto star is selected.
         if (useAutoStar->isChecked())
         {
+            // Do we have a valid star detected?
             Edge *maxStar = image_data->getMaxHFRStar();
 
             if (maxStar == nullptr)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
 
-                //if (fw == 0 || fh == 0)
-                //targetChip->getFrame(&fx, &fy, &fw, &fh);
-
-                //targetImage->setTrackingBox(QRect((fw-focusBoxSize->value())/2, (fh-focusBoxSize->value())/2, focusBoxSize->value(), focusBoxSize->value()));
+                // Center the tracking box in the frame and display it
                 focusView->setTrackingBox(QRect(w - focusBoxSize->value() / (subBinX * 2),
                                                 h - focusBoxSize->value() / (subBinY * 2),
                                                 focusBoxSize->value() / subBinX, focusBoxSize->value() / subBinY));
                 focusView->setTrackingBoxEnabled(true);
 
+                // Use can now move it to select the desired star
                 state = Ekos::FOCUS_WAITING;
                 qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
                 emit newStatus(state);
 
+                // Start the wait timer so we abort after a timeout if the user does not make a choice
                 waitStarSelectTimer.start();
 
                 return;
             }
 
+            // Do we need to subframe?
             if (subFramed == false && useSubFrame->isEnabled() && useSubFrame->isChecked())
             {
                 int offset = (static_cast<double>(focusBoxSize->value()) / subBinX) * 1.5;
@@ -1438,6 +1473,7 @@ void Focus::setCaptureComplete()
                 int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
                 targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
 
+                // Try to limit the subframed selection
                 if (subX < minX)
                     subX = minX;
                 if (subY < minY)
@@ -1447,19 +1483,8 @@ void Focus::setCaptureComplete()
                 if ((subH + subY) > maxH)
                     subH = maxH - subY;
 
-                //targetChip->setFocusFrame(subX, subY, subW, subH);
-
-                //fx += subX;
-                //fy += subY;
-                //fw = subW;
-                //fh = subH;
-                //frameModified = true;
-
-                //x += subX;
-                //y += subY;
-                //w = subW;
-                //h = subH;                
-
+                // Now we store the subframe coordinates in the target chip frame settings so we
+                // reuse it later when we capture again.
                 QVariantMap settings = frameSettings[targetChip];
                 settings["x"]        = subX;
                 settings["y"]        = subY;
@@ -1474,6 +1499,7 @@ void Focus::setCaptureComplete()
 
                 frameSettings[targetChip] = settings;
 
+                // Set the star center in the center of the subframed coordinates
                 starCenter.setX(subW / (2 * subBinX));
                 starCenter.setY(subH / (2 * subBinY));
                 starCenter.setZ(subBinX);
@@ -1482,14 +1508,17 @@ void Focus::setCaptureComplete()
 
                 focusView->setFirstLoad(true);                
 
+                // Now let's capture again for the actual requested subframed image.
                 capture();
             }
+            // If we're subframed or don't need subframe, let's record the max star coordinates
             else
             {
                 starCenter.setX(maxStar->x);
                 starCenter.setY(maxStar->y);
                 starCenter.setZ(subBinX);
 
+                // Let's now capture again if we're autofocusing
                 if (inAutoFocus)
                     capture();
             }
@@ -1498,14 +1527,15 @@ void Focus::setCaptureComplete()
             defaultScale = static_cast<FITSScale>(filterCombo->currentIndex());
             return;
         }
+        // If manual selection is enabled then let's ask the user to select the focus star
         else
         {
             appendLogText(i18n("Capture complete. Select a star to focus."));
 
             starSelected = false;
-            //if (fw == 0 || fh == 0)
-            //targetChip->getFrame(&fx, &fy, &fw, &fh);
 
+            // Let's now display and set the tracking box in the center of the frame
+            // so that the user moves it around to select the desired star.
             int subBinX = 1, subBinY = 1;
             targetChip->getBinning(&subBinX, &subBinY);
 
@@ -1514,19 +1544,21 @@ void Focus::setCaptureComplete()
                                             focusBoxSize->value() / subBinX, focusBoxSize->value() / subBinY));
             focusView->setTrackingBoxEnabled(true);
 
+            // Now we wait
             state = Ekos::FOCUS_WAITING;
             qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
             emit newStatus(state);
 
+            // If the user does not select for a timeout period, we abort.
             waitStarSelectTimer.start();
-            //connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, &Ekos::Focus::(focusStarSelected(int, int)), Qt::UniqueConnection);
             return;
         }
     }
 
+    // Check if the focus module is requested to verify if the minimum HFR value is met.
     if (minimumRequiredHFR >= 0)
     {
-
+        // In case we failed to detected, we capture again.
         if (currentHFR == -1)
         {
             if (noStarCount++ < MAX_RECAPTURE_RETRIES)
@@ -1538,18 +1570,22 @@ void Focus::setCaptureComplete()
                 capture();
                 return;
             }
+            // If we exceeded maximum tries we abort
             else
             {
                 noStarCount = 0;
                 setAutoFocusResult(false);
             }
         }
+        // If the detect current HFR is more than than minimum required HFR
+        // then we should start the autofocus process now to bring it down.
         else if (currentHFR > minimumRequiredHFR)
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is above required minimum HFR:" << minimumRequiredHFR << ". Starting AutoFocus...";
             inSequenceFocus = true;
             start();
         }
+        // Otherwise, the current HFR is fine and lower than the required minimum HFR so we announce success.
         else
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR << ". Autofocus successful.";
@@ -1557,13 +1593,16 @@ void Focus::setCaptureComplete()
             drawProfilePlot();
         }
 
+        // We reset minimum required HFR and call it a day.
         minimumRequiredHFR = -1;
 
         return;
     }
 
+    // Let's draw the HFR Plot
     drawProfilePlot();
 
+    // If focus logging is enabled, let's save the frame.
     if (Options::focusLogging())
     {
         QDir dir;
@@ -1577,9 +1616,11 @@ void Focus::setCaptureComplete()
         focusView->getImageData()->saveFITS(filename);
     }
 
+    // If we are not in autofocus process, we're done.
     if (inAutoFocus == false)
         return;
 
+    // Set state to progress
     if (state != Ekos::FOCUS_PROGRESS)
     {
         state = Ekos::FOCUS_PROGRESS;
@@ -1587,9 +1628,13 @@ void Focus::setCaptureComplete()
         emit newStatus(state);
     }    
 
+    // Now let's kick in the algorithms
+
+    // Position-based algorithms
     if (canAbsMove || canRelMove)
         autoFocusAbs();
     else
+    // Time open-looped algorithms
         autoFocusRel();
 }
 
@@ -2620,14 +2665,17 @@ void Focus::setAutoFocusResult(bool status)
 void Focus::checkAutoStarTimeout()
 {
     //if (starSelected == false && inAutoFocus)
-    if (starCenter.isNull() && inAutoFocus)
+    if (starCenter.isNull() && (inAutoFocus || minimumRequiredHFR > 0))
     {
-        if (rememberStarCenter.isNull() == false)
-        {
-            focusStarSelected(rememberStarCenter.x(), rememberStarCenter.y());
-            appendLogText(i18n("No star was selected. Using last known position..."));
-            return;
-        }
+         if (inAutoFocus)
+         {
+             if (rememberStarCenter.isNull() == false)
+             {
+                 focusStarSelected(rememberStarCenter.x(), rememberStarCenter.y());
+                 appendLogText(i18n("No star was selected. Using last known position..."));
+                 return;
+             }
+         }
 
         appendLogText(i18n("No star was selected. Aborting..."));
         initialFocuserAbsPosition = -1;
