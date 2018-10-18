@@ -1319,7 +1319,6 @@ void Focus::setCaptureComplete()
                 polySolutionFound = 0;
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
-                emit resumeGuiding();
                 setAutoFocusResult(true);
                 return;
             }
@@ -1828,7 +1827,6 @@ void Focus::autoFocusAbs()
                 {
                     appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                     stop();
-                    emit resumeGuiding();
                     setAutoFocusResult(true);
                 }
                 break;
@@ -2015,7 +2013,6 @@ void Focus::autoFocusAbs()
             {
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
-                emit resumeGuiding();
                 setAutoFocusResult(true);
                 return;
             }
@@ -2109,7 +2106,6 @@ void Focus::autoFocusRel()
             {
                 appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
-                emit resumeGuiding();
                 setAutoFocusResult(true);
                 break;
             }
@@ -2637,6 +2633,10 @@ void Focus::setAutoFocusResult(bool status)
             return;
         }
     }
+
+    // Always resume guiding if we suspended it before
+    if (suspendGuideCheck->isChecked())
+        emit resumeGuiding();
 
     resetFocusIteration = 0;
 
