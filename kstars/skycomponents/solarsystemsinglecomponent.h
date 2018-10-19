@@ -41,7 +41,7 @@ class SolarSystemSingleComponent : public SkyComponent
 {
   public:
     /** Initialize visible method, minimum size and sizeScale. */
-    SolarSystemSingleComponent(SolarSystemComposite *, KSPlanetBase *kspb, bool (*visibleMethod)());
+    SolarSystemSingleComponent(SolarSystemComposite *, KSPlanetBase *kspb, bool (*visibleMethod)(), bool isMoon = false);
 
     ~SolarSystemSingleComponent() override;
 
@@ -62,6 +62,12 @@ class SolarSystemSingleComponent : public SkyComponent
          */
     void updateSolarSystemBodies(KSNumbers *num) override;
 
+    /**
+     * @brief update Update Equtorial & Horizontal coordinates. (Called more frequently.)
+     */
+    void updateMoons(KSNumbers *num) override;
+
+
     SkyObject *findByName(const QString &name) override;
     SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
     void draw(SkyPainter *skyp) override;
@@ -71,6 +77,7 @@ class SolarSystemSingleComponent : public SkyComponent
 
   private:
     bool (*visible)();
+    bool m_isMoon { false };
     QColor m_Color;
     KSPlanet *m_Earth;
     KSPlanetBase *m_Planet;

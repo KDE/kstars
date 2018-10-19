@@ -233,12 +233,11 @@ void SkyMapComposite::updateSolarSystemBodies(KSNumbers *num)
     m_SolarSystem->updateSolarSystemBodies(num);
 }
 
-/*
+
 void SkyMapComposite::updateMoons(KSNumbers *num )
 {
     m_SolarSystem->updateMoons( num );
 }
-*/
 
 //Reimplement draw function so that we have control over the order of
 //elements, and we can add object labels

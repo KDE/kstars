@@ -37,8 +37,8 @@
 #include "projections/projector.h"
 
 SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb,
-                                                       bool (*visibleMethod)())
-    : SkyComponent(parent), visible(visibleMethod), m_Earth(parent->earth()), m_Planet(kspb)
+                                                       bool (*visibleMethod)(), bool isMoon)
+    : SkyComponent(parent), visible(visibleMethod), m_isMoon(isMoon), m_Earth(parent->earth()), m_Planet(kspb)
 {
     m_Planet->loadData();
     if (!m_Planet->name().isEmpty())
@@ -94,7 +94,7 @@ void SolarSystemSingleComponent::update(KSNumbers *)
 
 void SolarSystemSingleComponent::updateSolarSystemBodies(KSNumbers *num)
 {
-    if (selected())
+    if (!m_isMoon && selected())
     {
         KStarsData *data = KStarsData::Instance();
         m_Planet->findPosition(num, data->geo()->lat(), data->lst(), m_Earth);
@@ -102,6 +102,18 @@ void SolarSystemSingleComponent::updateSolarSystemBodies(KSNumbers *num)
         if (m_Planet->hasTrail())
             m_Planet->updateTrail(data->lst(), data->geo()->lat());
     }
+}
+
+// NOTE: This seems like code duplication, and yes IT IS. But there may be some
+// NOTE: changes to be made to it later on, and calling `updateSolarSystemBodies`
+// NOTE: is ugly.
+void SolarSystemSingleComponent::updateMoons(KSNumbers *num)
+{
+    KStarsData *data = KStarsData::Instance();
+    m_Planet->findPosition(num, data->geo()->lat(), data->lst(), m_Earth);
+    m_Planet->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+    if (m_Planet->hasTrail())
+        m_Planet->updateTrail(data->lst(), data->geo()->lat());
 }
 
 void SolarSystemSingleComponent::draw(SkyPainter *skyp)

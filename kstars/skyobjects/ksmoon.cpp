@@ -25,6 +25,7 @@
 #include "kspopupmenu.h"
 #endif
 #include "skycomponents/skymapcomposite.h"
+#include "skycomponents/solarsystemcomposite.h"
 #include "texturemanager.h"
 
 #include <QFile>
@@ -276,12 +277,14 @@ void KSMoon::findPhase(const KSSun *Sun)
     if (Sun == nullptr)
     {
         if (defaultSun == nullptr)
-            defaultSun = dynamic_cast<KSSun*>(KStarsData::Instance()->skyComposite()->findByName("Sun"));
+            defaultSun = KStarsData::Instance()->skyComposite()->solarSystemComposite()->sun();
         Sun = defaultSun;
     }
 
     Q_ASSERT(Sun != nullptr);
 
+    // This is an approximation justified by the small Earth-Moon distance in relation
+    // to the great Earth-Sun distance
     Phase           = (ecLong() - Sun->ecLong()).Degrees(); // Phase is obviously in degrees
     double DegPhase = dms(Phase).reduce().Degrees();
     iPhase          = int(0.1 * DegPhase + 0.5) % 36; // iPhase must be in [0,36) range

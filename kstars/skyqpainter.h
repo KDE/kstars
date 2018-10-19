@@ -29,6 +29,7 @@ class QWidget;
 class QSize;
 class QMessageBox;
 class HIPSRenderer;
+class KSEarthShadow;
 
 /**
  * @short The QPainter-based painting backend.
@@ -88,6 +89,7 @@ class SkyQPainter : public SkyPainter, public QPainter
     bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A') override;
     bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false) override;
     bool drawPlanet(KSPlanetBase *planet) override;
+    bool drawEarthShadow(KSEarthShadow *shadow) override;
     void drawObservingList(const QList<SkyObject *> &obs) override;
     void drawFlags() override;
     void drawHorizon(bool filled, SkyPoint *labelPoint = nullptr, bool *drawLabel = nullptr) override;
@@ -100,7 +102,7 @@ class SkyQPainter : public SkyPainter, public QPainter
     bool drawConstellationArtImage(ConstellationsArt *obj) override;
     bool drawHips() override;
 
-  private:
+private:
     virtual bool drawDeepSkyImage(const QPointF &pos, DeepSkyObject *obj, float positionAngle);
 
     QPaintDevice *m_pd { nullptr };

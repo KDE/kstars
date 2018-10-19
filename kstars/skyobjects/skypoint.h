@@ -646,5 +646,5 @@ class SkyPoint
     static KSSun *m_Sun;
 
   protected:
-    double lastPrecessJD { 0 }; // JD at which the last coordinate update (see updateCoords) for this SkyPoint was done
+    double lastPrecessJD { 0 }; // JD at which the last coordinate  (see updateCoords) for this SkyPoint was done
 };

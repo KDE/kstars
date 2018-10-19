@@ -291,7 +291,7 @@ void KStarsData::updateTime(GeoLocation *geo, const bool automaticDSTchange)
         LastSkyUpdate = ut();
         m_preUpdateID++;
         //omit KSNumbers arg == just update Alt/Az coords // <-- Eh? -- asimha. Looks like this behavior / ideology has changed drastically.
-        skyComposite()->update();
+        skyComposite()->update(&num);
 
         emit skyUpdate(clock()->isManualMode());
     }

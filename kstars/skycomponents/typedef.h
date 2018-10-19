@@ -23,6 +23,15 @@
  * some of the surprise.
  *
  * -- James B. Bowlin
+ *
+ * We may transition to the use of smart pointers whereever possible. Gathering
+ * syntactic sugar here, takes the pain of it away.
+ *
+ * Conventions:
+ *  - [x]_ptr<Type> => Type_[first letter of `x`]
+ *    for example: typedef std::shared_ptr<SkyObject> SkyObject_s;
+ *
+ * -- Valentin Boettcher
  */
 
 #pragma once
@@ -38,6 +47,9 @@ class LineList;
 class StarObject;
 class StarBlock;
 class SkyObject;
+class KSPlanetBase;
+class GeoLocation;
+class EclipseEvent;
 
 typedef quint32 DrawID;
 typedef quint32 UpdateID;
@@ -52,3 +64,7 @@ typedef QVector<StarList *> StarIndex;
 typedef QVector<std::shared_ptr<LineList>> LineListList;
 typedef QHash<Trixel, std::shared_ptr<LineListList>> LineListHash;
 typedef QList<SkyObject *> SkyObjectList;
+
+typedef std::shared_ptr<SkyObject> SkyObject_s;
+typedef std::shared_ptr<KSPlanetBase> KSPlanetBase_s;
+typedef std::shared_ptr<EclipseEvent> EclipseEvent_s;
