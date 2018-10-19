@@ -59,6 +59,7 @@ class SkyPainter;
  * (directly or indirectly). Its most important derivative is SkyComposite, the base classes
  * for all Composites.
  *
+ * FIXME: There is no SingleComponent
  * From SkyComponent, we derive three important subclasses: SingleComponent, ListComponent,
  * and PointListComponent. SingleComponent represents a sky element consisting of a single
  * SkyObject, such as the Sun.  ListComponent represents a list of SkyObjects, such as the

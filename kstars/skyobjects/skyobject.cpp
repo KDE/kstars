@@ -303,7 +303,7 @@ dms SkyObject::elevationCorrection(void) const
      * is needed.
      */
 
-    if (name() == "Sun" || name() == "Moon")
+    if (name() == "Sun" || name() == "Moon" || name() == "Earth Shadow")
         return dms(-0.8333);
     //	else if ( name() == "Moon" )
     //		return dms(0.125);

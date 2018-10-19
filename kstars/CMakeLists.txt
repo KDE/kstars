@@ -303,7 +303,13 @@ set(libkstarstools_SRCS
     tools/avtplotwidget.cpp
     tools/calendarwidget.cpp
     tools/conjunctions.cpp
+    tools/eclipsetool.cpp
+    tools/eclipsehandler.cpp
+
+    tools/eclipsetool/lunareclipsehandler.cpp
+
 #    tools/jmoontool.cpp
+    tools/approachsolver.cpp
     tools/ksconjunct.cpp
     tools/eqplotwidget.cpp
     tools/astrocalc.cpp
@@ -377,6 +383,7 @@ ki18n_wrap_ui(libkstarstools_ui_SRCS
     tools/argwaitforkey.ui
     tools/argzoom.ui
     tools/conjunctions.ui
+    tools/eclipsetool.ui
 
     tools/modcalcangdist.ui
     tools/modcalcapcoord.ui
@@ -568,6 +575,7 @@ set(libkstarscomponents_SRCS
     skycomponents/pointlistcomponent.cpp
     skycomponents/solarsystemsinglecomponent.cpp
     skycomponents/solarsystemlistcomponent.cpp
+    skycomponents/earthshadowcomponent.cpp
     skycomponents/asteroidscomponent.cpp
     skycomponents/cometscomponent.cpp
     skycomponents/planetmoonscomponent.cpp
@@ -621,6 +629,7 @@ set(kstars_skyobjects_SRCS
     skyobjects/ksasteroid.cpp
     skyobjects/kscomet.cpp
     skyobjects/ksmoon.cpp
+    skyobjects/ksearthshadow.cpp
     skyobjects/ksplanetbase.cpp
     skyobjects/ksplanet.cpp
     #skyobjects/kspluto.cpp

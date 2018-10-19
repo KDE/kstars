@@ -1,0 +1,172 @@
+/***************************************************************************
+                   ApproachSolver.h  -  K Desktop Planetarium
+                             -------------------
+    begin                : Tue 18/09/2018
+    copyright            : (C) 2008 by Akarsh Simha, 2018 Valentin Boettcher
+    email                : kstar@bas.org.in, valentin@boettcher.cf
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#pragma once
+#include "dms.h"
+#include "skyobjects/ksplanet.h"
+#include "skycomponents/typedef.h"
+
+#include <QObject>
+#include <QMap>
+#include <QObject>
+#include <memory>
+
+/**
+ * @class ApproachSolver
+ * @short Implements algorithms to find close approaches of two objects on the sky.
+ * A class that implements a method to compute close approaches between any two solar system
+ * objects excluding planetary moons. Given two such objects, this class has implementations of
+ * algorithms required to find the time of closest approach in a given range of time. It is meant
+ * to be subclassed and provides the boilerplate (+ common interface) for classes like KSKonjunct
+ * and EclipseHandler.
+ *
+ * @author Akarsh Simha
+ * @version 2.0
+ */
+class ApproachSolver : public QObject
+{
+    Q_OBJECT
+public:
+    explicit ApproachSolver(QObject *parent = nullptr);
+
+    /**
+     * @short Sets the geographic location to compute conjunctions at
+     *
+     * @param geo  Pointer to the GeoLocation object
+     */
+    void setGeoLocation(GeoLocation *geo);
+
+    /**
+     * @short Compute the closest approach of two planets in the given range
+     *
+     * @param Object1  A copy of the class corresponding to one of the two bodies
+     * @param Object2  A copy of the class corresponding to the other of the two bodies
+     * @param startJD  Julian Day corresponding to start of the calculation period
+     * @param stopJD   Julian Day corresponding to end of the calculation period
+     * @param maxSeparation   Maximum separation between Object1 and Object2 - a measure
+     *                        how close the conjunction should be to be output.
+     * @param opposition A parameter to see if we are computing conjunction or opposition
+     * @return Hash containing julian days of close conjunctions against separation
+     */
+    QMap<long double, dms> findClosestApproach(long double startJD,
+                                               long double stopJD,
+                                               const std::function<void (long double, dms)> &callback = {}); // FIXME: QMap is awkward!
+
+    /**
+     * @brief getGeoLocation
+     * @return the currently set GeoLocation
+     */
+    GeoLocation * getGeoLocation() { return m_geoPlace; }
+
+
+    /**
+     * @brief setMaxSeparation
+     * @param sep - maximum allowed anglar separation
+     */
+    void setMaxSeparation(double sep) { m_maxSeparation = sep; }
+    void setMaxSeparation(dms sep) { m_maxSeparation = sep.radians(); }
+
+signals:
+    /**
+     * @brief solverMadeProgress
+     * @param progress - progress in percent
+     */
+    void solverMadeProgress(int progress);
+
+protected:
+    // TODO: This one may be moved to KSConjunct
+
+    /**
+     * @brief getMaxSeparation
+     * @return the maximum separation allowed, based on the (guaranteed to be up-to-date)
+     * parameters of the objects if overwritten. Here it's just a constant.
+     */
+    virtual double getMaxSeparation() { return m_maxSeparation; }
+
+    /**
+     * @brief findSkyPointDistance
+     * @param obj1
+     * @param obj2
+     * @return the angular distance between two SkyPoints in arcminutes
+     */
+    dms findSkyPointDistance(SkyPoint * obj1, SkyPoint * obj2);
+
+    /**
+     * @short Finds the angular distance between two solar system objects.
+     *
+     * @param Object1  A pointer to the first solar system object
+     * @param Object2  A pointer to the second solar system object
+     *
+     * @return The angular distance between the two bodies.
+     */
+    virtual dms findDistance() = 0;
+
+    /**
+     * @brief updatePositions
+     * @short Update the positions of the objects involved.
+     * @param jd  Julian Day corresponding to the time of computation
+     */
+    virtual void updatePositions(long double jd) = 0;
+
+    /**
+     * @brief findStep
+     * @return the step size used by findClosestApproach (in Julian Days)
+     *
+     * @short Make this as big as possible. The bigger it is, the more likely is a skip over...
+     */
+    virtual double findInitialStep(long double startJD, long double stopJD) = 0;
+
+    /**
+     * @short Compute the precise value of the extremum once the extremum has been detected.
+     *
+     * @param out  A pointer to a QPair that stores the Julian Day and Separation corresponding to the extremum
+     * @param Object1  A pointer to the first solar system body
+     * @param Object2  A pointer to the second solar system body
+     * @param jd  Julian day corresponding to the endpoint of the interval where extremum was detected.
+     * @param step  The step in jd taken during computation earlier. (Defines the interval size)
+     * @param prevSign The previous sign of increment in moving from jd - step to jd
+     *
+     * @return true if the extremum is a minimum
+     */
+    bool findPrecise(QPair<long double, dms> *out, long double jd,
+                     double step, int prevSign);
+
+    KSPlanet m_Earth;
+
+private:
+    /**
+     * @brief updateAndFindDistance
+     * @param jd Julian Date for which to calculate
+     * @return output of ApproachSolver::findDistance
+     */
+    dms updateAndFindDistance(long double jd) {
+        updatePositions(jd);
+        return findDistance();
+    }
+
+    /**
+     * @short Return the sign of an angle
+     *
+     * @param a  The angle whose sign has to be returned
+     *
+     * @return (-1, 0, 1) if a.radians() is (-ve, zero, +ve)
+     */
+    int sgn(dms a);
+
+    GeoLocation * m_geoPlace { nullptr };
+    double m_maxSeparation;
+};

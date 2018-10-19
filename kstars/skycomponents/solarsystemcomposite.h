@@ -27,7 +27,7 @@ class KSPlanet;
 class KSSun;
 //class JupiterMoonsComponent;
 class SkyLabeler;
-
+class KSEarthShadow;
 /**
  * @class SolarSystemComposite
  * The solar system composite manages all planets, asteroids and comets.
@@ -44,9 +44,11 @@ class SolarSystemComposite : public SkyComposite
     explicit SolarSystemComposite(SkyComposite *parent);
     ~SolarSystemComposite() override;
 
+    // Use this instead of `findByName`
     KSPlanet *earth() { return m_Earth; }
-
     KSSun *sun() { return m_Sun; }
+    KSMoon *moon() { return m_Moon; }
+    KSEarthShadow *earthShadow() { return m_EarthShadow; }
 
     const QList<SkyObject *> &asteroids() const;
     const QList<SkyObject *> &comets() const;
@@ -75,6 +77,8 @@ class SolarSystemComposite : public SkyComposite
     KSPlanet *m_Earth { nullptr };
     KSSun *m_Sun { nullptr };
     KSMoon *m_Moon { nullptr };
+    KSEarthShadow *m_EarthShadow { nullptr };
+
     //    PlanetMoonsComponent *m_JupiterMoons;
     AsteroidsComponent *m_AsteroidsComponent;
     CometsComponent *m_CometsComponent;

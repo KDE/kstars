@@ -51,10 +51,10 @@ class KSMoon : public KSPlanetBase
     /**
      * Determine the phase angle of the moon, and assign the appropriate moon image
      * @param Sun a KSSun pointer with coordinates updated to the time of computation.
-     * If not supplied, the findByName() method will be used to find the sun.
+     * If not supplied, the sun is retrieved via KStarsData
      * @note Overrides KSPlanetBase::findPhase()
      */
-    virtual void findPhase(const KSSun *Sun = nullptr);
+    void findPhase(const KSSun *Sun = nullptr);
 
     /** @return the illuminated fraction of the Moon as seen from Earth */
     double illum() const { return 0.5 * (1.0 - cos(Phase * dms::PI / 180.0)); }

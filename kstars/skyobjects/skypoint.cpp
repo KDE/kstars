@@ -91,7 +91,7 @@ void SkyPoint::EquatorialToHorizontal(const CachingDms *LST, const CachingDms *l
         1 -
         sinAlt *
             sinAlt); // Avoid trigonometric function. Return value of asin is always in [-pi/2, pi/2] and in this domain cosine is always non-negative, so we can use this.
-    if (cosAlt == 0)
+    if (cosAlt == 0.)
         cosAlt = cos(AltRad);
 
     double arg = (sindec - sinlat * sinAlt) / (coslat * cosAlt);

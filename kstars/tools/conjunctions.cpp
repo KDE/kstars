@@ -34,6 +34,7 @@
 #include "skycomponents/skymapcomposite.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/kspluto.h"
+#include "ksplanetbase.h"
 
 #include <QFileDialog>
 #include <QProgressDialog>
@@ -57,7 +58,51 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     geoPlace = kd->geo();
     LocationButton->setText(geoPlace->fullName());
 
+
+    pNames[KSPlanetBase::MERCURY] = i18n("Mercury");
+    pNames[KSPlanetBase::VENUS]   = i18n("Venus");
+    pNames[KSPlanetBase::MARS]    = i18n("Mars");
+    pNames[KSPlanetBase::JUPITER] = i18n("Jupiter");
+    pNames[KSPlanetBase::SATURN]  = i18n("Saturn");
+    pNames[KSPlanetBase::URANUS]  = i18n("Uranus");
+    pNames[KSPlanetBase::NEPTUNE] = i18n("Neptune");
+    //pNames[KSPlanetBase::PLUTO] = i18nc("Asteroid name (optional)", "Pluto");
+    pNames[KSPlanetBase::SUN]  = i18n("Sun");
+    pNames[KSPlanetBase::MOON] = i18n("Moon");
+
+    // Initialize the Maximum Separation box to 1 degree
+    maxSeparationBox->setDegType(true);
+    maxSeparationBox->setDMS("01 00 00.0");
+
+    //FilterEdit->showClearButton = true;
+    ClearFilterButton->setIcon(QIcon::fromTheme("edit-clear"));
+
+    // signals and slots connections
+    connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
+    connect(Obj1FindButton, SIGNAL(clicked()), this, SLOT(slotFindObject()));
+
+    // Mode Change
+    connect(ModeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+            &ConjunctionsTool::setMode);
+
+    //connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
+    connect(ComputeButton, &QPushButton::clicked, [this]()
+    {
+       QtConcurrent::run(this, &ConjunctionsTool::slotCompute);
+    });
+    connect(FilterTypeComboBox, SIGNAL(currentIndexChanged(int)), SLOT(slotFilterType(int)));
+    connect(ClearButton, SIGNAL(clicked()), this, SLOT(slotClear()));
+    connect(ExportButton, SIGNAL(clicked()), this, SLOT(slotExport()));
+    connect(OutputList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotGoto()));
+    connect(ClearFilterButton, SIGNAL(clicked()), FilterEdit, SLOT(clear()));
+    connect(FilterEdit, SIGNAL(textChanged(QString)), this, SLOT(slotFilterReg(QString)));
+
+    m_Model = new QStandardItemModel(0, 5, this);
+
+    setMode(ModeSelector->currentIndex());
+
     // Init filter type combobox
+    FilterTypeComboBox->clear();
     FilterTypeComboBox->addItem(i18n("Single Object..."));
     FilterTypeComboBox->addItem(i18n("Any"));
     FilterTypeComboBox->addItem(i18n("Stars"));
@@ -71,31 +116,18 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     FilterTypeComboBox->addItem(i18n("Planetary Nebulae"));
     FilterTypeComboBox->addItem(i18n("Galaxies"));
 
-    pNames[KSPlanetBase::MERCURY] = i18n("Mercury");
-    pNames[KSPlanetBase::VENUS]   = i18n("Venus");
-    pNames[KSPlanetBase::MARS]    = i18n("Mars");
-    pNames[KSPlanetBase::JUPITER] = i18n("Jupiter");
-    pNames[KSPlanetBase::SATURN]  = i18n("Saturn");
-    pNames[KSPlanetBase::URANUS]  = i18n("Uranus");
-    pNames[KSPlanetBase::NEPTUNE] = i18n("Neptune");
-    //pNames[KSPlanetBase::PLUTO] = i18nc("Asteroid name (optional)", "Pluto");
-    pNames[KSPlanetBase::SUN]  = i18n("Sun");
-    pNames[KSPlanetBase::MOON] = i18n("Moon");
-
+    Obj2ComboBox->clear();
     for (int i = 0; i < KSPlanetBase::UNKNOWN_PLANET; ++i)
     {
         //      Obj1ComboBox->insertItem( i, pNames[i] );
         Obj2ComboBox->insertItem(i, pNames[i]);
     }
 
-    // Initialize the Maximum Separation box to 1 degree
-    maxSeparationBox->setDegType(true);
-    maxSeparationBox->setDMS("01 00 00.0");
+    maxSeparationBox->setEnabled(true);
 
     //Set up the Table Views
-    m_Model = new QStandardItemModel(0, 5, this);
     m_Model->setHorizontalHeaderLabels(QStringList() << i18n("Conjunction/Opposition") << i18n("Date & Time (UT)")
-                                                     << i18n("Object 1") << i18n("Object 2") << i18n("Separation"));
+                                       << i18n("Object 1") << i18n("Object 2") << i18n("Separation"));
     m_SortModel = new QSortFilterProxyModel(this);
     m_SortModel->setSourceModel(m_Model);
     OutputList->setModel(m_SortModel);
@@ -105,24 +137,6 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     OutputList->horizontalHeader()->resizeSection(2, 100);
     OutputList->horizontalHeader()->resizeSection(3, 100);
     OutputList->horizontalHeader()->resizeSection(4, 120); //is it bad way to fix default size of columns ?
-
-    //FilterEdit->showClearButton = true;
-    ClearFilterButton->setIcon(QIcon::fromTheme("edit-clear"));
-
-    // signals and slots connections
-    connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
-    connect(Obj1FindButton, SIGNAL(clicked()), this, SLOT(slotFindObject()));
-    //connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
-    connect(ComputeButton, &QPushButton::clicked, [this]()
-    {
-       QtConcurrent::run(this, &ConjunctionsTool::slotCompute);
-    });
-    connect(FilterTypeComboBox, SIGNAL(currentIndexChanged(int)), SLOT(slotFilterType(int)));
-    connect(ClearButton, SIGNAL(clicked()), this, SLOT(slotClear()));
-    connect(ExportButton, SIGNAL(clicked()), this, SLOT(slotExport()));
-    connect(OutputList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotGoto()));
-    connect(ClearFilterButton, SIGNAL(clicked()), FilterEdit, SLOT(clear()));
-    connect(FilterEdit, SIGNAL(textChanged(QString)), this, SLOT(slotFilterReg(QString)));
 
     show();
 }
@@ -152,11 +166,22 @@ void ConjunctionsTool::slotFindObject()
     {        
         if (!fd->targetObject())
             return;
-        Object1 = fd->targetObject();
+        Object1 = SkyObject_s(fd->targetObject()->clone());
         if (Object1 != nullptr)
             Obj1FindButton->setText(Object1->name());
     }
     delete fd;
+}
+
+void ConjunctionsTool::setMode(int new_mode)
+{
+    // unlikely to happen
+    if(new_mode == -1 || new_mode > 2){
+        ModeSelector->setCurrentIndex(0);
+        return;
+    }
+
+    mode = static_cast<MODE>(new_mode);
 }
 
 void ConjunctionsTool::slotLocation()
@@ -226,7 +251,7 @@ void ConjunctionsTool::slotCompute(void)
     long double startJD    = dtStart.djd();         // Start julian day
     long double stopJD     = dtStop.djd();          // Stop julian day
     bool opposition        = false;                 // true=opposition, false=conjunction
-    if (Opposition->currentIndex())
+    if (mode == OPPOSITION)
         opposition = true;
     QStringList objects; // List of sky object used as Object1
     KStarsData *data = KStarsData::Instance();
@@ -330,6 +355,10 @@ void ConjunctionsTool::slotCompute(void)
         objects.removeAll("Iapetus");
     }
 
+    ksc.setMaxSeparation(maxSeparation);
+    ksc.setObject2(Object2);
+    ksc.setOpposition(opposition);
+
     if (FilterTypeComboBox->currentIndex() != 0)
     {
         // Show a progress dialog while processing
@@ -350,8 +379,9 @@ void ConjunctionsTool::slotCompute(void)
             progressDlg.setLabelText(i18n("Compute conjunction between %1 and %2", Object2->name(), object));
 
             // Compute conjuction
-            Object1 = data->skyComposite()->findByName(object);
-            showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation, opposition),
+            Object1 = std::shared_ptr<SkyObject>(data->skyComposite()->findByName(object)->clone());
+            ksc.setObject1(Object1);
+            showConjunctions(ksc.findClosestApproach(startJD, stopJD),
                              object, Object2->name());
         }
 
@@ -363,7 +393,9 @@ void ConjunctionsTool::slotCompute(void)
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
         ComputeStack->setCurrentIndex(1);
-        showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation, opposition),
+
+        ksc.setObject1(Object1);
+        showConjunctions(ksc.findClosestApproach(startJD, stopJD),
                          Object1->name(), Object2->name());
         ComputeStack->setCurrentIndex(0);
 
@@ -390,7 +422,7 @@ void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctio
         dt.setDJD(it.key());
         QStandardItem *typeItem;
 
-        if (!Opposition->currentIndex())
+        if (mode == CONJUNCTION)
             typeItem = new QStandardItem(i18n("Conjunction"));
         else
             typeItem = new QStandardItem(i18n("Opposition"));
@@ -407,4 +439,9 @@ void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctio
         outputJDList.insert(m_index, it.key());
         ++m_index;
     }
+}
+
+void ConjunctionsTool::setUpConjunctionOpposition()
+{
+
 }

@@ -30,6 +30,7 @@
 #include "modcalcvizequinox.h"
 #include "modcalcvlsr.h"
 #include "conjunctions.h"
+#include "eclipsetool.h"
 
 #include <QDialogButtonBox>
 #include <QSplitter>
@@ -173,6 +174,7 @@ AstroCalc::AstroCalc(QWidget *parent) : QDialog(parent)
     //solarItem->setIcon(0,solarIcon);
     addTreeItem<modCalcPlanets>(solarItem, i18n("Planets Coordinates"));
     addTreeItem<ConjunctionsTool>(solarItem, i18n("Conjunctions"));
+    addTreeItem<EclipseTool>(solarItem, i18n("Eclipses"));
 
     acStack->setCurrentWidget(splashScreen);
     connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this,

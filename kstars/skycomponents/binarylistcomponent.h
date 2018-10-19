@@ -23,24 +23,24 @@
 #include "binarylistcomponent.h"
 #include "auxiliary/kspaths.h"
 
-//TODO Error Handling
+//TODO: Error Handling - SERIOUSLY
 
 /**
- *@class BinaryListComponent
- *@short provides functionality for loading the component data from Binary
- *@author Valentin Boettcher
- *@version 1.0
+ * @class BinaryListComponent
+ * @short provides functionality for loading the component data from Binary
+ * @author Valentin Boettcher
+ * @version 1.0
  *
  * This class is an abstract Template which requires that the type `T` is some child of
  * `SkyObject` and the type `Component` is some child of `ListComponent`. The class `T`
  * must provide a static `TYPE` property of the type `SkyObject::TYPE`. This is required
- * because access to the `type()` method are inconvenient here!
+ * because access to the `type()` method is inconvenient here!
  *
  * The derived class must provide a `void loadFromText()` method, which loads the component
  * via `addListObject` or similar. (This method implements parsing etc, and cannot be
  * abstracted by this class.)
  *
- * To make this template work, one has to add it as a friend class upon deriving it.
+ * Finally, one has to add this template as a friend class upon deriving it.
  * This is a concession to the already present architecture.
  *
  * File paths are determent by the means of KSPaths::writableLocation.

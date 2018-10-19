@@ -114,7 +114,7 @@ class SkyMapComposite : public QObject, public SkyComposite
      * @sa updatePlanets()
      * @sa SolarSystemComposite::updateMoons()
      */
-    //    virtual void updateMoons( KSNumbers *num );
+    void updateMoons( KSNumbers *num ) override;
 
     /**
      * @short Delegate draw requests to all sub components

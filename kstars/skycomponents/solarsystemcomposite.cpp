@@ -25,21 +25,25 @@
 #include "skymap.h"
 #endif
 #include "solarsystemsinglecomponent.h"
+#include "earthshadowcomponent.h"
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/ksplanet.h"
 #include "skyobjects/kssun.h"
+#include "skyobjects/ksearthshadow.h"
 
 SolarSystemComposite::SolarSystemComposite(SkyComposite *parent) : SkyComposite(parent)
 {
     emitProgressText(i18n("Loading solar system"));
     m_Earth = new KSPlanet(I18N_NOOP("Earth"), QString(), QColor("white"), 12756.28 /*diameter in km*/);
-
     m_Sun                           = new KSSun();
     SolarSystemSingleComponent *sun = new SolarSystemSingleComponent(this, m_Sun, Options::showSun);
     addComponent(sun, 2);
     m_Moon                           = new KSMoon();
-    SolarSystemSingleComponent *moon = new SolarSystemSingleComponent(this, m_Moon, Options::showMoon);
+    SolarSystemSingleComponent *moon = new SolarSystemSingleComponent(this, m_Moon, Options::showMoon, true);
     addComponent(moon, 3);
+    m_EarthShadow = new KSEarthShadow(m_Moon, m_Sun, m_Earth);
+    EarthShadowComponent * shadow = new EarthShadowComponent(this, m_EarthShadow);
+    addComponent(shadow);
     SolarSystemSingleComponent *mercury =
         new SolarSystemSingleComponent(this, new KSPlanet(KSPlanetBase::MERCURY), Options::showMercury);
     addComponent(mercury, 4);
@@ -101,7 +105,6 @@ SolarSystemComposite::SolarSystemComposite(SkyComposite *parent) : SkyComposite(
 
 SolarSystemComposite::~SolarSystemComposite()
 {
-    delete m_Earth;
 }
 
 bool SolarSystemComposite::selected()
@@ -140,10 +143,11 @@ void SolarSystemComposite::updateSolarSystemBodies(KSNumbers *num)
 void SolarSystemComposite::updateMoons(KSNumbers *num)
 {
     //    if ( ! selected() ) return;
-    KStarsData *data = KStarsData::Instance();
-    m_Sun->findPosition(num);
-    m_Moon->findPosition(num, data->geo()->lat(), data->lst());
-    m_Moon->findPhase(nullptr);
+    m_Earth->findPosition(num);
+    foreach (SkyComponent *comp, components())
+    {
+        comp->updateMoons(num);
+    }
     //    m_JupiterMoons->updateMoons( num );
 }
 
