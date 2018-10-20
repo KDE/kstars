@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>660</width>
-    <height>489</height>
+    <width>602</width>
+    <height>522</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -27,7 +27,7 @@
     <number>3</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="jobSequenceGroup">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -55,155 +55,13 @@
       </property>
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="targetLabel">
-          <property name="text">
-           <string>Target:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="label_3">
-          <property name="styleSheet">
-           <string notr="true">color:red</string>
-          </property>
-          <property name="text">
-           <string>*</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="spacing">
-           <number>5</number>
-          </property>
+        <item row="5" column="2">
+         <widget class="QComboBox" name="schedulerProfileCombo">
           <item>
-           <widget class="QLineEdit" name="nameEdit"/>
+           <property name="text">
+            <string>Default</string>
+           </property>
           </item>
-          <item>
-           <widget class="QPushButton" name="selectObjectB">
-            <property name="minimumSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label">
-          <property name="toolTip">
-           <string>Target coordinates in J2000 Epoch</string>
-          </property>
-          <property name="text">
-           <string>J2000:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_17">
-          <property name="spacing">
-           <number>5</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>RA</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="dmsBox" name="raBox">
-            <property name="toolTip">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>DEC</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="dmsBox" name="decBox">
-            <property name="toolTip">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="FITSLabel">
-          <property name="toolTip">
-           <string>Select optional FITS file to be used for alignment. When using FITS, specify the object or the estimated coordinates which are used to slew the mount.</string>
-          </property>
-          <property name="text">
-           <string>FITS File:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_13">
-          <property name="spacing">
-           <number>5</number>
-          </property>
-          <item>
-           <widget class="QLineEdit" name="fitsEdit">
-            <property name="readOnly">
-             <bool>false</bool>
-            </property>
-            <property name="clearButtonEnabled">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="selectFITSB">
-            <property name="maximumSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="sequenceLabel">
-          <property name="toolTip">
-           <string>Ekos Sequence File</string>
-          </property>
-          <property name="text">
-           <string>Sequence:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="label_5">
-          <property name="styleSheet">
-           <string notr="true">color:red</string>
-          </property>
-          <property name="text">
-           <string>*</string>
-          </property>
          </widget>
         </item>
         <item row="3" column="2">
@@ -239,10 +97,33 @@
           </item>
          </layout>
         </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_7">
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="toolTip">
+           <string>Select which steps to execute before starting the capture process.</string>
+          </property>
           <property name="text">
-           <string>Priority:</string>
+           <string>Steps:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="label_5">
+          <property name="styleSheet">
+           <string notr="true">color:red</string>
+          </property>
+          <property name="text">
+           <string>*</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label">
+          <property name="toolTip">
+           <string>Target coordinates in J2000 Epoch</string>
+          </property>
+          <property name="text">
+           <string>J2000:</string>
           </property>
          </widget>
         </item>
@@ -265,32 +146,13 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_9">
-          <property name="toolTip">
-           <string>Ekos Device Profile</string>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_3">
+          <property name="styleSheet">
+           <string notr="true">color:red</string>
           </property>
           <property name="text">
-           <string>Profile:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="2">
-         <widget class="QComboBox" name="schedulerProfileCombo">
-          <item>
-           <property name="text">
-            <string>Default</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="toolTip">
-           <string>Select which steps to execute before starting the capture process.</string>
-          </property>
-          <property name="text">
-           <string>Steps:</string>
+           <string>*</string>
           </property>
          </widget>
         </item>
@@ -361,6 +223,157 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="1" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_17">
+          <property name="spacing">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>RA</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="dmsBox" name="raBox">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>DEC</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="dmsBox" name="decBox">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="toolTip">
+           <string>Ekos Device Profile</string>
+          </property>
+          <property name="text">
+           <string>Profile:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="spacing">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QLineEdit" name="nameEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectObjectB">
+            <property name="minimumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="FITSLabel">
+          <property name="toolTip">
+           <string>Select optional FITS file to be used for alignment. When using FITS, specify the object or the estimated coordinates which are used to slew the mount.</string>
+          </property>
+          <property name="text">
+           <string>FITS File:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="sequenceLabel">
+          <property name="toolTip">
+           <string>Ekos Sequence File</string>
+          </property>
+          <property name="text">
+           <string>Sequence:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="targetLabel">
+          <property name="text">
+           <string>Target:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Priority:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <property name="spacing">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QLineEdit" name="fitsEdit">
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectFITSB">
+            <property name="maximumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="7" column="0">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
@@ -802,7 +815,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_9">
+    <layout class="QHBoxLayout" name="jobSettingsLayout">
      <property name="spacing">
       <number>1</number>
      </property>
@@ -1262,12 +1275,12 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_18">
+    <layout class="QHBoxLayout" name="observatoryOperationsLayout" stretch="1,1">
      <property name="spacing">
       <number>3</number>
      </property>
      <item>
-      <widget class="QGroupBox" name="groupBox_2">
+      <widget class="QGroupBox" name="startupGroupBox">
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time startup procedure to be executed before starting Ekos. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;before&lt;/span&gt; the startup procedures (e.g. unpark scope), if selected, are executed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -1382,6 +1395,12 @@
           </item>
           <item>
            <widget class="QLineEdit" name="startupScript">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="readOnly">
              <bool>false</bool>
             </property>
@@ -1409,9 +1428,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox_10">
+      <widget class="QGroupBox" name="shutdownGroupBox">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -1552,6 +1571,12 @@
           </item>
           <item>
            <widget class="QLineEdit" name="shutdownScript">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="readOnly">
              <bool>false</bool>
             </property>
@@ -1615,7 +1640,6 @@
   <tabstop>selectFITSB</tabstop>
   <tabstop>sequenceEdit</tabstop>
   <tabstop>loadSequenceB</tabstop>
-  <tabstop>profileCombo</tabstop>
   <tabstop>trackStepCheck</tabstop>
   <tabstop>focusStepCheck</tabstop>
   <tabstop>alignStepCheck</tabstop>
@@ -1624,7 +1648,6 @@
   <tabstop>unparkMountCheck</tabstop>
   <tabstop>uncapCheck</tabstop>
   <tabstop>startupB</tabstop>
-  <tabstop>startupScript</tabstop>
   <tabstop>selectStartupScriptB</tabstop>
   <tabstop>warmCCDCheck</tabstop>
   <tabstop>capCheck</tabstop>
@@ -1662,12 +1685,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="startupProcedureButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="shutdownProcedureGroup">
+  <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
@@ -1677,12 +1695,17 @@
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="constraintButtonGroup">
+  <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="startupProcedureButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
  </buttongroups>
 </ui>
