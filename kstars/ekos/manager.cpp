@@ -101,6 +101,8 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
 
     // Start/Stop INDI Server
     connect(processINDIB, &QPushButton::clicked, this, &Ekos::Manager::processINDI);
+    processINDIB->setIcon(QIcon::fromTheme("media-playback-start"));
+    processINDIB->setToolTip(i18n("Start"));
 
     // Connect/Disconnect INDI devices
     connect(connectB, &QPushButton::clicked, this, &Ekos::Manager::connectDevices);
@@ -436,7 +438,10 @@ void Manager::reset()
         guidePI->stopAnimation();
 
     m_isStarted = false;
-    processINDIB->setText(i18n("Start INDI"));
+
+    //processINDIB->setText(i18n("Start INDI"));
+    processINDIB->setIcon(QIcon::fromTheme("media-playback-start"));
+    processINDIB->setToolTip(i18n("Start"));
 }
 
 void Manager::processINDI()
@@ -784,7 +789,9 @@ bool Manager::start()
     profileGroup->setEnabled(false);
 
     m_isStarted = true;
-    processINDIB->setText(i18n("Stop INDI"));
+    //processINDIB->setText(i18n("Stop INDI"));
+    processINDIB->setIcon(QIcon::fromTheme("media-playback-stop"));
+    processINDIB->setToolTip(i18n("Stop"));
 
     return true;
 }
