@@ -338,7 +338,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply *reply)
     QVariant json_result = json_doc.toVariant();
     QVariantMap result   = json_result.toMap();
 
-    if (Options::astrometrySolverVerbose())
+    if (Options::alignmentLogging())
         align->appendLogText(json_doc.toJson(QJsonDocument::Compact));
 
     switch (workflowStage)
@@ -355,7 +355,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply *reply)
 
             sessionKey = result["session"].toString();
 
-            if (Options::astrometrySolverVerbose())
+            if (Options::alignmentLogging())
                 align->appendLogText(i18n("Authentication to astrometry.net is successful. Session: %1", sessionKey));
 
             emit authenticateFinished();

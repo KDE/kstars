@@ -1740,10 +1740,6 @@
          <whatsthis>Set binning index of CCD camera while in alignment mode. Default values 0-3 corresponding to 1x1 to 4x4 binning. 4 is max binning.</whatsthis>
          <default>4</default>
       </entry>
-      <entry name="AstrometrySolverVerbose" type="Bool">
-         <whatsthis>Display detailed verbose messages of the astrometry solver process while in progress.</whatsthis>
-         <default>false</default>
-      </entry>
       <entry name="AstrometryUseRotator" type="Bool">
          <whatsthis>Use rotator when performing load and slew.</whatsthis>
          <default>false</default>
