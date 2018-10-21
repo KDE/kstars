@@ -2884,7 +2884,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     targetChip->getBinning(&binx, &biny);
 
-    if (Options::astrometrySolverVerbose())
+    if (Options::alignmentLogging())
         appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'g', 5),
                            QString::number(dec, 'g', 5), QString::number(orientation, 'g', 5),
                            QString::number(pixscale, 'g', 5)));
