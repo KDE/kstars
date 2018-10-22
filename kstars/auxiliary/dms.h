@@ -344,6 +344,13 @@ class dms
     const dms reduce() const;
 
     /**
+     * @brief deltaAngle Return the shortest difference (path) between this angle and the supplied angle. The range is normalized to [-180,+180]
+     * @param angle Angle to subtract from current angle.
+     * @return Normalized angle in the range [-180,+180]
+     */
+    const dms deltaAngle(dms angle) const;
+
+    /**
          * @short an enum defining standard angle ranges
          */
     enum AngleRanges

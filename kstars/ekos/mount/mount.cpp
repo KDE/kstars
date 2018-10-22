@@ -410,7 +410,7 @@ void Mount::updateTelescopeCoords()
         m_altValue->setProperty("text", telescopeCoord.alt().toDMSString());
 
         dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-        dms ha(lst.Degrees() - telescopeCoord.ra().Degrees());
+        dms ha(lst - telescopeCoord.ra());
         QChar sgn('+');
         if (ha.Hours() > 12.0)
         {

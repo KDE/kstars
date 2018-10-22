@@ -842,11 +842,12 @@ void Align::calculateAngleForRALine(double &raIncrement, double &initRA, double 
         spWest.setAz(AZWest.Degrees());
         spWest.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
 
-        dms angleSep;
-        if (spEast.ra().Degrees() > spWest.ra().Degrees())
-            angleSep = spEast.ra() - spWest.ra();
-        else
-            angleSep = spEast.ra() + dms(360) - spWest.ra();
+        dms angleSep = spEast.ra().deltaAngle(spWest.ra());
+        //dms angleSep;
+//        if (spEast.ra().Degrees() > spWest.ra().Degrees())
+//            angleSep = spEast.ra() - spWest.ra();
+//        else
+//            angleSep = spEast.ra() + dms(360) - spWest.ra();
 
         initRA = spWest.ra().Degrees();
         if (raPoints > 1)
@@ -2917,8 +2918,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     // Get horizontal coords
     alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-    double raDiff = (alignCoord.ra().Degrees() - targetCoord.ra().Degrees()) * 3600;
-    double deDiff = (alignCoord.dec().Degrees() - targetCoord.dec().Degrees()) * 3600;
+//    double raDiff = (alignCoord.ra().Degrees() - targetCoord.ra().Degrees()) * 3600;
+//    double deDiff = (alignCoord.dec().Degrees() - targetCoord.dec().Degrees()) * 3600;
+      double raDiff = (alignCoord.ra().deltaAngle(targetCoord.ra())).Degrees() * 3600;
+      double deDiff = (alignCoord.dec().deltaAngle(targetCoord.dec())).Degrees() * 3600;
 
     dms RADiff(fabs(raDiff) / 3600.0), DEDiff(deDiff / 3600.0);
 
@@ -3127,7 +3130,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         }
 
         return;
-        break;
 
     case GOTO_SLEW:
         if (loadSlewState == IPS_BUSY || targetDiff > static_cast<double>(accuracySpin->value()))
@@ -3709,11 +3711,11 @@ void Align::SlewToTarget()
         // Do we perform a regular sync or use differential slewing?
         if (Options::astrometryDifferentialSlewing())
         {
-            double raDiff = alignCoord.ra().Degrees() - targetCoord.ra().Degrees();
-            double deDiff = alignCoord.dec().Degrees() - targetCoord.dec().Degrees();
+            dms raDiff = alignCoord.ra().deltaAngle(targetCoord.ra());
+            dms deDiff = alignCoord.dec().deltaAngle(targetCoord.dec());
 
-            targetCoord.setRA((targetCoord.ra().Degrees()-raDiff)/15.0);
-            targetCoord.setDec(targetCoord.dec().Degrees()-deDiff);
+            targetCoord.setRA(targetCoord.ra()-raDiff);
+            targetCoord.setDec(targetCoord.dec()-deDiff);
 
             differentialSlewingActivated = true;
 
@@ -4844,7 +4846,7 @@ void Align::rotatePAH()
 
     SkyPoint targetPAH;
 
-    double newTelescopeRA = (telescopeCoord.ra().Degrees() + raDiff) / 15.0;
+    dms newTelescopeRA = (telescopeCoord.ra() + dms(raDiff * 15.0)).reduce();
 
     targetPAH.setRA(newTelescopeRA);
     targetPAH.setDec(telescopeCoord.dec());

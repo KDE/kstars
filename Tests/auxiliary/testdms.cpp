@@ -124,4 +124,50 @@ void TestDMS::testReduceToRange()
     QVERIFY(fabs(d.Degrees() - base) < 1e-9);
 }
 
+void TestDMS::testSubstraction()
+{
+    // Diff 359 and 1
+    dms sub = dms(359) - dms(1);
+    QVERIFY(sub.Degrees() == 358.);
+
+    // The reverse is -358
+    sub = dms(1) - dms(359);
+    QVERIFY(sub.Degrees() == -358.);
+
+    // Diff 100 and 300
+    sub = dms(100) - dms(300);
+    QVERIFY(sub.Degrees() == -200.0);
+
+    // Diff 310 and 110 should be 200
+    sub = dms(310) - dms(110);
+    QVERIFY(sub.Degrees() == 200.0);
+
+    // Diff 170 and 130 should be 40
+    sub = dms(170) - dms(130);
+    QVERIFY(sub.Degrees() == 40.0);
+
+    // Reverse is -40
+    sub = dms(130) - dms(170);
+    QVERIFY(sub.Degrees() == -40.0);
+}
+
+void TestDMS::testDeltaAngle()
+{
+    // Diff 359 and 1 should be 2 (shortest path normalized)
+    dms sub = dms(359).deltaAngle(dms(1));
+    QVERIFY(sub.Degrees() == 2.);
+
+    // Diff 1 to 350 is -11
+    sub = dms(1).deltaAngle(dms(350));
+    QVERIFY(sub.Degrees() == -11.);
+
+    // Diff 310 and 110 should be 160
+    sub = dms(310).deltaAngle(dms(110));
+    QVERIFY(sub.Degrees() == 160.0);
+
+    // Diff 100 and 300 should be -160 (NOT -200) since 160 is the shorest path CCW
+    sub = dms(100).deltaAngle(dms(300));
+    QVERIFY(sub.Degrees() == -160.0);
+}
+
 QTEST_GUILESS_MAIN(TestDMS)
