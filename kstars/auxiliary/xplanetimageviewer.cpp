@@ -223,6 +223,9 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_objectDefaultFOVs << 0.00114          << 0.0001;
 
     m_CurrentObjectIndex = m_ObjectNames.indexOf(obj);
+    if (m_CurrentObjectIndex < 0)
+        // Set to Saturn if current object is not in the list.
+        m_CurrentObjectIndex = 13;
     m_ObjectName = m_ObjectNames.at(m_CurrentObjectIndex);
 
     QComboBox *objectSelector = new QComboBox(this);
