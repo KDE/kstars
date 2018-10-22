@@ -82,8 +82,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     connect(Obj1FindButton, SIGNAL(clicked()), this, SLOT(slotFindObject()));
 
     // Mode Change
-    connect(ModeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-            &ConjunctionsTool::setMode);
+    connect(ModeSelector, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ConjunctionsTool::setMode);
 
     //connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
     connect(ComputeButton, &QPushButton::clicked, [this]()
