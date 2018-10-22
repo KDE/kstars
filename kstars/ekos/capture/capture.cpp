@@ -4106,13 +4106,10 @@ double Capture::getCurrentHA()
 
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
 
-    dms ha(lst.Degrees() - currentRA * 15.0);
-
+    dms ha = (lst - dms(currentRA * 15.0));
     double HA = ha.Hours();
-
     if (HA > 12)
         HA -= 24;
-
     return HA;
 }
 

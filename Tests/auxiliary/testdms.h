@@ -26,4 +26,6 @@ class TestDMS : public QObject
     void angleCtor();
     void stringCtor();
     void testReduceToRange();
+    void testSubstraction();
+    void testDeltaAngle();
 };
