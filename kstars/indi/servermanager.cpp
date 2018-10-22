@@ -255,7 +255,7 @@ void ServerManager::stop()
 
     qCDebug(KSTARS_INDI) << "Stopping INDI Server " << host << "@" << port;
 
-    serverProcess->disconnect(SIGNAL(error(QProcess::ProcessError)));
+    serverProcess->disconnect(this);
 
     serverBuffer.close();
 
