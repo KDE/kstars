@@ -3084,6 +3084,9 @@ void Scheduler::checkJobStage()
                               "Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), marking aborted.",
                               preDawnDateTime.toString(), Options::preDawnTime(), currentJob->getName()));
             currentJob->setState(SchedulerJob::JOB_ABORTED);
+            stopCurrentJobAction();
+            stopGuiding();
+            findNextJob();
             return;
         }
     }
