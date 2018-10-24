@@ -38,6 +38,7 @@ void Dome::setDome(ISD::GDInterface *newDome)
 
     connect(currentDome, &ISD::Dome::newStatus, this, &Dome::newStatus);
     connect(currentDome, &ISD::Dome::newParkStatus, this, &Dome::newParkStatus);
+    connect(currentDome, &ISD::Dome::newParkStatus, [&](ISD::ParkStatus status) {m_ParkStatus = status;});
     connect(currentDome, &ISD::Dome::azimuthPositionChanged, this, &Dome::azimuthPositionChanged);
     connect(currentDome, &ISD::Dome::ready, this, &Dome::ready);
 }
