@@ -1710,6 +1710,15 @@ void Scheduler::evaluateJobs()
     // Sort again by schedule, sooner first, as some jobs may have shifted during the last step
     qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingStartupTimeOrder);
 
+    /* If there are no jobs left to run in the filtered list, stop evaluation */
+    if (sortedJobs.isEmpty())
+    {
+        appendLogText(i18n("No jobs left in the scheduler queue."));
+        setCurrentJob(nullptr);
+        jobEvaluationOnly = false;
+        return;
+    }
+
     SchedulerJob * const job_to_execute = sortedJobs.first();
 
     /* Check if job can be processed right now */
