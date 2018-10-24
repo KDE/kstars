@@ -439,4 +439,6 @@ class FITSData : public QObject
     bool autoRemoveTemporaryFITS { true };
 
     QString lastError;
+
+    static const QString m_TemporaryPath;
 };
