@@ -359,6 +359,13 @@ void Focus::checkCCD(int ccdNum)
     if (ccdNum >= 0 && ccdNum <= CCDs.count())
     {
         currentCCD = CCDs.at(ccdNum);
+        for (ISD::CCD *oneCCD : CCDs)
+        {
+            if (oneCCD == currentCCD)
+                continue;
+            if (captureInProgress == false)
+                oneCCD->disconnect(this);
+        }
 
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
         if (targetChip)
@@ -394,9 +401,7 @@ void Focus::checkCCD(int ccdNum)
                 ISOCombo->setCurrentIndex(targetChip->getISOIndex());
             }
 
-            currentCCD->disconnect(this);
-
-            connect(currentCCD, &ISD::CCD::videoStreamToggled, this, &Ekos::Focus::setVideoStreamEnabled);
+            connect(currentCCD, &ISD::CCD::videoStreamToggled, this, &Ekos::Focus::setVideoStreamEnabled, Qt::UniqueConnection);
 
             liveVideoB->setEnabled(currentCCD->hasVideoStream());
             if (currentCCD->hasVideoStream())
