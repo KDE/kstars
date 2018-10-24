@@ -1508,7 +1508,7 @@ void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip)
     {
         auto m_Loaded = std::make_shared<QMetaObject::Connection>();
         *m_Loaded = connect(view, &FITSView::loaded, [=]() {
-            view->updateFrame();            
+            //view->updateFrame();
             // FITSViewer is shown if:
             // Image in preview mode, or useFITSViewre is true; AND
             // Image type is either NORMAL or CALIBRATION since the rest have their dedicated windows.
