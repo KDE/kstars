@@ -49,6 +49,7 @@
 #define ZOOM_HIGH_INCR 50
 
 const int MINIMUM_ROWS_PER_CENTER = 3;
+const QString FITSData::m_TemporaryPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 
 #define DIFFUSE_THRESHOLD 0.15
 
@@ -166,6 +167,8 @@ bool FITSData::privateLoad(bool silent)
 
         m_Filename = uncompressedFile;
     }
+    else if (m_Filename.startsWith(m_TemporaryPath))
+        m_isTemporary = true;
 
     // Use open diskfile as it does not use extended file names which has problems opening
     // files with [ ] or ( ) in their names.
