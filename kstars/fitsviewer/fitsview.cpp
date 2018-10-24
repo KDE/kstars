@@ -387,6 +387,7 @@ void FITSView::loadInFrame()
         QTimer::singleShot(100 , this , SLOT(viewStarProfile()));
     }
 
+    scaledImage = QImage();
     updateFrame();
 
     emit loaded();
@@ -747,7 +748,7 @@ void FITSView::updateFrame()
     if (currentZoom != ZOOM_DEFAULT)
     {
         // Only scale when necessary
-        if (currentWidth != lastWidth || currentHeight != lastHeight)
+        if (scaledImage.isNull() || currentWidth != lastWidth || currentHeight != lastHeight)
         {
             scaledImage = rawImage.scaled(currentWidth, currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation);
             lastWidth = currentWidth;
@@ -765,7 +766,7 @@ void FITSView::updateFrame()
 
     drawOverlay(&painter);
 
-    image_frame->setPixmap(displayPixmap);    
+    image_frame->setPixmap(displayPixmap);
 
     image_frame->resize(currentWidth, currentHeight);
 }
@@ -1502,7 +1503,7 @@ void FITSView::setTrackingBoxEnabled(bool enable)
     if (enable != trackingBoxEnabled)
     {
         trackingBoxEnabled = enable;
-        updateFrame();
+        //updateFrame();
     }
 }
 
