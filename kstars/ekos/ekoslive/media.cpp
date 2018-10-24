@@ -146,7 +146,7 @@ void Media::sendPreviewImage(FITSView *view, const QString &uuid)
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
-    QImage scaledImage = view->getDisplayImage()->scaledToWidth(m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH/2);
+    QImage scaledImage = view->getDisplayImage().scaledToWidth(m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH/2);
     scaledImage.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
     buffer.close();
 
