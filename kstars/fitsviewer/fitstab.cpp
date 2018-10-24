@@ -158,7 +158,7 @@ int FITSTab::saveFITS(const QString &filename)
 
 void FITSTab::copyFITS()
 {
-    QApplication::clipboard()->setImage(*(view->getDisplayImage()));
+    QApplication::clipboard()->setImage(view->getDisplayImage());
 }
 
 void FITSTab::histoFITS()

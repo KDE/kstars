@@ -2735,14 +2735,14 @@ void Align::setCaptureComplete()
         if (targetChip)
         {
             QString jpegFile = blobFileName + ".jpg";
-            bool rc          = alignView->getDisplayImage()->save(jpegFile, "JPG");
+            bool rc          = alignView->getDisplayImage().save(jpegFile, "JPG");
             if (rc)
                 blobFileName = jpegFile;
         }
     }
 
     if (getSolverFOV())
-        getSolverFOV()->setImageDisplay(alignView->getDisplayImage());
+        getSolverFOV()->setImage(alignView->getDisplayImage());
 
     startSolving(blobFileName);
 }

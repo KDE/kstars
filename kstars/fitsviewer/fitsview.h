@@ -71,17 +71,17 @@ class FITSView : public QScrollArea
     bool rescale(FITSZoom type);
 
     // Access functions
-    FITSData *getImageData() { return imageData; }
-    double getCurrentZoom() { return currentZoom; }
-    QImage *getDisplayImage() { return displayImage; }
+    FITSData *getImageData() const { return imageData; }
+    double getCurrentZoom() const { return currentZoom; }
+    QImage getDisplayImage() const { return rawImage; }
     const QPixmap &getDisplayPixmap() const { return displayPixmap; }
 
     // Tracking square
     void setTrackingBoxEnabled(bool enable);
-    bool isTrackingBoxEnabled() { return trackingBoxEnabled; }
+    bool isTrackingBoxEnabled() const { return trackingBoxEnabled; }
     QPixmap &getTrackingBoxPixmap(uint8_t margin=0);
     void setTrackingBox(const QRect &rect);
-    const QRect &getTrackingBox() { return trackingBox; }
+    const QRect &getTrackingBox() const { return trackingBox; }
 
     // last error
     const QString &lastError() const { return m_LastError; }
@@ -223,13 +223,17 @@ private:
 
     /// Current width due to zoom
     uint16_t currentWidth { 0 };
+    uint16_t lastWidth { 0 };
     /// Current height due to zoom
     uint16_t currentHeight { 0 };
+    uint16_t lastHeight { 0 };
     /// Image zoom factor
     const double zoomFactor;
 
-    /// FITS image that is displayed in the GUI
-    QImage *displayImage { nullptr };
+    // Original full-size image
+    QImage rawImage;
+    // Scaled images
+    QImage scaledImage;
     // Actual pixmap after all the overlays
     QPixmap displayPixmap;
     // Histogram

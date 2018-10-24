@@ -85,7 +85,6 @@ FITSView::~FITSView()
     wcsWatcher.waitForFinished();    
 
     delete (imageData);
-    delete (displayImage);
 }
 
 /**
@@ -444,9 +443,9 @@ void FITSView::enterEvent(QEvent *event)
 
     if ((floatingToolBar != nullptr) && (imageData != nullptr))
     {
-        auto *eff = new QGraphicsOpacityEffect(this);
+        QPointer<QGraphicsOpacityEffect> eff = new QGraphicsOpacityEffect(this);
         floatingToolBar->setGraphicsEffect(eff);
-        QPropertyAnimation *a = new QPropertyAnimation(eff, "opacity");
+        QPointer<QPropertyAnimation> a = new QPropertyAnimation(eff, "opacity");
         a->setDuration(500);
         a->setStartValue(0.2);
         a->setEndValue(1);
@@ -461,9 +460,9 @@ void FITSView::leaveEvent(QEvent *event)
 
     if ((floatingToolBar != nullptr) && (imageData != nullptr))
     {
-        auto *eff = new QGraphicsOpacityEffect(this);
+        QPointer<QGraphicsOpacityEffect> eff = new QGraphicsOpacityEffect(this);
         floatingToolBar->setGraphicsEffect(eff);
-        QPropertyAnimation *a = new QPropertyAnimation(eff, "opacity");
+        QPointer<QPropertyAnimation> a = new QPropertyAnimation(eff, "opacity");
         a->setDuration(500);
         a->setStartValue(1);
         a->setEndValue(0.2);
@@ -478,7 +477,7 @@ bool FITSView::rescale(FITSZoom type)
     double min, max;
     bool displayBuffer = false;
 
-    if (displayImage == nullptr)
+    if (rawImage.isNull())
         return false;
 
     uint8_t *image_buffer = imageData->getImageBuffer();
@@ -511,9 +510,9 @@ bool FITSView::rescale(FITSZoom type)
 
     auto *buffer = reinterpret_cast<T *>(image_buffer);
 
-    if (min == max)
+    if (fabs(min - max) < 2)
     {
-        displayImage->fill(Qt::white);
+        rawImage.fill(Qt::white);
         emit newStatus(i18n("Image is saturated."), FITS_MESSAGE);
     }
     else
@@ -533,8 +532,8 @@ bool FITSView::rescale(FITSZoom type)
         }
 
         image_frame->setScaledContents(true);
-        currentWidth  = displayImage->width();
-        currentHeight = displayImage->height();
+        currentWidth  = rawImage.width();
+        currentHeight = rawImage.height();
 
         if (imageData->channels() == 1)
         {
@@ -546,7 +545,7 @@ bool FITSView::rescale(FITSZoom type)
                 futures.append(QtConcurrent::run([=]()
                 {
                     T *runningBuffer = buffer +j*image_width;
-                    uint8_t *scanLine = displayImage->scanLine(j);
+                    uint8_t *scanLine = rawImage.scanLine(j);
                     for (uint32_t i = 0; i < image_width; i++)
                     {
                         //scanLine[i] = qBound(0, static_cast<uint8_t>(runningBuffer[i] * bscale + bzero), 255);
@@ -567,7 +566,7 @@ bool FITSView::rescale(FITSZoom type)
             {                
                 futures.append(QtConcurrent::run([=]()
                 {
-                    auto *scanLine = reinterpret_cast<QRgb *>((displayImage->scanLine(j)));
+                    auto *scanLine = reinterpret_cast<QRgb *>((rawImage.scanLine(j)));
                     T *runningBufferR = buffer + j*image_width;
                     T *runningBufferG = buffer + j*image_width + size;
                     T *runningBufferB = buffer + j*image_width + size*2;
@@ -630,7 +629,7 @@ bool FITSView::rescale(FITSZoom type)
     switch (type)
     {
         case ZOOM_FIT_WINDOW:
-            if ((displayImage->width() > width() || displayImage->height() > height()))
+            if ((rawImage.width() > width() || rawImage.height() > height()))
             {
                 double w = baseSize().width() - BASE_OFFSET;
                 double h = baseSize().height() - BASE_OFFSET;
@@ -734,7 +733,7 @@ void FITSView::ZoomOut()
 
 void FITSView::ZoomToFit()
 {
-    if (displayImage != nullptr)
+    if (rawImage.isNull() == false)
     {
         rescale(ZOOM_FIT_WINDOW);
         updateFrame();
@@ -745,14 +744,19 @@ void FITSView::updateFrame()
 {    
     bool ok = false;
 
-    if (displayImage == nullptr)
-        return;
-
     if (currentZoom != ZOOM_DEFAULT)
-        ok = displayPixmap.convertFromImage(
-            displayImage->scaled(currentWidth, currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    {
+        // Only scale when necessary
+        if (currentWidth != lastWidth || currentHeight != lastHeight)
+        {
+            scaledImage = rawImage.scaled(currentWidth, currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            lastWidth = currentWidth;
+            lastHeight = currentHeight;
+        }
+        ok = displayPixmap.convertFromImage(scaledImage);
+    }
     else
-        ok = displayPixmap.convertFromImage(*displayImage);
+        ok = displayPixmap.convertFromImage(rawImage);
 
     if (!ok)
         return;
@@ -1572,20 +1576,17 @@ QPoint FITSView::getImagePoint(QPoint viewPortPoint)
 
 void FITSView::initDisplayImage()
 {
-    delete displayImage;
-    displayImage = nullptr;
-
     if (imageData->channels() == 1)
     {
-        displayImage = new QImage(image_width, image_height, QImage::Format_Indexed8);
+        rawImage = QImage(image_width, image_height, QImage::Format_Indexed8);
 
-        displayImage->setColorCount(256);
+        rawImage.setColorCount(256);
         for (int i = 0; i < 256; i++)
-            displayImage->setColor(i, qRgb(i, i, i));
+            rawImage.setColor(i, qRgb(i, i, i));
     }
     else
     {
-        displayImage = new QImage(image_width, image_height, QImage::Format_RGB32);
+        rawImage = QImage(image_width, image_height, QImage::Format_RGB32);
     }
 }
 
