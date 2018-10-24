@@ -4522,7 +4522,6 @@ int FITSData::findSEPStars(const QRect &boundary)
     default:
         delete [] data;
         return -1;
-        break;
     }
 
     float *imback = nullptr;
@@ -4614,6 +4613,7 @@ exit:
         delete [] data;
     sep_bkg_free(bkg);
     sep_catalog_free(catalog);
+    free(imback);
     free(flux);
     free(fluxerr);
     free(area);
