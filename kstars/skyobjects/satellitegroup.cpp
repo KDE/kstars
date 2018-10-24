@@ -39,6 +39,7 @@ void SatelliteGroup::readTLE()
     QString line1, line2;
 
     // Delete all satellites
+    qDeleteAll(*this);
     clear();
 
     // Read TLE file
