@@ -2125,6 +2125,8 @@ void Manager::initDome()
     });
 
     emit newModule("Dome");
+
+    ekosLiveClient->message()->sendDomes();
 }
 
 void Manager::initWeather()
@@ -2150,6 +2152,8 @@ void Manager::initDustCap()
     });
 
     emit newModule("DustCap");
+
+    ekosLiveClient->message()->sendCaps();
 }
 
 void Manager::setST4(ISD::ST4 *st4Driver)
