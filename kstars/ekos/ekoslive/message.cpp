@@ -178,8 +178,9 @@ void Message::sendCameras()
         connect(oneCCD, &ISD::CCD::newTemperatureValue, this, &Message::sendTemperature, Qt::UniqueConnection);
         ISD::CCDChip *primaryChip = oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
-        double temperature=0;
+        double temperature=Ekos::INVALID_VALUE, gain=Ekos::INVALID_VALUE;
         oneCCD->getTemperature(&temperature);
+        oneCCD->getGain(&gain);
 
         QJsonObject oneCamera = {
             {"name", oneCCD->getDeviceName()},
@@ -189,7 +190,8 @@ void Message::sendCameras()
             {"canCool", oneCCD->canCool()},
             {"isoList", QJsonArray::fromStringList(oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOList())},
             {"iso", oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOIndex()},
-            {"hasVideo", oneCCD->hasVideoStream()}
+            {"hasVideo", oneCCD->hasVideoStream()},
+            {"gain", gain}
         };
 
         cameraList.append(oneCamera);
