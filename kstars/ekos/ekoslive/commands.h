@@ -120,8 +120,7 @@ enum COMMANDS
 
 static QMap<COMMANDS, QString> const commands =
 {
-    {GET_CONNECTION, "get_connection"},
-    {GET_PROFILES, "get_profiles"},
+    {GET_CONNECTION, "get_connection"},    
     {GET_STATES, "get_states"},
     {GET_CAMERAS, "get_cameras"},
     {GET_MOUNTS, "get_mounts"},
@@ -146,6 +145,7 @@ static QMap<COMMANDS, QString> const commands =
 
     {LOGOUT, "logout"},
 
+    {GET_PROFILES, "get_profiles"},
     {START_PROFILE, "profile_start"},
     {STOP_PROFILE, "profile_stop"},
 
