@@ -104,12 +104,17 @@ class DustCap : public QObject
   signals:
     void newStatus(ISD::DustCap::Status status);
     void newParkStatus(ISD::ParkStatus status);
+    void lightToggled(bool enabled);
+    void lightIntensityChanged(int value);
     void ready();
 
   private:
     void processSwitch(ISwitchVectorProperty *svp);
+    void processNumber(INumberVectorProperty *nvp);
     // Devices needed for DustCap operation
     ISD::DustCap *currentDustCap { nullptr };
     ISD::ParkStatus m_ParkStatus { ISD::PARK_UNKNOWN };
+    bool m_LightEnabled { false };
+    uint16_t m_lightIntensity { 0 };
 };
 }

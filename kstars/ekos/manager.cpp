@@ -1274,11 +1274,8 @@ void Manager::setCCD(ISD::GDInterface *ccdDevice)
 void Manager::setFilter(ISD::GDInterface *filterDevice)
 {
     // No duplicates
-    for (auto oneFilter : findDevices(KSTARS_FILTER))
-        if (oneFilter == filterDevice)
-            return;
-
-    managedDevices.insertMulti(KSTARS_FILTER, filterDevice);
+    if (findDevices(KSTARS_FILTER).contains(filterDevice) == false)
+        managedDevices.insertMulti(KSTARS_FILTER, filterDevice);
 
     appendLogText(i18n("%1 filter is online.", filterDevice->getDeviceName()));
 
@@ -1306,11 +1303,8 @@ void Manager::setFilter(ISD::GDInterface *filterDevice)
 void Manager::setFocuser(ISD::GDInterface *focuserDevice)
 {
     // No duplicates
-    for (auto oneFocuser : findDevices(KSTARS_FOCUSER))
-        if (oneFocuser == focuserDevice)
-            return;
-
-    managedDevices.insertMulti(KSTARS_FOCUSER, focuserDevice);
+    if (findDevices(KSTARS_FOCUSER).contains(focuserDevice) == false)
+        managedDevices.insertMulti(KSTARS_FOCUSER, focuserDevice);
 
     initCapture();
 
@@ -1357,7 +1351,9 @@ void Manager::setWeather(ISD::GDInterface *weatherDevice)
 
 void Manager::setDustCap(ISD::GDInterface *dustCapDevice)
 {
-    managedDevices.insertMulti(KSTARS_AUXILIARY, dustCapDevice);
+    // No duplicates
+    if (findDevices(KSTARS_AUXILIARY).contains(dustCapDevice) == false)
+        managedDevices.insertMulti(KSTARS_AUXILIARY, dustCapDevice);
 
     initDustCap();
 
@@ -1371,7 +1367,10 @@ void Manager::setDustCap(ISD::GDInterface *dustCapDevice)
 
 void Manager::setLightBox(ISD::GDInterface *lightBoxDevice)
 {
-    managedDevices.insertMulti(KSTARS_AUXILIARY, lightBoxDevice);
+
+    // No duplicates
+    if (findDevices(KSTARS_AUXILIARY).contains(lightBoxDevice) == false)
+        managedDevices.insertMulti(KSTARS_AUXILIARY, lightBoxDevice);
 
     if (captureProcess.get() != nullptr)
         captureProcess->setLightBox(lightBoxDevice);
@@ -2160,6 +2159,14 @@ void Manager::initDustCap()
 
     connect(dustCapProcess.get(), &Ekos::DustCap::newStatus, [&](ISD::DustCap::Status newStatus) {
         QJsonObject status = { { "status", ISD::DustCap::getStatusString(newStatus)} };
+        ekosLiveClient.get()->message()->updateCapStatus(status);
+    });
+    connect(dustCapProcess.get(), &Ekos::DustCap::lightToggled, [&](bool enabled) {
+        QJsonObject status = { { "lightS", enabled} };
+        ekosLiveClient.get()->message()->updateCapStatus(status);
+    });
+    connect(dustCapProcess.get(), &Ekos::DustCap::lightIntensityChanged, [&](uint16_t value) {
+        QJsonObject status = { { "lightB", value} };
         ekosLiveClient.get()->message()->updateCapStatus(status);
     });
 

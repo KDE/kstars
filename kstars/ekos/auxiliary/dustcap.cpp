@@ -33,50 +33,72 @@ void DustCap::setDustCap(ISD::GDInterface *newDustCap)
     currentDustCap->disconnect(this);
 
     connect(currentDustCap, &ISD::GDInterface::switchUpdated, this, &DustCap::processSwitch);
+    connect(currentDustCap, &ISD::GDInterface::numberUpdated, this, &DustCap::processNumber);
     connect(currentDustCap, &ISD::DustCap::newStatus, this, &DustCap::newStatus);
     connect(currentDustCap, &ISD::DustCap::ready, this, &DustCap::ready);
 }
 
 void DustCap::processSwitch(ISwitchVectorProperty *svp)
 {
-    if (strcmp(svp->name, "CAP_PARK"))
-        return;
-
-    ISD::ParkStatus newStatus;
-
-    switch (svp->s)
+    if (!strcmp(svp->name, "CAP_PARK"))
     {
-    case IPS_IDLE:
-        if (svp->sp[0].s == ISS_ON)
-            newStatus = ISD::PARK_PARKED;
-        else if (svp->sp[1].s == ISS_ON)
-            newStatus = ISD::PARK_UNPARKED;
-        else
-            newStatus = ISD::PARK_UNKNOWN;
-        break;
+        ISD::ParkStatus newStatus;
 
-    case IPS_OK:
-        if (svp->sp[0].s == ISS_ON)
-            newStatus = ISD::PARK_PARKED;
-        else
-            newStatus = ISD::PARK_UNPARKED;
-        break;
+        switch (svp->s)
+        {
+        case IPS_IDLE:
+            if (svp->sp[0].s == ISS_ON)
+                newStatus = ISD::PARK_PARKED;
+            else if (svp->sp[1].s == ISS_ON)
+                newStatus = ISD::PARK_UNPARKED;
+            else
+                newStatus = ISD::PARK_UNKNOWN;
+            break;
 
-    case IPS_BUSY:
-        if (svp->sp[0].s == ISS_ON)
-            newStatus = ISD::PARK_PARKING;
-        else
-            newStatus = ISD::PARK_UNPARKING;
-        break;
+        case IPS_OK:
+            if (svp->sp[0].s == ISS_ON)
+                newStatus = ISD::PARK_PARKED;
+            else
+                newStatus = ISD::PARK_UNPARKED;
+            break;
 
-    case IPS_ALERT:
-        newStatus = ISD::PARK_ERROR;
+        case IPS_BUSY:
+            if (svp->sp[0].s == ISS_ON)
+                newStatus = ISD::PARK_PARKING;
+            else
+                newStatus = ISD::PARK_UNPARKING;
+            break;
+
+        case IPS_ALERT:
+            newStatus = ISD::PARK_ERROR;
+        }
+
+        if (newStatus != m_ParkStatus)
+        {
+            m_ParkStatus = newStatus;
+            emit newParkStatus(newStatus);
+        }
     }
-
-    if (newStatus != m_ParkStatus)
+    else if (!strcmp(svp->name, "FLAT_LIGHT_CONTROL"))
     {
-        m_ParkStatus = newStatus;
-        emit newParkStatus(newStatus);
+        if ((svp->sp[0].s == ISS_ON) != m_LightEnabled)
+        {
+            m_LightEnabled = (svp->sp[0].s == ISS_ON);
+            emit lightToggled(m_LightEnabled);
+        }
+    }
+}
+
+void DustCap::processNumber(INumberVectorProperty *nvp)
+{
+    if (!strcmp(nvp->name, "FLAT_LIGHT_INTENSITY"))
+    {
+        uint16_t newIntensity = static_cast<uint16_t>(nvp->np[0].value);
+        if (newIntensity != m_lightIntensity)
+        {
+            m_lightIntensity = newIntensity;
+            emit lightIntensityChanged(m_lightIntensity);
+        }
     }
 }
 
