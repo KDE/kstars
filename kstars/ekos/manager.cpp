@@ -241,7 +241,7 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
         // UUID binds the cloud & preview frames by a common key
         QString uuid = QUuid::createUuid().toString();
         uuid = uuid.remove(QRegularExpression("[-{}]"));
-        ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get(), uuid);
+        //ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get(), uuid);
         ekosLiveClient.get()->cloud()->sendPreviewImage(summaryPreview.get(), uuid);
     });
 
@@ -1543,10 +1543,22 @@ void Manager::processNewProperty(INDI::Property *prop)
         ekosLiveClient.get()->message()->sendScopes();
     }
 
-    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "CCD_TEMPERATURE") || !strcmp(prop->getName(), "CCD_ISO"))
+    if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "CCD_TEMPERATURE") || !strcmp(prop->getName(), "CCD_ISO") ||
+        !strcmp(prop->getName(), "CCD_GAIN") || !strcmp(prop->getName(), "CCD_CONTROLS"))
     {
         ekosLiveClient.get()->message()->sendCameras();
         ekosLiveClient.get()->media()->registerCameras();
+    }
+
+    if (!strcmp(prop->getName(), "ABS_DOME_POSITION") || !strcmp(prop->getName(), "DOME_ABORT_MOTION") ||
+        !strcmp(prop->getName(), "DOME_PARK"))
+    {
+        ekosLiveClient.get()->message()->sendDomes();
+    }
+
+    if (!strcmp(prop->getName(), "CAP_PARK") || !strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
+    {
+        ekosLiveClient.get()->message()->sendCaps();
     }
 
     if (!strcmp(prop->getName(), "FILTER_NAME"))
@@ -2493,6 +2505,9 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob *job)
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
+    QString uuid = QUuid::createUuid().toString();
+    uuid = uuid.remove(QRegularExpression("[-{}]"));
+    ekosLiveClient.get()->media()->sendPreviewImage(job->getActiveChip()->getImageView(FITS_NORMAL), uuid);
 }
 
 void Manager::updateExposureProgress(Ekos::SequenceJob *job)
