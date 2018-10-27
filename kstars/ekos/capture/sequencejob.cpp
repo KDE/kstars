@@ -17,7 +17,6 @@
 
 #include <KNotifications/KNotification>
 
-#define INVALID_VALUE       -1e6
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4
 
@@ -29,8 +28,8 @@ SequenceJob::SequenceJob()
 {
     statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted")
                                   << i18n("Complete");
-    currentTemperature = targetTemperature = INVALID_VALUE;
-    targetRotation = currentRotation = INVALID_VALUE;
+    currentTemperature = targetTemperature = Ekos::INVALID_VALUE;
+    targetRotation = currentRotation = Ekos::INVALID_VALUE;
 
     prepareActions[ACTION_FILTER] = true;
     prepareActions[ACTION_TEMPERATURE] = true;
@@ -87,8 +86,8 @@ void SequenceJob::prepareCapture()
     activeCCD->setUploadMode(uploadMode);
 
     // Set all custom properties
-    if (preview == false)
-    {
+    //if (preview == false)
+    //{
         QMapIterator<QString, QMap<QString,double>> i(customProperties);
         while (i.hasNext())
         {
@@ -110,7 +109,7 @@ void SequenceJob::prepareCapture()
                 activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
             }
         }
-    }
+    //}
 
     if (activeChip->isBatchMode() && remoteDirectory.isEmpty() == false)
         activeCCD->updateUploadSettings(remoteDirectory + directoryPostfix);
@@ -159,7 +158,7 @@ void SequenceJob::prepareCapture()
     }
 
     // Check if we need to update rotator
-    if (targetRotation != INVALID_VALUE && fabs(currentRotation - targetRotation)*60 > Options::astrometryRotatorThreshold())
+    if (targetRotation != Ekos::INVALID_VALUE && fabs(currentRotation - targetRotation)*60 > Options::astrometryRotatorThreshold())
     {
         // PA = RawAngle * Multiplier + Offset
         double rawAngle = (targetRotation - Options::pAOffset()) / Options::pAMultiplier();
