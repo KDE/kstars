@@ -171,6 +171,9 @@ typedef enum {
 
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
                                        const int order, double &chisq);
+
+// Invalid value
+const int INVALID_VALUE = -1e6;
 }
 
 // Communication Status

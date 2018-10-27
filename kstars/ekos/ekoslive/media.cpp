@@ -140,7 +140,7 @@ void Media::onBinaryReceived(const QByteArray &message)
 
 void Media::sendPreviewImage(FITSView *view, const QString &uuid)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false || view == nullptr)
         return;
 
     QByteArray jpegData;

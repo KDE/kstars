@@ -26,7 +26,6 @@
 #define JOB_RETRY_DURATION    2000 /* 2000 ms */
 #define JOB_RETRY_ATTEMPTS    90
 #define SOLVER_RETRY_DURATION 2000 /* 2000 ms */
-#define INVALID_VALUE         -1000
 
 namespace Ekos
 {
@@ -34,7 +33,7 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
 {
     networkManager = new QNetworkAccessManager(this);
 
-    parity = INVALID_VALUE;
+    parity = Ekos::INVALID_VALUE;
 
     connect(this, SIGNAL(authenticateFinished()), this, SLOT(uploadFile()));
     connect(this, SIGNAL(uploadFinished()), this, SLOT(getJobID()));
@@ -42,7 +41,7 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     connect(this, SIGNAL(jobFinished()), this, SLOT(checkJobCalibration()));
 
     // Reset parity on solver failure
-    connect(this, &OnlineAstrometryParser::solverFailed, this, [&]() { parity = INVALID_VALUE; });
+    connect(this, &OnlineAstrometryParser::solverFailed, this, [&]() { parity = Ekos::INVALID_VALUE; });
 
     connect(this, SIGNAL(solverFailed()), this, SLOT(resetSolver()));
     connect(this, SIGNAL(solverFinished(double,double,double,double)), this, SLOT(resetSolver()));
@@ -84,7 +83,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
     #endif
 
     // Reset params
-    center_ra = center_dec = downsample_factor = lowerScale = upperScale = INVALID_VALUE;
+    center_ra = center_dec = downsample_factor = lowerScale = upperScale = Ekos::INVALID_VALUE;
     units.clear();
     useWCSCenter = false;
 
@@ -214,7 +213,7 @@ void OnlineAstrometryParser::uploadFile()
     }
 
     // Do we send RA/DE?
-    if (center_ra != INVALID_VALUE)
+    if (center_ra != Ekos::INVALID_VALUE)
     {
         uploadReq.insert("center_ra", center_ra);
         uploadReq.insert("center_dec", center_dec);
@@ -224,13 +223,13 @@ void OnlineAstrometryParser::uploadFile()
     if (useWCSCenter)
         uploadReq.insert("crpix_center", true);
 
-    if (downsample_factor != INVALID_VALUE)
+    if (downsample_factor != Ekos::INVALID_VALUE)
         uploadReq.insert("downsample_factor", downsample_factor);
 
     // If we have parity and option is valid and this is NOT a blind solve (if ra or units exist then it is not a blind solve)
     // then we send parity
-    if (Options::astrometryDetectParity() && parity != INVALID_VALUE &&
-        (center_ra != INVALID_VALUE || units.isEmpty() == false))
+    if (Options::astrometryDetectParity() && parity != Ekos::INVALID_VALUE &&
+        (center_ra != Ekos::INVALID_VALUE || units.isEmpty() == false))
         uploadReq.insert("parity", parity);
 
     QJsonObject json = QJsonObject::fromVariantMap(uploadReq);
