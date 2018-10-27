@@ -149,6 +149,6 @@ private:
     // Retry every 5 seconds in case remote server is down
     static const uint16_t RECONNECT_INTERVAL = 5000;
     // Retry for 1 hour before giving up
-    static const uint16_t RECONNECT_MAX_TRIES = 720;
+    static const uint16_t RECONNECT_MAX_TRIES = 720;    
 };
 }
