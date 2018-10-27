@@ -32,7 +32,6 @@
 
 #include <ekos_capture_debug.h>
 
-#define INVALID_VALUE -1e6
 #define MF_TIMER_TIMEOUT    90000
 #define GD_TIMER_TIMEOUT    60000
 #define MF_RA_DIFF_LIMIT    4
@@ -2623,7 +2622,7 @@ void Capture::preparePreCaptureActions()
     }
 
     // update rotator angle
-    if (currentRotator != nullptr && activeJob->getTargetRotation() != INVALID_VALUE)
+    if (currentRotator != nullptr && activeJob->getTargetRotation() != Ekos::INVALID_VALUE)
         activeJob->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
 
     setBusy(true);
@@ -3508,7 +3507,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<W>" << cLocale.toString(job->getSubW()) << "</W>" << endl;
         outstream << "<H>" << cLocale.toString(job->getSubH()) << "</H>" << endl;
         outstream << "</Frame>" << endl;
-        if (job->getTargetTemperature() != INVALID_VALUE)
+        if (job->getTargetTemperature() != Ekos::INVALID_VALUE)
             outstream << "<Temperature force='" << (job->getEnforceTemperature() ? "true" : "false") << "'>"
                       << cLocale.toString(job->getTargetTemperature()) << "</Temperature>" << endl;
         if (job->getTargetFilter() >= 0)
@@ -3534,7 +3533,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
         outstream << "<FormatIndex>" << (job->getTransforFormat()) << "</FormatIndex>" << endl;
-        if (job->getTargetRotation() != INVALID_VALUE)
+        if (job->getTargetRotation() != Ekos::INVALID_VALUE)
             outstream << "<Rotation>" << (job->getTargetRotation()) << "</Rotation>" << endl;
         QMapIterator<QString, QMap<QString,double>> customIter(job->getCustomProperties());
         outstream << "<Properties>" << endl;
@@ -3686,7 +3685,7 @@ void Capture::syncGUIToJob(SequenceJob *job)
 
     transferFormatCombo->setCurrentIndex(job->getTransforFormat());
 
-    if (job->getTargetRotation() != INVALID_VALUE)
+    if (job->getTargetRotation() != Ekos::INVALID_VALUE)
     {
         rotatorSettings->setRotationEnforced(true);
         rotatorSettings->setTargetRotationPA(job->getTargetRotation());
@@ -4092,17 +4091,17 @@ double Capture::getCurrentHA()
     double currentRA, currentDEC;
 
     if (currentTelescope == nullptr)
-        return INVALID_VALUE;
+        return Ekos::INVALID_VALUE;
 
     if (currentTelescope->getEqCoords(&currentRA, &currentDEC) == false)
     {
         appendLogText(i18n("Failed to retrieve telescope coordinates. Unable to calculate telescope's hour angle."));
-        return INVALID_VALUE;
+        return Ekos::INVALID_VALUE;
     }
 
     /* Edge case: undefined HA at poles */
     if (90.0f == currentDEC || -90.0f == currentDEC)
-        return INVALID_VALUE;
+        return Ekos::INVALID_VALUE;
 
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
 
@@ -4122,7 +4121,7 @@ bool Capture::checkMeridianFlip()
 
     //appendLogText(i18n("Current hour angle %1", currentHA));
 
-    if (currentHA == INVALID_VALUE)
+    if (currentHA == Ekos::INVALID_VALUE)
         return false;
 
     if (currentHA > meridianHours->value())
@@ -5601,11 +5600,36 @@ void Capture::setSettings(const QJsonObject &settings)
     int bin = settings["bin"].toInt(1);
     setBinning(bin,bin);
 
-    double temperature = settings["temperature"].toDouble(-1000);
-    if (temperature != -1000)
+    double temperature = settings["temperature"].toDouble(Ekos::INVALID_VALUE);
+    if (temperature != Ekos::INVALID_VALUE)
     {
         setForceTemperature(true);
         setTargetTemperature(temperature);
+    }
+
+    double gain = settings["gain"].toDouble(Ekos::INVALID_VALUE);
+    if (gain != Ekos::INVALID_VALUE && currentCCD)
+    {
+         QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+
+         // Gain is manifested in two forms
+         // Property CCD_GAIN and
+         // Part of CCD_CONTROLS properties.
+         // Therefore, we have to find what the currently camera supports first.
+         if (currentCCD->getProperty("CCD_GAIN"))
+         {
+             QMap<QString, double> ccdGain;
+             ccdGain["GAIN"] = gain;
+             customProps["CCD_GAIN"] = ccdGain;
+         }
+         else if (currentCCD->getProperty("CCD_CONTROLS"))
+         {
+             QMap<QString, double> ccdGain;
+             ccdGain["Gain"] = gain;
+             customProps["CCD_CONTROLS"] = ccdGain;
+         }
+
+         customPropertiesDialog->setCustomProperties(customProps);
     }
 
     frameTypeCombo->setCurrentIndex(settings["frameType"].toInt(0));
