@@ -254,6 +254,20 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
     lightImage->rescale(ZOOM_KEEP_LEVEL);
     lightImage->updateFrame();
 
+    QString deviceName= subtractParams.targetChip->getCCD()->getDeviceName();
+    bool hasNoShutter = Options::shutterlessCCDs().contains(deviceName);
+    if (hasNoShutter)
+    {
+        if (KMessageBox::warningContinueCancel(
+                nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Dark Exposure"),
+                KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                "uncover_scope_dialog_notification", KMessageBox::WindowModal|KMessageBox::Notify) == KMessageBox::Cancel)
+        {
+            emit darkFrameCompleted(false);
+            return false;
+        }
+    }
+
     emit darkFrameCompleted(true);
 
     return true;
@@ -292,9 +306,9 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
     if (hasNoShutter)
     {
         if (KMessageBox::warningContinueCancel(
-                nullptr, i18n("Cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"),
+                nullptr, i18n("Cover the telescope in order to take a dark exposure."), i18n("Dark Exposure"),
                 KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                "dark_exposure_dialog_notification", KMessageBox::WindowModal|KMessageBox::Notify) == KMessageBox::Cancel)
+                "cover_scope_dialog_notification", KMessageBox::WindowModal|KMessageBox::Notify) == KMessageBox::Cancel)
         {
             emit newLog(i18n("Dark frame capture cancelled."));
             disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
