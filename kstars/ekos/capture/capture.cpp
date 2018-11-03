@@ -4117,6 +4117,11 @@ bool Capture::checkMeridianFlip()
     if (currentTelescope == nullptr || meridianCheck->isChecked() == false || initialHA > 0)
         return false;
 
+    // If active job is taking flat field image at a wall source
+    // then do not flip.
+    if (activeJob && activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldSource() == SOURCE_WALL)
+        return false;
+
     double currentHA = getCurrentHA();
 
     //appendLogText(i18n("Current hour angle %1", currentHA));
@@ -4822,7 +4827,7 @@ IPState Capture::processPreCaptureCalibrationStage()
 
         // Go to wall coordinates
     case SOURCE_WALL:
-        if (currentTelescope)
+        if (currentTelescope && activeJob->getFrameType() == FRAME_FLAT)
         {
             if (calibrationStage < CAL_SLEWING)
             {
