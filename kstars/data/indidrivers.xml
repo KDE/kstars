@@ -439,13 +439,13 @@
     <devGroup group="CCDs">
         <device label="ATIK CCD">
             <driver name="ATIK CCD">indi_atik_ccd</driver>
-            <version>1.1</version>
+            <version>1.3</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="ATIK Wheel">
             <driver name="ATIK Wheel">indi_atik_wheel</driver>
-            <version>1.1</version>
+            <version>1.3</version>
         </device>
     </devGroup>
 </driversList>
