@@ -4845,6 +4845,8 @@ IPState Capture::processPreCaptureCalibrationStage()
             {
                 if (currentTelescope->isSlewing() == false)
                 {
+                    // Disable mount tracking if supported by the driver.
+                    currentTelescope->setTrackEnabled(false);
                     calibrationStage = CAL_SLEWING_COMPLETE;
                     appendLogText(i18n("Slew to wall position complete."));
                 }
