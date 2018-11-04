@@ -1235,7 +1235,10 @@ bool DriverManager::checkDriverAvailability(const QString &driver)
 
     QFile driverFile(indiServerDir + '/' + driver);
 
-    return driverFile.exists();
+    if (driverFile.exists() == false)
+        return (!QStandardPaths::findExecutable(indiServerDir + '/' + driver).isEmpty());
+
+    return true;
 }
 
 void DriverManager::updateCustomDrivers()
