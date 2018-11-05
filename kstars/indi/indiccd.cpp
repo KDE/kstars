@@ -27,6 +27,8 @@
 #endif
 
 #include <KNotifications/KNotification>
+#include <QImageReader>
+#include <QStatusBar>
 
 #include <basedevice.h>
 

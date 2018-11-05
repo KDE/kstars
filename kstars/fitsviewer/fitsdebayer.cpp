@@ -14,6 +14,8 @@
 #include "fitsview.h"
 #include "fitsviewer.h"
 
+#include <QPushButton>
+
 debayerUI::debayerUI(QDialog *parent) : QDialog(parent)
 {
     setupUi(parent);
@@ -26,7 +28,8 @@ FITSDebayer::FITSDebayer(FITSViewer *parent) : QDialog(parent)
 
     viewer = parent;
 
-    connect(ui->buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(applyDebayer()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked,
+            this, &FITSDebayer::applyDebayer);
 }
 
 void FITSDebayer::applyDebayer()

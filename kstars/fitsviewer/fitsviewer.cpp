@@ -37,6 +37,10 @@
 #include <KToolBar>
 #include <KNotifications/KStatusNotifierItem>
 
+#ifndef KSTARS_LITE
+#include "fitshistogram.h"
+#endif
+
 #include <fits_debug.h>
 
 #define INITIAL_W 785

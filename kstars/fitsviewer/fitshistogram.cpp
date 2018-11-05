@@ -640,31 +640,26 @@ void FITSHistogramCommand::redo()
     FITSData *image_data = image->getImageData();
 
     uint8_t *image_buffer = image_data->getImageBuffer();
+    uint8_t *buffer = nullptr;
     unsigned int size     = image_data->width() * image_data->height() * image_data->channels();
     int BBP               = image_data->getBytesPerPixel();
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     if (delta != nullptr)
-    {
-        double min, max, stddev, average, median, snr;
-        min     = image_data->getMin();
-        max     = image_data->getMax();
-        stddev  = image_data->getStdDev();
-        average = image_data->getMean();
-        median  = image_data->getMedian();
-        snr     = image_data->getSNR();
+    {        
+        FITSData::Statistic prevStats;
+        image_data->saveStatistics(prevStats);
 
         reverseDelta();
 
-        restoreStats();
+        image_data->restoreStatistics(stats);
 
-        saveStats(min, max, stddev, average, median, snr);
+        stats = prevStats;
     }
     else
     {
-        saveStats(image_data->getMin(), image_data->getMax(), image_data->getStdDev(), image_data->getMean(),
-                  image_data->getMedian(), image_data->getSNR());
+        image_data->saveStatistics(stats);
 
         // If it's rotation of flip, no need to calculate delta
         if (type >= FITS_ROTATE_CW && type <= FITS_FLIP_V)
@@ -673,7 +668,7 @@ void FITSHistogramCommand::redo()
         }
         else
         {
-            auto *buffer = new uint8_t[size * BBP];
+            buffer = new uint8_t[size * BBP];
 
             if (buffer == nullptr)
             {
@@ -683,8 +678,8 @@ void FITSHistogramCommand::redo()
             }
 
             memcpy(buffer, image_buffer, size * BBP);
-            double dataMin = min, dataMax = max;
 
+            double dataMin = min, dataMax = max;
             switch (type)
             {
                 case FITS_AUTO:
@@ -734,19 +729,14 @@ void FITSHistogramCommand::undo()
 
     if (delta != nullptr)
     {
-        double min, max, stddev, average, median, snr;
-        min     = image_data->getMin();
-        max     = image_data->getMax();
-        stddev  = image_data->getStdDev();
-        average = image_data->getMean();
-        median  = image_data->getMedian();
-        snr     = image_data->getSNR();
+        FITSData::Statistic prevStats;
+        image_data->saveStatistics(prevStats);
 
         reverseDelta();
 
-        restoreStats();
+        image_data->restoreStatistics(stats);
 
-        saveStats(min, max, stddev, average, median, snr);
+        stats = prevStats;
     }
     else
     {
@@ -806,24 +796,4 @@ QString FITSHistogramCommand::text() const
     }
 
     return i18n("Unknown");
-}
-
-void FITSHistogramCommand::saveStats(double min, double max, double stddev, double mean, double median, double SNR)
-{
-    stats.min    = min;
-    stats.max    = max;
-    stats.stddev = stddev;
-    stats.mean   = mean;
-    stats.median = median;
-    stats.SNR    = SNR;
-}
-
-void FITSHistogramCommand::restoreStats()
-{
-    FITSData *image_data = tab->getView()->getImageData();
-
-    image_data->setMinMax(stats.min, stats.max);
-    image_data->setStdDev(stats.stddev);
-    image_data->setMean(stats.mean);
-    image_data->setMedian(stats.median);
 }

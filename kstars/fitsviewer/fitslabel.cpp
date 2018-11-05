@@ -26,6 +26,7 @@
 #endif
 
 #include <QScrollBar>
+#include <QToolTip>
 
 #define BASE_OFFSET    50
 #define ZOOM_DEFAULT   100.0
