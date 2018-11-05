@@ -37,6 +37,10 @@
 #include <wcsfix.h>
 #endif
 
+#ifndef KSTARS_LITE
+#include "fitshistogram.h"
+#endif
+
 #include <cfloat>
 #include <cmath>
 
@@ -2663,7 +2667,7 @@ bool FITSData::checkForWCS()
         return false;
     }
 
-    HasWCS = true;    
+    HasWCS = true;
 #endif
 #endif
     return HasWCS;
@@ -4651,4 +4655,14 @@ void FITSData::getFloatBuffer(float *buffer, int x, int y, int w, int h)
             *floatPtr++ = rawBuffer[offset+x1];
         }
     }
+}
+
+void FITSData::saveStatistics(Statistic &other)
+{
+    other = stats;
+}
+
+void FITSData::restoreStatistics(Statistic &other)
+{
+    stats = other;
 }

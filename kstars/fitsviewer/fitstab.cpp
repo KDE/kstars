@@ -114,11 +114,11 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
 
             histogramFuture = QtConcurrent::run([&]() {histogram->constructHistogram();});
 
-            if (filter != FITS_NONE)
-            {
-                image_data->applyFilter(filter);
-                view->rescale(ZOOM_KEEP_LEVEL);
-            }
+//            if (filter != FITS_NONE)
+//            {
+//                image_data->applyFilter(filter);
+//                view->rescale(ZOOM_KEEP_LEVEL);
+//            }
 
             if (viewer->isStarsMarked())
                 view->toggleStars(true);

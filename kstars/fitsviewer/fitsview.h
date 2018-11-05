@@ -45,7 +45,6 @@ class QResizeEvent;
 class QToolBar;
 
 class FITSData;
-class FITSHistogram;
 class FITSLabel;
 
 class FITSView : public QScrollArea
@@ -236,8 +235,6 @@ private:
     QImage scaledImage;
     // Actual pixmap after all the overlays
     QPixmap displayPixmap;
-    // Histogram
-    FITSHistogram *histogram { nullptr };
 
     bool firstLoad { true };
     bool markStars { false };

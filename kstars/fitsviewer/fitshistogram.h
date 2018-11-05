@@ -11,6 +11,7 @@
 #pragma once
 
 #include "fitscommon.h"
+#include "fitsdata.h"
 #include "ui_fitshistogramui.h"
 
 #include <QDialog>
@@ -25,7 +26,7 @@ class histogramUI : public QDialog, public Ui::FITSHistogramUI
     Q_OBJECT
 
   public:
-    explicit histogramUI(QDialog *parent = 0);
+    explicit histogramUI(QDialog *parent = nullptr);
 };
 
 class FITSHistogram : public QDialog
@@ -93,27 +94,11 @@ class FITSHistogramCommand : public QUndoCommand
     virtual void undo();
     virtual QString text() const;
 
-  private:
-    /* stats struct to hold statistical data about the FITS data */
-    struct
-    {
-        double min { 0 };
-        double max { 0 };
-        double mean { 0 };
-        double stddev { 0 };
-        double median { 0 };
-        double SNR { 0 };
-        int bitpix { 0 };
-        int ndim { 0 };
-        unsigned int size { 0 };
-        long dim[2];
-    } stats;
-
+  private:    
     bool calculateDelta(const uint8_t *buffer);
     bool reverseDelta();
-    void saveStats(double min, double max, double stddev, double mean, double median, double SNR);
-    void restoreStats();
 
+    FITSData::Statistic stats;
     FITSHistogram *histogram { nullptr };
     FITSScale type;
     double min { 0 };

@@ -37,8 +37,6 @@
 #include <QVariant>
 
 #ifndef KSTARS_LITE
-#include "fitshistogram.h"
-
 #include <kxmlguiwindow.h>
 #ifdef HAVE_WCSLIB
 #include <wcs.h>
@@ -52,6 +50,7 @@ class QProgressDialog;
 
 class SkyObject;
 class SkyPoint;
+class FITSHistogram;
 
 typedef struct
 {
@@ -126,6 +125,23 @@ class FITSData : public QObject
       QString comment;  /** FITS Header Comment, if any */
     } Record;
 
+    /// Stats struct to hold statisical data about the FITS data
+    typedef struct
+    {
+        double min[3] = {0}, max[3] = {0};
+        double mean[3] = {0};
+        double stddev[3] = {0};
+        double median[3] = {0};
+        double SNR { 0 };
+        int bitpix { 8 };
+        int bytesPerPixel { 1 };
+        int ndim { 2 };
+        int64_t size { 0 };
+        uint32_t samples_per_channel { 0 };
+        uint16_t width { 0 };
+        uint16_t height { 0 };
+    } Statistic;
+
     /**
      * @brief loadFITS Loading FITS file asynchronously.
      * @param inFilename Path to FITS file (or compressed fits.gz)
@@ -148,6 +164,9 @@ class FITSData : public QObject
     uint8_t *getImageBuffer();    
 
     // Statistics
+    void saveStatistics(Statistic &other);
+    void restoreStatistics(Statistic &other);
+
     uint16_t width() const { return stats.width;}
     uint16_t height() const { return stats.height;}
     int64_t size() const { return stats.size; }
@@ -388,7 +407,6 @@ class FITSData : public QObject
     /// Do we need to mark stars for the user?
     bool markStars { false };
 
-
     /// Our very own file name
     QString m_Filename;
     /// FITS Mode (Normal, WCS, Guide, Focus..etc)
@@ -415,22 +433,7 @@ class FITSData : public QObject
     /// Bayer parameters
     BayerParams debayerParams;
 
-    /// Stats struct to hold statisical data about the FITS data
-    struct
-    {
-        double min[3] = {0}, max[3] = {0};
-        double mean[3] = {0};
-        double stddev[3] = {0};
-        double median[3] = {0};
-        double SNR { 0 };
-        int bitpix { 8 };
-        int bytesPerPixel { 1 };
-        int ndim { 2 };
-        int64_t size { 0 };
-        uint32_t samples_per_channel { 0 };
-        uint16_t width { 0 };
-        uint16_t height { 0 };
-    } stats;        
+    Statistic stats;
 
     // A list of header records
     QList<Record*> records;

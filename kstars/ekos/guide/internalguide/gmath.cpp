@@ -19,6 +19,7 @@
 
 #include "ekos_guide_debug.h"
 
+#include <QVector3D>
 #include <cmath>
 #include <set>
 
