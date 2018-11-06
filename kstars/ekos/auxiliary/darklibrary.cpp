@@ -256,7 +256,10 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
 
     QString deviceName= subtractParams.targetChip->getCCD()->getDeviceName();
     bool hasNoShutter = Options::shutterlessCCDs().contains(deviceName);
-    if (hasNoShutter)
+    // Only ask if no shutter and is temporary file
+    // For regular files, the data is already loaded so no need to ask user to remove cover
+    // since dark data is loaded from disk.
+    if (hasNoShutter && darkData->isTempFile())
     {
         if (KMessageBox::warningContinueCancel(
                 nullptr, i18n("Remove cover from the telescope in order to continue."), i18n("Dark Exposure"),
