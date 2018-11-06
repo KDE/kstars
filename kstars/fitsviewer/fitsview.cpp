@@ -610,7 +610,7 @@ bool FITSView::rescale(FITSZoom type)
                     {
                         scanLine[i] = qRgb(runningBufferR[i] * bscaleR + bzeroR,
                                            runningBufferG[i] * bscaleG + bzeroG,
-                                           runningBufferB[i] * bscaleB + bzeroB);;
+                                           runningBufferB[i] * bscaleB + bzeroB);
                     }
                 }));
             }
