@@ -631,6 +631,9 @@ class Capture : public QWidget, public Ui::Capture
     /* Refocus */
     void startRefocusTimer(bool forced = false);
 
+    // If exposure timed out, let's handle it.
+    void processCaptureTimeout();
+
     /* Capture */
 
     /**
@@ -652,6 +655,10 @@ class Capture : public QWidget, public Ui::Capture
     int nextSequenceID { 0 };
     int seqFileCount { 0 };
     bool isBusy { false };
+
+    // Capture timeout timer
+    QTimer captureTimeout;
+    uint8_t captureTimeoutCounter { 0 };
 
     bool useGuideHead { false };
     bool autoGuideReady { false};

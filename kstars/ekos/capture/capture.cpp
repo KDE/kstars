@@ -36,6 +36,10 @@
 #define GD_TIMER_TIMEOUT    60000
 #define MF_RA_DIFF_LIMIT    4
 
+// Wait 3-minutes as maximum beyond exposure
+// value.
+#define CAPTURE_TIMEOUT_THRESHOLD  180000
+
 // Current Sequence File Format:
 #define SQ_FORMAT_VERSION 2.0
 // We accept file formats with version back to:
@@ -210,6 +214,10 @@ Capture::Capture()
     observerB->setIcon(QIcon::fromTheme("im-user"));
     observerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(observerB, &QPushButton::clicked, this, &Ekos::Capture::showObserverDialog);
+
+    // Exposure Timeout
+    captureTimeout.setSingleShot(true);
+    connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Capture::processCaptureTimeout);
 
     // Post capture script
     connect(&postCaptureScript, static_cast<void (QProcess::*)(int exitCode)>(&QProcess::finished), this, &Ekos::Capture::postScriptFinished);
@@ -483,6 +491,8 @@ void Capture::stop(CaptureState targetState)
     retries         = 0;
     //seqTotalCount   = 0;
     //seqCurrentCount = 0;
+
+    captureTimeout.stop();
 
     ADURaw.clear();
     ExpRaw.clear();
@@ -1288,6 +1298,9 @@ void Capture::newFITS(IBLOB *bp)
 
 bool Capture::setCaptureComplete()
 {
+    captureTimeout.stop();
+    captureTimeoutCounter = 0;
+
     if (currentCCD->isLooping() == false)
     {
         disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress);
@@ -1609,6 +1622,8 @@ void Capture::captureImage()
     if (activeJob == nullptr)
         return;
 
+    captureTimeout.stop();
+
     seqTimer->stop();
     SequenceJob::CAPTUREResult rc = SequenceJob::CAPTURE_OK;
 
@@ -1722,6 +1737,7 @@ void Capture::captureImage()
     case SequenceJob::CAPTURE_OK:
     {
         appendLogText(i18n("Capturing %1-second %2 image...", QString("%L1").arg(activeJob->getExposure(), 0, 'f', 3), activeJob->getFilterName()));
+        captureTimeout.start(activeJob->getExposure() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
         if (activeJob->isPreview() == false)
         {
             int index = jobs.indexOf(activeJob);
@@ -5668,6 +5684,25 @@ void Capture::setCoolerToggled(bool enabled)
     coolerOffB->blockSignals(false);
 
     appendLogText(enabled ? i18n("Cooler is on") : i18n("Cooler is off"));
+}
+
+void Capture::processCaptureTimeout()
+{
+    captureTimeoutCounter++;
+
+    if (captureTimeoutCounter >= 3)
+    {
+        captureTimeoutCounter = 0;
+        appendLogText(i18n("Exposure timeout. Aborting..."));
+        abort();
+        return;
+    }
+
+    appendLogText(i18n("Exposure timeout. Restarting exposure..."));
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    targetChip->abortExposure();
+    targetChip->capture(exposureIN->value());
+    captureTimeout.start(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
 }
 
 }
