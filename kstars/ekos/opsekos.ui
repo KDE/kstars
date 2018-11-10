@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>426</width>
-    <height>330</height>
+    <height>353</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -581,6 +581,16 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_UseMedianFocus">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculate median focus value after each autofocus operation is complete. If the autofocus results become progressively worse with time, the median value shall reflect this trend and prevent unnecessary autofocus operations when the seeing conditions deteriorate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Use Median Focus</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="kcfg_SaveHFRToFile">

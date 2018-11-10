@@ -1603,6 +1603,10 @@
          <label>Increase autofocus HFR value by this percentage gain and store it in Capture Module.</label>
          <default>2.5</default>
       </entry>
+      <entry name="UseMedianFocus" type="Bool">
+         <label>Calculate median focus value after each autofocus operation is complete.</label>
+         <default>true</default>
+      </entry>
       <entry name="SaveHFRToFile" type="Bool">
          <label>When saving a sequence file, save current HFR threshold value. By default, zero value is used.</label>
          <default>false</default>
