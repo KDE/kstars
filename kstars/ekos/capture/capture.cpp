@@ -2900,7 +2900,7 @@ void Capture::setFocusStatus(FocusState state)
 
             double median = focusHFR;
             int count = filterHFRList.size();
-            if (count > 1)
+            if (Options::useMedianFocus() && count > 1)
                 median = (count % 2) ? filterHFRList[count/2] : (filterHFRList[count/2-1] + filterHFRList[count/2])/2.0;
 
             // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
