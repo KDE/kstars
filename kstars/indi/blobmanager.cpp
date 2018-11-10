@@ -47,5 +47,12 @@ void BlobManager::newDevice(INDI::BaseDevice *device)
     if (QString(device->getDeviceName()) == m_Device)
     {
         setBLOBMode(B_ONLY, m_Device.toLatin1().constData(), m_Property.toLatin1().constData());
+        emit connected();
     }
+}
+
+void BlobManager::setEnabled(bool enabled)
+{
+    m_Enabled = enabled;
+    setBLOBMode(enabled ? B_ONLY : B_NEVER, m_Device.toLatin1().constData(), m_Property.toLatin1().constData());
 }

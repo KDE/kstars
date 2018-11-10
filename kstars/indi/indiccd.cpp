@@ -776,6 +776,12 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     readyTimer.get()->setInterval(250);
     readyTimer.get()->setSingleShot(true);
     connect(readyTimer.get(), &QTimer::timeout, this, &CCD::ready);
+
+    connect(clientManager, &ClientManager::newBLOBManager, [&](const char *device, INDI::Property *prop)
+    {
+       if (!strcmp(device, getDeviceName()))
+               emit newBLOBManager(prop);
+    });
 }
 
 CCD::~CCD()
@@ -2254,18 +2260,9 @@ bool CCD::isBLOBEnabled()
     return (clientManager->isBLOBEnabled(getDeviceName(), "CCD1"));
 }
 
-bool CCD::setBLOBEnabled(bool enable)
+bool CCD::setBLOBEnabled(bool enable, const QString &prop)
 {
-    if (enable)
-    {
-        clientManager->setBLOBEnabled(true, getDeviceName(), "CCD1");
-        clientManager->setBLOBEnabled(true, getDeviceName(), "CCD2");
-    }
-    else
-    {
-        clientManager->setBLOBEnabled(false, getDeviceName(), "CCD1");
-        clientManager->setBLOBEnabled(false, getDeviceName(), "CCD2");
-    }
+    clientManager->setBLOBEnabled(enable, getDeviceName(), prop);
 
     return true;
 }

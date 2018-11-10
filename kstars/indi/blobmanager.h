@@ -39,10 +39,14 @@ class BlobManager : public QObject, public INDI::BaseClient
     Q_OBJECT
     Q_PROPERTY(QString device MEMBER m_Device)
     Q_PROPERTY(QString property MEMBER m_Property)
+    Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
 
   public:
     BlobManager(const QString &host, int port, const QString &device, const QString &prop);
     virtual ~BlobManager() override = default;
+
+    bool enabled() { return m_Enabled; }
+    void setEnabled(bool enabled);
 
   protected:
     virtual void newDevice(INDI::BaseDevice *device) override;
@@ -65,9 +69,11 @@ class BlobManager : public QObject, public INDI::BaseClient
 
   signals:   
     void newINDIBLOB(IBLOB *bp);
+    void connected();
     void connectionFailure();
 
   private:
     QString m_Device;
     QString m_Property;
+    bool m_Enabled { true };
 };

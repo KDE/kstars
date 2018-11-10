@@ -113,6 +113,8 @@ class ClientManager : public QObject, public INDI::BaseClient
     void newINDIProperty(INDI::Property *prop);
     void removeINDIProperty(INDI::Property *prop);
 
+    void newBLOBManager(const char *device, INDI::Property *prop);
+
     void newINDIBLOB(IBLOB *bp);
     void newINDISwitch(ISwitchVectorProperty *svp);
     void newINDINumber(INumberVectorProperty *nvp);

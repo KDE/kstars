@@ -199,7 +199,7 @@ class CCD : public DeviceDecorator
 
     // BLOB control
     bool isBLOBEnabled();
-    bool setBLOBEnabled(bool enable);
+    bool setBLOBEnabled(bool enable, const QString &prop = QString());
 
     // Video Stream
     bool setVideoStreamEnabled(bool enable);
@@ -244,6 +244,7 @@ class CCD : public DeviceDecorator
     void newTemperatureValue(double value);
     void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
     void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
+    void newBLOBManager(INDI::Property *prop);
     void newRemoteFile(QString);
     void videoStreamToggled(bool enabled);
     void videoRecordToggled(bool enabled);
