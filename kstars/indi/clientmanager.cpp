@@ -96,6 +96,9 @@ void ClientManager::newProperty(INDI::Property *prop)
     {
         QPointer<BlobManager> bm = new BlobManager(getHost(), getPort(), prop->getBaseDevice()->getDeviceName(), prop->getName());
         connect(bm.data(), &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
+        connect(bm.data(), &BlobManager::connected, [prop,this]() {
+            emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
+        });
         blobManagers.append(bm);
     }
 }
@@ -283,12 +286,17 @@ void ClientManager::setBLOBEnabled(bool enabled, const QString &device, const QS
 {
     for(QPointer<BlobManager> bm : blobManagers)
     {
-        if (bm->property("device") == device && bm->property("property") == property)
+        if (bm->property("device") == device && (property.isEmpty() || bm->property("property") == property))
         {
-            setBLOBMode(enabled ? B_ONLY : B_NEVER, device.toLatin1().constData(), property.toLatin1().constData());
-            break;
+            bm->setEnabled(enabled);
+            return;
         }
     }
+
+//    if (property.isEmpty())
+//        setBLOBMode(enabled ? B_ONLY : B_NEVER, device.toLatin1().constData());
+//    else
+//        setBLOBMode(enabled ? B_ONLY : B_NEVER, device.toLatin1().constData(), property.toLatin1().constData());
 }
 
 bool ClientManager::isBLOBEnabled(const QString &device, const QString &property)
@@ -296,9 +304,11 @@ bool ClientManager::isBLOBEnabled(const QString &device, const QString &property
     for(QPointer<BlobManager> bm : blobManagers)
     {
         if (bm->property("device") == device && bm->property("property") == property)
-        {
-            return (getBLOBMode(device.toLatin1().constData(), property.toLatin1().constData()) != B_NEVER);
-        }
+            return bm->property("enabled").toBool();
+//        if (bm->property("device") == device && bm->property("property") == property)
+//        {
+//            return (getBLOBMode(device.toLatin1().constData(), property.toLatin1().constData()) != B_NEVER);
+//        }
     }
 
     return false;

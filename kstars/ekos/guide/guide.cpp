@@ -809,7 +809,10 @@ void Guide::addCamera(ISD::GDInterface *newCCD)
         return;
     if (guiderType != GUIDE_INTERNAL)
     {
-        ccd->setBLOBEnabled(Options::guideRemoteImagesEnabled());
+        connect(ccd, &ISD::CCD::newBLOBManager, [ccd](INDI::Property *prop) {
+           if (!strcmp(prop->getName(), "CCD1") ||  !strcmp(prop->getName(), "CCD2"))
+               ccd->setBLOBEnabled(Options::guideRemoteImagesEnabled(), prop->getName());
+        });
         guiderCombo->clear();
         guiderCombo->setEnabled(false);
         if (guiderType == GUIDE_PHD2)
