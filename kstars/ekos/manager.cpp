@@ -2866,8 +2866,8 @@ void Manager::connectModules()
     {
         // Check focus HFR value
         connect(captureProcess.get(), &Ekos::Capture::checkFocus, focusProcess.get(), &Ekos::Focus::checkFocus, Qt::UniqueConnection);
-        // Meridian Flip
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, focusProcess.get(), &Ekos::Focus::resetFrame, Qt::UniqueConnection);
+        // Reset Focus
+        connect(captureProcess.get(), &Ekos::Capture::resetFocus, focusProcess.get(), &Ekos::Focus::resetFrame, Qt::UniqueConnection);
 
         // New Focus Status
         connect(focusProcess.get(), &Ekos::Focus::newStatus, captureProcess.get(), &Ekos::Capture::setFocusStatus, Qt::UniqueConnection);

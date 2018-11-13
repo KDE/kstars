@@ -588,6 +588,7 @@ class Capture : public QWidget, public Ui::Capture
     void ready();
 
     void checkFocus(double);
+    void resetFocus();
     void suspendGuiding();
     void resumeGuiding();    
     void newImage(Ekos::SequenceJob *job);

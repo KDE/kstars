@@ -1540,6 +1540,10 @@ bool Capture::resumeSequence()
             if (currentCCD->isLooping())
                 targetChip->abortExposure();
 
+            // If we are over 30 mins since last autofocus, we'll reset frame.
+            if (refocusEveryN->value() >= 30)
+                emit resetFocus();
+
             // force refocus
             emit checkFocus(0.1);
 
@@ -4163,8 +4167,11 @@ bool Capture::checkMeridianFlip()
         // If we are autoguiding, we should resume autoguiding after flip
         resumeGuidingAfterFlip = (guideState == GUIDE_GUIDING);
 
-        if ((guideState == GUIDE_GUIDING) || isInSequenceFocus)
-            emit meridianFlipStarted();
+        emit meridianFlipStarted();
+
+        // Reset frame if we need to do focusing later on
+        if (isInSequenceFocus || (refocusEveryNCheck->isChecked() && getRefocusEveryNTimerElapsedSec() > 0))
+            emit resetFocus();
 
         //double dec;
         //currentTelescope->getEqCoords(&initialRA, &dec);
