@@ -81,7 +81,7 @@ class Satellite : public SkyObject
     void initPopupMenu(KSPopupMenu *pmenu) override;
 
   private:
-    /** @short Compute non time dependant parameters */
+    /** @short Compute non time dependent parameters */
     void init();
 
     /** @short Compute satellite position */

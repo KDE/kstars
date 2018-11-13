@@ -1301,7 +1301,7 @@ void Focus::setCaptureComplete()
         }
 
 
-        // Let signal the current HFR now depending on whether the focuser is absolte or relative
+        // Let signal the current HFR now depending on whether the focuser is absolute or relative
         if (canAbsMove)
             emit newHFR(currentHFR, static_cast<int>(currentPosition));
         else
@@ -1311,7 +1311,7 @@ void Focus::setCaptureComplete()
         QString HFRText = QString("%1").arg(currentHFR, 0, 'f', 2);
         HFROut->setText(HFRText);
 
-        // Display message in case _last_ HFR was negeative
+        // Display message in case _last_ HFR was negative
         if (lastHFR == -1)
             appendLogText(i18n("FITS received. No stars detected."));
 
@@ -1581,7 +1581,7 @@ void Focus::setCaptureComplete()
                 setAutoFocusResult(false);
             }
         }
-        // If the detect current HFR is more than than minimum required HFR
+        // If the detect current HFR is more than the minimum required HFR
         // then we should start the autofocus process now to bring it down.
         else if (currentHFR > minimumRequiredHFR)
         {

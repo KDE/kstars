@@ -155,7 +155,7 @@ class FITSData : public QObject
     int rescale(FITSZoom type);
     /* Calculate stats */
     void calculateStats(bool refresh = false);
-    /* Check if a paricular point exists within the image */
+    /* Check if a particular point exists within the image */
     bool contains(const QPointF &point) const;
 
     // Access functions
@@ -368,7 +368,7 @@ class FITSData : public QObject
     template <typename T>
     void convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image);
 
-    // Give unique IDs to each contigous region
+    // Give unique IDs to each contiguous region
     int partition(int width, int height, QVector<float> &gradient, QVector<int> &ids);
     void trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y);
 
@@ -390,7 +390,7 @@ class FITSData : public QObject
     uint8_t m_Channels { 1 };
     /// Generic data image buffer
     uint8_t *m_ImageBuffer { nullptr };
-    /// Is this a tempoprary file or one loaded from disk?
+    /// Is this a temporary file or one loaded from disk?
     bool m_isTemporary { false };
     /// is this file compress (.fits.fz)?
     bool m_isCompressed { false };
@@ -438,7 +438,7 @@ class FITSData : public QObject
     // A list of header records
     QList<Record*> records;
 
-    /// Remove temproray files after closing
+    /// Remove temporary files after closing
     bool autoRemoveTemporaryFITS { true };
 
     QString lastError;

@@ -56,7 +56,7 @@
   object we compare the drawID of each object with the global drawID.
   If they are the same, we don't draw the object.  If they are different
   we draw the object and set the object's drawID to the value of the
-  global drawID which ensures that that object won't get drawn again in
+  global drawID which ensures that the object won't get drawn again in
   the same draw cycle.  Since the global drawID is incremented at the
   beginning of every draw cycle, setting an object's drawID to the
   current global drawID will not prevent the object from being drawn in
@@ -236,7 +236,7 @@
   more complicated than using it to index and draw points as was done
   with the stars and the DSO.  The indexing is a little more complicated
   because if any part of an object may be visible then we want to draw
-  the entire object.  Also, we want to be able to clip objects that that
+  the entire object.  Also, we want to be able to clip objects that
   are on the celestial horizon.  Since there are several different kinds
   of objects we want to draw which all require slightly different data
   structures, we have several different classes to handle them.

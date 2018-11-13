@@ -2965,7 +2965,7 @@ bool Guide::executeOperationStack()
     // If an additional action is required, return return and continue later
     if (actionRequired)
         return true;
-    // Othereise, continue processing the stack
+    // Otherwise, continue processing the stack
     else
         return executeOperationStack();
 }

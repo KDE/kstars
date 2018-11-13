@@ -51,7 +51,7 @@ The user may also choose to only start an INDI server without a client manager a
 <li>GUIManager: Handles creation of GUI interface for devices (INDI_D) and their properties and updates the interface in accord with any data emitted by the associated ClientManager. The GUI manager supports
 multiple ClientManagers and consolidate all devices from all the ClientManagers into a single INDI Control Panel where each device is created as a tab.</li>
 <li>INDIListener: Once a ClientManager is created in DriverManager after successfully connecting to an INDI server, it is added to INDIListener where it monitors any new devices and if a new
-device is detected, it creates an ISD::GenericDevice to hold the data of the device. It also moniters new properties and registers them. If it detects an INDI standard property associated with a particular device family
+device is detected, it creates an ISD::GenericDevice to hold the data of the device. It also monitors new properties and registers them. If it detects an INDI standard property associated with a particular device family
 (e.g. Property EQUATORIAL_EOD_COORD is a standard property of a Telescope device), then it extends the ISD::GenericDevice to the particular specialized device type using the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">
 Decorator Pattern</a>. All updated properties from INDI server are delegated to their respective devices.</li>
 <li>ServerManager</li> Manages establishment and shutdown of local INDI servers.</li>
@@ -82,9 +82,9 @@ in INDIListener. Upon detection of this key signature property, INDIListener cre
 Now suppose an updated Number property arrives from INDI server, the ClientManager emits a signal indicating a number property has a new updated value and INDIListener delegates the INDI Number
 property to the device, which is now of type ISD::Telescope. The ISD::Telescope overridden the processNumber(INumberVectorProperty *nvp) function in ISD::DeviceDecorator because it wants to handle some telescope
 specific numbers such as EQUATORIAL_EOD_COORD in order to move the telescope marker on the sky map as it changes. If the received property was indeed EQUATORIAL_EOD_COORD or any property handled
-by the ISD::Telescope ProcessNumber() function, then there is no futher action needed. But what if the property is not processed in ISD::Telescope ProcessNumber() function? In this case, the
+by the ISD::Telescope ProcessNumber() function, then there is no further action needed. But what if the property is not processed in ISD::Telescope ProcessNumber() function? In this case, the
 ProcessNumber() function simply calls DeviceDecorator::ProcessNumber() and it will delgate the call to ISD::GenericDevice ProcessNumber() to process. This is how the Decorator pattern work,
-the decorator classes implements extended functionlity, but the basic class is still responsible for handling all of the basic functions.
+the decorator classes implements extended functionality, but the basic class is still responsible for handling all of the basic functions.
 
 */
 

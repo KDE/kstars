@@ -158,7 +158,7 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
     else
         data()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
 
-    // Initialize clock. If --paused is not in the comand line, look in options
+    // Initialize clock. If --paused is not in the command line, look in options
     if (startClock)
         StartClockRunning = Options::runClock();
 

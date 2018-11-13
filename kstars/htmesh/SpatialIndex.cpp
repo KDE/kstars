@@ -139,7 +139,7 @@ void SpatialIndex::nodeVertex(const uint64 id, SpatialVector &v0, SpatialVector 
     v1 = vertices_[nodes_[idx].v_[1]];
     v2 = vertices_[nodes_[idx].v_[2]];
 
-    // loop therough additional levels,
+    // loop through additional levels,
     // pick the correct triangle accordingly, storing the
     // vertices in v1,v2,v3
     for (uint32 i = buildlevel_ + 1; i <= maxlevel_; i++)
@@ -496,7 +496,7 @@ void SpatialIndex::pointById(SpatialVector &vec, uint64 ID) const
     center_z /= sum;
     vec.x_ = center_x;
     vec.y_ = center_y;
-    vec.z_ = center_z; // I don't want it nomralized or radec to be set,
+    vec.z_ = center_z; // I don't want it normalized or radec to be set,
     //	cerr << " - - - - " << endl;
     //	vec.show();
     //	cerr << "---------- Point by id Retuning" << endl;

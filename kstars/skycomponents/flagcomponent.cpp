@@ -116,7 +116,7 @@ void FlagComponent::loadFromFile()
             }
         }
 
-        // If the image sprecified in db does not exist,
+        // If the image specified in db does not exist,
         // use the default one
         if (!imageFound)
             m_FlagImages.append(0);

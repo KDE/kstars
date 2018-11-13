@@ -3066,7 +3066,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         statusReport->setFlags(Qt::ItemIsSelectable);
     }
 
-    // Update Rotater offsets
+    // Update Rotator offsets
     if (currentRotator != nullptr)
     {
         // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
@@ -4067,7 +4067,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
                                << " finalDEC " << finalDEC;
     qCDebug(KSTARS_EKOS_ALIGN) << "Polar decDeviation " << decDeviation * 3600 << " arcsec "
                                << " RATime " << RATime << " minutes";
-    qCDebug(KSTARS_EKOS_ALIGN) << "Polar Raw Deviaiton " << deviation << " degrees.";
+    qCDebug(KSTARS_EKOS_ALIGN) << "Polar Raw Deviation " << deviation << " degrees.";
 
     if (azStage == AZ_FINISHED)
     {
@@ -5194,7 +5194,7 @@ void Align::setWCSToggled(bool result)
             return;
         }
 
-        // Find Celstial pole location
+        // Find Celestial pole location
         SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
 
         QPointF imagePoint;
@@ -5359,7 +5359,7 @@ bool Align::isPerpendicular(const QPointF &p1, const QPointF &p2, const QPointF 
     // checking whether the line of the two pts are vertical
     if (fabs(xDelta_a) <= 0.000000001 && fabs(yDelta_b) <= 0.000000001)
     {
-        //TRACE("The points are pependicular and parallel to x-y axis\n");
+        //TRACE("The points are perpendicular and parallel to x-y axis\n");
         return false;
     }
 

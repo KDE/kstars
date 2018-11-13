@@ -1040,7 +1040,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             }
             else
             {
-                // Only use CCD dimensions if we are receing raw stream and not stream of images (i.e. mjpeg..etc)
+                // Only use CCD dimensions if we are receiving raw stream and not stream of images (i.e. mjpeg..etc)
                 IBLOBVectorProperty *rawBP = baseDevice->getBLOB("CCD1");
                 if (rawBP)
                 {
@@ -1388,7 +1388,7 @@ void CCD::processBLOB(IBLOB *bp)
             filename = preview_filename;
 
 #else
-            // Silenty fail if KStars was not compiled with libraw
+            // Silently fail if KStars was not compiled with libraw
             //KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG."));
             emit BLOBUpdated(bp);
             return;

@@ -122,7 +122,7 @@ class KSParser
 
     /**
      * @brief Generic function used to read the next row of a text file.
-     * The contructor changes the function pointer to the appropriate function.
+     * The constructor changes the function pointer to the appropriate function.
      * Returns the row as <"column name", value>
      *
      * @return QHash< QString, QVariant >

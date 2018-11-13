@@ -108,7 +108,7 @@ void OpsHIPS::downloadReady()
     for (QMap<QString,QString> oneSource : dbSources)
         dbTitles << oneSource["obs_title"];
 
-    // Add all titiles to list widget
+    // Add all titles to list widget
     sourcesList->addItems(hipsTitles);
     QListWidgetItem* item = nullptr;
 

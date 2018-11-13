@@ -1,5 +1,5 @@
 /***************************************************************************
-                          infoboxwidet.h  -  description
+                          infoboxwidget.h  -  description
                              -------------------
     begin                : 20 Aug 2009
     copyright            : (C) 2009 by Khudyakov Alexey
@@ -76,7 +76,7 @@ class InfoBoxWidget : public QWidget
     /** Get stickyness status of */
     int sticky() const { return m_anchor; }
 
-    /** Adjust widget's postion */
+    /** Adjust widget's position */
     void adjust();
 
   public slots:
@@ -103,7 +103,7 @@ class InfoBoxWidget : public QWidget
   private:
     /** Uset to set information about object. */
     void setPoint(QString name, SkyPoint *p);
-    /** Recalculate size of widet */
+    /** Recalculate size of widget */
     void updateSize();
 
     /// List of string to show

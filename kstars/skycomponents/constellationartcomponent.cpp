@@ -95,7 +95,7 @@ void ConstellationArtComponent::loadData()
             // appends constellation info
             ConstellationsArt *ca = new ConstellationsArt(midpointra, midpointdec, pa, w, h, abbreviation, filename);
             m_ConstList.append(ca);
-            //qDebug()<<"Successsfully read skyculture.sqlite"<<abbreviation<<filename<<midpointRA<<midpointDEC<<pa<<w<<h;
+            //qDebug()<<"Successfully read skyculture.sqlite"<<abbreviation<<filename<<midpointRA<<midpointDEC<<pa<<w<<h;
             records++;
         }
         //qDebug()<<"Successfully processed"<<records<<"records for"<<cultureName<<"sky culture";

@@ -27,7 +27,7 @@
 class CultureList
 {
   public:
-    /** @short Create culture list and load its conternt from file */
+    /** @short Create culture list and load its content from file */
     CultureList();
 
     /** @short Return the current sky culture */

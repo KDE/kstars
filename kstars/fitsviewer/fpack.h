@@ -45,7 +45,7 @@ VERSION	History
       further feasibility studies, and is not recommended for use with publicly
       distributed FITS files.
     - Use the minimum of the MAD 2nd, 3rd, and 5th order values as a more
-      conservative extimate of the noise when quantizing floating point images.
+      conservative estimate of the noise when quantizing floating point images.
     - Enhanced the tile compression routines so that a tile that contains all
       NaN pixel values will be compressed.
     - When uncompressing an image that was originally in a FITS primary array,

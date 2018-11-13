@@ -43,7 +43,7 @@ const int INDI_MAX_TRIES = 3;
 
 /*******************************************************************
 ** The device manager contain devices running from one indiserver
-** This allow KStars to control multiple devices distributed acorss
+** This allow KStars to control multiple devices distributed across
 ** multiple servers seemingly in a way that is completely transparent
 ** to devices and drivers alike.
 ** The device Manager can be thought of as the 'networking' parent
@@ -238,7 +238,7 @@ void DeviceManager::dataReceived()
         {
             if ((err_code = dispatchCommand(root, err_cmd)) < 0)
             {
-                // Silenty ignore property duplication errors
+                // Silently ignore property duplication errors
                 if (err_code != INDI_PROPERTY_DUPLICATED)
                 {
                     //kDebug() << "Dispatch command error: " << err_cmd << endl;

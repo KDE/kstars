@@ -88,9 +88,9 @@ KSComet::KSComet(const QString &_s, const QString &imfile, double _q, double _e,
     }*/
 
     // Try to calculate UID for comets. It's derived from comet designation.
-    // To parge name string regular exressions are used. Not really readable.
-    // And its make strong assumtions about format of comets' names.
-    // Probably come better algotrithm should be used.
+    // To parse name string regular expressions are used. Not really readable.
+    // And its make strong assumptions about format of comets' names.
+    // Probably come better algorithm should be used.
 
     // Periodic comet. Designation like: 12P or 12P-C
     QRegExp rePer("^(\\d+)[PD](-([A-Z]+))?");
@@ -245,7 +245,7 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
     // Get sin's and cos's for:
     // Longitude of ascending node
     N.SinCos(sinN, cosN);
-    // sum of true anamoly and argument of perihelion
+    // sum of true anomaly and argument of perihelion
     vw.SinCos(sinvw, cosvw);
     // Inclination
     i.SinCos(sini, cosi);

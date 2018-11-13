@@ -638,7 +638,7 @@ void QCPAbstractPaintBuffer::setDevicePixelRatio(double ratio)
 */
 
 /*!
-  Creates a pixmap paint buffer instancen with the specified \a size and \a devicePixelRatio, if
+  Creates a pixmap paint buffer instance with the specified \a size and \a devicePixelRatio, if
   applicable.
 */
 QCPPaintBufferPixmap::QCPPaintBufferPixmap(const QSize &size, double devicePixelRatio)
@@ -2610,7 +2610,7 @@ void QCPDataSelection::enforceType(QCP::SelectionType type)
         }
         case QCP::stMultipleDataRanges:
         {
-            // this is the selection type that allows all concievable combinations of ranges, so do nothing
+            // this is the selection type that allows all conceivable combinations of ranges, so do nothing
             break;
         }
     }
@@ -3119,7 +3119,7 @@ void QCPMarginGroup::removeChild(QCP::MarginSide side, QCPLayoutElement *element
 /*! \fn QRect QCPLayoutElement::rect() const
 
   Returns the inner rect of this layout element. The inner rect is the outer rect (\ref
-  setOuterRect) shrinked by the margins (\ref setMargins, \ref setAutoMargins).
+  setOuterRect) shrunk by the margins (\ref setMargins, \ref setAutoMargins).
 
   In some cases, the area between outer and inner rect is left blank. In other cases the margin
   area is used to display peripheral graphics while the main content is in the inner rect. This is
@@ -5361,7 +5361,7 @@ void QCPLineEnding::draw(QCPPainter *painter, const QCPVector2D &pos, double ang
 
   \section axisticker-subclassing Creating own axis tickers
 
-  Creating own axis tickers can be achieved very easily by sublassing QCPAxisTicker and
+  Creating own axis tickers can be achieved very easily by subclassing QCPAxisTicker and
   reimplementing some or all of the available virtual methods.
 
   In the simplest case you might wish to just generate different tick steps than the other tickers,
@@ -6244,7 +6244,7 @@ void QCPAxisTickerTime::setTimeFormat(const QString &format)
 }
 
 /*!
-  Sets the field widh of the specified \a unit to be \a width digits, when displayed in the tick
+  Sets the field width of the specified \a unit to be \a width digits, when displayed in the tick
   label. If the number for the specific unit is shorter than \a width, it will be padded with an
   according number of zeros to the left in order to reach the field width.
 
@@ -6539,7 +6539,7 @@ double QCPAxisTickerFixed::getTickStep(const QCPRange &range)
 
   This is useful for cases where the axis represents categories rather than numerical values.
 
-  If you are updating the ticks of this ticker regularly and in a dynamic fasion (e.g. dependent on
+  If you are updating the ticks of this ticker regularly and in a dynamic fashion (e.g. dependent on
   the axis range), it is a sign that you should probably create an own ticker by subclassing
   QCPAxisTicker, instead of using this one.
 
@@ -6793,7 +6793,7 @@ void QCPAxisTickerPi::setPiValue(double pi)
 }
 
 /*!
-  Sets whether the axis labels shall appear periodicly and if so, at which multiplicity of the
+  Sets whether the axis labels shall appear periodically and if so, at which multiplicity of the
   symbolic constant.
 
   To disable periodicity, set \a multiplesOfPi to zero.
@@ -10938,10 +10938,10 @@ void QCPAbstractPlottable::setSelectable(QCP::SelectionType selectable)
 
 /*!
   Convenience function for transforming a key/value pair to pixels on the QCustomPlot surface,
-  taking the orientations of the axes associated with this plottable into account (e.g. whether key
+  taking the orientations of the axes associated with this plotable into account (e.g. whether key
   represents x or y).
 
-  \a key and \a value are transformed to the coodinates in pixels and are written to \a x and \a y.
+  \a key and \a value are transformed to the coordinates in pixels and are written to \a x and \a y.
 
   \see pixelsToCoords, QCPAxis::coordToPixel
 */
@@ -10989,10 +10989,10 @@ const QPointF QCPAbstractPlottable::coordsToPixels(double key, double value) con
 
 /*!
   Convenience function for transforming a x/y pixel pair on the QCustomPlot surface to plot coordinates,
-  taking the orientations of the axes associated with this plottable into account (e.g. whether key
+  taking the orientations of the axes associated with this plotable into account (e.g. whether key
   represents x or y).
 
-  \a x and \a y are transformed to the plot coodinates and are written to \a key and \a value.
+  \a x and \a y are transformed to the plot coordinates and are written to \a key and \a value.
 
   \see coordsToPixels, QCPAxis::coordToPixel
 */
@@ -12380,7 +12380,7 @@ void QCPAbstractItem::setSelected(bool selected)
   that name, returns 0.
 
   This function provides an alternative way to access item positions. Normally, you access
-  positions direcly by their member pointers (which typically have the same variable name as \a
+  positions directly by their member pointers (which typically have the same variable name as \a
   name).
 
   \see positions, anchor
@@ -12401,7 +12401,7 @@ QCPItemPosition *QCPAbstractItem::position(const QString &name) const
   that name, returns 0.
 
   This function provides an alternative way to access item anchors. Normally, you access
-  anchors direcly by their member pointers (which typically have the same variable name as \a
+  anchors directly by their member pointers (which typically have the same variable name as \a
   name).
 
   \see anchors, position
@@ -13422,7 +13422,7 @@ void QCustomPlot::setOpenGl(bool enabled, int multisampling)
   Sets the viewport of this QCustomPlot. Usually users of QCustomPlot don't need to change the
   viewport manually.
 
-  The viewport is the area in which the plot is drawn. All mechanisms, e.g. margin caluclation take
+  The viewport is the area in which the plot is drawn. All mechanisms, e.g. margin calculation take
   the viewport to be the outer border of the plot. The viewport normally is the rect() of the
   QCustomPlot widget, i.e. a rect with top left (0, 0) and size of the QCustomPlot widget.
 
@@ -14879,7 +14879,7 @@ bool QCustomPlot::event(QEvent *event)
 
  Event handler for when a double click occurs. Emits the \ref mouseDoubleClick signal, then
  determines the layerable under the cursor and forwards the event to it. Finally, emits the
- specialized signals when certain objecs are clicked (e.g. \ref plottableDoubleClick, \ref
+ specialized signals when certain objects are clicked (e.g. \ref plottableDoubleClick, \ref
  axisDoubleClick, etc.).
 
  \see mousePressEvent, mouseReleaseEvent
@@ -15152,7 +15152,7 @@ void QCustomPlot::updateLayout()
   the viewport with the provided \a painter. The scaled version is buffered in
   mScaledBackgroundPixmap to prevent expensive rescaling at every redraw. It is only updated, when
   the axis rect has changed in a way that requires a rescale of the background pixmap (this is
-  dependent on the \ref setBackgroundScaledMode), or when a differend axis background pixmap was
+  dependent on the \ref setBackgroundScaledMode), or when a different axis background pixmap was
   set.
 
   Note that this function does not draw a fill with the background brush
@@ -16584,7 +16584,7 @@ void QCPColorGradient::updateColorBuffer()
   \ref setBracketHeight. The color/fill can be controlled with \ref setBracketPen and \ref
   setBracketBrush.
 
-  To introduce custom bracket styles, it is only necessary to sublcass \ref
+  To introduce custom bracket styles, it is only necessary to subclass \ref
   QCPSelectionDecoratorBracket and reimplement \ref drawBracket. The rest will be managed by the
   base class.
 */
@@ -16686,7 +16686,7 @@ void QCPSelectionDecoratorBracket::setTangentAverage(int pointCount)
   rotate the bracket appropriately. Painting operations can be performed as if drawing upright
   brackets on flat data with horizontal key axis, with (0, 0) being the center of the bracket.
 
-  If you wish to sublcass \ref QCPSelectionDecoratorBracket in order to provide custom bracket
+  If you wish to subclass \ref QCPSelectionDecoratorBracket in order to provide custom bracket
   shapes (see \ref QCPSelectionDecoratorBracket::bsUserStyle), this is the method you should
   reimplement.
 */
@@ -16720,7 +16720,7 @@ void QCPSelectionDecoratorBracket::drawBracket(QCPPainter *painter, int directio
         }
         default:
         {
-            qDebug() << Q_FUNC_INFO << "unknown/custom bracket style can't be handeld by default implementation:"
+            qDebug() << Q_FUNC_INFO << "unknown/custom bracket style can't be handled by default implementation:"
                      << static_cast<int>(mBracketStyle);
             break;
         }
@@ -16729,7 +16729,7 @@ void QCPSelectionDecoratorBracket::drawBracket(QCPPainter *painter, int directio
 
 /*!
   Draws the bracket decoration on the data points at the begin and end of each selected data
-  segment given in \a seletion.
+  segment given in \a selection.
 
   It uses the method \ref drawBracket to actually draw the shapes.
 
@@ -17109,7 +17109,7 @@ QList<QCPAxis *> QCPAxisRect::axes() const
   new QCPAxis instance is created internally. QCustomPlot owns the returned axis, so if you want to
   remove an axis, use \ref removeAxis instead of deleting it manually.
 
-  You may inject QCPAxis instances (or sublasses of QCPAxis) by setting \a axis to an axis that was
+  You may inject QCPAxis instances (or subclasses of QCPAxis) by setting \a axis to an axis that was
   previously created outside QCustomPlot. It is important to note that QCustomPlot takes ownership
   of the axis, so you may not delete it afterwards. Further, the \a axis must have been created
   with this axis rect as parent and with the same axis type as specified in \a type. If this is not
@@ -17887,7 +17887,7 @@ void QCPAxisRect::setRangeZoomFactor(double factor)
   the axis rect with the provided \a painter. The scaled version is buffered in
   mScaledBackgroundPixmap to prevent expensive rescaling at every redraw. It is only updated, when
   the axis rect has changed in a way that requires a rescale of the background pixmap (this is
-  dependent on the \ref setBackgroundScaledMode), or when a differend axis background pixmap was
+  dependent on the \ref setBackgroundScaledMode), or when a different axis background pixmap was
   set.
 
   \see setBackground, setBackgroundScaled, setBackgroundScaledMode
@@ -18882,7 +18882,7 @@ bool QCPLegend::hasItemWithPlottable(const QCPAbstractPlottable *plottable) cons
   Adds \a item to the legend, if it's not present already. The element is arranged according to the
   current fill order (\ref setFillOrder) and wrapping (\ref setWrap).
 
-  Returns true on success, i.e. if the item wasn't in the list already and has been successfuly added.
+  Returns true on success, i.e. if the item wasn't in the list already and has been successfully added.
 
   The legend takes ownership of the item.
 

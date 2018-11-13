@@ -113,7 +113,7 @@ class AltVsTime : public QDialog
      * in order to construct the altitude curve for a given object.
      * @param p the skypoint whose altitude is to be found
      * @param hour the time in the displayed day, expressed in hours
-     * @return the Altitude, expresse in degrees
+     * @return the Altitude, expressed in degrees
      */
     double findAltitude(SkyPoint *p, double hour);
 

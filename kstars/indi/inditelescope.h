@@ -21,7 +21,7 @@ namespace ISD
 {
 /**
  * @class Telescope
- * device handle controlling telescope. It can slew and sync to a specific sky point and supports all standard propreties with INDI
+ * device handle controlling telescope. It can slew and sync to a specific sky point and supports all standard properties with INDI
  * telescope device.
  *
  * @author Jasem Mutlaq

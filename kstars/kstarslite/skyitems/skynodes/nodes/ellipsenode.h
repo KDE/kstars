@@ -25,7 +25,7 @@ class QSGGeometryNode;
 
 /**
  * @class EllipseNode
- * @short QSGTransformNode derrived node used to draw ellipses
+ * @short QSGTransformNode derived node used to draw ellipses
  *
  * @author Artem Fedoskin
  * @version 1.0

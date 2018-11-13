@@ -304,7 +304,7 @@ void SkyMapComposite::draw(SkyPainter *skyp)
             for (auto &obj_clone : obsList)
             {
                 // Find the "original" obj
-                SkyObject *o = findByName(obj_clone->name()); // FIXME: This is sloww.... and can also fail!!!
+                SkyObject *o = findByName(obj_clone->name()); // FIXME: This is slow.... and can also fail!!!
                 if (!o)
                     continue;
                 SkyLabeler::AddLabel(o, SkyLabeler::RUDE_LABEL);

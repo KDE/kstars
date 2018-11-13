@@ -179,7 +179,7 @@ class Guide : public QWidget, public Ui::Guide
 
     /** DBUS interface function.
          * Enable or disables dithering. Set dither range
-         * @param enable if true, dithering is enabled and is performed after each exposure is complete. Otheriese, dithering is disabled.
+         * @param enable if true, dithering is enabled and is performed after each exposure is complete. Otherwise, dithering is disabled.
          * @param value dithering range in pixels. Ekos will move the guide star in a random direction for the specified dithering value in pixels.
          */
     Q_SCRIPTABLE Q_NOREPLY void setDitherSettings(bool enable, double value);
@@ -204,7 +204,7 @@ class Guide : public QWidget, public Ui::Guide
     QStringList logText() { return m_LogText; }
 
     /**
-         * @return Return curent log text of guide module
+         * @return Return current log text of guide module
          */
     QString getLogText() { return m_LogText.join("\n"); }
 

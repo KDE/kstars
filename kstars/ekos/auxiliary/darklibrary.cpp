@@ -82,7 +82,7 @@ FITSData *DarkLibrary::getDarkFrame(ISD::CCDChip *targetChip, double duration)
                 if (fabs(map["duration"].toDouble() - duration) > 0.05)
                     continue;
 
-                // Finaly check if the duration is acceptable
+                // Finally check if the duration is acceptable
                 QDateTime frameTime = QDateTime::fromString(map["timestamp"].toString(), Qt::ISODate);
                 if (frameTime.daysTo(QDateTime::currentDateTime()) > Options::darkLibraryDuration())
                     continue;

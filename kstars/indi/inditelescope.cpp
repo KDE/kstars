@@ -191,7 +191,7 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         currentCoord.setRA(RA->value);
         currentCoord.setDec(DEC->value);
 
-        // If J2000, connvert it to JNow
+        // If J2000, convert it to JNow
         if (!strcmp(nvp->name, "EQUATORIAL_COORD"))
         {
             currentCoord.setRA0(RA->value);
@@ -269,7 +269,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
         {
             if (svp->s == IPS_ALERT)
             {
-                // First, inform everyone watch this that an error occured.
+                // First, inform everyone watch this that an error occurred.
                 emit newParkStatus(PARK_ERROR);
 
                 // If alert, set park status to whatever it was opposite to. That is, if it was parking and failed
@@ -717,7 +717,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 if (currentTrackMode != TRACK_LUNAR && TrackMap.contains(TRACK_LUNAR))
                 setTrackMode(TrackMap.value(TRACK_LUNAR));
             }
-            // Trackin Sun
+            // Tracking Sun
             else if (currentObject->name() == i18n("Sun"))
             {
                 if (currentTrackMode != TRACK_SOLAR && TrackMap.contains(TRACK_SOLAR))

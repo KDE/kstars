@@ -778,7 +778,7 @@ void ObservingList::slotEyepieceView()
 void ObservingList::slotAVT()
 {
     QModelIndexList selectedItems;
-    // TODO: Think and see if there's a more effecient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
+    // TODO: Think and see if there's a more efficient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
     selectedItems =
         (sessionView ?
              m_SessionSortModel->mapSelectionToSource(ui->SessionView->selectionModel()->selection()).indexes() :

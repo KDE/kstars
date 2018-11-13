@@ -163,7 +163,7 @@ class Capture : public QWidget, public Ui::Capture
          * @param enable If true, enable the guiding deviation check, otherwise, disable it.
          * @param if enable is true, it sets the maximum guiding deviation in arcsecs. If the value is exceeded, the capture operation is aborted until the value falls below the value threshold.
          */
-    Q_SCRIPTABLE Q_NOREPLY void setMaximumGuidingDeviaiton(bool enable, double value);
+    Q_SCRIPTABLE Q_NOREPLY void setMaximumGuidingDeviation(bool enable, double value);
 
     /** DBUS interface function.
          * Enables or disables the in sequence focus and sets Half-Flux-Radius (HFR) limit.
@@ -401,7 +401,7 @@ class Capture : public QWidget, public Ui::Capture
 
     /**
          * @brief newFITS process new FITS data received from camera. Update status of active job and overall sequence.
-         * @param bp pointer to blob contianing FITS data
+         * @param bp pointer to blob containing FITS data
          */
     void newFITS(IBLOB *bp);
 
@@ -454,7 +454,7 @@ class Capture : public QWidget, public Ui::Capture
     void moveJobDown();
 
     /**
-         * @brief setGuideDeviation Set the guiding deviaiton as measured by the guiding module. Abort capture if deviation exceeds user value. Resume capture if capture was aborted and guiding deviations are below user value.
+         * @brief setGuideDeviation Set the guiding deviation as measured by the guiding module. Abort capture if deviation exceeds user value. Resume capture if capture was aborted and guiding deviations are below user value.
          * @param delta_ra Deviation in RA in arcsecs from the selected guide star.
          * @param delta_dec Deviation in DEC in arcsecs from the selected guide star.
          */
@@ -720,7 +720,7 @@ class Capture : public QWidget, public Ui::Capture
     int refocusEveryNMinutesValue { 0 };  // number of minutes between forced refocus
     QElapsedTimer refocusEveryNTimer; // used to determine when next force refocus should occur
 
-    // Meridan flip
+    // Meridian flip
     double initialHA { 0 };
     //double initialRA { 0 };
     SkyPoint initialMountCoords;

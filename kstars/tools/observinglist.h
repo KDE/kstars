@@ -299,11 +299,11 @@ class ObservingList : public QDialog
 
     /** @short Downloads the images of all the objects in the session list
             *Note: This downloads the SDSS image, checks if the size is > default image
-            *and gets the DSS image if thats the case
+            *and gets the DSS image if that's the case
             */
     void slotSaveAllImages();
 
-    /** @short saves the image syncronously from a given URL into a given file
+    /** @short saves the image synchronously from a given URL into a given file
             *@p url the url from which the image has to be downloaded
             *@p filename the file onto which the url has to be copied to
             *NOTE: This is not a generic image saver, it is specific to the current object

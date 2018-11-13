@@ -57,13 +57,13 @@ class SolarSystemSingleComponent : public SkyComponent
     void update(KSNumbers *num) override;
 
     /**
-         * @brief updateSolarSystemBodies Update Equtorial & Horizontal coordinates.
+         * @brief updateSolarSystemBodies Update Equatorial & Horizontal coordinates.
          * @param num pointer to KSNumbers instance for target time
          */
     void updateSolarSystemBodies(KSNumbers *num) override;
 
     /**
-     * @brief update Update Equtorial & Horizontal coordinates. (Called more frequently.)
+     * @brief update Update Equatorial & Horizontal coordinates. (Called more frequently.)
      */
     void updateMoons(KSNumbers *num) override;
 

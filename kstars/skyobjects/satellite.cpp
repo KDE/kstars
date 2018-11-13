@@ -213,7 +213,7 @@ void Satellite::init()
     const double temp4 = 1.5e-12;
 
     /*----- Initializes variables for sgp4 -----*/
-    // Calculate auxillary epoch quantities
+    // Calculate auxiliary epoch quantities
     eccsq  = m_eccentricity * m_eccentricity;
     omeosq = 1.0 - eccsq;
     rteosq = sqrt(omeosq);
@@ -1177,17 +1177,17 @@ int Satellite::sgp4(double tsince)
     double top_e = -sintheta * range_posx + costheta * range_posy;
     double top_z = coslat * costheta * range_posx + coslat * sintheta * range_posy + sinlat * range_posz;
 
-    double azimut = atan(-top_e / top_s);
+    double azimuth = atan(-top_e / top_s);
     if (top_s > 0.)
-        azimut += M_PI;
-    if (azimut < 0.)
-        azimut += TWOPI;
+        azimuth += M_PI;
+    if (azimuth < 0.)
+        azimuth += TWOPI;
     double elevation = arcSin(top_z / m_range);
 
-    //     printf("azimut=%.15f\n\r", azimut / DEG2RAD);
+    //     printf("azimuth=%.15f\n\r", azimuth / DEG2RAD);
     //     printf("elevation=%.15f\n\r", elevation / DEG2RAD);
 
-    setAz(azimut / DEG2RAD);
+    setAz(azimuth / DEG2RAD);
     setAlt(elevation / DEG2RAD);
     HorizontalToEquatorial(data->lst(), data->geo()->lat());
 

@@ -177,7 +177,7 @@ void ObsListWizard::setItemSelected(const QString &name, QListWidget *listWidget
 }
 
 //Advance to the next page in the stack.  However, on page 2 the user
-//selects what regional filter they want to use, and this determnes
+//selects what regional filter they want to use, and this determines
 //what the page following page 2 should be:
 // + Constellation(s): the next page index is 3
 // + Rectangular region: the next page index is 4

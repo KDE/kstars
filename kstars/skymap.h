@@ -602,15 +602,15 @@ class SkyMap : public QGraphicsView
         */
     void incMagLimit(const int modifier);
 
-    /** Convenience routine to either zoom in or incraase mag limit
-         * depending on the Alt modifier.  The Shift and Control modiifers
+    /** Convenience routine to either zoom in or increase mag limit
+         * depending on the Alt modifier.  The Shift and Control modifiers
          * will adjust the size of the zoom or the mag step.
          * @param modifier
          */
     void zoomInOrMagStep(const int modifier);
 
-    /** Convenience routine to either zoom out or decraase mag limit
-         * depending on the Alt modifier.  The Shift and Control modiifers
+    /** Convenience routine to either zoom out or decrease mag limit
+         * depending on the Alt modifier.  The Shift and Control modifiers
          * will adjust the size of the zoom or the mag step.
          * @param modifier
          */
@@ -663,7 +663,7 @@ class SkyMap : public QGraphicsView
     // Timer for tooltips
     QTimer m_HoverTimer;
 
-    // InfoBoxes. Used in desctructor to save state
+    // InfoBoxes. Used in destructor to save state
     InfoBoxWidget *m_timeBox { nullptr };
     InfoBoxWidget *m_geoBox { nullptr };
     InfoBoxWidget *m_objBox { nullptr };

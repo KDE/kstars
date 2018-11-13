@@ -6,7 +6,7 @@ Prerequisites:
 - Install Qt 5.7+ for Android under your home directory to be writable. Unfortunately, there is a Qt bug
   (https://bugreports.qt.io/browse/QTBUG-54666) what can be fixed by only patching one cmake config file.
   The build files will comment the problematic line.
-- Get KStars source code from from Github or KDE
+- Get KStars source code from Github or KDE
 - Some tools are needed for the compilation: sudo apt-get install dos2unix ccache
 
 Set the following environmental variables before building:

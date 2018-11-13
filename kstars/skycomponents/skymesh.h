@@ -71,7 +71,7 @@ enum MeshBufNum_t
  * different then it should be drawn and then the drawID should be set to the
  * current drawID() so it doesn't get drawn again this cycle.
  *
- * The list of visible trixels found from an aperature() call or one of the
+ * The list of visible trixels found from an aperture() call or one of the
  * primitive index() by creating a new MeshIterator instance:
  *
  *      MeshIterator( HTMesh *mesh )
@@ -220,7 +220,7 @@ class SkyMesh : public HTMesh
         The follow routines are used to index SkyList data structures.  They
         fill a QHash with the indices of the trixels that cover the data
         structure.  These are all used as callbacks in the LineListIndex
-        subclasses so they can use the same indexing code to index differnt
+        subclasses so they can use the same indexing code to index different
         data structures.  See also indexStarLine() above.
         */
 

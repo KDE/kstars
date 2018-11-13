@@ -307,7 +307,7 @@ void KSNumbers::updateValues(long double jd)
     double MMRad = 2.3555559 + 8328.6914289 * T; // Moon
     double FRad  = 1.6279052 + 8433.4661601 * T;
 
-    /** Contibutions to the velocity of the Earth referred to the barycenter of the solar system
+    /** Contributions to the velocity of the Earth referred to the barycenter of the solar system
         in the J2000 equatorial system
         Velocities 10^{-8} AU/day
         Ron & Vondrak method

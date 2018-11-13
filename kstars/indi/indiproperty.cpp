@@ -100,7 +100,7 @@ void INDI_P::initGUI()
 
     updateStateLED();
 
-    /* #1 First widegt is the LED status indicator */
+    /* #1 First widget is the LED status indicator */
     PHBox->addWidget(ledStatus.get());
 
     if (label.isEmpty())

@@ -1811,7 +1811,7 @@ void ScriptBuilder::slotRa()
 
     if (sf->name() == "setRaDec")
     {
-        //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+        //do nothing if box is blank (because we could be clearing boxes while switching argWidgets)
         if (argSetRaDec->RABox->text().isEmpty())
             return;
 
@@ -1843,7 +1843,7 @@ void ScriptBuilder::slotDec()
 
     if (sf->name() == "setRaDec")
     {
-        //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+        //do nothing if box is blank (because we could be clearing boxes while switching argWidgets)
         if (argSetRaDec->DecBox->text().isEmpty())
             return;
 
@@ -1875,7 +1875,7 @@ void ScriptBuilder::slotAz()
 
     if (sf->name() == "setAltAz")
     {
-        //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+        //do nothing if box is blank (because we could be clearing boxes while switching argWidgets)
         if (argSetAltAz->AzBox->text().isEmpty())
             return;
 
@@ -1906,7 +1906,7 @@ void ScriptBuilder::slotAlt()
 
     if (sf->name() == "setAltAz")
     {
-        //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+        //do nothing if box is blank (because we could be clearing boxes while switching argWidgets)
         if (argSetAltAz->AltBox->text().isEmpty())
             return;
 
@@ -2442,7 +2442,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
 
     if ( sf->name() == "setINDITargetCoord" )
     {
-        //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+        //do nothing if box is blank (because we could be clearing boxes while switching argWidgets)
         if ( argSetTargetCoordINDI->RABox->text().isEmpty() )
         {
             sf->setValid(false);
@@ -2483,7 +2483,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
 
     if ( sf->name() == "setINDITargetCoord" )
     {
-        //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+        //do nothing if box is blank (because we could be clearing boxes while switching argWidgets)
         if ( argSetTargetCoordINDI->DecBox->text().isEmpty() )
         {
             sf->setValid(false);
@@ -2658,7 +2658,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
 
     if ( sf->name() == "setINDIGeoLocation" )
     {
-        //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+        //do nothing if box is blank (because we could be clearing boxes while switching argWidgets)
         if ( argSetGeoLocationINDI->longBox->text().isEmpty())
         {
             sf->setValid(false);
@@ -2699,7 +2699,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
 
     if ( sf->name() == "setINDIGeoLocation" )
     {
-        //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
+        //do nothing if box is blank (because we could be clearing boxes while switching argWidgets)
         if ( argSetGeoLocationINDI->latBox->text().isEmpty() )
         {
             sf->setValid(false);

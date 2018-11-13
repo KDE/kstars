@@ -80,7 +80,7 @@ int harvardToIndex(char c)
 
 // Total number of sizes of stars.
 const int nStarSizes = 15;
-// Total number of specatral classes
+// Total number of spectral classes
 // N.B. Must be in sync with harvardToIndex
 const int nSPclasses = 7;
 
@@ -520,7 +520,7 @@ bool SkyQPainter::drawComet(KSComet *com)
         {
             KSSun *sun = KStarsData::Instance()->skyComposite()->solarSystemComposite()->sun();
 
-            // Find the anlge to the sun.
+            // Find the angle to the sun.
             double comaAngle = m_proj->findPA(sun, pos.x(), pos.y());
 
             const QVector<QPoint> coma = { QPoint(pos.x() - size, pos.y()), QPoint(pos.x() + size, pos.y()),

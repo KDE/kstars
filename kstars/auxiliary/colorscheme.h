@@ -94,7 +94,7 @@ class ColorScheme
     /**
      * Save the current color scheme to a *.colors file.
      * @p name the filename to create
-     * @return true if the color scheme is successfully writeen to a file
+     * @return true if the color scheme is successfully writen to a file
      */
     bool save(const QString &name);
 

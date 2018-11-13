@@ -1921,7 +1921,7 @@ b32c941 2016-09-20	Artem Fedoskin	Final commit before merging to master. Added c
 928d184 2016-09-18	l10n daemon script	SVN_SILENT made messages (.desktop file) - always resolve ours
 1deb1f2 2016-09-18	Jasem Mutlaq	Add more logging to isSequenceFileComplete to diagnose any future issues
 55f164c 2016-09-17	Jasem Mutlaq	Disable and enable start button based on number of jobs
-353d5f8 2016-09-17	Artem Fedoskin	Added comments to all SkyItem derrived classes. Started to add comments to SkyNode derrived classes. Added function for deleting all childNodes to TrixelNode
+353d5f8 2016-09-17	Artem Fedoskin	Added comments to all SkyItem derived classes. Started to add comments to SkyNode derrived classes. Added function for deleting all childNodes to TrixelNode
 31a7b6d 2016-09-16	Jasem Mutlaq	Disable all queue edit buttons while sequence is in progress
 d210c12 2016-09-15	Jasem Mutlaq	Start sequence as well if state is capture complete
 e52c841 2016-09-15	Jasem Mutlaq	Always set filterReady to true if the frame type is either bias or dark

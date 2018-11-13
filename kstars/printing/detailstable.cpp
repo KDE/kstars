@@ -113,7 +113,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
                 objDistVal = i18nc("number in parsecs", "%1 pc", QLocale().toString(s->distance(), 2));
             }
 
-            //Note multiplicity/variablility in angular size label
+            //Note multiplicity/variability in angular size label
             if (s->isMultiple() && s->isVariable())
             {
                 objSizeLabel = i18nc("the star is a multiple star", "multiple") + ',';
