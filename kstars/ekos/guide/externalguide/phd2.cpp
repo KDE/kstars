@@ -1208,7 +1208,7 @@ void PHD2::sendPHD2Request(const QString &method, const QJsonArray &args)
     }
     else
     {
-        // there is already an oustanding call, enqueue this call
+        // there is already an outstanding call, enqueue this call
         // until the prior call completes
 
         if (Options::verboseLogging())

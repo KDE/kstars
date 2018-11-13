@@ -28,7 +28,7 @@ HtmRange::~HtmRange()
 
 InclusionType HtmRange::tinside(const Key mid) const
 {
-    // clearly out, inside, share a bounday, off by one to some boundary
+    // clearly out, inside, share a boundary, off by one to some boundary
     InclusionType t1, t2;
 
     Key GH = my_his->findMAX(mid);

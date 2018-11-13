@@ -348,7 +348,7 @@ void KSPlanet::findMagnitude(const KSNumbers *num)
 
     /* Computation of the visual magnitude (V band) of the planet.
     * Algorithm provided by Pere Planesas (Observatorio Astronomico Nacional)
-    * It has some simmilarity to J. Meeus algorithm in Astronomical Algorithms, Chapter 40.
+    * It has some similarity to J. Meeus algorithm in Astronomical Algorithms, Chapter 40.
     * */
 
     // Initialized to the faintest magnitude observable with the HST

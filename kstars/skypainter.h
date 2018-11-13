@@ -152,7 +152,7 @@ class SkyPainter
 
     /**
      * @short Draw the symbols for the observing list
-     * @param obs the oberving list
+     * @param obs the observing list
      */
     virtual void drawObservingList(const QList<SkyObject *> &obs) = 0;
 

@@ -117,7 +117,7 @@ class WUTDialog : public QDialog
     bool isCategoryInitialized(const QString &category);
     /** @short Initialize all SIGNAL/SLOT connections, used in constructor */
     void makeConnections();
-    /** @short Initialize catgory list, used in constructor */
+    /** @short Initialize category list, used in constructor */
     void initCategories();
 
     WUTDialogUI *WUT { nullptr };

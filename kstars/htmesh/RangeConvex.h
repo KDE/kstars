@@ -51,7 +51,7 @@ enum SpatialMarkup
 /**
    A spatial convex is composed of spatial constraints. It does not
    necessarily define a continuous area on the sphere since it is a
-   3D-convex of planar intersections which may intrersect with the
+   3D-convex of planar intersections which may intersect with the
    unit sphere at disjoint locations. Especially 'negative'
    constraints tend to tear 'holes' into the convex area.
 */

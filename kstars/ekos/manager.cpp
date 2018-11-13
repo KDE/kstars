@@ -2921,7 +2921,7 @@ void Manager::connectModules()
         connect(focusProcess.get(), &Ekos::Focus::newStatus, alignProcess.get(), &Ekos::Align::setFocusStatus, Qt::UniqueConnection);
     }
 
-    // Align <--> EkosLive connectoins
+    // Align <--> EkosLive connections
     if (alignProcess.get() && ekosLiveClient.get())
     {
         alignProcess.get()->disconnect(ekosLiveClient.get());

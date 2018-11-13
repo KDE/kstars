@@ -80,7 +80,7 @@ class AstroCalc : public QDialog
 
     /**
      * Create widget of type T and put it to widget stack. Widget must
-     * have construtor of type T(QWidget*). Returns constructed widget.
+     * have constructor of type T(QWidget*). Returns constructed widget.
      */
     template <typename T>
     inline QWidget *addToStack();

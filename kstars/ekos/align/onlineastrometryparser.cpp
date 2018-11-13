@@ -68,7 +68,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
 
     //if (networkManager->networkAccessible() == false)
     // 2018-03-08 JM: Multiple users reported that network accessible is now failing if there is no internet connection
-    // But LAN connectoin is established leading to failure of online solver with a local astrometry solver like ANSVR.
+    // But LAN connection is established leading to failure of online solver with a local astrometry solver like ANSVR.
     // Therefore I am adding the exception below to remedy this situation for now.
 
     // 2018-07-13: Due to this bug --> https://bugreports.qt.io/browse/QTBUG-68613

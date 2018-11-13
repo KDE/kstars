@@ -472,7 +472,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @param job active target
          * @param minAltitude minimum altitude required
          * @param minMoonAngle minimum separation from the moon. -1 to ignore.
-         * @return True if found a time in the night where the object is at or above the minimum altitude, false otherise.
+         * @return True if found a time in the night where the object is at or above the minimum altitude, false otherwise.
          */
     bool calculateAltitudeTime(SchedulerJob *job, double minAltitude, double minMoonAngle = -1);
 

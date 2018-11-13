@@ -112,7 +112,7 @@ void ScanRender::scanLine(int x1, int y1, int x2, int y2)
   }
 
   if (y1 < 0)
-  { // partialy off screen
+  { // partially off screen
     float m = (float) -y1;
 
     x += dx * m;
@@ -204,7 +204,7 @@ void ScanRender::scanLine(int x1, int y1, int x2, int y2, float u1, float v1, fl
   duv[1] = (v2 - v1) / dy;
 
   if (y1 < 0)
-  { // partialy off screen
+  { // partially off screen
     float m = (float) -y1;
 
     uv[0] += duv[0] * m;

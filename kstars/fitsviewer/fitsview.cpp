@@ -1247,7 +1247,7 @@ QPointF FITSView::getPointForGridLabel()
             minYPt = p;
     }
 
-    //This gives preferene to points that are on the right hand side and bottom.
+    //This gives preference to points that are on the right hand side and bottom.
     //But if the line doesn't intersect the right or bottom, it then tries for the top and left.
     //If no points are found in the image, it returns a point off the screen
     //If all else fails, like in the case of a circle on the image, it returns the far right point.

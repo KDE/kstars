@@ -253,7 +253,7 @@ class CatalogDB
     void ClearDSOEntries(int catalog_id);
 
     /**
-     * @brief Contains setup routines to intitialize a database for catalog storage
+     * @brief Contains setup routines to initialize a database for catalog storage
      *
      * @return void
      **/

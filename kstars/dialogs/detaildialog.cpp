@@ -155,7 +155,7 @@ void DetailDialog::createGeneralTab()
                 Data->Distance->setText(i18nc("number in parsecs", "%1 pc", QLocale().toString(s->distance(), 'f', 2)));
             }
 
-            //Note multiplicity/variablility in angular size label
+            //Note multiplicity/variability in angular size label
             Data->AngSizeLabel->setText(QString());
             Data->AngSize->setText(QString());
             Data->AngSizeLabel->setFont(Data->AngSize->font());
@@ -1076,7 +1076,7 @@ void DetailDialog::populateADVTree()
     QTreeWidgetItem *parent = nullptr;
     QTreeWidgetItem *temp   = nullptr;
 
-    // We populate the tree iterativley, keeping track of parents as we go
+    // We populate the tree iteratively, keeping track of parents as we go
     // This solution is more efficient than the previous recursion algorithm.
     foreach (ADVTreeData *item, KStarsData::Instance()->avdTree())
     {

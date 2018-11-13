@@ -26,7 +26,7 @@ class KSPlanet;
 
 /**
  * @class KSEarthShadow
- * @short A class that manages the calulation of the
+ * @short A class that manages the calculation of the
  * earths shadow (in moon distance) as a 'virtual' skyobject.
  * KSMoon is responsible for coordinating this object. While a
  * rather unusual measure, this method ensures that unnecessary

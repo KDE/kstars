@@ -233,7 +233,7 @@ public class Vector3 implements Serializable {
 	}
 
 	/** @param vector The other vector
-	 * @return Wether this and the other vector are equal */
+	 * @return Whether this and the other vector are equal */
 	public boolean idt (Vector3 vector) {
 		return x == vector.x && y == vector.y && z == vector.z;
 	}

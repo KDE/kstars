@@ -183,7 +183,7 @@ class StarObject : public SkyObject
 
     /**
      * @short Fills ra and dec with the coordinates of the star with the proper
-     * motion correction but without precesion and its friends.  It is used
+     * motion correction but without precision and its friends.  It is used
      * in StarComponent to re-index all the stars.
      *
      * @return true if we changed the coordinates, false otherwise
@@ -215,7 +215,7 @@ class StarObject : public SkyObject
     /**
      * @short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
      * Note that the RA component is multiplied by cos(dec).
-     * @param pmra the new RA propoer motion
+     * @param pmra the new RA proper motion
      * @param pmdec the new Dec proper motion
      */
     inline void setProperMotion(double pmra, double pmdec)

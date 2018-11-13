@@ -168,7 +168,7 @@ void LineListLabel::draw()
             break;
     }
 
-    // return if all candiates either overlap or are invalid
+    // return if all candidates either overlap or are invalid
     if (best >= 4)
         return;
 

@@ -443,7 +443,7 @@ void AltVsTime::processObject(SkyObject *o, bool forceAdd)
 
         avtUI->View->yAxis->setRange(minAlt - offset, maxAlt + offset);
 
-        // Update background coordonates:
+        // Update background coordinates:
         background->topLeft->setCoords(avtUI->View->xAxis->range().lower, avtUI->View->yAxis->range().upper);
         background->bottomRight->setCoords(avtUI->View->xAxis->range().upper, avtUI->View->yAxis->range().lower);
 
@@ -691,7 +691,7 @@ void AltVsTime::slotComputeAltitudeByTime()
     // Update coords
     KSNumbers num(ut.djd());
     tempObject->updateCoords(&num, true, geo->lat(), &LST);
-    // Find Horizontal coordindates from LST & Latitude
+    // Find Horizontal coordinates from LST & Latitude
     selectedObject->EquatorialToHorizontal(&LST, geo->lat());
 
     // Set altitude
@@ -1029,7 +1029,7 @@ void AltVsTime::slotUpdateDateLoc()
                 minAlt = -maxAlt;
             avtUI->View->yAxis->setRange(minAlt - offset, maxAlt + offset);
 
-            // Update background coordonates:
+            // Update background coordinates:
             background->topLeft->setCoords(avtUI->View->xAxis->range().lower, avtUI->View->yAxis->range().upper);
             background->bottomRight->setCoords(avtUI->View->xAxis->range().upper, avtUI->View->yAxis->range().lower);
 
@@ -1081,7 +1081,7 @@ void AltVsTime::slotUpdateDateLoc()
                 minAlt = -maxAlt;
             avtUI->View->yAxis->setRange(minAlt - offset, maxAlt + offset);
 
-            // Update background coordonates:
+            // Update background coordinates:
             background->topLeft->setCoords(avtUI->View->xAxis->range().lower, avtUI->View->yAxis->range().upper);
             background->bottomRight->setCoords(avtUI->View->xAxis->range().upper, avtUI->View->yAxis->range().lower);
 

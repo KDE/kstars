@@ -291,7 +291,7 @@ int sep_sum_ellipann(sep_image *image,
  * rmax:     Input radii are  [rmax/n, 2*rmax/n, 3*rmax/n, ..., rmax].
  * n:        Length of input and output arrays.
  * sum:      Preallocated array of length n holding sums in annuli. sum[0]
- *           corrresponds to r=[0, rmax/n], sum[n-1] to outermost annulus.
+ *           corresponds to r=[0, rmax/n], sum[n-1] to outermost annulus.
  * sumvar:   Preallocated array of length n holding variance on sums.
  * area:     Preallocated array of length n holding area summed in each annulus.
  * maskarea: Preallocated array of length n holding masked area in each
@@ -336,7 +336,7 @@ int sep_flux_radius(sep_image *im,
  * Flags that might be set:
  * SEP_APER_HASMASKED - at least one of the pixels in the ellipse is masked.
  * SEP_APER_ALLMASKED - All pixels in the ellipse are masked. kronrad = 0.
- * SEP_APER_NONPOSITIVE - There was a nonpositive numerator or deminator.
+ * SEP_APER_NONPOSITIVE - There was a non-positive numerator or denominator.
  *                        kronrad = 0.
  */
 int sep_kron_radius(sep_image *im, double x, double y,

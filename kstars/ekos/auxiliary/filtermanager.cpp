@@ -501,7 +501,7 @@ bool FilterManager::executeOperationQueue()
     // If an additional action is required, return return and continue later
     if (actionRequired)
         return true;
-    // Othereise, continue processing the queue
+    // Otherwise, continue processing the queue
     else
         return executeOperationQueue();
 }

@@ -18,7 +18,7 @@
 #include <QDialog>
 #include <QHBoxLayout>
 
-/* Forward decleration */
+/* Forward declaration */
 class QLineEdit;
 class QDoubleSpinBox;
 class QPushButton;

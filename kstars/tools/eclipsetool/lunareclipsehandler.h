@@ -25,7 +25,7 @@
 
 /**
  * @brief The LunarEclipseDetails struct
- * @short A struct to hold detail informoation about an eclipse
+ * @short A struct to hold detail information about an eclipse
  */
 struct LunarEclipseDetails {
     enum EVENT {

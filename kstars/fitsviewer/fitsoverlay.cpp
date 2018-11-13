@@ -100,7 +100,7 @@ void FITSOverlay::openImage()
         return;
     }
 
-    qDebug() << "Read succesfull, creating fits overlay now ..." << endl;
+    qDebug() << "Read succesful, creating fits overlay now ..." << endl;
 
     int image_width, image_height;
     double min, max, bzero, bscale, val;

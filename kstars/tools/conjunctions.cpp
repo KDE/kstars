@@ -315,7 +315,7 @@ void ConjunctionsTool::slotCompute(void)
         case 5: // Comet
             objects += data->skyComposite()->objectNames(SkyObject::COMET);
             break;
-        case 6: // Ateroid
+        case 6: // Asteroid
             objects += data->skyComposite()->objectNames(SkyObject::ASTEROID);
             break;
         case 7: // Open Clusters

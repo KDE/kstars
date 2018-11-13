@@ -1255,7 +1255,7 @@ void Scheduler::evaluateJobs()
     /* FIXME: it is possible to evaluate jobs while KStars has a time offset, so warn the user about this */
     QDateTime const now = KStarsData::Instance()->lt();
 
-    /* Start by refreshing the number of captures already present - unneded if not remembering job progress */
+    /* Start by refreshing the number of captures already present - unneeded if not remembering job progress */
     if (Options::rememberJobProgress())
         updateCompletedJobsCount();
 
@@ -2004,7 +2004,7 @@ int16_t Scheduler::getAltitudeScore(SchedulerJob *job, QDateTime when)
             }
 #endif
 
-            // If already passed the merdian and setting we check if it is within setting alttidue cut off value (3 degrees default)
+            // If already passed the meridian and setting we check if it is within setting altitude cut off value (3 degrees default)
             // If it is within that value then it is useless to start the job which will end very soon so we better look for a better job.
             /* FIXME: don't use BAD_SCORE/2, a negative result implies the job has to be aborted - we'd be annoyed if that score became positive again */
             /* FIXME: bug here, raising target will get a negative score if under cutoff, issue mitigated by aborted jobs getting rescheduled */
@@ -2182,7 +2182,7 @@ void Scheduler::executeJob(SchedulerJob *job)
 
         return;
     }
-    // Otherise, sleep until job is ready
+    // Otherwise, sleep until job is ready
     /* FIXME: if not parking, stop tracking maybe? this would prevent crashes or scheduler stops from leaving the mount to track and bump the pier */
     // If start up procedure is already complete, and we didn't issue any parking commands before and parking is checked and enabled
     // Then we park the mount until next job is ready. But only if the job uses TRACK as its first step, otherwise we cannot get into position again.
@@ -2654,7 +2654,7 @@ bool Scheduler::checkShutdownState()
     if (state == SCHEDULER_PAUSED)
         return false;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking shutown state...";
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking shutdown state...";
 
     switch (shutdownState)
     {

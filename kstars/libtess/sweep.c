@@ -459,7 +459,7 @@ static void CallCombine(GLUtesselator *tess, GLUvertex *isect, void *data[4], GL
 
 static void SpliceMergeVertices(GLUtesselator *tess, GLUhalfEdge *e1, GLUhalfEdge *e2)
 /*
- * Two vertices with idential coordinates are combined into one.
+ * Two vertices with identical coordinates are combined into one.
  * e1->Org is kept, while e2->Org is discarded.
  */
 {

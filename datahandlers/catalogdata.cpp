@@ -19,7 +19,7 @@
 
 CatalogData::CatalogData()
 {
-    catalog_name = "Dafault Catalog";
+    catalog_name = "Default Catalog";
     prefix       = "Default Prefix";
     color        = "#FF000000";
     epoch        = 2000.0;

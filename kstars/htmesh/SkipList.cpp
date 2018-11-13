@@ -143,7 +143,7 @@ Key SkipList::findMAX(const Key searchKey) const
     }
     // now nextElement is >= searhcKey
     // and element is < searchKey
-    // therefore elemnt  key is largest key less than current
+    // therefore element  key is largest key less than current
 
     // if this were search:
     // element=element->getElement(0); // skip to >=

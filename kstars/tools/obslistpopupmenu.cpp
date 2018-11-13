@@ -68,7 +68,7 @@ void ObsListPopupMenu::initPopupMenu(bool sessionView, bool multiSelection, bool
 
     addSeparator();
 
-    //Insert item for dowloading different images
+    //Insert item for downloading different images
     if (!multiSelection)
     {
         if (ksdata->observingList()->currentObject() != nullptr &&

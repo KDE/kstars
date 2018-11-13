@@ -673,7 +673,7 @@ class KStars : public KXmlGuiWindow
     /** Invoke the Field-of-View symbol editor window */
     void slotFOVEdit();
 
-    /** Toggle between Equatorial and Ecliptic coordinte systems */
+    /** Toggle between Equatorial and Ecliptic coordinate systems */
     void slotCoordSys();
 
     /** Set the map projection according to the menu selection */

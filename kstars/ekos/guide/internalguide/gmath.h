@@ -47,9 +47,9 @@ typedef struct
 } square_alg_t;
 
 // smart threshold algorithm param
-// width of outer frame for backgroung calculation
+// width of outer frame for background calculation
 #define SMART_FRAME_WIDTH 4
-// cut-factor above avarage threshold
+// cut-factor above average threshold
 #define SMART_CUT_FACTOR 0.1
 
 #define GUIDE_RA    0

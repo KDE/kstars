@@ -25,7 +25,7 @@ class KSPlanetBase;
 /**
  * @brief The EclipseEvent class
  * @short Abstract container/interface for a eclipse event.
- * @note We do not use the QObject hirachy here as it would be ineficcient
+ * @note We do not use the QObject hierarchy here as it would be inefficient
  */
 class EclipseEvent : public QObject {
     Q_OBJECT
@@ -92,7 +92,7 @@ public:
 
     /**
      * @brief hasDeails
-     * @return wether a details widget can be shown
+     * @return whether a details widget can be shown
      */
     virtual bool hasDeails() { return false; }
 
@@ -158,7 +158,7 @@ signals:
     /**
      * @brief signalEventFound
      * @short A signal to be dispatched as soon as a new Event is found.
-     * @note Has to emited by a subclass!
+     * @note Has to emitted by a subclass!
      * @param event
      */
     void signalEventFound(EclipseEvent_s event);

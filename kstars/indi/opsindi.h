@@ -18,7 +18,7 @@ class KConfigDialog;
  * @class OpsINDI
  *
  * Enables the user to change several INDI options including default ports for common devices,
- * time and location source, and options pertnaning to FITSViewer tool.
+ * time and location source, and options pertaining to FITSViewer tool.
  *
  * @author Jasem Mutlaq
  */

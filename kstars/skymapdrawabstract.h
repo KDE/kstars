@@ -129,7 +129,7 @@ class SkyMapDrawAbstract
 
     // *********************** PURE VIRTUAL METHODS ******************* //
     // NOTE: The following methods differ between GL and QPainter backends
-    //       Thus, they are pure virtual and must be implemented by the sublcass
+    //       Thus, they are pure virtual and must be implemented by the subclass
 
   protected:
     /**

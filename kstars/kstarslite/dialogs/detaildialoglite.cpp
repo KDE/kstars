@@ -106,7 +106,7 @@ void DetailDialogLite::createGeneralTab()
                             (i18nc("number in parsecs", "%1 pc", QLocale().toString(s->distance(), 'f', 2))));
             }
 
-            //Note multiplicity/variablility in angular size label
+            //Note multiplicity/variability in angular size label
             setProperty("angSize", QString());
             if (s->isMultiple() && s->isVariable())
             {

@@ -783,7 +783,7 @@ bool KStarsData::readUserLog()
         sub      = buffer.mid(startIndex); // FIXME: This is inefficient because we are making a copy of a huge string!
         endIndex = sub.indexOf(QLatin1String("[KSLogEnd]"));
 
-        // Read name after KSLABEL identifer
+        // Read name after KSLABEL identifier
         name = sub.mid(startIndex + 9, sub.indexOf(']') - (startIndex + 9));
         // Read data and skip new line
         data   = sub.mid(sub.indexOf(']') + 2, endIndex - (sub.indexOf(']') + 2));

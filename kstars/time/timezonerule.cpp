@@ -469,7 +469,7 @@ void TimeZoneRule::reset_with_ltime(KStarsDateTime &ltime, const double TZoffset
         wasDSTactive = true;
     }
 
-    // check if current time is start time, this means if a DST change happend in last hour(s)
+    // check if current time is start time, this means if a DST change happened in last hour(s)
     bool active_with_houroffset = isDSTActive(ltime.addSecs(int(HourOffset * -3600)));
     bool active_normal          = isDSTActive(ltime);
 
@@ -482,7 +482,7 @@ void TimeZoneRule::reset_with_ltime(KStarsDateTime &ltime, const double TZoffset
         qCDebug(KSTARS) << "Current time = Starttime: invalid local time due to daylight saving time";
 
         // set a correct local time because the current time doesn't exists
-        // if automatic DST change happend, new DST setting is the opposite of current setting
+        // if automatic DST change happened, new DST setting is the opposite of current setting
         if (automaticDSTchange)
         {
             // revert DST status
@@ -502,7 +502,7 @@ void TimeZoneRule::reset_with_ltime(KStarsDateTime &ltime, const double TZoffset
         }
         else // if ( automaticDSTchange )
         {
-            // no automatic DST change happend, so stay in current DST mode
+            // no automatic DST change happened, so stay in current DST mode
             setDST(wasDSTactive);
             if (wasDSTactive)
             {
@@ -521,7 +521,7 @@ void TimeZoneRule::reset_with_ltime(KStarsDateTime &ltime, const double TZoffset
     else // if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth )
     {
         // If current time was not start time, so check if current time is revert time
-        // this means if a DST change happend in next hour(s)
+        // this means if a DST change happened in next hour(s)
         active_with_houroffset = isDSTActive(ltime.addSecs(int(HourOffset * 3600)));
         if (active_with_houroffset != active_normal && RevertMonth == ValidLTime.date().month())
         {

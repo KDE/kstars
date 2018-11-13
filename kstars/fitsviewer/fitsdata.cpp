@@ -1749,7 +1749,7 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
             continue;
         }
 
-        qCDebug(KSTARS_FITS) << "Invetigating edge # " << i << " now ...";
+        qCDebug(KSTARS_FITS) << "Investigating edge # " << i << " now ...";
 
         // Get X, Y, and Val of edge
         cen_x = edges[i]->x;
@@ -2898,7 +2898,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
                     type == SkyObject::COMET || type == SkyObject::SUPERNOVA || type == SkyObject::MOON ||
                     type == SkyObject::SATELLITE)
             {
-                //DO NOT DISPLAY, at least for now, becaus these things move and change.
+                //DO NOT DISPLAY, at least for now, because these things move and change.
             }
 
             int x = -100;

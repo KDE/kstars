@@ -66,7 +66,7 @@ class DustCap : public QObject
     /**
      * DBUS interface function.
      * hasLight: Does the dust cap have a flat light source?
-     * @return True if there if flat light, false othereise
+     * @return True if there if flat light, false otherwise
      */
     Q_SCRIPTABLE bool hasLight();
 

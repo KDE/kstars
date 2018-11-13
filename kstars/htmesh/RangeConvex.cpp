@@ -707,7 +707,7 @@ SpatialMarkup RangeConvex::testTrixel(uint64 id)
        If partial, then we look ahead to see how many children are rejected.
        But ah, next iteration could benefit from having computed this already.
 
-       If two chidlren are rejected, then we stop
+       If two children are rejected, then we stop
        If one or 0 nodes are rejected, then we
     */
     return mark;

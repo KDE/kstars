@@ -350,7 +350,7 @@ void SkyMap::keyPressEvent(QKeyEvent *e)
         {
             // Toggle relativistic corrections
             Options::setUseRelativistic(!Options::useRelativistic());
-            qDebug() << "Relativistc corrections: " << Options::useRelativistic();
+            qDebug() << "Relativistic corrections: " << Options::useRelativistic();
             forceUpdate();
             break;
         }

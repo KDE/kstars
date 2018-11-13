@@ -220,7 +220,7 @@ class Focus : public QWidget, public Ui::Focus
     /** @}*/
 
     /**
-         * @brief startFraming Begins continious capture of the CCD and calculates HFR every frame.
+         * @brief startFraming Begins continuous capture of the CCD and calculates HFR every frame.
          */
     void startFraming();
 

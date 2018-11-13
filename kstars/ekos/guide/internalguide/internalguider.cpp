@@ -939,7 +939,7 @@ bool InternalGuider::processGuiding()
         // If less than MAX_IMMEDIATE_CAPTURE ms, then capture immediately
         if (waitMS > MAX_IMMEDIATE_CAPTURE)
             // Issue frame requests MAX_IMMEDIATE_CAPTURE ms before timeout to account for
-            // propogation delays
+            // propagation delays
             QTimer::singleShot(waitMS - PROPAGATION_DELAY, [&]()
             {
                 emit frameCaptureRequested();

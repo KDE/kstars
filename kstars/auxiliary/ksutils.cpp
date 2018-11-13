@@ -1032,7 +1032,7 @@ void Logging::SyncFilterRules()
   This method provides a centralized location for the default paths to important external files used in the Options
   on different operating systems.  Note that on OS X, if the user builds the app without indi, astrometry, and xplanet internally
   then the options below will be used.  If the user drags the app from a dmg and has to install the KStars data directory,
-  then most of these paths will be overwritten since it is preferrred to use the internal versions.
+  then most of these paths will be overwritten since it is preferred to use the internal versions.
 **/
 
 QString getDefaultPath(QString option)

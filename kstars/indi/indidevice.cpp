@@ -80,7 +80,7 @@ bool INDI_D::buildProperty(INDI::Property *prop)
 
     if (strcmp(prop->getDeviceName(), dv->getDeviceName()))
     {
-        // qDebug() << "Ignoring property " << prop->getName() << " for device " << prop->getgetDeviceName() << " because our deviec is "
+        // qDebug() << "Ignoring property " << prop->getName() << " for device " << prop->getgetDeviceName() << " because our device is "
         //     << dv->getDeviceName() << endl;
         return false;
     }
@@ -108,7 +108,7 @@ bool INDI_D::removeProperty(INDI::Property *prop)
 
     if (strcmp(prop->getDeviceName(), dv->getDeviceName()))
     {
-        // qDebug() << "Ignoring property " << prop->getName() << " for device " << prop->getgetDeviceName() << " because our deviec is "
+        // qDebug() << "Ignoring property " << prop->getName() << " for device " << prop->getgetDeviceName() << " because our device is "
         //     << dv->getDeviceName() << endl;
         return false;
     }

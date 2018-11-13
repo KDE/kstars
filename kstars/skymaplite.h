@@ -381,7 +381,7 @@ class SkyMapLite : public QQuickItem
          */
     void setCenterLocked(bool centerLocked);
 
-    /** True if automatic mode is on (SkyMapLite is controled by smartphones accelerometer magnetometer) **/
+    /** True if automatic mode is on (SkyMapLite is controlled by smartphones accelerometer magnetometer) **/
     bool getAutomaticMode() const { return m_automaticMode; }
 
     /**
@@ -594,14 +594,14 @@ class SkyMapLite : public QQuickItem
     void incMagLimit(const int modifier);
 
     /** Convenience routine to either zoom in or increase mag limit
-         * depending on the Alt modifier.  The Shift and Control modiifers
+         * depending on the Alt modifier.  The Shift and Control modifiers
          * will adjust the size of the zoom or the mag step.
          * @param modifier
          */
     void zoomInOrMagStep(const int modifier);
 
-    /** Convenience routine to either zoom out or decraase mag limit
-         * depending on the Alt modifier.  The Shift and Control modiifers
+    /** Convenience routine to either zoom out or decrease mag limit
+         * depending on the Alt modifier.  The Shift and Control modifiers
          * will adjust the size of the zoom or the mag step.
          * @param modifier
          */

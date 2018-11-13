@@ -226,7 +226,7 @@ void FITSHistogram::constructHistogram()
         }
     }
 
-    // Custom index to indicate the overall constrast of the image
+    // Custom index to indicate the overall contrast of the image
     JMIndex = cumulativeFrequency[binCount / 8] / cumulativeFrequency[binCount / 4];
     qCDebug(KSTARS_FITS) << "FITHistogram: JMIndex " << JMIndex;
 

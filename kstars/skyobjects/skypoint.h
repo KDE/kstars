@@ -504,7 +504,7 @@ class SkyPoint
     double vGeoToVHelio(double vgeo, long double jd);
 
     /**
-     * Computes the velocity of any object (oberver's site) projected on the
+     * Computes the velocity of any object (observer's site) projected on the
      * direction of the source.
      *
      * @param vsite velocity of that object in cartesian coordinates
@@ -514,7 +514,7 @@ class SkyPoint
 
     /**
      * Computes the radial velocity of a source referred to the observer site on the surface
-     * of the earth from the geocentric velovity and the velocity of the site referred to the center
+     * of the earth from the geocentric velocity and the velocity of the site referred to the center
      * of the Earth.
      *
      * @param vgeo radial velocity of the source referred to the center of the earth in km/s

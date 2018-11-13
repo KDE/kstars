@@ -122,8 +122,8 @@ class SkyObjItem
     QString getRADE() const;
 
     /**
-     * @brief Get current Altitute and Azimuth of sky-object associated with the SkyObjItem.
-     * @return Current Altitute and Azimuth of sky-object associated with the SkyObjItem.
+     * @brief Get current Altitude and Azimuth of sky-object associated with the SkyObjItem.
+     * @return Current Altitude and Azimuth of sky-object associated with the SkyObjItem.
      */
     QString getAltAz() const;
 

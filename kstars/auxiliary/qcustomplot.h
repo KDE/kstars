@@ -2620,7 +2620,7 @@ class QCP_LIB_DECL QCPDataContainer
     // property members:
     bool mAutoSqueeze;
 
-    // non-property memebers:
+    // non-property members:
     QVector<DataType> mData;
     int mPreallocSize;
     int mPreallocIteration;
@@ -3000,7 +3000,7 @@ void QCPDataContainer<DataType>::remove(double sortKeyFrom, double sortKeyTo)
 
   Removes a single data point at \a sortKey. If the position is not known with absolute (binary)
   precision, consider using \ref remove(double sortKeyFrom, double sortKeyTo) with a small
-  fuzziness interval around the suspected position, depeding on the precision with which the
+  fuzziness interval around the suspected position, depending on the precision with which the
   (sort-)key is known.
 
   \see removeBefore, removeAfter, clear

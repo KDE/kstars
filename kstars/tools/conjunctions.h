@@ -78,7 +78,7 @@ class ConjunctionsTool : public QFrame, public Ui::ConjunctionsDlg
 
     /**
      * @brief mode
-     * @short Represents wether the tool looks for conj/opp.
+     * @short Represents whether the tool looks for conj/opp.
      */
     enum MODE {
         CONJUNCTION,

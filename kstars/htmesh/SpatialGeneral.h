@@ -112,7 +112,7 @@ const float64 gEpsilon = 1.0E-15;
 // This warning is about template instances being exported in the dll...
 #pragma warning(disable : 4251)
 
-// Define LINKAGE for NT VC++6 complier
+// Define LINKAGE for NT VC++6 compiler
 
 #ifdef _EXPORTING
 #define LINKAGE __declspec(dllexport)

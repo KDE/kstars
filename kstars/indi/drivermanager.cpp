@@ -266,7 +266,7 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList, QList<QList<Drive
     {
         QList<DriverInfo *> uList;
 
-        // Let's see for drivers with idential hosts and ports
+        // Let's see for drivers with identical hosts and ports
         for (DriverInfo *idv : dList)
         {
             // If we get a match between port and hostname, we add it to the list

@@ -59,7 +59,7 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
     //times the asteroid's mean daily motion (360/P):
 
     // All elements are in the heliocentric ecliptic J2000 reference frame.
-    // Mean anamoly is supplied at the Epoch (which is JD here)
+    // Mean anomaly is supplied at the Epoch (which is JD here)
 
     dms m = dms(double(M.Degrees() + (lastPrecessJD - JD) * 360.0 / P)).reduce();
     double sinm, cosm;

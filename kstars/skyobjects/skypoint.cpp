@@ -750,7 +750,7 @@ double SkyPoint::vRSun(long double jd0)
     dsun.SinCos(sd, cd);
 
     /* We need an auxiliary SkyPoint since we need the
-    * source referred to the J2000 equinox and we do not want to ovewrite
+    * source referred to the J2000 equinox and we do not want to overwrite
     * the current values
     */
 
@@ -797,7 +797,7 @@ double SkyPoint::vREarth(long double jd0)
     */
 
     /* We need an auxiliary SkyPoint since we need the
-    * source referred to the J2000 equinox and we do not want to ovewrite
+    * source referred to the J2000 equinox and we do not want to overwrite
     * the current values
     */
 

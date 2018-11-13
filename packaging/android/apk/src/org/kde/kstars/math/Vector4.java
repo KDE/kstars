@@ -262,7 +262,7 @@ public final class Vector4 {
 	/**
 	 * @param vector
 	 *            The other vector
-	 * @return Wether this and the other vector are equal
+	 * @return Whether this and the other vector are equal
 	 */
 	public boolean idt(Vector4 vector) {
 		return x == vector.x && y == vector.y && z == vector.z && w == vector.w;

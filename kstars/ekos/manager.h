@@ -30,7 +30,7 @@
 #include "scheduler/scheduler.h"
 #include "auxiliary/filtermanager.h"
 #include "ksnotification.h"
-// Can't use forward decleration with QPointer. QTBUG-29588
+// Can't use forward declaration with QPointer. QTBUG-29588
 #include "auxiliary/opslogs.h"
 
 #include <QDialog>

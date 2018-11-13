@@ -55,7 +55,7 @@ class OpsAstrometryIndexFiles;
  * Align module provide Polar Align Helper tool which enables easy-to-follow polar alignment procedure given wide FOVs (> 1.5 degrees)
  * For small FOVs, the Legacy polar alignment measurement should be used.
  * LEGACY: Measurement of polar alignment errors is performed by capturing two images on selected points in the sky and measuring the declination drift to calculate
- * the error in the mount's azimutn and altitude displacement from optimal. Correction is carried by asking the user to re-center a star by adjusting the telescope's azimuth and/or altitude knobs.
+ * the error in the mount's azimuth and altitude displacement from optimal. Correction is carried by asking the user to re-center a star by adjusting the telescope's azimuth and/or altitude knobs.
  *@author Jasem Mutlaq
  *@version 1.3
  */
@@ -296,7 +296,7 @@ class Align : public QWidget, public Ui::Align
      * @param fov_h return calculated fov height in arcminutes
      * @param fov_scale return calculated fov pixcale in arcsecs per pixel.
      * @note This is NOT the same as effective FOV which is the measured FOV from astrometry. It is the
-     * theoritical FOV from calculated values.
+     * theoretical FOV from calculated values.
      */
     void getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scale);
 

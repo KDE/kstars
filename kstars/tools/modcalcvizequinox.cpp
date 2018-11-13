@@ -335,7 +335,7 @@ KStarsDateTime modCalcEquinox::findSolstice(int year, bool Summer)
     Sun.findPosition(&num);
     y2 = Sun.dec().Degrees();
 
-    while (jd3 - jd1 > 0.0005) //sub-minute pecision
+    while (jd3 - jd1 > 0.0005) //sub-minute precision
     {
         jd4 = jd1 + jd3 - jd2;
 

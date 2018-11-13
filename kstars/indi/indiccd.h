@@ -171,7 +171,7 @@ class CCD : public DeviceDecorator
     bool getTemperature(double *value);
     bool setTemperature(double value);
 
-    // Utitlity functions        
+    // Utility functions        
     void setISOMode(bool enable) { ISOMode = enable; }
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
     void setNextSequenceID(int count) { nextSequenceID = count; }

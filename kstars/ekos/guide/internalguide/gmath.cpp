@@ -722,20 +722,20 @@ Vector cgmath::findLocalStarPosition(void) const
         QVector<Vector> shifts;
         float xsum = 0, ysum = 0;
 
-        QVector<float *> imageParition = partitionImage();
+        QVector<float *> imagePartition = partitionImage();
 
-        if (imageParition.isEmpty())
+        if (imagePartition.isEmpty())
         {
-            qWarning() << "Failed to partiion regions in image!";
+            qWarning() << "Failed to partition regions in image!";
             return Vector(-1, -1, -1);
         }
 
-        if (imageParition.count() != referenceRegions.count())
+        if (imagePartition.count() != referenceRegions.count())
         {
             qWarning() << "Mismatch between reference regions #" << referenceRegions.count()
-                       << "and image parition regions #" << imageParition.count();
+                       << "and image partition regions #" << imagePartition.count();
             // Clear memory in case of mis-match
-            foreach (float *region, imageParition)
+            foreach (float *region, imagePartition)
             {
                 delete[] region;
             }
@@ -743,9 +743,9 @@ Vector cgmath::findLocalStarPosition(void) const
             return Vector(-1, -1, -1);
         }
 
-        for (uint8_t i = 0; i < imageParition.count(); i++)
+        for (uint8_t i = 0; i < imagePartition.count(); i++)
         {
-            ImageAutoGuiding::ImageAutoGuiding1(referenceRegions[i], imageParition[i], regionAxis, &xshift, &yshift);
+            ImageAutoGuiding::ImageAutoGuiding1(referenceRegions[i], imagePartition[i], regionAxis, &xshift, &yshift);
             Vector shift(xshift, yshift, -1);
             qCDebug(KSTARS_EKOS_GUIDE) << "Region #" << i << ": X-Shift=" << xshift << "Y-Shift=" << yshift;
 
@@ -755,11 +755,11 @@ Vector cgmath::findLocalStarPosition(void) const
         }
 
         // Delete partitions
-        foreach (float *region, imageParition)
+        foreach (float *region, imagePartition)
         {
             delete[] region;
         }
-        imageParition.clear();
+        imagePartition.clear();
 
         float average_x = xsum / referenceRegions.count();
         float average_y = ysum / referenceRegions.count();
@@ -870,7 +870,7 @@ Vector cgmath::findLocalStarPosition(void) const
     resx = resy = 0;
     threshold = mass = 0;
 
-    // several threshold adaptive smart agorithms
+    // several threshold adaptive smart algorithms
     switch (square_alg_idx)
     {
         case CENTROID_THRESHOLD:

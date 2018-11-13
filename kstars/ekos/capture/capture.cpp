@@ -759,7 +759,7 @@ void Capture::checkCCD(int ccdNum)
         {
             ISOCombo->setEnabled(false);
             ISOLabel->setEnabled(false);
-            // Only one trasnfer format
+            // Only one transfer format
             transferFormatCombo->addItem(i18n("FITS"));
         }
         else
@@ -780,7 +780,7 @@ void Capture::checkCCD(int ccdNum)
             double pixelX = 0, pixelY = 0;
             bool rc = targetChip->getPixelSize(pixelX, pixelY);
             bool isModelInDB = isModelinDSLRInfo(QString(currentCCD->getDeviceName()));
-            // If rc == true, then the propery has been defined by the driver already
+            // If rc == true, then the property has been defined by the driver already
             // Only then we check if the pixels are zero
             if (rc == true && (pixelX == 0 || pixelY == 0 || isModelInDB == false))
             {
@@ -1484,7 +1484,7 @@ bool Capture::resumeSequence()
         if (isInSequenceFocus)
             requiredAutoFocusStarted = false;
 
-        // Reset HFR pixels to file value after merdian flip
+        // Reset HFR pixels to file value after meridian flip
         if (isInSequenceFocus && meridianFlipStage != MF_NONE)
         {
             qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
@@ -2465,7 +2465,7 @@ void Capture::prepareJob(SequenceJob *job)
             // This is the current completion count of the current job
             activeJob->setCompleted(count);
         }
-        // JM 2018-09-24: Only set completed jobs to 0 IF the scheduler set captured frames map to beging with
+        // JM 2018-09-24: Only set completed jobs to 0 IF the scheduler set captured frames map to begin with
         // If the map is empty, then no scheduler is used and it should proceed as normal.
         else if (capturedFramesMap.count() > 0)
         {
@@ -4406,7 +4406,7 @@ double Capture::setCurrentADU(double value)
             double a = 0, b = 0;
             llsq(ExpRaw, ADURaw, a, b);
 
-            qWarning(KSTARS_EKOS_CAPTURE) << "Polynomial fitting invalid, faling back to llsq. a=" << a << " b=" << b;
+            qWarning(KSTARS_EKOS_CAPTURE) << "Polynomial fitting invalid, falling back to llsq. a=" << a << " b=" << b;
 
             // If we have valid results, let's calculate next exposure
             if (a != 0)
@@ -4523,7 +4523,7 @@ bool Capture::setCoolerControl(bool enable)
 
 void Capture::clearAutoFocusHFR()
 {
-    // If HFR limit was set from file, we cannot overide it.
+    // If HFR limit was set from file, we cannot override it.
     if (fileHFR > 0)
         return;
 
@@ -5083,7 +5083,7 @@ bool Capture::processPostCaptureCalibrationStage()
 
             double nextExposure = -1;
 
-            // If value is saturdated, try to reduce it to valid range first
+            // If value is saturated, try to reduce it to valid range first
             if (std::fabs(image_data->getMax(0) - image_data->getMin(0)) < 10)
                 nextExposure = activeJob->getExposure() * 0.5;
             else
