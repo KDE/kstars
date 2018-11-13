@@ -140,7 +140,7 @@ void EclipseTool::slotContextMenu(QPoint pos)
     });
     menu->addAction(view);
 
-    if(event->hasDeails()){
+    if(event->hasDetails()){
         QAction * details = new QAction(i18n("Show Details"), menu);
         connect(details, &QAction::triggered, this, [=] {
             event->slotShowDetails(); // call virtual

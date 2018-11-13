@@ -70,7 +70,7 @@ public:
 
     SkyObject * getEclipsingObjectFromSkyComposite() override;
 
-    bool hasDeails() override { return false; } // false for now!
+    bool hasDetails() override { return false; } // false for now!
 
 public slots:
     void slotShowDetails() override;

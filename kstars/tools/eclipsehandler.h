@@ -91,10 +91,10 @@ public:
     virtual SkyObject * getEclipsingObjectFromSkyComposite() = 0;
 
     /**
-     * @brief hasDeails
+     * @brief hasDetails
      * @return whether a details widget can be shown
      */
-    virtual bool hasDeails() { return false; }
+    virtual bool hasDetails() { return false; }
 
 public slots:
     /**
