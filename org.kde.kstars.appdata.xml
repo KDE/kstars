@@ -65,7 +65,7 @@
   <summary xml:lang="zh-CN">桌面天文馆</summary>
   <summary xml:lang="zh-TW">桌面星象儀</summary>
   <description>
-    <p>KStars is free, open source, cross-platform Astronomy Software.</p>
+    <p>KStars is freely licensed, open source, cross-platform Astronomy Software by KDE.</p>
     <p xml:lang="ar">«نجوم‌ك» هي برمجيّة مجّانيّة ومفتوحة المصدر مختصّة بعلوم الفلك، وتتوفّر على مختلف المنصّات.</p>
     <p xml:lang="ca">El KStars és un programari d'Astronomia lliure, de codi obert i multiplataforma.</p>
     <p xml:lang="ca-valencia">El KStars és un programari d'Astronomia lliure, de codi obert i multiplataforma.</p>
@@ -305,15 +305,19 @@
   <url type="help">http://docs.kde.org/stable/en/kdeedu/kstars/index.html</url>
   <screenshots>
     <screenshot type="default">
+      <caption>KStars main window</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_main.png</image>
     </screenshot>
     <screenshot>
+      <caption>"What's interesting" tool in KStars</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_interesting.png</image>
     </screenshot>
     <screenshot>
+      <caption>Ekos tool in KStars</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_ekos.png</image>
     </screenshot>
     <screenshot>
+      <caption>Observation Planner of KStars</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_planner.png</image>
     </screenshot>
   </screenshots>

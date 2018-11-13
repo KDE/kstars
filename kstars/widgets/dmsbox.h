@@ -128,7 +128,7 @@ class dmsBox : public QLineEdit
      *
      * @param deg if true use deg/arcmin/arcsec; otherwise
      *           use hours/min/sec.
-     * @param ok set to true if a dms object was succedssfully created.
+     * @param ok set to true if a dms object was successfully created.
      * @return a dms object constructed from the fields of the dmsbox
      */
     dms createDms(bool deg = true, bool *ok = nullptr);
