@@ -3924,7 +3924,7 @@ int Capture::getActiveJobRemainingTime()
     return getJobRemainingTime(activeJob);
 }
 
-void Capture::setMaximumGuidingDeviaiton(bool enable, double value)
+void Capture::setMaximumGuidingDeviation(bool enable, double value)
 {
     guideDeviationCheck->setChecked(enable);
     if (enable)
