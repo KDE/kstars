@@ -27,7 +27,8 @@ class QTreeWidget;
 class QTreeWidgetItem;
 
 /**
- * @class AstroCalc is the base class for the KStars astronomical calculator
+ * @class AstroCalc
+ * @brief This is the base class for the KStars astronomical calculator
  *
  * @author: Pablo de Vicente
  * @version 0.9

@@ -36,7 +36,7 @@ class WIEquipSettings : public QFrame, public Ui::WIEquipSettings
     Q_OBJECT
 
   public:
-    /** @enum ScopeRoles User-defined roles for scope item */
+    /** @enum ScopeItemRoles User-defined roles for scope item */
     enum ScopeItemRoles
     {
         Vendor = Qt::UserRole + 4,

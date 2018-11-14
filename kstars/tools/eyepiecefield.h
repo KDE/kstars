@@ -130,7 +130,7 @@ class EyepieceField : public QDialog // FIXME: Rename to EyepieceView
 
     /**
      * @short Finds the angle between "up" (i.e. direction of increasing altitude) and "north" (i.e. direction of increasing declination) at a given point in the sky
-     * @fixme Procedure does not account for precession and nutation at the moment
+     * @attention Procedure does not account for precession and nutation at the moment
      * @note SkyPoint must already have Equatorial and Horizontal coordinate synced
      */
     static dms findNorthAngle(const SkyPoint *sp, const dms *lat);

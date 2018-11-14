@@ -77,7 +77,7 @@ class NewFOV : public QDialog
   public:
     /** Create new dialog
          * @param parent parent widget
-         * @fov widget to copy data from. If it's empty will create empty one.
+         * @param fov widget to copy data from. If it's empty will create empty one.
          */
     explicit NewFOV(QWidget *parent = nullptr, const FOV *fov = nullptr);
     ~NewFOV() override = default;

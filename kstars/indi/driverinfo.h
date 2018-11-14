@@ -28,6 +28,7 @@ class ServerManager;
  * <li>Device label.</li>
  * <li>Driver version.</li>
  * <li>Device Family: Telescope, CCD, Focuser...etc</li>
+ * </ul>
  *
  * Dynamic information include associated Server and Client managers, port in use, associated devices...etc.
  * Most INDI drivers operate only one device, but some driver can present multiple devices simultaneously.
@@ -39,7 +40,7 @@ class ServerManager;
  * <li>Client DriverInfos: Users can add a new host/port combo in the Device Manager in order to connect to
  * to local or remote INDI servers.</li>
  * <li>Generated DriverInfos: DriverInfo can be created programatically to connect to local or remote INDI server with unknown
- * number of actual drivers/devices at the server side.
+ * number of actual drivers/devices at the server side.</li>
  * </ol>
  *
  * @author Jasem Mutlaq

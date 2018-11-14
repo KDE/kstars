@@ -18,7 +18,8 @@
 #include <QList>
 
 /**
- * @class SupernovaeComponent This class encapsulates Supernovae.
+ * @class SupernovaeComponent
+ * @brief This class encapsulates Supernovae.
  *
  * @author Jasem Mutlaq, Samikshan Bairagya
  *
