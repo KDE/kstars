@@ -36,7 +36,7 @@ class ModelManager : public QObject
     Q_OBJECT
   public:
     /**
-     * @enum ModelType
+     * @enum ObjectList
      * @brief Model type for different types of sky-objects.
      */
     enum ObjectList

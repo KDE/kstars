@@ -171,7 +171,8 @@ class ObservingList : public QDialog
          */
     void setDefaultImage();
 
-    /** @short get object name. If star has no name, generate a name based on catalog number.
+    /** @short get object name. If sky object has no name, generate a name based on catalog number.
+         * @param o pointer to the sky object
          * @param translated set to true if the translated name is required.
          */
     QString getObjectName(const SkyObject *o, bool translated = true);

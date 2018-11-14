@@ -153,7 +153,7 @@ class KStarsDateTime : public QDateTime
     QTime GSTtoUT(dms GST) const; // FIXME: Shouldn't this be static?
 
     /**
-         *@enum Epoch description options
+         *@enum EpochType description options
          *@note After 1976, the IAU standard for epochs is Julian Years.
          */
     enum EpochType
