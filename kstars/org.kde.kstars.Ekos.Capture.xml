@@ -37,7 +37,7 @@
     <method name="getSequenceQueueStatus">
       <arg type="s" direction="out"/>
     </method>    
-    <method name="setMaximumGuidingDeviaiton">
+    <method name="setMaximumGuidingDeviation">
       <arg name="enable" type="b" direction="in"/>
       <arg name="value" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
