@@ -117,7 +117,7 @@ private:
      * @brief getFullMoons
      * @param startJD start Date
      * @param endJD end Date
-     * @return a vector of JDs for full moons (actually a little earlier as it doesnt matter much)
+     * @return a vector of JDs for full moons (actually a little earlier as it doesn't matter much)
      */
     QVector<long double> getFullMoons(long double startJD, long double endJD);
 
