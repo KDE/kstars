@@ -66,6 +66,12 @@
   <summary xml:lang="zh-TW">桌面星象儀</summary>
   <description>
     <p>KStars is freely licensed, open source, cross-platform Astronomy Software by KDE.</p>
+    <p xml:lang="ca">El KStars és un programari d'Astronomia de llicència lliure, de codi obert i multiplataforma, creat per la comunitat KDE.</p>
+    <p xml:lang="nl">KStars is een opensource Astronomieprogramma van KDE, met een vrije licentie, dat draait op allerlei verschillende soorten computers.</p>
+    <p xml:lang="pt">O KStars é uma aplicação de astronomia com uma licença livre, de código-aberto e multi-plataforma.</p>
+    <p xml:lang="sv">Kstars är en astronomiprogramvara med öppen källkod och fri licens för flera plattformar.</p>
+    <p xml:lang="uk">KStars — вільне астрономічне програмне забезпечення з відкритим кодом, яке може працювати на багатьох програмних платформах від KDE.</p>
+    <p xml:lang="x-test">xxKStars is freely licensed, open source, cross-platform Astronomy Software by KDE.xx</p>
     <p>It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.</p>
     <p xml:lang="ar">توفّر البرمجيّة محاكاةً رسوميّة دقيقة لسماء الليل، من أيّ نقطة على سطح الأرض وفي أيّ وقت. يعرض «نجوم‌ك» حوالي ١٠٠ مليون نجم، و١٣٬٠٠٠ جرم سماويّ عميق، والكواكب الثّمانية، والشّمس والقمر وآلاف المذنّبات والكويكبات، والمستعرات العظمى والأقمار الصّناعيّة.</p>
     <p xml:lang="ca">Proporciona una simulació gràfica precisa del cel nocturn, des de qualsevol ubicació a la Terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes del cel profund, tots els 8 planetes, el Sol i la Lluna, i milers de cometes, asteroides, supernoves, i satèl·lits.</p>
@@ -289,18 +295,42 @@
   <screenshots>
     <screenshot type="default">
       <caption>KStars main window</caption>
+      <caption xml:lang="ca">Finestra principal del KStars</caption>
+      <caption xml:lang="nl">Het hoofdvenster van KStars</caption>
+      <caption xml:lang="pt">Janela principal do KStars</caption>
+      <caption xml:lang="sv">Huvudfönstret i Kstars</caption>
+      <caption xml:lang="uk">Головне вікно KStars</caption>
+      <caption xml:lang="x-test">xxKStars main windowxx</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_main.png</image>
     </screenshot>
     <screenshot>
       <caption>"What's interesting" tool in KStars</caption>
+      <caption xml:lang="ca">Eina «Què hi ha d'interessant» al KStars</caption>
+      <caption xml:lang="nl">Het hulpmiddel voor "Wat is interessant" in KStars</caption>
+      <caption xml:lang="pt">Ferramenta "O que há de interessante" no KStars</caption>
+      <caption xml:lang="sv">Verktyget "Vad är intressant" i Kstars</caption>
+      <caption xml:lang="uk">Інструмент «Цікаві об'єкти» у KStars</caption>
+      <caption xml:lang="x-test">xx"What's interesting" tool in KStarsxx</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_interesting.png</image>
     </screenshot>
     <screenshot>
       <caption>Ekos tool in KStars</caption>
+      <caption xml:lang="ca">Eina Ekos al KStars</caption>
+      <caption xml:lang="nl">Het hulpmiddel Ekos in KStars</caption>
+      <caption xml:lang="pt">Ferramenta do Ekos no KStars</caption>
+      <caption xml:lang="sv">Ekos-verktyget i Kstars</caption>
+      <caption xml:lang="uk">Інструмент Ekos у KStars</caption>
+      <caption xml:lang="x-test">xxEkos tool in KStarsxx</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_ekos.png</image>
     </screenshot>
     <screenshot>
       <caption>Observation Planner of KStars</caption>
+      <caption xml:lang="ca">Planificador de l'observació del KStars</caption>
+      <caption xml:lang="nl">Plannen van waarnemingen in KStars</caption>
+      <caption xml:lang="pt">Planeamento de Observações do KStars</caption>
+      <caption xml:lang="sv">Observationsplanering i Kstars</caption>
+      <caption xml:lang="uk">Планування спостережень у KStars</caption>
+      <caption xml:lang="x-test">xxObservation Planner of KStarsxx</caption>
       <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_planner.png</image>
     </screenshot>
   </screenshots>
