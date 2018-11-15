@@ -53,7 +53,7 @@ public:
 
     /**
      * @brief getExtraInfo
-     * @return information to display in an extra collumn
+     * @return information to display in an extra column
      * of the overview table.
      */
     virtual QString getExtraInfo() { return ""; }
