@@ -67,6 +67,7 @@
   <description>
     <p>KStars is freely licensed, open source, cross-platform Astronomy Software by KDE.</p>
     <p xml:lang="ca">El KStars és un programari d'Astronomia de llicència lliure, de codi obert i multiplataforma, creat per la comunitat KDE.</p>
+    <p xml:lang="es">KStars es un software astronómico de licencia libre, de código abierto y multiplataforma, creado por KDE.</p>
     <p xml:lang="nl">KStars is een opensource Astronomieprogramma van KDE, met een vrije licentie, dat draait op allerlei verschillende soorten computers.</p>
     <p xml:lang="pt">O KStars é uma aplicação de astronomia com uma licença livre, de código-aberto e multi-plataforma.</p>
     <p xml:lang="sv">Kstars är en astronomiprogramvara med öppen källkod och fri licens för flera plattformar.</p>
@@ -296,6 +297,7 @@
     <screenshot type="default">
       <caption>KStars main window</caption>
       <caption xml:lang="ca">Finestra principal del KStars</caption>
+      <caption xml:lang="es">Ventana principal de KStars</caption>
       <caption xml:lang="nl">Het hoofdvenster van KStars</caption>
       <caption xml:lang="pt">Janela principal do KStars</caption>
       <caption xml:lang="sv">Huvudfönstret i Kstars</caption>
@@ -306,6 +308,7 @@
     <screenshot>
       <caption>"What's interesting" tool in KStars</caption>
       <caption xml:lang="ca">Eina «Què hi ha d'interessant» al KStars</caption>
+      <caption xml:lang="es">Herramienta «Qué es interesante» de KStars</caption>
       <caption xml:lang="nl">Het hulpmiddel voor "Wat is interessant" in KStars</caption>
       <caption xml:lang="pt">Ferramenta "O que há de interessante" no KStars</caption>
       <caption xml:lang="sv">Verktyget "Vad är intressant" i Kstars</caption>
@@ -316,6 +319,7 @@
     <screenshot>
       <caption>Ekos tool in KStars</caption>
       <caption xml:lang="ca">Eina Ekos al KStars</caption>
+      <caption xml:lang="es">Herramienta Ekos en KStars</caption>
       <caption xml:lang="nl">Het hulpmiddel Ekos in KStars</caption>
       <caption xml:lang="pt">Ferramenta do Ekos no KStars</caption>
       <caption xml:lang="sv">Ekos-verktyget i Kstars</caption>
@@ -326,6 +330,7 @@
     <screenshot>
       <caption>Observation Planner of KStars</caption>
       <caption xml:lang="ca">Planificador de l'observació del KStars</caption>
+      <caption xml:lang="es">Planificador de observación de KStars</caption>
       <caption xml:lang="nl">Plannen van waarnemingen in KStars</caption>
       <caption xml:lang="pt">Planeamento de Observações do KStars</caption>
       <caption xml:lang="sv">Observationsplanering i Kstars</caption>
