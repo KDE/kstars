@@ -142,7 +142,7 @@ class Projector
     /**
      * @short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
      * screen pixel coordinate offsets from the center of the Sky pixmap.
-     * @param the screen pixel position to convert
+     * @param p the screen pixel position to convert
      * @param LST pointer to the local sidereal time, as a dms object.
      * @param lat pointer to the current geographic laitude, as a dms object
      */

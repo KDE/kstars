@@ -238,9 +238,7 @@ class SkyMesh : public HTMesh
          * the points.
          *
          * @param points the line segment to be indexed.
-         * @param indexHash the hash to return the indices in.
          * @param skip a hash indicating which points to skip
-         * @param debug optional flag to have the routine print out
          * debugging info.
          */
     const IndexHash &indexLine(SkyList *points, IndexHash *skip);

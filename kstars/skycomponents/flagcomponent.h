@@ -59,10 +59,11 @@ class FlagComponent : public QObject, public PointListComponent
 
     /**
      * @short Add a flag.
-     * @param SkyPoint Sky point in epoch coordinates
+     * @param flagPoint Sky point in epoch coordinates
      * @param epoch Moment for which celestial coordinates are specified
      * @param image Image name
      * @param label Label of the flag
+     * @param labelColor Color of the label
      */
     void add(const SkyPoint &flagPoint, QString epoch, QString image, QString label, QColor labelColor);
 

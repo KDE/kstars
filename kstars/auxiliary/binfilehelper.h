@@ -103,7 +103,7 @@ class BinFileHelper
 
     /**
      * @short  Check whether a field exists
-     * @param  fieldName   Name of the field
+     * @param  FieldName   Name of the field
      * @return True if the field exists, false if it does not or the FD hasn't been read yet
      */
     bool isField(const QString &FieldName) const;
@@ -160,7 +160,7 @@ class BinFileHelper
      * @note   To be used to override the guess in case the guess is wrong. This method should be called
      *         before calling readHeader(). Use this only if you are sure of the recordSize or are sure
      *         that the guess will not work.
-     * @param  The correct recordSize
+     * @param  rs The correct recordSize
      */
     inline void setRecordSize(int rs)
     {

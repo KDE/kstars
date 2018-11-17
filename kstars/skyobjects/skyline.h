@@ -63,7 +63,7 @@ class SkyLine
      * Set point i in the SkyLine
      *
      * @param i the index position of the point to modify
-     * @param p1 the new SkyPoint
+     * @param p the new SkyPoint
      */
     void setPoint(int i, SkyPoint *p);
 

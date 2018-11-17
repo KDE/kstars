@@ -61,13 +61,13 @@ class GenericCalendarWidget : public QWidget, public Ui::GenericCalendarWidgetUi
 
     /**
      * @short Set the selected day of month
-     * @param date The date of the month to choose
+     * @param date_ The date of the month to choose
      */
     bool setDate(int date_);
 
     /**
      * @short Set the selected date
-     * @param date The date to set
+     * @param date_ The date to set
      */
     bool setDate(const QDate &date_);
 

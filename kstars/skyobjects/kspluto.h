@@ -45,7 +45,6 @@ class KSPluto : public KSAsteroid
   public:
     /** Constructor.  Calls KSAsteroid constructor with name="Pluto", and fills
         	*in orbital element data (which is hard-coded for now).
-        	*@param kd pointer to the KStarsData object
         	*@param fn filename of Pluto's image
         	*@param pSize physical diameter of Pluto, in km
         	*/

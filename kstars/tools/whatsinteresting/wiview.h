@@ -66,15 +66,13 @@ class WIView : public QWidget
     /**
      * @brief public slot - Act upon signal emitted when category of sky-object is selected
      * from category selection view of the QML UI.
-     * @param type Category selected
+     * @param model Category selected
      */
     void onCategorySelected(QString model);
 
     /**
      * @brief public slot - Act upon signal emitted when an item is selected from list of sky-objects.
      * Display details-view for the skyobject selected.
-     * @param type        Category selected.
-     * @param typename    Name of category selected.
      * @param index       Index of item in the list of skyobjects.
      */
     void onSoListItemClicked(int index);

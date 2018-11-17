@@ -288,8 +288,8 @@ class Legend
     /**
           * \brief Paint legend on passed QPaintDevice at selected position.
           * \param pd QPaintDevice on which legend will be painted.
+          * \param type the legend type.
           * \param pos LEGEND_POSITION enum value.
-          * \param scaleOnly should legend be painted scale-only?
           */
     void paintLegend(QPaintDevice *pd, LEGEND_TYPE type, LEGEND_POSITION pos);
 
@@ -298,8 +298,8 @@ class Legend
           * This method is used to enable painting on QPaintDevice subclasses that can't be painted
           * by multiple QPainter subclasses (eg. QSvgGenerator).
           * \param painter that will be used to paint legend.
+          * \param type the legend type.
           * \param pos LEGEND_POSITION enum value.
-          * \param scaleOnly should legend be painted scale-only?
           * \note Passed SkyQPainter should be already set up to paint at specific QPaintDevice
           * subclass and should be initialized by its begin() method. After legend is painted, SkyQPainter
           * instance _will not_ be finished, so it's necessary to call end() method manually.

@@ -105,7 +105,7 @@ class StarBlock
     /**
      * @short  Return the i-th star in this StarBlock
      *
-     * @param  Index of StarBlock to return
+     * @param  i Index of StarBlock to return
      * @return A pointer to the i-th StarObject
      */
     inline StarBlockEntry *star(int i) { return &stars[i]; }

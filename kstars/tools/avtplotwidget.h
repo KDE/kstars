@@ -72,7 +72,7 @@ class AVTPlotWidget : public KPlotWidget
 
     /**
      * @short Set the GeoLocation
-     * @param Used to convert and format the current time correctly
+     * @param geo_ Used to convert and format the current time correctly
      * @fixme Might be better to skip the entire shebang and include the KSAlmanac calls within AVTPlotWidget
      */
     inline void setGeoLocation(const GeoLocation *geo_) { geo = geo_; }

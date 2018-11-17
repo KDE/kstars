@@ -53,7 +53,7 @@ class ConstellationNamesItem : public SkyItem
      * Constructor.
      * @param constComp a pointer to ConstellationNamesComponent that this object has to represent in
      * SkyMapLite
-     * @param parent a pointer to SkyItem's parent node
+     * @param rootNode a pointer to SkyItem's parent node
      */
     explicit ConstellationNamesItem(ConstellationNamesComponent *constComp, RootNode *rootNode = nullptr);
 

@@ -43,7 +43,7 @@ class StarBlockList
     /**
      * @short Ensures that the list is loaded with stars to given magnitude limit
      *
-     * @param Magnitude limit to load stars upto
+     * @param maglim Magnitude limit to load stars upto
      * @return true on success, false on failure (data file not found, bad seek etc)
      */
     bool fillToMag(float maglim);
@@ -55,13 +55,13 @@ class StarBlockList
      * of the StarBlock supplied, but uses the pointer directly. StarBlockList will
      * take care of deleting the StarBlock when it is destroyed
      *
-     * @param Pointer to the StarBlock
+     * @param block Pointer to the StarBlock
      */
     void setStaticBlock(std::shared_ptr<StarBlock> &block);
 
     /**
      * @short  Drops the StarBlock with the given pointer from the list
-     * @param  Pointer to the StarBlock to remove
+     * @param  block Pointer to the StarBlock to remove
      * @return Number of entries removed from the QList
      */
     int releaseBlock(StarBlock *block);
@@ -69,7 +69,7 @@ class StarBlockList
     /**
      * @short  Returns the i-th block in this StarBlockList
      *
-     * @param  Index of the required block
+     * @param  i Index of the required block
      * @return The StarBlock requested for, nullptr if index out of bounds
      */
     inline std::shared_ptr<StarBlock> block(unsigned int i) { return ((i < nBlocks) ? blocks[i] : std::shared_ptr<StarBlock>()); }

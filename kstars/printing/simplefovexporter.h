@@ -78,7 +78,7 @@ class SimpleFovExporter
     /**
           * \brief Export multiple FOV representations.
           * \param points list of central points.
-          * \param fovs list of fields-of-view.
+          * \param fov list of fields-of-view.
           * \param pds list of paint devices on which the representation of the FOV will be painted.
           */
     void exportFov(const QList<SkyPoint *> &points, FOV *fov, const QList<QPaintDevice *> &pds);
@@ -110,7 +110,7 @@ class SimpleFovExporter
 
     /**
           * \brief Enable or disable FOV shape overriding.
-          * \param override should be true if FOV representation is to be always rectangular.
+          * \param overrideFovShape should be true if FOV representation is to be always rectangular.
           */
     inline void setFovShapeOverriden(bool overrideFovShape) { m_OverrideFovShape = overrideFovShape; }
 

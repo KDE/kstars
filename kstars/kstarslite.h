@@ -149,7 +149,7 @@ class KStarsLite : public QObject
 
     /**
      * @short returns color with key name from current color scheme
-     * @param schemeColor name the key name of the color to be retrieved from current color scheme
+     * @param name the key name of the color to be retrieved from current color scheme
      * @return color from name
      */
     Q_INVOKABLE QColor getColor(QString name);

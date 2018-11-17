@@ -61,7 +61,7 @@ class HTMesh
   public:
     /** @short constructor.
          * @param level is passed on to the underlying SpatialIndex
-         * @param buildLevvel is also passed on to the SpatialIndex
+         * @param buildLevel is also passed on to the SpatialIndex
          * @param numBuffers controls how many output buffers are created. Don't
          * use more than require because they eat up mucho RAM.  The default is
          * just one output buffer.

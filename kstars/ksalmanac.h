@@ -45,14 +45,14 @@ class KSAlmanac
 
     /**
          *@short Set the date for computations to the given date.
-         *@param The new date to set as a KStarsDateTime
+         *@param newdt The new date to set as a KStarsDateTime
          *@note The time must be midnight (fixme: check this)
          */
     void setDate(const KStarsDateTime *newdt);
 
     /**
          *@short Set the location for computations to the given location
-         *@param The location to set for computations
+         *@param geo_ The location to set for computations
          */
     void setLocation(const GeoLocation *geo_);
 

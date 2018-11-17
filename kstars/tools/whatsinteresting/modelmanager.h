@@ -84,7 +84,7 @@ class ModelManager : public QObject
     /**
      * @brief Returns model of given type.
      * @return Pointer to SkyObjListModel of given type.
-     * @param type   Type of sky-object model to be returned.
+     * @param modelName Name of sky-object model to be returned.
      */
     SkyObjListModel *returnModel(QString modelName);
 
