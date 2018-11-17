@@ -125,7 +125,8 @@ class KSFileReader : public QObject, public QTextStream
     /**
      * @short Prepares this instance to emit progress reports on how much
      * of the file has been read (in percent).
-     * @param totalLines the number of lines to be read
+     * @param label the label
+     * @param lastLine the number of lines to be read
      * @param numUpdates the number of progress reports to send
      */
     void setProgress(QString label, unsigned int lastLine, unsigned int numUpdates = 10);

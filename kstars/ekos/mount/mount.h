@@ -182,7 +182,7 @@ class Mount : public QWidget, public Ui::Mount
 
     /** DBUS interface function.
          * Set telescope and guide scope info and save them in INDI mount driver. All measurements is in millimeters.
-         * @param info. An ordered 4-item list as following:
+         * @param info An ordered 4-item list as following:
          * primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
          * primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
          * guideFocalLength Guide Telescope Focal Length. Set to 0 to skip setting this value.

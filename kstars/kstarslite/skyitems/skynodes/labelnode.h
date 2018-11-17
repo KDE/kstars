@@ -46,7 +46,7 @@ class LabelNode : public SkyNode
 
     /**
      * @short Constructor. Use string parameter name as a text
-     * @param skyObject - text of label
+     * @param name - text of label
      * @param type - type of label (corresponds to type of SkyObject)
      */
     LabelNode(QString name, LabelsItem::label_t type);

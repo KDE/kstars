@@ -136,7 +136,7 @@ class Capture : public QWidget, public Ui::Capture
 
     /** DBUS interface function.
          * select the filter name from the available filters in case a filter device is active.
-         * @param device The filter name
+         * @param filter The filter name
          */
     Q_SCRIPTABLE bool setFilter(const QString &filter);
     Q_SCRIPTABLE QString filter();
@@ -161,14 +161,14 @@ class Capture : public QWidget, public Ui::Capture
     /** DBUS interface function.
          * Enables or disables the maximum guiding deviation and sets its value.
          * @param enable If true, enable the guiding deviation check, otherwise, disable it.
-         * @param if enable is true, it sets the maximum guiding deviation in arcsecs. If the value is exceeded, the capture operation is aborted until the value falls below the value threshold.
+         * @param value if enable is true, it sets the maximum guiding deviation in arcsecs. If the value is exceeded, the capture operation is aborted until the value falls below the value threshold.
          */
     Q_SCRIPTABLE Q_NOREPLY void setMaximumGuidingDeviation(bool enable, double value);
 
     /** DBUS interface function.
          * Enables or disables the in sequence focus and sets Half-Flux-Radius (HFR) limit.
          * @param enable If true, enable the in sequence auto focus check, otherwise, disable it.
-         * @param if enable is true, it sets HFR in pixels. After each exposure, the HFR is re-measured and if it exceeds the specified value, an autofocus operation will be commanded.
+         * @param HFR if enable is true, it sets HFR in pixels. After each exposure, the HFR is re-measured and if it exceeds the specified value, an autofocus operation will be commanded.
          */
     Q_SCRIPTABLE Q_NOREPLY void setInSequenceFocus(bool enable, double HFR);
 
@@ -326,7 +326,7 @@ class Capture : public QWidget, public Ui::Capture
     /** DBUS interface function.
          * Stop all jobs and set current job status to aborted if abort is set to true, otherwise status is idle until
          * sequence is resumed or restarted.
-         * @param abort abort jobs if in progress
+         * @param targetState status of the job after abortion
          */
     Q_SCRIPTABLE Q_NOREPLY void stop(CaptureState targetState = CAPTURE_IDLE);
 

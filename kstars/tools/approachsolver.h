@@ -53,13 +53,9 @@ public:
     /**
      * @short Compute the closest approach of two planets in the given range
      *
-     * @param Object1  A copy of the class corresponding to one of the two bodies
-     * @param Object2  A copy of the class corresponding to the other of the two bodies
      * @param startJD  Julian Day corresponding to start of the calculation period
      * @param stopJD   Julian Day corresponding to end of the calculation period
-     * @param maxSeparation   Maximum separation between Object1 and Object2 - a measure
-     *                        how close the conjunction should be to be output.
-     * @param opposition A parameter to see if we are computing conjunction or opposition
+     * @param callback A callback function
      * @return Hash containing julian days of close conjunctions against separation
      */
     QMap<long double, dms> findClosestApproach(long double startJD,
@@ -107,10 +103,6 @@ protected:
 
     /**
      * @short Finds the angular distance between two solar system objects.
-     *
-     * @param Object1  A pointer to the first solar system object
-     * @param Object2  A pointer to the second solar system object
-     *
      * @return The angular distance between the two bodies.
      */
     virtual dms findDistance() = 0;
@@ -134,8 +126,6 @@ protected:
      * @short Compute the precise value of the extremum once the extremum has been detected.
      *
      * @param out  A pointer to a QPair that stores the Julian Day and Separation corresponding to the extremum
-     * @param Object1  A pointer to the first solar system body
-     * @param Object2  A pointer to the second solar system body
      * @param jd  Julian day corresponding to the endpoint of the interval where extremum was detected.
      * @param step  The step in jd taken during computation earlier. (Defines the interval size)
      * @param prevSign The previous sign of increment in moving from jd - step to jd

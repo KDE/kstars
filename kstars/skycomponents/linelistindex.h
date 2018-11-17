@@ -45,7 +45,6 @@ class LineListIndex : public SkyComponent
      * @short Constructor
      * Simply set the internal skyMesh, parent, and name.
      * @param parent Pointer to the parent SkyComponent object
-     * @param mesh Pointer to the universal SkyMesh instance
      * @param name name of the subclass used for debugging
      */
     explicit LineListIndex(SkyComposite *parent, const QString &name = "");

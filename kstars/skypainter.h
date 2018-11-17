@@ -145,7 +145,7 @@ class SkyPainter
 
     /**
      * @short Draw the earths shadow on the moon (red-ish)
-     * @param shadwo the shadow to draw
+     * @param shadow the shadow to draw
      * @return true if it was drawn
      */
     virtual bool drawEarthShadow(KSEarthShadow *shadow) = 0;

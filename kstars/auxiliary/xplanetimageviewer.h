@@ -111,8 +111,7 @@ class XPlanetImageViewer : public QDialog
     ~XPlanetImageViewer() override;
 
     /**
-     * @brief loadImage Load image from local file and display it
-     * @param filename path to local image
+     * @brief loadImage Load image and display it
      * @return True if opened and displayed, false otherwise
      */
     bool loadImage();

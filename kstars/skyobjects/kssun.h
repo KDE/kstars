@@ -38,8 +38,6 @@ class KSSun : public KSPlanet
      * Constructor.
      *
      * Defines constants needed by findPosition(). Sets Ecliptic coordinates appropriate for J2000.
-     *
-     * @param kd pointer to KStarsData object
      */
     KSSun();
 

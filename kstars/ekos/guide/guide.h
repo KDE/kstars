@@ -306,7 +306,7 @@ class Guide : public QWidget, public Ui::Guide
          * @brief checkExposureValue This function is called by the INDI framework whenever there is a new exposure value. We use it to know if there is a problem with the exposure
          * @param targetChip Chip for which the exposure is undergoing
          * @param exposure numbers of seconds left in the exposure
-         * @param state State of the exposure property
+         * @param expState State of the exposure property
          */
     void checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState expState);
 

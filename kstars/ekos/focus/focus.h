@@ -82,7 +82,7 @@ class Focus : public QWidget, public Ui::Focus
 
     /** DBUS interface function.
          * select the filter from the available filters.
-         * @param The filter name
+         * @param filter The filter name
          * @return Returns true if filter is found and set, false otherwise.
          */
     Q_SCRIPTABLE bool setFilter(const QString &filter);

@@ -115,9 +115,9 @@ class CatalogDB
     /**
      * @brief Creates objects of type SkyObject and assigns them to references
      *
-     * @param catalog Name of the catalog whose objects are needed.
+     * @param catalog_name Name of the catalog whose objects are needed.
      * @param sky_list List of all skyobjects stored in database (assigns)
-     * @param names List of named objects in database (assigns)
+     * @param object_names List of named objects in database (assigns)
      * @param catalog_pointer pointer to the catalogcomponent objects
      * (needed for building skyobjects)
      * @param includeCatalogDesignation This is useful when using 'fake' catalogs to bundle up
@@ -178,7 +178,7 @@ class CatalogDB
      * @brief Returns database ID of the required catalog.
      * Returns -1 if not found.
      *
-     * @param name Name of the class being searched
+     * @param catalog_name Name of the class being searched
      * @return int
      **/
     int FindCatalog(const QString &catalog_name);

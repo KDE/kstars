@@ -146,7 +146,7 @@ class Align : public QWidget, public Ui::Align
 
     /** DBUS interface function.
          * select the filter from the available filters.
-         * @param The filter name
+         * @param filter The filter name
          * @return Returns true if filter is found and set, false otherwise.
          */
     Q_SCRIPTABLE bool setFilter(const QString &filter);
@@ -231,7 +231,7 @@ class Align : public QWidget, public Ui::Align
 
     /**
          * @brief Set the current dome
-         * @param ewDome pointer to telescope device.
+         * @param newDome pointer to telescope device.
          */
     void setDome(ISD::GDInterface *newDome);
 
@@ -344,7 +344,7 @@ class Align : public QWidget, public Ui::Align
 
     /**
          * @brief checkCCDExposureProgress Track the progress of CCD exposure
-         * @param targeChip Target chip under exposure
+         * @param targetChip Target chip under exposure
          * @param remaining how many seconds remaining
          * @param state status of exposure
          */

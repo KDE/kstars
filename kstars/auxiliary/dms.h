@@ -328,7 +328,7 @@ class dms
          *
          * This function converts the argument to degrees, then sets the angle
          * with setD().
-         * @param a angle in radians
+         * @param Rad an angle in radians
          */
     inline virtual void setRadians(const double &Rad)
     {
