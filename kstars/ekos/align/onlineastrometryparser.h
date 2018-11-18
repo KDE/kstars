@@ -25,7 +25,7 @@ class Align;
  * OnlineAstrometryParser invokes the online services provided by astrometry.net solver to
  * find solutions to captured images.
  *
- * @authro Jasem Mutlaq
+ * @author Jasem Mutlaq
  */
 class OnlineAstrometryParser : public AstrometryParser
 {

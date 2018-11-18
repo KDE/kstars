@@ -199,7 +199,7 @@ QString constGenetiveToAbbrev(const QString &genetive_);
 
 /**
 * Interface into Qt's logging system
-* @Author: Yale Dedis 2011
+* @author: Yale Dedis 2011
 * Adapted from DeDiS project.
 */
 class Logging
@@ -207,7 +207,6 @@ class Logging
   public:
     /**
          * Store all logs into the specified file
-         * @param filename the file in which to store logs
          */
     static void UseFile();
 

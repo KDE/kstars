@@ -13,6 +13,12 @@
 #include <KLocalizedString>
 #include <QString>
 
+/**
+ * @namespace KSNotification
+ * General KStars Notifications for desktop and lite version
+ *
+ * @author Jasem Mutlaq
+ */
 namespace KSNotification
 {
 

@@ -195,6 +195,7 @@ class StarComponent : public ListComponent
     QVector<DeepStarComponent *> m_DeepStarComponents;
 
     /**
+     * @struct starName
      * Structure that holds star name information, to be read as-is from the
      * corresponding binary data file
      */

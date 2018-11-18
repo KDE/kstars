@@ -54,7 +54,7 @@ class KPageWidgetItem;
  * @class Manager
  * @short Primary class to handle all Ekos modules.
  * The Ekos Manager class manages startup and shutdown of INDI devices and registeration of devices within Ekos Modules. Ekos module consist of \ref Mount, \ref Capture, \ref Focus, \ref Guide, and \ref Align modules.
- * \ref EkosDBusInterface "Ekos DBus Interface" provides high level functions to control devices and Ekos modules for a total robotic operation:
+ * \defgroup EkosDBusInterface "Ekos DBus Interface" provides high level functions to control devices and Ekos modules for a total robotic operation:
  * <ul>
  * <li>\ref CaptureDBusInterface "Capture Module DBus Interface"</li>
  * <li>\ref FocusDBusInterface "Focus Module DBus Interface"</li>
@@ -126,7 +126,7 @@ class Manager : public QDialog, public Ui::Manager
 
     /**
      * DBUS interface function.
-     * @retrun INDI connection status (0 Idle, 1 Pending, 2 Connected, 3 Error)
+     * @return INDI connection status (0 Idle, 1 Pending, 2 Connected, 3 Error)
      * @deprecated
      */
     Q_SCRIPTABLE unsigned int getINDIConnectionStatus() { return m_indiStatus; }
@@ -135,7 +135,7 @@ class Manager : public QDialog, public Ui::Manager
 
     /**
      * DBUS interface function.
-     * @retrun Ekos starting status (0 Idle, 1 Pending, 2 Started, 3 Error)
+     * @return Ekos starting status (0 Idle, 1 Pending, 2 Started, 3 Error)
      * @deprecated
      */
     Q_SCRIPTABLE unsigned int getEkosStartingStatus() { return m_ekosStatus; }
@@ -146,7 +146,7 @@ class Manager : public QDialog, public Ui::Manager
      * DBUS interface function.
      * If connection mode is local, the function first establishes an INDI server with all the specified drivers in Ekos options or as set by the user. For remote connection,
      * it establishes connection to the remote INDI server.
-     * @return Retruns true if server started successful (local mode) or connection to remote server is successful (remote mode).
+     * @return Returns true if server started successful (local mode) or connection to remote server is successful (remote mode).
      */
     Q_SCRIPTABLE bool start();
 
