@@ -22,7 +22,6 @@
 
 #include <QObject>
 #include <QMap>
-#include <QObject>
 #include <memory>
 
 /**
