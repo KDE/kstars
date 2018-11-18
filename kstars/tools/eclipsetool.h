@@ -18,7 +18,6 @@
 #pragma once
 #include <QFrame>
 #include <QHash>
-#include <QHash>
 #include <QAbstractTableModel>
 #include "eclipsetool/lunareclipsehandler.h"
 
