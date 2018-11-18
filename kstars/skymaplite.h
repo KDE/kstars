@@ -263,6 +263,7 @@ class SkyMapLite : public QQuickItem
 
     /**
          * @short creates QImage from text and converts it to QSGTexture
+         * @param text the text string
          * @param color text color
          * @param zoomFont if true zoom-dependent font from SkyLabeler will be used else standart
          * font is used
@@ -334,6 +335,7 @@ class SkyMapLite : public QQuickItem
 
     /**
           * @param index of FOVSymbol in m_FOVSymbols
+          * @param visible defines whether the FOV symbol should be visible
           * @short updates visibility of FOV symbol according to visible
           */
     Q_INVOKABLE void setFOVVisible(int index, bool visible);

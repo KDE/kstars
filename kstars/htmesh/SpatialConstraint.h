@@ -33,42 +33,41 @@
    i.e. the room angle is larger than 90degrees.
 
    Example: positive distance
-<pre>
-.                   ____
-.                ---    ---
-.               /        /|\
-.              /        / |=\
-.             |        /  |==|     this side is in the convex.
-.            |        /\s |===|
-.            |------------|---| -> direction a
-.            |        \   |===|
-.             |        \  |==|
-.              \        \ |=/
-.               \        \|/
-.                ---____---
-.
-.
-.                     <-d-> is positive (s < 90)
 
-</pre>
+                   ____
+                ---    ---
+               /        /|\
+              /        / |=\
+             |        /  |==|     this side is in the convex.
+            |        /\s |===|
+            |------------|---| -> direction a
+            |        \   |===|
+             |        \  |==|
+              \        \ |=/
+               \        \|/
+                ---____---
+
+
+                     <-d-> is positive (s < 90)
+
  Example: negative distance
-<pre>
-.                   ____
-.                ---====---
-.  this side is /========/|\
-.  in the      /========/=| \
-.  convex     |==== s__/==|  |
-.            |===== / /===|   |
-.  dir. a <- |------------|---|  'hole' in the sphere
-.            |========\===|   |
-.             |========\==|  |
-.              \========\=| /
-.               \========\|/
-.                ---____---
-.
-.
-.                     <-d-> is negative (s > 90)
-</pre>
+
+                      ____
+                   ---====---
+     this side is /========/|\
+     in the      /========/=| \
+     convex     |==== s__/==|  |
+               |===== / /===|   |
+     dir. a <- |------------|---|  'hole' in the sphere
+               |========\===|   |
+                |========\==|  |
+                 \========\=| /
+                  \========\|/
+                   ---____---
+
+
+                        <-d-> is negative (s > 90)
+
  for d=0 we have a half-sphere. Combining such, we get triangles, rectangles
  etc on the sphere surface (pure ZERO convexes)
 

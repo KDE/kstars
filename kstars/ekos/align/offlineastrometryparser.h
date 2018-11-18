@@ -24,7 +24,7 @@ class Align;
  * @class  OfflineAstrometryParser
  * OfflineAstrometryParser invokes the offline astrometry.net solver to find solutions to captured images.
  *
- * @authro Jasem Mutlaq
+ * @author Jasem Mutlaq
  */
 
 class OfflineAstrometryParser : public AstrometryParser

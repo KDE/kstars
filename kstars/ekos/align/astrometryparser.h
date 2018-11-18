@@ -19,7 +19,7 @@ class Align;
  * @class AstrometryParser
  * AstrometryParser is an interface for online and offline astrometry parsers.
  *
- * @authro Jasem Mutlaq
+ * @author Jasem Mutlaq
  */
 
 class AstrometryParser : public QObject

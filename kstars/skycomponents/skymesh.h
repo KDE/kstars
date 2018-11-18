@@ -229,7 +229,7 @@ class SkyMesh : public HTMesh
     /** @short fills a QHash with the trixel indices needed to cover all the
          * line segments specified in the QVector<SkyPoints*> points.
          *
-         * @param points the points of the line segment.  @debug causes extra
+         * @param points the points of the line segment. The debug mode causes extra
          * info to be printed.
          */
     const IndexHash &indexLine(SkyList *points);
@@ -249,7 +249,7 @@ class SkyMesh : public HTMesh
          * skip some of the edges of a filled polygon.
          *
          * @param points the points of the line segment.
-         * @debug causes extra info to be printed.
+         * The debug mode causes extra info to be printed.
          */
     const IndexHash &indexPoly(SkyList *points);
 

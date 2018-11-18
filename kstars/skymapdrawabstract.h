@@ -64,7 +64,7 @@ class SkyMapDrawAbstract
         	*The stored Sky image is simply blitted onto the SkyMap widget, and then we call
         	*drawOverlays() to refresh the overlays.
         	*@param p pointer to the Sky pixmap
-        	*@parm drawFov determines if the FOV should be drawn
+        	*@param drawFov determines if the FOV should be drawn
         	*/
     void drawOverlays(QPainter &p, bool drawFov = true);
 
@@ -94,6 +94,7 @@ class SkyMapDrawAbstract
     /** @short Draw the current Sky map to a pixmap which is to be printed or exported to a file.
         	*
         	*@param pd pointer to the QPaintDevice on which to draw.
+        	*@param scale defines if the Sky map should be scaled.
         	*@see KStars::slotExportImage()
         	*@see KStars::slotPrint()
         	*/

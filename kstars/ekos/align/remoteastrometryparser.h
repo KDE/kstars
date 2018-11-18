@@ -21,7 +21,7 @@ class Align;
  * RemoteAstrometryParser invokes the remote astrometry.net solver in the remote CCD driver to solve the captured image.
  * The offline astrometry.net plus index files must be installed and configured on the remote host running the INDI CCD driver.
  *
- * @authro Jasem Mutlaq
+ * @author Jasem Mutlaq
  */
 class RemoteAstrometryParser : public AstrometryParser
 {
