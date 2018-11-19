@@ -157,14 +157,14 @@ class LocationDialog : public QDialog
      */
     bool updateCity(LocationDialog::CityOperation operation);
 
+    // FIXME Disable this until Qt5 works with Geoclue2
+    #ifdef HAVE_GEOCLUE_2
     /**
      * @brief getNameFromCoordinates Given the current latitude and longitude, use Google Location API services to reverse lookup
      * the city, province, and country located at the requested position.
      * @param latitude Latitude in degrees
      * @param longitude Longitude is degrees
      */
-    // FIXME Disable this until Qt5 works with Geoclue2
-    #ifdef HAVE_GEOCLUE_2
     void getNameFromCoordinates(double latitude, double longitude);
     #endif
 

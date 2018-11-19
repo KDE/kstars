@@ -396,7 +396,7 @@
 
  NOTE: KStars _overrides_ the above defined convention for performance
  gains and ease of programming in the star names file, where records
- are stored as single blocks of the 40 bytes long \ref starName starName structure.
+ are stored as single blocks of the 40 bytes long \ref starName structure.
  
  \section HDIndex Henry Draper Indexing
 The index file used to store the Henry Draper catalog indexes for KStars is just a list of 4-byte long offsets (to be treated as signed 32-bit

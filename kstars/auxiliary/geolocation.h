@@ -263,7 +263,7 @@ class GeoLocation
          */
     void TopocentricVelocity(double vtopo[], const dms &gt);
 
-    /** @Return Local Mean Sidereal Time.
+    /** @return Local Mean Sidereal Time.
          * @param jd Julian date
          */
     double LMST(double jd);

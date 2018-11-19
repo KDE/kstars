@@ -196,7 +196,7 @@ class StarComponent : public ListComponent
 
     /**
      * @struct starName
-     * Structure that holds star name information, to be read as-is from the
+     * @brief Structure that holds star name information, to be read as-is from the
      * corresponding binary data file
      */
     typedef struct starName
