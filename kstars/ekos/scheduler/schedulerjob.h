@@ -325,7 +325,7 @@ class SchedulerJob
     /** @brief Determining whether a SchedulerJob is a duplicate of another.
      * @param a_job is the other SchedulerJob to test duplication against.
      * @return True if objects are different, but name and sequence file are identical, else false.
-     * @fixme This is a weak comparison, but that's what the scheduler looks at to decide completion. 
+     * @warning This is a weak comparison, but that's what the scheduler looks at to decide completion. 
      */
     bool isDuplicateOf(SchedulerJob const *a_job) const { return this != a_job && name == a_job->name && sequenceFile == a_job->sequenceFile; }
 

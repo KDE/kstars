@@ -118,7 +118,7 @@ class Guide : public QWidget, public Ui::Guide
 
     /** DBUS interface function.
          * Set CCD exposure value
-         * @value exposure value in seconds.
+         * @param value exposure value in seconds.
          */
     Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
     double exposure() { return exposureIN->value(); }

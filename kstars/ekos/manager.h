@@ -103,7 +103,6 @@ class Manager : public QDialog, public Ui::Manager
     void announceEvent(const QString &message, KSNotification::EventType event);
 
     /**
-     * @defgroup EkosDBusInterface Ekos DBus Interface
      * Manager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
      */
 

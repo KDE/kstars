@@ -95,7 +95,7 @@ The "model" is encapsulated in the KStarsData class, and the "view" is encapsula
 \subsection Scripting Scripting
     - \ref DBusInterface KStars DBus Interface
     - \ref INDIDBusInterface INDI DBus Interface: Provides low level access to all INDI devices and properties.
-    - \ref EkosDBusInterface Ekos DBus Interface: Provides high level access to \ref EkosManager and corresponding modules. Ekos Modules with DBus Interface:
+    - \ref EkosDBusInterface Ekos DBus Interface: Provides high level access to Ekos \ref Manager and corresponding modules. Ekos Modules with DBus Interface:
     <ul>
     <li>\ref CaptureDBusInterface "Capture Module DBus Interface"</li>
     <li>\ref FocusDBusInterface "Focus Module DBus Interface"</li>
