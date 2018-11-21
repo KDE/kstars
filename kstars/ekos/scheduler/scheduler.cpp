@@ -2309,6 +2309,8 @@ bool Scheduler::checkEkosState()
                 stop();
                 return false;
             }
+            else if (m_EkosCommunicationStatus == Ekos::Idle)
+                return false;
             // If a minute passed, give up
             else if (currentOperationTime.elapsed() > (60 * 1000))
             {
