@@ -352,42 +352,46 @@ StarProfileViewer::~StarProfileViewer()
 
 void StarProfileViewer::loadData(FITSData * data, QRect sub, QList<Edge *> centers)
 {
-    if(data){
+    if(data)
+    {
         imageData = data;
         subFrame=sub;
-        starCenters=centers;
+        starCenters=centers;               
 
-        // Create data arrays
-        dataSet = new QBarDataArray;
-        QBarDataRow *dataRow;
-        dataSet->reserve(subFrame.height());
-        QStringList rowLabels;
-        QStringList columnLabels;
-
-        for (int j = subFrame.y(); j < subFrame.y() + subFrame.height(); j++)
+        switch (data->property("dataType").toInt())
         {
-            if( j % 10 == 0 )
-                rowLabels << QString::number(j);
-            else
-                rowLabels << "";
-            dataRow = new QBarDataRow(subFrame.width());
-            int x = 0;
-            for (int i = subFrame.x(); i < subFrame.x() + subFrame.width(); i++)
-            {
-                if( i % 10 == 0 )
-                    columnLabels << QString::number(i);
-                else
-                    columnLabels << "";
-                if( i > 0 && i < imageData->width() && j > 0 && j < imageData->height())
-                    (*dataRow)[x].setValue(getImageDataValue(i, j));
-                x++;
-            }
-            dataSet->insert(0, dataRow); //Note the row axis is displayed in the opposite direction of the y axis in the image.
-        }
-        std::reverse(rowLabels.begin(), rowLabels.end());
+        case TBYTE:
+            loadDataPrivate<uint8_t>();
+            break;
 
-        m_3DPixelSeries->dataProxy()->setRowLabels(rowLabels);
-        m_3DPixelSeries->dataProxy()->setColumnLabels(columnLabels);
+        case TSHORT:
+            loadDataPrivate<int16_t>();
+            break;
+
+        case TUSHORT:
+            loadDataPrivate<uint16_t>();
+            break;
+
+        case TLONG:
+            loadDataPrivate<int32_t>();
+            break;
+
+        case TULONG:
+            loadDataPrivate<uint32_t>();
+            break;
+
+        case TFLOAT:
+            loadDataPrivate<float>();
+            break;
+
+        case TLONGLONG:
+            loadDataPrivate<int64_t>();
+            break;
+
+        case TDOUBLE:
+            loadDataPrivate<double>();
+            break;
+        }
 
         updateScale();
 
@@ -400,6 +404,46 @@ void StarProfileViewer::loadData(FITSData * data, QRect sub, QList<Edge *> cente
         horizontalSelector->setRange(0, subFrame.width()-1);
         verticalSelector->setRange(0, subFrame.width()-1);  //Width and height are the same
     }
+}
+
+template <typename T>
+void StarProfileViewer::loadDataPrivate()
+{
+    // Create data arrays
+    dataSet = new QBarDataArray;
+    QBarDataRow *dataRow;
+    dataSet->reserve(subFrame.height());
+    QStringList rowLabels;
+    QStringList columnLabels;
+
+    auto *buffer = reinterpret_cast<T *>(imageData->getImageBuffer());
+    int width = imageData->width();
+
+    for (int j = subFrame.y(); j < subFrame.y() + subFrame.height(); j++)
+    {
+        if( j % 10 == 0 )
+            rowLabels << QString::number(j);
+        else
+            rowLabels << "";
+        dataRow = new QBarDataRow(subFrame.width());
+        int x = 0;
+        for (int i = subFrame.x(); i < subFrame.x() + subFrame.width(); i++)
+        {
+            if( i % 10 == 0 )
+                columnLabels << QString::number(i);
+            else
+                columnLabels << "";
+            if( i > 0 && i < imageData->width() && j > 0 && j < imageData->height())
+                (*dataRow)[x].setValue(*(buffer + i + j * width));
+            x++;
+        }
+        dataSet->insert(0, dataRow); //Note the row axis is displayed in the opposite direction of the y axis in the image.
+    }
+
+    std::reverse(rowLabels.begin(), rowLabels.end());
+
+    m_3DPixelSeries->dataProxy()->setRowLabels(rowLabels);
+    m_3DPixelSeries->dataProxy()->setColumnLabels(columnLabels);
 }
 
 void StarProfileViewer::toggleCutoffEnabled(bool enable)
@@ -691,23 +735,66 @@ void StarProfileViewer::getSubFrameMinMax(float *subFrameMin, float *subFrameMax
     imageData->getMinMax(dataMin,dataMax);
 
     //Backwards so that we can find the min and max in subFrame
-    *subFrameMin = (float) *dataMax;
-    *subFrameMax = (float) *dataMin;
+    *subFrameMin = *dataMax;
+    *subFrameMax = *dataMin;
 
+    switch (imageData->property("dataType").toInt())
+    {
+    case TBYTE:
+        getSubFrameMinMax<uint8_t>(subFrameMin, subFrameMax);
+        break;
+
+    case TSHORT:
+        getSubFrameMinMax<int16_t>(subFrameMin, subFrameMax);
+        break;
+
+    case TUSHORT:
+        getSubFrameMinMax<uint16_t>(subFrameMin, subFrameMax);
+        break;
+
+    case TLONG:
+        getSubFrameMinMax<int32_t>(subFrameMin, subFrameMax);
+        break;
+
+    case TULONG:
+        getSubFrameMinMax<uint32_t>(subFrameMin, subFrameMax);
+        break;
+
+    case TFLOAT:
+        getSubFrameMinMax<float>(subFrameMin, subFrameMax);
+        break;
+
+    case TLONGLONG:
+        getSubFrameMinMax<int64_t>(subFrameMin, subFrameMax);
+        break;
+
+    case TDOUBLE:
+        getSubFrameMinMax<double>(subFrameMin, subFrameMax);
+        break;
+    }
+}
+
+template <typename T>
+void StarProfileViewer::getSubFrameMinMax(float *subFrameMin, float *subFrameMax)
+{
+    T *buffer = reinterpret_cast<T *>(imageData->getImageBuffer());
+    T min = std::numeric_limits<T>::max();
+    T max = std::numeric_limits<T>::min();
+    int width = imageData->width();
     for (int y = subFrame.y(); y < subFrame.y() + subFrame.height(); y++)
     {
         for (int x = subFrame.x(); x < subFrame.x() + subFrame.width(); x++)
         {
             if( x > 0 && x < imageData->width() && y > 0 && y < imageData->height())
             {
-                float value = getImageDataValue(x, y);
-                if(value < *subFrameMin)
-                    *subFrameMin = value;
-                if(value > *subFrameMax)
-                    *subFrameMax = value;
+                min = qMin(min, *(buffer + x + y * width));
+                max = qMax(min, *(buffer + x + y * width));
             }
         }
     }
+
+    *subFrameMin = min;
+    *subFrameMax = max;
 }
 
 template <typename T>

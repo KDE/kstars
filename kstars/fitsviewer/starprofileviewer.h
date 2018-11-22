@@ -54,6 +54,7 @@ public:
     void setGreenToRedGradient();
 
     void loadData(FITSData *imageData, QRect sub, QList<Edge *> starCenters);
+    template <typename T> void loadDataPrivate();
     float getImageDataValue(int x, int y);
     void toggleSlice();
     void updateVerticalAxis();
@@ -86,6 +87,9 @@ private:
     template <typename T>
     float getImageDataValue(int x, int y);
     void getSubFrameMinMax(float *subFrameMin, float *subFrameMax, double *dataMin, double *dataMax);
+
+    template <typename T>
+    void getSubFrameMinMax(float *subFrameMin, float *subFrameMax);
 
     QPushButton *HFRReport { nullptr };
     QLabel *reportBox { nullptr };
