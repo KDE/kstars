@@ -785,9 +785,6 @@ font-weight:bold;
     </spacer>
    </item>
   </layout>
-  <zorder>line</zorder>
-  <zorder></zorder>
-  <zorder>verticalSpacer</zorder>
  </widget>
  <tabstops>
   <tabstop>primaryScopeApertureIN</tabstop>

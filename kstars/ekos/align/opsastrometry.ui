@@ -689,20 +689,6 @@
        </widget>
       </item>
      </layout>
-     <zorder>label_14</zorder>
-     <zorder>estRA</zorder>
-     <zorder>lineEdit_44</zorder>
-     <zorder>lineEdit_47</zorder>
-     <zorder>kcfg_AstrometryRadius</zorder>
-     <zorder>lineEdit_48</zorder>
-     <zorder>estDec</zorder>
-     <zorder>label_8</zorder>
-     <zorder>label_15</zorder>
-     <zorder>kcfg_AstrometryUsePosition</zorder>
-     <zorder>label</zorder>
-     <zorder>updatePosition</zorder>
-     <zorder>horizontalSpacer_2</zorder>
-     <zorder>kcfg_AstrometryDifferentialSlewing</zorder>
     </widget>
    </item>
    <item>

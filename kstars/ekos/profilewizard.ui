@@ -317,9 +317,6 @@ Tutorials</string>
           </layout>
          </item>
         </layout>
-        <zorder>intoPageLabel</zorder>
-        <zorder>verticalSpacer</zorder>
-        <zorder>verticalSpacer_2</zorder>
        </widget>
        <widget class="QWidget" name="equipmentLocationPage">
         <layout class="QVBoxLayout" name="verticalLayout_2">
