@@ -19,9 +19,14 @@
 #include "fitscommon.h"
 
 #include <QUndoStack>
+#include <QSplitter>
+#include <QToolBox>
 #include <QUrl>
 #include <QWidget>
+#include "ui_fitsheaderdialog.h"
+#include "ui_statform.h"
 #include <QFuture>
+#include <QPointer>
 
 #include <memory>
 
@@ -48,14 +53,16 @@ class FITSTab : public QWidget
     inline QUndoStack *getUndoStack() { return undoStack; }
     inline QUrl *getCurrentURL() { return &currentURL; }
     inline FITSView *getView() { return view.get(); }
-    inline FITSHistogram *getHistogram() { return histogram; }
-    inline FITSViewer *getViewer() { return viewer; }
+    inline QPointer<FITSHistogram> getHistogram() { return histogram; }
+    inline QPointer<FITSViewer> getViewer() { return viewer; }
 
     bool saveFile();
     bool saveFileAs();
     void copyFITS();
+    void loadFITSHeader();
     void headerFITS();
     void histoFITS();
+    void evaluateStats();
     void statFITS();
 
     void setUID(int newID) { uid = newID; }
@@ -80,11 +87,22 @@ class FITSTab : public QWidget
   private:
     /** Ask user whether he wants to save changes and save if he do. */
 
+    /// The FITSTools Toolbox
+    QPointer<QToolBox> fitsTools;
+    /// The Splitter for th FITSTools Toolbox
+    QPointer<QSplitter> fitsSplitter;
+    /// The FITS Header Panel
+    QPointer<QDialog> fitsHeaderDialog;
+    Ui::fitsHeaderDialog header;
+    /// The Statistics Panel
+    QPointer<QDialog> statWidget;
+    Ui::statForm stat;
+    /// FITS Histogram
+    QPointer<FITSHistogram> histogram;
+    QPointer<FITSViewer> viewer;
+
     /// FITS image object
     std::unique_ptr<FITSView> view;
-    /// FITS Histogram
-    FITSHistogram *histogram { nullptr };
-    FITSViewer *viewer { nullptr };
 
     /// History for undo/redo
     QUndoStack *undoStack { nullptr };

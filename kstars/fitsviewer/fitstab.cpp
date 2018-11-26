@@ -35,6 +35,10 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
     undoStack->setUndoLimit(10);
     undoStack->clear();
     connect(undoStack, SIGNAL(cleanChanged(bool)), this, SLOT(modifyFITSState(bool)));
+
+    statWidget = new QDialog(this);
+    fitsHeaderDialog = new QDialog(this);
+    histogram = new FITSHistogram(this);
 }
 
 FITSTab::~FITSTab()
@@ -89,7 +93,33 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
         view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         QVBoxLayout *vlayout = new QVBoxLayout();
 
-        vlayout->addWidget(view.get());
+        fitsSplitter = new QSplitter(Qt::Horizontal,this);
+        fitsTools = new QToolBox();
+
+        stat.setupUi(statWidget);
+        fitsTools->addItem(statWidget,i18n("Statistics"));
+
+        fitsTools->addItem(histogram,i18n("Histogram"));
+
+
+        header.setupUi(fitsHeaderDialog);
+        fitsTools->addItem(fitsHeaderDialog,i18n("FITS Header"));
+
+        QScrollArea *scrollFitsPanel = new QScrollArea(fitsSplitter);
+        scrollFitsPanel->setWidgetResizable(true);
+        scrollFitsPanel->setWidget(fitsTools);
+
+        fitsSplitter->addWidget(scrollFitsPanel);
+        fitsSplitter->addWidget(view.get());
+
+
+        //This code allows the fitsTools to start in a closed state
+        fitsSplitter->setSizes(QList<int>() << 0 << view->width() );
+
+        vlayout->addWidget(fitsSplitter);
+
+        connect(fitsSplitter, &QSplitter::splitterMoved, histogram, &FITSHistogram::resizePlot);
+
 
         setLayout(vlayout);
         connect(view.get(), &FITSView::newStatus, this, &FITSTab::newStatus);
@@ -122,6 +152,9 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
 
             if (viewer->isStarsMarked())
                 view->toggleStars(true);
+
+            evaluateStats();
+            loadFITSHeader();
 
             view->updateFrame();
 
@@ -163,14 +196,15 @@ void FITSTab::copyFITS()
 
 void FITSTab::histoFITS()
 {
-    histogram->show();
+    fitsTools->setCurrentIndex(1);
+    if(view->width()>200)
+        fitsSplitter->setSizes(QList<int>() << 200 << view->width() - 200);
+    else
+        fitsSplitter->setSizes(QList<int>() << 50 << 50);
 }
 
-void FITSTab::statFITS()
+void FITSTab::evaluateStats()
 {
-    QDialog statDialog;
-    Ui::statForm stat;
-    stat.setupUi(&statDialog);
 
     FITSData *image_data = view->getImageData();
 
@@ -184,19 +218,23 @@ void FITSTab::statFITS()
     stat.HFROUT->setText(QString::number(image_data->getHFR(), 'f', 3));
     stat.medianOUT->setText(QString::number(image_data->getMedian(), 'f', 3));
     stat.SNROUT->setText(QString::number(image_data->getSNR(), 'f', 3));
-
-    statDialog.exec();
 }
 
-void FITSTab::headerFITS()
+void FITSTab::statFITS()
+{
+    fitsTools->setCurrentIndex(0);
+    if(view->width()>200)
+        fitsSplitter->setSizes(QList<int>() << 200 << view->width() - 200);
+    else
+        fitsSplitter->setSizes(QList<int>() << 50 << 50);
+}
+
+void FITSTab::loadFITSHeader()
 {    
     FITSData *image_data = view->getImageData();       
-    QDialog fitsHeaderDialog;
-    Ui::fitsHeaderDialog header;
 
     int nkeys = image_data->getRecords().size();
     int counter=0;
-    header.setupUi(&fitsHeaderDialog);
     header.tableWidget->setRowCount(nkeys);
     for (FITSData::Record *oneRecord : image_data->getRecords())
     {        
@@ -212,8 +250,18 @@ void FITSTab::headerFITS()
         counter++;
     }
 
-    header.tableWidget->resizeColumnsToContents();
-    fitsHeaderDialog.exec();
+    header.tableWidget->setColumnWidth(0,100);
+    header.tableWidget->setColumnWidth(1,100);
+    header.tableWidget->setColumnWidth(2,250);
+}
+
+void FITSTab::headerFITS()
+{
+    fitsTools->setCurrentIndex(2);
+    if(view->width()>200)
+        fitsSplitter->setSizes(QList<int>() << 200 << view->width() - 200);
+    else
+        fitsSplitter->setSizes(QList<int>() << 50 << 50);
 }
 
 bool FITSTab::saveFile()

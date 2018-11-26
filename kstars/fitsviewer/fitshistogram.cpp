@@ -277,16 +277,28 @@ void FITSHistogram::syncGUI()
 
     customPlot->xAxis->setRange(fits_min, fits_max);
     if (maxFrequency > 0)
-        customPlot->yAxis->setRange(0, maxFrequency);
+        customPlot->yAxis->rescale();
 
     customPlot->setInteraction(QCP::iRangeDrag, true);
     customPlot->setInteraction(QCP::iRangeZoom, true);
     customPlot->setInteraction(QCP::iSelectPlottables, true);
 
     customPlot->replot();
+    resizePlot();
 
     isGUISynced = true;
 }
+
+void FITSHistogram::resizePlot()
+{
+    if(customPlot->width()<300)
+        customPlot->yAxis->setTickLabels(false);
+    else
+        customPlot->yAxis->setTickLabels(true);
+    customPlot->xAxis->ticker()->setTickCount(customPlot->width()/100);
+
+}
+
 #if 0
 template <typename T>
 void FITSHistogram::constructHistogram()
