@@ -4846,7 +4846,8 @@ void Align::rotatePAH()
 
     SkyPoint targetPAH;
 
-    dms newTelescopeRA = (telescopeCoord.ra() + dms(raDiff * 15.0)).reduce();
+    // raDiff is in degrees
+    dms newTelescopeRA = (telescopeCoord.ra() + dms(raDiff)).reduce();
 
     targetPAH.setRA(newTelescopeRA);
     targetPAH.setDec(telescopeCoord.dec());
