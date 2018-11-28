@@ -789,7 +789,7 @@ void StarProfileViewer::getSubFrameMinMax(float *subFrameMin, float *subFrameMax
             if( x > 0 && x < imageData->width() && y > 0 && y < imageData->height())
             {
                 min = qMin(min, *(buffer + x + y * width));
-                max = qMax(min, *(buffer + x + y * width));
+                max = qMax(max, *(buffer + x + y * width));
             }
         }
     }

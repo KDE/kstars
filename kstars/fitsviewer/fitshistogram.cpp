@@ -70,6 +70,8 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
 
     connect(ui->minEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
     connect(ui->maxEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
+    connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSliders(int)));
+    connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSliders(int)));
     connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(checkRangeLimit(QCPRange)));
 }
 
@@ -240,18 +242,46 @@ void FITSHistogram::syncGUI()
 
     FITSData *image_data = tab->getView()->getImageData();
 
+    disconnect(ui->minEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
+    disconnect(ui->maxEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
+    disconnect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSliders(int)));
+    disconnect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSliders(int)));
+
     ui->meanEdit->setText(QString::number(image_data->getMean()));
     ui->medianEdit->setText(QString::number(image_data->getMedian()));
 
-    ui->minEdit->setMinimum(fits_min);
-    ui->minEdit->setMaximum(fits_max - 1);
-    ui->minEdit->setSingleStep(fabs(fits_max - fits_min) / 20.0);
-    ui->minEdit->setValue(fits_min);
+    if(!ui->minSlider->isSliderDown())
+    {
+        ui->minEdit->setMinimum(fits_min);
+        ui->minEdit->setMaximum(fits_max - 1);
+        ui->minEdit->setSingleStep(fabs(fits_max - fits_min) / 20.0);
+        ui->minEdit->setValue(fits_min);
 
-    ui->maxEdit->setMinimum(fits_min + 1);
-    ui->maxEdit->setMaximum(fits_max);
-    ui->maxEdit->setSingleStep(fabs(fits_max - fits_min) / 20.0);
-    ui->maxEdit->setValue(fits_max);
+
+        ui->minSlider->setMinimum(fits_min*10);
+        ui->minSlider->setMaximum((fits_max - 1)*10);
+        ui->minSlider->setSingleStep((fabs(fits_max - fits_min) / 20.0)*10);
+        ui->minSlider->setValue(fits_min*10);
+    }
+
+    if(!ui->maxSlider->isSliderDown())
+    {
+        ui->maxEdit->setMinimum(fits_min + 1);
+        ui->maxEdit->setMaximum(fits_max);
+        ui->maxEdit->setSingleStep(fabs(fits_max - fits_min) / 20.0);
+        ui->maxEdit->setValue(fits_max);
+
+
+        ui->maxSlider->setMinimum((fits_min + 1)*10);
+        ui->maxSlider->setMaximum(fits_max*10);
+        ui->maxSlider->setSingleStep((fabs(fits_max - fits_min) / 20.0)*10);
+        ui->maxSlider->setValue(fits_max*10);
+    }
+
+    connect(ui->minEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
+    connect(ui->maxEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
+    connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSliders(int)));
+    connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSliders(int)));
 
     r_graph->setData(intensity, r_frequency);
     if (image_data->channels() > 1)
@@ -464,6 +494,25 @@ void FITSHistogram::updateLimits(double value)
             ui->maxEdit->setValue(value + 1);
         }
     }
+}
+void FITSHistogram::updateSliders(int value)
+{
+    if (sender() == ui->minSlider)
+    {
+        ui->minEdit->setValue(value/10.0);
+        if (value/10.0 > ui->maxEdit->value())
+            ui->maxEdit->setValue(value/10.0 + 1);
+    }
+    else if (sender() == ui->maxSlider)
+    {
+        ui->maxEdit->setValue(value/10.0);
+        if (value/10.0 < ui->minEdit->value())
+        {
+            ui->minEdit->setValue(value/10.0);
+            ui->maxEdit->setValue(value/10.0 + 1);
+        }
+    }
+    applyScale();
 }
 
 void FITSHistogram::checkRangeLimit(const QCPRange &range)

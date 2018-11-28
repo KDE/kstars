@@ -47,7 +47,7 @@ class StarProfileViewer : public QDialog
 {
     Q_OBJECT
 public:
-    explicit StarProfileViewer(QWidget *parent = nullptr);
+    explicit StarProfileViewer(QWidget *parent);
     ~StarProfileViewer();
 
     void setBlackToYellowGradient();
