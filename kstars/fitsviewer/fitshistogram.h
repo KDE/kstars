@@ -57,6 +57,7 @@ class FITSHistogram : public QDialog
     void applyScale();
     void updateValues(QMouseEvent *event);
     void updateLimits(double value);
+    void updateSliders(int value);
     void checkRangeLimit(const QCPRange &range);
     void resizePlot();
 

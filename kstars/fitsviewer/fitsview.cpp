@@ -87,7 +87,7 @@ FITSView::~FITSView()
 {
     fitsWatcher.waitForFinished();
     wcsWatcher.waitForFinished();
-
+    starProfileWidget->deleteLater();
     delete (imageData);
 }
 
@@ -1400,8 +1400,7 @@ void FITSView::toggleStarProfile()
             if(starProfileWidget)
                 connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)) , this, SLOT(resizeTrackingBox(int)));
             trackingBox = QRect(0, 0, 128, 128);
-            trackingBoxEnabled = true;
-            updateFrame();
+            setTrackingBoxEnabled(true);
         }
         else
         {
@@ -1412,7 +1411,9 @@ void FITSView::toggleStarProfile()
             if(floatingToolBar)
                 disconnect(starProfileWidget, SIGNAL(rejected()) , this, SLOT(toggleStarProfile()));
             setTrackingBoxEnabled(false);
+            starProfileWidget->deleteLater();
         }
+        updateFrame();
     }
     #endif
 }
@@ -1434,7 +1435,12 @@ void FITSView::viewStarProfile()
     }
     if(!starProfileWidget)
     {
-        starProfileWidget = new StarProfileViewer(this);
+        //I had to change it to nullptr instead of "this"
+        //because while it worked before, there was some change in QT
+        //With their change, if the user hid the viewer, it would come up empty next time!
+        //Changing it to nullptr fixes the problem
+        //starProfileWidget = new StarProfileViewer(this);
+        starProfileWidget = new StarProfileViewer(nullptr);
 
         //This is a band-aid to fix a QT bug with createWindowContainer
         //It will set the cursor of the Window containing the view that called the Star Profile method to the Arrow Cursor

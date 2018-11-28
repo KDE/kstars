@@ -22,6 +22,7 @@
 #include <QPixmap>
 #include <QScrollArea>
 #include <QStack>
+#include <QPointer>
 
 #ifdef WIN32
 // avoid compiler warning when windows.h is included after fitsio.h
@@ -276,7 +277,7 @@ private:
 
     //Star Profile Viewer
     #ifdef HAVE_DATAVISUALIZATION
-    StarProfileViewer *starProfileWidget = nullptr;
+    QPointer<StarProfileViewer> starProfileWidget;
     #endif
 
   signals:
