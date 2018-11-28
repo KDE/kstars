@@ -839,5 +839,8 @@ class Align : public QWidget, public Ui::Align
 
     // PAH Stage Map
     static const QMap<PAHStage, QString> PAHStages;
+
+    // Threshold to notify settle time is 3 seconds
+    static constexpr uint16_t DELAY_THRESHOLD_NOTIFY { 3000 };
 };
 }
