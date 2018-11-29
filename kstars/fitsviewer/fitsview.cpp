@@ -87,7 +87,9 @@ FITSView::~FITSView()
 {
     fitsWatcher.waitForFinished();
     wcsWatcher.waitForFinished();
+    #ifdef HAVE_DATAVISUALIZATION
     starProfileWidget->deleteLater();
+    #endif
     delete (imageData);
 }
 
