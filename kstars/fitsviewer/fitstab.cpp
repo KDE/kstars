@@ -144,6 +144,9 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
 
             histogramFuture = QtConcurrent::run([&]() {histogram->constructHistogram();});
 
+            if(histogram->isVisible())
+                histogramFuture.waitForFinished();
+
 //            if (filter != FITS_NONE)
 //            {
 //                image_data->applyFilter(filter);
