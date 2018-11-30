@@ -89,7 +89,7 @@ QtObject {
 
     /**
      * units.shortDuration should be used for short animations, such as accentuating a UI event,
-     * hover events, etc..
+     * hover events, etc.
      */
     property int shortDuration: 150
 

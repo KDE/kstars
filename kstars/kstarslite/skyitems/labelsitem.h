@@ -65,7 +65,6 @@ class LabelsItem : public SkyOpacityNode
   public:
     /**
      * @brief Constructor
-     * @param rootNode parent RootNode that instantiates this object
      */
     LabelsItem();
 
@@ -159,7 +158,7 @@ class LabelsItem : public SkyOpacityNode
 
     /**
      * @short sets m_rootNode and appends to it this node
-     * @param rootNode
+     * @param rootNode parent RootNode that instantiates this object
      */
     void setRootNode(RootNode *rootNode);
 

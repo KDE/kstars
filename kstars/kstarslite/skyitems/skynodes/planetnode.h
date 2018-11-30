@@ -42,11 +42,11 @@ class PlanetNode : public SkyNode
   public:
     /**
          * @brief Constructor
-         * @param planet used in PlanesItem to update position of PlanetNode
+         * @param pb used in PlanetItem to update position of PlanetNode
          * @param parentNode used by PointNode to get textures from cache
          * @param labelType type of label. Pluto has different from planets label type
          */
-    PlanetNode(KSPlanetBase *planet, RootNode *parentNode,
+    PlanetNode(KSPlanetBase *pb, RootNode *parentNode,
                LabelsItem::label_t labelType = LabelsItem::label_t::PLANET_LABEL);
 
     /**
