@@ -46,7 +46,7 @@ class KSDssImage
     struct Metadata
     {
         /**
-         * @enum KSDssImage::Metadata::Source
+         * @enum Source
          * @short Contains possible sources for digitized sky-survey images
          */
         enum Source
@@ -57,7 +57,7 @@ class KSDssImage
         };
 
         /**
-         * @enum KSDssImage::Metadata::FileFormat
+         * @enum FileFormat
          * @short Contains possible file formats for images
          *
          * @note Although DSS website provides us GIF, we may convert

@@ -37,11 +37,11 @@ class PointNode : public SkyOpacityNode
   public:
     /**
      * @short Constructor
-     * @param spType spectral type
-     * @param parentNode pointer to the top parent node, which holds texture cache
+     * @param p pointer to the top parent RootNode which holds texture cache
+     * @param sp spectral type
      * @param size initial size of PointNode
      */
-    explicit PointNode(RootNode *rootNode, char spType = 'A', float size = 1);
+    explicit PointNode(RootNode *p, char sp = 'A', float size = 1);
 
     /**
      * @short setSize update size of PointNode with the given parameter

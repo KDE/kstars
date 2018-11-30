@@ -40,10 +40,8 @@ class GuideLabelNode : public SkyNode
   public:
     /**
      * @short Constructor
-     * @param skyObject pointer to SkyObject that has to be displayed on SkyMapLite
-     * @param parentNode pointer to the top parent node, which holds texture cache
-     * @param spType spectral class of PointNode
-     * @param size initial size of PointNode
+     * @param name name of the guide label
+     * @param type type of the label item
      */
     GuideLabelNode(QString name, LabelsItem::label_t type);
 
@@ -57,6 +55,7 @@ class GuideLabelNode : public SkyNode
      * @short setLabelPos sets the position of label with the given offset from SkyObject's position and
      * makes the label visible if it was hidden
      * @param pos position of label
+     * @param angle label angle
      */
     void setLabelPos(QPointF pos, float angle);
 
