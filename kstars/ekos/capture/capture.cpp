@@ -187,7 +187,7 @@ Capture::Capture()
     guideDeviation->setValue(Options::guideDeviation());
     autofocusCheck->setChecked(Options::enforceAutofocus());
     refocusEveryNCheck->setChecked(Options::enforceRefocusEveryN());
-    meridianCheck->setChecked(Options::autoMeridianFlip());    
+    meridianCheck->setChecked(Options::autoMeridianFlip());
     meridianHours->setValue(Options::autoMeridianHours());
 
     QCheckBox * const checkBoxes[] = {
@@ -463,11 +463,16 @@ void Capture::start()
         startRefocusEveryNTimer();
     }
 
+    // Only reset these counters if we are NOT restarting from deviation errors
+    // So when starting a new job or fresh then we reset them.
+    if (m_DeviationDetected == false)
+    {
+        ditherCounter     = Options::ditherFrames();
+        inSequenceFocusCounter = Options::inSequenceCheckFrames();
+    }
+
     m_DeviationDetected = false;
     m_SpikeDetected     = false;
-
-    ditherCounter     = Options::ditherFrames();
-    inSequenceFocusCounter = Options::inSequenceCheckFrames();
 
     m_State = CAPTURE_PROGRESS;
     emit newStatus(Ekos::CAPTURE_PROGRESS);
@@ -1268,7 +1273,7 @@ void Capture::newFITS(IBLOB *bp)
 
         if (currentCCD->isLooping() == false)
         {
-            disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);            
+            disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS);
 
             if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
             {
@@ -1287,7 +1292,7 @@ void Capture::newFITS(IBLOB *bp)
 
                 return;
             }
-        }        
+        }
     }
 
     blobChip    = bp ? static_cast<ISD::CCDChip*>(bp->aux0) : nullptr;
@@ -1481,8 +1486,8 @@ bool Capture::resumeSequence()
     else
     {
         isInSequenceFocus = (autoFocusReady && autofocusCheck->isChecked()/* && HFRPixels->value() > 0*/);
-        if (isInSequenceFocus)
-            requiredAutoFocusStarted = false;
+//        if (isInSequenceFocus)
+//            requiredAutoFocusStarted = false;
 
         // Reset HFR pixels to file value after meridian flip
         if (isInSequenceFocus && meridianFlipStage != MF_NONE)
@@ -1490,13 +1495,6 @@ bool Capture::resumeSequence()
             qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
             //firstAutoFocus = true;
             HFRPixels->setValue(fileHFR);
-        }
-
-        // check if time for forced refocus
-        if (autoFocusReady && refocusEveryNCheck->isChecked())
-        {
-            qCDebug(KSTARS_EKOS_CAPTURE) << "NFocus Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
-            isRefocus = getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60;
         }
 
         // If we suspended guiding due to primary chip download, resume guide chip guiding now
@@ -1531,6 +1529,7 @@ bool Capture::resumeSequence()
             m_State = CAPTURE_DITHERING;
             emit newStatus(Ekos::CAPTURE_DITHERING);
         }
+#if 0
         else if (isRefocus && activeJob->getFrameType() == FRAME_LIGHT)
         {
             appendLogText(i18n("Scheduled refocus starting after %1 seconds...",getRefocusEveryNTimerElapsedSec()));
@@ -1581,7 +1580,9 @@ bool Capture::resumeSequence()
             m_State = CAPTURE_FOCUSING;
             emit newStatus(Ekos::CAPTURE_FOCUSING);
         }
-        else
+#endif
+        // Check if we need to do autofocus, if not let's check if we need looping or start next exposure
+        else if (startFocusIfRequired() == false)
         {
             // If looping, we just increment the file system image count
             if (currentCCD->isLooping())
@@ -1600,8 +1601,81 @@ bool Capture::resumeSequence()
     return true;
 }
 
+bool Capture::startFocusIfRequired()
+{
+    if (activeJob->getFrameType() != FRAME_LIGHT)
+        return false;
+
+//    if (autoFocusReady == false)
+//        return false;
+
+    // check if time for forced refocus
+    if (refocusEveryNCheck->isChecked())
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "NFocus Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
+        isRefocus = getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60;
+    }
+    else
+        isRefocus = false;
+
+    if (isRefocus)
+    {
+        appendLogText(i18n("Scheduled refocus starting after %1 seconds...",getRefocusEveryNTimerElapsedSec()));
+
+        secondsLabel->setText(i18n("Focusing..."));
+
+        if (currentCCD->isLooping())
+            targetChip->abortExposure();
+
+        // If we are over 30 mins since last autofocus, we'll reset frame.
+        if (refocusEveryN->value() >= 30)
+            emit resetFocus();
+
+        // force refocus
+        emit checkFocus(0.1);
+
+        m_State = CAPTURE_FOCUSING;
+        emit newStatus(Ekos::CAPTURE_FOCUSING);
+        return true;
+    }
+    else if (isInSequenceFocus && --inSequenceFocusCounter == 0)
+    {
+        inSequenceFocusCounter = Options::inSequenceCheckFrames();
+
+        // Post meridian flip we need to reset filter _before_ running in-sequence focusing
+        // as it could have changed for whatever reason (e.g. alignment used a different filter).
+        // Then when focus process begins with the _target_ filter in place, it should take all the necessary actions to make it
+        // work for the next set of captures. This is direct reset to the filter device, not via Filter Manager.
+        if (meridianFlipStage != MF_NONE && currentFilter)
+        {
+            int targetFilterPosition = activeJob->getTargetFilter();
+            int currentFilterPosition= filterManager->getFilterPosition();
+            if (targetFilterPosition > 0 && targetFilterPosition != currentFilterPosition)
+                currentFilter->runCommand(INDI_SET_FILTER, &targetFilterPosition);
+        }
+
+        secondsLabel->setText(i18n("Focusing..."));
+
+        if (currentCCD->isLooping())
+            targetChip->abortExposure();
+
+        if (HFRPixels->value() == 0)
+            emit checkFocus(0.1);
+        else
+            emit checkFocus(HFRPixels->value());
+
+        qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
+
+        m_State = CAPTURE_FOCUSING;
+        emit newStatus(Ekos::CAPTURE_FOCUSING);
+        return true;
+    }
+
+    return false;
+}
+
 void Capture::captureOne()
-{    
+{
 
     //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
     /*if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_CLIENT)
@@ -1672,7 +1746,7 @@ void Capture::captureImage()
             currentCCD->setExposureLoopCount(remaining);
     }
 
-    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS, Qt::UniqueConnection);    
+    connect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Capture::newFITS, Qt::UniqueConnection);
 
     if (activeJob->getFrameType() == FRAME_FLAT)
     {
@@ -1785,6 +1859,7 @@ bool Capture::resumeCapture()
         return false;
     }
 
+#if 0
     /* Refresh isRefocus when resuming */
     if (autoFocusReady && refocusEveryNCheck->isChecked())
     {
@@ -1815,6 +1890,10 @@ bool Capture::resumeCapture()
         emit newStatus(Ekos::CAPTURE_FOCUSING);
         return true;
     }
+#endif
+
+    if (m_State == CAPTURE_DITHERING && autoFocusReady && startFocusIfRequired())
+        return true;
 
     startNextExposure();
 
@@ -2119,7 +2198,7 @@ bool Capture::addJob(bool preview)
 
         // Nothing more to do if preview
         if (preview)
-            return true;        
+            return true;
     }
 
     QJsonObject jsonJob = {{"Status", "Idle"}};
@@ -2444,13 +2523,13 @@ void Capture::prepareJob(SequenceJob *job)
         //
         // When the end-user loads and runs this sequence, each filter gets to capture 5 frames, then the procedure stops.
         // When the Scheduler executes a job with this sequence, the procedure depends on what is in the storage.
-        // 
+        //
         // Let's consider the Scheduler has 3 instances of this job to run.
-        // 
+        //
         // When the first job completes the sequence, there are 20 images in the file system (5 for each filter).
         // When the second job starts, Scheduler finds those 20 images but requires 20 more images, thus sets the frames map counters to 0 for all LRGB frames.
         // When the third job starts, Scheduler now has 40 images, but still requires 20 more, thus again sets the frames map counters to 0 for all LRGB frames.
-        // 
+        //
         // Now let's consider something went wrong, and the third job was aborted before getting to 60 images, say we have full LRG, but only 1xB.
         // When Scheduler attempts to run the aborted job again, it will count captures in storage, subtract previous job requirements, and set the frames map counters to 0 for LRG, and 4 for B.
         // When the sequence runs, the procedure will bypass LRG and proceed to capture 4xB.
@@ -3401,7 +3480,7 @@ bool Capture::processJobInfo(XMLEle *root)
         }
     }
 
-    addJob(false);    
+    addJob(false);
 
     return true;
 }
@@ -4656,7 +4735,7 @@ void Capture::openCalibrationDialog()
 }
 
 IPState Capture::processPreCaptureCalibrationStage()
-{    
+{
     // Unpark dust cap if we have to take light images.
     if (activeJob->getFrameType() == FRAME_LIGHT && dustCap)
     {
@@ -5189,7 +5268,7 @@ void Capture::postScriptFinished(int exitCode)
 // FIXME Migrate to Filter Manager
 #if 0
 void Capture::loadFilterOffsets()
-{    
+{
     // Get all OAL equipment filter list
     KStarsData::Instance()->userdb()->GetAllFilters(m_filterList);
     filterFocusOffsets.clear();
