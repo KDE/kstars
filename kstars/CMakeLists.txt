@@ -95,7 +95,7 @@ IF (CFITSIO_FOUND)
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-incompatible-pointer-types-discards-qualifiers")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/extract.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/lutz.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")        
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpack.c PROPERTIES COMPILE_FLAGS "-Wno-error")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-error")
     ELSEIF (NOT WIN32)
@@ -205,6 +205,7 @@ if (INDI_FOUND)
             # Auxiliary
             ekos/auxiliary/filtersettings.ui
             ekos/auxiliary/opslogs.ui
+            ekos/auxiliary/serialportassistant.ui
             # Ekos Live
             ekos/ekoslive/ekoslivedialog.ui
         )
@@ -225,6 +226,7 @@ if (INDI_FOUND)
             ekos/auxiliary/filtermanager.cpp
             ekos/auxiliary/filterdelegate.cpp
             ekos/auxiliary/opslogs.cpp
+            ekos/auxiliary/serialportassistant.cpp
 
             # Capture
             ekos/capture/capture.cpp
@@ -278,7 +280,7 @@ if (INDI_FOUND)
             ekos/ekoslive/message.cpp
             ekos/ekoslive/media.cpp
             ekos/ekoslive/cloud.cpp
-        )        
+        )
 
     endif(CFITSIO_FOUND)
 

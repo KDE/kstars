@@ -112,6 +112,24 @@ bool isOnline(ProfileInfo *pi)
         return false;
 }
 
+bool isStellarMate(ProfileInfo *pi)
+{
+    QNetworkAccessManager manager;
+    QUrl url(QString("http://%1:%2/api/info/version").arg(pi->host).arg(pi->INDIWebManagerPort));
+
+    QNetworkReply *response = manager.get(QNetworkRequest(url));
+
+    // Wait synchronously
+    QEventLoop event;
+    QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
+    event.exec();
+
+    if (response->error() == QNetworkReply::NoError)
+        return true;
+    else
+        return false;
+}
+
 bool syncCustomDrivers(ProfileInfo *pi)
 {
     QNetworkAccessManager manager;
@@ -269,7 +287,7 @@ bool syncProfile(ProfileInfo *pi)
     }
 
     data    = QJsonDocument(driverArray).toJson();
-    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data);        
+    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data);
 
     return true;
 }

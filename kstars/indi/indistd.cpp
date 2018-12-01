@@ -34,7 +34,7 @@ GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inP
     propType     = inPropertyType;
     indiProperty = inProperty;
     indiElement  = inElement;
-    elementValue = qValue;        
+    elementValue = qValue;
 }
 
 GenericDevice::GenericDevice(DeviceInfo &idv)
@@ -113,6 +113,24 @@ void GenericDevice::registerProperty(INDI::Property *prop)
             IText *tp = IUFindText(tvp, "DRIVER_INTERFACE");
             if (tp)
                 driverInterface = static_cast<uint32_t>(atoi(tp->text));
+        }
+    }
+    else if (!strcmp(prop->getName(), "SYSTEM_PORTS"))
+    {
+        // Check if our current port is set to one of the system ports. This indicates that the port
+        // is not mapped yet to a permenant designation
+        ISwitchVectorProperty *svp = prop->getSwitch();
+        ITextVectorProperty *port = baseDevice->getText("DEVICE_PORT");
+        if (svp && port)
+        {
+            for (int i=0; i < svp->nsp; i++)
+            {
+                if (!strcmp(port->tp[0].text, svp->sp[i].name))
+                {
+                    emit systemPortDetected();
+                    break;
+                }
+            }
         }
     }
     else if (!strcmp(prop->getName(), "TIME_UTC") && Options::useTimeUpdate() && Options::useKStarsSource())
@@ -294,7 +312,7 @@ void GenericDevice::processText(ITextVectorProperty *tvp)
         int d, m, y, min, sec, hour;
         float utcOffset;
         QDate indiDate;
-        QTime indiTime;        
+        QTime indiTime;
 
         tp = IUFindText(tvp, "UTC");
 
