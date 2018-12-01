@@ -115,6 +115,7 @@ signals:
     void BLOBUpdated(IBLOB *bp);
     void messageUpdated(int messageID);
 
+    void systemPortDetected();
     void propertyDefined(INDI::Property *prop);
     void propertyDeleted(INDI::Property *prop);
 };

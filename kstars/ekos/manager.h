@@ -29,6 +29,7 @@
 #include "mount/mount.h"
 #include "scheduler/scheduler.h"
 #include "auxiliary/filtermanager.h"
+#include "auxiliary/serialportassistant.h"
 #include "ksnotification.h"
 // Can't use forward declaration with QPointer. QTBUG-29588
 #include "auxiliary/opslogs.h"
@@ -76,7 +77,7 @@ namespace Ekos
 class Manager : public QDialog, public Ui::Manager
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos")    
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos")
 
     Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus indiStatus READ indiStatus NOTIFY indiStatusChanged)
     Q_SCRIPTABLE Q_PROPERTY(CommunicationStatus ekosStatus READ ekosStatus NOTIFY ekosStatusChanged)
@@ -84,7 +85,7 @@ class Manager : public QDialog, public Ui::Manager
 
   public:
     explicit Manager(QWidget *parent);
-    ~Manager();    
+    ~Manager();
 
     void appendLogText(const QString &);
     //void refreshRemoteDrivers();
@@ -201,7 +202,7 @@ class Manager : public QDialog, public Ui::Manager
     void showEkosOptions();
 
     void updateLog();
-    void clearLog();    
+    void clearLog();
 
     void processTabChange();
 
@@ -355,6 +356,9 @@ class Manager : public QDialog, public Ui::Manager
 
     ProfileInfo *currentProfile { nullptr };
     bool profileWizardLaunched { false };
+
+    // Serial Port Assistant
+    std::unique_ptr<SerialPortAssistant> serialPortAssistant;
 
     // Logs
     QPointer<OpsLogs> opsLogs;

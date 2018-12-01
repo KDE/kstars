@@ -201,7 +201,7 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     // Load add driver profiles
     loadProfiles();
 
-    // INDI Control Panel and Ekos Options    
+    // INDI Control Panel and Ekos Options
     optionsB->setIcon(QIcon::fromTheme("configure", QIcon(":/icons/ekos_setup.png")));
     optionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
@@ -375,7 +375,7 @@ void Manager::loadDrivers()
 
 void Manager::reset()
 {
-    qCDebug(KSTARS_EKOS) << "Resetting Ekos Manager...";       
+    qCDebug(KSTARS_EKOS) << "Resetting Ekos Manager...";
 
     // Filter Manager
     filterManager.reset(new Ekos::FilterManager());
@@ -455,6 +455,8 @@ void Manager::processINDI()
 bool Manager::stop()
 {
     cleanDevices();
+
+    serialPortAssistant.reset();
 
     profileGroup->setEnabled(true);
 
@@ -616,7 +618,7 @@ bool Manager::start()
             KMessageBox::error(this, i18n("Ekos requires at least one CCD or Guider to operate."));
             managedDrivers.clear();
             return false;
-        }                
+        }
 
         nDevices = managedDrivers.count();
     }
@@ -732,6 +734,8 @@ bool Manager::start()
             if (INDI::WebManager::isOnline(currentProfile))
             {
                 INDI::WebManager::syncCustomDrivers(currentProfile);
+
+                currentProfile->isStellarMate = INDI::WebManager::isStellarMate(currentProfile);
 
                 if (INDI::WebManager::areDriversRunning(currentProfile) == false)
                 {
@@ -990,6 +994,13 @@ void Manager::processNewDevice(ISD::GDInterface *devInterface)
     connect(devInterface, &ISD::GDInterface::Connected, this, &Ekos::Manager::deviceConnected);
     connect(devInterface, &ISD::GDInterface::Disconnected, this, &Ekos::Manager::deviceDisconnected);
     connect(devInterface, &ISD::GDInterface::propertyDefined, this, &Ekos::Manager::processNewProperty);
+    connect(devInterface, &ISD::GDInterface::systemPortDetected, [this,devInterface]() {
+        if (!serialPortAssistant)
+            serialPortAssistant.reset(new SerialPortAssistant(currentProfile, this));
+
+        serialPortAssistant->addDevice(devInterface);
+        serialPortAssistant->show();
+    });
 
     if (nDevices <= 0)
     {
@@ -1459,7 +1470,7 @@ void Manager::processNewNumber(INumberVectorProperty *nvp)
         {
             mountProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
             //mountProcess->syncTelescopeInfo();
-        }        
+        }
 
         return;
     }
@@ -2226,7 +2237,7 @@ bool Manager::isRunning(const QString &process)
     ps.waitForFinished();
     QString output = ps.readAllStandardOutput();
     return output.contains(process);
-#endif   
+#endif
 }
 
 void Manager::addObjectToScheduler(SkyObject *object)
@@ -2675,7 +2686,7 @@ void Manager::updateGuideProfilePixmap(QPixmap &profilePix)
 
 void Manager::setTarget(SkyObject *o)
 {
-    mountTarget->setText(o->name());    
+    mountTarget->setText(o->name());
     ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", o->name()}}));
 }
 
