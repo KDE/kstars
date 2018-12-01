@@ -33,6 +33,7 @@ class Focuser : public DeviceDecorator
 
     explicit Focuser(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_FOCUSER; }
 
+    void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
     void processNumber(INumberVectorProperty *nvp);
@@ -49,7 +50,13 @@ class Focuser : public DeviceDecorator
     bool canAbsMove();
     bool canRelMove();
     bool canTimerMove();
-
     bool getFocusDirection(FocusDirection *dir);
+
+    // Max Travel
+    uint32_t getmaxPosition() { return m_maxPosition; }
+    bool setmaxPosition(uint32_t steps);
+
+private:
+    uint32_t m_maxPosition {0};
 };
 }
