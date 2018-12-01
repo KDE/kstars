@@ -13,6 +13,18 @@
 
 namespace ISD
 {
+
+void Focuser::registerProperty(INDI::Property *prop)
+{
+    if (!strcmp(prop->getName(), "FOCUS_MAX"))
+    {
+        INumberVectorProperty *nvp = prop->getNumber();
+        m_maxPosition = nvp->np[0].value;
+    }
+
+    DeviceDecorator::registerProperty(prop);
+}
+
 void Focuser::processLight(ILightVectorProperty *lvp)
 {
     DeviceDecorator::processLight(lvp);
@@ -20,6 +32,11 @@ void Focuser::processLight(ILightVectorProperty *lvp)
 
 void Focuser::processNumber(INumberVectorProperty *nvp)
 {
+    if (!strcmp(nvp->name, "FOCUS_MAX"))
+    {
+        m_maxPosition = nvp->np[0].value;
+    }
+
     DeviceDecorator::processNumber(nvp);
 }
 
@@ -170,4 +187,18 @@ bool Focuser::canTimerMove()
     else
         return true;
 }
+
+bool Focuser::setmaxPosition(uint32_t steps)
+{
+    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_MAX");
+
+    if (focusProp == nullptr)
+        return false;
+
+    focusProp->np[0].value = steps;
+    clientManager->sendNewNumber(focusProp);
+
+    return true;
+}
+
 }
