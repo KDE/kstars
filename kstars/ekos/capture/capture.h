@@ -156,7 +156,7 @@ class Capture : public QWidget, public Ui::Capture
          * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
          * @param fileURL full URL of the filename
          */
-    Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL);    
+    Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL);
 
     /** DBUS interface function.
          * Enables or disables the maximum guiding deviation and sets its value.
@@ -494,6 +494,8 @@ class Capture : public QWidget, public Ui::Capture
     // Auto Focus
     void setFocusStatus(Ekos::FocusState state);
     void setHFR(double newHFR, int) { focusHFR = newHFR; }
+    // Return TRUE if we need to run focus/autofocus. Otherwise false if not necessary
+    bool startFocusIfRequired();
 
     // Guide
     void setGuideStatus(Ekos::GuideState state);
@@ -590,7 +592,7 @@ class Capture : public QWidget, public Ui::Capture
     void checkFocus(double);
     void resetFocus();
     void suspendGuiding();
-    void resumeGuiding();    
+    void resumeGuiding();
     void newImage(Ekos::SequenceJob *job);
     void newExposureProgress(Ekos::SequenceJob *job);
     void sequenceChanged(const QJsonArray &sequence);
@@ -710,7 +712,7 @@ class Capture : public QWidget, public Ui::Capture
     void updateHFRThreshold();
     bool isInSequenceFocus { false };
     bool autoFocusReady { false };
-    bool requiredAutoFocusStarted { false };
+    //bool requiredAutoFocusStarted { false };
     //bool firstAutoFocus { true };
     double focusHFR { 0 }; // HFR value as received from the Ekos focus module
     QMap<QString,QList<double>> HFRMap;
