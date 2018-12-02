@@ -51,7 +51,7 @@ void SerialPortAssistant::addPage(ISD::GDInterface *device)
     layout->addWidget(deviceLabel);
 
     QLabel *instructionsLabel = new QLabel(devicePage);
-    instructionsLabel->setText(i18n("To assign a permenant designation to the device, you need to unplug the device from stellarmate "
+    instructionsLabel->setText(i18n("To assign a permanent designation to the device, you need to unplug the device from stellarmate "
                                     "then replug it after 1 second. Click on the <b>Start Scan</b> to begin this procedure."));
     instructionsLabel->setWordWrap(true);
     layout->addWidget(instructionsLabel);
@@ -59,9 +59,9 @@ void SerialPortAssistant::addPage(ISD::GDInterface *device)
     QHBoxLayout *actionsLayout = new QHBoxLayout(devicePage);
     QPushButton *startButton = new QPushButton(i18n("Start Scan"), devicePage);
     QPushButton *skipButton = new QPushButton(i18n("Skip Device"), devicePage);
-    QCheckBox *hardwareSlotC = new QCheckBox(i18n("Phsical Port Mapping"), devicePage);
-    hardwareSlotC->setToolTip(i18n("Assign the permenant name based on which physical port the device is plugged to in StellarMate. "
-                                   "This is useful to distinguish between two identifical USB adapters. The device must <b>always</b> be "
+    QCheckBox *hardwareSlotC = new QCheckBox(i18n("Physical Port Mapping"), devicePage);
+    hardwareSlotC->setToolTip(i18n("Assign the permanent name based on which physical port the device is plugged to in StellarMate. "
+                                   "This is useful to distinguish between two identical USB adapters. The device must <b>always</b> be "
                                    "plugged into the same port for this to work."));
     actionsLayout->addItem(new QSpacerItem(10,10, QSizePolicy::Preferred));
     actionsLayout->addWidget(startButton);
