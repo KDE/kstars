@@ -366,13 +366,16 @@ class dms
 
     /** @return a nicely-formatted string representation of the angle
          * in degrees, arcminutes, and arcseconds.
+         * @param forceSign if @c true then adds '+' or '-' to the string
          * @param machineReadable uses a colon separator and produces +/-dd:mm:ss format instead
+         * @param highPrecision adds milliseconds, if @c false the seconds will be shown as an integer
          */
     const QString toDMSString(const bool forceSign = false, const bool machineReadable = false, const bool highPrecision=false) const;
 
     /** @return a nicely-formatted string representation of the angle
          * in hours, minutes, and seconds.
          * @param machineReadable uses a colon separator and produces hh:mm:ss format instead
+         * @param highPrecision adds milliseconds, if @c false the seconds will be shown as an integer
          */
     const QString toHMSString(const bool machineReadable = false, const bool highPrecision=false) const;
 

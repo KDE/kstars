@@ -123,6 +123,8 @@ class ClientManagerLite : public INDI::BaseClientQt
 
     /**
      * @brief syncLED
+     * @param device device name
+     * @param property property name
      * @param name of Light which LED needs to be synced
      * @return color of state
      */

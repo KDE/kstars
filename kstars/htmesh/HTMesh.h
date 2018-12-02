@@ -91,6 +91,7 @@ class HTMesh
          *@param ra Central ra in degrees
          *@param dec Central dec in degrees
          *@param radius Radius of the circle in degrees
+         *@param bufNum the output buffer to hold the results
          *@note You will need to supply unprecessed (ra, dec) in most
          * situations. Please see SkyMesh::aperture()'s code before
          * messing with this method.
