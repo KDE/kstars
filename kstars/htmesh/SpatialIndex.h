@@ -69,7 +69,7 @@ class LINKAGE SpatialIndex
             WARNING: if name is already allocated, a size of at least 17 is
             required.  The conversion is done by directly calculating the
             name from a number.  To calculate the name of a certain level,
-            the mechanism is that the name is given by (#of nodes in that
+            the mechanism is that the name is given by (\# of nodes in that
             level) + (id of node).  So for example, for the first level,
             there are 8 nodes, and we get the names from numbers 8 through
             15 giving S0,S1,S2,S3,N0,N1,N2,N3.  The order is always

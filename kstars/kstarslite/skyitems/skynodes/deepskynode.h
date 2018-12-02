@@ -47,6 +47,7 @@ class DeepSkyNode : public SkyNode
      * @short Constructor.
      * @param skyObject - DSOs that is represented by this node
      * @param symbol - DSOSymbolNode of this DSO
+     * @param labelType - type of label
      * @param trixel - trixelID, with which this node is indexed
      */
     DeepSkyNode(DeepSkyObject *skyObject, DSOSymbolNode *symbol, LabelsItem::label_t labelType, short trixel = -1);
@@ -77,6 +78,7 @@ class DeepSkyNode : public SkyNode
     /**
      * @short sets color of DSO symbol and label
      * To not increase the code for symbols we just recreate the symbol painted with desired color
+     * @param color the color to be set
      * @param symbolTrixel the TrixelNode to which symbol node should be appended
      */
     void setColor(QColor color, TrixelNode *symbolTrixel);

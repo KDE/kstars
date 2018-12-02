@@ -35,6 +35,7 @@ class StarItem : public SkyItem
   public:
     /**
      * @short Constructor.
+     * @param starComp star component
      * @param rootNode parent RootNode that instantiated this object
      */
     StarItem(StarComponent *starComp, RootNode *rootNode);

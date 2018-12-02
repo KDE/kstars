@@ -391,6 +391,8 @@ public:
      * Retrieve the requested shade color, using the specified color as the
      * base color and the specified contrast.
      *
+     * @param color The base color
+     * @param role The shade role
      * @param contrast Amount roughly specifying the contrast by which to
      * adjust the base color, between -1.0 and 1.0 (values between 0.0 and 1.0
      * correspond to the value from SchemeManager::contrastF)

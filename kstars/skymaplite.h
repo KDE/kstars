@@ -324,6 +324,7 @@ class SkyMapLite : public QQuickItem
     /**
          * @short adds FOV symbol to m_FOVSymbols
          * @param FOVName name of a FOV symbol
+         * @param initialState defines whether the state is initial
          */
     Q_INVOKABLE void addFOVSymbol(const QString &FOVName, bool initialState = false);
 

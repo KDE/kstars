@@ -34,6 +34,7 @@ class CrosshairNode : public SkyNode
     /**
          * @short Constructor. Initializes lines, ellipses and labels.
          * @param baseDevice - pointer to telescope
+         * @param rootNode parent RootNode that instantiated this object
          */
     CrosshairNode(INDI::BaseDevice *baseDevice, RootNode *rootNode);
 

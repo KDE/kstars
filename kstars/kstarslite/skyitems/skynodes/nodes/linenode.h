@@ -42,6 +42,8 @@ class LineNode : public SkyOpacityNode
      * @short Constructor
      * @param lineList - lines that have to be drawn
      * @param skipList - lines that have to be skipped
+     * @param color - line color
+     * @param width - line width
      * @param drawStyle - not used currently
      */
     LineNode(LineList *lineList, SkipHashList *skipList, QColor color, int width, Qt::PenStyle drawStyle);
