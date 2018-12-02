@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>454</width>
-    <height>284</height>
+    <height>309</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -376,6 +376,9 @@
         <property name="text">
          <string>GPS</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="13" column="2">
@@ -383,6 +386,9 @@
         <property name="text">
          <string>Rotator</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
       <item row="13" column="7">
@@ -393,6 +399,9 @@
         <property name="text">
          <string>AO</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">driversGroup</string>
+        </attribute>
        </widget>
       </item>
      </layout>
@@ -480,17 +489,16 @@
  </widget>
  <resources>
   <include location="../../data/kstars.qrc"/>
-  <include location="../../data/kstars.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="verbosityButtonGroup"/>
-  <buttongroup name="modulesGroup">
+  <buttongroup name="driversGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="driversGroup">
+  <buttongroup name="verbosityButtonGroup"/>
+  <buttongroup name="modulesGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
