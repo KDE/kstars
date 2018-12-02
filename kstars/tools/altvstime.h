@@ -119,6 +119,7 @@ class AltVsTime : public QDialog
 
     /**
      * @short get object name. If star has no name, generate a name based on catalog number.
+     * @param o sky object.
      * @param translated set to true if the translated name is required.
      */
     QString getObjectName(const SkyObject *o, bool translated = true);

@@ -167,6 +167,7 @@ class KSPlanetBase : public TrailObject
      * @param includePlanets this function does nothing if includePlanets=false
      * @param lat pointer to the geographic latitude; if nullptr, we skip localizeCoords()
      * @param LST pointer to the local sidereal time; if nullptr, we skip localizeCoords()
+     * @param forceRecompute defines whether the data should be recomputed forcefully
      */
     void updateCoords(const KSNumbers *num, bool includePlanets = true, const CachingDms *lat = nullptr,
                       const CachingDms *LST = nullptr, bool forceRecompute = false) override;

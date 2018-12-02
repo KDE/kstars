@@ -76,6 +76,7 @@ class FlagComponent : public QObject, public PointListComponent
     /**
      * @short Update a flag.
      * @param index index of the flag to be updated.
+     * @param flagPoint point of the flag.
      * @param epoch new flag epoch.
      * @param image new flag image.
      * @param label new flag label.

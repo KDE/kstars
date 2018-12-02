@@ -97,6 +97,8 @@ class DetailDialogLite : public QObject
 
     /**
      * @brief addLink adds new link to SkyObject
+     * @param url URL of the link
+     * @param desc description of the link
      * @param isImageLink true if it is a link to image. False if it is information link
      */
     Q_INVOKABLE void addLink(const QString &url, const QString &desc, bool isImageLink);

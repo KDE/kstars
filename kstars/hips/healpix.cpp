@@ -272,7 +272,9 @@ static int nside2order(qint32 nside)
 /** Returns the neighboring pixels of ipix.
      This method works in both RING and NEST schemes, but is
      considerably faster in the NEST scheme.
+     @param nside defines the size of the neighboring area
      @param ipix the requested pixel number.
+     @param result the result array
      @return array with indices of the neighboring pixels.
        The returned array contains (in this order)
        the pixel numbers of the SW, W, NW, N, NE, E, SE and S neighbor

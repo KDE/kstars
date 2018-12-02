@@ -122,6 +122,13 @@ class FOVSymbolNode : public SkyNode
     /**
      * @short Constructor. Initialize m_symbol according to shape
      * @param name - name of the FOV symbol (used to switch it on/off through SkyMapLite from QML)
+     * @param a - width
+     * @param b - height
+     * @param xoffset - x offset
+     * @param yoffset - y offset
+     * @param rot - rotation
+     * @param shape - shape
+     * @param color - RGB color
      */
     FOVSymbolNode(const QString &name, float a, float b, float xoffset, float yoffset, float rot,
                   FOVItem::Shape shape = FOVItem::SQUARE, const QString &color = "#FFFFFF");

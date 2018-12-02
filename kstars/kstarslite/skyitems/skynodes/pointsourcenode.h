@@ -43,6 +43,7 @@ class PointSourceNode : public SkyNode
      * @param parentNode pointer to the top parent node, which holds texture cache
      * @param spType spectral class of PointNode
      * @param size initial size of PointNode
+     * @param trixel trixelID, with which this node is indexed
      */
     PointSourceNode(SkyObject *skyObject, RootNode *parentNode,
                     LabelsItem::label_t labelType = LabelsItem::label_t::STAR_LABEL,
