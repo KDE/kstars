@@ -998,8 +998,18 @@ void Manager::processNewDevice(ISD::GDInterface *devInterface)
         if (!serialPortAssistant)
             serialPortAssistant.reset(new SerialPortAssistant(currentProfile, this));
 
-        serialPortAssistant->addDevice(devInterface);
-        serialPortAssistant->show();
+        uint32_t driverInterface = devInterface->getDriverInterface();
+        // Ignore CCD interface
+        if (driverInterface & ~INDI::BaseDevice::CCD_INTERFACE)
+            return;
+
+        if (driverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE ||
+            driverInterface & INDI::BaseDevice::FOCUSER_INTERFACE   ||
+            driverInterface & INDI::BaseDevice::FILTER_INTERFACE    ||
+            driverInterface & INDI::BaseDevice::AUX_INTERFACE       ||
+            driverInterface & INDI::BaseDevice::GPS_INTERFACE)
+                serialPortAssistant->addDevice(devInterface);
+                //serialPortAssistant->show();
     });
 
     if (nDevices <= 0)
