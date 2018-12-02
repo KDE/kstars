@@ -35,6 +35,7 @@ class MoonPhaseCalendar : public QCalendarWidget
      * Constructor
      * @param moon A reference to a (non-const) KSMoon object, that will be updated
      * @param sun A reference to a (non-const) KSSun object, that will be updated
+     * @param parent Parent widget
      */
     explicit MoonPhaseCalendar(KSMoon &moon, KSSun &sun, QWidget *parent = nullptr);
 

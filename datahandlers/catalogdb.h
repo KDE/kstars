@@ -100,6 +100,7 @@ class CatalogDB
      *
      * @param ra Right Ascension of new object to be added
      * @param dec Declination of new object to be added
+     * @param magnitude Magnitude of new object to be added
      * @return int RowUID of the new row
      **/
     int FindFuzzyEntry(const double ra, const double dec, const double magnitude);

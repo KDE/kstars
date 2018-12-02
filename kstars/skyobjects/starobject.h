@@ -177,6 +177,7 @@ class StarObject : public SkyObject
      * @param includePlanets does nothing in this implementation (see KSPlanetBase::updateCoords()).
      * @param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
      * @param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
+     * @param forceRecompute defines whether the data should be recomputed forcefully.
      */
     void updateCoords(const KSNumbers *num, bool includePlanets = true, const CachingDms *lat = nullptr,
                       const CachingDms *LST = nullptr, bool forceRecompute = false) override;

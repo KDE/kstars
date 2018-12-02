@@ -39,6 +39,7 @@ class KSHelpLabel : public QLabel
          * Constructor. Creates label with a text and help anchor.
          * @param text Text of the label
          * @param anchor Name of the section in the AstroInfo project (without 'ai-')
+         * @param parent Parent widget
          */
     KSHelpLabel(const QString &text, const QString &anchor, QWidget *parent = nullptr);
 
