@@ -10,6 +10,10 @@
 #pragma once
 
 #include <QDialog>
+#include <QStandardItemModel>
+
+#include <memory>
+
 #include "indi/indistd.h"
 #include "profileinfo.h"
 
@@ -24,10 +28,15 @@ public:
 
 
 private:
+    bool loadRules();
+    bool removeActiveRule();
     void addPage(ISD::GDInterface *device);
+    void gotoPage(ISD::GDInterface *device);
     void discoverDevice();
 
     QList<ISD::GDInterface *> devices;
 
+    std::unique_ptr<QStandardItemModel> model;
+    ISD::GDInterface *currentDevice { nullptr };
     const ProfileInfo *m_Profile;
 };

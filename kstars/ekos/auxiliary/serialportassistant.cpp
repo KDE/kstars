@@ -9,7 +9,11 @@
 
 #include <QMovie>
 #include <QCheckBox>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QStandardItem>
 
+#include "indi/indiwebmanager.h"
 #include "serialportassistant.h"
 #include "ekos_debug.h"
 #include "kspaths.h"
@@ -29,6 +33,14 @@ SerialPortAssistant::SerialPortAssistant(ProfileInfo *profile, QWidget *parent) 
     connect(nextB, &QPushButton::clicked, [&]() {
         serialPortWizard->setCurrentIndex(serialPortWizard->currentIndex()+1);
     });
+
+    loadRules();
+
+    connect(rulesView->selectionModel(), &QItemSelectionModel::selectionChanged, [&](const QItemSelection &selected) {
+        clearRuleB->setEnabled(selected.count() > 0);
+    });
+    connect(model.get(), &QStandardItemModel::rowsRemoved, [&]() { clearRuleB->setEnabled(model->rowCount() > 0); });
+    connect(clearRuleB, &QPushButton::clicked, this, &SerialPortAssistant::removeActiveRule);
 }
 
 void SerialPortAssistant::addDevice(ISD::GDInterface *device)
@@ -86,3 +98,82 @@ void SerialPortAssistant::addPage(ISD::GDInterface *device)
 
     serialPortWizard->insertWidget(serialPortWizard->count()-1, devicePage);
 }
+
+void SerialPortAssistant::gotoPage(ISD::GDInterface *device)
+{
+    int index = devices.indexOf(device);
+
+    if (index < 0)
+        return;
+
+    currentDevice = device;
+
+    serialPortWizard->setCurrentIndex( (1 + index) * 2);
+}
+
+bool SerialPortAssistant::loadRules()
+{
+    QUrl url(QString("http://%1:%2/api/udev/rules").arg(m_Profile->host).arg(m_Profile->INDIWebManagerPort));
+    QJsonDocument json;
+
+    if (INDI::WebManager::getWebManagerResponse(QNetworkAccessManager::GetOperation, url, &json))
+    {
+        QJsonArray array = json.array();
+
+        if (array.isEmpty())
+            return false;
+
+        model.reset(new QStandardItemModel(0, 5, this));
+
+        model->setHeaderData(0, Qt::Horizontal, i18nc("Product ID", "PID"));
+        model->setHeaderData(1, Qt::Horizontal, i18nc("Vendor ID", "VID"));
+        model->setHeaderData(2, Qt::Horizontal, i18n("Link"));
+        model->setHeaderData(3, Qt::Horizontal, i18n("Serial #"));
+        model->setHeaderData(4, Qt::Horizontal, i18n("Hardware Port?"));
+
+
+        // Get all the drivers running remotely
+        for (auto value : array)
+        {
+            QJsonObject rule = value.toObject();
+            QList<QStandardItem*> items;
+            QStandardItem *pid = new QStandardItem(rule["pid"].toString());
+            QStandardItem *vid = new QStandardItem(rule["vid"].toString());
+            QStandardItem *link = new QStandardItem(rule["symlink"].toString());
+            QStandardItem *serial = new QStandardItem(rule["serial"].toString());
+            QStandardItem *hardware = new QStandardItem(rule["port"].toString());
+            items << pid << vid << link << serial << hardware;
+            model->appendRow(items);
+        }
+
+        rulesView->setModel(model.get());
+        return true;
+    }
+
+    return false;
+}
+
+bool SerialPortAssistant::removeActiveRule()
+{
+    QUrl url(QString("http://%1:%2/api/udev/remove_rule").arg(m_Profile->host).arg(m_Profile->INDIWebManagerPort));
+
+    QModelIndex index = rulesView->currentIndex();
+    if (index.isValid() == false)
+        return false;
+
+    QStandardItem *symlink = model->item(index.row(), 2);
+    if (symlink == nullptr)
+        return false;
+
+    QJsonObject rule = { {"symlink", symlink->text()} };
+    QByteArray data = QJsonDocument(rule).toJson(QJsonDocument::Compact);
+
+    if (INDI::WebManager::getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data))
+    {
+        model->removeRow(index.row());
+        return true;
+    }
+
+    return false;
+}
+
