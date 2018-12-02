@@ -125,6 +125,12 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::resetPolarView, ekosLiveClient.get()->media(), &EkosLive::Media::resetPolarView);
 
 
+    // Serial Port Assistat
+    connect(serialPortAssistantB, &QPushButton::clicked, [&]() {
+        serialPortAssistant->show();
+        serialPortAssistant->raise();
+    });
+
     connect(this, &Ekos::Manager::ekosStatusChanged, [&](Ekos::CommunicationStatus status)
     {
         indiControlPanelB->setEnabled(status == Ekos::Success);
@@ -457,6 +463,7 @@ bool Manager::stop()
     cleanDevices();
 
     serialPortAssistant.reset();
+    serialPortAssistantB->setEnabled(false);
 
     profileGroup->setEnabled(true);
 
@@ -996,11 +1003,14 @@ void Manager::processNewDevice(ISD::GDInterface *devInterface)
     connect(devInterface, &ISD::GDInterface::propertyDefined, this, &Ekos::Manager::processNewProperty);
     connect(devInterface, &ISD::GDInterface::systemPortDetected, [this,devInterface]() {
         if (!serialPortAssistant)
+        {
             serialPortAssistant.reset(new SerialPortAssistant(currentProfile, this));
+            serialPortAssistantB->setEnabled(true);
+        }
 
         uint32_t driverInterface = devInterface->getDriverInterface();
         // Ignore CCD interface
-        if (driverInterface & ~INDI::BaseDevice::CCD_INTERFACE)
+        if (driverInterface & INDI::BaseDevice::CCD_INTERFACE)
             return;
 
         if (driverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE ||
