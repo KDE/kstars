@@ -117,17 +117,16 @@ bool isStellarMate(ProfileInfo *pi)
     QNetworkAccessManager manager;
     QUrl url(QString("http://%1:%2/api/info/version").arg(pi->host).arg(pi->INDIWebManagerPort));
 
-    QNetworkReply *response = manager.get(QNetworkRequest(url));
-
-    // Wait synchronously
-    QEventLoop event;
-    QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
-    event.exec();
-
-    if (response->error() == QNetworkReply::NoError)
+    QJsonDocument json;
+    if (getWebManagerResponse(QNetworkAccessManager::GetOperation, url, &json))
+    {
+        QJsonObject version = json.object();
+        if (version.isEmpty())
+            return false;
+        qInfo(KSTARS_EKOS) << "Detect StellarMate version" << version["version"].toString();
         return true;
-    else
-        return false;
+    }
+    return false;
 }
 
 bool syncCustomDrivers(ProfileInfo *pi)
