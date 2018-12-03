@@ -11,6 +11,8 @@
 
 #include <QDialog>
 #include <QStandardItemModel>
+#include <QNetworkAccessManager>
+#include <QJsonObject>
 
 #include <memory>
 
@@ -30,8 +32,15 @@ public:
 private:
     bool loadRules();
     bool removeActiveRule();
+    bool addRule(const QJsonObject &rule);
     void addPage(ISD::GDInterface *device);
     void gotoPage(ISD::GDInterface *device);
+    void resetPage(int index);
+
+    void scanDevices();
+    void parseDevices();
+
+
     void discoverDevice();
 
     QList<ISD::GDInterface *> devices;
@@ -39,4 +48,6 @@ private:
     std::unique_ptr<QStandardItemModel> model;
     ISD::GDInterface *currentDevice { nullptr };
     const ProfileInfo *m_Profile;
+
+    QNetworkAccessManager manager;
 };
