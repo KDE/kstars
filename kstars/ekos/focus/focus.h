@@ -27,7 +27,7 @@ namespace Ekos
  * @short Supports manual focusing and auto focusing using relative and absolute INDI focusers.
  *
  * @author Jasem Mutlaq
- * @version 1.4
+ * @version 1.5
  */
 class Focus : public QWidget, public Ui::Focus
 {
@@ -545,6 +545,9 @@ class Focus : public QWidget, public Ui::Focus
     // Capture timeout timer
     QTimer captureTimeout;
     uint8_t captureTimeoutCounter { 0 };
+
+    // Guide Suspend
+    bool m_GuidingSuspended { false };
 
     // Filter Manager
     QSharedPointer<FilterManager> filterManager;

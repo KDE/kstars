@@ -263,7 +263,8 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset theme="camera-off"/>
+               <iconset theme="camera-off">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -600,6 +601,16 @@
               </property>
               <property name="text">
                <string>Full Field</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QDoubleSpinBox" name="GuideSettleTime">
+              <property name="toolTip">
+               <string>Wait this many seconds before resuming guiding.</string>
+              </property>
+              <property name="maximum">
+               <double>60.000000000000000</double>
               </property>
              </widget>
             </item>
