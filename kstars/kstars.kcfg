@@ -1656,6 +1656,10 @@
          <whatsthis>Wait for this many seconds after moving the focuser before capturing the next image during AutoFocus.</whatsthis>
          <default>0</default>
       </entry>
+      <entry name="GuideSettleTime" type="Double">
+         <whatsthis>Wait for this many seconds after resuming guide.</whatsthis>
+         <default>0</default>
+      </entry>
       <entry name="FocusTolerance" type="Double">
          <label>Default Focuser tolerance value</label>
          <whatsthis>The tolerance specifies the percentage difference between the current focusing position and the minimum obtained during the focusing run. Adjustment of this value is necessary to prevent the focusing algorithm from oscillating back and forth.</whatsthis>

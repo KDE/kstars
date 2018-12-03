@@ -112,6 +112,10 @@ Focus::Focus()
     connect(FocusSettleTime, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
          [=](double d) { Options::setFocusSettleTime(d); });
 
+    GuideSettleTime->setValue(Options::guideSettleTime());
+    connect(GuideSettleTime, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+         [=](double d) { Options::setGuideSettleTime(d); });
+
     connect(focuserCombo, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::activated), this, &Ekos::Focus::setDefaultFocuser);
     connect(focuserCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFocuser);
 
@@ -796,7 +800,10 @@ void Focus::start()
         appendLogText(i18n("Please wait until image capture is complete..."));
 
     if (suspendGuideCheck->isChecked())
+    {
+        m_GuidingSuspended = true;
         emit suspendGuiding();
+    }
 
     //emit statusUpdated(true);
     state = Ekos::FOCUS_PROGRESS;
@@ -868,8 +875,6 @@ void Focus::stop(bool aborted)
         currentCCD->setExposureLoopingEnabled(true);
 
     targetChip->abortExposure();
-
-    //resetFrame();
 
     resetButtons();
 
@@ -2639,32 +2644,46 @@ void Focus::setAutoFocusResult(bool status)
         }
     }
 
+    int settleTime = m_GuidingSuspended ? GuideSettleTime->value() : 0;
+
     // Always resume guiding if we suspended it before
-    if (suspendGuideCheck->isChecked())
+    if (m_GuidingSuspended)
+    {
         emit resumeGuiding();
-
-    resetFocusIteration = 0;
-
-    if (status)
-    {
-        KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"));
-        state = Ekos::FOCUS_COMPLETE;
-    }
-    else
-    {
-        KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed with errors"), KSNotification::EVENT_ALERT);
-        state = Ekos::FOCUS_FAILED;
+        m_GuidingSuspended = false;
     }
 
-    qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
+    resetFocusIteration = 0;    
 
-    // Do not emit result back yet if we have a locked filter pending return to original filter
-    if (fallbackFilterPending)
-    {
-        filterManager->setFilterPosition(fallbackFilterPosition, static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY|FilterManager::OFFSET_POLICY));
-        return;
-    }
-    emit newStatus(state);
+    if (settleTime > 0)
+        appendLogText(i18n("Settling..."));
+
+    QTimer::singleShot(settleTime*1000, this, [&,status,settleTime]() {
+        if (settleTime > 0)
+            appendLogText(i18n("Settling complete."));
+
+        if (status)
+        {
+            KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"));
+            state = Ekos::FOCUS_COMPLETE;
+        }
+        else
+        {
+            KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed with errors"), KSNotification::EVENT_ALERT);
+            state = Ekos::FOCUS_FAILED;
+        }
+
+        qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
+
+        // Do not emit result back yet if we have a locked filter pending return to original filter
+        if (fallbackFilterPending)
+        {
+            filterManager->setFilterPosition(fallbackFilterPosition, static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY|FilterManager::OFFSET_POLICY));
+            return;
+        }
+        emit newStatus(state);
+
+    });
 }
 
 void Focus::checkAutoStarTimeout()
@@ -3062,6 +3081,13 @@ void Focus::processCaptureTimeout()
         captureTimeoutCounter = 0;
         appendLogText(i18n("Exposure timeout. Aborting..."));
         abort();
+        if (inAutoFocus)
+            setAutoFocusResult(false);
+        else if (m_GuidingSuspended)
+        {
+            emit resumeGuiding();
+            m_GuidingSuspended = false;
+        }
         return;
     }
 
