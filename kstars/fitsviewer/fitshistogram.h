@@ -52,18 +52,24 @@ class FITSHistogram : public QDialog
 
   protected:
     void showEvent(QShowEvent *event);
+    void driftMouseOverLine(QMouseEvent *event);
 
   public slots:
     void applyScale();
-    void updateValues(QMouseEvent *event);
     void updateLimits(double value);
     void updateSliders(int value);
     void checkRangeLimit(const QCPRange &range);
     void resizePlot();
+    void toggleHideSaturated(int x);
 
   private:
     template <typename T>
     void constructHistogram();
+    double sliderScale;
+    int numDecimals;
+    double cutMin;
+    double cutMax;
+
 
     histogramUI *ui { nullptr };
     FITSTab *tab { nullptr };

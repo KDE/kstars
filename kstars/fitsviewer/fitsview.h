@@ -288,6 +288,7 @@ private:
     void trackingStarSelected(int x, int y);
     void loaded();
     void failed();
+    void starProfileWindowClosed();
 
     friend class FITSLabel;
 };

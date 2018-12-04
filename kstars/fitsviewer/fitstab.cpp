@@ -24,6 +24,7 @@
 #include "Options.h"
 #include "ui_fitsheaderdialog.h"
 #include "ui_statform.h"
+#include "ekos/manager.h"
 
 #include <QtConcurrent>
 #include <KMessageBox>
@@ -85,6 +86,18 @@ void FITSTab::setPreviewText(const QString &value)
     previewText = value;
 }
 
+void FITSTab::selectRecentFITS(int i)
+{
+    loadFITS(QUrl::fromLocalFile(recentImages->item(i)->text()));
+}
+
+void FITSTab::clearRecentFITS()
+{
+    disconnect(recentImages, &QListWidget::currentRowChanged, this, &FITSTab::selectRecentFITS);
+    recentImages->clear();
+    connect(recentImages, &QListWidget::currentRowChanged, this, &FITSTab::selectRecentFITS);
+}
+
 void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
 {
     if (view.get() == nullptr)
@@ -104,6 +117,19 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
 
         header.setupUi(fitsHeaderDialog);
         fitsTools->addItem(fitsHeaderDialog,i18n("FITS Header"));
+
+
+
+        QVBoxLayout *recentPanelLayout = new QVBoxLayout();
+        QWidget *recentPanel = new QWidget(fitsSplitter);
+        recentPanel->setLayout(recentPanelLayout);
+        fitsTools->addItem(recentPanel,i18n("Recent Images"));
+        recentImages = new QListWidget(recentPanel);
+        recentPanelLayout->addWidget(recentImages);
+        QPushButton *clearRecent = new QPushButton(i18n("Clear"));
+        recentPanelLayout->addWidget(clearRecent);
+        connect(clearRecent, &QPushButton::pressed, this, &FITSTab::clearRecentFITS);
+        connect(recentImages, &QListWidget::currentRowChanged, this, &FITSTab::selectRecentFITS);
 
         QScrollArea *scrollFitsPanel = new QScrollArea(fitsSplitter);
         scrollFitsPanel->setWidgetResizable(true);
@@ -142,7 +168,7 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
                 image_data->setHistogram(histogram);
             }
 
-            histogramFuture = QtConcurrent::run([&]() {histogram->constructHistogram();});
+            histogramFuture = QtConcurrent::run([&]() {histogram->constructHistogram(); evaluateStats();});
 
             if(histogram->isVisible())
                 histogramFuture.waitForFinished();
@@ -156,8 +182,19 @@ void FITSTab::loadFITS(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
             if (viewer->isStarsMarked())
                 view->toggleStars(true);
 
-            evaluateStats();
+
             loadFITSHeader();
+
+            if(recentImages->findItems(currentURL.toLocalFile(),Qt::MatchExactly).count()==0)  //Don't add it to the list if it is already there
+            {
+                if(!image_data->isTempFile()) //Don't add it to the list if it is a preview
+                {
+                    disconnect(recentImages, &QListWidget::currentRowChanged, this, &FITSTab::selectRecentFITS);
+                    recentImages->addItem(currentURL.toLocalFile());
+                    recentImages->setCurrentRow(recentImages->count()-1);
+                    connect(recentImages, &QListWidget::currentRowChanged, this, &FITSTab::selectRecentFITS);
+                }
+            }
 
             view->updateFrame();
 

@@ -371,6 +371,7 @@ void FITSViewer::addFITS(const QUrl &imageName, FITSMode mode, FITSScale filter,
         // Connect tab view signals
         connect(tab->getView(), &FITSView::actionUpdated, this, &FITSViewer::updateAction);
         connect(tab->getView(), &FITSView::wcsToggled, this, &FITSViewer::updateWCSFunctions);
+        connect(tab->getView(),&FITSView::starProfileWindowClosed, this, &FITSViewer::starProfileButtonOff);
 
         switch (mode)
         {
@@ -527,13 +528,19 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         actionCollection()->action("fits_debayer")->setEnabled(false);
 
     updateStatusBar("", FITS_WCS);
-    updateButtonStatus("toggle_3D_graph", "View 3D Graph", getCurrentView()->isStarProfileShown());
-    updateButtonStatus("view_crosshair", "Cross Hairs", getCurrentView()->isCrosshairShown());
-    updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
-    updateButtonStatus("view_objects", "Objects in Image", getCurrentView()->areObjectsShown());
-    updateButtonStatus("view_pixel_grid", "Pixel Gridines", getCurrentView()->isPixelGridShown());
+    connect(view,&FITSView::starProfileWindowClosed, this, &FITSViewer::starProfileButtonOff);
+    updateButtonStatus("toggle_3D_graph", i18n("View 3D Graph"), getCurrentView()->isStarProfileShown());
+    updateButtonStatus("view_crosshair", i18n("Cross Hairs"), getCurrentView()->isCrosshairShown());
+    updateButtonStatus("view_eq_grid", i18n("Equatorial Gridines"), getCurrentView()->isEQGridShown());
+    updateButtonStatus("view_objects", i18n("Objects in Image"), getCurrentView()->areObjectsShown());
+    updateButtonStatus("view_pixel_grid", i18n("Pixel Gridines"), getCurrentView()->isPixelGridShown());
     updateScopeButton();
     updateWCSFunctions();
+}
+
+void FITSViewer::starProfileButtonOff()
+{
+    updateButtonStatus("toggle_3D_graph", i18n("View 3D Graph"), false);
 }
 
 void FITSViewer::openFile()
