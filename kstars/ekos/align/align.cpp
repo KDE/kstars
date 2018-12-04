@@ -3431,7 +3431,10 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
                 emit newPAHMessage(secondCaptureText->text());
 
-                captureAndSolve();
+                if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+                    appendLogText(i18n("Settling..."));
+                QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+                return;
             }
             else if (isSlewDirty && pahStage == PAH_SECOND_ROTATE)
             {
@@ -3446,7 +3449,10 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
                 emit newPAHMessage(thirdCaptureText->text());
 
-                captureAndSolve();
+                if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+                    appendLogText(i18n("Settling..."));
+                QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+                return;
             }
 
             switch (state)
@@ -5056,9 +5062,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
         emit newPAHMessage(firstRotateText->text());
 
-        if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
-            appendLogText(i18n("Settling..."));
-        QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::rotatePAH);
+        rotatePAH();
     }
     else if (pahStage == PAH_SECOND_CAPTURE)
     {
@@ -5091,9 +5095,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
         emit newPAHMessage(secondRotateText->text());
 
-        if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
-            appendLogText(i18n("Settling..."));
-        QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::rotatePAH);
+        rotatePAH();
     }
     else if (pahStage == PAH_THIRD_CAPTURE)
     {
@@ -5190,9 +5192,7 @@ void Align::setWCSToggled(bool result)
         PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
         emit newPAHMessage(firstRotateText->text());
 
-        if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
-            appendLogText(i18n("Settling..."));
-        QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::rotatePAH);
+        rotatePAH();
     }
     else if (pahStage == PAH_THIRD_CAPTURE)
     {
