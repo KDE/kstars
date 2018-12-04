@@ -124,7 +124,6 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     connect(ekosLiveClient.get()->media(), &EkosLive::Media::newBoundingRect, ekosLiveClient.get()->message(), &EkosLive::Message::setBoundingRect);
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::resetPolarView, ekosLiveClient.get()->media(), &EkosLive::Media::resetPolarView);
 
-
     // Serial Port Assistat
     connect(serialPortAssistantB, &QPushButton::clicked, [&]() {
         serialPortAssistant->show();
@@ -1019,7 +1018,9 @@ void Manager::processNewDevice(ISD::GDInterface *devInterface)
             driverInterface & INDI::BaseDevice::AUX_INTERFACE       ||
             driverInterface & INDI::BaseDevice::GPS_INTERFACE)
                 serialPortAssistant->addDevice(devInterface);
-                //serialPortAssistant->show();
+
+        if (Options::autoLoadSerialAssistant())
+                serialPortAssistant->show();
     });
 
     if (nDevices <= 0)
