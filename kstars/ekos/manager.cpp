@@ -2946,6 +2946,12 @@ void Manager::connectModules()
         connect(mountProcess.get(), &Ekos::Mount::newStatus, alignProcess.get(), &Ekos::Align::setMountStatus, Qt::UniqueConnection);
     }
 
+    // Mount <---> Guide connections
+    if (mountProcess.get() && guideProcess.get())
+    {
+        connect(mountProcess.get(), &Ekos::Mount::pierSideChanged, guideProcess.get(), &Ekos::Guide::setPierSide, Qt::UniqueConnection);
+    }
+
     // Focus <---> Align connections
     if (focusProcess.get() && alignProcess.get())
     {

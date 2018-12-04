@@ -1769,6 +1769,23 @@ void Guide::setCaptureStatus(CaptureState newState)
     }
 }
 
+void Guide::setPierSide(ISD::Telescope::PierSide newSide)
+{
+   Q_UNUSED(newSide);
+
+   // If pier side changes in internal guider
+   // and calibration was already done
+   // then let's swap
+   if (guiderType == GUIDE_INTERNAL &&
+       state != GUIDE_GUIDING &&
+       state != GUIDE_CALIBRATING &&
+       calibrationComplete)
+   {
+        swapCheck->setChecked(!swapCheck->isChecked());
+        appendLogText(i18n("Pier side change detected. Reversing DEC swap."));
+   }
+}
+
 void Guide::setMountStatus(ISD::Telescope::Status newState)
 {
     // If we're guiding, and the mount either slews or parks, then we abort.
@@ -3026,7 +3043,11 @@ bool Guide::executeOneOperation(GuideState operation)
             }
             // Otherwise check if we are already subframed
             // and we need to go back to full frame
-            else if (subFramed && Options::guideSubframeEnabled() == false)
+            // or if we need to go back to full frame since we need
+            // to reaquire a star
+            else if (subFramed &&
+                     (Options::guideSubframeEnabled() == false ||
+                      state == GUIDE_REACQUIRE))
             {
                 targetChip->resetFrame();
 

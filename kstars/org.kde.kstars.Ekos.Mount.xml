@@ -25,6 +25,9 @@
   <property name="parkStatus" type="(i)" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::ParkStatus"/>
   </property>
+  <property name="pierSide" type="(i)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::PierSide"/>
+  </property>
     <method name="slew">
       <arg type="b" direction="out"/>
       <arg name="RA" type="d" direction="in"/>
@@ -59,6 +62,11 @@
         <arg name="status" type="(i)" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::ParkStatus"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::ParkStatus"/>
+    </signal>
+    <signal name="pierSideChanged">
+        <arg name="side" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::Telescope::PierSide"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::Telescope::PierSide"/>
     </signal>
     <signal name="ready"/>
   </interface>
