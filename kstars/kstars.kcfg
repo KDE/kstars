@@ -1470,6 +1470,10 @@
          <label>Always load device default configuration upon successful connection?</label>
          <default>false</default>
       </entry>
+      <entry name="autoLoadSerialAssistant" type="Bool">
+         <label>Automatically load Serial Port Assistant tool when detecting unmapped serial ports?</label>
+         <default>true</default>
+      </entry>
    </group>
    <group name="DarkLibrary">
    <entry name="MaxDarkTemperatureDiff" type="Double">

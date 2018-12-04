@@ -259,7 +259,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="closeB">
            <property name="text">
             <string>Close</string>
            </property>
