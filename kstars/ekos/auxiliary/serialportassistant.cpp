@@ -297,7 +297,7 @@ bool SerialPortAssistant::addRule(const QJsonObject &rule)
     QByteArray data = QJsonDocument(rule).toJson(QJsonDocument::Compact);
     if (INDI::WebManager::getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data))
     {
-        KSNotification::info(i18n("Mapping is succesful. Please unplug and replug your device now."));
+        KSNotification::info(i18n("Mapping is successful. Please unplug and replug your device now."));
         ITextVectorProperty *devicePort = devices[serialPortWizard->currentIndex()-1]->getBaseDevice()->getText("DEVICE_PORT");
         if (devicePort)
         {
