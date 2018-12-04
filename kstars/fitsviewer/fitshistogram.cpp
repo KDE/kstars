@@ -59,26 +59,29 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
     customPlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
     customPlot->yAxis->grid()->setZeroLinePen(Qt::NoPen);
 
-    r_graph = customPlot->addGraph();
-    r_graph->setBrush(QBrush(QColor(170, 40, 80)));
-    r_graph->setPen(QPen(Qt::red));
-    //r_graph->setLineStyle(QCPGraph::lsImpulse);
-
-    connect(ui->buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(applyScale()));
-
-    connect(customPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(updateValues(QMouseEvent*)));
+    connect(ui->applyB, &QPushButton::clicked, this, &FITSHistogram::applyScale);
 
     connect(ui->minEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
     connect(ui->maxEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
     connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSliders(int)));
     connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSliders(int)));
+    connect(ui->hideSaturated, &QCheckBox::stateChanged, this, &FITSHistogram::toggleHideSaturated);
     connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(checkRangeLimit(QCPRange)));
+    connect(customPlot, &QCustomPlot::mouseMove, this, &FITSHistogram::driftMouseOverLine);
+    sliderScale = 10;
+    numDecimals = 0;
 }
 
 void FITSHistogram::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
     syncGUI();
+}
+
+void FITSHistogram::toggleHideSaturated(int x)
+{
+    constructHistogram();
+    Q_UNUSED(x)
 }
 
 void FITSHistogram::constructHistogram()
@@ -141,7 +144,7 @@ void FITSHistogram::constructHistogram()
 
     uint32_t samples = fits_w * fits_h;
 
-    binCount = sqrt(samples);
+    binCount = static_cast<uint16_t>(sqrt(samples));
 
     intensity.fill(0, binCount);
     r_frequency.fill(0, binCount);
@@ -161,7 +164,7 @@ void FITSHistogram::constructHistogram()
     {
         for (uint32_t i = 0; i < samples; i += 4)
         {
-            r_id = round((buffer[i] - fits_min) / binWidth);
+            r_id = static_cast<uint16_t>(round((buffer[i] - fits_min) / binWidth));
             r_frequency[r_id >= binCount ? binCount - 1 : r_id] += 4;
         }
     }
@@ -170,19 +173,19 @@ void FITSHistogram::constructHistogram()
         g_frequency.fill(0, binCount);
         b_frequency.fill(0, binCount);
 
-        int g_offset = samples;
-        int b_offset = samples * 2;
+        int g_offset = static_cast<int>(samples);
+        int b_offset = static_cast<int>(samples * 2);
         for (uint32_t i = 0; i < samples; i += 4)
         {
             uint16_t g_id = 0, b_id = 0;
 
-            r_id = round((buffer[i] - fits_min) / binWidth);
+            r_id = static_cast<uint16_t>(round((buffer[i] - fits_min) / binWidth));
             r_frequency[r_id >= binCount ? binCount - 1 : r_id] += 4;
 
-            g_id = round((buffer[i + g_offset] - fits_min) / binWidth);
+            g_id = static_cast<uint16_t>(round((buffer[i + g_offset] - fits_min) / binWidth));
             g_frequency[g_id >= binCount ? binCount - 1 : g_id] += 4;
 
-            b_id = round((buffer[i + b_offset] - fits_min) / binWidth);
+            b_id = static_cast<uint16_t>(round((buffer[i + b_offset] - fits_min) / binWidth));
             b_frequency[b_id >= binCount ? binCount - 1 : b_id] += 4;
         }
     }
@@ -201,7 +204,7 @@ void FITSHistogram::constructHistogram()
         for (int i = 0; i < binCount; i++)
         {
             if (r_frequency[i] > maxFrequency)
-                maxFrequency = r_frequency[i];
+                maxFrequency = static_cast<int>(r_frequency[i]);
         }
     }
     else
@@ -209,16 +212,16 @@ void FITSHistogram::constructHistogram()
         for (int i = 0; i < binCount; i++)
         {
             if (r_frequency[i] > maxFrequency)
-                maxFrequency = r_frequency[i];
+                maxFrequency = static_cast<int>(r_frequency[i]);
             if (g_frequency[i] > maxFrequency)
-                maxFrequency = g_frequency[i];
+                maxFrequency = static_cast<int>(g_frequency[i]);
             if (b_frequency[i] > maxFrequency)
-                maxFrequency = b_frequency[i];
+                maxFrequency = static_cast<int>(b_frequency[i]);
         }
     }
 
     double median      = 0;
-    int halfCumulative = cumulativeFrequency[binCount - 1] / 2;
+    int halfCumulative = static_cast<int>(cumulativeFrequency[binCount - 1] / 2);
     for (int i = 0; i < binCount; i++)
     {
         if (cumulativeFrequency[i] >= halfCumulative)
@@ -232,7 +235,26 @@ void FITSHistogram::constructHistogram()
     JMIndex = cumulativeFrequency[binCount / 8] / cumulativeFrequency[binCount / 4];
     qCDebug(KSTARS_FITS) << "FITHistogram: JMIndex " << JMIndex;
 
-    image_data->setMedian(median);    
+    if(ui->hideSaturated->isChecked())
+    {
+        intensity.removeFirst();
+        intensity.removeLast();
+        r_frequency.removeFirst();
+        r_frequency.removeLast();
+        if (image_data->channels() > 1)
+        {
+            g_frequency.removeFirst();
+            g_frequency.removeLast();
+            b_frequency.removeFirst();
+            b_frequency.removeLast();
+        }
+    }
+
+    image_data->setMedian(median);
+    if(median<1)
+        sliderScale=1/median*100;
+    else
+        sliderScale=10;
 }
 
 void FITSHistogram::syncGUI()
@@ -250,40 +272,60 @@ void FITSHistogram::syncGUI()
     ui->meanEdit->setText(QString::number(image_data->getMean()));
     ui->medianEdit->setText(QString::number(image_data->getMedian()));
 
+    double median = image_data->getMedian();
+
+    if(median > 100)
+        numDecimals=0;
+    else if(median > 1)
+        numDecimals=2;
+    else if(median > .01)
+        numDecimals=4;
+    else if(median > .0001)
+        numDecimals=6;
+    else
+        numDecimals=10;
+
     if(!ui->minSlider->isSliderDown())
     {
-        ui->minEdit->setMinimum(fits_min);
-        ui->minEdit->setMaximum(fits_max - 1);
+        ui->minEdit->setDecimals(numDecimals);
         ui->minEdit->setSingleStep(fabs(fits_max - fits_min) / 20.0);
+        ui->minEdit->setMinimum(fits_min);
+        ui->minEdit->setMaximum(fits_max - ui->minEdit->singleStep()); //minus one step
         ui->minEdit->setValue(fits_min);
 
 
-        ui->minSlider->setMinimum(fits_min*10);
-        ui->minSlider->setMaximum((fits_max - 1)*10);
-        ui->minSlider->setSingleStep((fabs(fits_max - fits_min) / 20.0)*10);
-        ui->minSlider->setValue(fits_min*10);
+        ui->minSlider->setSingleStep(static_cast<int>((fabs(fits_max - fits_min) / 20.0)*sliderScale));
+        ui->minSlider->setMinimum(static_cast<int>(fits_min*sliderScale));
+        ui->minSlider->setMaximum(static_cast<int>((fits_max)*sliderScale - ui->minSlider->singleStep()));
+        ui->minSlider->setValue(static_cast<int>(fits_min*sliderScale));
     }
 
     if(!ui->maxSlider->isSliderDown())
     {
-        ui->maxEdit->setMinimum(fits_min + 1);
-        ui->maxEdit->setMaximum(fits_max);
+        ui->maxEdit->setDecimals(numDecimals);
         ui->maxEdit->setSingleStep(fabs(fits_max - fits_min) / 20.0);
+        ui->maxEdit->setMinimum(fits_min + ui->maxEdit->singleStep());
+        ui->maxEdit->setMaximum(fits_max);
         ui->maxEdit->setValue(fits_max);
 
+        ui->maxSlider->setSingleStep(static_cast<int>((fabs(fits_max - fits_min) / 20.0)*sliderScale));
+        ui->maxSlider->setMinimum(static_cast<int>((fits_min)*sliderScale + ui->maxSlider->singleStep()));
+        ui->maxSlider->setMaximum(static_cast<int>(fits_max*sliderScale));
+        ui->maxSlider->setValue(static_cast<int>(fits_max*sliderScale));
 
-        ui->maxSlider->setMinimum((fits_min + 1)*10);
-        ui->maxSlider->setMaximum(fits_max*10);
-        ui->maxSlider->setSingleStep((fabs(fits_max - fits_min) / 20.0)*10);
-        ui->maxSlider->setValue(fits_max*10);
     }
 
     connect(ui->minEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
     connect(ui->maxEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
     connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSliders(int)));
     connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSliders(int)));
+    customPlot->clearGraphs();
 
+    r_graph = customPlot->addGraph();
+    r_graph->setBrush(QBrush(QColor(170, 40, 80)));
+    r_graph->setPen(QPen(Qt::red));
     r_graph->setData(intensity, r_frequency);
+
     if (image_data->channels() > 1)
     {
         g_graph = customPlot->addGraph();
@@ -305,7 +347,7 @@ void FITSHistogram::syncGUI()
     customPlot->xAxis->setLabel(i18n("Intensity"));
     customPlot->yAxis->setLabel(i18n("Frequency"));
 
-    customPlot->xAxis->setRange(fits_min, fits_max);
+    customPlot->xAxis->setRange(fits_min - ui->minEdit->singleStep(), fits_max + ui->maxEdit->singleStep());
     if (maxFrequency > 0)
         customPlot->yAxis->rescale();
 
@@ -499,17 +541,23 @@ void FITSHistogram::updateSliders(int value)
 {
     if (sender() == ui->minSlider)
     {
-        ui->minEdit->setValue(value/10.0);
-        if (value/10.0 > ui->maxEdit->value())
-            ui->maxEdit->setValue(value/10.0 + 1);
+        if(value/sliderScale > ui->minEdit->value())
+        {
+            ui->minEdit->setValue(value/sliderScale);
+            if (value/sliderScale > ui->maxEdit->value())
+                ui->maxEdit->setValue(value/sliderScale + ui->maxEdit->singleStep());
+        }
     }
     else if (sender() == ui->maxSlider)
     {
-        ui->maxEdit->setValue(value/10.0);
-        if (value/10.0 < ui->minEdit->value())
+        if(value/sliderScale < ui->maxEdit->value())
         {
-            ui->minEdit->setValue(value/10.0);
-            ui->maxEdit->setValue(value/10.0 + 1);
+            ui->maxEdit->setValue(value/sliderScale);
+            if (value/sliderScale < ui->minEdit->value())
+            {
+                ui->minEdit->setValue(value/sliderScale);
+                ui->maxEdit->setValue(value/sliderScale + ui->maxEdit->singleStep());
+            }
         }
     }
     applyScale();
@@ -517,10 +565,10 @@ void FITSHistogram::updateSliders(int value)
 
 void FITSHistogram::checkRangeLimit(const QCPRange &range)
 {
-    if (range.lower < fits_min)
-        customPlot->xAxis->setRangeLower(fits_min);
-    else if (range.upper > fits_max)
-        customPlot->xAxis->setRangeUpper(fits_max);
+    if (range.lower < fits_min - ui->minEdit->singleStep())
+        customPlot->xAxis->setRangeLower(fits_min - ui->minEdit->singleStep());
+    else if (range.upper > fits_max + ui->maxEdit->singleStep())
+        customPlot->xAxis->setRangeUpper(fits_max + ui->maxEdit->singleStep());
 }
 
 double FITSHistogram::getJMIndex() const
@@ -562,30 +610,6 @@ void FITSHistogram::applyFilter(FITSScale ftype)
 QVector<double> FITSHistogram::getCumulativeFrequency() const
 {
     return cumulativeFrequency;
-}
-
-void FITSHistogram::updateValues(QMouseEvent *event)
-{
-    int x = event->x();
-
-    double intensity_key = customPlot->xAxis->pixelToCoord(x);
-
-    if (intensity_key < 0)
-        return;
-
-    double frequency_val = 0;
-
-    for (int i = 0; i < binCount; i++)
-    {
-        if (intensity[i] > intensity_key)
-        {
-            frequency_val = r_frequency[i];
-            break;
-        }
-    }
-
-    ui->intensityEdit->setText(QString::number(intensity_key));
-    ui->frequencyEdit->setText(QString::number(frequency_val));
 }
 
 FITSHistogramCommand::FITSHistogramCommand(QWidget *parent, FITSHistogram *inHisto, FITSScale newType, double lmin,
@@ -839,16 +863,12 @@ QString FITSHistogramCommand::text() const
     {
         case FITS_AUTO:
             return i18n("Auto Scale");
-            break;
         case FITS_LINEAR:
             return i18n("Linear Scale");
-            break;
         case FITS_LOG:
             return i18n("Logarithmic Scale");
-            break;
         case FITS_SQRT:
             return i18n("Square Root Scale");
-            break;
 
         default:
             if (type - 1 <= FITSViewer::filterTypes.count())
@@ -857,4 +877,66 @@ QString FITSHistogramCommand::text() const
     }
 
     return i18n("Unknown");
+}
+
+void FITSHistogram::driftMouseOverLine(QMouseEvent *event)
+{
+    double intensity = customPlot->xAxis->pixelToCoord(event->localPos().x());
+
+    if (customPlot->xAxis->range().contains(intensity))
+    {
+            int r_index= r_graph->findBegin(intensity, true);
+            double r_Frequency = r_graph->dataMainValue(r_index);
+
+
+            if(b_graph && g_graph)
+            {
+                int g_index= g_graph->findBegin(intensity, true);
+                double g_Frequency = g_graph->dataMainValue(g_index);
+
+                int b_index= b_graph->findBegin(intensity, true);
+                double b_Frequency = g_graph->dataMainValue(b_index);
+
+                if( r_Frequency>0.0 || g_Frequency>0.0 || b_Frequency>0.0 )
+                {
+                    QToolTip::showText(
+                        event->globalPos(),
+                                i18nc("Histogram tooltip; %1 is intensity; %2 is frequency;",
+                                      "<table>"
+                                      "<tr><td>Intensity:   </td><td>%1</td></tr>"
+                                      "<tr><td>R Frequency:   </td><td>%2</td></tr>"
+                                      "<tr><td>G Frequency:   </td><td>%3</td></tr>"
+                                      "<tr><td>B Frequency:   </td><td>%4</td></tr>"
+                                      "</table>",
+                                      QString::number(intensity, 'f', numDecimals),
+                                      QString::number(r_Frequency, 'f', 0),
+                                      QString::number(g_Frequency, 'f', 0),
+                                      QString::number(b_Frequency, 'f', 0)));
+                }
+                else
+                    QToolTip::hideText();
+
+            }
+            else
+            {
+                if(r_Frequency>0.0)
+                {
+                    QToolTip::showText(
+                        event->globalPos(),
+                                i18nc("Histogram tooltip; %1 is intensity; %2 is frequency;",
+                                      "<table>"
+                                      "<tr><td>Intensity:   </td><td>%1</td></tr>"
+                                      "<tr><td>R Frequency:   </td><td>%2</td></tr>"
+                                      "</table>",
+                                      QString::number(intensity, 'f', numDecimals),
+                                      QString::number(r_Frequency, 'f', 0)));
+                }
+                else
+                    QToolTip::hideText();
+            }
+
+
+
+        customPlot->replot();
+    }
 }

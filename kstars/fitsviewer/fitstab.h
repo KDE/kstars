@@ -27,6 +27,7 @@
 #include "ui_statform.h"
 #include <QFuture>
 #include <QPointer>
+#include <QListWidget>
 
 #include <memory>
 
@@ -47,6 +48,8 @@ class FITSTab : public QWidget
     explicit FITSTab(FITSViewer *parent);
     virtual ~FITSTab();
 
+    void clearRecentFITS();
+    void selectRecentFITS(int i);
     void loadFITS(const QUrl &imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE, bool silent = true);
     int saveFITS(const QString &filename);
 
@@ -100,6 +103,8 @@ class FITSTab : public QWidget
     /// FITS Histogram
     QPointer<FITSHistogram> histogram;
     QPointer<FITSViewer> viewer;
+
+    QPointer<QListWidget> recentImages;
 
     /// FITS image object
     std::unique_ptr<FITSView> view;

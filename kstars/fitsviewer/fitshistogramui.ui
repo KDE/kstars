@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>212</width>
-    <height>528</height>
+    <height>437</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -35,6 +35,9 @@
    <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <property name="leftMargin">
     <number>4</number>
    </property>
@@ -73,66 +76,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="maxEdit"/>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="minLabel_2">
-         <property name="text">
-          <string>Mean:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="intensityLabel">
-         <property name="text">
-          <string>Intensity:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QDoubleSpinBox" name="minEdit"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="minLabel">
-         <property name="text">
-          <string>Min.:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="frequencyLabel">
-         <property name="text">
-          <string>Frequency:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLineEdit" name="frequencyEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLineEdit" name="intensityEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item row="0" column="1">
         <widget class="QLabel" name="maxLabel">
          <property name="text">
@@ -140,7 +86,33 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="medianEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="maxLabel_2">
+         <property name="text">
+          <string>Median:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QDoubleSpinBox" name="minEdit"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDoubleSpinBox" name="maxEdit"/>
+       </item>
+       <item row="5" column="0">
         <widget class="QLineEdit" name="meanEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -153,23 +125,10 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
-        <widget class="QLabel" name="maxLabel_2">
+       <item row="4" column="0">
+        <widget class="QLabel" name="minLabel_2">
          <property name="text">
-          <string>Median:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QLineEdit" name="medianEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
+          <string>Mean:</string>
          </property>
         </widget>
        </item>
@@ -187,6 +146,13 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="minLabel">
+         <property name="text">
+          <string>Min.:</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>
@@ -199,6 +165,11 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
      <property name="layoutDirection">
       <enum>Qt::LeftToRight</enum>
      </property>
@@ -209,6 +180,21 @@
       <string>FITS Scale</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>2</number>
+      </property>
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <property name="rightMargin">
+       <number>2</number>
+      </property>
+      <property name="bottomMargin">
+       <number>2</number>
+      </property>
       <item>
        <widget class="QRadioButton" name="linearR">
         <property name="text">
@@ -230,9 +216,16 @@
     </widget>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Close</set>
+    <widget class="QPushButton" name="applyB">
+     <property name="text">
+      <string>Apply</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="hideSaturated">
+     <property name="text">
+      <string>Hide Saturation Spike</string>
      </property>
     </widget>
    </item>

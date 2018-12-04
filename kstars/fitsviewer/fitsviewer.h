@@ -108,6 +108,7 @@ class FITSViewer : public KXmlGuiWindow
     void toggleObjects();
     void togglePixelGrid();
     void toggle3DGraph();
+    void starProfileButtonOff();
     void centerTelescope();
     void updateWCSFunctions();
     void applyFilter(int ftype);
