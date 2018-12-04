@@ -181,10 +181,11 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     currentTelescope->disconnect(this);
 
     connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Mount::updateNumber);
-    connect(currentTelescope, &ISD::GDInterface::switchUpdated, this, &Mount::updateSwitch);
+    connect(currentTelescope, &ISD::GDInterface::switchUpdated, this, &Mount::updateSwitch);    
     connect(currentTelescope, &ISD::GDInterface::textUpdated, this, &Mount::updateText);
     connect(currentTelescope, &ISD::Telescope::newTarget, this, &Mount::newTarget);
     connect(currentTelescope, &ISD::Telescope::slewRateChanged, this, &Mount::slewRateChanged);
+    connect(currentTelescope, &ISD::Telescope::pierSideChanged, this, &Mount::pierSideChanged);
     connect(currentTelescope, &ISD::Telescope::Disconnected, [this]()
     {
         updateTimer.stop();

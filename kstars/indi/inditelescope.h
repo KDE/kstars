@@ -1,4 +1,4 @@
-/*  INDI CCD
+/*  INDI Telescope
     Copyright (C) 2012 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     This application is free software; you can redistribute it and/or
@@ -37,6 +37,7 @@ class Telescope : public DeviceDecorator
     typedef enum { MOTION_NORTH, MOTION_SOUTH } TelescopeMotionNS;
     typedef enum { MOTION_WEST, MOTION_EAST } TelescopeMotionWE;
     typedef enum { MOTION_START, MOTION_STOP } TelescopeMotionCommand;
+    typedef enum { PIER_UNKNOWN=-1, PIER_WEST = 0 , PIER_EAST = 0 } PierSide;
     typedef enum {
         MOUNT_IDLE,
         MOUNT_MOVING,
@@ -117,6 +118,9 @@ class Telescope : public DeviceDecorator
     QStringList slewRates() { return m_slewRates; }
     int getSlewRate() const;
 
+    // Pier side
+    PierSide pierSide() const { return m_PierSide; }
+
   protected:
     bool sendCoords(SkyPoint *ScopeTarget);
 
@@ -134,6 +138,7 @@ class Telescope : public DeviceDecorator
     void newTarget(const QString &);
     void newParkStatus(ISD::ParkStatus status);
     void slewRateChanged(int rate);
+    void pierSideChanged(PierSide side);
     void ready();
 
   private:
@@ -148,6 +153,7 @@ class Telescope : public DeviceDecorator
     bool inCustomParking     = false;
     IPState NSPreviousState  = IPS_IDLE;
     IPState WEPreviousState  = IPS_IDLE;
+    PierSide m_PierSide = PIER_UNKNOWN;
 
     QMap<TrackModes, uint8_t> TrackMap;
     TrackModes currentTrackMode { TRACK_SIDEREAL };
@@ -166,3 +172,7 @@ class Telescope : public DeviceDecorator
 Q_DECLARE_METATYPE(ISD::Telescope::Status)
 QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Telescope::Status& source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::Status &dest);
+
+Q_DECLARE_METATYPE(ISD::Telescope::PierSide)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Telescope::PierSide& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::PierSide &dest);

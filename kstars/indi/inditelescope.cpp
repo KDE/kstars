@@ -97,8 +97,8 @@ void Telescope::registerProperty(INDI::Property *prop)
         if (aperture_ok && focal_ok)
             clientManager->sendNewNumber(ti);
     }
-
-    if (!strcmp(prop->getName(), "TELESCOPE_PARK"))
+    // Telescope Park
+    else if (!strcmp(prop->getName(), "TELESCOPE_PARK"))
     {
         ISwitchVectorProperty *svp = prop->getSwitch();
 
@@ -134,8 +134,17 @@ void Telescope::registerProperty(INDI::Property *prop)
             }
         }
     }
-
-    if (!strcmp(prop->getName(), "ALIGNMENT_POINTSET_ACTION") || !strcmp(prop->getName(), "ALIGNLIST"))
+    else if (!strcmp(prop->getName(), "TELESCOPE_PIER_SIDE"))
+    {
+        ISwitchVectorProperty *svp = prop->getSwitch();
+        int currentSide = IUFindOnSwitchIndex(svp);
+        if (currentSide != m_PierSide)
+        {
+            m_PierSide = static_cast<PierSide>(currentSide);
+            emit pierSideChanged(m_PierSide);
+        }
+    }
+    else if (!strcmp(prop->getName(), "ALIGNMENT_POINTSET_ACTION") || !strcmp(prop->getName(), "ALIGNLIST"))
         m_hasAlignmentModel = true;
     else if (!strcmp(prop->getName(), "TELESCOPE_TRACK_STATE"))
         m_canControlTrack = true;
@@ -338,6 +347,15 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
         {
             inCustomParking = false;
             KSNotification::event(QLatin1String("MountAborted"), i18n("Mount motion was aborted"), KSNotification::EVENT_WARN);
+        }
+    }
+    else if (!strcmp(svp->name, "TELESCOPE_PIER_SIDE"))
+    {
+        int currentSide = IUFindOnSwitchIndex(svp);
+        if (currentSide != m_PierSide)
+        {
+            m_PierSide = static_cast<PierSide>(currentSide);
+            emit pierSideChanged(m_PierSide);
         }
     }
     else if (!strcmp(svp->name, "TELESCOPE_TRACK_MODE"))
@@ -1360,6 +1378,24 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::S
     argument >> a;
     argument.endStructure();
     dest = static_cast<ISD::Telescope::Status>(a);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Telescope::PierSide& source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::PierSide &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+    dest = static_cast<ISD::Telescope::PierSide>(a);
     return argument;
 }
 

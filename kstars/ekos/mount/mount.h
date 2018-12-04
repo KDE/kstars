@@ -46,6 +46,7 @@ class Mount : public QWidget, public Ui::Mount
     Q_PROPERTY(int slewStatus READ slewStatus)
     Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
     Q_PROPERTY(bool canPark READ canPark)
+    Q_PROPERTY(ISD::Telescope::PierSide pierSide READ pierSide NOTIFY pierSideChanged)
 
   public:
     Mount();
@@ -69,7 +70,9 @@ class Mount : public QWidget, public Ui::Mount
     QString getLogText() { return m_LogText.join("\n"); }
 
     ISD::Telescope::Status status() {return m_Status;}
+    ISD::Telescope::PierSide pierSide() {return currentTelescope->pierSide();}
     ISD::ParkStatus parkStatus() {return m_ParkStatus;}
+
 
     /** @defgroup MountDBusInterface Ekos Mount DBus Interface
          * Mount interface provides advanced scripting capabilities to control INDI mounts.
@@ -317,6 +320,7 @@ private slots:
     void newTarget(const QString &name);    
     void newStatus(ISD::Telescope::Status status);
     void newParkStatus(ISD::ParkStatus status);
+    void pierSideChanged(ISD::Telescope::PierSide side);
     void slewRateChanged(int index);
     void ready();
 
