@@ -34,79 +34,6 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/tools
 )
 
-if (CFITSIO_FOUND)
-    set (sep_SRCS
-        fitsviewer/sep/analyse.c
-        fitsviewer/sep/aperture.c
-        fitsviewer/sep/background.c
-        fitsviewer/sep/convolve.c
-        fitsviewer/sep/deblend.c
-        fitsviewer/sep/extract.c
-        fitsviewer/sep/lutz.c
-        fitsviewer/sep/util.c
-        )
-
-    set (fits_SRCS
-        fitsviewer/fitslabel.cpp
-        fitsviewer/fitsviewer.cpp
-        fitsviewer/fitstab.cpp
-        fitsviewer/fitsdebayer.cpp
-        fitsviewer/opsfits.cpp
-        )
-
-    if (Qt5DataVisualization_FOUND)
-        set(fits_SRCS ${fits_SRCS} fitsviewer/starprofileviewer.cpp)
-    endif()
-
-    set (fits2_SRCS
-        fitsviewer/bayer.c
-        fitsviewer/fpack.c
-        fitsviewer/fpackutil.c
-        fitsviewer/fitshistogram.cpp
-        fitsviewer/fitsview.cpp
-        fitsviewer/fitsdata.cpp
-        )
-    set (fitsui_SRCS
-        fitsviewer/fitsheaderdialog.ui
-        fitsviewer/statform.ui
-        fitsviewer/fitsdebayer.ui
-        indi/streamform.ui
-        indi/recordingoptions.ui
-        fitsviewer/fitshistogramui.ui
-        fitsviewer/opsfits.ui
-        )
-    include_directories(${CFITSIO_INCLUDE_DIR})
-
-endif(CFITSIO_FOUND)
-
-IF (CFITSIO_FOUND)
-    IF (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
-        IF (SANITIZERS)
-            SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -fno-sanitize=address,undefined -fomit-frame-pointer")
-            SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsdata.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
-            SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitshistogram.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
-            SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsview.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
-        ELSE ()
-            SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        ENDIF ()
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/analyse.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-pointer-arith")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/background.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-incompatible-pointer-types-discards-qualifiers")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/extract.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/lutz.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpack.c PROPERTIES COMPILE_FLAGS "-Wno-error")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-error")
-    ELSEIF (NOT WIN32)
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpack.c PROPERTIES COMPILE_FLAGS "-Wno-error")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-error")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-pointer-arith")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-discarded-qualifiers")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-discarded-qualifiers")
-    ENDIF ()
-ENDIF ()
-
 if (INDI_FOUND)
     if(BUILD_KSTARS_LITE)
             set (fits_klite_SRCS
@@ -286,6 +213,79 @@ if (INDI_FOUND)
 
     include_directories(${INDI_INCLUDE_DIR})
 endif (INDI_FOUND)
+
+if (CFITSIO_FOUND)
+    set (sep_SRCS
+        fitsviewer/sep/analyse.c
+        fitsviewer/sep/aperture.c
+        fitsviewer/sep/background.c
+        fitsviewer/sep/convolve.c
+        fitsviewer/sep/deblend.c
+        fitsviewer/sep/extract.c
+        fitsviewer/sep/lutz.c
+        fitsviewer/sep/util.c
+        )
+
+    set (fits_SRCS
+        fitsviewer/fitslabel.cpp
+        fitsviewer/fitsviewer.cpp
+        fitsviewer/fitstab.cpp
+        fitsviewer/fitsdebayer.cpp
+        fitsviewer/opsfits.cpp
+        )
+
+    if (Qt5DataVisualization_FOUND)
+        set(fits_SRCS ${fits_SRCS} fitsviewer/starprofileviewer.cpp)
+    endif()
+
+    set (fits2_SRCS
+        fitsviewer/bayer.c
+        fitsviewer/fpack.c
+        fitsviewer/fpackutil.c
+        fitsviewer/fitshistogram.cpp
+        fitsviewer/fitsview.cpp
+        fitsviewer/fitsdata.cpp
+        )
+    set (fitsui_SRCS
+        fitsviewer/fitsheaderdialog.ui
+        fitsviewer/statform.ui
+        fitsviewer/fitsdebayer.ui
+        indi/streamform.ui
+        indi/recordingoptions.ui
+        fitsviewer/fitshistogramui.ui
+        fitsviewer/opsfits.ui
+        )
+    include_directories(${CFITSIO_INCLUDE_DIR})
+
+endif(CFITSIO_FOUND)
+
+IF (CFITSIO_FOUND)
+    IF (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
+        IF (SANITIZERS)
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -fno-sanitize=address,undefined -fomit-frame-pointer")
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsdata.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitshistogram.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/fitsview.cpp PROPERTIES COMPILE_FLAGS "-fno-sanitize=address,undefined -fomit-frame-pointer")
+        ELSE ()
+            SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        ENDIF ()
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/analyse.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-pointer-arith")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/background.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-incompatible-pointer-types-discards-qualifiers")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/extract.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/lutz.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpack.c PROPERTIES COMPILE_FLAGS "-Wno-error")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-error")
+    ELSEIF (NOT WIN32)
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpack.c PROPERTIES COMPILE_FLAGS "-Wno-error")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-error")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-pointer-arith")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-discarded-qualifiers")
+        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-discarded-qualifiers")
+    ENDIF ()
+ENDIF ()
 
 if(WCSLIB_FOUND)
     include_directories( ${WCSLIB_INCLUDE_DIR} )
