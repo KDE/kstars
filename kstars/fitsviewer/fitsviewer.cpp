@@ -533,7 +533,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
     updateButtonStatus("view_crosshair", i18n("Cross Hairs"), getCurrentView()->isCrosshairShown());
     updateButtonStatus("view_eq_grid", i18n("Equatorial Gridines"), getCurrentView()->isEQGridShown());
     updateButtonStatus("view_objects", i18n("Objects in Image"), getCurrentView()->areObjectsShown());
-    updateButtonStatus("view_pixel_grid", i18n("Pixel Gridines"), getCurrentView()->isPixelGridShown());
+    updateButtonStatus("view_pixel_grid", i18n("Pixel Gridlines"), getCurrentView()->isPixelGridShown());
     updateScopeButton();
     updateWCSFunctions();
 }
