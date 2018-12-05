@@ -44,7 +44,6 @@ class Mount : public QWidget, public Ui::Mount
     Q_PROPERTY(double hourAngle READ hourAngle)
     Q_PROPERTY(int slewRate READ slewRate WRITE setSlewRate)
     Q_PROPERTY(int slewStatus READ slewStatus)
-    Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
     Q_PROPERTY(bool canPark READ canPark)
     Q_PROPERTY(ISD::Telescope::PierSide pierSide READ pierSide NOTIFY pierSideChanged)
 
