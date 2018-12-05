@@ -58,7 +58,7 @@ namespace NameResolverInternals
  */
 bool sesameResolver(class CatalogEntryData &data, const QString &name);
 
-/**
+/*
  * @short Retrieve additional data from SIMBAD
  *
  * If the object was resolved by SIMBAD, obtain additional data

@@ -321,7 +321,7 @@ class Guide : public QWidget, public Ui::Guide
          */
     void setST4(int index);
 
-    /**
+    /*
          * @brief processRapidStarData is called by INDI framework when we receive new Rapid Guide data
          * @param targetChip target Chip for which rapid guide is enabled
          * @param dx Deviation in X

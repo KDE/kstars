@@ -59,12 +59,12 @@ namespace KSUtils
  *subdirectory.  If the data file cannot be found or opened, display a warning
  *messagebox.
  *@short Open a data file.
- *@param &file The QFile object to be opened
- *@param filename The name of the data file.
+ *@param file The QFile object to be opened
+ *@param s The name of the data file.
  *@returns bool Returns true if data file was opened successfully.
  *@returns a reference to the opened file.
  */
-bool openDataFile(QFile &file, const QString &filename);
+bool openDataFile(QFile &file, const QString &s);
 
 /** Clamp value into range.
  *  @p x  value to clamp.
