@@ -24,6 +24,7 @@
 #include "indi/driverinfo.h"
 #include "ekos_debug.h"
 #include "kspaths.h"
+#include "Options.h"
 
 SerialPortAssistant::SerialPortAssistant(ProfileInfo *profile, QWidget *parent) : QDialog(parent),
     m_Profile(profile)
@@ -48,6 +49,16 @@ SerialPortAssistant::SerialPortAssistant(ProfileInfo *profile, QWidget *parent) 
     });
     connect(model.get(), &QStandardItemModel::rowsRemoved, [&]() { clearRuleB->setEnabled(model->rowCount() > 0); });
     connect(clearRuleB, &QPushButton::clicked, this, &SerialPortAssistant::removeActiveRule);
+
+    displayOnStartupC->setChecked(Options::autoLoadSerialAssistant());
+    connect(displayOnStartupC, &QCheckBox::toggled, [&](bool enabled) {
+        Options::setAutoLoadSerialAssistant(enabled);
+    });
+
+    connect(closeB, &QPushButton::clicked, [&]() {
+        serialPortWizard->setCurrentIndex(0);
+        close();
+    });
 }
 
 void SerialPortAssistant::addDevice(ISD::GDInterface *device)
@@ -79,7 +90,16 @@ void SerialPortAssistant::addPage(ISD::GDInterface *device)
     QHBoxLayout *actionsLayout = new QHBoxLayout(devicePage);
     QPushButton *startButton = new QPushButton(i18n("Start Scan"), devicePage);
     startButton->setObjectName("startButton");
+
+    QPushButton *homeButton = new QPushButton(QIcon::fromTheme("go-home"), i18n("Home"), devicePage);
+    connect(homeButton, &QPushButton::clicked, [&]() {
+        serialPortWizard->setCurrentIndex(0);
+    });
+
     QPushButton *skipButton = new QPushButton(i18n("Skip Device"), devicePage);
+    connect(skipButton, &QPushButton::clicked, [&]() {
+        serialPortWizard->setCurrentIndex(serialPortWizard->currentIndex()+1);
+    });
     QCheckBox *hardwareSlotC = new QCheckBox(i18n("Physical Port Mapping"), devicePage);
     hardwareSlotC->setObjectName("hardwareSlot");
     hardwareSlotC->setToolTip(i18n("Assign the permanent name based on which physical port the device is plugged to in StellarMate. "
@@ -90,6 +110,7 @@ void SerialPortAssistant::addPage(ISD::GDInterface *device)
     actionsLayout->addWidget(skipButton);
     actionsLayout->addWidget(hardwareSlotC);
     actionsLayout->addItem(new QSpacerItem(10,10, QSizePolicy::Preferred));
+    actionsLayout->addWidget(homeButton);
     layout->addLayout(actionsLayout);
 
     QHBoxLayout *animationLayout = new QHBoxLayout(devicePage);
@@ -109,6 +130,7 @@ void SerialPortAssistant::addPage(ISD::GDInterface *device)
     actionGroup->addButton(startButton);
     actionGroup->addButton(skipButton);
     actionGroup->addButton(hardwareSlotC);
+    actionGroup->addButton(homeButton);
 
     layout->addLayout(animationLayout);
     //smGIF->start();
@@ -275,9 +297,8 @@ void SerialPortAssistant::parseDevices()
             newRule.insert("port", devPath.mid(index+1));
         }
     }
-    else
+    else if (model)
     {
-        QList<QStandardItem*> items = model->findItems(newRule["vid"].toString(), Qt::MatchExactly, 0);
         bool vidMatch = !(model->findItems(newRule["vid"].toString(), Qt::MatchExactly, 0).empty());
         bool pidMatch = !(model->findItems(newRule["pid"].toString(), Qt::MatchExactly, 1).empty());
         if (vidMatch && pidMatch)
@@ -297,7 +318,7 @@ bool SerialPortAssistant::addRule(const QJsonObject &rule)
     QByteArray data = QJsonDocument(rule).toJson(QJsonDocument::Compact);
     if (INDI::WebManager::getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data))
     {
-        KSNotification::info(i18n("Mapping is successful. Please unplug and replug your device now."));
+        KSNotification::info(i18n("Mapping is successful. Please unplug and replug your device again now."));
         ITextVectorProperty *devicePort = devices[serialPortWizard->currentIndex()-1]->getBaseDevice()->getText("DEVICE_PORT");
         if (devicePort)
         {
@@ -308,6 +329,8 @@ bool SerialPortAssistant::addRule(const QJsonObject &rule)
             devices[serialPortWizard->currentIndex()-1]->Connect();
             serialPortWizard->setCurrentIndex(serialPortWizard->currentIndex()+1);
         }
+
+        loadRules();
         return true;
     }
 
