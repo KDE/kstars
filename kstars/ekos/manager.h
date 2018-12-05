@@ -40,6 +40,7 @@
 
 #include <memory>
 
+//! Generic record interfaces and implementations.
 namespace EkosLive {
   class Client;
   class Message;
