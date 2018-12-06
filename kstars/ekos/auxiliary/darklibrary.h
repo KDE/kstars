@@ -72,5 +72,7 @@ class DarkLibrary : public QObject
         FITSView *targetImage { nullptr };
         FITSScale filter;
     } subtractParams;
+
+    bool m_TelescopeCovered { false };
 };
 }
