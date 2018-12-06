@@ -156,7 +156,7 @@ Guide::Guide() : QWidget()
     // Subframe check
     connect(subFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
 
-    // ST4 Selection    
+    // ST4 Selection
     connect(ST4Combo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), [&](const QString &text)
     {
         setDefaultST4(text);
@@ -338,7 +338,7 @@ Guide::Guide() : QWidget()
     driftGraph->legend->removeItem(5);
     driftGraph->legend->removeItem(4);
     driftGraph->legend->removeItem(3);
-    driftGraph->legend->removeItem(2);    
+    driftGraph->legend->removeItem(2);
     //Dragging and zooming settings
     // make bottom axis transfer its range to the top axis if the graph gets zoomed:
     connect(driftGraph->xAxis,  static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged),
@@ -940,7 +940,7 @@ void Guide::checkCCD(int ccdNum)
                 }
             }
         }
-#endif        
+#endif
         ISD::CCDChip *targetChip =
             currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         targetChip->setImageView(guideView, FITS_GUIDE);
@@ -1196,7 +1196,7 @@ void Guide::setST4(int index)
 
     ST4Driver = ST4List.at(index);
 
-    GuideDriver = ST4Driver;    
+    GuideDriver = ST4Driver;
 }
 
 void Guide::setAO(ISD::ST4 *newAO)
@@ -1231,7 +1231,7 @@ bool Guide::captureOneFrame()
 
     double seqExpose = exposureIN->value();
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);        
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     targetChip->setCaptureMode(FITS_GUIDE);
     targetChip->setFrameType(FRAME_LIGHT);
@@ -1296,7 +1296,7 @@ bool Guide::abort()
             currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         if (targetChip->isCapturing())
             targetChip->abortExposure();
-    }    
+    }
 
     manualDitherB->setEnabled(false);
 
@@ -1645,7 +1645,7 @@ void Guide::stopRapidGuide()
 #endif
 
 bool Guide::calibrate()
-{    
+{
     // Set status to idle and let the operations change it as they get executed
     state = GUIDE_IDLE;
     emit newStatus(state);
@@ -1781,8 +1781,8 @@ void Guide::setPierSide(ISD::Telescope::PierSide newSide)
        state != GUIDE_CALIBRATING &&
        calibrationComplete)
    {
-        swapCheck->setChecked(!swapCheck->isChecked());
-        appendLogText(i18n("Pier side change detected. Reversing DEC swap."));
+       clearCalibration();
+       appendLogText(i18n("Pier side change detected. Clearing calibration."));
    }
 }
 
@@ -1809,7 +1809,7 @@ void Guide::setMountStatus(ISD::Telescope::Status newState)
         case ISD::Telescope::MOUNT_MOVING:
             captureB->setEnabled(false);
             loopB->setEnabled(false);
-            clearCalibrationB->setEnabled(false);            
+            clearCalibrationB->setEnabled(false);
             break;
 
         default:
@@ -1941,7 +1941,7 @@ void Guide::setStatus(Ekos::GuideState newState)
             externalConnectB->setEnabled(false);
             externalDisconnectB->setEnabled(true);
             captureB->setEnabled(false);
-            loopB->setEnabled(false);            
+            loopB->setEnabled(false);
             clearCalibrationB->setEnabled(true);
             guideB->setEnabled(true);
             setBLOBEnabled(false);
@@ -2188,7 +2188,7 @@ bool Guide::setGuiderType(int type)
             guider->Disconnect();
 
         // Disconnect signals
-        guider->disconnect();        
+        guider->disconnect();
     }
 
     guiderType = static_cast<GuiderType>(type);
@@ -2196,7 +2196,7 @@ bool Guide::setGuiderType(int type)
     switch (type)
     {
         case GUIDE_INTERNAL:
-        {       
+        {
             connect(internalGuider, SIGNAL(newPulse(GuideDirection,int)), this, SLOT(sendPulse(GuideDirection,int)));
             connect(internalGuider, SIGNAL(newPulse(GuideDirection,int,GuideDirection,int)), this,
                     SLOT(sendPulse(GuideDirection,int,GuideDirection,int)));
