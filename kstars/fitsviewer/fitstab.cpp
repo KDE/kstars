@@ -24,7 +24,6 @@
 #include "Options.h"
 #include "ui_fitsheaderdialog.h"
 #include "ui_statform.h"
-#include "ekos/manager.h"
 
 #include <QtConcurrent>
 #include <KMessageBox>
@@ -69,7 +68,7 @@ void FITSTab::saveUnsaved()
 
 void FITSTab::closeEvent(QCloseEvent *ev)
 {
-    saveUnsaved();    
+    saveUnsaved();
 
     if (undoStack->isClean())
         ev->accept();
@@ -270,14 +269,14 @@ void FITSTab::statFITS()
 }
 
 void FITSTab::loadFITSHeader()
-{    
-    FITSData *image_data = view->getImageData();       
+{
+    FITSData *image_data = view->getImageData();
 
     int nkeys = image_data->getRecords().size();
     int counter=0;
     header.tableWidget->setRowCount(nkeys);
     for (FITSData::Record *oneRecord : image_data->getRecords())
-    {        
+    {
         QTableWidgetItem *tempItem = new QTableWidgetItem(oneRecord->key);
         tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         header.tableWidget->setItem(counter, 0, tempItem);
