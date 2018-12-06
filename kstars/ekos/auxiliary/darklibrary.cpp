@@ -198,7 +198,7 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
             return subtract<int64_t>(darkData, lightImage, filter, offsetX, offsetY);
 
         case TDOUBLE:
-            return subtract<double>(darkData, lightImage, filter, offsetX, offsetY);            
+            return subtract<double>(darkData, lightImage, filter, offsetX, offsetY);
 
         default:
             break;
@@ -254,8 +254,8 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
     lightImage->rescale(ZOOM_KEEP_LEVEL);
     lightImage->updateFrame();
 
-    // If targetChip is null then we loaded data from disk
-    if (subtractParams.targetChip != nullptr)
+    // If telescope is covered, let's uncover it
+    if (m_TelescopeCovered)
     {
         QString deviceName= subtractParams.targetChip->getCCD()->getDeviceName();
         bool hasNoShutter = Options::shutterlessCCDs().contains(deviceName);
@@ -272,6 +272,8 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
                 emit darkFrameCompleted(false);
                 return false;
             }
+            else
+                m_TelescopeCovered = false;
         }
     }
 
@@ -322,6 +324,8 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
             emit darkFrameCompleted(false);
             return false;
         }
+        else
+            m_TelescopeCovered = true;
     }
 
     targetChip->resetFrame();
