@@ -121,7 +121,7 @@ bool isStellarMate(ProfileInfo *pi)
     if (getWebManagerResponse(QNetworkAccessManager::GetOperation, url, &json))
     {
         QJsonObject version = json.object();
-        if (version.isEmpty())
+        if (version.contains("version") == false)
             return false;
         qInfo(KSTARS_EKOS) << "Detect StellarMate version" << version["version"].toString();
         return true;

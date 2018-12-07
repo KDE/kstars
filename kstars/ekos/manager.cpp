@@ -1000,28 +1000,31 @@ void Manager::processNewDevice(ISD::GDInterface *devInterface)
     connect(devInterface, &ISD::GDInterface::Connected, this, &Ekos::Manager::deviceConnected);
     connect(devInterface, &ISD::GDInterface::Disconnected, this, &Ekos::Manager::deviceDisconnected);
     connect(devInterface, &ISD::GDInterface::propertyDefined, this, &Ekos::Manager::processNewProperty);
-    connect(devInterface, &ISD::GDInterface::systemPortDetected, [this,devInterface]() {
-        if (!serialPortAssistant)
-        {
-            serialPortAssistant.reset(new SerialPortAssistant(currentProfile, this));
-            serialPortAssistantB->setEnabled(true);
-        }
+    if (currentProfile->isStellarMate)
+    {
+        connect(devInterface, &ISD::GDInterface::systemPortDetected, [this,devInterface]() {
+            if (!serialPortAssistant)
+            {
+                serialPortAssistant.reset(new SerialPortAssistant(currentProfile, this));
+                serialPortAssistantB->setEnabled(true);
+            }
 
-        uint32_t driverInterface = devInterface->getDriverInterface();
-        // Ignore CCD interface
-        if (driverInterface & INDI::BaseDevice::CCD_INTERFACE)
-            return;
+            uint32_t driverInterface = devInterface->getDriverInterface();
+            // Ignore CCD interface
+            if (driverInterface & INDI::BaseDevice::CCD_INTERFACE)
+                return;
 
-        if (driverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE ||
-            driverInterface & INDI::BaseDevice::FOCUSER_INTERFACE   ||
-            driverInterface & INDI::BaseDevice::FILTER_INTERFACE    ||
-            driverInterface & INDI::BaseDevice::AUX_INTERFACE       ||
-            driverInterface & INDI::BaseDevice::GPS_INTERFACE)
-                serialPortAssistant->addDevice(devInterface);
+            if (driverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE ||
+                driverInterface & INDI::BaseDevice::FOCUSER_INTERFACE   ||
+                driverInterface & INDI::BaseDevice::FILTER_INTERFACE    ||
+                driverInterface & INDI::BaseDevice::AUX_INTERFACE       ||
+                driverInterface & INDI::BaseDevice::GPS_INTERFACE)
+                    serialPortAssistant->addDevice(devInterface);
 
-        if (Options::autoLoadSerialAssistant())
-                serialPortAssistant->show();
-    });
+            if (Options::autoLoadSerialAssistant())
+                    serialPortAssistant->show();
+        });
+    }
 
     if (nDevices <= 0)
     {
