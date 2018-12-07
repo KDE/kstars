@@ -48,7 +48,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
     Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
     Q_PROPERTY(QString profile READ profile WRITE setProfile)
 
-  public:    
+  public:
     typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_STOPPING, EKOS_READY } EkosState;
     typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_DISCONNECTING, INDI_PROPERTY_CHECK, INDI_READY } INDIState;
     typedef enum {
@@ -342,6 +342,13 @@ class Scheduler : public QWidget, public Ui::Scheduler
         * @brief moveJobDown Move the selected job down in the list.
         */
     void moveJobDown();
+
+    /**
+     * @brief shouldSchedulerSleep Check if the scheduler needs to sleep until the job is ready
+     * @param job Job to check
+     * @return True if we set the scheduler to sleep mode. False, if not required and we need to execute now
+     */
+    bool shouldSchedulerSleep(SchedulerJob *currentJob);
 
     void toggleScheduler();
     void pause();
@@ -647,7 +654,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
     /** @internal Change the current job, updating associated widgets.
      * @param job is an existing SchedulerJob to set as current, or nullptr.
      */
-    void setCurrentJob(SchedulerJob *job);    
+    void setCurrentJob(SchedulerJob *job);
 
     void loadProfiles();
 
