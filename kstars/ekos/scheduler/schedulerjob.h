@@ -250,6 +250,12 @@ class SchedulerJob
     void setStartupCell(QTableWidgetItem *value);
     /** @} */
 
+    /** @brief Shortcut to widget cell for altitude in the job queue table. */
+    /** @{ */
+    QTableWidgetItem *getAltitudeCell() const { return altitudeCell; }
+    void setAltitudeCell(QTableWidgetItem *value);
+    /** @} */
+
     /** @brief Time after which the job is considered complete. */
     /** @{ */
     QDateTime getCompletionTime() const { return completionTime; }
@@ -272,6 +278,18 @@ class SchedulerJob
     /** @{ */
     QTableWidgetItem *getEstimatedTimeCell() const { return estimatedTimeCell; }
     void setEstimatedTimeCell(QTableWidgetItem *value);
+    /** @} */
+
+    /** @brief Estimation of the lead time the job will have to process. */
+    /** @{ */
+    int64_t getLeadTime() const { return leadTime; }
+    void setLeadTime(const int64_t &value);
+    /** @} */
+
+    /** @brief Shortcut to widget cell for estimated time in the job queue table. */
+    /** @{ */
+    QTableWidgetItem *getLeadTimeCell() const { return leadTimeCell; }
+    void setLeadTimeCell(QTableWidgetItem *value);
     /** @} */
 
     /** @brief Current score of the scheduler job. */
@@ -312,7 +330,7 @@ class SchedulerJob
     /** @} */
 
     /** @brief Refresh all cells connected to this SchedulerJob. */
-    void updateJobCell();
+    void updateJobCells();
 
     /** @brief Resetting a job to original values:
      * - idle state and stage
@@ -329,28 +347,37 @@ class SchedulerJob
      */
     bool isDuplicateOf(SchedulerJob const *a_job) const { return this != a_job && name == a_job->name && sequenceFile == a_job->sequenceFile; }
 
-    /** @brief Compare ::SchedulerJob instances based on score. This is a qSort predicate, deprecated in QT5.
+    /** @brief Compare ::SchedulerJob instances based on score.
+     * @fixme This is a qSort predicate, deprecated in QT5.
      * @arg a, b are ::SchedulerJob instances to compare.
      * @return true if the score of b is lower than the score of a.
      * @return false if the score of b is higher than or equal to the score of a.
      */
     static bool decreasingScoreOrder(SchedulerJob const *a, SchedulerJob const *b);
 
-    /** @brief Compare ::SchedulerJob instances based on priority. This is a qSort predicate, deprecated in QT5.
+    /** @brief Compare ::SchedulerJob instances based on priority.
+     * @fixme This is a qSort predicate, deprecated in QT5.
      * @arg a, b are ::SchedulerJob instances to compare.
      * @return true if the priority of a is lower than the priority of b.
      * @return false if the priority of a is higher than or equal to the priority of b.
      */
     static bool increasingPriorityOrder(SchedulerJob const *a, SchedulerJob const *b);
 
-    /** @brief Compare ::SchedulerJob instances based on altitude. This is a qSort predicate, deprecated in QT5.
+    /** @brief Compare ::SchedulerJob instances based on altitude and movement in sky at startup time.
+     * @fixme This is a qSort predicate, deprecated in QT5.
      * @arg a, b are ::SchedulerJob instances to compare.
-     * @return true if the altitude of b is lower than the altitude of a.
-     * @return false if the altitude of b is higher than or equal to the altitude of a.
+     * @arg when is the date/time to use to calculate the altitude to sort with, defaulting to a's startup time.
+     * @note To obtain proper sort between several SchedulerJobs, all should have the same startup time.
+     * @note Use std:bind to bind a specific date/time to this predicate for altitude calculation.
+     * @return true is a is setting but not b.
+     * @return false if b is setting but not a.
+     * @return true otherwise, if the altitude of b is lower than the altitude of a.
+     * @return false otherwise, if the altitude of b is higher than or equal to the altitude of a.
      */
-    static bool decreasingAltitudeOrder(SchedulerJob const *a, SchedulerJob const *b);
+    static bool decreasingAltitudeOrder(SchedulerJob const *a, SchedulerJob const *b, QDateTime const &when = QDateTime());
 
-    /** @brief Compare ::SchedulerJob instances based on startup time. This is a qSort predicate, deprecated in QT5.
+    /** @brief Compare ::SchedulerJob instances based on startup time.
+     * @fixme This is a qSort predicate, deprecated in QT5.
      * @arg a, b are ::SchedulerJob instances to compare.
      * @return true if the startup time of a is sooner than the priority of b.
      * @return false if the startup time of a is later than or equal to the priority of b.
@@ -374,10 +401,18 @@ private:
     QDateTime startupTime;
     QDateTime completionTime;
 
+    /* @internal Caches to optimize cell rendering. */
+    /* @{ */
+    double altitudeAtStartup;
+    double altitudeAtCompletion;
+    bool isSettingAtStartup;
+    bool isSettingAtCompletion;
+    /* @} */
+
     QUrl sequenceFile;
     QUrl fitsFile;
 
-    double minAltitude { -1 };
+    double minAltitude { -90 };
     double minMoonSeparation { -1 };
 
     bool enforceWeather { false };
@@ -392,17 +427,20 @@ private:
     QTableWidgetItem *statusCell { nullptr };
     QTableWidgetItem *stageCell { nullptr };
     QLabel *stageLabel { nullptr };
+    QTableWidgetItem *altitudeCell { nullptr };
     QTableWidgetItem *startupCell { nullptr };
     QTableWidgetItem *completionCell { nullptr };
     QTableWidgetItem *estimatedTimeCell { nullptr };
     QTableWidgetItem *captureCountCell { nullptr };
     QTableWidgetItem *scoreCell { nullptr };
+    QTableWidgetItem *leadTimeCell { nullptr };
     /** @} */
 
     int score { 0 };
     int16_t culminationOffset { 0 };
     uint8_t priority { 10 };
     int64_t estimatedTime { -1 };
+    int64_t leadTime { 0 };
     uint16_t repeatsRequired { 1 };
     uint16_t repeatsRemaining { 1 };
     bool inSequenceFocus { false };

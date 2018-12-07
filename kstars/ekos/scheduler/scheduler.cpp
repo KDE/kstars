@@ -119,6 +119,12 @@ Scheduler::Scheduler()
     evaluateOnlyB->setIcon(QIcon::fromTheme("system-reboot"));
     evaluateOnlyB->setToolTip(i18n("Reset state and force reevaluation of all observation jobs."));
     evaluateOnlyB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    sortJobsB->setIcon(QIcon::fromTheme("transform-move-vertical"));
+    sortJobsB->setToolTip(i18n("Reset state and sort observation jobs per altitude and movement in sky, using the start time of the first job.\n"
+                "This action sorts setting targets before rising targets, and may help scheduling when starting your observation.\n"
+                "Option \"Sort Jobs by Altitude and Priority\" keeps the job list sorted this way, but with current time as reference.\n"
+                "Note the algorithm first calculates all altitudes using the same time, then evaluates jobs."));
+    sortJobsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
     mosaicB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
@@ -162,6 +168,7 @@ Scheduler::Scheduler()
     connect(queueUpB, &QPushButton::clicked, this, &Scheduler::moveJobUp);
     connect(queueDownB, &QPushButton::clicked, this, &Scheduler::moveJobDown);
     connect(evaluateOnlyB, &QPushButton::clicked, this, &Scheduler::startJobEvaluation);
+    connect(sortJobsB, &QPushButton::clicked, this, &Scheduler::sortJobsPerAltitude);
     connect(queueTable, &QAbstractItemView::clicked, this, &Scheduler::clickQueueTable);
     connect(queueTable, &QAbstractItemView::doubleClicked, this, &Scheduler::loadJob);
 
@@ -469,12 +476,6 @@ void Scheduler::saveJob()
 
     watchJobChanges(false);
 
-    /* Warn if appending a job after infinite repeat */
-    /* FIXME: alter looping job priorities so that they are rescheduled later */
-    foreach(SchedulerJob * job, jobs)
-        if(SchedulerJob::FINISH_LOOP == job->getCompletionCondition())
-            appendLogText(i18n("Warning: Job '%1' has completion condition set to infinite repeat, other jobs may not execute.",job->getName()));
-
     /* Create or Update a scheduler job */
     int currentRow = queueTable->currentRow();
     SchedulerJob * job = nullptr;
@@ -545,7 +546,7 @@ void Scheduler::saveJob()
     if (altConstraintCheck->isChecked())
         job->setMinAltitude(minAltitude->value());
     else
-        job->setMinAltitude(-1);
+        job->setMinAltitude(-90);
     // Do we have minimum moon separation constraint?
     if (moonSeparationCheck->isChecked())
         job->setMinMoonSeparation(minMoonSeparation->value());
@@ -566,10 +567,6 @@ void Scheduler::saveJob()
             appendLogText(i18n("Warning: job '%1' has startup time %2 resulting in a negative score, and will be marked invalid when processed.",
                                job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
 
-        /* Warn if appending a job with a startup time that is in the past */
-        if (job->getStartupTime() < KStarsData::Instance()->lt())
-            appendLogText(i18n("Warning: job '%1' has fixed startup time %2 set in the past, and will be marked invalid when evaluated.",
-                               job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
     }
 
     // #3 Completion conditions
@@ -640,49 +637,55 @@ void Scheduler::saveJob()
         }
     }
 
-    /* FIXME: Move part of the new job cell-wiring to setJobStatusCells */
+    if (-1 == jobUnderEdit)
+    {
+        QTableWidgetItem *nameCell = new QTableWidgetItem();
+        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_NAME), nameCell);
+        nameCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        nameCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *nameCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_NAME)) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_NAME), nameCell);
-    nameCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    nameCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    job->setNameCell(nameCell);
+        QTableWidgetItem *statusCell = new QTableWidgetItem();
+        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_STATUS), statusCell);
+        statusCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        statusCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *statusCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_STATUS)) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_STATUS), statusCell);
-    statusCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    statusCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    job->setStatusCell(statusCell);
+        QTableWidgetItem *captureCount = new QTableWidgetItem();
+        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_CAPTURES), captureCount);
+        captureCount->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        captureCount->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *captureCount = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_CAPTURES)) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_CAPTURES), captureCount);
-    captureCount->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    captureCount->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    job->setCaptureCountCell(captureCount);
+        QTableWidgetItem *scoreValue = new QTableWidgetItem();
+        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_SCORE), scoreValue);
+        scoreValue->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        scoreValue->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *scoreValue = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_SCORE)) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_SCORE), scoreValue);
-    scoreValue->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    scoreValue->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    job->setScoreCell(scoreValue);
+        QTableWidgetItem *startupCell = new QTableWidgetItem();
+        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_STARTTIME), startupCell);
+        startupCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        startupCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *startupCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_STARTTIME)) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_STARTTIME), startupCell);
-    startupCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    startupCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    job->setStartupCell(startupCell);
+        QTableWidgetItem *altitudeCell = new QTableWidgetItem();
+        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_ALTITUDE), altitudeCell);
+        altitudeCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        altitudeCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *completionCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_ENDTIME)) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_ENDTIME), completionCell);
-    completionCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    completionCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    job->setCompletionCell(completionCell);
+        QTableWidgetItem *completionCell = new QTableWidgetItem();
+        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_ENDTIME), completionCell);
+        completionCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        completionCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *estimatedTimeCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, static_cast<int>(SCHEDCOL_DURATION)) : new QTableWidgetItem();
-    if (jobUnderEdit == -1) queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_DURATION), estimatedTimeCell);
-    estimatedTimeCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    estimatedTimeCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    job->setEstimatedTimeCell(estimatedTimeCell);
+        QTableWidgetItem *estimatedTimeCell = new QTableWidgetItem();
+        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_DURATION), estimatedTimeCell);
+        estimatedTimeCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        estimatedTimeCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+        QTableWidgetItem *leadTimeCell = new QTableWidgetItem();
+        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_LEADTIME), leadTimeCell);
+        leadTimeCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        leadTimeCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    }
+
+    setJobStatusCells(currentRow);
 
     /* We just added or saved a job, so we have a job in the list - enable relevant buttons */
     queueSaveAsB->setEnabled(true);
@@ -768,7 +771,7 @@ void Scheduler::loadJob(QModelIndex i)
             break;
     }
 
-    if (job->getMinAltitude() >= 0)
+    if (-90 < job->getMinAltitude())
     {
         altConstraintCheck->setChecked(true);
         minAltitude->setValue(job->getMinAltitude());
@@ -869,11 +872,45 @@ void Scheduler::setJobManipulation(bool can_reorder, bool can_delete)
         queueUpB->setEnabled(false);
         queueDownB->setEnabled(false);
     }
+    sortJobsB->setEnabled(can_reorder);
     removeFromQueueB->setEnabled(can_delete);
+}
+
+bool Scheduler::reorderJobs(QList<SchedulerJob*> reordered_sublist)
+{
+    /* Add jobs not reordered at the end of the list, in initial order */
+    foreach (SchedulerJob* job, jobs)
+        if (!reordered_sublist.contains(job))
+            reordered_sublist.append(job);
+
+    if (jobs != reordered_sublist)
+    {
+        /* Remember job currently selected */
+        int const selectedRow = queueTable->currentRow();
+        SchedulerJob * const selectedJob = 0 <= selectedRow ? jobs.at(selectedRow) : nullptr;
+
+        /* Reassign list */
+        jobs = reordered_sublist;
+
+        /* Reassign status cells for all jobs, and reset them */
+        for (int row = 0; row < jobs.size(); row++)
+            setJobStatusCells(row);
+
+        /* Reselect previously selected job */
+        if (nullptr != selectedJob)
+            queueTable->selectRow(jobs.indexOf(selectedJob));
+
+        return true;
+    }
+    else return false;
 }
 
 void Scheduler::moveJobUp()
 {
+    /* No move if jobs are sorted automatically */
+    if (Options::sortSchedulerJobs())
+        return;
+
     int const rowCount = queueTable->rowCount();
     int const currentRow = queueTable->currentRow();
     int const destinationRow = currentRow - 1;
@@ -893,20 +930,22 @@ void Scheduler::moveJobUp()
     queueTable->selectRow(destinationRow);
     setJobManipulation(!Options::sortSchedulerJobs(), true);
 
-    /* Make list modified */
-    setDirty();
+    /* Jobs are now sorted, so reset all later jobs */
+    for (int row = destinationRow; row < jobs.size(); row++)
+        jobs.at(row)->reset();
 
-    /* Reset all jobs starting from the one moved */
-    for (int i = currentRow; i < jobs.size(); i++)
-        jobs.at(i)->reset();
-
-    /* Run evaluation as jobs that can run now changed order - saveJob will only evaluate if a job is edited */
+    /* Make list modified and evaluate jobs */
+    mDirty = true;
     jobEvaluationOnly = true;
     evaluateJobs();
 }
 
 void Scheduler::moveJobDown()
 {
+    /* No move if jobs are sorted automatically */
+    if (Options::sortSchedulerJobs())
+        return;
+
     int const rowCount = queueTable->rowCount();
     int const currentRow = queueTable->currentRow();
     int const destinationRow = currentRow + 1;
@@ -926,14 +965,12 @@ void Scheduler::moveJobDown()
     queueTable->selectRow(destinationRow);
     setJobManipulation(!Options::sortSchedulerJobs(), true);
 
-    /* Make list modified */
-    setDirty();
+    /* Jobs are now sorted, so reset all later jobs */
+    for (int row = currentRow; row < jobs.size(); row++)
+        jobs.at(row)->reset();
 
-    /* Reset all jobs starting from the one moved */
-    for (int i = currentRow; i < jobs.size(); i++)
-        jobs.at(i)->reset();
-
-    /* Run evaluation as jobs that can run now changed order - saveJob will only evaluate if a job is edited */
+    /* Make list modified and evaluate jobs */
+    mDirty = true;
     jobEvaluationOnly = true;
     evaluateJobs();
 }
@@ -949,9 +986,12 @@ void Scheduler::setJobStatusCells(int row)
     job->setStatusCell(queueTable->item(row, static_cast<int>(SCHEDCOL_STATUS)));
     job->setCaptureCountCell(queueTable->item(row, static_cast<int>(SCHEDCOL_CAPTURES)));
     job->setScoreCell(queueTable->item(row, static_cast<int>(SCHEDCOL_SCORE)));
+    job->setAltitudeCell(queueTable->item(row, static_cast<int>(SCHEDCOL_ALTITUDE)));
     job->setStartupCell(queueTable->item(row, static_cast<int>(SCHEDCOL_STARTTIME)));
     job->setCompletionCell(queueTable->item(row, static_cast<int>(SCHEDCOL_ENDTIME)));
     job->setEstimatedTimeCell(queueTable->item(row, static_cast<int>(SCHEDCOL_DURATION)));
+    job->setLeadTimeCell(queueTable->item(row, static_cast<int>(SCHEDCOL_LEADTIME)));
+    job->updateJobCells();
 }
 
 void Scheduler::resetJobEdit()
@@ -1241,17 +1281,21 @@ void Scheduler::setCurrentJob(SchedulerJob *job)
     if (currentJob)
     {
         currentJob->setStageLabel(jobStatus);
-        queueTable->selectRow(currentJob->getStartupCell()->row());
+        queueTable->selectRow(jobs.indexOf(currentJob));
     }
     else
     {
         jobStatus->setText(i18n("No job running"));
-        queueTable->clearSelection();
+        //queueTable->clearSelection();
     }
 }
 
 void Scheduler::evaluateJobs()
 {
+    /* Don't evaluate if list is empty */
+    if (jobs.isEmpty())
+        return;
+
     /* FIXME: it is possible to evaluate jobs while KStars has a time offset, so warn the user about this */
     QDateTime const now = KStarsData::Instance()->lt();
 
@@ -1268,70 +1312,70 @@ void Scheduler::evaluateJobs()
     sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(),[](SchedulerJob* job)
     { return SchedulerJob::JOB_ABORTED < job->getState(); }), sortedJobs.end());
 
-    /* Then reorder jobs by priority */
-    /* FIXME: refactor so all sorts are using the same predicates */
-    /* FIXME: use std::stable_sort as qStableSort is deprecated */
-    if (Options::sortSchedulerJobs())
-        qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
-
-    /* Then enumerate SchedulerJobs, scheduling only what is required */
+    /* Then enumerate SchedulerJobs to consolidate imaging time */
     foreach (SchedulerJob *job, sortedJobs)
     {
         /* Let aborted jobs be rescheduled later instead of forgetting them */
-        /* FIXME: minimum altitude and altitude cutoff may cause loops here */
         switch (job->getState())
         {
-            /* If job is idle, set it for evaluation */
-            case SchedulerJob::JOB_IDLE:
-                job->setState(SchedulerJob::JOB_EVALUATION);
-                job->setEstimatedTime(-1);
-                break;
-
-            /* If job is aborted, reset it for evaluation */
-            case SchedulerJob::JOB_ABORTED:
-                job->setState(SchedulerJob::JOB_EVALUATION);
-                break;
-
-            /* If job is scheduled, quick-check startup and bypass evaluation if in future */
             case SchedulerJob::JOB_SCHEDULED:
-                if (job->getStartupTime() < now)
-                    break;
-                continue;
+                /* If job is scheduled, bypass if set to start later with a fixed time */
+                if (SchedulerJob::START_AT == job->getFileStartupCondition())
+                    if (now < job->getStartupTime())
+                        continue;
+                break;
 
-            /* If job is in error, invalid or complete, bypass evaluation */
             case SchedulerJob::JOB_ERROR:
             case SchedulerJob::JOB_INVALID:
             case SchedulerJob::JOB_COMPLETE:
+                /* If job is in error, invalid or complete, bypass evaluation */
                 continue;
 
-            /* If job is busy, edge case, bypass evaluation */
             case SchedulerJob::JOB_BUSY:
+                /* If job is busy, edge case, bypass evaluation */
                 continue;
 
-            /* Else evaluate */
+            case SchedulerJob::JOB_IDLE:
+            case SchedulerJob::JOB_ABORTED:
             case SchedulerJob::JOB_EVALUATION:
+            default:
+                /* If job is idle or aborted, re-evaluate completely */
+                job->setEstimatedTime(-1);
                 break;
         }
 
-        // In case of a repeating jobs, let's make sure we have more runs left to go
-        // If we don't, re-estimate imaging time for the scheduler job before concluding
-        if (job->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
+        switch (job->getCompletionCondition())
         {
-            if (job->getRepeatsRemaining() == 0)
-            {
-                appendLogText(i18n("Job '%1' has no more batches remaining.", job->getName()));
-                if (Options::rememberJobProgress())
-                {
-                    job->setState(SchedulerJob::JOB_EVALUATION);
-                    job->setEstimatedTime(-1);
-                }
-                else
+            case SchedulerJob::FINISH_AT:
+                /* Job is complete if its fixed completion time is passed */
+                if (job->getCompletionTime().isValid() && job->getCompletionTime() < now)
                 {
                     job->setState(SchedulerJob::JOB_COMPLETE);
-                    job->setEstimatedTime(0);
                     continue;
                 }
-            }
+                break;
+
+            case SchedulerJob::FINISH_REPEAT:
+                // In case of a repeating jobs, let's make sure we have more runs left to go
+                // If we don't, re-estimate imaging time for the scheduler job before concluding
+                if (job->getRepeatsRemaining() == 0)
+                {
+                    appendLogText(i18n("Job '%1' has no more batches remaining.", job->getName()));
+                    if (Options::rememberJobProgress())
+                    {
+                        job->setEstimatedTime(-1);
+                    }
+                    else
+                    {
+                        job->setState(SchedulerJob::JOB_COMPLETE);
+                        job->setEstimatedTime(0);
+                        continue;
+                    }
+                }
+                break;
+
+            default:
+                break;
         }
 
         // -1 = Job is not estimated yet
@@ -1353,254 +1397,20 @@ void Scheduler::evaluateJobs()
             continue;
         }
 
-        // #1 Check startup conditions
-        switch (job->getStartupCondition())
-        {
-            // #1.1 ASAP?
-            case SchedulerJob::START_ASAP:
-            {
-                /* Job is to be started as soon as possible, so check its current score */
-                int16_t const score = calculateJobScore(job, now);
-
-                /* If it's not possible to run the job now, find proper altitude time */
-                if (score < 0)
-                {
-                    // If Altitude or Dark score are negative, we try to schedule a better time for altitude and dark sky period.
-                    if (calculateAltitudeTime(job, job->getMinAltitude() > 0 ? job->getMinAltitude() : 0,
-                                              job->getMinMoonSeparation()))
-                    {
-                        job->setState(SchedulerJob::JOB_SCHEDULED);
-                    }
-                    else
-                    {
-                        job->setState(SchedulerJob::JOB_INVALID);
-                    }
-
-                    /* Keep the job score for current time, score will refresh as scheduler progresses */
-                    /* score = calculateJobScore(job, job->getStartupTime()); */
-                    job->setScore(score);
-                }
-                /* If it's possible to run the job now, check weather */
-                else if (isWeatherOK(job) == false)
-                {
-                    appendLogText(i18n("Job '%1' cannot run now because of bad weather.", job->getName()));
-                    job->setState(SchedulerJob::JOB_ABORTED);
-                    job->setScore(BAD_SCORE);
-                }
-                /* If weather is ok, schedule the job to run now */
-                else
-                {
-                    appendLogText(i18n("Job '%1' is due to run as soon as possible.", job->getName()));
-                    /* Give a proper start time, so that job can be rescheduled if others also start asap */
-                    job->setStartupTime(now);
-                    job->setState(SchedulerJob::JOB_SCHEDULED);
-                    job->setScore(score);
-                }
-            }
-            break;
-
-                // #1.2 Culmination?
-            case SchedulerJob::START_CULMINATION:
-            {
-                if (calculateCulmination(job))
-                {
-                    appendLogText(i18n("Job '%1' is scheduled at %2 for culmination.", job->getName(),
-                                       job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
-                    job->setState(SchedulerJob::JOB_SCHEDULED);
-                }
-                else
-                {
-                    appendLogText(i18n("Job '%1' culmination cannot be scheduled, marking invalid.", job->getName()));
-                    job->setState(SchedulerJob::JOB_INVALID);
-                }
-            }
-            break;
-
-                // #1.3 Start at?
-            case SchedulerJob::START_AT:
-            {
-                if (job->getCompletionCondition() == SchedulerJob::FINISH_AT)
-                {
-                    if (job->getCompletionTime() <= job->getStartupTime())
-                    {
-                        appendLogText(i18n("Job '%1' completion time (%2) could not be achieved before start up time (%3), marking invalid", job->getName(),
-                                           job->getCompletionTime().toString(job->getDateTimeDisplayFormat()),
-                                           job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
-                        job->setState(SchedulerJob::JOB_INVALID);
-                        continue;
-                    }
-                }
-
-                int const timeUntil = now.secsTo(job->getStartupTime());
-
-                // If starting time already passed by 5 minutes (default), we mark the job as invalid or aborted
-                if (timeUntil < (-1 * Options::leadTime() * 60))
-                {
-                    dms const passedUp(-timeUntil * 15.0  / 3600.0);
-
-                    /* Mark the job invalid only if its startup time was a user request, else just abort it for later reschedule */
-                    if (job->getFileStartupCondition() == SchedulerJob::START_AT)
-                    {
-                        appendLogText(i18n("Job '%1' startup time was fixed at %2, and is already passed by %3, marking invalid.",
-                                           job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat()), passedUp.toHMSString()));
-                        job->setState(SchedulerJob::JOB_INVALID);
-                    }
-                    /* Don't abort a job that is repeating because it started long ago, that delay is expected */
-                    else if (job->getRepeatsRequired() <= 1)
-                    {
-                        appendLogText(i18n("Job '%1' startup time was %2, and is already passed by %3, marking aborted.",
-                                           job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat()), passedUp.toHMSString()));
-                        job->setState(SchedulerJob::JOB_ABORTED);
-                    }
-                }
-                // Start scoring once we reach startup time
-                else if (timeUntil <= 0)
-                {
-                    /* Consolidate altitude, moon separation and sky darkness scores */
-                    int16_t const score = calculateJobScore(job, now);
-
-                    if (score < 0)
-                    {
-                        /* If job score is already negative, silently abort the job to avoid spamming the user */
-                        if (0 < job->getScore())
-                        {
-                            if (job->getState() == SchedulerJob::JOB_EVALUATION)
-                                appendLogText(i18n("Job '%1' evaluation failed with a score of %2, marking aborted.",
-                                                   job->getName(), score));
-                            else if (timeUntil == 0)
-                                appendLogText(i18n("Job '%1' updated score is %2 at startup time, marking aborted.",
-                                                   job->getName(), score));
-                            else
-                                appendLogText(i18n("Job '%1' updated score is %2 %3 seconds after startup time, marking aborted.",
-                                                   job->getName(), score, abs(timeUntil)));
-                        }
-
-                        job->setState(SchedulerJob::JOB_ABORTED);
-                        job->setScore(score);
-                    }
-                    /* Positive score means job is already scheduled, so we check the weather, and if it is not OK, we set bad score until weather improves. */
-                    else if (isWeatherOK(job) == false)
-                    {
-                        appendLogText(i18n("Job '%1' cannot run now because of bad weather.", job->getName()));
-                        job->setState(SchedulerJob::JOB_ABORTED);
-                        job->setScore(BAD_SCORE);
-                    }
-                    /* Else record current score */
-                    else
-                    {
-                        appendLogText(i18n("Job '%1' will be run at %2.", job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
-                        job->setState(SchedulerJob::JOB_SCHEDULED);
-                        job->setScore(score);
-                    }
-                }
-#if 0
-                // If it is in the future and originally was designated as ASAP job
-                // Job must be less than 12 hours away to be considered for re-evaluation
-                else if (timeUntil > (Options::leadTime() * 60) && (timeUntil < 12 * 3600) &&
-                         job->getFileStartupCondition() == SchedulerJob::START_ASAP)
-                {
-                    QDateTime nextJobTime = now.addSecs(Options::leadTime() * 60);
-                    if (job->getEnforceTwilight() == false || (now > duskDateTime && now < preDawnDateTime))
-                    {
-                        appendLogText(i18n("Job '%1' can be scheduled under 12 hours, but will be re-evaluated at %2.",
-                                           job->getName(), nextJobTime.toString(job->getDateTimeDisplayFormat())));
-                        job->setStartupTime(nextJobTime);
-                    }
-                    job->setScore(BAD_SCORE);
-                }
-                // If time is far in the future, we make the score negative
-                else
-                {
-                    if (job->getState() == SchedulerJob::JOB_EVALUATION &&
-                        calculateJobScore(job, job->getStartupTime()) < 0)
-                    {
-                        appendLogText(i18n("Job '%1' can only be scheduled in more than 12 hours, marking aborted.",
-                                           job->getName()));
-                        job->setState(SchedulerJob::JOB_ABORTED);
-                        continue;
-                    }
-
-                    /*score += BAD_SCORE;*/
-                }
-#endif
-                /* Else simply refresh job score */
-                else
-                {
-                    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' unmodified, will be run at %2.")
-                        .arg(job->getName())
-                        .arg(job->getStartupTime().toString(job->getDateTimeDisplayFormat()));
-                    job->setState(SchedulerJob::JOB_SCHEDULED);
-                    job->setScore(calculateJobScore(job, now));
-                }
-
-            }
-            break;
-        }
-
-        if (job->getState() == SchedulerJob::JOB_EVALUATION)
-        {
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "BUGBUG! Job '" << job->getName() << "' was unexpectedly not scheduled by evaluation.";
-        }
+        // In any other case, evaluate
+        job->setState(SchedulerJob::JOB_EVALUATION);
     }
 
     /*
-     * At this step, we scheduled all jobs that had to be scheduled because they could not start as soon as possible.
-     * Now we check the amount of jobs we have to run.
-     */
-
-    int invalidJobs = 0, completedJobs = 0, abortedJobs = 0, upcomingJobs = 0;
-
-    /* Partition jobs into invalid/aborted/completed/upcoming jobs */
-    foreach (SchedulerJob *job, jobs)
-    {
-        switch (job->getState())
-        {
-            case SchedulerJob::JOB_INVALID:
-                invalidJobs++;
-                break;
-
-            case SchedulerJob::JOB_ERROR:
-            case SchedulerJob::JOB_ABORTED:
-                abortedJobs++;
-                break;
-
-            case SchedulerJob::JOB_COMPLETE:
-                completedJobs++;
-                break;
-
-            case SchedulerJob::JOB_SCHEDULED:
-            case SchedulerJob::JOB_BUSY:
-                upcomingJobs++;
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    /* And render some statistics */
-    if (upcomingJobs == 0 && jobEvaluationOnly == false)
-    {
-        if (invalidJobs > 0)
-            qCDebug(KSTARS_EKOS_SCHEDULER) << QString("%L1 job(s) invalid.").arg(invalidJobs);
-
-        if (abortedJobs > 0)
-            qCDebug(KSTARS_EKOS_SCHEDULER) << QString("%L1 job(s) aborted.").arg(abortedJobs);
-
-        if (completedJobs > 0)
-            qCDebug(KSTARS_EKOS_SCHEDULER) << QString("%L1 job(s) completed.").arg(completedJobs);
-    }
-
-    /*
-     * At this step, we still have jobs to run.
+     * At this step, we prepare scheduling of jobs.
      * We filter out jobs that won't run now, and make sure jobs are not all starting at the same time.
      */
 
     updatePreDawn();
 
-    /* Remove complete and invalid jobs that could have appeared during the last evaluation */
+    /* Remove jobs that don't need evaluation */
     sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(),[](SchedulerJob* job)
-    { return SchedulerJob::JOB_ABORTED < job->getState(); }), sortedJobs.end());
+    { return SchedulerJob::JOB_EVALUATION != job->getState(); }), sortedJobs.end());
 
     /* If there are no jobs left to run in the filtered list, stop evaluation */
     if (sortedJobs.isEmpty())
@@ -1611,85 +1421,452 @@ void Scheduler::evaluateJobs()
         return;
     }
 
-    /* Now that jobs are scheduled, possibly at the same time, reorder by altitude and priority again */
+    /* If option says so, reorder by altitude and priority before sequencing */
+    /* FIXME: refactor so all sorts are using the same predicates */
+    /* FIXME: use std::stable_sort as qStableSort is deprecated */
+    /* FIXME: dissociate altitude and priority, it's difficult to choose which predicate to use first */
+    qCInfo(KSTARS_EKOS_SCHEDULER) << "Option to sort jobs based on priority and altitude is" << Options::sortSchedulerJobs();
     if (Options::sortSchedulerJobs())
     {
-        qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::decreasingAltitudeOrder);
-        qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
+        using namespace std::placeholders;
+        std::stable_sort(sortedJobs.begin(), sortedJobs.end(),
+               std::bind(SchedulerJob::decreasingAltitudeOrder, _1, _2, KStarsData::Instance()->lt()));
+        std::stable_sort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
     }
 
-    /* Reorder jobs by schedule time */
-    qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingStartupTimeOrder);
+    /* The first reordered job has no lead time - this could also be the delay from now to startup */
+    sortedJobs.first()->setLeadTime(0);
 
-    // Our first job now takes priority over ALL others.
-    // So if any other jobs conflicts with ours, we re-schedule that job to another time.
-    SchedulerJob *firstJob      = sortedJobs.first();
-    QDateTime firstStartTime    = firstJob->getStartupTime();
-    QDateTime lastStartTime     = firstJob->getStartupTime();
-    double lastJobEstimatedTime = firstJob->getEstimatedTime();
-    int daysCount               = 0;
-
-    qCInfo(KSTARS_EKOS_SCHEDULER) << "Option to sort jobs based on priority and altitude is" << Options::sortSchedulerJobs();
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "First job after sort is" << firstJob->getName() << "starting at" << firstJob->getStartupTime().toString(firstJob->getDateTimeDisplayFormat());
+    /* The objective of the following block is to make sure jobs are sequential in the list filtered previously.
+     *
+     * The algorithm manages overlap between jobs by stating that scheduled jobs that start sooner are non-movable.
+     * If the completion time of the previous job overlaps the current job, we offset the startup of the current job.
+     * Jobs that have no valid startup time when evaluated (ASAP jobs) are assigned an immediate startup time.
+     * The lead time from the Options registry is used as a buffer between jobs.
+     *
+     * Note about the situation where the current job overlaps the next job, and the next job is not movable:
+     * - If we mark the current job invalid, it will not be processed at all. Dropping is not satisfactory.
+     * - If we move the current job after the fixed job, we need to restart evaluation with a new list, and risk an
+     *   infinite loop eventually. This means swapping schedules, and is incompatible with altitude/priority sort.
+     * - If we mark the current job aborted, it will be re-evaluated each time a job is complete to see if it can fit.
+     *   Although puzzling for the end-user, this solution is dynamic: the aborted job might or might not be scheduled
+     *   at the planned time slot. But as the end-user did not enforce the start time, this is acceptable. Moreover, the
+     *   schedule will be altered by external events during the execution.
+     *
+     * Here are the constraints that have an effect on the job being examined, and indirectly on all subsequent jobs:
+     * - Twilight constraint moves jobs to the next dark sky interval.
+     * - Altitude constraint, currently linked with Moon separation, moves jobs to the next acceptable altitude time.
+     * - Culmination constraint moves jobs to the next transit time, with arbitrary offset.
+     * - Fixed startup time moves jobs to a fixed time, essentially making them non-movable, or invalid if in the past.
+     *
+     * Here are the constraints that have an effect on jobs following the job being examined:
+     * - Repeats requirement increases the duration of the current job, pushing subsequent jobs.
+     * - Looping requirement causes subsequent jobs to become invalid (until dynamic priority is implemented).
+     * - Fixed completion makes subsequent jobs start after that boundary time.
+     *
+     * However, we need a way to inform the end-user about failed schedules clearly in the UI.
+     * The message to get through is that if jobs are not sorted by altitude/priority, the aborted or invalid jobs
+     * should be modified or manually moved to a better position. If jobs are sorted automatically, aborted jobs will
+     * be processed when possible, probably not at the expected moment.
+     */
 
     // Make sure no two jobs have the same scheduled time or overlap with other jobs
-    // FIXME: the rescheduling algorithm is incorrect when mixing asap and fixed startup times.
-    foreach (SchedulerJob *job, sortedJobs)
+    for (int index = 0; index < sortedJobs.size(); index++)
     {
-        // First job is our time origin
-        if (job == firstJob)
-            continue;
+        SchedulerJob * const currentJob = sortedJobs.at(index);
 
-        // Bypass non-scheduled jobs
-        if (SchedulerJob::JOB_SCHEDULED != job->getState() || SchedulerJob::START_AT != job->getStartupCondition())
-            continue;
+        // At this point, a job with no valid start date is a problem, so consider invalid startup time is now
+        if (!currentJob->getStartupTime().isValid())
+            currentJob->setStartupTime(now);
 
-        qCDebug(KSTARS_EKOS_SCHEDULER) << "Examining job" << job->getName() << "starting at" << job->getStartupTime().toString(job->getDateTimeDisplayFormat());
-
-        // At this point, a job with no valid start date is a problem
-        Q_ASSERT_X(job->getStartupTime().isValid(), __FUNCTION__, "Jobs in the schedule list have a valid startup time");
-
-        double timeBetweenJobs = static_cast<double>(std::abs(firstStartTime.secsTo(job->getStartupTime())));
-
-        qCDebug(KSTARS_EKOS_SCHEDULER) << "Job starts in" << timeBetweenJobs << "seconds (lead time" << Options::leadTime()*60 << ")";
-
-        // If there are within 5 minutes of each other, delay scheduling time of the lower altitude one
-        if (timeBetweenJobs < (Options::leadTime()) * 60)
+        // Locate the previous scheduled job, so that a full schedule plan may be actually consolidated
+        SchedulerJob const * previousJob = nullptr;
+        for (int i = index - 1; 0 <= i; i--)
         {
-            double delayJob = timeBetweenJobs + lastJobEstimatedTime;
+            SchedulerJob const * const a_job = sortedJobs.at(i);
 
-            if (delayJob < (Options::leadTime() * 60))
-                delayJob = Options::leadTime() * 60;
-
-            QDateTime otherjob_time = lastStartTime.addSecs(delayJob);
-            QDateTime nextPreDawnTime = preDawnDateTime.addDays(daysCount);
-            // If other jobs starts after pre-dawn limit, then we schedule it to the next day.
-            // But we only take this action IF the job we are checking against starts _before_ dawn and our
-            // job therefore carry us after down, then there is an actual need to schedule it next day.
-            // FIXME: After changing time we are not evaluating job again when we should.
-            if (job->getEnforceTwilight() && lastStartTime < nextPreDawnTime && otherjob_time >= nextPreDawnTime)
+            if (SchedulerJob::JOB_SCHEDULED == a_job->getState())
             {
-                QDateTime date;
-
-                daysCount++;
-
-                lastStartTime = job->getStartupTime().addDays(daysCount);
-                job->setStartupTime(lastStartTime);
-                date = lastStartTime.addSecs(delayJob);
+                previousJob = a_job;
+                break;
             }
-            else
-            {
-                lastStartTime = lastStartTime.addSecs(delayJob);
-                job->setStartupTime(lastStartTime);
-            }
-
-            /* Kept the informative log now that aborted jobs are rescheduled */
-            appendLogText(i18n("Jobs '%1' and '%2' have close start up times, job '%2' is rescheduled to %3.",
-                               firstJob->getName(), job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
         }
 
-        lastJobEstimatedTime = job->getEstimatedTime();
+        Q_ASSERT_X(nullptr == previousJob || previousJob != currentJob, __FUNCTION__, "Previous job considered for schedule is either undefined or not equal to current.");
+
+        // Locate the next job - nothing special required except end of list check
+        SchedulerJob const * const nextJob = index + 1 < sortedJobs.size() ? sortedJobs.at(index + 1) : nullptr;
+
+        Q_ASSERT_X(nullptr == nextJob || nextJob != currentJob, __FUNCTION__, "Next job considered for schedule is either undefined or not equal to current.");
+
+        // We're attempting to schedule the job 10 times before making it invalid
+        for (int attempt = 1; attempt < 11; attempt++)
+        {
+            qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Schedule attempt #%1 for %2-second job '%3' on row #%4 starting at %5, completing at %6.")
+                .arg(attempt)
+                .arg(static_cast<int>(currentJob->getEstimatedTime()))
+                .arg(currentJob->getName())
+                .arg(index + 1)
+                .arg(currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()))
+                .arg(currentJob->getCompletionTime().toString(currentJob->getDateTimeDisplayFormat()));
+
+
+            // ----- #1 Should we reject the current job because of its fixed startup time?
+            //
+            // A job with fixed startup time must be processed at the time of startup, and may be late up to leadTime.
+            // When such a job repeats, its startup time is reinitialized to prevent abort - see completion algorithm.
+            // If such a job requires night time, minimum altitude or Moon separation, the consolidated startup time is checked for errors.
+            // If all restrictions are complied with, we bypass the rest of the verifications as the job cannot be moved.
+
+            if (SchedulerJob::START_AT == currentJob->getFileStartupCondition())
+            {
+                // Check whether the current job is too far in the past to be processed - if job is repeating, its startup time is already now
+                if (currentJob->getStartupTime().addSecs(static_cast <int> (ceil(Options::leadTime()*60))) < now)
+                {
+                    currentJob->setState(SchedulerJob::JOB_INVALID);
+
+
+                    appendLogText(i18n("Warning: job '%1' has fixed startup time %2 set in the past, marking invalid.",
+                                currentJob->getName(), currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat())));
+
+                    break;
+                }
+                // Check whether the current job has a positive dark sky score at the time of startup
+                else if (true == currentJob->getEnforceTwilight() && getDarkSkyScore(currentJob->getStartupTime()) < 0)
+                {
+                    currentJob->setState(SchedulerJob::JOB_INVALID);
+
+                    appendLogText(i18n("Warning: job '%1' has a fixed start time incompatible with its twilight restriction, marking invalid.",
+                                currentJob->getName()));
+
+                    break;
+                }
+                // Check whether the current job has a positive altitude score at the time of startup
+                else if (-90 < currentJob->getMinAltitude() && getAltitudeScore(currentJob, currentJob->getStartupTime()) < 0)
+                {
+                    currentJob->setState(SchedulerJob::JOB_INVALID);
+
+                    appendLogText(i18n("Warning: job '%1' has a fixed start time incompatible with its altitude restriction, marking invalid.",
+                                currentJob->getName()));
+
+                    break;
+                }
+                // Check whether the current job has a positive Moon separation score at the time of startup
+                else if (0 < currentJob->getMinMoonSeparation() && getMoonSeparationScore(currentJob, currentJob->getStartupTime()) < 0)
+                {
+                    currentJob->setState(SchedulerJob::JOB_INVALID);
+
+                    appendLogText(i18n("Warning: job '%1' has a fixed start time incompatible with its Moon separation restriction, marking invalid.",
+                                currentJob->getName()));
+
+                    break;
+                }
+
+                // This job is non-movable, we're done
+                currentJob->setState(SchedulerJob::JOB_SCHEDULED);
+                qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is scheduled to start at %2, in compliance with fixed startup time requirement.")
+                    .arg(currentJob->getName())
+                    .arg(currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()));
+
+                break;                
+            }
+
+            // ----- #2 Should we delay the current job because it overlaps the previous job?
+            //
+            // The previous job is considered non-movable, and its completion, plus lead time, is the origin for the current job.
+            // If no previous job exists, or if all prior jobs in the list are rejected, there is no overlap.
+            // If there is a previous job, the current job is simply delayed to avoid an eventual overlap.
+            // IF there is a previous job but it never finishes, the current job is rejected.
+            // This scheduling obviously relies on imaging time estimation: because errors stack up, future startup times are less and less reliable.
+
+            if (nullptr != previousJob)
+            {
+                if (previousJob->getCompletionTime().isValid())
+                {
+                    // Calculate time we should be at after finishing the previous job
+                    QDateTime const previousCompletionTime = previousJob->getCompletionTime().addSecs(static_cast <int> (ceil(Options::leadTime()*60.0)));
+
+                    // Delay the current job to completion of its previous sibling if needed - this updates the completion time automatically
+                    if (currentJob->getStartupTime() < previousCompletionTime)
+                    {
+                        currentJob->setStartupTime(previousCompletionTime);
+
+                        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is scheduled to start at %2, %3 seconds after %4, in compliance with previous job completion requirement.")
+                            .arg(currentJob->getName())
+                            .arg(currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()))
+                            .arg(previousJob->getCompletionTime().secsTo(currentJob->getStartupTime()))
+                            .arg(previousJob->getCompletionTime().toString(previousJob->getDateTimeDisplayFormat()));
+
+                        // If the job is repeating or looping, re-estimate imaging duration - error case may be a bug
+                        if (SchedulerJob::FINISH_SEQUENCE != currentJob->getCompletionCondition())
+                            if (false == estimateJobTime(currentJob))
+                                currentJob->setState(SchedulerJob::JOB_INVALID);
+
+                        continue;
+                    }
+                }
+                else
+                {
+                    currentJob->setState(SchedulerJob::JOB_INVALID);
+
+                    appendLogText(i18n("Warning: Job '%1' cannot start because its previous sibling has no completion time, marking invalid.",
+                                currentJob->getName()));
+
+                    break;
+                }
+
+                currentJob->setLeadTime(previousJob->getCompletionTime().secsTo(currentJob->getStartupTime()));
+
+                Q_ASSERT_X(previousJob->getCompletionTime() < currentJob->getStartupTime(), __FUNCTION__, "Previous and current jobs do not overlap.");
+            }
+
+
+            // ----- #3 Should we delay the current job because it overlaps daylight?
+            //
+            // Pre-dawn time rules whether a job may be started before dawn, or delayed to next night.
+            // Note that the case of START_AT jobs is considered earlier in the algorithm, thus may be omitted here.
+            // In addition to be hardcoded currently, the imaging duration is not reliable enough to start a short job during pre-dawn.
+            // However, completion time during daylight only causes a warning, as this case will be processed as the job runs.
+
+            if (currentJob->getEnforceTwilight())
+            {
+                // During that check, we don't verify the current job can actually complete before dawn.
+                // If the job is interrupted while running, it will be aborted and rescheduled at a later time.
+
+                // We wouldn't start observation 30 mins (default) before dawn.
+                // FIXME: Refactor duplicated dawn/dusk calculations
+                double const earlyDawn = Dawn - Options::preDawnTime() / (60.0 * 24.0);
+
+                // Compute dawn time for the startup date of the job
+                // FIXME: Use KAlmanac to find the real dawn/dusk time for the day the job is supposed to be processed
+                QDateTime const dawnDateTime(currentJob->getStartupTime().date(), QTime(0,0).addSecs(earlyDawn * 24 * 3600));
+
+                // Check if the job starts after dawn
+                if (dawnDateTime < currentJob->getStartupTime())
+                {
+                    // Compute dusk time for the startup date of the job - no lead time on dusk
+                    QDateTime const duskDateTime(currentJob->getStartupTime().date(), QTime(0,0).addSecs(Dusk * 24 * 3600));
+
+                    // Check if the job starts before dusk
+                    if (currentJob->getStartupTime() < duskDateTime)
+                    {
+                        // Delay job to next dusk - we will check other requirements later on
+                        currentJob->setStartupTime(duskDateTime);
+
+                        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is scheduled to start at %2, in compliance with night time requirement.")
+                            .arg(currentJob->getName())
+                            .arg(currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()));
+
+                        continue;
+                    }
+                }
+
+                // Compute dawn time for the day following the startup time, but disregard the pre-dawn offset as we'll consider completion
+                // FIXME: Use KAlmanac to find the real dawn/dusk time for the day next to the day the job is supposed to be processed
+                QDateTime const nextDawnDateTime(currentJob->getStartupTime().date().addDays(1), QTime(0,0).addSecs(Dawn * 24 * 3600));
+
+                // Check if the completion date overlaps the next dawn, and issue a warning if so
+                if (nextDawnDateTime < currentJob->getCompletionTime())
+                {
+                    appendLogText(i18n("Warning: job '%1' execution overlaps daylight, it will be interrupted at dawn and rescheduled on next night time.",
+                                currentJob->getName()));
+                }
+
+
+                Q_ASSERT_X(0 <= getDarkSkyScore(currentJob->getStartupTime()), __FUNCTION__, "Consolidated startup time results in a positive dark sky score.");
+            }
+
+
+            // ----- #4 Should we delay the current job because of its target culmination?
+            //
+            // Culmination uses the transit time, and fixes the startup time of the job to a particular offset around this transit time.
+            // This restriction may be used to start a job at the least air mass, or after a meridian flip.
+            // Culmination is scheduled before altitude restriction because it is normally more restrictive for the resulting startup time.
+            // It may happen that a target cannot rise enough to comply with the altitude restriction, but a culmination time is always valid.
+
+            if (SchedulerJob::START_CULMINATION == currentJob->getFileStartupCondition())
+            {
+                // Consolidate the culmination time, with offset, of the current job
+                QDateTime const nextCulminationTime = calculateCulmination(currentJob, currentJob->getCulminationOffset(), currentJob->getStartupTime());
+
+                if (nextCulminationTime.isValid()) // Guaranteed
+                {
+                    if (currentJob->getStartupTime() < nextCulminationTime)
+                    {
+                        currentJob->setStartupTime(nextCulminationTime);
+
+                        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is scheduled to start at %2, in compliance with culmination requirements.")
+                            .arg(currentJob->getName())
+                            .arg(currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()));
+
+                        continue;
+                    }
+                }
+                else
+                {
+                    currentJob->setState(SchedulerJob::JOB_INVALID);
+
+                    appendLogText(i18n("Warning: job '%1' requires culmination offset of %2 minutes, not achievable, marking invalid.",
+                                currentJob->getName(),
+                                QString("%L1").arg(currentJob->getCulminationOffset())));
+
+                    break;
+                }
+
+                // Don't test altitude here, because we will push the job during the next check step
+                // Q_ASSERT_X(0 <= getAltitudeScore(currentJob, currentJob->getStartupTime()), __FUNCTION__, "Consolidated altitude time results in a positive altitude score.");
+            }
+
+
+            // ----- #5 Should we delay the current job because its altitude is incorrect?
+            //
+            // Altitude time ensures the job is assigned a startup time when its target is high enough.
+            // As other restrictions, the altitude is only considered for startup time, completion time is managed while the job is running.
+            // Because a target setting down is a problem for the schedule, a cutoff altitude is added in the case the job target is past the meridian at startup time.
+            // FIXME: though arguable, Moon separation is also considered in that restriction check - move it to a separate case.
+
+            if (-90 < currentJob->getMinAltitude())
+            {
+                // Consolidate a new altitude time from the startup time of the current job
+                QDateTime const nextAltitudeTime = calculateAltitudeTime(currentJob, currentJob->getMinAltitude(), currentJob->getMinMoonSeparation(), currentJob->getStartupTime());
+
+                if (nextAltitudeTime.isValid())
+                {
+                    if (currentJob->getStartupTime() < nextAltitudeTime)
+                    {
+                        currentJob->setStartupTime(nextAltitudeTime);
+
+                        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is scheduled to start at %2, in compliance with altitude and Moon separation requirements.")
+                            .arg(currentJob->getName())
+                            .arg(currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()));
+
+                        continue;
+                    }
+                }
+                else
+                {
+                    currentJob->setState(SchedulerJob::JOB_INVALID);
+
+                    appendLogText(i18n("Warning: job '%1' requires minimum altitude %2 and Moon separation %3, not achievable, marking invalid.",
+                                currentJob->getName(),
+                                QString("%L1").arg(static_cast<double>(currentJob->getMinAltitude()), 0, 'f', minAltitude->decimals()),
+                                0.0 < currentJob->getMinMoonSeparation() ?
+                                    QString("%L1").arg(static_cast<double>(currentJob->getMinMoonSeparation()), 0, 'f', minMoonSeparation->decimals()) :
+                                    QString("-")));
+
+                    break;
+                }
+
+                Q_ASSERT_X(0 <= getAltitudeScore(currentJob, currentJob->getStartupTime()), __FUNCTION__, "Consolidated altitude time results in a positive altitude score.");
+            }
+
+
+            // ----- #6 Should we reject the current job because it overlaps the next job and that next job is not movable?
+            //
+            // If we have a blocker next to the current job, we compare the completion time of the current job and the startup time of this next job, taking lead time into account.
+            // This verification obviously relies on the imaging time to be reliable, but there's not much we can do at this stage of the implementation.
+
+            if (nullptr != nextJob && SchedulerJob::START_AT == nextJob->getFileStartupCondition())
+            {
+                // In the current implementation, it is not possible to abort a running job when the next job is supposed to start.
+                // Movable jobs after this one will be delayed, but non-movable jobs are considered blockers.
+
+                // Calculate time we have between the end of the current job and the next job
+                double const timeToNext = static_cast<double> (currentJob->getCompletionTime().secsTo(nextJob->getStartupTime()));
+
+                // If that time is overlapping the next job, abort the current job
+                if (timeToNext < Options::leadTime()*60)
+                {
+                    currentJob->setState(SchedulerJob::JOB_ABORTED);
+
+                    appendLogText(i18n("Warning: job '%1' is constrained by the start time of the next job, and cannot finish in time, marking aborted.",
+                                currentJob->getName()));
+
+                    break;
+                }
+
+                Q_ASSERT_X(currentJob->getCompletionTime().addSecs(Options::leadTime()*60) < nextJob->getStartupTime(), __FUNCTION__, "No overlap ");
+            }
+
+
+            // ----- #7 Should we reject the current job because it exceeded its fixed completion time?
+            //
+            // This verification simply checks that because of previous jobs, the startup time of the current job doesn't exceed its fixed completion time.
+            // Its main objective is to catch wrong dates in the FINISH_AT configuration.
+
+            if (SchedulerJob::FINISH_AT == currentJob->getCompletionCondition())
+            {
+                if (currentJob->getCompletionTime() < currentJob->getStartupTime())
+                {
+                    currentJob->setState(SchedulerJob::JOB_INVALID);
+
+                    appendLogText(i18n("Job '%1' completion time (%2) could not be achieved before start up time (%3)",
+                                currentJob->getName(),
+                                currentJob->getCompletionTime().toString(currentJob->getDateTimeDisplayFormat()),
+                                currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat())));
+
+                    break;
+                }
+            }
+
+
+            // ----- #8 Should we reject the current job because of weather?
+            //
+            // That verification is left for runtime
+            //
+            // if (false == isWeatherOK(currentJob))
+            //{
+            //    currentJob->setState(SchedulerJob::JOB_ABORTED);
+            //
+            //    appendLogText(i18n("Job '%1' cannot run now because of bad weather, marking aborted.", currentJob->getName()));
+            //}
+
+
+            // ----- #9 Update score for current time and mark evaluating jobs as scheduled
+
+            currentJob->setScore(calculateJobScore(currentJob, now));
+            currentJob->setState(SchedulerJob::JOB_SCHEDULED);
+
+            qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' on row #%2 passed all checks after %3 attempts, will proceed at %4 for approximately %5 seconds, marking scheduled")
+                .arg(currentJob->getName())
+                .arg(index + 1)
+                .arg(attempt)
+                .arg(currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat()))
+                .arg(currentJob->getEstimatedTime());
+
+            break;
+        }
+
+        // Check if job was successfully scheduled, else reject it
+        if (SchedulerJob::JOB_EVALUATION == currentJob->getState())
+        {
+            currentJob->setState(SchedulerJob::JOB_INVALID);
+
+            //appendLogText(i18n("Warning: job '%1' on row #%2 could not be scheduled during evaluation and is marked invalid, please review your plan.",
+            //            currentJob->getName(),
+            //            index + 1));
+
+#if 0
+            // Advices
+            if (-90 < currentJob->getMinAltitude())
+                appendLogText(i18n("Job '%1' may require relaxing the current altitude requirement of %2 degrees.",
+                            currentJob->getName(),
+                            QString("%L1").arg(static_cast<double>(currentJob->getMinAltitude()), 0, 'f', minAltitude->decimals)));
+
+            if (SchedulerJob::START_CULMINATION == currentJob->getFileStartupCondition() && Options::leadTime() < 5)
+                appendLogText(i18n("Job '%1' may require increasing the current lead time of %2 minutes to make transit time calculation stable.",
+                            currentJob->getName(),
+                            Options::leadTime()));
+#endif
+        }
     }
+
+    /* Remove unscheduled jobs that may have appeared during the last step - safeguard */
+    sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob* job)
+    { return SchedulerJob::JOB_SCHEDULED != job->getState(); }), sortedJobs.end());
+
+    /* Apply sorting to queue table, and mark it for saving if it changes */
+    mDirty = reorderJobs(sortedJobs);
 
     if (jobEvaluationOnly || state != SCHEDULER_RUNNIG)
     {
@@ -1702,13 +1879,6 @@ void Scheduler::evaluateJobs()
      * At this step, we finished evaluating jobs.
      * We select the first job that has to be run, per schedule.
      */
-
-    /* Remove unscheduled jobs that may have appeared during the last step - safeguard */
-    sortedJobs.erase(std::remove_if(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob* job)
-    { return SchedulerJob::JOB_SCHEDULED != job->getState(); }), sortedJobs.end());
-
-    // Sort again by schedule, sooner first, as some jobs may have shifted during the last step
-    qStableSort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingStartupTimeOrder);
 
     /* If there are no jobs left to run in the filtered list, stop evaluation */
     if (sortedJobs.isEmpty())
@@ -1723,7 +1893,7 @@ void Scheduler::evaluateJobs()
 
     /* Check if job can be processed right now */
     if (job_to_execute->getFileStartupCondition() == SchedulerJob::START_ASAP)
-        if( 0 < calculateJobScore(job_to_execute, now))
+        if( 0 <= calculateJobScore(job_to_execute, now))
             job_to_execute->setStartupTime(now);
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is selected for next observation with priority #%2 and score %3.")
@@ -1757,156 +1927,163 @@ void Scheduler::wakeUpScheduler()
     }
 }
 
-double Scheduler::findAltitude(const SkyPoint &target, const QDateTime &when)
+double Scheduler::findAltitude(const SkyPoint &target, const QDateTime &when, bool * is_setting, bool debug)
 {
-    // Make a copy
-    /*SkyPoint p = target;
-    QDateTime lt(when.date(), QTime());
-    KStarsDateTime ut = KStarsData::Instance()->geo()->LTtoUT(KStarsDateTime(lt));
+    // FIXME: block calculating target coordinates at a particular time is duplicated in several places
 
-    KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay() / 1000);
+    GeoLocation * const geo = KStarsData::Instance()->geo();
 
-    CachingDms LST = KStarsData::Instance()->geo()->GSTtoLST(myUT.gst());
-    p.EquatorialToHorizontal(&LST, KStarsData::Instance()->geo()->lat());
+    // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
+    KStarsDateTime ltWhen(when.isValid() ?
+            Qt::UTC == when.timeSpec() ? geo->UTtoLT(KStarsDateTime(when)) : when :
+            KStarsData::Instance()->lt());
 
-    return p.alt().Degrees();*/
-
-    SkyPoint p = target;
-    KStarsDateTime lt(when);
-    CachingDms LST = KStarsData::Instance()->geo()->GSTtoLST(lt.gst());
-    p.EquatorialToHorizontal(&LST, KStarsData::Instance()->geo()->lat());
-
-    return p.alt().Degrees();
-}
-
-bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, double minMoonAngle)
-{
-    // We wouldn't stat observation 30 mins (default) before dawn.
-    double const earlyDawn = Dawn - Options::preDawnTime() / (60.0 * 24.0);
-
-    /* Compute UTC for beginning of today */
-    QDateTime const lt(KStarsData::Instance()->lt().date(), QTime());
-    KStarsDateTime const ut = geo->LTtoUT(KStarsDateTime(lt));
-
-    /* Retrieve target coordinates to be converted to horizontal to determine altitude */
-    SkyPoint target = job->getTargetCoords();
-
-    /* Retrieve the current fraction of the day */
-    QTime const now       = KStarsData::Instance()->lt().time();
-    double const fraction = now.hour() + now.minute() / 60.0 + now.second() / 3600;
-
-    /* This attempts to locate the first minute of the next 24 hours when the job target matches the altitude and moon constraints */
-    for (double hour = fraction; hour < (fraction + 24); hour += 1.0 / 60.0)
-    {
-        double const rawFrac = (hour > 24 ? (hour - 24) : hour) / 24.0;
-
-        /* Test twilight enforcement, and if enforced, bail out if start time is during day */
-        /* FIXME: rework day fraction loop to shift to dusk directly */
-        if (job->getEnforceTwilight() && Dawn <= rawFrac && rawFrac <= Dusk)
-            continue;
-
-        /* Compute altitude of target for the current fraction of the day */
-        KStarsDateTime const myUT = ut.addSecs(hour * 3600.0);
-        CachingDms const LST = geo->GSTtoLST(myUT.gst());
-        target.EquatorialToHorizontal(&LST, geo->lat());
-        double const altitude = target.alt().Degrees();
-
-        if (altitude > minAltitude)
-        {
-            QDateTime const startTime = geo->UTtoLT(myUT);
-
-            /* Test twilight enforcement, and if enforced, bail out if start time is too close to dawn */
-            if (job->getEnforceTwilight() && earlyDawn < rawFrac && rawFrac < Dawn)
-            {
-                appendLogText(i18n("Warning: job '%1' reaches an altitude of %2 degrees at %3 but will not be scheduled due to "
-                            "close proximity to astronomical twilight rise.",
-                            job->getName(), QString("%L1").arg(minAltitude, 0, 'f', 3), startTime.toString(job->getDateTimeDisplayFormat())));
-                return false;
-            }
-
-            /* Continue searching if Moon separation is not good enough */
-            if (minMoonAngle > 0 && getMoonSeparationScore(job, startTime) < 0)
-                continue;
-
-            /* FIXME: the name of the function doesn't suggest the job can be modified */
-            job->setStartupTime(startTime);
-            /* Kept the informative log because of the reschedule of aborted jobs */
-            appendLogText(i18n("Job '%1' is scheduled to start at %2 where its altitude is %3 degrees.", job->getName(),
-                        startTime.toString(job->getDateTimeDisplayFormat()), QString("%L1").arg(altitude, 0, 'f', 3)));
-            return true;
-        }
-    }
-
-    /* FIXME: move this to the caller too to comment the decision to reject the job */
-    if (minMoonAngle == -1)
-    {
-        if (job->getEnforceTwilight())
-        {
-            appendLogText(i18n("Warning: job '%1' has no night time with an altitude above %2 degrees during the next 24 hours, marking invalid.",
-                               job->getName(), QString("%L1").arg(minAltitude, 0, 'f', 3)));
-        }
-        else appendLogText(i18n("Warning: job '%1' cannot rise to an altitude above %2 degrees in the next 24 hours, marking invalid.",
-                                job->getName(), QString("%L1").arg(minAltitude, 0, 'f', 3)));
-    }
-    else appendLogText(i18n("Warning: job '%1' cannot be scheduled with an altitude above %2 degrees with minimum moon "
-                            "separation of %3 degrees in the next 24 hours, marking invalid.",
-                            job->getName(), QString("%L1").arg(minAltitude, 0, 'f', 3),
-                            QString("%L1").arg(minMoonAngle, 0, 'f', 3)));
-    return false;
-}
-
-bool Scheduler::calculateCulmination(SchedulerJob *job)
-{
-    SkyPoint target = job->getTargetCoords();
-
+    // Create a sky object with the target catalog coordinates
     SkyObject o;
-
     o.setRA0(target.ra0());
     o.setDec0(target.dec0());
 
-    o.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    // Update RA/DEC of the target for the current fraction of the day
+    KSNumbers numbers(ltWhen.djd());
+    o.updateCoordsNow(&numbers);
 
-    QDateTime midnight(KStarsData::Instance()->lt().date(), QTime());
-    KStarsDateTime dt = geo->LTtoUT(KStarsDateTime(midnight));
+    // Calculate alt/az coordinates using KStars instance's geolocation
+    CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(ltWhen).gst());
+    o.EquatorialToHorizontal(&LST, geo->lat());
 
-    QTime transitTime = o.transitTime(dt, geo);
+    // Hours are reduced to [0,24[, meridian being at 0
+    double offset = LST.Hours() - o.ra().Hours();
+    if (24.0 <= offset)
+        offset -= 24.0;
+    else if (offset < 0.0)
+        offset += 24.0;
+    bool const passed_meridian = 0.0 <= offset && offset < 12.0;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' transit time is %2")
-        .arg(job->getName())
-        .arg(transitTime.toString("hh:mm:ss"));
+    if (debug)
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("When:%9 LST:%8 RA:%1 RA0:%2 DEC:%3 DEC0:%4 alt:%5 setting:%6 HA:%7")
+            .arg(o.ra().toHMSString())
+            .arg(o.ra0().toHMSString())
+            .arg(o.dec().toHMSString())
+            .arg(o.dec0().toHMSString())
+            .arg(o.alt().Degrees())
+            .arg(passed_meridian ? "yes":"no")
+            .arg(o.ra().Hours())
+            .arg(LST.toHMSString())
+            .arg(ltWhen.toString("HH:mm:ss"));
 
-    int dayOffset = 0;
-    if (KStarsData::Instance()->lt().time() > transitTime)
-        dayOffset = 1;
+    if (is_setting)
+        *is_setting = passed_meridian;
 
-    QDateTime observationDateTime(QDate::currentDate().addDays(dayOffset),
-                                  transitTime.addSecs(job->getCulminationOffset() * 60));
-
-    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' observation time is %2 adjusted for %L3 min.")
-        .arg(job->getName())
-        .arg(observationDateTime.toString(job->getDateTimeDisplayFormat()))
-        .arg(static_cast<double>(job->getCulminationOffset()), 0, 'f', 3);
-
-    if (job->getEnforceTwilight() && getDarkSkyScore(observationDateTime) < 0)
-    {
-        appendLogText(i18n("Job '%1' target culminates during the day and cannot be scheduled for observation.", job->getName()));
-        return false;
-    }
-
-    if (observationDateTime < (static_cast<QDateTime>(KStarsData::Instance()->lt())))
-    {
-        appendLogText(i18n("Job '%1' observation time %2 is passed for today.",
-                   job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
-        return false;
-    }
-
-    Q_ASSERT_X(observationDateTime.isValid(), __FUNCTION__, "Observation time for target culmination is valid.");
-
-    job->setStartupTime(observationDateTime);
-    return true;
+    return o.alt().Degrees();
 }
 
-int16_t Scheduler::getWeatherScore()
+QDateTime Scheduler::calculateAltitudeTime(SchedulerJob const *job, double minAltitude, double minMoonAngle, QDateTime const &when) const
+{
+    // FIXME: block calculating target coordinates at a particular time is duplicated in several places
+
+    // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
+    KStarsDateTime ltWhen(when.isValid() ?
+            Qt::UTC == when.timeSpec() ? geo->UTtoLT(KStarsDateTime(when)) : when :
+            KStarsData::Instance()->lt());
+
+    // Create a sky object with the target catalog coordinates
+    SkyPoint const target = job->getTargetCoords();
+    SkyObject o;
+    o.setRA0(target.ra0());
+    o.setDec0(target.dec0());
+
+    // Calculate the UT at the argument time
+    KStarsDateTime const ut = geo->LTtoUT(ltWhen);
+
+    // Within the next 24 hours, search when the job target matches the altitude and moon constraints
+    for (unsigned int minute = 0; minute < 24*60; minute++)
+    {
+        KStarsDateTime const ltOffset(ltWhen.addSecs(minute * 60));
+
+        // Update RA/DEC of the target for the current fraction of the day
+        KSNumbers numbers(ltOffset.djd());
+        o.updateCoordsNow(&numbers);
+
+        // Compute local sidereal time for the current fraction of the day, calculate altitude
+        CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(ltOffset).gst());
+        o.EquatorialToHorizontal(&LST, geo->lat());
+        double const altitude = o.alt().Degrees();
+
+        if (minAltitude <= altitude)
+        {
+            // Don't test proximity to dawn in this situation, we only cater for altitude here
+
+            // Continue searching if Moon separation is not good enough
+            if (0 < minMoonAngle && getMoonSeparationScore(job, ltOffset) < 0)
+                continue;
+
+            // Continue searching if target is setting and under the cutoff
+            double offset = LST.Hours() - o.ra().Hours();
+            if (24.0 <= offset)
+                offset -= 24.0;
+            else if (offset < 0.0)
+                offset += 24.0;
+            if (0.0 <= offset && offset < 12.0)
+               if (altitude - SETTING_ALTITUDE_CUTOFF < minAltitude)
+                   continue;
+
+            return ltOffset;
+        }
+    }
+
+    return QDateTime();
+}
+
+QDateTime Scheduler::calculateCulmination(SchedulerJob const *job, int offset_minutes, QDateTime const &when) const
+{
+    // FIXME: culmination calculation is a min altitude requirement, should be an interval altitude requirement
+    // FIXME: block calculating target coordinates at a particular time is duplicated in calculateCulmination
+
+    // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
+    KStarsDateTime ltWhen(when.isValid() ?
+            Qt::UTC == when.timeSpec() ? geo->UTtoLT(KStarsDateTime(when)) : when :
+            KStarsData::Instance()->lt());
+
+    // Create a sky object with the target catalog coordinates
+    SkyPoint const target = job->getTargetCoords();
+    SkyObject o;
+    o.setRA0(target.ra0());
+    o.setDec0(target.dec0());
+
+    // Update RA/DEC for the argument date/time
+    KSNumbers numbers(ltWhen.djd());
+    o.updateCoordsNow(&numbers);
+
+    // Calculate transit date/time at the argument date - transitTime requires UT and returns LocalTime
+    KStarsDateTime transitDateTime(ltWhen.date(), o.transitTime(geo->LTtoUT(ltWhen), geo), Qt::LocalTime);
+
+    // Shift transit date/time by the argument offset
+    KStarsDateTime observationDateTime = transitDateTime.addSecs(offset_minutes * 60);
+
+    // Relax observation time, culmination calculation is stable at minute only
+    KStarsDateTime relaxedDateTime = observationDateTime.addSecs(Options::leadTime() * 60);
+
+    // Verify resulting observation time is under lead time vs. argument time
+    // If sooner, delay by 8 hours to get to the next transit - perhaps in a third call
+    if (relaxedDateTime < ltWhen)
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' startup %2 is posterior to transit %3, shifting by 8 hours.")
+            .arg(job->getName())
+            .arg(ltWhen.toString(job->getDateTimeDisplayFormat()))
+            .arg(relaxedDateTime.toString(job->getDateTimeDisplayFormat()));
+
+        return calculateCulmination(job, offset_minutes, when.addSecs(8*60*60));
+    }
+
+    // Guarantees - culmination calculation is stable at minute level, so relax by lead time
+    Q_ASSERT_X(observationDateTime.isValid(), __FUNCTION__, "Observation time for target culmination is valid.");
+    Q_ASSERT_X(ltWhen <= relaxedDateTime, __FUNCTION__, "Observation time for target culmination is at or after than argument time");
+
+    // Return consolidated culmination time
+    return Qt::UTC == observationDateTime.timeSpec() ? geo->UTtoLT(observationDateTime) : observationDateTime;
+}
+
+int16_t Scheduler::getWeatherScore() const
 {
     if (weatherCheck->isEnabled() == false || weatherCheck->isChecked() == false)
         return 0;
@@ -1919,38 +2096,72 @@ int16_t Scheduler::getWeatherScore()
     return 0;
 }
 
-int16_t Scheduler::getDarkSkyScore(const QDateTime &observationDateTime)
+int16_t Scheduler::getDarkSkyScore(QDateTime const &when) const
 {
-    //  if (job->getStartingCondition() == SchedulerJob::START_CULMINATION)
-    //    return -1000;
+    double const secsPerDay = 24.0 * 3600.0;
+    double const minsPerDay = 24.0 * 60.0;
 
-    int16_t score      = 0;
-    double dayFraction = 0;
+    // Dark sky score is calculated based on distance to today's dawn and next dusk.
+    // Option "Pre-dawn Time" avoids executing a job when dawn is approaching, and is a value in minutes.
+    // - If observation is between option "Pre-dawn Time" and dawn, score is BAD_SCORE/50.
+    // - If observation is before dawn today, score is fraction of the day from beginning of observation to dawn time, as percentage.
+    // - If observation is after dusk, score is fraction of the day from dusk to beginning of observation, as percentage.
+    // - If observation is between dawn and dusk, score is BAD_SCORE.
+    //
+    // If observation time is invalid, the score is calculated for the current day time.
+    // Note exact dusk time is considered valid in terms of night time, and will return a positive, albeit null, score.
 
-    // Anything half an hour before dawn shouldn't be a good candidate
-    double earlyDawn = Dawn - Options::preDawnTime() / (60.0 * 24.0);
+    // FIXME: Dark sky score should consider the middle of the local night as best value.
+    // FIXME: Current algorithm uses the dawn and dusk of today, instead of the day of the observation.
 
-    dayFraction = observationDateTime.time().msecsSinceStartOfDay() / (24.0 * 60.0 * 60.0 * 1000.0);
+    int const earlyDawnSecs = static_cast <int> ((Dawn - static_cast <double> (Options::preDawnTime()) / minsPerDay) * secsPerDay);
+    int const dawnSecs = static_cast <int> (Dawn * secsPerDay);
+    int const duskSecs = static_cast <int> (Dusk * secsPerDay);
+    int const obsSecs = (when.isValid() ? when : KStarsData::Instance()->lt()).time().msecsSinceStartOfDay()/1000;
 
-    // The farther the target from dawn, the better.
-    if (dayFraction > earlyDawn && dayFraction < Dawn)
-        score = BAD_SCORE / 50;
-    else if (dayFraction < Dawn)
-        score = (Dawn - dayFraction) * 100;
-    else if (dayFraction > Dusk)
+    int16_t score = 0;
+
+    if (earlyDawnSecs <= obsSecs && obsSecs < dawnSecs)
     {
-        score = (dayFraction - Dusk) * 100;
+        score = BAD_SCORE / 50;
+
+        //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Dark sky score at %1 is %2 (between pre-dawn and dawn).")
+        //    .arg(observationDateTime.toString())
+        //    .arg(QString::asprintf("%+d", score));
+    }
+    else if (obsSecs < dawnSecs)
+    {
+        score = static_cast <int16_t> ((dawnSecs - obsSecs) / secsPerDay) * 100;
+
+        //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Dark sky score at %1 is %2 (before dawn).")
+        //    .arg(observationDateTime.toString())
+        //    .arg(QString::asprintf("%+d", score));
+    }
+    else if (duskSecs <= obsSecs)
+    {
+        score = static_cast <int16_t> ((obsSecs - duskSecs) / secsPerDay) * 100;
+
+        //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Dark sky score at %1 is %2 (after dusk).")
+        //    .arg(observationDateTime.toString())
+        //    .arg(QString::asprintf("%+d", score));
     }
     else
+    {
         score = BAD_SCORE;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Dark sky score is" << score << "for time" << observationDateTime.toString();
+        //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Dark sky score at %1 is %2 (during daylight).")
+        //    .arg(observationDateTime.toString())
+        //    .arg(QString::asprintf("%+d", score));
+    }
 
     return score;
 }
 
-int16_t Scheduler::calculateJobScore(SchedulerJob *job, QDateTime when)
+int16_t Scheduler::calculateJobScore(SchedulerJob const *job, QDateTime const &when) const
 {
+    if (nullptr == job)
+        return BAD_SCORE;
+
     /* Only consolidate the score if light frames are required, calibration frames can run whenever needed */
     if (!job->getLightFramesRequired())
         return 1000;
@@ -1960,132 +2171,190 @@ int16_t Scheduler::calculateJobScore(SchedulerJob *job, QDateTime when)
     /* As soon as one score is negative, it's a no-go and other scores are unneeded */
 
     if (job->getEnforceTwilight())
-        total += getDarkSkyScore(when);
+    {
+        int16_t const darkSkyScore = getDarkSkyScore(when);
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' dark sky score is %2 at %3")
+            .arg(job->getName())
+            .arg(QString::asprintf("%+d", darkSkyScore))
+            .arg(when.toString(job->getDateTimeDisplayFormat()));
+
+        total += darkSkyScore;
+    }
 
     /* We still enforce altitude if the job is neither required to track nor guide, because this is too confusing for the end-user.
      * If we bypass calculation here, it must also be bypassed when checking job constraints in checkJobStage.
      */
     if (0 <= total /*&& ((job->getStepPipeline() & SchedulerJob::USE_TRACK) || (job->getStepPipeline() & SchedulerJob::USE_GUIDE))*/)
-        total += getAltitudeScore(job, when);
+    {
+        int16_t const altitudeScore = getAltitudeScore(job, when);
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' altitude score is %2 at %3")
+            .arg(job->getName())
+            .arg(QString::asprintf("%+d", altitudeScore))
+            .arg(when.toString(job->getDateTimeDisplayFormat()));
+
+        total += altitudeScore;
+    }
 
     if (0 <= total)
-        total += getMoonSeparationScore(job, when);
+    {
+        int16_t const moonSeparationScore = getMoonSeparationScore(job, when);
 
-    qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' has a total score of %2").arg(job->getName()).arg(total);
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' Moon separation score is %2 at %3")
+            .arg(job->getName())
+            .arg(QString::asprintf("%+d", moonSeparationScore))
+            .arg(when.toString(job->getDateTimeDisplayFormat()));
+
+        total += moonSeparationScore;
+    }
+
+    qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' has a total score of %2 at %3.")
+        .arg(job->getName())
+        .arg(QString::asprintf("%+d", total))
+        .arg(when.toString(job->getDateTimeDisplayFormat()));
+
     return total;
 }
 
-int16_t Scheduler::getAltitudeScore(SchedulerJob *job, QDateTime when)
+int16_t Scheduler::getAltitudeScore(SchedulerJob const *job, QDateTime const &when) const
 {
-    int16_t score     = 0;
-    double currentAlt = findAltitude(job->getTargetCoords(), when);
+    // FIXME: block calculating target coordinates at a particular time is duplicated in several places
 
-    if (currentAlt < 0)
+    // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
+    KStarsDateTime ltWhen(when.isValid() ?
+            Qt::UTC == when.timeSpec() ? geo->UTtoLT(KStarsDateTime(when)) : when :
+            KStarsData::Instance()->lt());
+
+    // Create a sky object with the target catalog coordinates
+    SkyPoint const target = job->getTargetCoords();
+    SkyObject o;
+    o.setRA0(target.ra0());
+    o.setDec0(target.dec0());
+
+    // Update RA/DEC of the target for the current fraction of the day
+    KSNumbers numbers(ltWhen.djd());
+    o.updateCoordsNow(&numbers);
+
+    // Compute local sidereal time for the current fraction of the day, calculate altitude
+    CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(ltWhen).gst());
+    o.EquatorialToHorizontal(&LST, geo->lat());
+    double const altitude = o.alt().Degrees();
+
+    int16_t score = BAD_SCORE - 1;
+
+    // If altitude is negative, bad score
+    // FIXME: some locations may allow negative altitudes
+    if (altitude < 0)
     {
         score = BAD_SCORE;
     }
-    // If minimum altitude is specified
-    else if (job->getMinAltitude() > 0)
+    else if (-90 < job->getMinAltitude())
     {
-        // if current altitude is lower that's not good
-        if (currentAlt < job->getMinAltitude())
+        // If under altitude constraint, bad score
+        if (altitude < job->getMinAltitude())
             score = BAD_SCORE;
+        // Else if setting and under altitude cutoff, job would end soon after starting, bad score
+        // FIXME: half bad score when under altitude cutoff risk getting positive again
         else
         {
-            // Get HA of actual object, and not of the mount as was done below
-            double HA = KStars::Instance()->data()->lst()->Hours() - job->getTargetCoords().ra().Hours();
-
-#if 0
-            if (indiState == INDI_READY)
-            {
-                QDBusReply<double> haReply = mountInterface->call(QDBus::AutoDetect, "getHourAngle");
-                if (haReply.error().type() == QDBusError::NoError)
-                    HA = haReply.value();
-            }
-#endif
-
-            // If already passed the meridian and setting we check if it is within setting altitude cut off value (3 degrees default)
-            // If it is within that value then it is useless to start the job which will end very soon so we better look for a better job.
-            /* FIXME: don't use BAD_SCORE/2, a negative result implies the job has to be aborted - we'd be annoyed if that score became positive again */
-            /* FIXME: bug here, raising target will get a negative score if under cutoff, issue mitigated by aborted jobs getting rescheduled */
-            if (HA > 0 && (currentAlt - SETTING_ALTITUDE_CUTOFF) < job->getMinAltitude())
-                score = BAD_SCORE / 2.0;
-            else
-                // Otherwise, adjust score and add current altitude to score weight
-                score = (1.5 * pow(1.06, currentAlt)) - (minAltitude->minimum() / 10.0);
+            double offset = LST.Hours() - o.ra().Hours();
+            if (24.0 <= offset)
+                offset -= 24.0;
+            else if (offset < 0.0)
+                offset += 24.0;
+            if (0.0 <= offset && offset < 12.0)
+                if (altitude - SETTING_ALTITUDE_CUTOFF < job->getMinAltitude())
+                    score = BAD_SCORE / 2;
         }
     }
-    // If it's below minimum hard altitude (15 degrees now), set score to 10% of altitude value
-    else if (currentAlt < minAltitude->minimum())
+    // If not constrained but below minimum hard altitude, set score to 10% of altitude value
+    else if (altitude < minAltitude->minimum())
     {
-        score = currentAlt / 10.0;
-    }
-    // If no minimum altitude, then adjust altitude score to account for current target altitude
-    else
-    {
-        score = (1.5 * pow(1.06, currentAlt)) - (minAltitude->minimum() / 10.0);
+        score = static_cast <int16_t> (altitude / 10.0);
     }
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' target altitude is %L3 degrees at %2 (score %4).")
-        .arg(job->getName())
-        .arg(currentAlt, 0, 'f', 3)
-        .arg(when.toString(job->getDateTimeDisplayFormat()))
-        .arg(QString::asprintf("%+d", score));
+    // Else default score calculation without altitude constraint
+    if (score < BAD_SCORE)
+        score = static_cast <int16_t> ((1.5 * pow(1.06, altitude)) - (minAltitude->minimum() / 10.0));
+
+    //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' target altitude is %3 degrees at %2 (score %4).")
+    //    .arg(job->getName())
+    //    .arg(when.toString(job->getDateTimeDisplayFormat()))
+    //    .arg(currentAlt, 0, 'f', minAltitude->decimals())
+    //    .arg(QString::asprintf("%+d", score));
 
     return score;
 }
 
-double Scheduler::getCurrentMoonSeparation(SchedulerJob *job)
+double Scheduler::getCurrentMoonSeparation(SchedulerJob const *job) const
 {
-    // Get target altitude given the time
-    SkyPoint p = job->getTargetCoords();
-    QDateTime midnight(KStarsData::Instance()->lt().date(), QTime());
-    KStarsDateTime ut   = geo->LTtoUT(KStarsDateTime(midnight));
-    KStarsDateTime myUT = ut.addSecs(KStarsData::Instance()->lt().time().msecsSinceStartOfDay() / 1000);
-    CachingDms LST      = geo->GSTtoLST(myUT.gst());
-    p.EquatorialToHorizontal(&LST, geo->lat());
+    // FIXME: block calculating target coordinates at a particular time is duplicated in several places
+
+    // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
+    KStarsDateTime ltWhen(KStarsData::Instance()->lt());
+
+    // Create a sky object with the target catalog coordinates
+    SkyPoint const target = job->getTargetCoords();
+    SkyObject o;
+    o.setRA0(target.ra0());
+    o.setDec0(target.dec0());
+
+    // Update RA/DEC of the target for the current fraction of the day
+    KSNumbers numbers(ltWhen.djd());
+    o.updateCoordsNow(&numbers);
 
     // Update moon
-    ut = geo->LTtoUT(KStarsData::Instance()->lt());
-    KSNumbers ksnum(ut.djd());
-    LST = geo->GSTtoLST(ut.gst());
-    moon->updateCoords(&ksnum, true, geo->lat(), &LST, true);
+    //ut = geo->LTtoUT(ltWhen);
+    //KSNumbers ksnum(ut.djd()); // BUG: possibly LT.djd() != UT.djd() because of translation
+    //LST = geo->GSTtoLST(ut.gst());
+    CachingDms LST = geo->GSTtoLST(geo->LTtoUT(ltWhen).gst());
+    moon->updateCoords(&numbers, true, geo->lat(), &LST, true);
 
     // Moon/Sky separation p
-    return moon->angularDistanceTo(&p).Degrees();
+    return moon->angularDistanceTo(&o).Degrees();
 }
 
-int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
+int16_t Scheduler::getMoonSeparationScore(SchedulerJob const *job, QDateTime const &when) const
 {
-    int16_t score = 0;
+    // FIXME: block calculating target coordinates at a particular time is duplicated in several places
 
-    // Get target altitude given the time
-    SkyPoint p = job->getTargetCoords();
-    QDateTime midnight(when.date(), QTime());
-    KStarsDateTime ut   = geo->LTtoUT(KStarsDateTime(midnight));
-    KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay() / 1000);
-    CachingDms LST      = geo->GSTtoLST(myUT.gst());
-    p.EquatorialToHorizontal(&LST, geo->lat());
-    double currentAlt = p.alt().Degrees();
+    // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
+    KStarsDateTime ltWhen(when.isValid() ?
+            Qt::UTC == when.timeSpec() ? geo->UTtoLT(KStarsDateTime(when)) : when :
+            KStarsData::Instance()->lt());
+
+    // Create a sky object with the target catalog coordinates
+    SkyPoint const target = job->getTargetCoords();
+    SkyObject o;
+    o.setRA0(target.ra0());
+    o.setDec0(target.dec0());
+
+    // Update RA/DEC of the target for the current fraction of the day
+    KSNumbers numbers(ltWhen.djd());
+    o.updateCoordsNow(&numbers);
 
     // Update moon
-    ut = geo->LTtoUT(KStarsDateTime(when));
-    KSNumbers ksnum(ut.djd());
-    LST = geo->GSTtoLST(ut.gst());
-    moon->updateCoords(&ksnum, true, geo->lat(), &LST, true);
+    //ut = geo->LTtoUT(ltWhen);
+    //KSNumbers ksnum(ut.djd()); // BUG: possibly LT.djd() != UT.djd() because of translation
+    //LST = geo->GSTtoLST(ut.gst());
+    CachingDms LST = geo->GSTtoLST(geo->LTtoUT(ltWhen).gst());
+    moon->updateCoords(&numbers, true, geo->lat(), &LST, true);
 
-    double moonAltitude = moon->alt().Degrees();
+    double const moonAltitude = moon->alt().Degrees();
 
     // Lunar illumination %
-    double illum = moon->illum() * 100.0;
+    double const illum = moon->illum() * 100.0;
 
     // Moon/Sky separation p
-    double separation = moon->angularDistanceTo(&p).Degrees();
+    double const separation = moon->angularDistanceTo(&o).Degrees();
 
     // Zenith distance of the moon
-    double zMoon = (90 - moonAltitude);
+    double const zMoon = (90 - moonAltitude);
     // Zenith distance of target
-    double zTarget = (90 - currentAlt);
+    double const zTarget = (90 - o.alt().Degrees());
+
+    int16_t score = 0;
 
     // If target = Moon, or no illuminiation, or moon below horizon, return static score.
     if (zMoon == zTarget || illum == 0 || zMoon >= 90)
@@ -2112,10 +2381,10 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
     // Limit to 0 to 20
     score /= 5.0;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' target is %L3 degrees from Moon (score %2).")
-        .arg(job->getName())
-        .arg(separation, 0, 'f', 3)
-        .arg(QString::asprintf("%+d", score));
+    //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' target is %L3 degrees from Moon (score %2).")
+    //    .arg(job->getName())
+    //    .arg(separation, 0, 'f', 3)
+    //    .arg(QString::asprintf("%+d", score));
 
     return score;
 }
@@ -2134,8 +2403,8 @@ void Scheduler::calculateDawnDusk()
     duskDateTime.setTime(dusk);
 
     // FIXME: reduce spam by moving twilight time to a text label
-    appendLogText(i18n("Astronomical twilight: dusk at %1, dawn at %2, and current time is %3",
-                       dusk.toString(), dawn.toString(), now.toString()));
+    //appendLogText(i18n("Astronomical twilight: dusk at %1, dawn at %2, and current time is %3",
+    //                   dusk.toString(), dawn.toString(), now.toString()));
 }
 
 void Scheduler::executeJob(SchedulerJob *job)
@@ -3033,7 +3302,7 @@ void Scheduler::checkJobStage()
     }
 
     // #2 Check if altitude restriction still holds true
-    if (currentJob->getMinAltitude() > 0)
+    if (-90 < currentJob->getMinAltitude())
     {
         SkyPoint p = currentJob->getTargetCoords();
 
@@ -3046,8 +3315,9 @@ void Scheduler::checkJobStage()
             if (isMountParked() == false)
             {
                 appendLogText(i18n("Job '%1' current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), "
-                                   "marking aborted.",
-                                   currentJob->getName(), p.alt().Degrees(), currentJob->getMinAltitude()));
+                                   "marking aborted.", currentJob->getName(),
+                                   QString("%L1").arg(0, p.alt().Degrees(), minAltitude->decimals()),
+                                   QString("%L1").arg(0, currentJob->getMinAltitude(), minAltitude->decimals())));
 
                 currentJob->setState(SchedulerJob::JOB_ABORTED);
                 stopCurrentJobAction();
@@ -4068,7 +4338,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         outstream << "</StartupCondition>" << endl;
 
         outstream << "<Constraints>" << endl;
-        if (job->getMinAltitude() > 0)
+        if (-90 < job->getMinAltitude())
             outstream << "<Constraint value='" << cLocale.toString(job->getMinAltitude()) << "'>MinimumAltitude</Constraint>" << endl;
         if (job->getMinMoonSeparation() > 0)
             outstream << "<Constraint value='" << cLocale.toString(job->getMinMoonSeparation()) << "'>MoonSeparation</Constraint>"
@@ -4318,8 +4588,12 @@ void Scheduler::findNextJob()
     }
     else if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
     {
+        /* If the job is about to repeat, decrease its repeat count and reset its start time */
         if (0 < currentJob->getRepeatsRemaining())
+        {
             currentJob->setRepeatsRemaining(currentJob->getRepeatsRemaining() - 1);
+            currentJob->setStartupTime(QDateTime());
+        }
 
         /* Mark the job idle as well as all its duplicates for re-evaluation */
         foreach(SchedulerJob *a_job, jobs)
@@ -4626,8 +4900,14 @@ void Scheduler::setDirty()
     if (sender() == startupProcedureButtonGroup || sender() == shutdownProcedureGroup)
         return;
 
-    if (0 <= jobUnderEdit && state != SCHEDULER_RUNNIG && !queueTable->selectedItems().isEmpty())
+    if (0 <= jobUnderEdit && state != SCHEDULER_RUNNIG && 0 <= queueTable->currentRow())
+    {
+        // Now that jobs are sorted, reset jobs that are later than the edited one for re-evaluation
+        for (int row = jobUnderEdit; row < jobs.size(); row++)
+            jobs.at(row)->reset();
+
         saveJob();
+    }
 
     // For object selection, all fields must be filled
     bool const nameSelectionOK = !raBox->isEmpty()  && !decBox->isEmpty() && !nameEdit->text().isEmpty();
@@ -4910,36 +5190,49 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
     qDeleteAll(seqJobs);
 
+    // FIXME: Move those ifs away to the caller in order to avoid estimating in those situations!
+
     // We can't estimate times that do not finish when sequence is done
     if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
     {
         // We can't know estimated time if it is looping indefinitely
-        appendLogText(i18n("Warning: job '%1' will be looping until Scheduler is stopped manually.", schedJob->getName()));
         schedJob->setEstimatedTime(-2);
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is configured to loop until Scheduler is stopped manually, has undefined imaging time.")
+            .arg(schedJob->getName());
     }
     // If we know startup and finish times, we can estimate time right away
     else if (schedJob->getStartupCondition() == SchedulerJob::START_AT &&
         schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
     {
+        // FIXME: SchedulerJob is probably doing this already
         qint64 const diff = schedJob->getStartupTime().secsTo(schedJob->getCompletionTime());
-        appendLogText(i18n("Job '%1' will run for %2.", schedJob->getName(), dms(diff * 15.0 / 3600.0f).toHMSString()));
         schedJob->setEstimatedTime(diff);
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' has a startup time and fixed completion time, will run for %2.")
+            .arg(schedJob->getName())
+            .arg(dms(diff * 15.0 / 3600.0f).toHMSString());
     }
     // If we know finish time only, we can roughly estimate the time considering the job starts now
     else if (schedJob->getStartupCondition() != SchedulerJob::START_AT &&
         schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
     {
         qint64 const diff = KStarsData::Instance()->lt().secsTo(schedJob->getCompletionTime());
-        appendLogText(i18n("Job '%1' will run for %2 if started now.", schedJob->getName(), dms(diff * 15.0 / 3600.0f).toHMSString()));
         schedJob->setEstimatedTime(diff);
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' has no startup time but fixed completion time, will run for %2 if started now.")
+            .arg(schedJob->getName())
+            .arg(dms(diff * 15.0 / 3600.0f).toHMSString());
     }
     // Rely on the estimated imaging time to determine whether this job is complete or not - this makes the estimated time null
     else if (totalImagingTime <= 0)
     {
+        schedJob->setEstimatedTime(0);
+
         qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' will not run, complete with %2/%3 captures.")
             .arg(schedJob->getName()).arg(totalCompletedCount).arg(totalSequenceCount);
-        schedJob->setEstimatedTime(0);
     }
+    // Else consolidate with step durations
     else
     {
         if (schedJob->getLightFramesRequired())
@@ -4961,9 +5254,9 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         }
 
         dms const estimatedTime(totalImagingTime * 15.0 / 3600.0);
-        qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' estimated to take %2 to complete.").arg(schedJob->getName(), estimatedTime.toHMSString());
-
         schedJob->setEstimatedTime(totalImagingTime);
+
+        qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' estimated to take %2 to complete.").arg(schedJob->getName(), estimatedTime.toHMSString());
     }
 
     return true;
@@ -5580,16 +5873,47 @@ void Scheduler::startJobEvaluation()
     // Reset current job
     setCurrentJob(nullptr);
 
+    // Reset ALL scheduler jobs to IDLE and force-reset their completed count - no effect when progress is kept
+    for (SchedulerJob * job: jobs)
+    {
+        job->reset();
+        job->setCompletedCount(0);
+    }
+
     // Unconditionally update the capture storage
     updateCompletedJobsCount(true);
-
-    // Reset ALL scheduler jobs to IDLE and re-evaluate them all again
-    for (SchedulerJob * job: jobs)
-        job->reset();
 
     // And evaluate all pending jobs per the conditions set in each
     jobEvaluationOnly = true;
     evaluateJobs();
+}
+
+void Scheduler::sortJobsPerAltitude()
+{
+    // We require a first job to sort, so bail out if list is empty
+    if (jobs.isEmpty())
+        return;
+
+    // Don't reset current job
+    // setCurrentJob(nullptr);
+
+    // Don't reset scheduler jobs startup times before sorting - we need the first job startup time
+
+    // Sort by startup time, using the first job time as reference for altitude calculations
+    using namespace std::placeholders;
+    QList<SchedulerJob*> sortedJobs = jobs;
+    std::stable_sort(sortedJobs.begin() + 1, sortedJobs.end(),
+            std::bind(SchedulerJob::decreasingAltitudeOrder, _1, _2, jobs.first()->getStartupTime()));
+
+    // If order changed, reset and re-evaluate
+    if (reorderJobs(sortedJobs))
+    {
+        for (SchedulerJob * job: jobs)
+            job->reset();
+
+        jobEvaluationOnly = true;
+        evaluateJobs();
+    }
 }
 
 void Scheduler::updatePreDawn()
@@ -5831,6 +6155,10 @@ void Scheduler::resetAllJobs()
 {
     if (state == SCHEDULER_RUNNIG)
         return;
+
+    // Reset capture count of all jobs before re-evaluating
+    foreach (SchedulerJob *job, jobs)
+        job->setCompletedCount(0);
 
     // Evaluate all jobs, this refreshes storage and resets job states
     startJobEvaluation();

@@ -522,6 +522,28 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="sortJobsB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="mosaicB">
             <property name="enabled">
              <bool>false</bool>
@@ -682,6 +704,11 @@
           </column>
           <column>
            <property name="text">
+            <string>Altitude</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>Score</string>
            </property>
           </column>
@@ -690,7 +717,7 @@
             <string>Start Time</string>
            </property>
           </column>
-          <column>
+           <column>
            <property name="text">
             <string>End Time</string>
            </property>
@@ -698,6 +725,11 @@
           <column>
            <property name="text">
             <string>Est. Duration</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Lead time</string>
            </property>
           </column>
          </widget>

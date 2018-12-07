@@ -92,10 +92,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
         SCHEDCOL_NAME = 0,
         SCHEDCOL_STATUS,
         SCHEDCOL_CAPTURES,
+        SCHEDCOL_ALTITUDE,
         SCHEDCOL_SCORE,
         SCHEDCOL_STARTTIME,
         SCHEDCOL_ENDTIME,
         SCHEDCOL_DURATION,
+        SCHEDCOL_LEADTIME,
         SCHEDCOL_COUNT
     } SchedulerColumns;
 
@@ -169,9 +171,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @brief findAltitude Find altitude given a specific time
          * @param target Target
          * @param when date time to find altitude
+         * @param is_setting whether target is setting at the argument time (optional).
+         * @param debug outputs calculation to log file (optional).
          * @return Altitude of the target at the specific date and time given.
+         * @warning This function uses the current KStars geolocation.
          */
-    static double findAltitude(const SkyPoint &target, const QDateTime &when);
+    static double findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting = nullptr, bool debug = false);
 
     /** @defgroup SchedulerDBusInterface Ekos DBus Interface - Scheduler Module
          * Ekos::Align interface provides primary functions to run and stop the scheduler.
@@ -200,6 +205,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @brief Resets all jobs to IDLE
          */
     Q_SCRIPTABLE void resetAllJobs();
+
+    /** DBUS interface function.
+         * @brief Resets all jobs to IDLE
+         */
+    Q_SCRIPTABLE void sortJobsPerAltitude();
 
     Ekos::SchedulerState status() { return state; }
 
@@ -314,9 +324,14 @@ class Scheduler : public QWidget, public Ui::Scheduler
     void setJobManipulation(bool can_reorder, bool can_delete);
 
     /**
-         * @brief clickQueueTable Update UI state when the job list is clicked once.
+         * @brief jobSelectionChanged Update UI state when the job list is clicked once.
          */
     void clickQueueTable(QModelIndex index);
+
+    /**
+         * @brief reorderJobs Change the order of jobs in the UI based on a subset of its jobs.
+         */
+    bool reorderJobs(QList<SchedulerJob*> reordered_sublist);
 
     /**
          * @brief moveJobUp Move the selected job up in the job list.
@@ -435,53 +450,61 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
     void executeScript(const QString &filename);
 
-    int16_t getDarkSkyScore(const QDateTime &observationDateTime);
+    /**
+         * @brief getDarkSkyScore Get the dark sky score of a date and time. The further from dawn the better.
+         * @param when date and time to check the dark sky score, now if omitted
+         * @return Dark sky score. Daylight get bad score, as well as pre-dawn to dawn.
+         */
+    int16_t getDarkSkyScore(QDateTime const &when = QDateTime()) const;
 
     /**
          * @brief getAltitudeScore Get the altitude score of an object. The higher the better
-         * @param job Active job
-         * @param when At what time to check the target altitude
-         * @return Altitude score. Altitude below minimum default of 15 degrees but above horizon get -20 score. Bad altitude below minimum required altitude or below horizon get -1000 score.
+         * @param job Target job
+         * @param when date and time to check the target altitude, now if omitted.
+         * @return Altitude score. Target altitude below minimum altitude required by job or setting target under 3 degrees below minimum altitude get bad score.
          */
-    int16_t getAltitudeScore(SchedulerJob *job, QDateTime when);
+    int16_t getAltitudeScore(SchedulerJob const *job, QDateTime const &when = QDateTime()) const;
 
     /**
          * @brief getMoonSeparationScore Get moon separation score. The further apart, the better, up a maximum score of 20.
          * @param job Target job
-         * @param when What time to check the moon separation?
+         * @param when date and time to check the moon separation, now if omitted.
          * @return Moon separation score
          */
-    int16_t getMoonSeparationScore(SchedulerJob *job, QDateTime when);
+    int16_t getMoonSeparationScore(SchedulerJob const *job, QDateTime const &when = QDateTime()) const;
 
     /**
          * @brief calculateJobScore Calculate job dark sky score, altitude score, and moon separation scores and returns the sum.
-         * @param job job to evaluate
-         * @param when time to evaluate constraints
+         * @param job Target
+         * @param when date and time to evaluate constraints, now if omitted.
          * @return Total score
          */
-    int16_t calculateJobScore(SchedulerJob *job, QDateTime when);
+    int16_t calculateJobScore(SchedulerJob const *job, QDateTime const &when = QDateTime()) const;
 
     /**
-         * @brief getWeatherScore Get weather condition score.
-         * @return If weather condition OK, return 0, if warning return -500, if alert return -1000
+         * @brief getWeatherScore Get current weather condition score.
+         * @return If weather condition OK, return score 0, else bad score.
          */
-    int16_t getWeatherScore();
+    int16_t getWeatherScore() const;
 
     /**
          * @brief calculateAltitudeTime calculate the altitude time given the minimum altitude given.
          * @param job active target
          * @param minAltitude minimum altitude required
          * @param minMoonAngle minimum separation from the moon. -1 to ignore.
-         * @return True if found a time in the night where the object is at or above the minimum altitude, false otherwise.
+         * @param when date and time to start searching from, now if omitted.
+         * @return The date and time the target is at or above the argument altitude, valid if found, invalid if not achievable (always under altitude).
          */
-    bool calculateAltitudeTime(SchedulerJob *job, double minAltitude, double minMoonAngle = -1);
+    QDateTime calculateAltitudeTime(SchedulerJob const *job, double minAltitude, double minMoonAngle = -1, QDateTime const &when = QDateTime()) const;
 
     /**
          * @brief calculateCulmination find culmination time adjust for the job offset
-         * @param job Active job
-         * @return True if culmination time adjust for offset is a valid time in the night
+         * @param job active target
+         * @param offset_minutes offset in minutes before culmination to search for.
+         * @param when date and time to start searching from, now if omitted
+         * @return The date and time the target is in entering the culmination interval, valid if found, invalid if not achievable (currently always valid).
          */
-    bool calculateCulmination(SchedulerJob *job);
+    QDateTime calculateCulmination(SchedulerJob const *job, int offset_minutes, QDateTime const &when = QDateTime()) const;
 
     /**
          * @brief calculateDawnDusk Get dawn and dusk times for today
@@ -598,7 +621,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @param job scheduler job
          * @return Separation in degrees
          */
-    double getCurrentMoonSeparation(SchedulerJob *job);
+    double getCurrentMoonSeparation(SchedulerJob const *job) const;
 
     /**
          * @brief updatePreDawn Update predawn time depending on current time and user offset
