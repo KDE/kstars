@@ -245,7 +245,7 @@ void SchedulerJob::setCompletionCell(QTableWidgetItem *value)
     completionCell = value;
     if (nullptr != completionCell)
         completionCell->setToolTip(i18n("Completion time for job '%1', as estimated by the Scheduler.\n"
-                                        "You may specify a fixed time to limit duration of looping jobs."
+                                        "You may specify a fixed time to limit duration of looping jobs. "
                                         "A warning symbol indicates the altitude at completion may cause the job to abort before completion.\n",
                                         name));
 }
