@@ -1399,9 +1399,9 @@ void CCD::processBLOB(IBLOB *bp)
         strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
         bp->aux0 = targetChip;
         bp->aux1 = &BType;
-        bp->aux2 = BLOBFilename;        
+        bp->aux2 = BLOBFilename;
 
-        if (Options::useDSLRImageViewer())
+        if (Options::useDSLRImageViewer() || targetChip->isBatchMode() == false)
         {
             if (imageViewer.isNull())
                 imageViewer = new ImageViewer(getDeviceName(), KStars::Instance());
@@ -1463,7 +1463,7 @@ void CCD::processBLOB(IBLOB *bp)
             case FITS_CALIBRATE:
             {
                 int *tabID = (captureMode == FITS_NORMAL) ? &normalTabID : &calibrationTabID;
-                // Check if we need to display the image                
+                // Check if we need to display the image
                 if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
                 {
                     fv->disconnect(this);
@@ -1494,7 +1494,7 @@ void CCD::processBLOB(IBLOB *bp)
             }
             break;
 
-            case FITS_FOCUS:                
+            case FITS_FOCUS:
             case FITS_GUIDE:
             case FITS_ALIGN:
                 loadImageInView(bp, targetChip);
@@ -1503,7 +1503,7 @@ void CCD::processBLOB(IBLOB *bp)
     }
     else
         emit BLOBUpdated(bp);
-#endif    
+#endif
 }
 
 void CCD::loadImageInView(IBLOB *bp, ISD::CCDChip *targetChip)
