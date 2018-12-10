@@ -2,7 +2,6 @@
 <node>
   <interface name="org.kde.kstars.fov">
     <property name="name" type="s" access="readwrite"/>
-    <property name="name" type="s" access="readwrite"/>
     <property name="sizeX" type="d" access="readwrite"/>
     <property name="sizeY" type="d" access="readwrite"/>
     <property name="offsetX" type="d" access="readwrite"/>
@@ -15,4 +14,3 @@
     </property>
   </interface>
 </node>
-
