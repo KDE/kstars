@@ -170,6 +170,9 @@ void FOVManager::releaseCache()
 
 FOV::FOV(const QString &n, float a, float b, float xoffset, float yoffset, float rot, Shape sh, const QString &col, bool useLockedCP) : QObject()
 {
+    qRegisterMetaType<FOV::Shape>("FOV::Shape");
+    qDBusRegisterMetaType<FOV::Shape>();
+
     new FovAdaptor(this);
     QDBusConnection::sessionBus().registerObject(QString("/KStars/FOV/%1").arg(getID()) , this);
 
@@ -191,6 +194,9 @@ FOV::FOV(const QString &n, float a, float b, float xoffset, float yoffset, float
 
 FOV::FOV() : QObject()
 {
+    qRegisterMetaType<FOV::Shape>("FOV::Shape");
+    qDBusRegisterMetaType<FOV::Shape>();
+
     new FovAdaptor(this);
     QDBusConnection::sessionBus().registerObject(QString("/KStars/FOV/%1").arg(getID()) , this);
 
