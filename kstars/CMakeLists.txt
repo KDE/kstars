@@ -956,6 +956,7 @@ set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${sep_SRCS} ${fits2_kl
 IF (NOT ANDROID)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
+    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.FOV.xml fov.h FOV)
 
     IF (INDI_FOUND)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
