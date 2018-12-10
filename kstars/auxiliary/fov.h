@@ -41,7 +41,7 @@ class FOV : public QObject
   Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.fov")
 
   Q_PROPERTY(QString name MEMBER m_name)
-  Q_PROPERTY(Shape shape MEMBER m_shape)
+  Q_PROPERTY(FOV::Shape shape MEMBER m_shape)
   Q_PROPERTY(float sizeX MEMBER m_sizeX)
   Q_PROPERTY(float sizeY MEMBER m_sizeY)
   Q_PROPERTY(float offsetX MEMBER m_offsetX)
@@ -72,8 +72,8 @@ class FOV : public QObject
     inline Q_SCRIPTABLE QString name() const { return m_name; }
     void setName(const QString &n) { m_name = n; }
 
-    inline Shape shape() const { return m_shape; }
-    void setShape(Shape s) { m_shape = s; }
+    inline FOV::Shape shape() const { return m_shape; }
+    void setShape(FOV::Shape s) { m_shape = s; }
     //void setShape(int s);
 
     inline float sizeX() const { return m_sizeX; }
@@ -130,7 +130,7 @@ class FOV : public QObject
 
 private:
     QString m_name, m_color;
-    Shape m_shape;
+    FOV::Shape m_shape;
     float m_sizeX { 0 }, m_sizeY { 0 };
     float m_offsetX { 0 }, m_offsetY { 0 };
     float m_PA { 0 };
