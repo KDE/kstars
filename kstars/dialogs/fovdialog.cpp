@@ -162,7 +162,7 @@ void FOVDialog::slotEditFOV()
     if (newfdlg->exec() == QDialog::Accepted)
     {
         // Overwrite FOV
-        *f = newfdlg->getFOV();
+        f->sync(newfdlg->getFOV());
         fov->ViewBox->update();
     }
     delete newfdlg;
@@ -201,7 +201,7 @@ NewFOV::NewFOV(QWidget *parent, const FOV *fov) : QDialog(parent), f()
     // Initialize FOV if required
     if (fov != nullptr)
     {
-        f = *fov;
+        f.sync(*fov);
         ui->FOVName->setText(f.name());
         ui->FOVEditX->setText(toString(f.sizeX()));
         ui->FOVEditY->setText(toString(f.sizeY()));
@@ -289,7 +289,7 @@ void NewFOV::slotUpdateFOV()
     if (okX)
         f.setPA(rot);
 
-    f.setShape(ui->ShapeBox->currentIndex());
+    f.setShape(static_cast<FOV::Shape>(ui->ShapeBox->currentIndex()));
     f.setColor(ui->ColorButton->color().name());
     f.setLockCelestialPole(ui->FOVLockCP->isChecked());
 

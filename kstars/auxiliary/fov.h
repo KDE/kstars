@@ -22,17 +22,34 @@
 #include <QImage>
 #include <QList>
 #include <QString>
+#include <QDBusArgument>
 
 class QPainter;
 
 /**
  * @class FOV
  * A simple class encapsulating a Field-of-View symbol
+ *
+ * The FOV size, shape, name, and color can be customized. The rotation is by default 0 degrees East Of North.
  * @author Jason Harris
- * @version 1.0
+ * @author Jasem Mutlaq
+ * @version 1.1
  */
-class FOV
+class FOV : public QObject
 {
+  Q_OBJECT
+  Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.fov")
+
+  Q_PROPERTY(QString name MEMBER m_name)
+  Q_PROPERTY(Shape shape MEMBER m_shape)
+  Q_PROPERTY(float sizeX MEMBER m_sizeX)
+  Q_PROPERTY(float sizeY MEMBER m_sizeY)
+  Q_PROPERTY(float offsetX MEMBER m_offsetX)
+  Q_PROPERTY(float offsetY MEMBER m_offsetY)
+  Q_PROPERTY(float rotation MEMBER m_rotation)
+  Q_PROPERTY(QString color MEMBER m_color)
+  Q_PROPERTY(bool cpLock MEMBER m_lockCelestialPole)
+
   public:
     enum Shape
     {
@@ -43,19 +60,22 @@ class FOV
         SOLIDCIRCLE,
         UNKNOWN
     };
-    static FOV::Shape intToShape(int);
 
     /** Default constructor */
     FOV();
     FOV(const QString &name, float a, float b = -1, float xoffset = 0, float yoffset = 0, float rot = 0,
         Shape shape = SQUARE, const QString &color = "#FFFFFF", bool useLockedCP = false);
+    FOV(const FOV &other);
+    virtual ~FOV() = default;
 
-    inline QString name() const { return m_name; }
+    void sync(const FOV &other);
+
+    inline Q_SCRIPTABLE QString name() const { return m_name; }
     void setName(const QString &n) { m_name = n; }
 
     inline Shape shape() const { return m_shape; }
     void setShape(Shape s) { m_shape = s; }
-    void setShape(int s);
+    //void setShape(int s);
 
     inline float sizeX() const { return m_sizeX; }
     inline float sizeY() const { return m_sizeY; }
@@ -74,6 +94,7 @@ class FOV
     inline float offsetX() const { return m_offsetX; }
     inline float offsetY() const { return m_offsetY; }
 
+    // Position Angle
     void setPA(float rt) { m_PA = rt; }
     inline float PA() const { return m_PA; }
 
@@ -119,6 +140,9 @@ private:
     QImage m_image;
     bool m_imageDisplay { false };
     bool m_lockCelestialPole { false };
+
+    static int getID() { return m_ID++; }
+    static int m_ID;
 };
 
 /**
@@ -159,3 +183,8 @@ class FOVManager
 
     static QList<FOV *> m_FOVs;
 };
+
+// Shape
+Q_DECLARE_METATYPE(FOV::Shape)
+QDBusArgument &operator<<(QDBusArgument &argument, const FOV::Shape& source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, FOV::Shape &dest);

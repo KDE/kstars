@@ -1,0 +1,18 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.fov">
+    <property name="name" type="s" access="readwrite"/>
+    <property name="name" type="s" access="readwrite"/>
+    <property name="sizeX" type="d" access="readwrite"/>
+    <property name="sizeY" type="d" access="readwrite"/>
+    <property name="offsetX" type="d" access="readwrite"/>
+    <property name="offsetY" type="d" access="readwrite"/>
+    <property name="PA" type="d" access="readwrite"/>
+    <property name="color" type="s" access="readwrite"/>
+    <property name="cpLock" type="b" access="readwrite"/>
+    <property name="shape" type="(i)" access="readwrite">
+      <annotation name="org.qtproject.QtDBus.QtTypeName" value="FOV::Shape"/>
+    </property>
+  </interface>
+</node>
+
