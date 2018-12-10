@@ -46,7 +46,7 @@ class FOV : public QObject
   Q_PROPERTY(float sizeY MEMBER m_sizeY)
   Q_PROPERTY(float offsetX MEMBER m_offsetX)
   Q_PROPERTY(float offsetY MEMBER m_offsetY)
-  Q_PROPERTY(float rotation MEMBER m_rotation)
+  Q_PROPERTY(float PA MEMBER m_PA)
   Q_PROPERTY(QString color MEMBER m_color)
   Q_PROPERTY(bool cpLock MEMBER m_lockCelestialPole)
 
@@ -66,7 +66,6 @@ class FOV : public QObject
     FOV(const QString &name, float a, float b = -1, float xoffset = 0, float yoffset = 0, float rot = 0,
         Shape shape = SQUARE, const QString &color = "#FFFFFF", bool useLockedCP = false);
     FOV(const FOV &other);
-    virtual ~FOV() = default;
 
     void sync(const FOV &other);
 
@@ -124,7 +123,7 @@ class FOV : public QObject
 
     void setImage(const QImage &image);
 
-    void setImageDisplay(bool value);   
+    void setImageDisplay(bool value);
 
     bool lockCelestialPole() const;
     void setLockCelestialPole(bool lockCelestialPole);
@@ -135,7 +134,7 @@ private:
     float m_sizeX { 0 }, m_sizeY { 0 };
     float m_offsetX { 0 }, m_offsetY { 0 };
     float m_PA { 0 };
-    float m_northPA { 0 };    
+    float m_northPA { 0 };
     SkyPoint m_center;
     QImage m_image;
     bool m_imageDisplay { false };
