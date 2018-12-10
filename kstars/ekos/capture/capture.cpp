@@ -5623,22 +5623,21 @@ void Capture::addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, do
     auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString,QVariant> &oneDSLRInfo)
     { return (oneDSLRInfo["Model"] == model);});
 
-if (pos != DSLRInfos.end())
-{
-    KStarsData::Instance()->userdb()->DeleteDSLRInfo(model);
-    DSLRInfos.removeOne(*pos);
-}
+    if (pos != DSLRInfos.end())
+    {
+        KStarsData::Instance()->userdb()->DeleteDSLRInfo(model);
+        DSLRInfos.removeOne(*pos);
+    }
 
-QMap<QString, QVariant> oneDSLRInfo;
-oneDSLRInfo["Model"] = model;
-oneDSLRInfo["Width"] = maxW;
-oneDSLRInfo["Height"] = maxH;
-oneDSLRInfo["PixelW"] = pixelW;
-oneDSLRInfo["PixelH"] = pixelH;
+    QMap<QString, QVariant> oneDSLRInfo;
+    oneDSLRInfo["Model"] = model;
+    oneDSLRInfo["Width"] = maxW;
+    oneDSLRInfo["Height"] = maxH;
+    oneDSLRInfo["PixelW"] = pixelW;
+    oneDSLRInfo["PixelH"] = pixelH;
 
-KStarsData::Instance()->userdb()->AddDSLRInfo(oneDSLRInfo);
-
-KStarsData::Instance()->userdb()->GetAllDSLRInfos(DSLRInfos);
+    KStarsData::Instance()->userdb()->AddDSLRInfo(oneDSLRInfo);
+    KStarsData::Instance()->userdb()->GetAllDSLRInfos(DSLRInfos);
 }
 
 bool Capture::isModelinDSLRInfo(const QString &model)
@@ -5646,7 +5645,7 @@ bool Capture::isModelinDSLRInfo(const QString &model)
     auto pos = std::find_if(DSLRInfos.begin(), DSLRInfos.end(), [model](QMap<QString,QVariant> &oneDSLRInfo)
     { return (oneDSLRInfo["Model"] == model);});
 
-return (pos != DSLRInfos.end());
+    return (pos != DSLRInfos.end());
 }
 
 #if 0
@@ -5757,6 +5756,17 @@ void Capture::clearCameraConfiguration()
     currentCCD->setConfig(LOAD_DEFAULT_CONFIG);
     KStarsData::Instance()->userdb()->DeleteDSLRInfo(currentCCD->getDeviceName());
 
+    // For DSLRs, immediately ask them to enter the values again.
+    if (ISOCombo->count() > 0)
+    {
+        DSLRInfo infoDialog(this, currentCCD);
+        if (infoDialog.exec() == QDialog::Accepted)
+        {
+            addDSLRInfo(QString(currentCCD->getDeviceName()), infoDialog.sensorMaxWidth, infoDialog.sensorMaxHeight, infoDialog.sensorPixelW, infoDialog.sensorPixelH);
+            updateFrameProperties();
+            resetFrame();
+        }
+    }
 }
 
 void Capture::setCoolerToggled(bool enabled)
