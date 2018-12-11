@@ -486,7 +486,7 @@ void FITSViewer::updateFITS(const QUrl &imageName, int fitsUID, FITSScale filter
 
         QObject::disconnect(*conn);
 
-        emit loaded(tabIndex);
+        emit loaded(tab->getUID());
 
         });
 
@@ -750,7 +750,9 @@ void FITSViewer::closeTab(int index)
 
     FITSTab *tab = fitsTabs[index];
 
-    fitsMap.remove(tab->getUID());
+    int UID = tab->getUID();
+
+    fitsMap.remove(UID);
     fitsTabs.removeOne(tab);
     delete tab;
 
@@ -759,6 +761,8 @@ void FITSViewer::closeTab(int index)
         saveFileAction->setEnabled(false);
         saveFileAsAction->setEnabled(false);
     }
+
+    emit closed(UID);
 }
 
 /**

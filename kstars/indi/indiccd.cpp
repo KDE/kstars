@@ -1433,6 +1433,19 @@ void CCD::processBLOB(IBLOB *bp)
                     KStars::Instance()->addFITSViewer(fv);
                 }
 
+                connect(fv, &FITSViewer::closed, [&](int tabIndex) {
+                   if (tabIndex == normalTabID)
+                       normalTabID = -1;
+                   else if (tabIndex == calibrationTabID)
+                       calibrationTabID = -1;
+                   else if (tabIndex == focusTabID)
+                       focusTabID = -1;
+                   else if (tabIndex == guideTabID)
+                       guideTabID = -1;
+                   else if (tabIndex == alignTabID)
+                       alignTabID = -1;
+                });
+
                 //connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
                 //connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
             }
