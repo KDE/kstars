@@ -66,7 +66,8 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
 
     rememberCredentialsCheck->setChecked(Options::rememberCredentials());
     connect(rememberCredentialsCheck, &QCheckBox::toggled, [=](bool toggled) { Options::setRememberCredentials(toggled);});
-
+    autoStartCheck->setChecked(Options::autoStartEkosLive());
+    connect(autoStartCheck, &QCheckBox::toggled, [=](bool toggled) { Options::setAutoStartEkosLive(toggled);});
 
     m_serviceURL.setUrl("https://live.stellarmate.com");
 
@@ -88,6 +89,9 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
             QJsonObject data = QJsonDocument::fromJson(dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1()).object();
             username->setText(data["username"].toString());
             password->setText(data["password"].toString());
+
+            if (autoStartCheck->isChecked())
+                connectAuthServer();
         }
         job->deleteLater();
     });
