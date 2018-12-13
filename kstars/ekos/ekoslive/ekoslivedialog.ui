@@ -54,13 +54,6 @@
             <string>Ekos Live Service</string>
            </property>
            <layout class="QGridLayout" name="gridLayout">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>Username:</string>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="1">
              <widget class="QLineEdit" name="username"/>
             </item>
@@ -88,6 +81,13 @@
               </property>
               <property name="checked">
                <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Username:</string>
               </property>
              </widget>
             </item>
@@ -188,17 +188,14 @@
        <item>
         <layout class="QHBoxLayout" name="bottomLayout">
          <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+          <widget class="QCheckBox" name="autoStartCheck">
+           <property name="toolTip">
+            <string>Automatically connect to EkosLive service on startup.</string>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
+           <property name="text">
+            <string>Auto Start</string>
            </property>
-          </spacer>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="connectB">

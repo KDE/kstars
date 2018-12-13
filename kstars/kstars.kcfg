@@ -1450,6 +1450,10 @@
        <label>Remember Ekos Live credentials.</label>
        <default>true</default>
     </entry>
+    <entry name="AutoStartEkosLive" type="Bool">
+       <label>Start Ekos Live on KStars startup.</label>
+       <default>true</default>
+    </entry>
       <entry name="independentWindowEkos" type="Bool">
          <label>Make Ekos window independent of KStars main window</label>
          <default>false</default>
