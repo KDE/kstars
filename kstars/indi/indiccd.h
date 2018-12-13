@@ -101,7 +101,7 @@ class CCDChip
     int getISOIndex() const;
     bool setISOIndex(int value);
 
-    QStringList getISOList() const;    
+    QStringList getISOList() const;
 
 private:
     QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage, alignImage;
@@ -165,13 +165,13 @@ class CCD : public DeviceDecorator
     bool setCoolerControl(bool enable);
     bool isCoolerOn();
     // Does it have a video stream?
-    bool hasVideoStream() { return HasVideoStream; }    
+    bool hasVideoStream() { return HasVideoStream; }
 
     // Temperature controls
     bool getTemperature(double *value);
     bool setTemperature(double value);
 
-    // Utility functions        
+    // Utility functions
     void setISOMode(bool enable) { ISOMode = enable; }
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
     void setNextSequenceID(int count) { nextSequenceID = count; }

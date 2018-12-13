@@ -94,7 +94,7 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     connect(&countdownTimer, &QTimer::timeout, this, &Ekos::Manager::updateCaptureCountDown);
 
     toolsWidget->setIconSize(QSize(48, 48));
-    connect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange);
+    connect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange, Qt::UniqueConnection);
 
     // Enable scheduler Tab
     toolsWidget->setTabEnabled(1, false);
@@ -2242,7 +2242,7 @@ void Manager::removeTabs()
 
     managedDevices.clear();
 
-    connect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange);
+    connect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange, Qt::UniqueConnection);
 }
 
 bool Manager::isRunning(const QString &process)

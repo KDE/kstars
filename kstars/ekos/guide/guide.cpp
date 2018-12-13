@@ -907,6 +907,11 @@ void Guide::checkCCD(int ccdNum)
         else
             useGuideHead = false;
 
+        ISD::CCDChip *targetChip =
+            currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        if (targetChip && targetChip->isCapturing())
+            return;
+
         if (guiderType != GUIDE_INTERNAL)
         {
             syncCCDInfo();
@@ -941,8 +946,7 @@ void Guide::checkCCD(int ccdNum)
             }
         }
 #endif
-        ISD::CCDChip *targetChip =
-            currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
         targetChip->setImageView(guideView, FITS_GUIDE);
 
         syncCCDInfo();

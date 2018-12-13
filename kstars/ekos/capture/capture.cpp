@@ -653,16 +653,6 @@ void Capture::checkCCD(int ccdNum)
             return;
     }
 
-    foreach (ISD::CCD *ccd, CCDs)
-    {
-        disconnect(ccd, &ISD::CCD::numberUpdated, this, &Ekos::Capture::processCCDNumber);
-        disconnect(ccd, &ISD::CCD::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature);
-        disconnect(ccd, &ISD::CCD::coolerToggled, this, &Ekos::Capture::setCoolerToggled);
-        disconnect(ccd, &ISD::CCD::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
-        disconnect(ccd, &ISD::CCD::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
-        disconnect(ccd, &ISD::CCD::ready, this, &Ekos::Capture::ready);
-    }
-
     if (ccdNum <= CCDs.count())
     {
         // Check whether main camera or guide head only
@@ -678,6 +668,20 @@ void Capture::checkCCD(int ccdNum)
             currentCCD   = CCDs.at(ccdNum);
             targetChip   = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
             useGuideHead = false;
+        }
+
+        // Do not change any settings if we are capturing.
+        if (targetChip && targetChip->isCapturing())
+            return;
+
+        foreach (ISD::CCD *ccd, CCDs)
+        {
+            disconnect(ccd, &ISD::CCD::numberUpdated, this, &Ekos::Capture::processCCDNumber);
+            disconnect(ccd, &ISD::CCD::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature);
+            disconnect(ccd, &ISD::CCD::coolerToggled, this, &Ekos::Capture::setCoolerToggled);
+            disconnect(ccd, &ISD::CCD::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
+            disconnect(ccd, &ISD::CCD::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
+            disconnect(ccd, &ISD::CCD::ready, this, &Ekos::Capture::ready);
         }
 
         if (currentCCD->hasCoolerControl())

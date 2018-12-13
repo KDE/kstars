@@ -243,7 +243,7 @@ Focus::Focus()
         maxTravelIN->setMaximum(Options::focusMaxTravel());
     maxTravelIN->setValue(Options::focusMaxTravel());
     useSubFrame->setChecked(Options::focusSubFrame());
-    suspendGuideCheck->setChecked(Options::suspendGuiding());    
+    suspendGuideCheck->setChecked(Options::suspendGuiding());
     darkFrameCheck->setChecked(Options::useFocusDarkFrame());
     thresholdSpin->setValue(Options::focusThreshold());
     useFullField->setChecked(Options::focusUseFullField());
@@ -294,7 +294,7 @@ void Focus::resetFrame()
         if (targetChip)
         {
             //fx=fy=fw=fh=0;
-            targetChip->resetFrame();            
+            targetChip->resetFrame();
 
             int x, y, w, h;
             targetChip->getFrame(&x, &y, &w, &h);
@@ -363,6 +363,11 @@ void Focus::checkCCD(int ccdNum)
     if (ccdNum >= 0 && ccdNum <= CCDs.count())
     {
         currentCCD = CCDs.at(ccdNum);
+
+        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+        if (targetChip && targetChip->isCapturing())
+            return;
+
         for (ISD::CCD *oneCCD : CCDs)
         {
             if (oneCCD == currentCCD)
@@ -371,7 +376,6 @@ void Focus::checkCCD(int ccdNum)
                 oneCCD->disconnect(this);
         }
 
-        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
         if (targetChip)
         {
             targetChip->setImageView(focusView, FITS_FOCUS);
@@ -719,7 +723,7 @@ void Focus::start()
     {
         appendLogText(i18n("No CCD connected."));
         return;
-    }    
+    }
 
     lastFocusDirection = FOCUS_NONE;
 
@@ -785,7 +789,7 @@ void Focus::start()
     Options::setFocusBoxSize(focusBoxSize->value());
     Options::setFocusSubFrame(useSubFrame->isChecked());
     Options::setFocusAutoStarEnabled(useAutoStar->isChecked());
-    Options::setSuspendGuiding(suspendGuideCheck->isChecked());    
+    Options::setSuspendGuiding(suspendGuideCheck->isChecked());
     Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
     Options::setFocusFramesCount(focusFramesSpin->value());
 
@@ -932,7 +936,7 @@ void Focus::capture()
             return;
         }
 
-        int targetPosition = FilterPosCombo->currentIndex() + 1;        
+        int targetPosition = FilterPosCombo->currentIndex() + 1;
         QString lockedFilter = filterManager->getFilterLock(FilterPosCombo->currentText());
 
         // We change filter if:
@@ -1157,7 +1161,7 @@ void Focus::setCaptureComplete()
     targetChip->getBinning(&subBinX, &subBinY);
 
     // If we have a box, sync the bounding box to its position.
-    syncTrackingBoxPosition();    
+    syncTrackingBoxPosition();
 
     // Notify user if we're not looping
     if (inFocusLoop == false)
@@ -1191,7 +1195,7 @@ void Focus::setCaptureComplete()
         // First check that we haven't already search for stars
         // Since star-searching algorithm are time-consuming, we should only search when necessary
         if (image_data->areStarsSearched() == false)
-        {            
+        {
             // Reset current HFR
             currentHFR = -1;
 
@@ -1199,7 +1203,7 @@ void Focus::setCaptureComplete()
             // standard algorithm in KStars, or SEP. The other algorithms are too inefficient to run on full frames and require
             // a bounding box for them to be effective in near real-time application.
             if (Options::focusUseFullField())
-            {                
+            {
                 if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
                     focusView->findStars(ALGORITHM_CENTROID);
                 else
@@ -1513,9 +1517,9 @@ void Focus::setCaptureComplete()
                 starCenter.setY(subH / (2 * subBinY));
                 starCenter.setZ(subBinX);
 
-                subFramed = true;                
+                subFramed = true;
 
-                focusView->setFirstLoad(true);                
+                focusView->setFirstLoad(true);
 
                 // Now let's capture again for the actual requested subframed image.
                 capture();
@@ -1635,7 +1639,7 @@ void Focus::setCaptureComplete()
         state = Ekos::FOCUS_PROGRESS;
         qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
         emit newStatus(state);
-    }    
+    }
 
     // Now let's kick in the algorithms
 
@@ -2653,7 +2657,7 @@ void Focus::setAutoFocusResult(bool status)
         m_GuidingSuspended = false;
     }
 
-    resetFocusIteration = 0;    
+    resetFocusIteration = 0;
 
     if (settleTime > 0)
         appendLogText(i18n("Settling..."));
