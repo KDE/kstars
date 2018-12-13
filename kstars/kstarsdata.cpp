@@ -17,13 +17,13 @@
 
 #include "kstarsdata.h"
 
-#include "fov.h"
 #include "ksutils.h"
 #include "Options.h"
 #include "auxiliary/kspaths.h"
 #include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/skymapcomposite.h"
 #ifndef KSTARS_LITE
+#include "fov.h"
 #include "imageexporter.h"
 #include "kstars.h"
 #include "observinglist.h"
@@ -1467,6 +1467,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
     return false;
 }
 
+#ifndef KSTARS_LITE
 void KStarsData::syncFOV()
 {
     visibleFOVs.clear();
@@ -1485,7 +1486,7 @@ void KStarsData::syncFOV()
     }
     Options::setFOVNames(all.intersect(names).toList());
 }
-#ifndef KSTARS_LITE
+
 // FIXME: Why does KStarsData store the Execute instance??? -- asimha
 Execute *KStarsData::executeSession()
 {

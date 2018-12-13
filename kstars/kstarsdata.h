@@ -222,7 +222,9 @@ class KStarsData : public QObject
     bool executeScript(const QString &name, SkyMap *map);
 
     /** Synchronize list of visible FOVs and list of selected FOVs in Options */
+    #ifndef KSTARS_LITE
     void syncFOV();
+    #endif
 
     /**
      * @return the list of visible FOVs
