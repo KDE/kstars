@@ -3381,7 +3381,8 @@ void Scheduler::checkJobStage()
                     findNextJob();
                 }
             }
-            else currentOperationTime.restart();
+            else
+                currentOperationTime.restart();
         }
         break;
 
@@ -4519,6 +4520,9 @@ void Scheduler::findNextJob()
     // Reset failed count
     alignFailureCount = guideFailureCount = focusFailureCount = captureFailureCount = 0;
 
+    // Always reset job stage
+    currentJob->setStage(SchedulerJob::STAGE_IDLE);
+
     /* FIXME: Other debug logs in that function probably */
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Find next job...";
 
@@ -4921,8 +4925,9 @@ void Scheduler::updateCompletedJobsCount(bool forced)
     {
         QList<SequenceJob*> seqjobs;
         bool hasAutoFocus = false;
+        int lightFramesRequired = 0;
 
-        oneJob->setLightFramesRequired(false);
+        //oneJob->setLightFramesRequired(false);
         /* Look into the sequence requirements, bypass if invalid */
         if (loadSequenceQueue(oneJob->getSequenceFile().toLocalFile(), oneJob, seqjobs, hasAutoFocus) == false)
         {
@@ -4956,7 +4961,13 @@ void Scheduler::updateCompletedJobsCount(bool forced)
 
             /* Else recount captures already stored */
             newFramesCount[signature] = getCompletedFiles(signature, oneSeqJob->getFullPrefix());
+
+            /* If frame is LIGHT, how hany do we have left? */
+            if (oneSeqJob->getFrameType() == FRAME_LIGHT)
+                lightFramesRequired += oneSeqJob->getCount() - newFramesCount[signature];
         }
+
+        oneJob->setLightFramesRequired(lightFramesRequired > 0);
     }
 
     capturedFramesCount = newFramesCount;
@@ -7067,6 +7078,9 @@ void Scheduler::setWeatherStatus(uint32_t status)
 
 bool Scheduler::shouldSchedulerSleep(SchedulerJob *currentJob)
 {
+    if (currentJob->getLightFramesRequired() == false)
+        return false;
+
     QDateTime const now = KStarsData::Instance()->lt();
     int const nextObservationTime = now.secsTo(currentJob->getStartupTime());
     if (nextObservationTime > Options::leadTime() * 60)
