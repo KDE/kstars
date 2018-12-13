@@ -122,7 +122,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(solveB, &QPushButton::clicked, this, &Ekos::Align::captureAndSolve);
     connect(stopB, &QPushButton::clicked, this, &Ekos::Align::abort);
     connect(measureAltB, &QPushButton::clicked, this, &Ekos::Align::measureAltError);
-    connect(measureAzB, &QPushButton::clicked, this, &Ekos::Align::measureAzError);    
+    connect(measureAzB, &QPushButton::clicked, this, &Ekos::Align::measureAzError);
 
     // Effective FOV Edit
     connect(FOVOut, &QLineEdit::editingFinished, this, &Align::syncFOV);
@@ -1531,9 +1531,9 @@ void Align::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIn
 
         mountModel.alignTable->setItem(newVisualIndex, i, oldItem);
         mountModel.alignTable->setItem(oldVisualIndex, i, newItem);
-    }    
+    }
     mountModel.alignTable->verticalHeader()->blockSignals(true);
-    mountModel.alignTable->verticalHeader()->moveSection(newVisualIndex, oldVisualIndex);    
+    mountModel.alignTable->verticalHeader()->moveSection(newVisualIndex, oldVisualIndex);
     mountModel.alignTable->verticalHeader()->blockSignals(false);
 
     if (previewShowing)
@@ -1892,6 +1892,10 @@ void Align::checkCCD(int ccdNum)
     }
 
     currentCCD = CCDs.at(ccdNum);
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    if (targetChip && targetChip->isCapturing())
+        return;
 
     if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
         (dynamic_cast<RemoteAstrometryParser *>(remoteParser.get()))->setCCD(currentCCD->getDeviceName());

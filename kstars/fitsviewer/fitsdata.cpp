@@ -106,6 +106,7 @@ FITSData::~FITSData()
     if (fptr != nullptr)
     {
         fits_close_file(fptr, &status);
+        fptr=nullptr;
 
         if (m_isTemporary && autoRemoveTemporaryFITS)
             QFile::remove(m_Filename);
@@ -123,6 +124,7 @@ QFuture<bool> FITSData::loadFITS(const QString &inFilename, bool silent)
     if (fptr != nullptr)
     {
         fits_close_file(fptr, &status);
+        fptr=nullptr;
 
         // If current file is temporary AND
         // Auto Remove Temporary File is Set AND
