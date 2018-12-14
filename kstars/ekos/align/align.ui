@@ -1128,7 +1128,7 @@
                <item>
                 <widget class="QLabel" name="FOVDisabledLabel">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;Disabled: FOV must be 30 arcmins or wider.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;Disabled: FOV must be 10 arcmins or wider. 60+ arcminutes is recommended.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="textFormat">
                   <enum>Qt::RichText</enum>
@@ -1749,7 +1749,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="solverTypeGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
+  <buttongroup name="solverTypeGroup"/>
  </buttongroups>
 </ui>

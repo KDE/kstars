@@ -48,7 +48,7 @@
 
 #include <ekos_align_debug.h>
 
-#define PAH_CUTOFF_FOV            30 // Minimum FOV width in arcminutes for PAH to work
+#define PAH_CUTOFF_FOV            10 // Minimum FOV width in arcminutes for PAH to work
 #define MAXIMUM_SOLVER_ITERATIONS 10
 
 #define AL_FORMAT_VERSION 1.0
