@@ -70,10 +70,31 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     connect(autoStartCheck, &QCheckBox::toggled, [=](bool toggled) { Options::setAutoStartEkosLive(toggled);});
 
     m_serviceURL.setUrl("https://live.stellarmate.com");
+    m_wsURL.setUrl("wss://live.stellarmate.com");
 
-    QUrl m_wsURL("wss://live.stellarmate.com");
+    ekosLiveOnlineR->setChecked(Options::ekosLiveOnline());
+    connect(ekosLiveOnlineR, &QRadioButton::toggled, [&](bool toggled)
+    {
+        Options::setEkosLiveOnline(toggled);
+        if (toggled)
+        {
+            m_serviceURL.setUrl("https://live.stellarmate.com");
+            m_wsURL.setUrl("wss://live.stellarmate.com");
+            m_Message->setURL(m_wsURL);
+            m_Media->setURL(m_wsURL);
+            m_Cloud->setURL(m_wsURL);
+        }
+        else {
+            m_serviceURL.setUrl("http://localhost:3000");
+            m_wsURL.setUrl("ws://localhost:3000");
+            m_Message->setURL(m_wsURL);
+            m_Media->setURL(m_wsURL);
+            m_Cloud->setURL(m_wsURL);
+        }
+    }
+    );
 
-    if (getenv("LOCAL_EKOSLIVE_SERVER"))
+    if (ekosLiveOfflineR->isChecked())
     {
         m_serviceURL.setUrl("http://localhost:3000");
         m_wsURL.setUrl("ws://localhost:3000");
@@ -176,6 +197,10 @@ void Client::disconnectAuthServer()
     m_Message->disconnectServer();
     m_Media->disconnectServer();
     m_Cloud->disconnectServer();
+
+    modeLabel->setEnabled(true);
+    ekosLiveOnlineR->setEnabled(true);
+    ekosLiveOfflineR->setEnabled(true);
 }
 
 void Client::authenticate()
@@ -237,6 +262,10 @@ void Client::onResult(QNetworkReply *reply)
 
     m_Cloud->setAuthResponse(authResponse);
     m_Cloud->connectServer();
+
+    modeLabel->setEnabled(false);
+    ekosLiveOnlineR->setEnabled(false);
+    ekosLiveOfflineR->setEnabled(false);
 }
 
 }
