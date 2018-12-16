@@ -4925,7 +4925,6 @@ void Scheduler::updateCompletedJobsCount(bool forced)
     {
         QList<SequenceJob*> seqjobs;
         bool hasAutoFocus = false;
-        int lightFramesRequired = 0;
 
         //oneJob->setLightFramesRequired(false);
         /* Look into the sequence requirements, bypass if invalid */
@@ -4937,7 +4936,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
         }
 
         /* Enumerate the SchedulerJob's SequenceJobs to count captures stored for each */
-        foreach (SequenceJob *oneSeqJob, seqjobs)
+        for (SequenceJob *oneSeqJob : seqjobs)
         {
             /* Only consider captures stored on client (Ekos) side */
             /* FIXME: ask the remote for the file count */
@@ -4961,12 +4960,16 @@ void Scheduler::updateCompletedJobsCount(bool forced)
 
             /* Else recount captures already stored */
             newFramesCount[signature] = getCompletedFiles(signature, oneSeqJob->getFullPrefix());
+        }
 
+        int lightFramesRequired = 0;
+        for (SequenceJob *oneSeqJob : seqjobs)
+        {
+            QString const signature = oneSeqJob->getSignature();
             /* If frame is LIGHT, how hany do we have left? */
             if (oneSeqJob->getFrameType() == FRAME_LIGHT)
                 lightFramesRequired += oneSeqJob->getCount() - newFramesCount[signature];
         }
-
         oneJob->setLightFramesRequired(lightFramesRequired > 0);
     }
 
