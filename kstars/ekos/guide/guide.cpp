@@ -1486,6 +1486,11 @@ void Guide::setCaptureComplete()
                 guider->dither(Options::ditherPixels());
             break;
 
+        // Feature only of internal guider
+        case GUIDE_MANUAL_DITHERING:
+                dynamic_cast<InternalGuider*>(guider)->processManualDithering();
+            break;
+
         case GUIDE_REACQUIRE:
                 guider->reacquire();
                 break;
@@ -2018,6 +2023,10 @@ void Guide::setStatus(Ekos::GuideState newState)
 
         case GUIDE_REACQUIRE:
             capture();
+            break;
+
+        case GUIDE_MANUAL_DITHERING:
+            appendLogText(i18n("Manual dithering in progress."));
             break;
 
         case GUIDE_DITHERING:

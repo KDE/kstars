@@ -69,18 +69,12 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="x">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+        <widget class="QDoubleSpinBox" name="x">
          <property name="minimum">
-          <number>1</number>
+          <double>1.000000000000000</double>
          </property>
          <property name="maximum">
-          <number>10000</number>
+          <double>10000.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -96,18 +90,12 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="y">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+        <widget class="QDoubleSpinBox" name="y">
          <property name="minimum">
-          <number>1</number>
+          <double>1.000000000000000</double>
          </property>
          <property name="maximum">
-          <number>10000</number>
+          <double>10000.000000000000000</double>
          </property>
         </widget>
        </item>
