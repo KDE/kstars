@@ -90,13 +90,13 @@ bool InternalGuider::guide()
 
 bool InternalGuider::abort()
 {
-    calibrationStage = CAL_IDLE;
+    calibrationStage = CAL_IDLE;    
 
     logFile.close();
 
-    if (state == GUIDE_CALIBRATING || state == GUIDE_GUIDING || state == GUIDE_DITHERING)
+    if (state == GUIDE_CALIBRATING || state == GUIDE_GUIDING || state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
     {
-        if (state == GUIDE_DITHERING)
+        if (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
             emit newStatus(GUIDE_DITHERING_ERROR);
         emit newStatus(GUIDE_ABORTED);
 
@@ -108,6 +108,7 @@ bool InternalGuider::abort()
         qCDebug(KSTARS_EKOS_GUIDE) << "Stopping internal guider.";
     }
 
+    m_ProgressiveDither.clear();
     m_starLostCounter=0;
     m_highRMSCounter=0;
     accumulator.first = accumulator.second = 0;
@@ -140,15 +141,41 @@ bool InternalGuider::resume()
     return true;
 }
 
-bool InternalGuider::ditherXY(int x, int y)
+bool InternalGuider::ditherXY(double x, double y)
 {
+    m_ProgressiveDither.clear();
     m_DitherRetries=0;
     double cur_x, cur_y, ret_angle;
     pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
-    m_DitherTargetPosition = Vector(x, y, 0);
-    pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y, ret_angle);
 
-    state = GUIDE_DITHERING;
+    // Find out how many "jumps" we need to perform in order to get to target.
+    // The current limit is now 1/4 of the box size to make sure the star stays within detection
+    // threashold inside the window.
+    double oneJump = (guideBoxSize/4.0);    
+    double targetX = cur_x, targetY = cur_y;
+    int xSign = (x >= cur_x) ? 1 : -1;
+    int ySign = (y >= cur_y) ? 1 : -1;
+
+    do
+    {
+        if (fabs(targetX - x) > oneJump)
+            targetX += oneJump * xSign;
+        else if (fabs(targetX - x) < oneJump)
+            targetX = x;
+
+        if (fabs(targetY - y) > oneJump)
+            targetY += oneJump * ySign;
+        else if (fabs(targetY - y) < oneJump)
+            targetY = y;
+
+        m_ProgressiveDither.enqueue(Vector(targetX, targetY, ret_angle));
+
+    } while (targetX != x || targetY != y);
+
+    m_DitherTargetPosition = m_ProgressiveDither.dequeue();
+    pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y, m_DitherTargetPosition.z);
+
+    state = GUIDE_MANUAL_DITHERING;
     emit newStatus(state);
 
     processGuiding();
@@ -242,6 +269,66 @@ bool InternalGuider::dither(double pixels)
                 QTimer::singleShot(Options::ditherSettle()* 1000, this, SLOT(setDitherSettled()));
                 return true;
             }
+        }
+
+        processGuiding();
+    }
+
+    return true;
+}
+
+bool InternalGuider::processManualDithering()
+{
+    double cur_x, cur_y, ret_angle;
+    pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
+    pmath->getStarScreenPosition(&cur_x, &cur_y);
+    Ekos::Matrix ROT_Z = pmath->getROTZ();
+
+    Vector star_pos = Vector(cur_x, cur_y, 0) - Vector(m_DitherTargetPosition.x, m_DitherTargetPosition.y, 0);
+    star_pos.y      = -star_pos.y;
+    star_pos        = star_pos * ROT_Z;
+
+    qCDebug(KSTARS_EKOS_GUIDE) << "Manual Dithering in progress. Diff star X:" << star_pos.x << "Y:" << star_pos.y;
+
+    if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
+    {
+        if (m_ProgressiveDither.empty() == false)
+        {
+            m_DitherTargetPosition = m_ProgressiveDither.dequeue();
+            pmath->setReticleParameters(m_DitherTargetPosition.x, m_DitherTargetPosition.y, m_DitherTargetPosition.z);
+            qCDebug(KSTARS_EKOS_GUIDE) << "Next Dither Jump X:" << m_DitherTargetPosition.x << "Jump Y:" << m_DitherTargetPosition.y;
+            m_DitherRetries=0;
+
+            processGuiding();
+
+            return true;
+        }
+
+        pmath->setReticleParameters(cur_x, cur_y, ret_angle);
+        qCDebug(KSTARS_EKOS_GUIDE) << "Manual Dither complete.";
+
+        if (Options::ditherSettle() > 0)
+        {
+            state = GUIDE_DITHERING_SETTLE;
+            emit newStatus(state);
+        }
+
+        QTimer::singleShot(Options::ditherSettle()* 1000, this, SLOT(setDitherSettled()));
+    }
+    else
+    {
+        if (++m_DitherRetries > Options::ditherMaxIterations())
+        {
+            emit newLog(i18n("Warning: Manual Dithering failed."));
+
+            if (Options::ditherSettle() > 0)
+            {
+                state = GUIDE_DITHERING_SETTLE;
+                emit newStatus(state);
+            }
+
+            QTimer::singleShot(Options::ditherSettle()* 1000, this, SLOT(setDitherSettled()));
+            return true;
         }
 
         processGuiding();
@@ -909,8 +996,8 @@ bool InternalGuider::processGuiding()
     else
         m_highRMSCounter=0;
 
-    uint8_t abortStarLostThreshold = (state == GUIDE_DITHERING) ? MAX_LOST_STAR_THRESHOLD * 3 : MAX_LOST_STAR_THRESHOLD;
-    uint8_t abortRMSThreshold = (state == GUIDE_DITHERING) ? MAX_RMS_THRESHOLD * 3 : MAX_RMS_THRESHOLD;
+    uint8_t abortStarLostThreshold = (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING) ? MAX_LOST_STAR_THRESHOLD * 3 : MAX_LOST_STAR_THRESHOLD;
+    uint8_t abortRMSThreshold = (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING) ? MAX_RMS_THRESHOLD * 3 : MAX_RMS_THRESHOLD;
     if (m_starLostCounter > abortStarLostThreshold || m_highRMSCounter > abortRMSThreshold)
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "m_starLostCounter" << m_starLostCounter
@@ -950,7 +1037,7 @@ bool InternalGuider::processGuiding()
     else
         emit frameCaptureRequested();
 
-    if (state == GUIDE_DITHERING)
+    if (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
         return true;
 
     tick = pmath->getTicks();
@@ -1028,7 +1115,7 @@ bool InternalGuider::processImageGuiding()
 
     emit frameCaptureRequested();
 
-    if (state == GUIDE_DITHERING)
+    if (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
         return true;
 
     tick = pmath->getTicks();
@@ -1204,7 +1291,7 @@ bool InternalGuider::reacquire()
         m_isFirstFrame = true;
         pmath->reset();
         // If we were in the process of dithering, wait until settle and resume
-        if (rememberState == GUIDE_DITHERING)
+        if (rememberState == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
         {
             if (Options::ditherSettle() > 0)
             {

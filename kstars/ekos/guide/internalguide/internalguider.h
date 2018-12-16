@@ -17,6 +17,7 @@
 
 #include <QFile>
 #include <QPointer>
+#include <QQueue>
 #include <QTime>
 
 #include <memory>
@@ -66,7 +67,7 @@ class InternalGuider : public GuideInterface
     bool resume() override;
 
     bool dither(double pixels) override;
-    bool ditherXY(int x, int y);
+    bool ditherXY(double x, double y);
 
     bool clearCalibration() override { return true;}
     bool reacquire() override;
@@ -117,6 +118,9 @@ class InternalGuider : public GuideInterface
     // Select a guide star automatically
     bool selectAutoStar();
 
+    // Manual Dither
+    bool processManualDithering();
+
   public slots:
     void setDECSwap(bool enable);
 
@@ -136,7 +140,7 @@ class InternalGuider : public GuideInterface
     void processCalibration();
 
     // Guiding
-    bool processGuiding();
+    bool processGuiding();    
 
     // Image Guiding
     bool processImageGuiding();
@@ -193,6 +197,9 @@ class InternalGuider : public GuideInterface
     CalibrationStage calibrationStage { CAL_IDLE };
     CalibrationType calibrationType;
     Ekos::GuideState rememberState { GUIDE_IDLE };
+
+    // Progressive Manual Dither
+    QQueue<Vector> m_ProgressiveDither;
 
     // How many high RMS pulses before we stop
     static const uint8_t MAX_RMS_THRESHOLD = 5;
