@@ -39,7 +39,7 @@ public:
     explicit Client(Ekos::Manager *manager);
     ~Client();
 
-    bool isConnected() const { return m_isConnected; }    
+    bool isConnected() const { return m_isConnected; }
 
     const QPointer<Message> & message() { return m_Message; }
     const QPointer<Media> & media() { return m_Media; }
@@ -72,6 +72,7 @@ private:
 
     QString token;
     QUrl m_serviceURL;
+    QUrl m_wsURL;
 
     uint16_t m_MediaReconnectTries {0};
 

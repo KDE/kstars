@@ -1454,6 +1454,10 @@
        <label>Start Ekos Live on KStars startup.</label>
        <default>true</default>
     </entry>
+    <entry name="EkosLiveOnline" type="Bool">
+       <label>Whether EkosLive connection mode is online.</label>
+       <default>true</default>
+    </entry>
       <entry name="independentWindowEkos" type="Bool">
          <label>Make Ekos window independent of KStars main window</label>
          <default>false</default>
