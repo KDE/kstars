@@ -3120,7 +3120,12 @@ void Capture::setTelescope(ISD::GDInterface *newTelescope)
 {
     currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
 
-    connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Ekos::Capture::processTelescopeNumber, Qt::UniqueConnection);
+    currentTelescope->disconnect(this);
+    connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Ekos::Capture::processTelescopeNumber);
+    connect(currentTelescope, &ISD::Telescope::newTarget, [&](const QString &target) {
+        if (m_State == CAPTURE_IDLE)
+            prefixIN->setText(target);
+    });
 
     meridianHours->setEnabled(true);
 
