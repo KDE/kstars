@@ -35,7 +35,7 @@ InternalGuider::InternalGuider()
     pmath.reset(new cgmath());
     connect(pmath.get(), SIGNAL(newStarPosition(QVector3D,bool)), this, SIGNAL(newStarPosition(QVector3D,bool)));
 
-    state = GUIDE_IDLE;    
+    state = GUIDE_IDLE;
 }
 
 bool InternalGuider::guide()
@@ -51,7 +51,7 @@ bool InternalGuider::guide()
             return processGuiding();
     }
 
-    guideFrame->disconnect(this);    
+    guideFrame->disconnect(this);
 
     pmath->start();
 
@@ -90,7 +90,7 @@ bool InternalGuider::guide()
 
 bool InternalGuider::abort()
 {
-    calibrationStage = CAL_IDLE;    
+    calibrationStage = CAL_IDLE;
 
     logFile.close();
 
@@ -151,7 +151,7 @@ bool InternalGuider::ditherXY(double x, double y)
     // Find out how many "jumps" we need to perform in order to get to target.
     // The current limit is now 1/4 of the box size to make sure the star stays within detection
     // threashold inside the window.
-    double oneJump = (guideBoxSize/4.0);    
+    double oneJump = (guideBoxSize/4.0);
     double targetX = cur_x, targetY = cur_y;
     int xSign = (x >= cur_x) ? 1 : -1;
     int ySign = (y >= cur_y) ? 1 : -1;
@@ -184,11 +184,11 @@ bool InternalGuider::ditherXY(double x, double y)
 }
 
 bool InternalGuider::dither(double pixels)
-{        
+{
     double cur_x, cur_y, ret_angle;
     pmath->getReticleParameters(&cur_x, &cur_y, &ret_angle);
     pmath->getStarScreenPosition(&cur_x, &cur_y);
-    Ekos::Matrix ROT_Z = pmath->getROTZ();   
+    Ekos::Matrix ROT_Z = pmath->getROTZ();
 
     if (state != GUIDE_DITHERING)
     {
@@ -290,7 +290,7 @@ bool InternalGuider::processManualDithering()
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Manual Dithering in progress. Diff star X:" << star_pos.x << "Y:" << star_pos.y;
 
-    if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
+    if (fabs(star_pos.x) < guideBoxSize/5.0 && fabs(star_pos.y) < guideBoxSize/5.0)
     {
         if (m_ProgressiveDither.empty() == false)
         {
@@ -304,16 +304,23 @@ bool InternalGuider::processManualDithering()
             return true;
         }
 
-        pmath->setReticleParameters(cur_x, cur_y, ret_angle);
-        qCDebug(KSTARS_EKOS_GUIDE) << "Manual Dither complete.";
-
-        if (Options::ditherSettle() > 0)
+        if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
         {
-            state = GUIDE_DITHERING_SETTLE;
-            emit newStatus(state);
-        }
+            pmath->setReticleParameters(cur_x, cur_y, ret_angle);
+            qCDebug(KSTARS_EKOS_GUIDE) << "Manual Dither complete.";
 
-        QTimer::singleShot(Options::ditherSettle()* 1000, this, SLOT(setDitherSettled()));
+            if (Options::ditherSettle() > 0)
+            {
+                state = GUIDE_DITHERING_SETTLE;
+                emit newStatus(state);
+            }
+
+            QTimer::singleShot(Options::ditherSettle()* 1000, this, SLOT(setDitherSettled()));
+        }
+        else
+        {
+            processGuiding();
+        }
     }
     else
     {
@@ -942,7 +949,7 @@ bool InternalGuider::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t
 }
 
 bool InternalGuider::processGuiding()
-{    
+{
     const cproc_out_params *out;
     uint32_t tick = 0;
 
@@ -1055,7 +1062,7 @@ bool InternalGuider::processGuiding()
         if(out->pulse_dir[GUIDE_DEC]==NO_DIR) //If the pulse was not sent to the mount, it should have 0 value
             dePulse = 0;
         if(out->pulse_dir[GUIDE_RA]==RA_INC_DIR)  //If the pulse was in the Negative direction, it should have a negative sign.
-            raPulse = -raPulse;  
+            raPulse = -raPulse;
         if(out->pulse_dir[GUIDE_DEC]==DEC_INC_DIR) //If the pulse was in the Negative direction, it should have a negative sign.
             dePulse = -dePulse;
 
