@@ -61,10 +61,9 @@ void modCalcEclCoords::slotNow()
 
 void modCalcEclCoords::slotObject()
 {
-    FindDialog fd(KStars::Instance());
-    if (fd.exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
-        SkyObject *o = fd.targetObject();
+        SkyObject *o = FindDialog::Instance()->targetObject();
         RA->showInHours(o->ra());
         Dec->showInDegrees(o->dec());
         slotCompute();

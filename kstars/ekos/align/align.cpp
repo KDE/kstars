@@ -1579,10 +1579,9 @@ void Align::slotAddAlignPoint()
 void Align::slotFindAlignObject()
 {
     KStarsData *data        = KStarsData::Instance();
-    QPointer<FindDialog> fd = new FindDialog(KStars::Instance());
-    if (fd->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
-        SkyObject *object = fd->targetObject();
+        SkyObject *object = FindDialog::Instance()->targetObject();
         if (object != nullptr)
         {
             SkyObject *o = object->clone();
@@ -1613,7 +1612,6 @@ void Align::slotFindAlignObject()
             mountModel.alignTable->setItem(currentRow, 3, disabledBox);
         }
     }
-    delete fd;
     if (previewShowing)
         updatePreviewAlignPoints();
 }

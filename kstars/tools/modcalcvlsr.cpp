@@ -78,14 +78,12 @@ void modCalcVlsr::slotNow()
 
 void modCalcVlsr::slotFindObject()
 {
-    QPointer<FindDialog> fd = new FindDialog(KStars::Instance());
-    if (fd->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
-        SkyObject *o = fd->targetObject();
+        SkyObject *o = FindDialog::Instance()->targetObject();
         RA->showInHours(o->ra0());
         Dec->showInDegrees(o->dec0());
     }
-    delete fd;
 }
 
 void modCalcVlsr::slotLocation()

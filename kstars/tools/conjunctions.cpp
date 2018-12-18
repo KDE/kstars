@@ -160,16 +160,14 @@ void ConjunctionsTool::slotGoto()
 
 void ConjunctionsTool::slotFindObject()
 {
-    QPointer<FindDialog> fd = new FindDialog(KStars::Instance());
-    if (fd->exec() == QDialog::Accepted)
-    {        
-        if (!fd->targetObject())
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
+    {
+        if (!FindDialog::Instance()->targetObject())
             return;
-        Object1 = SkyObject_s(fd->targetObject()->clone());
+        Object1 = SkyObject_s(FindDialog::Instance()->targetObject()->clone());
         if (Object1 != nullptr)
             Obj1FindButton->setText(Object1->name());
     }
-    delete fd;
 }
 
 void ConjunctionsTool::setMode(int new_mode)

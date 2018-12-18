@@ -57,17 +57,15 @@ void PWizObjectSelectionUI::setSkyObject(SkyObject *obj)
 
 void PWizObjectSelectionUI::slotSelectFromList()
 {
-    QPointer<FindDialog> findDlg(new FindDialog(this));
-    if (findDlg->exec() == QDialog::Accepted && findDlg)
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
-        SkyObject *obj = findDlg->targetObject();
+        SkyObject *obj = FindDialog::Instance()->targetObject();
         if (obj)
         {
             setSkyObject(obj);
             m_ParentWizard->updateStepButtons();
         }
     }
-    delete findDlg;
 }
 
 void PWizObjectSelectionUI::slotPointObject()

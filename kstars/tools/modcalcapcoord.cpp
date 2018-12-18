@@ -79,17 +79,15 @@ void modCalcApCoord::slotCompute()
 
 void modCalcApCoord::slotObject()
 {
-    QPointer<FindDialog> fd = new FindDialog(this);
-    if (fd->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
-        SkyObject *o = fd->targetObject();
+        SkyObject *o = FindDialog::Instance()->targetObject();
         RACat->showInHours(o->ra0());
         DecCat->showInDegrees(o->dec0());
         EpochCat->setValue(2000.0);
 
         slotCompute();
     }
-    delete fd;
 }
 
 void modCalcApCoord::slotUtCheckedBatch()

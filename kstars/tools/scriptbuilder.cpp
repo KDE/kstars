@@ -1746,18 +1746,15 @@ void ScriptBuilder::slotFindCity()
 
 void ScriptBuilder::slotFindObject()
 {
-    QPointer<FindDialog> fd = new FindDialog(ks);
-
-    if (fd->exec() == QDialog::Accepted && fd->targetObject())
+    if (FindDialog::Instance()->exec() == QDialog::Accepted && FindDialog::Instance()->targetObject())
     {
         setUnsavedChanges(true);
 
         if (sender() == argLookToward->FindButton)
-            argLookToward->FocusEdit->setEditText(fd->targetObject()->name());
+            argLookToward->FocusEdit->setEditText(FindDialog::Instance()->targetObject()->name());
         else
-            argFindObject->NameEdit->setText(fd->targetObject()->name());
+            argFindObject->NameEdit->setText(FindDialog::Instance()->targetObject()->name());
     }
-    delete fd;
 }
 
 void ScriptBuilder::slotShowOptions()

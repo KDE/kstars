@@ -1144,16 +1144,9 @@ void KStars::slotSetTimeToNow()
 
 void KStars::slotFind()
 {
-    clearCachedFindDialog();
-    if (!m_FindDialog) // create new dialog if no dialog is existing
-    {
-        m_FindDialog = new FindDialog(this);
-    }
-
-    if (!m_FindDialog)
-        qWarning() << i18n("KStars::slotFind() - Not enough memory for dialog");
-    SkyObject *targetObject;
-    if (m_FindDialog->exec() == QDialog::Accepted && (targetObject = m_FindDialog->targetObject()))
+    //clearCachedFindDialog();
+    SkyObject *targetObject = nullptr;
+    if (FindDialog::Instance()->exec() == QDialog::Accepted && (targetObject = FindDialog::Instance()->targetObject()))
     {
         map()->setClickedObject(targetObject);
         map()->setClickedPoint(map()->clickedObject());
@@ -1161,8 +1154,8 @@ void KStars::slotFind()
     }
 
     // check if data has changed while dialog was open
-    if (DialogIsObsolete)
-        clearCachedFindDialog();
+    //if (DialogIsObsolete)
+    //    clearCachedFindDialog();
 }
 
 void KStars::slotOpenFITS()

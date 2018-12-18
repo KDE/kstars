@@ -352,13 +352,11 @@ void AltVsTime::slotAddSource()
 //Use find dialog to choose an object
 void AltVsTime::slotBrowseObject()
 {
-    QPointer<FindDialog> fd = new FindDialog(this);
-    if (fd->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
-        SkyObject *o = fd->targetObject();
+        SkyObject *o = FindDialog::Instance()->targetObject();
         processObject(o);
     }
-    delete fd;
 
     avtUI->View->update();
     avtUI->View->replot();

@@ -167,7 +167,7 @@ ObservingList::ObservingList()
     ui->WizardButton->setIcon(QIcon::fromTheme("tools-wizard"));
     ui->WizardButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     noSelection = true;
-    showScope   = false;    
+    showScope   = false;
     ui->NotesEdit->setEnabled(false);
     ui->SetTime->setEnabled(false);
     ui->TimeEdit->setEnabled(false);
@@ -231,7 +231,7 @@ void ObservingList::showEvent(QShowEvent *)
 
         slotLoadWishList(); //Load the wishlist from disk if present
         m_CurrentObject = nullptr;
-        setSaveImagesButton();    
+        setSaveImagesButton();
 
         slotUpdateAltitudes();
         m_altitudeUpdater = new QTimer(this);
@@ -546,8 +546,8 @@ void ObservingList::slotNewSelection()
                 //First, save the last object's user log to disk, if necessary
                 saveCurrentUserLog(); //uses LogObject, which is still the previous obj.
                 //set LogObject to the new selected object
-                LogObject = currentObject();                
-                ui->NotesEdit->setEnabled(true);                
+                LogObject = currentObject();
+                ui->NotesEdit->setEnabled(true);
                 if (LogObject->userLog().isEmpty())
                 {
                     ui->NotesEdit->setPlainText(
@@ -567,7 +567,7 @@ void ObservingList::slotNewSelection()
             else //selected object is named "star"
             {
                 //clear the log text box
-                saveCurrentUserLog();                
+                saveCurrentUserLog();
                 ui->NotesEdit->clear();
                 ui->NotesEdit->setEnabled(false);
                 ui->SearchImage->setEnabled(false);
@@ -632,7 +632,7 @@ void ObservingList::slotNewSelection()
         if (selectedItems.size() == 0) //Nothing selected
         {
             //Disable buttons
-            noSelection = true;            
+            noSelection = true;
             ui->NotesEdit->setEnabled(false);
             m_CurrentObject = nullptr;
             ui->TimeEdit->setEnabled(false);
@@ -645,7 +645,7 @@ void ObservingList::slotNewSelection()
             ui->avt->removeAllPlotObjects();
         }
         else //more than one object selected.
-        {            
+        {
             ui->NotesEdit->setEnabled(false);
             ui->TimeEdit->setEnabled(false);
             ui->SetTime->setEnabled(false);
@@ -758,16 +758,14 @@ void ObservingList::slotAddToSession()
 
 void ObservingList::slotFind()
 {
-    QPointer<FindDialog> fd = new FindDialog(KStars::Instance());
-    if (fd->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
-        SkyObject *o = fd->targetObject();
+        SkyObject *o = FindDialog::Instance()->targetObject();
         if (o != nullptr)
         {
             slotAddObject(o, sessionView);
         }
     }
-    delete fd;
 }
 
 void ObservingList::slotEyepieceView()

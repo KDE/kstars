@@ -35,6 +35,9 @@
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
 #include <QTimer>
+#include <QLineEdit>
+
+FindDialog * FindDialog::m_Instance = nullptr;
 
 FindDialogUI::FindDialogUI(QWidget *parent) : QFrame(parent)
 {
@@ -56,6 +59,16 @@ FindDialogUI::FindDialogUI(QWidget *parent) : QFrame(parent)
 
     SearchList->setMinimumWidth(256);
     SearchList->setMinimumHeight(320);
+
+    SearchBox->lineEdit()->setClearButtonEnabled(true);
+}
+
+FindDialog *FindDialog::Instance()
+{
+    if (m_Instance == nullptr)
+        m_Instance = new FindDialog(KStars::Instance());
+
+    return m_Instance;
 }
 
 FindDialog::FindDialog(QWidget *parent) : QDialog(parent), timer(nullptr), m_targetObject(nullptr)
@@ -101,9 +114,24 @@ FindDialog::FindDialog(QWidget *parent) : QDialog(parent), timer(nullptr), m_tar
     ui->SearchList->setModel(sortModel);
 
     // Connect signals to slots
-    connect(ui->SearchBox, SIGNAL(textChanged(QString)), SLOT(enqueueSearch()));
-    connect(ui->SearchBox, SIGNAL(returnPressed()), SLOT(slotOk()));
-    connect(ui->FilterType, SIGNAL(activated(int)), this, SLOT(enqueueSearch()));
+    connect(ui->clearHistoryB, &QPushButton::clicked, [&](){
+        ui->SearchBox->blockSignals(true);
+        ui->SearchBox->clear();
+        ui->SearchBox->blockSignals(false);
+        ui->clearHistoryB->setEnabled(false);
+    });
+    connect(ui->SearchBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
+            [&]()
+    {
+        // Set to ANY
+        ui->FilterType->blockSignals(true);
+        ui->FilterType->setCurrentIndex(0);
+        ui->FilterType->blockSignals(false);
+        slotOk();
+    });
+    connect(ui->SearchBox, &QComboBox::currentTextChanged, this, &FindDialog::enqueueSearch);
+    connect(ui->SearchBox->lineEdit(), &QLineEdit::returnPressed, this, &FindDialog::slotOk);
+    connect(ui->FilterType, &QComboBox::currentTextChanged, this, &FindDialog::enqueueSearch);
     connect(ui->SearchList, SIGNAL(doubleClicked(QModelIndex)), SLOT(slotOk()));
 
     // Set focus to object name edit
@@ -113,6 +141,7 @@ FindDialog::FindDialog(QWidget *parent) : QDialog(parent), timer(nullptr), m_tar
     QTimer::singleShot(0, this, SLOT(init()));
 
     listFiltered = false;
+
 }
 
 void FindDialog::init()
@@ -132,7 +161,10 @@ void FindDialog::initSelection()
         return;
     }
 
-    if (ui->SearchBox->text().isEmpty())
+//    ui->SearchBox->setModel(sortModel);
+//    ui->SearchBox->setModelColumn(0);
+
+    if (ui->SearchBox->currentText().isEmpty())
     {
         //Pre-select the first item
         QModelIndex selectItem = sortModel->index(0, sortModel->filterKeyColumn(), QModelIndex());
@@ -311,13 +343,13 @@ void FindDialog::enqueueSearch()
 QString FindDialog::processSearchText()
 {
     QRegExp re;
-    QString searchtext = ui->SearchBox->text();
+    QString searchtext = ui->SearchBox->currentText();
 
     re.setCaseSensitivity(Qt::CaseInsensitive);
 
     // If it is an NGC/IC/M catalog number, as in "M 76" or "NGC 5139", check for absence of the space
     re.setPattern("^(m|ngc|ic)\\s*\\d*$");
-    if (ui->SearchBox->text().contains(re))
+    if (searchtext.contains(re))
     {
         re.setPattern("\\s*(\\d+)");
         searchtext.replace(re, " \\1");
@@ -369,12 +401,20 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
     m_targetObject = selObj;
     if (selObj == nullptr)
     {
-        QString message = i18n("No object named %1 found.", ui->SearchBox->text());
+        QString message = i18n("No object named %1 found.", ui->SearchBox->currentText());
         KMessageBox::sorry(nullptr, message, i18n("Bad object name"));
     }
     else
     {
         selObj->updateCoordsNow(KStarsData::Instance()->updateNum());
+        if (ui->SearchBox->findText(m_targetObject->name(), Qt::MatchExactly) == -1)
+        {
+            ui->SearchBox->blockSignals(true);
+            ui->SearchBox->addItem(m_targetObject->name());
+            ui->SearchBox->setCurrentText(m_targetObject->name());
+            ui->SearchBox->blockSignals(false);
+        }
+        ui->clearHistoryB->setEnabled(true);
         accept();
     }
 }
