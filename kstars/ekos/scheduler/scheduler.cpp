@@ -313,14 +313,11 @@ void Scheduler::clearLog()
 
 void Scheduler::selectObject()
 {
-    QPointer<FindDialog> fd = new FindDialog(this);
-    if (fd->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
-        SkyObject *object = fd->targetObject();
+        SkyObject *object = FindDialog::Instance()->targetObject();
         addObject(object);
     }
-
-    delete fd;
 }
 
 void Scheduler::addObject(SkyObject *object)

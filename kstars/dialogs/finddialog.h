@@ -41,21 +41,17 @@ class FindDialogUI : public QFrame, public Ui::FindDialog
  * a QListBox showing the list of named objects, a QLineEdit for filtering
  * the list by name, and a QCombobox for filtering the list by object type.
  *
+ * 2018-12 JM: The dialog is a singleton since we need a single instance in KStars.
  * @short Find Object Dialog
  * @author Jason Harris
- * @version 1.0
+ * @author Jasem Mutlaq
+ * @version 1.1
  */
 class FindDialog : public QDialog
 {
     Q_OBJECT
   public:
-    /**
-     * Constructor. Creates all widgets and packs them in QLayouts. Connects
-     * Signals and Slots. Runs initObjectList().
-     */
-    explicit FindDialog(QWidget *parent = nullptr);
-
-    ~FindDialog() override = default;
+    static FindDialog *Instance();
 
     /**
      * @return the target object (need not be the same as currently selected object!)
@@ -109,6 +105,13 @@ class FindDialog : public QDialog
     SkyObject *selectedObject() const;
 
   private:
+    /**
+     * Constructor. Creates all widgets and packs them in QLayouts. Connects
+     * Signals and Slots. Runs initObjectList().
+     */
+    explicit FindDialog(QWidget *parent = nullptr);
+
+    static FindDialog *m_Instance;
     /**
      * @short Do some post processing on the search text to interpret what the user meant
      * This could include replacing text like "m93" with "m 93"

@@ -432,17 +432,15 @@ void Execute::slotShowTargets()
 
 void Execute::slotAddObject()
 {
-    QPointer<FindDialog> fd = new FindDialog(KStars::Instance());
-    if (fd->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
-        SkyObject *o = fd->targetObject();
+        SkyObject *o = FindDialog::Instance()->targetObject();
         if (o != nullptr)
         {
             KStarsData::Instance()->observingList()->slotAddObject(o, true);
             init();
         }
     }
-    delete fd;
 }
 
 void Execute::slotRemoveObject()

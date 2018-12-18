@@ -775,9 +775,6 @@ class KStars : public KXmlGuiWindow
     ExportImageDialog *m_ExportImageDialog { nullptr };
     PrintingWizard *m_PrintingWizard { nullptr };
 
-    // Pointing Menu
-    FindDialog *m_FindDialog { nullptr };
-
     // Tool Menu
     AstroCalc *m_AstroCalc { nullptr };
     AltVsTime *m_AltVsTime { nullptr };

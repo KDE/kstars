@@ -48,7 +48,7 @@ namespace Ekos
 {
 Mount::Mount()
 {
-    setupUi(this);    
+    setupUi(this);
 
     new MountAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount", this);
@@ -181,7 +181,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     currentTelescope->disconnect(this);
 
     connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Mount::updateNumber);
-    connect(currentTelescope, &ISD::GDInterface::switchUpdated, this, &Mount::updateSwitch);    
+    connect(currentTelescope, &ISD::GDInterface::switchUpdated, this, &Mount::updateSwitch);
     connect(currentTelescope, &ISD::GDInterface::textUpdated, this, &Mount::updateText);
     connect(currentTelescope, &ISD::Telescope::newTarget, this, &Mount::newTarget);
     connect(currentTelescope, &ISD::Telescope::slewRateChanged, this, &Mount::slewRateChanged);
@@ -999,10 +999,9 @@ void Mount::toggleMountToolBox()
 void Mount::findTarget()
 {
     KStarsData *data        = KStarsData::Instance();
-    QPointer<FindDialog> fd = new FindDialog(KStars::Instance());
-    if (fd->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
-        SkyObject *object = fd->targetObject();
+        SkyObject *object = FindDialog::Instance()->targetObject();
         if (object != nullptr)
         {
             SkyObject *o = object->clone();
@@ -1022,7 +1021,6 @@ void Mount::findTarget()
             }
         }
     }
-    delete fd;
 }
 
 void Mount::centerMount()

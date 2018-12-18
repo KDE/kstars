@@ -50,15 +50,13 @@ modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit) : QFrame(parentSplit)
 
 void modCalcGalCoord::slotObject()
 {
-    QPointer<FindDialog> fd = new FindDialog(this);
-    if (fd->exec() == QDialog::Accepted)
+    if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
-        SkyObject *o = fd->targetObject();
+        SkyObject *o = FindDialog::Instance()->targetObject();
         RA->showInHours(o->ra());
         Dec->showInDegrees(o->dec());
         slotComputeCoords();
     }
-    delete fd;
 }
 
 void modCalcGalCoord::slotComputeCoords()

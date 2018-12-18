@@ -322,6 +322,7 @@ void KStars::releaseResources()
 
 void KStars::clearCachedFindDialog()
 {
+#if 0
     if (m_FindDialog) // dialog is cached
     {
         /** Delete findDialog only if it is not opened */
@@ -334,6 +335,7 @@ void KStars::clearCachedFindDialog()
         else
             DialogIsObsolete = true; // dialog was opened so it could not deleted
     }
+#endif
 }
 
 void KStars::applyConfig(bool doApplyFocus)
