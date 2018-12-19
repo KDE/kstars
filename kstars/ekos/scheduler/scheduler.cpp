@@ -2421,58 +2421,11 @@ void Scheduler::executeJob(SchedulerJob *job)
     // If we already started, we check when the next object is scheduled at.
     // If it is more than 30 minutes in the future, we park the mount if that is supported
     // and we unpark when it is due to start.
-    int const nextObservationTime = now.secsTo(currentJob->getStartupTime());
+    //int const nextObservationTime = now.secsTo(currentJob->getStartupTime());
 
-    // If start up procedure is complete and the user selected pre-emptive shutdown, let us check if the next observation time exceed
-    // the pre-emptive shutdown time in hours (default 2). If it exceeds that, we perform complete shutdown until next job is ready
-    if (startupState == STARTUP_COMPLETE &&
-            Options::preemptiveShutdown() &&
-            nextObservationTime > (Options::preemptiveShutdownTime() * 3600))
-    {
-        appendLogText(i18n(
-                          "Job '%1' scheduled for execution at %2. "
-                          "Observatory scheduled for shutdown until next job is ready.",
-                          currentJob->getName(), currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat())));
-        preemptiveShutdown = true;
-        weatherCheck->setEnabled(false);
-        weatherLabel->hide();
-        checkShutdownState();
-
-        schedulerTimer.stop();
-
-        // Wake up when job is due.
-        // FIXME: Implement waking up periodically before job is due for weather check.
-        // int const nextWakeup = nextObservationTime < 60 ? nextObservationTime : 60;
-        sleepTimer.setInterval( (nextObservationTime+1) * 1000);
-        sleepTimer.start();
-
-        return;
-    }
-    // Otherwise, sleep until job is ready
-    /* FIXME: if not parking, stop tracking maybe? this would prevent crashes or scheduler stops from leaving the mount to track and bump the pier */
-    // If start up procedure is already complete, and we didn't issue any parking commands before and parking is checked and enabled
-    // Then we park the mount until next job is ready. But only if the job uses TRACK as its first step, otherwise we cannot get into position again.
-    // This is also only performed if next job is due more than the default lead time (5 minutes).
-    // If job is due sooner than that is not worth parking and we simply go into sleep or wait modes.
-    else if (nextObservationTime > Options::leadTime() * 60 &&
-             startupState == STARTUP_COMPLETE &&
-             parkWaitState == PARKWAIT_IDLE &&
-             (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK) &&
-             parkMountCheck->isEnabled() &&
-             parkMountCheck->isChecked())
-    {
-        appendLogText(i18n(
-                          "Job '%1' scheduled for execution at %2. "
-                          "Parking the mount until the job is ready.",
-                          currentJob->getName(), currentJob->getStartupTime().toString()));
-
-        parkWaitState = PARKWAIT_PARK;
-
-        return;
-    }
     // If the time to wait is greater than the lead time (5 minutes by default)
     // then we sleep, otherwise we wait. It's the same thing, just different labels.
-    else if (shouldSchedulerSleep(currentJob))
+    if (shouldSchedulerSleep(currentJob))
         return;
     // If job schedule isn't now, wait - continuing to execute would cancel a parking attempt
     else if (0 < KStarsData::Instance()->lt().secsTo(currentJob->getStartupTime()))
@@ -7080,7 +7033,55 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *currentJob)
 
     QDateTime const now = KStarsData::Instance()->lt();
     int const nextObservationTime = now.secsTo(currentJob->getStartupTime());
-    if (nextObservationTime > Options::leadTime() * 60)
+
+    // If start up procedure is complete and the user selected pre-emptive shutdown, let us check if the next observation time exceed
+    // the pre-emptive shutdown time in hours (default 2). If it exceeds that, we perform complete shutdown until next job is ready
+    if (startupState == STARTUP_COMPLETE &&
+            Options::preemptiveShutdown() &&
+            nextObservationTime > (Options::preemptiveShutdownTime() * 3600))
+    {
+        appendLogText(i18n(
+                          "Job '%1' scheduled for execution at %2. "
+                          "Observatory scheduled for shutdown until next job is ready.",
+                          currentJob->getName(), currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat())));
+        preemptiveShutdown = true;
+        weatherCheck->setEnabled(false);
+        weatherLabel->hide();
+        checkShutdownState();
+
+        //schedulerTimer.stop();
+
+        // Wake up when job is due.
+        // FIXME: Implement waking up periodically before job is due for weather check.
+        // int const nextWakeup = nextObservationTime < 60 ? nextObservationTime : 60;
+        sleepTimer.setInterval( (nextObservationTime+1) * 1000);
+        sleepTimer.start();
+
+        return true;
+    }
+    // Otherwise, sleep until job is ready
+    /* FIXME: if not parking, stop tracking maybe? this would prevent crashes or scheduler stops from leaving the mount to track and bump the pier */
+    // If start up procedure is already complete, and we didn't issue any parking commands before and parking is checked and enabled
+    // Then we park the mount until next job is ready. But only if the job uses TRACK as its first step, otherwise we cannot get into position again.
+    // This is also only performed if next job is due more than the default lead time (5 minutes).
+    // If job is due sooner than that is not worth parking and we simply go into sleep or wait modes.
+    else if (nextObservationTime > Options::leadTime() * 60 &&
+             startupState == STARTUP_COMPLETE &&
+             parkWaitState == PARKWAIT_IDLE &&
+             (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK) &&
+             parkMountCheck->isEnabled() &&
+             parkMountCheck->isChecked())
+    {
+        appendLogText(i18n(
+                          "Job '%1' scheduled for execution at %2. "
+                          "Parking the mount until the job is ready.",
+                          currentJob->getName(), currentJob->getStartupTime().toString()));
+
+        parkWaitState = PARKWAIT_PARK;
+
+        return false;
+    }
+    else if (nextObservationTime > Options::leadTime() * 60)
     {
         appendLogText(i18n("Sleeping until observation job %1 is ready at %2...", currentJob->getName(),
                            now.addSecs(nextObservationTime+1).toString()));
