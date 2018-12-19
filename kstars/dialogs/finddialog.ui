@@ -51,21 +51,40 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="SearchBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="editable">
+      <widget class="QLineEdit" name="SearchBox">
+       <property name="clearButtonEnabled">
         <bool>true</bool>
        </property>
-       <property name="maxCount">
-        <number>100</number>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="showHistoryB">
+       <property name="minimumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
        </property>
-       <property name="insertPolicy">
-        <enum>QComboBox::InsertAtTop</enum>
+       <property name="maximumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Find History</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="clock"/>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
        </property>
       </widget>
      </item>
@@ -93,7 +112,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset theme="delete">
+        <iconset theme="edit-clear-history">
          <normaloff>.</normaloff>.</iconset>
        </property>
        <property name="iconSize">

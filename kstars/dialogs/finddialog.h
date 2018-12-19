@@ -23,6 +23,7 @@
 #include <QKeyEvent>
 
 class QTimer;
+class QComboBox;
 class QStringListModel;
 class QSortFilterProxyModel;
 class SkyObjectListModel;
@@ -101,6 +102,8 @@ class FindDialog : public QDialog
      */
     void keyPressEvent(QKeyEvent *e) override;
 
+    void showEvent(QShowEvent *e) override;
+
     /** @return the currently-selected item from the listbox of named objects */
     SkyObject *selectedObject() const;
 
@@ -131,5 +134,9 @@ class FindDialog : public QDialog
     bool listFiltered { false };
     QPushButton *okB { nullptr };
     SkyObject *m_targetObject { nullptr };
+
+    // History
+    QComboBox *m_HistoryCombo { nullptr};
+    QList<SkyObject*> m_HistoryList;
 };
 
