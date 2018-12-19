@@ -423,7 +423,40 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
         selObj->updateCoordsNow(KStarsData::Instance()->updateNum());
         if (m_HistoryList.contains(selObj) == false)
         {
-            m_HistoryCombo->addItem(selObj->name());
+            switch (selObj->type())
+            {
+                case SkyObject::OPEN_CLUSTER:
+                case SkyObject::GLOBULAR_CLUSTER:
+                case SkyObject::GASEOUS_NEBULA:
+                case SkyObject::PLANETARY_NEBULA:
+                case SkyObject::SUPERNOVA_REMNANT:
+                case SkyObject::GALAXY:
+                    if (selObj->name() != selObj->longname())
+                        m_HistoryCombo->addItem(QString("%1 (%2)").arg(selObj->name()).arg(selObj->longname()));
+                    else
+                        m_HistoryCombo->addItem(QString("%1").arg(selObj->longname()));
+                    break;
+
+                case SkyObject::STAR:
+                case SkyObject::CATALOG_STAR:
+                case SkyObject::PLANET:
+                case SkyObject::COMET:
+                case SkyObject::ASTEROID:
+                case SkyObject::CONSTELLATION:
+                case SkyObject::MOON:
+                case SkyObject::ASTERISM:
+                case SkyObject::GALAXY_CLUSTER:
+                case SkyObject::DARK_NEBULA:
+                case SkyObject::QUASAR:
+                case SkyObject::MULT_STAR:
+                case SkyObject::RADIO_SOURCE:
+                case SkyObject::SATELLITE:
+                case SkyObject::SUPERNOVA:
+                default:
+                    m_HistoryCombo->addItem(QString("%1").arg(selObj->longname()));
+                    break;
+            }
+
             m_HistoryList.append(selObj);
         }
         ui->clearHistoryB->setEnabled(true);
