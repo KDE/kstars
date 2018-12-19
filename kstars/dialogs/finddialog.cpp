@@ -35,6 +35,7 @@
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
 #include <QTimer>
+#include <QComboBox>
 #include <QLineEdit>
 
 FindDialog * FindDialog::m_Instance = nullptr;
@@ -59,8 +60,6 @@ FindDialogUI::FindDialogUI(QWidget *parent) : QFrame(parent)
 
     SearchList->setMinimumWidth(256);
     SearchList->setMinimumHeight(320);
-
-    SearchBox->lineEdit()->setClearButtonEnabled(true);
 }
 
 FindDialog *FindDialog::Instance()
@@ -115,22 +114,31 @@ FindDialog::FindDialog(QWidget *parent) : QDialog(parent), timer(nullptr), m_tar
 
     // Connect signals to slots
     connect(ui->clearHistoryB, &QPushButton::clicked, [&](){
-        ui->SearchBox->blockSignals(true);
-        ui->SearchBox->clear();
-        ui->SearchBox->blockSignals(false);
         ui->clearHistoryB->setEnabled(false);
+        m_HistoryCombo->clear();
+        m_HistoryList.clear();
     });
-    connect(ui->SearchBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
-            [&]()
+
+    m_HistoryCombo = new QComboBox(ui->showHistoryB);
+    m_HistoryCombo->move(0, ui->showHistoryB->height());
+    connect(ui->showHistoryB, &QPushButton::clicked, [&]() {
+       if (m_HistoryList.empty() == false)
+       {
+           m_HistoryCombo->showPopup();
+       }
+    });
+
+    connect(m_HistoryCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
+            [&](int index)
     {
-        // Set to ANY
-        ui->FilterType->blockSignals(true);
-        ui->FilterType->setCurrentIndex(0);
-        ui->FilterType->blockSignals(false);
-        slotOk();
+        m_targetObject = m_HistoryList[index];
+        m_targetObject->updateCoordsNow(KStarsData::Instance()->updateNum());
+        m_HistoryCombo->setCurrentIndex(-1);
+        m_HistoryCombo->hidePopup();
+        accept();
     });
-    connect(ui->SearchBox, &QComboBox::currentTextChanged, this, &FindDialog::enqueueSearch);
-    connect(ui->SearchBox->lineEdit(), &QLineEdit::returnPressed, this, &FindDialog::slotOk);
+    connect(ui->SearchBox, &QLineEdit::textChanged, this, &FindDialog::enqueueSearch);
+    connect(ui->SearchBox, &QLineEdit::returnPressed, this, &FindDialog::slotOk);
     connect(ui->FilterType, &QComboBox::currentTextChanged, this, &FindDialog::enqueueSearch);
     connect(ui->SearchList, SIGNAL(doubleClicked(QModelIndex)), SLOT(slotOk()));
 
@@ -153,6 +161,12 @@ void FindDialog::init()
     m_targetObject = nullptr;
 }
 
+void FindDialog::showEvent(QShowEvent *e)
+{
+    ui->SearchBox->setFocus();
+    e->accept();
+}
+
 void FindDialog::initSelection()
 {
     if (sortModel->rowCount() <= 0)
@@ -164,7 +178,7 @@ void FindDialog::initSelection()
 //    ui->SearchBox->setModel(sortModel);
 //    ui->SearchBox->setModelColumn(0);
 
-    if (ui->SearchBox->currentText().isEmpty())
+    if (ui->SearchBox->text().isEmpty())
     {
         //Pre-select the first item
         QModelIndex selectItem = sortModel->index(0, sortModel->filterKeyColumn(), QModelIndex());
@@ -343,7 +357,7 @@ void FindDialog::enqueueSearch()
 QString FindDialog::processSearchText()
 {
     QRegExp re;
-    QString searchtext = ui->SearchBox->currentText();
+    QString searchtext = ui->SearchBox->text();
 
     re.setCaseSensitivity(Qt::CaseInsensitive);
 
@@ -401,18 +415,16 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
     m_targetObject = selObj;
     if (selObj == nullptr)
     {
-        QString message = i18n("No object named %1 found.", ui->SearchBox->currentText());
+        QString message = i18n("No object named %1 found.", ui->SearchBox->text());
         KMessageBox::sorry(nullptr, message, i18n("Bad object name"));
     }
     else
     {
         selObj->updateCoordsNow(KStarsData::Instance()->updateNum());
-        if (ui->SearchBox->findText(m_targetObject->name(), Qt::MatchExactly) == -1)
+        if (m_HistoryList.contains(selObj) == false)
         {
-            ui->SearchBox->blockSignals(true);
-            ui->SearchBox->addItem(m_targetObject->name());
-            ui->SearchBox->setCurrentText(m_targetObject->name());
-            ui->SearchBox->blockSignals(false);
+            m_HistoryCombo->addItem(selObj->name());
+            m_HistoryList.append(selObj);
         }
         ui->clearHistoryB->setEnabled(true);
         accept();
