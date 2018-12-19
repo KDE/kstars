@@ -6000,7 +6000,17 @@ void Scheduler::startMosaicTool()
         if (root == nullptr)
             return;
 
-        int currentJobsCount = jobs.count();
+        // Delete any prior jobs before saving
+        if (!jobs.empty())
+        {
+            if (KMessageBox::questionYesNo(nullptr, i18n("Do you want to keep the existing jobs in the mosaic schedule?")) == KMessageBox::No)
+            {
+                qDeleteAll(jobs);
+                jobs.clear();
+                while (queueTable->rowCount() > 0)
+                    queueTable->removeRow(0);
+            }
+        }
 
         foreach (OneTile *oneJob, mosaicTool.getJobs())
         {
@@ -6023,19 +6033,6 @@ void Scheduler::startMosaicTool()
         }
 
         delXMLEle(root);
-
-        // Delete any prior jobs before saving
-        if (0 < currentJobsCount)
-        {
-            if (KMessageBox::questionYesNo(nullptr, i18n("Do you want to keep the existing jobs in the mosaic schedule?")) == KMessageBox::No)
-            {
-                for (int i = 0; i < currentJobsCount; i++)
-                {
-                    delete (jobs.takeFirst());
-                    queueTable->removeRow(0);
-                }
-            }
-        }
 
         QUrl mosaicURL = QUrl::fromLocalFile((QString("%1/%2_mosaic.esl").arg(outputDir, targetName)));
 
