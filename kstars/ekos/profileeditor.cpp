@@ -32,6 +32,8 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 
     pi = nullptr;
 
+    m_MountModel = new QStandardItemModel(this);
+
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
@@ -517,8 +519,27 @@ void ProfileEditor::setPi(ProfileInfo *value)
     loadScopeEquipment();
 }
 
+QString ProfileEditor::getTooltip(DriverInfo *dv)
+{
+    bool locallyAvailable = false;
+    if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
+        locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
+    QString toolTipText;
+    if (!locallyAvailable)
+        toolTipText = i18n(
+            "<nobr>Available as <b>Remote</b> Driver. To use locally, install the corresponding driver.<nobr/>");
+    else
+        toolTipText = i18n("<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: %3<nobr/>",
+                           dv->getLabel(), dv->getName(), dv->getExecutable());
+
+    return toolTipText;
+}
+
 void ProfileEditor::loadDrivers()
 {
+    // We need to save this now since we have two models for the mounts
+    QString selectedMount = ui->mountCombo->currentText();
+
     QVector<QComboBox *> boxes;
     boxes.append(ui->mountCombo);
     boxes.append(ui->ccdCombo);
@@ -535,7 +556,7 @@ void ProfileEditor::loadDrivers()
 
     QVector<QString> selectedItems;
 
-    foreach (QComboBox *box, boxes)
+    for (QComboBox *box : boxes)
     {
         selectedItems.append(box->currentText());
         box->clear();
@@ -545,7 +566,73 @@ void ProfileEditor::loadDrivers()
 
     QIcon remoteIcon = QIcon::fromTheme("network-modem");
 
-    foreach (DriverInfo *dv, DriverManager::Instance()->getDrivers())
+    // Create the mount model
+    delete (m_MountModel);
+    m_MountModel = new QStandardItemModel(this);
+
+    if (ui->localMode->isChecked())
+    {
+        QStandardItem *selectedMountItem = nullptr;
+        m_MountModel->appendRow(new QStandardItem("--"));
+        for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
+        {
+            if (dv->getType() != KSTARS_TELESCOPE)
+                continue;
+
+            QString manufacturer = dv->manufacturer();
+            QList<QStandardItem*> manufacturers = m_MountModel->findItems(manufacturer);
+
+             QStandardItem *parentItem = nullptr;
+            if (m_MountModel->findItems(manufacturer).empty())
+            {
+                parentItem = new QStandardItem(manufacturer);
+                parentItem->setSelectable(false);
+                m_MountModel->appendRow(parentItem);
+            }
+            else
+            {
+                parentItem = manufacturers.first();
+            }
+
+            QStandardItem *mount = new QStandardItem(dv->getLabel());
+            mount->setData(getTooltip(dv), Qt::ToolTipRole);
+            parentItem->appendRow(mount);
+            if (selectedMount == dv->getLabel())
+                selectedMountItem = mount;
+        }
+        ui->mountCombo->setView(new QTreeView(this));
+        ui->mountCombo->setModel(m_MountModel);
+        if (selectedMountItem)
+        {
+            // FIXME this does not work
+            QModelIndex index = m_MountModel->indexFromItem(selectedMountItem);
+            ui->mountCombo->view()->setCurrentIndex(index);
+        }
+    }
+    else
+    {
+        ui->mountCombo->setView(new QListView(this));
+        m_MountModel->appendRow(new QStandardItem("--"));
+        QIcon icon;
+        for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
+        {
+            if (dv->getType() != KSTARS_TELESCOPE)
+                continue;
+
+            bool locallyAvailable = false;
+            if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
+                locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
+            icon = locallyAvailable ? QIcon() : remoteIcon;
+
+            QStandardItem *mount = new QStandardItem(icon, dv->getLabel());
+            mount->setData(getTooltip(dv), Qt::ToolTipRole);
+            m_MountModel->appendRow(mount);
+        }
+        ui->mountCombo->setModel(m_MountModel);
+        ui->mountCombo->setCurrentText(selectedMount);
+    }
+
+    for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
     {
         bool locallyAvailable = false;
         QIcon icon;
@@ -559,22 +646,16 @@ void ProfileEditor::loadDrivers()
                 icon = remoteIcon;
         }
 
-        QString toolTipText;
-        if (!locallyAvailable)
-            toolTipText = i18n(
-                "<nobr>Available as <b>Remote</b> Driver. To use locally, install the corresponding driver.<nobr/>");
-        else
-            toolTipText = i18n("<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: %3<nobr/>",
-                               dv->getLabel(), dv->getName(), dv->getExecutable());
+        QString toolTipText = getTooltip(dv);
 
         switch (dv->getType())
         {
-            case KSTARS_TELESCOPE:
-            {
-                ui->mountCombo->addItem(icon, dv->getLabel());
-                ui->mountCombo->setItemData(ui->mountCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-            }
-            break;
+//            case KSTARS_TELESCOPE:
+//            {
+//                ui->mountCombo->addItem(icon, dv->getLabel());
+//                ui->mountCombo->setItemData(ui->mountCombo->count() - 1, toolTipText, Qt::ToolTipRole);
+//            }
+//            break;
 
             case KSTARS_CCD:
             {
@@ -692,9 +773,8 @@ void ProfileEditor::loadDrivers()
         }
     }
 
-    //ui->mountCombo->setCurrentIndex(-1);
-
-    for (int i = 0; i < boxes.count(); i++)
+    // Skip mount since we handled it above
+    for (int i = 1; i < boxes.count(); i++)
     {
         QComboBox *box           = boxes.at(i);
         QString selectedItemText = selectedItems.at(i);

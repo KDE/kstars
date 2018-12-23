@@ -18,6 +18,8 @@
 #include <QStringList>
 
 class ProfileInfo;
+class QStandardItemModel;
+class DriverInfo;
 
 class ProfileEditorUI : public QFrame, public Ui::ProfileEditorUI
 {
@@ -58,7 +60,10 @@ class ProfileEditor : public QDialog
     void updateGuiderSelection(int id);
 
   private:
+    QString getTooltip(DriverInfo *dv);
+
     ProfileEditorUI *ui { nullptr };
     ProfileInfo *pi { nullptr };
     QList<OAL::Scope *> m_scopeList;
+    QStandardItemModel *m_MountModel { nullptr };
 };

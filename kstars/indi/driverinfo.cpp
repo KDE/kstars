@@ -22,6 +22,7 @@ DriverInfo::DriverInfo(const QString &inName)
     uniqueLabel.clear();
     name = inName;
 
+    m_Manufacturer = "Others";
     hostname = "localhost";
     port     = "-1";
     userPort = "-1";
@@ -34,6 +35,7 @@ DriverInfo::DriverInfo(DriverInfo *di)
     uniqueLabel   = di->getUniqueLabel();
     exec          = di->getExecutable();
     version       = di->getVersion();
+    m_Manufacturer= di->manufacturer();
     userPort      = di->getUserPort();
     skelFile      = di->getSkeletonFile();
     port          = di->getPort();
