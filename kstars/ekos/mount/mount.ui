@@ -382,6 +382,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="clearAlignmentModelB">
+           <property name="toolTip">
+            <string>Reset mount alignment model</string>
+           </property>
            <property name="text">
             <string>Clear Alignment Model</string>
            </property>
