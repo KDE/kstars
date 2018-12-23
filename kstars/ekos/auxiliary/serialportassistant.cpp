@@ -270,8 +270,18 @@ void SerialPortAssistant::parseDevices()
         return;
     }
 
-    QString serial = "--";
     QJsonObject rule = jsonDoc.object();
+
+    // Make sure we have valid vendor ID
+    if (rule.contains("ID_VENDOR_ID") == false || rule["ID_VENDOR_ID"].toString().count() != 4)
+    {
+        KSNotification::error(i18n("Failed to detect any devices. Please make sure device is powered and connected to StellarMate via USB."));
+        resetPage(serialPortWizard->currentIndex());
+        return;
+    }
+
+    QString serial = "--";
+
     QRegularExpression re("^[0-9a-zA-Z-]+$");
     QRegularExpressionMatch match = re.match(rule["ID_SERIAL"].toString());
     if (match.hasMatch())
