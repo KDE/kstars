@@ -1099,7 +1099,8 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     QString label;
     QString driver;
     QString version;
-    QString manufacturer;
+    // N.B. NOT an i18n string.
+    QString manufacturer("Others");
     QString name;
     QString port;
     QString skel;
