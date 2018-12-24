@@ -68,7 +68,7 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
         equipmentdlg->exec();
         delete equipmentdlg;
         loadScopeEquipment();
-    });    
+    });
 
 #ifdef Q_OS_WIN
     ui->remoteMode->setChecked(true);
@@ -600,13 +600,26 @@ void ProfileEditor::loadDrivers()
             if (selectedMount == dv->getLabel())
                 selectedMountItem = mount;
         }
-        ui->mountCombo->setView(new QTreeView(this));
+        QTreeView *view = new QTreeView(this);
+        view->setModel(m_MountModel);
+        view->sortByColumn(0, Qt::AscendingOrder);
+        ui->mountCombo->setView(view);
         ui->mountCombo->setModel(m_MountModel);
         if (selectedMountItem)
         {
-            // FIXME this does not work
+            // JM: Only way to make it the QTreeView sets the current index
+            // in the combo way
+
             QModelIndex index = m_MountModel->indexFromItem(selectedMountItem);
-            ui->mountCombo->view()->setCurrentIndex(index);
+
+            // First set current index to the child
+            ui->mountCombo->setRootModelIndex(index.parent());
+            ui->mountCombo->setModelColumn(index.column());
+            ui->mountCombo->setCurrentIndex(index.row());
+
+            // Now reset
+            ui->mountCombo->setRootModelIndex(QModelIndex());
+            view->setCurrentIndex(index);
         }
     }
     else
@@ -792,7 +805,7 @@ void ProfileEditor::loadDrivers()
         }
 
         box->model()->sort(0);
-    }    
+    }
 }
 
 void ProfileEditor::setProfileName(const QString &name)
