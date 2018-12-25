@@ -276,6 +276,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         directionLabel->setEnabled(enabled);
         PAHDirectionCombo->setEnabled(enabled);
         PAHRotationSpin->setEnabled(enabled);
+        PAHSlewRateCombo->setEnabled(enabled);
     });
     connect(PAHStartB, &QPushButton::clicked, this, &Ekos::Align::startPAHProcess);
     // PAH StopB is just a shortcut for the regular stop
@@ -844,10 +845,10 @@ void Align::calculateAngleForRALine(double &raIncrement, double &initRA, double 
 
         dms angleSep = spEast.ra().deltaAngle(spWest.ra());
         //dms angleSep;
-//        if (spEast.ra().Degrees() > spWest.ra().Degrees())
-//            angleSep = spEast.ra() - spWest.ra();
-//        else
-//            angleSep = spEast.ra() + dms(360) - spWest.ra();
+        //        if (spEast.ra().Degrees() > spWest.ra().Degrees())
+        //            angleSep = spEast.ra() - spWest.ra();
+        //        else
+        //            angleSep = spEast.ra() + dms(360) - spWest.ra();
 
         initRA = spWest.ra().Degrees();
         if (raPoints > 1)
@@ -1867,10 +1868,10 @@ bool Align::setCamera(const QString & device)
 
 QString Align::camera()
 {
-     if (currentCCD)
-         return currentCCD->getDeviceName();
+    if (currentCCD)
+        return currentCCD->getDeviceName();
 
-     return QString();
+    return QString();
 }
 
 void Align::setDefaultCCD(QString ccd)
@@ -1929,11 +1930,21 @@ void Align::addCCD(ISD::GDInterface *newCCD)
 
 void Align::setTelescope(ISD::GDInterface *newTelescope)
 {
-    currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
+    static bool rateSynced=false;
 
+    currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
     connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
 
-    syncTelescopeInfo();
+    if (rateSynced == false)
+    {
+        PAHSlewRateCombo->clear();
+        PAHSlewRateCombo->addItems(currentTelescope->slewRates());
+        PAHSlewRateCombo->setCurrentIndex(currentTelescope->getSlewRate());
+
+        rateSynced = !currentTelescope->slewRates().empty();
+    }
+
+   syncTelescopeInfo();
 }
 
 void Align::setDome(ISD::GDInterface *newDome)
@@ -1942,10 +1953,10 @@ void Align::setDome(ISD::GDInterface *newDome)
     connect(currentDome, &ISD::GDInterface::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
 }
 
-void Align::syncTelescopeInfo()
+bool Align::syncTelescopeInfo()
 {
     if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
-        return;
+        return false;
 
     canSync = currentTelescope->canSync();
 
@@ -1992,7 +2003,7 @@ void Align::syncTelescopeInfo()
     }
 
     if (focal_length == -1 || aperture == -1)
-        return;
+        return false;
 
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
     {
@@ -2014,7 +2025,11 @@ void Align::syncTelescopeInfo()
         calculateFOV();
 
         generateArgs();
+
+        return true;
     }
+
+    return false;
 }
 
 void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture)
@@ -2920,10 +2935,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     // Get horizontal coords
     alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-//    double raDiff = (alignCoord.ra().Degrees() - targetCoord.ra().Degrees()) * 3600;
-//    double deDiff = (alignCoord.dec().Degrees() - targetCoord.dec().Degrees()) * 3600;
-      double raDiff = (alignCoord.ra().deltaAngle(targetCoord.ra())).Degrees() * 3600;
-      double deDiff = (alignCoord.dec().deltaAngle(targetCoord.dec())).Degrees() * 3600;
+    //    double raDiff = (alignCoord.ra().Degrees() - targetCoord.ra().Degrees()) * 3600;
+    //    double deDiff = (alignCoord.dec().Degrees() - targetCoord.dec().Degrees()) * 3600;
+    double raDiff = (alignCoord.ra().deltaAngle(targetCoord.ra())).Degrees() * 3600;
+    double deDiff = (alignCoord.dec().deltaAngle(targetCoord.dec())).Degrees() * 3600;
 
     dms RADiff(fabs(raDiff) / 3600.0), DEDiff(deDiff / 3600.0);
 
@@ -3325,7 +3340,7 @@ QList<double> Align::getSolutionResult()
 void Align::appendLogText(const QString &text)
 {
     m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
-                            QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+                              QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_ALIGN) << text;
 
@@ -3420,42 +3435,42 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 return;
             }
 
-            if (isSlewDirty && pahStage == PAH_FIRST_ROTATE)
-            {
-                isSlewDirty = false;
+            //            if (isSlewDirty && pahStage == PAH_FIRST_ROTATE)
+            //            {
+            //                isSlewDirty = false;
 
-                appendLogText(i18n("Mount first rotation is complete."));
+            //                appendLogText(i18n("Mount first rotation is complete."));
 
-                pahStage = PAH_SECOND_CAPTURE;
-                emit newPAHStage(pahStage);
-
-
-                PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
-                emit newPAHMessage(secondCaptureText->text());
-
-                if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
-                    appendLogText(i18n("Settling..."));
-                QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
-                return;
-            }
-            else if (isSlewDirty && pahStage == PAH_SECOND_ROTATE)
-            {
-                isSlewDirty = false;
-
-                appendLogText(i18n("Mount second rotation is complete."));
-
-                pahStage = PAH_THIRD_CAPTURE;
-                emit newPAHStage(pahStage);
+            //                pahStage = PAH_SECOND_CAPTURE;
+            //                emit newPAHStage(pahStage);
 
 
-                PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
-                emit newPAHMessage(thirdCaptureText->text());
+            //                PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
+            //                emit newPAHMessage(secondCaptureText->text());
 
-                if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
-                    appendLogText(i18n("Settling..."));
-                QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
-                return;
-            }
+            //                if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+            //                    appendLogText(i18n("Settling..."));
+            //                QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+            //                return;
+            //            }
+            //            else if (isSlewDirty && pahStage == PAH_SECOND_ROTATE)
+            //            {
+            //                isSlewDirty = false;
+
+            //                appendLogText(i18n("Mount second rotation is complete."));
+
+            //                pahStage = PAH_THIRD_CAPTURE;
+            //                emit newPAHStage(pahStage);
+
+
+            //                PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
+            //                emit newPAHMessage(thirdCaptureText->text());
+
+            //                if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+            //                    appendLogText(i18n("Settling..."));
+            //                QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+            //                return;
+            //            }
 
             switch (state)
             {
@@ -3574,15 +3589,66 @@ void Align::processNumber(INumberVectorProperty *nvp)
 
             return;
         }
-            break;
 
         default:
             break;
         }
 
-        /*if (Options::alignmentLogging())
-            qDebug() << "State is " << Ekos::getAlignStatusString(state) << " isSlewing? " << currentTelescope->isSlewing() << " slew Dirty? " << slew_dirty
-                     << " Current GOTO Mode? " << currentGotoMode << " LoadSlewState? " << pstateStr(loadSlewState);*/
+        if (pahStage == PAH_FIRST_ROTATE)
+        {
+            double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
+            if (deltaAngle <= PAH_ROTATION_THRESHOLD)
+            {
+                currentTelescope->StopWE();
+                appendLogText(i18n("Mount first rotation is complete."));
+
+                pahStage = PAH_SECOND_CAPTURE;
+                emit newPAHStage(pahStage);
+
+                PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
+                emit newPAHMessage(secondCaptureText->text());
+
+                if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+                    appendLogText(i18n("Settling..."));
+                QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+            }
+            // If for some reason we didn't stop, let's stop if we get too far
+            else if (deltaAngle > PAHRotationSpin->value()*1.25)
+            {
+                currentTelescope->Abort();
+                appendLogText(i18n("Mount aborted. Please restart the process and reduce the speed."));
+                stopPAHProcess();
+            }
+            return;
+        }
+        else if (pahStage == PAH_SECOND_ROTATE)
+        {
+            double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
+            if (deltaAngle <= PAH_ROTATION_THRESHOLD)
+            {
+                currentTelescope->StopWE();
+                appendLogText(i18n("Mount second rotation is complete."));
+
+                pahStage = PAH_THIRD_CAPTURE;
+                emit newPAHStage(pahStage);
+
+
+                PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
+                emit newPAHMessage(thirdCaptureText->text());
+
+                if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+                    appendLogText(i18n("Settling..."));
+                QTimer::singleShot(delaySpin->value(), this, &Ekos::Align::captureAndSolve);
+            }
+            // If for some reason we didn't stop, let's stop if we get too far
+            else if (deltaAngle > PAHRotationSpin->value()*1.25)
+            {
+                currentTelescope->Abort();
+                appendLogText(i18n("Mount aborted. Please restart the process and reduce the speed."));
+                stopPAHProcess();
+            }
+            return;
+        }
 
         switch (azStage)
         {
@@ -4856,20 +4922,17 @@ void Align::rotatePAH()
     }
 #endif
 
-    SkyPoint targetPAH;
-
     // raDiff is in degrees
     dms newTelescopeRA = (telescopeCoord.ra() + dms(raDiff)).reduce();
 
     targetPAH.setRA(newTelescopeRA);
     targetPAH.setDec(telescopeCoord.dec());
 
-    // Convert to JNow
-    //targetPAH.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
-    // Get horizontal coords
-    //targetPAH.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-
-    currentTelescope->Slew(&targetPAH);
+    //currentTelescope->Slew(&targetPAH);
+    // Set Max Speed
+    currentTelescope->setSlewRate(PAHSlewRateCombo->currentIndex());
+    // Go to direction
+    currentTelescope->MoveWE(westMeridian ? ISD::Telescope::MOTION_WEST : ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_START);
 
     appendLogText(i18n("Please wait until mount completes rotating to RA (%1) DE (%2)", targetPAH.ra().toHMSString(),
                        targetPAH.dec().toDMSString()));
@@ -4952,10 +5015,10 @@ void Align::calculatePAHError()
 
 void Align::setPAHCorrectionOffsetPercentage(double dx, double dy)
 {
-  double x = dx * alignView->zoomedWidth() * (alignView->getCurrentZoom() / 100);
-  double y = dy * alignView->zoomedHeight() * (alignView->getCurrentZoom() / 100);
+    double x = dx * alignView->zoomedWidth() * (alignView->getCurrentZoom() / 100);
+    double y = dy * alignView->zoomedHeight() * (alignView->getCurrentZoom() / 100);
 
-  setPAHCorrectionOffset(static_cast<int>(round(x)), static_cast<int>(round(y)));
+    setPAHCorrectionOffset(static_cast<int>(round(x)), static_cast<int>(round(y)));
 
 }
 
@@ -5019,12 +5082,12 @@ void Align::setPAHRefreshComplete()
 void Align::processPAHStage(double orientation, double ra, double dec, double pixscale)
 {
     // Create temporary file to hold all WCS data
-//    QTemporaryFile tmpFile(QDir::tempPath() + "/fitswcsXXXXXX");
-//    tmpFile.setAutoRemove(false);
-//    tmpFile.open();
-//    QString newWCSFile = tmpFile.fileName();
-//    tmpFile.close();
-      QString newWCSFile = QDir::tempPath() + QString("/fitswcs%1").arg(QUuid::createUuid().toString().remove(QRegularExpression("[-{}]")));
+    //    QTemporaryFile tmpFile(QDir::tempPath() + "/fitswcsXXXXXX");
+    //    tmpFile.setAutoRemove(false);
+    //    tmpFile.open();
+    //    QString newWCSFile = tmpFile.fileName();
+    //    tmpFile.close();
+    QString newWCSFile = QDir::tempPath() + QString("/fitswcs%1").arg(QUuid::createUuid().toString().remove(QRegularExpression("[-{}]")));
 
     //alignView->setLoadWCSEnabled(true);
 
@@ -5692,6 +5755,7 @@ QJsonObject Align::getPAHSettings() const
     QJsonObject settings = getSettings();
 
     settings.insert("mountDirection", PAHDirectionCombo->currentIndex());
+    settings.insert("mountSpeed", PAHSlewRateCombo->currentIndex());
     settings.insert("mountRotation", PAHRotationSpin->value());
     settings.insert("refresh", PAHExposure->value());
 
@@ -5705,6 +5769,8 @@ void Align::setPAHSettings(const QJsonObject &settings)
     PAHDirectionCombo->setCurrentIndex(settings["mountDirection"].toInt(0));
     PAHRotationSpin->setValue(settings["mountRotation"].toInt(30));
     PAHExposure->setValue(settings["refresh"].toDouble(1));
+    if (settings.contains("mountSpeed"))
+        PAHSlewRateCombo->setCurrentIndex(settings["mountSpeed"].toInt(0));
 }
 
 void Align::syncFOV()

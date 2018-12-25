@@ -2800,7 +2800,7 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
     }
 
     wcsImagePoint.setX(imgcrd[0]);
-    wcsImagePoint.setY(imgcrd[0]);
+    wcsImagePoint.setY(imgcrd[1]);
 
     wcsPixelPoint.setX(pixcrd[0]);
     wcsPixelPoint.setY(pixcrd[1]);
