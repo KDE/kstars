@@ -84,7 +84,9 @@ class Telescope : public DeviceDecorator
 
     // Motion
     bool MoveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd);
+    bool StopNS();
     bool MoveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd);
+    bool StopWE();
     bool isSlewing();
     bool isInMotion();
     QString getManualMotionString() const;

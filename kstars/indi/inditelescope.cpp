@@ -1008,6 +1008,34 @@ bool Telescope::MoveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd)
     return true;
 }
 
+bool Telescope::StopWE()
+{
+    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_MOTION_WE");
+
+    if (motionSP == nullptr)
+        return false;
+
+    IUResetSwitch(motionSP);
+
+    clientManager->sendNewSwitch(motionSP);
+
+    return true;
+}
+
+bool Telescope::StopNS()
+{
+    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_MOTION_NS");
+
+    if (motionSP == nullptr)
+        return false;
+
+    IUResetSwitch(motionSP);
+
+    clientManager->sendNewSwitch(motionSP);
+
+    return true;
+}
+
 bool Telescope::MoveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd)
 {
     ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_MOTION_WE");

@@ -1193,6 +1193,16 @@
                   </widget>
                  </item>
                  <item>
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>Speed:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="PAHSlewRateCombo"/>
+                 </item>
+                 <item>
                   <spacer name="horizontalSpacer_3">
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
@@ -1749,7 +1759,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="gotoModeButtonGroup"/>
   <buttongroup name="solverTypeGroup"/>
+  <buttongroup name="gotoModeButtonGroup"/>
  </buttongroups>
 </ui>

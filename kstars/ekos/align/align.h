@@ -408,7 +408,7 @@ class Align : public QWidget, public Ui::Align
     /**
          * @brief We received new telescope info, process them and update FOV.
          */
-    void syncTelescopeInfo();
+    bool syncTelescopeInfo();
 
     void setFocusStatus(Ekos::FocusState state);
 
@@ -772,6 +772,7 @@ class Align : public QWidget, public Ui::Align
 
     // Polar Alignment Helper
     PAHStage pahStage { PAH_IDLE };
+    SkyPoint targetPAH;
     bool isPAHReady { false };
 
     // keep track of autoWSC
@@ -842,5 +843,8 @@ class Align : public QWidget, public Ui::Align
 
     // Threshold to notify settle time is 3 seconds
     static constexpr uint16_t DELAY_THRESHOLD_NOTIFY { 3000 };
+
+    // Threshold to stop PAH rotation in degrees
+    static constexpr uint8_t PAH_ROTATION_THRESHOLD { 5 };
 };
 }
