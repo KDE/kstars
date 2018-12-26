@@ -154,6 +154,10 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     }
     );
 
+    connect(PAHSlewRateCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [&](int index) {
+       Options::setPAHMountSpeedIndex(index);
+    });
+
     gotoModeButtonGroup->setId(syncR, GOTO_SYNC);
     gotoModeButtonGroup->setId(slewR, GOTO_SLEW);
     gotoModeButtonGroup->setId(nothingR, GOTO_NOTHING);
@@ -1930,18 +1934,27 @@ void Align::addCCD(ISD::GDInterface *newCCD)
 
 void Align::setTelescope(ISD::GDInterface *newTelescope)
 {
-    static bool rateSynced=false;
-
     currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
-    connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
+    currentTelescope->disconnect(this);
 
-    if (rateSynced == false)
+    connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
+    connect(currentTelescope, &ISD::GDInterface::Disconnected, this, [this]() {
+        m_isRateSynced = false;
+    });
+
+
+    if (m_isRateSynced == false)
     {
+        PAHSlewRateCombo->blockSignals(true);
         PAHSlewRateCombo->clear();
         PAHSlewRateCombo->addItems(currentTelescope->slewRates());
-        PAHSlewRateCombo->setCurrentIndex(currentTelescope->getSlewRate());
+        if (Options::pAHMountSpeedIndex() >= 0)
+            PAHSlewRateCombo->setCurrentIndex(Options::pAHMountSpeedIndex());
+        else
+            PAHSlewRateCombo->setCurrentIndex(currentTelescope->getSlewRate());
+        PAHSlewRateCombo->blockSignals(false);
 
-        rateSynced = !currentTelescope->slewRates().empty();
+        m_isRateSynced = !currentTelescope->slewRates().empty();
     }
 
    syncTelescopeInfo();
@@ -4827,6 +4840,9 @@ void Align::startPAHProcess()
         mountModelReset = currentTelescope->clearAlignmentModel();
     }
 
+    // Unpark
+    currentTelescope->UnPark();
+
     // Set tracking ON if not already
     if (currentTelescope->canControlTrack() && currentTelescope->isTracking() == false)
         currentTelescope->setTrackEnabled(true);
@@ -4882,6 +4898,9 @@ void Align::stopPAHProcess()
     disconnect(alignView, &AlignView::trackingStarSelected, this, &Ekos::Align::setPAHCorrectionOffset);
     disconnect(alignView, &AlignView::newCorrectionVector, this, &Ekos::Align::newCorrectionVector);
 
+    currentTelescope->Park();
+    appendLogText(i18n("Parking the mount..."));
+
     state = ALIGN_IDLE;
     emit newStatus(state);
 }
@@ -4929,7 +4948,7 @@ void Align::rotatePAH()
     targetPAH.setDec(telescopeCoord.dec());
 
     //currentTelescope->Slew(&targetPAH);
-    // Set Max Speed
+    // Set Selected Speed
     currentTelescope->setSlewRate(PAHSlewRateCombo->currentIndex());
     // Go to direction
     currentTelescope->MoveWE(westMeridian ? ISD::Telescope::MOTION_WEST : ISD::Telescope::MOTION_EAST, ISD::Telescope::MOTION_START);
@@ -5131,20 +5150,6 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     }
     else if (pahStage == PAH_SECOND_CAPTURE)
     {
-        // Second capture WCS is not important. Since it consumes quite a bit of resources, skip it
-#if 0
-        if (Options::limitedResourcesMode() == false)
-        {
-            rc = alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
-            if (rc == false)
-            {
-                appendLogText(i18n("Error creating WCS file: %1", alignView->getImageData()->getLastError()));
-                // Not critical error
-                //return;
-            }
-        }
-#endif
-
         // Set 2nd PAH Center
         PAHImageInfo *solution = new PAHImageInfo();
         solution->skyCenter.setRA0(alignCoord.ra0());
@@ -5153,6 +5158,15 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         solution->pixelScale  = pixscale;
 
         pahImageInfos.append(solution);
+
+        // Only invoke this if limited resource mode is false since we want to use CPU heavy WCS
+        if (Options::limitedResourcesMode() == false)
+        {
+            appendLogText(i18n("Please wait while WCS data is processed..."));
+            connect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled, Qt::UniqueConnection);
+            alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+            return;
+        }
 
         pahStage = PAH_SECOND_ROTATE;
         emit newPAHStage(pahStage);
@@ -5217,6 +5231,8 @@ void Align::setWCSToggled(bool result)
 
         bool rc = imageData->wcsToPixel(CP, pixelPoint, imagePoint);
 
+        pahImageInfos[0]->celestialPole = pixelPoint;
+
         // TODO check if pixelPoint is located TOO far from the current position as well
         // i.e. if X > Width * 2..etc
         if (rc == false)
@@ -5259,6 +5275,24 @@ void Align::setWCSToggled(bool result)
 
         rotatePAH();
     }
+    else if (pahStage == PAH_SECOND_CAPTURE)
+    {
+        // Find Celestial pole location
+        SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
+
+        FITSData *imageData = alignView->getImageData();
+        QPointF pixelPoint, imagePoint;
+        imageData->wcsToPixel(CP, pixelPoint, imagePoint);
+        pahImageInfos[1]->celestialPole = pixelPoint;
+
+        pahStage = PAH_SECOND_ROTATE;
+        emit newPAHStage(pahStage);
+
+        PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
+        emit newPAHMessage(secondRotateText->text());
+
+        rotatePAH();
+    }
     else if (pahStage == PAH_THIRD_CAPTURE)
     {
         FITSData *imageData = alignView->getImageData();
@@ -5276,6 +5310,8 @@ void Align::setWCSToggled(bool result)
         QPointF imagePoint;
 
         imageData->wcsToPixel(CP, celestialPolePoint, imagePoint);
+
+        pahImageInfos[2]->celestialPole = celestialPolePoint;
 
         // Now find pixel locations for all recorded center coordinates in the 3rd frame reference
         imageData->wcsToPixel(pahImageInfos[0]->skyCenter, pahImageInfos[0]->pixelCenter, imagePoint);
@@ -5295,6 +5331,13 @@ void Align::setWCSToggled(bool result)
                                    << "Y: " << pahImageInfos[1]->pixelCenter.y();
         qCDebug(KSTARS_EKOS_ALIGN) << "P3 X: " << pahImageInfos[2]->pixelCenter.x()
                                    << "Y: " << pahImageInfos[2]->pixelCenter.y();
+
+        qCDebug(KSTARS_EKOS_ALIGN) << "P1 CP X: " << pahImageInfos[0]->celestialPole.x()
+                                   << "CP Y: " << pahImageInfos[0]->celestialPole.y();
+        qCDebug(KSTARS_EKOS_ALIGN) << "P2 CP X: " << pahImageInfos[1]->celestialPole.x()
+                                   << "CP Y: " << pahImageInfos[1]->celestialPole.y();
+        qCDebug(KSTARS_EKOS_ALIGN) << "P3 CP X: " << pahImageInfos[2]->celestialPole.x()
+                                   << "CP Y: " << pahImageInfos[2]->celestialPole.y();
 
         // We have 3 points which uniquely defines a circle with its center representing the RA Axis
         // We have celestial pole location. So correction vector is just the vector between these two points

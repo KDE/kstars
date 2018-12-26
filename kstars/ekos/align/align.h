@@ -57,7 +57,7 @@ class OpsAstrometryIndexFiles;
  * LEGACY: Measurement of polar alignment errors is performed by capturing two images on selected points in the sky and measuring the declination drift to calculate
  * the error in the mount's azimuth and altitude displacement from optimal. Correction is carried by asking the user to re-center a star by adjusting the telescope's azimuth and/or altitude knobs.
  *@author Jasem Mutlaq
- *@version 1.3
+ *@version 1.4
  */
 class Align : public QWidget, public Ui::Align
 {
@@ -536,7 +536,7 @@ class Align : public QWidget, public Ui::Align
 
     // Polar Assistant Tool
     void newPAHStage(PAHStage stage);
-    void newPAHMessage(const QString &message);    
+    void newPAHMessage(const QString &message);
     void newFOVTelescopeType(int index);
     void PAHEnabled(bool);
 
@@ -547,7 +547,7 @@ class Align : public QWidget, public Ui::Align
     /**
         * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
         */
-    void calculateFOV();    
+    void calculateFOV();
 
     /**
          * @brief After a solver process is completed successfully, measure Azimuth or Altitude error as requested by the user.
@@ -707,7 +707,7 @@ class Align : public QWidget, public Ui::Align
     static const double SIDRATE;
 
     /// Have we slewed?
-    bool isSlewDirty { false };    
+    bool isSlewDirty { false };
 
     // Online and Offline parsers
     AstrometryParser* parser { nullptr };
@@ -783,6 +783,7 @@ class Align : public QWidget, public Ui::Align
     typedef struct
     {
         SkyPoint skyCenter;
+        QPointF celestialPole;
         QPointF pixelCenter;
         double pixelScale { 0 };
         double orientation { 0 };
@@ -827,6 +828,7 @@ class Align : public QWidget, public Ui::Align
     ISD::CCD::TelescopeType rememberTelescopeType = { ISD::CCD::TELESCOPE_UNKNOWN };
 
     double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
+    bool m_isRateSynced = false;
     bool domeReady = true;
 
     // CCD Exposure Looping
