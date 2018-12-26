@@ -40,14 +40,13 @@ WUTDialog::WUTDialog(QWidget *parent, bool _session, GeoLocation *_geo, KStarsDa
 #endif
     WUT = new WUTDialogUI(this);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     mainLayout->addWidget(WUT);
-    setLayout(mainLayout);
 
     setWindowTitle(i18n("What's up Tonight"));
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close, this);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
