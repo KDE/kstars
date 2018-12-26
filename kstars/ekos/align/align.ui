@@ -1118,7 +1118,7 @@
                <item>
                 <widget class="QLabel" name="introText">
                  <property name="text">
-                  <string>&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Unpark&lt;/span&gt; your mount, &lt;span style=&quot; font-weight:600;&quot;&gt;Point&lt;/span&gt; toward the celestial pole. Select mount direction and magnitude and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Park&lt;/span&gt; your mount to home position where it &lt;span style=&quot; font-weight:600;&quot;&gt;points&lt;/span&gt; toward the celestial pole. Select mount direction and speed and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>

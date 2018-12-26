@@ -1915,6 +1915,10 @@
          <label>Timeout in seconds to wait for astrometry solver to complete.</label>
          <default>180</default>
       </entry>
+      <entry name="PAHMountSpeedIndex" type="Int">
+         <label>Speed index to set mount in Polar Alignment Assistant Tool.</label>
+         <default>-1</default>
+      </entry>
    </group>
    <group name="Guide">
       <entry name="DefaultGuideCCD" type="String">
