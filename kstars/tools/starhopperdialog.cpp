@@ -47,6 +47,7 @@ StarHopperDialog::~StarHopperDialog()
     if (t->list)
         t->list->clear();
     SkyMap::Instance()->forceUpdate(true);
+    delete ui;
 }
 
 void StarHopperDialog::starHop(const SkyPoint &startHop, const SkyPoint &stopHop, float fov, float maglim)
