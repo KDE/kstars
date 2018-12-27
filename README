@@ -1,9 +1,9 @@
 
       *****************************************************
-      **   KStars 2.7.9: A Desktop Planetarium for KDE   **
+      **   KStars 3.1.0: A Desktop Planetarium for KDE   **
       *****************************************************
 
-Copyright (c) 2001 - 2017 by The KStars Team:
+Copyright (c) 2001 - 2019 by The KStars Team:
 
 Jason Harris <kstars@30doradus.org>
 Jasem Mutlaq <mutlaqja@ikarustech.com>
@@ -37,7 +37,7 @@ The KStars homepage is: http://edu.kde.org/kstars/
 You can obtain the latest version via git from:
 git://anongit.kde.org/kstars
 
-Installation instructions are in the file INSTALL.  
+Installation instructions are in the file INSTALL.
 
 This is the file README.
 
@@ -69,10 +69,10 @@ Main contributors:
    James Bowlin <bowlin@mindspring.com>
    Heiko Evermann <heiko@evermann.de>
    Thomas Kabelmann <tk78@gmx.de>
-   Pablo de Vicente <pvicentea@wanadoo.es>   
+   Pablo de Vicente <pvicentea@wanadoo.es>
    Mark Hollomon <mhh@mindspring.com>
-   Carsten Niehaus <cniehaus@kde.org>   
-   Médéric Boquien <mboquien@free.fr>   
+   Carsten Niehaus <cniehaus@kde.org>
+   Médéric Boquien <mboquien@free.fr>
    Alexey Khudyakov <alexey.skladnoy@gmail.com>
    Jérôme Sonrier <jsid@emor3j.fr.eu.org>
    Harry de Valence <hdevalence@gmail.com>
@@ -118,12 +118,12 @@ B. Data Sources:
 
 C. Acknowledgements
 
- KStars is a labor of love.  It started as a personal hobby of mine, but 
- very soon after I first posted the code on Sourceforge, it started to 
- attract other developers.  I am just completely impressed and gratified 
- by my co-developers.  I couldn't ask for a more talented, friendly crew.  
- It goes without saying that KStars would be nowhere near what it is today 
- without their efforts.  Together, we've made something we can all be 
+ KStars is a labor of love.  It started as a personal hobby of mine, but
+ very soon after I first posted the code on Sourceforge, it started to
+ attract other developers.  I am just completely impressed and gratified
+ by my co-developers.  I couldn't ask for a more talented, friendly crew.
+ It goes without saying that KStars would be nowhere near what it is today
+ without their efforts.  Together, we've made something we can all be
  proud of.
 
  We used (primarily) two books as a guide in writing the algorithms used
@@ -131,14 +131,14 @@ C. Acknowledgements
  + "Practical Astronomy With Your Calculator" by Peter Duffett-Smith
  + "Astronomical Algorithms" by Jean Meeus
 
- Thanks to the developers of Qt and KDE whose peerless API made KStars 
- possible.  Thanks also to the tireless efforts of the KDE translation 
+ Thanks to the developers of Qt and KDE whose peerless API made KStars
+ possible.  Thanks also to the tireless efforts of the KDE translation
  teams, who bring KStars to a global audience.
 
  Thanks to everyone at the KDevelop message boards and on irc.kde.org,
  for answering my frequent questions.
 
- Thanks also to the many users who have submitted bug reports or other 
+ Thanks also to the many users who have submitted bug reports or other
  feedback.
 
 
