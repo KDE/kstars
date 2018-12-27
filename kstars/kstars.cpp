@@ -480,14 +480,14 @@ void KStars::hideAllFovExceptFirst()
 {
     // When there is only one visible FOV symbol, we don't need to do anything
     // Also, don't do anything if there are no available FOV symbols.
-    if (data()->visibleFOVs.size() == 1 || data()->availFOVs.size() == 0)
+    if (data()->visibleFOVs.size() == 1 || data()->availFOVs.isEmpty())
     {
         return;
     }
     else
     {
         // If there are no visible FOVs, select first available
-        if (data()->visibleFOVs.size() == 0)
+        if (data()->visibleFOVs.isEmpty())
         {
             Q_ASSERT(!data()->availFOVs.isEmpty());
             Options::setFOVNames(QStringList(data()->availFOVs.first()->name()));

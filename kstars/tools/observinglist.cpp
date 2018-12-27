@@ -629,7 +629,7 @@ void ObservingList::slotNewSelection()
     }
     else
     {
-        if (selectedItems.size() == 0) //Nothing selected
+        if (selectedItems.isEmpty()) //Nothing selected
         {
             //Disable buttons
             noSelection = true;
