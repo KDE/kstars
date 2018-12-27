@@ -1,6 +1,6 @@
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 3)
-set (KStars_VERSION_MINOR 0)
+set (KStars_VERSION_MINOR 1)
 set (KStars_VERSION_REVISION 0)
 set (CMAKE_CXX_STANDARD 11)
 
