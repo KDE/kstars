@@ -227,7 +227,10 @@ Capture::Capture()
             [&](int index) { remoteDirIN->setEnabled(index != 0); });
 
     customPropertiesDialog.reset(new CustomProperties());
-    connect(customValuesB, &QPushButton::clicked, customPropertiesDialog.get(), &Ekos::Capture::show);
+    connect(customValuesB, &QPushButton::clicked, [&]() {
+        customPropertiesDialog.get()->show();
+        customPropertiesDialog.get()->raise();
+    });
 
     flatFieldSource = static_cast<FlatFieldSource>(Options::calibrationFlatSourceIndex());
     flatFieldDuration = static_cast<FlatFieldDuration>(Options::calibrationFlatDurationIndex());
