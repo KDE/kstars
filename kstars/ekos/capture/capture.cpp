@@ -239,6 +239,12 @@ Capture::Capture()
     fitsDir->setText(Options::captureDirectory());
     connect(fitsDir, &QLineEdit::textChanged, [&]() { Options::setCaptureDirectory(fitsDir->text());});
 
+    if (Options::remoteCaptureDirectory().isEmpty() == false)
+    {
+        remoteDirIN->setText(Options::remoteCaptureDirectory());
+    }
+    connect(remoteDirIN, &QLineEdit::editingFinished, [&]() { Options::setRemoteCaptureDirectory(remoteDirIN->text());});
+
     // Keep track of TARGET transfer format when changing CCDs (FITS or NATIVE). Actual format is not changed until capture
     connect(
                 transferFormatCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
