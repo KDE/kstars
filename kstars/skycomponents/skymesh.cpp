@@ -157,7 +157,7 @@ const IndexHash &SkyMesh::indexStarLine(SkyList *points)
 
     indexHash.clear();
 
-    if (points->size() == 0)
+    if (points->isEmpty())
         return indexHash;
 
     pLast = points->at(0).get();
@@ -185,7 +185,7 @@ const IndexHash &SkyMesh::indexLine(SkyList *points, IndexHash *skip)
 
     indexHash.clear();
 
-    if (points->size() == 0)
+    if (points->isEmpty())
         return indexHash;
 
     pLast = points->at(0).get();

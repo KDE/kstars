@@ -491,7 +491,7 @@ void HorizonManager::slotRemovePoint()
         {
             livePreview->points()->takeAt(row);
 
-            if (livePreview->points()->count() == 0)
+            if (livePreview->points()->isEmpty())
                 terminateLivePreview();
             else
                 SkyMap::Instance()->forceUpdateNow();

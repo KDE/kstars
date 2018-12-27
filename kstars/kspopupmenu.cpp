@@ -414,7 +414,7 @@ void KSPopupMenu::initFlagActions(SkyObject *obj)
 
     QList<int> flags = ks->data()->skyComposite()->flags()->getFlagsNearPix(obj, 5);
 
-    if (flags.size() == 0)
+    if (flags.isEmpty())
     {
         // There is no flag around clicked SkyObject
         addAction(i18n("Add flag..."), ks->map(), SLOT(slotAddFlag()));
