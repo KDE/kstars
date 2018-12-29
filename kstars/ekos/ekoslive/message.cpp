@@ -533,8 +533,8 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
         align->captureAndSolve();
     else if (command == commands[ALIGN_SET_SETTINGS])
         align->setSettings(payload);
-    else if (command == commands[ALIGN_STOP])        
-        align->abort();    
+    else if (command == commands[ALIGN_STOP])
+        align->abort();
     else if (command == commands[ALIGN_LOAD_AND_SLEW])
     {
         QTemporaryFile file;
@@ -557,13 +557,13 @@ void Message::setAlignStatus(Ekos::AlignState newState)
     sendResponse(commands[NEW_ALIGN_STATE], alignState);
 }
 
-void Message::setAlignSolution(const QJsonObject &solution)
+void Message::setAlignSolution(const QVariantMap &solution)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonObject alignState = {
-        {"solution", solution},
+        {"solution", QJsonObject::fromVariantMap(solution)},
     };
 
     sendResponse(commands[NEW_ALIGN_STATE], alignState);
