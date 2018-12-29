@@ -374,20 +374,15 @@ void Capture::toggleSequence()
     }
 }
 
-
 void Capture::registerNewModule(const QString &name)
 {
     if (name == "Mount")
     {
-        if (mountInterface != nullptr)
-            delete mountInterface;
-        mountInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount", "org.kde.kstars.Ekos.Mount",
-                                              QDBusConnection::sessionBus(), this);
+        delete mountInterface;
+        mountInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount",
+                                            "org.kde.kstars.Ekos.Mount", QDBusConnection::sessionBus(), this);
     }
-
 }
-
-
 
 void Capture::start()
 {
