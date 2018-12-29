@@ -45,6 +45,9 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
 
     qRegisterMetaType<ISD::Telescope::Status>("ISD::Telescope::Status");
     qDBusRegisterMetaType<ISD::Telescope::Status>();
+
+    qRegisterMetaType<ISD::Telescope::PierSide>("ISD::Telescope::PierSide");
+    qDBusRegisterMetaType<ISD::Telescope::PierSide>();
 }
 
 void Telescope::registerProperty(INDI::Property *prop)
@@ -273,7 +276,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
     }
     else if (!strcmp(svp->name, "TELESCOPE_PARK"))
     {
-        ISwitch *sp = IUFindSwitch(svp, "PARK");        
+        ISwitch *sp = IUFindSwitch(svp, "PARK");
         if (sp)
         {
             if (svp->s == IPS_ALERT)
@@ -604,7 +607,7 @@ bool Telescope::runCommand(int command, void *ptr)
             break;
 
         default:
-            return DeviceDecorator::runCommand(command, ptr);            
+            return DeviceDecorator::runCommand(command, ptr);
     }
 
     return true;
@@ -1222,7 +1225,7 @@ Telescope::Status Telescope::status()
                 return MOUNT_SLEWING;
         }
 
-        case IPS_ALERT:        
+        case IPS_ALERT:
             inCustomParking = false;
             return MOUNT_ERROR;
     }
