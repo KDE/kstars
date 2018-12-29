@@ -71,14 +71,14 @@ public slots:
 
     // Alignment
     void setAlignStatus(Ekos::AlignState newState);
-    void setAlignSolution(const QJsonObject &solution);
+    void setAlignSolution(const QVariantMap &solution);
     void sendAlignSettings(const QJsonObject &settings);
 
     // Polar
     void setPAHStage(Ekos::Align::PAHStage stage);
     void setPAHMessage(const QString &message);
-    void setPolarResults(QLineF correctionVector, QString polarError);    
-    void setPAHEnabled(bool enabled);    
+    void setPolarResults(QLineF correctionVector, QString polarError);
+    void setPAHEnabled(bool enabled);
     void setBoundingRect(QRect rect, QSize view);
 
     // Capture
@@ -138,7 +138,7 @@ private:
     Ekos::Manager *m_Manager { nullptr };
     QUrl m_URL;
 
-    bool m_isConnected { false };    
+    bool m_isConnected { false };
     bool m_sendBlobs { true};
 
     QMap<int,bool> m_Options;
@@ -149,6 +149,6 @@ private:
     // Retry every 5 seconds in case remote server is down
     static const uint16_t RECONNECT_INTERVAL = 5000;
     // Retry for 1 hour before giving up
-    static const uint16_t RECONNECT_MAX_TRIES = 720;    
+    static const uint16_t RECONNECT_MAX_TRIES = 720;
 };
 }

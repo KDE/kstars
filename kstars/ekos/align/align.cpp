@@ -3146,7 +3146,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         {"rot", orientation},
         {"fov", FOVOut->text()},
     };
-    emit newSolution(solution);
+    emit newSolution(solution.toVariantMap());
 
     switch (currentGotoMode)
     {

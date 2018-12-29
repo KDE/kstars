@@ -24,8 +24,8 @@
     </method>
     <method name="loadAndSlew">
       <arg type="b" direction="out"/>
-      <arg name="fileURL" type="s" direction="in"/>      
-    </method>    
+      <arg name="fileURL" type="s" direction="in"/>
+    </method>
     <method name="startSolving">
       <arg name="filename" type="s" direction="in"/>
       <arg name="isGenerated" type="b" direction="in"/>
@@ -39,14 +39,14 @@
       <arg type="ad" direction="out"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QList&lt;double&gt;"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
-    </method>    
+    </method>
     <method name="getLoadAndSlewStatus">
       <arg type="i" direction="out"/>
-    </method>    
+    </method>
     <method name="setBinningIndex">
       <arg name="binningIndex" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>    
+    </method>
     <method name="setFOVTelescopeType">
       <arg name="index" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
@@ -58,8 +58,8 @@
     </signal>
     <signal name="newSolution">
         <arg name="solution" type="(i)" direction="out"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QJsonObject"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QJsonObject"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QVariantMap"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QVariantMap"/>
     </signal>
     <signal name="newLog">
         <arg name="text" type="s" direction="out"/>
