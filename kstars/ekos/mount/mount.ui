@@ -687,6 +687,9 @@ font-weight:bold;
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Abort mount if it slews lower than this limit.</string>
+            </property>
             <property name="minimum">
              <double>-10.000000000000000</double>
             </property>
@@ -697,6 +700,9 @@ font-weight:bold;
           </item>
           <item row="2" column="0" colspan="2">
            <widget class="QCheckBox" name="enableLimitsCheck">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Abort mount &lt;span style=&quot; font-weight:600;&quot;&gt;slew/goto&lt;/span&gt; motion if it falls outside the minimum and maximum altitude limits. This does not apply to tracking.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
             <property name="text">
              <string>Enable Limits</string>
             </property>
@@ -738,6 +744,9 @@ font-weight:bold;
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Abort mount if it slews higher than this limit.</string>
             </property>
             <property name="maximum">
              <double>90.000000000000000</double>
