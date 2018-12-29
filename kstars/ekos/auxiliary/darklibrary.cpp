@@ -295,9 +295,15 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView *targetI
     // If no information is available either way, then ask the user
     if (hasShutter == false && hasNoShutter == false)
     {
-        //if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have mechanical or electronic shutter?", deviceName),
-        //                               i18n("Dark Exposure")) == KMessageBox::Yes)
-        if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
+        // If DSLR then it is considered to have no shutter
+        // since the camera needs to open the shutter to take dark frames
+        if (targetChip->getISOList().empty() == false)
+        {
+            hasNoShutter = true;
+            shutterlessCCDs.append(deviceName);
+            Options::setShutterlessCCDs(shutterlessCCDs);
+        }
+        else if (KMessageBox::questionYesNo(nullptr, i18n("Does %1 have a shutter?", deviceName),
                                        i18n("Dark Exposure")) == KMessageBox::Yes)
         {
             hasNoShutter = false;
