@@ -5774,6 +5774,22 @@ void Capture::clearCameraConfiguration()
     currentCCD->setConfig(LOAD_DEFAULT_CONFIG);
     KStarsData::Instance()->userdb()->DeleteDSLRInfo(currentCCD->getDeviceName());
 
+    QStringList shutterfulCCDs  = Options::shutterfulCCDs();
+    QStringList shutterlessCCDs = Options::shutterlessCCDs();
+
+    // Remove camera from shutterful and shutterless CCDs
+    if (shutterfulCCDs.contains(currentCCD->getDeviceName()))
+    {
+        shutterfulCCDs.removeOne(currentCCD->getDeviceName());
+        Options::setShutterfulCCDs(shutterfulCCDs);
+    }
+    if (shutterlessCCDs.contains(currentCCD->getDeviceName()))
+    {
+        shutterlessCCDs.removeOne(currentCCD->getDeviceName());
+        Options::setShutterlessCCDs(shutterlessCCDs);
+    }
+
+
     // For DSLRs, immediately ask them to enter the values again.
     if (ISOCombo->count() > 0)
     {
