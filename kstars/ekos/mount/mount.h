@@ -29,6 +29,7 @@ namespace Ekos
  *@author Jasem Mutlaq
  *@version 1.3
  */
+
 class Mount : public QWidget, public Ui::Mount
 {
     Q_OBJECT
@@ -41,7 +42,9 @@ class Mount : public QWidget, public Ui::Mount
     Q_PROPERTY(QList<double> equatorialCoords READ equatorialCoords)
     Q_PROPERTY(QList<double> horizontalCoords READ horizontalCoords)
     Q_PROPERTY(QList<double> telescopeInfo READ telescopeInfo WRITE setTelescopeInfo)
+    Q_PROPERTY(SkyPoint currentTarget READ currentTarget)
     Q_PROPERTY(double hourAngle READ hourAngle)
+    Q_PROPERTY(double initialHA READ initialHA)
     Q_PROPERTY(int slewRate READ slewRate WRITE setSlewRate)
     Q_PROPERTY(int slewStatus READ slewStatus)
     Q_PROPERTY(bool canPark READ canPark)
@@ -153,9 +156,22 @@ class Mount : public QWidget, public Ui::Mount
     Q_SCRIPTABLE QList<double> horizontalCoords();
 
     /** DBUS interface function.
+         * Get Horizontal coords.
+         */
+    Q_SCRIPTABLE SkyPoint currentTarget();
+
+    /** DBUS interface function.
          * Get mount hour angle in hours (-12 to +12).
          */
     Q_SCRIPTABLE double hourAngle();
+
+    double initialPositionHA;
+    /** DBUS interface function.
+         * Get the hour angle of that time the mount has slewed to the current position.
+         */
+    Q_SCRIPTABLE double initialHA() {return initialPositionHA; }
+
+    Q_SCRIPTABLE void setInitialHA(double ha) { initialPositionHA = ha; }
 
     /** DBUS interface function.
          * Aborts the mount motion
@@ -232,7 +248,13 @@ class Mount : public QWidget, public Ui::Mount
     // Get list of scopes
     QJsonArray getScopes() const;
 
-  public slots:
+    /*
+     * @brief Execute a meridian flip if necessary.
+     * @return true if a meridian flip was necessary
+     */
+    Q_INVOKABLE bool executeMeridianFlip();
+
+public slots:
 
     /**
          * @brief syncTelescopeInfo Update telescope information to reflect any property changes
@@ -309,6 +331,13 @@ class Mount : public QWidget, public Ui::Mount
 
 private slots:
 
+    /**
+     * @brief registerNewModule Register an Ekos module as it arrives via DBus
+     * and create the appropriate DBus interface to communicate with it.
+     * @param name of module
+     */
+    void registerNewModule(const QString &name);
+
     void startParkTimer();
     void stopParkTimer();
     void startAutoPark();
@@ -326,9 +355,12 @@ private slots:
   private:
     void syncGPS();
 
+    QPointer<QDBusInterface> captureInterface { nullptr };
+
     ISD::Telescope *currentTelescope = nullptr;
     ISD::GDInterface *currentGPS = nullptr;
     QStringList m_LogText;
+    SkyPoint currentTargetPosition;
     SkyPoint telescopeCoord;
     QString lastNotificationMessage;
     QTimer updateTimer;
@@ -351,5 +383,6 @@ private slots:
                *m_Unpark = nullptr, *m_statusText = nullptr, *m_J2000Check = nullptr, *m_JNowCheck=nullptr;
 };
 }
+
 
 #endif // Mount

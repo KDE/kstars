@@ -311,7 +311,9 @@ class Capture : public QWidget, public Ui::Capture
      */
     void setSettings(const QJsonObject &settings);
 
-  public slots:
+    SkyPoint getInitialMountCoords() const;
+
+public slots:
 
     /** \addtogroup CaptureDBusInterface
          *  @{
@@ -580,6 +582,13 @@ class Capture : public QWidget, public Ui::Capture
     // Cooler
     void setCoolerToggled(bool enabled);
 
+    /**
+     * @brief registerNewModule Register an Ekos module as it arrives via DBus
+     * and create the appropriate DBus interface to communicate with it.
+     * @param name of module
+     */
+    void registerNewModule(const QString &name);
+
   signals:
     Q_SCRIPTABLE void newLog(const QString &text);
     Q_SCRIPTABLE void meridianFlipStarted();
@@ -625,11 +634,15 @@ class Capture : public QWidget, public Ui::Capture
     bool checkMeridianFlip();
     void checkGuidingAfterFlip();
     double getCurrentHA();
+    double getInitialHA();
 
     // Remaining Time in seconds
     int getJobRemainingTime(SequenceJob *job);
 
     void resetFrameToZero();
+
+    /* Slewing - true iff start slewing was successful */
+    bool slew(const SkyPoint target);
 
     /* Refocus */
     void startRefocusTimer(bool forced = false);
@@ -693,6 +706,8 @@ class Capture : public QWidget, public Ui::Capture
     ISD::LightBox *lightBox { nullptr };
     ISD::Dome *dome { nullptr };
 
+    QPointer<QDBusInterface> mountInterface { nullptr };
+
     QStringList m_LogText;
     QUrl m_SequenceURL;
     bool m_Dirty { false };
@@ -723,9 +738,7 @@ class Capture : public QWidget, public Ui::Capture
     int refocusEveryNMinutesValue { 0 };  // number of minutes between forced refocus
     QElapsedTimer refocusEveryNTimer; // used to determine when next force refocus should occur
 
-    // Meridian flip
-    double initialHA { 0 };
-    //double initialRA { 0 };
+    // Meridan flip
     SkyPoint initialMountCoords;
     bool resumeAlignmentAfterFlip { false };
     bool resumeGuidingAfterFlip { false };
@@ -783,5 +796,8 @@ class Capture : public QWidget, public Ui::Capture
 
     // Captured Frames Map
     SchedulerJob::CapturedFramesMap capturedFramesMap;
+
+    // Execute the meridian flip
+    bool executeMeridianFlip();
 };
 }

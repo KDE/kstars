@@ -46,12 +46,20 @@ extern const char *libindi_strings_context;
 
 namespace Ekos
 {
+
 Mount::Mount()
 {
     setupUi(this);
 
     new MountAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount", this);
+    // Set up DBus interfaces
+    QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
+                                                                QDBusConnection::sessionBus(), this);
+    qDBusRegisterMetaType<SkyPoint>();
+
+    // Connecting DBus signals
+    connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
 
     currentTelescope = nullptr;
 
@@ -330,6 +338,17 @@ void Mount::syncTelescopeInfo()
     if (tvp)
         scopeConfigNameEdit->setText(tvp->tp[0].text);
 }
+
+void Mount::registerNewModule(const QString &name)
+{
+    if (name == "Capture")
+    {
+        captureInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Capture", "org.kde.kstars.Ekos.Capture",
+                                              QDBusConnection::sessionBus(), this);
+    }
+
+}
+
 
 void Mount::updateText(ITextVectorProperty *tvp)
 {
@@ -794,8 +813,42 @@ bool Mount::slew(double RA, double DEC)
     if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
         return false;
 
+    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
+    double HA = lst.Hours() - RA;
+    if (HA > 12.0)
+        HA -= 24.0;
+
+    setInitialHA(HA);
+
+    currentTargetPosition.setRA(RA);
+    currentTargetPosition.setDec(DEC);
+
     return currentTelescope->Slew(RA, DEC);
 }
+
+bool Mount::executeMeridianFlip() {
+    if (initialHA() > 0)
+        // no meridian flip necessary
+        return false;
+
+    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
+    double HA = lst.Hours() - currentTargetPosition.ra().Hours();
+    if (HA > 12.0)
+        // no meridian flip necessary
+        return false;
+
+    // execute meridian flip
+    slew(currentTargetPosition.ra().Hours(), currentTargetPosition.dec().Degrees());
+    return true;
+
+}
+
+SkyPoint Mount::currentTarget()
+{
+    return currentTargetPosition;
+}
+
+
 
 bool Mount::sync(const QString &RA, const QString &DEC)
 {
@@ -869,7 +922,7 @@ double Mount::hourAngle()
     double HA = ha.Hours();
 
     if (HA > 12.0)
-        return (24 - HA);
+        return (HA - 24.0);
     else
         return HA;
 }

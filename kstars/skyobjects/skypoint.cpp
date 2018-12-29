@@ -936,3 +936,24 @@ double SkyPoint::minAlt(const dms &lat) const
         retval = 180. + retval;
     return retval;
 }
+
+#ifndef KSTARS_LITE
+QDBusArgument &operator<<(QDBusArgument &argument, const SkyPoint &source)
+{
+    argument.beginStructure();
+    argument << source.ra().Hours() << source.dec().Degrees();
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, SkyPoint &dest)
+{
+    double ra, dec;
+    argument.beginStructure();
+    argument >> ra >> dec;
+    argument.endStructure();
+    dest = SkyPoint(ra, dec);
+    return argument;
+}
+#endif
+

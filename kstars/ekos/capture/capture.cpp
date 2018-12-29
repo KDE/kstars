@@ -56,6 +56,15 @@ Capture::Capture()
 
     new CaptureAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture", this);
+    QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
+                                                                QDBusConnection::sessionBus(), this);
+
+    // Connecting DBus signals
+    connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
+
+    // ensure that the mount interface is present
+    registerNewModule("Mount");
+
 
     KStarsData::Instance()->userdb()->GetAllDSLRInfos(DSLRInfos);
 
@@ -365,6 +374,21 @@ void Capture::toggleSequence()
     }
 }
 
+
+void Capture::registerNewModule(const QString &name)
+{
+    if (name == "Mount")
+    {
+        if (mountInterface != nullptr)
+            delete mountInterface;
+        mountInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount", "org.kde.kstars.Ekos.Mount",
+                                              QDBusConnection::sessionBus(), this);
+    }
+
+}
+
+
+
 void Capture::start()
 {
     if (darkSubCheck->isChecked())
@@ -439,35 +463,10 @@ void Capture::start()
             job->resetStatus();
     }
 
-    // Record initialHA and initialMount position when we are starting fresh
-    // If recovering from deviation error, these values should not be recorded.
     // Refocus timer should not be reset on deviation error
     if (m_DeviationDetected == false && m_State != CAPTURE_SUSPENDED)
     {
-        initialHA         = getCurrentHA();
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Initial hour angle:" << initialHA;
         meridianFlipStage = MF_NONE;
-        // Record initial mount coordinates that we may use later to perform a meridian flip
-        if (currentTelescope)
-        {
-            double initialRA, initialDE;
-            currentTelescope->getEqCoords(&initialRA, &initialDE);
-            if (currentTelescope->isJ2000())
-            {
-                initialMountCoords.setRA0(initialRA);
-                initialMountCoords.setDec0(initialDE);
-                initialMountCoords.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
-            }
-            else
-            {
-                initialMountCoords.setRA(initialRA);
-                initialMountCoords.setDec(initialDE);
-            }
-
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Initial mount coordinates RA:" << initialMountCoords.ra().toHMSString()
-                                         << "DE:" << initialMountCoords.dec().toDMSString();
-        }
-
         // start timer to measure time until next forced refocus
         startRefocusEveryNTimer();
     }
@@ -2866,7 +2865,6 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         // otherwise we can for deviation RMS
         if (guideDeviationCheck->isChecked() == false || deviation_rms < guideDeviation->value())
         {
-            initialHA = getCurrentHA();
             appendLogText(i18n("Post meridian flip calibration completed successfully."));
             resumeSequence();
             // N.B. Set meridian flip stage AFTER resumeSequence() always
@@ -3088,6 +3086,26 @@ void Capture::updateHFRThreshold()
     // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
     // in case in-sequence-focusing is used.
     HFRPixels->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
+}
+
+SkyPoint Capture::getInitialMountCoords() const
+{
+    QVariant const result = mountInterface->property("currentTarget");
+    SkyPoint point = result.value<SkyPoint>();
+    return point;
+}
+
+bool Capture::executeMeridianFlip() {
+
+    QDBusReply<bool> const reply = mountInterface->call("executeMeridianFlip");
+
+    if (reply.error().type() == QDBusError::NoError)
+        return reply.value();
+
+    // error occured
+    qCCritical(KSTARS_EKOS_CAPTURE) << QString("Warning: execute meridian flip request received DBUS error: %1").arg(QDBusError::errorString(reply.error().type()));
+
+    return false;
 }
 
 int Capture::getTotalFramesCount(QString signature)
@@ -4128,7 +4146,7 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
     {
         double ra, dec;
         currentTelescope->getEqCoords(&ra, &dec);
-        double diffRA = initialMountCoords.ra().Hours() - ra;
+        double diffRA = getInitialMountCoords().ra().Hours() - ra;
         // If the mount is actually flipping then we should see a difference in RA
         // which if it exceeded MF_RA_DIFF_LIMIT (4 hours) then we consider it to be
         // undertaking the flip. Otherwise, it's not flipping and let timeout takes care of
@@ -4148,9 +4166,6 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
         // If dome is syncing, wait until it stops
         if (dome && dome->isMoving())
             break;
-
-        // We are at a new initialHA
-        initialHA = getCurrentHA();
 
         appendLogText(i18n("Telescope completed the meridian flip."));
 
@@ -4205,33 +4220,36 @@ void Capture::checkGuidingAfterFlip()
 
 double Capture::getCurrentHA()
 {
-    double currentRA, currentDEC;
-
-    if (currentTelescope == nullptr)
-        return Ekos::INVALID_VALUE;
-
-    if (currentTelescope->getEqCoords(&currentRA, &currentDEC) == false)
-    {
-        appendLogText(i18n("Failed to retrieve telescope coordinates. Unable to calculate telescope's hour angle."));
-        return Ekos::INVALID_VALUE;
-    }
-
-    /* Edge case: undefined HA at poles */
-    if (90.0f == currentDEC || -90.0f == currentDEC)
-        return Ekos::INVALID_VALUE;
-
-    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-
-    dms ha = (lst - dms(currentRA * 15.0));
-    double HA = ha.Hours();
-    if (HA > 12)
-        HA -= 24;
-    return HA;
+    QVariant HA = mountInterface->property("hourAngle");
+    return HA.toDouble();
 }
+
+double Capture::getInitialHA()
+{
+    QVariant HA = mountInterface->property("initialHA");
+    return HA.toDouble();
+}
+
+bool Capture::slew(const SkyPoint target)
+{
+    QList<QVariant> telescopeSlew;
+    telescopeSlew.append(target.ra().Hours());
+    telescopeSlew.append(target.dec().Degrees());
+
+    QDBusReply<bool> const slewModeReply = mountInterface->callWithArgumentList(QDBus::AutoDetect, "slew", telescopeSlew);
+
+    if (slewModeReply.error().type() == QDBusError::NoError)
+        return true;
+
+    // error occured
+    qCCritical(KSTARS_EKOS_CAPTURE) << QString("Warning: slew request received DBUS error: %1").arg(QDBusError::errorString(slewModeReply.error().type()));
+    return false;
+}
+
 
 bool Capture::checkMeridianFlip()
 {
-    if (currentTelescope == nullptr || meridianCheck->isChecked() == false || initialHA > 0)
+    if (currentTelescope == nullptr || meridianCheck->isChecked() == false || getInitialHA() > 0)
         return false;
 
     // If active job is taking flat field image at a wall source
@@ -4270,18 +4288,18 @@ bool Capture::checkMeridianFlip()
         if (isInSequenceFocus || (refocusEveryNCheck->isChecked() && getRefocusEveryNTimerElapsedSec() > 0))
             emit resetFocus();
 
-        //double dec;
-        //currentTelescope->getEqCoords(&initialRA, &dec);
-        currentTelescope->Slew(&initialMountCoords);
-        secondsLabel->setText(i18n("Meridian Flip..."));
+        if (executeMeridianFlip())
+        {
+            secondsLabel->setText(i18n("Meridian Flip..."));
 
-        retries = 0;
+            retries = 0;
 
-        m_State = CAPTURE_MERIDIAN_FLIP;
-        emit newStatus(Ekos::CAPTURE_MERIDIAN_FLIP);
+            m_State = CAPTURE_MERIDIAN_FLIP;
+            emit newStatus(Ekos::CAPTURE_MERIDIAN_FLIP);
 
-        QTimer::singleShot(MF_TIMER_TIMEOUT, this, &Ekos::Capture::checkMeridianFlipTimeout);
-        return true;
+            QTimer::singleShot(MF_TIMER_TIMEOUT, this, &Ekos::Capture::checkMeridianFlipTimeout);
+            return true;
+        }
     }
 
     return false;
@@ -4304,11 +4322,8 @@ void Capture::checkMeridianFlipTimeout()
         }
         else
         {
-            //double dec;
-            //currentTelescope->getEqCoords(&initialRA, &dec);
-            //currentTelescope->Slew(initialRA, dec);
-            currentTelescope->Slew(&initialMountCoords);
-            appendLogText(i18n("Retrying meridian flip again..."));
+            if (executeMeridianFlip())
+                appendLogText(i18n("Retrying meridian flip again..."));
         }
     }
 }
@@ -4755,42 +4770,49 @@ void Capture::openCalibrationDialog()
 IPState Capture::processPreCaptureCalibrationStage()
 {
     // Unpark dust cap if we have to take light images.
-    if (activeJob->getFrameType() == FRAME_LIGHT && dustCap)
+    if (activeJob->getFrameType() == FRAME_LIGHT)
     {
-        if (dustCap->isLightOn() == true)
-        {
-            dustCapLightEnabled = false;
-            dustCap->SetLightEnabled(false);
+        // step 1: unpark dust cap
+        if (dustCap != nullptr) {
+            if (dustCap->isLightOn() == true)
+            {
+                dustCapLightEnabled = false;
+                dustCap->SetLightEnabled(false);
+            }
+
+            // If cap is not unparked, unpark it
+            if (calibrationStage < CAL_DUSTCAP_UNPARKING && dustCap->isParked())
+            {
+                if (dustCap->UnPark())
+                {
+                    calibrationStage = CAL_DUSTCAP_UNPARKING;
+                    appendLogText(i18n("Unparking dust cap..."));
+                    return IPS_BUSY;
+                }
+                else
+                {
+                    appendLogText(i18n("Unparking dust cap failed, aborting..."));
+                    abort();
+                    return IPS_ALERT;
+                }
+            }
+
+            // Wait until cap is unparked
+            if (calibrationStage == CAL_DUSTCAP_UNPARKING)
+            {
+                if (dustCap->isUnParked() == false)
+                    return IPS_BUSY;
+                else
+                {
+                    calibrationStage = CAL_DUSTCAP_UNPARKED;
+                    appendLogText(i18n("Dust cap unparked."));
+                }
+            }
         }
 
-        // If cap is not unparked, unpark it
-        if (calibrationStage < CAL_DUSTCAP_UNPARKING && dustCap->isParked())
-        {
-            if (dustCap->UnPark())
-            {
-                calibrationStage = CAL_DUSTCAP_UNPARKING;
-                appendLogText(i18n("Unparking dust cap..."));
-                return IPS_BUSY;
-            }
-            else
-            {
-                appendLogText(i18n("Unparking dust cap failed, aborting..."));
-                abort();
-                return IPS_ALERT;
-            }
-        }
-
-        // Wait until cap is unparked
-        if (calibrationStage == CAL_DUSTCAP_UNPARKING)
-        {
-            if (dustCap->isUnParked() == false)
-                return IPS_BUSY;
-            else
-            {
-                calibrationStage = CAL_DUSTCAP_UNPARKED;
-                appendLogText(i18n("Dust cap unparked."));
-            }
-        }
+        // step 2: check if meridian flip is required
+        if (meridianFlipStage != MF_NONE || checkMeridianFlip())
+            return IPS_BUSY;
 
         calibrationStage = CAL_PRECAPTURE_COMPLETE;
 
