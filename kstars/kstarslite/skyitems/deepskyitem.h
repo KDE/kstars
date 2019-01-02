@@ -44,14 +44,14 @@ class DSOIndexNode : public SkyOpacityNode
 
     DeepSkyIndex *m_index { nullptr };
     QSGNode *m_trixels { nullptr };
-    /** @short m_labelType - holds label type of this catalog */
+    /** @short m_labelType holds label type of this catalog */
     LabelsItem::label_t m_labelType;
-    /** @short schemeColor - holds the color, with which nodes of this catalog should be drawn */
+    /** @short schemeColor holds the color, with which nodes of this catalog should be drawn */
     QString schemeColor;
 };
 
 /**
- * @short The DSOTrixelNode class - represents trixel. Symbols should be appended to m_symbols, labels to
+ * @short The DSOTrixelNode class represents trixel. Symbols should be appended to m_symbols, labels to
  * m_labels and DeepSkyNodes directly to DSOTrixelNode
  */
 class DSOTrixelNode : public TrixelNode
