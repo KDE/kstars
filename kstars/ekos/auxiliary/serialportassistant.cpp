@@ -319,7 +319,11 @@ void SerialPortAssistant::parseDevices()
         }
     }
 
+
     addRule(newRule);
+    // Remove current device page since it is no longer required.
+    serialPortWizard->removeWidget(serialPortWizard->currentWidget());
+    serialPortWizard->setCurrentIndex(0);
 }
 
 bool SerialPortAssistant::addRule(const QJsonObject &rule)
@@ -337,7 +341,7 @@ bool SerialPortAssistant::addRule(const QJsonObject &rule)
             devices[serialPortWizard->currentIndex()-1]->getDriverInfo()->getClientManager()->sendNewText(devicePort);
             devices[serialPortWizard->currentIndex()-1]->setConfig(SAVE_CONFIG);
             devices[serialPortWizard->currentIndex()-1]->Connect();
-            serialPortWizard->setCurrentIndex(serialPortWizard->currentIndex()+1);
+            //serialPortWizard->setCurrentIndex(serialPortWizard->currentIndex()+1);
         }
 
         loadRules();
