@@ -488,7 +488,7 @@ void Capture::start()
 
     if (guideDeviationCheck->isChecked() && autoGuideReady == false)
         appendLogText(i18n("Warning: Guide deviation is selected but autoguide process was not started."));
-    if (autofocusCheck->isChecked() && autoFocusReady == false)
+    if (autofocusCheck->isChecked() && m_AutoFocusReady == false)
         appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
 
     prepareJob(first_job);
@@ -1492,7 +1492,7 @@ bool Capture::resumeSequence()
     // Otherwise, let's prepare for next exposure after making sure in-sequence focus and dithering are complete if applicable.
     else
     {
-        isInSequenceFocus = (autoFocusReady && autofocusCheck->isChecked()/* && HFRPixels->value() > 0*/);
+        isInSequenceFocus = (m_AutoFocusReady && autofocusCheck->isChecked()/* && HFRPixels->value() > 0*/);
 //        if (isInSequenceFocus)
 //            requiredAutoFocusStarted = false;
 
@@ -1899,7 +1899,7 @@ bool Capture::resumeCapture()
     }
 #endif
 
-    if (m_State == CAPTURE_DITHERING && autoFocusReady && startFocusIfRequired())
+    if (m_State == CAPTURE_DITHERING && m_AutoFocusReady && startFocusIfRequired())
         return true;
 
     startNextExposure();
@@ -2957,7 +2957,7 @@ void Capture::setFocusStatus(FocusState state)
     if (focusState == FOCUS_COMPLETE)
     {
         // enable option to have a refocus event occur if HFR goes over threshold
-        autoFocusReady = true;
+        m_AutoFocusReady = true;
 
         //if (HFRPixels->value() == 0.0 && fileHFR == 0.0)
         if (fileHFR == 0.0)
@@ -5081,13 +5081,13 @@ IPState Capture::processPreCaptureCalibrationStage()
     // then the absolute focus position for Lum is recorded in the filter manager
     // when we take flats again, we always go back to the same focus position as the light frames to ensure
     // near identical focus for both frames.
-    if (activeJob->getFrameType() == FRAME_FLAT && Options::flatSyncFocus())
+    if (activeJob->getFrameType() == FRAME_FLAT &&
+        m_AutoFocusReady &&
+        currentFilter != nullptr &&
+        Options::flatSyncFocus())
     {
-        if (currentFilter != nullptr)
-        {
-            if (filterManager->syncAbsoluteFocusPosition(activeJob->getTargetFilter()-1) == false)
-                return IPS_BUSY;
-        }
+        if (filterManager->syncAbsoluteFocusPosition(activeJob->getTargetFilter()-1) == false)
+            return IPS_BUSY;
     }
 
     calibrationStage = CAL_PRECAPTURE_COMPLETE;
