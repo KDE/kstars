@@ -773,14 +773,14 @@
 	</device>
 </devGroup>
 </driversList>
-<driverslist>
-    <devgroup group="Telescopes">
+<driversList>
+    <devGroup group="Telescopes">
         <device label="Starbook" manufacturer="Vixen">
             <driver name="Starbook">indi_starbook_telescope</driver>
             <version>0.2</version>
         </device>
-    </devgroup>
-</driverslist>
+    </devGroup>
+</driversList>
 <driversList>
 <devGroup group="CCDs">
         <device label="SX CCD" mdpd="true">
