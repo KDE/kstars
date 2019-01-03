@@ -12,7 +12,7 @@
 #ifdef USE_QT5_INDI
 #include <baseclientqt.h>
 #else
-#include <libindi/baseclient.h>
+#include <baseclient.h>
 #endif
 
 #include "ui_manager.h"
