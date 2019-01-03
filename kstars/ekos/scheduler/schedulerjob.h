@@ -348,7 +348,7 @@ class SchedulerJob
     bool isDuplicateOf(SchedulerJob const *a_job) const { return this != a_job && name == a_job->name && sequenceFile == a_job->sequenceFile; }
 
     /** @brief Compare ::SchedulerJob instances based on score.
-     * @fixme This is a qSort predicate, deprecated in QT5.
+     * @todo This is a qSort predicate, deprecated in QT5.
      * @arg a, b are ::SchedulerJob instances to compare.
      * @return true if the score of b is lower than the score of a.
      * @return false if the score of b is higher than or equal to the score of a.
@@ -356,7 +356,7 @@ class SchedulerJob
     static bool decreasingScoreOrder(SchedulerJob const *a, SchedulerJob const *b);
 
     /** @brief Compare ::SchedulerJob instances based on priority.
-     * @fixme This is a qSort predicate, deprecated in QT5.
+     * @todo This is a qSort predicate, deprecated in QT5.
      * @arg a, b are ::SchedulerJob instances to compare.
      * @return true if the priority of a is lower than the priority of b.
      * @return false if the priority of a is higher than or equal to the priority of b.
@@ -364,7 +364,7 @@ class SchedulerJob
     static bool increasingPriorityOrder(SchedulerJob const *a, SchedulerJob const *b);
 
     /** @brief Compare ::SchedulerJob instances based on altitude and movement in sky at startup time.
-     * @fixme This is a qSort predicate, deprecated in QT5.
+     * @todo This is a qSort predicate, deprecated in QT5.
      * @arg a, b are ::SchedulerJob instances to compare.
      * @arg when is the date/time to use to calculate the altitude to sort with, defaulting to a's startup time.
      * @note To obtain proper sort between several SchedulerJobs, all should have the same startup time.
@@ -377,7 +377,7 @@ class SchedulerJob
     static bool decreasingAltitudeOrder(SchedulerJob const *a, SchedulerJob const *b, QDateTime const &when = QDateTime());
 
     /** @brief Compare ::SchedulerJob instances based on startup time.
-     * @fixme This is a qSort predicate, deprecated in QT5.
+     * @todo This is a qSort predicate, deprecated in QT5.
      * @arg a, b are ::SchedulerJob instances to compare.
      * @return true if the startup time of a is sooner than the priority of b.
      * @return false if the startup time of a is later than or equal to the priority of b.
