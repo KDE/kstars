@@ -1049,34 +1049,27 @@ bool InternalGuider::processGuiding()
 
     tick = pmath->getTicks();
 
-    if (tick & 1)
-    {
-        // draw some params in window
-        emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
+    emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
 
-        double raPulse = out->pulse_length[GUIDE_RA];
-        double dePulse = out->pulse_length[GUIDE_DEC];
+    double raPulse = out->pulse_length[GUIDE_RA];
+    double dePulse = out->pulse_length[GUIDE_DEC];
 
-        if(out->pulse_dir[GUIDE_RA]==NO_DIR)  //If the pulse was not sent to the mount, it should have 0 value
-            raPulse = 0;
-        if(out->pulse_dir[GUIDE_DEC]==NO_DIR) //If the pulse was not sent to the mount, it should have 0 value
-            dePulse = 0;
-        if(out->pulse_dir[GUIDE_RA]==RA_INC_DIR)  //If the pulse was in the Negative direction, it should have a negative sign.
-            raPulse = -raPulse;
-        if(out->pulse_dir[GUIDE_DEC]==DEC_INC_DIR) //If the pulse was in the Negative direction, it should have a negative sign.
-            dePulse = -dePulse;
+    //If the pulse was not sent to the mount, it should have 0 value
+    if(out->pulse_dir[GUIDE_RA]==NO_DIR)
+        raPulse = 0;
+    //If the pulse was not sent to the mount, it should have 0 value
+    if(out->pulse_dir[GUIDE_DEC]==NO_DIR)
+        dePulse = 0;
+    //If the pulse was in the Negative direction, it should have a negative sign.
+    if(out->pulse_dir[GUIDE_RA]==RA_INC_DIR)
+        raPulse = -raPulse;
+    //If the pulse was in the Negative direction, it should have a negative sign.
+    if(out->pulse_dir[GUIDE_DEC]==DEC_INC_DIR)
+        dePulse = -dePulse;
 
-        emit newAxisPulse(raPulse, dePulse);
+    emit newAxisPulse(raPulse, dePulse);
 
-        emit newAxisSigma(out->sigma[GUIDE_RA], out->sigma[GUIDE_DEC]);
-    }
-
-    // skip half frames
-    //if( half_refresh_rate && (tick & 1) )
-    //return;
-
-    //drift_graph->on_paint();
-    //pDriftOut->update();
+    emit newAxisSigma(out->sigma[GUIDE_RA], out->sigma[GUIDE_DEC]);
 
     return true;
 }
