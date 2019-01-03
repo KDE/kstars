@@ -726,7 +726,7 @@ public slots:
      */
     void updateHFRThreshold();
     bool isInSequenceFocus { false };
-    bool autoFocusReady { false };
+    bool m_AutoFocusReady { false };
     //bool requiredAutoFocusStarted { false };
     //bool firstAutoFocus { true };
     double focusHFR { 0 }; // HFR value as received from the Ekos focus module
