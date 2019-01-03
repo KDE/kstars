@@ -14,7 +14,7 @@
 #include "ui_scheduler.h"
 #include "ekos/align/align.h"
 
-#include <libindi/lilxml.h>
+#include <lilxml.h>
 
 #include <QProcess>
 #include <QTime>
