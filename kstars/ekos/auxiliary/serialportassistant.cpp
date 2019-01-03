@@ -39,7 +39,7 @@ SerialPortAssistant::SerialPortAssistant(ProfileInfo *profile, QWidget *parent) 
         wizardPix->setPixmap(im);
 
     connect(nextB, &QPushButton::clicked, [&]() {
-        serialPortWizard->setCurrentIndex(serialPortWizard->currentIndex()+1);
+        gotoDevicePage(devices[devices.indexOf(m_CurrentDevice)+1]);
     });
 
     loadRules();
@@ -56,7 +56,7 @@ SerialPortAssistant::SerialPortAssistant(ProfileInfo *profile, QWidget *parent) 
     });
 
     connect(closeB, &QPushButton::clicked, [&]() {
-        serialPortWizard->setCurrentIndex(0);
+        gotoDevicePage(nullptr);
         close();
     });
 }
@@ -65,10 +65,10 @@ void SerialPortAssistant::addDevice(ISD::GDInterface *device)
 {
     qCDebug(KSTARS_EKOS) << "Serial Port Assistant new device" << device->getDeviceName();
 
-    addPage(device);
+    addDevicePage(device);
 }
 
-void SerialPortAssistant::addPage(ISD::GDInterface *device)
+void SerialPortAssistant::addDevicePage(ISD::GDInterface *device)
 {
     devices.append(device);
 
@@ -93,12 +93,12 @@ void SerialPortAssistant::addPage(ISD::GDInterface *device)
 
     QPushButton *homeButton = new QPushButton(QIcon::fromTheme("go-home"), i18n("Home"), devicePage);
     connect(homeButton, &QPushButton::clicked, [&]() {
-        serialPortWizard->setCurrentIndex(0);
+        gotoDevicePage(nullptr);
     });
 
     QPushButton *skipButton = new QPushButton(i18n("Skip Device"), devicePage);
     connect(skipButton, &QPushButton::clicked, [&]() {
-        serialPortWizard->setCurrentIndex(serialPortWizard->currentIndex()+1);
+        gotoDevicePage(devices[devices.indexOf(m_CurrentDevice)+1]);
     });
     QCheckBox *hardwareSlotC = new QCheckBox(i18n("Physical Port Mapping"), devicePage);
     hardwareSlotC->setObjectName("hardwareSlot");
@@ -147,16 +147,20 @@ void SerialPortAssistant::addPage(ISD::GDInterface *device)
     });
 }
 
-void SerialPortAssistant::gotoPage(ISD::GDInterface *device)
+void SerialPortAssistant::gotoDevicePage(ISD::GDInterface *device)
 {
     int index = devices.indexOf(device);
 
+    // reset to home page
     if (index < 0)
+    {
+        m_CurrentDevice = nullptr;
+        serialPortWizard->setCurrentIndex(0);
         return;
+    }
 
-    currentDevice = device;
-
-    serialPortWizard->setCurrentIndex( (1 + index) * 2);
+    m_CurrentDevice = device;
+    serialPortWizard->setCurrentIndex(index+1);
 }
 
 bool SerialPortAssistant::loadRules()
@@ -225,17 +229,21 @@ bool SerialPortAssistant::removeActiveRule()
     return false;
 }
 
-void SerialPortAssistant::resetPage(int index)
+void SerialPortAssistant::resetCurrentPage()
 {
-    QButtonGroup *actionGroup = serialPortWizard->widget(index)->findChild<QButtonGroup*>("actionGroup");
+    // Reset all buttons
+    QButtonGroup *actionGroup = serialPortWizard->currentWidget()->findChild<QButtonGroup*>("actionGroup");
     for (auto b : actionGroup->buttons())
         b->setEnabled(true);
-    QPushButton *startButton = serialPortWizard->widget(index)->findChild<QPushButton*>("startButton");
+
+    // Set start button to start scanning
+    QPushButton *startButton = serialPortWizard->currentWidget()->findChild<QPushButton*>("startButton");
     startButton->setText(i18n("Start Scanning"));
-    QLabel *animation = serialPortWizard->widget(index)->findChild<QLabel*>("animation");
+
+    // Clear animation
+    QLabel *animation = serialPortWizard->currentWidget()->findChild<QLabel*>("animation");
     animation->movie()->stop();
     animation->clear();
-    serialPortWizard->setCurrentIndex(index);
 }
 
 void SerialPortAssistant::scanDevices()
@@ -245,7 +253,7 @@ void SerialPortAssistant::scanDevices()
     QNetworkReply *response = manager.get(QNetworkRequest(url));
 
     // We need to disconnect the device first
-    devices[serialPortWizard->currentIndex()-1]->Disconnect();
+    m_CurrentDevice->Disconnect();
 
     connect(response, &QNetworkReply::finished, this, &SerialPortAssistant::parseDevices);
 }
@@ -258,7 +266,7 @@ void SerialPortAssistant::parseDevices()
     {
         qCCritical(KSTARS_EKOS) << response->errorString();
         KSNotification::error(i18n("Failed to scan devices."));
-        resetPage(serialPortWizard->currentIndex());
+        resetCurrentPage();
         return;
     }
 
@@ -266,7 +274,7 @@ void SerialPortAssistant::parseDevices()
     if (jsonDoc.isObject() == false)
     {
         KSNotification::error(i18n("Failed to detect any devices. Please make sure device is powered and connected to StellarMate via USB."));
-        resetPage(serialPortWizard->currentIndex());
+        resetCurrentPage();
         return;
     }
 
@@ -276,7 +284,7 @@ void SerialPortAssistant::parseDevices()
     if (rule.contains("ID_VENDOR_ID") == false || rule["ID_VENDOR_ID"].toString().count() != 4)
     {
         KSNotification::error(i18n("Failed to detect any devices. Please make sure device is powered and connected to StellarMate via USB."));
-        resetPage(serialPortWizard->currentIndex());
+        resetCurrentPage();
         return;
     }
 
@@ -314,7 +322,7 @@ void SerialPortAssistant::parseDevices()
         if (vidMatch && pidMatch)
         {
             KSNotification::error(i18n("Duplicate devices detected. You must remove one mapping or enable hardware slot mapping."));
-            resetPage(serialPortWizard->currentIndex());
+            resetCurrentPage();
             return;
         }
     }
@@ -323,7 +331,7 @@ void SerialPortAssistant::parseDevices()
     addRule(newRule);
     // Remove current device page since it is no longer required.
     serialPortWizard->removeWidget(serialPortWizard->currentWidget());
-    serialPortWizard->setCurrentIndex(0);
+    gotoDevicePage(nullptr);
 }
 
 bool SerialPortAssistant::addRule(const QJsonObject &rule)
@@ -333,14 +341,14 @@ bool SerialPortAssistant::addRule(const QJsonObject &rule)
     if (INDI::WebManager::getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data))
     {
         KSNotification::info(i18n("Mapping is successful. Please unplug and replug your device again now."));
-        ITextVectorProperty *devicePort = devices[serialPortWizard->currentIndex()-1]->getBaseDevice()->getText("DEVICE_PORT");
+        ITextVectorProperty *devicePort = m_CurrentDevice->getBaseDevice()->getText("DEVICE_PORT");
         if (devicePort)
         {
             // Set port in device and then save config
             IUSaveText(&devicePort->tp[0], QString("/dev/%1").arg(rule["symlink"].toString()).toLatin1().constData());
-            devices[serialPortWizard->currentIndex()-1]->getDriverInfo()->getClientManager()->sendNewText(devicePort);
-            devices[serialPortWizard->currentIndex()-1]->setConfig(SAVE_CONFIG);
-            devices[serialPortWizard->currentIndex()-1]->Connect();
+            m_CurrentDevice->getDriverInfo()->getClientManager()->sendNewText(devicePort);
+            m_CurrentDevice->setConfig(SAVE_CONFIG);
+            m_CurrentDevice->Connect();
             //serialPortWizard->setCurrentIndex(serialPortWizard->currentIndex()+1);
         }
 
@@ -349,6 +357,6 @@ bool SerialPortAssistant::addRule(const QJsonObject &rule)
     }
 
     KSNotification::sorry(i18n("Failed to add a new rule."));
-    resetPage(serialPortWizard->currentIndex());
+    resetCurrentPage();
     return false;
 }
