@@ -33,9 +33,9 @@ private:
     bool loadRules();
     bool removeActiveRule();
     bool addRule(const QJsonObject &rule);
-    void addPage(ISD::GDInterface *device);
-    void gotoPage(ISD::GDInterface *device);
-    void resetPage(int index);
+    void addDevicePage(ISD::GDInterface *device);
+    void gotoDevicePage(ISD::GDInterface *device);
+    void resetCurrentPage();
 
     void scanDevices();
     void parseDevices();
@@ -46,7 +46,7 @@ private:
     QList<ISD::GDInterface *> devices;
 
     std::unique_ptr<QStandardItemModel> model;
-    ISD::GDInterface *currentDevice { nullptr };
+    ISD::GDInterface *m_CurrentDevice { nullptr };
     const ProfileInfo *m_Profile;
 
     QNetworkAccessManager manager;
