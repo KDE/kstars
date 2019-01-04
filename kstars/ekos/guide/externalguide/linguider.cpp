@@ -245,7 +245,7 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
                 double raDev = pos[0].toDouble(&raOK);
                 double deDev = pos[1].toDouble(&deOK);
 
-                if (raDev && deDev)
+                if (raOK && deOK)
                     emit newAxisDelta(raDev, deDev);
             }
             else
