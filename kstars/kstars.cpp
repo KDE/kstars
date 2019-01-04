@@ -637,8 +637,9 @@ QPointer<FITSViewer> KStars::genericFITSViewer()
 void KStars::addFITSViewer(QPointer<FITSViewer> fv)
 {
     m_FITSViewers.append(fv);
-    connect(fv.data(), &FITSViewer::destroyed, [&,fv]() {
-        m_FITSViewers.removeOne(fv);
+    int index = m_FITSViewers.count() - 1;
+    connect(fv.data(), &FITSViewer::destroyed, [&,index]() {
+        m_FITSViewers.removeAt(index);
     });
 }
 #endif
