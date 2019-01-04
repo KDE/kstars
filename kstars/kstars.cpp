@@ -316,6 +316,10 @@ void KStars::releaseResources()
 //    GUIManager::Instance()->close();
 #endif
 
+#ifdef HAVE_CFITSIO
+    qDeleteAll(m_FITSViewers);
+#endif
+
     QSqlDatabase::removeDatabase("userdb");
     QSqlDatabase::removeDatabase("skydb");
 }
@@ -637,9 +641,8 @@ QPointer<FITSViewer> KStars::genericFITSViewer()
 void KStars::addFITSViewer(QPointer<FITSViewer> fv)
 {
     m_FITSViewers.append(fv);
-    int index = m_FITSViewers.count() - 1;
-    connect(fv.data(), &FITSViewer::destroyed, [&,index]() {
-        m_FITSViewers.removeAt(index);
+    connect(fv.data(), &FITSViewer::destroyed, [&,fv]() {
+        m_FITSViewers.removeOne(fv);
     });
 }
 #endif
