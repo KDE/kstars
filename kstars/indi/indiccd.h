@@ -132,7 +132,6 @@ class CCD : public DeviceDecorator
 
   public:
     explicit CCD(GDInterface *iPtr);
-    ~CCD();
 
     typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
     typedef enum { FORMAT_FITS, FORMAT_NATIVE } TransferFormat;
@@ -224,7 +223,6 @@ class CCD : public DeviceDecorator
     // Update FITS Header
     bool setFITSHeader(const QMap<QString, QString> &values);
 
-    FITSViewer *getViewer() { return fv; }
     CCDChip *getChip(CCDChip::ChipType cType);
     void setFITSDir(const QString &dir) { fitsDir = dir; }
 
@@ -288,7 +286,7 @@ class CCD : public DeviceDecorator
     INumber *gainN { nullptr };
     IPerm gainPerm { IP_RO };
 
-    QPointer<FITSViewer> fv;
-    QPointer<ImageViewer> imageViewer;
+    QPointer<FITSViewer> m_FITSViewerWindows;
+    QPointer<ImageViewer> m_ImageViewerWindow;
 };
 }
