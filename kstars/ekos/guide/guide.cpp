@@ -1659,21 +1659,24 @@ bool Guide::calibrate()
     state = GUIDE_IDLE;
     emit newStatus(state);
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-    if (frameSettings.contains(targetChip))
+    if (guiderType == GUIDE_INTERNAL)
     {
-        targetChip->resetFrame();
-        int x, y, w, h;
-        targetChip->getFrame(&x, &y, &w, &h);
-        QVariantMap settings      = frameSettings[targetChip];
-        settings["x"]             = x;
-        settings["y"]             = y;
-        settings["w"]             = w;
-        settings["h"]             = h;
-        frameSettings[targetChip] = settings;
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-        subFramed = false;
+        if (frameSettings.contains(targetChip))
+        {
+            targetChip->resetFrame();
+            int x, y, w, h;
+            targetChip->getFrame(&x, &y, &w, &h);
+            QVariantMap settings      = frameSettings[targetChip];
+            settings["x"]             = x;
+            settings["y"]             = y;
+            settings["w"]             = w;
+            settings["h"]             = h;
+            frameSettings[targetChip] = settings;
+
+            subFramed = false;
+        }
     }
 
     saveSettings();
