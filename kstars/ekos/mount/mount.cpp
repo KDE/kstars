@@ -489,6 +489,10 @@ void Mount::updateTelescopeCoords()
         ISD::Telescope::Status currentStatus = currentTelescope->status();
         if (m_Status != currentStatus)
         {
+            // If we just finished a slew, let's update initialHA
+            if (currentStatus == ISD::Telescope::MOUNT_TRACKING && m_Status == ISD::Telescope::MOUNT_SLEWING)
+                setInitialHA(ha.Hours());
+
             m_Status = currentStatus;
             parkB->setEnabled(!currentTelescope->isParked());
             unparkB->setEnabled(currentTelescope->isParked());
@@ -813,12 +817,13 @@ bool Mount::slew(double RA, double DEC)
     if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
         return false;
 
-    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-    double HA = lst.Hours() - RA;
-    if (HA > 12.0)
-        HA -= 24.0;
-
-    setInitialHA(HA);
+    // JM 2019-01-05: This is not required since the mount module monitors the mount status
+    // and sets the initialHA accordingly.
+//    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
+//    double HA = lst.Hours() - RA;
+//    if (HA > 12.0)
+//        HA -= 24.0;
+//    setInitialHA(HA);
 
     currentTargetPosition.setRA(RA);
     currentTargetPosition.setDec(DEC);
