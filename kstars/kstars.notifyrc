@@ -873,7 +873,7 @@ Comment[sv]=Håller på att parkera stativ
 Comment[tr]=Kaide parkı devam ediyor
 Comment[uk]=Виконуємо паркування лафета
 Comment[x-test]=xxMount parking is in progressxx
-Comment[zh_CN]=正在泊位赤道仪
+Comment[zh_CN]=正在归位赤道仪
 Comment[zh_TW]=正在停止旋轉
 Action=None
 [Event/MountParked]
