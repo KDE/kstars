@@ -116,7 +116,7 @@ class Mount : public QWidget, public Ui::Mount
     /**
           @brief Like above but RA and DEC are strings HH:MM:SS and DD:MM:SS
         */
-    Q_INVOKABLE bool slew(const QString &RA, const QString &DEC);    
+    Q_INVOKABLE bool slew(const QString &RA, const QString &DEC);
 
     /** DBUS interface function.
          * Slew the mount to the target. Target name must be valid in KStars.
@@ -345,7 +345,7 @@ private slots:
   signals:
     void newLog(const QString &text);
     void newCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
-    void newTarget(const QString &name);    
+    void newTarget(const QString &name);
     void newStatus(ISD::Telescope::Status status);
     void newParkStatus(ISD::ParkStatus status);
     void pierSideChanged(ISD::Telescope::PierSide side);

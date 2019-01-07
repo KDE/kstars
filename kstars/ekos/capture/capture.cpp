@@ -4805,8 +4805,11 @@ IPState Capture::processPreCaptureCalibrationStage()
             }
         }
 
-        // step 2: check if meridian flip is required
-        if (meridianFlipStage != MF_NONE || checkMeridianFlip())
+        // step 2: check if meridian flip already is ongoing
+        if (meridianFlipStage != MF_NONE)
+            return IPS_BUSY;
+        // step 3: check if meridian flip is required
+        if (checkMeridianFlip())
             return IPS_BUSY;
 
         calibrationStage = CAL_PRECAPTURE_COMPLETE;
