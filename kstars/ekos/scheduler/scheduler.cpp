@@ -1316,10 +1316,7 @@ void Scheduler::evaluateJobs()
         switch (job->getState())
         {
         case SchedulerJob::JOB_SCHEDULED:
-            /* If job is scheduled, bypass if set to start later with a fixed time */
-            if (SchedulerJob::START_AT == job->getFileStartupCondition())
-                if (now < job->getStartupTime())
-                    continue;
+            /* If job is scheduled, keep it for evaluation against others */
             break;
 
         case SchedulerJob::JOB_ERROR:
@@ -1559,7 +1556,28 @@ void Scheduler::evaluateJobs()
                     break;
                 }
 
+                // Check whether a previous job overlaps the current job
+                if (nullptr != previousJob && previousJob->getCompletionTime().isValid())
+                {
+                    // Calculate time we should be at after finishing the previous job
+                    QDateTime const previousCompletionTime = previousJob->getCompletionTime().addSecs(static_cast <int> (ceil(Options::leadTime()*60.0)));
+
+                    // Make this job invalid if startup time is not achievable because a START_AT job is non-movable
+                    if (currentJob->getStartupTime() < previousCompletionTime)
+                    {
+                        currentJob->setState(SchedulerJob::JOB_INVALID);
+
+                        appendLogText(i18n("Warning: job '%1' has fixed startup time %2 unachievable due to the completion time of its previous sibling, marking invalid.",
+                                           currentJob->getName(), currentJob->getStartupTime().toString(currentJob->getDateTimeDisplayFormat())));
+
+                        break;
+                    }
+
+                    currentJob->setLeadTime(previousJob->getCompletionTime().secsTo(currentJob->getStartupTime()));
+                }
+
                 // This job is non-movable, we're done
+                currentJob->setScore(calculateJobScore(currentJob, now));
                 currentJob->setState(SchedulerJob::JOB_SCHEDULED);
                 qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is scheduled to start at %2, in compliance with fixed startup time requirement.")
                                                   .arg(currentJob->getName())
