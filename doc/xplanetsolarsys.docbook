@@ -1,0 +1,24 @@
+<sect1 id="tool-xplanetsolarsys">
+<title>XPlanet Solar System Simulator</title>
+<indexterm><primary>Tools</primary>
+<secondary>Solar System Simulator</secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo>
+The Solar System Simulator
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="xplanetsolarsystem.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Solar System Simulator</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para>
+    TODO
+</para>
+</sect1>
