@@ -1386,7 +1386,11 @@
       <whatsthis>Display all opened FITS images in a single FITS Viewer window.</whatsthis>
       <default>true</default>
    </entry>
-   <entry name="independentWindowFITS" type="Bool">
+   <entry name="focusFITSOnNewImage" type="Bool">
+      <whatsthis>Bring the FITSViewer window to the foreground when receiving a new image.</whatsthis>
+      <default>true</default>
+   </entry>
+    <entry name="independentWindowFITS" type="Bool">
       <label>Make FITS Viewer window independent of KStars main window</label>
       <default>false</default>
    </entry>

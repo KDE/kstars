@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>335</width>
-    <height>150</height>
+    <height>168</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -95,6 +95,16 @@
           </property>
           <property name="checked">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_focusFITSOnNewImage">
+          <property name="toolTip">
+           <string>Bring the FITSViewer window to the foreground when receiving a new image</string>
+          </property>
+          <property name="text">
+           <string>Focus on receving an image</string>
           </property>
          </widget>
         </item>
