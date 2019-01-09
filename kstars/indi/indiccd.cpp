@@ -1479,6 +1479,7 @@ void CCD::processBLOB(IBLOB *bp)
                     *m_Loaded = connect(m_FITSViewerWindows, &FITSViewer::loaded, [=](int tabIndex) {
                         *tabID = tabIndex;
                         targetChip->setImageView(m_FITSViewerWindows->getView(tabIndex), captureMode);
+                        m_FITSViewerWindows->raise();
                         QObject::disconnect(*m_Loaded);
                         emit BLOBUpdated(bp);
                     });
