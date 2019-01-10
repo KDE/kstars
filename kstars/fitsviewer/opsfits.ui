@@ -104,7 +104,7 @@
            <string>Bring the FITSViewer window to the foreground when receiving a new image</string>
           </property>
           <property name="text">
-           <string>Focus on receving an image</string>
+           <string>Focus on receiving an image</string>
           </property>
          </widget>
         </item>
