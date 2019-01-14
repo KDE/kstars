@@ -743,8 +743,12 @@ class Align : public QWidget, public Ui::Align
     /// Log
     QStringList m_LogText;
 
-    /// Capture retries
-    int retries { 0 };
+    /// Issue counters
+    uint8_t m_CaptureTimeoutCounter { 0 };
+    uint8_t m_CaptureErrorCounter { 0 };
+    uint8_t m_SlewErrorCounter { 0 };
+
+    QTimer m_CaptureTimer;
 
     // State
     AlignState state { ALIGN_IDLE };
@@ -758,7 +762,7 @@ class Align : public QWidget, public Ui::Align
     QString dirPath;
 
     // Timer
-    QTimer alignTimer;
+    QTimer m_AlignTimer;
 
     // BLOB Type
     ISD::CCD::BlobType blobType;

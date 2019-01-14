@@ -165,9 +165,30 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
             [=](int id) { this->currentGotoMode = static_cast<GotoMode>(id); });
 
-    alignTimer.setSingleShot(true);
-    alignTimer.setInterval(Options::astrometryTimeout() * 1000);
-    connect(&alignTimer, &QTimer::timeout, this, &Ekos::Align::checkAlignmentTimeout);
+    m_CaptureTimer.setSingleShot(true);
+    m_CaptureTimer.setInterval(10000);
+    connect(&m_CaptureTimer, &QTimer::timeout, [&]() {
+        if (m_CaptureTimeoutCounter++ > 3)
+        {
+            appendLogText(i18n("Capture timed out."));
+            abort();
+        }
+        else
+        {
+            ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+            if (targetChip->isCapturing())
+            {
+                targetChip->abortExposure();
+                m_CaptureTimer.start( m_CaptureTimer.interval()*2);
+            }
+            else
+                captureAndSolve();
+        }
+    });
+
+    m_AlignTimer.setSingleShot(true);
+    m_AlignTimer.setInterval(Options::astrometryTimeout() * 1000);
+    connect(&m_AlignTimer, &QTimer::timeout, this, &Ekos::Align::checkAlignmentTimeout);
 
     currentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
     gotoModeButtonGroup->button(currentGotoMode)->setChecked(true);
@@ -2437,7 +2458,8 @@ void Align::generateArgs()
 
 bool Align::captureAndSolve()
 {
-    alignTimer.stop();
+    m_AlignTimer.stop();
+    m_CaptureTimer.stop();
 
     if (currentCCD == nullptr)
         return false;
@@ -2520,14 +2542,14 @@ bool Align::captureAndSolve()
     if (focusState >= FOCUS_PROGRESS)
     {
         appendLogText(i18n("Cannot capture while focus module is busy. Retrying in 10 seconds..."));
-        alignTimer.start();
+        m_CaptureTimer.start();
         return false;
     }
 
     if (targetChip->isCapturing())
     {
         appendLogText(i18n("Cannot capture while CCD exposure is in progress. Retrying in 10 seconds..."));
-        alignTimer.start();
+        m_CaptureTimer.start();
         return false;
     }
 
@@ -2875,7 +2897,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
 
     solverTimer.start();
 
-    alignTimer.start();
+    m_AlignTimer.start();
 
     if (currentGotoMode == GOTO_SLEW)
         appendLogText(i18n("Solver iteration #%1", solverIterations + 1));
@@ -2903,7 +2925,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         rememberTelescopeType = ISD::CCD::TELESCOPE_UNKNOWN;
     }
 
-    alignTimer.stop();
+    m_AlignTimer.stop();
 
     if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
     {
@@ -3066,7 +3088,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         }
     }
 
-    retries = 0;
+    m_CaptureErrorCounter = 0;
+    m_SlewErrorCounter = 0;
+    m_CaptureTimeoutCounter = 0;
 
     appendLogText(i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4)",
                        alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString(), telescopeCoord.ra().toHMSString(),
@@ -3247,7 +3271,7 @@ void Align::solverFailed()
     stopB->setEnabled(false);
     solveB->setEnabled(true);
 
-    alignTimer.stop();
+    m_AlignTimer.stop();
 
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
@@ -3255,7 +3279,9 @@ void Align::solverFailed()
     //loadSlewMode = false;
     loadSlewState = IPS_IDLE;
     solverIterations = 0;
-    retries          = 0;
+    m_CaptureErrorCounter = 0;
+    m_CaptureTimeoutCounter = 0;
+    m_SlewErrorCounter = 0;
 
     //emit solverComplete(false);
 
@@ -3292,8 +3318,10 @@ void Align::abort()
     //loadSlewMode = false;
     loadSlewState = IPS_IDLE;
     solverIterations = 0;
-    retries          = 0;
-    alignTimer.stop();
+    m_CaptureErrorCounter = 0;
+    m_CaptureTimeoutCounter = 0;
+    m_SlewErrorCounter = 0;
+    m_AlignTimer.stop();
 
     //currentCCD->disconnect(this);
     disconnect(currentCCD, &ISD::CCD::BLOBUpdated, this, &Ekos::Align::newFITS);
@@ -3586,7 +3614,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 else
                     appendLogText(i18n("Slewing failed."));
 
-                if (++retries == 3)
+                if (++m_SlewErrorCounter == 3)
                 {
                     abort();
                     return;
@@ -4509,7 +4537,7 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
 
     if (state == IPS_ALERT)
     {
-        if (++retries == 3 && pahStage != PAH_REFRESH)
+        if (++m_CaptureErrorCounter == 3 && pahStage != PAH_REFRESH)
         {
             appendLogText(i18n("Capture error. Aborting..."));
 
@@ -4517,7 +4545,7 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
             return;
         }
 
-        appendLogText(i18n("Restarting capture attempt #%1", retries));
+        appendLogText(i18n("Restarting capture attempt #%1", m_CaptureErrorCounter));
 
         int currentRow = solutionTable->rowCount() - 1;
 
@@ -5592,7 +5620,7 @@ void Align::refreshAlignOptions()
     if (getSolverFOV())
         getSolverFOV()->setImageDisplay(Options::astrometrySolverWCS());
 
-    alignTimer.setInterval(Options::astrometryTimeout() * 1000);
+    m_AlignTimer.setInterval(Options::astrometryTimeout() * 1000);
 }
 
 void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
