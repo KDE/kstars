@@ -4,14 +4,14 @@
   <!ENTITY blackbody SYSTEM "blackbody.docbook">
   <!ENTITY calc-angdist SYSTEM "calc-angdist.docbook">
   <!ENTITY calc-apcoords SYSTEM "calc-apcoords.docbook">
+  <!ENTITY calc-dayduration SYSTEM "calc-dayduration.docbook">
   <!ENTITY calc-ecliptic SYSTEM "calc-ecliptic.docbook">
   <!ENTITY calc-eqgal SYSTEM "calc-eqgal.docbook">
   <!ENTITY calc-equinox SYSTEM "calc-equinox.docbook">
-  <!ENTITY calc-horiz SYSTEM "calc-horizontal.docbook">
-  <!ENTITY calc-planetcoords SYSTEM "calc-planetcoords.docbook">
   <!ENTITY calc-geodetic SYSTEM "calc-geodetic.docbook">
-  <!ENTITY calc-dayduration SYSTEM "calc-dayduration.docbook">
+  <!ENTITY calc-horiz SYSTEM "calc-horizontal.docbook">
   <!ENTITY calc-julian SYSTEM "calc-julianday.docbook">
+  <!ENTITY calc-planetcoords SYSTEM "calc-planetcoords.docbook">
   <!ENTITY calc-sidereal SYSTEM "calc-sidereal.docbook">
   <!ENTITY calculator SYSTEM "calculator.docbook">
   <!ENTITY cequator SYSTEM "cequator.docbook">
@@ -33,6 +33,7 @@
   <!ENTITY flux SYSTEM "flux.docbook">
   <!ENTITY geocoords SYSTEM "geocoords.docbook">
   <!ENTITY greatcircle SYSTEM "greatcircle.docbook">
+  <!ENTITY hips SYSTEM "hips.docbook">
   <!ENTITY horizon SYSTEM "horizon.docbook">
   <!ENTITY hourangle SYSTEM "hourangle.docbook">
   <!ENTITY indi SYSTEM "indi.docbook">
@@ -53,19 +54,31 @@
   <!ENTITY telescopes SYSTEM "telescopes.docbook">
   <!ENTITY timezones SYSTEM "timezones.docbook">
   <!ENTITY tool-altvstime SYSTEM "altvstime.docbook">
-  <!ENTITY tool-eyepieceview SYSTEM "eyepieceview.docbook">
   <!ENTITY tool-calculator SYSTEM "calculator.docbook">
   <!ENTITY tool-details SYSTEM "details.docbook">
-  <!ENTITY tool-whatsup SYSTEM "wut.docbook">
-  <!ENTITY tool-scriptbuilder SYSTEM "scriptbuilder.docbook">
-  <!ENTITY tool-solarsys SYSTEM "solarsys.docbook">
+  <!ENTITY tool-ekos SYSTEM "ekos.docbook">
+  <!ENTITY tool-ekos-align SYSTEM "ekos-align.docbook">
+  <!ENTITY tool-ekos-capture SYSTEM "ekos-capture.docbook">
+  <!ENTITY tool-ekos-fits-viewer SYSTEM "ekos-fits-viewer.docbook">
+  <!ENTITY tool-ekos-focus SYSTEM "ekos-focus.docbook">
+  <!ENTITY tool-ekos-guide SYSTEM "ekos-guide.docbook">
+  <!ENTITY tool-ekos-logs SYSTEM "ekos-logs.docbook">
+  <!ENTITY tool-ekos-profile-editor SYSTEM "ekos-profile-editor.docbook">
+  <!ENTITY tool-ekos-profile-wizard SYSTEM "ekos-profile-wizard.docbook">
+  <!ENTITY tool-ekos-scheduler SYSTEM "ekos-scheduler.docbook">
+  <!ENTITY tool-ekos-setup SYSTEM "ekos-setup.docbook">
+  <!ENTITY tool-ekos-tutorials SYSTEM "ekos-tutorials.docbook">
+  <!ENTITY tool-ekos-user-interface SYSTEM "ekos-user-interface.docbook">
+  <!ENTITY tool-eyepieceview SYSTEM "eyepieceview.docbook">
+  <!ENTITY tool-fitsviewer SYSTEM "fitsviewer.docbook">
   <!ENTITY tool-jmoons SYSTEM "jmoons.docbook">
   <!ENTITY tool-obsplanner SYSTEM "obsplanner.docbook">
-  <!ENTITY tool-fitsviewer SYSTEM "fitsviewer.docbook">
+  <!ENTITY tool-scriptbuilder SYSTEM "scriptbuilder.docbook">
+  <!ENTITY tool-solarsys SYSTEM "solarsys.docbook">
+  <!ENTITY tool-whatsup SYSTEM "wut.docbook">
   <!ENTITY tools SYSTEM "tools.docbook">
   <!ENTITY utime SYSTEM "utime.docbook">
   <!ENTITY zenith SYSTEM "zenith.docbook">
-  <!ENTITY hips SYSTEM "hips.docbook">
   <!ENTITY % addindex "INCLUDE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
