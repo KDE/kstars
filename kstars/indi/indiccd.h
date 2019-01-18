@@ -10,6 +10,7 @@
 #pragma once
 
 #include "indistd.h"
+#include "media.h"
 #include "auxiliary/imageviewer.h"
 #include "fitsviewer/fitscommon.h"
 #include "fitsviewer/fitsview.h"
@@ -145,6 +146,7 @@ class CCD : public DeviceDecorator
     typedef enum { TELESCOPE_PRIMARY, TELESCOPE_GUIDE, TELESCOPE_UNKNOWN } TelescopeType;
 
     void registerProperty(INDI::Property *prop);
+    void removeProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty *tvp);
     void processNumber(INumberVectorProperty *nvp);
@@ -237,6 +239,9 @@ class CCD : public DeviceDecorator
     void FITSViewerDestroyed();
     void StreamWindowHidden();
 
+  protected slots:
+    void setWSBLOB(const QByteArray &message, const QString &extension);
+
   signals:
     //void FITSViewerClosed();
     void newTemperatureValue(double value);
@@ -265,7 +270,6 @@ class CCD : public DeviceDecorator
     bool IsLooping { false };
     QString seqPrefix;
     QString fitsDir;
-    char BLOBFilename[MAXINDIFILENAME+1];
     int nextSequenceID { 0 };
     std::unique_ptr<StreamWG> streamWindow;
     int streamW { 0 };
@@ -275,9 +279,14 @@ class CCD : public DeviceDecorator
     int focusTabID { -1 };
     int guideTabID { -1 };
     int alignTabID { -1 };
+
+    char BLOBFilename[MAXINDIFILENAME+1];
+    IBLOB *primaryCCDBLOB { nullptr };
+
     std::unique_ptr<QTimer> readyTimer;
     std::unique_ptr<CCDChip> primaryChip;
     std::unique_ptr<CCDChip> guideChip;
+    std::unique_ptr<Media> m_Media;
     TransferFormat transferFormat { FORMAT_FITS };
     TransferFormat targetTransferFormat { FORMAT_FITS };
     TelescopeType telescopeType { TELESCOPE_UNKNOWN };
