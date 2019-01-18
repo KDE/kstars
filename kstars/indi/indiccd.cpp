@@ -777,6 +777,9 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     readyTimer.get()->setSingleShot(true);
     connect(readyTimer.get(), &QTimer::timeout, this, &CCD::ready);
 
+    m_Media.reset(new Media(this));
+    connect(m_Media.get(), &Media::newFile, this, &CCD::setWSBLOB);
+
     connect(clientManager, &ClientManager::newBLOBManager, [&](const char *device, INDI::Property *prop)
     {
        if (!strcmp(device, getDeviceName()))
@@ -893,6 +896,17 @@ void CCD::registerProperty(INDI::Property *prop)
                 telescopeType = TELESCOPE_GUIDE;
         }
     }
+    else if (!strcmp(prop->getName(), "CCD_WEBSOCKET_SETTINGS"))
+    {
+        INumberVectorProperty *np = prop->getNumber();
+        m_Media->setURL(QUrl(QString("ws://%1:%2").arg(clientManager->getHost()).arg(np->np[0].value)));
+        m_Media->connectServer();
+    }
+    else if (!strcmp(prop->getName(), "CCD1"))
+    {
+        IBLOBVectorProperty *bp = prop->getBLOB();
+        primaryCCDBLOB = bp->bp;
+    }
     // try to find gain property, if any
     else if (gainN == nullptr && prop->getType() == INDI_NUMBER)
     {
@@ -917,6 +931,16 @@ void CCD::registerProperty(INDI::Property *prop)
     }
 
     DeviceDecorator::registerProperty(prop);
+}
+
+void CCD::removeProperty(INDI::Property *prop)
+{
+    if (!strcmp(prop->getName(), "CCD_WEBSOCKET_SETTINGS"))
+    {
+        m_Media->disconnectServer();
+    }
+
+    DeviceDecorator::removeProperty(prop);
 }
 
 void CCD::processLight(ILightVectorProperty *lvp)
@@ -1130,6 +1154,20 @@ void CCD::processText(ITextVectorProperty *tvp)
     }
 
     DeviceDecorator::processText(tvp);
+}
+
+void CCD::setWSBLOB(const QByteArray &message, const QString &extension)
+{
+    if (!primaryCCDBLOB)
+        return;
+
+    primaryCCDBLOB->blob = const_cast<char *>(message.data());
+    primaryCCDBLOB->size = message.size();
+    strncpy(primaryCCDBLOB->format, extension.toLatin1().constData(), MAXINDIFORMAT);
+    processBLOB(primaryCCDBLOB);
+
+    // Disassociate
+    primaryCCDBLOB->blob = nullptr;
 }
 
 void CCD::processBLOB(IBLOB *bp)
