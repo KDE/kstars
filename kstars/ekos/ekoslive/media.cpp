@@ -39,10 +39,13 @@ void Media::connectServer()
     QUrlQuery query;
     query.addQueryItem("username", m_AuthResponse["username"].toString());
     query.addQueryItem("token", m_AuthResponse["token"].toString());
+    if (m_AuthResponse.contains("remoteToken"))
+        query.addQueryItem("remoteToken", m_AuthResponse["remoteToken"].toString());
     query.addQueryItem("email", m_AuthResponse["email"].toString());
     query.addQueryItem("from_date", m_AuthResponse["from_date"].toString());
     query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
     query.addQueryItem("plan_id", m_AuthResponse["plan_id"].toString());
+    query.addQueryItem("type", m_AuthResponse["type"].toString());
 
     requestURL.setPath("/media/ekos");
     requestURL.setQuery(query);

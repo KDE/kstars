@@ -241,14 +241,15 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     vlayout->addWidget(summaryPreview.get());
     previewWidget->setLayout(vlayout);
 
-    connect(summaryPreview.get(), &FITSView::loaded, [&]()
-    {
-        // UUID binds the cloud & preview frames by a common key
-        QString uuid = QUuid::createUuid().toString();
-        uuid = uuid.remove(QRegularExpression("[-{}]"));
-        //ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get(), uuid);
-        ekosLiveClient.get()->cloud()->sendPreviewImage(summaryPreview.get(), uuid);
-    });
+    // JM 2019-01-19: Why cloud images depend on summary preview?
+//    connect(summaryPreview.get(), &FITSView::loaded, [&]()
+//    {
+//        // UUID binds the cloud & preview frames by a common key
+//        QString uuid = QUuid::createUuid().toString();
+//        uuid = uuid.remove(QRegularExpression("[-{}]"));
+//        //ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get(), uuid);
+//        ekosLiveClient.get()->cloud()->sendPreviewImage(summaryPreview.get(), uuid);
+//    });
 
     if (Options::ekosLeftIcons())
     {
@@ -2547,9 +2548,14 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob *job)
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
-    QString uuid = QUuid::createUuid().toString();
-    uuid = uuid.remove(QRegularExpression("[-{}]"));
-    ekosLiveClient.get()->media()->sendPreviewImage(job->getActiveChip()->getImageView(FITS_NORMAL), uuid);
+    if (job->getStatus() == SequenceJob::JOB_BUSY)
+    {
+        QString uuid = QUuid::createUuid().toString();
+        uuid = uuid.remove(QRegularExpression("[-{}]"));
+        FITSView *image = job->getActiveChip()->getImageView(FITS_NORMAL);
+        ekosLiveClient.get()->media()->sendPreviewImage(image, uuid);
+        ekosLiveClient.get()->cloud()->sendPreviewImage(image, uuid);
+    }
 }
 
 void Manager::updateExposureProgress(Ekos::SequenceJob *job)

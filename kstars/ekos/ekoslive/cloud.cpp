@@ -37,17 +37,19 @@ void Cloud::connectServer()
 {
     QUrl requestURL(m_URL);
 
+    QString token = m_AuthResponse.contains("remoteToken") ? m_AuthResponse["remoteToken"].toString()
+                                                           : m_AuthResponse["token"].toString();
     QUrlQuery query;
     query.addQueryItem("username", m_AuthResponse["username"].toString());
-    query.addQueryItem("token", m_AuthResponse["token"].toString());
+    query.addQueryItem("token", token);
     query.addQueryItem("email", m_AuthResponse["email"].toString());
     query.addQueryItem("from_date", m_AuthResponse["from_date"].toString());
     query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
     query.addQueryItem("plan_id", m_AuthResponse["plan_id"].toString());
+    query.addQueryItem("type", m_AuthResponse["type"].toString());
 
     requestURL.setPath("/cloud/ekos");
     requestURL.setQuery(query);
-
 
     m_WebSocket.open(requestURL);
 
@@ -117,6 +119,8 @@ void Cloud::onTextReceived(const QString &message)
     //        extension = payload["ext"].toString();
     if (command == commands[SET_BLOBS])
          m_sendBlobs = msgObj["payload"].toBool();
+    else if (command == commands[LOGOUT])
+        disconnectServer();
 }
 
 void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
@@ -151,6 +155,8 @@ void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
     metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filename));
     m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
 
+    qCInfo(KSTARS_EKOS) << "Uploading file to the cloud with metadata" << metadata;
+
     // Use cfitsio pack to compress the file first
     filename = QDir::tempPath() + QString("/ekoslivecloud%1").arg(uuid);
 
@@ -174,7 +180,10 @@ void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
     // Upload the compressed image
     QFile image(newCompressedFile);
     if (image.open(QIODevice::ReadOnly))
+    {
         m_WebSocket.sendBinaryMessage(image.readAll());
+        qCInfo(KSTARS_EKOS) << "Uploaded" << newCompressedFile << " to the cloud";
+    }
     image.close();
 
     // Remove from disk

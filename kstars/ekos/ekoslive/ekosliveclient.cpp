@@ -90,7 +90,9 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
             m_wsURL.setUrl("ws://localhost:3000");
             m_Message->setURL(m_wsURL);
             m_Media->setURL(m_wsURL);
-            m_Cloud->setURL(m_wsURL);
+            // Offline does not support cloud
+            //m_Cloud->setURL(m_wsURL);
+            m_Cloud->setURL(QUrl("wss://live.stellarmate.com"));
         }
     }
     );
@@ -136,7 +138,7 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
 
     m_Cloud = new Cloud(m_Manager);
     connect(m_Message, &Message::optionsChanged, m_Cloud, &Cloud::setOptions);
-    m_Cloud->setURL(m_wsURL);
+    m_Cloud->setURL(QUrl("wss://live.stellarmate.com"));
 }
 
 Client::~Client()
@@ -261,8 +263,14 @@ void Client::onResult(QNetworkReply *reply)
     m_Media->setAuthResponse(authResponse);
     m_Media->connectServer();
 
-    m_Cloud->setAuthResponse(authResponse);
-    m_Cloud->connectServer();
+    // If we are using EkosLive Offline
+    // We need to check for internet connection before we connect to the online web server
+    if (ekosLiveOnlineR->isChecked() || (ekosLiveOfflineR->isChecked() &&
+                                         networkManager->networkAccessible() == QNetworkAccessManager::Accessible))
+    {
+        m_Cloud->setAuthResponse(authResponse);
+        m_Cloud->connectServer();
+    }
 
     modeLabel->setEnabled(false);
     ekosLiveOnlineR->setEnabled(false);
