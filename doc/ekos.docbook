@@ -5,7 +5,7 @@
 </indexterm>
 
 <para>
-    <emphasis role="bold">Ekos</emphasis> is an advanced cross-platform (&Windows;, OSX, &Linux;) observatory control and automation tool with a particular focus on Astrophotography. It is based on a modular extensible framework to perform common astrophotography tasks. This includes highly accurate GOTOs using astrometry solver, ability to measure <emphasis>and</emphasis> correct polar alignment errors, auto-focus &amp; auto-guide capabilities, and capture of single or stack of images with filter wheel support. Ekos is shipped with &kstars;.
+    <emphasis role="bold">Ekos</emphasis> is an advanced cross-platform (&Windows;, &MacOS;, &Linux;) observatory control and automation tool with a particular focus on Astrophotography. It is based on a modular extensible framework to perform common astrophotography tasks. This includes highly accurate GOTOs using astrometry solver, ability to measure <emphasis>and</emphasis> correct polar alignment errors, auto-focus &amp; auto-guide capabilities, and capture of single or stack of images with filter wheel support. Ekos is shipped with &kstars;.
 </para>
 <mediaobject>
   <videoobject>
@@ -22,7 +22,7 @@
     </listitem>
     <listitem>
         <para>
-            <emphasis>Built-in</emphasis> native Auto Guiding with support for automatic dithering between exposures and support for Adaptive Optics devices in addition to traditional guiders.
+            <emphasis>Built-in</emphasis> native <link linkend="ekos-guide">autoguiding</link> with support for automatic dithering between exposures and support for Adaptive Optics devices in addition to traditional guiders.
         </para>
     </listitem>
     <listitem>
@@ -47,7 +47,7 @@
     </listitem>
     <listitem>
         <para>
-            Capture and record <ulink url="https://www.youtube.com/watch?v=OJFZWwlAQRM">video streams in SER format</ulink>.
+            Capture and record <ulink url="https://www.youtube.com/watch?v=OJFZWwlAQRM">video streams in SER format</ulink>.
         </para>
     </listitem>
     <listitem>
