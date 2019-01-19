@@ -71,7 +71,7 @@
             <term>Connect &amp; Disconnect Devices</term>
             <listitem>
                 <para>
-                    Connect to INDI server. Based on the devices connected, Ekos modules (CCD, Focus, Guide...etc) will be established and available to use.
+                    Connect to INDI server. Based on the devices connected, Ekos modules (CCD, Focus, Guide, &etc;) will be established and available to use.
                 </para>
                 <para>
                     Once you are ready, click <guibutton>Start INDI</guibutton> to establish INDI server and connection to your equipment. Ekos shall create the various module icons (Mount, Capture, Focus, &etc;) as the connection is established with the device.

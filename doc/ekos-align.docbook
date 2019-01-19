@@ -299,7 +299,7 @@
                     </tgroup>
                 </table>
                 <para>
-                    The Debian packages are suitable for any Debian-based distribution (Ubuntu, Mint...etc). If you downloaded the Debian Packages above for your FOV range, you can install them from your favorite package manager, or via the following command:
+                    The Debian packages are suitable for any Debian-based distribution (Ubuntu, Mint, &etc;). If you downloaded the Debian Packages above for your FOV range, you can install them from your favorite package manager, or via the following command:
                 </para>
                 <para>
                     <command>sudo dpkg -i astrometry-data-*.deb</command>
