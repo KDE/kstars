@@ -125,7 +125,7 @@
                 <term>&MacOS;</term>
                 <listitem>
                     <para>
-                        Astrometry.net is already included with &kstars; for MacOS, so no need to install it.
+                        Astrometry.net is already included with &kstars; for &MacOS;, so no need to install it.
                     </para>
                 </listitem>
             </varlistentry>
@@ -164,7 +164,7 @@
                 </mediaobject>
             </screenshot>
             <para>
-                Automatic download is only available for Ekos users on &Linux; &amp; &MacOS;. For &Windows;; users, please download ANSVR solver.
+                Automatic download is only available for Ekos users on &Linux; &amp; &MacOS;. For &Windows; users, please download ANSVR solver.
             </para>
             <para>
                 To access the download page, click the <guibutton>Options</guibutton> button in the <link linkend="ekos-align">Align module</link> and then select <guilabel>Astrometry Index Files</guilabel> tab. The page displays the current FOV of your current setup and below it a list of available and installed index files. Three icons are used to designate the importance of index files given your current setup as follows:
@@ -305,7 +305,7 @@
                     <command>sudo dpkg -i astrometry-data-*.deb</command>
                 </para>
                 <para>
-                    On the other hand, if you downloaded the FITS index files directly, copy them to <filename role="director">/usr/share/astrometry</filename> directory.
+                    On the other hand, if you downloaded the FITS index files directly, copy them to <filename role="directory">/usr/share/astrometry</filename> directory.
                 </para>
                 <note>
                     <para>
