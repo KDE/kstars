@@ -125,7 +125,7 @@ DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
 
     m_CustomDrivers = new CustomDrivers(this, driversList);
 
-    updateCustomDrivers();    
+    updateCustomDrivers();
 
 #ifdef Q_OS_WIN
     ui->localTreeWidget->setEnabled(false);
@@ -1216,7 +1216,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     dv->setSkeletonFile(skel);
     dv->setType(groupType);
     dv->setDriverSource(driverSource);
-    dv->setUserPort(port);    
+    dv->setUserPort(port);
     dv->setAuxInfo(vMap);
 
     connect(dv, SIGNAL(deviceStateChanged(DriverInfo*)), this, SLOT(processDeviceStatus(DriverInfo*)));
@@ -1251,6 +1251,7 @@ void DriverManager::updateCustomDrivers()
         dv->setUniqueLabel(dv->getLabel());
         dv->setExecutable(oneDriver["Exec"].toString());
         dv->setVersion(oneDriver["Version"].toString());
+        dv->setManufacturer(oneDriver["Manufacturer"].toString());
         dv->setType(DeviceFamilyLabels.key(oneDriver["Family"].toString()));
         dv->setDriverSource(CUSTOM_SOURCE);
 

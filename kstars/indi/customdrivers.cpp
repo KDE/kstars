@@ -89,6 +89,7 @@ void CustomDrivers::syncDriver()
             familyCombo->setCurrentIndex(oneDriver->getType());
             execIN->setText(oneDriver->getExecutable());
             nameIN->setText(oneDriver->getName());
+            manufacturerIN->setText(oneDriver->manufacturer());
             break;
         }
     }
@@ -111,7 +112,8 @@ void CustomDrivers::addDriver()
     newDriver["Label"] = labelIN->text();
     newDriver["Name"] = nameIN->text();
     newDriver["Family"] = familyCombo->currentText();
-    newDriver["Exec"] = execIN->text();    
+    newDriver["Manufacturer"] = manufacturerIN->text();
+    newDriver["Exec"] = execIN->text();
     // TODO Try to make this editable as well
     newDriver["Version"] = "1.0";
 

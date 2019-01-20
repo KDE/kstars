@@ -143,11 +143,21 @@ bool KSUserDB::Initialize()
                                     "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                                     "Name TEXT DEFAULT NULL, "
                                     "Label TEXT DEFAULT NULL UNIQUE, "
+                                    "Manufacturer TEXT DEFAULT NULL, "
                                     "Family TEXT DEFAULT NULL, "
                                     "Exec TEXT DEFAULT NULL, "
                                     "Version TEXT DEFAULT 1.0)"))
                         qCWarning(KSTARS) << query.lastError();
                 }
+            }
+
+            // Add manufacturer
+            if (currentDBVersion < 305)
+            {
+                QSqlQuery query(userdb_);
+                QString columnQuery = QString("ALTER TABLE customdrivers ADD COLUMN Manufacturer TEXT DEFAULT NULL");
+                if (!query.exec(columnQuery))
+                    qCWarning(KSTARS) << query.lastError();
             }
         }
     }
@@ -350,6 +360,7 @@ bool KSUserDB::RebuildDB()
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                   "Name TEXT DEFAULT NULL, "
                   "Label TEXT DEFAULT NULL UNIQUE, "
+                  "Manufacturer TEXT DEFAULT NULL, "
                   "Family TEXT DEFAULT NULL, "
                   "Exec TEXT DEFAULT NULL, "
                   "Version TEXT DEFAULT 1.0)");
