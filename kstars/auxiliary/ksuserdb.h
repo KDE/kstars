@@ -39,7 +39,7 @@ class ArtificialHorizonEntity;
  * @brief Single class to delegate all User database I/O
  *
  * usage: Call QSqlDatabase::removeDatabase("userdb"); after the object
- * of this class is deallocated 
+ * of this class is deallocated
  * @author Rishab Arora
  * @author Jasem Mutlaq
  * @version 1.2
@@ -379,5 +379,5 @@ class KSUserDB
     /** XML reader for importing old formats **/
     QXmlStreamReader *reader_ { nullptr };
 
-    static const uint16_t SCHEMA_VERSION = 300;
+    static const uint16_t SCHEMA_VERSION = 305;
 };
