@@ -176,7 +176,7 @@
             </listitem>
             <listitem>
                 <para>
-                    <emphasis role="bold">Threshold</emphasis>: Threshold percentage value is used for star detection using the <emphasis>Threshold<emphasis> detection algorithm. Increase to restrict the centroid to bright cores. Decrease to enclose fuzzy stars.</emphasis></emphasis></para>
+                    <emphasis role="bold">Threshold</emphasis>: Threshold percentage value is used for star detection using the <emphasis>Threshold</emphasis> detection algorithm. Increase to restrict the centroid to bright cores. Decrease to enclose fuzzy stars.</para>
             </listitem>
             <listitem>
                 <para>
