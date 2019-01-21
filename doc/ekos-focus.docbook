@@ -83,7 +83,7 @@
             </listitem>
         </itemizedlist>
         <para>
-            For absolute focusers, you can set the ticks count. To view a continuous feed of the camera, click the <guibutton>Framing</guibutton> button. An image shall be captured repeatedly according to the CCD settings in the CCD and Filter Wheel group. You can focus in and out by pressing the respective buttons, and each shall move by the step size indicated in the focus settings. For absolute and relative focusers, the step size is in units of <emphasis>ticks</emphasis> and for simple DC focusers, the step size is in <emphasis>milliseconds</emphasis>
+            For absolute focusers, you can set the ticks count. To view a continuous feed of the camera, click the <guibutton>Framing</guibutton> button. An image shall be captured repeatedly according to the CCD settings in the <guilabel>CCD and Filter Wheel</guilabel> group. You can focus in and out by pressing the respective buttons, and each shall move by the step size indicated in the focus settings. For absolute and relative focusers, the step size is in units of <emphasis>ticks</emphasis> and for simple DC focusers, the step size is in <emphasis>milliseconds</emphasis>
         </para>
         <para>
             To begin the autofocus process, simply click the <guibutton>Auto Focus</guibutton> button.
