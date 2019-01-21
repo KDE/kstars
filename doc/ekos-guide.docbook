@@ -24,7 +24,7 @@
             Ekos Guide Module enables autoguiding capability using either the powerful built-in guider, or at your option, external guiding via <ulink url="http://openphdguiding.org/">PHD2</ulink> or <ulink url="https://sourceforge.net/projects/linguider/">lin_guider</ulink>. Using the internal guiding, guider CCD frames are captured and sent to Ekos for analysis. Depending on the deviations of the guide star from its lock position, guiding pulses corrections are sent to your mount <guilabel>Via</guilabel> any device that supports ST4 ports. Alternatively, you may send the corrections to your mount <emphasis>directly</emphasis>, if supported by the mount driver. Most of the GUI options in the Guide Module are well documented so just hover your mouse over an item and a tooltip will popup with helpful information.
         </para>
         <para>
-            To perform guiding, you need to select a Guider CCD in Ekos Profile Setup. The telescope aperture and focal length must be set in the telescope driver. If the Guider CCD is attached to a separate Guide Scope, you must also set the Guide Scope's Focal Length and Aperture. You can set these values under the Options tab of the telescope driver or from the Mount module. Autoguiding is a two-step process: Calibration &amp; Guiding.
+            To perform guiding, you need to select a Guider CCD in <link linkend="ekos-profile-wizard">Ekos Profile Setup</link>. The telescope aperture and focal length must be set in the telescope driver. If the Guider CCD is attached to a separate Guide Scope, you must also set the Guide Scope's <guilabel>Focal Length</guilabel> and <guilabel>Aperture</guilabel>. You can set these values under the <guilabel>Options</guilabel> tab of the <link linkend="indi-telescope-setup">telescope driver</link> or from the Mount module. Autoguiding is a two-step process: Calibration &amp; Guiding.
         </para>
         <mediaobject>
             <videoobject>
@@ -123,7 +123,7 @@
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Two axis</guilabel>: Check if you want the calibration process calibration in both RA &amp; DEC. If unchecked, the calibration is only performed in RA.
+                    <guilabel>Two axis</guilabel>: Check if you want the calibration process makes calibration in both RA &amp; DEC. If unchecked, the calibration is only performed in RA.
                 </para>
             </listitem>
             <listitem>
