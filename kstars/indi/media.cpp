@@ -79,7 +79,6 @@ void Media::onError(QAbstractSocket::SocketError error)
 
 void Media::onTextReceived(const QString &message)
 {
-    qCInfo(KSTARS_INDI) << "Media Text Websocket Message" << message;
     extension = message;
 }
 
