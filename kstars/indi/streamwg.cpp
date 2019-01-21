@@ -12,6 +12,8 @@
 #include "streamwg.h"
 
 #include "indistd.h"
+#include "driverinfo.h"
+#include "clientmanager.h"
 #include "kstars.h"
 #include "Options.h"
 
@@ -107,6 +109,63 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
 
     resize(Options::streamWindowWidth(), Options::streamWindowHeight());
 
+    zoomInB->setIcon(QIcon::fromTheme("zoom-in"));
+    zoomOutB->setIcon(QIcon::fromTheme("zoom-out"));
+    handLabel->setPixmap(QIcon::fromTheme("hand").pixmap(32,32));
+
+    eoszoom = currentCCD->getProperty("eoszoom");
+    if (eoszoom == nullptr)
+    {
+        zoomInB->hide();
+        zoomOutB->hide();
+    }
+    else
+    {
+        connect(zoomInB, &QPushButton::clicked, [&]() {
+           ITextVectorProperty *tvp = eoszoom->getText();
+           IUSaveText(&(tvp->tp[0]), "5");
+           eoszoomActive = true;
+           handLabel->setEnabled(true);
+           NSSlider->setEnabled(true);
+           WESlider->setEnabled(true);
+           currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+        });
+
+        connect(zoomOutB, &QPushButton::clicked, [&]() {
+           ITextVectorProperty *tvp = eoszoom->getText();
+           IUSaveText(&(tvp->tp[0]), "0");
+           eoszoomActive = false;
+           handLabel->setEnabled(false);
+           NSSlider->setEnabled(false);
+           WESlider->setEnabled(false);
+           currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+        });
+    }
+
+    eoszoomposition = currentCCD->getProperty("eoszoomposition");
+    if (eoszoomposition == nullptr)
+    {
+        handLabel->hide();
+        NSSlider->hide();
+        WESlider->hide();
+    }
+    else
+    {
+        connect(NSSlider, &QSlider::valueChanged, [&]() {
+           ITextVectorProperty *tvp = eoszoomposition->getText();
+           QString pos = QString("%1,%2").arg(NSSlider->value()).arg(WESlider->value());
+           IUSaveText(&(tvp->tp[0]), pos.toLatin1().constData());
+           currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+        });
+
+        connect(WESlider, &QSlider::valueChanged, [&]() {
+           ITextVectorProperty *tvp = eoszoomposition->getText();
+           QString pos = QString("%1,%2").arg(NSSlider->value()).arg(WESlider->value());
+           IUSaveText(&(tvp->tp[0]), pos.toLatin1().constData());
+           currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+        });
+    }
+
     connect(currentCCD, SIGNAL(newFPS(double,double)), this, SLOT(updateFPS(double,double)));
     connect(videoExposure, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&](double value)
     {
@@ -149,7 +208,7 @@ void StreamWG::enableStream(bool enable)
     else
     {
         processStream = false;
-        instFPS->setText("--");
+        //instFPS->setText("--");
         avgFPS->setText("--");
         hide();
     }
@@ -157,15 +216,18 @@ void StreamWG::enableStream(bool enable)
 
 void StreamWG::setSize(int wd, int ht)
 {
-    // Initial resize
-    /*if (streamWidth == -1)
-        resize(Options::streamWindowWidth() + layout()->margin() * 2,
-               Options::streamWindowHeight()+ playB->height() + layout()->margin() * 4 + layout()->spacing());*/
+    if (wd != streamWidth || ht != streamHeight)
+    {
+        streamWidth  = wd;
+        streamHeight = ht;
 
-    streamWidth  = wd;
-    streamHeight = ht;
+        NSSlider->setMaximum(ht);
+        NSSlider->setSingleStep(ht/30);
+        WESlider->setMaximum(wd);
+        WESlider->setSingleStep(wd/30);
 
-    videoFrame->setSize(wd, ht);
+        videoFrame->setSize(wd, ht);
+    }
 }
 
 /*void StreamWG::resizeEvent(QResizeEvent *ev)
@@ -257,6 +319,7 @@ void StreamWG::setStreamingFrame(QRect newFrame)
 
 void StreamWG::updateFPS(double instantFPS, double averageFPS)
 {
-    instFPS->setText(QString::number(instantFPS, 'f', 1));
+    Q_UNUSED(instantFPS);
+    //instFPS->setText(QString::number(instantFPS, 'f', 1));
     avgFPS->setText(QString::number(averageFPS, 'f', 1));
 }

@@ -85,5 +85,9 @@ class StreamWG : public QDialog, public Ui::streamForm
     QIcon recordIcon, stopIcon;
     ISD::CCD *currentCCD;
 
+    // For Canon DSLRs
+    INDI::Property *eoszoom {nullptr}, *eoszoomposition {nullptr};
+    bool eoszoomActive { false };
+
     RecordOptions *options;
 };
