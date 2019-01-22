@@ -21,7 +21,7 @@
     <sect3 id="ekos-scheduler-introduction">
         <title>Introduction</title>
         <para>
-            Ekos Scheduler is an indispensable arsenal in building your robotic observatory. A Robotic observatory is an observatory composed of several subsystems that are orchestrated together to achieve a set of scientific objectives without human intervention. It is the only Ekos module that does not require Ekos to be started as it is utilized to <emphasis>start</emphasis> and <emphasis>stop</emphasis> Ekos. It is designed to be straightforward and intuitive. However, the scheduler should only be used after you mastered Ekos and knows all the quirks of your equipment. Since the complete process is automated, including focus, guiding, and meridian flip. All equipment should be thoroughly used with Ekos and all their parameters and settings adjusted to achieve the best result.
+            Ekos Scheduler is an indispensable arsenal in building your robotic observatory. A Robotic observatory is an observatory composed of several subsystems that are orchestrated together to achieve a set of scientific objectives without human intervention. It is the only Ekos module that does not require Ekos to be started as it is utilized to <emphasis>start</emphasis> and <emphasis>stop</emphasis> Ekos. It is designed to be straightforward and intuitive. However, the scheduler should only be used after you mastered Ekos and knows all the quirks of your equipment. Since the complete process is automated, including focus, guiding, and meridian flip, all equipment should be thoroughly used with Ekos and all their parameters and settings adjusted to achieve the best result.
         </para>
         <para>
             With Ekos, the user can utilize the powerful sequence queue to image batches of images for a particular target. In simple setups, the user is expected to focus the CCD, align the mount, frame the target, and start guiding before initiating the capture process. For more complex observatory environments, there are usually predefined custom procedures to be executed to prepare the observatory for imaging, and another set of procedures on shutdown. The user may plan to image one or more targets during the night and expects data to be ready by morning. In &kstars;, tools such as the <link linkend="tool-obsplanner">Observation Planner</link> and <link linkend="tool-whatsup">What's up Tonight</link> help the user in selecting candidates for imaging. After selecting the desired candidates, the user can add them to the Ekos Scheduler list for evaluation. The user may also add the targets directly in Ekos scheduler or select a FITS file of a previous image.
@@ -36,17 +36,17 @@
         <itemizedlist>
             <listitem>
                 <para>
-                    <guilabel>Target name and coordinates</guilabel>: Select target from the Find Dialog or Add it from Observation Planner. You can also enter a custom name.
+                    <guilabel>Target name and coordinates</guilabel>: Select target from the <link linkend="findobjects">Find Dialog</link> or <guibutton>Add</guibutton> it from <link linkend="tool-obsplanner">Observation Planner</link>. You can also enter a custom name.
                 </para>
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Optional FITS file</guilabel>: If a FITS file is specified, the astrometry solver shall solve the file and use the central RA/DEC as the target coordinates.
+                    Optional <guilabel>FITS File</guilabel>: If a FITS file is specified, the astrometry solver shall solve the file and use the central RA/DEC as the target coordinates.
                 </para>
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Sequence File</guilabel>: The sequence file is constructed in the Ekos <link linkend="ekos-capture">Capture Module</link>. It contains the number of images to capture, filters, temperature settings, prefixes, download directory, &etc;
+                    <guilabel>Sequence</guilabel> file: The sequence file is constructed in the Ekos <link linkend="ekos-capture">Capture Module</link>. It contains the number of images to capture, filters, temperature settings, prefixes, download directory, &etc;
                 </para>
             </listitem>
             <listitem>
@@ -66,7 +66,7 @@
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Startup Conditions</guilabel>: Conditions that must be met <emphasis role="bold">before</emphasis> the observation job is started. Currently, the user may select to start as soon as possible <guimenuitem>Now</guimenuitem>, or when the target is near or past culmination, or at a specific time.
+                    <guilabel>Startup Conditions</guilabel>: Conditions that must be met <emphasis role="bold">before</emphasis> the observation job is started. Currently, the user may select to start as soon as possible, <guimenuitem>ASAP</guimenuitem>, or when the target is near or past culmination, or at a specific time.
                 </para>
             </listitem>
             <listitem>
