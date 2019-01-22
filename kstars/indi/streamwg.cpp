@@ -111,7 +111,7 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
 
     zoomInB->setIcon(QIcon::fromTheme("zoom-in"));
     zoomOutB->setIcon(QIcon::fromTheme("zoom-out"));
-    handLabel->setPixmap(QIcon::fromTheme("hand").pixmap(32,32));
+    handLabel->setPixmap(QIcon::fromTheme("hand").pixmap(32, 32));
 
     eoszoom = currentCCD->getProperty("eoszoom");
     if (eoszoom == nullptr)
@@ -121,24 +121,26 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     }
     else
     {
-        connect(zoomInB, &QPushButton::clicked, [&]() {
-           ITextVectorProperty *tvp = eoszoom->getText();
-           IUSaveText(&(tvp->tp[0]), "5");
-           eoszoomActive = true;
-           handLabel->setEnabled(true);
-           NSSlider->setEnabled(true);
-           WESlider->setEnabled(true);
-           currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+        connect(zoomInB, &QPushButton::clicked, [&]()
+        {
+            ITextVectorProperty * tvp = eoszoom->getText();
+            IUSaveText(&(tvp->tp[0]), "5");
+            eoszoomActive = true;
+            handLabel->setEnabled(true);
+            NSSlider->setEnabled(true);
+            WESlider->setEnabled(true);
+            currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
         });
 
-        connect(zoomOutB, &QPushButton::clicked, [&]() {
-           ITextVectorProperty *tvp = eoszoom->getText();
-           IUSaveText(&(tvp->tp[0]), "0");
-           eoszoomActive = false;
-           handLabel->setEnabled(false);
-           NSSlider->setEnabled(false);
-           WESlider->setEnabled(false);
-           currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+        connect(zoomOutB, &QPushButton::clicked, [&]()
+        {
+            ITextVectorProperty * tvp = eoszoom->getText();
+            IUSaveText(&(tvp->tp[0]), "0");
+            eoszoomActive = false;
+            handLabel->setEnabled(false);
+            NSSlider->setEnabled(false);
+            WESlider->setEnabled(false);
+            currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
         });
     }
 
@@ -148,29 +150,35 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
         handLabel->hide();
         NSSlider->hide();
         WESlider->hide();
+
+        horizontalSpacer->changeSize(1, 1, QSizePolicy::Expanding);
     }
     else
     {
-        connect(NSSlider, &QSlider::valueChanged, [&]() {
-           ITextVectorProperty *tvp = eoszoomposition->getText();
-           QString pos = QString("%1,%2").arg(NSSlider->value()).arg(WESlider->value());
-           IUSaveText(&(tvp->tp[0]), pos.toLatin1().constData());
-           currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+        connect(NSSlider, &QSlider::valueChanged, [&]()
+        {
+            ITextVectorProperty * tvp = eoszoomposition->getText();
+            QString pos = QString("%1,%2").arg(NSSlider->value()).arg(WESlider->value());
+            IUSaveText(&(tvp->tp[0]), pos.toLatin1().constData());
+            currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
         });
 
-        connect(WESlider, &QSlider::valueChanged, [&]() {
-           ITextVectorProperty *tvp = eoszoomposition->getText();
-           QString pos = QString("%1,%2").arg(NSSlider->value()).arg(WESlider->value());
-           IUSaveText(&(tvp->tp[0]), pos.toLatin1().constData());
-           currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+        connect(WESlider, &QSlider::valueChanged, [&]()
+        {
+            ITextVectorProperty * tvp = eoszoomposition->getText();
+            QString pos = QString("%1,%2").arg(NSSlider->value()).arg(WESlider->value());
+            IUSaveText(&(tvp->tp[0]), pos.toLatin1().constData());
+            currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
         });
+
+        horizontalSpacer->changeSize(1, 1, QSizePolicy::Preferred);
     }
 
-    connect(currentCCD, SIGNAL(newFPS(double,double)), this, SLOT(updateFPS(double,double)));
+    connect(currentCCD, SIGNAL(newFPS(double, double)), this, SLOT(updateFPS(double, double)));
     connect(videoExposure, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&](double value)
     {
-       if (currentCCD)
-           currentCCD->setStreamExposure(value);
+        if (currentCCD)
+            currentCCD->setStreamExposure(value);
     });
 
 }
@@ -181,7 +189,7 @@ QSize StreamWG::sizeHint() const
     return size;
 }
 
-void StreamWG::closeEvent(QCloseEvent *ev)
+void StreamWG::closeEvent(QCloseEvent * ev)
 {
     processStream = false;
 
@@ -222,9 +230,9 @@ void StreamWG::setSize(int wd, int ht)
         streamHeight = ht;
 
         NSSlider->setMaximum(ht);
-        NSSlider->setSingleStep(ht/30);
+        NSSlider->setSingleStep(ht / 30);
         WESlider->setMaximum(wd);
-        WESlider->setSingleStep(wd/30);
+        WESlider->setSingleStep(wd / 30);
 
         videoFrame->setSize(wd, ht);
     }
