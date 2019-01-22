@@ -19,12 +19,13 @@
 
 #include "ekos_debug.h"
 
+#include <QtConcurrent>
 #include <KFormat>
 
 namespace EkosLive
 {
 
-Media::Media(Ekos::Manager *manager): m_Manager(manager)
+Media::Media(Ekos::Manager * manager): m_Manager(manager)
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &Media::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Media::onDisconnected);
@@ -95,7 +96,7 @@ void Media::onError(QAbstractSocket::SocketError error)
 {
     qCritical(KSTARS_EKOS) << "Media Websocket connection error" << m_WebSocket.errorString();
     if (error == QAbstractSocket::RemoteHostClosedError ||
-        error == QAbstractSocket::ConnectionRefusedError)
+            error == QAbstractSocket::ConnectionRefusedError)
     {
         if (m_ReconnectTries++ < RECONNECT_MAX_TRIES)
             QTimer::singleShot(RECONNECT_INTERVAL, this, SLOT(connectServer()));
@@ -132,7 +133,7 @@ void Media::onBinaryReceived(const QByteArray &message)
     file.write(message);
     file.close();
 
-    Ekos::Align *align = m_Manager->alignModule();
+    Ekos::Align * align = m_Manager->alignModule();
 
     const QString filename = file.fileName();
 
@@ -141,11 +142,35 @@ void Media::onBinaryReceived(const QByteArray &message)
     align->loadAndSlew(filename);
 }
 
-void Media::sendPreviewImage(FITSView *view, const QString &uuid)
+void Media::sendPreviewImage(const QString &filename, const QString &uuid)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false || view == nullptr)
+    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
         return;
 
+    m_UUID = uuid;
+
+    previewImage.reset(new FITSView());
+    connect(previewImage.get(), &FITSView::loaded, this, &Media::sendImage);
+    previewImage->loadFITS(filename);
+}
+
+void Media::sendPreviewImage(FITSView * view, const QString &uuid)
+{
+    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+        return;
+
+    m_UUID = uuid;
+
+    upload(view);
+}
+
+void Media::sendImage()
+{
+    QtConcurrent::run(this, &Media::upload, previewImage.get());
+}
+
+void Media::upload(FITSView * view)
+{
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
     buffer.open(QIODevice::WriteOnly);
@@ -153,7 +178,7 @@ void Media::sendPreviewImage(FITSView *view, const QString &uuid)
     scaledImage.save(&buffer, "jpg", m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_IMAGE_QUALITY : HB_IMAGE_QUALITY/2);
     buffer.close();
 
-    const FITSData *imageData = view->getImageData();
+    const FITSData * imageData = view->getImageData();
     QString resolution = QString("%1x%2").arg(imageData->width()).arg(imageData->height());
     QString sizeBytes = KFormat().formatByteSize(imageData->size());
     QVariant xbin(1), ybin(1);
@@ -162,19 +187,23 @@ void Media::sendPreviewImage(FITSView *view, const QString &uuid)
     QString binning = QString("%1x%2").arg(xbin.toString()).arg(ybin.toString());
     QString bitDepth = QString::number(imageData->bpp());
 
-    QJsonObject metadata = {
+    QJsonObject metadata =
+    {
         {"resolution",resolution},
         {"size",sizeBytes},
         {"bin",binning},
         {"bpp",bitDepth},
-        {"uuid", imageData->isTempFile() ? "" : uuid},
+        {"uuid", imageData->isTempFile() ? "" : m_UUID},
     };
 
     m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
     m_WebSocket.sendBinaryMessage(jpegData);
+
+    if (view == previewImage.get())
+        previewImage.reset();
 }
 
-void Media::sendUpdatedFrame(FITSView *view)
+void Media::sendUpdatedFrame(FITSView * view)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_HIGH_BANDWIDTH] == false || m_sendBlobs == false)
         return;
@@ -209,7 +238,7 @@ void Media::sendUpdatedFrame(FITSView *view)
     m_WebSocket.sendBinaryMessage(jpegData);
 }
 
-void Media::sendVideoFrame(std::unique_ptr<QImage> & frame)
+void Media::sendVideoFrame(std::unique_ptr<QImage> &frame)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false || !frame)
         return;
@@ -233,9 +262,9 @@ void Media::registerCameras()
     if (m_isConnected == false)
         return;
 
-    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_CCD))
+    for(ISD::GDInterface * gd : m_Manager->findDevices(KSTARS_CCD))
     {
-        ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(gd);
+        ISD::CCD * oneCCD = dynamic_cast<ISD::CCD *>(gd);
         connect(oneCCD, &ISD::CCD::newVideoFrame, this, &Media::sendVideoFrame, Qt::UniqueConnection);
     }
 }

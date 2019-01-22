@@ -24,87 +24,106 @@ namespace EkosLive
 {
 class Media : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    Media(Ekos::Manager *manager);
-    virtual ~Media() = default;
+    public:
+        Media(Ekos::Manager * manager);
+        virtual ~Media() = default;
 
-    void sendResponse(const QString &command, const QJsonObject &payload);
-    void sendResponse(const QString &command, const QJsonArray &payload);
+        void sendResponse(const QString &command, const QJsonObject &payload);
+        void sendResponse(const QString &command, const QJsonArray &payload);
 
-    void setAuthResponse(const QJsonObject &response) {m_AuthResponse = response;}
-    void setURL(const QUrl &url) {m_URL = url;}    
+        void setAuthResponse(const QJsonObject &response)
+        {
+            m_AuthResponse = response;
+        }
+        void setURL(const QUrl &url)
+        {
+            m_URL = url;
+        }
 
-    void registerCameras();
+        void registerCameras();
 
-    // Ekos Media Message to User
-    void sendPreviewImage(FITSView *view, const QString &uuid);
-    void sendUpdatedFrame(FITSView *view);
+        // Ekos Media Message to User
+        void sendPreviewImage(const QString &filename, const QString &uuid);
+        void sendPreviewImage(FITSView * view, const QString &uuid);
+        void sendUpdatedFrame(FITSView * view);
 
-signals:
-    void connected();
-    void disconnected();
+    signals:
+        void connected();
+        void disconnected();
 
-    void newBoundingRect(QRect rect, QSize view);
+        void newBoundingRect(QRect rect, QSize view);
 
-public slots:
-    void connectServer();
-    void disconnectServer();
+    public slots:
+        void connectServer();
+        void disconnectServer();
 
-    // Capture
-    void sendVideoFrame(std::unique_ptr<QImage> & frame);
+        // Capture
+        void sendVideoFrame(std::unique_ptr<QImage> &frame);
 
-    // Options
-    void setOptions(QMap<int,bool> options) {m_Options = options;}
+        // Options
+        void setOptions(QMap<int,bool> options)
+        {
+            m_Options = options;
+        }
 
-    // Correction Vector
-    void setCorrectionVector(QLineF correctionVector) { this->correctionVector = correctionVector;}
+        // Correction Vector
+        void setCorrectionVector(QLineF correctionVector)
+        {
+            this->correctionVector = correctionVector;
+        }
 
-    // Polar View
-    void resetPolarView();
+        // Polar View
+        void resetPolarView();
 
-private slots:
+    private slots:
+        // Connection
+        void onConnected();
+        void onDisconnected();
+        void onError(QAbstractSocket::SocketError error);
 
-    // Connection
-    void onConnected();
-    void onDisconnected();
-    void onError(QAbstractSocket::SocketError error);
+        // Communication
+        void onTextReceived(const QString &message);
+        void onBinaryReceived(const QByteArray &message);
 
-    // Communication
-    void onTextReceived(const QString &message);
-    void onBinaryReceived(const QByteArray &message);
+        // Send image
+        void sendImage();
 
-private:    
-    QWebSocket m_WebSocket;
-    QJsonObject m_AuthResponse;
-    uint16_t m_ReconnectTries {0};
-    Ekos::Manager *m_Manager { nullptr };
-    QUrl m_URL;
+    private:
+        void upload(FITSView * view);
 
-    QMap<int,bool> m_Options;
+        QWebSocket m_WebSocket;
+        QJsonObject m_AuthResponse;
+        uint16_t m_ReconnectTries {0};
+        Ekos::Manager * m_Manager { nullptr };
+        QUrl m_URL;
+        QString m_UUID;
 
-    QString extension;
-    QStringList temporaryFiles;
-    QLineF correctionVector;
+        QMap<int,bool> m_Options;
+        std::unique_ptr<FITSView> previewImage;
 
-    bool m_isConnected { false };
-    bool m_sendBlobs { true};
+        QString extension;
+        QStringList temporaryFiles;
+        QLineF correctionVector;
 
-    // Image width for high-bandwidth setting
-    static const uint16_t HB_WIDTH = 640;
-    // Image high bandwidth image quality (jpg)
-    static const uint8_t HB_IMAGE_QUALITY = 76;
-    // Video high bandwidth video quality (jpg)
-    static const uint8_t HB_VIDEO_QUALITY = 64;
-    // Image high bandwidth image quality (jpg) for PAH
-    static const uint8_t HB_PAH_IMAGE_QUALITY = 50;
-    // Video high bandwidth video quality (jpg) for PAH
-    static const uint8_t HB_PAH_VIDEO_QUALITY = 25;
+        bool m_isConnected { false };
+        bool m_sendBlobs { true};
 
-    // Retry every 5 seconds in case remote server is down
-    static const uint16_t RECONNECT_INTERVAL = 5000;
-    // Retry for 1 hour before giving up
-    static const uint16_t RECONNECT_MAX_TRIES = 720;
+        // Image width for high-bandwidth setting
+        static const uint16_t HB_WIDTH = 640;
+        // Image high bandwidth image quality (jpg)
+        static const uint8_t HB_IMAGE_QUALITY = 76;
+        // Video high bandwidth video quality (jpg)
+        static const uint8_t HB_VIDEO_QUALITY = 64;
+        // Image high bandwidth image quality (jpg) for PAH
+        static const uint8_t HB_PAH_IMAGE_QUALITY = 50;
+        // Video high bandwidth video quality (jpg) for PAH
+        static const uint8_t HB_PAH_VIDEO_QUALITY = 25;
+
+        // Retry every 5 seconds in case remote server is down
+        static const uint16_t RECONNECT_INTERVAL = 5000;
+        // Retry for 1 hour before giving up
+        static const uint16_t RECONNECT_MAX_TRIES = 720;
 };
 }

@@ -20,12 +20,14 @@
 
 #include "ekos_debug.h"
 
+#include <QtConcurrent>
+#include <QFutureWatcher>
 #include <KFormat>
 
 namespace EkosLive
 {
 
-Cloud::Cloud(Ekos::Manager *manager): m_Manager(manager)
+Cloud::Cloud(Ekos::Manager * manager): m_Manager(manager)
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &Cloud::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Cloud::onDisconnected);
@@ -38,7 +40,7 @@ void Cloud::connectServer()
     QUrl requestURL(m_URL);
 
     QString token = m_AuthResponse.contains("remoteToken") ? m_AuthResponse["remoteToken"].toString()
-                                                           : m_AuthResponse["token"].toString();
+                    : m_AuthResponse["token"].toString();
     QUrlQuery query;
     query.addQueryItem("username", m_AuthResponse["username"].toString());
     query.addQueryItem("token", token);
@@ -111,35 +113,46 @@ void Cloud::onTextReceived(const QString &message)
         return;
     }
 
-        const QJsonObject msgObj = serverMessage.object();
-        const QString command = msgObj["type"].toString();
+    const QJsonObject msgObj = serverMessage.object();
+    const QString command = msgObj["type"].toString();
     //    const QJsonObject payload = msgObj["payload"].toObject();
 
     //    if (command == commands[ALIGN_SET_FILE_EXTENSION])
     //        extension = payload["ext"].toString();
     if (command == commands[SET_BLOBS])
-         m_sendBlobs = msgObj["payload"].toBool();
+        m_sendBlobs = msgObj["payload"].toBool();
     else if (command == commands[LOGOUT])
         disconnectServer();
 }
 
-void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
+void Cloud::sendPreviewImage(const QString &filename, const QString &uuid)
 {
-    const FITSData *imageData = view->getImageData();
-
-    if (m_isConnected == false || m_Options[OPTION_SET_CLOUD_STORAGE] == false
-                               || m_sendBlobs == false
-                               || imageData->isTempFile())
+    if (m_isConnected == false || m_Options[OPTION_SET_CLOUD_STORAGE] == false  || m_sendBlobs == false)
         return;
 
+    m_UUID = uuid;
+
+    imageData.reset(new FITSData());
+    QFuture<bool> result = imageData->loadFITS(filename);
+    watcher.setFuture(result);
+    connect(&watcher, &QFutureWatcher<bool>::finished, this, &Cloud::sendImage);
+}
+
+void Cloud::sendImage()
+{
+    QtConcurrent::run(this, &Cloud::asyncUpload);
+}
+
+void Cloud::asyncUpload()
+{
     // Send complete metadata
     // Add file name and size
     QJsonObject metadata;
     // Skip empty or useless metadata
-    for (FITSData::Record *oneRecord : imageData->getRecords())
+    for (FITSData::Record * oneRecord : imageData->getRecords())
     {
         if (oneRecord->key == "EXTEND" || oneRecord->key == "SIMPLE" || oneRecord->key == "COMMENT" ||
-            oneRecord->key.isEmpty() || oneRecord->value.toString().isEmpty())
+                oneRecord->key.isEmpty() || oneRecord->value.toString().isEmpty())
             continue;
         metadata.insert(oneRecord->key.toLower(), QJsonValue::fromVariant(oneRecord->value));
     }
@@ -148,7 +161,7 @@ void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
     QString filename = QFileInfo(imageData->filename()).fileName();
 
     // Add filename and size as wells
-    metadata.insert("uuid", uuid);
+    metadata.insert("uuid", m_UUID);
     metadata.insert("filename", filename);
     metadata.insert("filesize", static_cast<int>(imageData->size()));
     // Must set Content-Disposition so
@@ -158,17 +171,17 @@ void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
     qCInfo(KSTARS_EKOS) << "Uploading file to the cloud with metadata" << metadata;
 
     // Use cfitsio pack to compress the file first
-    filename = QDir::tempPath() + QString("/ekoslivecloud%1").arg(uuid);
+    filename = QDir::tempPath() + QString("/ekoslivecloud%1").arg(m_UUID);
 
     fpstate	fpvar;
     std::vector<std::string> arguments = {"fpack", imageData->filename().toLatin1().data()};
     std::vector<char *> arglist;
-    for (const auto& arg : arguments)
-        arglist.push_back((char*)arg.data());
+    for (const auto &arg : arguments)
+        arglist.push_back((char *)arg.data());
     arglist.push_back(nullptr);
 
     int argc = arglist.size() - 1;
-    char **argv = arglist.data();
+    char ** argv = arglist.data();
 
     // TODO: Check for errors
     fp_init (&fpvar);
@@ -188,6 +201,8 @@ void Cloud::sendPreviewImage(FITSView *view, const QString &uuid)
 
     // Remove from disk
     QFile::remove(newCompressedFile);
+
+    imageData.reset();
 }
 
 

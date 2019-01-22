@@ -52,7 +52,7 @@
 namespace Ekos
 {
 
-Manager::Manager(QWidget *parent) : QDialog(parent)
+Manager::Manager(QWidget * parent) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
 
@@ -113,19 +113,27 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
 
     // INDI Control Panel
     //connect(controlPanelB, &QPushButton::clicked, GUIManager::Instance(), SLOT(show()));
-    connect(ekosLiveB, &QPushButton::clicked, [&]() {
+    connect(ekosLiveB, &QPushButton::clicked, [&]()
+    {
         ekosLiveClient.get()->show();
         ekosLiveClient.get()->raise();
     });
 
     connect(this, &Manager::ekosStatusChanged, ekosLiveClient.get()->message(), &EkosLive::Message::setEkosStatingStatus);
-    connect(ekosLiveClient.get()->message(), &EkosLive::Message::connected, [&]() {ekosLiveB->setIcon(QIcon(":/icons/cloud-online.svg"));});
-    connect(ekosLiveClient.get()->message(), &EkosLive::Message::disconnected, [&]() {ekosLiveB->setIcon(QIcon::fromTheme("folder-cloud"));});
+    connect(ekosLiveClient.get()->message(), &EkosLive::Message::connected, [&]()
+    {
+        ekosLiveB->setIcon(QIcon(":/icons/cloud-online.svg"));
+    });
+    connect(ekosLiveClient.get()->message(), &EkosLive::Message::disconnected, [&]()
+    {
+        ekosLiveB->setIcon(QIcon::fromTheme("folder-cloud"));
+    });
     connect(ekosLiveClient.get()->media(), &EkosLive::Media::newBoundingRect, ekosLiveClient.get()->message(), &EkosLive::Message::setBoundingRect);
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::resetPolarView, ekosLiveClient.get()->media(), &EkosLive::Media::resetPolarView);
 
     // Serial Port Assistat
-    connect(serialPortAssistantB, &QPushButton::clicked, [&]() {
+    connect(serialPortAssistantB, &QPushButton::clicked, [&]()
+    {
         serialPortAssistant->show();
         serialPortAssistant->raise();
     });
@@ -134,10 +142,12 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     {
         indiControlPanelB->setEnabled(status == Ekos::Success);
     });
-    connect(indiControlPanelB, &QPushButton::clicked, [&]() {
+    connect(indiControlPanelB, &QPushButton::clicked, [&]()
+    {
         KStars::Instance()->actionCollection()->action("show_control_panel")->trigger();
     });
-    connect(optionsB, &QPushButton::clicked, [&]() {
+    connect(optionsB, &QPushButton::clicked, [&]()
+    {
         KStars::Instance()->actionCollection()->action("configure")->trigger();
     });
     // Save as above, but it appears in all modules
@@ -147,9 +157,9 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     connect(clearB, &QPushButton::clicked, this, &Ekos::Manager::clearLog);
 
     // Logs
-    KConfigDialog *dialog = new KConfigDialog(this, "logssettings", Options::self());
+    KConfigDialog * dialog = new KConfigDialog(this, "logssettings", Options::self());
     opsLogs = new Ekos::OpsLogs();
-    KPageWidgetItem *page = dialog->addPage(opsLogs, i18n("Logging"));
+    KPageWidgetItem * page = dialog->addPage(opsLogs, i18n("Logging"));
     page->setIcon(QIcon::fromTheme("configure"));
     connect(logsB, &QPushButton::clicked, dialog, &KConfigDialog::show);
     connect(dialog->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, &Ekos::Manager::updateDebugInterfaces);
@@ -220,7 +230,8 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     toolsWidget->tabBar()->setTabToolTip(1, i18n("Scheduler"));
     connect(schedulerProcess.get(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
     //connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
-    connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString &target) {
+    connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString &target)
+    {
         mountTarget->setText(target);
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
     });
@@ -237,7 +248,7 @@ Manager::Manager(QWidget *parent) : QDialog(parent)
     summaryPreview->setBaseSize(previewWidget->size());
     summaryPreview->createFloatingToolBar();
     summaryPreview->setCursorMode(FITSView::dragCursor);
-    QVBoxLayout *vlayout = new QVBoxLayout();
+    QVBoxLayout * vlayout = new QVBoxLayout();
     vlayout->addWidget(summaryPreview.get());
     previewWidget->setLayout(vlayout);
 
@@ -299,7 +310,7 @@ Manager::~Manager()
 
 void Manager::closeEvent(QCloseEvent * /*event*/)
 {
-    QAction *a = KStars::Instance()->actionCollection()->action("show_ekos");
+    QAction * a = KStars::Instance()->actionCollection()->action("show_ekos");
     a->setChecked(false);
 
     Options::setEkosWindowWidth(width());
@@ -308,13 +319,13 @@ void Manager::closeEvent(QCloseEvent * /*event*/)
 
 void Manager::hideEvent(QHideEvent * /*event*/)
 {
-    QAction *a = KStars::Instance()->actionCollection()->action("show_ekos");
+    QAction * a = KStars::Instance()->actionCollection()->action("show_ekos");
     a->setChecked(false);
 }
 
 void Manager::showEvent(QShowEvent * /*event*/)
 {
-    QAction *a = KStars::Instance()->actionCollection()->action("show_ekos");
+    QAction * a = KStars::Instance()->actionCollection()->action("show_ekos");
     a->setChecked(true);
 
     // Just show the profile wizard ONCE per session
@@ -330,12 +341,12 @@ void Manager::resizeEvent(QResizeEvent *)
     //previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     if (focusStarPixmap.get() != nullptr)
         focusStarImage->setPixmap(focusStarPixmap->scaled(focusStarImage->width(), focusStarImage->height(),
-                                                          Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                                  Qt::KeepAspectRatio, Qt::SmoothTransformation));
     //if (focusProfilePixmap)
     //focusProfileImage->setPixmap(focusProfilePixmap->scaled(focusProfileImage->width(), focusProfileImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     if (guideStarPixmap.get() != nullptr)
         guideStarImage->setPixmap(guideStarPixmap->scaled(guideStarImage->width(), guideStarImage->height(),
-                                                          Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                                  Qt::KeepAspectRatio, Qt::SmoothTransformation));
     //if (guideProfilePixmap)
     //guideProfileImage->setPixmap(guideProfilePixmap->scaled(guideProfileImage->width(), guideProfileImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
@@ -347,7 +358,7 @@ void Manager::loadProfiles()
 
     profileModel->clear();
 
-    for (auto& pi : profiles)
+    for (auto &pi : profiles)
     {
         QList<QStandardItem *> info;
 
@@ -372,7 +383,7 @@ void Manager::loadProfiles()
 
 void Manager::loadDrivers()
 {
-    foreach (DriverInfo *dv, DriverManager::Instance()->getDrivers())
+    foreach (DriverInfo * dv, DriverManager::Instance()->getDrivers())
     {
         if (dv->getDriverSource() != HOST_SOURCE)
             driversList[dv->getLabel()] = dv;
@@ -513,7 +524,7 @@ bool Manager::start()
 
     if (m_LocalMode)
     {
-        DriverInfo *drv = driversList.value(currentProfile->mount());
+        DriverInfo * drv = driversList.value(currentProfile->mount());
 
         if (drv != nullptr)
             managedDrivers.append(drv->clone());
@@ -606,7 +617,7 @@ bool Manager::start()
                         port = properties[2];
                 }
 
-                DriverInfo *dv = new DriverInfo(name);
+                DriverInfo * dv = new DriverInfo(name);
                 dv->setRemoteHost(host);
                 dv->setRemotePort(port);
 
@@ -631,7 +642,7 @@ bool Manager::start()
     }
     else
     {
-        DriverInfo *remote_indi = new DriverInfo(QString("Ekos Remote Host"));
+        DriverInfo * remote_indi = new DriverInfo(QString("Ekos Remote Host"));
 
         remote_indi->setHostParameters(currentProfile->host, QString::number(currentProfile->port));
 
@@ -693,7 +704,7 @@ bool Manager::start()
             if (KMessageBox::Yes ==
                     (KMessageBox::questionYesNo(nullptr,
                                                 i18n("Ekos detected an instance of INDI server running. Do you wish to "
-                                                     "shut down the existing instance before starting a new one?"),
+                                                        "shut down the existing instance before starting a new one?"),
                                                 i18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
                                                 "ekos_shutdown_existing_indiserver")))
             {
@@ -727,7 +738,7 @@ bool Manager::start()
             appendLogText(i18n("INDI services started on port %1.", managedDrivers.first()->getPort()));
         else
             appendLogText(
-                        i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
+                i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
 
         QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, &Ekos::Manager::checkINDITimeout);
     }
@@ -763,7 +774,7 @@ bool Manager::start()
         }
 
         appendLogText(
-                    i18n("Connecting to remote INDI server at %1 on port %2 ...", currentProfile->host, currentProfile->port));
+            i18n("Connecting to remote INDI server at %1 on port %2 ...", currentProfile->host, currentProfile->port));
         qApp->processEvents();
 
         QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -788,7 +799,7 @@ bool Manager::start()
         emit ekosStatusChanged(m_ekosStatus);
 
         appendLogText(
-                    i18n("INDI services started. Connection to remote INDI server is successful. Waiting for devices..."));
+            i18n("INDI services started. Connection to remote INDI server is successful. Waiting for devices..."));
 
         QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, &Ekos::Manager::checkINDITimeout);
     }
@@ -823,11 +834,11 @@ void Manager::checkINDITimeout()
     if (m_LocalMode)
     {
         QStringList remainingDevices;
-        foreach (DriverInfo *drv, managedDrivers)
+        foreach (DriverInfo * drv, managedDrivers)
         {
             if (drv->getDevices().count() == 0)
                 remainingDevices << QString("+ %1").arg(
-                                        drv->getUniqueLabel().isEmpty() == false ? drv->getUniqueLabel() : drv->getName());
+                                     drv->getUniqueLabel().isEmpty() == false ? drv->getUniqueLabel() : drv->getName());
         }
 
         if (remainingDevices.count() == 1)
@@ -974,7 +985,7 @@ void Manager::cleanDevices(bool stopDrivers)
     appendLogText(i18n("INDI services stopped."));
 }
 
-void Manager::processNewDevice(ISD::GDInterface *devInterface)
+void Manager::processNewDevice(ISD::GDInterface * devInterface)
 {
     qCInfo(KSTARS_EKOS) << "Ekos received a new device: " << devInterface->getDeviceName();
 
@@ -1003,7 +1014,8 @@ void Manager::processNewDevice(ISD::GDInterface *devInterface)
     connect(devInterface, &ISD::GDInterface::propertyDefined, this, &Ekos::Manager::processNewProperty);
     if (currentProfile->isStellarMate)
     {
-        connect(devInterface, &ISD::GDInterface::systemPortDetected, [this,devInterface]() {
+        connect(devInterface, &ISD::GDInterface::systemPortDetected, [this,devInterface]()
+        {
             if (!serialPortAssistant)
             {
                 serialPortAssistant.reset(new SerialPortAssistant(currentProfile, this));
@@ -1016,14 +1028,14 @@ void Manager::processNewDevice(ISD::GDInterface *devInterface)
                 return;
 
             if (driverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE ||
-                driverInterface & INDI::BaseDevice::FOCUSER_INTERFACE   ||
-                driverInterface & INDI::BaseDevice::FILTER_INTERFACE    ||
-                driverInterface & INDI::BaseDevice::AUX_INTERFACE       ||
-                driverInterface & INDI::BaseDevice::GPS_INTERFACE)
-                    serialPortAssistant->addDevice(devInterface);
+                    driverInterface & INDI::BaseDevice::FOCUSER_INTERFACE   ||
+                    driverInterface & INDI::BaseDevice::FILTER_INTERFACE    ||
+                    driverInterface & INDI::BaseDevice::AUX_INTERFACE       ||
+                    driverInterface & INDI::BaseDevice::GPS_INTERFACE)
+                serialPortAssistant->addDevice(devInterface);
 
             if (Options::autoLoadSerialAssistant())
-                    serialPortAssistant->show();
+                serialPortAssistant->show();
         });
     }
 
@@ -1056,13 +1068,13 @@ void Manager::deviceConnected()
 
     if (Options::verboseLogging())
     {
-        ISD::GDInterface *device = qobject_cast<ISD::GDInterface *>(sender());
+        ISD::GDInterface * device = qobject_cast<ISD::GDInterface *>(sender());
         qCInfo(KSTARS_EKOS) << device->getDeviceName() << "is connected.";
     }
 
     int nConnectedDevices = 0;
 
-    foreach (ISD::GDInterface *device, genericDevices)
+    foreach (ISD::GDInterface * device, genericDevices)
     {
         if (device->isConnected())
             nConnectedDevices++;
@@ -1082,7 +1094,7 @@ void Manager::deviceConnected()
     if (previousStatus != m_indiStatus)
         emit indiStatusChanged(m_indiStatus);
 
-    ISD::GDInterface *dev = static_cast<ISD::GDInterface *>(sender());
+    ISD::GDInterface * dev = static_cast<ISD::GDInterface *>(sender());
 
     if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)
     {
@@ -1120,13 +1132,13 @@ void Manager::deviceConnected()
 
     INDIConfig tConfig = Options::loadConfigOnConnection() ? LOAD_LAST_CONFIG : LOAD_DEFAULT_CONFIG;
 
-    foreach (ISD::GDInterface *device, genericDevices)
+    foreach (ISD::GDInterface * device, genericDevices)
     {
         if (device == dev)
         {
             connect(dev, &ISD::GDInterface::switchUpdated, this, &Ekos::Manager::watchDebugProperty);
 
-            ISwitchVectorProperty *configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
+            ISwitchVectorProperty * configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
             if (configProp && configProp->s == IPS_IDLE)
                 device->setConfig(tConfig);
             break;
@@ -1136,7 +1148,7 @@ void Manager::deviceConnected()
 
 void Manager::deviceDisconnected()
 {
-    ISD::GDInterface *dev = static_cast<ISD::GDInterface *>(sender());
+    ISD::GDInterface * dev = static_cast<ISD::GDInterface *>(sender());
 
     Ekos::CommunicationStatus previousStatus = m_indiStatus;
 
@@ -1190,7 +1202,7 @@ void Manager::deviceDisconnected()
     }*/
 }
 
-void Manager::setTelescope(ISD::GDInterface *scopeDevice)
+void Manager::setTelescope(ISD::GDInterface * scopeDevice)
 {
     //mount = scopeDevice;
 
@@ -1198,8 +1210,8 @@ void Manager::setTelescope(ISD::GDInterface *scopeDevice)
 
     appendLogText(i18n("%1 is online.", scopeDevice->getDeviceName()));
 
-    connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-            SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+    connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
+            SLOT(processNewNumber(INumberVectorProperty *)), Qt::UniqueConnection);
 
     initMount();
 
@@ -1229,7 +1241,7 @@ void Manager::setTelescope(ISD::GDInterface *scopeDevice)
     ekosLiveClient->message()->sendScopes();
 }
 
-void Manager::setCCD(ISD::GDInterface *ccdDevice)
+void Manager::setCCD(ISD::GDInterface * ccdDevice)
 {
     // No duplicates
     for (auto oneCCD : findDevices(KSTARS_CCD))
@@ -1249,7 +1261,7 @@ void Manager::setCCD(ISD::GDInterface *ccdDevice)
     // otherwise rely on saved options
     if (currentProfile->ccd() != currentProfile->guider())
     {
-        foreach (ISD::GDInterface *device, findDevices(KSTARS_CCD))
+        foreach (ISD::GDInterface * device, findDevices(KSTARS_CCD))
         {
             if (QString(device->getDeviceName()).startsWith(currentProfile->ccd(), Qt::CaseInsensitive))
                 primaryCCD = QString(device->getDeviceName());
@@ -1296,8 +1308,8 @@ void Manager::setCCD(ISD::GDInterface *ccdDevice)
 
     appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
 
-    connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-            SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+    connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
+            SLOT(processNewNumber(INumberVectorProperty *)), Qt::UniqueConnection);
 
     if (managedDevices.contains(KSTARS_TELESCOPE))
     {
@@ -1307,7 +1319,7 @@ void Manager::setCCD(ISD::GDInterface *ccdDevice)
     }
 }
 
-void Manager::setFilter(ISD::GDInterface *filterDevice)
+void Manager::setFilter(ISD::GDInterface * filterDevice)
 {
     // No duplicates
     if (findDevices(KSTARS_FILTER).contains(filterDevice) == false)
@@ -1317,10 +1329,10 @@ void Manager::setFilter(ISD::GDInterface *filterDevice)
 
     initCapture();
 
-    connect(filterDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-            SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
-    connect(filterDevice, SIGNAL(textUpdated(ITextVectorProperty*)), this,
-            SLOT(processNewText(ITextVectorProperty*)), Qt::UniqueConnection);
+    connect(filterDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this,
+            SLOT(processNewNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+    connect(filterDevice, SIGNAL(textUpdated(ITextVectorProperty *)), this,
+            SLOT(processNewText(ITextVectorProperty *)), Qt::UniqueConnection);
 
     captureProcess->addFilter(filterDevice);
 
@@ -1336,7 +1348,7 @@ void Manager::setFilter(ISD::GDInterface *filterDevice)
         alignProcess->setFilterWheel(Options::defaultAlignFW());
 }
 
-void Manager::setFocuser(ISD::GDInterface *focuserDevice)
+void Manager::setFocuser(ISD::GDInterface * focuserDevice)
 {
     // No duplicates
     if (findDevices(KSTARS_FOCUSER).contains(focuserDevice) == false)
@@ -1354,7 +1366,7 @@ void Manager::setFocuser(ISD::GDInterface *focuserDevice)
     appendLogText(i18n("%1 focuser is online.", focuserDevice->getDeviceName()));
 }
 
-void Manager::setDome(ISD::GDInterface *domeDevice)
+void Manager::setDome(ISD::GDInterface * domeDevice)
 {
     managedDevices[KSTARS_DOME] = domeDevice;
 
@@ -1374,7 +1386,7 @@ void Manager::setDome(ISD::GDInterface *domeDevice)
     appendLogText(i18n("%1 is online.", domeDevice->getDeviceName()));
 }
 
-void Manager::setWeather(ISD::GDInterface *weatherDevice)
+void Manager::setWeather(ISD::GDInterface * weatherDevice)
 {
     managedDevices[KSTARS_WEATHER] = weatherDevice;
 
@@ -1385,7 +1397,7 @@ void Manager::setWeather(ISD::GDInterface *weatherDevice)
     appendLogText(i18n("%1 is online.", weatherDevice->getDeviceName()));
 }
 
-void Manager::setDustCap(ISD::GDInterface *dustCapDevice)
+void Manager::setDustCap(ISD::GDInterface * dustCapDevice)
 {
     // No duplicates
     if (findDevices(KSTARS_AUXILIARY).contains(dustCapDevice) == false)
@@ -1401,7 +1413,7 @@ void Manager::setDustCap(ISD::GDInterface *dustCapDevice)
         captureProcess->setDustCap(dustCapDevice);
 }
 
-void Manager::setLightBox(ISD::GDInterface *lightBoxDevice)
+void Manager::setLightBox(ISD::GDInterface * lightBoxDevice)
 {
 
     // No duplicates
@@ -1412,29 +1424,29 @@ void Manager::setLightBox(ISD::GDInterface *lightBoxDevice)
         captureProcess->setLightBox(lightBoxDevice);
 }
 
-void Manager::removeDevice(ISD::GDInterface *devInterface)
+void Manager::removeDevice(ISD::GDInterface * devInterface)
 {
     switch (devInterface->getType())
     {
-    case KSTARS_CCD:
-        removeTabs();
-        break;
+        case KSTARS_CCD:
+            removeTabs();
+            break;
 
-    case KSTARS_TELESCOPE:
-        if (mountProcess.get() != nullptr)
-        {
-            mountProcess.reset();
-        }
-        break;
+        case KSTARS_TELESCOPE:
+            if (mountProcess.get() != nullptr)
+            {
+                mountProcess.reset();
+            }
+            break;
 
-    case KSTARS_FOCUSER:
-        // TODO this should be done for all modules
-        if (focusProcess.get() != nullptr)
-            focusProcess.get()->removeDevice(devInterface);
-        break;
+        case KSTARS_FOCUSER:
+            // TODO this should be done for all modules
+            if (focusProcess.get() != nullptr)
+                focusProcess.get()->removeDevice(devInterface);
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
 
@@ -1444,7 +1456,7 @@ void Manager::removeDevice(ISD::GDInterface *devInterface)
     // Generic devices are ALL the devices we receive from INDI server
     // Whether Ekos cares about them (i.e. selected equipment) or extra devices we
     // do not care about
-    foreach (ISD::GDInterface *genericDevice, genericDevices)
+    foreach (ISD::GDInterface * genericDevice, genericDevices)
         if (!strcmp(genericDevice->getDeviceName(), devInterface->getDeviceName()))
         {
             genericDevices.removeOne(genericDevice);
@@ -1453,7 +1465,7 @@ void Manager::removeDevice(ISD::GDInterface *devInterface)
 
     // #2 Remove from Ekos Managed Device
     // Managed devices are devices selected by the user in the device profile
-    foreach (ISD::GDInterface *device, managedDevices.values())
+    foreach (ISD::GDInterface * device, managedDevices.values())
     {
         if (device == devInterface)
         {
@@ -1467,7 +1479,7 @@ void Manager::removeDevice(ISD::GDInterface *devInterface)
     }
 }
 
-void Manager::processNewText(ITextVectorProperty *tvp)
+void Manager::processNewText(ITextVectorProperty * tvp)
 {
     if (!strcmp(tvp->name, "FILTER_NAME"))
     {
@@ -1475,7 +1487,7 @@ void Manager::processNewText(ITextVectorProperty *tvp)
     }
 }
 
-void Manager::processNewNumber(INumberVectorProperty *nvp)
+void Manager::processNewNumber(INumberVectorProperty * nvp)
 {
     if (!strcmp(nvp->name, "TELESCOPE_INFO") && managedDevices.contains(KSTARS_TELESCOPE))
     {
@@ -1531,9 +1543,9 @@ void Manager::processNewNumber(INumberVectorProperty *nvp)
     */
 }
 
-void Manager::processNewProperty(INDI::Property *prop)
+void Manager::processNewProperty(INDI::Property * prop)
 {
-    ISD::GenericDevice *deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
+    ISD::GenericDevice * deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
 
     if (!strcmp(prop->getName(), "CONNECTION") && currentProfile->autoConnect)
     {
@@ -1548,7 +1560,7 @@ void Manager::processNewProperty(INDI::Property *prop)
         if ( opsLogs->getINDIDebugInterface() & interface )
         {
             // Check if we need to enable debug logging for the INDI drivers.
-            ISwitchVectorProperty *debugSP = prop->getSwitch();
+            ISwitchVectorProperty * debugSP = prop->getSwitch();
             debugSP->sp[0].s = ISS_ON;
             debugSP->sp[1].s = ISS_OFF;
             deviceInterface->getDriverInfo()->getClientManager()->sendNewSwitch(debugSP);
@@ -1563,7 +1575,7 @@ void Manager::processNewProperty(INDI::Property *prop)
         if ( opsLogs->getINDIDebugInterface() & interface )
         {
             // Turn on everything
-            ISwitchVectorProperty *debugLevel = prop->getSwitch();
+            ISwitchVectorProperty * debugLevel = prop->getSwitch();
             for (int i=0; i < debugLevel->nsp; i++)
                 debugLevel->sp[i].s = ISS_ON;
 
@@ -1579,14 +1591,14 @@ void Manager::processNewProperty(INDI::Property *prop)
     }
 
     if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "CCD_TEMPERATURE") || !strcmp(prop->getName(), "CCD_ISO") ||
-        !strcmp(prop->getName(), "CCD_GAIN") || !strcmp(prop->getName(), "CCD_CONTROLS"))
+            !strcmp(prop->getName(), "CCD_GAIN") || !strcmp(prop->getName(), "CCD_CONTROLS"))
     {
         ekosLiveClient.get()->message()->sendCameras();
         ekosLiveClient.get()->media()->registerCameras();
     }
 
     if (!strcmp(prop->getName(), "ABS_DOME_POSITION") || !strcmp(prop->getName(), "DOME_ABORT_MOTION") ||
-        !strcmp(prop->getName(), "DOME_PARK"))
+            !strcmp(prop->getName(), "DOME_PARK"))
     {
         ekosLiveClient.get()->message()->sendDomes();
     }
@@ -1641,7 +1653,7 @@ void Manager::processNewProperty(INDI::Property *prop)
 
     if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
     {
-        foreach (ISD::GDInterface *device, findDevices(KSTARS_CCD))
+        foreach (ISD::GDInterface * device, findDevices(KSTARS_CCD))
         {
             if (!strcmp(device->getDeviceName(), prop->getDeviceName()))
             {
@@ -1667,7 +1679,7 @@ void Manager::processNewProperty(INDI::Property *prop)
     {
         if (captureProcess.get() != nullptr)
         {
-            foreach (ISD::GDInterface *device, findDevices(KSTARS_CCD))
+            foreach (ISD::GDInterface * device, findDevices(KSTARS_CCD))
             {
                 if (!strcmp(device->getDeviceName(), prop->getDeviceName()))
                 {
@@ -1710,7 +1722,7 @@ void Manager::processNewProperty(INDI::Property *prop)
 
     if (!strcmp(prop->getName(), "ASTROMETRY_SOLVER"))
     {
-        foreach (ISD::GDInterface *device, genericDevices)
+        foreach (ISD::GDInterface * device, genericDevices)
         {
             if (!strcmp(device->getDeviceName(), prop->getDeviceName()))
             {
@@ -1761,7 +1773,7 @@ QList<ISD::GDInterface *> Manager::findDevices(DeviceFamily type)
 
 void Manager::processTabChange()
 {
-    QWidget *currentWidget = toolsWidget->currentWidget();
+    QWidget * currentWidget = toolsWidget->currentWidget();
 
     //if (focusProcess.get() != nullptr && currentWidget != focusProcess)
     //focusProcess->resetFrame();
@@ -1780,7 +1792,7 @@ void Manager::processTabChange()
                     // If current setting is remote astrometry and profile doesn't contain
                     // remote astrometry, then we switch to online solver. Otherwise, the whole align
                     // module remains disabled and the user cannot change re-enable it since he cannot select online solver
-                    ProfileInfo *pi = getCurrentProfile();
+                    ProfileInfo * pi = getCurrentProfile();
                     if (Options::solverType() == Ekos::Align::SOLVER_REMOTE && pi->aux1() != "Astrometry" && pi->aux2() != "Astrometry"
                             && pi->aux3() != "Astrometry" && pi->aux4() != "Astrometry")
                     {
@@ -1817,7 +1829,7 @@ void Manager::updateLog()
     //if (enableLoggingCheck->isChecked() == false)
     //return;
 
-    QWidget *currentWidget = toolsWidget->currentWidget();
+    QWidget * currentWidget = toolsWidget->currentWidget();
 
     if (currentWidget == setupTab)
         ekosLogOut->setPlainText(m_LogText.join("\n"));
@@ -1843,7 +1855,7 @@ void Manager::updateLog()
 void Manager::appendLogText(const QString &text)
 {
     m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
-                            QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+                              QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS) << text;
 
@@ -1854,7 +1866,7 @@ void Manager::appendLogText(const QString &text)
 
 void Manager::clearLog()
 {
-    QWidget *currentWidget = toolsWidget->currentWidget();
+    QWidget * currentWidget = toolsWidget->currentWidget();
 
     if (currentWidget == setupTab)
     {
@@ -1896,11 +1908,12 @@ void Manager::initCapture()
     connect(captureProcess.get(), &Ekos::Capture::newLog, this, &Ekos::Manager::updateLog);
     connect(captureProcess.get(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
     connect(captureProcess.get(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
-    connect(captureProcess.get(), &Ekos::Capture::newSequenceImage, [&](const QString &filename) {
-       if (Options::useSummaryPreview() && QFile::exists(filename))
-       {
-           summaryPreview->loadFITS(filename);
-       }
+    connect(captureProcess.get(), &Ekos::Capture::newSequenceImage, [&](const QString &filename)
+    {
+        if (Options::useSummaryPreview() && QFile::exists(filename))
+        {
+            summaryPreview->loadFITS(filename);
+        }
     });
     connect(captureProcess.get(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);
     connect(captureProcess.get(), &Ekos::Capture::sequenceChanged, ekosLiveClient.get()->message(), &EkosLive::Message::sendCaptureSequence);
@@ -1918,7 +1931,7 @@ void Manager::initCapture()
         captureStatusLayout->insertWidget(0, capturePI);
     }
 
-    foreach (ISD::GDInterface *device, findDevices(KSTARS_AUXILIARY))
+    foreach (ISD::GDInterface * device, findDevices(KSTARS_AUXILIARY))
     {
         if (device->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
             captureProcess->setDustCap(device);
@@ -2033,9 +2046,10 @@ void Manager::updateCurrentHFR(double newHFR, int position)
 {
     currentHFR->setText(QString("%1").arg(newHFR, 0, 'f', 2) + " px");
 
-    QJsonObject cStatus = {
-      {"hfr", newHFR},
-      {"pos", position}
+    QJsonObject cStatus =
+    {
+        {"hfr", newHFR},
+        {"pos", position}
     };
 
     ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
@@ -2063,17 +2077,19 @@ void Manager::initMount()
     connect(mountProcess.get(), &Ekos::Mount::newLog, this, &Ekos::Manager::updateLog);
     connect(mountProcess.get(), &Ekos::Mount::newCoords, this, &Ekos::Manager::updateMountCoords);
     connect(mountProcess.get(), &Ekos::Mount::newStatus, this, &Ekos::Manager::updateMountStatus);
-    connect(mountProcess.get(), &Ekos::Mount::newTarget, [&](const QString &target) {
+    connect(mountProcess.get(), &Ekos::Mount::newTarget, [&](const QString &target)
+    {
         mountTarget->setText(target);
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
     });
-    connect(mountProcess.get(), &Ekos::Mount::slewRateChanged, [&](int slewRate) {
+    connect(mountProcess.get(), &Ekos::Mount::slewRateChanged, [&](int slewRate)
+    {
         QJsonObject status = { { "slewRate", slewRate} };
         ekosLiveClient.get()->message()->updateMountStatus(status);
     }
-    );
+           );
 
-    foreach (ISD::GDInterface *device, findDevices(KSTARS_AUXILIARY))
+    foreach (ISD::GDInterface * device, findDevices(KSTARS_AUXILIARY))
     {
         if (device->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE)
             mountProcess->setGPS(device);
@@ -2161,12 +2177,14 @@ void Manager::initDome()
 
     domeProcess.reset(new Ekos::Dome());
 
-    connect(domeProcess.get(), &Ekos::Dome::newStatus, [&](ISD::Dome::Status newStatus) {
+    connect(domeProcess.get(), &Ekos::Dome::newStatus, [&](ISD::Dome::Status newStatus)
+    {
         QJsonObject status = { { "status", ISD::Dome::getStatusString(newStatus)} };
         ekosLiveClient.get()->message()->updateDomeStatus(status);
     });
 
-    connect(domeProcess.get(), &Ekos::Dome::azimuthPositionChanged, [&](double pos) {
+    connect(domeProcess.get(), &Ekos::Dome::azimuthPositionChanged, [&](double pos)
+    {
         QJsonObject status = { { "az", pos} };
         ekosLiveClient.get()->message()->updateDomeStatus(status);
     });
@@ -2193,15 +2211,18 @@ void Manager::initDustCap()
 
     dustCapProcess.reset(new Ekos::DustCap());
 
-    connect(dustCapProcess.get(), &Ekos::DustCap::newStatus, [&](ISD::DustCap::Status newStatus) {
+    connect(dustCapProcess.get(), &Ekos::DustCap::newStatus, [&](ISD::DustCap::Status newStatus)
+    {
         QJsonObject status = { { "status", ISD::DustCap::getStatusString(newStatus)} };
         ekosLiveClient.get()->message()->updateCapStatus(status);
     });
-    connect(dustCapProcess.get(), &Ekos::DustCap::lightToggled, [&](bool enabled) {
+    connect(dustCapProcess.get(), &Ekos::DustCap::lightToggled, [&](bool enabled)
+    {
         QJsonObject status = { { "lightS", enabled} };
         ekosLiveClient.get()->message()->updateCapStatus(status);
     });
-    connect(dustCapProcess.get(), &Ekos::DustCap::lightIntensityChanged, [&](uint16_t value) {
+    connect(dustCapProcess.get(), &Ekos::DustCap::lightIntensityChanged, [&](uint16_t value)
+    {
         QJsonObject status = { { "lightB", value} };
         ekosLiveClient.get()->message()->updateCapStatus(status);
     });
@@ -2211,7 +2232,7 @@ void Manager::initDustCap()
     ekosLiveClient->message()->sendCaps();
 }
 
-void Manager::setST4(ISD::ST4 *st4Driver)
+void Manager::setST4(ISD::ST4 * st4Driver)
 {
     appendLogText(i18n("Guider port from %1 is ready.", st4Driver->getDeviceName()));
 
@@ -2265,7 +2286,7 @@ bool Manager::isRunning(const QString &process)
 #endif
 }
 
-void Manager::addObjectToScheduler(SkyObject *object)
+void Manager::addObjectToScheduler(SkyObject * object)
 {
     if (schedulerProcess.get() != nullptr)
         schedulerProcess->addObject(object);
@@ -2377,12 +2398,12 @@ void Manager::wizardProfile()
     currentProfile = getCurrentProfile();
 }
 
-ProfileInfo *Manager::getCurrentProfile()
+ProfileInfo * Manager::getCurrentProfile()
 {
-    ProfileInfo *currProfile = nullptr;
+    ProfileInfo * currProfile = nullptr;
 
     // Get current profile
-    for (auto& pi : profiles)
+    for (auto &pi : profiles)
     {
         if (profileCombo->currentText() == pi->name)
         {
@@ -2394,7 +2415,7 @@ ProfileInfo *Manager::getCurrentProfile()
     return currProfile;
 }
 
-void Manager::updateProfileLocation(ProfileInfo *pi)
+void Manager::updateProfileLocation(ProfileInfo * pi)
 {
     if (pi->city.isEmpty() == false)
     {
@@ -2420,28 +2441,29 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
 
     switch (status)
     {
-    case ISD::Telescope::MOUNT_PARKING:
-    case ISD::Telescope::MOUNT_SLEWING:
-    case ISD::Telescope::MOUNT_MOVING:
-        mountPI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-        if (mountPI->isAnimated() == false)
-            mountPI->startAnimation();
-        break;
+        case ISD::Telescope::MOUNT_PARKING:
+        case ISD::Telescope::MOUNT_SLEWING:
+        case ISD::Telescope::MOUNT_MOVING:
+            mountPI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
+            if (mountPI->isAnimated() == false)
+                mountPI->startAnimation();
+            break;
 
-    case ISD::Telescope::MOUNT_TRACKING:
-        mountPI->setColor(Qt::darkGreen);
-        if (mountPI->isAnimated() == false)
-            mountPI->startAnimation();
+        case ISD::Telescope::MOUNT_TRACKING:
+            mountPI->setColor(Qt::darkGreen);
+            if (mountPI->isAnimated() == false)
+                mountPI->startAnimation();
 
-        break;
+            break;
 
-    default:
-        if (mountPI->isAnimated())
-            mountPI->stopAnimation();
+        default:
+            if (mountPI->isAnimated())
+                mountPI->stopAnimation();
     }
 
-    QJsonObject cStatus = {
-      {"status", mountStatus->text()}
+    QJsonObject cStatus =
+    {
+        {"status", mountStatus->text()}
     };
 
     ekosLiveClient.get()->message()->updateMountStatus(cStatus);
@@ -2454,11 +2476,12 @@ void Manager::updateMountCoords(const QString &ra, const QString &dec, const QSt
     azOUT->setText(az);
     altOUT->setText(alt);
 
-    QJsonObject cStatus = {
-      {"ra", dms::fromString(ra, false).Degrees()},
-      {"de", dms::fromString(dec, true).Degrees()},
-      {"az", dms::fromString(az, true).Degrees()},
-      {"at", dms::fromString(alt, true).Degrees()},
+    QJsonObject cStatus =
+    {
+        {"ra", dms::fromString(ra, false).Degrees()},
+        {"de", dms::fromString(dec, true).Degrees()},
+        {"az", dms::fromString(az, true).Degrees()},
+        {"at", dms::fromString(alt, true).Degrees()},
     };
 
     ekosLiveClient.get()->message()->updateMountStatus(cStatus);
@@ -2508,7 +2531,8 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
         }
     }
 
-    QJsonObject cStatus = {
+    QJsonObject cStatus =
+    {
         {"status", captureStatus->text()},
         {"seqt", sequenceRemainingTime->text()},
         {"ovt", overallRemainingTime->text()}
@@ -2517,7 +2541,7 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
     ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
 }
 
-void Manager::updateCaptureProgress(Ekos::SequenceJob *job)
+void Manager::updateCaptureProgress(Ekos::SequenceJob * job)
 {
     // Image is set to nullptr only on initial capture start up
     int completed = job->getCompleted();
@@ -2541,7 +2565,8 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob *job)
     sequenceProgress->setRange(0, job->getCount());
     sequenceProgress->setValue(completed);
 
-    QJsonObject status = {
+    QJsonObject status =
+    {
         {"seqv", completed},
         {"seqr", job->getCount()},
         {"seql", sequenceLabel->text()}
@@ -2552,13 +2577,18 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob *job)
     {
         QString uuid = QUuid::createUuid().toString();
         uuid = uuid.remove(QRegularExpression("[-{}]"));
-        FITSView *image = job->getActiveChip()->getImageView(FITS_NORMAL);
-        ekosLiveClient.get()->media()->sendPreviewImage(image, uuid);
-        ekosLiveClient.get()->cloud()->sendPreviewImage(image, uuid);
+//        FITSView *image = job->getActiveChip()->getImageView(FITS_NORMAL);
+//        ekosLiveClient.get()->media()->sendPreviewImage(image, uuid);
+//        ekosLiveClient.get()->cloud()->sendPreviewImage(image, uuid);
+        QString filename = job->property("filename").toString();
+        ekosLiveClient.get()->media()->sendPreviewImage(filename, uuid);
+        if (job->isPreview() == false)
+            ekosLiveClient.get()->cloud()->sendPreviewImage(filename, uuid);
+
     }
 }
 
-void Manager::updateExposureProgress(Ekos::SequenceJob *job)
+void Manager::updateExposureProgress(Ekos::SequenceJob * job)
 {
     imageCountDown.setHMS(0, 0, 0);
     imageCountDown = imageCountDown.addSecs(job->getExposeLeft());
@@ -2570,7 +2600,8 @@ void Manager::updateExposureProgress(Ekos::SequenceJob *job)
 
     imageRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
 
-    QJsonObject status {
+    QJsonObject status
+    {
         {"expv", job->getExposeLeft()},
         {"expr", job->getExposure()}
     };
@@ -2591,9 +2622,10 @@ void Manager::updateCaptureCountDown()
     overallRemainingTime->setText(overallCountDown.toString("hh:mm:ss"));
     sequenceRemainingTime->setText(sequenceCountDown.toString("hh:mm:ss"));
 
-    QJsonObject status = {
-      {"seqt", sequenceRemainingTime->text()},
-      {"ovt", overallRemainingTime->text()}
+    QJsonObject status =
+    {
+        {"seqt", sequenceRemainingTime->text()},
+        {"ovt", overallRemainingTime->text()}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
@@ -2606,7 +2638,7 @@ void Manager::updateFocusStarPixmap(QPixmap &starPixmap)
 
     focusStarPixmap.reset(new QPixmap(starPixmap));
     focusStarImage->setPixmap(focusStarPixmap->scaled(focusStarImage->width(), focusStarImage->height(),
-                                                      Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                              Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 void Manager::updateFocusProfilePixmap(QPixmap &profilePixmap)
@@ -2639,8 +2671,9 @@ void Manager::setFocusStatus(Ekos::FocusState status)
             focusPI->stopAnimation();
     }
 
-    QJsonObject cStatus = {
-      {"status", focusStatus->text()}
+    QJsonObject cStatus =
+    {
+        {"status", focusStatus->text()}
     };
 
     ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
@@ -2652,45 +2685,46 @@ void Manager::updateGuideStatus(Ekos::GuideState status)
 
     switch (status)
     {
-    case Ekos::GUIDE_IDLE:
-    case Ekos::GUIDE_CALIBRATION_ERROR:
-    case Ekos::GUIDE_ABORTED:
-    case Ekos::GUIDE_SUSPENDED:
-    case Ekos::GUIDE_DITHERING_ERROR:
-    case Ekos::GUIDE_CALIBRATION_SUCESS:
-        if (guidePI->isAnimated())
-            guidePI->stopAnimation();
-        break;
+        case Ekos::GUIDE_IDLE:
+        case Ekos::GUIDE_CALIBRATION_ERROR:
+        case Ekos::GUIDE_ABORTED:
+        case Ekos::GUIDE_SUSPENDED:
+        case Ekos::GUIDE_DITHERING_ERROR:
+        case Ekos::GUIDE_CALIBRATION_SUCESS:
+            if (guidePI->isAnimated())
+                guidePI->stopAnimation();
+            break;
 
-    case Ekos::GUIDE_CALIBRATING:
-        guidePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-        if (guidePI->isAnimated() == false)
-            guidePI->startAnimation();
-        break;
-    case Ekos::GUIDE_GUIDING:
-        guidePI->setColor(Qt::darkGreen);
-        if (guidePI->isAnimated() == false)
-            guidePI->startAnimation();
-        break;
-    case Ekos::GUIDE_DITHERING:
-        guidePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-        if (guidePI->isAnimated() == false)
-            guidePI->startAnimation();
-        break;
-    case Ekos::GUIDE_DITHERING_SUCCESS:
-        guidePI->setColor(Qt::darkGreen);
-        if (guidePI->isAnimated() == false)
-            guidePI->startAnimation();
-        break;
+        case Ekos::GUIDE_CALIBRATING:
+            guidePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
+            if (guidePI->isAnimated() == false)
+                guidePI->startAnimation();
+            break;
+        case Ekos::GUIDE_GUIDING:
+            guidePI->setColor(Qt::darkGreen);
+            if (guidePI->isAnimated() == false)
+                guidePI->startAnimation();
+            break;
+        case Ekos::GUIDE_DITHERING:
+            guidePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
+            if (guidePI->isAnimated() == false)
+                guidePI->startAnimation();
+            break;
+        case Ekos::GUIDE_DITHERING_SUCCESS:
+            guidePI->setColor(Qt::darkGreen);
+            if (guidePI->isAnimated() == false)
+                guidePI->startAnimation();
+            break;
 
-    default:
-        if (guidePI->isAnimated())
-            guidePI->stopAnimation();
-        break;
+        default:
+            if (guidePI->isAnimated())
+                guidePI->stopAnimation();
+            break;
     }
 
-    QJsonObject cStatus = {
-      {"status", guideStatus->text()}
+    QJsonObject cStatus =
+    {
+        {"status", guideStatus->text()}
     };
 
     ekosLiveClient.get()->message()->updateGuideStatus(cStatus);
@@ -2703,7 +2737,7 @@ void Manager::updateGuideStarPixmap(QPixmap &starPix)
 
     guideStarPixmap.reset(new QPixmap(starPix));
     guideStarImage->setPixmap(guideStarPixmap->scaled(guideStarImage->width(), guideStarImage->height(),
-                                                      Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                              Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 void Manager::updateGuideProfilePixmap(QPixmap &profilePix)
@@ -2714,7 +2748,7 @@ void Manager::updateGuideProfilePixmap(QPixmap &profilePix)
     guideProfileImage->setPixmap(profilePix);
 }
 
-void Manager::setTarget(SkyObject *o)
+void Manager::setTarget(SkyObject * o)
 {
     mountTarget->setText(o->name());
     ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", o->name()}}));
@@ -2722,11 +2756,11 @@ void Manager::setTarget(SkyObject *o)
 
 void Manager::showEkosOptions()
 {
-    QWidget *currentWidget = toolsWidget->currentWidget();
+    QWidget * currentWidget = toolsWidget->currentWidget();
 
     if (alignProcess.get() && alignProcess.get() == currentWidget)
     {
-        KConfigDialog *alignSettings = KConfigDialog::exists("alignsettings");
+        KConfigDialog * alignSettings = KConfigDialog::exists("alignsettings");
         if (alignSettings)
         {
             alignSettings->setEnabled(true);
@@ -2747,14 +2781,14 @@ void Manager::showEkosOptions()
     }
     else if (KConfigDialog::showDialog("settings"))
     {
-        KConfigDialog *cDialog = KConfigDialog::exists("settings");
+        KConfigDialog * cDialog = KConfigDialog::exists("settings");
         cDialog->setCurrentPage(ekosOptionsWidget);
     }
 }
 
 void Manager::getCurrentProfileTelescopeInfo(double &primaryFocalLength, double &primaryAperture, double &guideFocalLength, double &guideAperture)
 {
-    ProfileInfo *pi = getCurrentProfile();
+    ProfileInfo * pi = getCurrentProfile();
     if (pi)
     {
         int primaryScopeID=0, guideScopeID=0;
@@ -2763,9 +2797,9 @@ void Manager::getCurrentProfileTelescopeInfo(double &primaryFocalLength, double 
         if (primaryScopeID > 0 || guideScopeID > 0)
         {
             // Get all OAL equipment filter list
-            QList<OAL::Scope*> m_scopeList;
+            QList<OAL::Scope *> m_scopeList;
             KStarsData::Instance()->userdb()->GetAllScopes(m_scopeList);
-            foreach(OAL::Scope *oneScope, m_scopeList)
+            foreach(OAL::Scope * oneScope, m_scopeList)
             {
                 if (oneScope->id().toInt() == primaryScopeID)
                 {
@@ -2787,10 +2821,10 @@ void Manager::updateDebugInterfaces()
 {
     KSUtils::Logging::SyncFilterRules();
 
-    for (ISD::GDInterface *device : genericDevices)
+    for (ISD::GDInterface * device : genericDevices)
     {
-        INDI::Property *debugProp = device->getProperty("DEBUG");
-        ISwitchVectorProperty *debugSP = nullptr;
+        INDI::Property * debugProp = device->getProperty("DEBUG");
+        ISwitchVectorProperty * debugSP = nullptr;
         if (debugProp)
             debugSP = debugProp->getSwitch();
         else
@@ -2798,7 +2832,7 @@ void Manager::updateDebugInterfaces()
 
         // Check if the debug interface matches the driver device class
         if ( ( opsLogs->getINDIDebugInterface() & device->getBaseDevice()->getDriverInterface() ) &&
-             debugSP->sp[0].s != ISS_ON)
+                debugSP->sp[0].s != ISS_ON)
         {
             debugSP->sp[0].s = ISS_ON;
             debugSP->sp[1].s = ISS_OFF;
@@ -2819,11 +2853,11 @@ void Manager::updateDebugInterfaces()
     }
 }
 
-void Manager::watchDebugProperty(ISwitchVectorProperty *svp)
+void Manager::watchDebugProperty(ISwitchVectorProperty * svp)
 {
     if (!strcmp(svp->name, "DEBUG"))
     {
-        ISD::GenericDevice *deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
+        ISD::GenericDevice * deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
 
         // We don't process pure general interfaces
         if (deviceInterface->getBaseDevice()->getDriverInterface() == INDI::BaseDevice::GENERAL_INTERFACE)
@@ -2880,7 +2914,8 @@ void Manager::connectModules()
 
         // Meridian Flip
         connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, guideProcess.get(), &Ekos::Guide::abort, Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, guideProcess.get(), [&]() {
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, guideProcess.get(), [&]()
+        {
             if (Options::resetGuideCalibration())
                 guideProcess->clearCalibration();
             guideProcess->guide();
