@@ -280,7 +280,7 @@ class FITSData : public QObject
 #endif
 
     // Filter
-    void applyFilter(FITSScale type, uint8_t *image = nullptr, double *min = nullptr, double *max = nullptr);
+    void applyFilter(FITSScale type, uint8_t *image = nullptr, QVector<double> *targetMin = nullptr, QVector<double> *targetMax = nullptr);
 
     // Rotation counter. We keep count to rotate WCS keywords on save
     int getRotCounter() const;
@@ -339,7 +339,7 @@ class FITSData : public QObject
 
     // Apply Filter
     template <typename T>
-    void applyFilter(FITSScale type, uint8_t *targetImage, double image_min, double image_max);
+    void applyFilter(FITSScale type, uint8_t *targetImage, QVector<double> * min = nullptr, QVector<double> * max = nullptr);
     // Star Detect - Centroid
     template <typename T>
     int findCentroid(const QRect &boundary, int initStdDev, int minEdgeWidth);

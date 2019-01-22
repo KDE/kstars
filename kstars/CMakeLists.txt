@@ -676,6 +676,7 @@ set(kstars_extra_SRCS
     auxiliary/skyobjectlistmodel.cpp
     auxiliary/ksnotification.cpp
     auxiliary/QProgressIndicator.cpp
+    auxiliary/ctkrangeslider.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
