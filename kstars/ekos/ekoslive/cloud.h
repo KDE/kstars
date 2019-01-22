@@ -24,66 +24,84 @@ namespace EkosLive
 {
 class Cloud : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    Cloud(Ekos::Manager *manager);
-    virtual ~Cloud() = default;
+    public:
+        Cloud(Ekos::Manager * manager);
+        virtual ~Cloud() = default;
 
-    void sendResponse(const QString &command, const QJsonObject &payload);
-    void sendResponse(const QString &command, const QJsonArray &payload);
+        void sendResponse(const QString &command, const QJsonObject &payload);
+        void sendResponse(const QString &command, const QJsonArray &payload);
 
-    void setAuthResponse(const QJsonObject &response) {m_AuthResponse = response;}
-    void setURL(const QUrl &url) {m_URL = url;}    
+        void setAuthResponse(const QJsonObject &response)
+        {
+            m_AuthResponse = response;
+        }
+        void setURL(const QUrl &url)
+        {
+            m_URL = url;
+        }
 
-    void registerCameras();
+        void registerCameras();
 
-    // Ekos Cloud Message to User
-    void sendPreviewImage(FITSView *view, const QString &uuid);
+        // Ekos Cloud Message to User
+        void sendPreviewImage(const QString &filename, const QString &uuid);
 
-signals:
-    void connected();
-    void disconnected();
+    signals:
+        void connected();
+        void disconnected();
 
-public slots:
-    void connectServer();
-    void disconnectServer();
-    void setOptions(QMap<int,bool> options) {m_Options = options;}
+    public slots:
+        void connectServer();
+        void disconnectServer();
+        void setOptions(QMap<int,bool> options)
+        {
+            m_Options = options;
+        }
 
-private slots:
-    // Connection
-    void onConnected();
-    void onDisconnected();
-    void onError(QAbstractSocket::SocketError error);
+    private slots:
+        // Connection
+        void onConnected();
+        void onDisconnected();
+        void onError(QAbstractSocket::SocketError error);
 
-    // Communication
-    void onTextReceived(const QString &message);    
+        // Communication
+        void onTextReceived(const QString &message);
 
-private:    
-    QWebSocket m_WebSocket;
-    QJsonObject m_AuthResponse;
-    uint16_t m_ReconnectTries {0};
-    Ekos::Manager *m_Manager { nullptr };
-    QUrl m_URL;
+        // Send image
+        void sendImage();
 
-    QString extension;
-    QStringList temporaryFiles;
+    private:
+        void asyncUpload();
 
-    bool m_isConnected {false};
-    bool m_sendBlobs {true};
+        QWebSocket m_WebSocket;
+        QJsonObject m_AuthResponse;
+        uint16_t m_ReconnectTries {0};
+        Ekos::Manager * m_Manager { nullptr };
+        QUrl m_URL;
+        QString m_UUID;
 
-    QMap<int,bool> m_Options;
+        std::unique_ptr<FITSData> imageData;
+        QFutureWatcher<bool> watcher;
 
-    // Image width for high-bandwidth setting
-    static const uint16_t HB_WIDTH = 640;
-    // Image high bandwidth image quality (jpg)
-    static const uint8_t HB_IMAGE_QUALITY = 76;
-    // Video high bandwidth video quality (jpg)
-    static const uint8_t HB_VIDEO_QUALITY = 64;
+        QString extension;
+        QStringList temporaryFiles;
 
-    // Retry every 5 seconds in case remote server is down
-    static const uint16_t RECONNECT_INTERVAL = 5000;
-    // Retry for 1 hour before giving up
-    static const uint16_t RECONNECT_MAX_TRIES = 720;
+        bool m_isConnected {false};
+        bool m_sendBlobs {true};
+
+        QMap<int,bool> m_Options;
+
+        // Image width for high-bandwidth setting
+        static const uint16_t HB_WIDTH = 640;
+        // Image high bandwidth image quality (jpg)
+        static const uint8_t HB_IMAGE_QUALITY = 76;
+        // Video high bandwidth video quality (jpg)
+        static const uint8_t HB_VIDEO_QUALITY = 64;
+
+        // Retry every 5 seconds in case remote server is down
+        static const uint16_t RECONNECT_INTERVAL = 5000;
+        // Retry for 1 hour before giving up
+        static const uint16_t RECONNECT_MAX_TRIES = 720;
 };
 }
