@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>212</width>
-    <height>437</height>
+    <width>230</width>
+    <height>476</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -35,21 +35,6 @@
    <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>0</number>
-   </property>
-   <property name="leftMargin">
-    <number>4</number>
-   </property>
-   <property name="topMargin">
-    <number>4</number>
-   </property>
-   <property name="rightMargin">
-    <number>4</number>
-   </property>
-   <property name="bottomMargin">
-    <number>4</number>
-   </property>
    <item>
     <widget class="QCustomPlot" name="histogramPlot" native="true">
      <property name="sizePolicy">
@@ -73,87 +58,110 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <property name="spacing">
-        <number>0</number>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="2">
+      <widget class="ctkRangeSlider" name="greenSlider">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-       <item row="0" column="1">
-        <widget class="QLabel" name="maxLabel">
-         <property name="text">
-          <string>Max:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QLineEdit" name="medianEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="maxLabel_2">
-         <property name="text">
-          <string>Median:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QDoubleSpinBox" name="minEdit"/>
-       </item>
-       <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="maxEdit"/>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLineEdit" name="meanEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="minLabel_2">
-         <property name="text">
-          <string>Mean:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QSlider" name="minSlider">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QSlider" name="maxSlider">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="minLabel">
-         <property name="text">
-          <string>Min.:</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="minGEdit"/>
+     </item>
+     <item row="2" column="3">
+      <widget class="QDoubleSpinBox" name="maxBEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="GLabel">
+       <property name="text">
+        <string>G</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="minREdit"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="QDoubleSpinBox" name="minBEdit"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="RLabel">
+       <property name="text">
+        <string>R</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="ctkRangeSlider" name="redSlider">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="BLabel">
+       <property name="text">
+        <string>B</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="ctkRangeSlider" name="blueSlider">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QDoubleSpinBox" name="maxREdit"/>
+     </item>
+     <item row="1" column="3">
+      <widget class="QDoubleSpinBox" name="maxGEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="minLabel_2">
+       <property name="text">
+        <string>Mean:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="maxLabel_2">
+       <property name="text">
+        <string>Median:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLineEdit" name="meanEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="medianEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -203,6 +211,9 @@
         <property name="checked">
          <bool>true</bool>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">FITSScaleButtonGroup</string>
+        </attribute>
        </widget>
       </item>
       <item>
@@ -210,24 +221,34 @@
         <property name="text">
          <string>&amp;Log</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">FITSScaleButtonGroup</string>
+        </attribute>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="applyB">
-     <property name="text">
-      <string>Apply</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="hideSaturated">
-     <property name="text">
-      <string>Hide Saturation Spike</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QCheckBox" name="hideSaturated">
+       <property name="text">
+        <string>Hide Saturation Spike</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="applyB">
+       <property name="text">
+        <string>Apply</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -238,7 +259,15 @@
    <header>auxiliary/qcustomplot.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>ctkRangeSlider</class>
+   <extends>QSlider</extends>
+   <header>auxiliary/ctkrangeslider.h</header>
+  </customwidget>
  </customwidgets>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="FITSScaleButtonGroup"/>
+ </buttongroups>
 </ui>

@@ -62,7 +62,7 @@ const QString FITSData::m_TemporaryPath = QStandardPaths::writableLocation(QStan
 #define LOW_EDGE_CUTOFF_2  10
 #define MINIMUM_EDGE_LIMIT 2
 
-bool greaterThan(Edge *s1, Edge *s2)
+bool greaterThan(Edge * s1, Edge * s2)
 {
     //return s1->width > s2->width;
     return s1->sum > s2->sum;
@@ -75,7 +75,7 @@ FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
     debayerParams.offsetX = debayerParams.offsetY = 0;
 }
 
-FITSData::FITSData(const FITSData *other)
+FITSData::FITSData(const FITSData * other)
 {
     debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
     debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
@@ -158,12 +158,12 @@ bool FITSData::privateLoad(bool silent)
         fpstate	fpvar;
         std::vector<std::string> arguments = {"funpack", m_Filename.toLatin1().toStdString()};
         std::vector<char *> arglist;
-        for (const auto& arg : arguments)
-            arglist.push_back((char*)arg.data());
+        for (const auto &arg : arguments)
+            arglist.push_back((char *)arg.data());
         arglist.push_back(nullptr);
 
         int argc = arglist.size() - 1;
-        char **argv = arglist.data();
+        char ** argv = arglist.data();
 
         // TODO: Check for errors
         fp_init (&fpvar);
@@ -224,46 +224,46 @@ bool FITSData::privateLoad(bool silent)
 
     switch (stats.bitpix)
     {
-    case BYTE_IMG:
-        m_DataType           = TBYTE;
-        stats.bytesPerPixel = sizeof(uint8_t);
-        break;
-    case SHORT_IMG:
-        // Read SHORT image as USHORT
-        m_DataType           = TUSHORT;
-        stats.bytesPerPixel = sizeof(int16_t);
-        break;
-    case USHORT_IMG:
-        m_DataType           = TUSHORT;
-        stats.bytesPerPixel = sizeof(uint16_t);
-        break;
-    case LONG_IMG:
-        // Read LONG image as ULONG
-        m_DataType           = TULONG;
-        stats.bytesPerPixel = sizeof(int32_t);
-        break;
-    case ULONG_IMG:
-        m_DataType           = TULONG;
-        stats.bytesPerPixel = sizeof(uint32_t);
-        break;
-    case FLOAT_IMG:
-        m_DataType           = TFLOAT;
-        stats.bytesPerPixel = sizeof(float);
-        break;
-    case LONGLONG_IMG:
-        m_DataType           = TLONGLONG;
-        stats.bytesPerPixel = sizeof(int64_t);
-        break;
-    case DOUBLE_IMG:
-        m_DataType           = TDOUBLE;
-        stats.bytesPerPixel = sizeof(double);
-        break;
-    default:
-        errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
-        if (!silent)
-            KSNotification::error(errMessage, i18n("FITS Open"));
-        qCCritical(KSTARS_FITS) << errMessage;
-        return false;
+        case BYTE_IMG:
+            m_DataType           = TBYTE;
+            stats.bytesPerPixel = sizeof(uint8_t);
+            break;
+        case SHORT_IMG:
+            // Read SHORT image as USHORT
+            m_DataType           = TUSHORT;
+            stats.bytesPerPixel = sizeof(int16_t);
+            break;
+        case USHORT_IMG:
+            m_DataType           = TUSHORT;
+            stats.bytesPerPixel = sizeof(uint16_t);
+            break;
+        case LONG_IMG:
+            // Read LONG image as ULONG
+            m_DataType           = TULONG;
+            stats.bytesPerPixel = sizeof(int32_t);
+            break;
+        case ULONG_IMG:
+            m_DataType           = TULONG;
+            stats.bytesPerPixel = sizeof(uint32_t);
+            break;
+        case FLOAT_IMG:
+            m_DataType           = TFLOAT;
+            stats.bytesPerPixel = sizeof(float);
+            break;
+        case LONGLONG_IMG:
+            m_DataType           = TLONGLONG;
+            stats.bytesPerPixel = sizeof(int64_t);
+            break;
+        case DOUBLE_IMG:
+            m_DataType           = TDOUBLE;
+            stats.bytesPerPixel = sizeof(double);
+            break;
+        default:
+            errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
+            if (!silent)
+                KSNotification::error(errMessage, i18n("FITS Open"));
+            qCCritical(KSTARS_FITS) << errMessage;
+            return false;
     }
 
     if (stats.ndim < 3)
@@ -353,7 +353,7 @@ int FITSData::saveFITS(const QString &newFilename)
 
     int status = 0, exttype = 0;
     long nelements;
-    fitsfile *new_fptr;
+    fitsfile * new_fptr;
 
     if (HasDebayer)
     {
@@ -487,7 +487,7 @@ int FITSData::saveFITS(const QString &newFilename)
     }
 
     QString history =
-            QString("Modified by KStars on %1").arg(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"));
+        QString("Modified by KStars on %1").arg(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"));
     // History
     if (fits_write_history(fptr, history.toLatin1(), &status))
     {
@@ -540,40 +540,40 @@ void FITSData::calculateStats(bool refresh)
     // Get standard deviation and mean in one run
     switch (m_DataType)
     {
-    case TBYTE:
-        runningAverageStdDev<uint8_t>();
-        break;
+        case TBYTE:
+            runningAverageStdDev<uint8_t>();
+            break;
 
-    case TSHORT:
-        runningAverageStdDev<int16_t>();
-        break;
+        case TSHORT:
+            runningAverageStdDev<int16_t>();
+            break;
 
-    case TUSHORT:
-        runningAverageStdDev<uint16_t>();
-        break;
+        case TUSHORT:
+            runningAverageStdDev<uint16_t>();
+            break;
 
-    case TLONG:
-        runningAverageStdDev<int32_t>();
-        break;
+        case TLONG:
+            runningAverageStdDev<int32_t>();
+            break;
 
-    case TULONG:
-        runningAverageStdDev<uint32_t>();
-        break;
+        case TULONG:
+            runningAverageStdDev<uint32_t>();
+            break;
 
-    case TFLOAT:
-        runningAverageStdDev<float>();
-        break;
+        case TFLOAT:
+            runningAverageStdDev<float>();
+            break;
 
-    case TLONGLONG:
-        runningAverageStdDev<int64_t>();
-        break;
+        case TLONGLONG:
+            runningAverageStdDev<int64_t>();
+            break;
 
-    case TDOUBLE:
-        runningAverageStdDev<double>();
-        break;
+        case TDOUBLE:
+            runningAverageStdDev<double>();
+            break;
 
-    default:
-        return;
+        default:
+            return;
     }
 
     // FIXME That's not really SNR, must implement a proper solution for this value
@@ -614,40 +614,40 @@ int FITSData::calculateMinMax(bool refresh)
 
     switch (m_DataType)
     {
-    case TBYTE:
-        calculateMinMax<uint8_t>();
-        break;
+        case TBYTE:
+            calculateMinMax<uint8_t>();
+            break;
 
-    case TSHORT:
-        calculateMinMax<int16_t>();
-        break;
+        case TSHORT:
+            calculateMinMax<int16_t>();
+            break;
 
-    case TUSHORT:
-        calculateMinMax<uint16_t>();
-        break;
+        case TUSHORT:
+            calculateMinMax<uint16_t>();
+            break;
 
-    case TLONG:
-        calculateMinMax<int32_t>();
-        break;
+        case TLONG:
+            calculateMinMax<int32_t>();
+            break;
 
-    case TULONG:
-        calculateMinMax<uint32_t>();
-        break;
+        case TULONG:
+            calculateMinMax<uint32_t>();
+            break;
 
-    case TFLOAT:
-        calculateMinMax<float>();
-        break;
+        case TFLOAT:
+            calculateMinMax<float>();
+            break;
 
-    case TLONGLONG:
-        calculateMinMax<int64_t>();
-        break;
+        case TLONGLONG:
+            calculateMinMax<int64_t>();
+            break;
 
-    case TDOUBLE:
-        calculateMinMax<double>();
-        break;
+        case TDOUBLE:
+            calculateMinMax<double>();
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     //qDebug() << "DATAMIN: " << stats.min << " - DATAMAX: " << stats.max;
@@ -657,7 +657,7 @@ int FITSData::calculateMinMax(bool refresh)
 template <typename T>
 QPair<T,T> FITSData::getParitionMinMax(uint32_t start, uint32_t stride)
 {
-    auto *buffer = reinterpret_cast<T *>(m_ImageBuffer);
+    auto * buffer = reinterpret_cast<T *>(m_ImageBuffer);
     T min = std::numeric_limits<T>::max();
     T max = std::numeric_limits<T>::min();
 
@@ -727,40 +727,40 @@ void FITSData::calculateMinMax()
 }
 else
 {
-T *buffer = reinterpret_cast<T *>(imageBuffer);
-if (channels == 1)
-{
-    for (unsigned int i = 0; i < stats.samples_per_channel; i++)
+    T * buffer = reinterpret_cast<T *>(imageBuffer);
+    if (channels == 1)
     {
-        if (buffer[i] < stats.min[0])
-            stats.min[0] = buffer[i];
-        else if (buffer[i] > stats.max[0])
-            stats.max[0] = buffer[i];
+        for (unsigned int i = 0; i < stats.samples_per_channel; i++)
+        {
+            if (buffer[i] < stats.min[0])
+                stats.min[0] = buffer[i];
+            else if (buffer[i] > stats.max[0])
+                stats.max[0] = buffer[i];
+        }
     }
-}
-else
-{
-int g_offset = stats.samples_per_channel;
-int b_offset = stats.samples_per_channel * 2;
+    else
+    {
+        int g_offset = stats.samples_per_channel;
+        int b_offset = stats.samples_per_channel * 2;
 
-for (unsigned int i = 0; i < stats.samples_per_channel; i++)
-{
-    if (buffer[i] < stats.min[0])
-        stats.min[0] = buffer[i];
-    else if (buffer[i] > stats.max[0])
-        stats.max[0] = buffer[i];
+        for (unsigned int i = 0; i < stats.samples_per_channel; i++)
+        {
+            if (buffer[i] < stats.min[0])
+                stats.min[0] = buffer[i];
+            else if (buffer[i] > stats.max[0])
+                stats.max[0] = buffer[i];
 
-    if (buffer[i + g_offset] < stats.min[1])
-        stats.min[1] = buffer[i + g_offset];
-    else if (buffer[i + g_offset] > stats.max[1])
-        stats.max[1] = buffer[i + g_offset];
+            if (buffer[i + g_offset] < stats.min[1])
+                stats.min[1] = buffer[i + g_offset];
+            else if (buffer[i + g_offset] > stats.max[1])
+                stats.max[1] = buffer[i + g_offset];
 
-    if (buffer[i + b_offset] < stats.min[2])
-        stats.min[2] = buffer[i + b_offset];
-    else if (buffer[i + b_offset] > stats.max[2])
-        stats.max[2] = buffer[i + b_offset];
-}
-}
+            if (buffer[i + b_offset] < stats.min[2])
+                stats.min[2] = buffer[i + b_offset];
+            else if (buffer[i + b_offset] > stats.max[2])
+                stats.max[2] = buffer[i + b_offset];
+        }
+    }
 
 }
 
@@ -774,7 +774,7 @@ QPair<double,double> FITSData::getSquaredSumAndMean(uint32_t start, uint32_t str
     uint32_t m_n       = 2;
     double m_oldM = 0, m_newM = 0, m_oldS = 0, m_newS = 0;
 
-    auto *buffer = reinterpret_cast<T *>(m_ImageBuffer);
+    auto * buffer = reinterpret_cast<T *>(m_ImageBuffer);
     uint32_t end = start + stride;
 
     for (uint32_t i = start; i < end; i++)
@@ -842,74 +842,74 @@ void FITSData::runningAverageStdDev()
 }
 else
 {
-T *buffer     = reinterpret_cast<T *>(imageBuffer);
+    T * buffer     = reinterpret_cast<T *>(imageBuffer);
 
-if (channels == 1)
-{
-    int m_n       = 2;
-    double m_oldM = 0, m_newM = 0, m_oldS = 0, m_newS = 0;
-
-    for (unsigned int i = 1; i < stats.samples_per_channel; i++)
+    if (channels == 1)
     {
-        m_newM = m_oldM + (buffer[i] - m_oldM) / m_n;
-        m_newS = m_oldS + (buffer[i] - m_oldM) * (buffer[i] - m_newM);
+        int m_n       = 2;
+        double m_oldM = 0, m_newM = 0, m_oldS = 0, m_newS = 0;
 
-        m_oldM = m_newM;
-        m_oldS = m_newS;
-        m_n++;
+        for (unsigned int i = 1; i < stats.samples_per_channel; i++)
+        {
+            m_newM = m_oldM + (buffer[i] - m_oldM) / m_n;
+            m_newS = m_oldS + (buffer[i] - m_oldM) * (buffer[i] - m_newM);
+
+            m_oldM = m_newM;
+            m_oldS = m_newS;
+            m_n++;
+        }
+
+        double variance = (m_n == 2 ? 0 : m_newS / (m_n - 2));
+
+        stats.mean[0]   = m_newM;
+        stats.stddev[0] = sqrt(variance);
     }
+    else
+    {
+        int m_n[3]       = {2,2,2};
+        double m_oldM[3] = {0}, m_newM[3] = {0}, m_oldS[3] = {0}, m_newS[3] = {0};
 
-    double variance = (m_n == 2 ? 0 : m_newS / (m_n - 2));
+        T * rBuffer = buffer;
+        T * gBuffer = buffer + stats.samples_per_channel;
+        T * bBuffer = buffer + stats.samples_per_channel * 2;
 
-    stats.mean[0]   = m_newM;
-    stats.stddev[0] = sqrt(variance);
-}
-else
-{
-int m_n[3]       = {2,2,2};
-double m_oldM[3] = {0}, m_newM[3] = {0}, m_oldS[3] = {0}, m_newS[3] = {0};
+        for (unsigned int i = 1; i < stats.samples_per_channel; i++)
+        {
+            m_newM[0] = m_oldM[0] + (rBuffer[i] - m_oldM[0]) / m_n[0];
+            m_newS[0] = m_oldS[0] + (rBuffer[i] - m_oldM[0]) * (rBuffer[i] - m_newM[0]);
 
-T *rBuffer = buffer;
-T *gBuffer = buffer + stats.samples_per_channel;
-T *bBuffer = buffer + stats.samples_per_channel * 2;
+            m_oldM[0] = m_newM[0];
+            m_oldS[0] = m_newS[0];
+            m_n[0]++;
 
-for (unsigned int i = 1; i < stats.samples_per_channel; i++)
-{
-    m_newM[0] = m_oldM[0] + (rBuffer[i] - m_oldM[0]) / m_n[0];
-    m_newS[0] = m_oldS[0] + (rBuffer[i] - m_oldM[0]) * (rBuffer[i] - m_newM[0]);
+            m_newM[1] = m_oldM[1] + (gBuffer[i] - m_oldM[1]) / m_n[1];
+            m_newS[1] = m_oldS[1] + (gBuffer[i] - m_oldM[1]) * (gBuffer[i] - m_newM[1]);
 
-    m_oldM[0] = m_newM[0];
-    m_oldS[0] = m_newS[0];
-    m_n[0]++;
+            m_oldM[1] = m_newM[1];
+            m_oldS[1] = m_newS[1];
+            m_n[1]++;
 
-    m_newM[1] = m_oldM[1] + (gBuffer[i] - m_oldM[1]) / m_n[1];
-    m_newS[1] = m_oldS[1] + (gBuffer[i] - m_oldM[1]) * (gBuffer[i] - m_newM[1]);
+            m_newM[2] = m_oldM[2] + (bBuffer[i] - m_oldM[2]) / m_n[2];
+            m_newS[2] = m_oldS[2] + (bBuffer[i] - m_oldM[2]) * (bBuffer[i] - m_newM[2]);
 
-    m_oldM[1] = m_newM[1];
-    m_oldS[1] = m_newS[1];
-    m_n[1]++;
+            m_oldM[2] = m_newM[2];
+            m_oldS[2] = m_newS[2];
+            m_n[2]++;
 
-    m_newM[2] = m_oldM[2] + (bBuffer[i] - m_oldM[2]) / m_n[2];
-    m_newS[2] = m_oldS[2] + (bBuffer[i] - m_oldM[2]) * (bBuffer[i] - m_newM[2]);
+        }
 
-    m_oldM[2] = m_newM[2];
-    m_oldS[2] = m_newS[2];
-    m_n[2]++;
+        double variance = (m_n[0] == 2 ? 0 : m_newS[0] / (m_n[0] - 2));
+        stats.mean[0]   = m_newM[0];
+        stats.stddev[0] = sqrt(variance);
 
-}
+        variance = (m_n[1] == 2 ? 0 : m_newS[1] / (m_n[1] - 2));
+        stats.mean[1]   = m_newM[1];
+        stats.stddev[1] = sqrt(variance);
 
-double variance = (m_n[0] == 2 ? 0 : m_newS[0] / (m_n[0] - 2));
-stats.mean[0]   = m_newM[0];
-stats.stddev[0] = sqrt(variance);
-
-variance = (m_n[1] == 2 ? 0 : m_newS[1] / (m_n[1] - 2));
-stats.mean[1]   = m_newM[1];
-stats.stddev[1] = sqrt(variance);
-
-variance = (m_n[2] == 2 ? 0 : m_newS[2] / (m_n[2] - 2));
-stats.mean[2]   = m_newM[2];
-stats.stddev[2] = sqrt(variance);
-}
+        variance = (m_n[2] == 2 ? 0 : m_newS[2] / (m_n[2] - 2));
+        stats.mean[2]   = m_newM[2];
+        stats.stddev[2] = sqrt(variance);
+    }
 }
 
 qCInfo(KSTARS_FITS) << filename << "runningMeanStdDev calculation took" << timer.elapsed() << "ms";
@@ -924,7 +924,7 @@ void FITSData::setMinMax(double newMin, double newMax, uint8_t channel)
 
 bool FITSData::parseHeader()
 {
-    char *header = nullptr;
+    char * header = nullptr;
     int status = 0, nkeys=0;
 
     if (fits_hdr2str(fptr, 0, nullptr, 0, &header, &nkeys, &status))
@@ -938,7 +938,7 @@ bool FITSData::parseHeader()
 
     for (int i = 0; i < nkeys; i++)
     {
-        Record *oneRecord = new Record;
+        Record * oneRecord = new Record;
         // Quotes cause issues for simplified below so we're removing them.
         QString record = recordList.mid(i * 80, 80).remove("'");
         QStringList properties = record.split(QRegExp("[=/]"));
@@ -982,7 +982,7 @@ bool FITSData::parseHeader()
 
 bool FITSData::getRecordValue(const QString &key, QVariant &value) const
 {
-    for (Record *oneRecord : records)
+    for (Record * oneRecord : records)
     {
         if (oneRecord->key == key)
         {
@@ -994,7 +994,7 @@ bool FITSData::getRecordValue(const QString &key, QVariant &value) const
     return false;
 }
 
-bool FITSData::checkCollision(Edge *s1, Edge *s2)
+bool FITSData::checkCollision(Edge * s1, Edge * s2)
 {
     int dis; //distance
 
@@ -1012,36 +1012,36 @@ bool FITSData::checkCollision(Edge *s1, Edge *s2)
     return false;
 }
 
-int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
+int FITSData::findCannyStar(FITSData * data, const QRect &boundary)
 {
     switch (data->property("dataType").toInt())
     {
-    case TBYTE:
-        return FITSData::findCannyStar<uint8_t>(data, boundary);
+        case TBYTE:
+            return FITSData::findCannyStar<uint8_t>(data, boundary);
 
-    case TSHORT:
-        return FITSData::findCannyStar<int16_t>(data, boundary);
+        case TSHORT:
+            return FITSData::findCannyStar<int16_t>(data, boundary);
 
-    case TUSHORT:
-        return FITSData::findCannyStar<uint16_t>(data, boundary);
+        case TUSHORT:
+            return FITSData::findCannyStar<uint16_t>(data, boundary);
 
-    case TLONG:
-        return FITSData::findCannyStar<int32_t>(data, boundary);
+        case TLONG:
+            return FITSData::findCannyStar<int32_t>(data, boundary);
 
-    case TULONG:
-        return FITSData::findCannyStar<uint16_t>(data, boundary);
+        case TULONG:
+            return FITSData::findCannyStar<uint16_t>(data, boundary);
 
-    case TFLOAT:
-        return FITSData::findCannyStar<float>(data, boundary);
+        case TFLOAT:
+            return FITSData::findCannyStar<float>(data, boundary);
 
-    case TLONGLONG:
-        return FITSData::findCannyStar<int64_t>(data, boundary);
+        case TLONGLONG:
+            return FITSData::findCannyStar<int64_t>(data, boundary);
 
-    case TDOUBLE:
-        return FITSData::findCannyStar<double>(data, boundary);
+        case TDOUBLE:
+            return FITSData::findCannyStar<double>(data, boundary);
 
-    default:
-        break;
+        default:
+            break;
     }
 
     return 0;
@@ -1057,21 +1057,21 @@ int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
 
     switch (algorithm)
     {
-    case ALGORITHM_SEP:
-        count = findSEPStars(trackingBox);
-        break;
+        case ALGORITHM_SEP:
+            count = findSEPStars(trackingBox);
+            break;
 
-    case ALGORITHM_GRADIENT:
-        count = findCannyStar(this, trackingBox);
-        break;
+        case ALGORITHM_GRADIENT:
+            count = findCannyStar(this, trackingBox);
+            break;
 
-    case ALGORITHM_CENTROID:
-        count = findCentroid(trackingBox);
-        break;
+        case ALGORITHM_CENTROID:
+            count = findCentroid(trackingBox);
+            break;
 
-    case ALGORITHM_THRESHOLD:
-        count = findOneStar(trackingBox);
-        break;
+        case ALGORITHM_THRESHOLD:
+            count = findOneStar(trackingBox);
+            break;
     }
 
     starsSearched = true;
@@ -1080,7 +1080,7 @@ int FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
 }
 
 template <typename T>
-int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
+int FITSData::findCannyStar(FITSData * data, const QRect &boundary)
 {
     int subX = qMax(0, boundary.isNull() ? 0 : boundary.x());
     int subY = qMax(0, boundary.isNull() ? 0 : boundary.y());
@@ -1096,14 +1096,14 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     uint32_t offset = subX + subY * dataWidth;
 
     // #2 Create new buffer
-    auto *buffer = new uint8_t[size * BBP];
+    auto * buffer = new uint8_t[size * BBP];
     // If there is no offset, copy whole buffer in one go
     if (offset == 0)
         memcpy(buffer, data->getImageBuffer(), size * BBP);
     else
     {
-        uint8_t *dataPtr     = buffer;
-        uint8_t *origDataPtr = data->getImageBuffer();
+        uint8_t * dataPtr     = buffer;
+        uint8_t * origDataPtr = data->getImageBuffer();
         uint32_t lineOffset  = 0;
         // Copy data line by line
         for (int height = subY; height < (subY + subH); height++)
@@ -1115,7 +1115,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     }
 
     // #3 Create new FITSData to hold it
-    auto *boundedImage                      = new FITSData();
+    auto * boundedImage                      = new FITSData();
     boundedImage->stats.width               = subW;
     boundedImage->stats.height              = subH;
     boundedImage->stats.bitpix              = data->stats.bitpix;
@@ -1202,7 +1202,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     if (maxID > 10 && totalMassRatio < 1.5)
         return 0;
 
-    auto *center  = new Edge;
+    auto * center  = new Edge;
     center->width = -1;
     center->x     = masses[maxRegionID].massX / masses[maxRegionID].totalMass + 0.5;
     center->y     = masses[maxRegionID].massY / masses[maxRegionID].totalMass + 0.5;
@@ -1261,7 +1261,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     QVector<double> subPixels;
     subPixels.reserve(center->width / resolution);
 
-    const T *origBuffer = reinterpret_cast<T *>(data->getImageBuffer()) + offset;
+    const T * origBuffer = reinterpret_cast<T *>(data->getImageBuffer()) + offset;
 
     /*if (Options::fITSLogging())
     {
@@ -1323,40 +1323,40 @@ int FITSData::findOneStar(const QRect &boundary)
 {
     switch (m_DataType)
     {
-    case TBYTE:
-        return findOneStar<uint8_t>(boundary);
-        break;
+        case TBYTE:
+            return findOneStar<uint8_t>(boundary);
+            break;
 
-    case TSHORT:
-        return findOneStar<int16_t>(boundary);
-        break;
+        case TSHORT:
+            return findOneStar<int16_t>(boundary);
+            break;
 
-    case TUSHORT:
-        return findOneStar<uint16_t>(boundary);
-        break;
+        case TUSHORT:
+            return findOneStar<uint16_t>(boundary);
+            break;
 
-    case TLONG:
-        return findOneStar<int32_t>(boundary);
-        break;
+        case TLONG:
+            return findOneStar<int32_t>(boundary);
+            break;
 
-    case TULONG:
-        return findOneStar<uint32_t>(boundary);
-        break;
+        case TULONG:
+            return findOneStar<uint32_t>(boundary);
+            break;
 
-    case TFLOAT:
-        return findOneStar<float>(boundary);
-        break;
+        case TFLOAT:
+            return findOneStar<float>(boundary);
+            break;
 
-    case TLONGLONG:
-        return findOneStar<int64_t>(boundary);
-        break;
+        case TLONGLONG:
+            return findOneStar<int64_t>(boundary);
+            break;
 
-    case TDOUBLE:
-        return findOneStar<double>(boundary);
-        break;
+        case TDOUBLE:
+            return findOneStar<double>(boundary);
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     return 0;
@@ -1375,7 +1375,7 @@ int FITSData::findOneStar(const QRect &boundary)
 
     float massX = 0, massY = 0, totalMass = 0;
 
-    auto *buffer = reinterpret_cast<T *>(m_ImageBuffer);
+    auto * buffer = reinterpret_cast<T *>(m_ImageBuffer);
 
     // TODO replace magic number with something more useful to understand
     double threshold = stats.mean[0] * Options::focusThreshold() / 100.0;
@@ -1396,7 +1396,7 @@ int FITSData::findOneStar(const QRect &boundary)
 
     qCDebug(KSTARS_FITS) << "FITS: Weighted Center is X: " << massX / totalMass << " Y: " << massY / totalMass;
 
-    auto *center  = new Edge;
+    auto * center  = new Edge;
     center->width = -1;
     center->x     = massX / totalMass + 0.5;
     center->y     = massY / totalMass + 0.5;
@@ -1515,32 +1515,32 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
 {
     switch (m_DataType)
     {
-    case TBYTE:
-        return findCentroid<uint8_t>(boundary, initStdDev, minEdgeWidth);
+        case TBYTE:
+            return findCentroid<uint8_t>(boundary, initStdDev, minEdgeWidth);
 
-    case TSHORT:
-        return findCentroid<int16_t>(boundary, initStdDev, minEdgeWidth);
+        case TSHORT:
+            return findCentroid<int16_t>(boundary, initStdDev, minEdgeWidth);
 
-    case TUSHORT:
-        return findCentroid<uint16_t>(boundary, initStdDev, minEdgeWidth);
+        case TUSHORT:
+            return findCentroid<uint16_t>(boundary, initStdDev, minEdgeWidth);
 
-    case TLONG:
-        return findCentroid<int32_t>(boundary, initStdDev, minEdgeWidth);
+        case TLONG:
+            return findCentroid<int32_t>(boundary, initStdDev, minEdgeWidth);
 
-    case TULONG:
-        return findCentroid<uint32_t>(boundary, initStdDev, minEdgeWidth);
+        case TULONG:
+            return findCentroid<uint32_t>(boundary, initStdDev, minEdgeWidth);
 
-    case TFLOAT:
-        return findCentroid<float>(boundary, initStdDev, minEdgeWidth);
+        case TFLOAT:
+            return findCentroid<float>(boundary, initStdDev, minEdgeWidth);
 
-    case TLONGLONG:
-        return findCentroid<int64_t>(boundary, initStdDev, minEdgeWidth);
+        case TLONGLONG:
+            return findCentroid<int64_t>(boundary, initStdDev, minEdgeWidth);
 
-    case TDOUBLE:
-        return findCentroid<double>(boundary, initStdDev, minEdgeWidth);
+        case TDOUBLE:
+            return findCentroid<double>(boundary, initStdDev, minEdgeWidth);
 
-    default:
-        return -1;
+        default:
+            return -1;
     }
 }
 
@@ -1552,7 +1552,7 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
     int pixVal           = 0;
     int minimumEdgeCount = MINIMUM_EDGE_LIMIT;
 
-    auto *buffer = reinterpret_cast<T *>(m_ImageBuffer);
+    auto * buffer = reinterpret_cast<T *>(m_ImageBuffer);
 
     double JMIndex = 100;
 #ifndef KSTARS_LITE
@@ -1669,8 +1669,8 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
 
                             // Check if center is 10% or more brighter than edge, if not skip
                             if (((buffer[i_center + (i * stats.width)] - min) /
-                                 (buffer[i_center + (i * stats.width) - starDiameter / 2] - min) >=
-                                 dispersion_ratio) &&
+                                    (buffer[i_center + (i * stats.width) - starDiameter / 2] - min) >=
+                                    dispersion_ratio) &&
                                     ((buffer[i_center + (i * stats.width)] - min) /
                                      (buffer[i_center + (i * stats.width) + starDiameter / 2] - min) >=
                                      dispersion_ratio))
@@ -1680,10 +1680,10 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
                                         << " Edge is " << buffer[i_center + (i * stats.width) - starDiameter / 2] - min
                                         << " and ratio is "
                                         << ((buffer[i_center + (i * stats.width)] - min) /
-                                           (buffer[i_center + (i * stats.width) - starDiameter / 2] - min))
+                                            (buffer[i_center + (i * stats.width) - starDiameter / 2] - min))
                                         << " located at X: " << center << " Y: " << i + 0.5;
 
-                                auto *newEdge = new Edge();
+                                auto * newEdge = new Edge();
 
                                 newEdge->x       = center;
                                 newEdge->y       = i + 0.5;
@@ -1811,7 +1811,7 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
         if (cen_count >= cen_limit)
         {
             // We detected a centroid, let's init it
-            auto *rCenter = new Edge();
+            auto * rCenter = new Edge();
 
             rCenter->x = avg_x / sum;
             rCenter->y = avg_y / sum;
@@ -1887,7 +1887,7 @@ int FITSData::findCentroid(const QRect &boundary, int initStdDev, int minEdgeWid
         sdev = (std::sqrt(lsum / (starCenters.count() - 1))) * 4;
 
         // Reject stars > 4 * stddev
-        foreach (Edge *center, starCenters)
+        foreach (Edge * center, starCenters)
             if (center->width > sdev)
                 starCenters.removeOne(center);
 
@@ -1965,115 +1965,149 @@ double FITSData::getHFR(int x, int y)
     return -1;
 }
 
-void FITSData::applyFilter(FITSScale type, uint8_t *image, double *min, double *max)
+void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * min, QVector<double> * max)
 {
     if (type == FITS_NONE)
         return;
 
-    double dataMin = stats.min[0], dataMax = stats.max[0];
+    QVector<double> dataMin(3);
+    QVector<double> dataMax(3);
 
-    if ((min != nullptr) && *min != -1)
+    if (min)
         dataMin = *min;
-    if ((max != nullptr) && *max != -1)
+    if (max)
         dataMax = *max;
 
     switch (type)
     {
-    case FITS_AUTO_STRETCH:
-    {
-        dataMin = stats.mean[0] - stats.stddev[0];
-        dataMax = stats.mean[0] + stats.stddev[0] * 3;
-    }
+        case FITS_AUTO_STRETCH:
+        {
+            for (int i=0; i < 3; i++)
+            {
+                dataMin[i] = stats.mean[i] - stats.stddev[i];
+                dataMax[i] = stats.mean[i] + stats.stddev[i] * 3;
+            }
+        }
         break;
 
-    case FITS_HIGH_CONTRAST:
-    {
-        dataMin = stats.mean[0] + stats.stddev[0];
-        dataMax = stats.mean[0] + stats.stddev[0] * 3;
-    }
+        case FITS_HIGH_CONTRAST:
+        {
+            for (int i=0; i < 3; i++)
+            {
+                dataMin[i] = stats.mean[i] + stats.stddev[i];
+                dataMax[i] = stats.mean[i] + stats.stddev[i] * 3;
+            }
+        }
         break;
 
-    case FITS_HIGH_PASS:
-    {
-        dataMin = stats.mean[0];
-    }
+        case FITS_HIGH_PASS:
+        {
+            for (int i=0; i < 3; i++)
+            {
+                dataMin[i] = stats.mean[i];
+            }
+        }
         break;
 
-    default:
-        break;
+        default:
+            break;
     }
-
 
     switch (m_DataType)
     {
-    case TBYTE:
-    {
-        dataMin = dataMin < 0 ? 0 : dataMin;
-        dataMax = dataMax > UINT8_MAX ? UINT8_MAX : dataMax;
-        applyFilter<uint8_t>(type, image, dataMin, dataMax);
-    }
+        case TBYTE:
+        {
+            for (int i=0; i < 3; i++)
+            {
+                dataMin[i] = dataMin[i] < 0 ? 0 : dataMin[i];
+                dataMax[i] = dataMax[i] > UINT8_MAX ? UINT8_MAX : dataMax[i];
+            }
+            applyFilter<uint8_t>(type, image, &dataMin, &dataMax);
+        }
         break;
 
-    case TSHORT:
-    {
-        dataMin = dataMin < INT16_MIN ? INT16_MIN : dataMin;
-        dataMax = dataMax > INT16_MAX ? INT16_MAX : dataMax;
-        applyFilter<uint16_t>(type, image, dataMin, dataMax);
-    }
-
-        break;
-
-    case TUSHORT:
-    {
-        dataMin = dataMin < 0 ? 0 : dataMin;
-        dataMax = dataMax > UINT16_MAX ? UINT16_MAX : dataMax;
-        applyFilter<uint16_t>(type, image, dataMin, dataMax);
-    }
-        break;
-
-    case TLONG:
-    {
-        dataMin = dataMin < INT_MIN ? INT_MIN : dataMin;
-        dataMax = dataMax > INT_MAX ? INT_MAX : dataMax;
-        applyFilter<uint16_t>(type, image, dataMin, dataMax);
-    }
-        break;
-
-    case TULONG:
-    {
-        dataMin = dataMin < 0 ? 0 : dataMin;
-        dataMax = dataMax > UINT_MAX ? UINT_MAX : dataMax;
-        applyFilter<uint16_t>(type, image, dataMin, dataMax);
-    }
-        break;
-
-    case TFLOAT:
-    {
-        dataMin = dataMin < FLT_MIN ? FLT_MIN : dataMin;
-        dataMax = dataMax > FLT_MAX ? FLT_MAX : dataMax;
-        applyFilter<float>(type, image, dataMin, dataMax);
-    }
-        break;
-
-    case TLONGLONG:
-    {
-        dataMin = dataMin < LLONG_MIN ? LLONG_MIN : dataMin;
-        dataMax = dataMax > LLONG_MAX ? LLONG_MAX : dataMax;
-        applyFilter<long>(type, image, dataMin, dataMax);
-    }
-        break;
-
-    case TDOUBLE:
-    {
-        dataMin = dataMin < DBL_MIN ? DBL_MIN : dataMin;
-        dataMax = dataMax > DBL_MAX ? DBL_MAX : dataMax;
-        applyFilter<double>(type, image, dataMin, dataMax);
-    }
+        case TSHORT:
+        {
+            for (int i=0; i < 3; i++)
+            {
+                dataMin[i] = dataMin[i] < INT16_MIN ? INT16_MIN : dataMin[i];
+                dataMax[i] = dataMax[i] > INT16_MAX ? INT16_MAX : dataMax[i];
+            }
+            applyFilter<uint16_t>(type, image, &dataMin, &dataMax);
+        }
 
         break;
 
-    default:
-        return;
+        case TUSHORT:
+        {
+            for (int i=0; i < 3; i++)
+            {
+                dataMin[i] = dataMin[i] < 0 ? 0 : dataMin[i];
+                dataMax[i] = dataMax[i] > UINT16_MAX ? UINT16_MAX : dataMax[i];
+            }
+            applyFilter<uint16_t>(type, image, &dataMin, &dataMax);
+        }
+        break;
+
+        case TLONG:
+        {
+            for (int i=0; i < 3; i++)
+            {
+                dataMin[i] = dataMin[i] < INT_MIN ? INT_MIN : dataMin[i];
+                dataMax[i] = dataMax[i] > INT_MAX ? INT_MAX : dataMax[i];
+            }
+            applyFilter<uint16_t>(type, image, &dataMin, &dataMax);
+        }
+        break;
+
+        case TULONG:
+        {
+            for (int i=0; i < 3; i++)
+            {
+                dataMin[i] = dataMin[i] < 0 ? 0 : dataMin[i];
+                dataMax[i] = dataMax[i] > UINT_MAX ? UINT_MAX : dataMax[i];
+            }
+            applyFilter<uint16_t>(type, image, &dataMin, &dataMax);
+        }
+        break;
+
+        case TFLOAT:
+        {
+            for (int i=0; i < 3; i++)
+            {
+                dataMin[i] = dataMin[i] < FLT_MIN ? FLT_MIN : dataMin[i];
+                dataMax[i] = dataMax[i] > FLT_MAX ? FLT_MAX : dataMax[i];
+            }
+            applyFilter<float>(type, image, &dataMin, &dataMax);
+        }
+        break;
+
+        case TLONGLONG:
+        {
+            for (int i=0; i < 3; i++)
+            {
+                dataMin[i] = dataMin[i] < LLONG_MIN ? LLONG_MIN : dataMin[i];
+                dataMax[i] = dataMax[i] > LLONG_MAX ? LLONG_MAX : dataMax[i];
+            }
+
+            applyFilter<long>(type, image, &dataMin, &dataMax);
+        }
+        break;
+
+        case TDOUBLE:
+        {
+            for (int i=0; i < 3; i++)
+            {
+                dataMin[i] = dataMin[i] < DBL_MIN ? DBL_MIN : dataMin[i];
+                dataMax[i] = dataMax[i] > DBL_MAX ? DBL_MAX : dataMax[i];
+            }
+            applyFilter<double>(type, image, &dataMin, &dataMax);
+        }
+
+        break;
+
+        default:
+            return;
     }
 
     if (min != nullptr)
@@ -2083,10 +2117,10 @@ void FITSData::applyFilter(FITSScale type, uint8_t *image, double *min, double *
 }
 
 template <typename T>
-void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, double image_min, double image_max)
+void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double> * targetMin, QVector<double> * targetMax)
 {
     bool calcStats = false;
-    T *image = nullptr;
+    T * image = nullptr;
 
     if (targetImage)
         image = reinterpret_cast<T *>(targetImage);
@@ -2096,8 +2130,13 @@ void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, double image_mi
         calcStats = true;
     }
 
-    T min = image_min < std::numeric_limits<T>::min() ? std::numeric_limits<T>::min() : image_min;
-    T max = image_max > std::numeric_limits<T>::max() ? std::numeric_limits<T>::max() : image_max;
+    T min[3], max[3];
+    for (int i=0; i < 3; i++)
+    {
+        min[i] = (*targetMin)[i] < std::numeric_limits<T>::min() ? std::numeric_limits<T>::min() : (*targetMin)[i];
+        max[i] = (*targetMax)[i] > std::numeric_limits<T>::max() ? std::numeric_limits<T>::max() : (*targetMax)[i];
+    }
+
 
     // Create N threads
     const uint8_t nThreads = 16;
@@ -2109,478 +2148,490 @@ void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, double image_mi
     //timer.start();
     switch (type)
     {
-    case FITS_AUTO:
-    case FITS_LINEAR:
-    case FITS_AUTO_STRETCH:
-    case FITS_HIGH_CONTRAST:
-    case FITS_LOG:
-    case FITS_SQRT:
-    case FITS_HIGH_PASS:
-    {
-        // List of futures
-        QList<QFuture<void>> futures;
-        double coeff = 0;
-
-        if (type == FITS_LOG)
-            coeff = max / std::log(1 + max);
-        else if (type == FITS_SQRT)
-            coeff = max / sqrt(max);
-
-        for (int n=0; n < m_Channels; n++)
+        case FITS_AUTO:
+        case FITS_LINEAR:
+        case FITS_AUTO_STRETCH:
+        case FITS_HIGH_CONTRAST:
+        case FITS_LOG:
+        case FITS_SQRT:
+        case FITS_HIGH_PASS:
         {
-            if (type == FITS_HIGH_PASS)
-                min = stats.mean[n];
-
-            uint32_t cStart = n * stats.samples_per_channel;
-
-            // Calculate how many elements we process per thread
-            uint32_t tStride = stats.samples_per_channel / nThreads;
-
-            // Calculate the final stride since we can have some left over due to division above
-            uint32_t fStride = tStride + (stats.samples_per_channel - (tStride * nThreads));
-
-            T *runningBuffer = image + cStart;
+            // List of futures
+            QList<QFuture<void>> futures;
+            QVector<double> coeff(3);
 
             if (type == FITS_LOG)
             {
-                for (int i=0; i < nThreads; i++)
-                {
-                    // Run threads
-                    futures.append(QtConcurrent::map(runningBuffer, (runningBuffer+((i == (nThreads-1)) ? fStride : tStride)), [min,max,coeff](T & a)
-                    {
-                        a = qBound(min,static_cast<T>(round(coeff * std::log(1 + qBound(min, a, max)))),max);
-                    }));
-
-                    runningBuffer += tStride;
-                }
+                for (int i=0; i < 3; i++)
+                    coeff[i] = max[i] / std::log(1 + max[i]);
             }
             else if (type == FITS_SQRT)
             {
-                for (int i=0; i < nThreads; i++)
-                {
-                    // Run threads
-                    futures.append(QtConcurrent::map(runningBuffer, (runningBuffer+((i == (nThreads-1)) ? fStride : tStride)), [min,max,coeff](T & a)
-                    {
-                        a = qBound(min,static_cast<T>(round(coeff * a)),max);
-                    }));
-                }
-
-                runningBuffer += tStride;
+                for (int i=0; i < 3; i++)
+                    coeff[i] = max[i] / sqrt(max[i]);
             }
-            else
+
+            for (int n=0; n < m_Channels; n++)
             {
-                for (int i=0; i < nThreads; i++)
+                if (type == FITS_HIGH_PASS)
+                    min[n] = stats.mean[n];
+
+                uint32_t cStart = n * stats.samples_per_channel;
+
+                // Calculate how many elements we process per thread
+                uint32_t tStride = stats.samples_per_channel / nThreads;
+
+                // Calculate the final stride since we can have some left over due to division above
+                uint32_t fStride = tStride + (stats.samples_per_channel - (tStride * nThreads));
+
+                T * runningBuffer = image + cStart;
+
+                if (type == FITS_LOG)
                 {
-                    // Run threads
-                    futures.append(QtConcurrent::map(runningBuffer, (runningBuffer+((i == (nThreads-1)) ? fStride : tStride)), [min,max](T & a) {a = qBound(min, a,max);}));
+                    for (int i=0; i < nThreads; i++)
+                    {
+                        // Run threads
+                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer+((i == (nThreads-1)) ? fStride : tStride)), [min,max,coeff,n](T & a)
+                        {
+                            a = qBound(min[n],static_cast<T>(round(coeff[n] * std::log(1 + qBound(min[n], a, max[n])))),max[n]);
+                        }));
+
+                        runningBuffer += tStride;
+                    }
+                }
+                else if (type == FITS_SQRT)
+                {
+                    for (int i=0; i < nThreads; i++)
+                    {
+                        // Run threads
+                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer+((i == (nThreads-1)) ? fStride : tStride)), [min,max,coeff,n](T & a)
+                        {
+                            a = qBound(min[n],static_cast<T>(round(coeff[n] * a)),max[n]);
+                        }));
+                    }
+
                     runningBuffer += tStride;
                 }
-            }
-        }
-
-        for (int i=0; i < nThreads*m_Channels; i++)
-            futures[i].waitForFinished();
-
-        if (calcStats)
-        {
-            stats.min[0] = stats.min[1] = stats.min[2] = min;
-            stats.max[0] = stats.max[1] = stats.max[2] = max;
-            if (type != FITS_AUTO && type != FITS_LINEAR)
-                runningAverageStdDev<T>();
-        }
-    }
-        break;
-
-    case FITS_EQUALIZE:
-    {
-#ifndef KSTARS_LITE
-        if (histogram == nullptr)
-            return;
-
-        T bufferVal                    = 0;
-        QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
-
-        double coeff = 255.0 / (height * width);
-        uint32_t row = 0;
-        uint32_t index=0;
-
-        for (int i = 0; i < m_Channels; i++)
-        {
-            uint32_t offset = i * stats.samples_per_channel;
-            for (uint32_t j = 0; j < height; j++)
-            {
-                row = offset + j * width;
-                for (uint32_t k = 0; k < width; k++)
+                else
                 {
-                    index     = k + row;
-                    bufferVal = (image[index] - min) / histogram->getBinWidth();
-
-                    if (bufferVal >= cumulativeFreq.size())
-                        bufferVal = cumulativeFreq.size() - 1;
-
-                    image[index] = qBound(min, static_cast<T>(round(coeff * cumulativeFreq[bufferVal])), max);
+                    for (int i=0; i < nThreads; i++)
+                    {
+                        // Run threads
+                        futures.append(QtConcurrent::map(runningBuffer, (runningBuffer+((i == (nThreads-1)) ? fStride : tStride)), [min,max,n](T & a)
+                        {
+                            a = qBound(min[n], a,max[n]);
+                        }));
+                        runningBuffer += tStride;
+                    }
                 }
             }
+
+            for (int i=0; i < nThreads*m_Channels; i++)
+                futures[i].waitForFinished();
+
+            if (calcStats)
+            {
+                for (int i=0; i < 3; i++)
+                {
+                    stats.min[i] = min[i];
+                    stats.max[i] = max[i];
+                }
+                if (type != FITS_AUTO && type != FITS_LINEAR)
+                    runningAverageStdDev<T>();
+            }
         }
+        break;
+
+        case FITS_EQUALIZE:
+        {
+#ifndef KSTARS_LITE
+            if (histogram == nullptr)
+                return;
+
+            T bufferVal                    = 0;
+            QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
+
+            double coeff = 255.0 / (height * width);
+            uint32_t row = 0;
+            uint32_t index=0;
+
+            for (int i = 0; i < m_Channels; i++)
+            {
+                uint32_t offset = i * stats.samples_per_channel;
+                for (uint32_t j = 0; j < height; j++)
+                {
+                    row = offset + j * width;
+                    for (uint32_t k = 0; k < width; k++)
+                    {
+                        index     = k + row;
+                        bufferVal = (image[index] - min[i]) / histogram->getBinWidth(i);
+
+                        if (bufferVal >= cumulativeFreq.size())
+                            bufferVal = cumulativeFreq.size() - 1;
+
+                        image[index] = qBound(min[i], static_cast<T>(round(coeff * cumulativeFreq[bufferVal])), max[i]);
+                    }
+                }
+            }
 #endif
-    }
+        }
         if (calcStats)
             calculateStats(true);
         break;
 
         // Based on http://www.librow.com/articles/article-1
-    case FITS_MEDIAN:
-    {
-        uint8_t BBP      = stats.bytesPerPixel;
-        auto *extension = new T[(width + 2) * (height + 2)];
-        //   Check memory allocation
-        if (!extension)
-            return;
-        //   Create image extension
-        for (uint32_t ch = 0; ch < m_Channels; ch++)
+        case FITS_MEDIAN:
         {
-            uint32_t offset = ch * stats.samples_per_channel;
-            uint32_t N = width, M = height;
-
-            for (uint32_t i = 0; i < M; ++i)
+            uint8_t BBP      = stats.bytesPerPixel;
+            auto * extension = new T[(width + 2) * (height + 2)];
+            //   Check memory allocation
+            if (!extension)
+                return;
+            //   Create image extension
+            for (uint32_t ch = 0; ch < m_Channels; ch++)
             {
-                memcpy(extension + (N + 2) * (i + 1) + 1, image + (N * i) + offset, N * BBP);
-                extension[(N + 2) * (i + 1)]     = image[N * i + offset];
-                extension[(N + 2) * (i + 2) - 1] = image[N * (i + 1) - 1 + offset];
-            }
-            //   Fill first line of image extension
-            memcpy(extension, extension + N + 2, (N + 2) * BBP);
-            //   Fill last line of image extension
-            memcpy(extension + (N + 2) * (M + 1), extension + (N + 2) * M, (N + 2) * BBP);
-            //   Call median filter implementation
+                uint32_t offset = ch * stats.samples_per_channel;
+                uint32_t N = width, M = height;
 
-            N = width + 2;
-            M = height + 2;
-
-            //   Move window through all elements of the image
-            for (uint32_t m = 1; m < M - 1; ++m)
-                for (uint32_t n = 1; n < N - 1; ++n)
+                for (uint32_t i = 0; i < M; ++i)
                 {
-                    //   Pick up window elements
-                    int k = 0;
-                    float window[9];
-
-                    memset(&window[0], 0, 9*sizeof(float));
-                    for (uint32_t j = m - 1; j < m + 2; ++j)
-                        for (uint32_t i = n - 1; i < n + 2; ++i)
-                            window[k++] = extension[j * N + i];
-                    //   Order elements (only half of them)
-                    for (uint32_t j = 0; j < 5; ++j)
-                    {
-                        //   Find position of minimum element
-                        int mine = j;
-                        for (uint32_t l = j + 1; l < 9; ++l)
-                            if (window[l] < window[mine])
-                                mine = l;
-                        //   Put found minimum element in its place
-                        const float temp = window[j];
-                        window[j]        = window[mine];
-                        window[mine]     = temp;
-                    }
-                    //   Get result - the middle element
-                    image[(m - 1) * (N - 2) + n - 1 + offset] = window[4];
+                    memcpy(extension + (N + 2) * (i + 1) + 1, image + (N * i) + offset, N * BBP);
+                    extension[(N + 2) * (i + 1)]     = image[N * i + offset];
+                    extension[(N + 2) * (i + 2) - 1] = image[N * (i + 1) - 1 + offset];
                 }
+                //   Fill first line of image extension
+                memcpy(extension, extension + N + 2, (N + 2) * BBP);
+                //   Fill last line of image extension
+                memcpy(extension + (N + 2) * (M + 1), extension + (N + 2) * M, (N + 2) * BBP);
+                //   Call median filter implementation
+
+                N = width + 2;
+                M = height + 2;
+
+                //   Move window through all elements of the image
+                for (uint32_t m = 1; m < M - 1; ++m)
+                    for (uint32_t n = 1; n < N - 1; ++n)
+                    {
+                        //   Pick up window elements
+                        int k = 0;
+                        float window[9];
+
+                        memset(&window[0], 0, 9*sizeof(float));
+                        for (uint32_t j = m - 1; j < m + 2; ++j)
+                            for (uint32_t i = n - 1; i < n + 2; ++i)
+                                window[k++] = extension[j * N + i];
+                        //   Order elements (only half of them)
+                        for (uint32_t j = 0; j < 5; ++j)
+                        {
+                            //   Find position of minimum element
+                            int mine = j;
+                            for (uint32_t l = j + 1; l < 9; ++l)
+                                if (window[l] < window[mine])
+                                    mine = l;
+                            //   Put found minimum element in its place
+                            const float temp = window[j];
+                            window[j]        = window[mine];
+                            window[mine]     = temp;
+                        }
+                        //   Get result - the middle element
+                        image[(m - 1) * (N - 2) + n - 1 + offset] = window[4];
+                    }
+            }
+
+            //   Free memory
+            delete[] extension;
+
+            if (calcStats)
+                runningAverageStdDev<T>();
         }
-
-        //   Free memory
-        delete[] extension;
-
-        if (calcStats)
-            runningAverageStdDev<T>();
-    }
         break;
 
-    case FITS_ROTATE_CW:
-        rotFITS<T>(90, 0);
-        rotCounter++;
-        break;
+        case FITS_ROTATE_CW:
+            rotFITS<T>(90, 0);
+            rotCounter++;
+            break;
 
-    case FITS_ROTATE_CCW:
-        rotFITS<T>(270, 0);
-        rotCounter--;
-        break;
+        case FITS_ROTATE_CCW:
+            rotFITS<T>(270, 0);
+            rotCounter--;
+            break;
 
-    case FITS_FLIP_H:
-        rotFITS<T>(0, 1);
-        flipHCounter++;
-        break;
+        case FITS_FLIP_H:
+            rotFITS<T>(0, 1);
+            flipHCounter++;
+            break;
 
-    case FITS_FLIP_V:
-        rotFITS<T>(0, 2);
-        flipVCounter++;
-        break;
+        case FITS_FLIP_V:
+            rotFITS<T>(0, 2);
+            flipVCounter++;
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 #if 0
 }
 else
 {
-uint32_t index = 0, row=0, offset=0;
+    uint32_t index = 0, row=0, offset=0;
 
-switch (type)
-{
-    case FITS_AUTO:
-    case FITS_LINEAR:
+    switch (type)
     {
-        for (uint8_t i = 0; i < channels; i++)
+        case FITS_AUTO:
+        case FITS_LINEAR:
         {
-            offset = i * stats.samples_per_channel;
-            for (uint32_t j = 0; j < height; j++)
+            for (uint8_t i = 0; i < channels; i++)
             {
-                row = offset + j * width;
-                for (uint32_t k = 0; k < width; k++)
+                offset = i * stats.samples_per_channel;
+                for (uint32_t j = 0; j < height; j++)
                 {
-                    index        = k + row;
-                    image[index] = qBound(min, image[index], max);
+                    row = offset + j * width;
+                    for (uint32_t k = 0; k < width; k++)
+                    {
+                        index        = k + row;
+                        image[index] = qBound(min, image[index], max);
+                    }
                 }
             }
-        }
 
-        if (calcStats)
-        {
-            stats.min[0] = min;
-            stats.max[0] = max;
+            if (calcStats)
+            {
+                stats.min[0] = min;
+                stats.max[0] = max;
+            }
         }
-    }
         break;
 
-    case FITS_LOG:
-    {
-        double coeff = max / log(1 + max);
-
-        for (int i = 0; i < channels; i++)
+        case FITS_LOG:
         {
-            offset = i * stats.samples_per_channel;
-            for (uint32_t j = 0; j < height; j++)
+            double coeff = max / log(1 + max);
+
+            for (int i = 0; i < channels; i++)
             {
-                row = offset + j * width;
-                for (uint32_t k = 0; k < width; k++)
+                offset = i * stats.samples_per_channel;
+                for (uint32_t j = 0; j < height; j++)
                 {
-                    index        = k + row;
-                    image[index] = qBound(min, static_cast<T>(round(coeff * log(1 + qBound(min, image[index], max)))), max);
+                    row = offset + j * width;
+                    for (uint32_t k = 0; k < width; k++)
+                    {
+                        index        = k + row;
+                        image[index] = qBound(min, static_cast<T>(round(coeff * log(1 + qBound(min, image[index], max)))), max);
+                    }
                 }
             }
-        }
 
-        if (calcStats)
-        {
-            stats.min[0] = min;
-            stats.max[0] = max;
-            runningAverageStdDev<T>();
+            if (calcStats)
+            {
+                stats.min[0] = min;
+                stats.max[0] = max;
+                runningAverageStdDev<T>();
+            }
         }
-    }
         break;
 
-    case FITS_SQRT:
-    {
-        double coeff = max / sqrt(max);
-
-        for (int i = 0; i < channels; i++)
+        case FITS_SQRT:
         {
-            offset = i * stats.samples_per_channel;
-            for (uint32_t j = 0; j < height; j++)
+            double coeff = max / sqrt(max);
+
+            for (int i = 0; i < channels; i++)
             {
-                row = offset + j * width;
-                for (uint32_t k = 0; k < width; k++)
+                offset = i * stats.samples_per_channel;
+                for (uint32_t j = 0; j < height; j++)
                 {
-                    index        = k + row;
-                    image[index] = qBound(min, static_cast<T>(round(coeff * image[index])), max);
+                    row = offset + j * width;
+                    for (uint32_t k = 0; k < width; k++)
+                    {
+                        index        = k + row;
+                        image[index] = qBound(min, static_cast<T>(round(coeff * image[index])), max);
+                    }
                 }
             }
-        }
 
-        if (calcStats)
-        {
-            stats.min[0] = min;
-            stats.max[0] = max;
-            runningAverageStdDev<T>();
+            if (calcStats)
+            {
+                stats.min[0] = min;
+                stats.max[0] = max;
+                runningAverageStdDev<T>();
+            }
         }
-    }
         break;
 
         // Only difference is how min and max are set
-    case FITS_AUTO_STRETCH:
-    case FITS_HIGH_CONTRAST:
-    {
-        for (uint32_t i = 0; i < channels; i++)
+        case FITS_AUTO_STRETCH:
+        case FITS_HIGH_CONTRAST:
         {
-            offset = i * stats.samples_per_channel;
-            for (uint32_t j = 0; j < height; j++)
+            for (uint32_t i = 0; i < channels; i++)
             {
-                row = offset + j * width;
-                for (uint32_t k = 0; k < width; k++)
-                    image[k + row] = qBound(min, image[k + row], max);
-            }
-        }
-        if (calcStats)
-        {
-            stats.min[0] = min;
-            stats.max[0] = max;
-            runningAverageStdDev<T>();
-        }
-    }
-        break;
-
-    case FITS_EQUALIZE:
-    {
-#ifndef KSTARS_LITE
-        if (histogram == nullptr)
-            return;
-
-        T bufferVal                    = 0;
-        QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
-
-        double coeff = 255.0 / (height * width);
-
-        for (uint32_t i = 0; i < channels; i++)
-        {
-            offset = i * stats.samples_per_channel;
-            for (uint32_t j = 0; j < height; j++)
-            {
-                row = offset + j * width;
-                for (uint32_t k = 0; k < width; k++)
+                offset = i * stats.samples_per_channel;
+                for (uint32_t j = 0; j < height; j++)
                 {
-                    index     = k + row;
-                    bufferVal = (image[index] - min) / histogram->getBinWidth();
-
-                    if (bufferVal >= cumulativeFreq.size())
-                        bufferVal = cumulativeFreq.size() - 1;
-
-                    image[index] = qBound(min, static_cast<T>(round(coeff * cumulativeFreq[bufferVal])), max);
+                    row = offset + j * width;
+                    for (uint32_t k = 0; k < width; k++)
+                        image[k + row] = qBound(min, image[k + row], max);
                 }
             }
+            if (calcStats)
+            {
+                stats.min[0] = min;
+                stats.max[0] = max;
+                runningAverageStdDev<T>();
+            }
         }
+        break;
+
+        case FITS_EQUALIZE:
+        {
+#ifndef KSTARS_LITE
+            if (histogram == nullptr)
+                return;
+
+            T bufferVal                    = 0;
+            QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
+
+            double coeff = 255.0 / (height * width);
+
+            for (uint32_t i = 0; i < channels; i++)
+            {
+                offset = i * stats.samples_per_channel;
+                for (uint32_t j = 0; j < height; j++)
+                {
+                    row = offset + j * width;
+                    for (uint32_t k = 0; k < width; k++)
+                    {
+                        index     = k + row;
+                        bufferVal = (image[index] - min) / histogram->getBinWidth();
+
+                        if (bufferVal >= cumulativeFreq.size())
+                            bufferVal = cumulativeFreq.size() - 1;
+
+                        image[index] = qBound(min, static_cast<T>(round(coeff * cumulativeFreq[bufferVal])), max);
+                    }
+                }
+            }
 #endif
-    }
+        }
         if (calcStats)
             calculateStats(true);
         break;
 
-    case FITS_HIGH_PASS:
-    {
-        min = stats.mean[0];
-        for (uint32_t i = 0; i < channels; i++)
+        case FITS_HIGH_PASS:
         {
-            offset = i * stats.samples_per_channel;
-            for (uint32_t j = 0; j < height; j++)
+            min = stats.mean[0];
+            for (uint32_t i = 0; i < channels; i++)
             {
-                row = offset + j * width;
-                for (uint32_t k = 0; k < width; k++)
+                offset = i * stats.samples_per_channel;
+                for (uint32_t j = 0; j < height; j++)
                 {
-                    index        = k + row;
-                    image[index] = qBound(min, image[index], max);
+                    row = offset + j * width;
+                    for (uint32_t k = 0; k < width; k++)
+                    {
+                        index        = k + row;
+                        image[index] = qBound(min, image[index], max);
+                    }
                 }
             }
-        }
 
-        if (calcStats)
-        {
-            stats.min[0] = min;
-            stats.max[0] = max;
-            runningAverageStdDev<T>();
+            if (calcStats)
+            {
+                stats.min[0] = min;
+                stats.max[0] = max;
+                runningAverageStdDev<T>();
+            }
         }
-    }
         break;
 
         // Based on http://www.librow.com/articles/article-1
-    case FITS_MEDIAN:
-    {
-        int BBP      = stats.bytesPerPixel;
-        T *extension = new T[(width + 2) * (height + 2)];
-        //   Check memory allocation
-        if (!extension)
-            return;
-        //   Create image extension
-        for (uint32_t ch = 0; ch < channels; ch++)
+        case FITS_MEDIAN:
         {
-            offset = ch * stats.samples_per_channel;
-            uint32_t N = width, M = height;
-
-            for (uint32_t i = 0; i < M; ++i)
+            int BBP      = stats.bytesPerPixel;
+            T * extension = new T[(width + 2) * (height + 2)];
+            //   Check memory allocation
+            if (!extension)
+                return;
+            //   Create image extension
+            for (uint32_t ch = 0; ch < channels; ch++)
             {
-                memcpy(extension + (N + 2) * (i + 1) + 1, image + (N * i) + offset, N * BBP);
-                extension[(N + 2) * (i + 1)]     = image[N * i + offset];
-                extension[(N + 2) * (i + 2) - 1] = image[N * (i + 1) - 1 + offset];
-            }
-            //   Fill first line of image extension
-            memcpy(extension, extension + N + 2, (N + 2) * BBP);
-            //   Fill last line of image extension
-            memcpy(extension + (N + 2) * (M + 1), extension + (N + 2) * M, (N + 2) * BBP);
-            //   Call median filter implementation
+                offset = ch * stats.samples_per_channel;
+                uint32_t N = width, M = height;
 
-            N = width + 2;
-            M = height + 2;
-
-            //   Move window through all elements of the image
-            for (uint32_t m = 1; m < M - 1; ++m)
-                for (uint32_t n = 1; n < N - 1; ++n)
+                for (uint32_t i = 0; i < M; ++i)
                 {
-                    //   Pick up window elements
-                    int k = 0;
-                    float window[9];
-
-                    memset(&window[0], 0, 9*sizeof(float));
-                    for (uint32_t j = m - 1; j < m + 2; ++j)
-                        for (uint32_t i = n - 1; i < n + 2; ++i)
-                            window[k++] = extension[j * N + i];
-                    //   Order elements (only half of them)
-                    for (uint32_t j = 0; j < 5; ++j)
-                    {
-                        //   Find position of minimum element
-                        int mine = j;
-                        for (uint32_t l = j + 1; l < 9; ++l)
-                            if (window[l] < window[mine])
-                                mine = l;
-                        //   Put found minimum element in its place
-                        const float temp = window[j];
-                        window[j]        = window[mine];
-                        window[mine]     = temp;
-                    }
-                    //   Get result - the middle element
-                    image[(m - 1) * (N - 2) + n - 1 + offset] = window[4];
+                    memcpy(extension + (N + 2) * (i + 1) + 1, image + (N * i) + offset, N * BBP);
+                    extension[(N + 2) * (i + 1)]     = image[N * i + offset];
+                    extension[(N + 2) * (i + 2) - 1] = image[N * (i + 1) - 1 + offset];
                 }
+                //   Fill first line of image extension
+                memcpy(extension, extension + N + 2, (N + 2) * BBP);
+                //   Fill last line of image extension
+                memcpy(extension + (N + 2) * (M + 1), extension + (N + 2) * M, (N + 2) * BBP);
+                //   Call median filter implementation
+
+                N = width + 2;
+                M = height + 2;
+
+                //   Move window through all elements of the image
+                for (uint32_t m = 1; m < M - 1; ++m)
+                    for (uint32_t n = 1; n < N - 1; ++n)
+                    {
+                        //   Pick up window elements
+                        int k = 0;
+                        float window[9];
+
+                        memset(&window[0], 0, 9*sizeof(float));
+                        for (uint32_t j = m - 1; j < m + 2; ++j)
+                            for (uint32_t i = n - 1; i < n + 2; ++i)
+                                window[k++] = extension[j * N + i];
+                        //   Order elements (only half of them)
+                        for (uint32_t j = 0; j < 5; ++j)
+                        {
+                            //   Find position of minimum element
+                            int mine = j;
+                            for (uint32_t l = j + 1; l < 9; ++l)
+                                if (window[l] < window[mine])
+                                    mine = l;
+                            //   Put found minimum element in its place
+                            const float temp = window[j];
+                            window[j]        = window[mine];
+                            window[mine]     = temp;
+                        }
+                        //   Get result - the middle element
+                        image[(m - 1) * (N - 2) + n - 1 + offset] = window[4];
+                    }
+            }
+
+            //   Free memory
+            delete[] extension;
+
+            if (calcStats)
+                runningAverageStdDev<T>();
         }
+        break;
 
-        //   Free memory
-        delete[] extension;
+        case FITS_ROTATE_CW:
+            rotFITS<T>(90, 0);
+            rotCounter++;
+            break;
 
-        if (calcStats)
-            runningAverageStdDev<T>();
+        case FITS_ROTATE_CCW:
+            rotFITS<T>(270, 0);
+            rotCounter--;
+            break;
+
+        case FITS_FLIP_H:
+            rotFITS<T>(0, 1);
+            flipHCounter++;
+            break;
+
+        case FITS_FLIP_V:
+            rotFITS<T>(0, 2);
+            flipVCounter++;
+            break;
+
+        case FITS_CUSTOM:
+        default:
+            return;
+            break;
     }
-        break;
-
-    case FITS_ROTATE_CW:
-        rotFITS<T>(90, 0);
-        rotCounter++;
-        break;
-
-    case FITS_ROTATE_CCW:
-        rotFITS<T>(270, 0);
-        rotCounter--;
-        break;
-
-    case FITS_FLIP_H:
-        rotFITS<T>(0, 1);
-        flipHCounter++;
-        break;
-
-    case FITS_FLIP_V:
-        rotFITS<T>(0, 2);
-        flipVCounter++;
-        break;
-
-    case FITS_CUSTOM:
-    default:
-        return;
-        break;
-}
 }
 
 qCInfo(KSTARS_FITS) << filename << "Apply Filter calculation took" << timer.elapsed() << "ms";
@@ -2602,17 +2653,17 @@ QList<Edge *> FITSData::getStarCentersInSubFrame(QRect subFrame) const
     return starCentersInSubFrame;
 }
 
-void FITSData::getCenterSelection(int *x, int *y)
+void FITSData::getCenterSelection(int * x, int * y)
 {
     if (starCenters.count() == 0)
         return;
 
-    auto *pEdge  = new Edge();
+    auto * pEdge  = new Edge();
     pEdge->x     = *x;
     pEdge->y     = *y;
     pEdge->width = 1;
 
-    foreach (Edge *center, starCenters)
+    foreach (Edge * center, starCenters)
         if (checkCollision(pEdge, center))
         {
             *x = static_cast<int>(center->x);
@@ -2629,7 +2680,7 @@ bool FITSData::checkForWCS()
 #ifdef HAVE_WCSLIB
 
     int status = 0;
-    char *header;
+    char * header;
     int nkeyrec, nreject, nwcs;
 
     if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
@@ -2688,7 +2739,7 @@ bool FITSData::loadWCS()
     qCDebug(KSTARS_FITS) << "Started WCS Data Processing...";
 
     int status = 0;
-    char *header;
+    char * header;
     int nkeyrec, nreject, nwcs, stat[2];
     double imgcrd[2], phi = 0, pixcrd[2], theta = 0, world[2];
     int w  = width();
@@ -2741,7 +2792,7 @@ bool FITSData::loadWCS()
         return false;
     }
 
-    wcs_point *p = wcs_coord;
+    wcs_point * p = wcs_coord;
 
     for (int i = 0; i < h; i++)
     {
@@ -2857,7 +2908,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
     int h = height();
     int status = 0;
     char date[64];
-    KSNumbers *num = nullptr;
+    KSNumbers * num = nullptr;
 
     if (fits_read_keyword(fptr, "DATE-OBS", date, nullptr, &status) == 0)
     {
@@ -2874,9 +2925,9 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
     if (num == nullptr)
         num = new KSNumbers(KStarsData::Instance()->ut().djd()); //Set to current time if the above does not work.
 
-    SkyMapComposite *map = KStarsData::Instance()->skyComposite();
+    SkyMapComposite * map = KStarsData::Instance()->skyComposite();
 
-    wcs_point *wcs_coord = getWCSCoord();
+    wcs_point * wcs_coord = getWCSCoord();
     if (wcs_coord != nullptr)
     {
         int size = w * h;
@@ -2893,7 +2944,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
         p2.updateCoordsNow(num);
         QList<SkyObject *> list = map->findObjectsInArea(p1, p2);
 
-        foreach (SkyObject *object, list)
+        foreach (SkyObject * object, list)
         {
             int type = object->type();
             if (object->name() == "star" || type == SkyObject::PLANET || type == SkyObject::ASTEROID ||
@@ -2933,14 +2984,14 @@ QList<FITSSkyObject *> FITSData::getSkyObjects()
     return objList;
 }
 
-FITSSkyObject::FITSSkyObject(SkyObject *object, int xPos, int yPos) : QObject()
+FITSSkyObject::FITSSkyObject(SkyObject * object, int xPos, int yPos) : QObject()
 {
     skyObjectStored = object;
     xLoc            = xPos;
     yLoc            = yPos;
 }
 
-SkyObject *FITSSkyObject::skyObject()
+SkyObject * FITSSkyObject::skyObject()
 {
     return skyObjectStored;
 }
@@ -3005,7 +3056,7 @@ bool FITSData::rotFITS(int rotate, int mirror)
 {
     int ny, nx;
     int x1, y1, x2, y2;
-    uint8_t *rotimage = nullptr;
+    uint8_t * rotimage = nullptr;
     int offset        = 0;
 
     if (rotate == 1)
@@ -3031,8 +3082,8 @@ bool FITSData::rotFITS(int rotate, int mirror)
         return false;
     }
 
-    auto *rotBuffer = reinterpret_cast<T *>(rotimage);
-    auto *buffer    = reinterpret_cast<T *>(m_ImageBuffer);
+    auto * rotBuffer = reinterpret_cast<T *>(rotimage);
+    auto * buffer    = reinterpret_cast<T *>(m_ImageBuffer);
 
     /* Mirror image without rotation */
     if (rotate < 45 && rotate > -45)
@@ -3535,12 +3586,12 @@ void FITSData::rotWCSFITS(int angle, int mirror)
 
 }
 
-uint8_t *FITSData::getImageBuffer()
+uint8_t * FITSData::getImageBuffer()
 {
     return m_ImageBuffer;
 }
 
-void FITSData::setImageBuffer(uint8_t *buffer)
+void FITSData::setImageBuffer(uint8_t * buffer)
 {
     delete[] m_ImageBuffer;
     m_ImageBuffer = buffer;
@@ -3586,7 +3637,7 @@ bool FITSData::checkDebayer()
     return true;
 }
 
-void FITSData::getBayerParams(BayerParams *param)
+void FITSData::getBayerParams(BayerParams * param)
 {
     param->method  = debayerParams.method;
     param->filter  = debayerParams.filter;
@@ -3594,7 +3645,7 @@ void FITSData::getBayerParams(BayerParams *param)
     param->offsetY = debayerParams.offsetY;
 }
 
-void FITSData::setBayerParams(BayerParams *param)
+void FITSData::setBayerParams(BayerParams * param)
 {
     debayerParams.method  = param->method;
     debayerParams.filter  = param->filter;
@@ -3621,14 +3672,14 @@ bool FITSData::debayer()
 
     switch (m_DataType)
     {
-    case TBYTE:
-        return debayer_8bit();
+        case TBYTE:
+            return debayer_8bit();
 
-    case TUSHORT:
-        return debayer_16bit();
+        case TUSHORT:
+            return debayer_16bit();
 
-    default:
-        return false;
+        default:
+            return false;
     }
 
     return false;
@@ -3639,7 +3690,7 @@ bool FITSData::debayer_8bit()
     dc1394error_t error_code;
 
     int rgb_size               = stats.samples_per_channel * 3 * stats.bytesPerPixel;
-    auto *destinationBuffer = new uint8_t[rgb_size];
+    auto * destinationBuffer = new uint8_t[rgb_size];
 
     if (destinationBuffer == nullptr)
     {
@@ -3648,7 +3699,7 @@ bool FITSData::debayer_8bit()
     }
 
     int ds1394_height      = stats.height;
-    uint8_t *dc1394_source = bayerBuffer;
+    uint8_t * dc1394_source = bayerBuffer;
 
     if (debayerParams.offsetY == 1)
     {
@@ -3687,9 +3738,9 @@ bool FITSData::debayer_8bit()
 
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
 
-    uint8_t *rBuff = m_ImageBuffer;
-    uint8_t *gBuff = m_ImageBuffer + (stats.width * stats.height);
-    uint8_t *bBuff = m_ImageBuffer + (stats.width * stats.height * 2);
+    uint8_t * rBuff = m_ImageBuffer;
+    uint8_t * gBuff = m_ImageBuffer + (stats.width * stats.height);
+    uint8_t * bBuff = m_ImageBuffer + (stats.width * stats.height * 2);
 
     int imax = stats.samples_per_channel * 3 - 3;
     for (int i = 0; i <= imax; i += 3)
@@ -3711,10 +3762,10 @@ bool FITSData::debayer_16bit()
     dc1394error_t error_code;
 
     int rgb_size               = stats.samples_per_channel * 3 * stats.bytesPerPixel;
-    auto *destinationBuffer = new uint8_t[rgb_size];
+    auto * destinationBuffer = new uint8_t[rgb_size];
 
-    auto *buffer    = reinterpret_cast<uint16_t *>(bayerBuffer);
-    auto *dstBuffer = reinterpret_cast<uint16_t *>(destinationBuffer);
+    auto * buffer    = reinterpret_cast<uint16_t *>(bayerBuffer);
+    auto * dstBuffer = reinterpret_cast<uint16_t *>(destinationBuffer);
 
     if (destinationBuffer == nullptr)
     {
@@ -3723,7 +3774,7 @@ bool FITSData::debayer_16bit()
     }
 
     int ds1394_height       = stats.height;
-    uint16_t *dc1394_source = buffer;
+    uint16_t * dc1394_source = buffer;
 
     if (debayerParams.offsetY == 1)
     {
@@ -3737,7 +3788,7 @@ bool FITSData::debayer_16bit()
     }
 
     error_code = dc1394_bayer_decoding_16bit(dc1394_source, dstBuffer, stats.width, ds1394_height, debayerParams.filter,
-                                             debayerParams.method, 16);
+                 debayerParams.method, 16);
 
     if (error_code != DC1394_SUCCESS)
     {
@@ -3764,9 +3815,9 @@ bool FITSData::debayer_16bit()
 
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
 
-    uint16_t *rBuff = buffer;
-    uint16_t *gBuff = buffer + (stats.width * stats.height);
-    uint16_t *bBuff = buffer + (stats.width * stats.height * 2);
+    uint16_t * rBuff = buffer;
+    uint16_t * gBuff = buffer + (stats.width * stats.height);
+    uint16_t * bBuff = buffer + (stats.width * stats.height * 2);
 
     int imax = stats.samples_per_channel * 3 - 3;
     for (int i = 0; i <= imax; i += 3)
@@ -3835,18 +3886,18 @@ void FITSData::sobel(const QImage &image, QVector<int> &gradient, QVector<int> &
             int x_p1 = x >= image.width() - 1? x: x + 1;
 
             int gradX = grayLine_m1[x_p1]
-                    + 2 * grayLine[x_p1]
-                    + grayLine_p1[x_p1]
-                    - grayLine_m1[x_m1]
-                    - 2 * grayLine[x_m1]
-                    - grayLine_p1[x_m1];
+                        + 2 * grayLine[x_p1]
+                        + grayLine_p1[x_p1]
+                        - grayLine_m1[x_m1]
+                        - 2 * grayLine[x_m1]
+                        - grayLine_p1[x_m1];
 
             int gradY = grayLine_m1[x_m1]
-                    + 2 * grayLine_m1[x]
-                    + grayLine_m1[x_p1]
-                    - grayLine_p1[x_m1]
-                    - 2 * grayLine_p1[x]
-                    - grayLine_p1[x_p1];
+                        + 2 * grayLine_m1[x]
+                        + grayLine_m1[x_p1]
+                        - grayLine_p1[x_m1]
+                        - 2 * grayLine_p1[x]
+                        - grayLine_p1[x_p1];
 
             gradientLine[x] = qAbs(gradX) + qAbs(gradY);
 
@@ -3908,13 +3959,13 @@ void FITSData::sobel(QVector<float> &gradient, QVector<float> &direction)
     for (int y = 0; y < stats.height; y++)
     {
         size_t yOffset    = y * stats.width;
-        const T *grayLine = reinterpret_cast<T *>(m_ImageBuffer) + yOffset;
+        const T * grayLine = reinterpret_cast<T *>(m_ImageBuffer) + yOffset;
 
-        const T *grayLine_m1 = y < 1 ? grayLine : grayLine - stats.width;
-        const T *grayLine_p1 = y >= stats.height - 1 ? grayLine : grayLine + stats.width;
+        const T * grayLine_m1 = y < 1 ? grayLine : grayLine - stats.width;
+        const T * grayLine_p1 = y >= stats.height - 1 ? grayLine : grayLine + stats.width;
 
-        float *gradientLine  = gradient.data() + yOffset;
-        float *directionLine = direction.data() + yOffset;
+        float * gradientLine  = gradient.data() + yOffset;
+        float * directionLine = direction.data() + yOffset;
 
         for (int x = 0; x < stats.width; x++)
         {
@@ -3922,10 +3973,10 @@ void FITSData::sobel(QVector<float> &gradient, QVector<float> &direction)
             int x_p1 = x >= stats.width - 1 ? x : x + 1;
 
             int gradX = grayLine_m1[x_p1] + 2 * grayLine[x_p1] + grayLine_p1[x_p1] - grayLine_m1[x_m1] -
-                    2 * grayLine[x_m1] - grayLine_p1[x_m1];
+                        2 * grayLine[x_m1] - grayLine_p1[x_m1];
 
             int gradY = grayLine_m1[x_m1] + 2 * grayLine_m1[x] + grayLine_m1[x_p1] - grayLine_p1[x_m1] -
-                    2 * grayLine_p1[x] - grayLine_p1[x_p1];
+                        2 * grayLine_p1[x] - grayLine_p1[x_p1];
 
             gradientLine[x] = qAbs(gradX) + qAbs(gradY);
 
@@ -4000,8 +4051,8 @@ int FITSData::partition(int width, int height, QVector<float> &gradient, QVector
 void FITSData::trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y)
 {
     int yOffset      = y * width;
-    float *cannyLine = image.data() + yOffset;
-    int *idLine      = ids.data() + yOffset;
+    float * cannyLine = image.data() + yOffset;
+    int * idLine      = ids.data() + yOffset;
 
     if (idLine[x] != 0)
         return;
@@ -4015,7 +4066,7 @@ void FITSData::trace(int width, int height, int id, QVector<float> &image, QVect
         if (nextY < 0 || nextY >= height)
             continue;
 
-        float *cannyLineNext = cannyLine + j * width;
+        float * cannyLineNext = cannyLine + j * width;
 
         for (int i = -1; i < 2; i++)
         {
@@ -4132,8 +4183,8 @@ QVector<float> FITSData::threshold(int thLow, int thHi, const QVector<float> &im
 
     for (int i = 0; i < image.size(); i++)
         thresholded[i] = image[i] <= thLow? 0:
-                                            image[i] >= thHi? 255:
-                                                              127;
+                         image[i] >= thHi? 255:
+                         127;
 
     return thresholded;
 }
@@ -4161,7 +4212,7 @@ void FITSData::convertToQImage(double dataMin, double dataMax, double scale, dou
 {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wcast-align"
-    auto *buffer = (T*)getImageBuffer();
+    auto * buffer = (T *)getImageBuffer();
 #pragma GCC diagnostic pop
     const T limit   = std::numeric_limits<T>::max();
     T bMin    = dataMin < 0 ? 0 : dataMin;
@@ -4176,7 +4227,7 @@ void FITSData::convertToQImage(double dataMin, double dataMax, double scale, dou
         /* Fill in pixel values using indexed map, linear scale */
         for (int j = 0; j < h; j++)
         {
-            unsigned char *scanLine = image.scanLine(j);
+            unsigned char * scanLine = image.scanLine(j);
 
             for (int i = 0; i < w; i++)
             {
@@ -4193,7 +4244,7 @@ void FITSData::convertToQImage(double dataMin, double dataMax, double scale, dou
         /* Fill in pixel values using indexed map, linear scale */
         for (int j = 0; j < h; j++)
         {
-            auto *scanLine = reinterpret_cast<QRgb *>((image.scanLine(j)));
+            auto * scanLine = reinterpret_cast<QRgb *>((image.scanLine(j)));
 
             for (int i = 0; i < w; i++)
             {
@@ -4253,40 +4304,40 @@ QImage FITSData::FITSToImage(const QString &filename)
     // Long way to do this since we do not want to use templated functions here
     switch (data.property("dataType").toInt())
     {
-    case TBYTE:
-        data.convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
-        break;
+        case TBYTE:
+            data.convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-    case TSHORT:
-        data.convertToQImage<int16_t>(dataMin, dataMax, bscale, bzero, fitsImage);
-        break;
+        case TSHORT:
+            data.convertToQImage<int16_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-    case TUSHORT:
-        data.convertToQImage<uint16_t>(dataMin, dataMax, bscale, bzero, fitsImage);
-        break;
+        case TUSHORT:
+            data.convertToQImage<uint16_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-    case TLONG:
-        data.convertToQImage<int32_t>(dataMin, dataMax, bscale, bzero, fitsImage);
-        break;
+        case TLONG:
+            data.convertToQImage<int32_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-    case TULONG:
-        data.convertToQImage<uint32_t>(dataMin, dataMax, bscale, bzero, fitsImage);
-        break;
+        case TULONG:
+            data.convertToQImage<uint32_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-    case TFLOAT:
-        data.convertToQImage<float>(dataMin, dataMax, bscale, bzero, fitsImage);
-        break;
+        case TFLOAT:
+            data.convertToQImage<float>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-    case TLONGLONG:
-        data.convertToQImage<int64_t>(dataMin, dataMax, bscale, bzero, fitsImage);
-        break;
+        case TLONGLONG:
+            data.convertToQImage<int64_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-    case TDOUBLE:
-        data.convertToQImage<double>(dataMin, dataMax, bscale, bzero, fitsImage);
-        break;
+        case TDOUBLE:
+            data.convertToQImage<double>(dataMin, dataMax, bscale, bzero, fitsImage);
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     return fitsImage;
@@ -4296,7 +4347,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
 {
     int status = 0, exttype = 0;
     long nelements;
-    fitsfile *new_fptr;
+    fitsfile * new_fptr;
     char errMsg[512];
 
     qCInfo(KSTARS_FITS) << "Creating new WCS file:" << newWCSFile << "with parameters Orientation:" << orientation
@@ -4462,7 +4513,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
     }
 
     QString history =
-            QString("Modified by KStars on %1").arg(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"));
+        QString("Modified by KStars on %1").arg(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"));
     // History
     if (fits_write_history(fptr, history.toLatin1(), &status))
     {
@@ -4499,51 +4550,51 @@ int FITSData::findSEPStars(const QRect &boundary)
         maxRadius = w;
     }
 
-    auto *data = new float[w*h];
+    auto * data = new float[w*h];
 
     switch (stats.bitpix)
     {
-    case BYTE_IMG:
-        getFloatBuffer<uint8_t>(data, x, y, w, h);
-        break;
-    case SHORT_IMG:
-        getFloatBuffer<int16_t>(data, x, y, w, h);
-        break;
-    case USHORT_IMG:
-        getFloatBuffer<uint16_t>(data, x, y, w, h);
-        break;
-    case LONG_IMG:
-        getFloatBuffer<int32_t>(data, x, y, w, h);
-        break;
-    case ULONG_IMG:
-        getFloatBuffer<uint32_t>(data, x, y, w, h);
-        break;
-    case FLOAT_IMG:
-        delete [] data;
-        data = reinterpret_cast<float *>(m_ImageBuffer);
-        break;
-    case LONGLONG_IMG:
-        getFloatBuffer<int64_t>(data, x, y, w, h);
-        break;
-    case DOUBLE_IMG:
-        getFloatBuffer<double>(data, x, y, w, h);
-        break;
-    default:
-        delete [] data;
-        return -1;
+        case BYTE_IMG:
+            getFloatBuffer<uint8_t>(data, x, y, w, h);
+            break;
+        case SHORT_IMG:
+            getFloatBuffer<int16_t>(data, x, y, w, h);
+            break;
+        case USHORT_IMG:
+            getFloatBuffer<uint16_t>(data, x, y, w, h);
+            break;
+        case LONG_IMG:
+            getFloatBuffer<int32_t>(data, x, y, w, h);
+            break;
+        case ULONG_IMG:
+            getFloatBuffer<uint32_t>(data, x, y, w, h);
+            break;
+        case FLOAT_IMG:
+            delete [] data;
+            data = reinterpret_cast<float *>(m_ImageBuffer);
+            break;
+        case LONGLONG_IMG:
+            getFloatBuffer<int64_t>(data, x, y, w, h);
+            break;
+        case DOUBLE_IMG:
+            getFloatBuffer<double>(data, x, y, w, h);
+            break;
+        default:
+            delete [] data;
+            return -1;
     }
 
-    float *imback = nullptr;
-    double *flux= nullptr, *fluxerr= nullptr, *area= nullptr;
-    short *flag = nullptr;
+    float * imback = nullptr;
+    double * flux= nullptr, *fluxerr= nullptr, *area= nullptr;
+    short * flag = nullptr;
     short flux_flag=0;
     int status = 0;
-    sep_bkg *bkg = nullptr;
-    sep_catalog *catalog = nullptr;
+    sep_bkg * bkg = nullptr;
+    sep_catalog * catalog = nullptr;
     float conv[] = {1,2,1, 2,4,2, 1,2,1};
     double flux_fractions[2] = {0};
     double requested_frac[2] = { 0.5, 0.99 };
-    QList<Edge*> edges;
+    QList<Edge *> edges;
 
     // #0 Create SEP Image structure
     sep_image im = {data, nullptr, nullptr, SEP_TFLOAT, 0, 0, w, h, 0.0, SEP_NOISE_NONE, 1.0, 0.0};
@@ -4589,7 +4640,7 @@ int FITSData::findSEPStars(const QRect &boundary)
         // Get HFR
         sep_flux_radius(&im, catalog->x[i], catalog->y[i], maxRadius, 5, 0, &flux, requested_frac, 2, flux_fractions, &flux_flag);
 
-        auto *center = new Edge();
+        auto * center = new Edge();
         center->x = catalog->x[i]+x+0.5;
         center->y = catalog->y[i]+y+0.5;
         center->val = catalog->peak[i];
@@ -4640,11 +4691,11 @@ exit:
 }
 
 template <typename T>
-void FITSData::getFloatBuffer(float *buffer, int x, int y, int w, int h)
+void FITSData::getFloatBuffer(float * buffer, int x, int y, int w, int h)
 {
-    auto *rawBuffer = reinterpret_cast<T *>(m_ImageBuffer);
+    auto * rawBuffer = reinterpret_cast<T *>(m_ImageBuffer);
 
-    float *floatPtr = buffer;
+    float * floatPtr = buffer;
 
     int x2 = x+w;
     int y2 = y+h;

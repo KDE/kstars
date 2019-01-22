@@ -23,96 +23,98 @@ class FITSTab;
 
 class histogramUI : public QDialog, public Ui::FITSHistogramUI
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit histogramUI(QDialog *parent = nullptr);
+    public:
+        explicit histogramUI(QDialog * parent = nullptr);
 };
 
 class FITSHistogram : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-    friend class histDrawArea;
+        friend class histDrawArea;
 
-  public:
-    explicit FITSHistogram(QWidget *parent);
-    ~FITSHistogram() = default;
+    public:
+        explicit FITSHistogram(QWidget * parent);
+        ~FITSHistogram() = default;
 
-    void constructHistogram();
-    void syncGUI();
+        enum { RED_CHANNEL, GREEN_CHANNEL, BLUE_CHANNEL };
 
-    void applyFilter(FITSScale ftype);
+        void constructHistogram();
+        void syncGUI();
 
-    double getBinWidth() { return binWidth; }
+        void applyFilter(FITSScale ftype);
 
-    QVector<double> getCumulativeFrequency() const;
+        double getBinWidth(int channel=0)
+        {
+            return binWidth[channel];
+        }
 
-    double getJMIndex() const;
+        QVector<double> getCumulativeFrequency(int channel = 0) const;
 
-  protected:
-    void showEvent(QShowEvent *event);
-    void driftMouseOverLine(QMouseEvent *event);
+        double getJMIndex() const;
 
-  public slots:
-    void applyScale();
-    void updateLimits(double value);
-    void updateSliders(int value);
-    void checkRangeLimit(const QCPRange &range);
-    void resizePlot();
-    void toggleHideSaturated(int x);
+    protected:
+        void showEvent(QShowEvent * event);
+        void driftMouseOverLine(QMouseEvent * event);
 
-  private:
-    template <typename T>
-    void constructHistogram();
-    double sliderScale;
-    int numDecimals;
-    double cutMin;
-    double cutMax;
+    public slots:
+        void applyScale();
+        void resizePlot();
 
+    private:
+        template <typename T>
+        void constructHistogram();
+        double cutMin;
+        double cutMax;
 
-    histogramUI *ui { nullptr };
-    FITSTab *tab { nullptr };
+        histogramUI * ui { nullptr };
+        FITSTab * tab { nullptr };
 
-    QVector<double> intensity;
-    QVector<double> r_frequency, g_frequency, b_frequency;
-    QCPGraph *r_graph { nullptr };
-    QCPGraph *g_graph { nullptr };
-    QCPGraph *b_graph { nullptr };
-    QVector<double> cumulativeFrequency;
+        QVector<QVector<double>> cumulativeFrequency;
+        QVector<QVector<double>> intensity;
+        QVector<QVector<double>> frequency;
+        QVector<QVector<QWidget *>> rgbWidgets;
+        QVector<ctkRangeSlider *> sliders;
+        QVector<QDoubleSpinBox *> minBoxes, maxBoxes;
 
-    double binWidth { 0 };
-    double JMIndex { 0 };
-    double fits_min { 0 };
-    double fits_max { 0 };
-    uint16_t binCount { 0 };
-    int maxFrequency {0};
-    FITSScale type { FITS_AUTO };
-    bool isGUISynced { false};
-    QCustomPlot *customPlot { nullptr };
+        QVector<double> FITSMin;
+        QVector<double> FITSMax;
+        QVector<double> sliderScale, sliderTick;
+        QVector<int> numDecimals;
+
+        QVector<QCPGraph *> graphs;
+        QVector<double> binWidth;
+        uint16_t binCount { 0 };
+        double JMIndex { 0 };
+
+        int maxFrequency {0};
+        FITSScale type { FITS_AUTO };
+        bool isGUISynced { false};
+        QCustomPlot * customPlot { nullptr };
 };
 
 class FITSHistogramCommand : public QUndoCommand
 {
-  public:
-    FITSHistogramCommand(QWidget *parent, FITSHistogram *inHisto, FITSScale newType, double lmin, double lmax);
-    virtual ~FITSHistogramCommand();
+    public:
+        FITSHistogramCommand(QWidget * parent, FITSHistogram * inHisto, FITSScale newType, const QVector<double> &lmin, const QVector<double> &lmax);
+        virtual ~FITSHistogramCommand();
 
-    virtual void redo();
-    virtual void undo();
-    virtual QString text() const;
+        virtual void redo();
+        virtual void undo();
+        virtual QString text() const;
 
-  private:    
-    bool calculateDelta(const uint8_t *buffer);
-    bool reverseDelta();
+    private:
+        bool calculateDelta(const uint8_t * buffer);
+        bool reverseDelta();
 
-    FITSData::Statistic stats;
-    FITSHistogram *histogram { nullptr };
-    FITSScale type;
-    double min { 0 };
-    double max { 0 };
+        FITSData::Statistic stats;
+        FITSHistogram * histogram { nullptr };
+        FITSScale type;
+        QVector<double> min, max;
 
-    unsigned char *delta { nullptr };
-    unsigned long compressedBytes { 0 };
-    FITSTab *tab { nullptr };
+        unsigned char * delta { nullptr };
+        unsigned long compressedBytes { 0 };
+        FITSTab * tab { nullptr };
 };

@@ -41,7 +41,7 @@
 #define ZOOM_LOW_INCR  10
 #define ZOOM_HIGH_INCR 50
 
-FITSView::FITSView(QWidget *parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent), zoomFactor(1.2)
+FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent), zoomFactor(1.2)
 {
     grabGesture(Qt::PinchGesture);
 
@@ -145,7 +145,7 @@ void FITSView::setCursorMode(CursorMode mode)
     }
 }
 
-void FITSView::resizeEvent(QResizeEvent *event)
+void FITSView::resizeEvent(QResizeEvent * event)
 {
     if ((imageData == nullptr) && noImageLabel != nullptr)
     {
@@ -273,7 +273,7 @@ bool FITSView::loadFITS(const QString &inFilename, bool silent)
     {
         if(floatingToolBar != nullptr)
             toggleProfileAction->setChecked(true);
-        QTimer::singleShot(100 , this , SLOT(viewStarProfile()));  //Need to wait till the Focus module finds stars, if its the Focus module.
+        QTimer::singleShot(100, this, SLOT(viewStarProfile()));    //Need to wait till the Focus module finds stars, if its the Focus module.
     }
 
     updateFrame();
@@ -344,20 +344,24 @@ void FITSView::loadInFrame()
     // Init the display image
     initDisplayImage();
 
-    uint8_t *ASImageBuffer = nullptr;
+    uint8_t * ASImageBuffer = nullptr;
 
-    if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V)))
-    {
-         // If we perform autostretch, we need to create a buffer to save the raw image data before
-         // autostretch filter operation changes the data.
-         // After rescaling is done, we
-         uint32_t totalBytes = image_width * image_height *imageData->channels() * imageData->getBytesPerPixel();
-         ASImageBuffer = new uint8_t[totalBytes];
-         memcpy(ASImageBuffer, imageData->getImageBuffer(), totalBytes);
-         imageData->applyFilter(FITS_AUTO_STRETCH);
-    }
-    else
-        imageData->applyFilter(filter);
+//    if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V)))
+//    {
+//         // If we perform autostretch, we need to create a buffer to save the raw image data before
+//         // autostretch filter operation changes the data.
+//         // After rescaling is done, we
+//         uint32_t totalBytes = image_width * image_height *imageData->channels() * imageData->getBytesPerPixel();
+//         ASImageBuffer = new uint8_t[totalBytes];
+//         memcpy(ASImageBuffer, imageData->getImageBuffer(), totalBytes);
+//         imageData->applyFilter(FITS_AUTO_STRETCH);
+//    }
+//    else
+//        imageData->applyFilter(filter);
+
+    imageData->applyFilter(filter);
+    if (Options::autoStretch())
+        imageData->applyFilter(FITS_AUTO_STRETCH);
 
     // Rescale to fits window on first load
     if (firstLoad)
@@ -410,7 +414,7 @@ void FITSView::loadInFrame()
         if(floatingToolBar != nullptr)
             toggleProfileAction->setChecked(true);
         //Need to wait till the Focus module finds stars, if its the Focus module.
-        QTimer::singleShot(100 , this , SLOT(viewStarProfile()));
+        QTimer::singleShot(100, this, SLOT(viewStarProfile()));
     }
 
     scaledImage = QImage();
@@ -464,7 +468,7 @@ FITSView::CursorMode FITSView::getCursorMode()
     return cursorMode;
 }
 
-void FITSView::enterEvent(QEvent *event)
+void FITSView::enterEvent(QEvent * event)
 {
     Q_UNUSED(event)
 
@@ -481,7 +485,7 @@ void FITSView::enterEvent(QEvent *event)
     }
 }
 
-void FITSView::leaveEvent(QEvent *event)
+void FITSView::leaveEvent(QEvent * event)
 {
     Q_UNUSED(event)
 
@@ -500,11 +504,11 @@ void FITSView::leaveEvent(QEvent *event)
 
 template <typename T>
 bool FITSView::rescale(FITSZoom type)
-{    
+{
     if (rawImage.isNull())
         return false;
 
-    uint8_t *image_buffer = imageData->getImageBuffer();
+    uint8_t * image_buffer = imageData->getImageBuffer();
     uint32_t size = imageData->width() * imageData->height();
 
 #if 0
@@ -535,7 +539,7 @@ bool FITSView::rescale(FITSZoom type)
 
     scaledImage = QImage();
 
-    auto *buffer = reinterpret_cast<T *>(image_buffer);
+    auto * buffer = reinterpret_cast<T *>(image_buffer);
 
     if (imageData->getMin(0) == imageData->getMax(0))
     {
@@ -572,8 +576,8 @@ bool FITSView::rescale(FITSZoom type)
             {
                 futures.append(QtConcurrent::run([=]()
                 {
-                    T *runningBuffer = buffer +j*image_width;
-                    uint8_t *scanLine = rawImage.scanLine(j);
+                    T * runningBuffer = buffer +j*image_width;
+                    uint8_t * scanLine = rawImage.scanLine(j);
                     for (uint32_t i = 0; i < image_width; i++)
                     {
                         //scanLine[i] = qBound(0, static_cast<uint8_t>(runningBuffer[i] * bscale + bzero), 255);
@@ -600,10 +604,10 @@ bool FITSView::rescale(FITSZoom type)
             {
                 futures.append(QtConcurrent::run([=]()
                 {
-                    auto *scanLine = reinterpret_cast<QRgb *>((rawImage.scanLine(j)));
-                    T *runningBufferR = buffer + j*image_width;
-                    T *runningBufferG = buffer + j*image_width + size;
-                    T *runningBufferB = buffer + j*image_width + size*2;
+                    auto * scanLine = reinterpret_cast<QRgb *>((rawImage.scanLine(j)));
+                    T * runningBufferR = buffer + j*image_width;
+                    T * runningBufferG = buffer + j*image_width + size;
+                    T * runningBufferB = buffer + j*image_width + size*2;
 
                     for (uint32_t i = 0; i < image_width; i++)
                     {
@@ -620,42 +624,42 @@ bool FITSView::rescale(FITSZoom type)
 
 #if 0
         if (imageData->getNumOfChannels() == 1)
-               {
-                   /* Fill in pixel values using indexed map, linear scale */
-                   for (int j = 0; j < image_height; j++)
-                   {
-                       unsigned char *scanLine = display_image->scanLine(j);
+        {
+            /* Fill in pixel values using indexed map, linear scale */
+            for (int j = 0; j < image_height; j++)
+            {
+                unsigned char * scanLine = display_image->scanLine(j);
 
-                       for (int i = 0; i < image_width; i++)
-                       {
-                           val         = buffer[j * image_width + i] * bscale + bzero;
-                           scanLine[i] = qBound(0.0, val, 255.0);
-                       }
-                   }
-               }
-               else
-               {
-                   double rval = 0, gval = 0, bval = 0;
-                   QRgb value;
-                   /* Fill in pixel values using indexed map, linear scale */
-                   for (int j = 0; j < image_height; j++)
-                   {
-                       QRgb *scanLine = reinterpret_cast<QRgb *>((display_image->scanLine(j)));
+                for (int i = 0; i < image_width; i++)
+                {
+                    val         = buffer[j * image_width + i] * bscale + bzero;
+                    scanLine[i] = qBound(0.0, val, 255.0);
+                }
+            }
+        }
+        else
+        {
+            double rval = 0, gval = 0, bval = 0;
+            QRgb value;
+            /* Fill in pixel values using indexed map, linear scale */
+            for (int j = 0; j < image_height; j++)
+            {
+                QRgb * scanLine = reinterpret_cast<QRgb *>((display_image->scanLine(j)));
 
-                       for (int i = 0; i < image_width; i++)
-                       {
-                           rval = buffer[j * image_width + i];
-                           gval = buffer[j * image_width + i + size];
-                           bval = buffer[j * image_width + i + size * 2];
+                for (int i = 0; i < image_width; i++)
+                {
+                    rval = buffer[j * image_width + i];
+                    gval = buffer[j * image_width + i + size];
+                    bval = buffer[j * image_width + i + size * 2];
 
-                           value = qRgb(rval * bscale + bzero, gval * bscale + bzero, bval * bscale + bzero);
+                    value = qRgb(rval * bscale + bzero, gval * bscale + bzero, bval * bscale + bzero);
 
-                           scanLine[i] = value;
-                       }
-                   }
-               }
+                    scanLine[i] = value;
+                }
+            }
+        }
 #endif
-    }    
+    }
 
     switch (type)
     {
@@ -820,7 +824,7 @@ void FITSView::ZoomDefault()
     }
 }
 
-void FITSView::drawOverlay(QPainter *painter)
+void FITSView::drawOverlay(QPainter * painter)
 {
     painter->setRenderHint(QPainter::Antialiasing, Options::useAntialias());
 
@@ -851,7 +855,7 @@ void FITSView::updateMode(FITSMode fmode)
     mode = fmode;
 }
 
-void FITSView::drawMarker(QPainter *painter)
+void FITSView::drawMarker(QPainter * painter)
 {
     painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")), 2));
     painter->setBrush(Qt::NoBrush);
@@ -880,7 +884,7 @@ void FITSView::drawMarker(QPainter *painter)
     painter->drawEllipse(QRectF(x2, y2, s2, s2));
 }
 
-void FITSView::drawStarCentroid(QPainter *painter)
+void FITSView::drawStarCentroid(QPainter * painter)
 {
     painter->setPen(QPen(Qt::red, 2));
 
@@ -898,7 +902,7 @@ void FITSView::drawStarCentroid(QPainter *painter)
     }
 }
 
-void FITSView::drawTrackingBox(QPainter *painter)
+void FITSView::drawTrackingBox(QPainter * painter)
 {
     painter->setPen(QPen(Qt::green, 2));
 
@@ -917,7 +921,7 @@ void FITSView::drawTrackingBox(QPainter *painter)
 This Method draws a large Crosshair in the center of the image, it is like a set of axes.
  */
 
-void FITSView::drawCrosshair(QPainter *painter)
+void FITSView::drawCrosshair(QPainter * painter)
 {
     float scale = (currentZoom / ZOOM_DEFAULT);
     QPointF c   = QPointF((qreal)image_width / 2 * scale, (qreal)image_height / 2 * scale);
@@ -954,7 +958,7 @@ Note: This has to start drawing at the center not at the edges because the cente
 be in the center of the image.
  */
 
-void FITSView::drawPixelGrid(QPainter *painter)
+void FITSView::drawPixelGrid(QPainter * painter)
 {
     float scale   = (currentZoom / ZOOM_DEFAULT);
     double width  = image_width * scale;
@@ -998,11 +1002,11 @@ bool FITSView::imageHasWCS()
     return false;
 }
 
-void FITSView::drawObjectNames(QPainter *painter)
+void FITSView::drawObjectNames(QPainter * painter)
 {
     painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("FITSObjectLabelColor"))));
     float scale = (currentZoom / ZOOM_DEFAULT);
-    foreach (FITSSkyObject *listObject, imageData->getSkyObjects())
+    foreach (FITSSkyObject * listObject, imageData->getSkyObjects())
     {
         painter->drawRect(listObject->x() * scale - 5, listObject->y() * scale - 5, 10, 10);
         painter->drawText(listObject->x() * scale + 10, listObject->y() * scale + 10, listObject->skyObject()->name());
@@ -1016,13 +1020,13 @@ judge which gridLines to draw.  Then it calls the drawEQGridlines methods below
 to draw gridlines at those specific RA and Dec values.
  */
 
-void FITSView::drawEQGrid(QPainter *painter)
+void FITSView::drawEQGrid(QPainter * painter)
 {
     float scale = (currentZoom / ZOOM_DEFAULT);
 
     if (imageData->hasWCS())
     {
-        wcs_point *wcs_coord = imageData->getWCSCoord();
+        wcs_point * wcs_coord = imageData->getWCSCoord();
         if (wcs_coord != nullptr)
         {
             int size      = image_width * image_height;
@@ -1124,12 +1128,12 @@ void FITSView::drawEQGrid(QPainter *painter)
                         if (maxDec > 50 || maxDec < -50)
                             painter->drawText(pt.x(), pt.y(),
                                               QString::number(dms(target).hour()) + "h " +
-                                                  QString::number(dms(target).minute()) + '\'');
+                                              QString::number(dms(target).minute()) + '\'');
                         else
                             painter->drawText(pt.x() - 20, pt.y(),
                                               QString::number(dms(target).hour()) + "h " +
-                                                  QString::number(dms(target).minute()) + "' " +
-                                                  QString::number(dms(target).second()) + "''");
+                                              QString::number(dms(target).minute()) + "' " +
+                                              QString::number(dms(target).second()) + "''");
                     }
                 }
             }
@@ -1163,7 +1167,7 @@ void FITSView::drawEQGrid(QPainter *painter)
                     if (pt.x() != -100)
                         painter->drawText(pt.x(), pt.y(),
                                           QString::number(dms(target).degree()) + "° " +
-                                              QString::number(dms(target).arcmin()) + '\'');
+                                          QString::number(dms(target).arcmin()) + '\'');
                 }
             }
 
@@ -1219,28 +1223,28 @@ QPointF FITSView::getPointForGridLabel()
 
     //These get the maximum X and Y points in the list that are in the image
     QPointF maxXPt(image_width * scale / 2, image_height * scale / 2);
-    for (auto& p : eqGridPoints)
+    for (auto &p : eqGridPoints)
     {
         if (p.x() > maxXPt.x() && pointIsInImage(p, true))
             maxXPt = p;
     }
     QPointF maxYPt(image_width * scale / 2, image_height * scale / 2);
 
-    for (auto& p : eqGridPoints)
+    for (auto &p : eqGridPoints)
     {
         if (p.y() > maxYPt.y() && pointIsInImage(p, true))
             maxYPt = p;
     }
     QPointF minXPt(image_width * scale / 2, image_height * scale / 2);
 
-    for (auto& p : eqGridPoints)
+    for (auto &p : eqGridPoints)
     {
         if (p.x() < minXPt.x() && pointIsInImage(p, true))
             minXPt = p;
     }
     QPointF minYPt(image_width * scale / 2, image_height * scale / 2);
 
-    for (auto& p : eqGridPoints)
+    for (auto &p : eqGridPoints)
     {
         if (p.y() < minYPt.y() && pointIsInImage(p, true))
             minYPt = p;
@@ -1254,24 +1258,24 @@ QPointF FITSView::getPointForGridLabel()
     if (image_width * scale - maxXPt.x() < 10)
     {
         return QPointF(
-            image_width * scale - 50,
-            maxXPt.y() -
-                10); //This will draw the text on the right hand side, up and to the left of the point where the line intersects
+                   image_width * scale - 50,
+                   maxXPt.y() -
+                   10); //This will draw the text on the right hand side, up and to the left of the point where the line intersects
     }
     if (image_height * scale - maxYPt.y() < 10)
         return QPointF(
-            maxYPt.x() - 40,
-            image_height * scale -
-                10); //This will draw the text on the bottom side, up and to the left of the point where the line intersects
+                   maxYPt.x() - 40,
+                   image_height * scale -
+                   10); //This will draw the text on the bottom side, up and to the left of the point where the line intersects
     if (minYPt.y() * scale < 30)
         return QPointF(
-            minYPt.x() + 10,
-            20); //This will draw the text on the top side, down and to the right of the point where the line intersects
+                   minYPt.x() + 10,
+                   20); //This will draw the text on the top side, down and to the right of the point where the line intersects
     if (minXPt.x() * scale < 30)
         return QPointF(
-            10,
-            minXPt.y() +
-                20); //This will draw the text on the left hand side, down and to the right of the point where the line intersects
+                   10,
+                   minXPt.y() +
+                   20); //This will draw the text on the left hand side, down and to the right of the point where the line intersects
     if (maxXPt.x() == image_width * scale / 2 && maxXPt.y() == image_height * scale / 2)
         return QPointF(-100, -100); //All of the points were off the screen
 
@@ -1382,7 +1386,7 @@ void FITSView::toggleStars()
 
 void FITSView::toggleStarProfile()
 {
-    #ifdef HAVE_DATAVISUALIZATION
+#ifdef HAVE_DATAVISUALIZATION
     showStarProfile = !showStarProfile;
     if(showStarProfile && trackingBoxEnabled)
         viewStarProfile();
@@ -1395,9 +1399,9 @@ void FITSView::toggleStarProfile()
             setCursorMode(selectCursor);
             connect(this, SIGNAL(trackingStarSelected(int,int)), this, SLOT(move3DTrackingBox(int,int)));
             if(starProfileWidget)
-                connect(starProfileWidget, SIGNAL(rejected()) , this, SLOT(toggleStarProfile()));
+                connect(starProfileWidget, SIGNAL(rejected()), this, SLOT(toggleStarProfile()));
             if(starProfileWidget)
-                connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)) , this, SLOT(resizeTrackingBox(int)));
+                connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)), this, SLOT(resizeTrackingBox(int)));
             trackingBox = QRect(0, 0, 128, 128);
             setTrackingBoxEnabled(true);
         }
@@ -1406,8 +1410,8 @@ void FITSView::toggleStarProfile()
             if(getCursorMode() == selectCursor)
                 setCursorMode(dragCursor);
             disconnect(this, SIGNAL(trackingStarSelected(int,int)), this, SLOT(move3DTrackingBox(int,int)));
-            disconnect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)) , this, SLOT(resizeTrackingBox(int)));
-            disconnect(starProfileWidget, SIGNAL(rejected()) , this, SLOT(toggleStarProfile()));
+            disconnect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)), this, SLOT(resizeTrackingBox(int)));
+            disconnect(starProfileWidget, SIGNAL(rejected()), this, SLOT(toggleStarProfile()));
             setTrackingBoxEnabled(false);
             if(starProfileWidget)
                 starProfileWidget->close();
@@ -1416,19 +1420,19 @@ void FITSView::toggleStarProfile()
         }
         updateFrame();
     }
-    #endif
+#endif
 }
 
 void FITSView::move3DTrackingBox(int x, int y)
 {
     int boxSize = trackingBox.width();
-    QRect starRect = QRect(x - boxSize / 2 , y - boxSize / 2, boxSize, boxSize);
+    QRect starRect = QRect(x - boxSize / 2, y - boxSize / 2, boxSize, boxSize);
     setTrackingBox(starRect);
 }
 
 void FITSView::viewStarProfile()
 {
-    #ifdef HAVE_DATAVISUALIZATION
+#ifdef HAVE_DATAVISUALIZATION
     if(!trackingBoxEnabled)
     {
         setTrackingBoxEnabled(true);
@@ -1441,18 +1445,18 @@ void FITSView::viewStarProfile()
         //This is a band-aid to fix a QT bug with createWindowContainer
         //It will set the cursor of the Window containing the view that called the Star Profile method to the Arrow Cursor
         //Note that Ekos Manager is a QDialog and FitsViewer is a KXmlGuiWindow
-        QWidget *superParent = this->parentWidget();
+        QWidget * superParent = this->parentWidget();
         while(superParent->parentWidget()!=0 && !superParent->inherits("QDialog") && !superParent->inherits("KXmlGuiWindow"))
             superParent=superParent->parentWidget();
         superParent->setCursor(Qt::ArrowCursor);
         //This is the end of the band-aid
 
-        connect(starProfileWidget, SIGNAL(rejected()) , this, SLOT(toggleStarProfile()));
+        connect(starProfileWidget, SIGNAL(rejected()), this, SLOT(toggleStarProfile()));
         if(mode == FITS_ALIGN || mode == FITS_NORMAL)
         {
             starProfileWidget->enableTrackingBox(true);
             imageData->setStarAlgorithm(ALGORITHM_CENTROID);
-            connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)) , this, SLOT(resizeTrackingBox(int)));
+            connect(starProfileWidget, SIGNAL(sampleSizeUpdated(int)), this, SLOT(resizeTrackingBox(int)));
         }
     }
     QList<Edge *> starCenters = imageData->getStarCentersInSubFrame(trackingBox);
@@ -1471,7 +1475,7 @@ void FITSView::viewStarProfile()
     if(markStars)
         updateFrame(); //this is to update for the marked stars
 
-    #endif
+#endif
 }
 
 
@@ -1539,7 +1543,7 @@ void FITSView::setTrackingBoxEnabled(bool enable)
     }
 }
 
-void FITSView::wheelEvent(QWheelEvent *event)
+void FITSView::wheelEvent(QWheelEvent * event)
 {
     //This attempts to send the wheel event back to the Scroll Area if it was taken from a trackpad
     //It should still do the zoom if it is a mouse wheel
@@ -1596,7 +1600,7 @@ Image Coordinate System.
 
 QPoint FITSView::getImagePoint(QPoint viewPortPoint)
 {
-    QWidget *w = widget();
+    QWidget * w = widget();
 
     if (w == nullptr)
         return QPoint(0, 0);
@@ -1630,16 +1634,16 @@ Then the pinchTriggered method will be called.  If the event is not a pinch gest
 then the event is passed back to the other event handlers.
  */
 
-bool FITSView::event(QEvent *event)
+bool FITSView::event(QEvent * event)
 {
     if (event->type() == QEvent::Gesture)
         return gestureEvent(dynamic_cast<QGestureEvent *>(event));
     return QScrollArea::event(event);
 }
 
-bool FITSView::gestureEvent(QGestureEvent *event)
+bool FITSView::gestureEvent(QGestureEvent * event)
 {
-    if (QGesture *pinch = event->gesture(Qt::PinchGesture))
+    if (QGesture * pinch = event->gesture(Qt::PinchGesture))
         pinchTriggered(dynamic_cast<QPinchGesture *>(pinch));
     return true;
 }
@@ -1649,7 +1653,7 @@ This Method works with Trackpads to use the pinch gesture to scroll in and out
 It stores a point to keep track of the location where the gesture started so that
 while you are zooming, it tries to keep that initial point centered in the view.
 **/
-void FITSView::pinchTriggered(QPinchGesture *gesture)
+void FITSView::pinchTriggered(QPinchGesture * gesture)
 {
     if (!zooming)
     {
@@ -1705,7 +1709,7 @@ void FITSView::createFloatingToolBar()
         return;
 
     floatingToolBar             = new QToolBar(this);
-    auto *eff = new QGraphicsOpacityEffect(this);
+    auto * eff = new QGraphicsOpacityEffect(this);
     floatingToolBar->setGraphicsEffect(eff);
     eff->setOpacity(0.2);
     floatingToolBar->setVisible(false);
@@ -1718,7 +1722,7 @@ void FITSView::createFloatingToolBar()
     floatingToolBar->setIconSize(QSize(25, 25));
     //floatingToolBar->setMovable(true);
 
-    QAction *action = nullptr;
+    QAction * action = nullptr;
 
     floatingToolBar->addAction(QIcon::fromTheme("zoom-in"),
                                i18n("Zoom In"), this, SLOT(ZoomIn()));
@@ -1747,12 +1751,12 @@ void FITSView::createFloatingToolBar()
                                    i18n("Detect Stars in Image"), this, SLOT(toggleStars()));
     toggleStarsAction->setCheckable(true);
 
-    #ifdef HAVE_DATAVISUALIZATION
+#ifdef HAVE_DATAVISUALIZATION
     toggleProfileAction =
         floatingToolBar->addAction(QIcon::fromTheme("star-profile", QIcon(":/icons/star_profile.svg")),
                                    i18n("View Star Profile"), this, SLOT(toggleStarProfile()));
     toggleProfileAction->setCheckable(true);
-    #endif
+#endif
 
     if (mode == FITS_NORMAL || mode == FITS_ALIGN)
     {
@@ -1828,9 +1832,9 @@ bool FITSView::isTelescopeActive()
         return false;
     }
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    foreach (ISD::GDInterface * gd, INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *bd = gd->getBaseDevice();
+        INDI::BaseDevice * bd = gd->getBaseDevice();
 
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;
@@ -1851,7 +1855,7 @@ void FITSView::setStarsEnabled(bool enable)
     markStars = enable;
     if (floatingToolBar != nullptr)
     {
-        foreach (QAction *action, floatingToolBar->actions())
+        foreach (QAction * action, floatingToolBar->actions())
         {
             if (action->text() == i18n("Detect Stars in Image"))
             {
