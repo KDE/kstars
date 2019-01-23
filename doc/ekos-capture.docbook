@@ -256,11 +256,11 @@
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Autofocus if HFR exceeds a value</guilabel>: If autofocus is enabled in the focus module and at least one autofocus operation was completed successfully, you can set the maximum acceptable HFR value. If this option is enabled then between consecutive exposures, the HFR value is recalculated, and if found to exceed the maximum acceptable HFR value, then an autofocus operation is automatically triggered. If the autofocus operation is completed successfully, the sequence queue resumes, otherwise, the job is aborted.</para>
+                    <guilabel>Autofocus if HFR &gt;</guilabel>: If autofocus is enabled in the <link linkend="ekos-focus">focus module</link> and at least one autofocus operation was completed successfully, you can set the maximum acceptable HFR value. If this option is enabled then between consecutive exposures, the HFR value is recalculated, and if found to exceed the maximum acceptable HFR value, then an autofocus operation is automatically triggered. If the autofocus operation is completed successfully, the sequence queue resumes, otherwise, the job is aborted.</para>
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Meridian Flip</guilabel>: If supported by the mount, set the hour angle limit (in hours) before a <ulink url="http://astronomy.mdodd.com/gem_movement.html">meridian flip</ulink> is commanded. For example, if you set the meridian flip duration to 0.1 hours. Ekos shall wait until the mount passes the meridian by 0.1 hours (6 minutes), then it commands the mount to perform a meridian flip. After the meridian flip is complete, Ekos re-aligns using astrometry.net (if <link linkend="ekos-align">the alignment</link> was used) and resumes guiding (if it was started before) and then resumes the capture process automatically.</para>
+                    <guilabel>Meridian Flip</guilabel>: If supported by the mount, set the hour angle limit (in hours) before a <ulink url="http://astronomy.mdodd.com/gem_movement.html">meridian flip</ulink> is commanded. For example, if you set the meridian flip duration to 0.1 hours, Ekos shall wait until the mount passes the meridian by 0.1 hours (6 minutes), then it commands the mount to perform a meridian flip. After the meridian flip is complete, Ekos re-aligns using astrometry.net (if <link linkend="ekos-align">the alignment</link> was used) and resumes guiding (if it was started before) and then resumes the capture process automatically.</para>
             </listitem>
         </itemizedlist>
     </sect3>
@@ -293,7 +293,7 @@
 
         <important>
             <para>
-                <emphasis role="bold">Job Progress</emphasis>: Ekos is designed to execute and resume the sequence over multiple nights if required. Therefore, if <guilabel>Remember Job Progress</guilabel> option is enabled in Ekos Options, Ekos shall scan the file system to count how many images are already completed and will resume the sequence from where it was left off. If this default behavior is not desired, simply turn off <guilabel>Remember Job Progress</guilabel> under options.
+                <emphasis role="bold">Job Progress</emphasis>: Ekos is designed to execute and resume the sequence over multiple nights if required. Therefore, if <guilabel>Remember Job Progress</guilabel> option is enabled in <link linkend="ekos">Ekos Options</link>, Ekos shall scan the file system to count how many images are already completed and will resume the sequence from where it was left off. If this default behavior is not desired, simply turn off <guilabel>Remember Job Progress</guilabel> under options.
             </para>
         </important>
 
@@ -351,7 +351,7 @@
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Offset</guilabel>: Set relative offsets. Ekos will command a focus offset change if there is a difference between the current and target filter offsets. For example, given the values in the example image to the right, if the current filter is set to <emphasis>Red</emphasis> and next filter is <emphasis>Green</emphasis>, then Ekos shall command the focuser to Focus In by +300 ticks. Relative positive focus offsets denote Focus Out while negative values denote Focus In.
+                    <guilabel>Offset</guilabel>: Set relative offsets. Ekos will command a focus offset change if there is a difference between the current and target filter offsets. For example, given the values in the example image, if the current filter is set to <emphasis>Red</emphasis> and next filter is <emphasis>Green</emphasis>, then Ekos shall command the focuser to Focus In by +300 ticks. Relative positive focus offsets denote Focus Out while negative values denote Focus In.
                 </para>
             </listitem>
             <listitem>
@@ -366,7 +366,7 @@
             </listitem>
         </orderedlist>
         <para>
-            Let's take an example. Suppose the capture sequence is running and the current filter is <guilabel>Green</guilabel>, so the relative already offset is set to +300. The next image in the sequence uses Hydrogen Alpha (H_Alpha) so before Ekos captures the next frame, the following actions take place:
+            Let's take an example. Suppose the capture sequence is running and the current filter is <guilabel>Green</guilabel>, so the relative offset is already set to +300. The next image in the sequence uses Hydrogen Alpha (H_Alpha) so before Ekos captures the next frame, the following actions take place:
         </para>
         <itemizedlist>
             <listitem>
@@ -443,7 +443,7 @@
             Field Rotators are supported in INDI &amp; Ekos. The rotator angle is the raw angle reported by the rotator and is not necessary the <ulink url="https://en.wikipedia.org/wiki/Position_angle">Position Angle</ulink>. A Position Angle of <emphasis>zero</emphasis> indicates that the frame top (indicated by small arrow) is pointing <emphasis>directly</emphasis> at the pole. The position angle is expressed as E of N (East of North), so 90 degrees PA indicates the frame <emphasis>top</emphasis> points 90 degrees away (counter-clockwise) from the pole. Check <ulink url="http://www.srl.caltech.edu/NuSTAR_Public/NuSTAROperationSite/file/NuSTAR-PA.pdf">examples</ulink> for various PAs.
         </para>
         <para>
-            To calibrate the Position Angle (PA), capture and solve an image in the Ekos Align module. An <emphasis>offset</emphasis> and a <emphasis>multiplier</emphasis> are applied to the raw angle to produce the position angle. The Ekos Rotator dialog permits direct control of the raw angle and also the PA. The offset and multiplier can be changed manually to synchronize the rotator's raw angle with the actual PA. Check <guilabel>Sync FOV to PA</guilabel> to rotate the current Field of View (FOV) indicator on the Sky Map with the PA value as you change it in the dialog.
+            To calibrate the Position Angle (PA), capture and solve an image in the <link linkend="ekos-align">Ekos Align module</link>. An <emphasis>offset</emphasis> and a <emphasis>multiplier</emphasis> are applied to the raw angle to produce the position angle. The Ekos Rotator dialog permits direct control of the raw angle and also the PA. The offset and multiplier can be changed manually to synchronize the rotator's raw angle with the actual PA. Check <guilabel>Sync FOV to PA</guilabel> to rotate the current Field of View (FOV) indicator on the Sky Map with the PA value as you change it in the dialog.
         </para>
         
         <mediaobject>
